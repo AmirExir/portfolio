@@ -12,12 +12,7 @@
       font-family: 'Open Sans', sans-serif;
       background: #f4f4f4;
       color: #111;
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
-      font-weight: 700;
+      text-align: center;
     }
 
     .hero {
@@ -57,6 +52,13 @@
       margin-bottom: 1rem;
     }
 
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0.3rem 0;
+    }
+
     .container {
       max-width: 900px;
       margin: auto;
@@ -67,17 +69,14 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    .gallery img {
-      width: 100%;
-      max-width: 600px;
-      margin: 1rem auto;
-      display: block;
-      border-radius: 10px;
-    }
-
-    .links {
+    h2 {
       text-align: center;
       margin-top: 2rem;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+      text-align: left;
     }
 
     .links a {
@@ -90,17 +89,27 @@
       border-radius: 5px;
     }
 
-    .experience-block, .edu-block {
+    .entry {
       display: flex;
-      margin-bottom: 2rem;
       align-items: flex-start;
+      justify-content: center;
+      margin: 1.5rem 0;
+      text-align: left;
     }
 
-    .experience-block img, .edu-block img {
-      width: 50px;
-      height: 50px;
-      margin-right: 1rem;
+    .entry img {
+      width: 60px;
+      height: 60px;
       object-fit: contain;
+      margin-right: 1rem;
+    }
+
+    .gallery img {
+      width: 100%;
+      max-width: 600px;
+      margin: 1rem auto;
+      display: block;
+      border-radius: 10px;
     }
   </style>
 </head>
@@ -112,98 +121,70 @@
   </div>
 
   <div class="container">
-    <div style="text-align:center;">
-<h2>Professional Summary</h2>
-    <p>Professional Engineer (P.E.) and NERC Certified Reliability Coordinator with 6+ years in power systems across operation, planning, and modeling at ERCOT and LCRA. Experienced in PSS/E, GE EMS SCADA/TSM/DTS, and Python. Currently pursuing an M.S. in AI at UT Austin.</p>
-</div>
+    <h2>Professional Summary</h2>
+    <p>Professional Engineer (P.E.) and NERC Certified Reliability Coordinator with 6+ years in power systems across operation, planning,
+    and modeling at ERCOT and LCRA. Experienced in PSS/E, GE EMS SCADA/TSM/DTS, and Python. Currently pursuing an M.S. in AI at UT Austin.</p>
 
-    <div style="text-align:center;">
-<h2>Education</h2>
-    <div class="edu-block">
-      <img src="UT.png" alt="UT Austin">
+    <h2>Education</h2>
+    <div class="entry">
+      <img src="UT.png" alt="UT Logo">
       <div>
-        <strong>University of Texas at Austin</strong><br>
+        <strong>University of Texas at Austin</strong><br />
         M.S. in Artificial Intelligence (2024–Present), GPA 4.0
       </div>
-
-</div>    </div>
-    <div class="edu-block">
-      <img src="Lamar.png" alt="Lamar University">
+    </div>
+    <div class="entry">
+      <img src="Lamar.png" alt="Lamar Logo">
       <div>
-        <strong>Lamar University</strong><br>
+        <strong>Lamar University</strong><br />
         M.Eng. in Electrical & Computer Engineering (2020)
       </div>
     </div>
 
-    <div style="text-align:center;">
-<h2>Experience</h2>
-    <div class="experience-block">
-      <img src="LCRA.png" alt="LCRA">
+    <h2>Experience</h2>
+    <div class="entry">
+      <img src="LCRA.png" alt="LCRA Logo">
       <div>
-        <strong>Transmission Planning Engineer (LCRA)</strong><br>
-        Mar 2024 – Present, Austin TX – Hybrid<br>
+        <strong>Transmission Planning Engineer (LCRA)</strong><br />
+        Mar 2024 – Present, Austin TX – Hybrid
         <ul>
           <li>Reviewed ratings, ensured NERC compliance, submitted PMCRs.</li>
           <li>Performed analysis for MOD-26, MOD-27 and proposed upgrades.</li>
         </ul>
       </div>
-</div>    </div>
-    <div class="experience-block">
-      <img src="ERCOT.png" alt="ERCOT">
+    </div>
+    <div class="entry">
+      <img src="ERCOT.png" alt="ERCOT Logo">
       <div>
-        <strong>Operation Training Instructor (ERCOT)</strong><br>
-        Oct 2020 – Aug 2022, Austin TX<br>
+        <strong>Operation Training Instructor (ERCOT)</strong><br />
+        Oct 2020 – Aug 2022, Austin TX
         <ul>
           <li>Designed operator training (RTA, Low Inertia).</li>
           <li>Maintained EMS, MMS, OTS systems.</li>
         </ul>
       </div>
     </div>
-    <div class="experience-block">
-      <img src="HISD.png" alt="HISD">
-      <div>
-        <strong>Associate/Substitute Teacher (HISD/CFISD)</strong><br>
-        2018 – 2022<br>
-        <ul>
-          <li>Taught math and physics to K–12 students.</li>
-        </ul>
-      </div>
+
+    <h2>In Action</h2>
+    <div class="gallery">
+      <img src="0084F2C3-6631-494C-B1BE-2E1948A72E9C.jpeg" alt="Substation Field" />
     </div>
 
-    <div style="text-align:center;">
-<h2>In Action</h2>
-<div class="gallery">
-      <img src="0084F2C3-6631-494C-B1BE-2E1948A72E9C.jpeg" alt="Substation Field"/>
-    </div>
-</div>
-
-    <div style="text-align:center;">
-<h2>Certifications</h2>
+    <h2>Certifications</h2>
     <ul>
       <li>PE License – Texas Board of Professional Engineers</li>
       <li>NERC RC Certification</li>
       <li>IBM: SQL, Python, ML, Visualization</li>
       <li>UT Canvas Badges: Deep Learning, Ethics in AI</li>
     </ul>
-</div>
-    <div class="gallery">
-      <img src="pe.jpeg" alt="PE License"/>
-    </div>
 
-    <div style="text-align:center;">
-<h2>Download My Resume & Certificates</h2>
+    <h2>Download My Resume & Certificates</h2>
     <div class="links">
       <a href="CV8.docx" download>📄 Resume</a>
       <a href="Coursera BYBV066EFBS7.pdf" download>📜 Python Certificate</a>
       <a href="Coursera DCHGTCGASDAH.pdf" download>📜 ML Certificate</a>
       <a href="Deep Learning - Canvas Badges.pdf" download>🧠 Deep Learning</a>
       <a href="Ethics in AI - Canvas Badges.pdf" download>⚖️ Ethics in AI</a>
-    </div>
-</div>
-
-    <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;">
-      <img src="CFID.png" alt="CFISD Logo" style="height: 60px;">
-      <img src="HISD.png" alt="HISD Logo" style="height: 60px;">
     </div>
   </div>
 </body>
