@@ -1,16 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Amir Exir Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Open Sans', sans-serif;
       background: #f4f4f4;
       color: #111;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
     }
 
     .hero {
@@ -26,6 +32,22 @@
       color: white;
     }
 
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+
+    .hero img,
+    .hero h1,
+    .hero p {
+      position: relative;
+      z-index: 2;
+    }
+
     .profile-pic {
       width: 140px;
       height: 140px;
@@ -34,8 +56,18 @@
       margin-bottom: 1rem;
     }
 
-    h1 {
-      margin: 0.3rem 0;
+    .nav {
+      display: flex;
+      justify-content: center;
+      background: #2c0d0d;
+      padding: 1rem;
+      gap: 2rem;
+    }
+
+    .nav a {
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
     }
 
     .container {
@@ -79,69 +111,20 @@
       text-decoration: none;
       border-radius: 5px;
     }
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap');
 
-  body {
-    margin: 0;
-    font-family: 'Open Sans', sans-serif;
-    background: #f4f4f4;
-    color: #111;
-  }
+    .logo-row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
 
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    font-weight: 700;
-  }
-
-  .hero p {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 1.1rem;
-  }
-
-  .links a {
-    display: inline-block;
-    margin: 0.3rem;
-    padding: 0.5rem 1rem;
-    background: #007acc;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-  }
-
-  /* === DARK OVERLAY FOR HERO BACKGROUND === */
-  .hero {
-    position: relative;
-    width: 100%;
-    height: 60vh;
-    background: url('Control Room.jpeg') no-repeat center center/cover;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-    z-index: 1;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 1;
-  }
-
-  .hero img,
-  .hero h1,
-  .hero p {
-    position: relative;
-    z-index: 2;
-  }
-</style>
-  
+    .logo-row img {
+      width: 80px;
+      height: auto;
+    }
+  </style>
 </head>
 <body>
   <div class="hero">
@@ -150,104 +133,62 @@
     <p>Power Systems Engineer | AI Researcher | EMS & Planning Expert | UT Austin AI Graduate Student</p>
   </div>
 
+  <div class="nav">
+    <a href="#summary">Summary</a>
+    <a href="#education">Education</a>
+    <a href="#experience">Experience</a>
+    <a href="#certifications">Certifications</a>
+    <a href="#in-action">In Action</a>
+    <a href="#downloads">Download</a>
+  </div>
+
   <div class="container">
-    <h2>Professional Summary</h2>
+    <h2 id="summary">Professional Summary</h2>
     <p>Professional Engineer (P.E.) and NERC Certified Reliability Coordinator with 6+ years in power systems across operation, planning,
     and modeling at ERCOT and LCRA. Experienced in PSS/E, GE EMS SCADA/TSM/DTS, and Python. Currently pursuing an M.S. in AI at UT Austin.</p>
 
-    <h2>Education</h2>
+    <h2 id="education">Education</h2>
     <ul>
-      <li>UT Austin – M.S. in Artificial Intelligence (2024–Present)</li>
-      <li>Lamar University – M.Eng. in Electrical & Computer Engineering (2020)</li>
-      <li>Shahid Beheshti University – B.Sc. in Electrical Engineering (2017)</li>
+      <li>UT Austin – M.S. in Artificial Intelligence (2024–Present) — GPA 4.0<br>Courses: Deep Learning, Machine Learning, Optimization, EAI</li>
+      <li>Lamar University – M.Eng. in Electrical & Computer Engineering (2020) — GPA 3.8<br>Courses: Power Sys Stability, PLCs, Cybersecurity, CMOS Design</li>
+      <li>Shahid Beheshti University – B.Sc. in Electrical Engineering (2017)<br>Courses: Power Systems I & II, Electrical Machines, Control, Math, Physics</li>
     </ul>
-    
-<!-- Experience Timeline Section -->
-<section id="experience" style="padding: 2rem; background: #f4f4f4">
-  <h2 style="text-align: center; font-family: 'Playfair Display', serif;">Experience</h2>
 
-  <div style="max-width: 800px; margin: auto;">
-
-    <!-- LCRA -->
-    <div style="display: flex; margin-bottom: 2rem;">
-      <img src="LCRA_logo.png" alt="LCRA Logo" style="width: 50px; height: 50px; margin-right: 1rem; object-fit: contain;">
-      <div>
-        <h3 style="margin: 0">LCRA</h3>
-        <p style="margin: 0; color: gray;">Mar 2024 – Present · Austin, TX · Full-time · Hybrid</p>
-        <strong>Transmission Planning Assessment and Modeling Engineer</strong>
-        <ul>
-          <li>Reviewed transmission ratings, ensured NERC compliance, submitted PMCRs.</li>
-          <li>Performed Steady-State and Dynamic Stability Analysis for interconnections.</li>
-          <li>Proposed upgrades and participated in ERCOT working groups (SSWG, DWG, etc.).</li>
-        </ul>
-
-        <strong>Transmission Operation Modeling and EMS Application Support Engineer</strong>
-        <p style="margin: 0; color: gray;">Aug 2022 – Mar 2024</p>
-        <ul>
-          <li>Maintained EMS and Planning Models aligned with capital project timelines.</li>
-          <li>Submitted NOMCRs/DPCs, supported SCADA/TSM/State Estimator and PMU systems.</li>
-        </ul>
-      </div>
+    <div class="logo-row">
+      <img src="UT.png" alt="UT Austin">
+      <img src="Lamar.png" alt="Lamar University">
     </div>
 
-    <!-- ERCOT -->
-    <div style="display: flex; margin-bottom: 2rem;">
-      <img src="ERCOT_logo.png" alt="ERCOT Logo" style="width: 50px; height: 50px; margin-right: 1rem; object-fit: contain;">
-      <div>
-        <h3 style="margin: 0">ERCOT</h3>
-        <p style="margin: 0; color: gray;">Oct 2019 – Aug 2022 · Austin, TX · Full-time</p>
+    <h2 id="experience">Experience</h2>
+    <img src="ERCOT.png" alt="ERCOT" style="width: 70px; margin: 1rem auto; display: block;">
+    <img src="LCRA.png" alt="LCRA" style="width: 70px; margin: 1rem auto; display: block;">
+    <p style="text-align: center;">See resume section for detailed timeline above.</p>
 
-        <strong>Operation Training Instructor</strong>
-        <p style="margin: 0; color: gray;">Oct 2020 – Aug 2022</p>
-        <ul>
-          <li>Designed training scenarios and evaluated operator response (RTA, IROL, Low Inertia).</li>
-          <li>Maintained EMS/MMS/OTS simulation tools.</li>
-        </ul>
-
-        <strong>Power Engineer (SOAL Contractor)</strong>
-        <p style="margin: 0; color: gray;">Oct 2019 – Oct 2020</p>
-        <ul>
-          <li>Performed Interconnection Studies and RARF registrations.</li>
-          <li>Utilized EMS & PSS/E for FIS/QSA analysis (Steady State, Short Circuit, Stability).</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Teaching -->
-    <div style="display: flex; margin-bottom: 2rem;">
-      <img src="HISD_logo.png" alt="HISD Logo" style="width: 50px; height: 50px; margin-right: 1rem; object-fit: contain;">
-      <div>
-        <h3 style="margin: 0">Houston ISD / CFISD</h3>
-        <p style="margin: 0; color: gray;">2018 – 2022</p>
-        <strong>Associate/Substitute Teacher</strong>
-        <ul>
-          <li>Taught math and physics to K–12 students. Managed classrooms and followed lesson plans.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-    <h2>Certifications</h2>
+    <h2 id="certifications">Certifications</h2>
     <ul>
       <li>PE License – Texas Board of Professional Engineers</li>
       <li>NERC RC Certification</li>
       <li>IBM: SQL, Python, ML, Visualization</li>
       <li>UT Canvas Badges: Deep Learning, Ethics in AI</li>
     </ul>
+    <img src="pe.jpeg" alt="PE License" style="width: 100%; max-width: 500px; display: block; margin: 1rem auto; border-radius: 10px;">
 
-    <h2>In Action</h2>
+    <h2 id="in-action">In Action</h2>
     <div class="gallery">
       <img src="0084F2C3-6631-494C-B1BE-2E1948A72E9C.jpeg" alt="Substation Field"/>
     </div>
 
-    <h2>Download My Resume & Certificates</h2>
+    <h2 id="downloads">Download My Resume & Certificates</h2>
     <div class="links">
       <a href="CV8.docx" download>📄 Resume</a>
       <a href="Coursera BYBV066EFBS7.pdf" download>📜 Python Certificate</a>
       <a href="Coursera DCHGTCGASDAH.pdf" download>📜 ML Certificate</a>
       <a href="Deep Learning - Canvas Badges.pdf" download>🧠 Deep Learning</a>
       <a href="Ethics in AI - Canvas Badges.pdf" download>⚖️ Ethics in AI</a>
+    </div>
+    <div class="logo-row">
+      <img src="CFID.png" alt="CFISD">
+      <img src="HISD.png" alt="HISD">
     </div>
   </div>
 </body>
