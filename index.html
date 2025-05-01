@@ -91,18 +91,23 @@
 
     .entry {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: center;
       margin: 1.5rem 0;
       text-align: left;
     }
-
+    
     .entry img {
       width: 60px;
       height: 60px;
       object-fit: contain;
       margin-right: 1rem;
-      margin-top: 0.25rem;
+      flex-shrink: 0;
+      min-width: 60px;
+    }
+    
+    .entry div {
+      max-width: 700px;
     }
 
     .gallery img {
