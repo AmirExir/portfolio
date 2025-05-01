@@ -79,7 +79,7 @@
       text-decoration: none;
       border-radius: 5px;
     }
-  <style>
+<style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap');
 
   body {
@@ -108,6 +108,37 @@
     color: white;
     text-decoration: none;
     border-radius: 5px;
+  }
+
+  /* === DARK OVERLAY FOR HERO BACKGROUND === */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    background: url('Control Room.jpeg') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    z-index: 1;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+
+  .hero img,
+  .hero h1,
+  .hero p {
+    position: relative;
+    z-index: 2;
   }
 </style>
   
