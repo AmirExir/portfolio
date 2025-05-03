@@ -93,12 +93,13 @@
     }
 
     .entry {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
       text-align: left;
       gap: 1rem;
       margin: 1.5rem 0;
+      flex-direction: row; /* This is key - ensures horizontal layout */
     }
     
     .entry img {
@@ -209,15 +210,16 @@
         Oct 2019 – Aug 2022, Austin TX
       </div>
     </div>
-  <div class="entry">
-    <div>
-      <img src="CFID.png" alt="CFISD Logo" style="width: 60px; height: 60px; object-fit: contain; margin-bottom: 0.5rem;" />
-      <img src="HISD.png" alt="HISD Logo" style="width: 60px; height: 60px; object-fit: contain;" />
-    <div>
-      <strong>Associate/Substitute Teacher (CFISD / HISD)</strong><br />
-      2018 – 2022, Houston TX
+    <div class="entry">
+      <div style="display: flex; gap: 0.5rem;">
+        <img src="CFID.png" alt="CFISD Logo" style="width: 60px; height: 60px; object-fit: contain;" />
+        <img src="HISD.png" alt="HISD Logo" style="width: 60px; height: 60px; object-fit: contain;" />
+      </div>
+      <div>
+        <strong>Associate/Substitute Teacher (CFISD / HISD)</strong><br />
+        2018 – 2022, Houston TX
+      </div>
     </div>
-  </div>
 <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
   <img src="background.png" alt="AI background" style="max-width: 600px; width: 100%; border-radius: 10px;" />
 </div>
