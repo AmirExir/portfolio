@@ -95,11 +95,9 @@
     .entry {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
       margin: 1.5rem 0;
       text-align: left;
-      gap: 1rem;
-      flex-wrap: wrap;
+      justify-content: flex-start;
     }
     
     .entry img {
@@ -140,6 +138,13 @@
   width: 90%;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .standard-cert {
+  max-width: 300px;
+  width: 90%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-top: 1rem;
     }
   </style>
 </head>
@@ -191,7 +196,7 @@
 </div>
     <h2>Experience</h2>
     <div class="entry">
-      <img src="LCRA.png" alt="LCRA Logo">
+      <img src="LCRA.png" alt="LCRA Logo"/>
       <div>
         <strong>Transmission Planning Engineer/EMS Advanced Application Operation Engineer (LCRA)</strong><br />
         Aug 2022 – Present, Austin TX
@@ -205,8 +210,9 @@
       </div>
     </div>
     <div class="entry">
-      <img src="CFID.png" alt="CFISD Logo">
-      <img src="HISD.png" alt="HISD Logo">
+      <div style="display: flex; gap: 1rem;">
+      <img src="CFID.png" alt="CFISD Logo"/>
+      <img src="HISD.png" alt="HISD Logo"/>
       <div>
         <strong>Associate/Substitute Teacher (CFISD / HISD)</strong><br />
         2018 – 2022, Houston TX
@@ -229,8 +235,8 @@
   </ul>
 
 <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
-  <img src="pe.jpeg" alt="PE License" style="max-width: 400px; width: 90%; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" />
-  <img src="NERC.png" alt="NERC Cert" style="max-width: 400px; width: 90%; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" />
+  <img src="pe.jpeg" alt="PE License" class="standard-cert" />
+  <img src="NERC.png" alt="NERC Cert" class="standard-cert" />
 </div>
 
 <!-- Fun Activity Section -->
