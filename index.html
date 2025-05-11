@@ -15,6 +15,10 @@
   </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap');
+    
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       margin: 0;
       font-family: 'Open Sans', sans-serif;
@@ -73,7 +77,7 @@
       max-width: 900px;
       margin: auto;
       /*background: white;*/
-      background: rgba(255, 255, 255, 0.65);
+      background: rgba(255, 255, 255, 0.80);
       padding: 2rem;
       border-radius: 10px;
       margin-top: -40px;
@@ -155,37 +159,131 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       margin-top: 1rem;
     }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in-out forwards;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .slide-up {
+      opacity: 0;
+      animation: slideUp 1.5s ease-in-out forwards;
+      animation-fill-mode: forwards;
+    }
+    .navbar {
+      position: sticky;
+      top: 0;
+      background-color: rgba(0, 0, 0, 0.85);
+      z-index: 999;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-end; /* aligns content to the right */
+    }
+
+    .hamburger {
+      font-size: 28px;
+      cursor: pointer;
+      user-select: none;
+      color: white;
+      transition: transform 0.2s ease, color 0.2s ease; 
+    }
+    .hamburger:hover {
+      transform: scale(1.2);
+      color: #00bfff; /* Light blue glow */
+    }
+    .nav-links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      background: rgba(0, 0, 0, 0.85);
+      position: absolute;
+      right: 0;
+      top: 40px;
+      display: none;
+      flex-direction: column;
+      border-radius: 8px;
+    }
+
+    .nav-links li {
+      border-bottom: 1px solid #555;
+    }
+
+    .nav-links li:last-child {
+      border-bottom: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      display: block;
+    }
+    .nav-links a:hover {
+      background-color: #333;
+    }
+    .hover-scale {
+      transition: transform 0.3s ease;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
   </style>
 </head>
 <body>
+  <nav class="navbar">
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#certifications">Certs</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#fun">Fun</a></li>
+    </ul>
+  </nav>
   <div class="hero">
-    <img src="Amir.jpeg" class="profile-pic" alt="Amir Exir"/>
+    <img src="Amir.jpeg" class="profile-pic fade-in" alt="Amir Exir"/>
     <h1>Amir Exir, M.Eng EE, P.E., NCSO</h1>
     <p>Power Systems Engineer | AI Researcher | EMS & Planning Expert | UT Austin AI Graduate Student</p>
   </div>
 
   <div class="container">
-    <h2>Professional Summary</h2>
+    <h2 id="summary" class="slide-up hover-scale">Professional Summary</h2>
     <p>Professional Engineer (P.E.) and NERC Certified Reliability Coordinator with 6+ years in power systems across operation, planning,
     and modeling at ERCOT and LCRA. Experienced in PSS/E, GE EMS SCADA/TSM/DTS, and Python. Currently pursuing an M.S. in AI at UT Austin. AWS/IBM Certified</p>
 
-    <h2>Education</h2>
-    <div class="entry">
+    <h2 id="education" class="slide-up hover-scale">Education</h2>
+    <div class="entry slide-up hover-scale">
       <img src="UT.png" alt="UT Logo">
       <div>
         <strong>University of Texas at Austin</strong><br />
         M.S. in Artificial Intelligence (2024–Present), GPA 4.0
       </div>
     </div>
-    <div class="entry">
+    <div class="entry slide-up hover-scale">
       <img src="Lamar.png" alt="Lamar Logo">
       <div>
         <strong>Lamar University</strong><br />
         M.Eng. in Electrical & Computer Engineering (2020), GPA 3.8
       </div>
     </div>
-    <div class="entry">
+    <div class="entry slide-up hover-scale">
       <img src="Beheshti.png" alt="Beheshti Logo">
       <div>
         <strong>Shahid Beheshti University University</strong><br />
@@ -194,7 +292,7 @@
     </div>
   <img src="Masters.png" alt="Masters License Framed" style="max-width: 500px; width: 90%; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-top: 1rem;" />
   <div class="section">
-  <h2>TeslaFSDKiller: Deep Learning Project</h2>
+  <h2 id="projects" class="slide-up hover-scale">TeslaFSDKiller: Deep Learning Project</h2>
   <p style="max-width: 700px; margin: 0 auto;">
     I trained a neural network to drive autonomously in SuperTuxKart using CNNs, Transformers, and MLPs. This project, inspired by my Deep Learning course at UT Austin, showcases waypoint prediction and dynamic driving through an open-source simulator.
   </p>
@@ -204,22 +302,22 @@
     Your browser does not support the video tag.
   </video>
 </div>
-    <h2>Experience</h2>
-    <div class="entry">
+    <h2 id="experience" class="slide-up hover-scale">Experience</h2>
+    <div class="entry slide-up hover-scale">
       <img src="LCRA.png" alt="LCRA Logo"/>
       <div>
         <strong>Transmission Planning Engineer/EMS Advanced Application Operation Engineer (LCRA)</strong><br />
         Aug 2022 – Present, Austin TX
       </div>
     </div>
-    <div class="entry">
+    <div class="entry slide-up hover-scale">
       <img src="ERCOT.png" alt="ERCOT Logo">
       <div>
         <strong>Resource Integration Engineer/Operation Training Instructor/Real Time Shift Engineer (ERCOT)</strong><br />
         Oct 2019 – Aug 2022, Austin TX
       </div>
     </div>
-    <div class="entry">
+    <div class="entry slide-up hover-scale">
       <div style="display: flex; gap: 0.5rem;">
         <img src="CFID.png" alt="CFISD Logo" style="width: 60px; height: 60px; object-fit: contain;" />
         <img src="HISD.png" alt="HISD Logo" style="width: 60px; height: 60px; object-fit: contain;" />
@@ -232,18 +330,21 @@
 <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
   <img src="background.png" alt="AI background" style="max-width: 600px; width: 100%; border-radius: 10px;" />
 </div>
-    <h2>In Action</h2>
+    <h2 id="gallery" class="slide-up hover-scale">In Action</h2>
     <div class="gallery">
       <img src="0084F2C3-6631-494C-B1BE-2E1948A72E9C.jpeg" alt="Substation Field" style="max-width: 600px; width: 100%; border-radius: 10px;" />
     </div>
 
    <div style="text-align: center;">
-  <h2>License and Certifications</h2>
+  <h2 id="certifications"  class="slide-up hover-scale">License and Certifications</h2>
 
   <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0 auto 2rem auto;">
     <li>PE License – Texas Board of Professional Engineers</li>
     <li>NERC RC Certification</li>
+    <li>AWS: Cloud Practitioner</li>
     <li>IBM: SQL, Python, ML, Visualization</li>
+
+    <li>Coursera: python for data science, ML, AI</li>
     <li>UT Canvas Badges: Deep Learning, Ethics in AI</li>
   </ul>
 
@@ -254,7 +355,7 @@
 
 <!-- Fun Activity Section -->
 <div class="section">
-  <h2>🏄‍♂️ Outside the Office – Paddleboarding & Biking Fun</h2>
+  <h2 id="fun" class="slide-up hover-scale">🏄‍♂️ Outside the Office – Paddleboarding & Biking Fun</h2>
   <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
     <img src="paddle1.jpg" alt="Paddleboarding 1" style="width: 300px; border-radius: 10px;">
     <img src="paddle2.jpg" alt="Paddleboarding 2" style="width: 300px; border-radius: 10px;">
@@ -263,7 +364,7 @@
   </div>
 </div>
     
-  <h2>Download My Resume & Certificates</h2>
+  <h2 id="certifications" class="slide-up hover-scale">Download My Resume & Certificates</h2>
   <div class="links">
     <a href="CV10.docx" download>📄 Resume</a>
     <a href="Coursera BYBV066EFBS7.pdf" download>📜 Python Certificate</a>
@@ -282,6 +383,19 @@
     const audio = document.getElementById('bg-music');
     audio.volume = 0.5; // Set default volume to 50%
   });
+</script>
+<script>
+  function toggleMenu() {
+    const nav = document.getElementById('nav-links');
+    nav.style.display = (nav.style.display === 'flex') ? 'none' : 'flex';
+  }
+
+  // Optional: Close menu after clicking a link
+  document.querySelectorAll('.nav-links a').forEach(link =>
+    link.addEventListener('click', () => {
+      document.getElementById('nav-links').style.display = 'none';
+    })
+  );
 </script>
 </body>
 </html>
