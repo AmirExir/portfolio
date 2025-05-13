@@ -247,7 +247,13 @@
 </head>
 <body>
   <nav class="navbar">
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <input type="text" id="searchInput" placeholder="Search..." 
+        style="padding: 6px 10px; border-radius: 5px; border: none; outline: none; font-size: 14px;">
+      <button onclick="searchSite()" 
+        style="padding: 6px 12px; border-radius: 5px; border: none; background-color: #00bfff; color: white; cursor: pointer;">Go</button>
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </div>
     <ul class="nav-links" id="nav-links">
       <li><a href="#summary">Summary</a></li>
       <li><a href="#education">Education</a></li>
@@ -420,5 +426,20 @@
     <a href="https://github.com/AmirExir" target="_blank" style="color:#00bfff;">GitHub</a>
   </p>
 </footer>
+<script>
+  function searchSite() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const elements = document.querySelectorAll('h1, h2, h3, p, li, strong, div');
+
+    for (const el of elements) {
+      if (el.innerText.toLowerCase().includes(input)) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.style.backgroundColor = 'yellow';
+        setTimeout(() => { el.style.backgroundColor = ''; }, 1500);
+        break;
+      }
+    }
+  }
+</script>
 </body>
 </html>
