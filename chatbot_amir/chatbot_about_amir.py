@@ -6,7 +6,7 @@ import os
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Load resume content
-with open("amir_resume.txt", "r", encoding="utf-8") as f:
+with open("../amir_resume.txt", "r", encoding="utf-8") as f:
     resume_text = f.read()
 
 # Use resume as system prompt
