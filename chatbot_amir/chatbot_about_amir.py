@@ -1,9 +1,9 @@
 import streamlit as st
-import openai
+from openai import OpenAI
 import os
 
 # Set your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Load resume content
 with open("amir_resume.txt", "r", encoding="utf-8") as f:
@@ -36,13 +36,12 @@ if prompt := st.chat_input("Ask me anything about Amir..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        client = openai.OpenAI()  # add this at the top after setting the API key
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4o",
             messages=st.session_state.messages,
             max_tokens=1024
         )
 
-    bot_msg = response['choices'][0]['message']['content']
+    bot_msg = response.choices[0].message.content
     st.chat_message("assistant").markdown(bot_msg)
     st.session_state.messages.append({"role": "assistant", "content": bot_msg})
