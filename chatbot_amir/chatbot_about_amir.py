@@ -37,8 +37,11 @@ if prompt := st.chat_input("Ask me anything about Amir..."):
 
     with st.spinner("Thinking..."):
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         response = client.chat.completions.create(
 =======
+=======
+>>>>>>> Stashed changes
         client = openai.OpenAI()  # add this at the top after setting the API key
         response = openai.ChatCompletion.create(
 >>>>>>> Stashed changes
