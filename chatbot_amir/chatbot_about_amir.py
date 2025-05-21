@@ -36,7 +36,12 @@ if prompt := st.chat_input("Ask me anything about Amir..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
+<<<<<<< Updated upstream
         response = client.chat.completions.create(
+=======
+        client = openai.OpenAI()  # add this at the top after setting the API key
+        response = openai.ChatCompletion.create(
+>>>>>>> Stashed changes
             model="gpt-4o",
             messages=st.session_state.messages,
             max_tokens=1024
