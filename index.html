@@ -517,5 +517,54 @@
     }
   }
 </script>
+<!-- Add this right before the closing </body> tag in your HTML -->
+
+<!-- Floating Chat Bubble -->
+<style>
+  #chatbot-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #00bfff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 9999;
+  }
+
+  #chatbot-iframe {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 360px;
+    height: 550px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 9998;
+  }
+</style>
+
+<button id="chatbot-toggle">🤖</button>
+<iframe
+  id="chatbot-iframe"
+  src="https://portfolio-nvngbm55k5prquuhngg7el.streamlit.app">
+</iframe>
+
+<script>
+  const toggleBtn = document.getElementById("chatbot-toggle");
+  const chatbotFrame = document.getElementById("chatbot-iframe");
+
+  toggleBtn.addEventListener("click", () => {
+    const isVisible = chatbotFrame.style.display === "block";
+    chatbotFrame.style.display = isVisible ? "none" : "block";
+  });
+</script>
 </body>
 </html>
