@@ -19,8 +19,8 @@ Only use the following documentation to answer any questions:\n\n{ercot_text}\n\
 }
 
 # Streamlit UI setup
-st.set_page_config(page_title="ERCOT AI Assistant", page_icon="⚡")
-st.title("⚡ Ask ERCOT AI Assistant")
+st.set_page_config(page_title="Amir Exir's ERCOT AI Assistant", page_icon="⚡")
+st.title("⚡ Ask Amir Exir's ERCOT AI Assistant")
 
 # Chat history
 if "messages" not in st.session_state:
@@ -29,7 +29,7 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages[1:]:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
-if prompt := st.chat_input("Ask about ERCOT protocols, planning or interconnection..."):
+if prompt := st.chat_input("Ask Amir Exir's AI assistan about ERCOT protocols, planning or interconnection..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
