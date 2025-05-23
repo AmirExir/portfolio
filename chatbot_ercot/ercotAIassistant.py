@@ -13,7 +13,7 @@ with open("ercotaiassistant.txt", "r", encoding="utf-8") as f:
 system_prompt = {
     "role": "system",
     "content": f"""
-You are an expert assistant on ERCOT's interconnection process, planning guides, and protocols.
+You are an expert assistant on ERCOT's planning guides.
 Only use the following documentation to answer any questions:\n\n{ercot_text}\n\nStay factual and cite based only on this info.
 """
 }
@@ -29,7 +29,7 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages[1:]:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
-if prompt := st.chat_input("Ask Amir Exir's AI assistan about ERCOT protocols, planning or interconnection..."):
+if prompt := st.chat_input("Ask Amir Exir's AI assistan about ERCOT planning guides.."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
