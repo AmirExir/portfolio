@@ -1,0 +1,1021 @@
+allocated for the month(s) in the CRR Auction.
+(3)	Following a one-time auction of CRRs pursuant to Section 16.11.6.1.4, Repossession of CRRs by ERCOT, or Section 16.11.6.1.5, Declaration of Forfeit of CRRs, ERCOT shall post to the ERCOT website the following information for all CRRs sold in the auction: 
+(a)	PTP Options – the source and sink, total MWs, and date and time-of-use block for which the CRR is effective; 
+(b)	PTP Obligations – the source and sink, total MWs, and date and time-of-use block for which the CRR is effective; and
+(c)	The identity of the CRR Account Holder that was awarded CRRs in the one-time CRR Auction.
+[NPRR1023:  Delete paragraph (3) above upon system implementation.]
+7.5.3.2	Auction Notices
+(1)	Not less than 20 days before each CRR Long-Term Auction Sequence and not less than ten days before each CRR Monthly Auction, ERCOT shall post the following to the ERCOT website:
+(a)	For the CRR Auction, number and type (PTP Options or PTP Obligations) of CRRs previously awarded or allocated for each appropriate month, including the source and sink for each such CRR;
+(b)	Deadline for CRR Account Holders to satisfy financial requirements to participate in the auction;
+(c)	Specifications for the equipment and interfaces necessary to participate in the CRR Auction;
+(d)	Date and time by which CRR Auction bids and CRR Auction offers in the CRR Auction must be submitted;
+(e)	Bid and offer format;
+(f)	Minimum PTP Option Bid Price;
+(g)	The preliminary allocated CRR transaction limit as defined in paragraph (2) of Section 7.5.2, CRR Auction Offers and Bids; and
+(h)	Any other relevant information of commercial significance to CRR Account Holders, including a list of Electrically Similar Settlement Points.
+7.5.4	CRR Account Holder Responsibilities
+(1)	Participating CRR Account Holders may submit CRR Auction Bids and CRR Auction Offers. 
+(2)	Each CRR Account Holder must maintain adequate credit for its CRR holdings, and CRR Auction participation requirements, as described in Section 16, Registration and Qualification of Market Participants.
+7.5.5	Auction Clearing Methodology
+7.5.5.1	Creditworthiness
+(1)	The CRR Auction system prevents a CRR Account Holder from being awarded bids and offers that exceed the lesser of the CRR Account Holder’s self-imposed credit limit or the credit limit as prescribed in Section 16.11.4.6.1, Credit Requirements for CRR Auction Participation.   
+7.5.5.2	Disclosure of CRR Ownership
+(1)	ERCOT shall post monthly, by the fifth Business Day of the month, on the ERCOT website CRR ownership of record information for each source and sink pair as follows: 
+(a)	The identities of the CRR Account Holders;
+(b)	Type of CRR held by that account holder; and
+(c)	Total MWs held by that account holder.  
+7.5.5.3	Auction Process
+(1)	The CRR Auction must be a single-round, simultaneous auction for selling the CRRs available for all auction products.  ERCOT shall enter into the CRR Auction system a credit limit for each Counter-Party that has at least one CRR Account Holder.  A Counter-Party’s CRR Auction credit limit is equal to the lesser of the credit limit as determined in Section 16.11.4.6.1, Credit Requirements for CRR Auction Participation, or, if provided, the Counter-Party’s self-imposed CRR Auction credit limit for the CRR Monthly Auction or for a time-of-use within a CRR Auction held as part of a CRR Long-Term Auction Sequence.  
+(2)	Prior to the CRR Auction, ERCOT will conduct a two-part pre-auction screening process. First, if the Counter-Party’s CRR Auction credit limit is greater than that Counter-Party’s credit exposure as defined below using the CRR bid volumes rather than awarded volumes, then the Counter-Party’s CRR Auction credit limit will be ignored as the CRR Auction is solved.  Second, for each CRR Account Holder of a Counter-Party, if the CRR Account Holder’s self-imposed credit limit is greater than that CRR Account Holder’s credit exposure as defined below, then the CRR Account Holder’s self-imposed credit limit will be ignored as the CRR Auction is solved. 
+	The calculated exposure for the pre-auction screening for each CRR Account Holder is the sum of the credit exposure for PTP Obligation bids, PTP Obligation offers, and PTP Option bids for that CRR Account Holder.  The calculated exposure for the pre-auction screening for each Counter-Party is the sum of the credit exposure for PTP Obligation bids, PTP Obligation offers, and PTP Option bids for that Counter-Party.  PTP Option offers have zero credit exposure.  Separately, for PTP Obligation bids, PTP Obligation offers, and PTP Option bids, for each source/sink Settlement Point combination, the credit exposure will use the bid price and MW quantity that produces the maximum credit exposure that could result from the CRR Auction for that source/sink Settlement Point combination. 
+(3)	The credit constraint for each Counter-Party is based on the following calculation:
+ACR b 		= 	AOBLCR b  + AOPTCR b  - AOBLCRO b
+Where:	
+AOBLCR b = 	∑m ∑h ∑j, k [(BOBLMW m, h,(j, k), b * (Max(0, BPOBL m, h,(j, k), b) – Min(0,A ci99, m, h,(j, k), b, EACP m, h,(j, k) )))] 
+AOPTCR b = 	∑m ∑h ∑j, k [(BOPTMW m, h,(j, k), b * BPOPT m, h,(j, k), b)]
+AOBLCRO b = 	∑m ∑h ∑j, k (OOBLMW m, h,(j, k), b * Min(0, OPOBL m, h,(j, k), b))  
+The above variables are defined as follows:
+Variable	Unit	Description
+ACR b	$	Auction Credit Requirement—The auction credit requirement for a Counter-Party b.
+AOBLCR b	$	Auction PTP Obligation Credit Requirement—The auction credit requirement for all PTP Obligation bids submitted by a Counter-Party b for all Operating Days. 
+BOBLMW m, h, (j, k), b	MW	Awarded Bid PTP Obligation—The awarded bid PTP Obligation with the source j and sink k for the hour h, and month m submitted by a Counter-Party b.
+BPOBL m, h, (j, k), b	$/MW per hour	Bid Price for PTP Obligation—Bid Price for PTP Obligation with the source j and sink k for the hour h, and month m submitted by a Counter-Party b. 
+A ci 99, m, h, (j, k), b	$/MW per hour	Path-Specific DAM-Based Adder—The path-specific DAM-based adder with the source j and sink k for the hour h, and month m submitted by a Counter-Party b; calculated as 99th percentile of the average rolling consecutive DAM settled price for the reference CRR source/sink over a period that represents a month for each product type (18 days for 5*16, 8 days for 2*16, 28 days for 7*8).  The look-back period for DAM settled prices shall be the lesser of Nodal Market go-live to current time and current time minus three years.  If historical Day-Ahead Settlement Point Prices (DASPPs) are not available for a Settlement Point for one or more Operating Days, ERCOT will designate a proxy Settlement Point for this purpose, and the DASPPs of the proxy Settlement Point of corresponding Operating Days are used.
+EACP m, h, (j, k)	$/MW per hour	Effective Auction Clearing Price—The auction clearing price with the source j and sink k for the hour h, and month m.
+For each CRR PTP Obligation, this value is equal to the auction clearing price of an awarded CRR selected as follows: 
+(a)	Awarded CRRs with the source j and sink k containing hour h and operating month m are selected from the set of unexpired awarded PTP Obligations.  If no awarded CRRs are found the EACP value is zero.
+(b)	If (a) results in more than one awarded CRR, awarded CRRs with the most recent award date are selected.
+(c)	If (b) results in more than one awarded CRR, then the awarded CRR with the lowest auction clearing price is selected.
+AOBLCRO b	$	Auction PTP Obligation Credit Requirement for Offers—The auction credit requirement for all PTP Obligation offers submitted by a Counter-Party b for all Operating Days. 
+OOBLMW m, h, (j, k), b	MW	Awarded Offer PTP Obligation—The awarded offer PTP Obligation with source j and sink k for the hour h, and month m submitted by a Counter-Party b.
+OPOBL m, h, (j, k ), b	$/MW per hour	Offer Price for PTP Obligation—The offer price for PTP Obligation with the source j and sink k for the hour h, and month m submitted by a Counter-Party b.
+AOPTCR b	$	Auction PTP Option Bid Credit Requirement—The auction credit requirement for all PTP Option bids submitted by a Counter-Party b.
+BOPTMW m, h, (j, k),b	MW	Awarded Bid PTP Option—The awarded bid PTP Option with the source j and sink k for the hour h, and month m submitted by a Counter-Party b. 
+BPOPT m, h, (j, k), b	$/MW per hour	Bid Price for PTP Option—The bid price for PTP Option with the source j and sink k for the hour h, and month m submitted by a Counter-Party b.
+b	none	A Counter-Party.
+m	none	An operating month.
+h	none	An Operating Hour.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+ci99	none	99th percentile confidence interval.
+(4)	ERCOT may review preliminary CRR Auction results to ensure that post auction collateral requirements are satisfied for all CRR Account Holders participating in the CRR Auction.  If it is practicable to rerun the applicable CRR Auction, and the post CRR Auction collateral requirements for a Counter-Party are not satisfied, ERCOT:
+(a)	Shall promptly notify the Counter-Party of the amount by which its Financial Security must be increased and allow it until 1500 on the next Bank Business Day from the date on which ERCOT delivered Notification to increase the Financial Security.  
+(b)	If sufficient Financial Security is not received by 1500 on the next Bank Business Day, ERCOT shall void all of the Counter-Party’s bids and offers in the CRR Auction and rerun the CRR Auction without that Counter-Party’s activity.
+(c)	ERCOT shall award CRRs in quantities truncated to the nearest tenth MW (0.1 MW). 
+(d)	The CRR clearing price is equal to the corresponding Shadow Price for that CRR product.
+(e)	Except as noted in paragraph (f) below, when a CRR Account Holder is awarded CRRs as a result of a CRR Auction, the CRRs do not become the property of the winning CRR Account Holder, and the CRRs may not be placed in their CRR accounts, until the required CRR Invoice has been paid.
+[NPRR1023:  Replace paragraph (e) above with the following upon system implementation:]
+(e)	When a CRR Account Holder is awarded CRRs as a result of a CRR Auction, the CRRs do not become the property of the winning CRR Account Holder, and the CRRs may not be placed in their CRR accounts, until the required CRR Invoice has been paid.
+(f)	Following a one-time auction of CRRs pursuant to Section 16.11.6.1.4, Repossession of CRRs by ERCOT, or Section 16.11.6.1.5, Declaration of Forfeit of CRRs, the CRRs may be placed in the account of the winning CRR Account Holder immediately upon determination of the winning bidder if the post-auction collateral requirement is satisfied and if ERCOT determines that the transfer is required to ensure the correctness of the inventory for any subsequent CRR Auction.  
+[NPRR1023:  Delete paragraph (f) above upon system implementation.]
+(5)	ERCOT shall use a linear programming auction engine model for each CRR Auction that evaluates all CRR Auction bids and CRR Auction offers submitted, and selects a combination of CRR Auction bids and CRR Auction offers that:
+(a)	Makes the solution simultaneously feasible within the limits of the ERCOT network capability over the auction term; and
+(b)	Maximizes the objective function, which is equal to the total economic value (as expressed in the CRR Auction bids) of the awarded CRR Auction bids, less the total economic cost (as expressed in CRR Auction offers) of the awarded CRR Auction offers, while observing all applicable constraints.
+(6)	The CRR Network Model must, to the extent practicable, reflect the continuous and post-contingency system operating limits and operational procedures (i.e., Remedial Action Schemes (RASs), Automatic Mitigation Plans (AMPs) and Remedial Action Plans (RAPs)) in the Network Operations Model used by ERCOT during Real-Time operations, as discussed below in Section 7.5.5.4, Simultaneous Feasibility Test.
+(7)	Once a CRR Auction is complete, ERCOT shall archive and keep the CRR Auction system and all models used to finalize the CRR Auction results under ERCOT’s data retention policy as that policy applies to data that may be needed to resolve requests for billing adjustments under applicable billing adjustment procedures.
+(8)	Once a CRR Auction is complete, ERCOT will make available on the MIS Certified Area each active CRR Account Holder’s credit exposure calculated within the CRR Auction process (as defined in paragraph (3) above).
+7.5.5.4	Simultaneous Feasibility Test
+(1)	The Simultaneous Feasibility Test (SFT) is a market feasibility test that confirms that the transmission system can support the awarded set of CRRs during normal system conditions, assuming that the Network Operations Model updated with Real-Time network topology is the same as that modeled (for the CRR Auction), while observing all security constraints.    
+(2)	The SFT uses a Direct Current (DC) power-flow model to model the effect of CRR Auction bids and offers on the expected system network topology during the auction term.  SFT is not a system reliability test and is not intended to model actual system operating conditions.  SFTs are run during the determination of the winning bids and offers for the CRR Auction.
+(3)	Inputs to the SFT model include:
+(a)	CRR bids and offers for the auction;
+(b)	All previously awarded or allocated CRRs for each month;
+(c)	Transmission line Outage schedules;
+(d)	Expected configuration of Transmission Facilities, adjusted for oversold CRRs, as specified in paragraph (e) below;
+(e)	Increased capacity of each element that has been oversold in prior CRR Auctions and CRR allocations to exactly match the amount of CRRs that have been sold or allocated on that element (this ensures the feasibility of the CRR Auction);
+(f)	Thermal operating limits (including estimates for Dynamic Ratings) for transmission lines;
+(i)	For a CRR Long-Term Auction Sequence, ERCOT shall use Dynamic Ratings based on a historical analysis of the maximum peak-hour temperatures for the previous ten years; and 
+(ii)	For the CRR Monthly Auction, ERCOT shall use Dynamic Ratings for the maximum peak-hour temperature forecast for the month;  
+(g)	Voltage and stability limits that are valid for the study period converted to thermal limits;
+(h)	ERCOT Transmission Grid pre- and post-contingency ratings;
+(i)	All Transmission Element contingencies expected to be used by ERCOT in Real-Time operations; and
+(j)	RAPs, AMPs, and RASs.
+7.5.6	CRR Auction Settlements
+7.5.6.1	Payment of an Awarded CRR Auction Offer
+(1)	ERCOT shall pay each CRR Account Holder of its PTP Obligation offers awarded in each CRR Auction.  The payment for each source and sink pair for a given Time of Use (TOU) period is calculated as follows:
+OBLSAMT crrh, (j, k), a	=	(-1) * OBLPR (j, k), a * OBLS crrh, (j, k), a
+The above variables are defined as follows:
+Variable	Unit	Definition
+OBLSAMT crrh, (j, k), a	$	PTP Obligation Sale Amount per CRR Account Holder per source and sink pair per CRR Auction—The payment calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Obligation offers with the source j and the sink k awarded in CRR Auction a, for the hour.
+OBLPR (j, k), a	$/MWh 	PTP Obligation Price per source and sink pair per CRR Auction—The clearing price of a PTP Obligation with the source j and the sink k in CRR Auction a, for the hour.
+OBLS crrh, (j, k), a	MW	PTP Obligation Sale per CRR Account Holder per source and sink pair per CRR Auction—The MW quantity that represents the total of CRR Account Holder crrh’s PTP Obligation offers associated with the source j and the sink k awarded in CRR Auction a, for the hours of the TOU period.
+crrh	none	A CRR Account Holder.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+a	none	A CRR Auction.
+(2)	ERCOT shall pay each CRR Account Holder of its PTP Option offers awarded in each CRR Auction.  The payment for each source and sink pair for a given TOU period is calculated as follows:
+OPTSAMT crrh, (j, k), a	=	(-1) * OPTPR (j, k), a * OPTS crrh, (j, k), a
+The above variables are defined as follows:
+Variable	Unit	Definition
+OPTSAMT crrh, (j, k), a	$	PTP Option Sale Amount per CRR Account Holder per source and sink pair  per CRR Auction—The payment calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Option bids with the source j and the sink k awarded in CRR Auction a, for the hour.
+OPTPR (j, k), a	$/MWh 	PTP Option Price per source and sink pair per CRR Auction—The clearing price of a PTP Option with the source j and the sink k in CRR Auction a, for the hour.
+OPTS crrh, (j, k), a	MW	PTP Option Sale per CRR Account Holder per source and sink pair per CRR Auction—The MW quantity that represents the total of CRR Account Holder crrh’s PTP Option offers with the source j and the sink k awarded in CRR Auction a, for the hours of the TOU period.
+crrh	none	A CRR Account Holder.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+a	none	A CRR Auction.
+7.5.6.2	Charge of an Awarded CRR Auction Bid
+(1)	ERCOT shall charge each CRR Account Holder of its PTP Obligation bids awarded in each CRR Auction.  The charge for each source and sink pair for a given Operating Hour is calculated as follows:
+OBLPAMT crrh, (j, k), a	=	OBLPR (j, k), a * OBLP crrh, (j, k), a
+The above variables are defined as follows:
+Variable	Unit	Definition
+OBLPAMT crrh, (j, k), a	$	PTP Obligation Purchase Amount per CRR Account Holder per source and sink pair per CRR Auction—The charge calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Obligation bids with the source j and the sink k awarded in CRR Auction a, for the hour.
+OBLPR (j, k), a	$/MWh 	PTP Obligation Price per source and sink pair per CRR Auction—The clearing price of a PTP Obligation with the source j and the sink k in CRR Auction a, for the hour.
+OBLP crrh, (j, k), a	MW	PTP Obligation Purchase per CRR Account Holder per source and sink pair per CRR Auction—The MW quantity that represents the total of CRR Account Holder crrh’s PTP Obligation bids associated with the source j and the sink k awarded in CRR Auction a, for the hours of the TOU period.
+crrh	none	A CRR Account Holder.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+a	none	A CRR Auction.
+(2)	ERCOT shall charge each CRR Account Holder of its PTP Option bids awarded in each CRR Auction.  The charge for each source and sink pair for a given TOU period is calculated as follows:
+OPTPAMT crrh, (j, k), a	=	OPTPR (j, k), a * OPTP crrh, (j, k), a
+The above variables are defined as follows:
+Variable	Unit	Definition
+OPTPAMT crrh, (j, k), a	$	PTP Option Purchase Amount per CRR Account Holder per source and sink pair per CRR Auction—The charge calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Option bids with the source j and the sink k awarded in CRR Auction a, for the hour.
+OPTPR (j, k), a	$/MWh 	PTP Option Price per source and sink pair per CRR Auction—The clearing price of a PTP Option with the source j and the sink k in CRR Auction a, for the hour.
+OPTP crrh, (j, k), a	MW	PTP Option Purchase per CRR Account Holder per source and sink pair per CRR Auction—The MW quantity that represents the total of CRR Account Holder crrh’s PTP Option bids associated with the source j and the sink k awarded in CRR Auction a, for the hours of the TOU period.
+crrh	none	A CRR Account Holder.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+a	none	A CRR Auction.
+7.5.6.3	Charge of PCRRs Pertaining to a CRR Auction
+(1)	For pre-assigned PTP Obligations allocated before each CRR Auction, ERCOT shall charge each CRR Account Holder.  The charge for each source and sink pair for a given TOU period is calculated as follows:
+If OBLPR (j, k), a >0
+PCRROBLAMT crrh, (j, k), a, tech =	PCRROBLF tech * OBLPR (j, k), a 
+* PCRROBL crrh, (j, k), a, tech
+Otherwise
+PCRROBLAMT crrh, (j, k), a, tech =	OBLPR (j, k), a * PCRROBL crrh, (j, k), a, tech
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCRROBLAMT crrh, (j, k), a, tech	$	PCRR PTP Obligation Amount per CRR Account Holder per source and sink pair per CRR Auction by resource technology—The charge calculated for CRR Account Holder crrh of the MW quantity that represents its total PTP Obligations associated with the source j and the sink k allocated before CRR Auction a based on Resources of the technology tech, for the hour.
+PCRROBLF tech		PCRR PTP Obligation pricing Factor per resource technology—The pricing factor of pre-allocated PTP Obligations based on Resources of the technology tech.  See item (1)(g)(ii) of Section 7.4.2.2, PCRR Allocations and Nominations.
+OBLPR (j, k), a	$/MWh 	PTP Obligation Price per source and sink pair per CRR Auction—The clearing price of a PTP Obligation with the source j and the sink k in CRR Auction a, for the hour.
+PCRROBL crrh, (j, k), a, tech	MW	PCRR PTP Obligation per CRR Account Holder per source and sink pair  per CRR Auction by resource technology—The MW quantity that represents the total of CRR Account Holder crrh’s PTP Obligations associated with the source j and the sink k allocated before CRR Auction a based on Resources of the technology tech, for the hours of the TOU period.
+crrh	none	A CRR Account Holder.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+a	none	A CRR Auction.
+tech	none	A Resource technology.  See item (1)(g) of Section 7.4.2.2.
+(2)	For pre-assigned PTP Options allocated before each CRR Auction, ERCOT shall charge each CRR Account Holder.  The charge for each source and sink pair for a given TOU period is calculated as follows:
+PCRROPTAMT crrh, (j, k), a, tech	=	PCRROPTF tech * OPTPR (j, k), a * 					PCRROPT crrh, (j, k), a, tech
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCRROPTAMT crrh, (j, k), a, tech	$	PCRR PTP Option Amount per CRR Account Holder per source and sink pair per CRR Auction by resource technology—The charge calculated for CRR Account Holder crrh of the MW quantity that represents its total PTP Options associated with the source j and the sink k allocated before CRR Auction a based on Resources of the technology tech, for the hour.
+PCRROPTF tech		PCRR PTP Option pricing Factor per resource technology—The pricing factor of pre-allocated PTP Options based on Resources of the technology tech.  See item (1)(g)(i) of Section 7.4.2.2.
+OPTPR (j, k), a	$/MWh 	PTP Option Price per source and sink pair per CRR Auction—The clearing price of a PTP Option with the source j and the sink k in CRR Auction a, for the hour.
+PCRROPT crrh, (j, k), a, tech	MW	PCRR PTP Option per CRR Account Holder per source and sink pair  per CRR Auction by resource technology—The MW quantity that represents the total of CRR Account Holder crrh’s PTP Options with the source j and the sink k allocated before CRR Auction a based on Resources of the technology tech, for the hours of the TOU period.
+crrh	none	A CRR Account Holder.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+a	none	A CRR Auction.
+tech	none	A Resource technology.  See item (1)(g) of Section 7.4.2.2.
+7.5.6.4	CRR Auction Revenues
+(1)	The revenue for a given month produced from CRRs that source and sink within the same 2003 ERCOT Congestion Management Zone (CMZ), cleared in each CRR Auction, is calculated as follows:
+CRRZREV z, a	=	 (   OBLSAMTcrrh,(j,k),z,a,h +    OPTSAMTcrrh,(j,k),z,a,h + 	       OBLPAMT crrh,(j,k),z,a,h +    OPTPAMTcrrh,(j,k),z,a,h)
+The above variables are defined as follows:
+Variable	Unit	Definition
+CRRZREV z, a	$	CRR Zonal Revenue per zone per CRR Auction—The revenue resulted from the CRRs that source and sink in CMZ z, cleared through CRR Auction Offers and CRR Auction Bids in CRR Auction a, for the month.
+OBLSAMT crrh, (j, k), z, a, h	$	PTP Obligation Sale Amount per CRR Account Holder per source and sink pair per zone per CRR Auction per hour—The payment calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Obligation offers awarded in CRR Auction a with the source j and the sink k, both in CMZ z, for the hour h.
+OPTSAMT crrh, (j, k), z, a, h	$	PTP Option Sale Amount per CRR Account Holder per source and sink pair per zone per CRR Auction per hour—The payment calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Option bids awarded in CRR Auction a with the source j and the sink k, both in CMZ z, for the hour h.
+OBLPAMT crrh, (j, k), z, a, h	$	PTP Obligation Purchase Amount per CRR Account Holder per source and sink pair per CRR Auction—The charge calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Obligation offers awarded in CRR Auction a with the source j and the sink k, both in CMZ z, for the hour h.
+OPTPAMT crrh, (j, k), z, a, h	$	PTP Option Purchase Amount per CRR Account Holder per source and sink pair per zone per CRR Auction per hour—The charge calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Option bids awarded in CRR Auction a with the source j and the sink k, both in CMZ z, for the hour h.
+a	none	A CRR Auction.
+z	none	A 2003 ERCOT CMZ.
+crrh	none	A CRR Account Holder that paid the invoice in full.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+h	none	An hour in the month.
+(2)	The revenue for a given month produced from CRRs that source and sink in different 2003 ERCOT CMZs, cleared in each CRR Auction, is calculated as follows:
+CRRNZREV a	=	 (   OBLSAMTcrrh,(j,k),a,h +    OPTSAMTcrrh,(j,k),a,h +                    OBLPAMT crrh,(j,k),a,h +    OPTPAMTcrrh,(j,k),a,h)
+The above variables are defined as follows:
+Variable	Unit	Definition
+CRRNZREV a	$	CRR Non-Zonal Revenue—The revenue resulted from the CRRs that source and sink in different CMZs, cleared through CRR Auction Offers and CRR Auction Bids in CRR Auction a, for the month.
+OBLSAMT crrh, (j, k), a, h	$	PTP Obligation Sale Amount per CRR Account Holder per source and sink pair per CRR Auction—The payment calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Obligation offers awarded in CRR Auction a with the source j and the sink k in different CMZs, for the hour h.
+OPTSAMT crrh, (j, k), a, h	$	PTP Option Sale Amount per CRR Account Holder per source and sink pair per CRR Auction—The payment calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Option bids awarded in CRR Auction a with the source j and the sink k in different CMZs, for the hour h.
+OBLPAMT crrh, (j, k), a, h	$	PTP Obligation Purchase Amount per CRR Account Holder per source and sink pair per CRR Auction—The charge calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Obligation offers awarded in CRR Auction a with the source j and the sink k in different CMZs, for the hour h.
+OPTPAMT crrh, (j, k), a, h	$	PTP Option Purchase Amount per CRR Account Holder per source and sink pair per CRR Auction—The charge calculated for CRR Account Holder crrh of the MW quantity that represents the total PTP Option bids awarded in CRR Auction a with the source j and the sink k in different CMZs, for the hour h.
+a	none	A CRR Auction.
+crrh	none	A CRR Account Holder that paid the invoice in full.
+(j, k)	none	A pair of source and sink Settlement Points in different CMZs.
+h	none	An hour in the month.
+(3)	The revenue for a given month produced from PCRRs that source and sink within the same 2003 ERCOT CMZ, pertaining to each CRR Auction, is calculated as follows:
+PCRRZREV z, a	=	 (    PCRROBLAMT crrh,(j,k),z,a,tech,h +     PCRROPTAMT crrh,(j,k),z,a,tech,h)
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCRRZREV z, a	$	PCRR Zonal Revenue per zone per CRR Auction—The revenue resulted from the PCRRs that source and sink in CMZ z, pertaining to CRR Auction a, for the month.
+PCRROBLAMT crrh, (j, k), z, a, tech, h	$	PCRR PTP Obligation Amount per CRR Account Holder per source and sink pair per zone per CRR Auction per resource technology per hour—The charge calculated for CRR Account Holder crrh of the MW quantity that represents its total PTP Obligations pertaining to CRR Auction a with the source j and the sink k in CMZ z, based on Resources of the technology tech, for the hour h.
+PCRROPTAMT crrh, (j, k), z, a, tech, h	$	PCRR PTP Option Amount per CRR Account Holder per source and sink pair per zone per CRR Auction per resource technology per hour—The charge calculated for CRR Account Holder crrh of the MW quantity that represents its total PTP Options pertaining to CRR Auction a with the source j and the sink k in CMZ z, based on Resources of the technology tech, for the hour h.
+a	none	A CRR Auction.
+z	none	A 2003 ERCOT CMZ.
+crrh	none	A CRR Account Holder that paid the invoice in full.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+tech	none	A Resource technology.
+h	none	An hour in the month.
+(4)	The revenue for a given month produced from PCRRs that source and sink in different 2003 ERCOT CMZs, pertaining to each CRR Auction, is calculated as follows:
+PCRRNZREV a	=	 (    PCRROBLAMT crrh,(j,k),a,tech,h +     PCRROPTAMT crrh,(j,k),a,tech,h)
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCRRNZREV a	$	PCRR Non-Zonal Revenue per CRR Auction—The revenue resulted from the PCRRs that source and sink in different CMZs, pertaining to CRR Auction a, for the month.
+PCRROBLAMT crrh, (j, k), a, tech, h	$	PCRR PTP Obligation Amount per CRR Account Holder per source and sink pair per CRR Auction per resource technology per hour—The charge calculated for CRR Account Holder crrh of the MW quantity that represents its total PTP Obligations pertaining to CRR Auction a with the source j and the sink k in different CMZs, based on Resources of the technology tech, for the hour h.
+PCRROPTAMT crrh, (j, k), a, tech, h	$	PCRR PTP Option Amount per CRR Account Holder per source and sink pair per CRR Auction per resource technology per hour—The charge calculated for CRR Account Holder crrh of the MW quantity that represents its total PTP Options pertaining to CRR Auction a with the source j and the sink k in different CMZs, based on Resources of the technology tech, for the hour h.
+a	none	A CRR Auction.
+crrh	none	A CRR Account Holder that paid the invoice in full.
+(j, k)	none	A pair of source and sink Settlement Points in different CMZs.
+tech	none	A Resource technology.
+h	none	An hour in the month.
+7.5.7	Method for Distributing CRR Auction Revenues
+(1)	ERCOT shall determine, for each month, the CRR Monthly Revenues (CMRs).  The CMR is the sum of:
+(a)	Monthly CRR revenue for that month; and
+(b)	PCRR revenues.
+(2)	ERCOT shall credit the net CRR Auction revenue (including PCRR revenue) produced from CRRs cleared in each CRR Auction that source from a Settlement Point located within a 2003 ERCOT CMZ and sink at a Settlement Point located within the same 2003 ERCOT CMZ to Qualified Scheduling Entities (QSEs) in the 2003 ERCOT CMZ on a zonal Load Ratio Share (LRS) basis.  All other net CRR Auction revenues must be allocated to QSEs on an ERCOT-wide LRS basis.  For these allocation purposes, any Non-Opt-In Entity (NOIE) Load Zone is considered to be located entirely within the 2003 ERCOT CMZ that represented the largest Load for that NOIE or group of NOIEs in 2003.  
+[NPRR1030:  Replace paragraph (2) above with the following upon system implementation:]
+(2)	ERCOT shall credit the net CRR Auction revenue (including PCRR revenue) produced from CRRs cleared in each CRR Auction that source from a Settlement Point located within a 2003 ERCOT CMZ and sink at a Settlement Point located within the same 2003 ERCOT CMZ to Qualified Scheduling Entities (QSEs) in the 2003 ERCOT CMZ on a zonal ratio share basis.  All other net CRR Auction revenues must be allocated to QSEs on an ERCOT-wide ratio share basis.  For these allocation purposes, any Non-Opt-In Entity (NOIE) Load Zone is considered to be located entirely within the 2003 ERCOT CMZ that represented the largest Load for that NOIE or group of NOIEs in 2003.
+(3)	For initial distribution of CMRs, revenues shall be paid to each QSE based on that QSE’s LRS in the interval coincident with the ERCOT-wide peak 15-minute Settlement Interval for the month.  
+[NPRR1030:  Replace paragraph (3) above with the following upon system implementation:]
+(3)	For initial distribution of CMRs, revenues shall be paid to each QSE based on that QSE’s DC Tie ratio share for the month.  Remaining revenues shall be paid to each QSE based on that QSE’s ratio share, excluding DC Tie exports, in the interval coincident with the ERCOT-wide peak 15-minute Settlement Interval for the month.
+(4)	ERCOT shall true up the distribution of CMRs based on that QSE’s LRS in the interval coincident with the ERCOT-wide peak 15-minute Settlement Interval for the month in accordance with paragraph (2) of Section 9.10, CRR Auction Revenue Distribution Invoices.
+[NPRR1030:  Replace paragraph (4) above with the following upon system implementation:]
+(4)	ERCOT shall true up the distribution of CMRs, in accordance with paragraph (2) of Section 9.10, CRR Auction Revenue Distribution Invoices, based on that QSE’s DC Tie ratio share for the month.  Remaining revenues shall be paid to each QSE based on that QSE’s ratio share, excluding DC Tie exports, in the interval coincident with the ERCOT-wide peak 15-minute Settlement Interval for the month.
+(5)	The net CRR Auction revenue produced from CRRs cleared and paid for in each CRR Auction that source from a Settlement Point within a 2003 ERCOT CMZ and sink at a Settlement Point located within the same 2003 ERCOT CMZ shall be distributed on a zonal LRS basis.  The portion of the net monthly CRR Auction revenue to be distributed to each QSE with Load in that zone for a given month is calculated as follows:
+LACMRZAMT z, q=	(-1) *  (CRRZREV z, a + PCRRZREV z, a) * MLRSZ z, q
+The above variables are defined as follows:
+Variable	Unit	Definition
+LACMRZAMT z, q	$	Load-Allocated CRR Monthly Revenue Zonal Amount per zone per QSE—The payment to QSE q of the revenues resulted from the CRRs that source and sink in CMZ z, for the month.
+CRRZREV z, a	$	CRR Zonal Revenue per zone per CRR Auction—The revenue resulted from the CRRs that source and sink in CMZ z, cleared through CRR Auction Offers and CRR Auction Bids in CRR Auction a, for the month.
+PCRRZREV z, a	$	PCRR Zonal Revenue per zone per CRR Auction—The revenue resulted from the PCRRs that source and sink in CMZ z, pertaining to CRR Auction a, for the month.
+MLRSZ q, z	none	Monthly Load Ratio Share Zonal per QSE per zone—The LRS of QSE q for its Load in CMZ z, for the peak-Load 15-minute Settlement Interval in the month.
+q	none	A QSE.
+z	none	A 2003 ERCOT CMZ.
+a	none	A CRR Auction.
+[NPRR1030:  Replace paragraph (5) above with the following upon system implementation:]
+(5)	The net CRR Auction revenue produced from CRRs cleared and paid for in each CRR Auction that source from a Settlement Point within a 2003 ERCOT CMZ and sink at a Settlement Point located within the same 2003 ERCOT CMZ shall be distributed on a zonal ratio share basis.  The portion of the net monthly CRR Auction revenue to be distributed to each QSE with Load in that zone for a given month is calculated as follows:
+LACMRZAMT z, q     =	(-1) * (CMRZDC z, q + CMRZNDC z, q)
+Where:
+CMRZNDC z, q    =  ( (CRRZREV z, a + PCRRZREV z, a) –  CMRZDC z, q) * MLRSZ z, q
+CMRZDC z, q        =   (CRRZREV z, a + PCRRZREV z, a) * DCMLRSZ z, q
+The above variables are defined as follows:
+Variable	Unit	Definition
+LACMRZAMT z, q	$	Load-Allocated CRR Monthly Revenue Zonal Amount per zone per QSE—The sum payment to QSE q representing Loads and DC Tie exports of the revenues resulted from the CRRs that source and sink in CMZ z, for the month.
+CMRZDC z, q	$	CRR Monthly Revenue Zonal Amount for DC Tie Exports per zone per QSE—The amount due to QSE q representing DC Tie exports of the revenues resulted from the CRRs that source and sink in CMZ z, for the month.
+CMRZNDC z, q	$	CRR Monthly Revenue Zonal Amount for Non-DC Tie Loads per zone per QSE—The amount due to QSE q representing Loads (excluding DC Tie exports) of the revenues resulted from the CRRs that source and sink in CMZ z, for the month.
+CRRZREV z, a	$	CRR Zonal Revenue per zone per CRR Auction—The revenue resulted from the CRRs that source and sink in CMZ z, cleared through CRR Auction Offers and CRR Auction Bids in CRR Auction a, for the month.
+PCRRZREV z, a	$	PCRR Zonal Revenue per zone per CRR Auction—The revenue resulted from the PCRRs that source and sink in CMZ z, pertaining to CRR Auction a, for the month.
+DCMLRSZ q, z	none	DC Tie Exports Monthly Load Ratio Share Zonal per QSE per zone—The ratio share calculated for QSE q with DC Tie exports in CMZ z, for the month.  See Section 6.6.2.8, QSE DC Tie Export Load Ratio Share by Congestion Management Zone for a Month.
+MLRSZ q, z	none	Monthly Load Ratio Share Zonal per QSE per zone—The ratio share of QSE q for its Load excluding DC Tie exports in CMZ z, for the peak Load 15-minute Settlement Interval in the month. 
+q	none	A QSE.
+z	none	A 2003 ERCOT CMZ.
+a	none	A CRR Auction.
+(6)	The net CRR Auction revenue produced from CRRs cleared and paid for in each CRR Auction that do not source from a Settlement Point within a 2003 ERCOT CMZ and sink at a Settlement Point located within the same 2003 ERCOT CMZ shall be distributed on an ERCOT-wide LRS basis.  The portion of the net monthly CRR Auction Revenue Amount (from CRRs with paths that cross the 2003 ERCOT CMZ boundaries) to be distributed for a given month is calculated as follows:
+LACMRNZAMT q	=	(-1) *  (CRRNZREV a + PCRRNZREV a) * MLRS q
+The above variables are defined as follows:
+Variable	Unit	Definition
+LACMRNZAMT q	$	Load-Allocated CRR Monthly Revenue Non-Zonal Amount per QSE—The payment to QSE q of the revenues resulted from the CRRs that source and sink in different CMZs, for the month.
+CRRNZREV a	$	CRR Zonal Revenue per CRR Auction—The revenue resulted from the CRRs that source and sink in different CMZs, cleared through CRR Auction Offers and CRR Auction Bids in CRR Auction a, for the month.
+PCRRNZREV a	$	PCRR Zonal Revenue per CRR Auction—The revenue resulted from the PCRRs that source and sink in different CMZs, pertaining to CRR Auction a, for the month.
+MLRS q	none	Monthly Load Ratio Share per QSE—The LRS calculated for QSE q for the peak-Load 15-minute Settlement Interval in the month.  See Section 6.6.2.2, QSE Load Ratio Share for a 15-Minute Settlement Interval.
+q	none	A QSE.
+a	none	A CRR Auction.
+[NPRR1030:  Replace paragraph (6) above with the following upon system implementation:]
+(6)	The net CRR Auction revenue produced from CRRs cleared and paid for in each CRR Auction that do not source from a Settlement Point within a 2003 ERCOT CMZ and sink at a Settlement Point located within the same 2003 ERCOT CMZ shall be distributed on an ERCOT-wide ratio share basis.  The portion of the net monthly CRR Auction Revenue Amount (from CRRs with paths that cross the 2003 ERCOT CMZ boundaries) to be distributed for a given month is calculated as follows:
+LACMRNZAMT q       =	(-1) * (CMRNZDC q + CMRNZNDC q)
+Where:
+CMRNZNDC q  =  ( (CRRNZREV a + PCRRNZREV a) -  CMRNZDC q) * MLRS q
+CMRNZDC q     =   (CRRNZREV a + PCRRNZREV a) * DCMLRS q 
+The above variables are defined as follows:
+Variable	Unit	Definition
+LACMRNZAMT q	$	Load-Allocated CRR Monthly Revenue Non-Zonal Amount per QSE—The sum payment to QSE q representing Loads and DC Tie exports of the revenues resulted from the CRRs that source and sink in different CMZs, for the month.
+CMRNZDC q	$	CRR Monthly Revenue Non-Zonal Amount for DC Tie Exports per QSE—The amount due to QSE q representing DC Tie exports of the revenues resulted from the CRRs that source and sink in different CMZs, for the month.
+CMRNZNDC q	$	CRR Monthly Revenue Non-Zonal Amount for Non-DC Tie Loads per QSE—The amount due to QSE q representing Loads (excluding DC Tie exports) of the revenues resulted from the CRRs that source and sink in different CMZs, for the month.
+CRRNZREV a	$	CRR Zonal Revenue per CRR Auction—The revenue resulted from the CRRs that source and sink in different CMZs, cleared through CRR Auction Offers and CRR Auction Bids in CRR Auction a, for the month.
+PCRRNZREV a	$	PCRR Zonal Revenue per CRR Auction—The revenue resulted from the PCRRs that source and sink in different CMZs, pertaining to CRR Auction a, for the month.
+DCMLRS q	none	DC Tie Monthly Load Ratio Share per QSE—The ratio share calculated for QSE q with DC Tie exports for the calendar month.  See Section 6.6.2.6, QSE DC Tie Export Load Ratio Share for a Month. 
+MLRS q	none	Monthly Load Ratio Share per QSE —The ratio share of Loads excluding DC Tie exports for QSE q for the peak Load 15-minute Settlement Interval. 
+q	none	A QSE.
+a	none	A CRR Auction.
+7.6	CRR Balancing Account 
+(1)	In the Day-Ahead Market (DAM), if the congestion rent is equal to or greater than the net amounts due to all Congestion Revenue Right (CRR) Owners for any Settlement Interval, then ERCOT shall pay the net amounts due to the CRR Owners and put any excess amount into the CRR Balancing Account (CRRBA). 
+(2)	In the DAM, if the congestion rent is less than the net amounts due to all CRR Owners for any Settlement Interval, then ERCOT shall short-pay each CRR Owner on a prorated basis and shall keep track of how much each CRR Owner has been short-paid.  The proration must be calculated using only the amounts due to the CRR Owner for CRRs settled in both the DAM and Real-Time and not using amounts due to ERCOT for Point-to-Point (PTP) Obligations owned by the CRR Owner.
+(3)	ERCOT shall pay any positive balance in the CRRBA to each short-paid CRR Owner, with the amount paid to each CRR Owner being the lesser of (a) a prorated amount based on the short-paid amount for that CRR Owner compared to the total short-paid amount, and (b) the short-paid amount for that CRR Owner.  Any remaining positive balance in the CRRBA will first be used to fund the CRRBA fund up to the fund cap, as described in Section 7.9.3.5, CRR Balancing Account Closure, and any surplus must be allocated to all Qualified Scheduling Entities (QSEs) on the QSE’s Load Ratio Share (LRS) in the interval coincident with the ERCOT-wide peak 15-minute Settlement Interval for the month. 
+[NPRR1030:  Replace paragraph (3) above with the following upon system implementation:]
+(3)	ERCOT shall pay any positive balance in the CRRBA to each short-paid CRR Owner, with the amount paid to each CRR Owner being the lesser of (a) a prorated amount based on the short-paid amount for that CRR Owner compared to the total short-paid amount, and (b) the short-paid amount for that CRR Owner.  Any remaining positive balance in the CRRBA will first be used to fund the CRRBA fund up to the fund cap, as described in Section 7.9.3.5, CRR Balancing Account Closure, and any surplus must be allocated to all Qualified Scheduling Entities (QSEs) based on the QSE’s ratio shares for the month.
+(4)	For initial distribution of the CRRBA, revenues shall be paid to each QSE based on that QSE’s LRS in the interval coincident with the ERCOT-wide peak 15-minute Settlement Interval for the month.  
+[NPRR1030:  Replace paragraph (4) above with the following upon system implementation:]
+(4)	For initial distribution of the CRRBA, revenues shall be paid to each QSE based on that QSE’s Direct Current Tie (DC Tie) monthly ratio share for the month.  Remaining revenues shall be paid to each QSE based on that QSE’s ratio share, excluding DC Tie exports, in the interval coincident with the ERCOT-wide peak 15-minute Settlement Interval for the month.
+(5)	ERCOT shall true up the distribution of CRRBA based on that QSE’s LRS in the interval coincident with the ERCOT-wide peak 15-minute Settlement Interval for the month in accordance with paragraph (2) of Section 9.12, CRR Balancing Account Invoices.
+[NPRR1030:  Replace paragraph (5) above with the following upon system implementation:]
+(5)	ERCOT shall true up the distribution of CRRBA, in accordance with paragraph (2) of Section 9.12, CRR Balancing Account Invoices, based on that QSE’s DC Tie monthly ratio share for the month.  Remaining revenues shall be paid to each QSE based on that QSE’s ratio share, excluding DC Tie exports, in the interval coincident with the ERCOT-wide peak 15-minute Settlement Interval for the month.
+7.7	Point-to-Point (PTP) Option Award Charge
+7.7.1	Determination of the PTP Option Award Charge
+(1) 	ERCOT will calculate a Point-to-Point (PTP) Option Award Charge for each Congestion Revenue Right (CRR) Account Holder for each PTP Option bid awarded where the clearing price for the PTP Option bid awarded is less than the Minimum PTP Option Bid Price.  
+(2)	The Technical Advisory Committee (TAC) shall review the current Minimum PTP Option Bid Price at least annually and may recommend to the ERCOT Board a change to this value by submitting a Nodal Protocol Revision Request (NPRR). 
+(3)	ERCOT shall charge each CRR Account Holder for its PTP Option bids awarded in each CRR Auction as follows:
+OPTAFAMT crrh, a	=	   (Max (0, OPTMBP - OPTPR (j, k), a, h, bp) * 
+			OPTP crrh, (j, k), a, h, bp)
+The above variables are defined as follows:
+Variable	Unit	Definition
+OPTAFAMT crrh, a	$	PTP Option Award Charge Amount per CRR Account Holder per CRR Auction—The charge assessed to CRR Account Holder crrh for PTP Option awards awarded in CRR Auction a, for the hour for which the clearing price is less than the defined Minimum PTP Option Bid Price.  For a multi-month CRR Auction, the charge shall be calculated for each month.
+OPTMBP	$/MW per hour	Minimum PTP Option Bid Price—As defined in Section 2.1, Definitions.
+OPTPR (j, k), a, h, bp 	$/MW per hour	PTP Option Price per source and sink pair per CRR Auction—The clearing price of a PTP Option with the source j and the sink k in CRR Auction a, for the hour h, for the bid period bp.
+OPTP crrh, (j, k), a, h, bp	MW	PTP Option Purchase per CRR Account Holder per source and sink pair per CRR Auction—The MW quantity that represents the total of CRR Account Holder crrh’s PTP Option bids associated with the source j and the sink k awarded in CRR Auction a, for the hour h, for the bid period bp.
+crrh	None	A CRR Account Holder.
+j	None	A source Settlement Point.
+k	None	A sink Settlement Point.
+a	None	A CRR Auction.
+h	None	An Operating Hour.
+bp	None	A CRR bid period.
+7.7.2	[RESERVED]
+7.8	Bilateral Trades and ERCOT CRR Registration System
+(1)	Market Participants may sell or trade Point-to-Point (PTP) Options and PTP Obligations bilaterally, except PTP Options with Refund and PTP Obligations with Refund.  
+(2)	The characteristics of the Congestion Revenue Rights (CRRs) sold or traded bilaterally, including CRR source and CRR sink and time-of-use block, may not be modified from the terms of the original CRR.  
+(3)	ERCOT shall initially populate a database of CRR Owners with the first-buyers of CRRs and first-recipients of Pre-Assigned Congestion Revenue Rights (PCRRs).  
+(4)	A transfer of CRRs through the ERCOT CRR registration system is not effective until the selling CRR Account Holder reports the transaction, the buying CRR Account Holder acknowledges the transaction, and both parties meet ERCOT’s credit requirements to support the transfer.  Until all of those occur, the selling CRR Account Holder is considered the CRR Owner for purposes of these Protocols, including financial responsibility.
+(5)	For CRR ownership to be effective in the Day-Ahead Market (DAM), the CRR must be registered through the ERCOT CRR registration system prior to the DAM.  PTP Obligations acquired in DAM may not change ownership in the ERCOT CRR registration system after DAM execution.  
+7.9	CRR Settlements
+7.9.1	Day-Ahead CRR Payments and Charges
+7.9.1.1	Payments and Charges for PTP Obligations Settled in DAM
+(1)	Except as specified in paragraph (2) below, ERCOT shall pay or charge the owner of each Point-to-Point (PTP) Obligation based on the difference in the Day-Ahead Settlement Point Price between the sink Settlement Point and the source Settlement Point.  
+(2)	For PTP Obligations that have a positive value and sink at a Resource Node, the PTP Obligation payment may be reduced due to directional network elements that are oversold in previous Congestion Revenue Right (CRR) Auctions.
+(3)	The payment or charge to each CRR Owner for a given Operating Hour of PTP Obligations with each pair of source and sink Settlement Points settled in the Day-Ahead Market (DAM) is calculated as follows:
+If the PTP Obligation has a non-positive value, i.e. (DAOBLPR (j, k)  0), or the sink, k, is a Load Zone or Hub, then
+DAOBLAMT o, (j, k)	=	(-1) * DAOBLTP o, (j, k)
+If the PTP Obligation has a positive value and the sink is a Resource Node, then
+DAOBLAMT o, (j, k)	=	(-1) * Max ((DAOBLTP o, (j, k) – DAOBLDA o, (j, k)), Min (DAOBLTP o, (j, k), DAOBLHV o, (j, k)))
+Where:
+The target payment:
+DAOBLTP o, (j, k)	=	DAOBLPR (j, k) * DAOBL o, (j, k)
+The price based on the difference of the Settlement Point Prices:
+DAOBLPR (j, k)	=	DASPP k - DASPP j
+The derated amount:
+DAOBLDA o, (j, k)	=	OBLDRPR (j, k) * DAOBL o, (j, k)
+The price used to calculate the derated amount:
+OBLDRPR (j, k)	=	 (Max (0, DAWASF j, c – DAWASF k, c) * DASP c * DRFc)
+The hedge value:
+DAOBLHV o, (j, k)	=	DAOBLHVPR (j, k) * DAOBL o, (j, k)
+The price of the hedge value:
+If the source, j, is a Load Zone or Hub and the sink, k, is a Resource Node,
+DAOBLHVPR (j, k)	=	Max (0, MAXRESPR k – DASPP j)
+If the source, j, is a Resource Node and the sink, k, is also a Resource Node,
+DAOBLHVPR (j, k)	=	Max (0, MAXRESPR k – MINRESPR j)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAOBLAMT o, (j, k)	$	Day-Ahead Obligation Amount per CRR Owner per source and sink pair—The payment or charge to CRR Owner o for the PTP Obligations with the source j and the sink k settled in the DAM, for the hour.
+DAOBLTP o, (j, k)	$	Day-Ahead Obligation Target Payment per CRR Owner per source and sink pair—The target payment for CRR Owner o’s PTP Obligations with the source j and the sink k settled in the DAM, for the hour.
+DAOBLHV o, (j, k)	$	Day-Ahead Obligation Hedge Value per CRR Owner per source and sink pair—The hedge value of CRR Owner o’s PTP Obligations with the source j and the sink k settled in the DAM, for the hour.
+DAOBLDA o, (j, k)	$	Day-Ahead Obligation Derated Amount per CRR Owner per source and sink pair—The derated amount of CRR Owner o’s PTP Obligations with the source j and the sink k settled in the DAM, for the hour.
+DAOBLPR (j, k)	$/MW per hour	Day-Ahead Obligation Price per source and sink pair—The DAM price of a PTP Obligation with the source j and the sink k, for the hour.
+DASPP j	$/MWh	Day-Ahead Settlement Point Price at source—The DAM Settlement Point Price at the source Settlement Point j, for the hour.
+DASPP k	$/MWh	Day-Ahead Settlement Point Price at sink—The DAM Settlement Point Price at the sink Settlement Point k, for the hour.
+OBLDRPR (j, k)	$/MW per hour	Obligation Deration Price per source and sink pair—The deration price of a PTP Obligation with the source j and the sink k, for the hour.
+DASP c	$/MW per hour	Day-Ahead Shadow Price per constraint—The DAM Shadow Price of the constraint c for the hour.
+DRF c	none	Deration Factor per constraint—The deration factor of the constraint c for the hour, equal to the MW amount by which the constraint is oversold divided by the total MW amount of the positive impacts on the constraint of all CRRs existing prior to DAM execution.
+DAWASF j, c	none	Day-Ahead Weighted Average Shift Factor at source per constraint—The Day-Ahead Shift Factor for the source Settlement Point and the directional network element for constraint c, in the hour.
+DAWASF k, c	None	Day-Ahead Weighted Average Shift Factor at sink per constraint—The Day-Ahead Shift Factor for the sink Settlement Point and the directional network element for constraint c, in the hour.
+DAOBLHVPR (j, k)	$/MWh	Day-Ahead Obligation Hedge Value Price per source and sink pair—The Day-Ahead hedge price of a PTP Obligation with the source j and the sink k, for the hour.
+MINRESPR j	$/MWh	Minimum Resource Price for source—The lowest Minimum Resource Price for the Resources located at the source Settlement Point j.
+MAXRESPR k	$/MWh	Max Resource Price for sink—The highest Maximum Resource Price for the Resources located at the sink Settlement Point k.
+DAOBL o, (j, k)	MW	Day-Ahead Obligation per CRR Owner per source and sink pair—The number of CRR Owner o’s PTP Obligations with the source j and the sink k settled in the DAM for the hour.
+o	none	A CRR Owner.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+c	none	A constraint associated with a directional network element for the hour.
+(4)	The net total payment or charge to each CRR Owner for the Operating Hour of all its PTP Obligations settled in the DAM is calculated as follows: 
+DAOBLAMTOTOT o	=	DAOBLCROTOT o + DAOBLCHOTOT o
+Where:
+DAOBLCROTOT o	=	  Min (0, DAOBLAMT o, (j, k))
+DAOBLCHOTOT o	=	  Max (0, DAOBLAMT o, (j, k))
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAOBLAMTOTOT o	$	Day-Ahead Obligation Amount Owner Total per CRR Owner—The net total payment or charge to CRR Owner o for all its PTP Obligations settled in the DAM, for the hour.
+DAOBLCROTOT o	$	Day-Ahead Obligation Credit Owner Total per CRR Owner—The total payment to CRR Owner o for its PTP Obligations settled in the DAM, for the hour.
+DAOBLCHOTOT o	$	Day-Ahead Obligation Charge Owner Total per CRR Owner—The total charge to CRR Owner o for its PTP Obligations settled in the DAM, for the hour.
+DAOBLAMT o, (j, k)	$	Day-Ahead Obligation Amount per CRR Owner per pair of source and sink—The payment or charge to CRR Owner o for its PTP Obligations with the source j and the sink k settled in the DAM, for the hour.
+o	none	A CRR Owner.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+7.9.1.2	Payments for PTP Options Settled in DAM
+(1)	Except as specified otherwise in paragraph (2) below, ERCOT shall pay the owner of a PTP Option the difference in the Day-Ahead Settlement Point Price between the sink Settlement Point and the source Settlement Point, if positive.  
+(2)	For PTP Options that sink at a Resource Node, the PTP Option payment may be reduced due to Transmission Elements that are oversold in previous CRR Auctions.  
+(3)	The payment to each CRR Owner for a given Operating Hour of PTP Options with each pair of source and sink Settlement Points settled in the DAM is calculated as follows:
+If the sink, k, is a Load Zone or Hub, then
+DAOPTAMT o, (j, k)	=	(-1) * DAOPTTP o, (j, k)
+If the sink, k, is a Resource Node, then
+DAOPTAMT o, (j, k)	=	(-1) * Max ((DAOPTTP o, (j, k) – DAOPTDA o, (j, k)), Min (DAOPTTP o, (j, k), DAOPTHV o, (j, k)))
+Where:
+The target payment:
+DAOPTTP o, (j, k)	=	DAOPTPR (j, k) * OPT o, (j, k)
+The price based on the difference of the Settlement Point Prices:
+DAOPTPR o, (j, k)	=	Max (0, DASPP k – DASPP j)
+The derated amount:
+DAOPTDA o, (j, k)	=	OPTDRPR (j, k) * OPT o, (j, k)
+The price used to calculate the derated amount:
+OPTDRPR (j, k)	=	 (Max (0, DAWASF j, c – DAWASF k, c) * DASP c * DRF c)
+The hedge value:
+DAOPTHV o, (j, k)	=	DAOPTHVPR (j, k) * OPT o, (j, k)
+The price of the hedge value:
+If the source, j, is a Load Zone or Hub and the sink, k, is a Resource Node,
+DAOPTHVPR (j, k)	=	Max (0, MAXRESPR k – DASPP j)
+If the source, j, is a Resource Node and the sink, k, is also a Resource Node,
+DAOPTHVPR (j, k)	=	Max (0, MAXRESPR k – MINRESPR j)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAOPTAMT o, (j, k)	$	Day-Ahead Option Amount per CRR Owner per source and sink pairThe payment to CRR Owner o for the PTP Options with the source j and the sink k settled in the DAM, for the hour.
+DAOPTTP o, (j, k)	$	Day-Ahead Option Target Payment per CRR Owner per source and sink pair—The target payment for CRR Owner o’s PTP Options with the source j and the sink k settled in the DAM, for the hour.
+DAOPTHV o, (j, k)	$	Day-Ahead Option Hedge Value per CRR Owner per source and sink pair—The hedge value of CRR Owner o’s PTP Options with the source j and the sink k settled in the DAM, for the hour.
+DAOPTDA o, (j, k)	$	Day-Ahead Option Derated Amount per CRR Owner per source and sink pair—The derated amount of CRR Owner o’s PTP Options with the source j and the sink k settled in the DAM, for the hour.
+DAOPTPR (j, k)	$/MW per hour	Day-Ahead Option Price per source and sink pairThe DAM price of a PTP Option with the source j and the sink k, for the hour.
+DASPP j	$/MWh	Day-Ahead Settlement Point Price at sourceThe DAM Settlement Point Price at the source Settlement Point j, for the hour.
+DASPP k	$/MWh	Day-Ahead Settlement Point Price at sinkThe DAM Settlement Point Price at the sink Settlement Point k, for the hour.
+OPTDRPR (j, k)	$/MW per hour	Option Deration Price per source and sink pair—The deration price of a PTP Option with the source j and the sink k, for the hour.
+DASP c	$/MW per hour	Day-Ahead Shadow Price per constraint—The DAM Shadow Price of the constraint c for the hour.
+DRF c	none	Deration Factor per constraint—The deration factor of the constraint c for the hour, equal to the MW amount by which the constraint is oversold divided by the total MW amount of the positive impacts on the constraint of all CRRs existing prior to DAM execution.
+DAWASF j, c	none	Day-Ahead Weighted Average Shift Factor at source per constraint—The Day-Ahead Shift Factor for the source Settlement Point and the directional network element for constraint c, in the hour.
+DAWASF k, c	none	Day-Ahead Weighted Average Shift Factor at sink per constraint—The Day-Ahead Shift Factor for the sink Settlement Point and the directional network element for constraint c, in the hour.
+DAOPTHVPR (j, k)	$/MWh	Day-Ahead Option Hedge Value Price per source and sink pair—The Day-Ahead hedge price of a PTP Option with the source j and the sink k, for the hour.
+MINRESPR j	$/MWh	Minimum Resource Price for source—The lowest Minimum Resource Price for Resources located at the source Settlement Point j.
+MAXRESPR k	$/MWh	Max Resource Price for sink—The highest Maximum Resource Price for Resources located at the sink Settlement Point k.
+OPT o, (j, k)	MW	Option per CRR Owner per source and sink pairThe number of CRR Owner o’s PTP Options with the source j and the sink k settled in the DAM for the hour.
+o	none	A CRR Owner.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+c	none	A constraint associated with a directional network element for the hour.
+(4)	The total payment to each CRR Owner for the Operating Hour of all its PTP Options settled in the DAM is calculated as follows: 
+DAOPTAMTOTOT o	=	  DAOPTAMT o, (j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAOPTAMTOTOT o	$	Day-Ahead Option Amount Owner Total per CRR Owner—The total payment to CRR Owner o for all its PTP Options settled in the DAM, for the hour.
+DAOPTAMT o, (j, k)	$	Day-Ahead Option Amount per CRR Owner per pair of source and sink—The payment to CRR Owner o for its PTP Options with the source j and the sink k settled in the DAM, for the hour.
+o	none	A CRR Owner.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(5)	For informational purposes, the following calculation of PTP Option value shall be posted on the ERCOT website:
+DAOPTPRINFO (j, k)	=	 (DASP c * Max (0, (DAWASF j, c – DAWASF k, c)))
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAOPTPRINFO (j, k)	$/MW per hour	Day-Ahead Option Informational Price per pair of source and sink—The informational DAM price of the PTP Options with the source Settlement Point j and the sink Settlement Point k, for the hour.
+DAWASF j, c		Day-Ahead Weighted Average Shift Factor at source per constraint—The Day-Ahead Shift Factor for the source Settlement Point and for the constrained directional network element for constraint c, in the hour.
+DAWASF k, c	none	Day-Ahead Weighted Average Shift Factor at sink per constraint—The Day-Ahead Shift Factor for the sink Settlement Point and for the constrained directional network element for constraint c, in the hour.
+DASP c	$/MW per hour	Day-Ahead Shadow Price per constraint—The DAM Shadow Price for the constraint c for the hour.
+c	none	A constraint associated with a directional network element for the hour.
+7.9.1.3	Minimum and Maximum Resource Prices
+(1)	For purposes of Section 7.9.1, Day-Ahead CRR Payments and Charges, Settlements data published to the Market Information System (MIS) Secure Area shall include the association of the Resource Category for each Generation Resource.  The following prices specified in paragraphs (2) and (3) below are used in the CRR hedge value calculation for CRRs settled in the DAM.
+[NPRR1014 and NPRR1188:  Replace applicable portions of paragraph (1) above with the following upon system implementation:]
+(1)	For purposes of Section 7.9.1, Day-Ahead CRR Payments and Charges, Settlements data published to the Market Information System (MIS) Secure Area shall include the association of the Resource Category for each Generation Resource, identify Controllable Load Resources (CLRs) that are not Aggregate Load Resources (ALRs), and identify Energy Storage Resources (ESRs).  The following prices specified in paragraphs (2) and (3) below are used in the CRR hedge value calculation for CRRs settled in the DAM.
+(2)	Minimum Resource Prices of source Settlement Points are:
+MINRESPR j	 =	Min ( MINRESRPR j, r ) r
+Where: 
+Minimum Resource Prices for Resources located at source Settlement Points (MINRESRPR j, r) are:
+(a)	Nuclear = -$20.00/MWh;
+(b)	Hydro = -$20.00/MWh;
+(c)	Coal and Lignite = $0.00/MWh;
+(d)	Combined Cycle greater than 90 MW = Fuel Index Price (FIP) * 5 MMBtu/MWh;
+(e)	Combined Cycle less than or equal to 90 MW = FIP * 6 MMBtu/MWh;
+(f)	Gas -Steam Supercritical Boiler = FIP * 6.5 MMBtu/MWh;
+(g)	Gas Steam Reheat Boiler = FIP * 7.5 MMBtu/MWh;
+(h)	Gas Steam Non-Reheat or Boiler without Air-Preheater = FIP * 10.5 MMBtu/MWh;
+(i)	Simple Cycle greater than 90 MW = FIP * 10 MMBtu/MWh;
+(j)	Simple Cycle less than or equal to 90 MW = FIP * 11 MMBtu/MWh;
+(k)	Diesel = FIP * 12 MMBtu/MWh;
+(l)	Wind = -$35/MWh;
+(m)	PhotoVoltaic (PV) = -$10;
+(n)	Reliability Must-Run (RMR) Resource = RMR contract price Energy Offer Curve at Low Sustained Limit (LSL); and
+[NPRR1188:  Insert item (o) below upon system implementation and renumber accordingly:]
+(o)	CLR = $100/MWh; and
+[NPRR1014:  Insert item (p) below upon system implementation and renumber accordingly:]
+(p)	ESR = -$20/MWh; and
+(o)	Other = -$20/MWh.
+The above variables are defined as follows:
+Variable	Unit	Definition
+MINRESPR j	$/MWh	Minimum Resource Price for source—The lowest Minimum Resource Price for the Resources located at the source Settlement Point j.
+MINRESRPR j	$/MWh	Minimum Resource Price for Resource—The Minimum Resource Price for the Resources located at the source Settlement Point j.
+r	none	A Generation Resource located at the source Settlement Point j.
+[NPRR1014 and NPRR1188:  Replace applicable portions of the definition above with the following upon system implementation:]
+A Generation Resource, CLR that is not an ALR, or ESR located at the source Settlement Point j.
+j	none	A source Settlement Point.
+(3)	Maximum Resource Prices of sink Settlement Points are:
+MAXRESPR k	 =	Max (MAXRESRPR k, r ) r
+Where:
+Maximum Resource Prices for Resources located at sink Settlement Points (MAXRESRPR k, r ) are:
+(a)	Nuclear = $15.00/MWh;
+(b)	Hydro = $10.00/MWh;
+(c)	Coal and Lignite = $18.00/MWh;
+(d)	Combined Cycle greater than 90 MW = FIP * 9 MMBtu/MWh;
+(e)	Combined Cycle less than or equal to 90 MW = FIP * 10 MMBtu/MWh;
+(f)	Gas -Steam Supercritical Boiler = FIP * 10.5 MMBtu/MWh;
+(g)	Gas Steam Reheat Boiler = FIP * 11.5 MMBtu/MWh;
+(h)	Gas Steam Non-Reheat or Boiler without Air-Preheater = FIP * 14.5 MMBtu/MWh;
+(i)	Simple Cycle greater than 90 MW = FIP * 14 MMBtu/MWh;
+(j)	Simple Cycle less than or equal to 90 MW = FIP * 15 MMBtu/MWh;
+(k)	Diesel = FIP * 16 MMBtu/MWh;
+(l)	Wind = $0/MWh;
+(m)	PV = $0/MWh;
+(n)	RMR Resource = RMR contract price Energy Offer Curve at High Sustained Limit (HSL); and
+[NPRR1188:  Insert item (o) below upon system implementation and renumber accordingly:]
+(o)	CLR = SWCAP; and
+[NPRR1014:  Insert item (p) below upon system implementation and renumber accordingly:]
+(p)	ESR = $100/MWh; and
+(o)	Other = $100/MWh.
+The above variables are defined as follows:
+Variable	Unit	Definition
+MAXRESPR k	$/MWh	Maximum Resource Price for source—The highest Maximum Resource Price for the Resources located at the sink Settlement Point k.
+MAXRESRPR k	$/MWh	Maximum Resource Price for Resource—The Maximum Resource Price for the Resources located at the sink Settlement Point k.
+r	none	A Generation Resource located at the sink Settlement Point k.
+[NPRR1014 and NPRR1188:  Replace applicable portions of the definition above with the following upon system implementation:]
+A Generation Resource, CLR that is not an ALR, or ESR located at the sink Settlement Point k.
+k	none	A sink Settlement Point.
+7.9.1.4	Payments for FGRs Settled in DAM
+There are currently no defined flowgates.
+7.9.1.5	Payments and Charges for PTP Obligations with Refund Settled in DAM
+(1)	ERCOT shall pay the owner of a PTP Obligation with Refund the difference in the Day-Ahead Settlement Point Prices between the sink Settlement Point and the source Settlement Point, subject to a charge for refund, when the price difference is positive, as described in the item (1)(e)(i) of Section 7.4.2.2, PCRR Allocation and Nominations.
+(2)	The payment or charge to each CRR Owner for a given Operating Hour of PTP Obligations with Refund with each pair of source and sink Settlement Points settled in the DAM is calculated as follows:
+DAOBLRAMT o, (j, k)	=	(-1) * DAOBLPR (j, k) * Min (DAOBLR o, (j, k), OBLRACT o, (j, k))
+Where:
+DAOBLPR (j, k)		=	DASPP k - DASPP j
+OBLRACT o, (j, k)	=	 (OBLROF o, r * RESACT r * OBLRF o, r, (j, k))
+If (a valid OS r, y exists for all Security-Constrained Economic Dispatch (SCED) intervals within the hour)
+		RESACT r =     (OS r, y * TLMP y) / ( TLMP y)
+Otherwise
+		RESACT r	=	TGFTH r
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAOBLRAMT o, (j, k)	$	Day-Ahead Obligation with Refund Amount per CRR Owner per pair of source and sinkThe payment to CRR Owner o for the PTP Obligation with Refund with the source j and the sink k, settled in the DAM, for the hour.
+DAOBLPR (j, k)	$/MW per hour	Day-Ahead Obligation PriceThe DAM price of a PTP Obligation with the source j and the sink k, for the hour.
+DASPP j	$/MWh	Day-Ahead Settlement Point Price at sourceThe DAM Settlement Point Price at the source Settlement Point j for the hour.
+DASPP k	$/MWh	Day-Ahead Settlement Point Price at sinkThe DAM Settlement Point Price at the sink Settlement Point k for the hour.
+DAOBLR o, (j, k)	MW	Day-Ahead Obligation with Refund per CRR Owner per pair of source and sink The number of CRR Owner o’s PTP Obligations with Refund with the source j and the sink k settled in DAM for the hour.
+OBLRACT o, (j, k)	MW	Obligation with Refund Actual usage per CRR Owner per pair of source and sink—CRR Owner o’s actual usage for the PTP Obligations with Refund with the source j and the sink k, for the hour.
+RESACT r	MW	Resource Actual per Resource per hour—The time-weighted average of the Output Schedule of Resource r (if a valid Output Schedule exists) or the telemetered output of Resource r, for the hour.
+OBLROF o, r	none	Obligation with Refund Ownership Factor per CRR Owner per Resource—The factor showing the percentage usage of Resource r for CRR Owner o’s PTP Obligations with Refund.  Its value is 1, if only one CRR Owner has acquired Pre-Assigned Congestion Revenue Right (PCRRs) under the refund provision using this Resource r.
+OS r, y	MW	Output Schedule per Resource per SCED interval—The Output Schedule submitted to ERCOT for Resource r for the SCED interval y.
+TGFTH r	MWh	Telemetered Generation for the Hour per Resource per hour—The telemetered generation of Generation Resource r, for the hour.
+OBLRF o, r, (j, k)	none	Obligation with Refund Factor per CRR Owner per Resource associated with pair of source and sink—The ratio of CRR Owner o’s Resource r’s capacity allocated to the PTP Obligations with Refund with the source j and sink k to the same CRR Owner’s total capacity for the Resource r nominated for all the PCRRs under the refund provision with the same source j.
+TLMP y	second	Duration of SCED interval per interval—The duration of the portion of the SCED interval y within the hour.
+o	none	A CRR Owner.
+y	none	A SCED interval in the hour. 
+r	none	A Resource. 
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(3)	The net total payment or charge to each CRR Owner for the Operating Hour of all its PTP Obligations with Refund settled in the DAM is calculated as follows: 
+DAOBLRAMTOTOT o	=	DAOBLRCROTOT o + DAOBLRCHOTOT o
+Where:
+DAOBLRCROTOT o	=	  Min (0, DAOBLRAMT o, (j, k))
+DAOBLRCHOTOT o	=	  Max (0, DAOBLRAMT o, (j, k))
+The above variables are defined as follows:	
+Variable	Unit	Definition
+DAOBLRAMTOTOT o	$	Day-Ahead Obligation with Refund Amount Owner Total per CRR Owner—The net total payment or charge to CRR Owner o for all its PTP Obligations with Refund settled in the DAM, for the hour.
+DAOBLRCROTOT o	$	Day-Ahead Obligation with Refund Credit Owner Total per CRR Owner—The total payment to CRR Owner o for its PTP Obligations with Refund settled in the DAM, for the hour.
+DAOBLRCHOTOT o	$	Day-Ahead Obligation with Refund Charge Owner Total per CRR Owner—The total charge to CRR Owner o for its PTP Obligations with Refund settled in the DAM, for the hour.
+DAOBLRAMT o, (j, k)	$	Day-Ahead Obligation with Refund Amount per CRR Owner per pair of source and sink—The payment or charge to CRR Owner o for the PTP Obligations with Refund with the source j and the sink k settled in the DAM, for the hour.
+o	none	A CRR Owner.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+7.9.1.6	Payments for PTP Options with Refund Settled in DAM
+(1)	ERCOT shall pay the owner of a PTP Option with Refund the difference in the DAM Settlement Point Prices between the sink Settlement Point and the source Settlement Point, if positive, subject to a charge for refund, as described in item (1)(e)(i) of Section 7.4.2.2, PCRR Allocation and Nominations.
+(2)	The payment to each CRR Owner for a given Operating Hour of its PTP Options with Refund with each pair of source and sink Settlement Points settled in the DAM is calculated as follows:
+DAOPTRAMT o, (j, k)	=	(-1) * DAOPTPR (j, k) * Min (OPTR o, (j, k), OPTRACT o, (j, k))
+Where:
+DAOPTPR (j, k)	=	Max (0, DASPP k – DASPP j)
+OPTRACT o, (j, k)	=	 (OPTROF o, r * RESACT r * OPTRF o, r, (j, k))
+If (a valid OS r, y exists for all SCED intervals within the hour)
+		RESACT r	=	 (OS r, y * TLMP y) / ( TLMP y)
+Otherwise
+		RESACT r	=	TGFTH r
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAOPTRAMT o, (j, k)	$	Day-Ahead Option with Refund Amount per CRR Owner per pair of source and sinkThe payment to CRR Owner o for its PTP Options with Refund with the source j and the sink k, settled in the DAM, for the hour.
+DAOPTPR (j, k)	$/MW per hour	Day-Ahead Option Price per pair of source and sinkThe DAM price of the PTP Option with the source j and the sink k, for the hour.
+DASPP j	$/MWh	Day-Ahead Settlement Point Price at sourceThe DAM Settlement Point Price at the source Settlement Point j, for the hour.
+DASPP k	$/MWh	Day-Ahead Settlement Pont Price at sinkThe DAM Settlement Point Price at the sink Settlement Point k, for the hour.
+OPTR o, (j, k)	MW	Option with Refund per CRR Owner per pair of source and sinkThe number of CRR Owner o’s PTP Options with Refund with the source j and the sink k, settled in DAM, for the hour.
+OPTRACT o, (j, k)	MW	Option with Refund Actual usage per CRR Owner per pair of source and sink—CRR Owner o’s actual usage for the PTP Options with Refund with the source j and the sink k, for the hour.
+RESACT r	MW	Resource Actual per Resource per hour—The time-weighted average of the Output Schedule of Resource r (if a valid operating schedule exists) or the telemetered output of Resource r, for the hour.
+OPTROF o, r	none	Option with Refund Ownership Factor per CRR Owner per Resource—The factor showing the percentage usage of Resource r for CRR Owner o’s PTP Options with Refund.  Its value is 1, if only one CRR Owner has acquired PCRRs under the refund provision using this Resource r.
+OS r, y	MW	Output Schedule per Resource per SCED interval—The Output Schedule submitted to ERCOT for Resource r for the SCED interval y.
+TGFTH r	MWh	Telemetered Generation for the Hour per Resource per hour—The telemetered generation of Generation Resource r, for the hour.
+OPTRF o, r, (j, k)	none	Option with Refund Factor per CRR Owner per Resource associated with pair of source and sink—The ratio of CRR Owner o’s Resource r’s capacity allocated to the PTP Options with Refund with the source j and sink k to the same CRR Owner’s total capacity for the Resource r nominated PCRRs under the refund provision with the same source j.
+TLMP y	second	Duration of SCED interval per interval—The duration of the portion of the SCED interval y within the hour.
+o	none	A CRR Owner.
+y	none	A SCED interval in the hour.
+r	none	A Resource. 
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(3)	The total payment to each Non-Opt-In-Entity (NOIE) CRR Owner for the Operating Hour of all its PTP Options with Refund settled in the DAM is calculated as follows: 
+DAOPTRAMTOTOT o	=	  DAOPTRAMT o, (j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAOPTRAMTOTOT o	$	Day-Ahead Option with Refund Amount Owner Total per CRR Owner—The total payment to NOIE CRR Owner o for all its PTP Options with Refund settled in the DAM, for the hour.
+DAOPTRAMT o, (j, k)	$	Day-Ahead Option with Refund Amount per CRR Owner per pair of source and sink—The payment to NOIE CRR Owner o for the PTP Options with Refund with the source j and the sink k settled in the DAM, for the hour.  
+o	none	A CRR Owner.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+7.9.2	Real-Time CRR Payments and Charges
+7.9.2.1	Payments and Charges for PTP Obligations Settled in Real-Time 
+(1)	ERCOT shall pay the Qualified Scheduling Entity (QSE) of each cleared PTP Obligation with links to an Option the positive difference in Real-Time Settlement Point Prices between the sink Settlement Point and the source Settlement Point.  The payment to each QSE for a given Operating Hour of its cleared PTP Obligation with links to an Option with each pair of source and sink Settlement Points is calculated as follows: 
+RTOBLLOAMT q, (j, k)	=     (-1) * MAX(0, RTOBLPR (j, k)) * RTOBLLO q, (j, k) 
+(2)	ERCOT shall pay or charge the QSE of each PTP Obligation acquired in the DAM the difference in Real-Time Settlement Point Prices between the sink Settlement Point and the source Settlement Point.  The payment or charge to each QSE for a given Operating Hour of its cleared PTP Obligations with each pair of source and sink Settlement Points is calculated as follows: 
+RTOBLAMT q, (j, k)	=	(-1) * RTOBLPR (j, k) * RTOBL q, (j, k)
+(3)	In the event that ERCOT is unable to execute the DAM, ERCOT shall pay or charge the owner of each PTP Obligation based on the difference in Real-Time Settlement Point Prices between the sink Settlement Point and the source Settlement Point.  The payment or charge to each CRR Owner for a given Operating Hour of its PTP Obligations with each pair of source and sink Settlement Points is calculated as follows:
+NDRTOBLAMT o, (j, k)	=	(-1) * RTOBLPR (j, k) * DAOBL o, (j, k)
+Where:
+RTOBLPR (j, k)	=	 (RTSPP k, i – RTSPP j, i) / 4
+The above variables are defined as follows:
+Variable	Unit	Definition
+RTOBLAMT q, (j, k)	$	Real-Time Obligation Amount per QSE per pair of source and sink—The payment or charge to QSE q for its PTP Obligations with the source j and the sink k settled in Real-Time, for the hour.
+RTOBLLOAMT q, (j, k)	$	Real-Time Obligation with Links to an Option Amount per QSE per pair of source and sink—The payment  to QSE q for its PTP Obligations with Links to an Option with the source j and the sink k settled in Real-Time, for the hour.
+NDRTOBLAMT o, (j, k)	$	No DAM Real-Time Obligation Amount per CRR Owner per pair of source and sink—The payment or charge to CRR Owner o for its PTP Obligations with the source j and the sink k settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+RTOBLPR (j, k)	$/MW per hour	Real-Time Obligation Price—The Real-Time price of the PTP Obligation, for the hour.
+RTSPP j, i	$/MWh	Real-Time Settlement Point Price at source per interval—The Real-Time Settlement Point Price at the source j for the 15-minute Settlement Interval i.
+RTSPP k, i	$/MWh	Real-Time Settlement Point Price at sink per interval—The Real-Time Settlement Point Price at the sink k for the 15-minute Settlement Interval i.
+RTOBL q, (j, k)	MW	Real-Time Obligation per QSE per pair of source and sink—The total MW of QSE q’s PTP Obligation bids cleared in the DAM and settled in Real-Time for the source j and the sink k for the hour.
+RTOBLLO q, (j, k)	MW	Real-Time Obligation with Links to an Option per QSE per pair of source and sink—The total MW of QSE q’s PTP Obligation bids with Links to an Option cleared in the DAM and settled in Real-Time for the source j and the sink k for the hour.
+DAOBL o, (j, k)	MW	Day-Ahead Obligation per CRR Owner per source and sink pair—The number of CRR Owner o’s PTP Obligations with the source j and the sink k settled in the DAM for the hour.  See Section 7.9.1.1, Payments and Charges for PTP Obligations Settled in DAM.
+o	none	A CRR Owner.
+q	none	A QSE.
+i	none	A 15-minute Settlement Interval in the Operating Hour.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(4)	The net total payment or charge to each QSE for the Operating Hour of all its PTP Obligations settled in Real-Time is calculated as follows: 
+RTOBLAMTQSETOT q	=	  RTOBLAMT q, (j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+RTOBLAMTQSETOT q	$	Real-Time Obligation Amount QSE Total per QSE—The net total payment or charge to QSE q of all its PTP Obligations settled in Real-Time, for the hour.
+RTOBLAMT q, (j, k)	$	Real-Time Obligation Amount per QSE per pair of source and sink—The payment or charge to QSE q for the PTP Obligations with the source j and the sink k settled in Real-Time, for the hour.
+q	none	A QSE.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(5)	The net total payment to each QSE for the Operating Hour of all its PTP Obligations with Links to Options settled in Real-Time is calculated as follows: 
+RTOBLLOAMTQSETOT q	=	  RTOBLLOAMT q, (j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+RTOBLLOAMTQSETOT q	$	Real-Time Obligation with Links to an Option Amount QSE Total per QSE—The net total payment to QSE q of all its PTP Obligations with Links to an Option settled in Real-Time, for the hour.
+RTOBLLOAMT q, (j, k)	$	Real-Time Obligation with Links to an Option Amount per QSE per pair of source and sink—The payment to QSE q for the PTP Obligations with Links to an Option with the source j and the sink k settled in Real-Time, for the hour.
+q	none	A QSE.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(6)	If ERCOT is unable to execute DAM, the net total payment or charge to each CRR Owner for the Operating Hour of all its PTP Obligations settled in Real-Time is calculated as follows: 
+NDRTOBLAMTOTOT o	=	  NDRTOBLAMT o,(j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+NDRTOBLAMTOTOT o	$	No DAM Real-Time Obligation Amount Owner Total per CRR Owner—The net total payment or charge to CRR Owner o of all its PTP Obligations settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+NDRTOBLAMT o, (j, k)	$	No DAM Real-Time Obligation Amount per CRR Owner per pair of source and sink—The payment or charge to CRR Owner o for its PTP Obligations with the source j and the sink k settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+o	None	A CRR Owner.
+j	None	A source Settlement Point.
+k	None	A sink Settlement Point.
+7.9.2.2	Payments for PTP Options Settled in Real-Time 
+(1)	When the DAM is not executed, ERCOT shall pay the owner of each PTP Option based on the positive difference in Real-Time Settlement Point Prices between the sink Settlement Point and the source Settlement Point.  The payment to each CRR Owner for a given Operating Hour of its PTP Options with each pair of source and sink Settlement Points is calculated as follows:
+NDRTOPTAMT o, (j, k)	=	(-1) * NDRTOPTTP o, (j, k)
+Where:
+The target payment if ERCOT is unable to execute the DAM:
+NDRTOPTTP o, (j, k)	=	RTOPTPR (j, k) * OPT o, (j, k)
+RTOPTPR (j, k)		=	 Max (0, RTSPP k, i – RTSPP j, i) / 4
+The above variables are defined as follows:
+Variable	Unit	Definition
+NDRTOPTAMT o, (j, k)	$	No DAM Real-Time Option Amount per CRR Owner per source and sink pair—The payment to CRR Owner o of PTP Options with the source j and the sink k settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+NDRTOPTTP o, (j, k)	$	No DAM Real-Time Option Target Payment per CRR Owner per source and sink pair—The target payment for CRR Owner o’s PTP Options with the source j and the sink k settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+RTOPTPR (j, k)	$/MW per hour	Real-Time Option Price per source and sink pair —The Real-Time price of a PTP Option or PTP Option with Refund with the source j and the sink k for the hour.
+OPT o, (j, k)	MW	Option per CRR Owner per source and sink pairThe number of CRR Owner o’s PTP Options with the source j and the sink k settled in the DAM for the hour.  See Section 7.9.1.2, Payments for PTP Options Settled in DAM.
+RTSPP j, i	$/MWh	Real-Time Settlement Point Price at source per interval—The Real-Time Settlement Point Price at the source Settlement Point j, for the 15-minute Settlement Interval i.
+RTSPP k, i	$/MWh	Real-Time Settlement Point Price at sink per interval—The Real-Time Settlement Point Price at the sink Settlement Point k, for the 15-minute Settlement Interval i.
+o	none	A CRR Owner.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(2)	If ERCOT is unable to execute the DAM, the total payment to each CRR Owner for the Operating Hour of all its PTP Options settled in Real-Time is calculated as follows: 
+NDRTOPTAMTOTOT o	=	  NDRTOPTAMT o, (j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+NDRTOPTAMTOTOT o	$	No DAM Real-Time Option Amount Owner Total per CRR Owner—The total payment to CRR Owner o for all its PTP Options settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+NDRTOPTAMT o, (j, k)	$	No DAM Real-Time Option Amount per CRR Owner per pair of source and sink—The payment to CRR Owner o for its PTP Options with the source j and the sink k settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+o	none	A CRR Owner.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+7.9.2.3	Payments for NOIE PTP Options with Refund Settled in Real-Time 
+(1)	When the DAM is not executed, ERCOT shall pay the NOIE owner of each PTP Option with Refund that was allocated to that NOIE as a PCRR, for the quantity up to the actual usage based on the positive difference in Real-Time Settlement Point Prices between the sink Settlement Point and the source Settlement Point.  The payment to each NOIE CRR Owner for a given Operating Hour of its PTP Options with Refund each pair of source and sink Settlement Points is calculated as follows:
+NDRTOPTRAMT o, (j, k)	=	(-1) * NDRTOPTRTP o, (j, k) 
+Where:
+The target payment if ERCOT is unable to execute the DAM:
+NDRTOPTRTP o, (j, k)	=	RTOPTPR (j, k) * Min (OPTR o, (j, k), OPTRACT o, (j, k))
+OPTRACT o, (j, k)	=	 (OPTROF o, r * RESACT r * OPTRF o, r, (j, k))
+If (a valid OS r, y exists for all SCED intervals within the hour)
+		RESACT r	=	 OS r, y * TLMP y) / ( TLMPy)
+Otherwise
+		RESACT r	=	TGFTH r
+The above variables are defined as follows:
+Variable	Unit	Definition
+NDRTOPTRAMT o, (j, k)	$	No DAM Real-Time Option with Refund Amount per CRR Owner per pair of source and sink—The payment to CRR Owner o of the PTP Options with Refund with the source j and the sink k, settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+NDRTOPTRAMT o, (j, k)	$	No DAM Real-Time Option with Refund Amount per CRR Owner per pair of source and sink—The payment to CRR Owner o of the PTP Options with Refund with the source j and the sink k, settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+NDRTOPTRTP o, (j, k)	$	No DAM Real-Time Option with Refund Target Payment per CRR Owner per source and sink pair—The target payment for CRR Owner o’s PTP Options with Refund, with the source j and the sink k, settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+RTSPP j, i	$/MWh	Real-Time Settlement Point Price at source per interval—The Real-Time Settlement Point Price at the source j for the 15-minute Settlement Interval i.
+RTSPP k, i	$/MWh	Real-Time Settlement Point Price at sink per interval—The Real-Time Settlement Point Price at the sink k for the 15-minute Settlement Interval i.
+RTOPTPR (j, k)	$/MW per hour	Real-Time Option Price per source and sink pair—The Real-Time price of a PTP Option with Refund with the source j and the sink k for the hour.
+OPTRACT o, (j, k)	MW	Option with Refund Actual usage per CRR Owner per pair of source and sink—CRR Owner o’s actual usage for the PTP Options with Refund with the source j and the sink k, for the hour.
+RESACT r	MW	Resource Actual per Resource per hour—The time-weighted average of the Output Schedule of Resource r (if a valid Output Schedule exists) or the telemetered output of Resource r, for the hour.
+OPTROF o, r	none	Option with Refund Ownership Factor per CRR Owner per Resource—The factor showing the percentage usage of Resource r for CRR Owner o’s PTP Options with Refund.  Its value is 1, if only one CRR Owner uses this Resource for PCRRs under the refund provision.
+OS r, y	MW	Output Schedule per Resource per SCED interval—The Output Schedule submitted to ERCOT for Resource r for the SCED interval y.
+TGFTH r	MWh	Telemetered Generation for the Hour per Resource per hour—The telemetered generation of Generation Resource r, for the hour.
+OPTRF o, r, (j, k)	none	Option with Refund Factor per CRR Owner per Resource associated with pair of source and sink—The ratio of CRR Owner o’s Resource r’s capacity allocated to the PTP Options with Refund with the source j and sink k to the same CRR Owner’s total capacity for the Resource r nominated for all the PCRRs under the refund provision with the same source j.
+TLMP y	second	Duration of SCED interval per interval—The duration of the portion of the SCED interval y within the hour.
+OPTR o, (j, k)	MW	Option with Refund per CRR Owner per pair of source and sink—The number of CRR Owner o’s PTP Options with Refund settled in the DAM for the hour.
+o	none	A CRR Owner.
+r	none	A Resource.
+y	none	A SCED interval in the hour.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(2)	If ERCOT is unable to execute the DAM, the total payment to each NOIE CRR Owner for the Operating Hour of all its PTP Options with Refund settled in Real-Time is calculated as follows: 
+NDRTOPTRAMTOTOT o	=	  NDRTOPTRAMT o, (j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+NDRTOPTRAMTOTOT o	$	No DAM Real-Time Option with Refund Amount Owner Total per CRR Owner—The total payment to NOIE CRR Owner o for all its PTP Options with Refund settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+NDRTOPTRAMT o, (j, k)	$	No DAM Real-Time Option with Refund Amount per CRR Owner per pair of source and sink—The payment to NOIE CRR Owner o for the PTP Options with Refund with the source j and the sink k settled in Real-Time when ERCOT is unable to execute the DAM, for the hour.
+o	none	A CRR Owner.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+7.9.2.4	Payments for FGRs in Real-Time 
+(1)	There are currently no defined flowgates.
+7.9.2.5	Payments and Charges for PTP Obligations with Refund in Real-Time
+(1)	In the event that ERCOT is unable to execute the DAM, ERCOT shall pay or charge the NOIE owner of a PTP Obligation with Refund, for the quantity up to the actual usage based on the difference in the Real-Time Settlement Point Prices between the sink Settlement Point and the source Settlement Point.  The payment or charge to each NOIE CRR Owner for a given Operating Hour of its PTP Options with Refund each pair of source and sink Settlement Points in Real-Time is calculated as follows:
+NDRTOBLRAMT o, (j, k)	=	(-1) * NDRTOBLRTP o, (j, k)
+Where:
+The target payment:
+NDRTOBLRTP o, (j, k)	=	RTOBLRPR (j, k) * Min (DAOBLR o, (j, k), OBLRACT o, (j, k))
+	RTOBLPR (j, k)	=	 (RTSPP k, i – RTSPP j, i) / 4
+	OBLRACT o, (j, k)	=	 (OBLROF o, r * RESACT r * OBLRF o, r, (j, k))
+If (a valid OS r, y exists for all SCED intervals within the hour)
+		RESACT r	=	 (OS r, y * TLMP y) / ( TLMP y)
+Otherwise
+		RESACT r	=	TGFTH r
+The above variables are defined as follows:
+Variable	Unit	Definition
+NDRTOBLRAMT o, (j, k)	$	No DAM Real-Time Obligation with Refund Amount per CRR Owner per pair of source and sinkThe payment to CRR Owner o for the PTP Obligation with Refund with the source j and the sink k, settled in Real-Time, when ERCOT is unable to execute the DAM, for the hour.
+NDRTOBLRTP o, (j, k)	$	No DAM Real-Time Obligation with Refund Target Payment per CRR Owner per source and sink pair—The target payment for CRR Owner o’s PTP Obligations with Refund, with the source j and the sink k, settled in Real-Time, when ERCOT is unable to execute the DAM, for the hour.
+RTOBLPR (j, k)	$/MW per hour	Real-Time Obligation Price—The Real-Time price of the PTP Obligation, for the hour.
+RTSPP j, i	$/MWh	Real-Time Settlement Point Price at source per interval—The Real-Time Settlement Point Price at the source j for the 15-minute Settlement Interval i.
+RTSPP k, i	$/MWh	Real-Time Settlement Point Price at sink per interval—The Real-Time Settlement Point Price at the sink k for the 15-minute Settlement Interval i.
+DAOBLR o, (j, k)	MW	Day-Ahead Obligation with Refund per CRR Owner per pair of source and sinkThe number of CRR Owner o’s PTP Obligations with Refund with the source j and the sink k settled in DAM for the hour.  See Section 7.9.1.5, Payments and Charges for PTP Obligations with Refund Settled in DAM.
+OBLRACT o, (j, k)	MW	Obligation with Refund Actual usage per CRR Owner per pair of source and sink—CRR Owner o’s actual usage for the PTP Obligations with Refund with the source j and the sink k, for the hour.
+RESACT r	MW	Resource Actual per Resource per hour—The time-weighted average of the Output Schedule of Resource r (if a valid Output Schedule exists) or the telemetered output of Resource r, for the hour.
+OBLROF o, r	none	Obligation with Refund Ownership Factor per CRR Owner per Resource—The factor showing the percentage usage of Resource r for CRR Owner o’s PTP Obligations.  Its value is 1, if only one CRR Owner has acquired PCRRs under the refund provision using this Resource r.
+OS r, y	MW	Output Schedule per Resource per SCED interval—The Output Schedule submitted to ERCOT for Resource r for the SCED interval y.
+TGFTH r	MWh	Telemetered Generation for the Hour per Resource per Hour—The telemetered generation of Generation Resource r, for the hour.
+OBLRF o, r, (j, k)	none	Obligation with Refund Factor per CRR Owner per Resource—The ratio of CRR Owner o’s Resource r’s capacity allocated to the PTP Obligations with Refund with the source j and sink k to the same CRR Owner’s total capacity for the Resource r nominated for all the PCRRs under the refund provision with the same source j.
+TLMP y	second	Duration of SCED interval per interval—The duration of the portion of the SCED interval y within the hour.
+o	none	A CRR Owner.
+y	none	A SCED interval in the hour. 
+r	none	A Resource. 
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(2)	If ERCOT is unable to execute the DAM, the net total payment or charge to each CRR Owner for the Operating Hour of all its PTP Obligations with Refund settled in Real-Time is calculated as follows: 
+NDRTOBLRAMTOTOT o	=    NDRTOBLRAMT o, (j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+NDRTOBLRAMTOTOT o	$	No DAM Real-Time Obligation with Refund Amount Owner Total per CRR Owner—The net total payment or charge to CRR Owner o for all its PTP Obligations with Refund settled in Real-Time, when ERCOT is unable to execute the DAM, for the hour.
+NDRTOBLRAMT o, (j, k)	$	No DAM Real-Time Obligation with Refund Amount per CRR Owner per pair of source and sinkThe payment to CRR Owner o for the PTP Obligation with Refund with the source j and the sink k, settled in Real-Time, when ERCOT is unable to execute the DAM, for the hour.
+o	none	A CRR Owner.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+7.9.3	CRR Balancing Account 
+7.9.3.1	DAM Congestion Rent
+(1)	The DAM congestion rent is calculated as the sum of the following payments and charges:
+(a)	The total of payments to all QSEs for cleared DAM energy offers, whether through Three-Part Supply Offers or through DAM Energy-Only Offer Curves, calculated under Section 4.6.2.1, Day-Ahead Energy Payment;
+[NPRR1245:  Replace item (a) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(a)	The total of payments to all QSEs for cleared DAM energy offers, whether through Three-Part Supply Offers, DAM Energy-Only Offer Curves, or cleared sales from the offer portion of Energy Bid/Offer Curves, calculated under Section 4.6.2.1, Day-Ahead Energy Payment;
+(b)	The total of charges to all QSEs for cleared DAM Energy Bids, calculated under Section 4.6.2.2	, Day-Ahead Energy Charge; and
+[NPRR1245:  Replace item (b) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(b)	The total of charges to all QSEs for cleared DAM Energy Bids or cleared purchases from the bid portion of Energy Bid/Offer Curves, calculated under Section 4.6.2.2	, Day-Ahead Energy Charge; and
+[NPRR1188:  Replace item (b) above with the following upon system implementation:]
+(b)	The total of charges to all QSEs for cleared DAM Energy Bids and Energy Bid Curves, calculated under Section 4.6.2.2, Day-Ahead Energy Charge; and
+(c)	The total of charges or payments to all QSEs for PTP Obligation bids cleared in the DAM, calculated under Section 4.6.3, Settlement for PTP Obligations Bought in DAM.
+(d)	The total of charges to all QSEs for PTP Obligation with Links to an Option bids cleared in the DAM, calculated under Section 4.6.3.
+(2)	The DAM congestion rent for a given Operating Hour is calculated as follows:
+DACONGRENT	=	DAESAMTTOT + DAEPAMTTOT + DARTOBLAMTTOT + DARTOBLLOAMTTOT
+Where:
+DAESAMTTOT	=	 DAESAMTQSETOT q
+DAEPAMTTOT	=	 DAEPAMTQSETOT q
+DARTOBLAMTTOT	=	 DARTOBLAMTQSETOT q
+DARTOBLLOAMTTOT	=	 DARTOBLLOAMTQSETOT q
+The above variables are defined as follows:
+Variable	Unit	Definition
+DACONGRENT	$	Day-Ahead Congestion RentThe congestion rent collected in the DAM for the hour.
+DAESAMTTOT	$	Day-Ahead Energy Sale Amount TotalThe total payment to all QSEs for cleared DAM energy offers, whether through Three-Part Supply Offers or through DAM Energy-Only Offer Curves, for the hour.
+[NPRR1245:  Replace the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Day-Ahead Energy Sale Amount TotalThe total payment to all QSEs for cleared DAM energy offers, whether through Three-Part Supply Offers, DAM Energy-Only Offer Curves, or cleared sales from the offer portion of Energy Bid/Offer Curves, for the hour.
+DAEPAMTTOT	$	Day-Ahead Energy Purchase Amount TotalThe total charge to all QSEs for cleared DAM Energy Bids for the hour.
+[NPRR1245:  Replace the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Day-Ahead Energy Purchase Amount TotalThe total charge to all QSEs for cleared DAM Energy Bids or cleared purchases from the bid portion of Energy Bid/Offer Curves for the hour.
+[NPRR1188:  Replace definition above with the following upon system implementation:]
+Day-Ahead Energy Purchase Amount TotalThe total charge to all QSEs for DAM Energy Bids and Energy Bid Curves, cleared in the DAM, for the hour.
+DARTOBLAMTTOT	$	Day-Ahead Real-Time Obligation Amount TotalThe net total charge or payment to all QSEs for cleared PTP Obligation bids in the DAM for the hour.
+DARTOBLLOAMTTOT	$	Day-Ahead Real-Time Obligation with Links to an Option Amount TotalThe net total charge to all QSEs for charge to QSE q for a PTP Obligation with Links to an Option Bid cleared in the DAM with the source j and the sink k, for the hour.
+DAESAMTQSETOT q	$	Day-Ahead Energy Sale Amount QSE Total per QSEThe total payment to QSE q for cleared DAM energy offers, whether through Three-Part Supply Offers or through DAM Energy-Only Offer Curves, for the hour.  See item (2) of Section 4.6.2.1.
+[NPRR1245:  Replace the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Day-Ahead Energy Sale Amount QSE Total per QSEThe total payment to QSE q for cleared DAM energy offers, whether through Three-Part Supply Offers, DAM Energy-Only Offer Curves, or cleared sales from the offer portion of Energy Bid/Offer Curves, for the hour.  See item (2) of Section 4.6.2.1.
+DAEPAMTQSETOT q	$	Day-Ahead Energy Purchase Amount QSE Total per QSEThe total charge to QSE q for cleared DAM Energy Bids for the hour.  See item (2) of Section 4.6.2.2.
+[NPRR1245:  Replace the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Day-Ahead Energy Purchase Amount QSE Total per QSEThe total charge to QSE q for cleared DAM Energy Bids or cleared purchases from the bid portion of Energy Bid/Offer Curves for the hour.  See item (2) of Section 4.6.2.2.
+[NPRR1188:  Replace definition above with the following upon system implementation:]
+Day-Ahead Energy Purchase Amount QSE Total per QSEThe total charge to QSE q for DAM Energy Bids and Energy Bid Curves, cleared in the DAM, for the hour.  See item (2) of Section 4.6.2.2.
+DARTOBLAMTQSETOT q	$	Day-Ahead Real-Time Obligation Amount QSE Total per QSEThe total charge or payment to QSE q for PTP Obligation Bids cleared in the DAM for the hour.  See item (2) of Section 4.6.3.
+DARTOBLLOAMTQSETOTq	$	Day-Ahead Real-Time Obligation with Links to an Option Amount QSE Total per QSEThe net total charge to QSE q for all its PTP Obligation with Links to Option Bids cleared in the DAM for the hour.
+q	none	A QSE.
+7.9.3.2	Credit to CRR Balancing Account
+(1)	If the Day-Ahead Congestion Rent is greater than the total payment to all CRR Owners for the CRRs settled in the DAM for any Operating Hour, a credit is put into the CRR Balancing Account for that Operating Hour.  The credit to the CRR Balancing Account for a given Operating Hour is calculated as follows:
+CRRBACR	=	Max (0, (DACONGRENT + DACRRCRTOT + DACRRCHTOT))
+Where:
+DACRRCRTOT	=	DAOBLCRTOT + DAOBLRCRTOT + DAOPTAMTTOT + DAOPTRAMTTOT
+DACRRCHTOT	=	DAOBLCHTOT + DAOBLRCHTOT
+DAOBLCRTOT	=	 DAOBLCROTOT o
+DAOBLCHTOT	=	 DAOBLCHOTOT o
+DAOBLRCRTOT	=	 DAOBLRCROTOT o
+DAOBLRCHTOT	=	 DAOBLRCHOTOT o
+DAOPTAMTTOT	=	 DAOPTAMTOTOT o
+DAOPTRAMTTOT	=	 DAOPTRAMTOTOT o
+The above variables are defined as follows:
+Variable	Unit	Definition
+CRRBACR	$	CRR Balancing Account Credit—The credit to the CRR Balancing Account for the hour.
+DACONGRENT	$	Day-Ahead Congestion Rent—The congestion rent collected in the DAM for the hour.  See Section 7.9.3.1, DAM Congestion Rent.
+DACRRCRTOT	$	Day-Ahead CRR Credit Total—The total payment to all CRR Owners of all CRRs settled in the DAM, for the hour.
+DACRRCHTOT	$	Day-Ahead CRR Charge Total—The total charge to all CRR Owners of all CRRs settled in the DAM, for the hour.
+DAOBLCRTOT	$	Day-Ahead Obligation Credit Total—The total payment of all PTP Obligations settled in the DAM, for the hour.
+DAOBLCHTOT	$	Day-Ahead Obligation Charge Total—The total charge of all PTP Obligations settled in the DAM, for the hour.
+DAOBLRCRTOT	$	Day-Ahead Obligation with Refund Credit Total—The total payment of all PTP Obligations with Refund settled in the DAM, for the hour.
+DAOBLRCHTOT	$	Day-Ahead Obligation with Refund Charge Total—The total charge of all PTP Obligations with Refund settled in the DAM, for the hour.
+DAOPTAMTTOT	$	Day-Ahead Option Amount Total—The total payment of all PTP Options settled in the DAM, for the hour.
+DAOPTRAMTTOT	$	Day-Ahead Option with Refund Amount Total—The total payment of all PTP Options with Refund settled in the DAM, for the hour.
+DAOBLCROTOT o	$	Day-Ahead Obligation Credit Owner Total per owner—The total payment to CRR Owner o of PTP Obligations settled in the DAM, for the hour.  See Section 7.9.1.1, Payments and Charges for PTP Obligations Settled in DAM.
+DAOBLCHOTOT o	$	Day-Ahead Obligation Charge Owner Total per owner—The total charge to CRR Owner o of PTP Obligations settled in the DAM, for the hour.  See Section 7.9.1.1.
+DAOBLRCROTOT o	$	Day-Ahead Obligation with Refund Credit Owner Total per owner—The total payment to the CRR Owner o of PTP Obligations with Refund settled in the DAM, for the hour.  See Section 7.9.1.5, Payments and Charges for PTP Obligations with Refund Settled in DAM.
+DAOBLRCHOTOT o	$	Day-Ahead Obligation with Refund Charge Owner Total per owner—The total charge to CRR Owner o of PTP Obligations with Refund settled in the DAM, for the hour.  See Section 7.9.1.5.
+DAOPTAMTOTOT o	$	Day-Ahead Option Amount Owner Total per owner—The total payment to the CRR Owner o of PTP Options settled in the DAM, for the hour.  See Section 7.9.1.2, Payments for PTP Options Settled in DAM.
+DAOPTRAMTOTOT o	$	Day-Ahead Option with Refund Amount Owner Total per owner—The total payment to the CRR Owner o of PTP Options with Refund settled in the DAM, for the hour.  See Section 7.9.1.6, Payments for PTP Options with Refund Settled in DAM.
+o	none	A CRR Owner.
+7.9.3.3	Shortfall Charges to CRR Owners
+(1)	For each Operating Hour, if the Day-Ahead Congestion Rent is less than the total payment to all CRR Owners for the CRRs settled in the DAM, a charge will be made to each CRR Owner for any of its CRRs settled in the DAM that have positive Settlement prices.  
+(2)	The charge to each CRR Owner for its CRRs settled in the DAM for a given Operating Hour is calculated as follows: 
+DACRRSAMT o	=	DACRRSAMTTOT * CRRCRRSDA o
+Where:
+DACRRSAMTTOT	=	(-1) * Min (0, DACONGRENT + DACRRCRTOT + DACRRCHTOT)
+CRRCRRSDA o	=	(DAOBLCROTOT o + DAOBLRCROTOT o + DAOPTAMTOTOT o + DAOPTRAMTOTOT o) / (DACRRCRTOT)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DACRRSAMT o	$	Day-Ahead CRR Shortfall Amount per owner—The shortfall charge to CRR Owner o for its CRRs settled in the DAM, for the hour.
+DACRRSAMTTOT	$	Day-Ahead CRR Shortfall Amount Total—The shortfall charge to all CRR Owners for their CRRs settled in the DAM and the Real-Time Market (RTM), for the hour.
+DACONGRENT	$	Day-Ahead Congestion Rent—The Congestion Rent collected in the DAM for the hour.  See Section 7.9.3.1, DAM Congestion Rent.
+DACRRCRTOT	$	Day-Ahead CRR Credit Total—The total payment to all CRR Owners of all the CRRs settled in the DAM, for the hour.  See Section 7.9.3.2, Credit to CRR Balancing Account.
+DACRRCHTOT	$	Day-Ahead CRR Charge Total—The total charge to all CRR Owners of all the CRRs settled in the DAM, for the hour.  See Section 7.9.3.2.
+CRRCRRSDA o	none	CRR Credit Ratio Share Day-Ahead per owner—The ratio of the total payments to CRR Owner o of its CRRs settled in the DAM to the total payments to all CRR Owners of all CRRS, for the hour.
+DAOBLCROTOT o	$	Day-Ahead Obligation Credit Owner Total per owner—The total payment to CRR Owner o of PTP Obligations settled in the DAM, for the hour.  See Section 7.9.1.1, Payments and Charges for PTP Obligations Settled in DAM.
+DAOBLRCROTOT o	$	Day-Ahead Obligation with Refund Credit Owner Total per owner—The total payment to CRR Owner o of PTP Obligations with Refund settled in the DAM, for the hour.  See Section 7.9.1.5, Payments and Charges for PTP Obligations with Refund Settled in DAM.
+DAOPTAMTOTOT o	$	Day-Ahead Option Amount Owner Total per owner—The total payment to CRR Owner o of PTP Options settled in the DAM, for the hour.  See Section 7.9.1.2, Payments PTP Options Settled in DAM.
+DAOPTRAMTOTOT o	$	Day-Ahead Option with Refund Amount Owner Total per owner—The total payment to CRR Owner o of PTP Options with Refund settled in the DAM, for the hour.  See Section 7.9.1.6, Payments for PTP Options with Refund Settled in DAM.
+o	none	A CRR Owner.
+7.9.3.4	Monthly Refunds to Short-Paid CRR Owners
+(1)	On a monthly basis, a refund may be paid to the CRR Owners that have a shortfall charge for any Operating Hour in a month.  The refund to each CRR Owner for a given month is calculated as follows: 
+If CRRBACRTOT + CRRFEETOT < CRRSAMTTOT :
+CRRRAMT o                 =	(-1) * Min (CRRBACRTOT + CRRFEETOT + CRRBAFA m, CRRSAMTTOT) * CRRSAMTRS o
+Where:
+CRRBAFA m                    =	Min (CRRBAFBBAL, CRRSAMTTOT – (CRRBACRTOT + CRRFEETOT))
+Otherwise:
+CRRRAMT o             =	(-1) * Min (CRRBACRTOT + CRRFEETOT, CRRSAMTTOT) * CRRSAMTRS o
+Where:
+CRRBACRTOT      =	 CRRBACR h
+CRRFEETOT          =	   (OPTAFAMT crrh, a)
+If (CRRSAMTTOT = 0) 
+CRRSAMTRS o	=	0
+Otherwise:
+CRRSAMTRS o	=	CRRSAMTOTOT o / CRRSAMTTOT
+CRRSAMTTOT           =	 CRRSAMTOTOT o
+CRRSAMTOTOT o      =	      DACRRSAMT o, h 
+The above variables are defined as follows:
+Variable	Unit	Definition
+CRRRAMT o	$	CRR Refund Amount per owner—The refund to the short-paid CRR Owner o for the month.
+CRRBACRTOT	$	CRR Balancing Account Credit Total—The total of credits accumulated in the CRR Balancing Account for all Operating Hours in the month.			
+CRRBAFA m		$	CRR Balancing Account Fund Available—The amount available to cover CRR shortfalls from the CRR Balancing Account fund for the month.
+CRRBAFBBAL	$	CRR Balancing Account Fund Beginning Balance—The amount in the CRR Balancing Account Fund at the previous Settlement.
+CRRSAMTTOT	$	CRR Shortfall Amount Total—The total of shortfall charges to all CRR Owners for all Operating Hours in the month.
+CRRSAMTRS o	none	CRR Shortfall Amount Ratio Share per owner—The ratio of the CRR Owner o’s total shortfall-charge to the total of all the CRR Owners’ shortfall charges, for the month.
+CRRSAMTOTOT o	$	CRR Shortfall Amount Owner Total per owner—The total of shortfall charges to CRR Owner o for all Operating Hours in the month.
+DACRRSAMT o, h	$	Day-Ahead CRR Shortfall Amount per owner per hour—The shortfall charge to CRR Owner o for its CRRs settled in the DAM for the hour h.
+CRRBACR h	$	CRR Balancing Account Credit per hour—The credit to the CRR Balancing Account for the hour h.
+CRRFEETOT	$	CRR Auction PTP Option Award Charge Total—The sum of the PTP Option Award Charges to all CRR Account Holders in single-month or multi-month CRR Auctions for the month.
+OPTAFAMT crrh, a	$	PTP Option Award Charge Amount per CRR Account Holder per CRR Auction—The charge assessed to CRR Account Holder crrh for PTP Option awards awarded in CRR Auction a, for the hour for which the clearing price is less than the defined Minimum PTP Option Bid Price for the month.  For a multi-month CRR Auction, the charge shall be calculated for each month.
+m	none	A month.
+h	none	An Operating Hour in the month.
+o	none	A CRR Owner.
+crrh	none	A CRR Account Holder.
+a	none	A CRR Auction
+7.9.3.5	CRR Balancing Account Closure
+(1)	After the calculation of refunds described in Section 7.9.3.4, Monthly Refunds to Short-Paid CRR Owners, any CRR Balancing Account and CRR Auction PTP Option Award Charge Total in excess of the refunds described in Section 7.9.3.4 will first be used to fund the CRR Balancing Account Fund if the prior month’s CRR Balancing Account Fund Balance is less than the CRR Balancing Account Fund Cap.  Any surplus that remains from the CRR Balancing Account and CRR Auction PTP Option Award Charge Total above the CRR Balancing Account Fund cap is paid to the QSEs representing Load Serving Entities (LSEs) based on a monthly Load Ratio Share (LRS).  The monthly LRS is the 15-minute LRS calculated for the peak-Load Settlement Interval during the month.  The CRR Balancing Account Fund Cap is $10 million.
+[NPRR1030:  Replace paragraph (1) above with the following upon system implementation:]
+(1)	After the calculation of refunds described in Section 7.9.3.4, Monthly Refunds to Short-Paid CRR Owners, any CRR Balancing Account and CRR Auction PTP Option Award Charge Total in excess of the refunds described in Section 7.9.3.4 will first be used to fund the CRR Balancing Account Fund if the prior month’s CRR Balancing Account Fund Balance is less than the CRR Balancing Account Fund Cap.  Any surplus that remains from the CRR Balancing Account and CRR Auction PTP Option Award Charge Total above the CRR Balancing Account Fund cap is paid to the QSEs representing Load Serving Entities (LSEs) based on the QSEs ratio shares.  The CRR Balancing Account Fund Cap is $10 million.
+(2)	The credit to each QSE representing LSEs for a given month is calculated as follows:
+LACRRAMT q	=	(-1) * Max ((CRRBACRTOT + CRRFEETOT + CRRRAMTTOT) - (FUNDCAP- CRRBAFBBAL),0) * MLRS q
+Where:
+CRRRAMTTOT	=	 CRRRAMT o
+The above variables are defined as follows:
+Variable	Unit	Definition
+LACRRAMT q	$	Load-Allocated CRR Amount per QSE—The allocated surplus from the CRR Balancing Account and CRR Auction PTP Option Award Charge Total at the end of the month to QSE q, based on LRS for the month.
+CRRBAFBBAL	$	CRR Balancing Account Fund Beginning Balance—The amount in the CRR Balancing Account Fund at the end of the previous month.
+FUNDCAP	$	CRR Balancing Account Fund Cap—The threshold amount in the CRR Balancing Account Fund above which funds are available to allocate to QSEs representing Load.
+CRRBACRTOT	$	CRR Balancing Account Credit Total—The total credit accumulated in the CRR Balancing Account during the month.  See its calculation in Section 7.9.3.4.
+CRRFEETOT	$	CRR Auction PTP Option Award Charge Total—The sum of the PTP Option Award Charges to all CRR Account Holders in single-month or multi-month CRR Auctions for the month.
+CRRRAMTTOT	$	CRR Refund Amount Total—The total refund to all the previously short-paid CRR Owners at the end of the month.
+CRRRAMT o	$	CRR Refund Amount per owner—The refund credited to the CRR Owner o at the end of the month.
+MLRS q	none	Monthly Load Ratio Share per QSE—The LRS calculated for QSE q for the 15-minute monthly peak-load Settlement Interval.  See Section 6.6.2.2, QSE Load Ratio Share for a 15-Minute Settlement Interval, for the calculation of LRS for a 15-minute Settlement Interval.
+m	none	A month.
+q	none	A QSE.
+o	none	A CRR Owner.
+[NPRR1030:  Replace paragraph (2) above with the following upon system implementation:]
+(2)	The credit to each QSE representing LSEs for a given month is calculated as follows:
+LACRRAMT q       =	(-1) * (CRRDC q + CRRNDC q)
+Where:
+CRRNDC q       =	(CRRALLOCTOT –  CRRDC q ) * MLRS q
+CRRDC q           = 	CRRALLOCTOT * DCMLRS q
+CRRALLOCTOT       =	Max ((CRRBACRTOT + CRRFEETOT + CRRRAMTTOT) – (FUNDCAP – CRRBAFBBAL), 0)
+CRRRAMTTOT    =	 CRRRAMT o
+The above variables are defined as follows:
+Variable	Unit	Definition
+LACRRAMT q	$	Load-Allocated CRR Amount per QSE—The allocated surplus from the CRR Balancing Account and CRR Auction PTP Option Award Charge Total at the end of the month to QSE q with Loads and Direct Current Tie (DC Tie) exports.
+CRRDC q	$	CRR Amount for DC Tie Exports per QSE—The allocated surplus from the CRR Balancing Account and CRR Auction PTP Option Award Charge Total at the end of the month to QSE q for DC Tie Exports based on DC Tie ratio shares for the month.
+CRRNDC q	$	CRR Amount for Non-DC Tie Loads per QSE—The allocated surplus from the CRR Balancing Account and CRR Auction PTP Option Award Charge Total at the end of the month to QSE q for Load (excluding DC Tie exports), based on ratio share for the peak Load 15-minute Settlement Interval for the month.
+CRRBAFBBAL	$	CRR Balancing Account Fund Beginning Balance—The amount in the CRR Balancing Account Fund at the end of the previous month.
+FUNDCAP	$	CRR Balancing Account Fund Cap—The threshold amount in the CRR Balancing Account Fund above which funds are available to allocate to QSEs representing Load.
+CRRBACRTOT	$	CRR Balancing Account Credit Total—The total credit accumulated in the CRR Balancing Account during the month.  See its calculation in Section 7.9.3.4.
+CRRFEETOT	$	CRR Auction PTP Option Award Charge Total—The sum of the PTP Option Award Charges to all CRR Account Holders in single-month or multi-month CRR Auctions for the month.
+CRRALLOCTOT	$	CRR Allocation Amount Total – The surplus from the CRR Balancing Account and CRR Auction PTP Option Award Charge Total at the end of the month.
+CRRRAMTTOT	$	CRR Refund Amount Total—The total refund to all the previously short-paid CRR Owners at the end of the month.
+CRRRAMT o	$	CRR Refund Amount per owner—The refund credited to the CRR Owner o at the end of the month.
+DCMLRS q	none	DC Tie Monthly Load Ratio Share per QSE—The ratio share calculated for QSE q with DC Tie exports for the calendar month.  See Section 6.6.2.6, QSE DC Tie Export Load Ratio Share for a Month.
+MLRS q	none	Monthly Load Ratio Share per QSE — The ratio share of Loads excluding DC Tie exports for QSE q, for the peak Load 15-minute Settlement Interval in the month.
+q	none	A QSE.
+o	none	A CRR Owner.
+7.9.3.6	Rolling CRR Balancing Account Fund
+(1)	ERCOT shall establish a rolling CRR Balancing Account Fund (CRRBAF) as follows:
+(a)	The CRRBAF shall be funded beginning in the first month after implementation and every month that the CRR Balancing Account credit exceeds monthly CRR shortfalls.
+(b)	The CRRBAF calculated for a month shall not exceed the CRR Balancing Account Fund Cap.
+(c)	The CRRBAF shall refund to LSEs any surplus above the fund cap.
+(d)	In the event that a resettlement of the CRR Balancing Account is required, the CRRBAF for the resettlement will be calculated using the CRRBAF at the end of the previous month from the date of the resettlement invoice.   
+(e)	The end of the month CRRBAF is calculated as follows:
+	If CRRBACRTOT + CRRFEETOT < CRRSAMTTOT:
+CRRBAF m	=	CRRBAFBBAL - CRRBAFA m 
+Otherwise if CRRBACRTOT + CRRFEETOT > CRRSAMTTOT and CRRBAF < FUNDCAP:
+CRRBAF m           	=	CRRBAFBBAL + (CRRBACRTOT + CRRFEETOT – CRRSAMTTOT) + LACRRAMTTOT
+Where:
+LACRRAMTTOT 	= 	  LACRRAMT q
+The above variables are defined as follows:
+Variable	Unit	Definition
+CRRBACRTOT
+	$	CRR Balancing Account Credit Total—The total credit accumulated in the CRR Balancing Account during the month.  See its calculation in Section 7.9.3.4, Monthly Refunds to Short-Paid CRR Owners.
+CRRFEETOT	$	CRR Auction Fee Total—The sum of the PTP Option Award Fees charged to all CRR Account Holders in single-month or multi-month CRR Auctions for the month.
+CRRSAMTTOT	$	CRR Shortfall Amount Total—The total of shortfall charges to all CRR Owners for all Operating Hours in the month.
+CRRBAFBBAL	$	CRR Balancing Account Fund Beginning Balance—The amount in the CRR Balancing Account Fund at the end of the previous month.
+CRRBAF m  	$	CRR Balancing Account Fund Balance—The amount in the CRR Balancing Account Fund at the end of the current month.
+CRRBAFA m		$	CRR Balancing Account Fund Available—The amount available to cover CRR shortfalls from the CRR Balancing Account Fund for the month.
+FUNDCAP	$	CRR Balancing Account Fund Cap—The threshold amount in the CRR Balancing Account Fund above which funds are available to allocate to QSEs representing Load.
+LACRRAMTTOT	$	Load-Allocated CRR Amount Total—The net total surplus from the CRR Balancing Account and CRR Auction fees at the end of the month.
+LACRRAMT q	$	Load-Allocated CRR Amount per QSE—The allocated surplus from the CRR Balancing Account and CRR Auction fees at the end of the month to QSE q, based on LRS for the month.
+m	none	A month.
+
+ERCOT Nodal Protocols
+Section 8:  Performance Monitoring 
+April 1, 2025
+
+
+ 
+8	Performance Monitoring	8-1
+8.1	QSE and Resource Performance Monitoring	8-1
+8.1.1	QSE Ancillary Service Performance Standards	8-2
+8.1.1.1	Ancillary Service Qualification and Testing	8-3
+8.1.1.2	General Capacity Testing Requirements	8-9
+8.1.1.2.1	Ancillary Service Technical Requirements and Qualification Criteria and Test Methods	8-14
+8.1.1.2.1.1	Regulation Service Qualification	8-14
+8.1.1.2.1.2	Responsive Reserve Qualification	8-17
+8.1.1.2.1.3	Non-Spinning Reserve Qualification	8-21
+8.1.1.2.1.4	Voltage Support Service Qualification	8-24
+8.1.1.2.1.5	System Black Start Capability Qualification and Testing	8-24
+8.1.1.2.1.6	Firm Fuel Supply Service Resource Qualification, Testing, Decertification, and Recertification	8-31
+8.1.1.2.1.7	ERCOT Contingency Reserve Service Qualification	8-39
+8.1.1.3	Ancillary Service Capacity Compliance Criteria	8-42
+8.1.1.3.1	Regulation Service Capacity Monitoring Criteria	8-45
+8.1.1.3.2	Responsive Reserve Capacity Monitoring Criteria	8-45
+8.1.1.3.3	Non-Spinning Reserve Capacity Monitoring Criteria	8-46
+8.1.1.3.4	ERCOT Contingency Reserve Service Capacity Monitoring Criteria	8-47
+8.1.1.4	Ancillary Service and Energy Deployment Compliance Criteria	8-48
+8.1.1.4.1	Regulation Service and Generation Resource/Controllable Load Resource Energy Deployment Performance, and Ancillary Service Capacity Performance Metrics	8-48
+8.1.1.4.2	Responsive Reserve Energy Deployment Criteria	8-66
+8.1.1.4.3	Non-Spinning Reserve Service Energy Deployment Criteria	8-70
+8.1.1.4.4	ERCOT Contingency Reserve Service Energy Deployment Criteria	8-74
+8.1.2	Current Operating Plan (COP) Performance Requirements	8-77
+8.1.3	Emergency Response Service Performance and Testing	8-78
+8.1.3.1	Performance Criteria for Emergency Response Service Resources	8-79
+8.1.3.1.1	Baselines for Emergency Response Service Loads	8-79
+8.1.3.1.2	Performance Evaluation for Emergency Response Service Generators	8-81
+8.1.3.1.3	Availability Criteria for Emergency Response Service Resources	8-83
+8.1.3.1.3.1	Time Period Availability Calculations for Emergency Response Service Loads	8-84
+8.1.3.1.3.2	Time Period Availability Calculations for Emergency Response Service Generators	8-85
+8.1.3.1.3.3	Contract Period Availability Calculations for Emergency Response Service Resources	8-87
+8.1.3.1.4	Event Performance Criteria for Emergency Response Service Resources	8-89
+8.1.3.2	Testing of Emergency Response Service Resources	8-92
+8.1.3.3	Payment Reductions and Suspension of Qualification of Emergency Response Service Resources and/or their Qualified Scheduling Entities	8-96
+8.1.3.3.1	Suspension of Qualification of Non-Weather-Sensitive Emergency Response Service Resources and/or their Qualified Scheduling Entities	8-96
+8.1.3.3.2	Payment Reduction and Suspension of Qualification of Weather-Sensitive Emergency Response Service Loads and/or their Qualified Scheduling Entities	8-102
+8.1.3.3.3	Performance Criteria for Qualified Scheduling Entities Representing Non-Weather-Sensitive Emergency Response Service Resources	8-103
+8.1.3.3.4	Performance Criteria for Qualified Scheduling Entities Representing Weather-Sensitive Emergency Respon

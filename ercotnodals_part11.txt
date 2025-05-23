@@ -1,0 +1,719 @@
+edule; 
+(e)	The first and last 15-minute Settlement Intervals of the schedule; and
+(f)	The e-Tag name.
+[NPRR999:  Insert Section 4.4.4.2 below upon project implementation of the Intra-Hour Variability (iCAT) Tool:]
+4.4.4.2	Management of DC Tie Schedules due to Ramp Limitations
+(1)	If system conditions near or in Real-Time show insufficient ramp capability to meet the sum of all DC Ties’ scheduled ramp, taking into account the full ramping capability of all available Resources and preserving sufficient Physical Responsive Capability (PRC) to avoid EEA Level 1, and ERCOT determines that sufficient time exists, ERCOT may request that one or more e-Tags be resubmitted with an adjusted ramp duration that would conform with the system’s ramp capability.  If ERCOT determines that insufficient time exists to request resubmission of e-Tags, or that an insufficient number of e-Tags have been resubmitted to conform with the system’s ramp capability, ERCOT shall curtail DC Tie Schedules on a last-in-first-out basis as necessary to conform with the system’s ramp capability and shall deny any additional e-Tags that cannot be accommodated within that ramp capability during the impacted intervals.
+[NPRR1034:  Insert Section 4.4.4.3 below upon system implementation and satisfying the following conditions:  (1) Southern Cross Transmission LLC (Southern Cross) provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a Transmission Service Provider (TSP) and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities:]
+4.4.4.3	Frequency-Based Limits on DC Tie Imports or Exports  
+(1)  	ERCOT may establish import or export limits applicable to any DC Tie to mitigate the risk of significant frequency deviation due to the unexpected loss of that DC Tie.  ERCOT shall identify the operating conditions and limits it would expect to use in a posting to the ERCOT website.
+4.4.5	[RESERVED] 
+4.4.6	PTP Obligation Bids 
+(1)	A Point-to-Point (PTP) Obligation bid is a bid that specifies the source and sink, a range of hours, and a maximum price that the bidder is willing to pay (“Not-to-Exceed Price”). 
+(2)	PTP Obligations that are bought in the Day-Ahead Market (DAM) must be settled based on the applicable Real-Time Settlement Point Prices.
+(3)	A PTP Obligation with Links to an Option is held to be reflective of the Non-Opt-In Entity’s (NOIE’s) PTP Option if the source and sink pairs on both the NOIE’s PTP Obligation and the NOIE’s PTP Option are the same, and the MWs of the NOIE’s PTP Obligations are less than or equal to the number of MWs of the NOIE’s PTP Option.  There shall be no payment for PTP Obligations with Links to an Option acquired in the DAM.
+4.4.6.1	PTP Obligation Bid Criteria
+(1)	A PTP Obligation bid must be submitted by a QSE and must include the following:
+(a)	The name of the QSE submitting the PTP Obligation bid;
+(b)	The source Settlement Point and the sink Settlement Point for the PTP Obligation or block of PTP Obligations being bid;
+(c)	NOIE peak Load forecast for the Operating Day, if the PTP Obligation bid is a PTP Obligation with Links to an Option;
+(d)	The first hour and the last hour for which the PTP Obligation or block of PTP Obligations is being bid;
+(e)	The quantity of PTP Obligations in MW for which the Not-to-Exceed Price is effective; and
+(f)	A dollars per MW per hour for the Not-to-Exceed Price.
+[NPRR918:  Replace paragraph (1) above with the following upon system implementation:] 
+(1)	A PTP Obligation bid must be submitted by a QSE and must include the following:
+(a)	The name of the QSE submitting the PTP Obligation bid;
+(b)	The source Settlement Point and the sink Settlement Point for the PTP Obligation or block of PTP Obligations being bid;
+(c)	Hourly NOIE Load forecast for the Operating Day, if the PTP Obligation bid is a PTP Obligation with Links to an Option;
+(d)	The first hour and the last hour for which the PTP Obligation or block of PTP Obligations is being bid;
+(e)	The quantity of PTP Obligations in MW for which the Not-to-Exceed Price is effective; and
+(f)	A dollars per MW per hour for the Not-to-Exceed Price.
+(2)	If the PTP Obligation bid is for more than one PTP Obligation (which is one MW for one hour), the block bid must:
+(a) 	Include the same number of PTP Obligations in each hour of the block;
+(b) 	Be for PTP Obligations that have the same source and sink Settlement Points; and
+(c) 	Be for contiguous hours.
+(3)	A PTP Obligation bid shall not contain a source Settlement Point and a sink Settlement Point that are Electrically Similar Settlement Points.
+(4)	PTP Obligation bids shall not be submitted in combination with PTP Obligation bids or with DAM Energy-Only Offer Curves and DAM Energy Bids to create the net effect of a single PTP Obligation bid containing a source Settlement Point and a sink Settlement Point that are Electrically Similar Settlement Points for the QSE or for any combination of QSEs within the same Counter-Party.
+(5)	For each NOIE or QSE representing NOIEs that designated PTP Obligations with Links to an Option, the total of each hourly MW quantity designated to be settled in Real-Time as a PTP Option may not exceed the lesser of: 
+(a)	110% of that NOIE’s peak Load forecast for the Operating Day; or
+(b)	125% of the NOIE’s hourly Load forecast for the Operating Day. 
+[NPRR918:  Replace paragraph (5) above with the following upon system implementation:] 
+(5)	For each QSE representing NOIEs that designated PTP Obligations with Links to an Option, the total of each hourly MW quantity designated to be settled in Real-Time as a PTP Option may not exceed the lesser of: 
+(a)	110% of that NOIE’s peak Load forecast for the Operating Day; or
+(b)	125% of the NOIE’s Load forecast for the Operating Hour.
+(6)	PTP Obligations with Links to an Option shall be used for delivery of energy to a NOIE Load or a valid combination of Settlement Points that physically or contractually mitigates risk in supplying the NOIE Load.  This applies to each NOIE or QSE representing NOIEs.
+(7)	In addition to the criteria above for other PTP Obligations, PTP Obligations with Links to an Option must further include the following:
+(a)	The name of the CRR Account Holder that owns the CRRs being offered; and
+(b)	The unique identifier for each CRR being offered.
+(8)	For PTP Obligations with Links to an Option, the CRR Account Holder for whom the PTP Obligations with Links to an Option are being submitted must be shown in the ERCOT CRR registration system as the owner of the CRRs being linked to the PTP Obligation.
+(9)	The minimum amount for each PTP Obligation with Links to an Option is one-tenth of one MW.  The minimum amount for each PTP Obligation bid is one MW.
+4.4.6.2	PTP Obligation Bid Validation
+(1)	A validated PTP Obligation bid is a bid that ERCOT has determined meets the criteria listed in Section 4.4.6.1, PTP Obligation Bid Criteria, with the exception of paragraphs (3), (4), (5) and (6).  Bids that do not meet the criteria in paragraph (3) of Section 4.4.6.1 will not be awarded in the DAM. 
+[NPRR918:  Replace paragraph (1) above with the following upon system implementation:] 
+(1)	A validated PTP Obligation bid is a bid that ERCOT has determined meets the criteria listed in Section 4.4.6.1, PTP Obligation Bid Criteria, with the exception of paragraphs (3), (4), and (6).  Bids that do not meet the criteria in paragraph (3) of Section 4.4.6.1 will not be awarded in the DAM.
+(2)	ERCOT shall continuously display on the MIS Certified Area information that allows any QSE submitting a PTP Obligation bid to view its valid PTP Obligation bid. 
+(3)	As soon as practicable, ERCOT shall notify each QSE through the Messaging System of any of its PTP Obligation bids that are invalid.  The QSE may correct and resubmit any invalid PTP Obligation bid within the appropriate market timeline. 
+4.4.6.3	PTP Obligations with Links to an Option DAM Award Eligibility
+(1)	A bid for a PTP Obligation with Links to an Option will not be considered eligible for award for an Operating Hour if it sources at a Resource Node where the Generation Resource has a COP Resource Status of:
+[NPRR1246:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	A bid for a PTP Obligation with Links to an Option will not be considered eligible for award for an Operating Hour if it sources at a Resource Node where a Generation Resource or Energy Storage Resource (ESR) has a COP Resource Status of:
+(a)	OUT for an Operating Hour; or
+(b)	OFF for an Operating Hour; and 
+(i)	The QSE representing the Resource has not submitted a valid Three-Part Supply Offer or Ancillary Service Offer to be considered by the DAM; and
+(ii)	The QSE representing the Resource has not submitted a valid Energy Only Offer at any Resource Node associated with the Resource.
+(2)	Where more than one Generation Resource is associated with a Resource Node, ERCOT will consider a PTP Obligation with Links to an Option bid eligible for award unless all Generation Resources associated with the Resource Node do not satisfy the COP Resource Status requirements in paragraph (1) above during the Operating Hour. 
+[NPRR1246:  Replace paragraph (2) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(2)	Where more than one Generation Resource or ESR is associated with a Resource Node, ERCOT will consider a PTP Obligation with Links to an Option bid eligible for award unless all Generation Resources and ESRs associated with the Resource Node do not satisfy the COP Resource Status requirements in paragraph (1) above during the Operating Hour.
+(3)	In order for ERCOT to award a bid for a PTP Obligation with Links to an Option under this section for an upcoming year, by October 1 of the prior year a NOIE must have provided ERCOT with an attestation that the Generation Resource for the Resource Node where the bid is sourced is owned or controlled by the NOIE, or has a contractual commitment for capacity and/or energy with the NOIE.  The attestation must be executed by an officer or executive with authority to bind the NOIE, and submitted to ERCOT.  ERCOT shall rely exclusively on the attestation provided by a NOIE in determining eligibility for bid awards under this section.  ERCOT shall issue a Market Notice by September 1 of each year reminding NOIEs of the October 1 deadline for submitting attestations for the upcoming year.
+[NPRR1246:  Replace paragraph (3) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(3)	In order for ERCOT to award a bid for a PTP Obligation with Links to an Option under this section for an upcoming year, by October 1 of the prior year a NOIE must have provided ERCOT with an attestation that the Generation Resource or ESR for the Resource Node where the bid is sourced is owned or controlled by the NOIE, or has a contractual commitment for capacity and/or energy with the NOIE.  The attestation must be executed by an officer or executive with authority to bind the NOIE, and submitted to ERCOT.  ERCOT shall rely exclusively on the attestation provided by a NOIE in determining eligibility for bid awards under this section.  ERCOT shall issue a Market Notice by September 1 of each year reminding NOIEs of the October 1 deadline for submitting attestations for the upcoming year.
+4.4.7	Ancillary Service Supplied and Traded
+4.4.7.1	Self-Arranged Ancillary Service Quantities
+(1)	For each Ancillary Service, a QSE may self-arrange all or a portion of the Ancillary Service Obligation allocated to it by ERCOT.  QSEs may not self-arrange Regulation Service amounts that include Fast Responding Regulation Up Service (FRRS-Up) or Fast Responding Regulation Down Service (FRRS-Down) quantities.  In addition, a QSE may self-arrange up to 100 MW of ERCOT Contingency Reserve Service (ECRS), 100 MW of Responsive Reserve (RRS), 25 MW of Regulation Up Service (Reg-Up), 25 MW of Regulation Down Service (Reg-Down), and 50 MW of Non-Spinning Reserve (Non-Spin) in excess of its corresponding Ancillary Service Obligation, provided that the amount self-arranged from the QSE’s Resources for a given Ancillary Service shall not exceed the amount of the QSE’s Ancillary Services Obligation for that Ancillary Service.  If a QSE elects to self-arrange Ancillary Service capacity, then ERCOT shall not pay the QSE for the Self-Arranged Ancillary Service Quantities for the portion that meets its Ancillary Service Obligation.  Any Self-Arranged Ancillary Service Quantities in excess of a QSE’s Ancillary Service Obligation will be considered to be offered in the DAM or Supplemental Ancillary Services Market (SASM), as applicable, for $0/MWh.
+[NPRR1091:  Replace paragraph (1) above with the following upon system implementation:]
+(1)	For each Ancillary Service, a QSE may self-arrange all or a portion of the Ancillary Service Obligation allocated to it by ERCOT.  QSEs may not self-arrange Regulation Service amounts that include Fast Responding Regulation Up Service (FRRS-Up) or Fast Responding Regulation Down Service (FRRS-Down) quantities.  In addition, a QSE may self-arrange up to 150 MW of Responsive Reserve (RRS), 25 MW of Regulation Up Service (Reg-Up), 25 MW of Regulation Down Service (Reg-Down), and 300 MW of Non-Spinning Reserve (Non-Spin) in excess of its corresponding Ancillary Service Obligation, provided that the amount self-arranged from the QSE’s Resources for a given Ancillary Service shall not exceed the amount of the QSE’s Ancillary Services Obligation for that Ancillary Service.  If a QSE elects to self-arrange Ancillary Service capacity, then ERCOT shall not pay the QSE for the Self-Arranged Ancillary Service Quantities for the portion that meets its Ancillary Service Obligation.  Any Self-Arranged Ancillary Service Quantities in excess of a QSE’s Ancillary Service Obligation will be considered to be offered in the DAM or Supplemental Ancillary Services Market (SASM), as applicable, for $0/MWh.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation or upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	For each Ancillary Service, a QSE may self-arrange all or a portion of the advisory Ancillary Service Obligation allocated to it by ERCOT, subject to the QSE’s share of system-wide limits as established by Section 3.16, Standards for Determining Ancillary Service Quantities.  If a QSE elects to self-arrange Ancillary Service capacity, then ERCOT shall not pay the QSE for the Self-Arranged Ancillary Service Quantities for the portion that meets its final Ancillary Service Obligation; ERCOT shall pay the QSE the respective Day-Ahead Ancillary Service price for any Self-Arranged Ancillary Service Quantities that exceed a QSE’s final Ancillary Service Obligation.
+(2)	The QSE must indicate before 1000 in the Day-Ahead the Self-Arranged Ancillary Service Quantities, by service, so ERCOT can determine how much Ancillary Service capacity, by service, needs to be obtained through the DAM.  
+[NPRR1008:  Replace paragraph (2) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(2)	The QSE must indicate before 1000 in the Day-Ahead the Self-Arranged Ancillary Service Quantities, by service, so ERCOT can determine how much Ancillary Service capacity, by service, remains to be obtained based on DAM offers and associated Ancillary Service Demand Curves (ASDCs).
+(3)	At or after 1000 in the Day-Ahead, a QSE may not change its Self-Arranged Ancillary Service Quantities unless ERCOT opens a SASM. 
+[NPRR1008:  Replace paragraph (3) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(3)	At or after 1000 in the Day-Ahead, a QSE may not change its Self-Arranged Ancillary Service Quantities.
+(4)	Before 1430 in the Day-Ahead, all Self-Arranged Ancillary Service Quantities must be represented by physical capacity, either by Generation Resources or Load Resources, or backed by Ancillary Service Trades. 
+[NPRR1008:  Replace paragraph (4) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(4)	Before 1430 in the Day-Ahead, all Self-Arranged Ancillary Service Quantities must be represented by physical capacity, either by Generation Resources, ESRs, or Load Resources, or backed by Ancillary Service Trades.
+(5)	The QSE may self-arrange Reg-Up, Reg-Down, ECRS, RRS, and Non-Spin.
+(6)	The QSE may self-arrange Ancillary Services from one or more Resources it represents and/or through an Ancillary Service Trade. 
+(7)	The additional Self-Arranged Ancillary Service Quantity specified by the QSE in response to a SASM notice by ERCOT to obtain additional Ancillary Services in the Adjustment Period cannot be more than 100 MW of ECRS, 100 MW of RRS, 25 MW of Reg-Up, 25 MW of Reg-Down, and 50 MW of Non-Spin greater than the additional Ancillary Service amount allocated by ERCOT to that QSE, as stated in the SASM notice, and cannot be changed once committed to ERCOT.
+(8)	If a QSE does not self-arrange all of its Ancillary Service Obligation, ERCOT shall procure the remaining amount of that QSE’s Ancillary Service Obligation. 
+[NPRR1008:  Replace paragraphs (7) and (8) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project and renumber accordingly:]
+(7)	A QSE shall not submit Ancillary Services trades that result in the QSE’s purchased quantities of Ancillary Services exceeding the QSE’s Self-Arranged Ancillary Service Quantities. 
+(a)	At 1430 in the Day-Ahead, ERCOT shall post a report on the MIS Certified Area to notify the QSE if there is an overage in the QSE’s purchased quantities of Ancillary Services in violation of the above limitation.
+(b)	If the QSE has such an overage as of the end of the Adjustment Period, that QSE will be charged for any quantity that exceeds their Self-Arranged Ancillary Service Quantities per Section 6.7.5.1, Real-Time Ancillary Service Imbalance Payment or Charge.
+(9)	For self-arranged RRS, the QSE shall indicate the quantity of the service that is provided from:
+(a)	Resources providing Primary Frequency Response;
+(b)	Load Resources controlled by high-set under-frequency relays; and
+(c)	Fast Frequency Response (FFR) Resources.
+(10)	For self-arranged ECRS, the QSE shall indicate the quantity of the service that is provided from Resources that are manually dispatched and those that are SCED-dispatchable.
+[NPRR1213:  Replace paragraph (10) above with the following upon system implementation, and upon system implementation of NPRR1171:]
+(10)	For self-arranged ECRS and Non-Spin, the QSE shall indicate the quantity of the service that is provided from Resources that are manually dispatched, Distribution Generation Resources (DGRs) and Distribution Energy Storage Resources (DESRs) on circuits subject to Load shed, and Resources that are SCED-dispatchable not on circuits subject to Load shed.
+(11)     For self-arranged Non-Spin, the QSE shall indicate the quantity of the service that is provided from Resources that are manually dispatched, DGRs and DESRs on circuits subject to Load shed, and Resources that are SCED-dispatchable and not on circuits subject to Load shed.
+4.4.7.1.1	Negative Self-Arranged Ancillary Service Quantities
+(1)	A QSE may submit a negative Self-Arranged Ancillary Service Quantity in the DAM.  ERCOT shall procure all negative Self-Arranged Ancillary Service Quantities submitted by a QSE.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	A QSE may submit a negative Self-Arranged Ancillary Service Quantity in the DAM.  ERCOT shall procure all negative Self-Arranged Ancillary Service Quantities submitted by a QSE.  Such negative Self-Arranged Ancillary Service Quantities will be considered by DAM to be equivalent to a bid to buy Ancillary Services at the highest price on each respective ASDC.
+(2)	Procurements of negative Self-Arranged Ancillary Service Quantities by ERCOT shall be settled in the same manner as Ancillary Service Obligations that are not self-arranged and according to the charges defined in Section 4.6.4.2, Charges for Ancillary Services Procurement in the DAM, and Section 6.7, Real-Time Settlement Calculations for the Ancillary Services.
+(3)	A QSE may not submit a negative Self-Arranged Ancillary Service Quantity in the DAM that is less than -500 MW per Ancillary Service.  For negative self-arranged RRS and ECRS, the QSE shall not specify FFR Resources, Controllable Load Resources, and Load Resources controlled by high-set under-frequency relays.  For compliance purposes, a QSE may not submit a negative Self-Arranged Ancillary Service Quantity in the DAM that is greater in magnitude than the absolute value of the net sales of its Ancillary Service Trades per Ancillary Service.
+[NPRR1213:  Replace paragraph (3) above with the following upon system implementation, and upon system implementation of NPRR1171:]
+(3)	A QSE may not submit a negative Self-Arranged Ancillary Service Quantity in the DAM that is less than -500 MW per Ancillary Service.  For negative self-arranged RRS, ECRS, and Non-Spin, the QSE shall not specify FFR Resources, Controllable Load Resources, Load Resources controlled by high-set under-frequency relays, and DGRs and DESRs on circuits subject to Load shed.  For compliance purposes, a QSE may not submit a negative Self-Arranged Ancillary Service Quantity in the DAM that is greater in magnitude than the absolute value of the net sales of its Ancillary Service Trades per Ancillary Service.
+4.4.7.2	Ancillary Service Offers
+(1)	By 1000 in the Day-Ahead, a QSE may submit Generation Resource-specific Ancillary Service Offers to ERCOT for the DAM and may offer the same Generation Resource capacity for any or all of the Ancillary Service products simultaneously with any Energy Offer Curves from that Generation Resource in the DAM.  A QSE may also submit Ancillary Service Offers in a SASM.  Offers of more than one Ancillary Service product from one Generation Resource may be inclusive or exclusive of each other and of any Energy Offer Curves, as specified according to a procedure developed by ERCOT. 
+[NPRR1008, NPRR1014, and NPRR1188:  Replace applicable portions of paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014 or NPRR1188:]
+(1)	By 1000 in the Day-Ahead, a QSE may submit Resource-Specific Ancillary Service Offers from Generation Resources, Controllable Load Resources (CLRs), and ESRs to ERCOT for the DAM and may offer the same Generation Resource, CLR, or ESR capacity for any or all of the Ancillary Service products simultaneously with any Energy Offer Curves from that Generation Resource, Energy Bid Curves from that CLR, or Energy Bid/Offer Curves from that ESR in the DAM.  Offers of more than one Ancillary Service product from one Generation Resource may be inclusive or exclusive of each other and of any Energy Offer Curves, as specified according to a procedure developed by ERCOT.  Offers of more than one Ancillary Service product from one CLR may be inclusive or exclusive of each other but considered inclusive of any Energy Bid Curve, as specified according to a procedure developed by ERCOT.  Offers of more than one Ancillary Service product from one ESR may be inclusive or exclusive of each other, as specified according to a procedure developed by ERCOT.
+(2)	By 1000 in the Day-Ahead, a QSE may submit Load Resource-specific Ancillary Service Offers for Regulation Service, Non-Spin, RRS, and ECRS to ERCOT and may offer the same Load Resource capacity for any or all of those Ancillary Service products simultaneously.  Offers of more than one Ancillary Service product from one Load Resource may be inclusive or exclusive of each other, as specified according to a procedure developed by ERCOT.
+[NPRR1008 and NPRR1014:  Replace applicable portions of paragraph (2) above with the following upon system implementation for NPRR1014; or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008:]
+(2)	By 1000 in the Day-Ahead, a QSE may submit Load Resource-Specific Ancillary Service Offers for Regulation Service, Non-Spin, RRS, and ECRS to ERCOT and may offer the same Load Resource capacity for any or all of those Ancillary Service products simultaneously.  Offers of more than one Ancillary Service product from one Load Resource may be inclusive or exclusive of each other, as specified according to a procedure developed by ERCOT.
+(3)	By 1000 in the Day-Ahead, a QSE may submit Resource-specific Ancillary Service Offers to ERCOT for FFR Resources, and may offer the same capacity for any or all of the Ancillary Service products simultaneously with any Energy Offer Curves from that Resource in the DAM.  A QSE may also submit Ancillary Service Offers in a SASM.  Offers of more than one Ancillary Service product may be inclusive or exclusive of each other and of any Energy Offer Curves, as specified according to a procedure developed by ERCOT.
+[NPRR1008 and NPRR1014:  Replace applicable portions of paragraph (3) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014:]
+(3)	By 1000 in the Day-Ahead, a QSE may submit Resource-Specific Ancillary Service Offers to ERCOT for FFR Resources, and may offer the same capacity for any or all of the Ancillary Service products simultaneously with any Energy Offer Curves from that Resource in the DAM.  Offers of more than one Ancillary Service product may be inclusive or exclusive of each other and of any Energy Offer Curves, as specified according to a procedure developed by ERCOT.
+[NPRR1008, NPRR1014, and NPRR1245:  Insert applicable portions of paragraph (4) below upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008 and NPRR1245; or upon system implementation for NPRR1014; and renumber accordingly:]
+(4)	By 1000 in the Day-Ahead, a QSE may submit an Ancillary Service Only Offer to ERCOT for the DAM.  An individual Ancillary Service Only Offer must be exclusive to a single Ancillary Service product.  For purposes of Ancillary Service sub-category limitations and validations, an Ancillary Service Only Offer for RRS will be treated as if it was an offer for RRS from an On-Line Generation Resource.  Likewise, an Ancillary Service Only Offer for ECRS or Non-Spin will be treated as if it was an offer for ECRS or Non-Spin from an On-Line Generation Resource.
+(4)	Ancillary Service Offers remain active for the offered period until:  
+(a)	Selected by ERCOT; 
+(b)	Automatically inactivated by the software at the offer expiration time specified by the QSE when the offer is submitted; or
+(c)	Withdrawn by the QSE, but a withdrawal is not effective if the deadline for submitting offers has already passed.
+[NPRR1008 and NPRR1014:  Replace applicable portions of paragraph (4) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014:]
+(4)	Ancillary Service Offers remain active for the offered period unless the offer is:  
+(a)	Effective after DAM and is higher than the Real-Time System-Wide Offer Cap (RTSWCAP); 
+(b)	Automatically inactivated by the software at the offer expiration time specified by the QSE when the offer is submitted; or
+(c)	Withdrawn by the QSE, but a withdrawal is not effective if the deadline for submitting offers has already passed.
+(5)	A Load Resource that is not a Controllable Load Resource may specify whether its Ancillary Service Offer for RRS or Non-Spin may only be procured by ERCOT as a block.
+[NPRR1008 and NPRR1014:  Replace applicable portions of paragraph (5) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014:]
+(5)	A Load Resource that is not a Controllable Load Resource may specify whether its Resource-Specific Ancillary Service Offer for RRS or Non-Spin may only be procured by ERCOT as a block.
+(6)	A Load Resource that is not a Controllable Load Resource may specify whether its Ancillary Service Offer for ECRS may only be procured by ERCOT as a block.
+[NPRR1014:  Replace paragraph (6) above with the following upon system implementation:]
+(6)	A Load Resource that is not a Controllable Load Resource may specify whether its Resource-Specific Ancillary Service Offer for ECRS may only be procured by ERCOT as a block.
+(7)	A QSE that submits an On-Line Ancillary Service Offer without also submitting a Three-Part Supply Offer for the DAM for any given hour will be considered by the DAM to be self-committed for that hour, as long as an Ancillary Service Offer for Off-Line Non-Spin was not also submitted for that hour.  When the DAM considers a self-committed offer for clearing, the Resource constraints identified in paragraph (4)(c)(ii) of Section 4.5.1, DAM Clearing Process, other than HSL, are ignored.  A Combined Cycle Generation Resource will be considered by the DAM to be self-committed based on an On-Line Ancillary Service Offer submittal if: 
+(a)	Its QSE submits an On-Line Ancillary Service Offer without also submitting a Three-Part Supply Offer for the DAM for any Combined Cycle Generation Resource within the Combined Cycle Train for that hour;
+(b)	No Ancillary Service Offer for Off-Line Non-Spin for any Combined Cycle Generation Resource within the Combined Cycle Train is submitted for that hour; and
+(c)	No On-Line Ancillary Service Offer for any other Combined Cycle Generation Resource within the Combined Cycled Train is submitted for that hour. 
+[NPRR1008 and NPRR1014:  Replace applicable portions of paragraph (7) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014:]
+(7) 	A QSE that submits an On-Line Resource-Specific Ancillary Service Offer without also submitting a Three-Part Supply Offer for the DAM for any given hour will be considered by the DAM to be self-committed for that hour, as long as a Resource-Specific Ancillary Service Offer for Off-Line Non-Spin was not also submitted for that hour.  A QSE that submits an On-Line ESR-specific Ancillary Service Offer or Energy Bid/Offer Curve for the DAM will be considered to be On-Line.  A QSE may not submit an Off-Line Ancillary Service Offer for an ESR.  When the DAM considers a self-committed offer for clearing, the Resource constraints identified in paragraph (4)(c)(ii) of Section 4.5.1, DAM Clearing Process, other than HSL, are ignored; however, for an ESR, the DAM will consider LSL and HSL.  A Combined Cycle Generation Resource will be considered by the DAM to be self-committed based on an On-Line Resource-Specific Ancillary Service Offer submittal if: 
+(a)	Its QSE submits an On-Line Resource-Specific Ancillary Service Offer without also submitting a Three-Part Supply Offer for the DAM for any Combined Cycle Generation Resource within the Combined Cycle Train for that hour;
+(b)	No Resource-Specific Ancillary Service Offer for Off-Line Non-Spin for any Combined Cycle Generation Resource within the Combined Cycle Train is submitted for that hour; and
+(c)	No On-Line Resource-Specific Ancillary Service Offer for any other Combined Cycle Generation Resource within the Combined Cycled Train is submitted for that hour. 
+(8)	ERCOT will attempt to procure the quantity from its Ancillary Service Plan from Resource-Specific Ancillary Service Offers as well as Ancillary Service Only Offers against respective ASDCs.
+4.4.7.2.1	Ancillary Service Offer Criteria
+(1)	Each Ancillary Service Offer must be submitted by a QSE and must include the following information:
+(a)	The selling QSE;
+(b)	The Resource represented by the QSE from which the offer would be supplied;
+(c)	The quantity in MW and Ancillary Service type from that Resource for this specific offer and the specific quantity in MW and Ancillary Service type of any other Ancillary Service offered from this same capacity; 
+(d)	An Ancillary Service Offer linked to a Three-Part Supply Offer from a Resource designated to be Off-Line for the offer period in its COP may only be struck if the Three-Part Supply Offer is struck.  The total capacity struck must be within limits as defined in item (4)(c)(iii) of Section 4.5.1, DAM Clearing Process;  
+(e)	An Ancillary Service Offer linked to other Ancillary Service Offers or an Energy Offer Curve from a Resource designated to be On-Line for the offer period in its COP may only be struck if the total capacity struck is within limits as defined in item (4)(c)(iii) of Section 4.5.1;
+(f)	The first and last hour of the offer; 
+(g)	A fixed quantity block, or variable quantity block indicator for the offer:
+(i)	If a fixed quantity block, not to exceed 150 MW, which may only be offered by a Load Resource that is not a Controllable Load Resource and that is offering to provide RRS, ECRS, or Non-Spin, and which may clear at a Market Clearing Price for Capacity (MCPC) below the Ancillary Service Offer price for that block, the single price (in $/MW) and single quantity (in MW) for all hours offered in that block; or
+(ii)	If a variable quantity block, which may be offered by a Generation Resource or a Load Resource, the single price (in $/MW) and single “up to” quantity (in MW) contingent on the purchase of all hours offered in that block; and
+(h)	The expiration time and date of the offer.
+(2)	A valid Ancillary Service Offer in the DAM must be received before 1000 for the effective DAM.  A valid Ancillary Service Offer in an SASM must be received before the applicable deadline for that SASM.
+(3)	No Ancillary Service Offer price may exceed the System-Wide Offer Cap (SWCAP) (in $/MW).  No Ancillary Service Offer price may be less than $0 per MW.
+(4)	The minimum amount per Resource for each Ancillary Service product that may be offered is one-tenth (0.1) MW.
+(5)	A Resource may offer more than one Ancillary Service.  
+(6)	A Load Resource that is not a Controllable Load Resource, may simultaneously offer RRS, ECRS, and Non-Spin in a DAM or SASM and be awarded RRS, ECRS, and Non-Spin for the same Operating Hour but will not be allowed to provide RRS and Non-Spin or ECRS and Non-Spin on the same Load Resource simultaneously in Real-Time.
+(7)	Offers for Load Resources may be adjusted to reflect Distribution Losses in accordance with Section 8.1.1.2, General Capacity Testing Requirements.
+(8)	A Load Resource that is qualified to perform as a Controllable Load Resource may not offer to provide Ancillary Services as a Controllable Load Resource and a Load Resource controlled by high-set under-frequency relay simultaneously behind a common breaker. 
+[NPRR1008, NPRR1014, NPRR1128, and NPRR1245:  Replace applicable portions of Section 4.4.7.2.1 above with the following upon system implementation for NPRR1014 and NPRR1128; or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008 and NPRR1245:]
+4.4.7.2.1	Resource-Specific Ancillary Service Offer Criteria
+(1)	Each Resource-Specific Ancillary Service Offer must be submitted by a QSE and must include the following information:
+(a)	The selling QSE;
+(b)	The Resource represented by the QSE from which the offer would be supplied;
+(c)	The quantity in MW and Ancillary Service type from that Resource for this specific offer and the specific quantity in MW and Ancillary Service type of any other Ancillary Service offered from this same capacity; 
+(d)	A Resource-Specific Ancillary Service Offer linked to a Three-Part Supply Offer from a Resource designated to be Off-Line for the offer period in its COP may only be struck if the Three-Part Supply Offer is struck.  The total capacity struck must be within limits as defined in item (4)(c)(iii) of Section 4.5.1, DAM Clearing Process;  
+(e)	A Resource-Specific Ancillary Service Offer linked to other Resource-Specific Ancillary Service Offers or an Energy Offer Curve or Energy Bid/Offer Curve from a Resource designated to be On-Line for the offer period in its COP may only be struck if the total capacity struck is within limits as defined in item (4)(c)(iii) of Section 4.5.1;
+(f)	The first and last hour of the offer; 
+(g)	A fixed quantity block or variable quantity block indicator for the offer:
+(i)	If a fixed quantity block, not to exceed 150 MW, which may only be offered by a Load Resource that is not a Controllable Load Resource and that is offering to provide RRS, ECRS, or Non-Spin, and which may clear at a Market Clearing Price for Capacity (MCPC) below the Resource-Specific Ancillary Service Offer price for that block, the single price (in $/MW) and single quantity (in MW) for all hours offered in that block.  This fixed quantity block indicator will only be considered in the DAM and will be ignored for awarding of Ancillary Services in the Real-Time Market (RTM); or 
+(ii)	If a variable quantity block, which may be offered by a Generation Resource, an ESR, or a Load Resource, the single price (in $/MW) and single “up to” quantity (in MW) contingent on the purchase of all hours offered in that block.  This variable quantity block indicator will only be considered in the DAM and will be ignored for awarding of Ancillary Services in the RTM; and
+(h)	The expiration time and date of the offer.
+(2)	A valid Resource-Specific Ancillary Service Offer in the DAM must be received before 1000 for the effective DAM.  
+(3)	No Resource-Specific Ancillary Service Offer received before 1000 in the Day-Ahead may contain a price exceeding the Day-Ahead System-Wide Offer Cap (DASWCAP) (in $/MW).  No Resource-Specific Ancillary Service Offer received after 1430 in the Day-Ahead may contain a price exceeding the Real-Time System-Wide Offer Cap (RTSWCAP) (in $/MW).  After 1430 in the Day-Ahead, ERCOT shall cancel any Resource-Specific Ancillary Service Offer containing a price exceeding the RTSWCAP and notify the QSE of the expiration via an electronic message.  During the Operating Hours in which prioritizing the procurement of FFR up to the maximum FFR amount is in effect, an FFR Ancillary Service Offer price may not be less than -$0.01 per MW.  FFR Ancillary Service Offer prices at all other times and any other Ancillary Service Offer prices may not be less than $0 per MW.
+(4)	The minimum amount per Resource for each Ancillary Service product that may be offered is one-tenth (0.1) MW.
+(5)	A Resource may offer more than one Ancillary Service.  
+(6)	A Load Resource, that is not a Controllable Load Resource, may simultaneously offer RRS, ECRS, and Non-Spin in a DAM and be awarded RRS, ECRS, and Non-Spin for the same Operating Hour in the DAM, but will not be awarded Non-Spin and RRS or Non-Spin and ECRS on the same Load Resource simultaneously in Real-Time.
+(7)	Offers for Load Resources may be adjusted to reflect Distribution Losses in accordance with Section 8.1.1.2, General Capacity Testing Requirements.
+(8)	A Load Resource that is qualified to perform as a Controllable Load Resource may not offer to provide Ancillary Services as a Controllable Load Resource and a Load Resource controlled by high-set under-frequency relay simultaneously behind a common breaker.
+4.4.7.2.2	Ancillary Service Offer Validation
+(1)	A valid Ancillary Service Offer is one that ERCOT has determined meets the criteria listed in Section 4.4.7.2.1, Ancillary Service Offer Criteria.
+(2)	ERCOT shall continuously validate Ancillary Service Offers and continuously display on the MIS Certified Area information that allows any QSE named in an Ancillary Service Offer to view its confirmed Ancillary Service Offers.  
+(3)	ERCOT shall notify the QSE submitting an Ancillary Service Offer if the offer was rejected or was considered invalid for any reason.  The QSE may then resubmit the offer within the appropriate market timeline.
+[NPRR1008:  Replace Section 4.4.7.2.2 above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+4.4.7.2.2	Resource-Specific Ancillary Service Offer Validation
+(1)	A valid Resource-Specific Ancillary Service Offer is one that ERCOT has determined meets the criteria listed in Section 4.4.7.2.1, Resource-Specific Ancillary Service Offer Criteria.
+(2)	ERCOT shall continuously validate Resource-Specific Ancillary Service Offers and continuously display on the MIS Certified Area information that allows any QSE named in a Resource-Specific Ancillary Service Offer to view its confirmed Resource-Specific Ancillary Service Offers.  
+(3)	ERCOT shall notify the QSE submitting a Resource-Specific Ancillary Service Offer if the offer was rejected or was considered invalid for any reason.  The QSE may then resubmit the offer within the appropriate market timeline.
+[NPRR1008 and NPRR1128:  Insert applicable portions of Section 4.4.7.2.3 below upon system implementation for NPRR1128; or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008:]
+4.4.7.2.3	Ancillary Service Only Offer Criteria
+(1)	Each Ancillary Service Only Offer must be submitted by a QSE and must include the following information:
+(a)	The selling QSE;
+(b)	The quantity in MW and Ancillary Service type; 
+(c)	The first and last Operating Hour of the offer; 
+(2)	A valid Ancillary Service Only Offer in the DAM must be received before 1000 in the Day-Ahead.  
+(3)	No Ancillary Service Only Offer price may exceed the DASWCAP (in $/MW).  During the Operating Hours in which prioritizing the procurement of FFR up to the maximum FFR amount is in effect, an FFR Ancillary Service Offer price may not be less than -$0.01 per MW.  FFR Ancillary Service Offer price at all other times and any other Ancillary Service Only Offer prices may not be less than $0 per MW.
+(4)	The minimum amount that may be offered is one-tenth (0.1) MW.
+[NPRR1008:  Insert Section 4.4.7.2.4 below upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+4.4.7.2.4	Ancillary Service Only Offer Validation
+(1)	A valid Ancillary Service Only Offer is one that ERCOT determines meets the criteria listed in Section 4.4.7.2.3, Ancillary Service Only Offer Criteria.
+(2)	ERCOT shall continuously validate Ancillary Service Only Offers and continuously display on the MIS Certified Area information that allows any QSE named in an Ancillary Service Only Offer to view its confirmed Ancillary Service Only Offers.  
+(3)	ERCOT will notify the QSE submitting an Ancillary Service Only Offer using the MIS Certified Area if the offer was rejected or was considered invalid for any reason.  The QSE may resubmit the offer if the time for receiving offers has not elapsed.
+4.4.7.3	Ancillary Service Trades
+(1)	An Ancillary Service Trade is the information for a QSE-to-QSE transaction that transfers an obligation to provide Ancillary Service capacity between a buyer and a seller. 
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	An Ancillary Service Trade is the information for a QSE-to-QSE transaction that transfers an obligation to provide Ancillary Service capacity or purchase Ancillary Services in the Real-Time Market (RTM) between a buyer and a seller.
+(2)	An Ancillary Service Trade that is reported to ERCOT by 1430 in the Day-Ahead changes the Ancillary Service Supply Responsibility of the buyer and seller in the DRUC process.  An Ancillary Service Trade that is reported to ERCOT after 1430 in the Day-Ahead changes the Ancillary Service Supply Responsibility of the buyer and seller in any applicable HRUC process, the deadline for which is after the trade is submitted. 
+[NPRR1008:  Replace paragraph (2) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(2)	An Ancillary Service Trade that is reported to ERCOT by 1430 in the Day-Ahead changes the Ancillary Service Position of the buyer and seller in the DRUC process.  An Ancillary Service Trade that is reported to ERCOT after 1430 in the Day-Ahead changes the Ancillary Service Position of the buyer and seller in any applicable HRUC process, the deadline for which is after the trade is submitted.
+(3)	As soon as practicable, ERCOT shall notify each QSE through the Messaging System of any of its Ancillary Service Trades that are invalid Ancillary Service Trades.  The QSE may correct and resubmit any invalid Ancillary Service Trade, but the reporting time of the trade is determined by when the validated Ancillary Service Trade was submitted and not when the original invalid Ancillary Service Trade was submitted. 
+(4)	A QSE with an Ancillary Service Supply Responsibility for ECRS, originally designated to be provided by a Generation Resource, may transfer its responsibility via Ancillary Service Trade(s) to another QSE only if that QSE designates the ECRS will be provided by a Generation Resource.  
+[NPRR1008 and NPRR1246:  Replace paragraph (4) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(4)	A QSE with an Ancillary Service Position for ECRS, originally designated to be provided by a SCED-dispatchable Resource, may transfer that portion of its Ancillary Service Position via Ancillary Service Trade(s) to another QSE only if that QSE designates the ECRS will be provided by a SCED-dispatchable Resource.
+[NPRR1213:  Delete paragraph (4) above upon system implementation, and upon system implementation of NPRR1171, and renumber accordingly.]
+(5)	A QSE with an Ancillary Service Supply Responsibility for ECRS, originally designated to be provided by a Load Resource providing ECRS triggered with or without under-frequency relays set at 59.70 Hz, may transfer its responsibility via Ancillary Service Trade(s) to another QSE only if that QSE designates the ECRS will be provided by either: 
+[NPRR1008:  Replace paragraph (5) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(5)	A QSE with an Ancillary Service Position for ECRS, originally designated to be provided by a Load Resource providing ECRS triggered with or without under-frequency relays set at 59.70 Hz, may transfer that portion of its Ancillary Service Position via Ancillary Service Trade(s) to another QSE only if that QSE designates the ECRS will be provided by either:
+(a)	A Generation Resource; or 
+[NPRR1246:  Insert item (b) below upon system implementation of the Real-Time Co-Optimization (RTC) project and renumber accordingly:]
+(b)	An ESR; or
+(b)	A Load Resource providing ECRS triggered with or without under-frequency relays set at 59.70 Hz.  
+[NPRR1213:  Delete paragraph (5) above upon system implementation, and upon system implementation of NPRR1171, and renumber accordingly.]
+(6)	The table below shows the ECRS trades that are allowed for each type of original responsibility:
+	Allowable ECRS Ancillary Service Trades
+Original Responsibility	SCED-dispatchable ECRS	Manually dispatched ECRS
+SCED-dispatchable ECRS	Yes	No
+Manually dispatched ECRS	Yes	Yes
+[NPRR1213:  Replace paragraph (6) above with the following upon system implementation, and upon system implementation of NPRR1171:]
+(4)	The table below shows the ECRS trades that are allowed for each type of original responsibility:
+			
+	Allowable ECRS Ancillary Service Trades
+Original Responsibility	SCED-dispatchable ECRS not from DGRs and DESRs on a Load shed circuit	SCED-dispatchable ECRS from DGRs and DESRs on a Load shed circuit	Manually dispatched ECRS
+SCED-dispatchable ECRS not from DGRs and DESRs on a Load shed circuit	Yes	No	No
+SCED-dispatchable ECRS from DGRs and DESRs on a Load shed circuit	Yes	Yes	No
+Manually dispatched ECRS	Yes	No	Yes
+(7)	The table below shows the RRS trades that are allowed for each type of original responsibility:
+	Allowable RRS Ancillary Service Trades
+Original Responsibility	Resource providing Primary Frequency Response	Resource providing FFR triggered at 59.85 Hz	Load Resource triggered at 59.7 Hz
+Resource providing Primary Frequency Response	Yes	No	No
+Resource providing FFR triggered at 59.85 Hz	Yes	Yes	Yes
+Load Resource triggered at 59.7 Hz	Yes	No	Yes
+(8)       The table below shows the Non-Spin trades that are allowed for each type of original responsibility:
+	Allowable Non-Spin Ancillary Service Trades
+Original Responsibility	Generation Resource or Controllable Load Resource	Load Resource other than a Controllable Load Resource
+Generation Resource or Controllable Load Resource	Yes	No
+Load Resource other than a Controllable Load Resource	Yes	Yes
+[NPRR1213:  Replace paragraph (8) above with the following upon system implementation, and upon system implementation of NPRR1171:]
+(6)       The table below shows the Non-Spin trades that are allowed for each type of original responsibility:
+			
+	Allowable Non-Spin Ancillary Service Trades
+Original Responsibility	Generation Resource not DGRs and DESRs on a Load shed circuit or Controllable Load Resource	DGRs and DESRs on a  Load shed circuit	Load Resource other than a Controllable Load Resource
+Generation Resource not on circuits subject to Load shed or Controllable Load Resource	Yes	No	No
+DGRs and DESRs on a Load shed circuit	Yes	Yes	No
+Load Resource other than a Controllable Load Resource	Yes	No	Yes
+(9)	A QSE with an Ancillary Service Supply Responsibility for Regulation Service may transfer that portion of its Ancillary Service Supply Responsibility via Ancillary Service Trade(s) to another QSE only if that QSE provides the transferred portion with Regulation Service that is not Fast Responding Regulation Service (FRRS).  The table below shows the Regulation Service trades that are allowed for each type of original responsibility.  The same limitations apply separately to both Reg-Up and Reg-Down:
+	Allowable Regulation Ancillary Service Trades
+Original Responsibility	Regulation Service that is not FRRS	FRRS
+Regulation Service that is not FRRS	Yes	No
+FRRS	Yes	No
+4.4.7.3.1	Ancillary Service Trade Criteria
+(1)	Each Ancillary Service Trade must be reported by a QSE and must include the following information: 
+(a)	The buying QSE;
+(b)	The selling QSE;
+(c)	The type of Ancillary Service;
+(d)	The quantity in MW; and
+(e)	The first and last hours of the trade.
+(f)	For RRS, the QSE shall indicate the quantity of the service that is provided from:
+(i)	Resources providing Primary Frequency Response;
+(ii)	FFR Resources; and
+(iii)	Load Resources controlled by high-set under-frequency relays.
+[NPRR1014:  Replace paragraph (f) above with the following upon system implementation:]
+(f)	For RRS, the QSE shall indicate the quantity of the service that is provided from:
+(i)	Resources capable of providing Primary Frequency Response;
+(ii)	ESRs and Load Resources providing FFR; and
+(iii)	Load Resources controlled by high-set under-frequency relays.
+(2)	For ECRS, the QSE shall indicate the quantity of the service that is provided from Resources that are manually dispatched and those that are SCED-dispatchable.
+[NPRR1213:  Replace paragraph (2) above with the following upon system implementation, and upon system implementation of NPRR1171, and renumber accordingly:]
+(2)	For ECRS, the QSE shall indicate the quantity of the service that is provided from:
+(a)	Manually dispatched Resources; 
+(b)	SCED-dispatchable Resources that are not DGRs and DESRs on circuits subject to Load shed; and
+(c)	DGRs and DESRs on circuits subject to Load shed.
+(3)	For Non-Spin, the QSE shall indicate the quantity of the service that is provided from:
+(a)	Load Resources that are not Controllable Load Resources; 
+(b)	Generation Resources that are not DGRs or DESRs on circuits subject to Load shed and Controllable Load Resources; and
+(c)	DGRs and DESRs on circuits subject to Load shed.
+(3)	An Ancillary Service Trade must be confirmed by both the buying QSE and selling QSE to be considered valid and to be used in an ERCOT process.
+4.4.7.3.2	Ancillary Service Trade Validation
+(1)	A valid Ancillary Service Trade is an Ancillary Service Trade that ERCOT has determined meets the criteria listed in Section 4.4.7.3.1, Ancillary Service Trade Criteria.  Only one confirmed Ancillary Service Trade is allowed for the same buying and selling QSEs for each type of Ancillary Service for each hour.
+(2)	When an Ancillary Service Trade is reported to ERCOT, ERCOT shall notify both the buying and selling QSEs by using the Messaging System if available and the MIS Certified Area.  
+(3)	ERCOT shall continuously validate Ancillary Service Trades and continuously display on the MIS Certified Area information that allows any QSE named in an Ancillary Service Trade to view its confirmed and unconfirmed Ancillary Service Trades.  ERCOT shall also post to the MIS Certified Area any unconfirmed Ancillary Service Trades for QSEs on an hourly basis for all remaining hours of the current Operating Day and all hours of the next Operating Day. 
+(4)	The QSE that first reports the Ancillary Service Trade to ERCOT is deemed to have confirmed the Ancillary Service Trade unless it subsequently affirmatively rejects it.  The QSE that first reports an Ancillary Service Trade may reject, edit, or delete an Ancillary Service Trade that its counterpart has not confirmed.  The counterpart is deemed to have confirmed the Ancillary Service Trade when it submits an identical Ancillary Service Trade.  After both the buyer and seller have confirmed an Ancillary Service Trade, either party may reject it at any time, but the rejection is effective only for any ERCOT process for which the deadline for reporting Ancillary Service Trades has not yet passed.  
+4.4.7.4	Ancillary Service Supply Responsibility
+(1)	A QSE’s Ancillary Service Supply Responsibility is the net amount of Ancillary Service capacity that the QSE is obligated to deliver to ERCOT, by hour and service type.  The Ancillary Service Supply Responsibility is the difference in MW, by hour and service type, between the amounts specified in items (a) and (b) defined as follows:
+(a)	The sum of:
+(i)	The QSE’s Self-Arranged Ancillary Service Quantity; plus
+(ii)	The total (in MW) of Ancillary Service Trades for which the QSE is the seller; plus
+(iii)	Awards to the QSE of Ancillary Service Offers in the DAM; plus
+(iv)	Awards to the QSE of Ancillary Service Offers in the SASM; plus
+(v)	RUC-committed Ancillary Service quantities to the QSE from its Resources committed by the RUC process to provide Ancillary Service; and 
+(b)	The sum of:
+(i)	The total Ancillary Service Trades for which the QSE is the buyer; plus
+(ii)	The total Ancillary Service capacity identified as the QSE’s failure to provide as described in Section 6.4.9.1.3, Failure to Provide Ancillary Service; plus
+(iii)	The total Ancillary Service capacity identified as the QSE’s infeasible Ancillary Service, as described in Section 6.4.9.1.2, Replacement of Infeasible Ancillary Service Due to Transmission Constraints; plus
+(iv)	The total Ancillary Service capacity identified as the QSE’s reconfiguration amount as described in Section 6.4.9.2, Supplemental Ancillary Services Market.
+(2)	A QSE may only use a RUC-committed Resource during that Resource’s RUC-Committed Interval to meet the QSE’s Ancillary Service Supply Responsibility if the Resource has been committed by the RUC process to provide Ancillary Service.  The QSE shall only provide from the RUC-committed Resource the exact amount and type of Ancillary Service for which it was committed by RUC.
+(3)	By 1430 in the Day-Ahead, the QSE must notify ERCOT, in the QSE’s COP, which Resources represented by the QSE will provide the Ancillary Service capacity necessary to meet the QSE’s Ancillary Service Supply Responsibility, specified by Resource, hour, and service type.  The DAM Ancillary Service awards are Resource-specific; the QSE must include those DAM awards in its COP, and the QSE may not change that Resource-specific DAM award information until after 1600 under the conditions set out in Section 3.9, Current Operating Plan (COP). 
+(4)	Section 6.4.9.1.3 specifies what happens if the QSE fails to provide its Ancillary Service Supply Responsibility.
+(5)	A QSE’s Ancillary Service Supply Responsibility must be met by identified Resources that are qualified to provide the Ancillary Service, per Section 8.1.1.2.1, Ancillary Service Technical Requirements and Qualification Criteria and Test Methods, and available to act on Dispatch Instructions.
+[NPRR1008:  Delete Section 4.4.7.4 above upon system implementation of the Real-Time Co-Optimization (RTC) project.]
+4.4.8	RMR Offers
+(1)	ERCOT shall decide, in its sole discretion, to commit a Reliability Must-Run (RMR) Unit using the DRUC or HRUC process only when it has determined that the RMR Unit is likely to be needed in Real-Time for reliability reasons, taking into consideration whether SCED will solve transmission constraints without the RMR Resource, contractual constraints on the Resource, and any other adverse effects on the RMR Unit that may occur as the result of the dispatch of the RMR Resource.
+(a)	If ERCOT has determined that an RMR Unit will be needed in Real-Time to resolve a transmission constraint, then ERCOT shall manually commit the Resource for the capacity required to resolve the transmission constraint using the DRUC or HRUC process. 
+(b)	ERCOT may submit Energy Offer Curves at the SWCAP in $/MWh on behalf of RMR Units committed in the DRUC or HRUC, and subsequently available for Dispatch by SCED, unless ERCOT declares a Market Suspension, in which case no Energy Offer Curves will be submitted, and ERCOT may, at its discretion, Dispatch RMR Units to restore the ERCOT Transmission Grid.
+[NPRR1008:  Replace paragraph (b) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(b)	ERCOT may submit Energy Offer Curves at the effective Value of Lost Load (VOLL) in $/MWh on behalf of RMR Units committed in the DRUC or HRUC, and subsequently available for Dispatch by SCED, unless ERCOT declares a Market Suspension, in which case no Energy Offer Curves will be submitted, and ERCOT may, at its discretion, Dispatch RMR Units to restore the ERCOT Transmission Grid.
+(c)	RMR offers shall be treated as if they were Resource offers for purposes of posting under Section 3.2.5, Publication of Resource and Load Information.
+4.4.9	Energy Offers and Bids
+4.4.9.1	Three-Part Supply Offers
+(1)	A Three-Part Supply Offer consists of a Startup Offer, a Minimum-Energy Offer, and an Energy Offer Curve.  ERCOT must validate each Startup Offer, Minimum-Energy Offer, and Energy Offer Curve before it can be used in any ERCOT process.
+(2)	The DAM uses all three parts of the Three-Part Supply Offer and also uses Energy Offer Curves submitted without a Startup Offer and without a Minimum-Energy Offer.  The RUC only uses the Startup Offer and the Minimum-Energy Offer components for determining RUC commitments, but the Energy Offer Curve may be used in Settlement to claw back some or all of a RUC-committed Resource’s energy payments.  The Energy Offer Curve may also be used by SCED in Real-Time Operations. 
+(3)	A QSE may submit an Energy Offer Curve without also submitting a Startup Offer and a Minimum-Energy Offer for the DAM and during the Adjustment Period, but only Three-Part Supply Offers are used in the RUC process.  A QSE that submits an Energy Offer Curve without also submitting a Startup Offer and a Minimum-Energy Offer is considered not to be offering the Resource into the RUC, but that does not prevent the Resource from being committed in the RUC process like any other Resource that does not submit an offer in the RUC.
+(a)	A QSE that submits an Energy Offer Curve without a Startup Offer and a Minimum-Energy Offer for the DAM for any given hour will be considered by the DAM to be self-committed for that hour, as long as an Ancillary Service Offer for Off-Line Non-Spin Service was not also submitted for that hour.
+(b)	A Combined Cycle Generation Resource will be considered by the DAM to be self-committed if:
+(i)	Its QSE submits an Energy Offer Curve without a Startup Offer and a Minimum-Energy Offer for the DAM for that Combined Cycle Generation Resource and no other Combined Cycle Generation Resource within the Combined Cycle Train; and
+(ii)	Its QSE submits no Ancillary Service Offer for Off-Line Non-Spin for any Combined Cycle Generation Resource within the Combined Cycle Train.
+(c)	When the DAM considers a self-committed offer for clearing, the Resource constraints identified in paragraph (4)(c)(ii) of Section 4.5.1, DAM Clearing Process, other than HSL, are ignored.
+(4)	For any hours in which the Resource is not RUC-committed, ERCOT shall consider all Three-Part Supply Offers in the RUC process until: 
+(a) 	The QSE withdraws the offer; or 
+(b) 	The offer expires by its terms. 
+4.4.9.2	Startup Offer and Minimum-Energy Offer 
+(1)	The Startup Offer component represents all costs incurred by a Generation Resource in starting up and reaching its LSL.  The Minimum-Energy Offer component represents a proxy for the costs incurred by a Resource in producing energy at the Resource’s LSL.  
+[NPRR1014:  Replace paragraph (1) above with the following upon system implementation:]
+(1)	The Startup Offer component represents all costs incurred by a Generation Resource in starting up and reaching its LSL.  The Minimum-Energy Offer component represents a proxy for the costs incurred by a Resource in producing energy at the Resource’s LSL.   Startup Offers and Minimum-Energy Offers are not applicable to ESRs.
+4.4.9.2.1	Startup Offer and Minimum-Energy Offer Criteria 
+(1)	Each Startup Offer and Minimum-Energy Offer must be reported by a QSE and must include the following information:
+(a)	The selling QSE;
+(b)	The Resource represented by the QSE from which the offer would be supplied;
+(c)	The Resource’s hot, intermediate, and cold Startup Offer in dollars; 
+(d)	The Resource’s Minimum-Energy Offer in dollars per MWh; 
+(e)	The first and last hour of the Startup and Minimum-Energy Offers
+(f)	The expiration time and date of the offer; 
+(g)	Percentage of the Fuel Index Price (FIP) to the extent that the startup and minimum energy will be supplied by gas to determine the offer cap; and
+(h)	Percentage of the Fuel Oil Price (FOP) to the extent that the startup and minimum energy will be supplied by oil to determine the offer cap.
+(2)	Valid Startup Offers and Minimum-Energy Offers (which must be part of a Three-Part Supply Offer) must be received before 1000 for the effective DAM and DRUC. 
+(3)	A QSE may update and submit a Startup Offer and/or Minimum-Energy Offer for a Resource during the Adjustment Period for any hours in which the Resource is not DAM- or RUC-committed before the offer is updated or submitted.  
+(4)	The Resource’s Startup Offer must not be greater than 200% of the Resource Category Generic Startup Cost for that type of Resource listed in Section 4.4.9.2.3, Startup Offer and Minimum-Energy Offer Generic Caps, unless ERCOT has approved verifiable Resource-specific startup costs for that Resource, under Section 4.4.9.2.4, Verifiable Startup Offer and Minimum-Energy Offer Caps, in which case the Resource’s Startup Offer must not be greater than 200% of those approved verifiable Resource-specific Startup Costs.
+(5)	The Resource’s Minimum-Energy Offer must not be greater than 200% of the Resource Category Generic Minimum-Energy Cost for that type of Resource listed in Section 4.4.9.2.3 unless ERCOT has approved verifiable Resource-specific minimum-energy costs for that Resource, under Section 4.4.9.2.4 in which case the Resource’s Minimum-Energy Offer must not be greater than 200% of those approved verifiable Resource-specific minimum-energy costs.
+(6)	Prior to 1000 for the effective DAM, a QSE may submit and update a Three-Part Supply Offer for a Resource for any hours which were Weekly Reliability Unit Commitment (WRUC)-instructed.
+4.4.9.2.2	Startup Offer and Minimum-Energy Offer Validation 
+(1)	A valid Startup Offer and Minimum-Energy Offer is an offer that ERCOT has determined meets the criteria listed in Section 4.4.9.2.1, Startup Offer and Minimum-Energy Offer Criteria, and that are part of a Three-Part Supply Offer for which the Energy Offer Curve has also been validated. 
+(2)	ERCOT shall continuously display on the MIS Certified Area information that allows any QSE submitting a Startup Offer and Minimum-Energy Offer to view its valid Startup Offers and Minimum-Energy Offers. 
+(3)	ERCOT shall notify the QSE submitting a Startup Offer and Minimum-Energy Offer (which must be part of a Three-Part Supply Offer) if the offer was rejected or was considered invalid for any reason.  The QSE may then resubmit the offer within the appropriate market timeline. 
+(4)	Where a Split Generation Resource has submitted a Startup Offer and Minimum-Energy Offer, ERCOT shall validate the offers in accordance with Section 3.8, Special Considerations.
+4.4.9.2.3	Startup Offer and Minimum-Energy Offer Generic Caps 
+(1)	The Resource Category Startup Offer Generic Cap, by applicable Resource category, is determined by the following Operations and Maintenance (O&M) costs by Resource category: 
+Resource Category	O&M Costs ($)
+Nuclear, coal, lignite and hydro	7,200
+Combined Cycle Generation Resource with a combustion turbine ≥ 90 MW, as determined by the largest combustion turbine in the Combined Cycle Generation Resource and for each combustion turbine in the Combined Cycle Generation Resource	6,810 
+Combined Cycle Generation Resource with a combustion turbine < 90 MW, as determined by the largest combustion turbine in the Combined Cycle Generation Resource and for each combustion turbine in the Combined Cycle Generation Resource	6,810
+Gas steam supercritical boiler	4,800
+Gas steam reheat boiler 	3,000
+Gas steam non-reheat or boiler w/o air-preheater 	2,310
+Simple cycle greater than 90 MW 	5,000
+Simple cycle less than or equal to 90 MW	2,300
+Reciprocating Engines	$58 /MW * the average of the seasonal net max sustainable ratings
+RMR Resource	Not Applicable
+Wind generation Resources	0
+PhotoVoltaic Generation Resources (PVGRs)	0
+Any Resources not defined above	0
+ 
+(2)	The Resource Category Minimum-Energy Generic Cap is the cost per MWh of energy for a Resource to produce energy at the Resource’s LSL and is as follows:  
+(a)	Hydro = $10.00/MWh;
+(b)	Coal and lignite = $18.00/MWh;
+(c)	Combined-cycle greater than 90 MW = 8 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in Minimum-Energy Offer;
+(d)	Combined-cycle less than or equal to 90 MW = 9 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in Minimum-Energy Offer;
+(e)	Gas steam supercritical boiler = 14 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in Minimum-Energy Offer;
+(f)	Gas steam reheat boiler = 14.5 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in Minimum-Energy Offer;
+(g)	Gas steam non-reheat or boiler without air-preheater = 16.0 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in Minimum-Energy Offer;
+(h)	Simple-cycle greater than 90 MW = 15.0 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in Minimum-Energy Offer;
+(i)	Simple-cycle less than or equal to 90 MW = 14.0 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in Minimum-Energy Offer;
+(j)	Reciprocating engines = 16.0 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in the Minimum-Energy Offer;
+(k)	RMR Resource = RMR contract estimated fuel cost using its contract I/O curve at its LSL times FIP; 
+(l)	Nuclear = Not Applicable; 
+(m)	Wind generation Resources = $0;
+(n)	PVGRs = $0; and
+(o)	Other Resources not defined above = $0.
+(3)	The FIP and FOP used to calculate the Resource Category Minimum-Energy Generic Cap shall be the FIP or FOP for the Operating Day.  In the event the Resource Category Minimum-Energy Generic Cap must be calculated before the FIP or FOP is available for the particular Operating Day, the FIP and FOP for the most recent preceding Operating Day shall be used.  Once the FIP and FOP are available for a particular Operating Day, those values shall be used in the calculations.  If the percentage fuel mix is not specified for Resource categories having the option to specify the fuel mix, then the minimum of FIP or FOP shall be used.
+(4)	Items (2)(c) and (2)(d) above are determined by capacity of largest simple-cycle combustion turbine in the train.
+4.4.9.2.4	Verifiable Startup Offer and Minimum-Energy Offer Caps 
+(1)	Once verifiable Resource-specific startup costs and minimum-energy costs are established and approved by ERCOT in accordance with Section 5.6.1, Verifiable Costs, then they are used in place of generic costs as described in Section 4.4.9.2.3, Startup Offer and Minimum-Energy Offer Generic Caps.  A QSE may file verifiable unit-specific costs for a Resource at any time, but it is not required to file those costs only because of a DAM commitment. The most recent approved verifiable costs on file must be used going forward.
+4.4.9.3	Energy Offer Curve
+(1)	The Energy Offer Curve represents the QSE’s willingness to sell energy at or above a certain price and at a certain quantity in the DAM or its willingness to be dispatched by SCED in Real-Time Operations.   
+(2)	A QSE may submit Resource-specific Energy Offer Curves to ERCOT.  Such Energy Offer Curves will be bounded in the DAM for each Operating Hour by the LSL and HSL of the Generation Resource specified in the COP, and bounded in SCED by the LSL and HSL of the Generation Resource as shown by telemetry. 
+(3)	Energy Offer Curves remain active for the offered period until automatically inactivated by the software at the offer expiration time selected by the QSE.
+(4)	For any Operating Hour, the QSE for a Resource may submit or change Energy Offer Curve information at any time prior to SCED execution, except for the percentage of FIP and percentage of FOP, and SCED will use the latest updated Energy Offer Curve available in the system.  The QSE must provide a brief freeform reason at the time of the submission of the Energy Offer Curve if submitted after the end of the Adjustment Period.  For the percentage FIP and percentage of FOP within the Energy Offer Curve, submissions and updates must be received by ERCOT’s systems in the Adjustment Period.  If a new Energy Offer Curve is not deemed to be valid, then the most recent valid Energy Offer Curve available in the system at the time of SCED execution will be used and ERCOT will notify the QSE that the invalid Energy Offer Curve was rejected.  Once an Operating Hour ends, an Energy Offer Curve for that hour cannot be submitted, updated, or canceled.
+(5)	A QSE may withdraw an Energy Offer Curve if:
+(a)	An Output Schedule is submitted for all intervals for which an Energy Offer Curve is withdrawn; or
+(b)	The Resource is forced Off-Line and notifies ERCOT of the Forced Outage by changing the Resource Status appropriately and updating its COP. 
+(6)	For any Operating Hour that is a RUC-Committed Interval or a DAM-Committed Interval for a Resource, a QSE for that Resource may not change a Startup Offer or Minimum-Energy Offer.    
+(7)	If a valid Energy Offer Curve or an Output Schedule does not exist for a Resource that has a status of On-Line at the end of the Adjustment Period, then ERCOT shall notify the QSE and set the Output Schedule equal to the then current telemetered output of the Resource until an Output Schedule or Energy Offer Curve is submitted in a subsequent Adjustment Period. 
+4.4.9.3.1	Energy Offer Curve Criteria
+(1)	Each Energy Offer Curve must be reported by a QSE and must include the following information:
+(a)	The selling QSE;
+(b)	The Resource represented by the QSE from which the offer would be supplied;
+(c)	A monotonically increasing offer curve for both price (in $/MWh) and quantity (in MW) with no more than ten price/quantity pairs;
+(d)	The first and last hour of the Offer; 
+(e)	The expiration time and date of the offer; 
+(f)	List of Ancillary Service Offers from the same Resource; 
+(g)	Inclusive or exclusive designation relative to other DAM offers;
+(h)	Percentage of FIP and percentage of FOP for generation above LSL subject to the sum of the percentages not exceeding 100%; and
+(i)	Reason for update of the offer, if submitting after the end of the Adjustment Period.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	Each Energy Offer Curve must be reported by a QSE and must include the following information:
+(a)	The selling QSE;
+(b)	The Resource represented by the QSE from which the offer would be supplied;
+(c)	A monotonically increasing offer curve for both price (in $/MWh) and quantity (in MW) with no more than ten price/quantity pairs;
+(d)	The first and last hour of the Offer; 
+(e)	The expiration time and date of the offer; 
+(f)	Inclusive or exclusive designation relative to other DAM offers (for Real-Time, Energy Offer Curves are always considered to be inclusive with Ancillary Service Offers);
+(g)	Percentage of FIP and percentage of FOP for generation above LSL subject to the sum of the percentages not exceeding 100%; and
+(h)	Reason for update of the offer, if submitting after the end of the Adjustment Period.
+(2)	An Energy Offer Curve must be within the range of -$250.00 per MWh and the SWCAP in dollars per MWh.  The software systems must be able to provide ERCOT with the ability to enter Resource-specific Energy Offer Curve floors and caps.
+[NPRR1008 and NPRR1245:  Replace paragraph (2) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(2)	An Energy Offer Curve must be within the range of -$250.00 per MWh and either the DASWCAP or RTSWCAP, depending on the timing of the submission, in dollars per MWh.  No Energy Offer Curve received after 1430 in the Day-Ahead may contain a price exceeding the RTSWCAP.  After 1430 in the Day-Ahead, ERCOT shall cancel any Energy Offer Curve containing a price exceeding the RTSWCAP and notify the QSE of the expiration via an electronic message.
+(3)	The minimum amount per Resource for each Energy Offer Curve that may be offered is one MW.
+4.4.9.3.2	Energy Offer Curve Validation
+(1)	A valid Energy Offer Curve is an offer curve that ERCOT has determined meets the criteria listed in Section 4.4.9.3.1, Energy Offer Curve Criteria, and the Energy Offer Curve that is part of a Three-Part Supply Offer for which the Startup Offer and Minimum-Energy Offer has also been validated.
+(2)	ERCOT shall notify the QSE submitting an Energy Offer Curve by the Messaging System if the offer was rejected or was considered invalid for any reason.  The QSE may then resubmit the offer within the appropriate market timeline.
+(3)	ERCOT shall continuously validate Energy Offer Curves and continuously display on the MIS Certified Area information that allows any QSE to view its valid Energy Offer Curves.  
+4.4.9.3.3	Energy Offer Curve Cost Caps
+(1)	The following Energy Offer Curve Cost Caps must be used for the purpose of make-whole Settlements, Real-Time High Dispatch Limit Override Energy Payments, and Voltage Support Service Payments:
+(a)	Nuclear = $15.00/MWh;
+(b)	Coal and Lignite = $18.00/MWh;
+(c)	Combined Cycle greater than 90 MW = 9 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in the Energy Offer Curve;
+(d)	Combined Cycle less than or equal to 90 MW = 10 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in the Energy Offer Curve;
+(e)	Gas - Steam Supercritical Boiler = 10.5 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in the Energy Offer Curve;
+(f)	Gas Steam Reheat Boiler = 11.5 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in the Energy Offer Curve;
+(g)	Gas Steam Non-reheat or boiler without air-preheater = 14.5 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in the Energy Offer Curve;
+(h)	Simple Cycle greater than 90 MW = 14 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in the Energy Offer Curve;
+(i)	Simple Cycle less than or equal to 90 MW = 15 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in the Energy Offer Curve;
+(j)	Reciprocating Engines = 16 MMBtu/MWh * ((Percentage of FIP * FIP) + (Percentage of FOP * FOP))/100, as specified in the Energy Offer Curve;
+(k)	Hydro = $10.00/MWh;
+(l)	Other = SWCAP;
+[NPRR1008:  Replace item (l) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(l)	Other = DASWCAP or RTSWCAP;
+(m)	RMR Resource = SWCAP;
+[NPRR1008:  Replace item (m) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(m)	RMR Resource = effective Value of Lost Load (VOLL);
+(n)	Wind Generation Resources = $0.00/MWh; and
+(o) 	PhotoVoltaic Generation Resource (PVGR) = $0.00/MWh.
+[NPRR1246:  Insert item (p) below upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(p)	Energy Storage Resource (ESR) = $0.00/MWh.
+(2)	ERCOT shall produce an annual report each April that provides the amount of DAM and RUC Make-Whole Payments during the previous calendar year for Resources categorized as Other, per item (1)(l) above, as a percentage of the total amount of DAM and RUC Make-Whole Payments made during the previous calendar year.  The report shall be based on final Settlements and include the total number of Resources classified as Other.  ERCOT shall present this report annually to the appropriate Technical Advisory Committee (TAC) subcommittee.  If there are no Make-Whole Payments for Resources categorized as Other for a given calendar year, then ERCOT will not be required to produce the annual report.
+(3)	Items in paragraphs (1)(c) and (d) above are determined by capacity of largest simple-cycle combustion turbine in the train selected.
+(4)	The FIP and FOP used to calculate the Energy Offer Curve Cap for Make-Whole Payment calculation purposes shall be the FIP or FOP for the Operating Day.  In the event the Energy Offer Curve Cap for Make-Whole Payment calculation purposes must be calculated before the FIP or FOP is available for the particular Operating Day, the FIP and FOP for the most recent preceding Operating Day shall be used.  Once the FIP and FOP are available for a particular Operating Day, those values shall be used in the calculations.  If the percentage fuel mix is not specified or if no Energy Offer Curve exists, then the minimum of FIP or FOP shall be used.
+[NPRR1216:  Insert paragraph (5) below upon system implementation:]
+(5)	During an Emergency Offer Cap (ECAP) Effective Period, the SWCAP used for purposes of calculating the Energy Offer Curve Cost Caps shall be set to the maximum value of SWCAP that was effective for the Operating Day.
+[NPRR1216:  Replace paragraph (5) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(5)	During an ECAP Effective Period, for purposes of calculating the Energy Offer Curve Cost Caps, the DASWCAP shall be set to the DASWCAP that was used to clear the DAM, and the VOLL shall be set to the maximum value VOLL that was effective for the Operating Day. 
+4.4.9.4	Mitigated Offer Cap and Mitigated Offer Floor
+4.4.9.4.1	Mitigated Offer Cap 
+(1)	Energy Offer Curves may be subject to mitigation in Real-Time operations under Section 6.5.7.3, Security Constrained Economic Dispatch, using a Mitigated Offer Cap (MOC).  ERCOT shall construct an incremental MOC curve in accordance with Section 6.5.7.3 such that each point on the MOC curve is calculated as follows: 
+[NPRR1014:  Replace paragraph (1) above with the following upon system implementation:]
+(1)	Energy Offer Curves and Energy Bid/Offer Curves may be subject to mitigation in Real-Time operations under Section 6.5.7.3, Security Constrained Economic Dispatch, using a Mitigated Offer Cap (MOC).  For Generation Resources, ERCOT shall construct an incremental MOC curve in accordance with Section 6.5.7.3 such that each point on the MOC curve is calculated as follows:
+MOC q, r, h = Max [GIHR q, r * Max(FIP, WAFP q, r, h), (IHR q, r * FPRC q, r + OM q, r)]
+Where, 
+If a QSE has submitted an Energy Offer Curve on behalf of a Generation Resource and the Generation Resource has approved verifiable costs, then 
+FPRC q, r = Max(WAFP q, r, h, FIP + FA q, r) * RTPERFIP q, r / 100 + FOP * RTPERFOP q, r / 100
+If a QSE has not submitted an Energy Offer Curve on behalf of a Generation Resource and the Generation Resource has approved verifiable costs, then 
+FPRC q, r = Max(WAFP q, r, h, FIP + FA q, r) * GASPEROL q, r / 100 + FOP * OILPEROL q, r / 100 + (SFP + FA q, r) * SFPEROL q, r / 100
+The above variables are defined as follows:
+Variable	Unit	Definition
+MOC q, r, h	$/MWh	Mitigated Offer Cap per Resource—The MOC for Resource r, for the hour.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+GIHR q, r	MMBtu/MWh	Generic Incremental Heat Rate—The generic, single-value, incremental heat rate.  For Generation Resources with a Commercial Operations Date on or before January 1, 2004, the generic incremental heat rate shall be set to 10.5.  For Generation Resources that have a Commercial Operations Date after January 1, 2004, this value shall be set to 14.5.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+IHR q, r	MMBtu/MWh	Verifiable Incremental Heat Rate per Resource—The verifiable incremental heat rate curve for Resource r, as approved in the verifiable cost process.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+FIP	$/MMBtu	Fuel Index Price—The natural gas index price as defined in Section 2.1, Definitions.
+RTPERFIP q, r	none	Fuel Index Price Percentage—The percentage of natural gas used by Resource r to operate above LSL, as submitted with the energy offer curve.
+FOP	$/MMBtu	Fuel Oil Price—The fuel oil index price as defined in Section 2.1.
+RTPERFOP q, r	none	Fuel Oil Price Percentage—The percentage of fuel oil used by Resource r to operate above LSL, as submitted with the energy offer curve.
+SFP	$/MMBtu	Solid Fuel Price—The solid fuel index price is $1.50.  
+FPRC q, r	$/MMBtu	Fuel Price Calculated per Resource—The calculated index price for fuel for the Resource based on the Resources fuel mix.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train. 
+GASPEROL q, r	none	Percent of Natural Gas to Operate Above LSL—The percentage of natural gas used by Resource r to operate above LSL, as approved in the verifiable cost process.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+OILPEROL q, r	none	Percent of Oil to Operate Above LSL—The percentage of fuel oil used by Resource r to operate above LSL, as approved in the verifiable cost process.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+SFPEROL q, r	none	Percent of Solid Fuel to Operate Above LSL—The percentage of solid fuel used by Resource r to operate above LSL, as approved in the verifiable cost process.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+FA q, r	$/MMBtu	Fuel Adder—The fuel adder is the average cost above the index price Resource r has paid to obtain fuel.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  See the Verifiable Cost Manual for additional information.
+OM q, r	$/MWh	Variable Operations and Maintenance Cost above LSL—The O&M cost for Resource r to operate above LSL, including an adjustment for emissions costs, as approved in the verifiable cost process.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  See the Verifiable Cost Manual for additional information.
+WAFP q, r, h	$/MMBtu	Weighted Average Fuel Price—The volume-weighted average intraday, same-day and spot price of fuel submitted to ERCOT during the Adjustment Period for a specific Resource and specific hour within the Operating Day, as described in paragraph (1)(d) below. 
+q	none	A QSE.
+r	none	A Generation Resource.
+h	none	The Operating Hour. 
+(a)	For a Resource contracted by ERCOT under paragraph (4) of Section 6.5.1.1, ERCOT Control Area Authority, ERCOT shall increase the O&M cost such that every point on the MOC curve is greater than the SWCAP in $/MWh.
+[NPRR1008 and NPRR1014:  Replace applicable portions of paragraph (a) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014:]
+(a)	For a Resource contracted by ERCOT under paragraph (4) of Section 6.5.1.1, ERCOT Control Area Authority, ERCOT shall increase the O&M cost such that every point on the MOC curve is greater than the effective Value of Lost Load (VOLL) in $/MWh.
+(b)	Notwithstanding the MOC calculation described in paragraph (1) above, the MOC for ESRs shall be set at the SWCAP.  No later than December 31, 2023, ERCOT and stakeholders shall submit a report to TAC that includes a recommendation to continue the existing approach or a proposal to implement an alternative approach to determine the MOC for ESRs.
+[NPRR1008 and NPRR1014:  Replace applicable portions of paragraph (b) above with the following upon the system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014:]
+(b)	Notwithstanding the MOC calculation described in paragraph (1) above, the MOC for ESRs shall be set at the RTSWCAP.  No later than December 31, 2023, ERCOT and stakeholders shall submit a report to TAC that includes a recommendation to continue the existing approach or a proposal to implement an alternative approach to determine the MOC for ESRs.
+(c)	For Quick Start Generation Resources (QSGRs) the MOC shall be adjusted in accordance with Verifiable Cost Manual Appendix 7, Calculation of the Variable O&M Value and Incremental Heat Rate used in Real Time Mitigation for Quick Start Generation Resources (QSGRs).
+[NPRR1008, NPRR1014, and NPRR1245:  Insert applicable portions of paragraph (d) below upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008 and NPRR1245; or upon system implementation for NPRR1014; and renumber accordingly:]
+(d)	For hydro Generation Resources, the MOC shall be adjusted in accordance with Verifiable Cost Manual, Appendix 10, Setting the variables used in Mitigated Offer Cap for Hydro Generating Resources.
+(d)	During the Adjustment Period, a QSE representing a Resource may submit Exceptional Fuel Cost as a volume-weighted average fuel price for use in the MOC calculation for that Resource.  To qualify as Exceptional Fuel Cost, the submission must meet the following conditions:
+(i)	For all Resources, the weighted average fuel price must exceed FIP for the applicable Operating Day, plus a threshold parameter value of $1/MMBtu, plus the applicable fuel adder.  For Resources without approved verifiable costs, the fuel adder will be set to the default value assigned to Resources with approved verifiable costs, as defined in the Verifiable Cost Manual.  The threshold parameter value in this paragraph shall be recommended by the Wholesale Market Subcommittee (WMS) and approved by the TAC.  ERCOT shall update the threshold value on the first day of the month following TAC approval unless otherwise directed by the TAC.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+(ii)	Fixed cost (fees, penalties and similar non-gas costs) may not be included in the calculation of the weighted average fuel price.
+(iii)	All intra-day, same day, and spot fuel purchases must be included in the calculation of the weighted average fuel price in paragraph (1) above.  These must account for at least 10% of the total fuel volume burned by the applicable Resource for the hour for which the weighted average fuel price is computed.  As noted in paragraph (j) below, the methodology used in the allocation of the cost and volume of purchased fuel to the Resource for the hour is subject to validation by ERCOT.
+(iv)	Weighted average fuel prices must be submitted individually for each Operating Hour for which they are applicable.  Values submitted outside of the Adjustment Period will be rejected and not used in the calculation of the MOC for the designated Operating Hour.
+(e)	ERCOT may notify the Independent Market Monitor (IMM) if a QSE submits an Exceptional Fuel Cost. 
+(f)	The day following an Operating Day for which an Exceptional Fuel Cost is submitted, ERCOT shall post a report on the ERCOT website indicating the affected Operating Hours and the number of Resources for which a QSE submitted Exceptional Fuel Cost for a particular Operating Day.
+(g)	No later than 1700 Central Prevailing Time (CPT) on the 15th day following an Exceptional Fuel Cost submission, the submitting QSE shall provide ERCOT with the calculation of the weighted average fuel price, intraday or same-day fuel purchases, if applicable, and any available supporting documentation.  Such information may include, but is not limited to, documents of the following nature: relevant contracts between the QSE or Resource Entity and fuel supplier, trade logs, transportation, storage, balancing and distribution agreements, calculation of the weighted average fuel price, or any other documentation necessary to support the Exceptional Fuel Cost price and volume for the applicable period(s).
+(h)	No later than 1700 Central Prevailing Time (CPT) on the 60th day following an Exceptional Fuel Cost submission, the submitting QSE shall provide ERCOT with all supporting documentation not previously provided to ERCOT.  No supporting documentation will be accepted after the 60th day.
+(i)	The accuracy of submitted Exceptional Fuel Cost and the need for purchasing intraday or same-day gas must be attested to by a duly authorized officer or agent of the QSE representing the Resource.  The attestation must be provided in a standardized format acceptable to ERCOT and submitted with the other documentation described in paragraph (g) above.
+(j)	ERCOT will use the supporting documentation to validate the Exceptional Fuel Cost for the applicable period.  Validation will include, but not be limited to, the cost and the quantity of purchased fuel, Resource-specific heat rates, and the methodology used in the allocation of the cost and volume of purchased fuel, if applicable, to the Resource for the applicable hour used in the weighted average fuel price calculation.  In connection with the validation process ERCOT may request additional documentation or clarification of previously submitted documentation.  Such requests must be honored within ten Business Days.  
+(k)	At ERCOT’s sole discretion, submission and follow-up information deadlines may be extended on a case-by-case basis. 
+4.4.9.4.2	Mitigated Offer Floor
+(1)	Energy Offer Curves may be subject to mitigation in the Real-Time Market (RTM) under Section 6.5.7.3, Security Constrained Economic Dispatch, using a Mitigated Offer Floor.  The Mitigated Offer Floor is: 
+Resource Category	Mitigated Offer Floor
+Nuclear and Hydro	-$250/MWh
+Coal and Lignite	-$20/MWh
+Combined Cycle	-$20/MWh
+Gas/Oil Steam and Combustion Turbine	-$20/MWh
+Qualifying Facility (QF) 	-$50/MWh
+Wind	-$100/MWh
+PhotoVoltaic (PV)	-$50/MWh
+Other	-$50/MWh
+[NPRR1014:  Replace paragraph (1) above with the following upon system implementation:]
+(1)	Energy Offer Curves and Energy Bid/Offer Curves may be subject to mitigation in the RTM under Section 6.5.7.3, Security Constrained Economic Dispatch, using a Mitigated Offer Floor.  The Mitigated Offer Floor is: 
+Resource Category	Mitigated Offer Floor
+Nuclear and Hydro	-$250/MWh
+Coal and Lignite	-$20/MWh
+Combined Cycle	-$20/MWh
+Gas/Oil Steam and Combustion Turbine	-$20/MWh
+Qualifying Facility (QF) 	-$50/MWh
+Wind	-$100/MWh
+PhotoVoltaic (PV)	-$50/MWh
+Energy Storage Resource (ESR)	-$250/MWh
+Other	-$50/MWh
+
+[NPRR826:  Insert Section 4.4.9.4.3 below upon system implementation:]
+4.4.9.4.3	Mitigated Offer Cap for RMR Resources 
+(1)	For each Resource contracted by ERCOT under Section 3.14.1, Reliability Must Run, the Resource’s MOC curve for use in the SCED process is determined using the steps below when the Resource’s offer is subject to mitigation in accordance with Section 3.19, Constraint Competitiveness Tests.  The single price ($/MWh) value determined below will be used as the MOC curve for the full operating range of the Resource.  The calculations will occur between the first and second step within the SCED process as well as during the process for determining Real-Time On-Line Reliability Deployment Price Adder.  This analysis will only be applied to active constraints for which the contracted Resource has a more than 2% unloading Shift Factor on the Transmission Facility(s), more than 5% unloading impact on the Transmission Facility(s) based on telemetered HSL, and if at least one other Resource not contracted by ERCOT under Section 3.14.1 has an unloading Shift Factor of 5% or more relative to the constraint(s).  If this criteria is not met, the MOC curve for the Resource shall be calculated in accordance with Section 4.4.9.4.1, Mitigated Offer Cap, and Section 5.6.1, Verifiable Costs. 
+(a) 	For each Resource that is not a Resource contracted by ERCOT under Section 3.14.1 or paragraph (4) of Section 6.5.1.1 and that has an unloading Shift Factor of at least RMRSF percent relative to the constraint(s), determine the higher of zero or the difference between the price ($/MWh) at HSL from the Energy Offer Curves determined for use in SCED Step 2, which may or may not be mitigated, and system lambda from SCED Step 1 and divide that difference by the absolute value of that Resource’s Shift Factor for the corresponding constraint.  The value of RMRSF will default to 5% until a different value is approved by TAC considering the analysis and data used by ERCOT to determine the need for the contracted Resource under Section 3.14.1.  ERCOT shall post the current TAC-approved value(s) of RMRSF on the ERCOT website.
+(b) 	For each constraint, identify the largest value that is less than maximum Shadow Price for the specific constraint.  
+(c) 	For each SCED interval for each constraint, determine a value equal to the minimum of:
+(i)	The value determined in paragraph (b) above plus $0.01/MWh; and
+(ii)	The maximum Shadow Price for the constraint minus $1/MWh.
+(d) 	For each SCED interval for each constraint, multiply the resulting value from paragraph (c) above by the absolute value of the Shift Factor of the Resource contracted by ERCOT to the corresponding constraint.  For SCED intervals in which there are multiple constraints which are being analyzed, the lowest value is used for the SCED interval.
+(e)	If the value from paragraph (b) above for any constraint analyzed is zero, the MOC curve for the RMR Resource shall be calculated in accordance with Section 4.4.9.4.1 and Section 5.6.1.  If the value from paragraph (b) above for every constraint analyzed is greater than zero, the RMR Resource’s MOC curve for use in Step 2 of the SCED process is the sum of system lambda from Step 1 of SCED in the interval and the value from (d) above. 
+4.4.9.5	DAM Energy-Only Offer Curves
+(1)	A QSE must submit any DAM Energy-Only Offer Curves by 1000 for the effective DAM. 
+(2)	The DAM Energy-Only Offer Curve represents the QSE’s willingness to sell energy at or above a certain price and at a certain quantity at a specific Settlement Point in the DAM.  A DAM Energy-Only Offer Curve may be offered only in the DAM.
+(3)	DAM Energy-Only Offer Curves are not Resource-specific.
+4.4.9.5.1	DAM Energy-Only Offer Curve Criteria
+(1)	Each DAM Energy-Only Offer Curve must be reported by a QSE and must include the following information:
+(a)	The selling QSE;
+(b)	The Settlement Point;
+(c)	The fixed quantity block, variable quantity block, or curve indicator for the offer; 
+(i)	If a fixed quantity block, the single price (in $/MWh) and single quantity (in MW) for all hours offered in that block , which may clear at a Settlement Point Price less than the offer price for that block;
+(ii)	If a variable quantity block, the single price (in $/MWh) and single “up to” quantity (in MW) contingent on the purchase of all hours offered in that block; and
+(iii)	If a curve, a monotonically increasing energy offer curve for both price (in $/MWh) and quantity (in MW) with no more than ten price/quantity pairs; 
+(d)	The first and last hour of the offer; and
+(e)	The expiration time and date of the offer.
+(2)	A DAM Energy-Only Offer Curve must be within the range of -$250.00 per MWh and the SWCAP in dollars per MWh.  
+[NPRR1008:  Replace paragraph (2) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(2)	A DAM Energy-Only Offer Curve must be within the range of -$250.00 per MWh and the DASWCAP in dollars per MWh.
+(3)	The minimum amount for each DAM Energy-Only Offer Curve that may be offered is one MW.
+(4)	DAM Energy-Only Offers, DAM Energy Bids, and/or PTP Obligation bids shall not be submitted in combination to create the net effect of a single PTP Obligation containing a source Settlement Point and a sink Settlement Point that are Electrically Similar Settlement Points for the QSE or for any combination of QSEs within the same Counter-Party.
+4.4.9.5.2	DAM Energy-Only Offer Validation
+(1)	A valid DAM Energy-Only Offer Curve is an offer that ERCOT has determined meets the criteria listed in Section 4.4.9.5.1, DAM Energy-Only Offer Curve Criteria.
+(2)	ERCOT shall notify the QSE submitting a DAM Energy-Only Offer Curve by the Messaging System if the offer was rejected or was considered invalid for any reason, with the exception of paragraph (4) of Section 4.4.9.5.1.  The QSE may then resubmit the offer within the appropriate market timeline.
+(3)	ERCOT shall continuously validate DAM Energy-Only Offers and continuously display on the MIS Certified Area information that allows any QSE to view its valid DAM Energy-Only Offers.  
+4.4.9.6	DAM Energy Bids 
+(1)	A QSE must submit any DAM Energy Bids by 1000 for the effective DAM. 
+(2)	A DAM Energy Bid represents the QSE’s willingness to buy energy at or below a certain price and at a certain quantity at a specific Settlement Point in the DAM.  A DAM Energy Bid may be made only in the DAM.
+4.4.9.6.1	DAM Energy Bid Criteria
+(1)	Each DAM Energy Bid must be reported by a QSE and must include the following information:
+(a)	The buying QSE;
+(b)	The Settlement Point;
+(c)	Fixed quantity block, variable quantity block, or curve indicator for the bid; 
+(i)	If a fixed quantity block, the single price (in $/MWh) and single quantity (in MW) for all hours bid in that block, which may clear at a Settlement Point Price greater than the bid price for that block;
+(ii)	If a variable quantity block, the single price (in $/MWh) and single “up to” quantity (in MW) contingent on the purchase of all hours bid in that block; and
+(iii)	If a curve, a monotonically decreasing energy bid curve for price (in $/MWh) and monotonically increasing for quantity (in MW) with no more than 10 price/quantity pairs.
+(d)	The first and last hour of the bid; and
+(e)	The expiration time and date of the bid.
+(2)	The minimum amount for each DAM Energy Bid that may be bid is one MW.
+(3)	DAM Energy-Only Offers, DAM Energy Bids, and/or PTP Obligation bids shall not be submitted in combination to create the net effect of a single PTP Obligation containing a source Settlement Point and a sink Settlement Point that are Electrically Similar Settlement Points for the QSE or for any combination of QSEs within the same Counter-Party.
+4.4.9.6.2	DAM Energy Bid Validation
+(1)	A valid DAM Energy Bid is a bid that ERCOT has determined meets the criteria listed in Section 4.4.9.6.1, DAM Energy Bid Criteria.
+(2)	ERCOT shall notify the QSE submitting a DAM Energy Bid by the Messaging System if the bid was rejected or was considered invalid for any reason, with the exception of paragraph (3) of Section 4.4.9.6.1.  The QSE may then resubmit the bid within the appropriate market timeline.
+(3)	ERCOT shall continuously validate DAM Energy Bids and continuously display on the MIS Certified Area information that allows any QSE to view its valid DAM Energy Bids.  
+[NPRR1014:  Insert Section 4.4.9.7 below upon system implementation:]
+4.4.9.7	Energy Bid/Offer Curve
+(1)	The Energy Bid/Offer Curve represents the willingness of a QSE representing an ESR to buy energy at or below a certain price and sell energy at or above a certain price and at a certain quantity in the DAM or its willingness to be dispatched by SCED in Real-Time Operations.  ERCOT must validate each Energy Bid/Offer Curve in accordance with Section 4.4.9.7.2, Energy Bid/Offer Curve Validation, before it can be used in any ERCOT process.  
+(2)	A QSE may submit Resource-Specific Energy Bid/Offer Curves to ERCOT.  Such Energy Bid/Offer Curves will be bounded in the DAM for each Operating Hour by the LSL and HSL of the ESR specified in the COP, and bounded in SCED by the LSL and HSL of the ESR as shown by telemetry.
+(3)	In the DAM, ERCOT will not consider COP Resource Status when evaluating Energy Bid/Offer Curves. In the Real-Time Market (RTM), SCED will consider an ESR unavailable for SCED Dispatch when the ESR’s Resource Status is OUT.
+(4)	Energy Bid/Offer Curves remain active for the offered period until either:  
+(a)	Selected by ERCOT; or 
+(b)	Automatically inactivated by the software at the offer expiration time selected by the QSE.
+(5)	In the RTM, a QSE may submit or change an Energy Bid/Offer Curve at any time prior to SCED execution, and SCED will use the latest updated Energy Bid/Offer Curve available in the system.  If a new Energy Bid/Offer Curve is not deemed to be valid, then the most recent valid Energy Bid/Offer Curve available in the system at the time of SCED execution will be used and ERCOT will notify the QSE that the invalid Energy Bid/Offer Curve was rejected.  Once an Operating Hour ends, an Energy Bid/Offer Curve for that hour cannot be submitted, updated, or canceled. 
+(6)	A QSE may withdraw an Energy Bid/Offer Curve if:
+(a)	An Output Schedule is submitted for all intervals for which an Energy Bid/Offer Curve is withdrawn; or
+(b)	The ESR is forced Off-Line and notifies ERCOT of the Forced Outage by changing the Resource Status appropriately and updating its COP.
+(7)	At the time of SCED execution, if a valid Energy Bid/Offer Curve or Output Schedule does not exist for an ESR that has a status of On-Line, then ERCOT shall notify the QSE and create a proxy Energy Bid/Offer Curve priced at -$250/MWh for the portion of the curve less than zero MW, and priced at the RTSWCAP for the portion of the curve greater than zero MW.
+[NPRR1014:  Insert Section 4.4.9.7.1 below upon system implementation:]
+4.4.9.7.1	Energy Bid/Offer Curve Criteria
+(1)	Each Energy Bid/Offer Curve must be reported by a QSE representing an ESR and must include the following information:
+(a)	The selling QSE;
+(b)	The ESR represented by the QSE from which the bid and offer would be provided;
+(c)	A monotonically non-decreasing curve for both price (in $/MWh) and quantity (in MW) with no more than ten price/quantity pairs.  Negative MW values cover the charging MW range, and the positive MW values cover the discharging MW range.  The price points corresponding to the charging MW range represent the not-to-exceed bid prices to consume energy, and the price points corresponding to the discharging MW range represent the offer prices to sell energy;
+(d)	The first and last hour of the offer; 
+(e)	The expiration time and date of the offer; 
+(2)	An Energy Bid/Offer Curve shall be bounded by -$250.00 per MWh and either the DASWCAP or RTSWCAP depending on the timing of the submission in dollars per MWh.  The ERCOT systems must allow ERCOT to enter ESR-specific Energy Bid/Offer Curve floors and caps.
+(3)	In DAM and RTM, an Energy Bid/Offer Curve shall be considered to be inclusive of Ancillary Service Offers.
+[NPRR1014:  Insert Section 4.4.9.7.2 below upon system implementation:]
+4.4.9.7.2	Energy Bid/Offer Curve Validation
+(1)	A valid Energy Bid/Offer Curve is a curve that ERCOT has determined meets the criteria listed in Section 4.4.9.7.1, Energy Bid/Offer Curve Criteria.
+(2)	ERCOT shall notify the QSE submitting an Energy Bid/Offer Curve by the Messaging System if the offer was rejected or was considered invalid for any reason.  The QSE may then resubmit the Energy Bid/Offer Curve within the appropriate market timeline.
+(3)	ERCOT shall continuously validate Energy Bid/Offer Curves and continuously display on the MIS Certified Area information that allows any QSE to view its valid Energy Bid/Offer Curves.
+[NPRR1188:  Insert Section 4.4.9.8 below upon system implementation:]
+4.4.9.8	Energy Bid Curves
+(1)	An Energy Bid Curve represents the willingness to buy energy at or below a certain price, not to exceed the SWCAP, for the Demand response capability of a CLR in the DAM or the RTM.  
+(2)	An Energy Bid Curve remains active for the offered period until automatically inactivated at the offer expiration time specified in the Energy Bid Curve.
+(3)	For any Operating Hour, the QSE may submit or change an Energy Bid Curve at any time prior to SCED execution, and SCED will use the latest updated Energy Bid Curve available in the system.  If a new Energy Bid Curve is not deemed to be valid, then the most recent valid Energy Bid Curve available in the system at the time of SCED execution will be used and ERCOT will notify the QSE that the invalid Energy Bid Curve was rejected.
+(4)	Once an Operating Hour ends, an Energy Bid Curve for that hour cannot be submitted, updated, or canceled.
+[NPRR1188:  Insert Section 4.4.9.8.1 below upon system implementation:]
+4.4.9.8.1	Energy Bid Curve Criteria
+(1)	Each Energy Bid Curve submitted by a QSE must include the following information:
+(a)	The submitting QSE’s name;
+(b)	The Load Resource’s name;
+(c)	A bid curve with no more than ten price/quantity pairs with monotonically non-increasing not-to-exceed prices (in $/MWh) and with increasing quantities ranging from zero to the Load Resource’s maximum demand response capability (in MW) represented by the difference between the Load Resource’s telemetered Maximum Power Consumption (MPC) and Low Power Consumption (LPC);
+(d)	The first and last hour of the bid; and
+(e)	The expiration time and date of the bid.
+(2)	The software systems must be able to provide ERCOT with the ability to enter Resource-specific Energy Bid Curve floors and caps.
+(3)	The minimum amount that may be submitted per Load Resource for each Energy Bid Curve is one-tenth (0.1) MW.
+(4)	Prices included in the submitted Energy Bid Curve may not exceed the SWCAP.
+[NPRR1188:  Insert Section 4.4.9.8.2 below upon system implementation:]
+4.4.9.8.2	Energy Bid Curve Validation
+(1)	A valid Energy Bid Curve is a bid that ERCOT has determined meets the criteria listed in Section 4.4.9.8.1, Energy Bid Curve Criteria.
+(2)	ERCOT shall notify the QSE submitting an Energy Bid Curve via the Messaging System if the bid was rejected and the reason that it was considered invalid.  The QSE may then resubmit the bid within the appropriate market timeline.
+(3)	ERCOT shall continuously validate Energy Bid Curves and continuously display on the MIS Certified Area information that allows any QSE to view its valid Energy Bid Curves.
+4.4.10	Credit Requirement for DAM Bids and Offers
+(1)	Each QSE’s ability to bid and offer in the DAM is subject to credit exposure from the QSE’s bids and offers being within the credit limit for DAM participation established for the entire Counter-Party of which the QSE is part, as specified in item (1) of Section 16.11.4.6.2, Credit Requirements for DAM Participation, and taking into account the credit exposure of accepted DAM bid and offers of the Counter-Party’s other QSEs. 
+(2)	DAM bids and offers of all QSEs of the Counter-Party are accepted in the order submitted while ensuring that the credit exposure from accepted bids and offers do not exceed the Counter-Party’s credit limit for DAM participation. 
+(3)	ERCOT shall reject the QSE’s individual bids and offers whose credit exposure, as calculated in item (6) below, exceeds the Counter-Party’s credit limit for DAM participation as described in items (1) and (2) above, and shall notify the QSE through the MIS Certified Area as soon as practicable. 
+(4) 	The QSE may revise and resubmit such rejected bids and offers described in item (3) above, provided that the resubmitted bids and offers are valid and within the Counter-Party’s credit limit for DAM participation adjusted for all accepted DAM bids and offers of the Counter-Party’s QSE’s limit and that such resubmission occurs prior to 1000 of the Operating Day. 
+(5)	The DAM shall use the Counter-Party’s credit limit for DAM participation provided and adjusted for accepted bids and offers for DAM transactions cleared, until a new credit limit for DAM participation is available.
+(6)	ERCOT shall calculate credit exposure for bids and offers in the DAM as follows: 
+(a)	For a DAM Energy Bid, the credit exposure shall be calculated as the quantity of the bid multiplied by a bid exposure price that is calculated as follows:  
+(i)	If the price of the DAM Energy Bid is less than or equal to zero, the bid exposure price for that quantity will equal zero.
+(ii)	If the price of the DAM Energy Bid is greater than zero, the bid exposure price for that quantity will equal the greater of zero or the sum of (A) and (B):
+(A)	The lesser of:
+(1)	The dth percentile of the Day-Ahead Settlement Point Price (DASPP) for the hour over the previous 30 days; and 
+(2)	The bid price.
+(B)	The value e1 multiplied by (bid price minus (A)) when the bid price is greater than (A).
+(1)	The value e1 is computed as the ep1th percentile of Ratio1 for the  30 days prior to the Operating Day, where Ratio1 is calculated daily as follows:
+Ratio1 = Min[1, Max[0, (∑h=1,24 ∑_p^ ▒ (DAM EOB Cleared h, p * DASPP h, p  - DAM EOO Cleared h, p * DASPP h, p - DAM TPO Cleared h, p * DASPP h, p)) / (∑ h=1,24 ∑_p^ ▒ (DAM EOB Cleared h, p * DASPP h, p))]] 
+except Ratio1 = 1 when ∑ h=1,24 ∑_p^ ▒ (DAM EOB Cleared h, p * DASPP h, p ) = 0
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAM EOB Cleared h, p	MWh	DAM Energy Only Bids Cleared.  DAM Energy Only Bids Cleared for Operating Hour h at Settlement Point p
+DAM EOO Cleared h, p	MWh	DAM Energy Only Offers Cleared.  DAM Energy Only Offers Cleared for Operating Hour h at Settlement Point p
+DAM TPO Cleared h, p	MWh	DAM Three-Part Offers Cleared.  DAM Three-Part Offers Cleared for Operating Hour h at Settlement Point p
+DASPP h, p	$/MWh	Day-Ahead Settlement Point Price for Operating Hour h at Settlement Point p
+h	none	An Operating Hour.
+p	none	A Settlement Point.
+(2)	Default values are outlined in paragraph (10) below.
+(3)	A Counter-Party may request for favorable treatment as described in paragraph (7) below and, upon ERCOT agreeing to such request, ERCOT may adjust e1 by changing the quantity of bids or offers to the values reported by the Counter-Party in paragraph (7) below or based on information available to ERCOT.
+(iii)	For DAM Energy Bids of curve quantity type, the credit exposure shall be the credit exposure, as calculated above, at the price and MW quantity of the bid curve that produces the maximum credit exposure for the DAM Energy Bid.
+[NPRR1014 and NPRR1188:  Replace applicable portions of paragraph (a) above with the following upon system implementation:]
+(a)	For a DAM Energy Bid, Energy Bid Curve, or for each MW portion of the bid portion of an Energy Bid/Offer Curve, the credit exposure shall be calculated as the quantity of the bid multiplied by a bid exposure price that is calculated as follows:  
+(i)	If the price of the DAM Energy Bid, Energy Bid Curve, or the price on the bid portion of an Energy Bid/Offer Curve is less than or equal to zero, the bid exposure price for that quantity will equal zero.
+(ii)	If the price of the DAM Energy Bid, Energy Bid Curve, or the price on the bid portion of an Energy Bid/Offer Curve is greater than zero, the bid exposure price for that quantity will equal the greater of zero or the sum of (A) and (B):
+(A)	The lesser of:
+(1)	The dth percentile of the Day-Ahead Settlement Point Price (DASPP) for the hour over the previous 30 days; and 
+(2)	The bid price.
+(B)	The value e1 multiplied by (bid price minus (A)) when the bid price is greater than (A).
+(1)	The value e1 is computed as the ep1th percentile of Ratio1 for the  30 days prior to the Operating Day, where Ratio1 is calculated daily as follows:
+Ratio1 = Min[1, Max[0, (∑h=1,24 ∑_p^ ▒ (DAM EOB Cleared h, p * DASPP h, p  - DAM EOO Cleared h, p * DASPP h, p - DAM TPO Cleared h, p * DASPP h, p)) / (∑ h=1,24 ∑_p^ ▒ (DAM EOB Cleared h, p * DASPP h, p))]] 
+except Ratio1 = 1 when ∑ h=1,24 ∑_p^ ▒ (DAM EOB Cleared h, p * DASPP h, p ) = 0
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAM EOB Cleared h, p	MWh	DAM Energy Only Bids Cleared.  DAM Energy Only Bids Cleared for Operating Hour h at Settlement Point p
+DAM EOO Cleared h, p	MWh	DAM Energy Only Offers Cleared.  DAM Energy Only Offers Cleared for Operating Hour h at Settlement Point p
+DAM TPO Cleared h, p	MWh	DAM Three-Part Offers Cleared.  DAM Three-Part Offers Cleared for Operating Hour h at Settlement Point p
+DASPP h, p	$/MWh	Day-Ahead Settlement Point Price for Operating Hour h at Settlement Point p
+h	none	An Operating Hour.
+p	none	A Settlement Point.
+(2)	Default values are outlined in paragraph (10) below.
+(3) 	A Counter-Party may request for favorable treatment as described in paragraph (7) below and, upon ERCOT agreeing to such request, ERCOT may adjust e1 by changing the quantity of bids or offers to the values reported by the Counter-Party in paragraph (7) below or based on information available to ERCOT.
+(iii)	For DAM Energy Bids, Energy Bid Curves, or bid portions of Energy Bid/Offer Curves of curve quantity type, the credit exposure shall be the credit exposure, as calculated above, at the price and MW quantity of the bid curve that produces the maximum credit exposure for the DAM Energy Bid, Energy Bid Curve, or bid portions of Energy Bid/Offer Curves.
+(b)	For each MW portion of a DAM Energy-Only Offer:
+(i)	That has an offer price that is less than or equal to the ath percentile of the DASPP for the hour over the previous 30 days, the sum of (A) and (B) shall apply.   
+(A)	Credit exposure will be:
+(1)	Reduced (when the bth percentile Settlement Point Price for the hour is positive).  The reduction shall be the quantity of the offer multiplied by the bth percentile of the DASPP for the hour over the previous 30 days multiplied by the value e2.
+(a)	The value e2 is computed as the ep2th percentile of Ratio2 for the 30 days prior to the Operating Day, where Ratio2 is calculated daily as follows:
+Ratio2 = 1 - Max[0, (∑h=1,24 ((DAM EOO Cleared h, p + DAM TPO Cleared h, p) - DAM EOB Cleared h, p) / (∑ h=1,24 (DAM EOO Cleared h, p + DAM TPO Cleared h, p)))]
+except Ratio2 = 0 when ∑ h=1,24 (DAM EOO Cleared h, p + DAM TPO Cleared h, p)= 0
+Variable	Unit	Definition
+DAM EOB Cleared h, p	MWh	DAM Energy Only Bids Cleared.  DAM Energy Only Bids Cleared for Operating Hour h at Settlement Point p
+DAM EOO Cleared h, p	MWh	DAM Energy Only Offers Cleared.  DAM Energy Only Offers Cleared for Operating Hour h at Settlement Point p
+DAM TPO Cleared h, p	MWh	DAM Three-Part Offers Cleared.  DAM Three-Part Offers Cleared for Operating Hour h at Settlement Point p
+h	none	An Operating Hour.
+p	none	A Settlement Point.
+(b)	Default values are outlined in paragraph (10) below.
+(c)	A Counter-Party may request for favorable treatment as described in paragraph (7) below and, upon ERCOT agreeing to such request, Ratio2 is calculated at non zero value described above.
+(d)	ERCOT may adjust the value of e2 by changing the quantity of bids or offers to the values reported by the Counter-Party in paragraph (7) below or based on information available to ERCOT; or
+(2)	Increased (when the bth percentile Settlement Point Price for the hour is negative).  The increase shall be the quantity of the offer multiplied by the absolute value of the bth percentile of the DASPP for the hour over the previous 30 days.  
+(B)	Credit exposure will be increased by the product of the quantity of the offer multiplied by the dpth percentile of the hourly difference between Real-Time Settlement Point Price and DASPP (where any negative differences are set to zero) over the previous 30 days for the hour multiplied by e3.
+(ii)	That has an offer price that is greater than the ath percentile of the DASPP for the hour over the previous 30 days, credit exposure will be increased by the product of the quantity of the offer multiplied by the dpth percentile of the hourly difference between Real-Time Settlement Point Price and DASPP (where any negative differences are set to zero) over the previous 30 days for the hour multiplied by e3.  
+(iii)	ERCOT may, in its sole discretion, use a percentile other than the dpth percentile of the hourly difference between Real-Time Settlement Point Price and DASPP (where any negative differences are set to zero) over the previous 30 days in determining credit exposure per this paragraph (6)(b) in evaluating DAM Energy-Only Offers.  
+(c)	For each MW portion of the Energy Offer Curve of a Three-Part Supply Offer:
+[NPRR1014:  Replace paragraph (c) above with the following upon system implementation:]
+(c)	For each MW portion of the Energy Offer Curve of a Three-Part Supply Offer or for each MW portion of the offer portion of an Energy Bid/Offer Curve:
+(i)	That has an offer price that is less than or equal to the yth percentile of the DASPP for the hour over the previous 30 days, credit exposure will be reduced (when the zth percentile Settlement Point Price is positive) or increased (when the zth percentile Settlement Point Price is negative) by the quantity of the offer multiplied by the absolute value of the zth percentile of the DASPP for the hour over the previous 30 days.  
+(ii)	That has an offer price that is greater than the yth percentile of the DASPP for the hour over the previous 30 days, the credit exposure will be zero.
+(iii)	For a Combined Cycle Generation Resource with Three-Part Supply Offers for multiple generator configurations, the reduction in credit exposure will be the maximum credit exposure reduction cr

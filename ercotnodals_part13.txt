@@ -1,0 +1,679 @@
+MW	Day-Ahead Non-Spin Quantity per QSE—The QSE q’s Day-Ahead Ancillary Service Obligation minus its self-arranged Non-Spin quantity for the hour.
+DAPCNSAMTTOT 	$	Day-Ahead Procured Capacity for Non-Spin Amount Total—The total of the DAM Non-Spin payments for all QSEs for the hour.
+PCNSAMT q	$	Procured Capacity for Non-Spin Amount per QSE in DAM—The DAM Non-Spin payment for QSE q for the hour.
+DAPCNSOAMT q	$	Day-Ahead Procured Capacity for Non-Spin Only Amount per QSE— The payment to QSE q for all Non-Spin only awards in DAM for the hour.
+DANSQTOT	MW	Day-Ahead Non-Spin Quantity Total—The sum of every QSE’s Day-Ahead Ancillary Service Obligation minus its self-arranged Non-Spin quantity for the hour.
+DANSO q	MW	Day-Ahead Non-Spin Obligation per QSE—The Non-Spin capacity obligation for QSE q for the DAM for the hour. 
+DASANSQ q	MW	Day-Ahead Self-Arranged Non-Spin Quantity per QSE—The self-arranged Non-Spin quantity submitted by QSE q before 1000 in the Day-Ahead.
+q	none	A QSE.
+4.6.4.2.5	 ERCOT Contingency Reserve Service Charge
+(1)	Each QSE shall pay to ERCOT or be paid by ERCOT an ECRS charge for each hour as follows:
+DAECRAMT q	=	DAECRPR * DAECRQ q
+Where:
+DAECRPR	= 	(-1) * PCECRAMTTOT / DAECRQTOT
+PCECRAMTTOT =	 PCECRAMT q
+DAECRQTOT	=	 DAECRQ q
+DAECRQ q	=	DAECRO q – DASAECRQ q
+The above variables are defined as follows: 
+Variable	Unit	Definition
+DAECRAMT q	$	Day-Ahead ERCOT Contingency Reserve Amount per QSE—QSE q’s share of the DAM cost for ECRS, for the hour.
+DAECRPR	$/MW per hour	Day-Ahead ERCOT Contingency Reserve Price—The Day-Ahead ECRS price for the hour.
+DAECRQ q	MW	Day-Ahead ERCOT Contingency Reserve Quantity per QSE—The QSE q’s Day-Ahead Ancillary Service Obligation minus its self-arranged ECRS quantity for the hour.
+PCECRAMTTOT 	$	Procured Capacity for ERCOT Contingency Reserve Amount Total in DAM—The total of the DAM ECRS payments for all QSEs for the hour.
+PCECRAMT q	$	Procured Capacity for ERCOT Contingency Reserve Amount per QSE for DAM—The DAM ECRS payment for QSE q for the hour.
+DAECRQTOT	MW	Day-Ahead ERCOT Contingency Reserve Quantity Total—The sum of every QSE’s Day-Ahead Ancillary Service Obligation minus its self-arranged ECRS quantity for the hour.
+DAECRO q	MW	Day-Ahead ERCOT Contingency Reserve Obligation per QSE—The ECRS capacity obligation for QSE q for the DAM for the hour. 
+DASAECRQ q	MW	Day-Ahead Self-Arranged ERCOT Contingency Reserve Quantity per QSE—The self-arranged ECRS quantity submitted by QSE q before 1000 in the Day-Ahead.
+q	none	A QSE.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	Each QSE shall pay to ERCOT or be paid by ERCOT an ECRS charge for each hour as follows:
+DAECRAMT q	=	DAECRPR * DAECRQ q
+Where:
+DAECRPR	= 	(-1) * DAPCECRAMTTOT / DAECRQTOT
+DAPCECRAMTTOT	=	 (PCECRAMT q + DAPCECROAMT q)
+DAECRQTOT	=	 DAECRQ q
+DAECRQ q	=	DAECRO q – DASAECRQ q
+The above variables are defined as follows: 
+Variable	Unit	Definition
+DAECRAMT q	$	Day-Ahead ERCOT Contingency Reserve Amount per QSE—QSE q’s share of the DAM cost for ECRS, for the hour.
+DAECRPR	$/MW	Day-Ahead ERCOT Contingency Reserve Price—The Day-Ahead ECRS price for the hour.
+DAECRQ q	MW	Day-Ahead ERCOT Contingency Reserve Quantity per QSE—The QSE q’s Day-Ahead Ancillary Service Obligation minus its self-arranged ECRS quantity for the hour.
+DAPCECRAMTTOT 	$	Day-Ahead Procured Capacity for ERCOT Contingency Reserve Amount Total—The total of the DAM ECRS payments for all QSEs for the hour.
+PCECRAMT q	$	Procured Capacity for ERCOT Contingency Reserve Amount per QSE for DAM—The DAM ECRS payment for QSE q for the hour.
+DAPCECROAMT q 	$	Day-Ahead Procured Capacity for ERCOT Contingency Reserve Service Only Amount per QSE— The payment to QSE q for all ECRS only awards in DAM for the hour.
+DAECRQTOT	MW	Day-Ahead ERCOT Contingency Reserve Quantity Total—The sum of every QSE’s Day-Ahead Ancillary Service Obligation minus its self-arranged ECRS quantity for the hour.
+DAECRO q	MW	Day-Ahead ERCOT Contingency Reserve Obligation per QSE—The ECRS capacity obligation for QSE q for the DAM for the hour. 
+DASAECRQ q	MW	Day-Ahead Self-Arranged ERCOT Contingency Reserve Quantity per QSE—The self-arranged ECRS quantity submitted by QSE q before 1000 in the Day-Ahead.
+q	none	A QSE.
+4.6.5	Calculation of “Average Incremental Energy Cost” (AIEC)
+(1)	The methodology of AIEC calculation is presented below.  AIEC is used to account for the additional cost for a Generation Resource to produce energy above its LSL.  This cost calculation methodology is used for the calculation of the DAAIEC variable.
+I.	Energy Offer Curve:
+Index (i)	MW	$/MWh
+1	Q1	P1
+2	Q2	P2
+ 	 	 
+N (N10)	QN	PN
+II.	MW quantity corresponding with Energy Offer Curve Cost Cap ,   ($/MWh), where   ( ):
+  (MW), where  
+III.	Energy Offer Curve capped with the Energy Offer Curve Cost Cap:
+A.	When  :
+Index (j)	MW	$/MWh
+1	Q1	P1
+M	M	M
+i	Qi	Pi
+i+1	 
+ 
+i+2	QN	 
+B.	When  :
+Index (j)	MW	$/MWh
+1	Q1	P1
+M	M	M
+N	QN	PN
+IV.	Cleared offer on the capped Energy Offer Curve:
+A.	When  :
+Q (MW), where   ( )
+B.	When  :
+Q (MW), where   ( )
+V.	Incremental energy price corresponding with cleared offer, on the capped Energy Offer Curve or between two points along the Energy Offer Curve:
+P ($/MWh), where  
+VI.	AIEC corresponding with (Q-Q1>0), on the capped Energy Offer Curve:
+ 
+
+ERCOT Nodal Protocols
+Section 5:  Transmission Security Analysis and Reliability Unit Commitment
+February 1, 2025
+
+
+ 
+5	Transmission Security Analysis and Reliability Unit Commitment	5-1
+5.1	Introduction	5-1
+5.2	Reliability Unit Commitment Timeline Summary	5-3
+5.2.1	RUC Normal Timeline Summary	5-3
+5.2.2	RUC Process Timing Deviations	5-4
+5.2.2.1	RUC Process Timeline After a Delay of the Day-Ahead Market	5-4
+5.2.2.2	RUC Process Timeline After an Aborted Day-Ahead Market	5-5
+5.3	ERCOT Security Sequence Responsibilities	5-7
+5.4	QSE Security Sequence Responsibilities	5-9
+5.4.1	Ancillary Service Positions	5-10
+5.5	Security Sequence, Including RUC	5-10
+5.5.1	Security Sequence	5-10
+5.5.2	Reliability Unit Commitment (RUC) Process	5-12
+5.5.3	Communication of RUC Commitments and Decommitments	5-25
+5.6	RUC Cost Eligibility	5-26
+5.6.1	Verifiable Costs	5-26
+5.6.1.1	Verifiable Startup Costs	5-32
+5.6.1.2	Verifiable Minimum-Energy Costs	5-32
+5.6.2	RUC Startup Cost Eligibility	5-32
+5.6.3	Forced Outage of a RUC-Committed Resource	5-34
+5.6.4	Cancellation of a RUC Commitment	5-35
+5.6.5	Settlement for Canceled or Delayed Outages for Outage Schedule Adjustments (OSAs)	5-35
+5.6.5.1	Make-Whole Payment for Canceled or Delayed Outages for OSAs	5-35
+5.6.5.2	RUC Make-Whole Payment and RUC Clawback Charge for Resources Receiving OSAs	5-36
+5.6.5.3	Timeline for Calculating RUC Clawback Charges for Resources Receiving OSAs	5-38
+5.7	Settlement for RUC Process	5-38
+5.7.1	RUC Make-Whole Payment	5-38
+5.7.1.1	RUC Guarantee	5-40
+5.7.1.2	RUC Minimum-Energy Revenue	5-44
+5.7.1.3	Revenue Less Cost Above LSL During RUC-Committed Hours	5-46
+5.7.1.4	Revenue Less Cost During QSE Clawback Intervals	5-50
+5.7.2	RUC Clawback Charge	5-54
+5.7.3	Payment When ERCOT Decommits a QSE-Committed Resource	5-57
+5.7.4	RUC Make-Whole Charges	5-62
+5.7.4.1	RUC Capacity-Short Charge	5-62
+5.7.4.1.1	Capacity Shortfall Ratio Share	5-64
+5.7.4.1.2	RUC Capacity Credit	5-81
+5.7.4.2	RUC Make-Whole Uplift Charge	5-82
+5.7.5	RUC Clawback Payment	5-83
+5.7.6	RUC Decommitment Charge	5-83
+5.7.7 	Settlement of Switchable Generation Resources (SWGRs) Operating in a Non-ERCOT Control Area	5-84
+5.8	Annual RUC Reporting Requirement	5-84
+ 
+ 
+Transmission Security Analysis and Reliability Unit Commitment 
+5.1	Introduction
+(1)	Transmission security analysis and Reliability Unit Commitment (RUC) are used to ensure ERCOT System reliability and to ensure that enough Resource capacity, in addition to Ancillary Service capacity, is committed in the right locations to reliably serve the forecasted Load on the ERCOT System including Direct Current Tie (DC Tie) Load that has not been curtailed. 
+[NPRR1009:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	Transmission security analysis and Reliability Unit Commitment (RUC) are used to ensure ERCOT System reliability and to ensure that enough Resource capacity and qualified Ancillary Service capacity are committed in the right locations to reliably serve the forecasted Load and Ancillary Service needs on the ERCOT System including Direct Current Tie (DC Tie) Load that has not been curtailed.
+(2)	ERCOT shall conduct at least one Day-Ahead Reliability Unit Commitment (DRUC) and at least one Hourly Reliability Unit Commitment (HRUC) before each hour of the Operating Day.  ERCOT, in its sole discretion, may conduct a RUC at any time to evaluate and resolve reliability issues.
+(3)	The DRUC must be run after the close of the Day-Ahead Market (DAM). 
+(4)	The DRUC uses Three-Part Supply Offers, capped at the maximum of generic or verifiable minimum energy and Startup Costs, submitted before the DAM by Qualified Scheduling Entities (QSEs) that were considered in the DAM but not awarded in the DAM.  A QSE may not submit a Three-Part Supply Offer to be considered in the DRUC unless the offer was also submitted for consideration in the DAM.
+(5)	ERCOT must initiate the HRUC process at least one hour before the Operating Hour to fine-tune the Resource commitments using updated Load forecasts and updated Outage information. 
+(6)	The RUC Study Period for DRUC is the next Operating Day.  The RUC Study Period for HRUC is the balance of the current Operating Day plus the next Operating Day if the DRUC for the Operating Day has been solved. 
+(7)	HRUC may decommit Resources only to maintain the reliability of the ERCOT System. 
+(8)	For each RUC Study Period, the RUC considers capacity requirements for each hour of the RUC Study Period with the objective of minimizing costs based on logic described in Section 5.5.2, Reliability Unit Commitment (RUC) Process.
+(9)	The calculated Resource commitments arising from each RUC process, and a list of Off-Line Available Resources having a start-up time of one hour or less, must be reviewed by ERCOT before issuing Dispatch Instructions to QSEs to commit, extend, or decommit Resources.
+(10)	The Security Sequence is a set of prerequisite processes for RUC that describes the key system components and inputs that are required to support the RUC process, the RUC process itself, and the ERCOT review of the Resource commitment recommendations made by the RUC process. 
+(11)	The RUC process may not be used to buy Ancillary Service unless the Ancillary Service Offers submitted in the DAM are insufficient to meet the requirements of the Ancillary Service Plan.  
+[NPRR1009:  Delete paragraph (11) above upon system implementation of the Real-Time Co-Optimization (RTC) project and renumber accordingly.]
+(12)	After the use of market processes to the fullest extent practicable without jeopardizing the reliability of the ERCOT System, any ERCOT Dispatch Instructions for additional capacity that order a QSE to commit a specific Generation Resource to be On-Line shall be considered a RUC Dispatch for the purpose of the Settlement of payments and charges related to the committed Generation Resource.  An Operating Condition Notice (OCN), Advisory, Watch, or Emergency Notice requesting the available capacity of any currently available Generation Resources but not naming specific Generation Resources is not considered a RUC Dispatch for purposes of Settlement.
+(13)	ERCOT shall post on the Market Information System (MIS) Certified Area, for each Off-Line Generation Resource that may be selected by an HRUC process, the current time since the Generation Resource last went Off-Line (in hours) and the corresponding start-up times ERCOT is using for each such Off-Line Generation Resource.  The time since the Generation Resource last went Off-Line and start-up times shall be updated at least hourly.
+(14)	Prior to 1330 in the Day-Ahead, ERCOT may issue a Weekly Reliability Unit Commitment (WRUC) Verbal Dispatch Instruction (VDI) to inform a QSE that a Resource is required to be On-Line for all or part of a future Operating Day.  Following the receipt of a WRUC: 
+(a)	The QSE may self-commit the Resource for the WRUC-instructed hours by updating the Resource’s Current Operating Plan (COP) to reflect the appropriate On-Line Resource Status for the WRUC-instructed hours prior to the DRUC process execution for the associated Operating Day.  Resources that have been self-committed by a QSE in accordance with a WRUC:
+(i)	May have a Three-Part Supply Offer submitted into the DAM, and any of the WRUC-instructed hours in which the Three-Part Supply Offer is awarded in the DAM become DAM-Committed Intervals for the Resource and are settled accordingly; and
+(ii)	Will not be issued a RUC commitment for the WRUC-instructed hours that were self-committed or DAM-committed.
+(b)	ERCOT will commit the Resource as part of the DRUC process for the relevant Operating Day for all WRUC-instructed hours not DAM-committed or QSE self-committed.  For all purposes, including RUC Settlement, the Resource will be considered as committed by the DRUC for these hours.
+(15)	If ERCOT issues an Outage Schedule Adjustment (OSA) pursuant to Section 3.1.4.6, Outage Coordination of Potential Transmission Emergency Conditions, or Section 3.1.6.9, Withdrawal of Approval and Rescheduling of Approved Planned Outages of Resource Facilities, QSEs with Resources that received an OSA shall be made whole to their actual costs incurred due to delaying or canceling and rescheduling the Outage as described in Section 5.6.5.1, Make-Whole Payment for Canceled or Delayed Outages for OSAs.
+5.2	Reliability Unit Commitment Timeline Summary 
+5.2.1	RUC Normal Timeline Summary
+(1)	The following Reliability Unit Commitment (RUC) Timeline Summary describes the normal timeline for RUC activities that occur in the Day-Ahead and Adjustment Periods.
+
+
+
+
+ 
+
+ 
+5.2.2	RUC Process Timing Deviations
+5.2.2.1	RUC Process Timeline After a Delay of the Day-Ahead Market
+(1)	If the Day-Ahead Market (DAM) execution is delayed in accordance with Section 4.1.2, Day-Ahead Process and Timing Deviations, ERCOT shall conduct a Day-Ahead Reliability Unit Commitment (DRUC) after 1430 in the Day-Ahead and no earlier than one hour following the posting of DAM awards information on the ERCOT website as set forth in Section 4.5.3, Communicating DAM Results.  In this event, ERCOT will use the Current Operating Plan (COP) and Trades Snapshot taken just prior to the execution of the DRUC to settle RUC charges.
+[NPRR1009:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	If the Day-Ahead Market (DAM) execution is delayed in accordance with Section 4.1.2, Day-Ahead Process and Timing Deviations, ERCOT shall conduct a Day-Ahead Reliability Unit Commitment (DRUC) after 1430 in the Day-Ahead and no earlier than one hour following the posting of DAM awards information on the ERCOT website as set forth in Section 4.5.3, Communicating DAM Results.  In this event, ERCOT will use the RUC Snapshot taken just prior to the execution of the DRUC to settle RUC charges.
+5.2.2.2	RUC Process Timeline After an Aborted Day-Ahead Market
+(1)	If ERCOT aborts all or part of the Day-Ahead process in accordance with Section 4.1.2, Day-Ahead Process and Timing Deviations, for any reason not due to a Market Suspension, then ERCOT shall use the following Supplemental Ancillary Services Market (SASM) process to purchase Ancillary Services for the next Operating Day and the Hourly Reliability Unit Commitment (HRUC) process described in this Section in lieu of the DRUC process.  If ERCOT aborts the Day-Ahead process due to a Market Suspension, it shall act in accordance with Section 25.3, Market Restart Processes.
+(2)	When the DAM is aborted, ERCOT shall include in the Watch notification required by paragraph (2) of Section 4.1.2 the time when it intends to conduct the SASM described in this Section 5.2.2.2 to procure the amounts of Ancillary Services necessary to meet the Ancillary Service Plan for the Operating Day affected by the aborted DAM.  ERCOT shall allow at least one hour between the issuance of the Watch and the beginning of this SASM.
+(3)	After the issuance of the Watch described in paragraph (2) above and prior to the beginning of this SASM, a Qualified Scheduling Entity (QSE) may cancel unexpired Ancillary Service Offers that were submitted for the aborted DAM.
+(4)	A QSE may submit Ancillary Service Offers for this SASM after the issuance of the Watch described in paragraph (2) above and prior to the beginning of this SASM.
+(5)	For this SASM, the QSE must submit the Self-Arranged Ancillary Service Quantity for the next Operating Day in accordance with the timeline described in paragraph (3) of Section 6.4.9.2, Supplemental Ancillary Services Market.  This amount may be different from the self-arrangement amounts previously submitted for the aborted DAM.
+(6)	The amount of each Ancillary Service to be procured by ERCOT in this SASM is the amount of each Ancillary Service specified in the ERCOT Ancillary Service Plan posted prior to the aborted DAM less the total amount of each Ancillary Service in the QSE submittals for self-arranged Ancillary Services for this SASM.
+(7)	This SASM will settle in accordance with Section 6.7, Real-Time Settlement Calculations for the Ancillary Services.
+(8)	The SASM process for acquiring Ancillary Services in the event of an aborted Day-Ahead process shall be conducted in accordance with Section 6.4.9.2.2, SASM Clearing Process, but shall use the following activities and timeline as specified in paragraph (3) of Section 6.4.9.2, with time “X” being the time specified by ERCOT for the beginning of the SASM process in the Watch notification described above.
+(9)	As soon as practicable, but no later than the time specified in paragraph (3) of Section 6.4.9.2, ERCOT shall notify each QSE of its awarded Ancillary Service Offer quantities, specifying Resource, Ancillary Service type, SASM Market Clearing Price for Capacity (MCPC), and the first and last hours of the awarded offer.
+(10)	As soon as practicable, but no later than the time specified in paragraph (3) of Section 6.4.9.2, ERCOT shall post on the ERCOT website the hourly:
+(a)	SASM MCPC for each type of Ancillary Service for each hour;
+(b)	Total Ancillary Service procured in MW by Ancillary Service type for each hour; and
+(c)	Aggregated Ancillary Service Offer Curve for each Ancillary Service for each hour.
+(11)	No sooner than 1800 in the Day-Ahead and after the completion of the SASM process described in this Section 5.2.2.2, ERCOT shall execute an HRUC process. 
+(a)	The RUC Study Period for this HRUC process is the balance of the current Operating Day plus the next Operating Day.  This HRUC process may be a post-1800 HRUC for the current Operating Day.
+(b)	The COP and Trades Snapshot taken just prior to the execution of the HRUC process described in this Section 5.2.2.2 will be used to settle RUC charges in the Operating Day affected by the aborted DAM.
+(c)	This HRUC process described in this Section 5.2.2.2 may commit Resources to supply Ancillary Services if the Ancillary Service Offers submitted in the SASM described in this Section 5.2.2.2 are insufficient to meet the requirements of the Ancillary Services Plan in the Operating Day affected by the aborted DAM.
+(d)	A QSE may request cancellation of a RUC instruction to supply Ancillary Services if the Resource requested is not capable of providing the Ancillary Services due to equipment issues that are the result of non-frequency responsive power augmentation or other Resource control issues.  If ERCOT accepts the cancellation, ERCOT may require QSEs to submit supporting information describing the Resource control issues.
+[NPRR1009:  Replace Section 5.2.2.2 above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+5.2.2.2	RUC Process Timeline After an Aborted Day-Ahead Market
+(1)	If ERCOT aborts all or part of the Day-Ahead process in accordance with Section 4.1.2, Day-Ahead Process and Timing Deviations, for any reason not due to a Market Suspension, then ERCOT shall use the Hourly Reliability Unit Commitment (HRUC) process described in this Section in lieu of the DRUC process.  If ERCOT aborts the Day-Ahead process due to a Market Suspension, it shall act in accordance with Section 25.3, Market Restart Processes.
+5.3	ERCOT Security Sequence Responsibilities
+(1)	ERCOT shall start the Day-Ahead Reliability Unit Commitment (DRUC) process at 1430 in the Day-Ahead.
+(2)	For each DRUC, ERCOT shall use a snapshot of Resource commitments taken at 1430 in the Day-Ahead for Reliability Unit Commitment (RUC) Settlement.  For each Hourly Reliability Unit Commitment (HRUC), ERCOT shall use a snapshot of Resource commitments from each Qualified Scheduling Entity’s (QSE’s) most recently submitted Current Operating Plan (COP) before HRUC execution for RUC Settlement.  
+(3)	For each RUC process, ERCOT shall: 
+(a)	Execute the Security Sequence described in Section 5.5, Security Sequence, Including RUC, including:
+(i)	Validating Three-Part Supply Offers, defined in Section 4.4.9.1, Three-Part Supply Offers;
+[NPRR1009 and NPRR1014:  Replace item (i) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+(i)	Validating Three-Part Supply Offers, defined in Section 4.4.9.1, Three-Part Supply Offers, Energy Bid/Offer Curves, defined in Section 4.4.9.7, Energy Bid/Offer Curve, and Ancillary Service Offers, defined in Section 4.4.7.2, Ancillary Service Offers;
+(ii)	Reviewing the Resource commitment recommendations made by the RUC algorithm; and
+(iii)	Reviewing the list of Off-Line Available Resources having a start-up time of one hour or less;
+(b)	Post to the Market Information System (MIS) Secure Area all Resources that were committed or decommitted by the RUC process including verbal RUC commitments and decommitments and Weekly Reliability Unit Commitment (WRUC) instructions; 
+[NPRR1239:  Replace paragraph (b) above with the following upon system implementation:]
+(b)	Post to the ERCOT website all Resources that were committed or decommitted by the RUC process including verbal RUC commitments and decommitments and Weekly Reliability Unit Commitment (WRUC) instructions;
+(c)	Post to the ERCOT website all active and binding transmission constraints (contingency and overloaded element pair information where available) used as inputs to the RUC;
+(d)	Issue Dispatch Instructions to notify each QSE of its Resource commitments or decommitments; and
+(e)	Post to the MIS Secure Area all Resources that were committed by the RUC process, including verbal RUC commitments, but were subsequently cancelled by the ERCOT Operator.
+[NPRR1239:  Replace paragraph (e) above with the following upon system implementation:]
+(e)	Post to the ERCOT website all Resources that were committed by the RUC process, including verbal RUC commitments, but were subsequently cancelled by the ERCOT Operator.
+(4)	ERCOT shall provide each QSE with the information necessary to pre-validate their data for DRUC and HRUC, including publishing validation rules for offers, bids, and trades.
+5.4	QSE Security Sequence Responsibilities
+(1)	During the Security Sequence, each Qualified Scheduling Entity (QSE) must: 
+(a)	Submit its Current Operating Plan (COP) and update its COP as required in Section 3.9, Current Operating Plan (COP);
+(b)	Submit any Three-Part Supply Offers before: 
+[NPRR1009 and NPRR1014:  Replace applicable portions of paragraph (b) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+(b)	Submit any Three-Part Supply Offers, Energy Bid/Offer Curves, and Ancillary Service Offers before:
+(i)	1000 in the Day-Ahead for the Day-Ahead Market (DAM) and Day-Ahead Reliability Unit Commitment (DRUC) being run in that Day-Ahead, if the QSE wants the offer to be used in those DAM and DRUC processes; and 
+(ii)	The end of the Adjustment Period for each Hourly Reliability Unit Commitment (HRUC), if the QSE wants the offer to be used in the HRUC process;  
+(c)	Submit any Capacity Trades before 1430 in the Day-Ahead for the DRUC and before the end of the Adjustment Period for each HRUC, if the QSE wants those Capacity Trades included in the calculation of Reliability Unit Commitment (RUC) Settlement; 
+(d)	Submit any Energy Trades and Direct Current Tie (DC Tie) Schedules corresponding to Electronic Tags (e-Tags) before 1430 in the Day-Ahead for the DRUC and by the end of the Adjustment Period for each HRUC; if the QSE wants those Energy Trades and DC Tie Schedules included in the calculation of RUC Settlement;
+[NPRR1009 and NPRR1014:  Replace applicable portions of paragraph (d) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+(d)	Submit any Energy Trades, Ancillary Service Trades, and Direct Current Tie (DC Tie) Schedules corresponding to Electronic Tags (e-Tags) before 1430 in the Day-Ahead for the DRUC and by the end of the Adjustment Period for each HRUC; if the QSE wants those Energy Trades and DC Tie Schedules included in the calculation of RUC Settlement;
+(e)	Submit an updated COP before 1430 in the Day-Ahead that shows the specific Resources that will be used to supply the QSE’s Ancillary Service Supply Responsibility; and  
+[NPRR1009 and NPRR1014:  Replace applicable portions of paragraph (e) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+(e)	Submit an updated COP before 1430 in the Day-Ahead; and
+(f)	Acknowledge receipt of Resource commitment or decommitment Dispatch Instructions by submitting an updated COP.
+[NPRR1009:  Insert Section 5.4.1 below upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+5.4.1	Ancillary Service Positions
+(1)	A QSE’s Ancillary Service Position is the net amount of Ancillary Service capacity to which the QSE has financially committed in the ERCOT market, by hour and service type, from self-arrangement, trades, and awards.  The Ancillary Service Position is the difference in MW, by hour and service type, between the amounts specified in items (a) and (b) defined as follows:
+(a)	The sum of:
+(i)	The QSE’s Self-Arranged Ancillary Service Quantity; plus
+(ii)	The total (in MW) of Ancillary Service Trades for which the QSE is the seller; plus
+(iii)	Awards to the QSE of Ancillary Service Offers in the DAM; and 
+(b)	The sum of:
+(i)	The total Ancillary Service Trades for which the QSE is the buyer.
+5.5	Security Sequence, Including RUC
+5.5.1	Security Sequence
+(1)	The figure below highlights the key computational modules and processes that are used in the Security Sequence:
+ 
+(2)	The Security Sequence uses computational modules functionally similar to those used in Real-Time Sequence, however, the inputs into the Security Sequence are based on a snapshot of projected hourly system conditions and constraints rather than Real-Time data.   
+(3)	The Security Sequence uses the status of all transmission breakers and switches (current status for the first hour and normal status for all other hours of Hourly Reliability Unit Commitment (HRUC) and normal status for all hours of Day-Ahead Reliability Unit Commitment (DRUC)), updated for approved Planned Outages for equipment out of service and returned to service for building a representation of the ERCOT Transmission Grid for each hour of the Reliability Unit Commitment (RUC) Study Period.  The Network Topology Processor constructs a network model for each hour that must be used by the Bus Load Forecast to estimate the hourly Load for each transmission bus.    
+(4)	The weather forecast obtained by ERCOT must be provided to the Dynamic Rating Processor to create weather-adjusted MVA limits for each hour of the RUC Study Period for all transmission lines and transformers that have Dynamic Ratings.
+(5)	ERCOT shall analyze base configuration, select n-1 contingencies and select n-2 contingencies under the Operating Guides.  The Operating Guides must also specify the criteria by which ERCOT may remove contingencies from the list.  ERCOT shall post to the Market Information System (MIS) Secure Area the standard contingency list, including identification of changes from previous versions before being used in the Security Sequence.  ERCOT shall evaluate the need for Resource-specific deployments during Real-Time operations for management of congestion consistent with the Operating Guides.
+(6)	ERCOT shall also post to the MIS Secure Area any contingencies temporarily removed from the standard contingency list by ERCOT immediately after successful execution of the Security Sequence.  ERCOT shall include the reason for removal of any contingency as soon as practicable but not later than one hour after removal. 
+(7)	As part of the Network Security Analysis (NSA), for each hour of the RUC Study Period, ERCOT shall analyze all selected contingencies and perform the following:
+(a)	Perform full AC analysis of all contingencies;
+(b)	Monitor element and bus voltage limit violations; and
+(c)	Monitor transmission line and transformer security violations. 
+(8)	As part of the NSA, if there is an approved Remedial Action Plan (RAP) available, it must be used before considering a Resource commitment.
+(9)	ERCOT shall review all security violations prior to RUC execution.  
+(10)	All Remedial Action Schemes (RASs), Automatic Mitigation Plans (AMPs) and RAPs modeled in the Network Operations Model shall be included in the contingency analysis.  The computational modules must enable ERCOT to analyze contingencies, including the effects of all RASs and AMPs included in the Network Operations Model. 
+(11)	ERCOT may deselect certain contingencies known to cause errors or that otherwise result in inconclusive study output in the RUC.  On continued de-selection of contingencies, ERCOT shall prepare an analysis to determine the cause of the error.  ERCOT may use information from the Day-Ahead processes as decision support during the Hour-Ahead processes.  ERCOT shall post to the MIS Secure Area any contingencies deselected by ERCOT and must include the reason for removal as soon as practicable, but not later than one hour after deselection.
+[NPRR1239:  Replace paragraph (11) above with the following upon system implementation:]
+(11)	ERCOT may deselect certain contingencies known to cause errors or that otherwise result in inconclusive study output in the RUC.  On continued de-selection of contingencies, ERCOT shall prepare an analysis to determine the cause of the error.  ERCOT may use information from the Day-Ahead processes as decision support during the Hour-Ahead processes.  ERCOT shall post to the ERCOT website any contingencies deselected by ERCOT and must include the reason for removal as soon as practicable, but not later than one hour after deselection.
+5.5.2	Reliability Unit Commitment (RUC) Process
+(1)	The RUC process recommends commitment of Generation Resources, to match ERCOT’s forecasted Load including Direct Current Tie (DC Tie) Schedules, subject to all transmission constraints and Resource performance characteristics.  The RUC process takes into account Resources already committed in the Current Operating Plans (COPs), Resources already committed in previous RUCs, Off-Line Available Resources having a start-up time of one hour or less, and Resource capacity already committed to provide Ancillary Service.  The formulation of the RUC objective function must employ penalty factors on violations of security constraints.  The objective of the RUC process is to minimize costs based on the Resource costs described in paragraphs (5) through (9) below.  For all hours of the RUC Study Period within the RUC process, Quick Start Generation Resources (QSGRs) with a COP Resource Status of OFFQS shall be considered as On-Line with Low Sustained Limit (LSL) at zero MW.  QSGRs with a Resource Status of OFFQS shall only be committed by ERCOT through a RUC instruction in instances when a reliability issue would not otherwise be managed through Dispatch Instructions from Security-Constrained Economic Dispatch (SCED).  For On-Line Energy Storage Resources (ESRs), the Hour Beginning Planned State of Charge (SOC) values provided in the COP for a given hour are discounted to ensure sufficient SOC is preserved to meet Ancillary Service Resource Responsibilities, as reflected in the COP.  Any remaining SOC on the ESR will be considered available for energy dispatch by RUC while respecting the Minimum State of Charge (MinSOC) and Maximum State of Charge (MaxSOC) values provided in the COP.
+(2)	The RUC process can recommend Resource decommitment.  ERCOT may only decommit a Resource to resolve transmission constraints that are otherwise unresolvable. Qualifying Facilities (QFs) may be decommitted only after all other types of Resources have been assessed for decommitment.  In addition, the HRUC process provides decision support to ERCOT regarding a Resource decommitment requested by a Qualified Scheduling Entity (QSE).  
+(3)	ERCOT shall review the RUC-recommended Resource commitments and the list of Off-Line Available Resources having a start-up time of one hour or less to assess feasibility and shall make any changes that it considers necessary, in its sole discretion.  During the RUC process, ERCOT may also review and commit, through a RUC instruction, Combined Cycle Generation Resources that are currently planned to be On-Line but are capable of transitioning to a configuration with additional capacity.  ERCOT may deselect Resources recommended in DRUC and in all HRUC processes if in ERCOT’s sole discretion there is enough time to commit those Resources in the future HRUC processes, taking into account the Resources’ start-up times, to meet ERCOT System reliability.  After each RUC run, ERCOT shall post the amount of capacity deselected per hour in the RUC Study Period to the MIS Secure Area.  A Generation Resource shown as On-Line and available for SCED dispatch for an hour in its COP prior to a DRUC or HRUC process execution, according to Section 5.3, ERCOT Security Sequence Responsibilities, will be considered self-committed for that hour.  For purpose of Settlement, snapshot data will be used as specified in paragraph (2) of Section 5.3.  ERCOT shall issue RUC instructions to each QSE specifying its Resources that have been committed as a result of the RUC process.  ERCOT shall, within one day after making any changes to the RUC-recommended commitments, post to the MIS Secure Area any changes that ERCOT made to the RUC-recommended commitments with an explanation of the changes.
+[NPRR1239:  Replace paragraph (3) above with the following upon system implementation:]
+(3)	ERCOT shall review the RUC-recommended Resource commitments and the list of Off-Line Available Resources having a start-up time of one hour or less to assess feasibility and shall make any changes that it considers necessary, in its sole discretion.  During the RUC process, ERCOT may also review and commit, through a RUC instruction, Combined Cycle Generation Resources that are currently planned to be On-Line but are capable of transitioning to a configuration with additional capacity.  ERCOT may deselect Resources recommended in DRUC and in all HRUC processes if in ERCOT’s sole discretion there is enough time to commit those Resources in the future HRUC processes, taking into account the Resources’ start-up times, to meet ERCOT System reliability.  After each RUC run, ERCOT shall post the amount of capacity deselected per hour in the RUC Study Period to the ERCOT website.  A Generation Resource shown as On-Line and available for SCED dispatch for an hour in its COP prior to a DRUC or HRUC process execution, according to Section 5.3, ERCOT Security Sequence Responsibilities, will be considered self-committed for that hour.  For purpose of Settlement, snapshot data will be used as specified in paragraph (2) of Section 5.3.  ERCOT shall issue RUC instructions to each QSE specifying its Resources that have been committed as a result of the RUC process.  ERCOT shall, within one day after making any changes to the RUC-recommended commitments, post to the ERCOT website any changes that ERCOT made to the RUC-recommended commitments with an explanation of the changes.
+(4)	A QSE shall notify the ERCOT Operator of any physical limitation that impacts its Resource’s ability to start that is not reflected in the Resource’s COP or the Resource’s startup time, minimum On-Line time, or minimum Off-Line time.  The following shall apply:
+(a)	If a Resource receives a RUC Dispatch Instruction that it cannot meet due to a physical limitation described in paragraph (4) above, the QSE representing the Resource shall notify the ERCOT Operator of the inability to fully comply with the instruction and shall comply with the instruction to the best of the Resource’s ability.  If the QSE has provided the ERCOT Operator notice of that limitation at least seven days prior to the Operating Day in which the instruction occurs, the QSE shall be excused from complying with the portion of the RUC Dispatch Instruction that it could not meet due to the identified limitation.  
+(b)	If a QSE provides notice pursuant to paragraph (a) above of a physical limitation that will delay the RUC-committed Resource’s ability to reach its LSL in accordance with a RUC Dispatch Instruction, ERCOT shall extend the RUC Dispatch Instruction so that the Resource’s minimum run time is respected. However, if the Resource will not be available in time to address the issue for which it received the RUC instruction, ERCOT may instead cancel the RUC Dispatch Instruction.
+(5)	A QSE shall be excused from complying with any portion of a RUC Dispatch Instruction that it could not meet due to a physical limitation that was reflected, at the time of the RUC Dispatch Instruction, in the Resource’s COP, startup time, minimum On-Line time, or minimum Off-Line time.
+(6)	To determine the projected energy output level of each Resource and to project potential congestion patterns for each hour of the RUC, ERCOT shall calculate proxy Energy Offer Curves based on the Mitigated Offer Caps (MOCs) for the type of Resource as specified in Section 4.4.9.4, Mitigated Offer Cap and Mitigated Offer Floor, for use in the RUC.  Proxy Energy Offer Curves are calculated by multiplying the MOC by a constant selected by ERCOT from time to time that is no more than 0.10% and applying the cost for all Generation Resource output between High Sustained Limit (HSL) and LSL.  The intent of this process is to minimize the effect of the proxy Energy Offer Curves on optimization.
+(7)	ERCOT shall use the RUC process to evaluate the need to commit Resources for which a QSE has submitted Three-Part Supply Offers and other available Off-Line Resources in addition to Resources that are planned to be On-Line during the RUC Study Period.  All of the above commitment information must be as specified in the QSE’s COP.  For available Off-Line Resources with a cold start time of one hour or less that have not been removed from special consideration under paragraph (9) below pursuant to paragraph (4) of Section 8.1.2, Current Operating Plan (COP) Performance Requirements, the Startup Offers and Minimum-Energy Offer from a Resource’s Three-Part Supply Offer shall not be used in the RUC process. 
+(8)	ERCOT shall create Three-Part Supply Offers for all Resources that did not submit a Three-Part Supply Offer, but are specified as available but Off-Line, excluding Resources with a Resource Status of EMR, in a QSE’s COP.  For such Resources, excluding available Off-Line Resources with a cold start time of one hour or less that have not been removed from special consideration under paragraph (9) below pursuant to paragraph (4) of Section 8.1.2, ERCOT shall use in the RUC process 100% of any approved verifiable Startup Cost and verifiable minimum-energy cost or if verifiable costs have not been approved, the applicable Resource Category Generic Startup Offer Cost and the applicable Resource Category Generic Minimum-Energy Offer Cost as described specified in Section 4.4.9.2.3, Startup Offer and Minimum-Energy Offer Generic Caps, registered with ERCOT.  Also, for Settlement purposes, ERCOT shall use any approved verifiable Startup Costs and verifiable minimum-energy cost for such Resources, or if verifiable costs have not been approved, the applicable Resource Category Generic Startup Offer Cost and Generic Minimum-Energy Offer Cost.
+(9)	For all available Off-Line Resources having a cold start time of one hour or less and not removed from special consideration pursuant to paragraph (4) of Section 8.1.2, ERCOT shall scale any approved verifiable Startup Cost and verifiable minimum-energy cost or if verifiable costs have not been approved, the applicable Resource Category Generic Startup Offer Cost and the applicable Resource Category Generic Minimum-Energy Offer Cost as specified in Section 4.4.9.2.3 for use in the RUC process.  
+The above parameter is defined as follows:
+Parameter	Unit	Current Value*
+1HRLESSCOSTSCALING	Percentage	Maximum value of 100%
+*  The current value for the parameter(s) referenced in this table above will be recommended by the Technical Advisory Committee (TAC) and approved by the ERCOT Board.  ERCOT shall update parameter value(s) on the first day of the month following ERCOT Board approval unless otherwise directed by the ERCOT Board.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+(10)	The RUC process must treat all Resource capacity providing Ancillary Service as unavailable for the RUC Study Period, unless that treatment leads to infeasibility (i.e., that capacity is needed to resolve some local transmission problem that cannot be resolved by any other means).  If an ERCOT Operator decides that the Ancillary Service capacity allocated to that Resource is infeasible based on ERCOT System conditions, then, ERCOT shall inform each affected QSE of the amount of its Resource capacity that does not qualify to provide Ancillary Service, and the projected hours for which this is the case.  In that event, the affected QSE may, under Section 6.4.9.1.2, Replacement of Infeasible Ancillary Service Due to Transmission Constraints, either:
+(a)	Substitute capacity from Resources represented by that QSE;
+(b)	Substitute capacity from other QSEs using Ancillary Service Trades; or 
+(c)	Ask ERCOT to replace the capacity.   
+(11)	Factors included in the RUC process are: 
+(a)	ERCOT System-wide hourly Load forecast allocated appropriately over Load buses;
+(b)	Transmission constraints – Transfer limits on energy flows through the electricity network;
+(i)	Thermal constraints – protect transmission facilities against thermal overload;
+(ii)	Generic constraints – protect the transmission system against transient instability, dynamic instability or voltage collapse;
+(c)	Planned transmission topology;
+(d)	Energy sufficiency constraints;
+(e)	Inputs from the COP, as appropriate;
+(f)	Inputs from Resource Parameters, including a list of Off-Line Available Resources having a start-up time of one hour or less, as appropriate;
+(g)	Each Generation Resource’s Minimum-Energy Offer and Startup Offer, from its Three-Part Supply Offer;
+(h)	Any Generation Resource that is Off-Line and available but does not have a Three-Part Supply Offer;
+(i)	Forced Outage information; and
+(j)	Inputs from the eight-day look ahead planning tool, which may potentially keep a unit On-Line (or start a unit for the next day) so that a unit minimum duration between starts does not limit the availability of the unit (for security reasons).  
+(12)	The HRUC process and the DRUC process are as follows:
+(a)	The HRUC process uses current Resource Status for the initial condition for the first hour of the RUC Study Period.  All HRUC processes use the projected status of transmission breakers and switches starting with current status and updated for each remaining hour in the study as indicated in the COP for Resources and in the Outage Scheduler for transmission elements. 
+(b)	The DRUC process uses the Day-Ahead forecast of total ERCOT Load including DC Tie Schedules for each hour of the Operating Day.  The HRUC process uses the current hourly forecast of total ERCOT Load including DC Tie Schedules for each hour in the RUC Study Period.
+(c)	The DRUC process uses the Day-Ahead weather forecast for each hour of the Operating Day.  The HRUC process uses the weather forecast information for each hour of the balance of the RUC Study Period.
+(13)	A QSE that has one or more of its Resources RUC-committed to provide Ancillary Services must increase its Ancillary Service Supply Responsibility by the total amount of RUC-committed Ancillary Service quantities.  The QSE may only use a RUC-committed Resource to meet its Ancillary Service Supply Responsibility during that Resource’s RUC-Committed Interval if the Resource has been committed by the RUC process to provide Ancillary Service, or the Resource is a Combined Cycle Generation Resource that was RUC-committed to transition from one On-Line configuration to a different configuration with additional capacity.  For cases in which the commitment was to provide Ancillary Service, the QSE shall indicate the exact amount and type of Ancillary Service for which it was committed as the Resource’s Ancillary Service Resource Responsibility and Ancillary Services Schedule for the RUC-Committed Intervals for both telemetry and COP information provided to ERCOT.  Upon deployment of the Ancillary Services, the QSE shall adjust its Ancillary Services Schedule to reflect the amounts requested in the deployment.
+(14)	A QSE with a Resource that is not a Reliability Must-Run (RMR) Unit or has not received an Outage Schedule Adjustment (OSA) that has been committed in a DRUC or HRUC process may opt out of the RUC Settlement (or “buy back” the commitment) by setting the COP status of the RUC-committed Resource to ONOPTOUT for the first hour of a contiguous block of RUC-Committed Hours in the Opt Out Snapshot.  All the configurations of the same Combined Cycle Train shall be treated as the same Resource for the purpose of creating the block of RUC-Committed Hours.  A RUC-committed Combined Cycle Generation Resource may opt out of the RUC Settlement by setting the COP status of any Combined Cycle Generation Resource within the same Combined Cycle Train as the RUC-committed Resource to ONOPTOUT for the first hour of a contiguous block of RUC-Committed Hours in the Opt Out Snapshot.  A Combined Cycle Generation Resource that is RUC-committed from one On-Line configuration in order to transition to a different configuration with additional capacity may opt out of the RUC Settlement following the same rule for RUC-committed Combined Cycle Generation Resources described above.  A QSE that opts out of RUC Settlement forfeits RUC Settlement for the affected Resource for a given block of RUC Buy-Back Hours.  A QSE that opts out of RUC Settlement treatment must make the Resource available to SCED for all RUC Buy-Back Hours.  All hours in a contiguous block of RUC-Committed Hours that includes the RUC Buy-Back Hour shall be considered RUC Buy-Back Hours.  If a contiguous block of RUC-Committed Hours spans more than one Operating Day and a QSE wishes to opt out of RUC Settlement for the RUC-Committed Hours in the second or subsequent Operating Day, the QSE must set its COP status to ONOPTOUT for the first hour of the first Operating Day in the Opt Out Snapshot of the first Operating Day.
+(15)	ERCOT shall, as soon as practicable, post to the MIS Secure Area a report identifying those hours that were considered RUC Buy-Back Hours, along with the name of each RUC-committed Resource whose QSE opted out of RUC Settlement.
+[NPRR1239:  Replace paragraph (15) above with the following upon system implementation:]
+(15)	ERCOT shall, as soon as practicable, post to the ERCOT website a report identifying those hours that were considered RUC Buy-Back Hours, along with the name of each RUC-committed Resource whose QSE opted out of RUC Settlement.
+(16)	A Resource that has a Three-Part Supply Offer cleared in the Day-Ahead Market (DAM) and subsequently receives a RUC commitment for the Operating Hour for which it was awarded will be treated as if the telemetered Resource Status was ONOPTOUT for purposes of Section 6.5.7.3, Security Constrained Economic Dispatch, and Section 6.5.7.3.1, Determination of Real-Time On-Line Reliability Deployment Price Adder.
+(17)	A Resource that has self-committed for an Operating Hour after the RUC Snapshot was taken but before the RUC commitment has been communicated through an XML message for that RUC process and that Operating Hour is included in a block of RUC-committed hours for that RUC process will be treated as if the Resource Status was ONOPTOUT for purposes of Section 6.5.7.3, Section 6.5.7.3.1, Operating Reserve Demand Curve (ORDC) calculations, and RUC Settlement for the entire block of RUC-committed hours.  A QSE that has a Resource that meets these conditions must make the Resource available to SCED for the entire block of RUC-committed hours.  ERCOT will send the QSE a notification stating the Operating Day and block of hours for which this occurred.
+[NPRR1009, NPRR1032, NPRR1204, NPRR1239, and NPRR1245:  Replace applicable portions of Section 5.5.2 above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009, NPRR1204, and NPRR1245; or upon system implementation for NPRR1032 or NPRR1239:]
+5.5.2	Reliability Unit Commitment (RUC) Process
+(1)	The RUC process recommends commitment of Generation Resources, to match ERCOT’s forecasted Load including Direct Current Tie (DC Tie) Schedules and RUC Ancillary Service Demand Curves (ASDCs), subject to all transmission constraints and Resource performance characteristics.  The RUC process takes into account Resources already committed in the Current Operating Plans (COPs), Resources already committed in previous RUCs, and Off-Line Available Resources having a start-up time of one hour or less.  For On-Line Energy Storage Resources (ESRs), using RUC duration requirements for energy and Ancillary Services, RUC-projected dispatch for energy and Ancillary Service in one interval shall respect the ESR’s minimum and maximum State of Charge (SOC) values from the COP, while incorporating any adjustments under paragraph (19)(d) below.  In addition, using the Ancillary Service Deployment Factors and their respective deployment duration requirements, the SOC required to support these dispatch levels for energy and Ancillary Services will match as closely as possible the difference between the adjusted COP values of the next interval’s Hour Beginning Planned SOC and the current interval’s Hour Beginning Planned SOC.  The formulation of the RUC objective function must employ penalty factors on violations of security constraints and violations of ESR COP Hour Beginning Planned SOC.  The objective of the RUC process is to minimize costs based on the Resource costs described in paragraphs (11) through (15) below.  ESR energy dispatch costs and Ancillary Service Offer costs are not included in the RUC objective function.
+(2)	ERCOT shall create an ASDC for each Ancillary Service for use in RUC.  ERCOT shall post the ASDCs to the ERCOT website as soon as practicable after any change to the ASDCs.
+(3)	ERCOT shall post the following Ancillary Service Deployment Factor data on the ERCOT website:
+(a)	Following each execution of RUC, ERCOT shall post the Ancillary Service Deployment Factors used by that RUC process for each hour in the RUC Study Period;
+(b)	No later than 0600 in the Day-Ahead for each Operating Day, ERCOT shall post the Ancillary Service Deployments Factors that are projected to be used in the RUC process for that Operating Day; and
+(c)	Following each month, ERCOT shall post the average, minimum, and maximum Ancillary Service Deployment Factors used in the RUC process by type of Ancillary Service and hour of the day for the month.
+(4)	For all hours of the RUC Study Period within the RUC process, Quick Start Generation Resources (QSGRs) with a COP Resource Status of OFFQS shall be considered as On-Line with Low Sustained Limit (LSL) at zero MW.  QSGRs with a Resource Status of OFFQS shall only be committed by ERCOT through a RUC instruction in instances when a reliability issue would not otherwise be managed through Dispatch Instructions from Security-Constrained Economic Dispatch (SCED). 
+(5)	In addition to On-Line qualified Generation Resources and ESRs, the RUC engine shall consider a COP Resource status of OFFQS for QSGRs that are qualified for ERCOT Contingency Reserve Service (ECRS), as being eligible to provide ECRS constrained by the Ancillary Service capability in the COP.
+(6)	In addition to On-Line qualified Generation Resources and ESRs, the RUC engine shall consider a COP Resource Status of OFFQS for QSGRs that are qualified for Non-Spinning Reserve (Non-Spin), as being eligible to provide Non-Spin constrained by the Ancillary Service Capability in the COP.  The RUC engine shall also consider a COP Resource Status of OFF (Off-Line but available for commitment in the DAM and RUC) for a Resource that is qualified for Non-Spin, as being eligible to provide Non-Spin constrained by the Ancillary Service capability in the COP.
+(7)	In addition to On-Line qualified Generation Resources and ESRs, the RUC engine shall consider a COP Resource Status of ONL for Load Resources that are qualified for Ancillary Services, as being eligible to provide Ancillary Services constrained by the Ancillary Service Capability in the COP.  The RUC engine will not consider any Load Resources for dispatch of energy.
+(8)	The RUC process can recommend Resource decommitment.  ERCOT may only decommit a Resource to resolve transmission constraints that are otherwise unresolvable.  Qualifying Facilities (QFs) may be decommitted only after all other types of Resources have been assessed for decommitment.  In addition, the HRUC process provides decision support to ERCOT regarding a Resource decommitment requested by a Qualified Scheduling Entity (QSE).  
+(9)	ERCOT shall review the RUC-recommended Resource commitments and the list of Off-Line Available Resources having a start-up time of one hour or less to assess feasibility and shall make any changes that it considers necessary, in its sole discretion.  During the RUC process, ERCOT may also review and commit, through a RUC instruction, Combined Cycle Generation Resources that are currently planned to be On-Line but are capable of transitioning to a configuration with additional capacity.  ERCOT may deselect Resources recommended in DRUC and in all HRUC processes if in ERCOT’s sole discretion there is enough time to commit those Resources in the future HRUC processes, taking into account the Resources’ start-up times, to meet ERCOT System reliability.  After each RUC run, ERCOT shall post the amount of capacity deselected per hour in the RUC Study Period to the ERCOT website.  A Generation Resource shown as On-Line and available for SCED dispatch for an hour in its COP prior to a DRUC or HRUC process execution, according to Section 5.3, ERCOT Security Sequence Responsibilities, will be considered self-committed for that hour.  For purpose of Settlement, snapshot data will be used as specified in paragraph (2) of Section 5.3.  
+(10)	ERCOT shall issue RUC instructions to each QSE specifying its Resources that have been committed as a result of the RUC process.  ERCOT shall, within one day after making any changes to the RUC-recommended commitments, post to the ERCOT website any changes that ERCOT made to the RUC-recommended commitments with an explanation of the changes.
+(11)	ERCOT shall use the RUC process to evaluate the need to commit Resources for which a QSE has submitted Three-Part Supply Offers and other available Off-Line Resources in addition to Resources that are planned to be On-Line during the RUC Study Period.  All of the above commitment information must be as specified in the QSE’s COP.  For available Off-Line Resources with a cold start time of one hour or less that have not been removed from special consideration under paragraph (17) below pursuant to paragraph (4) of Section 8.1.2, Current Operating Plan (COP) Performance Requirements, the Startup Offers and Minimum-Energy Offer from a Resource’s Three-Part Supply Offer shall not be used in the RUC process. 
+(12)	ERCOT shall create Three-Part Supply Offers for all Resources that did not submit a Three-Part Supply Offer, but are specified as available but Off-Line, excluding Resources with a Resource Status of EMR, in a QSE’s COP.  For such Resources, excluding available Off-Line Resources with a cold start time of one hour or less that have not been removed from special consideration under paragraph (15) below pursuant to paragraph (4) of Section 8.1.2, ERCOT shall use in the RUC process 100% of any approved verifiable Startup Cost and verifiable minimum-energy cost or if verifiable costs have not been approved, the applicable Resource Category Generic Startup Offer Cost and the applicable Resource Category Generic Minimum-Energy Offer Cost as described specified in Section 4.4.9.2.3, Startup Offer and Minimum-Energy Offer Generic Caps, registered with ERCOT.  Also, for Settlement purposes, ERCOT shall use any approved verifiable Startup Costs and verifiable minimum-energy cost for such Resources, or if verifiable costs have not been approved, the applicable Resource Category Generic Startup Offer Cost and Generic Minimum-Energy Offer Cost.
+(13)	A QSE shall notify the ERCOT Operator of any physical limitation that impacts its Resource’s ability to start that is not reflected in the Resource’s COP or the Resource’s startup time, minimum On-Line time, or minimum Off-Line time.  The following shall apply:
+(a)	If a Resource receives a RUC Dispatch Instruction that it cannot meet due to a physical limitation described in paragraph (5) above, the QSE representing the Resource shall notify the ERCOT Operator of the inability to fully comply with the instruction and shall comply with the instruction to the best of the Resource’s ability.  If the QSE has provided the ERCOT Operator notice of that limitation at least seven days prior to the Operating Day in which the instruction occurs, the QSE shall be excused from complying with the portion of the RUC Dispatch Instruction that it could not meet due to the identified limitation.  
+(b)	If a QSE provides notice pursuant to paragraph (a) above of a physical limitation that will delay the RUC-committed Resource’s ability to reach its LSL in accordance with a RUC Dispatch Instruction, ERCOT shall extend the RUC Dispatch Instruction so that the Resource’s minimum run time is respected. However, if the Resource will not be available in time to address the issue for which it received the RUC instruction, ERCOT may instead cancel the RUC Dispatch Instruction.
+(14)	A QSE shall be excused from complying with any portion of a RUC Dispatch Instruction that it could not meet due to a physical limitation that was reflected, at the time of the RUC Dispatch Instruction, in the Resource’s COP, startup time, minimum On-Line time, or minimum Off-Line time.
+(15)	To determine the projected energy output level of each Resource and to project potential congestion patterns for each hour of the RUC, ERCOT shall calculate proxy Energy Offer Curves based on the Mitigated Offer Caps (MOCs) for the type of Resource as specified in Section 4.4.9.4, Mitigated Offer Cap and Mitigated Offer Floor, for use in the RUC.  Proxy Energy Offer Curves are calculated by multiplying the MOC by a constant selected by ERCOT from time to time that is no more than 0.10% and applying the cost for all Generation Resource output between High Sustained Limit (HSL) and LSL.  The intent of this process is to minimize the effect of the proxy Energy Offer Curves on optimization.  For ESRs, energy dispatch costs are not considered in determining projected energy output levels.
+(16)	ERCOT shall calculate proxy Ancillary Service Offer Curves for use in RUC based on validated Ancillary Service Offers as specified in Section 4.4.7.2, Ancillary Service Offers.  For all Resources that do not have a valid Ancillary Service Offer but are qualified to provide an Ancillary Service, ERCOT shall create an Ancillary Service Offer Curve for use in RUC as described in Section 6.5.7.3, Security Constrained Economic Dispatch.  Proxy Ancillary Service Offer Curves for use in RUC are calculated by multiplying the Ancillary Service Offer by a constant selected by ERCOT from time to time that is no more than 0.1%, and are extended between the HSL and LSL.  Notwithstanding the presence or absence of a proxy Ancillary Service Offer, Ancillary Service provision in RUC shall be limited by the Resource’s Ancillary Service capabilities as reflected in the COP.  For ESRs, Ancillary Service Offer costs are not considered in determining projected Ancillary Service awards.
+(17)	For all available Off-Line Resources having a cold start time of one hour or less and not removed from special consideration pursuant to paragraph (4) of Section 8.1.2, ERCOT shall scale any approved verifiable Startup Cost and verifiable minimum-energy cost or if verifiable costs have not been approved, the applicable Resource Category Generic Startup Offer Cost and the applicable Resource Category Generic Minimum-Energy Offer Cost as specified in Section 4.4.9.2.3 for use in the RUC process.  
+The above parameter is defined as follows:
+Parameter	Unit	Current Value*
+1HRLESSCOSTSCALING	Percentage	Maximum value of 100%
+*  The current value for the parameter(s) referenced in this table above will be recommended by the Technical Advisory Committee (TAC) and approved by the ERCOT Board.  ERCOT shall update parameter value(s) on the first day of the month following ERCOT Board approval unless otherwise directed by the ERCOT Board.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+(18)	Factors included in the RUC process are: 
+(a)	ERCOT System-wide hourly Load forecast allocated appropriately over Load buses;
+(b)	ERCOT’s Ancillary Service Plans in the form of ASDCs;
+(c)	Transmission constraints – Transfer limits on energy flows through the electricity network;
+(i)	Thermal constraints – protect transmission facilities against thermal overload;
+(ii)	Generic constraints – protect the transmission system against transient instability, dynamic instability or voltage collapse;
+(d)	Planned transmission topology;
+(e)	Energy sufficiency constraints, including RUC duration requirements for energy and Ancillary Services;
+(f)	Inputs from the COP, as appropriate;
+(g)	Inputs from Resource Parameters, including a list of Off-Line Available Resources having a start-up time of one hour or less, as appropriate;
+(h)	Each Generation Resource’s Minimum-Energy Offer and Startup Offer, from its Three-Part Supply Offer;
+(i)	Any Generation Resource that is Off-Line and available but does not have a Three-Part Supply Offer;
+(j)	Forced Outage information;
+(k)	Inputs from the eight-day look ahead planning tool, which may potentially keep a unit On-Line (or start a unit for the next day) so that a unit minimum duration between starts does not limit the availability of the unit (for security reasons); and
+(l)	Ancillary Service Deployment Factors. 
+(19)	The HRUC process and the DRUC process are as follows:
+(a)	The HRUC process uses current Resource Status for the initial condition for the first hour of the RUC Study Period.  All HRUC processes use the projected status of transmission breakers and switches starting with current status and updated for each remaining hour in the study as indicated in the COP for Resources and in the Outage Scheduler for transmission elements. 
+(b)	The DRUC process uses the current hourly forecast of total ERCOT Load including DC Tie Schedules up to the physical rating of the DC Tie for each hour of the Operating Day.  The HRUC process uses the current hourly forecast of total ERCOT Load including DC Tie Schedules up to the physical rating of the DC Tie for each hour in the RUC Study Period.
+(c)	The DRUC process uses the Day-Ahead weather forecast for each hour of the Operating Day.  The HRUC process uses the weather forecast information for each hour of the balance of the RUC Study Period.
+(d)	For the HRUC, DRUC, and Weekly Reliability Unit Commitment (WRUC) processes, a feasibility check on the COP submitted Hour Beginning Planned SOC will be performed.  This check may adjust the Hour Beginning Planned SOC used in the RUC process.  The feasibility check looks sequentially across all intervals in the RUC Study Period to validate whether a particular interval’s COP Hour Beginning Planned SOC is achievable from the previous interval.  If it is not feasible, then RUC will adjust the Hour Beginning Planned SOC to the closest achievable value.
+(20)	A QSE with a Resource that is not a Reliability Must-Run (RMR) Unit or has not received an Outage Schedule Adjustment (OSA) that has been committed in a DRUC or HRUC process may opt out of the RUC Settlement (or “buy back” the commitment) by setting the COP status of the RUC-committed Resource to ONOPTOUT for the first hour of a contiguous block of RUC-Committed Hours in the Opt Out Snapshot.  All the configurations of the same Combined Cycle Train shall be treated as the same Resource for the purpose of creating the block of RUC-Committed Hours.  A RUC-committed Combined Cycle Generation Resource may opt out of the RUC Settlement by setting the COP status of any Combined Cycle Generation Resource within the same Combined Cycle Train as the RUC-committed Resource to ONOPTOUT for the first hour of a contiguous block of RUC-Committed Hours in the Opt Out Snapshot.  A Combined Cycle Generation Resource that is RUC-committed from one On-Line configuration in order to transition to a different configuration with additional capacity may opt out of the RUC Settlement following the same rule for RUC-committed Combined Cycle Generation Resources described above.  A QSE that opts out of RUC Settlement forfeits RUC Settlement for the affected Resource for a given block of RUC Buy-Back Hours.  A QSE that opts out of RUC Settlement treatment must make the Resource available to SCED for all RUC Buy-Back Hours.  All hours in a contiguous block of RUC-Committed Hours that includes the RUC Buy-Back Hour shall be considered RUC Buy-Back Hours.  If a contiguous block of RUC-Committed Hours spans more than one Operating Day and a QSE wishes to opt out of RUC Settlement for the RUC-Committed Hours in the second or subsequent Operating Day, the QSE must set its COP status to ONOPTOUT for the first hour of that the first Operating Day in the Opt Out Snapshot of the first Operating Day.
+(21)	ERCOT shall, as soon as practicable, post to the ERCOT website a report identifying those hours that were considered RUC Buy-Back Hours, along with the name of each RUC-committed Resource whose QSE opted out of RUC Settlement.
+(22)	A Resource that has a Three-Part Supply Offer cleared in the Day-Ahead Market (DAM) and subsequently receives a RUC commitment for the Operating Hour for which it was awarded will be treated as if the Resource Status was ONOPTOUT for purposes of Section 6.5.7.3 and Section 6.5.7.3.1, Determination of Real-Time Reliability Deployment Price Adders.
+(23)	A Resource that has self-committed for an Operating Hour after the RUC Snapshot was taken but before the RUC commitment has been communicated through an XML message for that RUC process and that Operating Hour is included in a block of RUC-committed hours for that RUC process will be treated as if the Resource Status was ONOPTOUT for purposes of Section 6.5.7.3, Section 6.5.7.3.1, and RUC Settlement for the entire block of RUC-committed hours.  A QSE that has a Resource that meets these conditions must make the Resource available to SCED for the entire block of RUC-committed hours.  ERCOT will send the QSE a notification stating the Operating Day and block of hours for which this occurred.
+5.5.3	Communication of RUC Commitments and Decommitments
+(1)	The output of the RUC process is the cleared Resource commitments and decommitments, and a list of the Off-Line Available Resources having a start-up time of one hour or less.
+(2)	ERCOT shall notify each QSE in the Day-Ahead of the DRUC Resource commitments and advisory decommitments that have been cleared by the RUC for the Resources that QSE represents.  ERCOT shall notify each QSE of the HRUC Resource commitments and decommitments that have been cleared by the RUC for the Resources that QSE represents.  Resource commitments must include the start interval and duration for which the Resource is required to be at least at LSL.  Resource decommitments must include the interval in which the Resource is required to be Off-Line, duration, and reason for the decommitment.  ERCOT shall notify each QSE representing an RMR Unit if that unit has been cleared by the DRUC or HRUC process at the same time that the DRUC and HRUC participants are notified of the results of each such process.  
+(3)	If ERCOT communicates HRUC commitments and decommitments verbally to a QSE, then the same Resource attributes communicated programmatically must be communicated when ERCOT gives a verbal Resource commitment or decommitment.
+(4)	The QSE shall acknowledge the notice or commitment or decommitment by changing the Resource Status of the affected Resources in the COP for RUC-Committed Intervals.
+5.6	RUC Cost Eligibility
+5.6.1	Verifiable Costs
+(1)	The Qualified Scheduling Entity (QSE) is responsible for submitting verifiable costs unless both the QSE and Resource Entity agree that the Resource Entity will have this responsibility, in which case both the QSE and Resource Entity shall submit an affidavit to ERCOT stating this arrangement.  Notwithstanding the foregoing, QSEs that submit Power Purchase or Tolling Agreements (PPAs) do not have the option of allowing Resource Entities to file verifiable costs.
+(2)	Make-Whole Payments for a Resource are based on the Startup Offers and Minimum-Energy Offers for the Resource, limited by caps.  Until ERCOT approves verifiable unit-specific costs for that Resource, the caps are the Resource Category Startup Generic Cap and the Resource Category Minimum-Energy Generic Cap.  When ERCOT approves verifiable unit-specific costs for that Resource the caps are those verifiable unit-specific costs.  A QSE or Resource Entity may file verifiable unit-specific costs for a Resource at any time, but it must file those costs no later than 30 days after five Reliability Unit Commitment (RUC) events for that Resource in a calendar year.  A RUC event begins when a Resource receives a RUC instruction to come or stay On-Line and ends the later of when the Resource shuts down or the end of the Operating Day.  The most recent ERCOT-approved verifiable costs must be used going forward. 
+(3)	These unit-specific verifiable costs may include and are limited to the following average incremental costs:
+(a)	Allocation of maintenance requirements based on number of starts between maintenance events using, at the option of the QSE or Resource Entity, either:
+(i)	Manufacturer-recommended maintenance schedule; 
+(ii)	Historical data for the unit and actual maintenance practices; or
+(iii)	Another method approved in advance by ERCOT in writing;
+(b)	Startup fuel calculations based on recorded actual measured flows when the data is available or based on averages of historical flows for similar starts (for example, hot, cold, intermediate) when actual data is not available.  Startup fuel will include filing separately the startup fuel required to reach breaker close and fuel after breaker close to Low Sustained Limit (LSL).  Any fuel required to shutdown a Resource will be submitted as the fuel from breaker open to shutdown;
+(c)	Operation costs;
+(d)	Chemical costs;
+(e)	Water costs; and
+(f)	Emission credits.
+(4)	Standard Operations and Maintenance (O&M) costs pursuant to paragraph (6) below may be used in lieu of the incremental O&M costs set forth in items (3)(a), (c), (d) and (e) above. 
+(5)	These unit-specific verifiable costs may not include:
+(a)	Fixed costs, which are any cost that is incurred regardless of whether the unit is deployed or not; and
+(b)	Costs for which the QSE or Resource Entity cannot provide sufficient documentation for ERCOT to verify the costs.
+(6)	At their election, QSEs or Resource Entities may receive standard O&M costs for both startup and minimum energy.  This election may be made by submitting an election form to ERCOT.  If a QSE or Resource has received final approval for actual verifiable O&M costs under the verifiable cost process, it may not elect to receive standard O&M costs.  
+(a)	Until December 31, 2011, standard O&M costs are defined as follows:
+Resource Category
+Start Year = 2009	Cold Startup ($/start)	Intermediate Startup ($/start)	Hot Startup ($/start)	Variable O&M ($/MWh)
+Aeroderivative simple cycle commissioned after 1996	1,000.00	1,000.00	1,000.00	3.94
+Reciprocating Engine	$58/MW * the average of the Seasonal net max sustainable ratings	$58/MW * the average of the  Seasonal net max sustainable ratings  	$58/MW * the average of the Seasonal net max sustainable ratings	5.09
+Simple cycle ≤ 90 MW	2,300.00	2,300.00	2,300.00	3.94
+Simple cycle ≥ 90 MW	5,000.00	5,000.00	5,000.00	3.94
+Combined cycle:  for each  Combined-Cycle Configuration, the Startup Cost for that configuration is the sum of the Startup Costs for each unit within that configuration as follows:				3.19
+Combustion turbine < 90 MW	2,300.00	2,300.00	2,300.00	
+Combustion turbine ≥ 90 MW	5,000.00	5,000.00	5,000.00	
+Steam turbine	3,000.00	2,250.00	1,250.00	
+Gas-steam non-reheat boiler	2,310.00	1,732.50	866.25	7.08
+Gas-steam reheat boiler	3,000.00	2,250.00	1,125.00	7.08
+Gas-steam supercritical boiler	4,800.00	3,600.00	1,800.00	7.08
+Nuclear, coal, lignite and hydro	7,200.00	5,400.00	2,700.00	5.02
+Renewable	Not Applicable	Not Applicable	Not Applicable	5.50
+(b)	For the period beginning January 1, 2012 and ending December 31, 2012, standard O&M costs shall be reduced by 10% from the levels specified in the table in paragraph (a) above as follows:
+Resource Category	Cold Startup ($/start)	Intermediate Startup ($/start)	Hot Startup ($/start)	Variable O&M ($/MWh)
+Start Year = 2009				
+Aeroderivative simple cycle commissioned after 1996	900.00	900.00	900.00	3.55
+Reciprocating Engine	$52.20/MW * the average of the  Seasonal net max sustainable ratings	$52.20/MW * the average of the  Seasonal net max sustainable ratings	$52.20/MW * the average of the Seasonal net max sustainable ratings	4.58
+Simple cycle ≤ 90 MW	2,070.00	2,070.00	2,070.00	3.55
+Simple cycle ≥ 90 MW	4,500.00	4,500.00	4,500.00	3.55
+Combined cycle:  for each  Combined-Cycle Configuration, the Startup Cost for that configuration is the sum of the Startup Costs for each unit within that configuration as follows:				2.87
+Combustion turbine < 90 MW	2,070.00	2,070.00	2,070.00	
+Combustion turbine ≥ 90 MW	4,500.00	4,500.00	4,500.00	
+Steam turbine	2,700.00	2,025.00	1,125.00	
+Gas-steam non-reheat boiler	2,079.00	1,559.25	779.63	6.37
+Gas-steam reheat boiler	2,700.00	2,025.00	1,012.50	6.37
+Gas-steam supercritical boiler	4,320.00	3,240.00	1,620.00	6.37
+Nuclear, coal, lignite and hydro	6,480.00	4,860.00	2,430.00	4.52
+Renewable	Not Applicable	Not Applicable	Not Applicable	4.95
+(c)	Beginning January 1, 2013 and going forward, standard O&M costs shall be reduced by 20% from the levels specified in the table in paragraph (a) above as follows:
+Resource Category	Cold Startup ($/start)	Intermediate Startup ($/start)	Hot Startup ($/start)	Variable O&M ($/MWh)
+Start Year = 2009				
+Aeroderivative simple cycle commissioned after 1996	800.00	800.00	800.00	3.15
+Reciprocating Engine	$46.40/MW * the average of the  Seasonal net max sustainable ratings	$46.40 /MW * the average of the Seasonal net max sustainable ratings	$46.40 /MW * the average of the Seasonal net max sustainable ratings	4.07
+Simple cycle ≤ 90 MW	1,840.00	1,840.00	1,840.00	3.15
+Simple cycle ≥ 90 MW	4,000.00	4,000.00	4,000.00	3.15
+Combined cycle:  for each  Combined-Cycle Configuration, the Startup Cost for that configuration is the sum of the Startup Costs for each unit within that configuration as follows:	 	 	 	2.55
+Combustion turbine < 90 MW	1,840.00	1,840.00	1,840.00	 
+Combustion turbine ≥ 90 MW	4,000.00	4,000.00	4,000.00	 
+Steam turbine	2,400.00	1,800.00	1,000.00	 
+Gas-steam non-reheat boiler	1,848.00	1,386.00	693.00	5.66
+Gas-steam reheat boiler	2,400.00	1,800.00	900.00	5.66
+Gas-steam supercritical boiler	3,840.00	2,880.00	1,440.00	5.66
+Nuclear, coal, lignite and hydro	5,760.00	4,320.00	2,160.00	4.02
+Renewable	Not Applicable	Not Applicable	Not Applicable	4.40
+(d)	If the QSE or Resource Entity chooses to utilize the standard O&M costs for O&M, standard O&M costs will be used by ERCOT going forward until either:
+(i)	Verifiable variable O&M costs are filed; or 
+(ii)	ERCOT notifies the QSE or Resource Entity to update its verifiable costs as set forth in either paragraph (9) or (10) below.  If a Resource is receiving standard O&M costs, it may reelect standard O&M costs when resubmitting verifiable costs.
+(7)	When submitting verifiable costs for combined cycle Resources, the QSE or Resource Entity must elect standard O&M costs for all Combined-Cycle Configurations or verifiable costs for all Combined-Cycle Configurations within the combined cycle train.  
+(8)	QSEs submitting PPAs as Resource-specific verifiable costs documentation are subject to the guidelines detailed below and in the Verifiable Cost Manual.
+(a)	Only QSEs offering Three-Part Supply Offers for a specific Resource may submit a PPA as verifiable costs documentation.
+(b)	A QSE submitting a PPA as verifiable costs documentation must represent 100% of the Resource’s capacity.  
+(c)	Only PPAs:  
+(i) 	Signed prior to July 16, 2008; and 
+(ii)	Not between Affiliates, subsidiaries or partners will be accepted as verifiable cost documentation.
+(d)	Verifiable costs for PPAs shall be capped at the level of the highest comparable Resource (referred to as the reference Resource) specific verifiable costs approved by ERCOT without a PPA.  The ERCOT approved verifiable costs for a PPA shall be equal to the lesser of:  
+(i)	The cap as described in paragraph (d) above; and 
+(ii)	The costs from the PPA.
+(e)	ERCOT shall use the Resource actual fuel costs submitted by the QSE for startup and operation at minimum-energy level (LSL), and shall use the Resource Category Startup Offer Generic Costs as the cap for the O&M portion of the Startup Costs until ERCOT receives and approves comparable Resource specific verifiable costs.  
+(f)	PPAs will no longer be accepted as verifiable cost documentation after the primary term of the contract expires. 
+(g)	ERCOT shall produce a report each April that provides the percentage of RUC Make-Whole Payments for Resources with PPAs during the 12 months of the previous calendar year.  If there are no Make-Whole Payments for Resources with PPAs, ERCOT shall not produce the annual report.  The report shall be based on the final Settlements and include the total number of Resources that used a PPA for their most recent verifiable cost submission that was approved by ERCOT.  ERCOT shall present the results of this study to the appropriate Technical Advisory Committee (TAC) subcommittee.
+(h)	Notwithstanding anything to the contrary in this Section 5.6.1, QSEs representing PPAs may, at any time, submit data from a Resource as verifiable costs documentation and such documentation will be accepted for consideration by ERCOT.  A QSE submitting verifiable costs documentation pursuant to this paragraph shall not be required to submit a PPA to ERCOT for consideration for verifiable cost recovery.
+(9)	ERCOT shall notify a QSE to update verifiable cost data of a Resource when the Resource has received more than 50 RUC instructions meeting the criteria in Section 5.6.2, RUC Startup Cost Eligibility, in a year, but ERCOT may not request an update more frequently than annually. 
+(10)	ERCOT shall notify a QSE to update verifiable cost data of a Resource if at least five years have passed since ERCOT previously approved verifiable cost data for that Resource. 
+(11)	Within 30 days after receiving an update Notice from ERCOT under either paragraph (9) or (10) above, a QSE or Resource Entity must submit verifiable cost data for the Resource.  Despite the provisions in paragraph (2) above, if the QSE or Resource Entity does not submit verifiable cost data within 30 days after receiving an update Notice, then ERCOT shall determine payment using the Resource Category Startup Offer Generic Cap, Resource Category Minimum-Energy Offer Generic Cap, and a zeroed value for variable O&M cost as described in Section 4.4.9.4.1, Mitigated Offer Cap, in accordance with the schedule established in this section until updated verifiable costs are approved.  If the 30-day deadline has been reached before the start of the tenth day before the end of the month, the Resource’s verifiable costs will revert back to generic costs beginning on the first day of the following month.  If the 30-day deadline falls within the last ten days of the month, the Resource’s verifiable costs will revert back to generic costs on the first day of the second month following the deadline month.
+(12) 	Notwithstanding the foregoing, QSEs and Resource Entities shall not submit verifiable costs for Energy Storage Resources (ESRs).
+5.6.1.1	Verifiable Startup Costs
+(1)	The unit-specific verifiable costs for starting a Resource for each cold, intermediate, and hot start condition, as determined using the data submitted under Section 5.6.1, Verifiable Costs, and the Resource Parameters for the Resource are: 
+(a) 	Actual fuel consumption rate per start (MMBtu/start) multiplied by a resource fuel price plus consideration of a fuel adder that compensates for the transportation and purchasing of spot fuel as described in the Verifiable Cost Manual; and
+(b) 	Unit-specific verifiable or standard O&M expenses.
+5.6.1.2	Verifiable Minimum-Energy Costs 
+(1)	The unit-specific verifiable minimum-energy costs for a Resource are: 
+(a)	Actual fuel cost to operate the unit at its LSL including a fuel adder that compensates for the transportation and purchasing of spot fuel as described in the Verifiable Cost Manual; plus
+(b)	Verifiable or standard variable O&M expenses.
+(2)	The QSE must submit the Resource’s cost information by Season if the Resource’s costs vary by Season.  For gas-fired units, the actual fuel costs must be calculated using the actual Seasonal heat rate (which must be supplied to ERCOT with Seasonal heat-rate test data) multiplied by the fuel price plus consideration of a fuel adder that compensates for the transportation and purchasing of spot fuel as described in the Verifiable Cost Manual.  For coal- and lignite-fired units, the actual fuel costs must be calculated using the actual Seasonal heat rate multiplied by a deemed fuel price of $1.50 per MMBtu.  For fuel oil-fired operations, the number of gallons burned must be multiplied by the FOP.
+5.6.2	RUC Startup Cost Eligibility
+(1)	For purposes of this Section 5.6.2, all contiguous RUC-Committed Hours are considered as one RUC instruction.  For each Resource, only one Startup Cost is eligible per block of contiguous RUC-Committed Hours.
+(2)	For a Resource’s Startup Costs in the Operating Day, per RUC instruction, to be included in the calculation of the RUC guarantee for that Operating Day, all the criteria below must be met: 
+(a)	According to the Current Operating Plan (COP) and Trades Snapshot for the RUC process that committed the Resource, the Resource must not be QSE-committed in the Settlement Interval immediately before the designated start hour or after the last hour of the RUC instruction;
+[NPRR1009:  Replace paragraph (a) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(a)	According to the RUC Snapshot for the RUC process that committed the Resource, the Resource must not be QSE-committed in the Settlement Interval immediately before the designated start hour or after the last hour of the RUC instruction;
+(b)	A later RUC instruction or QSE commitment must not connect the designated start hour or last hour of the RUC instruction to a block of QSE-committed Intervals that was QSE-committed before the RUC instruction was given, according to the COP and Trades Snapshot for the RUC process that committed the Resource;
+[NPRR1009:  Replace paragraph (b) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(b)	A later RUC instruction or QSE commitment must not connect the designated start hour or last hour of the RUC instruction to a block of QSE-committed Intervals that was QSE-committed before the RUC instruction was given, according to the RUC Snapshot for the RUC process that committed the Resource;
+(c)	The generation breakers must have been open, as indicated by a telemetered Resource Status of Off-Line, for at least five minutes during the six hours preceding the first RUC-Committed Hour; and
+(d)	The generation breakers must have been closed, as indicated by a telemetered Resource Status of On-Line, for at least one minute during the RUC commitment period or after the determined five-minute open breaker, as indicated by a telemetered Resource Status of Off-Line, in the six hours preceding the first RUC-Committed Hour.
+(3)	Notwithstanding paragraphs (2)(c) and (2)(d) above, the QSE of a RUC-committed Resource may submit a Settlement dispute for a Resource’s Startup Costs in the Operating Day, per RUC instruction, to be included in the calculation of the RUC guarantee for that Operating Day if the startup time for the RUC-committed Resource is greater than six hours.  The dispute is subject to verification and approval by ERCOT based on the criteria below:
+(a)	The generation breakers must have been open, as indicated by a telemetered Resource Status of Off-Line, for at least five minutes between the time the QSE is notified of the RUC instruction and the first RUC-Committed Hour;
+(b)	The generation breakers must have been closed, as indicated by a telemetered Resource Status of On-Line, for at least one minute during the RUC commitment period or after the five-minute open breaker determined in item (a) above;
+(c)	The breaker open-close sequence from items (a) and (b) above does not make the Resource eligible for Startup Cost compensation in the Day-Ahead Market (DAM) or for any other contiguous block of RUC-Committed Hours; and
+(d)	The startup time used to process the dispute will be the startup time considered by the ERCOT Operator at the time the RUC instruction was issued.
+(4)	For purposes of this Section 5.6.2, the telemetered Resource Status of OFFQS shall be considered as Off-Line.
+(5)	A Resource that has a Three-Part Supply Offer cleared in the DAM and subsequently receives a RUC commitment for the Operating Hour for which it was awarded will be settled in accordance with Section 4.6.2.3, Day-Ahead Make-Whole Settlements.
+5.6.3	Forced Outage of a RUC-Committed Resource
+(1)	The calculation of a Make-Whole Payment for a RUC-committed Resource that is eligible to receive startup costs under Section 5.6.2, RUC Startup Cost Eligibility, and that experiences a Forced Outage after unit synchronization is governed by Section 5.6.2.
+(2)	If a RUC-committed Resource, which Resource is eligible to include startup costs in its RUC guarantee under Section 5.6.2 without considering the criteria in item (2)(d) of Section 5.6.2, experiences startup failure that creates a Forced Outage before breaker close, ERCOT shall include the Resource’s submitted and approved verifiable actual costs in the Resource’s RUC guarantee, limited to the lesser of: 
+(a)	Costs that qualify as normal startup expenses, including fuel and operation and maintenance expenses, incurred before the event that caused the Forced Outage; or
+(b)	Resource’s Startup Offer in the RUC. 
+(3)	The process for determining the verifiable actual costs for a startup attempt under item (2) above is described in the Verifiable Cost Manual. 
+(4)	The verifiable actual costs for a startup attempt under item (2) above shall only be included in the Resource’s RUC guarantee upon QSE notification of the startup attempt under item (2) and approval of the verifiable actual costs under item (3) above.
+5.6.4	Cancellation of a RUC Commitment
+(1)	The calculation of payment for a RUC-committed Resource that is issued a RUC Cancellation instruction for the RUC commitment from ERCOT prior to breaker close shall be paid through the RUC Decommitment Payment as described in Section 5.7.3, Payment When ERCOT Decommits a QSE-Committed Resource. 
+(2)	A RUC-committed Resource that receives a RUC Cancellation instruction prior to breaker close may submit through the dispute process all incremental expenses associated with the RUC Cancellation of the RUC-committed Resource.  These costs include all costs that qualify as normal Startup Costs, O&M expenses and associated fuel expenses incurred for any attempted start.
+(3)	The process for determining the verifiable actual costs for a RUC cancellation is described in the Verifiable Cost Manual.
+5.6.5	Settlement for Canceled or Delayed Outages for Outage Schedule Adjustments (OSAs)
+5.6.5.1	Make-Whole Payment for Canceled or Delayed Outages for OSAs
+(1) 	If ERCOT issues an Outage Schedule Adjustment (OSA) pursuant to Section 3.1.4.6, Outage Coordination of Potential Transmission Emergency Conditions, or Section 3.1.6.9, Withdrawal of Approval and Rescheduling of Approved Planned Outages of Resource Facilities, ERCOT shall pay the QSE representing the Resource a Make-Whole Payment as calculated in Section 5.6.5.2, RUC Make-Whole Payment and RUC Clawback Charge for Resources Receiving OSAs, if the QSE has:
+(a)	Submitted a Settlement and billing dispute consistent with the dispute process described in Section 9.14, Settlement and Billing Dispute Process; and 
+(b)	Submitted the following within 60 days of the issuance of a Real-Time Market (RTM) Initial Statement for an Operating Day on which one or more OSAs was in effect for the Resource: 
+(i)	An attestation signed by an officer or executive with authority to bind the QSE stating that the information contained in the submission is accurate;
+(ii)	The dollar amount and calculation of the net financial loss, if applicable, by Settlement Interval for:
+(A)	Actual and indirect costs incurred due to delaying or canceling and rescheduling the Outage.  Such costs include, but are not limited to: 
+(1)	Additional staff or contractor time;
+(2)	Costs associated with re-planning the Outage;
+(3)	Costs of equipment rental (including but not limited to cranes, manlifts, welding machines, etc.);
+(4)	Costs of facility rentals and other incidental incremental costs incurred by the Resource, its QSE, or its fuel supplier (e.g. mine-related expenses) created by the cancellation or delay of the Outage; and
+(5)	Indirect costs necessary for moving any additional Outages due to the OSA.
+(B)	Costs covered by paragraph (A) above do not include:
+(1)	The cost of materials due to be installed during the Outage.  Such equipment will presumably be installed at a later date in a rescheduled or delayed Outage; and 
+(2) 	All loss amounts associated with the Outage Resource as a result of any financial transaction, including selling or repurchasing a hedge (whether the hedge is for energy, Ancillary Services, or fuel); and
+(iii)	Sufficient documentation to support the QSE’s calculation of all submitted costs.
+5.6.5.2	RUC Make-Whole Payment and RUC Clawback Charge for Resources Receiving OSAs
+(1)	To compensate QSEs representing Resources that submitted a timely Settlement and billing dispute, ERCOT shall calculate a RUC Guarantee for an Operating Day for the OSA Period to be used in the RUC Settlements process and allocated to each instructed Operating Hour as follows:
+(a)	For a Resource with RUC instructions issued for hours during the OSA Period, the RUC Guarantee calculated for the RUC-Committed Hours shall include the following: 	
+(i)	Eligible Startup costs per Section 5.6.2, RUC Startup Cost Eligibility;
+(ii)	Minimum-energy costs;
+(iii)	10% of both Startup costs and minimum-energy costs; and
+(iv)	Approved net financial loss as defined in Section 5.6.5.1, Make-Whole Payment for Canceled or Delayed Outages for OSAs.
+(b)	For a Resource without RUC Instructions issued for hours during the OSA Period, ERCOT shall create RUC instructions for all hours of the OSA Period for Settlement purposes only.  The created RUC instructions will be assigned to the first RUC process of each Operating Day.  The RUC Guarantee shall include only the following:
+(i)	Approved net financial loss as defined in Section 5.6.5.1.
+(c)	For a Resource that rescheduled an Outage within 120 days of the end of the OSA Period under paragraph (4) of Section 3.1.6.9, Withdrawal of Approval and Rescheduling of Approved Planned Outages of Resource Facilities, the RUC Guarantee determined in paragraphs (a) and (b) above must include an OSA Make-Whole Cost (OSAMW), calculated for the same corresponding OSA Period hours, when the Outage is rescheduled due to the OSA, starting with the first day of the rescheduled Outage period.  The OSAMW calculated for the rescheduled Outage hours shall be allocated to the corresponding RUC instructed hours, in paragraphs (a) or (b) above, on a day-by-day basis.  The OSAMW shall be calculated as follows:
+OSAMW q, r, d   =  (Max (0, (RTSPP – MOC q, r, h)) * HSL q, r, h * (¼))
+The above variables are defined as follows:
+Variable	Unit	Definition
+OSAMW q, r, d   	$	OSA Make-Whole Cost—The OSA Make-Whole cost for Resource r represented by QSE q during the eligible rescheduled Outage Hours, for the Operating Day d.  When one or more Combined Cycle Generation Resources receive an OSA, the Make-Whole cost is calculated for the Combined Cycle Train for the OSA Period.
+RTSPP	$/MWh	Real-Time Settlement Point Price—The Real-Time Settlement Point Price at the Settlement Point for the 15-minute Settlement Interval of an eligible rescheduled Outage Hour.
+MOC q, r, h	$/MWh	Mitigated Offer Cap per Resource—The MOC for Resource r represented by QSE q, for the eligible rescheduled Outage hour h at the High Sustained Limit (HSL) as submitted in the COP. Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+HSL q, r, i	MW	High Sustained Limit—The HSL of a Generation Resource r represented by QSE q as submitted in the COP, for the hour that includes the Settlement Interval i.  Where for a combined cycle Resource, r is a Combined Cycle Generation Resource.
+q	none	A QSE.
+r	none	A Generation Resource.
+d	none	The Operating Day.
+h	none	The Operating Hour. 
+i	none	A 15-minute Settlement Interval within the hour.
+(2) 	Notwithstanding the clawback provisions described in Section 5.7.2, RUC Clawback Charge, the clawback percentage shall be set at 100%.
+5.6.5.3	Timeline for Calculating RUC Clawback Charges for Resources Receiving OSAs
+(1)	Within ten Business Days after the issuance of the RTM True-Up Statement, ERCOT will issue a Miscellaneous Invoice to charge the QSE representing the Resource that has received an OSA the excess revenues not clawed back in RUC Settlements.
+(2)	All clawed back revenues will be paid to QSEs based on a 15-minute Load-Ratio Share basis.
+5.7	Settlement for RUC Process
+5.7.1	RUC Make-Whole Payment
+(1)	To make up the difference when the revenues that a Reliability Unit Commitment (RUC)-committed Resource receives are less than its costs as described in paragraph (2) below, ERCOT shall calculate a RUC Make-Whole Payment for that Operating Day for that Resource (whether committed by Day-Ahead RUC (DRUC) or Hourly RUC (HRUC)).
+[NPRR1014:  Replace paragraph (1) above with the following upon system implementation:]
+(1)	To make up the difference when the revenues that a Reliability Unit Commitment (RUC)-committed Resource receives are less than its costs as described in paragraph (2) below, ERCOT shall calculate a RUC Make-Whole Payment for that Operating Day for that Resource (whether committed by Day-Ahead RUC (DRUC) or Hourly RUC (HRUC)).  ERCOT shall not calculate or pay a RUC Make-Whole Payment for an Energy Storage Resource (ESR).
+(2)	ERCOT shall pay to the Qualified Scheduling Entity (QSE) for the Resource a Make-Whole Payment if the RUC Guarantee calculated in Section 5.7.1.1, RUC Guarantee, is greater than the sum of:
+(a)	RUC Minimum-Energy Revenue calculated in Section 5.7.1.2, RUC Minimum-Energy Revenue;
+(b)	Revenue less cost above Low Sustained Limited (LSL) during RUC-Committed Hours calculated in Section 5.7.1.3, Revenue Less Cost Above LSL During RUC-Committed Hours; and 
+(c)	Revenue less cost during QSE Clawback Intervals calculated in Section 5.7.1.4, Revenue Less Cost During QSE Clawback Intervals. 
+(3)	The RUC Make-Whole Payment to the QSE for each RUC-committed Resource, including Reliability Must-Run (RMR) Units, for each RUC-Committed Hour in an Operating Day is calculated as follows:
+RUCMWAMTq,r,h	=	(-1) * Max (0, RUCGq,r,d – RUCMEREVq,r,d – RUCEXRRq,r,d – RUCEXRQCq,r,d) / RUCHRq,r,d
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCMWAMTq,r,h	$	RUC Make-Whole Payment—The RUC Make-Whole Payment to the QSE for Resource r, for each RUC-Committed Hour of the Operating Day.  When one or more Combined Cycle Generation Resources are committed by RUC, payment is made to the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCGq,r,d	$	RUC Guarantee—The sum of eligible Startup Costs and minimum-energy costs for Resource r during all RUC-Committed Hours, for the Operating Day.  See Section 5.7.1.1.  When one or more Combined Cycle Generation Resources are committed by RUC, guaranteed costs are calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCMEREVq,r,d	$	RUC Minimum-Energy Revenue—The sum of the energy revenues for Resource r’s generation up to LSL during all RUC-Committed Hours, for the Operating Day.  See Section 5.7.1.2.  When one or more Combined Cycle Generation Resources are committed by RUC, minimum-energy revenue is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCEXRRq,r,d	$	Revenue Less Cost Above LSL During RUC-Committed Hours—The sum of the total revenue for Resource r operating above its LSL less the cost during all RUC-Committed Hours, for the Operating Day.  See Section 5.7.1.3.  When one or more Combined Cycle Generation Resources are committed by RUC, revenue less cost above LSL is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCEXRQCq,r,d	$	Revenue Less Cost During QSE Clawback Intervals—The sum of the total revenue for Resource r less the cost during all QSE Clawback Intervals, for the Operating Day.  See Section 5.7.1.4.  When one or more Combined Cycle Generation Resources are committed by RUC, revenue less cost during QSE Clawback Intervals is calculated for the Combined Cycle Train for all Combined Cycle Generation Resources earning revenue in QSE Clawback Intervals.
+RUCHRq,r,d	None	RUC Hour—The total number of RUC-Committed Hours, for Resource r for the Operating Day.  When one or more Combined Cycle Generation Resources are committed by RUC, the total number of RUC-Committed Hours is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+q	None	A QSE.
+r	None	A RUC-committed Generation Resource.
+d	None	An Operating Day containing the RUC-commitment.
+h	None	An hour in the RUC-commitment period.
+5.7.1.1	RUC Guarantee
+(1)	The allowable Startup Costs and minimum-energy costs of a Resource committed by RUC is the RUC Guarantee.  The RUC Guarantee minimum-energy costs are prorated according to the actual generation when the Resource’s average output during a 15-minute Settlement Interval is below the corresponding LSL.
+(2)	The SUPR, MEPR and LSL used to calculate the RUC Guarantee for a Combined Cycle Train are the SUPR, MEPR and LSL that correspond to the Combined Cycle Generation Resource, within the Combined Cycle Train, that is RUC-committed for the hour.  If the RUC-Committed Interval is a RUC for Additional Capacity (RUCAC)-Interval, then the SUPR, MEPR, and LSL that corresponds to the QSE-committed Combined Cycle Generation Resource is also used to calculate RUC Guarantee for a Combined Cycle Train.
+(3)	For an Aggregate Generation Resource (AGR), the Startup Cost shall be scaled according to the maximum number of its generators online during a contiguous block of RUC-committed intervals, as indicated by telemetry, compared to the total number of generators registered to the AGR and used in the approved verifiable cost for the AGR.
+(4)	The RUC Guarantee is calculated for non-Combined Cycle Trains as follows: 
+RUCG q, r, d	=	  (SUPR q, r, s * RUCSUFLAG q, r, s) +  (MEPR q, r, i * Min ((LSL q, r, i * (¼)), RTMG q, r, i))
+(5)	The RUC Guarantee is calculated for Combined Cycle Trains as follows:
+RUCG q, r, d	=	(SUPR q, r, s * RUCSUFLAG q, r, s) + 
+		 (MAX (0, SUPR - SUPR)) +  (RUCGME q, r, i)
+Where,
+	If a Combined Cycle Train transitions to a RUC-committed configuration from a QSE-committed or other RUC-committed configuration between two contiguous hours, or to a RUC-committed configuration from a QSE-committed configuration within the same hour due to a RUCAC, the transition is calculated as follows:
+MAX (0, SUPR afterCCGR – SUPR beforeCCGR)
+	If a Combined Cycle Train transitions to a QSE-committed configuration from a RUC-committed configuration, the transition is calculated as follows:
+MAX (0, SUPR beforeCCGR – SUPR afterCCGR)
+If the interval i is a RUC-Committed Interval that is not a RUCAC, then:
+RUCGME q, r, i	=  MEPR q, r, i * Min ((LSL q, r, i * (¼)), RTMG q, r, i)
+If the interval i is a RUCAC of a previously QSE-Committed Interval, then:
+RUCGME q, r, i	=  Max [0, MEPR q, afterCCGR, i * Min ((LSL q, afterCCGR, i * 
+		(¼)), RTMG q, r, i) – MEPR q, beforeCCGR, i * (LSL q, beforeCCGR, i * (¼))]
+(6)	If a validated Three-Part Supply Offer has been submitted for a Resource for the RUC, then the RUC Guarantee for that Resource is based on the minimum of the Startup Offer in that validated Three-Part Supply Offer and Startup Cap and the lesser of the Minimum-Energy Offer in that validated Three-Part Supply Offer and the Minimum-Energy Offer Cap.  If a validated Three-Part Supply Offer has not been submitted for a Resource for the RUC and ERCOT has not yet approved verifiable unit-specific costs for the Resource, then the RUC Guarantee for a Resource is based on the Resource Category Startup Generic Cap and the Resource Category Minimum-Energy Generic Cap.  If a validated Three-Part Supply Offer has not been submitted for a Resource for the RUC and ERCOT has approved verifiable unit-specific costs for the Resource, then the RUC Guarantee for a Resource is based on the most recent ERCOT-approved verifiable unit-specific costs for that Resource.
+For a Resource which is not an AGR, 
+If the QSE submitted a validated Three-Part Supply Offer, 
+	Then, 		SUPR q, r, s	=	Min (SUO q, r, s, SUCAP q, r, s)
+			MEPR q, r, i	=	Min (MEO q, r, i, MECAP q, r, i)
+	Otherwise, 	SUPR q, r, s 	= 	SUCAP q, r, s
+			MEPR q, r, i 	= 	MECAP q, r, i
+If ERCOT has approved verifiable Startup Costs and minimum-energy costs for the Resource,
+	Then, 		SUCAP q, r, s	=	verifiable Startup Costs q, r, s
+			MECAP q, r, i	=	verifiable minimum-energy costs q, r, i
+	Otherwise, 	SUCAP q, r, s 	= 	RCGSC s
+			MECAP q, r, i	= 	RCGMEC i
+For AGRs,
+If the QSE submitted a validated Three-Part Supply Offer, 
+Then, 		SUPR  q, r, s	=	Min (SUO q, r, s, SUCAP q, r, s)
+			MEPR q, r, i	=	Min (MEO q, r, i, MECAP q, r, i)
+	Otherwise, 	SUPR q, r, s 	= 	SUCAP q, r, s
+			MEPR q, r, i 	= 	MECAP q, r, i
+If ERCOT has approved verifiable Startup Costs and minimum-energy costs for the Resource,
+	Then, 		SUCAP q, r, s	=	Max c (AGRRATIO q, p, r) * verifiable Startup Costs q, r, s
+			MECAP q, r, i	=	verifiable minimum-energy costs q, r, i
+	Where, 		AGRRATIO q, p, r	 =	AGRMAXON q, p, r / AGRTOT q, p, r
+	Otherwise, 	SUCAP q, r, s 	= 	Max c (AGRRATIO q, p, r) * RCGSC s
+			MECAP q, r, i	= 	RCGMEC i
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCG q, r, d	$	RUC Guarantee—The sum of eligible Startup Costs and minimum-energy costs for Resource r represented by QSE q during all RUC-Committed Hours, for the Operating Day d.  When one or more Combined Cycle Generation Resources are committed by RUC, guaranteed costs are calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCGME q, r, i	$	RUC Minimum-Energy Guarantee by interval—The guaranteed costs for Resource r represented by QSE q for minimum energy for the Settlement Interval i.  When one or more Combined Cycle Generation Resources are committed by RUC, RUC Minimum-Energy Guarantee is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.  During RUCAC-Intervals for a Combined Cycle Train, minimum energy cost is calculated as the difference between the minimum energy cost between the RUC-committed configuration and the QSE-committed configuration.
+SUPR q, r, s	$/Start	Startup Price per start—The Settlement price for Resource r represented by QSE q for the start s.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+SUO q, r, s	$/Start	Startup Offer per start—Represents an offer for all costs incurred by Generation Resource r represented by QSE q in starting up and reaching the Resource’s LSL for the start s.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+SUCAP q, r, s	$/Start	Startup Cap—The amount used for AGR r or Resource r represented by QSE q for the start s as Startup Costs.  The cap is the Resource Category Startup Offer Generic Cap (RCGSC) unless ERCOT has approved verifiable unit-specific Startup Costs for that Resource, in which case the startup cap is the scaled verifiable unit-specific Startup Cost for the AGR or the verifiable unit-specific Startup Cost for non-AGRs.  The verifiable unit-specific Startup Cost will be determined as described in Section 5.6.1, Verifiable Costs, minus the average energy produced during the time period between breaker close and LSL multiplied by the heat rate proxy “H” multiplied by the appropriate Fuel Index Price (FIP), Fuel Oil Price (FOP) or solid fuel price, for AGR and non-AGR Resources.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+AGRRATIO q, p, r	none	Aggregate Generation Resource Ratio per QSE per Settlement Point per Aggregate Generation Resource—A value which represents the ratio of the maximum number of generators online during an hour, as indicated by telemetry, compared to the total number of generators registered to the AGR r represented by QSE q at the Settlement Point p and used in the approved verifiable cost for the AGR.  The value is only applicable if the Resource is an AGR.
+AGRMAXON q, p, r	none	Aggregate Generation Resource Maximum Online per QSE per Settlement Point per Aggregate Generation Resource—The maximum number of generators registered to the AGR r represented by QSE q at the Settlement Point p online during an hour, as indicated by telemetry.  The value is only applicable if the Resource is an AGR.
+AGRTOT q, p, r	none	Aggregate Generation Resource Total per QSE per Settlement Point per Aggregate Generation Resource—The total number of generators registered to the AGR r represented by QSE q at the Settlement Point p and used in the approved verifiable cost for the AGR.  The value is only applicable if the Resource is an AGR.
+RCGSC s	$/Start	Resource Category Generic Startup Cost—The Resource Category Generic Startup Cost cap for the category of the Resource, according to Section 4.4.9.2.3, Startup Offer and Minimum-Energy Offer Generic Caps, for the Operating Day.
+RUCSUFLAG q, r, s	none	RUC Startup Flag—The flag that indicates whether or not the start s for Resource r represented by QSE q is eligible for RUC Make-Whole Payment.  Its value is one if eligible; otherwise, zero.  See Section 5.6.2, RUC Startup Cost Eligibility, and Section 5.6.3, Forced Outage of RUC-Committed Resource, for more information on startup eligibility.  For a Combined Cycle Train, the Resource r must be one of the registered Combined Cycle Generation Resources within the Combined Cycle Train.  When one or more Combined Cycle Generation Resources are committed by RUC, the RUC Startup Flag is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+MEPR q, r, i	$/MWh	Minimum-Energy Price—The Settlement price for Resource r represented by QSE q for minimum energy for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MEO q, r, i	$/MWh	Minimum-Energy Offer—Represents an offer for the costs incurred by Resource r represented by QSE q in producing energy at the Resource’s LSL for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MECAP q, r, i	$/MWh	Minimum-Energy Cap—The amount used for Resource r represented by QSE q for the Settlement Interval i for minimum-energy costs.  The minimum cost is the Resource Category Minimum-Energy Generic Cap (RCGMEC) unless ERCOT has approved verifiable unit-specific minimum energy costs for that Resource, in which case the Minimum-Energy Cap is the verifiable unit-specific minimum energy cost.  See Section 5.6.1 for more information on verifiable costs.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+RCGMEC i	$/MWh	Resource Category Generic Minimum-Energy Cost—The Resource Category Generic Minimum Energy Cost cap for the category of the Resource, according to Section 4.4.9.2.3, for the Operating Day.
+RTMG q, r, i	MWh	Real-Time Metered Generation—The metered generation of Resource r represented by QSE q for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+LSL q, r, i	MW	Low Sustained Limit—The LSL of Generation Resource r represented by QSE q for the hour that includes the Settlement Interval i, as submitted in the Current Operating Plan (COP).  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  
+q	none	A QSE.
+p	none	A Settlement Point.
+r	none	A RUC-committed Generation Resource.
+d	none	An Operating Day containing the RUC-commitment.
+i	none	A 15-minute Settlement Interval within the hour that includes a RUC-commitment.
+s	none	A start that is eligible to have its costs included in the RUC Guarantee.
+t	none	A transition that is eligible to have its costs included in the RUC Guarantee.
+c	none	A contiguous block of RUC–Committed Hours.
+afterCCGR	none	The Combined Cycle Generation Resource to which a Combined Cycle Train transitions.
+beforeCCGR	none	The Combined Cycle Generation Resource from which a Combined Cycle Train transitions.
+5.7.1.2	RUC Minimum-Energy Revenue
+(1)	The energy revenue for a Resource’s generation up to LSL during all RUC-Committed Hours of the Operating Day is RUC Minimum-Energy Revenue.
+(2)	The LSL used to calculate RUC Minimum-Energy Revenue for a Combined Cycle Train is the LSL that corresponds to the Combined Cycle Generation Resource, within the Combined Cycle Train, that is RUC-committed for the hour.  If the interval is a RUCAC-Interval, then the LSL that corresponds to the QSE-committed Combined Cycle Generation Resource is also used to calculate RUC Minimum-Energy Revenue for a Combined Cycle Train.
+(3)	For each RUC-committed Resource, RUC Minimum-Energy Revenue is calculated as follows:
+RUCMEREVq,r,d	=	 (RUCMEREV96 q, r, i)
+Where,
+If the interval i is a RUC-Committed Interval that is not a RUCAC-Interval, then:
+RUCMEREV96 q, r, i  = RTSPP p, i * Min (RTMG q, r, i, (LSL q, r, i * (¼)))
+If the interval i is a RUCAC of a previously QSE-Committed Interval, then:
+RUCMEREV96 q, r, i  =  RTSPP p, i * Max [0, Min (RTMG q, r, i, (LSL q, afterCCGR, i * (¼))) -  LSL q, beforeCCGR, i * (¼)]
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCMEREV q, r, d	$	RUC Minimum-Energy Revenue—The sum of the energy revenues for generation of Resource r represented by QSE q up to LSL during all RUC-Committed Hours, for the Operating Day d.  When one or more Combined Cycle Generation Resources are committed by RUC, RUC Minimum-Energy Revenue is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCMEREV96 q, r, i	$	RUC Minimum-Energy Revenue by interval—The energy revenues for generation of Resource r represented by QSE q up to LSL during all RUC-Committed Hours, for the Settlement Interval i.  When one or more Combined Cycle Generation Resources are committed by RUC, RUC Minimum-Energy Revenue is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.  During RUCAC-Intervals for a Combined Cycle Train, the minimum energy revenue is calculated as the difference between the minimum energy revenue of the RUC-committed configuration and the QSE-committed configuration.
+RTSPP p, i	$/MWh	Real-Time Settlement Point Price—The Real-Time Settlement Point Price at the Resource Node Settlement Point p for the Settlement Interval i.
+RTMG q, r, i	MWh	Real-Time Metered Generation—The metered generation of Resource r represented by QSE q for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+LSL q, r, i	MW	Low Sustained Limit—The LSL of Generation Resource r represented by QSE q for the hour that includes the Settlement Interval i, as submitted in the COP.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  
+q	none	A QSE.
+r	none	A RUC-committed Generation Resource.
+d	none	An Operating Day containing the RUC-commitment.
+p	none	A Resource Node Settlement Point.
+i	none	A 15-minute Settlement Interval within the hour that includes a RUC-commitment.
+afterCCGR	none	The Combined Cycle Generation Resource that is RUC-committed.
+beforeCCGR	none	The Combined Cycle Generation Resource that was QSE-committed.
+5.7.1.3	Revenue Less Cost Above LSL During RUC-Committed Hours
+(1)	The total revenue for a Resource operating above its LSL less the cost based on the Energy Offer Curve Cost Cap (as described in Section 4.4.9.3.3, Energy Offer Curve Cost Caps) during all RUC-Committed Hours of the Operating Day is Revenue Less Cost Above LSL During RUC-Committed Hours.  
+(2)	The LSL used to calculate Revenue Less Cost Above LSL During RUC-Committed Hours for a Combined Cycle Train is the LSL that corresponds to the Combined Cycle Generation Resource, within the Combined Cycle Train, that is RUC-committed for the hour. 
+(3)	For each RUC-committed Resource, Revenue Less Cost Above LSL During RUC-Committed Hours is calculated as follows:
+RUCEXRR q, r, d   =   Max {0,  [RUCEXRR96 q, r, i]}
+Where,
+RUCEXRR96 q, r, i  =	RTSPP p, i * Max (0, RTMG q, r, i – (LSL q, r, i * (¼))) 
+			+ (-1) * (VSSVARAMT q, r, i + VSSEAMT q, r, i)
+			+ (-1) * EMREAMT q, r, i 
+			– RTEOCOST q, r, i * Max (0, RTMG q, r, i – (LSL q, r, i * (¼)))]}
+[NPRR1009, NPRR1014, and NPRR1140:  Replace applicable portions of paragraph (3) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014 or NPRR1140:]
+(3)	For each RUC-committed Resource, Revenue Less Cost Above LSL During RUC-Committed Hours is calculated as follows:
+If RUCFCA exists:
+RUCEXRR q, r, d   =    [RUCEXRR96 q, r, i]
+Otherwise:
+RUCEXRR q, r, d   =   Max {0,  [RUCEXRR96 q, r, i]}
+Where,
+RUCEXRR96 q, r, i  =	RTSPP p, i * Max (0, RTMG q, r, i – (LSL q, r, i * (¼)))                   + RTASREV q, r, i
+		+ (-1) * (VSSVARAMT q, r, i + VSSEAMT q, r, i)
+		+ (-1) * EMREAMT q, r, i 
+		– (RTEOCOST q, r, i + RUCFCA q, r, i) * Max (0, RTMG q, r, i – (LSL q, r, i * (¼)))
+Where, 
+RTASREV q, r, i = RTRUREV q, r, i + RTRDREV q, r, i + RTRRREV q, r, i + RTECRREV q, r, i + RTNSREV q, r, i
+And, 
+RUCFCA q, r, i = Max(0, Volume-weighted average actual fuel price q, r, i * Average heat rate – RTEOCOST q, r, i)
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCEXRR q, r, d	$	Revenue Less Cost Above LSL During RUC-Committed Hours—The sum of the total revenue for Resource r represented by QSE q operating above its LSL less the cost during all RUC-Committed Hours, for the Operating Day d.  When one or more Combined Cycle Generation Resources are committed by RUC, revenue less cost above LSL is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCEXRR96 q, r, i	$	Revenue Less Cost Above LSL During RUC-Committed Hours by interval—The total revenue for Resource r represented by QSE q operating above its LSL less the cost during all RUC-Committed hours, for the Settlement Interval i.  When one or more Combined Cycle Generation Resources are committed by RUC, revenue less cost above LSL is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RTSPP p, i	$/MWh	Real-Time Settlement Point Price—The Real-Time Settlement Point Price at the Resource’s Resource Node Settlement Point p for the Settlement Interval i.
+RTEOCOST q, r, i	$/MWh	Real-Time Energy Offer Curve Cost CapThe Energy Offer Curve Cost Cap for Resource r represented by QSE q, for the Resource’s generation above the LSL for the Settlement Interval i.  See Section 4.4.9.3.3.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTMG q, r, i	MWh	Real-Time Metered Generation—The metered generation of Resource r represented by QSE q for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+[NPRR1140:  Insert the variable “RUCFCA q, r, i” below upon system implementation:]
+RUCFCA q, r, i	$/MWh	Reliability Unit Commitment Fuel Cost Adder—For a QSE that has been granted a fuel dispute per Section 9.14.7, Disputes for RUC Make-Whole Payment for Fuel Costs, the fuel cost adder is calculated as the volume-weighted average actual fuel price times the output-level average heat rate for Resource r represented by QSE q, f

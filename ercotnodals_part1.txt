@@ -1,0 +1,634 @@
+ERCOT Nodal Protocols 
+Section 1:  Overview
+April 1, 2025
+
+ 
+1	OVERVIEW	1-1
+1.1	Summary of the ERCOT Protocols Document	1-1
+1.2	Functions of ERCOT	1-2
+1.3	Confidentiality	1-4
+1.3.1	Restrictions on Protected Information	1-4
+1.3.1.1	Items Considered Protected Information	1-5
+1.3.1.2	Items Not Considered Protected Information	1-12
+1.3.1.3	Procedures for Protected Information	1-13
+1.3.1.4	Expiration of Protected Information Status	1-14
+1.3.2	ERCOT Critical Energy Infrastructure Information	1-15
+1.3.2.1	Items Considered ERCOT Critical Energy Infrastructure Information	1-16
+1.3.2.2	Submission of ERCOT Critical Energy Infrastructure Information to ERCOT	1-18
+1.3.3	RESERVED	1-18
+1.3.4	Protecting Disclosures to the PUCT, FERC, CFTC, Governmental Cybersecurity Oversight Agencies, and Other Governmental Authorities	1-18
+1.3.5	Notice Before Permitted Disclosure	1-19
+1.3.6	Exceptions	1-20
+1.3.7	Specific Performance	1-25
+1.3.8	Commission Review of ERCOT Determinations Regarding Protected Information or ERCOT Critical Energy Infrastructure Information Status	1-26
+1.4	Operational Audit	1-26
+1.4.1	Materials Subject to Audit	1-26
+1.4.2	ERCOT Finance and Audit Committee	1-26
+1.4.3	Operations Audit	1-27
+1.4.3.1	Audits to Be Performed	1-27
+1.4.3.2	Material Issues	1-27
+1.4.4	Audit Results	1-28
+1.4.5	Availability of Records	1-28
+1.4.6	Confidentiality of Information	1-28
+1.5	ERCOT Fees and Charges	1-29
+1.6	Open Access to the ERCOT Transmission Grid	1-29
+1.6.1	Overview	1-29
+1.6.2	Eligibility for Transmission Service	1-29
+1.6.3	Nature of Transmission Service	1-29
+1.6.4	Payment for Transmission Access Service	1-29
+1.6.5	Interconnection of New or Existing Generation	1-30
+1.7	Rules of Construction	1-32
+1.8	Effective Date	1-35
+ 
+1	OVERVIEW
+1.1	Summary of the ERCOT Protocols Document
+(1)	The Electric Reliability Council of Texas (ERCOT) Protocols, created through the collaborative efforts of representatives of all segments of Market Participants, means the document adopted by ERCOT, including any attachments or exhibits referenced in these Protocols, as amended from time to time, that contains the scheduling, operating, planning, reliability, and Settlement (including Customer registration) policies, rules, guidelines, procedures, standards, and criteria of ERCOT.  To determine responsibilities at a given time, the version of the ERCOT Protocols in effect at the time of the performance or non-performance of an action governs with respect to that action.  These Protocols are intended to implement ERCOT’s functions as the Independent Organization for the ERCOT Region as certified by the Public Utility Commission of Texas (PUCT) and as the Program Administrator appointed by the PUCT that is responsible for carrying out the administrative responsibilities related to the Renewable Energy Credit (REC) Program as set forth in subsection (h) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program.  Market Participants, the Independent Market Monitor (IMM), and ERCOT shall abide by these Protocols. 
+(2)	The ERCOT Board, Technical Advisory Committee (TAC), and other ERCOT subcommittees authorized by the ERCOT Board or TAC or ERCOT may develop polices, guidelines, procedures, forms, and applications for the implementation of and operation under, these Protocols and to comply with applicable rules, laws, and orders of a Governmental Authority.  A policy, guideline, procedure, form, or application described above is an “Other Binding Document.”  Other Binding Documents do not include ERCOT’s internal administrative procedures, documents and processes necessary to fulfill its role as the Independent Organization or as a registered Entity with the North American Electric Reliability Corporation (NERC). 
+(3)	ERCOT shall post the Other Binding Documents List and all Other Binding Documents to a part of the ERCOT website reserved for posting Other Binding Documents.  A TAC designated subcommittee shall review the Other Binding Documents List at least every four years, and modifications to the Other Binding Documents List shall be reviewed and considered by the TAC designated subcommittee and by TAC at its next scheduled meeting.  
+(4)	Any revision of an Other Binding Document must follow the revision process set forth in that Other Binding Document.  If an Other Binding Document does not specify a revision process, the Other Binding Document shall be subject to the procedures in Section 21, Revision Request Process, and shall be treated as if it were a Protocol for purposes of the revision process.  
+(5)	To the extent that Other Binding Documents are not in conflict with these Protocols or with an Agreement to which it is a party, each Market Participant, the IMM, and ERCOT shall abide by the Other Binding Documents.  Taken together, these Protocols and the Other Binding Documents constitute all of the “scheduling, operating, planning, reliability, and Settlement policies, rules, guidelines, and procedures established by the independent System Operator in ERCOT,” as that phrase is used in subsection (j) of the Public Utility Regulatory Act, TEX. UTIL. CODE ANN. § 39.151 (Vernon 1998 & Supp. 2007) (PURA), Essential Organizations, that bind Market Participants.
+(6)	Except as provided below, if the provisions in any attachment to these Protocols or in any of the Other Binding Documents conflict with the provisions of Section 1, Overview, through Section 21, and Section 24, Retail Point to Point Communications, through Section 27, Securitization Uplift Charges, then the provisions of Section 1 through Section 21, and Section 24 through Section 27 prevail to the extent of the inconsistency.  If any provision of any Agreement conflicts with any provision of the Protocols, the Agreement prevails to the extent of the conflict.  Any Agreement provision that deviates from the standard form for that Agreement in Section 22, Attachments, must expressly state that the Agreement provision deviates from the standard form in Section 22.  Agreement provisions that deviate from the Protocols are effective only upon approval by the ERCOT Board on a showing of good cause.   
+(7)	These Protocols are not intended to govern the direct relationships between or among Market Participants except as expressly provided in these Protocols.  ERCOT is not responsible for any relationship between or among Market Participants to which ERCOT is not a party.
+1.2	Functions of ERCOT
+(1)	ERCOT is the Independent Organization certified by the Public Utility Commission of Texas (PUCT) for the ERCOT Region. The major functions of ERCOT, as the Independent Organization, are to: 
+(a)	Ensure access to the ERCOT Transmission Grid and distribution systems for all buyers and sellers of electricity on nondiscriminatory terms; 
+(b)	Ensure the reliability and adequacy of the ERCOT Transmission Grid;
+(c)	Ensure that information relating to a Customer’s choice of Retail Electric Provider (REP) in Texas is conveyed in a timely manner to the persons who need that information; and
+(d)	Ensure that electricity production and delivery are accurately accounted for among the Generation Resources and Settlement Only Generators (SOGs) and wholesale buyers and sellers, and Transmission Service Providers (TSPs) and Distribution Service Providers (DSPs), in the ERCOT Region.
+[NPRR995:  Replace paragraph (d) above with the following upon system implementation:]
+(d)	Ensure that electricity production and delivery are accurately accounted for among wholesale buyers and sellers, and Transmission Service Providers (TSPs) and Distribution Service Providers (DSPs), in the ERCOT Region.
+(2)	ERCOT is the Control Area Operator (CAO) for the ERCOT interconnection and performs all Control Area functions as defined in the Operating Guides and the North American Electric Reliability Corporation (NERC) policies.
+(3)	ERCOT procures Ancillary Services to ensure the reliability of the ERCOT System.
+(4)	ERCOT is the central counterparty for all transactions settled by ERCOT pursuant to these Protocols and is deemed to be the sole buyer to each seller, and the sole seller to each buyer, of all energy, Ancillary Services, Reliability Unit Commitments (RUCs),  Emergency Response Service (ERS), and other products or services for which ERCOT may pay or charge a Market Participant, except for those products or services procured through bilateral transactions between Market Participants and those products or services that are self-arranged by Market Participants.
+(5)	ERCOT is the PUCT-appointed Program Administrator of the Renewable Energy Credits (RECs) Program.
+(6)	These Protocols are intended to implement the above-described functions.  In the exercise of its sole discretion under these Protocols, ERCOT shall act in a reasonable, nondiscriminatory manner.
+(7)	Nothing in these Protocols may be construed as causing TSPs, DSPs, or Resources to transfer any control of their Facilities to ERCOT.  
+[NPRR857:  Replace paragraph (7) above with the following upon system implementation and satisfying the following conditions:  (1) Southern Cross provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a TSP and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities:]
+(7)	Nothing in these Protocols may be construed as causing TSPs, DSPs, Direct Current Tie Operators (DCTOs), or Resources to transfer any control of their Facilities to ERCOT.
+(8)	ERCOT may not profit financially from its activities as the Independent Organization in the ERCOT Region.  ERCOT may not use its discretion in the procurement of Ancillary Service capacity or deployment of energy to influence, set or control prices.
+(9)	Notwithstanding any other provision in these Protocols, ERCOT shall take any action, and shall direct any Market Participant to take any action, that ERCOT deems necessary to ensure that any Entity in the ERCOT Region that is not a “public utility” as defined in the Federal Power Act (FPA), including ERCOT, does not become such a public utility.  ERCOT’s authority includes, but is not limited to, the authority to order the disconnection of any Transmission Facilities connecting the ERCOT Region to another Control Area and the authority to deny or curtail Electronic Tags (e-Tags) over any Direct Current Tie (DC Tie).  A Market Participant shall comply with any ERCOT directive provided under this section.  ERCOT shall provide notice of any action pursuant to this provision by posting an operations message to the ERCOT website and issuing a Market Notice.   
+1.3	Confidentiality
+(1)	This Section 1.3 applies to Protected Information or ERCOT Critical Energy Infrastructure Information (ECEII) disclosed by a Market Participant to ERCOT or the Independent Market Monitor (IMM), by the IMM to ERCOT or a Market Participant, or by ERCOT to a Market Participant or the IMM.  Section 1.3 also applies to specific categories of ECEII created by ERCOT, the IMM, or any Market Participant. 
+(2)	As used in this Section 1.3:
+(a)	“Receiving Party” means ERCOT, the IMM or any Market Participant in its capacity as the recipient of Protected Information or ECEII from one of the others.
+(b)	“Disclosing Party” means ERCOT, the IMM or any Market Participant in its capacity as the provider of Protected Information or ECEII to one of the others.
+(c)	“Creating Party” means ERCOT, the IMM or any Market Participant in its capacity as the creator of any ECEII specifically listed in Section 1.3.2.1, Items Considered ERCOT Critical Energy Infrastructure Information.
+(d)	To disclose means to directly or indirectly disclose, reveal, distribute, report, publish, or transfer Protected Information or ECEII to any party other than to the Disclosing Party.
+1.3.1	Restrictions on Protected Information
+(1)	A Receiving Party may not disclose Protected Information received from a Disclosing Party to any other Entity except as specifically permitted in this Section and in these Protocols.  A Receiving Party may not knowingly use Protected Information for any illegal purpose.
+1.3.1.1	Items Considered Protected Information 
+(1)	Subject to the exclusions set out in Section 1.3.1.2, Items Not Considered Protected Information, and in Section 3.2.5, Publication of Resource and Load Information, “Protected Information” is information containing or revealing any of the following:
+(a)	Base Points, as calculated by ERCOT.  The Protected Information status of this information shall expire 60 days after the applicable Operating Day;
+(b)	Bids, offers, or pricing information identifiable to a specific Qualified Scheduling Entity (QSE) or Resource.  The Protected Information status of part of this information shall expire 60 days after the applicable Operating Day, as follows:
+(i)	Ancillary Service Offers by Operating Hour for each Resource for all Ancillary Services submitted for the Day-Ahead Market (DAM) or any Supplemental Ancillary Services Market (SASM);
+(ii)	The quantity of Ancillary Service offered by Operating Hour for each Resource for all Ancillary Service submitted for the DAM or any SASM; and
+(iii)	Energy Offer Curve prices and quantities for each Settlement Interval by Resource.  The Protected Information status of this information shall expire within seven days after the applicable Operating Day if required to be posted as part of paragraph (5) of Section 3.2.5 and within two days after the applicable Operating Day if required to be posted as part of paragraph (7) of Section 3.2.5; 
+[NPRR1013 and NPRR1188:  Replace applicable portions of paragraph (b) above with the following upon system implementation for NPRR1188; or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1013:]
+(b)	Bids, offers, or pricing information identifiable to a specific Qualified Scheduling Entity (QSE) or Resource.  The Protected Information status of part of this information shall expire 60 days after the applicable Operating Day, as follows:
+(i)	Ancillary Service Offers by Operating Hour or Security-Constrained Economic Dispatch (SCED) interval for each Resource for all Ancillary Services submitted for the Day-Ahead Market (DAM) or Real-Time Market (RTM);
+(ii)	The quantity of Ancillary Service offered by Operating Hour or SCED interval for each Resource for all Ancillary Service submitted for the DAM or RTM; and
+(iii)	The prices and quantities presented in a Resource’s Energy Offer Curve or Energy Bid Curve by Operating Hour or SCED interval.  The Protected Information status of this information shall expire within seven days after the applicable Operating Day if required to be posted as part of paragraph (5) of Section 3.2.5 and within two days after the applicable Operating Day if required to be posted as part of paragraph (7) of Section 3.2.5;
+(c)	Status of Resources, including Outages, limitations, or scheduled or metered Resource data.  The Protected Information status of this information shall expire as follows:
+(i)	For each Forced Outage, Maintenance Outage, or Forced Derate of a Generation Resource or Energy Storage Resource (ESR) that occurs during or extends into an Operating Day, the Protected Information status of the following information shall expire three days after the applicable Operating Day: 
+(A)	The name and unit code of the Resource affected; 
+(B)	The Resource’s fuel type;
+(C)	The type of Outage or derate; 
+(D)	The start date/time and the planned and actual end date/time; 
+(E)	The Resource’s applicable Seasonal net maximum sustainable rating;
+(F)	The available and outaged MW during the Outage or derate; and 
+(G)	The entry in the “nature of work” field in the Outage Scheduler and any other information concerning the cause of the Outage or derate;
+(ii)	For each Resource Outage or Forced Derate that occurs during, or that extends into, any time period in which ERCOT has declared an Energy Emergency Alert (EEA), ERCOT may immediately disclose the information identified in paragraph (i) above to a state Governmental Authority, the office of the Governor of Texas, the office of the Lieutenant Governor of Texas, or any member of the Texas Legislature, if requested; and
+(iii)	For all other information, the Protected Information status shall expire 60 days after the applicable Operating Day;
+(d)	Current Operating Plans (COPs).  The Protected Information status of this information shall expire 60 days after the applicable Operating Day;
+(e)	Ancillary Service Trades, Energy Trades, and Capacity Trades identifiable to a specific QSE or Resource.  The Protected Information status of this information shall expire 180 days after the applicable Operating Day;
+(f)	Ancillary Service Schedules identifiable to a specific QSE or Resource.  The Protected Information status of this information shall expire 60 days after the applicable Operating Day;
+[NPRR1013:  Replace paragraph (f) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(f)	Ancillary Service awards identifiable to a specific QSE or Resource.  The Protected Information status of this information shall expire 60 days after the applicable Operating Day;
+(g)	Dispatch Instructions identifiable to a specific QSE or Resource, except for Reliability Unit Commitment (RUC) commitments and decommitments as provided in Section 5.5.3, Communication of RUC Commitments and Decommitments.  The Protected Information status of this information shall expire 180 days after the applicable Operating Day;
+(h)	Raw and Adjusted Metered Load (AML) data (demand and energy) identifiable to:
+(i)	A specific QSE or Load Serving Entity (LSE).  The Protected Information status of this information shall expire 180 days after the applicable Operating Day; or
+(ii)	A specific Customer or Electric Service Identifier (ESI ID);
+(i)	Wholesale Storage Load (WSL) data identifiable to a specific QSE.  The Protected Information status of this information shall expire 60 days after the applicable Operating Day; 
+(j)	Settlement Statements and Invoices identifiable to a specific QSE.  The Protected Information status of this information shall expire 180 days after the applicable Operating Day;
+(k)	Number of ESI IDs identifiable to a specific LSE.  The Protected Information status of this information shall expire 365 days after the applicable Operating Day;
+(l)	Information related to generation interconnection requests, to the extent such information is not otherwise publicly available.  The Protected Information status of certain generation interconnection request information expires as provided in Section 1.3.1.4, Expiration of Protected Information Status;
+(m)	Resource-specific costs, design and engineering data, including such data submitted in connection with a verifiable cost appeal;
+(n)	Congestion Revenue Right (CRR) credit limits, the identity of bidders in a CRR Auction, or other bidding information identifiable to a specific CRR Account Holder.  The Protected Information status of this information shall expire as follows: 
+(i)	The Protected Information status of the identities of CRR bidders that become CRR Owners and the number and type of CRRs that they each own shall expire at the end of the CRR Auction in which the CRRs were first sold; and
+(ii)	The Protected Information status of all other CRR information identified above in item (n) shall expire six months after the end of the year in which the CRR was effective.
+(o)	Renewable Energy Credit (REC) account balances.  The Protected Information status of this information shall expire three years after the REC Settlement period ends;
+(p)	Credit limits identifiable to a specific QSE;
+(q)	Any information that is designated as Protected Information in writing by Disclosing Party at the time the information is provided to Receiving Party except for information that is expressly designated not to be Protected Information by Section 1.3.1.2 or that, pursuant to Section 1.3.1.4, is no longer confidential; 
+(r)	Any information compiled by a Market Participant on a Customer that in the normal course of a Market Participant’s business that makes possible the identification of any individual Customer by matching such information with the Customer’s name, address, account number, type of classification service, historical electricity usage, expected patterns of use, types of facilities used in providing service, individual contract terms and conditions, price, current charges, billing record, or any other information that a Customer has expressly requested not be disclosed (“Proprietary Customer Information”) unless the Customer has authorized the release for public disclosure of that information in a manner approved by the Public Utility Commission of Texas (PUCT).  Information that is redacted or organized in such a way as to make it impossible to identify the Customer to whom the information relates does not constitute Proprietary Customer Information;
+(s)	Any software, products of software, or other vendor information that ERCOT is required to keep confidential under its agreements;
+(t)	QSE, Transmission Service Provider (TSP), and Distribution Service Provider (DSP) backup plans collected by ERCOT under the Protocols or Other Binding Documents;
+[NPRR857:  Replace item (t) above with the following upon system implementation and satisfying the following conditions:  (1) Southern Cross provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a TSP and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities:]
+(t)	QSE, Transmission Service Provider (TSP), Direct Current Tie Operator (DCTO), and Distribution Service Provider (DSP) backup plans collected by ERCOT under the Protocols or Other Binding Documents;
+(u)	Direct Current Tie (DC Tie) Schedule information.  The Protected Information status of this information shall expire on the date on which ERCOT files the report with the PUCT that is required by P.U.C. SUBST. R. 25.192, Transmission Rates for Export from ERCOT, relating to energy imported and exported over DC Ties interconnected to the ERCOT System; 
+(v)	Any Texas Standard Electronic Transaction (TX SET) transaction submitted by an LSE to ERCOT or received by an LSE from ERCOT.  This paragraph does not apply to ERCOT’s compliance with: 
+(i)	PUCT Substantive Rules on performance measure reporting; 
+(ii)	These Protocols or Other Binding Documents; or 
+(iii)	Any Technical Advisory Committee (TAC)-approved reporting requirements;
+(w)	Information concerning a Mothballed Generation Resource’s probability of return to service and expected lead time for returning to service submitted pursuant to Section 3.14.1.9, Generation Resource Status Updates;
+[NPRR1246:  Replace paragraph (w) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(w)	Information concerning the probability of return to service and expected lead time for returning to service for a Mothballed Generation Resource or Mothballed Energy Storage Resource (ESR), submitted pursuant to Section 3.14.1.9, Generation Resource/Energy Storage Resource Status Updates;
+(x)	Information provided by Entities under Section 10.3.2.4, Reporting of Net Generation Capacity;
+(y)	Alternative fuel reserve capability and firm gas availability information submitted pursuant to Section 6.5.9.3.1, Operating Condition Notice, Section 6.5.9.3.2, Advisory, and Section 6.5.9.3.3, Watch, and as defined by the Operating Guides;
+(z)	Non-public financial information provided by a Counter-Party to ERCOT pursuant to meeting its credit qualification requirements as well as the QSE’s form of credit support; 
+(aa)	ESI ID, identity of Retail Electric Provider (REP), and MWh consumption associated with transmission-level Customers that submitted notice to have their Load excluded from the Solar Renewable Portfolio Standard (SRPS) calculation consistent with Section 14.5.3, End-Use Customers, and subsection (f) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program, or the Renewable Portfolio Standard (RPS) calculation consistent with subsection (j) of P.U.C. SUBST. R. 25.173 as it was effective until December 31, 2023;
+[NPRR1250:  Delete paragraph (aa) above on September 1, 2025 and renumber accordingly.]
+(bb)	Emergency operations plans submitted pursuant to P.U.C. SUBST. R. 25.53, Electric Service Emergency Operations Plans; 
+(cc)	Information provided by a Counter-Party under Section 16.16.3, Verification of Risk Management Framework;
+(dd)	Any data related to Load response capabilities that are self-arranged by the LSE or pursuant to a bilateral agreement between a specific LSE and its Customers, other than data either related to any service procured by ERCOT or non-LSE-specific aggregated data.  Such data includes pricing, dispatch instructions, and other proprietary information of the Load response product;
+(ee)	Status of Settlement Only Generators (SOGs), including Outages, limitations, or scheduled or metered output data, except that ERCOT may disclose output data from an SOG as part of an extract or forwarded TX SET transaction provided to the LSE associated with the ESI ID of the Premise where the SOG is located.  The Protected Information status of this information shall expire 60 days after the applicable Operating Day;
+[NPRR829 and NPRR995:  Replace applicable portions of paragraph (ee) above with the following upon system implementation:]
+(ee)	Status of Settlement Only Generators (SOGs) and Settlement Only Energy Storage System (SOESS), including Outages, limitations, schedules, metered output and withdrawal data, or data telemetered for use in the calculation of Real-Time Liability (RTL) as described in Section 16.11.4.3.2, Real-Time Liability Estimate, except that ERCOT may disclose metered output and withdrawal data from an SOG or SOESS as part of an extract or forwarded TX SET transaction provided to the LSE associated with the ESI ID of the Premise where the SOG is located.  The Protected Information status of this information shall expire 60 days after the applicable Operating Day;
+(ff)	Any documents or data submitted to ERCOT in connection with an Alternative Dispute Resolution (ADR) proceeding.  The Protected Information status of this information shall expire upon ERCOT’s issuance of a Market Notice indicating the disposition of the ADR proceeding pursuant to paragraph (1) of Section 20.9, Resolution of Alternative Dispute Resolution Proceedings and Notification to Market Participants, except to the extent the information continues to qualify as Protected Information pursuant to another paragraph of this Section 1.3.1.1;
+(gg)	Reasons for and future expectations of overrides to a specific Resource’s High Dispatch Limit (HDL) or Low Dispatch Limit (LDL).  The Protected Information status of this information shall expire 60 days after the applicable Operating Day; 
+(hh)	Information provided to ERCOT under Section 16.18, Cybersecurity Incident Notification, except that ERCOT may disclose general information concerning a Cybersecurity Incident in a Market Notice in accordance with paragraph (5) of Section 16.18 to assist Market Participants in mitigating risk associated with a Cybersecurity Incident;
+(ii)	Information disclosed in response to paragraphs (1)-(4) of the Natural Gas Pipeline Coordination section of Section 22, Attachment K, Declaration of Natural Gas Pipeline Coordination, submitted to ERCOT in accordance with Section 3.21, Submission of Declarations of Natural Gas Pipeline Coordination.  The Protected Information status of Resource Outage information shall expire as provided in paragraph (1)(c) of Section 1.3.1.1;
+(jj)	Information concerning weatherization activities submitted to, obtained by, or generated by ERCOT in connection with P.U.C. SUBST. R. 25.55, Weather Emergency Preparedness, if such information allows the identification of any Resource or Resource Entity;
+(kk)	Information provided to ERCOT: 
+(i)	By a QSE under paragraph (3) of Section 3.14.5, Firm Fuel Supply Service, as part of an offer to provide Firm Fuel Supply Service (FFSS), except that within ten Business Days of issuing FFSS awards, ERCOT may disclose the identity of all Generation Resources that were offered as primary Generation Resources or alternate Generation Resources to provide FFSS for the most recent procurement period, including prices and quantities offered; 
+(ii)	By a Resource Entity under paragraph (2) of Section 8.1.1.2.1.6, Firm Fuel Supply Service Resource Qualification, Testing, Decertification, and Recertification, as part of the voluntary process for ERCOT certification of a FFSS Qualified Contract; or
+(iii)	By a Resource Entity in a Force Majeure Event report required under paragraph (14) of Section 8.1.1.2.6;
+(ll)	Information provided to ERCOT pursuant to Section 16.2.1.1, QSE Background Check Process, or Section 16.8.1.1, CRR Account Holder Background Check Process; and
+(mm)	Information concerning coal or lignite inventory provided by a QSE under Section 3.24, Notification of Low Coal and Lignite Inventory Levels.
+1.3.1.2	Items Not Considered Protected Information
+(1)	Notwithstanding the definition of “Protected Information” in Section 1.3.1.1, Items Considered Protected Information, the following items are not Protected Information even if so designated:
+(a)	Data comprising Load flow cases, which may include estimated peak and off-peak Demand of any Load;
+(b)	Existence of Power System Stabilizers (PSSs) at each interconnected Generation Resource and PSS status (in service or out of service);
+[NPRR1246:  Replace paragraph (b) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(b)	Existence of Power System Stabilizers (PSSs) at each interconnected Generation Resource or ESR, and PSS status (in service or out of service);
+(c)	Reliability Must-Run (RMR) Agreements; 
+(d)	Studies, reports and data used in ERCOT’s assessment of whether an RMR Unit satisfies ERCOT’s criteria for operational necessity to support ERCOT System reliability but only if they have been redacted to exclude Protected Information under Section 1.3.1.1; 
+(e)	Status of RMR Units;
+(f)	Black Start Agreements;
+(g)	FFSS awards;
+(h)	RMR Settlement charges and payments; 
+[NPRR885:  Insert items (i) and (j) below upon system implementation and renumber accordingly:]
+(i)	Must-Run Alternative (MRA) Agreements;
+(j)	Settlement charges and payments for MRA Service;
+(i)	Within two Business Days of a request from a potential generating Facility for a full resource interconnection study, the county in which the Facility is located, Facility fuel type(s), Facility nameplate capacity, and anticipated Commercial Operations Date(s) and signed generation interconnection agreements; and
+(j)	Any other information specifically designated in these Protocols or in the PUCT Substantive Rules as information to be posted to the ERCOT website or Market Information System (MIS) Secure Area that is not specified as information that is subject to the requirements of Section 1.3, Confidentiality.
+(2)	Protected Information that Receiving Party is permitted or required to disclose or use under the Protocols or under an agreement between Receiving Party and a Disclosing Party does not cease to be regarded as Protected Information in all other circumstances not encompassed by these Protocols or such agreement by virtue of the permitted or required disclosure or use under these Protocols or such agreement.
+1.3.1.3	Procedures for Protected Information
+(1)	The Receiving Party shall adopt procedures within its organization to maintain the confidentiality of all Protected Information.  Such procedures must provide that:
+(a)	The Protected Information may be disclosed to the Receiving Party’s directors, officers, employees, representatives, and agents only on a “need to know” basis;
+(b)	The Receiving Party shall make its directors, officers, employees, representatives, and agents aware of Receiving Party’s obligations under this Section;
+(c)	If reasonably practicable, the Receiving Party shall cause any copies of the Protected Information that it creates or maintains, whether in hard copy, electronic format, or other form, to identify the Protected Information as such; and
+(d)	Before disclosing Protected Information to a representative or agent of the Receiving Party, the Receiving Party shall require a nondisclosure agreement with that representative or agent, except that a nondisclosure agreement shall not be required for the Receiving Party or Creating Party to disclose Protected Information to that party’s attorney.  That nondisclosure agreement must contain confidentiality provisions substantially similar to the terms of this Section.
+1.3.1.4	Expiration of Protected Information Status
+(1)	If PUCT Substantive Rules or other sections of the ERCOT Protocols require public posting (or posting to all Market Participants) of information identified as Protected Information in Section 1.3.1.1, Items Considered Protected Information, the Protected Information status of such information shall expire at the time such information is required to be posted.
+(2)	ERCOT shall make the following information available on the ERCOT website in a standard reporting format:
+(a)	Ancillary Service Obligation and Ancillary Service Supply Responsibility for each QSE.  This information shall be made available 180 days after the Operating Day;
+[NPRR1013:  Replace paragraph (a) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(a)	Ancillary Service Obligation for each QSE.  This information shall be made available 180 days after the Operating Day;
+(b)	Complete COP data for each QSE snapshot on each hour.  This information shall be made available 60 days after the Operating Day; and 
+(c) 	In a separate report from item (b) above, complete COP data for each Resource for each update to that Resource’s COP.  This information shall be made available 60 days after the Operating Day. 
+[NPRR1035:  Insert paragraph (d) below upon system implementation:]
+(d) 	In a separate report, DC Tie Schedules by DC Tie for each 15-minute clock interval of the Operating Day for each update to that schedule.  This information will include start time, stop time, DC Tie name, the scheduling QSE, Electronic Tag (e-Tag), and the MW flow (positive = export, negative = import).  This information shall be made available 60 days after the Operating Day.
+(3)	ERCOT shall make available the AML for each QSE by LSE, by Load Zone and by Settlement Interval, from the True-Up settlement.  This data shall be made available within two Business Days of the 180 day expiration of Protected Information status.  Data for the posting will remain accessible for six months after such data are posted.
+(4)	The Protected Information status of information related to generation interconnection requests expires once ERCOT receives a request from an Interconnecting Entity (IE) for a Full Interconnection Study (FIS), except that information described in item (1)(m) of Section 1.3.1.1 shall remain Protected Information.
+(5)	Upon the expiration of the Protected Information status of any data specified in Section 1.3.1.1, which does not have specific posting requirements, that data must be made available to the extent required under Section 12, Market Information System.
+(6)	Information that is no longer Protected Information, but not posted, including Dispatch Instructions, is available on request under the ERCOT Request for Records and Information Policy.  Requested information must be provided within a reasonable timeframe.  For Dispatch Instructions, the information may be requested with respect to a specific Resource, where applicable, and by service type and Settlement Interval or as integrated over each Settlement Interval for Dispatch Instructions with sub-Settlement Interval frequency.
+1.3.2	ERCOT Critical Energy Infrastructure Information
+(1)	ERCOT, the IMM, or any Market Participant may not disclose ECEII to any other Entity except as specifically permitted in this Section and in these Protocols.
+(2)	For purposes of subsection (e) of P.U.C. SUBST. R. 25.362, Electric Reliability Council of Texas (ERCOT) Governance, ECEII constitutes Protected Information that shall be protected from public disclosure, except as otherwise provided therein and in these Protocols.
+(3)	ERCOT may classify information as ECEII, regardless of whether the submitter has designated the information as ECEII or has otherwise requested ECEII status for the information, upon determining that the information is included on the list of items considered ECEII in Section 1.3.2.1, Items Considered ERCOT Critical Energy Infrastructure Information, or otherwise meets the definition of ECEII set forth in Section 2.1, Definitions.  Upon determining that information for which ECEII status has not been requested should be designated as ECEII, ERCOT shall notify the submitter.  A determination by ERCOT to classify information as ECEII is subject to review by the PUCT as set forth in Section 1.3.8, Commission Review of ERCOT Determinations Regarding Protected Information or ERCOT Critical Energy Infrastructure Information Status.
+(4)	Different types of ECEII may involve different levels of security risk.  In its discretion, ERCOT may restrict Market Participant access to ECEII created or received by ERCOT that poses a high level of security risk, provided that ERCOT shall disclose such information to any Transmission and/or Distribution Service Provider (TDSP) upon request and may disclose such information to any other Market Participant that ERCOT determines has a legitimate reliability-based need for that information, subject to the requirements and restrictions of this Section 1.3, Confidentiality.  If ERCOT determines that ECEII that is required to be posted on the ERCOT website or MIS Secure Area pursuant to these Protocols or an Other Binding Document poses a high level of security risk, ERCOT shall remove such information from the ERCOT website or MIS Secure Area notwithstanding such posting requirement, and shall promptly submit a Revision Request to remove the requirement to post such information.  If the Revision Request is withdrawn or rejected, ERCOT shall restore any information required to be posted to the MIS that had been removed pursuant to this paragraph.
+(5)	A Receiving Party or Creating Party of ECEII shall adopt procedures to ensure that ECEII is securely maintained and the organization’s internal distribution of ECEII is reasonably restricted to appropriate individuals. 
+(6)	A Receiving Party or Creating Party may not knowingly use ECEII for any illegal purpose.
+(7)	Before disclosing ECEII to a representative or agent of the Receiving Party or Creating Party, the Receiving Party or Creating Party shall require a nondisclosure agreement with that representative or agent, except that a nondisclosure agreement shall not be required for the Receiving Party or Creating Party to disclose ECEII to that party’s attorney.
+1.3.2.1	Items Considered ERCOT Critical Energy Infrastructure Information
+(1)	ECEII includes but is not limited to the following, so long as such information has not been disclosed to the public through lawful means:
+(a)	Detailed ERCOT System Infrastructure locational information, such as Global Positioning System (GPS) coordinates;
+(b)	Information that reveals that a specified contingency or fault results in instability, cascading or uncontrolled separation;
+(c)	Studies and results of simulations that identify cyber and physical security vulnerabilities of ERCOT System Infrastructure;
+(d)	Black Start Service (BSS) test results, individual Black Start Resource start-up procedures, cranking paths, and ERCOT and individual TSP Black Start plans;
+(e)	Information contained in Section 1.B. and Exhibit 1 to the Standard Form Black Start Agreement (Section 22, Attachment D, Standard Form Black Start Agreement), except for the Hourly Standby Price, Notice, and Certification sections.  This includes, without limitation, the following information that could identify a Generation Resource as a Black Start Resource: 
+(i)	Resource name;
+(ii)	Resource ID;
+(iii)	County where the Resource is located;
+(iv)	Interconnected substation;
+(v)	Resource MW capability; and 
+(vi)	Tested next start units;
+(f)	Emergency operations plans, including ERCOT’s emergency operations plan and any emergency operations plan submitted to ERCOT pursuant to any PUCT rule or North American Electric Reliability Corporation (NERC) Reliability Standard;
+(g)	Detailed ERCOT Transmission Grid maps, other than maps showing only small portions of the ERCOT Transmission Grid such as those included in Regional Planning Group (RPG) Project ERCOT Independent Review reports;
+(h)	Detailed diagrams or information about connectivity between ERCOT’s and other Entities’ computer and telecommunications systems, such as internet protocol (IP) addresses, media access control (MAC) addresses, network protocols, and ports used;
+(i)	Information contained in Section 23, Form S, Reporting and Attestation Regarding Purchase of Critical Electric Grid Equipment (CEGE) and Critical Electric Grid Services (CEGS) from a Lone Star Infrastructure Protection Act (LSIPA) Designated Company or LSIPA Designated Country, submitted to ERCOT that: 
+(i)	Identifies Critical Electric Grid Equipment (CEGE) and Critical Electric Grid Services (CEGS) purchased from a Lone Star Infrastructure Protection Act (LSIPA) Designated Company; 
+(ii)	Describes how such purchase of CEGE or CEGS relates to the operation of the grid; 
+(iii)	Provides an attestation as to whether such purchase of CEGE or CEGS will result in access to or control of CEGE by an LSIPA Designated Company or LSIPA Designated Country; or 
+(iv)	Identifies any measures taken to ensure that the purchase of CEGE or CEGS will not result in access to or control of CEGE by an LSIPA Designated Company or LSIPA Designated Country; and
+(j)	Any information that is clearly designated as ECEII in writing by the Disclosing Party at the time the information is provided to Receiving Party, subject to the procedures set forth in paragraph (3) of Section 1.3.2.2, Submission of ERCOT Critical Energy Infrastructure Information to ERCOT.
+1.3.2.2	Submission of ERCOT Critical Energy Infrastructure Information to ERCOT
+(1)	ECEII submitted to ERCOT shall be clearly labeled on the cover page and pages or portions of the information or otherwise clearly identify the information for which ECEII treatment is claimed, to the extent practicable.  The submission of information labeled as ECEII constitutes a representation by the submitter that the information is ECEII as defined in these Protocols.  The submitter shall also segregate those portions of the information that contain ECEII wherever feasible.
+(2)	Failure to request ECEII treatment or failure to conspicuously label or segregate ECEII information submitted to ERCOT in accordance with paragraph (1) above may result in non-ECEII treatment of the information by ERCOT and release of the information to the public.
+(3)	For any submission of information asserted to be ECEII, ERCOT may, at any time following the submission, request that the submitter provide a written justification for such treatment.  The submitter shall provide such a justification, if any, within five Business Days.  The justification must explain how the information, or any portion of the information, qualifies as ECEII, as such term is defined in Section 2.1, Definitions, and must identify any law, regulation, or order that protects the information, or any portion of the information, from disclosure.  The request shall also include a statement of how long the ECEII designation should apply to the information and support for the period proposed.  ERCOT shall consider any submitted justification before determining whether the information qualifies as ECEII.  ERCOT shall not disclose or permit disclosure of any information protected from disclosure pursuant to law, regulation, or order.  ERCOT shall notify the submitter of its determination within five Business Days after receiving the submission.  ERCOT shall continue to treat as ECEII information originally claimed to be ECEII for five Business Days following the date ERCOT notified the submitter of its determination.  A determination by ERCOT not to classify information as ECEII is subject to review by the PUCT as set forth in Section 1.3.8, Commission Review of ERCOT Determinations Regarding Protected Information or ERCOT Critical Energy Infrastructure Information Status.
+1.3.3	RESERVED
+1.3.4	Protecting Disclosures to the PUCT, FERC, CFTC, Governmental Cybersecurity Oversight Agencies, and Other Governmental Authorities
+(1)	Any disclosure that a Receiving Party makes to the PUCT must be made under applicable PUCT rules.  For any disclosure of Protected Information or ECEII to the PUCT outside the scope of subsection (e) of P.U.C. SUBST. R. 25.362, Electric Reliability Council of Texas (ERCOT) Governance, the Receiving Party must file that Protected Information or ECEII as confidential pursuant to subsection (d) of P.U.C. PROC. R. 22.71, Filing of Pleadings, Documents, and Other Materials.  
+(2)	For any disclosure of Protected Information to the Commodity Futures Trading Commission (CFTC) pursuant to a request made under the CFTC’s authority in accordance with the Commodity Exchange Act and the CFTC’s regulations, ERCOT, as the Receiving Party, shall timely submit to the CFTC a written request for confidential treatment of the Protected Information in accordance with the applicable provisions of the Commodity Exchange Act and CFTC regulations.
+(3)	Before making a disclosure of Protected Information involving a Cybersecurity Incident to a Governmental Cybersecurity Oversight Agency or delegated entity for the purpose of ensuring the safety and/or security of the ERCOT System or ERCOT’s ability to perform functions of an independent organization under the Public Utility Regulatory Act (PURA), ERCOT, as the Receiving Party, will obtain adequate assurance from such Governmental Cybersecurity Oversight Agency that it will maintain the confidentiality of Protected Information.
+(4)	Before making a disclosure under order of a Governmental Authority other than the PUCT, the Federal Energy Regulatory Commission (FERC), and the CFTC, the Receiving Party or Creating Party shall seek a protective order from such Governmental Authority to protect the confidentiality of Protected Information or ECEII.  
+(5)	Before making a disclosure under order of a Governmental Authority other than the PUCT, FERC, CFTC, or a Governmental Cybersecurity Oversight Agency to ensure the safety and/or security of the ERCOT System or ERCOT’s ability to perform the functions of an independent organization under PURA, the Receiving Party shall seek a protective order from such Governmental Authority to protect the confidentiality of Protected Information. 
+(6)	Nothing in this Section authorizes any disclosure of Protected Information or ECEII; this Section merely creates requirements on disclosures that are authorized under other sections of these Protocols.
+1.3.5	Notice Before Permitted Disclosure
+(1)	Before making any disclosure under Section 1.3.6, Exceptions, the Receiving Party shall promptly notify the Disclosing Party in writing and, with the exception of information disclosed pursuant to paragraph (3) of Section 1.3.6, shall assert confidentiality and take reasonable steps to cooperate with the Disclosing Party in seeking to protect the Protected Information or ECEII from disclosure by confidentiality agreement, protective order, aggregation of information, or other reasonable measures.  Notwithstanding the foregoing, ERCOT is not required to provide notice to the Disclosing Party of disclosures by ERCOT made under items (1)(b), (1)(h), (1)(n), or (1)(p) of Section 1.3.6.  Further, notwithstanding the foregoing, a Receiving Party is not required to provide notice to the Disclosing Party of disclosures made under item (1)(i) of Section 1.3.6.
+(2)	If the Disclosing Party is not also the Creating Party, upon receipt of the notice required by paragraph (1) above, the Disclosing Party shall promptly notify the Creating Party, unless, after making reasonable efforts, the Disclosing Party is unable to identify the Creating Party.
+(3)	Notwithstanding any other provision in these Protocols, for disclosures under paragraphs (1)(j) and (1)(k) of Section 1.3.6, ERCOT may satisfy its notice obligations by posting and maintaining on the ERCOT website a list of such categories in lieu of individually notifying each Disclosing Party.  When providing notice under this paragraph, ERCOT shall add the disclosed information to the posted list promptly after the disclosure. 
+(4)	Notwithstanding any other provision in these Protocols, ERCOT may provide notice of any one or more categories of Protected Information and ECEII it discloses as the Receiving Party under paragraph (1)(l) of Section 1.3.6 by publicly posting and maintaining on the ERCOT website a list of such categories in lieu of individually notifying each Disclosing Party. 
+(a)	Before disclosing Protected Information or ECEII under a new category that ERCOT proposes to add to the list, ERCOT will issue a Market Notice describing the new category of Protected Information or ECEII, identifying the intended date of disclosure, and providing notice that the list will be updated.
+(b)	The Market Notice will be issued as far in advance of the disclosure as practicable under the circumstances or at least ten Business Days before the disclosure, whichever is shorter.
+1.3.6	Exceptions 
+(1)	The Receiving Party or Creating Party may, without violating Section 1.3, Confidentiality, disclose Protected Information or ECEII:
+(a)	To governmental officials, Market Participants, the public, or others as required by any law, regulation, or order, or by these Protocols, but any Receiving Party or Creating Party must make reasonable efforts to restrict public access to the disclosed Protected Information or ECEII by protective order, by aggregating information, or otherwise if reasonably possible; or
+(b)	If ERCOT is the Receiving Party or Creating Party and disclosure to the PUCT, Reliability Monitor or IMM of the Protected Information or ECEII is required by ERCOT pursuant to applicable Protocol, law, regulation, or order; or
+(c)	For Protected Information, if the Disclosing Party has given its prior written consent to the disclosure, which consent may be given or withheld in Disclosing Party’s sole discretion; or
+(d)	For Protected Information, if the Protected Information, before it is furnished to the Receiving Party, has been disclosed to the public through lawful means; or
+(e)	For Protected Information, if the Protected Information, after it is furnished to the Receiving Party, is disclosed to the public other than as a result of a breach by the Receiving Party of its obligations under Section 1.3; or
+(f)	If reasonably deemed by the disclosing Receiving Party to be required to be disclosed in connection with a dispute between the Receiving Party and the Disclosing Party, but the disclosing Receiving Party must make reasonable efforts to restrict public access to the disclosed Protected Information or ECEII by protective order, by aggregating information, or otherwise if reasonably possible; or
+(g)	To a TSP or DSP engaged in the ERCOT Transmission Grid or Distribution System planning and operating activities, provided that the TSP or DSP has executed a confidentiality agreement with ERCOT with requirements substantially similar to those in Section 1.3.  ERCOT shall post on the ERCOT website a list of all TSPs and DSPs that have confidentiality agreements in effect with ERCOT; or
+(h)	For Protected Information, to a vendor or prospective vendor of goods and services to ERCOT or a TDSP, so long as such vendor or prospective vendor:  
+(i)	Is not a Market Participant, except that ERCOT or the TDSP may disclose Protected Information to a vendor or prospective vendor that is registered solely as an Independent Market Information System Registered Entity (IMRE) to the extent appropriate for the vendor to carry out its responsibilities in such capacity or for the prospective vendor to engage in commercial discussions; and 
+(ii)	Has executed a confidentiality agreement with requirements at least as restrictive as those in Section 1.3; or
+(i)	For ECEII, to a vendor or prospective vendor of goods and services, so long as such vendor or prospective vendor has executed a confidentiality agreement with requirements at least as restrictive as those in Section 1.3; or
+(j)	For Protected Information, to an ERCOT Research and Innovation (R&I) Partner that has agreed to perform ERCOT Research and Innovation for ERCOT, so long as the ERCOT R&I Partner: 
+(i)	Is not a Market Participant, except that ERCOT may disclose Protected Information to an ERCOT R&I Partner that is registered solely as an  Independent Market Information System Registered Entity (IMRE) to the extent appropriate for the ERCOT R&I Partner to carry out its responsibilities in such capacity; and 
+(ii)	Has executed a confidentiality agreement with requirements at least as restrictive as those in Section 1.3; or
+(k)	For ECEII, to an ERCOT R&I Partner that has agreed to perform ERCOT Research and Innovation for ERCOT, so long as such ERCOT R&I Partner has executed a confidentiality agreement with requirements at least as restrictive as those in Section 1.3; or
+(l)	To FERC, the North American Electric Reliability Corporation (NERC) or the NERC Regional Entity if requested under the authority of the Federal Power Act Section 215, but any Receiving Party or Creating Party must make reasonable efforts to restrict public access to the disclosed Protected Information or ECEII.  This exception does not limit FERC’s, NERC’s, or the NERC Regional Entity’s access to Protected Information or ECEII as it existed on September 1, 2024; or
+(m)	To ERCOT and its consultants, the IMM, the Reliability Monitor, and members of task forces and working groups of ERCOT, if engaged in performing analysis of abnormal system conditions, disturbances, unusual events, and abnormal system performance, or engaged in tasks involving ECEII for support of the ERCOT Transmission Grid.  Notwithstanding the foregoing sentence, task forces and working groups may not receive Ancillary Service Offer prices or other competitively sensitive price or cost information before expiration of its status as Protected Information, and each member of a task force or working group shall execute a confidentiality agreement with requirements substantially similar to those in Section 1.3, prior to receiving any Protected Information or ECEII.  Data to be disclosed under this exception to task forces and working groups must be limited to clearly defined periods surrounding the relevant conditions, events, or performance under review and must be limited in scope to information pertinent to the condition or events under review and may include the following:
+(i)	QSE Ancillary Service awards and deployments, in aggregate and by type of Resource;
+(ii)	Resource facility availability status, including the status of switching devices, auxiliary loads, and mechanical systems that had a material impact on Resource facility availability or an adverse impact on the transmission system operation;
+(iii)	Individual Resource information including Base Points, maximum/minimum generating capability, droop setting, real power output, and reactive output;
+(iv)	Resource protective device settings and status;
+(v)	Data from COPs; 
+(vi)	Resource Outage schedule information; and
+(vii)	BSS test results and ERCOT’s Black Start plan, including individual Black Start Resource start-up procedures, cranking paths, and individual TSP Black Start plans;
+(n)	To the CFTC if requested from ERCOT by the CFTC as part of an investigation or regulatory inquiry authorized pursuant to the Commodity Exchange Act and the CFTC’s regulations or if required to be submitted to the CFTC pursuant to any other law, provided that ERCOT, as the Receiving Party or Creating Party, must timely submit a written request for confidential treatment in accordance with the CFTC’s regulations or other applicable law; 
+(o)	To a Governmental Cybersecurity Oversight Agency regarding a Cybersecurity Incident, if ERCOT is the Receiving Party, and disclosure of Protected Information is made to a Governmental Cybersecurity Oversight Agency or delegated entity for the purpose of ensuring the safety and/or security of the ERCOT System or ERCOT’s ability to perform the functions of an independent organization under PURA; or
+(p)	Incidentally as part of a tour of the ERCOT control room provided to persons determined by ERCOT to be eligible to participate in the tour.  Prior to accessing the ERCOT control room, such persons must sign a nondisclosure agreement required by ERCOT and comply with the screening and other requirements provided in a policy adopted by ERCOT security.  The policy will include a prohibition against taking photographs or recordings of Protected Information or ECEII.  This subsection does not apply to a person who is a director, officer, employee, agent, representative, contractor, or consultant of a Market Participant that is registered with ERCOT as one or more of the following registration types: Resource Entity, QSE, LSE, or CRR Account Holder. 
+(2)	Protected Information may not be disclosed to other Market Participants prior to ten days following the Operating Day under review, except as permitted in paragraph (1)(n) above.
+(3)	ERCOT may disclose, and may authorize a Receiving Party or Creating Party to disclose, ECEII to the public or to any person under the provisions of this paragraph, except for ECEII otherwise protected from disclosure pursuant to law, regulation, or order. 
+(a)	ERCOT may propose to disclose ECEII that is not otherwise protected from disclosure pursuant to law, regulation, or order.  Any Receiving Party or Creating Party other than ERCOT may request ERCOT authorization to disclose such ECEII.
+(i)	ERCOT may propose to disclose ECEII that is not otherwise protected from disclosure pursuant to law, regulation, or order if it determines that the public benefit of the proposed disclosure of ECEII outweighs the potential harm resulting from the disclosure.  ERCOT shall issue a Market Notice regarding ERCOT’s intent to disclose the ECEII, subject to objection as further provided in paragraph (c) below. 
+(ii)	A request by a Receiving Party or Creating Party other than ERCOT for authorization to disclose ECEII shall be submitted by e-mail to ERCOT’s General Counsel.  If the ECEII is not otherwise protected from disclosure pursuant to law, regulation, or order, and ERCOT determines that the public benefit of the proposed disclosure of ECEII outweighs the potential harm resulting from the disclosure, ERCOT shall issue a Market Notice authorizing the ECEII to be disclosed, subject to objection as further provided in paragraph (c) below.  ERCOT shall make such a determination no later than five Business Days following the date it receives the request.
+(b)	The Market Notice issued pursuant to paragraph (a)(i) or (ii) above shall identify the ECEII to be disclosed; the party requesting the disclosure; the public benefit justifying the proposed disclosure; the date on which the information may be disclosed, which shall be no sooner than five Business Days following the date of the Market Notice; and, if the proposed disclosure is not to the public, the persons to whom ECEII would be disclosed.  The authorization shall be effective unless a Market Participant submits an objection pursuant to paragraph (c) below.  
+(c)	Any Market Participant may submit written objections to the proposed disclosure.  Such objections shall be submitted by e-mail to ERCOT’s General Counsel no later than the end of the fourth Business Day following the issuance of the Market Notice described in paragraph (b) above.  Failure to object to the proposed allowance of ECEII disclosure pursuant to this paragraph shall constitute a waiver of any such objection for all purposes.  ERCOT shall provide notice of the objection to the party requesting authorization to disclose ECEII no later than the end of the Business Day following receipt of the objection.  The party requesting authorization to disclose ECEII shall not disclose the ECEII if it has been notified of any objection pursuant to this paragraph unless and until ERCOT issues a second Market Notice authorizing disclosure, as provided in paragraph (d) below.  
+(d)	If one or more objections to disclosure is submitted pursuant to paragraph (c) above, ERCOT shall issue a second Market Notice describing each such objection and stating whether the objection affects ERCOT’s determination as to the proposed disclosure of ECEII.  If ERCOT determines that the ECEII should still be disclosed notwithstanding these objections, the second Market Notice shall establish the date on which the ECEII may be disclosed, which shall be no sooner than the fifth Business Day following the issuance of the second Market Notice.  ERCOT’s determination in the second Market Notice is a final decision that may be challenged at the PUCT without using the processes described in Section 20, Alternative Dispute Resolution Procedure and Procedure for Return of Settlement Funds.  If ERCOT authorizes a non-public disclosure of ECEII, the party disclosing the ECEII shall require each recipient of ECEII to enter into a nondisclosure agreement that includes the restrictions against disclosure described in Section 1.3.2, ERCOT Critical Energy Infrastructure Information, as a condition for obtaining the ECEII.
+(e)	Notwithstanding anything in this Section, ERCOT may disclose ECEII to any federal, state or local government official without issuing a Market Notice if ERCOT determines that such disclosure is necessary to facilitate the government official’s public duties and that the delay associated with providing the Notice otherwise required by this paragraph (3) would impair that government official’s ability to take action to address a public emergency.  As soon as practicable, but no later than 24 hours following the disclosure:
+(i)	ERCOT shall provide Notice to the Disclosing Party and all Market Participants materially impacted by the disclosure; and
+(ii)	ERCOT shall issue a Market Notice describing the disclosure, unless ERCOT determines that such a Notice could jeopardize public safety or welfare, in which case no Notice is required.
+(iii)	Each Disclosing Party, other than ERCOT, shall provide Notice to each Creating Party whose information has been disclosed pursuant to this paragraph (e).
+(f)	Notwithstanding anything in this Section, any Receiving Party or Creating Party other than ERCOT may disclose ECEII to any federal, state or local government official without requesting prior authorization from ERCOT if the Receiving Party or Creating Party determines that such disclosure is necessary to facilitate the government official’s public duties and that the delay associated with requesting prior ERCOT authorization as otherwise required by this paragraph (3) would impair that government official’s ability to take action to address a public emergency.  
+(i)	The Receiving Party or Creating Party shall provide Notice to ERCOT and all Market Participants materially impacted by the disclosure as soon as practicable, but no later than 24 hours following the disclosure.
+(ii)	ERCOT shall issue a Market Notice describing the disclosure as soon as practicable, but no later than 24 hours following receipt of notice from the Receiving Party or Creating Party, unless ERCOT determines that such a Notice could jeopardize public safety or welfare, in which case no Notice is required.
+1.3.7	Specific Performance 
+(1)	It will be impossible or very difficult to measure in monetary terms the damages that would accrue due to any breach by Receiving Party of Section 1.3, Confidentiality, or any failure to perform any obligation contained in Section 1.3 and, for that reason, among others, a Disclosing Party affected by a disclosure or threatened disclosure is entitled to specific performance of Section 1.3.  In the event that a Disclosing Party institutes any proceeding to enforce any part of Section 1.3, the affected Receiving Party, by entering any agreement incorporating these Protocols, now waives any claim or defense that an adequate remedy at law exists for such a breach.
+1.3.8	Commission Review of ERCOT Determinations Regarding Protected Information or ERCOT Critical Energy Infrastructure Information Status 
+(1)	A determination by ERCOT that one or more items are or are not Protected Information or ECEII, or that the public benefit of the proposed disclosure of ECEII outweighs the potential harm resulting from the disclosure, is a final decision that may be challenged at the PUCT without using the processes described in Section 20, Alternative Dispute Resolution Procedure and Procedure for Return of Settlement Funds.  Any Entity materially affected by ERCOT’s determination shall, as a condition for seeking relief at the PUCT, notify ERCOT’s General Counsel no later than 1700 Central Prevailing Time (CPT) on the date five Business Days following the date ERCOT notified the submitter of its determination and shall file any complaint against ERCOT no later than 35 days following the date of the final decision, pursuant to P.U.C. PROC. R. 22.251, Review of Electric Reliability Council of Texas (ERCOT) Conduct.  If an Entity materially affected by ERCOT’s determination notifies ERCOT that it is challenging ERCOT’s determination and files a complaint no later than 35 days following the ERCOT determination, ERCOT shall not disclose the information until the PUCT issues a final order authorizing such release.
+1.4	Operational Audit
+1.4.1	Materials Subject to Audit
+(1)	ERCOT’s records and documentation pertaining to its operation as the certified Independent Organization for the ERCOT Region are subject to audit in the manner prescribed herein.  The rights of Market Participants to audit ERCOT are limited to the provisions in Section 1.4, Operational Audit.
+1.4.2	ERCOT Finance and Audit Committee
+(1)	The ERCOT Board shall have overall audit responsibility for ERCOT.  The ERCOT Board may fulfill audit responsibilities itself or delegate them to the ERCOT Finance and Audit (F&A) Committee.  Upon delegation, the ERCOT F&A Committee shall make recommendations to the ERCOT Board or directly appoint an external independent certified public accounting firm or firms (“Appointed Firm”) to conduct certain audits.  For audits performed by an Appointed Firm, the ERCOT F&A Committee shall directly approve the initiation, scheduling, and reporting of such audits or make recommendations to the ERCOT Board.  The ERCOT F&A Committee may also direct the ERCOT Internal Audit Department to conduct certain audits.  The ERCOT F&A Committee shall approve an annual audit plan for the ERCOT Internal Audit Department.  
+1.4.3	Operations Audit
+1.4.3.1	Audits to Be Performed
+(1)	At least annually, an Appointed Firm shall perform a System and Organization Control (SOC) audit of ERCOT regarding ERCOT’s market Settlements operations.  
+(2)	The ERCOT Internal Audit Department will conduct audits of the following on a periodic basis no less than once every three years:
+(a)	Compliance with ERCOT’s policies that prohibit employees from:
+(i) 	Being involved in business decisions where the individual stands to gain or lose personally from the decision;  
+(ii) 	Having a direct financial interest in a Market Participant; 
+(iii) 	Serving in an advisory, consulting, technical or management capacity for any business organization that does significant business with ERCOT (other than through service on ERCOT committees); and 
+(iv) 	Accepting any gifts or entertainment of significant value from employees or representatives of any Market Participant doing business in ERCOT.  Such gifts and entertainment shall not exceed the limits specified in ERCOT’s Code of Conduct and Ethics Corporate Standard and other applicable policies.
+(b)	Whether ERCOT is operating in compliance with the confidentiality and Protected Information provisions of these Protocols; 
+(c)	Verification that ERCOT, in its administration of these Protocols, is operating independently of control by any Market Participant or group of Market Participants; and
+(d)	Any audit required by the Public Utility Commission of Texas (PUCT).
+1.4.3.2	Material Issues
+(1)	The audits performed under Section 1.4.3.1, Audits to be Performed,  may also include material issues raised by ERCOT Members and/or Market Participants if:
+(a)	Such issues have been presented to TAC, approved by TAC and approved by the ERCOT F&A Committee for inclusion in the audit scope; or 
+(b)	Such issues are part of a random sample of complaints selected by the auditors for review, and affected Market Participants have agreed in writing to the examination of their related information in the compliance audit.
+(2)	Members and Market Participants shall send any requests regarding such issues to the ERCOT TAC Chairperson designee identified on the MIS for inclusion on the TAC agenda.
+1.4.4	Audit Results
+(1)	Unless a longer time frame is reasonably necessary (e.g., for the market Settlements SOC audit, which is performed over a significant period of time), each audit report will be prepared and finalized no later than four months after the initiation of the audit.  Results of all audits performed pursuant to this Section shall be reported to the ERCOT F&A Committee.  These audits will be filed with the PUCT in accordance with PUCT Rules.  ERCOT may file an audit as confidential and Protected Information in order to protect Protected Information and other confidential or sensitive information therein.  Findings and recommended actions identified as a result of an audit will be reviewed by the ERCOT F&A Committee. The results of the audits required by this Section and the recommended actions to be taken by ERCOT shall be provided to ERCOT Members and Market Participants upon request to the extent these items do not contain Protected Information or other confidential or sensitive information.  
+1.4.5	Availability of Records
+(1)	Subject to the requirements of Section 1.4.6, Confidentiality of Information, ERCOT will provide the ERCOT Internal Audit Department, and/or the Appointed Firm and any other staff augmentation resources full and complete access to all financial books, cost statements, accounting records, and all documentation pertaining to the requirements of the specific audits being performed.  ERCOT will retain records relating to audits until the records retention requirements of ERCOT are satisfied; or until the audit issues are fully resolved, whichever is the later.  Such retention shall be a term of not less than four years and not be required for more than seven years.  This Section 1.4, Operational Audit, is not intended to require ERCOT to create any new records, reports, studies, or evaluations.
+1.4.6	Confidentiality of Information
+(1)	All Protected Information as defined in these Protocols obtained by the Appointed Firm or other staff augmentation resources through any audits will remain strictly confidential.  To retain control of Protected Information, ERCOT will require that each Appointed Firm and each individual staff augmentation resource  either (i) sign a confidentiality agreement with terms substantially similar to the terms of Section 1.3, Confidentiality, above before being allowed access to any ERCOT records or documentation; or (ii) observe the Appointed Firm’s internal confidentiality policies and procedures, whichever is acceptable to ERCOT’s Legal Department but is no less stringent than the terms of Section 1.3.  Audit reports and/or results provided to Market Participants or ERCOT Members shall not contain any Protected Information.
+1.5	ERCOT Fees and Charges
+(1)	Fees and charges to Market Participants for use of the ERCOT scheduling, settlement, registration, and other related systems and equipment are set forth in these Protocols.  The ERCOT Board may adopt additional fees and charges as reasonably necessary to cover the additional costs of such systems and equipment.  Market Participants are responsible for all such applicable fees and charges.  ERCOT shall post a schedule of ERCOT fees and charges on the ERCOT website within two Business Days of change. 
+1.6	Open Access to the ERCOT Transmission Grid 
+1.6.1	Overview 
+(1)	Open access to the ERCOT Transmission Grid must be provided to all Eligible Transmission Service Customers by Transmission Service Providers (TSPs) and ERCOT under these Protocols and the Public Utility Commission of Texas (PUCT) Substantive Rules, Chapter 25, Substantive Rules Applicable to Electric Service Providers, Subchapter I, Transmission and Distribution.
+1.6.2	Eligibility for Transmission Service 
+(1)	Transmission Service is available to all Eligible Transmission Service Customers.  Energy may be transmitted and Ancillary Service may be provided on behalf of an Eligible Transmission Service Customer through the ERCOT System only through a Qualified Scheduling Entity (QSE).  
+1.6.3	Nature of Transmission Service 
+(1)	Transmission Service allows all Eligible Transmission Service Customers to deliver and receive Energy using the Transmission Facilities of all of the Transmission Service Providers (TSPs) in ERCOT under PUCT Substantive Rules.  
+1.6.4	Payment for Transmission Access Service 
+(1)	ERCOT may not collect Transmission Access Service fees for the TSPs’ cost of service.  ERCOT shall provide volumetric data, pursuant to Section 9, Settlement and Billing, to the TSPs so that the TSPs can calculate their Transmission access fees.  ERCOT’s collection and settlement process associated with ERCOT’s scheduling and deployment of Ancillary Service is addressed separately in these Protocols.
+1.6.5	Interconnection of New or Existing Generation 
+(1)	Interconnection of new Generation Resources or Settlement Only Generators (SOGs) to the ERCOT Transmission Grid must be in accordance with the Protocols, the Planning Guide, the Nodal Operating Guide and Other Binding Documents.  
+[NPRR995 and NPRR1246:  Replace applicable portions of paragraph (1) above with the following upon system implementation for NPRR995; or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1246:]
+(1)	Interconnection of new Generation Resources, Energy Storage Resources (ESRs), Settlement Only Generators (SOGs), or Settlement Only Energy Storage Systems (SOESSs) to the ERCOT Transmission Grid must be in accordance with the Protocols, the Planning Guide, the Nodal Operating Guide and Other Binding Documents.
+(2)	For existing Generation Resources and SOGs which connect to a new Point of Interconnection (POI) or which utilize more than one POI to the ERCOT Transmission Grid, any Protocol or Other Binding Document requirements applicable to Generation Resources and SOGs which are based upon the execution date of the Standard Generation Interconnection Agreement (SGIA) shall be applied to the date of the first executed SGIA with the following exceptions:
+[NPRR995 and NPRR1246:  Replace applicable portions of paragraph (2) above with the following upon system implementation for NPRR995; or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1246:]
+(2)	For existing Generation Resources, ESRs, SOGs, and SOESSs which connect to a new Point of Interconnection (POI) or which utilize more than one POI to the ERCOT Transmission Grid, any Protocol or Other Binding Document requirements applicable to Generation Resources, ESRs, SOGs, and SOESSs which are based upon the execution date of the Standard Generation Interconnection Agreement (SGIA) shall be applied to the date of the first executed SGIA with the following exceptions:
+(a)	For a new POI, existing Generation Resources and Settlement Only Transmission Self-Generators (SOTSGs) shall comply with the requirements in Section 3.15, Voltage Support, and Nodal Operating Guide Section 2.9, Voltage Ride-Through Requirements for Generation Resources, based upon the execution date of the most recent SGIA.
+[NPRR1246:  Replace paragraph (a) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(a)	For a new POI, existing Generation Resources, ESRs, and Settlement Only Transmission Self-Generators (SOTSGs) shall comply with the requirements in Section 3.15, Voltage Support, and Nodal Operating Guide Section 2.9, Voltage Ride-Through Requirements for Generation Resources, based upon the execution date of the most recent SGIA.
+(b)	For more than one POI, existing Generation Resources and SOTSGs shall comply with the requirements in Section 3.15 and Nodal Operating Guide Section 2.9 based upon the execution date of the SGIA relative to the POI where the Generation Resource is electrically connected.
+[NPRR1246:  Replace paragraph (b) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(b)	For more than one POI, existing Generation Resources, ESRs, and SOTSGs shall comply with the requirements in Section 3.15 and Nodal Operating Guide Section 2.9 based upon the execution date of the SGIA relative to the POI where the Generation Resource, ESR, or SOTSG is electrically connected.
+(3)       When a Municipally Owned Utility (MOU) or Electric Cooperative (EC) transferring Load into the ERCOT System owns a generation unit currently serving the transferring Load in a non-ERCOT Control Area and seeks to interconnect the generation unit to the ERCOT Transmission Grid in conjunction with the Load transfer, the interconnection will be subject to the requirements in paragraph (1) above; however, if the Protocols, Planning Guide, Nodal Operating Guide or Other Binding Documents set forth an alternate requirement for Generation Resources or SOGs that were installed, connected, operating, or had an SGIA executed before a specified date, then ERCOT, in its sole discretion, may apply the alternate requirement to the MOU’s or EC’s generation unit, subject to the following: 
+[NPRR1246:  Replace paragraph (3) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(3)       When a Municipally Owned Utility (MOU) or Electric Cooperative (EC) transferring Load into the ERCOT System owns a generation unit currently serving the transferring Load in a non-ERCOT Control Area and seeks to interconnect the generation unit to the ERCOT Transmission Grid in conjunction with the Load transfer, the interconnection will be subject to the requirements in paragraph (1) above; however, if the Protocols, Planning Guide, Nodal Operating Guide or Other Binding Documents set forth an alternate requirement for Generation Resources, ESRs, or SOGs that were installed, connected, operating, or had an SGIA executed before a specified date, then ERCOT, in its sole discretion, may apply the alternate requirement to the MOU’s or EC’s generation unit, subject to the following: 
+(a)	The generation unit must have been operating in the non-ERCOT Control Area on or before the date specified in the Protocol, Planning Guide, Nodal Operating Guide or Other Binding Document provision that sets forth the alternate requirement;
+(b)	The generation unit has not undergone a modification pursuant to paragraph (1)(c) of Planning Guide Section 5.2.1, Applicability, subsequent to the specified date from paragraph (3) above;
+(c)	The MOU or EC must submit a written request to ERCOT that identifies the alternate requirement(s) it seeks to have applied and explains why compliance with the requirement(s) applicable to new Generation Resources or SOGs is not feasible at a reasonable cost; and
+[NPRR1246:  Replace paragraph (c) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(c)	The MOU or EC must submit a written request to ERCOT that identifies the alternate requirement(s) it seeks to have applied and explains why compliance with the requirement(s) applicable to new Generation Resources, ESRs or SOGs is not feasible at a reasonable cost; and
+(d)	The MOU or EC must demonstrate to ERCOT’s satisfaction through interconnection or similar studies that allowing the generation unit to comply with the alternate requirement will not create a risk to the reliability of the ERCOT System.
+1.7	Rules of Construction 
+(1)	Capitalized terms and acronyms used in the Protocols have the meanings set out in Section 2, Definitions and Acronyms, of these Protocols or the meanings expressly set out in another Section of the Protocols.  If a capitalized term or acronym is defined in both Section 2, and another Section of these Protocols, then the definition in that other Section controls the meaning of that term or acronym in that Section, but the definition in Section 2, controls in all other Sections of the Protocols; and
+(2)	In these Protocols, unless the context clearly otherwise requires:
+(a)	The singular includes the plural and vice versa;
+(b)	The present tense includes the future tense, and the future tense includes the present tense;
+(c)	Words importing any gender include the other gender;
+(d)	The words “including,” “includes,” and “include” are deemed to be followed by the words “without limitation;”
+(e)	The word “shall” denotes a duty;
+(f)	The word “will” denotes a duty, unless the context denotes otherwise;
+(g)	The word “must” denotes a condition precedent or subsequent;
+(h)	The word “may” denotes a privilege or discretionary power;
+(i)	The phrase “may not” denotes a prohibition;
+(j)	Reference to a Section, Attachment, Exhibit, or Protocol means a Section, Attachment, Exhibit, or provision of these Protocols;
+(k)	References to any statutes, regulations, tariffs, or these Protocols are deemed references to such statute, regulation, tariff, or Protocol as it may be amended, replaced, or restated from time to time;
+(l)	Unless expressly stated otherwise, references to agreements and other contractual instruments include all subsequent amendments and other modifications to the instruments, but only to the extent that the amendments and other modifications are not prohibited by these Protocols;
+(m)	References to persons or Entities include their respective successors and permitted assigns and, for governmental Entities, Entities succeeding to their respective functions and capacities;
+(n)	References to “writing” include printing, typing, lithography, and other means of reproducing words in a tangible visible form;
+(o)	Any reference to a day, week, month, or year is to a calendar day, week, month, or year unless otherwise noted; and
+(p)	Any reference to time is to Central Prevailing Time; the 24-hour clock is used unless otherwise noted.
+(q)	Any reference to dollars is U.S. currency dollars unless otherwise noted.
+(r)	All Settlement calculations are in dollars (USD), unless otherwise noted.
+(s)	Any reference to energy is electrical energy, unless otherwise noted.
+(3)	These provisions apply to giving notice under the Protocols:
+(a)	Where these Protocols require an Entity to provide, send, or deliver notice, or to notify another Entity, such notice shall be in writing unless otherwise specified.  Where these Protocols do not specify the method by which written notice should be sent, then the notice may be sent by: 
+(i)	Hand-delivery:
+(ii)	Electronic mail;
+(iii)	Facsimile transmission;
+(iv)	Overnight delivery service (e.g., Federal Express, DHL or similar service) that requires a signed receipt;
+(v)	The Messaging System, Market Notice, or other electronic means provided for by these Protocols; or
+(vi)	U.S. Mail, first class postage prepaid, registered (or certified) mail, return receipt requested, properly addressed.
+(b)	Notice by facsimile, electronic mail, the Messaging System, Market Notice, or other electronic means provided for by these Protocols is considered received when sent unless transmitted after 5:00 p.m. local time of the recipient or on a non-Business Day, in which case it is considered received one Business Day after it was sent. 
+(c)	Notice by overnight delivery service that requires a signed receipt is considered received on the day that it was received.  
+(d)	Notice by U.S. Mail is considered received three days after the date it was deposited in the U.S. Mail, first class postage prepaid, registered (or certified) mail, return receipt requested, properly addressed.
+(e)	If ERCOT is providing notice to a Market Participant as required by the Protocols, then such notice shall be provided to the Market Participant’s Authorized Representative and backup Authorized Representative, in addition to any other person who is required to receive notice under the Protocols.  If ERCOT is providing notice to a Market Participant regarding a breach or default under an agreement contained in the Protocols, then such notice shall be provided to the Market Participant’s contact for notice listed in Section 22, Attachment A, Standard Form Market Participant Agreement.  If a Market Participant is providing notice to ERCOT as required by the Protocols or as provided under an agreement contained in the Protocols, then such notice shall be provided to ERCOT’s contact for notice listed in Section 22, Attachment A.  
+(f)	When the Protocols require a notice to be in writing, sending it by electronic mail, the Messaging System, Market Notice, or other electronic means satisfies the requirement that the notice be in writing. 
+(4)	Nothing in these Protocols may be construed to grant any jurisdiction or authority to NERC or FERC that they do not otherwise have. 
+1.8	Effective Date 
+(1)	Provisions of these Protocols approved through the process set forth in Section 21, Revision Request Process, but not implemented until a specified later date or in accordance with other specified prerequisites to implementation, must be set forth, and the approved but not yet implemented provision must be set forth in boxes within the Protocols.
+ERCOT Nodal Protocols
+Section 2:  Definitions and Acronyms 
+April 1, 2025
+
+____________________________________________________________________________________________
+ 
+2	DEFINITIONS AND ACRONYMS
+The list of acronyms is at the end of this Definitions Section.
+2.1	DEFINITIONS
+Definitions are supplied for terms used in more than one Section of the Protocols.  If a term is used in only one Section, it is defined there at its earliest usage.
+LINKS TO DEFINITIONS:
+A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
+List of Acronyms
+A
+[Back to Top]
+Acquisition Transfer
+The process used to transfer Electric Service Identifiers (ESI IDs) from the current Competitive Retailer (CR) to another CR(s) as a result of an acquisition pursuant to P.U.C. SUBST. R. 25.493, Acquisition and Transfer of Customers from one Retail Electric Provider to Another.
+Acquisition Transfer Decision
+Parameters associated with an Acquisition Transfer event that dictate the parties involved and the desired Acquisition Transfer Effective Date.  Acquisition Transfer Decision parameters include designation of the Losing CR, the Gaining CR, the preliminary list of transitioning ESI IDs, the method of transfer, and the desired Acquisition Transfer Effective Date.  The desired Acquisition Transfer Effective Date may be modified by agreement among Market Participants based on the volume of transitioning ESI IDs and the Transmission and/or Distribution Service Provider’s (TDSP’s) capacity to read meters and process transactions involving manual intervention.
+Acquisition Transfer Effective Date
+The date on which the Acquisition Transfer of ESI IDs from the Losing CR to the Gaining CR takes place.  This is the date on which the meter read is taken and is used in Acquisition Transfer transactions.
+Adjusted Metered Load (AML)
+Retail Load usage data that has been adjusted for Unaccounted for Energy (UFE), Transmission Losses, Distribution Losses, and Direct Current Tie (DC Tie) exports.
+Adjusted Static Models
+Load Profiles that are generated from statistical models that are based on static historical Load data, and adjusted for conditions of the day (e.g., weather, Season, etc.).
+Adjustment Period
+For each Operating Hour, the time between 1800 in the Day-Ahead up to the start of the hour before that Operating Hour.
+Advance Action Notice (AAN)
+A type of Operating Condition Notice (OCN) that identifies a possible future Emergency Condition and describes future action ERCOT expects to take to address that condition unless the need for ERCOT action is alleviated by Qualified Scheduling Entity (QSE) and/or Transmission Service Provider (TSP) actions or by other system developments.
+Advanced Meter
+Any new or appropriately retrofitted meter that functions as part of a system that includes such meters and the associated hardware, software, and communications devices, that collects time-differentiated energy usage, and that is deployed pursuant to P.U.C. SUBST. R. 25.130, Advanced Metering.
+Advanced Metering System (AMS)
+A system, including Advanced Meters and the associated hardware, software, and communications devices, that collects time-differentiated energy usage and is deployed pursuant to P.U.C. SUBST. R. 25.130, Advanced Metering.
+Advisory
+The second of three levels of communication issued by ERCOT in anticipation of a possible Emergency Condition.
+Affiliate
+(1)	An Entity that directly or indirectly owns or holds at least 5% of the voting securities of a Market Participant; or
+(2)	An Entity in a chain of successive ownership of at least 5% of the voting securities of a Market Participant; or
+(3)	An Entity that has at least 5% of its voting securities owned or controlled, directly or indirectly, by a Market Participant; or
+(4)	An Entity that has at least 5% of its voting securities owned or controlled, directly or indirectly, by an Entity who directly or indirectly owns or controls at least 5% of the voting securities of a Market Participant or an Entity in a chain of successive ownership of at least 5% of the voting securities of a Market Participant; or
+(5)	A person who is an officer or director of a Market Participant or of a corporation in a chain of successive ownership of at least 5% of the voting securities of a Market Participant.
+(6)	Notwithstanding any part of this definition, any Entity that would be considered an Affiliate due to its participation in a chain of successive ownership of a Market Participant shall not for that reason be considered an Affiliate if: 
+(a)	It does not own 50% or more of the voting securities of any other Entity in the chain; or 
+(b)	Its participation in the chain is only as a successive owner of an Entity in the chain that does not own 50% or more of the voting securities of another Entity in that chain. 
+(7)	Provided that the Entity holding ownership or control of voting securities in a Market Participant does not hold such ownership or control for the purpose of exercising or influencing control of that Market Participant, then for the purposes of that relationship, the term "Entity," as used in this definition, shall not include:
+(a)	A broker or dealer registered under the Securities Exchange Act of 1934, 15 U.S.C. § 78;
+(b)	A bank or insurance company as defined under the Securities Exchange Act of 1934, 15 U.S.C. § 78;
+(c)	An investment adviser registered under state law or the Investment Advisers Act of 1940, 15 U.S.C. §§ 80b1-80b21; 
+(d)	An investment company registered under the Investment Company Act of 1940, 15 U.S.C. §§ 80a1-80a64; or
+(e)	An employee benefit plan, pension fund, endowment fund, or other similar entity.
+(8)	ERCOT may request either of the following as conclusive evidence of the purpose required in paragraph (7) above:
+(a)	An affidavit attesting to that purpose if such affidavit is signed by the Entity owning the securities; or 
+(b)	A report reflecting that purpose filed by the owning entity with the Securities and Exchange Commission.
+(9)	Notwithstanding any other provision of this Section 2.1, “Affiliate” includes any Entity determined by the Public Utility Commission of Texas (PUCT) to be an Affiliate.
+(10)	The Affiliate of a Lone Star Infrastructure Protection Act (LSIPA) Designated Company shall be determined under the definition of “LSIPA Affiliate.”
+Aggregate Generation Resource (AGR) (see Resource Attribute)
+Aggregate Load Resource (ALR) (see Resource)
+Agreement
+A signed written agreement between ERCOT and a Market Participant using one of the standard form agreements in Section 22, Attachments, including those agreements containing changes to the standard form, which changes have been approved by the ERCOT Board.
+Alternative Dispute Resolution (ADR)
+Procedures, outlined in Section 20, Alternative Dispute Resolution Procedure and Procedure for Return of Settlement Funds, for settling disputes by means other than litigation.
+Ancillary Service
+A service necessary to support the transmission of energy to Loads while maintaining reliable operation of the Transmission Service Provider’s (TSP’s) transmission system using Good Utility Practice. 
+[NPRR857:  Replace the above definition “Ancillary Service” with the following upon system implementation and satisfying the following conditions:  (1) Southern Cross provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a TSP and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities:]
+Ancillary Service
+A service necessary to support the transmission of energy to Loads while maintaining reliable operation of the transmission system using Good Utility Practice.
+Ancillary Service Assignment  
+Ancillary Service Resource Responsibility assigned to an On-Line Resource pursuant to paragraph (4) of Section 6.5.9.3.3, Watch.
+[NPRR1013:  Delete the above definition “Ancillary Service Assignment” upon system implementation of the Real-Time Co-Optimization (RTC) project.]
+Ancillary Service Capacity Monitor
+A set of processes described in Section 8.1.1.3, Ancillary Service Capacity Compliance Criteria, to determine the Real-Time capability of Resources to provide Ancillary Service.
+[NPRR1013:  Insert the following definition “Ancillary Service Demand Curve (ASDC)” upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Ancillary Service Demand Curve (ASDC)
+A curve that reflects the value of each Ancillary Service product by price/quantity pairs for each hour of the Operating Day.
+[NPRR1204:  Insert the following definition “Ancillary Service Deployment Factors” upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Ancillary Service Deployment Factors
+Hourly parameters for each Ancillary Service type between 0 and 1 (or 0% to 100%) that indicate an assumed Ancillary Service deployment and may be based on system conditions such as forecasts for Demand and Intermittent Renewable Resources (IRRs).  These factors are used in the Reliability Unit Commitment (RUC) studies.
+[NPRR1013:  Insert the following definition “Ancillary Service Imbalance” upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Ancillary Service Imbalance 
+The difference between the amount of an Ancillary Service cleared in the Day-Ahead Market (DAM) and through trades and the amount of that Ancillary Service awarded in the Real-Time Market (RTM).
+Ancillary Service Obligation
+For each Ancillary Service, a Qualified Scheduling Entity’s (QSE’s) ERCOT-allocated share of total ERCOT System needs for that Ancillary Service.
+Ancillary Service Offer
+An offer to supply Ancillary Service capacity in the Day-Ahead Market (DAM) or a Supplemental Ancillary Service Market (SASM).
+[NPRR1013:  Replace the definition “Ancillary Service Offer” above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Ancillary Service Offer
+An offer to supply Ancillary Service capacity in the Day-Ahead Market (DAM) or Real-Time Market (RTM).
+Resource-Specific Ancillary Service Offer
+A Resource-specific offer to supply Ancillary Service capacity in the Day-Ahead Market (DAM) or Real-Time Market (RTM).
+Ancillary Service Only Offer
+An offer to sell Ancillary Service capacity in the Day-Ahead Market (DAM) that is not associated with a specific Resource.
+Ancillary Service Plan
+A plan produced by ERCOT, as described in Section 4.2.1, Ancillary Service Plan and Ancillary Service Obligation, which identifies the types and amount of Ancillary Service necessary for each hour of the Operating Day.
+[NPRR1013:  Insert the following definition “Ancillary Service Position” upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Ancillary Service Position
+The net amount of Ancillary Service capacity to which a Qualified Scheduling Entity (QSE) has financially committed in the ERCOT market, as described in Section 5.4.1, Ancillary Service Positions.
+Ancillary Service Resource Responsibility
+The MW of an Ancillary Service that each Resource is obligated to provide in Real-Time rounded to the nearest MW. 
+[NPRR1013:  Delete the above definition “Ancillary Service Resource Responsibility” upon system implementation of the Real-Time Co-Optimization (RTC) project.]
+Ancillary Service Schedule
+The MW of each Ancillary Service that each Resource is providing in Real-Time and the MW of each Ancillary Service for each Resource for each hour in the Current Operating Plan (COP). 
+[NPRR1013:  Delete the above definition “Ancillary Service Schedule” upon system implementation of the Real-Time Co-Optimization (RTC) project.]
+Ancillary Service Supply Responsibility 
+The net amount of Ancillary Service capacity that a Qualified Scheduling Entity (QSE) is obligated to deliver to ERCOT, by hour and service type.
+[NPRR1013:  Delete the above definition “Ancillary Service Supply Responsibility” upon system implementation of the Real-Time Co-Optimization (RTC) project.]
+Ancillary Service Trade
+A QSE-to-QSE transaction that transfers an obligation to provide Ancillary Service capacity between a buyer and a seller.
+Applicable Legal Authority (ALA)
+A Texas or federal law, rule, regulation, or applicable ruling of the PUCT or any other regulatory authority having jurisdiction, an order of a court of competent jurisdiction, or a rule, regulation, applicable ruling, procedure, protocol, guide or guideline of the Independent Organization, or any Entity authorized by the Independent Organization to perform registration or settlement functions.
+Area Control Error (ACE)
+A calculation of the MW correction needed to control the actual system frequency to the scheduled system frequency.
+Authorized Representative
+The person(s) designated by an Entity during the registration process in Section 16, Registration and Qualification of Market Participants, who is responsible for authorizing all registration information required by ERCOT Protocols and ERCOT business processes, including any changes in the future, and will be the contact person(s) between the registered Entity and ERCOT for all business matters requiring authorization by ERCOT.
+Automatic Voltage Regulator (AVR)  
+A device on a Generation Resource or a control system at the Facility of a Generation Resource or Energy Storage Resource (ESR) used to automatically control the voltage to an established Voltage Set Point.
+Availability Plan
+An hourly representation of availability of Reliability Must-Run (RMR) Units or an hourly representation of the capability of Black Start Resources as submitted to ERCOT by 0600 in the Day-Ahead by Qualified Scheduling Entities (QSEs) representing RMR Units or Black Start Resources.  An hourly representation of availability of Firm Fuel Supply Service Resources (FFSSRs) as submitted to ERCOT 14 days prior to the Operating Day by QSEs representing FFSSRs.  QSEs must update the Availability Plan to reflect current operating conditions within 60 minutes after identifying the change in availability of the Resource.
+[NPRR885:  Replace the above definition “Availability Plan” with the following upon system implementation:]
+Availability Plan
+An hourly representation of availability of Reliability Must-Run (RMR) Units, Must-Run Alternatives (MRAs), or an hourly representation of the capability of Black Start Resources as submitted to ERCOT by 0600 in the Day-Ahead by Qualified Scheduling Entities (QSEs) representing RMR Units, MRAs, or Black Start Resources.  An hourly representation of availability of Firm Fuel Supply Service Resources (FFSSRs) as submitted to ERCOT 14 days prior to the Operating Day by QSEs representing FFSSRs.  QSEs must update the Availability Plan to reflect current operating conditions within 60 minutes after identifying the change in availability of the Resource.
+B 
+[Back to Top]
+Bank Business Day (see Business Day)
+Bankrupt 
+The condition of an Entity that:
+(a)	Files a petition or otherwise commences a proceeding under any bankruptcy, insolvency, reorganization or similar law, or has any such petition filed or commenced against it;
+(b)	Makes an assignment or any general arrangement for the benefit of creditors;
+(c)	Has a liquidator, administrator, receiver, trustee, conservator, or similar official appointed with respect to it or any substantial portion of its property or assets; or
+(d)	Is generally unable to pay its debts as they fall due.
+Base Point
+The MW output level for a Resource produced by the Security-Constrained Economic Dispatch (SCED) process.
+Black Start Capable Resource
+A physical Resource that can start without support of the ERCOT Transmission Grid and that a Resource Entity believes can meet the Black Start capability tests in Section 8.1.1.2.1.5, System Black Start Capability Qualification and Testing, excluding the 72-hour Back-up Fuel requirement in paragraph (1)(g).
+Black Start Resource (see Resource Attribute)
+Black Start Service (BSS)
+An Ancillary Service provided by a Resource able to start without support of the ERCOT Transmission Grid.
+Black Start Service (BSS) Back-up Fuel
+Fuel that is stored on site at the location of a Black Start Resource and that is available at all times and contracted with ERCOT for the purpose of powering the Resource when following ERCOT or the local Transmission Operator (TO) instruction to start without support of the ERCOT Transmission Grid in response to a Blackout or Partial Blackout.
+Blackout
+A condition in which frequency for the entire ERCOT System has dropped to zero and Generation Resources are no longer serving Load.
+[NPRR1246:  Replace the definition “Blackout” above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Blackout
+A condition in which frequency for the entire ERCOT System has dropped to zero and Generation Resources and Energy Storage Resources (ESRs) are no longer serving Load.
+Partial Blackout
+A condition in which an uncontrolled separation of a portion of the ERCOT System occurs and frequency for that portion has dropped to zero and Generation Resources within that portion are no longer serving Load and restoration is dependent on either internal Black Start Plans or assistance for restoration is needed from neighboring Transmission Operator(s) (TO(s)) within the ERCOT System which requires ERCOT coordination.
+[NPRR1246:  Replace the definition “Partial Blackout” above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Partial Blackout
+A condition in which an uncontrolled separation of a portion of the ERCOT System occurs and frequency for that portion has dropped to zero and Generation Resources and ESRs within that portion are no longer serving Load and restoration is dependent on either internal Black Start Plans or assistance for restoration is needed from neighboring Transmission Operator(s) (TO(s)) within the ERCOT System which requires ERCOT coordination.
+Block Load Transfer (BLT)
+A transfer system that isolates a group of Loads from the Control Area in which they normally are served and then connects them to another Control Area.  Such transfer systems involve either transferring Loads normally in the ERCOT Control Area to a non-ERCOT Control Area or transferring Loads normally in non-ERCOT Control Areas to the ERCOT Control Area.
+Bus Load Forecast
+A set of processes used by ERCOT to determine a forecast of the Load at each Electrical Bus in the ERCOT Transmission Grid.
+Business Day
+Monday through Friday, excluding observed holidays listed below:
+(a)	New Year’s Day;
+(b)	Martin Luther King, Jr. Day;
+(c)	Memorial Day;
+(d)	Independence Day;
+(e)	Labor Day;
+(f)	Thanksgiving Thursday and Friday; and
+(g)	Two days at Christmas, as designated from time to time by the ERCOT CEO.	
+Bank Business Day
+Any day during which the United States Federal Reserve Bank of New York is open for normal business activity.
+Retail Business Day
+Same as a Business Day, except in the case of retail transactions processed by a TSP or Distribution Service Provider (DSP), Competitive Retailers (CRs) shall substitute the TSP or DSP holidays for ERCOT holidays when determining the time available to the TSP or DSP to process the transaction.  For additional important information related to Retail Business Days, please refer to the Retail Market Guide.
+Business Hours
+0800 to 1700 Central Prevailing Time (CPT) on Business Days.
+C
+[Back to Top]
+Capacity Trade 
+A QSE-to-QSE financial transaction that transfers responsibility to supply capacity between a buyer and a seller at a Settlement Point.
+Cash Collateral
+A Counter-Party’s cash funds held by ERCOT to satisfy ERCOT creditworthiness requirements, as described in paragraph (c) of Section 16.11.3, Alternative Means of Satisfying ERCOT Creditworthiness Requirements.
+Central Prevailing Time (CPT)
+Either Central Standard Time or Central Daylight Time, in effect in Austin, Texas. 
+Comision Federal de Electricidad (CFE)
+The government agency in Mexico charged with the responsibility of operating the Mexican national electricity grid.
+Commercial Operations Date
+The date on which an Interconnecting Entity (IE) or a Resource Entity expects that construction and trial operation of a Resource will be completed and the Resource is expected to complete the Resource interconnection process and be approved for participation in ERCOT market operations.
+Common Information Model (CIM)
+A standard way to communicate information about a transmission system.  The CIM is used to describe the ERCOT transmission system topology consisting of Transmission Elements, including all the parameters needed to describe the Transmission Elements and how they interrelate to one another.  The CIM that ERCOT and the TSP use must conform to the North American Electric Reliability Corporation (NERC) and Electric Power Research Institute (EPRI) standards for CIMs.
+[NPRR857:  Replace the above definition “Common Information Model (CIM)” with the following upon system implementation and satisfying the following conditions:  (1) Southern Cross provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a TSP and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities:]
+Common Information Model (CIM)
+A standard way to communicate information about a transmission system.  The CIM is used to describe the ERCOT transmission system topology consisting of Transmission Elements, including all the parameters needed to describe the Transmission Elements and how they interrelate to one another.  The CIM that ERCOT and Market Participants use must conform to the North American Electric Reliability Corporation (NERC) and Electric Power Research Institute (EPRI) standards for CIMs.
+Competitive Constraint
+A contingency and limiting Transmission Element pair or group of Transmission Elements associated with a Generic Transmission Constraint (GTC) that is determined to be competitive using the process defined in Section 3.19, Constraint Competitiveness Tests.
+Competitive Retailer (CR)
+A Municipally Owned Utility (MOU) or an Electric Cooperative (EC) that offers Customer Choice and sells electric energy at retail in the restructured electric power market in Texas, or a Retail Electric Provider (REP).
+Gaining Competitive Retailer (CR)
+CR that becomes the REP of record upon the processing of the transition of an Electric Service Identifier (ESI ID) from one REP of record to another.  This includes the CR identified in the initiating Mass Transition Decision or Acquisition Transfer Decision that is to become the REP of record as of the Mass Transition Effective Date or Acquisition Transfer Effective Date for a transitioned Electric Service Identifier (ESI ID) following the Mass Transition or Acquisition Transfer.
+Losing Competitive Retailer (CR)
+CR that is removed as the REP of record upon the processing of the transition of an ESI ID from one REP of record to another.  This includes the CR identified in the initiating Mass Transition Decision or Acquisition Transfer Decision that is to be removed as the REP of record upon the processing of a Mass Transition or Acquisition Transfer transaction.
+Competitive Retailer (CR) of Record
+The CR assigned to the Electric Service Identifier (ESI ID) in ERCOT’s database.  There can be no more than one CR of Record assigned to an ESI ID for any given time period.
+Compliance Period
+A calendar year beginning January 1 and ending December 31 in which Renewable Energy Credits (RECs) are required of a Retail Entity.
+Compliance Premium
+A payment awarded by the Program Administrator in conjunction with a Solar Renewable Energy Credit (SREC) that is generated by a renewable energy source that meets the criteria of subsection (e) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program.  For the purpose of the Solar Renewable Portfolio Standard (SRPS) requirements, one Compliance Premium is equal to one SREC.
+[NPRR1250:  Replace the definition “Compliance Premium” above with the following on September 1, 2025:]
+Compliance Premium
+A payment awarded by the Program Administrator in conjunction with a Solar Renewable Energy Credit (SREC) that is generated by a renewable energy source that meets the criteria of subsection (e) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program.  Note that Compliance Premiums will not be awarded after December 31, 2024, and all unused Compliance Premiums will expire by December 31, 2027.
+Conductor/Transformer 2-Hour Rating (see Rating)
+Congestion Revenue Right (CRR)
+A financial instrument that entitles the holder to be charged or to receive compensation (i.e., congestion rent), depending on the instrument, when the ERCOT Transmission Grid is congested in the DAM or in Real-Time. 
+Flowgate Right (FGR) 
+A type of CRR that entitles the holder to receive compensation and is evaluated in each CRR Auction and DAM as the positive power flows represented by the quantity of the CRR bid or offer (MW) on a flowgate (i.e., predefined directional network element or a predefined bundle of directional network elements).
+Point-to-Point (PTP) Obligation 
+A type of CRR that entitles the holder to be charged or to receive compensation and is evaluated in each CRR Auction and DAM as the positive and negative power flows on all directional network elements created by the injection and withdrawal at the specified source and sink points of the quantity represented by the CRR bid or offer (MW). 
+Point-to-Point (PTP) Obligation with Links to an Option
+A type of CRR that entitles a Non-Opt-In Entity’s (NOIE’s) PTP Obligation bought in the DAM to be reflective of the NOIE’s PTP Option.  To qualify as a PTP Obligation of this type, the source and sink pairs on both the NOIE’s PTP Obligation and the NOIE’s PTP Option shall be the same, and the MWs of the NOIE’s PTP Obligations shall be less than or equal to the number of MWs of the NOIE’s PTP Option.  Qualified PTP Obligations with Links to an Option shall be settled as if they were a PTP Option.
+Point-to-Point (PTP) Option
+A type of CRR that is evaluated in each CRR Auction and DAM as the positive power flows on all directional network elements created by the injection and withdrawal at the specified source and sink points in the quantity represented by the CRR bid or offer (MW), excluding all negative flows on all directional network elements.  A PTP Option entitles the holder to receive compensation equal to the positive energy price difference between the sink and the source Settlement Point Prices.  A PTP Option with Refund is evaluated in the same manner and compensated as described in Section 7.4.2, PCRR Allocations and Nominations. 
+Congestion Revenue Right (CRR) Account Holder
+An Entity that is qualified to become the owner of record of CRRs and is registered as a CRR Account Holder with ERCOT.
+Participating Congestion Revenue Right (CRR) Account Holder
+For a given CRR Auction, a CRR Account Holder who either owns one or more CRRs effective during the Operating Days covered by the CRR Auction, or whose Counter-Party has a non-zero credit limit available and allocated to the CRR Auction as described in paragraph (1) of Section 7.5.5.3, Auction Process.
+Congestion Revenue Right (CRR) Auction
+A periodic auction by ERCOT that allows eligible CRR Account Holders to buy and sell CRRs.
+Congestion Revenue Right (CRR) Auction Capacity
+The fraction of the network capacity that is offered for sale in a given CRR Auction.
+Congestion Revenue Right (CRR) First Offering
+The CRR Auction, which is part of a CRR Long-Term Auction Sequence, in which a series of calendar months of CRRs is offered for sale for the first time.
+Congestion Revenue Right (CRR) Long-Term Auction Sequence
+A series of six CRR Auctions held consecutively, each of which entails the sale of a six-month window of CRRs.
+Congestion Revenue Right (CRR) Monthly Auction
+The CRR Auction in which a calendar month is offered for sale for the last time.  This CRR Auction may, but is not required to, be conducted on the same dates as a CRR Auction that is part of a CRR Long-Term Auction Sequence.
+Congestion Revenue Right (CRR) Network Model
+A model of ERCOT network topology to be used in conducting a CRR Auction.  It must be based on, but is not the same as, the Updated Network Model, as detailed in Section 3.10.3, CRR Network Model.
+Congestion Revenue Right (CRR) Owner
+A CRR Account Holder that owns one or more CRRs.
+Constant Frequency Control (CFC)
+An operating mode of an Automatic Generation Control (AGC) system.  While in CFC, an AGC system will monitor only the frequency error to determine Resource adjustments needed to balance sources and obligations.  CFC controls generation to increase or decrease by the amount of frequency deviation multiplied by the bias. 
+Constraint Management Plan (CMP)
+A set of pre-defined manual transmission system actions, or automatic transmission system actions that do not constitute a Remedial Action Scheme (RAS), which are executed in response to system conditions to prevent or to resolve one or more thermal or non-thermal transmission security violations or to optimize the transmission system.  CMPs may be developed in cases where studies indicate economic dispatch alone may be unable to resolve a transmission security violation or in response to Real-Time conditions where Security-Constrained Economic Dispatch (SCED) is unable to resolve a transmission security violation.  ERCOT will employ CMPs to facilitate the market use of the ERCOT Transmission Grid, while maintaining system security and reliability in accordance with the Protocols, Operating Guides and North American Electric Reliability Corporation (NERC) Reliability Standards.  CMPs are intended to supplement, not to replace, the use of SCED for prevention or resolution of one or more thermal or non-thermal transmission security violations.  CMPs include, but are not limited to the following:
+[NPRR1198:  Replace the above definition “Constraint Management Plan (CMP)” with the following upon system implementation:]
+Constraint Management Plan (CMP)
+A set of pre-defined manual transmission system actions, or automatic transmission system actions that do not constitute a Remedial Action Scheme (RAS), which are executed in response to system conditions to prevent or to resolve one or more thermal or non-thermal transmission security violations or to optimize the transmission system.  ERCOT will employ CMPs to maintain system security and reliability in accordance with the Protocols, Nodal Operating Guides and North American Electric Reliability Corporation (NERC) Reliability Standards.  CMPs include, but are not limited to the following:
+Automatic Mitigation Plan (AMP) 
+A set of pre-defined automatic actions to execute post-contingency to address voltage issues or reduce overloading on one or more given, monitored Transmission Facilities to below their Emergency Rating, excluding any set of automatic actions that constitute a Remedial Action Scheme (RAS).  AMPs shall only include schemes which switch series reactors by monitoring quantities that are solely located at the same substation as the switched device.  AMPs shall not include adjusting or tripping generation or Load shedding and shall not be implemented on Interconnection Reliability Operating Limits (IROLs). 
+[NPRR1198:  Insert the definition “Extended Action Plan (EAP)” below upon system implementation:]
+Extended Action Plan (EAP)
+A set of pre-defined manual actions to execute pre-contingency and to remain in place for a pre-defined period of time to address voltage issues or reduce overloading on one or more given monitored Transmission Facilities to below their Emergency Rating with restoration of normal operating conditions within two hours.  EAPs may be proposed by any Market Participant or developed by ERCOT and can be utilized for reliability or economic reasons.  EAPs proposed for reliability reasons may have thermal constraints that do not have a Security-Constrained Economic Dispatch (SCED) solution.  EAPs proposed for economic reasons may have thermal constraints that are resolvable by SCED but result in high congestion costs and meet the criteria outlined in Nodal Operating Guide Section 11, Constraint Management Plans and Remedial Action Schemes.  An EAP may include transmission switching and does not include Load shedding.  EAPs shall be managed via the Network Operations Model Change Request (NOMCR) and Outage scheduling processes as described in Nodal Operating Guide Section 11.8.1, Extended Action Plan (EAP) Process.
+Mitigation Plan
+A set of pre-defined manual actions to execute post-conting

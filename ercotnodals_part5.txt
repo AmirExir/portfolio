@@ -1,0 +1,1032 @@
+ Service from any applicable SASMs for each Load Resource.
+[NPRR1007:  Delete paragraph (12) above upon system implementation of the Real-Time Co-Optimization (RTC) project.]
+3.2.5.1	Unregistered Distributed Generation Reporting Requirements for Non Opt-In Entities
+(1)	This Section describes the data that shall be submitted to ERCOT for the unregistered Distributed Generation (DG) behind Non-Opt-In Entity (NOIE) boundary metering points.
+(2)	Within ten Business Days after the end of each quarter, each NOIE shall submit to ERCOT electronically the required data described below as of the last day of the prior quarter by submitting the designated form provided on the ERCOT website.  NOIEs that have an unregistered DG capacity of more than two MW, based upon the aggregate capacity of all sites that are less than 50 kW, shall report the total of all unregistered DG MW capacity, inclusive of systems used to support self-serve Load.  All other NOIEs shall report the aggregate unregistered DG capacity of only those sites greater than or equal to 50 kW, inclusive of systems used to support self-serve Load.  NOIEs shall report their capacity by Load Zone and by primary fuel type as follows:
+(a)	Solar; 
+(b)	Wind; 
+(c) 	Other renewable; and
+(d) 	Other non-renewable.
+(3)	NOIEs not reporting DG MW capacity less than 50 kW on a quarterly basis as described in paragraph (2) above shall submit to ERCOT by March 1 of each year their annual aggregate unregistered DG MW capacity, inclusive of systems used to support self-serve Load, for the preceding calendar year.  NOIEs shall report their capacity by Load Zone and by primary fuel type as follows:
+(a)	Solar; 
+(b)	Wind; 
+(c) 	Other renewable; and
+(d) 	Other non-renewable.
+(4)	Each of the above reports is required to include only the capacity known to the NOIE at the time that its report is being prepared, and shall not require the NOIE to conduct new survey activities for its service territory to identify unknown unregistered DG installations.  Any NOIE may obtain a reporting exemption for the annual report required in 2020 by notifying ERCOT of the exemption claim in writing on or before March 1, 2020.
+3.2.5.2	Unregistered Distributed Generation Reporting Requirements for Competitive Areas
+(1)	The data for competitive areas will be compiled from the reports submitted to ERCOT as found in the Load Profiling Guide, Appendix D, Load Profiling Decision Tree, DG Tab.
+3.2.5.3	Unregistered Distributed Generation Reporting Requirements for ERCOT
+(1)	Within 30 days after the end of each quarter, ERCOT shall publish the unregistered DG report on the ERCOT website.  This report shall include the aggregated data compiled for NOIE and competitive areas.  This report shall include the total unregistered DG MW capacity, as provided in accordance with Section 3.2.5.1, Unregistered Distributed Generation Reporting Requirements for Non Opt-In Entities, and Section 3.2.5.2, Unregistered Distributed Generation Reporting Requirements for Competitive Areas, above, by Load Zone and by primary fuel type as follows:
+(a)	Solar; 
+(b)	Wind; 
+(c)	Other renewable; and 
+(d)	Other non-renewable. 
+(2)	ERCOT shall update the appropriate TAC subcommittee on an as needed basis on the unregistered DG report.
+3.2.6	Report on Capacity, Demand and Reserves in the ERCOT Region
+(1)	ERCOT shall prepare and publish the Report on Capacity, Demand and Reserves in the ERCOT Region (CDR) twice per year.  ERCOT will target the posting of the preliminary CDR during the third week of each May and the final CDR during the third week of each December.  ERCOT will issue a Market Notice indicating a revised posting date if that date is anticipated to occur prior to or after the target posting week.
+(2)	Load and capacity forecasts shall be reported for at least the next five years beyond the year that the CDRs are published.  Seasonal forecasts, as defined in Section 3.2.6.1, Planning Reserve Margins, shall also be prepared and published for each forecast year.
+(3)	The format and other contents of this report shall be developed by ERCOT with guidance from the Wholesale Market Subcommittee (WMS) and its working group designated to periodically review the report contents.
+(4)	The CDR shall provide peak Load, peak Net Load, and capacity estimates based on the methodologies in Section 3.2.6.1, Section 3.2.6.2, Effective Load Carrying Capability (ELCC) Studies, Section 3.2.6.3, Firm Peak Load and Firm Peak Net Load Estimates, and Section 3.2.6.4, Total Capacity Estimates.
+3.2.6.1	Planning Reserve Margins
+(1)	ERCOT shall calculate a Planning Reserve Margin (PRM) for each season of each future year reflecting Loads and resources for the forecasted peak Load hour and peak Net Load hour as follows:
+PRM h, s, i	=	(TOTCAP h, s, i – FIRMPKLD h, s, i) / FIRMPKLD h, s, i
+The above variables are defined as follows:
+Variable	Unit	Definition
+PRM h, s, i	%	Planning Reserve Margin—The Planning Reserve Margin for hour h of season s for year i.
+TOTCAP h, s, i	MW	Total Capacity—Total Capacity available for hour h of season s for the year i.
+FIRMPKLD h, s, i	MW	Firm Peak Load—Firm Peak Load for hour h of the season s for the year i.
+h	None	The forecasted peak Load hour and peak Net Load hour.
+i	None	Year.
+s	None	Season.  Summer Peak Load Season, Winter Peak Load Season, Spring (March, April, May), and Fall (October and November), for year i.
+3.2.6.2	Effective Load Carrying Capability (ELCC) Studies
+(1)	ERCOT shall conduct an Effective Load Carrying Capability (ELCC) study every three years or as necessary based on reviews of expected resource penetration and generation technology trends using Generator Interconnection or Modification (GIM) data.  ERCOT shall provide the appropriate WMS working group with a draft ELCC report and subsequent review and comment period before finalizing the ELCC report.  The ELCC reports shall be posted to the ERCOT website.
+(2)	The ELCC study shall be based on the Reliability Standard established by the Public Utility Commission of Texas (PUCT).
+(3)	ERCOT shall use a Monte Carlo system simulation tool for determining the ELCC values.
+(4)	The ELCC study will determine average ELCCs for aggregate WGRs, PVGRs and Energy Storage Resources (ESRs) by reserve risk period and applicable CDR resource regions as defined in Section 3.2.6.4, Total Capacity Estimates.  Average ELCCs for aggregate ESRs shall be based on duration categories specified in the ELCC study.
+(5)	The ELCC study shall produce a range of ELCC values reflecting feasible future mixes of WGRs, PVGRs, ESRs and Load forecasts for the next five future years.  Each CDR will include the ELCCs associated with the resource mix and load forecast for the given forecast year, season, and CDR resource region (in the case of WGRs and PVGRs).
+3.2.6.3	Firm Peak Load and Firm Peak Net Load Estimates
+(1)	ERCOT shall prepare, at least annually, a forecast of total hourly Loads for a minimum of ten future years using an econometric forecast, taking into account econometric inputs, weather conditions, demographic data and other variables as deemed appropriate by ERCOT.  For the CDR, firm peak Load and firm peak Net Load estimates shall be determined by the following equation: 
+FIRMPKLD h, s, i	=	TOTPKLD h, s, i – LRRRS h, s, i – LRECRS h, s, i – LRNSRS¬ h, s, i – ERS h, s, i – DVR s, i – CLR h, s, i
+The above variables are defined as follows:
+Variable	Unit	Definition
+FIRMPKLD h, s, i	MW	Firm Peak Load Estimates—The Firm Load forecasts for hour h for season s for year i.  
+TOTPKLD h, s, i	MW	Total Peak Load Estimates—The Firm Load forecasts for hour h for season s for year i.
+LRRRS h, s, i	MW	Load Resource providing RRS—The amount of RRS a Load Resource is providing for hour h for season s for the year i.
+LRECRS h, s, i	MW	Load Resource providing ECRS—The amount of ECRS a Load Resource is providing for hour h season s for the year i.
+LRNSRS h, s, i	MW	Load Resource providing Non-Spinning Reserve (Non-Spin)—The estimated amount of Non-Spin that Load Resources are providing for hour h for season s for the year i.  
+ERS h, s, i	MW	Emergency Response Service (ERS)—The estimated amount of ERS for hour h, season s, and year i.  For the first and subsequent forecast years, the seasonal and hourly forecast values are based on the most recent past procurements for the Standard Contract Term and ERS Time Periods during which the peak Load hour and peak Net Load hour are expected to occur.  The seasonal ERS Contract Terms are as follows:
+Season	Contract Term
+Winter	December 1 to March 31
+Spring	April 1 through May 31
+Summer	June 1 through September 30
+Fall	October 1 through November 30
+Adjustments to the ERS amounts may be applied for each forecast year based on ERCOT consideration of expected program modifications, procurement methodology changes, changes in the seasonal risk assessments, and ERS time period expenditure limits. 
+DVR h, s, i	MW	Distribution Voltage Reduction—ERCOT-directed deployment of distribution voltage reduction measures for hour h of season s of the year i based on reduction estimates provided by Transmission and/or Distribution Service Providers (TDSPs).
+CLR h, s, i	MW	Amount of Controllable Load Resource—Estimated amount of Controllable Load Resources that is available for Dispatch by ERCOT during the current year i for hour h and season s, not already included in LRRRS, LRECRS, or LRNSRS.  This value does not include Wholesale Storage Load (WSL).
+h	None	The forecasted peak Load hour and forecasted peak Net Load hour.
+i	None	Year.
+s	None	Season.  Summer Peak Load Season, Winter Peak Load Season, Spring (March, April, May), and Fall (October and November), for year i.
+(2)	The CDR shall also provide the estimated annual peak Load reduction amounts reflected in the firm peak Load forecast due to energy efficiency programs procured by TDSPs pursuant to P.U.C. SUBST. R. 25.181, Energy Efficiency Goal, for year i.  ERCOT will also include energy efficiency and/or Demand response initiatives reported by NOIEs.
+3.2.6.4	Total Capacity Estimates
+(1)	Total capacity estimates will be based on generation availability at the time of the forecasted peak Load hour and peak Net Load hour for each future season and year. 
+(2)	The total capacity estimates shall be determined based on the following equation:
+TOTCAP h, s, i	=	INSTTHERMCAP s, i + PUNCAP p, s, i + WINDCAP p, s, i, wr + HYDROCAP p, s, i + SOLARCAP p, s, i, sr + ESRCAP p, s, i + RMRCAP s, i + DCTIECAP s + PLANDCTIECAP s + SWITCHCAP s, i + MOTHCAP s, i + PLANTHERMCAP s, i + PLANWINDCAP p, s, i, wr + PLANSOLARCAP p, s, i, sr + PLANESRCAP p, s, i – LTOUTAGE s, i – UNSWITCH s, i – RETCAPNSO s, i – RETCAPUNC s, i
+The above variables are defined as follows:
+Variable	Unit	Definition
+TOTCAP h, s, i	MW	Total Capacity—Estimated total capacity available during the peak Load hour and peak Net Load hour h for season s for the year i.
+INSTTHERMCAP s, i	MW	Seasonal Net Max Sustainable Rating for each Thermal Generation Resource—The Seasonal net maximum sustainable rating for season s as reported in the Resource Integration and Ongoing Operations (RIOO) system for each thermal operating Generation Resource for the year i excluding Resources operating under RMR Agreements, Mothballed Generation Resources, and Generation Resources capable of “switching” from the ERCOT Region to a non-ERCOT Region.  For thermal generation resources classified as small generators in accordance with paragraph (3) of Planning Guide Section 5.2.1, Applicability, capacity is considered operational once a Model Ready Date has been assigned to the resource.
+PUNCAP h, s, i	MW	Private Use Network Capacity—The forecasted generation capacity available to the ERCOT Transmission Grid, net of self-serve load, from Generation Resources and Settlement Only Generators (SOGs) in Private Use Networks for hour h, season s, and year i.  The capacity forecasts are developed as follows.  First, a base capacity forecast, determined from SCED data, is calculated as the average net generation capacity available to the ERCOT Transmission Grid during the 20 highest system-wide peak Load and peak Net Load hours for each preceding three-year period for season s and year i.  The base capacity forecast is then adjusted by adding the aggregated incremental forecasted annual changes in net generation capacity as of the start of season s for forecast year i reported for Private Use Networks pursuant to Section 10.3.2.4, Reporting of Net Generation Capacity.  This calculation is limited to Generation Resources and SOGs in Private Use Networks (1) with a Resource Commissioning Date that occurs no later than the start of the most current Season used for the calculation, and (2) that have not been permanently retired by the start of the most current Season used for the calculation. 
+HYDROCAP p, s, i	MW	Hydro Unit Capacity—The average hydro Generation Resource capacity available, as determined from SCED data during the highest 20 peak Load hours for each preceding three-year period for Reserve Risk Period p, season s, and year i.  This calculation is limited to hydro Generation Resources (1) with a Resource Commissioning Date that occurs no later than the start of the most current Peak Load Season used for the calculation, and (2) that have not been permanently retired by the start of the most current Peak Load Season used for the calculation.
+WINDELCC p, s, i, wr	%	Effective Load Carrying Capability for Wind—The average ELCC for all WGRs for Reserve Risk Period p, season s, year i, and region wr, expressed as a percentage.
+WINDCAP p, s, i, wr	MW	Existing WGR Capacity—The amount of currently operational WGRs for Reserve Risk Period p, season s, year i, and region wr, multiplied by WINDELCC p, s, i, wr.  Capacity is considered operational if it has an ERCOT Resource Commissioning Date or ERCOT has approved, or expects to approve, the capacity for grid synchronization by the start of season s for year i.  For wind resources classified as small generators in accordance with paragraph (3) of Planning Guide Section 5.2.1, capacity is considered operational once a Model Ready Date has been assigned to the resource.
+SOLARELCC p, s, i, sr	%	Effective Load Carrying Capability for Solar—The average ELCC for Reserve Risk Period p, season s, year i, and region sr, expressed as a percentage.
+SOLARCAP p, s, i, sr	MW	Available PVGR and Small Generator Capacity—The amount of PVGR capacity that is currently operational for Reserve Risk Period p, season s, year i, and region sr, multiplied by SOLARELCC p, s, i, sr.  Capacity is considered operational if it has an ERCOT Resource Commissioning Date or ERCOT has approved, or expects to approve, the capacity for grid synchronization by the start of season s for year i.  For solar resources classified as small generators in accordance with paragraph (3) of Planning Guide Section 5.2.1, capacity is considered operational once a Model Ready Date has been assigned to the resource.
+ESRELCC p, s, i	%	Effective Load Carrying Capability for Energy Storage Resources—The average ELCC for Reserve Risk Period p, season s, and year i, expressed as a percentage.
+ESRCAP p, s, i	%	Available Energy Storage Resource Capacity—The amount of ESR capacity by Reserve Risk Period p, season s, and year i that is currently operational, multiplied by ESRELCC p, r, s, i.  Capacity is considered operational if it has an ERCOT Resource Commissioning Date or ERCOT has approved, or expects to approve, the capacity for grid synchronization by the start of season s for year i.  For ESRs classified as small generators in accordance with paragraph (3) of Planning Guide Section 5.2.1, capacity is considered operational once a Model Ready Date has been assigned to the resource.
+RMRCAP s, i	MW	Seasonal Net Max Sustainable Rating for Generation Resource providing RMR Service—The Seasonal net maximum sustainable rating for season s as reported in the RIOO system for each Generation Resource providing RMR Service for the year i until the approved exit strategy for the RMR Resource is expected to be completed.  
+DCTIEPEAKPCT s	%	Seasonal Net Import Capacity for existing DC Tie Resources as a Percent of Installed DC Tie Capacity—The average net emergency DC Tie imports for season s, divided by the total installed DC Tie capacity for season s, expressed as a percentage.  The average net emergency DC Tie imports is calculated for the SCED intervals during which ERCOT declared an Energy Emergency Alert (EEA).  This calculation is limited to the most recent Seasons in which an EEA was declared.  For the spring and fall seasons ERCOT will use the winter and summer values, respectively, if no EEA events have occurred for these seasons.  The total installed DC Tie capacity is the capacity amount at the start of the Seasons used for calculating the net DC Tie imports.
+DCTIECAP s	MW	Expected Existing DC Tie Capacity Available under Emergency Conditions—DCTIEPEAKPCT s multiplied by the installed DC Tie capacity available for season s, adjusted for any known capacity transfer limitations.
+PLANDCTIECAP s	MW	Expected Planned DC Tie Capacity Available under Emergency Conditions—DCTIEPEAKPCT s multiplied by the maximum peak import capacity of planned DC Tie projects included in the most recent Steady State Working Group (SSWG) base cases, for season s.  The import capacity may be adjusted to reflect known capacity transfer limitations indicated by transmission studies.
+SWITCHCAP s, i	MW	Seasonal Net Max Sustainable Rating for Switchable Generation Resources—The Seasonal net maximum sustainable rating for season s as reported in the RIOO system for each Generation Resource for year i that can electrically connect (i.e., “switch”) from the ERCOT Region to another power region.
+MOTHCAP s, i	MW	Seasonal Net Max Sustainable Rating for Mothballed Generation Resource—The Seasonal net maximum sustainable rating for season s as reported in the RIOO system for each Mothballed Generation Resource for year i based on the lead time and probability information furnished by the owners of Mothballed Generation Resources pursuant to Section 3.14.1.9, Generation Resource Status Updates.  If the value furnished by the owner of a Mothballed Generation Resource pursuant to Section 3.14.1.9 is greater than or equal to 75%, then use the Seasonal net maximum sustainable rating for season s as reported in the RIOO system for the Mothballed Generation Resource for year i.  If the value furnished by the owner of a Mothballed Generation Resource pursuant to Section 3.14.1.9 is less than 75%, then exclude that Resource from the Total Capacity Estimate.
+PLANTHERMCAP s, i	MW	New Thermal Generating Capacity—The amount of new thermal generating capacity available by the start of season s and year i that: (a) has a Texas Commission on Environmental Quality (TCEQ)-approved air permit, (b) has a federal Greenhouse Gas permit, if required, (c) has obtained water rights, contracts or groundwater supplies sufficient for the generation of electricity at the Resource, (d) has a signed Standard Generation Interconnection Agreement (SGIA), or a public, financially-binding agreement between the Resource owner and TSP under which generation interconnection facilities would be constructed; or for a Municipally Owned Utility (MOU) or Electric Cooperative (EC), a public commitment letter to construct a new Resource, (e) a written notice from the TSP that the Interconnecting Entity (IE) has provided notice to proceed with the construction of the interconnection, and (f) provided the TSP with sufficient financial security to fund the interconnection facilities.  New, Thermal generating capacity is excluded if the GIM project status in the RIOO interconnection services system is set to “Cancelled” or “Inactive” or if the Resource was previously mothballed or retired and does not have an owner that intends to operate it.  For the purposes of this section, ownership of a mothballed or retired Resource for which a new generation interconnection is sought can only be satisfied by proof of site control as described in paragraph (1)(a), (b), or (d) of Planning Guide Section 5.3.2.1, Proof of Site Control.  Thermal resources classified as small generators in accordance with paragraph (3) of Planning Guide Section 5.2.1 must have an ERCOT-assigned Model Ready Date.
+PLANWINDCAP p, s, i, wr		New WGR Capacity—For new WGRs, the capacity available by the start of season s, Reserve Risk Period p, year i, and region wr, multiplied by WINDELCC for season s for Reserve Risk Period p, year i, and Region wr.  New WGRs must have (1) an SGIA or other public, financially binding agreement between the Resource owner and TSP under which generation interconnection facilities would be constructed or, for a MOU or EC, a public commitment letter to construct a new WGR, (2) a written notice from the TSP that the IE has provided notice to proceed with the construction of the interconnection, and (3) provided the TSP with sufficient financial security to fund the interconnection facilities.  Wind resources classified as small generators in accordance with paragraph (3) of Planning Guide Section 5.2.1 must have an ERCOT-assigned Model Ready Date.
+PLANSOLARCAP p, s, i, sr		New PVGR Capacity—For new PVGRs, the capacity available by the start of season s for Reserve Risk Period p, year i, and region sr, multiplied by SOLARELCC p, s, i, sr.  New PVGRs must have (1) an SGIA or other public, financially binding agreement between the Resource owner and TSP under which generation interconnection facilities would be constructed or, for a MOU or EC, a public commitment letter to construct a new WGR, (2) a written notice from the TSP that the IE has provided notice to proceed with the construction of the interconnection, and (3) provided the TSP with sufficient financial security to fund the interconnection facilities.  Solar resources classified as small generators in accordance with paragraph (3) of Planning Guide Section 5.2.1 must have an ERCOT-assigned Model Ready Date.
+PLANESRCAP p, s, i	MW	Available Energy Storage Resource Capacity—The amount of ESR capacity that ERCOT has approved, or expects to approve, for grid synchronization by the start of season s for Reserve Risk Period p and year i, multiplied by ERSELCC p, s, i.
+LTOUTAGE s, i	MW	Forced Outage Capacity Reported in a Notification of Suspension of Operations—For Generation Resources whose operation has been suspended due to a Forced Outage as reported in a Notification of Suspension of Operations (NSO), the sum of Seasonal net maximum sustainable ratings for season s and year i, as reported in the NSO forms.  For Inverter-Based Resources (IBRs) use WINDCAP, SOLARCAP, and ESRCAP rather than ratings reported in NSOs.
+UNSWITCH s, i 	MW	Capacity of Unavailable Switchable Generation Resource—The amount of capacity reported by the owners of a switchable Generation Resource that will be unavailable to ERCOT during season s and year i pursuant to paragraph (2) of Section 16.5.4, Maintaining and Updating Resource Entity Information.
+RETCAPNSO s, i	MW	Capacity Pending Retirement—The amount of capacity in season s of year i that is pending retirement based on information submitted on an NSO form (Section 22, Attachment E, Notification of Suspension of Operations) pursuant to Section 3.14.1.11, Budgeting Eligible Costs, but is under review by ERCOT pursuant to Section 3.14.1.2, ERCOT Evaluation Process, that has not otherwise been considered in any of the above defined categories.  For Generation Resources and SOGs within Private Use Networks, the retired capacity amount is deducted from PUNCAP.  
+RETCAPUNC s, i	MW	Unconfirmed Planned Retirements—The capacity of Generation Resources for which a public announcement of the intent to permanently shut the unit down has been released, but a Notice of Suspension of Operations for the unit has not been received by ERCOT.  To be considered an Unconfirmed Planned Retirement, the Generation Resource must meet the following criteria: (1) a specific retirement date is cited in the announcement, or other timing information is given that indicates the unit will be unavailable as of the start of season s for year i, and (2) the announcement, with follow-up inquiry by ERCOT, does not indicate that retirement timing is highly speculative.
+p	None	Reserve Risk Period.  The range of consecutive hours having the highest risk of operating reserve shortages for each season as determined by an ELCC study per Section 3.2.6.2, Effective Load Carrying Capability (ELCC) Studies.
+h	None	The forecasted peak Load hour and forecasted peak Net Load hour.
+i	None	Year.
+s	None	Season. 
+Spring (March through May)
+Summer (June through September)
+Fall (October through November)
+Winter (December through February)
+sr	None	West, Far West, and Other solar regions.  PVGRs are classified into regions based on the county that contains their Point of Interconnection Bus (POIB). 
+The West region is defined as the following counties: Archer, Armstrong, Bailey, Baylor, Borden, Briscoe, Callahan, Carson, Castro, Childress, Clay, Cochran, Coke, Coleman, Collingsworth, Concho, Cottle, Crockett, Crosby, Dallam, Dawson, Deaf Smith, Dickens, Donley, Fisher, Floyd, Foard, Garza, Glasscock, Gray, Hale, Hall, Hansford, Hardeman, Hartley, Haskell, Hockley, Howard, Hutchinson, Irion, Jones, Kent, King, Knox, Lamb, Lipscomb, Lubbock, Lynn, Martin, Menard, Mitchell, Moore, Motley, Nolan, Ochiltree, Oldham, Parmer, Potter, Randall, Reagan, Roberts, Runnels, Schleicher, Scurry, Shackelford, Sherman, Sterling, Stonewall, Sutton, Swisher, Taylor, Terry, Throckmorton, Tom Green, Val Verde, Wheeler, Wichita.
+The Far West region is defined as the following counties: Andrews, Brewster, Crane, Culberson, Ector, El Paso, Gaines, Hudspeth, Jeff Davis, Loving, Midland, Pecos, Presidio, Reeves, Terrell, Upton, Ward, Winkler, Yoakum. 
+The Other solar region consists of all other counties in the ERCOT Region.
+wr	None	Coastal, Panhandle, and Other wind regions.  WGRs are classified into regions based on the county that contains their POIB.  
+The Coastal region is defined as the following counties: Aransas, Brazoria, Calhoun, Cameron, Kenedy, Kleberg, Matagorda, Nueces, Refugio, San Patricio, and Willacy.  
+The Panhandle region is defined as the following counties: Armstrong, Bailey, Briscoe, Carson, Castro, Childress, Cochran, Collingsworth, Crosby, Dallam, Deaf Smith, Dickens, Donley, Floyd, Gray, Hale, Hall, Hansford, Hartley, Hemphill, Hockley, Hutchinson, Lamb, Lipscomb, Lubbock, Moore, Motley, Ochiltree, Oldham, Parmer, Potter, Randall, Roberts, Sherman, Swisher, and Wheeler.
+The Other region consists of all other counties in the ERCOT Region.
+3.3	Management of Changes to ERCOT Transmission Grid
+(1)	Additions and changes to the ERCOT System must be coordinated with ERCOT to accurately represent the ERCOT Transmission Grid.
+3.3.1	ERCOT Approval of New or Relocated Facilities
+(1)	Before energizing and placing into service any new or relocated facility connected to the ERCOT Transmission Grid, a Transmission Service Provider (TSP), Qualified Scheduling Entity (QSE), or Resource Entity shall enter appropriate information in the Outage Scheduler and coordinate with, and receive written notice of approval from, ERCOT.
+[NPRR857:  Replace paragraph (1) above with the following upon system implementation and satisfying the following conditions: (1) Southern Cross provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a TSP and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities:]
+(1)	Before energizing and placing into service any new or relocated facility connected to the ERCOT Transmission Grid, a Transmission Service Provider (TSP), Direct Current Tie Operator (DCTO), Qualified Scheduling Entity (QSE), or Resource Entity shall enter appropriate information in the Outage Scheduler and coordinate with, and receive written notice of approval from, ERCOT.
+3.3.2	Types of Work Requiring ERCOT Approval 
+(1)	Each TSP, QSE and Resource Entity shall coordinate with ERCOT the requirements of Section 3.10, Network Operations Modeling and Telemetry, the following types of work for any addition to, replacement of, or change to or removal from the ERCOT Transmission Grid:
+[NPRR857:  Replace paragraph (1) above with the following upon system implementation and satisfying the following conditions: (1) Southern Cross provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a TSP and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities:]
+(1)	Each TSP, DCTO, QSE, and Resource Entity shall coordinate with ERCOT the requirements of Section 3.10, Network Operations Modeling and Telemetry, the following types of work for any addition to, replacement of, or change to or removal from the ERCOT Transmission Grid:
+(a)	Transmission lines;
+(b)	Equipment including circuit breakers, transformers, disconnects, and reactive devices;
+(c)	Resource interconnections; and
+(d)	Protection and control schemes, including changes to Remedial Action Plans (RAPs), Supervisory Control and Data Acquisition (SCADA) systems, Energy Management Systems (EMSs), Automatic Generation Control (AGC), Remedial Action Schemes (RASs), or Automatic Mitigation Plans (AMPs).
+3.3.2.1	Information to Be Provided to ERCOT
+(1)	The energization or removal of a Transmission Facility or Generation Resource in the Network Operations Model requires an entry into the Outage Scheduler by a TSP or Resource Entity.  For TSP requests, the TSPs shall enter such requests in the Outage Scheduler.  For Resource Entity requests, the Resource Entity shall enter such requests in the Outage Scheduler.  If any changes in system topology or telemetry are expected, then the TSP or Resource Entity shall notify ERCOT in accordance with the schedule in Section 3.3.1, ERCOT Approval of New or Relocated Facilities.  Information submitted pursuant to this subsection for Transmission Facilities within a Private Use Network shall not be publicly posted. 
+[NPRR857 and NPRR1014:  Replace applicable portions of paragraph (1) above with the following upon system implementation and satisfying the following conditions: (1) Southern Cross provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a TSP and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities for NPRR857; and upon system implementation for NPRR1014:]
+(1)	The energization or removal of a Transmission Facility, Generation Resource, or Energy Storage Resource (ESR) in the Network Operations Model requires an entry into the Outage Scheduler by a TSP, DCTO, or Resource Entity.  For any TSP or DCTO request, the TSP or DCTO shall enter the request in the Outage Scheduler.  For any Resource Entity request, the Resource Entity shall enter the request in the Outage Scheduler.  If any changes in system topology or telemetry are expected, then the TSP, DCTO, or Resource Entity shall notify ERCOT in accordance with the schedule in Section 3.3.1, ERCOT Approval of New or Relocated Facilities.  Information submitted pursuant to this subsection for Transmission Facilities within a Private Use Network shall not be publicly posted. 
+(2)	If a Resource Entity within a Private Use Network is adding or removing a Transmission Facility at the Point of Interconnection (POI), it shall inform and determine with ERCOT whether any corresponding Network Operations Model updates are necessary.  If ERCOT and the Resource Entity determine that updates are needed, the process set forth in paragraph (1) above shall be used to incorporate the update into the Network Operations Model.  Information submitted pursuant to paragraph (1) above shall not be publicly posted. 
+(3)	TSPs and Resource Entities shall submit any changes in system topology or telemetry in accordance with the Network Operations Model Change Request (NOMCR) process or other ERCOT-prescribed process applicable to Resource Entities and according to the requirements of Section 3.10.1, Time Line for Network Operations Model Changes.  The submittal shall include the following: 
+(a)	Proposed energize date;
+(b)	TSPs or Resource Entities performing work;
+(c)	TSPs or Resource Entities responsible for rating affected Transmission Element(s);
+(d)	For Resource Entities, data and information required by Section 16.5, Registration of a Resource Entity;
+(e)	Station identification code;
+(f)	Identification of existing Transmission Facilities involved and new Transmission Facilities (if any) being added or existing Transmission Facilities being permanently removed from service;
+(g)	Ratings of existing Transmission Facilities involved and new Transmission Facilities (if any) being added;
+(h)	Outages required (clearly identify each Outage if multiple Outages are required), including sequence of Outage and estimate of Outage duration;
+(i)	General statement of work to be completed with intermediate progress dates and events identified;
+(j)	SCADA modification work, including descriptions of the telemetry points or changes to existing telemetry, providing information on equipment being installed, changed, or monitored;
+(k)	Additional data determined by ERCOT and TSPs, or Resource Entities as needed to complete the ERCOT model representation of existing Transmission Facilities involved and new Transmission Facilities (if any) being added;
+(l)	Statement of completion, including:
+(i)	Statement to be made at the completion of each intermediate stage of project; and
+(ii)	Statement to be made at completion of total project.
+(m)	Drawings, including:
+(i)	Existing status;
+(ii)	Each intermediate stage; and
+(iii)	Proposed final configuration.
+[NPRR857:  Replace paragraph (3) above with the following upon system implementation and satisfying the following conditions: (1) Southern Cross provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a TSP and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities:]
+(3)	Each TSP, DCTO, and Resource Entity shall submit any changes in system topology or telemetry in accordance with the Network Operations Model Change Request (NOMCR) process or other ERCOT-prescribed process applicable to Resource Entities and according to the requirements of Section 3.10.1, Time Line for Network Operations Model Changes.  The submittal shall include the following: 
+(a)	Proposed energize date;
+(b)	TSPs, DCTOs, or Resource Entities performing work;
+(c)	TSPs, DCTOs, or Resource Entities responsible for rating affected Transmission Element(s);
+(d)	For Resource Entities, data and information required by Section 16.5, Registration of a Resource Entity;
+(e)	Station identification code;
+(f)	Identification of existing Transmission Facilities involved and new Transmission Facilities (if any) being added or existing Transmission Facilities being permanently removed from service;
+(g)	Ratings of existing Transmission Facilities involved and new Transmission Facilities (if any) being added;
+(h)	Outages required (clearly identify each Outage if multiple Outages are required), including sequence of Outage and estimate of Outage duration;
+(i)	General statement of work to be completed with intermediate progress dates and events identified;
+(j)	SCADA modification work, including descriptions of the telemetry points or changes to existing telemetry, providing information on equipment being installed, changed, or monitored;
+(k)	Additional data determined by ERCOT, TSPs, DCTOs, or Resource Entities as needed to complete the ERCOT model representation of existing Transmission Facilities involved and new Transmission Facilities (if any) being added;
+(l)	Statement of completion, including:
+(i)	Statement to be made at the completion of each intermediate stage of project; and
+(ii)	Statement to be made at completion of total project.
+(m)	Drawings, including:
+(i)	Existing status;
+(ii)	Each intermediate stage; and
+(iii)	Proposed final configuration.
+3.3.2.2	Record of Approved Work
+(1)	ERCOT shall maintain a record of all work approved in accordance with Section 3.3, Management of Changes to ERCOT Transmission Grid, and shall publish, and update monthly, information on the MIS Secure Area regarding each new Transmission Element to be installed on the ERCOT Transmission Grid. 
+3.4	Load Zones 
+(1)	ERCOT shall assign every power flow bus to a Load Zone for Day-Ahead Market (DAM) and Congestion Revenue Right (CRR) Settlement purposes.  ERCOT shall calculate a Settlement Point Price for each Load Zone using the Load-weighted aggregated Shift Factors of the applicable energized power flow buses for each constraint.  The Load-weighting must be determined using the Load distribution factors.
+(2)	ERCOT shall assign every Electrical Bus to a Load Zone for Real-Time Market (RTM) Settlement purposes.  ERCOT shall calculate a Settlement Point Price for each Load Zone as the Load-weighted average of the Locational Marginal Prices (LMPs) at all Electrical Buses assigned to that Load Zone.  The Load-weighting must be determined using the Load, if any, from the State Estimator at each Electrical Bus.
+3.4.1	Load Zone Types 
+(1)	The Load Zone types are:
+(a)	The Competitive Load Zones;  
+(b)	The Non-Opt-In Entity (NOIE) Load Zones created pursuant to Section 3.4.3, NOIE Load Zones; and 
+(c)	The Direct Current Tie (DC Tie) Load Zones as defined in Section 3.4.4, DC Tie Load Zones. 
+(2)	The Competitive Load Zones are the four zones in effect during the 2003 ERCOT market unless they are changed pursuant to Section 3.4.2, Load Zone Modifications, less any Electrical Buses that are assigned to a NOIE Load Zone or a DC Tie Load Zone.
+3.4.2	Load Zone Modifications
+(1)	Competitive Load Zones and NOIE Load Zones may be added, deleted, or changed, only when approved by the ERCOT Board, with the exception of paragraph (1)(c) of Section 3.4.3, NOIE Load Zones.  Approved additions, deletions, or changes go into effect 48 months after the end of the month in which the addition, deletion, or change was approved, with the exception of paragraph (3) below.  DC Tie Load Zones are not subject to these requirements.
+(2)       The addition of Load that is new to the ERCOT System to an existing Load Zone does not constitute a change to a Load Zone under this section.  This provision includes the transfer of existing Load from a non-ERCOT Control Area into a Load Zone in the ERCOT System.  Adding Load that is new to the ERCOT System to an existing Load Zone does not require ERCOT Board approval, and no notice period is required prior to adding such Load to an existing Load Zone.
+(3)	A NOIE that was included in the establishment of an automatic pre-assigned NOIE Load Zone under paragraph (1)(c) of Section 3.4.3 may elect to be assigned to an appropriate Competitive Load Zone after giving notice of termination of its power supply arrangement if a request to be assigned to a Competitive Load Zone was given to ERCOT at least 90 days prior to the start of the Pre-Assigned Congestion Revenue Right (PCRR) nomination window for the effective year of the Load Zone change.  The move to a Competitive Load Zone requires ERCOT Board approval and shall be effective no sooner than the first day of the PCRR Nomination Year.  
+3.4.3	NOIE Load Zones
+(1)	The descriptions and conditions set forth below apply to Load Zones established by NOIEs:
+(a)	There are four NOIE Load Zones that were approved prior to the Texas Nodal Market Implementation Date: Austin Energy, City Public Service, Rayburn Country Electric Cooperative, and Lower Colorado River Authority (LCRA); 
+(b)	Any costs allocated based upon a zonal Load Ratio Share (LRS) must be allocated using “Cost-Allocation Load Zones,” which are the four Load Zones in effect during the 2003 ERCOT market unless they are changed pursuant to Section 3.4.2, Load Zone Modifications.  For these allocation purposes, any NOIE Load Zone is considered to be located entirely within the 2003 ERCOT Congestion Management Zone (CMZ) that represented the largest Load for that NOIE or group of NOIEs in 2003;
+(c)	A separate NOIE Load Zone is made up of a group of NOIEs that are parties to the same pre-1999 power supply arrangements and that had an overall 2003 peak Load in excess of 2,300 MW.  A NOIE that is a member of this separate NOIE Load Zone and that has given notice of termination of its pre-1999 power supply arrangement may elect to be assigned to an appropriate Competitive Load Zone.  Such an election shall be subject to the approval process in Section 3.4.2;
+(d)	NOIEs may participate in only one NOIE Load Zone, and all Loads served by that NOIE must be contained within that Load Zone;
+(e)	Except as specified otherwise in this subsection, Load Zones established by NOIEs will be treated the same as other Load Zones, including a 48-month notice requirement for ERCOT Board approval of any changes to Load Zones.  However, the addition of Load that is new to the ERCOT System, including the transfer of existing Load from a non-ERCOT Control Area, into an existing NOIE Load Zone is not a change to a Load Zone under these Protocols; and
+(f)	Four years after a NOIE offers its Customers retail choice, the NOIE’s Load must be merged into the appropriate Competitive Load Zone(s).  For a Load Zone that is an aggregation of NOIE systems of which less than all of the NOIEs opt into Customer Choice, each remaining NOIE in that NOIE Load Zone may choose to have its Load merged into the appropriate Competitive Load Zone(s) under the same four-year time frame.
+3.4.4	DC Tie Load Zones
+(1)	A DC Tie Load Zone contains only the Electrical Bus in the ERCOT Transmission Grid that connects the DC Tie and is used in the settlement of the DC Tie Load in that zone.  
+3.4.5	Additional Load Buses
+(1)	ERCOT shall assign new Electrical Buses to a Load Zone and Cost Allocation Zone in accordance with the following rules; changes are effective immediately:
+(a)	For each new Electrical Bus serving Load of a NOIE that is a part of a NOIE Load Zone, the new Electrical Bus will be assigned to that NOIE Load Zone;
+(b)	For each new Electrical Bus not covered in paragraph (a) above, connected via Transmission Facilities to Electrical Buses all located within the same Competitive Load Zone, the new Electrical Bus will be assigned to that Competitive Load Zone; 
+(c)	For each new Electrical Bus not covered in paragraphs (a) or (b) above, ERCOT shall simulate LMPs for the annual peak hour of the system with the new Electrical Bus incorporated into the model.  ERCOT shall assign that new Electrical Bus to the Competitive Load Zone with the closest matching zonal Settlement Point Price to the new Electrical Bus's LMP; 
+(d)	For each new Electrical Bus covered in paragraph (a) above and connected via Transmission Facilities to Electrical Buses all located within the same Cost Allocation Zone, then the new Electrical Bus will be assigned to that Cost Allocation Zone;
+(e)	For each new Electrical Bus covered in paragraph (a) above and not covered in paragraph (d) above, ERCOT shall simulate LMPs for the annual peak hour of the system with the new Electrical Bus incorporated into the model.  ERCOT shall assign each new Electrical Bus associated with a NOIE that is a part of a NOIE Load Zone to the Cost Allocation Zone with the closest matching zonal Settlement Point Price to the new Electrical Bus's LMP.
+(f)	For each new Electrical Bus not covered in paragraph (a), the new Electrical Bus is assigned to the same Cost Allocation Zone as its designated Load Zone;   
+3.5	Hubs
+3.5.1	Process for Defining Hubs
+(1)	Hubs settled through ERCOT may only be created by an amendment to Section 3.5.2, Hub Definitions.  Hubs are made up of one or more Electrical Buses.  ERCOT shall post the list of Electrical Buses (including their names) that are part of a Hub on the ERCOT website.  A Hub, once defined, may not be modified except as explicitly described in the definition of that Hub. 
+(2)	When any Electrical Bus within a Hub Bus is added to the Network Operations Model or the Congestion Revenue Right (CRR) Network Model through changes to the Network Operations Model or CRR Network Model, ERCOT shall provide notice to all Market Participants as soon as practicable and include that Electrical Bus in the Hub Bus price calculation.
+(3)	When any Electrical Bus within a Hub Bus is disconnected from the Network Operations Model or the CRR Network Model through operations changes in transmission topology temporarily, ERCOT shall provide notice to all Market Participants as soon as practicable and exclude that Electrical Bus from the Hub Bus price calculation.
+(4)	In the event of a permanent change that removes the Hub Bus from the ERCOT Transmission Grid, ERCOT shall file a Nodal Protocol Revision Request (NPRR) to revise the appropriate Hub definition.  
+(5)	If a Transmission Service Provider (TSP) or ERCOT plans a nomenclature change in the Network Operations Model or the CRR Network Model, ERCOT shall file a NPRR to include the nomenclature change in the Hub Bus definitions before implementing the name change to either the Network Operations Model or the CRR Network Model.
+[NPRR857:  Replace paragraph (5) above with the following upon system implementation and satisfying the following conditions: (1) Southern Cross provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a TSP and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities:]
+(5)	If a Transmission Service Provider (TSP), Direct Current Tie Operator (DCTO), or ERCOT plans a nomenclature change in the Network Operations Model or the CRR Network Model, ERCOT shall file a NPRR to include the nomenclature change in the Hub Bus definitions before implementing the name change to either the Network Operations Model or the CRR Network Model.
+3.5.2	Hub Definitions
+3.5.2.1	North 345 kV Hub (North 345)
+(1)	The North 345 kV Hub is composed of the following Hub Buses:
+	ERCOT Operations	
+No.	Hub Bus	kV	Hub
+1	ANASW	345	NORTH
+2	CN345	345	NORTH
+3	WLSH	345	NORTH
+4	FMRVL	345	NORTH
+5	LPCCS	345	NORTH
+6	MNSES	345	NORTH
+7	PRSSW	345	NORTH
+8	SSPSW	345	NORTH
+9	VLSES	345	NORTH
+10	ALNSW	345	NORTH
+11	ALLNC	345	NORTH
+12	BNDVS	345	NORTH
+13	BNBSW	345	NORTH
+14	BBSES	345	NORTH
+15	BOSQUESW	345	NORTH
+16	CDHSW	345	NORTH
+17	CNTRY	345	NORTH
+18	CRLNW	345	NORTH
+19	CMNSW	345	NORTH
+20	CNRSW	345	NORTH
+21	CRTLD	345	NORTH
+22	DCSES	345	NORTH
+23	EMSES	345	NORTH
+24	ELKTN	345	NORTH
+25	ELMOT	345	NORTH
+26	EVRSW	345	NORTH
+27	KWASS	345	NORTH
+28	FGRSW	345	NORTH
+29	FORSW	345	NORTH
+30	FRNYPP	345	NORTH
+31	GIBCRK	345	NORTH
+32	HKBRY	345	NORTH
+33	VLYRN	345	NORTH
+34	JEWET	345	NORTH
+35	KNEDL	345	NORTH
+36	KLNSW	345	NORTH
+37	LCSES	345	NORTH
+38	LIGSW	345	NORTH
+39	LEG 	345	NORTH
+40	LFKSW	345	NORTH
+41	LWSSW	345	NORTH
+42	MLSES	345	NORTH
+43	MCCREE	345	NORTH
+44	MDANP	345	NORTH
+45	ENTPR	345	NORTH
+46	NCDSE	345	NORTH
+47	NORSW	345	NORTH
+48	NUCOR	345	NORTH
+49	PKRSW	345	NORTH
+50	KMCHI	345	NORTH
+51	PTENN	345	NORTH
+52	RENSW	345	NORTH
+53	RCHBR	345	NORTH
+54	RNKSW	345	NORTH
+55	RKCRK	345	NORTH
+56	RYSSW	345	NORTH
+57	SGVSW	345	NORTH
+58	SHBSW	345	NORTH
+59	SHRSW	345	NORTH
+60	SCSES	345	NORTH
+61	SYCRK	345	NORTH
+62	THSES	345	NORTH
+63	TMPSW	345	NORTH
+64	TNP_ONE	345	NORTH
+65	TRCNR	345	NORTH
+66	TRSES	345	NORTH
+67	TOKSW	345	NORTH
+68	VENSW	345	NORTH
+69	WLVEE	345	NORTH
+70	W_DENT	345	NORTH
+71	WTRML	345	NORTH
+72	WCSWS	345	NORTH
+73	WEBBS	345	NORTH
+74	WHTNY	345	NORTH
+75	WCPP	345	NORTH
+(2)	The North 345 kV Hub Price uses the aggregated Shift Factors of the Hub Buses for each hour of the Settlement Interval of the Day-Ahead Market (DAM) in the Day-Ahead and is the simple average of the time-weighted Hub Bus prices for each 15-minute Settlement Interval in Real-Time, for each Hub Bus included in this Hub.
+(3)	The Day-Ahead Settlement Point Price of the Hub for a given Operating Hour is calculated as follows: 
+DASPP North345 =	DASL – █(Σ@c)(DAHUBSF North345, c * DASP c), 
+		if HBBC North345≠0
+DASPP North345 =	DASPP ERCOT345Bus, if HBBC North345=0
+Where:
+DAHUBSF North345, c	=	█(Σ@hb)(HUBDF hb, North345, c * DAHBSF hb, North345, c)
+DAHBSF hb, North345, c	=	█(Σ@pb)(HBDF pb, hb, North345, c * DASF pb, hb, North345, c)
+HUBDF hb, North345, c	=	IF(HB North345, c=0, 0, 1 / HB North345, c)
+HBDF pb, hb, North345, c	=	IF(PB hb, North345, c=0, 0, 1 / PB hb, North345, c)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DASPP North345	$/MWh	Day-Ahead Settlement Point PriceThe DAM Settlement Point Price at the Hub, for the hour.
+DASL	$/MWh	Day-Ahead System LambdaThe DAM Shadow Price for the system power balance constraint for the hour.
+DASP c	$/MWh	Day-Ahead Shadow Price for a binding transmission constraintThe DAM Shadow Price for the constraint c for the hour.
+DAHUBSF North345,c	none	Day-Ahead Shift Factor of the Hub The DAM aggregated Shift Factor of a Hub for the constraint c for the hour. 
+DAHBSF hb,North345,c	none	Day-Ahead Shift Factor of the Hub BusThe DAM aggregated Shift Factor of a Hub Bus hb for the constraint c for the hour. 
+DASF pb,hb,North345,c	none	Day-Ahead Shift Factor of the power flow busThe DAM Shift Factor of a power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour. 
+HUBDF hb, North345,c	none	Hub Distribution Factor per Hub Bus in a constraintThe distribution factor of Hub Bus hb for the constraint c for the hour.  
+HBDF pb, hb, North345,c	none	Hub Bus Distribution Factor per power flow bus of Hub Bus in a constraintThe distribution factor of power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour.  
+pb	none	An energized power flow bus that is a component of a Hub Bus for the constraint c.
+PB hb, North345,c	none	The total number of energized power flow buses in Hub Bus hb for the constraint c.
+hb	none	A Hub Bus that is a component of the Hub with at least one energized power flow bus for the constraint c.
+HBBC North345	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus in base case.
+HB North345,c	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus for the constraint c.
+c	none	A DAM binding transmission constraint for the hour caused by either base case or a contingency.
+(4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP North345	=	Max [-$251, (RTRSVPOR + RTRDP + 
+		 (HUBDF hb, North345 * ( (RTHBP hb, North345, y * 
+		TLMP y) / ( TLMP y))))], if HB North345≠0
+RTSPP North345	=	RTSPP ERCOT345Bus, if HB North345=0
+Where:
+RTRSVPOR 		=	 (RNWF y * RTORPA y) 
+RTRDP                       =            (RNWF y * RTORDPA y)
+RNWF y		=	TLMP y /  TLMP y
+RTHBP hb, North345, y	=	 (HBDF b, hb, North345 * RTLMP b, hb, North345, y)
+HUBDF hb, North345	=	IF(HB North345=0, 0, 1 / HB North345)
+HBDF b, hb, North345	=	IF(B hb, North345=0, 0, 1 / B hb, North345)
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP North345	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub, for the 15-minute Settlement Interval.
+RTHBP hb, North345, y	$/MWh	Real-Time Hub Bus Price at Hub Bus per Security-Constrained Economic Dispatch (SCED) intervalThe Real-Time energy price at Hub Bus hb for the SCED interval y.
+RTRSVPOR	$/MWh	Real-Time Reserve Price for On-Line ReservesThe Real-Time Reserve Price for On-Line Reserves for the 15-minute Settlement Interval.
+RTORPA y	$/MWh	Real-Time On-Line Reserve Price Adder per intervalThe Real-Time price adder for On-Line Reserves for the SCED interval y.
+RTRDP	$/MWh	Real-Time On-Line Reliability Deployment PriceThe Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time On-Line Reliability Deployment Price Adder.  
+RTORDPA y	$/MWh	Real-Time On-Line Reliability Deployment Price AdderThe Real-Time price adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+RTLMP b, hb, North345, y	$/MWh	Real-Time Locational Marginal Price at Electrical Bus of Hub Bus per intervalThe Real-Time LMP at Electrical Bus b that is a component of Hub Bus hb, for the SCED interval y.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval
+HUBDF hb, North345	none	Hub Distribution Factor per Hub BusThe distribution factor of Hub Bus hb.  
+HBDF b, hb, North345	none	Hub Bus Distribution Factor per Electrical Bus of Hub BusThe distribution factor of Electrical Bus b that is a component of Hub Bus hb.  
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+b	none	An energized Electrical Bus that is a component of a Hub Bus.
+B hb, North345	none	The total number of energized Electrical Buses in Hub Bus hb.
+hb	none	A Hub Bus that is a component of the Hub.
+HB North345	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus.
+[NPRR1007 and NPRR1057:  Replace applicable portions of paragraph (4) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1007; or upon system implementation for NPRR1057:]
+(4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP North345	=	Max [-$251, (RTRDP + 
+		 (HUBLMP North345, y * RNWF y))]
+Where:
+RTRDP                       =            (RNWF y * RTRDPA y)
+RNWF y		=	TLMP y /  TLMP y
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP North345	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub, for the 15-minute Settlement Interval.
+RTRDP	$/MWh	Real-Time Reliability Deployment Price for Energy The Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time Reliability Deployment Price Adder for Energy.  
+RTRDPA y	$/MWh	Real-Time Reliability Deployment Price Adder for Energy The Real-Time Price Adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+HUBLMP North345, y	$/MWh	Hub Locational Marginal PriceThe Hub LMP for the Hub for the SCED Interval y.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+3.5.2.2	South 345 kV Hub (South 345)
+(1)	The South 345 kV Hub is composed of the following Hub Buses:
+	ERCOT Operations	
+No.	Hub Bus	kV	Hub
+1	AUSTRO	345	SOUTH
+2	BLESSING	345	SOUTH
+3	CAGNON	345	SOUTH
+4	COLETO	345	SOUTH
+5	CLEASP	345	SOUTH
+6	NEDIN	345	SOUTH
+7	FAYETT	345	SOUTH
+8	FPPYD1	345	SOUTH
+9	FPPYD2	345	SOUTH
+10	GARFIE	345	SOUTH
+11	GUADG	345	SOUTH
+12	HAYSEN	345	SOUTH
+13	HILLCTRY	345	SOUTH
+14	HOLMAN	345	SOUTH
+15	KENDAL	345	SOUTH
+16	LA_PALMA	345	SOUTH
+17	LON_HILL	345	SOUTH
+18	LOSTPI	345	SOUTH
+19	LYTTON_S	345	SOUTH
+20	MARION	345	SOUTH
+21	PAWNEE	345	SOUTH
+22	RIOHONDO	345	SOUTH
+23	RIONOG	345	SOUTH
+24	SALEM	345	SOUTH
+25	SANMIGL	345	SOUTH
+26	SKYLINE	345	SOUTH
+27	STP	345	SOUTH
+28	CALAVERS	345	SOUTH
+29	BRAUNIG	345	SOUTH
+30	WHITE_PT	345	SOUTH
+31	ZORN	345	SOUTH
+(2)	The South 345 kV Hub Price uses the aggregated Shift Factors of the Hub Buses for each hour of the Settlement Interval of the DAM in the Day-Ahead and is the simple average of the time-weighted Hub Bus prices for each 15-minute Settlement Interval in Real-Time, for each Hub Bus included in this Hub.
+(3)	The Day-Ahead Settlement Point Price of the Hub for a given Operating Hour is calculated as follows: 
+DASPP South345 =	DASL – █(Σ@c)(DAHUBSF South345, c * DASP c), 
+		if HBBC South345≠0
+DASPP South345 =		DASPP ERCOT345Bus, if HBBC South345=0
+Where:
+DAHUBSF South345, c	=	█(Σ@hb)(HUBDF hb, South345, c * DAHBSF hb, South345, c)
+DAHBSF hb, South345, c	=	█(Σ@pb)(HBDF pb, hb, South345, c * DASF pb, hb, South345, c)
+HUBDF hb, South345, c	=	IF(HB South345, c=0, 0, 1 / HB South345, c)
+HBDF pb, hb, South345, c	=	IF(PB hb, South345, c=0, 0, 1 / PB hb, South345, c)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DASPP South345	$/MWh	Day-Ahead Settlement Point PriceThe DAM Settlement Point Price at the Hub, for the hour.
+DASL	$/MWh	Day-Ahead System LambdaThe DAM Shadow Price for the system power balance constraint for the hour.
+DASP c	$/MWh	Day-Ahead Shadow Price for a binding transmission constraintThe DAM Shadow Price for the constraint c for the hour.
+DAHUBSF South345,c	none	Day-Ahead Shift Factor of the Hub The DAM aggregated Shift Factor of a Hub for the constraint c for the hour. 
+DAHBSF hb,South345,c	none	Day-Ahead Shift Factor of the Hub BusThe DAM aggregated Shift Factor of a Hub Bus hb for the constraint c for the hour. 
+DASF pb,hb,South345,c	none	Day-Ahead Shift Factor of the power flow busThe DAM Shift Factor of a power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour. 
+HUBDF hb, South345,c	none	Hub Distribution Factor per Hub Bus in a constraintThe distribution factor of Hub Bus hb for the constraint c for the hour.  
+HBDF pb, hb, South345,c	none	Hub Bus Distribution Factor per power flow bus of Hub Bus in a constraintThe distribution factor of power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour.  
+pb	none	An energized power flow bus that is a component of a Hub Bus for the constraint c.
+PB hb, South345,c	none	The total number of energized power flow buses in Hub Bus hb for the constraint c.
+hb	none	A Hub Bus that is a component of the Hub with at least one energized power flow bus for the constraint c.
+HBBC South345	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus in base case.
+HB South345,c	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus for the constraint c.
+c	none	A DAM binding transmission constraint for the hour caused by either base case or a contingency.
+(4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP South345	=	Max [-$251, (RTRSVPOR + RTRDP +
+		 (HUBDF hb, South345 * ( (RTHBP hb, South345, y * TLMP y) / ( TLMP y))))], if HB South345≠0
+RTSPP South345	=	RTSPP ERCOT345Bus, if HB South345=0
+Where:
+RTRSVPOR 		=	 (RNWF  y * RTORPA y)
+RTRDP                                =               (RNWFy  * RTORDPAy)
+RNWF y		=	TLMP y /  TLMP y 
+RTHBP hb, South345, y	=	 (HBDF b, hb, South345 * RTLMP b, hb, South345, y)
+HUBDF hb, South345	=	IF(HB South345=0, 0, 1 / HB South345)
+HBDF b, hb, South345	=	IF(B hb, South345=0, 0, 1 / B hb, South345)
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP South345	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub, for the 15-minute Settlement Interval.
+RTHBP hb, South345, y	$/MWh	Real-Time Hub Bus Price at Hub Bus per SCED intervalThe Real-Time energy price at Hub Bus hb for the SCED interval y.
+RTRSVPOR	$/MWh	Real-Time Reserve Price for On-Line ReservesThe Real-Time Reserve Price for On-Line Reserves for the 15-minute Settlement Interval.
+RTORPA y	$/MWh	Real-Time On-Line Reserve Price Adder per intervalThe Real-Time On-Line Reserve Price Adder for the SCED interval y.
+RTRDP	$/MWh	Real-Time On-Line Reliability Deployment Price-The Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time On-Line Reliability Deployment Price Adder.  
+RTORDPA y	$/MWh	Real-Time On-Line Reliability Deployment Price Adder –The Real-Time price adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+RTLMP b, hb, South345, y	$/MWh	Real-Time Locational Marginal Price at Electrical Bus of Hub Bus per intervalThe Real-Time LMP at Electrical Bus b that is a component of Hub Bus hb, for the SCED interval y.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval.
+HUBDF hb, South345	none	Hub Distribution Factor per Hub BusThe distribution factor of Hub Bus hb.  
+HBDF b, hb, South345	none	Hub Bus Distribution Factor per Electrical Bus of Hub BusThe distribution factor of Electrical Bus b that is a component of Hub Bus hb.  
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+b	none	An energized Electrical Bus that is a component of a Hub Bus.
+B hb, South345	none	The total number of energized Electrical Buses in Hub Bus hb.
+hb	none	A Hub Bus that is a component of the Hub.
+HB South345	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus.
+[NPRR1007 and NPRR1057:  Replace applicable portions of paragraph (4) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1007; or upon system implementation for NPRR1057:]
+(4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP South345	=	Max [-$251, (RTRDP +
+		 (HUBLMP South345, y * RNWF y))]
+Where:
+RTRDP                                =               ( RNWFy  * RTRDPAy)
+RNWF y		=	TLMP y /  TLMP y 
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP South345	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub, for the 15-minute Settlement Interval.
+RTRDP	$/MWh	Real-Time Reliability Deployment Price for EnergyThe Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time Reliability Deployment Price Adder for Energy.  
+RTRDPA y	$/MWh	Real-Time Reliability Deployment Price Adder for Energy –The Real-Time Price Adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+HUBLMP South345, y	$/MWh	Hub Locational Marginal PriceThe Hub LMP for the Hub for the SCED Interval y.
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval.
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+3.5.2.3	Houston 345 kV Hub (Houston 345)
+(1)	The Houston 345 kV Hub is composed of the following listed Hub Buses:
+	ERCOT Operations	
+No.	Hub Bus	kV	Hub
+1	ADK	345	HOUSTON
+2	BI	345	HOUSTON
+3	CBY	345	HOUSTON
+4	CTR	345	HOUSTON
+5	CHB	345	HOUSTON
+6	DPW	345	HOUSTON
+7	DOW	345	HOUSTON
+8	RNS	345	HOUSTON
+9	GBY	345	HOUSTON
+10	JN	345	HOUSTON
+11	KG	345	HOUSTON
+12	KDL	345	HOUSTON
+13	NB	345	HOUSTON
+14	OB	345	HOUSTON
+15	PHR	345	HOUSTON
+16	SDN	345	HOUSTON
+17	SMITHERS	345	HOUSTON
+18	THW	345	HOUSTON
+19	WAP	345	HOUSTON
+20	WO	345	HOUSTON
+(2)	The Houston 345 kV Hub Price uses the aggregated Shift Factors of the Hub Buses for each hour of the Settlement Interval of the DAM in the Day-Ahead and is the simple average of the time-weighted Hub Bus prices for each 15-minute Settlement Interval in Real-Time, for each Hub Bus included in this Hub.
+(3)	The Day-Ahead Settlement Point Price of the Hub for a given Operating Hour is calculated as follows: 
+DASPP Houston345 =	DASL – █(Σ@c)(DAHUBSF Houston345, c * DASP c), 
+		if HBBC Houston345≠0
+DASPP Houston345 =	DASPP ERCOT345Bus, if HBBC Houston345=0
+Where:
+DAHUBSF Houston345, c	=	█(Σ@hb)(HUBDF hb, Houston345, c * DAHBSF hb, Houston345, c)
+DAHBSF hb, Houston345, c	=	█(Σ@pb)(HBDF pb, hb, Houston345, c * DASF pb, hb, Houston345, c)
+HUBDF hb, Houston345, c	=	IF(HB Houston345, c=0, 0, 1 / HB Houston345, c)
+HBDF pb, hb, Houston345, c	=	IF(PB hb, Houston345, c=0, 0, 1 / PB hb, Houston345, c)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DASPP Houston345	$/MWh	Day-Ahead Settlement Point PriceThe DAM Settlement Point Price at the Hub, for the hour.
+DASL	$/MWh	Day-Ahead System LambdaThe DAM Shadow Price for the system power balance constraint for the hour.
+DASP c	$/MWh	Day-Ahead Shadow Price for a binding transmission constraintThe DAM Shadow Price for the constraint c for the hour.
+DAHUBSF Houston345,c	none	Day-Ahead Shift Factor of the Hub The DAM aggregated Shift Factor of a Hub for the constraint c for the hour. 
+DAHBSF hb,Houston345,c	none	Day-Ahead Shift Factor of the Hub BusThe DAM aggregated Shift Factor of a Hub Bus hb for the constraint c for the hour. 
+DASF pb,hb,Houston345,c	none	Day-Ahead Shift Factor of the power flow busThe DAM Shift Factor of a power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour. 
+HUBDF hb, Houston345,c	none	Hub Distribution Factor per Hub Bus in a constraintThe distribution factor of Hub Bus hb for the constraint c for the hour.  
+HBDF pb, hb, Houston345,c	none	Hub Bus Distribution Factor per power flow bus of Hub Bus in a constraintThe distribution factor of power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour.  
+pb	none	An energized power flow bus that is a component of a Hub Bus for the constraint c.
+PB hb, Houston345,c	none	The total number of energized power flow buses in Hub Bus hb for the constraint c.
+hb	none	A Hub Bus that is a component of the Hub with at least one energized power flow bus for the constraint c.
+HBBC Houston345	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus in base case.
+HB Houston345,c	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus for the constraint c.
+c	none	A DAM binding transmission constraint for the hour caused by either base case or a contingency.
+(4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP Houston345	   =	Max [-$251, (RTRSVPOR + RTRDP + 
+		 (HUBDF hb, Houston345 * ( (RTHBP hb, Houston345, y * 
+		TLMP y) / ( TLMP y))))], if HB Houston345≠0
+RTSPP Houston345   =	RTSPP ERCOT345Bus, if HB Houston345=0
+Where:
+RTRSVPOR 		=	 (RNWF y * RTORPA y)
+RTRDP                       		=            (RNWF y * RTORDPA y)
+RNWF y		=	TLMP y /  TLMP y
+RTHBP hb, Houston345, y	=	 (HBDF b, hb, Houston345 * RTLMP b, hb, Houston345, y)
+HUBDF hb, Houston345	=	IF(HB Houston345=0, 0, 1 / HB Houston345)
+HBDF b, hb, Houston345	=	IF(B hb, Houston345=0, 0, 1 / B hb, Houston345)
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP Houston345	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub, for the 15-minute Settlement Interval.
+RTHBP hb, Houston345, y	$/MWh	Real-Time Hub Bus Price at Hub Bus per SCED intervalThe Real-Time energy price at Hub Bus hb for the SCED interval y.
+RTRSVPOR	$/MWh	Real-Time Reserve Price for On-Line ReservesThe Real-Time Reserve Price for On-Line Reserves for the 15-minute Settlement Interval.
+RTORPA y	$/MWh	Real-Time On-Line Reserve Price Adder per intervalThe Real-Time On-Line Reserve Price Adder for the SCED interval y.
+RTRDP	$/MWh	Real-Time On-Line Reliability Deployment PriceThe Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time On-Line Reliability Deployment Price Adder.  
+RTORDPA y	$/MWh	Real-Time On-Line Reliability Deployment Price AdderThe Real-Time price adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+RTLMP b, hb, Houston345, y	$/MWh	Real-Time Locational Marginal Price at Electrical Bus of Hub Bus per intervalThe Real-Time LMP at Electrical Bus b that is a component of Hub Bus hb, for the SCED interval y.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval
+HUBDF hb, Houston345	none	Hub Distribution Factor per Hub BusThe distribution factor of Hub Bus hb.  
+HBDF b, hb, Houston345	none	Hub Bus Distribution Factor per Electrical Bus of Hub BusThe distribution factor of Electrical Bus b that is a component of Hub Bus hb.  
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+b	none	An energized Electrical Bus that is a component of a Hub Bus.
+B hb, Houston345	none	The total number of energized Electrical Buses in Hub Bus hb.
+hb	none	A Hub Bus that is a component of the Hub.
+HB Houston345	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus.
+[NPRR1007 and NPRR1057:  Replace applicable portions of paragraph (4) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1007; or upon system implementation for NPRR1057:]
+(4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP Houston345	   =	Max [-$251, (RTRDP + 
+		 (HUBLMP Houston345, y * RNWF y ))]
+Where:
+RTRDP                       		=            (RNWF y * RTRDPA y)
+RNWF y		=	TLMP y /  TLMP y
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP Houston345	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub, for the 15-minute Settlement Interval.
+RTRDP	$/MWh	Real-Time Reliability Deployment Price for Energy The Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time Reliability Deployment Price Adder for Energy.  
+RTRDPA y	$/MWh	Real-Time Reliability Deployment Price Adder for Energy The Real-Time Price Adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+HUBLMP Houston345, y	$/MWh	Hub Locational Marginal PriceThe Hub LMP for the Hub for the SCED Interval y.
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+3.5.2.4	West 345 kV Hub (West 345)
+(1)	The West 345 kV Hub is composed of the following listed Hub Buses:
+	ERCOT Operations	
+No.	Hub Bus	kV	Hub
+1	MULBERRY	345	WEST
+2	BOMSW	345	WEST
+3	OECCS	345	WEST
+4	BITTCR	345	WEST
+5	FSHSW	345	WEST
+6	FLCNS	345	WEST
+7	GRSES	345	WEST
+8	JCKSW	345	WEST
+9	MDLNE	345	WEST
+10	MOSSW	345	WEST
+11	MGSES	345	WEST
+12	DCTM	345	WEST
+13	ODEHV	345	WEST
+14	OKLA	345	WEST
+15	REDCREEK	345	WEST
+16	SWESW	345	WEST
+17	TWINBU	345	WEST
+(2)	The West 345 kV Hub Price uses the aggregated Shift Factors of the Hub Buses for each hour of the Settlement Interval of the DAM in the Day-Ahead and is the simple average of the time weighted Hub Bus prices for each 15-minute Settlement Interval in Real-Time, for each Hub Bus included in this Hub.
+(3)	The Day-Ahead Settlement Point Price of the Hub for a given Operating Hour is calculated as follows: 
+DASPP West345 =		DASL – █(Σ@c)(DAHUBSF West345, c * DASP c), 
+		if HBBC West345≠0
+DASPP West345 =		DASPP ERCOT345Bus, if HBBC West345=0
+Where:
+DAHUBSF West345, c	=	█(Σ@hb)(HUBDF hb, West345, c * DAHBSF hb, West345, c)
+DAHBSF hb, West345, c	=	█(Σ@pb)(HBDF pb, hb, West345, c * DASF pb, hb, West345, c)
+HUBDF hb, West345, c	=	IF(HB West345, c=0, 0, 1 / HB West345, c)
+HBDF pb, hb, West345, c	=	IF(PB hb, West345, c=0, 0, 1 / PB hb, West345, c)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DASPP West345	$/MWh	Day-Ahead Settlement Point PriceThe DAM Settlement Point Price at the Hub, for the hour.
+DASL	$/MWh	Day-Ahead System LambdaThe DAM Shadow Price for the system power balance constraint for the hour.
+DASP c	$/MWh	Day-Ahead Shadow Price for a binding transmission constraintThe DAM Shadow Price for the constraint c for the hour.
+DAHUBSF West345,c	none	Day-Ahead Shift Factor of the Hub The DAM aggregated Shift Factor of a Hub for the constraint c for the hour. 
+DAHBSF hb,West345,c	none	Day-Ahead Shift Factor of the Hub BusThe DAM aggregated Shift Factor of a Hub Bus hb for the constraint c for the hour. 
+DASF pb,hb,West345,c	none	Day-Ahead Shift Factor of the power flow busThe DAM Shift Factor of a power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour. 
+HUBDF hb, West345,c	none	Hub Distribution Factor per Hub Bus in a constraintThe distribution factor of Hub Bus hb for the constraint c for the hour.  
+HBDF pb, hb, West345,c	none	Hub Bus Distribution Factor per power flow bus of Hub Bus in a constraintThe distribution factor of power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour.  
+pb	none	An energized power flow bus that is a component of a Hub Bus for the constraint c.
+PB hb, West345,c	none	The total number of energized power flow buses in Hub Bus hb for the constraint c.
+hb	none	A Hub Bus that is a component of the Hub with at least one energized power flow bus for the constraint c.
+HBBC West345	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus in base case.
+HB West345,c	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus for the constraint c.
+c	none	A DAM binding transmission constraint for the hour caused by either base case or a contingency.
+ (4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP West345	=	Max [-$251, (RTRSVPOR + RTRDP + 
+		 (HUBDF hb, West345 * ( (RTHBP hb, West345, y * TLMP y) / ( TLMP y))))], if HB West345≠0
+RTSPP West345	=	RTSPP ERCOT345Bus, if HB West345=0
+Where:
+RTRSVPOR 		=	 (RNWF y * RTORPA y)
+RTRDP                      		=            (RNWF y * RTORDPA y)
+RNWF y		=	TLMP y /  TLMP y
+RTHBP hb, West345, y	=	 (HBDF b, hb, West345 * RTLMP b, hb, West345, y)
+HUBDF hb, West345	=	IF(HB West345=0, 0, 1 / HB West345)
+HBDF b, hb, West345	=	IF(B hb, West345=0, 0, 1 / B hb, West345)
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP West345	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub, for the 15-minute Settlement Interval.
+RTRSVPOR	$/MWh	Real-Time Reserve Price for On-Line ReservesThe Real-Time Reserve Price for On-Line Reserves for the 15-minute Settlement Interval.
+RTORPA y	$/MWh	Real-Time On-Line Reserve Price Adder per intervalThe Real-Time On-Line Reserve Price Adder for the SCED interval y.
+RTRDP	$/MWh	Real-Time On-Line Reliability Deployment PriceThe Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time On-Line Reliability Deployment Price Adder.  
+RTORDPA y	$/MWh	Real-Time On-Line Reliability Deployment Price AdderThe Real-Time price adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+RTHBP hb, West345, y	$/MWh	Real-Time Hub Bus Price at Hub Bus per SCED intervalThe Real-Time energy price at Hub Bus hb for the SCED interval y.
+RTLMP b, hb, West345, y	$/MWh	Real-Time Locational Marginal Price at Electrical Bus of Hub Bus per intervalThe Real-Time LMP at Electrical Bus b that is a component of Hub Bus hb, for the SCED interval y.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval.
+HUBDF hb, West345	none	Hub Distribution Factor per Hub BusThe distribution factor of Hub Bus hb.  
+HBDF b, hb, West345	none	Hub Bus Distribution Factor per Electrical Bus of Hub BusThe distribution factor of Electrical Bus b that is a component of Hub Bus hb.  
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+b	none	An energized Electrical Bus that is a component of a Hub Bus.
+B hb, West345	none	The total number of energized Electrical Buses in Hub Bus hb.
+hb	none	A Hub Bus that is a component of the Hub.
+HB West345	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus.
+[NPRR1007 and NPRR1057:  Replace applicable portions of paragraph (4) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1007; or upon system implementation of NPRR1057:]
+(4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP West345	=	Max [-$251, (RTRDP + 
+		 (HUBLMP West345, y * RNWF y))]
+Where:
+RTRDP                      		=            (RNWF y * RTRDPA y)
+RNWF y		=	TLMP y /  TLMP y
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP West345	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub, for the 15-minute Settlement Interval.
+RTRDP	$/MWh	Real-Time Reliability Deployment Price for EnergyThe Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time Reliability Deployment Price Adder for Energy.  
+RTRDPA y	$/MWh	Real-Time Reliability Deployment Price Adder for EnergyThe Real-Time Price Adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+HUBLMP West345, y	$/MWh	Hub Locational Marginal PriceThe Hub LMP for the Hub for the SCED Interval y.
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval.
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+3.5.2.5	Panhandle 345 kV Hub (Pan 345)
+(1)	The Panhandle 345 kV Hub is composed of the following listed Hub Buses:
+	ERCOT Operations	
+No.	Hub Bus	kV	Hub
+1	ABERNATH	345	PAN
+2	AJ_SWOPE	345	PAN
+3	ALIBATES	345	PAN
+4	CTT_CROS	345	PAN
+5	CTT_GRAY	345	PAN
+6	OGALLALA	345	PAN
+7	RAILHEAD	345	PAN
+8	TESLA	345	PAN
+9	TULECNYN	345	PAN
+10	W_CW_345	345	PAN
+11	WHIT_RVR	345	PAN
+12	WINDMILL	345	PAN
+(2)	The Panhandle 345 kV Hub Price uses the aggregated Shift Factors of the Hub Buses for each hour of the Settlement Interval of the DAM in the Day-Ahead and is the simple average of the time weighted Hub Bus prices for each 15-minute Settlement Interval in Real-Time, for each Hub Bus included in this Hub.
+(3)	The Day-Ahead Settlement Point Price of the Hub for a given Operating Hour is calculated as follows: 
+DASPP Pan345 =		DASL – █(Σ@c)(DAHUBSF Pan345, c * DASP c), 
+		if HBBC Pan345≠0
+DASPP Pan345 =		DASPP ERCOT345Bus, if HBBC Pan345=0
+Where:
+DAHUBSF Pan345, c	=	█(Σ@hb)(HUBDF hb, Pan345, c * DAHBSF hb, Pan345, c)
+DAHBSF hb, Pan345, c	=	█(Σ@pb)(HBDF pb, hb, Pan345, c * DASF pb, hb, Pan345, c)
+HUBDF hb, Pan345, c	=	IF(HB Pan345, c=0, 0, 1 / HB Pan345, c)
+HBDF pb, hb, Pan345, c	=	IF(PB hb, Pan345, c=0, 0, 1 / PB hb, Pan345, c)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DASPP Pan345	$/MWh	Day-Ahead Settlement Point PriceThe DAM Settlement Point Price at the Hub, for the hour.
+DASL	$/MWh	Day-Ahead System LambdaThe DAM Shadow Price for the system power balance constraint for the hour.
+DASP c	$/MWh	Day-Ahead Shadow Price for a binding transmission constraintThe DAM Shadow Price for the constraint c for the hour.
+DAHUBSF Pan345,c	none	Day-Ahead Shift Factor of the Hub The DAM aggregated Shift Factor of a Hub for the constraint c for the hour. 
+DAHBSF hb,Pan345,c	none	Day-Ahead Shift Factor of the Hub BusThe DAM aggregated Shift Factor of a Hub Bus hb for the constraint c for the hour. 
+DASF pb,hb,Pan345,c	none	Day-Ahead Shift Factor of the power flow busThe DAM Shift Factor of a power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour. 
+HUBDF hb, Pan345,c	none	Hub Distribution Factor per Hub Bus in a constraintThe distribution factor of Hub Bus hb for the constraint c for the hour.  
+HBDF pb, hb, Pan345,c	none	Hub Bus Distribution Factor per power flow bus of Hub Bus in a constraintThe distribution factor of power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour.  
+pb	none	An energized power flow bus that is a component of a Hub Bus for the constraint c.
+PB hb, Pan345,c	none	The total number of energized power flow buses in Hub Bus hb for the constraint c.
+hb	none	A Hub Bus that is a component of the Hub with at least one energized power flow bus for the constraint c.
+HBBC Pan345	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus in base case.
+HB Pan345,c	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus for the constraint c.
+c	none	A DAM binding transmission constraint for the hour caused by either base case or a contingency.
+(4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP Pan345	=	Max [-$251, (RTRSVPOR + RTRDP + 
+		  (HUBDF hb, Pan345 * ( (RTHBP hb, Pan345, y * TLMP y) /           (  TLMP y))))], if HB Pan345≠0
+RTSPP Pan345	=	RTSPP ERCOT345Bus, if HB Pan345=0
+Where:
+RTRSVPOR 	=	   (RNWF y * RTORPA y)
+RTRDP                      	=            (RNWF y  * RTORDPA y)
+RNWF y	=	TLMP y /  TLMP y
+RTHBP hb, Pan345, y	=	   (HBDF b, hb, Pan345 * RTLMP b, hb, Pan345, y)
+HUBDF hb, Pan345	=	IF(HB Pan345=0, 0, 1 / HB Pan345)
+HBDF b, hb, Pan345	=	IF(B hb, Pan345=0, 0, 1 / B hb, Pan345)
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP Pan345	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub for the 15-minute Settlement Interval.
+RTRSVPOR	$/MWh	Real-Time Reserve Price for On-Line ReservesThe Real-Time Reserve Price for On-Line Reserves for the 15-minute Settlement Interval.
+RTORPA y	$/MWh	Real-Time On-Line Reserve Price Adder per intervalThe Real-Time On-Line Reserve Price Adder for the SCED interval y.
+RTRDP	$/MWh	Real-Time On-Line Reliability Deployment PriceThe Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time On-Line Reliability Deployment Price Adder.  
+RTORDPA y	$/MWh	Real-Time On-Line Reliability Deployment Price AdderThe Real-Time price adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+RTHBP hb, Pan345, y	$/MWh	Real-Time Hub Bus Price at Hub Bus per SCED intervalThe Real-Time energy price at Hub Bus hb for the SCED interval y.
+RTLMP b, hb, Pan345, y	$/MWh	Real-Time Locational Marginal Price at Electrical Bus of Hub Bus per intervalThe Real-Time LMP at Electrical Bus b that is a component of Hub Bus hb for the SCED interval y.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval.
+HUBDF hb, Pan345	none	Hub Distribution Factor per Hub BusThe distribution factor of Hub Bus hb.  
+HBDF b, hb, Pan345	none	Hub Bus Distribution Factor per Electrical Bus of Hub BusThe distribution factor of Electrical Bus b that is a component of Hub Bus hb.  
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+b	none	An energized Electrical Bus that is a component of a Hub Bus.
+B hb, Pan345	none	The total number of energized Electrical Buses in Hub Bus hb.
+hb	none	A Hub Bus that is a component of the Hub.
+HB Pan345	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus.
+[NPRR1007 and NPRR1057:  Replace applicable portions of paragraph (4) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1007; or upon system implementation for NPRR1057:]
+(4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP Pan345	=	Max [-$251, (RTRDP + 
+		 (HUBLMP Pan345, y * RNWF y ))]
+Where:
+RTRDP                      	=            (RNWF y  * RTRDPA y)
+RNWF y	=	TLMP y /  TLMP y
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP Pan345	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub for the 15-minute Settlement Interval.
+RTRDP	$/MWh	Real-Time Reliability Deployment Price for EnergyThe Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time Reliability Deployment Price Adder for Energy.  
+RTRDPA y	$/MWh	Real-Time Reliability Deployment Price Adder for EnergyThe Real-Time Price Adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+HUBLMP Pan345, y	$/MWh	Hub Locational Marginal PriceThe Hub LMP for the Hub for the SCED Interval y.
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval.
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+
+[NPRR941, NPRR1007, and NPRR1057:  Insert applicable portions of Section 3.5.2.6 below upon system implementation for NPRR941 or NPRR1057; or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1007; and renumber accordingly:]
+3.5.2.6	Lower Rio Grande Valley Hub (LRGV 138/345)
+(1)	The Lower Rio Grande Valley Hub 138/345 kV Hub is composed of the following listed Hub Buses:
+	ERCOT Operations		
+No.	Hub Bus	kV	Hub
+1	AIRPORT	138	LRGV
+2	ALBERTA	138	LRGV
+3	BATES	138	LRGV
+4	FRONTERA	138	LRGV
+5	GARZA	138	LRGV
+6	HARLNSW	138	LRGV
+7	HEC	138	LRGV
+8	KEY_SW	138	LRGV
+9	LA_PALMA_345	345	LRGV
+10	LA_PALMA_138	138	LRGV
+11	LASPULGA	138	LRGV
+12	LISTON	138	LRGV
+13	LOMA_ALT	138	LRGV
+14	MARCONI	138	LRGV
+15	MILHWY	138	LRGV
+16	MILITARY	138	LRGV
+17	MV_WEDN4	138	LRGV
+18	N_MCALLN	138	LRGV
+19	NEDIN_345	345	LRGV
+20	NEDIN_138	138	LRGV
+21	OLEANDER	138	LRGV
+22	P_ISABEL	138	LRGV
+23	PALMHRTP	138	LRGV
+24	PALMITO_345	345	LRGV
+25	PALMITO_138	138	LRGV
+26	PAREDES	138	LRGV
+27	PHARMVEC	138	LRGV
+28	PHARR	138	LRGV
+29	PRICE_RD	138	LRGV
+30	RAILROAD	138	LRGV
+31	RAYMND2	138	LRGV
+32	REDTAP	138	LRGV
+33	RIO_GRAN	138	LRGV
+34	RIOHONDO_345	345	LRGV
+35	RIOHONDO_138	138	LRGV
+36	ROMA_SW	138	LRGV
+37	S_MCALLN	138	LRGV
+38	SCARBIDE	138	LRGV
+39	SILASRAY	138	LRGV
+40	STEWART	138	LRGV
+41	WESLACO	138	LRGV
+(2)	The Lower Rio Grande Valley 138/345 kV Hub Price uses the aggregated Shift Factors of the Hub Buses for each hour of the Settlement Interval of the DAM in the Day-Ahead and is the simple average of the time weighted Hub Bus prices for each 15-minute Settlement Interval in Real-Time, for each Hub Bus included in this Hub.
+(3)	The Day-Ahead Settlement Point Price of the Hub for a given Operating Hour is calculated as follows: 
+DASPP LRGV 138/345 =	DASL – █(Σ@c)(DAHUBSF LRGV 138/345, c * DASP c), 
+		if HBBC LRGV138/345≠0
+DASPP LRGV138/345 =	DASPP ERCOT345Bus, if HBBC LRGV138/345=0
+Where:
+DAHUBSF LRGV138/345, c	=        █(Σ@hb)(HUBDF hb, LRGV138/345, c * DAHBSF hb, LRGV138/345, c)
+DAHBSF hb, LRGV138/345, c	=	█(Σ@pb)(HBDF pb, hb, LRGV138/345, c * DASF pb, hb, LRGV138/345, c)
+HUBDF hb, LRGV138/345, c	=	IF(HB LRGV138/345, c=0, 0, 1 / HB LRGV138/345, c)
+HBDF pb, hb, LRGV138/345, c	=	IF(PB hb, LRGV138/345, c=0, 0, 1 / PB hb, LRGV138/345, c)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DASPP LRGV138/345	$/MWh	Day-Ahead Settlement Point PriceThe DAM Settlement Point Price at the Hub, for the hour.
+DASL	$/MWh	Day-Ahead System LambdaThe DAM Shadow Price for the system power balance constraint for the hour.
+DASP c	$/MWh	Day-Ahead Shadow Price for a binding transmission constraintThe DAM Shadow Price for the constraint c for the hour.
+DAHUBSF LRGV138/345,c	none	Day-Ahead Shift Factor of the Hub The DAM aggregated Shift Factor of a Hub for the constraint c for the hour. 
+DAHBSF hb, LRGV138/345,c	none	Day-Ahead Shift Factor of the Hub BusThe DAM aggregated Shift Factor of a Hub Bus hb for the constraint c for the hour. 
+DASF pb,hb, LRGV138/345,c	none	Day-Ahead Shift Factor of the power flow busThe DAM Shift Factor of a power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour. 
+HUBDF hb, LRGV138/345,c	none	Hub Distribution Factor per Hub Bus in a constraintThe distribution factor of Hub Bus hb for the constraint c for the hour.  
+HBDF pb, hb, LRGV138/345,c	none	Hub Bus Distribution Factor per power flow bus of Hub Bus in a constraintThe distribution factor of power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour.  
+pb	none	An energized power flow bus that is a component of a Hub Bus for the constraint c.
+PB hb, LRGV138/345,c	none	The total number of energized power flow buses in Hub Bus hb for the constraint c.
+hb	none	A Hub Bus that is a component of the Hub with at least one energized power flow bus for the constraint c.
+HBBC LRGV138/345	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus in base case.
+HB LRGV138/345,c	none	The total number of Hub Buses in the Hub with at least one energized component in each Hub Bus for the constraint c.
+c	none	A DAM binding transmission constraint for the hour caused by either base case or a contingency.
+(4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP LRGV138/345          =	Max [-$251, (RTRDP + 
+		█(Σ@y)(HUBLMP LRGV138/345, y * RNWF y))]
+Where:
+RTRDP                      	=          █(Σ@y)(RNWF y  * RTRDPA y)
+RNWF y	=	TLMP y / █(Σ@y)TLMP y
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP LRGV138/345kV	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub for the 15-minute Settlement Interval.
+RTRDP	$/MWh	Real-Time Reliability Deployment Price for EnergyThe Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time Reliability Deployment Price Adder for Energy.  
+RTRDPA y	$/MWh	Real-Time Reliability Deployment Price Adder for EnergyThe Real-Time Price Adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+HUBLMP LRGV138/345, y	$/MWh	Hub Locational Marginal PriceThe Hub LMP for the Hub for the SCED Interval y.
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval.
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+3.5.2.6	ERCOT Hub Average 345 kV Hub (ERCOT 345)
+(1)	The ERCOT Hub Average 345 kV Hub price for Day-Ahead is calculated for each hour using the aggregated Shift Factors of four Hubs: the North 345 kV Hub, the South 345 kV Hub, the Houston 345 kV Hub, and the West 345 kV Hub.  The ERCOT Hub Average 345 kV Hub price for Real-Time is the simple average of four prices from the applicable time period: the North 345 kV Hub price, the South 345 kV Hub price, the Houston 345 kV Hub price, and the West 345 kV Hub price.  The Panhandle 345 kV Hub is not included in either the Day-Ahead or Real-Time ERCOT Hub Average 345 kV Hub price. 
+[NPRR941:  Replace paragraph (1) above upon system implementation:]
+(1)	The ERCOT Hub Average 345 kV Hub price for Day-Ahead is calculated for each hour using the aggregated Shift Factors of four Hubs: the North 345 kV Hub, the South 345 kV Hub, the Houston 345 kV Hub, and the West 345 kV Hub.  The ERCOT Hub Average 345 kV Hub price for Real-Time is the simple average of four prices from the applicable time period: the North 345 kV Hub price, the South 345 kV Hub price, the Houston 345 kV Hub price, and the West 345 kV Hub price.  The Panhandle 345 kV Hub and the Lower Rio Grande Valley 138/345 kV Hub are not included in either the Day-Ahead or Real-Time ERCOT Hub Average 345 kV Hub price.
+(2)	The Day-Ahead Settlement Point Price for the Hub “ERCOT 345” for a given Operating Hour is calculated as follows: 
+DASPP ERCOT345	=	DASL – █(Σ@c)(DAHUBSF ERCOT345, c * DASP c), 
+		if HBBC ERCOT345Bus≠0
+DASPP ERCOT345	=	DASPP ERCOT345Bus, if HBBC ERCOT345Bus=0
+Where:
+DAHUBSF ERCOT345, c   = (DAHUBSF North345, c + DAHUBSF South345, c + 
+	DAHUBSF Houston345, c + DAHUBSF West345, c) / 4
+The above variables are defined as follows:
+Variable	Unit	Definition
+DASPP ERCOT345	$/MWh	Day-Ahead Settlement Point Price at ERCOT 345The DAM Settlement Point Price at ERCOT 345 Hub for the hour.
+DASL	$/MWh	Day-Ahead System LambdaThe DAM Shadow Price for the system power balance constraint for the hour.
+DASP c	$/MWh	Day-Ahead Shadow Price for a binding transmission constraintThe DAM Shadow Price for the constraint c for the hour.
+DAHUBSF ERCOT345,c	none	Day-Ahead Shift Factor of ERCOT 345 The DAM aggregated Shift Factor of ERCOT 345 Hub for the constraint c for the hour. 
+DAHUBSF North345,c	none	Day-Ahead Shift Factor of North 345The DAM aggregated Shift Factor of the North 345 Hub for the constraint c for the hour. 
+DAHUBSF South345,c	none	Day-Ahead Shift Factor of South 345The DAM aggregated Shift Factor of the South 345 Hub for the constraint c for the hour. 
+DAHUBSF Houston345,c	none	Day-Ahead Shift Factor of Houston 345The DAM aggregated Shift Factor of the Houston 345 Hub for the constraint c for the hour. 
+DAHUBSF West345,c	none	Day-Ahead Shift Factor of West 345The DAM aggregated Shift Factor of the West 345 Hub for the constraint c for the hour. 
+HBBC ERCOT345Bus	none	The total number of Hub Buses in the ERCOT Bus Average 345 kV Hub (ERCOT 345 Bus) with at least one energized component in each Hub Bus in base case.  The Hub “ERCOT 345 Bus” includes any Hub Bus defined in the Hub “North 345”, “South 345”, “Houston 345” and “West 345”.
+c	none	A DAM binding transmission constraint for the hour caused by either base case or a contingency.
+(3)	The Real-Time Settlement Point Price for the Hub “ERCOT 345” for a given 15-minute Settlement Interval is calculated as follows: 
+RTSPP ERCOT345	=	(RTSPP North345 + RTSPP South345 + RTSPP Houston345 + RTSPP West345) / 4
+The above variables are defined as follows:
+Variable	Unit	Definition
+RTSPP ERCOT345	$/MWh	Real-Time Settlement Point Price at ERCOT 345The Real-Time Settlement Point Price at ERCOT 345 Hub for the 15-minute Settlement Interval.
+RTSPP North345	$/MWh	Real-Time Settlement Point Price at North 345The Real-Time Settlement Point Price at the North 345 Hub for the 15-minute Settlement Interval.
+RTSPP South345	$/MWh	Real-Time Settlement Point Price at South 345The Real-Time Settlement Point Price at the South 345 Hub for the 15-minute Settlement Interval.
+RTSPP Houston345	$/MWh	Real-Time Settlement Point Price at Houston 345The Real-Time Settlement Point Price at the Houston 345 Hub for the 15-minute Settlement Interval.
+RTSPP West345	$/MWh	Real-Time Settlement Point Price at West 345The Real-Time Settlement Point Price at the West 345 Hub for the 15-minute Settlement Interval.
+3.5.2.7	ERCOT Bus Average 345 kV Hub (ERCOT 345 Bus)
+(1)	The ERCOT Bus Average 345 kV Hub is composed of the Hub Buses listed in Section 3.5.2.1, North 345 kV Hub (North 345); Section 3.5.2.2, South 345 kV Hub (South 345); Section 3.5.2.3, Houston 345 kV Hub (Houston 345); and Section 3.5.2.4, West 345 kV Hub (West 345).  The Panhandle 345 kV Hub is not included in the ERCOT Bus Average 345 kV Hub price. 
+[NPRR941:  Replace paragraph (1) above upon system implementation:]
+(1)	The ERCOT Bus Average 345 kV Hub is composed of the Hub Buses listed in Section 3.5.2.1, North 345 kV Hub (North 345); Section 3.5.2.2, South 345 kV Hub (South 345); Section 3.5.2.3, Houston 345 kV Hub (Houston 345); and Section 3.5.2.4, West 345 kV Hub (West 345).  The Panhandle 345 kV Hub and the Lower Rio Grande Valley 138/345 kV Hub are not included in the ERCOT Bus Average 345 kV Hub price.
+(2)	The ERCOT Bus Average 345 kV Hub uses the aggregated Shift Factors of the Hub Buses for each hour of the Settlement Interval of the DAM in the Day-Ahead and is the simple average of the time weighted Hub Bus prices for each 15-minute Settlement Interval in Real-Time, for each Hub Bus included in this Hub.
+(3)	The Day-Ahead Settlement Point Price of the Hub for a given Operating Hour is calculated as follows: 
+DASPP ERCOT345Bus =	DASL – █(Σ@c)(DAHUBSF ERCOT345Bus, c * DASP c), 
+		if HBBC ERCOT345Bus≠0
+DASPP ERCOT345Bus =	0, if HBBC ERCOT345Bus=0
+Where:
+DAHUBSF ERCOT345Bus, c   =	█(Σ@hb)(HUBDF hb, ERCOT345Bus, c * DAHBSF hb, ERCOT345Bus, c)
+DAHBSF hb, ERCOT345Bus, c  =	█(Σ@pb)(HBDF pb, hb, ERCOT345Bus, c * DASF pb, hb, ERCOT345Bus, c)
+HUBDF hb, ERCOT345Bus, c	=	IF(HB ERCOT345Bus, c=0, 0, 1 / HB ERCOT345Bus, c)
+HBDF pb, hb, ERCOT345Bus, c	=	IF(PB hb, ERCOT345Bus, c=0, 0, 1 / PB hb, ERCOT345Bus, c)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DASPP ERCOT345Bus	$/MWh	Day-Ahead Settlement Point PriceThe DAM Settlement Point Price at the Hub, for the hour.
+DASL	$/MWh	Day-Ahead System LambdaThe DAM Shadow Price for the system power balance constraint for the hour.
+DASP c	$/MWh	Day-Ahead Shadow Price for a binding transmission constraintThe DAM Shadow Price for the constraint c for the hour.
+DAHUBSF ERCOT345Bus,c	none	Day-Ahead Shift Factor of the Hub The DAM aggregated Shift Factor of a Hub for the constraint c for the hour. 
+DAHBSF hb,ERCOT345Bus,c	none	Day-Ahead Shift Factor of the Hub BusThe DAM aggregated Shift Factor of a Hub Bus hb for the constraint c for the hour. 
+DASF pb,hb,ERCOT345Bus,c	none	Day-Ahead Shift Factor of the power flow busThe DAM Shift Factor of a power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour. 
+HUBDF hb,ERCOT345Bus,c	none	Hub Distribution Factor per Hub Bus in a constraintThe distribution factor of Hub Bus hb for the constraint c for the hour.  
+HBDF pb, hb, ERCOT345Bus,c	none	Hub Bus Distribution Factor per power flow bus of Hub Bus in a constraintThe distribution factor of power flow bus pb that is a component of Hub Bus hb for the constraint c for the hour.  
+pb	none	An energized power flow bus that is a component of a Hub Bus for the constraint c.
+PB hb, ERCOT345Bus,c	none	The total number of energized power flow buses in Hub Bus hb for the constraint c.
+hb	none	A Hub Bus that is a component of the ERCOT Bus Average 345 kV Hub (ERCOT 345 Bus) with at least one energized power flow bus for the constraint c. The Hub “ERCOT 345 Bus” includes any Hub Bus defined in the Hub “North 345”, “South 345”, “Houston 345” and “West 345”. 
+HBBC ERCOT345Bus	none	The total number of Hub Buses in the ERCOT Bus Average 345 kV Hub (ERCOT 345 Bus) with at least one energized component in each Hub Bus in base case. The Hub “ERCOT 345 Bus” includes any Hub Bus defined in the Hub “North 345”, “South 345”, “Houston 345” and “West 345”.
+HB ERCOT345Bus,c	none	The total number of Hub Buses in the ERCOT Bus Average 345 kV Hub (ERCOT 345 Bus) with at least one energized component in each Hub Bus for the constraint c. The Hub “ERCOT 345 Bus” includes any Hub Bus defined in the Hub “North 345”, “South 345”, “Houston 345” and “West 345”.
+c	none	A DAM binding transmission constraint for the hour caused by either base case or a contingency.
+ (4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP ERCOT345Bus	=	Max [-$251, (RTRSVPOR + RTRDP + 
+		 (HUBDF hb, ERCOT345Bus * ( (RTHBP hb, ERCOT345Bus, y * TLMP y) / ( TLMP y))))], if HB ERCOT345Bus ≠0
+RTSPP ERCOT345Bus	=	0, if HB ERCOT345Bus =0
+Where:
+RTRSVPOR 	=	 (RNWF y * RTORPA y)
+RTRDP                      	 =            (RNWF y * RTORDPA y)
+RNWF y		=	TLMP y /  TLMP y
+RTHBP hb, ERCOT345Bus, y	=	 (HBDF b, hb, ERCOT345Bus * RTLMP b, hb, ERCOT345Bus, y)
+HUBDF hb, ERCOT345Bus	=	1 / (HB North345 + HB South345 + HB Houston345 + HB West345)
+If Electrical Bus b is a component of “North 345”
+		HBDF b, hb, ERCOT345Bus	=	IF(B hb, North345=0, 0, 1 / B hb, North345)
+Otherwise
+		If Electrical Bus b is a component of “South 345”
+			HBDF b, hb, ERCOT345Bus	=	IF(B hb, South345=0, 0, 1 / B hb, South345)
+Otherwise
+			If Electrical Bus b is a component of “Houston 345”
+				HBDF b, hb, ERCOT345Bus	=	IF(B hb, Houston345=0, 0, 1 / B hb, Houston345)
+Otherwise
+				HBDF b, hb, ERCOT345Bus	=	IF(B hb, West345=0, 0, 1 / B hb, West345)
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP ERCOT345Bus	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub, for the 15-minute Settlement Interval.
+RTRSVPOR	$/MWh	Real-Time Reserve Price for On-Line ReservesThe Real-Time Reserve Price for On-Line Reserves for the 15-minute Settlement Interval.
+RTORPA y	$/MWh	Real-Time On-Line Reserve Price Adder per intervalThe Real-Time On-Line Reserve Price Adder for the SCED interval y.
+RTRDP	$/MWh	Real-Time On-Line Reliability Deployment PriceThe Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time On-Line Reliability Deployment Price Adder.  
+RTORDPA y	$/MWh	Real-Time On-Line Reliability Deployment Price AdderThe Real-Time price adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+RTHBP hb, ERCOT345Bus, y	$/MWh	Real-Time Hub Bus Price at Hub Bus per SCED intervalThe Real-Time energy price at Hub Bus hb for the SCED interval y.
+RTLMP b, hb, ERCOT345Bus, y	$/MWh	Real-Time Locational Marginal Price at Electrical Bus of Hub Bus per intervalThe Real-Time LMP at Electrical Bus b that is a component of Hub Bus hb, for the SCED interval y.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval.
+HUBDF hb, ERCOT345Bus	none	Hub Distribution Factor per Hub BusThe distribution factor of Hub Bus hb.  
+HBDF b, hb, ERCOT345Bus	none	Hub Bus Distribution Factor per Electrical Bus of Hub BusThe distribution factor of Electrical Bus b that is a component of Hub Bus hb.  
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+b	none	An energized Electrical Bus that is a component of a Hub Bus.
+B hb, North345	none	The total number of energized Electrical Buses in Hub Bus hb that is a component of “North 345.”
+B hb, South345	none	The total number of energized Electrical Buses in Hub Bus hb that is a component of “South 345.”
+B hb, Houston345	none	The total number of energized Electrical Buses in Hub Bus hb that is a component of “Houston 345.”
+B hb, West345	none	The total number of energized Electrical Buses in Hub Bus hb that is a component of “West 345.”
+hb	none	A Hub Bus that is a component of the Hub.
+HB North345	none	The total number of Hub Buses in “North 345.”
+HB South345	none	The total number of Hub Buses in “South 345.”
+HB Houston345	none	The total number of Hub Buses in “Houston 345.”
+HB West345	none	The total number of Hub Buses in “West 345.”
+[NPRR1007 and NPRR1057:  Replace applicable portions of paragraph (4) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1007; or upon system implementation for NPRR1057:]
+(4)	The Real-Time Settlement Point Price of the Hub for a given 15-minute Settlement Interval is calculated as follows:
+RTSPP ERCOT345Bus	=	Max [-$251, (RTRDP +  (HUBLMPERCOT345Bus,y * RNWF y))]		
+Where:
+RTRDP                      	 =            (RNWF y * RTRDPA y)
+RNWF y		=	TLMP y /  TLMP y
+The above variables are defined as follows:
+Variable	Unit	Description
+RTSPP ERCOT345Bus	$/MWh	Real-Time Settlement Point PriceThe Real-Time Settlement Point Price at the Hub, for the 15-minute Settlement Interval.
+RTRDP	$/MWh	Real-Time Reliability Deployment Price for EnergyThe Real-Time price for the 15-minute Settlement Interval, reflecting the impact of reliability deployments on energy prices that are calculated from the Real-Time Reliability Deployment Price Adder for Energy.  
+RTRDPA y	$/MWh	Real-Time Reliability Deployment Price Adder for EnergyThe Real-Time Price Adder that captures the impact of reliability deployments on energy prices for the SCED interval y. 
+HUBLMP ERCOT345Bus,y	$/MWh	Hub Locational Marginal Price for the ERCOT345BusThe Hub LMP for the ERCOT Bus Average 345 kV Hub (ERCOT 345 Bus), for the SCED Interval y.
+RNWF y	none	Resource Node Weighting Factor per intervalThe weight used in the Resource Node Settlement Point Price calculation for the portion of the SCED interval y within the Settlement Interval.
+TLMP y	second	Duration of SCED interval per intervalThe duration of the portion of the SCED interval y within the 15-minute Settlement Interval.
+y	none	A SCED interval in the 15-minute Settlement Interval.  The summation is over the total number of SCED runs that cover the 15-minute Settlement Interval.
+3.5.3	ERCOT Responsibilities for Managing Hubs
+3.5.3.1	Posting of Hub Buses and Electrical Buses included in Hubs
+(1)	ERCOT shall post a list of all the Hub Buses included in each Hub on the ERCOT website.  The list must include the name and kV rating for each Electrical Bus included in each Hub Bus.
+3.5.3.2	Calculation of Hub Prices
+(1)	ERCOT shall calculate Hub prices for each Settlement Interval as identified in the description of each Hub. 
+3.6	Load Participation
+3.6.1	Load Resource Participation
+(1)	A Load Resource may participate by providing: 
+(a)	Ancillary Service:
+(i)	Regulation Up (Reg-Up) Service as a Controllable Load Resource (CLR) capable of providing Primary Frequency Response;
+(ii)	Regulation Down (Reg-Down) Service as a CLR capable of providing Primary Frequency Response;
+(iii)	Responsive Reserve (RRS) as a CLR qualified for Security-Constrained Economic Dispatch (SCED) Dispatch and capable of providing Primary Frequency Response, or as a Load Resource controlled by high-set under-frequency relay;
+(iv)	ERCOT Contingency Reserve Service (ECRS) as a CLR qualified for SCED Dispatch and capable of providing Primary Frequency Response, or as a Load Resource that may or may not be controlled by high-set under-frequency relay;
+[NPRR1244:  Replace paragraph (iv) above with the following upon system implementation:]
+(iv)	ERCOT Contingency Reserve Service (ECRS) as a CLR qualified for SCED Dispatch, or as a Load Resource that may or may not be controlled by high-set under-frequency relay;
+(v)	Non-Spinning Reserve (Non-Spin) as a CLR qualified for SCED Dispatch or as a Load Resource that is not a CLR and that is not controlled by under-frequency relay; and
+(vi)	A Load Resource that is not a CLR cannot simultaneously provide Non-Spin and RRS in Real-Time;
+(b)	Energy in the form of Demand response from a CLR in Real-Time via SCED; 
+(c)	Emergency Response Service (ERS) for hours in which the Load Resource does not have an Ancillary Service Resource Responsibility; and
+[NPRR1007:  Replace paragraph (c) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(c)	Emergency Response Service (ERS) for hours in which the Load Resource has a Resource Status of OUTL; and
+(d)	Voluntary Load response in Real-Time. 
+(2)	Except for voluntary Load response and ERS, loads participating in any ERCOT market must be registered as a Load Resource and are subject to qualification testing administered by ERCOT.  
+(3)	All ERCOT Settlements resulting from Load Resource participation are made only with the Qualified Scheduling Entity (QSE) representing the Load Resource.
+(4)	A QSE representing a Load Resource and submitting a bid to buy for participation in SCED, as described in Section 6.4.3.1, RTM Energy Bids, must represent the Load Serving Entity (LSE) serving the Load of the Load Resource.  If the Load Resource is an Aggregate Load Resource (ALR), the QSE must represent the LSE serving the Load of all sites within the ALR.
+(5)	The Settlement Point for a CLR is its Load Zone Settlement Point.  For an Energy Storage Resource (ESR), the Settlement Point for the charging Load withdrawn by the modeled CLR associated with the ESR is the Resource Node of the modeled Generation Resource associated with the ESR.
+[NPRR1188 and NPRR1246:  Replace applicable portions of paragraph (5) above with the following upon system implementation for NPRR1188; or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1246:]
+(5)	The Settlement Point for a CLR that is not an ALR is its Resource Node Settlement Point.  The Settlement Point for an ALR is its Load Zone Settlement Point.
+(6)	QSEs shall not submit offers for Load Resources containing sites associated with a Dynamically Scheduled Resource (DSR).
+[NPRR1000:  Delete paragraph (6) above upon system implementation and renumber accordingly.]
+(7)	Each Resource Entity that represents one or more Load Resources shall ensure that each Load Resource it represents meets at least one of the following conditions:
+(a)	The Load Resource is not located behind an Electric Service Identifier (ESI ID) that corresponds to a Critical Load; 
+(b)	The Load Resource is located behind an ESI ID that corresponds to a Critical Load, but the Load Resource is not a Critical Load and does not include a Critical Load; or
+(c)	The Load Resource is located behind an ESI ID that corresponds to a Critical Load, but electric service from the ERCOT System is not required for the provision of the critical service due to the availability of back-up generation or other technologies at the site.
+(8)	As a condition of obtaining and maintaining registration as a Load Resource, the Resource Entity for the Load Resource must have submitted an attestation, in a form deemed acceptable by ERCOT, stating that one of the conditions set forth in paragraph (7) above is true, and that if either of the conditions in paragraph (7)(b) or (7)(c) is true, then all of the Load Resource’s offered Demand response capacity will be available if deployed by ERCOT during an emergency.
+(9)	Each QSE that represents one or more ERS Resources shall ensure that each ERS Resource identified in any ERS Submission Form submitted by the QSE meets at least one of the following conditions:
+(a) 	The ERS Resource and each site within the ERS Resource are not located behind an ESI ID or unique meter identifier that corresponds to a Critical Load and are not used to support a Critical Load; or 
+(b) 	The ERS Resource or one or more sites within the ERS Resource are behind an ESI ID or unique meter identifier that corresponds to a Critical Load, but the ERS Resource and each site within the ERS Resource are not a Critical Load, do not include a Critical Load, and are not used to support a Critical Load; or
+(c) 	The ERS Resource or one or more sites within the ERS Resource are behind an ESI ID or unique meter identifier that corresponds to a Critical Load, but electric service from the ERCOT System is not required for the provision of the critical service due to the availability of back-up generation or other technologies at the site, and neither the ERS Resource nor any site within the ERS Resource is used to support a Critical Load.
+3.6.2	Decision Making Entity for a Resource
+(1)	Each Resource Entity that owns a Resource, except for a Load Resource that is not SCED qualified, shall submit a declaration to ERCOT, using Section 23, Form C, Managed Capacity Declaration, as to which Decision Making Entity (DME) has control of each of its Resources.  The declaration shall be signed by the Authorized Representative of the Resource Entity.  In addition, each Resource Entity that owns a Resource, except for a Load Resource that is not SCED qualified, shall notify ERCOT of any known changes in that declaration no later than 14 days prior to the date that the change takes effect, or as soon as possible in a situation where the Resource Entity is unable to meet the 14-day Notice requirement.  However, in no event may the Resource Entity inform ERCOT later than 72 hours before the date on which the change in DME takes effect.  Upon ERCOT’s request, each Resource Entity that owns a Resource, except for a Load Resource that is not SCED qualified, shall provide ERCOT with sufficient information or documentation to verify the DME’s control of the Resource.  ERCOT shall update the DME for a Resource effective the first Operating Hour of the Operating Day after ERCOT satisfactorily confirms the Resource Entity’s most recent declaration, but not sooner than the effective date specified on the Resource Entity’s most recent declaration.
+3.7	Resource Parameters  
+(1)	A Resource Entity shall register its Generation Resources, Energy Storage Resources (ESRs), Settlement Only Generators (SOGs), and Load Resources pursuant to Planning Guide Section 6.8, Resource Registration Procedures.  The Resource Parameters, listed in Section 3.7.1, Resource Parameter Criteria, are a subset of Resource Registration data defined in the Resource Registration Glossary.
+[NPRR995:  Replace paragraph (1) above with the following upon system implementation:]
+(1)	A Resource Entity shall register its Generation Resources, Energy Storage Resources (ESRs), Settlement Only Generators (SOGs), Settlement Only Energy Storage Systems (SOESSs), and Load Resources pursuant to Planning Guide Section 6.8, Resource Registration Procedures.  The Resource Parameters, listed in Section 3.7.1, Resource Parameter Criteria, are a subset of Resource Registration data defined in the Resource Registration Glossary.
+(2)	ERCOT shall provide each Qualified Scheduling Entity (QSE) that represents a Resource the ability to submit changes to Resource Parameters for that Resource as described in Section 3.7.1.
+(3)	The QSE may revise Resource Parameters only with sufficient documentation to justify a change in Resource Parameters. 
+(4)	ERCOT shall use the Resource Parameters as inputs into the Day-Ahead Market (DAM), Reliability Unit Commitment (RUC), Security-Constrained Economic Dispatch (SCED), Resource Limit Calculator, Load Frequency Control (LFC), and other ERCOT business processes.
+(5)	The Independent Market Monitor (IMM) may require the QSE to provide justification for the Resource Parameters submitted.  
+3.7.1	Resource Parameter Criteria
+3.7.1.1	Generation Resource Parameters
+(1)	Generation Resource Parameters that may be modified, with documented reason for change, by the QSE for immediate use upon ERCOT validation include:
+(a)	Normal Ramp Rate curve; 
+(b)	Emergency Ramp Rate curve; 
+(c)	Minimum On-Line time;
+(d)	Minimum Off-Line time;
+(e)	Maximum On-Line time;
+(f)	Maximum daily starts;
+(g)	Maximum weekly starts;
+(h)	Maximum weekly energy;
+(i)	Hot start time;
+(j)	Intermediate start time;
+(k)	Cold start time;
+(l)	Hot to intermediate time; and
+(m)	Intermediate to cold time.
+3.7.1.2	Load Resource Parameters
+(1)	Resource Parameters that may be modified, with documented reason for change, by the QSE for immediate use upon ERCOT validation, which may be adjusted to reflect Distribution Losses in accordance with Section 8.1.1.2, General Capacity Testing Requirements, include the following for each of its Load Resources that is a non-Controllable Load Resource:
+(a)	Maximum interruption time;
+(b)	Maximum daily deployments;
+(c)	Maximum weekly deployments;
+(d)	Maximum weekly energy;
+(e)	Minimum notice time;
+(f)	Minimum interruption time; and
+(g)	Minimum restoration time.
+(2)	Resource Para

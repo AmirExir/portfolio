@@ -1,0 +1,652 @@
+inistrative information (organization, contact name, etc.); and
+(d)	Summary of requested changes to ERCOT systems.
+(3)	ERCOT shall evaluate the SCR to determine whether the request should be submitted as an NPRR.  If ERCOT determines that the SCR should be submitted as an NPRR, ERCOT will notify the submitter within five Business Days of receipt, and the submitter shall withdraw its SCR and may submit an NPRR in its place.  If ERCOT deems it necessary for further review beyond the five Business Days, ERCOT shall notify the submitter.
+(4)	ERCOT shall evaluate the SCR for completeness and shall notify the submitter, within five Business Days, if the SCR is incomplete, including the reasons for such status.  ERCOT may provide information to the submitter that will correct the SCR and render it complete.  An incomplete SCR shall not receive further consideration until it is completed.  In order to pursue the SCR requested, the submitting Entity must submit a completed version of the SCR.
+(5)	If a submitted SCR is complete or upon completion of an SCR, ERCOT shall post the SCR on the ERCOT website and distribute to the PRS within three Business Days.
+(6)	For any ERCOT-sponsored SCR, ERCOT shall also post an initial Impact Analysis on the ERCOT website, and distribute it to PRS.  The initial Impact Analysis will provide PRS with guidance as to potential ERCOT computer systems, operations, or business functions that could be affected by the submitted SCR.
+21.4.3	Withdrawal of a Nodal Protocol Revision Request or System Change Request
+(1)	A submitter may withdraw or request to withdraw an NPRR or SCR (“Revision Request”) by submitting a completed Request for Withdrawal form provided on the ERCOT website.  ERCOT shall post the submitter’s Request for Withdrawal on the ERCOT website within three Business Days of submittal.
+(2)	The submitter of a Revision Request may withdraw the Revision Request at any time before PRS recommends approval of the Revision Request.  If PRS has recommended approval of the Revision Request, the Request for Withdrawal must be approved by the Technical Advisory Committee (TAC) if the Revision Request has not yet been recommended for approval by TAC.  If TAC has recommended approval of the Revision Request, the Request for Withdrawal must be approved by the ERCOT Board if the Revision Request has not yet been recommended for approval by the ERCOT Board.  Once recommended for approval by the ERCOT Board, a Revision Request cannot be withdrawn.
+21.4.4	Protocol Revision Subcommittee Review and Action
+(1)	Any ERCOT Member, Market Participant, the Public Utility Commission of Texas (PUCT) Staff, the Reliability Monitor, the North American Electric Reliability Corporation (NERC) Regional Entity, the Independent Market Monitor (IMM), or ERCOT may comment on a Revision Request.
+(2)	To receive consideration, comments must be delivered electronically to ERCOT in the designated format provided on the ERCOT website within 14 days from the posting date of the Revision Request.  Comments submitted after the 14-day comment period may be considered at the discretion of PRS after these comments have been posted.  Comments submitted in accordance with the instructions on the ERCOT website—regardless of date of submission—shall be posted to the ERCOT website and distributed to the PRS within three Business Days of submittal.
+(3)	The PRS shall consider the Revision Request at its next regularly scheduled meeting after the end of the 14-day comment period.  At such meeting, the PRS may take action on the Revision Request.  The quorum and voting requirements for PRS action are set forth in the Technical Advisory Committee Procedures.  In considering action on a Revision Request, PRS may:
+(a)	Recommend approval of the Revision Request as submitted or as modified;
+(b)	Reject the Revision Request;
+(c)	Table the Revision Request; or
+(d)	Refer the Revision Request to another TAC subcommittee, working group, or task force as provided in Section 21.3, Protocol Revision Subcommittee.
+(4)	If a motion is made to recommend approval of a Revision Request and that motion fails, the Revision Request shall be deemed rejected by PRS unless at the same meeting PRS later votes to recommend approval of, table, or refer the Revision Request.  If a motion to recommend approval of a Revision Request fails via e-mail vote according to the Electric Reliability Council of Texas Technical Advisory Committee Procedures, the Revision Request shall be deemed rejected by PRS unless at the next regularly scheduled PRS meeting or in a subsequent e-mail vote prior to such meeting, PRS votes to recommend approval of, table, or refer the Revision Request.  The rejected Revision Request shall be subject to appeal pursuant to Section 21.4.12.1, Appeal of Protocol Revision Subcommittee Action.
+(5)	Within three Business Days after PRS takes action, ERCOT shall post a PRS Report reflecting the PRS action on the ERCOT website.  The PRS Report shall contain the following items:
+(a)	Identification of submitter of the Revision Request;
+(b)	Protocol language or summary of requested changes to ERCOT systems, recommended by the PRS, if applicable; 
+(c)	Identification of authorship of comments;
+(d)	Proposed effective date(s) of the Revision Request;
+(e)	Priority and rank for any Revision Requests requiring an ERCOT project for implementation; and
+(f)	PRS action.
+(6)	The PRS chair shall notify TAC of Revision Requests rejected by PRS.
+21.4.5	Comments to the Protocol Revision Subcommittee Report
+(1)	Any ERCOT Member, Market Participant, PUCT Staff, the Reliability Monitor, the NERC Regional Entity, the IMM, or ERCOT may comment on the PRS Report.  Comments submitted in accordance with the instructions on the ERCOT website—regardless of date of submission—shall be posted on the ERCOT website and distributed to the committee(s) (i.e., PRS and/or TAC) considering the Revision Request within three Business Days of submittal.
+(2)	The comments on the PRS Report will be considered at the next regularly scheduled PRS or TAC meeting where the Revision Request is being considered.
+21.4.6	Revision Request Impact Analysis
+(1)	If PRS recommends approval of a Revision Request, ERCOT shall prepare an Impact Analysis based on the proposed language or proposed system changes in the PRS Report.  If ERCOT has already prepared an Impact Analysis, ERCOT shall update the existing Impact Analysis, if necessary, to accommodate the language or system changes recommended for approval in the PRS Report.
+(2)	The Impact Analysis shall assess the impact of the proposed Revision Request on ERCOT staffing, computer systems, operations, or business functions and shall contain the following information:
+(a)	An estimate of any cost and budgetary impacts to ERCOT for both implementation and on-going operations;
+(b)	The estimated amount of time required to implement the Revision Request;
+(c)	The identification of alternatives to the Revision Request that may result in more efficient implementation; and
+(d)	The identification of any manual workarounds that may be used as an interim solution and estimated costs of the workaround.
+(3)	Unless a longer review period is warranted due to the complexity of the proposed PRS Report, ERCOT shall post an Impact Analysis on the ERCOT website, for a Revision Request for which PRS has recommended approval of, prior to the next regularly scheduled PRS meeting, and distribute to PRS.  If a longer review period is required by ERCOT to complete an Impact Analysis, ERCOT shall submit comments with a schedule for completion of the Impact Analysis.
+21.4.7	Protocol Revision Subcommittee Review of Impact Analysis
+(1)	After ERCOT posts the results of the Impact Analysis, PRS shall review the Impact Analysis at its next regularly scheduled meeting.  PRS may revise its PRS Report after considering the information included in the Impact Analysis or additional comments received on the PRS Report.
+(2)	Within three Business Days of PRS consideration of the Impact Analysis and PRS Report, ERCOT shall post the PRS Report on the ERCOT website.  If PRS revises the PRS Report, ERCOT shall update the Impact Analysis, if necessary, post the updated Impact Analysis on the ERCOT website, and distribute it to the committee(s) (i.e., PRS and/or TAC) considering the Impact Analysis.  If a longer review period is required for ERCOT to update the Impact Analysis, ERCOT shall submit comments with a schedule for completion of the Impact Analysis.
+(3)	If the Revision Request requires an ERCOT project for implementation, at the same meeting, PRS shall assign a recommended priority and rank for the associated project.
+21.4.8	Technical Advisory Committee Vote
+(1)	TAC shall consider any Revision Requests that PRS has submitted to TAC for consideration for which both a PRS Report and an Impact Analysis (as updated if modified by PRS under Section 21.4.7, Protocol Revision Subcommittee Review of Impact Analysis) have been posted on the ERCOT website.  The following information must be included for each Revision Request considered by TAC:
+(a)	The PRS Report and Impact Analysis; 
+(b)	The PRS-recommended priority and rank, if an ERCOT project is required; and
+(c)	Any comments timely received in response to the PRS Report.
+(2)	The quorum and voting requirements for TAC action are set forth in the Technical Advisory Committee Procedures.  In considering action on a PRS Report, TAC shall:
+(a)	Recommend approval of the Revision Request as recommended in the PRS Report or as modified by TAC;
+(b)	Reject the Revision Request; 
+(c)	Table the Revision Request;
+(d)	Remand the Revision Request to PRS with instructions; or
+(e)	Refer the Revision Request to another TAC subcommittee or a TAC working group or task force with instructions.
+(3)	If a motion is made to recommend approval of a Revision Request and that motion fails, the Revision Request shall be deemed rejected by TAC unless at the same meeting TAC later votes to recommend approval of, table, remand, or refer the Revision Request.  If a motion to recommend approval of a Revision Request fails via email vote according to the Electric Reliability Council of Texas Technical Advisory Committee Procedures, the Revision Request shall be deemed rejected by TAC unless at the next regularly scheduled TAC meeting or in a subsequent email vote prior to such meeting, TAC votes to recommend approval of, table, remand, or refer the Revision Request.  The rejected Revision Request shall be subject to appeal pursuant to Section 21.4.12.2, Appeal of Technical Advisory Committee Action.
+(4)	Within three Business Days after TAC takes action on the Revision Request, ERCOT shall post a TAC Report reflecting the TAC action on the ERCOT website.  The TAC Report shall contain the following items:
+(a)	Identification of the submitter of the Revision Request;
+(b)	Modified Revision Request language proposed by TAC, if applicable;
+(c)	Identification of the authorship of comments;
+(d)	Proposed effective date(s) of the Revision Request;
+(e)	Priority and rank for any Revision Requests requiring an ERCOT project for implementation;
+(f)	PRS action;
+(g)	TAC action; 
+(h)	Credit review;
+(i)	IMM Opinion;
+(j)	ERCOT Opinion; and
+(k)	ERCOT Market Impact Statement.
+(5)	If TAC recommends approval of a Revision Request, ERCOT shall forward the TAC Report to the ERCOT Board for consideration pursuant to Section 21.4.10, ERCOT Board Vote.
+21.4.9	ERCOT Impact Analysis Based on Technical Advisory Committee Report
+(1)	ERCOT shall review the TAC Report and, if necessary, update the Impact Analysis as soon as practicable.  ERCOT shall distribute the updated Impact Analysis, if applicable, to TAC and post it on the ERCOT website.  If a longer review period is required for ERCOT to update the Impact Analysis, ERCOT shall submit comments with a schedule for completion of the Impact Analysis.
+21.4.10	ERCOT Board Vote
+(1)	Upon issuance of a TAC Report and Impact Analysis to the ERCOT Board, the ERCOT Board shall review the TAC Report and the Impact Analysis at the next regularly scheduled meeting.  For Urgent Revision Requests, the ERCOT Board shall review the TAC Report and Impact Analysis at the next regularly scheduled meeting, unless a special meeting is required due to the urgency of the Revision Request.  
+(2)	The quorum and voting requirements for ERCOT Board action are set forth in the ERCOT Bylaws.  In considering action on a TAC Report, the ERCOT Board shall:
+(a)	Recommend approval of the Revision Request as recommended in the TAC Report or as modified by the ERCOT Board;
+(b)	Reject the Revision Request;
+(c)	Table the Revision Request; or
+(d)	Remand the Revision Request to TAC with instructions.
+(3)	If a motion is made to recommend approval of a Revision Request and that motion fails, the Revision Request shall be deemed rejected by the ERCOT Board unless at the same meeting the ERCOT Board later votes to recommend approval, table, or remand the Revision Request.  The rejected Revision Request shall be subject to appeal pursuant to Section 21.4.12.3, Appeal of ERCOT Board Action.
+(4)	Within three Business Days after the ERCOT Board takes action on a Revision Request, ERCOT shall post a Board Report reflecting the ERCOT Board action on the ERCOT website.
+21.4.11	PUCT Approval of Revision Requests
+(1)	All Revision Requests require approval by the PUCT prior to implementation.
+(2)	Within three Business Days after the PUCT takes action on a Revision Request, ERCOT shall post a PUCT Report reflecting the PUCT action on the ERCOT website.    
+21.4.12	Appeal of Action
+(1)	The following processes are to be used to appeal an action related to a Revision Request.
+21.4.12.1	Appeal of Protocol Revision Subcommittee Action
+(1)	Any ERCOT Member, Market Participant, PUCT Staff, the Reliability Monitor, the IMM, the NERC Regional Entity, or ERCOT may appeal a PRS action to reject, table, or refer a Revision Request, directly to the TAC.  Such appeal to the TAC must be submitted electronically to ERCOT by completing the designated form provided on the ERCOT website within seven days after the date of the relevant PRS appealable event.  ERCOT shall reject appeals made after that time.  ERCOT shall post appeals on the ERCOT website within three Business Days of receiving the appeal.  Appeals shall be heard at the next regularly scheduled TAC meeting that is at least seven days after the date of the requested appeal.  An appeal of a Revision Request to TAC suspends consideration of the Revision Request until the appeal has been decided by TAC.
+21.4.12.2	Appeal of Technical Advisory Committee Action
+(1)	Any ERCOT Member, Market Participant, PUCT Staff, the Reliability Monitor, the IMM, the NERC Regional Entity, or ERCOT may appeal a TAC action to reject, table, remand or refer a Revision Request directly to the ERCOT Board.  Appeals to the ERCOT Board shall be processed in accordance with the ERCOT Board Policies and Procedures.  An appeal of a Revision Request to the ERCOT Board suspends consideration of the Revision Request until the appeal has been decided by the ERCOT Board.
+21.4.12.3	Appeal of ERCOT Board Action
+(1)	Any ERCOT Member, Market Participant, PUCT Staff, the Reliability Monitor, the IMM, or the NERC Regional Entity may appeal any decision of the ERCOT Board regarding a Revision Request to the PUCT or other Governmental Authority.  Such appeal to the PUCT or other Governmental Authority must be made within any deadline prescribed by the PUCT or other Governmental Authority, but in any event no later than 35 days of the date of the relevant ERCOT Board appealable event.  Notice of any appeal to the PUCT or other Governmental Authority must be provided, at the time of the appeal, to ERCOT’s General Counsel.  If the PUCT or other Governmental Authority rules on the Revision Request, ERCOT shall post the ruling on the ERCOT website.
+21.5	Urgent and Board Priority Nodal Protocol Revision Requests and System Change Requests
+(1)	The party submitting a Nodal Protocol Revision Request (NPRR) or System Change Request (SCR) (“Revision Request”) may request that the Revision Request be considered on an urgent timeline (“Urgent”) only when the submitter can reasonably show that an existing Protocol or condition is impairing or could imminently impair ERCOT System reliability or wholesale or retail market operations, or is causing or could imminently cause a discrepancy between a settlement formula and a provision of these Protocols.
+(2)	The Protocol Revision Subcommittee (PRS) may designate the Revision Request for Urgent consideration upon a valid motion in a regularly scheduled meeting of the PRS or at a special meeting called by the PRS leadership.  Criteria for designating a Revision Request as Urgent are that the Revision Request requires immediate attention due to: 
+(a)	Serious concerns about ERCOT System reliability or market operations under the unmodified language or existing conditions; or 
+(b)	The crucial nature of settlement activity conducted pursuant to any settlement formula.
+(3)	The ERCOT Board may designate any existing Revision Request a Board Priority Revision Request.  If the ERCOT Board directs ERCOT Staff to file a Revision Request, it may further direct that a Revision Request be designated a Board Priority Revision Request.  All Board Priority Revision Requests will be considered on an Urgent timeline.
+(4)	ERCOT shall prepare an Impact Analysis for Urgent and Board Priority Revision Requests as soon as practicable.
+(5)	The PRS shall consider the Urgent or Board Priority Revision Request and Impact Analysis, if available, at its next regularly scheduled meeting, or at a special meeting called by the PRS leadership to consider the Urgent or Board Priority Revision Request.
+(6)	If recommended for approval by PRS, ERCOT shall post a PRS Report on the ERCOT website within three Business Days after PRS takes action.  The Technical Advisory Committee (TAC) chair may request action from TAC to accelerate or alter the procedures described herein, as needed, to address the urgency of the situation.
+(7)	Any Urgent or Board Priority Revision Requests shall be subject to an Impact Analysis pursuant to Section 21.4.9, ERCOT Impact Analysis Based on Technical Advisory Committee Report, and ERCOT Board consideration pursuant to Section 21.4.10, ERCOT Board Vote.
+21.6	Nodal Protocol Revision Implementation
+(1)	Following Public Utility Commission of Texas (PUCT) approval, ERCOT shall implement Nodal Protocol Revision Requests (NPRRs) on the first day of the month following PUCT approval, unless otherwise provided in the PUCT Report for the approved NPRR.
+(2)	For such other NPRRs, the Impact Analysis shall provide an estimated amount of time required to implement the NPRR and ERCOT shall issue a Market Notice as soon as practicable, but no later than ten days prior to actual implementation, unless a different notice period is required in the PUCT Report for the approved NPRR.
+(3)	If the PUCT approves changes to the Protocols, such changes shall be:
+(a)	Filed with the PUCT for informational purposes as soon as practicable, but no later than one day before the effective date of the changes; and
+(b)	Incorporated into the Protocols and posted on the ERCOT website as soon as practicable, but no later than one day before the effective date of the changes.
+(4)	ERCOT shall implement an Administrative NPRR on the first day of the month following PUCT approval.
+21.7	Review of Project Prioritization and Annual Budget Process
+(1)	The Protocol Revision Subcommittee (PRS) shall recommend to the Technical Advisory Committee (TAC) an assignment of a project priority for each approved Nodal Protocol Revision Request (NPRR) and System Change Request (SCR) (“Revision Request”) that requires an associated project.
+(2)	Annually, the PRS shall review the priority of all market-requested projects and recommend new or revised project priorities for market-requested projects.    
+(3)	TAC shall consider the project priority of each Revision Request and make recommendations to the ERCOT Board.
+(4)	The ERCOT Board shall take one of the following actions regarding the project prioritization recommended by TAC:
+(a)	Approve the TAC recommendation as originally submitted or as modified by the ERCOT Board; 
+(b)	Reject the TAC recommendation; 
+(c)	Remand the TAC recommendation to TAC with instructions; or 
+(d)	Table the TAC recommendation.
+21.8	Review of Guide Changes
+(1)	The revision process for the ERCOT market guides shall be governed by the individual guides and assigned subcommittees.  The Protocol Revision Subcommittee (PRS) shall review changes to market guides proposed by other subcommittees that may conflict with existing Protocols and report the results of its review to the submitting subcommittee.
+
+ERCOT Nodal Protocols
+Section 24:  Retail Point to Point Communications
+November 1, 2023
+
+ 
+24	Retail Point to Point Communications	24-1
+24.1	Maintenance Service Order Request	24-1
+24.1.1	Disconnect/Reconnect	24-1
+24.1.2	Suspension of Delivery Service	24-1
+24.1.2.1	Notification	24-1
+24.1.2.2	Cancellation	24-2
+24.1.3	Switch Hold Indicator	24-2
+24.1.3.1	Tampering Switch Hold	24-2
+24.1.3.2	Bill Payment Switch Hold	24-3
+24.2	Transmission and/or Distribution Service Provider to Competitive Retailer Invoice	24-3
+24.3	Monthly Remittance	24-4
+24.3.1	Competitive Retailer to Transmission and/or Distribution Service Provider Monthly Remittance Advice	24-4
+24.3.1.1	Remittance Advice Total Matches Payment Total	24-4
+24.3.1.2	Negative Remittance Advice	24-4
+24.3.1.3	Acceptable Payment Methods	24-5
+24.3.1.4	Warehousing an 820 Remittance Advice	24-5
+24.4	Municipally Owned Utility/Electric Cooperative Transmission and/or Distribution Service Provider to Competitive Retailer Monthly Remittance Advice	24-5
+24.4.1	Timing 820 Remittance to CR	24-5
+24.4.2	Remittance Advice Total Matches Payment Total	24-6
+24.4.3	Negative Remittance Advice	24-6
+24.4.4	Acceptable Payment Methods	24-6
+24.4.5	Warehousing an 820 Remittance Advice	24-6
+24.5	Maintain Customer Information Request	24-6
+24.5.1	Timing of 814_PC Maintain Customer Information Request from Competitive Retailer	24-7
+24.6	MOU/EC TDSP to CR Maintain Customer Information Request	24-7
+24.6.1	Timing of 814_PC Maintain Customer Information Request from Municipally Owned Utility/Electric Cooperative Transmission and/or Distribution Service Provider	24-7
+ 
+24	RETAIL POINT TO POINT COMMUNICATIONS
+(1)	Point to point communications include transactions flowing directly between Competitive Retailers (CRs), and Transmission and/or Distribution Service Providers (TDSPs) and do not flow through ERCOT.  These point to point transactions may be Customer requested service orders and CR/TDSP invoicing and remittance.
+24.1	Maintenance Service Order Request
+(1)	To initiate an original service order, cancel, or change (update) request, the Competitive Retailer (CR) sends maintenance related information to the Transmission and/or Distribution Service Provider (TDSP) using the 650_01, Service Order Request.  The 650_01 transaction sent by the CR shall include a level of information such that the TDSP clearly understands the nature of the request and the work that it is being requested to perform.  The TDSP will respond within one Retail Business Day after completion, or attempted completion, of the requested action using the 650_02, Service Order Response, to notify the CR that the service order is either completed, unable to be completed, or rejected, or that a permit is required before the order can be completed.  There is a one-to-one relationship between the 650_01 and 650_02 transactions.
+24.1.1	Disconnect/Reconnect
+(1)	Public Utility Commission of Texas (PUCT) Substantive Rules and orders, along with TDSP tariffs, dictate the timeline for both disconnection for non-payment and reconnection after disconnection for non-payment.  For more information please refer to the Retail Market Guide Section 7.6, Disconnect and Reconnect for Non-Payment Process.
+24.1.2	Suspension of Delivery Service 
+(1)	The following transactions shall be used by a TDSP seeking to suspend delivery service for an Electric Service Identifier (ESI ID).
+24.1.2.1	Notification
+(1)	The 650_04, Planned or Unplanned Outage Notification, is electronically transmitted by the TDSP to the CR to notify the CR of the ESI ID(s) and Service Address(es) affected by either a temporary or permanent suspension of service.  The situations under which a 650_04 transaction may be created and transmitted to the CR include:
+(a)	An outage has been scheduled by the TDSP for the Customer's Service Address for a specific date and time.  This type of suspension may be the result of scheduled tree trimming, electrical inspection, testing, maintenance, or changes/upgrades to network equipment.
+(b)	An outage has occurred at the Customer's Service Address, but it was not planned or previously scheduled.  Such a suspension is normally needed to remedy a dangerous electrical condition that exists at the Customer's address due to an event or activity such as a fire, meter tampering, or theft of service.
+(c)	For circumstances when a CR, the Customer, or authorized legal authority (county, city, fire, or police personnel) requests disconnection and meter removal because a structure has been destroyed or demolished, or the TDSP has found the meter removed by an unknown Entity, or has removed the meter for unsafe conditions, the TDSP will send a 650_04 transaction.  In events where the CR receives a 650_04 transaction indicating that service to the Premise has been permanently suspended by the TDSP for one of the reasons indicated above, the CR will send an 814_24, Move Out Request, to the TDSP within ten Retail Business Days.
+(d)	Just like a suspension is scheduled or requested it can also be cancelled.  If the suspension request is cancelled for any reason, the TDSP will create a 650_04 transaction indicating that the suspension has been cancelled and send a 650_04 transaction to the CR for every ESI ID that would have been affected by the outage.
+(2)	To notify the CR of a suspension of delivery service, the TDSP sends Notice to the CR using the 650_04 transaction.  
+24.1.2.2	Cancellation
+(1)	To notify the CR of a cancellation of the Notification of suspension of delivery service, the TDSP sends Notice to the CR using the 650_04, Planned or Unplanned Outage, for each ESI ID that would otherwise have been affected by the outage.
+24.1.3	Switch Hold Indicator 
+24.1.3.1	Tampering Switch Hold
+(1)	A tampering switch hold is used when tampering has been determined to have occurred.  A switch hold will be placed on the ESI ID in accordance with P.U.C. SUBST. R. 25.126, Adjustments Due to Non-Compliant Meters and Meter Tampering in Areas Where Customer Choice Has Been Introduced.  
+(2)	To remove a switch hold indicator, the CR sends the 650_01, Service Order Request, to the TDSP requesting the removal of the switch hold indicator.  The TDSP will respond with the 650_02, Service Order Response, to the CR acknowledging receipt of the service order request.  Confirmation that the service order request has been completed will be received through the 814_20, ESI ID Maintenance Request.
+24.1.3.2	Bill Payment Switch Hold
+(1)	A bill payment switch hold is used when a Customer has entered into a payment agreement with their current CR.  A switch hold will be placed on the ESI ID in accordance with P.U.C. SUBST. R. 25.480, Bill Payment and Adjustments.  
+(a)	To add a switch hold indicator, the CR sends the 650_01, Service Order Request, to the TDSP requesting the addition of the switch hold indicator.  The TDSP will respond with the 650_02, Service Order Response, to the CR acknowledging receipt of the service order request.  Confirmation that the service order request has been completed will be received through the 814_20, ESI ID Maintenance Request.  
+(b)	To remove a switch hold indicator, the CR sends the 650_01 to the TDSP requesting the removal of the switch hold indicator.  The TDSP will respond with the 650_02 response to the CR acknowledging receipt of the service order request.  Confirmation that the service order request has been completed will be received through the 814_20 transaction.
+24.2	Transmission and/or Distribution Service Provider to Competitive Retailer Invoice 
+(1)	The 810_02, TDSP Invoice, may include monthly delivery charges, discretionary service charges, service order charges, interest credit, and/or late payment charges for the current billing period.  Following a positive acknowledgement indicating the transaction passed American National Standards Institute Accredited Standards Committee (ANSI ASC) X12 validation, the Competitive Retailer (CR) shall have five Business Days to send a rejection response in accordance with the Texas Standard Electronic Transaction (TX  SET) Implementation Guides posted on the ERCOT website and Public Utility Commission of Texas (PUCT) Substantive Rules.  If the CR has not received a response transaction to an enrollment or move in, the CR shall not reject the invoice, but will utilize an approved market process (MarkeTrak or dispute process) to resolve the issue.  Details of these processes may be found in the Retail Market Guide Section 7, Market Processes.  
+(2)	Only one 810_02 transaction may be sent for a single service period, however, any additional 810_02 transaction for the same Electric Service Identifier (ESI ID) may be sent for a late payment charge after the 35th calendar day for an unpaid 810_02 transaction or for interest credit.
+(3)	The 810_02 may be paired with an 867_03, Monthly or Final Usage, to trigger the Customer billing process.
+(4)	The Transmission and/or Distribution Service Provider (TDSP) may cancel and replace (rebill) the original 810_02 transaction.  The values in the cancel transaction will be identical in amounts to what they were on the original invoice.  The replacement (rebilled) invoice now becomes the monthly invoice for that service period.
+(5)	If the 867_03 is cancelled after the TDSP has sent the 810_02 transaction, the TDSP will cancel the 810_02 transaction.  If the 810_02 transaction error is not related to consumption, the TDSP may cancel the 810_02 transaction and not the 867_03 transaction.
+24.3	Monthly Remittance
+(1)	Transmission and/or Distribution Service Providers (TDSPs) and Competitive Retailers (CR) shall use the following transactions to remit monthly payments.
+24.3.1	Competitive Retailer to Transmission and/or Distribution Service Provider Monthly Remittance Advice
+(1)	This transaction set, from the CR to the TDSP, is used by the CR to notify the TDSP of payment details related to a specific invoice.  A CR must pass an 820_02, CR Remittance Advice, for every invoice (original, cancel, replacement) received, validated, and accepted by the CR even when a cancel and restatement of usage subsequently cancels the original invoice.
+(2)	Each Market Participant is responsible for ensuring that the data provided in the 820_02 transaction is presented in a format that is consistent with market specifications prescribed in the Texas Standard Electronic Transaction (TX SET) Implementation Guide posted on the ERCOT website.
+24.3.1.1	Remittance Advice Total Matches Payment Total
+(1)	The remittance advice must match the total payment.  The CR must ensure that the remittance advice and the payment instructions have the same (matching) trace/reference numbers.  A one-to-one correlation must be maintained between payments and remittance advices.  It is acceptable for one payment and one remittance advice to include many invoices.  It is not acceptable for several payments to reference one remittance advice.  Every payment trace/reference number sent via the bank must match a remittance advice trace/reference number sent to the TDSP.  The trace/reference number must be unique for each associated payment and remittance advice.
+24.3.1.2	Negative Remittance Advice
+(1)	A negative remittance advice is not allowed in the Texas retail market.  If the adjustments are larger than the payments (creating a negative remittance advice), payments must be held until the CR can submit a net positive remittance advice as a credit against the overpayment.  It is not necessary for a CR to hold an adjustment amount until the CR has accumulated sufficient invoices to result in a complete offset of the overpayment.  Instead the CR may use the adjustment amount by taking a partial credit on another Invoice.  If the CR has determined that the negative remittance cannot be offset within a reasonable amount of time, the CR will contact the TDSP to resolve the situation.
+24.3.1.3	Acceptable Payment Methods
+(1)	Acceptable payment methods are CCD+, CTX and Fed wire.
+24.3.1.4	Warehousing an 820 Remittance Advice
+(1)	When the payment instruction and the remittance advice are generated separately, the TDSP will warehouse the 820_02, CR Remittance Advice, until the payment instructions received by the CR’s bank cause the money to be deposited in the TDSP’s account.  The payment instruction and remittance shall be transmitted within five Business Days of each other.  The remittance advice and payment instruction dollar amount must balance to the corresponding transaction.  Payment will be considered received on the date company’s bank receives the electronic funds transfer or wire transfer and the appropriate remittance advice is received by the company in accordance with the requirements specified by Applicable Legal Authorities (ALA).
+24.4	Municipally Owned Utility/Electric Cooperative Transmission and/or Distribution Service Provider to Competitive Retailer Monthly Remittance Advice
+(1)	This transaction set, from a Municipally Owned Utility (MOU) Transmission and/or Distribution Service Provider (TDSP) or an Electric Cooperative (EC) TDSP (MOU/EC TDSP) to the Competitive Retailer (CR) is used by the MOU/EC TDSP to notify the CR of payment details related to a specific Invoice, unless otherwise indicated in Retail Market Guide Section 8.1, Municipally Owned Utility and/or Electric Cooperative Transmission and/or Distribution Service Provider Market.  An MOU/EC TDSP must pass an 820_03, MOU/EC Remittance Advice, for every CR account number even when a cancel and restatement of usage subsequently cancels the original invoice. 
+(2)	Each Market Participant is responsible for ensuring that the data provided in the 820_03 transaction is presented in a format that is consistent with the market specifications in the Texas Standard Electronic Transaction (TX SET) Implementation Guide.
+24.4.1	Timing 820 Remittance to CR
+(1)	When the payment is received from the retail Customer on behalf of the CR, MOU/EC TDSP shall send the payment instructions within five Retail Business Days of the due date of the retail Customer’s bill, or if the Customer has paid after the due date, five Business Days after the MOU/EC TDSP has received payment.  Payment instruction shall cause the money to be deposited in the CR’s account.  There should not be more than five Business Days difference in the receipt of the payment instruction and the remittance advice.
+24.4.2	Remittance Advice Total Matches Payment Total
+(1)	The remittance advice must match the total payment.  The MOU/EC TDSP must ensure that the remittance advice and the payment instructions have the same (matching) trace/reference numbers.  A one-to-one correlation must be maintained between payments and remittance advice.  It is acceptable for one payment and one remittance advice to include many invoices.  It is not acceptable for several payments to reference one remittance advice.  Every payment trace/reference number sent via the bank must match a remittance advice trace/reference number sent to the CR.  The trace/reference number must be unique for each associated payment and remittance advice.
+24.4.3	Negative Remittance Advice
+(1)	A negative remittance advice is not allowed in the Texas market.  If the adjustments are larger than the payments (creating a negative remittance advice), payment must be held until the MOU/EC TDSP can submit a net positive remittance advice as a credit against the overpayment.  It is not necessary for a MOU/EC TDSP to hold an adjustment amount until the MOU/EC TDSP has accumulated sufficient Invoices to result in a complete offset of the overpayment.  Instead the MOU/EC TDSP may use the adjustment amount by taking a partial credit on another Invoice.  If the MOU/EC TDSP has determined that the negative remittance cannot be offset within a reasonable amount of time, the MOU/EC TDSP will contact the CR to resolve the situation.
+24.4.4	Acceptable Payment Methods
+(1)	Acceptable payment instruction methods are CCD+, CTX, check, and Fed wire.
+24.4.5	Warehousing an 820 Remittance Advice
+(1)	When the payment instruction and the remittance advice are generated separately, the CR may warehouse the 820_03, MOU/EC Remittance Advice, until the payment instructions received by the MOU/EC TDSP’s bank cause the money to be deposited in the CR’s account.
+24.5	Maintain Customer Information Request
+(1)	This transaction set, from a Competitive Retailer (CR) to a Transmission and/or Distribution Service Provider (TDSP), is used for CRs who have chosen Options 2 and 3 concerning service orders and/or outages.  A CR choosing Option 2 or 3 shall be required to provide the TDSP with the information necessary to verify CR’s retail Customer’s identity (name, address, and home or contact telephone number) for a particular point of delivery served by the CR and to continually provide the TDSP updates of such information.
+24.5.1	Timing of 814_PC Maintain Customer Information Request from Competitive Retailer
+(1)	This transaction shall be transmitted from the CR of Record to the TDSP in one Retail Business Day only after the CR has received an 867_04, Initial Meter Read, from the TDSP for that specific move in Customer.  Also, the CR shall not transmit this transaction and/or provide any updates to the TDSP after receiving a final reading via an 867_03, Monthly or Final Usage, for that specific move-out Customer.  The TDSP shall provide the 814_PD, Maintain Customer Information Response, in one Retail Business Day acknowledging receipt of the 814_PC, Maintain Customer Information Request, which would indicate that the TDSP accepts or rejects the transaction.
+24.6	MOU/EC TDSP to CR Maintain Customer Information Request
+(1)	This transaction set, from a Municipally Owned Utility (MOU)/Electric Cooperative (EC) Transmission and/or Distribution Service Provider (TDSP) to the Competitive Retailer (CR), is used by the MOU/EC TDSP to provide the CR with Customer information (name, address, membership id, and home or contact telephone number) for a particular point of delivery served by both the MOU/EC TDSP and CR and to continually provide the CR updates of such information, unless otherwise indicated in Retail Market Guide Section 8.1, Municipally Owned Utility and/or Electric Cooperative Transmission and/or Distribution Service Provider Market.
+24.6.1	Timing of 814_PC Maintain Customer Information Request from Municipally Owned Utility/Electric Cooperative Transmission and/or Distribution Service Provider
+(1)	This transaction shall be transmitted from the MOU/EC TDSP to the CR in one Retail Business Day upon an update in Customer information.  The CR shall provide the 814_PD, Maintain Customer Information Response, in one Retail Business Day acknowledging receipt of the 814_PC, Maintain Customer Information Request, which would indicate that the CR accepts or rejects the transaction. 
+
+ERCOT Nodal Protocols
+Section 24:  Retail Point to Point Communications
+November 1, 2023
+
+ 
+24	Retail Point to Point Communications	24-1
+24.1	Maintenance Service Order Request	24-1
+24.1.1	Disconnect/Reconnect	24-1
+24.1.2	Suspension of Delivery Service	24-1
+24.1.2.1	Notification	24-1
+24.1.2.2	Cancellation	24-2
+24.1.3	Switch Hold Indicator	24-2
+24.1.3.1	Tampering Switch Hold	24-2
+24.1.3.2	Bill Payment Switch Hold	24-3
+24.2	Transmission and/or Distribution Service Provider to Competitive Retailer Invoice	24-3
+24.3	Monthly Remittance	24-4
+24.3.1	Competitive Retailer to Transmission and/or Distribution Service Provider Monthly Remittance Advice	24-4
+24.3.1.1	Remittance Advice Total Matches Payment Total	24-4
+24.3.1.2	Negative Remittance Advice	24-4
+24.3.1.3	Acceptable Payment Methods	24-5
+24.3.1.4	Warehousing an 820 Remittance Advice	24-5
+24.4	Municipally Owned Utility/Electric Cooperative Transmission and/or Distribution Service Provider to Competitive Retailer Monthly Remittance Advice	24-5
+24.4.1	Timing 820 Remittance to CR	24-5
+24.4.2	Remittance Advice Total Matches Payment Total	24-6
+24.4.3	Negative Remittance Advice	24-6
+24.4.4	Acceptable Payment Methods	24-6
+24.4.5	Warehousing an 820 Remittance Advice	24-6
+24.5	Maintain Customer Information Request	24-6
+24.5.1	Timing of 814_PC Maintain Customer Information Request from Competitive Retailer	24-7
+24.6	MOU/EC TDSP to CR Maintain Customer Information Request	24-7
+24.6.1	Timing of 814_PC Maintain Customer Information Request from Municipally Owned Utility/Electric Cooperative Transmission and/or Distribution Service Provider	24-7
+ 
+24	RETAIL POINT TO POINT COMMUNICATIONS
+(1)	Point to point communications include transactions flowing directly between Competitive Retailers (CRs), and Transmission and/or Distribution Service Providers (TDSPs) and do not flow through ERCOT.  These point to point transactions may be Customer requested service orders and CR/TDSP invoicing and remittance.
+24.1	Maintenance Service Order Request
+(1)	To initiate an original service order, cancel, or change (update) request, the Competitive Retailer (CR) sends maintenance related information to the Transmission and/or Distribution Service Provider (TDSP) using the 650_01, Service Order Request.  The 650_01 transaction sent by the CR shall include a level of information such that the TDSP clearly understands the nature of the request and the work that it is being requested to perform.  The TDSP will respond within one Retail Business Day after completion, or attempted completion, of the requested action using the 650_02, Service Order Response, to notify the CR that the service order is either completed, unable to be completed, or rejected, or that a permit is required before the order can be completed.  There is a one-to-one relationship between the 650_01 and 650_02 transactions.
+24.1.1	Disconnect/Reconnect
+(1)	Public Utility Commission of Texas (PUCT) Substantive Rules and orders, along with TDSP tariffs, dictate the timeline for both disconnection for non-payment and reconnection after disconnection for non-payment.  For more information please refer to the Retail Market Guide Section 7.6, Disconnect and Reconnect for Non-Payment Process.
+24.1.2	Suspension of Delivery Service 
+(1)	The following transactions shall be used by a TDSP seeking to suspend delivery service for an Electric Service Identifier (ESI ID).
+24.1.2.1	Notification
+(1)	The 650_04, Planned or Unplanned Outage Notification, is electronically transmitted by the TDSP to the CR to notify the CR of the ESI ID(s) and Service Address(es) affected by either a temporary or permanent suspension of service.  The situations under which a 650_04 transaction may be created and transmitted to the CR include:
+(a)	An outage has been scheduled by the TDSP for the Customer's Service Address for a specific date and time.  This type of suspension may be the result of scheduled tree trimming, electrical inspection, testing, maintenance, or changes/upgrades to network equipment.
+(b)	An outage has occurred at the Customer's Service Address, but it was not planned or previously scheduled.  Such a suspension is normally needed to remedy a dangerous electrical condition that exists at the Customer's address due to an event or activity such as a fire, meter tampering, or theft of service.
+(c)	For circumstances when a CR, the Customer, or authorized legal authority (county, city, fire, or police personnel) requests disconnection and meter removal because a structure has been destroyed or demolished, or the TDSP has found the meter removed by an unknown Entity, or has removed the meter for unsafe conditions, the TDSP will send a 650_04 transaction.  In events where the CR receives a 650_04 transaction indicating that service to the Premise has been permanently suspended by the TDSP for one of the reasons indicated above, the CR will send an 814_24, Move Out Request, to the TDSP within ten Retail Business Days.
+(d)	Just like a suspension is scheduled or requested it can also be cancelled.  If the suspension request is cancelled for any reason, the TDSP will create a 650_04 transaction indicating that the suspension has been cancelled and send a 650_04 transaction to the CR for every ESI ID that would have been affected by the outage.
+(2)	To notify the CR of a suspension of delivery service, the TDSP sends Notice to the CR using the 650_04 transaction.  
+24.1.2.2	Cancellation
+(1)	To notify the CR of a cancellation of the Notification of suspension of delivery service, the TDSP sends Notice to the CR using the 650_04, Planned or Unplanned Outage, for each ESI ID that would otherwise have been affected by the outage.
+24.1.3	Switch Hold Indicator 
+24.1.3.1	Tampering Switch Hold
+(1)	A tampering switch hold is used when tampering has been determined to have occurred.  A switch hold will be placed on the ESI ID in accordance with P.U.C. SUBST. R. 25.126, Adjustments Due to Non-Compliant Meters and Meter Tampering in Areas Where Customer Choice Has Been Introduced.  
+(2)	To remove a switch hold indicator, the CR sends the 650_01, Service Order Request, to the TDSP requesting the removal of the switch hold indicator.  The TDSP will respond with the 650_02, Service Order Response, to the CR acknowledging receipt of the service order request.  Confirmation that the service order request has been completed will be received through the 814_20, ESI ID Maintenance Request.
+24.1.3.2	Bill Payment Switch Hold
+(1)	A bill payment switch hold is used when a Customer has entered into a payment agreement with their current CR.  A switch hold will be placed on the ESI ID in accordance with P.U.C. SUBST. R. 25.480, Bill Payment and Adjustments.  
+(a)	To add a switch hold indicator, the CR sends the 650_01, Service Order Request, to the TDSP requesting the addition of the switch hold indicator.  The TDSP will respond with the 650_02, Service Order Response, to the CR acknowledging receipt of the service order request.  Confirmation that the service order request has been completed will be received through the 814_20, ESI ID Maintenance Request.  
+(b)	To remove a switch hold indicator, the CR sends the 650_01 to the TDSP requesting the removal of the switch hold indicator.  The TDSP will respond with the 650_02 response to the CR acknowledging receipt of the service order request.  Confirmation that the service order request has been completed will be received through the 814_20 transaction.
+24.2	Transmission and/or Distribution Service Provider to Competitive Retailer Invoice 
+(1)	The 810_02, TDSP Invoice, may include monthly delivery charges, discretionary service charges, service order charges, interest credit, and/or late payment charges for the current billing period.  Following a positive acknowledgement indicating the transaction passed American National Standards Institute Accredited Standards Committee (ANSI ASC) X12 validation, the Competitive Retailer (CR) shall have five Business Days to send a rejection response in accordance with the Texas Standard Electronic Transaction (TX  SET) Implementation Guides posted on the ERCOT website and Public Utility Commission of Texas (PUCT) Substantive Rules.  If the CR has not received a response transaction to an enrollment or move in, the CR shall not reject the invoice, but will utilize an approved market process (MarkeTrak or dispute process) to resolve the issue.  Details of these processes may be found in the Retail Market Guide Section 7, Market Processes.  
+(2)	Only one 810_02 transaction may be sent for a single service period, however, any additional 810_02 transaction for the same Electric Service Identifier (ESI ID) may be sent for a late payment charge after the 35th calendar day for an unpaid 810_02 transaction or for interest credit.
+(3)	The 810_02 may be paired with an 867_03, Monthly or Final Usage, to trigger the Customer billing process.
+(4)	The Transmission and/or Distribution Service Provider (TDSP) may cancel and replace (rebill) the original 810_02 transaction.  The values in the cancel transaction will be identical in amounts to what they were on the original invoice.  The replacement (rebilled) invoice now becomes the monthly invoice for that service period.
+(5)	If the 867_03 is cancelled after the TDSP has sent the 810_02 transaction, the TDSP will cancel the 810_02 transaction.  If the 810_02 transaction error is not related to consumption, the TDSP may cancel the 810_02 transaction and not the 867_03 transaction.
+24.3	Monthly Remittance
+(1)	Transmission and/or Distribution Service Providers (TDSPs) and Competitive Retailers (CR) shall use the following transactions to remit monthly payments.
+24.3.1	Competitive Retailer to Transmission and/or Distribution Service Provider Monthly Remittance Advice
+(1)	This transaction set, from the CR to the TDSP, is used by the CR to notify the TDSP of payment details related to a specific invoice.  A CR must pass an 820_02, CR Remittance Advice, for every invoice (original, cancel, replacement) received, validated, and accepted by the CR even when a cancel and restatement of usage subsequently cancels the original invoice.
+(2)	Each Market Participant is responsible for ensuring that the data provided in the 820_02 transaction is presented in a format that is consistent with market specifications prescribed in the Texas Standard Electronic Transaction (TX SET) Implementation Guide posted on the ERCOT website.
+24.3.1.1	Remittance Advice Total Matches Payment Total
+(1)	The remittance advice must match the total payment.  The CR must ensure that the remittance advice and the payment instructions have the same (matching) trace/reference numbers.  A one-to-one correlation must be maintained between payments and remittance advices.  It is acceptable for one payment and one remittance advice to include many invoices.  It is not acceptable for several payments to reference one remittance advice.  Every payment trace/reference number sent via the bank must match a remittance advice trace/reference number sent to the TDSP.  The trace/reference number must be unique for each associated payment and remittance advice.
+24.3.1.2	Negative Remittance Advice
+(1)	A negative remittance advice is not allowed in the Texas retail market.  If the adjustments are larger than the payments (creating a negative remittance advice), payments must be held until the CR can submit a net positive remittance advice as a credit against the overpayment.  It is not necessary for a CR to hold an adjustment amount until the CR has accumulated sufficient invoices to result in a complete offset of the overpayment.  Instead the CR may use the adjustment amount by taking a partial credit on another Invoice.  If the CR has determined that the negative remittance cannot be offset within a reasonable amount of time, the CR will contact the TDSP to resolve the situation.
+24.3.1.3	Acceptable Payment Methods
+(1)	Acceptable payment methods are CCD+, CTX and Fed wire.
+24.3.1.4	Warehousing an 820 Remittance Advice
+(1)	When the payment instruction and the remittance advice are generated separately, the TDSP will warehouse the 820_02, CR Remittance Advice, until the payment instructions received by the CR’s bank cause the money to be deposited in the TDSP’s account.  The payment instruction and remittance shall be transmitted within five Business Days of each other.  The remittance advice and payment instruction dollar amount must balance to the corresponding transaction.  Payment will be considered received on the date company’s bank receives the electronic funds transfer or wire transfer and the appropriate remittance advice is received by the company in accordance with the requirements specified by Applicable Legal Authorities (ALA).
+24.4	Municipally Owned Utility/Electric Cooperative Transmission and/or Distribution Service Provider to Competitive Retailer Monthly Remittance Advice
+(1)	This transaction set, from a Municipally Owned Utility (MOU) Transmission and/or Distribution Service Provider (TDSP) or an Electric Cooperative (EC) TDSP (MOU/EC TDSP) to the Competitive Retailer (CR) is used by the MOU/EC TDSP to notify the CR of payment details related to a specific Invoice, unless otherwise indicated in Retail Market Guide Section 8.1, Municipally Owned Utility and/or Electric Cooperative Transmission and/or Distribution Service Provider Market.  An MOU/EC TDSP must pass an 820_03, MOU/EC Remittance Advice, for every CR account number even when a cancel and restatement of usage subsequently cancels the original invoice. 
+(2)	Each Market Participant is responsible for ensuring that the data provided in the 820_03 transaction is presented in a format that is consistent with the market specifications in the Texas Standard Electronic Transaction (TX SET) Implementation Guide.
+24.4.1	Timing 820 Remittance to CR
+(1)	When the payment is received from the retail Customer on behalf of the CR, MOU/EC TDSP shall send the payment instructions within five Retail Business Days of the due date of the retail Customer’s bill, or if the Customer has paid after the due date, five Business Days after the MOU/EC TDSP has received payment.  Payment instruction shall cause the money to be deposited in the CR’s account.  There should not be more than five Business Days difference in the receipt of the payment instruction and the remittance advice.
+24.4.2	Remittance Advice Total Matches Payment Total
+(1)	The remittance advice must match the total payment.  The MOU/EC TDSP must ensure that the remittance advice and the payment instructions have the same (matching) trace/reference numbers.  A one-to-one correlation must be maintained between payments and remittance advice.  It is acceptable for one payment and one remittance advice to include many invoices.  It is not acceptable for several payments to reference one remittance advice.  Every payment trace/reference number sent via the bank must match a remittance advice trace/reference number sent to the CR.  The trace/reference number must be unique for each associated payment and remittance advice.
+24.4.3	Negative Remittance Advice
+(1)	A negative remittance advice is not allowed in the Texas market.  If the adjustments are larger than the payments (creating a negative remittance advice), payment must be held until the MOU/EC TDSP can submit a net positive remittance advice as a credit against the overpayment.  It is not necessary for a MOU/EC TDSP to hold an adjustment amount until the MOU/EC TDSP has accumulated sufficient Invoices to result in a complete offset of the overpayment.  Instead the MOU/EC TDSP may use the adjustment amount by taking a partial credit on another Invoice.  If the MOU/EC TDSP has determined that the negative remittance cannot be offset within a reasonable amount of time, the MOU/EC TDSP will contact the CR to resolve the situation.
+24.4.4	Acceptable Payment Methods
+(1)	Acceptable payment instruction methods are CCD+, CTX, check, and Fed wire.
+24.4.5	Warehousing an 820 Remittance Advice
+(1)	When the payment instruction and the remittance advice are generated separately, the CR may warehouse the 820_03, MOU/EC Remittance Advice, until the payment instructions received by the MOU/EC TDSP’s bank cause the money to be deposited in the CR’s account.
+24.5	Maintain Customer Information Request
+(1)	This transaction set, from a Competitive Retailer (CR) to a Transmission and/or Distribution Service Provider (TDSP), is used for CRs who have chosen Options 2 and 3 concerning service orders and/or outages.  A CR choosing Option 2 or 3 shall be required to provide the TDSP with the information necessary to verify CR’s retail Customer’s identity (name, address, and home or contact telephone number) for a particular point of delivery served by the CR and to continually provide the TDSP updates of such information.
+24.5.1	Timing of 814_PC Maintain Customer Information Request from Competitive Retailer
+(1)	This transaction shall be transmitted from the CR of Record to the TDSP in one Retail Business Day only after the CR has received an 867_04, Initial Meter Read, from the TDSP for that specific move in Customer.  Also, the CR shall not transmit this transaction and/or provide any updates to the TDSP after receiving a final reading via an 867_03, Monthly or Final Usage, for that specific move-out Customer.  The TDSP shall provide the 814_PD, Maintain Customer Information Response, in one Retail Business Day acknowledging receipt of the 814_PC, Maintain Customer Information Request, which would indicate that the TDSP accepts or rejects the transaction.
+24.6	MOU/EC TDSP to CR Maintain Customer Information Request
+(1)	This transaction set, from a Municipally Owned Utility (MOU)/Electric Cooperative (EC) Transmission and/or Distribution Service Provider (TDSP) to the Competitive Retailer (CR), is used by the MOU/EC TDSP to provide the CR with Customer information (name, address, membership id, and home or contact telephone number) for a particular point of delivery served by both the MOU/EC TDSP and CR and to continually provide the CR updates of such information, unless otherwise indicated in Retail Market Guide Section 8.1, Municipally Owned Utility and/or Electric Cooperative Transmission and/or Distribution Service Provider Market.
+24.6.1	Timing of 814_PC Maintain Customer Information Request from Municipally Owned Utility/Electric Cooperative Transmission and/or Distribution Service Provider
+(1)	This transaction shall be transmitted from the MOU/EC TDSP to the CR in one Retail Business Day upon an update in Customer information.  The CR shall provide the 814_PD, Maintain Customer Information Response, in one Retail Business Day acknowledging receipt of the 814_PC, Maintain Customer Information Request, which would indicate that the CR accepts or rejects the transaction. 
+ERCOT Nodal Protocols
+Section 26:  Securitization Default Charges
+April 1, 2025
+
+ 
+26	Securitization default charges	26-1
+26.1	Overview	26-1
+26.2	Securitization Default Charges	26-1
+26.3 	Securitization Default Charge Invoices	26-7
+26.3.1	Payment Process for Securitization Default Charge Invoices	26-8
+26.3.1.1	Invoice Recipient Payment to ERCOT for Securitization Default Charge Invoices	26-8
+26.3.1.2	Insufficient Payments by Invoice Recipients for Securitization Default Charge Invoices	26-9
+26.4 	Securitization Default Charge Supporting Data Reporting	26-10
+26.5	Securitization Default Charge Escrow Deposit Requirements	26-10
+26.5.1 	Securitization Default Charge Escrow	26-11
+26.5.2 	ERCOT Securitization Default Charge Credit Requirements for Counter-Parties	26-11
+26.5.3	Means of Satisfying Securitization Default Charge Credit Requirements	26-11
+26.5.4	Determination of Securitization Default Charge Credit Exposure for a Counter-Party	26-13
+26.5.5	Monitoring of a Counter-Party’s Securitization Default Charge Credit Exposure by ERCOT	26-13
+26.5.6	Payment Breach and Late Payments by Market Participants	26-15
+26.5.7	Release of Market Participant’s Securitization Default Charge Escrow Deposit Requirement	26-15
+ 
+Securitization default charges
+26.1	Overview
+(1)	This section establishes processes for the assessment of Securitization Default Charges and Securitization Default Charge credit requirements.
+26.2	Securitization Default Charges 
+(1)	ERCOT shall issue Invoices to Qualified Scheduling Entities (QSEs) and Congestion Revenue Right (CRR) Account Holders to collect the monthly amount determined by ERCOT to be necessary to repay the Securitization Default Balance.  ERCOT may assess Securitization Default Charges over a period of up to 30 years.
+(2)	Each Counter-Party’s share of the Securitization Default Charge for a month is calculated using the best available Settlement data for the most recent month for which ERCOT has posted Final Settlement data for all Operating Days in the month (referred to below as “the reference month”), as follows:
+SDCRSCP cp = TSDCMA * SDCMMARS cp
+Where:
+SDCMMARS cp = SDCMMA cp / SDCMMATOT
+SDCMMA cp = Max { ∑mp (SDCRTMG mp + SDCRTDCIMP mp), 
+∑mp (SDCRTAML mp + SDCWSLTOT mp), 
+∑mp SDCRTQQES mp, 
+∑mp SDCRTQQEP mp, 
+∑mp SDCDAES mp, 
+∑mp SDCDAEP mp,
+∑mp (SDCRTOBL mp + SDCRTOBLLO mp), 
+∑mp (SDCDAOPT mp + SDCDAOBL mp + SDCOPTS mp + SDCOBLS mp), 
+∑mp (SDCOPTP mp + SDCOBLP mp)} 
+SDCMMATOT = ∑cp (SDCMMA cp)
+Where:
+SDCRTMG mp = ∑r, p, i (RTMG mp, r, p, i), excluding RTMG for Reliability Must-Run (RMR) Resources and RTMG in Reliability Unit Commitment (RUC)-Committed Intervals for RUC-committed Resources
+SDCRTDCIMP mp = ∑p, i (RTDCIMP mp, p, i) / 4
+SDCRTAML mp = max(0,∑p, i (RTAMLEXSECM mp, p, i))
+SDCRTQQES mp = ∑p, i (RTQQES mp, p, i) / 4
+SDCRTQQEP mp = ∑p, i (RTQQEP mp, p, i) / 4
+SDCDAES mp = ∑p, h (DAES mp, p, h)
+SDCDAEP mp = ∑p, h (DAEP mp, p, h)
+SDCRTOBL mp = ∑(j, k), h (RTOBL mp, (j, k), h)
+SDCRTOBLLO mp = ∑(j, k), h (RTOBLLO mp, (j, k), h)
+SDCDAOPT mp = ∑(j, k), h (OPT mp, (j, k), h)
+SDCDAOBL mp = ∑(j, k), h (DAOBL mp, (j, k), h)
+SDCOPTS mp = ∑(j, k), h (OPTS mp, (j, k), h) 
+SDCOBLS mp = ∑(j, k), h (OBLS mp, (j, k), h)
+SDCOPTP mp = ∑(j, k), h (OPTP mp, j, h)
+SDCOBLP mp = ∑(j, k), h (OBLP mp, (j, k), h)
+SDCWSLTOT mp = (-1) * ∑r, b (MEBL mp, r, b)
+The above variables are defined as follows:
+Variable	Unit	Definition
+SDCRSCP cp	$	Securitization Default Charge Ratio Share per Counter-Party—The Counter-Party’s pro rata portion of the total Securitization Charges for a month. 
+TSDCMA	$	Total Securitization Default Charge Monthly Amount—The amount ERCOT determines must be collected for the month in order to timely repay the Securitization Default Balance.
+SDCMMARS cp	None	Securitization Default Charge Maximum MWh Activity Ratio Share—The Counter-Party’s pro rata share of Maximum MWh Activity.
+SDCMMA cp	MWh	Securitization Default Charge Maximum MWh Activity—The maximum MWh activity of all Market Participants represented by the Counter-Party in the DAM, RTM and CRR Auction for the reference month.
+SDCMMATOT	MWh	Securitization Default Charge Maximum MWh Activity Total—The sum of all  Counter-Party’s Maximum MWh Activity.
+RTMG mp, p, r, i	MWh	Real-Time Metered Generation per Market Participant per Settlement Point per Resource—The Real-Time energy produced by the Generation Resource r represented by Market Participant mp, at Resource Node p, for the 15-minute Settlement Interval i, where the Market Participant is a QSE.
+[NPRR1246:  Replace the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Real-Time Metered Generation per Market Participant per Settlement Point per Resource—The Real-Time energy produced by the Resource r represented by Market Participant mp, at Resource Node p, for the 15-minute Settlement Interval i, where the Market Participant is a QSE.
+SDCRTMG mp	MWh	Securitization Default Charge Real-Time Metered Generation per Market Participant—The monthly sum in the reference month of Real-Time energy produced by Generation Resources represented by Market Participant mp, excluding generation for RMR Resources and generation in RUC-Committed Intervals, where the Market Participant is a QSE assigned to the registered Counter-Party. 
+[NPRR1246:  Replace the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Securitization Default Charge Real-Time Metered Generation per Market Participant—The monthly sum in the reference month of Real-Time energy produced by Resources represented by Market Participant mp, excluding generation for RMR Resources and generation in RUC-Committed Intervals, where the Market Participant is a QSE assigned to the registered Counter-Party.
+RTDCIMP mp, p, i	MW	Real-Time DC Import per QSE per Settlement Point—The aggregated Direct Current Tie (DC Tie) Schedule submitted by Market Participant mp, as an importer into the ERCOT System through DC Tie p, for the 15-minute Settlement Interval i, where the Market Participant is a QSE.
+SDCRTDCIMP mp	MW	Securitization Default Charge Real-Time DC Import per Market Participant—The monthly sum in the reference month of the aggregated DC Tie Schedule submitted by Market Participant mp, as an importer into the ERCOT System where the Market Participant is a QSE assigned to a registered Counter-Party.
+RTAMLEXSECM mp, p, i	MWh	Real-Time Adjusted Metered Load Excluding Load Exempt from Sub M per Market Participant per Settlement Point—The sum of the Adjusted Metered Load (AML), excluding Load that is exempt from Securitization Default Charges pursuant to the Declaratory Order entered by the Public Utility Commission of Texas (PUCT) in PUCT Docket No. 56122, Petition of Electric Reliability Council of Texas, Inc. for Expedited Declaratory Order Regarding Public Utility Regulatory Act Chapter 39, Subchapter M, at the Electrical Buses that are included in Settlement Point p represented by Market Participant mp for the 15-minute Settlement Interval i, where the Market Participant is a QSE.
+SDCRTAML mp	MWh	Securitization Default Charge Real-Time Adjusted Metered Load per Market Participant—The monthly sum in the reference month of the AML, excluding Load exempt from Securitization Default Charges pursuant to the Declaratory Order entered by the PUCT in PUCT Docket No. 56122, represented by Market Participant mp, where the Market Participant is a QSE assigned to the registered Counter-Party.
+RTQQES mp, p, i	MW	QSE-to-QSE Energy Sale per Market Participant per Settlement Point—The amount of MW sold by Market Participant mp through Energy Trades at Settlement Point p for the 15-minute Settlement Interval i, where the Market Participant is a QSE.
+SDCRTQQES mp	MWh	Securitization Default Charge QSE-to-QSE Energy Sale per Market Participant—The monthly sum in the reference month of MW sold by Market Participant mp through Energy Trades, where the Market Participant is a QSE assigned to the registered Counter-Party.
+RTQQEP mp, p, i	MW	QSE-to-QSE Energy Purchase per Market Participant per Settlement Point—The amount of MW bought by Market Participant mp through Energy Trades at Settlement Point p for the 15-minute Settlement Interval i, where the Market Participant is a QSE.
+SDCRTQQEP mp	MWh	Securitization Default Charge QSE-to-QSE Energy Purchase per Market Participant—The monthly sum in the reference month of MW bought by Market Participant mp through Energy Trades, where the Market Participant is a QSE assigned to the registered Counter-Party.
+DAES mp, p, h	MW	Day-Ahead Energy Sale per Market Participant per Settlement Point per hour—The total amount of energy represented by Market Participant mp’s cleared Three-Part Supply Offers in the DAM and cleared DAM Energy-Only Offers at Settlement Point p, for the hour h, where the Market Participant is a QSE.
+SDCDAES mp	MWh	Securitization Default Charge Day-Ahead Energy Sale per Market Participant—The monthly total in the reference month of energy represented by Market Participant mp’s cleared Three-Part Supply Offers in the DAM and cleared DAM Energy-Only Offer Curves, where the Market Participant is a QSE assigned to the registered Counter-Party.
+DAEP mp, p, h	MW	Day-Ahead Energy Purchase per Market Participant per Settlement Point per hour—The total amount of energy represented by Market Participant mp’s cleared DAM Energy Bids at Settlement Point p for the hour h, where the Market Participant is a QSE.
+[NPRR1188:  Replace the definition above with the following upon system implementation:] 
+Day-Ahead Energy Purchase per Market Participant per Settlement Point per hour—The total amount of energy represented by Market Participant mp’s DAM Energy Bids and Energy Bid Curves, cleared in the DAM, at Settlement Point p for the hour h, where the Market Participant is a QSE.
+SDCDAEP mp	MWh	Securitization Default Charge Day-Ahead Energy Purchase per Market Participant—The monthly total in the reference month of energy represented by Market Participant mp’s cleared DAM Energy Bids, where the Market Participant is a QSE assigned to the registered Counter-Party.
+[NPRR1188:  Replace the definition above with the following upon system implementation:] 
+Securitization Default Charge Day-Ahead Energy Purchase per Market Participant—The monthly total in the reference month of energy represented by Market Participant mp’s DAM Energy Bids and Energy Bid Curves, cleared in the DAM, where the Market Participant is a QSE assigned to the registered Counter-Party.
+RTOBL mp, (j, k), h	MW	Real-Time Obligation per Market Participant per source and sink pair per hour—The number of Market Participant mp’s Point-to-Point (PTP) Obligations with the source j and the sink k settled in Real-Time for the hour h, and where the Market Participant is a QSE.
+SDCRTOBL mp	MWh	Securitization Default Charge Real-Time Obligation per Market Participant—The monthly total in the reference month of Market Participant mp’s PTP Obligations settled in Real-Time, counting the quantity only once per source and sink pair, and where the Market Participant is a QSE assigned to the registered Counter-Party.
+RTOBLLO q, (j, k)	MW	Real-Time Obligation with Links to an Option per QSE per pair of source and sinkThe total MW of the QSE’s PTP Obligation with Links to an Option Bids cleared in the DAM and settled in Real-Time for the source j and the sink k for the hour.
+SDCRTOBLLO q, (j, k)	MW	Securitization Default Charge Real-Time Obligation with Links to an Option per QSE per pair of source and sinkThe monthly total in the reference month of Market Participant mp’s MW of PTP Obligation with Links to Options Bids cleared in the DAM and settled in Real-Time for the source j and the sink k for the hour, where the Market Participant is a QSE assigned to the registered Counter-Party.
+OPT mp, (j, k), h	MW	Day-Ahead Option per Market Participant per source and sink pair per hourThe number of Market Participant mp’s PTP Options with the source j and the sink k owned in the DAM for the hour h, and where the Market Participant is a CRR Account Holder. 
+SDCDAOPT mp	MWh	Securitization Default Charge Day-Ahead Option per Market ParticipantThe monthly total in the reference month of Market Participant mp’s PTP Options owned in the DAM, counting the ownership quantity only once per source and sink pair, and where the Market Participant is a CRR Account Holder assigned to the registered Counter-Party.
+DAOBL mp, (j, k), h	MW	Day-Ahead Obligation per Market Participant per source and sink pair per hour—The number of Market Participant mp’s PTP Obligations with the source j and the sink k owned in the DAM for the hour h, and where the Market Participant is a CRR Account Holder.  
+SDCDAOBL mp	MWh	Securitization Default Charge Day-Ahead Obligation per Market ParticipantThe monthly total in the reference month of Market Participant mp’s PTP Obligations owned in the DAM, counting the ownership quantity only once per source and sink pair, where the Market Participant is a CRR Account Holder assigned to the registered Counter-Party.
+OPTS mp, (j, k), a, h	MW	PTP Option Sale per Market Participant per source and sink pair per CRR Auction per hour—The MW quantity that represents the total of Market Participant mp’s PTP Option offers with the source j and the sink k awarded in CRR Auction a, for the hour h, where the Market Participant is a CRR Account Holder.
+SDCOPTS mp	MWh	Securitization Default Charge PTP Option Sale per Market Participant—The MW quantity that represents the monthly total in the reference month of Market Participant mp’s PTP Option offers awarded in CRR Auctions, counting the awarded quantity only once per source and sink pair, where the Market Participant is a CRR Account Holder assigned to the registered Counter-Party.
+OBLS mp, (j, k), a, h	MW	PTP Obligation Sale per Market Participant per source and sink pair per CRR Auction per hour—The MW quantity that represents the total of Market Participant mp’s PTP Obligation offers with the source j and the sink k awarded in CRR Auction a, for the hour h, where the Market Participant is a CRR Account Holder.
+SDCOBLS mp	MWh	Securitization Default Charge PTP Obligation Sale per Market Participant—The MW quantity that represents the monthly total in the reference month of Market Participant mp’s PTP Obligation offers awarded in CRR Auctions, counting the quantity only once per source and sink pair, where the Market Participant is a CRR Account Holder assigned to the registered Counter-Party.
+OPTP mp, (j, k), a, h	MW	PTP Option Purchase per Market Participant per source and sink pair per CRR Auction per hour—The MW quantity that represents the total of Market Participant mp’s PTP Option bids with the source j and the sink k awarded in CRR Auction a, for the hour h, where the Market Participant is a CRR Account Holder.
+SDCOPTP mp	MWh	Securitization Default Charge PTP Option Purchase per Market Participant—The MW quantity that represents the monthly total in the reference month of Market Participant mp’s PTP Option bids awarded in CRR Auctions, counting the quantity only once per source and sink pair, where the Market Participant is a CRR Account Holder assigned to the registered Counter-Party.
+OBLP mp, (j, k), a, h	MW	PTP Obligation Purchase per Market Participant per source and sink pair per CRR Auction per hour—The MW quantity that represents the total of Market Participant mp’s PTP Obligation bids with the source j and the sink k awarded in CRR Auction a, for the hour h, where the Market Participant is a CRR Account Holder.
+SDCOBLP mp	MWh	Securitization Default Charge PTP Obligation Purchase per Market Participant—The MW quantity that represents the monthly total in the reference month of Market Participant mp’s PTP Obligation bids awarded in CRR Auctions, counting the quantity only once per source and sink pair, where the Market Participant is a CRR Account Holder assigned to the registered Counter-Party.
+SDCWSLTOT mp	MWh	Securitization Default Charge Metered Energy for Wholesale Storage Load at bus per Market ParticipantThe monthly sum in the reference month of Market Participant mp’s Wholesale Storage Load (WSL) energy metered by the Settlement Meter which measures WSL.
+MEBL mp, r, b	MWh	Metered Energy for Wholesale Storage Load at busThe WSL energy metered by the Settlement Meter which measures WSL for the 15-minute Settlement Interval represented as a negative value, for the Market Participant mp, Resource r, at bus b.  
+cp	none	A registered Counter-Party.
+mp	none	A Market Participant that is a QSE or CRR Account Holder with activity in the reference month, except for a Market Participant exempt from Securitization Default Charges pursuant to the Final Order entered by the PUCT in PUCT Docket No. 52321, Application of Electric Reliability Council of Texas, Inc. for a Debt Obligation Order Pursuant to Chapter 39, Subchapter M.  Defaulted Market Participants with market activity in the reference month are included in the calculation.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+a	none	A CRR Auction.
+p	none	A Settlement Point.
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i.
+r	none 	A Resource. 
+(3)	The Securitization Default Charge amount will be allocated to the QSE or CRR Account Holder assigned to a registered Counter-Party based on the pro-rata share of MWhs that the QSE or CRR Account Holder contributed to its Counter-Party’s maximum MWh activity ratio share.
+(4)	As needed, but no less than annually, ERCOT will conduct an evaluation to determine if the Total Securitization Default Charge Monthly Amount (TSDCMA), which is the amount collected each month to repay the Securitization Default Balance, should be modified.  In conducting this evaluation, ERCOT will calculate the amount that must be collected each month to service the then-remaining Securitization Default Balance debt in even monthly amounts over the remaining tenor of the debt. 
+(5)	If ERCOT modifies the TSDCMA pursuant to paragraph (4) above, ERCOT will issue a Market Notice notifying Market Participants of the change no later than 15 days before the beginning of the month in which the new TSDCMA will be used to calculate the Securitization Default Charges. 
+26.3 	Securitization Default Charge Invoices  
+(1)	ERCOT shall prepare Securitization Default Charge Invoices on a monthly basis, as specified in Section 9.1.2, Settlement Calendar, on the seventh Business Day of a month.  Unless expressly stated otherwise, the publication of the Securitization Default Charge Invoices can occur as late as 2400 on the scheduled publication date.  The Market Participant to whom the Invoice is addressed (Invoice Recipient) is a payor.  
+(2)	Each Invoice Recipient shall pay any debit shown on the Securitization Default Charge Invoice on the payment due date, whether or not there is any Settlement and billing dispute regarding the amount of the debit.
+(3)	ERCOT shall post the Securitization Default Charge Invoice on the MIS Certified Area.  The Invoice Recipient is responsible for accessing the Securitization Default Charge Invoice on the MIS Certified Area once posted by ERCOT, as described in Section 9.1.3, Settlement Statement and Invoice Access. 
+(4)	The Securitization Default Charge Invoice must comply with the Settlement payment convention, as set forth in Section 9.1.5, Settlement Payment Convention. 
+(5)	Securitization Default Charge Invoices must contain the following information:
+(a)	The Invoice Recipient’s name;
+(b)	The ERCOT identifier (Settlement identification number issued by ERCOT);
+(c)	Net Amount Owed– the charge owed by an Invoice Recipient;
+(d)	Time Period – the reference month for which the Securitization Default Charge Invoice is generated; 
+(e)	Run Date – the date on which the Invoice was created and published;
+(f)	Invoice Reference Number – a unique number generated by ERCOT for payment tracking purposes;
+(g)	Payment Date and Time – the date and time the Invoice amounts must be paid;
+(h)	Remittance Information Details – details including the account number, bank name, and electronic transfer instructions of the ERCOT Securitization Default Charge account to which any amounts owed by the Invoice Recipient are to be paid; and
+(i)	Overdue Terms – the terms that would apply if the payments were received late. 
+(6) 	All disputes for Securitization Default Charge Invoices shall follow the process described in Section 9.14, Settlement and Billing Dispute Process.
+26.3.1	Payment Process for Securitization Default Charge Invoices
+(1)	Payments for Securitization Default Charge Invoices are due on a Business Day and Bank Business Day basis in a process detailed below.
+26.3.1.1	Invoice Recipient Payment to ERCOT for Securitization Default Charge Invoices
+(1)	The payment due date and time for Securitization Default Charge Invoices, with funds owed by an Invoice Recipient, is 1700 on the fifth Bank Business Day after the Securitization Default Charge Invoice date, unless fifth Bank Business Day is not a Business Day.  If the fifth Bank Business Day is not a Business Day, then the payment is due by 1700 on the next Bank Business Day after the fifth Bank Business Day that is also a Business Day. 
+(2)	All Securitization Default Charge Invoices due, with funds owed by an Invoice Recipient, must be paid to ERCOT in U.S. Dollars (USDs) by Electronic Funds Transfer (EFT) in immediately available or good funds (i.e., not subject to reversal) on or before the payment due date.  EFTs must be with U.S. banks only.
+(3)	Securitization Default Charge Invoices are distinct from other Invoices issued by ERCOT and must be paid by an EFT that is separate from any other Invoice.  An Invoice Recipient may not net amounts owing on a Securitization Default Charge Invoice with any other funds due to or from ERCOT. 
+(4)	Payments for Securitization Default Charges must be made to the account listed on the Invoice.  If payment is not made to the correct account, the payment will be rejected. Failure to remit funds to the correct account may result in a Payment Breach.  The payment remark must include the Invoice number.
+26.3.1.2	Insufficient Payments by Invoice Recipients for Securitization Default Charge Invoices 
+(1)	If an Invoice Recipient owing funds does not pay its Securitization Default Charge Invoice in full (short-pay) by the payment due date and time set forth in Section 26.3.1.1, Invoice Recipient Payment to ERCOT for Securitization Default Charge Invoices, ERCOT shall follow the procedure set forth below:
+(a)	ERCOT shall draw on any available Securitization Default Charge escrow deposits by the Invoice Recipient. 
+(b)	If available Securitization Default Charge escrow deposits are insufficient to cover the short-paid amount, ERCOT will utilize Financial Security held with respect to other ERCOT market activities as determined in Section 16.11.4, Determination and Monitoring of Counter-Party Credit Exposure.  ERCOT may not utilize Securitization Uplift Charge escrow deposits to cover short-pays of Securitization Default Charges.
+(c)	In the event that an Invoice Recipient short-pays:
+(i)	Both a Securitization Default Charge Invoice and a Securitization Uplift Charge Initial Invoice, or;
+(ii)	One or both of the above securitization Invoices as well as any other ERCOT Invoice,
+and it is necessary to utilize Financial Security held with respect to other ERCOT market activities, funds drawn from Financial Security will be allocated first to cover short-pays of Invoices for non-securitization activity.  Any remaining Financial Security will be allocated pro rata on the basis of unpaid Invoice amounts to Securitization Uplift Charge Initial Invoices and Securitization Default Charge Invoices.
+(d)	Regardless of whether ERCOT’s draw on available Securitization Default Charge escrow deposits or other Financial Security under paragraphs (a) through (c) above is sufficient to cover the amount owed by a Market Participant for a Securitization Default Charge Invoice, a Market Participant’s failure to pay the Invoice by the payment due date and time will still be deemed a Payment Breach under Section 16.11.6, Payment Breach and Late Payments by Market Participants.  
+(e)	If an amount owed to ERCOT for a Securitization Default Charge Invoice cannot be fully recovered from a short-paying Market Participant by drawing upon available Securitization Default Charge escrow deposits, available Financial Security held with respect to other ERCOT market activities, or taking other action against the Market Participant to recover the amount owed, the remaining short payment amount will be taken into consideration in ERCOT’s next evaluation of the Total Securitization Default Charge Monthly Amount performed pursuant to paragraph (4) of Section 26.2, Securitization Default Charges, that occurs after the short payment. 
+(f)	Any action taken by under this Section does not relieve or otherwise excuse the short paying Market Participant of its obligation to fully pay all outstanding financial obligations to ERCOT, including is obligation to fully pay all Securitization Default Charge Invoices.
+26.4	Securitization Default Charge Supporting Data Reporting
+(1)	On a monthly basis, ERCOT shall post the following information on the Market Information System (MIS) Certified Area:
+(a)	Securitization Default Charge Maximum MWh Activity (SDCMMA); 
+(b)	Securitization Default Charge Maximum MWh Activity Total (SDCMMATOT); 
+(c)	Securitization Default Charge Maximum MWh Activity Ratio Share (SDCMMARS); and 
+(d)	Counter-Party level components of the SDCMMA calculation, as defined in paragraph (2) of Section 26.2, Securitization Default Charges. 
+(2)	ERCOT shall post a report containing Initial Settlement data as such data becomes available.  The report shall be updated with Final Settlement data as such data becomes available.
+26.5	Securitization Default Charge Escrow Deposit Requirements
+26.5.1 	Securitization Default Charge Escrow
+	The term “Securitization Default Charge escrow deposit” means the amount required to be deposited with ERCOT in the form of cash or an unconditional, irrevocable letter of credit to be held in escrow for a Market Participant’s obligation to pay Securitization Default Charges.
+	Although ERCOT is the servicer for the assessment and collection of Securitization Default Charges, by providing escrow deposits pursuant to this Section each Counter-Party grants the Texas Electric Market Stabilization Funding M LLC (TEMSFM) a secured interest in Securitization Default Charge escrow deposits to secure its obligation to pay the same. 
+	The security interest of TEMSFM is perfected upon a Counter-Party’s deposit of cash or a letter of credit with ERCOT pursuant to this Section. 
+26.5.2 	ERCOT Securitization Default Charge Credit Requirements for Counter-Parties  
+	A Counter-Party must, at all times, maintain its Securitization Default Charge escrow deposit at or above the amount of its Securitization Default Charge Credit Exposure (SDCCE).  Each Counter-Party shall maintain any required Securitization Default Charge escrow deposit in a form acceptable to ERCOT in its sole discretion pursuant to Section 26.5.3, Means of Satisfying Securitization Default Charge Credit Requirements. 
+	If at any time a Counter-Party does not meet ERCOT’s SDCCE  requirements, then the Counter-Party will be considered to be in Payment Breach and ERCOT may suspend the Counter-Party’s rights under these Protocols until it meets the SDCCE requirements.  
+	ERCOT’s failure to suspend a Counter-Party’s rights on any particular occasion does not prevent ERCOT from suspending those rights on any subsequent occasion, including a Congestion Revenue Right (CRR) Account Holder’s ability to bid on future CRRs or a Qualified Scheduling Entity’s (QSE’s) ability to bid in the Day-Ahead Market (DAM). 
+26.5.3	Means of Satisfying Securitization Default Charge Credit Requirements
+(1)	If a Counter-Party is required to provide a Securitization Default Charge escrow deposit, then it may do so through one or both of the following means:
+(a)	The Counter-Party may give an unconditional, irrevocable letter of credit naming TEMSFM as the beneficiary.  ERCOT or the TEMSFM may reject the letter of credit if the issuer is unacceptable to ERCOT or TEMSFM or if the conditions under which ERCOT or TEMSFM may draw against the letter of credit are unacceptable to ERCOT or TEMSFM. 
+(b)	All letters of credit must be drawn on a US domestic bank or a domestic office of a foreign bank, and must meet the requirements in Section 16.11.3, Alternative Means of Satisfying ERCOT Creditworthiness Requirements. 
+(c)	Letters of credit held as Securitization Default Charge escrow deposits are subject to letter of credit issuer limits as specified in paragraph (1) of Section 16.11.3.
+(d)	The Counter-Party may deposit cash with TEMSFM through ERCOT with the understanding that ERCOT may draw part or all of the deposited cash to satisfy any overdue payments owed by the Counter-Party to ERCOT for Securitization Default Charges.  The cash deposits may bear interest payable directly to the Counter-Party, but any such arrangements may not restrict ERCOT’s immediate access to the cash.  
+(i)	Interest on cash deposited pursuant to this Section will be calculated based on Counter-Party average cash deposit balance.  Interest is not paid on a cash deposit balance held by TEMSFM where, in accordance with paragraph (4) of Section 16.11.7, Release of Market Participant’s Financial Security Requirement, the Counter-Party’s Standard Form Market Participant Agreement has been terminated and ERCOT has determined that no obligations for Securitization Default Charges remain owing or will become due and payable.
+(ii)	Once per year, ERCOT will return interest earned on a Counter-Party’s cash deposits pursuant to this Section to the Counter-Party.
+(2)	Securitization Default Charge escrow deposits are held solely for the purpose of collateralizing SDCCE and shall not be used for any other purpose.  They are independent of and in addition to any other Financial Security obligations of the Counter-Party arising under Section 16.11, Financial Security for Counter-Parties, or Section 27, Securitization Uplift Charges. 
+(3)	Funds provided for Securitization Default Charge escrow deposits must be made to the account designated for Securitization Default Charge escrow deposits.  If a payment is not made to the correct account, ERCOT is not responsible for transferring the funds to the correct escrow deposit account.  Failure to remit funds to the correct account by the date and time required will result in a Late Payment and/or Payment Breach.
+(4)	A Counter-Party with excess cash held with respect to one or more Securitization Default Charge escrow deposit requirements may request ERCOT to return some or all of the excess cash to the Counter-Party. 
+(5)	Securitization Default Charge escrow deposits will not be used to pay periodic Securitization Default Charge Invoices unless there is an insufficient payment by the Invoice Recipient, in accordance with Section 26.3.1.2, Insufficient Payments by Invoice Recipients for Securitization Default Charge Invoices.
+(6)	Securitization Default Charge escrow deposits in excess of the SDCCE requirement shall not be used to cover insufficient payments of Settlement Invoices for ERCOT market activities under Section 9.19, Partial Payments by Invoice Recipients, or requests for additional Financial Security made in accordance with paragraph (6) of Section 16.11.5, Monitoring of a Counter-Party’s Creditworthiness and Credit Exposure by ERCOT.  Further, Securitization Default Charge escrow deposits in excess of the SDCCE shall not be used to cover insufficient payments of Invoices or escrow deposit requirements under Section 27.
+26.5.4	Determination of Securitization Default Charge Credit Exposure for a Counter-Party
+(1)	For each Counter-Party, ERCOT shall calculate the SDCCE as follows:
+SDCCE cp  =   SDCMMARS cp, rm  *  ∑_(fmd=1 )^nfmd▒(TSDCMA fmd)
+The above variables are defined as follows:
+Variable	Unit	Description
+SDCCE cp	$	Securitization Default Charge Credit Exposure – Estimated credit exposure for each Counter-Party related to Securitization Default Charges.
+SDCMMARS cp, rm	None	Securitization Default Charge Maximum MWh Activity Ratio Share – The Counter-Party’s pro rata share of Securitization Default Charge Maximum MWh Activity in the most recent available reference month rm based on Initial Settlements.
+TSDCMA	$	Total Securitization Default Charge Monthly Amount – The amount ERCOT determines must be collected for the month in order to timely repay the Securitization Default Balance.
+cp	none	A registered Counter-Party.
+rm	none	Reference Month – most recent available operating month 
+fmd	None	Forward Month – a month from Securitization Default Charge forward months
+nfmd	None	Number of forward months – total number of forward months Securitization Default Charge is extrapolated
+The above parameters are defined as follows:
+Parameter	Unit	Current Value
+nfmd	Months	4
+26.5.5	Monitoring of a Counter-Party’s Securitization Default Charge Credit Exposure by ERCOT
+(1)	Pursuant to Section 16.11.5, Monitoring of a Counter-Party’s Creditworthiness and Credit Exposure by ERCOT, ERCOT shall monitor the credit exposure of each Counter-Party, including SDCCE.  
+(2)	A Counter-Party is responsible at all times for maintaining Securitization Default Charge escrow deposits in an amount equal to or greater than that Counter-Party’s SDCCE. 
+(3)	ERCOT shall promptly notify each Counter-Party of the need to increase its Securitization Default Charge escrow deposit and allow the Counter-Party time, as provided in paragraph (5) below, to provide additional Securitization Default Charge escrow deposits to maintain compliance with this Section. 
+(4)	ERCOT may suspend a Counter-Party when that Counter-Party’s SDCCE, as defined in Section 26.5.4, Determination of Securitization Default Charge Credit Exposure for a Counter-Party, exceeds 100% of its Securitization Default Charge escrow deposit.  Any failure by ERCOT to send a Notice as set forth in this Section does not relieve the Counter-Party from the obligation to maintain appropriate Securitization Default Charge escrow deposits in amounts equal to or greater than that Counter-Party’s SDCCE. 
+(5)	To the extent that a Counter-Party fails to maintain Securitization Default Charge escrow deposit in amounts equal to or greater than its SDCCE, each as defined in Section 26.5.4: 
+(a)	ERCOT shall promptly notify the Counter-Party of the amount by which its Securitization Default Charge escrow deposit must be increased and allow it: 
+(i)	Until 1500 on the second Bank Business Day from the date on which ERCOT delivered the notice to increase its Securitization Default Charge escrow deposit if ERCOT delivered its Notice before 1500; or 
+(ii)	Until 1700 on the second Bank Business Day from the date on which ERCOT delivered notification to increase its Securitization Default Charge escrow deposit if ERCOT delivered its notice after 1500 but prior to 1700.  
+(b)	If the Counter-Party does not increase its Securitization Default Charge escrow deposit to the required amount by the specified time, ERCOT may utilize Financial Security held with respect to other ERCOT market activities as determined under Section 16.11.4, Determination and Monitoring of Counter-Party Credit Exposure, up to the amount of the Securitization Default Charge escrow deposit shortfall. 
+(c)	In the event that a Counter-Party is required to increase both its Securitization Default Charge escrow deposit and its Securitization Uplift Charge escrow deposit, and ERCOT utilizes the Counter-Party’s Financial Security, available Financial Security funds will be allocated on a pro rata basis to Securitization Uplift Charge and Securitization Default Charge escrow deposit requirements.
+(d)	ERCOT shall notify the QSE’s Authorized Representative(s) and Credit Contact if it has not received the required security by 1530 on the Bank Business Day on which the security was due; however, failure to notify the Counter-Party’s representatives or credit contacts that the required security was not received does not prevent ERCOT from exercising any of its other rights under this Section.
+(e)	ERCOT is not required to make any payment to a Counter-Party unless and until the Counter-Party increases its Securitization Default Charge escrow deposit to an amount equal to or greater than that Counter-Party’s SDCCE.  The payments that ERCOT may not make to a Counter-Party include Invoice receipts, CRR revenues, CRR credits, reimbursements for short payments, and any other reimbursements or credits under any other agreement between the Market Participant and ERCOT.  ERCOT may retain all such amounts until the Counter-Party has fully discharged all payment obligations owed to ERCOT under the Agreement, other agreements, and these Protocols. 
+(6)	If a Counter-Party increases its Securitization Default Charge escrow deposit as required by ERCOT by the deadline in paragraph (5)(a) above, then ERCOT shall release any payments held, providing the Counter-Party has no other payment deficiencies with respect to any other activity under these Protocols.
+26.5.6	Payment Breach and Late Payments by Market Participants
+(1)	In the event of a Payment Breach or Late Payment by a Market Participant with respect to Securitization Default Charge Invoices or required Securitization Default Charge escrow deposits, all remedies specified in Section 16.11.6, Payment Breach and Late Payments by Market Participants, are applicable.
+26.5.7	Release of Market Participant’s Securitization Default Charge Escrow Deposit Requirement
+(1)	ERCOT shall continue to retain all Securitization Default Charge escrow deposits to cover, if necessary, potential future obligations for Securitization Default Charges. 
+(2)	Upon ERCOT’s sole determination that all potential Securitization Default Charge Invoices have been paid, ERCOT shall return or release any remaining Securitization Default Charge escrow deposits to a terminated Market Participant.
+ERCOT Nodal Protocols
+Section 27:  Securitization Uplift Charges
+October 1, 2024
+
+ 
+27	Securitization Uplift Charges	27-1
+27.1	Overview	27-1
+27.2	Changes Involving Securitization Uplift Charge Opt-Out Entities	27-1
+27.2.1	Return of Securitization Proceeds	27-2
+27.3	Securitization Uplift Charge	27-2
+27.4	Securitization Uplift Charge Invoices	27-4
+27.4.1	Securitization Uplift Charge Initial Invoices	27-4
+27.4.2	Securitization Uplift Charge Reallocation Invoices	27-5
+27.4.3	Payment Process for Securitization Uplift Charge Initial Invoices	27-7
+27.4.3.1	Invoice Recipient Payment to ERCOT for Securitization Uplift Charge Initial Invoices	27-7
+27.4.4	Insufficient Payments by Invoice Recipients for Securitization Uplift Charge Initial Invoices	27-7
+27.4.5	Payment Process for Securitization Uplift Charge Reallocation Invoices	27-8
+27.4.5.1	Invoice Recipient Payment to ERCOT for Securitization Uplift Charge Reallocation Invoices	27-8
+27.4.5.2	ERCOT Payment to Invoice Recipients for Securitization Uplift Charge Reallocation Invoices	27-9
+27.4.6	Insufficient Payments by Invoice Recipients for Securitization Uplift Charge Reallocation Invoices	27-10
+27.4.7	Enforcing the Financial Security of a Short-Paying Reallocation Invoice Recipient	27-11
+27.5	Securitization Uplift Charge Initial Invoice Escrow Deposit Requirements	27-11
+27.5.1	Securitization Uplift Charge Initial Invoice Escrow Deposits	27-11
+27.5.2	ERCOT Securitization Uplift Charge Initial Invoice Credit Requirements for Counter-Parties	27-11
+27.5.3	Means of Satisfying Securitization Uplift Charge Initial Invoice Credit Requirements	27-12
+27.5.4	Determination of Securitization Uplift Charge Credit Exposure for a Counter-Party	27-14
+27.5.5	Monitoring of a Counter-Party’s Securitization Uplift Charge Credit Exposure by ERCOT	27-15
+27.5.6	Payment Breach and Late Payments by Market Participants	27-17
+27.5.7	Release of a Market Participant’s Securitization Uplift Charge Escrow Deposit Requirement	27-17
+ 
+Securitization Uplift Charges
+27.1	Overview
+(1)	This Section establishes processes for the assessment of Securitization Uplift Charges and Securitization Uplift Charge credit requirements. 
+27.2	Changes Involving Securitization Uplift Charge Opt-Out Entities
+(1)	For purposes of the calculation of Securitization Uplift Charges pursuant to Section 27.3, Securitization Uplift Charge, a change to the Retail Electric Provider (REP) of a Securitization Uplift Charge Opt-Out Entity that is a transmission-voltage Customer of a REP will be reflected upon completion of the Switch Request for that transmission-voltage Customer.  A REP is responsible for maintaining current records of transmission-voltage Customers that are Securitization Uplift Charge Opt-Out Entities.  
+(2)	ERCOT, in its discretion, may seek information from a REP or Transmission and/or Distribution Service Provider (TDSP) regarding a Securitization Uplift Charge Opt-Out Entity that is a transmission-voltage Customer of a REP if ERCOT has reason to believe that there has been a change of transmission-voltage Customer at an Electric Service Identifier (ESI ID) associated with the Securitization Uplift Charge Opt-Out Entity.  ERCOT may seek relief from the Public Utility Commission of Texas (PUCT) if ERCOT has reason to believe that there has been a change that disqualifies an ESI ID or the transmission-voltage Customer from continued treatment as a Securitization Uplift Charge Opt-Out Entity.
+(3)	If a Securitization Uplift Charge Opt-Out Entity is an Electric Cooperative (EC), Municipally Owned Utility (MOU), or river authority, but is not registered with ERCOT as a Load Serving Entity (LSE), and registers with ERCOT as an LSE or changes its LSE, then ERCOT may, as part of the LSE registration process, request that the Market Participant notify ERCOT of the Market Participant’s status as a Securitization Uplift Charge Opt-Out Entity.  The failure of an EC, MOU, or river authority to notify ERCOT of its Securitization Uplift Charge Opt-Out Entity status in the LSE registration process will not impact the Market Participant’s status as a Securitization Uplift Charge Opt-Out Entity.
+(4)	A Securitization Uplift Charge Opt-Out Entity that is a REP must notify ERCOT within five Business Days of filing an application to amend its REP certification status or option type with the PUCT.
+(5)	A Securitization Uplift Charge Opt-Out Entity that is a REP must notify ERCOT within five Business Days of the REP becoming the Competitive Retailer (CR) of Record for a Customer that is not an affiliate of the REP or that does not have the same corporate parent of the REP.
+(6)	Subject to paragraph (2) above, if a transmission-voltage Customer of a REP is a Securitization Uplift Charge Opt-Out Entity, the only ESI IDs associated with the transmission-voltage Customer that will be included in the Adjusted Metered Load (AML) adjustments for Securitization Uplift Charge Opt-Out Entities made under Section 27.3 are the specific ESI IDs included in opt-out notifications filed by the opt-out deadline in PUCT Project No. 52364, Proceeding for Eligible Entities to File an Opt Out Pursuant to PURA § 39.653(d) and for Load-Serving Entities to File Documentation of Exposure to Costs Pursuant to the Debt Obligation Order in Docket No. 52322.  
+27.2.1	Return of Securitization Proceeds 
+(1)	If an LSE is required under PURA § 39.664 or the Debt Obligation Order in Docket No. 52322 to return securitization proceeds, then the LSE must remit the proceeds to its Qualified Scheduling Entity (QSE), and the QSE shall remit those funds to ERCOT within two Business Days of the QSE receiving the funds from the LSE.  The funds must be paid by the QSE to the account designated for payment of Securitization Uplift Charge Invoices. 
+27.3	Securitization Uplift Charge 
+(1)	ERCOT shall allocate to Qualified Scheduling Entities (QSEs) representing obligated Load Serving Entities (LSEs), the Securitization Uplift Charge that is to be collected for the Operating Day.  The resulting charge to each QSE for the Operating Day is calculated as follows:
+LASUCAMT q, d	=	SUCDA d * DQSELSELRS q, d
+Where:
+DQSELSELRS q, d = DQSELSERTAML q, d / DERCOTQSELSERTAML d
+DQSELSERTAML q, d = max(0, ∑_(i,l)^ ▒(LSERTAML l, q, i)) 
+DERCOTQSELSERTAML d =∑_q^ ▒(DQSELSERTAML q, d)
+LSERTAML l, q, i = PRELIMLSERTAML l, q, i – OPTOUTLSERTAML l, q, i 
+The above variables are defined as follows:
+Variable	Unit	Definition
+LASUCAMT q, d	$	Load-Allocated Securitization Uplift Charge Amount per QSE — The charge allocated to QSE q, for the QSE’s share of the total amount of Securitization Uplift Charges assessed for Operating Day d.
+SUCDA d	$	Securitization Uplift Charge Daily Amount — The total amount of Securitization Uplift Charges assessed for Operating Day d.
+DQSELSELRS q, d	none	Daily QSE Non-Opted-Out LSE Load Ratio Share — The ratio of Daily QSE Non-Opted-Out LSE Real-Time Adjusted Metered Load (DQSELSERTAML) to Daily ERCOT QSE Non-Opted-Out LSE Real-Time Adjusted Metered Load (DERCOTQSELSERTAML), for a QSE q, for the Operating Day d.  
+PRELIMLSERTAML l, q, i	MWh	Preliminary Non-Opted-Out LSE Real-Time Adjusted Metered Load — The Real-Time Adjusted Metered Load (RTAML), including the RTAML of Securitization Uplift Charge Opt-Out Entities that are Customers of Retail Electric Providers (REPs), but excluding the RTAML of Securitization Uplift Charge Opt-Out Entities that are LSEs and excluding Direct Current Tie (DC Tie) exports, for LSE l represented by QSE q, for the 15-minute Settlement Interval i.
+LSERTAML l, q, i	MWh	Non-Opted-Out LSE Real-Time Adjusted Metered Load — The Real-Time Adjusted Metered Load (RTAML), excluding the RTAML for Securitization Uplift Charge Opt-Out Entities, Load that is exempt from Securitization Uplift Charges pursuant to the Declaratory Order entered by the Public Utility Commission of Texas (PUCT) in PUCT Docket No. 56119, Petition of Electric Reliability Council of Texas, Inc. for Expedited Declaratory Order Regarding Public Utility Regulatory Act Chapter 39, Subchapter N, and DC Tie exports, for LSE l represented by QSE q, for the 15-minute Settlement Interval i.
+OPTOUTLSERTAML l, q, i	MWh	Opt-Out LSE Real-Time Adjusted Metered Load — The Real-Time Adjusted Metered Load (RTAML) of Securitization Uplift Charge Opt-Out Entities that are transmission-voltage Customers and Load exempt from Securitization Uplift Charges pursuant to the Declaratory Order entered by the PUCT in PUCT Docket No. 56119 for LSE l represented by QSE q, for the 15-minute Settlement Interval i.
+DQSELSERTAML q, d	MWh	Daily QSE Non-Opted-Out LSE Real-Time Adjusted Metered Load — The Real-Time Adjusted Metered Load (RTAML), excluding the RTAML for Securitization Uplift Charge Opt-Out Entities, Load exempt from Securitization Uplift Charges pursuant to the Declaratory Order entered by the PUCT in PUCT Docket No. 56119, and DC Tie exports, for a QSE q, for the Operating Day d.
+DERCOTQSELSERTAML d	MWh	Daily ERCOT QSE Non-Opted-Out LSE Real-Time Adjusted Metered Load — The ERCOT total Real-Time Adjusted Metered Load (RTAML), excluding the RTAML for Securitization Uplift Charge Opt-Out Entities, Load exempt from Securitization Uplift Charges pursuant to the Declaratory Order entered by the PUCT in PUCT Docket No. 56119, and DC Tie exports, for the Operating Day d.
+q	none	A QSE
+l	none	An LSE
+d	none	An Operating Day
+i	none	A 15-minute Settlement Interval
+(2)	As needed, but no less often than quarterly, ERCOT will, to ensure the Securitization Uplift Charge is repaid in substantially equal payments over its term, conduct an evaluation to: 
+(a)	Calculate under-collections or over-collections from the preceding evaluation period;
+(b)	Estimate any anticipated under-collections or over-collections for the current or upcoming evaluation period; and
+(c)	Calculate the periodic billing requirement for the upcoming evaluation period, taking into account the total amount of prior and anticipated over-collection and under-collection amounts, and calculate the Securitization Uplift Charge Daily Amount for future periodic billing requirements.
+(3)	If it is determined in the re-estimation process that the Securitization Uplift Charge Daily Amount needs to be revised, ERCOT will issue a Market Notice notifying Market Participants of the change no later than 15 calendar days before the Operating Day in which the new Securitization Uplift Charge Daily Amount will become effective. 
+(4)	An LSE that is not a Securitization Uplift Charge Opt-Out Entity is responsible for remitting payment to its QSE for the LSE’s share of the Securitization Uplift Charge, based on the LSE’s Non-Opted-Out LSE Adjusted Metered Load (AML).  An LSE may not pass through the Securitization Uplift Charge to any transmission-voltage Customer that is a Securitization Uplift Charge Opt-Out Entity.  ERCOT shall post to the ERCOT website a list that consists solely of every Electric Service Identifier (ESI ID) associated with a transmission-voltage Customer that is a Securitization Uplift Charge Opt-Out Entity.  This list of ESI IDs will not include the identity of the Customer or its Retail Electric Provider (REP).
+27.4	Securitization Uplift Charge Invoices
+27.4.1	Securitization Uplift Charge Initial Invoices
+(1)	ERCOT shall prepare Securitization Uplift Charge Initial Invoices for the Securitization Uplift Charge, as described in Section 27.3, Securitization Uplift Charge, using Initial Settlement data.  ERCOT shall issue Securitization Uplift Charge Initial Invoices for an Operating Day on the same Business Day that Real-Time Market (RTM) Initial Statements are posted to the Market Information System (MIS) Certified Area for the same Operating Day.  ERCOT will post the dates that it will issue the Securitization Uplift Charge Initial Invoices under Section 9.1.2, Settlement Calendar.  Unless expressly stated otherwise, the publication of Securitization Uplift Charge Initial Invoices can occur as late as 2400 on the scheduled publication date.  The Invoice Recipient to whom the Securitization Uplift Charge Initial Invoice is addressed is a net payor.
+(2)	Each Invoice Recipient shall pay any net debit shown on the Securitization Uplift Charge Initial Invoice on the payment due date, whether or not there is any Settlement and billing dispute regarding the amount of the debit.
+(3)	ERCOT shall post Securitization Uplift Charge Initial Invoices on the MIS Certified Area.  The Invoice Recipient is responsible for accessing the Securitization Uplift Charge Initial Invoice on the MIS Certified Area once posted by ERCOT, as described in Section 9.1.3, Settlement Statement and Invoice Access.
+(4)	The Securitization Uplift Charge Initial Invoice must comply with Settlement payment conventions, as set forth in Section 9.1.5, Settlement Payment Convention. 
+(5)	Securitization Uplift Charge Initial Invoice items must be sorted by Operating Day.  Securitization Uplift Charge Initial Invoices must contain the following information:
+(a)	The Invoice Recipient’s name;
+(b)	The ERCOT identifier (Settlement identification number issued by ERCOT);
+(c)	Run Date – the date on which the Invoice was created and published;
+(d)	Payment Date and Time – the date and time that Invoice amounts are to be paid;
+(e)	Invoice Reference Number – a unique number generated by ERCOT for payment tracking purposes;
+(f)	Net Amount Owed – the aggregate summary of all charges owed by the Invoice Recipient;
+(g)	Time Periods – the time period covered for each line item, including Operating Day, Settlement Type (Initial) and Settlement Version Number;
+(h)	Remittance Information Details – details including the account number, bank name and electronic transfer instructions of the ERCOT Securitization Uplift Charge account to which any amounts owed by the Invoice Recipient are to be paid; and
+(i)	Overdue Terms – the terms that would be applied if payments were received late.
+(6)	All disputes for Securitization Uplift Charge Initial Invoices shall follow the process described in Section 9.14, Settlement and Billing Dispute Process.
+27.4.2	Securitization Uplift Charge Reallocation Invoices
+(1)	ERCOT shall prepare Securitization Uplift Charge Reallocation Invoices on a net basis for Securitization Uplift Charges, as described in Section 27.3, Securitization Uplift Charge, based on RTM Final Settlement, True-Up Settlement, and Resettlement data.  ERCOT shall issue Securitization Uplift Charge Reallocation Invoices for an Operating Day on the same Business Day that the Statements for RTM Final Settlements, True-Up Settlements and Resettlements are posted to the MIS Certified Area for the same Operating Day.  ERCOT will post the dates that it will issue the Securitization Uplift Charge Reallocation Invoices under Section 9.1.2, Settlement Calendar.  Unless expressly stated otherwise, the publication of Securitization Uplift Charge Reallocation Invoices can occur as late as 2400 on the scheduled publication date.  The Invoice Recipient to whom the Securitization Uplift Charge Reallocation Invoice is addressed is either a net payee or net payor.
+(2)	A Securitization Uplift Charge Reallocation Invoice will reflect differences to financial records generated on the previous Settlement for a given Operating Day.
+(3)	Each Invoice Recipient shall pay any net debit and be entitled to receive any net credit shown on the Securitization Uplift Charge Reallocation Invoice on the payment due date, whether or not there is any Settlement and billing dispute regarding the amount of the debit or credit.
+(4)	ERCOT shall post Securitization Uplift Charge Reallocation Invoices on the MIS Certified Area.  The Invoice Recipient is responsible for accessing the Securitization Uplift Charge Reallocation Invoice on the MIS Certified Area once posted by ERCOT, as described in Section 9.1.3, Settlement Statement and Invoice Access. 
+(5)	The Securitization Uplift Charge Reallocation Invoice must comply with Settlement payment conventions, as set forth in Section 9.1.5, Settlement Payment Convention. 
+(6)	Securitization Uplift Charge Reallocation Invoice items must be grouped by RTM Final, RTM True-Up and RTM Resettlement categories and must be sorted by Operating Day within each category. Securitization Uplift Charge Reallocation Invoices must contain the following information:
+(a)	The Invoice Recipient’s name;
+(b)	The ERCOT identifier (Settlement identification number issued by ERCOT);
+(c)	Run Date – the date on which the Invoice was created and published;
+(d)	Payment Date and Time – the date and time that Invoice amounts are to be paid or received;
+(e)	Invoice Reference Number – a unique number generated by ERCOT for payment tracking purposes;
+(f)	Net Amount Owed/Due – the aggregate summary of all charges owed by or due to the Invoice Recipient;
+(g)	Time Periods – the time period covered for each line item, including Operating Day, Settlement Type (Final, True-Up or Resettlement) and Settlement Version Number;
+(h)	Remittance Information Details – details including the account number, bank name and electronic transfer instructions of the ERCOT account to which any amounts owed by the Invoice Recipient are to be paid or of the Invoice Recipient’s account from which ERCOT may draw payments due; and
+(i)	Overdue Terms – the terms that would be applied if payments were received late.
+(7)	All disputes for Securitization Uplift Charge Reallocation Invoices shall follow the process described in Section 9.14, Settlement and Billing Dispute Process.
+27.4.3	Payment Process for Securitization Uplift Charge Initial Invoices
+(1)	Payments for Securitization Uplift Charge Initial Invoices are due on a Business Day and Bank Business Day basis as detailed below.
+27.4.3.1	Invoice Recipient Payment to ERCOT for Securitization Uplift Charge Initial Invoices
+(1)	The payment due date and time for the Securitization Uplift Charge Initial Invoice, with funds owed by an Invoice Recipient, is 1700 on the second Bank Business Day after the Securitization Uplift Charge Initial Invoice date, unless the second Bank Business Day is not a Business Day.  If the second Bank Business Day is not a Business Day, the payment is due by 1700 on the next Bank Business Day after the second Bank Business Day that is also a Business Day.
+(2)	All Securitization Uplift Charge Initial Invoices due, with funds owed by an Invoice Recipient, must be paid to ERCOT in U.S. Dollars (USDs) by Electronic Funds Transfer (EFT) in immediately available or good funds (i.e., not subject to reversal) on or before the payment due date.  EFTs must be with U.S. banks only.
+(3)	Securitization Uplift Charge Initial Invoices are distinct from other Invoices issued by ERCOT and must be paid by an EFT that is separate from any other Invoice. An Invoice Recipient may not net amounts owing on a Securitization Uplift Charge Initial Invoice with any other funds due to or from ERCOT.
+(4)	Payments for Securitization Uplift Charge Initial Invoices must be made to the account listed on the Invoice.  If payment is not made to the correct account, the payment will be rejected.  Failure to remit funds to the correct account may result in a Late Payment and Payment Breach.  The payment remarks must include the Invoice number.
+27.4.4	Insufficient Payments by Invoice Recipients for Securitization Uplift Charge Initial Invoices
+(1)	If at least one Invoice Recipient owing funds does not pay its Securitization Uplift Charge Initial Invoice in full (short-pay) by the payment due date and time set forth in Section 27.4.1, Securitization Uplift Charge Initial Invoices, ERCOT shall follow the procedure set forth below: 
+(a)	ERCOT shall draw on any available Securitization Uplift Charge escrow deposit of the short-paying Securitization Uplift Charge Initial Invoice Recipient. 
+(b)	If available Securitization Uplift Charge escrow deposits are insufficient to cover the short-pay amount, ERCOT may utilize Financial Security held with respect to other ERCOT market activities as determined under Section 16.11.4, Determination and Monitoring of Counter-Party Credit Exposure.  ERCOT may not utilize Securitization Default Charge escrow deposits to cover short-pays of Securitization Uplift Charge Initial Invoices. 
+(c)	In the event that an Invoice Recipient short-pays: 
+(i)	Both a Securitization Default Charge Invoice and a Securitization Uplift Charge Initial Invoice; or 
+(ii)	One or both of the above securitization Invoices as well as any other ERCOT Invoice,
+and it is necessary to utilize Financial Security held with respect to other ERCOT market activities, funds drawn from Financial Security will be allocated first to cover short-pays of Invoices for non-securitization activity.  Any remaining Financial Security will be allocated pro rata on the basis of unpaid Invoice amounts to Securitization Uplift Charge Initial Invoices and Securitization Default Charge Invoices.
+(d)	Regardless of whether ERCOT’s draw on an available Securitization Uplift Charge escrow deposits or other Financial Security under paragraphs (a) through (c) above is sufficient to cover the amount owed by a Market Participant for an Initial Invoice for Securitization Uplift Charges, a Market Participant’s failure to pay the Initial Invoice by the payment due date and time will still be deemed a Late Payment and Payment Breach under Section 16.11.6, Payment Breach and Late Payments by Market Participants.  
+(e)	If an amount owed to ERCOT for an Initial Invoice for Securitization Uplift Charges cannot be fully recovered from a short-paying Market Participant by drawing upon available Securitization Uplift Charge escrow deposits or taking other action against the Market Participant to recover the amount owed, the remaining short payment amount will be taken into consideration in ERCOT’s next evaluation of the Securitization Uplift Charge Daily Amount performed pursuant to paragraph (2) of Section 27.3, Securitization Uplift Charge, that occurs after the short payment. 
+(f)	Any action taken by ERCOT under this Section does not relieve or otherwise excuse the short-paying Market Participant of its obligation to fully pay all outstanding financial obligations to ERCOT, including its obligation to fully pay all Initial Invoices for Securitization Uplift Charges.
+27.4.5	Payment Process for Securitization Uplift Charge Reallocation Invoices
+(1)	Payments for Securitization Uplift Charge Reallocation Invoices are due on a Business Day and Bank Business Day basis as detailed below.
+27.4.5.1	Invoice Recipient Payment to ERCOT for Securitization Uplift Charge Reallocation Invoices
+(1)	The payment due date and time for the Securitization Uplift Charge Reallocation Invoice, with funds owed by an Invoice Recipient, is 1700 on the second Bank Business Day after the Securitization Uplift Charge Reallocation Invoice date, unless the second Bank Business Day is not a Business Day.  If the second Bank Business Day is not a Business Day, the payment is due by 1700 on the next Bank Business Day after
