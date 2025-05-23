@@ -1,50 +1,14 @@
- 																									     	 									2705 West Lake Drive
+
 Taylor, Texas 76574
 (512) 248-6800
 ercot.com
-
-
-
-
-
-
-
 RESOURCE INTERCONNECTION HANDBOOK
 Version 1.94
-
-
-
-
-
-
-
-
-
-
 
 ERCOT
 3/01/2023
 
-
-
- 
 This handbook is intended to provide a general description of ERCOT’s generator interconnection process for current and potential ERCOT Market Participants. This handbook is not a replacement for the ERCOT Protocols, Operating Guides, Planning Guide, or Other Binding Documents. In the event of any conflict, the ERCOT Protocols, Market Guides, and/or Other Binding Documents (OBDs) shall control.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
- 
 Contents
 Acronyms and Abbreviations	6
 Resource Interconnection Handbook Purpose	7
@@ -181,31 +145,18 @@ TDSP sign up guide:  https://www.ercot.com/files/docs/2022/01/14/TSP-Sign-Up-for
 Managing your RIOO account:  https://www.ercot.com/files/docs/2022/01/14/Managing-Your-RIOO-Services-User-Account.pdf
 STAGE 1 – Generation Interconnection Request Application to QSA
 Examples of Applicability (Planning Guide Section 5):  1 - 9.99 MW is Small Gen, 10+ MW is Large Gen.
- 
- 
- 
 Generation Interconnection or Change Request Application and Fees
 All IEs seeking to interconnect new generation or modify existing generation connected to the ERCOT system 1 MW or greater in accordance with Planning Guide section 5.2.1 are required to follow the Generation Interconnection or Modification (GIM) process.  
 To begin the GIM process and initiate the Security Screening Study or a simultaneous Security Screening Study and Full Interconnect Study, IEs must initiate an application using the RIOO-IS system.  Information on RIOO-IS access and use can be found on-line as shown with the numbered icons below.
 1.	Figure 1 shows how to launch the RIOO-IS application.  Best browser to use is Chrome.
 2.	Figure 2 shows Related content to help IEs and TSPs sign-up to create an account and to use the application with user guides specific to IEs and TSPs.  Note that TSPs must follow the RIOO-IS TSP Sign-Up Reference very carefully to create a TSP account which will allow them to see all GIM (GINR)s.
- 
 Figure 1  ERCOT.com bottom of page link to launch RIOO-IS
- 
 Figure 2:  Resource Integration page for related content to help IE’s and TSP’s
 IEs should see a page like that below if they have signed up correctly.  Note the “Start New INR Request” button in the top right.  TSPs should not see this button and if they do, they should submit an ERCOT Helpdesk ticket to remove their Auth0 account.  The “Start New INR Request” button is a drop down with a choice to start as either an IE or a RE.  Load Resources need to start as a RE, as should Small Generation projects because they will need to submit a full registration RARF right away.
-
- 
-
-Figure 3:  IE RIOO page after signing in
-After clicking the “Start New INR Request” button, IEs should see the following screen showing the action items to choose the size and whether the connection will be transmission or distribution.  
- 
+Figure 3:  IE RIOO page after signing in After clicking the “Start New INR Request” button, IEs should see the following screen showing the action items to choose the size and whether the connection will be transmission or distribution.  
 Figure 4: The IE screen to start an INR.  Choose the size of your project 
 RE’s will see a similar screen, but first will have to select the company that they want to use to create the INR if more than one company is listed.  For a company to be listed, a RE will need to have the role RIOORS_M_OPERATOR listed in their MPIM for the companies DUNS number.  Contact your USA to have that role added.
- 
 Figure 5 The RE screen to start an INR, select the company from the drop down and choose the size of your project 
- 
-
 Figure 6 Once the size is chosen, new options appear
 From the initial GIM (GINR) application submittal until the IE is assigned a Resource Integration (RI) Engineer, IEs should direct questions about the generator interconnection or change process itself or primary contact changes to  ResourceIntegrationDepartment@ercot.com.  RIOO-IS access issues should be submitted to the ERCOT Helpdesk or RIOO-HELP@ercot.com.  
 When an ERCOT RI Engineer is assigned to the GIM (GINR) application, the RI Engineer will notify the IE with their contact information and inform them that they will oversee their interconnection application and be available to answer questions. 
@@ -250,15 +201,12 @@ Operational – is displayed when ERCOT changes the status to operational.
 Table 1: ERCOT/IE Status Mapping 
 GIM (GINR) Applications for Multiple Technology Types
 Separate GIM applications should be submitted for each technology type in the interconnection request.  For example, if an interconnection request includes solar and battery facilities, two GIM applications should be submitted.  ERCOT and the interconnecting TSP will hold a single FIS kickoff meeting for both INR numbers and the IE and the TSP may sign a single SGIA referring to both INR numbers.  Both GIMs will be included in the SSS and FIS.
-
 GIM (GINR) Applications for Multiple Project Phases or Long Commissioning 
 A separate GIM application should be submitted for Projects being built in phases or over a long period of time.  ERCOT desires the time between Initial Synchronization and Resource Commissioning Date to be 120 days or less.  Projects requiring more time should be split into separate GIM’s as soon as it is first known.  
 For projects requiring multiple INR numbers, the IE must ensure that each of the modeled generator’s capacity at a given point in time is completely contained in a single INR number.  It is expected that all modeled generators whose capacity is included in the same INR number must all be approved for Resource Commissioning (Part 3) on the same day.
 Lone Star Infrastructure Protection Act RFI 
 During the initial application stage for both Small and Large generation, the following screen will appear.    The blue text concerning the Lone Star Infrastructure Protection Act can be ignored as an attestation will have to be e-signed later in the process before payment.
- 
 Figure 8:  The text in the blue box can be ignored concerning the Lone Star Infrastructure Protection Act Screen
-
 Security Screening Study
 For each GIM request submitted, ERCOT will conduct a high-level, steady-state Security Screening Study (SSS), including power-flow and transfer studies, based on the proposed Commercial Operation Date (COD) and a single Point of Interconnection (POI).  The main purpose of the study is to provide an indication of the level at which the proposed generation can expect to operate simultaneously with other known generation in the area before significant transmission additions or enhancements may be required.
 ERCOT is allowed 90 days to perform the Screening Study.  During this time, ERCOT will contact the IE if additional information is needed, and the IE will have 10 Business Days to respond without impacting the study timeline.
@@ -275,12 +223,9 @@ d.	If a MW size change is desired, change the MW size of your project and wait f
 2.	Entering the required resource data required for the FIS Proof of Site Control and resource data with data required by the Resource Registration Glossary – Full Interconnect Study (FIS)
 After accepting the change request containing the proof of site control attachment and reviewing the resource data submitted by the IE, ERCOT will check the submissions and approve the FIS Application.  When the FIS Application is approved, RIOO-IS will generate an email to the Lead TSP to begin initiation and coordination of the FIS Kick-off meeting. 
 IMPORTANT:  If you plan to reduce or increase the MW size of your project, it must be done before entry of Resource data for the FIS.  Change the MW size with the CR to change the dates and add proof of site control.  Payment will not reflect the new size if this CR is not submitted and approved by ERCOT.
- 
 Figure 9: To request a FIS study, click “Add a Change Request” in the Basic Project Information block to enter the Energization and Synchronization dates and attach the proof of site control. The resource data also needs to be added by clicking the “Let’s get Started” button in the Substation Details block.
 The IE can begin the FIS Request by entering data for only the Steady State study, Short Circuit study, or the Stability and Dynamics study or any combination of the three studies.  RIOO will then indicate each data field that is required for the chosen Level of Commitment (LOC).
- 
 Figure 10 RIOO screen to select Level of Comittment
- 
 Figure 11 RIOO Screen showing the data fields required for the chosen level of comittment
 The IE will pay FIS fees to both ERCOT using RIOO-IS, as specified in the ERCOT Fee Schedule, and to the TSP performing the studies in accordance with an agreement with the TSP.  Fees paid to the TSP should be agreed on and specified in the FIS Scope Agreement.  ERCOT is not a party to the FIS Scope Agreement.
 As discussed in Section 5 of the Planning Guide, the FIS process consists of a set of steady-state, dynamic, short-circuit, and facility studies.  The FIS studies are not intended to ensure the deliverability of power from the proposed generation to the market or to ensure that the proposed generation does not experience any congestion-related curtailments in real-time.
@@ -395,10 +340,6 @@ Prior to Full Registration, ERCOT requests that the RE reach out to ERCOT at lea
 Once a GIM has reached the PLD, data will move from RIOO-IS to RIOO-RS. From this point forward, the RE shall use RIOO-RS to submit changes to registration data.
 Resource data for a Small Generator must use the simplified modeling approach.  This means that the Unit is modeled at the TDSP Station as shown below.
 Current DGR Modeling Topology Examples:
-
- 
- 
-
 Network Modeling Requirements
 The ERCOT Network Operations Model is defined as: A representation of the ERCOT System providing the complete physical network definition, characteristics, ratings, and operational limits of all elements of the ERCOT Transmission Grid and other information from TSPs, Resource Entities, and QSEs.  ERCOT uses the physical characteristics, ratings, and operational limits provided by TSPs and REs to specify limits within which the ERCOT Transmission Grid will be operated.  The Network Operations Model is the basis for the model used to send accurate Base Points and pricing signals to Market Participants.  During the Modeling phase, data required for dispatching, metering, and communicating with the new or modified Resource will be established and verified.   The model is updated on a scheduled basis as shown in the Network Operations Model Change Schedule in Protocol 3.10.1.  Each BESS or ESR Unit needs to be an equivalent impedance for that Unit.  See here for more information:  https://www.ercot.com/files/docs/2022/02/18/Resource_Integration_Working_Group_DGR_Topics_02222022.pptx
 ERCOT will work with the IE to establish the all-important Production Load Date (PLD) on which ERCOT’s systems will link together the following key components:
@@ -443,11 +384,7 @@ To assure that the new Resource station and generators will be added to the Netw
 NOTE:  If insufficient telemetry data is provided during the modeling process, there is a high risk of delay in the energization, synchronization, and commissioning of the new generator.
 Accurate and working telemetry and communication systems from the generation site to the QSE to ERCOT must be tested and proven reliable prior to submittal of the Part 1 checklist for energization and Part 2 checklist for synchronization of all new or modified RE and TSP facilities. 
 Data Center Loads and/or PUN Loads with IRR Generation
- 
-
 For co-located data center loads and/or PUN loads netted with IRR generation, an additional telemetry data point, Gross Real-Time Power Potential (GRPP), will need to be added to reflect the real-time power potential of the IRR. 
-
-
 STAGE 3: Energization, Synchronization and Commissioning 
 Stage 3 involves the following steps:
 •	Final Compliance with Operational Standards Review
@@ -530,46 +467,34 @@ These performance tests are some of the final steps before the commissioning of 
 Base Point following during Curtailment – IRRs and IRR Groups
 Due to increased numbers of Generic Transmission Constraints and IROLs, ERCOT is requiring IRRs and IRR Groups to perform Curtailment testing before allowing IRRs and IRR Groups to connect more than 20 MVA of generation capacity to the Point of Interconnection during commissioning. Per protocol requirement 6.5.7.4 and 6.6.5.4, IRR units should follow SCED Base Points when curtailed.  A curtailed IRR that is not in an IRR Group will receive telemetered SBBH (SCED Base Point Below HDL) telemetry flag that is set to “ON” and should follow it’s telemetered Base Point.  IRR Groups are curtailed if any IRR in the IRR Group receives a telemetered SBBH flag of “ON” and the IRR Group total output should be curtailed to the sum of the Base Points for the IRRs in the IRR Group.
 There are two forms of curtailment test depending on if the IRR under test a single unit or part of an IRR Group is (which is comprised of multiple IRR units). Below is an example of the Curtailment test procedure for a single IRR and the expected response from the unit followed by an example of Curtailment of an IRR Group.
-
 IRR Unit Curtailment Testing (Note:  Use the following process for an individual IRR that is not in an IRR Group)
-
 Step #0: Following approval to conduct the Curtailment Self-Test, set RST to “ONTEST” (RST=8) for the unit.
-
 Step #1: Set Curtailment Flag to True (SBBH=True) and BP = 0 MW for the unit 
 •	This sends a curtailment to 0 MW to the unit
 •	The unit should respond to the curtailment and the output is expected to be equal to zero MW.
 •	Maintain the curtailment for 15 minutes 
 •	Note that ERCOT will evaluate how the unit’s output (MW), HSL, ramping rate and turbines/inverters availability are telemetered during a 15-minute observation period.
-
 Step #2: Following the completion of the above 15 minutes, set Curtailment Flag to False (SBBH=False) for the unit. 
 •	This releases the unit from curtailment. 
 •	The unit should ramp up its power output until the unit’s output (MW) matches its HSL.
-
 Step #3: Following the completion of the above test, set RST to “ON” (RST=3) for the unit so it can follow SCED curtailment instructions.
 •	Note that ERCOT will observe the 10 minutes period after the completion of the test to analyze how the unit’s output (MW), HSL, ramping rate and turbines/inverters availability are telemetered.
-
  Step#4: Provide ERCOT with the date and beginning/ending times of the Curtailment Self-Test.
-
 IRR Group Curtailment Testing (Note: The IRR Group is being curtailed at each step below; these are not individual unit curtailments)
-
 Step #0: Following approval to conduct the IRR Group Curtailment Self-Test, to begin the test, set RST telemetered to ERCOT to “ONTEST” (RST=8) for all the units in the IRR Group.
-
 Step #1:  QSE sends telemetry to Resources setting Curtailment Flag to True (SBBH=True) and BP = 0 MW for the first unit of the IRR Group.  This should be recognized as an IRR Group curtailment.  If any unit in the IRR Group receives a SBBH = True, then the IRR Group is being curtailed.  During IRR Group curtailment, the HSL for all units in the IRR Group should be telemetered to ERCOT as the unit’s output capability considering wind-speed/irradiance and the number of turbines/inverters available to generate.
 •	The IRR Group should respond to the curtailment and the group’s output is expected to be equal to group’s output prior to Step #1 minus the first unit’s output prior to Step #1 (“X1” MW).  In this step the IRR Group is curtailed by a total of X1 MW.
 •	Maintain the IRR Group curtailment for 15 minutes 
 •	Note that ERCOT will observe the 15 minutes period to analyze how the IRR Group output (sum of the group’s unit MW output), IRR Group unit’s HSL, ramping rate and turbines/inverters availability are telemetered.
 •	Repeat Step #1 for the remaining units within IRR Group.  Each time, curtailment test increases the IRR Group curtailment amount by the pre-curtailment output of the next unit within the same IRR Group in successive steps.  Following the initial curtailment, the IRR Group is then curtailed by the second unit’s pre-curtailment MW output (“X2” MW), and then in the next step by the third unit’s pre-curtailment output (“X3” MW), and so on.
 •	When the IRR group is curtailed by the pre-curtailment output of the last unit in the IRR Group, the group output is expected to be equal to zero MW.
-
 Step #2: Following the completion of the above IRR Group curtailment periods, set Curtailment Flag to False (SBBH=False) for all the IRR Group units. 
 •	This releases the IRR Group from curtailment. 
 •	The IRR Group should ramp up output until the IRR Group output (sum of its units’ MW outputs) matches the sum of the IRR Group units’ HSL.
-
 Step #3: Following the completion of the above test, set RST telemetered to ERCOT to “ON” (RST=3) for the IRR Group units so it the IRR Group can follow SCED curtailment instructions.
 •	Note that ERCOT will observe the 10 minutes period after the completion of the test to analyze how the IRR Group unit’s output (MW), HSL, ramping rate and turbines/inverters availability are telemetered.
 
  Step#4: Provide ERCOT with the date and beginning/ending times of the IRR Group Curtailment Self-Test.
-
 The curtailment test will confirm the ability of a single IRR unit or an IRR Group to follow the SCED Base Point and to respond in a proper way when released from curtailment as well as the accuracy of the telemetry. When an IRR unit is not curtailed, HSL is expected to be equal to unit’s output. However, when the IRR unit is curtailed, its HSL should reflect the available capacity in power production which is a function of the available turbine/inverters and meteorological conditions (wind speed and solar irradiance). In other words, HSL should correlate with the wind speed/ solar irradiance if the number of turbine/inverters is not changed when curtailed. When an IRR unit is curtailed, the wind turbine/ inverters in operations should be telemetered as NTON (available). The HSL should have a smooth transition prior and post curtailment, and HSL is not expected to drop to the unit’s output when the curtailment is lifted. In addition, the units up/down ramp rate telemetry should be accurate, and the units must follow this ramp rate when being curtailed to ensure the reliability of ERCOT’s grid.
 Reactive Power Capability
 Typically, coordinated Reactive Power Capability tests are performed in coordination with ERCOT and the TSP as described in Operating Guide section 3.3.2.2 Reactive Testing Requirements.  Although the ERCOT Operating Guides recommend maximum leading reactive tests be performed in low load months, and maximum lagging reactive tests be performed in high load months, this is often not possible for initial operation. Coordinated Reactive testing is generally required for Part 3 approval. 
@@ -590,18 +515,12 @@ Band KV
 138	+/- 2kV
 115	+/- 2kV
 69	+/- 1kV
-
 The required VSS response times for Generation Resources when voltage measurements at the POIB are outside of the Voltage Set Point tolerance band identified in paragraph (4) of Section 2.7.3.5, Resource Entity Responsibilities and Generation Resource Requirements, then the unit mvar capability and all switchable shunts (If applicable) must be fully deployed in no more than five minutes.  The following document are posted at https://www.ercot.com/services/rq/integration:
-
 •	Combined AVR Template  is used to complete the AVR test for IRRs, ESRs and conventional generators.  
 •	AVR Testing Expectations for IRR explains what is expected for the IRR AVR test.
 •	AVR and PSS Test Guidelines for Conventional Generation explains what is expected for the conventional generation AVR test.
 •	AVR Test Guidelines for DESRs (DGRs) explains what is expected for distribution connected Resources (DGRs, DESRs).
 Here is how the AVR test should work:
- 
- 
- 
-
 Primary Frequency Response (PFR)
 PFR testing is performed in accordance with Nodal Operating Guide Section 8, Attachment C. Test data is submitted to ERCOT via NDCRC.
 Power System Stabilizer (PSS)
@@ -620,7 +539,6 @@ o	The use of “OFF” status is not expected during the commissioning process b
 o	Solar units - at night, would not use “OUT” status unless the unit is on outage or the breaker is open.  As long as the unit is on-line at night but not injecting power, it should continue to send “ONTEST” before Part 2 over 20 MVA approval. Following Part 2 over 20 MVA approval it should send the “ON” status.  A telemetered AVR status of “ON” indicates the unit’s AVR system’s ability to change unit MVAr output within the registered reactive capabilities at the current unit MW output level to control voltage.
 o	Non-IRR units can request unit testing and if approved can use the “ONTEST” status during commissioning.  Use of the “ON” status requires following of SCED Base Points.  Requests for unit testing are submitted by the QSE to ERCOT Operations.
 Note: Generators using an “ON” status are subject to Base Point Deviation charges and GREDP monitoring.
-
 Operation Requirement of Data Center Loads and/or PUN loads with IRR Generation
 •	QSEs need to estimate load consumption for PUN load or Data Center load for the next 168 hours
 •	QSEs will deduct the estimated load consumption from the vendor-provided IRR forecast to update the COP HSL, which would need to be reduced further if there is any equipment outage or derate that is not reported in the Outage Scheduler. 
@@ -653,68 +571,42 @@ APPENDIX B: LIST OF ERCOT FORMS FOR INTERCONNECTION PROCESS
 http://www.ercot.com/content/wcm/lists/168310/SGIA.doc			
 Process/Form	Entity	Access Location	Submission Location
 Generation Interconnection or Change Request (GIM (GINR))	IE	RIOO-IS
-
 Screening Study Data submission	IE	RIOO-IS
-
 SGIA	IE	SGIA
 RIOO-IS
-
 Resource Entity Registration	RE	RE Registration
 Resource Entity Application 
 Standard Market Participant Agreement	RE	SFMA
-
 Managed Capacity Declaration Form	RE	Managed Capacity Form
 MIS or ercotregistration@ercot.comand MPRegistration@ercot.com
 Resource Asset Registration Form (RARF)	RE	RARF Forms
 MIS or mpappl@ercot.com and resourcereg@ercot.com 
-
 Resource Registration Glossary	IE/RE	Res Reg Glossary
-
 EPS Design Proposal	TSP/RE	EPS Metering Design Proposal
 epsmetering@ercot.com
-
 MDAS Form	TSP/RE	MDAS Form
 mreads@ercot.com
-
 EPS Cutover Form	TSP/RE	EPS Cutover Form
 epsmetering@ercot.com, 1ERCOTEAADataAggregation@ercot.com
-
 Outage Schedule	QSE	MIS System	Through MIS outage scheduler
 QSE ICCP Points List	QSE	MIS System	Through MIS service request
 New Generation Checklist	RE	New Gen Checklist
 RIOO-IS
-
 Request for Unit Testing	QSE	Operating Procedures	Sent to the ERCOT Shift Supervisor: shiftsupv@ercot.com.
-
 Commissioning Plan Template	QSE	Comm Plan Template
 RIOO-IS
-
 Net Dependable Capability and Reactive Capability (NDCRC)	QSE	MIS System	Through MIS dashboard
-
 APPENDIX C: NAMING CONVENTIONS
 LLC names – not used by ERCOT Operations, not used by ERCOT Planning, and they are therefore unrestricted.
 Sitecode names – used by Operations in switching orders and used by Planning in modeling. Therefore, it is critical that they are clear and distinct and not easily confused with anything else.  There is an 8-character limit in the Sitecode name.  A certain amount of human judgment goes into accepting new names.  For example, “Heart Solar” and “Hart Solar” sound alike and either one could be okay, but not both.  Sometimes similar names can be tolerated if they are geographically far apart.
 Project names – used by Planning and all other departments in all other communications.  Ideally the project name would be the same as the Sitecode, and it is convenient for the project name to include “wind” or “solar” or “gas” instead of “ranch” or “farm” or “project.”  For example, if the project name is Ibis Wind, then the Sitecode can be IBIS_W and everyone can easily recognize it.
 Commission Plan file names - Include the GIM (GINR) number at the end of the filename before the extension and include the GIM (GINR) number in the subject line of all emails regarding the commissioning plan.  
 Commissioning Checklist file name -   [Gen site name] & [unit name] & “Part” & [1,2, or 3] & “Checklist” & [Date Submitted] & “.pdf”. 
- 
 APPENDIX D:  LARGE GEN TIMELINE 1
- 
-
- 
 APPENDIX E:  LARGE GEN TIMELINE 2
- 
-
- 
 APPENDIX F:  SMALL GEN TIMELINE 1
-
- 
- 
 APPENDIX G: SMALL GEN TIMELINE 2
- 
- 
 APPENDIX H:  SMALL GEN PROCESS FLOWCHART (Zoom In for more details)
- 
 APPENDIX I:  GIM (GINR) TABULAR TIMELINE:
 Task	Responsible Entity	Time Required to Complete 
 Acknowledgement of GIM (GINR) Application	ERCOT	1 to 10 Business Days
@@ -733,7 +625,6 @@ FIS Posted to Market Information System (MIS)	ERCOT	Within 10 days of being deem
 Report stability resolution findings to ERCOT	TSP	Within 90 days
 Negotiate and Execute Standard Generation Interconnection Agreement 
 (SGIA) (following acceptance of FIS)	IE and TSP	180 days
-
 APPENDIX J:  FIS Review Checklist – dated 8/3/2020
 INR # and Name	
 Reviewing Engineer	
@@ -742,7 +633,6 @@ Draft / Final
 Date Received	
 10-day Review period ends	
 Is this a restudy?	
-
 Steady State Study
 Criteria	Notes	Evaluation
 INR # and project name included in the report? 	 These should match RIOO	Y/N
@@ -751,9 +641,7 @@ POI matches RIOO-IS?	Some TSPs will study a second POI.	Y/N
 Correct size of proposed project?	The MW values in RIOO-IS, RARF and Steady State report should match. 	Y/N
 Charging case studied?	Applicable if there is a storage facility.	Y/N
 Correct cases considered?	The Steady State study uses the SSWG cases.
-
 SUM case should correspond to the summer season after COD (i.e. same year if prior to June 1 and following year if on or after June 1).
-
 HWLL case should be studied for projects in areas with high wind penetration. The screening study is a good source for which cases to use.	Y/N
 If no, explain.
 Generators meeting PG 6.9(1)		Y/N
@@ -761,10 +649,8 @@ List of generators added to / excluded from the cases, and explanation for those
 Nearby units dispatched at high output?		Y/N
 Future transmission upgrades in the area of the project included in cases?	In some cases it may be reasonable to do the studies both with and without a transmission upgrade due to timing uncertainty.	Y/N
 P1 – P7 contingencies run in the vicinity?	Contingencies for neighboring TSPs may need to be considered.
-
 P2, P4, and P5 contingencies can be duplicates in steady state. If the TSP does not run all contingencies in these types they should explain why in the report.	Y/N
 If no, explain.
-
 Short Circuit Study
 Criteria	Notes	Evaluation
 INR # and project name included in the report?	These should match RIOO	Y/N
@@ -772,14 +658,12 @@ COD matches RIOO- IS and RARF?	Verify the COD and request update from IE or TSP	
 POI matches RIOO-IS?	Some TSPs will study a second POI.	Y/N
 Model listed? 	Manufacturer, model and rating of the WTG/Inverter/ conventional generator. This should match the model in the RARF.	Y/N
 Correct cases considered?	The Short Circuit Study uses the SPWG cases.
-
 Case should correspond to the summer season after COD (i.e. same year if prior to June 1 and following year if after June 1).	Y/N
 If no, explain.
 Circuit Breaker Rating included in the report?	The breaker interrupting capacity/rating should be higher than the short circuit current.	Y/N
 Faults and impedances look reasonable?		Y/N
 If no, explain.
 Study indicates whether existing transmission equipment is adequate?		Y/N
-
 Facilities Study
 Criteria	Notes	Evaluation
 INR # and project name included in the report?	These should match RIOO	Y/N
@@ -789,8 +673,6 @@ Simple oneline or map showing project’s POI?		Y/N
 Cost over $25,000,000?	If so, an economic study is required. Notify RPG@ercot.com 
 Y/N
 Economic Study Required field in RIOO	Indicate in the Project Details section of INR under Other Studies> Economic Study Required> Yes/No	Y/N
-
-
 Stability Study
 RI Engineer high-level review
 RI Engineer		Comments
@@ -807,20 +689,14 @@ Inverter / WT Model	RARF
 POIB 	RIOO		
 	Stability Study		
 Check generation additions and statements about dispatch changes. 	☐
-
 Check if P1-P7 contingencies were run. If not, check for statements explaining why some were omitted. 	☐
-
 Check if Protected Information (e.g. events or contingencies causing instabilities, dynamic data) is redacted from the redacted version of the stability report.	☐
-
 Check if dynamic data sets included for any cases studied.
 1.	Power flow case:             .raw or .sav
 2.	Dynamic case/data:        .snp and .dyr	☐
-
- 
 Dynamics Review
 Dynamics Engineer	
 If Report submitted as Draft, Key Checking List
-
 (DRAFT Results/Report CANNOT be shared with IE)	Clearly identify NERC P1 thru P7 contingencies?	
 	Contingency List sufficient for study area?  No important contingencies missing or rationale provided for any contingency types not studied?	
 	Study Criteria?	
@@ -843,42 +719,12 @@ IRR Generators	HVRT and LVRT*: Check 0.95 pf lead/lag
 *0.95 pf lead/lag initial condition required for LVRT if RIOO “FIS Requested” date after: 7/30/2020	
 	HVRT performed as one simulation (instead of piece-wise)	
 	HVRT and LVRT: Real and reactive power plotted at POIB?  Performance per DWG Procedure Manual section 3.1.5?	
-
 Post Review Checklist
 Item	Complete?
 Place a copy of the study in the appropriate project folder.	Y/N
 If the study is approved and considered final, post the study to MIS Secure	Y/N
 Once the final report is posted to MIS, update the approval date in RIOO-IS	Y/N
 Send emails to IE and TSP saying the reports are posted to MIS	Y/N
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 APPENDIX K:  Small Gen Review Checklist – Dated 1/22/2022:
 INR # and Name	
 Reviewing Engineer	
@@ -901,29 +747,22 @@ Verify DOD/Entity sheet is included in INR application		Y/N
 Assign a TDSP based on Planning Data Dictionary		Y/N
 Check LSIPA check box, fee amount and fee paid along with putting the appropriate date fields		Y/N
 Assign a supervisor for both Planning and RI Engineers		Y/N
-
 Small Gen Approval To Submit Model Information Checklist (Planning Guide Section 5.4.3):
 INR # and Name	
 Reviewing Engineer	
 Date Received	
 10-day Review period ends	
-
 Provided by IE/RE or TDSP (Depending on Item):
 Criteria	Notes	Evaluation
 Approved Interconnection Application		Y/N
 Notification that all required studies (System Impact Study) are completed and approved by ERCOT.
-
 DSP conducted studies to confirm that DSP’s system will not preclude compliance with ERCOT requirements
-
 DSP conducted studies to identify DGR limitations		Y/N
 Fully executed Interconnection Agreement:
-
-		Y/N
 Whether any operational limitations exist and description of limitations (if applicable) that will affect generator’s operation	Operational limitations include (but are not limited to) ramping limitations, maximum output limitation, or maximum charging limitation	Y/N
 Confirmation that IE has provided Notice to Proceed and Financial Security to fund distribution system upgrades	Security should be sufficient to fund distribution system upgrades identified by the TDSP	Y/N
 Timeline for system upgrades required to interconnect the project	(If applicable)	Y/N
 Operational limitations of the project and the details of those operational limitations prior to interconnection	(If applicable)	Y/N
-
 System Impact Studies (Operating Guide Section 2.9 [VRT], Operating Guide Section 2.6 [FRT] Planning Guide Section 5.4.2(1)(b))
 	Criteria	Notes	Evaluation
 Small Gen	DSP conducted studies to confirm that DSP’s system will not preclude compliance with ERCOT requirements	Requirements include
@@ -934,7 +773,6 @@ Small Gen	DSP conducted studies to confirm that DSP’s system will not preclude
 1)	Min / max MW discharge
 2)	Min / max MW charge (if applicable), and
 3)	Ramp rates limits	Y/N
-
 •	DGRs utilizing synchronous generation must have over-/under-voltage relays set to ride through the following operating conditions:
 Voltage (p.u. of nominal)	Minimum Ride-Through Time
 (seconds)
@@ -948,18 +786,14 @@ Voltage               (p.u. of nominal)	Ride-Through Mode	Minimum Ride-Through T
 0.70 < V < 0.88	Mandatory Operation	20
 0.50 < V < 0.70	Mandatory Operation	10
 V < 0.50	Momentary Cessation	1
- 
 Modeling (Protocol Section 3.10.7.2(3))
 Criteria	Notes	Evaluation
 Valid Load Transformer information from the TDSP?	This is the Load Transformer that the TDSP will model in NMMS.	Y/N
-
 Operational Limitations and Telemetry (P.G. 5.4)
 Criteria	Notes	Evaluation
 Confirmation from DSP that all known distribution system operational limitations have been disclosed to RE	Limitations may include DSP-imposed limits on the rate or magnitude of injection or withdrawal	Y/N
 All operational limitations are reflected in RARF		Y/N
 Confirmation from RE that all limits are reflected in ERCOT model and/or telemetry		Y/N
-
-
 Frequency Relaying (Operating Guide Section 2.6.2.1)
 Criteria	Notes	Evaluation
 Written agreement between RE and DSP confirming ERCOT frequency relaying requirements will operate and take precedence	Frequency              (Hz)	Ride-Through Mode	Minimum Ride-through Time
@@ -969,24 +803,17 @@ f > 61.8	No ride-through requirements
 58.8 ≤ f ≤ 61.2	Continuous Operation	continuous
 57.0 ≤ f < 58.8	Mandatory Operation	299
 f < 57.0	No ride-through requirements
-	Y/N
-
 Load Shed (Protocol Section 3.8.6)
 Criteria	Notes	Evaluation
 DSP confirmation that DGR is not connected to load-shed circuit	Line cannot be subject to…
 -	manual or automatic disconnection…
 -	by DSP, TSP, or TO…
 -	as part of any under-frequency, under-voltage, or manual load shed scheme
-	Y/N
-
 Outage Scheduling (Protocol Section 3.1.6.13)
 Criteria	Notes	Evaluation
 DSP confirmation that DSP will notify RE or QSE of outages	Relevant outages include any planned or forced outage of any distribution facility controlled by DSP that impacts, or that foreseeably could impact, the operation of the DGR.  This could be spelled out in the IA.	Y/N
-
- 
 APPENDIX L:  Template for RE’s Wanting to Submit Model Information
-Template to Submit Model Information:	For Informational Purposes Only	
-							
+Template to Submit Model Information:	For Informational Purposes Only				
 What Needs to be Ready for a Submission?	Owner	Comment	In RIOO (Y/N)?	IA Exhibit #	IA Page?	System Impact Study	Study Page?
 Small Gen Process per Planning Guide	 	 	 	 	 	 	 
 ERCOT RIOO Fee Paid	 	 	 	 	 	 	 
@@ -1009,15 +836,11 @@ Confirmation of non-load shed UF circuit
 Confirmation of Outage Scheduler							
 Full RARF Package with All Attachments per Glossary	 	 	 	 	 	 	 
 EPS Metering design proposal in and approved	 	 	 	 	 	 	 
-
- 
 APPENDIX M:  REVISIONS
 Revision  	 Comments  	Date   	Author
 0.1	Original Document Draft	10/12/2012	Al Garcia
 0.2	Editing and reduction of scope	10/24/2012	John Adams
 0.3	Editing and Addition of Description of Changes/Table of Contents	10/29/2012	W. Rickerson
-
-
 0.4	Replacing details of each process with checklist in appendix and other edits	11/1/2012	John Adams
 0.5	Editing, make Figure 2 and 3 consistent with Planning Guide, changes to Appendices G and H, updated TOC	11/6/2012	Paul Tan
 0.6	Editing for simplicity & clarity	11/13/2012	Eric Adams/John Adams
@@ -1032,24 +855,13 @@ Revision  	 Comments  	Date   	Author
 1.4	Updated language to change references to “Commercial Operations Date” to “Resource Commissioning Date” as per NPRR 705 (Provides Consistency for references to the End Date of the Generation Interconnection Process)	02/01/2016	Ted Hailu, Chad Thompson
 1.5	Updated to include information about the Quarterly Stability Assessment	01/15/2018	Jay Teixeira
 1.6	Handbook revised and updated	07/16/2018
-
-
-
-
-
-
-
-
 	Dennis Caufield
 1.7	Post Dennis Caufield revisions – formatting mostly	09/15/2018	Jay Teixeira
 1.8	Post formatting – footer, cover page, begin content change for RIOO-IS	10/15/2018	Jay Teixeira
 1.91	Updated to include GIM (GINR) Timelines, Curtailment test, FIS Review Checklist and various small edits.	01/8/2021	Jay Teixeira
 1.92	Updated Planning Guide references, revised Curtailment test process, added Outage Scheduler submission requirements, added descriptions of the Small Gen process, links and other clarifications and edits.	02/15/2022	Jay Teixeira, Ed Geer, Zach Reich, Leo Villanueva
 1.94	Update from ERCOT Operations and updates to replace the term “RARF” with “resource data” and changes to RIOO screens and other various small updates.	03/01/2023	 Jay Teixeira, Mary Vu
-
- 
 APPENDIX N:  Resource Status Codes (ICCP Handbook 2020)
-
 Resource Category	Status Code	Status Acronym	Status Description
 Generation Resource	000	n/a	Resource status has not been defined.
 	001	ONRUC	On-Line and the hour is a RUC-Committed Interval
@@ -1082,4 +894,3 @@ Generation Resource	000	n/a	Resource status has not been defined.
 	261	FRRSDN	On-Line Controllable Load  Resource with FRRS-Down obligation
 	262	FRRSUP	On-Line Controllable Load  Resource with FRRS-Up obligation
 	263	ONFFRRRSL	Available for FFR Excluding Controllable Load Resources
-
