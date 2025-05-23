@@ -7,7 +7,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Load ERCOT protocols and planning text
 with open("ercotaiassistant.txt", "r", encoding="utf-8") as f:
-    ercot_text = f.read()[:5000]
+    ercot_text = f.read()[:120000]
 
 # Use ERCOT info as system prompt
 system_prompt = {
