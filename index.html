@@ -242,6 +242,25 @@
   .hover-scale:hover {
     transform: scale(1.05);
   }
+
+  .ercot-bot-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #00bfff;
+  color: white;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ercot-bot-button:hover {
+  background-color: #0099cc;
+  transform: translateY(-2px);
+}
   </style>
 </head>
 <body>
@@ -302,15 +321,22 @@
       </div>
     </div>
   <img src="Masters.png" class="hover-scale"  alt="Masters License Framed" style="max-width: 500px; width: 90%; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-top: 1rem;" />
+ 
   <div class="section">
     <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-    <h2 id="projects" class="slide-up hover-scale">ERCOT AI Assistant</h2>
+    
+    <!-- ERCOT AI Assistant Section -->
+    <h2 id="ercot-assistant" class="slide-up hover-scale">ERCOT AI Assistant</h2>
     <p>Ask questions about ERCOT protocols, planning, and interconnection!</p>
-    <a href="ercotai/index.html" class="links">Try the ERCOT AI Assistant</a>
-    <h2 id="projects"  class="slide-up hover-scale">TeslaFSDKiller: Deep Learning Project</h2>
-  <p style="max-width: 700px; margin: 0 auto;">
-    I trained a neural network to drive autonomously in SuperTuxKart using CNNs, Transformers, and MLPs. This project, inspired by my Deep Learning course at UT Austin, showcases waypoint prediction and dynamic driving through an open-source simulator.
-  </p>
+    <a href="ercotai/index.html" target="_blank" class="ercot-bot-button">Ask the ERCOT Bot</a>
+    
+    <!-- TeslaFSDKiller Section -->
+    <hr style="border: none; height: 1px; background: #ddd; margin: 3rem 0;">
+    <h2 id="projects" class="slide-up hover-scale">TeslaFSDKiller: Deep Learning Project</h2>
+    <p style="max-width: 700px; margin: 0 auto;">
+      I trained a neural network to drive autonomously in SuperTuxKart using CNNs, Transformers, and MLPs. This project, inspired by my Deep Learning course at UT Austin, showcases waypoint prediction and dynamic driving through an open-source simulator.
+    </p>
+  </div>
 
   <video controls style="width: 100%; max-width: 700px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-top: 1rem;">
     <source src="TeslaFSDKiller.mov" type="video/mp4">
