@@ -1,18 +1,6 @@
 ERCOT Planning Guide
-
 Table of Contents
-
 June 1, 2023
-
-
-
-
-
-
-
-	
-
- 
 1	Overview	1-1
 1.1	Purpose	1
 1.2	Process for Planning Guide Revision	1
@@ -139,24 +127,9 @@ Declaration of Adequate Water Supplies	8(B)
 Declaration of Department of Defense Notification	8(C)
 Attestation Regarding Compliance with the Lone Star Infrastructure Protection Act	8(D)
 9	RESERVED	9-1
-
-
-
-
-
 ERCOT Planning Guide
 Section 1:  Overview
-
 June 1, 2023
-
-
-
-
-
-
-
-	
-	 
 1	OVERVIEW	1
 1.1	PURPOSE	1
 1.2	PROCESS FOR PLANNING GUIDE REVISION	1
@@ -179,8 +152,6 @@ June 1, 2023
 1.2.3.14	Appeal of Action	9
 1.2.4	Urgent Requests	10
 1.2.5	Planning Guide Revision Implementation	11
-
- 
 1	OVERVIEW
 1.1	Purpose
 (1)	This Planning Guide is consistent with applicable planning-related requirements of the Public Utility Commission of Texas (PUCT) Substantive Rules, Protocols and the North American Electric Reliability Corporation (NERC) Reliability Standards. 
@@ -322,15 +293,10 @@ June 1, 2023
 (1) 	Following PUCT approval, ERCOT shall implement PGRRs on the first day of the month following PUCT approval, unless otherwise provided in the PUCT Report for the approved PGRR.
 (2)	For such other PGRRs, the Impact Analysis shall provide an estimated amount of time required to implement the PGRR and ERCOT shall issue a Market Notice as soon as practicable, but no later than ten days prior to the actual implementation, unless a different notice period is required in the PUCT Report for the approved PGRR. 
 (3)	ERCOT shall implement an Administrative PGRR on the first day of the month following PUCT approval.
-
 ERCOT Planning Guide
-
 Section 2:  Definitions and Acronyms
-
 April 1, 2025
-
 ____________________________________________________________________________________________
- 
 2	DEFINITIONS AND ACRONYMS
 2.1	DEFINITIONS
 Relevant terms and definitions used in the Planning Guide can be found in Protocol Section 2, Definitions and Acronyms.  The terms within this Section 2.1 contains terms not defined in Protocols.
@@ -409,23 +375,9 @@ RIOO	Resource Integration and Ongoing Operations
 SSR	Subsynchronous Resonance
 TCEQ	Texas Commission on Environmental Quality
 TPIT	Transmission Project and Information Tracking
-
-
-
-
-
-
 ERCOT Planning Guide
 Section 3:  Regional Planning
 April 1, 2025
-
-
-
-
-
-
-
- 
 3	REGIONAL PLANNING	1
 3.1	COMMUNICATIONS	1
 3.1.1	Overview of Major Transmission Planning Activities	1
@@ -449,8 +401,6 @@ April 1, 2025
 3.1.7	Steady State Transmission Planning Load Forecast	13
 3.1.8	Planning Geomagnetic Disturbance (GMD) Activities	14
 3.1.9	Transmission Interconnection Study	16
-
- 
 3	REGIONAL PLANNING
 3.1	Communications
 3.1.1	Overview of Major Transmission Planning Activities
@@ -605,19 +555,9 @@ yrRPGxxx
 (2)	After each Transmission Project and Information Tracking (TPIT) update ERCOT shall identify a list of transmission projects 100 kV or above that are expected to be in-service before the completion of the next annual transmission interconnection study and were not included in the previous transmission interconnection study, Regional Transmission Plan, an RPG project submission, or a GINR study pursuant to Section 5.  ERCOT shall send the list to the TSPs that own the projects.
 (a)	Within 20 Business Days of receipt of the list, each TSP that owns an identified transmission project shall send to ERCOT a study report detailing the reliability impact analysis it conducted for the project.  At a minimum the report shall identify the study base case(s), contingencies, and results.
 (b)	ERCOT shall review the TSP reports and provide comments to the TSP within 20 Business Days of receipt.
-
-
-
-
-
-
-
 ERCOT Planning Guide
 Section 4:  Transmission Planning Criteria
-April 1, 2025
-
-
- 
+April 1, 2025 
 4	TRANSMISSION PLANNING CRITERIA	1
 4.1	INTRODUCTION	1
 4.1.1	Reliability Criteria	2
@@ -630,8 +570,6 @@ April 1, 2025
 4.1.1.7	Minimum Deliverability Criteria	7
 4.1.1.8	 Maintenance Outage Reliability Criteria	8
 4.1.2	Resiliency Criteria	8
-
- 
 4	TRANSMISSION PLANNING CRITERIA
 4.1	Introduction
 (1)	ERCOT employs reliability, economic, and resiliency criteria in evaluating the need for transmission system improvements.  The economic criteria are included in Protocol Section 3.11.2, Planning Criteria.  This Planning Guide provides the reliability and resiliency criteria.
@@ -664,7 +602,6 @@ April 1, 2025
 (b)	With all Facilities in their normal state, following an outage of a DC Tie Resource or DC Tie Load with or without a single line-to-ground fault, all Facilities shall be within their applicable Ratings, the ERCOT System shall remain stable with no cascading or uncontrolled Islanding, and there shall be no non-consequential Load loss;
 (c)	With any single generating unit unavailable, followed by Manual System Adjustments, followed by a common tower outage or outage of a DC Tie Resource or DC Tie Load with or without a single line-to-ground fault, all Facilities shall be within their applicable Ratings, the ERCOT System shall remain stable with no cascading or uncontrolled Islanding, and there shall be no non-consequential Load loss;
 (d)	With any single transformer, with the high voltage winding operated at 300 kV or above and low voltage winding operated at 100 kV or above unavailable, followed by Manual System Adjustments, followed by a common tower outage, or the contingency loss of a single generating unit, transmission circuit, transformer, shunt device, FACTS device, or DC Tie Resource or DC Tie Load with or without a single line-to-ground fault, all Facilities shall be within their applicable Ratings, the ERCOT System shall remain stable with no cascading or uncontrolled Islanding, and there shall be no non-consequential Load loss.  An operational solution may be planned on a permanent basis to resolve a performance deficiency under this condition; and
-
 (e)	With any single DC Tie Resource or DC Tie Load unavailable, followed by Manual System Adjustments, followed by a common tower outage, or the contingency loss of a single generating unit, transmission circuit, transformer, shunt device, FACTS device, or DC Tie Resource or DC Tie Load, with or without a single line-to-ground fault, all Facilities shall be within their applicable Ratings, the ERCOT System shall remain stable with no cascading or uncontrolled Islanding, and there shall be no non-consequential Load loss.  An operational solution may be planned on a permanent basis to resolve a performance deficiency under this condition.
 Initial Condition	Event	Facilities within Applicable Ratings and System Stable with No Cascading or Uncontrolled Outages	Non-consequential Load Loss Allowed
 1	Normal System	Common tower outage, DC Tie Resource outage, or DC Tie Load outage	Yes	No
@@ -727,18 +664,9 @@ Table 1: ERCOT-specific Reliability Performance Criteria
 (1)	As part of the resiliency analysis described in Section 3.1.1.6, Grid Reliability and Resiliency Assessment (GRRA), ERCOT shall identify those transmission upgrades that are necessary to:     
 (a)	Prevent cascading, instability, or uncontrolled islanding; and/or
 (b)	Reduce the impact of outages on customers.
-
-
-
-
-
 ERCOT Planning Guide
 Section 5:  Generator Interconnection or Modification
-
 April 1, 2025
-
-
- 
 5	GENERATOR INTERCONNECTION OR MODIFICATION	1
 5.1	INTRODUCTION	1
 5.2	GENERAL PROVISIONS	1
@@ -775,15 +703,6 @@ April 1, 2025
 5.4.3	Reviews and Approval to Submit Model Information	28
 5.4.4	Transmission System Reliability Impact	29
 5.5	GENERATOR COMMISSIONING AND CONTINUING OPERATIONS	29
-
-
-
-
-
-
-
-
- 
 5	GENERATOR INTERCONNECTION OR MODIFICATION
 5.1	Introduction
 (1)	Section 5, Generator Interconnection or Modification, defines the requirements and processes used to facilitate new or modified generation interconnections with the ERCOT System.  The requirements outlined in Section 5 are designed to:
@@ -1090,24 +1009,10 @@ Upcoming October, November, December	Prior May 1	End of July
 (i)	No later than 30 days after implementing a settings change as required by paragraph (7) of Section 6.2;
 (ii)	No earlier than 12 months and no later than 24 months following the later of the Resource Commissioning Date or March 1, 2021; and
 (iii)	A minimum of every ten years.
-
-
-
-
-
-
 ERCOT Planning Guide
 Section 6:  Data/Modeling
 
 April 1, 2025
-
-
-
-
-
-
-
- 
 6	DATA/MODELING	1
 6.1	STEADY-STATE MODEL DEVELOPMENT	1
 6.2	DYNAMICS MODEL DEVELOPMENT	3
@@ -1133,29 +1038,6 @@ April 1, 2025
 6.11	PROCESS FOR DEVELOPING GEOMAGNETICALLY-INDUCED CURRENT (GIC) SYSTEM MODELS	18
 6.12	ADDITION OF A PROPOSED DC TIE TO THE PLANNING MODELS	20
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
 6	DATA/MODELING
 6.1	Steady-State Model Development	
 (1)	To adequately simulate steady-state system conditions, it is necessary to establish and maintain steady-state data and simulation-ready study cases in accordance with the ERCOT Steady State Working Group Procedure Manual.  These case models, known as steady-state base cases, shall contain appropriate equipment characteristics and system data, and shall represent projected system conditions that provide a starting point for each required season and year.  
@@ -1386,26 +1268,11 @@ April 1, 2025
 (2)	ERCOT will provide notice to the DC Tie developer of the specific data ERCOT requires to model the DC Tie after ERCOT receives the information required under paragraph (1)(a) above.    
 (a)	ERCOT retains discretion to request any data it deems necessary to model the new DC Tie. 
 (b)	The DC Tie developer shall provide the data to ERCOT within 60 days of receiving the notice from ERCOT specifying the data required.
-
-
-
-
-
-
 ERCOT Planning Guide
 Section 7:   Market Data Transparency
 February 1, 2025
-
-
-
-
-
-
- 
 7	MARKET DATA TRANSPARENCY	1
 7.1	PLANNING DATA AND INFORMATION	1
-
- 
 7	MARKET DATA TRANSPARENCY
 7.1	Planning Data and Information
 (1)	The information available on the ERCOT website or applicable Market Information System (MIS) (i.e., Secure or Certified Areas) includes, but is not limited to, planning information pertaining to the following:
@@ -1506,41 +1373,24 @@ System Protection Short Circuit Data	Secure
 Transient Stability Screening Study for ERCOT System	Certified (all TSPs)
 TSP Planning Criteria and Procedures	ERCOT website
 Voltage Stability Screening Study for ERCOT System	Certified (all TSPs)
-
-
 ERCOT Planning Guide
-
 Section 8 
-
 Attachment A:  Declaration of Resource Data Accuracy
 January 1, 2019
-
-
-
-
- 
 Declaration of Resource Data Accuracy
-
-
 Name of Interconnecting Entity:
-
 _____________________________________________________
 
 Name and INR number of Project:
 
-_____________________________________________________
+____________________________________________________
 
 Declaration Submission Period: 
 
 • March 1-15, 20___
-
 • September 1-15, 20___
-
 By signing below, I certify that I am knowledgeable about the design of the above-named project, and that the Resource registration form most recently submitted to ERCOT for the above-named project accurately reflects the anticipated characteristics of the proposed Resource and the project contact information in the online Resource Integration and Ongoing Operations (RIOO) system is correct.
-
 I further certify that I am authorized to execute and submit this declaration on behalf of the Interconnecting Entity listed above, and that the statements contained herein are true and correct.
-
- 
 ______________________________________
 Signature
 
@@ -1553,34 +1403,19 @@ Title
 ______________________________________
 Date
 
-
-
 ERCOT Planning Guide
-
 Section 8 
-
 Attachment B:  Declaration of Adequate Water Supplies
 April 1, 2025
 
-
-
-
- 
 Declaration of Adequate Water Supplies
-
 An Interconnecting Entity (IE) must submit this attestation form to notify ERCOT that water rights, contracts or groundwater supplies sufficient for generation of electricity have been obtained or that water supplies are not required for the generation of electricity at each proposed Generation Resource.  Section 6.9, Addition of Proposed Generation to the Planning Models, requires an IE to submit this form before ERCOT may include certain proposed Generation Resources in the base cases created and maintained by the Steady State Working Group (SSWG), the System Protection Working Group (SPWG), and the Dynamics Working Group (DWG).  Any IE that proposes to interconnect a Generation Resource powered by wind, photovoltaic solar, or battery energy storage Resources does not need to submit this form.  However, any IE proposing to interconnect any other type of Generation Resource must submit this form, even if the IE’s proposed Resource will not use water. 
 Each IE should submit this attestation for each unique Generation Resource Interconnection Request (GINR) within ten Business Days of securing the relevant water supply rights, or, for Generation Resources that do not require water supplies to operate, within ten Business Days of executing the Interconnection Agreement with the Transmission Service Provider (TSP).  The attestation should be signed by an officer or other individual with authority to bind the IE.  The IE should submit the attestation and the necessary attachments to ERCOT via the online Resource Integration and Ongoing Operations (RIOO) system.
-
 ATTESTATION
-
 Name of Interconnecting Entity:
-
 _____________________________________________________
-
 Name and GINR Number of Project:
-
 _____________________________________________________
-
 By signing below, I certify that I am knowledgeable about the above-named project, and hereby represent as follows (check one of the following):
 
 0 No water rights, contracts or groundwater supplies are needed for the above-named proposed Generation Resource to generate electricity.
@@ -1597,64 +1432,37 @@ ______________________________________________________________________________
 
 ______________________________________________________________________________
 
-______________________________________________________________________________
-
-
-
-
+_____________________________________________________________________________
 
 ______________________________________
 Signature
-
 ______________________________________
 Name
-
 ______________________________________
 Title
-
 ______________________________________
 Date
-
-
- 
 
 [PGRR118:  Replace Section 8, Attachment B, above with the following upon system implementation of NPRR1246:]
 Declaration of Adequate Water Supplies
-
 An Interconnecting Entity (IE) must submit this attestation form to notify ERCOT that water rights, contracts or groundwater supplies sufficient for generation of electricity have been obtained or that water supplies are not required for the generation of electricity at each proposed Generation Resource.  Section 6.9, Addition of Proposed Generation to the Planning Models, requires an IE to submit this form before ERCOT may include certain proposed Generation Resources in the base cases created and maintained by the Steady State Working Group (SSWG), the System Protection Working Group (SPWG), and the Dynamics Working Group (DWG).  Any IE that proposes to interconnect a Generation Resource powered by wind or photovoltaic solar, or an Energy Storage Resource (ESR), does not need to submit this form.  However, any IE proposing to interconnect any other type of Generation Resource must submit this form, even if the IE’s proposed Resource will not use water. 
 Each IE should submit this attestation for each unique Generation Resource Interconnection Request (GINR) within ten Business Days of securing the relevant water supply rights, or, for Generation Resources that do not require water supplies to operate, within ten Business Days of executing the Interconnection Agreement with the Transmission Service Provider (TSP).  The attestation should be signed by an officer or other individual with authority to bind the IE.  The IE should submit the attestation and the necessary attachments to ERCOT via the online Resource Integration and Ongoing Operations (RIOO) system.
-
 ATTESTATION
-
 Name of Interconnecting Entity:
-
 _____________________________________________________
-
 Name and GINR Number of Project:
-
 _____________________________________________________
-
 By signing below, I certify that I am knowledgeable about the above-named project, and hereby represent as follows (check one of the following):
 
 0 No water rights, contracts or groundwater supplies are needed for the above-named proposed Generation Resource to generate electricity.
 
 0 The IE, the owner of the proposed Generation Resource, or another similarly situated party has secured water rights, contracts or groundwater supplies sufficient for the generation of electricity at the above-named proposed Generation Resource.  A copy of the relevant contract(s), permit(s) and/or groundwater adequacy studies is attached to this declaration.  The right(s) or contract(s) allows the Generation Resource owner or operator access to water according to the following terms (describe basic terms, including quantity, duration, and conditions of access):
-
 ______________________________________________________________________________
-
 ______________________________________________________________________________
-
 ______________________________________________________________________________
-
 ______________________________________________________________________________
-
 ______________________________________________________________________________
-
 ______________________________________________________________________________
-
-
-
-
 
 ______________________________________
 Signature
@@ -1668,68 +1476,35 @@ Title
 ______________________________________
 Date
 
-
-
-
 ERCOT Planning Guide
-
 Section 8 
-
 Attachment C:  Declaration of Department of Defense Notification
 April 1, 2025
 
-
-
-
- 
 Declaration of Department of Defense Notification
-
 Interconnecting Entity (IE):________________________________________________ 
-
-
 This declaration applies to the following proposed Generation Resource: 
-
 _______________________________________________
  
-
 Check the below listed attestation(s) which apply to the Generation Resource. 
-
 I hereby attest that:
-
 ____	This IE has notified the Department of Defense (DOD) Siting Clearinghouse of the above listed proposed Generation Resource and requested that it perform an Informal Review and/or Formal Review as described in 32 C.F.R. § 211.1 (2013);  
-
 ____	This IE has completed the formal review process for the Generation Resource with the Department of Defense (DOD) Siting Clearinghouse and Federal Aviation Administration (FAA), as described in 14 C.F.R. § 77.7 (2010) and 32 C.F.R. § 211.6 (2013); or
-
 ____	The above listed proposed Generation Resource is exempt from the requirement to seek review from the Department of Defense (DOD) and the Federal Aviation Administration (FAA), as described in 14 C.F.R. § 77.7 (2010) and 32 C.F.R. § 211.6 (2013). 
 
-
 By signing below, I certify that I am an officer, executive, or authorized employee with authority to bind the IE listed above, that I am authorized to execute and submit this declaration on behalf of each IE listed above, and that, to the best of my knowledge, the statements contained herein are true and correct.
-
-   
 ______________________________________
 Signature
-
 ______________________________________
 Name
-
 ______________________________________
 Title
-
-______________________________________
+_____________________________________
 Date
-
- 
-
 [PGRR118:  Replace Section 8, Attachment C, above with the following upon system implementation of NPRR1246:]
 Declaration of Department of Defense Notification
-
 Interconnecting Entity (IE): ________________________________________________ 
-
-
 This declaration applies to the following proposed Generation Resource or Energy Storage Resource (ESR): ________________________________________________
- 
-
-
 Check the below listed attestation(s) which apply to the Generation Resource or ESR. 
 
 I hereby attest that:
@@ -1737,13 +1512,9 @@ I hereby attest that:
 ____	This IE has notified the Department of Defense (DOD) Siting Clearinghouse of the above listed proposed Generation Resource or ESR and requested that it perform an Informal Review and/or Formal Review as described in 32 C.F.R. § 211.1 (2013);  
 
 ____	This IE has completed the formal review process for the Generation Resource or ESR with the Department of Defense (DOD) Siting Clearinghouse and Federal Aviation Administration (FAA), as described in 14 C.F.R. § 77.7 (2010) and 32 C.F.R. § 211.6 (2013); or
-
 ____	The above listed proposed Generation Resource or ESR is exempt from the requirement to seek review from the Department of Defense (DOD) and the Federal Aviation Administration (FAA), as described in 14 C.F.R. § 77.7 (2010) and 32 C.F.R. § 211.6 (2013). 
 
-
 By signing below, I certify that I am an officer, executive, or authorized employee with authority to bind the IE listed above, that I am authorized to execute and submit this declaration on behalf of each IE listed above, and that, to the best of my knowledge, the statements contained herein are true and correct.
-
-   
 ______________________________________
 Signature
 
@@ -1755,70 +1526,36 @@ Title
 
 ______________________________________
 
-
-
-
-
 ERCOT Planning Guide
-
 Section 8 
-
 Attachment D:  Attestation Regarding Compliance with the Lone Star Infrastructure Protection Act
 April 1, 2022
-
-
-
-
- 
 Attestation Regarding Compliance with the Lone Star Infrastructure Protection Act
-
-
 Name of Interconnecting Entity (IE):
-
 _____________________________________________________
-
-
 IE’s Interconnection Request (INR) number:
-
 ______________________________________________________
 
-
 Check the one box that applies [do not check both boxes]:
-
 1.	With respect to the above referenced IE and INR number and with respect to each Entity with an ownership interest in the real property to be utilized by the above referenced IE’s project (“Property Owner”), I hereby attest that:
 
    	NONE of the following statements in paragraphs (A) - (C) are TRUE.
 
    	ONE OR MORE of the following statements in paragraphs (A) - (C) are TRUE.
 
-
 (A)	The IE or Property Owner, or a wholly owned subsidiary, majority-owned subsidiary, parent company, or affiliate of the IE or Property Owner, is owned by:
-
 (i)	individuals who are citizens of China, Iran, North Korea, Russia, or a designated country;  or
-
 (ii)	a company or other entity, including a governmental entity, that is owned or controlled by citizens of or is directly controlled by the government of China, Iran, North Korea, Russia, or a designated country; or
-
 (B)	The majority of stock or other ownership interest of the IE or Property Owner, or a wholly owned subsidiary, majority-owned subsidiary, parent company, or affiliate of the above referenced IE or Property Owner is held or controlled by:
-
 (i)	individuals who are citizens of China, Iran, North Korea, Russia, or a designated country; or
-
 (ii)	a company or other entity, including a governmental entity, that is owned or controlled by citizens of or is directly controlled by the government of China, Iran, North Korea, Russia, or a designated country; or
-
 (C)	The IE or Property Owner, or a wholly owned subsidiary, majority-owned subsidiary, parent company, or affiliate of the IE or Property Owner is headquartered in China, Iran, North Korea, Russia, or a designated country.
-
 By signing below, I certify that I am an officer, executive, or authorized employee with authority to bind the IE listed above, that I am authorized to execute and submit this attestation on behalf of each IE listed above, and that the statements contained herein are true and correct.
-
-
 _____________________________________________ 
 Signature
-
 _____________________________________________ 
 Name
-
 _____________________________________________ 
 Title
-
 _____________________________________________ 
 Date
-
-
