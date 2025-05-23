@@ -1,0 +1,721 @@
+ limit specified above.
+(B)	If an ERS Resource is contracted to provide services under a Must-Run Alternative (MRA) Agreement and has an ERS obligation during an overlapping ERS Standard Contract Term, ERCOT may conduct additional testing to verify the site’s ability to provide both services on the same or consecutive days.  Such testing may be conducted without regard to the 330 day limit specified above and without regard to any recovery periods allowed for either ERS or the MRA Agreement.
+(C)	If a single TDSP-metered Premise has more than one ERS site and those ERS sites participate in different ERS Resources, then all of those ERS Resources will be subject to testing if any one of the ERS Resources is subject to testing.
+(b)	Testing will be considered void and would require re-testing for any non-weather-sensitive Resources if one or more sites of an ERS Resource were disabled or unverifiable due to events on the TDSP side of the meter affecting the supply, delivery or measurement of electricity either during the event or prior that impacts the creation of a credible baseline.  QSEs must provide verification of such events from the TDSP or MRE.
+(c)	For Weather-Sensitive ERS Resources, ERCOT shall conduct unannounced testing of each Weather-Sensitive ERS Load at least once but no more than twice per month of obligation during an ERS Standard Contract Term, unless testing has been superseded by deployment events as described in paragraph (vii) below.
+(i)	The tests will be conducted according to normal ERS testing procedures.
+(ii)	At the time of Dispatch during a test, ERCOT will not advise the QSE of the test duration, which may vary from one full 15-minute interval to 12 full 15-minute intervals.
+(iii)	ERCOT may conduct a test during any of a Weather-Sensitive ERS Load’s obligated hours.  However, tests will generally be targeted toward periods of peak weather conditions. 
+(iv)	For a Weather-Sensitive ERS Load assigned to the control group baseline, for each test ERCOT will designate a single group which shall be removed from the test population that will serve as the control group.
+(v)	ERCOT shall calculate a test performance factor for each test of a Weather-Sensitive ERS Load using the event performance methodology described in Section 8.1.3.1.4.
+(vi)	The QSE is responsible for managing group assignments and for deploying only the sites dispatched by ERCOT during a test.
+(vii)	ERCOT may reduce the number of tests administered by the number of deployment events during the ERS Standard Contract Term. 
+(viii)	The test performance factors for Weather-Sensitive ERS Resources shall always be set to one for use in Settlement for the ERS Standard Contract Term.
+(ix)	Testing will be considered void for any weather-sensitive Resources if 10% or more sites of a weather-sensitive Resource were disabled or unverifiable due to events on the TDSP side of the meter affecting the supply, delivery or measurement of electricity either during the event or prior that impacts the creation of a credible baseline.  QSEs must provide verification of such events from the TDSP or MRE.
+(2)	ERCOT shall conduct an unannounced test of an ERS Resource that has been suspended from participation in ERS pursuant to Section 8.1.3.3.  ERCOT will conduct such a test only after the QSE representing the ERS Resource has communicated to ERCOT a request for reinstatement of the suspended ERS Resource.
+(3)	An ERCOT unannounced test of an ERS Generator must demonstrate injection of energy to the ERCOT System.  The use of Load banks is prohibited for ERCOT unannounced tests.
+(4)	If an ERS Generator is co-located with an ERS Load as specified in Section 8.1.3.1.2, Performance Evaluation for Emergency Response Service Generators, ERCOT shall test both such ERS Resources simultaneously and the following shall apply:
+(a)	Test performance of the ERS Load and the ERS Generator shall be evaluated jointly and attributed to both if the ERS Load is assigned to a default baseline or is assigned to the alternate baseline and the QSE elected for joint evaluation at the beginning of the ERS Standard Contract Term.
+(b)	Test performance of the ERS Load and the ERS Generator shall be evaluated separately if the ERS Load is assigned to the alternate baseline and the QSE elected for separate evaluation at the beginning of the ERS Standard Contract Term.  If the separately evaluated ERS Load has no obligation greater than 100 kW in any ERS Time Period and does not meet the criteria for a successful test as defined in item (1)(a)(ii) above, the following shall apply:
+(i)	If the interval data measured by the metering on the output of the generator(s) meets the criteria for a successful test as defined in item (1)(a)(ii) above, for the combined obligation of the ERS Load and the ERS Generator, then both the ERS Load and the ERS Generator will be deemed to have performed successfully for that ERS test.
+(ii)	Otherwise, the ERS Load will be considered to have not performed successfully for that ERS test.
+(5)	In order to assist QSEs and ERS Resources in managing environmental compliance, ERCOT shall limit the cumulative duration of Sustained Response Periods of testing of an ERS Resource to a maximum of one hour per ERS Standard Contract Term unless otherwise required to conduct re-testing.
+(6)	Notwithstanding paragraph (5) above, Weather-Sensitive ERS Resources shall be subject to testing as described in paragraph (1)(c) above.
+8.1.3.3	Payment Reductions and Suspension of Qualification of Emergency Response Service Resources and/or their Qualified Scheduling Entities
+8.1.3.3.1	Suspension of Qualification of Non-Weather-Sensitive Emergency Response Service Resources and/or their Qualified Scheduling Entities
+(1)	If a QSE’s portfolio-level availability factor and event performance factors as calculated in Section 8.1.3.3.3, Performance Criteria for Qualified Scheduling Entities Representing Non Weather-Sensitive Emergency Response Service Resources, both equal or exceed 0.95, the QSE will be deemed to have met its ERS performance requirements for the ERS Contract Period, and the QSE and its ERS Resources are not subject to suspension.
+(2)	If a QSE fails to meet its portfolio-level availability and/or event performance requirements as described in Section 8.1.3.3.3, ERCOT shall take the following actions:
+(a)	If a QSE failure is based only on event performance failure and ERS Resources that comprise 95% or more of the QSE’s obligation for each of the events in the ERS Contract Term are deemed to have met their obligations, the QSE shall be deemed to have met its event performance requirements for the ERS Contract Term; otherwise
+(b)	ERCOT may suspend the QSE from participation in ERS, and the QSE may be subject to administrative penalties imposed by the PUCT.  ERCOT may consider mitigating factors such as equipment failures and Force Majeure Events in determining whether to suspend the QSE.
+(3)	If a QSE’s portfolio-level availability factor is less than 0.95 excluding the intervals for Resources that had one or more sites of an ERS Resource disabled or unverifiable due to events on the TDSP side of the meter affecting the supply, delivery or measurement of electricity either during the event or prior that impacts the creation of a credible baseline, ERS Resources in that portfolio that were not disabled or unverifiable due to events on the TDSP side of the meter affecting the supply, delivery or measurement of electricity either during the event or prior that impacts the creation of a credible baseline shall be subject to the following: 
+(a)	If an ERS Resource in the QSE’s portfolio achieves an availability factor of 0.85 or greater, the ERS Resource shall not be subject to a reduction of its availability factor; 
+(b)	If an ERS Resource achieves an ERSAFCOMB less than 0.85 for an ERS Standard Contract Term consisting of a single ERS Contract Period, or achieves an ERSAFCOMB lower than the threshold specified in paragraph (4)(d) of Section 8.1.3.1.3.3, Contract Period Availability Calculations for Emergency Response Service Resources, for an ERS Contract Period with a duration that is less than an ERS Standard Contract Term, then the ERS Resource’s availability factor shall be squared; and
+(c)	If the availability factor for one or more ERS Resources is squared pursuant to paragraph (b) above, ERCOT shall compute the QSE’s final portfolio-level availability factor using that modified availability factor. 
+(4)	ERCOT shall calculate a QSE’s portfolio-level event performance factor and interval performance factor for the first full interval of that event. The portfolio for this purpose shall consist of ERS Resources that did not have any sites that were disabled or unverifiable due to events on the TDSP side of the meter affecting the supply, delivery or measurement of electricity either during the event or prior that impacts the creation of a credible baseline. If either the portfolio-level event performance factor or the interval performance factor for the first full interval of the Sustained Response Period is less than 0.95, ERCOT shall determine final event performance factors for ERS Resources in the portfolio as follows: 
+(a)	If an ERS Load in the QSE’s portfolio is not co-located with an ERS Generator or is evaluated separately, as specified in Section 8.1.3.1.2, Performance Evaluation for Emergency Response Service Generators, the final event performance factor for the ERS Load shall be determined as follows:
+(i)	If the ERS Load achieves an event performance factor of 0.95 or greater and an interval performance factor for the first full interval of the Sustained Response Period of 0.95 or greater, the final event performance factor shall be set equal to the original event performance factor.
+(ii)	If the ERS Load achieves an event performance factor of less than 0.95 and an interval performance factor for the first full interval of the Sustained Response Period of 0.95 or greater, the baseline for that ERS Load shall be multiplied by a reduction factor that results in the final event performance factor being equal to the square of its original event performance factor.
+(iii)	If the ERS Load achieves an event performance factor of 0.95 or greater and an interval performance factor for the first full interval of the Sustained Response Period of less than 0.95, the baseline for that ERS Resource shall be multiplied by a reduction factor that results in the final event performance factor being equal to 0.75 times its original event performance factor.
+(iv)	If the ERS Load achieves an event performance factor of less than 0.95 and an interval performance factor for the first full interval of the Sustained Response Period of less than 0.95, the baseline for that ERS Resource shall be multiplied by a reduction factor that results in the final event performance factor being equal to 0.75 times the square of its original event performance factor.
+(b)	If an ERS Generator in the QSE’s portfolio, is not co-located with an ERS Load, the final event performance factor for the ERS Generator shall be determined as follows:
+(i)	If the ERS Generator achieves an event performance factor of 0.95 or greater and an interval performance factor for the first full interval of the Sustained Response Period of 0.95 or greater, the final event performance factor shall be set equal to original event performance factor.
+(ii)	If the ERS Generator achieves an event performance factor of less than 0.95 and an interval performance factor for the first full interval of the Sustained Response Period of 0.95 or greater, the net energy injected to the ERCOT System by the ERS Generator for each interval of the event shall be multiplied by a reduction factor that results in the final event performance factor being equal to the square of its original event performance factor.
+(iii)	If the ERS Generator achieves an event performance factor of 0.95 or greater and an interval performance factor for the first full interval of the Sustained Response Period of less than 0.95, the net energy injected to the ERCOT System by the ERS Generator for each interval of the event shall be multiplied by a reduction factor that results in the final event performance factor being equal to 0.75 times its original event performance factor.
+(iv)	If the ERS Generator achieves an event performance factor of less than 0.95 and an interval performance factor for the first full interval of the Sustained Response Period of less than 0.95, the net energy injected to the ERCOT System by the ERS Generator for each interval of the event shall be multiplied by a reduction factor that results in the final event performance factor being equal to 0.75 times the square of its original event performance factor.
+(c)	If an ERS Generator in the QSE’s portfolio, is co-located with an ERS Load and is evaluated separately, as specified in Section 8.1.3.1.2, the final event performance factor for the ERS Generator shall be determined as follows:
+(i)	If the ERS Generator achieves an event performance factor of 0.95 or greater and an interval performance factor for the first full interval of the Sustained Response Period of 0.95 or greater, the final event performance factor shall be set equal to original event performance factor.
+(ii)	If the ERS Generator achieves an event performance factor of less than 0.95 and an interval performance factor for the first full interval of the Sustained Response Period of 0.95 or greater, the energy output by the ERS Generator for each interval of the event shall be multiplied by a reduction factor that results in the final event performance factor being equal to the square of its original event performance factor.
+(iii)	If the ERS Generator achieves an event performance factor of 0.95 or greater and an interval performance factor for the first full interval of the Sustained Response Period of less than 0.95, the energy output by the ERS Generator for each interval of the event shall be multiplied by a reduction factor that results in the final event performance factor being equal to 0.75 times its original event performance factor.
+(iv)	If the ERS Generator achieves an event performance factor of less than 0.95 and an interval performance factor for the first full interval of the Sustained Response Period of less than 0.95, the energy output by the ERS Generator for each interval of the event shall be multiplied by a reduction factor that results in the final event performance factor being equal to 0.75 times the square of its original event performance factor.
+(d)	If an ERS Load and an ERS Generator in a QSE’s portfolio, are co-located and are evaluated jointly, as specified in Section 8.1.3.1.2, the final event performance factor shall be determined as follows:
+(i)	If the combined performance of the ERS Load and ERS Generator achieves an event performance factor of 0.95 or greater and an interval performance factor for the first full interval of the Sustained Response Period of 0.95 or greater, the final event performance factor for both ERS Resources shall be set equal to original event performance factor.
+(ii)	If the combined performance of the ERS Load and ERS Generator achieves an event performance factor of less than 0.95 and an interval performance factor for the first full interval of the Sustained Response Period of 0.95 or greater, the net energy injected to the ERCOT System by the ERS Generator for each interval of the event shall be multiplied by a reduction factor that results in the final combined event performance factor being equal to the square of its original combined event performance factor.  If a reduction factor of zero results in the combined event performance factor being greater than the square of the original combined event performance factor, the net energy injected to the ERCOT System shall be set to zero for all intervals in the event and the baseline for the ERS Load shall be multiplied by a reduction factor that results in the final combined event performance factor being equal to the square of the original combined event performance factor.
+(iii)	If the combined performance of the ERS Load and ERS Generator achieves an event performance factor of 0.95 or greater and an interval performance factor for the first full interval of the Sustained Response Period of less than 0.95, the net energy injected to the ERCOT System by the ERS Generator for each interval of the event shall be multiplied by a reduction factor that results in the final combined event performance factor being equal to 0.75 times its original event performance factor.  If a reduction factor of zero results in the combined event performance factor being greater than 0.75 times its original event performance factor, the net energy injected to the ERCOT System shall be set to zero for all intervals in the event and the baseline for the ERS Load shall be multiplied by a reduction factor that results in the final combined event performance factor being equal to 0.75 times its original event performance factor.
+(iv)	If the combined performance of the ERS Load and ERS Generator achieves an event performance factor of less than 0.95 and an interval performance factor for the first full interval of the Sustained Response Period of less than 0.95, the net energy injected to the ERCOT System by the ERS Generator for each interval of the event shall be multiplied by a reduction factor that results in the final combined event performance factor being equal to 0.75 times the square of its original event performance factor.  If a reduction factor of zero results in the combined event performance factor being greater than 0.75 times the square of its original event performance factor, the net energy injected to the ERCOT System shall be set to zero for all intervals in the event and the baseline for the ERS Load shall be multiplied by a reduction factor that results in the final combined event performance factor being equal to 0.75 times the square of its original event performance factor.
+(e)	If the final event performance factor for one or more ERS Resources in a QSE’s portfolio is reduced pursuant to paragraphs (a) through (d) above, ERCOT shall re-compute the QSE’s final portfolio-level event performance factor using each ERS Resource’s final event performance factor. 
+(5)	If an ERS Resource, in accordance with Section 8.1.3.2, Testing of Emergency Response Service Resources, has failed any two consecutive tests in an ERS Standard Contract Term, or has failed both the first test in an ERS Standard Contract Term and the most recent prior test occurring within 365 days of that first failed test, ERSTESTPF shall be set to the lower of 0.75 or the average of those two test performance factors and shall be used in calculating the payment to the QSE for the ERS Standard Contract Term during which the second failure occurred.  Otherwise, ERSTESTPF shall be set to 1.0.
+(6)	Notwithstanding the provisions of paragraph (5) above, if an ERS Resource, in accordance with Section 8.1.3.2, has failed the most recent three consecutive tests within a 365 day period, then ERSTESTPF for the ERS Standard Contract Term in which the most recent failure has occurred, shall be determined as follows:
+(a)	If the average of ERSTESTPF for those three tests is equal to 0.90 or greater, ERSTESTPF shall be set to 0.5.
+(b)	If the average of ERSTESTPF for those three tests is less than 0.90, ERSTESTPF shall be set zero.
+(c)	If the ERS Resource has failed the most recent four consecutive tests within a 365 day period, then ERSTESTPF for the ERS Standard Contract Term in which the most recent failure has occurred, shall be set to zero.
+(7)	Notwithstanding the provisions of paragraphs (5) and (6) above, if an ERS Resource, in accordance with Section 8.1.3.1.4, Event Performance Criteria for Emergency Response Service Resources, successfully deploys in all ERS deployment events in which the ERS Resource has an obligation during that ERS Standard Contract Term, ERSTESTPF shall be set to 1.0 for that ERS Standard Contract Term.
+(8)	If a Governmental Authority issues a written determination that an ERS Resource is in violation of any environmental law that would preclude the ERS Resource’s compliance with its ERS availability or deployment obligations, ERCOT shall treat the ERS Resource as having no availability for the remainder of the Standard Contract Term following the Governmental Authority’s determination and shall treat the Resource as having an event performance factor of zero for any deployments in the remaining portion of the ERS Standard Contract Term.  ERCOT shall also suspend the ERS Resource’s participation in ERS until the ERS Resource’s QSE certifies to ERCOT in writing that the violation has been remedied and that the ERS Resource may lawfully participate in ERS.
+(9)	If a QSE is suspended pursuant to paragraph (2) above, each of the QSE’s ERS Resources whose availability or event performance factors was reduced in accordance with paragraphs (3) or (4) above also shall be suspended, and each of the sites in those ERS Resources shall also be suspended.  The duration of the suspension for such ERS Resources and sites shall be one ERS Standard Contract Term.  ERCOT shall reject offers for ERS Resources that are suspended or that contain one or more suspended sites.  Notwithstanding the foregoing, ERCOT may choose not to suspend an ERS Resource if it determines that the reduced availability or event performance factor was attributable to the fault of its QSE or to one or more mitigating factors, such as equipment failures and Force Majeure Events.
+(10)	The suspension of an ERS Resource or a QSE representing an ERS Resource shall begin on the day following the expiration of the current or most recent ERS obligation. 
+(11)	ERCOT may reinstate an ERS Resource’s eligibility to offer into ERS upon the ERS Resource’s satisfactory completion of the reinstatement process, including a test conducted by ERCOT, as described in Section 8.1.3.2 and in the ERS technical requirements.
+8.1.3.3.2	Payment Reduction and Suspension of Qualification of Weather-Sensitive Emergency Response Service Loads and/or their Qualified Scheduling Entities
+(1)	If the QSE portfolio-level event performance factor for the QSE’s portfolio of Weather-Sensitive ERS Loads for the ERS Contract Period as calculated in Section 8.1.3.3.4, Performance Criteria for Qualified Scheduling Entities Representing Weather-Sensitive Emergency Response Service Loads, is greater than or equal to 0.90 or if 10% or more sites of an ERS Load were disabled or unverifiable due to events on the TDSP side of the meter affecting the supply, delivery or measurement of electricity either during the event or prior that impacts the creation of a credible baseline, ERCOT shall not impose a payment reduction for any of the those ERS Loads.  Otherwise, ERCOT shall compute QSE portfolio-level Demand reduction values for each test and event throughout the ERS Contract Period as the greater of zero or the portfolio-level baseline estimate for each interval less the portfolio-level actual Load for that interval.  The relationship of the Demand reduction values for each ERS Load to actual weather shall be modeled and used to derive a time-period specific Demand reduction value that would be realized under normalized peak weather conditions.  If the normalized peak Demand reduction value for each ERS Time Period, summed across all ERS Loads in the portfolio is greater than or equal to 90% of the QSE’s total offered MW capacity in that time period, ERCOT shall not impose a payment reduction for any of the ERS Loads in the portfolio.
+(2)	For an ERS deployment event for a Weather-Sensitive ERS Load with three or more full intervals in the Sustained Response Period, if the ERS Load’s EIPF for the first full interval of the Sustained Response Period is less than 75% of the average EIPF for the remaining full intervals of the Sustained Response Period, the baseline used to evaluate the ERS Load shall be reduced to the level at which the ERSEPF for that event or test is equal to 0.75 times the ERSEPF determined by using the initial baseline.
+(3)	If the provisions of paragraph (1) above are not met, ERCOT shall reduce a QSE’s payment for Weather-Sensitive ERS Load as follows:
+(a)	If the maximum number of sites in the ERS Load during the ERS Standard Contract Term is less than 80% of the number of sites projected by the QSE at the time of offer submission, as described in paragraph (15) of Section 3.14.3.1, Emergency Response Service Procurement, the baseline used to evaluate the Weather-Sensitive ERS Load shall be reduced to the level at which the ERSEPF is equal to the square of the ERSEPF determined by using the initial baseline. 
+(b)	For all events occurring in an ERS Time Period, if, for that ERS Time Period the normalized peak Demand reduction value per site within the Weather-Sensitive ERS Load is less than 90% of the average Demand reduction value per site, based on the QSE’s offer for that ERS Time Period, and the ERS Load’s ERSEPF for an event in that ERS Time Period is less than 0.90, the baseline used to evaluate the ERS Load for that event shall be reduced to the level at which the ERS Load’s ERSEPF is equal to the square of the ERSEPF determined by using the initial baseline.
+(c)	If either paragraph (3)(a) or (b) above require a payment reduction, but not both, and the normalized peak demand reduction for the resource is greater than or equal to 90% of the QSE’s offered MW capacity, no payment reduction for the event shall be imposed.
+(d)	If the provisions of both paragraphs (3)(a) and (b) above require the ERSEPF to be squared, the baseline used to evaluate the ERS Load shall be reduced to the level at which the ERSEPF for the ERS Load is equal to the cube of the ERSEPF determined by using the initial baseline.
+(e)	If an ERS Load’s obligation is exhausted during an ERS Contract Period, the provisions of paragraphs (3)(a), (b), and (c) above shall not apply.
+(f)	Baseline reductions required pursuant to paragraphs (3)(a), (b), and (c) above shall be applied to the initial baseline calculated by ERCOT.  If a baseline reduction pursuant to paragraph (2) above also is required, that reduction shall be based on the adjusted baseline after applying the reductions provided for in paragraphs (3)(a), (b), and (c) above.
+(g)	If the final event performance factor for one or more ERS Loads in a QSE’s portfolio of Weather-Sensitive ERS Loads is reduced pursuant to paragraphs (2) or (3)(a), (b), or (d) above, ERCOT shall re-compute the QSE’s final portfolio-level event performance factor using each ERS Load’s adjusted baselines.
+8.1.3.3.3	Performance Criteria for Qualified Scheduling Entities Representing Non-Weather-Sensitive Emergency Response Service Resources
+(1)	A QSE’s ERS performance will be evaluated based on its portfolio’s performance for each of the four ERS service types during ERS deployment events and on the overall availability of its portfolio in an ERS Standard Contract Term, as follows:
+(a)	Availability:
+(i)	ERCOT shall calculate a portfolio-level availability factor for each QSE’s ERS portfolio for each ERS service type for each ERS Time Period in an ERS Contract Period using the methodologies defined in Section 8.1.3.1.3, Availability Criteria for Emergency Response Service Resources, except that the availability factor for each ERS Time Period will be allowed to exceed 1.0.  ERCOT shall then calculate a single time- and capacity-weighted availability factor for the QSE portfolio for each ERS service type for the ERS Contract Period using the methodologies defined in Section 8.1.3.1.3.  
+(ii)	ERCOT shall then calculate a single time and capacity-weighted availability factor for the QSE portfolio for the ERS Standard Contract Term and the ERS service type, which will be capped at 1.0.  
+(A)	For an ERS Standard Contract Term with a single ERS Contract Period, the QSE portfolio-level availability factor for each ERS service type for the ERS Standard Contract Term shall be the portfolio-level availability factor for each ERS service type for the ERS Contract Period.  
+(B)	For an ERS Standard Contract Term with multiple ERS Contract Periods, ERCOT shall compute a QSE portfolio-level availability factor for each ERS service type for the ERS Standard Contract Term by averaging the QSE’s availability factors across ERS Contract Periods and ERS Time Periods for each ERS service type, weighted according to time and capacity obligations.  
+(iii)	The QSE’s portfolio-level availability factor for each ERS service type for the ERS Standard Contract Term will determine both the availability component of the ERS payment to the QSE and whether the QSE has met its ERS availability requirements.  If the QSE’s portfolio-level availability factor for each ERS service type for the ERS Standard Contract Term equals or exceeds 0.95, the QSE shall be deemed to have met its availability requirements for the ERS Standard Contract Term; otherwise, the QSE shall be deemed to have failed to meet this requirement.  If the QSE’s portfolio-level availability factor for either ERS service type for the ERS Standard Contract Term is less than 1.0, the QSE’s ERS capacity payment shall be reduced according to the formulas in Section 6.6.11.1, Emergency Response Service Capacity Payments.
+(b)	Event Performance: 
+(i)	QSEs representing ERS Resources must meet performance standards specified in Section 8.1.3.1.4, Event Performance Criteria for Emergency Response Service Resources, as applied on a portfolio-level basis.  ERCOT shall determine a QSE’s portfolio-level event performance for each ERS service type by calculating a QSE portfolio-level event performance factor for each ERS deployment event.  For purposes of evaluating ERS Loads, ERCOT shall establish a baseline representing the portfolio’s estimated Load, or, for DRG that has been designated by the QSE to be evaluated by using its native load, calculated 15-minute interval native load data in the absence of the ERS deployment event.  For purposes of evaluating ERS Generators, ERCOT shall compute portfolio-level injection of energy to the ERCOT System.  Using this data, ERCOT shall calculate a QSE portfolio-level event performance factor for each ERS deployment event for each ERS service type based on the weighted average of the event interval performance factors, weighted by the total obligation and IntFrac.  
+(ii)	ERCOT shall then calculate an ERSEPFqrd for the ERS Standard Contract Term, which will be capped at 1.0.  For an ERS Standard Contract Term with no ERS deployment events, the ERSEPFqrd for the ERS Standard Contract Term shall be set to 1.0.  
+(A)	For an ERS Standard Contract Term with a single ERS deployment event, the ERSEPFqrd for the ERS Standard Contract Term shall be the QSE portfolio-level event performance factor for the event.  
+(B)	For an ERS Standard Contract Term with multiple ERS deployment events, ERCOT shall compute the ERSEPFqrd for the ERS Standard Contract Term by averaging the QSE portfolio-level interval performance factors for all of the deployment events for each ERS service type, weighted by the total obligation and IntFrac.  
+(iii)	The ERSEPFqrd for an ERS Standard Contract Term will determine both the event performance component of the ERS payment to the QSE and whether the QSE has met its ERS event performance requirements for that ERS service type.  If an ERSEPFqrd for an ERS Standard Contract Term is greater than or equal to 0.95, the QSE will be deemed to have met its event performance requirements for the ERS Standard Contract Term for that ERS service type; otherwise, the QSE shall be deemed to have failed to meet this requirement.  If a QSE’s ERSEPFqrd is less than 1.0 for the Standard Contract Term, the QSE’s ERS capacity payment shall be reduced according to the formulas in Section 6.6.11.1.  For purposes of calculating an ERSEPFqrd, any ERS Resource that was not subject to Dispatch during the event shall be treated as having met its obligation.
+(iv)	ERCOT will not include any Resources in the calculation of the ERSEPFqrd if one or more sites of an ERS Resource were disabled or unverifiable due to events on the TDSP side of the meter affecting the supply, delivery or measurement of electricity either during the event or prior that impacts the creation of a credible baseline.  QSEs must provide verification of such events from the TDSP or MRE.
+(c)	Ten-minute Deployment:  Within ten minutes of the deployment time within the ERCOT Extensible Markup Language (XML) deployment message for ERS-10, a QSE shall ensure that each ERS Resource participating in ERS-10 in its portfolio deploys in accordance with its obligations.  For each ERS-10 deployment event, ERCOT shall assess each QSE’s compliance with this requirement by calculating a capacity-weighted QSE portfolio-level interval performance factor for the first full interval of the Sustained Response Period, using the methodologies defined in Section 8.1.3.1.4.  
+(d)	Thirty-minute Deployment:  Within 30 minutes of the deployment time within the ERCOT XML deployment message for ERS-30, a QSE shall ensure that each ERS Resource participating in its portfolio deploys in accordance with its obligations.  For each ERS-30 deployment event, ERCOT shall assess each QSE’s compliance with this requirement by calculating a capacity-weighted QSE portfolio-level interval performance factor for the first full interval of the Sustained Response Period, using the methodologies defined in Section 8.1.3.1.4.
+The above variables are defined as follows:
+Variable	Unit	Description
+ERSEPFqrd	None	ERS Event Performance Factor per QSE per ERS Standard Contract Term per ERS Service Type—Event performance factor for QSE q in ERS Standard Contract Term r and ERS service type d as calculated pursuant to Section 8.1.3.3.1.
+q	None	A QSE.
+r	None	ERS Standard Contract Term.
+d	None	ERS service type (Non-Weather-Sensitive ERS-10 or Non-Weather-Sensitive ERS-30).
+(2)	Failure by a QSE portfolio to meet its ERS event performance or availability requirements shall not be cause for revocation of the QSE’s Ancillary Services qualification. 
+8.1.3.3.4	Performance Criteria for Qualified Scheduling Entities Representing Weather-Sensitive Emergency Response Service Loads 
+(1)	A QSE’s ERS performance will be evaluated based on the performance of its portfolio of Weather-Sensitive ERS Loads during ERS deployment events in an ERS Standard Contract Term as follows:
+(a)	ERCOT shall compute the following quantities at the QSE portfolio level for each interval of a deployment: MW obligation, baseline estimate and actual Demand as the sum of the respective quantities across the ERS Loads, or, for DRG that has been designated by the QSE to be evaluated by using its native load, calculated 15-minute interval native load data in the portfolio with obligations for that interval.  In addition, ERCOT shall compute the QSE’s portfolio-level prorated total obligations as the weighted sum of the obligations of the deployed ERS Loads weighted by the ratio the number of sites participating in the ERS Load during the event to the maximum number of sites projected by the QSE at the time of offer submission and the prorated interval fraction value (IntFrac) for each interval of a deployment as the average respectively of the interval fractions for each of the ERS Loads within its portfolio weighted by the ERS Load’s obligation for that interval multiplied by the ratio of the number of sites participating in the ERS Load during the event to the maximum number of sites projected by the QSE at the time of offer submission.
+(b)	ERCOT shall compute the QSE’s portfolio-level event interval performance factor for each interval of a deployment as specified in Section 8.1.3.1.4, Event Performance Criteria for Emergency Response Service Resources, using the values computed in paragraph (a) above.
+(c)	ERCOT shall compute the QSE’s portfolio-level Weather-Sensitive ERS Load event performance factor (ERSEPF) for each test and event as the weighted average of the event interval performance factors calculated in paragraph (b) above, weighted by the prorated obligation and interval fractions (IntFrac) computed in paragraph (a) above.
+(d)	ERCOT shall compute the QSE’s portfolio-level Weather-Sensitive ERS Load event performance factor for the ERS Contract Period as the average of the event interval performance factors for all tests and events during the ERS Contract Period calculated in paragraph (b) above weighted by the prorated obligation and interval fractions computed in paragraph (a) above.
+(e)	ERCOT will not include any Weather-Sensitive ERS Loads in the calculation of the ERSEPF if 10% or more sites of an ERS Load were disabled or unverifiable due to events on the TDSP side of the meter affecting the supply, delivery or measurement of electricity either during the event or prior that impacts the creation of a credible baseline.  QSEs must provide verification of such events from the TDSP or MRE.
+8.1.3.4	ERCOT Data Collection for Emergency Response Service
+(1)	ERCOT will collect all data necessary to analyze offers, Self-Provision offers, and all availability and performance obligations of ERS Resources and their QSEs under the Protocols.  QSEs and ERS Resources they represent are required to provide any data to ERCOT that ERCOT may require, as specified by ERCOT.
+8.2	ERCOT Performance Monitoring
+(1)	ERCOT shall continually assess its operations performance for the following activities:
+(a)	Coordinating the wholesale electric market transactions; 
+(b)	System-wide transmission planning; and 
+(c)	Network reliability.  
+(2)	The Technical Advisory Committee (TAC), or a subcommittee designated by TAC, shall review ERCOT’s performance in controlling the ERCOT Control Area according to requirements and criteria set out in the TAC- and ERCOT Board-approved monitoring program.  Assessments and reports include the following ERCOT activities:
+(a)	Transmission control:
+(i)	Transmission system availability statistics;
+(ii)	Outage scheduling statistics for Transmission Facilities Outages (maintenance planning, construction coordination, etc.); and
+(iii)	Metrics describing performance of the State Estimator;
+(b)	Resource control:
+(i)	Outage scheduling statistics for Resource facilities Outages (maintenance planning, construction coordination, etc.);
+(ii)	Resource control metrics as defined in the Operating Guides;
+(iii)	Metrics describing Reliability Unit Commitment (RUC) commitments and deployments; 
+(iv)	Metrics describing conflicting instructions to Generation Resources from interval to interval;
+[NPRR1246:  Replace item (iv) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(iv)	Metrics describing conflicting instructions to Generation Resources and Energy Storage Resources (ESRs) from interval to interval;
+(v)	Metrics describing the overall Resource response to frequency deviations in the ERCOT Region; and
+(vi)	Voltage and reactive control performance;
+(c)	Settlement stability:
+(i)	Track number of price changes that occur after a Settlement Statement has posted for an Operating Day; 
+(ii)	Track number and types of disputes submitted to ERCOT and their disposition; 
+(iii)	Report on compliance with timeliness of response to disputes; 
+(iv)	Number of resettlements required due to non-price errors pursuant to paragraphs (2) and (4) of Section 9.2.5, DAM Resettlement Statement, and paragraph (2) of Section 9.5.6, RTM Resettlement Statement;
+(v)	Other Settlement metrics; and
+(vi)	Availability of Electric Service Identifier (ESI ID) consumption data in conformance with Settlement timeline; 
+(d)	Performance in implementing network model updates;
+(e)	Network Operations Model validation, by comparison to other appropriate models or other methods;
+(f)	System and Organization Control (SOC) audit results regarding ERCOT’s market Settlements operations;
+(g)	Net Allocation to Load:
+(i)	ERCOT shall calculate and report on a quarterly basis all charges allocated to Load for all Qualified Scheduling Entities (QSEs) for each month for the most recent thirteen months expressed in total dollars.  ERCOT will sum all charges allocated to Load for all QSEs, and divide that total by the total Real-Time Adjusted Metered Load (AML), showing results in dollars per MWh.  
+(ii)	The Load-Allocated CRR Monthly Revenue Zonal Amount (LACMRZAMT), as calculated in paragraph (5) of Section 7.5.7, Method for Distributing CRR Auction Revenues, will be summed by Congestion Management Zone (CMZ) for each month for the most recent 13 months, and divided by the sum of the Real-Time AML by CMZ for each month, showing results in dollars per MWh per CMZ. 
+(iii)	ERCOT will calculate the total dollars per MWh by CMZ by summing all charges allocated to Load for all QSEs, excluding LACMRZAMT, and dividing that total by the Real-Time AML; this rate will then be added to item (ii) above to calculate the total dollars per MWh by CMZ.
+8.3	TSP Performance Monitoring and Compliance
+(1)	ERCOT shall develop a Technical Advisory Committee (TAC)- and ERCOT Board-approved Transmission Service Provider (TSP) monitoring program to be included in the Operating Guides for TSPs regarding Real-Time data telemetry performance.
+[NPRR857:  Replace Section 8.3 above with the following upon system implementation and satisfying the following conditions:  (1) Southern Cross provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a TSP and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities:]
+8.3	TSP and DCTO Performance Monitoring and Compliance
+(1)	ERCOT shall develop a Technical Advisory Committee (TAC)- and ERCOT Board-approved Transmission Service Provider (TSP) and Direct Current Tie Operator (DCTO) monitoring program to be included in the Operating Guides for TSPs and DCTOs regarding Real-Time data telemetry performance.
+8.4	ERCOT Response to Market Non-Performance
+(1)	ERCOT may require a Market Participant to develop and implement a corrective action plan to address its failure to meet performance criteria in this Section.  The Market Participant must deliver a copy of this plan to ERCOT and must report to ERCOT periodically on the status of the implementation of the corrective action plan.
+(2)	ERCOT may revoke any or all Ancillary Service qualifications of any Generation Resource or Load Resource for continued material non-performance in providing Ancillary Service capacity or energy.
+[NPRR1246:  Replace paragraph (2) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(2)	ERCOT may revoke any or all Ancillary Service qualifications of any Generation Resource, Energy Storage Resource (ESRs), or Load Resource for continued material non-performance in providing Ancillary Service capacity or energy.
+(3)	ERCOT may suspend any Emergency Response Service (ERS) Resource for continued material non-performance in providing ERS.
+8.5	Primary Frequency Response Requirements and Monitoring
+8.5.1	Generation Resource, Energy Storage Resource, and QSE Participation
+8.5.1.1	Governor in Service
+(1)	At all times a Generation Resource, Energy Storage Resource (ESR), Settlement Only Transmission Generator (SOTG), or Settlement Only Transmission Self-Generator (SOTSG) is On-Line, its Governor must remain in service and be allowed to respond to all changes in system frequency except during startup, shutdown, or testing.  A Resource Entity may not reduce Primary Frequency Response on an individual Generation Resource, ESR, or Settlement Only Generator (SOG) even during abnormal conditions without ERCOT’s consent (conveyed by way of the Resource Entity’s Qualified Scheduling Entity (QSE)) unless equipment damage is imminent.  All Generation Resources, ESRs, SOTGs, and SOTSGs that have capacity available to either increase output or decrease output in Real-Time must provide Primary Frequency Response, which may make use of that available capacity.  Only Generation Resources or ESRs providing Regulation Up (Reg-Up), Regulation Down (Reg-Down), ERCOT Contingency Reserve Service (ECRS), Responsive Reserve (RRS), or Non-Spinning Reserve (Non-Spin) from On-Line Resources, as specified in Section 8.1.1, QSE Ancillary Service Performance Standards, shall be required to reserve capacity that may also be used to provide Primary Frequency Response.
+[NPRR995:  Replace paragraph (1) above with the following upon system implementation:]
+(1)	At all times a Generation Resource, Energy Storage Resource (ESR), Settlement Only Transmission Generator (SOTG), Settlement Only Transmission Self-Generator (SOTSG), or Settlement Only Transmission Energy Storage System (SOTESS) is On-Line, its Governor must remain in service and be allowed to respond to all changes in system frequency except during startup, shutdown, or testing.  A Resource Entity may not reduce Primary Frequency Response on an individual Generation Resource, ESR, Settlement Only Generator (SOG), or SOTESS even during abnormal conditions without ERCOT’s consent (conveyed by way of the Resource Entity’s Qualified Scheduling Entity (QSE)) unless equipment damage is imminent.  All Generation Resources, ESRs, SOTGs, SOTSGs, and SOTESSs that have capacity available to either increase output or decrease output in Real-Time must provide Primary Frequency Response, which may make use of that available capacity.  Only Generation Resources or ESRs providing Responsive Reserve (RRS), Regulation Up (Reg-Up), Regulation Down (Reg-Down), ERCOT Contingency Reserve Service (ECRS), or Non-Spinning Reserve (Non-Spin) from On-Line Resources, as specified in Section 8.1.1, QSE Ancillary Service Performance Standards, shall be required to reserve capacity that may also be used to provide Primary Frequency Response.
+[NPRR863, NPRR989, NPRR995, and NPRR1011:  Insert applicable portions of paragraph (2) below upon system implementation for NPRR863, NPRR989, and NPRR995; or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1011:]
+(2)	Generation Resources and ESRs that do not have an RRS or Regulation Service Ancillary Service award shall set their Governor Dead-Band no greater than ±0.036 Hz from nominal frequency of 60 Hz.  A Generation Resource or ESR that widens its Governor Dead-Band greater than what is prescribed in Nodal Operating Guide Section 2.2.7, Turbine Speed Governors, must update its Resource Registration data with the new dead-band value.
+[NPRR995:  Insert paragraph (3) below upon system implementation:]
+(3)	SOTGs, SOTSGs, and SOTESSs shall set their Governor Dead-Band no greater than ±0.036 Hz from nominal frequency of 60 Hz.
+8.5.1.2	Reporting
+(1)	Each Resource Entity shall conduct applicable Governor tests on each of its Generation Resources and ESRs as specified in the Operating Guides.  The Resource Entity shall provide test results and other relevant information to ERCOT.  ERCOT shall make these results available to the Transmission Service Providers (TSPs).
+[NPRR1239:  Replace paragraph (1) above with the following upon system implementation:]
+(1)	Each Resource Entity shall conduct applicable Governor tests on each of its Generation Resources and ESRs as specified in the Operating Guides.  The Resource Entity shall provide test results and other relevant information to ERCOT.  ERCOT shall make these results available to the Transmission Service Providers (TSPs) and upon request on the ERCOT website.
+(2)	Generation Resource and ESR Governor modeling information required in the ERCOT planning criteria must be determined from actual Generation Resource or ESR testing described in the Operating Guides.  Within 30 days of ERCOT’s request, the results of the latest test performed must be supplied to ERCOT and the connected TSP.
+(3)	Each QSE shall inform ERCOT as soon as practical when notified by its On-Line Generation Resource, ESR, SOTG, or SOTSG of the Governor being out-of-service.  The QSE shall supply related logs to ERCOT upon request.
+[NPRR995:  Replace paragraph (3) above with the following upon system implementation:]
+(3)	Each QSE shall inform ERCOT as soon as practical when notified by its On-Line Generation Resource, ESR, SOTG, SOTSG, or SOTESS of the Governor being out-of-service.  The QSE shall supply related logs to ERCOT upon request.
+(4)	If a Generation Resource or ESR trips Off-Line during a disturbance, as defined by the North American Electric Reliability Corporation (NERC), while providing Primary Frequency Response, the QSE shall report the cause of the failure to ERCOT as soon as the cause has been identified.
+8.5.1.3 	Wind-powered Generation Resource (WGR) Primary Frequency Response
+(1)	Wind-powered Generation Resources (WGRs) with Standard Generation Interconnection Agreements (SGIAs) signed after January 1, 2010 shall provide Primary Frequency Response to frequency deviations from 60 Hz.  The WGR automatic control system design shall have an adjustable dead band that can be set as specified in the Operating Guides.  The Primary Frequency Response shall be specified in the Operating Guides.  For WGRs with SGIAs executed on or prior to January 1, 2010, those not already equipped with Primary Frequency Response shall by December 1, 2011 acquire that capability.  Those WGRs that cannot technically be retrofitted with Primary Frequency Response capability shall submit an attestation to ERCOT by June 1, 2010 explaining the technical infeasibility.  At ERCOT’s sole discretion, those WGRs for which Primary Frequency Response is technically infeasible may be granted a permanent exemption from the requirement.  ERCOT shall make a determination within 180 days of receipt of the attestation.  If ERCOT does not grant an exemption, the WGR shall acquire the capability to provide Primary Frequency Response within 24 months of being notified of that determination.  If ERCOT grants the exemption, then ERCOT may require the WGR to install alternate measures, such as over-frequency relays, that are technically feasible and would approximate Primary Frequency Response to events above 60.1 Hz.
+8.5.2	Primary Frequency Response Measurements
+(1)	ERCOT, with the assistance of the appropriate Technical Advisory Committee (TAC) subcommittee, shall analyze the performance of Generation Resources, ESRs, SOTGs, SOTSGs, Resources capable of Fast Frequency Response (FFR), and Controllable Load Resources for all Frequency Measurable Events (FMEs) in accordance with the Operating Guides.  In support of this analysis, ERCOT shall post the following:
+[NPRR995:  Replace paragraph (1) above with the following upon system implementation:]
+(1)	ERCOT, with the assistance of the appropriate Technical Advisory Committee (TAC) subcommittee, shall analyze the performance of Generation Resources, ESRs, SOTGs, SOTSGs, SOTESSs, Resources capable of Fast Frequency Response (FFR), and Controllable Load Resources for all Frequency Measurable Events (FMEs) in accordance with the Operating Guides.  In support of this analysis, ERCOT shall post the following:
+(a)	ERCOT shall post on the ERCOT website the occurrence of an FME within 14 calendar days of occurrence.
+(b)	ERCOT shall post on the Market Information System (MIS) Certified Area for Performance, Disturbance, Compliance Working Group (PDCWG) analysis, the Primary Frequency Response Unit Performance for each Generation Resource, ESR, SOTG, SOTSG, and Controllable Load Resource that is measured in the FME.
+[NPRR995:  Replace paragraph (b) above with the following upon system implementation:]
+(b)	ERCOT shall post on the MIS Certified Area for Performance, Disturbance, Compliance Working Group (PDCWG) analysis, the Primary Frequency Response Unit Performance for each Generation Resource, ESR, SOTG, SOTSG, SOTESS, and Controllable Load Resource that is measured in the FME.
+(c)	ERCOT shall post on the ERCOT website a monthly report that displays the frequency response of the ERCOT System for a rolling average of the last six FMEs.
+(d)	ERCOT shall post on the ERCOT website an annual report that displays the minimum frequency response computation methodology of the ERCOT System.
+(e)	ERCOT shall post on the MIS Certified Area the Primary Frequency Response 12-month rolling average for each Generation Resource, ESR, SOTG, SOTSG, Resource capable of FFR, and Controllable Load Resource.  
+[NPRR995:  Replace paragraph (e) above with the following upon system implementation:]
+(e)	ERCOT shall post on the MIS Certified Area the Primary Frequency Response 12-month rolling average for each Generation Resource, ESR, SOTG, SOTSG, SOTESS, Resource capable of FFR, and Controllable Load Resource.
+8.5.2.1	ERCOT Required Primary Frequency Response
+(1)	All Generation Resources, ESRs, SOTGs, SOTSGs, and Controllable Load Resources (CLRs) shall provide Primary Frequency Response in accordance with the requirements established in the Operating Guides.
+[NPRR995 and NPRR1244:  Replace applicable portions of paragraph (1) above with the following upon system implementation:]
+(1)	All Generation Resources, ESRs, Controllable Load Resources (CLRs) that are capable of providing Primary Frequency Response, SOTGs, SOTSGs, and SOTESSs shall provide Primary Frequency Response in accordance with the requirements established in the Operating Guides.  
+(2)	ERCOT shall evaluate, with the assistance of the appropriate TAC subcommittee, Primary Frequency Response during FMEs.  The actual Generation Resource or ESR response must be compiled to determine if adequate Primary Frequency Response was provided.
+(3)	ERCOT and the appropriate TAC subcommittee shall review each FME, verifying the accuracy of data.  Data that is in question may be requested from the QSE for comparison or individual Generation Resource or ESR data may be retrieved from ERCOT’s database.
+[NPRR963:  Replace paragraph (3) above with the following upon system implementation:]
+(3)	ERCOT and the appropriate TAC subcommittee shall review each FME, verifying the accuracy of data.  Data that is in question may be requested from the QSE for comparison or individual Resource data may be retrieved from ERCOT’s database.
+8.5.2.2	ERCOT Data Collection
+(1)	ERCOT shall collect all data necessary to analyze each FME.
+ERCOT Nodal Protocols
+Section 9:  Settlement and Billing
+April 1, 2025
+
+ 
+9	SETTLEMENT AND BILLING	9-1
+9.1	General	9-1
+9.1.1	Settlement and Billing Process Overview	9-1
+9.1.2	Settlement Calendar	9-1
+9.1.3	Settlement Statement and Invoice Access	9-2
+9.1.4	Settlement Statement and Invoice Timing	9-3
+9.1.5	Settlement Payment Convention	9-3
+9.2	Settlement Statements for the Day-Ahead Market	9-3
+9.2.1	Settlement Statement Process for the DAM	9-3
+9.2.2	 Settlement Statements for the DAM	9-3
+9.2.3	DAM Settlement Charge Types	9-4
+9.2.4	DAM Statement	9-5
+9.2.5	DAM Resettlement Statement	9-5
+9.2.6	Notice of Resettlement for the DAM	9-6
+9.2.7	Confirmation of Statement for the DAM	9-6
+9.2.8	Validation of the Settlement Statement for the DAM	9-7
+9.2.9	Suspension of Issuing Settlement Statements for the DAM	9-7
+9.3	[RESERVED]	9-7
+9.4	[RESERVED]	9-7
+9.5	Settlement Statements for Real-Time Market	9-7
+9.5.1	Settlement Statement Process for the Real-Time Market	9-7
+9.5.2	Settlement Statements for the RTM	9-7
+9.5.3	Real-Time Market Settlement Charge Types	9-9
+9.5.4	RTM Initial Statement	9-15
+9.5.5	RTM Final Statement	9-15
+9.5.6	RTM Resettlement Statement	9-16
+9.5.7	Notice of Resettlement for the Real-Time Market	9-17
+9.5.8	RTM True-Up Statement	9-17
+9.5.9	Notice of True-Up Settlement Timeline Changes for the Real-Time Market	9-18
+9.5.10	Confirmation for the Real-Time Market	9-18
+9.5.11	Validation of the True-Up Statement for the Real-Time Market	9-18
+9.5.12	Suspension of Issuing Settlement Statements for the Real-Time Market	9-18
+9.6	Settlement Invoices for the Day-Ahead Market and Real-Time Market	9-19
+9.7	Payment Process for the Settlement Invoices	9-20
+9.7.1	Invoice Recipient Payment to ERCOT for the Settlement Invoices	9-20
+9.7.2	ERCOT Payment to Invoice Recipients for the Settlement Invoices	9-20
+9.7.3	Enforcing the Financial Security of a Short-Paying Invoice Recipient	9-20
+9.8	CRR Auction Award Invoices	9-21
+9.9	Payment Process for CRR Auction Invoices	9-22
+9.9.1	Invoice Recipient Payment to ERCOT for the CRR Auction	9-22
+9.9.2	ERCOT Payment to Invoice Recipients for the CRR Auction	9-22
+9.9.3	Enforcing the Security of a Short-Paying CRR Auction Invoice Recipient	9-23
+9.10	CRR Auction Revenue Distribution Invoices	9-23
+9.11	Payment Process for CRR Auction Revenue Distribution	9-24
+9.11.1	Invoice Recipient Payment to ERCOT for CRR Auction Revenue Distribution	9-24
+9.11.2	ERCOT Payment to Invoice Recipients for CRR Auction Revenue Distribution	9-24
+9.11.3	Partial Payments by Invoice Recipients for CRR Auction Revenue Distribution	9-25
+9.11.4	Enforcing the Security of a Short-Paying CARD Invoice Recipient	9-25
+9.12	CRR Balancing Account Invoices	9-26
+9.13	Payment Process for the CRR Balancing Account	9-27
+9.13.1	Payment Process for the Initial CRR Balancing Account	9-27
+9.13.2 	Payment Process for Resettlement of the CRR Balancing Account	9-27
+9.13.2.1	Invoice Recipient Payment to ERCOT for Resettlement of the CRR Balancing Account	9-27
+9.13.2.2	ERCOT Payment to Invoice Recipients for Resettlement of the CRR Balancing Account	9-28
+9.13.2.3	Partial Payments by Invoice Recipients for Resettlement of CRR Balancing Account	9-28
+9.14	Settlement and Billing Dispute Process	9-29
+9.14.1	Data Review, Validation, Confirmation, and Dispute of Settlement Statements	9-29
+9.14.2	Notice of Dispute	9-29
+9.14.3	Contents of Notice	9-31
+9.14.4	 ERCOT Processing of Disputes	9-32
+9.14.4.1	Status of Dispute	9-33
+9.14.4.1.1	Not Started	9-33
+9.14.4.1.2	Open	9-33
+9.14.4.1.3	Closed	9-33
+9.14.4.1.4	Rejected	9-34
+9.14.4.1.5	Withdrawn	9-34
+9.14.4.1.6	ADR	9-34
+9.14.4.2	Resolution of Dispute	9-35
+9.14.4.2.1	Denied	9-35
+9.14.4.2.2	Granted	9-35
+9.14.4.2.3	Granted with Exceptions	9-36
+9.14.5	Settlement of Emergency Response Service	9-36
+9.14.6	Disputes for Operations Decisions	9-37
+9.14.7	Disputes for RUC Make-Whole Payment for Fuel Costs	9-37
+9.14.8	Disputes for Settlement Application of Integrated Telemetry for Split Generation Resources	9-39
+9.14.9	Incremental Fuel Costs for Switchable Generation Make-Whole Payment Disputes	9-40
+9.14.10	Settlement for Market Participants Impacted by Omitted Procedures or Manual Actions to Resolve the DAM	9-41
+9.15	Settlement Charges	9-47
+9.15.1	Charge Type Matrix	9-47
+9.16	ERCOT System Administration and User Fees	9-47
+9.16.1	ERCOT System Administration Fee	9-47
+9.16.2	User Fees	9-48
+9.17	Transmission Billing Determinant Calculation	9-48
+9.17.1	Billing Determinant Data Elements	9-49
+9.17.2	Direct Current Tie Schedule Information	9-50
+9.18	Profile Development Cost Recovery Fee for Non-ERCOT Sponsored Load Profile Segment	9-51
+9.19	Partial Payments by Invoice Recipients	9-53
+9.19.1	Default Uplift Invoices	9-55
+9.19.2	Payment Process for Default Uplift Invoices	9-65
+9.19.2.1	Invoice Recipient Payment to ERCOT for Default Uplift	9-65
+9.19.2.2	ERCOT Payment to Invoice Recipients for Default Uplift	9-65
+9.19.3	Default Uplift Supporting Data Reporting	9-66
+9.19.4	Exemption for Central Counter-Party Clearinghouses Regulated as Derivatives Clearing Organizations	9-66
+ 
+9	SETTLEMENT AND BILLING 
+9.1	General
+9.1.1	Settlement and Billing Process Overview
+(1)	Settlement is the process used to resolve financial obligations between a Market Participant and ERCOT, including administrative and miscellaneous charges.  Settlement also provides Transmission Billing Determinants to Transmission Service Providers (TSPs) and Distribution Service Providers (DSPs).  The Settlement and billing timeline and process for the Day-Ahead Market (DAM) is separate from the Settlement and billing timeline and process for  the Day-Ahead Reliability Unit Commitment (DRUC) process, the Adjustment Period, and Real-Time operations (after this referred to together in this Section as the Real-Time Market (RTM)). 
+9.1.2	Settlement Calendar 
+(1)	ERCOT shall post and maintain on the ERCOT website a Settlement Calendar to denote, for each Operating Day, when:
+(a)	Each scheduled Settlement Statement for the DAM will be issued under Section 9.2.4, DAM Statement, and Section 9.2.5, DAM Resettlement Statement;  
+(b)	Each scheduled Settlement Statement for the RTM will be issued under Section 9.5.4, RTM Initial Statement, Section 9.5.5, RTM Final Statement, Section 9.5.6, RTM Resettlement Statement, and Section 9.5.8, RTM True-Up Statement; 
+(c)	Each Settlement Invoice will be issued under Section 9.6, Settlement Invoices for the Day-Ahead Market and Real-Time Market; 
+(d)	Payments for the Settlement Invoice are due under Section 9.7, Payment Process for the Settlement Invoices; 
+(e)	Each Default Uplift Invoice will be issued under Section 9.19, Partial Payments by Invoice Recipients;
+(f)	Payments for Default Uplift Invoices are due under Section 9.19.1, Default Uplift Invoices;
+(g)	Each Congestion Revenue Right (CRR) Auction Invoice will be issued under Section 9.8, CRR Auction Award Invoices; 
+(h)	Payments for CRR Auction Invoices are due under Section 9.9, Payment Process for CRR Auction Invoices;
+(i)	Each CRR Auction Revenue Distribution (CARD) Invoice will be issued under Section 9.10, CRR Auction Revenue Distribution Invoices;
+(j)	Payments for CARD Invoices are due under Section 9.11, Payment Process for CRR Auction Revenue Distribution;
+(k)	Each CRR Balancing Account (CRRBA) Invoice will be issued under Section 9.12, CRR Balancing Account Invoices; 
+(l)	Payments for CRRBA Invoices are due under Section 9.13, Payment Process for the CRR Balancing Account;
+(m)	Securitization Default Charge Invoices will be issued in accordance with Section 26.3, Securitization Default Charge Invoices; 
+(n)	Payments for Securitization Default Charge Invoices are due under Section 26.3.1, Payment Process for Securitization Default Charge Invoices;
+(o)	Each Securitization Uplift Charge Initial Invoice will be issued under Section 27.4.1, Securitization Uplift Charge Initial Invoices; 
+(p)	Payments for Securitization Uplift Charge Initial Invoices are due under Section 27.4.3, Payment Process for Securitization Uplift Charge Initial Invoices; 
+(q)	Each Securitization Uplift Charge Reallocation Invoice will be issued under Section 27.4.2, Securitization Uplift Charge Reallocation Invoices; 
+(r)	Payments for Securitization Uplift Charge Reallocation Invoices are due under Section 27.4.5, Payment Process for Securitization Uplift Charge Reallocation Invoices; and
+(s)	Settlement and billing disputes for each scheduled Settlement Statement of an Operating Day and Settlement Invoice must be submitted under Section 9.14, Settlement and Billing Dispute Process.
+(2)	ERCOT shall notify Market Participants if any of the aforementioned data will not be available on the date specified in the Settlement Calendar.
+9.1.3	Settlement Statement and Invoice Access 
+(1)	A Statement or Invoice Recipient may access its Settlement Statements or Invoices electronically, using either of the following methods:
+(a)	Secured entry on the Market Information System (MIS) Certified Area;
+(b)	eXtensible Markup Language (XML) access to the MIS Certified Area.
+9.1.4	Settlement Statement and Invoice Timing
+(1)	Unless expressly stated otherwise, the publication of each Settlement Statement and Invoice can occur as late as 2400 on its scheduled publication date. 
+9.1.5	Settlement Payment Convention
+(1)	A Settlement Statement or Invoice containing a negative amount represents a payment due by ERCOT to the Market Participant that received the Statement or Invoice.  A Settlement Statement or Invoice containing a positive amount represents a payment due to ERCOT by the Market Participant that received the Statement or Invoice.
+9.2	Settlement Statements for the Day-Ahead Market
+9.2.1	Settlement Statement Process for the DAM
+(1)	ERCOT shall produce daily Settlement Statements for the Day-Ahead Market (DAM), as defined in Section 9.2.2, Settlement Statements for the DAM, that show a breakdown of Charge Types incurred in the DAM, including any administrative and miscellaneous charges applicable to the DAM.  “Charge Types” are the various categories of specific charges referenced in Section 9.15.1, Charge Type Matrix.
+9.2.2	 Settlement Statements for the DAM
+(1)	ERCOT shall make each Settlement Statement for a DAM available on the date specified on the Settlement Calendar for that DAM by posting it on the Market Information System (MIS) Certified Area for the applicable Market Participant to which the Settlement Statement is addressed (Statement Recipient).
+(2)	A Settlement Statement for the DAM can be: 
+(a)	A “DAM Statement,” which is the Settlement Statement issued for a particular DAM;
+(b)	A “DAM Resettlement Statement,” which corrects a DAM Statement.
+(3)	The Statement Recipient is responsible for accessing the statement from the MIS Certified Area.
+(4)	ERCOT shall create a DAM Statement for each DAM.  
+(5)	ERCOT may create a DAM Resettlement Statement for the DAM, depending on the criteria set forth in Section 9.2.5, DAM Resettlement Statement.
+(6)	Each Settlement Statement for the DAM must denote:
+(a)	The applicable Operating Day;
+(b)	The Statement Recipient’s name;
+(c)	The ERCOT identifier (settlement identification number issued by ERCOT);
+(d)	Status of the statement (DAM Statement  or DAM Resettlement Statement);
+(e)	Statement version number;
+(f)	Unique statement identification code; and
+(g)	Charge Types settled.
+(7)	Settlement Statements for the DAM must break fees down by Charge Types into the appropriate one-hour Settlement Interval for that type.  
+(8)	The Settlement Statement for the DAM must have a summary page of the corresponding detailed documentation.
+9.2.3	DAM Settlement Charge Types
+(1)	ERCOT shall provide, on each Settlement Statement, the dollar amount for each DAM Settlement charge and payment.  The DAM settlement “Charge Types” are:
+(a)	Section 4.6.2.1, Day-Ahead Energy Payment;
+(b)	Section 4.6.2.2, Day-Ahead Energy Charge;
+(c)	Section 4.6.2.3.1, Day-Ahead Make-Whole Payment;
+(d)	Section 4.6.2.3.2, Day-Ahead Make-Whole Charge;
+(e)	Section 4.6.3, Settlement for PTP Obligations Bought in DAM;
+(f)	Section 4.6.4.1.1, Regulation Up Service Payment;
+(g)	Section 4.6.4.1.2, Regulation Down Service Payment;
+(h)	Section 4.6.4.1.3, Responsive Reserve Payment;
+(i)	Section 4.6.4.1.4, Non-Spinning Reserve Service Payment;
+(j)	Section 4.6.4.1.5, ERCOT Contingency Reserve Service Payment;
+(k)	Section 4.6.4.2.1, Regulation Up Service Charge;
+(l)	Section 4.6.4.2.2, Regulation Down Service Charge;
+(m)	Section 4.6.4.2.3, Responsive Reserve Charge;
+(n)	Section 4.6.4.2.4, Non-Spinning Reserve Service Charge;
+(o)	Section 4.6.4.2.5, ERCOT Contingency Reserve Service Charge;
+(p)	Section 7.9.1.1, Payments and Charges for PTP Obligations Settled in DAM;
+(q)	Section 7.9.1.2, Payments for PTP Options Settled in DAM;
+(r)	Section 7.9.1.4, Payments for FGRs Settled in DAM;
+(s)	Section 7.9.1.5, Payments and Charges for PTP Obligations with Refund Settled in DAM;
+(t)	Section 7.9.1.6, Payments for PTP Options with Refund Settled in DAM; and
+(u)	Paragraph (2) of Section 7.9.3.3, Shortfall Charges to CRR Owners.
+9.2.4	DAM Statement
+(1)	ERCOT shall produce a DAM Statement for each Statement Recipient for the given DAM on the second Business Day after the Operating Day.
+9.2.5	DAM Resettlement Statement
+(1)	ERCOT shall issue DAM Resettlement Statements for a given Operating Day if the ERCOT Board finds that the DAM Locational Marginal Prices (LMPs), Market Clearing Prices for Capacity (MCPCs), or Settlement Point Prices are significantly affected by a software or other error under Section 4.5.3, Communicating DAM Results.  ERCOT shall also produce DAM Resettlement Statements required by resolution of Settlement and billing disputes and the correction of errors other than price errors pursuant to this Section.  In addition, the ERCOT Board may, in its discretion, direct ERCOT to run a resettlement of any Operating Day, at any time, to address unusual circumstances.
+(2)	ERCOT shall issue a DAM Resettlement Statement for a given Operating Day due to errors other than errors in prices when:
+(a)	The total of all errors other than price errors results in an absolute value impact greater than 2% of the total DAM Statement amount for any single Statement Recipient for the Operating Day;
+(b)	The impact to the Statement Recipient is greater than $200.00; and
+(c)	The error is discovered, and a Market Notice of the error is provided to Market Participants, within one year of the Operating Day at issue.
+(3)	ERCOT shall issue a DAM Resettlement Statement for an Operating Day if an error in the DAM Settlement, which does not otherwise meet the Protocol requirements for resettlement as specified in paragraphs (1) and (2) above, will prevent ERCOT from achieving revenue neutrality.
+(4) 	No later than 150 days after each affected Operating Day, ERCOT shall resettle Operating Days with errors, other than errors in prices, with cumulative impacts that do not meet the threshold described in paragraph (2) above if the cumulative effect of errors to a single Statement Recipient in the 150 day window results in an absolute value impact greater than 1% of the total DAM Statement amounts for any Statement Recipient for the affected Operating Days, if this impact to the Statement Recipient is greater than $5,000.00.
+(5)	A DAM Resettlement Statement must reflect differences to financial records generated on the previous Settlement Statement for the given DAM.
+(6)	ERCOT may issue DAM Resettlement Statements after the timeline referenced in paragraph (2) above if directed by the ERCOT Board, the result of a resolution of an Alternative Dispute Resolution (ADR) procedure, or under the procedure for Return of Settlement Funds.  
+(7)	If ERCOT is required to issue a Resettlement Statement per this Section, but resettlement is not practicable due to system limitations, ERCOT shall make the adjustments through a separate Invoice that is produced outside of normal Settlement Invoices.  The appropriate payments and charges, along with Settlement-quality information, shall be supplied to all impacted Market Participants.
+9.2.6	Notice of Resettlement for the DAM
+(1)	While maintaining confidentiality of all Market Participants, ERCOT shall send a Market Notice in conjunction with the resettlement, indicating the resettlement of the DAM for a specific Operating Day and the date of issuance of the Resettlement Statements for the DAM.  ERCOT shall include the following information in the notice of resettlement:
+(a)	Detailed description of reason(s) for resettlement;
+(b)	For the applicable Operating Day;
+(c)	Affected Charge Types; and
+(d)	Total resettled amount, by Charge Type.
+9.2.7	Confirmation of Statement for the DAM
+(1)	It is the responsibility of each Statement Recipient to notify ERCOT if a Settlement Statement for the DAM is not available on the MIS Certified Area on the date specified for posting of that Settlement Statement in the Settlement Calendar.  Each Settlement Statement for the DAM is deemed to have been available on the posting date specified on the Settlement Calendar, unless ERCOT is notified to the contrary.  If ERCOT receives notice that a Settlement Statement is not available, ERCOT shall make reasonable attempts to provide the Settlement Statement to the Statement Recipient, and ERCOT shall modify the Settlement and billing timeline accordingly for that Settlement Statement.  
+9.2.8	Validation of the Settlement Statement for the DAM
+(1)	The Statement Recipient is deemed to have validated each Settlement Statement for the DAM unless it has raised a Settlement and billing dispute under Section 9.14, Settlement and Billing Dispute Process. 
+9.2.9	Suspension of Issuing Settlement Statements for the DAM
+(1)	The ERCOT Board may direct ERCOT to suspend the issuance of any Settlement Statement for the DAM to address unusual circumstances.  Any proposal to suspend settlements must be presented to the Technical Advisory Committee (TAC) for review and comment, in a reasonable manner under the circumstances, prior to such suspension.
+9.3	[RESERVED]
+9.4	[RESERVED]
+9.5	Settlement Statements for Real-Time Market
+9.5.1	Settlement Statement Process for the Real-Time Market 
+(1)	ERCOT shall produce daily Settlement Statements for the Real-Time Market (RTM), as defined in Section 9.5.2, Settlement Statements for the RTM, that show a breakdown of Charge Types incurred in the RTM, including any administrative and miscellaneous charges applicable to the RTM.
+9.5.2	Settlement Statements for the RTM
+(1)	ERCOT shall make each Settlement Statement for the RTM for an Operating Day available on the date specified on the Settlement Calendar for that Operating Day by posting it to the Market Information System (MIS) Certified Area for the applicable Statement Recipient. 
+(2)	A Settlement Statement for the RTM can be: 
+(a)	An “RTM Initial Statement,” which is the first iteration of a Settlement Statement issued for a particular Operating Day;
+(b)	An “RTM Final Statement,” which is the statement issued at the end of the 55th day following the Operating Day; 
+(c)	An “RTM Resettlement Statement,” which is the statement using corrected Settlement data due to resolution of disputes and correction of data errors; or
+(d)	An “RTM True-Up Statement,” which is a statement issued at the end of the 180th day after the Operating Day.
+(3)	The Statement Recipient is responsible for accessing the Statement from the MIS Certified Area.
+(4)	To issue an RTM Settlement Statement, ERCOT may use estimated, disputed, or calculated meter data.
+(5)	ERCOT shall create an RTM Initial Statement, RTM Final Statement, and RTM True-Up Statement for each Operating Day.
+(6)	ERCOT may create an RTM Resettlement Statement for any Operating Day, depending on the criteria set forth in Section 9.5.6, RTM Resettlement Statement.  When actual validated data is available and all of the Settlement and billing disputes raised by Statement Recipients in accordance with Section 9.14.4, ERCOT Processing of Disputes, during the validation process have been resolved, ERCOT shall recalculate the amounts payable and receivable by the affected RTM Statement Recipients, as described in Section 9.5.6.
+(7)	Each RTM Settlement Statement must denote:
+(a)	Operating Day;
+(b)	The Statement Recipient’s name;
+(c)	The ERCOT identifier (settlement identification number issued by ERCOT);
+(d)	Status of the statement (Initial, Final, Resettlement, or True-Up);
+(e)	Statement version number;
+(f)	Unique statement identification code; and
+(g)	Charge Types settled.
+(8)	A Settlement Statement for the RTM must break the fees down by Charge Type into the appropriate 15-minute or one-hour Settlement Interval for that type. 
+(9)	An RTM Settlement Statement must have a summary page of the corresponding detailed documentation.
+9.5.3	Real-Time Market Settlement Charge Types
+(1)	ERCOT shall provide, on each RTM Settlement Statement, the dollar amount for each RTM Settlement charge and payment.  The RTM Settlement “Charge Types” are:
+(a)	Section 5.7.1, RUC Make-Whole Payment;
+(b)	Section 5.7.2, RUC Clawback Charge;
+(c)	Section 5.7.3, Payment When ERCOT Decommits a QSE-Committed Resource;
+(d)	Section 5.7.4.1, RUC Capacity-Short Charge;
+(e)	Section 5.7.4.2, RUC Make-Whole Uplift Charge;
+(f)	Section 5.7.5, RUC Clawback Payment;
+(g)	Section 5.7.6, RUC Decommitment Charge;
+(h)	Section 6.6.3.1, Real-Time Energy Imbalance Payment or Charge at a Resource Node; 
+(i)	Section 6.6.3.2, Real-Time Energy Imbalance Payment or Charge at a Load Zone;
+(j)	Section 6.6.3.3, Real-Time Energy Imbalance Payment or Charge at a Hub;
+(k)	Section 6.6.3.4, Real-Time Energy Payment for DC Tie Import;
+(l)	Section 6.6.3.5, Real-Time Payment for a Block Load Transfer Point;
+(m)	Section 6.6.3.6, Real-Time High Dispatch Limit Override Energy Payment;
+(n)	Section 6.6.3.7, Real-Time High Dispatch Limit Override Energy Charge;
+(o)	Section 6.6.3.8, Real-Time Payment or Charge for Energy from a Settlement Only Distribution Generator (SODG) or a Settlement Only Transmission Generator (SOTG);
+(p)	Section 6.6.4, Real-Time Congestion Payment or Charge for Self-Schedules;
+(q)	Section 6.6.5.1.1.1, Base Point Deviation Charge for Over Generation; 
+(r)	Section 6.6.5.1.1.2, Base Point Deviation Charge for Under Generation; 
+(s)	Section 6.6.5.2, IRR Generation Resource Base Point Deviation Charge; 
+(t)	Section 6.6.5.4, Base Point Deviation Payment;
+(u)	Section 6.6.6.1, RMR Standby Payment;
+(v)	Section 6.6.6.2, RMR Payment for Energy;
+(w)	Section 6.6.6.3, RMR Adjustment Charge;
+(x)	Section 6.6.6.4, RMR Charge for Unexcused Misconduct;
+(y)	Section 6.6.6.5, RMR Service Charge;
+(z)	Section 6.6.6.6, Method for Reconciling RMR Actual Eligible Costs, RMR and MRA Contributed Capital Expenditures, and Miscellaneous RMR Incurred Expenses;
+(aa)	Paragraph (2) of Section 6.6.7.1, Voltage Support Service Payments;
+(bb)	Paragraph (4) of Section 6.6.7.1;
+(cc)	Section 6.6.7.2, Voltage Support Charge;
+(dd)	Section 6.6.8.1, Black Start Hourly Standby Fee Payment;
+(ee)	Section 6.6.8.2, Black Start Capacity Charge;
+(ff)	Section 6.6.9.1, Payment for Emergency Power Increase Directed by ERCOT;
+(gg)	Section 6.6.9.2, Charge for Emergency Power Increases;
+(hh)	Section 6.6.10, Real-Time Revenue Neutrality Allocation;
+(ii)	Section 6.6.14.2, Firm Fuel Supply Service Hourly Standby Fee Payment and Fuel Replacement Cost Recovery;
+(jj)	Section 6.6.14.3, Firm Fuel Supply Service Capacity Charge;
+(kk)	Paragraph (1)(a) of Section 6.7.1, Payments for Ancillary Service Capacity Sold in a Supplemental Ancillary Services Market (SASM) or Reconfiguration Supplemental Ancillary Services Market (RSASM);
+(ll)	Paragraph (1)(b) of Section 6.7.1;
+(mm)	Paragraph (1)(c) of Section 6.7.1;
+(nn)	Paragraph (1)(d) of Section 6.7.1; 
+(oo)	Paragraph (1)(e) of Section 6.7.1; 
+(pp)	Paragraph (1)(a) of Section 6.7.2, Payments for Ancillary Service Capacity Assigned in Real-Time Operations;
+(qq)	Paragraph (1)(b) of Section 6.7.2;
+(rr)	Paragraph (1)(c) of Section 6.7.2; 
+(ss)	Paragraph (1)(a) of Section 6.7.2.1, Charges for Infeasible Ancillary Service Capacity Due to Transmission Constraints;
+(tt)	Paragraph (1)(b) of Section 6.7.2.1;
+(uu)	Paragraph (1)(c) of Section 6.7.2.1;
+(vv)	Paragraph (1)(d) of Section 6.7.2.1;
+(ww)	Paragraph (1)(e) of Section 6.7.2.1;
+(xx)	Paragraph (1)(a) of Section 6.7.3, Charges for Ancillary Service Capacity Replaced Due to Failure to Provide;
+(yy)	Paragraph (1)(b) of Section 6.7.3;
+(zz)	Paragraph (1)(c) of Section 6.7.3;
+(aaa)	Paragraph (1)(d) of Section 6.7.3;
+(bbb)	Paragraph (1)(e) of Section 6.7.3;
+(ccc)	Paragraph (2) of Section 6.7.4, Adjustments to Cost Allocations for Ancillary Services Procurement;
+(ddd)	Paragraph (3) of Section 6.7.4;
+(eee)	Paragraph (4) of Section 6.7.4;
+(fff)	Paragraph (5) of Section 6.7.4; 
+(ggg)	Paragraph (6) of Section 6.7.4;
+(hhh)	Paragraph (7) of Section 6.7.5, Real-Time Ancillary Service Imbalance Payment or Charge (Real-Time Ancillary Service Imbalance Amount);
+(iii)	Paragraph (7) of Section 6.7.5, (Real-Time Reliability Deployment Ancillary Service Imbalance Amount);
+(jjj)	Paragraph (8) of Section 6.7.5, (Real-Time RUC Ancillary Service Reserve Amount); 
+(kkk)	Paragraph (8) of Section 6.7.5, (Real-Time Reliability Deployment RUC Ancillary Service Reserve Amount); 
+(lll)	Section 6.7.6, Real-Time Ancillary Service Imbalance Revenue Neutrality Allocation (Load-Allocated Ancillary Service Imbalance Revenue Neutrality Amount);
+(mmm)	Section 6.7.6, (Load-Allocated Reliability Deployment Ancillary Service Imbalance Revenue Neutrality Amount);
+(nnn)	Section 7.9.2.1, Payments and Charges for PTP Obligations Settled in Real-Time; and
+(ooo)	Section 9.16.1, ERCOT System Administration Fee.
+[NPRR841, NPRR885, NPRR963, NPRR995, NPRR1012, NPRR1014, and NPRR1216:  Replace applicable portions of paragraph (1) above with the following upon system implementation for NPRR841, NPRR885, NPRR963, NPRR995, NPRR1014, or NPRR1216 (Phase 2); or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1012:]
+(1)	ERCOT shall provide, on each RTM Settlement Statement, the dollar amount for each RTM Settlement charge and payment.  The RTM Settlement “Charge Types” are:
+(a)	Section 5.7.1, RUC Make-Whole Payment;
+(b)	Section 5.7.2, RUC Clawback Charge;
+(c)	Section 5.7.3, Payment When ERCOT Decommits a QSE-Committed Resource;
+(d)	Section 5.7.4.1, RUC Capacity-Short Charge;
+(e)	Section 5.7.4.2, RUC Make-Whole Uplift Charge;
+(f)	Section 5.7.5, RUC Clawback Payment;
+(g)	Section 5.7.6, RUC Decommitment Charge;
+(h)	Section 6.6.3.1, Real-Time Energy Imbalance Payment or Charge at a Resource Node; 
+(i)	Section 6.6.3.2, Real-Time Energy Imbalance Payment or Charge at a Load Zone;
+(j)	Section 6.6.3.3, Real-Time Energy Imbalance Payment or Charge at a Hub;
+(k)	Section 6.6.3.4, Real-Time Energy Payment for DC Tie Import;
+(l)	Section 6.6.3.5, Real-Time Payment for a Block Load Transfer Point;
+(m)	Section 6.6.3.6, Real-Time High Dispatch Limit Override Energy Payment;
+(n)	Section 6.6.3.7, Real-Time High Dispatch Limit Override Energy Charge;
+(o)	Section 6.6.3.8, Real-Time Payment or Charge for Energy from a Settlement Only Distribution Generator (SODG), Settlement Only Transmission Generator (SOTG), Settlement Only Distribution Energy Storage System (SODESS), or Settlement Only Transmission Energy Storage System (SOTESS); 
+(p)	Section 6.6.4, Real-Time Congestion Payment or Charge for Self-Schedules;
+(q)	Section 6.6.5.2, Set Point Deviation Charge for Over Generation; 
+(r)	Section 6.6.5.2.1, Set Point Deviation Charge for Under Generation; 
+(s)	Section 6.6.5.3, Controllable Load Resource Set Point Deviation Charge for Over Consumption; 
+(t)	Section 6.6.5.3.1, Controllable Load Resource Set Point Deviation Charge for Under Consumption;
+(u)	Section 6.6.5.4, IRR Generation Resource Set Point Deviation Charge; 
+(v)	Section 6.6.5.4, Set Point Deviation Payment;
+(w)	Section 6.6.5.5, Energy Storage Resource Set Point Deviation Charge for Over Performance; 
+(x)	Section 6.6.5.5.1, Energy Storage Resource Set Point Deviation Charge for Under Performance; 
+(y)	Section 6.6.6.1, RMR Standby Payment;
+(z)	Section 6.6.6.2, RMR Payment for Energy;
+(aa)	Section 6.6.6.3, RMR Adjustment Charge;
+(bb)	Section 6.6.6.4, RMR Charge for Unexcused Misconduct;
+(cc)	Section 6.6.6.5, RMR Service Charge;
+(dd)	Section 6.6.6.6, Method for Reconciling RMR Actual Eligible Costs, RMR and MRA Contributed Capital Expenditures, and Miscellaneous RMR Incurred Expenses;
+(ee)	Section 6.6.6.7, MRA Standby Payment;
+(ff)	Section 6.6.6.8, MRA Contributed Capital Expenditures Payment;
+(gg)	Section 6.6.6.9, MRA Payment for Deployment Event;
+(hh)	Section 6.6.6.10, MRA Variable Payment for Deployment; 
+(ii)	Section 6.6.6.11, MRA Charge for Unexcused Misconduct;
+(jj)	Section 6.6.6.12, MRA Service Charge;
+(kk)	Paragraph (3) of Section 6.6.7.1, Voltage Support Service Payments;
+(ll)	Paragraph (5) of Section 6.6.7.1;
+(mm)	Section 6.6.7.2, Voltage Support Charge;
+(nn)	Section 6.6.8.1, Black Start Hourly Standby Fee Payment;
+(oo)	Section 6.6.8.2, Black Start Capacity Charge;
+(pp)	Section 6.6.9.1, Payment for Emergency Operations Settlement;
+(qq)	Section 6.6.9.2, Charge for Emergency Operations Settlement;
+(rr)	Section 6.6.10, Real-Time Revenue Neutrality Allocation;
+(ss)	Section 6.6.11.1, Emergency Response Service Capacity Payments; 
+(tt)	Section 6.6.11.2, Emergency Response Service Capacity Charge; 
+(uu)	Section 6.6.14.2, Firm Fuel Supply Service Hourly Standby Fee Payment and Fuel Replacement Cost Recovery;
+(vv)	Section 6.6.14.3, Firm Fuel Supply Service Capacity Charge;
+(ww)	Section 6.7.4, Real-Time Settlement for Updated Day-Ahead Market Ancillary Service Obligations;
+(xx)	Section 6.7.5.2, Regulation Up Service Payments and Charges;
+(yy)	Section 6.7.5.3, Regulation Down Service Payments and Charges;
+(zz)	Section 6.7.5.4, Responsive Reserve Payments and Charges;
+(aaa)	Section 6.7.5.5	, Non-Spinning Reserve Service Payments and Charges;
+(bbb)	Section 6.7.5.6	, ERCOT Contingency Reserve Service Payments and Charges;
+(ccc)	Section 6.7.5.7	, Real-Time Derated Ancillary Service Capability Payment;
+(ddd)	Section 6.7.5.8	, Real-Time Derated Ancillary Service Capability Charge;
+(eee)	Section 6.7.6, Real-Time Ancillary Service Revenue Neutrality Allocation;
+(fff)	Section 6.8.2, Recovery of Operating Losses During an LCAP or ECAP Effective Period;
+(ggg)   Section 6.8.3, Charges for Operating Losses During an LCAP or ECAP Effective Period;
+(hhh)	Section 7.9.2.1, Payments and Charges for PTP Obligations Settled in Real-Time; and
+(iii)	Section 9.16.1, ERCOT System Administration Fee.
+(2)	In the event that ERCOT is unable to execute the Day-Ahead Market (DAM), ERCOT shall provide, on each RTM Settlement Statement, the dollar amount for the following RTM Congestion Revenue Right (CRR) Settlement charges and payments:
+(a)	Section 7.9.2.4, Payments for FGRs in Real-Time; and
+(b)	Section 7.9.2.5, Payments and Charges for PTP Obligations with Refund in Real-Time.
+9.5.4	RTM Initial Statement
+(1)	ERCOT shall issue an RTM Initial Statement for each Statement Recipient for a given Operating Day on the fifth day after the Operating Day, unless that fifth day is not a Business Day.  If the fifth day is not a Business Day, then ERCOT shall issue the RTM Initial Statement on the next Business Day after the fifth day.  Notwithstanding the above, if the fifth day after the Operating Day is on or prior to the Business Day on which Real-Time prices are final pursuant to paragraph (7) of Section 6.3, Adjustment Period and Real-Time Operations Timeline, then ERCOT shall issue the RTM Initial Statement on the first Business Day after the Real-Time prices are final.
+9.5.5	RTM Final Statement
+(1)	ERCOT shall issue an RTM Final Statement for each Statement Recipient for a given Operating Day on the 55th day after the Operating Day, unless that 55th day is not a Business Day.  If the 55th day is not a Business Day, then ERCOT shall issue the RTM Final Statement on the first Business Day after the 55th day.
+(2)	An RTM Final Statement will reflect differences to financial records generated on the previous Settlement Statement for the given Operating Day. 
+9.5.6	RTM Resettlement Statement
+(1)	ERCOT shall issue a RTM Resettlement Statement using corrected Settlement data due to resolution of Settlement and billing disputes and the correction of errors other than price errors pursuant to this Section.  Any resettlement occurring after an RTM True-Up Statement has been issued must meet the same Interval Data Recorder (IDR) Meter Data Threshold requirements defined in Section 9.5.8, RTM True-Up Statement, and is subject to the same limitations for filing a dispute.  Despite the preceding sentence, the ERCOT Board may, in its discretion, direct ERCOT to run a resettlement of any Operating Day, at any time, to address unusual circumstances.
+(2)	ERCOT shall issue a RTM Resettlement Statement for a given Operating Day due to errors other than errors in prices when:
+(a)	The total of all errors other than price errors results in an absolute value impact greater than 4% of the total RTM Statement amount for any single Statement Recipient for the Operating Day;
+(b)	The impact to the Statement Recipient is greater than $400.00; and
+(c)	The error is discovered, and a Market Notice of the error is provided to Market Participants, within one year of the Operating Day at issue.
+(3)	Changes to meter data managed through a process other than a dispute or Alternative Dispute Resolution will not require evaluation of a resettlement defined in paragraph (2) above.
+(4)	For any Settlement and billing disputes resolved prior to issuance of the RTM Final Statement, ERCOT shall effect the dispute’s resolution on the RTM Final Statement for that Operating Day.  If a dispute is submitted by 15 Business Days after the issuance of the RTM Initial Statement for an Operating Day and is not resolved on the RTM Final Statement, ERCOT will affect the dispute’s resolution on an RTM Resettlement Statement for that Operating Day.  ERCOT shall issue such an RTM Resettlement Statement within a reasonable time after resolving the Settlement and billing dispute.  
+(5)	ERCOT must effect the resolution of any dispute submitted more than 15 Business Days after the issuance of the RTM Initial Statement on the next available Resettlement or RTM True-Up statement for that Operating Day.  For Settlement and billing disputes resolved under Section 9.14, Settlement and Billing Dispute Process, and submitted at least 20 Business Days before the scheduled date for issuance of the RTM True-Up Statement, ERCOT will include adjustments relating to the dispute on the RTM True-Up Statement.  Resolved disputes must be included on the next available Settlement Invoice after ERCOT has issued the RTM True-Up Statement.
+(6)	ERCOT may not issue an RTM Resettlement Statement less than 20 days before a scheduled RTM Final Statement or RTM True-Up Statement for the relevant Operating Day.  An RTM Resettlement Statement will reflect differences to financial records generated on the previous Settlement Statement for the given Operating Day.
+(7)	ERCOT may issue an RTM Resettlement Statement after the issuance of an RTM Final Statement in order to resolve approved disputes related to Section 5.6.5.2, RUC Make-Whole Payment and RUC Clawback Charge for Resources Receiving OSAs.
+(8)	ERCOT may issue RTM Resettlement Statements after the timeline referenced in paragraph (2) above if directed by the ERCOT Board, the result of a resolution of an Alternative Dispute Resolution (ADR) procedure, or under the procedure for Return of Settlement Funds.
+(9)	If ERCOT is required to issue a Resettlement Statement per this Section, but resettlement is not practicable due to system limitations, ERCOT shall make the adjustments through a separate Invoice that is produced outside of normal Settlement Invoices.  The appropriate payments and charges, along with Settlement quality information, shall be supplied to all impacted Market Participants.  
+9.5.7	Notice of Resettlement for the Real-Time Market
+(1)	While maintaining confidentiality of all Market Participants, ERCOT shall send a Market Notice in conjunction with the resettlement, indicating the resettlement of a specific Operating Day and the date of issuance of the RTM Resettlement Statements.  ERCOT shall include the following information in the notice of resettlement:
+(a)	Detailed description of reason(s) for resettlement;
+(b)	Affected Operating Days;
+(c)	Affected settlement Charge Types; and
+(d)	Total resettled amount, by Charge Type.
+9.5.8	RTM True-Up Statement
+(1)	ERCOT shall use the best available Settlement data, as described in Section 9.5.2, Settlement Statements for the RTM, to produce an RTM True-Up Statement for each Statement Recipient for each given Operating Day.
+(2)	ERCOT shall issue RTM True-Up Statements 180 days following the Operating Day, if ERCOT has received and validated usage data from at least 99% of the total number of Electric Service Identifiers (ESI IDs) with a BUSIDRRQ Load Profile Type code and if ERCOT has received and validated usage data from at least 90% of the total number of ESI IDs with a BUSIDRRQ Load Profile Type code from each Meter Reading Entity (MRE) representing at least 20 Interval Data Recorder (IDR) ESI IDs (IDR Meter Data Threshold).  If the above conditions have not been met, then ERCOT shall issue RTM True-Up Statements as soon as the IDR Meter data becomes available for that Operating Day.  If no RTM True-Up Statement has been issued 365 days after the Operating Day, then ERCOT shall issue a RTM True-Up Statement for that Operating Day.  If any RTM True-Up Statement issuance date does not fall on a Business Day, then the RTM True-Up Statement must be issued by the end of the next Business Day after the RTM True-Up Settlement date.
+(3)	An RTM True-Up Statement will reflect differences to financial records generated on the previous Settlement Statement for the given Operating Day. 
+9.5.9	Notice of True-Up Settlement Timeline Changes for the Real-Time Market
+(1)	If the IDR Meter Data Threshold has not been met by the 180th day after the Operating Day (or, if the 180th day is not a Business Day, by the next day thereafter that is a Business Day), then ERCOT shall send a Market Notice about the delay of any RTM True-Up Statement issuance indicating the IDR Meter Data Threshold has not been met.
+(2)	For any delayed RTM True-Up Statement, ERCOT shall send a Market Notice indicating that it will issue an RTM True-Up Statement for a specific Operating Day within two Business Days after discovering the delay.  As soon as practicable, ERCOT shall send a Market Notice with the revised date on which the delayed RTM True-Up Statement will be issued.
+9.5.10	Confirmation for the Real-Time Market
+(1)	It is the responsibility of each Statement Recipient to notify ERCOT if a Settlement Statement for the RTM is not available on the MIS Certified Area on the date specified for posting of that Settlement Statement in the Settlement Calendar.  Each Settlement Statement for the RTM is deemed to have been available on the posting date specified on the Settlement Calendar, unless it notifies ERCOT to the contrary.  If ERCOT receives notice that a Settlement Statement is not available, ERCOT shall make reasonable attempts to provide the Settlement Statement to the Statement Recipient, and ERCOT shall modify the Settlement and billing timeline accordingly for that Settlement Statement.  
+9.5.11	Validation of the True-Up Statement for the Real-Time Market
+(1)	The Statement Recipient is considered to have validated each RTM True-Up Statement unless it has filed a Settlement and billing dispute or reported an exception within ten Business Days after the RTM True-Up Statement has been posted on the MIS Certified Area.  
+9.5.12	Suspension of Issuing Settlement Statements for the Real-Time Market
+(1)	The ERCOT Board may direct ERCOT to suspend the issuance of any Settlement Statement for the RTM to address unusual circumstances.  Any proposal to suspend settlements must be presented to the Technical Advisory Committee (TAC) for review and comment, in a reasonable manner under the circumstances, before such suspension.
+9.6	Settlement Invoices for the Day-Ahead Market and Real-Time Market
+(1)	ERCOT shall prepare Settlement Invoices on a net basis based on Day-Ahead Market (DAM) Statements, DAM Resettlement Statements, Real-Time Market (RTM) Initial Statements, RTM Final Statements, RTM True-Up Statements and RTM Resettlement Statements.  ERCOT shall issue the Settlement Invoices on the same Business Day as the day that the DAM and RTM Statements are posted to the Market Information System (MIS) Certified Area.  ERCOT will post the actual dates that it will issue the Settlement Invoices under Section 9.1.2, Settlement Calendar.  The Market Participant to whom the Settlement Invoice is addressed (“Invoice Recipient”) is either a net payee or net payor.  
+(2)	Each Invoice Recipient shall pay any net debit and be entitled to receive any net credit shown on the Settlement Invoice on the payment due date, whether or not there is any Settlement and billing dispute regarding the amount of the debit or credit.
+(3)	ERCOT shall post Settlement Invoices on the MIS Certified Area.  The Invoice Recipient is responsible for accessing the Settlement Invoice on the MIS Certified Area once posted by ERCOT. 
+(4)	Settlement Invoice items must be grouped by DAM, DAM Resettlement, RTM Initial, RTM Final, RTM Resettlement, and RTM True-Up categories and must be sorted by Operating Day within each category.  Settlement Invoices must contain the following information:
+(a)	The Invoice Recipient’s name;
+(b)	The ERCOT identifier (Settlement identification number issued by ERCOT);
+(c)	Net Amount Due/Payable – the aggregate summary of all charges owed by or due to the Invoice Recipient;
+(d)	Time Periods – the time period covered for each line item;
+(e)	Run Date – the date on which the Invoice was created and published;
+(f)	Invoice Reference Number – a unique number generated by ERCOT for payment tracking purposes;
+(g)	Statement Reference – an identification code used to reference each Settlement Statement invoiced;
+(h)	Payment Date and Time – the date and time that Invoice amounts are to be paid or received;
+(i)	Remittance Information Details – details including the account number, bank name and electronic transfer instructions of the ERCOT account to which any amounts owed by the Invoice Recipient are to be paid or of the Invoice Recipient’s account from which ERCOT may draw payments due; and
+(j)	Overdue Terms – the terms that would be applied if payments were received late.
+9.7	Payment Process for the Settlement Invoices
+(1)	Payments for the Settlement Invoices are due on a Business Day and Bank Business Day basis in a two-day, two-step process as detailed below.
+9.7.1	Invoice Recipient Payment to ERCOT for the Settlement Invoices
+(1)	The payment due date and time for the Settlement Invoice, with funds owed by an Invoice Recipient, is 1700 on the second Bank Business Day after the Settlement Invoice date, unless the second Bank Business Day is not a Business Day.  If the second Bank Business Day is not a Business Day, the payment is due by 1700 on the next Bank Business Day after the second Bank Business Day that is also a Business Day.
+(2)	All Settlement Invoices due, with funds owed by an Invoice Recipient, must be paid to ERCOT in U.S. Dollars (USDs) by Electronic Funds Transfer (EFT) in immediately available or good funds (i.e., not subject to reversal) on or before the payment due date. 
+9.7.2	ERCOT Payment to Invoice Recipients for the Settlement Invoices
+(1)	Subject to the availability of funds as discussed in paragraph (2) below, ERCOT must pay Settlement Invoices with funds owed to an Invoice Recipient by 1700 on the next Bank Business Day after payments are due for that Settlement Invoice under Section 9.7.1, Invoice Recipient Payment to ERCOT for the Settlement Invoices, subject to ERCOT’s right to withhold payments for any reason set forth in these Protocols or as a matter of law, unless that next Bank Business Day is not a Business Day.  If that next Bank Business Day is not a Business Day, the payment is due on the next Bank Business Day thereafter that is also a Business Day. 
+(2)	ERCOT shall give irrevocable instructions to the ERCOT financial institution to remit to each Invoice Recipient for same day value the amounts determined by ERCOT to be available for payment to that Invoice Recipient under paragraph (d) of Section 9.19, Partial Payments by Invoice Recipients. 
+9.7.3	Enforcing the Financial Security of a Short-Paying Invoice Recipient
+(1)	ERCOT shall make reasonable efforts to enforce the Financial Security of the short-paying Invoice Recipient (pursuant to Section 16.11.6, Payment Breach and Late Payments by Market Participants) to the extent necessary to cover the short-pay.  A short-paying Invoice Recipient shall restore the level of its Financial Security under Section 16, Registration and Qualification of Market Participants.
+(2)	ERCOT shall provide to all Market Participants payment details on all short payments and subsequent reimbursements of short pays.  Details must include the identity of each short-paying Invoice Recipient and the dollar amount attributable to that Invoice Recipient, broken down by Invoice numbers.  In addition, ERCOT shall provide the aggregate total of all amounts due to all Invoice Recipients before applying the amount not paid on the Invoice.
+9.8	CRR Auction Award Invoices
+(1)	ERCOT shall prepare invoices for each Congestion Revenue Right (CRR) Auction (CRR Auction Invoice) on a net basis.  Invoices must be issued on the first Business Day following the completion of a CRR Auction on the date specified in the Settlement Calendar.  For each CRR Auction Invoice, the CRR Account Holder to whom the Invoice is addressed (“Invoice Recipient”) is either a net payee or net payor.  The Invoice Recipient is responsible for accessing the CRR Auction Invoice on the Market Information System (MIS) Certified Area once posted by ERCOT.
+(2)	Each Invoice Recipient shall pay any net debit and be entitled to receive any net credit shown on the CRR Auction Invoice on the payment due date.  Payments for CRR Auction Invoices are due on the applicable payment due date, whether or not there is any Settlement and billing dispute regarding the amount of the payment. 
+(3)	ERCOT shall post on the MIS Certified Area for each Invoice Recipient a CRR Auction Invoice based on CRR Auction charges and payments as set forth in:
+(a)	Section 7.5.6.1, Payment of an Awarded CRR Auction Offer;
+(b)	Section 7.5.6.2, Charge of an Awarded CRR Auction Bid; and
+(c)	Section 7.5.6.3, Charge of PCRRs Pertaining to a CRR Auction. 
+(d)	Section 7.7, Point-to-Point (PTP) Option Award Charge.
+(4)	CRR Auction Invoices must contain the following information:
+(a)	The Invoice Recipient’s name;
+(b)	The ERCOT identifier (Settlement identification number issued by ERCOT);
+(c)	Net Amount Due/Payable – the aggregate summary of all charges owed to or due from the Invoice Recipient summarized by CRR Auction;
+(d)	Time Period – the CRR Auction for which the Invoice is generated;
+(e)	Run Date – the date on which ERCOT created and published the Invoice;
+(f)	Invoice Reference Number – a unique number generated by ERCOT for payment tracking purposes;
+(g)	Product Description – a description of each product awarded in, sold in, or allocated before the CRR Auctions, or of any applicable charge;
+(h)	Payment Date – the date and time that Invoice amounts are to be paid or received; and
+(i)	Remittance Information Details – details including the account number, bank name and electronic transfer instructions of the ERCOT account to which any amounts owed by the Invoice Recipient are to be paid or of the Invoice Recipient’s account from which ERCOT may draw payments due.
+9.9	Payment Process for CRR Auction Invoices
+(1)	Payments for the Congestion Revenue Right (CRR) Auction are due on a Business Day and Bank Business Day basis in a two-day, two-step process as detailed below.
+9.9.1	Invoice Recipient Payment to ERCOT for the CRR Auction
+(1)	The payment due date and time for the CRR Auction Invoice, with funds owed by an Invoice Recipient, is 1700 on the third Bank Business Day after the CRR Auction Invoice date, unless third Bank Business Day is not a Business Day.  If the third Bank Business Day is not a Business Day, the payment is due by 1700 on the next Bank Business Day after the third Bank Business Day that is also a Business Day.
+(2)	All CRR Auction Invoices due, with funds owed by an Invoice Recipient, must be paid to ERCOT in U.S. Dollars (USDs) by Electronic Funds Transfer (EFT) in immediately available or good funds (i.e., not subject to reversal) on or before the payment due date. 
+(3)	All CRR Auction Invoices must be paid in full on the Invoice due date.
+9.9.2	ERCOT Payment to Invoice Recipients for the CRR Auction
+(1)	CRR Auction Invoices with funds owed to an Invoice Recipient must be paid by ERCOT to the Invoice Recipient by 1700 on the next day that is both a Business Day and a Bank Business Day after the day that payments are due for that CRR Auction Invoice under Section 9.9.1, Invoice Recipient Payment to ERCOT for the CRR Auction, subject to ERCOT’s right to withhold payments under Section 16, Registration and Qualification of Market Participants or pursuant to the common law. 
+(2)	ERCOT shall give irrevocable instructions to the ERCOT financial institution to remit, to each Invoice Recipient for same day value the amounts owed to each Invoice Recipient.
+9.9.3	Enforcing the Security of a Short-Paying CRR Auction Invoice Recipient
+(1)	ERCOT shall make reasonable efforts to enforce the security of the short-paying Invoice Recipient (pursuant to Section 16.11.6, Payment Breach and Late Payments by Market Participants) to the extent necessary to cover the short-pay.  A short-paying Invoice Recipient shall restore the level of its security under Section 16, Registration and Qualification of Market Participants.  
+9.10	CRR Auction Revenue Distribution Invoices
+(1)	ERCOT shall prepare Invoices for Congestion Revenue Right (CRR) Auction Revenue Distribution (CARD) on a monthly basis on the first Business Day following the Real-Time Market (RTM) Initial Settlement posting of the last day of the month on the date specified in the Settlement Calendar.
+(2)	ERCOT shall true up the distribution of monthly CRR Auction revenues by posting additional Settlement Invoices on the first Business Day following the RTM Final Settlement posting of the last day of the month on the date specified in the Settlement Calendar.  A trued up CARD Invoice will reflect differences to financial records generated on the previous CARD Invoice for a given month.
+(3)	For each cycle, the Market Participant to whom the CARD Invoice is addressed (“Invoice Recipient”) is either a payee or payor.  The Invoice Recipient is responsible for accessing the CARD Invoice on the Market Information System (MIS) Certified Area once posted by ERCOT.
+(4)	Each Invoice Recipient shall pay any debit and be entitled to receive any credit shown on the CARD Invoice on the payment due date.  Payments for CARD Invoices are due on the applicable payment due date whether or not there is any Settlement and billing dispute regarding the amount of the payment.
+(5)	ERCOT shall post on the MIS Certified Area for each Invoice Recipient a CARD Invoice based the calculations located:
+(a)	Section 7.5.6.4, CRR Auction Revenues; and
+(b)	Section 7.5.7, Method for Distributing CRR Auction Revenues.
+(6)	CARD Invoices must contain the following information: 
+(a)	The Invoice Recipient’s name;
+(b)	The ERCOT identifier (Settlement identification number issued by ERCOT); 
+(c)	Net Amount Due/Payable – the aggregate summary of all charges owed to or due from the Invoice Recipient summarized by CRR Auction revenue month;
+(d)	Time Period – the CRR Auction revenue month for which the Invoice is generated, including Initial or Final distribution;
+(e)	Run Date – the date on which ERCOT created and published the Invoice;
+(f)	Invoice Reference Number – a unique number generated by ERCOT for payment tracking purposes;
+(g)	Payment Date – the date and time that Invoice amounts are to be paid or received; and
+(h)	Remittance Information Details – details including the account number, bank name and electronic transfer instructions of the ERCOT account to which any amounts owed by the Invoice Recipient are to be paid or of the Invoice Recipient’s account from which ERCOT may draw payments due.
+9.11	Payment Process for CRR Auction Revenue Distribution
+(1)	Payments for Congestion Revenue Right (CRR) Auction Revenue Distribution (CARD) Invoices are due on a Business Day and Bank Business Day basis in a two-day, two-step process as detailed below.
+9.11.1	Invoice Recipient Payment to ERCOT for CRR Auction Revenue Distribution
+(1)	The payment due date and time for the CARD Invoice, with funds owed by an Invoice Recipient, is 1700 on the fifth Bank Business Day after the CARD Invoice date, unless the fifth Bank Business Day is not a Business Day.  If the fifth Bank Business Day is not a Business Day, the payment is due by 1700 on the next Bank Business Day after the fifth Bank Business Day that is also a Business Day.
+(2)	All CARD Invoices due, with funds owed by an Invoice Recipient, must be paid to ERCOT in U.S. Dollars (USDs) by Electronic Funds Transfer (EFT) in immediately available or good funds (i.e., not subject to reversal) on or before the payment due date. 
+9.11.2	ERCOT Payment to Invoice Recipients for CRR Auction Revenue Distribution
+(1)	CARD Invoices with funds owed to an Invoice Recipient must be paid by ERCOT to the Invoice Recipient by 1700 on the next day that is both a Business Day and a Bank Business Day after the day that payments are due for that CARD Invoice under Section 9.11.1, Invoice Recipient Payment to ERCOT for CRR Auction Revenue Distribution, subject to ERCOT’s right to withhold payments under Section 16 and pursuant to common law. 
+(2)	ERCOT shall give irrevocable instructions to the ERCOT financial institution to remit, to each Invoice Recipient for same day value, the amounts owed to each Invoice Recipient. 
+9.11.3	Partial Payments by Invoice Recipients for CRR Auction Revenue Distribution
+(1)	If at least one Invoice Recipient owing funds does not pay its CARD Invoice in full (short-pay), ERCOT shall follow the procedure set forth below:
+(a)	ERCOT shall make every reasonable attempt to collect payment from each short-paying Invoice Recipient before any payments owed by ERCOT for that month’s distribution of CRR Auction revenues is due to be paid to applicable Invoice Recipient(s). 
+(b)	ERCOT shall draw on any available security pledged to ERCOT by each short-paying Invoice Recipient that did not pay the amount due under paragraph (a) above.  If the amount of any such draw is greater than the amount of the short-paying Invoice Recipient’s cash collateral held in excess of that required to cover its Total Potential Exposure (TPE) (“Excess Collateral”), then a draw on available security for a short-paying Invoice Recipient shall be considered a Late Payment for purposes of Section 16.11.6, Payment Breach and Late Payments by Market Participants.
+(c)	ERCOT shall offset or recoup any amounts owed, or to be owed, by ERCOT to a short-paying Invoice Recipient against amounts not paid by that Invoice Recipient and ERCOT shall apply the amount offset or recouped to cover payment shortages by that Invoice Recipient.
+(d)	If, after taking the actions set forth in paragraphs (a), (b) and (c), above, ERCOT still does not have sufficient funds to pay all amounts that it owes to CARD Invoice Recipients in full, ERCOT shall reduce payments to all CARD Invoice Recipients owed monies from ERCOT.  The reductions shall be based on a pro rata basis of monies owed to each CARD Invoice Recipient, to the extent necessary to clear ERCOT’s accounts on the payment due date to achieve revenue neutrality for ERCOT.  ERCOT shall provide to all Market Participants payment details on all short payments and subsequent reimbursements of short pays.  Details must include the identity of each short-paying Invoice Recipient and the dollar amount attributable to that Invoice Recipient, broken down by Invoice numbers.  In addition, ERCOT shall provide the aggregate total of all amounts due to all Invoice Recipients before applying the amount not paid on the CARD Invoice.
+9.11.4	Enforcing the Security of a Short-Paying CARD Invoice Recipient
+(1)	ERCOT shall make reasonable efforts to enforce the security of the short-paying Invoice Recipient (pursuant to Section 16.11.6, Payment Breach and Late Payments by Market Participants) to the extent necessary to cover the short-pay.  A short-paying Invoice Recipient shall restore the level of its security under Section 16, Registration and Qualification of Market Participants.
+9.12	CRR Balancing Account Invoices
+(1)	ERCOT shall prepare Invoices for the Congestion Revenue Right (CRR) Balancing Account (CRRBA) on a monthly basis on the first Business Day following the Real-Time Market (RTM) Initial Settlement posting of the last day of the month on the date specified in the Settlement Calendar.
+(2)	ERCOT shall true up the distribution of monthly the CRRBA by posting additional Settlement Invoices on the first Business Day following the RTM Final Settlement posting of the last day of the month on the date specified in the Settlement Calendar.  A trued up CRRBA Invoice will reflect differences to financial records generated on the previous CRRBA Invoice for a given month.
+(3)	ERCOT shall prepare resettlement Invoices in the event that the balance in the CRRBA for the month changes due to a Day-Ahead Market (DAM) resettlement after the initial balancing account Invoices for that month have been posted as specified in the Settlement Calendar.  The Monthly Load Ratio Share (MLRS) as described in Section 7.9.3.5, CRR Balancing Account Closure, used for the resettlement CRRBA Invoice will be the same one used for the most recently posted balancing account Invoices.  A resettlement CRRBA Invoice will reflect differences to financial records generated on the previous CRRBA Invoice for a given month.
+(4)	For each Invoice cycle, the Market Participant to whom the CRRBA Invoice is addressed (“Invoice Recipient”) is a payee.  The Invoice Recipient is responsible for accessing the CRRBA Invoice on the Market Information System (MIS) Certified Area once posted by ERCOT.
+(5)	ERCOT shall post on the MIS Certified Area for each Invoice Recipient a CRRBA Invoice based on the calculations located in Sections 7.9.3.4, Monthly Refunds to Short-Paid CRR Owners, and 7.9.3.5.
+(6)	CRRBA Invoices must contain the following information: 
+(a)	The Invoice Recipient’s name;
+(b)	The ERCOT identifier (Settlement identification number issued by ERCOT); 
+(c)	Net Amount Payable – the aggregate summary of all amounts owed to the Invoice Recipient summarized by month;
+(d)	Time Period – the time period covered for each line item;
+(e)	Run Date – the date on which the ERCOT created and published Invoice;
+(f)	Invoice Reference Number – a unique number generated by ERCOT for payment tracking purposes; and
+(g)	Payment Date – the date and time that Invoice amounts are to be received.
+(7)	Each Invoice Recipient shall receive any credit shown on the CRRBA Invoice on the payment due date.  Credit shown on the CRRBA Invoice will be paid on due date whether or not there is any Settlement and billing dispute regarding the amount of the payment.
+9.13	Payment Process for the CRR Balancing Account
+9.13.1	Payment Process for the Initial CRR Balancing Account
+(1)	Payments for the Congestion Revenue Right (CRR) Balancing Account (CRRBA) are due on a Business Day and Bank Business Day basis in a one-day, one-step process, as detailed below.
+(a)	By 1700 on the first day that is both a Business Day and a Bank Business Day following the due date of the Settlement Invoice that includes the Real-Time Market (RTM) Initial Settlement Statement for the last day of the month and subject to ERCOT’s right to withhold payments under Section 16, Registration and Qualification of Market Participants, and pursuant to common law, ERCOT shall pay on a net credit shown on the CRRBA Invoice based on amounts due:
+(i)	To each short-paid CRR Owner a monthly refund from the positive balance in the CRRBA, with the amount paid to each CRR Owner as calculated in Section 7.9.3.4, Monthly Refunds to Short-Paid CRR Owners; and  
+(ii)	To each Qualified Scheduling Entity (QSE), any remaining positive balance in the CRRBA, with the amount paid to each QSE as calculated in Section 7.9.3.5, CRR Balancing Account Closure.
+(b)	ERCOT shall give irrevocable instructions to the ERCOT financial institution to remit, to each CRR Owner or QSE, for same day value, the amounts determined by ERCOT to be available for payment. 
+9.13.2 	Payment Process for Resettlement of the CRR Balancing Account
+(1)	In the event that a resettlement CRRBA Invoice is required, payments for the resettlement CRRBA Invoice are due on a Business Day and Bank Business Day basis in a two-day, two-step process as detailed below in Section 9.13.2.1, Invoice Recipient Payment to ERCOT for Resettlement of the CRR Balancing Account. 
+9.13.2.1	Invoice Recipient Payment to ERCOT for Resettlement of the CRR Balancing Account
+(1)	The payment due date and time for the resettlement CRRBA Invoice, with funds owed by an Invoice Recipient, is 1700 on the fifth Bank Business Day after the resettlement CRRBA Invoice date, unless the fifth Bank Business Day is not a Business Day.  If the fifth Bank Business Day is not a Business Day, the payment is due by 1700 on the next Bank Business Day after the fifth Bank Business Day that is also a Business Day.
+(2)	All resettlement CRRBA Invoices due, with funds owed by an Invoice Recipient, must be paid to ERCOT in U.S. Dollars (USDs) by Electronic Funds Transfer (EFT) in immediately available or good funds (i.e., not subject to reversal) on or before the payment due date. 
+9.13.2.2	ERCOT Payment to Invoice Recipients for Resettlement of the CRR Balancing Account
+(1)	Resettlement CRRBA Invoices with funds owed to an Invoice Recipient must be paid by ERCOT to the Invoice Recipient by 1700 on the next day that is both a Business Day and a Bank Business Day after the day that payments are due for that resettlement CRRBA Invoice as described in paragraph (1) of Section 9.13.2.1, Invoice Recipient Payment to ERCOT for Resettlement of CRR Balancing Account.  The Invoice Recipient payment to ERCOT for resettlement of the CRRBA is subject to ERCOT’s right to withhold payments under Section 16, Registration and Qualification of Market Participants.
+(2)	ERCOT shall give irrevocable instructions to the ERCOT financial institution to remit to each Invoice Recipient for same day value, the amounts owed to each Invoice Recipient. 
+9.13.2.3	Partial Payments by Invoice Recipients for Resettlement of CRR Balancing Account
+(1)	If at least one Invoice Recipient owing funds does not pay its resettlement CRRBA Invoice in full (short-pay), ERCOT shall follow the procedure set forth below:
+(a)	ERCOT shall make every reasonable attempt to collect payment from each short-paying Invoice Recipient before any payments owed by ERCOT for that month’s distribution of resettlement CRRBA revenues is due to be paid to applicable Invoice Recipient(s). 
+(b)	ERCOT shall draw on any available security pledged to ERCOT by each short-paying Invoice Recipient that did not pay the amount due under paragraph (a) above.  If the amount of any such draw is greater than the amount of the short-paying Invoice Recipient’s cash collateral held in excess of that required to cover its Total Potential Exposure (TPE) (“Excess Collateral”), then a draw on available security for a short-paying Invoice Recipient shall be considered a Late Payment for purposes of Section 16.11.6, Payment Breach and Late Payments by Market Participants.
+(c)	ERCOT shall offset or recoup any amounts owed, or to be owed, by ERCOT to a short-paying Invoice Recipient against amounts not paid by that Invoice Recipient and ERCOT shall apply the amount offset or recouped to cover payment shortages by that Invoice Recipient.
+(d)	If, after taking the actions set forth in paragraphs (a), (b) and (c) above, ERCOT still does not have sufficient funds to pay all amounts that it owes to resettlement CRRBA Invoice Recipients in full, ERCOT shall reduce payments to all resettlement CRRBA Invoice Recipients owed monies from ERCOT.  The reductions shall be based on a pro rata basis of monies owed to each resettlement CRRBA Invoice Recipient, to the extent necessary to clear ERCOT’s accounts on the payment due date to achieve revenue neutrality for ERCOT.  ERCOT shall provide to all Market Participants payment details on all short payments and subsequent reimbursements of short pays.  Details must include the identit

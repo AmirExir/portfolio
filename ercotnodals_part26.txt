@@ -1,0 +1,828 @@
+iew required by paragraphs (1)(a)(i)-(v) of Section 16.12.1. 
+(3)	If a Market Participant cannot comply with the October 1 deadline at the time this Section first applies to the Market Participant, the Market Participant shall request an extension of the deadline by providing ERCOT a written explanation of why it cannot meet the deadline.  The explanation must include a plan and timeline for compliance not to exceed six months from the original deadline.  ERCOT shall review that extension request and notify the Market Participant if the request is approved or denied.  ERCOT may approve no more than one extension request per Market Participant.  
+(4)	By December 1 of each year, ERCOT shall acknowledge receipt of each DCAA audit received and indicate whether any required information is missing from the DCAA.
+16.12.4	ERCOT Audit - Consequences of Non-compliance
+(1)	ERCOT, or its designee, shall review the DCAA submitted under Section 16.12.3, Market Participant Audits of User Security Administrators and Digital Certificates, and may audit the Market Participant for compliance with the provisions of this Section 16.12, User Security Administrator and Digital Certificates. The Market Participant shall cooperate fully with ERCOT in such audits.  
+(2)	On or about December 15 of each year, ERCOT shall report to the Public Utility Commission of Texas (PUCT) all Market Participants failing to properly perform and/or submit complete DCAA(s) as described in Section 16.12.3 or non-compliance with Section 16.12.3.  
+(3)	ERCOT, after providing notice to the Market Participant and PUCT Staff, may disqualify the Market Participant’s USA and/or revoke any or all Digital Certificates assigned to the Market Participant if:
+(a)	The Market Participant does not properly and timely perform the audit; 
+(b)	ERCOT discovers non-compliance; or 
+(c)	The Market Participant does not timely request revocation of its Digital Certificates for unauthorized Certificate Holders. 
+(4)	ERCOT’s decision to disqualify a Market Participant’s USA or revoke a Market Participant’s Digital Certificates as described above is subject to the following:
+(a) 	A Market Participant’s Digital Certificates may not be revoked unless the Market Participant is given a reasonable opportunity to work with ERCOT to resolve the reason for revocation;
+(b) 	A Market Participant’s USA may not be disqualified unless it is given a reasonable opportunity to authorize a new USA and assign new Digital Certificates as necessary to prevent disruption of the Market Participant’s business; and
+(c) 	A Market Participant may dispute ERCOT’s decision to disqualify the Market Participant’s USA and/or revoke its Digital Certificates through the Alternative Dispute Resolution (ADR) Procedure in accordance with Section 20, Alternative Dispute Resolution Procedure, and may appeal the result of the ADR process to the PUCT as provided in Section 20. 
+16.13	Registration of Emergency Response Service Resources
+(1)	An Emergency Response Service (ERS) Resource shall be deemed to have registered with ERCOT when its duly authorized Qualified Scheduling Entity (QSE) submits an offer on behalf of the Resource in accordance with Section 3.14.3.1, Emergency Response Service Procurement.
+16.14	Termination of Access Privileges to Restricted Computer Systems and Control Systems
+(1)	All Market Participants and ERCOT are required to have processes in place to terminate access privileges, as soon as practicable, to Restricted Systems for any employee, consultant, or contractor, upon termination of employment or where access is no longer required. 
+(2)	“Restricted Systems” include computer or control systems that are essential to the operation of Restricted Facilities.  
+(3)	“Restricted Facilities” include Facilities and assets that support the reliable operation of the bulk ERCOT System (100 kV and above), such as but not limited to:
+(a)	Generation Resources; 
+[NPRR1246:  Replace item (a) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(a)	Generation Resources and Energy Storage Resources (ESRs);
+(b)	Transmission substations; 
+(c)	Control/dispatch centers and backup control/dispatch centers related to items (a) and (b) above; 
+(d)	Systems and Facilities critical to system restoration (including but not limited to Black Start generators and substations); and
+(e)	Systems and Facilities critical to automatic firm load shedding.
+(4)	Access privilege is defined to include computer and electronic access.
+(5)	Each Market Participant and ERCOT shall have internal controls in place to ensure these processes are reviewed at least on an annual basis.
+(6)	Each Market Participant and ERCOT are required to notify the compliance monitoring authority within two Business Days after the discovery of any incident where a terminated employee, contractor or employee of a contractor has accessed a Restricted System when access privileges have been or should have been revoked.
+(7)	Failure by a Market Participant or ERCOT to follow its processes that results in access to any Restricted Systems by any employee, consultant, contractor or affiliate after his or her termination will be considered a violation of these Protocols.
+16.15	Registration of Independent Market Information System Registered Entity
+(1)	Each Entity intending to qualify to access ERCOT’s Market Information System (MIS) Secure Area, independent of any other Market Participant role, shall register with ERCOT, including any applicable fees, designating Authorized Representatives, contacts, and a User Security Administrator (USA) (per the Application for Registration as an Independent Market Information System Registered Entity (IMRE)), and execute a Standard Form Market Participant Agreement (as provided in Section 22, Attachment A, Standard Form Market Participant Agreement) prior to receiving a USA Digital Certificate for setting access to ERCOT’s MIS Secure Area.
+(2)	An Entity must have a genuine professional or business purpose for obtaining access to the MIS Secure Area to qualify for registration as an IMRE.  ERCOT may determine, in its sole discretion, whether the Entity’s purpose qualifies for registration.
+(3)	Continued status as an IMRE is contingent upon compliance with all applicable requirements in these Protocols.  ERCOT may suspend an IMRE’s rights as a Market Participant when ERCOT reasonably determines that it is an appropriate remedy for the Entity’s failure to satisfy any applicable requirement.
+16.16	Additional Counter-Party Qualification Requirements 
+16.16.1	Counter-Party Criteria
+(1)	In order to participate in the ERCOT Real-Time, Day-Ahead and Congestion Revenue Right (CRR) markets, in addition to satisfying any other eligibility requirements set forth in the ERCOT Protocols, each Counter-Party must satisfy, and at all times remain in compliance with, the following requirements: 
+(a)	Expertise in Markets.  All employees or agents transacting in ERCOT markets pursuant to the ERCOT Protocols have had appropriate training and/or experience and are qualified and authorized to transact on behalf of the Counter-Party.
+(b)	Market Operational Capabilities.  Counter-Party has appropriate market operating procedures and technical abilities to promptly and effectively respond to all ERCOT market communications.
+(c)	Allowable Contract Participants.  Each Counter-Party must be one of the following: 
+(i)	An “Appropriate Person” as defined in sections 4(c)(3)(A) through (J) of the Commodity Exchange Act (7 U.S.C. § 6(c)(3)(A)-(J)); 
+(ii)	An “Eligible Contract Participant,” as defined in section 1a(18)(A) of the Commodity Exchange Act (7 U.S.C. § 1a(18)(A)) and in Commodity Futures Trading Commission (CFTC) regulation 1.3(m) (17 C.F.R. § 1.3(m)); or 
+(iii)	A “person who actively participates in the generation, transmission, or distribution of electric energy,” as that term is defined in the CFTC’s final exemption order (78 Fed. Reg. 19,879).
+	ERCOT may request necessary information to verify compliance with this requirement.
+(d)	Independent Amount.  Counter-Party shall provide an Independent Amount as follows:
+(i)	For a Counter-Party seeking authorization to participate or participating in all ERCOT markets, $500,000 Independent Amount.
+(ii)	For a Counter-Party seeking authorization to participate or participating in all ERCOT markets except for the CRR market, $200,000 Independent Amount.  
+(iii)	For purposes of assessment of the Independent Amount, ERCOT will deem a Counter-Party that is or is applying to be a CRR Account Holder as having a desire to participate in all ERCOT markets. 
+(iv)	Financial Security posted pursuant to this section is fully available to ERCOT in the event of the Counter-Party’s Payment Breach.  
+(v)	ERCOT shall add the Independent Amount to that Counter-Party’s Total Potential Exposure Secured (TPES) pursuant to Section 16.11 and designate it as the Independent Amount.  ERCOT will require Financial Security for the Independent Amount in the same way as it does for other TPES elements. 
+(vi)	Any non-payment of the Independent Amount is considered a Payment Breach pursuant to Section 16.11.6, Payment Breach and Late Payments by Market Participants.  ERCOT may use any of the remedies provided in Section 16.11.6 to collect the Independent Amount for each Counter-Party
+(e)	Risk Management Capabilities.  Each Counter-Party shall maintain appropriate, comprehensive risk management capabilities with respect to the ERCOT markets in which the Counter-Party transacts or wishes to transact.  ERCOT may review documentation supporting a Counter-Party’s risk management framework as part of its processes for verifying the implementation of a Counter-Party’s risk management framework as described in Section 16.16.3, Verification of Risk Management Framework.   
+16.16.2	Annual Certification  
+(1)	Each Counter-Party must submit to ERCOT annually a notarized certificate, signed by an officer or executive with authority to bind the Counter-Party, in the form of Section 22, Attachment J, Annual Certification Form to Meet ERCOT Additional Minimum Participation Requirements, certifying that the Counter-Party is in compliance with each of the Counter-Party criteria and agrees to procedures for verification of its risk management framework as described in Section 16.16.3, Verification of Risk Management Framework.  
+(2)	The certificate must be received by ERCOT no later than 120 days after the close of the fiscal year of the Counter-Party or its parent.  ERCOT may extend the period for providing the certificate on a case-by-case basis.
+(3)	For new entry Counter-Parties, the certificate must be received by ERCOT prior to participation in any ERCOT markets.
+(4)	A Counter-Party shall notify ERCOT within one day if it has experienced a material adverse change that would make its most recent annual certificate inaccurate. 
+16.16.3	Verification of Risk Management Framework 
+(1)	ERCOT will periodically perform or cause to be performed procedures to assess the risk management framework of Counter-Parties, including its implementation.  
+(2)	ERCOT may retain a third party either to assess the sufficiency of the Counter-Party’s risk management framework or to provide guidance and advice as to what constitutes appropriate content with respect to generally accepted risk management practices in their respective markets, commensurate and proportional in sophistication, scope and frequency to the volume of transactions and the nature and extent of risk taken by the Counter-Party.  
+(3)	ERCOT shall, identify the nature and scope of generally accepted risk management practices in their respective markets by which Counter-Party risk management frameworks will be assessed.  Key elements will include:
+(a)	The risk management framework is documented in a risk policy addressing market and credit risks that has been approved by a Counter-Party’s risk management function which includes appropriate corporate persons or bodies that are independent of the Counter-Party’s trading functions, such as a risk management committee, a designated risk officer, participant Counter-Party’s board or board committee, or, if applicable, a board or committee of the Counter-Party’s parent company.
+(b)	A Counter-Party maintains an organizational structure with clearly defined roles and responsibilities that clearly segregate trading and risk control functions. 
+(c)	There is clarity of authority specifying the transactions into which traders are allowed to enter.
+(d)	A Counter-Party ensures that traders have adequate training and/or experience relative to their delegations of authority in systems and the markets in which they transact.
+(e)	As appropriate, a Counter-Party has risk limits in place to control risk exposures.
+(f)	A Counter-Party has reporting in place to ensure risks are adequately communicated throughout the organization.
+(g)	A Counter-Party has processes in place for independent confirmation of executed transactions.
+(h)	A Counter-Party performs a periodic valuation or mark-to-market of risk positions, as appropriate.
+(4)	The ERCOT Board may approve minimum standards under an Other Binding Document. 
+(5)	Upon notice of being selected for verification, a Counter-Party will make available or submit to ERCOT, or a third party acting on ERCOT’s behalf, such documentation as is necessary to provide evidence of the sufficiency and implementation of its risk management framework.  Such information may include, but not be limited to, documents of the following nature:  risk policies, organizational charts, Delegations of Authority, training records, risk limit structure, reporting frameworks, and relevant procedures, all in a level of detail acceptable to ERCOT.  Along with such documentation, a Counter-Party will provide a written explanation to ERCOT or its agent of how its risk management framework conforms to the risk management standards noted above.  Requested information and documents must be made available for review by ERCOT, or a third party acting on ERCOT’s behalf, 30 days after Notice of the request.  ERCOT will provide Counter-Party Notice of inadequate documentation and will give Counter-Party ten Business Days to correct the inadequacy.  At ERCOT’s sole discretion, these deadlines may be extended on a case-by-case basis.
+(6)	If necessary, Counter-Parties will support the verification process by, among other things, making appropriate personnel available for interviews, permitting on-site observation of credit and risk management processes and procedures, and providing written responses to written inquiries on a timely basis.  A Counter-Party may request that ERCOT or a third party performing verification on ERCOT’s behalf perform the review on-site at the Counter-Party’s location.  Any resulting additional expenses will in this case be the sole responsibility of the Counter-Party making the request.   
+(7)	ERCOT will perform procedures to verify the risk management framework at least annually for any Counter-Party if that Counter-Party or its parent:
+(a)	Has had one or more late payments or represents a Qualified Scheduling Entity (QSE) or CRR Account Holder that has short-paid Settlement Invoices in the year preceding the date of the annual certificate; and
+(b)	Has had exposure in CRR Obligations in the ERCOT CRR market during the year preceding the date of the annual certificate. 
+(i)	Notwithstanding the above, ERCOT will perform risk management framework verification procedures on other Counter-Parties at its sole discretion. 
+(8)	Upon completion of its review, ERCOT will notify the Counter-Party whether or not any material deficiencies were noted.  If material deficiencies exist, ERCOT may, in its sole discretion, establish in consultation with the Counter-Party, a remediation plan for any deficiencies.  The remediation period allowed for specific deficiencies should be consistent with the severity of those deficiencies and may have incremental deadlines.  The total remediation period will not exceed 90 days, unless extended, at ERCOT’s sole discretion, on a case-by-case basis.    
+(9)	Risk management deficiencies remaining beyond the ERCOT-defined remediation periods constitute a material breach under the Counter-Party’s Standard Form Market Participant Agreement as provided for in Section 22, Attachment A, Standard Form Market Participant Agreement.  Upon a material breach, ERCOT may, in addition to any other rights or remedies ERCOT has under any agreement, these Protocols or at common law, suspend any or all future activities in the ERCOT market, pending remediation of deficiencies.  An action by ERCOT to suspend activities in the ERCOT market is subject to the provisions of Section 20, Alternative Dispute Resolution Process.  
+(10)	Participation in ERCOT markets is contingent on verification by ERCOT, or by a third party acting on ERCOT’s behalf, that the proposed measures have been implemented.  
+(11)	If a Counter-Party provides evidence that its risk management framework has been deemed sufficient for transacting in another Regional Transmission Operator/Independent System Operator market in the United States, ERCOT may elect to forego verification processes.
+(12)	In conjunction with providing its annual certificate, if a Counter-Party certifies that there has been no material change in its risk management capabilities since the framework was last verified, ERCOT may elect to forego verification.  ERCOT may not forego verification more than once in any 24-month period.
+16.17	Exemption for Qualified Scheduling Entities Participating Only in Emergency Response Service
+(1)	A Qualified Scheduling Entity (QSE) that is not also registered as a Congestion Revenue Rights (CRR) Account Holder, that does not participate in the Day-Ahead Market (DAM) or Real-Time Market (RTM), that represents only Emergency Response Service (ERS) Resources, and whose Total Potential Exposure (TPE) (as calculated in Section 16.11.4.1, Determination of Total Potential Exposure for a Counter-Party) is zero may request designation as an ERS-only QSE.  
+(2)	A QSE must submit a written request for designation as an ERS-only QSE at least five Business Days before the desired effective date of the designation.  
+(3)	Upon determining that the QSE has addressed all financial risk to ERCOT’s satisfaction, ERCOT shall designate the QSE as an ERS-only QSE, and shall notify the QSE of that designation in writing.
+(4)	Except as provided in paragraph (5) below, an ERS-only QSE is exempt from the following requirements: 
+(a)	The requirement to maintain sufficient collateral under Sections 16.11.1, ERCOT Creditworthiness Requirements for Counter-Parties, and 16.11.5, Monitoring of a Counter-Party’s Creditworthiness and Credit Exposure by ERCOT;
+(b)	The requirement to submit financial statements and any notice of material changes under paragraph (1) of Section 16.11.5; and
+(c)	All requirements under Section 16.16, Additional Counter-Party Qualification Requirements.
+(5)	If ERCOT posts an RTM True-Up Statement or RTM Resettlement Statement providing for a resettlement of any ERS Time Period, and as a result of that resettlement alone, ERCOT determines that an ERS-only QSE has a positive TPE as calculated in Section 16.11.4.1, ERCOT will require that QSE to comply with Section 16.11.5, excluding paragraph (1), until its TPE again equals zero.  If the QSE fails to pay when due any payment or Financial Security obligation owed to ERCOT, ERCOT may terminate the QSE’s ERS-only status.
+(6)	ERCOT shall ensure that its systems prevent participation by ERS-only QSEs in the DAM and RTM.
+(7)	A QSE must request termination of its ERS-only status in writing.  Termination of ERS-only status will be effective only upon ERCOT’s written confirmation that the QSE has satisfied all creditworthiness requirements applicable to QSEs.
+(8)	Nothing in this Section affects an ERS-only QSE’s obligation under paragraph (6) of Section 16.2.1, Criteria for Qualification as a Qualified Scheduling Entity, to provide ERCOT notice of any material change that could adversely affect the reliability or safety of the ERCOT System.  Additionally, ERCOT may at any time require any ERS-only QSE to demonstrate that its risk management policies and practices are sufficient to ensure that it will be capable of meeting its ERS performance requirements during any ERS Standard Contract Term for which it has submitted an offer or for which it is committed to provide ERS.
+[NPRR857:  Insert Section 16.18 below upon system implementation and satisfying the following conditions:  (1) Southern Cross provides ERCOT with funds to cover the entire estimated cost of the project; and (2) Southern Cross has signed an interconnection agreement with a TSP and the TSP gives ERCOT written notice that Southern Cross has provided it with:  (a) Notice to proceed with the construction of the interconnection; and (b) The financial security required to fund the interconnection facilities; and renumber accordingly:] 
+16.18	Registration of a Direct Current Tie Operator
+(1)	Each Entity that operates a Direct Current Tie (DC Tie) shall register as a Direct Current Tie Operator (DCTO) with ERCOT.  To register as a DCTO, an Entity must execute a Standard Form Market Participant Agreement (using the form provided in Section 22, Attachment A, Standard Form Market Participant Agreement), designate a DCTO Authorized Representative and contacts, confirm that it is either registered with ERCOT as a Transmission Service Provider (TSP) that is subject to a Public Utility Commission of Texas (PUCT)-approved code of conduct or is subject to Federal Energy Regulatory Commission (FERC)-approved standards of conduct, and be capable of performing the functions of a DCTO, as applicable, as described in these Protocols.
+16.18	Cybersecurity Incident Notification
+(1)	Each Market Participant shall designate and maintain a Cybersecurity Contact for communications with ERCOT with respect to Cybersecurity Incidents.  Registered Market Participants shall use the Notice of Change of Information form, as provided for in Section 23, Form E, Notice of Change of Information, to designate a Cybersecurity Contact, and maintain updated Cybersecurity Contact information.
+(2)	As soon as practicable upon determination of a Cybersecurity Incident on a Market Participant’s computer network or system that interfaces with an ERCOT computer network or system, the Market Participant shall notify ERCOT. 
+(3)	For purposes of this section, in the event a Market Participant delegates authority to an agent, the Market Participant shall ensure that the agent is obligated to notify the Market Participant, as soon as practicable, upon the agent’s discovery of a Cybersecurity Incident on the agent’s computer network or system that interfaces with an ERCOT computer network or system. 
+(4)	A Market Participant shall notify ERCOT, as soon as practicable, upon the agent’s notification to the Market Participant of a Cybersecurity Incident on the agent’s computer network or system that interfaces with an ERCOT computer network or system for the purpose of transacting with ERCOT on behalf of the Market Participant.  If a Market Participant’s agent is also registered with ERCOT as a Market Participant, only the agent is required to report a Cybersecurity Incident on its computer network or system that interfaces with an ERCOT computer network or system to ERCOT.  The failure of an agent to notify the Market Participant of a Cybersecurity Incident shall not constitute a violation of this section if the Market Participant can demonstrate that a reporting mandate exists in a contract between the Market Participant and its agent.
+(5)	In order to notify ERCOT of a Cybersecurity Incident, Market Participants shall submit a Notice of Cybersecurity Incident (Section 23, Form O, Notice of Cybersecurity Incident) to NCSI@ercot.com.  If, as a result of the Cybersecurity Incident, a Market Participant is unable to securely send the Notice of Cybersecurity Incident to ERCOT, the Market Participant shall call the ERCOT HelpDesk at (512) 248-6800 and/or its Client Service Representative to request a secure means for sending the Notice of Cybersecurity Incident to ERCOT.
+(a)	A Market Participant may designate a temporary cybersecurity contact for a particular Cybersecurity Incident by providing contact information for such individual in the Notice of Cybersecurity Incident form submitted to ERCOT. Should a Market Participant designate a temporary cybersecurity contact in its Notice of Cybersecurity Incident, ERCOT will direct communications concerning that particular Cybersecurity Incident to the temporary cybersecurity contact.
+(b)	Following initial notification, Market Participant shall provide ERCOT with updated information concerning the Cybersecurity Incident as it becomes available, and upon ERCOT’s request, until ERCOT provides notice to Market Participant that information regarding the Cybersecurity Incident is no longer needed.  To the extent practicable, the Notice of Cybersecurity Incident form shall be used to provide ERCOT with updated information.
+(6)	In the event ERCOT determines that a Cybersecurity Incident may materially impact computer networks or systems of ERCOT and/or Market Participants, ERCOT shall issue a Market Notice to all Market Participants with general information concerning the Cybersecurity Incident.  ERCOT may utilize the information contained in a Notice of Cybersecurity Incident, except that in no event shall the Market Notice contain information identifiable to a specific Market Participant or ERCOT Critical Energy Infrastructure Information (ECEII).
+16.19	Designation of Transmission Operators 
+(1)	Each Transmission Service Provider (TSP) shall either register as a Transmission Operator (TO) or designate one or more other Transmission and/or Distribution Service Providers (TDSPs) as its TO for each Transmission Facility owned by the TSP.  Each DSP shall either register as a TO or designate another TDSP as its TO.  A TDSP shall designate another Entity as its TO only with the written consent of that other Entity.  
+(2)	A TO shall have full authority to act on behalf of the designating TDSP in the performance of all TO responsibilities provided in the ERCOT Protocols or Other Binding Documents, including effectuating any Load-shed that may be necessary during any Energy Emergency Alert (EEA) event, Under-Frequency Load Shed (UFLS) event, or Under-Voltage Load Shed (UVLS) event.  
+(3)	To qualify for designation as a TO, a TDSP shall be connected to the ERCOT Wide Area Network (WAN) and maintain 24-hour, seven-day-per-week operations and Hotline communications with ERCOT.  A TO has a responsibility to answer each TO Hotline call.
+(4)	A TSP shall enter a TO designation for each Transmission Facility it owns in the Network Operations Model.  Any designation or change to that designation shall be submitted to ERCOT within the time required for submitting physical changes to the Network Operations Model specified in paragraph (3) of Section 3.10.1, Time Line for Network Operations Model Changes.  Any TSP designated as a TO for another TSP’s facilities may unilaterally reject or resign from that designation by providing written notice to the designating TSP and the TSP shall promptly update the TO designation in the Network Operations Model for the affected Transmission Facility.  
+(5)	ERCOT shall post a Transmission Operator Designation Form on the ERCOT website.  A Distribution Service Provider (DSP) may designate a TO or make any change to its designation, including revoking a TO designation, by properly completing the Transmission Operator Designation Form and submitting it via email to ERCOT with a copy provided to the TDSP designated as TO.  Any such change shall be submitted to ERCOT at least 30 days before the change becomes effective.  The designation of a TO shall not be effective unless the Transmission Operator Designation Form has been signed by an officer or other Authorized Representative of the designating DSP and the TDSP designated as TO.  
+(6)	A TO for a DSP may unilaterally resign from a designation as TO by submitting a properly completed Transmission Operator Designation Form to ERCOT reflecting the TO’s resignation of its TO status at least 30 days before the resignation becomes effective.  The resigning TO shall provide simultaneous notice of the resignation to the DSP it represents.   
+(7)	On the effective date of a TO’s resignation, the DSP previously represented by the resigning TO shall be deemed its own TO and shall assume all TO responsibilities unless and until it has properly designated another TDSP as its TO.   
+[NPRR1045:  Replace Section 16.19 above with the following upon system implementation of NPRR857:]
+16.19	Designation of Transmission Operators 
+(1)	Each Transmission Service Provider (TSP) shall either register as a Transmission Operator (TO) or designate one or more other Transmission and/or Distribution Service Providers (TDSPs) as its TO for each Transmission Facility owned by the TSP.  Each Direct Current Tie Operator (DCTO) shall designate a TDSP as its TO for each DC Tie it operates.  Each Distribution Service Provider (DSP) shall either register as a TO or designate another TDSP as its TO.  A TDSP or DCTO shall designate another Entity as its TO only with the written consent of that other Entity.  
+(2)	A TO shall have full authority to act on behalf of the designating TDSP or DCTO in the performance of all TO responsibilities provided in the ERCOT Protocols or Other Binding Documents, including effectuating any Load-shed that may be necessary during any Energy Emergency Alert (EEA) event, Under-Frequency Load Shed (UFLS) event, or Under-Voltage Load Shed (UVLS) event.  
+(3)	To qualify for designation as a TO, a TDSP shall be connected to the ERCOT Wide Area Network (WAN) and maintain 24-hour, seven-day-per-week operations and Hotline communications with ERCOT.  A TO has a responsibility to answer each TO Hotline call. 
+(4)	A TSP or DCTO shall enter a TO designation for each Transmission Facility it owns in the Network Operations Model.  Any designation or change to that designation shall be submitted to ERCOT within the time required for submitting physical changes to the Network Operations Model specified in paragraph (3) of Section 3.10.1, Time Line for Network Operations Model Changes.  Any TSP designated as a TO for another TSP or DCTO’s facilities may unilaterally reject or resign from that designation by providing written notice to the designating TSP and the TSP shall promptly update the TO designation in the Network Operations Model for the affected Transmission Facility.  
+(5)	ERCOT shall post a Transmission Operator Designation Form on the ERCOT website.  A DSP may designate a TO or make any change to its designation, including revoking a TO designation, by properly completing the Transmission Operator Designation Form and submitting it via email to ERCOT with a copy provided to the TDSP designated as TO.  Any such change shall be submitted to ERCOT at least 30 days before the change becomes effective.  The designation of a TO shall not be effective unless the Transmission Operator Designation Form has been signed by an officer or other Authorized Representative of the designating DSP or DCTO and the TDSP designated as TO.  
+(6)	A TO for a DSP may unilaterally resign from a designation as TO by submitting a properly completed Transmission Operator Designation Form to ERCOT reflecting the TO’s resignation of its TO status at least 30 days before the resignation becomes effective.  The resigning TO shall provide simultaneous notice of the resignation to the DSP it represents.   
+(7)	On the effective date of a TO’s resignation, the DSP previously represented by the resigning TO shall be deemed its own TO and shall assume all TO responsibilities unless and until it has properly designated another TDSP as its TO.   
+ERCOT Nodal Protocols
+Section 17:  Market Monitoring and Data Collection
+June 1, 2021
+
+
+ 
+17	MARKET MONITORING AND DATA COLLECTION	17-1
+17.1	Overview	17-1
+17.2	Objectives and Scope of Market Monitoring Data Collection	17-1
+17.3	Market Data Collection and Use	17-1
+17.3.1	Information System Data Collection and Retention	17-1
+17.3.2	Data Categories and Handling Procedures	17-2
+17.3.3	Accuracy of Data Collection	17-2
+17.3.4	PUCT Staff and IMM Review of Data Collection	17-2
+17.3.5	Data Retention	17-3
+17.4	Provision of Data to Individual Market Participants	17-3
+17.5	Reports to PUCT Staff, IMM, and the FERC	17-3
+17.6	Changes to Facilitate Market Operation	17-3
+
+	
+ 
+17	MARKET MONITORING AND DATA COLLECTION
+17.1	Overview
+(1)	The Public Utility Commission of Texas (PUCT), with the assistance of the Independent Market Monitor (IMM) established in accordance with PUCT rules, has the ultimate responsibility for market oversight in ERCOT.  ERCOT shall assist the PUCT and the IMM by performing the data collection functions specified in this Section.
+17.2	Objectives and Scope of Market Monitoring Data Collection
+(1)	The market monitoring data collection is designed to assist the Public Utility Commission of Texas (PUCT) and Independent Market Monitor (IMM) to:
+(a)	Protect Market Participants and Customers from the exercise of market power and from market manipulations;
+(b)	Ensure that there is effective and persistent competition for events that are not mitigated; 
+(c)	Ensure that the market design and implementation are efficient;  
+(d)	Guard against inefficiencies in the market and market manipulations; 
+(e)	Ensure a justifiable and reasonable price impact; and 
+(f)	Ensure that data posted on the ERCOT website fulfills the objective of transparency of market information consistent with Section 1.3, Confidentiality. 
+17.3	Market Data Collection and Use
+(1)	ERCOT shall establish procedures to ensure that the Public Utility Commission of Texas (PUCT) Staff and Independent Market Monitor (IMM) may access all data maintained by ERCOT and deemed necessary by the PUCT staff and IMM to perform its market oversight activities, pursuant to subsection (e) of P.U.C. SUBST. R. 25.362, Electric Reliability Council of Texas (ERCOT) Governance. The following sections explain the collection, handling, verification, and retention of information by ERCOT that is accessible by the PUCT Staff and IMM. 
+17.3.1	Information System Data Collection and Retention 
+(1)	ERCOT shall develop and operate an information system to collect and to store data required by these Protocols.  ERCOT shall provide adequate communication equipment and necessary software packages to enable the PUCT Staff and the IMM to establish electronic access to the information system and to facilitate the development and application of quantitative tools necessary for the market monitoring function.  Data from source systems must be replicated near Real-Time and available for remote query by the PUCT Staff and the IMM until data is available in the Data Archive and Data Warehouse.  The Data Warehouse and Data Archive must be designed to accommodate a remote query function by the PUCT Staff and the IMM at any time.
+17.3.2	Data Categories and Handling Procedures
+(1)	ERCOT shall develop, and refine based on experience, a detailed catalog of all data categories that it can acquire and the procedures that it will use to handle such data, including procedures for protecting Protected Information and ERCOT Critical Energy Infrastructure Information (ECEII).  This catalog must include documentation of the meaning of the data elements, and must be updated upon any change in systems (e.g. Energy and Market Management System (EMMS) or Settlements) that affect the data elements or interpretation of these elements.
+17.3.3	Accuracy of Data Collection
+(1)	ERCOT shall continuously apply appropriate procedures for the accurate collection of data into the Data Warehouse and accurate communication of that data for use by the PUCT Staff and IMM.  By written notice, ERCOT may require Market Participants to verify the accuracy of data previously submitted to ERCOT.
+(2)	ERCOT shall report to the PUCT and IMM any failure by a Market Participant to provide accurate and complete information in the manner and time requested under these Protocols, and that failure may be treated as grounds for action against the Market Participant.
+(3)	ERCOT shall cause to be performed an audit on a periodic basis no less than once every three years of ERCOT data, data collection, and data documentation for adequacy and accuracy.  The auditor will provide recommendations to address potential areas of improvements.
+17.3.4	PUCT Staff and IMM Review of Data Collection
+(1)	The PUCT Staff and IMM may review the catalogs of information and data collection verification criteria, developed by ERCOT according to these Protocols, and may propose such changes, additions, or deletions to the catalogs and criteria as it sees fit.  In so doing, the PUCT Staff or IMM may require database items or evaluation criteria to be included in the pertinent catalogs.  
+17.3.5	Data Retention
+(1)	Data stored in the Data Warehouse and Data Archive must be available online for four years from ERCOT’s creation or receipt of the data.  Data stored in the Data Archive must be maintained by ERCOT for a total of seven years from ERCOT’s creation or receipt of the data.
+17.4	Provision of Data to Individual Market Participants
+(1)	Data requested by a Market Participant that is not available to the requesting Market Participant via the Market Information System (MIS) may be provided by ERCOT to the requesting Market Participant subject to constraints on ERCOT’s resources and applicable restrictions on Protected Information and ERCOT Critical Energy Infrastructure Information (ECEII), but this Section is not an authorization to release Protected Information or ECEII of other Entities.  ERCOT shall accommodate these requests on a nondiscriminatory basis.
+17.5	Reports to PUCT Staff, IMM, and the FERC 
+(1)	ERCOT shall make data available to the Public Utility Commission of Texas (PUCT) Staff and Independent Market Monitor (IMM).  PUCT Staff or IMM may require, after consultation with ERCOT, changes to the form of the data, limited to data ERCOT is reasonably able to collect.
+(2)	ERCOT shall submit reports in accordance with its regulatory obligations under the applicable rules, laws, and orders of the PUCT and the Federal Energy Regulatory Commission (FERC).
+17.6	Changes to Facilitate Market Operation 
+(1)	ERCOT shall evaluate its system operation and market performance to identify potential areas for improvements.  This evaluation must consider impacts on system operations and market performance of Public Utility Commission of Texas (PUCT) rules, these Protocols, Operating Guides, and any other ERCOT operating procedures.  Upon identification of areas that require improvements, ERCOT shall take appropriate actions to make those improvements including revising its procedures, proposing changes to these Protocols through the process specified in Section 21, Revision Request Process, and submitting recommendations to the PUCT or other appropriate Governmental Authorities.  In performing these tasks, ERCOT shall seek comments and recommendations from the Independent Market Monitor (IMM), PUCT Staff, Market Participants, and other interested Entities. 
+ERCOT Nodal Protocols
+Section 18:  Load Profiling
+April 1, 2022
+
+ 
+18	Load Profiling	18-1
+18.1	Overview	18-1
+18.2	Methodology	18-1
+18.2.1	Guidelines for Development of Load Profiles	18-1
+18.2.2	Load Profiles for Non-Interval Metered Loads	18-2
+18.2.2.1	Load Profiles for Non-Interval Metered Loads Without Distributed Generation	18-2
+18.2.2.2	Load Profiles for Non-Interval Metered Loads With Distributed Generation	18-2
+18.2.3	Load Profiles for Non-Metered Loads	18-3
+18.2.4	Default Load Profiles for Interval Data Recorders	18-3
+18.2.5	Identification of Weather Zones and Load Profile Types	18-3
+18.2.6	Daily Profile Creation Process	18-3
+18.2.7	Maintenance of the Load Profile Models	18-3
+18.2.8	Adjustments and Changes to Load Profile Development	18-3
+18.2.9	ERCOT Responsibilities in Support of Load Profiling	18-4
+18.3	Posting	18-4
+18.3.1	Methodology Information	18-4
+18.3.2	Load Profiling Models	18-5
+18.3.3	Load Profiles	18-5
+18.4	Assignment of Load Profile ID	18-5
+18.4.1	Development of Load Profile ID Assignment Table	18-5
+18.4.2	Load Profile ID Assignment	18-6
+18.4.3	Validation of Load Profile Type and Weather Zone Assignments	18-6
+18.4.3.1	Validation Process	18-6
+18.4.3.2	Correction Procedure	18-7
+18.4.4	Assignment of Weather Zones to Electric Service Identifiers	18-7
+18.5	Additional Responsibilities	18-7
+18.5.1	ERCOT Responsibilities	18-7
+18.5.2	Market Participant Responsibilities	18-7
+18.6	Installation and Use of Interval Data Recorders	18-8
+18.6.1	Interval Data Recorder Mandatory Installation Requirements	18-8
+18.7	Transition of Interval Data Recorder Meter to AMS Profile Type	18-8
+ 
+18	LOAD PROFILING
+18.1	Overview
+(1)	The ERCOT retail market requires a 15-minute Settlement Interval.  Load Profiling provides a cost-effective way of estimating and allocating 15-minute Load for Electric Service Identifiers (ESI IDs).  This Section details how Load Profiling will be implemented in ERCOT when ERCOT does not receive 15-minute Settlement Interval consumption data and enables the accounting of energy usage in the market Settlement process.
+18.2	Methodology
+(1)	A Load Profiling Methodology is the fundamental basis on which Load Profiles are created.  The implementation of a Load Profiling Methodology may require statistical Sampling, engineering methods, econometric modeling, or other approaches.  All Load Profiles shall conform to the ERCOT-defined Settlement Interval length.
+(2) 	ERCOT has developed Load Profiles for: 
+(a)	Non-interval metered Loads;
+(b)	Non-Metered Loads; and
+(c)        Interval Data Recorders (IDRs) including:
+(i) 	Advanced Meters; and        
+(ii) 	IDR Meters.
+(3)	The following Load Profiling Methodologies are used:
+Type of Load	Load Profiling Methodology
+Non-interval metered	Adjusted Static Models
+Non-interval metered with Distributed Generation (DG) 	Adjusted Static Models and engineering estimates
+Non-metered	Engineering estimates
+18.2.1	Guidelines for Development of Load Profiles
+(1)	In developing Load Profiles, ERCOT shall strive to achieve an optimal combination of the following:
+(a)	Give no unfair advantage to any Entity;
+(b)	Maximize usability by minimizing the total number of Load Profiles without compromising accuracy and cost effectiveness;
+(c)	Minimize the Load Profiles’ contribution to Unaccounted For Energy (UFE) over all Settlement Intervals, paying particular attention to higher cost periods;
+(d)	Reflect reasonably homogenous groups, with respect to Load shape and likely supply costs;
+(e)	Develop Load Profiles that are distinctly different;
+(f)	Develop Load Profiles for areas with incomplete Load data utilizing data from other sources, taking into account similarities and differences in Load;
+(g)	Accommodate development of unique rate classes;
+(h)	Use the most accurate Load research data available; and
+(i)	Develop Load Profiles based on readily identifiable parameters that are not subject to frequent change.
+18.2.2	Load Profiles for Non-Interval Metered Loads
+18.2.2.1	Load Profiles for Non-Interval Metered Loads Without Distributed Generation
+(1)	Load Profiles for non-interval metered Loads are created using statistical models developed from appropriate Load research sample data.  These models are referred to as adjusted static.  These model equations relate daily Settlement Interval Load patterns to relevant weather descriptors such as maximum and minimum dry-bulb temperature and humidity.  Other daily characteristics such as day-of-the-week and sunrise/sunset times are also employed.
+18.2.2.2	Load Profiles for Non-Interval Metered Loads With Distributed Generation
+(1)	Load Profiles for non-interval metered Loads that utilize DG (e.g., PhotoVoltaic (PV) or wind) will be created using a hybrid approach.  At least a portion of the Load Profile will be based on Adjusted Static Models, while engineering estimates and/or generation models may be integrated as well or otherwise utilized.
+18.2.3	Load Profiles for Non-Metered Loads
+(1)	Load Profiles for Non-Metered Loads, e.g. streetlights, traffic signals, security lighting, billboards, and parking lots are created using engineering estimates based on known criteria, such as hours of operation, with appropriate variation in sunrise/sunset times.  Transmission Service Providers (TSPs) and/or Distribution Service Providers (DSPs) are responsible for providing monthly consumption (kWh) for non-metered Electric Service Identifiers (ESI IDs).
+18.2.4	Default Load Profiles for Interval Data Recorders
+(1)	Default Load Profiles for IDRs will only be used when no historic Customer-specific interval data is available for Settlements.  The Adjusted Static Model methodology will be used to create these Load Profiles.
+(2)	For details on the method to estimate IDR data for Settlement purposes, refer to Section 11, Data Acquisition and Aggregation.
+18.2.5	Identification of Weather Zones and Load Profile Types
+(1)	ERCOT, in coordination with the appropriate Technical Advisory Committee (TAC) subcommittee, will identify Weather Zones and Load Profile Types based on an analysis of Load data, weather data, and sunrise/sunset data.
+18.2.6	Daily Profile Creation Process
+(1)	ERCOT will maintain Load Profile Models to create profiles for the target Settlement day (backcast) and three days following the current day (forecast).  ERCOT will automatically collect actual weather conditions and weather forecasts to enable the creation of the Load Profiles.  ERCOT will maintain sunrise/sunset information for creating Load Profiles that require these parameters.
+18.2.7	Maintenance of the Load Profile Models
+(1)	Upon request from the appropriate TAC subcommittee, ERCOT shall review the validity and accuracy of the Load Profile Models.  ERCOT shall make the necessary recommendation to alleviate any situations whereby Load Profiles are no longer representative.
+18.2.8	Adjustments and Changes to Load Profile Development
+(1)	Any changes to the Load Profiling Methodology, existing Load Profiles, and/or creation of new Load Profiles shall be in accordance with Load Profiling Guide Section 2.4, Load Profiling Guide Revision Procedure
+(2)	Section 9.18, Profile Development Cost Recovery Fee for a Non-ERCOT Sponsored Load Profile Segment, describes the process for compensating the originator of a Load Profile Segment change request by Retail Electric Providers (REPs) wishing to subscribe to the Load Profile Segment.
+(3)	ERCOT shall give at least 150 days’ Notice to all Market Participants prior to market implementation of any change to the Load Profiling Methodology, existing Load Profiles, or when any additional Load Profiles are developed.  This Notice shall include a Load Profile change implementation timeline, which specifies dates on which key events during the Load Profile change process will take place.  Upon any change in Load Profile Types, TSPs and/or DSPs shall send any revised Load Profile ID assignments required by the change to the registration system within the implementation timeline.  After the new Load Profile(s) becomes available, changes to Load Profile Types will be effective on the next meter read date for each ESI ID.
+(4)	If one or more Load Profiles require changes to reduce excessive UFE, as determined by the appropriate TAC subcommittee, TAC may provide a shorter Notice period and implementation date, than otherwise provided herein, for such required changes to Load Profiles.  If the Load Profiling Methodology requires changes to reduce excessive UFE, as determined by the appropriate TAC subcommittee, TAC may provide an expedited Notice period and implementation date.
+18.2.9	ERCOT Responsibilities in Support of Load Profiling
+(1)	ERCOT is responsible for the development and maintenance of Load Profiles used in the ERCOT market.  ERCOT shall follow the Load Profiling and Load research rules and procedures as specified in the Public Utility Commission of Texas (PUCT) rules.
+18.3	Posting
+(1)	ERCOT will make available to Market Participants the following information in a timely manner, subject to confidentiality agreements, proprietary arrangements, and Public Utility Commission of Texas (PUCT) rules.
+18.3.1	Methodology Information
+(1)	Upon request, ERCOT will provide a complete description of all supporting Load Profile Models, documentation and data used in preparation of Load Profiles, including:
+(a)	The historic Load data used to create the Load Profiles;
+(b)	Average interval accuracy of each Load Profile Model;
+(c)	Weather information;
+(d)	Sunrise/sunset information; and
+(e)	Any other data used for Load Profile development.
+18.3.2	Load Profiling Models
+(1)	ERCOT will make available the Load Profile Models used to produce the forecast and backcast profiles for the Settlement process.  The Load Profile Models shall be accessible via the ERCOT website in a downloadable format.
+18.3.3	Load Profiles
+(1)	ERCOT will publish Load Profile data from the Load Profile creation process, in accordance with Section 18.2.6, Daily Profile Creation Process, to the ERCOT website and through the common application program interface (API).  Load Profile data will be made available to Market Participants for a period of two years.
+(2)	ERCOT will post to the ERCOT website by 1000 Central Prevailing Time (CPT) each Business Day, forecasted Load Profiles for the three following days for each Load Profile Type and Weather Zone.  Backcast Load Profiles for each Load Profile Type and Weather Zone will be available by 1000 CPT of the second Business Day following the backcast day.  No data will be provided that will allow identification of individual Customers.
+18.4	Assignment of Load Profile ID
+(1)	Each Electric Service Identifier (ESI ID) is required to be associated with an appropriate Load Profile ID.  Upon request, ERCOT and the appropriate Technical Advisory Committee (TAC) subcommittee shall review the Load Profile ID assignment process, make recommendations for enhancements, and evaluate the integration of the validation and assignment processes.  This Section details the process of assigning a Load Profile ID to each ESI ID.
+18.4.1	Development of Load Profile ID Assignment Table
+(1)	ERCOT shall develop a cross-reference table of all Load Profile IDs used in the ERCOT market.  The table shall clearly state class relationship to Load Profile Type.  This information shall be made accessible on the ERCOT website.  The cross-reference information shall be compiled and expressed in clear, unambiguous language, and in a manner that will minimize Load Profile ID assignment disputes.
+18.4.2	Load Profile ID Assignment
+(1)	All Load Profile ID assignments shall conform with the valid combinations within the Load Profiling Guide Appendix D, Profile Decision Tree.
+(2)	Should there be any change in Load Profile ID assignment to any ESI ID, it will be the responsibility of the Transmission Service Provider (TSP) and/or Distribution Service Provider (DSP) to submit those changes to ERCOT.
+(3)       Competitive Retailers (CRs) may dispute a Load Profile ID assignment through the process described in Load Profiling Guide Section 14, Load Profile ID Dispute Procedure.
+(4)       TSPs and/or DSPs shall change the assignment of a Load Profile ID based on a dispute outcome finding in favor of a CR.  If required to change an assignment, TSPs and/or DSPs must correct the assignment in their system and the ERCOT Customer registration system within three Business Days.
+18.4.3	Validation of Load Profile Type and Weather Zone Assignments
+(1)	In this Section validation shall mean performing checks to ensure correct assignment of Load Profile Types and Weather Zones to ESI IDs.
+18.4.3.1	Validation Process
+ (1)	Validation of Load Profile Type and Weather Zone assignments, at a minimum, will be performed as follows: 
+(a)	Initial Load Profile ID assignment for opt-in Entities; 
+(b)	When a change is made in the Load Profile Type or Weather Zone assignment; 
+(c)	One time per year for the Business Load Profiles; and
+(d)	At least one time every three years for the Residential Load Profiles during the Load Profile validation process.
+(2)	Details of the validation process will be specified in the Load Profiling Guide Section 11, Validation of Load Profile ID.
+(3)	Any Market Participant may request temporary changes to the process for validating Load Profile IDs to address unusual circumstances.  Such change requests shall be recommended by the appropriate TAC subcommittee and approved by TAC.  Change requests as a result of an extreme event such as a hurricane or ice storm may be approved directly by TAC.  Such requests, if approved by the TAC, shall be in effect only for the requested year.
+18.4.3.2	Correction Procedure
+(1)	TSPs and/or DSPs are responsible for investigating each ESI ID identified by ERCOT or a Market Participant as having a potentially incorrect Load Profile ID assignment.  Market Participants may dispute an assignment of a Load Profile ID as described in Load Profiling Guide Section 14, Load Profile ID Dispute Procedure.
+18.4.4	Assignment of Weather Zones to Electric Service Identifiers
+(1)	TSPs and /or DSPs will assign each ESI ID to a Weather Zone, based on service address ZIP code.
+(2)	ERCOT will post to the ERCOT website a mapping of a Weather Zone to appropriate Customer registration element used in assigning Weather Zones.
+18.5	Additional Responsibilities
+(1)	This Section addresses responsibilities for Load Profiling not specified in other sections of the Protocols.
+18.5.1	ERCOT Responsibilities
+(1)	ERCOT will develop, administer, and maintain Load Profiles in accordance with these Protocols.  There may be extenuating circumstances including, but not limited to, prolonged widespread power outages that may necessitate ERCOT’s discretion for adjusting non-Interval Data Recorder (IDR) backcasted Load Profiles.  If an event requires ERCOT to utilize this discretion, ERCOT shall send a Market Notice within three Business Days of making the adjustments and report its action(s) and reason(s) for doing so to the next meeting of the appropriate Technical Advisory Committee (TAC) subcommittee.
+(2)	Any disputes related to the accuracy, appropriateness, or adjustment of Load Profiles shall be handled in accordance with Section 9.14, Settlement and Billing Dispute Process.
+18.5.2	Market Participant Responsibilities
+(1)	Market Participants shall use the appropriate TAC subcommittee as a forum for their input in the development and refinement of Load Profiles.
+(2)	Competitive Retailers (CRs) shall be responsible for reviewing any assignment of Load Profiles to Electric Service Identifiers (ESI IDs) they represent.
+18.6	Installation and Use of Interval Data Recorders
+18.6.1	Interval Data Recorder Mandatory Installation Requirements
+(1)	Interval Data Recorders (IDRs) are required and shall be installed and utilized for Settlement of Premises having either:
+(a)	A peak Demand greater than 700 kW (or 700 kVA in CenterPoint Energy’s service territory); or
+(b)	Service provided at transmission voltage (above 60 kV).
+(2)	All non-metered Loads such as street lighting, regardless of the aggregation level, shall not be required to install IDRs under the IDR Mandatory Installation Requirements.  These Loads shall be settled using Load Profiles.
+(3)	Municipally Owned Utilities (MOUs) and Electric Cooperatives (ECs) that opt-in to Customer Choice must install IDRs at all Premises subject to the IDR Mandatory Installation Requirements for metering prior to the effective date of their participation in the testing and integration requirements of ERCOT systems for Customer Choice.
+18.7	Transition of Interval Data Recorder Meter to AMS Profile Type
+(1)	At a Transmission and/or Distribution Service Provider’s (TDSP’s) discretion, or upon a Customer’s request and TDSP’s approval, a TDSP shall:
+(a)	Utilize a provisioned Advanced Meter or similarly functional meter for Customer’s Premise;
+(b)	Assign the appropriate Load Profile, other than one with a BUSIDRRQ Profile Type Code, to Premise’s Electric Service Identifier (ESI ID); 
+(c)	Submit Settlement Quality Meter Data, which will be used for Settlement, using the ERCOT specified file format for the interval data only in accordance with Retail Market Guide Section 7.15, Advanced Meter Interval Data File Format and Submission; 
+(d)	If the ESI ID will be transitioning to an Advanced Metering System (AMS) Profile Type other than BUSLRG or BUSLRGDG, submit a MarkeTrak issue to notify ERCOT; and
+(e)	Submit the appropriate Texas Standard Electronic Transaction (TX SET) transaction notifying the Competitive Retailer (CR) of the Load Profile change.
+ERCOT Nodal Protocols
+Section 19:  Texas Standard Electronic Transaction
+December 1, 2024
+ 
+19	Texas Standard Electronic Transaction	1
+19.1	Overview	1
+19.2	Methodology	1
+19.3	Texas Standard Electronic Transaction Definitions	2
+19.3.1	Defined Texas Standard Electronic Transactions	2
+19.4	Texas Standard Electronic Transaction Change Control Process	14
+19.4.1	Technical Advisory Committee Subcommittee Responsibilities	14
+19.4.2	ERCOT Responsibilities	14
+19.4.3	Texas SET Change Control Dispute Process	15
+19.4.4	Submission of Proposed Changes	15
+19.4.5	Urgent Change Request	15
+19.5	Texas Standard Electronic Transactions Acceptable Character Set	16
+19.5.1	Alphanumeric Field(s)	16
+19.6	Texas Standard Electronic Transaction Envelope Standards	16
+19.6.1	ERCOT Validation	16
+19.7	Advanced Meter Interval Data Format and Submission	16
+19.8	Retail Market Testing	16
+ 
+19	TEXAS STANDARD ELECTRONIC TRANSACTION
+(1)	This Section of the Protocols contains an overview of the purpose and scope of the Texas Standard Electronic Transaction (TX SET), and a series of definitions identifying the use of each transaction.  It also refers to the full Texas SET Implementation Guides, which are posted on the ERCOT website.
+19.1	Overview
+(1)	Texas Standard Electronic Transactions (TX SETs) provide the mechanism that enables and facilitates the retail business processes in the deregulated Texas electric market.  The Texas SET Implementation Guides and Texas SET Change Control process documents shall be posted on the ERCOT website.  The Texas SET Implementation Guides shall serve as the standard for the applicable TX SETs among all Market Participants and ERCOT.
+(2)	This Section shall cover:
+(a)	Transactions between Transmission and/or Distribution Service Providers (TDSPs) (refers to all TDSPs unless otherwise specified), Competitive Retailers (CRs) and ERCOT;
+(b)	Technical Advisory Committee (TAC) subcommittee and ERCOT responsibilities; and
+(c)	Texas SET Change Control process.
+19.2	Methodology
+(1)	In developing and maintaining the implementation guides, the appropriate Technical Advisory Committee (TAC) subcommittee shall:
+(a)	Develop standardized transactions, which support documented ERCOT market business requirements across all Market Participants and ERCOT;
+(b)	Develop Electronic Data Interchange (EDI) transactions using American National Standards Institute Accredited Standards Committee X12 (ANSI ASC X12) standards;
+(c)	Develop Extensible Markup Language (XML) transactions as needed;
+(d)	Develop other spreadsheets, templates, comma separated value (CSV) files, etc. as needed;
+(e)	Follow ‘Best Practices’ as identified in the overall technology market place related to development of Texas Standard Electronic Transactions (TX SETs); and
+(f)	Develop processes and procedures for the management of changes to TX SETs and the release of new versions of TX SETs.
+19.3	Texas Standard Electronic Transaction Definitions
+19.3.1	Defined Texas Standard Electronic Transactions
+(1)	Service Order Request (650_01)
+This transaction set:
+(a)	From the Competitive Retailer (CR) to the Transmission and/or Distribution Service Provider (TDSP) via point to point protocol, is used to initiate the original service order request, cancel request, or change/update request.
+(b)	For every 650_01, Service Order Request, there will be a 650_02, Service Order Response. 
+(2)	Service Order Response (650_02)
+This transaction set:
+(a)	From the TDSP to the CR via point to point protocol, is used to send a response to the CR’s original 650_01, Service Order Request, that the transaction is complete, complete unexecutable, rejected, or requires a permit.
+(b)	For every 650_01 transaction, there will be a 650_02 transaction.
+(3)	Planned or Unplanned Outage Notification (650_04)
+This transaction set:
+(a)	From the TDSP to the CR via point to point protocol, is used to notify the CR of a suspension of delivery service or to cancel the suspension of delivery service.
+(b)	From Municipally Owned Utility/Electric Cooperative (MOU/EC) TDSP to CR via point to point protocol, is used to notify the CR of disconnect/reconnect of delivery service for non-payment of wires charges, unless otherwise indicated in Retail Market Guide Section 8.1, Municipally Owned Utility and/or Electric Cooperative Transmission and/or Distribution Service Provider Market.
+(4)	Planned or Unplanned Outage Response (650_05)
+This transaction set is no longer valid as of Texas Standard Electronic Transaction (SET) 4.0.
+(5)	TDSP Invoice (810_02)
+This transaction set:
+From the TDSP to the CR via point to point protocol, is an invoice for wire charges as listed in each TDSP tariff (i.e., delivery charges, late payment charges, discretionary service charges, etc.).  The 810_02, TDSP Invoice, may be paired with an 867_03, Monthly or Final Usage, to trigger the Customer billing process.
+(6)	MOU/EC Invoice (810_03)
+This transaction set:
+From the CR to the MOU/EC TDSP via point to point protocol, is an invoice for monthly energy charges, discretionary, and service charges for the current billing period, unless otherwise indicated in Retail Market Guide Section 8.1.  The 810_03, MOU/EC Invoice, will be preceded by an 867_03, Monthly or Final Usage, to trigger the Customer billing process.
+(7)	Maintain Customer Information Request (814_PC)
+This transaction set:
+(a)	From a CR to the TDSP via point to point protocol, is used to maintain the information needed by the TDSP to verify the CR’s end use Customer’s identity (i.e., name, address and contact phone number) for a particular point of delivery served by the CR.  A CR shall be required to provide TDSP with the information to contact the Customer and to continuously provide TDSP updates of changes in such information. 
+(b)	From the CR to the TDSP via point to point protocol, will be transmitted only after the CR has received the 867_04, Initial Meter Read, from the TDSP for that specific move in Customer.  Also, the CR will not transmit this transaction set and/or provide any updates to the TDSP after receiving the 867_03, Monthly or Final Usage, final meter read for that specific move out Customer.  
+(c)	From a MOU/EC TDSP to CR via point to point protocol, is used to provide the CR with updated Customer information (name, address, membership ID, home phone number, etc.) for a particular point of delivery served by both the MOU/EC TDSP and the CR and to continuously provide CR updates of such information, unless otherwise indicated in Retail Market Guide Section 8.1.
+(8)	Maintain Customer Information Response (814_PD)
+This transaction set:
+From the TDSP to the CR via point to point protocol, or from the CR to MOU/EC TDSP via point to point protocol, unless otherwise indicated in Retail Market Guide Section 8.1, is used to respond to the 814_PC, Maintain Customer Information Request.
+(9)	Switch Request (814_01)
+This transaction set:
+From a new CR to ERCOT, is used to begin the Customer enrollment process for a switch.
+(10)	Switch Reject Response (814_02)
+This transaction set:
+From ERCOT to the new CR, is used by ERCOT to reject the 814_01, Switch Request, based on incomplete or invalid information.  This is a conditional transaction and will only be used as a negative response.  If the 814_02, Switch Reject Response, is not received from ERCOT, the new CR will receive the 814_05, CR Enrollment Notification Response, from ERCOT.
+(11)	Enrollment Notification Request (814_03)
+This transaction set: 
+(a)	From ERCOT to the TDSP, passes information from the 814_01, Switch Request; 814_16, Move In Request; or an 814_24, Move Out Request, where a Continuous Service Agreement (CSA) exists.
+(b)	The historical usage, if requested by the submitter of the initiating transaction, will be sent using the 867_02, Historical Usage.
+(c)	Will be initiated by ERCOT and transmitted to the TDSP in the event of a Mass Transition.
+(d)	Will be initiated by ERCOT and transmitted to the TDSP in the event of an Acquisition Transfer.
+(12)	Enrollment Notification Response (814_04)
+This transaction set:
+From the TDSP to ERCOT, is used to provide the scheduled meter read date that the TDSP has calculated and pertinent Customer and Premise information in response to an 814_01, Switch Request; 814_16, Move In Request; 814_24, Move Out Request, where a CSA exists initiated by a CR or a Mass Transition or Acquisition Transfer of Electric Service Identifiers (ESI IDs) initiated by ERCOT.  TDSPs will acknowledge the initiating CRs request for historical usage with this transaction but will send the usage using the 867_02, Historical Usage.  
+(13)	CR Enrollment Notification Response (814_05)
+This transaction set:
+From ERCOT to the new CR, is essentially a pass through of the TDSP’s 814_04, Enrollment Notification Response, information.  This transaction will provide the scheduled meter read date for the CR’s 814_01, Switch Request, or 814_16, Move In Request.
+(14)	Loss Notification (814_06)
+This transaction set:
+From ERCOT to the current CR, is used to notify a current CR of a drop initiated by an 814_01, Switch Request, or drop notification due to a pending 814_16, Move In Request, from a new CR.
+(15)	Loss Notification Response (814_07)
+This transaction set is no longer valid as of Texas SET 4.0.
+(16)	Cancel Request (814_08)
+This transaction set:
+(a)	From ERCOT to the TDSP, is used to cancel an 814_03, Enrollment Notification Request, or an 814_24, Move Out Request. 
+(b)	From ERCOT to the current CR, is used to cancel an 814_06, Loss Notification, (forced Move-Out or Switch Request), an 814_24 transaction, or an 814_11, Drop Response. 
+(c)	From ERCOT to the new CR, is used to cancel an 814_01, Switch Request, an 814_16, Move In Request, or an 814_14, Drop Enrollment Request.
+(d)	From the current CR to ERCOT, is used to cancel an 814_24 transaction.  
+(e)	From the new CR to ERCOT, is used to cancel an 814_01 or an 814_16 transaction.
+(f)	From ERCOT to the CSA CR, is used to cancel an 814_22, CSA CR Move In Request. 
+(g)	From ERCOT to the requesting CR/Provider of Last Resort (POLR), is used to cancel pending transactions involved in a Mass Transition.
+(h)	From ERCOT to the Gaining CR, is used to cancel pending transaction involved in an Acquisition Transfer.
+(17)	Cancel Response (814_09)
+This transaction set:
+(a)	From the TDSP to ERCOT, is used in response to the cancellation of an 814_03, Enrollment Notification Request, or an 814_24, Move Out Request. 
+(b)	From the current CR to ERCOT, is no longer valid as of Texas SET 4.0. 
+(c)	From the new CR to ERCOT, is no longer valid as of Texas SET 4.0.
+(d)	From ERCOT to the current CR, is used in forwarding the response of the Customer cancel of an 814_24 transaction.
+(e)	From CSA CR to ERCOT, is no longer valid as of Texas SET 4.0.  
+(f)	From ERCOT to the submitter of an 814_08, Cancel Request, is used to reject the cancellation request.
+(g)	From POLR to ERCOT, is no longer valid as of Texas SET 4.0. 
+(18)	Drop Request (814_10)
+This transaction set is no longer valid as of March 8, 2007 (Reference Project No. 33025, PUC Rulemaking Proceeding to Amend Commission Substantive Rules Consistent With §25.43, Provider of Last Resort (POLR)). 
+(19)	Drop Response (814_11)
+This transaction set:
+(a)	From ERCOT to the current CR, is sent within one Retail Business Day to notify the CR that the request is invalid. 
+(b)	From ERCOT to the current CR, is used in response to a Mass Transition.
+(c)	From ERCOT to the current CR, is used in response to an Acquisition Transfer.
+(20)	Date Change Request (814_12)
+This transaction set:
+(a)	From new CR to ERCOT, is used when the Customer requests a date change to the original 814_16, Move In Request.
+(b)	From ERCOT to the current CR, is used for a notification of the date change on the 814_16 transaction, from the new CR.
+(c)	From ERCOT to the TDSP, is used for notification of a move in or move out date change request.
+(d)	From the current CR to ERCOT, is used when the Customer requests a date change to the original 814_24, Move Out Request.
+(e)	From ERCOT to the new CR, is used for notification of the date change on the 814_24 transaction from the current CR.
+(f)	From ERCOT to the CSA CR, is used for notification of the date change on the 814_24 transaction only.  
+(21)	Date Change Response (814_13)
+This transaction set:
+(a)	From ERCOT to new CR, is used to respond to the requested date change to the original move in date on the 814_12, Date Change Request.
+(b)	From the current CR to ERCOT, is no longer valid as of Texas SET 4.0.  
+(c)	From the CSA CR to ERCOT, is no longer valid as of Texas SET 4.0. 
+(d)	From the TDSP to ERCOT, is used to respond to the requested date change to the original move in or move out date on the 814_12 transaction.
+(e)	From ERCOT to the current CR, is used to respond to the requested date change to the original move out date on the 814_12 transaction.
+(f)	From the new CR to ERCOT, is no longer valid as of Texas SET 4.0.  
+(22)	Drop Enrollment Request (814_14)
+This transaction set: 
+(a)	From ERCOT to the POLR or designated CR, is used in response to a Mass Transition.
+(b)	From ERCOT to the Gaining CR, is used in response to an Acquisition Transfer.
+(23)	Drop Enrollment Response (814_15)
+This transaction set is no longer valid as of Texas SET 4.0.  
+(24)	Move In Request (814_16)
+This transaction set:
+From the new CR to ERCOT, is used to begin the Customer enrollment process for a move in.
+(25)	Move In Reject Response (814_17)
+This transaction set:
+From ERCOT to the new CR, is used by ERCOT to reject the 814_16, Move In Request, based on incomplete or invalid information.  This is a conditional transaction and will only be used as a negative response.  If the 814_17, Move In Reject Response, is not received from ERCOT, the CR will receive the 814_05, CR Enrollment Notification Response.
+(26)	Establish/Change/Delete CSA Request (814_18)
+This transaction set:
+(a)	From the new CSA CR to ERCOT, is used to establish the owner/landlords’ new CSA CR in the registration system.
+(b)	From the current CSA CR to ERCOT, is used to change an existing CSA CR end date.
+(c)	From the current CSA CR to ERCOT, is used to remove an existing CSA CR from the registration system.
+(d)	From ERCOT to the current CSA CR, is used for notification that the owner/landlord has selected a new CSA CR.
+(e)	From ERCOT to the MOU/EC TDSP, is used to validate the CSA relationship information in the MOU/EC TDSP’s system, unless otherwise indicated in Retail Market Guide Section 8.1. 
+(f)	From ERCOT to the MOU/EC TDSP, is used for notification of a change in CSA end date, unless otherwise indicated in Retail Market Guide Section 8.1.
+(g)	From ERCOT to the MOU/EC TDSP, is used for notification of CSA deletion, unless otherwise indicated in Retail Market Guide Section 8.1.
+(27)	Establish/Change/Delete CSA Response (814_19)
+This transaction set:
+(a)	From ERCOT to the new CSA CR, is used to respond to the 814_18, Establish/Change/Delete CSA Request, enrolling the new CSA CR in the registration system.
+(b)	From ERCOT to the new CSA CR, is used to respond to the 814_18 transaction changing the end date for the current CSA CR in the registration system.
+(c)	From ERCOT to the current CSA CR, is used to respond to the 814_18 transaction deleting the current CR from the registration system.
+(d)	From the current CSA CR to ERCOT, is no longer valid as of Texas SET 4.0.  
+(e)	From the MOU/EC TDSP to ERCOT, is used to provide a response to the 814_18 transaction, unless otherwise indicated in Retail Market Guide Section 8.1.
+(28)	ESI ID Maintenance Request (814_20)
+This transaction set:
+(a)	From the TDSP to ERCOT, is used to initially populate the registration system for conversion/opt-in.
+(b)	From the TDSP to ERCOT, is used to communicate the addition of a new ESI ID, changes to information associated with an existing ESI ID, or retirement of an existing ESI ID.
+(c)	From ERCOT to current CR and any pending CR(s), is notification of the TDSP’s changes to information associated with an existing ESI ID. 
+(29)	ESI ID Maintenance Response (814_21)
+This transaction set:
+(a)	From ERCOT to TDSP, is used to respond to the 814_20, ESI ID Maintenance Request.
+(b)	From the current CR and any pending CR(s) to ERCOT, is no longer valid as of Texas SET 4.0. 
+(c)	From the new CR to ERCOT, is no longer valid as of Texas SET 4.0. 
+(30)	CSA CR Move In Request (814_22)
+This transaction set:
+From ERCOT to CSA CR, is used to start a CSA service for the ESI ID.
+(31)	CSA CR Move In Response (814_23)
+This transaction set:
+From the CSA CR to ERCOT, is no longer valid as of Texas SET 4.0. 
+(32)	Move Out Request (814_24)
+This transaction set:
+(a)	From the current CR to ERCOT, is used for notification of a Customer’s Move Out Request.
+(b)	From ERCOT to the TDSP, is notification of the Customer’s Move Out Request.  If a CSA exists on the ESI ID, then the 814_03, Enrollment Notification Request, is sent instead of the 814_24, Move Out Request.
+(33)	Move Out Response (814_25)
+This transaction set:
+(a)	From the TDSP to ERCOT to the current CR, is used to respond to the 814_24, Move Out Request.  If a CSA exists on the ESI ID and ERCOT sent the 814_03, Enrollment Notification Request, instead of the 814_24 transaction, the TDSP will then respond with the 814_04, Enrollment Notification Response.
+(b)	From ERCOT to the current CR, is used to respond to the 814_24 transaction.
+(34)	Historical Usage Request (814_26)
+This transaction set:
+(a)	From the current CR to ERCOT, is used to request the historical usage for an ESI ID.
+(b)	From ERCOT to the TDSP, it is a pass through of the current CR’s 814_26, Historical Usage Request.
+(35)	Historical Usage Response (814_27)
+This transaction set:
+(a)	From the TDSP to ERCOT, is used to respond to the 814_26, Historical Usage Request.
+(b)	From ERCOT to the current CR, is a pass through of the TDSP’s response to the 814_26 transaction.
+(36)	Complete Unexecutable or Permit Required (814_28)
+This transaction set:
+(a)	For a move out, is from the TDSP to ERCOT, and from ERCOT to the current CR, to notify the current CR the move out was unexecutable.  Upon sending this transaction, the TDSP closes the initiating move out transaction.  The CR must initiate corrective action and resubmit the Move-Out Request.
+(b)	For a move in, is from the TDSP to ERCOT, and from ERCOT to the new CR, or the current CR for energized accounts, to notify the CR that the work was complete unexecutable, or that a permit is required.  Upon sending this transaction to notify the new CR of a complete unexecutable, the TDSP closes the initiating transaction.  The new CR must initiate corrective action and resubmit the Move-In Request.
+(c)	Upon sending the 814_28 (PT) transaction to notify the new CR that a permit is required, ERCOT will allow the TDSP 20 Retail Business Days to send the 814_04, Enrollment Notification Response, due to permit requirements.  After the 20 Retail Business Days, if no 814_04 transaction is received, ERCOT will then issue an 814_08, Cancel Request.  If the move in is cancelled due to permit not received, ERCOT will note the reason in the 814_08 transaction.
+(d)	For a switch, is from the TDSP to ERCOT, and from ERCOT to the new CR or current CR, to notify CRs that the work has been complete unexecutable.
+(37)	Complete Unexecutable or Permit Required Response (814_29)
+This transaction set:
+(a)	From ERCOT to the TDSP to reject the 814_28, Complete Unexecutable or Permit Required.
+(b)	From the CR (current CR for a move out or a new CR for a move in) to ERCOT, and from ERCOT to the TDSP is no longer valid as of Texas SET 4.0. 
+(38)	CR Remittance Advice (820_02)
+This transaction set:
+(a)	From the CR to the TDSP, is used as a remittance advice concurrent with a corresponding payment to the TDSP banking institution for a dollar amount equal to the total of the itemized payments in the 820_02, CR Remittance Advice.  This transaction will reference the 810_02, TDSP Invoice, by ESI ID.  If payment and remittance are transmitted together to a financial institution, this implementation guide may be used as a baseline for discussion with the payer’s financial institution.  All “must use” fields in the 820_02 transaction must be forwarded to the payer’s financial institution and be supported by the payee’s financial institution.   
+(b)	A single payment sent via the bank and a single remittance sent to the TDSP can include multiple invoices, however a one to one correlation must exist between the payment submitted to the bank and the corresponding remittance advice to the TDSP.  
+(39)	MOU/EC Remittance Advice (820_03)
+This transaction set:
+From the MOU/EC TDSP to the CR, is used as a remittance advice concurrent with a corresponding payment to the CR banking institution for a dollar amount equal to the total of the itemized payments in the 820_03, MOU/EC Remittance Advice, unless otherwise indicated in Retail Market Guide Section 8.1.  This transaction will reference the CR’s Customer account number and ESI ID.  If payment and remittance are transmitted together to a financial institution, this implementation guide may be used as a baseline for discussion with the payer’s financial institution.  All “must use” fields in the 820_03 transaction, must be forwarded to the payer’s financial institution and be supported by the payee’s financial institution.
+(40)	Invoice or Usage Reject Notification (824)
+This transaction set:
+(a)	From the CR to the TDSP, is used by the CR to reject and/or accept with exception the 810_02, TDSP Invoice, sent by the TDSP. 
+(b)	From ERCOT to the TDSP, is used to reject the 867_03, Monthly or Final Usage, transaction sent by the TDSP.
+(c)	From the CR to ERCOT, is used to reject the 867_03 transaction sent by ERCOT.
+(d)	From the MOU/EC TDSP to the CR, is used to reject the 810_03, MOU/EC Invoice, sent by the CR, unless otherwise indicated in Retail Market Guide Section 8.1.
+(41)	Historical Usage (867_02)
+This transaction set:
+(a)	From the TDSP to ERCOT, is used to report historical usage.
+(b)	From ERCOT to the CR, is essentially a pass through of the TDSP’s 867_02, Historical Usage.
+(42)	Monthly or Final Usage (867_03)
+This transaction set:
+(a)	From the TDSP to ERCOT, is used to report monthly usage.
+(b)	From ERCOT to the CR, is essentially a pass through of the TDSP’s 867_03, Monthly or Final Usage.
+(c)	From ERCOT to the TDSP or CR, is for ERCOT polled services.
+(43)	Initial Meter Read (867_04)
+This transaction set:
+(a)	From the TDSP to ERCOT, is used to report the initial read associated with an 814_01, Switch Request, or an 814_16, Move In Request.
+(b)	From ERCOT to the new CR, is used to report the initial read associated with an 814_01 or 814_16 transaction.
+(44)	Functional Acknowledgement (997)
+This transaction set:
+(a)	From the receiver of the originating transaction to the sender of the originating transaction, is used to acknowledge the receipt of the originating transaction and indicate whether the transaction passed American National Standards Institute Accredited Standards Committee X12 (ANSI ASC X12) validation.  This acknowledgement does not imply that the originating transaction passed TX SET validation.  The CR, TDSP, or ERCOT shall respond with a 997, Functional Acknowledgement, within 24 hours of receipt of an inbound transaction.
+(b)	Provides a critical audit trail.  All parties must send a 997 transaction for all Electronic Data Interchange (EDI) transactions.  Parties will track and monitor acknowledgements sent and received.
+(45)	Option 1 Outages:  Outage Status Request (T0)
+This transaction set:
+From a CR to TDSP, is used to request outage status.  This is not a required transaction for an Option 1 CR reporting unplanned outages.  
+(46)	Option 1 Outages:  Trouble Reporting Request (T1)
+This transaction set:
+From a CR to TDSP, is used to report an outage or service irregularity requiring near Real-Time outage response.  This is a required transaction for an Option 1 CR to electronically transmit to the TDSP for every valid outage or service irregularity reported.
+(47)	Option 1 Outages:  Trouble Report Acknowledgement (T2)
+This transaction set:
+From a TDSP to CR, is used to acknowledge the receipt of a T1, Option 1 Outages: Trouble Reporting Request, with either an acceptance or a rejection response.  This is a required transaction for the TDSP when an Option 1 CR utilizes the T1 transaction.  
+(48)	Option 1 Outages:  Status Response (T3)
+This transaction set:
+From a TDSP to CR, is used to provide status information for a previously submitted T0, Option 1 Outages:  Outage Status Request, message.  This is a required transaction for the TDSP when an Option 1 CR utilizes the T0 transaction.  
+(49)	Option 1 Outages:  Trouble Completion Report (T4)
+This transaction set:
+From a TDSP to CR, is used by the TDSP to notify the CR that the trouble condition has been resolved.  This is a required transaction for the TDSP when an Option 1 CR utilizes the T1, Option 1 Outages:  Trouble Reporting Request, transaction.
+19.4	Texas Standard Electronic Transaction Change Control Process
+(1)	The appropriate Technical Advisory Committee (TAC) subcommittee shall make modifications and additions to the Texas Standard Electronic Transactions (TX SETs) in accordance with this Section.  TX SETs will be expanded and modified to accommodate retail market operations or regulatory requirements on an ongoing basis.  Each Market Participant will rely on established, documented, and tested transactions.  The Texas SET Change Control process provides the mechanism by which changes to the Texas SET Implementation Guides may be discussed, reviewed, accepted, and implemented.
+19.4.1	Technical Advisory Committee Subcommittee Responsibilities
+(1)	The appropriate TAC subcommittee will continue to:
+(a)	Review and approve Texas SET Change Controls;
+(b)	Classify a Texas SET Change Control request as urgent when the change meets the criteria in Section 19.4.5, Urgent Change Request;
+(c)	Review and approve Texas SET Implementation Guides; and 
+(d)	Coordinate timing for changes in any of the TX SETs.
+19.4.2	ERCOT Responsibilities
+(1)	ERCOT will facilitate the activities listed in Section 19.4, Texas Standard Electronic Transaction Change Control Process, by overseeing the Texas SET Change Control activities of the TX SETs.
+(2)	ERCOT, in conjunction with the appropriate TAC subcommittee, will maintain, publish, and post the Texas SET Implementation Guides and the Texas SET Change Controls requesting modifications and enhancements, to the ERCOT website.
+(a)	The Texas SET Change Controls shall be published by ERCOT within seven Retail Business Days of approval by the appropriate TAC subcommittee. 
+(b)	The approved Texas SET Implementation Guides shall be published by ERCOT at a predetermined time as set by the appropriate TAC subcommittee.  
+19.4.3	Texas SET Change Control Dispute Process
+(1)	A Market Participant may register a dispute with ERCOT by completing the designated form provided on the ERCOT website within seven days after the date of the appropriate TAC subcommittee decision. ERCOT shall reject disputes made after that time.  The dispute shall be submitted to txsetchangecontrol@ercot.com.  ERCOT shall post disputes with the applicable change control within three Business Days of receiving the dispute. 
+(2)	Disputes shall be heard at the next regularly scheduled TAC meeting.  However, if the dispute is posted within seven days of the TAC meeting the dispute will not be heard until the subsequent TAC meeting.  A dispute of a Texas SET Change Control to TAC suspends any further decisions on the Texas SET Change Control until the dispute has been decided by TAC.
+19.4.4	Submission of Proposed Changes
+(1)	An Entity proposing a change shall notify ERCOT by submitting the designated form provided on the ERCOT website.
+(2)	Texas SET Change Controls will be processed in accordance with the Texas Standard Electronic Transaction Implementation Guides Change Control Process located on the ERCOT website.  
+(3)	Texas SET Change Controls will proceed on a normal timeline unless classified as urgent as described in Section 19.4.5, Urgent Change Request.
+19.4.5	Urgent Change Request
+(1)	A Texas SET Change Control may be classified as urgent by the appropriate TAC subcommittee and will accommodate:
+(a)	An approved regulatory requirement; and /or
+(b)	Necessary corrective action to retail market processes.
+(2)	Urgent Texas SET Change Controls shall be implemented as prescribed by the approving TAC subcommittee. 
+19.5	Texas Standard Electronic Transactions Acceptable Character Set
+19.5.1	Alphanumeric Field(s)
+(1)	For use on an alphanumeric field, Texas Standard Electronic Transaction (TX SET) recognizes all characters within the basic character set.  Further clarification and additional character set validations are available within each Texas SET Implementation Guide that is located on the ERCOT website.
+19.6	Texas Standard Electronic Transaction Envelope Standards
+19.6.1	ERCOT Validation
+(1)	ERCOT acts as the certificate authority and generates a digital certificate on behalf of each Market Participant.  The Market Participant must be identified uniquely within the ERCOT System.
+19.7	Advanced Meter Interval Data Format and Submission
+(1)	Transmission and/or Distribution Service Providers (TDSPs) will provide 15-minute interval data to ERCOT from provisioned Advanced Meters and Municipally Owned Utility (MOU) / Electric Cooperative (EC) Non-BUSIDRRQ Interval Data Recorders (IDRs) using an ERCOT specified file format submitted via North American Energy Standards Board (NAESB) on at least a monthly basis.
+19.8	Retail Market Testing 
+(1)	The Texas Standard Electronic Transaction (TX SET) Working Group works with the ERCOT flight administrator to develop and maintain a test plan and related testing standards for all retail transactional changes within the ERCOT market.  
+(2)	Market Participants may be required to successfully test as a means of confirming that each Market Participant is qualified to transmit TX SET transactions as a result of approved changes prior to production implementation.  Some of these changes include, but may not be limited to:
+(a)	North American Energy Standards Board (NAESB) Practice Standards version upgrade(s) as outlined in the TDTMS NAESB Electronic Delivery Mechanism V 1.6 Implementation Guide; and/or
+(b)	TX SET version release upgrade(s) as outlined in the Texas Standard Electronic Transaction Implementation Guides.
+(3)	ERCOT may also deem testing to be necessary by Market Participants in order that ERCOT may maintain retail systems’ performance, reliability and integrity as outlined in the Retail and ListServ Market IT Services Service Level Agreement and the Market Data Transparency Service Level Agreement.   
+(4)	Testing of these changes shall be scheduled by ERCOT with approval by impacted Market Participants to allow ERCOT and all impacted Market Participants adequate time to modify their systems and participate in the testing process.  Testing processes, procedures, schedules and success criteria are defined in the Texas Market Test Plan (TMTP) Guide and on the ERCOT website.  The ERCOT flight administrator is the final authority on all levels of retail business process qualification among trading partners.  
+(5)	ERCOT may enlist the services of an Independent Third Party Testing Administrator (ITPTA) for testing retail processes.
+(6)	For additional testing requirements for both new and existing Market Participants, please refer to the Texas Market Test Plan.
+ERCOT Nodal Protocols
+Section 20:  Alternative Dispute Resolution Procedure and Procedure for Return of Settlement Funds
+November 1, 2023
+
+ 
+20	Alternative Dispute Resolution Procedure and Procedure for Return of Settlement Funds	20-1
+20.1	Applicability	20-1
+20.2	Deadline for Initiating ADR Proceeding	20-2
+20.3	Exhaustion of Other Dispute Resolution Procedures	20-2
+20.4	Initiation of ADR Proceedings	20-3
+20.5	Alternative Dispute Resolution Process	20-4
+20.6	Mediation Procedures	20-5
+20.7	Alternative Dispute Resolution Costs and Return of Settlement Funds	20-6
+20.8	Requests for Documents and Data	20-6
+20.9	Resolution of Alternative Dispute Resolution Proceedings and Notification to Market Participants	20-6
+20.10	Return of Settlement Funds by a Qualified Scheduling Entity or Congestion Revenue Right Account Holder to ERCOT	20-7
+20.10.1	Applicability	20-7
+20.10.2	Initiation of Return of Settlement Funds	20-7
+20.10.3	Process for a Return of Settlement Funds Request	20-8
+20.10.4	Settlement Following Approved Return of Settlement Funds	20-8
+20.11	Settlement of Approved Alternative Dispute Resolution Claims	20-9
+20.11.1	Adjustments Based on Alternative Dispute Resolution	20-9
+20.11.2	Charges for Approved ADR Claim	20-9
+ 
+20	ALTERNATIVE DISPUTE RESOLUTION PROCEDURE AND PROCEDURE FOR RETURN OF SETTLEMENT FUNDS
+20.1	Applicability
+(1)	Except as otherwise provided in Section 20, Alternative Dispute Resolution Procedure and Procedure for Return of Settlement Funds, this Alternative Dispute Resolution (ADR) procedure applies to any claim by a Market Participant that ERCOT has violated or misinterpreted any law, including any statute, rule, Protocol, Other Binding Document, or Agreement, where such violation or misinterpretation results in actual harm, or could result in imminent harm, to the Market Participant.  A Market Participant that disputes an interpretation of the ERCOT Protocols, an Other Binding Document, or an Agreement made by ERCOT through the Protocol interpretation request process described in subsection (i) of P.U.C. SUBST. R. 25.503, Oversight of Wholesale Market Participants, is not required to follow the ADR procedure prior to seeking relief from the Public Utility Commission of Texas (PUCT) or other Governmental Authority.
+(2)	Only a Counter-Party may request ADR to seek correction of Settlement data and resettlement, except that:
+(a)	A Market Participant that is not a Counter-Party may submit an ADR request seeking correction of Settlement data and resettlement on behalf of an affected Counter-Party upon providing ERCOT written documentation executed by the Authorized Representative of the Counter-Party designating the Market Participant as the Counter-Party’s agent for purposes of submitting the ADR request; and
+(b)	A Load Serving Entity (LSE), with its Counter-Party, or a Transmission and/or Distribution Service Provider (TDSP) may submit an ADR request for correction of Electric Service Identifier (ESI ID) service history, usage information, and/or resettlement, as set forth in these Protocols and the Retail Market Guide.
+(3)	Nothing in this ADR procedure is intended to limit or restrict the right of a Market Participant to file a petition seeking direct relief from the PUCT or another Governmental Authority without first exhausting this ADR procedure where actual or threatened action by ERCOT or a Market Participant could cause irreparable harm and where such harm cannot be addressed within the time permitted under the ADR process.
+(4)	Except for the provisions of this Section 20.1, the ADR procedure may be modified by mutual agreement of the parties.
+(5)	Parties shall exercise good faith efforts to timely resolve disputes under Section 20.
+(6)	Nothing contained in Section 20 is intended to supersede any dispute resolution process mandated by applicable law or tariff.  Furthermore, this ADR procedure does not apply to any dispute concerning an agreement between Market Participants or the terms of any tariff.  To the extent any dispute not governed by Section 20 involves the interpretation of the ERCOT Protocols, an Other Binding Document, or an Agreement, that dispute may be submitted to ERCOT through the Protocol interpretation request process described in subsection (i) of P.U.C. SUBST. R. 25.503.
+20.2	Deadline for Initiating ADR Proceeding
+(1)	The following deadlines shall apply for the initiation of an Alternative Dispute Resolution (ADR) proceeding:
+(a)	For any ADR proceeding invoked in connection with a Settlement and billing dispute submitted pursuant to Section 9.14, Settlement and Billing Disputes, the Market Participant must submit a complete written request for ADR no later than 45 days after the resolution date on which ERCOT denied the Market Participant’s Settlement and billing dispute.
+(b)	For any ADR proceeding invoked in connection with the rejection or rescission (or a portion thereof) of a verifiable cost, or rejection of a verifiable cost appeal, the Market Participant must submit a complete written request for ADR no later than 45 days after either:
+(i)	Rejection or rescission (or a portion thereof) of a verifiable cost; or 
+(ii)	Notice from ERCOT that the appeal, in whole or in part, has been rejected. 
+(c)	For any ADR proceeding invoked in connection with a disagreement arising from a Data Extract Variance process, the Market Participant must submit a complete written request for ADR no later than 45 days after issuance of the True-Up Statement for the applicable Operating Day.
+(d)	For any ADR proceeding invoked in connection with any other matter, the Market Participant must submit a complete written request for ADR no later than six months after the date on which information giving rise to the ADR request became available to the Market Participant.
+(2)	If the Market Participant requesting ADR does not submit a complete written request for ADR (as set forth in Section 20.4, Initiation of ADR Proceedings) within the time required by paragraph (1) above, the Market Participant waives any claim regarding the dispute.
+20.3	Exhaustion of Other Dispute Resolution Procedures
+(1)	When a section of these Protocols, an Other Binding Document, or an Agreement sets forth a dispute resolution procedure, a Market Participant shall exhaust that procedure prior to initiating an Alternative Dispute Resolution (ADR) proceeding, including but not limited to the following:
+(a)	If a Market Participant seeks resolution of a variance subject to the Data Extract Variance Process, the Market Participant must comply with that process prior to initiating an ADR proceeding, or the claim is waived.
+(b)	If a Counter-Party seeks correction of Settlement data and resettlement, except for resolution of a variance subject to the Data Extract Variance Process as described in paragraph (a) above, the Counter-Party must comply with the process set forth in Section 9.14, Settlement and Billing Dispute Process, prior to initiating an ADR proceeding, or the claim is waived.  
+20.4	Initiation of ADR Proceedings
+(1)	To initiate an Alternative Dispute Resolution (ADR) proceeding, a Market Participant shall complete and submit to the ERCOT Legal Department the designated form provided on the ERCOT website in the manner required by the form.
+(a)	All written requests shall include the following information:
+(i)	The name of the disputing Market Participant;
+(ii)	A description of the relief sought;
+(iii)	A detailed description of the grounds for the relief and the basis of each claim that must, at a minimum, identify which statute(s), rule(s), Protocol Section(s), Other Binding Document(s), Agreement(s) or other law(s) are alleged to have been violated;
+(iv)	A list of all other parties that would be affected by the dispute; and
+(v)	Designation of a senior dispute representative.  
+(b)	For ADR proceedings for which the Market Participant seeks a monetary resolution, the Market Participant shall also include the following information:
+(i)	Operating Day(s) involved in the dispute;
+(ii)	Settlement dispute number (if applicable); and
+(iii)	Amount of compensation requested.
+(2)	The date on which ERCOT receives the completed ADR written request shall be the ADR initiation date.
+20.5	Alternative Dispute Resolution Process
+(1)	No later than seven days after the Alternative Dispute Resolution (ADR) initiation date, ERCOT shall determine, and provide Notice to, all parties directly involved in the dispute.  Such Notice shall include the ADR file number and the designation of the ERCOT senior dispute representative.  
+(2)	For ADR proceedings that involve more than one Market Participant, each Market Participant other than the Market Participant that submitted the ADR request shall provide the name and contact information of a senior dispute representative no later than seven days after receipt of Notice from ERCOT pursuant to paragraph (1) above.  If a Market Participant does not provide this information within the time required, the Market Participant waives its right to participate in the ADR proceeding.
+(3)	Any dispute subject to ADR as described in this Section shall be referred to a senior dispute representative of each of the parties to the dispute.  The senior dispute representative shall be an individual with authority to resolve the dispute (through delegation or otherwise).  A disputing party may change its senior dispute representative upon reasonable written notice to all parties though such redesignation shall not extend any of the ADR timelines.
+(4)	The parties to the dispute shall arrange a mutually convenient time and place for a meeting, with the initial ADR meeting taking place no later than 75 days after the ADR initiation date unless all parties agree to an extension of time.  If the party that submitted the request for ADR fails to make reasonable efforts to schedule and attend the initial ADR meeting within the time required (including any agreed-upon extension of time), ERCOT may, in its sole discretion, deny the dispute.
+(5)	After the initial ADR meeting, ERCOT may approve or deny the dispute in whole or in part by issuing the disposition Market Notice described in paragraph (1) of Section 20.9, Resolution of Alternative Dispute Resolution Proceedings and Notification to Market Participants.  ERCOT must issue the Market Notice disposing of the ADR request no later than 30 days after the initial ADR meeting unless all parties agree in writing to an extension of time.
+(6)	If the senior dispute representatives cannot resolve the dispute by mutual agreement within 45 days after the initial senior dispute resolution meeting (unless all parties agree in writing to an extension of time), then, upon the agreement of all parties to the ADR, the dispute may be referred to mediation pursuant to Section 20.6, Mediation Procedures.
+(7)	The parties to the dispute may elect to waive ADR by written agreement, which will also complete the ADR proceeding. 
+(8)	The following table summarizes the ADR process timelines:
+Deadline to submit ADR Request 
+to ERCOT	ERCOT 
+Notice of Receipt	 Other Market Participant
+Contact Info 
+to ERCOT1		ERCOT/ Market Participant
+Initial ADR meeting	ERCOT/ Market Participant
+resolution of ADR
+≤ 45 days
+of denial (Settlement and billing dispute denied by ERCOT)
+≤ 45 days
+of True-Up (Data Extract Variance dispute not resolved by True-Up)
+≤ 6 months
+from date on which information giving rise to ADR request became available (any other dispute)
+	≤ 7 days
+after ADR initiation date	
+≤ 7 days
+after receipt of ERCOT Notice of receipt	
+
+	
+≤ 75 days
+after ADR initiation date2	
+≤ 30 days
+after initial ADR meeting2
+					
+					
+Notes:
+1.	If required pursuant to paragraph (2) above.
+2.	Unless all parties agree to an extension of time.
+20.6	Mediation Procedures
+(1)	The parties shall agree on a mediator who has no past or present official, financial, or personal conflict of interest with respect to the issues or parties in dispute, unless the interest is fully disclosed in writing to all participants in the dispute and all such participants waive in writing any objection to the conflict of interest.  If the parties are unable to agree on a mediator within ten days of the agreement to mediate, then the Commercial Mediation Rules of the American Arbitration Association (AAA) will be used to select the mediator.
+(2)	The mediator and senior dispute representatives of the parties shall commence mediation of the dispute within ten days after the mediator’s date of appointment.  Communications regarding mediation shall be confidential and shall not be referred to or disclosed in any subsequent proceeding.  The mediator shall aid the parties in reaching a mutually acceptable resolution of the dispute.  If agreement regarding the Alternative Dispute Resolution (ADR) cannot be reached, any of the parties may apply for relief to the Public Utility Commission of Texas (PUCT), or any other Governmental Authority.
+20.7	Alternative Dispute Resolution Costs and Return of Settlement Funds
+(1)	Each party shall be responsible for its own costs incurred during an Alternative Dispute Resolution (ADR) or Return of Settlement Funds (RSF) proceeding.
+20.8	Requests for Documents and Data
+(1)	If, as part of the Alternative Dispute Resolution (ADR) proceeding or Return of Settlement Funds (RSF) proceeding, a party requests documents or data from another party to the ADR or RSF proceeding, the responding party must provide one of the following within 15 days of the request:
+(a)	The requested documents or data;
+(b)	An explanation of why the documents or data should not be produced (e.g., relevance); or
+(c)	An explanation of why the information cannot be provided on that date and a reasonable date on which the documents or data will be produced.
+(2)	All information provided pursuant to this subsection shall be provided by mail, email, or other mutually agreed-upon method.
+20.9	Resolution of Alternative Dispute Resolution Proceedings and Notification to Market Participants 
+(1)	If ERCOT has determined the appropriate disposition of an Alternative Dispute Resolution (ADR) proceeding, ERCOT shall issue a Market Notice providing a brief description of the relevant facts, a list of the parties involved in the dispute, the disposition of the proceeding and the reasoning supporting the resolution.  No later than seven days prior to issuing a Market Notice pursuant to this paragraph (1), ERCOT shall provide a copy of the proposed Market Notice, including the proposed issuance date, to the party that submitted the request for ADR, who may comment on the proposed Market Notice.
+(2)	In addition to the Market Notice described in paragraph (1) above, if an ADR claim is approved in whole or in part, ERCOT shall issue a Market Notice describing the total resettlement amount and the manner in which the resulting overpayments or underpayments will be allocated to the appropriate Settlement Statement recipients and Invoice Recipients, including the specific Settlement Statements and Invoices that will be affected.  The Market Notice shall include the information required by Section 9.2.6, Notice of Resettlement for the DAM, or Section 9.5.7, Notice of Resettlement for the Real-Time Market, as applicable.
+(3)	If, in connection with the disposition of an ADR proceeding, ERCOT determines that it is appropriate to correct Day-Ahead Market Clearing Prices for Capacity (MCPCs), Day-Ahead hourly Locational Marginal Prices (LMPs), Day-Ahead Settlement Point Prices (DASPPs), Real-Time Settlement Point Prices, Real-Time Settlement Point LMPs, Real-Time Electrical Bus LMPs, Real-Time prices for energy metered, Real-Time On-Line Reserve Price Adders, Real-Time Off-Line Reserve Price Adders, Real-Time Reserve Prices for On-Line Reserves, Real-Time Reserve Prices for Off-Line Reserves, Real-Time On-Line Reliability Deployment Adders, Real-Time On-Line Reliability Deployment Prices, and/or constraint Shadow Prices, approval of the ERCOT Board pursuant to paragraph (6) of Section 4.5.3, Communicating DAM Results, or paragraph (7) of Section 6.3, Adjustment Period and Real-Time Operations Timeline, as applicable, is not required.
+(4)	Upon issuance of the Market Notice described in paragraph (1) above, the ADR process shall be deemed complete, and any Market Participant that is adversely affected may appeal ERCOT’s decision to the Public Utility Commission of Texas (PUCT) pursuant to P.U.C. PROC. R. 22.251, Review of Electric Reliability Council of Texas (ERCOT) Conduct.
+20.10	Return of Settlement Funds by a Qualified Scheduling Entity or Congestion Revenue Right Account Holder to ERCOT 
+20.10.1	Applicability 
+(1)	This Section applies to a claim by a Qualified Scheduling Entity (QSE) or Congestion Revenue Right (CRR) Account Holder (“Applicant”) that it received a payment or reduction of charge from ERCOT that exceeds the amount that ERCOT should have credited to the QSE or CRR Account Holder for a “Charge Type” for a given Operating Day or other period of time (“Overpayment”).
+(2)	An Applicant may use the procedures set forth in this Section to return Settlement funds to ERCOT in the event that it has received an Overpayment.  This process shall be known as a Return of Settlement Funds (RSF) proceeding.  
+(3)	An Applicant that seeks to initiate an RSF proceeding shall file a request with ERCOT, as described in Section 20.10.2, Initiation of Return of Settlement Funds, within one year of the Operating Day at issue.  ERCOT may reject a request if it determines that other Protocol processes apply to address the issue.
+(4)	If ERCOT denies an Applicant’s RSF request, the Applicant may appeal ERCOT’s decision to the Public Utility Commission of Texas (PUCT) pursuant to P.U.C. PROC. R. 22.251, Review of Electric Reliability Council of Texas (ERCOT) Conduct.
+20.10.2	Initiation of Return of Settlement Funds 
+(1)	To initiate an RSF proceeding, an Applicant shall complete and submit to the ERCOT Legal Department and the Independent Market Monitor (IMM) the designated form provided on the ERCOT website in the manner required by the form.  All written requests shall include the following information: 
+(a)	The name of the Applicant initiating the RSF proceeding; 
+(b)	The amount of Settlement funds that the Applicant intends to return; 
+(c)	A description of the reason(s) for the Applicant’s initiation of the RSF proceeding, including references to any statute(s), rule(s), Protocol Section(s), Other Binding Document(s), Agreement(s), or other law(s) that may form all or part of the basis for the RSF; 
+(d)	The Operating Day(s) involved in the RSF; 
+(e)	A list of all other parties that would be affected by the RSF; and 
+(f)	Designation of a senior representative who is responsible for handling matters relating to the RSF proceeding.  
+(2)	The date on which ERCOT receives the completed RSF written request shall be the RSF initiation date. 
+20.10.3	Process for a Return of Settlement Funds Request
+(1)	Unless otherwise specified in these Protocols, the process for the resolution of an Applicant’s request to return an Overpayment of Settlement funds filed under this Section will follow the process established for the resolution of Alternative Dispute Resolutions (ADRs) under Section 20.5, Alternative Dispute Resolution Process.  
+20.10.4	Settlement Following Approved Return of Settlement Funds  
+(1)	If resettlement is practicable to address an adjustment required by the resolution of an RSF proceeding, ERCOT shall issue a Resettlement Statement for the affected Operating Day(s) and shall adjust applicable timelines accordingly.
+(2)	If a resettlement is not practicable to address an adjustment required by an RSF resolution, ERCOT shall make the adjustments through a separate miscellaneous RSF Invoice that is produced outside of normal Settlement Invoices.  The appropriate payments and charges, along with Settlement quality information, shall be supplied to all impacted Market Participants.
+20.11	Settlement of Approved Alternative Dispute Resolution Claims
+20.11.1	Adjustments Based on Alternative Dispute Resolution
+(1)	If resettlement is practicable to address an adjustment required by the resolution of an Alternative Dispute Resolution (ADR) proceeding, ERCOT shall issue a Resettlement Statement for the affected Operating Day(s) and shall adjust applicable timelines accordingly.
+(2)	If a resettlement is not practicable to address an adjustment required by an ADR resolution, ERCOT shall make the adjustments through a separate ADR Invoice that is produced outside of normal Settlement Invoices.  The appropriate payments and charges, along with Settlement quality information, shall be supplied to all impacted Market Participants.  
+(3)	Any amount greater than $5,000,000, as approved through the ADR proceeding, shall be divided so that no one Invoice has more than $5,000,000 in ADR adjustments and such Invoices shall be issued at least 14 days apart from each other.  Payments shall be due on the date specified on the Invoice.  Any short payment shall be handled pursuant to Section 9.19, Partial Payments by Invoice Recipients.
+20.11.2	Charges for Approved ADR Claim
+(1)	The charges assigned to Market Participants to pay for an approved ADR claim shall be settled on the same Resettlement Statement or ADR Invoice as set forth in Section 20.11.1, Adjustments Based on Alternative Dispute Resolution.  ERCOT shall assign the costs for the approved ADR claim according to the appropriate allocation for the market service in dispute as outlined in the applicable Protocol sections.
+ERCOT Nodal Protocols
+Section 21:  Revision Request Process
+June 1, 2023
+
+ 
+21	Revision Request Process	21-1
+21.1	Introduction	21-1
+21.2	Submission of a Nodal Protocol Revision Request or System Change Request	21-2
+21.3	Protocol Revision Subcommittee	21-2
+21.4	Nodal Protocol Revision and System Change Procedure	21-3
+21.4.1	Review and Posting of Nodal Protocol Revision Requests	21-3
+21.4.2	Review and Posting of System Change Requests	21-4
+21.4.3	Withdrawal of a Nodal Protocol Revision Request or System Change Request	21-5
+21.4.4	Protocol Revision Subcommittee Review and Action	21-5
+21.4.5	Comments to the Protocol Revision Subcommittee Report	21-6
+21.4.6	Revision Request Impact Analysis	21-7
+21.4.7	Protocol Revision Subcommittee Review of Impact Analysis	21-7
+21.4.8	Technical Advisory Committee Vote	21-8
+21.4.9	ERCOT Impact Analysis Based on Technical Advisory Committee Report	21-9
+21.4.10	ERCOT Board Vote	21-9
+21.4.11	PUCT Approval of Revision Requests	21-10
+21.4.12	Appeal of Action	21-10
+21.4.12.1	Appeal of Protocol Revision Subcommittee Action	21-10
+21.4.12.2	Appeal of Technical Advisory Committee Action	21-10
+21.4.12.3	Appeal of ERCOT Board Action	21-11
+21.5	Urgent and Board Priority Nodal Protocol Revision Requests and System Change Requests	21-11
+21.6	Nodal Protocol Revision Implementation	21-12
+21.7	Review of Project Prioritization and Annual Budget Process	21-12
+21.8	Review of Guide Changes	21-13
+ 
+21	REVISION REQUEST PROCESS 
+21.1	Introduction
+(1)	A request to make additions, edits, deletions, revisions, or clarifications to these Protocols, including any attachments and exhibits to these Protocols, is called a Nodal Protocol Revision Request (NPRR).  Except as specifically provided otherwise in the following sentence or in other sections of these Protocols, Sections 21.2, Submission of a Nodal Protocol Revision Request or System Change Request, through 21.8, Review of Guide Changes, apply to all NPRRs.  ERCOT Members, Market Participants, Public Utility Commission of Texas (PUCT) Staff, the Reliability Monitor, the Independent Market Monitor (IMM), the North American Electric Reliability Corporation (NERC) Regional Entity, ERCOT, and any other Entities are required to utilize the process described herein prior to requesting, through the PUCT or other Governmental Authority, that ERCOT make a change to these Protocols, except for good cause shown to the PUCT or other Governmental Authority.
+(2)	A request that ERCOT change its computer systems that does not require a revision to the Protocols is called a System Change Request (SCR).  Except as specifically provided in other sections of these Protocols, Sections 21.2 through 21.7, Review of Project Prioritization and Annual Budget Process, apply to all SCRs.
+(3)	The “next regularly scheduled meeting” of the Protocol Revision Subcommittee (PRS), the Technical Advisory Committee (TAC), an assigned TAC subcommittee (as defined below), the ERCOT Board, or the PUCT, shall mean the next regularly scheduled meeting for which required notice can be timely given regarding the item(s) to be addressed, as specified in the appropriate PUCT, ERCOT Board, or committee procedures.
+(4)	ERCOT may make non-substantive corrections at any time during the processing of a particular NPRR.  Under certain circumstances, however, the Nodal Protocols can also be revised by ERCOT rather than using the NPRR process outlined in Section 21.4, Nodal Protocol Revision and System Change Procedure.
+(a)	This type of revision is referred to as an “Administrative NPRR” or “Administrative Changes” and shall consist of non-substantive corrections, such as typos (excluding grammatical changes), internal references (including table of contents), improper use of acronyms, and references to ERCOT Protocols, PUCT Substantive Rules, the Public Utility Regulatory Act (PURA), NERC regulations, Federal Energy Regulatory Commission (FERC) rules, etc.  Additionally, updates to Section 23, Forms, may also be processed as Administrative NPRRs.  
+(b)	ERCOT shall post such Administrative NPRRs to the ERCOT website and distribute the NPRR to PRS.  If no Entity submits comments to the Administrative NPRR within ten Business Days in accordance with paragraph (1) of Section 21.4.4, Protocol Revision Subcommittee Review and Action, the Administrative NPRR shall be subject to PUCT approval.  Following PUCT approval, ERCOT shall implement the Administrative NPRR according to paragraph (4) of Section 21.6, Nodal Protocol Revision Implementation.  If any Entity submits comments to the Administrative NPRR, then it shall be processed in accordance with the NPRR process outlined in Section 21.4.
+21.2	Submission of a Nodal Protocol Revision Request or System Change Request
+(1)	The following Entities may submit a Nodal Protocol Revision Request (NPRR) or System Change Request (SCR) (“Revision Request”):
+(a)	Any Market Participant;
+(b)	Any ERCOT Member;
+(c)	Public Utility Commission of Texas (PUCT) Staff;
+(d)	The Reliability Monitor;
+(e)	The North American Electric Reliability Corporation (NERC) Regional Entity;
+(f)	The Independent Market Monitor (IMM);
+(g)	ERCOT; and
+(h)	Any other Entity that meets the following qualifications:
+(i)	Resides (or represents residents) in Texas or operates in the Texas electricity market; and
+(ii)	Demonstrates that Entity (or those it represents) is affected by the Customer Registration or Renewable Energy Credit (REC) Trading Program sections of these Protocols.
+21.3	Protocol Revision Subcommittee
+(1)	The Protocol Revision Subcommittee (PRS) shall review and recommend action on formally submitted Nodal Protocol Revision Requests (NPRRs) and System Change Requests (SCRs) (“Revision Requests”) provided that:
+(a)	PRS meetings are open to ERCOT, ERCOT Members, Market Participants, the Reliability Monitor, the North American Electric Reliability Corporation (NERC) Regional Entity, the Independent Market Monitor (IMM), and the Public Utility Commission of Texas (PUCT) Staff;
+(b)	Each Market Segment is allowed to participate; and
+(c)	Each Market Segment has equal voting power.
+(2)	Where additional expertise is needed, the PRS may refer a Revision Request to working groups or task forces that it creates or to existing Technical Advisory Committee (TAC) subcommittees, working groups or task forces for review and comment on the Revision Request.  Suggested modifications—or alternative modifications if a consensus recommendation is not achieved by a non-voting working group or task force—to the Revision Request should be submitted by the chair or the chair’s designee on behalf of the subcommittee, working group or task force as comments on the Revision Request for consideration by PRS.  However, the PRS shall retain ultimate responsibility for the processing of all Revision Requests.
+(3)	ERCOT shall consult with the PRS chair to coordinate and establish the meeting schedule for the PRS.  The PRS shall ensure that reasonable advance notice of each meeting, including the meeting agenda, is posted on the ERCOT website.
+21.4	Nodal Protocol Revision and System Change Procedure
+21.4.1	Review and Posting of Nodal Protocol Revision Requests
+(1)	Nodal Protocol Revision Requests (NPRRs) shall be submitted electronically to ERCOT by completing the designated form provided on the ERCOT website.  Excluding ERCOT-sponsored NPRRs, ERCOT shall provide an electronic return receipt response to the submitter upon receipt of the NPRR.
+(2)	The NPRR shall include the following information:
+(a)	Description of requested revision and reason for suggested change;
+(b)	Impacts and benefits of the suggested change on ERCOT market structure, ERCOT operations, and Market Participants, to the extent that the submitter may know this information;
+(c)	List of affected Nodal Protocol Sections and subsections;
+(d)	General administrative information (organization, contact name, etc.); and
+(e)	Suggested language for requested revision.
+(3)	ERCOT shall evaluate the NPRR for completeness and shall notify the submitter, within five Business Days of receipt, if the NPRR is incomplete, including the reasons for such status.  ERCOT may provide information to the submitter that will correct the NPRR and render it complete.  An incomplete NPRR shall not receive further consideration until it is completed.  In order to pursue the NPRR, a submitter must submit a completed version of the NPRR.
+(4)	If a submitted NPRR is complete or upon completion of an NPRR, ERCOT shall post the NPRR on the ERCOT website and distribute to the Protocol Revision Subcommittee (PRS) within three Business Days.
+(5)	For any ERCOT-sponsored NPRR, ERCOT shall also post an initial Impact Analysis on the ERCOT website, and distribute it to PRS.  The initial Impact Analysis will provide PRS with guidance as to potential ERCOT computer systems, operations, or business functions that could be affected by the submitted NPRR.
+21.4.2	Review and Posting of System Change Requests
+(1)	System Change Requests (SCRs) shall be submitted electronically to ERCOT by completing the designated form provided on the ERCOT website.  Excluding ERCOT-sponsored SCRs, ERCOT shall provide an electronic return receipt response to the submitter upon receipt of the SCR.  
+(2)	The SCR shall include the following information:
+(a)	Description of desired additional system functionality or the additional information desired and reason for suggested change;
+(b)	Impacts and benefits of the suggested change to ERCOT market structure, ERCOT operations and Market Participants, to the extent that submitter may know this information;
+(c)	General adm

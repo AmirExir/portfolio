@@ -1,0 +1,919 @@
+eated by the individual Three-Part Supply Offers’ Offer Curves (when the zth percentile Settlement Point Price is positive).  If the Three-Part Supply Offer causes a credit increase (when the zth percentile Settlement Point Price is negative), the increase in credit exposure will be the maximum credit exposure increase created by the individual Three-Part Supply Offers.
+(d)	For PTP Obligation Bids:
+(i)	That have a bid price greater than zero, the sum of the quantity of the bid multiplied by the bid price, plus the uth percentile of the hourly positive price difference between the source Real-Time Settlement Point Price minus the sink Real-Time Settlement Point Price over the previous 30 days multiplied by the quantity of the bid.
+(ii)	That have a bid price less than or equal to zero, the uth percentile of the hourly positive price difference between the source Real-Time Settlement Point Price minus the sink Real-Time Settlement Point Price over the previous 30 days multiplied by the quantity of the bid.
+(iii)	Each tenth of a MW quantity (0.1 MW) of an expiring CRR for a Counter-Party can provide credit reduction for only one-tenth of a MW (0.1 MW) of a PTP Obligation bid for that Counter-Party.  
+(A)	The QSE must submit the PTP Obligation bid at the same source and sink pair for the same hour, for the same operating date where the QSE submitting the PTP Obligation bid is represented by the same Counter-Party as the CRR Account Holder that is the owner of record for an expiring CRR, or group of CRRs.
+(B)	A portion or all of the PTP Obligation bid quantity must be less than or equal to the total of the quantity of all expiring CRRs at the specified source and sink pair and delivery period, less all valid previously submitted PTP Obligation bids at the specified source and sink pair and delivery period.
+(iv)	For qualified PTP Obligation bids with a bid price greater than zero, ERCOT shall reduce the credit exposure in paragraph (6)(d)(i) above as follows: 
+Credit Reduction = Reduction Factor * min[PTP bid quantity, remaining expiring CRR MWs] * bid price. 
+The Reduction Factor is bd%.  The factor can be adjusted up or down at ERCOT’s sole discretion with at least two Bank Business Days’ notice.  ERCOT may adjust this factor up with less notice, if needed.  The expiring CRR may be PTP Options and/or PTP Obligations.  If a QSE later cancels the PTP Obligation bid then the amount of exposure credited back to the Counter-Party will be treated as though this PTP Obligation bid was previously offset by expiring CRRs if a matching CRR source and sink pair exists up to the maximum expiring CRR quantity.  If a QSE updates the PTP Obligation bid then it will be treated as a cancel followed by a new submission for purposes of credit exposure calculation.  Outcome of this calculation is dependent of the sequence of submittals for updates and cancels.
+(e)	For PTP Obligation bids with Links to an Option with a bid price greater than zero:
+Credit Exposure = (1- Reduction Factor bd) * (bid quantity * bid price) 
+(f)	For Ancillary Service Obligations not self-arranged, the product of the quantity of Ancillary Service Obligation not self-arranged multiplied by the tth percentile of the hourly MCPC for that Ancillary Service over the previous 30 days for that hour.  For negative Self-Arranged Ancillary Service Quantities, the absolute value of the product of the quantity of the negative Self-Arranged Ancillary Service Quantity times the tth percentile of the hourly MCPC for that Ancillary Service over the previous 30 days for that hour.  
+[NPRR1008 and NPRR1014:  Insert applicable portions of paragraph (g) below upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014; and renumber accordingly:]
+(g)	For Ancillary Service Only Offers, credit exposure will be increased by the sum of the quantity of the Ancillary Service Only Offer multiplied by the dpth percentile of the positive hourly difference for that Ancillary Service between RTMCPC and DAMCPC for that Ancillary Service over the previous 30 days for the Operating Hour of the Ancillary Service Only Offer.
+(g)	Values e1, e2, or e3, which are applicable to items (a) and (b) above, under conditions described below, will be determined and applied at ERCOT’s sole discretion.  Within the application parameters identified below, ERCOT shall establish values for e1, e2, and e3 and provide notice to an affected Counter-Party of any changes to e1, e2, or e3 before 0900 generally two Bank Business Days prior to the normally scheduled DAM 1000 by a minimum of two of these methods:  written, electronic, posting to the MIS Certified Area or telephonic.  However, ERCOT may adjust any DAM credit parameter immediately if, in its sole discretion, ERCOT determines that the parameter(s) set for a Counter-Party do not adequately match the financial risk created by that Counter-Party’s activities in the market.  ERCOT shall review the values for e1, e2, or e3 for each Counter-Party no less than once every two weeks.  ERCOT shall provide written or electronic notice to the Counter-Party of the basis for ERCOT’s assessment, or change of assessment, of the exposure adjustment variable established for the Counter-Party and the impact of the adjustment.
+(i)	The value of each exposure adjustment e1, e2, and e3 is a value between zero and one, rounded to the nearest hundredth decimal place, set by ERCOT by Counter-Party.  The values ERCOT establishes for e1, e2, and e3 for a Counter-Party shall be applied equally to the portfolio of all QSEs represented by such Counter-Party.
+(h)	ERCOT must re-examine DAM credit parameters immediately if Counter-Party exceeds 90% of its Available Credit Limit (ACL) available to DAM.
+(7)	A Counter-Party may request more favorable parameters from ERCOT by agreeing to all of the conditions below: 
+(a)	The Counter-Party shall notify ERCOT of any expected changes to Ratio1 or Ratio2, due to change in activity, as described below, and the likely duration of such change as soon as practicable, but no later than two Business Days in advance of the change:
+(i)	If Ratio1 as defined in paragraph (6)(a)(ii)(B) above is likely to be greater than the Counter-Party's currently assigned value of e1 for particular day(s), then the estimated daily values of Ratio1 specifying the day(s) along with the daily DAM Energy Bid, Energy-Only Offer, and Three-Part Supply Offer quantity assumptions used to arrive at those values; and
+(ii)	If Ratio2 as defined in paragraph (6)(b)(i)(A)(1) above is likely to be lower than the Counter-Party's currently assigned value of e2 for particular day(s), then the estimated daily values of Ratio2 specifying the day(s) along with the daily DAM Energy Bid, Energy-Only Offer, and Three-Part Supply Offer quantity assumption used to arrive at those values.
+[NPRR1014:  Replace paragraph (a) above with the following upon system implementation:]
+(a)	The Counter-Party shall notify ERCOT of any expected changes to Ratio1 or Ratio2, due to change in activity, as described below, and the likely duration of such change as soon as practicable, but no later than two Business Days in advance of the change:
+(i)	If Ratio1 as defined in paragraph (6)(a)(ii)(B) above is likely to be greater than the Counter-Party's currently assigned value of e1 for particular day(s), then the estimated daily values of Ratio1 specifying the day(s) along with the daily DAM Energy Bid, Energy-Only Offer, Energy Bid/Offer Curves, and Three-Part Supply Offer quantity assumptions used to arrive at those values; and
+(ii)	If Ratio2 as defined in paragraph (6)(b)(i)(A)(1) above is likely to be lower than the Counter-Party's currently assigned value of e2 for particular day(s), then the estimated daily values of Ratio2 specifying the day(s) along with the daily DAM Energy Bid, Energy-Only Offer, Energy Bid/Offer Curves, and Three-Part Supply Offer quantity assumption used to arrive at those values.
+(b)	ERCOT, in its sole discretion, will determine the adequacy of the disclosures made in item (a) above and may require additional information as needed to evaluate whether a Counter- Party is eligible for favorable treatment.
+(c)	ERCOT may change the requirements for providing information, as described in item (a) above, to ensure that reasonable information is obtained from Counter-Parties.
+(d)	ERCOT may, but is not required, to use information provided by a Counter-Party to re-evaluate DAM credit parameters and may take other information into consideration as needed.    
+(e)	If ERCOT determines that information provided to ERCOT is erroneous or that ERCOT has not been notified of required changes, ERCOT may set all parameters for the Counter-Party to the default values with a possible adder on the e1 variable, at ERCOT's sole discretion, for a period of not less than seven days and until ERCOT is satisfied that the Counter-Party has and will comply with the conditions set forth in this Section.  In no case shall the adder result in an e1 value greater than one.
+(8)	Beginning no later than 0800 and ending at 0945 each Business Day, ERCOT shall post to the MIS Certified Area, approximately every 15 minutes, each active Counter-Party’s remaining Available Credit Limit (ACL) for that day’s DAM and the time at which the report was run. 
+(9)	After the DAM results are posted, ERCOT shall post once each Business Day on the MIS Certified Area each active Counter-Party’s calculated aggregate DAM credit exposure and its aggregate DAM credit exposure per transaction type, to the extent available, as it pertains to the most recent DAM Operating Day.  The transaction types are:
+(a)	DAM Energy Bids; 
+[NPRR1188:  Replace item (a) above with the following upon system implementation:]
+(a)	DAM Energy Bids and Energy Bid Curves;
+(b)	DAM Energy Only Offers;
+(c)	PTP Obligation Bids;
+(d)	Three-Part Supply Offers; and
+(e)	Ancillary Services.
+[NPRR1008 and NPRR1014:  Replace applicable portions of item (e) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014; and renumber accordingly:]
+(e)	Ancillary Services related to Self-Arranged Ancillary Service Quantities;
+(f)	Ancillary Service Only Offers;
+(g) 	Energy Bid/Offer Curves.
+(10)     The parameters in this Section are defined as follows:
+	The default values of the parameters are:
+Parameter	Unit	Current Value*
+d	percentile	85
+ep1	percentile	95
+a	percentile	50
+b	percentile	45
+dp	percentile	90
+ep2	percentile	0
+e2	value	0
+e3	value	1
+y	percentile	45
+z	percentile	50
+u	percentile	90
+bd	%	90
+t	percentile	50
+* The current value for the parameters referenced in this table above will be recommended by TAC and approved by the ERCOT Board.  ERCOT shall update parameter values on the first day of the month following ERCOT Board approval unless otherwise directed by the ERCOT Board.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+	The values of the parameters for Entities that meet the requirements in paragraph (7) above for more favorable treatment are:
+Parameter	Unit	Current Value
+d	percentile	85
+ep1	percentile	75
+a	percentile	50
+b	percentile	45
+dp	percentile	90
+ep2	percentile	25
+e3	value	1
+y	percentile	45
+z	percentile	50
+u	percentile	90
+t	percentile	50
+* The current value for the parameters referenced in this table above will be recommended by TAC and approved by the ERCOT Board.  ERCOT shall update parameter values on the first day of the month following ERCOT Board approval unless otherwise directed by the ERCOT Board.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+4.4.11	System-Wide Offer Caps
+(1)	The SWCAP shall be determined in accordance with the Public Utility Commission of Texas (PUCT) Substantive Rules.  The methodology for determining the SWCAP is as follows: 
+(a)	The Low System-Wide Offer Cap (LCAP) is set at $2,000 per MWh for energy and $2,000 per MW per hour for Ancillary Services. 
+(b)	At the beginning of each year, the SWCAP shall be set equal to the High System-Wide Offer Cap (HCAP) and maintained at this level as long as the Peaker Net Margin (PNM) during a year is less than or equal to the PNM threshold per MW-year.  If the PNM exceeds the PNM threshold per MW-year during a year, on the next Operating Day, the SWCAP shall be reset to the LCAP for the remainder of that year.
+(c)	ERCOT shall set the PNM threshold at three times the cost of new entry of new generation plants.
+The above parameters are defined as follows.
+Parameter	Unit	Current Value*
+HCAP	$/MWh	5,000
+PNM threshold	$/MW-year	315,000
+*  The current value for the parameters referenced in this table above will be recommended by TAC and approved by the ERCOT Board.  ERCOT shall update parameter values on the first day of the month following ERCOT Board approval unless otherwise directed by the ERCOT Board.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+(2)	Any offers that exceed the current SWCAP shall be rejected by ERCOT. 
+[NPRR1008 and NPRR1216:  Replace applicable portions of Section 4.4.11 above with the following upon system implementation of NPRR1216; or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008:]
+4.4.11	Day-Ahead and Real-Time System-Wide Offer Caps
+(1)	The DASWCAP and RTSWCAP shall be determined in accordance with the Public Utility Commission of Texas (PUCT) rules.  The methodology for determining the DASWCAP and RTSWCAP is as follows: 
+(a)	The DASWCAP and RTSWCAP shall be set equal to the respective High System-Wide Offer Cap (HCAP).  Additionally, the Value of Lost Load (VOLL) used to determine the ASDCs for DAM and RTM shall be set to the HCAP for DAM.  These caps shall be maintained at these levels until either of the following criteria are met:
+(i)	If the sum of the Real-Time Market (RTM) System Lambda and Real-Time Reliability Deployment Price Adder for Energy is greater than or equal to the HCAP for DAM for a total of 12 hours within a rolling 24-hour period, ERCOT will activate the Emergency Pricing Program (EPP) and the DASWCAP and VOLL used to determine the ASDCs for DAM and RTM will be set to ECAP starting at the beginning of the next Operating Hour that ERCOT can implement the change.  Security-Constrained Economic Dispatch (SCED)-level data, time-weight averaged to a 15-minute Settlement Interval equivalent, will be used to make this determination.  The EPP will remain active until the later of the following, at which point the ECAP Effective Period will end at the beginning of the next Operating Hour:
+(A)	24 hours after the initial setting of these values to ECAP; or
+(B)	24 hours after ERCOT exits Energy Emergency Alert (EEA) conditions, if ERCOT entered into or remained in EEA while the EPP was active.  If ERCOT reenters EEA conditions within 24 hours, then the ECAP Effective Period will continue for 24 hours after the latest exit from EEA conditions.
+(ii)	If the Peaker Net Margin (PNM) exceeds the PNM threshold per MW-year during a year, the DASWCAP and the VOLL used to determine the ASDCs for DAM and RTM shall be set per the schedule in Section 4.4.11.1, Scarcity Pricing Mechanism.
+(b)	ERCOT shall issue operations notices when the ECAP Effective Period begins and ends.  Such notices shall respectively state the date and time of the initiation and cessation of the ECAP Effective Period. 
+(c)	ERCOT will post on the ERCOT website the cumulative number of hours in which the sum of the RTM System Lambda and Real-Time Reliability Deployment Price Adder for Energy has been greater than or equal to the DASWCAP over a rolling 24-hour period.  This calculation of cumulative hours will use the 15-minute Settlement Interval equivalent price referenced in paragraph (1)(a)(i) above.
+(d)	Within ten Business Days of the end of the ECAP Effective Period, ERCOT shall file an initial report with the PUCT providing a summary of the event that triggered the EPP and an analysis of the EPP’s performance.
+(e)	Within 90 days of the end of the ECAP Effective Period, ERCOT shall file a final report with the PUCT providing a summary of the event that triggered the EPP, an analysis of the EPP’s performance, and any recommendations to modify or improve the EPP.  The report shall also include the number of Resources for which Qualified Scheduling Entities (QSEs) filed for cost recovery and the total dollar amount of costs submitted and costs recovered, including fuel type, MW per hour, and number of Resources associated with the recovered costs.
+(f)	For the PNM process described above, ERCOT shall set the PNM threshold at three times the cost of new entry of new generation plants.
+The above parameters are defined as follows:
+Parameter	Unit	Current Value*
+ECAP	$/MWh	2,000
+HCAP – DAM (DASWCAP)	$/MWh	5,000
+HCAP – RTM (RTSWCAP)	$/MWh	2,000
+LCAP	$/MWh	2,000
+PNM threshold	$/MW-year	315,000
+*  The current value for the parameters referenced in this table above will be recommended by TAC and approved by the ERCOT Board.  ERCOT shall update parameter values on the first day of the month following ERCOT Board approval unless otherwise directed by the ERCOT Board.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+(2)	Any offers submitted that exceed the current respective DASWCAP or RTSWCAP shall be rejected by ERCOT.  The applicable cap will be dependent on the timing of the submission.
+4.4.11.1	Scarcity Pricing Mechanism 
+(1)	ERCOT shall operate the scarcity pricing mechanism in accordance with the PUCT Substantive Rules.  The methodology for determining the scarcity pricing mechanism is as follows: 
+(a)	The scarcity pricing mechanism operates on a calendar year basis.
+(b)	For each day of the year, the Peaking Operating Cost (POC) shall be ten times the effective daily FIP.  The POC is calculated in dollars per MWh.
+(c)	For the purpose of this Section, the Real-Time Energy Price (RTEP) shall be measured as the ERCOT Hub Average 345 kV Hub price.
+(d)	For the current year, the PNM shall be calculated in dollars per MW on a cumulative basis for all past intervals in the year as follows:
+∑((RTEP – POC) * (0.25)) for each Settlement Interval where (RTEP – POC) > 0
+(2)	By the end of the next Business Day following the applicable Operating Day, ERCOT shall post the updated value of the PNM and the current SWCAP on the ERCOT website.
+[NPRR1008:  Replace paragraph (2) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(2)	By the end of the next Business Day following the applicable Operating Day, ERCOT shall post the updated value of the PNM and the current DASWCAP on the ERCOT website.
+(3)	When the calculated PNM exceeds PNM threshold per MW-year, the SWCAP shall be changed to the LCAP in the following manner:
+(a)	On the Operating Day that the PNM exceeds PNM threshold the HCAP will remain in effect for the balance of the day (Day 1).
+(b)	During the next Operating Day (Day 2), ERCOT shall send a Market Notice that the LCAP is going into effect for the following Operating Day (Day 3).  At the end of Day 2 and following the last SCED interval at approximately 2355, the System Operator will approve the switchover from the HCAP to the LCAP.
+(c)	All SCED intervals for Day 3 and through the end of the calendar year will use the LCAP.
+(d)	On December 31 following the last SCED interval at approximately 2355, the System Operator will approve the switchover from the LCAP up to the HCAP for the next year.
+[NPRR1008:  Replace paragraph (3) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(3)	When the calculated PNM exceeds PNM threshold per MW-year, the DASWCAP and the VOLL used to determine the ASDCs for DAM and RTM shall both be changed to the LCAP for the remainder of the calendar year, in the following manner:
+(a)	On the Operating Day that the PNM exceeds the PNM threshold, the HCAP will remain in effect for the balance of the day and for the Operating Day thereafter (Days 1 and 2).
+(b)	On the Operating Day after the PNM exceeds the PNM threshold (Day 2) prior to the execution of DAM, ERCOT shall send a Market Notice that the DASWCAP and the VOLL used to determine the ASDCs for DAM and RTM will both be changed to LCAP, effective for the following Operating Day (Day 3).  
+(c)	For the Operating Day two days after the PNM threshold is exceeded (Day 3) and through the end of the calendar year, DAM and RTM will use the LCAP and ASDCs reflecting the updated VOLL.
+(d)	On December 31, for Operating Day January 1, DASWCAP and the VOLL used to determine the ASDCs for the DAM and RTM will be reset to the HCAP for DAM for the new Resource adequacy cycle.
+[NPRR1008, NPRR1216, and NPRR1245:  Insert applicable portions of Section 4.4.12 below upon system implementation of NPRR1216; or upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008 and NPRR1245:]
+4.4.12	Determination of Ancillary Service Demand Curves for the Day-Ahead Market and Real-Time Market
+(1)	This Section describes the process for determining ASDCs for Regulation Up Service (Reg-Up), Regulation Down Service (Reg-Down), Responsive Reserve (RRS), ERCOT Contingency Reserve Service (ECRS), and Non-Spinning Reserve (Non-Spin) for the Day-Ahead Market (DAM) and Real-Time Market (RTM).  This section does not apply to ASDCs used in the Reliability Unit Commitment (RUC) process.
+(2)	The DAM shall use the same ASDCs as the RTM, as an initial condition.  Specific to the DAM, the ASDCs will be adjusted, as needed, to account for negative Self-Arranged Ancillary Service Quantities.
+(3)	For Reg-Down, the ASDC shall be a constant value equal to VOLL for the full range of the Ancillary Service Plan for Reg-Down. 
+(4)	To determine the individual ASDCs for Reg-Up, RRS, ECRS, and Non-Spin, an Aggregate ORDC (AORDC) will be created and then disaggregated into individual curves for the different Ancillary Services.
+(5)	ERCOT shall develop the AORDC from historical data from the period of June 1, 2014 through August 31, 2025 as follows:
+(a)	For all SCED intervals where the sum of RTOLCAP and RTOFFCAP is less than 10,000 MW, use the RTOLCAP and RTOFFCAP values to calculate the AORDC as follows:
+AORDC=(0.5*(1-pnorm(RTOLCAP-3000, 0.5*μ, 0.707*σ))+0.5*(1-pnorm(RTOLCAP+RTOFFCAP-3000, μ, σ)))*(VOLL-min(System Lambda,250))
+The above variables are defined as follows:
+Variable	Unit	Definition
+RTOLCAP	MWh	Real-Time On-Line Reserve Capacity – The Real-Time reserve capacity of On-Line Resources available for the SCED intervals beginning June 1, 2014 through August 31, 2025
+RTOFFCAP	MWh	Real-Time Off-Line Reserve Capacity – The Real-Time reserve capacity of Off-Line Resources available for the SCED intervals beginning June 1, 2014 through August 31, 2025.
+μ	None	The mean value of the shifted LOLP distribution as published for Summer 2026
+σ	None	The standard deviation of the shifted LOLP distribution as published for Summer 2026
+(b)	Using the results of step (a) above, use regression methods to fit a curve to the average reserve pricing outcomes for the various MW reserve levels.
+(c)	Calculate points on the regression curve in 1 MW increments for any observed reserve level >= 3,000 MW and price >$0.01/MWh.  These points form the AORDC.
+(6)	ERCOT shall disaggregate the AORDC developed pursuant to paragraph (5) above into individual ASDCs for each Ancillary Service product as follows:
+(a)	The ASDC for all Reg-Up in the Ancillary Service Plan shall use the highest price portion of the AORDC;
+(b)	The ASDC for all RRS in the Ancillary Service Plan shall use the highest price portion of the remaining AORDC after removing the portion of the AORDC that was used for the Reg-Up ASDC; 
+(c)	The ASDC for all ECRS in the Ancillary Service Plan shall use the highest price portion of the remaining AORDC after removing the portions of the AORDC that were used for the Reg-Up and RRS ASDCs;
+(d)	The ASDC for Non-Spin shall use the remaining portion of the remaining AORDC after removing the portions of the AORDC that were used for the Reg-Up, RRS, and ECRS ASDCs.
+(7)	Each ASDC will be represented by a 100-point linear approximation to the corresponding part of the AORDC.  Fewer points may be used for cases where it would not result in decreased accuracy in representing the corresponding part of the AORDC.
+(8)	The AORDC used in determining the individual ASDCs will be adjusted to reflect any updates to the value of VOLL, as described in Section 4.4.11, Day-Ahead and Real-Time System-Wide Offer Caps, and Section 4.4.11.1, Scarcity Pricing Mechanism.
+4.5	DAM Execution and Results
+4.5.1	DAM Clearing Process
+(1)	At 1000 in the Day-Ahead, ERCOT shall start the Day-Ahead Market (DAM) clearing process.  If the processing of DAM bids and offers after 0900 is significantly delayed or impacted by a failure of ERCOT software or systems that directly impacts the DAM, ERCOT shall post a Notice as soon as practicable on the ERCOT website, in accordance with paragraph (1) of Section 4.1.2, Day-Ahead Process and Timing Deviations, extending the start time of the execution of the DAM clearing process by an amount of time at least as long as the duration of the processing delay plus ten minutes.  In no event shall the extension exceed more than one hour from when the processing delay is resolved.
+(2)	ERCOT shall complete a Day-Ahead Simultaneous Feasibility Test (SFT).  This test uses the Day-Ahead Updated Network Model topology and evaluates all Congestion Revenue Rights (CRRs) for feasibility to determine hourly oversold quantities.
+(3)	The purpose of the DAM is to economically and simultaneously clear offers and bids described in Section 4.4, Inputs into DAM and Other Trades.
+(4)	The DAM uses a multi-hour mixed integer programming algorithm to maximize bid-based revenues minus the offer-based costs over the Operating Day, subject to security and other constraints, and ERCOT Ancillary Service procurement requirements.  
+(a)	The bid-based revenues include revenues from DAM Energy Bids and Point-to-Point (PTP) Obligation bids. 
+(b)	The offer-based costs include costs from the Startup Offer, Minimum Energy Offer, and Energy Offer Curve of any Resource that submitted a Three-Part Supply Offer, DAM Energy-Only Offers and Ancillary Service Offers.  
+(c)	Security constraints specified to prevent DAM solutions that would overload the elements of the ERCOT Transmission Grid include the following: 
+(i)	Transmission constraints – transfer limits on energy flows through the ERCOT Transmission Grid, e.g., thermal or stability limits.  These limits must be satisfied by the intact network and for certain specified contingencies.  These constraints may represent:
+(A)	Thermal constraints – protect Transmission Facilities against thermal overload.
+(B)	Generic constraints – protect the ERCOT Transmission Grid against transient instability, dynamic stability or voltage collapse.
+(C)	Power flow constraints – the energy balance at required Electrical Buses in the ERCOT Transmission Grid must be maintained.  
+(ii)	Resource constraints – the physical and security limits on Resources that submit Three-Part Supply Offers:
+(A)	Resource output constraints – the Low Sustained Limit (LSL) and High Sustained Limit (HSL) of each Resource; and 
+(B)	Resource operational constraints – includes minimum run time, minimum down time, and configuration constraints.
+(iii)	Other constraints – 
+(A)	Linked offers – the DAM may not select any one part of that Resource capacity to provide more than one Ancillary Service or to provide both energy and an Ancillary Service in the same Operating Hour.  The DAM may, however, select part of that Resource capacity to provide one Ancillary Service and another part of that capacity to provide a different Ancillary Service or energy in the same Operating Hour, provided that linked Energy and Off-Line Non-Spinning Reserve (Non-Spin) Ancillary Service Offers are not awarded in the same Operating Hour.
+(B)	The sum of the awarded Ancillary Service capacities for each Resource must be within the Resource limits specified in the Current Operating Plan (COP) and Section 3.18, Resource Limits in Providing Ancillary Service, and the Resource Parameters as described in Section 3.7, Resource Parameters.
+(C)	Block Ancillary Service Offers for a Load Resource – blocks will not be cleared unless the entire quantity block can be awarded.  Because block Ancillary Service Offers cannot set the Market Clearing Price for Capacity (MCPC), a block Ancillary Service Offer may clear below the Ancillary Service Offer price for that block.
+(D)	Block DAM Energy Bids, DAM Energy-Only Offers, and PTP Obligation bids – blocks will not be cleared unless the entire time and/or quantity block can be awarded.  Because quantity block bids and offers cannot set the Settlement Point Price, a quantity block bid or offer may clear in a manner inconsistent with the bid or offer price for that block.
+(E)	Combined Cycle Generation Resources – The DAM may commit a Combined Cycle Generation Resource in a time period that includes the last hour of the Operating Day only if that Combined Cycle Generation Resource can transition to a shutdown condition in the DAM Operating Day.
+(d)	Ancillary Service needs for each Ancillary Service include the needs specified in the Ancillary Service Plan that are not part of the Self-Arranged Ancillary Service Quantity and that must be met from available DAM Ancillary Service Offers while co-optimizing with DAM Energy Offers.  ERCOT may not buy more of one Ancillary Service in place of the quantity of a different service.  See Section 4.5.2, Ancillary Service Insufficiency, for what happens if insufficient Ancillary Service Offers are received in the DAM. 
+[NPRR1008, NPRR1014, and NPRR1188:  Replace applicable portions of paragraph (4) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014 or NPRR1188:]
+(4)	The DAM uses a multi-hour mixed integer programming algorithm to maximize bid-based revenues, including revenues based on Ancillary Service Demand Curves (ASDCs), minus the offer-based costs over the Operating Day, subject to security and other constraints.  
+(a)	The bid-based revenues include revenues from ASDCs, DAM Energy Bids, Energy Bid Curves, bid portions of Energy Bid/Offer Curves, and Point-to-Point (PTP) Obligation bids. 
+(b)	The offer-based costs include costs from the Startup Offer, Minimum Energy Offer, and Energy Offer Curve of any Resource that submitted a Three-Part Supply Offer, DAM Energy-Only Offers, offer portions of Energy Bid/Offer Curves, Ancillary Service Only Offers, and Ancillary Service Offers.  
+(c)	Security constraints specified to prevent DAM solutions that would overload the elements of the ERCOT Transmission Grid include the following: 
+(i)	Transmission constraints – transfer limits on energy flows through the ERCOT Transmission Grid, e.g., thermal or stability limits.  These limits must be satisfied by the intact network and for certain specified contingencies.  These constraints may represent:
+(A)	Thermal constraints – protect Transmission Facilities against thermal overload.
+(B)	Generic constraints – protect the ERCOT Transmission Grid against transient instability, dynamic stability or voltage collapse.
+(C)	Power flow constraints – the energy balance at required Electrical Buses in the ERCOT Transmission Grid must be maintained.  
+(ii)	Resource constraints – the physical and security limits on Resources that submit Three-Part Supply Offers or Energy Bid/Offer Curves:
+(A)	Resource output constraints – the Low Sustained Limit (LSL) and High Sustained Limit (HSL) of each Resource; and 
+(B)	Resource operational constraints – includes minimum run time, minimum down time, and configuration constraints.
+(iii)	Other constraints – 
+(A)	Linked offers – the DAM may not select any one part of that Resource capacity to provide more than one Ancillary Service or to provide both energy and an Ancillary Service in the same Operating Hour.  The DAM may, however, select part of that Resource capacity to provide one Ancillary Service and another part of that capacity to provide a different Ancillary Service or energy in the same Operating Hour, provided that linked Energy and Off-Line Non-Spinning Reserve (Non-Spin) Resource-Specific Ancillary Service Offers are not awarded in the same Operating Hour.
+(B)	The sum of the awarded Resource-Specific Ancillary Service Offer capacities for each Resource must be within the Resource limits specified in the Current Operating Plan (COP) and Section 3.18, Resource Limits in Providing Ancillary Service, and the Resource Parameters as described in Section 3.7, Resource Parameters.
+(C)	Block Resource-Specific Ancillary Service Offers for a Load Resource that is not a Controllable Load Resource (CLR) – blocks will not be cleared unless the entire quantity block can be awarded.  Because block Resource-Specific Ancillary Service Offers cannot set the Market Clearing Price for Capacity (MCPC), a block Ancillary Service Offer may clear below the Ancillary Service Offer price for that block.
+(D)	Block DAM Energy Bids, DAM Energy-Only Offers, and PTP Obligation bids – blocks will not be cleared unless the entire time and/or quantity block can be awarded.  Because quantity block bids and offers cannot set the Settlement Point Price, a quantity block bid or offer may clear in a manner inconsistent with the bid or offer price for that block.
+(E)	Combined Cycle Generation Resources – The DAM may commit a Combined Cycle Generation Resource in a time period that includes the last hour of the Operating Day only if that Combined Cycle Generation Resource can transition to a shutdown condition in the DAM Operating Day.
+(F)	Energy Storage Resources (ESRs) – The energy cleared for an ESR may be negative, indicating purchase of energy, or positive, indicating sale of energy. 
+(d)	Ancillary Service needs will be reflected in ASDCs for each Ancillary Service.  Self-Arranged Ancillary Service Quantities will first be used to meet the ASDCs, and the remaining Ancillary Service needs are met from Ancillary Service Offers, as long as the costs do not exceed the ASDC value.  ERCOT may not buy more of one Ancillary Service in place of the quantity of a different service.
+(5)	ERCOT shall determine the appropriate Load distribution factors to allocate offers, bids, and source and sink of CRRs at a Load Zone across the energized power flow buses that are modeled with Load in that Load Zone.  The non-Private Use Network Load distribution factors are based on historical State Estimator hourly distribution using a proxy day methodology representing anticipated weather conditions.  The Private Use Network Load distribution factors are based on an estimated Load value considering historical net consumption at all Private Use Networks.  If ERCOT decides, in its sole discretion, to change the Load distribution factors for reasons such as anticipated weather events or holidays, ERCOT shall select a State Estimator hourly distribution from a proxy day reasonably reflecting the anticipated Load in the Operating Day.  ERCOT may also modify the Load distribution factors to account for predicted differences in network topology between the proxy day and Operating Day.  ERCOT shall develop a methodology, subject to Technical Advisory Committee (TAC) approval, to describe the modification of the proxy day bus-load distribution for this purpose.
+[NPRR1004:  Replace paragraph (5) above with the following upon system implementation:]
+(5)	ERCOT shall determine the appropriate Load distribution factors to allocate offers, bids, and source and sink of PTP Obligations at a Load Zone across the energized power flow buses that are modeled with Load in that Load Zone.  ERCOT shall derive DAM Load distribution factors with the set of Load distribution factors constructed in accordance with the ERCOT Load distribution factor methodology specified in paragraph (c) of Section 3.12, Load Forecasting.  In the event the Load distribution factors are not available, the Load distribution factors for the most recent preceding Operating Day will be used.
+(6)	ERCOT shall allocate offers, bids, and source and sink of CRRs at a Hub using the distribution factors specified in the definition of that Hub in Section 3.5.2, Hub Definitions. 
+(7)	A Resource that has a Three-Part Supply Offer cleared in the DAM may be eligible for Make-Whole Payment of the Startup Offer and Minimum Energy Offer submitted by the Qualified Scheduling Entity (QSE) representing the Resource under Section 4.6, DAM Settlement. 
+(8)	The DAM Settlement is based on hourly MW awards and on Day-Ahead hourly Settlement Point Prices.  All PTP Options settled in the DAM are settled based on the Day-Ahead Settlement Point Prices (DASPPs).  ERCOT shall assign a Locational Marginal Price (LMP) to de-energized Electrical Buses for use in the calculation of the DASPPs by using heuristic rules applied in the following order:
+(a)	Use an appropriate LMP predetermined by ERCOT as applicable to a specific Electrical Bus; or if not so specified
+(b)	Use the following rules in order:
+(i)	Use average LMP for Electrical Buses within the same station having the same voltage level as the de-energized Electrical Bus, if any exist.
+(ii)	Use average LMP for all Electrical Buses within the same station, if any exist.
+(iii)	Use System Lambda.
+(9)	The Day-Ahead MCPC for each hour for each Ancillary Service is the Shadow Price for that Ancillary Service for the hour as determined by the DAM algorithm.  
+(10)	Day-Ahead MCPCs shall not exceed the System-Wide Offer Cap (SWCAP).  Ancillary Service Offers higher than corresponding Ancillary Service penalty factors, as defined in Appendix 2, Day-Ahead Market Optimization Control Parameters, of Section 22, Attachment P, Methodology for Setting Maximum Shadow Prices for Network and Power Balance Constraints, will not be awarded.
+[NPRR1080:  Delete paragraph (10) above upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014; and renumber accordingly.]
+(11)	If the Day-Ahead MCPC cannot be calculated by ERCOT, the Day-Ahead MCPC for the particular Ancillary Service is equal to the Day-Ahead MCPC for that Ancillary Service in the same Settlement Interval of the preceding Operating Day.
+[NPRR1008 and NPR1014:  Delete paragraph (11) above upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014; and renumber accordingly.]
+(12)	If the DASPPs cannot be calculated by ERCOT, all CRRs shall be settled based on Real-Time prices.  Settlements for all CRRs shall be reflected on the Real-Time Settlement Statement.
+(13)	Constraints can exist between the generator’s Resource Connectivity Node and the Resource Node, in which case the awarded quantity of energy may be inconsistent with the clearing price when the constraint between the Resource Connectivity Node and the Resource Node is binding.
+[NPRR1014 and NPRR1188:  Replace paragraph (13) above with the following upon system implementation:]
+(13)	Constraints can exist between a Resource’s Resource Connectivity Node and its Resource Node, in which case the awarded quantity of energy may be inconsistent with the clearing price when the constraint between the Resource Connectivity Node and the Resource Node is binding.
+(14)	PTP Obligation bids shall not be awarded where the DAM clearing price for the PTP Obligation is greater than the PTP Obligation bid price plus $0.01/MW per hour.
+4.5.2	Ancillary Service Insufficiency
+(1)	ERCOT shall determine if there is an insufficiency in Ancillary Service Offers.  If ERCOT receives insufficient Ancillary Service Offers in the DAM to procure one or more required Ancillary Service such that the Ancillary Service Plan is deficient and system security and reliability is threatened: 
+(a)	ERCOT shall declare an Ancillary Service insufficiency and issue a Watch under Section 6.5.9.3.3, Watch.
+(b)	ERCOT shall request additional Ancillary Service Offers.  
+(i)	A QSE may resubmit an offer for an Ancillary Service that it submitted before the Watch for the same Ancillary Service quantity block, but the resubmitted offer must meet the following criteria to be considered a valid offer:
+(A)	The offer quantity may not be less than the offer quantity submitted before the Watch, unless the resubmitted offer quantity is priced lower than the offer quantity submitted before the Watch; and
+(B)	For the amount of the offer quantity that is equal to or greater than the offer quantity submitted before the Watch, the offer must be priced equal to or less than the price of the offer submitted before the Watch. 
+(ii)	A QSE may submit an offer for an additional Ancillary Service quantity block that was not submitted before the Watch.  The incremental amount of the offer may be submitted at a price subject to the offer cap, provided the offer quantity of the Ancillary Service block from paragraph (i) above is not less than the offer quantity submitted before the Watch.
+(iii)	A QSE that did not submit an Ancillary Service Offer prior to the Watch may submit a new Ancillary Service Offer at a price subject to the offer cap.
+(c)	ERCOT shall not begin executing the DAM sooner than 30 minutes after issuing the Watch.  If the additional Ancillary Service Offers are still insufficient to supply the Ancillary Service required in the Day-Ahead Ancillary Service Plan, then ERCOT shall run the DAM by reducing the Ancillary Service Plan quantities only for purposes of the DAM by the amount of insufficiency. 
+(d)	When ERCOT must reduce the Ancillary Service Plan for purposes of the DAM due to insufficient Ancillary Service Offers, ERCOT shall preserve the Ancillary Service Plan in the DAM in the following order of priority:
+(i)	Regulation Up (Reg-Up);
+(ii)	Regulation Down (Reg-Down);
+(iii)	Responsive Reserve (RRS);
+(iv) 	ERCOT Contingency Reserve Service (ECRS); and
+(v)	Non-Spin.
+(2)	ERCOT shall procure the difference in capacity between the Day-Ahead Ancillary Service Plan and the DAM-reduced Ancillary Service Plan amounts using the Supplemental Ancillary Service Market (SASM) process in accordance with Section 6.4.9.2.2, SASM Clearing Process.  If the SASM process is insufficient, then ERCOT may acquire the insufficient amount of Ancillary Services from Hourly Reliability Unit Commitment (HRUC) Resources that are qualified to provide the needed Ancillary Service.  ERCOT may also issue a Watch and procure Ancillary Services in accordance with Section 6.5.9.3.3. 
+[NPRR1008:  Delete Section 4.5.2 above upon system implementation of the Real-Time Co-Optimization (RTC) project.]
+4.5.3	Communicating DAM Results
+(1)	As soon as practicable, but no later than 1330 in the Day-Ahead, ERCOT shall notify the parties to each cleared DAM transaction (e.g., the buyer and the seller) of the results of the DAM as follows: 
+(a)	Awarded Ancillary Service Offers, specifying Resource, MW, Ancillary Service type, and price, for each hour of the awarded offer;
+(b)	Awarded energy offers from Three-Part Supply Offers and from DAM Energy-Only Offers, specifying Resource (except for DAM Energy-Only Offers), MWh, Settlement Point, and Settlement Point Price, for each hour of the awarded offer;
+(c)	Awarded DAM Energy Bids, specifying MWh, Settlement Point, and Settlement Point Price for each hour of the awarded bid; and
+(d)	Awarded PTP Obligation Bids, number of PTP Obligations in MW, source and sink Settlement Points, and price for each Settlement Interval of the awarded bid.
+[NPRR1008, NPRR1014, and NPRR1188:  Replace applicable portions of paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014 or NPRR1188:]
+(1)	As soon as practicable, but no later than 1330 in the Day-Ahead, ERCOT shall notify the parties to each cleared DAM transaction (e.g., the buyer and the seller) of the results of the DAM as follows: 
+(a)	Awarded Resource-Specific Ancillary Service Offers, specifying Resource, MW, Ancillary Service type, and price, for each hour of the awarded offer;
+(b)	Awarded Ancillary Service Only Offers, specifying MW, Ancillary Service type, and price, for each hour of the awarded offer;
+(c)	Awarded energy offers from Three-Part Supply Offers and from DAM Energy-Only Offers, specifying Resource (except for DAM Energy-Only Offers), MWh, Settlement Point, and Settlement Point Price, for each hour of the awarded offer;
+(d)	Awarded DAM Energy Bids and Energy Bid Curves, specifying MWh, Settlement Point, and Settlement Point Price for each hour of the awarded bid; 
+(e)	Awarded Energy Bid/Offer Curves, specifying Resource, MWh, Settlement Point, and Settlement Point Price, for each hour of the awarded bid/offer; and
+(f)	Awarded PTP Obligation Bids, number of PTP Obligations in MW, source and sink Settlement Points, and price for each Settlement Interval of the awarded bid.
+(2)	As soon as practicable, but no later than 1330, ERCOT shall post on the ERCOT website the hourly:
+(a)	Day-Ahead MCPC for each type of Ancillary Service for each hour of the Operating Day;
+(b)	DASPPs for each Settlement Point for each hour of the Operating Day; 
+(c)	Day-Ahead hourly LMPs for each Electrical Bus for each hour of the Operating Day;
+(d)	Shadow Prices for every binding constraint for each hour of the Operating Day; 
+(e)	Quantity of total Ancillary Service Offers received in the DAM, in MW by Ancillary Service type for each hour of the Operating Day;
+(f)	Energy bought in the DAM consisting of the following:
+(i)	The total quantity of awarded DAM Energy Bids (in MWh) bought in the DAM at each Settlement Point for each hour of the Operating Day; and
+(ii)	The total quantity of awarded PTP Obligation Bids (in MWh) cleared in the DAM that sink at each Settlement Point for each hour of the Operating Day. 
+(g)	Energy sold in the DAM consisting of the following:
+(i)	The total quantity of awarded DAM Energy Offers (in MWh), from Three-Part Supply Offers and DAM Energy Only Offers, bought in the DAM at each Settlement Point for each hour of the Operating Day; and
+(ii)	The total quantity of awarded PTP Obligation Bids (in MWh) cleared in the DAM that source at each Settlement Point for each hour of the Operating Day. 
+(h)	Aggregated Ancillary Service Offer Curve of all Ancillary Service Offers for each type of Ancillary Service for each hour of the Operating Day; 
+(i)	Electrically Similar Settlement Points used during the DAM clearing process; and 
+(j)	Settlement Points that were de-energized in the base case; and
+(k)	System Lambda.
+[NPRR1008, NPRR1014, and NPRR1188:  Replace applicable portions of paragraph (2) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1008; or upon system implementation for NPRR1014 or NPRR1188:]
+(2)	As soon as practicable, but no later than 1330, ERCOT shall post on the ERCOT website the hourly:
+(a)	Day-Ahead MCPC for each type of Ancillary Service for each hour of the Operating Day;
+(b)	DASPPs for each Settlement Point for each hour of the Operating Day; 
+(c)	Day-Ahead hourly LMPs for each Electrical Bus for each hour of the Operating Day;
+(d)	Shadow Prices for every binding constraint for each hour of the Operating Day; 
+(e)	Energy bought in the DAM consisting of the following:
+(i)	The total quantity of awarded DAM Energy Bids and Energy Bid Curves (in MWh) bought in the DAM at each Settlement Point for each hour of the Operating Day;
+(ii)	The total quantity of awarded PTP Obligation Bids (in MWh) cleared in the DAM that sink at each Settlement Point for each hour of the Operating Day; and
+(iii)	The total absolute value quantity of awards to bid portions of Energy Bid/Offer Curves (in MWh) cleared in the DAM at each Settlement Point for each hour of the Operating Day.
+(f)	Energy sold in the DAM consisting of the following:
+(i)	The total quantity of awarded DAM Energy Offers (in MWh), from Three-Part Supply Offers and DAM Energy Only Offers, bought in the DAM at each Settlement Point for each hour of the Operating Day;
+(ii)	The total quantity of awarded PTP Obligation Bids (in MWh) cleared in the DAM that source at each Settlement Point for each hour of the Operating Day; and
+(iii)	The total quantity of awards to offer portions of Energy Bid/Offer Curves (in MWh) cleared in the DAM at each Settlement Point for each hour of the Operating Day.
+(g)	Aggregated Ancillary Service Offer Curve of all Ancillary Service Offers (including both Resource-Specific Ancillary Service Offers and Ancillary Service Only Offers) for each type of Ancillary Service for each hour of the Operating Day; 
+(h)	Electrically Similar Settlement Points used during the DAM clearing process; 
+(i)	Settlement Points that were de-energized in the base case; 
+(j)	System Lambda; and
+(k) 	Ancillary Services sold in the DAM consisting of the total quantity of awarded Resource-Specific Ancillary Service Offers and Ancillary Service Only Offers, for each Ancillary Service for each hour of the Operating Day.
+(3)	ERCOT shall monitor Day-Ahead MCPCs and Day-Ahead hourly LMPs for errors and if there are conditions that cause the price to be questionable, ERCOT shall notify all Market Participants that the DAM prices are under investigation as soon as practicable.
+(4)	ERCOT shall correct prices for an Operating Day when a market solution is determined to be invalid or invalid prices are identified in an otherwise valid market solution, accurate prices can be determined, and the impact of the price correction is significant.  The following are some reasons that may cause an invalid market solution or invalid prices in a valid market solution.
+(a)	Data Input error:  Missing, incomplete, or incorrect versions of one or more data elements input to the DAM application may result in an invalid market solution and/or prices.
+(b)	Software error:  Pricing errors may occur due to software implementation errors in DAM pre-processing, DAM clearing process, and/or DAM post processing.
+(c)	Inconsistency with these Protocols or the Public Utility Commission of Texas (PUCT) Substantive Rules:  Pricing errors may occur when specific circumstances result in prices that are in conflict with such Protocol language or the PUCT Substantive Rules.
+(5)	For purposes of a price correction performed prior to 1000 on the second Business Day after the Operating Day, the impact of a price correction is considered significant, as that term is used in paragraph (4) above, for the Operating Day when:
+(a)	The absolute value change to any single DAM Settlement Point Price at a Resource Node or Day-Ahead MCPC is greater than $0.05/MWh;
+(b)       The price correction would require ERCOT to change more than ten DAM Settlement Point Prices and Day-Ahead MCPCs; or
+(c)       The absolute value change to any DAM Settlement Point Price at a Load Zone or Hub is greater than $0.02/MWh.
+(6)	All DAM LMPs, MCPCs, and Settlement Point Prices are final at 1000 of the second Business Day after the Operating Day.
+(a)	However, after DAM LMPs, MCPCs, and Settlement Point Prices are final, if ERCOT determines that prices qualify for a correction pursuant to paragraph (4) above and that ERCOT will seek ERCOT Board review of such prices, it shall notify Market Participants and describe the need for such correction as soon as practicable but no later than 30 days after the Operating Day.  Failure to notify Market Participants within this timeline precludes the ERCOT Board from reviewing such prices.  However, nothing in this section shall be understood to limit or otherwise inhibit any of the following:
+(i)	ERCOT’s duty to inform the PUCT of potential or actual violations of the ERCOT Protocols or PUCT Rules and its right to request that the PUCT authorize correction of any prices that may have been affected by such potential or actual violations; 
+(ii)	The PUCT’s authority to order price corrections when permitted to do so under other law; or
+(iii)	ERCOT’s authority to grant relief to a Market Participant pursuant to the timelines specified in Section 20, Alternative Dispute Resolution Procedure.
+(b)	Before seeking ERCOT Board review of prices, ERCOT will determine if the impact of the price correction is significant, as that term is used in paragraph (4) above, by calculating the potential changes to the DAM Settlement Statement(s) of any Counter-Party on the given Operating Day.  ERCOT shall seek ERCOT Board review of prices if the change in DAM Settlement Statement(s) would result in the absolute value impact to any single Counter-Party, based on the sum of all original DAM Settlement Statement amounts of Market Participants assigned to the Counter-Party, to be greater than:
+(i)	2% and also greater than $20,000; or
+(ii)	20% and also greater than $2,000. 
+(c)	The ERCOT Board may review and change DAM LMPs, MCPCs, or Settlement Point Prices if ERCOT gave timely notice to Market Participants and the ERCOT Board finds that such prices should be corrected for an Operating Day.
+(d)	In review of DAM LMPs, MCPCs, or Settlement Point Prices, the ERCOT Board may rely on the same reasons identified in paragraph (4) above to find that the prices should be corrected for an Operating Day.
+(7)	As soon as practicable, but no later than 1330, ERCOT shall make available the Day-Ahead Shift Factors for binding constraints in the DAM and post to the Market Information System (MIS) Secure Area.
+[NPRR1239:  Replace paragraph (7) above with the following upon system implementation:]
+(7)	As soon as practicable, but no later than 1330, ERCOT shall make available the Day-Ahead Shift Factors for binding constraints in the DAM and post to the ERCOT website.
+4.6	DAM Settlement
+4.6.1	Day-Ahead Settlement Point Prices
+(1)	The Day-Ahead Settlement Point Price (DASPP) calculations are described in this Section for Resource Nodes, Load Zones, Hubs, and logical Resource Nodes.
+4.6.1.1	Day-Ahead Settlement Point Prices for Resource Nodes
+(1)	The DASPP for a Resource Node Settlement Point for an hour is the Locational Marginal Price (LMP) at that Resource Node for that hour as calculated in the Day-Ahead Market (DAM) process.  
+4.6.1.2	Day-Ahead Settlement Point Prices for Load Zones
+(1)	The DASPP for a Load Zone Settlement Point for an hour is calculated as follows:
+For all Load Zones except Direct Current Tie (DC Tie) Load Zones:
+DASPP	=	DASL - █(Σ@c)(DALZSF c * DASP c)
+Where:
+DALZSF c	=	█(Σ@pb) (DADF pb, c * DASF pb, c)
+DADF pb, c	=	DAL pb, c / (█(Σ@pb) DAL pb, c)
+For a DC Tie Load Zone:
+DASPP	=	DALMP b
+The above variables are defined as follows:
+Variable	Unit	Definition
+DASPP	$/MWh	Day-Ahead Settlement Point PriceThe DAM Settlement Point Price at the Load Zone, for the hour.
+DALMP b	$/MWh	Day-Ahead Locational Marginal Price per busThe DAM LMP at Electrical Bus b for the hour. 
+DASL	$/MWh	Day-Ahead System LambdaThe DAM Shadow Price for the system power balance constraint for the hour.
+DASP c	$/MWh	Day-Ahead Shadow Price for a binding transmission constraintThe DAM Shadow Price for the constraint c for the hour.
+DALZSF c	none	Day-Ahead Shift factor of the Load Zone The DAM aggregated Shift Factor of a Load Zone for the constraint c for the hour. 
+DASF pb, ,c	none	Day-Ahead Shift factor of the power flow busThe DAM Shift Factor of a power flow bus pb that is a component of the Load Zone for the constraint c for the hour. 
+DADF pb, c	none	Day-Ahead Distribution factor per power flow bus for a constraintThe Load distribution factor for power flow bus pb in the Load Zone for the constraint c for the hour.  
+DAL pb, c	MW	Day-Ahead Load at power flow bus for a constraintThe DAM distributed load for power flow bus pb in the Load Zone for the constraint c for the hour.
+b	none	An Electrical Bus that is assigned to the DC Tie Load Zone.
+pb	none	An energized power flow bus that is assigned to the Load Zone for the constraint c.
+c	None	A DAM binding transmission constraint for the hour caused by either base case or a contingency.
+4.6.1.3	Day-Ahead Settlement Point Prices for Hubs
+(1)	The DASPP for a Settlement Point at a Hub is determined according to the methodology included in the definition of that Hub in Section 3.5, Hubs. 
+4.6.1.4	Day-Ahead Settlement Point Prices at the Logical Resource Node for a Combined Cycle Generation Resource
+(1)	ERCOT shall calculate the DASPP for each hour at the logical Resource Node for the Combined Cycle Generation Resource as follows:
+(a)	The DASPP at a logical Resource Node shall be the sum of a weight factor as determined in paragraph (b) below times the Day-Ahead LMP at each of the Resource Nodes of the generation units registered in the Combined Cycle Train registration for the Combined Cycle Generation Resource designated in the Three-Part Supply Offer:
+Where:
+	DASPP = ∑CCGR_PhyR DALMP CCGR_PhyR * DACCGRWF CCGR_PhyR
+The above variables are defined as follows:
+Variable	Unit	Definition
+DASPP	$/MWh	Day-Ahead Settlement Point Price at a logical Resource Node for a Combined Cycle Train—The DAM Settlement Point Price at the logical Resource Node for a Combined Cycle Generation Resource for the hour.
+DALMP CCGR_PhyR	$/MWh	Day-Ahead Locational Marginal Price at a Resource Node for a generation unit registered in the Combined Cycle Generation Resource—The Day-Ahead LMP at the Resource Node of a generation unit designated in the Combined Cycle Train registration for the Combined Cycle Generation Resource.
+DACCGRWF CCGR_PhyR	none	Day-Ahead Combined Cycle Generation Resource Weighting Factor—The DAM Combined Cycle Generation Resource weighting factor for a generation unit designated in a Combined Cycle Train registration for the Combined Cycle Generation Resource.
+CCGR_PhyR	none	A generation unit designated in a Combine Cycle Train for the Combined Cycle Generation Resource.
+(b)	The weight factor for each generation unit designated in the Combined Cycle Train registration for the Combined Cycle Generation Resource shall be the generation unit’s High Reasonability Limit (HRL), as specified in the Resource Registration data provided to ERCOT pursuant to Planning Guide Section 6.8.2, Resource Registration Process, divided by the total of all HRL values for the generation units designated in the Combined Cycle Generation Resource Registration data.
+Where:
+DACCGRWF CCGR_PhyR = HRL CCGR_PhyR / ∑CCGR_PhyR HRL CCGR_PhyR
+The above variables are defined as follows:
+Variable	Unit	Definition
+DACCGRWF CCGR_PhyR	none	Day-Ahead Combined Cycle Generation Resource Weighting Factor—The DAM Combined Cycle Generation Resource weighting factor for a generation unit designated in a Combined Cycle Train registration for the Combined Cycle Generation Resource.
+HRL CCGR_PhyR	MW	High Reasonability Limit—The HRL as specified in the ERCOT-approved Resource Registration data for a generation unit designated in a Combined Cycle Train registration for the Combined Cycle Generation Resource.
+CCGR_PhyR	none	A generation unit designated in a Combined Cycle Train for the Combined Cycle Generation Resource.
+4.6.2	Day-Ahead Energy and Make-Whole Settlement
+4.6.2.1	Day-Ahead Energy Payment
+(1)	The Day-Ahead Energy Payment is made for all cleared offers to sell energy in the DAM, whether through Three-Part Supply Offers or DAM Energy-Only Offer Curves.  The payment to each Qualified Scheduling Entity (QSE) for each Settlement Point for a given hour of the Operating Day is calculated as follows:
+DAESAMT q, p	=	(-1) * DASPP p * DAES q, p
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAESAMT q, p	$	Day-Ahead Energy Sale Amount per QSE per Settlement PointThe payment to QSE q for the cleared energy offers at Settlement Point p for the hour.
+DASPP p	$/MWh	Day-Ahead Settlement Point Price per Settlement PointThe DAM SPP at Settlement Point p for the hour.
+DAES q, p	MW	Day-Ahead Energy Sale per QSE per Settlement PointThe total amount of energy represented by QSE q’s cleared Three-Part Supply Offers in the DAM and cleared DAM Energy-Only Offer Curves at Settlement Point p, for the hour.
+q	none	A QSE.
+p	none	A Settlement Point.
+[NPRR1014:  Replace paragraph (1) above with the following upon system implementation:]
+(1)	The Day-Ahead Energy Payment is made for all cleared offers to sell energy in the DAM, whether through Three-Part Supply Offers, DAM Energy-Only Offer Curves, or cleared sales from the offer portion of Energy Bid/Offer Curves.  The payment to each Qualified Scheduling Entity (QSE) for each Settlement Point for a given hour of the Operating Day is calculated as follows:
+DAESAMT q, p	=	(-1) * DASPP p * DAES q, p
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAESAMT q, p	$	Day-Ahead Energy Sale Amount per QSE per Settlement PointThe payment to QSE q for the cleared energy offers at Settlement Point p for the hour.
+DASPP p	$/MWh	Day-Ahead Settlement Point Price per Settlement PointThe DAM SPP at Settlement Point p for the hour.
+DAES q, p	MW	Day-Ahead Energy Sale per QSE per Settlement PointThe total amount of energy represented by QSE q’s cleared Three-Part Supply Offers in the DAM, cleared DAM Energy-Only Offer Curves, and cleared sales from the offer portion of Energy Bid/Offer Curves at Settlement Point p, for the hour.
+q	none	A QSE.
+p	none	A Settlement Point.
+(2)	The total of the Day-Ahead Energy Payments to each QSE for the hour is calculated as follows:
+DAESAMTQSETOT q	=	 DAESAMT q, p
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAESAMTQSETOT q	$	Day-Ahead Energy Sale Amount QSE Total per QSEThe total of the payments to QSE q for its cleared energy offers at all Settlement Points for the hour.
+DAESAMT q, p	$	Day-Ahead Energy Sale Amount per QSE per Settlement PointThe payment to QSE q for the cleared energy offers at Settlement Point p for the hour.
+q	none	A QSE.
+p	none	A Settlement Point.
+4.6.2.2	Day-Ahead Energy Charge
+(1)	The Day-Ahead Energy Charge is made for all cleared DAM Energy Bids.  This charge to each QSE for each Settlement Point for a given hour of the Operating Day is calculated as follows:
+DAEPAMT q, p 	=	DASPP p * DAEP q, p
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAEPAMT q, p	$	Day-Ahead Energy Charge per QSE per Settlement PointThe charge to QSE q for all its cleared DAM Energy Bids at Settlement Point p for the hour.
+DASPP p	$/MWh	Day-Ahead Settlement Point Price per Settlement PointThe DAM SPP at Settlement Point p for the hour. 
+DAEP q, p	MW	Day-Ahead Energy Purchase per QSE per Settlement PointThe total amount of energy represented by QSE q’s cleared DAM Energy Bids at Settlement Point p for the hour.
+q	none	A QSE.
+p	none	A Settlement Point.
+[NPRR1014 and NPRR1188:  Replace applicable portions of paragraph (1) above with the following upon system implementation:]
+(1)	The Day-Ahead Energy Charge is made for all DAM Energy Bids, Energy Bid Curves, and the bid portion of Energy Bid/Offer Curves, cleared in the DAM.  This charge to each QSE for each Settlement Point for a given hour of the Operating Day is calculated as follows:
+DAEPAMT q, p 	=	DASPP p * DAEP q, p
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAEPAMT q, p	$	Day-Ahead Energy Charge per QSE per Settlement PointThe charge to QSE q for all its cleared energy bids at Settlement Point p for the hour.
+DASPP p	$/MWh	Day-Ahead Settlement Point Price per Settlement PointThe DAM SPP at Settlement Point p for the hour. 
+DAEP q, p	MW	Day-Ahead Energy Purchase per QSE per Settlement PointThe total amount of energy represented by QSE q’s DAM Energy Bids, Energy Bid Curves, and  the bid portion of Energy Bid/Offer Curves, cleared in the DAM, at Settlement Point p for the hour.
+q	none	A QSE.
+p	none	A Settlement Point.
+(2)	The total of the Day-Ahead Energy Charges to each QSE for the hour is calculated as follows:
+DAEPAMTQSETOT q	=	 DAEPAMT q, p
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAEPAMTQSETOT q	$	Day-Ahead Energy Purchase Amount QSE Total per QSEThe total of the charges to QSE q for its cleared DAM Energy Bids at all Settlement Points for the hour.
+DAEPAMT q, p	$	Day-Ahead Energy Purchase Amount per QSE per Settlement PointThe charge to QSE q for its cleared DAM Energy Bids at Settlement Point p for the hour.
+q	none	A QSE.
+p	none	A Settlement Point.
+[NPRR1014 and NPRR1188:  Replace applicable portions of paragraph (2) above with the following upon system implementation:]
+(2)	The total of the Day-Ahead Energy Charges to each QSE for the hour is calculated as follows:
+DAEPAMTQSETOT q	=	 DAEPAMT q, p
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAEPAMTQSETOT q	$	Day-Ahead Energy Purchase Amount QSE Total per QSEThe total of the charges to QSE q for its cleared energy bids at all Settlement Points for the hour.
+DAEPAMT q, p	$	Day-Ahead Energy Purchase Amount per QSE per Settlement PointThe charge to QSE q for its DAM Energy Bids, Energy Bid Curves, and the bid portion of Energy Bid/Offer Curves, cleared in the DAM, at Settlement Point p for the hour.
+q	none	A QSE.
+p	none	A Settlement Point.
+4.6.2.3	Day-Ahead Make-Whole Settlements
+(1)	A QSE that has a Three-Part Supply Offer cleared in the DAM is eligible for a Day-Ahead Make-Whole Payment startup cost compensation, if, for the Resource associated with the offer:  
+(a)	The generator’s breakers were open, as indicated by a telemetered Resource status of Off-Line, for at least five minutes during the Adjustment Period for the beginning of the DAM commitment; 
+(b)	The generator’s breakers were closed, as indicated by a telemetered Resource status of On-Line, for at least one minute during the DAM commitment period; and 
+(c)	The breaker open-close sequence, as indicated by the On-Line/Off-Line sequence from the telemetered Resource status, for which the QSE is eligible for startup cost compensation in the DAM or Reliability Unit Commitment (RUC) for the previous Operating Day does not qualify in meeting the criteria in items (a) and (b) above. 
+(d)	The breaker open-close sequence for which the QSE is eligible for startup cost compensation in an earlier DAM commitment period within the same Operating Day does not qualify in meeting the criteria in items (a) and (b) above.   
+(2)	Notwithstanding the eligibility criteria described in paragraph (1) above, a Resource will not be eligible for Day-Ahead Make-Whole Payment Startup Cost compensation if the Resource was considered by the DAM as not having a cost to start due to the DAM commitment period being contiguous with a self-committed hour, as described in   Section 4.4.9.1, Three-Part Supply Offers.
+(3)	A QSE that has a Three-Part Supply Offer cleared in the DAM is eligible for Day-Ahead Make-Whole Payment energy cost compensation in a DAM-committed Operating Hour, if, for the Resource associated with the offer the generator’s breakers were closed, as indicated by a telemetered Resource Status of On-Line, for at least one minute during the DAM-committed Operating Hour.
+(4)	The Day-Ahead Make-Whole Payment guarantees the QSE that the total payment received from the DAM for a DAM-committed Resource is not less than the total cost calculated based on the Startup Cap, the Minimum Energy Cap, and the Energy Offer Curve capped by the Energy Offer Curve Cap defined under Section 4.4.9.3.3, Energy Offer Curve Cost Caps.
+(5)	If a Generation Resource is eligible for startup or energy cost compensation in the Day-Ahead Make-Whole payment, then Ancillary Service revenue from the hours committed in the DAM will be included in its make-whole calculation for that Resource. 
+(6)	For purposes of this Section 4.6.2.3, the telemetered Resource Status of OFFQS shall be considered as Off-Line.
+[NPRR1014:  Insert paragraph (7) below upon system implementation:]
+(7)	An Energy Storage Resource (ESR) is not eligible for Day-Ahead Make-Whole Payment.
+4.6.2.3.1	Day-Ahead Make-Whole Payment
+(1)	ERCOT shall pay the QSE a Day-Ahead Make-Whole Payment for an eligible Resource for each Operating Hour in a DAM-commitment period.  
+(2)	Any Ancillary Service Offer cleared for the same Operating Hour, QSE, and Generation Resource as a Three-Part Supply Offer cleared in the DAM shall be included in the calculation of the Day-Ahead Make-Whole Payment.
+[NPRR1008:  Replace paragraph (2) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(2)	Any Resource-Specific Ancillary Service Offer cleared for the same Operating Hour, QSE, and Generation Resource as a Three-Part Supply Offer cleared in the DAM shall be included in the calculation of the Day-Ahead Make-Whole Payment.
+(3)	The guaranteed cost, energy revenue, and Ancillary Service revenue calculated for each Combined Cycle Generation Resource are each summed for the Combined Cycle Train, and the the Day-Ahead Make-Whole Amount is calculated for the Combined Cycle Train.
+(4)	For an Aggregate Generation Resource (AGR), Startup Cost shall be scaled according to the ratio of the maximum number of its generators online during a contiguous block of DAM-committed Intervals, as indicated by telemetry, compared to the total number of generators registered to the AGR and used in the approved verifiable cost for the AGR.
+(5)	The Day-Ahead Make-Whole Payment to each QSE for each DAM-committed Generation Resource is calculated as follows:
+DAMWAMT q, p, r, h	=	(-1) * Max (0, DAMGCOST q, p, r +  DAEREV q, p, r, h +  DAASREV q, r, h) * DAESR q, p, r, h / ( DAESR q, p, r, h)
+(6)	The Day-Ahead Make-Whole Guaranteed Costs are calculated for each eligible DAM-Committed Generation Resource as follows:
+For non-Combined Cycle Trains,
+DAMGCOST q, p, r	=	Min(DASUO q, p, r , DASUCAP q, p, r) +  (Min(DAMEO q, p, r, h , DAMECAP p ,q, r ,h )* DALSL q, p, r, h) +  (DAAIEC q, p, r, h * (DAESR q, p, r, h – DALSL q, p, r, h))
+For a Resource which is not an AGR, 
+If ERCOT has approved verifiable Startup Costs and minimum-energy costs for the Resource,
+Then:		DASUCAP p,q, r 	=	verifiable Startup Costs q, r, s
+		DAMECAP p,q,r,h 	=	verifiable minimum-energy costs q, r, i
+Otherwise: 	DASUCAP p,q, r 	=  	Resource Category Startup Offer Generic Cap (RCGSC)
+DAMECAP p,q, r, h = 	Resource Category Minimum-Energy Generic Cap (RCGMEC)
+For an AGR,
+DAMGCOST q, p, r	=	DASUPR q, p, r +  (Min(DAMEOq, p, r, h, DAMECAP p,q,r,h) * DALSL q, p, r, h) +  (DAAIEC q, p, r, h * (DAESR q, p, r, h – DALSL q, p, r, h))
+Where:       
+DASUPR q, p, r		 =	Min(DASUO q, p, r, DASUCAP q, p, r)
+If ERCOT has approved verifiable Startup Costs
+Then:	DASUCAP q, p, r	=	Maxc(AGRRATIO q, p, r ) * verifiable Startup Costs q, r
+Where:	AGRRATIO q, p, r	=	AGRMAXON q, p, r / AGRTOT q, p, r
+Otherwise:	DASUCAP q, p, r	=	Maxc(AGGRATIO q,p,r) * RCGSC	
+For Combined Cycle Trains,
+DAMGCOST q, p, r	=	Min(DASUO q, p, r , DASUCAPq, p, r) +   (Min(DAMEO q, p, r, h , DAMECAP q, p, r,h) * DALSL q, p, r, h) + (Max(0, Min(DASUO afterCCGR , DASUCAPafterCCGR) – Min(DASUO beforeCCGR , DASUCAPbeforeCCGR)) +   (DAAIEC q, p, r, h * (DAESR q, p, r, h – DALSL q, p, r, h))
+ (7)	The Day-Ahead Make-Whole Revenue is calculated for each DAM-Committed Generation Resource as follows:
+DAEREV q, p, r, h		=	(-1) * DASPP p, h * DAESR q, p, r, h
+DAASREV q, r, h 		=	((-1) * MCPCRU DAM, h * PCRUR r, q, DAM, h) 
+		+ ((-1) * MCPCRD DAM, h  * PCRDR r, q, DAM, h) 
+		+ ((-1) * MCPCECR DAM, h  * PCECRR r, q, DAM, h) 
+		+ ((-1) * MCPCNS DAM, h  * PCNSR r, q, DAM, h)  
+		+ ((-1) * MCPCRR DAM, h  * PCRRR r, q, DAM, h)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAMWAMT q, p, r, h	$	Day-Ahead Make-Whole Payment per QSE per Settlement Point per Resource per hourThe payment to QSE q to make-whole the Startup Cost and energy cost of Resource r committed in the DAM at Resource Node p for the hour h.  When a Combined Cycle Generation Resource is committed in the DAM, payment is made to the Combined Cycle Train for the DAM-committed Combined Cycle Generation Resource.
+DAMGCOST q, p, r	$	Day-Ahead Market Guaranteed Amount per QSE per Settlement Point per ResourceThe sum of the Startup Cost and the operating energy costs of the DAM-committed Resource r at Resource Node p represented by QSE q, for the DAM-commitment period.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train. 
+DAEREV q, p, r, h	$	Day-Ahead Energy Revenue per QSE per Settlement Point per Resource by hourThe revenue received in the DAM for Resource r at Resource Node p represented by QSE q, based on the DAM Settlement Point Price, for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+DAASREV q, r, h	$	Day-Ahead Ancillary Service Revenue per QSE per Resource by hourThe revenue received in the DAM for Resource r represented by QSE q, based on the Market Clearing Price for Capacity (MCPC) for each Ancillary Service in the DAM, for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+DASPP p, h	$/MWh	Day-Ahead Settlement Point Price by Settlement Point by hourThe DAM Settlement Point Price at Resource Node p for the hour h.
+DAESR q, p, r, h	MW	Day-Ahead Energy Sale from Resource per QSE by Settlement Point per Resource by hourThe amount of energy cleared through Three-Part Supply Offers in the DAM for Resource r at Resource Node p represented by QSE q for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+DASUPR q, p, r	$/MWh	Day-Ahead Startup Price per QSE per Settlement Point per Resource—The derived Startup Price for an AGR r at Resource Node p represented by QSE q, for the first hour of the DAM-commitment period.
+DASUCAP q, p, r,	$/start	Day-Ahead Startup Cap per QSE per Settlement Point per Resource—The amount used for AGR r or Resource r as Startup Costs.  The cap is the Resource Category Startup Offer Generic Cap (RCGSC) unless ERCOT has approved verifiable unit-specific Startup Costs for that Resource, in which case the startup cap is the scaled verifiable unit-specific Startup Cost for the AGR or the verifiable unit-specific Startup Cost for non-AGR Resources.  See Section 5.6.1, Verifiable Costs, for more information on verifiable costs.
+DAMECAP p,q,r,h	$/MWh	Day-Ahead Minimum-Energy Cap —The amount used for Resource r for minimum-energy costs.  The minimum cost is the Resource Category Minimum-Energy Generic Cap (RCGMEC) unless ERCOT has approved verifiable unit-specific minimum energy costs for that Resource, in which case the minimum energy cap is the verifiable unit-specific minimum energy cost.  See Section 5.6.1 for more information on verifiable costs.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+RCGSC	$/Start	Resource Category Generic Startup Cost—The Resource Category Generic Startup Cost cap for the category of the Resource, according to Section 4.4.9.2.3, Startup Offer and Minimum-Energy Offer Generic Caps, for the Operating Day.
+PCRUR r, q, DAM, h	MW	Procured Capacity for Reg-Up from Resource per Resource per QSE per hour in DAM—The Regulation Up (Reg-Up) capacity quantity awarded to QSE q in the DAM for Resource r for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCRU DAM, h	$/MW per hour	Market Clearing Price for Capacity for Reg-Up per hour in DAM—The DAM MCPC for Reg-Up for the hour h.
+PCRDR r, q, DAM, h	MW	Procured Capacity for Reg-Down from Resource per Resource per QSE per hour in DAM—The Regulation Down (Reg-Down) capacity quantity awarded to QSE q in the DAM for Resource r for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCRD DAM, h	$/MW per hour	Market Clearing Price for Capacity for Reg-Down per hour in DAM—The DAM MCPC for Reg-Down for the hour h.
+PCRRR r, q, DAM, h	MW	Procured Capacity for Responsive Reserve from Resource per Resource per QSE per hour in DAM—The Responsive Reserve (RRS) capacity quantity awarded to QSE q in the DAM for Resource r for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCRR DAM, h	$/MW per hour	Market Clearing Price for Capacity for Responsive Reserve per hour in DAM—The DAM MCPC for RRS for the hour h.
+PCECRR r, q, DAM, h	MW	Procured Capacity for ERCOT Contingency Reserve Service from Resource per Resource per QSE per hour in DAM—The ERCOT Contingency Reserve Service (ECRS) capacity quantity awarded to QSE q in the DAM for Resource r for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCECR DAM, h	$/MW per hour	Market Clearing Price for Capacity for ERCOT Contingency Reserve Service per hour in DAM—The DAM MCPC for ECRS for the hour h.
+PCNSR r, q, DAM, h	MW	Procured Capacity for Non-Spin from Resource per Resource per QSE per hour in DAM—The Non-Spinning Reserve (Non-Spin) capacity quantity awarded to QSE q in the DAM for Resource r for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCNS DAM, h	$/MW per hour	Market Clearing Price for Capacity for Non-Spin per hour in DAM—The DAM MCPC for Non-Spin for the hour h.
+[NPRR1008:  Replace the description above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Market Clearing Price for Capacity for Non-Spin per hour—The DAM MCPC for Non-Spin for the hour h.
+DASUO q, p, r	$/start	Day-Ahead Startup Offer per QSE per Settlement Point per Resource—The Startup Offer included in the Three-Part Supply Offer submitted in the DAM associated with Resource r at Resource Node p represented by QSE q, for the first hour of the DAM-commitment period.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+AGRRATIO q, p, r	none	Aggregate Generation Resource Ratio per QSE per Settlement Point per Aggregate Generation Resource—A value which represents the ratio of the maximum number of generators online in an hour, as indicated by telemetry, compared to the total number of generators registered to the AGR and used in the approved verifiable cost for the AGR.  The value is only applicable if the Resource is an AGR.
+AGRMAXON q, p, r	none	Aggregate Generation Resource Maximum Online per QSE per Settlement Point per Aggregate Generation Resource—The maximum number of generators online during an hour, as indicated by telemetry. The value is only applicable if the Resource is an AGR.
+AGRTOT q, p, r	none	Aggregate Generation Resource Total per QSE per Settlement Point per Aggregate Generation Resource—The total number of generators registered to the AGR and used in the approved verifiable cost for the AGR.  The value is only applicable if the Resource is an AGR.
+DAMEO q, p, r, h	$/MWh	Day-Ahead Minimum-Energy Offer per QSE per Settlement Point per Resource per hour—The Minimum-Energy Offer included in the Three-Part Supply Offer submitted in the DAM associated with Resource r at Resource Node p represented by QSE q, for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+DALSL q, p, r, h	MW	Day-Ahead Low Sustained Limit per QSE per Settlement Point per Resource per hourThe Low Sustained Limit (LSL) of Resource r at Resource Node p represented by QSE q, for the hour h as seen in the 1000 Day-Ahead snapshot.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+DAAIEC q, p, r h	$/MWh	Day-Ahead Average Incremental Energy Cost per QSE per Settlement Point per Resource per hourThe average incremental energy cost, calculated according to the Energy Offer Curve capped by the generic energy price, for the output levels between the DAESR and the LSL of Resource r at Resource Node p represented by QSE q, for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+[NPRR1216:  Replace the definition above with the following upon system implementation:]
+Day-Ahead Average Incremental Energy Cost per QSE per Settlement Point per Resource per hourThe average incremental energy cost, calculated according to the Energy Offer Curve capped by the generic energy price and the SWCAP used in the DAM Clearing, for the output levels between the DAESR and the LSL of Resource r at Resource Node p represented by QSE q, for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+[NPRR1216:  Replace the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+Day-Ahead Average Incremental Energy Cost per QSE per Settlement Point per Resource per hourThe average incremental energy cost, calculated according to the Energy Offer Curve capped by the generic energy price and the DASWCAP, for the output levels between the DAESR and the LSL of Resource r at Resource Node p represented by QSE q, for the hour h.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+q	none	A QSE.
+p	none	A Resource Node Settlement Point.
+r	none	A DAM-committed Generation Resource.
+h	none	An hour in the DAM-commitment period.
+c	none	A contiguous block of DAM-committed hours.
+afterCCGR	none	The Combined Cycle Generation Resource to which a Combined Cycle Train transitions.
+beforeCCGR	none	The Combined Cycle Generation Resource from which a Combined Cycle Train transitions.
+(8)	The calculation of the Day-Ahead Average Incremental Energy Cost for each Resource for each hour is illustrated with the picture below, where Pcap is the Energy Offer Curve Cap.  The method to calculate such cost is described in Section 4.6.5, Calculation of “Average Incremental Energy Cost” (AIEC).
+ 
+(9)	The total of the Day-Ahead Make-Whole Payments to each QSE for Generation Resources for a given hour is calculated as follows:
+DAMWAMTQSETOT q	=	  DAMWAMT q, p, r
+The above variables are defined as follows:
+Variable	Unit	Definition
+DAMWAMTQSETOT q	$	Day-Ahead Make-Whole Payment QSE Total per QSEThe total of the Day-Ahead Make-Whole Payments to QSE q for the DAM-committed Generation Resources represented by this QSE for the hour.
+DAMWAMT q, p, r	$	Day-Ahead Make-Whole Payment per QSE per Settlement Point per ResourceThe payment to QSE q to make-whole the Startup Cost and energy cost of Resource r committed in the DAM at Resource Node p for the hour.  When a Combined Cycle Generation Resource is committed in the DAM, payment is made to the Combined Cycle Train for the DAM-committed Combined Cycle Generation Resource.
+q	none	A QSE.
+p	none	A Settlement Point.
+r	none	A DAM-committed Generation Resource.
+4.6.2.3.2	Day-Ahead Make-Whole Charge 
+(1)	ERCOT shall charge a Day-Ahead Make-Whole Charge to each QSE that has one or more cleared DAM Energy Bids and/or Point-to-Point (PTP) Obligation Bids.  The Day-Ahead Make-Whole Charge for an hour is that QSE’s prorata share of the total amount of Day-Ahead Make-Whole Payments for that hour.  The proration must be based on the ratio of the energy amount of the QSE’s cleared DAM Energy Bids and PTP Obligation Bids to the total energy amount of all QSEs’ cleared DAM Energy Bids and PTP Obligation Bids.  The Day-Ahead Make-Whole Charge to each QSE for a given hour is calculated as follows:
+	LADAMWAMT q =	(-1) * DAMWAMTTOT * DAERS q
+Where:
+	Day-Ahead Make-Whole Payment Total
+DAMWAMTTOT	=	 DAMWAMTQSETOT q
+	Day-Ahead Energy Purchase Ratio Share per QSE
+DAERS q	=	DAE q / DAETOT
+DAETOT	=	 DAE q
+DAE q		=	 DAEP q, p +   RTOBL q, (j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+LADAMWAMT q	$	Day-Ahead Make-Whole ChargeThe allocated charge to QSE q to make whole all the eligible DAM-committed Resources for the hour.
+DAMWAMTTOT	$	Day-Ahead Make-Whole Payment TotalThe total of the Day-Ahead Make-Whole Payments to all QSEs for all DAM-committed Resources for the hour.
+DAMWAMTQSETOT q	$	Day-Ahead Make-Whole Payment QSE Total per QSEThe total of the Day-Ahead Make-Whole Payments to QSE q for the DAM-committed Generation Resources represented by this QSE for the hour.
+DAERS q	none	Day-Ahead Energy Purchase Ratio Share per QSE The ratio of QSE q’s total amount of energy represented by its cleared DAM Energy Bids and PTP Obligation Bids, to the total amount of energy represented by all QSEs’ cleared DAM Energy Bids and PTP Obligation Bids, for the hour.
+DAETOT	MW	Day-Ahead Energy Total—The total amount of energy represented by all cleared DAM Energy Bids and all cleared PTP Obligation Bids for the hour.
+DAE q	MW	Day-Ahead Energy per QSE—QSE q’s total amount of energy, represented by its cleared DAM Energy Bids and PTP Obligation Bids, for the hour.
+DAEP q, p	MW	Day-Ahead Energy Purchase per QSE per Settlement Point—The total amount of energy represented by QSE q’s cleared DAM Energy Bids at the Settlement Point p for the hour.
+RTOBL q, (j, k)	MW	Real-Time Obligation per QSE per pair of source and sink—The total amount of energy represented by QSE q’s cleared PTP Obligation Bids with the source j and the sink k, for the hour.
+q	none	A QSE.
+p	none	A Settlement Point.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+[NPRR1014 and NPRR1188:  Replace applicable portions of paragraph (1) above with the following upon system implementation:]
+(1)	ERCOT shall charge a Day-Ahead Make-Whole Charge to each QSE that has one or more DAM Energy Bids, Energy Bid Curves, bid portion of Energy Bid/Offer Curves, and/or Point-to-Point (PTP) Obligation Bids, cleared in the DAM.  The Day-Ahead Make-Whole Charge for an hour is that QSE’s prorata share of the total amount of Day-Ahead Make-Whole Payments for that hour.  The proration must be based on the ratio of the energy amount of the QSE’s DAM Energy Bids, Energy Bid Curves, bid portion of Energy Bid/Offer Curves, and PTP Obligation Bids, cleared in the DAM, to the total energy amount of all QSEs’ DAM Energy Bids, Energy Bid Curves, bid portion of Energy Bid/Offer Curves, and PTP Obligation Bids, cleared in the DAM.  The Day-Ahead Make-Whole Charge to each QSE for a given hour is calculated as follows:
+	LADAMWAMT q =	(-1) * DAMWAMTTOT * DAERS q
+Where:
+	Day-Ahead Make-Whole Payment Total
+DAMWAMTTOT	=	 DAMWAMTQSETOT q
+	Day-Ahead Energy Purchase Ratio Share per QSE
+DAERS q	=	DAE q / DAETOT
+DAETOT	=	 DAE q
+DAE q		=	 DAEP q, p +   RTOBL q, (j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+LADAMWAMT q	$	Day-Ahead Make-Whole ChargeThe allocated charge to QSE q to make whole all the eligible DAM-committed Resources for the hour.
+DAMWAMTTOT	$	Day-Ahead Make-Whole Payment TotalThe total of the Day-Ahead Make-Whole Payments to all QSEs for all DAM-committed Resources for the hour.
+DAMWAMTQSETOT q	$	Day-Ahead Make-Whole Payment QSE Total per QSEThe total of the Day-Ahead Make-Whole Payments to QSE q for the DAM-committed Generation Resources represented by this QSE for the hour.
+DAERS q	none	Day-Ahead Energy Purchase Ratio Share per QSE The ratio of QSE q’s total amount of energy represented by its DAM Energy Bids, Energy Bid Curves, bid portion of Energy Bid/Offer Curves, and PTP Obligation Bids, cleared in the DAM, to the total amount of energy represented by all QSEs’ DAM Energy Bids, Energy Bid Curves, bid portion of Energy Bid/Offer Curves, and PTP Obligation Bids, cleared in the DAM, for the hour.
+DAETOT	MW	Day-Ahead Energy Total—The total amount of energy represented by all DAM Energy Bids, Energy Bid Curves, bid portion of Energy Bid/Offer Curves, and all cleared PTP Obligation Bids, cleared in the DAM, for the hour.
+DAE q	MW	Day-Ahead Energy per QSE—QSE q’s total amount of energy, represented by its DAM Energy Bids, Energy Bid Curves, bid portion of Energy Bid/Offer Curves, and PTP Obligation Bids, cleared in the DAM, for the hour.
+DAEP q, p	MW	Day-Ahead Energy Purchase per QSE per Settlement Point—The total amount of energy represented by QSE q’s DAM Energy Bids, Energy Bid Curves, and bid portion of Energy Bid/Offer Curves, cleared in the DAM, at the Settlement Point p for the hour.
+RTOBL q, (j, k)	MW	Real-Time Obligation per QSE per pair of source and sink—The total amount of energy represented by QSE q’s cleared PTP Obligation Bids with the source j and the sink k, for the hour.
+q	none	A QSE.
+p	none	A Settlement Point.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+4.6.3	Settlement for PTP Obligations Bought in DAM	
+(1)	ERCOT shall pay or charge a QSE for a cleared PTP Obligation bid the difference in the DAM Settlement Point Prices between the sink Settlement Point and the source Settlement Point.  The charge or payment to each QSE for a given Operating Hour of its cleared PTP Obligation bids with each pair of source and sink Settlement Points is calculated as follows:
+DARTOBLAMT q, (j, k)	=	DAOBLPR (j, k) * RTOBL q, (j, k)
+Where:
+DAOBLPR (j, k)	=	DASPP k – DASPP j
+The above variables are defined as follows:
+Variable	Unit	Definition
+DARTOBLAMT q, (j, k)	$	Day-Ahead Real-Time Obligation Amount per QSE per pair of source and sinkThe charge or payment to QSE q for a PTP Obligation bid cleared in the DAM with the source j and the sink k, for the hour.
+DAOBLPR (j, k)	$/MWh 	Day-Ahead Obligation Price per pair of source and sinkThe DAM clearing price of a PTP Obligation bid with the source j and the sink k, for the hour.
+DASPP j	$/MWh	Day-Ahead Settlement Point Price at sourceThe DAM Settlement Point Price at the source Settlement Point j for the hour.
+DASPP k	$/MWh	Day-Ahead Settlement Point Price at sinkThe DAM Settlement Point Price at the sink Settlement Point k for the hour.
+RTOBL q, (j, k)	MW	Real-Time Obligation per QSE per pair of source and sinkThe total MW of QSE q’s PTP Obligation bids cleared in the DAM and settled in Real-Time for the source j and the sink k, for the hour.
+q	none	A QSE.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(2)	The net total charge or payment to the QSE for the hour of all its cleared PTP Obligation bids is calculated as follows:
+DARTOBLAMTQSETOT q		=	  DARTOBLAMT q, (j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DARTOBLAMTQSETOTq	$	Day-Ahead Real-Time Obligation Amount QSE Total per QSEThe net total charge or payment to QSE q for all its PTP Obligation bids cleared in the DAM for the hour.
+DARTOBLAMT q, (j, k)	$	Day-Ahead Real-Time Obligation Amount per QSE per pair of source and sinkThe charge or payment to QSE q for a PTP Obligation bids cleared in the DAM with the source j and the sink k, for the hour.
+q	none	A QSE.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(3)	ERCOT shall charge a QSE for a cleared PTP Obligation bid with Links to an Option the positive difference in the DASPP between the sink Settlement Point and the source Settlement Point.  The charge to each QSE for a given Operating Hour of its cleared PTP Obligation bid with Links to an Option with each pair of source and sink Settlement Points is calculated as follows:
+DARTOBLLOAMT q, (j, k)	= Max (0, DAOBLPR (j, k)) * RTOBLLO q, (j, k)
+Where:
+RTOBLLO q, (j, k)	=   OBLLOCRR q, (j, k), crrid, crrofferid
+The above variables are defined as follows:
+Variable	Unit	Definition
+DARTOBLLOAMT q, (j, k)	$	Day-Ahead Real-Time Obligation with Links to an Option Amount per QSE per pair of source and sinkThe charge to QSE q for a PTP Obligation bid with Links to an Option cleared in the DAM with the source j and the sink k, for the hour.
+DAOBLPR (j, k)	$/MWh 	Day-Ahead Obligation Price per pair of source and sinkThe DAM clearing price of a PTP Obligation bid with the source j and the sink k, for the hour.
+RTOBLLO q, (j, k)	MW	Real-Time PTP Obligation with Links to an Option per QSE per pair of source and sinkThe total MW of QSE q’s PTP Obligation bids with Links to an Option cleared in the DAM and settled in Real-Time for the source j and the sink k, for the hour.
+OBLLOCRR q, (j, k), crrid, crrofferid	MW	PTP Obligation with Links to an Option per QSE per pair of source and sink, CRRID and CRR Offer ID of the linked OptionThe total MW of QSE q’s PTP Obligation bids with Links to an Option cleared in the DAM for the source j and the sink k, for the hour and CRRID and CRROFFERID of the linked PTP Option.
+crrid	none	A Congestion Revenue Right (CRR) Option identification code.
+crrofferid	none	A CRR Offer identification code.
+q	none	A QSE.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+(4)	The net total charge to the QSE for the hour of all its cleared PTP Obligation bids with Links to an Option is calculated as follows:
+DARTOBLLOAMTQSETOT q	=	  DARTOBLLOAMT q, (j, k)
+The above variables are defined as follows:
+Variable	Unit	Definition
+DARTOBLLOAMTQSETOT q	$	Day-Ahead Real-Time Obligation with Links to an Option Amount QSE Total per QSEThe net total charge to QSE q for all its PTP Obligation bids with Links to an Option cleared in the DAM for the hour.
+DARTOBLLOAMT q, (j, k)	$	Day-Ahead Real-Time Obligation with Links to Option Amount per QSE per pair of source and sinkThe charge to QSE q for a PTP Obligation bid with Links to an Option cleared in the DAM with the source j and the sink k, for the hour.
+q	none	A QSE.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+4.6.4	Settlement of Ancillary Services Procured in the DAM
+(1)	ERCOT shall pay each QSE providing Ancillary Services procured in the DAM the amount of Ancillary Service Capacity in MW procured from the QSE multiplied by the MCPC for the Ancillary Service provided, expressed in $/MW.  Each QSE shall pay for its share of each Ancillary Service procured by ERCOT in the DAM.
+4.6.4.1	Payments for Ancillary Services Procured in the DAM  
+4.6.4.1.1	Regulation Up Service Payment
+(1)	ERCOT shall pay each QSE whose Ancillary Service Offers to provide Reg-Up to ERCOT were cleared in the DAM, for each hour as follows:
+PCRUAMT q	=	(-1) * MCPCRU DAM * PCRU q
+Where:
+PCRU q	=			 PCRUR r, q, DAM
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCRUAMT q 	$	Procured Capacity for Reg-Up Amount per QSE in DAM—The DAM Reg-Up payment for QSE q for the hour.
+PCRU q 	MW	Procured Capacity for Reg-Up per QSE in DAM—The total Reg-Up Service capacity quantity awarded to QSE q in the DAM for all the Resources represented by this QSE for the hour.
+PCRUR r, q, DAM	MW	Procured Capacity for Reg-Up from Resource per Resource per QSE in DAM—The Reg-Up capacity quantity awarded to QSE q in the DAM for Resource r for the hour.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCRU DAM	$/MW per hour	Market Clearing Price for Capacity for Reg-Up in DAM—The DAM MCPC for Reg-Up for the hour.
+r	none	A Resource.
+q	none	A QSE.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	ERCOT shall pay each QSE whose Resource-Specific Ancillary Service Offers to provide Reg-Up to ERCOT were cleared in the DAM, for each hour as follows:
+PCRUAMT q	=	(-1) * MCPCRU DAM * PCRU q
+Where:
+PCRU q  	=	 PCRUR r, q, DAM
+(2)	ERCOT shall pay each QSE whose Ancillary Service Only Offers to provide Reg-Up to ERCOT were cleared in the DAM, for each hour as follows:
+	DAPCRUOAMT q = (-1) * MCPCRU DAM * DARUOAWD q 
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCRUAMT q 	$	Procured Capacity for Reg-Up Amount per QSE in DAM—The DAM Reg-Up payment for QSE q for the hour.
+DAPCRUOAMT q	$	Day-Ahead Procured Capacity for Reg-Up Only Amount per QSE—The payment to QSE q for all Reg-Up only awards in DAM for the hour.
+PCRU q 	MW	Procured Capacity for Reg-Up per QSE in DAM—The total Reg-Up Service capacity quantity awarded to QSE q in the DAM for all the Resources represented by this QSE for the hour.
+PCRUR r, q, DAM	MW	Procured Capacity for Reg-Up from Resource per Resource per QSE in DAM—The Reg-Up capacity quantity awarded to QSE q in the DAM for Resource r for the hour.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCRU DAM	$/MW 	Market Clearing Price for Capacity for Reg-Up in DAM—The DAM MCPC for Reg-Up for the hour.
+DARUOAWD q	MW	Day-Ahead Reg-Up Only Award per QSE —The Reg-Up Only capacity quantity awarded in DAM to QSE q for the hour.
+r	none	A Resource.
+q	none	A QSE.
+4.6.4.1.2	Regulation Down Service Payment
+(1)	ERCOT shall pay each QSE whose Ancillary Service Offers to provide Reg-Down to ERCOT were cleared in the DAM, for each hour as follows:
+PCRDAMT q	=	(-1) * MCPCRD DAM * PCRD q
+Where:
+PCRD q		= PCRDR r, q, DAM
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCRDAMT q	$	Procured Capacity for Reg-Down Amount per QSE in DAM—The DAM Reg-Down payment for QSE q for the hour.
+PCRD q	MW	Procured Capacity for Reg-Down per QSE in DAM—The total Reg-Down Service capacity quantity awarded to QSE q in the DAM for all the Resources represented by this QSE for the hour.
+PCRDR r, q, DAM	MW	Procured Capacity for Reg-Down from Resource per Resource per QSE in DAM—The Reg-Down capacity quantity awarded to QSE q in the DAM for Resource r for the hour.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCRD DAM	$/MW per hour	Market Clearing Price for Capacity for Reg-Down in DAM—The DAM MCPC for Reg-Down for the hour.
+r	none	A Resource.
+q	none	A QSE.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	ERCOT shall pay each QSE whose Resource-Specific Ancillary Service Offers to provide Reg-Down to ERCOT were cleared in the DAM, for each hour as follows:
+PCRDAMT q	=	(-1) * MCPCRD DAM * PCRD q
+Where:
+PCRD q 	 =	 PCRDR r, q, DAM
+(2)  	ERCOT shall pay each QSE whose Ancillary Service Only Offers to provide Reg-Down to ERCOT were cleared in the DAM, for each hour as follows:
+DAPCRDOAMT q  = (-1) * MCPCRD DAM * DARDOAWD q
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCRDAMT q	$	Procured Capacity for Reg-Down Amount per QSE in DAM—The DAM Reg-Down payment for QSE q for the hour.
+DAPCRDOAMT q	$	Day-Ahead Procured Capacity for Reg-Down Only Amount per QSE— The payment to QSE q for all Reg-Down only awards in DAM for the hour.
+PCRD q	MW	Procured Capacity for Reg-Down per QSE in DAM—The total Reg-Down Service capacity quantity awarded to QSE q in the DAM for all the Resources represented by this QSE for the hour.
+PCRDR r, q, DAM	MW	Procured Capacity for Reg-Down from Resource per Resource per QSE in DAM—The Reg-Down capacity quantity awarded to QSE q in the DAM for Resource r for the hour.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCRD DAM	$/MW 	Market Clearing Price for Capacity for Reg-Down in DAM—The DAM MCPC for Reg-Down for the hour.
+DARDOAWD q	MW	Day-Ahead Reg-Down Only Award per QSE —The Reg-Down only capacity quantity awarded in DAM to QSE q for the hour.
+r	none	A Resource.
+q	none	A QSE.
+4.6.4.1.3	Responsive Reserve Payment
+(1)	ERCOT shall pay each QSE whose Ancillary Service Offers to provide RRS to ERCOT were cleared in the DAM, for each hour as follows:
+PCRRAMT q	=	(-1) * MCPCRR DAM * PCRR q
+Where:
+PCRR q	=			 PCRRR r, q, DAM
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCRRAMT q	$	Procured Capacity for Responsive Reserve Amount per QSE in DAM—The DAM RRS payment for QSE q for the hour.
+PCRR q 	MW	Procured Capacity for Responsive Reserve per QSE in DAM—The total RRS capacity quantity awarded to QSE q in the DAM for all the Resources represented by this QSE for the hour.
+PCRRR r, q, DAM	MW	Procured Capacity for Responsive Reserve from Resource per Resource per QSE in DAM—The RRS capacity quantity awarded to QSE q in the DAM for Resource r for the hour.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCRR DAM	$/MW per hour	Market Clearing Price for Capacity for Responsive Reserve in DAM—The DAM MCPC for RRS for the hour.
+r	none	A Resource.
+q	none	A QSE.
+[NPRR1008 and NPRR1245:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	ERCOT shall pay each QSE whose Resource-Specific Ancillary Service Offers to provide RRS to ERCOT were cleared in the DAM, for each hour as follows:
+	PCRRAMT q	=	(-1) * MCPCRR DAM * PCRR q
+Where:
+	PCRR q	=	 PCRRR r, q, DAM
+(2)	ERCOT shall pay each QSE whose Ancillary Service Only Offers to provide RRS to ERCOT were cleared in the DAM, for each hour as follows:
+DAPCRROAMT q  = (-1) * MCPCRR DAM * DARROAWD q
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCRRAMT q	$	Procured Capacity for Responsive Reserve Amount per QSE in DAM—The DAM RRS payment for QSE q for the hour.
+DAPCRROAMT q	$	Day-Ahead Procured Capacity for Responsive Reserve Only Amount per QSE—The payment to QSE q for all RRS only awards in DAM for the hour.
+PCRR q 	MW	Procured Capacity for Responsive Reserve per QSE in DAM—The total RRS capacity quantity awarded to QSE q in the DAM for all the Resources represented by this QSE for the hour.
+PCRRR r, q, DAM	MW	Procured Capacity for Responsive Reserve from Resource per Resource per QSE in DAM—The RRS capacity quantity awarded to QSE q in the DAM for Resource r for the hour.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCRR DAM	$/MW	Market Clearing Price for Capacity for Responsive Reserve in DAM—The DAM MCPC for RRS for the hour.
+DARROAWD q	MW	Day-Ahead Responsive Reserve Only Award per QSE —The RRS only capacity quantity awarded in DAM to QSE q for the hour.
+r	none	A Resource.
+q	none	A QSE.
+4.6.4.1.4	Non-Spinning Reserve Service Payment
+(1)	ERCOT shall pay each QSE whose Ancillary Service Offers to provide Non-Spin to ERCOT were cleared in the DAM, for each hour as follows:
+PCNSAMT q	=		(-1) * MCPCNS DAM * PCNS q
+Where:
+PCNS q	=		 PCNSR r, q, DAM
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCNSAMT q	$	Procured Capacity for Non-Spin Amount per QSE in DAM—The DAM Non-Spin payment for QSE q for the hour.
+PCNS q	MW	Procured Capacity for Non-Spin per QSE in DAM—The total Non-Spin Service capacity quantity awarded to QSE q in the DAM for all the Resources represented by this QSE for the hour.
+PCNSR r, q, DAM	MW	Procured Capacity for Non-Spin from Resource per Resource per QSE in DAM—The Non-Spin capacity quantity awarded to QSE q in the DAM for Resource r for the hour.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCNS DAM	$/MW per hour	Market Clearing Price for Capacity for Non-Spin in DAM—The DAM MCPC for Non-Spin for the hour.
+r	none	A Resource.
+q	none	A QSE.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	ERCOT shall pay each QSE whose Resource-Specific Ancillary Service Offers to provide Non-Spin to ERCOT were cleared in the DAM, for each hour as follows:
+PCNSAMT q	=	(-1) * MCPCNS DAM * PCNS q
+Where:
+PCNS q   	=	 PCNSR r, q, DAM
+(2)	ERCOT shall pay each QSE whose Ancillary Service Only Offers to provide Non-Spin to ERCOT were cleared in the DAM, for each hour as follows:
+DAPCNSOAMT q  = (-1) * MCPCNS DAM * DANSOAWD q
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCNSAMT q	$	Procured Capacity for Non-Spin Amount per QSE in DAM—The DAM Non-Spin payment for QSE q for the hour.
+DAPCNSOAMT q	$	Day-Ahead Procured Capacity for Non-Spin Only Amount per QSE— The payment to QSE q for all Non-Spin only awards in DAM for the hour.
+PCNS q	MW	Procured Capacity for Non-Spin per QSE in DAM—The total Non-Spin Service capacity quantity awarded to QSE q in the DAM for all the Resources represented by this QSE for the hour.
+PCNSR r, q, DAM	MW	Procured Capacity for Non-Spin from Resource per Resource per QSE in DAM—The Non-Spin capacity quantity awarded to QSE q in the DAM for Resource r for the hour.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCNS DAM	$/MW 	Market Clearing Price for Capacity for Non-Spin in DAM—The DAM MCPC for Non-Spin for the hour.
+DANSOAWD q	MW	Day-Ahead Non-Spin Only Award per QSE —The Non-Spin only capacity quantity awarded in DAM to QSE q for the hour.
+r	none	A Resource.
+q	none	A QSE.
+4.6.4.1.5	 ERCOT Contingency Reserve Service Payment
+(1)	ERCOT shall pay each QSE whose Ancillary Service Offers to provide ECRS to ERCOT were cleared in the DAM, for each hour as follows:
+PCECRAMT q	=	(-1) * MCPCECR DAM * PCECR q
+Where:
+PCECR q	=	 PCECRR r, q, DAM
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCECRAMT q	$	Procured Capacity for ERCOT Contingency Reserve Service Amount per QSE in DAM—The DAM ECRS payment for QSE q for the hour.
+PCECR q 	MW	Procured Capacity for ERCOT Contingency Reserve Service per QSE in DAM—The total ECRS capacity quantity awarded to QSE q in the DAM for all the Resources represented by this QSE for the hour.
+PCECRR r, q, DAM	MW	Procured Capacity for ERCOT Contingency Reserve Service from Resource per Resource per QSE in DAM—The ECRS capacity quantity awarded to QSE q in the DAM for Resource r for the hour.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCECR DAM	$/MW per hour	Market Clearing Price for Capacity for ERCOT Contingency Reserve Service in DAM—The DAM MCPC for ECRS for the hour.
+r	none	A Resource.
+q	none	A QSE.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	ERCOT shall pay each QSE whose Resource-Specific Ancillary Service Offers to provide ECRS to ERCOT were cleared in the DAM, for each hour as follows:
+PCECRAMT q	=	(-1) * MCPCECR DAM * PCECR q
+Where:
+PCECR q	=	 PCECRR r, q, DAM
+(2)	ERCOT shall pay each QSE whose Ancillary Service Only Offers to provide ECRS to ERCOT were cleared in the DAM, for each hour as follows:
+DAPCECROAMT q = (-1) * MCPCECR DAM * DAECROAWD q
+The above variables are defined as follows:
+Variable	Unit	Definition
+PCECRAMT q	$	Procured Capacity for ERCOT Contingency Reserve Service Amount per QSE in DAM—The DAM ECRS payment for QSE q for the hour.
+DAPCECROAMT q	$	Day-Ahead Procured Capacity for ERCOT Contingency Reserve Service Only Amount per QSE— The payment to QSE q for all ECRS only awards in DAM for the hour.
+PCECR q 	MW	Procured Capacity for ERCOT Contingency Reserve Service per QSE in DAM—The total ECRS capacity quantity awarded to QSE q in the DAM for all the Resources represented by this QSE for the hour.
+PCECRR r, q, DAM	MW	Procured Capacity for ERCOT Contingency Reserve Service from Resource per Resource per QSE in DAM—The ECRS capacity quantity awarded to QSE q in the DAM for Resource r for the hour.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MCPCECR DAM	$/MW	Market Clearing Price for Capacity for ERCOT Contingency Reserve Service in DAM—The DAM MCPC for ECRS for the hour.
+DAECROAWD q	MW	Day-Ahead ERCOT Contingency Reserve Service Only Award per QSE —The ECRS only capacity quantity awarded in DAM to QSE q for the hour.
+r	none	A Resource.
+q	none	A QSE.
+4.6.4.2	Charges for Ancillary Services Procurement in the DAM  
+4.6.4.2.1	Regulation Up Service Charge
+(1)	Each QSE shall pay to ERCOT or be paid by ERCOT a Reg-Up Service charge for each hour as follows:
+DARUAMT q	=	DARUPR * DARUQ q
+Where:
+DARUPR	= 	(-1) * PCRUAMTTOT / DARUQTOT
+PCRUAMTTOT	=	 PCRUAMT q
+DARUQTOT	=	 DARUQ q
+DARUQ q	=	DARUO q – DASARUQ q
+The above variables are defined as follows: 
+Variable	Unit	Definition
+DARUAMT q	$	Day-Ahead Reg-Up Amount per QSE—QSE q’s share of the DAM cost for Reg-Up, for the hour.
+DARUPR	$/MW per hour	Day-Ahead Reg-Up Price—The Day-Ahead Reg-Up price for the hour.
+DARUQ q	MW	Day-Ahead Reg-Up Quantity per QSE—The QSE q’s Day-Ahead Ancillary Service Obligation minus its self-arranged Reg-Up quantity for the hour.
+PCRUAMTTOT 	$	Procured Capacity for Reg-Up Amount Total in DAM—The total of the DAM Reg-Up payments for all QSEs for the hour.
+PCRUAMT q	$	Procured Capacity for Reg-Up Amount per QSE in DAM—The DAM Reg-Up payment for QSE q for the hour.
+DARUQTOT	MW	Day-Ahead Reg-Up Quantity Total—The sum of every QSE’s Day-Ahead Ancillary Service Obligation minus its self-arranged Reg-Up quantity for the hour.
+DARUO q	MW	Day-Ahead Reg-Up Obligation per QSE—The Reg-Up capacity obligation for QSE q for the DAM for the hour. 
+DASARUQ q	MW	Day-Ahead Self-Arranged Reg-Up Quantity per QSE—The self-arranged Reg-Up quantity submitted by QSE q before 1000 in the Day-Ahead.
+q	none	A QSE.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	Each QSE shall pay to ERCOT or be paid by ERCOT a Reg-Up Service charge for each hour as follows:
+DARUAMT q	=	DARUPR * DARUQ q
+Where:
+DARUPR	= 	(-1) * DAPCRUAMTTOT / DARUQTOT
+DAPCRUAMTTOT	=	 (PCRUAMT q + DAPCRUOAMT q)
+DARUQTOT	=	 DARUQ q
+DARUQ q	=	DARUO q – DASARUQ q
+The above variables are defined as follows: 
+Variable	Unit	Definition
+DARUAMT q	$	Day-Ahead Reg-Up Amount per QSE—QSE q’s share of the DAM cost for Reg-Up, for the hour.
+DARUPR	$/MW 	Day-Ahead Reg-Up Price—The Day-Ahead Reg-Up price for the hour.
+DARUQ q	MW	Day-Ahead Reg-Up Quantity per QSE—The QSE q’s Day-Ahead Ancillary Service Obligation minus its self-arranged Reg-Up quantity for the hour.
+DAPCRUAMTTOT 	$	Day-Ahead Procured Capacity for Reg-Up Amount Total —The total of the DAM Reg-Up payments for all QSEs for the hour.
+PCRUAMT q	$	Procured Capacity for Reg-Up Amount per QSE in DAM—The DAM Reg-Up payment for QSE q for the hour.
+DAPCRUOAMT q	$	Day-Ahead Procured Capacity for Reg-Up Only Amount per QSE—The payment to QSE q for all Reg-Up only awards in DAM for the hour.
+DARUQTOT	MW	Day-Ahead Reg-Up Quantity Total—The sum of every QSE’s Day-Ahead Ancillary Service Obligation minus its self-arranged Reg-Up quantity for the hour.
+DARUO q	MW	Day-Ahead Reg-Up Obligation per QSE—The Reg-Up capacity obligation for QSE q for the DAM for the hour. 
+DASARUQ q	MW	Day-Ahead Self-Arranged Reg-Up Quantity per QSE—The self-arranged Reg-Up quantity submitted by QSE q before 1000 in the Day-Ahead.
+q	none	A QSE.
+4.6.4.2.2	Regulation Down Service Charge
+(1)	Each QSE shall pay to ERCOT or be paid by ERCOT a Reg-Down Service charge for each hour as follows:
+DARDAMT q	=	DARDPR * DARDQ q
+Where:
+DARDPR	= 	(-1) * PCRDAMTTOT / DARDQTOT
+PCRDAMTTOT	=	 PCRDAMT q
+DARDQTOT	=	 DARDQ q
+DARDQ q	=	DARDO q – DASARDQ q
+The above variables are defined as follows: 
+Variable	Unit	Definition
+DARDAMT q	$	Day-Ahead Reg-Down Amount per QSE—QSE q’s share of the DAM cost for Reg-Down, for the hour.
+DARDPR	$/MW per hour	Day-Ahead Reg-Down Price—The Day-Ahead Reg-Down price for the hour.
+DARDQ q	MW	Day-Ahead Reg-Down Quantity per QSE—The QSE q’s Day-Ahead Ancillary Service Obligation minus its self-arranged Reg-Down quantity for the hour.
+PCRDAMTTOT	$	Procured Capacity for Reg-Down Amount Total in DAM—The total of the DAM Reg-Down payments for all QSEs for the hour.
+PCRDAMT q	$	Procured Capacity for Reg-Down Amount per QSE in DAM—The DAM Reg-Down payment for QSE q for the hour.
+DARDQTOT	MW	Day-Ahead Reg-Down Quantity Total—The sum of every QSE’s Day-Ahead Ancillary Service Obligation minus its self-arranged Reg-Down quantity for the hour.
+DARDO q	MW	Day-Ahead Reg-Down Obligation per QSE—The Reg-Down capacity obligation for QSE q for the DAM for the hour. 
+DASARDQ q	MW	Day-Ahead Self-Arranged Reg-Down Quantity per QSE—The self-arranged Reg-Down quantity submitted by QSE q before 1000 in the Day-Ahead.
+q	none	A QSE.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	Each QSE shall pay to ERCOT or be paid by ERCOT a Reg-Down Service charge for each hour as follows:
+DARDAMT q	=	DARDPR * DARDQ q
+Where:
+DARDPR	= 	(-1) * DAPCRDAMTTOT / DARDQTOT
+DAPCRDAMTTOT	=	 (PCRDAMT q+ DAPCRDOAMT q)
+DARDQTOT	=	 DARDQ q
+DARDQ q	=	DARDO q – DASARDQ q
+The above variables are defined as follows: 
+Variable	Unit	Definition
+DARDAMT q	$	Day-Ahead Reg-Down Amount per QSE—QSE q’s share of the DAM cost for Reg-Down, for the hour.
+DARDPR	$/MW 	Day-Ahead Reg-Down Price—The Day-Ahead Reg-Down price for the hour.
+DARDQ q	MW	Day-Ahead Reg-Down Quantity per QSE—The QSE q’s Day-Ahead Ancillary Service Obligation minus its self-arranged Reg-Down quantity for the hour.
+DAPCRDAMTTOT	$	Day-Ahead Procured Capacity for Reg-Down Amount Total—The total of the DAM Reg-Down payments for all QSEs for the hour.
+PCRDAMT q	$	Procured Capacity for Reg-Down Amount per QSE in DAM—The DAM Reg-Down payment for QSE q for the hour.
+DAPCRDOAMT q	$	Day-Ahead Procured Capacity for Reg-Down Only Amount per QSE— The payment to QSE q for all Reg-Down only awards in DAM for the hour.
+DARDQTOT	MW	Day-Ahead Reg-Down Quantity Total—The sum of every QSE’s Day-Ahead Ancillary Service Obligation minus its self-arranged Reg-Down quantity for the hour.
+DARDO q	MW	Day-Ahead Reg-Down Obligation per QSE—The Reg-Down capacity obligation for QSE q for the DAM for the hour. 
+DASARDQ q	MW	Day-Ahead Self-Arranged Reg-Down Quantity per QSE—The self-arranged Reg-Down quantity submitted by QSE q before 1000 in the Day-Ahead.
+q	none	A QSE.
+4.6.4.2.3	Responsive Reserve Charge
+(1)	Each QSE shall pay to ERCOT or be paid by ERCOT an RRS charge for each hour as follows:
+DARRAMT q	=	DARRPR * DARRQ q
+Where:
+DARRPR	= 	(-1) * PCRRAMTTOT / DARRQTOT
+PCRRAMTTOT	=	 PCRRAMT q
+DARRQTOT	=	 DARRQ q
+DARRQ q	=	DARRO q – DASARRQ q
+The above variables are defined as follows: 
+Variable	Unit	Definition
+DARRAMT q	$	Day-Ahead Responsive Reserve Amount per QSE—QSE q’s share of the DAM cost for RRS, for the hour.
+DARRPR	$/MW per hour	Day-Ahead Responsive Reserve Price—The Day-Ahead RRS price for the hour.
+DARRQ q	MW	Day-Ahead Responsive Reserve Quantity per QSE—The QSE q’s Day-Ahead Ancillary Service Obligation minus its self-arranged RRS quantity for the hour.
+PCRRAMTTOT 	$	Procured Capacity for Responsive Reserve Amount Total in DAM—The total of the DAM RRS payments for all QSEs for the hour.
+PCRRAMT q	$	Procured Capacity for Responsive Reserve Amount per QSE for DAM—The DAM RRS payment for QSE q for the hour.
+DARRQTOT	MW	Day-Ahead Responsive Reserve Quantity Total—The sum of every QSE’s Day-Ahead Ancillary Service Obligation minus its self-arranged RRS quantity for the hour.
+DARRO q	MW	Day-Ahead Responsive Reserve Obligation per QSE—The RRS capacity obligation for QSE q for the DAM for the hour. 
+DASARRQ q	MW	Day-Ahead Self-Arranged Responsive Reserve Quantity per QSE—The self-arranged RRS quantity submitted by QSE q before 1000 in the Day-Ahead.
+q	none	A QSE.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	Each QSE shall pay to ERCOT or be paid by ERCOT an RRS charge for each hour as follows:
+DARRAMT q	=	DARRPR * DARRQ q
+Where:
+DARRPR	= 	(-1) * DAPCRRAMTTOT / DARRQTOT
+DAPCRRAMTTOT	=	 (PCRRAMT q + DAPCRROAMT q)
+DARRQTOT	=	 DARRQ q
+DARRQ q	=	DARRO q – DASARRQ q
+The above variables are defined as follows: 
+Variable	Unit	Definition
+DARRAMT q	$	Day-Ahead Responsive Reserve Amount per QSE—QSE q’s share of the DAM cost for RRS, for the hour.
+DARRPR	$/MW 	Day-Ahead Responsive Reserve Price—The Day-Ahead RRS price for the hour.
+DARRQ q	MW	Day-Ahead Responsive Reserve Quantity per QSE—The QSE q’s Day-Ahead Ancillary Service Obligation minus its self-arranged RRS quantity for the hour.
+DAPCRRAMTTOT 	$	Day-Ahead Procured Capacity for Responsive Reserve Amount Total—The total of the DAM RRS payments for all QSEs for the hour.
+PCRRAMT q	$	Procured Capacity for Responsive Reserve Amount per QSE for DAM—The DAM RRS payment for QSE q for the hour.
+DAPCRROAMT q 	$	Day-Ahead Procured Capacity for Responsive Reserve Only Amount per QSE— The payment to QSE q for all RRS only awards in DAM for the hour.
+DARRQTOT	MW	Day-Ahead Responsive Reserve Quantity Total—The sum of every QSE’s Day-Ahead Ancillary Service Obligation minus its self-arranged RRS quantity for the hour.
+DARRO q	MW	Day-Ahead Responsive Reserve Obligation per QSE—The RRS capacity obligation for QSE q for the DAM for the hour. 
+DASARRQ q	MW	Day-Ahead Self-Arranged Responsive Reserve Quantity per QSE—The self-arranged RRS quantity submitted by QSE q before 1000 in the Day-Ahead.
+q	none	A QSE.
+4.6.4.2.4	Non-Spinning Reserve Service Charge
+(1)	Each QSE shall pay to ERCOT or be paid by ERCOT a Non-Spin Service charge for each hour as follows:
+DANSAMT q	=	DANSPR * DANSQ q
+Where:
+DANSPR	= 	(-1) * PCNSAMTTOT / DANSQTOT
+PCNSAMTTOT	=	 PCNSAMT q
+DANSQTOT	=	 DANSQ q
+DANSQ q	=	DANSO q – DASANSQ q
+The above variables are defined as follows: 
+Variable	Unit	Definition
+DANSAMT q	$	Day-Ahead Non-Spin Amount per QSE—QSE q’s share of the DAM cost for Non-Spin, for the hour.
+DANSPR	$/MW per hour	Day-Ahead Non-Spin Price—The Day-Ahead Non-Spin price for the hour.
+DANSQ q	MW	Day-Ahead Non-Spin Quantity per QSE—The QSE q’s Day-Ahead Ancillary Service Obligation minus its self-arranged Non-Spin quantity for the hour.
+PCNSAMTTOT 	$	Procured Capacity for Non-Spin Amount Total in DAM—The total of the DAM Non-Spin payments for all QSEs for the hour.
+PCNSAMT q	$	Procured Capacity for Non-Spin Amount per QSE in DAM—The DAM Non-Spin payment for QSE q for the hour.
+DANSQTOT	MW	Day-Ahead Non-Spin Quantity Total—The sum of every QSE’s Day-Ahead Ancillary Service Obligation minus its self-arranged Non-Spin quantity for the hour.
+DANSO q	MW	Day-Ahead Non-Spin Obligation per QSE—The Non-Spin capacity obligation for QSE q for the DAM for the hour. 
+DASANSQ q	MW	Day-Ahead Self-Arranged Non-Spin Quantity per QSE—The self-arranged Non-Spin quantity submitted by QSE q before 1000 in the Day-Ahead.
+q	none	A QSE.
+[NPRR1008:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	Each QSE shall pay to ERCOT or be paid by ERCOT a Non-Spin Service charge for each hour as follows:
+DANSAMT q	=	DANSPR * DANSQ q
+Where:
+DANSPR	= 	(-1) * DAPCNSAMTTOT / DANSQTOT
+DAPCNSAMTTOT	=	 (PCNSAMT q + DAPCNSOAMT q)
+DANSQTOT	=	 DANSQ q
+DANSQ q	=	DANSO q – DASANSQ q
+The above variables are defined as follows: 
+Variable	Unit	Definition
+DANSAMT q	$	Day-Ahead Non-Spin Amount per QSE—QSE q’s share of the DAM cost for Non-Spin, for the hour.
+DANSPR	$/MW	Day-Ahead Non-Spin Price—The Day-Ahead Non-Spin price for the hour.
+DANSQ q	

@@ -1,0 +1,667 @@
+ses of this Section, ERCOT will only consider disqualifying those Principals of the CRR Account Holder or CRR Account Holder applicant who were Principals of the other Entity at a time during which the unpaid financial obligation remained owing to ERCOT or during the 120-day period prior to the date on which the unpaid financial obligation first became due and owing to ERCOT.
+(4)	If any of a CRR Account Holder’s or CRR Account Holder applicant’s Principals were or are Principals of a terminated Market Participant with an obligation for Default Uplift Ratio Share allocated under Section 9.19.1, Default Uplift Invoices, the terminated Market Participant must be current on all payment obligations for Default Uplift Invoices in order for the CRR Account Holder to remain, or CRR Account Holder applicant to become, a registered CRR Account Holder.  For purposes of this Section, ERCOT will only consider as disqualifying those Principals of the CRR Account Holder or CRR Account Holder applicant who were Principals of the other Entity at a time during which the other Entity was not current on its payment obligation for Default Uplift Invoices or 120 days prior to the date the other Entity first failed to pay a Default Uplift Invoice.
+(5)	A CRR Account Holder shall promptly notify ERCOT of any material change that a reasonable examiner could deem material to the CRR Account Holder’s ability to continue to meet the requirements set forth in paragraphs (1) to (4) above, and any material change in the information provided by the CRR Account Holder to ERCOT that may adversely affect the financial security of ERCOT.  This includes any changes in the Principals of the CRR Account Holder.  If the CRR Account Holder fails to so notify ERCOT of the following within two Business Days after becoming aware of the change, then ERCOT may refuse to allow the CRR Account Holder to continue to perform as a CRR Account Holder and take any other action ERCOT deems appropriate, in its sole discretion, to prevent ERCOT or Market Participants from bearing potential or actual risks, financial or otherwise, arising from those changes, and in accordance with these Protocols. 
+(6)	Continued qualification as a CRR Account Holder is contingent upon compliance with all applicable requirements in these Protocols.  ERCOT may suspend a CRR Account Holder’s rights as a Market Participant when ERCOT reasonably determines that it is an appropriate remedy for the Entity’s failure to satisfy any applicable requirement.
+16.8.1.1	CRR Account Holder Background Check Process
+(1)	CRR Account Holder applicants must satisfy a background check as a part of the ERCOT registration process.  All background checks will be performed by a third-party acting on ERCOT’s behalf.  Upon ERCOT’s request, a registered CRR Account Holder may be required to satisfy a background check as a condition of maintaining its ERCOT registration.
+(2)	A CRR Account Holder, CRR Account Holder applicants, and their Principals, will provide the following disclosures to complete a CRR Account Holder background check:
+(a)	Any civil or criminal matters involving the applicant, its predecessors, Affiliates, or Principals within the last ten years that resulted in a conviction or finding of fraud, theft, larceny, deceit, deceptive trade practices, or a violation of securities or customer protection laws;
+(b)	Any complaint, formal investigation, or disciplinary action concerning financial matters initiated by or with the Securities and Exchange Commission (SEC), Commodity Futures Trading Commission (CFTC), Federal Energy Regulatory Commission (FERC), a self-regulatory organization, Independent System Operator or Regional Transmission Organization, or a state public utility commission or securities board directly involving the actions of the applicant, its predecessors, Affiliates, or Principals within the last ten years;
+(c)	Any default involving the applicant, its predecessors, Affiliates, or Principals, that impacted or revoked the right to operate in any other energy market within the last ten years;
+(d)	Any bankruptcy by the applicant, its predecessors, Affiliates, or Principals within the last ten years; and
+(e)	Any other information ERCOT deems reasonably necessary to complete a background check (e.g., Social Security Number(s), birth dates, home addresses).  
+(3)	As required by paragraph (5) of Section 16.8.1, Criteria for Qualification as a CRR Account Holder, a CRR Account Holder, CRR Account Holder applicants, and their Principals, must promptly provide ERCOT notice of any change that a reasonable examiner could deem material to the CRR Account Holder’s ability to continue to satisfy the background check requirement, including any change to information that must be disclosed. 
+16.8.2	CRR Account Holder Application Process  
+(1)	To register as a CRR Account Holder, an applicant must submit to ERCOT a completed Section 23, Form A, Congestion Revenue Right (CRR) Account Holder Application for Registration, and any applicable fee.  ERCOT shall post on the ERCOT website the form in which CRR Account Holder applications must be submitted, all materials that must be provided with the CRR Account Holder application and the fee schedule, if any, applicable to CRR Account Holder applications.  The CRR Account Holder application shall be attested to by a duly authorized officer or agent of the applicant.  The CRR Account Holder applicant shall promptly notify ERCOT of any material changes affecting a pending application using the appropriate form posted on the ERCOT website.  The application must be submitted at least 60 days before the first day of participation in the CRR Auction process or purchase of CRRs.
+16.8.2.1	Notice of Receipt of CRR Account Holder Application
+(1)	Within three Business Days after receiving a CRR Account Holder application, ERCOT shall issue to the applicant a written confirmation that ERCOT has received the CRR Account Holder application.  ERCOT shall return without review any CRR Account Holder application that does not include the proper application fee.  The remainder of this Section does not apply to any CRR Account Holder application returned for failure to include the proper application fee.
+16.8.2.2	Incomplete CRR Account Holder Applications  
+(1)	Within ten Business Days after receiving a CRR Account Holder application, ERCOT shall notify the applicant in writing if the application is incomplete.  An application will not be deemed complete until ERCOT has received all information necessary to conduct an evaluation of whether the applicant satisfies the requirements to be registered as a CRR Account Holder, including information necessary to complete any needed background checks.
+(2)	If a CRR Account Holder application is incomplete, ERCOT’s notice of incompletion to the applicant must explain the deficiencies and describe the additional information necessary to make the CRR Account Holder application complete.  The CRR Account Holder applicant has five Business Days after it receives the notice, or a longer period if ERCOT allows, to provide the additional required information.
+(3)	If the applicant does not respond to the incompletion notice within the time allotted, ERCOT shall reject the application and shall notify the applicant using the procedures below.
+(4)	ERCOT will notify the applicant of the date on which the application is deemed complete.
+16.8.2.3	ERCOT Approval or Rejection of CRR Account Holder Application
+(1)	ERCOT will approve or reject a CRR Account Holder application within 60 days after the application has been deemed complete as provided for in Section 16.8.2.2, Incomplete CRR Account Holder Applications, unless ERCOT determines that additional time is needed to complete its review of the application.  ERCOT will notify the applicant when additional time is needed to complete its review and will provide a date by which ERCOT expects to complete its review.  If ERCOT’s initial evaluation indicates that there may be a basis to reject the application, ERCOT may contact the applicant prior to rendering a final decision on the application to determine if further information can be provided by the applicant to resolve the identified concern.
+(2)	If ERCOT rejects a CRR Account Holder application, ERCOT shall send the applicant a rejection letter explaining the grounds upon which ERCOT rejected the CRR Account Holder application.  Appropriate grounds for rejecting a CRR Account Holder application include the following:
+(a)	Required information is not provided to ERCOT in the allotted time;
+(b)	Noncompliance with technical requirements; and
+(c)	Noncompliance with other specific eligibility requirements in this Section or in any other Protocols.
+(3)	Not later than ten Business Days after receiving a rejection letter, the CRR Account Holder applicant may challenge the rejection of its CRR Account Holder application using the dispute resolution procedures set forth in Section 20, Alternative Dispute Resolution Procedure.  The applicant may submit a new CRR Account Holder application and fee at any time, and ERCOT shall process the new CRR Account Holder application under this Section.
+(4)	If ERCOT approves the CRR Account Holder application, ERCOT shall send the applicant a CRR Account Holder Agreement and any other required Agreements relating to use of the ERCOT network, software, and systems for the applicant’s signature. 
+(5)	If ERCOT fails to approve or deny the CRR Account Holder application within 60 days after the application is deemed complete, and fails to notify the applicant that additional time is needed to complete its review, the CRR Account Holder may seek relief using the dispute resolution procedures set forth in Section 20.
+16.8.3	Remaining Steps for CRR Account Holder Registration
+(1)	After a CRR Account Holder application is deemed approved under Section 16.8.2.3, ERCOT Approval or Rejection of CRR Account Holder Application, the applicant shall coordinate or perform the following:
+(a)	Return the signed CRR Account Holder Agreement and other related agreements to ERCOT; and
+(b)	Demonstrate compliance with security and financial requirements.
+16.8.3.1	Maintaining and Updating CRR Account Holder Information 
+(1)	Each CRR Account Holder must timely update information the CRR Account Holder provided to ERCOT in the application process, and a CRR Account Holder must promptly respond to any reasonable request by ERCOT for updated information regarding the CRR Account Holder or the information provided to ERCOT by the CRR Account Holder, including:
+(a)	The CRR Account Holder’s addresses;
+(b)	A list of Principals;
+(c)	A list of Affiliates; and
+(d)	Designation of the CRR Account Holder’s officers, directors, Authorized Representatives, Credit Contacts, and User Security Administrator (USA) (all per the CRR Account Holder application) including the telephone and e-mail addresses for those persons. 
+16.9	Resources Providing Reliability Must-Run Service
+(1)	Any Entity providing Reliability Must-Run (RMR) Service must comply with all the requirements to become a Resource Entity under this Section and must sign an RMR Agreement (Section 22, Attachment B, Standard Form Reliability Must-Run Agreement).  
+16.10	Resources Providing Black Start Service
+(1)	Any Entity providing Black Start Service must comply with all the requirements to become a Resource Entity under this Section and must sign a Standard Form Black Start Agreement (Section 22, Attachment D, Standard Form Black Start Agreement). 
+16.11	Financial Security for Counter-Parties
+(1)	The term “Financial Security” in this Section means the collateral amount posted with ERCOT in any of the forms listed in Section 16.11.3, Alternative Means of Satisfying ERCOT Creditworthiness Requirements.
+(2)	The term “Remainder Collateral” in this Section means the Financial Security minus Total Potential Exposure Secured (TPES) minus Net Positive Exposure of approved Congestion Revenue Right (CRR) Bilateral Trades minus Available Credit Limit (ACL) locked for CRR Auction, calculated in accordance with paragraph (3) of Section 16.11.4.6.1, Credit Requirements for CRR Auction Participation. 
+(3)	The term “Ultimate Parent” in this Section is defined as the most distant parent that prepares consolidated financial statements within the hierarchical ownership structure.
+16.11.1	ERCOT Creditworthiness Requirements for Counter-Parties 
+(1)	Each Counter-Party shall meet ERCOT’s creditworthiness standards as provided in this Section.  A Counter-Party must, at all times, maintain its Financial Security at or above the amount of its Total Potential Exposure (TPE).  Each Counter-Party shall maintain any required Financial Security in a form acceptable to ERCOT in its sole discretion.  If at any time the Counter-Party does not meet ERCOT’s creditworthiness requirements, then ERCOT may suspend the Counter-Party’s rights under these Protocols until it meets those creditworthiness requirements.  ERCOT’s failure to suspend the Counter-Party’s rights on any particular occasion does not prevent ERCOT from suspending those rights on any subsequent occasion, including a CRR Account Holder’s ability to bid on future CRRs or a Qualified Scheduling Entity’s (QSE’s) ability to bid in the Day-Ahead Market (DAM).
+(2)	Notwithstanding the provisions in paragraph (1) above, ERCOT may draw on Financial Security if necessary to pay short-pays of Securitization Default Charge Invoices or Securitization Uplift Charge Initial Invoices if the respective escrow deposits are insufficient to cover the short-pays.
+16.11.1.1	Review of Counter-Party Eligibility
+(1)	At any time, ERCOT may conduct a review to determine if a Counter-Party continues to satisfy all requirements set forth in Section 16, Registration and Qualification of Market Participants.  
+(2)	ERCOT’s review under this Section may be triggered by notice of a change provided by the Counter-Party to ERCOT, information that ERCOT receives or discovers through other means, or ERCOT’s periodic review of Principals of Counter-Parties.  
+(3)	As part of ERCOT’s review under this Section, ERCOT may conduct additional background checks, as described in Section 16.2.1.1, QSE Background Check Process, and Section 16.8.1.1, CRR Account Holder Background Check Process.  ERCOT will charge the Counter-Party a new background check fee for any necessary background check.  A Counter-Party’s failure to pay a background check fee by the deadline set by ERCOT constitutes a “Payment Breach” pursuant to Section 16.11.6, Payment Breach and Late Payments by Market Participants. 
+(4)	If ERCOT conducts a review pursuant to this Section and determines that the Counter-Party may no longer satisfy a requirement set forth in Section 16, ERCOT, in its sole discretion, may consult with the Counter-Party to determine if the Counter-Party can provide additional information or take remedial action that would explain or resolve the deficiencies preliminarily identified by ERCOT in its review.
+16.11.1.1.1	Failure to Maintain Eligibility
+(1)	If ERCOT’s review of a Counter-Party pursuant to Section 16.2.1.1, QSE Background Check Process, or Section 16.8.1.1, CRR Account Holder Background Check Process, results in ERCOT determining that the Counter-Party no longer satisfies a requirement set forth in Section 16, Registration and Qualification of Market Participants, then ERCOT will notify the Counter-Party that such failure to comply with the ERCOT Protocols is a material breach under Section (8)(A)(2) of the Standard Form Market Participant Agreement (Section 22, Attachment A).  ERCOT will provide the Counter-Party with specific information concerning what is required to cure the material breach. 
+(2)	If ERCOT determines, in its sole discretion, that continued participation of the Counter-Party would pose a risk that could immediately compromise the integrity of the ERCOT market during the 14-day cure period described in Section (8)(A)(2) of the Standard Form Market Participant Agreement, ERCOT may suspend the Counter-Party’s rights as a Market Participant upon the notification of the material breach.
+16.11.2	[RESERVED]
+16.11.3	Alternative Means of Satisfying ERCOT Creditworthiness Requirements
+(1)	A Counter-Party required to provide Financial Security under these Protocols may do so through one or more of the following means:
+(a)	The Counter-Party may give an unconditional, irrevocable letter of credit naming ERCOT as the beneficiary.  ERCOT may, in its sole discretion, reject the letter of credit if the issuer is unacceptable to ERCOT or if the conditions under which ERCOT may draw against the letter of credit are unacceptable to ERCOT.  
+	The letter of credit must be given using the ERCOT Board-approved standard letter of credit form.
+	All letters of credit must be drawn on a U.S. domestic bank or a U.S. domestic office of a foreign bank.
+(iii)	Letters of credit must be issued by a bank or other financial institution that is acceptable to ERCOT, with a minimum rating of A- with S&P and Fitch and A3 with Moody’s.  No letters of credit will be accepted from banks which are rated below A-/A3 by one or more rating agencies.  If there are split ratings amongst rating agencies, ERCOT will use the lowest of different ratings within the same rating agency and amongst different rating agencies.  The ratings are defined as follows (if available): Long term issuer rating, Long term Senior Unsecured rating or Long Term Counterparty Risk Assessment (for Moody’s).  For U.S. offices of foreign banks, U.S. branch/office must have an acceptable rating on its own by at least one of the rating agencies.
+(iv)	Letters of credit are subject to an overall limit per letter of credit issuer for all ERCOT Counter-Parties as determined below: 
+If the issuing entity has	Then
+Long-Term or Issuer Rating	Maximum letter of credit issuer limit as a percentage of Tangible Net Worth of issuer
+S&P or Fitch	Moody’s	
+AAA	Aaa	2.00%
+AA+	Aa1	1.90%
+AA	Aa2	1.80%
+AA-	Aa3	1.70%
+A+	A1	1.60%
+A	A2	1.50%
+A-	A3	1.40%
+Below A-	Below A3	Not accepted
+(A)	Each letter of credit issuer limit is also subject to an overall limit of $750 million per issuer.
+(B)	Each Bank Business Day, ERCOT will issue a report of each letter of credit issuer detailing the issuer’s dollar amount of the letters of credit currently issued to ERCOT, the issuer’s computed aggregate concentration limit, and the unused capacity under that limit.  Market Participants may inquire of ERCOT about intra-day changes to the amount of posted letters of credit.
+(C)	If a letter of credit issuer limit is breached, Counter-Parties utilizing that issuer will be notified and no new letters of credit from the issuer will be accepted while the limit remains breached.
+(D)	After four months of the limit in breach, ERCOT will no longer accept new letters of credit or amendments to existing letters of credit from that issuer.
+(E)	Letters of credit held as collateral at the time of an issuer limit breach will not be rejected.
+(F)	ERCOT in its sole discretion may authorize exceptions to these limits.  
+(G)	Revisions to the issuer limit calculation in this Section will be recommended by the Technical Advisory Committee (TAC) and approved by the ERCOT Board.  ERCOT shall update parameter values on the first day of the month following ERCOT Board approval unless otherwise directed by the ERCOT Board.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+(b)	The Counter-Party may give a surety bond naming ERCOT as the beneficiary.  
+(i)	The surety bond must be signed by a surety acceptable to ERCOT, in its sole discretion and must be in the form of ERCOT’s standard surety bond form approved by the ERCOT Board.  No modifications to the form are permitted.
+(ii)	The surety bond must be issued by an insurance company with a minimum rating of A- with S&P and Fitch and A3 with Moody’s, if available.  No surety bonds will be accepted from insurance companies, which are rated below A-/A3 by one or more rating agencies.  If there are split ratings amongst rating agencies, ERCOT will use the lowest of different ratings within the same rating agency and amongst different rating agencies.
+(iii)	Surety bonds are subject to a limit of $10 million per Counter-Party per insurer and an overall limit of $100 million per insurer for all ERCOT Counter-Parties.  This overall limit is aggregated for the entire corporate family in case of multiple insurance companies belonging to the same corporate family.
+(iv)	The surety bond must be issued by an insurance company with a minimum financial size category of XII as determined by AM Best.
+(c)	The Counter-Party may deposit Cash Collateral with ERCOT with the understanding that ERCOT may draw part or all of the deposited cash to satisfy any overdue payments owed by the Counter-Party to ERCOT.  The Cash Collateral shall be invested pursuant to the ERCOT Investment Corporate Standard and all interest received on Cash Collateral will be payable directly to the Counter-Party; provided, however, that any such arrangements may not restrict ERCOT’s immediate access to the cash.  
+(i)	Interest on Cash Collateral will be calculated on a monthly basis, based on average daily balances of the Counter-Party Cash Collateral.  Interest is not paid on Cash Collateral balances held by ERCOT where, in accordance with paragraph (4) of Section 16.11.7, Release of Market Participant’s Financial Security Requirement, the Counter-Party’s Standard Form Market Participant Agreement has been terminated and ERCOT has determined that no obligations remain owing or will become due and payable.
+(ii)	On or before the 15th Bank Business Day of each month, ERCOT will credit each Counter-Party’s Cash Collateral account for the amount of interest calculated for Cash Collateral held by ERCOT for the prior month.
+(iii)      In addition, ERCOT will provide a report containing details on how the interest amount was calculated for that month, which shall include, at a minimum, the daily principal amount of the Cash Collateral held from the Counter-Party and the imputed yield.
+(iv)	ERCOT has a first priority security interest in all property delivered by the Counter-Party to ERCOT from time to time to meet the creditworthiness requirements, and that property secures all amounts owed by the Counter-Party to ERCOT.
+16.11.4	Determination and Monitoring of Counter-Party Credit Exposure
+16.11.4.1	Determination of Total Potential Exposure for a Counter-Party
+(1)	A Counter-Party’s TPE is the sum of its “Total Potential Exposure Any” (TPEA) and TPES:
+(a)	TPEA is the positive net exposure of the Counter-Party not included in TPES.
+(b)	TPES is the positive net exposure of the Counter-Party for Future Credit Exposure (FCE) and the Independent Amount (IA).
+(2)	For all Counter-Parties:
+TPEA 	= 	Max [0, MCE, Max [0, ((1-TOA) * EAL q + TOA * EAL t + EAL a)]] + PUL
+TPES	=	Max [0, FCE a] + IA
+The above variables are defined as follows:
+Variable	Unit	Description
+EAL q	$	Estimated Aggregate Liability for all QSEs that represents Load or generation—EAL for all QSEs represented by the Counter-Party if at least one QSE represented by the Counter-Party represents either Load or generation.
+EAL t	$	Estimated Aggregate Liability for all QSEs —EAL for all QSEs represented by the Counter-Party if none of the QSEs represented by the Counter-Party represent either Load or generation.
+EAL a	$	Estimated Aggregate Liability for all CRR Account Holders—EAL for all CRR Account Holders represented by the Counter-Party.
+PUL	$	Potential Uplift—Potential uplift to the Counter-Party, to the extent and in the proportion that the Counter-Party represents Entities to which an uplift of a short payment will be made pursuant to Section 9.19, Partial Payments by Invoice Recipients.  It is calculated as the sum of: (a) Amounts expected to be uplifted within one year of the date of the calculation; and (b) the lesser of: (i) 25% of amounts expected to be uplifted beyond one year of the date of the calculation; or (ii) five years’ worth of uplift charges. 
+FCE a	$	Future Credit Exposure for all CRR Account Holders—FCE for all CRR Account Holders represented by the Counter-Party.
+MCE	$	Minimum Current Exposure—For each Counter-Party, ERCOT shall determine a Minimum Current Exposure (MCE) as follows:  
+MCE = Max[RFAF * MAF * Max[{∑_e^ ▒〖∑_(i=1)^96▒  ∑_p^ ▒ 〗[L i, od, p * RTSPP i, od, p]/n}, {∑_e^ ▒  ∑_(i=1)^96▒  ∑_p^ ▒ [[[L i, od, p * T2  - G i, od, p * (1-NUCADJ) * T3] * RTSPP i, od, p] + [RTQQNET i, od, p * T5]]/n}, 
+                      {∑_e^ ▒  ∑_(i=1)^96▒  ∑_p^ ▒ [G i, od, p * NUCADJ * T1 * RTSPP i, od, p]/n},
+                      {∑_e^ ▒  ∑_(i=1)^96▒  ∑_p^ ▒ DARTNET i, od, p * T4/n}],
+                      MAF * IMCE]
+RTQQNET i, od, p = Max[ (RTQQES i, od, p, c - RTQQEP i, od, p, c), BTCF *       (RTQQES i, od, p, c – RTQQEP i, od, p, c)] * RTSPP i, od, p
+DARTNET i, od, p  = DAM EOO Cleared i, od, p * DART i, od, p + DAM TPO Cleared i, od, p * DART i, od, p + DAM PTP Cleared i, od, p * DARTPTP i, od, p – DAM EOB Cleared i, od, p * DART i, od, p 
+Where:
+G i, od, p = 	Total Metered Generation at all Resource Nodes for the Counter-Party for interval i for Operating Day od at Settlement Point p
+L i, od, p = 	Total Adjusted Metered Load (AML) at all Load Zones for the Counter-Party for interval i for Operating Day od at Settlement Point p
+MAF = 	Market Adjustment Factor—Used to provide for the potential for overall price increases based on changes to ERCOT market rules or market conditions.  This factor shall not be set below 100%.  Revisions to this factor will be recommended by the Technical Advisory Committee (TAC) and the ERCOT Finance and Audit (F&A) Committee, and approved by the ERCOT Board.  Such revisions shall be implemented on the 45th calendar day following ERCOT Board approval unless otherwise directed by the ERCOT Board.
+NUCADJ = 	Net Unit Contingent Adjustment—To allow for situations where a generator may unintentionally or intentionally meet its requirement from the Real-Time Market (RTM)
+RTQQNET i, od, p = Net QSE-to-QSE Energy Trades for the Counter-Party for interval i for Operating Day od at Settlement Point p
+RTQQES i, od, p, c = QSE Energy Trades for which the Counter-Party is the seller for interval i for Operating Day od at Settlement Point p with Counter-Party c
+RTQQEP i, od, p, c = QSE Energy Trades for which the Counter-Party is the buyer for interval i for Operating Day od at Settlement Point p with Counter-Party c
+BTCF =                Bilateral Trades Credit Factor
+RTSPP i, od, p = 	Real-Time Settlement Point Price for interval i for Operating Day od at Settlement Point p
+DARTNET i, od, p = Net DAM activities for the Counter-Party for interval i for Operating Day od at Settlement Point p
+DART i, od, p = 	Day-Ahead - Real-Time Spread for interval i for Operating Day od at Settlement Point p
+DAM EOB Cleared i, od, p = DAM Energy Only Bids Cleared for interval i for Operating Day od at Settlement Point p
+DAM EOO Cleared i, od, p = DAM Energy Only Offers Cleared for interval i for Operating Day od at Settlement Point p
+DAM TPO Cleared i, od, p = DAM Three-Part Offers Cleared for interval i for Operating Day od at Settlement Point p
+DAM PTP Cleared i, od, p = DAM Point-to-Point (PTP) Obligations Cleared for interval i for Operating Day od at Settlement Point p
+DARTPTP i, od, p =  Day-Ahead - Real-Time Spread for value of PTP Obligation for interval i for Operating Day od at Settlement Point p
+c = 	Bilateral Counter-Party 
+cif =	Cap Interval Factor - Represents the historic largest percentage of System-Wide Offer Cap (SWCAP) intervals during a calendar day
+e = 	Most recent n Operating Days for which RTM Initial Settlement Statements are available
+i = 	Settlement Interval
+n = 	Days used for averaging
+nm =	Notional Multiplier
+od = 	Operating Day
+p = 	A Settlement Point
+[NPRR1013 and NPRR1188:  Replace applicable portions of the variable “MCE” above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1013; or upon system implementation for NPRR1188:] 
+MCE	$	Minimum Current Exposure—For each Counter-Party, ERCOT shall determine a Minimum Current Exposure (MCE) as follows:  
+MCE = Max[RFAF * MAF * Max[{∑_e^ ▒〖∑_(i=1)^96▒  ∑_p^ ▒ 〗[L i, od, p * RTSPP i, od, p]/n}, {∑_e^ ▒  ∑_(i=1)^96▒  ∑_p^ ▒ [[[L i, od, p * T2  - G i, od, p * (1-NUCADJ) * T3] * RTSPP i, od, p] + [RTQQNET i, od, p * T5]]/n}, 
+                      {∑_e^ ▒  ∑_(i=1)^96▒  ∑_p^ ▒ [G i, od, p * NUCADJ * T1 * RTSPP i, od, p]/n},
+                      {{∑_e^ ▒  ∑_(i=1)^96▒  ∑_p^ ▒ DARTNET i, od, p * T4/n} +{∑_e^ ▒  ∑_(i=1)^96▒ DARTASONET i, od, c * T4/n}}],
+                      MAF * IMCE]
+RTQQNET i, od, p = Max[ (RTQQES i, od, p, c - RTQQEP i, od, p, c), BTCF *       (RTQQES i, od, p, c – RTQQEP i, od, p, c)] * RTSPP i, od, p
+DARTNET i, od, p  = DAM EOO Cleared i, od, p * DART i, od, p + DAM TPO Cleared i, od, p * DART i, od, p + DAM PTP Cleared i, od, p * DARTPTP i, od, p – DAM EOB Cleared i, od, p * DART i, od, p 
+DARTASONET i, od = DAM ASOO Cleared i, od * DARTMCPC i, od
+Where:
+G i, od, p = 	Total Net Metered Generation at all Resource Nodes, including Wholesale Storage Load (WSL) and Controllable Load Resources (CLRs) that are not Aggregate Load Resources (ALRs), for the Counter-Party for interval i for Operating Day od at Settlement Point p
+L i, od, p = 	Total Adjusted Metered Load (AML) at all Load Zones, excluding CLR Load of CLRs that are not ALRs, for the Counter-Party for interval i for Operating Day od at Settlement Point p
+MAF = 	Market Adjustment Factor—Used to provide for the potential for overall price increases based on changes to ERCOT market rules or market conditions.  This factor shall not be set below 100%.  Revisions to this factor will be recommended by the Technical Advisory Committee (TAC) and the ERCOT Finance and Audit (F&A) Committee, and approved by the ERCOT Board.  Such revisions shall be implemented on the 45th calendar day following ERCOT Board approval unless otherwise directed by the ERCOT Board.
+NUCADJ = 	Net Unit Contingent Adjustment—To allow for situations where a generator may unintentionally or intentionally meet its requirement from the Real-Time Market (RTM)
+RTQQNET i, od, p = Net QSE-to-QSE Energy Trades for the Counter-Party for interval i for Operating Day od at Settlement Point p
+RTQQES i, od, p, c = QSE Energy Trades for which the Counter-Party is the seller for interval i for Operating Day od at Settlement Point p with Counter-Party c
+RTQQEP i, od, p, c = QSE Energy Trades for which the Counter-Party is the buyer for interval i for Operating Day od at Settlement Point p with Counter-Party c
+DARTASONET i, od = Net DAM Ancillary Service Only Activities for interval i for Operating Day od 
+DAM ASOO Cleared i, od = DAM Ancillary Service Only Offers Cleared in DAM for interval i for Operating Day od
+DARTMCPC i, od = Day-Ahead – Real-Time MCPC Spread for interval i for Operating Day od
+BTCF =                Bilateral Trades Credit Factor
+RTSPP i, od, p = 	Real-Time Settlement Point Price for interval i for Operating Day od at Settlement Point p
+DARTNET i, od, p = Net DAM Activities for the Counter-Party for interval i for Operating Day od at Settlement Point p
+DART i, od, p = 	Day-Ahead - Real-Time Spread for interval i for Operating Day od at Settlement Point p
+DAM EOB Cleared i, od, p = DAM Energy Only Bids and Energy Bid Curves Cleared for interval i for Operating Day od at Settlement Point p
+DAM EOO Cleared i, od, p = DAM Energy Only Offers Cleared for interval i for Operating Day od at Settlement Point p
+DAM TPO Cleared i, od, p = DAM Three-Part Offers Cleared for interval i for Operating Day od at Settlement Point p
+DAM PTP Cleared i, od, p = DAM Point-to-Point (PTP) Obligations Cleared for interval i for Operating Day od at Settlement Point p
+DARTPTP i, od, p =  Day-Ahead - Real-Time Spread for value of PTP Obligation for interval i for Operating Day od at Settlement Point p
+c = 	Bilateral Counter-Party 
+cif =	Cap Interval Factor - Represents the historic largest percentage of System-Wide Offer Cap (SWCAP) intervals during a calendar day
+e = 	Most recent n Operating Days for which RTM Initial Settlement Statements are available
+i = 	Settlement Interval
+n = 	Days used for averaging
+nm =	Notional Multiplier
+od = 	Operating Day
+p = 	A Settlement Point
+
+IMCE	$	Initial Minimum Current Exposure 
+IMCE =   	TOA * (SWCAP * nm * cif%)
+ 
+TOA	None	Trade-Only Activity—Counter-Party that does not represent either a Load or a generation QSE.  Set to “0” if Counter-Party represents a QSE that has an association with a Load Serving Entity (LSE) or a Resource Entity, or if Counter-Party does not represent any QSE; otherwise set to 1.
+q	None	QSEs represented by Counter-Party.
+a	None	CRR Account Holders represented by Counter-Party.
+IA	$	Independent Amount—The amount required to be posted as defined in Section 16.16.1, Counter-Party Criteria.
+RFAF	None	Real-Time Forward Adjustment Factor—The adjustment factor for RTM-related forward exposure as defined in Section 16.11.4.3.3, Forward Adjustment Factors.
+The above parameters are defined as follows: 
+Parameter	Unit	Current Value*
+nm	None	50
+cif	Percentage	9%
+NUCADJ	Percentage	Minimum value of 20%.
+T1	Days	2
+T2	Days	5
+T3	Days	5
+T4	Days	1
+T5	Days	For a Counter-Party that represents Load this value is equal to 5, otherwise this value is equal to 2.
+BTCF	Percentage	80%
+n	Days	14
+*  The current value for the parameters referenced in this table above will be recommended by TAC and approved by the ERCOT Board.  ERCOT shall update parameter values on the first day of the month following ERCOT Board approval unless otherwise directed by the ERCOT Board.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+(3)	If ERCOT, in its sole discretion, determines that the TPEA or the TPES for a Counter-Party calculated under paragraphs (1) or (2) above does not adequately match the financial risk created by that Counter-Party’s activities under these Protocols, then ERCOT may set a different TPEA or TPES for that Counter-Party.  ERCOT shall, to the extent practical, give to the Counter-Party the information used to determine that different TPEA or TPES.  ERCOT shall provide written or electronic Notice to the Counter-Party of the basis for ERCOT’s assessment of the Counter-Party’s financial risk and the resulting creditworthiness requirements.
+(4)	ERCOT shall monitor and calculate each Counter-Party’s TPEA and TPES daily.
+16.11.4.2	Determination of Counter-Party Initial Estimated Liability
+(1)	For each Counter-Party, except those Counter-Parties that are only CRR Account Holders, ERCOT shall determine an Initial Estimated Liability (IEL) for purposes of Section 16.11.3, Alternative Means of Satisfying ERCOT Creditworthiness Requirements.
+(2)	For a Counter-Party that has all its QSEs representing only LSEs, ERCOT shall calculate the IEL using the following formula: 
+IEL = DEL * Max [0.2, RTEFL] * RTAEP * (M1 + M2)
+The above variables are defined as follows:
+Variable	Unit	Description
+IEL	$	Initial Estimated LiabilityThe Counter-Party’s Initial Estimated Liability.
+DEL	MWh	Daily Estimated LoadThe Counter-Party’s estimated average daily Load as determined by ERCOT based on information provided by the Counter-Party. 
+RTEFL	none	Real-Time Energy Factor for LoadThe ratio of the Counter-Party’s estimated energy purchases in the RTM as determined by ERCOT based on information provided by the Counter-Party, to the Counter-Party’s Daily Estimated Load.
+RTAEP	$/MWh	Real-Time Average Energy PriceAverage Settlement Point Price for the “ERCOT 345” as defined in Section 3.5.2.5, ERCOT Hub Average 345 kV Hub (ERCOT 345), based upon the previous seven days’ average Real-Time Settlement Point Prices. 
+(3)	For a Counter-Party that has all its QSEs representing only Resources, ERCOT shall calculate the IEL using the following formula: 
+IEL	=	DEG * Max [0.2, RTEFG] * RTAEP * (M1 + M2)
+The above variables are defined as follows:
+Variable	Unit	Description
+IEL	$	Initial Estimated LiabilityThe Counter-Party’s Initial Estimated Liability.
+DEG	MWh	Daily Estimated GenerationThe Counter-Party’s estimated average daily generation as determined by ERCOT based on information provided by the Counter-Party.
+RTEFG	none	Real-Time Energy Factor for GenerationThe ratio of the Counter-Party’s QSE to QSE estimated energy sales as determined by ERCOT based on information provided by the Counter-Party, to the Counter-Party’s Daily Estimated Generation.
+RTAEP	$/MWh	Real-Time Average Energy PriceAverage Settlement Point Price for the “ERCOT 345” as defined in Section 3.5.2.5 based upon the previous seven days average Real-Time Settlement Point Prices.
+(4)	For a Counter-Party that has QSEs representing both LSE and Resources, ERCOT shall calculate the Counter-Party’s IEL using the following formula:
+IEL	=	DEL * Max [0.1, RTEFL] * RTAEP * (M1 + M2) + DEG * Max [0.1, RTEFG] * RTAEP * (M1 + M2)
+The above variables are defined as follows: 
+Variable	Unit	Description
+IEL	$	Initial Estimated LiabilityThe Counter-Party’s Initial Estimated Liability.
+DEL	MWh	Daily Estimated LoadThe Counter-Party’s estimated average daily Load as determined by ERCOT based on information provided by the Counter-Party.
+DEG	MWh	Daily Estimated GenerationThe Counter-Party’s estimated average daily generation as determined by ERCOT based on information provided by the Counter-Party.
+RTEFL	none	Real-Time Energy Factor for LoadThe ratio of the Counter-Party’s estimated energy purchases in the RTM as determined by ERCOT based on information provided by the Counter-Party, to the Counter-Party’s Daily Estimated Load.
+RTAEP	$/MWh	Real-Time Average Energy PriceAverage Settlement Point Price for the “ERCOT 345” as defined in Section 3.5.2.5 based upon the previous seven days’ average Real-Time Settlement Point Prices.
+RTEFG	none	Real-Time Energy Factor for Generation—The ratio of the Counter-Party’s QSE to QSE estimated energy sales as determined by ERCOT, based on information provided by the Counter-Party, to the Counter-Party’s Daily Estimated Generation.
+(5)	For a Counter-Party that has all its QSEs representing neither Load nor generation, and that is not representing a CRR Account Holder, the IEL is equal to IMCE as defined in paragraph (2) of Section 16.11.4.1, Determination of Total Potential Exposure for a Counter-Party.
+(6)	For a Counter-Party that is only a CRR Account Holder and is not a QSE, the IEL is zero.
+16.11.4.3	Determination of Counter-Party Estimated Aggregate Liability
+(1)	After a Counter-Party commences activity in ERCOT markets, ERCOT shall monitor and calculate the Counter-Party’s EAL based on the formulas below.  
+EAL q =	Max [IEL during the first 40-day period only beginning on the date that the Counter-Party commences activity in ERCOT markets, RFAF * Max {RTLE during the previous lrq days}, RTLF] + DFAF * DALE + Max [RTLCNS, Max {URTA during the previous lrq days}] + OUT q + ILE q
+EAL t =	Max [RFAF * Max {RTLE during the previous lrt days}, RTLF] + DFAF * DALE + Max [RTLCNS, Max {URTA during the previous lrt days}] + OUT t 
+EAL a =	OUT a
+ERCOT may adjust the number of days used in determining the highest RTLE and/or URTA, and/or to exclude specific Operating Days to calculate RTLE, URTA, OUT, or DALE.
+The above variables are defined as follows: 
+Variable	Unit	Description
+EAL q	$	Estimated Aggregate Liability for all the QSEs represented by a Counter-Party if at least one QSE represented by the Counter-Party represents either Load or generation.
+EAL t	$	Estimated Aggregate Liability for all the QSEs represented by a Counter-Party if none of the QSEs represented by the Counter-Party represent either Load or generation.
+EAL a	$	Estimated Aggregate Liability for all the CRR Account Holders represented by the Counter-Party.
+IEL	$	Initial Estimated Liability for all the QSEs represented by the Counter-Party if at least one QSE represented by the Counter-Party represents either Load or generation as defined in paragraphs (1), (2), (3) and (4) of Section 16.11.4.2, Determination of Counter-Party Initial Estimated Liability.
+q		QSEs represented by Counter-Party.
+t		QSEs represented by a Counter-Party if none of the QSEs represented by the Counter-Party represent either Load or generation.
+a		CRR Account Holders represented by Counter-Party.
+RTLE	$	Real-Time Liability Extrapolated—M1 multiplied by the sum of the net amount, with zero substituted for missing values, due to or from ERCOT by the Counter-Party in the 14 most recent Operating Days for which RTM Initial Statements are produced for Counter-Parties according to the ERCOT Settlement Calendar divided by 14.
+URTA	$	Unbilled Real-Time Amount—M2 multiplied by the sum of the net amount, with zero substituted for missing values, due to or from ERCOT by the Counter-Party in the 14 most recent Operating Days for which RTM Initial Statements are produced for Counter-Parties according to the ERCOT Settlement Calendar divided by 14.
+RTL	$	Real-Time Liability—The estimated or settled amounts due to or from ERCOT due to activities in the RTM for an Operating Day, as defined in Section 16.11.4.3.2, Real-Time Liability Estimate.
+RTLCNS	$	Real-Time Liability Completed and Not Settled—For each Operating Day that is completed but not settled, ERCOT shall calculate RTL adjusted up by rtlcu% if there is a net amount due to ERCOT or adjusted down by rtlcd% if there is a net amount due to the QSE. 
+RTLCNS = Sum of Max RTL(rtlcu% * RTL, rtlcd% * RTL) for all completed and not settled Operating Days
+Where:
+rtlcu =	Real-Time Liability Markup
+rtlcd =	Real-Time Liability Markdown
+RTLF	$	Real-Time Liability Forward—rtlfp% of the sum of estimated RTL from the most recent seven Operating Days.   
+RTLF = rtlf% of the Sum of Max RTL(rtlcu% * RTL, rtlcd% * RTL) for the most recent seven Operating Days
+Where:
+rtlfp =	Real-Time Liability Forward
+OUT q	$	Outstanding Unpaid Transactions—Outstanding unpaid transactions for all QSEs represented by the Counter-Party, which include (a) outstanding Invoices to the Counter-Party; (b) estimated unbilled items to the Counter-Party, to the extent not adequately accommodated in the RTLE calculation (including resettlements and other known liabilities); and (c) estimated CRR Auction revenue available for distribution for Operating Days in the previous two months, to the extent not invoiced to the Counter-Party.  Invoices will not be considered outstanding for purposes of this calculation the Business Day after that Invoice payment is received. 
+OUT q = OIA q + UDAA q + UFA q + UTA q + CARD
+Where:
+OIA q =	Outstanding Invoice Amounts for all the QSEs represented by the Counter-Party – Sum of any outstanding Real-Time and Day-Ahead unpaid invoices issued to the Counter-Party, including but not limited to CRR Auction Revenue Distribution (CARD) Invoices, CRR Balancing Account Invoices, Default Uplift Invoices, Securitization Uplift Charge Reallocation Invoices, and other miscellaneous Invoices.  Also included are the amounts or portions of Invoices due to the Counter-Party that have been short-paid as a result of a default or non-payment of Invoices due to ERCOT by another Counter-Party.
+UDAA q =	Unbilled Day-Ahead Amounts for all the QSEs represented by the Counter-Party – Sum of DAL for all the QSEs represented by the Counter-Party for all Operating Days for which a DAM Statement is not generated.
+UFA q =	Unbilled Final Amounts for all the QSEs represented by the Counter-Party – Unbilled final extrapolated days (ufd) multiplied by the sum of the net amount due to or from ERCOT for all QSEs represented by the Counter-Party for Operating Days for which RTM Final Statements were generated in the 21 most recent calendar days, divided by the number of Operating Days for which RTM Final Settlement Statements were generated for the Counter-Party in the 21 most recent calendar days.  
+UTA q =	Unbilled True-Up Amounts for all the QSEs represented by the Counter-Party – Unbilled true-up extrapolated days (utd) multiplied by the sum of the net amount due to or from ERCOT by the Counter-Party for all the QSEs represented by the Counter-Party for Operating Days for which RTM True-Up Statements were generated in the 21 most recent calendar days, divided by the number of Operating Days for which RTM True-Up Settlement Statements were generated for the Counter-Party in the 21 most recent calendar days.  
+CARD =	CRR Auction Revenue Distribution for all the QSEs represented by the Counter-Party – Estimate of the Counter-Party’s unpaid allocation of CRR Auction revenues that have already been collected but have not been paid out to all QSEs represented by the Counter-Party.  CRR Auction revenues that have been earned but not billed are distributed based on the following Load Ratio Shares (LRSs): (a) Zonal LRS applied to revenues from CRRs cleared and have source and sink points located within a 2003 ERCOT Congestion Management Zone (CMZ), and (b) ERCOT-wide LRS applied to all other CRR Auction revenues.  The LRS will be based on the latest completed operating month for which LRS are available.
+DAL	$	Day-Ahead Liability—The estimated or settled amounts due to or from ERCOT due to activities in the DAM for an Operating Day, as defined in Section 16.11.4.3.1, Day-Ahead Liability Estimate. 
+OUT t	$	Outstanding Unpaid Transactions—Outstanding unpaid transactions for all QSEs represented by the Counter-Party if none of the QSEs represented by the Counter-Party represent either Load or generation, which include (a) outstanding Invoices to the Counter-Party; (b) estimated unbilled items to the Counter-Party, to the extent not adequately accommodated in the RTLE calculation (including resettlements and other known liabilities).
+OUT t = OIA t + UDAA t + UFA t + UTA t
+Where:
+OIA t =	Outstanding Invoice Amounts for all the QSEs represented by the Counter-Party if none of the QSEs represented by the Counter-Party represent either Load or generation – Sum of any outstanding Real-Time and Day-Ahead unpaid Invoices issued to the Counter-Party,  including but not limited to CRR Balancing Account Invoices, Default Uplift Invoices and other miscellaneous Invoices.  Also included are the amounts or portions of invoices due to the Counter-Party that have been short-paid as a result of a Default or non-payment of invoices due to ERCOT by another Counter-Party.
+UDAA t =	Unbilled Day-Ahead Amounts for all the QSEs represented by the Counter-Party if none of the QSEs represented by the Counter-Party represent either Load or generation – Sum of DAL for all the QSEs represented by the Counter-Party for all Operating Days for which DAM Statement is not generated.
+UFA t =	Unbilled Final Amounts for all the QSEs represented by the Counter-Party if none of the QSEs represented by the Counter-Party represent either Load or generation – ufd multiplied by the sum of the net amount due to or from ERCOT for all QSEs represented by the Counter-Party for Operating Days for which RTM Final Statements were generated in the 21 most recent calendar days, divided by the number of Operating Days for which RTM Final Settlement Statements were generated for the Counter-Party in the 21 most recent calendar days.  
+UTA t =	Unbilled True-Up Amounts for all the QSEs represented by the Counter-Party if none of the QSEs represented by the Counter-Party represent either Load or generation – utd multiplied by the sum of the net amount due to or from ERCOT by the Counter-Party for all the QSEs represented by the Counter-Party for Operating Days for which RTM True-Up Statements were generated in the 21 most recent calendar days, divided by the number of Operating Days for which RTM True-Up Settlement Statements were generated for the Counter-Party in the 21 most recent calendar days.  
+OUT a	$	Outstanding Unpaid Transactions for all CRR Account Holders represented by the Counter-Party—Outstanding, unpaid transactions of all the CRR Account Holders represented by the Counter-Party, which include outstanding Invoices to the Counter-Party.  Invoices will not be considered outstanding for purposes of this calculation the Business Day after that Invoice payment is received. 
+OUT a = OIA a + UDAA a 
+Where:
+OIA a =	Outstanding Invoice Amounts for all the CRR Account Holders represented by the Counter-Party – Sum of any outstanding Real-Time and Day-Ahead unpaid Invoices issued to the Counter-Party including but not limited to CRR Balancing Account Invoices, Default Uplift Invoices and other miscellaneous Invoices.  Also included are the amounts or portions of Invoices due to the Counter-Party that have been short-paid as a result of a default or non-payment of Invoices due to ERCOT by another Counter-Party.
+UDAA a =	Unbilled Day-Ahead Amounts for all the CRR Account Holders represented by the Counter-Party – Sum of DAL of all the CRR Account Holders represented by the Counter-Party for all Operating Days for which DAM Statement is not generated.
+ILE q	$	Incremental Load Exposure—In the event of a Mass Transition necessitated by the default of a Counter-Party representing a QSE associated with an LSE, ERCOT may adjust the TPE of the Counter-Parties representing QSEs that are qualified as Providers of Last Resort (POLRs) to reflect the estimated Incremental Load Exposure (ILE) resulting from the Mass Transition.  The adjustment will be based on the POLR’s pro rata share of the defaulting Counter-Party’s RTLE, based on the total estimated Electric Service Identifiers (ESI IDs) to be transitioned.  ERCOT will communicate any such adjustment to the Authorized Representative of each Counter-Party who is a POLR within 24 hours of the initiation of a Mass Transition.  The ILE adjustment will remain in place no more than the number of days necessary to effect a Mass Transition for the defaulting Counter-Party, after which time the incremental exposure will be fully reflected in the Counter-Party’s unadjusted TPE.  
+DALE	$	Average Daily Day-Ahead Liability Extrapolated—M1 multiplied by the sum of the net amount, with zero substituted for missing values, due to or from ERCOT by the Counter-Party in the seven most recent Operating Days for which DAM Settlement Statements are produced for Counter-Parties according to the ERCOT Settlement Calendar divided by seven.
+M1		M1 = M1a + M1b—Multiplier for DALE and RTLE.  Provides for forward risk during a Counter-Party termination upon default based upon the sum of the time period required for any termination upon default (M1a) and the time period required for a Mass Transition only (M1b).  The M1a component is applicable to all Counter-Parties.  The M1b component is applicable only to Counter-Parties representing any QSE associated with a LSE.
+M1a =    	Time period required for any termination from an Operating Day.  
+	M1a is comprised of a fixed value (M1d), representing days from issuance of a collateral call to termination, and a calendar day-specific variable value.  For any Operating Day, M1a is equal to the total number of forward calendar days encompassed by starting on the Operating Day, including M1d Bank Business Days forward, and adding any ERCOT holidays that are also Bank Business Days.
+M1b =	Weighted average transition days = Min(B, (2 + Max(1, (u+1)/2))*(1-DF)), rounded up to whole days 
+Where: 	
+u = 	(ESIn/r) Unscaled number of days to transition.  
+B =	Benchmark value.  Used to establish a maximum M1 value.
+ESIn =	Number of ESI IDs associated with an individual Counter-Party.  This value will be updated no less often than annually by ERCOT and updated values communicated to individual Counter-Parties.  Counter-Parties entering the market will provide an estimated number of ESI IDs for use during their first six months of market activity.  Subsequent to this time, the value for that Counter-Party shall be updated by ERCOT concurrently with other Counter-Parties with QSEs representing an LSE.
+r =	Assumed ESI ID daily transition rate.
+DF =	Discount Factor applied to M1b if the Counter-Party meets other creditworthiness standards that may be developed and approved by TAC and the ERCOT Board.
+M2		Multiplier for URTA.
+RFAF	None	Real-Time Forward Adjustment Factor—The adjustment factor for RTM-related forward exposure as defined in Section 16.11.4.3.3, Forward Adjustment Factors.
+DFAF	None	Day-Ahead Forward Adjustment Factor—The adjustment factor for DAM-related forward exposure as defined in Section 16.11.4.3.3.
+lrq	Days	Look-back period for RTM to find the maximum of RTLE or URTA for all QSEs represented by the Counter-Party if any of the QSEs represented by the Counter-Party represent either Load or generation.
+lrt	Days	Look-back period for RTM to find the maximum of RTLE or URTA for all QSEs represented by the Counter-Party if none of the QSEs represented by the Counter-Party represent either Load or generation.
+The above parameters are defined as follows:
+Parameter	Unit	Current Value*
+rtlcu	Percentage	110%
+rtlcd	Percentage	90% 
+rtlfp	Percentage	150% 
+ufd	Days	55
+utd	Days	180
+M1d	Days	8
+B	Days	8
+r	none	100,000 per day
+DF	Percentage	0
+M2	Days	9
+lrq	Days	40
+lrt	Days	20
+*  The current value for the parameters referenced in this table above will be recommended by TAC and approved by the ERCOT Board.  ERCOT shall update parameter values on the first day of the month following ERCOT Board approval unless otherwise directed by the ERCOT Board.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+16.11.4.3.1	Day-Ahead Liability Estimate
+(1)	ERCOT shall estimate Day-Ahead Liability (DAL) for an Operating Day as the sum of estimates for the following DAM Settlement charges and payments:
+(a)	Section 4.6.2.1, Day-Ahead Energy Payment;
+(b)	Section 4.6.2.2, Day-Ahead Energy Charge;
+(c)	Section 4.6.3, Settlement for PTP Obligations Bought in DAM;
+(d)	Section 4.6.4.1.1, Regulation Up Service Payment;
+(e)	Section 4.6.4.1.2, Regulation Down Service Payment;
+(f)	Section 4.6.4.1.3, Responsive Reserve Service Payment;
+(g)	Section 4.6.4.1.4, Non-Spinning Reserve Service Payment;
+(h)	Section 4.6.4.1.5, ERCOT Contingency Reserve Service Payment;
+(i)	Section 4.6.4.2.1, Regulation Up Service Charge;
+(j)	Section 4.6.4.2.2, Regulation Down Service Charge;
+(k)	Section 4.6.4.2.3, Responsive Reserve Service Charge;
+(l)	Section 4.6.4.2.4, Non-Spinning Reserve Service Charge;
+(m)	Section 4.6.4.2.5, ERCOT Contingency Reserve Service Charge;
+(n)	Section 7.9.1.1, Payments and Charges for PTP Obligations Settled in DAM;
+(o)	Section 7.9.1.2, Payments for PTP Options Settled in DAM;
+(p)	Section 7.9.1.5, Payments and Charges for PTP Obligations with Refund Settled in DAM; and
+(q)	Section 7.9.1.6, Payments for PTP Options with Refund Settled in DAM.
+16.11.4.3.2	Real-Time Liability Estimate
+(1)	ERCOT shall estimate RTL for an Operating Day as the sum of estimates for the following RTM Settlement charges and payments:
+(a)	Section 6.6.3.1, Real-Time Energy Imbalance Payment or Charge at a Resource Node, using Real-Time Metered Generation (RTMG) as generation estimate; 
+[NPRR1188:  Replace item (a) above with the following upon system implementation:] 
+(a)	Section 6.6.3.1, Real-Time Energy Imbalance Payment or Charge at a Resource Node, using Real-Time Net Metered Generation (RTMG) including CLRs that are not ALRs as generation estimate;
+(b)	Section 6.6.3.2, Real-Time Energy Imbalance Payment or Charge at a Load Zone, using 14-day or seven-day-old LRS for Load estimate;
+[NPRR829:  Replace item (b) above with the following upon system implementation:] 
+(b)	Section 6.6.3.2, Real-Time Energy Imbalance Payment or Charge at a Load Zone, using 14-day or seven-day-old LRS for Load estimate and Real-Time telemetry of net generation as the generation estimate;
+(c)	Section 6.6.3.3, Real-Time Energy Imbalance Payment or Charge at a Hub;
+(d)	Section 6.6.3.4, Real-Time Energy Payment for DC Tie Import;
+(e)	Section 6.6.3.8, Real-Time Payment or Charge for Energy from a Settlement Only Distribution Generator (SODG) or a Settlement Only Transmission Generator (SOTG), using the Real-Time telemetry, if provided, of net generation as the outflow estimate and the Real-Time Price for each SODG or SOTG site;
+[NPRR995 and NPRR1077:  Replace applicable portions of item (e) above with the following upon system implementation:] 
+(e)	Section 6.6.3.8, Real-Time Payment or Charge for Energy from a Settlement Only Distribution Generator (SODG), Settlement Only Transmission Generator (SOTG), Settlement Only Distribution Energy Storage System (SODESS), or Settlement Only Transmission Energy Storage System (SOTESS), using the Real-Time telemetry of net generation as the outflow estimate and the Real-Time Price for each SODG, SOTG, SODESS, or SOTESS site;
+(f)	Section 6.6.4, Real-Time Congestion Payment or Charge for Self-Schedules; and
+[NPRR1013:  Insert items (g)-(k) below upon system implementation of the Real-Time Co-Optimization (RTC) project and renumber accordingly:] 
+(g)	Section 6.7.5.1, Regulation Up Payments and Charges; 
+(h)	Section 6.7.5.2, Regulation Down Payments and Charges; 
+(i)	Section 6.7.5.3, Responsive Reserve Payments and Charges; 
+(j)	Section 6.7.5.4, Non-Spinning Reserve Payments and Charges; and
+(k)	Section 6.7.5.5, ERCOT Contingency Reserve Service Payments and Charges.
+(g)	Section 7.9.2.1, Payments and Charges for PTP Obligations Settled in Real-Time.
+16.11.4.3.3	Forward Adjustment Factors
+(1)	Forward adjustment factors are used to adjust TPEA based on electricity futures prices.
+(a)	Futures Weekly Average Price (FWAP): 
+		FWAPw = (1/nfwh) * ∑_(fwh=1)^nfwh▒[FHP fwh, rhub]
+(b)	Projected Real-Time Forward Average Price (PRFAP): 
+		PRFAP = ∑_(w=1)^3▒[RWF w * FWAP w]
+(c)	Projected Day-Ahead Forward Average Price (PDFAP): 
+PDFAP = ∑_(w=1)^3▒[DWF w * FWAP w]
+(d)	Historic Real-Time Settled Average Price (HRSAP): 
+		HRSAP = (1/nhrh) * ∑_(hrh=1)^nhrh▒∑_(i=1)^4▒[RTSPP hrh, i, rhub]/4
+(e)	Historic Day-Ahead Settled Average Price (HDSAP): 
+		HDSAP = (1/nhdh) * ∑_(hdh=1)^nhdh▒[DASPP hdh, rhub]
+(f)	Real-Time Forward Adjustment Factor (RFAF): 
+	RFAF = PRFAP/HRSAP
+(g)	Day-Ahead Forward Adjustment Factor (DFAF):
+	DFAF = PDFAP/HDSAP 
+The above variables are defined as follows:
+Variable	Unit	Description
+PRFAP	$/MWh	Projected Real-Time Forward Average PriceThe average RTM price per MWh projected forward based on futures market prices.
+PDFAP	$/MWh	Projected Day-Ahead Forward Average PriceThe average DAM price per MWh projected forward based on futures market prices.
+w	None	One of the three consecutive forward weeks beginning with the current Operating Day.
+RWFw	None	Real-Time Weight Factor for forward week w such that 
+∑_(w=1)^3▒〖RWF_w=1〗
+DWFw	None	Day-Ahead Weight Factor for forward week w such that
+ ∑_(w=1)^3▒〖DWF_w=1〗
+fwh	None	Forward Week HourAn Operating Hour from a forward week w.
+nfwh	None	Number of Forward Week HoursTotal number of hours in a forward week.
+rhub	None	Reference HubThe electrical Hub used as a reference for futures mark-to-market prices.
+FWAPw	$/MWh	Futures Weekly Average Price for week wThe average futures price for the hours of the forward week w.
+FHP fwh, rhub	$/MWh	Futures Hourly Price of the Reference Hub rhub for Forward Week Hour fwhThe most recent mark-to-market price available for an electricity futures product that is applicable to the forward week hour fwh for the reference Hub rhub.
+ERCOT will disclose to the market the source of its selected electricity futures product(s) used for FHP.  In the event that an ERCOT-selected electricity futures product(s) becomes unavailable or unsuitable for the intended purpose, ERCOT will select a substitute electricity futures product(s).  ERCOT shall set the value of RFAF to 1 and DFAF to 1, and provide Notice of this change as soon as practicable, until such time as a substitute electricity futures product(s) is selected and implemented by ERCOT.  ERCOT will notify Market Participants of any change in the electricity futures product(s) at least 60 days prior to the beginning of their use.  In the event that 60 days’ Notice cannot be given, ERCOT will notify Market Participants as soon as practicable prior to use.
+hrh	None	Historic Real-Time HourAn Operating Hour that is settled and used in the most recent RTLE calculation.
+nhrh	None	Number of Historic Real-Time HoursTotal number of historic Real-Time hours that are settled and used in the most recent RTLE calculation.
+i	None	Settlement IntervalA 15-minute interval that is part of an Operating Hour.
+RTSPPhrh, i, rhub 	$/MWh	Real-Time Settlement Point Price for ith interval that is part of Operating Hour hrh for the Settlement Point rhub.
+HRSAP	$/MWh	Historic Real-Time Settled Average PriceThe average historic Real-Time settled price.
+HDSAP	$/MWh	Historic Day-Ahead Settled Average PriceThe average historic Day-Ahead settled price.
+hdh	None	Historic Day-Ahead HourAn Operating Hour that is settled and used in the most recent DALE calculation.
+nhdh	None	Number of Historic Day-Ahead HoursTotal number of historic day-ahead hours that are settled and used in the most recent DALE calculation.
+DASPPhrh, rhub 	$/MWh	Day-Ahead Settlement Point Price for Operating Hour hdh for the Settlement Point rhub.
+RFAF	None	Real-Time Forward Adjustment Factor.
+DFAF	None	Day-Ahead Forward Adjustment Factor.
+The above parameters are defined as follows: 
+Parameter	Unit	Current Value*
+rhub	None	ERCOT North Hub
+RWF1	None	1/3
+RWF2	None	1/3
+RWF3	None	1/3
+DWF1	None	1/3
+DWF2	None	1/3
+DWF3	None	1/3
+*  The current value for the parameters referenced in the table above will be recommended by TAC and approved by the ERCOT Board.  ERCOT shall update parameter values on the first day of the month following ERCOT Board approval unless otherwise directed by the ERCOT Board.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+16.11.4.4	[RESERVED]
+16.11.4.5	Determination of the Counter-Party Future Credit Exposure
+(1)	ERCOT shall monitor and calculate the Counter-Party’s FCE for all the CRR Account Holders represented by the Counter-Party as CRR Owner of record at ERCOT. 
+FCE a  =  FCEOBL a + FCEOPT a 
+The above variables are defined as follows:
+Variable	Unit	Description
+FCE a	$	Future Credit Exposure for all CRRs held by all CRR Account Holders represented by the Counter-Party.
+FCEOBL a	$	Future Credit Exposure for PTP Obligations for all PTP Obligations held by all CRR Account Holders represented by the Counter-Party as CRR Owner of record at ERCOT, for all Operating Days in the current operating month, Prompt Month, and all Forward Months. 
+FCEOPT a	$	Future Credit Exposure for PTP Options for all PTP Options held by all CRR Account Holders represented by the Counter-Party as CRR Owner of record at ERCOT, for all Operating Days remaining in the current operating month and Prompt Month. 
+a	none	All CRR Account Holders represented by the Counter-Party.
+(2)	The Counter-Party’s FCE for PTP Obligations (FCEOBL) held by all CRR Account Holders represented by the Counter-Party as CRR Owner of record at ERCOT are calculated as follows:
+FCEOBL a 	=	∑m [(∑h ∑j, k NAOBLMW m, h, (j, k)) * (-Min(0, PWA ci100, m, PWACP m))]
+PWACP m 	=	∑h ∑j, k [NAOBLMW m, h, (j, k) * EACP m, h, (j, k)] / ∑h ∑j, k [NAOBLMW m, h, (j, k)]
+The above variables are defined as follows:
+Variable	Unit	Description
+FCEOBL a	$	Future Credit Exposure for PTP Obligations for all PTP Obligations held by all CRR Account Holders represented by the Counter-Party as CRR Owner of record at ERCOT for all Operating Days in the current operating month, Prompt Month, and all Forward Months.
+NAOBLMW m, h, (j, k)	MW	Net Awarded PTP ObligationsNet awarded PTP Obligations with the source j and sink k for the hour h and month m owned by all CRR Account Holders represented by the Counter-Party as CRR Owner of record at ERCOT for all Operating Days in the current operating month, Prompt Month, and Forward Months.
+PWA ci100, m	$/MW per hour	Portfolio Weighted AdderThe portfolio weighted adder calculated as the 100th percentile of a volume weighted average rolling consecutive DAM settled price for all CRR Account Holders represented by the Counter-Party as CRR Owner of record at ERCOT based on volumes owned for the month m, over a period that represents a month for each product type (18 days for 5*16, 8 days for 2*16, 28 days for 7*8).  The look-back period for DAM settled prices shall be the lesser of January 1, 2011 to the current time, and the current time minus three years.  If historical Day-Ahead Settlement Point Prices (DASPPs) are not available for a Settlement Point for one or more Operating Days, ERCOT will designate a proxy Settlement Point for this purpose, and the DASPPs of the proxy Settlement Point of corresponding Operating Days are used.  
+PWACP m	$/MW per hour	Portfolio Weighted Auction Clearing PriceThe portfolio weighted auction clearing price calculated as the volume weighted auction clearing price for all CRR Account Holders represented by the Counter-Party as CRR Owner of record at ERCOT based on the most recent auction clearing price for the month m and volumes owned for the month m. 
+EACP m, h, (j, k)	$/MW per hour	Effective Auction Clearing Price— The auction clearing price with the source j and sink k for the hour h, and month m. 
+For each CRR PTP Obligation, this value is equal to the auction clearing price of an awarded CRR selected as follows: 
+(a)	Awarded CRRs with the source j and sink k containing hour h and operating month m are selected from the set of unexpired awarded PTP Obligations.  If no awarded CRRs are found the EACP value is zero.
+(b)	If (a) results in more than one awarded CRR, awarded CRRs with the most recent award date are selected.
+(c)	If (b) results in more than one awarded CRR, then the awarded CRR with the lowest auction clearing price is selected.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+m	none	An operating month.
+h	none	An Operating Hour.
+a	none	All CRR Account Holders represented by the Counter-Party.
+ci100	none	100th percentile confidence interval.
+(3)	The FCE for PTP Options (FCEOPT) held by all the CRR Account Holders represented by the Counter-Party as CRR Owner of record at ERCOT are calculated as follows:
+FCEOPT a 	=	- ∑m ∑h ∑j, k [(NAOPTMW m, h, (j, k)) * Max(0, A ci99, ctou, (j, k))]
+The above variables are defined as follows:
+Variable	Unit	Description
+FCEOPT a	$	Future Credit Exposure for PTP OptionsFCE for all PTP Options held by all CRR Account Holders represented by the Counter-Party as CRR Owner of record at ERCOT for all Operating Days remaining in the current operating month and Prompt Month.  
+A ci99, ctou, (j, k)	$/MW per hour	Path Specific DAM Based AdderPath specific DAM based adder calculated as 99th percentile of the average rolling consecutive DAM settled price for the CRR source j and sink k over a period that represents a month for each CRR Time Of Use (TOU) ctou product type (18 days for 5*16, 8 days for 2*16, 28 days for 7*8).  The look-back period for DAM settled prices shall be the lesser of January 1, 2011 to the current time, and the current time minus three years.  If historical DASPPs are not available for a Settlement Point for one or more Operating Days, ERCOT will designate a proxy Settlement Point for this purpose, and the DASPPs of the proxy Settlement Point of corresponding Operating Days are used.
+NAOPTMW m, h, (j, k)	MW	Net Awarded PTP OptionsNet awarded PTP Options with the source j and sink k for the hour h and month m owned by all CRR Account Holders represented by the Counter-Party as CRR Owner of record at ERCOT for remaining Operating Days in the current operating month, and Prompt Month.
+j	none	A source Settlement Point.
+k	none	A sink Settlement Point.
+m	none	An operating month.
+ctou	none	CRR Time Of Use block.
+h	none	An Operating Hour.
+a	none	All CRR Account Holders represented by the Counter-Party.
+ci99	none	99th percentile confidence interval.
+16.11.4.6	Determination of Counter-Party Available Credit Limits 
+(1) 	ERCOT shall calculate an Available Credit Limit for the CRR Auction (ACLC) and an Available Credit Limit for the DAM (ACLD) as follows:
+(a)	ACLC for each Counter-Party equal to the maximum of zero and the net of its:
+(i)	Secured Financial Security; minus 
+(ii)	(1+ACLIRF) * TPES; minus
+(iii)	Net Positive Exposure of approved CRR Bilateral Trades; minus
+(iv)	Maximum of: 
+(A)	Zero; and 
+(B)	((1+ACLIRF) * TPEA).
+(b)	ACLD for each Counter-Party equal to the maximum of zero and its:
+(i)	Remainder Collateral; minus
+(ii)	ACLIRF * TPES; minus
+(iii)	(1+ACLIRF) * TPEA.
+(c)	If all or part of a Counter-Party’s ACLC and/or ACLD cannot be computed due to an ERCOT computer system failure or Market Suspension, then ERCOT shall estimate ACLC and/or ACLD for that Counter-Party and provide the information used to determine such estimates to that Counter-Party.  If  all or part of ACLC and/or ACLD cannot be estimated with current data, then the most recently available values shall be used to determine the Counter-Party’s ACLC and/or ACLD.  ERCOT shall provide electronic Notice, as soon as practicable, to Counter-Parties when utilizing this methodology, and shall further provide electronic Notice to Counter-Parties when current data is restored and available to calculate ACLC and ACLD under paragraphs (a) and (b) above.
+The above parameters are defined as follows:
+Parameter	Unit	Current Value*
+ACLIRF	Percentage	10% — ACL Incremental Risk Factor.
+*  The current value for the parameters referenced in this table above will be recommended by TAC and approved by the ERCOT Board.  ERCOT shall update parameter values on the first day of the month following ERCOT Board approval unless otherwise directed by the ERCOT Board.  ERCOT shall provide a Market Notice prior to implementation of a revised parameter value.
+16.11.4.6.1	Credit Requirements for CRR Auction Participation
+(1)	As a requirement for participation in any CRR Auction, each Counter-Party participating in any CRR Auction, including those as permitted by Sections 16.11.6.1.4, Repossession of CRRs by ERCOT, and 16.11.6.1.5, Declaration of Forfeit of CRRs, shall communicate to ERCOT the credit limit it would like to establish for the CRR Auction prior to the close of the CRR bid submission window. 
+(2)	Consistent with paragraph (4)(c)(ii) of Section 7.5.1, Nature and Timing, ERCOT shall only modify the credit limit date in paragraph (1) above under a condition in which an ERCOT computer system failure causes Counter-Parties to be delayed or unable in submitting their credit limits for the CRR Auction and ERCOT determines that the successful execution of the CRR Auction would be jeopardized without such modification.  In such an event, ERCOT will issue a Market Notice advising of the revised credit limit date and its cause.
+(3)	ERCOT shall assign the ACL locked for CRR Auction for each Counter-Party participating in any CRR Auction as the lower of the Counter-Party’s:
+(a)	Requested credit limit, as described in paragraph (1) above; 
+(b)	ACLC, calculated in accordance with paragraph (1)(a) of Section 16.11.4.6, Determination of Counter-Party Available Credit Limits, at the time of the closure of the CRR bid submission window; or
+(c)	Pre-auction screening credit exposure amount, calculated in accordance with paragraph (2) of Section 7.5.5.3, Auction Process. 
+(4)	ERCOT shall impose a credit limit in awarding bids and offers in the CRR Auction as described in Section 7.5.5.3. 
+16.11.4.6.2	Credit Requirements for DAM Participation
+(1)	ERCOT shall impose a credit limit of the ACLD on each Counter-Party participating in the DAM.
+(2)	ERCOT shall impose the credit limit for DAM participation calculated in paragraph (1) above on the Counter-Party’s QSEs and all Subordinate QSEs combined participation in the DAM as described in Section 4.4.10, Credit Requirement for DAM Bids and Offers.
+(3)	A new credit limit will be sent to each Counter-Party participating in the DAM daily.
+16.11.4.7	Credit Monitoring and Management Reports
+(1)	ERCOT shall post twice each Business Day on the Market Information System (MIS) Certified Area each active Counter-Party’s credit monitoring and management related reports as listed below.  The first posting shall be made by 1200 and the second posting shall be made as close as reasonably possible to the close of the Business Day but no later than 2350.  The reports listed in items (f) and (g) below are not required to be included in both first and second posting if the Counter-Party has no active CRR ownership. The reports listed in items (c), (d), (e), (f), and (g) below are not required to be included in the second post if there are no changes to the underlying data.  ERCOT shall post one set of these reports on the MIS Certified Area on each non-Business Day for which an ACL is sent.
+(a)	Available Credit Limit (ACL) Summary Report;
+(b)	Total Potential Exposure (TPE) Summary Report;
+(c)	Minimum Current Exposure (MCE) Summary Report;
+(d)	Estimate Aggregate Liability (EAL) Summary Report;
+(e)	Estimated Aggregate Liability (EAL) Detail Report;
+(f)	Future Credit Exposure for CRR PTP Obligations (FCEOBL) Summary Report; and
+(g)	Future Credit Exposure for CRR PTP Options (FCEOPT) Summary Report.
+[NPRR1103:  Insert item (h) below upon system implementation:] 
+(h)	Securitization Credit Exposure Report.
+(2)	ERCOT shall post, no later than the 15th Bank Business Day of each month, the following reports on the MIS Certified Area for each active Counter-Party:
+(a)	Monthly Collateral and Interest Report; and
+(b)	Annual Collateral and Interest Report.
+(3)	The reports listed in paragraphs (1) and (2) above shall be posted to the MIS Certified Area in Portable Document File (PDF) format and Microsoft Excel (XLS) format.  There shall be a provision to “open”, “save” and “print” each report.
+16.11.5	Monitoring of a Counter-Party’s Creditworthiness and Credit Exposure by ERCOT
+(1)	ERCOT shall monitor the creditworthiness and credit exposure of each Counter-Party.  To enable ERCOT to monitor creditworthiness, each Counter-Party shall provide to ERCOT:  
+(a)	Its own or its Ultimate Parent’s quarterly (semi-annually, if the Ultimate Parent is foreign and rated by a rating agency acceptable to ERCOT) unaudited financial statements not later than 60 days (90 days if the Ultimate Parent is foreign and rated by a rating agency acceptable to ERCOT) after the close of each of the issuer’s fiscal quarters; if an issuer’s financial statements are publicly available electronically and the issuer provides to ERCOT sufficient information to access those financial statements, then the issuer is considered to have met this requirement. 
+(b)	Its own or its Ultimate Parent’s annual audited financial statements not later than 120 days after the close of each of the issuer’s fiscal year; if an issuer’s financial statements are publicly available electronically and the issuer provides to ERCOT sufficient information to access those financial statements, then the issuer is considered to have met this requirement.  ERCOT may extend the period for providing interim unaudited or annual audited statements on a case-by-case basis.  Annual audited financial statements must be prepared in accordance with U.S. Generally Accepted Accounting Principles (GAAP) or Financial Reporting Standards (IFRS).
+(c)	For paragraphs (a) and (b) above, financial statements shall include the Counter-Party’s or its Ultimate Parent’s:  
+(i)	Statement of Financial Position (balance sheet) as of the applicable quarterly or annual ending date; 
+(ii)	Statement of Income (or Profit and Loss); and 
+(iii)	Statement of Cash Flows.
+(d)	Notice of a material change.  A Counter-Party shall inform ERCOT within one Business Day if it has experienced a material change in its operations, financial condition or prospects that might adversely affect the Counter-Party.
+(2)	A Counter-Party is responsible at all times for maintaining:
+(a)	Financial Security in an amount equal to or greater than that Counter-Party’s:
+(i)	TPES; plus
+(ii)	Net Positive Exposure of approved CRR Bilateral Trades; plus
+(iii)	ACL locked for CRR Auction, if any; and
+(b)	Remainder Collateral in an amount equal to or greater than that Counter-Party’s TPEA.
+(3)	ERCOT shall promptly notify each Counter-Party of the need to increase its Financial Security and allow the Counter-Party time, as defined in paragraph (6)(a) below, to provide additional Financial Security to maintain compliance with this Section. 
+(4)	When either the Counter-Party’s TPEA or TPES as defined in Section 16.11.4, Determination and Monitoring of Counter-Party Credit Exposure, reaches 90% of its requirement, ERCOT shall use reasonable efforts to electronically issue a warning to the Counter-Party’s Authorized Representative and credit contact advising the Counter-Party that it should consider increasing its Financial Security.  However, failure to issue that warning does not prevent ERCOT from exercising any of its other rights under this Section.
+(5)	ERCOT may suspend a Counter-Party when:
+(a)	That Counter-Party’s TPES as defined in Section 16.11.4, equals or exceeds 100% of its Financial Security; or
+(b)	That Counter-Party’s TPEA as defined in Section 16.11.4 equals or exceeds 100% of its Remainder Collateral. 
+The Counter-Party is responsible at all times for managing its activity within both its TPEA and its TPES or increasing its Financial Security to avoid reaching its limits.  Any failure by ERCOT to send a Notice as set forth in this Section does not relieve the Counter-Party from the obligation to maintain appropriate Financial Security in amounts equal to or greater than that Counter-Party’s TPES and TPEA as defined in Section 16.11.4. 
+(6)	To the extent that a Counter-Party fails to maintain Financial Security in amounts equal to or greater than its TPES or Remainder Collateral in amounts equal to or greater than its TPEA, each as defined in Section 16.11.4:
+(a)	ERCOT shall promptly notify the Counter-Party of the amount by which its Financial Security must be increased and allow it: 
+(i)	Until 1500 on the second Bank Business Day from the date on which ERCOT delivered the Notice to increase its Financial Security if ERCOT delivered its Notice before 1500; or 
+(ii)	Until 1700 on the second Bank Business Day from the date on which ERCOT delivered Notification to increase its Financial Security if ERCOT delivered its Notice after 1500 but prior to 1700.  
+ERCOT shall notify the QSE’s Authorized Representative(s) and Credit Contact if it has not received the required security by 1530 on the Bank Business Day on which the security was due; however, failure to notify the Counter-Party’s representatives or contact that the required security was not received does not prevent ERCOT from exercising any of its other rights under this Section.
+(b)	At the same time ERCOT notifies the Counter-Party that is the QSE, ERCOT may notify each LSE and Resource represented by the Counter-Party that the LSE or Resource may be required to designate a new QSE if its current QSE fails to increase its Financial Security. 
+(c)	ERCOT is not required to make any payment to that Counter-Party unless and until the Counter-Party increases its Financial Security.  The payments that ERCOT will not make to a Counter-Party include Invoice receipts, CRR revenues, CRR credits, reimbursements for short payments, and any other reimbursements or credits under any other agreement between the Market Participant and ERCOT.  ERCOT may retain all such amounts until the Counter-Party has fully discharged all payment obligations owed to ERCOT under the Counter-Party Agreement, other agreements, and these Protocols. 
+(d)	ERCOT may reject any bids or offers in a CRR Auction from the Counter-Party until it has increased its Financial Security.  ERCOT may reject any bids or offers from the Counter-Party in the DAM until it has increased its Financial Security.
+(7)	If a Counter-Party increases its Financial Security as required by ERCOT by the deadline in paragraph (6)(a) above, then ERCOT may notify each LSE and Resource represented by the Counter-Party.
+(8)	If a Counter-Party increases its Financial Security as required by ERCOT by the deadline in paragraph (6)(a) above, then ERCOT shall release any payments held.
+16.11.6	Payment Breach and Late Payments by Market Participants
+(1)	It is the sole responsibility of each Market Participant to ensure that the full amounts due to ERCOT, or its designee, if applicable, by that Market Participant, are paid to ERCOT by the applicable time and date specified in the Protocols.  If no time is specified in the Protocols for a particular type of payment, then payment must be made by the close of the Bank Business Day on which payment is due. 
+(2)	If a Market Participant receives separate Invoices for Subordinate QSE or various CRR Account Holder activity, netting by the Market Participant of the amounts due to ERCOT with amounts due to the Market Participant among those Invoices for payment purposes is not permitted.  The amounts due to ERCOT on the separate Invoices for each Market Participant must be paid by the applicable time and date specified in the Protocols.  If a Market Participant does not pay the full amount due to ERCOT for all such Invoices by the required time, ERCOT shall deduct any and all amounts due and unpaid from any amounts due to the same Market Participant before allocating short payments to other Market Participants.
+(3)	The failure of a Market Participant to pay when due any payment or Financial Security obligation owed to ERCOT or its designee, if applicable, under any Agreement with ERCOT, is a Late Payment and constitutes an event of Payment Breach.  For purposes of designating a Late Payment, ERCOT shall consider multiple Invoices unpaid when due on a single Business Day by a single Market Participant as constituting one Late Payment.  Any Payment Breach by a Market Participant under any agreement with ERCOT is a Default under all other agreements between ERCOT and the Market Participant unless cured within one Bank Business Day after ERCOT delivers to the Market Participant written notice of the Payment Breach.  
+(4)	Upon a Payment Breach, ERCOT shall immediately attempt to contact the Market Participant’s Authorized Representative and/or Credit Contact named in the Counter-Party Credit Application telephonically to inform the Market Participant of the Payment Breach, and demand payment of the past due amount. ERCOT shall also provide the Market Participant with written notice of the Payment Breach via email.  Upon a Payment Breach, ERCOT may impose remedies for Payment Breach, as set forth in Section 16.11.6.1, ERCOT’s Remedies, in addition to any other rights or remedies ERCOT has under any agreement, these Protocols or at common law.  
+(5)	If a Market Participant makes a payment (or a partial payment, if allowed by these Protocols) or satisfies a collateral call to ERCOT after the required due date and time, or if a short-paid Invoice is settled by a draw on available security greater than the amount of Market Participant’s cash collateral held in excess of that required to cover its TPE (“Excess Collateral”), then that payment will be deemed a “Late Payment.”  
+(6)	For purposes of assessing if a payment is a Late Payment, the time of receipt of a payment will be determined as follows:
+(a)	For cash payments, the timestamp for when funds are credited to ERCOT’s bank account, or;
+(b)	For non-cash Financial Security,
+(i)	The timestamp of the email or facsimile, if the required documentation is delivered to ERCOT by email or facsimile, or;
+(ii)	The timestamp of the delivery receipt, if the required documentation is mailed or physically delivered to ERCOT. 
+(7)	ERCOT may, in its sole discretion, and upon a Market Participant’s showing that the failure to pay when due was not within the control of the Market Participant, deem that a failure to pay when due was neither a Payment Breach nor a Late Payment.  
+(8)	ERCOT shall track the number of Late Payments received from each Market Participant in each rolling 12-month period for purposes of imposing the Late Payment remedies set forth in Section 16.11.6.2, ERCOT’s Remedies for Late Payments by a Market Participant.
+16.11.6.1	ERCOT’s Remedies 
+(1)	In addition to all other remedies that ERCOT has under any agreement, common law or these Protocols, for Payment Breaches or other Defaults by a Market Participant, ERCOT has the following additional remedies.
+16.11.6.1.1	No Payments by ERCOT to Market Participant
+(1)	ERCOT is not required to make any payment to a Market Participant unless and until the Market Participant satisfies the Payment Breach by paying the past due amount in full, including amounts due under Section 16.11.6.1.3, Aggregate Amount Owed by Breaching Market Participant Immediately Due.  The payments that ERCOT will not make include Invoice receipts, CRR Auction revenues, CRR credits, reimbursements for short payments and any other reimbursements or credits under any and all other agreements between ERCOT and the Market Participant.  ERCOT shall retain all such amounts, and may apply all withheld funds toward the payment of the delinquent amount(s), until the Market Participant has fully paid all amounts owed to ERCOT under any agreements and these Protocols.  If the Market Participant should fail to pay the full amount due within the cure period, ERCOT may apply all funds it withheld toward the payment of the delinquent amount(s).
+16.11.6.1.2	ERCOT May Draw On, Hold or Distribute Funds
+(1)	Upon a Payment Breach, ERCOT, at its option, without notice to the Market Participant and in its sole discretion, may immediately, or at any time before the Market Participant pays the past due amount in full, including amounts due under Section 16.11.6.1.3, Aggregate Amount Owed by Breaching Market Participant Immediately Due, draw on, hold or distribute to other Market Participants any Financial Security or other funds of the Market Participant in ERCOT’s possession.  If the funds drawn exceed the amount applied to any Payment Breach, then ERCOT may hold those funds as Financial Security.
+16.11.6.1.3	Aggregate Amount Owed by Breaching Market Participant Immediately Due
+(1)	ERCOT shall aggregate all amounts due it by the Market Participant under any agreement with ERCOT and these Protocols into a single amount to the fullest extent allowed by law.  The entire unpaid net balance owed to ERCOT by the Market Participant, at ERCOT’s option, and its sole discretion, is immediately due and payable without further notice and demand for payment.  Any such notice and demand for payment are expressly waived by the Market Participant.
+16.11.6.1.4	Repossession of CRRs by ERCOT
+(1)	ERCOT, at its sole discretion, may repossess CRRs held by a Market Participant with a Payment Breach or other Default.  ERCOT shall effect that repossession by sending a written notice to the Market Participant of the repossession and by removing the CRRs from the Market Participant’s CRR account.  CRRs that settle in the same calendar month as the repossession but subsequent to the effective date of the repossession shall be voided.  The Market Participant will neither be charged, nor entitled to credit, for the voided CRRs in the DAM Settlement.  ERCOT shall offer a portfolio of CRRs containing all of the remaining unvoided repossessed CRRs, with each repossessed CRR in its existing configuration, in a one-time auction to Market Participants (other than the Market Participant(s) in Payment Breach or other Default) for sale to the highest bidder with a positive bid price for the entire portfolio.  PTP Options with Refund and PTP Obligations with Refund will be voided and will not be included in the portfolio of repossessed CRRs available in the one-time auction.  ERCOT shall offset net revenues from that sale against amounts owed to ERCOT by the Market Participant.  If revenues from the sale exceed amounts owed to ERCOT then the excess shall be remitted to the Market Participant.  If ERCOT receives no positive bids for the portfolio of CRRs in the one-time auction, ERCOT shall void all of the repossessed CRRs.
+[NPRR1023:  Replace paragraph (1) above with the following upon system implementation:] 
+(1)	ERCOT, at its sole discretion, may repossess CRRs held by a Market Participant in Default under an Agreement with ERCOT.  ERCOT shall effect that repossession by sending a written notice to the Market Participant of the repossession and by removing the Market Participant’s access to the repossessed CRRs.  The repossessed CRRs will be handled as specified in Section 16.11.6.1.6, Liquidation of Repossessed or Forfeited CRRs.
+16.11.6.1.5	Declaration of Forfeit of CRRs
+(1)	At ERCOT’s sole discretion, if it does not receive full payment on the due date of a CRR Auction Invoice, may declare any of the CRR bids cleared and Pre-Assigned Congestion Revenue Rights (PCRRs) allocated to the Market Participant forfeited. ERCOT shall effect that forfeiture by sending a written notice to the Market Participant of the forfeiture and of not delivering the CRRs or PCRRs to the Market Participant’s CRR account.  ERCOT shall either (a) offer all forfeited CRRs, with each forfeited CRR in its existing configuration, in a one-time auction to Market Participants (other than the Market Participant(s) in Payment Breach or other Default) for sale to the highest bidder with a positive bid price or (b) ERCOT shall make the related capacity available in subsequent CRR Auctions.  Revenue from that sale shall be considered as CRR Auction revenue and distributed to QSEs based on Load Ratio Share as specified in Section 7.5.7, Method for Distributing CRR Auction Revenues.
+[NPRR1023:  Replace paragraph (1) above with the following upon system implementation:] 
+(1)	At ERCOT’s sole discretion, if it does not receive full payment on the due date of a CRR Auction Invoice, it may declare any of the CRR bids cleared and Pre-Assigned Congestion Revenue Rights (PCRRs) allocated to the Market Participant forfeited. ERCOT shall effect that forfeiture by sending a written Notice to the Market Participant of the forfeiture and by not delivering the CRRs or PCRRs to the Market Participant’s CRR account.  The forfeited CRRs or PCRRs will be liquidated as specified in Section 16.11.6.1.6, Liquidation of Repossessed or Forfeited CRRs.
+(2)	ERCOT may also, at its sole discretion, honor any of the offers from Market Participants that were cleared in the CRR Auction by removing the CRRs from the Market Participant’s CRR account.  ERCOT shall offset net revenues due to the Market Participant from CRRs offered and cleared against amounts owed to ERCOT by the Market Participant.
+[NPRR1023:  Replace paragraph (2) above with the following upon system implementation:] 
+(2)	ERCOT may also, at its sole discretion, honor any of the sell offers that were cleared in the CRR Auction made by a Market Participant who fails to fully pay the CRR Auction Invoice when due.  ERCOT shall offset net revenues due to the Market Participant from CRRs offered and cleared against amounts owed to ERCOT by the Market Participant.
+[NPRR1023:  Insert Section 16.11.6.1.6 below upon system implementation and renumber accordingly:] 
+16.11.6.1.6	Liquidation of Repossessed or Forfeited CRRs
+(1)	If any repossessed or forfeited CRRs have the following characteristics, they will be irrevocably voided, the capacity will be dissolved, and they will not settle in the DAM beyond the effective date of the repossession or forfeiture nor be offered into any future CRR Auctions:
+(a) 	PTP Options with Refund and PTP Obligations with Refund; 
+(b) 	Awarded PCRRs that have not yet been priced in a CRR Auction and paid for by the breaching or defaulting Market Participant; and
+(c)	Partial-month CRRs resulting from bilateral trades.
+(2)	The remaining unvoided CRRs in the repossessed or forfeited portfolio will be liquidated in the following manner, based on the characteristics of the CRRs:
+(a) 	For CRRs that settle in the same month as the effective date of the repossession or forfeiture, for CRRs where the timing of the Market Participant Payment Breach or Default does not allow for the repossessed or forfeited CRRs to be offered into the CRR Monthly Auction in the calendar month following the Payment Breach or Default, for forfeited CRRs that were awarded in a CRR Monthly Auction, and for repossessed CRRs that have been offered into every available auction but were not fully awarded, the CRRs will settle in the DAM and may result in net payments or charges accruing for Operating Days throughout the month, as follows:
+(i)	If the CRR portfolio results in a net charge in the DAM, the payment will, to the extent possible, be made by drawing on any available Financial Security of the Market Participant from whom the CRRs were repossessed or forfeited.  If this is insufficient to pay the charge in full, the remainder due will be short-paid for the Operating Day in accordance with Section 9.7.3, Enforcing the Financial Security of a Short-Paying Invoice Recipient.  Regardless of the short pay, any Market Participant from whom CRRs were repossessed or forfeited shall remain liable for any charges associated with the liquidation of its CRRs in accordance with paragraph (4) of Section 16.11.6.1.7, Revocation of a Market Participant’s Rights and Termination of Agreements.
+(ii)	If the CRR portfolio results in a net payment in the DAM, the payment amount will be added to the cash collateral held by ERCOT for the Market Participant from whom the CRRs were repossessed or forfeited. 
+(b) 	For any remaining unvoided repossessed or forfeited CRRs for one-month or multi-month strips, ERCOT will offer each CRR into the next available auction for the effective time period of the repossessed or forfeited CRR.   
+(i)	CRRs will be offered into auctions at -$0.01 for PTP Options and -$500.00 for PTP Obligations.
+(ii)	If a CRR is offered into an auction but is not fully awarded, the remaining MW of the CRR will be offered into the next available auction for the effective time period of the repossessed or forfeited CRR.  ERCOT may adjust the offer price for a PTP Obligation in subsequent auctions to increase the likelihood of the sell offer being fully awarded.
+If another auction will not be held for the effective time period of the repossessed or forfeited CRRs, the remaining unawarded MW of each CRR will settle in the DAM and may result in net payments or charges accruing for Operating Days throughout the month, as noted in paragraph (2)(a) above. 
+(iii)	Prior to offering repossessed or forfeited CRRs into an auction, ERCOT will calculate the value of all PTP Obligations for each CRR Account Holder associated with the defaulting Counter-Party by summing the value of all existing PTP Obligations for which the most recent auction clearing price for the effective time period of the auction was negative.  The value of each CRR will be calculated per the following formula: (MW amount) x (TOU hours) x (auction clearing price).  The total value of the PTP Obligations for the defaulting Counter-Party will be evaluated to determine if it exceeds 10% of the value of all existing PTP Obligations for which the most recent auction clearing prices for the effective time period of the auction were negative.  If the total value of the PTP Obligations for the defaulting Counter-Party to be offered into an auction exceeds the 10% threshold, ERCOT will prorate the CRR MW amounts to be offered into the auction to reduce the total portfolio value to be below the 10% threshold.  The remaining CRR MW will be offered into the next available auction for the effective time period of the repossessed or forfeited CRRs or will settle in DAM if there will not be another auction for the effective time period.  
+(iv)	A charge resulting from the sale of the CRRs into an auction will, to the extent possible, be paid by drawing on any available Financial Security of the Market Participant from whom the CRRs were repossessed or forfeited.  If this is insufficient to pay the charge in full, the remainder due will be short-paid in accordance with Section 9.7.3.  Regardless of the short pay, any Market Participant from whom CRRs were repossessed or forfeited shall remain liable for any charges associated with the liquidation of its CRRs in accordance with paragraph (4) of Section 16.11.6.1.7.
+(v)	A payment resulting from the sale of the CRRs into an auction will be added to the Financial Security of the Market Participant from whom the CRRs were repossessed or forfeited. 
+16.11.6.1.6	Revocation of a Market Participant’s Rights and Termination of Agreements
+(1)	ERCOT may revoke a breaching Market Participant’s rights to conduct activities under these Protocols.  ERCOT may also terminate the breaching Market Participant’s agreements with ERCOT.
+(2)	If ERCOT revokes a Market Participant’s rights or terminates the Market Participant’s agreements, then the provisions of Section 16.2.5, Suspended or Terminated Qualified Scheduling Entity – Notification to LSEs and Resource Entities Represented, and Section 16.2.6.1, Designation as an Emergency Qualified Scheduling Entity or Virtual Qualified Scheduling Entity, apply.
+(3)	If a breaching Market Participant is also an LSE (whether or not the Default occurred pursuant to the Market Participant’s activities as an LSE), then:
+(a) 	Within 24 hours of receiving notice of the Payment Breach, the Market Participant shall provide to ERCOT all the information regarding its ESI IDs set forth in the ERCOT Retail Market Guide; and 
+(b)	On revocation of some or all of the Market Participant’s rights or termination of the Market Participant’s agreements and on notice to the Market Participant and the Public Utility Commission of Texas (PUCT), ERCOT shall initiate a Mass Transition of the Market Participant’s ESI IDs pursuant to Section 15.1.3.1, Mass Transition Process, without the necessity of obtaining any order from or other action by the PUCT.  
+(4)	After revocation of its rights or termination of its Agreement with ERCOT, the Market Participant will remain liable for all charges or costs associated with any continued activity related to the Counter-Party’s relationship with ERCOT and any expenses arising from the consequences of such termination or revocation.
+16.11.6.2	ERCOT’s Remedies for Late Payments by a Market Participant
+(1)	If a Market Participant makes any Late Payments, and even if ERCOT does not immediately implement the above-referenced remedies for any Payment Breach by a Market Participant, the Market Participant is subject to the actions enumerated in this Section.
+(2)	This Section does not waive ERCOT’s right to impose remedies for Payment Breach, as set forth in Section 16.11.6.1, ERCOT’s Remedies, in addition to any other rights or remedies ERCOT has under any agreement, these Protocols, or at common law, for any Payment Breach by the Market Participant in each rolling 12-month period for purposes of imposing the Late Payment remedies set forth in this Section.
+16.11.6.2.1	First Late Payment in Any Rolling 12-Month Period
+(1)	For the first Late Payment in any rolling 12-month period, ERCOT shall take Level I Enforcement action, as described in Section 16.11.6.2.5, Level I Enforcement.
+(2)	ERCOT shall send written notice to the Market Participant’s Authorized Representative and/or Credit Contact via email, advising the Market Participant of the action required under Level I Enforcement.
+16.11.6.2.2	Second Late Payment in Any Rolling 12-Month Period
+(1)	For the second Late Payment in any rolling 12-month period, ERCOT shall take Level II Enforcement action, as described in Section 16.11.6.2.6, Level II Enforcement.:
+(2)	ERCOT shall send written notice to the Market Participant’s Authorized Representative and/or Credit Contact via email, advising the Market Participant of the action required under Level II Enforcement.
+16.11.6.2.3	Third Late Payment in Any Rolling 12-Month Period
+(1)	For the third Late Payment in any rolling 12-month period, ERCOT shall take Level III Enforcement action, as described in Section 16.11.6.2.7, Level III Enforcement.
+(2)	ERCOT shall send written notice to the Market Participant’s Authorized Representative and/or Credit Contact via email, advising the Market Participant of the action required under Level III Enforcement, and informing the Market Participant that a fourth Late Payment in any rolling 12-month period shall result in ERCOT taking action under Section 16.11.6.1.6, Revocation of a Market Participant’s Rights and Termination of Agreements.  
+16.11.6.2.4	Fourth Late Payment in Any Rolling 12-Month Period
+(1)	For the fourth Late Payment resulting from a Payment Breach in any rolling 12-month period, ERCOT shall take action under Section 16.11.6.1.6, Revocation of a Market Participant’s Rights and Termination of Agreements.
+16.11.6.2.5	Level I Enforcement
+(1)	Under Level I Enforcement, ERCOT shall notify the Market Participant to comply with one of the following requirements:
+(a)	If the Market Participant has not provided Financial Security, the Market Participant shall now provide Financial Security, within two Bank Business Days, in an amount at or above 110% of the amount of the Market Participant’s TPE; or any other liability to ERCOT that the Market Participant has or is expected to have for activity in the ERCOT Region, whichever applies.
+(b)	If the Market Participant has already provided Financial Security, the Market Participant shall increase its Financial Security, within two Bank Business Days, to an amount at or above 110% of its TPE or any other liability to ERCOT that the Market Participant has or is expected to have for activity in the ERCOT Region, whichever applies.
+(2)	Increased Financial Security requirements under this Section remain in effect for a minimum of 60 days and remain in effect thereafter until ERCOT, at its sole discretion, determines to reduce such Financial Security requirements to the normally applicable levels.
+16.11.6.2.6	Level II Enforcement
+(1)	Under Level II Enforcement, ERCOT shall notify the Market Participant that the Market Participant shall provide Financial Security, within two Bank Business Days, in the form of a cash deposit or letter of credit, as chosen by ERCOT at its sole discretion, at 115% of the Market Participant’s TPE or for any other liability to ERCOT that the Market Participant has or is expected to have for activity in the ERCOT Region.   
+(2)	Increased Financial Security requirements under this Section remain in effect for a minimum of 60 days and remain in effect thereafter until ERCOT, at its sole discretion, determines to reduce such Financial Security requirements to the normally applicable levels.
+16.11.6.2.7	Level III Enforcement
+(1)	Under Level III Enforcement, ERCOT shall notify the Market Participant that the Market Participant shall provide Financial Security within two Bank Business Days at 120% of the Market Participant’s TPE or for any other liability to ERCOT that the Market Participant has or is expected to have for activity in the ERCOT Region. Required Financial Security in excess of TPE must be in the form of a cash deposit.
+(2)	Increased Financial Security requirements under this Section remain in effect for a minimum of 90 days and remain in effect thereafter until ERCOT, at its sole discretion, determines to reduce such Financial Security requirements to the normally applicable levels.
+16.11.7	Release of Market Participant’s Financial Security Requirement
+(1)	Following the termination of a Market Participant’s Standard Form Market Participant Agreement, ERCOT shall retain Financial Security to cover potential future obligations of the terminated Market Participant.  These obligations may include, but are not limited to, Resettlement Statements, Final or True-Up Settlements, and Default Uplift Invoices.
+[NPRR1023:  Replace paragraph (1) above with the following upon system implementation:] 
+(1)	Following the termination of a Market Participant’s Standard Form Market Participant Agreement, ERCOT shall retain Financial Security to cover potential future obligations of the terminated Market Participant.  These obligations may include, but are not limited to, the Invoices associated with the liquidation of repossessed or forfeited CRRs, Resettlement Statements, Final or True-Up Settlements, and Default Uplift Invoices.
+[NPRR1023:  Insert paragraph (2) below upon system implementation and renumber accordingly:] 
+(2)	Regardless of whether a Market Participant’s Agreement with ERCOT has been terminated, ERCOT shall not return or release any Financial Security of a Market Participant from whom CRRs were repossessed or forfeited until all such repossessed or forfeited CRRs have been voided, settled in the DAM, or sold in a CRR Auction in accordance with Section 16.11.6.1.6, Liquidation of Repossessed or Forfeited CRRs, and all Invoices associated with the liquidation have been paid in full.
+(2)	Required Financial Security for potential future obligations of a terminated Market Participant will be the maximum of the Counter-Party’s TPE, as applicable, or $5,000.
+[NPRR1023:  Replace paragraph (2) above with the following upon system implementation:] 
+(3)	Except as specified in paragraph (2) above, required Financial Security for potential future obligations of a terminated Market Participant will be the maximum of the Counter-Party’s TPE, as applicable, or $5,000.
+(3)	If a terminated Market Participant elects to withdraw non-cash Financial Security following termination, and ERCOT determines that Financial Security continues to be necessary to cover potential future obligations, then the terminated Market Participant must provide ERCOT with Cash Collateral in the amount determined by ERCOT under this section before ERCOT will return or release the non-cash Financial Security to the terminated Market Participant.
+(4)	Upon ERCOT’s sole determination that no sums remain owed or are necessary to cover potential future obligations to ERCOT by the terminated Market Participant, ERCOT shall return or release any Financial Security held by ERCOT to the terminated Market Participant.
+[NPRR1023:  Insert Section 16.11.8 below upon system implementation and renumber accordingly:] 
+16.11.8	Conversion of Letters of Credit and Surety Bonds to Cash Collateral
+(1)	To facilitate Settlement of Market Participant Invoices arising in consequence of a Payment Breach or other Default by a Market Participant, including but not limited to those described in Section 16.11.6.1.4, Repossession of CRRs by ERCOT, Section 16.11.6.1.5, Declaration of Forfeit of CRRs, and Section 16.11.6.1.6, Liquidation of Repossessed or Forfeited CRRs, ERCOT may at its sole discretion initiate conversion of letters of credit, or surety bonds held as Financial Security to cash collateral.
+16.11.8	Acceleration
+(1)	Upon termination of a Market Participant’s rights as a Market Participant and any other agreement(s) between ERCOT and the Market Participant, all sums owed to ERCOT are immediately accelerated and are immediately due and owing in full.  At that time, ERCOT may immediately draw upon the Market Participant’s Financial Security and shall use those funds to offset or recoup all amounts due to ERCOT.
+16.12	User Security Administrator and Digital Certificates
+(1)	Each Market Participant is allowed access to certain ERCOT computer systems through the use of Digital Certificates upon execution of the Standard Form Market Participant Agreement (as provided for in Section 22, Attachment A, Standard Form Market Participant Agreement), and completion of applicable registration and qualification requirements.  Digital Certificates expire after one year.
+(2)	A User Security Administrator (USA) is responsible for managing the Market Participant’s access to non-public ERCOT computer systems through Digital Certificates.  A USA may also be responsible for managing the Market Participant’s access to the online Resource Integration and Ongoing Operations (“RIOO”) system, which does not require a Digital Certificate.  Each Market Participant that will receive Digital Certificate(s) must, as part of the application for registration with ERCOT, designate an individual employee or authorized agent as its USA, and optionally, a backup USA.  If a Market Participant has designated a backup USA and the primary USA fails to perform, or is unable to perform, the functions required of a USA, then the backup USA shall perform any and all functions required of the primary USA.  The Market Participant is responsible for revising its USA list as the need arises.  The Market Participant’s USA is responsible for registering all Market Participant’s Digital Certificate holders (“Certificate Holders”) and administering the use of Digital Certificates on behalf of the Market Participant.  ERCOT Critical Energy Infrastructure Information (ECEII) posted on the Market Information System (MIS) Secure or Certified Area may be accessed only by those individuals that are issued ECEII-eligible Digital Certificates.  Each Market Participant that will receive Digital Certificates and  having more than one ERCOT functional registration must designate a USA for each registration (which may be the same employee or authorized agent) and shall manage each registration separately for the purposes of this Section.  Once the Market Participant completes registration requirements, ERCOT shall send the USA a copy of the Digital Certificate user guide. 
+(3)	Only Market Participants registered with ERCOT as either a Municipally Owned Utility (MOU) or an Electric Cooperative (EC), and as a Distribution Service Provider (DSP) and/or Load Serving Entity (LSE), may be eligible to opt out of designating a USA and receiving Digital Certificates if the Market Participant demonstrates to ERCOT’s satisfaction that it does not need a Digital Certificate to perform its obligations under the ERCOT Protocols, market guides, or other applicable rules. 
+(4) 	An eligible Market Participant that wishes to opt out of designating a USA and receiving Digital Certificates shall submit a request form, found on the ERCOT website, confirming its desire to opt out subject to ERCOT’s review and approval.  ERCOT will notify the requesting Market Participant of its approval or disapproval of the request within 14 Business Days.  ERCOT may subsequently revoke, at its sole discretion, Market Participant’s election to opt out if the Market Participant’s lack of a Digital Certificate causes administrative burdens or reliability concerns.  ERCOT will send notice of revocation to the Market Participant who will have ten Business Days to fill out a Notice of Change of Information (NCI) form (Section 23, Form E, Notice of Change of Information) and submit it to ERCOT.  Once the NCI is submitted, the request for a Digital Certificate will be subject to the same requirements applicable to the processing of an initial request by a new Market Participant. 
+(5)	Market Participants that have received approval from ERCOT to opt out of designating a USA and receiving Digital Certificates are not excused from obligations under the ERCOT Protocols, other than the obligations required in this Section 16.12 regarding Digital Certificates.  Market Participants who opt out shall still be required to submit the Digital Certificate Audit Attestation (DCAA) required by paragraph (2) of Section 16.12.3, Market Participant Audits of User Security Administrators and Digital Certificates, for the portion of the year, if any, during which they had a USA and Digital Certificate(s).
+(6)	A Market Participant that has been granted approval by ERCOT to opt out of designating a USA and receiving Digital Certificates will not have access to information that would ordinarily be retrievable with a Digital Certificate.  A Market Participant that has been granted approval by ERCOT to opt out of designating a USA and receiving Digital Certificates may, at any time, cancel its opt-out status by submitting an NCI form (Section 23, Form E).
+16.12.1	USA Responsibilities and Qualifications for Digital Certificate Holders
+(1)	The USA and the Market Participant are responsible for the following:
+(a)	Requesting Digital Certificates for authorized Certificate Holders (either persons or programmatic interfaces) that the USA has qualified through an appropriate screening process requiring confirmation that the Certificate Holder is an employee or authorized agent (including third parties) of the Market Participant.  A Certificate Holder (including the USA) must be qualified as set forth below.  The Market Participant shall be liable for ensuring that each of its Certificate Holder(s) meets the requirements of (i) – (v) below.
+(i)	For any employee or authorized agent receiving a Digital Certificate, the Market Participant shall confirm that the employee or authorized agent satisfies reasonable background review sufficient for employment or contract with the Market Participant so as to reasonably limit threat(s) to ERCOT’s market or computer systems.  The Market Participant may not request that Digital Certificates be issued to any employee or authorized agent that it determines, after reasonable background review, poses a threat to ERCOT’s market or computer systems.  
+(ii)	The Certificate Holder is aware of the rules and restrictions relating to the use of Digital Certificates.  
+(iii)	The Certificate Holder is eligible to review and receive technology and software under applicable export control laws and regulations.  ERCOT shall post links to such laws and regulations on the ERCOT website. 
+(iv)	The Market Participant has conducted a reasonable review of the Certificate Holder and has confirmed that the Certificate Holder is not on any U.S. terrorist threat lists such as the Consolidated Screening List or the Federal Bureau of Investigation Most Wanted Terrorists List.  ERCOT will post links to relevant lists on the ERCOT website.  
+(v)	The Certificate Holder does not violate the conditions of use specified by the software vendor that provides the Digital Certificates for the Market Participant’s use and provided to the Certificate Holder.  ERCOT will post links to relevant conditions of use on the ERCOT website.
+(b)	Requesting revocation of Digital Certificates.  The Market Participant or USA shall request revocation of Digital Certificates by proceeding with the ERCOT Digital Certificate revocation process as described in the Digital Certificate User Guide.  The Market Participant or USA shall request revocation of a Digital Certificate under any of the following conditions:
+(i)	As soon as possible but no later than three Business Days after:
+(A)	A Certificate Holder ceases employment with the Market Participant; or
+(B)	The Market Participant becomes aware that a Certificate Holder is changing job functions (pursuant to a reasonable process for identifying when job function changes occur) so that the Certificate Holder no longer needs the Digital Certificate; 
+(ii)	As soon as possible, but no later than five Business Days, after the Market Participant becomes aware (pursuant to a reasonable process for identifying violations) that the Certificate Holder has violated any of the following conditions of use of a Digital Certificate: 
+(A)	Violating the requirements if any of paragraph (1)(a)(i) – (v) above;
+(B)	Using the Digital Certificate for any unauthorized purpose; or 
+(C)	Allowing any person other than the Certificate Holder to use the Digital Certificate. 
+(c)	Managing the level of access for each Certificate Holder by assigning and maintaining Digital Certificate roles for each authorized user in accordance with the process set forth in ERCOT’s Digital Certificate user guide.
+(d)	Requesting annual renewal of Digital Certificates.	
+(e)	If needed, issuing Digital Certificates for use by electronic systems not limited to servers. 
+	Maintaining the integrity of the administration of Digital Certificates through consistent, sound and reasonable business practices. 
+16.12.2	Requirements for Use of Digital Certificates
+(1)	Use of Digital Certificates must comply with the following:
+(a)	A Digital Certificate shall be used by only one individual and may not be shared.  If multiple employees or authorized agents share a computer and each requires a Digital Certificate, the USA shall request separate Digital Certificates for each. Multiple Digital Certificates may be installed and managed on a single computer.  ERCOT shall include instructions on how to manage multiple Digital Certificates in the Digital Certificate user guide.
+(b)	A Digital Certificate may not be traded or sold.
+(c)	Electronic equipment on which the Digital Certificate resides must be physically and electronically secured in a reasonable manner to prevent improper use of the Digital Certificate.
+(d)	The Market Participant is wholly responsible for any use of Digital Certificates issued by its USA.
+16.12.3	Market Participant Audits of User Security Administrators and Digital Certificates
+(1)	During September of each year, each Market Participant that has been issued any Digital Certificates shall generate a list of its registered USA and Certificate Holders.  The Market Participant, through its USA or another authorized third party, shall perform an audit by reviewing the list and noting any inconsistencies or instances of non-compliance (including, for example, any Certificate Holder that may have changed job functions and no longer requires the Digital Certificate).  If the Market Participant or its USA or the authorized third party identifies discrepancies, the USA shall use the process for managing Digital Certificates as included in ERCOT’s Digital Certificate user guide to rectify the discrepancy. The audit must, at a minimum confirm that:
+(a)	The Market Participant and each listed USA and Certificate Holder meet the applicable requirements of paragraph (1)(a) of Section 16.12.1, USA Responsibilities and Qualifications for Digital Certificate Holders, and are not subject to any of the conditions that would require revocation as described in paragraph (1)(b) of Section 16.12.1;  
+(b)	Each listed USA and Certificate Holder is currently employed by or is an authorized agent contracted with the Market Participant; 
+(c)	The Market Participant has verified that the listed USA is authorized to be the USA; 
+(d)	Each Certificate Holder is authorized to retain and use the Digital Certificate; and
+(e)	Each listed Certificate Holder needs the Digital Certificate to perform his or her job functions.
+(2)	By October 1 of each year, a Market Participant shall submit to ERCOT a DCAA (as provided for in Section 23, Form L, Digital Certificate Audit Attestation) from an individual who: (a) is an officer, executive, or employee of the Market Participant or of an Affiliate of the Market Participant; and (b) has authority to bind the Market Participant.  The attestation shall certify that: 
+(a)	The Market Participant has complied with the requirements of the audit;
+(b)	The Market Participant has verified that all assigned Digital Certificates belong to Certificate Holders authorized by the Market Participant’s USA.  If the Certificate Holders no longer meet the criteria in paragraph (1)(a) of Section 16.12.1, the USA shall inform ERCOT as described in paragraph (1)(b) of Section 16.12.1 and note the findings in the response; and
+(c)	The USA and all Certificate Holders have been qualified through a reasonable screening process and background rev

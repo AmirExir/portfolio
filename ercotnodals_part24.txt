@@ -1,0 +1,627 @@
+necessitated by circumstances requiring Customer resolution, in which case the TDSP may provide an 814_28, Complete Unexecutable or Permit Required, to the CR.
+(2)	A Move-Out Request is completed upon receipt of the effectuating meter read sent by the TDSP.  The TDSP shall send the meter read information to ERCOT using the final 867_03 transaction, within three Retail Business Days of the meter read.  Upon receipt, ERCOT will send final meter read information to the current CR DUNS Number provided in the 867_03 transaction by the TDSP and initial meter read information to the CSA CR DUNS Number provided in the 867_04 transaction by the TDSP (if applicable) within four Retail Business Hours using the 867_03 transaction and 867_04, Initial Meter Read, as appropriate.
+(3)	The move out will become effective at 0000 (midnight) on the actual date of the effectuating meter read.  The current CR may request a special meter read (including a profile-estimated meter read or interval meter calculation as allowed), in accordance with the TDSP’s tariff.  
+(4)	For a special meter read, the move out is effective at 0000 (midnight) the day of the special meter read.  Meter reads will be sent to the CR DUNS Number within the TX SET transaction from the TDSP within 12 hours of receipt by ERCOT.
+15.1.5.7	Rejection of Move-Out Request
+(1)	ERCOT will reject a Move-Out Request using the 814_25, Move Out Response, for any of the following reasons:
+(a)	The ESI ID provided is inactive or does not exist;
+(b)	The ESI ID and five-digit zip code do not match;
+(c)	The request type is invalid or undefined;
+(d)	The CR’s DUNS Number is missing or invalid;
+(e)	The requesting CR is not the current CR and not scheduled to be the CR on the requested date after a retry period of 48 hours counting only hours on Retail Business Days but not only Business Hours;
+(f)	The move out is requesting a date that is scheduled on another move out;
+(g)	The requesting CR is not the current CSA CR and uses the “Move Out CSA De-Energize” code; or 
+(h)	The requesting CR is not the current CSA CR and uses both the “Move Out CSA De-Energize” and the “Drop and Investigate Removal of Meter and Service” codes.
+15.1.6	Concurrent Processing
+(1)	Concurrent processing permits multiple requests to proceed at the same time.  The purpose of concurrent processing is to assure all valid transactions are accepted and processed according to a set of market rules.  The order of precedence for initiating retail transactions is:
+(a)	Move-In Requests;
+(b)	Move-Out Requests; and
+(c)	Switch Requests.
+(2)	When performing concurrent processing checks, ERCOT will first perform standard validations to ensure the requests are valid.  This validation can be found in Section 15.1, Customer Switch of Competitive Retailer, Section 15.1.4, Beginning Service (New Construction Completed and Move Ins), and Section 15.1.5, Service Termination (Move Out).
+15.1.6.1	Move In Date Prior to or After Move Out Date
+(1)	ERCOT performs evaluations two Retail Business Days prior to all move in and move out scheduled meter read dates or upon the receipt of the TDSP response, whichever is later.  If the move in scheduled meter read date is not equal to the move out scheduled meter read date, both processes will run concurrently and both processes will be allowed to complete.  If the submitting CR is not scheduled to be the CR of Record on the scheduled meter read date of the move out, ERCOT cancels the move out.
+15.1.6.2	Move In Date Equal to Move Out Date
+(1)	ERCOT performs evaluations two Retail Business Days prior to all move in and move out scheduled meter read dates or upon the receipt of the TDSP response, whichever is later.  If the move in scheduled meter read date is equal to the move out scheduled meter read date, the move out transaction is cancelled by ERCOT.  If the move out is not scheduled, but the requested date is equal to the scheduled date for the move in, the move out transaction is cancelled by ERCOT.
+(2)	If the ERCOT evaluation is performed for a same day move in and a move out is already scheduled for the current day, ERCOT will not cancel the move out and will leave it in a scheduled status.  If the TDSP chooses not to work the move out the TDSP will complete unexecute the move out.  In the event the move out is not complete or complete unexecutable by the TDSP within four Retail Business Days, ERCOT will cancel the move out.
+15.1.6.3	Move In Date Prior to or Equal to Switch Date
+(1)	ERCOT performs evaluations two Retail Business Days prior to all move in scheduled meter read dates or upon the receipt of the TDSP response, whichever is later.  If there is a switch with a scheduled meter read date after or equal to the move -in scheduled meter read date, the switch transaction is cancelled by ERCOT.  If the switch is not scheduled, but the requested date (FASD for standard switches) is after or equal to the scheduled date for the move in, the switch transaction is cancelled by ERCOT.
+15.1.6.4	Move In Date After Switch Date
+(1)	ERCOT performs evaluations two Retail Business Days prior to all move in scheduled meter read dates or upon the receipt of the TDSP response, whichever is later.  If the move in scheduled meter read date is after a switch scheduled meter read date, both processes will run concurrently and both processes will be allowed to complete.
+15.1.6.5	Move In Date After Mass Transition Drop Date
+(1)	ERCOT performs evaluations two Retail Business Days prior to all move in scheduled meter read dates or upon the receipt of the TDSP response, whichever is later.  If the move in scheduled meter read date is after a Mass Transition drop scheduled meter read date, both processes will run concurrently and both processes will be allowed to complete.
+15.1.6.6	Move Out Date Prior to or Equal to Switch Date
+(1)	ERCOT performs evaluations two Retail Business Days prior to all move out scheduled meter read dates or upon the receipt of the TDSP response, whichever is later.  If there is a switch with a scheduled meter read date after or equal to the move out scheduled meter read date, the switch transaction is cancelled by ERCOT.  If the switch is not scheduled, but the requested date (FASD for standard switches) is after or equal to the scheduled date for the move out, the switch transaction is cancelled by ERCOT.
+15.1.6.7	Move Out Date After Switch Date
+(1)	ERCOT performs evaluations two Retail Business Days prior to all move out scheduled meter read dates or upon the receipt of the TDSP response, whichever is later.  If the move out scheduled meter read date is after a switch scheduled meter read date, both processes will run concurrently and both processes will be allowed to complete.  If the submitting CR is not scheduled to be the CR of Record on the scheduled meter read date of the move out, ERCOT cancels the move out.
+15.1.6.8	Move Out Date After Mass Transition Drop Date
+(1)	ERCOT performs evaluations two Retail Business Days prior to all move out scheduled meter read dates or upon the receipt of the TDSP response, whichever is later.  If the move out scheduled meter read date is after a Mass Transition drop scheduled meter read date, both processes will run concurrently and both processes will be allowed to complete.  If the submitting CR is not scheduled to be the CR of Record on the scheduled meter read date of the move out, ERCOT cancels the move out.
+15.1.6.9	Multiple Switches
+(1)	ERCOT performs evaluations two Retail Business Days prior to all switch scheduled meter read dates or upon the receipt of the TDSP response, whichever is later.  If there is another switch with a scheduled meter read date after or prior to the switch scheduled meter read date, both processes will run concurrently and both processes will be allowed to complete.  If there is another switch with a scheduled meter read date equal to the switch scheduled meter read date and neither have a “cancel pending” status, ERCOT will cancel the second switch received based on receipt date/time of the initiating transaction.  If one of the switches has a “cancel pending” status, it will be cancelled by ERCOT and the other one will be allowed to complete.
+15.1.6.10	Multiple Move Ins
+(1)	ERCOT performs evaluations two Retail Business Days prior to all move in scheduled meter read dates or upon the receipt of the TDSP response, whichever is later.  If there is another move in with a scheduled meter read date after or prior to the move in scheduled meter read date, both processes will run concurrently and both processes will be allowed to complete.  If there is another move in with a scheduled meter read date equal to the move in scheduled meter read date and neither have a “cancel pending” status ERCOT will cancel the second move in received based on receipt date/time of the initiating transaction.  If one of the move ins has a “cancel pending” status it will be cancelled by ERCOT and the other one will be allowed to complete.
+15.1.6.11	Multiple Move Outs
+(1)	ERCOT performs evaluations two Retail Business Days prior to all move out scheduled meter read dates or upon the receipt of the TDSP response, whichever is later.  If there is another move out with a scheduled meter read date after or prior to the move out scheduled meter read date, both processes will run concurrently and both processes will be allowed to complete.  If the submitting CR is not scheduled to be the CR of Record on the scheduled meter read date of the move out, ERCOT cancels the move out.  If there is another move out with a scheduled meter read date equal to the move out scheduled meter read date and neither have a “cancel pending” status, ERCOT will cancel the second move out received based on receipt date/time of the initiating transaction.  If one of the move outs has a “cancel pending” status, it will be cancelled by ERCOT and the other one will be allowed to complete.
+15.1.7	Move In or Move Out Date Change
+(1)	The CR will send a date change transaction using the 814_12, Date Change Request.  ERCOT will accept date changes on or before the day preceding the scheduled move in or move out.  ERCOT will reject any 814_12 transaction received on the scheduled move in or move out date, as well as date change requests on orders that were scheduled in the past.
+(2)	If the date change does not pass validation, ERCOT will reply to the CR with a rejection of the date change transaction using the 814_13, Date Change Response, within two Retail Business Hours of receipt of the 814_12 transaction with the exception of a date change that is invalid because of “Item or Service Not Established.”  In the case of “Item or Service Not Established,” ERCOT will hold the date change request and continue to retry the request at regular intervals for 48 hours counting only hours on Retail Business Days, but not only Business Hours.
+(3)	If the date change is accepted, ERCOT will notify the TDSP using the 814_12 transaction within two Retail Business Hours of receipt of the 814_12 transaction from the CR.  The TDSP will respond within two Retail Business Days using the 814_13 transaction.  If the TDSP accepts the date change, the submitting CR is notified via the 814_13 transaction and the other CR is notified via the 814_12 transaction.  ERCOT will only send the 814_12 transaction to the Losing CR on a move in if ERCOT has already sent the 814_06, Loss Notification, to the Losing CR.  ERCOT will only send the 814_12 transaction to the Gaining CR on a move out to CSA if ERCOT has already sent the 814_22, CSA CR Move In Request, to the CSA CR.
+15.1.8	Cancellation of Registration Transactions
+(1)	The CR will send a cancellation notice using the 814_08, Cancel Request.  ERCOT will accept cancellations on or before the day preceding the move in, move out or switch scheduled date.  ERCOT will reject any 814_08 transaction received on the scheduled move in, move out or switch date, as well as cancellation requests on orders that were scheduled in the past.
+(2)	If the cancellation does not pass validation, ERCOT will reply to the CR within two Retail Business Hours with a rejection of the cancellation notice using the 814_09, Cancel Response, with the exception of a cancellation that is invalid because of “Item or Service Not Established.”  In the case of “Item or Service Not Established,” ERCOT will hold the cancellation request and continue to retry the request at regular intervals for 48 hours counting only hours on Retail Business Days, but not only Business Hours.
+(3)	If the cancellation notice is accepted, ERCOT will set the status to “cancel pending” status and notify the TDSP within two Retail Business Hours using the 814_08 transaction.  If the TDSP accepts the cancel, ERCOT will cancel the transaction and notify the submitting CR using the 814_09 transaction.  When ERCOT has sent the current CR an 814_06, Loss Notification, the current CR will be sent an 814_08 transaction.  On a move out to CSA, if ERCOT has sent the 814_22, CSA CR Move In Request, to the CSA CR, the CSA CR will be sent an 814_08 transaction.  If the TDSP rejects the cancel, ERCOT will reset the status to “in review,” “permit pending,” or “scheduled” as appropriate, and forward the reject to the CR.  The TDSP will respond within one Retail Business Day using the 814_09 transaction.
+15.1.9	Continuous Service Agreement CR Processing
+(1)	This Section sets forth the processes to initiate or terminate a CSA.
+15.1.9.1	Request to Initiate Continuous Service Agreement in an Investor Owned Utility Service Territory or in a Municipally Owned Utility/Electric Cooperative Service Territory as Indicated in Retail Market Guide Section 8.1, Municipally Owned Utility and/or Electric Cooperative Transmission and/or Distribution Service Provider Market
+(1)	When a CR establishes a CSA at an ESI ID, the CR will send an 814_18, Establish/Change/Delete CSA Request, to ERCOT.  ERCOT will determine if the ESI ID has a CSA on record.  If there is not a current CSA, ERCOT will respond to the new CSA CR using the 814_19, Establish/Change/Delete CSA Response, within one Retail Business Day of receipt of the 814_18 transaction.  ERCOT will hold the CSA in a pending status until the start date of the CSA.
+(2)	If there is a current CSA, ERCOT will respond to the new CSA CR using the 814_19 transaction within one Retail Business Day of receipt of the 814_18 transaction.  ERCOT will hold the CSA in a pending status until the start date of the CSA and on the start date of the new CSA, ERCOT will send notice of CSA termination using the 814_18 transaction to the current CSA, within one Retail Business Day.
+(3)	If a CSA CR wishes to establish CSAs with multiple ESI IDs, the CSA CR must submit an 814_18 transaction for each ESI ID.
+15.1.9.2	Request to Change Continuous Service Agreement End Date
+(1)	The CSA CR will send an 814_18, Establish/Change/Delete CSA Request, to ERCOT on an ESI ID where the CSA CR is the active CSA CR of Record.  ERCOT will update the pending end date for the active CSA and respond to the CR using the 814_19, Establish/Change/Delete CSA Response, within one Retail Business Day of receipt of the 814_18 transaction.
+15.1.9.3	Request to Terminate Continuous Service Agreement
+(1)	The CSA CR will send an 814_18, Establish/Change/Delete CSA Request, to ERCOT.  ERCOT will respond to the CR using the 814_19, Establish/Change/Delete CSA Response, within one Retail Business Day of receipt of the 814_18 transaction.
+(2)	If the CSA CR wishes to terminate CSAs with multiple ESI IDs, the CR must submit an 814_18 transaction for each ESI ID.
+15.1.9.4	Notice to Continuous Service Agreement Competitive Retailer of Enrollment Due to a Move Out
+(1)	If, during the processing of a Move-Out Request, ERCOT determines that a CSA CR exists and has an end date after the requested date for the move out, ERCOT will notify the CSA CR of the move out (refer to Section 15.1.5, Service Termination (Move Out)) using the 814_22, CSA CR Move In Request, within two Retail Business Days of the scheduled meter read date, but not before the receipt of the TDSP’s 814_04, Enrollment Notification Response.  This request will contain all of the information necessary for the CSA CR to begin servicing the ESI ID, including the move out date.
+(2)	If the CSA CR requires historical usage information for the ESI ID, the CSA CR will submit a request using the 814_26, Historical Usage Request, after receipt of the 867_04, Initial Meter Read.
+15.1.9.5	Notice to Continuous Service Agreement Competitive Retailer of Drop Due to a Move In
+(1)	An evaluation is done on the CSA CR two Retail Business Days prior to the scheduled meter read date, but not before receipt of the TDSP’s 814_04, Enrollment Notification Response.  If ERCOT determines that there is a CSA CR or there is scheduled to be a CSA CR on the scheduled meter read date, ERCOT will submit to the CSA CR a notification using the 814_06, Loss Notification.  
+(2)	If ERCOT has submitted a notification using the 814_06 transaction to the CSA CR and then the TDSP sends the 814_28, Complete Unexecutable or Permit Required, to ERCOT, ERCOT will notify the CSA CR by submitting the 814_28 transaction.  The CSA CR will remain the CR of Record.
+15.1.10	Continuous Service Agreement Competitive Retailer Processing in Municipally Owned Utility/Electric Cooperative Service Territory
+(1)	This Section sets forth the processes to initiate or terminate a CSA in an MOU or EC service territory, unless otherwise indicated in Retail Market Guide Section 8.1, Municipally Owned Utility and/or Electric Cooperative Transmission and/or Distribution Service Provider Market.
+15.1.10.1	Request to Initiate Continuous Service Agreement
+(1)	When a CR establishes a CSA at an ESI ID, the CR will send an 814_18, Establish/Change/Delete CSA Request, to ERCOT.  This will be forwarded to the MOU/EC TDSP within one Retail Business Day.  ERCOT will send the 814_18 transaction, and if an 814_19, Establish/Change/Delete CSA Response, is not received from the MOU/EC TDSP within ten Business Days, ERCOT will cancel the CSA request and send an 814_08, Cancel Request, to the requesting CSA CR and MOU/EC TDSP.  Additional 814_18 transactions received on the ESI ID while the first 814_18 transaction is still pending will be rejected at ERCOT.  Upon receipt of the 814_19 transaction (accept) from the MOU/EC TDSP, ERCOT will send an 814_19 transaction to the new CSA CR within one Retail Business Day.  ERCOT will hold the CSA in a pending status until the start date of the CSA.
+(2)	If an 814_18 transaction is received on an ESI ID with an existing CSA relationship, ERCOT will forward the 814_18 transaction to the MOU/EC TDSP within one Retail Business Day, and upon receipt of the 814_19 transaction (accept) from the MOU/EC TDSP, will send an 814_19 transaction to the new CSA CR within one Retail Business Day of receipt of the 814_19 transaction from the MOU/EC TDSP.  ERCOT will hold the CSA in a pending status until the start date of the CSA.  On the start date of the new CSA, ERCOT will send notice of the CSA termination using the 814_18 transaction to the current CSA within one Retail Business Day.
+(3)	If a CSA CR wishes to establish CSAs with multiple ESI IDs, the CSA CR must submit an 814_18 transaction for each ESI ID.
+15.1.10.2	Request to Change Continuous Service Agreement End Date
+(1)	The CSA CR will send an 814_18, Establish/Change/Delete CSA Request, to ERCOT on an ESI ID where the CSA CR is the active CSA CR of Record.  Upon receipt of an 814_18 transaction, ERCOT will update the pending end date for the active CSA, send an 814_19, Establish/Change/Delete CSA Response, within one Retail Business Day to the CSA CR, and forward the 814_18 transaction to the TDSP within one Retail Business Day.
+15.1.10.3	Request to Terminate Continuous Service Agreement 
+(1)	The CSA CR will send an 814_18, Establish/Change/Delete CSA Request, to ERCOT.  Upon receipt of an 814_18 transaction, ERCOT will terminate the CSA relationship, send an 814_19, Establish/Change/Delete CSA Response, within one Retail Business Day to the CSA CR, and forward the 814_18 transaction to the TDSP within one Retail Business Day.  An 814_18 transaction received while an 814_18 Establish transaction is pending will delete the current CSA relationship at ERCOT, provided the CSA CR of the 814_18 transaction and the current active CSA CR is the same.
+(2)	If CSA CR wishes to terminate CSAs with multiple ESI IDs, the CSA CR must submit an 814_18 transaction for each ESI ID.
+15.1.10.4	Notice to Continuous Service Agreement Competitive Retailer of Enrollment Due to a Move Out
+(1)	If, during the processing of a Move-Out Request, ERCOT determines that a CSA CR exists for the ESI ID, ERCOT will notify the CSA CR of the move out (refer to Section 15.1.5, Service Termination (Move Out)) using the 814_22, CSA CR Move In Request, within two Retail Business Days of the scheduled meter read date, but not before the receipt of the MOU/EC TDSP’s 814_04, Enrollment Notification Response.  This request will contain all of the information necessary for the CSA CR to begin servicing the ESI ID including the move out date.  
+(2)	If the CSA CR requires historical usage information for the ESI ID, the CSA CR will submit a request using the 814_26, Historical Usage Request, after receipt of the 867_04, Initial Meter Read.
+15.1.10.5	Notice to Continuous Service Agreement Competitive Retailer of Drop Due to a Move In
+(1)	An evaluation is done on the CSA CR two Retail Business Days prior to the scheduled meter read date, but not before receipt of the MOU/EC TDSP’s 814_04, Enrollment Notification Response.  If ERCOT determines that there is a CSA CR or there is scheduled to be a CSA CR on the scheduled meter read date, ERCOT will submit to the CSA CR a notification using the 814_06, Loss Notification.  
+(2)	If ERCOT has submitted a notification using the 814_06 transaction to the CSA CR and then the TDSP sends the 814_28, Complete Unexecutable or Permit Required, to ERCOT, ERCOT will notify the CSA CR by forwarding the 814_28 transaction.  The CSA CR will remain the CR of Record.
+15.2	Database Queries
+ (1)	Market Participants may obtain information from ERCOT to determine or to verify the Electric Service Identifier (ESI ID) for a Service Delivery Point.  The following information can be obtained through a database query, an extract, or an Application Programming Interface (API) on the ERCOT website:
+(a)	Service Address;
+(b)	Meter read code;
+(c)	ESI ID;
+(d)	Transmission and/or Distribution Service Provider (TDSP);
+(e)	Premise type;
+(f)	Current status (active/de-energized/inactive) with effective date;
+(g)	Move in/move out pending flag with associated date, if applicable;
+(h)	Power region;
+(i)	Station ID; 
+(j)	Metered/unmetered flag;
+(k)	ESI ID dates that include:
+(i)	Eligibility date; 
+(ii)	Start date; 
+(iii)	Create date; and 
+(iv)	Retire date;
+(l)	Provider of Last Resort (POLR) Customer class as defined in subsection (c) of P.U.C. SUBST. R. 25.43, Provider of Last Resort (POLR); 
+(m)	Settlement Advanced Metering System (AMS) meter or Municipally Owned Utility (MOU) / Electric Cooperative (EC) Non-BUSIDRRQ Interval Data Recorder (IDR) indicator that provides a true/false value as determined by ERCOT’s system evaluation of the current Load Profile ID assignment of an ESI ID; 
+(n)	TDSP AMS indicator that is assigned by the TDSP to denote the following:
+(i)	AMSR – an AMS meter or MOU/EC Non-BUSIDRRQ IDR with remote connect and disconnect capability; 
+(ii)	AMSM – an AMS meter or MOU/EC Non-BUSIDRRQ IDR without remote connect and disconnect capability; or 
+(iii)	Null – neither an AMS meter type nor an MOU/EC Non-BUSIDRRQ IDR exists at this Premise; and 
+(o)	Switch hold indicator;
+(p)	County; and
+(q)	Metered service type.
+(2) 	At least daily, ERCOT will provide all of the attributes listed above when an 814_20, ESI ID Maintenance Request, is received and accepted by ERCOT that creates an ESI ID, or makes changes to the switch hold or the provisioned AMS meter indicator of an ESI ID.
+15.2.1	Find ESI ID Function on the Market Information System 
+(1)	Market Participants with an ERCOT digital certificate can obtain information to verify the Service Address for a Service Delivery Point using the Find ESI ID function on the Market Information System (MIS) Secure Area.  The Find ESI ID function returns the information as identified in Section 15.2, Database Queries.
+15.2.2	Find Transaction Function on the Market Information System 
+(1)	Competitive Retailers (CRs) or TDSPs with an ERCOT digital certificate may obtain transaction information from ERCOT to review business processes (i.e. Switch Request, Move-In Request, etc.) on ESI IDs.  The Find Transaction function provides both summary and detailed transaction information for an ESI ID.  The data displayed is confidential information and therefore is restricted by digital certificate.  Access to the ESI ID information displayed is limited based on transaction receiver/sender, TDSP ownership, or the Retail Electric Provider (REP) of Record for each ESI ID.  MIS help screens provide detailed descriptions of the field contents and related screens.  
+15.2.3	Electric Service Identifier Extract on the Market Information System 
+(1)	ERCOT posts a downloadable extract to the ERCOT website which contains the same information as listed in Section 15.2, Database Queries.  The information provided allows Entities that do not have a digital certificate and are unable to access the information through the Find ESI ID function to use the information to determine or to verify the ESI ID for a Service Delivery Point using the Service Address.  This extract is also used by Entities to incorporate ESI ID information into their database systems.
+15.3	Monthly Meter Reads
+(1)	Each Transmission and/or Distribution Service Provider (TDSP) shall send monthly consumption information for all non-ERCOT-Polled Settlement (EPS) Meter Electric Service Identifiers (ESI IDs) within its service area to ERCOT not later than three Retail Business Days after the scheduled meter read cycle or scheduled meter cycle by day of the month for a point of delivery, using the 867_03, Monthly or Final Usage.  TDSPs shall send monthly consumption information for all ESI IDs associated with EPS-metered facilities to ERCOT no later than three Retail Business Days after TDSP receipt of daily EPS Meter data from ERCOT according to the TDSP scheduled meter read cycle or scheduled meter cycle by day of the month for a point of delivery, using the 867_03 transaction.  ERCOT will forward ERCOT-accepted consumption information to the Competitive Retailer (CR) Data Universal Numbering System (DUNS) Number provided in the 867_03 transaction by the TDSP within 12 hours.
+(2)	If the meter read for an ESI ID fails the TDSP’s internal validation procedures, the TDSP may, at its discretion, delay sending consumption information for the ESI ID to ERCOT for an additional seven days in order to obtain a valid meter reading.
+(3)	If a TDSP is unable to obtain a meter reading for an ESI ID because the TDSP is denied access to the meter, the TDSP may, at its discretion, delay sending consumption information for the ESI ID to ERCOT for an additional seven days in order to obtain a valid meter reading.
+(4)	A TDSP, with notification to the market, may suspend the transmission of monthly consumption information during periods of storm restoration or other emergency operations undertaken pursuant to its emergency operations plan.
+(5)	For non-ERCOT ESI IDs, TDSPs shall have the option of sending monthly consumption information and effectuating meter reads to ERCOT using the 867_03 transaction.  ERCOT will then forward the monthly consumption and meter read information to the CR DUNS Number provided in the 867_03 transaction by the TDSP within one Retail Business Day.
+15.4	Electric Service Identifier
+(1)	Each Transmission and/or Distribution Service Provider (TDSP) Service Delivery Point shall have a unique number within Texas.  Once this unique number has been created and assigned to a Service Delivery Point, it shall not be re-issued, even in the event of termination of the associated point-of-service.  This unique number shall be referred to as the Electric Service Identifier (ESI ID).
+(2)	Notwithstanding the foregoing, in those situations where an ESI ID has been inadvertently placed into inactive status and upon notification from the responsible TDSP, ERCOT shall re-instate the ESI ID for that Service Delivery Point.
+15.4.1	Electric Service Identifier Format 
+(1)	The ESI ID will have the following format:
+10xxxxxyyy..yy
+Where:
+10	Represents a placeholder for future use;
+xxxxx	Is the five-digit Department of Energy identification code for the assigning TDSP; and
+yyy..yy	Is up to 29 alphanumeric characters assigned by the TDSP.
+(2)	Allowable alphanumeric characters are 0-9 and A-Z.  The total length of the ESI ID cannot exceed 36 alphanumeric characters.
+(3)	It is the TDSP’s responsibility to create, assign, maintain and retire, as necessary, an ESI ID to each Service Delivery Point in its service area.
+15.4.1.1	Assignment of ESI IDs to Unmetered Service Delivery Points
+(1)	In general, each unmetered Service Delivery Point will be assigned an ESI ID corresponding to the point of delivery from the TDSP system to the Customer or Load.  The TDSP may, however, aggregate unmetered Service Delivery Points into one ESI ID provided they meet all of the following conditions:
+(a)	The Service Delivery Points are owned by the same Customer and are located at the same physical location (an exception is allowed for governmental unmetered loads such as street lighting and traffic signals);
+(b)	All Service Delivery Points have the same Usage Profile;
+(c)	All Service Delivery Points have the same voltage and are located in the same Unaccounted for Energy (UFE) zone and same Load Zone; and
+(d)	The TDSP’s tariffs allow aggregation of unmetered Service Delivery Points.
+15.4.1.2	Assignment of ESI IDs to metered Service Delivery Points
+(1)	In general, each metered Service Delivery Point will be assigned an ESI ID corresponding to an existing billing meter.  However, the TDSP may aggregate metered Service Delivery Points into one ESI ID provided they meet all the following conditions:
+(a)	The Service Delivery Points are owned by the same Customer and are at the same Service Address;
+(b)	All Service Delivery Points have the same Load Profile or all Service Delivery Points have Interval Data Recorders (IDRs);
+(c)	All Service Delivery Points have the same voltage and are located in the same UFE zone and same Load Zone; and
+(d)	The TDSP’s tariffs allow aggregation of separately metered Service Delivery Points.
+(2)	A Customer may request that the TDSP assign separate ESI IDs for separate Service Delivery Points as allowed in the TDSP’s tariffs.
+(3)	A TDSP may not assign an ESI ID to submeters where the energy consumption for those meters is included in another ESI ID.  This does not prohibit the TDSP from tracking these submeters internally or charging for submetering services via the Competitive Retailer (CR).  Notwithstanding the foregoing, TDSPs using the practice of subtract metering shall assign an ESI ID to both the master meter and the subtract meter and report adjusted consumption accordingly.
+15.4.1.3	Splitting a Service Delivery Point into Multiple ESI IDs
+(1)	A Service Delivery Point with Load above one MW may split the actual meter into up to four virtual meters which would each have its own ESI ID.  This process of splitting the meter into separate ESI IDs shall be performed in accordance with the requirements of Section 10, Metering.  Reissuing and reassignment of ESI IDs is prohibited.
+15.4.1.4	New Electric Service Identifier Creation
+(1)	Since it is anticipated that the ESI ID will be based on the existing TDSP account or Premise numbers (with a prefix identifying the TDSP), the TDSP will assign and submit to the registration database ESI IDs for new Premises as service is extended to them.  TDSPs that opt in after the market startup will be responsible for the creation of ESI IDs for all existing Service Delivery Points in their service territory.
+(2)	The TDSP will send ESI ID information using the 814_20, ESI ID Maintenance Request.  ERCOT will verify that this transaction meets Texas Standard Electronic Transaction (TX SET) specifications.  ERCOT will respond to the TDSP within one Retail Business Hour, with acceptance or rejection of these transactions using the 814_21, ESI ID Maintenance Response.  At least the following data elements are required to be sent in the 814_20 transaction:
+(a)	ESI ID;
+(b)	Service Address; city, state, zip, county;
+(c)	Load Profile Type;
+(d)	Meter reading cycle or meter cycle by day of month;
+(e)	Station ID;
+(f)	Distribution Loss Factor (DLF) code; and
+(g)	Premise type.
+(3)	The TDSP must receive an accepted 814_21 from ERCOT prior to initiating electric service pursuant to Section 15.1.4, Beginning Service (New Construction Completed and Move Ins).
+15.4.1.5	Electric Service Identifier Maintenance
+(1)	The TDSP will notify ERCOT of any changes in information related to an ESI ID for which it is responsible.  The TDSP will send changes to ERCOT using the 814_20, ESI ID Maintenance Request.  ERCOT will respond to the TDSP within four Retail Business Hours, using the 814_21, ESI ID Maintenance Response.  In addition, ERCOT will send all affected CRs notice of the changes using the 814_20 transaction.  The TDSP is responsible for the following data elements:
+(a)	Service Address; city, state, zip, county;
+(b)	Load Profile Type;
+(c)	Meter reading cycle or meter cycle by day of month;
+(d)	Station ID;
+(e)	DLF code;
+(f)	Eligibility date;
+(g)	Meter type;
+(h)	Rate class and sub-class, if applicable;
+(i)	Special needs indicator;
+(j)	Meter type, identification number, number of dials and role for each meter at the ESI ID, if ESI ID is metered;
+(k)	For unmetered ESI IDs, number and description of each unmetered device; 
+(l)	Premise type;
+(m)	Advanced Metering System (AMS) or Municipally Owned Utility (MOU) / Electric Cooperative (EC) Non-BUSIDRRQ IDR indicator;
+(n)	Switch hold indicator; and
+(o)	Metered service type description (if provided).
+(2)	If the 814_20 transaction is invalid, ERCOT will respond to the TDSP using the 814_21 transaction within four Retail Business Hours of receipt of the 814_20, with the exception of an 814_20 transaction that is invalid because of “ESI ID Invalid or Not Found.”  In the case of “ESI ID Invalid or Not Found,” ERCOT will hold the 814_20 transaction and continue to retry the request at regular intervals for 48 hours counting only hours on Retail Business Days, but not only Business Hours.  If the request remains invalid for 48 hours, the process will terminate and ERCOT will forward an 814_21 transaction.
+ERCOT Nodal Protocols
+Section 16:  Registration and Qualification of Market Participants
+April 1, 2025
+
+ 
+16	REGISTRATION AND QUALIFICATION OF MARKET PARTICIPANTS	16-1
+16.1	Registration and Execution of Agreements	16-1
+16.1.1	Re-Registration as a Market Participant	16-1
+16.1.2	Principal of a Market Participant	16-2
+16.1.3	Market Participant Citizenship, Ownership, or Headquarters	16-2
+16.1.4	Market Participant Reporting of Critical Electric Grid Equipment and Services-Related Purchases	16-3
+16.2	Registration and Qualification of Qualified Scheduling Entities	16-5
+16.2.1	Criteria for Qualification as a Qualified Scheduling Entity	16-5
+16.2.1.1	QSE Background Check Process	16-8
+16.2.1.2	Data Agent-Only Qualified Scheduling Entities	16-9
+16.2.2	QSE Application Process	16-10
+16.2.2.1	Notice of Receipt of Qualified Scheduling Entity Application	16-10
+16.2.2.2	Incomplete QSE Applications	16-11
+16.2.2.3	ERCOT Approval or Rejection of Qualified Scheduling Entity Application	16-11
+16.2.3	Remaining Steps for Qualified Scheduling Entity Registration	16-12
+16.2.3.1	Process to Gain Approval to Follow DSR Load	16-13
+16.2.3.2	Maintaining and Updating QSE Information	16-13
+16.2.3.3	Qualified Scheduling Entity Service Termination	16-13
+16.2.4	Posting of Qualified Scheduling Entity List	16-14
+16.2.5	Suspended or Terminated Qualified Scheduling Entity – Notification to LSEs and Resource Entities Represented	16-14
+16.2.6	Emergency Qualified Scheduling Entity	16-15
+16.2.6.1	Designation as an Emergency Qualified Scheduling Entity or Virtual Qualified Scheduling Entity	16-15
+16.2.6.2	Market Participation by an Emergency Qualified Scheduling Entity or a Virtual Qualified Scheduling Entity	16-16
+16.2.6.3	Requirement to Obtain New Qualified Scheduling Entity or Qualified Scheduling Entity Qualification	16-16
+16.2.7	Acceleration	16-17
+16.3	Registration of Load Serving Entities	16-17
+16.3.1	Technical and Managerial Requirements for LSE Applicants	16-18
+16.3.1.1	Designation of a Qualified Scheduling Entity	16-18
+16.3.2	Registration Process for Load Serving Entities	16-19
+16.3.2.1	Notice of Receipt of Load Serving Entity Application	16-19
+16.3.2.2	Incomplete Load Serving Entity Applications	16-19
+16.3.2.3	ERCOT Approval or Rejection of Load Serving Entity Application	16-19
+16.3.3 	Changing QSE Designation	16-20
+16.3.4	Maintaining and Updating LSE Information	16-20
+16.4	Registration of Transmission and Distribution Service Providers	16-21
+16.5	Registration of a Resource Entity	16-21
+16.5.1	Technical and Managerial Requirements for Resource Entity Applicants	16-24
+16.5.1.1	Designation of a Qualified Scheduling Entity	16-25
+16.5.1.2	Waiver for Federal Hydroelectric Facilities	16-25
+16.5.1.3	Waiver for Block Load Transfer Resources	16-26
+16.5.2	Registration Process for a Resource Entity	16-26
+16.5.2.1	Notice of Receipt of Resource Entity Application	16-27
+16.5.2.2	Incomplete Resource Entity Applications	16-27
+16.5.3	Changing QSE Designation	16-28
+16.5.4	Maintaining and Updating Resource Entity Information	16-29
+16.6	Registration of Municipally Owned Utilities and Electric Cooperatives in the ERCOT Region	16-29
+16.7	Registration of Renewable Energy Credit Account Holders	16-30
+16.8	Registration and Qualification of Congestion Revenue Rights Account Holders	16-30
+16.8.1	Criteria for Qualification as a CRR Account Holder	16-30
+16.8.2	CRR Account Holder Application Process	16-33
+16.8.2.1	Notice of Receipt of CRR Account Holder Application	16-33
+16.8.2.2	Incomplete CRR Account Holder Applications	16-33
+16.8.2.3	ERCOT Approval or Rejection of CRR Account Holder Application	16-34
+16.8.3	Remaining Steps for CRR Account Holder Registration	16-35
+16.8.3.1	Maintaining and Updating CRR Account Holder Information	16-35
+16.9	Resources Providing Reliability Must-Run Service	16-35
+16.10	Resources Providing Black Start Service	16-35
+16.11	Financial Security for Counter-Parties	16-36
+16.11.1	ERCOT Creditworthiness Requirements for Counter-Parties	16-36
+16.11.1.1	Review of Counter-Party Eligibility	16-36
+16.11.1.1.1	Failure to Maintain Eligibility	16-37
+16.11.2	[RESERVED]	16-37
+16.11.3	Alternative Means of Satisfying ERCOT Creditworthiness Requirements	16-37
+16.11.4	Determination and Monitoring of Counter-Party Credit Exposure	16-40
+16.11.4.1	Determination of Total Potential Exposure for a Counter-Party	16-40
+16.11.4.2	Determination of Counter-Party Initial Estimated Liability	16-46
+16.11.4.3	Determination of Counter-Party Estimated Aggregate Liability	16-48
+16.11.4.3.1	Day-Ahead Liability Estimate	16-54
+16.11.4.3.2	Real-Time Liability Estimate	16-55
+16.11.4.3.3	Forward Adjustment Factors	16-56
+16.11.4.4	[RESERVED]	16-58
+16.11.4.5	Determination of the Counter-Party Future Credit Exposure	16-58
+16.11.4.6	Determination of Counter-Party Available Credit Limits	16-61
+16.11.4.6.1	Credit Requirements for CRR Auction Participation	16-62
+16.11.4.6.2	Credit Requirements for DAM Participation	16-63
+16.11.4.7	Credit Monitoring and Management Reports	16-63
+16.11.5	Monitoring of a Counter-Party’s Creditworthiness and Credit Exposure by ERCOT	16-64
+16.11.6	Payment Breach and Late Payments by Market Participants	16-67
+16.11.6.1	ERCOT’s Remedies	16-68
+16.11.6.1.1	No Payments by ERCOT to Market Participant	16-68
+16.11.6.1.2	ERCOT May Draw On, Hold or Distribute Funds	16-69
+16.11.6.1.3	Aggregate Amount Owed by Breaching Market Participant Immediately Due	16-69
+16.11.6.1.4	Repossession of CRRs by ERCOT	16-69
+16.11.6.1.5	Declaration of Forfeit of CRRs	16-70
+16.11.6.1.6	Liquidation of Repossessed or Forfeited CRRs	16-71
+16.11.6.1.6	Revocation of a Market Participant’s Rights and Termination of Agreements	16-73
+16.11.6.2	ERCOT’s Remedies for Late Payments by a Market Participant	16-73
+16.11.6.2.1	First Late Payment in Any Rolling 12-Month Period	16-74
+16.11.6.2.2	Second Late Payment in Any Rolling 12-Month Period	16-74
+16.11.6.2.3	Third Late Payment in Any Rolling 12-Month Period	16-74
+16.11.6.2.4	Fourth Late Payment in Any Rolling 12-Month Period	16-74
+16.11.6.2.5	Level I Enforcement	16-75
+16.11.6.2.6	Level II Enforcement	16-75
+16.11.6.2.7	Level III Enforcement	16-75
+16.11.7	Release of Market Participant’s Financial Security Requirement	16-76
+16.11.8	Acceleration	16-77
+16.12	User Security Administrator and Digital Certificates	16-77
+16.12.1	USA Responsibilities and Qualifications for Digital Certificate Holders	16-79
+16.12.2	Requirements for Use of Digital Certificates	16-80
+16.12.3	Market Participant Audits of User Security Administrators and Digital Certificates	16-81
+16.13	Registration of Emergency Response Service Resources	16-83
+16.14	Termination of Access Privileges to Restricted Computer Systems and Control Systems	16-83
+16.15	Registration of Independent Market Information System Registered Entity	16-84
+16.16	Additional Counter-Party Qualification Requirements	16-85
+16.16.1	Counter-Party Criteria	16-85
+16.16.2	Annual Certification	16-86
+16.16.3	Verification of Risk Management Framework	16-87
+16.17	Exemption for Qualified Scheduling Entities Participating Only in Emergency Response Service	16-89
+16.18	Registration of a Direct Current Tie Operator	16-90
+16.18	Cybersecurity Incident Notification	16-91
+16.19	Designation of Transmission Operators	16-92
+16.19	Designation of Transmission Operators	16-93
+ 
+REGISTRATION AND QUALIFICATION OF MARKET PARTICIPANTS 
+16.1	Registration and Execution of Agreements
+(1)	ERCOT shall require each Market Participant to register and execute the Standard Form Market Participant Agreement and, as applicable, Standard Form Reliability Must-Run Agreement, and Standard Form Black Start Agreement.
+(2)	A Standard Form Market Participant Agreement is in Section 22, Attachments, and ERCOT shall also post this agreement on the ERCOT website.
+(3)	ERCOT shall post on the ERCOT website all registration procedures and applications necessary to complete registration for any function described in these Protocols.  As part of its registration procedures, ERCOT may require one or more of the following:
+(a)	Reasonable tests of the ability of a Market Participant to communicate with ERCOT or perform as required under these Protocols;
+(b)	An application fee as determined by the ERCOT Board; 
+(c)	Related agreements for specific purposes (such as agency designation, meter splitting, or network interconnection) that apply only to some Market Participants;
+(d)	A representation to ERCOT that no officer, owner, partner or other equity interest owner of the Entity was CEO or President or collectively held more than a 10% equity interest in (as owner, partner or other equity interest owner) another Entity at the time of a default where the default resulted in amounts owed to ERCOT remaining unpaid on any Agreement with ERCOT; and
+(e)	An attestation regarding citizenship, ownership, or headquarters of the Entity seeking to register as a Market Participant.
+(4)	A Market Participant shall subscribe to any public distribution lists for Market Notices that are relevant to the Market Participant’s operations or obligations.
+16.1.1	Re-Registration as a Market Participant
+(1)	Any Market Participant that has had one of the following occur must provide to ERCOT a new DUNS Number (DUNS #) to re-register as a Market Participant with ERCOT:
+(a)	Its Agreement with ERCOT terminated;
+(b)	Its Customers dropped to the Provider(s) of Last Resort (POLR(s)) pursuant to Section 15.1.3, Transition Process; or
+(c)	Its Customers dropped to a Gaining Competitive Retailer (CR) pursuant to Section 15.1.3.
+16.1.2	Principal of a Market Participant 
+(1)	For purposes of Section 16, Registration and Qualification of Market Participants, a Principal is any of the following, as related to a registered Market Participant or Market Participant applicant:
+(a)	A sole proprietor of a sole proprietorship;
+(b)	A general partner of a general partnership;
+(c)	An executive of a company (e.g., president, chief executive officer, chief operating officer, chief financial officer, general counsel, or equivalent position);
+(d)	A manager, managing member, or a member vested with the management authority of a limited liability company or limited liability partnership;
+(e)	A shareholder with more than 10% equity of the Entity; or
+(f)	A person that has authority to make decisions under these Protocols on behalf of the registered Market Participant or applicant, and is not otherwise controlled by any of the other Principal types listed above, or as otherwise identified by ERCOT.
+16.1.3	Market Participant Citizenship, Ownership, or Headquarters
+(1)	An Entity is not eligible to register or maintain its registration with ERCOT as a Market Participant if the Entity:
+(a)	Is a person who is a citizen of a Lone Star Infrastructure Protection Act (LSIPA) Designated Country; or   
+(b)	Is an LSIPA Designated Company.  
+(2)	If an Entity meets any of the above listed criteria solely due to the citizenship, ownership or headquarters of a wholly owned subsidiary, majority-owned subsidiary, or Affiliate, the Entity will be eligible to register as a Market Participant, subject to paragraph (5) below, if it certifies that the subsidiary or Affiliate at issue will not have direct or remote access to or control of ERCOT’s Wide Area Network (WAN), Market Information System (MIS), or any data from such ERCOT systems. 
+(3)	Any Entity that seeks to register as a Market Participant shall submit an attestation as reflected in Section 23, Form Q, Attestation Regarding Market Participant Citizenship, Ownership, or Headquarters, certifying that the Entity complies with the above criteria, to the best of the Entity’s knowledge and belief following reasonable diligence.
+(4)	If there are changes to a Market Participant’s citizenship, ownership, or headquarters such that the Market Participant meets any of the prohibited company citizenship, ownership (including Affiliations) or headquarters criteria of an LSIPA Designated Company, then the Market Participant shall execute and submit a new attestation to ERCOT within ten Business Days of the change becoming effective.
+(5)	ERCOT may immediately suspend or terminate a Market Participant’s registration or access to any of ERCOT’s systems if ERCOT has a reasonable suspicion that the Entity meets any of the criteria described by paragraph (1) above or that an Entity has provided access or control to a subsidiary or Affiliate as described by paragraph (2) above.
+16.1.4	Market Participant Reporting of Critical Electric Grid Equipment and Services-Related Purchases
+(1)	As a condition of registering and maintaining registration with ERCOT as a Market Participant, an Entity shall report to ERCOT the purchase, lease, or receipt (referred to in this Section as a “purchase”) of any Critical Electric Grid Equipment (CEGE) or Critical Electric Grid Services (CEGS) that the Entity knows to be from an LSIPA Designated Company or an LSIPA Designated Country.  This includes, but is not limited to, a purchase of CEGE or CEGS that were manufactured, produced, created, or otherwise provided by a company known to the Entity to be an LSIPA Designated Company and subsequently sold to the Entity by a non-LSIPA Designated Company.  
+(a)	As used in this Section 16.1.4 and Section 23, Form S, Reporting and Attestation Regarding Purchase of Critical Electric Grid Equipment (CEGE) and Critical Electric Grid Services (CEGS) from a Lone Star Infrastructure Protection Act (LSIPA) Designated Company or LSIPA Designated Country, the terms “knows,” “known,” and “knowledge” refer to the Entity’s actual knowledge or knowledge that the Entity could have obtained through reasonable inquiry with respect to any clearly evident, non-obscure information indicating that the equipment or service was manufactured, produced, created, or otherwise provided by an LSIPA Designated Company.   
+(b)	If the Entity obtains a contractual representation (or either a letter of attestation or a contractual representation if the purchase was made before June 8, 2023) from the seller of CEGE or CEGS that the equipment or services were not manufactured, produced, created, or otherwise provided by an LSIPA Designated Company, then absent some clearly evident, non-obscure information raising such suspicion, this Section 16.1.4 does not require the Entity to conduct diligence or otherwise inquire as to the identity or location of the manufacturer, producer, or creator of the CEGE or CEGS that the Entity purchases or any component parts thereof.  For the avoidance of doubt, this subsection does not create or suggest a requirement not otherwise imposed by this Section 16.1.4.
+(c)	If a Market Participant or an Entity applying for registration purchases CEGE from a non-LSIPA Designated Company and clearly evident, non-obscure information indicates that such equipment has a part or component (which itself has routable connectivity) that originated from an LSIPA Designated Company or LSIPA Designated Country, then such part or component shall be reported using Section 23, Form S, but in Subsections 2(a)-(b) of Section 23, Form S, the Entity or Market Participant is only required to provide the following information for the part or component: 
+(i)	A general description of the part or component; 
+(ii)	The name of the LSIPA Designated Country from which the part or component originated; and 
+(iii)	The name of the LSIPA Designated Company from which the part or component originated, unless the Market Participant or Entity applying for registration does not actually know the name of the LSIPA Designated Company.  
+(d)	For each reported purchase made after June 8, 2023, the Market Participant or Entity applying for registration shall attest that the purchase will not result in access to or control of CEGE by an LSIPA Designated Company or an LSIPA Designated Country, excluding access specifically allowed by the Market Participant or Entity applying for registration for product warranty and support purposes. 
+(e)	For any purchases made before June 8, 2023, the Market Participant or Entity applying for registration shall take reasonable and necessary actions to mitigate access to or control of its CEGE by a company known to the Entity to be an LSIPA Designated Company or an LSIPA Designated Country, excluding access specifically allowed by the Market Participant or Entity applying for registration for product warranty and support purposes, and shall report those actions to ERCOT on the form reflected in Section 23, Form S. 
+(2)	Market Participants and Entities applying for registration with ERCOT shall submit an initial report and attestation, on the form reflected in Section 23, Form S identifying any purchase described in paragraph (1) above that occurred during the following time periods:
+(a)	For a Market Participant, purchase(s) that were made after June 18, 2021.  This initial report and attestation shall be submitted by October 28, 2024; 
+(b)	For a Market Participant, purchase(s) that were made between June 8, 2018 through June 18, 2021.  This initial report and attestation shall be submitted by December 15, 2024; and
+(c)	For an Entity applying for registration with ERCOT, purchase(s) that were made within the five years preceding the date on which the Entity signed the Standard Form Agreement.  This initial report and attestation must be submitted before ERCOT may approve registration.
+(3)	A Market Participant shall submit a report and attestation, on the form reflected in Section 23, Form S, identifying any purchase(s) described in paragraph (1) above that occur after the date(s) of the purchases reported pursuant to paragraph (2) above and that have not already been reported pursuant to this Section. 
+(4)	Reports and attestations submitted pursuant to paragraph (3) above shall be submitted within 180 days of the date of the  purchase. 
+16.2	Registration and Qualification of Qualified Scheduling Entities
+16.2.1	Criteria for Qualification as a Qualified Scheduling Entity 
+(1)	To become and remain a Qualified Scheduling Entity (QSE), an Entity must meet the following requirements:
+(a)	Submit a properly completed QSE application for qualification, including any applicable fee, necessary disclosures, and designation of Authorized Representatives, each of whom is responsible for administrative communications with the QSE and each of whom has enough authority to commit and bind the QSE and the Entities it represents;
+(b)	Comply with ERCOT’s background check process, as described in Section 16.2.1.1, QSE Background Check Process;
+(c)	Demonstrate to ERCOT’s reasonable satisfaction that the Entity does not pose an “Unreasonable Financial Risk”, as defined in this Section;
+(d)	Sign a Standard Form Market Participant Agreement; 
+(e)	Sign any required Agreements relating to use of the ERCOT Wide Area Network (WAN), software, and systems;
+(f)	Demonstrate to ERCOT’s reasonable satisfaction that the Entity is capable of performing the functions of a QSE; 
+(g)	Demonstrate to ERCOT’s reasonable satisfaction that the Entity is capable of complying with the requirements of all ERCOT Protocols and Operating Guides; 
+(h)	Satisfy ERCOT’s creditworthiness requirements as set forth in this Section, unless exempted from these requirements by Section 16.17, Exemption for Qualified Scheduling Entities Participating Only in Emergency Response Service;
+(i)	Be generally able to pay its debts as they come due.  ERCOT may request evidence of compliance with this qualification only if ERCOT reasonably believes that a QSE is failing to comply with it;
+(j)	Provide all necessary bank account information and arrange for Fedwire system transfers for two-way confirmation; 
+(k)	Be financially responsible for payment of Settlement charges for those Entities it represents under these Protocols;
+(l)	Submit an executed ERCOT Private Wide Area Network (WAN) Agreement under Section 23, Form K, Wide Area Network (WAN) Agreement, for WAN Participants; 
+(m)	Comply with the backup plan requirements for WAN Participants, if applicable, in accordance with the Operating Guides; 
+(n)	Demonstrate to ERCOT’s reasonable satisfaction that the Entity can maintain a 24-hour, seven-day-per-week control or operations center with qualified personnel for the purposes of communicating with ERCOT relating to Day-Ahead and Operating Day exchange of market and operational obligations.  This requirement applies to QSEs that are WAN Participants.  Control or operations center personnel must be responsible for operational communications and must have sufficient authority to commit and bind the QSE and the Entities that it represents;
+(o)	Demonstrate and maintain a working functional interface with all required ERCOT computer systems;
+(p)	Allow ERCOT, upon reasonable notice, to conduct a site visit to verify information provided by the QSE; and
+(q)	If a QSE represents a Resource Entity, Emergency Response Service (ERS) Resource, or another QSE and receives or transmits WAN Data, it must maintain connection to a Secure Private Network (SPN) or equivalent network as described in Nodal Operating Guide Section 7.1.2, WAN Participant Responsibilities.  
+(2)	If a QSE chooses to use Electronic Data Interchange (EDI) transactions to receive Settlement Statements and Invoices, it must participate in and successfully complete testing as described in Section 19.8, Retail Market Testing, before starting operations with ERCOT as a QSE.
+(3)	A QSE must be able to demonstrate to ERCOT’s reasonable satisfaction that it does not pose an Unreasonable Financial Risk.  Unreasonable Financial Risk as used in Section 16, Registration and Qualification of Market Participants, is a risk of financial default posed to ERCOT or its Market Participants by participation of an Entity or its Principals in the ERCOT market.  Indicators of Unreasonable Financial Risk may include, but are not limited to: past market manipulation, trading violations, or other finance-related violations based upon a final adjudication in state or federal regulatory or legal proceedings; financial defaults in ERCOT or other energy markets resulting in losses or uplifts; indications of imminent bankruptcy or insolvency, or other past civil judgement or criminal conviction that reflects problematic behavior on the part of the Entity or its Principals.
+(4)	A QSE or QSE applicant must be able to demonstrate to ERCOT’s reasonable satisfaction that none of its Principals were or are Principals of any Entity with an outstanding payment obligation that remains owing to ERCOT under any Agreement or these Protocols.  For purposes of this Section, ERCOT will only consider disqualifying those Principals of the QSE or QSE applicant who were Principals of the other Entity at a time during which the unpaid financial obligation remained owing to ERCOT or during the 120-day period prior to the date on which the unpaid financial obligation first became due and owing to ERCOT.
+(5)	If any of a QSE’s or QSE applicant’s Principals were or are Principals of a terminated Market Participant with an obligation for Default Uplift Ratio Share allocated under Section 9.19.1, Default Uplift Invoices, the terminated Market Participant must be current on all payment obligations for Default Uplift Invoices in order for the QSE to remain, or QSE applicant to become, a registered QSE.  For purposes of this Section, ERCOT will only consider as disqualifying those Principals of the QSE or QSE applicant who were Principals of the other Entity at a time during which the other Entity was not current on its payment obligation for Default Uplift Invoices or 120 days prior to the date the other Entity first failed to pay a Default Uplift Invoice.
+(6)	A QSE shall promptly notify ERCOT of any change that a reasonable examiner may deem material to the QSE’s ability to continue to meet the requirements set forth in this Section, and any material change in the information provided by the QSE to ERCOT that may adversely affect the reliability or safety of the ERCOT System or the financial security of ERCOT.  This includes any changes in the Principals of the QSE.  If the QSE fails to so notify ERCOT of such change within two Business Days after becoming aware of the change, then ERCOT may, after providing notice to each Entity represented by the QSE, refuse to allow the QSE to perform as a QSE and take any other action ERCOT deems appropriate, in its sole discretion, to prevent ERCOT or Market Participants from bearing potential or actual risks, financial or otherwise, arising from those changes, and in accordance with these Protocols.  
+(7)	Subject to the following provisions of this paragraph, a QSE may partition itself into any number of subordinate QSEs (“Subordinate QSEs”).  If a single Entity requests to partition itself into more than four Subordinate QSEs, ERCOT may implement the request subject to ERCOT’s reasonable determination that the additional requested Subordinate QSEs will not be likely to overburden ERCOT’s staffing or systems.  ERCOT shall adopt an implementation plan allowing phased-in registration for these additional Subordinate QSEs in order to mitigate system or staffing impacts.  However, ERCOT may not unreasonably delay that registration. 
+(8)	Each Subordinate QSE must be treated as an individual QSE for all purposes including communications and control functions except for liability, financial security, and financial liability requirements under this Section.  That liability, financial security, and financial liability is cumulative for all Subordinate QSEs for the single Entity signing the QSE Agreement.    
+(9)	Continued qualification as a QSE is contingent upon compliance with all applicable requirements in these Protocols.  ERCOT may suspend a QSE’s rights as a Market Participant when ERCOT reasonably determines that it is an appropriate remedy for the Entity’s failure to satisfy any applicable requirement.
+(10)	Each QSE that is a WAN Participant, or its designated QSE agent, shall maintain 24-hour, seven-day-per-week operations and Hotline communications with ERCOT and answer each QSE Hotline call.
+16.2.1.1	QSE Background Check Process
+(1)	A QSE applicant must satisfy a background check as a part of the ERCOT registration process.  All background checks will be performed by a third-party acting on ERCOT’s behalf.  Upon ERCOT’s request, a registered QSE may be required to satisfy a background check as a condition of maintaining its ERCOT registration.  
+(2)	A QSE, QSE applicants, and their Principals, will provide the following disclosures to complete a QSE background check:
+(a)	Any civil or criminal matters involving the applicant, its predecessors, Affiliates, or Principals within the last ten years that resulted in a conviction or finding of fraud, theft, larceny, deceit, deceptive trade practices, or a violation of securities or customer protection laws;
+(b)	Any complaint, formal investigation, or disciplinary action concerning financial matters initiated by or with the Securities and Exchange Commission (SEC), Commodity Futures Trading Commission (CFTC), Federal Energy Regulatory Commission (FERC), a self-regulatory organization, Independent System Operator or Regional Transmission Organization, or a state public utility commission or securities board directly involving the actions of the applicant, its predecessors, Affiliates, or Principals within the last ten years;
+(c)	Any default involving the applicant, its predecessors, Affiliates, or Principals, that impacted or revoked the right to operate in any other energy market within the last ten years;
+(d)	Any bankruptcy by the applicant, its predecessors, Affiliates, or Principals within the last ten years; and
+(e)	Any other information ERCOT deems reasonably necessary to complete a background check (e.g., Social Security Number(s), birth dates, home addresses).  
+(3)	As required by paragraph (6) of Section 16.2.1, Criteria for Qualification as a Qualified Scheduling Entity, a QSE, QSE applicants, and their Principals, must promptly provide ERCOT notice of any change that a reasonable examiner could deem material to the QSE’s ability to continue to satisfy the background check requirement, including any change to information that must be disclosed under this Section.
+16.2.1.2	Data Agent-Only Qualified Scheduling Entities
+(1)	An Entity may request registration as a Data Agent-Only QSE by submitting a completed Data Agent-Only QSE application.  ERCOT will consider the application and register the Entity as a Data Agent-Only QSE in accordance with the same processes in Section 16.2, Registration and Qualification of Qualified Scheduling Entities, generally applicable to the QSE application process.  
+(2)	An Entity is eligible to register as a Data Agent-Only QSE and maintain that registration if it:
+(a)	Meets all the eligibility criteria to qualify as a QSE under paragraph (1) of Section 16.2.1, Criteria for Qualification as a Qualified Scheduling Entity, except for items (b), (c), (h), (j), (m), and (n);
+(b)	Is not also registered as a Congestion Revenue Right (CRR) Account Holder;
+(c)	Does not participate in the Day-Ahead Market (DAM) or Real-Time Market (RTM);
+(d)	Does not participate in the ERS market;
+(e)	Does not have decision making authority over the Resources for which the Entity provides agency services; and
+(f)	Maintains a 24-hour, seven-day-per-week support contact with qualified personnel to support and resolve any data or communication issues with ERCOT.  
+(3)	A registered Data Agent-Only QSE may only be appointed to act as the authorized agent of a QSE that meets all requirements of Section 16.2.1 for the limited purpose of exchanging or communicating certain types of data with ERCOT provided that a QSE Agency Agreement making such appointment has been properly executed by the parties and accepted by ERCOT.  If a Data Agent-Only QSE is appointed as such an agent, it shall perform its agency services in accordance with the terms of the QSE Agency Agreement and the requirements for WAN Participants under the Nodal Operating Guide Section 7, Telemetry and Communication.
+(4)	A Data Agent-Only QSE shall comply with the obligations applicable to QSEs under this Section 16, Registration and Qualification of Market Participants, but is exempt from the following requirements:
+(a)	Paragraph (1)(b) of Section 16.2.1;
+(b)	Paragraph (1)(c) of Section 16.2.1;
+(c)	Paragraph (1)(h) of Section 16.2.1;
+(d)	Paragraph (1)(j) of Section 16.2.1;
+(e)	Paragraph (1)(m) of Section 16.2.1;
+(f)	Paragraph (1)(n) of Section 16.2.1;
+(g)	Section 16.11, Financial Security for Counter-Parties; and
+(h)	Section 16.16, Additional Counter-Party Qualification Requirements.
+(5)	ERCOT will ensure that its systems prevent participation by a Data Agent-Only QSE in the DAM and RTM.
+(6)	A Data Agent-Only QSE may request to change its registration to a QSE that meets all the requirements of Section 16.2.1 and is registered with ERCOT as such by submitting a written request to ERCOT.  ERCOT will change the Data Agent-Only QSE’s registration upon satisfaction of all requirements in Section 16.2.1.
+(7)	Nothing in this Section affects a Data Agent-Only QSE’s obligation under paragraph (6) of Section 16.2.1 to provide ERCOT notice of any material change that could adversely affect the reliability or safety of the ERCOT System.
+(8)	Each Data Agent-Only QSE shall maintain 24-hour, seven-day-per-week operations and Hotline communications with ERCOT and answer each QSE Hotline call.
+16.2.2	QSE Application Process  
+(1)	To register as a QSE, an applicant must submit to ERCOT a completed Section 23, Form G, QSE Application and Service Filing for Registration Form, and any applicable fee.  ERCOT shall post on the ERCOT website the form in which QSE applications must be submitted, all materials that must be provided with the QSE application and the fee schedule, if any, applicable to QSE applications.  The QSE application shall be attested to by a duly authorized officer or agent of the applicant.  The QSE applicant shall promptly notify ERCOT of any material changes affecting a pending application using the appropriate form posted on the ERCOT website.  The application must be submitted at least 60 days before the proposed date of commencement of service.
+16.2.2.1	Notice of Receipt of Qualified Scheduling Entity Application
+(1)	Within three Business Days after receiving a QSE application, ERCOT shall issue to the applicant a written confirmation that ERCOT has received the QSE application.  ERCOT shall return without review any QSE application that does not include the proper application fee.  The remainder of this Section does not apply to any QSE application returned for failure to include the proper application fee.
+16.2.2.2	Incomplete QSE Applications  
+(1)	Within ten Business Days after receiving a QSE application, ERCOT shall notify the applicant in writing if the application is incomplete.  An application will not be deemed complete until ERCOT has received all information necessary to conduct an evaluation of whether the applicant satisfies the requirements to be registered as a QSE, including information necessary to complete any background checks. 
+(2)	If a QSE application is incomplete, ERCOT’s notice of incompletion to the applicant must explain the deficiencies and describe the additional information necessary to make the QSE application complete.  The QSE applicant has five Business Days after it receives the notice, or a longer period if ERCOT allows, to provide the additional required information. 
+(3)	If the applicant does not respond to the incompletion notice within the time allotted, ERCOT shall reject the application and shall notify the applicant using the procedures below. 
+(4)	ERCOT will notify the applicant of the date on which the application is deemed complete.
+16.2.2.3	ERCOT Approval or Rejection of Qualified Scheduling Entity Application
+(1)	ERCOT will approve or reject a QSE application within 60 days after the application has been deemed complete as provided for in Section 16.2.2.2, Incomplete QSE Applications, unless ERCOT determines that additional time is needed to complete its review of the application.  ERCOT will notify the applicant when additional time is needed to complete its review and will provide a date by which ERCOT expects to complete its review.  If ERCOT’s initial evaluation indicates that there may be a basis to reject the application, ERCOT may contact the applicant prior to rendering a final decision on the application to determine if further information can be provided by the applicant to resolve the identified concern.
+(2)	If ERCOT rejects a QSE application, ERCOT shall send the applicant a rejection letter explaining the grounds upon which ERCOT rejected the QSE application.  Appropriate grounds for rejecting a QSE application include the following:
+(a)	Required information is not provided to ERCOT in the allotted time;
+(b)	Noncompliance with technical requirements; and
+(c)	Noncompliance with other specific eligibility requirements in this Section or in any other Protocols.
+(3)	Not later than ten Business Days after receiving a rejection letter, the QSE applicant may challenge the rejection of its QSE application using the dispute resolution procedures set forth in Section 20, Alternative Dispute Resolution Procedure.  The applicant may submit a new QSE application and fee at any time, and ERCOT shall process the new QSE application under this Section.
+(4)	If ERCOT approves the QSE application, ERCOT shall send the applicant a Standard Form Market Participant Agreement and any other required Agreements relating to use of the ERCOT network, software, and systems for the applicant’s signature.
+(5)	If ERCOT fails to approve or deny the QSE application within 60 days after the application is deemed complete, and also fails to notify the applicant that additional time is needed to complete its review, the QSE applicant may seek relief using the dispute resolution procedures set forth in Section 20.
+16.2.3	Remaining Steps for Qualified Scheduling Entity Registration
+(1)	After a QSE application is deemed approved under Section 16.2.2.3, ERCOT Approval or Rejection of Qualified Scheduling Entity Application, the applicant shall coordinate or perform the following:
+(a)	Return the signed Standard Form Market Participant Agreement and other related agreements to ERCOT;
+(b)	Coordinate with ERCOT and other Entities, as necessary, to test all communications necessary to participate in the market in the ERCOT Region;
+(c)	If applicable, a QSE offering services in a Non-Opt-In Entity (NOIE) service territory must obtain written authorization from the NOIE, and submit such authorization to ERCOT; and
+[PIR005:  ERCOT Protocol Interpretation of paragraph (1)(c) of Section 16.2.3 above:]
+On June 29, 2021, ERCOT issued a Protocol Interpretation regarding the applicability of paragraph (1)(c) of Section 16.2.3 to QSEs representing Energy Storage Resources. See Market Notice M-A062921-01, Protocol Interpretation Regarding Necessity of Non-Opt-In Entity Consent to Qualified Scheduling Entity Representation of Energy Storage Resource in Non-Opt-In Entity Service Territory, at http://www.ercot.com/mktrules/nprotocols/pir_process.html for full details of this Protocol Interpretation.
+(d)	Demonstrate compliance with security and financial requirements.
+16.2.3.1	Process to Gain Approval to Follow DSR Load
+(1)	Each QSE wanting to use Resources to follow Dynamically Scheduled Resource (DSR) Load shall submit a proposal to ERCOT for analysis of the feasibility and reliability of the telemetry required by the proposal.  ERCOT shall either approve or disapprove that proposal based on ERCOT’s ability to monitor the DSR Load behavior.
+(2)	Each DSR Load must be associated with a Load meter or group of Load meters.  This includes Load that is calculated by subtracting interchange telemetry from actual generation telemetry, appropriately adjusted for Transmission and Distribution Losses.
+[NPRR1000:  Delete Section 16.2.3.1 above upon system implementation and renumber accordingly.]
+16.2.3.2	Maintaining and Updating QSE Information 
+(1)	Each QSE must timely update information the QSE provided to ERCOT in the application process, and a QSE must promptly respond to any reasonable request by ERCOT for updated information regarding the QSE or the information provided to ERCOT by the QSE, including:
+(a)	The QSE’s addresses;
+(b)	A list of Principals, as defined in Section 16.1.2, Principal of a Market Participant;
+(c)	A list of Affiliates; and
+(d)	Designation of the QSE’s officers, directors, Authorized Representatives, Credit Contacts, and User Security Administrator (USA) (all per the QSE application) including the telephone and e-mail addresses for those persons. 
+16.2.3.3	Qualified Scheduling Entity Service Termination
+(1)	If a QSE intends to terminate representation of a Resource Entity that owns or controls a Resource that is in the ERCOT Network Operations Model (other than a Resource Entity serving as its own QSE, in which case this Section does not apply), the QSE shall provide, no less than 45 days before the specified effective termination date (“Termination Date”), written notice to ERCOT and the Resource.
+(2)	If a QSE intends to terminate representation of a Load Serving Entity (LSE) or a Resource Entity that does not own or control a Resource that is in the ERCOT Network Operations Model (other than an LSE or Resource Entity serving as its own QSE, in which case this Section does not apply), the QSE shall provide, no less than 12 Business Days before the specified effective Termination Date, written notice to ERCOT and the LSE or Resource Entity.
+(3)	Effective at 2400 on the Termination Date specified by the QSE, the QSE may no longer provide QSE services for or represent the terminated LSE or Resource.  The QSE is responsible for settlement obligations that the QSE has incurred on behalf of the terminated LSE or Resource before the termination.  The QSE must participate in Real-Time Operations through the Termination Date and provide updates pursuant to these Protocols for the Operating Day which is the Termination Date.  Notwithstanding the foregoing, if, before the Termination Date, the LSE/Resource: 
+(a)	Affiliates itself with a new QSE, or 
+(b)	Fulfills ERCOT’s creditworthiness requirements in order to become an Emergency QSE,
+the QSE that provided notice of the intent to terminate representation of the LSE/ Resource will no longer be responsible for the terminated LSE/Resource upon the effective date of the new QSE’s representation of that LSE/Resource, or the LSE/Resource qualifying as an Emergency QSE.
+(4)	Within two Business Days of notice of a QSE’s intent to terminate representation of an LSE, ERCOT shall notify the LSE of the level of credit the LSE must provide, if it becomes an Emergency QSE, and the date by which it must post the required collateral.
+16.2.4	Posting of Qualified Scheduling Entity List
+(1)	ERCOT shall post on the ERCOT website and maintain a current list of all QSEs.  ERCOT shall include with that posting a cautionary statement that inclusion on that list does not necessarily mean that a QSE is entitled to provide any service to a third party, nor does it obligate a QSE to provide any service to a third party.
+16.2.5	Suspended or Terminated Qualified Scheduling Entity – Notification to LSEs and Resource Entities Represented
+(1)	If ERCOT suspends a QSE or terminates the QSE’s Standard Form Market Participant Agreement for Default, ERCOT shall notify the affected LSEs and Resource Entities that the QSE has been suspended or terminated and the effective date of such suspension or termination.  
+(2)	If an LSE or Resource Entity represented by a terminated or suspended QSE is the same Entity as the terminated or suspended QSE, the provisions of Section 16.11.6.1.6, Revocation of a Market Participant’s Rights and Termination of Agreements, shall apply to that LSE or Resource Entity, and that LSE or Resource Entity shall not be entitled to become an Emergency QSE.
+16.2.6	Emergency Qualified Scheduling Entity
+16.2.6.1	Designation as an Emergency Qualified Scheduling Entity or Virtual Qualified Scheduling Entity
+(1)	A “Virtual QSE” is defined as an LSE or Resource Entity that has not qualified and been designated as an Emergency QSE, but has been designated by ERCOT to temporarily perform the responsibilities of a QSE. 
+(2)	If a QSE has given Notice of its intent to terminate its relationship with an LSE or Resource Entity, that LSE or Resource Entity, must, by noon on the fourth Business Day after the termination notice date, either:
+(a) 	Designate a new QSE with such relationship to take effect on the Termination Date, or earlier if allowed by ERCOT; or
+(b) 	Satisfy all necessary creditworthiness requirements for QSEs as described in Section 16.2, Registration and Qualification of Qualified Scheduling Entities, and operate as an Emergency QSE as described below.  
+(3)	If ERCOT has given Notice of an LSE’s or Resource Entity’s QSE’s termination or suspension, that LSE or Resource Entity will be designated as a Virtual QSE for up to two Bank Business Days, during which time it must either: 
+	(a) 	Designate and begin operations with a new QSE; or
+(b) 	Satisfy all necessary creditworthiness requirements for QSEs as described in Section 16.2, and operate as an Emergency QSE as described below.  As provided in paragraph (2) of Section 16.2.5, Suspended or Terminated Qualified Scheduling Entity – Notification to LSEs and Resource Entities Represented, this option does not apply to an LSE or Resource Entity represented by a terminated or suspended QSE that is the same Entity as the terminated or suspended QSE.
+(4)	If an LSE or Resource Entity meets the creditworthiness requirements, the LSE or Resource Entity may be designated as an Emergency QSE except as provided in paragraph (2) of Section 16.2.5 and may, upon the Termination Date, be issued Digital Certificates and given access to the Market Information System (MIS) as determined by ERCOT.
+(5)	If the LSE fails to meet the requirements of one of the above options in the timeframe set forth above, it shall constitute a QSE Affiliation Breach under the LSE’s Standard Form Market Participant Agreement.  If the LSE fails to cure the QSE Affiliation Breach within the cure period set forth in the Standard Form Market Participant Agreement, and the LSE serves Load, ERCOT shall, after notice as specified in Retail Market Guide Section 7.11, Transition Process, initiate a Mass Transition of the LSE’s Electronic Service Identifiers (ESI IDs) pursuant to Section 15.1.3, Transition Process.
+(6)	If a Resource Entity fails to meet the requirements of one of the options set forth in paragraph (2) or (3) above within the requisite timeframe, it shall constitute a QSE Affiliation Breach under the Resource Entity’s Standard Form Market Participant Agreement, provided that ERCOT may allow the Resource Entity additional time, as determined by ERCOT staff, to meet the requirements.
+(7)	For any Operating Day in which an LSE or Resource Entity is not either represented by a QSE or qualified as an Emergency QSE, ERCOT may designate the LSE or Resource Entity as a Virtual QSE.  ERCOT may issue Digital Certificates to the Virtual QSE for access to the capabilities of the MIS.  A Virtual QSE shall be liable for any and all charges associated with Initial, Final and True-Up Settlements as well as any Resettlements applying to dates during which the Virtual QSE represented ESI IDs or otherwise incurred charges pursuant to these Protocols, along with any and all costs incurred by ERCOT in collecting such amounts.
+(8)	ERCOT shall maintain a referral list of qualified QSEs on the ERCOT website who request to be listed as providing QSE services on short notice.  The list shall include the QSE’s name, contact information and whether they are qualified to represent Load and/or Resources and/or provide Ancillary Services.  ERCOT shall not be obligated to verify the abilities of any QSE so listed.  ERCOT shall require all QSEs listed to confirm their inclusion on the referral list no later than the start of each calendar year.
+16.2.6.2	Market Participation by an Emergency Qualified Scheduling Entity or a Virtual Qualified Scheduling Entity
+(1)	An Emergency QSE or a Virtual QSE may only represent itself; it may not represent another legal Entity. 
+(2)	An Emergency QSE or a Virtual QSE that is also an LSE may only submit the following transactions, and may do so only to the extent that the transactions are intended to serve the Load of the Emergency QSE’s or Virtual QSE’s Customers: 
+(a)	Energy Trades in which the Emergency QSE or the Virtual QSE is the buyer;
+(b)	Capacity Trades in which the Emergency QSE or the Virtual QSE is the buyer;
+(c)	Ancillary Service Trades in which the Emergency QSE or the Virtual QSE is the buyer; and
+(d)	DAM Energy Bids. 
+(3)	An Emergency QSE or a Virtual QSE that is also a Resource Entity may only submit transactions that are directly attributable to and wholly provided by the Resource Entity’s Resource(s).
+16.2.6.3	Requirement to Obtain New Qualified Scheduling Entity or Qualified Scheduling Entity Qualification
+(1)	Within seven Business Days after receiving designation as an Emergency QSE, an Emergency QSE must either: 
+(a)	Designate a QSE that will represent the LSE or Resource Entity to ERCOT; or 
+(b)	Fulfill all QSE registration and qualification requirements.  After completing the requirements in item (b), ERCOT may redesignate the Emergency QSE as a QSE.  
+(2)	If an Emergency QSE that is an LSE fails to meet at least one of the requirements listed above within the allotted time, then ERCOT shall, after notice as specified in Retail Market Guide Section 7.11, Transition Process, initiate a Mass Transition of the LSE’s ESI IDs pursuant to Section 15.1.3, Transition Process.  If an Emergency QSE that is a Resource Entity fails to meet at least one of the requirements listed above within the allotted time, ERCOT may allow the Resource Entity additional time, as determined by ERCOT staff, to meet the requirements. 
+16.2.7	Acceleration
+(1)	Upon termination of a QSE’s rights as a QSE and the Standard Form Market Participant Agreement or any other Agreement(s) between ERCOT and the QSE, all sums owed to ERCOT are immediately accelerated and are immediately due and owing in full.  At that time, ERCOT may immediately draw upon any security or other collateral pledged to ERCOT and may offset or recoup all amounts due to ERCOT to satisfy those due and owing amounts.
+16.3	Registration of Load Serving Entities
+(1)	Load Serving Entities (LSEs) provide electric service to Customers and Wholesale Customers.  LSEs include Non-Opt-In Entities (NOIEs) that serve Load, Competitive Retailers (CRs) (which includes Retail Electric Providers (REPs)), and External Load Serving Entities (ELSEs).  Each LSE must register with ERCOT.  To become registered as an LSE, an Entity must execute a Standard Form Market Participant Agreement (using the form in Section 22, Attachment A, Standard Form Market Participant Agreement), designate LSE Authorized Representatives, contacts, and a User Security Administrator (USA) (per Section 23, Form B, Load Serving Entity (LSE) Application for Registration), and demonstrate to ERCOT’s reasonable satisfaction that it is capable of performing the functions of an LSE under these Protocols.   Additionally, a REP must demonstrate certification by P.U.C. SUBST. R. 25.107, Certification of Retail Electric Providers (REPs), and comply with the remaining requirements of this Section.
+(2) 	All CRs must participate in and successfully complete testing as described in Section 19.8, Retail Market Testing, prior to commencing operations with ERCOT.
+(3)	ERCOT may require that the Entity satisfactorily complete testing of interfaces between the Entity’s systems and relevant ERCOT systems.  
+(4)	An Entity that wishes to register as an ELSE shall select the ELSE status on the LSE application (Section 23, Form B, Load Serving Entity (LSE) Application for Registration) and other registration forms as designated by ERCOT.  An ELSE shall provide all information sufficient to justify its designation as an ELSE if so requested by ERCOT.
+(5)	An ELSE shall assign an Electric Service Identifier (ESI ID) for each wholesale point of delivery as specified in these Protocols.  An ESI ID shall not be assigned to any individual Customer behind an ELSE wholesale point of delivery.
+16.3.1	Technical and Managerial Requirements for LSE Applicants
+(1)	An LSE applicant must:
+(a)	Be capable of complying with all policies, rules, guidelines, registration requirements and procedures established by these Protocols, ERCOT, or other Independent Organizations, if applicable;
+(b)	Be capable of purchasing  power from Entities registered with or by ERCOT or the Independent Organizations and capable of complying with its system rules; and,
+(c)	Be capable of purchasing capacity and reserves, or other Ancillary Services, as may be required by ERCOT, or other Independent Organizations, to provide adequate electricity to all the applicant’s Customers.
+16.3.1.1	Designation of a Qualified Scheduling Entity
+(1)	Each LSE applicant within the ERCOT Region shall designate the Qualified Scheduling Entity (QSE) that will perform QSE functions per these Protocols on behalf of the LSE.  Each applicant shall acknowledge that it bears sole responsibility for selecting and maintaining a QSE as its representative.  The applicant shall include a written statement from the designated QSE acknowledging that the QSE accepts responsibility for the applicant’s transactions under these Protocols (Section 23, Form B, Attachment A).  The acknowledgement of the LSE’s QSE designation must be approved by ERCOT prior to a CR’s enrollment of Customer ESI IDs or prior to NOIE or ELSE registration of a wholesale point of delivery.
+(2)	If an LSE fails to maintain a QSE as its representative, the LSE may be designated as an Emergency QSE as provided in Section 16.2.6.1, Designation as an Emergency Qualified Scheduling Entity or Virtual Qualified Scheduling Entity.
+16.3.2	Registration Process for Load Serving Entities
+(1)	Any Entity providing electric service to Customers in ERCOT, or in Non-ERCOT portions of Texas in areas where Customer Choice is in effect, must submit to ERCOT an LSE application (Section 23, Form B, Load Serving Entity (LSE) Application for Registration).  ERCOT shall post on the ERCOT website the form in which LSE applications must be submitted, all materials that must be provided with the LSE application, and the fee schedule, if any, applicable to LSE applications.  
+(2)	The LSE application must be attested to by a duly authorized officer or agent of the applicant.  The applicant shall promptly notify ERCOT of any material changes affecting a pending LSE application using the appropriate form posted on the ERCOT website.  
+16.3.2.1	Notice of Receipt of Load Serving Entity Application
+(1)	Within three Business Days after receiving an LSE application, ERCOT shall issue the LSE applicant a written confirmation that ERCOT has received the LSE application.  ERCOT shall return without review any LSE application that does not include the proper application fee.  The remainder of this Section does not apply to any LSE application returned for failure to include the proper application fee.
+16.3.2.2	Incomplete Load Serving Entity Applications
+(1)	Not more than ten Business Days after receiving an LSE application, ERCOT shall notify the applicant in writing whether the application is complete.
+(2)	If ERCOT determines that an LSE application is not complete, ERCOT’s notice must explain the reasons for that determination and the additional information necessary to make the application complete.  The applicant has five Business Days from receiving ERCOT’s notice, or such longer period as ERCOT may allow, to provide the additional information set forth in ERCOT’s notice.  If the applicant timely responds to ERCOT’s notice with the required additional information, then the application is deemed complete on the date that ERCOT receives the applicant’s response.
+(3)	If the applicant does not timely respond to ERCOT’s Notice, then the application must be rejected, and ERCOT shall retain any application fee included with the application.
+16.3.2.3	ERCOT Approval or Rejection of Load Serving Entity Application
+(1)	ERCOT may reject an LSE application within ten Business Days after the application has been deemed complete in accordance with this Section.  If ERCOT does not reject the LSE application within ten Business Days after the application is deemed complete then the application is deemed approved.
+(2)	If ERCOT rejects a LSE application, ERCOT shall send the LSE applicant a rejection letter explaining the grounds upon which ERCOT rejected the LSE application.  Appropriate grounds for rejecting a LSE application include the following:
+(a)	Required information is not provided to ERCOT in the allotted time;
+(b)	Noncompliance with technical requirements; and
+(c)	Noncompliance with other specific eligibility requirements set forth in this Section or in any other part of these Protocols.
+(3)	Not later than ten Business Days after receiving a rejection letter, the LSE applicant may challenge the rejection of its LSE application using the dispute resolution procedures set forth in Section 20, Alternative Dispute Resolution Procedure.  The applicant may submit a new LSE application and fee at any time, and ERCOT shall process the new LSE application under this Section.
+16.3.3 	Changing QSE Designation 
+(1)	An LSE may change its designation of QSE with written notice to ERCOT no more than once in any consecutive three days.  
+(2)	If an LSE’s representation by a QSE will terminate or the LSE intends to be represented by a different QSE, the LSE shall provide the name of the newly designated QSE to ERCOT along with a written statement from the designated QSE acknowledging the QSE’s agreement to accept responsibility for the LSE’s transactions under these Protocols.  ERCOT shall notify the LSE of approval or disapproval as soon as practicable after receipt of the designation.
+(3)	The LSE shall submit updated QSE designation information to ERCOT no less than six days prior to the effective date.  
+(4)	Within two days of approving the LSE’s notice, ERCOT shall notify all affected Entities, including the LSE’s current QSE, of the effective date of the change.
+16.3.4	Maintaining and Updating LSE Information 
+(1)	Each LSE must timely update information the LSE provided to ERCOT in the application process, and an LSE must promptly respond to any reasonable request by ERCOT for updated information regarding the LSE or the information provided to ERCOT by the LSE, including:
+(a)	The LSE’s addresses;
+(b)	A list of Affiliates; and
+(c)	Designation of the LSE’s officers, directors, Authorized Representatives, and USA (all per the LSE application) including the telephone and e-mail addresses for those persons.
+16.4	Registration of Transmission and Distribution Service Providers
+(1)	Each Entity operating as a Transmission Service Provider (TSP) or Distribution Service Provider (DSP) within the ERCOT Region, including Municipally Owned Utilities (MOUs) and Electric Cooperatives (ECs), shall register as a TSP or DSP, or both, as applicable, with ERCOT.  To register as a TSP or DSP, an Entity must comply with the backup plan requirements in the Operating Guides, execute a Standard Form Market Participant Agreement (using the form provided in Section 22, Attachment A, Standard Form Market Participant Agreement), designate TSP or DSP Authorized Representatives, contacts, and a User Security Administrator (USA) (per Section 23, Form J, Transmission and/or Distribution Service Provider Application for Registration), and be capable of performing the functions of a TSP or DSP, as applicable, as described in these Protocols. 
+(2)	DSPs operating within portions of Texas in areas where Customer Choice is in effect (including opt-in MOUs and opt-in co-ops) must participate in and successfully complete testing as described in Section 19.8, Retail Market Testing, before starting operations with ERCOT.
+16.5	Registration of a Resource Entity 
+(1)	A Resource Entity owns or controls a Generation Resource, Energy Storage Resource (ESR), Settlement Only Generator (SOG), or Load Resource connected to the ERCOT System.  Each Resource Entity operating in the ERCOT Region must register with ERCOT.  To become registered as a Resource Entity, an Entity must execute a Standard Form Market Participant Agreement (using the form in Section 22, Attachment A, Standard Form Market Participant Agreement), designate Resource Entity Authorized Representatives, contacts, and a User Security Administrator (USA) (per the Application for Registration as a Resource Entity), and demonstrate to ERCOT’s reasonable satisfaction that it is capable of performing the functions of a Resource Entity under these Protocols.  The Resource Entity shall provide Resource Registration data pursuant to Planning Guide Section 6.8.2, Resource Registration Process, for each Resource or SOG through ERCOT registration, except for Distributed Generation (DG) with an installed capacity equal to or lower than the DG registration threshold that has chosen not to register with ERCOT.  A Resource Entity may submit a proposal to register the aggregation of generators, with the exception of Intermittent Renewable Resources (IRRs) pursuant to paragraph (13) of Section 3.10.7.2, Modeling of Resources and Transmission Loads, as an Aggregate Generation Resource (AGR) which ERCOT may grant at its sole discretion.  A Resource Entity may submit a proposal to register a SOG consisting of an Energy Storage System (ESS) or a combination of ESS and non-ESS generation.  The Resource Entity must identify all components of the SOG as part of the Resource Registration process.
+[NPRR995:  Replace paragraph (1) above with the following upon system implementation:] 
+(1)	A Resource Entity owns or controls a Generation Resource, Energy Storage Resource (ESR), Settlement Only Generator (SOG), Settlement Only Energy Storage System (SOESS), or Load Resource connected to the ERCOT System.  Each Resource Entity operating in the ERCOT Region must register with ERCOT.  To become registered as a Resource Entity, an Entity must execute a Standard Form Market Participant Agreement (using the form in Section 22, Attachment A, Standard Form Market Participant Agreement), designate Resource Entity Authorized Representatives, contacts, and a User Security Administrator (USA) (per the Application for Registration as a Resource Entity), and demonstrate to ERCOT’s reasonable satisfaction that it is capable of performing the functions of a Resource Entity under these Protocols.  The Resource Entity shall provide Resource Registration data pursuant to Planning Guide Section 6.8.2, Resource Registration Process, for each Resource, SOG, or SOESS through ERCOT registration, except for Distributed Generation (DG) with an installed capacity equal to or lower than the DG registration threshold that has chosen not to register with ERCOT.  A Resource Entity may submit a proposal to register the aggregation of generators, with the exception of Intermittent Renewable Resources (IRRs) pursuant to paragraph (13) of Section 3.10.7.2, Modeling of Resources and Transmission Loads, as an Aggregate Generation Resource (AGR) which ERCOT may grant at its sole discretion.  If a Resource Entity intends to register one or more Energy Storage Systems (ESSs) and one or more non-ESS generators as SOGs at the same site, the Resource Entity must provide an affidavit attesting to the amount of ESS and non-ESS capacity at the site as a condition for registration.    
+(2)	Prior to commissioning, Resources Entities will regularly update the data necessary for modeling.  These updates will reflect the best available information at the time submitted.
+(3)	Once ERCOT has received a new or amended Standard Generation Interconnection Agreement (SGIA) or a letter from a duly authorized official from the Municipally Owned Utility (MOU) or Electric Cooperative (EC) and has determined that the proposed Generation Resource, ESR, or SOG meets the requirements of Planning Guide Section 6.9, Addition of Proposed Generation to the Planning Models, ERCOT shall review the description of the proposed Generation Resource, ESR, or SOG in Exhibit “C” (or similar exhibit) to the SGIA and the data submitted pursuant to Planning Guide Section 6.8.2 to assess whether the Generation Resource, ESR, or SOG, as proposed, would violate any operational standards established in the Protocols, Planning Guide, Nodal Operating Guides, and Other Binding Documents.  ERCOT must provide its determination to the Transmission Service Provider (TSP) and the owner of the proposed Generation Resource, ESR, or SOG within 90 days of the date the Generation Resource, ESR, or SOG meets the conditions for review.  Notwithstanding the foregoing, this determination shall not preclude ERCOT from subsequently determining that the Generation Resource, ESR, or SOG violates any operational standards established in the Protocols, Planning Guide, Nodal Operating Guides, and Other Binding Documents or from taking any appropriate action based on that determination.
+[NPRR995:  Replace paragraph (3) above with the following upon system implementation:] 
+(3)	Once ERCOT has received a new or amended Standard Generation Interconnection Agreement (SGIA) or a letter from a duly authorized official from the Municipally Owned Utility (MOU) or Electric Cooperative (EC) and has determined that the proposed Generation Resource, ESR, SOG, or SOESS meets the requirements of Planning Guide Section 6.9, Addition of Proposed Generation to the Planning Models, ERCOT shall review the description of the proposed Generation Resource, ESR, SOG, or SOESS in Exhibit “C” (or similar exhibit) to the SGIA and the data submitted pursuant to Planning Guide Section 6.8.2, to assess whether the Generation Resource, ESR, SOG, or SOESS, as proposed, would violate any operational standards established in the Protocols, Planning Guide, Nodal Operating Guides, and Other Binding Documents.  ERCOT must provide its determination to the Transmission Service Provider (TSP) and the owner of the proposed Generation Resource, ESR, SOG, or SOESS within 90 days of the date the Generation Resource, ESR, SOG, or SOESS meets the conditions for review.  Notwithstanding the foregoing, this determination shall not preclude ERCOT from subsequently determining that the Generation Resource, ESR, SOG, or SOESS violates any operational standards established in the Protocols, Planning Guide, Nodal Operating Guides, and Other Binding Documents or from taking any appropriate action based on that determination.
+(4)	An Interconnecting Entity (IE) shall not proceed to Initial Synchronization of a Generation Resource, ESR, Settlement Only Transmission Generator (SOTG), or Settlement Only Transmission Self-Generator (SOTSG) in the event of any of the following conditions:
+(a)	Pursuant to paragraph (3) above, ERCOT has reasonably determined that the Generation Resource, ESR, SOTG, or SOTSG may violate operational standards established in the Protocols, Planning Guide, Nodal Operating Guides, and Other Binding Documents, and the Resource Entity has not yet demonstrated to ERCOT’s satisfaction that the Generation Resource, ESR, SOTG, or SOTSG can comply with these standards;
+(b)	The requirements of Planning Guide Section 5.3.5, ERCOT Quarterly Stability Assessment, if applicable, have not been completed for the Generation Resource, ESR, SOTG, or SOTSG; or
+(c)	Any required Subsynchronous Resonance (SSR) studies, SSR Mitigation Plan, SSR Protection, and SSR monitoring if required, have not been completed and approved by ERCOT.
+[NPRR995:  Replace paragraph (4) above with the following upon system implementation:] 
+(4)	An Interconnecting Entity (IE) shall not proceed to Initial Synchronization of a Generation Resource, ESR, Settlement Only Transmission Generator (SOTG), Settlement Only Transmission Self-Generator (SOTSG), or Settlement Only Transmission Energy Storage System (SOTESS) in the event of any of the following conditions:
+(a)	Pursuant to paragraph (3) above, ERCOT has reasonably determined that the Generation Resource, ESR, SOTG, SOTSG, or SOTESS may violate operational standards established in the Protocols, Planning Guide, Nodal Operating Guides, and Other Binding Documents, and the Resource Entity has not yet demonstrated to ERCOT’s satisfaction that the Generation Resource, ESR, SOTG, SOTSG, or SOTESS can comply with these standards;
+(b)	The requirements of Planning Guide Section 5.3.5, ERCOT Quarterly Stability Assessment, if applicable, have not been completed for the Generation Resource, ESR, SOTG, SOTSG, or SOTESS; or
+(c)	Any required Subsynchronous Resonance (SSR) studies, SSR Mitigation Plan, SSR Protection, and SSR monitoring if required, have not been completed and approved by ERCOT.
+(5)	DG with an installed capacity greater than one MW, the DG registration threshold, which exports energy into a Distribution System, must register with ERCOT.  
+(6)	A Resource Entity representing an ESR shall register the ESR as an ESR.  ERCOT systems, including the Energy and Market Management System (EMMS) and Settlement system, shall continue to treat the ESR as both a Generation Resource and a Controllable Load Resource until such time as all ERCOT systems are capable of treating an ESR as a single Resource.
+[NPRR1246:  Delete paragraph (6) above upon system implementation of the Real-Time Co-Optimization (RTC) project.]
+16.5.1	Technical and Managerial Requirements for Resource Entity Applicants
+(1)	A Resource Entity applicant must:
+(a)	Be capable of complying with all policies, rules, guidelines, registration requirements, and procedures established by these Protocols, ERCOT, or other Independent Organizations, if applicable; and
+(b)	Be capable of purchasing power from Entities registered with or by ERCOT or the Independent Organizations and capable of complying with its system rules.
+16.5.1.1	Designation of a Qualified Scheduling Entity
+(1)	Each Resource Entity applicant within the ERCOT Region shall designate the Qualified Scheduling Entity (QSE) that will perform QSE functions per these Protocols on behalf of the Resource Entity.  Each applicant shall acknowledge that it bears sole responsibility for selecting and maintaining a QSE as its representative.  The applicant shall include a written statement from the designated QSE acknowledging that the QSE accepts responsibility for the applicant’s transactions pursuant to these Protocols.  For the Resource Entity that owns or operates a Resource, the Resource Entity’s QSE designation must be submitted to ERCOT no later than 45 days prior to the Network Operations Model change date, as described in Section 3.10.1, Time Line for Network Operations Model Changes, for the Resource.
+(2)	If a Resource Entity fails to maintain a QSE as its representative, the Resource Entity may be designated as an Emergency QSE as provided in Section 16.2.6.1, Designation as an Emergency Qualified Scheduling Entity or Virtual Qualified Scheduling Entity.
+16.5.1.2	Waiver for Federal Hydroelectric Facilities
+(1)	ERCOT may grant a waiver to any federally owned hydroelectric Generation Resource, SOG, or Load Resource within the ERCOT System from fulfilling the requirements in Section 16.5, Registration of a Resource Entity, as they pertain to the submission of a Resource Entity application and the execution of a Standard Form Market Participant Agreement (Section 22, Attachment A, Standard Form Market Participant Agreement).  ERCOT may grant such waiver after the federally owned hydroelectric Resource Entity provides ERCOT with the following:
+(a)	All information necessary to meet the Resource Entity registration requirements as provided in this Section;
+(b)	The designation of a QSE for each Generation Resource, SOG, or Load Resource that it owns or controls; and
+(c)	Assignment of each Generation Resource’s, SOG’s, or Load Resource’s Electric Service Identifier (ESI ID) to a Load Serving Entity (LSE) serving any Load or net Load, if the Generation Resource, SOG, or Load Resource is net metered and will be connected to the ERCOT System.  Such Load, if retail Load, is subject to all applicable rules and procedures, including rules concerning disconnection and Provider of Last Resort (POLR) service, applicable to other retail points of delivery.
+[NPRR995:  Replace paragraph (1) above with the following upon system implementation:] 
+(1)	ERCOT may grant a waiver to any federally owned hydroelectric Generation Resource, SOG, SOESS, or Load Resource within the ERCOT System from fulfilling the requirements in Section 16.5, Registration of a Resource Entity, as they pertain to the submission of a Resource Entity application and the execution of a Standard Form Market Participant Agreement (Section 22, Attachment A, Standard Form Market Participant Agreement).  ERCOT may grant such waiver after the federally owned hydroelectric Resource Entity provides ERCOT with the following:
+(a)	All information necessary to meet the Resource Entity registration requirements as provided in this Section;
+(b)	The designation of a QSE for each Generation Resource, SOG, SOESS, or Load Resource that it owns or controls; and
+(c)	Assignment of each Generation Resource’s, SOG’s, SOESS’s, or Load Resource’s Electric Service Identifier (ESI ID) to a Load Serving Entity (LSE) serving any Load or net Load, if the Generation Resource, SOG, SOESS, or Load Resource is net metered and will be connected to the ERCOT System.  Such Load, if retail Load, is subject to all applicable rules and procedures, including rules concerning disconnection and Provider of Last Resort (POLR) service, applicable to other retail points of delivery.
+16.5.1.3	Waiver for Block Load Transfer Resources
+(1)	ERCOT may grant a waiver to a Resource Entity for a Block Load Transfer (BLT) Resource from fulfilling the requirements in Section 16.5, Registration of a Resource Entity, as they pertain to the submission of a Resource Entity application and the execution of a Standard Form Market Participant Agreement (Section 22, Attachment A, Standard Form Market Participant Agreement).  ERCOT may grant such waiver after the Resource Entity for the BLT Resource provides ERCOT with the following:
+(a)	All applicable information necessary to meet the Resource Entity registration requirements as provided in this Section; and
+(b)	The designation of a QSE for the BLT Resource.
+16.5.2	Registration Process for a Resource Entity
+(1)	To register as a Resource Entity, an applicant must submit to ERCOT a completed Resource Entity application and any applicable fee.  ERCOT shall post on the ERCOT website the form in which Resource Entity applications must be submitted, all materials that must be provided with the Resource Entity application.  
+(2)	The Resource Entity application must be attested to by a duly authorized officer or agent of the applicant.  The applicant shall promptly notify ERCOT of any material changes affecting a pending Resource Entity application using the appropriate form posted on the ERCOT website.  
+(3)	If the Resource Entity intends to own or control a Load Resource located within a Non-Opt-In Entity’s (NOIE’s) service territory, such applicant must designate the NOIE’s QSE, or an alternate QSE authorized by the NOIE.  If an alternate QSE is designated, then such QSE representing that Load Resource must first obtain written permission from the NOIE prior to offering any services in the NOIE’s service territory.  The alternate QSE shall submit the NOIE’s written permission to ERCOT at the time of designation.
+16.5.2.1	Notice of Receipt of Resource Entity Application
+(1)	Within three Business Days after receiving a Resource Entity application, ERCOT shall issue the Resource Entity applicant a written confirmation that ERCOT has received the application.  ERCOT shall return without review any Resource Entity application that is not complete.
+16.5.2.2	Incomplete Resource Entity Applications
+(1)	Not more than ten Business Days after receiving a Resource Entity application, ERCOT shall notify the applicant in writing whether the application is complete.
+(2)	If ERCOT determines that a Resource Entity application is not complete, ERCOT’s notice must explain the reasons for that determination and the additional information necessary to make the application complete.  The applicant has five Business Days from receiving ERCOT’s notice, or such longer period as ERCOT may allow, to provide the additional information set forth in ERCOT’s notice.  If the applicant timely responds to ERCOT’s notice with the required additional information, then the application is deemed complete on the date that ERCOT receives the applicant’s response. 
+(3)	If the applicant does not timely respond to ERCOT’s notice, then the application must be rejected, and ERCOT shall retain any application fee included with the application.
+16.5.2.3	ERCOT Approval or Rejection of a Resource Entity Application
+(1)	ERCOT may reject a Resource Entity application within ten Business Days after the application has been deemed complete in accordance with this Section.  If ERCOT does not reject the Resource Entity application within ten Business Days after the application is deemed complete then the application is deemed approved.
+(2)	If ERCOT rejects a Resource Entity application, ERCOT shall send the Resource Entity applicant a rejection letter explaining the grounds upon which ERCOT rejected the Resource Entity application.  Appropriate grounds for rejecting a Resource Entity application include the following:
+(a)	Required information is not provided to ERCOT in the allotted time;
+(b)	Noncompliance with technical requirements; and
+(c)	Noncompliance with other specific eligibility requirements set forth in this Section or in any other part of these Protocols.
+(3)	Not later than ten Business Days after receiving a rejection letter, the Resource Entity applicant may challenge the rejection of its Resource Entity application using the dispute resolution procedures set forth in Section 20, Alternative Dispute Resolution Procedure.  The applicant may submit a new Resource Entity application and fee at any time, and ERCOT shall process the new Resource Entity application under this Section.
+16.5.3	Changing QSE Designation
+(1)	A Resource Entity may change its designation of QSE with written notice to ERCOT, no more than once in any consecutive three days.  
+(2)	If a Resource Entity’s representation by a QSE will terminate or the Resource Entity intends to be represented by a different QSE, the Resource Entity shall provide the name of the newly designated QSE to ERCOT along with a written statement from the newly designated QSE acknowledging the QSE’s agreement to accept responsibility for the Resource Entity’s transactions under these Protocols.  For the Resource Entity that owns or operates a Resource, the Resource Entity’s QSE designation must be submitted to ERCOT no later than 45 days before the effective date of the change, unless otherwise approved by ERCOT, before the Resource Entity will be evaluated for compliance with the requirements of paragraph (3) below.  ERCOT shall notify the Resource Entity of approval or disapproval as soon as practicable after receipt of the request.
+(3)	For Resources required by these Protocols to be in the Network Operations Model, the following apply:
+(a)	The designated QSE shall install all telemetry required of these Protocols for the requesting Resource Entity and schedule point-to-point data verification with ERCOT.  
+(b)	The designated QSE shall submit telemetry data descriptions to ERCOT to meet ERCOT’s normal model update process.
+(c)	The Resource must submit any changes in system topology or telemetry according to Section 3.3.2.1, Information to Be Provided to ERCOT.  
+(d)	The effective date for the newly designated QSE shall be in accordance with Section 3.10.1, Time Line for Network Operations Model Changes.  
+(e)	ERCOT may request the Resource Entity to develop a transition implementation plan to be approved by ERCOT that sets appropriate deadlines for completion of all required data and telemetry verification and cutover testing activities with ERCOT.
+(4)	For all other Resources, the new QSE designation is to be received no less than six days prior to the effective date.  
+(5)	Within two days of approving a Resource Entity’s notice, ERCOT shall notify all affected Entities, including the Resource Entity’s current QSE, of the effective date of the change.  
+16.5.4	Maintaining and Updating Resource Entity Information 
+(1)	Each Resource Entity must timely update information the Resource Entity provided to ERCOT in the application process, and a Resource Entity must promptly respond to any reasonable request by ERCOT for updated information regarding the Resource Entity or the information provided to ERCOT by the Resource Entity, including:
+(a)	The Resource Entity’s addresses;
+(b)	A list of Affiliates; and
+(c)	Designation of the Resource Entity’s officers, directors, Authorized Representatives, and USA (all per the Resource Entity application) including the telephone and e-mail addresses for those persons.
+(2)	A Resource Entity that has a Switchable Generation Resource (SWGR) shall submit a report to ERCOT in writing indicating whether or not it has any contractual requirement in a non-ERCOT Control Area for each season as defined in Section 3.2.6.4, Total Capacity Estimates, which may cause the identified capacity to not be available to the ERCOT System for the subsequent ten years.  The initial communication and subsequent updates to previously reported unavailable capacity shall be filed with ERCOT as soon as possible, but in no event later than ten Business Days after the information is obtained.  The communications should reflect the Resource Entity’s best estimate of the required information at the time the filing is made.  ERCOT shall use the provided data for preparation of the Report on Capacity, Demand and Reserves in the ERCOT Region (CDR) and other planning purposes.  The SWGR information reporting form is located on the ERCOT website.
+16.6	Registration of Municipally Owned Utilities and Electric Cooperatives in the ERCOT Region
+(1)	Each Municipally Owned Utility (MOU) and Electric Cooperative (EC) shall register with ERCOT and sign the Agreements that apply to the functions it performs in the ERCOT Region, regardless of whether planning to be a Non-Opt-In Entity (NOIE) or a Competitive Retailer (CR).
+(2)	If an MOU or EC decides to register an affiliate as a CR, it must notify ERCOT of its intentions six months prior to opting in.  
+(3)	Each MOU and EC shall assign an Electric Service Identifier (ESI ID) to each NOIE wholesale point of delivery as specified in these Protocols.  The ESI IDs must be assigned to a Load Serving Entity (LSE).
+16.7	Registration of Renewable Energy Credit Account Holders
+(1)	Each Entity intending to participate in the Renewable Energy Credit (REC) program shall register with ERCOT and execute a Standard Form Market Participant Agreement (as provided in Section 22, Attachment A, Standard Form Market Participant Agreement) prior to participation in the REC program.
+16.8	Registration and Qualification of Congestion Revenue Rights Account Holders
+16.8.1	Criteria for Qualification as a CRR Account Holder 
+(1)	To become and remain a Congestion Revenue Right (CRR) Account Holder, an Entity must meet the following requirements: 
+(a)	Submit a properly completed CRR Account Holder application (Section 23, Form A, Congestion Revenue Right (CRR) Account Holder Application for Registration) for qualification, including any applicable fee, any necessary disclosures, and designation of Authorized Representatives, each of whom is responsible for administrative communications with the CRR Account Holder and each of whom has enough authority to commit and bind the CRR Account Holder;
+(b)	Comply with ERCOT’s background check process, as described in Section 16.8.1.1, CRR Account Holder Background Check Process;
+(c)	Demonstrate to ERCOT’s reasonable satisfaction that the Entity does not pose an “Unreasonable Financial Risk”, as described in this Section;
+(d)	Sign a CRR Account Holder Agreement; 
+(e)	Sign any required Agreements relating to use of the ERCOT network, software, and systems;
+(f)	Demonstrate to ERCOT’s reasonable satisfaction that the Entity is capable of performing the functions of a CRR Account Holder; 
+(g)	Demonstrate to ERCOT’s reasonable satisfaction that the Entity is capable of complying with the requirements of all ERCOT Protocols and Operating Guides; 
+(h)	Satisfy ERCOT’s creditworthiness requirements as set forth in this Section;
+(i)	Be generally able to pay its debts as they come due; ERCOT may request evidence of compliance with this qualification only if ERCOT reasonably believes that a CRR Account Holder is failing to comply with it;
+(j)	Provide all necessary bank account information and arrange for Fedwire system transfers for two-way confirmation; 
+(k)	Be financially responsible for payment of its Settlement charges under these Protocols; and
+(l)	Not be an unbundled Transmission Service Provider (TSP), Distribution Service Provider (DSP), or an ERCOT employee.
+(2)	A CRR Account Holder must be able to demonstrate to ERCOT’s reasonable satisfaction that it does not pose an Unreasonable Financial Risk.  Unreasonable Financial Risk as used in Section 16, Registration and Qualification of Market Participants, is a risk of financial default posed to ERCOT or its Market Participants by participation of an Entity or its Principals in the ERCOT market.  Indicators of Unreasonable Financial Risk may include, but are not limited to: past market manipulation, trading violations, or other finance-related violations based upon a final adjudication in state or federal regulatory or legal proceedings; financial defaults in ERCOT or other energy markets resulting in losses or uplifts; indications of imminent bankruptcy or insolvency, or other past civil judgement or criminal conviction that reflects problematic behavior on the part of the Entity or its Principals.
+(3)	A CRR Account Holder or CRR Account Holder applicant must be able to demonstrate to ERCOT’s reasonable satisfaction that none of its Principals were or are Principals of any Entity with an outstanding payment obligation that remains owing to ERCOT under any Agreement or these Protocols.  For purpo

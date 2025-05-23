@@ -1,0 +1,689 @@
+or the Resource’s generation above LSL, for the Settlement Interval i, minus the RTEOCOST.  When one or more Combined Cycle Generation Resources are committed by RUC, RUCFCA is calculated for the Combined Cycle Train for all RUC-Committed Combined Cycle Generation Resources. 
+The average heat rate for the Resource is the Average Heat Rate at the output level at Settlement Interval i, resulting from the input-output coefficients submitted with verifiable costs, if available, otherwise the heat rate value defined in Section 4.4.9.3.3.  
+The volume-weighted average actual fuel price must be proven by the QSE by submitting a dispute per Section 9.14.7.  
+
+LSL q, r, i	MW	Low Sustained Limit—The LSL of Generation Resource r represented by QSE q for the hour that includes the Settlement Interval i, as submitted in the COP.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  
+[NPRR1009 and NPRR1014:  Insert applicable variables below upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+RTASREV q, r, i	$	Real-Time Ancillary Service Revenue — The total Real-Time Ancillary Service revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTRUREV q, r, i	$	Real-Time Reg-Up Revenue — The Real-Time Reg-Up revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  See Section 6.7.5, Real-Time Ancillary Service Imbalance Payment or Charge.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTRDREV q, r, i	$	Real-Time Reg-Down Revenue — The Real-Time Reg-Down revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  See Section 6.7.5.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTRRREV q, r, i	$	Real-Time Responsive Reserve Revenue — The Real-Time RRS revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  See Section 6.7.5.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTNSREV q, r, i	$	Real-Time Non-Spin Revenue — The Real-Time Non-Spin revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  See Section 6.7.5.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTECRREV q, r, i	$	Real-Time ERCOT Contingency Reserve Service Revenue — The Real-Time ECRS revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  See Section 6.7.5.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+
+VSSVARAMT q, r, i	$	Voltage Support Service VAr Amount by interval—The payment to the QSE q for the Voltage Support Service (VSS) provided by Generation Resource r for the 15-minute Settlement Interval i.  See Section 6.6.7.1, Voltage Support Service Payments.  Payment for VSS is made to the Combined Cycle Train.
+[NPRR1009 and NPRR1014:  Replace applicable portions of the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+Voltage Support Service VAr Amount—The payment to the QSE q for the Voltage Support Service (VSS) provided by Generation Resource r for the 15-minute Settlement Interval i.  See Section 6.6.7.1, Voltage Support Service Payments.  Payment for VSS is made to the Combined Cycle Train.
+VSSEAMT q, r, i	$	Voltage Support Service Energy Amount by interval—The lost opportunity payment to the QSE q for ERCOT-directed VSS from the Generation Resource r for the 15-minute Settlement Interval i.  See Section 6.6.7.1.  Payment for emergency energy is made to the Combined Cycle Train.
+[NPRR1009 and NPRR1014:  Replace applicable portions of the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+Voltage Support Service Energy Amount—The lost opportunity payment to the QSE q for ERCOT-directed VSS from the Generation Resource r for the 15-minute Settlement Interval i.  See Section 6.6.7.1.  Payment for emergency energy is made to the Combined Cycle Train.
+EMREAMT q, r, i	$	Emergency Energy Amount by interval—The payment to the QSE q as additional compensation for the additional energy produced by the Generation Resource r in Real-Time during the Emergency Condition, for the 15-minute Settlement Interval i.  See Section 6.6.9.1, Payment for Emergency Power Increase Directed by ERCOT.  Payment for emergency energy is made to the Combined Cycle Train.
+[NPRR1009 and NPRR1014:  Replace applicable portions of the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+Emergency Energy Amount—The payment to the QSE q as additional compensation for the additional energy or Ancillary Services produced or consumed by the Resource r in Real-Time during the Emergency Condition, for the 15-minute Settlement Interval i.  See Section 6.6.9.1, Payment for Emergency Operations Settlement.  Payment for emergency energy is made to the Combined Cycle Train.
+q	none	A QSE.
+r	none	A RUC-committed Generation Resource.
+d	none	An Operating Day containing the RUC-commitment.
+p	none	A Resource Node Settlement Point.
+i	none	A 15-minute Settlement Interval within the hour that includes a RUC instruction.
+5.7.1.4	Revenue Less Cost During QSE Clawback Intervals
+(1)	The total revenue for a Resource less the cost based on the Energy Offer Curve Cost Cap as described in Section 4.4.9.3.3, Energy Offer Curve Cost Caps, during all QSE Clawback Intervals of the Operating Day is Revenue Less Cost During QSE-Clawback Intervals. 
+(2)	The MEPR and LSL used to calculate Revenue Less Cost During QSE Clawback Intervals for a Combined Cycle Train is the MEPR and LSL that corresponds to the Combined Cycle Generation Resource, within a Combined Cycle Train, that operates in Real-Time for the QSE Clawback Interval.
+(3)	For each QSE Clawback Interval, Revenue Less Cost During QSE Clawback Intervals is calculated as follows:
+RUCEXRQC q, r, d		=  Max {0,  [(RTSPP p, i * RTMG q, r, i)
++ (-1) * (VSSVARAMT q, r, i + VSSEAMT q, r, i)
+			+ (-1) * EMREAMT q, r, i
+			– [MEPR q, r, i * Min (RTMG q, r, i, (LSL q, r, i * (¼)))] 
+			– [RTEOCOST q, r, i * Max (0, RTMG q, r, i – (LSL q, r, i * (¼)))]]}  
+If the QSE submitted a validated Three-Part Supply Offer for the Resource, 
+	Then, 		MEPR q, r, i	=	Min (MEO q, r, i, MECAP q, r, i)
+	Otherwise, 	MEPR q, r, i 	= 	MECAP q, r, i
+If ERCOT has approved verifiable minimum-energy costs for the Resource,
+	Then,		MECAP q, r, i	=	verifiable minimum-energy costs q, r, i
+	Otherwise, 	MECAP q, r, i	= 	RCGMEC i
+[NPRR1009 and NPRR1014:  Replace applicable portions of the formula “RUCEXRQC q, r, d” above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+RUCEXRQC q, r, d		=  Max {0,  [(RTSPP p, i * RTMG q, r, i)
+			+ RTASREVq, r, i
+			+ (-1) * (VSSVARAMT q, r, i + VSSEAMT q, r, i)
+		   + (-1) * EMREAMT q, r, i
+		   – [MEPR q, r, i * Min (RTMG q, r, i, (LSL q, r, i * (¼)))] 
+		   – [RTEOCOST q, r, i * Max (0, RTMG q, r, i – (LSL q, r, i * (¼)))]]}  
+If the QSE submitted a validated Three-Part Supply Offer for the Resource, 
+	Then, 		MEPR q, r, i	=	Min (MEO q, r, i, MECAP q, r, i)
+	Otherwise, 	MEPR q, r, i 	= 	MECAP q, r, i
+If ERCOT has approved verifiable minimum-energy costs for the Resource,
+	Then,		MECAP q, r, i	=	verifiable minimum-energy costs q, r, i
+	Otherwise, 	MECAP q, r, i	= 	RCGMEC i
+Where, 
+RTASREV q, r, i = RTRUREV q, r, i + RTRDREV q, r, i + RTRRREV q, r, i + RTECRREV q, r, i  +  RTNSREV q, r, i
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCEXRQC q, r, d	$	Revenue Less Cost During QSE-Clawback Intervals—The sum of the total revenue for Resource r less the cost during all QSE-Clawback Intervals for the Operating Day.  When one or more Combined Cycle Generation Resources are committed by RUC, Revenue Less Cost During QSE-Clawback Intervals is calculated for the Combined Cycle Train for all Combined Cycle Generation Resources earning revenue in QSE-Clawback Intervals.
+RTSPP p, i	$/MWh	Real-Time Settlement Point Price—The Real-Time Settlement Point Price at the Resource’s Settlement Point for the Settlement Interval i.
+MEPR q, r, i	$/MWh	Minimum-Energy Price—The Settlement price for Resource r for minimum energy for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MEO q, r, i	$/MWh	Minimum-Energy Offer—Represents an offer for the costs incurred by Resource r in producing energy at the Resource’s LSL for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MECAP q, r, i	$/MWh	Minimum-Energy Cap—The amount used for Resource r for minimum-energy costs.  The minimum cost is the Resource Category Minimum-Energy Generic Cap (RCGMEC) unless ERCOT has approved verifiable unit-specific minimum energy costs for that Resource, in which case the Minimum-Energy Cap is the verifiable unit-specific minimum energy cost.  See Section 5.6.1, Verifiable Costs, for more information on verifiable costs.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+RCGMEC i	$/MWh	Resource Category Generic Minimum-Energy Cost—The Resource Category Generic Minimum-Energy Cost cap for the category of the Resource, according to Section 4.4.9.2.3, Startup Offer and Minimum-Energy Offer Generic Caps, for the Operating Day.
+RTEOCOST q, r, i	$/MWh	Real-Time Energy Offer Curve Cost CapThe Energy Offer Curve Cost Cap for Resource r represented by QSE q, for the Resource’s generation above the LSL for the Settlement Interval i.  See Section 4.4.9.3.3.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTMG q, r, i	MWh	Real-Time Metered Generation—The Resource r’s metered generation for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+LSL q, r, i	MW	Low Sustained Limit—The LSL of Generation Resource r represented by QSE q for the hour that includes the Settlement Interval i, as submitted in the COP.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+[NPRR1009 and NPRR1014:  Insert applicable portions of the variables below upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+RTASREV q, r, i	$	Real-Time Ancillary Service Revenue — The total Real-Time Ancillary Service revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTRUREV q, r, i	$	Real-Time Reg-Up Revenue — The Real-Time Reg-Up revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  See Section 6.7.5, Real-Time Ancillary Service Imbalance Payment or Charge.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTRDREV q, r, i	$	Real-Time Reg-Down Revenue — The Real-Time Reg-Down revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  See Section 6.7.5.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTRRREV q, r, i	$	Real-Time Responsive Reserve Revenue — The Real-Time RRS revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  See Section 6.7.5.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTNSREV q, r, i	$	Real-Time Non-Spin Revenue — The Real-Time Non-Spin revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  See Section 6.7.5.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+RTECRREV q, r, i	$	Real-Time ERCOT Contingency Reserve Service Revenue — The Real-Time ECRS revenue for QSE q calculated for Resource r for the 15-minute Settlement Interval i.  See Section 6.7.5.  Where for a Combined Cycle Train, the Resource r is the Combined Cycle Train.
+
+VSSVARAMT q, r, i	$	Voltage Support Service VAr Amount by interval—The payment to the QSE for the VSS provided by Generation Resource r for the 15-minute Settlement Interval i.  See Section 6.6.7.1, Voltage Support Service Payments.  Payment for VSS is made to the Combined Cycle Train.
+[NPRR1009 and NPRR1014:  Replace applicable portions of the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+Voltage Support Service VAr Amount—The payment to the QSE for the VSS provided by Generation Resource r for the 15-minute Settlement Interval i.  See Section 6.6.7.1, Voltage Support Service Payments.  Payment for VSS is made to the Combined Cycle Train.
+VSSEAMT q, r, i	$	Voltage Support Service Energy Amount by interval—The lost opportunity payment to the QSE for ERCOT-directed VSS from the Generation Resource r for the 15-minute Settlement Interval i.  See Section 6.6.7.1.  Payment for VSS is made to the Combined Cycle Train.  
+[NPRR1009 and NPRR1014:  Replace applicable portions of the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+Voltage Support Service Energy Amount—The lost opportunity payment to the QSE for ERCOT-directed VSS from the Generation Resource r for the 15-minute Settlement Interval i.  See Section 6.6.7.1.  Payment for VSS is made to the Combined Cycle Train.  
+EMREAMT q, r, i	$	Emergency Energy Amount by interval—The payment to the QSE as additional compensation for the additional energy produced by the Generation Resource r in Real-Time during the Emergency Condition, for the 15-minute Settlement Interval i.  See Section 6.6.9.1, Payment for Emergency Power Increase Directed by ERCOT.  Payment for emergency energy is made to the Combined Cycle Train.
+[NPRR1009 and NPRR1014:  Replace applicable portions of the definition above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+Emergency Energy Amount—The payment to the QSE as additional compensation for the additional energy or Ancillary Services produced or consumed by the Resource r in Real-Time during the Emergency Condition, for the 15-minute Settlement Interval i.  See Section 6.6.9.1, Payment for Emergency Operations Settlement.  Payment for emergency energy is made to the Combined Cycle Train.  
+  
+q	none	A QSE.
+r	none	A RUC-committed Generation Resource.
+d	none	An Operating Day containing the RUC-commitment.
+p	none	A Resource Node Settlement Point.
+i	none	A 15-minute Settlement Interval within the hour that is identified as a QSE-Clawback Interval.
+5.7.2	RUC Clawback Charge
+(1)	A QSE for a Resource shall pay a RUC Clawback Charge for the Operating Day if the RUC Guarantee is less than the sum of:
+(a)	RUC Minimum-Energy Revenue calculated in Section 5.7.1.2, RUC Minimum-Energy Revenue;
+(b)	Revenue Less Cost Above LSL During RUC-Committed Hours calculated in Section 5.7.1.3, Revenue Less Cost Above LSL During RUC-Committed Hours; and 
+(c)	Revenue Less Cost During QSE-Clawback Intervals calculated in Section 5.7.1.4, Revenue Less Cost During QSE Clawback Intervals. 
+(2)	The amount of the RUC Clawback Charge is 100% of the difference calculated in paragraph (1) above.
+[NPRR1172:  Delete paragraph (2) above upon system implementation and renumber accordingly.]
+(3)	The RUC Clawback Charge for a Resource, including RMR Units, for each Operating Day is allocated evenly over the RUC-Committed Hours for that Resource.  
+[NPRR1014:  Insert paragraph (4) below upon system implementation and renumber accordingly:]
+(4)	Energy Storage Resources (ESRs) are not subject to RUC Clawback Charges. 
+(4)	For each RUC-committed Resource, the RUC Clawback Charge for each RUC-Committed Hour of the Operating Day is calculated as follows:
+If (RUCMEREV q, r, d + RUCEXRR q, r, d – RUCACREV q, r, d – RUCG q, r, d) > 0, 
+Then,
+RUCCBAMT q, r, h	=	[(RUCMEREV q, r, d + RUCEXRR q, r, d – RUCACREV q, r, d – RUCG q, r, d) * RUCCBFR q, r, d + RUCEXRQC q, r, d * RUCCBFC q, r, d] / RUCHR q, r, d 
+Otherwise, 
+RUCCBAMT q, r, h 	=	[Max (0, RUCMEREV q, r, d + RUCEXRR q, r, d + RUCEXRQC q, r, d –  RUCACREV q, r, d – RUCG q, r, d) * RUCCBFC q, r, d] / RUCHR q, r, d
+Where, 
+The RUCAC revenue is calculated for a Combined Cycle Train as follows:
+RUCACREV q, r, d	=  Max{0,  RUCMEREV96 q, r, i + Max(0,  RUCEXRR96 q, r, i)}  
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCCBAMT q, r, h	$	RUC Clawback Charge––The RUC Clawback Charge to a QSE for Resource r represented by QSE q as described in this Section, for each RUC-Committed Hour h of the Operating Day for that Resource.  When one or more Combined Cycle Generation Resources are committed by RUC, a charge is made to the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCG q, r, d	$	RUC Guarantee—The sum of eligible Startup Costs and Minimum-Energy Costs for Resource r represented by QSE q during all RUC-Committed Hours, for the Operating Day d.  See Section 5.7.1.1, RUC Guarantee.  When one or more Combined Cycle Generation Resources are committed by RUC, guaranteed costs are calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCMEREV q, r, d	$	RUC Minimum-Energy Revenue—The sum of the energy revenues for generation of Resource r represented by QSE q up to LSL during all RUC-Committed Hours, for the Operating Day d.  See Section 5.7.1.2.  When one or more Combined Cycle Generation Resources are committed by RUC, RUC Minimum-Energy Revenue is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCEXRR q, r, d	$	Revenue Less Cost Above LSL During RUC-Committed Hours—The sum of the total revenue for Resource r represented by QSE q above the LSL less the cost during all RUC-Committed Hours, for the Operating Day d.  See Section 5.7.1.3.  When one or more Combined Cycle Generation Resources are committed by RUC, Revenue Less Cost Above LSL During RUC-Committed Hours is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCEXRQC q, r, d	$	Revenue Less Cost from QSE-Clawback Intervals—The sum of the total revenue for Resource r represented by QSE q less the cost during all QSE-Clawback Intervals for the Operating Day d.  See Section 5.7.1.4.  When one or more Combined Cycle Generation Resources are committed by RUC, Revenue Less Cost from QSE-Clawback Intervals is calculated for the Combined Cycle Train for all Combined Cycle Generation Resources earning revenue in QSE Clawback Intervals.
+RUCACREV q, r, d	$	Revenue from RUCAC Hours—The net positive sum for the energy revenues for generation of Resource r represented by QSE q up to LSL and the total revenue for Resource r operating above its LSL less the cost during all RUCAC-Hours, for the Operating Day d.  When one or more Combined Cycle Generation Resources are RUCAC, revenue from RUCAC Hours is calculated for the Combined Cycle Train for all Combined Cycle Generation Resources that were RUC-committed during the RUCAC-Hours.
+RUCMEREV96 q, r, i	$	RUC Minimum-Energy Revenue by Interval—The energy revenues for generation of Resource r represented by QSE q up to LSL during all RUC-Committed Hours, for the Settlement Interval i.  When one or more Combined Cycle Generation Resources are committed by RUC, RUC Minimum-Energy Revenue is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.  During RUCAC-Intervals for a Combined Cycle Train, the minimum energy revenue is calculated as the difference between the minimum energy revenue of the RUC-committed configuration and the QSE-committed configuration.
+RUCEXRR96 q, r, i	$	Revenue Less Cost Above LSL During RUC-Committed Hours by Interval—The total revenue for Resource r represented by QSE q operating above its LSL less the cost during all RUC-Committed hours, for the Settlement Interval i.  When one or more Combined Cycle Generation Resources are committed by RUC, revenue less cost above LSL is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCCBFR q, r, d	none	RUC Clawback Factor for RUC-Committed Hours—The Clawback Factor for Resource r represented by QSE q for RUC-Committed Hours, as specified in paragraph (2) above, for the Operating Day d.  When one or more Combined Cycle Generation Resources are committed by RUC, the RUC Clawback Factor for RUC-Committed Hours is determined for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCCBFC q, r, d	none	RUC Clawback Factor for QSE Clawback Intervals—The Clawback Factor for Resource r represented by QSE q for QSE Clawback Intervals, as specified in paragraph (2) above, for the Operating Day d.  When one or more Combined Cycle Generation Resources are committed by RUC, the RUC Clawback Factor for QSE Clawback Intervals is determined for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCHR q, r, d	none	RUC Hour—The total number of RUC-Committed Hours, for Resource r represented by QSE q for the Operating Day d.  When one or more Combined Cycle Generation Resources are committed by RUC, the total number of RUC-Committed Hours is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+q	none	A QSE.
+r	none	A RUC-committed Generation Resource.
+d	none	An Operating Day containing the RUC-commitment.
+h	none	An hour in the RUC-commitment period.
+i	none	A 15-minute Settlement Interval within the hour that includes a RUCAC instruction.
+[NPRR1172:  Replace paragraph (4) above with the following upon system implementation:]
+(4)	For each RUC-committed Resource, the RUC Clawback Charge for each RUC-Committed Hour of the Operating Day is calculated as follows:
+RUCCBAMT q, r, h 	=	Max (0, RUCMEREV q, r, d + RUCEXRR q, r, d + RUCEXRQC q, r, d –  RUCACREV q, r, d – RUCG q, r, d) / RUCHR q, r, d
+Where, 
+The RUCAC revenue is calculated for a Combined Cycle Train as follows:
+RUCACREV q, r, d	=  Max{0,   RUCMEREV96 q, r, i + Max(0,  RUCEXRR96 q, r, i)}  
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCCBAMT q, r, h	$	RUC Clawback Charge––The RUC Clawback Charge to a QSE for Resource r represented by QSE q as described in this Section, for each RUC-Committed Hour h of the Operating Day for that Resource.  When one or more Combined Cycle Generation Resources are committed by RUC, a charge is made to the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCG q, r, d	$	RUC Guarantee—The sum of eligible Startup Costs and Minimum-Energy Costs for Resource r represented by QSE q during all RUC-Committed Hours, for the Operating Day d.  See Section 5.7.1.1, RUC Guarantee.  When one or more Combined Cycle Generation Resources are committed by RUC, guaranteed costs are calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCMEREV q, r, d	$	RUC Minimum-Energy Revenue—The sum of the energy revenues for generation of Resource r represented by QSE q up to LSL during all RUC-Committed Hours, for the Operating Day d.  See Section 5.7.1.2.  When one or more Combined Cycle Generation Resources are committed by RUC, RUC Minimum-Energy Revenue is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCEXRR q, r, d	$	Revenue Less Cost Above LSL During RUC-Committed Hours—The sum of the total revenue for Resource r represented by QSE q above the LSL less the cost during all RUC-Committed Hours, for the Operating Day d.  See Section 5.7.1.3.  When one or more Combined Cycle Generation Resources are committed by RUC, Revenue Less Cost Above LSL During RUC-Committed Hours is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCEXRQC q, r, d	$	Revenue Less Cost from QSE-Clawback Intervals—The sum of the total revenue for Resource r represented by QSE q less the cost during all QSE-Clawback Intervals for the Operating Day d.  See Section 5.7.1.4.  When one or more Combined Cycle Generation Resources are committed by RUC, Revenue Less Cost from QSE-Clawback Intervals is calculated for the Combined Cycle Train for all Combined Cycle Generation Resources earning revenue in QSE Clawback Intervals.
+RUCACREV q, r, d	$	Revenue from RUCAC Hours—The net positive sum for the energy revenues for generation of Resource r represented by QSE q up to LSL and the total revenue for Resource r operating above its LSL less the cost during all RUCAC-Hours, for the Operating Day d.  When one or more Combined Cycle Generation Resources are RUCAC, revenue from RUCAC Hours is calculated for the Combined Cycle Train for all Combined Cycle Generation Resources that were RUC-committed during the RUCAC-Hours.
+RUCMEREV96 q, r, i	$	RUC Minimum-Energy Revenue by Interval—The energy revenues for generation of Resource r represented by QSE q up to LSL during all RUC-Committed Hours, for the Settlement Interval i.  When one or more Combined Cycle Generation Resources are committed by RUC, RUC Minimum-Energy Revenue is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.  During RUCAC-Intervals for a Combined Cycle Train, the minimum energy revenue is calculated as the difference between the minimum energy revenue of the RUC-committed configuration and the QSE-committed configuration.
+RUCEXRR96 q, r, i	$	Revenue Less Cost Above LSL During RUC-Committed Hours by Interval—The total revenue for Resource r represented by QSE q operating above its LSL less the cost during all RUC-Committed hours, for the Settlement Interval i.  When one or more Combined Cycle Generation Resources are committed by RUC, revenue less cost above LSL is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCHR q, r, d	none	RUC Hour—The total number of RUC-Committed Hours, for Resource r represented by QSE q for the Operating Day d.  When one or more Combined Cycle Generation Resources are committed by RUC, the total number of RUC-Committed Hours is calculated for the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+q	none	A QSE.
+r	none	A RUC-committed Generation Resource.
+d	none	An Operating Day containing the RUC-commitment.
+h	none	An hour in the RUC-commitment period.
+i	none	A 15-minute Settlement Interval within the hour that includes a RUCAC instruction.
+5.7.3	Payment When ERCOT Decommits a QSE-Committed Resource 
+(1)	If ERCOT decommits a QSE-committed Resource during the RUC process earlier than its scheduled shutdown within the Operating Day, then no compensation is due to the affected QSE from ERCOT. 
+(2)	If ERCOT decommits a QSE committed Resource that is not scheduled to shutdown within the Operating Day, then ERCOT shall pay the affected QSE an amount as calculated below for the hours of decommitment.  The number of continuous decommitted hours used in the calculation are the hours beginning with the first decommitted hour until the earlier of: 
+(a)	The hour ERCOT determines that the Resource may again be at LSL; and 
+(b)	The end of the last hour of the Operating Day.  
+(3)	If ERCOT decommits a QSE-committed Resource not scheduled to shutdown within the Operating Day, and the decommitment period spans more than one Operating Day, the RUC Decommitment Payment Amount shall be calculated and paid in the Operating Day in which the RUC decommitment originated.  The number of continuous decommitted hours used in the calculation are the hours beginning with the first decommitted hour until the end of the last hour of the Operating Day in which the RUC decommitment originated.
+(4)	The payment for a RUC Cancellation instruction for a Resource is settled for each hour through an adjustment in the RUC Decommitment Payment Amount as shown in paragraph (8) below.
+(5)	ERCOT shall produce a report each April that provides the percentage of the RUC Decommitment Payment Amounts that are a result of RUC cancellations during the 12 months of the previous calendar year.  The report shall be based on the Final Settlements.  ERCOT shall present the results of this study to the appropriate Technical Advisory Committee (TAC) subcommittee.  If there are no RUC Decommitment Payment Amounts for a given calendar year, then ERCOT will not be required to produce the annual report. 
+(6)	The SUPR, MEPR and LSL used to calculate payment when ERCOT decommits a QSE-committed Combined Cycle Train is the SUPR, MEPR and LSL that corresponds to the Combined Cycle Generation Resource, within the Combined Cycle Train, that is RUC-decommitted in the first hour of a contiguous decommitted period. 
+(7)	If the SUPR used to calculate payment when ERCOT decommits a QSE-committed AGR is based upon approved verifiable cost for all of the generators associated with the AGR, ERCOT shall scale the startup payment according to the number of generators of the AGR that started following the decommitment.  ERCOT shall make the adjustment no later than on Final Settlement.
+(8)	The payment for a RUC decommitment instruction for a Resource, including RMR Units, is calculated for each hour as follows:
+[NPRR1014:  Replace paragraph (8) above with the following upon system implementation:]
+(8)	The payment for a RUC decommitment instruction for a Resource, including RMR Units and excluding ESRs, is calculated for each hour as follows:
+RUCDCAMTq,r,h	=	(-1) * Max (0, (SUPRq,r,s -  (Max (0, MEPRq,r,i - RTSPPp,i) * (LSLq,r,i * (¼))))) / NCDCHRq,r,h  
+Where:
+If the QSE submitted a validated Three-Part Supply Offer for the Resource, 
+Then, 		SUPRq,r,s	=	Min (SUOq,r,s, SUCAP q,r,s)
+		MEPRq,r,i	=	Min (MEOq,r,i, MECAP q,r,i)
+Otherwise, 	SUPRq,r,s 	= 	SUCAPq,r,s
+		MEPRq,r,i 	= 	MECAPq,r,i
+If ERCOT has approved verifiable Startup Costs and minimum-energy costs for the Resource,
+Then, 		SUCAPq,r,s	=	verifiable Startup Costsq,r,s
+		MECAPq,r,i	=	verifiable minimum-energy costsq,r,i
+Otherwise, 	SUCAPq,r,s 	= 	RCGSCs
+		MECAPq,r,i	= 	RCGMECi
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCDCAMTq,r,h	$	RUC Decommitment Payment Amount—The payment to the QSE for the Resource that was decommitted by ERCOT but that was not scheduled to shut down in the Operating Day, for each decommitted hour of the Operating Day.  When one or more Combined Cycle Generation Resources are decommitted by RUC, payment is made to the Combined Cycle Train for all RUC-decommitted Combined Cycle Generation Resources.
+SUPRq,r,s 	$/Start	Startup Price per start—The Settlement price for Resource r for the start s.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+SUOq,r,s	$/Start	Startup Offer per start—Represents an offer for all costs incurred by Generation Resource r in starting up and reaching the Resource’s LSL.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  
+SUCAPq,r,s	$/Start	Startup Cap—The amount used for Resource r as Startup Costs.  The cap is the Resource Category Startup Offer Generic Cap (RCGSC) unless ERCOT has approved verifiable unit-specific Startup Costs for that Resource, in which case the Startup Cap is the verifiable unit-specific Startup Cost.  The verifiable unit-specific Startup Cost will be determined as described in Section 5.6.1, Verifiable Costs, minus the average energy produced during the time period between breaker close and LSL multiplied by the heat rate proxy “H” multiplied by the appropriate FIP, FOP, or solid fuel price.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+RCGSCs	$/Start	Resource Category Generic Startup Cost—The Resource Category Startup Offer Generic Cap cost for the category of the Resource, according to Section 4.4.9.2.3, Startup Offer and Minimum-Energy Offer Generic Caps, for the Operating Day.
+MEPRq,r,i	$/MWh	Minimum-Energy Price—The Settlement price for Resource r for minimum energy for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MEOq,r,i	$/MWh	Minimum-Energy Offer—Represents an offer for the costs incurred by Resource r in producing energy at the Resource’s LSL for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MECAPq,r,i	$/MWh	Minimum-Energy Cap—The amount used for Resource r for minimum-energy costs.  The minimum cost is the Resource Category Minimum-Energy Generic Cap (RCGMEC) unless ERCOT has approved verifiable unit-specific minimum energy costs for that Resource, in which case the Minimum-Energy Cap is the verifiable unit-specific minimum energy cost.  See Section 5.6.1 for more information on verifiable costs.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+RCGMECi	$/MWh	Resource Category Generic Minimum-Energy Cost—The Resource Category Minimum-Energy Generic Cap cost for the category of the Resource, according to Section 4.4.9.2.3.
+LSLq,r,i 	MW	Low Sustained Limit—The LSL of Generation Resource r represented by QSE q for the hour that includes the Settlement Interval i, as submitted in the COP.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+RTSPPp,i	$/MWh	Real-Time Settlement Point Price—The Real-Time Settlement Point Price at the Resource’s Settlement Point for the Settlement Interval i.
+NCDCHRq,r,h	none	Number of Continuous Decommitted Hours—The number of continuous decommitment hours for Resource r within an Operating Day.  When one or more Combined Cycle Generation Resources are decommitted by RUC, the Number of Continuous Decommitted Hours is calculated for the Combined Cycle Train for all RUC-decommitted Combined Cycle Generation Resources.
+q	none	A QSE.
+r	none	A  RUC-decommitted Generation Resource.
+h	none	An hour in the RUC decommitment period.
+p	none	A Resource Node Settlement Point.
+s	none	A start.
+i	none	A 15-minute Settlement Interval within the contiguous decommitted period.
+5.7.4	RUC Make-Whole Charges 
+(1)	All QSEs that were capacity-short in each RUC will be charged for that shortage, as described in Section 5.7.4.1, RUC Capacity-Short Charge.  If the revenues from the charges under Section 5.7.4.1 are not enough to cover all RUC Make-Whole Payments for a Settlement Interval, then the difference will be uplifted to all QSEs on a Load Ratio Share (LRS) basis, as described in Section 5.7.4.2, RUC Make-Whole Uplift Charge.
+(2)	On a monthly basis, within ten days after the Initial Settlement of the last day of the month has been completed, ERCOT shall post on the Market Information System (MIS) Secure Area the total RUC Make-Whole Charges and RUC Clawback Payment Amounts, by Settlement Interval, by QSE capacity-shortfall and by amount uplifted. 
+[NPRR1239:  Replace paragraph (2) above with the following upon system implementation:]
+(2)	On a monthly basis, within ten days after the Initial Settlement of the last day of the month has been completed, ERCOT shall post on the ERCOT website the total RUC Make-Whole Charges and RUC Clawback Payment Amounts, by Settlement Interval, by QSE capacity-shortfall and by amount uplifted.
+5.7.4.1	RUC Capacity-Short Charge
+(1)	The dollar amount charged to each QSE, due to capacity shortfalls for a particular RUC, for a 15-minute Settlement Interval, is the QSE’s shortfall ratio share multiplied by the total RUC Make-Whole Payments, including amounts for RMR Units, to all QSEs for that RUC, subject to a cap.  The cap on the charge to each QSE is two multiplied by the total RUC Make-Whole Payments, including amounts for RMR Units, for all QSEs multiplied by that QSE’s capacity shortfall for that RUC process divided by the total capacity of all RUC-committed Resources during that Settlement Interval for the RUC process.  That dollar amount charged to each QSE is calculated as follows:
+RUCCSAMT ruc, i, q	=	(-1) * Max [(RUCSFRS ruc, i, q * RUCMWAMTRUCTOT ruc, h), 
+(2 * RUCSF ruc, i, q * RUCMWAMTRUCTOT ruc, h / RUCCAPTOT ruc, h)] / 4
+Where:
+RUCMWAMTRUCTOT ruc, h 	=	  RUCMWAMT ruc, q, r, h
+RUCCAPTOT ruc, h	    	 =	 (RUCHSL ruc, h, r – RUCHSL ruc, h, beforeCCGR)
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCCSAMT ruc, i, q	$	RUC Capacity-Short Amount—The charge to a QSE q, due to capacity shortfall for a particular RUC process ruc, for the 15-minute Settlement Interval i.
+RUCMWAMTRUCTOT ruc, h	$	RUC Make-Whole Amount Total per RUC—The sum of RUC Make-Whole Payments for a particular RUC process ruc, including amounts for RMR Units, for the hour h that includes the 15-minute Settlement Interval.
+RUCMWAMT ruc, q, r, h	$	RUC Make-Whole Payment—The RUC Make-Whole Payment to the QSE q for Resource r, for a particular RUC process ruc, for the hour h that includes the 15-minute Settlement Interval.  See Section 5.7.1, RUC Make-Whole Payment.  When one or more Combined Cycle Generation Resources are committed by RUC, payment is made to the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCSFRS ruc, i, q	none	RUC Shortfall Ratio Share—The ratio of the QSE q’s capacity shortfall to the sum of all QSEs’ capacity shortfalls for a particular RUC process ruc, for the 15-minute Settlement Interval i.  See Section 5.7.4.1.1, Capacity Shortfall Ratio Share.
+RUCSF ruc, i, q	MW	RUC Shortfall—The QSE q’s capacity shortfall for a particular RUC process ruc for the 15-minute Settlement Interval i.  See formula in Section 5.7.4.1.1.
+RUCCAPTOT ruc, h	MW	RUC Capacity Total—The sum of the High Sustained Limits (HSLs) of all RUC-committed Resources for a particular RUC process ruc, for the hour h that includes the 15-minute Settlement Interval.  See formula in Section 5.7.4.1.1. 
+RUCHSL ruc, q, r, h	MW	High Sustained Limit at RUC Snapshot—The HSL of Generation Resource r represented by QSE q for the hour h, according to the COP and Trades Snapshot for the RUC process ruc.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+ruc	none	The RUC process for which the RUC Capacity-Short Charge is calculated.
+i	none	A 15-minute Settlement Interval.
+q	none	A QSE.
+h	none	The hour that includes the Settlement Interval i. 
+r	none	A Generation Resource that is RUC-committed for the hour that includes the Settlement Interval i, as a result of a particular RUC process.
+beforeCCGR	none	The Combined Cycle Generation Resource that was QSE-committed in a RUCAC-Interval.
+5.7.4.1.1	Capacity Shortfall Ratio Share
+(1)	In calculating the amount short for each QSE, the available capacity of an IRR when determining responsibility for the corresponding RUC charges shall be the lesser of the HSL value as reflected in the COP and the Wind-powered Generation Resource Production Potential (WGRPP), as described in Section 4.2.2, Wind-Powered Generation Resource Production Potential, for a Wind-powered Generation Resource (WGR), or the PhotoVoltaic Generation Resource Production Potential (PVGRPP), as described in Section 4.2.3, PhotoVoltaic Generation Resource Production Potential, for a PhotoVoltaic Generation Resource (PVGR), at the time of RUC execution.  For an IRR, the HASLSNAP variable used below shall be equal to the minimum of the WGRPP or PVGRPP described above and the HSL value as reflected in the QSE’s COP, at the time of the RUC execution.  
+(2)	In calculating the amount short for each QSE, the QSE must be given a capacity credit for non-Intermittent Renewable Resources (IRRs) that were given notice of decommitment within the two hours before the Operating Hour as a result of the RUC process by setting the HASLSNAP and HASLADJ variables used below equal to the HASLSNAP value for the Resource immediately before the decommitment instruction was given.  
+(3)	In calculating the short amount for each QSE, if the High Ancillary Service Limit (HASL) for a Resource was credited to the QSE during the RUC snapshot but the Resource experiences a Forced Outage within two hours before the start of the Settlement Interval, then the HASL for that Resource is also credited to the QSE in the HASLADJ.
+(4)	In calculating the short amount for each QSE, if the DCIMPSNAP was credited to the QSE during the RUC snapshot but the entire Direct Current Tie (DC Tie) experiences a Forced Outage within two hours before the start of the Settlement Interval, then the DCIMPSNAP is also credited to the QSE in the DCIMPADJ.
+(5)	For Combined Cycle Generation Resources, if more than one Combined Cycle Generation Resource is shown On-Line in its COP for the same Settlement hour, then the provisions of paragraph (6)(a) of Section 3.9.1, Current Operating Plan (COP) Criteria, apply in the determination of the On-Line Combined Cycle Generation Resource for that Settlement hour.
+(6)	The capacity shortfall ratio share of a specific QSE for a particular RUC process is calculated, for a 15-minute Settlement Interval, as follows:
+RUCSFRS ruc, i, q	=	RUCSF ruc, i, q / RUCSFTOT ruc, i
+Where:
+RUCSFTOT ruc, i	=	 RUCSF ruc, i, q
+(7)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval is:
+RUCSF ruc, i, q	=	Max (0, Max (RUCSFSNAP ruc, q, i, RUCSFADJ ruc, q, i) –  RUCCAPCREDIT q, i, z)
+(8)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval, as measured at the snapshot, is:
+RUCSFSNAP ruc ,q ,i	=	Max (0, (( RTAML q, p, i * 4) – RUCCAPSNAP ruc, q, i))
+(9)	The amount of capacity that a QSE had according to the RUC snapshot for a 15-minute Settlement Interval is:
+RUCCAPSNAP ruc, q, i =	 HASLSNAP q, r, h + (RUCCPSNAP q, h – RUCCSSNAP q, h) + ( DAEP q, p, h – DAES q, p, h) + ( RTQQEPSNAP q, p, i –  RTQQESSNAP q, p, i) +    DCIMPSNAP q, p, i
+(10)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval, as measured at Real-Time, but including capacity from IRRs as seen in the RUC snapshot, is:
+RUCSFADJ ruc, q, i	=	Max (0, (( RTAML q, p, i) *4) – ( HASLSNAP ruc, q, r, h + RUCCAPADJ q, i))
+(11)	The amount of capacity that a QSE had in Real-Time for a 15-minute Settlement Interval, excluding capacity from IRRs, is:
+RUCCAPADJ q, i =	 HASLADJ q, r, h + (RUCCPADJ q, h – RUCCSADJ q, h) + ( DAEP q, p, h –  DAES q, p, h) + ( RTQQEPADJ q, p, i –  RTQQESADJ q, p, i) +   DCIMPADJ q, p, i
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCSFRS ruc, i, q	none	RUC Shortfall Ratio Share—The ratio of the QSE q’s capacity shortfall to the sum of all QSEs’ capacity shortfalls, for the RUC process ruc, for the 15-minute Settlement Interval i.
+RUCSF ruc, i, q	MW	RUC Shortfall—The QSE q’s capacity shortfall for the RUC process ruc for the 15-minute Settlement Interval i.
+RUCSFTOT ruc, i	MW	RUC Shortfall Total—The sum of all QSEs’ capacity shortfalls, for a RUC process ruc, for a 15-minute Settlement Interval i.
+RUCSFSNAP ruc, q, i	MW	RUC Shortfall at Snapshot—The QSE q’s capacity shortfall according to the snapshot for the RUC process ruc for the 15-minute Settlement Interval i.
+RUCSFADJ ruc, q, i	MW	RUC Shortfall at Adjustment Period—The QSE q’s Adjustment Period capacity shortfall, including capacity from IRRs as seen in the snapshot for the RUC process ruc, for the 15-minute Settlement Interval i.
+RUCCAPCREDIT q, i, z	MW	RUC Capacity Credit by QSE—The QSE q’s capacity credit resulting from capacity paid through the RUC Capacity-Short Amount for RUC process z for the 15-minute Settlement Interval i.
+RTAML q, p, i	MWh	Real-Time Adjusted Metered Load—The QSE q’s Adjusted Metered Load (AML) at the Settlement Point p for the 15-minute Settlement Interval i.
+RUCCAPSNAP ruc, q, i	MW	RUC Capacity Snapshot at time of RUC—The amount of the QSE q’s calculated capacity in the COP and Trades Snapshot for the RUC process ruc for a 15-minute Settlement Interval i.  
+HASLSNAP q, r, h	MW	High Ancillary Services Limit at Snapshot—The HASL of the Resource r represented by the QSE q, according to the COP and Trades Snapshot for the RUC process for the hour h that includes the 15-minute Settlement Interval.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+DCIMPADJ q, p, i	MW	DC Import per QSE per Settlement Point—The approved aggregated DC Tie Schedule submitted by QSE q as an importer into the ERCOT System through DC Tie p according to the Adjustment Period snapshot, for the 15-minute Settlement Interval i.
+DCIMPSNAP q, p, i	MW	DC Import per QSE per Settlement Point—The approved aggregated DC Tie Schedule submitted by QSE q as an importer into the ERCOT System through DC Tie p, according to the snapshot for the RUC process for the hour that includes the 15-minute Settlement Interval i.
+RUCCPSNAP q, h	MW	RUC Capacity Purchase at Snapshot—The QSE q’s capacity purchase, according to the COP and Trades Snapshot for the RUC process for the hour h that includes the 15-minute Settlement Interval.
+RUCCSSNAP q, h	MW	RUC Capacity Sale at Snapshot—The QSE q’s capacity sale, according to the COP and Trades Snapshot for the RUC process for the hour h that includes the 15-minute Settlement Interval.
+RUCCAPADJ q, i	MW	RUC Capacity Snapshot during Adjustment Period—The amount of the QSE q’s calculated capacity in the RUC according to the COP and Trades Snapshot, excluding capacity for IRRs, at the end of the Adjustment Period for a 15-minute Settlement Interval i.
+HASLADJ q, r, h	MW	High Ancillary Services Limit at Adjustment Period—The HASL of a non-IRR r represented by the QSE q, according to the Adjustment Period snapshot, for the hour h that includes the 15-minute Settlement Interval.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  
+RUCCPADJ q, h	MW	RUC Capacity Purchase at Adjustment Period—The QSE q’s capacity purchase, according to the Adjustment Period COP and Trades Snapshot for the hour h that includes the 15-minute Settlement Interval.
+RUCCSADJ q, h	MW	RUC Capacity Sale at Adjustment Period—The QSE q’s capacity sale, according to the Adjustment Period COP and Trades Snapshot for the hour h that includes the 15-minute Settlement Interval.
+DAEP q, p, h	MW	Day-Ahead Energy Purchase—The QSE q’s energy purchased in the DAM at the Settlement Point p for the hour h that includes the 15-minute Settlement Interval.
+DAES q, p, h	MW	Day-Ahead Energy Sale—The QSE q’s energy sold in the DAM at the Settlement Point p for the hour h that includes the 15-minute Settlement Interval.
+RTQQEPSNAP q, p, i	MW	QSE-to-QSE Energy Purchase by QSE by point—The QSE q’s Energy Trades in which the QSE is the buyer at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the COP and Trades Snapshot.
+RTQQESSNAP q, p, i	MW	QSE-to-QSE Energy Sale by QSE by point—The QSE q’s Energy Trades in which the QSE is the seller at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the COP and Trades Snapshot.
+RTQQEPADJ q, p, i	MW	QSE-to-QSE Energy Purchase by QSE by point—The QSE q’s Energy Trades in which the QSE is the buyer at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the last COP and Trades Snapshot at the end of the Adjustment Period for that Settlement Interval.
+RTQQESADJ q, p, i	MW	QSE-to-QSE Energy Sale by QSE by point—The QSE q’s Energy Trades in which the QSE is the seller at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the last COP and Trades Snapshot at the end of the Adjustment Period for that Settlement Interval.
+q	none	A QSE.
+p	none	A Settlement Point.
+r	none	A Generation Resource that is QSE-committed or planning to operate as a Quick Start Generation Resource (QSGR) for the Settlement Interval as shown by the Resource Status of OFFQS in the COP and Trades Snapshot and/or Adjustment Period snapshot; or RUC-decommitted for the Settlement Interval (subject to paragraphs (1) and (2) above); or a Switchable Generation Resource (SWGR) released by a non-ERCOT Control Area Operator (CAO) to operate in the ERCOT Control Area due to an ERCOT RUC instruction for an actual or anticipated EEA condition.  If the Settlement Interval is a RUCAC-Interval, r represents the Combined Cycle Generation Resource that was QSE-committed at the time the RUCAC was issued.
+z	none	A previous RUC process for the Operating Day.
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+ruc	none	The RUC process for which this RUC Shortfall Ratio Share is calculated.
+[NPRR1009, NPRR1014, NPRR1029, NPRR1032, and NPRR1236:  Replace applicable portions of Section 5.7.4.1.1 above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009 and NPRR1236; or upon system implementation for NPRR1014, NPRR1029, or NPRR1032:]
+5.7.4.1.1	Capacity Shortfall Ratio Share
+(1)	In calculating the shortfall amount for each QSE, the Resource capacity (RCAPSNAP and RCAPADJ) shall be calculated for a Generation Resource that meets any of the following conditions: 
+(a)	QSE-committed;  
+(b)	Planning to operate as a Quick Start Generation Resource (QSGR) for the Settlement Interval as shown by the COP Status of OFFQS in the RUC Snapshot for the RUC Process and/or Adjustment Period; or
+(c)	A Switchable Generation Resource (SWGR) that is released by a non-ERCOT Control Area Operator (CAO) to operate in the ERCOT Control Area due to an ERCOT RUC instruction for an actual or anticipated EEA condition and that is shown as On-Line in its COP; or 
+(d)	If the Settlement Interval is a RUCAC-Interval, the Combined Cycle Generation Resource that was QSE-committed at the time the RUCAC was issued, excluding the condition for SWGRs as describe in paragraph (c) above.
+(2)	In calculating the amount short for each QSE, the available capacity of an IRR when determining responsibility for the corresponding RUC charges shall be the lesser of the HSL value, as reflected in the COP, and the Wind-powered Generation Resource Production Potential (WGRPP), as described in Section 4.2.2, Wind-Powered Generation Resource Production Potential, for a Wind-powered Generation Resource (WGR), or the PhotoVoltaic Generation Resource Production Potential (PVGRPP), as described in Section 4.2.3, PhotoVoltaic Generation Resource Production Potential, for a PhotoVoltaic Generation Resource (PVGR), at the time of RUC execution.  For an IRR, the RCAPSNAP variable used below shall be equal to the minimum of the WGRPP or PVGRPP described above and the HSL value as reflected in the QSE’s COP, at the time of the RUC execution. 
+(3)	In calculating the amount short for each QSE, the QSE must be given a capacity credit for non-Intermittent Renewable Resources (IRRs) that were given notice of decommitment within the two hours before the Operating Hour as a result of the RUC process by setting the RCAPSNAP and RCAPADJ variables used below set equal to the RCAPSNAP value for the Resource immediately before the decommitment instruction was given.
+(4)	In calculating the short amount for each QSE, if the RCAPSNAP for a non-IRR was credited to the QSE during the RUC Snapshot but the Resource experiences a Forced Outage within two hours before the start of the Settlement Interval, then the RCAPSNAP for that Resource is also credited to the QSE in the RCAPADJ.
+(5)	In calculating the short amount for each QSE, if the DCIMPSNAP was credited to the QSE during the RUC Snapshot but the entire Direct Current Tie (DC Tie) experiences a Forced Outage within two hours before the start of the Settlement Interval, then the DCIMPSNAP is also credited to the QSE in the RTDCIMP.
+(6)	For Combined Cycle Generation Resources, if more than one Combined Cycle Generation Resource is shown On-Line in its COP for the same Settlement hour, then the provisions of paragraph (6)(a) of Section 3.9.1, Current Operating Plan (COP) Criteria, apply in the determination of the On-Line Combined Cycle Generation Resource for that Settlement hour.
+(7)	The QSE Ancillary Service shortfall calculation in MW for each hour in the RUC Snapshot or for the end of the Adjustment Period involves solving an optimization that minimizes any potential Ancillary Service shortfall for a QSE.   This is done by determining the optimal utilization of Ancillary Service capabilities within each QSE’s portfolio of Resources to meet its net Ancillary Service position for each Ancillary Service sub-type.  A QSE’s Ancillary Service shortfall for an hour is the difference between the QSE’s net Ancillary Service position and its coverage of Ancillary Services using the outputs of this optimization based on the QSE’s Resource Ancillary Service capabilities for that hour as reflected in the COPs submitted by the QSE.
+(a)	For each Ancillary Service sub-type, the Ancillary Service MW capability for each Resource in the QSE’s portfolio for a given hour in the RUC Snapshot or at the end of the Adjustment Period (ASMWCAPSNAP and ASMWCAPADJ) is calculated as the minimum of:
+(i)	HSL minus LSL in the COP if the Resource is On-Line (ON, ONOS, ONSC, and ONL).  If a Generation Resource COP Resource Status is OFF or OFFQS, only the COP HSL is used.  For a Combined Cycle Train, the Resource refers to a particular Combined Cycle Generation Resource belonging to that Combined Cycle Train.  For a Combined Cycle Train, select the Combined Cycle Generation Resource that is On-Line (ON or ONOS) with the highest HSL.  If none of the Combined Cycle Generation Resources of a Combined Cycle Train are On-Line, then select the Combined Cycle Generation Resource that has the highest HSL and a COP Resource Status of OFF and that can be started up within 30 minutes;
+(ii)	Submitted Ancillary Service Offer MW quantity for the Ancillary Service type/sub-type;
+(iii)	Submitted COP Ancillary Service MW capability; and
+(iv)	Qualified Ancillary Service MW amount for the Ancillary Service sub-type.  For Resources with COP Resource Status of OFFQS, the qualified MW amounts for Reg-Up, Reg-Down, and RRS will be set to zero.  For Resources with a COP Resource Status of OFF, the qualified MW amounts for Reg-Up, Reg-Down, RRS, and ECRS will be set to zero.
+(b)	The QSE Ancillary Service shortfall calculation enforces the following constraints for each hour using data from the RUC Snapshot or the end of the Adjustment Period:
+(i)	Ensure that a QSE’s portfolio of Resource capacities are only used to cover that QSE’s net Ancillary Service position by each Ancillary Service sub-type.
+(ii)	A QSE’s Fast Frequency Response Service (FFRS) position can be covered by the QSE’s portfolio of Energy Storage Resources (ESRs) qualified to provide FFRS, Load Resources having a high-set under-frequency Relay that are qualified for Responsive Reserve (RRS) or Controllable Load Resources (CLRs), Generation Resources, and ESRs that are qualified to provide RRS as Primary Frequency Response.
+(iii)	A QSE’s RRS position of the type provided by Load Resources having a high-set under-frequency Relay that are qualified for RRS can be covered by the QSE’s portfolio of Load Resources qualified to provide this type of RRS or CLRs, Generation Resources, and ESRs that are qualified to provide RRS as Primary Frequency Response.
+(iv)	A QSE’s ERCOT Contingency Reserve Service (ECRS) position of the type that is not SCED-dispatchable can be covered by the QSE’s portfolio of Load Resources that are qualified to provide non-SCED dispatchable ECRS, or by CLRs, Generation Resources, and ESRs that are qualified to provide ECRS of the type that is SCED-dispatchable.
+(v)	A QSE’s Non-Spinning Reserve (Non-Spin) position of the type that is not SCED-dispatchable can be covered by the QSE’s portfolios of Load Resources that are qualified to provide non-SCED dispatchable Non-Spin, or by CLRs, Generation Resources, and ESRs that are qualified to provide Non-Spin of the type that is SCED-dispatchable.
+(vi)	For each Resource and Ancillary Service sub-type:
+(A)	Ancillary Service capacity used for each Ancillary Service sub-type cannot exceed that Resource’s Ancillary Service capability for that Ancillary Service sub-type.
+(B)	The sum of all the Ancillary Service capacities used for each Ancillary Service sub-type cannot exceed the COP HSL minus LSL limits.  For Generation Resources that have a Resource Status of OFF and the Ancillary Service type is Non-Spin, consider LSL to be zero.  Likewise, for Generation Resources that have a Resource Status of OFFQS and the Ancillary Service type is Non-Spin or ECRS, consider LSL to be zero.
+(C)	For ESRs, consider:
+(1)	Duration requirements for each Ancillary Service type and the submitted COP values for Hour Beginning Planned State of Charge (SOC), Minimum SOC (MinSOC) and Maximum SOC (MaxSOC); 
+(2)	Ancillary Service deployment factors, duration requirements for different Ancillary Service types or sub-types, and the difference between the submitted COP Hour Beginning Planned SOC for the hour under consideration and the next hour; and
+(3)	The charge or discharge MW required to satisfy the above constraints. 
+(c)	The outputs of the optimization for each Resource are: 
+(i)	The Resource’s MW capacity used to cover its QSE’s net Ancillary Service position by Ancillary Service sub-type for a given hour.  These values are ASMWCAPUSNAP for a given hour in the RUC Snapshot and ASMWCAPUADJ for the end of the Adjustment Period.
+(ii)	For an ESR, the MW discharge (positive) or charge (negative) required to support the ESR’s calculated Ancillary Service coverage of its QSE’s net Ancillary Service position, considering the submitted COP values for MinSOC, MaxSOC, and the difference in the Hour Beginning Planned SOC for the hour under consideration and the next hour.  This value will also account for Ancillary Service deployment factors and the duration requirements for energy and different Ancillary Service types.  These values are MWSNAP for a given hour in the RUC Snapshot and MWADJ for the end of the Adjustment Period.
+(8)	The capacity shortfall ratio share of a specific QSE for a particular RUC process is calculated, for a 15-minute Settlement Interval, as follows:
+RUCSFRS ruc, i, q	=	RUCSF ruc, i, q / RUCSFTOT ruc, i
+Where:
+RUCSFTOT ruc, i	=	 RUCSF ruc, i, q
+(9)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval is:
+RUCSF ruc, i, q	=	Max (0, Max (RUCSFSNAP ruc, q, i, RUCSFADJ ruc, q, i) –  RUCCAPCREDIT q, i, z)
+(10)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval, as measured at the RUC Snapshot, is:
+RUCSFSNAP ruc ,q ,i	=	Max (RUCOSFSNAP ruc, q, i , RUCASFSNAP ruc, q, i)
+(11)	The overall shortfall in MW that a QSE had according to the RUC Snapshot for a 15-minute Settlement Interval is:
+RUCOSFSNAP ruc, q, i   =  Max (0, (( RTAML q, p, i * 4) + ASONPOSSNAP ruc, q, i  – RUCCAPSNAP ruc, q, i))
+The QSE’s On-Line Ancillary Service Position according to the RUC Snapshot for a 15-minute Settlement Interval is:
+ASONPOSSNAP ruc, q, i   =  RUPOSSNAP ruc, q, h  + RRPOSSNAP ruc, q, h +                                  ECRPOSSNAP ruc, q, h + Max (0, (NSPOSSNAP ruc, q, h –  ASOFFOFRSNAP ruc, q, r, h))
+	The amount of capacity that a QSE had according to the RUC Snapshot for a 15-minute Settlement Interval is:
+RUCCAPSNAP ruc, q, i =	 RCAPSNAP ruc, q, r, h + (RUCCPSNAP ruc, q, h – RUCCSSNAP ruc, q, h) + ( DAEP q, p, h – DAES q, p, h) + ( RTQQEPSNAP ruc, q, p, i –  RTQQESSNAP ruc, q, p, i) +    DCIMPSNAP ruc, q, p, i +  ASOFRLRSNAP ruc, q, r, h + ESRMWSNAP ruc, q, h + ESRASSNAP ruc, q, h  
+Where: 
+The QSE’s net up Ancillary Service position (Reg-Up + RRS + ECRS + Non-Spin) covered by the QSE’s portfolio of ESRs is: 
+ESRASSNAP ruc, q, h =  Σ┬ASSubTypeASMWCAPUSNAP ruc, q, h, ASSubType, r
+The sum of the QSE’s ESR discharging (positive) or charging (negative) output is: 
+ESRMWSNAP ruc, q, h =  MWSNAP ruc, q, h, r
+(12)	The Ancillary Service shortfall in MW that a QSE had according to the RUC Snapshot for a 15-minute Settlement Interval is:
+RUCASFSNAP ruc, q, i   =  RUPOSSNAP ruc, q, h +  RDPOSSNAP ruc, q, h 
++ RRPOSSNAP ruc, q, h + ECRPOSSNAP ruc, q, h 
++ NSPOSSNAP ruc, q, h – ASMWCAPUQSNAP ruc, q, h
+Where:
+ASMWCAPUQSNAP ruc, q, h  =  Σ┬ASSubTypeASMWCAPUSNAP ruc, q, h, ASSubType, r
+RRPOSSNAP ruc, q, h = Max(0, PFPOSSNAP ruc, q, h + Max(0, UFPOSSNAP ruc, q, h + FFPOSSNAP ruc, q, h))
+ECRPOSSNAP ruc, q, h = Max(0, ECSPOSSNAP ruc, q, h + ECMPOSSNAP ruc, q, h)
+NSPOSSNAP ruc, q, h = Max(0, NSSPOSSNAP ruc, q, h + NSMPOSSNAP ruc, q, h)
+(13)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval, as measured at the end of the Adjustment Period, is:
+RUCSFADJ ruc, q, i	=	Max (RUCOSFADJ ruc, q, i, RUCASFADJ q, i )
+(14)	The overall shortfall in MW that a QSE had at the end of the Adjustment Period for a 15-minute Settlement Interval, but including capacity from IRRs as seen in the RUC Snapshot, is:
+RUCOSFADJ ruc, q, i  = Max (0, (( RTAML q, p, i *4) + ASONPOSADJ q, i – ( RCAPSNAP ruc, q, r, h + RUCCAPADJ q, i)))
+Where:
+The On-Line Ancillary Service Position the QSE had at the end of the Adjustment Period for a 15-minute Settlement Interval is:
+ASONPOSADJ q ,i   =  RUPOSADJ q, h  + RRPOSADJ q, h + ECRPOSADJ q, h + Max (0, (NSPOSADJ q, h –  ASOFFOFRADJ  q, r, h))
+	The amount of capacity that a QSE had at the end of the Adjustment Period for a 15-minute Settlement Interval, excluding capacity from IRRs, is:
+RUCCAPADJ q, i =	 RCAPADJ q, r, h + (RUCCPADJ q, h – RUCCSADJ q, h) + ( DAEP q, p, h –  DAES q, p, h) + ( RTQQEPADJ q, p, i –  RTQQESADJ q, p, i) +   RTDCIMP q, p +  ASOFRLRADJ  q, r, h + ESRMWADJ q, h + ESRASADJ q, h
+Where: 
+The QSE’s net up Ancillary Service position (Reg-Up + RRS + ECRS + Non-Spin) covered by the QSE’s portfolio of ESRs is: 
+ESRASADJ q, h =  Σ┬ASSubTypeASMWCAPUADJ q, h, ASSubType, r
+The sum of the QSE’s ESR discharging (positive) or charging (negative) output is: 
+ESRMWADJ q, h =  MWADJ q, h, r
+(15)	The Ancillary Service shortfall in MW that a QSE had at the end of the Adjustment Period for a 15-minute Settlement Interval is:
+RUCASFADJ q, i   = RUPOSADJ q, h + RDPOSADJ q, h 
++ RRPOSADJ q, h + ECRPOSADJ q, h + NSPOSADJ q, h 
+– ASMWCAPUQADJ q, h
+Where:
+ASMWCAPUQADJ q, h =  Σ┬ASSubTypeASMWCAPUADJ  q, h, ASSubType, r
+RRPOSADJ q, h = Max(0, PFPOSADJ q, h + Max(0,UFPOSADJ q, h + FFPOSADJ q, h))
+ECRPOSADJ q, h = Max(0, ECSPOSADJ q, h + ECMPOSADJ q, h)
+NSPOSADJ q, h = Max(0,NSSPOSADJ q, h + NSMPOSADJ q, h)
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCSFRS ruc, i, q	none	RUC Shortfall Ratio Share—The ratio of the QSE q’s capacity shortfall to the sum of all QSEs’ capacity shortfalls, for the RUC process ruc, for the 15-minute Settlement Interval i.
+RUCSF ruc, i, q	MW	RUC Shortfall—The QSE q’s capacity shortfall for the RUC process ruc for the 15-minute Settlement Interval i.
+RUCSFTOT ruc, i	MW	RUC Shortfall Total—The sum of all QSEs’ capacity shortfalls, for a RUC process ruc, for a 15-minute Settlement Interval i.
+RUCSFSNAP ruc, q, i	MW	RUC Shortfall at Snapshot—The QSE q’s capacity shortfall will be the maximum of the QSE’s overall shortfall or Ancillary Service shortfall, as calculated for the RUC process ruc for the 15-minute Settlement Interval i.
+RUCSFADJ ruc, q, i	MW	RUC Shortfall at End of Adjustment Period—The QSE q’s end of Adjustment Period capacity shortfall will be the maximum of the QSE’s overall shortfall or Ancillary Service shortfall, as calculated for the RUC process ruc, for the 15-minute Settlement Interval i.
+RUCCAPCREDIT q, i, z	MW	RUC Capacity Credit—The QSE q’s capacity credit resulting from capacity paid through the RUC Capacity-Short Amount for RUC process z for the 15-minute Settlement Interval i.
+RUCOSFSNAP ruc, q, i	MW	RUC Overall Shortfall at Snapshot —The QSE q’s overall capacity shortfall according to the RUC Snapshot for the RUC process ruc for the 15-minute Settlement Interval i.
+RUCASFSNAP ruc, q, i	MW	RUC Ancillary Service Shortfall at Snapshot —The QSE q’s Ancillary Service capacity shortfall according to the RUC Snapshot for the RUC process ruc for the 15-minute Settlement Interval i.
+ASONPOSSNAP ruc ,q ,i	MW	Ancillary Service On-Line Position at Snapshot – The QSE q’s total On-Line Ancillary Service position according to the RUC Snapshot for the RUC process ruc for the 15-minute Settlement Interval i. 
+RUPOSSNAP ruc, q, h	MW	Regulation Up Position at Snapshot The QSE q’s net positive Real-Time Reg-Up Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+RRPOSSNAP ruc, q, h	MW	Responsive Reserve Service Position at Snapshot The QSE q’s net positive Real-Time RRS Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ECRPOSSNAP ruc, q, h	MW	ERCOT Contingency Reserve Service Position at Snapshot The QSE q’s net positive Real-Time ECRS Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+NSPOSSNAP ruc, q, h	MW	Non-Spin Reserve Service Position at Snapshot The QSE q’s net positive Real-Time Non-Spin Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+RDPOSSNAP ruc, q, h	MW	Regulation Down Position at Snapshot The QSE q’s net positive Real-Time Regulation Down Service (Reg-Down) Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ASOFFOFRSNAP ruc, q, r, h	MW	Ancillary Service Offline Offers at Snapshot –The capacity represented by validated Ancillary Service Offers for Non-Spin for Resource r with COP status of “OFF”, represented by QSE q according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  A Resource’s offered capacity is only included in the sum to the extent that the Resource’s COP Status and Ancillary Service Capability indicate it would be capable of providing the Ancillary Service during the hour h.
+ASOFRLRSNAP ruc, q, r, h	MW	Ancillary Service Offer per Load Resource at Snapshot – The capacity represented by validated Ancillary Service Offers for Reg-Up, Non-Spin, RRS, and ECRS for the Load Resource r represented by QSE q according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  A Resource’s offered capacity is only included in the sum to the extent that the Resource’s COP Status and Ancillary Service Capability indicate it would be capable of providing the Ancillary Service during the hour h.
+PFPOSSNAP ruc, q, h	MW	Responsive Reserve (Governor Response or Governor-Like Response) Position at SnapshotThe QSE q’s net Real-Time RRS-PFR Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+UFPOSSNAP ruc, q, h	MW	Responsive Reserve (Under Frequency trigger at 59.7 Hz.) Position at SnapshotThe QSE q’s net Real-Time RRS-UFR Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+FFPOSSNAP ruc, q, h	MW	Responsive Reserve (Fast Frequency Response) Position at SnapshotThe QSE q’s net positive Real-Time RRS-FFR Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ECSPOSSNAP ruc, q, h	MW	ERCOT Contingency Reserve Service (SCED Dispatchable) Position at SnapshotThe QSE q’s net ECRS Ancillary Service Position that is SCED-dispatchable according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval. This value can be positive or negative.
+ECMPOSSNAP ruc, q, h	MW	ERCOT Contingency Reserve Service (Non-SCED Dispatchable) Position at SnapshotThe QSE q’s net positive ECRS Ancillary Service Position that is non-SCED-dispatchable according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+NSSPOSSNAP ruc, q, h	MW	Non-Spin Reserve Service (SCED Dispatchable) Position at SnapshotThe QSE q’s net Non-Spin Ancillary Service Position that is SCED-dispatchable according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+NSMPOSSNAP ruc, q, h	MW	Non-Spin Reserve Service (Non-SCED Dispatchable) Position at SnapshotThe QSE q’s net positive Non-Spin Ancillary Service Position that is non-SCED-dispatchable according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ASMWCAPUQSNAP ruc, q, h	MW	Calculated Total MW Capacity used to cover the QSE’s Ancillary Service Position at Snapshot—The calculated total MW capacity for a QSE q that represents the amount of the QSE’s Ancillary Service Position covered by its Resources for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ASMWCAPUSNAP ruc, q, h, ASSubtype, r	MW	Calculated MW Capacity used to cover the QSE’s ‘AStype’ Ancillary Service Position at Snapshot—The calculated MW Capacity of a Resource r represented by QSE q that is used to cover its QSE’s “ASSubtype” Ancillary Service Position for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+MWSNAP ruc, q, h, r	MW	Calculated MW required to support ESR’s calculated Ancillary Service coverage at Snapshot—The MW discharge (positive) or charge (negative) required to support the ESR’s calculated Ancillary Service coverage considering the submitted COP values for Hour Beginning Planned SOC, MinSOC, MaxSOC and the difference in the Hour Beginning Planned SOC for the hour under consideration and the next hour while accounting for Ancillary Service deployment factors and the duration requirements for energy and different Ancillary Service types Position for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ESRASSNAP ruc, q, h	MW	Calculated Ancillary Service MW Capacity Provided By QSE’s ESR Portfolio at  Snapshot—The total ESR MW capacity used to cover the QSE q’s Upward Ancillary Service position for Reg-Up, RRS, ECRS, and Non-Spin in the RUC Snapshot for the RUC process ruc, for the hour h that includes the 15-minute Settlement Interval.
+ESRMWSNAP ruc, q, h	MW	Calculated QSE Total ESR MW Discharging or Charging Required To Support Ancillary Service at Snapshot—The total net ESR MW discharging or charging required to cover the QSE q’s Ancillary Service position provided by the QSE ESR portfolio in the RUC Snapshot for the RUC process ruc, for the hour h that includes the 15-minute Settlement Interval, taking into account the COP SOC values from COP.
+RUCOSFADJ ruc, q, i	MW	RUC Overall Shortfall at End of Adjustment Period —The QSE q’s overall capacity shortfall at the end of the Adjustment Period, including capacity from IRRs as seen in the RUC Snapshot for the RUC process ruc, for the 15-minute Settlement Interval i.
+RUCASFADJ q, i	MW	RUC Ancillary Service Shortfall at End of Adjustment Period —The QSE q’s Ancillary Service capacity shortfall at the end of the Adjustment Period for the 15-minute Settlement Interval i.
+ASONPOSADJ q ,i	MW	Ancillary Service On-Line Position at End of Adjustment Period – The QSE q’s total On-Line Ancillary Service position at the end of the Adjustment Period for the 15-minute Settlement Interval i.
+RUPOSADJ q, h	MW	Regulation Up Position at End of Adjustment Period The QSE q’s net positive Reg-Up Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+RRPOSADJ q, h	MW	Responsive Reserve Service Position at End of Adjustment Period The QSE q’s net positive RRS Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ECRPOSADJ q, h	MW	ERCOT Contingency Reserve Service Position at End of Adjustment Period The QSE q’s net positive ECRS Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+NSPOSADJ q, h	MW	Non-Spin Reserve Service Position at End of Adjustment Period The QSE q’s net positive Non-Spin Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+RDPOSADJ q, h	MW	Regulation Down Position at End of Adjustment Period The QSE q’s net positive Reg-Down Ancillary Service Position at the end of the Adjustment period for the hour h that includes the 15-minute Settlement Interval.
+ASOFFOFRADJ  q, r, h	MW	Ancillary Service Offline Offers at End of Adjustment Period –The capacity represented by validated Ancillary Service Offers for Non-Spin for Resource r with COP status of “OFF”, represented by QSE q at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  A Resource’s offered capacity is only included in the sum to the extent that the Resource’s COP Status and Ancillary Service Capability indicate it would be capable of providing the Ancillary Service during the hour h.
+ASOFRLRADJ  q, r, h	MW	Ancillary Service Offer per Load Resource at End of Adjustment Period – The capacity represented by validated Ancillary Service Offers for Reg-Up, Non-Spin, RRS, and ECRS for the Load Resource r represented by QSE q at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.  A Resource’s offered capacity is only included in the sum to the extent that the Resource’s COP Status and Ancillary Service Capability indicate it would be capable of providing the Ancillary Service during the hour h.
+PFPOSADJ q, h	MW	Responsive Reserve (Governor Response or Governor-Like Response) Position at End of Adjustment Period—The QSE q’s net RRS-PFR Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval. This value can be positive or negative.
+UFPOSADJ q, h	MW	Responsive Reserve (Under Frequency trigger at 59.7 Hz.) Position at End of Adjustment Period—The QSE q’s net RRS-UFR Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+FFPOSADJ q, h	MW	Responsive Reserve (Fast Frequency Response) Position at End of Adjustment Period—The QSE q’s net positive RRS-FFR Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ECSPOSADJ q, h	MW	ERCOT Contingency Reserve Service (SCED Dispatchable) Position at End of Adjustment Period—The QSE q’s net ECRS SCED Dispatchable Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+ECMPOSADJ q, h	MW	ERCOT Contingency Reserve Service (Non-SCED Dispatchable) Position at End of Adjustment Period—The QSE q’s net positive ECRS non-SCED-dispatchable Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+NSSPOSADJ q, h	MW	Non-Spin Reserve Service (SCED Dispatchable) Position at End of Adjustment PeriodThe QSE q’s net Non-Spin SCED-dispatchable Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+NSMPOSADJ q, h	MW	Non-Spin Reserve Service (Non-SCED Dispatchable) Position at End of Adjustment Period—The QSE q’s net positive Non-Spin non-SCED-dispatchable Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ASMWCAPUQADJ q, h	MW	Calculated Total MW Capacity used to cover the QSE’s Ancillary Service Position at End of Adjustment Period—The calculated total MW capacity for a QSE q that represents the amount of the QSE’s Ancillary Service Position covered by its Resources at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ASMWCAPUADJ q, h, ASSubtype, r	MW	Calculated MW Capacity used to cover the QSE’s ‘AStype’ Ancillary Service Position at End of Adjustment Period—The calculated MW Capacity of a Resource r represented by QSE q that is used to cover its QSE’s “ASSubtype” Ancillary Service Position at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+MWADJ q, h, r	MW	Calculated MW discharge (positive) or charge (negative) required to support ESR’s calculated Ancillary Service coverage at End of Adjustment Period—The MW discharge (positive) or charge (negative) required to support the ESR’s calculated Ancillary Service coverage considering the submitted COP values for Hour Beginning Planned SOC, MinSOC, MaxSOC and the difference in the Hour Beginning Planned SOC for the hour under consideration and the next hour while accounting for Ancillary Service deployment factors and the duration requirements for energy and different Ancillary Service types Position at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ESRASADJ q, h	MW	Calculated Ancillary Service MW Capacity Provided By QSE’s ESR Portfolio at the End of Adjustment Period—The total ESR MW capacity used to cover the QSE q’s Upward Ancillary Service position for Reg-Up, RRS, ECRS, and Non-Spin at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ESRMWADJ q, h	MW	Calculated QSE Total ESR MW Discharging or Charging Required To Support Ancillary Service at End of Adjustment Period—The total net ESR MW discharging or charging required to cover the QSE q’s Ancillary Service position provided by the QSE ESR portfolio at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval, taking into account the COP SOC values from COP.
+RTAML q, p, i	MWh	Real-Time Adjusted Metered Load—The QSE q’s Adjusted Metered Load (AML) at the Settlement Point p for the 15-minute Settlement Interval i.
+RUCCAPSNAP ruc, q, i	MW	RUC Capacity Snapshot at time of RUC—The amount of the QSE q’s calculated capacity in the RUC Snapshot for the RUC process ruc for a 15-minute Settlement Interval i.  
+RCAPSNAP ruc, q, r, h	MW	Resource Capacity at Snapshot—The available capacity of Generation Resource r represented by the QSE q, according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  For Generation Resources that are not IRRs, the available capacity shall be equal to HSL.  For WGRs and PVGRs, the available capacity shall be equal to the lesser of the HSL or the WGRPP and the PVGRPP, respectively.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train. 
+DCIMPSNAP ruc, q, p, i	MW	DC Import at Snapshot—The approved aggregated DC Tie Schedule submitted by QSE q as an importer into the ERCOT System through DC Tie p, according to the RUC Snapshot for the RUC process ruc for the 15-minute Settlement Interval i.
+RTDCIMP q, p	MW	Real-Time DC Import per QSE per Settlement Point—The aggregated final, approved DC Tie Schedule submitted by QSE q as an importer into the ERCOT System through DC Tie p, for the 15-minute Settlement Interval.
+RUCCPSNAP ruc, q, h	MW	RUC Capacity Purchase at Snapshot—The QSE q’s capacity purchase, according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+RUCCSSNAP ruc, q, h	MW	RUC Capacity Sale at Snapshot—The QSE q’s capacity sale, according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+RUCCAPADJ q, i	MW	RUC Capacity at End of Adjustment Period—The amount of the QSE q’s calculated capacity, excluding capacity for IRRs, at the end of the Adjustment Period for a 15-minute Settlement Interval i.
+RCAPADJ q, r, h	MW	Resource Capacity at End of Adjustment Period—The HSL of a non-IRR Generation Resource r represented by the QSE q at the end of the Adjustment Period, for the hour h that includes the 15-minute Settlement Interval.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train. 
+RUCCPADJ q, h	MW	RUC Capacity Purchase at End of Adjustment Period—The QSE q’s capacity purchase, at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+RUCCSADJ q, h	MW	RUC Capacity Sale at End of Adjustment Period—The QSE q’s capacity sale, at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+DAEP q, p, h	MW	Day-Ahead Energy Purchase—The QSE q’s energy purchased in the DAM at the Settlement Point p for the hour h that includes the 15-minute Settlement Interval.
+DAES q, p, h	MW	Day-Ahead Energy Sale—The QSE q’s energy sold in the DAM at the Settlement Point p for the hour h that includes the 15-minute Settlement Interval.
+RTQQEPSNAP ruc, q, p, i	MW	Real-Time QSE-to-QSE Energy Purchase at Snapshot—The QSE q’s Energy Trades in which the QSE is the buyer at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the RUC Snapshot for the RUC process ruc.
+RTQQESSNAP ruc, q, p, i	MW	Real-Time QSE-to-QSE Energy Sale at Snapshot—The QSE q’s Energy Trades in which the QSE is the seller at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the RUC Snapshot for the RUC process ruc.
+RTQQEPADJ q, p, i	MW	Real-Time QSE-to-QSE Energy Purchase at End of Adjustment Period—The QSE q’s Energy Trades in which the QSE is the buyer at the delivery Settlement Point p for the 15-minute Settlement Interval i, at the end of the Adjustment Period for that Settlement Interval.
+RTQQESADJ q, p, i	MW	Real-Time QSE-to-QSE Energy Sale at End of Adjustment Period—The QSE q’s Energy Trades in which the QSE is the seller at the delivery Settlement Point p for the 15-minute Settlement Interval i, at the end of the Adjustment Period for that Settlement Interval.
+q	none	A QSE.
+p	none	A Settlement Point.
+r	none	A Generation Resource, an ESR, or a Load Resource.
+ASSubType	none	Ancillary Service Sub-Type: Reg-Up, Reg-Down, RRS provided as Primary Frequency Response, RRS provided via a high-set under-frequency relay, Fast Frequency Response (FFR), ECRS that is SCED-dispatchable, ECRS that is non-SCED dispatchable, Non-Spin that is SCED-dispatchable, and Non-Spin that is non-SCED-dispatchable.
+z	none	A previous RUC process for the Operating Day.
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+ruc	none	The RUC process for which this RUC Shortfall Ratio Share is calculated.
+5.7.4.1.2	RUC Capacity Credit
+(1)	A QSE that is charged for a capacity shortfall in one RUC process gets a capacity credit equal to the minimum of the QSE’s RUC shortfall (MW) or the total RUC capacity purchased multiplied by the QSE’s shortfall ratio share.  The capacity credit to be used in future RUC processes for the same 15-minute Settlement Interval is calculated as follows:
+RUCCAPCREDITruc,i,q	=	Min [RUCSFruc,i,q, (RUCCAPTOTruc,h* RUCSFRSruc,i,q)]
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCCAPCREDITruc,i,q	MW	RUC Capacity Credit by QSE—The capacity credit resulting from capacity paid through the RUC Capacity-Short Charge for the 15-minute Settlement Interval.  
+RUCSFruc,i,q	MW	RUC Shortfall—The QSE’s capacity shortfall for the RUC process for the 15-minute Settlement Interval.
+RUCSFRSruc,i,q	none	RUC Shortfall Ratio Share—The ratio of the QSE’s capacity shortfall to the sum of all QSEs’ capacity shortfalls, for the RUC process, for the 15-minute Settlement Interval.
+RUCCAPTOTruc,h	MW	RUC Capacity Total—The total capacity of all RUC-committed Resources during the RUC process, for the hour that includes the 15-minute Settlement Interval.  
+q	none	A QSE.
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+ruc	none	The RUC process for which this RUC Capacity Credit is calculated.
+5.7.4.2	RUC Make-Whole Uplift Charge
+(1)	If the revenues from the charges under Section 5.7.4.1, RUC Capacity-Short Charge, are not enough to cover all RUC Make-Whole Payments, including amounts for RMR Units, for a 15-minute Settlement Interval, then the difference will be uplifted to all QSEs on a Load Ratio Share basis, as a RUC Make-Whole Uplift Charge, calculated as follows: 
+LARUCAMTq,i	=	(-1) * ( RUCMWAMTTOTh / 4 + RUCCSAMTTOTi) * LRSq,i
+Where:
+	RUCMWAMTTOTh 		=	 RUCMWAMTRUCTOTruc,h
+	RUCCSAMTTOTi	    	 =	  RUCCSAMTruc,i,q
+The above variables are defined as follows:
+Variable	Unit	Definition
+LARUCAMTq,i	$	RUC Make-Whole Uplift Charge—The amount owed from the QSE based on Load Ratio Share, for the 15-minute Settlement Interval.
+RUCMWAMTTOTh	$	RUC Make-Whole Amount Total—The sum of RUC Make-Whole Payments for all RUC processes, including amounts for RMR Units, for the hour that includes the 15-minute Settlement Interval.
+RUCMWAMTRUCTOTruc,h	$	RUC Make-Whole Amount Total per RUC—The sum of RUC Make-Whole Payments for a particular RUC process, including payments for RMR Units, for the hour that includes the 15-minute Settlement Interval.
+RUCCSAMTTOTi	$	RUC Capacity Amount Total—The sum of RUC Capacity-Short Charges for all QSEs and RUC processes, including payments for RMR Units, for the 15-minute Settlement Interval.
+RUCCSAMTruc,i,q	$	RUC Capacity-Short Amount—The charge to a QSE, due to capacity shortfall for a particular RUC process, for the 15-minute Settlement Interval.
+LRSq,i	none	Load Ratio Share—The ratio of Adjusted Metered Load to the total ERCOT Adjusted Metered Load for the 15-minute Settlement Interval.  See Section 6.6.2, Load Ratio Share, item (2).
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+ruc	none	A RUC Process.
+q	none	A QSE.
+5.7.5	RUC Clawback Payment
+(1)	ERCOT shall pay the revenues from all RUC Clawback Charges, including amounts for RMR Units, in a 15-minute Settlement Interval to all QSEs, on an LRS basis, as the RUC Clawback Payment.  The RUC Clawback Payment is calculated as follows for each QSE for each 15-minute Settlement Interval: 
+LARUCCBAMTq,i	=	(-1) * (RUCCBAMTTOTh / 4 * LRSq,i)
+Where:
+	RUCCBAMTTOTh	=	  RUCCBAMTq,r,h
+The above variables are defined as follows:
+Variable	Unit	Definition
+LARUCCBAMTq,i	$	RUC Clawback Payment—The RUC make-whole clawback payment to a QSE to uplift RUC Make-Whole Clawback Charges received, for a 15-minute Settlement Interval.
+RUCCBAMTTOTh	$	RUC Clawback Charge Total —The sum of RUC Clawback Charges to all QSEs, including amounts for RMR Units, for the hour that includes the 15-minute Settlement Interval.
+LRSq,i	none	Load Ratio Share—The LRS for the 15-minute Settlement Interval.  See Section 6.6.2, Load Ratio Share.
+RUCCBAMTq,r,h	$	RUC Clawback Charge—The RUC Clawback Charge to the QSE q for the Resource r, for the hour that includes the 15-minute Settlement Interval.  When one or more Combined Cycle Generation Resources are committed by RUC, a charge is made to the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+q	None	A QSE.
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+r	none	A RUC-committed Generation Resource.
+5.7.6	RUC Decommitment Charge 
+(1)	ERCOT shall charge each QSE a RUC Decommitment Charge, on an LRS basis, all revenues paid as a result of RUC Decommitment Payments, including amounts for RMR Units.  The RUC Decommitment Charge for a 15-minute Settlement Interval is calculated as follows:
+LARUCDCAMTq,i	=	(-1) * [(RUCDCAMTTOTh / 4) * LRSq,i]
+Where:
+	RUCDCAMTTOTh	=	  RUCDCAMTq,r,h
+The above variables are defined as follows:
+Variable	Unit	Definition
+LARUCDCAMTq,i	$	RUC Decommitment Charge—The RUC Decommitment Charge to a QSE, for a 15-minute Settlement Interval.
+RUCDCAMTTOTh	$	RUC Decommitment Charge Total—The sum of RUC Decommitment Payments to all QSEs, including amounts for RMR Units, for the hour that includes the 15-minute Settlement Interval.
+LRSq,i	none	Load Ratio Share—The LRS for the 15-minute Settlement Interval.  See Section 6.6.2, Load Ratio Share.
+RUCDCAMTq,r,h	$	RUC Decommitment Charge—The RUC Decommitment Charge to the QSE q for the Resource r, for the hour that includes the 15-minute Settlement Interval.  When one or more Combined Cycle Generation Resources are decommitted by RUC, payment is made to the Combined Cycle Train for all RUC-decommitted Combined Cycle Generation Resources.
+q	None	A QSE.
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+r 	None	A RUC-decommitted Generation Resource.
+5.7.7 	Settlement of Switchable Generation Resources (SWGRs) Operating in a Non-ERCOT Control Area
+(1)	A QSE representing an SWGR operating in ERCOT due to a RUC instruction for an actual or anticipated EEA condition with a status of ONRUC is not eligible for RUC Settlement as described in Section 5.7.1, RUC Make-Whole Payment, and Section 5.7.2, RUC Clawback Charge, but may obtain compensation by submitting a Settlement and billing dispute pursuant to Section 6.6.12, Make-Whole Payment for Switchable Generation Resources Committed for Energy Emergency Alert (EEA).
+5.8	Annual RUC Reporting Requirement
+(1)	ERCOT shall report to the Technical Advisory Committee (TAC), each January, an assessment of market impacts and Settlements for the aggregate Reliability Unit Commitment (RUC) activity, delineated by type of RUC instruction as follows:
+(a) 	RUC instructions issued for Ancillary Service shortages (failure to sufficiently procure one or more Ancillary Service markets in the Day-Ahead Market (DAM) or subsequent Supplemental Ancillary Service Markets (SASMs));
+[NPRR1009:  Delete paragraph (a) above upon system implementation of the Real-Time Co-Optimization (RTC) project and renumber accordingly.]
+(b)	RUC instructions issued for irresolvable transmission system constraints;
+(c) 	RUC instructions issued in anticipation of extreme cold weather/startup failures;
+(d)	RUC instructions issued for capacity;
+[NPRR1204:  Insert paragraph (e) below upon system implementation of the Real-Time Co-Optimization (RTC) project and renumber accordingly:]
+(e)	RUC instructions issued for expected Energy Storage Resource (ESR) energy consumption;
+(e)	RUC instructions issued for system inertia;
+(f)	RUC instructions issued to Resources receiving an Outage Schedule Adjustment (OSA); and
+(g)	A summary of RUC Settlements;
+(i)	RUC charges associated with RUC Make-Whole Amount Total per RUC, as defined in Section 5.7.4.1, RUC Capacity-Short Charge; and
+(ii)	RUC Shortfall Total, as defined in Section 5.7.4.1.1, Capacity Shortfall Ratio Share.
+ERCOT Nodal Protocols
+Section 5:  Transmission Security Analysis and Reliability Unit Commitment
+February 1, 2025
+
+
+ 
+5	Transmission Security Analysis and Reliability Unit Commitment	5-1
+5.1	Introduction	5-1
+5.2	Reliability Unit Commitment Timeline Summary	5-3
+5.2.1	RUC Normal Timeline Summary	5-3
+5.2.2	RUC Process Timing Deviations	5-4
+5.2.2.1	RUC Process Timeline After a Delay of the Day-Ahead Market	5-4
+5.2.2.2	RUC Process Timeline After an Aborted Day-Ahead Market	5-5
+5.3	ERCOT Security Sequence Responsibilities	5-7
+5.4	QSE Security Sequence Responsibilities	5-9
+5.4.1	Ancillary Service Positions	5-10
+5.5	Security Sequence, Including RUC	5-10
+5.5.1	Security Sequence	5-10
+5.5.2	Reliability Unit Commitment (RUC) Process	5-12
+5.5.3	Communication of RUC Commitments and Decommitments	5-25
+5.6	RUC Cost Eligibility	5-26
+5.6.1	Verifiable Costs	5-26
+5.6.1.1	Verifiable Startup Costs	5-32
+5.6.1.2	Verifiable Minimum-Energy Costs	5-32
+5.6.2	RUC Startup Cost Eligibility	5-32
+5.6.3	Forced Outage of a RUC-Committed Resource	5-34
+5.6.4	Cancellation of a RUC Commitment	5-35
+5.6.5	Settlement for Canceled or Delayed Outages for Outage Schedule Adjustments (OSAs)	5-35
+5.6.5.1	Make-Whole Payment for Canceled or Delayed Outages for OSAs	5-35
+5.6.5.2	RUC Make-Whole Payment and RUC Clawback Charge for Resources Receiving OSAs	5-36
+5.6.5.3	Timeline for Calculating RUC Clawback Charges for Resources Receiving OSAs	5-38
+5.7	Settlement for RUC Process	5-38
+5.7.1	RUC Make-Whole Payment	5-38
+5.7.1.1	RUC Guarantee	5-40
+5.7.1.2	RUC Minimum-Energy Revenue	5-44
+5.7.1.3	Revenue Less Cost Above LSL During RUC-Committed Hours	5-46
+5.7.1.4	Revenue Less Cost During QSE Clawback Intervals	5-50
+5.7.2	RUC Clawback Charge	5-54
+5.7.3	Payment When ERCOT Decommits a QSE-Committed Resource	5-57
+5.7.4	RUC Make-Whole Charges	5-62
+5.7.4.1	RUC Capacity-Short Charge	5-62
+5.7.4.1.1	Capacity Shortfall Ratio Share	5-64
+5.7.4.1.2	RUC Capacity Credit	5-81
+5.7.4.2	RUC Make-Whole Uplift Charge	5-82
+5.7.5	RUC Clawback Payment	5-83
+5.7.6	RUC Decommitment Charge	5-83
+5.7.7 	Settlement of Switchable Generation Resources (SWGRs) Operating in a Non-ERCOT Control Area	5-84
+5.8	Annual RUC Reporting Requirement	5-84
+ 
+ 
+Transmission Security Analysis and Reliability Unit Commitment 
+5.1	Introduction
+(1)	Transmission security analysis and Reliability Unit Commitment (RUC) are used to ensure ERCOT System reliability and to ensure that enough Resource capacity, in addition to Ancillary Service capacity, is committed in the right locations to reliably serve the forecasted Load on the ERCOT System including Direct Current Tie (DC Tie) Load that has not been curtailed. 
+[NPRR1009:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	Transmission security analysis and Reliability Unit Commitment (RUC) are used to ensure ERCOT System reliability and to ensure that enough Resource capacity and qualified Ancillary Service capacity are committed in the right locations to reliably serve the forecasted Load and Ancillary Service needs on the ERCOT System including Direct Current Tie (DC Tie) Load that has not been curtailed.
+(2)	ERCOT shall conduct at least one Day-Ahead Reliability Unit Commitment (DRUC) and at least one Hourly Reliability Unit Commitment (HRUC) before each hour of the Operating Day.  ERCOT, in its sole discretion, may conduct a RUC at any time to evaluate and resolve reliability issues.
+(3)	The DRUC must be run after the close of the Day-Ahead Market (DAM). 
+(4)	The DRUC uses Three-Part Supply Offers, capped at the maximum of generic or verifiable minimum energy and Startup Costs, submitted before the DAM by Qualified Scheduling Entities (QSEs) that were considered in the DAM but not awarded in the DAM.  A QSE may not submit a Three-Part Supply Offer to be considered in the DRUC unless the offer was also submitted for consideration in the DAM.
+(5)	ERCOT must initiate the HRUC process at least one hour before the Operating Hour to fine-tune the Resource commitments using updated Load forecasts and updated Outage information. 
+(6)	The RUC Study Period for DRUC is the next Operating Day.  The RUC Study Period for HRUC is the balance of the current Operating Day plus the next Operating Day if the DRUC for the Operating Day has been solved. 
+(7)	HRUC may decommit Resources only to maintain the reliability of the ERCOT System. 
+(8)	For each RUC Study Period, the RUC considers capacity requirements for each hour of the RUC Study Period with the objective of minimizing costs based on logic described in Section 5.5.2, Reliability Unit Commitment (RUC) Process.
+(9)	The calculated Resource commitments arising from each RUC process, and a list of Off-Line Available Resources having a start-up time of one hour or less, must be reviewed by ERCOT before issuing Dispatch Instructions to QSEs to commit, extend, or decommit Resources.
+(10)	The Security Sequence is a set of prerequisite processes for RUC that describes the key system components and inputs that are required to support the RUC process, the RUC process itself, and the ERCOT review of the Resource commitment recommendations made by the RUC process. 
+(11)	The RUC process may not be used to buy Ancillary Service unless the Ancillary Service Offers submitted in the DAM are insufficient to meet the requirements of the Ancillary Service Plan.  
+[NPRR1009:  Delete paragraph (11) above upon system implementation of the Real-Time Co-Optimization (RTC) project and renumber accordingly.]
+(12)	After the use of market processes to the fullest extent practicable without jeopardizing the reliability of the ERCOT System, any ERCOT Dispatch Instructions for additional capacity that order a QSE to commit a specific Generation Resource to be On-Line shall be considered a RUC Dispatch for the purpose of the Settlement of payments and charges related to the committed Generation Resource.  An Operating Condition Notice (OCN), Advisory, Watch, or Emergency Notice requesting the available capacity of any currently available Generation Resources but not naming specific Generation Resources is not considered a RUC Dispatch for purposes of Settlement.
+(13)	ERCOT shall post on the Market Information System (MIS) Certified Area, for each Off-Line Generation Resource that may be selected by an HRUC process, the current time since the Generation Resource last went Off-Line (in hours) and the corresponding start-up times ERCOT is using for each such Off-Line Generation Resource.  The time since the Generation Resource last went Off-Line and start-up times shall be updated at least hourly.
+(14)	Prior to 1330 in the Day-Ahead, ERCOT may issue a Weekly Reliability Unit Commitment (WRUC) Verbal Dispatch Instruction (VDI) to inform a QSE that a Resource is required to be On-Line for all or part of a future Operating Day.  Following the receipt of a WRUC: 
+(a)	The QSE may self-commit the Resource for the WRUC-instructed hours by updating the Resource’s Current Operating Plan (COP) to reflect the appropriate On-Line Resource Status for the WRUC-instructed hours prior to the DRUC process execution for the associated Operating Day.  Resources that have been self-committed by a QSE in accordance with a WRUC:
+(i)	May have a Three-Part Supply Offer submitted into the DAM, and any of the WRUC-instructed hours in which the Three-Part Supply Offer is awarded in the DAM become DAM-Committed Intervals for the Resource and are settled accordingly; and
+(ii)	Will not be issued a RUC commitment for the WRUC-instructed hours that were self-committed or DAM-committed.
+(b)	ERCOT will commit the Resource as part of the DRUC process for the relevant Operating Day for all WRUC-instructed hours not DAM-committed or QSE self-committed.  For all purposes, including RUC Settlement, the Resource will be considered as committed by the DRUC for these hours.
+(15)	If ERCOT issues an Outage Schedule Adjustment (OSA) pursuant to Section 3.1.4.6, Outage Coordination of Potential Transmission Emergency Conditions, or Section 3.1.6.9, Withdrawal of Approval and Rescheduling of Approved Planned Outages of Resource Facilities, QSEs with Resources that received an OSA shall be made whole to their actual costs incurred due to delaying or canceling and rescheduling the Outage as described in Section 5.6.5.1, Make-Whole Payment for Canceled or Delayed Outages for OSAs.
+5.2	Reliability Unit Commitment Timeline Summary 
+5.2.1	RUC Normal Timeline Summary
+(1)	The following Reliability Unit Commitment (RUC) Timeline Summary describes the normal timeline for RUC activities that occur in the Day-Ahead and Adjustment Periods.
+
+
+
+
+ 
+
+ 
+5.2.2	RUC Process Timing Deviations
+5.2.2.1	RUC Process Timeline After a Delay of the Day-Ahead Market
+(1)	If the Day-Ahead Market (DAM) execution is delayed in accordance with Section 4.1.2, Day-Ahead Process and Timing Deviations, ERCOT shall conduct a Day-Ahead Reliability Unit Commitment (DRUC) after 1430 in the Day-Ahead and no earlier than one hour following the posting of DAM awards information on the ERCOT website as set forth in Section 4.5.3, Communicating DAM Results.  In this event, ERCOT will use the Current Operating Plan (COP) and Trades Snapshot taken just prior to the execution of the DRUC to settle RUC charges.
+[NPRR1009:  Replace paragraph (1) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	If the Day-Ahead Market (DAM) execution is delayed in accordance with Section 4.1.2, Day-Ahead Process and Timing Deviations, ERCOT shall conduct a Day-Ahead Reliability Unit Commitment (DRUC) after 1430 in the Day-Ahead and no earlier than one hour following the posting of DAM awards information on the ERCOT website as set forth in Section 4.5.3, Communicating DAM Results.  In this event, ERCOT will use the RUC Snapshot taken just prior to the execution of the DRUC to settle RUC charges.
+5.2.2.2	RUC Process Timeline After an Aborted Day-Ahead Market
+(1)	If ERCOT aborts all or part of the Day-Ahead process in accordance with Section 4.1.2, Day-Ahead Process and Timing Deviations, for any reason not due to a Market Suspension, then ERCOT shall use the following Supplemental Ancillary Services Market (SASM) process to purchase Ancillary Services for the next Operating Day and the Hourly Reliability Unit Commitment (HRUC) process described in this Section in lieu of the DRUC process.  If ERCOT aborts the Day-Ahead process due to a Market Suspension, it shall act in accordance with Section 25.3, Market Restart Processes.
+(2)	When the DAM is aborted, ERCOT shall include in the Watch notification required by paragraph (2) of Section 4.1.2 the time when it intends to conduct the SASM described in this Section 5.2.2.2 to procure the amounts of Ancillary Services necessary to meet the Ancillary Service Plan for the Operating Day affected by the aborted DAM.  ERCOT shall allow at least one hour between the issuance of the Watch and the beginning of this SASM.
+(3)	After the issuance of the Watch described in paragraph (2) above and prior to the beginning of this SASM, a Qualified Scheduling Entity (QSE) may cancel unexpired Ancillary Service Offers that were submitted for the aborted DAM.
+(4)	A QSE may submit Ancillary Service Offers for this SASM after the issuance of the Watch described in paragraph (2) above and prior to the beginning of this SASM.
+(5)	For this SASM, the QSE must submit the Self-Arranged Ancillary Service Quantity for the next Operating Day in accordance with the timeline described in paragraph (3) of Section 6.4.9.2, Supplemental Ancillary Services Market.  This amount may be different from the self-arrangement amounts previously submitted for the aborted DAM.
+(6)	The amount of each Ancillary Service to be procured by ERCOT in this SASM is the amount of each Ancillary Service specified in the ERCOT Ancillary Service Plan posted prior to the aborted DAM less the total amount of each Ancillary Service in the QSE submittals for self-arranged Ancillary Services for this SASM.
+(7)	This SASM will settle in accordance with Section 6.7, Real-Time Settlement Calculations for the Ancillary Services.
+(8)	The SASM process for acquiring Ancillary Services in the event of an aborted Day-Ahead process shall be conducted in accordance with Section 6.4.9.2.2, SASM Clearing Process, but shall use the following activities and timeline as specified in paragraph (3) of Section 6.4.9.2, with time “X” being the time specified by ERCOT for the beginning of the SASM process in the Watch notification described above.
+(9)	As soon as practicable, but no later than the time specified in paragraph (3) of Section 6.4.9.2, ERCOT shall notify each QSE of its awarded Ancillary Service Offer quantities, specifying Resource, Ancillary Service type, SASM Market Clearing Price for Capacity (MCPC), and the first and last hours of the awarded offer.
+(10)	As soon as practicable, but no later than the time specified in paragraph (3) of Section 6.4.9.2, ERCOT shall post on the ERCOT website the hourly:
+(a)	SASM MCPC for each type of Ancillary Service for each hour;
+(b)	Total Ancillary Service procured in MW by Ancillary Service type for each hour; and
+(c)	Aggregated Ancillary Service Offer Curve for each Ancillary Service for each hour.
+(11)	No sooner than 1800 in the Day-Ahead and after the completion of the SASM process described in this Section 5.2.2.2, ERCOT shall execute an HRUC process. 
+(a)	The RUC Study Period for this HRUC process is the balance of the current Operating Day plus the next Operating Day.  This HRUC process may be a post-1800 HRUC for the current Operating Day.
+(b)	The COP and Trades Snapshot taken just prior to the execution of the HRUC process described in this Section 5.2.2.2 will be used to settle RUC charges in the Operating Day affected by the aborted DAM.
+(c)	This HRUC process described in this Section 5.2.2.2 may commit Resources to supply Ancillary Services if the Ancillary Service Offers submitted in the SASM described in this Section 5.2.2.2 are insufficient to meet the requirements of the Ancillary Services Plan in the Operating Day affected by the aborted DAM.
+(d)	A QSE may request cancellation of a RUC instruction to supply Ancillary Services if the Resource requested is not capable of providing the Ancillary Services due to equipment issues that are the result of non-frequency responsive power augmentation or other Resource control issues.  If ERCOT accepts the cancellation, ERCOT may require QSEs to submit supporting information describing the Resource control issues.
+[NPRR1009:  Replace Section 5.2.2.2 above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+5.2.2.2	RUC Process Timeline After an Aborted Day-Ahead Market
+(1)	If ERCOT aborts all or part of the Day-Ahead process in accordance with Section 4.1.2, Day-Ahead Process and Timing Deviations, for any reason not due to a Market Suspension, then ERCOT shall use the Hourly Reliability Unit Commitment (HRUC) process described in this Section in lieu of the DRUC process.  If ERCOT aborts the Day-Ahead process due to a Market Suspension, it shall act in accordance with Section 25.3, Market Restart Processes.
+5.3	ERCOT Security Sequence Responsibilities
+(1)	ERCOT shall start the Day-Ahead Reliability Unit Commitment (DRUC) process at 1430 in the Day-Ahead.
+(2)	For each DRUC, ERCOT shall use a snapshot of Resource commitments taken at 1430 in the Day-Ahead for Reliability Unit Commitment (RUC) Settlement.  For each Hourly Reliability Unit Commitment (HRUC), ERCOT shall use a snapshot of Resource commitments from each Qualified Scheduling Entity’s (QSE’s) most recently submitted Current Operating Plan (COP) before HRUC execution for RUC Settlement.  
+(3)	For each RUC process, ERCOT shall: 
+(a)	Execute the Security Sequence described in Section 5.5, Security Sequence, Including RUC, including:
+(i)	Validating Three-Part Supply Offers, defined in Section 4.4.9.1, Three-Part Supply Offers;
+[NPRR1009 and NPRR1014:  Replace item (i) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+(i)	Validating Three-Part Supply Offers, defined in Section 4.4.9.1, Three-Part Supply Offers, Energy Bid/Offer Curves, defined in Section 4.4.9.7, Energy Bid/Offer Curve, and Ancillary Service Offers, defined in Section 4.4.7.2, Ancillary Service Offers;
+(ii)	Reviewing the Resource commitment recommendations made by the RUC algorithm; and
+(iii)	Reviewing the list of Off-Line Available Resources having a start-up time of one hour or less;
+(b)	Post to the Market Information System (MIS) Secure Area all Resources that were committed or decommitted by the RUC process including verbal RUC commitments and decommitments and Weekly Reliability Unit Commitment (WRUC) instructions; 
+[NPRR1239:  Replace paragraph (b) above with the following upon system implementation:]
+(b)	Post to the ERCOT website all Resources that were committed or decommitted by the RUC process including verbal RUC commitments and decommitments and Weekly Reliability Unit Commitment (WRUC) instructions;
+(c)	Post to the ERCOT website all active and binding transmission constraints (contingency and overloaded element pair information where available) used as inputs to the RUC;
+(d)	Issue Dispatch Instructions to notify each QSE of its Resource commitments or decommitments; and
+(e)	Post to the MIS Secure Area all Resources that were committed by the RUC process, including verbal RUC commitments, but were subsequently cancelled by the ERCOT Operator.
+[NPRR1239:  Replace paragraph (e) above with the following upon system implementation:]
+(e)	Post to the ERCOT website all Resources that were committed by the RUC process, including verbal RUC commitments, but were subsequently cancelled by the ERCOT Operator.
+(4)	ERCOT shall provide each QSE with the information necessary to pre-validate their data for DRUC and HRUC, including publishing validation rules for offers, bids, and trades.
+5.4	QSE Security Sequence Responsibilities
+(1)	During the Security Sequence, each Qualified Scheduling Entity (QSE) must: 
+(a)	Submit its Current Operating Plan (COP) and update its COP as required in Section 3.9, Current Operating Plan (COP);
+(b)	Submit any Three-Part Supply Offers before: 
+[NPRR1009 and NPRR1014:  Replace applicable portions of paragraph (b) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+(b)	Submit any Three-Part Supply Offers, Energy Bid/Offer Curves, and Ancillary Service Offers before:
+(i)	1000 in the Day-Ahead for the Day-Ahead Market (DAM) and Day-Ahead Reliability Unit Commitment (DRUC) being run in that Day-Ahead, if the QSE wants the offer to be used in those DAM and DRUC processes; and 
+(ii)	The end of the Adjustment Period for each Hourly Reliability Unit Commitment (HRUC), if the QSE wants the offer to be used in the HRUC process;  
+(c)	Submit any Capacity Trades before 1430 in the Day-Ahead for the DRUC and before the end of the Adjustment Period for each HRUC, if the QSE wants those Capacity Trades included in the calculation of Reliability Unit Commitment (RUC) Settlement; 
+(d)	Submit any Energy Trades and Direct Current Tie (DC Tie) Schedules corresponding to Electronic Tags (e-Tags) before 1430 in the Day-Ahead for the DRUC and by the end of the Adjustment Period for each HRUC; if the QSE wants those Energy Trades and DC Tie Schedules included in the calculation of RUC Settlement;
+[NPRR1009 and NPRR1014:  Replace applicable portions of paragraph (d) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+(d)	Submit any Energy Trades, Ancillary Service Trades, and Direct Current Tie (DC Tie) Schedules corresponding to Electronic Tags (e-Tags) before 1430 in the Day-Ahead for the DRUC and by the end of the Adjustment Period for each HRUC; if the QSE wants those Energy Trades and DC Tie Schedules included in the calculation of RUC Settlement;
+(e)	Submit an updated COP before 1430 in the Day-Ahead that shows the specific Resources that will be used to supply the QSE’s Ancillary Service Supply Responsibility; and  
+[NPRR1009 and NPRR1014:  Replace applicable portions of paragraph (e) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009; or upon system implementation for NPRR1014:]
+(e)	Submit an updated COP before 1430 in the Day-Ahead; and
+(f)	Acknowledge receipt of Resource commitment or decommitment Dispatch Instructions by submitting an updated COP.
+[NPRR1009:  Insert Section 5.4.1 below upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+5.4.1	Ancillary Service Positions
+(1)	A QSE’s Ancillary Service Position is the net amount of Ancillary Service capacity to which the QSE has financially committed in the ERCOT market, by hour and service type, from self-arrangement, trades, and awards.  The Ancillary Service Position is the difference in MW, by hour and service type, between the amounts specified in items (a) and (b) defined as follows:
+(a)	The sum of:
+(i)	The QSE’s Self-Arranged Ancillary Service Quantity; plus
+(ii)	The total (in MW) of Ancillary Service Trades for which the QSE is the seller; plus
+(iii)	Awards to the QSE of Ancillary Service Offers in the DAM; and 
+(b)	The sum of:
+(i)	The total Ancillary Service Trades for which the QSE is the buyer.
+5.5	Security Sequence, Including RUC
+5.5.1	Security Sequence
+(1)	The figure below highlights the key computational modules and processes that are used in the Security Sequence:
+ 
+(2)	The Security Sequence uses computational modules functionally similar to those used in Real-Time Sequence, however, the inputs into the Security Sequence are based on a snapshot of projected hourly system conditions and constraints rather than Real-Time data.   
+(3)	The Security Sequence uses the status of all transmission breakers and switches (current status for the first hour and normal status for all other hours of Hourly Reliability Unit Commitment (HRUC) and normal status for all hours of Day-Ahead Reliability Unit Commitment (DRUC)), updated for approved Planned Outages for equipment out of service and returned to service for building a representation of the ERCOT Transmission Grid for each hour of the Reliability Unit Commitment (RUC) Study Period.  The Network Topology Processor constructs a network model for each hour that must be used by the Bus Load Forecast to estimate the hourly Load for each transmission bus.    
+(4)	The weather forecast obtained by ERCOT must be provided to the Dynamic Rating Processor to create weather-adjusted MVA limits for each hour of the RUC Study Period for all transmission lines and transformers that have Dynamic Ratings.
+(5)	ERCOT shall analyze base configuration, select n-1 contingencies and select n-2 contingencies under the Operating Guides.  The Operating Guides must also specify the criteria by which ERCOT may remove contingencies from the list.  ERCOT shall post to the Market Information System (MIS) Secure Area the standard contingency list, including identification of changes from previous versions before being used in the Security Sequence.  ERCOT shall evaluate the need for Resource-specific deployments during Real-Time operations for management of congestion consistent with the Operating Guides.
+(6)	ERCOT shall also post to the MIS Secure Area any contingencies temporarily removed from the standard contingency list by ERCOT immediately after successful execution of the Security Sequence.  ERCOT shall include the reason for removal of any contingency as soon as practicable but not later than one hour after removal. 
+(7)	As part of the Network Security Analysis (NSA), for each hour of the RUC Study Period, ERCOT shall analyze all selected contingencies and perform the following:
+(a)	Perform full AC analysis of all contingencies;
+(b)	Monitor element and bus voltage limit violations; and
+(c)	Monitor transmission line and transformer security violations. 
+(8)	As part of the NSA, if there is an approved Remedial Action Plan (RAP) available, it must be used before considering a Resource commitment.
+(9)	ERCOT shall review all security violations prior to RUC execution.  
+(10)	All Remedial Action Schemes (RASs), Automatic Mitigation Plans (AMPs) and RAPs modeled in the Network Operations Model shall be included in the contingency analysis.  The computational modules must enable ERCOT to analyze contingencies, including the effects of all RASs and AMPs included in the Network Operations Model. 
+(11)	ERCOT may deselect certain contingencies known to cause errors or that otherwise result in inconclusive study output in the RUC.  On continued de-selection of contingencies, ERCOT shall prepare an analysis to determine the cause of the error.  ERCOT may use information from the Day-Ahead processes as decision support during the Hour-Ahead processes.  ERCOT shall post to the MIS Secure Area any contingencies deselected by ERCOT and must include the reason for removal as soon as practicable, but not later than one hour after deselection.
+[NPRR1239:  Replace paragraph (11) above with the following upon system implementation:]
+(11)	ERCOT may deselect certain contingencies known to cause errors or that otherwise result in inconclusive study output in the RUC.  On continued de-selection of contingencies, ERCOT shall prepare an analysis to determine the cause of the error.  ERCOT may use information from the Day-Ahead processes as decision support during the Hour-Ahead processes.  ERCOT shall post to the ERCOT website any contingencies deselected by ERCOT and must include the reason for removal as soon as practicable, but not later than one hour after deselection.
+5.5.2	Reliability Unit Commitment (RUC) Process
+(1)	The RUC process recommends commitment of Generation Resources, to match ERCOT’s forecasted Load including Direct Current Tie (DC Tie) Schedules, subject to all transmission constraints and Resource performance characteristics.  The RUC process takes into account Resources already committed in the Current Operating Plans (COPs), Resources already committed in previous RUCs, Off-Line Available Resources having a start-up time of one hour or less, and Resource capacity already committed to provide Ancillary Service.  The formulation of the RUC objective function must employ penalty factors on violations of security constraints.  The objective of the RUC process is to minimize costs based on the Resource costs described in paragraphs (5) through (9) below.  For all hours of the RUC Study Period within the RUC process, Quick Start Generation Resources (QSGRs) with a COP Resource Status of OFFQS shall be considered as On-Line with Low Sustained Limit (LSL) at zero MW.  QSGRs with a Resource Status of OFFQS shall only be committed by ERCOT through a RUC instruction in instances when a reliability issue would not otherwise be managed through Dispatch Instructions from Security-Constrained Economic Dispatch (SCED).  For On-Line Energy St

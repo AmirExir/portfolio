@@ -1,0 +1,301 @@
+ the second Bank Business Day that is also a Business Day.
+(2)	All Securitization Uplift Charge Reallocation Invoices due, with funds owed by an Invoice Recipient, must be paid to ERCOT in USDs by EFT in immediately available or good funds (i.e., not subject to reversal) on or before the payment due date.  EFTs must be with U.S. banks only.
+(3)	The Securitization Uplift Charge Reallocation Invoices are distinct from other Invoices issued by ERCOT.  An Invoice Recipient may not net amounts owing on a Securitization Uplift Charge Reallocation Invoice with any other funds due to or from ERCOT.
+(4)	Payments for Securitization Uplift Charge Reallocation Invoices must be made to the account listed on the Invoice.  The payment remarks must include the Invoice number. If payment is not made to the correct account, the payment will be rejected.  Failure to remit funds to the correct account may result in a Late Payment and Payment Breach. 
+27.4.5.2	ERCOT Payment to Invoice Recipients for Securitization Uplift Charge Reallocation Invoices
+(1)	Subject to the availability of funds as discussed in paragraph (2) below, ERCOT must pay Securitization Uplift Charge Reallocation Invoices with funds owed to an Invoice Recipient by 1700 on the next Bank Business Day after payments are due for that Securitization Uplift Charge Reallocation Invoice under Section 27.4.5, Payment Process for Securitization Uplift Charge Reallocation Invoices, subject to ERCOT’s right to withhold payments for any reason set forth in these Protocols or as a matter of law, unless that next Bank Business Day is not a Business Day.  If that next Bank Business Day is not a Business Day, the payment is due on the next Bank Business Day thereafter that is also a Business Day. 
+(2)	ERCOT shall give irrevocable instructions to the ERCOT financial institution to remit to each Invoice Recipient for same day value the amounts determined by ERCOT to be available for payment to that Invoice Recipient under Section 27.4.6, Insufficient Payments by Invoice Recipients for Securitization Uplift Charge Reallocation Invoices. 
+27.4.6	Insufficient Payments by Invoice Recipients for Securitization Uplift Charge Reallocation Invoices
+(1)	If at least one Invoice Recipient owing funds does not pay its Securitization Uplift Charge Reallocation Invoice in full (short-pay), ERCOT shall follow the procedure set forth below:
+(a)	ERCOT shall make every reasonable attempt to collect payment from each short-paying Invoice Recipient before any payments owed by ERCOT for that Securitization Uplift Charge Reallocation Invoice are due to be paid to applicable Invoice Recipient(s). 
+(b)	ERCOT shall draw on any available Financial Security, other than Securitization Default Charge escrow deposits or Securitization Uplift Charge escrow deposits, pledged to ERCOT by the short-paying Invoice Recipient.  
+(c)	Regardless of whether ERCOT’s draw on available Financial Security under paragraph (b) above is sufficient to cover the amount owed by a Market Participant for a Securitization Uplift Charges, a Market Participant’s failure to pay the Invoice by the payment due date and time will still be deemed a Payment Breach under Section 16.11.6, Payment Breach and Late Payments by Market Participants.
+(d)	ERCOT shall offset or recoup any amounts owed, or to be owed, by ERCOT for a Securitization Uplift Charge Reallocation Invoice to a short-paying Invoice Recipient, and ERCOT shall apply the amount offset or recouped to cover payment shortfalls by that Invoice Recipient for Invoices other than Securitization Uplift Charge Initial Invoices and Securitization Default Charge Invoices.
+(e)	If, after taking the actions set forth in the paragraphs above, and subject to paragraph (f) below, ERCOT still does not have sufficient funds to pay all amounts that it owes to Securitization Uplift Charge Reallocation Invoice Recipients in full, ERCOT shall reduce payments to all Securitization Uplift Charge Reallocation Invoice Recipients owed monies from ERCOT.  The reductions shall be based on a pro rata basis of monies owed to each Securitization Uplift Charge Reallocation Invoice Recipient, to the extent necessary to clear ERCOT’s accounts on the payment due date to achieve revenue neutrality for ERCOT as to Securitization Uplift Charge Reallocation Invoices.  ERCOT shall provide to all Market Participants payment details on all short payments and subsequent reimbursements of short pays.  Details must include the identity of each short-paying Invoice Recipient and the dollar amount attributable to that Invoice Recipient, broken down by Invoice numbers.  In addition, ERCOT shall provide the aggregate total of all amounts due to all Invoice Recipients before applying the amount not paid on the Securitization Uplift Charge Reallocation Invoice.
+(f)	For a short-paying Market Participant whose Standard Form Market Participant Agreement has been terminated, if, after taking the actions set forth in the paragraphs (a) through (d) above, ERCOT still does not have sufficient funds to pay amounts owed to Securitization Uplift Charge Reallocation Invoice Recipients in full, ERCOT will draw on any Securitization Uplift Charge escrow deposit amounts remaining after all Securitization Uplift Charge Initial Invoices for the short-paying Market Participant have been paid in full, in order to recover remaining unpaid Securitization Uplift Charge Reallocation Invoice amounts.  
+27.4.7	Enforcing the Financial Security of a Short-Paying Reallocation Invoice Recipient
+(1)	ERCOT shall make reasonable efforts to enforce the Financial Security of the short-paying Securitization Uplift Charge Reallocation Invoice Recipient (pursuant to Section 16.11.6, Payment Breach and Late Payments by Market Participants) to the extent necessary to cover the short-pay.  A short-paying Invoice Recipient shall restore the level of its Financial Security as required under Section 27.5.2, ERCOT Securitization Uplift Charge Initial Invoice Credit Requirements for Counter-Parties.
+27.5	Securitization Uplift Charge Initial Invoice Escrow Deposit Requirements
+27.5.1	Securitization Uplift Charge Initial Invoice Escrow Deposits
+(1)	The term “Securitization Uplift Charge escrow deposit” means the amount required to be deposited with ERCOT in the form of cash or an unconditional, irrevocable letter of credit to be held in escrow for a Market Participant’s obligation to pay Securitization Uplift Charge Initial Invoices.
+(2)	Although ERCOT is the servicer for the assessment and collection of Securitization Uplift Charges, by providing escrow deposits pursuant to this Section each Counter-Party grants the Texas Electric Market Stabilization Funding N LLC (TEMSFN) a secured interest in Securitization Uplift Charge escrow deposits to secure its obligation to pay the same. 
+(3)	The secured interest of TEMSFN is perfected upon a Counter-Party’s deposit of cash or a letter of credit pursuant to this Section.
+27.5.2	ERCOT Securitization Uplift Charge Initial Invoice Credit Requirements for Counter-Parties
+(1)	A Counter-Party must, at all times, maintain its Securitization Uplift Charge escrow deposit at or above the amount of its Load-Allocated Securitization Uplift Charge Credit Exposure (LASUCCE), as determined pursuant to Section 27.5.4, Determination of Securitization Uplift Charge Credit Exposure for a Counter-Party.  Each Counter-Party shall maintain any required Securitization Uplift Charge escrow deposit in a form acceptable to ERCOT in its sole discretion pursuant to Section 27.5.3, Means of Satisfying Securitization Uplift Charge Initial Invoice Credit Requirements, below.  
+(2)	If at any time the Counter-Party does not meet ERCOT’s LASUCCE requirements, then the Counter-Party will be considered to be in Payment Breach and ERCOT may suspend the Counter-Party’s rights and/or take other action authorized under these Protocols until the Counter-Party meets the LASUCCE requirements.
+(3)	ERCOT’s failure to suspend a Counter-Party’s rights on any particular occasion does not prevent ERCOT from suspending those rights on any subsequent occasion, including a Congestion Revenue Right (CRR) Account Holder’s ability to bid on future CRRs or a Qualified Scheduling Entity’s (QSE’s) ability to bid in the Day-Ahead Market (DAM). 
+27.5.3	Means of Satisfying Securitization Uplift Charge Initial Invoice Credit Requirements
+(1)	If a Counter-Party is required to provide a Securitization Uplift Charge escrow deposit, then it may do so through one or both of the following means:
+(a)	The Counter-Party may give an unconditional, irrevocable letter of credit naming TEMSFN as the beneficiary.  ERCOT or the TEMSFN may reject the letter of credit if the issuer is unacceptable to ERCOT or the TEMSFN or if the conditions under which ERCOT or TEMSFN may draw against the letter of credit are unacceptable to ERCOT or TEMSFN.
+(b)	All letters of credit must be drawn on a U.S. domestic bank or a domestic office of a foreign bank, and must meet the requirements in Section 16.11.3, Alternative Means of Satisfying ERCOT Creditworthiness Requirements. 
+(c)	Letters of credit held as Securitization Uplift Charge escrow deposits are subject to letter of credit issuer limits as specified in paragraph (1) of Section 16.11.3.
+(d)	The Counter-Party may deposit cash with TEMSFN through ERCOT with the understanding that ERCOT may draw part or all of the deposited cash to satisfy any overdue payments owed by the Counter-Party to ERCOT for Securitization Uplift Charges.  The cash deposits may bear interest payable directly to the Counter-Party, but any such arrangements may not restrict ERCOT’s immediate access to the cash.  
+(i)	Interest on cash deposited pursuant to this Section will be calculated based on Counter-Party average cash deposit balances.  Interest is not paid on cash deposit balances held by TEMSFN where, in accordance with paragraph (4) of Section 16.11.7, Release of Market Participant’s Financial Security Requirement, the Counter-Party’s Standard Form Market Participant Agreement has been terminated and ERCOT has determined that no obligations for Securitization Uplift Charges remain owing or will become due and payable.
+(ii)	Once per year, ERCOT will return interest earned on a Counter-Party’s cash deposits pursuant to this Section to the Counter-Party.
+(2)	Securitization Uplift Charge escrow deposits are held solely for the purpose of collateralizing Securitization Uplift Charge Credit Exposure and shall not be used for any other purpose.  They are independent of and in addition to any other Financial Security obligations of the Counter-Party arising under Section 16.11, Financial Security for Counter-Parties, or Section 26, Securitization Default Charges. 
+(3)	Funds provided for Securitization Uplift Charge escrow deposits must be made to the account designated for Securitization Uplift Charge escrow deposits.  If a payment is not made to the correct account, ERCOT is not responsible for transferring the funds to the correct escrow deposit account.  Failure to remit funds to the correct account by the date and time required will result in a Late Payment and/or Payment Breach.
+(4)	A Counter-Party with excess cash with respect to Securitization Uplift Charge escrow deposit requirements may request ERCOT to return some or all of the excess cash to the Counter-Party.
+(5)	Securitization Uplift Charge escrow deposits will not be used to pay periodic Securitization Uplift Charge Initial Invoices unless there is an insufficient payment by the Invoice Recipient, in accordance with Section 27.4.4, Insufficient Payments by Invoice Recipients for Securitization Uplift Charge Initial Invoices.
+(6)	Cash collateral posted in accordance with Section 16.11.3 may be used to pay Securitization Uplift Charge Reallocation Invoices.
+(7)	Securitization Uplift Charge escrow deposits in excess of the Securitization Uplift Charge Credit Exposure requirement shall not be used to cover insufficient payments of Settlement Invoices for:
+(a)	ERCOT market activities under Section 9.19, Partial Payments by Invoice Recipients;
+(b)	Requests for additional Financial Security made in accordance with paragraph (6) of Section 16.11.5, Monitoring of a Counter-Party’s Creditworthiness and Credit Exposure by ERCOT;
+(c)	Insufficient payments of Securitization Default Charge Invoices under Section 26.3.1.2, Insufficient Payments by Invoice Recipients for Securitization Default Charge Invoices; or
+(d)	Requests for Securitization Default Charge Escrow Deposits under Section 26.5, Securitization Default Charge Escrow Deposit Requirements.
+27.5.4	Determination of Securitization Uplift Charge Credit Exposure for a Counter-Party
+(1)	For each Counter-Party, ERCOT shall calculate the Securitization Uplift Charge Credit Exposure for Securitization Uplift Charge Initial Invoices as follows:
+LASUCCE cp =    ∑_(fmu=1)^nfmu▒(Max (CPMQSELSELRS cp, om, las, CPIEMLSELRS cp up to 40 days after the operating month in which a non-opted-out Counter-Party Load Serving Entity (LSE) commences having Real-Time Adjusted Metered Load (AML)) * MTSUCDA fmu) 
+CPMQSELSELRS cp, om, las = ∑_q▒(MQSELSELRS q, om)
+CPIEMLSELRS cp = CPIEMLSE cp / (MERCOTQSELSERTAML om + CPIEMLSE cp)
+MQSELSELRS q, om = MQSELSERTAML q, om / MERCOTQSELSERTAML om
+MQSELSERTAML q, om = ∑_d▒(DQSELSERTAML q, d)
+MERCOTQSELSERTAML om = ∑_(q,d)^ ▒(DQSELSERTAML q, d)
+The above variables are defined as follows:
+Variable	Unit	Description
+LASUCCE cp	$	Load-Allocated Securitization Uplift Charge Credit Exposure — Estimated forward exposure representing unbilled Securitization Uplift Charge Initial Invoices for Counter-Party cp for nfmu months.
+CPMQSELSELRS cp, om, las	None	Counter-Party Monthly QSE Non-Opted-Out LSE Load Ratio Share — MQSELSELRS for all the QSEs represented by the Counter-Party cp representing the daily ratios of AML to the total AML, excluding the AML for Securitization Uplift Charge Opt-Out Entities, Load exempt from Securitization Uplift Charges pursuant to the Declaratory Order entered by the PUCT in PUCT Docket No. 56119, Petition of Electric Reliability Council of Texas, Inc. for Expedited Declaratory Order Regarding Public Utility Regulatory Act Chapter 39, Subchapter N, and Direct Current Tie (DC Tie) exports, for a QSE, for all the Operating Days d in the operating month om for the Settlement Type las.  
+CPIEMLSE cp	MWh	Counter-Party Initial Estimated Monthly Non-Opted-Out LSE Load — The average estimated Load for a full month provided by a non-opted-out Counter-Party cp that does not yet have AML.
+CPIEMLSELRS cp	None	Counter-Party Initial Estimated Monthly Non-Opted-Out LSE Load Ratio Share — The Load Ratio Share (LRS) for a Counter-Party cp that does not yet have AML, computed using CPIEMLSE.
+MTSUCDA	$	Monthly Total of Securitization Uplift Charge Daily Amounts — The monthly sum of the amounts to be uplifted for all the Operating Days od in operating month om. 
+DQSELSERTAML q, d	MWH	Daily QSE Non-Opted-Out LSE Real-Time Adjusted Metered Load — The Real-Time Adjusted Metered Load (RTAML) excluding the RTAML for Securitization Uplift Charge Opt-Out Entities, Load exempt from Securitization Uplift Charges pursuant to the Declaratory Order entered by the PUCT in PUCT Docket No. 56119, and DC Tie exports, for a QSE q, for the Operating Day d.
+MQSELSELRS q, om	none	Monthly QSE Non-Opted-Out LSE Load Ratio Share — The ratio of AML to the total AML, excluding the AML for Securitization Uplift Charge Opt-Out Entities, Load exempt from Securitization Uplift Charges pursuant to the Declaratory Order entered by the PUCT in PUCT Docket No. 56119, and DC Tie exports, for a QSE q, for all the Operating Days d in the operating month om.
+MQSELSERTAML q, om	MWH	Monthly QSE Non-Opted-Out LSE Real-Time Adjusted Metered Load — The RTAML excluding the RTAML for Securitization Uplift Charge Opt-Out Entities, Load exempt from Securitization Uplift Charges pursuant to the Declaratory Order entered by the PUCT in PUCT Docket No. 56119, and DC Tie exports, for a QSE q, for all the Operating Days d in the operating month om.
+MERCOTQSELSERTAML om	MWH	Monthly ERCOT QSE Non-Opted-Out LSE Real-Time Adjusted Metered Load — The ERCOT total RTAML excluding the RTAML for Securitization Uplift Charge Opt-Out Entities, Load exempt from Securitization Uplift Charges pursuant to the Declaratory Order entered by the PUCT in PUCT Docket No. 56119, and DC Tie exports, for all the Operating Days d in the operating month om.
+cp	none	A registered Counter-Party.
+om	none	Operating Month — The most recent month for which all the daily ratios of AML to the total AML, excluding the AML for Securitization Uplift Charge Opt-Out Entities and DC Tie exports, for a QSE are available for all days of the month.
+fmu	none	Forward Month — A month from Securitization Uplift Charge forward months.
+nfmu	none	Number of Forward Months — Total number of forward months Monthly Securitization Uplift Charge is extrapolated.
+d	none	An Operating Day.
+The above parameters are defined as follows:
+Parameter	Unit	Current Value
+nfmu	Months	2
+las	Settlement Type	Load-Allocated Initial Settlements
+27.5.5	Monitoring of a Counter-Party’s Securitization Uplift Charge Credit Exposure by ERCOT
+(1)	Pursuant to Section 16.11.5, Monitoring of a Counter-Party’s Creditworthiness and Credit Exposure by ERCOT, ERCOT shall monitor the credit exposure of each Counter-Party, including Securitization Uplift Charge Credit Exposure.  
+(2)	A Counter-Party is responsible at all times for maintaining Securitization Uplift Charge escrow deposits in an amount equal to or greater than that Counter-Party’s Securitization Uplift Charge Credit Exposure. 
+(3)	ERCOT shall promptly notify each Counter-Party of the need to increase its Securitization Uplift Charge escrow deposit and allow the Counter-Party time, as provided in paragraph (5) below, to provide additional Securitization Uplift Charge escrow deposits to maintain compliance with this Section. 
+(4)	ERCOT may suspend a Counter-Party when that Counter-Party’s LASUCCE, as defined in Section 27.5.4, Determination of Securitization Uplift Charge Credit Exposure for a Counter-Party, equals or exceeds 100% of its Securitization Uplift Charge escrow deposit.  Any failure by ERCOT to send a Notice as set forth in this Section does not relieve the Counter-Party from the obligation to maintain appropriate Securitization Uplift Charge escrow deposits in amounts equal to or greater than that Counter-Party’s LASUCFME. 
+(5)	To the extent that a Counter-Party fails to maintain Securitization Uplift Charge escrow deposits in amounts equal to or greater than its LASUCCE, as defined in Section 27.5.4:
+(a)	ERCOT shall promptly notify the Counter-Party of the amount by which its Securitization Uplift Charge escrow deposit must be increased and allow it: 
+(i)	Until 1500 on the second Bank Business Day from the date on which ERCOT delivered the Notice to increase its Securitization Uplift Charge escrow deposit if ERCOT delivered its Notice before 1500; or 
+(ii)	Until 1700 on the second Bank Business Day from the date on which ERCOT delivered Notification to increase its Securitization Uplift Charge escrow deposit if ERCOT delivered its Notice after 1500 but prior to 1700.  
+(b)	If the Counter-Party does not increase its Securitization Uplift Charge escrow deposit to the required amount by the specified time, ERCOT may utilize Financial Security held with respect to other ERCOT market activities as determined under Section 16.11.4, Determination and Monitoring of Counter-Party Credit Exposure, up to the amount of the Securitization Uplift Charge escrow deposit shortfall. 
+(c)	In the event that a Counter-Party is required to increase both its Securitization Default Charge escrow deposit and its Securitzation Uplift Charge escrow deposit, and ERCOT utilizes the Counter-Party’s Financial Security, available Financial Security funds will be allocated on a pro rata basis to Securitization Uplift Charge and Securitization Default Charge escrow deposit requirements.
+(d)	ERCOT shall notify the QSE’s Authorized Representative(s) and Credit Contact if it has not received the required security by 1530 on the Bank Business Day on which the security was due; however, failure to notify the Counter-Party’s representatives or credit contacts that the required security was not received does not prevent ERCOT from exercising any of its other rights under this Section.
+(e)	ERCOT is not required to make any payment to that Counter-Party unless and until the Counter-Party increases its Securitization Uplift Charge escrow deposit to an amount equal to or greater than that Counter-Party’s LASUCCE.  The payments that ERCOT will not make to a Counter-Party include Invoice receipts, CRR revenues, CRR credits, reimbursements for short payments, and any other reimbursements or credits under any other agreement between the Market Participant and ERCOT.  ERCOT may retain all such amounts until the Counter-Party has fully discharged all payment obligations owed to ERCOT under the Counter-Party Agreement, other agreements, and these Protocols. 
+(6)	If a Counter-Party increases its Securitization Uplift Charge escrow deposit as required by ERCOT by the deadline in paragraph (5)(a) above, then ERCOT shall release any payments held, providing the Counter-Party has no other payment deficiencies with respect to any other activity under these Protocols.
+27.5.6	Payment Breach and Late Payments by Market Participants
+(1)	In the event of a Payment Breach or Late Payment by a Market Participant with respect to Securitization Uplift Charge Initial Invoices, Securitization Uplift Charge Reallocation Invoices, or required Securitization Uplift Charge escrow deposits, all remedies specified in Section 16.11.6, Payment Breach and Late Payments by Market Participants, are applicable.
+27.5.7	Release of a Market Participant’s Securitization Uplift Charge Escrow Deposit Requirement
+(1)	Following the termination of a Market Participant’s Standard Form Market Participant Agreement, ERCOT shall retain all Securitization Uplift Charge escrow deposits to cover, if necessary, potential future obligations for Securitization Uplift Charge Initial Invoices and Securitization Uplift Charge Reallocation Invoices.
+(2)	Upon ERCOT’s sole determination that all potential Securitization Uplift Charge Initial Invoices and Securitization Uplift Charge Reallocation Invoices have been paid, ERCOT shall return or release any remaining Securitization Uplift Charge escrow deposits to the terminated Market Participant.
+ERCOT Fee Schedule
+Effective October 1, 2024
+The following is a schedule of ERCOT fees currently in effect.  These fees are not refundable unless ERCOT Protocols provide otherwise.
+Description 	Nodal Protocol Reference
+	Calculation/Rate/Comment
+Private Wide Area Network (WAN) fees	9.16.2	Actual costs of procuring, using, maintaining, and connecting to the third-party communications networks and related hardware that provide ERCOT WAN communications.  The portion of costs for ERCOT’s work regarding an initial installation or reconfiguration of an existing installation will not exceed $7,000.  The portion of the monthly network management fee for ERCOT’s work will not exceed $450 per month.
+ERCOT Load Resource Registration and Generator Interconnection or Modification fees	NA	$500 for registration of a new Load Resource. 
+If a Resource Entity seeks to increase the MW size of an existing Load Resource by more than 20% or change the Load Resource’s registration between non-Controllable Load Resource and Controllable Load Resource, it will incur a registration fee of $500.
+The term “generator,” as used in this fee schedule relating to interconnection fees and Full Interconnection Study (FIS) Application fees, includes Generation Resources, Energy Storage Resources (ESRs), and Settlement Only Generators (SOGs) but, as reflected below, Settlement Only Distribution Generators (SODGs) will incur a different fee amount than transmission connected SOGs.  The following fee amounts apply for the registration of a new generator:  
+$2,300 for SODGs; 
+$8,000 for generators that are less than 10 MW (other than SODGs); and
+$14,000 for generators that are 10 MW or greater.
+If a Resource Entity for an existing SODG seeks to change its registration to a Distribution Generation Resource (DGR) it will incur a registration fee of $8,000.
+If a Resource Entity seeks to make a modification that is covered by paragraph (1)(c) of Planning Guide Section 5.2.1, Applicability, to an existing generator it will incur a registration fee in association with the modification request.  If, at the time the modification is submitted, the cumulative MW amount of the modification and any other modifications that have been submitted for that generator within the last 12 months amount to less than 10 MW, the registration fee will be $2,300.  If, at the time the modification is submitted, the cumulative MW amount of the modification and any other modifications that have been submitted for that generator within the last 12 months amount to 10 MW or greater, the registration fee will be $14,000.
+Full Interconnection Study (FIS) Application fee	NA	$3,000 for an FIS Application relating to a new generator.
+$2,700 for an FIS Application relating to modification of an existing generator.
+Qualified Scheduling Entity (QSE) Application fee	9.16.2	$500 per Entity
+Subordinate QSE (Sub-QSE) Application fee	9.16.2	$500 per Sub-QSE
+Competitive Retailer (CR) Application fee	9.16.2	$500 per Entity
+Congestion Revenue Right (CRR) Account Holder Application fee	9.16.2	$500 per Entity
+Independent Market Information System Registered Entity (IMRE) fee	9.16.2	$500 per Entity
+Resource Entity Application fee	9.16.2	$500 per Entity
+	
+Transmission and/or Distribution Service Providers (TDSPs)	9.16.2	$500 per Entity
+Counter-Party Background Check fee	9.16.2	$350 per Principal
+Weatherization Inspection fees	NA
+
+	Resource Entities with Generation Resources or ESRs and Transmission Service Providers (TSPs) shall pay fees to ERCOT for costs related to weatherization inspections conducted pursuant to 16 Texas Administrative Code (TAC) § 25.55, Weather Emergency Preparedness, as provided below.     
+TSPs shall pay an inspection fee of $4,500 for each of their substations or switching stations that are inspected.
+Each Resource Entity to which this Section applies, other than those that own or control Generation Resources and ESRs that are federally owned, shall pay an inspection fee calculated as the Semiannual Generation Resource Inspection Costs * (Resource Entity MW Capacity/Aggregate MW Capacity).  ERCOT will perform this calculation twice per calendar year and gather the necessary MW capacity data for that six-month period on one of the last 15 Business Days at the end of the period.  Terms used in this formula are defined as follows: 
+Semiannual Generation Resource Inspection Costs for purposes of this Section equals the sum of outside services costs, ERCOT internal costs, and overhead costs related to weatherization inspections, less inspection fees that will be invoiced to TSPs and Resource Entities with Generation Resources and ESRs that are federally owned, for that six-month period.  
+Resource Entity MW Capacity for purposes of this Section equals the total MW capacity (using real power rating) associated with a Resource Entity with Generation Resources or ESRs.  
+Aggregate MW Capacity for purposes of this Section equals the total MW capacity (using real power rating) of all the Resource Entities, other than Generation Resources and ESRs that are federally owned.  
+Resource Entities with Generation Resources and ESRs that are federally owned shall pay an inspection fee of $4,500 for each of the Resources that are inspected.
+ERCOT will issue Invoices semiannually in the months of January and July for the preceding six-month period to the Resource Entities and TSPs that owe inspection fees.  Payment of the fee will be due within 30 days of the Invoice date and late payments will incur 18% annual interest.  Entities that fail to pay their Invoice on time will be publicly reported in a filing with the Public Utility Commission of Texas (PUCT).  Further payment terms and instructions will be included on the Invoice.
+Voluminous Copy fee	NA	$0.15 per page in excess of 50 pages
+Actual Costs associated with Information Requests 	NA	ERCOT will provide an estimate to the requestor of any vendor or third-party costs ERCOT deems appropriate to fulfill the information request.  If the requestor approves the cost estimate, the requestor must pay all such costs as instructed by ERCOT before the information will be delivered to the requestor. 
+ERCOT Labor Costs for Information Requests	NA	$15 per hour of ERCOT time.
+If ERCOT determines that a request will involve a substantial burden on ERCOT employee or contractor time to fulfill the request, ERCOT will provide an estimate to the requestor of the anticipated labor costs.  If the requestor approves the cost estimate, the requestor must pay all such labor costs as instructed by ERCOT before the information will be delivered to the requestor.
+ERCOT Training fees for courses that award Continuing Education Hours (CEHs) 	NA	$25 per North American Electric Reliability Corporation (NERC) CEH.  
+Examples of such trainings include, without limitation, the Operator Training Seminar and Black Start Training.
+Cybersecurity Monitor fee for Non-ERCOT Utilities that participate in the Texas Cybersecurity Monitor Program	NA	The Cybersecurity Monitor fee amount varies from year to year.  The current fee amount is posted on ERCOT’s website here:
+https://www.ercot.com/services/programs/tcmp
+
+MIS LOG IN
+Search
+Electric Reliability Council of Texas
+About ERCOT
+Services
+Committees and Groups
+Market Rules
+Market Information
+Grid Information
+Market Participants
+Home Market Rules Protocols - Nodal Current Protocols - Nodal
+Current Protocols - Nodal
+View the most current version of ERCOT Protocols by section.  For previous versions, see the Nodal Protocols Library.
+Section 1: Overview
+Apr 1, 2025 - docx - 81.6 KB
+Section 2: Definitions and Acronyms
+Apr 1, 2025 - docx - 217.5 KB
+Section 3: Management Activities for the ERCOT System
+Apr 1, 2025 - docx - 575.2 KB
+Section 4: Day-Ahead Operations
+Apr 1, 2025 - docx - 428.1 KB
+Section 5: Transmission Security Analysis and Reliability Unit Commitment
+Feb 1, 2025 - docx - 326 KB
+Section 6: Adjustment Period and Real-Time Operations
+Apr 1, 2025 - docx - 1.6 MB
+Section 7: Congestion Revenue Rights
+Apr 1, 2025 - docx - 233.4 KB
+Section 8: Performance Monitoring
+Apr 1, 2025 - docx - 170.4 KB
+Section 9: Settlement and Billing
+Apr 1, 2025 - docx - 152.8 KB
+Section 10: Metering
+Apr 1, 2025 - docx - 86.1 KB
+Section 11: Data Acquisition and Aggregation
+Apr 1, 2025 - docx - 72 KB
+Section 12: Market Information System
+Feb 1, 2025 - docx - 31.8 KB
+Section 13: Transmission and Distribution Losses
+Apr 1, 2025 - docx - 41.5 KB
+Section 14: State of Texas Renewable Energy Credit Trading Program
+Apr 1, 2025 - docx - 64.7 KB
+Section 15: Customer Registration
+Apr 1, 2025 - docx - 71.4 KB
+Section 16: Registration and Qualification of Market Participants
+Apr 1, 2025 - docx - 196.9 KB
+Section 17: Market Monitoring and Data Collection
+Jun 1, 2021 - docx - 31 KB
+Section 18: Load Profiling
+Apr 1, 2022 - docx - 53 KB
+Section 19: Texas Standard Electronic Transaction
+Dec 1, 2024 - docx - 43.8 KB
+Section 20: Alternative Dispute Resolution Procedure and Procedure for Return of Settlement Funds
+Nov 1, 2023 - docx - 42.3 KB
+Section 21: Revision Request Process
+Jun 1, 2023 - docx - 46.5 KB
+Section 22 Attachment A: Standard Form Market Participant Agreement
+Apr 1, 2022 - doc - 149.5 KB
+Section 22 Attachment B: Standard Form Reliability Must-Run Agreement
+Feb 1, 2022 - doc - 124 KB
+Section 22 Attachment C: Amendment to Standard Form Market Participant Agreement
+Apr 1, 2022 - doc - 71 KB
+Section 22 Attachment D: Standard Form Black Start Agreement
+Mar 1, 2023 - doc - 102 KB
+Section 22 Attachment E: Notification of Suspension of Operations
+Apr 1, 2025 - docx - 38.4 KB
+Section 22 Attachment F: Reserved
+Feb 12, 2020 - doc - 40 KB
+Section 22 Attachment G: Standard Form Emergency Response Service Agreement
+Jun 4, 2019 - doc - 61 KB
+Section 22 Attachment H: Notification of Change of Generation Resource Designation
+Apr 1, 2025 - doc - 68 KB
+Section 22 Attachment I: Amendment to Standard Form Black Start Agreement
+Jun 4, 2019 - doc - 50 KB
+Section 22 Attachment J: Annual Certification Form to Meet ERCOT Additional Minimum Participation Requirements
+Apr 1, 2024 - docx - 34.4 KB
+Section 22 Attachment K: Declaration of Natural Gas Pipeline Coordination
+Jan 26, 2023 - doc - 40.5 KB
+Section 22 Attachment L: Declaration of Private Use Network Net Generation Capacity Availability
+Apr 1, 2025 - doc - 84 KB
+Section 22 Attachment M: Generation Resource Disclosure Regarding Bids for Black Start Service
+Aug 1, 2022 - docx - 23 KB
+Section 22 Attachment N: Standard Form Must-Run Alternative Agreement
+Apr 1, 2025 - doc - 55.5 KB
+Section 22 Attachment O: Requirements for Aggregate Load Resource Participation in the ERCOT Markets
+Mar 1, 2024 - docx - 33.9 KB
+Section 22 Attachment P: Methodology for Setting Maximum Shadow Prices for Network and Power Balance Constraints
+Apr 1, 2025 - docx - 161.1 KB
+Section 23 Form A: Congestion Revenue Right (CRR) Account Holder Application for Registration
+May 1, 2024 - docx - 54 KB
+Section 23 Form B: Load Serving Entity (LSE) Application for Registration
+Dec 1, 2024 - docx - 52.7 KB
+Section 23 Form C: Managed Capacity Declaration
+Aug 1, 2023 - docx - 40.4 KB
+Section 23 Form D: Market Participant Agency Agreement
+Feb 1, 2022 - doc - 52.5 KB
+Section 23 Form E: Notice of Change of Information
+May 1, 2024 - docx - 47 KB
+Section 23 Form F: Qualified Scheduling Entity (QSE) Agency Agreement
+Feb 1, 2022 - doc - 72 KB
+Section 23 Form G: QSE Application and Service Filing for Registration Form
+May 1, 2024 - docx - 48.3 KB
+Section 23 Form H: QSE Acknowledgement
+May 28, 2019 - doc - 71.5 KB
+Section 23 Form I: Resource Entity Application for Registration
+Apr 1, 2025 - docx - 57.5 KB
+Section 23 Form J: Transmission and/or Distribution Service Provider Application for Registration
+Aug 1, 2024 - docx - 50.5 KB
+Section 23 Form K: Wide Area Network (WAN) Agreement
+Feb 1, 2022 - doc - 82 KB
+Section 23 Form L: Digital Certificate Audit Attestation
+Feb 1, 2022 - doc - 72.5 KB
+Section 23 Form M: Independent Market Information System Registered Entity (IMRE) Application for Registration
+May 1, 2024 - docx - 44.7 KB
+Section 23 Form N: Pricing Election for Settlement Only Distribution Generators and Settlement Only Transmission Generators
+Feb 1, 2023 - doc - 77.5 KB
+Section 23 Form O: Notice of Cybersecurity Incident
+Mar 13, 2020 - docx - 34.7 KB
+Section 23 Form P: Notice of Change of Banking Information
+Jun 9, 2020 - docx - 32.5 KB
+Section 23 Form Q: Attestation Regarding Market Participant Citizenship, Ownership, or Headquarters
+May 1, 2024 - docx - 42 KB
+Section 23 Form R: Interconnection Circuit Designation for Distribution Generation Resources and Distribution Energy Storage Resources
+Nov 1, 2023 - docx - 41.9 KB
+Section 23 Form S: Reporting and Attestation Regarding Purchase of Critical Electric Grid Equipment (CEGE) and Critical Electric Grid Services (CEGS) from a Lone Star Infrastructure Protection Act (LSIPA) Designated Company or LSIPA Designated Country
+May 1, 2024 - docx - 41.4 KB
+Section 24: Retail Point to Point Communications
+Nov 1, 2023 - docx - 37.4 KB
+Section 25: Market Suspension and Restart
+Feb 1, 2025 - docx - 91.8 KB
+Section 26: Securitization Default Charges
+Apr 1, 2025 - docx - 64.8 KB
+Section 27: Securitization Uplift Charges
+Oct 1, 2024 - docx - 65.7 KB
+ERCOT Fee Schedule
+Oct 1, 2024 - docx - 29.6 KB
+About ERCOT
+Services
+Committees & Groups
+Market Rules
+Market Information
+Grid Information
+Market Participants
+Contact Us
+Glossary
+Careers
+Locations
+Calendar
+Quick Links
+Ethics Point
+Operations Messages
+Project Status
+Service Level Agreements
+MIS Applications
+Grid and Market Conditions
+ERCOT Market Information List
+Resource Integration & Ongoing Operations – Resource Services
+Texas Advisory and Notification System
+STAY CONNECTED
+SOCIAL
+     
+News & Press
+Mailing Lists
+News & Publications
+Use of this site constitutes agreement to our Terms of Use.
+© 1996-2025 Electric Reliability Council of Texas, Inc. All rights reserved.
+Sitemap Privacy

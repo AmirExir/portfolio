@@ -1,0 +1,749 @@
+rastructure Information.  ECEII posted on the MIS Secure or Certified Area may be accessed only by those individuals that are issued ECEII-eligible Digital Certificates.
+(3)	ERCOT shall also create and maintain an Internet website with public and restricted areas.
+12.2	ERCOT Responsibilities
+(1)	ERCOT shall post information to the Market Information System (MIS) as directed throughout these Protocols.  With the exception of information requested by a Market Participant in accordance with paragraph (3) below, ERCOT may not use the MIS to post information beyond that specifically required in these Protocols or market guides as described in paragraph (2) of Section 1.1, Summary of the ERCOT Protocols Document.
+(2)	ERCOT may use the ERCOT website to communicate information that is not posted to the MIS.
+(3)	To the extent a request is reasonable, in ERCOT’s sole discretion, ERCOT shall post to the MIS Certified Area information that is requested by a Market Participant but not required to be posted by these Protocols.
+(4)	ERCOT shall create and maintain a list of all of the posting requirements contained in these Protocols or market guides as described in paragraph (2) of Section 1.1.  This list and changes thereto shall be posted to the ERCOT website.
+(5)	ERCOT shall post the list of Other Binding Documents to the ERCOT website.
+(6)	ERCOT shall use the MIS, as necessary, to post information that meets requirements to disseminate information under North American Electric Reliability Corporation (NERC) Reliability Standards.  Information posted pursuant to this paragraph shall be added to the list described in paragraph (4) above.  ERCOT shall notify Market Participants via a Market Notice when such information is posted.
+[NPRR244:  Insert paragraph (7) below upon project completion:]
+(7)	ERCOT shall post to the ERCOT website business procedure documents, if they exist, for the following activities:  credit management, process for conducting interconnection studies, process for conducting Reliability Must-Run (RMR) studies, processes for managing the commitment of RMR Units, process for conducting Reliability Unit Commitment (RUC) and Hourly Reliability Unit Commitment (HRUC), process for development of the Congestion Revenue Right (CRR) Auction models, process for determining the Pre-Assigned Congestion Revenue Right (PCRR) allocations, process for determining when a market price is to be revised, process for revising prices, and process for determining when units procured in DRUC or HRUC are not needed.  For the above listed activities, ERCOT will post a business procedure document only after it has reviewed and determined that the document does not contain confidential information.  If a business procedure document contains confidential information, such information shall be redacted before posting to the ERCOT website.
+12.3	MIS Administrative and Design Requirements
+(1)	The Market Information System (MIS) must comply with the administrative and design requirements specified as follows:
+(a)	ERCOT shall ensure that all Market Participants have access to the ERCOT MIS on a nondiscriminatory basis.
+(b)	The MIS must, at a minimum, provide all information required under any regulations of the Public Utility Commission of Texas (PUCT) or other Governmental Authorities.  
+(c)	The MIS must include any available information that may be used by a Qualified Scheduling Entity (QSE) to estimate or verify bills for all ERCOT-provided settlements.  
+[NPRR1239:  Replace paragraph (c) above with the following upon system implementation:]
+(c)	The ERCOT website must include, consistent with the requirements in Section 1.3, Confidentiality, any available information that may be used by a Qualified Scheduling Entity (QSE) to estimate or verify bills for all ERCOT-provided settlements.
+(d)	At the request of an Eligible Transmission Service Customer, ERCOT shall provide the methodology and data to independently reproduce information contained in the MIS related to the operation of the ERCOT market.
+[NPRR1239:  Replace paragraph (d) above with the following upon system implementation:]
+(d)	On the ERCOT website, ERCOT shall provide, consistent with the requirements in Section 1.3, the methodology and data to independently reproduce information contained in the MIS related to the operation of the ERCOT market.
+(e)	The MIS must include security measures to safeguard ERCOT Critical Energy Infrastructure Information (ECEII) and protect the confidentiality of Protected Information as required by these Protocols.
+(f)	The MIS must comply with industry standards for commercial websites, including query and search functionality.
+(g)	The MIS must provide easy navigation based on the posting list described in paragraph (4) of Section 12.2, ERCOT Responsibilities, above for document retrieval.  This navigability must include hyperlinks between listings and the MIS posted information. 
+12.4 	ERCOT Website
+(1)	ERCOT shall create and maintain an Internet website consistent with industry standards for commercial websites, including query and search functionality.  The Market Information System (MIS) or a link to the MIS must be available from the ERCOT website.  ERCOT may use the ERCOT website to communicate information that is not posted to the MIS.  Data, extracts, and reports required by the Protocols to be published on the ERCOT website must be made available on a non-discriminatory basis.
+ERCOT Nodal Protocols
+Section 13:  Transmission and Distribution Losses
+April 1, 2025
+ 
+13	Transmission and Distribution Losses	1
+13.1	Overview	1
+13.1.1	Responsibility for Transmission and Distribution Losses	1
+13.1.2	Calculation of Losses for Settlement	2
+13.2	Transmission Losses	2
+13.2.1	Forecasted Transmission Loss Factors	2
+13.2.2	Actual Transmission Loss Factors	2
+13.2.3	Forecasted Transmission Loss Factor Calculations	2
+13.2.4	Seasonal On-Peak and Off-Peak Transmission Loss Factor Calculation	3
+13.2.5	Actual Transmission Loss Factor Calculation	4
+13.2.6	Loss Monitoring	4
+13.3	Distribution Losses	4
+13.3.1	Loss Factor Calculation	5
+13.3.2	Loss Monitoring	6
+13.4	Special Loss Calculations for NOIEs with Behind-the-Meter Transmission Losses	6
+13.4.1	Deemed Actual Transmission Losses for NOIEs	6
+ 
+13	TRANSMISSION AND DISTRIBUTION LOSSES
+13.1	Overview
+(1)	This section sets forth the method for calculating Transmission and Distribution Losses (T&D Losses) and responsibilities of ERCOT, Qualified Scheduling Entities (QSEs), Transmission Service Providers (TSPs) and Distribution Service Providers (DSPs) with respect to T&D Losses.
+13.1.1	Responsibility for Transmission and Distribution Losses
+(1)	T&D Losses are the responsibility of each QSE representing Load.  ERCOT shall allocate T&D Losses to Load at the appropriate aggregate level as part of the data aggregation process to calculate the Load obligation of QSEs for settlement purposes.
+(2)	ERCOT shall forecast Transmission Loss Factors (TLFs) and post them to the ERCOT website by 0600 of the Day-Ahead period.  ERCOT shall forecast the ERCOT-wide TLFs as a percentage of Load for each Settlement Interval of the Operating Day.  By the close of business on the day following the Operating Day, ERCOT shall also calculate Actual TLFs using the actual system Load and shall post the resulting Actual TLFs to the settlement system and the ERCOT website.
+(3)	ERCOT shall forecast Settlement Interval Distribution Loss Factors (DLFs) and post them to the ERCOT website by 0600 of the Day Ahead period.  ERCOT shall forecast the Settlement Interval DLFs as a percentage of Load for each Settlement Interval of the Operating Day.  On the day following the Operating Day, ERCOT shall also calculate Settlement Interval DLFs using actual system Load for that Settlement Interval and post the resulting deemed actual Settlement Interval DLFs to the settlement system and the ERCOT website.
+(4)	Distribution loss coefficients, and the calculation methodology from which they are derived, will be subject to audit by ERCOT for accurate and consistent application.  Non-Opt-in Entities (NOIEs) with Interval Data Recorders (IDRs) at the settlement point of delivery are not required to provide Distribution loss coefficients and calculation methodology.
+(5)	In the special case where there are distribution facilities upstream from a wholesale NOIE or External Load Serving Entity (ELSE) settlement IDR, that settlement IDR will be compensated for line and transformer losses between the IDR and the ERCOT Transmission Grid to account for the Distribution Losses.  The NOIE or ELSE will then be treated as a transmission level NOIE or ELSE.  Calculations are subject to review by ERCOT.  Since loss compensation is included in the wholesale settlement IDR, the TSP and/or DSP providing upstream wheeling facilities may need to offer wholesale wheeling tariffs excluding the losses for which compensation has already been provided.
+13.1.2	Calculation of Losses for Settlement
+(1)	ERCOT shall use the deemed actual Settlement Interval DLFs applicable to each Electric Service Identifier (ESI ID) and the Actual TLFs when adjusting aggregated Load for losses to determine the QSE total Load obligations.
+13.2	Transmission Losses
+13.2.1	Forecasted Transmission Loss Factors
+(1)	The forecasted Transmission Loss Factor (TLF) for each interval in the Operating Day shall be a linear interpolation or extrapolation using the on-peak and the off-peak TLFs and the corresponding forecast of ERCOT System Load during the same interval to calculate the loss factors.
+(2)	At 0600 of the Day-Ahead period, ERCOT shall forecast a TLF for each Settlement Interval of the Operating Day and post on the ERCOT website the forecasted TLFs which correspond to the Operating Day forecast.  The source of the on-peak and off-peak losses are the ERCOT load flow base cases for the applicable season.  For the purpose of Section 13.2, Transmission Losses, “season” is defined as those set forth in item (1) of Section 13.2.4, Seasonal On-Peak and Off-Peak Transmission Loss Factor Calculation.
+13.2.2	Actual Transmission Loss Factors
+(1)	ERCOT shall determine the Actual TLF for each interval in the Operating Day by dividing the sum of line and transformer MW losses by the total ERCOT Load as determined by the State Estimator in the Energy Management System (EMS).
+(2)	The day after the Operating Day, ERCOT shall publish Actual TLFs to be used in Settlement calculations.
+13.2.3	Forecasted Transmission Loss Factor Calculations
+(1)	The following formulas shall be used to translate the Seasonal On-Peak and Off-Peak TLFs into forecasted Settlement Interval TLFs.
+TLF i	=	(SSC * SIEL i) + SIC
+Variable	Unit	Description
+i	none	Interval
+TLF i	none	Transmission Loss Factor for a Settlement Interval
+SIEL i	MWh	Settlement Interval ERCOT System Load (forecasted)
+SSC	none	Seasonal Slope Coefficient
+SIC	none	Seasonal Intercept Coefficient
+Where
+	SSC 	=	(SONLF – SOFFLF) / (SONL – SOFFL)
+	SIC	=	[(SOFFLF * SONL) – (SONLF * SOFFL)] / (SONL – SOFFL)
+Variable	Unit	Description
+SONLF	none	Seasonal on-peak percent loss factor 
+SOFFLF	none	Seasonal off-peak percent loss factor 
+SONL	none	Seasonal on-peak Load value
+SOFFL	none	Seasonal off-peak Load value
+13.2.4	Seasonal On-Peak and Off-Peak Transmission Loss Factor Calculation
+(1)	Seasonal On-Peak and Off-Peak TLFs are derived from the annually updated ERCOT on-peak and off-peak load flow base cases analysis by ERCOT.  Base cases reflect the most current data on the transmission system and Generation Resource Dispatch.  The ERCOT Transmission Grid topology and related Generation Resource Dispatch in the base cases are the critical factors in calculating losses.  Seasonal time periods are defined as follows:
+[NPRR1246:  Replace paragraph (c) above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project:]
+(1)	Seasonal On-Peak and Off-Peak TLFs are derived from the annually updated ERCOT on-peak and off-peak load flow base cases analysis by ERCOT.  Base cases reflect the most current data on the transmission system and Generation Resource and Energy Storage Resource (ESR) Dispatch.  The ERCOT Transmission Grid topology and related Generation Resource and ESR Dispatch in the base cases are the critical factors in calculating losses.  Seasonal time periods are defined as follows:
+(a)	Spring (March – May)
+(b)	Summer (June – September)
+(c)	Fall (October – November)
+(d)	Winter (December – February)  
+(2)	ERCOT shall calculate seasonal TLFs by dividing ERCOT seasonal case Transmission Losses (60 kV system and higher) by the ERCOT seasonal base Load adjusted (reduced) for self-serve Load modeled in the case.  The resulting TLFs are expressed as a percentage of Load.
+(3)	ERCOT shall post the seasonal TLFs to the ERCOT website prior to the start of the year for the next four seasons beginning with the Spring season.
+13.2.5	Actual Transmission Loss Factor Calculation
+(1)	The following formula shall be used by ERCOT’s State Estimator process to determine Actual TLFs.
+	TLF i	=	(ΣLINE_LOSSES i) + (ΣTRANSFORMER_LOSSES i) / ESL i
+Variable	Unit	Description
+i	none	15-Minute Interval
+TLF i	none	Transmission Loss Factor for the 15-Minute Settlement Interval
+ESL i	MW	ERCOT System Load for the 15-Minute Interval
+LINE_LOSSES i	MW	Line Losses for the 15-Minute Interval
+TRANSFORMER_LOSSES i	MW	Transformer Losses for the 15-Minute Interval
+13.2.6	Loss Monitoring
+(1)	ERCOT shall monitor Transmission Losses annually and will investigate any abnormal loss factors.  ERCOT and Transmission Service Providers (TSPs) shall use the cost of losses as one criterion in evaluating the need for transmission additions.
+13.3	Distribution Losses
+(1)	By October 30th of each year for the next calendar year, or two months prior to the posting of any update to the approved Distribution loss coefficients, codes, or calculation, each Distribution Service Provider (DSP), except Non-Opt-In Entities (NOIEs), shall calculate and provide ERCOT the annual Distribution loss coefficients to be applied to distribution voltage level Loads in its area of certification.  ERCOT shall review and approve the Distribution Loss Factor (DLF) calculation methodology used by each DSP prior to use of the loss coefficients for settlement purposes.  If the DLF calculation methodology does not conform with ERCOT’s interpretation of the Protocol criteria in this subsection, ERCOT will work with the DSP to correct the deficiency.  Until deficiencies are resolved, the last approved Distribution loss coefficients and the calculation methodology will be posted, and the last approved Distribution loss coefficients shall be used for settlement.  A DSP may only submit a change to the DLF calculation methodology annually or when a change in a DSP service area warrants an update to the approved DLF methodology based on the DSP internal evaluation.
+(2)	The DSP shall assign a Distribution loss code to each Electric Service Identifier (ESI ID).  A maximum of five Distribution loss codes may be submitted for each DSP based upon ERCOT approved parameters, such as service voltages or number of transformations.
+(3)	The following standards will be used to identify the Distribution loss code applicable to each ESI ID:
+•	T = Transmission connected Customers (no Settlement Interval DLF applied)
+•	A through E = Transmission and/or Distribution Service Provider (TDSP) defined Customer segment(s)
+(4)	The DSPs, except NOIEs, are obligated to provide Distribution loss coefficients to ERCOT.  ERCOT will post the Distribution loss coefficients and calculation methodology, for each DSP.
+(5)	Distribution loss information submitted by the DSP shall include:
+(a)	The annual Distribution loss coefficients (F1, F2, and F3) for each Distribution loss code; and
+(b)	The methodology upon which the calculation of the coefficients (F1, F2, and F3) was made.
+(6)	A NOIE may provide ERCOT with the information detailed in paragraph (5) above.  If such information is provided, ERCOT shall calculate and post NOIE DSP DLFs using the same processes for the calculation and posting of competitive DSP DLFs.
+13.3.1	Loss Factor Calculation
+(1)	ERCOT shall use the Distribution loss coefficients submitted by the DSP to calculate the Settlement Interval DLFs.  Settlement Interval DLFs will be calculated from the data provided by DSPs as follows using the following equation:
+SILF i = F1 * (SIEL i / AAL) + F2 + F3 / (SIEL i / AAL)
+Variable	Unit	Description
+i		interval
+SILFi		Settlement Interval DLF
+SIELi		Settlement Interval ERCOT System Load (forecasted or actual)
+AAL		Annual Interval Average ERCOT System Load.   The AAL is calculated using the total ERCOT Load stated in the most recent settlement during the period beginning on September 1 and ending August 31.  ERCOT will provide the AAL to DSPs that are obligated to provide Distribution loss coefficients and calculation methodology to ERCOT, by September 15th of each year.
+F1 , F2 , F3		Distribution Loss coefficients determined by the Distribution Service Provider to allow calculation of its SILF from ERCOT System Load
+		
+ (2)	ERCOT shall use the deemed actual Settlement Interval DLFs calculated for each Settlement Interval of the Operating Day for settlement purposes.
+13.3.2	Loss Monitoring
+(1)	Distribution loss coefficients and the calculation methodology from which they are derived for all DSPs, except for NOIEs, will be submitted to ERCOT and will be subject to audit for accuracy and consistency of application.
+13.4	Special Loss Calculations for NOIEs with Behind-the-Meter Transmission Losses 
+13.4.1	Deemed Actual Transmission Losses for NOIEs
+(1)	All Qualified Scheduling Entities (QSEs) representing Load, including Non-Opt-In Entities (NOIEs), will be responsible for Transmission Losses allocated in the manner described in these Protocols.  For NOIE Entities using transmission tie line meters to determine Load, ERCOT will adjust the net meter readings to remove calculated Transmission Losses behind the meter prior to applying ERCOT-wide Actual Transmission Loss Factors (TLFs).  
+(2)	The deemed actual Transmission Losses for NOIEs shall be a linear interpolation or extrapolation between the seasonal on-peak and the seasonal off-peak NOIE TLFs posted pursuant to paragraph (3) of Section 13.2.4, Seasonal On-Peak and Off-Peak Transmission Loss Factor Calculation, corresponding to the actual NOIE metered Load in the interval.
+(3)	The following formulas shall be used to translate the Seasonal On-Peak and Off-Peak TLFs into NOIE deemed actual Settlement Interval TLFs.
+TLFi	=	(SSC * SIELi) + SIC
+Variable	Unit	Description
+i	none	Interval
+TLFi	none	Transmission Loss Factor for a Settlement Interval
+SIELi	MWh	Settlement Interval NOIE System Load (actual)
+SSC	none	Seasonal Slope Coefficient
+SIC	none	Seasonal Intercept Coefficient
+	Where
+	SSC 	=	(SONLF – SOFFLF) / (SONL – SOFFL)
+	SIC	=	[(SOFFLF * SONL) – (SONLF * SOFFL)] / (SONL – SOFFL)
+Variable	Unit	Description
+SONLF	none	Seasonal on-peak percent loss factor 
+SOFFLF	none	Seasonal off-peak percent loss factor 
+SONL	none	Seasonal on-peak Load value
+SOFFL	none	Seasonal off-peak Load value
+
+ERCOT Nodal Protocols
+Section 14:  State of Texas Renewable Energy Credit Trading Program
+
+April 1, 2025
+
+ 
+14	State of Texas Renewable Energy Credit Trading Program	14-1
+14.1	Overview	14-1
+14.2	Duties of ERCOT	14-2
+14.2.1	Site Visits	14-3
+14.3	Creation of Renewable Energy Credit Accounts and Attributes of Renewable Energy Credits	14-5
+14.3.1	Creation of Renewable Energy Credit Accounts	14-5
+14.3.2	Attributes of Renewable Energy Credits and Compliance Premiums	14-5
+14.4	Registration to Become a Renewable Energy Credit Generator or Renewable Energy Credit Aggregator	14-6
+14.5	Reporting Requirements	14-7
+14.5.1	Renewable Energy Credit Generators and Renewable Energy Credit Offset Generators	14-7
+14.5.2	Retail Entities	14-8
+14.5.3	End-Use Customers	14-9
+14.6	Awarding of Renewable Energy Credits	14-9
+14.6.1	Adjustments to Renewable Energy Credit Award Calculations	14-10
+14.6.2	Awarding of Compliance Premiums	14-10
+14.7	Transfer of Renewable Energy Credits or Compliance Premiums Between Parties	14-11
+14.8	Renewable Energy Credit Offsets	14-11
+14.9	Allocation of Statewide Solar Renewable Portfolio Standard Requirement Among Retail Entities	14-12
+14.9.1	Annual Capacity Targets	14-12
+14.9.2	Capacity Conversion Factor	14-13
+14.9.3	Statewide Solar Renewable Portfolio Standard Requirement	14-14
+14.9.4	Application of Offsets - Adjusted Solar Renewable Portfolio Standard Requirement	14-15
+14.9.5	Final Solar Renewable Portfolio Standard Requirement	14-16
+14.10	Retiring of Renewable Energy Credits or Compliance Premiums	14-17
+14.10.1	Mandatory Retirement	14-17
+14.10.2	Voluntary Retirement	14-18
+14.10.3	Retiring Unused Renewable Energy Credits or Compliance Premiums	14-18
+14.11	Penalties and Enforcement	14-18
+14.12	Maintain Public Information	14-18
+14.13	Submit Annual Report to Public Utility Commission of Texas	14-20
+ 
+14	STATE OF TEXAS RENEWABLE ENERGY CREDIT TRADING PROGRAM
+14.1	Overview
+(1)	On May 9, 2000, the Public Utility Commission of Texas (PUCT) appointed ERCOT as Program Administrator of the Renewable Energy Credits (REC) Trading Program described in subsection (h) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program.  On November 30, 2023, the PUCT reaffirmed ERCOT as Program Administrator of the REC Trading Program described in subsection (a)(2) of P.U.C. SUBST. R. 25.173.  The PUCT also established a Solar Renewable Portfolio Standard (SRPS) pursuant to Section 53 of House Bill 1500, enacted by the 88th Texas Legislature, Regular Session, to be phased out by September 1, 2025.  Public Utility Regulatory Act (PURA) § 39.9113, adopted by the 88th Texas Legislature and implemented by the PUCT in P.U.C. SUBST. R. 25.173, require that ERCOT administer a voluntary trading program on an ongoing basis.
+[NPRR1250:  Replace paragraph (1) above with the following on September 1, 2025:]
+(1)	On May 9, 2000, the Public Utility Commission of Texas (PUCT) appointed ERCOT as Program Administrator of the Renewable Energy Credits (REC) Trading Program described in subsection (h) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program.  On November 30, 2023, the PUCT reaffirmed ERCOT as Program Administrator of the REC Trading Program described in subsection (a)(2) of P.U.C. SUBST. R. 25.173.  Public Utility Regulatory Act (PURA) § 39.9113, adopted by the 88th Texas Legislature and implemented by the PUCT in P.U.C. SUBST. R. 25.173, require that ERCOT administer a voluntary trading program on an ongoing basis.
+(2)	The purposes of the REC Trading Program are: 
+(a)	To ensure that the total amount of installed generating capacity from new solar renewable energy technologies in this state totals 1,310 megawatts (MW) by January 1, 2024 and 655 MW by January 1, 2025;
+(b)	To provide for a REC Trading Program to facilitate voluntary trading under subsection (g) of P.U.C. SUBST. R. 25.173 and PURA § 39.9113, and by which the solar renewable energy requirements established by subsection (f) of P.U.C. SUBST. R. 25.173 may be achieved in the most efficient and economical manner; to encourage the development, construction, and operation of new renewable energy Resources at those sites in this state that have the greatest economic potential for capture and development of this state’s environmentally beneficial Resources; to protect and enhance the quality of the environment in Texas through increased use of renewable Resources; and
+(c)	To ensure that all Customers have access to providers of energy generated by renewable energy Resources pursuant to PURA § 39.101(b)(3).
+[NPRR1250:  Replace paragraph (2) above with the following on September 1, 2025:]
+(2)	The purposes of the REC Trading Program are: 
+(a)	To provide for a REC Trading Program to facilitate voluntary trading under subsection (g) of P.U.C. SUBST. R. 25.173 and PURA § 39.9113, in the most efficient and economical manner; and
+(b)	To ensure that all Customers have access to providers of energy generated by renewable energy Resources pursuant to PURA § 39.101(b)(3).
+(3)	ERCOT shall administer the REC Trading Program, which became effective July 1, 2001.  Entities participating in the REC Trading Program must register with and execute the appropriate agreements with ERCOT.
+14.2	Duties of ERCOT
+(1)	As described in more detail in this Section, ERCOT shall:
+(a)	Register renewable energy generators;
+(b)	Register Retail Entities;   
+(c)	Register other Entities choosing to participate in the Renewable Energy Credit (REC) Trading Program;
+(d)	Create and maintain REC trading accounts for REC Trading Program participants;
+(e)	Determine the annual Solar Renewable Portfolio Standard (SRPS) requirement for each Retail Entity in Texas using the formulas set forth in this Section;
+(f)	On a quarterly basis, award RECs or Compliance Premiums earned by REC generators based on verified MWh production data;
+(g)	Verify that Retail Entities meet annual SREC compliance requirements;
+(h)	Retire RECs or Compliance Premiums as directed by REC Trading Program participants;
+(i)	Retire RECs or Compliance Premiums as they expire;
+(j)	On a monthly basis, make public the aggregated total MWh competitive energy sales in Texas;
+(k)	Make public a list of REC Account Holders with contact information (e-mail, address, and telephone number) so as to facilitate REC or Compliance Premium trading;
+(l)	Maintain a list of offset generators and the Retail Entities to whom such a generator’s offsets were awarded by the Public Utility Commission of Texas (PUCT);
+(m)	Conduct a REC Trading Program Settlement process annually;
+(n)	File an annual report with the PUCT as specified in subsection (h)(11) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program;
+(o)	Monitor the operational status of participating renewable energy generation facilities in Texas and record retirements;
+(p)	Compute and apply a revised Capacity Conversion Factor (CCF) (as described in Section 14.9.2, Capacity Conversion Factor);
+(q)	Audit MWh production data from certified REC generating facilities;
+(r)	Audit MWh production from renewable energy generation facilities producing offsets for Retail Entities on an annual basis;
+(s)	Post a list of Facility Identification Numbers, and the associated renewable energy generation facility name, location, type, and noncompetitive certification data on the ERCOT website; and
+(t)	Receive, implement and protect the confidentiality of Electric Service Identifiers (ESI IDs), identity of Retail Electric Provider (REP), and consumption data associated with transmission-level Customers that choose to have their Load excluded from the SRPS calculation consistent with Section 14.5.3, End-Use Customers, and subsection (f) of P.U.C. SUBST. R. 25.173.
+[NPRR1250:  Replace paragraph (1) above with the following on September 1, 2025:]
+(1)	As described in more detail in this Section, ERCOT shall:
+(a)	Register renewable energy generators;
+(b)	Register Retail Entities;   
+(c)	Register other Entities choosing to participate in the Renewable Energy Credit (REC) Trading Program;
+(d)	Create and maintain REC trading accounts for REC Trading Program participants;
+(e)	On a quarterly basis, award RECs earned by REC generators based on verified MWh production data;
+(f)	Retire RECs or Compliance Premiums as directed by REC Trading Program participants;
+(g)	Retire RECs or Compliance Premiums as they expire;
+(h)	On a monthly basis, make public the aggregated total MWh competitive energy sales in Texas;
+(i)	Make public a list of REC Account Holders with contact information (e-mail, address, and telephone number) so as to facilitate REC or Compliance Premium trading;
+(j)	Maintain a list of offset generators and the Retail Entities to whom such a generator’s offsets were awarded by the Public Utility Commission of Texas (PUCT);
+(k)	Conduct a REC Trading Program Settlement process annually;
+(l)	File an annual report with the PUCT as specified in subsection (h)(11) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program;
+(m)	Monitor the operational status of participating renewable energy generation facilities in Texas and record retirements;
+(n)	Audit MWh production data from certified REC generating facilities;
+(o)	Audit MWh production from renewable energy generation facilities producing offsets for Retail Entities on an annual basis; and
+(p)	Post a list of Facility Identification Numbers, and the associated renewable energy generation facility name, location, type, and noncompetitive certification data on the ERCOT website.
+14.2.1	Site Visits
+(1)	ERCOT may conduct site visits to renewable energy generation facilities on a random basis to ensure integrity of the REC Trading Program, as deemed necessary.  ERCOT shall require each registered renewable energy generator to provide one or more contact persons for purpose of site visit notification.  ERCOT shall provide at least 48 hours’ notice to the designated contact(s) prior to conducting a site visit for Intermittent Renewable Resources (IRRs) only.
+14.3	Creation of Renewable Energy Credit Accounts and Attributes of Renewable Energy Credits
+14.3.1	Creation of Renewable Energy Credit Accounts
+(1)	ERCOT shall create Renewable Energy Credit (REC) Accounts for any party desiring to participate in the REC Trading Program.  ERCOT shall require all holders of REC Accounts to execute a Standard Form Market Participant Agreement (as provided for in Section 22, Attachment A, Standard Form Market Participant Agreement) with ERCOT.  Each party requesting a REC Account must name a Designated Representative.  The Designated Representative must have the authority to represent and legally bind the REC Account Holder in all matters pertaining to the REC Trading Program.  These individuals will be the contact persons for ERCOT on matters regarding a REC Account.
+14.3.2	Attributes of Renewable Energy Credits and Compliance Premiums
+(1)	A REC or Compliance Premium is a tradable instrument that represents all of the renewable attributes associated with one MWh of production from a certified renewable generator.  A REC or Compliance Premium may trade separately from energy.  RECs are distributed to REC generators on a quarterly basis by ERCOT.  The number of RECs distributed to a certified generator is based on physically metered MWh production.  RECs may be traded, transferred, and retired.
+(2)	Compliance Premiums are awarded by the Program Administrator in conjunction with an SREC that is generated by a renewable energy Resource that meets the criteria of subsection (e) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program.  For the purpose of the Solar Renewable Portfolio Standard (SRPS) requirements, one Compliance Premium is equal to one REC.  Compliance Premiums will not be awarded after December 31, 2024.
+[NPRR1250:  Delete paragraph (2) above on September 1, 2025 and renumber accordingly.]
+(3)	The components of a REC and Compliance Premium are defined in the table below. 
+REC Information	Field Length	Description
+Year	4 Digits	Year REC was issued.
+Quarter	1 Digit	Quarter REC was issued.
+Type of Renewable Resource	20 Characters	Reference to type of renewable Resource:  Solar, wind, biomass, tidal, geothermal, hydro, landfill gas, other.
+Facility Identification Number	5 Digits	Number to be assigned by ERCOT.
+REC Number	8 Digits	REC Number 1 through the number of MWh generated by the facility during the quarter. 
+(4)	The Facility Identification Number assigned by ERCOT will be fixed for a facility’s lifetime, and will therefore remain constant regardless of changes in facility name or ownership.  Facilities must file changes of name, ownership, or other relevant certification information with ERCOT within 30 days of such changes.
+(5)	Generating facilities that lose their Public Utility Commission of Texas (PUCT) REC generator certification will not be awarded RECs by ERCOT subsequent to the date of the certification revocation, unless ERCOT is otherwise directed by the PUCT.
+(6)	A REC or Compliance Premium will have an issue date of the Compliance Period in which it is generated.
+(7)	RECs and Compliance Premiums have a useful life of three Compliance Periods.  For example, a qualifying MWh of renewable energy generated on December 31, 2023 will be the basis for a REC having an issue date of 2023.  The three Compliance Periods for which this REC may be used are 2023, 2024, and 2025.  This REC will expire one Business Day after March 31, 2026.  March 31 is the date by which a Retail Entity must submit its annual REC compliance retirement information to ERCOT.
+[NPRR1250:  Replace paragraph (7) above with the following on September 1, 2025:]
+(6)	RECs and Compliance Premiums have a useful life of three Compliance Periods.  For example, a qualifying MWh of renewable energy generated on December 31, 2023 will be the basis for a REC having an issue date of 2023.  The three Compliance Periods for which this REC may be used are 2023, 2024, and 2025.  This REC will expire one Business Day after March 31, 2026.  March 31 is the date by which a Retail Entity must submit its annual REC compliance retirement information to ERCOT.  As Compliance Premiums were last awarded December 31, 2024, all unused Compliance Premiums will expire by December 31, 2027.
+14.4	Registration to Become a Renewable Energy Credit Generator or Renewable Energy Credit Aggregator
+(1)	Renewable Energy Credit (REC) generators or REC aggregators must apply to the Public Utility Commission of Texas (PUCT) for certification to produce or aggregate RECs.  On receipt of a copy of a notification from the PUCT certifying that a renewable energy generation facility is eligible to generate or an Entity is eligible to aggregate RECs, ERCOT shall establish a REC trading account for the facility or Entity.  Each REC trading account shall have a unique identification number.
+ (2)	ERCOT may close an account holding no RECs or Compliance Premiums for a period of one year after providing 30 days’ advance Notice to the REC Account Holder.
+14.5	Reporting Requirements
+14.5.1	Renewable Energy Credit Generators and Renewable Energy Credit Offset Generators
+(1)	All Renewable Energy Credit (REC) generators and REC offset generators must report quarterly MWh production data to ERCOT no later than the 38th day after the last Operating Day of the quarter, in an electronic format prescribed by ERCOT.  The reported MWh quantity shall be solely produced from, and attributable to, a renewable generator as so designated by the Public Utility Commission of Texas (PUCT).  Information relevant to quarterly reporting shall be handled in one of the following processes:
+(a)	A renewable Generation Resource or Settlement Only Generator (SOG) that has interval meters, pursuant to Section 10, Metering, and has interval metered generation data provided to ERCOT for energy Settlement will:
+(i)	Have the quarterly reporting function performed on their behalf by ERCOT using the Settlement Quality Meter Data extracted from the ERCOT Settlement system; or
+(ii)	Self-report their Settlement quality MWh production data to ERCOT, in a format and on a timeline prescribed by ERCOT, based on Metering Facilities that are:
+(A)	Installed, operated and maintained by the REC generator; 
+(B)	Installed in a location to only record energy from generation certified by the PUCT to receive RECs;
+(C)	Compliant with American National Standards Institute (ANSI) C12, Code for Electricity Metering, metering accuracy standards; and
+(D)	Verified for accuracy every six years.
+(b)	REC aggregators shall report production from microgenerator renewable energy Resources that are not interval metered for energy Settlement, in accordance with the methodology approved by the PUCT for the purposes of measuring the REC production of such Resources, in the format prescribed by ERCOT, including applicable supporting documentation;
+(c)	All other REC generators, not specifically covered in items (a) and (b) above, must report Settlement quality MWh production data to ERCOT in a format and on a timeline prescribed by ERCOT; provided that REC generators not interconnected to any Transmission and/or Distribution Service Provider (TDSP) may use performance measures for REC production as approved by the PUCT; or
+(d)	Entities certified to produce RECs from landfill gas supplied directly to a gas distribution system operated by a Municipally Owned Utility (MOU) shall report the MWh equivalent production data and supporting calculations to ERCOT on a timeline prescribed by ERCOT.
+(2)	From time to time, or as determined to be necessary by ERCOT or the PUCT, Entities may be required to submit supporting documentation to allow verification of generation quantities.
+(3)	The failure of a REC generator to report generation data in a timely fashion shall result in a delay in the issuance of RECs or Compliance Premiums for that generation facility for that quarter.  RECs or Compliance Premiums delayed by untimely reporting will be awarded during the REC award period next occurring after the required data are reported.  The issue date of such RECs or Compliance Premiums will be based on the quarter in which the RECs or Compliance Premiums were actually generated.
+14.5.2	Retail Entities
+(1)	To enable Retail Entities the ability to calculate their Solar Renewable Portfolio Standard (SRPS) requirements, all Retail Entities serving Load in the state of Texas shall provide Load data to ERCOT on a monthly basis, and no later than the 38th day after the last Operating Day of the month, in an electronic format prescribed by ERCOT.  The reported MWh quantity shall be solely the energy consumed by Customers in Texas.  Load data shall be provided in one of the following processes:
+(a)	Retail Entities serving Load located within ERCOT shall have this function performed for them by ERCOT for the Load served within ERCOT.  The data supplied by ERCOT shall be Settlement Quality Meter Data extracted from the ERCOT Settlement system; or
+(b)	Entities participating in the REC Trading Program that serve Load outside the ERCOT Region must report Settlement quality MWh Load data for Load served outside the ERCOT Region to ERCOT in a format prescribed by ERCOT. 
+(i)	Entities reporting under paragraph (b) shall not include any MWhs served to a location for which a Customer has submitted a notice letter pursuant to subsection (f) of P.U.C. SUBST. R 25.173, Renewable Energy Credit Program.
+(ii)	Notwithstanding the foregoing reporting requirements, such Entities shall submit monthly MWh Load data for December of each year by no later than January 15 of the following year.  Any error in estimating December Load shall be corrected by the submitting Entity in the following year’s true-up calculation as per subsection (f)(2) of P.U.C. SUBST. R. 25.173.
+(2)	On a monthly basis, ERCOT shall calculate the MWh consumption of energy by Customers served by Retail Entities in Texas, using Load data submitted by program participants.  ERCOT shall adjust the Load data to ensure that any Load (MWh) covered by notice consistent with Section 14.5.3, End-Use Customers, is removed.
+(3)	The failure of a Retail Entity to report required Load data (including Load data for Electric Service Identifiers (ESI IDs) or accounts covered by notice, as specified in Section 14.5.3) in accordance with the Protocols shall result in estimation of Load data for the applicable Retail Entity by ERCOT for purposes of allocation of annual SRPS requirements.
+[NPRR1250:  Delete Section 14.5.2 above on September 1, 2025.]
+14.5.3	End-Use Customers
+(1)	To enable ERCOT to determine the total retail sales of all Retail Entities and the retail sales of a specific Retail Entity for Section 14.9.3.1, Preliminary Solar Renewable Portfolio Standard Requirement for Retail Entities, and Section 14.9.5, Final Solar Renewable Portfolio Standard Requirement, a transmission-level voltage Customer that wishes to have its Load excluded from SRPS calculations pursuant to subsection (f) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program, must submit the information in accordance with the rule.
+[NPRR1250:  Delete Section 14.5.3 above on September 1, 2025.]
+14.6	Awarding of Renewable Energy Credits
+(1)	Following the end of each calendar quarter, and before the end of the next Business Day following receipt of all Renewable Energy Credit (REC) generator and Load data specified in Section 14.5.1, Renewable Energy Credit Generators and Renewable Energy Credit Offset Generators, and in Section 14.5.2, Retail Entities, ERCOT will credit RECs to the appropriate REC trading account.  ERCOT shall base the number of RECs to be issued on the MWh generation data provided by REC generators or ERCOT as applicable.  The number of RECs issued to a specific REC generator will be equal to the number of MWh generated by the certified generator during the quarter.  Quarterly production shall be rounded to the nearest whole MWh, with fractions of 0.5 MWh or greater rounded up.  If a REC generator is decertified during the quarter, RECs will be issued on MWhs produced during the quarter until the date and time of decertification.  
+14.6.1	Adjustments to Renewable Energy Credit Award Calculations
+(1)	Adjustments (reductions) to REC awards are made for renewable facilities that use more than 2% fossil fuel, and for REC aggregators that use estimation techniques to report generation.
+(a)	Co-Fired Generator Adjustments:
+(i)	For REC generators using a renewable energy technology that requires the use of fossil fuel that is greater than 2%, and less than or equal to 25%, of the total annual fuel input on a British Thermal Unit (BTU) or equivalent basis, RECs can only be earned on the renewable portion of the production.  RECs are awarded based on an adjusted number of MWh generated during the quarter.
+(ii)	The renewable energy Resource shall calculate the electricity generated by the unit in MWh, based on the BTUs (or equivalent) produced by the fossil fuel and the efficiency of the renewable energy Resource, subtract the MWh generated with fossil fuel input from the total MWh of generation and report the renewable energy generated to the Program Administrator;
+(b)	REC Aggregator Adjustments:
+The REC aggregator may provide the Program Administrator with sufficient information for the Program Administrator to estimate with reasonable accuracy the output of each unit, based on known or observed information that correlates closely with the generation output.  REC aggregators using approved estimation techniques to report renewable energy production shall be awarded one REC for every 1.25 MWh generated.
+14.6.2	Awarding of Compliance Premiums
+(1)	A Compliance Premium is awarded by the Program Administrator in conjunction with a REC that is generated by a renewable energy Resource installed and certified after September 1, 2005 that is not powered by wind.  For the purpose of the Solar Renewable Portfolio Standard (SRPS) requirements, one Compliance Premium is equal to one REC.
+(2)	One Compliance Premium shall be awarded for each REC awarded for energy generated until December 31, 2024.
+[NPRR1250:  Delete Section 14.6.2 above on September 1, 2025.]
+14.7	Transfer of Renewable Energy Credits or Compliance Premiums Between Parties
+(1)	On the receipt of a request from the owner of a Renewable Energy Credit (REC) or Compliance Premium and purchaser of the REC or Compliance Premium, ERCOT will transfer the REC or Compliance Premium from the owner’s REC trading account to the REC trading account specified in the transfer request.  Transfer requests received by ERCOT shall be effective upon confirmation by the receiving Entity.
+(2)	If a request for transfer cannot be executed, ERCOT will notify the requesting Entities of the reason.
+(3)	On completing a transfer, ERCOT shall notify the Designated Representatives of all involved REC trading account owners by e-mail.
+(4)	For the purpose of the REC Trading Program, RECs or Compliance Premiums residing in an Entity’s REC trading account are deemed to be owned by that Entity.
+(5)	To the extent practicable, ERCOT will accommodate automated quarterly transfers.
+14.8	Renewable Energy Credit Offsets
+(1)	To qualify for Renewable Energy Credit (REC) offsets in the REC Trading Program, a Retail Electric Provider (REP), Municipally Owned Utility (MOU), generation and transmission cooperative, distribution cooperative, or an affiliate of a REP, MOU, generation and transmission cooperative, or distribution cooperative must apply for REC offsets from the Public Utility Commission of Texas (PUCT) by June 1, 2001.  This requirement is in effect without regard to whether or not the applicant will be a Retail Entity on January 1, 2002.  A REC offset represents one MWh of renewable energy from a renewable energy generator placed in service before September 1, 1999 that may be used in place of a REC to meet a renewable energy requirement.  REC offsets may not be traded.
+(2)	After receipt of Notification from the PUCT (which shall include the name of the Entity receiving the offset, the name of the generator eligible to produce the offset, the value of the offset in MWh, and other information as applicable) verifying designation by the Entity receiving REC offsets, ERCOT shall use REC offsets from a Retail Entity as part of its calculation of Final Solar Renewable Portfolio Standard (SRPS) Requirements (FSRRs).  REC offsets are not transferable.  REC offsets will be considered valid until ERCOT receives Notification from the PUCT that the offset is no longer valid.
+(3)	For purposes of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program, a generation and transmission cooperative shall be responsible for the cumulative total of its cooperative members’ renewable energy requirements as well as its affiliated cooperative members’ renewable energy requirements.  At the election of its board of directors, a generation and transmission cooperative will become responsible for the cumulative total of its distribution cooperatives’ SRPS requirements.  The sharing of the REC offsets of the generation and transmission cooperative among its distribution cooperatives shall not affect the cumulative total of the SRPS requirements of the distribution cooperative members, or its affiliated cooperative members in meeting their share of the state’s goals for renewable energy Resources.
+[NPRR1250:  Replace Section 14.8 above with the following on September 1, 2025:]
+14.8	[RESERVED]
+14.9	Allocation of Statewide Solar Renewable Portfolio Standard Requirement Among Retail Entities
+(1)	The first quarter of each year shall be the Settlement period for the preceding Compliance Period.  During this Settlement period each year the following actions shall occur:
+(a)	No later than the date set forth in P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program, the Program Administrator shall allocate the Statewide Solar Renewable Portfolio Standard (SRPS) Requirement (SSRR) for the previous year’s Compliance Period among all Retail Entities in the state.  This allocation represents the Solar Renewable Energy Credit (SREC) compliance requirements for the preceding Compliance Period.  To perform this calculation, ERCOT shall use Load data provided to it as set forth in these Protocols.
+(b)	By the date set forth in P.U.C. SUBST. R. 25.173, the Program Administrator shall notify each Retail Entity of its Final SRPS Requirement (FSRR) for the previous Compliance Period.
+(c)	The Program Administrator may request from the Public Utility Commission of Texas (PUCT) an adjustment to the deadlines set forth in this Section if certain factors, including but not limited to changes to the ERCOT Settlement Calendar, should affect the timely availability of reliable retail sales data or renewable Resource generation data necessary for calculating SRPS requirements.
+[NPRR1250:  Replace Section 14.9 above with the following on September 1, 2025:]
+14.9	[RESERVED]
+14.9.1	Annual Capacity Targets
+(1)	The solar renewable energy capacity targets (in megawatts) for each year are as follows:
+Annual Capacity Target
+ (MW)	Compliance Period
+(Years)
+1,310	2024
+655	2025
+(2)	RECs may be produced by generators certified by the PUCT which are not located in Texas if:
+(a)	The first metering point for such generation is in Texas; and
+(b)	All generation metered at the location of injection into the Texas grid comes from that generator.
+(3)	REC generators physically located outside the state of Texas are not included in the annual calculations of installed renewable capacity for purposes of the REC Trading Program.  However, as such generation may contribute to the available pool of RECs, it is conceivable that there may be sufficient RECs to allow Retail Entities to meet their annual requirements, while at the same time, a target capacity shortfall for installed renewable capacity in Texas could exist.
+[NPRR1250:  Delete Section 14.9.1 above on September 1, 2025.]
+14.9.2	Capacity Conversion Factor
+(1)	ERCOT shall set the Capacity Conversion Factor (CCF) to allocate credits to Retail Entities.  ERCOT shall determine a new CCF as follows:
+Individual Facility CCF i = (12/n)* HO i, t / (HC i, t * h) 
+The above variables are defined as follows:
+Variable	Unit	Description
+h	None	Number of hours in the Compliance Period.  h = 8,760 for the 2024 Compliance Period and 5,840 for the 2025 Compliance Period.
+i	None	Individual solar renewable energy generation facility
+n	None	Number of months a specific solar renewable energy generation facility was in operation over the past 24 months.  n must be greater than or equal to 12 and less than or equal to 24.
+HO i, t	MWh	Total production by participating solar renewable generator i during Compliance Period t.
+HC i, t	MW	Average total generation capacity by participating solar renewable generator i during Compliance Period t.
+and 
+CCF =   (CCF i * PC i) /  PC i 
+The above variables are defined as follows:
+Variable	Unit	Description
+q	None	The total number of solar renewable energy generation facilities in the REC Trading Program
+PC i	MW	Participating Capacity as of September 30 of the year the revised CCF is calculated for solar renewable energy generation facility i in the state of Texas participating in the REC Trading Program for which at least 12 months of operating data are available.
+(2)	The CCF shall:
+(a)	Be based on actual solar generator performance data for calendar years 2022 and 2023 all solar renewable Resources in the REC Trading Program during that period for which at least 12 months of performance data are available;
+(b)	Represent a weighted average of generator performance; and
+(c)	Use all actual generator performance data that are available for each solar renewable Resource, excluding data for testing periods.
+(3)	For purposes of calculating historical output from renewable capacity, ERCOT shall keep a list of renewable generators, REC certification dates, and annual MWh generation totals.
+(4)	ERCOT shall use this revised CCF for the two Compliance Periods immediately after it is set (calendar years 2024 and 2025).  If the PUCT has determined that the REC Trading Program is failing to meet the statutory targets for solar renewable energy capacity in Texas, it will instruct ERCOT to use a different number than that which would be calculated using the formula for the CCF.  Such requests will be published on the ERCOT website within ten Business Days of receipt of the letter from the PUCT.
+[NPRR1250:  Delete Section 14.9.2 above on September 1, 2025.]
+14.9.3	Statewide Solar Renewable Portfolio Standard Requirement
+(1)	ERCOT shall determine the SSRR for a particular Compliance Period as follows:
+SSRR = (ACT  h  CCF) + RCP
+The above variables are defined as follows:
+Variable	Unit	Description
+ACT	MW	Annual Capacity Target for new solar renewable energy generation facilities.
+h	None	Number of hours in the Compliance Period.  h = 8,760 for the 2024 Compliance Period and 5,840 for the 2025 Compliance Period.
+CCF	None	Capacity Conversion Factor.
+RCP	None	The number of Compliance Premiums retired from solar Resources only during the previous Compliance Period.
+[NPRR1250:  Delete Section 14.9.3 above on September 1, 2025.]
+14.9.3.1	Preliminary Solar Renewable Portfolio Standard Requirement for Retail Entities
+(1)	ERCOT shall determine each Retail Entity’s Preliminary SRPS Requirement as follows:
+Preliminary SRPS Requirement i = SSRR * (CRSRES i / TS)
+The above variables are defined as follows:
+Variable	Unit	Description
+i	None	Specific Retail Entity.
+SSRR	REC	Statewide SRPS Requirement.
+CRSRES i	MWh	Retail sales of the specific Retail Entity to Texas Customers during the Compliance Period, excluding sales by the specific Retail Entity to any Electric Service Identifiers (ESI IDs) or accounts for which an opt-out notice has been submitted under subsection (f) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program.
+TS	MWh	Total retail sales of all Retail Entities to Texas Customers during the Compliance Period, excluding all sales of all Retail Entities to ESI IDs or accounts for which an opt-out notice has been submitted under subsection (f) of P.U.C. SUBST. R. 25.173.
+(2)	The sum of the Preliminary SRPS Requirements for all Retail Entities shall be equal to the SSRR.
+[NPRR1250:  Delete Section 14.9.3.1 above on September 1, 2025.]
+14.9.4	Application of Offsets - Adjusted Solar Renewable Portfolio Standard Requirement
+(1)	For a Retail Entity that has been awarded offsets by the PUCT, ERCOT shall subtract the REC offset amount from the Preliminary SRPS Requirement.  The reduction shall not exceed what would be necessary for the FSRR to be zero.  The total MWh reduction in the Preliminary SRPS Requirement for all Retail Entities constitutes Total Useable Offsets (TUOs).
+(2)	ERCOT shall determine each Retail Entity’s Adjusted SRPS Requirement (ARR) as follows:
+ARR i = Preliminary SRPS Requirement i – EO i
+The above variables are defined as follows:
+Variable	Unit	Description
+i	None	Specific Retail Entity.
+EO i 	None	Total offsets the Retail Entity is entitled to receive during the Compliance Period (not to exceed the Retail Entity’s FSRR before adjustment for any previous Compliance Period).
+(3)	ERCOT shall determine TUOs as follows: 
+TUO = SSRR –  ARR i 
+The above variables are defined as follows:
+Variable	Unit	Description
+i	None	Specific Retail Entity.
+n	None	Number of Retail Entities.
+SSRR	None	Statewide SRPS Requirement.
+ARR i	None	Adjusted SRPS Requirement for a specific Retail Entity.
+[NPRR1250:  Delete Section 14.9.4 above on September 1, 2025.]
+14.9.5	Final Solar Renewable Portfolio Standard Requirement
+(1)	ERCOT shall redistribute the TUO amount over all Retail Entities to determine the FSRRs.  ERCOT shall determine each Retail Entity’s FSRR as follows:
+FSRR = ARR i + (TUO  (CRSRES i / TS)) +/- Previous Year(s) FSRR adjustment (recalculated in accordance with subsection (f)(2) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program)
+The above variables are defined as follows:
+Variable	Unit	Description
+ARR i	None	Adjusted SRPS Requirement for a specific Retail Entity.
+TUO	None	Total Usable Offsets.
+CRSRES i	MWh	Retail sales of the Retail Entity to Texas Customers during the Compliance Period, excluding sales by the specific Retail Entity to any ESI IDs or accounts for which an opt-out notice has been submitted under subsection (f) of P.U.C. SUBST. R. 25.173.
+TS	MWh	Total retail sales of all Retail Entities to Texas Customers during the Compliance Period, excluding all sales or accounts of all Retail Entities to ESI IDs for which an opt-out notice has been submitted under subsection (f) of P.U.C. SUBST. R. 25.173.
+(2)	This process will be an iterative process that will solve until the optimal allocation is reached with all FSRRs resolved to the nearest whole REC.
+(3)	ERCOT shall notify each Retail Entity of its FSRR for the previous Compliance Period no later than the date set forth for such Notification in subsection (i)(l) of P.U.C. SUBST. R. 25.173.
+[NPRR1250:  Delete Section 14.9.5 above on September 1, 2025.]
+14.10	Retiring of Renewable Energy Credits or Compliance Premiums
+(1)	A Renewable Energy Credit (REC) or Compliance Premium owner’s Designated Representative must submit retirement requests to ERCOT.  RECs or Compliance Premiums specified by a Designated Representative for retirement must be in the REC trading account from which they are being retired at the time the request is submitted.  ERCOT shall retire such RECs or Compliance Premiums by removing them from the party’s REC trading account and retiring the unique serial number, thus rendering the REC or Compliance Premium unusable for any other purpose.  ERCOT shall maintain records to archive all RECs or Compliance Premiums that have been retired and to identify the basis on which RECs or Compliance Premiums were retired.  The reasons for retiring RECs include mandatory compliance, voluntary retirement, and expiration.  The reasons for retiring Compliance Premiums include mandatory compliance, voluntary retirement, and expiration.
+14.10.1	Mandatory Retirement
+(1)	For each Compliance Period, by the date set forth in subsection (i)(2) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program, each Retail Entity’s Designated Representative shall notify ERCOT of the RECs or Compliance Premiums in its REC trading account to be used (retired) to satisfy its Final Solar Renewable Portfolio Standard (SRPS) Requirement (FSRR) for the Compliance Period being settled.  Each REC or Compliance Premium that is not used will remain in the holder’s REC trading account until it is transferred to another party’s account, expires, or is otherwise retired.
+(2)	Failure to provide sufficient RECs or Compliance Premiums by the date set forth in subsection (i)(2) of P.U.C. SUBST. R. 25.173 shall be considered a failure of that Retail Entity to meet its REC retirement obligations.  ERCOT shall notify the Public Utility Commission of Texas (PUCT) when any Retail Entity fails to meet its REC retirement obligations.
+[NPRR1250:  Delete Section 14.10.1 above on September 1, 2025.]
+14.10.2	Voluntary Retirement
+(1)	At the request of a REC Account Holder, ERCOT shall retire RECs and Compliance Premiums for reasons other than for meeting the mandated SRPS requirements.  Voluntarily retired RECs and Compliance Premiums may not be used to satisfy a Retail Entity’s SRPS requirement.  ERCOT shall include information concerning RECs and Compliance Premiums retired voluntarily in its annual report to the PUCT.
+[NPRR1250:  Replace Section 14.10.2 above with the following on September 1, 2025:]
+14.10.1	Voluntary Retirement
+(1)	At the request of a REC Account Holder, ERCOT shall retire RECs and Compliance Premiums.  ERCOT shall include information concerning RECs and Compliance Premiums retired voluntarily in its annual report to the PUCT.
+14.10.3	Retiring Unused Renewable Energy Credits or Compliance Premiums
+(1)	ERCOT shall retire all unused RECs and Compliance Premiums upon their expiration as described in Section 14.3.2, Attributes of Renewable Energy Credits and Compliance Premiums.
+14.11	Penalties and Enforcement
+(1)	ERCOT is not responsible for developing, administering, or enforcing penalties associated with the Renewable Energy Credit (REC) Trading Program; these activities are within the scope of the Public Utility Commission of Texas (PUCT).  ERCOT is responsible for informing the PUCT of Retail Entities that do not meet their REC or Compliance Premium retirement obligations, of REC offset generators that do not produce generation sufficient to cover offsets they have been approved to provide, and of other anomalies which may come to ERCOT’s attention through the administration of the REC Trading Program.
+14.12	Maintain Public Information
+(1)	ERCOT shall maintain public information of interest to buyers and sellers of Renewable Energy Credits (RECs) or Compliance Premiums on the ERCOT website.  The information provided shall include, at a minimum, a directory of all REC generators, Retail Entities, and other participants in the REC Trading Program.  The directory shall include the following information:
+(a)	Name of the REC generator, Retail Entity, or other REC Account Holder;
+(b)	Name of the Designated Representative;
+(c)	Street address or post office box number;
+(d)	City, state or province, and zip or postal code;
+(e)	Country (if not the United States);
+(f)	Phone number;
+(g)	Fax number;
+(h)	E-mail address (with hypertext link); and
+(i)	Website address (with hypertext link).
+(2)	REC Account Holders shall describe their participation in the REC Trading Program using one or more of the following choices within a checkbox listing: REC generator, Retail Entity, REC broker, REC trader, REC trading exchange, REC aggregator, or other.
+(3)	Entities are responsible for notifying ERCOT of changes in the above information.
+(4)	ERCOT shall conspicuously display the following disclaimer in upper case and in bold font:
+DISCLAIMER: ERCOT DOES NOT KNOW OR ENDORSE THE CREDIT WORTHINESS OR REPUTATION OF ANY REC ACCOUNT HOLDER LISTED IN THIS DIRECTORY.
+(5)	ERCOT may provide other information that describes the REC Trading Program, as it deems convenient or necessary for administering the REC Trading Program.  ERCOT shall maintain a hypertext link to the appropriate pages on the Public Utility Commission of Texas’ (PUCT’s) website that are related to the REC Trading Program.
+(6)	ERCOT shall post each month the best available aggregated total energy sales (in MWh) of Retail Entities in Texas for the previous month and year-to-date for the calendar year.  This posting shall be based on Retail Entity Loads provided in accordance with Section 14.5.2, Retail Entities.
+(7)	ERCOT shall post a list of Facility Identification Numbers, associated names, locations, and types.
+14.13	Submit Annual Report to Public Utility Commission of Texas
+(1)	Beginning in 2002, ERCOT shall submit an annual report to the Public Utility Commission of Texas (PUCT) on or before the date set forth for such report in subsection (h)(11) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program.  Such report shall contain the following information pertaining to program operation for the previous Compliance Period:
+(a)	MW of existing renewable capacity installed in Texas, by technology type;
+(b)	MW of new renewable energy capacity installed in Texas, by technology type;
+(c)	List of eligible non-Texas capacity participating in the program, by technology type;
+(d)	Summary of Renewable Energy Credit (REC) aggregator activities, submitted in a format specified by the PUCT;
+(e)	Owner/operator of each REC generating facility;
+(f)	Date each new renewable energy facility began to produce energy;
+(g)	MWh of energy generated by renewable energy Resources as demonstrated through data supplied in accordance with these Protocols;
+(h)	List of renewable energy unit retirements;
+(i)	List of all Retail Entities participating in the REC Trading Program;
+(j)	Final Solar Renewable Portfolio Standard (SRPS) Requirement (FSRR) of each Retail Entity;
+(k)	Number of REC offsets used by each Retail Entity;
+(l)	A list of REC offset generators, REC offsets awarded and MWh production from each such generator on an annual basis;
+(m)	Number of RECs retired by each program participant by category (mandatory compliance, voluntary retirement, expiration, and total retirements);
+(n)	Number of Compliance Premiums retired by each program participant by category (mandatory compliance, expiration, and total retirements); 
+(o)	List of all Retail Entities in compliance with SRPS requirement; and
+(p)	List of all Retail Entities not in compliance with SRPS requirement including the number of RECs by which they were deficient.
+[NPRR1250:  Replace paragraph (1) above with the following on September 1, 2025:]
+(1)	Beginning in 2002, ERCOT shall submit an annual report to the Public Utility Commission of Texas (PUCT) on or before the date set forth for such report in subsection (h)(11) of P.U.C. SUBST. R. 25.173, Renewable Energy Credit Program.  Such report shall contain the following information pertaining to program operation for the previous Compliance Period:
+(a)	MW of existing renewable capacity installed in Texas, by technology type;
+(b)	MW of new renewable energy capacity installed in Texas, by technology type;
+(c)	List of eligible non-Texas capacity participating in the program, by technology type;
+(d)	Summary of Renewable Energy Credit (REC) aggregator activities, submitted in a format specified by the PUCT;
+(e)	Owner/operator of each REC generating facility;
+(f)	Date each new renewable energy facility began to produce energy;
+(g)	MWh of energy generated by renewable energy Resources as demonstrated through data supplied in accordance with these Protocols;
+(h)	List of renewable energy unit retirements;
+(i)	List of all Retail Entities participating in the REC Trading Program;
+(j)	Number of REC offsets used by each Retail Entity;
+(k)	A list of REC offset generators, REC offsets awarded and MWh production from each such generator on an annual basis;
+(l)	Number of RECs retired by each program participant by category (mandatory compliance, voluntary retirement, expiration, and total retirements); and
+(m)	Number of Compliance Premiums retired by each program participant by category (mandatory compliance, expiration, and total retirements).
+ERCOT Nodal Protocols
+Section 15:  Customer Registration
+April 1, 2025
+
+ 
+15	CUSTOMER REGISTRATION	15-1
+15.1	Customer Switch of Competitive Retailer	15-2
+15.1.1	Submission of a Switch Request	15-2
+15.1.1.1	Notification to Customer of Switch Request	15-2
+15.1.1.2	Provision of Historical Usage	15-2
+15.1.1.2.1	Provision of Historical Usage with a Switch Request	15-2
+15.1.1.2.2	Ad Hoc Requests for Historical Usage	15-3
+15.1.1.3	Switch Enrollment Notification Request to TDSP	15-3
+15.1.1.4	Response from TDSP to Registration Notification Request	15-3
+15.1.1.5	Response to Valid Enrollment Request	15-4
+15.1.1.6	Loss Notification to Current Competitive Retailer (with date)	15-5
+15.1.1.7	Completion of Switch Request and Effective Switch Date	15-5
+15.1.1.8	Rejection of Switch Request	15-5
+15.1.2	Response from ERCOT to Drop to Affiliate Retail Electric Provider Request	15-6
+15.1.3	Transition Process	15-7
+15.1.3.1	Mass Transition Process	15-7
+15.1.3.2	Acquisition Transfer Process	15-7
+15.1.3.3	Customer Billing Contact Information	15-8
+15.1.4	Beginning Service (New Construction Completed and Move Ins)	15-8
+15.1.4.1	Move-In Request to Begin Electric Service	15-8
+15.1.4.2	Response to Invalid Move-In Request	15-9
+15.1.4.3	Notification to Transmission and/or Distribution Service Provider of Move In	15-10
+15.1.4.4	Response to Enrollment Notification Request from Transmission and/or Distribution Service Provider (Move In)	15-10
+15.1.4.5	Response to Valid Move-In Request	15-12
+15.1.4.5.1	Maintain Electric Service Identifier with Meter Level Information Request/Response	15-12
+15.1.4.6	Notification to Current Competitive Retailer	15-13
+15.1.4.6.1	Complete Unexecutable	15-13
+15.1.4.7	Completion of Move-In Request and Effective Move In Date	15-13
+15.1.4.7.1	Standard Move-In Requests	15-13
+15.1.4.7.2	Same Day Move-In Requests	15-14
+15.1.4.8	Rejection of Move-In Request	15-15
+15.1.5	Service Termination (Move Out)	15-15
+15.1.5.1	Request to Terminate Service	15-15
+15.1.5.2	Response to Invalid Move-Out Request	15-16
+15.1.5.3	Notification to Transmission and/or Distribution Service Provider of Move Out	15-16
+15.1.5.4	Response to Enrollment Notification Request/Service Termination from Transmission and/or Distribution Service Provider	15-17
+15.1.5.5	Response to Valid Move-Out Request and Continuous Service Agreement in Effect	15-19
+15.1.5.6	Completion of Move-Out Request and Effective Move Out Date	15-19
+15.1.5.7	Rejection of Move-Out Request	15-20
+15.1.6	Concurrent Processing	15-20
+15.1.6.1	Move In Date Prior to or After Move Out Date	15-21
+15.1.6.2	Move In Date Equal to Move Out Date	15-21
+15.1.6.3	Move In Date Prior to or Equal to Switch Date	15-21
+15.1.6.4	Move In Date After Switch Date	15-22
+15.1.6.5	Move In Date After Mass Transition Drop Date	15-22
+15.1.6.6	Move Out Date Prior to or Equal to Switch Date	15-22
+15.1.6.7	Move Out Date After Switch Date	15-22
+15.1.6.8	Move Out Date After Mass Transition Drop Date	15-22
+15.1.6.9	Multiple Switches	15-23
+15.1.6.10	Multiple Move Ins	15-23
+15.1.6.11	Multiple Move Outs	15-23
+15.1.7	Move In or Move Out Date Change	15-23
+15.1.8	Cancellation of Registration Transactions	15-24
+15.1.9	Continuous Service Agreement CR Processing	15-25
+15.1.9.1	Request to Initiate Continuous Service Agreement in an Investor Owned Utility Service Territory or in a Municipally Owned Utility/Electric Cooperative Service Territory as Indicated in Retail Market Guide Section 8.1, Municipally Owned Utility and/or Electric Cooperative Transmission and/or Distribution Service Provider Market	15-25
+15.1.9.2	Request to Change Continuous Service Agreement End Date	15-25
+15.1.9.3	Request to Terminate Continuous Service Agreement	15-25
+15.1.9.4	Notice to Continuous Service Agreement Competitive Retailer of Enrollment Due to a Move Out	15-25
+15.1.9.5	Notice to Continuous Service Agreement Competitive Retailer of Drop Due to a Move In	15-26
+15.1.10	Continuous Service Agreement Competitive Retailer Processing in Municipally Owned Utility/Electric Cooperative Service Territory	15-26
+15.1.10.1	Request to Initiate Continuous Service Agreement	15-26
+15.1.10.2	Request to Change Continuous Service Agreement End Date	15-27
+15.1.10.3	Request to Terminate Continuous Service Agreement	15-27
+15.1.10.4	Notice to Continuous Service Agreement Competitive Retailer of Enrollment Due to a Move Out	15-27
+15.1.10.5	Notice to Continuous Service Agreement Competitive Retailer of Drop Due to a Move In	15-28
+15.2	Database Queries	15-28
+15.2.1	Find ESI ID Function on the Market Information System	15-29
+15.2.2	Find Transaction Function on the Market Information System	15-30
+15.2.3	Electric Service Identifier Extract on the Market Information System	15-30
+15.3	Monthly Meter Reads	15-30
+15.4	Electric Service Identifier	15-31
+15.4.1	Electric Service Identifier Format	15-31
+15.4.1.1	Assignment of ESI IDs to Unmetered Service Delivery Points	15-31
+15.4.1.2	Assignment of ESI IDs to metered Service Delivery Points	15-32
+15.4.1.3	Splitting a Service Delivery Point into Multiple ESI IDs	15-32
+15.4.1.4	New Electric Service Identifier Creation	15-33
+15.4.1.5	Electric Service Identifier Maintenance	15-33
+ 
+15	CUSTOMER REGISTRATION
+(1)	ERCOT shall maintain a registration database of all metered and unmetered Electric Service Identifiers (ESI IDs) in Texas for Customer Choice.
+(2)	ERCOT will notify the Public Utility Commission of Texas (PUCT) and the affected Competitive Retailer (CR) if a Transmission and/or Distribution Service Provider (TDSP) fails to meet its Customer switch responsibilities under the ERCOT Protocols.
+(3)	All CRs with Customers in Texas, whether operating inside the ERCOT Region or not, shall be required to register their Customers in accordance with this Section.
+(4)	All Customer registration processes will be conducted using the appropriate Texas Standard Electronic Transactions (TX SETs).  Definitions of all TX SET codes referenced in this Section can be found in Section 19, Texas Standard Electronic Transaction.  A reference to any TX SET transaction should be read as referring to the named transaction or its Market Information System (MIS) equivalent, if any.  Transaction flow diagrams for Customer registration processing are posted on the ERCOT website.
+(5)	ERCOT will reject any initiating transaction due to date reasonableness if the requested implementation date is of more than 90 days in the future or 270 days in the past.  Initiating transactions are:  814_01, Switch Request; 814_16, Move In Request; and 814_24, Move Out Request.  ERCOT will reject an 814_18, Establish/Change/Delete CSA Request, transaction with a requested start date of more than 90 days in the future or a requested start date in the past.
+(6)	ERCOT will prioritize initiating or inbound transactions in the following manner.  The following timing requirement calculations will not include the duration of a planned and TAC subcommittee-approved ERCOT retail system outage:
+(a)	Level 1 – Same day 814_16 transactions, same day 814_24 transactions, 814_01 transactions and 814_20, ESI ID Maintenance Requests (Create), will be processed in one Retail Business Hour.
+(b)	Level 2 – Standard 814_16 transactions and standard 814_24 transactions will be processed in two Retail Business Hours.
+(c)	Level 3 – 867_02, Historical Usage, 814_20, ESI ID Maintenance Requests (Maintain and Retire), will be processed in four Retail Business Hours.
+(d)	Level 4 – All 814_26, Historical Usage Requests, 814_18, Establish/Change/Delete CSA Requests, and 814_19, Establish/Change/Delete CSA Responses, will be processed in one Retail Business Day.
+(7)	For transactions to flow through ERCOT, back-dated transactions for a market-approved corrective action must meet the date reasonableness test.  Market Participants must work with ERCOT for any manual changes to transactions that fall outside these dates for market-approved corrective action.  However, a TDSP will reject a back-dated transaction that is not part of a market-approved transaction.
+(8)	For more information concerning the requirements for transaction processing in the retail market, please refer to the Retail Market Guide. 
+15.1	Customer Switch of Competitive Retailer
+(1)	The following process shall be followed for a Competitive Retailer (CR) to switch an Electric Service Identifier (ESI ID).
+15.1.1	Submission of a Switch Request
+(1)	The CR shall submit a Switch Request to ERCOT using the 814_01, Switch Request.  The Switch Request shall include, at a minimum, the five-digit zip code and an ESI ID.  Within this transaction, the CR will also send information necessary for ERCOT to send a switch confirmation notice to the Customer as required by the applicable Public Utility Commission of Texas (PUCT) rules.  The First Available Switch Date (FASD) is the day received by ERCOT unless received on a Sunday or an ERCOT holiday.  If received on a Sunday or an ERCOT holiday, the FASD will be calculated as the next day that is not a Sunday or an ERCOT holiday.
+15.1.1.1	Notification to Customer of Switch Request
+(1)	ERCOT will send a switch confirmation notice to the Customer as specified in the PUCT rules.  This notice will give the Customer information regarding the Switch Request as described in the PUCT rules.
+15.1.1.2	Provision of Historical Usage
+(1)	A request for historical usage may be submitted along with a Switch Request or as an ad hoc request.
+15.1.1.2.1	Provision of Historical Usage with a Switch Request
+(1)	If requested by the switching CR in the Switch Request, the Transmission and/or Distribution Service Provider (TDSP) shall provide the most recent 12 months of historical usage, if available, to ERCOT, including monthly metered usage for the Customer’s ESI ID and any applicable metered interval usage in accordance with the 867_02, Historical Usage.  ERCOT’s business process for Switch Requests is not linked to the receipt of the historical usage and the processing of the switch will continue regardless of the TDSP returning historical usage.  Upon receipt of the historical usage from the TDSP, ERCOT shall forward the 867_02 transaction to the CR Data Universal Numbering System (DUNS) Number provided by the TDSP within four Retail Business Hours.
+(2)	Provision of meter read and historical usage data pursuant to this paragraph shall not be required when it would be prohibited by PUCT rules.
+15.1.1.2.2	Ad Hoc Requests for Historical Usage
+(1)	To request historical usage on an ad hoc basis, the CR of Record must submit an 814_26, Historical Usage Request, to ERCOT.  Within one Retail Business Day of receipt of an 814_26 transaction from a CR, ERCOT shall notify the TDSP of the ad-hoc request using the 814_26 transaction.  The TDSP shall provide the requested information to ERCOT within two Retail Business Days of receipt of the 814_26 transaction using the 814_27, Historical Usage Response.  ERCOT shall forward the usage information to the CR of Record using the 814_27 transaction within one Retail Business Day of receipt of the 814_27 transaction from the TDSP.  The TDSP shall provide the most recent 12 months of historical usage, if available, to ERCOT, including monthly, metered usage for the Customer’s ESI ID information and any applicable metered interval usage in accordance with the 867_02, Historical Usage.  ERCOT will send the 867_02 transaction to the CR DUNS Number provided in the 867_02 transaction by the TDSP within four Retail Business Hours of receipt from the TDSP.
+(2)	Provision of meter read and historical usage data pursuant to this paragraph shall not be required when prohibited by PUCT rules.
+15.1.1.3	Switch Enrollment Notification Request to TDSP
+(1)	ERCOT will submit to the TDSP serving the ESI ID, an enrollment notification request using the 814_03, Enrollment Notification Request, within one Retail Business Hour of the receipt of a valid Switch Request.  The notification will include the name of the CR requesting service to the ESI ID and will indicate the FASD calculated pursuant to Section 15.1.1, Submission of a Switch Request.
+15.1.1.4	Response from TDSP to Registration Notification Request
+(1)	Upon receipt of an enrollment notification request, the TDSP shall provide ESI ID information to ERCOT, including:
+(a)	ESI ID;
+(b)	Service Address;
+(c)	Rate class and sub-class, if applicable;
+(d)	Special needs indicator;
+(e)	Load Profile Type;
+(f)	Scheduled meter read date;
+(g)	Meter type, identification number, number of dials and role for each meter at the ESI ID if the ESI ID is metered;
+(h)	Number and description of each unmetered device for unmetered ESI IDs;
+(i)	Station ID; and
+(j)	Distribution Loss Factor (DLF) code.
+(2)	This information shall be transmitted using the 814_04, Enrollment Notification Response, within two Retail Business Days of the receipt of the 814_03, Enrollment Notification Request.  If the TDSP does not respond with the ESI ID information within two Retail Business Days after the receipt of the 814_03 transaction from ERCOT, ERCOT shall create an internal tracking exception.  The switch will be held in “in review” status until the TDSP’s 814_04 transaction response is received.  If the TDSP’s 814_04 transaction is not received within three Retail Business Days of receipt of the 814_03 transaction from ERCOT and is still not received by the earlier of the requested date on the switch or within 20 Retail Business Days after the original submission of the 814_03 transaction from ERCOT, ERCOT shall change the status of the switch to “cancel pending.”  The TDSP will receive notification of the pending switch cancellation through the 814_08, Cancel Request.  The TDSP will respond using the 814_09, Cancel Response.  If the 814_09 transaction is an “accept,” the submitting CR will receive notification of the switch cancellation through the 814_08 transaction.  Any other CR involved in the request to which an 814_06, Loss Notification, has been sent will also receive notification of the switch cancellation through the 814_08 transaction.  If the 814_09 transaction from the TDSP is a reject, the switch will return to an “in review” status and the TDSP shall also transmit an 814_04 transaction within one Retail Business Day.  
+(3)	If the TDSP responds to ERCOT’s 814_03 transaction with an 814_04 transaction and then later submits an 814_28, Complete Unexecutable or Permit Required, indicating the TDSP is unable to complete the switch, ERCOT will send the TDSP’s 814_28 transaction to the requesting CR.  The TDSP will note the complete unexecutable reason on the 814_28 transaction.  The initiating transaction is considered unexecutable.  The current CR will remain the CR of Record.
+15.1.1.5	Response to Valid Enrollment Request
+(1)	Within one Retail Business Day of receipt of the TDSP’s 814_04, Enrollment Notification Response, ERCOT will respond to the requesting CR in accordance with the 814_05, CR Enrollment Notification Response.  This response will contain the scheduled meter read date for the switch and all information the TDSP furnished to ERCOT under the TDSP’s 814_04 transaction.  The TDSP must effectuate the switch within two Retail Business Days of the scheduled meter read date.
+15.1.1.6	Loss Notification to Current Competitive Retailer (with date)
+(1)	Within two Retail Business Days of the scheduled meter read date for the switch, but not before the receipt of the TDSP’s 814_04, Enrollment Notification Response, ERCOT will notify the current CR using the 814_06, Loss Notification.  This notification will contain the scheduled meter read date for the switch.
+15.1.1.7	Completion of Switch Request and Effective Switch Date
+(1)	A Switch Request is effectuated on the actual meter read date in the 867_04, Initial Meter Read, or the final 867_03, Monthly or Final Usage, which must be equal to the scheduled meter read date.  The process for a specific Switch Request is complete upon receipt of the effectuating meter read sent by the TDSP.  The TDSP shall send the meter read information to ERCOT using the 867_03 transaction and 867_04 transaction within three Retail Business Days of the meter read.  This transaction will contain an effectuating meter read indicator.  If the TDSP has made every reasonable effort to get the actual data for the meter read and absolutely cannot, the TDSP may estimate the reading for the ESI ID, regardless of the meter type or Customer class.  When an estimate occurs on a demand meter, the demand indicator has not been reset.  Upon receipt, ERCOT will send final meter read information to the current CR DUNS Number provided in the 867_03 transaction by the TDSP and initial meter read information to the new CR DUNS Number provided in the 867_04 transaction by the TDSP using the 867_03 transaction and 867_04 transaction, as appropriate.  Meter reads will be sent to the CR DUNS Number within the Texas Standard Electronic Transaction (TX SET) transaction from the TDSP within 12 hours of receipt by ERCOT.
+(2)	Failure by ERCOT to provide the initial meter read information does not change the Mass Transition Effective Date of the switch.
+(3)	Switches shall become effective at 0000 (midnight) on the actual date of the effectuating meter read.  The new CR may request a special meter read (including a profile-estimated meter read or interval meter calculation as allowed), in accordance with the TDSP’s tariff.  For a special meter read, the switch is effective at 0000 (midnight) the day of the special meter read.  During the switch process, the Customer will continue to be served by its current CR.
+15.1.1.8	Rejection of Switch Request
+(1)	ERCOT will process Switch Requests upon receipt during Business Hours.  If the request is invalid, i.e., meets one of the requirements as identified in this Section, ERCOT will respond to the CR with the 814_02, Switch Reject Response, within one Retail Business Hour of ERCOT’s receipt of the Switch Request, and the switch process will terminate.
+(2)	ERCOT will reject a Switch Request using the 814_02 transaction for any of the following reasons:
+(a)	The ESI ID provided is inactive or does not exist;
+(b)	The ESI ID and five digit zip code do not match;
+(c)	The CR is not certified by the PUCT, if required;
+(d)	The CR is not authorized to provide service in the TDSP service area;
+(e)	The CR has not registered as a CR with ERCOT in accordance with Section 16, Registration and Qualification of Market Participants;
+(f)	The PUCT directs ERCOT to reject registration requests from the CR per applicable PUCT rules;
+(g)	The standard Switch Request was received after a valid standard Switch Request was scheduled for the same date;
+(h)	The CR specifies a billing type or bill calculation code for an ESI ID that is not supported by the TDSP, Municipally Owned Utility (MOU), or Electric Cooperative (EC);
+(i)	The CR submits a Switch Request type that is invalid or undefined;
+(j)	The CR is already the CR of Record for the ESI ID or scheduled to be the CR of Record for the ESI ID on the requested date;
+(k)	The Customer notification name or address is required but invalid according to Texas Standard Electronic Transaction (TX SET) standards or is missing;
+(l)	The CR Data Universal Numbering System (DUNS) Number is missing or invalid;
+(m)	If requesting a self-selected switch date, the CR requests a switch date that is before the FASD;
+(n)	The date on the self-selected switch already has a move in, move out, or switch scheduled; or
+(o)	The ESI ID is de-energized or scheduled to be de-energized on the date requested in the switch.  For standard requests, the FASD is used for the evaluation.
+15.1.2	Response from ERCOT to Drop to Affiliate Retail Electric Provider Request
+(1)	ERCOT will send a reject response using the 814_11, Drop Response, within one Retail Business Day to the current CR notifying the CR that the request is invalid.  
+15.1.3	Transition Process
+(1)	Certain circumstances may arise during the course of business in the Texas retail electric market that may necessitate the transition of ESI IDs from one CR to a Provider of Last Resort (POLR) or designated CR, or from one TDSP to another TDSP in quantities and on a time frame that is not completely supported by standard market transactions or business processes. 
+15.1.3.1	Mass Transition Process 
+(1)	In a Mass Transition event, ERCOT shall submit the 814_03, Enrollment Notification Request, requesting a meter read for the associated ESI IDs, for a date two days after the date ERCOT initiates such transactions to the TDSP.  The 814_03 transaction shall contain a request for historical usage and the requested date for the meter read date to transfer the ESI IDs.  If an actual meter read cannot be obtained by the date requested in the 814_03 transaction, then the meter read may be estimated by the TDSP.  (See Retail Market Guide Section 9, Appendices, Appendix F2, Timeline for Initiation of a Mass Transition on a Business Day not Prior to a Weekend or ERCOT Holiday.)   
+(2)	The TDSP shall respond to the 814_03 transaction within two Retail Business Days with an 814_04, Enrollment Notification Response, and an 867_02, Historical Usage.  Within one Retail Business Day of receiving the 814_04 transaction, ERCOT will send an 814_11, Drop Response, to the transitioning CR and forward an 814_14, Drop Enrollment Request, with the scheduled meter read date, to the POLR(s) or designated CR.  The TDSP shall submit an 867_04, Initial Meter Read, with a meter read date equal to the scheduled meter read date in the 814_04 transaction, which will also be known as the transition date.  (See Retail Market Guide Section 9, Appendix D1, Transaction Timing Matrix, for specific transaction timings.) 
+(3)	ERCOT shall identify and monitor transitioned ESI IDs for a period of 60 days from the Mass Transition Date, as defined in the Retail Market Guide.  Identification of the transitioned ESI ID shall terminate either upon the first completed switch, move in, move out, or at the end of the 60 day period, whichever occurs first.
+(4)	For a detailed outline of the business process and responsibilities of all Entities involved in a Mass Transition event, refer to the Retail Market Guide Section 7, Market Processes.  
+15.1.3.2	Acquisition Transfer Process 
+(1)	In an Acquisition Transfer event, ERCOT shall submit the 814_03, Enrollment Notification Request, requesting a meter read for the associated ESI IDs.  The 814_03 transaction shall contain a request for historical usage and the requested date or FASD for the meter read date to transfer the ESI IDs.  If an actual meter read cannot be obtained by the date requested in the 814_03 transaction, then the meter read may be estimated by the TDSP.
+(2)	The TDSP shall respond to the 814_03 transaction within two Retail Business Days with an 814_04, Enrollment Notification Response, and an 867_02, Historical Usage.  Within one Retail Business Day of receiving the 814_04 transaction, ERCOT will send an 814_11, Drop Response, to the transitioning CR and forward an 814_14, Drop Enrollment Request, with the scheduled meter read date, to the designated CR.  The TDSP shall submit an 867_04, Initial Meter Read, with a meter read date equal to the scheduled meter read date in the 814_04 transaction, which will also be known as the transition date.  See Retail Market Guide Section 9, Appendices, Appendix D1, Transaction Timing Matrix, for specific transaction timings.
+(3)	For a detailed outline of the business process and responsibilities of all Entities involved in an Acquisition Transfer event, refer to the Retail Market Guide Section 7, Market Processes.
+15.1.3.3	Customer Billing Contact Information 
+(1)	All CRs participating in the Texas retail electric market shall provide, in accordance with the Retail Market Guide, current Customer billing contact information to ERCOT for use in the event of a Mass Transition.  ERCOT shall retain the Customer data from the most recent submission, to be used in lieu of data from the exiting CR, in instances where the exiting CR does not provide data.  When a Mass Transition occurs, ERCOT shall provide the Gaining CRs with available Customer billing contact information for the ESI IDs the Gaining CRs will be obtaining through the Mass Transition event.  During a Mass Transition event, ERCOT shall also provide the TDSPs with available Customer contact information.
+(2)	For a detailed outline of the process, refer to the Retail Market Guide Section 7, Market Processes.
+15.1.4	Beginning Service (New Construction Completed and Move Ins)
+(1)	This Section applies to Customers moving into a Premise that is not currently being served by a CR (may or may not still be energized) or when construction has been completed by the TDSP for a new Premise and the Premise has been assigned an ESI ID and is ready to receive electric service.
+(2)	This Section does not apply to instances where construction services are required.  Those procedures are covered in the TDSP tariff.
+15.1.4.1	Move-In Request to Begin Electric Service
+(1)	The process described below relates to the transactions required to process a move in.  A manual work-around process for same day and safety net move ins is also used by Market Participants in the Texas retail electric market to ensure that a Customer receives electric service in a timely manner.  The manual work-around process is documented in the Retail Market Guide.  
+(2)	In accordance with PUCT rules, the Customer shall contact a CR to begin electric service at an ESI ID.  The CR shall submit to ERCOT a Move-In Request in accordance with 814_16, Move In Request.  Move ins will be considered same day, if the date requested is the same day the 814_16 transaction is processed at ERCOT.  Same day move ins will be forwarded to the TDSP within one Retail Business Hour of receipt by ERCOT.  Standard move ins, those move ins not requesting same day services, will be forwarded to the TDSP within one Retail Business Hour of receipt by ERCOT.
+(3)	Two Retail Business Days prior to the scheduled meter read date of the move in or upon receipt of the TDSP 814_04, Enrollment Notification Response, whichever is later, ERCOT will determine if the ESI ID is currently served or is scheduled to be served by another CR.  If a move out from the current CR is scheduled for the same day as the move in, the TDSP will either complete both the move out and move in or will unexecute the move out, only working the move in.  If, within four Retail Business Days of the scheduled date, the move out is still in a scheduled state, ERCOT shall cancel the move out and send cancellation notices to the TDSP and the respective CRs.  ERCOT will submit an 814_06, Loss Notification, to the current CR with a code indicating a forced move out.
+(4)	If requested by the CR in the Move-In Request and permitted under the PUCT rules, the TDSP shall provide up to 12 months of the most recent historical usage, as available, including monthly-metered usage and any applicable metered interval usage using the 867_02, Historical Usage.  ERCOT’s business process for a Move-In Request is not linked to the receipt of the historical usage and the processing of the move in will continue regardless of the TDSP returning historical usage.  This information shall be provided to the CR DUNS Number provided in the 867_02 transaction by the TDSP within four Retail Business Hours after ERCOT receipt of the 867_02 transaction from the TDSP.  The TDSP shall respond within two Retail Business Days after receipt of the 814_03, Enrollment Notification Request.  If historical usage is not available, the TDSP will indicate this in the 814_04, Enrollment Notification Response.
+15.1.4.2	Response to Invalid Move-In Request
+(1)	If the Move-In Request is invalid, ERCOT will respond to the CR using the 814_17, Move In Reject Response, within one Retail Business Hour of receiving the 814_16, Move In Request, with the exception of a move in that is invalid because of “Invalid ESI ID.”  In the case of “Invalid ESI ID,” ERCOT will hold the Move-In Request and continue to retry the request at regular intervals for 48 hours counting only hours on Retail Business Days, but not only Business Hours.  If the request is invalid in accordance with Section 15.1.4.8, Rejection of Move-In Request, the move in process will then terminate.  If the request is valid, the process continues as described in Section 15.1.4.5, Response to Valid Move-In Request.
+15.1.4.3	Notification to Transmission and/or Distribution Service Provider of Move In
+(1)	ERCOT will process Move-In Requests upon receipt during Business Hours.  ERCOT will submit to the TDSP serving the ESI ID an 814_03, Enrollment Notification Request, within one Retail Business Hour of receiving a valid Move-In Request.  The notification will include the name of the new CR providing service to the ESI ID and will include the requested move in date by the CR.
+(2)	If the TDSP receives the 814_03 transaction before 1700, a same day move in will be completed that day.
+15.1.4.4	Response to Enrollment Notification Request from Transmission and/or Distribution Service Provider (Move In)
+(1)	Upon receipt of an enrollment notification request, the TDSP shall provide ESI ID information within the 814_04, Enrollment Notification Response, including:
+(a)	ESI ID;
+(b)	Service Address;
+(c)	Rate class (if established*) and sub-class (if established*), if applicable;
+(d)	Special needs indicator;
+(e)	Load Profile Type;
+(f)	Scheduled meter read date;
+(g)	Meter type and role for each meter at the ESI ID, if ESI ID is metered;
+(h)	Identification number and number of dials for each meter at the ESI ID, if ESI ID is metered (if meter is present);
+(i)	For unmetered EDS IDs, number and description of each unmetered device (if devices are present*);
+(j)	Station ID;
+(k)	DLF code;
+(l)	Premise type; and
+(m)	Meter reading cycle or meter cycle by day of the month.
+*	If not sent on the 814_04 transaction, the TDSP must send the rate class and sub-class on the 814_20, ESI ID Maintenance Request, when established, to complete the move in.  The TDSP must send the 814_20 transaction prior to sending the monthly usage in the 867_03, Monthly or Final Usage.  ERCOT will neither hold transactions nor validate the order of receipt of these transactions prior to sending to the CRs.
+(2)	If the TDSP does not respond with either the 814_04 transaction or the 814_28, Complete Unexecutable or Permit Required, within two Retail Business Days after receiving the 814_03, Enrollment Notification Request, ERCOT shall create an internal tracking exception.  The move in will be held “in review” until the TDSP’s 814_04 transaction or 814_28 transaction is received.  If the TDSP’s 814_04 transaction or 814_28 transaction, Permit Required, is not received within three Retail Business Days of receipt of the 814_03 transaction from ERCOT and is still not received by the earlier of the requested date on the move in or within 20 Retail Business Days after the original submission of the 814_03 transaction from ERCOT, ERCOT shall change the status of the move in to “cancel pending” status.  The TDSP will receive notification of the pending cancellation through the 814_08, Cancel Request.  The TDSP will respond using the 814_09, Cancel Response, within one Retail Business Day of receiving ERCOT’s 814_08 transaction.  If the 814_09 transaction is accepted, relevant CRs will receive notification of the cancellation through the 814_08 transaction.  If the 814_09 transaction from the TDSP is a reject, the move in will return to an “in review” status and the TDSP shall also transmit an 814_04 transaction or 814_28 transaction, Permit Required, within one Retail Business Day.
+(3)	If the meter is present at the Premise at the time the TDSP receives the 814_03 transaction from ERCOT, and the TDSP responds with the 814_04 transaction, the information as identified in paragraph (1) above shall be transmitted from the TDSP to ERCOT using the 814_04 transaction.  ERCOT shall forward ESI ID/Premise information using the 814_05, CR Enrollment Notification Response, to the requesting CR.
+(4)	If a meter has not been established at the ESI ID/Premise at the time when the TDSP receives the 814_03 transaction from ERCOT for a move in, the TDSP may respond with the 814_04 transaction without meter information, TDSP rate class and sub-class, and the number and description of un-metered devices to ERCOT.  ERCOT shall forward the ESI ID/Premise information using the 814_05 transaction to the requesting CR.  If the TDSP submits the 814_04 transaction with the information as identified in this paragraph, the TDSP will submit this missing information to ERCOT using the 814_20 transaction when established to complete the process.  ERCOT shall forward the ESI ID/Premise information received from the TDSP’s 814_20 transaction to the requesting CR within four Retail Business Hours of receipt from the TDSP.  
+(5)	If the TDSP responds to ERCOT’s 814_03 transaction for a move in with an 814_28 transaction, Permit Required, ERCOT shall send this transaction within two Retail Business Hours to the requesting CR to notify that a permit is required.  Upon receipt of the TDSP’s 814_28 transaction, ERCOT will reset the 20 Retail Business Day clock, starting the clock on the requested date for the move in, and will separately track the non-response for the 814_04 transaction due to permit required.  The move in remains in a “permit pending” status.
+(6)	After expiration of the 20 Retail Business Days, non-response for the 814_04 transaction because the TDSP has not received the permit, ERCOT will initiate the 814_08 transaction to the TDSP the first Retail Business Day after expiration of the 20 Retail Business Day clock, and will set the status to “cancel pending.”  The TDSP will respond to ERCOT using the 814_09 transaction.  If the TDSP receives the appropriate permit prior to the receipt of the 814_08 transaction from ERCOT, the TDSP will submit the 814_04 transaction with the scheduled move in date and the 814_09 transaction with a status of reject and the move in process will proceed.  If the TDSP responds with the 814_09 transaction with a status of accept, ERCOT will cancel the move in, note the cancel reason as “permit not received,” and send the cancellation notice to the appropriate CRs.
+(7)	If the TDSP responds to ERCOT’s 814_03 transaction with the 814_04 transaction, and then later submits the 814_28 transaction, ERCOT will send the TDSP’s 814_28 transaction to the requesting CR.  The TDSP will note the complete unexecutable reason on the 814_28 transaction.  The initiating transaction is considered cancelled in ERCOT, TDSP and CR systems and the current CR remains the CR of Record for that Premise or the Premise remains in a de-energized status.  
+(8)	If after submitting a 814_04 transaction on a forced move out, the TDSP is unable to obtain an actual meter read despite reasonable efforts the TDSP may complete the move in using an estimated meter read or complete unexecutable if the meter requires a permit, unsafe conditions exist, tampering has been detected or other similar conditions are found that would not allow an actual reading to be obtained.
+15.1.4.5	Response to Valid Move-In Request
+(1)	ERCOT will respond to the CR using the 814_05, CR Enrollment Notification Response, within one Retail Business Hour of receiving the TDSP’s 814_04, Enrollment Notification Response, on a same day or standard Move-In Request.  This response will contain the scheduled meter read date for the move in and all other information contained in the TDSP’s 814_04 transaction.
+15.1.4.5.1	Maintain Electric Service Identifier with Meter Level Information Request/Response
+(1)	If the TDSP returns the 814_04, Enrollment Notification Response, without complete information (meter information and/or unmetered device(s) information), the TDSP is required to provide this information to ERCOT in the 814_20, ESI ID Maintenance Request, following the installation of the meter or unmetered devices.  The TDSP must send the 814_20 transaction at the same time or prior to sending the 867_04, Initial Meter Read, to ERCOT.  ERCOT will forward the meter information in the 814_20 transaction and the 867_04 transaction to the CR.
+15.1.4.6	Notification to Current Competitive Retailer
+(1)	An evaluation is done on the current CR two Retail Business Days prior to the scheduled meter read date, but not before receipt of the TDSP’s 814_04, Enrollment Notification Response.  ERCOT will submit to the current CR a notification using the 814_06, Loss Notification, two days before the scheduled meter read date as set forth in the 814_04 transaction.  
+(2)	If ERCOT has submitted a notification using the 814_06 transaction to the current CR before the TDSP sends the 814_28, Complete Unexecutable or Permit Required, to ERCOT, ERCOT will notify the current CR by forwarding the 814_28 transaction to the CR.  The current CR will remain the CR of Record.
+15.1.4.6.1	Complete Unexecutable 
+(1)	After the new CR has received the Premise information in the 814_05, CR Enrollment Notification Response, the TDSP will wait until the scheduled move in date to energize the Premise.  If upon the field visit to the Premise, the TDSP is unable to execute due to conditions that require Customer resolution and if power is not flowing to the Premise, the TDSP will send a notification request to ERCOT using the 814_28, Complete Unexecutable or Permit Required.  The transaction will indicate the appropriate reason code for the complete unexecutable of the Move-In Request.  If the move in has been complete unexecutable, ERCOT will internally flag the transaction as complete and will not expect the 867_04, Initial Meter Read, to complete the life cycle.  ERCOT will respond to the TDSP using the 814_29, Complete Unexecutable or Permit Required Response.
+(2)	If ERCOT receives the 814_28, Complete Unexecutable or Permit Required, ERCOT will forward the notification to the CR.  In this case the CR will not receive the 867_04 transaction.  Once the condition has been corrected by the Customer, a new set of transactions must be initiated by the CR starting with the 814_16, Move In Request.
+15.1.4.7	Completion of Move-In Request and Effective Move In Date
+(1)	If upon the field visit to the Premise, the TDSP is unable to obtain a meter read due to conditions that require Customer resolution but power is flowing to the Premise, the TDSP may complete the move in using an estimated meter read or complete unexecutable if the meter requires a permit, unsafe conditions exist, tampering has been detected, or other similar conditions are found that would not allow an actual reading to be taken.
+15.1.4.7.1	Standard Move-In Requests
+(1)	A standard Move-In Request is effectuated on the period start date in the 867_04, Initial Meter Read, which shall be the date requested in the 814_16, Move In Request, provided that the 814_03, Enrollment Notification Request, was received by the TDSP by 1700 at least two Retail Business Days prior to the requested date.  If the 814_03 transaction is not received by the TDSP by 1700 at least two Retail Business Days prior to the requested date, the move in will be completed within two Retail Business Days after the receipt of the 814_03 transaction by the TDSP.  An extension of this period may be necessitated by circumstance requiring Customer resolution or construction of new facilities by the TDSP to serve the Premise.
+(2)	A Move-In Request is completed upon receipt of the effectuating meter read sent by the TDSP.  Upon receipt, the TDSP will send initial meter read information to ERCOT and ERCOT shall resend to the CR DUNS Number provided in the 867_04 transaction by the TDSP within four Retail Business Hours using the 867_04 transaction.  The 867_04 transaction will be provided to ERCOT within three Retail Business Days of the meter read.
+(3)	The move in will become effective at 0000 (midnight) on the actual date of the effectuating meter read.  The new CR may request a special meter read (including a profile-estimated meter read or interval meter calculation as allowed), in accordance with the TDSP’s tariff.  For a special meter read, the move in is effective at 0000 (midnight) the day of the special meter read.  Meter reads will be sent to the CR DUNS Number within the TX SET transaction from the TDSP within 12 hours of receipt by ERCOT.
+15.1.4.7.2	Same Day Move-In Requests
+(1)	A same day Move-In Request is effectuated on the period start date in the 867_04, Initial Meter Read, which shall be the date requested in the 814_16, Move In Request, provided that the request was received by the TDSP by 1700 on the date requested.  If the TDSP does not receive the same day move in by 1700, the move in will be completed no later than the next Retail Business Day.  An extension of this period may be necessitated by circumstance requiring Customer resolution or construction of new facilities by the TDSP to serve the Premise.
+(2)	A Move-In Request is completed upon receipt of the effectuating meter read sent by the TDSP.  Upon receipt, the TDSP will send initial meter read information to ERCOT and ERCOT shall resend to the CR DUNS Number provided in the 867_04 transaction by the TDSP within four Retail Business Hours using the 867_04 transaction.  The 867_04 transaction will be provided to ERCOT within three Retail Business Days of the meter read.
+(3)	The move in will become effective at 0000 (midnight) on the actual date of the effectuating meter read.  The new CR may request a special meter read (including a profile-estimated meter read or interval meter calculation as allowed), in accordance with the TDSP’s tariff.  For a special meter read, the move in is effective at 0000 (midnight) the day of the special meter read.  Meter reads will be sent to the CR DUNS Number within the TX SET transaction from the TDSP within 12 hours of receipt by ERCOT.
+15.1.4.8	Rejection of Move-In Request
+(1)	ERCOT will reject the 814_16, Move In Request, using the 814_17, Move In Reject Response, for any of the following reasons:
+(a)	The ESI ID provided is inactive or does not exist;
+(b)	The ESI ID and five-digit zip code do not match;
+(c)	The CR is not certified by the PUCT, if required;
+(d)	The CR is not authorized to provide service in the TDSP service area.
+(e)	CR has not registered as a CR with ERCOT in accordance to Section 16, Registration and Qualification of Market Participants.
+(f)	The PUCT directs ERCOT to reject registration requests from the CR per applicable PUCT rules;
+(g)	The CR specifies a billing type or billing calculation code for an ESI ID that is not supported by the TDSP, MOU, or EC;
+(h)	The CR submits a request type that is invalid or undefined;
+(i)	The CR DUNS Number is missing or invalid; or
+(j)	There is already a Move-In Request in progress for the same requested date, “not first in” for the same requested date.
+15.1.5	Service Termination (Move Out)
+15.1.5.1	Request to Terminate Service
+(1)	When a CR receives notice that a Customer is moving out, the CR may terminate service to that ESI ID by submitting a Move-Out Request to ERCOT using the 814_24, Move Out Request.  Move outs will be considered same day, if the date requested is the same day the 814_24 transaction is processed at ERCOT.  Same day move outs will be forwarded to the TDSP within one Retail Business Hour of receipt by ERCOT.  Move outs not requesting same day services, will be forwarded to the TDSP within two Retail Business Hours of receipt by ERCOT.    
+(2)	ERCOT will determine if the ESI ID associated with the Premise has a Continuous Service Agreement (CSA) CR.  
+(a)	If there is an active CSA with an end date after the move out date on record or a CSA with a start date prior to or equal to the requested date of the move out, ERCOT will notify the TDSP by sending the 814_03, Enrollment Notification Request, with the move out indicator, within one Retail Business Hour for same day requests and two Retail Business Hours for move outs not requesting same day services.  ERCOT will notify the CSA CR of the move out using the 814_22, CSA CR Move In Request, within two Retail Business Days of the scheduled meter read date, but not before the receipt of the TDSP’s 814_04, Enrollment Notification Response.  
+(b)	If there is not an active CSA CR or a CSA with a start date prior to or equal to the requested date of the move out, ERCOT will notify the TDSP to de-energize the ESI ID by sending the 814_24 transaction and will remove the requester as the CR of Record for that ESI ID.
+(3)	When requesting to terminate service where a CSA exists, the CSA CR may terminate service to that ESI ID by submitting an 814_24 transaction with the “Move Out CSA De-Energize” code to ERCOT.  ERCOT will validate that the submitting CR is the current CSA CR of Record (or pending CSA CR for the move out date submitted).  If the submitting CR is not the current CSA CR of Record, ERCOT will reject the 814_24 transaction by sending the 814_25, Move Out Response.  Move outs will be considered same day if the date requested is the same day the 814_24 transaction is processed at ERCOT.  Same day move outs will be forwarded to the TDSP within one Retail Business Hour of receipt by ERCOT.  Move outs not requesting same day services will be forwarded to the TDSP within two Retail Business Hours of receipt by ERCOT.
+15.1.5.2	Response to Invalid Move-Out Request
+(1)	If the Move-Out Request is invalid, ERCOT will respond to the CR using the 814_25, Move Out Response, within one Retail Business Hour of receiving the 814_24, Move Out Request, with the exception of a move out that is invalid because of “de-energized ESI ID.”  In the case of “de-energized ESI ID,” ERCOT will hold the Move-Out Request and continue to retry the request at regular intervals for 48 hours counting only hours on Retail Business Days but not only Business Hours.  If the request is invalid, the move out process will then terminate.  If the request is valid, the process continues as described in Section 15.1.5.5, Response to Valid Move-Out Request and Continuous Service Agreement in Effect.
+15.1.5.3	Notification to Transmission and/or Distribution Service Provider of Move Out
+(1)	ERCOT will process Move-Out Requests upon receipt during Business Hours.
+(2)	If there is a CSA CR for the ESI ID, ERCOT will submit to the TDSP serving the ESI ID a registration notification request using the 814_03, Enrollment Notification Request, within one Retail Business Hour of receiving a valid same day Move-Out Request and within two Retail Business Hours after receipt of the standard Move-Out Request.  The notification will include the move out date requested by the CR.
+(3)	If there is not a CSA CR, ERCOT will notify the TDSP serving the ESI ID of the termination notification within one Retail Business Hour of receiving a valid same day Move-Out Request and within two Retail Business Hours after receipt of the standard Move-Out Request using the 814_24, Move Out Request.  The notification to the TDSP will include the move out date requested by the CR.
+15.1.5.4	Response to Enrollment Notification Request/Service Termination from Transmission and/or Distribution Service Provider
+(1)	If there is a CSA CR, upon receipt of an Enrollment notification request, the TDSP shall provide ESI ID information, including:
+(a)	ESI ID;
+(b)	Service Address;
+(c)	Rate class and sub-class (if applicable);
+(d)	Any and all applicable riders;
+(e)	Special needs indicator;
+(f)	Load Profile Type;
+(g)	Scheduled meter read date;
+(h)	Meter type, identification number, number of dials and role for each meter at the ESI ID, if ESI ID is metered;
+(i)	For unmetered EDS IDs, number and description of each unmetered device;
+(j)	Load bus identification; and
+(k)	DLF code.
+(2)	This information shall be transmitted by the TDSP using the 814_04, Enrollment Notification Response, and shall be provided to the CSA CR by ERCOT in the form of an 814_22, CSA CR Move In Request, within two Retail Business Days of the scheduled meter read date on the move out to CSA.  Items (1)(a) and (1)(g) above shall be forwarded to the submitting CR by ERCOT in the form of an 814_25, Move Out Response.  If the TDSP does not respond with ESI ID information within two Retail Business Days after the submission of the 814_03, Enrollment Notification Request, from ERCOT, ERCOT shall create an internal tracking exception.  The move out to CSA will be held in “in review” status until the TDSP’s 814_04 transaction is received.  If the TDSP’s 814_04 transaction is not received within three Retail Business Days of submission of the 814_03 transaction by ERCOT and is still not received by the earlier of the requested date on the move out to CSA or 20 Retail Business Days after the original submission of the 814_03 transaction from ERCOT, ERCOT shall change the status of the move out to CSA to “cancel pending.”  The TDSP will receive notification of the pending cancellation through the 814_08, Cancel Request.  The TDSP will respond using the 814_09, Cancel Response.  If the 814_09 transaction is an accept, relevant CRs will receive notification of the cancellation through the 814_08 transaction.  If the 814_09 transaction from the TDSP is a reject, the move out to CSA will return to an “in review” status and the TDSP shall also transmit an 814_04 transaction within one Retail Business Day.
+(3)	If there is not a CSA CR, upon receipt of a service termination request, the TDSP shall provide ESI ID information, including:
+(a)	ESI ID; and
+(b)	Scheduled meter read date.
+(4)	This information shall be transmitted using the 814_25 transaction and shall be provided by ERCOT to the submitting CR within two Retail Business Hours from ERCOT’s receipt of the TDSP’s 814_25 transaction.  If the TDSP does not respond with ESI ID information within two Retail Business Days after the submission of the 814_24, Move Out Request, by ERCOT, ERCOT shall create an internal tracking exception.  The move out will be held in “in review” status until the TDSP’s 814_25 transaction is received.  If the TDSP’s 814_25 transaction is not received within three Retail Business Days of submission of the 814_24 transaction by ERCOT and is still not received by the earlier of the requested date on the move out or 20 Retail Business Days after the original submission of the 814_24 transaction by ERCOT, ERCOT shall change the status of the move out to “cancel pending.”  The TDSP will receive notification of the pending cancellation through the 814_08, Cancel Request.  The TDSP will respond in accordance with the 814_09, Cancel Response.  If the 814_09 transaction from the TDSP is a reject, the move out will return to an “in review” status and the TDSP shall also transmit an 814_25 transaction within one Retail Business Day.
+(5)	If the TDSP responds to ERCOT’s 814_24 transaction with an 814_25 transaction, and then later submits an 814_28, Complete Unexecutable or Permit Required, indicating the TDSP is unable to complete the move out, ERCOT will send the TDSP’s 814_28 transaction to the requesting CR.  The TDSP will note the complete unexecutable reason on the 814_28 transaction.  The initiating transaction is considered unexecutable.  The current CR will remain the CR of Record.
+(6)	If, despite reasonable efforts, the TDSP is unable to complete the move out after submitting the 814_25 transaction, it shall unexecute the move out using the 814_28 transaction, Complete Unexecutable, and the TDSP shall note the complete unexecutable reason on the 814_28 transaction.  ERCOT shall forward the 814_28 transaction to the CR within two Retail Business Hours of receipt from the TDSP.  
+(7)	Upon receipt of the 814_28 transaction, the CR will make reasonable attempts to contact the Customer to address access issues if the reason the transaction was unexecuted relates to meter access.  Otherwise, the CR will contact the TDSP in an attempt to address the problems that precluded execution of the transaction.  TDSPs shall provide CRs with a list of contacts for this purpose, including escalation contacts which shall be used by a CR only in the event that the initial contacts fail to respond to the CR within a reasonable time.
+(8)	After the CR has made reasonable efforts to either contact the Customer or address issues with the TDSP, the CR may submit a second 814_24 transaction to initiate the move out process.  The CR will submit the second Move-Out Request within 30 days of the receipt of the 814_28 transaction.  If the TDSP continues to encounter difficulty in completing the transaction, the TDSP shall complete the transaction using an estimated meter read and make every reasonable effort to interrupt service at the premise to prevent additional cost to the market, such as Unaccounted for Energy (UFE) and repeated field trips executed by the TDSP to disconnect service or in management of the market-approved manual process for managing the left in hot process.  For Customers who are critical care or critical Load, the CR will contact the appropriate TDSP Retail Electric Provider (REP) relations personnel to address the request.
+15.1.5.5	Response to Valid Move-Out Request and Continuous Service Agreement in Effect
+(1)	Two Retail Business Days prior to the scheduled meter read date, but not prior to the receipt of the TDSP’s 814_04, Enrollment Notification Response, ERCOT will send response information to the CSA CR using the 814_22, CSA CR Move In Request.  This notice will contain the confirmed meter read date for the move out.  This date will be the start date for the CSA CR to begin serving the ESI ID.
+15.1.5.6	Completion of Move-Out Request and Effective Move Out Date
+(1)	A Move-Out Request is effectuated on the actual meter read date in the final 867_03, Monthly of Final Usage, which shall be the date requested in the 814_24, Move Out Request, provided that the request was received by the TDSP by 1700 and at least two Retail Business Days prior to the date requested.  If the request is not received by the TDSP by 1700 at least two days prior to the requested date, the request will be completed within two Retail Business Days after the Move-Out Request is received by the TDSP.  An extension of this period may be 

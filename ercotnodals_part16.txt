@@ -1,0 +1,644 @@
+Start	Resource Category Generic Startup Cost—The Resource Category Startup Offer Generic Cap cost for the category of the Resource, according to Section 4.4.9.2.3, Startup Offer and Minimum-Energy Offer Generic Caps, for the Operating Day.
+MEPRq,r,i	$/MWh	Minimum-Energy Price—The Settlement price for Resource r for minimum energy for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MEOq,r,i	$/MWh	Minimum-Energy Offer—Represents an offer for the costs incurred by Resource r in producing energy at the Resource’s LSL for the Settlement Interval i.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+MECAPq,r,i	$/MWh	Minimum-Energy Cap—The amount used for Resource r for minimum-energy costs.  The minimum cost is the Resource Category Minimum-Energy Generic Cap (RCGMEC) unless ERCOT has approved verifiable unit-specific minimum energy costs for that Resource, in which case the Minimum-Energy Cap is the verifiable unit-specific minimum energy cost.  See Section 5.6.1 for more information on verifiable costs.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+RCGMECi	$/MWh	Resource Category Generic Minimum-Energy Cost—The Resource Category Minimum-Energy Generic Cap cost for the category of the Resource, according to Section 4.4.9.2.3.
+LSLq,r,i 	MW	Low Sustained Limit—The LSL of Generation Resource r represented by QSE q for the hour that includes the Settlement Interval i, as submitted in the COP.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+RTSPPp,i	$/MWh	Real-Time Settlement Point Price—The Real-Time Settlement Point Price at the Resource’s Settlement Point for the Settlement Interval i.
+NCDCHRq,r,h	none	Number of Continuous Decommitted Hours—The number of continuous decommitment hours for Resource r within an Operating Day.  When one or more Combined Cycle Generation Resources are decommitted by RUC, the Number of Continuous Decommitted Hours is calculated for the Combined Cycle Train for all RUC-decommitted Combined Cycle Generation Resources.
+q	none	A QSE.
+r	none	A  RUC-decommitted Generation Resource.
+h	none	An hour in the RUC decommitment period.
+p	none	A Resource Node Settlement Point.
+s	none	A start.
+i	none	A 15-minute Settlement Interval within the contiguous decommitted period.
+5.7.4	RUC Make-Whole Charges 
+(1)	All QSEs that were capacity-short in each RUC will be charged for that shortage, as described in Section 5.7.4.1, RUC Capacity-Short Charge.  If the revenues from the charges under Section 5.7.4.1 are not enough to cover all RUC Make-Whole Payments for a Settlement Interval, then the difference will be uplifted to all QSEs on a Load Ratio Share (LRS) basis, as described in Section 5.7.4.2, RUC Make-Whole Uplift Charge.
+(2)	On a monthly basis, within ten days after the Initial Settlement of the last day of the month has been completed, ERCOT shall post on the Market Information System (MIS) Secure Area the total RUC Make-Whole Charges and RUC Clawback Payment Amounts, by Settlement Interval, by QSE capacity-shortfall and by amount uplifted. 
+[NPRR1239:  Replace paragraph (2) above with the following upon system implementation:]
+(2)	On a monthly basis, within ten days after the Initial Settlement of the last day of the month has been completed, ERCOT shall post on the ERCOT website the total RUC Make-Whole Charges and RUC Clawback Payment Amounts, by Settlement Interval, by QSE capacity-shortfall and by amount uplifted.
+5.7.4.1	RUC Capacity-Short Charge
+(1)	The dollar amount charged to each QSE, due to capacity shortfalls for a particular RUC, for a 15-minute Settlement Interval, is the QSE’s shortfall ratio share multiplied by the total RUC Make-Whole Payments, including amounts for RMR Units, to all QSEs for that RUC, subject to a cap.  The cap on the charge to each QSE is two multiplied by the total RUC Make-Whole Payments, including amounts for RMR Units, for all QSEs multiplied by that QSE’s capacity shortfall for that RUC process divided by the total capacity of all RUC-committed Resources during that Settlement Interval for the RUC process.  That dollar amount charged to each QSE is calculated as follows:
+RUCCSAMT ruc, i, q	=	(-1) * Max [(RUCSFRS ruc, i, q * RUCMWAMTRUCTOT ruc, h), 
+(2 * RUCSF ruc, i, q * RUCMWAMTRUCTOT ruc, h / RUCCAPTOT ruc, h)] / 4
+Where:
+RUCMWAMTRUCTOT ruc, h 	=	  RUCMWAMT ruc, q, r, h
+RUCCAPTOT ruc, h	    	 =	 (RUCHSL ruc, h, r – RUCHSL ruc, h, beforeCCGR)
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCCSAMT ruc, i, q	$	RUC Capacity-Short Amount—The charge to a QSE q, due to capacity shortfall for a particular RUC process ruc, for the 15-minute Settlement Interval i.
+RUCMWAMTRUCTOT ruc, h	$	RUC Make-Whole Amount Total per RUC—The sum of RUC Make-Whole Payments for a particular RUC process ruc, including amounts for RMR Units, for the hour h that includes the 15-minute Settlement Interval.
+RUCMWAMT ruc, q, r, h	$	RUC Make-Whole Payment—The RUC Make-Whole Payment to the QSE q for Resource r, for a particular RUC process ruc, for the hour h that includes the 15-minute Settlement Interval.  See Section 5.7.1, RUC Make-Whole Payment.  When one or more Combined Cycle Generation Resources are committed by RUC, payment is made to the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+RUCSFRS ruc, i, q	none	RUC Shortfall Ratio Share—The ratio of the QSE q’s capacity shortfall to the sum of all QSEs’ capacity shortfalls for a particular RUC process ruc, for the 15-minute Settlement Interval i.  See Section 5.7.4.1.1, Capacity Shortfall Ratio Share.
+RUCSF ruc, i, q	MW	RUC Shortfall—The QSE q’s capacity shortfall for a particular RUC process ruc for the 15-minute Settlement Interval i.  See formula in Section 5.7.4.1.1.
+RUCCAPTOT ruc, h	MW	RUC Capacity Total—The sum of the High Sustained Limits (HSLs) of all RUC-committed Resources for a particular RUC process ruc, for the hour h that includes the 15-minute Settlement Interval.  See formula in Section 5.7.4.1.1. 
+RUCHSL ruc, q, r, h	MW	High Sustained Limit at RUC Snapshot—The HSL of Generation Resource r represented by QSE q for the hour h, according to the COP and Trades Snapshot for the RUC process ruc.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+ruc	none	The RUC process for which the RUC Capacity-Short Charge is calculated.
+i	none	A 15-minute Settlement Interval.
+q	none	A QSE.
+h	none	The hour that includes the Settlement Interval i. 
+r	none	A Generation Resource that is RUC-committed for the hour that includes the Settlement Interval i, as a result of a particular RUC process.
+beforeCCGR	none	The Combined Cycle Generation Resource that was QSE-committed in a RUCAC-Interval.
+5.7.4.1.1	Capacity Shortfall Ratio Share
+(1)	In calculating the amount short for each QSE, the available capacity of an IRR when determining responsibility for the corresponding RUC charges shall be the lesser of the HSL value as reflected in the COP and the Wind-powered Generation Resource Production Potential (WGRPP), as described in Section 4.2.2, Wind-Powered Generation Resource Production Potential, for a Wind-powered Generation Resource (WGR), or the PhotoVoltaic Generation Resource Production Potential (PVGRPP), as described in Section 4.2.3, PhotoVoltaic Generation Resource Production Potential, for a PhotoVoltaic Generation Resource (PVGR), at the time of RUC execution.  For an IRR, the HASLSNAP variable used below shall be equal to the minimum of the WGRPP or PVGRPP described above and the HSL value as reflected in the QSE’s COP, at the time of the RUC execution.  
+(2)	In calculating the amount short for each QSE, the QSE must be given a capacity credit for non-Intermittent Renewable Resources (IRRs) that were given notice of decommitment within the two hours before the Operating Hour as a result of the RUC process by setting the HASLSNAP and HASLADJ variables used below equal to the HASLSNAP value for the Resource immediately before the decommitment instruction was given.  
+(3)	In calculating the short amount for each QSE, if the High Ancillary Service Limit (HASL) for a Resource was credited to the QSE during the RUC snapshot but the Resource experiences a Forced Outage within two hours before the start of the Settlement Interval, then the HASL for that Resource is also credited to the QSE in the HASLADJ.
+(4)	In calculating the short amount for each QSE, if the DCIMPSNAP was credited to the QSE during the RUC snapshot but the entire Direct Current Tie (DC Tie) experiences a Forced Outage within two hours before the start of the Settlement Interval, then the DCIMPSNAP is also credited to the QSE in the DCIMPADJ.
+(5)	For Combined Cycle Generation Resources, if more than one Combined Cycle Generation Resource is shown On-Line in its COP for the same Settlement hour, then the provisions of paragraph (6)(a) of Section 3.9.1, Current Operating Plan (COP) Criteria, apply in the determination of the On-Line Combined Cycle Generation Resource for that Settlement hour.
+(6)	The capacity shortfall ratio share of a specific QSE for a particular RUC process is calculated, for a 15-minute Settlement Interval, as follows:
+RUCSFRS ruc, i, q	=	RUCSF ruc, i, q / RUCSFTOT ruc, i
+Where:
+RUCSFTOT ruc, i	=	 RUCSF ruc, i, q
+(7)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval is:
+RUCSF ruc, i, q	=	Max (0, Max (RUCSFSNAP ruc, q, i, RUCSFADJ ruc, q, i) –  RUCCAPCREDIT q, i, z)
+(8)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval, as measured at the snapshot, is:
+RUCSFSNAP ruc ,q ,i	=	Max (0, (( RTAML q, p, i * 4) – RUCCAPSNAP ruc, q, i))
+(9)	The amount of capacity that a QSE had according to the RUC snapshot for a 15-minute Settlement Interval is:
+RUCCAPSNAP ruc, q, i =	 HASLSNAP q, r, h + (RUCCPSNAP q, h – RUCCSSNAP q, h) + ( DAEP q, p, h – DAES q, p, h) + ( RTQQEPSNAP q, p, i –  RTQQESSNAP q, p, i) +    DCIMPSNAP q, p, i
+(10)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval, as measured at Real-Time, but including capacity from IRRs as seen in the RUC snapshot, is:
+RUCSFADJ ruc, q, i	=	Max (0, (( RTAML q, p, i) *4) – ( HASLSNAP ruc, q, r, h + RUCCAPADJ q, i))
+(11)	The amount of capacity that a QSE had in Real-Time for a 15-minute Settlement Interval, excluding capacity from IRRs, is:
+RUCCAPADJ q, i =	 HASLADJ q, r, h + (RUCCPADJ q, h – RUCCSADJ q, h) + ( DAEP q, p, h –  DAES q, p, h) + ( RTQQEPADJ q, p, i –  RTQQESADJ q, p, i) +   DCIMPADJ q, p, i
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCSFRS ruc, i, q	none	RUC Shortfall Ratio Share—The ratio of the QSE q’s capacity shortfall to the sum of all QSEs’ capacity shortfalls, for the RUC process ruc, for the 15-minute Settlement Interval i.
+RUCSF ruc, i, q	MW	RUC Shortfall—The QSE q’s capacity shortfall for the RUC process ruc for the 15-minute Settlement Interval i.
+RUCSFTOT ruc, i	MW	RUC Shortfall Total—The sum of all QSEs’ capacity shortfalls, for a RUC process ruc, for a 15-minute Settlement Interval i.
+RUCSFSNAP ruc, q, i	MW	RUC Shortfall at Snapshot—The QSE q’s capacity shortfall according to the snapshot for the RUC process ruc for the 15-minute Settlement Interval i.
+RUCSFADJ ruc, q, i	MW	RUC Shortfall at Adjustment Period—The QSE q’s Adjustment Period capacity shortfall, including capacity from IRRs as seen in the snapshot for the RUC process ruc, for the 15-minute Settlement Interval i.
+RUCCAPCREDIT q, i, z	MW	RUC Capacity Credit by QSE—The QSE q’s capacity credit resulting from capacity paid through the RUC Capacity-Short Amount for RUC process z for the 15-minute Settlement Interval i.
+RTAML q, p, i	MWh	Real-Time Adjusted Metered Load—The QSE q’s Adjusted Metered Load (AML) at the Settlement Point p for the 15-minute Settlement Interval i.
+RUCCAPSNAP ruc, q, i	MW	RUC Capacity Snapshot at time of RUC—The amount of the QSE q’s calculated capacity in the COP and Trades Snapshot for the RUC process ruc for a 15-minute Settlement Interval i.  
+HASLSNAP q, r, h	MW	High Ancillary Services Limit at Snapshot—The HASL of the Resource r represented by the QSE q, according to the COP and Trades Snapshot for the RUC process for the hour h that includes the 15-minute Settlement Interval.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.
+DCIMPADJ q, p, i	MW	DC Import per QSE per Settlement Point—The approved aggregated DC Tie Schedule submitted by QSE q as an importer into the ERCOT System through DC Tie p according to the Adjustment Period snapshot, for the 15-minute Settlement Interval i.
+DCIMPSNAP q, p, i	MW	DC Import per QSE per Settlement Point—The approved aggregated DC Tie Schedule submitted by QSE q as an importer into the ERCOT System through DC Tie p, according to the snapshot for the RUC process for the hour that includes the 15-minute Settlement Interval i.
+RUCCPSNAP q, h	MW	RUC Capacity Purchase at Snapshot—The QSE q’s capacity purchase, according to the COP and Trades Snapshot for the RUC process for the hour h that includes the 15-minute Settlement Interval.
+RUCCSSNAP q, h	MW	RUC Capacity Sale at Snapshot—The QSE q’s capacity sale, according to the COP and Trades Snapshot for the RUC process for the hour h that includes the 15-minute Settlement Interval.
+RUCCAPADJ q, i	MW	RUC Capacity Snapshot during Adjustment Period—The amount of the QSE q’s calculated capacity in the RUC according to the COP and Trades Snapshot, excluding capacity for IRRs, at the end of the Adjustment Period for a 15-minute Settlement Interval i.
+HASLADJ q, r, h	MW	High Ancillary Services Limit at Adjustment Period—The HASL of a non-IRR r represented by the QSE q, according to the Adjustment Period snapshot, for the hour h that includes the 15-minute Settlement Interval.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  
+RUCCPADJ q, h	MW	RUC Capacity Purchase at Adjustment Period—The QSE q’s capacity purchase, according to the Adjustment Period COP and Trades Snapshot for the hour h that includes the 15-minute Settlement Interval.
+RUCCSADJ q, h	MW	RUC Capacity Sale at Adjustment Period—The QSE q’s capacity sale, according to the Adjustment Period COP and Trades Snapshot for the hour h that includes the 15-minute Settlement Interval.
+DAEP q, p, h	MW	Day-Ahead Energy Purchase—The QSE q’s energy purchased in the DAM at the Settlement Point p for the hour h that includes the 15-minute Settlement Interval.
+DAES q, p, h	MW	Day-Ahead Energy Sale—The QSE q’s energy sold in the DAM at the Settlement Point p for the hour h that includes the 15-minute Settlement Interval.
+RTQQEPSNAP q, p, i	MW	QSE-to-QSE Energy Purchase by QSE by point—The QSE q’s Energy Trades in which the QSE is the buyer at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the COP and Trades Snapshot.
+RTQQESSNAP q, p, i	MW	QSE-to-QSE Energy Sale by QSE by point—The QSE q’s Energy Trades in which the QSE is the seller at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the COP and Trades Snapshot.
+RTQQEPADJ q, p, i	MW	QSE-to-QSE Energy Purchase by QSE by point—The QSE q’s Energy Trades in which the QSE is the buyer at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the last COP and Trades Snapshot at the end of the Adjustment Period for that Settlement Interval.
+RTQQESADJ q, p, i	MW	QSE-to-QSE Energy Sale by QSE by point—The QSE q’s Energy Trades in which the QSE is the seller at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the last COP and Trades Snapshot at the end of the Adjustment Period for that Settlement Interval.
+q	none	A QSE.
+p	none	A Settlement Point.
+r	none	A Generation Resource that is QSE-committed or planning to operate as a Quick Start Generation Resource (QSGR) for the Settlement Interval as shown by the Resource Status of OFFQS in the COP and Trades Snapshot and/or Adjustment Period snapshot; or RUC-decommitted for the Settlement Interval (subject to paragraphs (1) and (2) above); or a Switchable Generation Resource (SWGR) released by a non-ERCOT Control Area Operator (CAO) to operate in the ERCOT Control Area due to an ERCOT RUC instruction for an actual or anticipated EEA condition.  If the Settlement Interval is a RUCAC-Interval, r represents the Combined Cycle Generation Resource that was QSE-committed at the time the RUCAC was issued.
+z	none	A previous RUC process for the Operating Day.
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+ruc	none	The RUC process for which this RUC Shortfall Ratio Share is calculated.
+[NPRR1009, NPRR1014, NPRR1029, NPRR1032, and NPRR1236:  Replace applicable portions of Section 5.7.4.1.1 above with the following upon system implementation of the Real-Time Co-Optimization (RTC) project for NPRR1009 and NPRR1236; or upon system implementation for NPRR1014, NPRR1029, or NPRR1032:]
+5.7.4.1.1	Capacity Shortfall Ratio Share
+(1)	In calculating the shortfall amount for each QSE, the Resource capacity (RCAPSNAP and RCAPADJ) shall be calculated for a Generation Resource that meets any of the following conditions: 
+(a)	QSE-committed;  
+(b)	Planning to operate as a Quick Start Generation Resource (QSGR) for the Settlement Interval as shown by the COP Status of OFFQS in the RUC Snapshot for the RUC Process and/or Adjustment Period; or
+(c)	A Switchable Generation Resource (SWGR) that is released by a non-ERCOT Control Area Operator (CAO) to operate in the ERCOT Control Area due to an ERCOT RUC instruction for an actual or anticipated EEA condition and that is shown as On-Line in its COP; or 
+(d)	If the Settlement Interval is a RUCAC-Interval, the Combined Cycle Generation Resource that was QSE-committed at the time the RUCAC was issued, excluding the condition for SWGRs as describe in paragraph (c) above.
+(2)	In calculating the amount short for each QSE, the available capacity of an IRR when determining responsibility for the corresponding RUC charges shall be the lesser of the HSL value, as reflected in the COP, and the Wind-powered Generation Resource Production Potential (WGRPP), as described in Section 4.2.2, Wind-Powered Generation Resource Production Potential, for a Wind-powered Generation Resource (WGR), or the PhotoVoltaic Generation Resource Production Potential (PVGRPP), as described in Section 4.2.3, PhotoVoltaic Generation Resource Production Potential, for a PhotoVoltaic Generation Resource (PVGR), at the time of RUC execution.  For an IRR, the RCAPSNAP variable used below shall be equal to the minimum of the WGRPP or PVGRPP described above and the HSL value as reflected in the QSE’s COP, at the time of the RUC execution. 
+(3)	In calculating the amount short for each QSE, the QSE must be given a capacity credit for non-Intermittent Renewable Resources (IRRs) that were given notice of decommitment within the two hours before the Operating Hour as a result of the RUC process by setting the RCAPSNAP and RCAPADJ variables used below set equal to the RCAPSNAP value for the Resource immediately before the decommitment instruction was given.
+(4)	In calculating the short amount for each QSE, if the RCAPSNAP for a non-IRR was credited to the QSE during the RUC Snapshot but the Resource experiences a Forced Outage within two hours before the start of the Settlement Interval, then the RCAPSNAP for that Resource is also credited to the QSE in the RCAPADJ.
+(5)	In calculating the short amount for each QSE, if the DCIMPSNAP was credited to the QSE during the RUC Snapshot but the entire Direct Current Tie (DC Tie) experiences a Forced Outage within two hours before the start of the Settlement Interval, then the DCIMPSNAP is also credited to the QSE in the RTDCIMP.
+(6)	For Combined Cycle Generation Resources, if more than one Combined Cycle Generation Resource is shown On-Line in its COP for the same Settlement hour, then the provisions of paragraph (6)(a) of Section 3.9.1, Current Operating Plan (COP) Criteria, apply in the determination of the On-Line Combined Cycle Generation Resource for that Settlement hour.
+(7)	The QSE Ancillary Service shortfall calculation in MW for each hour in the RUC Snapshot or for the end of the Adjustment Period involves solving an optimization that minimizes any potential Ancillary Service shortfall for a QSE.   This is done by determining the optimal utilization of Ancillary Service capabilities within each QSE’s portfolio of Resources to meet its net Ancillary Service position for each Ancillary Service sub-type.  A QSE’s Ancillary Service shortfall for an hour is the difference between the QSE’s net Ancillary Service position and its coverage of Ancillary Services using the outputs of this optimization based on the QSE’s Resource Ancillary Service capabilities for that hour as reflected in the COPs submitted by the QSE.
+(a)	For each Ancillary Service sub-type, the Ancillary Service MW capability for each Resource in the QSE’s portfolio for a given hour in the RUC Snapshot or at the end of the Adjustment Period (ASMWCAPSNAP and ASMWCAPADJ) is calculated as the minimum of:
+(i)	HSL minus LSL in the COP if the Resource is On-Line (ON, ONOS, ONSC, and ONL).  If a Generation Resource COP Resource Status is OFF or OFFQS, only the COP HSL is used.  For a Combined Cycle Train, the Resource refers to a particular Combined Cycle Generation Resource belonging to that Combined Cycle Train.  For a Combined Cycle Train, select the Combined Cycle Generation Resource that is On-Line (ON or ONOS) with the highest HSL.  If none of the Combined Cycle Generation Resources of a Combined Cycle Train are On-Line, then select the Combined Cycle Generation Resource that has the highest HSL and a COP Resource Status of OFF and that can be started up within 30 minutes;
+(ii)	Submitted Ancillary Service Offer MW quantity for the Ancillary Service type/sub-type;
+(iii)	Submitted COP Ancillary Service MW capability; and
+(iv)	Qualified Ancillary Service MW amount for the Ancillary Service sub-type.  For Resources with COP Resource Status of OFFQS, the qualified MW amounts for Reg-Up, Reg-Down, and RRS will be set to zero.  For Resources with a COP Resource Status of OFF, the qualified MW amounts for Reg-Up, Reg-Down, RRS, and ECRS will be set to zero.
+(b)	The QSE Ancillary Service shortfall calculation enforces the following constraints for each hour using data from the RUC Snapshot or the end of the Adjustment Period:
+(i)	Ensure that a QSE’s portfolio of Resource capacities are only used to cover that QSE’s net Ancillary Service position by each Ancillary Service sub-type.
+(ii)	A QSE’s Fast Frequency Response Service (FFRS) position can be covered by the QSE’s portfolio of Energy Storage Resources (ESRs) qualified to provide FFRS, Load Resources having a high-set under-frequency Relay that are qualified for Responsive Reserve (RRS) or Controllable Load Resources (CLRs), Generation Resources, and ESRs that are qualified to provide RRS as Primary Frequency Response.
+(iii)	A QSE’s RRS position of the type provided by Load Resources having a high-set under-frequency Relay that are qualified for RRS can be covered by the QSE’s portfolio of Load Resources qualified to provide this type of RRS or CLRs, Generation Resources, and ESRs that are qualified to provide RRS as Primary Frequency Response.
+(iv)	A QSE’s ERCOT Contingency Reserve Service (ECRS) position of the type that is not SCED-dispatchable can be covered by the QSE’s portfolio of Load Resources that are qualified to provide non-SCED dispatchable ECRS, or by CLRs, Generation Resources, and ESRs that are qualified to provide ECRS of the type that is SCED-dispatchable.
+(v)	A QSE’s Non-Spinning Reserve (Non-Spin) position of the type that is not SCED-dispatchable can be covered by the QSE’s portfolios of Load Resources that are qualified to provide non-SCED dispatchable Non-Spin, or by CLRs, Generation Resources, and ESRs that are qualified to provide Non-Spin of the type that is SCED-dispatchable.
+(vi)	For each Resource and Ancillary Service sub-type:
+(A)	Ancillary Service capacity used for each Ancillary Service sub-type cannot exceed that Resource’s Ancillary Service capability for that Ancillary Service sub-type.
+(B)	The sum of all the Ancillary Service capacities used for each Ancillary Service sub-type cannot exceed the COP HSL minus LSL limits.  For Generation Resources that have a Resource Status of OFF and the Ancillary Service type is Non-Spin, consider LSL to be zero.  Likewise, for Generation Resources that have a Resource Status of OFFQS and the Ancillary Service type is Non-Spin or ECRS, consider LSL to be zero.
+(C)	For ESRs, consider:
+(1)	Duration requirements for each Ancillary Service type and the submitted COP values for Hour Beginning Planned State of Charge (SOC), Minimum SOC (MinSOC) and Maximum SOC (MaxSOC); 
+(2)	Ancillary Service deployment factors, duration requirements for different Ancillary Service types or sub-types, and the difference between the submitted COP Hour Beginning Planned SOC for the hour under consideration and the next hour; and
+(3)	The charge or discharge MW required to satisfy the above constraints. 
+(c)	The outputs of the optimization for each Resource are: 
+(i)	The Resource’s MW capacity used to cover its QSE’s net Ancillary Service position by Ancillary Service sub-type for a given hour.  These values are ASMWCAPUSNAP for a given hour in the RUC Snapshot and ASMWCAPUADJ for the end of the Adjustment Period.
+(ii)	For an ESR, the MW discharge (positive) or charge (negative) required to support the ESR’s calculated Ancillary Service coverage of its QSE’s net Ancillary Service position, considering the submitted COP values for MinSOC, MaxSOC, and the difference in the Hour Beginning Planned SOC for the hour under consideration and the next hour.  This value will also account for Ancillary Service deployment factors and the duration requirements for energy and different Ancillary Service types.  These values are MWSNAP for a given hour in the RUC Snapshot and MWADJ for the end of the Adjustment Period.
+(8)	The capacity shortfall ratio share of a specific QSE for a particular RUC process is calculated, for a 15-minute Settlement Interval, as follows:
+RUCSFRS ruc, i, q	=	RUCSF ruc, i, q / RUCSFTOT ruc, i
+Where:
+RUCSFTOT ruc, i	=	 RUCSF ruc, i, q
+(9)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval is:
+RUCSF ruc, i, q	=	Max (0, Max (RUCSFSNAP ruc, q, i, RUCSFADJ ruc, q, i) –  RUCCAPCREDIT q, i, z)
+(10)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval, as measured at the RUC Snapshot, is:
+RUCSFSNAP ruc ,q ,i	=	Max (RUCOSFSNAP ruc, q, i , RUCASFSNAP ruc, q, i)
+(11)	The overall shortfall in MW that a QSE had according to the RUC Snapshot for a 15-minute Settlement Interval is:
+RUCOSFSNAP ruc, q, i   =  Max (0, (( RTAML q, p, i * 4) + ASONPOSSNAP ruc, q, i  – RUCCAPSNAP ruc, q, i))
+The QSE’s On-Line Ancillary Service Position according to the RUC Snapshot for a 15-minute Settlement Interval is:
+ASONPOSSNAP ruc, q, i   =  RUPOSSNAP ruc, q, h  + RRPOSSNAP ruc, q, h +                                  ECRPOSSNAP ruc, q, h + Max (0, (NSPOSSNAP ruc, q, h –  ASOFFOFRSNAP ruc, q, r, h))
+	The amount of capacity that a QSE had according to the RUC Snapshot for a 15-minute Settlement Interval is:
+RUCCAPSNAP ruc, q, i =	 RCAPSNAP ruc, q, r, h + (RUCCPSNAP ruc, q, h – RUCCSSNAP ruc, q, h) + ( DAEP q, p, h – DAES q, p, h) + ( RTQQEPSNAP ruc, q, p, i –  RTQQESSNAP ruc, q, p, i) +    DCIMPSNAP ruc, q, p, i +  ASOFRLRSNAP ruc, q, r, h + ESRMWSNAP ruc, q, h + ESRASSNAP ruc, q, h  
+Where: 
+The QSE’s net up Ancillary Service position (Reg-Up + RRS + ECRS + Non-Spin) covered by the QSE’s portfolio of ESRs is: 
+ESRASSNAP ruc, q, h =  Σ┬ASSubTypeASMWCAPUSNAP ruc, q, h, ASSubType, r
+The sum of the QSE’s ESR discharging (positive) or charging (negative) output is: 
+ESRMWSNAP ruc, q, h =  MWSNAP ruc, q, h, r
+(12)	The Ancillary Service shortfall in MW that a QSE had according to the RUC Snapshot for a 15-minute Settlement Interval is:
+RUCASFSNAP ruc, q, i   =  RUPOSSNAP ruc, q, h +  RDPOSSNAP ruc, q, h 
++ RRPOSSNAP ruc, q, h + ECRPOSSNAP ruc, q, h 
++ NSPOSSNAP ruc, q, h – ASMWCAPUQSNAP ruc, q, h
+Where:
+ASMWCAPUQSNAP ruc, q, h  =  Σ┬ASSubTypeASMWCAPUSNAP ruc, q, h, ASSubType, r
+RRPOSSNAP ruc, q, h = Max(0, PFPOSSNAP ruc, q, h + Max(0, UFPOSSNAP ruc, q, h + FFPOSSNAP ruc, q, h))
+ECRPOSSNAP ruc, q, h = Max(0, ECSPOSSNAP ruc, q, h + ECMPOSSNAP ruc, q, h)
+NSPOSSNAP ruc, q, h = Max(0, NSSPOSSNAP ruc, q, h + NSMPOSSNAP ruc, q, h)
+(13)	The RUC Shortfall in MW for one QSE for one 15-minute Settlement Interval, as measured at the end of the Adjustment Period, is:
+RUCSFADJ ruc, q, i	=	Max (RUCOSFADJ ruc, q, i, RUCASFADJ q, i )
+(14)	The overall shortfall in MW that a QSE had at the end of the Adjustment Period for a 15-minute Settlement Interval, but including capacity from IRRs as seen in the RUC Snapshot, is:
+RUCOSFADJ ruc, q, i  = Max (0, (( RTAML q, p, i *4) + ASONPOSADJ q, i – ( RCAPSNAP ruc, q, r, h + RUCCAPADJ q, i)))
+Where:
+The On-Line Ancillary Service Position the QSE had at the end of the Adjustment Period for a 15-minute Settlement Interval is:
+ASONPOSADJ q ,i   =  RUPOSADJ q, h  + RRPOSADJ q, h + ECRPOSADJ q, h + Max (0, (NSPOSADJ q, h –  ASOFFOFRADJ  q, r, h))
+	The amount of capacity that a QSE had at the end of the Adjustment Period for a 15-minute Settlement Interval, excluding capacity from IRRs, is:
+RUCCAPADJ q, i =	 RCAPADJ q, r, h + (RUCCPADJ q, h – RUCCSADJ q, h) + ( DAEP q, p, h –  DAES q, p, h) + ( RTQQEPADJ q, p, i –  RTQQESADJ q, p, i) +   RTDCIMP q, p +  ASOFRLRADJ  q, r, h + ESRMWADJ q, h + ESRASADJ q, h
+Where: 
+The QSE’s net up Ancillary Service position (Reg-Up + RRS + ECRS + Non-Spin) covered by the QSE’s portfolio of ESRs is: 
+ESRASADJ q, h =  Σ┬ASSubTypeASMWCAPUADJ q, h, ASSubType, r
+The sum of the QSE’s ESR discharging (positive) or charging (negative) output is: 
+ESRMWADJ q, h =  MWADJ q, h, r
+(15)	The Ancillary Service shortfall in MW that a QSE had at the end of the Adjustment Period for a 15-minute Settlement Interval is:
+RUCASFADJ q, i   = RUPOSADJ q, h + RDPOSADJ q, h 
++ RRPOSADJ q, h + ECRPOSADJ q, h + NSPOSADJ q, h 
+– ASMWCAPUQADJ q, h
+Where:
+ASMWCAPUQADJ q, h =  Σ┬ASSubTypeASMWCAPUADJ  q, h, ASSubType, r
+RRPOSADJ q, h = Max(0, PFPOSADJ q, h + Max(0,UFPOSADJ q, h + FFPOSADJ q, h))
+ECRPOSADJ q, h = Max(0, ECSPOSADJ q, h + ECMPOSADJ q, h)
+NSPOSADJ q, h = Max(0,NSSPOSADJ q, h + NSMPOSADJ q, h)
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCSFRS ruc, i, q	none	RUC Shortfall Ratio Share—The ratio of the QSE q’s capacity shortfall to the sum of all QSEs’ capacity shortfalls, for the RUC process ruc, for the 15-minute Settlement Interval i.
+RUCSF ruc, i, q	MW	RUC Shortfall—The QSE q’s capacity shortfall for the RUC process ruc for the 15-minute Settlement Interval i.
+RUCSFTOT ruc, i	MW	RUC Shortfall Total—The sum of all QSEs’ capacity shortfalls, for a RUC process ruc, for a 15-minute Settlement Interval i.
+RUCSFSNAP ruc, q, i	MW	RUC Shortfall at Snapshot—The QSE q’s capacity shortfall will be the maximum of the QSE’s overall shortfall or Ancillary Service shortfall, as calculated for the RUC process ruc for the 15-minute Settlement Interval i.
+RUCSFADJ ruc, q, i	MW	RUC Shortfall at End of Adjustment Period—The QSE q’s end of Adjustment Period capacity shortfall will be the maximum of the QSE’s overall shortfall or Ancillary Service shortfall, as calculated for the RUC process ruc, for the 15-minute Settlement Interval i.
+RUCCAPCREDIT q, i, z	MW	RUC Capacity Credit—The QSE q’s capacity credit resulting from capacity paid through the RUC Capacity-Short Amount for RUC process z for the 15-minute Settlement Interval i.
+RUCOSFSNAP ruc, q, i	MW	RUC Overall Shortfall at Snapshot —The QSE q’s overall capacity shortfall according to the RUC Snapshot for the RUC process ruc for the 15-minute Settlement Interval i.
+RUCASFSNAP ruc, q, i	MW	RUC Ancillary Service Shortfall at Snapshot —The QSE q’s Ancillary Service capacity shortfall according to the RUC Snapshot for the RUC process ruc for the 15-minute Settlement Interval i.
+ASONPOSSNAP ruc ,q ,i	MW	Ancillary Service On-Line Position at Snapshot – The QSE q’s total On-Line Ancillary Service position according to the RUC Snapshot for the RUC process ruc for the 15-minute Settlement Interval i. 
+RUPOSSNAP ruc, q, h	MW	Regulation Up Position at Snapshot The QSE q’s net positive Real-Time Reg-Up Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+RRPOSSNAP ruc, q, h	MW	Responsive Reserve Service Position at Snapshot The QSE q’s net positive Real-Time RRS Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ECRPOSSNAP ruc, q, h	MW	ERCOT Contingency Reserve Service Position at Snapshot The QSE q’s net positive Real-Time ECRS Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+NSPOSSNAP ruc, q, h	MW	Non-Spin Reserve Service Position at Snapshot The QSE q’s net positive Real-Time Non-Spin Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+RDPOSSNAP ruc, q, h	MW	Regulation Down Position at Snapshot The QSE q’s net positive Real-Time Regulation Down Service (Reg-Down) Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ASOFFOFRSNAP ruc, q, r, h	MW	Ancillary Service Offline Offers at Snapshot –The capacity represented by validated Ancillary Service Offers for Non-Spin for Resource r with COP status of “OFF”, represented by QSE q according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  A Resource’s offered capacity is only included in the sum to the extent that the Resource’s COP Status and Ancillary Service Capability indicate it would be capable of providing the Ancillary Service during the hour h.
+ASOFRLRSNAP ruc, q, r, h	MW	Ancillary Service Offer per Load Resource at Snapshot – The capacity represented by validated Ancillary Service Offers for Reg-Up, Non-Spin, RRS, and ECRS for the Load Resource r represented by QSE q according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  A Resource’s offered capacity is only included in the sum to the extent that the Resource’s COP Status and Ancillary Service Capability indicate it would be capable of providing the Ancillary Service during the hour h.
+PFPOSSNAP ruc, q, h	MW	Responsive Reserve (Governor Response or Governor-Like Response) Position at SnapshotThe QSE q’s net Real-Time RRS-PFR Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+UFPOSSNAP ruc, q, h	MW	Responsive Reserve (Under Frequency trigger at 59.7 Hz.) Position at SnapshotThe QSE q’s net Real-Time RRS-UFR Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+FFPOSSNAP ruc, q, h	MW	Responsive Reserve (Fast Frequency Response) Position at SnapshotThe QSE q’s net positive Real-Time RRS-FFR Ancillary Service Position according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ECSPOSSNAP ruc, q, h	MW	ERCOT Contingency Reserve Service (SCED Dispatchable) Position at SnapshotThe QSE q’s net ECRS Ancillary Service Position that is SCED-dispatchable according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval. This value can be positive or negative.
+ECMPOSSNAP ruc, q, h	MW	ERCOT Contingency Reserve Service (Non-SCED Dispatchable) Position at SnapshotThe QSE q’s net positive ECRS Ancillary Service Position that is non-SCED-dispatchable according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+NSSPOSSNAP ruc, q, h	MW	Non-Spin Reserve Service (SCED Dispatchable) Position at SnapshotThe QSE q’s net Non-Spin Ancillary Service Position that is SCED-dispatchable according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+NSMPOSSNAP ruc, q, h	MW	Non-Spin Reserve Service (Non-SCED Dispatchable) Position at SnapshotThe QSE q’s net positive Non-Spin Ancillary Service Position that is non-SCED-dispatchable according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ASMWCAPUQSNAP ruc, q, h	MW	Calculated Total MW Capacity used to cover the QSE’s Ancillary Service Position at Snapshot—The calculated total MW capacity for a QSE q that represents the amount of the QSE’s Ancillary Service Position covered by its Resources for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ASMWCAPUSNAP ruc, q, h, ASSubtype, r	MW	Calculated MW Capacity used to cover the QSE’s ‘AStype’ Ancillary Service Position at Snapshot—The calculated MW Capacity of a Resource r represented by QSE q that is used to cover its QSE’s “ASSubtype” Ancillary Service Position for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+MWSNAP ruc, q, h, r	MW	Calculated MW required to support ESR’s calculated Ancillary Service coverage at Snapshot—The MW discharge (positive) or charge (negative) required to support the ESR’s calculated Ancillary Service coverage considering the submitted COP values for Hour Beginning Planned SOC, MinSOC, MaxSOC and the difference in the Hour Beginning Planned SOC for the hour under consideration and the next hour while accounting for Ancillary Service deployment factors and the duration requirements for energy and different Ancillary Service types Position for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+ESRASSNAP ruc, q, h	MW	Calculated Ancillary Service MW Capacity Provided By QSE’s ESR Portfolio at  Snapshot—The total ESR MW capacity used to cover the QSE q’s Upward Ancillary Service position for Reg-Up, RRS, ECRS, and Non-Spin in the RUC Snapshot for the RUC process ruc, for the hour h that includes the 15-minute Settlement Interval.
+ESRMWSNAP ruc, q, h	MW	Calculated QSE Total ESR MW Discharging or Charging Required To Support Ancillary Service at Snapshot—The total net ESR MW discharging or charging required to cover the QSE q’s Ancillary Service position provided by the QSE ESR portfolio in the RUC Snapshot for the RUC process ruc, for the hour h that includes the 15-minute Settlement Interval, taking into account the COP SOC values from COP.
+RUCOSFADJ ruc, q, i	MW	RUC Overall Shortfall at End of Adjustment Period —The QSE q’s overall capacity shortfall at the end of the Adjustment Period, including capacity from IRRs as seen in the RUC Snapshot for the RUC process ruc, for the 15-minute Settlement Interval i.
+RUCASFADJ q, i	MW	RUC Ancillary Service Shortfall at End of Adjustment Period —The QSE q’s Ancillary Service capacity shortfall at the end of the Adjustment Period for the 15-minute Settlement Interval i.
+ASONPOSADJ q ,i	MW	Ancillary Service On-Line Position at End of Adjustment Period – The QSE q’s total On-Line Ancillary Service position at the end of the Adjustment Period for the 15-minute Settlement Interval i.
+RUPOSADJ q, h	MW	Regulation Up Position at End of Adjustment Period The QSE q’s net positive Reg-Up Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+RRPOSADJ q, h	MW	Responsive Reserve Service Position at End of Adjustment Period The QSE q’s net positive RRS Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ECRPOSADJ q, h	MW	ERCOT Contingency Reserve Service Position at End of Adjustment Period The QSE q’s net positive ECRS Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+NSPOSADJ q, h	MW	Non-Spin Reserve Service Position at End of Adjustment Period The QSE q’s net positive Non-Spin Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+RDPOSADJ q, h	MW	Regulation Down Position at End of Adjustment Period The QSE q’s net positive Reg-Down Ancillary Service Position at the end of the Adjustment period for the hour h that includes the 15-minute Settlement Interval.
+ASOFFOFRADJ  q, r, h	MW	Ancillary Service Offline Offers at End of Adjustment Period –The capacity represented by validated Ancillary Service Offers for Non-Spin for Resource r with COP status of “OFF”, represented by QSE q at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train.  A Resource’s offered capacity is only included in the sum to the extent that the Resource’s COP Status and Ancillary Service Capability indicate it would be capable of providing the Ancillary Service during the hour h.
+ASOFRLRADJ  q, r, h	MW	Ancillary Service Offer per Load Resource at End of Adjustment Period – The capacity represented by validated Ancillary Service Offers for Reg-Up, Non-Spin, RRS, and ECRS for the Load Resource r represented by QSE q at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.  A Resource’s offered capacity is only included in the sum to the extent that the Resource’s COP Status and Ancillary Service Capability indicate it would be capable of providing the Ancillary Service during the hour h.
+PFPOSADJ q, h	MW	Responsive Reserve (Governor Response or Governor-Like Response) Position at End of Adjustment Period—The QSE q’s net RRS-PFR Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval. This value can be positive or negative.
+UFPOSADJ q, h	MW	Responsive Reserve (Under Frequency trigger at 59.7 Hz.) Position at End of Adjustment Period—The QSE q’s net RRS-UFR Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+FFPOSADJ q, h	MW	Responsive Reserve (Fast Frequency Response) Position at End of Adjustment Period—The QSE q’s net positive RRS-FFR Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ECSPOSADJ q, h	MW	ERCOT Contingency Reserve Service (SCED Dispatchable) Position at End of Adjustment Period—The QSE q’s net ECRS SCED Dispatchable Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+ECMPOSADJ q, h	MW	ERCOT Contingency Reserve Service (Non-SCED Dispatchable) Position at End of Adjustment Period—The QSE q’s net positive ECRS non-SCED-dispatchable Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+NSSPOSADJ q, h	MW	Non-Spin Reserve Service (SCED Dispatchable) Position at End of Adjustment PeriodThe QSE q’s net Non-Spin SCED-dispatchable Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.  This value can be positive or negative.
+NSMPOSADJ q, h	MW	Non-Spin Reserve Service (Non-SCED Dispatchable) Position at End of Adjustment Period—The QSE q’s net positive Non-Spin non-SCED-dispatchable Ancillary Service Position at the end of the Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ASMWCAPUQADJ q, h	MW	Calculated Total MW Capacity used to cover the QSE’s Ancillary Service Position at End of Adjustment Period—The calculated total MW capacity for a QSE q that represents the amount of the QSE’s Ancillary Service Position covered by its Resources at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ASMWCAPUADJ q, h, ASSubtype, r	MW	Calculated MW Capacity used to cover the QSE’s ‘AStype’ Ancillary Service Position at End of Adjustment Period—The calculated MW Capacity of a Resource r represented by QSE q that is used to cover its QSE’s “ASSubtype” Ancillary Service Position at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+MWADJ q, h, r	MW	Calculated MW discharge (positive) or charge (negative) required to support ESR’s calculated Ancillary Service coverage at End of Adjustment Period—The MW discharge (positive) or charge (negative) required to support the ESR’s calculated Ancillary Service coverage considering the submitted COP values for Hour Beginning Planned SOC, MinSOC, MaxSOC and the difference in the Hour Beginning Planned SOC for the hour under consideration and the next hour while accounting for Ancillary Service deployment factors and the duration requirements for energy and different Ancillary Service types Position at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ESRASADJ q, h	MW	Calculated Ancillary Service MW Capacity Provided By QSE’s ESR Portfolio at the End of Adjustment Period—The total ESR MW capacity used to cover the QSE q’s Upward Ancillary Service position for Reg-Up, RRS, ECRS, and Non-Spin at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+ESRMWADJ q, h	MW	Calculated QSE Total ESR MW Discharging or Charging Required To Support Ancillary Service at End of Adjustment Period—The total net ESR MW discharging or charging required to cover the QSE q’s Ancillary Service position provided by the QSE ESR portfolio at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval, taking into account the COP SOC values from COP.
+RTAML q, p, i	MWh	Real-Time Adjusted Metered Load—The QSE q’s Adjusted Metered Load (AML) at the Settlement Point p for the 15-minute Settlement Interval i.
+RUCCAPSNAP ruc, q, i	MW	RUC Capacity Snapshot at time of RUC—The amount of the QSE q’s calculated capacity in the RUC Snapshot for the RUC process ruc for a 15-minute Settlement Interval i.  
+RCAPSNAP ruc, q, r, h	MW	Resource Capacity at Snapshot—The available capacity of Generation Resource r represented by the QSE q, according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.  For Generation Resources that are not IRRs, the available capacity shall be equal to HSL.  For WGRs and PVGRs, the available capacity shall be equal to the lesser of the HSL or the WGRPP and the PVGRPP, respectively.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train. 
+DCIMPSNAP ruc, q, p, i	MW	DC Import at Snapshot—The approved aggregated DC Tie Schedule submitted by QSE q as an importer into the ERCOT System through DC Tie p, according to the RUC Snapshot for the RUC process ruc for the 15-minute Settlement Interval i.
+RTDCIMP q, p	MW	Real-Time DC Import per QSE per Settlement Point—The aggregated final, approved DC Tie Schedule submitted by QSE q as an importer into the ERCOT System through DC Tie p, for the 15-minute Settlement Interval.
+RUCCPSNAP ruc, q, h	MW	RUC Capacity Purchase at Snapshot—The QSE q’s capacity purchase, according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+RUCCSSNAP ruc, q, h	MW	RUC Capacity Sale at Snapshot—The QSE q’s capacity sale, according to the RUC Snapshot for the RUC process ruc for the hour h that includes the 15-minute Settlement Interval.
+RUCCAPADJ q, i	MW	RUC Capacity at End of Adjustment Period—The amount of the QSE q’s calculated capacity, excluding capacity for IRRs, at the end of the Adjustment Period for a 15-minute Settlement Interval i.
+RCAPADJ q, r, h	MW	Resource Capacity at End of Adjustment Period—The HSL of a non-IRR Generation Resource r represented by the QSE q at the end of the Adjustment Period, for the hour h that includes the 15-minute Settlement Interval.  Where for a Combined Cycle Train, the Resource r is a Combined Cycle Generation Resource within the Combined Cycle Train. 
+RUCCPADJ q, h	MW	RUC Capacity Purchase at End of Adjustment Period—The QSE q’s capacity purchase, at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+RUCCSADJ q, h	MW	RUC Capacity Sale at End of Adjustment Period—The QSE q’s capacity sale, at the end of Adjustment Period for the hour h that includes the 15-minute Settlement Interval.
+DAEP q, p, h	MW	Day-Ahead Energy Purchase—The QSE q’s energy purchased in the DAM at the Settlement Point p for the hour h that includes the 15-minute Settlement Interval.
+DAES q, p, h	MW	Day-Ahead Energy Sale—The QSE q’s energy sold in the DAM at the Settlement Point p for the hour h that includes the 15-minute Settlement Interval.
+RTQQEPSNAP ruc, q, p, i	MW	Real-Time QSE-to-QSE Energy Purchase at Snapshot—The QSE q’s Energy Trades in which the QSE is the buyer at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the RUC Snapshot for the RUC process ruc.
+RTQQESSNAP ruc, q, p, i	MW	Real-Time QSE-to-QSE Energy Sale at Snapshot—The QSE q’s Energy Trades in which the QSE is the seller at the delivery Settlement Point p for the 15-minute Settlement Interval i, in the RUC Snapshot for the RUC process ruc.
+RTQQEPADJ q, p, i	MW	Real-Time QSE-to-QSE Energy Purchase at End of Adjustment Period—The QSE q’s Energy Trades in which the QSE is the buyer at the delivery Settlement Point p for the 15-minute Settlement Interval i, at the end of the Adjustment Period for that Settlement Interval.
+RTQQESADJ q, p, i	MW	Real-Time QSE-to-QSE Energy Sale at End of Adjustment Period—The QSE q’s Energy Trades in which the QSE is the seller at the delivery Settlement Point p for the 15-minute Settlement Interval i, at the end of the Adjustment Period for that Settlement Interval.
+q	none	A QSE.
+p	none	A Settlement Point.
+r	none	A Generation Resource, an ESR, or a Load Resource.
+ASSubType	none	Ancillary Service Sub-Type: Reg-Up, Reg-Down, RRS provided as Primary Frequency Response, RRS provided via a high-set under-frequency relay, Fast Frequency Response (FFR), ECRS that is SCED-dispatchable, ECRS that is non-SCED dispatchable, Non-Spin that is SCED-dispatchable, and Non-Spin that is non-SCED-dispatchable.
+z	none	A previous RUC process for the Operating Day.
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+ruc	none	The RUC process for which this RUC Shortfall Ratio Share is calculated.
+5.7.4.1.2	RUC Capacity Credit
+(1)	A QSE that is charged for a capacity shortfall in one RUC process gets a capacity credit equal to the minimum of the QSE’s RUC shortfall (MW) or the total RUC capacity purchased multiplied by the QSE’s shortfall ratio share.  The capacity credit to be used in future RUC processes for the same 15-minute Settlement Interval is calculated as follows:
+RUCCAPCREDITruc,i,q	=	Min [RUCSFruc,i,q, (RUCCAPTOTruc,h* RUCSFRSruc,i,q)]
+The above variables are defined as follows:
+Variable	Unit	Definition
+RUCCAPCREDITruc,i,q	MW	RUC Capacity Credit by QSE—The capacity credit resulting from capacity paid through the RUC Capacity-Short Charge for the 15-minute Settlement Interval.  
+RUCSFruc,i,q	MW	RUC Shortfall—The QSE’s capacity shortfall for the RUC process for the 15-minute Settlement Interval.
+RUCSFRSruc,i,q	none	RUC Shortfall Ratio Share—The ratio of the QSE’s capacity shortfall to the sum of all QSEs’ capacity shortfalls, for the RUC process, for the 15-minute Settlement Interval.
+RUCCAPTOTruc,h	MW	RUC Capacity Total—The total capacity of all RUC-committed Resources during the RUC process, for the hour that includes the 15-minute Settlement Interval.  
+q	none	A QSE.
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+ruc	none	The RUC process for which this RUC Capacity Credit is calculated.
+5.7.4.2	RUC Make-Whole Uplift Charge
+(1)	If the revenues from the charges under Section 5.7.4.1, RUC Capacity-Short Charge, are not enough to cover all RUC Make-Whole Payments, including amounts for RMR Units, for a 15-minute Settlement Interval, then the difference will be uplifted to all QSEs on a Load Ratio Share basis, as a RUC Make-Whole Uplift Charge, calculated as follows: 
+LARUCAMTq,i	=	(-1) * ( RUCMWAMTTOTh / 4 + RUCCSAMTTOTi) * LRSq,i
+Where:
+	RUCMWAMTTOTh 		=	 RUCMWAMTRUCTOTruc,h
+	RUCCSAMTTOTi	    	 =	  RUCCSAMTruc,i,q
+The above variables are defined as follows:
+Variable	Unit	Definition
+LARUCAMTq,i	$	RUC Make-Whole Uplift Charge—The amount owed from the QSE based on Load Ratio Share, for the 15-minute Settlement Interval.
+RUCMWAMTTOTh	$	RUC Make-Whole Amount Total—The sum of RUC Make-Whole Payments for all RUC processes, including amounts for RMR Units, for the hour that includes the 15-minute Settlement Interval.
+RUCMWAMTRUCTOTruc,h	$	RUC Make-Whole Amount Total per RUC—The sum of RUC Make-Whole Payments for a particular RUC process, including payments for RMR Units, for the hour that includes the 15-minute Settlement Interval.
+RUCCSAMTTOTi	$	RUC Capacity Amount Total—The sum of RUC Capacity-Short Charges for all QSEs and RUC processes, including payments for RMR Units, for the 15-minute Settlement Interval.
+RUCCSAMTruc,i,q	$	RUC Capacity-Short Amount—The charge to a QSE, due to capacity shortfall for a particular RUC process, for the 15-minute Settlement Interval.
+LRSq,i	none	Load Ratio Share—The ratio of Adjusted Metered Load to the total ERCOT Adjusted Metered Load for the 15-minute Settlement Interval.  See Section 6.6.2, Load Ratio Share, item (2).
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+ruc	none	A RUC Process.
+q	none	A QSE.
+5.7.5	RUC Clawback Payment
+(1)	ERCOT shall pay the revenues from all RUC Clawback Charges, including amounts for RMR Units, in a 15-minute Settlement Interval to all QSEs, on an LRS basis, as the RUC Clawback Payment.  The RUC Clawback Payment is calculated as follows for each QSE for each 15-minute Settlement Interval: 
+LARUCCBAMTq,i	=	(-1) * (RUCCBAMTTOTh / 4 * LRSq,i)
+Where:
+	RUCCBAMTTOTh	=	  RUCCBAMTq,r,h
+The above variables are defined as follows:
+Variable	Unit	Definition
+LARUCCBAMTq,i	$	RUC Clawback Payment—The RUC make-whole clawback payment to a QSE to uplift RUC Make-Whole Clawback Charges received, for a 15-minute Settlement Interval.
+RUCCBAMTTOTh	$	RUC Clawback Charge Total —The sum of RUC Clawback Charges to all QSEs, including amounts for RMR Units, for the hour that includes the 15-minute Settlement Interval.
+LRSq,i	none	Load Ratio Share—The LRS for the 15-minute Settlement Interval.  See Section 6.6.2, Load Ratio Share.
+RUCCBAMTq,r,h	$	RUC Clawback Charge—The RUC Clawback Charge to the QSE q for the Resource r, for the hour that includes the 15-minute Settlement Interval.  When one or more Combined Cycle Generation Resources are committed by RUC, a charge is made to the Combined Cycle Train for all RUC-committed Combined Cycle Generation Resources.
+q	None	A QSE.
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+r	none	A RUC-committed Generation Resource.
+5.7.6	RUC Decommitment Charge 
+(1)	ERCOT shall charge each QSE a RUC Decommitment Charge, on an LRS basis, all revenues paid as a result of RUC Decommitment Payments, including amounts for RMR Units.  The RUC Decommitment Charge for a 15-minute Settlement Interval is calculated as follows:
+LARUCDCAMTq,i	=	(-1) * [(RUCDCAMTTOTh / 4) * LRSq,i]
+Where:
+	RUCDCAMTTOTh	=	  RUCDCAMTq,r,h
+The above variables are defined as follows:
+Variable	Unit	Definition
+LARUCDCAMTq,i	$	RUC Decommitment Charge—The RUC Decommitment Charge to a QSE, for a 15-minute Settlement Interval.
+RUCDCAMTTOTh	$	RUC Decommitment Charge Total—The sum of RUC Decommitment Payments to all QSEs, including amounts for RMR Units, for the hour that includes the 15-minute Settlement Interval.
+LRSq,i	none	Load Ratio Share—The LRS for the 15-minute Settlement Interval.  See Section 6.6.2, Load Ratio Share.
+RUCDCAMTq,r,h	$	RUC Decommitment Charge—The RUC Decommitment Charge to the QSE q for the Resource r, for the hour that includes the 15-minute Settlement Interval.  When one or more Combined Cycle Generation Resources are decommitted by RUC, payment is made to the Combined Cycle Train for all RUC-decommitted Combined Cycle Generation Resources.
+q	None	A QSE.
+i	none	A 15-minute Settlement Interval.
+h	none	The hour that includes the Settlement Interval i. 
+r 	None	A RUC-decommitted Generation Resource.
+5.7.7 	Settlement of Switchable Generation Resources (SWGRs) Operating in a Non-ERCOT Control Area
+(1)	A QSE representing an SWGR operating in ERCOT due to a RUC instruction for an actual or anticipated EEA condition with a status of ONRUC is not eligible for RUC Settlement as described in Section 5.7.1, RUC Make-Whole Payment, and Section 5.7.2, RUC Clawback Charge, but may obtain compensation by submitting a Settlement and billing dispute pursuant to Section 6.6.12, Make-Whole Payment for Switchable Generation Resources Committed for Energy Emergency Alert (EEA).
+5.8	Annual RUC Reporting Requirement
+(1)	ERCOT shall report to the Technical Advisory Committee (TAC), each January, an assessment of market impacts and Settlements for the aggregate Reliability Unit Commitment (RUC) activity, delineated by type of RUC instruction as follows:
+(a) 	RUC instructions issued for Ancillary Service shortages (failure to sufficiently procure one or more Ancillary Service markets in the Day-Ahead Market (DAM) or subsequent Supplemental Ancillary Service Markets (SASMs));
+[NPRR1009:  Delete paragraph (a) above upon system implementation of the Real-Time Co-Optimization (RTC) project and renumber accordingly.]
+(b)	RUC instructions issued for irresolvable transmission system constraints;
+(c) 	RUC instructions issued in anticipation of extreme cold weather/startup failures;
+(d)	RUC instructions issued for capacity;
+[NPRR1204:  Insert paragraph (e) below upon system implementation of the Real-Time Co-Optimization (RTC) project and renumber accordingly:]
+(e)	RUC instructions issued for expected Energy Storage Resource (ESR) energy consumption;
+(e)	RUC instructions issued for system inertia;
+(f)	RUC instructions issued to Resources receiving an Outage Schedule Adjustment (OSA); and
+(g)	A summary of RUC Settlements;
+(i)	RUC charges associated with RUC Make-Whole Amount Total per RUC, as defined in Section 5.7.4.1, RUC Capacity-Short Charge; and
+(ii)	RUC Shortfall Total, as defined in Section 5.7.4.1.1, Capacity Shortfall Ratio Share.
+ERCOT Nodal Protocols
+Section 7:  Congestion Revenue Rights
+April 1, 2025
+
+
+ 
+7	Congestion Revenue Rights	7-1
+7.1	Function of Congestion Revenue Rights	7-1
+7.2	Characteristics of Congestion Revenue Rights	7-2
+7.2.1	CRR Naming Convention	7-2
+7.3	Types of Congestion Revenue Rights to Be Auctioned	7-2
+7.3.1	Flowgates	7-3
+7.3.1.1	Process for Defining Flowgates	7-3
+7.3.1.2	Defined Flowgates	7-3
+7.4	Pre-Assigned Congestion Revenue Rights Overview	7-3
+7.4.1	PCRR Allocation Eligibility	7-4
+7.4.1.1	PCRR Criteria for NOIE Allocation Eligibility	7-4
+7.4.1.2	NOIE Allocation Eligibility for PCRRs Impacted By Long-Term Outages of Generation Resources and Mothballed Generation Resources	7-6
+7.4.1.3	PCRR Disqualification	7-8
+7.4.1.3.1	PCRR Disqualifying Events	7-8
+7.4.1.3.2	Effect of PCRR Disqualification	7-9
+7.4.2	PCRR Allocation and Nomination Terms and Conditions	7-10
+7.4.2.1	PCRR Allocation and Nomination Amounts	7-10
+7.4.2.2	PCRR Allocations and Nominations	7-11
+7.5	CRR Auctions	7-14
+7.5.1	Nature and Timing	7-14
+7.5.2	CRR Auction Offers and Bids	7-17
+7.5.2.1	CRR Auction Offer Criteria	7-18
+7.5.2.2	CRR Auction Offer Validation	7-20
+7.5.2.3	CRR Auction Bid Criteria	7-21
+7.5.2.4	CRR Auction Bid Validation	7-21
+7.5.3	ERCOT Responsibilities	7-22
+7.5.3.1	Data Transparency	7-23
+7.5.3.2	Auction Notices	7-24
+7.5.4	CRR Account Holder Responsibilities	7-25
+7.5.5	Auction Clearing Methodology	7-25
+7.5.5.1	Creditworthiness	7-25
+7.5.5.2	Disclosure of CRR Ownership	7-25
+7.5.5.3	Auction Process	7-25
+7.5.5.4	Simultaneous Feasibility Test	7-29
+7.5.6	CRR Auction Settlements	7-30
+7.5.6.1	Payment of an Awarded CRR Auction Offer	7-30
+7.5.6.2	Charge of an Awarded CRR Auction Bid	7-31
+7.5.6.3	Charge of PCRRs Pertaining to a CRR Auction	7-32
+7.5.6.4	CRR Auction Revenues	7-34
+7.5.7	Method for Distributing CRR Auction Revenues	7-37
+7.6	CRR Balancing Account	7-40
+7.7	Point-to-Point (PTP) Option Award Charge	7-43
+7.7.1	Determination of the PTP Option Award Charge	7-43
+7.7.2	[RESERVED]	7-44
+7.8	Bilateral Trades and ERCOT CRR Registration System	7-44
+7.9	CRR Settlements	7-45
+7.9.1	Day-Ahead CRR Payments and Charges	7-45
+7.9.1.1	Payments and Charges for PTP Obligations Settled in DAM	7-45
+7.9.1.2	Payments for PTP Options Settled in DAM	7-47
+7.9.1.3	Minimum and Maximum Resource Prices	7-50
+7.9.1.4	Payments for FGRs Settled in DAM	7-54
+7.9.1.5	Payments and Charges for PTP Obligations with Refund Settled in DAM	7-54
+7.9.1.6	Payments for PTP Options with Refund Settled in DAM	7-56
+7.9.2	Real-Time CRR Payments and Charges	7-58
+7.9.2.1	Payments and Charges for PTP Obligations Settled in Real-Time	7-58
+7.9.2.2	Payments for PTP Options Settled in Real-Time	7-61
+7.9.2.3	Payments for NOIE PTP Options with Refund Settled in Real-Time	7-62
+7.9.2.4	Payments for FGRs in Real-Time	7-64
+7.9.2.5	Payments and Charges for PTP Obligations with Refund in Real-Time	7-64
+7.9.3	CRR Balancing Account	7-66
+7.9.3.1	DAM Congestion Rent	7-66
+7.9.3.2	Credit to CRR Balancing Account	7-66
+7.9.3.3	Shortfall Charges to CRR Owners	7-71
+7.9.3.4	Monthly Refunds to Short-Paid CRR Owners	7-72
+7.9.3.5	CRR Balancing Account Closure	7-74
+7.9.3.6	Rolling CRR Balancing Account Fund	7-75
+
+	
+ 
+7	CONGESTION REVENUE RIGHTS
+7.1	Function of Congestion Revenue Rights
+(1)	A Congestion Revenue Right (CRR) is a financial instrument that entitles the CRR Owner to be charged or to receive compensation for congestion rents that arise when the ERCOT Transmission Grid is congested in the Day-Ahead Market (DAM) or in Real-Time.  CRRs do not represent a right to receive, or obligation to deliver, physical energy.  Most CRRs are tradable in the CRR Auction, in the DAM, or bilaterally, as described in more detail in this Section.
+(2)	CRRs may be acquired as follows:
+(a)	CRR Auction – ERCOT shall conduct periodic auctions to allow eligible CRR Account Holders to acquire CRRs.  The auction also allows CRR Owners an opportunity to sell CRRs that they hold.
+(b)	PCRR Allocations – ERCOT shall allocate CRRs (known as Pre-Assigned Congestion Revenue Rights (PCRRs)) to eligible Municipally Owned Utilities (MOUs) and Electric Cooperatives (ECs) under Section 7.4, Preassigned Congestion Revenue Rights Overview. 
+(c)	Bilateral Market – CRR Account Holders may trade Point-to-Point (PTP) Options and PTP Obligations bilaterally.  PTP Options with Refund and PTP Obligations with Refund are not bilaterally tradable.  Bilateral trading may be done privately or through ERCOT.  ERCOT shall facilitate trading on the Market Information System (MIS) Certified Area of existing CRRs between CRR Account Holders, subject to credit requirements.  ERCOT shall settle CRRs with the CRR Account Holder shown on ERCOT records.
+(d)	DAM – Qualified Scheduling Entities (QSEs) may bid for PTP Obligations in the DAM. 
+(3)	Each CRR is one of these types:
+(a)	PTP Option, some of which may be PCRRs;
+(b)	PTP Obligation, some of which may be PCRRs;
+(c)	PTP Option with Refund, all of which are PCRRs;
+(d)	PTP Obligation with Refund, all of which are PCRRs; and
+(e)	Flowgate Right (FGR).
+7.2	Characteristics of Congestion Revenue Rights
+(1)	Each CRR has the following characteristics:
+(a)	Quantities are measured in MWs with granularity of tenths of MWs (0.1 MW);
+(b)	A duration of one hour; 
+(c)	An ability to be fully tradable financial instruments except in specified time-of-use blocks for a PTP Option with Refund and a PTP Obligation with Refund; and  
+(d)	A designated source (injection point) that is a Settlement Point and a designated sink (withdrawal point) that is a different Settlement Point, except for a Flowgate Right (FGR), which has a designated directional network element, or a bundle of directional network elements, instead.
+7.2.1	CRR Naming Convention
+(1)	The appropriate TAC subcommittee shall establish a task force that is open to Market Participants, comprised of technical experts, to develop a naming convention for CRRs consistent with the requirements of the Protocols.  The naming convention must be approved by TAC before implementation. 
+7.3	Types of Congestion Revenue Rights to Be Auctioned
+(1)	ERCOT shall auction the following types of Congestion Revenue Rights (CRRs):
+(a)	Point-to-Point (PTP) Options;
+(b)	PTP Obligations; and
+(c) 	Flowgate Rights (FGRs) that are defined in Section 7.3.1, Flowgates. 
+(2)	PTP Options are evaluated hourly in each CRR Auction as the positive power flows on all directional network elements created by the injection and withdrawal at the specified source and sink points in the quantity represented by the CRR bid or offer (MW), excluding all negative flows on all directional network elements.  
+(3)	PTP Obligations are evaluated hourly in each CRR Auction as the positive and negative power flows on all directional network elements created by the injection and withdrawal at the specified source and sink points of the quantity represented by the CRR bid or offer (MW).  
+(4)	PTP Options can only result in payments from ERCOT to the CRR Owner of record.  A PTP Obligation may result in either a payment or a charge to the CRR Owner of record.
+(5)	CRRs must be auctioned in the following Time Of Use (TOU) blocks (having the same MW amount for each hour within the block):
+(a)	5x16 blocks for hours ending 0700-2200, Monday through Friday (excluding North American Electric Reliability Corporation (NERC) holidays), in one-month strips;
+(b)	2x16 blocks for hours ending 0700-2200, Saturday and Sunday, and NERC holidays in one-month strips; and
+(c)	7x8 blocks for hours ending 0100-0600 and hours ending 2300-2400 Sunday through Saturday, in one-month strips.
+(6)	CRR Auction bids and Pre-Assigned Congestion Revenue Right (PCRR) nominations must specify a TOU block. 
+(7)	For the CRR Monthly Auction only, a single block bid may be submitted for all hours in a calendar month, which represents a linked-offer for all three TOU blocks described above in paragraph (5).
+7.3.1	Flowgates
+7.3.1.1	Process for Defining Flowgates
+(1)	Flowgates where ERCOT offers FGRs may only be created by an amendment to Section 7.3.1.2, Defined Flowgates.  ERCOT shall post the list of all flowgates available for FGRs on the ERCOT website.  If there is any change in the designation of flowgates, ERCOT shall provide notice to all Market Participants as soon as practicable.
+7.3.1.2	Defined Flowgates
+(1)	There are currently no defined flowgates.
+7.4	Pre-Assigned Congestion Revenue Rights Overview
+(1)	ERCOT shall allocate a portion of available Congestion Revenue Rights (CRRs) as Pre-Assigned Congestion Revenue Rights (PCRRs) to Non-Opt-In Entities (NOIEs) that either have established ownership prior to September 1, 1999 in a specific Generation Resource or have a long-term (greater than five years) contractual commitment for annual capacity and energy that was entered into prior to September 1, 1999 from specific Generation Resources.  For purposes of this Section 7.4, such Generation Resources shall be referred to as “pre-September 1, 1999 Generation Resources.”  An existing Generation Resource that interconnected to the ERCOT Transmission Grid on or after June 1, 2021, pursuant to paragraph (3) of Section 1.6.5, Interconnection of New or Existing Generation, cannot qualify as a pre-September 1, 1999 Generation Resource for PCRR purposes. 
+(2) 	NOIEs are the only Entities eligible for an allocation of PCRRs.  NOIEs may designate an agent to manage their PCRRs, provided that ERCOT’s relationship is with the NOIE and that an agent shall be subject to all PCRR rules applicable to the NOIE.  ERCOT will rely exclusively on documentation provided or confirmed by the NOIE to determine the continued eligibility for allocation of PCRRs.  
+(3)	ERCOT shall publish a list of NOIEs who are eligible for allocation of PCRRs on the ERCOT website.  The list shall include each NOIE’s ownership and/or contractual amount of capacity related to pre-September 1, 1999 Generation Resources.  The list shall further include the eligible PCRR amounts capped at the net max sustainable rating (MW) of pre-September 1, 1999 Generation Resources as established by 2010 registration data.  ERCOT shall update the list as necessary to reflect current NOIE eligibility for allocation of PCRRs. 
+7.4.1	PCRR Allocation Eligibility
+7.4.1.1	PCRR Criteria for NOIE Allocation Eligibility
+(1)	PCRRs shall be limited to pre-September 1, 1999 Generation Resources utilized by a NOIE to serve the Load in its service territory.  The following criteria shall apply for NOIE eligibility for allocation of PCRRs:
+(a)	A Generation Resource owned by the NOIE nominating the PCRR(s) that meets the following:
+(i)	The NOIE owned the Generation Resource prior to September 1, 1999 and has maintained uninterrupted ownership since September 1, 1999;
+(ii)	The Generation Resource has remained in service on an uninterrupted basis except for Maintenance Outages, Forced Outages, Opportunity Outages or Planned Outages (including a Mothballed Generation Resource that operates under a Seasonal Operation Period) subsequent to September 1, 1999; and
+(iii)	The NOIE utilizes the Generation Resource to meet its electric service obligations within its service territory in an amount at least equal to the nominated PCRR amount. 
+(b)	A Generation Resource that is the subject of a long-term contract between the NOIE nominating the PCRR(s) and another Entity that owns or controls the Generation Resource, provided that the long-term contract meets the following criteria:
+(i)	The contract was entered into prior to September 1, 1999 and has remained in effect on an uninterrupted basis since September 1, 1999; 
+(ii)	The contract term is greater than five years.  Contracts with automatic renewal provisions (evergreen clauses), the operation of which extends beyond the term of the contract to more than the cumulative five years, shall meet this requirement, provided that the automatic renewal provision was in place prior to September 1, 1999;  
+(iii)	The NOIE is entitled to capacity from specific Generation Resource(s) pursuant to the long-term contract; long-term contracts that are not backed by specific Generation Resources are not eligible for PCRRs;
+(iv)	The Generation Resource(s) that is/are the subject of the long-term contract has/have remained in service on an uninterrupted basis except for Maintenance Outages, Forced Outages, Opportunity Outages or Planned Outages (including a Mothballed Generation Resource that operates under a Seasonal Operation Period) since September 1, 1999; and
+(v)	The Generation Resource(s) that is/are the subject of the long-term contract is/are utilized by the NOIE to meet its electric service obligations within its service territory in an amount at least equal to the nominated PCRR amount.
+(c)	A federally-owned hydroelectric Generation Resource that is the subject of a series of sequential long-term contracts between the NOIE nominating the PCRR(s) and the federal government based upon a long-term (greater than five years) allocation from the federal government for annual capacity and energy produced at such federally-owned hydroelectric Generation Resource, and that allocation was in place prior to September 1, 1999.  
+(d)	Multiple Generation Resources that are the subject of portfolio supply contracts that meet the requirements of paragraphs (1)(b)(i)-(ii) and (1)(b)(iv)-(v) above and are between a NOIE nominating the PCRR(s) and another non-NOIE.  For the purposes of this Section 7.4.1.1, portfolio supply contract shall mean an agreement under which multiple NOIEs receive wholesale capacity from another non-NOIE pursuant to a portfolio of specific Generation Resources.  Each NOIE who is eligible for PCRRs and is a party to a portfolio supply contract shall be allocated PCRRs based on its 2003 4-Coincident Peak (4-CP) ratio share of each Generation Resource in the portfolio.  The 2003 4-CP ratio share shall be calculated as the 4-CP of each NOIE divided by the total 4-CP of all NOIEs who were supplied by that portfolio of Generation Resources in 2003.  Each NOIE’s capacity entitlement shall be its 2003 4-CP ratio share multiplied by the net max sustainable rating from the 2010 registration data for each PCRR eligible Generation Resource in the portfolio.
+(e)	The Direct Current Tie (DC Tie) is considered a PCRR-eligible Generation Resource for contracts of Tex-La Electric Cooperative of Texas, Inc. with supply resources located outside the ERCOT Region that meet the requirements of paragraphs (b)(i)-(ii) and (iv)-(v) above.
+(f) 	A Generation Resource that was the subject of a pre-September 1, 1999 long-term contract between the NOIE nominating the PCRR(s) and another Entity that owned or controlled the Generation Resource prior to September 1, 1999, and that has been acquired by the NOIE after September 1, 1999, shall be deemed for all purposes as a NOIE-owned pre-September 1, 1999 Generation Resource for purposes of paragraph (1) of Section 7.4.1.3.1, PCRR Disqualifying Events, provided that an option for the NOIE to acquire the Generation Resource was in place in the long-term contract prior to September 1, 1999.
+7.4.1.2	NOIE Allocation Eligibility for PCRRs Impacted By Long-Term Outages of Generation Resources and Mothballed Generation Resources
+(1)	A NOIE maintains allocation eligibility for PCRRs associated with a pre-September 1, 1999 Generation Resource that may be out of service for greater than 12 consecutive months if the Generation Resource is out of service pursuant to a Forced Outage and the time necessary to address the relevant Outage extends beyond 12 months, provided that the NOIE must demonstrate to ERCOT’s satisfaction that the Outage continues to be necessary and does not require the Resource Entity to cease or suspend operation of the Generation Resource pursuant to Section 3.14.1.1, Notification of Suspension of Operations.  
+(a)	For a PCRR Nomination Year in which a PCRR-eligible Generation Resource is expected to return to service after a long-term Forced Outage (greater than 12 consecutive months), the NOIE is only eligible to receive PCRRs for the months in which the Generation Resource is expected to be in service for the entirety of the month. 
+(b)	If the NOIE nominated and was awarded PCRRs during the annual PCRR allocation process for future months based on an anticipated return to service of a PCRR-eligible Generation Resource from a long-term Forced Outage (greater than 12 consecutive months), the NOIE shall notify ERCOT in writing of the intentions of the Resource Entity to return the Generation Resource to service no less than 60 days prior to the first day of the month in which the Generation Resource is scheduled to return to service. This notice requirement to retain allocated PCRRs is separate and distinct from the return to service requirement in Section 3.14.1.9, Generation Resource Status Updates.  If the Generation Resource will not be returned to service for the entirety of a month for which PCRRs were allocated, the associated CRRs will be voided for each impacted month and ERCOT will follow the appropriate option described in Section 7.4.1.3.2, Effect of PCRR Disqualification, in order to maximize the available transmission capacity for future monthly CRR Auctions.  To determine if the NOIE will retain any allocated PCRRs for future months, the NOIE shall provide to ERCOT a new expected return to service date and must follow the notice requirement and timeline in this paragraph above.
+ (2)	A NOIE maintains allocation eligibility for PCRRs associated with a pre-September 1, 1999 Generation Resource if the Generation Resource becomes a Mothballed Generation Resource pursuant to Section 3.14.1.1, Notification of Suspension of Operations, regardless of whether ERCOT determines that the Generation Resource is necessary for Reliability Must-Run (RMR) Service.
+(a)	However, because the Generation Resource will not provide any capacity or energy to serve the NOIE’s Load in its service territory for the period in which it is designated as a Mothballed Generation Resource, a NOIE does not have an exclusive right to retain any allocated PCRRs during this period.  For any retained PCRRs, the NOIE shall follow the process detailed in Section 7.4.1.3.2, Effect of PCRR Disqualification. 
+(b)	For a PCRR Nomination Year in which a PCRR-eligible Mothballed Generation Resource is expected to return to service (including a Mothballed Generation Resource that operates under a Seasonal Operation Period), the Generation Resource is only eligible for PCRRs for the months it is expected to be in service for the entirety of the month.
+(c)	If the NOIE nominated and was awarded PCRRs during the annual PCRR allocation process for future months based on an anticipated return to service of a PCRR-eligible Mothballed Generation Resource, the NOIE shall notify ERCOT in writing of the intentions of the Resource Entity to return the Mothballed Generation Resource to service no less than 60 days prior to the first day of the month in which the Generation Resource is scheduled to return to service.  This notice requirement to retain allocated PCRRs is separate and distinct from the return to service requirement in Section 3.14.1.9.  If the Mothballed Generation Resource will not be returned to service for the entirety of a month for which PCRRs were allocated, the associated CRRs will be voided for each impacted month and ERCOT will follow the appropriate option described in Section 7.4.1.3.2 in order to maximize the available transmission capacity for future monthly CRR Auctions.  To determine if the NOIE will retain any allocated PCRRs for future months, the NOIE shall provide to ERCOT a new expected return to service date and must follow the notice requirement and timeline in this paragraph.
+7.4.1.3	PCRR Disqualification
+7.4.1.3.1	PCRR Disqualifying Events
+(1)	A NOIE that owns a pre-September 1, 1999 Generation Resource shall no longer be eligible for allocation of PCRRs associated with that Generation Resource under the following conditions:
+(a)	The Generation Resource is designated as decommissioned and retired pursuant to Section 3.14.1.1, Notification of Suspension of Operations, regardless of whether ERCOT determines that the Generation Resource is necessary for RMR Service.  
+(b)	The Generation Resource is sold by the NOIE to another Entity, regardless of whether the NOIE later enters into a long-term supply contract with that Entity to serve the NOIE’s Load in its service territory.  The selling of a Generation Resource shall include the transfer of ownership of the Generation Resource and/or the sale of the energy and/or capacity of the Generation Resource pursuant to a contractual agreement.  However, a transfer of the Generation Resource to an Affiliate of the NOIE or to a generation and transmission Electric Cooperative (EC) for the benefit of the NOIE shall not serve as a disqualifying event as long as all other PCRR eligibility requirements remain in place.  
+(2)	A NOIE that has a long-term contract with a pre-September 1, 1999 Generation Resource under paragraph (1)(b) of Section 7.4.1.1, PCRR Criteria for NOIE Allocation Eligibility, shall no longer be eligible for allocation of PCRRs associated with that Generation Resource upon termination of the long-term contract.  For purposes of this Section 7.4.1.3.1, termination of the relevant long-term contract shall include:
+(a)	The Generation Resource is designated as decommissioned and retired pursuant to Section 3.14.1.1, regardless of whether ERCOT determines that the Generation Resource is necessary for RMR Service.
+(b)	Any change in control of the capacity under the contract, including, but not limited to, assignment of the contract to another Entity.  The foregoing notwithstanding, a NOIE shall still be eligible to receive PCRRs if the capacity under the contract is transferred to another Entity or a generation and transmission EC for the benefit of the NOIE, the Entity or the generation and transmission EC continues to supply the NOIE under the same terms and conditions of the long-term contract, and the contract continues to meet all other relevant PCRR eligibility requirements.  
+(c) 	Any change in the designation of Generation Resources backing a long-term contract after September 1, 1999, shall disqualify the long-term contract.
+(d)	If the termination of a long-term contract applies to less than 100% of the capacity entitlement, the remaining capacity entitlement shall continue to qualify for PCRRs for the MW amount under the portion of the long-term contract that is not terminated, provided that the long-term contract otherwise continues to meet all other PCRR eligibility requirements.  
+(3)	A NOIE that has a long-term portfolio supply contract under paragraph (1)(d) of Section 7.4.1.1 shall no longer be eligible for allocation of PCRRs associated with these pre-September 1, 1999 Generation Resources upon termination of the portfolio supply contract.  For the purposes of this subsection, termination shall have the same meaning as defined in paragraph (2) above.  Following termination of a portfolio supply contract(s) for a NOIE or group of NOIEs, the capacity entitlements remaining under the existing portfolio supply contract(s) shall continue to reflect the 2003 4-CP ratio share values, as described in paragraph (1)(d) of Section 7.4.1.1.  
+(4)	A NOIE that has a long-term contract across the DC Tie with supply resources located outside the ERCOT Region pursuant to paragraph (1)(e) of Section 7.4.1.1 shall no longer be eligible for allocation of PCRRs upon termination of the relevant external supply contract(s).  For purposes of this Section 7.4.1.3.1, termination shall have the same meaning as defined in paragraph (2) above.  If the termination of the external supply contract(s) applies to less than 100% of the capacity entitlement, the remaining capacity entitlement shall continue to qualify for PCRRs for the MW amount under the portion of the external supply contract(s) that is not terminated, provided that the external supply contract(s) continues to meet all other PCRR eligibility requirements.  
+(5)	A NOIE that has long-term contracts pursuant to paragraph (1)(b) of Section 7.4.1.1, portfolio supply contracts pursuant to paragraph (1)(d) of Section 7.4.1.1 or long-term contracts pursuant to paragraph (1)(e) of Section 7.4.1.1 that did not contain automatic renewal provisions (evergreen clauses) in the original contracts and were subsequently revised to extend the term of the relevant contracts after September 1, 1999, shall not be eligible for allocation of PCRRs upon expiration of the original terms of the contracts (i.e. the date the contract would have expired but for extension of the term pursuant to post-September 1, 1999 contract modifications).  Disqualification pursuant to this Section 7.4.1.3.1 applies to any type of term extension modifications after September 1, 1999, whether they are automatic renewal provisions (evergreen clauses) or other renewal and extension provisions. 
+(6)	A NOIE shall no longer be eligible for allocation of PCRRs after it opts into competition, with the exception of South Texas Electric Cooperative Inc. (STEC).  STEC may be eligible for allocation of PCRRs for up to three years after the date it enters into competition.
+7.4.1.3.2	Effect of PCRR Disqualification
+(1)	Once a disqualifying event occurs under Section 7.4.1.3.1, PCRR Disqualifying Events, the PCRRs associated with the pre-September 1, 1999 Generation Resource shall be voided by ERCOT from the date of the disqualifying event.  Further, the NOIE will no longer be eligible for allocation of future PCRRs associated with the pre-September 1, 1999 Generation Resource. 
+(2)	However, if a disqualifying event occurs during the effective term of the PCRRs, the NOIE who was allocated the PCRRs shall select one of the options below to address the remaining allocated PCRRs.
+(a)	If the NOIE maintains PCRR-related CRRs in its CRR Account, then the CRRs associated with the PCRR allocation shall either:
+(i)	Be voided by ERCOT at the time of the disqualifying event and ERCOT shall refund the NOIE the discounted purchase price of the CRR as soon as practicable; or
+(ii)	Be retained by the NOIE and the NOIE pays ERCOT the price differential between the discounted CRR price and the full CRR Auction price in which the CRR was acquired. 
+(b)	If the NOIE no longer maintains PCRR-related CRRs (sale, transfer, etc.), then the NOIE pays ERCOT the price differential between the discounted CRR price and the full CRR Auction price in which the CRR was acquired.
+(c)	If the NOIE obtained PCRR-related CRRs through the Refund option (allocated at no charge), then ERCOT will void the CRRs at the time of the disqualifying event and no financial exchange is necessary.
+7.4.2	PCRR Allocation and Nomination Terms and Conditions
+7.4.2.1	PCRR Allocation and Nomination Amounts
+(1)	PCRR allocations shall be limited to the Seasonal net max sustainable rating (MW) of eligible pre-September 1, 1999 Generation Resources, but shall in no event exceed the net max sustainable rating (MW) of these pre-September 1, 1999 Generation Resources as established by 2010 registration data.  If a Generation Resource is repowered by the addition of new equipment, the PCRR MW amount is limited to the original specific turbine/generator set(s) from the pre-September 1, 1999 Generation Resource.  New or upgraded components that increase the capacity of pre-September 1, 1999 Generation Resources are not eligible for increased PCRR MW amounts.
+(2)	PCRR nominations shall be based on forecasted peak Demand, subject to the relevant PCRR allocation MW capacity limit of the specific Generation Resources.    
+(3)	The PCRR allocation amounts for individual NOIEs relative to multiple Generation Resources under a portfolio supply contract shall be based on the following:
+(a)	If the portfolio supply contract specifically describes the NOIE capacity entitlement from each specific Generation Resource, the PCRR allocation amount from each Generation Resource shall be based on the contractual rights.
+(b)	If the portfolio supply contract does not specifically describe the NOIE capacity entitlement from each specific Generation Resource, the PCRR allocation amount shall be based on the NOIE’s 2003 4-Coincident Peak (4-CP) ratio share of each Generation Resource in the portfolio.  The 2003 4-CP ratio share shall be calculated as the 4-CP of each NOIE divided by the total 4-CP of all NOIEs who were supplied by that portfolio of Generation Resources in 2003.  Each NOIE’s capacity entitlement shall be its 2003 4-CP ratio share multiplied by the net max sustainable rating from the 2010 registration data for each PCRR eligible Generation Resource in the portfolio.
+(4)	If a NOIE serves Load in more than one Load Zone, it shall nominate PCRRs to each Load Zone in an amount equal to the explicit contractual rights to each Load Zone, if any, or in proportion to the peak Load served in each relevant Load Zone, based on the aggregated monthly Load data from the corresponding prior 12 months.
+7.4.2.2	PCRR Allocations and Nominations
+(1)	ERCOT shall allocate CRRs under the following terms and conditions:
+(a)	ERCOT shall conduct studies to evaluate whether the nominated PCRRs comply with feasibility constraints using the simultaneous feasibility test described in Section 7.5.5.4, Simultaneous Feasibility Test.  A PCRR nomination is a request for one-month strips of a NOIE-specified CRR type for amounts and blocks specified by the NOIE for each month of the PCRR Nomination Year as described in paragraph (c) below.  The Simultaneous Feasibility Test (SFT) evaluation to determine the feasible PCRR allocation amount for each month being evaluated uses 100% of that month’s expected network topology, which may result in different amounts allocated in different months.  If the SFT evaluation indicates that the nominated PCRR amounts are not feasible, then ERCOT shall proportionately reduce the requested PCRRs by their Impact Ratio on violated constraints.  The “Impact Ratio” is the amount of a particular PCRR’s impact divided by the total impact of all PCRRs in the same direction on a violated constraint.  The price that a NOIE must pay for an allocated PCRR is based on the corresponding CRR clearing price in the CRR First Offering.  The invoicing and payment for a PCRR allocated according to the process in this paragraph follows the same process and timeline as the invoicing and payment of CRR bids cleared in the CRR First Offering.  
+(b)	ERCOT shall allocate all PCRRs in quantities truncated to the nearest tenth MW (0.1 MW).
+(c)	Each eligible NOIE may nominate and ERCOT shall allocate to that NOIE as so nominated, subject to the limitation of paragraph (a) above, PCRRs up to 100% of the amount allowed pursuant to Section 7.4.2.1, PCRR Allocation and Nomination Amounts, for each eligible Resource, except as noted below in paragraph (d).  Prior to the first CRR Long-Term Auction Sequence held in any given calendar year, the NOIE must nominate PCRRs for each month of the PCRR Nomination Year.  Nominations must be received at ERCOT no later than 30 Business Days prior to the commencement of the CRR Long-Term Auction Sequence.  ERCOT shall allocate PCRRs to the NOIE no later than 25 Business Days prior to the CRR Long-Term Auction Sequence.  There shall not be any PCRR nomination process leading up to the second CRR Long-Term Auction Sequence (if any) in a calendar year. 
+(d)	Prior to each CRR Monthly Auction, if there existed any PCRR nominations for the month being auctioned that ERCOT determined were not feasible at the time of the CRR Long-Term Auction Sequence in which they were originally considered, resulting in proportionally reduced PCRR allocations, then ERCOT shall re-evaluate the full nomination and allocate additional PCRRs, if feasible, up to the original nomination amount.  The price that a NOIE must pay for a PCRR allocated by the process in this paragraph is based on the corresponding CRR clearing price in the CRR Monthly Auction according to the pricing methodology in item (h) below, and the invoicing and payment for such a PCRR follows the same process and timeline as the invoicing and payment of CRR bids cleared in the CRR Monthly Auction.
+(e)	A NOIE must designate whether to accept the refund option or the capacity option for its eligible non-solid fuel and non-combined-cycle Resources before the allocation of PCRRs.  The designated option (refund or capacity) will be the same for every month of the allocation year for that Resource.  A NOIE cannot designate a combination of both options for the same Resource in a given allocation year.  These options are described in items (i) and (ii) below.  NOIEs, or a group of NOIEs linked by common pre-1999 power supply arrangements, which had a 2003 NOIE peak Load in excess of 2,300 MW must use the capacity option (ii) for their eligible non-solid-fuel and non-combined-cycle Resources.  NOIEs that receive PCRRs representing gas steam Resources, hydro, wind, simple cycle or other similar Resources across high voltage DC Ties must use the capacity option (ii) for those eligible non-solid-fuel and non-combined-cycle Resources:
+(i)	Refund option – The eligible NOIE may nominate up to 100% of the lesser of the net unit capacity or contractual amount for those Resource amounts allowed pursuant to Section 7.4.2.1.  The eligible NOIE shall refund to ERCOT any congestion revenues received above those congestion revenues flowing to the NOIE for its Output Schedule of the Resource at the PCRR source.  PCRR settlement will reflect the MW value of the Output Schedule of the Resource at the PCRR source, regardless of what MW value of actual output occurred during that interval if that change in output is in response to Dispatch Instructions.  The refund for any Settlement Interval is equal to the difference between the PCRR MW amount and the time-weighted average of the Output Schedules of the Resource at the PCRR source multiplied by the value of that PCRR.  PCRRs allocated under the refund option are not transferable and may only be used by the NOIE to which they are allocated. 
+(ii)	Capacity option – The eligible NOIE may nominate up to 100% of the lesser of the net unit capacity or contractual amount for those Resource amounts allowed pursuant to Section 7.4.2.1 at a capacity factor no greater than 40% over each calendar year.  ERCOT shall allocate PCRRs in accordance with the NOIE nominations subject to the SFT.
+(A)	During the nomination process, the NOIE must nominate the months (designating CRR amounts as defined by the criteria specified in item (5) of Section 7.3, Types of Congestion Revenue Rights to Be Auctioned) for which it will use its PCRRs (i.e., the NOIE may shape the PCRRs representing up to 100% of the capacity for each Resource at a capacity factor no greater than 40% over each calendar year). 
+(B)	If a Resource eligible for PCRRs is shut down due to a Force Majeure Event, then, to the extent feasible, the NOIE may reallocate its PCRRs across its PCRR-eligible facilities before the CRR Monthly Auction.  This change is effective no later than the date of the CRR Monthly Auction, and the redesignation may be requested for each CRR Monthly Auction during the Force Majeure Event.  Any price difference in the reconfigured rights must be paid by (or paid to) the NOIE.
+(f)	The CRR type, either Point-to-Point (PTP) Option, PTP Obligation, or a combination, must be specified by the eligible NOIE before the PCRR allocation and is binding for purchase.  Once the allocation process is complete, the eligible NOIE may not change the CRR type. 
+(g)	After the allocation process, and the subsequent applicable CRR Auction, PCRRs other than those described in item (iii) below must be priced as a percentage of the applicable CRR Auction clearing price for the applicable CRR, as follows:
+(i)	PTP Option PCRRs:
+(A)	Nuclear, coal, lignite or combined-cycle Resources: 10% of the applicable CRR Auction clearing prices;
+(B)	Gas steam Resources: 15% of the applicable CRR Auction clearing prices; or
+(C)	Hydro, wind, simple cycle, or other Resources not included in (A) or (B): 20% of the applicable CRR Auction clearing prices.
+(ii)	PTP Obligation PCRRs:
+(A)	Nuclear, coal, lignite or combined-cycle Resources: 5% of the applicable CRR Auction clearing price if it is positive; 100% of the applicable CRR Auction clearing price if it is negative;
+(B)	Gas steam Resources: 7.5% of the applicable CRR Auction clearing price if such price is positive; 100% of the applicable CRR Auction clearing price if it is negative; or
+(C)	Hydro, wind, simple cycle, or other Resources not included in (A) or (B): 10% of the applicable CRR Auction clearing prices if it is positive; 100% of the applicable CRR Auction clearing prices if it is negative.
+(iii)	For a NOIE that has chosen the refund option, the allocated number of PCRRs for Resources other than solid-fuel and combined-cycle Resources are provided at no charge.
+(h)	PCRRs shall not be able to be bilaterally traded through ERCOT systems prior to the completion of the CRR Auction used to determine their value.
+7.5	CRR Auctions
+7.5.1	Nature and Timing
+(1)	The Congestion Revenue Right (CRR) Auction auctions the available network capacity of the ERCOT transmission system not allocated as described in Section 7.4, Preassigned Congestion Revenue Rights Overview, or sold in a previous auction.  The CRR Auction also allows CRR Owners an opportunity to offer for sale CRRs that they hold.  Each CRR Auction allows for the purchase of CRR products as described in paragraph (5) of Section 7.3, Types of Congestion Revenue Rights to Be Auctioned, in strips of one or more consecutive months and allows for the reconfiguration of all CRR blocks that were previously awarded for the months covered by that CRR Auction.
+(2)	The CRR Network Model must be based on, but is not the same as, the Network Operations Model.  For the purposes of CRR Network Model construction for a CRR Long-Term Auction Sequence, ERCOT may, at its sole discretion, utilize the same or similar CRR Network Model inputs for multiple consecutive months.  The CRR Network Model must, to the extent practicable, include the same topology, contingencies, and operating procedures as used in the Network Operations Model as reasonably expected to be in place for each month.  The expected network topology used in the CRR Network Model for any month or set of months must include all Outages from the Outage Scheduler and identified by ERCOT as expected to have a significant impact upon transfer capability during that time.  These Outages included in the CRR Network Model shall be posted on the Market Information System (MIS) Secure Area consistent with model posting requirements by ERCOT with accompanying cause and duration information, as indicated in the Outage Scheduler.  Transmission system upgrades and changes must be accounted for in the CRR Network Model for CRR Auctions held after the month in which the element is placed into service.  
+(a)	ERCOT shall use Dynamic Ratings in the CRR Network Model as required under Section 3.10.8, Dynamic Ratings.
+(b)	The CRR Network Model must use the peak Load conditions of the month or set of months being modeled. 
+(c)	ERCOT’s criteria for determining if an Outage should be in the CRR Network Model shall be in accordance with these Protocols and described in the Operating Guides.
+(3)	ERCOT shall model bids and offers into the CRR Auction as flows based on the MW offer and defined source and sink.  When the Simultaneous Feasibility Test (SFT) is run, the model must weight the power flow buses and Hub Buses included in a Hub or Load Zone appropriately to determine the system impacts of the CRRs.
+(a)	To distribute injections and withdrawals to buses within a Hub, ERCOT shall use distribution factors specified in Section 3.5.2, Hub Definitions.
+(b)	To distribute injections and withdrawals to power flow buses in Load Zones, ERCOT shall use the Load-weighted distribution factors for On-Peak Hours in each Load Zone.  For a CRR Monthly Auction, ERCOT shall derive CRR Auction Load distribution factors with the set of Load distribution factors constructed in accordance with the ERCOT Load distribution factor methodology specified in paragraph (5) of Section 4.5.1, DAM Clearing Process, for use in the Day-Ahead Market (DAM).  For a CRR Long-Term Auction Sequence, ERCOT shall derive CRR Auction Load distribution factors from the corresponding planning model or with the set of Load distribution factors constructed in accordance with the ERCOT Load distribution factor methodology specified in paragraph (5) of Section 4.5.1, for use in the DAM.  ERCOT shall notify the market as to which method was used for each CRR Network Model in a CRR Long-Term Auction Sequence in the corresponding auction notice.  ERCOT shall post the CRR Auction Load distribution factors as part of the CRR Network Model pre-auction posting.  Private Use Network net Load will be redacted from this posting. 
+[NPRR1004:  Replace paragraph (b) above with the following upon system implementation:]
+(b)	To distribute injections and withdrawals to power flow buses in Load Zones, ERCOT shall use the Load-weighted distribution factors for On-Peak Hours in each Load Zone.  For CRR Auctions and allocations, ERCOT shall derive Load distribution factors with the set of Load distribution factors constructed in accordance with the ERCOT Load distribution factor methodology specified in paragraph (c) of Section 3.12, Load Forecasting.  ERCOT shall post the CRR Auction Load distribution factors as part of the CRR Network Model pre-auction posting.  Private Use Network net Load will be redacted from this posting. 
+(4)	ERCOT shall conduct CRR Auctions as follows:
+(a)	The CRR Monthly Auction, held once per calendar month, shall include the sale of one-month terms of Point-to-Point (PTP) Options and PTP Obligations for the month immediately following the month during which the CRR bid submission window closes.
+(b)	Twice per year, a CRR Long-Term Auction Sequence shall be held, selling PTP Options and PTP Obligations, subject to the following constraints:
+(i)	Each CRR Long-Term Auction Sequence shall consist of six successive CRR Auctions, each of which offers for sale CRRs spanning a term of six consecutive calendar months (either January through June, or July through December).  In each such CRR Auction, CRRs shall be offered in one-month strips or in strips of up to six consecutive months within the term covered by the auction.
+(ii)	The CRR Long-Term Auction Sequence shall operate in chronological order, first providing a CRR Auction covering the next six-month (January through June, or July through December) period that has not yet commenced, and then five successive CRR Auctions for the five six-month periods thereafter.
+(c)	No later than April 1 of each calendar year, ERCOT shall publish an update to the CRR activity calendar on the ERCOT website, with the following requirements:
+(i)	The calendar shall include activity dates for all CRR Monthly Auctions, all CRR Auctions that are part of a CRR Long-Term Auction Sequence, and all Pre-Assigned Congestion Revenue Right (PCRR) annual allocations for the remainder of the current calendar year and for the two subsequent calendar years. 
+(ii)	Any posted date on the CRR activity calendar shall only be modified if ERCOT determines that the successful execution of the auction would be jeopardized without such modification.  If a delay in completion of a CRR Auction that is part of a CRR Long-Term Auction Sequence results in a condition whereby an overlap of credit posting requirements for consecutive CRR Auctions within that sequence would occur, subsequent CRR Auctions within the sequence shall be delayed by the minimum amount of time required to relieve such overlap.  For any changes to the posted auction activity dates, ERCOT will send a Market Notice to provide the new date(s) and to explain the need for the change.
+(iii)	The CRR activity calendar must be approved by the Wholesale Market Subcommittee (WMS) prior to the annual posting.
+(5)	For each CRR Auction, the CRR Auction Capacity shall be defined as follows:
+(a)	For the CRR Monthly Auction, 90%.
+(b)	For any CRR Auction that is part of a CRR Long-Term Auction Sequence, 70%, 55%, 40%, 30%, 20%, or 10% for the first, second, third, fourth, fifth, and sixth six-month windows sold in the sequence, respectively.
+(6)	For any month covered by a CRR Auction that is part of a CRR Long-Term Auction Sequence, ERCOT shall offer network capacity equal to:
+(a)	The expected network topology for that month, scaled down to the CRR Auction Capacity percentage; minus 
+(b)	All outstanding CRRs that were previously allocated for the month, scaled down to the CRR Auction Capacity percentage; minus 
+(c)	All outstanding CRRs that were previously awarded for the month in any previous CRR Auction.
+(7)	For the CRR Monthly Auction, ERCOT shall offer network capacity equal to the difference between: 
+(a)	The expected transmission network topology in the CRR Network Model of the month for which the CRRs are effective scaled down to the CRR Auction Capacity percentage; and
+(b)	All outstanding CRRs that were previously awarded or allocated for the month.
+7.5.2	CRR Auction Offers and Bids
+(1)	To submit bids or offers into a CRR Auction, an Entity must become a CRR Account Holder and satisfy financial assurance criteria required to participate, under Section 16.8, Registration and Qualification of Congestion Revenue Rights Account Holders.
+(2)	In order to enforce a volume limitation on the number of market transactions (bids and offers) submitted into the CRR Auction, ERCOT shall evaluate the maximum number of transactions which are available prior to the auction, and evenly divide the limit across the CRR Account Holders eligible to submit bids or offers according to paragraph (1) above.  This limit shall be designated as the preliminary allocated CRR transaction limit.  A CRR Auction Notice will be provided to all CRR Account Holders prior to each auction.  The CRR Auction Notice will include the following ERCOT determined limitations for each CRR Monthly Auction and each Long-Term Auction Sequence: the preliminary allocated CRR transaction limit; the maximum overall transaction limits; time-of-use transaction limits; and per-CRR Account Holder transaction limits.
+(a)	Prior to executing the CRR Auction but after the transaction submission window is closed, ERCOT shall determine which of the CRR Account Holders are Participating CRR Account Holders for that CRR Auction.  ERCOT shall then calculate a final allocated CRR transaction limit by evenly dividing the number of available transactions across the Participating CRR Account Holders.
+(b)	If the total number of transactions submitted by all Participating CRR Account Holders into the CRR Auction does not exceed the maximum number of transactions available prior to the auction, then the final allocated CRR transaction limit will not apply and all transactions will be accepted.
+(c)	Within one hour after the close of each CRR Auction, ERCOT shall notify all CRR Account Holders of the total number of transactions submitted by all Participating CRR Account Holders and whether or not a transaction adjustment period is necessary.  ERCOT may determine that a transaction adjustment period is not necessary if the total number of transactions submitted by all Participating CRR Account Holders does not exceed the number of transactions that can be processed by the CRR Auction system.
+(d)	If ERCOT announces a transaction adjustment period, ERCOT shall notify all CRR Account Holders of the final allocated transaction limit and reject all transactions submitted by each Participating CRR Account Holder whose sum total of transactions submitted to the affected CRR Auction exceeds the final allocated transaction limit.  Each Participating CRR Account Holder may then adjust their transactions while respecting the final allocated CRR transaction limitation for the affected CRR Auction within one Business Day.  ERCOT will then execute the CRR Auction using the updated set of transactions as revised by Market Participants.
+(e)	Each Counter-Party is limited to a total of three CRR Account Holders. 
+(f)	ERCOT shall determine a charge for each PTP Option bid awarded in each CRR Auction as described in Section 7.7, Point-to-Point (PTP) Option Award Charge.
+[NPRR936:  Replace paragraph (2) above with the following upon system implementation:]
+(2)	In order to enforce a volume limitation on the number of market transactions (bids and offers) submitted into the CRR Auction, ERCOT shall evaluate the maximum number of transactions which are available prior to the auction, and evenly divide the limit across the Counter-Parties that are associated with CRR Account Holders eligible to submit bids or offers according to paragraph (1) above.  This limit shall be designated as the preliminary allocated CRR transaction limit.  A CRR Auction Notice will be provided to all CRR Account Holders prior to each auction.  The CRR Auction Notice will include the following ERCOT determined limitations for each CRR Monthly Auction and each Long-Term Auction Sequence: the preliminary allocated CRR transaction limit; the maximum overall transaction limits; time-of-use transaction limits; and per-CRR Account Holder transaction limits.
+(a)	Prior to executing the CRR Auction but after the transaction submission window is closed, ERCOT shall determine which of the Counter-Parties are associated with Participating CRR Account Holders for that CRR Auction.  ERCOT shall then calculate a final allocated CRR transaction limit by evenly dividing the number of available transactions across the Counter-Parties associated with Participating CRR Account Holders.
+(b)	If the total number of transactions submitted by all Participating CRR Account Holders into the CRR Auction does not exceed the maximum number of transactions available prior to the auction, then the final allocated CRR transaction limit will not apply and all transactions will be accepted.
+(c)	Within one hour after the close of each CRR Auction, ERCOT shall notify all CRR Account Holders of the total number of transactions submitted by all Participating CRR Account Holders and whether or not a transaction adjustment period is necessary.  ERCOT may determine that a transaction adjustment period is not necessary if the total number of transactions submitted by all Participating CRR Account Holders does not exceed the number of transactions that can be processed by the CRR Auction system. 
+(d)	If ERCOT announces a transaction adjustment period, ERCOT shall notify all CRR Account Holders of the final allocated transaction limit and reject all transactions submitted by each Participating CRR Account Holder associated with a Counter-Party whose sum total of transactions submitted to the affected CRR Auction exceeds the final allocated transaction limit.  Each Participating CRR Account Holder may then adjust their transactions while respecting the final allocated CRR transaction limitation for the affected CRR Auction within one Business Day.  ERCOT will then execute the CRR Auction using the updated set of transactions as revised by Market Participants.
+(e)	ERCOT shall determine a charge for each PTP Option bid awarded in each CRR Auction as described in Section 7.7, Point-to-Point (PTP) Option Award Charge.
+7.5.2.1	CRR Auction Offer Criteria
+(1)	A CRR Auction Offer indicates a willingness to sell CRRs at the auction clearing price, if it equals or exceeds the Minimum Reservation Price.  It must be submitted by a Participating CRR Account Holder and must include the following: 
+(a)	The short name of the Participating CRR Account Holder;
+(b)	The unique identifier for each CRR being offered, which must include the single type of CRR being offered;
+(c)	The source Settlement Point and the sink Settlement Point for the block of CRRs being offered;
+(d)	The month, or strip of consecutive months, for which the block of CRRs is being offered, including time-of-use designation except that a 7x24 offer may not be designated;
+(e)	The quantity of CRRs in MW, which must be the same for each hour within the block, for which the Minimum Reservation Price is effective; and
+(f)	A dollars per CRR (i.e. dollars per MW per hour) for the Minimum Reservation Price.
+(2)	The Participating CRR Account Holder may submit a self-imposed credit limit for the CRR Monthly Auction or for each time-of-use in a CRR Auction that is part of a CRR Long-Term Auction Sequence, if desired.
+(3)	A Participating CRR Account Holder can only offer to sell one-month or multi-month strips of CRRs for which it is the CRR Owner of record at the time of the offer.  Multi-month CRR offers must consist of consecutive months that are within the period of the relevant CRR Auction and can only be submitted as part of a CRR Long-Term Auction Sequence.
+(4)	A CRR offer for a specified MW quantity of CRRs constitutes an offer to sell a quantity of CRRs equal to or less than the specified quantity.  A CRR offer may not specify a minimum quantity of MW that the Participating CRR Account Holder wishes to sell.
+7.5.2.2	CRR Auction Offer Validation
+(1)	A valid CRR Auction Offer is a CRR Auction Offer that ERCOT has determined meets the criteria listed in Section 7.5.2.1, CRR Auction Offer Criteria. 
+(2)	ERCOT shall continuously display on the MIS Certified Area information that allows any CRR Account Holder submitting a CRR Auction Offer to view its valid CRR Auction Offers.
+(3)	As soon as practicable, ERCOT shall notify each CRR Account Holder of any of its CRR Auction Offers that are invalid.  The CRR Account Holder may correct and resubmit any invalid CRR Auction Offer, within the appropriate auction timeline.
+7.5.2.3	CRR Auction Bid Criteria 
+(1)	A CRR Auction Bid indicates a willingness to buy CRRs at the auction clearing price, if it is equal to or less than the Not-to-Exceed Price.  It must be submitted by a Participating CRR Account Holder and must include the following:
+(a)	The short name of the Participating CRR Account Holder;
+(b)	The single type of CRR being bid;
+(c)	The source Settlement Point and the sink Settlement Point for the block of CRRs being bid;
+(d)	The month or strip of consecutive months for which the block of CRRs is being bid, including time-of-use designation, which may include a 7x24 block in a CRR Monthly Auction but not in a CRR Auction held as part of a CRR Long-Term Auction Sequence;
+(e)	The quantity of CRRs in MW, which must be the same for each hour within the block, for which the Not-to-Exceed Price is effective; and
+(f)	A dollars per CRR (i.e. dollars per MW per hour) for the Not-to-Exceed Price.
+(2)	The Participating CRR Account Holder may submit a self-imposed credit limit for the CRR Monthly Auction or for each time-of-use in a CRR Auction that is part of a CRR Long-Term Auction Sequence, if desired. 
+(3)	A bid to buy a PTP Option cannot specify a non-positive Not-to-Exceed Price less than the Minimum PTP Option Bid Price.  
+(4)	A bid to buy a PTP Obligation can specify a negative Not-to-Exceed Price.
+(5)	A CRR bid for a specified MW quantity of CRRs constitutes a bid to buy a quantity of CRRs equal to or less than the specified quantity.  A CRR bid may not specify a minimum quantity of MW that the Participating CRR Account Holder wishes to buy.
+(6)	A CRR bid may not contain a source Settlement Point and a sink Settlement Point that are Electrically Similar Settlement Points, nor may CRR bids be submitted by any combination of Participating CRR Account Holders within the same Counter-Party to create the net effect of a single PTP Obligation bid containing a source Settlement Point and a sink Settlement Point that are Electrically Similar Settlement Points.
+7.5.2.4	CRR Auction Bid Validation
+(1)	A valid CRR Auction Bid is a CRR Auction Bid that ERCOT has determined meets the criteria listed in Section 7.5.2.3, CRR Auction Bid Criteria. 
+(2)	ERCOT shall continuously display on the MIS Certified Area information that allows any CRR Account Holder submitting a CRR Auction Bid to view its valid CRR Auction Bids.
+(3)	As soon as practicable, ERCOT shall notify each CRR Account Holder of any of its CRR Auction Bids that are invalid.  The CRR Account Holder may correct and resubmit any invalid CRR Auction Bid, if within the appropriate auction timeline.
+7.5.3	ERCOT Responsibilities
+(1)	ERCOT shall:
+(a)	Manage the qualification and registration of eligible CRR Account Holders;
+(b)	Post calendar of CRR Auctions;
+(c)	Initiate, direct, and oversee the CRR Auction;
+(d)	Post CRR Auction results;
+(e)	Maintain a record of the CRRs;
+(f)	Provide a mechanism to record CRR bilateral transactions;
+(g)	Determine CRR Auction Settlement and distribute auction revenues;
+(h)	Keep, under the ERCOT data retention policy, all information and tools necessary to reproduce CRR calculations; and
+(i)	Post CRR Network Model of the effective month of the auction on the MIS Secure Area, before each CRR Auction:
+(i)	For the CRR Monthly Auction, the model shall be posted no later than ten Business Days before the auction.  
+(ii)	For any CRR Long-Term Auction Sequence, the models shall be posted no later than 20 Business Days before the sequence commences.    
+(2)	ERCOT shall use the CRR Network Model as defined in Section 3.10.3, CRR Network Model. 
+(3)	ERCOT shall develop and maintain a CRR guide to help Market Participants with the CRR program.
+(4)	Before each auction, ERCOT shall establish a credit limit under Section 16, Registration and Qualification of Market Participants, that is imposed in the CRR Auction.
+(5)	Five Business Days prior to the credit lock for each CRR Auction, ERCOT shall post on the ERCOT website the credit related path-specific DAM-based adders and the historical CRR Auction clearing prices as applicable in support of the credit adders defined in Section 7.5.5.3, Auction Process, for the existing CRR Inventory.
+7.5.3.1	Data Transparency
+(1)	Following each CRR Auction, ERCOT shall record and make available to each CRR Account Holder on the MIS Certified Area the following information for each CRR awarded in, sold in, or allocated before, the CRR Auction to the specific CRR Account Holder:
+(a)	Unique identifier of each CRR;  
+(b)	Type of CRR (PTP Option, PTP Obligation, PTP Option with Refund, or PTP Obligation with Refund);
+(c)	Clearing price and, if applicable, the PCRR pricing factor of each CRR; 
+(d)	The source and sink of each CRR;
+(e)	The date and time-of-use block for which the CRR is effective; and
+(f)	Total MW of each PTP pair of CRR, awarded, sold or allocated. 
+(2)	Following each CRR Auction, ERCOT shall post to the ERCOT website the following information for all outstanding or sold CRRs following this auction:
+(a)	PTP Options and PTP Options with Refund – the source and sink, and total MWs; 
+(b)	PTP Obligations and PTP Obligations with Refund – the source and sink and total MWs;
+(c)	The identities of the CRR Account Holders that sold, were awarded, or were allocated CRRs in or before the CRR Auction;
+(d)	The clearing prices for each strip of CRR Auction bids and CRR Auction offers awarded in the CRR Auction; 
+(e)	The identity and post contingency flow of each binding directional element based on the CRR Network Model used in the CRR Auction; 
+(f)	All CRR Auction bids and CRR Auction offers, without identifying the name of the CRR Account Holder that submitted the bid or offer;
+(g)	The clearing prices for each strip of CRRs bid or offered in the CRR Auction;
+(h)	The Shadow Prices for each Settlement Point in the CRR Auction; and
+(i)	The clearing prices for all outstanding CRRs that were previously awarded or 
