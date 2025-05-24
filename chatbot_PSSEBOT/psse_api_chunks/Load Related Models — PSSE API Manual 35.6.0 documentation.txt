@@ -1,0 +1,75 @@
+Load Related Models — PSSE API Manual 35.6.0 documentation
+
+Load Related Models¶
+
+35.6.0
+
+July 12, 2023
+
+add_load_model
+
+Use this API to add a load related model of a designated type to a specified load or subsystem.
+
+change_ldmod_chricn
+
+Use this API to change the value of a character ICON (i.e., an element of the CHRICN array) of a load related model at a specified load or subsystem.
+
+change_ldmod_con
+
+Use this API to change the value of a CON of a load related model at a specified load or subsystem.
+
+change_ldmod_data
+
+This API routine is obsolete.
+
+change_ldmod_icon
+
+Use this API to change the value of an integer ICON of a load related model at a specified load or subsystem.
+
+change_ldmod_var
+
+Use this API to change the value of a VAR of a load related model at a specified load or subsystem.
+
+ldmod_pack
+
+Use this API to remove entries that are marked as unused from the load model connection tables and the load model array allocation tables.
+
+ldmod_remove
+
+Use this API to remove a load related model of a designated type from a specified load or subsystem.
+
+ldmod_status
+
+Use this API to change the status of a load related model of a designated type for all subsystem loads at which it is applied.
+
+ldmod_status2
+
+Use this API to change the status of a load related model of a designated type at a specified load.
+
+ldmod_unconnected
+
+Use this API to list or remove from dynamics working memory those load related models that are assigned to loads that are not present in the current power flow working case (unconnected).
+
+ldmod_user
+
+Use this API to list user-written load model definitions or to remove user-written load model definitions that are not assigned to any loads (unused) from the user model definition tables.
+
+ldmodc_pack
+
+Use this API to remove entries that are marked as unused from the load component model connection tables.
+
+ldmodc_remove
+
+Use this API to remove a load component related model of a designated type from a specified load or subsystem.
+
+ldmodc_status
+
+Use this API to change the status of a load related model of a designated type for all subsystem loads at which it is applied.
+
+ldmodc_unconnected
+
+Use this API to list or remove from dynamics working memory those load Component models that are assigned to loads that are not present in the current power flow working case (unconnected).
+
+ldmodc_user
+
+Use this API to list user-written load component model definitions or to remove user-written load model definitions that are not assigned to any loads (unused) from the user model definition tables.

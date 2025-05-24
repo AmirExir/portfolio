@@ -1,0 +1,31 @@
+Machine Data — PSSE API Manual 35.6.0 documentation
+
+Machine Data¶
+
+35.6.0
+
+July 12, 2023
+
+amachchar
+
+Use this API to return an array of character values for subsystem machines.
+
+amachcount
+
+Use this API to return the number of array entries required to accommodate the data to be returned by the remaining members of the machine data family.
+
+amachcplx
+
+Use this API to return an array of complex values for subsystem machines.
+
+amachint
+
+Use this API to return an array of integer values for subsystem machines.
+
+amachreal
+
+Use this API to return an array of real values for subsystem machines.
+
+amachtypes
+
+Use this API to return an array of character values indicating the data types corresponding to a set of specified STRING values that are valid input values to any of the data retrieval routines of the machine data family (aMachInt, aMachReal, aMachCplx and aMachChar).

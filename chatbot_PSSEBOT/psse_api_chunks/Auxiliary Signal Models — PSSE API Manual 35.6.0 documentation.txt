@@ -1,0 +1,147 @@
+Auxiliary Signal Models — PSSE API Manual 35.6.0 documentation
+
+Auxiliary Signal Models¶
+
+35.6.0
+
+July 12, 2023
+
+add_fctsauxsignal_model
+
+Use this API to add a FACTS device auxiliary signal model at the specified injection point of the designated FACTS device.
+
+add_mtdcauxsignal_model
+
+Use this API to add a multi-terminal dc line auxiliary signal model at the specified auxiliary signal index of the designated multi-terminal dc line.
+
+add_ttdcauxsignal_model
+
+Use this API to add a two-terminal dc line auxiliary signal model at the specified injection point of the designated two-terminal dc line.
+
+add_vsdcauxsignal_model
+
+Use this API to add a VSC dc line auxiliary signal model at the specified injection point of the designated VSC dc line.
+
+auxmod_pack
+
+Use this API to remove entries that are marked as unused from the auxiliary signal model connection tables and the auxiliary signal array allocation tables.
+
+auxmod_unconnected
+
+Use this API to list or remove from dynamics working memory those auxiliary signal models that are assigned to dc lines or FACTS devices that are not present in the current power flow working case (unconnected).
+
+auxmod_user
+
+Use this API to list user-written auxiliary signal model definitions or to remove user-written auxiliary signal model definitions that are not assigned to any dc lines or FACTS devices (unused) from the user model definition tables.
+
+change_fctsauxmod_chricn
+
+Use this API to change the value of a character ICON (i.e., an element of the CHRICN array) of an auxiliary signal model of a specified FACTS device.
+
+change_fctsauxmod_con
+
+Use this API to change the value of a CON of an auxiliary signal model of a specified FACTS device.
+
+change_fctsauxmod_data
+
+This API routine is obsolete.
+
+change_fctsauxmod_icon
+
+Use this API to change the value of an integer ICON of an auxiliary signal model of a specified FACTS device.
+
+change_fctsauxmod_var
+
+Use this API to change the value of a VAR of an auxiliary signal model of a specified FACTS device.
+
+change_mtdcauxmod_chricn
+
+Use this API to change the value of a character ICON (i.e., an element of the CHRICN array) of an auxiliary signal model of a specified multi-terminal dc line.
+
+change_mtdcauxmod_con
+
+Use this API to change the value of a CON of an auxiliary signal model of a specified multi- terminal dc line.
+
+change_mtdcauxmod_data
+
+This API routine is obsolete.
+
+change_mtdcauxmod_icon
+
+Use this API to change the value of an integer ICON of an auxiliary signal model of a specified multi-terminal dc line.
+
+change_mtdcauxmod_var
+
+Use this API to change the value of a VAR of an auxiliary signal model of a specified multi- terminal dc line.
+
+change_ttdcauxmod_chricn
+
+Use this API to change the value of a character ICON (i.e., an element of the CHRICN array) of an auxiliary signal model of a specified two-terminal dc line.
+
+change_ttdcauxmod_con
+
+Use this API to change the value of a CON of an auxiliary signal model of a specified two- terminal dc line.
+
+change_ttdcauxmod_data
+
+This API routine is obsolete.
+
+change_ttdcauxmod_icon
+
+Use this API to change the value of an integer ICON of an auxiliary signal model of a specified two-terminal dc line.
+
+change_ttdcauxmod_var
+
+Use this API to change the value of a VAR of an auxiliary signal model of a specified two- terminal dc line.
+
+change_vsdcauxmod_chricn
+
+Use this API to change the value of a character ICON (i.e., an element of the CHRICN array) of an auxiliary signal model of a specified VSC dc line.
+
+change_vsdcauxmod_con
+
+Use this API to change the value of a CON of an auxiliary signal model of a specified VSC dc line.
+
+change_vsdcauxmod_data
+
+This API routine is obsolete.
+
+change_vsdcauxmod_icon
+
+Use this API to change the value of an integer ICON of an auxiliary signal model of a specified VSC dc line.
+
+change_vsdcauxmod_var
+
+Use this API to change the value of a VAR of an auxiliary signal model of a specified VSC dc line.
+
+fctsauxmod_remove
+
+Use this API to remove an auxiliary signal model from the specified injection point of a designated FACTS device.
+
+fctsauxmod_status
+
+Use this API to change the status of the auxiliary signal model at the specified injection point of a designated FACTS device.
+
+mtdcauxmod_remove
+
+Use this API to remove an auxiliary signal model from the specified auxiliary signal index of the designated multi-terminal dc line.
+
+mtdcauxmod_status
+
+Use this API to change the status of the auxiliary signal model at the specified auxiliary signal index of the designated multi-terminal dc line.
+
+ttdcauxmod_remove
+
+Use this API to remove an auxiliary signal model from the specified injection point of the designated two-terminal dc line.
+
+ttdcauxmod_status
+
+Use this API to change the status of the auxiliary signal model at the specified injection point of the designated two-terminal dc line.
+
+vsdcauxmod_remove
+
+Use this API to remove an auxiliary signal model from the specified injection point of the designated VSC dc line.
+
+vsdcauxmod_status
+
+Use this API to change the status of the auxiliary signal model at the specified injection point of the designated VSC dc line.

@@ -1,0 +1,139 @@
+Non-Engineering — PSSE API Manual 35.6.0 documentation
+
+Non-Engineering¶
+
+35.6.0
+
+July 12, 2023
+
+alert
+
+Use this API to send output to the alert device.
+
+appendrecording
+
+Start recording program operation at end of specified file.
+
+beginreport
+
+Use this API to create a new report tab in the GUI.
+
+clearalertoutput
+
+Clear the Alerts/Warnings tab of the output bar in the GUI
+
+clearprogressoutput
+
+Clear the Progress tab of the output bar in the GUI
+
+filein
+
+Get input from file (Fortran unit number).
+
+getbatdefaults
+
+Retrieve “no input” value for integers and reals.
+
+getdefaultchar
+
+Retrieve “no input” value for characters (i.e., strings) other than filenames.
+
+getdefaultint
+
+Retrieve “no input” value for integers.
+
+getdefaultreal
+
+Retrieve “no input” value for reals (floats).
+
+getloadedmodules
+
+get list of all modules currently loaded
+
+getmodfunclist
+
+Get list if external callable methods given a module name.
+
+ioflush
+
+Force all files in PSSE to flush buffers to disk, if possible.
+
+launch_program
+
+This API routine was first introduced in release 34.1.0.
+
+pagereport
+
+Use this API to place a report separator on the active report tab of the GUI.
+
+pauserecording
+
+Pause or resume recording program operation.
+
+progress
+
+Send output to progress device.
+
+prompt
+
+Send output to prompt device.
+
+psseinit
+
+Initialize PSSE.
+
+psseversion
+
+Get PSSE version information.
+
+refreshgui
+
+Refresh the graphical user interface.
+
+report
+
+Send output to report device.
+
+runiplanfile
+
+Execute an IPLAN program.
+
+runrspnsfile
+
+Run a response file.
+
+showloadedlibraries
+
+
+
+showloadedmodules
+
+
+
+startrecording
+
+Start recording program operation.
+
+stoprecording
+
+Stop recording program operation.
+
+t_alert_output
+
+Use this API to specify a “T“‘d alert device, i.e. a destination for a copy of everything sent to the alert device.
+
+t_progress_output
+
+Use this API to specify a “T“‘d progress device, i.e. a destination for a copy of everything sent to the progress device.
+
+t_prompt_output
+
+Use this API to specify a “T“‘d prompt device, i.e. a destination for a copy of everything sent to the prompt device.
+
+t_report_output
+
+Use this API to specify a “T“‘d report device, i.e. a destination for a copy of everything sent to the report device.
+
+userin
+
+Get input from interactive device.

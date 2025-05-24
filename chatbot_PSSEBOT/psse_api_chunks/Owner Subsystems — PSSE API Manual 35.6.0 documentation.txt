@@ -1,0 +1,19 @@
+Owner Subsystems — PSSE API Manual 35.6.0 documentation
+
+Owner Subsystems¶
+
+35.6.0
+
+July 12, 2023
+
+osys
+
+Use this API to define an owner subsystem.
+
+osysdef
+
+Use this API to set the definition of an owner subsystem.
+
+osysinit
+
+Use this API to initialize or re-initialize an owner subsystem.

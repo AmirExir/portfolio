@@ -1,0 +1,1043 @@
+Single Element Data — PSSE API Manual 35.6.0 documentation
+
+Single Element Data¶
+
+35.6.0
+
+July 12, 2023
+
+apierrstr
+
+Use this API to return the message string associated with a specific error code returned from a recordable PSSE API routine.
+
+ardat
+
+Use this API to return area totals.
+
+aredat
+
+Use this API to return real area data items.
+
+areint
+
+Use this API to return integer area data items.
+
+arenam
+
+Use this API to return the area name.
+
+arenum
+
+Use this API to return the area number.
+
+areuse
+
+Use this API to indicate if an area is in use.
+
+aritoj
+
+Use this API to return the interchange between two areas.
+
+brncur
+
+This API routine is obsolete.
+
+brndat
+
+Use this API to return real branch parameters.
+
+brndt2
+
+Use this API to return complex positive and zero sequence parameters for non-transformer branches, and complex positive sequence parameters for transformer branches.
+
+brnflo
+
+Use this API to return the complex branch flow (P+jQ) as calculated at IBUS.
+
+brnint
+
+Use this API to return integer branch parameters.
+
+brnmsc
+
+Use this API to return real branch flow values.
+
+brnmva
+
+This API routine is obsolete.
+
+brnnam
+
+Use this API to return the name of an AC branch.
+
+brnstt
+
+This API routine is obsolete.
+
+bsysisdef
+
+Use this API to check whether a bus subsystem has been defined for a given subsystem ID.
+
+busdat
+
+Use this API to return real bus values.
+
+busdt1
+
+Use this API to return complex bus parameters as MVA.
+
+busdt2
+
+Use this API to return complex bus parameters.
+
+busexs
+
+Use this API to check for the existence of a specified bus.
+
+busint
+
+Use this API to return integer bus parameters.
+
+busmsm
+
+Use this API to return complex bus mismatch.
+
+busordpos
+
+Use this API to return the ordinal position of the specified bus or bus section in the numerically ordered list of non-star point buses (i.e., star point buses are excluded).
+
+bussectdat
+
+Use this API routine to return real bus section values.
+
+bussectdt1
+
+Use this API routine to return complex bus section parameters as MVA.
+
+bussectdt2
+
+Use this API routine to return complex bus section parameters.
+
+bussectexs
+
+Use this API routine to check for the existence of a specified bus section.
+
+bussectint
+
+Use this API routine to return real bus section values.
+
+cctmdlnam_2dco
+
+Use this API to return model name of CCT 2-terminal dc line other models.
+
+cctmdlnam_2wtd
+
+Use this API to return model name of the CCT 2-winding transformer device model.
+
+cctmdlnam_3wtd
+
+Use this API to return model name of the CCT 3-winding transformer device model.
+
+cctmdlnam_brnd
+
+Use this API to return model name of the CCT branch device model.
+
+cctmdlnam_brno
+
+Use this API to return model name of the CCT branch other model.
+
+cctmdlnam_buso
+
+Use this API to return model name of CCT Bus other models.
+
+cctmdlnam_mcno
+
+Use this API to return model name of the CCT machine other models.
+
+cctmdlnam_mcnp
+
+Use this API to return model name of the CCT machine protection models.
+
+cctmdlnam_msco
+
+Use this API to return model name of the CCT Miscellaneous other model.
+
+cctmdlnam_swso_2
+
+Use this API to return model name of the CCT switched shunt other type models.
+
+cctmind_2dco
+
+Use this API to return starting array indices and status of CCT 2-terminal dc line other models.
+
+cctmind_2wtd
+
+Use this API to return starting array indices and status of CCT 2-winding transformer device models.
+
+cctmind_3wtd
+
+Use this API to return starting array indices and status of CCT 3-winding transformer device models.
+
+cctmind_brnd
+
+Use this API to return starting array indices and status of CCT branch device models.
+
+cctmind_brno
+
+Use this API to return starting array indices and status of CCT branch other models.
+
+cctmind_buso
+
+Use this API to return starting array indices and status of CCT Bus other models.
+
+cctmind_mcno
+
+Use this API to return starting array indices and status of CCT machine other models.
+
+cctmind_mcnp
+
+Use this API to return starting array indices and status of CCT machine protection models.
+
+cctmind_msco
+
+Use this API to return starting array indices and status of CCT Miscellaneous other models.
+
+cctmind_swso
+
+This API routine is obsolete.
+
+cctmind_swso_2
+
+Use this API to return starting array indices and status of CCT Switched Shunt other models.
+
+chktre
+
+Use this API to check for Type 4 (or greater) buses with in-service branches connected to them.
+
+chnval
+
+Use this API to return the present value of the simulation variable assigned to a specified output channel.
+
+dc2auxmind
+
+Use this API to return the starting array indices and status of auxiliary signal model associated with 2-terminal dc line for the specified signal index.
+
+dc2auxmnam
+
+Use this API to return the auxiliary signal model name associated with a 2-terminal dc line for the specified auxiliary signal index.
+
+dc2dat
+
+This API routine is obsolete.
+
+dc2dat_2
+
+This API is the second release of the API that returns real two-terminal dc line quantities.
+
+dc2int
+
+This API routine is obsolete.
+
+dc2int_2
+
+This API is the second release of the API that returns integer two-terminal dc line quantities.
+
+dc2mind
+
+Use this API to return 2-terminal dc line model starting array indices and status.
+
+dc2mnam
+
+Use this API to return 2-terminal dc line model name.
+
+dcnauxmind
+
+Use this API to return the starting array indices and status of auxiliary signal model associated with N-terminal dc line for the specified signal index.
+
+dcnauxmnam
+
+Use this API to return the auxiliary signal model name associated with a N-terminal dc line for the specified auxiliary signal index.
+
+dcncin
+
+This API routine is obsolete.
+
+dcncin_2
+
+This API is the second release of the API that returns integer multi-terminal dc line converter quantities.
+
+dcndat
+
+This API routine is obsolete.
+
+dcndat_2
+
+This API is the second release of the API that returns real multi-terminal dc line quantities.
+
+dcnint
+
+This API routine is obsolete.
+
+dcnint_2
+
+This API is the second release of the API that returns integer multi-terminal dc line quantities.
+
+dcnmind
+
+Use this API to return N-terminal dc line model starting array indices and status.
+
+dcnmnam
+
+Use this API to return N-terminal dc line model name.
+
+dscval
+
+Use this API to return dynamics character array values.
+
+dsival
+
+Use this API to return dynamics integer array values.
+
+dsrval
+
+Use this API to return dynamics real values.
+
+fcdauxmind
+
+Use this API to return the starting array indices and status of auxiliary signal model associated with FACTS device for the specified signal index.
+
+fcdauxmnam
+
+Use this API to return the auxiliary signal model name associated with a FACTS device for the specified auxiliary signal index.
+
+fcddat
+
+This API routine is obsolete.
+
+fcddat_2
+
+This API is the second release of the API that returns FACTS device real quantities.
+
+fcdint
+
+This API routine is obsolete.
+
+fcdint_2
+
+This API is the second release of the API that returns FACTS device integer quantities.
+
+fcdmind
+
+Use this API to return FACTS device model starting array indices and status.
+
+fcdmnam
+
+Use this API to return FACTS device model name.
+
+fxsdt1
+
+Use this API to return the magnitude of a specified fixed bus shunt.
+
+fxsdt2
+
+Use this API to return complex fixed bus shunt.
+
+fxsint
+
+Use this API to return integer quantities of the specified fixed bus shunt.
+
+gencnv
+
+Use this API to return a flag indicating whether generators are converted.
+
+gendat
+
+Use this API to return plant total power output.
+
+gendt1
+
+Returns total plant power output in MVA.
+
+gensectdat
+
+Use this API routine to return a bus section’s plant total power output.
+
+gensectdt1
+
+Use this API routine to return a bus section’s total plant power output in MVA.
+
+get_mstate
+
+Use this API to return the MSTATE value.
+
+gethomepath
+
+Use this API to retrieve a user’s HOMEPATH directory.
+
+gnechr
+
+Use this API routine to return character quantities of a specified GNE device.
+
+gnedat
+
+Use this API routine to return real quantities of a specified GNE device.
+
+gneint
+
+Use this API routine to return integer quantities of a specified GNE device.
+
+inddt1
+
+Use this API routine to return real induction machine quantities.
+
+inddt2
+
+Use this API routine to return complex induction machine quantities.
+
+indint
+
+Use this API routine to return integer induction machine quantities.
+
+ini2dc
+
+Initializes the two-terminal dc line fetching routine ‘NXT2DC’ for retrieving two-terminal dc lines in dc line name alphabetical order.
+
+inibrn
+
+Initializes the branch fetching routine ‘NXTBRN’ or ‘NXTBRN3’ for returning branches connected to IBUS.
+
+inibrn_2
+
+Initializes the branch fetching routine ‘NXTBRN_2’ or ‘NXTBRN3_2’ for returning branches connected to bus sections described by IBUS and INODE.
+
+inibrx
+
+Initializes the branch fetching routine, ‘NXTBRN’ or ‘NXTBRN3’ for returning branches connected to IBUS.
+
+inibrx_2
+
+Initializes the branch fetching routine, ‘NXTBRN_2’ or ‘NXTBRN3_2’ for returning branches connected to IBUS.
+
+inibus
+
+Initializes the bus fetching routine ‘NXTBUS’ for retrieving buses in ascending numerical order.
+
+inibus_2
+
+Initializes the bus fetching routine ‘NXTBUS_2’ for retrieving buses in ascending numerical order.
+
+inibux
+
+Initializes the bus fetching routine ‘NXTBUS’ for retrieving buses in ascending numerical order.
+
+inifax
+
+Initializes the FACTS device fetching routine ‘NXTFAX’ for retrieving FACTS devices in FACTS device name alphabetical order.
+
+inifxs
+
+Initializes the fixed bus shunt fetching routine ‘NXTFXS’ for returning fixed shunts attached to bus IBUS.
+
+iniind
+
+Initializes induction machine fetching routine ‘NXTIND’ for returning induction machines attached to IBUS.
+
+inilod
+
+Initializes load fetching routine ‘NXTLOD’ for returning loads attached to IBUS.
+
+inimac
+
+Initializes machine fetching routine ‘NXTMAC’ for returning machines attached to IBUS.
+
+inimdc
+
+Initializes the multi-terminal dc line fetching routine ‘NXTMDC’ for retrieving multi-terminal dc lines in dc line name alphabetical order.
+
+inimsl
+
+Initializes the multi-section line member fetching routine ‘NXTMSL’ for retrieving lines that are sections of the specified multi-section line from IBUS to JBUS.
+
+ininam
+
+Initializes the bus fetching routine ‘NXTBUS’ for retrieving buses in ascending alphabetical order.
+
+ininam_2
+
+Initializes the bus fetching routine ‘NXTBUS_2’ for retrieving buses in ascending alphabetical order.
+
+ininax
+
+Initializes the bus fetching routine ‘NXTBUS’ for retrieving buses in ascending alphabetical order.
+
+inistabussect
+
+Use this API routine to initialize the bus section fetching routine ‘NXTSTABUSSECT’ for retrieving the bus sections in a substation.
+
+inistanode
+
+Use this API routine to initialize the node fetching routine ‘NXTSTANODE’ for retrieving the nodes in a sub-station.
+
+inistaswdev
+
+Use this API routine to initialize the switching device fetching routine ‘NXTSTASWDEV’ for retrieving the switching devices in a substation.
+
+inisws
+
+Initializes the switched shunt fetching routine ‘NXTSWS’ for returning switched shunts attached to bus IBUS.
+
+initie
+
+Initializes the tie branch fetching routine ‘NXTTIE’ or ‘NXTTIE3’ for returning tie branches from area IAR.
+
+initix
+
+Initializes the tie branch fetching routine ‘NXTTIE’ or ‘NXTTIE3’ for returning tie branches from area IAR.
+
+inivsc
+
+Initializes the VSC dc line fetching routine ‘NXTVSC’ for retrieving VSC dc lines in dc line name alphabetical order.
+
+island
+
+Trips in-service branches connected to Type 4 (or greater) buses, and disconnects islands not containing a swing bus.
+
+iterat
+
+Use this API to return the number of iterations used in the last solution attempt.
+
+lmodind
+
+Returns load-related model starting array indices and status.
+
+lmodnam
+
+Returns load-related model name.
+
+lodcnv
+
+This obsolete API always returns a 0.
+
+loddt1
+
+Returns load quantities in MVA.
+
+loddt2
+
+Use this API to return complex load quantities.
+
+lodind
+
+Use this API to return the load array index.
+
+lodint
+
+Use this API to return integer load quantities.
+
+lodtype
+
+Use this API to return the load type character string.
+
+macchr
+
+Use this API to return character machine quantities.
+
+macdat
+
+Use this API to return real machine quantities.
+
+macdt2
+
+Use this API to return complex machine quantities.
+
+macind
+
+Use this API to return the machine array index.
+
+macint
+
+Use this API to return integer machine quantities.
+
+macstt
+
+Use this API to return the machine status value.
+
+maxmsm
+
+Use this API to return the complex bus mismatch at the bus with the largest MVA mismatch.
+
+mdlind
+
+Use this API to return plant-related model starting array indices and status.
+
+mdllibcnt
+
+Use this API to return the number of libraries in the list to be searched for dynamics library models.
+
+mdlnam
+
+Use this API to return plant-related model name.
+
+mdlpgmcnt
+
+Use this API to returns the number of model programs loaded from dynamics model libraries.
+
+natono
+
+Use this API to return the bus number for a specified 18-character extended bus name.
+
+notona
+
+Use this API to return the bus 18-character extended bus name for a specified bus number.
+
+notonasect
+
+Use this API to return the bus 18-character extended bus name for a specified bus section.
+
+nxt2dc
+
+Returns the next two-terminal dc line in dc line name alphabetical order.
+
+nxtbrn
+
+Returns the next branch connected to a bus, excluding three-winding transformers.
+
+nxtbrn3
+
+Returns the next branch connected to a bus, including three-winding transformers.
+
+nxtbrn3_2
+
+Returns the next branch connected to a bus section, including three-winding transformers.
+
+nxtbrn_2
+
+Returns the next branch connected to a bus, excluding three-winding transformers.
+
+nxtbus
+
+Returns the next bus in ordered sequence.
+
+nxtbus_2
+
+Returns the next bus in ordered sequence.
+
+nxtfax
+
+Returns the next FACTS device in FACTS device name alphabetical order.
+
+nxtfxs
+
+Use this API to return the identifier of the next fixed shunt connected to a bus.
+
+nxtind
+
+Use this API routine to return the identifier of the next induction machine connected to a bus.
+
+nxtlod
+
+Use this API to return the identifier of the next load connected to a bus.
+
+nxtmac
+
+Use this API to return the identifier of the next machine connected to a bus.
+
+nxtmdc
+
+Returns the next multi-terminal dc line in dc line name alphabetical order.
+
+nxtmsl
+
+Use this API to return the next multi-section line member branch.
+
+nxtstabussect
+
+Use this API routine to retrieve the next bus section in the specified substation.
+
+nxtstanode
+
+Use this API routine to retrieve the next node in the specified substation.
+
+nxtstaswdev
+
+Use this API routine to retrieve the next switching device in the specified substation.
+
+nxtsws
+
+Use this API to return the identifier of the next switched shunt connected to a bus.
+
+nxttie
+
+Use this API to return the next tie branch from an area, excluding three-winding transformers.
+
+nxttie3
+
+Use this API to return the next tie branch from an area, including three-winding transformers.
+
+nxtvsc
+
+Returns the next VSC dc line in dc line name alphabetical order.
+
+okstrt
+
+Routine which may be called after activity STRT or MSTR to indicate the presence of INITIAL CONDITIONS SUSPECT errors (for activity STRT) or at least one MODEL NOT AVAILABLE IN MSTR/MRUN message (for MSTR).
+
+openun
+
+Connects an IPLAN unit number to the Fortran unit used by activity OPEN and returns that IPLAN unit number.
+
+ordbus
+
+This API routine returns the bus number corresponding to the specified position in the ordered list (numeric or alphabetic) of non-hidden buses (i.e., star point buses and topological buses are excluded).
+
+ordbussect
+
+This API routine returns the bus number and section number corresponding to the specified position in the ordered list (numeric or alphabetic) of non-star point buses (i.e., star point buses are excluded).
+
+owndat
+
+Returns the data associated with an owner (‘LOAD’ gets loads at buses of owner ‘IAR’, ‘LOADLD’ gets loads assigned to owner ‘IAR’).
+
+ownnam
+
+Returns the owner name for a specified owner number.
+
+ownnum
+
+Returns the owner number for a specified owner name.
+
+ownuse
+
+Use this API to indicate whether an owner is in use.
+
+prmdat
+
+Use this API routine to return real-valued solution parameters.
+
+prmint
+
+Use this API routine to return integer-valued solution parameters.
+
+ratchr
+
+Use this API to get rating set parameters.
+
+rmodind
+
+Returns the branch relay model starting array indices and status.
+
+rmodnam
+
+Returns the branch relay model name.
+
+sbsgtbkv
+
+Use this API to get previously defined bus subsystem voltage limits.
+
+sc3wnd
+
+Returns the three-winding transformer short circuit currents arriving at IBUS following activity SCMU.
+
+scbrn2
+
+Returns the branch short circuit currents arriving at IBUS following activity SCMU.
+
+scbus2
+
+Returns complex bus voltages and currents following activity SCMU.
+
+scdone
+
+Use this API to restore the working case after ‘SCINIT’.
+
+scinit
+
+Use this API to initialize the short-circuit data retrieval APIs.
+
+scmac2
+
+Use this API to return the machine short circuit currents following activity SCMU.
+
+selctr
+
+Use this API to return the activity selector indicator.
+
+sethomepath
+
+Use this API to set a user’s HOMEPATH directory.
+
+sfiles
+
+Use this API to return the current Saved Case and Snapshot filenames.
+
+slmodind
+
+Use this API to return the subsystem load-related model starting array indices and status.
+
+slmodnam
+
+Use this API to return the subsystem load-related model name.
+
+solstr
+
+Use this API to return a string indicating the result of the last solution attempt.
+
+solved
+
+Use this API to check whether the last solution attempt reached tolerance.
+
+solved_ca
+
+Use this API to check whether the last corrective action solution attempt reached tolerance.
+
+stadat
+
+Use this API routine to return real substation values.
+
+staint
+
+Use this API routine to return integer substation values.
+
+staname
+
+Use this API routine to return a substation’s name.
+
+stanodeint
+
+Use this API routine to return integer substation values.
+
+stanodename
+
+Use this API routine to return the name of a substation node.
+
+starea
+
+Use this API to restrict ‘NXTBUS’ to a single area.
+
+staswdevdat
+
+Use this API routine to return real substation switching device values.
+
+staswdevint
+
+Use this API routine to return integer substation switching device values.
+
+staswdevname
+
+Use this API routine to return the name of a substation switching device.
+
+stbskv
+
+Use this API to restrict ‘NXTBUS’ to a single base voltage level.
+
+stzone
+
+Use this API to restrict ‘NXTBUS’ to a single zone.
+
+swsblk
+
+This API routine is obsolete.
+
+swsblk_2
+
+Use this API to return data for a specified block of a specified switched shunt.
+
+swsblz
+
+This API routine is obsolete.
+
+swsblz2
+
+This API routine is obsolete.
+
+swsdat
+
+This API routine is obsolete.
+
+swsdat_2
+
+Use this API to return switched shunt real data.
+
+swsdt1
+
+This API routine is obsolete.
+
+swsint
+
+This API routine is obsolete.
+
+swsint_2
+
+Use this API to return switched shunt integer parameters.
+
+swsmind
+
+This API routine is obsolete.
+
+swsmind_2
+
+Use this API to return switched shunt model starting array indices and status.
+
+swsmnam
+
+This API routine is obsolete.
+
+swsmnam_2
+
+Use this API to return switched shunt model name.
+
+sysmsm
+
+Use this API to return the total system MVA mismatch.
+
+sysmva
+
+Use this API to return the system base MVA.
+
+systot
+
+Use this API to return complex system-wide values.
+
+titldt
+
+Use this API to return the two line case title.
+
+totbus
+
+Use this API to return the total number of buses in the working case.
+
+tr3dat
+
+Use this API to return three-winding transformer real values.
+
+tr3dt2
+
+Use this API to return three-winding transformer complex values.
+
+tr3int
+
+Use this API to return three-winding transformer integer values.
+
+tr3nam
+
+Use this API to return three-winding transformer name.
+
+trndat
+
+This API routine is obsolete.
+
+trxdat
+
+Use this API to return the inter-area transfer MW.
+
+tspfprofilechr
+
+Use this API to return string parameters of Time Series Power Flow profile.
+
+tspfprofilecurvechr
+
+Use this API to return string parameters of Time Series Power Flow profile curve.
+
+tspfprofilecurveint
+
+Use this API to return integer parameters of Time Series Power Flow profile curve.
+
+tspfprofilecurvereal
+
+Use this API to return real parameters of Time Series Power Flow profile curve.
+
+tspfprofileint
+
+Use this API to return integer parameters of Time Series Power Flow profile.
+
+tspfprofilereal
+
+Use this API to return real parameters of Time Series Power Flow profile.
+
+voltagedroopdata
+
+Use this API to return voltage droop control real parameters.
+
+voltagedroopint
+
+Use this API to return voltage droop control integer parameters.
+
+vscauxmind
+
+Use this API to return the starting array indices and status of auxiliary signal model associated with VSC dc line for the specified signal index.
+
+vscauxmnam
+
+Use this API to return the auxiliary signal model name associated with a VSC dc line for the specified auxiliary signal index.
+
+vsccdt
+
+Use this API to return VSC dc line real parameters.
+
+vsccin
+
+Use this API to return VSC dc line converter integer parameters.
+
+vscint
+
+Use this API to return VSC dc line integer parameters.
+
+vscmind
+
+Use this API to return VSC dc line model starting array indices and status.
+
+vscmnam
+
+Use this API to return VSC dc line model name.
+
+windmind
+
+Use this API to return wind model starting array indices and status.
+
+windmnam
+
+Use this API to return wind model name.
+
+wnddat
+
+Use this API to return three-winding transformer real values for winding connected to bus IBUS.
+
+wnddt2
+
+Use this API to return three-winding transformer complex values for winding connected to bus IBUS.
+
+wndint
+
+Use this API to return three-winding transformer integer values for winding connected to bus IBUS.
+
+xfrdat
+
+Use this API to return two-winding transformer real parameters.
+
+xfrint
+
+Use this API to return two-winding transformer integer parameters.
+
+xfrnam
+
+Use this API to return two-winding transformer name.
+
+zndat
+
+Use this API to return zone totals.
+
+znitoj
+
+Use this API to return the interchange between two zones.
+
+zonnam
+
+Use this API to return the zone name.
+
+zonnum
+
+Use this API to return the zone number.
+
+zonuse
+
+Use this API to indicate whether a zone is in use.
