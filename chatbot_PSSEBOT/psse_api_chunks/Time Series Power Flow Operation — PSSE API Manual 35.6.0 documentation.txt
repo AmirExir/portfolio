@@ -1,0 +1,23 @@
+Time Series Power Flow Operation — PSSE API Manual 35.6.0 documentation
+
+Time Series Power Flow Operation¶
+
+35.6.0
+
+July 12, 2023
+
+imposeprofile
+
+Use this API to impose generation/load at the given time point on profile curves.
+
+tspf
+
+Use this API to run the time series power flow solution.
+
+tspf_output_pmatrix
+
+Use this API to output the profile curves within one profile set in the matrix format.
+
+tspf_output_pmatrix_2
+
+Use this API to output the profile curves within one profile set in the matrix format.

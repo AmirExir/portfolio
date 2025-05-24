@@ -1,0 +1,51 @@
+Line Relay Models — PSSE API Manual 35.6.0 documentation
+
+Line Relay Models¶
+
+35.6.0
+
+July 12, 2023
+
+add_relay_model
+
+Use this API to add a line relay model in the designated relay slot of the from bus end of a specified branch.
+
+change_rlmod_chricn
+
+Use this API to change the value of a character ICON (i.e., an element of the CHRICN array) of the line relay model in the designated relay slot of the from bus end of a specified branch.
+
+change_rlmod_con
+
+Use this API to change the value of a CON of the line relay model in the designated relay slot of the from bus end of a specified branch.
+
+change_rlmod_data
+
+This API routine is obsolete.
+
+change_rlmod_icon
+
+Use this API to change the value of an integer ICON of the line relay model in the designated relay slot of the from bus end of a specified branch.
+
+change_rlmod_var
+
+Use this API to change the value of a VAR of the line relay model in the designated relay slot of the from bus end of a specified branch.
+
+rlmod_pack
+
+Use this API to remove entries that are marked as unused from the line relay model connection tables and the line relay model array allocation tables.
+
+rlmod_remove
+
+Use this API to remove the line relay model in the designated relay slot of the from bus end of a specified branch.
+
+rlmod_status
+
+Use this API to change the status of the line relay model in the designated relay slot of the from bus end of a specified branch.
+
+rlmod_unconnected
+
+Use this API to list or remove from dynamics working memory those line relay models that are assigned to branches that are not present in the current power flow working case (unconnected).
+
+rlmod_user
+
+Use this API to list user-written line relay model definitions or to remove user-written line relay model definitions that are not assigned to any branches (unused) from the user model definition tables.

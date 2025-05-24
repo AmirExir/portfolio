@@ -1,0 +1,127 @@
+Fault Analysis Data — PSSE API Manual 35.6.0 documentation
+
+Fault Analysis Data¶
+
+35.6.0
+
+July 12, 2023
+
+mbidncs
+
+Use this API to change the table name of the specified non-conventional source fault contribution table in the working case.
+
+seq_3_wind_grounding_data
+
+Use this API to modify the zero sequence grounding data of an existing three-winding transformer in the working case (see PSSE Program Operation Manual, Zero Sequence Transformer Data).
+
+seq_3_wind_winding_data
+
+Use this API to modify the zero sequence impedance data of one winding of an existing three- winding transformer in the working case (see PSSE Program Operation Manual, Zero Sequence Transformer Data).
+
+seq_branch_data
+
+This API routine is obsolete.
+
+seq_branch_data_3
+
+Use this API to modify the zero sequence data of an existing non-transformer branch in the working case (see PSSE Program Operation Manual, Zero Sequence Non-Transformer Branch Data).
+
+seq_bus_data
+
+Bus load sequence data is now accessible as load sequence data.
+
+seq_fixed_shunt_data
+
+Use this API to modify the zero sequence data of an existing fixed bus shunt in the working case (see PSSE Program Operation Manual, Zero Sequence Fixed Shunt Data).
+
+seq_induction_mach_data
+
+This API routine is obsolete.
+
+seq_induction_mach_data_2
+
+Use this API routine to modify the sequence data of an existing induction machine in the working case (see PSSE Program Operation Manual, Induction Machine Impedance Data).
+
+seq_load_data
+
+Use this API routine to modify the sequence data of an existing load in the working case (see PSSE Program Operation Manual, Load Data).
+
+seq_machine_data
+
+This API routine is obsolete.
+
+seq_machine_data_3
+
+This API routine is obsolete.
+
+seq_machine_data_4
+
+Use this API routine to modify the sequence data of an existing machine in the working case (see PSSE Program Operation Manual, Positive Sequence Generator Impedance Data, Negative Sequence Generator Impedance Data and Zero Sequence Generator Impedance Data).
+
+seq_machine_ncs_data
+
+Use this API routine to modify a machine’s existing non-conventional source fault current contribution (NCSFCC) data or to add NCSFCC data to an existing machine in the working case.
+
+seq_machine_ncs_data_purg
+
+Use this API routine to delete a machine’s existing non-conventional source fault current contribution (NCSFCC) data.
+
+seq_mutual_data
+
+Use this API to modify existing zero sequence mutual impedance data in the working case or to add a new zero sequence mutual coupling to the working case (see PSSE Program Operation Manual, Zero Sequence Mutual Impedance Data).
+
+seq_ncs_flt_cntrb_chng
+
+This API routine was first introduced in release 34.0.0.
+
+seq_ncs_flt_cntrb_data
+
+This API routine is obsolete.
+
+seq_ncs_flt_cntrb_purg
+
+This API routine is obsolete.
+
+seq_ncs_table_data
+
+Use this API to modify the data of an existing non-conventional source fault contribution table in the working case or to add a new non-conventional source fault contribution table to the working case.
+
+seq_ncs_table_onept
+
+Use this API to modify the one data point of an existing non-conventional source fault contribution table in the working case or to add a new one data point to non-conventional source fault contribution table to the working case.
+
+seq_ncs_table_purg
+
+Use this API to delete an existing non-conventional source fault contribution table from the working case.
+
+seq_ncs_table_purg_onept
+
+Use this API to delete specified data point in an existing non-conventional source fault contribution table.
+
+seq_ncs_table_type
+
+Use this API to get NCS table type.
+
+seq_switched_shunt_data
+
+This API routine is obsolete.
+
+seq_switched_shunt_data_3
+
+Use this API to modify the zero sequence data of an existing switched shunt in the working case (see PSSE Program Operation Manual, Zero Sequence Switched Shunt Data).
+
+seq_three_winding_data
+
+This API routine is obsolete.
+
+seq_three_winding_data_3
+
+Use this API to modify the zero sequence data of an existing three-winding transformer in the working case.
+
+seq_two_winding_data
+
+This API routine is obsolete.
+
+seq_two_winding_data_3
+
+Use this API to modify the zero sequence data of an existing two-winding transformer in the working case (see PSSE Program Operation Manual, Zero Sequence Transformer Data).

@@ -1,0 +1,115 @@
+Fault Analysis Operation — PSSE API Manual 35.6.0 documentation
+
+Fault Analysis Operation¶
+
+35.6.0
+
+July 12, 2023
+
+ansi
+
+This API routine is obsolete.
+
+ansi_2
+
+This API routine is obsolete.
+
+ansi_3
+
+This API routine executes the third release of the ANSI fault calculation function.
+
+ascc
+
+This API routine is obsolete.
+
+ascc_1a
+
+This API routine is obsolete.
+
+ascc_2
+
+This API routine is obsolete.
+
+ascc_3
+
+This API is used to apply a series of faults at various locations in the working case.
+
+ascc_scfile
+
+This API reads ASCC short circuit results from SCFILE and produces same ASCC output report that was generated when SCFILE was created.
+
+bkdy
+
+Use this API to calculate and report circuit breaker interrupting duty for 3-phase faults at all buses in a specified subsystem of the working case (activity BKDY).
+
+check_sequence_data
+
+Use this API routine to perform data checks on the selected categories of sequence data for all buses in the working case or for all buses in a specified subsystem.
+
+flat
+
+This API routine is obsolete.
+
+flat_2
+
+This API routine is the second release of the flat conditions function.
+
+iecs
+
+This API routine is obsolete.
+
+iecs_2
+
+This API routine is obsolete.
+
+iecs_3
+
+This API routine is obsolete.
+
+iecs_4
+
+This API executes the fourth release of the IEC short circuit calculations function.
+
+iecs_scfile
+
+This API reads IECS short circuit results from SCFILE and produces same IECS output report that was generated when SCFILE was created.
+
+newseq
+
+Use this API to initialize the fault analysis data arrays, set them to default values, and set the flag indicating that sequence data is present in the working case.
+
+sceq
+
+Use this API to construct network equivalents of the positive and zero sequence networks and calculates source impedances at equivalent source nodes for all three sequences in preparation for the unbalanced fault analysis activities of PSSE.
+
+scgr
+
+This API routine is obsolete.
+
+scmu
+
+This API routine is obsolete.
+
+scmu_2
+
+Use this API to calculate simultaneous unbalances.
+
+scop
+
+Use this API to tabulate unbalanced fault solution output.
+
+seqd
+
+This API routine is obsolete.
+
+seqd_2
+
+Use this API routine to factorize the sequence matrices in preparation for unbalanced fault calculations SCMU and SPCB.
+
+sequence_network_setup
+
+Use this API to specify or return the option to enable or disable automatic fault analysis sequence network setup.
+
+sqex
+
+Use this API to tabulate all fault analysis data pertaining to a specified bus.

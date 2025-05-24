@@ -1,0 +1,79 @@
+Set Disturbance — PSSE API Manual 35.6.0 documentation
+
+Set Disturbance¶
+
+35.6.0
+
+July 12, 2023
+
+dist_3phase_bus_fault
+
+Use this API to apply a three phase fault at a bus during dynamic simulations.
+
+dist_3wind_close
+
+Use this API to set a three-winding transformer to in-service during dynamic simulations.
+
+dist_3wind_fault
+
+Use this API to apply a fault at the IBUS end of a three-winding transformer during dynamic simulations.
+
+dist_3wind_trip
+
+Use this API to set a three-winding transformer to out-of-service during dynamic simulations.
+
+dist_branch_close
+
+Use this API to set a non-transformer branch or a two-winding transformer to in-service during dynamic simulations.
+
+dist_branch_fault
+
+Use this API to apply a fault at the IBUS end of a non-transformer branch or a two-winding transformer during dynamic simulations.
+
+dist_branch_trip
+
+Use this API to set a non-transformer branch or a two-winding transformer to out-of-service during dynamic simulations.
+
+dist_bus_fault
+
+This API routine is obsolete.
+
+dist_bus_fault_2
+
+This API routine is obsolete.
+
+dist_bus_fault_3
+
+Use this API to apply an unbalanced fault at a bus during dynamic simulations.
+
+dist_bus_trip
+
+Use this API to disconnect a bus during dynamic simulations.
+
+dist_clear_fault
+
+Use this API to clear a fault during dynamic simulations.
+
+dist_machine_trip
+
+Use this API to set a machine to out-of-service during dynamic simulations.
+
+dist_scmu_fault
+
+This API routine is obsolete.
+
+dist_scmu_fault_2
+
+This API routine is obsolete.
+
+dist_scmu_fault_3
+
+Use this API to calculate an unbalanced fault and apply the equivalent positive sequence fault admittance at a bus during dynamic simulations.
+
+dist_spcb_fault
+
+This API routine is obsolete.
+
+dist_spcb_fault_2
+
+Use this API routine to run the second release of the dynamics branch unbalance function.

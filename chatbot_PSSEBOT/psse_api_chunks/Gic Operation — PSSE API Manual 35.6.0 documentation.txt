@@ -1,0 +1,99 @@
+Gic Operation — PSSE API Manual 35.6.0 documentation
+
+Gic Operation¶
+
+35.6.0
+
+July 12, 2023
+
+gic
+
+This API routine is obsolete.
+
+gic_2
+
+This API routine is obsolete.
+
+gic_3
+
+This API routine is obsolete.
+
+gic_4
+
+This API routine is obsolete.
+
+gic_5
+
+This API routine is obsolete.
+
+gic_6
+
+This API routine is obsolete.
+
+gic_7
+
+This API routine is obsolete.
+
+gic_8
+
+Use this API to calculate Geomagnetically Induced Currents (GIC) in electric power system network as a result of Geomagnetic Disturbance (GMD).
+
+gic_branch_efield_nn
+
+Use this API to calculate geoelectric efield induced in the network branches from specified geoelectric efield grid data using nearest neigbor (NN) alogorithm.
+
+gic_earth1d_usr_purg
+
+Use this API to purge GIC User 1D Earth Model data from the working case.
+
+gic_efield_waveshape
+
+For Transformer Thermal Impact assessement due to geomagnetic disturbance event, set the geoelectric field waveshape as provided in EFLDFILE.
+
+gic_efield_waveshape_ref
+
+For Transformer Thermal Impact assessement due to geomagnetic disturbance event, set the geoelectric field waveshape as NERC TPL-007-2 benhcmark event.
+
+gic_efield_waveshape_supp
+
+For Transformer Thermal Impact assessement due to geomagnetic disturbance event, set the geoelectric field waveshape as NERC TPL-007-2 supplemental event.
+
+gic_mvarloss_scaling_factors
+
+Specify KFACTORS to determine transformer reactive power losses due to geomagnetic currents (GICs) flow.
+
+gic_new
+
+Use this API to initialize all data records required for GIC analysis.
+
+gic_pf_options
+
+Use this API to specify the Newton-Raphson power flow solution options used in GIC.
+
+gic_purg
+
+Use this API to purge all GIC data from the working case.
+
+gic_read
+
+Use this API to read GIC Data Text (.gic) File into the working case memory.
+
+gic_read_efield_grid
+
+Use this API to read Geoelectric Efield Grid Data File into the working case memory.
+
+gic_thermal_impact
+
+This API routine is obsolete.
+
+gic_thermal_impact_1
+
+Use this API to calculate Transformer Thermal Impact assessement GIC(t) curve using specified effective Eastward GIC(E) and Nortward GIC(N) for one specific transformer.
+
+gic_write
+
+Use this API to write working case GIC Data to text (.gic) file.
+
+gic_write_stn
+
+Use this API to write working case GIC Data to text (.gic) file version 4 that has substation data.

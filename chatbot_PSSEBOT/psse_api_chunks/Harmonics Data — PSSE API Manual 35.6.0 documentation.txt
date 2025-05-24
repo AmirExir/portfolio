@@ -1,0 +1,255 @@
+Harmonics Data — PSSE API Manual 35.6.0 documentation
+
+Harmonics Data¶
+
+35.6.0
+
+July 12, 2023
+
+har_2tdc
+
+Use this API to modify or add new harmonics Two Terminal DC data to the working case.
+
+har_2tdc_chng
+
+Use this API to modify harmonics Two Terminal DC data in the working case.
+
+har_2tdc_purg
+
+Use this API to purge specified harmonics Two Terminal DC data from the working case.
+
+har_brn
+
+Use this API to modify or add new harmonics branch data to the working case.
+
+har_brn_chng
+
+Use this API to modify harmonics branch data to the working case.
+
+har_brn_purg
+
+Use this API to purge specified harmonics branch data from the working case.
+
+har_cursrc
+
+Use this API to modify or add new harmonics current source table data to the working case.
+
+har_cursrc_chng
+
+Use this API to change harmonics current source table data in the working case.
+
+har_cursrc_chng_name
+
+Use this API to change harmonics current source table name in the working case.
+
+har_cursrc_chng_onept
+
+Use this API to modify one data point to harmonics current source table in the working case.
+
+har_cursrc_name
+
+Use this API to add or change harmonics current source table name in the working case.
+
+har_cursrc_onept
+
+Use this API to modify or add new one data point to harmonics current source table in the working case.
+
+har_cursrc_purg
+
+Use this API to purge specified harmonics current source table data from the working case.
+
+har_cursrc_purg_onept
+
+Use this API to purge specified data point in harmonics current source table.
+
+har_facts
+
+Use this API to modify or add new harmonics FACTS device data to the working case.
+
+har_facts_chng
+
+Use this API to modify harmonics FACTS device data in the working case.
+
+har_facts_purg
+
+Use this API to purge specified harmonics FACTS device data from the working case.
+
+har_impchar
+
+Use this API to modify or add new harmonics impedance characteristics table data to the working case.
+
+har_impchar_chng
+
+Use this API to change harmonics impedance characteristics table data in the working case.
+
+har_impchar_chng_name
+
+Use this API to change harmonics impedance characteristics table name in the working case.
+
+har_impchar_chng_onept
+
+Use this API to modify one data point to harmonics impedance characteristics table in the working case.
+
+har_impchar_name
+
+Use this API to add or change harmonics impedance characteristics table name in the working case.
+
+har_impchar_onept
+
+Use this API to modify or add new one data point to harmonics impedance characteristics table in the working case.
+
+har_impchar_purg
+
+Use this API to purge specified harmonics impedance characteristics table data from the working case.
+
+har_impchar_purg_onept
+
+Use this API to purge specified data point in harmonics impedance characteristics table.
+
+har_indmc
+
+Use this API to modify or add new harmonics induction machine data to the working case.
+
+har_indmc_chng
+
+Use this API to modify harmonics induction machine data to the working case.
+
+har_indmc_purg
+
+Use this API to purge specified harmonics induction machine data from the working case.
+
+har_load
+
+Use this API to modify or add new harmonics load data to the working case.
+
+har_load_chng
+
+Use this API to modify harmonics load data to the working case.
+
+har_load_purg
+
+Use this API to purge specified harmonics load data from the working case.
+
+har_mach
+
+Use this API to modify or add new harmonics machine data to the working case.
+
+har_mach_chng
+
+Use this API to modify harmonics machine data to the working case.
+
+har_mach_purg
+
+Use this API to purge specified harmonics machine data from the working case.
+
+har_mtdc
+
+Use this API to modify or add new harmonics Multi Terminal DC data to the working case.
+
+har_mtdc_chng
+
+Use this API to modify harmonics Multi Terminal DC data in the working case.
+
+har_mtdc_purg
+
+Use this API to purge specified harmonics Multi Terminal DC data from the working case.
+
+har_passive_filter
+
+Use this API to modify or add new harmonics passive filter data to the working case.
+
+har_passive_filter_chng
+
+Use this API to modify harmonics passive filter data in the working case.
+
+har_passive_filter_purg
+
+Use this API to purge specified harmonics passive filter data from the working case.
+
+har_set_par_lodmdl_cigre_measurement
+
+Use this API to set parameters for harmonics load data user model CIGRE_MEASUREMENT.
+
+har_set_par_lodmdl_cigre_motive
+
+Use this API to set parameters for harmonics load data user model CIGRE_MOTIVE.
+
+har_set_par_lodmdl_cigre_passive
+
+Use this API to set parameters for harmonics load data user model CIGRE_PASSIVE.
+
+har_set_par_lodmdl_ieee_2rl_parallel
+
+Use this API to set parameters for harmonics load data user model IEEE_2RL_PARALLEL.
+
+har_set_par_lodmdl_ieee_im
+
+Use this API to set parameters for harmonics load data user model IEEE_IM.
+
+har_set_par_lodmdl_ieee_measurement
+
+Use this API to set parameters for harmonics load data user model IEEE_MEASUREMENT.
+
+har_set_par_lodmdl_ieee_skin
+
+Use this API to set parameters for harmonics load data user model IEEE_SKIN.
+
+har_set_par_lodmdl_large_async_motor
+
+Use this API to set parameters for harmonics load data user model LARGE_ASYNC_MOTOR.
+
+har_trn
+
+Use this API to modify or add new harmonics transformer data to the working case.
+
+har_trn_chng
+
+Use this API to modify harmonics transformer data to the working case.
+
+har_trn_purg
+
+Use this API to purge specified harmonics transformer data from the working case.
+
+har_vltsrc
+
+Use this API to modify or add new harmonics voltage source table data to the working case.
+
+har_vltsrc_chng
+
+Use this API to change harmonics voltage source table data in the working case.
+
+har_vltsrc_chng_name
+
+Use this API to change harmonics voltage source table name in the working case.
+
+har_vltsrc_chng_onept
+
+Use this API to modify one data point to harmonics voltage source table in the working case.
+
+har_vltsrc_name
+
+Use this API to add or change harmonics voltage source table name in the working case.
+
+har_vltsrc_onept
+
+Use this API to modify or add new one data point to harmonics voltage source table in the working case.
+
+har_vltsrc_purg
+
+Use this API to purge specified harmonics voltage source table data from the working case.
+
+har_vltsrc_purg_onept
+
+Use this API to purge specified data point in harmonics voltage source table.
+
+har_vscdc
+
+Use this API to modify or add new harmonics VSCDC data to the working case.
+
+har_vscdc_chng
+
+Use this API to modify harmonics VSCDC data in the working case.
+
+har_vscdc_purg
+
+Use this API to purge specified harmonics VSCDC data from the working case.

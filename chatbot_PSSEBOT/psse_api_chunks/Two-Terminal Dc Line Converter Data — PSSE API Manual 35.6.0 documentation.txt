@@ -1,0 +1,31 @@
+Two-Terminal Dc Line Converter Data — PSSE API Manual 35.6.0 documentation
+
+Two-Terminal Dc Line Converter Data¶
+
+35.6.0
+
+July 12, 2023
+
+a2trmdcconvchar
+
+Use this API to return an array of character values for subsystem two-terminal dc line converters.
+
+a2trmdcconvcount
+
+Use this API to return the number of array entries required to accommodate the data to be returned by the remaining members of the two-terminal dc line converter data family.
+
+a2trmdcconvcplx
+
+Use this API to return an array of complex values for subsystem two-terminal dc line converters.
+
+a2trmdcconvint
+
+Use this API to return an array of integer values for subsystem two-terminal dc line converters.
+
+a2trmdcconvreal
+
+Use this API to return an array of real values for subsystem two-terminal dc line converters.
+
+a2trmdcconvtypes
+
+Use this API to return an array of character values indicating the data types corresponding to a set of specified STRING values that are valid input values to any of the data retrieval routines of the two-terminal dc line converter data family (a2TrmDcConvInt, a2TrmDcConvReal, a2TrmDcConvCplx and a2TrmDcConvChar).

@@ -1,0 +1,203 @@
+Scenarios — PSSE API Manual 35.6.0 documentation
+
+Scenarios¶
+
+35.6.0
+
+July 12, 2023
+
+closescenariofile
+
+This API routine is obsolete.
+
+newscenariofile
+
+This API routine is obsolete.
+
+openscenariofile
+
+This API routine is obsolete.
+
+savescenariofile
+
+This API routine is obsolete.
+
+scenarioclose
+
+Use this API to close the currently open Scenario.
+
+scenariocopyfile
+
+Use this API to copy a file from one group to another group.
+
+scenariofileadd
+
+Use this API to add a file to the specified group.
+
+scenariofilecount
+
+Use this API to retrieve the number of files in a specified group in the Scenario.
+
+scenariofilegetattrs
+
+Use this API to retrieve the attributes of the specified file.
+
+scenariofilegetcomments
+
+Use this API to retrieve the comments for the specified file.
+
+scenariofilelengthcomments
+
+Use this API to determine the buffer size needed to hold the comments for the specified file.
+
+scenariofilelist
+
+Use this API to retrieve the list of files in the specified group.
+
+scenariofileremove
+
+Use this API to remove a file from the specified group.
+
+scenariofilerename
+
+Use this API to rename one of the files in the Scenario.
+
+scenariofilesetattrs
+
+Use this API to modify the attributes of the specified file.
+
+scenariofilesetcomments
+
+Use this API to define or modify the comments for the specified file.
+
+scenariogetattrs
+
+Use this API to retrieve the attributes of the Scenario.
+
+scenariogetcomments
+
+Use this API to retrieve the Scenario comments.
+
+scenariogetopt
+
+Use this API to retrieve the Scenario options.
+
+scenariogroupadd
+
+Use this API to add a group to the Scenario.
+
+scenariogroupcount
+
+Use this API to retrieve the number of groups in the Scenario.
+
+scenariogroupgetcomments
+
+Use this API to retrieve the comments for the specified group.
+
+scenariogrouplengthcomments
+
+Use this API to determine the buffer size needed to hold the comments for the specified group.
+
+scenariogrouplist
+
+Use this API to retrieve the list of groups in the Scenario.
+
+scenariogroupopen
+
+Use this API to add a group to the Scenario.
+
+scenariogroupremove
+
+Use this API to remove a group from the Scenario.
+
+scenariogrouprename
+
+Use this API to rename one of the groups in the Scenario.
+
+scenariogroupsetcomments
+
+Use this API to define or modify the comments for the specified group.
+
+scenarioisdirty
+
+Use this API to determine if there are any unsaved changes in the current Scenario.
+
+scenarioisvalid
+
+Use this API to determine if there is a valid Scenario in memory.
+
+scenariolengthcomments
+
+Use this API to determine the buffer size needed to hold the current Scenario comments.
+
+scenariomodelgroup
+
+Use this API to create a new group that is identical to another group.
+
+scenariomovefile
+
+Use this API to move a file from one group to another group.
+
+scenarionew
+
+Use this API to create a new Scenario.
+
+scenarioopen
+
+Use this API to open a previously created Scenario.
+
+scenariosave
+
+Use this API to save the currently open Scenario.
+
+scenariosetattrs
+
+Use this API to modify the root path and startup group attributes of the Scenario.
+
+scenariosetcomments
+
+Use this API to define or modify the Scenario comments.
+
+scenariosetopt
+
+Use this API to modify the Scenario options.
+
+scenariotrackfileadd
+
+Use this API to add the files currently being tracked.
+
+scenariotrackfilelist
+
+Use this API to retrieve the list of files being tracked.
+
+scenariotrackfilenum
+
+Use this API to retrieve the current number of files being tracked.
+
+scenariounzip
+
+Use this API to unzip a zipped Scenario.
+
+scenariounzipproblems
+
+Use this API to retrieve the problems that occurred during the last unzip attempt.
+
+scenariounzipsolutions
+
+Use this API to submit potential solutions to the problems that occurred during the last unzip attempt.
+
+scenariozip
+
+Use this API to zip up the current Scenario.
+
+scenariozipactive
+
+Use this API to determine if the Scenario is currently in Zip Mode.
+
+scenariozipopen
+
+Use this API to open a zipped Scenario.
+
+scenariozipsave
+
+This API routine was first introduced in release 33.2.0.

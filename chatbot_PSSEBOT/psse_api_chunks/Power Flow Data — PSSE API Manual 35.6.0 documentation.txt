@@ -1,0 +1,623 @@
+Power Flow Data — PSSE API Manual 35.6.0 documentation
+
+Power Flow Data¶
+
+35.6.0
+
+July 12, 2023
+
+area_data
+
+Use this API to modify area data in the working case (see PSSE Program Operation Manual, Areas, Zones and Owners).
+
+branch_chng
+
+This API routine is obsolete.
+
+branch_chng_3
+
+Use this API routine to modify the data of an existing non-transformer branch in the working case (see PSSE Program Operation Manual, Non-Transformer Branch Data).
+
+branch_data
+
+This API routine is obsolete.
+
+branch_data_3
+
+Use this API to modify the data of an existing non-transformer branch in the working case or to add a new non-transformer branch to the working case (see PSSE Program Operation Manual, Non- Transformer Branch Data).
+
+bus_chng_3
+
+Use this API routine to modify the data of an existing bus in the working case (see PSSE Program Operation Manual, Bus Data).
+
+bus_chng_4
+
+Use this API routine to modify the data of an existing bus in the working case (see PSSE Program Operation Manual, Bus Data).
+
+bus_data
+
+This API routine is obsolete.
+
+bus_data_2
+
+This API routine is obsolete.
+
+bus_data_3
+
+This API routine is obsolete.
+
+bus_data_4
+
+Use this API routine to modify the data of an existing bus in the working case, or to add a new bus to the working case (see PSSE Program Operation Manual, Bus Data).
+
+bus_number
+
+Use this API to change the bus number of an existing bus in the working case.
+
+case_title_data
+
+Use this API to change the two line case title in the working case (see PSSE Program Operation Manual, Case Identification Data).
+
+casolution_parameters
+
+Use this API to modify the contingency analysis solution parameters.
+
+casolution_parameters_2
+
+Use this API to modify the contingency analysis solution parameters.
+
+casolution_parameters_3
+
+Use this API to modify the contingency analysis solution parameters.
+
+extr
+
+Use this API to purge specified buses and all branches connected to them from the working case (activity EXTR).
+
+facts_chng_2
+
+This API routine is obsolete.
+
+facts_chng_3
+
+Use this API routine to modify the data of an existing FACTS device in the working case (see PSSE Program Operation Manual, FACTS Device Data).
+
+facts_data
+
+This API routine is obsolete.
+
+facts_data_2
+
+This API routine is obsolete.
+
+facts_data_3
+
+Use this API to modify the data of an existing FACTS device in the working case, or to add a new FACTS device to the working case (see PSSE Program Operation Manual, FACTS Device Data).
+
+gne_chng
+
+Use this API routine to modify the data of an existing GNE device in the working case (see PSSE Program Operation Manual, GNE Device Data).
+
+gne_data
+
+Use this API routine to run the GNE device data specification function.
+
+impedance_correction_data
+
+This API routine is obsolete.
+
+impedance_correction_data_3
+
+Use this API to modify the data of an existing transformer impedance correction table in the working case or to add a new transformer impedance correction table to the working case (see PSSE Program Operation Manual, Transformer Impedance Correction Table Data).
+
+induction_machine_chng
+
+Use this API routine to modify the data of an existing induction machine in the working case (see PSSE Program Operation Manual, Induction Machine Data).
+
+induction_machine_data
+
+Use this API routine to modify the data of an existing induction machine in the working case, or to add a new induction machine to the working case (see PSSE Program Operation Manual, Induction Machine Data).
+
+load_chng_4
+
+This API routine is obsolete.
+
+load_chng_5
+
+This API routine is obsolete.
+
+load_chng_6
+
+Use this API routine to modify the data of an existing load in the working case (see PSSE Program Operation Manual, Load Data).
+
+load_data
+
+This API routine is obsolete.
+
+load_data_3
+
+This API routine is obsolete.
+
+load_data_4
+
+This API routine is obsolete.
+
+load_data_5
+
+This API routine is obsolete.
+
+load_data_6
+
+Use this API routine to modify the data of an existing load in the working case, or to add a new load to the working case (see PSSE Program Operation Manual, Load Data).
+
+long_title_data
+
+Use this API to change the sixteen line long title in the working case (see PSSE Program Operation Manual, activity CHTI).
+
+machine_cap_curve_chng
+
+Use this API routine to modify the capability curve data of an existing machine in the working case.
+
+machine_cap_curve_data
+
+Use this API routine to specify or modify the capability curve data of an existing machine in the working case.
+
+machine_chng_2
+
+This API routine is obsolete.
+
+machine_chng_3
+
+Use this API routine to modify the data of an existing machine in the working case (see PSSE Program Operation Manual, Plant Data).
+
+machine_chng_4
+
+Use this API routine to modify the data of an existing machine in the working case (see PSSE Program Operation Manual, Plant Data).
+
+machine_data
+
+This API routine is obsolete.
+
+machine_data_2
+
+This API routine is obsolete.
+
+machine_data_3
+
+Use this API to modify the data of an existing machine in the working case, or to add a new machine to a plant bus in the working case (see PSSE Program Operation Manual, Plant Data).
+
+machine_data_4
+
+Use this API to modify the data of an existing machine in the working case, or to add a new machine to a plant bus in the working case (see PSSE Program Operation Manual, Plant Data).
+
+mbid2dc
+
+Use this API to change the name of the specified two-terminal dc line.
+
+mbid3wnd
+
+Use this API to change the identifier of the specified three-winding transformer.
+
+mbidatrn
+
+Use this API to change the identifier of the specified inter-area transfer.
+
+mbidbrn
+
+Use this API to change the identifier of the specified non-transformer branch or two-winding transformer.
+
+mbidfacts
+
+Use this API to change the name of the specified FACTS device.
+
+mbidgne
+
+Use this API routine to change the GNE device name of the specified GNE device.
+
+mbidindmac
+
+Use this API routine to change the identifier of the specified induction machine.
+
+mbidload
+
+Use this API to change the identifier of the specified load.
+
+mbidmac
+
+Use this API to change the identifier of the specified machine.
+
+mbidmdc
+
+Use this API to change the name of the specified multi-terminal dc line.
+
+mbidmsl
+
+Use this API to change the identifier of the specified multi-section line.
+
+mbidshunt
+
+Use this API to change the identifier of the specified fixed bus shunt.
+
+mbidswshunt
+
+Use this API to change the identifier of the specified switched bus shunt.
+
+mbidvd
+
+Use this API to change the voltage droop control name of the specified voltage droop control in the working case.
+
+mbidvsc
+
+Use this API to change the VSC dc line name of the specified VSC dc line.
+
+multi_section_line_data
+
+Use this API to modify the definition of an existing multi-section line grouping in the working case or to add a new multi-section line grouping to the working case (see PSSE Program Operation Manual, Multi-Section Line Grouping Data).
+
+multi_section_line_edit
+
+Use this API to modify the status and/or metered end designation of an existing multi-section line grouping in the working case (see PSSE Program Operation Manual, Multi-Section Line Grouping Data).
+
+multi_term_dc_bus_data
+
+Use this API to modify the data of a dc bus of an existing multi-terminal dc line in the working case or to add a new dc bus to a multi-terminal dc line in the working case (see PSSE Program Operation Manual, Multi-Terminal DC Transmission Line Data).
+
+multi_term_dc_convr_data
+
+Use this API to modify the data of a dc converter of an existing multi-terminal dc line in the working case or to add a new converter to a multi-terminal dc line in the working case (see PSSE Program Operation Manual, Multi-Terminal DC Transmission Line Data).
+
+multi_term_dc_line_chng
+
+Use this API routine to modify the control mode and mode switch voltage of an existing multi- terminal dc line in the working case (see PSSE Program Operation Manual, Multi-Terminal DC Transmission Line Data).
+
+multi_term_dc_line_data
+
+Use this API to modify the control mode and mode switch voltage of an existing multi-terminal dc line in the working case or to add a new multi-terminal dc line to the working case (see PSSE Program Operation Manual, Multi-Terminal DC Transmission Line Data).
+
+multi_term_dc_link_data
+
+Use this API to modify the data of a dc link of an existing multi-terminal dc line in the working case or to add a new dc link to a multi-terminal dc line in the working case (see PSSE Program Operation Manual, Multi-Terminal DC Transmission Line Data).
+
+owner_data
+
+Use this API to modify owner data in the working case (see PSSE Program Operation Manual, Interarea Transfer Data).
+
+pbus_add_mod
+
+Use this API to add or modify transaction event participating bus data.
+
+pbus_delete
+
+Use this API to remove a bus from the set of buses that are participating in a transaction event.
+
+plant_chng
+
+This API routine is obsolete.
+
+plant_chng_3
+
+This API routine is obsolete.
+
+plant_chng_4
+
+Use this API routine to modify the data of an existing plant that is part of a substation in the working case.
+
+plant_data
+
+This API routine is obsolete.
+
+plant_data_3
+
+This API routine is obsolete.
+
+plant_data_4
+
+Use this API to modify the data of an existing plant in the working case, or to add a new plant to the working case (see PSSE Program Operation Manual, Fixed Bus Shunt Data).
+
+purg
+
+Use this API routine to delete specified outaged equipment items from the working case.
+
+purg2dc
+
+Use this API to delete the specified two-terminal dc line from the working case.
+
+purg3wnd
+
+Use this API to delete the specified three-winding transformer from the working case.
+
+purg_voltage_droop
+
+Use this API to delete an existing voltage droop control from the working case.
+
+purgarea
+
+Use this API to delete areas with no equipment assigned to them from the working case.
+
+purgatrn
+
+Use this API to delete the specified inter-area transfer from the working case.
+
+purgbrn
+
+Use this API to delete the specified non-transformer branch or two-winding transformer from the working case.
+
+purgcapcurve
+
+Use this API to delete the specified machine’s capability curve from the working case.
+
+purge_multi_term_dc_bus
+
+Use this API to delete the specified dc bus from the specified multi-terminal dc line in the working case.
+
+purge_multi_term_dc_convr
+
+Use this API to delete the specified converter from the specified multi-terminal dc line in the working case.
+
+purge_multi_term_dc_link
+
+Use this API to delete the specified dc link from the specified multi-terminal dc line in the working case.
+
+purgfacts
+
+Use this API to delete the specified FACTS device from the working case.
+
+purggne
+
+Use this API routine to delete the specified GNE device from the working case.
+
+purgindmac
+
+Use this API routine to delete the specified induction machine from the working case.
+
+purgindmacs
+
+Use this API routine to delete all induction machines from the specified bus in the working case.
+
+purgload
+
+Use this API to delete the specified load from the working case.
+
+purgloads
+
+Use this API to delete all loads from the specified bus in the working case.
+
+purgmac
+
+Use this API to delete the specified machine from the working case.
+
+purgmdc
+
+Use this API to delete the specified multi-terminal dc line from the working case.
+
+purgmsl
+
+Use this API to delete the specified multi-section line grouping from the working case.
+
+purgmut
+
+Use this API to delete the specified zero sequence mutual coupling from the working case.
+
+purgowner
+
+Use this API to delete owners with no equipment assigned to them from the working case.
+
+purgplnt
+
+Use this API to delete the plant and machine data at the specified bus from the working case.
+
+purgshunt
+
+Use this API to delete the specified fixed bus shunt from the working case.
+
+purgshunts
+
+Use this API to delete all fixed shunts from the specified bus in the working case.
+
+purgsws
+
+Use this API to delete all switched shunts from the specified bus in the working case.
+
+purgswshunt
+
+Use this API to delete the specified switched bus shunt from the working case.
+
+purgvsc
+
+Use this API to delete the specified VSC dc line from the working case.
+
+purgzone
+
+Use this API to delete zones with no equipment assigned to them from the working case.
+
+ratingsettextdata
+
+Use this API to change the column and descriptions for a particular rating set used in reporting.
+
+shunt_chng
+
+Use this API routine to modify the data of an existing fixed bus shunt in the working case (see PSSE Program Operation Manual, Fixed Bus Shunt Data).
+
+shunt_data
+
+Use this API to modify the data of an existing fixed bus shunt in the working case or to add a new fixed bus shunt to the working case (see PSSE Program Operation Manual, Fixed Bus Shunt Data).
+
+solution_parameters
+
+This API routine is obsolete.
+
+solution_parameters_2
+
+This API routine is obsolete.
+
+solution_parameters_3
+
+This API routine is obsolete.
+
+solution_parameters_4
+
+This API routine is obsolete.
+
+solution_parameters_5
+
+Use this API to modify the power flow solution parameters in the working case (see PSSE Program Operation Manual, Sections 6.3.13, 6.3.18, 6.5.1 and 11.7).
+
+switched_shunt_chng_3
+
+This API routine is obsolete.
+
+switched_shunt_chng_4
+
+This API routine is obsolete.
+
+switched_shunt_chng_5
+
+Use this API routine to modify the data of an existing switched shunt in the working case (see PSSE Program Operation Manual, Switched Shunt Data).
+
+switched_shunt_data
+
+This API routine is obsolete.
+
+switched_shunt_data_3
+
+This API routine is obsolete.
+
+switched_shunt_data_4
+
+This API routine is obsolete.
+
+switched_shunt_data_5
+
+Use this API to modify the data of an existing switched shunt in the working case or to add a new switched shunt to the working case (see PSSE Program Operation Manual, Switched Shunt Data).
+
+three_winding_data
+
+This API routine is obsolete.
+
+three_wnd_imped_chng_3
+
+This API routine is obsolete.
+
+three_wnd_imped_chng_4
+
+Use this API routine to modify the impedance data of an existing three-winding transformer in the working case (see PSSE Program Operation Manual, Non-Transformer Branch Data).
+
+three_wnd_imped_data_3
+
+This API routine is obsolete.
+
+three_wnd_imped_data_4
+
+Use this API routine to modify the impedance data of an existing three-winding transformer in the working case, or to add a new three-winding transformer to the working case (see PSSE Program Operation Manual, Non-Transformer Branch Data).
+
+three_wnd_impedance_data
+
+This API routine is obsolete.
+
+three_wnd_winding_data
+
+This API routine is obsolete.
+
+three_wnd_winding_data_3
+
+This API routine is obsolete.
+
+three_wnd_winding_data_4
+
+This API routine is obsolete.
+
+three_wnd_winding_data_5
+
+Use this API to modify the data of one winding of an existing three-winding transformer in the working case (see PSSE Program Operation Manual, Non-Transformer Branch Data).
+
+transaction_add_mod
+
+Use this API to add or modify transaction event data in PSSE working memory.
+
+transaction_delete
+
+Use this API to delete a transaction event from PSSE working memory.
+
+transfer_chng
+
+Use this API routine to modify the data of an inter-area transfer in the working case (see PSSE Program Operation Manual, Zone Data).
+
+transfer_data
+
+Use this API routine to modify the data of an inter-area transfer in the working case, or to add a new inter-area transfer to the working case (see PSSE Program Operation Manual, Zone Data).
+
+two_term_dc_converter_data_3
+
+Use this API to modify the data of a dc converter of an existing two-terminal dc line in the working case (see PSSE Program Operation Manual, Area Interchange Data).
+
+two_term_dc_convr_data
+
+This API routine is obsolete.
+
+two_terminal_dc_line_chng
+
+Use this API routine to modify the link data of an existing two-terminal dc line in the working case (see PSSE Program Operation Manual, Area Interchange Data).
+
+two_terminal_dc_line_data
+
+Use this API routine to modify the link data of an existing two-terminal dc line in the working case, or to add a new two-terminal dc line and its link data to the working case (see PSSE Program Operation Manual, Area Interchange Data).
+
+two_winding_chng_4
+
+This API routine is obsolete.
+
+two_winding_chng_5
+
+This API routine is obsolete.
+
+two_winding_chng_6
+
+Use this API routine to modify the data of an existing two-winding transformer in the working case (see PSSE Program Operation Manual, Owner Data).
+
+two_winding_data
+
+This API routine is obsolete.
+
+two_winding_data_3
+
+This API routine is obsolete.
+
+two_winding_data_4
+
+This API routine is obsolete.
+
+two_winding_data_5
+
+This API routine is obsolete.
+
+two_winding_data_6
+
+Use this API to modify the data of an existing two-winding transformer in the working case, or to add a new two-winding transformer to the working case (see PSSE Program Operation Manual, Owner Data).
+
+voltage_droop_chng
+
+Use this API routine to modify the voltage droop control in the working case(see PSSE Program Operation Manual.
+
+voltage_droop_data
+
+Use this API routine to modify the voltage droop control in the working case, or to add a new voltage droop control to the working case (see PSSE Program Operation Manual.
+
+vsc_dc_converter_data
+
+This API routine is obsolete.
+
+vsc_dc_converter_data_3
+
+Use this API to modify the data of a dc converter of an existing VSC dc line in the working case (see PSSE Program Operation Manual, Voltage Source Converter (VSC) DC Transmission Line Data).
+
+vsc_dc_line_chng
+
+Use this API routine to modify the link data of an existing VSC dc line in the working case (see PSSE Program Operation Manual, Voltage Source Converter (VSC) DC Transmission Line Data).
+
+vsc_dc_line_data
+
+Use this API routine to modify the link data of an existing VSC dc line in the working case, or to add a new VSC dc line to the working case (see PSSE Program Operation Manual, Voltage Source Converter (VSC) DC Transmission Line Data).
+
+zone_data
+
+Use this API to modify zone data in the working case (see PSSE Program Operation Manual, Zone Data).

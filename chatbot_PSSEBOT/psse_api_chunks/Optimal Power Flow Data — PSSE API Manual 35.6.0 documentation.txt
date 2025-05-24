@@ -1,0 +1,383 @@
+Optimal Power Flow Data — PSSE API Manual 35.6.0 documentation
+
+Optimal Power Flow Data¶
+
+35.6.0
+
+July 12, 2023
+
+newopf
+
+Use this API to initialize the working case with default OPF data for all bus oriented data records.
+
+opf_adjbrx_indv
+
+Use this API to add an individual adjustable branch reactance data record to the working case.
+
+opf_adjbrx_subsys
+
+Use this API to add or modify all OPF branch reactance data records in a specified subsystem of the working case.
+
+opf_adjload_tbl
+
+Use this API to add an individual adjustable bus load table record to the working case.
+
+opf_adjvar_indv
+
+This API routine is obsolete.
+
+opf_adjvar_indv_2
+
+Use this API to add an individual OPF adjustable bus shunt data record to the working case.
+
+opf_adjvar_subsys
+
+Use this API to add or modify all OPF adjustable bus shunt records in a specified subsystem of the working case.
+
+opf_apdsp_tbl
+
+Use this API to add an individual active power dispatch table record to the working case.
+
+opf_brflw_3wt_indv
+
+Use this API to add a flow constraint record for an individual winding of a three-winding transformer in the working case.
+
+opf_brflw_brn_indv
+
+Use this API to add an individual branch or two-winding transformer flow constraint record to the working case.
+
+opf_brflw_subsys
+
+Use this API to add or modify all branch flow data records in a specified subsystem of the working case.
+
+opf_bus_indv
+
+This API routine is obsolete.
+
+opf_bus_indv_2
+
+Use this API to add OPF bus voltage magnitude data to the working case.
+
+opf_bus_subsys
+
+Use this API to add OPF bus attribute data for all records in a specified subsystem of the working case.
+
+opf_change_3wt_flow_id
+
+Use this API to change the identifier of a flow constraint record for an individual winding of a three-winding transformer in the working case.
+
+opf_change_adjvar_id
+
+This API routine is obsolete.
+
+opf_change_brn_flow_id
+
+Use this API to change the identifier of a branch or two-winding transformer OPF flow constraint record in the working case.
+
+opf_csttbl_lin
+
+Use this API to add a linear cost curve table record to the working case.
+
+opf_csttbl_poly
+
+Use this API to add a polynomial and exponential cost curve table record to the working case.
+
+opf_csttbl_quad
+
+Use this API to add a quadratic cost curve table record to the working case.
+
+opf_gen_rcap_indv
+
+Use this API to add an individual generation reactive capability data record to the working case.
+
+opf_gen_rcap_subsys
+
+Use this API to add or modify all OPF generator reactive capability records in a specified subsystem of the working case.
+
+opf_gendsp_indv
+
+Use this API to add generator dispatch data to an individual record in the working case.
+
+opf_gendsp_subsys
+
+Use this API to add OPF generator dispatch data to all records in a specified subsystem of the working case.
+
+opf_genrsv_indv
+
+Use this API to add an individual generator reserve data record to the working case.
+
+opf_genrsv_subsys
+
+Use this API to add or modify all OPF generator reserve records in a specified subsystem of the working case.
+
+opf_intflw_3wt
+
+Use this API to add a participating three-winding transformer winding to a specified interface flow constraint in the working case.
+
+opf_intflw_brn
+
+Use this API to add a participating branch to a specified interface flow constraint in the working case.
+
+opf_intflw_main
+
+Use this API to add an interface flow constraint record to the working case.
+
+opf_intflw_reset
+
+Use this API to remove all interface branches associated with a particular interface flow constraint in the working case.
+
+opf_lnceqn_adjload
+
+Use this API to add a participating adjustable bus load variable to a specified linear constraint dependency equation in the working case.
+
+opf_lnceqn_adjvar
+
+Use this API to add a participating adjustable bus shunt variable to a specified linear constraint dependency equation in the working case.
+
+opf_lnceqn_brflow
+
+Use this API to add a participating branch flow variable to a specified linear constraint dependency equation in the working case.
+
+opf_lnceqn_intflow
+
+Use this API to add a participating interface flow constraint variable to a specified linear constraint dependency equation in the working case.
+
+opf_lnceqn_main
+
+Use this API to add a linear constraint dependency record to the working case.
+
+opf_lnceqn_pgen
+
+Use this API to add a participating active power dispatch variable to a specified linear constraint dependency equation in the working case.
+
+opf_lnceqn_qgen
+
+Use this API to add a participating reactive power dispatch variable of a specified linear constraint dependency equation in the working case.
+
+opf_lnceqn_reset
+
+Use this API to remove all participating variables from a particular OPF linear constraint dependency equation in the working case.
+
+opf_lnceqn_swshunt
+
+This API routine is obsolete.
+
+opf_lnceqn_swshunt_2
+
+Use this API to add a participating switched shunt variable to a specified linear constraint dependency equation in the working case.
+
+opf_lnceqn_tran
+
+Use this API to add a participating transformer control variable to a specified linear constraint dependency equation in the working case.
+
+opf_lnceqn_vang
+
+This API routine is obsolete.
+
+opf_lnceqn_vang_2
+
+Use this API to add a participating bus voltage angle variable to a specified linear constraint dependency equation in the working case.
+
+opf_lnceqn_vmag
+
+This API routine is obsolete.
+
+opf_lnceqn_vmag_2
+
+Use this API to add a participating bus voltage magnitude variable to a specified linear constraint dependency equation in the working case.
+
+opf_load_indv
+
+Use this API to add an individual OPF bus load data record to the working case.
+
+opf_load_subsys
+
+Use this API to add or modify all OPF bus load data records in a specified subsystem of the working case.
+
+opf_perrsv_gen
+
+Use this API to add a participating generation reserve unit to a previously defined period reserve constraint in the working case.
+
+opf_perrsv_main
+
+Use this API to add a period reserve constraint record to the working case.
+
+opf_perrsv_reset
+
+Use this API to remove all generation reserve units associated with a particular period reserve constraint in the working case.
+
+purge_all_opf_data
+
+Use this API to purge and re-initialize all OPF data records in the working case.
+
+purge_opf_adjbrx_indv
+
+Use this API to purge an individual adjustable branch reactance data record from the working case.
+
+purge_opf_adjbrx_subsys
+
+Use this API to purge all OPF branch reactance data records from a specified subsystem of the working case.
+
+purge_opf_adjload_tbl
+
+Use this API to purge an individual adjustable bus load table from the working case.
+
+purge_opf_adjvar_indv
+
+This API routine is obsolete.
+
+purge_opf_adjvar_indv_3
+
+Use this API to purge an individual OPF adjustable bus shunt data record from the working case.
+
+purge_opf_adjvar_subsys
+
+Use this API to purge all OPF adjustable bus shunt records from a specified subsystem of the working case.
+
+purge_opf_apdsp_tbl
+
+Use this API to purge an individual active power dispatch table record from the working case.
+
+purge_opf_brflw_3wt
+
+Use this API to purge an individual flow constraint record of a three-winding transformer from the working case.
+
+purge_opf_brflw_brn
+
+Use this API to purge an individual branch or two-winding transformer flow constraint record from the working case.
+
+purge_opf_brflw_subsys
+
+Use this API to purge all branch flow data records in a specified subsystem in the working case.
+
+purge_opf_bus_indv
+
+This API routine is obsolete.
+
+purge_opf_bus_indv_3
+
+Use this API to purge (re-initialize) OPF bus voltage magnitude data for an individual bus or bus section record in the working case.
+
+purge_opf_bus_subsys
+
+Use this API to purge (re-initialize) OPF bus attribute data for all records in a specified subsystem of the working case.
+
+purge_opf_csttbl_lin
+
+Use this API to purge an optimal power flow linear cost curve record from the working case.
+
+purge_opf_csttbl_poly
+
+Use this API to purge an optimal power flow polynomial and exponential cost curve record from the working case.
+
+purge_opf_csttbl_quad
+
+Use this API to purge an optimal power flow quadratic cost curve record from the working case.
+
+purge_opf_gen_rcap_indv
+
+Use this API to purge an individual OPF generation reactive capability data record from the working case.
+
+purge_opf_gen_rcap_subsys
+
+Use this API to purge all OPF generator reactive capability records in a specified subsystem from the working case.
+
+purge_opf_gendsp_indv
+
+Use this API to purge generator dispatch data for an individual record from the working case.
+
+purge_opf_gendsp_subsys
+
+Use this API to purge generator dispatch data for all records from a specified subsystem of the working case.
+
+purge_opf_genrsv_indv
+
+Use this API to purge an individual optimal power flow generator reserve data record from the working case.
+
+purge_opf_genrsv_subsys
+
+Use this API to purge all OPF generator reserve records in a specified subsystem from the working case.
+
+purge_opf_intflw
+
+Use this API to purge an OPF interface flow constraint record, including all of its participating branches, from the working case.
+
+purge_opf_intflw_3wt
+
+Use this API to remove a participating three-winding transformer winding from a specified OPF interface flow constraint in the working case.
+
+purge_opf_intflw_brn
+
+Use this API to remove a participating branch from a specified OPF interface flow constraint in the working case.
+
+purge_opf_lnceqn
+
+Use this API to purge an OPF linear constraint dependency record, including all of its participating variables, from the working case.
+
+purge_opf_lnceqn_adjload
+
+Use this API to remove a participating adjustable bus load variable from a specified OPF linear constraint dependency equation in the working case.
+
+purge_opf_lnceqn_adjvar
+
+Use this API to remove a participating adjustable bus shunt variable from a specified OPF linear constraint dependency equation in the working case.
+
+purge_opf_lnceqn_brflow
+
+Use this API to remove a participating branch flow variable from a specified OPF linear constraint dependency equation in the working case.
+
+purge_opf_lnceqn_intflow
+
+Use this API to remove a participating interface flow constraint variable from a specified OPF linear constraint dependency equation in the working case.
+
+purge_opf_lnceqn_pgen
+
+Use this API to remove a participating active power dispatch variable from a specified OPF linear constraint dependency equation in the working case.
+
+purge_opf_lnceqn_qgen
+
+Use this API to remove a participating reactive power dispatch variable from a specified OPF linear constraint dependency equation in the working case.
+
+purge_opf_lnceqn_swshunt
+
+This API routine is obsolete.
+
+purge_opf_lnceqn_swshunt_2
+
+Use this API to remove a participating switched shunt variable from a specified OPF linear constraint dependency equation in the working case.
+
+purge_opf_lnceqn_tran
+
+Use this API to remove a participating transformer control variable from a specified OPF linear constraint dependency equation in the working case.
+
+purge_opf_lnceqn_vang
+
+This API routine is obsolete.
+
+purge_opf_lnceqn_vang_2
+
+Use this API to remove a participating bus voltage angle variable from a specified OPF linear constraint dependency equation in the working case.
+
+purge_opf_lnceqn_vmag
+
+This API routine is obsolete.
+
+purge_opf_lnceqn_vmag_2
+
+Use this API to remove a participating bus voltage magnitude variable from a specified OPF linear constraint dependency equation in the working case.
+
+purge_opf_load_indv
+
+Use this API to purge (re-initialize) an individual OPF bus load data record from the working case.
+
+purge_opf_load_subsys
+
+Use this API to purge (re-initialize) all OPF bus load data records in a specified subsystem of the working case.
+
+purge_opf_perrsv
+
+Use this API to purge an OPF period reserve constraint record and its association with participating reserve units from the working case.
+
+purge_opf_perrsv_gen
+
+Use this API to remove a participating period reserve unit from a specified OPF period reserve constraint.

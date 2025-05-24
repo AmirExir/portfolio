@@ -1,0 +1,31 @@
+Branch Flow Data — PSSE API Manual 35.6.0 documentation
+
+Branch Flow Data¶
+
+35.6.0
+
+July 12, 2023
+
+aflowchar
+
+Use this API to return an array of character values for subsystem branches.
+
+aflowcount
+
+Use this API to return the number of array entries required to accommodate the data to be returned by the remaining members of the branch flow data family.
+
+aflowcplx
+
+Use this API to return an array of complex values for subsystem branches.
+
+aflowint
+
+Use this API to return an array of integer values for subsystem branches.
+
+aflowreal
+
+Use this API to return an array of real values for subsystem branches.
+
+aflowtypes
+
+Use this API to return an array of character values indicating the data types corresponding to a set of specified STRING values that are valid input values to any of the data retrieval routines of the branch flow data family (aFlowInt, aFlowReal, aFlowCplx and aFlowChar).

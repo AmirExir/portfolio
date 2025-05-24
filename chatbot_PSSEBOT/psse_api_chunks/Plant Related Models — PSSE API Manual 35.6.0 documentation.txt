@@ -1,0 +1,59 @@
+Plant Related Models — PSSE API Manual 35.6.0 documentation
+
+Plant Related Models¶
+
+35.6.0
+
+July 12, 2023
+
+add_plant_model
+
+Use this API to add a plant related model of a designated type to a specified machine.
+
+change_plmod_chricn
+
+Use this API to change the value of a character ICON (i.e., an element of the CHRICN array) of a designated plant related model at a specified machine.
+
+change_plmod_con
+
+Use this API to change the value of a CON of a designated plant related model at a specified machine.
+
+change_plmod_data
+
+This API routine is obsolete.
+
+change_plmod_icon
+
+Use this API to change the value of an integer ICON of a designated plant related model at a specified machine.
+
+change_plmod_var
+
+Use this API to change the value of a VAR of a designated plant related model at a specified machine.
+
+gmb_add_plant_model
+
+Use this API to add a plant related GMB model to a specified machine.
+
+plmod_consistency
+
+Use this API to check consistency among the plant related models referenced at each machine.
+
+plmod_pack
+
+Use this API to remove entries that are marked as unused from the plant model connection tables and the plant model array allocation tables.
+
+plmod_remove
+
+Use this API to remove a plant related model of a designated type from a specified machine.
+
+plmod_status
+
+Use this API to change the status of a plant related model of a designated type at a specified machine.
+
+plmod_unconnected
+
+Use this API to list or remove from dynamics working memory those plant related models that are assigned to machines that are not present in the current power flow working case (unconnected).
+
+plmod_user
+
+Use this API to list user-written plant model definitions or to remove user-written plant model definitions that are not assigned to any machines (unused) from the user model definition tables.
