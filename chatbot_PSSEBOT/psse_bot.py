@@ -17,8 +17,8 @@ Always return well-commented and working Python code. Focus on clarity and relia
 """
 }
 
-st.set_page_config(page_title="Amir's PSS/E Automation Assistant", page_icon="🧠")
-st.title("🧠 PSS/E Automation Assistant")
+st.set_page_config(page_title="Amir's PSS/E API Assistant", page_icon="🧠")
+st.title("🧠 PSS/E API Assistant")
 
 if "messages" not in st.session_state:
     st.session_state.messages = [system_prompt]
@@ -26,7 +26,7 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages[1:]:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
-if prompt := st.chat_input("Ask for PSS/E Python code or automation help..."):
+if prompt := st.chat_input("Ask for PSS/E API Python code or automation help..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
