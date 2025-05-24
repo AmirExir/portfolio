@@ -18,7 +18,7 @@ Always return well-commented and working Python code. Focus on clarity and relia
 }
 
 st.set_page_config(page_title="Amir's PSS/E API Assistant", page_icon="🧠")
-st.title("🧠 PSS/E API Assistant")
+st.title("🧠 Amir Exir's PSS/E API Assistant")
 
 if "messages" not in st.session_state:
     st.session_state.messages = [system_prompt]
