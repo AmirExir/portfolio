@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Optimal Power Flow Operation &#8212; PSSE API Manual 35.6.0 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="psspy.add_details_to_opf_log" href="_as_gen/psspy.add_details_to_opf_log.html" />
+    <link rel="prev" title="psspy.system_swd_data" href="_as_gen/psspy.system_swd_data.html" /> 
+  </head><body>
+     
+     <div style="background-color: white; text-align: left; padding: 2px 2px 2px 15px">
+     <a href="../index.html"><h1 style="font-size: 3em;">PSSE API Manual</h1></a>
+     </div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.add_details_to_opf_log.html" title="psspy.add_details_to_opf_log"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.system_swd_data.html" title="psspy.system_swd_data"
+             accesskey="P">previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" accesskey="U">psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Optimal Power Flow Operation</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="optimal-power-flow-operation">
+<h1>Optimal Power Flow Operation<a class="headerlink" href="#optimal-power-flow-operation" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Release</dt>
+<dd class="field-odd"><p>35.6.0</p>
+</dd>
+<dt class="field-even">Date</dt>
+<dd class="field-even"><p>July 12, 2023</p>
+</dd>
+</dl>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.add_details_to_opf_log.html#psspy.add_details_to_opf_log" title="psspy.add_details_to_opf_log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_details_to_opf_log</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF solution option to add details of the sensitivity values and Lagrange multipliers to the OPF Output Log file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.apply_alternate_step_size.html#psspy.apply_alternate_step_size" title="psspy.apply_alternate_step_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_alternate_step_size</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF solution option for applying an alternate lambda mismatch step size.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.apply_automatic_scaling.html#psspy.apply_automatic_scaling" title="psspy.apply_automatic_scaling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_automatic_scaling</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF solution option to apply automatic scaling of the objective coefficients and derivatives to improve convergence of the OPF solution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.bad_iter_coarse_limit.html#psspy.bad_iter_coarse_limit" title="psspy.bad_iter_coarse_limit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bad_iter_coarse_limit</span></code></a></p></td>
+<td><p>Use this API to specify or return the number of bad iterations allowed when the barrier coefficient is greater than 0.011 (mu greater then -2) before the solution progress is terminated as being infeasible.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.bad_iter_fine_limit.html#psspy.bad_iter_fine_limit" title="psspy.bad_iter_fine_limit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bad_iter_fine_limit</span></code></a></p></td>
+<td><p>Use this API to specify or return the the bad iteration limit when the barrier coefficient is less than, or equal to 0.011 (mu less than or equal to -2) before the solution progress is terminated as being infeasible.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.clamp_nonoptimized_gens.html#psspy.clamp_nonoptimized_gens" title="psspy.clamp_nonoptimized_gens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clamp_nonoptimized_gens</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF solution option to apply the clamp equation to non-optimized generators.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.constrain_interface_flows.html#psspy.constrain_interface_flows" title="psspy.constrain_interface_flows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">constrain_interface_flows</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF option to constrain interface flows.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.final_opf_barrier_coeff.html#psspy.final_opf_barrier_coeff" title="psspy.final_opf_barrier_coeff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">final_opf_barrier_coeff</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the final coefficient value that the barrier function is attempting to attain.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.import_ecdi.html#psspy.import_ecdi" title="psspy.import_ecdi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">import_ecdi</span></code></a></p></td>
+<td><p>Use this API to import data from an Economics Dispatch Data File, as prepared for use in activity ECDI, into the OPF working data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.initial_opf_barrier_coeff.html#psspy.initial_opf_barrier_coeff" title="psspy.initial_opf_barrier_coeff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initial_opf_barrier_coeff</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the initial OPF barrier coefficient.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.interface_flow_cost_coeff.html#psspy.interface_flow_cost_coeff" title="psspy.interface_flow_cost_coeff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interface_flow_cost_coeff</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the coefficient for the interface flow objective.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.lsto.html#psspy.lsto" title="psspy.lsto"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lsto</span></code></a></p></td>
+<td><p>Use this API to list OPF working case data in a form suitable for data documentation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.minimize_adj_bus_shunts.html#psspy.minimize_adj_bus_shunts" title="psspy.minimize_adj_bus_shunts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimize_adj_bus_shunts</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF minimize adjustable bus shunts (var compensation) objective function option.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.minimize_fuel_cost.html#psspy.minimize_fuel_cost" title="psspy.minimize_fuel_cost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimize_fuel_cost</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF minimize fuel cost objective option.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.minimize_interface_flows.html#psspy.minimize_interface_flows" title="psspy.minimize_interface_flows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimize_interface_flows</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF minimize interface flows objective option.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.minimize_load_adjustments.html#psspy.minimize_load_adjustments" title="psspy.minimize_load_adjustments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimize_load_adjustments</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF minimize adjustable bus load objective option.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.minimize_p_losses.html#psspy.minimize_p_losses" title="psspy.minimize_p_losses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimize_p_losses</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF minimize active power loss objective option.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.minimize_p_slack.html#psspy.minimize_p_slack" title="psspy.minimize_p_slack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimize_p_slack</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF minimize active power slack objective option.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.minimize_q_losses.html#psspy.minimize_q_losses" title="psspy.minimize_q_losses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimize_q_losses</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF minimize reactive power loss objective option.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.minimize_q_slack.html#psspy.minimize_q_slack" title="psspy.minimize_q_slack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimize_q_slack</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF minimize reactive power slack objective option.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.minimize_reactive_reserve.html#psspy.minimize_reactive_reserve" title="psspy.minimize_reactive_reserve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimize_reactive_reserve</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF minimize reactive reserve objective option.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.minimize_series_comp.html#psspy.minimize_series_comp" title="psspy.minimize_series_comp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimize_series_comp</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF minimize series compensation (adjustable branch reactance) objective option.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.nopf.html#psspy.nopf" title="psspy.nopf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nopf</span></code></a></p></td>
+<td><p>Use this API to run the Optimal Power Flow solution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.open_bus_voltage_limits.html#psspy.open_bus_voltage_limits" title="psspy.open_bus_voltage_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open_bus_voltage_limits</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF solution option to automatically adjust bus voltage limits, making them more open for initial feasibility.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_barrier_step_length.html#psspy.opf_barrier_step_length" title="psspy.opf_barrier_step_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_barrier_step_length</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the barrier function step length setting.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_clamp_decay_factor.html#psspy.opf_clamp_decay_factor" title="psspy.opf_clamp_decay_factor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_clamp_decay_factor</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the clamp equation decay factor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_final_clamp_tol.html#psspy.opf_final_clamp_tol" title="psspy.opf_final_clamp_tol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_final_clamp_tol</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the final clamp tolerance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_fix_all_generators.html#psspy.opf_fix_all_generators" title="psspy.opf_fix_all_generators"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_fix_all_generators</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF option to treat all generators as nonoptimized (fixed).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_fix_phase_shifters.html#psspy.opf_fix_phase_shifters" title="psspy.opf_fix_phase_shifters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_fix_phase_shifters</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF option to fix transformer phase shift angle settings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_fix_switched_shunts.html#psspy.opf_fix_switched_shunts" title="psspy.opf_fix_switched_shunts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_fix_switched_shunts</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF option to fix switched shunt settings.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_fix_tap_ratios.html#psspy.opf_fix_tap_ratios" title="psspy.opf_fix_tap_ratios"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_fix_tap_ratios</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the OPF option to fix transformer tap ratio settings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_fixed_voltage_penalty.html#psspy.opf_fixed_voltage_penalty" title="psspy.opf_fixed_voltage_penalty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_fixed_voltage_penalty</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the penalty for fixed voltage excursions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_initial_clamp_tol.html#psspy.opf_initial_clamp_tol" title="psspy.opf_initial_clamp_tol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_initial_clamp_tol</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the initial clamp tolerance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_interior_shift_factor.html#psspy.opf_interior_shift_factor" title="psspy.opf_interior_shift_factor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_interior_shift_factor</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the interior shift factor multiplier.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lambda_tolerance.html#psspy.opf_lambda_tolerance" title="psspy.opf_lambda_tolerance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lambda_tolerance</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the Lagrange multiplier blow-up tolerance during an optimal power flow solution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lf_control_penalty.html#psspy.opf_lf_control_penalty" title="psspy.opf_lf_control_penalty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lf_control_penalty</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the quadratic penalty for loadflow controls.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_max_tap_ratio_step.html#psspy.opf_max_tap_ratio_step" title="psspy.opf_max_tap_ratio_step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_max_tap_ratio_step</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the maximum transformer tap ratio step.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_min_tap_ratio_step.html#psspy.opf_min_tap_ratio_step" title="psspy.opf_min_tap_ratio_step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_min_tap_ratio_step</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the minimum transformer tap ratio step.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_regulate_area_int.html#psspy.opf_regulate_area_int" title="psspy.opf_regulate_area_int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_regulate_area_int</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the OPF option to regulate area interchange.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_round_switched_shunts.html#psspy.opf_round_switched_shunts" title="psspy.opf_round_switched_shunts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_round_switched_shunts</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the OPF solution option to discretize switched shunts.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_round_tap_ratios.html#psspy.opf_round_tap_ratios" title="psspy.opf_round_tap_ratios"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_round_tap_ratios</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the OPF solution option to round transformer tap ratio settings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_scale_qgen_limits.html#psspy.opf_scale_qgen_limits" title="psspy.opf_scale_qgen_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_scale_qgen_limits</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the OPF option to scale reactive generation limits in the clamped constraint equation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_step_length_tolerance.html#psspy.opf_step_length_tolerance" title="psspy.opf_step_length_tolerance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_step_length_tolerance</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the OPF minimum barrier step length tolerance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_use_generator_vsched.html#psspy.opf_use_generator_vsched" title="psspy.opf_use_generator_vsched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_use_generator_vsched</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the OPF option to employ the generator scheduled voltage.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opto.html#psspy.opto" title="psspy.opto"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opto</span></code></a></p></td>
+<td><p>Please use the individual OPF option setting API’s described in this section.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.p_losses_cost_coeff.html#psspy.p_losses_cost_coeff" title="psspy.p_losses_cost_coeff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">p_losses_cost_coeff</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the coefficient for the active power loss objective (OPF Solution Options).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.produce_opf_log_file.html#psspy.produce_opf_log_file" title="psspy.produce_opf_log_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_opf_log_file</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the OPF solution option to produce an OPF solution log file, and if so, the name of the log file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.q_losses_cost_coeff.html#psspy.q_losses_cost_coeff" title="psspy.q_losses_cost_coeff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">q_losses_cost_coeff</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the coefficient for the reactive power loss objective.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.reactive_resv_cost_coeff.html#psspy.reactive_resv_cost_coeff" title="psspy.reactive_resv_cost_coeff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactive_resv_cost_coeff</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the coefficient for the reactive reserve objective.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.ropf.html#psspy.ropf" title="psspy.ropf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ropf</span></code></a></p></td>
+<td><p>Use this API to read an Optimal Power Flow Raw Data File.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.rwop.html#psspy.rwop" title="psspy.rwop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rwop</span></code></a></p></td>
+<td><p>Use this API to replicate the OPF data contained in the working case in the form of an Optimal Power Flow Data File.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.set_opf_report_subsystem.html#psspy.set_opf_report_subsystem" title="psspy.set_opf_report_subsystem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_opf_report_subsystem</span></code></a></p></td>
+<td><p>Use this API to define the subsystem to be used when producing the opf output report.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.use_dual_criteria.html#psspy.use_dual_criteria" title="psspy.use_dual_criteria"><code class="xref py py-obj docutils literal notranslate"><span class="pre">use_dual_criteria</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the OPF solution option to apply the power flow mismatch tolerance to the dual variable problem.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.use_emergency_flow_limits.html#psspy.use_emergency_flow_limits" title="psspy.use_emergency_flow_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">use_emergency_flow_limits</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the OPF solution option to impose the emergency flow limits instead of the normal flow limits.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.use_emergency_volt_limits.html#psspy.use_emergency_volt_limits" title="psspy.use_emergency_volt_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">use_emergency_volt_limits</span></code></a></p></td>
+<td><p>Use this API to set or return the value of the OPF solution option to impose the emergency bus voltage limits instead of the normal bus voltage limits.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.write_opf_options_file.html#psspy.write_opf_options_file" title="psspy.write_opf_options_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_opf_options_file</span></code></a></p></td>
+<td><p>Use this API to save the PSSE OPF solution option settings to the PSSOPF.OPT file.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="_as_gen/psspy.system_swd_data.html"
+                        title="previous chapter">psspy.system_swd_data</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="_as_gen/psspy.add_details_to_opf_log.html"
+                        title="next chapter">psspy.add_details_to_opf_log</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.add_details_to_opf_log.html" title="psspy.add_details_to_opf_log"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.system_swd_data.html" title="psspy.system_swd_data"
+             >previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" >psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Optimal Power Flow Operation</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Siemens PTI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+    </div>
+  </body>
+</html>
