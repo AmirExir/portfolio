@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Set Disturbance &#8212; PSSE API Manual 35.6.0 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="psspy.dist_3phase_bus_fault" href="_as_gen/psspy.dist_3phase_bus_fault.html" />
+    <link rel="prev" title="psspy.change_cctswsomod_var_2" href="_as_gen/psspy.change_cctswsomod_var_2.html" /> 
+  </head><body>
+     
+     <div style="background-color: white; text-align: left; padding: 2px 2px 2px 15px">
+     <a href="../index.html"><h1 style="font-size: 3em;">PSSE API Manual</h1></a>
+     </div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.dist_3phase_bus_fault.html" title="psspy.dist_3phase_bus_fault"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.change_cctswsomod_var_2.html" title="psspy.change_cctswsomod_var_2"
+             accesskey="P">previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" accesskey="U">psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Set Disturbance</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="set-disturbance">
+<h1>Set Disturbance<a class="headerlink" href="#set-disturbance" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Release</dt>
+<dd class="field-odd"><p>35.6.0</p>
+</dd>
+<dt class="field-even">Date</dt>
+<dd class="field-even"><p>July 12, 2023</p>
+</dd>
+</dl>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dist_3phase_bus_fault.html#psspy.dist_3phase_bus_fault" title="psspy.dist_3phase_bus_fault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_3phase_bus_fault</span></code></a></p></td>
+<td><p>Use this API to apply a three phase fault at a bus during dynamic simulations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dist_3wind_close.html#psspy.dist_3wind_close" title="psspy.dist_3wind_close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_3wind_close</span></code></a></p></td>
+<td><p>Use this API to set a three-winding transformer to in-service during dynamic simulations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dist_3wind_fault.html#psspy.dist_3wind_fault" title="psspy.dist_3wind_fault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_3wind_fault</span></code></a></p></td>
+<td><p>Use this API to apply a fault at the IBUS end of a three-winding transformer during dynamic simulations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dist_3wind_trip.html#psspy.dist_3wind_trip" title="psspy.dist_3wind_trip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_3wind_trip</span></code></a></p></td>
+<td><p>Use this API to set a three-winding transformer to out-of-service during dynamic simulations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dist_branch_close.html#psspy.dist_branch_close" title="psspy.dist_branch_close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_branch_close</span></code></a></p></td>
+<td><p>Use this API to set a non-transformer branch or a two-winding transformer to in-service during dynamic simulations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dist_branch_fault.html#psspy.dist_branch_fault" title="psspy.dist_branch_fault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_branch_fault</span></code></a></p></td>
+<td><p>Use this API to apply a fault at the IBUS end of a non-transformer branch or a two-winding transformer during dynamic simulations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dist_branch_trip.html#psspy.dist_branch_trip" title="psspy.dist_branch_trip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_branch_trip</span></code></a></p></td>
+<td><p>Use this API to set a non-transformer branch or a two-winding transformer to out-of-service during dynamic simulations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dist_bus_fault.html#psspy.dist_bus_fault" title="psspy.dist_bus_fault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_bus_fault</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dist_bus_fault_2.html#psspy.dist_bus_fault_2" title="psspy.dist_bus_fault_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_bus_fault_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dist_bus_fault_3.html#psspy.dist_bus_fault_3" title="psspy.dist_bus_fault_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_bus_fault_3</span></code></a></p></td>
+<td><p>Use this API to apply an unbalanced fault at a bus during dynamic simulations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dist_bus_trip.html#psspy.dist_bus_trip" title="psspy.dist_bus_trip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_bus_trip</span></code></a></p></td>
+<td><p>Use this API to disconnect a bus during dynamic simulations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dist_clear_fault.html#psspy.dist_clear_fault" title="psspy.dist_clear_fault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_clear_fault</span></code></a></p></td>
+<td><p>Use this API to clear a fault during dynamic simulations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dist_machine_trip.html#psspy.dist_machine_trip" title="psspy.dist_machine_trip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_machine_trip</span></code></a></p></td>
+<td><p>Use this API to set a machine to out-of-service during dynamic simulations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dist_scmu_fault.html#psspy.dist_scmu_fault" title="psspy.dist_scmu_fault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_scmu_fault</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dist_scmu_fault_2.html#psspy.dist_scmu_fault_2" title="psspy.dist_scmu_fault_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_scmu_fault_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dist_scmu_fault_3.html#psspy.dist_scmu_fault_3" title="psspy.dist_scmu_fault_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_scmu_fault_3</span></code></a></p></td>
+<td><p>Use this API to calculate an unbalanced fault and apply the equivalent positive sequence fault admittance at a bus during dynamic simulations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dist_spcb_fault.html#psspy.dist_spcb_fault" title="psspy.dist_spcb_fault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_spcb_fault</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dist_spcb_fault_2.html#psspy.dist_spcb_fault_2" title="psspy.dist_spcb_fault_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist_spcb_fault_2</span></code></a></p></td>
+<td><p>Use this API routine to run the second release of the dynamics branch unbalance function.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="_as_gen/psspy.change_cctswsomod_var_2.html"
+                        title="previous chapter">psspy.change_cctswsomod_var_2</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="_as_gen/psspy.dist_3phase_bus_fault.html"
+                        title="next chapter">psspy.dist_3phase_bus_fault</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.dist_3phase_bus_fault.html" title="psspy.dist_3phase_bus_fault"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.change_cctswsomod_var_2.html" title="psspy.change_cctswsomod_var_2"
+             >previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" >psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Set Disturbance</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Siemens PTI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+    </div>
+  </body>
+</html>

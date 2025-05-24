@@ -1,0 +1,589 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Power Flow Data &#8212; PSSE API Manual 35.6.0 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="psspy.area_data" href="_as_gen/psspy.area_data.html" />
+    <link rel="prev" title="psspy.zonm_2" href="_as_gen/psspy.zonm_2.html" /> 
+  </head><body>
+     
+     <div style="background-color: white; text-align: left; padding: 2px 2px 2px 15px">
+     <a href="../index.html"><h1 style="font-size: 3em;">PSSE API Manual</h1></a>
+     </div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.area_data.html" title="psspy.area_data"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.zonm_2.html" title="psspy.zonm_2"
+             accesskey="P">previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" accesskey="U">psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Power Flow Data</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="power-flow-data">
+<h1>Power Flow Data<a class="headerlink" href="#power-flow-data" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Release</dt>
+<dd class="field-odd"><p>35.6.0</p>
+</dd>
+<dt class="field-even">Date</dt>
+<dd class="field-even"><p>July 12, 2023</p>
+</dd>
+</dl>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.area_data.html#psspy.area_data" title="psspy.area_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">area_data</span></code></a></p></td>
+<td><p>Use this API to modify area data in the working case (see PSSE Program Operation Manual, Areas, Zones and Owners).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.branch_chng.html#psspy.branch_chng" title="psspy.branch_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">branch_chng</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.branch_chng_3.html#psspy.branch_chng_3" title="psspy.branch_chng_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">branch_chng_3</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing non-transformer branch in the working case (see PSSE Program Operation Manual, Non-Transformer Branch Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.branch_data.html#psspy.branch_data" title="psspy.branch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">branch_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.branch_data_3.html#psspy.branch_data_3" title="psspy.branch_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">branch_data_3</span></code></a></p></td>
+<td><p>Use this API to modify the data of an existing non-transformer branch in the working case or to add a new non-transformer branch to the working case (see PSSE Program Operation Manual, Non- Transformer Branch Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.bus_chng_3.html#psspy.bus_chng_3" title="psspy.bus_chng_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bus_chng_3</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing bus in the working case (see PSSE Program Operation Manual, Bus Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.bus_chng_4.html#psspy.bus_chng_4" title="psspy.bus_chng_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bus_chng_4</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing bus in the working case (see PSSE Program Operation Manual, Bus Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.bus_data.html#psspy.bus_data" title="psspy.bus_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bus_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.bus_data_2.html#psspy.bus_data_2" title="psspy.bus_data_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bus_data_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.bus_data_3.html#psspy.bus_data_3" title="psspy.bus_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bus_data_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.bus_data_4.html#psspy.bus_data_4" title="psspy.bus_data_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bus_data_4</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing bus in the working case, or to add a new bus to the working case (see PSSE Program Operation Manual, Bus Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.bus_number.html#psspy.bus_number" title="psspy.bus_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bus_number</span></code></a></p></td>
+<td><p>Use this API to change the bus number of an existing bus in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.case_title_data.html#psspy.case_title_data" title="psspy.case_title_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">case_title_data</span></code></a></p></td>
+<td><p>Use this API to change the two line case title in the working case (see PSSE Program Operation Manual, Case Identification Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.casolution_parameters.html#psspy.casolution_parameters" title="psspy.casolution_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casolution_parameters</span></code></a></p></td>
+<td><p>Use this API to modify the contingency analysis solution parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.casolution_parameters_2.html#psspy.casolution_parameters_2" title="psspy.casolution_parameters_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casolution_parameters_2</span></code></a></p></td>
+<td><p>Use this API to modify the contingency analysis solution parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.casolution_parameters_3.html#psspy.casolution_parameters_3" title="psspy.casolution_parameters_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casolution_parameters_3</span></code></a></p></td>
+<td><p>Use this API to modify the contingency analysis solution parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.extr.html#psspy.extr" title="psspy.extr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extr</span></code></a></p></td>
+<td><p>Use this API to purge specified buses and all branches connected to them from the working case (activity EXTR).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.facts_chng_2.html#psspy.facts_chng_2" title="psspy.facts_chng_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">facts_chng_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.facts_chng_3.html#psspy.facts_chng_3" title="psspy.facts_chng_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">facts_chng_3</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing FACTS device in the working case (see PSSE Program Operation Manual, FACTS Device Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.facts_data.html#psspy.facts_data" title="psspy.facts_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">facts_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.facts_data_2.html#psspy.facts_data_2" title="psspy.facts_data_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">facts_data_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.facts_data_3.html#psspy.facts_data_3" title="psspy.facts_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">facts_data_3</span></code></a></p></td>
+<td><p>Use this API to modify the data of an existing FACTS device in the working case, or to add a new FACTS device to the working case (see PSSE Program Operation Manual, FACTS Device Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.gne_chng.html#psspy.gne_chng" title="psspy.gne_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gne_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing GNE device in the working case (see PSSE Program Operation Manual, GNE Device Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.gne_data.html#psspy.gne_data" title="psspy.gne_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gne_data</span></code></a></p></td>
+<td><p>Use this API routine to run the GNE device data specification function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.impedance_correction_data.html#psspy.impedance_correction_data" title="psspy.impedance_correction_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">impedance_correction_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.impedance_correction_data_3.html#psspy.impedance_correction_data_3" title="psspy.impedance_correction_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">impedance_correction_data_3</span></code></a></p></td>
+<td><p>Use this API to modify the data of an existing transformer impedance correction table in the working case or to add a new transformer impedance correction table to the working case (see PSSE Program Operation Manual, Transformer Impedance Correction Table Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.induction_machine_chng.html#psspy.induction_machine_chng" title="psspy.induction_machine_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">induction_machine_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing induction machine in the working case (see PSSE Program Operation Manual, Induction Machine Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.induction_machine_data.html#psspy.induction_machine_data" title="psspy.induction_machine_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">induction_machine_data</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing induction machine in the working case, or to add a new induction machine to the working case (see PSSE Program Operation Manual, Induction Machine Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.load_chng_4.html#psspy.load_chng_4" title="psspy.load_chng_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_chng_4</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.load_chng_5.html#psspy.load_chng_5" title="psspy.load_chng_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_chng_5</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.load_chng_6.html#psspy.load_chng_6" title="psspy.load_chng_6"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_chng_6</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing load in the working case (see PSSE Program Operation Manual, Load Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.load_data.html#psspy.load_data" title="psspy.load_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.load_data_3.html#psspy.load_data_3" title="psspy.load_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_data_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.load_data_4.html#psspy.load_data_4" title="psspy.load_data_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_data_4</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.load_data_5.html#psspy.load_data_5" title="psspy.load_data_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_data_5</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.load_data_6.html#psspy.load_data_6" title="psspy.load_data_6"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_data_6</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing load in the working case, or to add a new load to the working case (see PSSE Program Operation Manual, Load Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.long_title_data.html#psspy.long_title_data" title="psspy.long_title_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">long_title_data</span></code></a></p></td>
+<td><p>Use this API to change the sixteen line long title in the working case (see PSSE Program Operation Manual, activity CHTI).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.machine_cap_curve_chng.html#psspy.machine_cap_curve_chng" title="psspy.machine_cap_curve_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_cap_curve_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the capability curve data of an existing machine in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.machine_cap_curve_data.html#psspy.machine_cap_curve_data" title="psspy.machine_cap_curve_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_cap_curve_data</span></code></a></p></td>
+<td><p>Use this API routine to specify or modify the capability curve data of an existing machine in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.machine_chng_2.html#psspy.machine_chng_2" title="psspy.machine_chng_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_chng_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.machine_chng_3.html#psspy.machine_chng_3" title="psspy.machine_chng_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_chng_3</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing machine in the working case (see PSSE Program Operation Manual, Plant Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.machine_chng_4.html#psspy.machine_chng_4" title="psspy.machine_chng_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_chng_4</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing machine in the working case (see PSSE Program Operation Manual, Plant Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.machine_data.html#psspy.machine_data" title="psspy.machine_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.machine_data_2.html#psspy.machine_data_2" title="psspy.machine_data_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_data_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.machine_data_3.html#psspy.machine_data_3" title="psspy.machine_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_data_3</span></code></a></p></td>
+<td><p>Use this API to modify the data of an existing machine in the working case, or to add a new machine to a plant bus in the working case (see PSSE Program Operation Manual, Plant Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.machine_data_4.html#psspy.machine_data_4" title="psspy.machine_data_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_data_4</span></code></a></p></td>
+<td><p>Use this API to modify the data of an existing machine in the working case, or to add a new machine to a plant bus in the working case (see PSSE Program Operation Manual, Plant Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.mbid2dc.html#psspy.mbid2dc" title="psspy.mbid2dc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbid2dc</span></code></a></p></td>
+<td><p>Use this API to change the name of the specified two-terminal dc line.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mbid3wnd.html#psspy.mbid3wnd" title="psspy.mbid3wnd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbid3wnd</span></code></a></p></td>
+<td><p>Use this API to change the identifier of the specified three-winding transformer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.mbidatrn.html#psspy.mbidatrn" title="psspy.mbidatrn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidatrn</span></code></a></p></td>
+<td><p>Use this API to change the identifier of the specified inter-area transfer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mbidbrn.html#psspy.mbidbrn" title="psspy.mbidbrn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidbrn</span></code></a></p></td>
+<td><p>Use this API to change the identifier of the specified non-transformer branch or two-winding transformer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.mbidfacts.html#psspy.mbidfacts" title="psspy.mbidfacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidfacts</span></code></a></p></td>
+<td><p>Use this API to change the name of the specified FACTS device.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mbidgne.html#psspy.mbidgne" title="psspy.mbidgne"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidgne</span></code></a></p></td>
+<td><p>Use this API routine to change the GNE device name of the specified GNE device.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.mbidindmac.html#psspy.mbidindmac" title="psspy.mbidindmac"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidindmac</span></code></a></p></td>
+<td><p>Use this API routine to change the identifier of the specified induction machine.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mbidload.html#psspy.mbidload" title="psspy.mbidload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidload</span></code></a></p></td>
+<td><p>Use this API to change the identifier of the specified load.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.mbidmac.html#psspy.mbidmac" title="psspy.mbidmac"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidmac</span></code></a></p></td>
+<td><p>Use this API to change the identifier of the specified machine.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mbidmdc.html#psspy.mbidmdc" title="psspy.mbidmdc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidmdc</span></code></a></p></td>
+<td><p>Use this API to change the name of the specified multi-terminal dc line.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.mbidmsl.html#psspy.mbidmsl" title="psspy.mbidmsl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidmsl</span></code></a></p></td>
+<td><p>Use this API to change the identifier of the specified multi-section line.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mbidshunt.html#psspy.mbidshunt" title="psspy.mbidshunt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidshunt</span></code></a></p></td>
+<td><p>Use this API to change the identifier of the specified fixed bus shunt.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.mbidswshunt.html#psspy.mbidswshunt" title="psspy.mbidswshunt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidswshunt</span></code></a></p></td>
+<td><p>Use this API to change the identifier of the specified switched bus shunt.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mbidvd.html#psspy.mbidvd" title="psspy.mbidvd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidvd</span></code></a></p></td>
+<td><p>Use this API to change the voltage droop control name of the specified voltage droop control in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.mbidvsc.html#psspy.mbidvsc" title="psspy.mbidvsc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mbidvsc</span></code></a></p></td>
+<td><p>Use this API to change the VSC dc line name of the specified VSC dc line.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.multi_section_line_data.html#psspy.multi_section_line_data" title="psspy.multi_section_line_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multi_section_line_data</span></code></a></p></td>
+<td><p>Use this API to modify the definition of an existing multi-section line grouping in the working case or to add a new multi-section line grouping to the working case (see PSSE Program Operation Manual, Multi-Section Line Grouping Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.multi_section_line_edit.html#psspy.multi_section_line_edit" title="psspy.multi_section_line_edit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multi_section_line_edit</span></code></a></p></td>
+<td><p>Use this API to modify the status and/or metered end designation of an existing multi-section line grouping in the working case (see PSSE Program Operation Manual, Multi-Section Line Grouping Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.multi_term_dc_bus_data.html#psspy.multi_term_dc_bus_data" title="psspy.multi_term_dc_bus_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multi_term_dc_bus_data</span></code></a></p></td>
+<td><p>Use this API to modify the data of a dc bus of an existing multi-terminal dc line in the working case or to add a new dc bus to a multi-terminal dc line in the working case (see PSSE Program Operation Manual, Multi-Terminal DC Transmission Line Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.multi_term_dc_convr_data.html#psspy.multi_term_dc_convr_data" title="psspy.multi_term_dc_convr_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multi_term_dc_convr_data</span></code></a></p></td>
+<td><p>Use this API to modify the data of a dc converter of an existing multi-terminal dc line in the working case or to add a new converter to a multi-terminal dc line in the working case (see PSSE Program Operation Manual, Multi-Terminal DC Transmission Line Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.multi_term_dc_line_chng.html#psspy.multi_term_dc_line_chng" title="psspy.multi_term_dc_line_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multi_term_dc_line_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the control mode and mode switch voltage of an existing multi- terminal dc line in the working case (see PSSE Program Operation Manual, Multi-Terminal DC Transmission Line Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.multi_term_dc_line_data.html#psspy.multi_term_dc_line_data" title="psspy.multi_term_dc_line_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multi_term_dc_line_data</span></code></a></p></td>
+<td><p>Use this API to modify the control mode and mode switch voltage of an existing multi-terminal dc line in the working case or to add a new multi-terminal dc line to the working case (see PSSE Program Operation Manual, Multi-Terminal DC Transmission Line Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.multi_term_dc_link_data.html#psspy.multi_term_dc_link_data" title="psspy.multi_term_dc_link_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multi_term_dc_link_data</span></code></a></p></td>
+<td><p>Use this API to modify the data of a dc link of an existing multi-terminal dc line in the working case or to add a new dc link to a multi-terminal dc line in the working case (see PSSE Program Operation Manual, Multi-Terminal DC Transmission Line Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.owner_data.html#psspy.owner_data" title="psspy.owner_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">owner_data</span></code></a></p></td>
+<td><p>Use this API to modify owner data in the working case (see PSSE Program Operation Manual, Interarea Transfer Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.pbus_add_mod.html#psspy.pbus_add_mod" title="psspy.pbus_add_mod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pbus_add_mod</span></code></a></p></td>
+<td><p>Use this API to add or modify transaction event participating bus data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.pbus_delete.html#psspy.pbus_delete" title="psspy.pbus_delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pbus_delete</span></code></a></p></td>
+<td><p>Use this API to remove a bus from the set of buses that are participating in a transaction event.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.plant_chng.html#psspy.plant_chng" title="psspy.plant_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plant_chng</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.plant_chng_3.html#psspy.plant_chng_3" title="psspy.plant_chng_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plant_chng_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.plant_chng_4.html#psspy.plant_chng_4" title="psspy.plant_chng_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plant_chng_4</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing plant that is part of a substation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.plant_data.html#psspy.plant_data" title="psspy.plant_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plant_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.plant_data_3.html#psspy.plant_data_3" title="psspy.plant_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plant_data_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.plant_data_4.html#psspy.plant_data_4" title="psspy.plant_data_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plant_data_4</span></code></a></p></td>
+<td><p>Use this API to modify the data of an existing plant in the working case, or to add a new plant to the working case (see PSSE Program Operation Manual, Fixed Bus Shunt Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purg.html#psspy.purg" title="psspy.purg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purg</span></code></a></p></td>
+<td><p>Use this API routine to delete specified outaged equipment items from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purg2dc.html#psspy.purg2dc" title="psspy.purg2dc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purg2dc</span></code></a></p></td>
+<td><p>Use this API to delete the specified two-terminal dc line from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purg3wnd.html#psspy.purg3wnd" title="psspy.purg3wnd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purg3wnd</span></code></a></p></td>
+<td><p>Use this API to delete the specified three-winding transformer from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purg_voltage_droop.html#psspy.purg_voltage_droop" title="psspy.purg_voltage_droop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purg_voltage_droop</span></code></a></p></td>
+<td><p>Use this API to delete an existing voltage droop control from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purgarea.html#psspy.purgarea" title="psspy.purgarea"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgarea</span></code></a></p></td>
+<td><p>Use this API to delete areas with no equipment assigned to them from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purgatrn.html#psspy.purgatrn" title="psspy.purgatrn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgatrn</span></code></a></p></td>
+<td><p>Use this API to delete the specified inter-area transfer from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purgbrn.html#psspy.purgbrn" title="psspy.purgbrn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgbrn</span></code></a></p></td>
+<td><p>Use this API to delete the specified non-transformer branch or two-winding transformer from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purgcapcurve.html#psspy.purgcapcurve" title="psspy.purgcapcurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgcapcurve</span></code></a></p></td>
+<td><p>Use this API to delete the specified machine’s capability curve from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_multi_term_dc_bus.html#psspy.purge_multi_term_dc_bus" title="psspy.purge_multi_term_dc_bus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_multi_term_dc_bus</span></code></a></p></td>
+<td><p>Use this API to delete the specified dc bus from the specified multi-terminal dc line in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_multi_term_dc_convr.html#psspy.purge_multi_term_dc_convr" title="psspy.purge_multi_term_dc_convr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_multi_term_dc_convr</span></code></a></p></td>
+<td><p>Use this API to delete the specified converter from the specified multi-terminal dc line in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_multi_term_dc_link.html#psspy.purge_multi_term_dc_link" title="psspy.purge_multi_term_dc_link"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_multi_term_dc_link</span></code></a></p></td>
+<td><p>Use this API to delete the specified dc link from the specified multi-terminal dc line in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purgfacts.html#psspy.purgfacts" title="psspy.purgfacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgfacts</span></code></a></p></td>
+<td><p>Use this API to delete the specified FACTS device from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purggne.html#psspy.purggne" title="psspy.purggne"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purggne</span></code></a></p></td>
+<td><p>Use this API routine to delete the specified GNE device from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purgindmac.html#psspy.purgindmac" title="psspy.purgindmac"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgindmac</span></code></a></p></td>
+<td><p>Use this API routine to delete the specified induction machine from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purgindmacs.html#psspy.purgindmacs" title="psspy.purgindmacs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgindmacs</span></code></a></p></td>
+<td><p>Use this API routine to delete all induction machines from the specified bus in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purgload.html#psspy.purgload" title="psspy.purgload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgload</span></code></a></p></td>
+<td><p>Use this API to delete the specified load from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purgloads.html#psspy.purgloads" title="psspy.purgloads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgloads</span></code></a></p></td>
+<td><p>Use this API to delete all loads from the specified bus in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purgmac.html#psspy.purgmac" title="psspy.purgmac"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgmac</span></code></a></p></td>
+<td><p>Use this API to delete the specified machine from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purgmdc.html#psspy.purgmdc" title="psspy.purgmdc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgmdc</span></code></a></p></td>
+<td><p>Use this API to delete the specified multi-terminal dc line from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purgmsl.html#psspy.purgmsl" title="psspy.purgmsl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgmsl</span></code></a></p></td>
+<td><p>Use this API to delete the specified multi-section line grouping from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purgmut.html#psspy.purgmut" title="psspy.purgmut"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgmut</span></code></a></p></td>
+<td><p>Use this API to delete the specified zero sequence mutual coupling from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purgowner.html#psspy.purgowner" title="psspy.purgowner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgowner</span></code></a></p></td>
+<td><p>Use this API to delete owners with no equipment assigned to them from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purgplnt.html#psspy.purgplnt" title="psspy.purgplnt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgplnt</span></code></a></p></td>
+<td><p>Use this API to delete the plant and machine data at the specified bus from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purgshunt.html#psspy.purgshunt" title="psspy.purgshunt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgshunt</span></code></a></p></td>
+<td><p>Use this API to delete the specified fixed bus shunt from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purgshunts.html#psspy.purgshunts" title="psspy.purgshunts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgshunts</span></code></a></p></td>
+<td><p>Use this API to delete all fixed shunts from the specified bus in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purgsws.html#psspy.purgsws" title="psspy.purgsws"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgsws</span></code></a></p></td>
+<td><p>Use this API to delete all switched shunts from the specified bus in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purgswshunt.html#psspy.purgswshunt" title="psspy.purgswshunt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgswshunt</span></code></a></p></td>
+<td><p>Use this API to delete the specified switched bus shunt from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purgvsc.html#psspy.purgvsc" title="psspy.purgvsc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgvsc</span></code></a></p></td>
+<td><p>Use this API to delete the specified VSC dc line from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purgzone.html#psspy.purgzone" title="psspy.purgzone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purgzone</span></code></a></p></td>
+<td><p>Use this API to delete zones with no equipment assigned to them from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.ratingsettextdata.html#psspy.ratingsettextdata" title="psspy.ratingsettextdata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ratingsettextdata</span></code></a></p></td>
+<td><p>Use this API to change the column and descriptions for a particular rating set used in reporting.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.shunt_chng.html#psspy.shunt_chng" title="psspy.shunt_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shunt_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing fixed bus shunt in the working case (see PSSE Program Operation Manual, Fixed Bus Shunt Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.shunt_data.html#psspy.shunt_data" title="psspy.shunt_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shunt_data</span></code></a></p></td>
+<td><p>Use this API to modify the data of an existing fixed bus shunt in the working case or to add a new fixed bus shunt to the working case (see PSSE Program Operation Manual, Fixed Bus Shunt Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.solution_parameters.html#psspy.solution_parameters" title="psspy.solution_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solution_parameters</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.solution_parameters_2.html#psspy.solution_parameters_2" title="psspy.solution_parameters_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solution_parameters_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.solution_parameters_3.html#psspy.solution_parameters_3" title="psspy.solution_parameters_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solution_parameters_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.solution_parameters_4.html#psspy.solution_parameters_4" title="psspy.solution_parameters_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solution_parameters_4</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.solution_parameters_5.html#psspy.solution_parameters_5" title="psspy.solution_parameters_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solution_parameters_5</span></code></a></p></td>
+<td><p>Use this API to modify the power flow solution parameters in the working case (see PSSE Program Operation Manual, Sections 6.3.13, 6.3.18, 6.5.1 and 11.7).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.switched_shunt_chng_3.html#psspy.switched_shunt_chng_3" title="psspy.switched_shunt_chng_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switched_shunt_chng_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.switched_shunt_chng_4.html#psspy.switched_shunt_chng_4" title="psspy.switched_shunt_chng_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switched_shunt_chng_4</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.switched_shunt_chng_5.html#psspy.switched_shunt_chng_5" title="psspy.switched_shunt_chng_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switched_shunt_chng_5</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing switched shunt in the working case (see PSSE Program Operation Manual, Switched Shunt Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.switched_shunt_data.html#psspy.switched_shunt_data" title="psspy.switched_shunt_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switched_shunt_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.switched_shunt_data_3.html#psspy.switched_shunt_data_3" title="psspy.switched_shunt_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switched_shunt_data_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.switched_shunt_data_4.html#psspy.switched_shunt_data_4" title="psspy.switched_shunt_data_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switched_shunt_data_4</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.switched_shunt_data_5.html#psspy.switched_shunt_data_5" title="psspy.switched_shunt_data_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switched_shunt_data_5</span></code></a></p></td>
+<td><p>Use this API to modify the data of an existing switched shunt in the working case or to add a new switched shunt to the working case (see PSSE Program Operation Manual, Switched Shunt Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.three_winding_data.html#psspy.three_winding_data" title="psspy.three_winding_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">three_winding_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.three_wnd_imped_chng_3.html#psspy.three_wnd_imped_chng_3" title="psspy.three_wnd_imped_chng_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">three_wnd_imped_chng_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.three_wnd_imped_chng_4.html#psspy.three_wnd_imped_chng_4" title="psspy.three_wnd_imped_chng_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">three_wnd_imped_chng_4</span></code></a></p></td>
+<td><p>Use this API routine to modify the impedance data of an existing three-winding transformer in the working case (see PSSE Program Operation Manual, Non-Transformer Branch Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.three_wnd_imped_data_3.html#psspy.three_wnd_imped_data_3" title="psspy.three_wnd_imped_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">three_wnd_imped_data_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.three_wnd_imped_data_4.html#psspy.three_wnd_imped_data_4" title="psspy.three_wnd_imped_data_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">three_wnd_imped_data_4</span></code></a></p></td>
+<td><p>Use this API routine to modify the impedance data of an existing three-winding transformer in the working case, or to add a new three-winding transformer to the working case (see PSSE Program Operation Manual, Non-Transformer Branch Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.three_wnd_impedance_data.html#psspy.three_wnd_impedance_data" title="psspy.three_wnd_impedance_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">three_wnd_impedance_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.three_wnd_winding_data.html#psspy.three_wnd_winding_data" title="psspy.three_wnd_winding_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">three_wnd_winding_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.three_wnd_winding_data_3.html#psspy.three_wnd_winding_data_3" title="psspy.three_wnd_winding_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">three_wnd_winding_data_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.three_wnd_winding_data_4.html#psspy.three_wnd_winding_data_4" title="psspy.three_wnd_winding_data_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">three_wnd_winding_data_4</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.three_wnd_winding_data_5.html#psspy.three_wnd_winding_data_5" title="psspy.three_wnd_winding_data_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">three_wnd_winding_data_5</span></code></a></p></td>
+<td><p>Use this API to modify the data of one winding of an existing three-winding transformer in the working case (see PSSE Program Operation Manual, Non-Transformer Branch Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.transaction_add_mod.html#psspy.transaction_add_mod" title="psspy.transaction_add_mod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transaction_add_mod</span></code></a></p></td>
+<td><p>Use this API to add or modify transaction event data in PSSE working memory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.transaction_delete.html#psspy.transaction_delete" title="psspy.transaction_delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transaction_delete</span></code></a></p></td>
+<td><p>Use this API to delete a transaction event from PSSE working memory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.transfer_chng.html#psspy.transfer_chng" title="psspy.transfer_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an inter-area transfer in the working case (see PSSE Program Operation Manual, Zone Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.transfer_data.html#psspy.transfer_data" title="psspy.transfer_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_data</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an inter-area transfer in the working case, or to add a new inter-area transfer to the working case (see PSSE Program Operation Manual, Zone Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.two_term_dc_converter_data_3.html#psspy.two_term_dc_converter_data_3" title="psspy.two_term_dc_converter_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_term_dc_converter_data_3</span></code></a></p></td>
+<td><p>Use this API to modify the data of a dc converter of an existing two-terminal dc line in the working case (see PSSE Program Operation Manual, Area Interchange Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.two_term_dc_convr_data.html#psspy.two_term_dc_convr_data" title="psspy.two_term_dc_convr_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_term_dc_convr_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.two_terminal_dc_line_chng.html#psspy.two_terminal_dc_line_chng" title="psspy.two_terminal_dc_line_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_terminal_dc_line_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the link data of an existing two-terminal dc line in the working case (see PSSE Program Operation Manual, Area Interchange Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.two_terminal_dc_line_data.html#psspy.two_terminal_dc_line_data" title="psspy.two_terminal_dc_line_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_terminal_dc_line_data</span></code></a></p></td>
+<td><p>Use this API routine to modify the link data of an existing two-terminal dc line in the working case, or to add a new two-terminal dc line and its link data to the working case (see PSSE Program Operation Manual, Area Interchange Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.two_winding_chng_4.html#psspy.two_winding_chng_4" title="psspy.two_winding_chng_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_winding_chng_4</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.two_winding_chng_5.html#psspy.two_winding_chng_5" title="psspy.two_winding_chng_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_winding_chng_5</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.two_winding_chng_6.html#psspy.two_winding_chng_6" title="psspy.two_winding_chng_6"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_winding_chng_6</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing two-winding transformer in the working case (see PSSE Program Operation Manual, Owner Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.two_winding_data.html#psspy.two_winding_data" title="psspy.two_winding_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_winding_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.two_winding_data_3.html#psspy.two_winding_data_3" title="psspy.two_winding_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_winding_data_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.two_winding_data_4.html#psspy.two_winding_data_4" title="psspy.two_winding_data_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_winding_data_4</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.two_winding_data_5.html#psspy.two_winding_data_5" title="psspy.two_winding_data_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_winding_data_5</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.two_winding_data_6.html#psspy.two_winding_data_6" title="psspy.two_winding_data_6"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_winding_data_6</span></code></a></p></td>
+<td><p>Use this API to modify the data of an existing two-winding transformer in the working case, or to add a new two-winding transformer to the working case (see PSSE Program Operation Manual, Owner Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.voltage_droop_chng.html#psspy.voltage_droop_chng" title="psspy.voltage_droop_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">voltage_droop_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the voltage droop control in the working case(see PSSE Program Operation Manual.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.voltage_droop_data.html#psspy.voltage_droop_data" title="psspy.voltage_droop_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">voltage_droop_data</span></code></a></p></td>
+<td><p>Use this API routine to modify the voltage droop control in the working case, or to add a new voltage droop control to the working case (see PSSE Program Operation Manual.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.vsc_dc_converter_data.html#psspy.vsc_dc_converter_data" title="psspy.vsc_dc_converter_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vsc_dc_converter_data</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.vsc_dc_converter_data_3.html#psspy.vsc_dc_converter_data_3" title="psspy.vsc_dc_converter_data_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vsc_dc_converter_data_3</span></code></a></p></td>
+<td><p>Use this API to modify the data of a dc converter of an existing VSC dc line in the working case (see PSSE Program Operation Manual, Voltage Source Converter (VSC) DC Transmission Line Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.vsc_dc_line_chng.html#psspy.vsc_dc_line_chng" title="psspy.vsc_dc_line_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vsc_dc_line_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the link data of an existing VSC dc line in the working case (see PSSE Program Operation Manual, Voltage Source Converter (VSC) DC Transmission Line Data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.vsc_dc_line_data.html#psspy.vsc_dc_line_data" title="psspy.vsc_dc_line_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vsc_dc_line_data</span></code></a></p></td>
+<td><p>Use this API routine to modify the link data of an existing VSC dc line in the working case, or to add a new VSC dc line to the working case (see PSSE Program Operation Manual, Voltage Source Converter (VSC) DC Transmission Line Data).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.zone_data.html#psspy.zone_data" title="psspy.zone_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zone_data</span></code></a></p></td>
+<td><p>Use this API to modify zone data in the working case (see PSSE Program Operation Manual, Zone Data).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="_as_gen/psspy.zonm_2.html"
+                        title="previous chapter">psspy.zonm_2</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="_as_gen/psspy.area_data.html"
+                        title="next chapter">psspy.area_data</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.area_data.html" title="psspy.area_data"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.zonm_2.html" title="psspy.zonm_2"
+             >previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" >psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Power Flow Data</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Siemens PTI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+    </div>
+  </body>
+</html>

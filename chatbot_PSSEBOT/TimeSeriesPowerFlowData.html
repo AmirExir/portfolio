@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Time Series Power Flow Data &#8212; PSSE API Manual 35.6.0 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="psspy.purge_tspf_channel" href="_as_gen/psspy.purge_tspf_channel.html" />
+    <link rel="prev" title="psspy.tspf_output_pmatrix_2" href="_as_gen/psspy.tspf_output_pmatrix_2.html" /> 
+  </head><body>
+     
+     <div style="background-color: white; text-align: left; padding: 2px 2px 2px 15px">
+     <a href="../index.html"><h1 style="font-size: 3em;">PSSE API Manual</h1></a>
+     </div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.purge_tspf_channel.html" title="psspy.purge_tspf_channel"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.tspf_output_pmatrix_2.html" title="psspy.tspf_output_pmatrix_2"
+             accesskey="P">previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" accesskey="U">psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Time Series Power Flow Data</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="time-series-power-flow-data">
+<h1>Time Series Power Flow Data<a class="headerlink" href="#time-series-power-flow-data" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Release</dt>
+<dd class="field-odd"><p>35.6.0</p>
+</dd>
+<dt class="field-even">Date</dt>
+<dd class="field-even"><p>July 12, 2023</p>
+</dd>
+</dl>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_tspf_channel.html#psspy.purge_tspf_channel" title="psspy.purge_tspf_channel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_tspf_channel</span></code></a></p></td>
+<td><p>Use this API to delete all Time Series Power Flow profiles for an element.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_tspf_channel_all.html#psspy.purge_tspf_channel_all" title="psspy.purge_tspf_channel_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_tspf_channel_all</span></code></a></p></td>
+<td><p>Use this API to remover all time series power flow channels for a selected element.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_tspf_profile.html#psspy.purge_tspf_profile" title="psspy.purge_tspf_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_tspf_profile</span></code></a></p></td>
+<td><p>Use this API to delete Time Series Power Flow profile by profile name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_tspf_profilecurve.html#psspy.purge_tspf_profilecurve" title="psspy.purge_tspf_profilecurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_tspf_profilecurve</span></code></a></p></td>
+<td><p>Use this API to delete Time Series Power Flow profile curve by curvesetid and curvecol and index.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_tspf_profilecurveset.html#psspy.purge_tspf_profilecurveset" title="psspy.purge_tspf_profilecurveset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_tspf_profilecurveset</span></code></a></p></td>
+<td><p>Use this API to delete Time Series Power Flow profile curve set by profile curvesetid.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_tspf_profiledata.html#psspy.purge_tspf_profiledata" title="psspy.purge_tspf_profiledata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_tspf_profiledata</span></code></a></p></td>
+<td><p>Use this API to delete Time Series Power Flow profile data by curvesetid and curvecol and index.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.tspf_channel_chng.html#psspy.tspf_channel_chng" title="psspy.tspf_channel_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tspf_channel_chng</span></code></a></p></td>
+<td><p>Use this API to select time series power flow Cchannels.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.tspf_channel_data.html#psspy.tspf_channel_data" title="psspy.tspf_channel_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tspf_channel_data</span></code></a></p></td>
+<td><p>Use this API to select time series power flow Cchannels.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.tspf_profile_chng.html#psspy.tspf_profile_chng" title="psspy.tspf_profile_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tspf_profile_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing Time Series Power Flow profile.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.tspf_profile_data.html#psspy.tspf_profile_data" title="psspy.tspf_profile_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tspf_profile_data</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing Time Series Power Flow profile, or to add a new Time Series Power Flow profile.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.tspf_profilecurveset_chng.html#psspy.tspf_profilecurveset_chng" title="psspy.tspf_profilecurveset_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tspf_profilecurveset_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing Time Series Power Flow profile curve set.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.tspf_profilecurveset_data.html#psspy.tspf_profilecurveset_data" title="psspy.tspf_profilecurveset_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tspf_profilecurveset_data</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing Time Series Power Flow profile curve set, or to add a new Time Series Power Flow profile curve set.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.tspf_profiledata_chng.html#psspy.tspf_profiledata_chng" title="psspy.tspf_profiledata_chng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tspf_profiledata_chng</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing Time Series Power Flow profile curve value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.tspf_profiledata_data.html#psspy.tspf_profiledata_data" title="psspy.tspf_profiledata_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tspf_profiledata_data</span></code></a></p></td>
+<td><p>Use this API routine to modify the data of an existing Time Series Power Flow profile curve value, or to add a new Time Series Power Flow profile curve value.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="_as_gen/psspy.tspf_output_pmatrix_2.html"
+                        title="previous chapter">psspy.tspf_output_pmatrix_2</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="_as_gen/psspy.purge_tspf_channel.html"
+                        title="next chapter">psspy.purge_tspf_channel</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.purge_tspf_channel.html" title="psspy.purge_tspf_channel"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.tspf_output_pmatrix_2.html" title="psspy.tspf_output_pmatrix_2"
+             >previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" >psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Time Series Power Flow Data</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Siemens PTI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+    </div>
+  </body>
+</html>

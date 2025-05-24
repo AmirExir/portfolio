@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Optimal Power Flow Data &#8212; PSSE API Manual 35.6.0 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="psspy.newopf" href="_as_gen/psspy.newopf.html" />
+    <link rel="prev" title="psspy.write_opf_options_file" href="_as_gen/psspy.write_opf_options_file.html" /> 
+  </head><body>
+     
+     <div style="background-color: white; text-align: left; padding: 2px 2px 2px 15px">
+     <a href="../index.html"><h1 style="font-size: 3em;">PSSE API Manual</h1></a>
+     </div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.newopf.html" title="psspy.newopf"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.write_opf_options_file.html" title="psspy.write_opf_options_file"
+             accesskey="P">previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" accesskey="U">psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Optimal Power Flow Data</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="optimal-power-flow-data">
+<h1>Optimal Power Flow Data<a class="headerlink" href="#optimal-power-flow-data" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Release</dt>
+<dd class="field-odd"><p>35.6.0</p>
+</dd>
+<dt class="field-even">Date</dt>
+<dd class="field-even"><p>July 12, 2023</p>
+</dd>
+</dl>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.newopf.html#psspy.newopf" title="psspy.newopf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newopf</span></code></a></p></td>
+<td><p>Use this API to initialize the working case with default OPF data for all bus oriented data records.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_adjbrx_indv.html#psspy.opf_adjbrx_indv" title="psspy.opf_adjbrx_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_adjbrx_indv</span></code></a></p></td>
+<td><p>Use this API to add an individual adjustable branch reactance data record to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_adjbrx_subsys.html#psspy.opf_adjbrx_subsys" title="psspy.opf_adjbrx_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_adjbrx_subsys</span></code></a></p></td>
+<td><p>Use this API to add or modify all OPF branch reactance data records in a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_adjload_tbl.html#psspy.opf_adjload_tbl" title="psspy.opf_adjload_tbl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_adjload_tbl</span></code></a></p></td>
+<td><p>Use this API to add an individual adjustable bus load table record to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_adjvar_indv.html#psspy.opf_adjvar_indv" title="psspy.opf_adjvar_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_adjvar_indv</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_adjvar_indv_2.html#psspy.opf_adjvar_indv_2" title="psspy.opf_adjvar_indv_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_adjvar_indv_2</span></code></a></p></td>
+<td><p>Use this API to add an individual OPF adjustable bus shunt data record to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_adjvar_subsys.html#psspy.opf_adjvar_subsys" title="psspy.opf_adjvar_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_adjvar_subsys</span></code></a></p></td>
+<td><p>Use this API to add or modify all OPF adjustable bus shunt records in a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_apdsp_tbl.html#psspy.opf_apdsp_tbl" title="psspy.opf_apdsp_tbl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_apdsp_tbl</span></code></a></p></td>
+<td><p>Use this API to add an individual active power dispatch table record to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_brflw_3wt_indv.html#psspy.opf_brflw_3wt_indv" title="psspy.opf_brflw_3wt_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_brflw_3wt_indv</span></code></a></p></td>
+<td><p>Use this API to add a flow constraint record for an individual winding of a three-winding transformer in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_brflw_brn_indv.html#psspy.opf_brflw_brn_indv" title="psspy.opf_brflw_brn_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_brflw_brn_indv</span></code></a></p></td>
+<td><p>Use this API to add an individual branch or two-winding transformer flow constraint record to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_brflw_subsys.html#psspy.opf_brflw_subsys" title="psspy.opf_brflw_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_brflw_subsys</span></code></a></p></td>
+<td><p>Use this API to add or modify all branch flow data records in a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_bus_indv.html#psspy.opf_bus_indv" title="psspy.opf_bus_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_bus_indv</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_bus_indv_2.html#psspy.opf_bus_indv_2" title="psspy.opf_bus_indv_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_bus_indv_2</span></code></a></p></td>
+<td><p>Use this API to add OPF bus voltage magnitude data to the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_bus_subsys.html#psspy.opf_bus_subsys" title="psspy.opf_bus_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_bus_subsys</span></code></a></p></td>
+<td><p>Use this API to add OPF bus attribute data for all records in a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_change_3wt_flow_id.html#psspy.opf_change_3wt_flow_id" title="psspy.opf_change_3wt_flow_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_change_3wt_flow_id</span></code></a></p></td>
+<td><p>Use this API to change the identifier of a flow constraint record for an individual winding of a three-winding transformer in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_change_adjvar_id.html#psspy.opf_change_adjvar_id" title="psspy.opf_change_adjvar_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_change_adjvar_id</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_change_brn_flow_id.html#psspy.opf_change_brn_flow_id" title="psspy.opf_change_brn_flow_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_change_brn_flow_id</span></code></a></p></td>
+<td><p>Use this API to change the identifier of a branch or two-winding transformer OPF flow constraint record in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_csttbl_lin.html#psspy.opf_csttbl_lin" title="psspy.opf_csttbl_lin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_csttbl_lin</span></code></a></p></td>
+<td><p>Use this API to add a linear cost curve table record to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_csttbl_poly.html#psspy.opf_csttbl_poly" title="psspy.opf_csttbl_poly"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_csttbl_poly</span></code></a></p></td>
+<td><p>Use this API to add a polynomial and exponential cost curve table record to the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_csttbl_quad.html#psspy.opf_csttbl_quad" title="psspy.opf_csttbl_quad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_csttbl_quad</span></code></a></p></td>
+<td><p>Use this API to add a quadratic cost curve table record to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_gen_rcap_indv.html#psspy.opf_gen_rcap_indv" title="psspy.opf_gen_rcap_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_gen_rcap_indv</span></code></a></p></td>
+<td><p>Use this API to add an individual generation reactive capability data record to the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_gen_rcap_subsys.html#psspy.opf_gen_rcap_subsys" title="psspy.opf_gen_rcap_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_gen_rcap_subsys</span></code></a></p></td>
+<td><p>Use this API to add or modify all OPF generator reactive capability records in a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_gendsp_indv.html#psspy.opf_gendsp_indv" title="psspy.opf_gendsp_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_gendsp_indv</span></code></a></p></td>
+<td><p>Use this API to add generator dispatch data to an individual record in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_gendsp_subsys.html#psspy.opf_gendsp_subsys" title="psspy.opf_gendsp_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_gendsp_subsys</span></code></a></p></td>
+<td><p>Use this API to add OPF generator dispatch data to all records in a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_genrsv_indv.html#psspy.opf_genrsv_indv" title="psspy.opf_genrsv_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_genrsv_indv</span></code></a></p></td>
+<td><p>Use this API to add an individual generator reserve data record to the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_genrsv_subsys.html#psspy.opf_genrsv_subsys" title="psspy.opf_genrsv_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_genrsv_subsys</span></code></a></p></td>
+<td><p>Use this API to add or modify all OPF generator reserve records in a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_intflw_3wt.html#psspy.opf_intflw_3wt" title="psspy.opf_intflw_3wt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_intflw_3wt</span></code></a></p></td>
+<td><p>Use this API to add a participating three-winding transformer winding to a specified interface flow constraint in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_intflw_brn.html#psspy.opf_intflw_brn" title="psspy.opf_intflw_brn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_intflw_brn</span></code></a></p></td>
+<td><p>Use this API to add a participating branch to a specified interface flow constraint in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_intflw_main.html#psspy.opf_intflw_main" title="psspy.opf_intflw_main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_intflw_main</span></code></a></p></td>
+<td><p>Use this API to add an interface flow constraint record to the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_intflw_reset.html#psspy.opf_intflw_reset" title="psspy.opf_intflw_reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_intflw_reset</span></code></a></p></td>
+<td><p>Use this API to remove all interface branches associated with a particular interface flow constraint in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_adjload.html#psspy.opf_lnceqn_adjload" title="psspy.opf_lnceqn_adjload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_adjload</span></code></a></p></td>
+<td><p>Use this API to add a participating adjustable bus load variable to a specified linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_adjvar.html#psspy.opf_lnceqn_adjvar" title="psspy.opf_lnceqn_adjvar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_adjvar</span></code></a></p></td>
+<td><p>Use this API to add a participating adjustable bus shunt variable to a specified linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_brflow.html#psspy.opf_lnceqn_brflow" title="psspy.opf_lnceqn_brflow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_brflow</span></code></a></p></td>
+<td><p>Use this API to add a participating branch flow variable to a specified linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_intflow.html#psspy.opf_lnceqn_intflow" title="psspy.opf_lnceqn_intflow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_intflow</span></code></a></p></td>
+<td><p>Use this API to add a participating interface flow constraint variable to a specified linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_main.html#psspy.opf_lnceqn_main" title="psspy.opf_lnceqn_main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_main</span></code></a></p></td>
+<td><p>Use this API to add a linear constraint dependency record to the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_pgen.html#psspy.opf_lnceqn_pgen" title="psspy.opf_lnceqn_pgen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_pgen</span></code></a></p></td>
+<td><p>Use this API to add a participating active power dispatch variable to a specified linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_qgen.html#psspy.opf_lnceqn_qgen" title="psspy.opf_lnceqn_qgen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_qgen</span></code></a></p></td>
+<td><p>Use this API to add a participating reactive power dispatch variable of a specified linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_reset.html#psspy.opf_lnceqn_reset" title="psspy.opf_lnceqn_reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_reset</span></code></a></p></td>
+<td><p>Use this API to remove all participating variables from a particular OPF linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_swshunt.html#psspy.opf_lnceqn_swshunt" title="psspy.opf_lnceqn_swshunt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_swshunt</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_swshunt_2.html#psspy.opf_lnceqn_swshunt_2" title="psspy.opf_lnceqn_swshunt_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_swshunt_2</span></code></a></p></td>
+<td><p>Use this API to add a participating switched shunt variable to a specified linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_tran.html#psspy.opf_lnceqn_tran" title="psspy.opf_lnceqn_tran"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_tran</span></code></a></p></td>
+<td><p>Use this API to add a participating transformer control variable to a specified linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_vang.html#psspy.opf_lnceqn_vang" title="psspy.opf_lnceqn_vang"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_vang</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_vang_2.html#psspy.opf_lnceqn_vang_2" title="psspy.opf_lnceqn_vang_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_vang_2</span></code></a></p></td>
+<td><p>Use this API to add a participating bus voltage angle variable to a specified linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_vmag.html#psspy.opf_lnceqn_vmag" title="psspy.opf_lnceqn_vmag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_vmag</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_lnceqn_vmag_2.html#psspy.opf_lnceqn_vmag_2" title="psspy.opf_lnceqn_vmag_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_lnceqn_vmag_2</span></code></a></p></td>
+<td><p>Use this API to add a participating bus voltage magnitude variable to a specified linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_load_indv.html#psspy.opf_load_indv" title="psspy.opf_load_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_load_indv</span></code></a></p></td>
+<td><p>Use this API to add an individual OPF bus load data record to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_load_subsys.html#psspy.opf_load_subsys" title="psspy.opf_load_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_load_subsys</span></code></a></p></td>
+<td><p>Use this API to add or modify all OPF bus load data records in a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_perrsv_gen.html#psspy.opf_perrsv_gen" title="psspy.opf_perrsv_gen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_perrsv_gen</span></code></a></p></td>
+<td><p>Use this API to add a participating generation reserve unit to a previously defined period reserve constraint in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.opf_perrsv_main.html#psspy.opf_perrsv_main" title="psspy.opf_perrsv_main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_perrsv_main</span></code></a></p></td>
+<td><p>Use this API to add a period reserve constraint record to the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.opf_perrsv_reset.html#psspy.opf_perrsv_reset" title="psspy.opf_perrsv_reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opf_perrsv_reset</span></code></a></p></td>
+<td><p>Use this API to remove all generation reserve units associated with a particular period reserve constraint in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_all_opf_data.html#psspy.purge_all_opf_data" title="psspy.purge_all_opf_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_all_opf_data</span></code></a></p></td>
+<td><p>Use this API to purge and re-initialize all OPF data records in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_adjbrx_indv.html#psspy.purge_opf_adjbrx_indv" title="psspy.purge_opf_adjbrx_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_adjbrx_indv</span></code></a></p></td>
+<td><p>Use this API to purge an individual adjustable branch reactance data record from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_adjbrx_subsys.html#psspy.purge_opf_adjbrx_subsys" title="psspy.purge_opf_adjbrx_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_adjbrx_subsys</span></code></a></p></td>
+<td><p>Use this API to purge all OPF branch reactance data records from a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_adjload_tbl.html#psspy.purge_opf_adjload_tbl" title="psspy.purge_opf_adjload_tbl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_adjload_tbl</span></code></a></p></td>
+<td><p>Use this API to purge an individual adjustable bus load table from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_adjvar_indv.html#psspy.purge_opf_adjvar_indv" title="psspy.purge_opf_adjvar_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_adjvar_indv</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_adjvar_indv_3.html#psspy.purge_opf_adjvar_indv_3" title="psspy.purge_opf_adjvar_indv_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_adjvar_indv_3</span></code></a></p></td>
+<td><p>Use this API to purge an individual OPF adjustable bus shunt data record from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_adjvar_subsys.html#psspy.purge_opf_adjvar_subsys" title="psspy.purge_opf_adjvar_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_adjvar_subsys</span></code></a></p></td>
+<td><p>Use this API to purge all OPF adjustable bus shunt records from a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_apdsp_tbl.html#psspy.purge_opf_apdsp_tbl" title="psspy.purge_opf_apdsp_tbl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_apdsp_tbl</span></code></a></p></td>
+<td><p>Use this API to purge an individual active power dispatch table record from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_brflw_3wt.html#psspy.purge_opf_brflw_3wt" title="psspy.purge_opf_brflw_3wt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_brflw_3wt</span></code></a></p></td>
+<td><p>Use this API to purge an individual flow constraint record of a three-winding transformer from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_brflw_brn.html#psspy.purge_opf_brflw_brn" title="psspy.purge_opf_brflw_brn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_brflw_brn</span></code></a></p></td>
+<td><p>Use this API to purge an individual branch or two-winding transformer flow constraint record from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_brflw_subsys.html#psspy.purge_opf_brflw_subsys" title="psspy.purge_opf_brflw_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_brflw_subsys</span></code></a></p></td>
+<td><p>Use this API to purge all branch flow data records in a specified subsystem in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_bus_indv.html#psspy.purge_opf_bus_indv" title="psspy.purge_opf_bus_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_bus_indv</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_bus_indv_3.html#psspy.purge_opf_bus_indv_3" title="psspy.purge_opf_bus_indv_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_bus_indv_3</span></code></a></p></td>
+<td><p>Use this API to purge (re-initialize) OPF bus voltage magnitude data for an individual bus or bus section record in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_bus_subsys.html#psspy.purge_opf_bus_subsys" title="psspy.purge_opf_bus_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_bus_subsys</span></code></a></p></td>
+<td><p>Use this API to purge (re-initialize) OPF bus attribute data for all records in a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_csttbl_lin.html#psspy.purge_opf_csttbl_lin" title="psspy.purge_opf_csttbl_lin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_csttbl_lin</span></code></a></p></td>
+<td><p>Use this API to purge an optimal power flow linear cost curve record from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_csttbl_poly.html#psspy.purge_opf_csttbl_poly" title="psspy.purge_opf_csttbl_poly"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_csttbl_poly</span></code></a></p></td>
+<td><p>Use this API to purge an optimal power flow polynomial and exponential cost curve record from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_csttbl_quad.html#psspy.purge_opf_csttbl_quad" title="psspy.purge_opf_csttbl_quad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_csttbl_quad</span></code></a></p></td>
+<td><p>Use this API to purge an optimal power flow quadratic cost curve record from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_gen_rcap_indv.html#psspy.purge_opf_gen_rcap_indv" title="psspy.purge_opf_gen_rcap_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_gen_rcap_indv</span></code></a></p></td>
+<td><p>Use this API to purge an individual OPF generation reactive capability data record from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_gen_rcap_subsys.html#psspy.purge_opf_gen_rcap_subsys" title="psspy.purge_opf_gen_rcap_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_gen_rcap_subsys</span></code></a></p></td>
+<td><p>Use this API to purge all OPF generator reactive capability records in a specified subsystem from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_gendsp_indv.html#psspy.purge_opf_gendsp_indv" title="psspy.purge_opf_gendsp_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_gendsp_indv</span></code></a></p></td>
+<td><p>Use this API to purge generator dispatch data for an individual record from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_gendsp_subsys.html#psspy.purge_opf_gendsp_subsys" title="psspy.purge_opf_gendsp_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_gendsp_subsys</span></code></a></p></td>
+<td><p>Use this API to purge generator dispatch data for all records from a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_genrsv_indv.html#psspy.purge_opf_genrsv_indv" title="psspy.purge_opf_genrsv_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_genrsv_indv</span></code></a></p></td>
+<td><p>Use this API to purge an individual optimal power flow generator reserve data record from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_genrsv_subsys.html#psspy.purge_opf_genrsv_subsys" title="psspy.purge_opf_genrsv_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_genrsv_subsys</span></code></a></p></td>
+<td><p>Use this API to purge all OPF generator reserve records in a specified subsystem from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_intflw.html#psspy.purge_opf_intflw" title="psspy.purge_opf_intflw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_intflw</span></code></a></p></td>
+<td><p>Use this API to purge an OPF interface flow constraint record, including all of its participating branches, from the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_intflw_3wt.html#psspy.purge_opf_intflw_3wt" title="psspy.purge_opf_intflw_3wt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_intflw_3wt</span></code></a></p></td>
+<td><p>Use this API to remove a participating three-winding transformer winding from a specified OPF interface flow constraint in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_intflw_brn.html#psspy.purge_opf_intflw_brn" title="psspy.purge_opf_intflw_brn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_intflw_brn</span></code></a></p></td>
+<td><p>Use this API to remove a participating branch from a specified OPF interface flow constraint in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn.html#psspy.purge_opf_lnceqn" title="psspy.purge_opf_lnceqn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn</span></code></a></p></td>
+<td><p>Use this API to purge an OPF linear constraint dependency record, including all of its participating variables, from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_adjload.html#psspy.purge_opf_lnceqn_adjload" title="psspy.purge_opf_lnceqn_adjload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_adjload</span></code></a></p></td>
+<td><p>Use this API to remove a participating adjustable bus load variable from a specified OPF linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_adjvar.html#psspy.purge_opf_lnceqn_adjvar" title="psspy.purge_opf_lnceqn_adjvar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_adjvar</span></code></a></p></td>
+<td><p>Use this API to remove a participating adjustable bus shunt variable from a specified OPF linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_brflow.html#psspy.purge_opf_lnceqn_brflow" title="psspy.purge_opf_lnceqn_brflow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_brflow</span></code></a></p></td>
+<td><p>Use this API to remove a participating branch flow variable from a specified OPF linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_intflow.html#psspy.purge_opf_lnceqn_intflow" title="psspy.purge_opf_lnceqn_intflow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_intflow</span></code></a></p></td>
+<td><p>Use this API to remove a participating interface flow constraint variable from a specified OPF linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_pgen.html#psspy.purge_opf_lnceqn_pgen" title="psspy.purge_opf_lnceqn_pgen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_pgen</span></code></a></p></td>
+<td><p>Use this API to remove a participating active power dispatch variable from a specified OPF linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_qgen.html#psspy.purge_opf_lnceqn_qgen" title="psspy.purge_opf_lnceqn_qgen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_qgen</span></code></a></p></td>
+<td><p>Use this API to remove a participating reactive power dispatch variable from a specified OPF linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_swshunt.html#psspy.purge_opf_lnceqn_swshunt" title="psspy.purge_opf_lnceqn_swshunt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_swshunt</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_swshunt_2.html#psspy.purge_opf_lnceqn_swshunt_2" title="psspy.purge_opf_lnceqn_swshunt_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_swshunt_2</span></code></a></p></td>
+<td><p>Use this API to remove a participating switched shunt variable from a specified OPF linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_tran.html#psspy.purge_opf_lnceqn_tran" title="psspy.purge_opf_lnceqn_tran"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_tran</span></code></a></p></td>
+<td><p>Use this API to remove a participating transformer control variable from a specified OPF linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_vang.html#psspy.purge_opf_lnceqn_vang" title="psspy.purge_opf_lnceqn_vang"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_vang</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_vang_2.html#psspy.purge_opf_lnceqn_vang_2" title="psspy.purge_opf_lnceqn_vang_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_vang_2</span></code></a></p></td>
+<td><p>Use this API to remove a participating bus voltage angle variable from a specified OPF linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_vmag.html#psspy.purge_opf_lnceqn_vmag" title="psspy.purge_opf_lnceqn_vmag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_vmag</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_lnceqn_vmag_2.html#psspy.purge_opf_lnceqn_vmag_2" title="psspy.purge_opf_lnceqn_vmag_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_lnceqn_vmag_2</span></code></a></p></td>
+<td><p>Use this API to remove a participating bus voltage magnitude variable from a specified OPF linear constraint dependency equation in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_load_indv.html#psspy.purge_opf_load_indv" title="psspy.purge_opf_load_indv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_load_indv</span></code></a></p></td>
+<td><p>Use this API to purge (re-initialize) an individual OPF bus load data record from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_load_subsys.html#psspy.purge_opf_load_subsys" title="psspy.purge_opf_load_subsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_load_subsys</span></code></a></p></td>
+<td><p>Use this API to purge (re-initialize) all OPF bus load data records in a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_perrsv.html#psspy.purge_opf_perrsv" title="psspy.purge_opf_perrsv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_perrsv</span></code></a></p></td>
+<td><p>Use this API to purge an OPF period reserve constraint record and its association with participating reserve units from the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.purge_opf_perrsv_gen.html#psspy.purge_opf_perrsv_gen" title="psspy.purge_opf_perrsv_gen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge_opf_perrsv_gen</span></code></a></p></td>
+<td><p>Use this API to remove a participating period reserve unit from a specified OPF period reserve constraint.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="_as_gen/psspy.write_opf_options_file.html"
+                        title="previous chapter">psspy.write_opf_options_file</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="_as_gen/psspy.newopf.html"
+                        title="next chapter">psspy.newopf</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.newopf.html" title="psspy.newopf"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.write_opf_options_file.html" title="psspy.write_opf_options_file"
+             >previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" >psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Optimal Power Flow Data</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Siemens PTI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+    </div>
+  </body>
+</html>

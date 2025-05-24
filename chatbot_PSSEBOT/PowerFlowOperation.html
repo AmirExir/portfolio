@@ -1,0 +1,1102 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Power Flow Operation &#8212; PSSE API Manual 35.6.0 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="psspy.accc" href="_as_gen/psspy.accc.html" />
+    <link rel="prev" title="psspy" href="../index_psspy.html" /> 
+  </head><body>
+     
+     <div style="background-color: white; text-align: left; padding: 2px 2px 2px 15px">
+     <a href="../index.html"><h1 style="font-size: 3em;">PSSE API Manual</h1></a>
+     </div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.accc.html" title="psspy.accc"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index_psspy.html" title="psspy"
+             accesskey="P">previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" accesskey="U">psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Power Flow Operation</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="power-flow-operation">
+<h1>Power Flow Operation<a class="headerlink" href="#power-flow-operation" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Release</dt>
+<dd class="field-odd"><p>35.6.0</p>
+</dd>
+<dt class="field-even">Date</dt>
+<dd class="field-even"><p>July 12, 2023</p>
+</dd>
+</dl>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc.html#psspy.accc" title="psspy.accc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_2.html#psspy.accc_2" title="psspy.accc_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_multiple_merge.html#psspy.accc_multiple_merge" title="psspy.accc_multiple_merge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_multiple_merge</span></code></a></p></td>
+<td><p>Use this API to merge a number of AC contingency solution files (acc files) into one acc file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_multiple_run_report.html#psspy.accc_multiple_run_report" title="psspy.accc_multiple_run_report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_multiple_run_report</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_multiple_run_report_2.html#psspy.accc_multiple_run_report_2" title="psspy.accc_multiple_run_report_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_multiple_run_report_2</span></code></a></p></td>
+<td><p>Use this API to report the results of up to twenty two executions of the AC Contingency Calculation function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_parallel.html#psspy.accc_parallel" title="psspy.accc_parallel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_parallel</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_parallel_2.html#psspy.accc_parallel_2" title="psspy.accc_parallel_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_parallel_2</span></code></a></p></td>
+<td><p>Use this API routine to run the second release of the parallel implementation of the AC contingency calculation function (use ACCC_WITH_DSP_3 to run AC contingency calculation function serially).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_single_run_report.html#psspy.accc_single_run_report" title="psspy.accc_single_run_report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_single_run_report</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_single_run_report_2.html#psspy.accc_single_run_report_2" title="psspy.accc_single_run_report_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_single_run_report_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_single_run_report_3.html#psspy.accc_single_run_report_3" title="psspy.accc_single_run_report_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_single_run_report_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_single_run_report_4.html#psspy.accc_single_run_report_4" title="psspy.accc_single_run_report_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_single_run_report_4</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_single_run_report_5.html#psspy.accc_single_run_report_5" title="psspy.accc_single_run_report_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_single_run_report_5</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_single_run_report_6.html#psspy.accc_single_run_report_6" title="psspy.accc_single_run_report_6"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_single_run_report_6</span></code></a></p></td>
+<td><p>This API is the sixth release of the AC Contingency Report function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_trip_cor.html#psspy.accc_trip_cor" title="psspy.accc_trip_cor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_trip_cor</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_trip_cor_2.html#psspy.accc_trip_cor_2" title="psspy.accc_trip_cor_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_trip_cor_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_trip_cor_3.html#psspy.accc_trip_cor_3" title="psspy.accc_trip_cor_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_trip_cor_3</span></code></a></p></td>
+<td><p>This API is the third release of the function to run AC contingency analysis with tripping simulation and corrective actions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_with_cor.html#psspy.accc_with_cor" title="psspy.accc_with_cor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_with_cor</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_with_cor_2.html#psspy.accc_with_cor_2" title="psspy.accc_with_cor_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_with_cor_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_with_cor_3.html#psspy.accc_with_cor_3" title="psspy.accc_with_cor_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_with_cor_3</span></code></a></p></td>
+<td><p>This API is the third release of function to run AC contingency analysis with corrective actions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_with_dsp.html#psspy.accc_with_dsp" title="psspy.accc_with_dsp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_with_dsp</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_with_dsp_2.html#psspy.accc_with_dsp_2" title="psspy.accc_with_dsp_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_with_dsp_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_with_dsp_3.html#psspy.accc_with_dsp_3" title="psspy.accc_with_dsp_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_with_dsp_3</span></code></a></p></td>
+<td><p>Use this API to run the second release of AC contingency calculation function (ACCC, ACCC_WITH_DSP).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_with_trip.html#psspy.accc_with_trip" title="psspy.accc_with_trip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_with_trip</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accc_with_trip_2.html#psspy.accc_with_trip_2" title="psspy.accc_with_trip_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_with_trip_2</span></code></a></p></td>
+<td><p>Use this API to run the second version of AC contingency calculation function with a post- contingency tripping function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accc_with_trip_parallel.html#psspy.accc_with_trip_parallel" title="psspy.accc_with_trip_parallel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accc_with_trip_parallel</span></code></a></p></td>
+<td><p>Use this API to run the parallel version of AC contingency calculation function with a post- contingency tripping function (use ACCC_WITH_TRIP_2 to run the function sequentially).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accor.html#psspy.accor" title="psspy.accor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accor</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.accor_2.html#psspy.accor_2" title="psspy.accor_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accor_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.accor_3.html#psspy.accor_3" title="psspy.accor_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accor_3</span></code></a></p></td>
+<td><p>This API is the third release of corrective action function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.alert_output.html#psspy.alert_output" title="psspy.alert_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alert_output</span></code></a></p></td>
+<td><p>Use this API to specify the alert device.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.allow_pssuserpf.html#psspy.allow_pssuserpf" title="psspy.allow_pssuserpf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">allow_pssuserpf</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to allow or disallow the loading or use of the Powerflow Customization Interface (PCI) implementation module (pssuserpf).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.alph.html#psspy.alph" title="psspy.alph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alph</span></code></a></p></td>
+<td><p>Use this API to print an alphabetically sorted table of all buses in a specified subsystem of the working case (activity ALPH).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.append_accc.html#psspy.append_accc" title="psspy.append_accc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_accc</span></code></a></p></td>
+<td><p>Use this API to replicate system conditions of a contingency case solution, as contained in a designated Saved Case File, in the form of a Contingency Solution Output File.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.apply_var_limits.html#psspy.apply_var_limits" title="psspy.apply_var_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_var_limits</span></code></a></p></td>
+<td><p>Use this API to specify or return the option for the default VAR limits setting; either apply automatically, apply immediately, ignore, or apply on a specific iteration</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.area.html#psspy.area" title="psspy.area"><code class="xref py py-obj docutils literal notranslate"><span class="pre">area</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.area_2.html#psspy.area_2" title="psspy.area_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">area_2</span></code></a></p></td>
+<td><p>Use this API to tabulate area totals by area, as well as the desired area net interchange (activity AREA).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.area_zone.html#psspy.area_zone" title="psspy.area_zone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">area_zone</span></code></a></p></td>
+<td><p>Use this API to tabulate area totals by area, along with subtotals by zone.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.arnm.html#psspy.arnm" title="psspy.arnm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arnm</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.arnm_2.html#psspy.arnm_2" title="psspy.arnm_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arnm_2</span></code></a></p></td>
+<td><p>This API routine is the second release of the area renumbering function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.base_frequency.html#psspy.base_frequency" title="psspy.base_frequency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_frequency</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the base frequency option setting.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.bgen.html#psspy.bgen" title="psspy.bgen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bgen</span></code></a></p></td>
+<td><p>Use this API to convert the mismatch at boundary buses to equivalent load and/or generation (activity BGEN).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.brch.html#psspy.brch" title="psspy.brch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brch</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.brch_2.html#psspy.brch_2" title="psspy.brch_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brch_2</span></code></a></p></td>
+<td><p>Use this API to tabulate those branches where impedances or other characteristics are such that they may be detrimental to the rate of convergence of one or more of the power flow solution activities.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.bsnm.html#psspy.bsnm" title="psspy.bsnm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bsnm</span></code></a></p></td>
+<td><p>Use this API to change the bus numbers of specified network buses in the working case and retain a tabulation, in file form, of bus number changes made (activity BSNM).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.bus_input.html#psspy.bus_input" title="psspy.bus_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bus_input</span></code></a></p></td>
+<td><p>Use this API to specify or return the bus input option setting, for either numbers or names.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.bus_output.html#psspy.bus_output" title="psspy.bus_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bus_output</span></code></a></p></td>
+<td><p>Use this API to specify or return the bus output option setting, for either numbers or names.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.bus_size_level.html#psspy.bus_size_level" title="psspy.bus_size_level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bus_size_level</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the PSSE size level option setting to a multiple of 1,000 between 1,000 and 200,000.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.busn.html#psspy.busn" title="psspy.busn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">busn</span></code></a></p></td>
+<td><p>Use this API to tabulate unused bus numbers within a specified bus number range (activity BUSN).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.ca_iterations.html#psspy.ca_iterations" title="psspy.ca_iterations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ca_iterations</span></code></a></p></td>
+<td><p>Use this API to specify or return the contingency iterations limit setting.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.case.html#psspy.case" title="psspy.case"><code class="xref py py-obj docutils literal notranslate"><span class="pre">case</span></code></a></p></td>
+<td><p>Use this API to open a PSSE Saved Case file and transfers its data into the PSSE working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.check_powerflow_data.html#psspy.check_powerflow_data" title="psspy.check_powerflow_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_powerflow_data</span></code></a></p></td>
+<td><p>Use this API routine to perform data checks on the selected categories of powerflow data for all buses in the working case or for all buses in a specified subsystem.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.checkvoltagelimits.html#psspy.checkvoltagelimits" title="psspy.checkvoltagelimits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">checkvoltagelimits</span></code></a></p></td>
+<td><p>Use this API to tabulate those buses where voltage magnitude is beyond their normal or emergency voltage limits.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.chkcntduplicon.html#psspy.chkcntduplicon" title="psspy.chkcntduplicon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chkcntduplicon</span></code></a></p></td>
+<td><p>Check duplicate labels in Contingengy (CON) file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.chkcntduplidfx.html#psspy.chkcntduplidfx" title="psspy.chkcntduplidfx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chkcntduplidfx</span></code></a></p></td>
+<td><p>Check duplicate labels in DFAX file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.close_powerflow.html#psspy.close_powerflow" title="psspy.close_powerflow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close_powerflow</span></code></a></p></td>
+<td><p>Removes the current powerflow working case from PSSE’s working memory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.close_report.html#psspy.close_report" title="psspy.close_report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close_report</span></code></a></p></td>
+<td><p>Sets the report output device to the standard output and sets the command line to request device selection for individual reporting activities (Activity CLOS).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.cmpr.html#psspy.cmpr" title="psspy.cmpr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cmpr</span></code></a></p></td>
+<td><p>Use this API to tabulate certain case totals, as contained in the working case, with those of a designated Saved Case (activity CMPR).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.cntb.html#psspy.cntb" title="psspy.cntb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cntb</span></code></a></p></td>
+<td><p>Use this API to tabulate the voltage setpoints and desired voltage bands of voltage-controlling equipment in the working case (activity CNTB).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.cong.html#psspy.cong" title="psspy.cong"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cong</span></code></a></p></td>
+<td><p>Use this API to convert generators from their power flow representation in preparation for switching studies and dynamic simulations (activity CONG).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.conl.html#psspy.conl" title="psspy.conl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conl</span></code></a></p></td>
+<td><p>Use this API to convert the constant MVA load for a specified grouping of network loads to a specified mixture of the constant MVA, constant current, and constant admittance load characteristics (activity CONL).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.connectivity_check.html#psspy.connectivity_check" title="psspy.connectivity_check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">connectivity_check</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to enable or disable the solution connectivity checking option setting.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.control_area_interchange.html#psspy.control_area_interchange" title="psspy.control_area_interchange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">control_area_interchange</span></code></a></p></td>
+<td><p>Use this API to to specify or return the area interchange control option setting to disabled, or enabled with tie lines only, or enabled with tie lines and loads.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.csv_to_rawx.html#psspy.csv_to_rawx" title="psspy.csv_to_rawx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">csv_to_rawx</span></code></a></p></td>
+<td><p>Use this API to import a rawx (extended raw data) data table from a CSV (comma-separated values) file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.csv_to_rawx_with_metamodel.html#psspy.csv_to_rawx_with_metamodel" title="psspy.csv_to_rawx_with_metamodel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">csv_to_rawx_with_metamodel</span></code></a></p></td>
+<td><p>Use this API to import a rawx (extended raw data) data table from a CSV (comma-separated values) file with metamodel.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dc_tap_adjustment.html#psspy.dc_tap_adjustment" title="psspy.dc_tap_adjustment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dc_tap_adjustment</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to enable or disable the dc tap adjustment option setting.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dccc.html#psspy.dccc" title="psspy.dccc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dccc</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dccc_2.html#psspy.dccc_2" title="psspy.dccc_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dccc_2</span></code></a></p></td>
+<td><p>Use this API to run contingency case solutions using a linear network (dc) model (activity DCCC).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dccor.html#psspy.dccor" title="psspy.dccor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dccor</span></code></a></p></td>
+<td><p>Use this API to apply corrective actions to the base case using linear programming methods.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dccor_2.html#psspy.dccor_2" title="psspy.dccor_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dccor_2</span></code></a></p></td>
+<td><p>Use this API to apply corrective actions to the base case using linear programming methods.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dclf.html#psspy.dclf" title="psspy.dclf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dclf</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dclf_2.html#psspy.dclf_2" title="psspy.dclf_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dclf_2</span></code></a></p></td>
+<td><p>Use this API routine to apply the dc analogy network solution algorithm to the network modeled in the working case (activity DCLF).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dcpscopf.html#psspy.dcpscopf" title="psspy.dcpscopf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dcpscopf</span></code></a></p></td>
+<td><p>This API is the DC based Preventive Security Constrained Optimal Power Flow solution (DCPSCOPF).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.deltmpfiles.html#psspy.deltmpfiles" title="psspy.deltmpfiles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deltmpfiles</span></code></a></p></td>
+<td><p>Delete closed temporary files.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dfax.html#psspy.dfax" title="psspy.dfax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dfax</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dfax_2.html#psspy.dfax_2" title="psspy.dfax_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dfax_2</span></code></a></p></td>
+<td><p>Use this API to construct a Distribution Factor Data File (activity DFAX).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.dfax_contingency.html#psspy.dfax_contingency" title="psspy.dfax_contingency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dfax_contingency</span></code></a></p></td>
+<td><p>Use this API to combine one contingency in the first Distribution Factor file with one contingency in the second Distribution Factor file and so on, till specified contingency level is reached, to create multiple event contingencies and then export resulting contingencies to user defined report device.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dfti.html#psspy.dfti" title="psspy.dfti"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dfti</span></code></a></p></td>
+<td><p>Use this API to compare tie lines, as contained in the working case, with those of a designated Saved Case (activity DFTI).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.diff.html#psspy.diff" title="psspy.diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diff</span></code></a></p></td>
+<td><p>Use this API to compare specified power flow data and solution results, as contained in the working case, with those of a designated Saved Case (activity DIFF).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.dscn.html#psspy.dscn" title="psspy.dscn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dscn</span></code></a></p></td>
+<td><p>Use this API to electrically disconnect a bus (activity DSCN).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.duplicate_cntlabel_check.html#psspy.duplicate_cntlabel_check" title="psspy.duplicate_cntlabel_check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duplicate_cntlabel_check</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to enable or disable the duplicated contingency labels check     when Distribution Factor Data File (<em>.dfx) or Contingency Description Data File (</em>.con) files are used.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.ecdi.html#psspy.ecdi" title="psspy.ecdi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ecdi</span></code></a></p></td>
+<td><p>Use this API to place machines in a specified subsystem on- or off-line to satisfy a given subsystem minimum capacity; the in-service machines in the subsystem are then dispatched on the basis of incremental cost to meet a specified total subsystem generation (activity ECDI).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.echo.html#psspy.echo" title="psspy.echo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">echo</span></code></a></p></td>
+<td><p>Use this API to enable or disable response echoing (activity ECHO).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.eeqv.html#psspy.eeqv" title="psspy.eeqv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eeqv</span></code></a></p></td>
+<td><p>Use this API to construct an electrical equivalent of a specified subsystem of the working case (activity EEQV).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.eqrd.html#psspy.eqrd" title="psspy.eqrd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eqrd</span></code></a></p></td>
+<td><p>Use this API to build an electrical equivalent of radial and, optionally, two-point Type 1 buses in a specified subsystem of the working case (activity EQRD).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.exam.html#psspy.exam" title="psspy.exam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exam</span></code></a></p></td>
+<td><p>Use this API to tabulate all power flow data pertaining to a specified bus (activity EXAM).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.fact.html#psspy.fact" title="psspy.fact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fact</span></code></a></p></td>
+<td><p>Use this API to factorize the network admittance matrix in preparation for switching studies and dynamic simulations (activity FACT).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.fdns.html#psspy.fdns" title="psspy.fdns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fdns</span></code></a></p></td>
+<td><p>Use this API to apply the fixed slope decoupled Newton-Raphson power flow calculation (activity FDNS).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.file_overwrite.html#psspy.file_overwrite" title="psspy.file_overwrite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_overwrite</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to set the file overwrite option setting to either ask first or overwrite.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.find.html#psspy.find" title="psspy.find"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find</span></code></a></p></td>
+<td><p>Use this API to tabulate a list of buses matching a partial extended bus name (activity FIND).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.flat_start.html#psspy.flat_start" title="psspy.flat_start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat_start</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to enable or disable the voltage flat start option setting.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.fnsl.html#psspy.fnsl" title="psspy.fnsl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fnsl</span></code></a></p></td>
+<td><p>Use this API to apply the Newton-Raphson power flow calculation (activity FNSL).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.gcap.html#psspy.gcap" title="psspy.gcap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gcap</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.gcap_2.html#psspy.gcap_2" title="psspy.gcap_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gcap_2</span></code></a></p></td>
+<td><p>Use this API to print a report of machine loading and reactive power limit data (activity GCAP).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.gdif.html#psspy.gdif" title="psspy.gdif"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gdif</span></code></a></p></td>
+<td><p>Use this API to calculate differences between the working case and a designated Saved Case (activity GDIF).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.gendsp.html#psspy.gendsp" title="psspy.gendsp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gendsp</span></code></a></p></td>
+<td><p>Use this API to impose a contingency specified in the Distribution Factor Data file and apply the generation dispatch algorithm used in contingency analysis on the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.gendsp_2.html#psspy.gendsp_2" title="psspy.gendsp_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gendsp_2</span></code></a></p></td>
+<td><p>Use this API to impose a contingency specified in the Distribution Factor Data file and apply the generation dispatch algorithm used in contingency analysis on the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.gens.html#psspy.gens" title="psspy.gens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gens</span></code></a></p></td>
+<td><p>Use this API to tabulate the loading and voltage conditions at plant buses (activity GENS).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.geol.html#psspy.geol" title="psspy.geol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geol</span></code></a></p></td>
+<td><p>Use this API to tabulate the loading and voltage conditions at the generator terminals for online machines at Type 2 and 3 buses in the working case (activity GEOL).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.getcontingencysavedcase.html#psspy.getcontingencysavedcase" title="psspy.getcontingencysavedcase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getcontingencysavedcase</span></code></a></p></td>
+<td><p>Use this API routine to place the working case in the form of a specified system condition as calculated during a previous run of one of the members of the the AC contingency calculation family.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.gic_pf.html#psspy.gic_pf" title="psspy.gic_pf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gic_pf</span></code></a></p></td>
+<td><p>Add activity GIC calculated Mvar Qloss in scaled manner to the working case to arrive at the converged power flow solution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.gnestatus.html#psspy.gnestatus" title="psspy.gnestatus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gnestatus</span></code></a></p></td>
+<td><p>Use this API to specify or return the status of a GNE device.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.gnet.html#psspy.gnet" title="psspy.gnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gnet</span></code></a></p></td>
+<td><p>Use this API to change in-service generation to negative MVA load at all Type 2 and 3 buses in the subsystem specified by the user.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.imnet.html#psspy.imnet" title="psspy.imnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imnet</span></code></a></p></td>
+<td><p>Use this API routine to change the status of induction machines that are in-service to out-of- service, and to replace the power flowing from the network into the machine with constant power load.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.imoutage.html#psspy.imoutage" title="psspy.imoutage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imoutage</span></code></a></p></td>
+<td><p>Use this API routine to change the status of induction machines that are in-service, but that have been set to the “stalled” (for motors) or “tripped” (for generators) state by the power flow solution, to out-of-service.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.impc.html#psspy.impc" title="psspy.impc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">impc</span></code></a></p></td>
+<td><p>Use this API to calculate the impact of transaction events on MW flows using a linear network (dc) model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.implement_transfer.html#psspy.implement_transfer" title="psspy.implement_transfer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">implement_transfer</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.implement_transfer_2.html#psspy.implement_transfer_2" title="psspy.implement_transfer_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">implement_transfer_2</span></code></a></p></td>
+<td><p>Use this API routine to apply a specified transfer using the same transfer dispatch methods that are available in the PV analysis calculation engine.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.inlf.html#psspy.inlf" title="psspy.inlf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inlf</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.inlf_2.html#psspy.inlf_2" title="psspy.inlf_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inlf_2</span></code></a></p></td>
+<td><p>Use this API routine to run the second release of the inertial and governor response power flow calculation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.inta.html#psspy.inta" title="psspy.inta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inta</span></code></a></p></td>
+<td><p>Use this API to summarize tie flows between an interchange area and all other areas in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.intz.html#psspy.intz" title="psspy.intz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intz</span></code></a></p></td>
+<td><p>Use this API to summarize tie flows between each zone and all other zones in the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.isolate_levels.html#psspy.isolate_levels" title="psspy.isolate_levels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isolate_levels</span></code></a></p></td>
+<td><p>Use this API to specify or return the maximum number of levels to go outward when isolating an element by breaker.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.join.html#psspy.join" title="psspy.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">join</span></code></a></p></td>
+<td><p>The API combines two buses into a single bus.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.lamp.html#psspy.lamp" title="psspy.lamp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lamp</span></code></a></p></td>
+<td><p>Use this API to print power flow solution output, including loadings in amps, in a traditional power flow report format.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.line_shunt_reporting.html#psspy.line_shunt_reporting" title="psspy.line_shunt_reporting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">line_shunt_reporting</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to enable or disable the line shunt reporting.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.lines_per_page.html#psspy.lines_per_page" title="psspy.lines_per_page"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lines_per_page</span></code></a></p></td>
+<td><p>Use this API to specify or return the page length limits for the four output devices; also retrieve device names.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.lines_per_page_one_device.html#psspy.lines_per_page_one_device" title="psspy.lines_per_page_one_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lines_per_page_one_device</span></code></a></p></td>
+<td><p>Use this API to specify or return the page length limit and device name for one of the four output devices.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.list.html#psspy.list" title="psspy.list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a></p></td>
+<td><p>Use this API routine to tabulate the power flow working case in a form suitable for problem data documentation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.listcontingencysavedcases.html#psspy.listcontingencysavedcases" title="psspy.listcontingencysavedcases"><code class="xref py py-obj docutils literal notranslate"><span class="pre">listcontingencysavedcases</span></code></a></p></td>
+<td><p>Use this API routine to obtain a report listing some or all of the system conditions preserved in a ZIP Archive Output File that was created during a previous run of one of the members of the the AC contingency calculation family.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.llrf.html#psspy.llrf" title="psspy.llrf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">llrf</span></code></a></p></td>
+<td><p>Use this API to apply the line loading relief calculation using a linear network (dc) model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.load_reduction.html#psspy.load_reduction" title="psspy.load_reduction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_reduction</span></code></a></p></td>
+<td><p>Use this API to tabulate the amount of load reduction in a specified subsystem due to the voltage at the bus to which the load is connected being below PQBRAK (for constant MVA load) or 0.5 (for constant current load.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.lout.html#psspy.lout" title="psspy.lout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lout</span></code></a></p></td>
+<td><p>Use this API to print the power flow solution results in a traditional power flow report format.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.ltap.html#psspy.ltap" title="psspy.ltap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ltap</span></code></a></p></td>
+<td><p>Use this API to insert a bus at a designated location along a line.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.maccc.html#psspy.maccc" title="psspy.maccc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_2.html#psspy.maccc_2" title="psspy.maccc_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_2</span></code></a></p></td>
+<td><p>Use this API to run the second release of multiple level contingency analysis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_3.html#psspy.maccc_3" title="psspy.maccc_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_3</span></code></a></p></td>
+<td><p>Use this API to run the third release of multiple level contingency analysis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_parallel.html#psspy.maccc_parallel" title="psspy.maccc_parallel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_parallel</span></code></a></p></td>
+<td><p>Use this API to run the multiple level contingency analysis in parallel when the number of contingency processors in Program Settings is greater than 1.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_parallel_2.html#psspy.maccc_parallel_2" title="psspy.maccc_parallel_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_parallel_2</span></code></a></p></td>
+<td><p>Use this API to run the multiple level contingency analysis in parallel when the number of contingency processors in Program Settings is greater than 1.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_trip_cor.html#psspy.maccc_trip_cor" title="psspy.maccc_trip_cor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_trip_cor</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_trip_cor_2.html#psspy.maccc_trip_cor_2" title="psspy.maccc_trip_cor_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_trip_cor_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_trip_cor_3.html#psspy.maccc_trip_cor_3" title="psspy.maccc_trip_cor_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_trip_cor_3</span></code></a></p></td>
+<td><p>This API is the third release of function to run multiple AC contingency analysis with tripping simulations and corrective actions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_trip_cor_4.html#psspy.maccc_trip_cor_4" title="psspy.maccc_trip_cor_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_trip_cor_4</span></code></a></p></td>
+<td><p>This API is the third release of function to run multiple AC contingency analysis with tripping simulations and corrective actions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_with_cor.html#psspy.maccc_with_cor" title="psspy.maccc_with_cor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_with_cor</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_with_cor_2.html#psspy.maccc_with_cor_2" title="psspy.maccc_with_cor_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_with_cor_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_with_cor_3.html#psspy.maccc_with_cor_3" title="psspy.maccc_with_cor_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_with_cor_3</span></code></a></p></td>
+<td><p>This API is the third release of function to run multiple AC contingency analysis with corrective actions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_with_cor_4.html#psspy.maccc_with_cor_4" title="psspy.maccc_with_cor_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_with_cor_4</span></code></a></p></td>
+<td><p>This API is the third release of function to run multiple AC contingency analysis with corrective actions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_with_trip.html#psspy.maccc_with_trip" title="psspy.maccc_with_trip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_with_trip</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_with_trip_2.html#psspy.maccc_with_trip_2" title="psspy.maccc_with_trip_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_with_trip_2</span></code></a></p></td>
+<td><p>Use this API to run the second version of multiple level contingency analysis with tripping simulation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_with_trip_3.html#psspy.maccc_with_trip_3" title="psspy.maccc_with_trip_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_with_trip_3</span></code></a></p></td>
+<td><p>Use this API to run the second version of multiple level contingency analysis with tripping simulation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_with_trip_parallel.html#psspy.maccc_with_trip_parallel" title="psspy.maccc_with_trip_parallel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_with_trip_parallel</span></code></a></p></td>
+<td><p>Use this API to run the multiple level contingency analysis with tripping simulation in parallel when the number of contingency processors in Program Settings is greater than 1.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.maccc_with_trip_parallel_2.html#psspy.maccc_with_trip_parallel_2" title="psspy.maccc_with_trip_parallel_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maccc_with_trip_parallel_2</span></code></a></p></td>
+<td><p>Use this API to run the multiple level contingency analysis with tripping simulation in parallel when the number of contingency processors in Program Settings is greater than 1.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.matrix_growth_factor.html#psspy.matrix_growth_factor" title="psspy.matrix_growth_factor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_growth_factor</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the matrix growth factor option setting.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mcre.html#psspy.mcre" title="psspy.mcre"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mcre</span></code></a></p></td>
+<td><p>Use this API to read a Machine Impedance Data File and add the data specified in it to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.modr.html#psspy.modr" title="psspy.modr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modr</span></code></a></p></td>
+<td><p>Use this API to uniformly increase or decrease the line resistances of in-service nontransformer branches.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mov_alpha.html#psspy.mov_alpha" title="psspy.mov_alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mov_alpha</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the MOV iteration ALPHA option setting.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.mov_iterations.html#psspy.mov_iterations" title="psspy.mov_iterations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mov_iterations</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the maximum MOV iterations option setting.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mov_tolerance.html#psspy.mov_tolerance" title="psspy.mov_tolerance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mov_tolerance</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the MOV iteration tolerance option setting.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.move3wnd.html#psspy.move3wnd" title="psspy.move3wnd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move3wnd</span></code></a></p></td>
+<td><p>Use this API to disconnect the third bus of a specified three-winding transformer from the bus to which it is currently connected, and reconnect it to a designated bus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.movebrn.html#psspy.movebrn" title="psspy.movebrn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">movebrn</span></code></a></p></td>
+<td><p>Use this API to disconnect the to bus of a specified non-transformer branch or two-winding transformer from the bus to which it is currently connected, and reconnect it to a designated bus.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.moveindmac.html#psspy.moveindmac" title="psspy.moveindmac"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moveindmac</span></code></a></p></td>
+<td><p>Use this API routine to disconnect the specified induction machine from the bus to which it is currently connected, and reconnect it to a designated bus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.moveindmacs.html#psspy.moveindmacs" title="psspy.moveindmacs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moveindmacs</span></code></a></p></td>
+<td><p>Use this API routine to disconnect all of the induction machines at the specified bus, and reconnect them to a designated bus.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.moveload.html#psspy.moveload" title="psspy.moveload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moveload</span></code></a></p></td>
+<td><p>Use this API to disconnect the specified load from the bus to which it is currently connected, and reconnect it to a designated bus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.moveloads.html#psspy.moveloads" title="psspy.moveloads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moveloads</span></code></a></p></td>
+<td><p>Use this API to disconnect all of the load from the specified bus, and reconnect it to a designated bus.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.movemac.html#psspy.movemac" title="psspy.movemac"><code class="xref py py-obj docutils literal notranslate"><span class="pre">movemac</span></code></a></p></td>
+<td><p>Use this API to disconnect the specified machine from the bus to which it is currently connected, and reconnect it to a designated bus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.moveplnt.html#psspy.moveplnt" title="psspy.moveplnt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moveplnt</span></code></a></p></td>
+<td><p>Use this API to disconnect all of the machines from the specified bus, and reconnect it to a designated bus.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.moveshunt.html#psspy.moveshunt" title="psspy.moveshunt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moveshunt</span></code></a></p></td>
+<td><p>Use this API to disconnect the specified fixed shunt from the bus to which it is currently connected, and reconnect it to a designated bus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.moveshunts.html#psspy.moveshunts" title="psspy.moveshunts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moveshunts</span></code></a></p></td>
+<td><p>Use this API to disconnect all of the fixed shunts from the specified bus and reconnect them to a designated bus.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.movesws.html#psspy.movesws" title="psspy.movesws"><code class="xref py py-obj docutils literal notranslate"><span class="pre">movesws</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.moveswshunt.html#psspy.moveswshunt" title="psspy.moveswshunt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moveswshunt</span></code></a></p></td>
+<td><p>Use this API to disconnect the specified switched shunt from the bus to which it is currently connected, and reconnect it to a designated bus.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.moveswshunts.html#psspy.moveswshunts" title="psspy.moveswshunts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moveswshunts</span></code></a></p></td>
+<td><p>Use this API to disconnect all of the switched shunts from the specified bus and reconnect them to a designated bus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mslv.html#psspy.mslv" title="psspy.mslv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mslv</span></code></a></p></td>
+<td><p>Use this API to apply the modified Gauss-Seidel power flow calculation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.msum.html#psspy.msum" title="psspy.msum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">msum</span></code></a></p></td>
+<td><p>Use this API to print a summary of mileage by owner.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mtdc.html#psspy.mtdc" title="psspy.mtdc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mtdc</span></code></a></p></td>
+<td><p>Use this API to produce a report of bus voltages and flows for each in-service multi-terminal dc line.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.multisection_reporting.html#psspy.multisection_reporting" title="psspy.multisection_reporting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multisection_reporting</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to enable or disable multi-section line reporting.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mwmi.html#psspy.mwmi" title="psspy.mwmi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mwmi</span></code></a></p></td>
+<td><p>Use this API to apply the MAPP MW-mile calculation .</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.mwomwmsf.html#psspy.mwomwmsf" title="psspy.mwomwmsf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mwomwmsf</span></code></a></p></td>
+<td><p>Use this API to tabulate generation (MW) on MW-mile shift factors for a specified transaction event.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.mwomwosf.html#psspy.mwomwosf" title="psspy.mwomwosf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mwomwosf</span></code></a></p></td>
+<td><p>Use this API to tabulate generation (MW) on MW-ohm shift factors for a specified transaction event.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.n11_accc.html#psspy.n11_accc" title="psspy.n11_accc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n11_accc</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.n11_accc_2.html#psspy.n11_accc_2" title="psspy.n11_accc_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n11_accc_2</span></code></a></p></td>
+<td><p>This API is the second release of N-1-1 contingency analysis solution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.n11_accc_3.html#psspy.n11_accc_3" title="psspy.n11_accc_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n11_accc_3</span></code></a></p></td>
+<td><p>This API is the second release of N-1-1 contingency analysis solution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.n11_accc_parallel.html#psspy.n11_accc_parallel" title="psspy.n11_accc_parallel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n11_accc_parallel</span></code></a></p></td>
+<td><p>Use this API to run the N-1-1 contingency analysis in parallel when the number of contingency processors in Program Settings is greater than 1.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.n11_accc_parallel_2.html#psspy.n11_accc_parallel_2" title="psspy.n11_accc_parallel_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n11_accc_parallel_2</span></code></a></p></td>
+<td><p>Use this API to run the N-1-1 contingency analysis in parallel when the number of contingency processors in Program Settings is greater than 1.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.n11_accc_pscopf.html#psspy.n11_accc_pscopf" title="psspy.n11_accc_pscopf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n11_accc_pscopf</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.n11_accc_pscopf_2.html#psspy.n11_accc_pscopf_2" title="psspy.n11_accc_pscopf_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n11_accc_pscopf_2</span></code></a></p></td>
+<td><p>The API is the second release of N-1-1 contingency analysis solution in either corrective mode or security constrained optimal power flow mode (SCOPF).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.n11_accc_pscopf_3.html#psspy.n11_accc_pscopf_3" title="psspy.n11_accc_pscopf_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n11_accc_pscopf_3</span></code></a></p></td>
+<td><p>The API is the second release of N-1-1 contingency analysis solution in either corrective mode or security constrained optimal power flow mode (SCOPF).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.netg.html#psspy.netg" title="psspy.netg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">netg</span></code></a></p></td>
+<td><p>Use this API to change the in-service generation to negative MVA load at all Type 2 and 3 buses except those in the subsystem specified by the user.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.new_dimension.html#psspy.new_dimension" title="psspy.new_dimension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_dimension</span></code></a></p></td>
+<td><p>Use this API to reset PSSE to an increased bus size level.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.newcas.html#psspy.newcas" title="psspy.newcas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newcas</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.newcase_2.html#psspy.newcase_2" title="psspy.newcase_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newcase_2</span></code></a></p></td>
+<td><p>This API is the second release of the function used to initialize a new power flow case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.newton_tolerance.html#psspy.newton_tolerance" title="psspy.newton_tolerance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newton_tolerance</span></code></a></p></td>
+<td><p>Use this API to specify or return the value of the default Newton-Raphson convergence tolerance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.non_divergent.html#psspy.non_divergent" title="psspy.non_divergent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_divergent</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to specify or return the option to enable or disable the non-divergent Newton power flow solution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.non_trans_percent_units.html#psspy.non_trans_percent_units" title="psspy.non_trans_percent_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trans_percent_units</span></code></a></p></td>
+<td><p>Use this API to set the non-transformer branch percent units option setting to either MVA or current expressed as MVA.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.nsol.html#psspy.nsol" title="psspy.nsol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nsol</span></code></a></p></td>
+<td><p>Use this API to apply the decoupled Newton-Raphson power flow calculation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.number_threads.html#psspy.number_threads" title="psspy.number_threads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_threads</span></code></a></p></td>
+<td><p>Use this API to specify or return the number of processors available for parallel operations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.ordr.html#psspy.ordr" title="psspy.ordr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ordr</span></code></a></p></td>
+<td><p>Use this API to calculate a sparsity preserving ordering of buses in preparation for the processing of network matrices.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.otdf.html#psspy.otdf" title="psspy.otdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">otdf</span></code></a></p></td>
+<td><p>Use this API to tabulate vectors of distribution factors using a linear network (dc) model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.output_y_matrix.html#psspy.output_y_matrix" title="psspy.output_y_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_y_matrix</span></code></a></p></td>
+<td><p>Use this API to display the network admittance matrix for a subsystem of the working case in the form of a list of matrix terms.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.outs.html#psspy.outs" title="psspy.outs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">outs</span></code></a></p></td>
+<td><p>Use this API to tabulate those components in the working case that are removed from service.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.ownm.html#psspy.ownm" title="psspy.ownm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ownm</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.ownm_2.html#psspy.ownm_2" title="psspy.ownm_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ownm_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.ownm_3.html#psspy.ownm_3" title="psspy.ownm_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ownm_3</span></code></a></p></td>
+<td><p>This API routine is the third release of the owner renumbering function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.ownr.html#psspy.ownr" title="psspy.ownr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ownr</span></code></a></p></td>
+<td><p>Use this API to tabulate owner totals by owner.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.path.html#psspy.path" title="psspy.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a></p></td>
+<td><p>Use this API to specify a directory pathname.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.phase_shift_adjustment.html#psspy.phase_shift_adjustment" title="psspy.phase_shift_adjustment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_shift_adjustment</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to enable or disable the phase shift adjustment.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.poly.html#psspy.poly" title="psspy.poly"><code class="xref py py-obj docutils literal notranslate"><span class="pre">poly</span></code></a></p></td>
+<td><p>Use this API to calculate interchange limits of a study system against two opposing systems using a linear network (dc) model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.pout.html#psspy.pout" title="psspy.pout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pout</span></code></a></p></td>
+<td><p>Use this API to print the power flow solution results with boundary condition and flow information on the left side of the report and other information on the right side.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.power_output.html#psspy.power_output" title="psspy.power_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">power_output</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to display power output in either MVA or kVA.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.pp_accc.html#psspy.pp_accc" title="psspy.pp_accc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pp_accc</span></code></a></p></td>
+<td><p>Use this API to report the results of the AC contingency calculation function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.pp_accc_multi_case.html#psspy.pp_accc_multi_case" title="psspy.pp_accc_multi_case"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pp_accc_multi_case</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.print_outaged_branches.html#psspy.print_outaged_branches" title="psspy.print_outaged_branches"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_outaged_branches</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to enable or disable whether to print out-of- service branches.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.print_winding_buses.html#psspy.print_winding_buses" title="psspy.print_winding_buses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_winding_buses</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to enable or disable whether to print winding “to” buses of three-winding transformers.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.progress_output.html#psspy.progress_output" title="psspy.progress_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">progress_output</span></code></a></p></td>
+<td><p>Use this API to specify the progress output device.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.prompt_output.html#psspy.prompt_output" title="psspy.prompt_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prompt_output</span></code></a></p></td>
+<td><p>Use this API to specify the prompt output device.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.prti.html#psspy.prti" title="psspy.prti"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prti</span></code></a></p></td>
+<td><p>Use this API to print the 16 line long title.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.pscopf.html#psspy.pscopf" title="psspy.pscopf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pscopf</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.pscopf_2.html#psspy.pscopf_2" title="psspy.pscopf_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pscopf_2</span></code></a></p></td>
+<td><p>This API is the second release of Preventive Security Constrained Optimal Power Flow solution (PSCOPF).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.pseb.html#psspy.pseb" title="psspy.pseb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseb</span></code></a></p></td>
+<td><p>Use this API to convert a PSEB command file into a PSSE response file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.pssehalt.html#psspy.pssehalt" title="psspy.pssehalt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pssehalt</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.pssehalt_2.html#psspy.pssehalt_2" title="psspy.pssehalt_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pssehalt_2</span></code></a></p></td>
+<td><p>Use this API to end the operation of PSSE, closes all associated files and returns to the calling application.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.pv_engine.html#psspy.pv_engine" title="psspy.pv_engine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pv_engine</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.pv_engine_1a.html#psspy.pv_engine_1a" title="psspy.pv_engine_1a"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pv_engine_1a</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.pv_engine_2.html#psspy.pv_engine_2" title="psspy.pv_engine_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pv_engine_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.pv_engine_3.html#psspy.pv_engine_3" title="psspy.pv_engine_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pv_engine_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.pv_engine_4.html#psspy.pv_engine_4" title="psspy.pv_engine_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pv_engine_4</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.pv_engine_5.html#psspy.pv_engine_5" title="psspy.pv_engine_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pv_engine_5</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.pv_engine_6.html#psspy.pv_engine_6" title="psspy.pv_engine_6"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pv_engine_6</span></code></a></p></td>
+<td><p>Use this API routine to run the PV analysis calculation engine.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.qv_engine.html#psspy.qv_engine" title="psspy.qv_engine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">qv_engine</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.qv_engine_2.html#psspy.qv_engine_2" title="psspy.qv_engine_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">qv_engine_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.qv_engine_3.html#psspy.qv_engine_3" title="psspy.qv_engine_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">qv_engine_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.qv_engine_4.html#psspy.qv_engine_4" title="psspy.qv_engine_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">qv_engine_4</span></code></a></p></td>
+<td><p>Use this API routine to run the QV analysis calculation engine.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.rank.html#psspy.rank" title="psspy.rank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rank</span></code></a></p></td>
+<td><p>Use this API to estimate the severity of designated single branch outage contingencies and builds a contingency solution output file with contingencies specified in decreasing order of their estimated severities.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.rank_brn_and_mac.html#psspy.rank_brn_and_mac" title="psspy.rank_brn_and_mac"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rank_brn_and_mac</span></code></a></p></td>
+<td><p>Use this API to estimate the severity of designated single element outage contingencies and builds a contingency description data file with contingencies specified in decreasing order of their estimated severities.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.rate.html#psspy.rate" title="psspy.rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rate</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.rate_2.html#psspy.rate_2" title="psspy.rate_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rate_2</span></code></a></p></td>
+<td><p>Use this API to check branch loadings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.rating_set.html#psspy.rating_set" title="psspy.rating_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rating_set</span></code></a></p></td>
+<td><p>Use this API to specify or return the current rating set, from 1 to 12.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.rawd.html#psspy.rawd" title="psspy.rawd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rawd</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.rawd_2.html#psspy.rawd_2" title="psspy.rawd_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rawd_2</span></code></a></p></td>
+<td><p>Use this API to replicate the working case in the form of a power flow raw data file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.rawdx.html#psspy.rawdx" title="psspy.rawdx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rawdx</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.rawx_to_csv.html#psspy.rawx_to_csv" title="psspy.rawx_to_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rawx_to_csv</span></code></a></p></td>
+<td><p>Use this API to export rawx (extended raw data) table to a CSV (comma-separated values) file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.rdch.html#psspy.rdch" title="psspy.rdch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rdch</span></code></a></p></td>
+<td><p>Use this API to read power flow change data into the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.rdchrawversion.html#psspy.rdchrawversion" title="psspy.rdchrawversion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rdchrawversion</span></code></a></p></td>
+<td><p>Use this API to read a Power Flow Change Raw Data File into the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.rdeq.html#psspy.rdeq" title="psspy.rdeq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rdeq</span></code></a></p></td>
+<td><p>Use this API to build an electrical equivalent of radial and, optionally, two-point Type 1 buses outside of a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.read.html#psspy.read" title="psspy.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a></p></td>
+<td><p>Use this API to read a power flow raw data file and add all the data specified in it to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.readcapcurves.html#psspy.readcapcurves" title="psspy.readcapcurves"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readcapcurves</span></code></a></p></td>
+<td><p>Use this API to read data contained in a Machine Capability Curve Data File into the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.readrawversion.html#psspy.readrawversion" title="psspy.readrawversion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readrawversion</span></code></a></p></td>
+<td><p>Use this API to read a power flow raw data file and add all the data specified in it to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.readrawx.html#psspy.readrawx" title="psspy.readrawx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readrawx</span></code></a></p></td>
+<td><p>Use this API to read an extended raw data file and add all the data specified to the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.readsub.html#psspy.readsub" title="psspy.readsub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readsub</span></code></a></p></td>
+<td><p>Use this API to read a power flow raw data file and add subsystem data specified in it to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.readsubrawversion.html#psspy.readsubrawversion" title="psspy.readsubrawversion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readsubrawversion</span></code></a></p></td>
+<td><p>Use this API to read a power flow raw data file and add subsystem data specified in it to the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.readx.html#psspy.readx" title="psspy.readx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readx</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.recn.html#psspy.recn" title="psspy.recn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recn</span></code></a></p></td>
+<td><p>Use this API to electrically reconnect a bus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.regb.html#psspy.regb" title="psspy.regb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">regb</span></code></a></p></td>
+<td><p>Use this API to tabulate those buses where voltages are controlled by generation, switched shunts, and/or other voltage controlling equipment.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.relind.html#psspy.relind" title="psspy.relind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">relind</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.relind_2.html#psspy.relind_2" title="psspy.relind_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">relind_2</span></code></a></p></td>
+<td><p>Use this API to run probabilistic reliability assessment for transmission systems.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.remm.html#psspy.remm" title="psspy.remm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remm</span></code></a></p></td>
+<td><p>Use this API to read transaction event data from a transactions raw data file and add it to PSSE working memory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.report_output.html#psspy.report_output" title="psspy.report_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">report_output</span></code></a></p></td>
+<td><p>Use this API to specify the report output device.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.resq.html#psspy.resq" title="psspy.resq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resq</span></code></a></p></td>
+<td><p>Use this API to read sequence data from a sequence data file and add it to the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.resqversion.html#psspy.resqversion" title="psspy.resqversion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resqversion</span></code></a></p></td>
+<td><p>Use this API to read a network sequence data file and add all the data specified in it to the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.result_table_output.html#psspy.result_table_output" title="psspy.result_table_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">result_table_output</span></code></a></p></td>
+<td><p>Use this API to get and set the default tabular output.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.reti.html#psspy.reti" title="psspy.reti"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reti</span></code></a></p></td>
+<td><p>Use this API to read the long title from an input file into the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.retry_pssuserpf.html#psspy.retry_pssuserpf" title="psspy.retry_pssuserpf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">retry_pssuserpf</span></code></a></p></td>
+<td><p>Use this API to allow the loading or use of the Powerflow Customization Interface (PCI) implementation module (pssuserpf) after a failure.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.rev29_names.html#psspy.rev29_names" title="psspy.rev29_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rev29_names</span></code></a></p></td>
+<td><p>Use this API to set the extended bus name input format to either the PSSE-29 or PSSE-30 format.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.rnfi.html#psspy.rnfi" title="psspy.rnfi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rnfi</span></code></a></p></td>
+<td><p>Use this API to reproduce the results of a working case bus renumbering operation in auxiliary data input files.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.rsol.html#psspy.rsol" title="psspy.rsol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rsol</span></code></a></p></td>
+<td><p>Use this API to perform a robust power flow solution (activity RSOL).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.runlastsolution.html#psspy.runlastsolution" title="psspy.runlastsolution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">runlastsolution</span></code></a></p></td>
+<td><p>Use this API to run the last known power flow solution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.rwcm.html#psspy.rwcm" title="psspy.rwcm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rwcm</span></code></a></p></td>
+<td><p>Use this API to replicate the working case in IEEE common tape format.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.rwma.html#psspy.rwma" title="psspy.rwma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rwma</span></code></a></p></td>
+<td><p>Use this API to replicate machine parametric data from the working case in the form of a machine impedance data file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.rwmm.html#psspy.rwmm" title="psspy.rwmm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rwmm</span></code></a></p></td>
+<td><p>Use this API to replicate transaction event data in the form of a transactions data file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.rwsq.html#psspy.rwsq" title="psspy.rwsq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rwsq</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.rwsq_2.html#psspy.rwsq_2" title="psspy.rwsq_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rwsq_2</span></code></a></p></td>
+<td><p>Use this API to replicate the sequence data contained in the working case in the form of a sequence data file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.save.html#psspy.save" title="psspy.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a></p></td>
+<td><p>Use this API to save the PSSE working case in a saved case file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.scal.html#psspy.scal" title="psspy.scal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scal</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.scal_2.html#psspy.scal_2" title="psspy.scal_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scal_2</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.scal_3.html#psspy.scal_3" title="psspy.scal_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scal_3</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.scal_4.html#psspy.scal_4" title="psspy.scal_4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scal_4</span></code></a></p></td>
+<td><p>Use this API routine to uniformly increase or decrease any or all specified bus quantities for a specified group of buses.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.sensitivity_flow.html#psspy.sensitivity_flow" title="psspy.sensitivity_flow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensitivity_flow</span></code></a></p></td>
+<td><p>This API is used to calculate sensitivity factors of a branch flow to MW power at buses, MW power at generator buses, MW at load buses, phase angle of phase shifters, tap postion of tap changing transformers as well as admittance of switched shunts:</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.sensitivity_flows.html#psspy.sensitivity_flows" title="psspy.sensitivity_flows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensitivity_flows</span></code></a></p></td>
+<td><p>This API is used to calculate sensitivity factors of flows on the branches in a subsystem to MW power at buses, MW power at generator buses, MW power at load buses, phase angle of phase shifters, tap postion of tap changing transformers as well as admittance of switched shunts.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.sensitivity_interface.html#psspy.sensitivity_interface" title="psspy.sensitivity_interface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensitivity_interface</span></code></a></p></td>
+<td><p>This API is used to calculate sensitivity factors of  an interface flow to MW power at buses, MW power at generator buses, MW power at load buses, phase angle of phase shifters, tap position of tap changing transformers as well as admittance of switched shunts.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.sensitivity_voltage.html#psspy.sensitivity_voltage" title="psspy.sensitivity_voltage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensitivity_voltage</span></code></a></p></td>
+<td><p>This API is used to calculate sensitivity factors of a bus voltage to MW and MVar power at buses, MW power at generator buses, MW and MVar at load buses, phase angle of phase shifters, tap postion of tap changing transformers as well as admittance of switched shunts.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.sensitivity_voltages.html#psspy.sensitivity_voltages" title="psspy.sensitivity_voltages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensitivity_voltages</span></code></a></p></td>
+<td><p>This API is used to calculate sensitivity factors of  bus voltages in a subsystem to MW and MVar power at buses, MW power at generator buses, MW and MVar at load buses, phase angle of phase shifters, tap postion of tap changing transformers as well as admittance of switched shunts.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.set_input_dev.html#psspy.set_input_dev" title="psspy.set_input_dev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_input_dev</span></code></a></p></td>
+<td><p>Use this API to set the terminal input device to a file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.set_progress_verbose.html#psspy.set_progress_verbose" title="psspy.set_progress_verbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_progress_verbose</span></code></a></p></td>
+<td><p>Use this API to to set the option progress message verbose value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.shnt.html#psspy.shnt" title="psspy.shnt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shnt</span></code></a></p></td>
+<td><p>Use this API to tabulate fixed and/or switched bus shunts contained in the working case.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.short_circuit_coordinates.html#psspy.short_circuit_coordinates" title="psspy.short_circuit_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">short_circuit_coordinates</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to set the fault analysis voltage and current output coordinates to either rectangular or polar coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.short_circuit_modeling.html#psspy.short_circuit_modeling" title="psspy.short_circuit_modeling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">short_circuit_modeling</span></code></a></p></td>
+<td><p>Use this API to specify or return the option for the fault analysis modeling setting; either normal three-phase or center tapped two-phase.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.short_circuit_units.html#psspy.short_circuit_units" title="psspy.short_circuit_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">short_circuit_units</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to set the fault analysis voltage and current output units to either per unit or physical units.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.short_circuit_warning.html#psspy.short_circuit_warning" title="psspy.short_circuit_warning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">short_circuit_warning</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to enable or disable the fault analysis warning option setting.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.short_circuit_z_coordinates.html#psspy.short_circuit_z_coordinates" title="psspy.short_circuit_z_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">short_circuit_z_coordinates</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to set the fault analysis output impedance coordinates to either rectangular or polar coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.short_circuit_z_units.html#psspy.short_circuit_z_units" title="psspy.short_circuit_z_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">short_circuit_z_units</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to set the fault analysis output impedance units to either per unit or ohms.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.show.html#psspy.show" title="psspy.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a></p></td>
+<td><p>Use this API to tabulate summaries of Saved Case and/or Snapshot Files.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.showtable.html#psspy.showtable" title="psspy.showtable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">showtable</span></code></a></p></td>
+<td><p>Directs a report table to output console.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.showtablebyindex.html#psspy.showtablebyindex" title="psspy.showtablebyindex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">showtablebyindex</span></code></a></p></td>
+<td><p>This API routine was first introduced in release 35.0.0.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.size.html#psspy.size" title="psspy.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></p></td>
+<td><p>Use this API to obtain a summary of the number of components in the working case (activity SIZE).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.solv.html#psspy.solv" title="psspy.solv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solv</span></code></a></p></td>
+<td><p>Use this API to apply the Gauss-Seidel power flow calculation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.spcb.html#psspy.spcb" title="psspy.spcb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spcb</span></code></a></p></td>
+<td><p>Use this API to calculate positive sequence equivalents of branch unbalances.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.spil.html#psspy.spil" title="psspy.spil"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spil</span></code></a></p></td>
+<td><p>Use this API to calculate transmission interchange limits using a linear network (dc) model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.splt.html#psspy.splt" title="psspy.splt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">splt</span></code></a></p></td>
+<td><p>Use this API to add a bus to the working case and place a zero impedance line between bus BUS and the new bus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.sqli.html#psspy.sqli" title="psspy.sqli"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sqli</span></code></a></p></td>
+<td><p>Use this API to tabulate the sequence data in a form suitable for problem data documentation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.sraind.html#psspy.sraind" title="psspy.sraind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sraind</span></code></a></p></td>
+<td><p>Use this API to run the substation reliability analysis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.stop.html#psspy.stop" title="psspy.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.stop_2.html#psspy.stop_2" title="psspy.stop_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop_2</span></code></a></p></td>
+<td><p>Use this API to end the operation of PSSE.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.subs.html#psspy.subs" title="psspy.subs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subs</span></code></a></p></td>
+<td><p>Use this API to summarize conditions in the working case by tabulating the conditions at each swing system bus, conditions at each area slack area bus, number of components, generation/ load/shunt totals, and loss/line shunt/charging totals by voltage levels.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.switched_shunt_adjustment.html#psspy.switched_shunt_adjustment" title="psspy.switched_shunt_adjustment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switched_shunt_adjustment</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to enable or disable switched shunt adjustment.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.tap_adjustment.html#psspy.tap_adjustment" title="psspy.tap_adjustment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tap_adjustment</span></code></a></p></td>
+<td><p>Use this API to specify or return the option for the default tap adjustment setting; either disabled, stepping or direct.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.text.html#psspy.text" title="psspy.text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text</span></code></a></p></td>
+<td><p>This API does nothing.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.tflg.html#psspy.tflg" title="psspy.tflg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tflg</span></code></a></p></td>
+<td><p>Use this API to set or reset the adjustment control mode flags for all automatically adjustable transformers contained in the specified subsystem.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.ties.html#psspy.ties" title="psspy.ties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ties</span></code></a></p></td>
+<td><p>Use this API to tabulate the flows on all area tie lines, with tie flows grouped by area.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.tiez.html#psspy.tiez" title="psspy.tiez"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tiez</span></code></a></p></td>
+<td><p>Use this API to tabulate the flows on all zone tie lines, with tie flows grouped by zone.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.time.html#psspy.time" title="psspy.time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time</span></code></a></p></td>
+<td><p>Use this API to tabulate timing statistics.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.tlst.html#psspy.tlst" title="psspy.tlst"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tlst</span></code></a></p></td>
+<td><p>Use this API to tabulate those transformers in the working case where off-nominal turns ratio or phase shift angle may be adjusted by the power flow solution activities.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.tltg.html#psspy.tltg" title="psspy.tltg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tltg</span></code></a></p></td>
+<td><p>Use this API to calculate transmission interchange limits using a linear network (dc) model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.tpch.html#psspy.tpch" title="psspy.tpch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tpch</span></code></a></p></td>
+<td><p>Use this API to check the adjustment data associated with voltage or flow controlling transformers.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.transformer_percent_units.html#psspy.transformer_percent_units" title="psspy.transformer_percent_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transformer_percent_units</span></code></a></p></td>
+<td><p>Use this API to specify or return the option to set the transformer percent units to either MVA or current expressed as MVA.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.transmission_line_units.html#psspy.transmission_line_units" title="psspy.transmission_line_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transmission_line_units</span></code></a></p></td>
+<td><p>Use this API to to specify or return the option set the transmission line units to either per unit or ohms.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.tree.html#psspy.tree" title="psspy.tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree</span></code></a></p></td>
+<td><p>Use this API to check for the existence of in-service ac islands that do not contain a Type 3 (swing) bus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.tspfprofilecurvevalue.html#psspy.tspfprofilecurvevalue" title="psspy.tspfprofilecurvevalue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tspfprofilecurvevalue</span></code></a></p></td>
+<td><p>Use this API to return real parameters of Time Series Power Flow profile data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.tysl.html#psspy.tysl" title="psspy.tysl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tysl</span></code></a></p></td>
+<td><p>Use this API to run switching study network solutions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.user.html#psspy.user" title="psspy.user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user</span></code></a></p></td>
+<td><p>Use this API to run the user-written activity, subroutine USERAC.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.vamm.html#psspy.vamm" title="psspy.vamm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vamm</span></code></a></p></td>
+<td><p>Use this API to tabulate the vector absolute MW-mile report.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.vamo.html#psspy.vamo" title="psspy.vamo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vamo</span></code></a></p></td>
+<td><p>Use this API to tabulate the vector absolute MW-ohm report.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.vchk.html#psspy.vchk" title="psspy.vchk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vchk</span></code></a></p></td>
+<td><p>Use this API to tabulate those buses where voltage magnitude is outside a specified range.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.voltage_input.html#psspy.voltage_input" title="psspy.voltage_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">voltage_input</span></code></a></p></td>
+<td><p>Use this API to specify or return the voltage input option setting; either per unit or kV.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.voltage_output.html#psspy.voltage_output" title="psspy.voltage_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">voltage_output</span></code></a></p></td>
+<td><p>Use this API to specify or return the voltage output option setting; either per unit or kV.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.vsmo.html#psspy.vsmo" title="psspy.vsmo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vsmo</span></code></a></p></td>
+<td><p>Use this API to tabulate the vector MW-ohm report.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.write_options_file.html#psspy.write_options_file" title="psspy.write_options_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_options_file</span></code></a></p></td>
+<td><p>Use this API to save the present values of the PSSE-25 program option settings to the file psse.opt.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.writecapcurves.html#psspy.writecapcurves" title="psspy.writecapcurves"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writecapcurves</span></code></a></p></td>
+<td><p>Use this API to write the capability curve data in the working case in the form of a Capability Curve Raw Data File.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.writerawversion.html#psspy.writerawversion" title="psspy.writerawversion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writerawversion</span></code></a></p></td>
+<td><p>Use this API to replicate the working case in the form of power flow raw data file compatible with PSSE 15 or later.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.writerawx.html#psspy.writerawx" title="psspy.writerawx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writerawx</span></code></a></p></td>
+<td><p>Use this API to write an extended raw data file from data in the current working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.writerawxsubsys.html#psspy.writerawxsubsys" title="psspy.writerawxsubsys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writerawxsubsys</span></code></a></p></td>
+<td><p>Use this API to write an extended raw data file from data in the current working case, specifying a subsystem.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.writeseqversion.html#psspy.writeseqversion" title="psspy.writeseqversion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeseqversion</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.writeseqversion_2.html#psspy.writeseqversion_2" title="psspy.writeseqversion_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeseqversion_2</span></code></a></p></td>
+<td><p>Use this API to replicate the working case in the form of a network sequence data file compatible with PSSE 27 or later.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.xeqv.html#psspy.xeqv" title="psspy.xeqv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xeqv</span></code></a></p></td>
+<td><p>Use this API to build an electrical equivalent of the portion of the working case outside of a specified subsystem of the working case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.zone.html#psspy.zone" title="psspy.zone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zone</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.zone_2.html#psspy.zone_2" title="psspy.zone_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zone_2</span></code></a></p></td>
+<td><p>Use this API to tabulate zone totals by zone.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.zone_area.html#psspy.zone_area" title="psspy.zone_area"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zone_area</span></code></a></p></td>
+<td><p>Use this API to tabulate zone totals by zone, along with subtotals by area.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_as_gen/psspy.zonm.html#psspy.zonm" title="psspy.zonm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zonm</span></code></a></p></td>
+<td><p>This API routine is obsolete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_as_gen/psspy.zonm_2.html#psspy.zonm_2" title="psspy.zonm_2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zonm_2</span></code></a></p></td>
+<td><p>Use this API routine to reassign the buses, loads and/or induction machines in a specified subsystem of the working case from their original zone to a designated zone.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index_psspy.html"
+                        title="previous chapter">psspy</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="_as_gen/psspy.accc.html"
+                        title="next chapter">psspy.accc</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_as_gen/psspy.accc.html" title="psspy.accc"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index_psspy.html" title="psspy"
+             >previous</a> |</li>
+     <li><a href="../index.html">Home</a> |&nbsp;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index_psspy.html" >psspy</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Power Flow Operation</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Siemens PTI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+    </div>
+  </body>
+</html>
