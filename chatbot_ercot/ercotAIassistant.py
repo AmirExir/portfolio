@@ -20,6 +20,9 @@ def load_ercot_chunks_and_embeddings():
     chunks = []
     embeddings = []
 
+    st.write("🔍 Available ERCOT text files:")
+    st.write(sorted(glob.glob("ercot_planning_part*.txt")))
+    
     for filepath in sorted(glob.glob("ercot_planning_part*.txt")):
         with open(filepath, "r", encoding="utf-8") as f:
             text = f.read()
