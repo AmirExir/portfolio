@@ -32,7 +32,11 @@ def load_ercot_chunks_and_embeddings():
         )
         embeddings.append(response.data[0].embedding)
 
-    return chunks, np.array(embeddings).reshape(len(chunks), -1)
+    embeddings = [e for e in embeddings if e is not None]
+    embeddings = np.array(embeddings)
+    if embeddings.ndim != 2:
+        raise ValueError("One or more embeddings are invalid or inconsistent in length.")
+    return chunks[:len(embeddings)], embeddings
 
 # Embed the user query
 def embed_query(query: str) -> List[float]:
