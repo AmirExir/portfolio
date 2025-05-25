@@ -45,7 +45,7 @@ def embed_query(query: str) -> List[float]:
 # Find best matching chunk
 def find_best_match(query: str, chunks, embeddings):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity([query_embedding], embeddings).flatten()
+    scores = cosine_similarity(query_embedding.reshape(1, -1), embeddings).flatten()
     best_idx = int(np.argmax(scores))
     return chunks[best_idx]
 
