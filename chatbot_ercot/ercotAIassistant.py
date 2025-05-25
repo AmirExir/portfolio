@@ -32,7 +32,7 @@ def load_ercot_chunks_and_embeddings():
         )
         embeddings.append(response.data[0].embedding)
 
-    return chunks, np.array(embeddings)
+    return chunks, np.array(embeddings).reshape(len(chunks), -1)
 
 # Embed the user query
 def embed_query(query: str) -> List[float]:
