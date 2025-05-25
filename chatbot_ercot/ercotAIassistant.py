@@ -8,7 +8,7 @@ import difflib
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Page config
-st.set_page_config(page_title="Amir Exir's ERCOT Planning Guide AI Assistant", page_icon="⚡")
+st.set_page_config(page_title="Amir Exir's ERCOT Planning Guides AI Assistant", page_icon="⚡")
 st.title("⚡ Ask Amir Exir's ERCOT Planning Guides AI Assistant")
 
 # Load and chunk ERCOT planning guide text files
@@ -40,7 +40,7 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
 # User input
-if prompt := st.chat_input("Ask Amir Exir's ERCOT Planning Guides AI assistant about ERCOT planning guides..."):
+if prompt := st.chat_input("Ask Amir Exir's AI assistant about ERCOT planning guides..."):
     st.chat_message("user").markdown(prompt)
     relevant_text = find_best_chunk(prompt)
 
