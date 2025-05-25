@@ -13,7 +13,7 @@ st.title("⚡ Ask Amir Exir's ERCOT Nodal Protocols Assistant")
 part_number = st.selectbox("Select section of ERCOT Nodal Protocols (split into 28 parts):", list(range(1,29)))
 
 # Load selected chunk of ERCOT Nodal Protocols
-filename = f"ercotnodals_part_{part_number}.txt"
+filename = f"ercotnodals_part{part_number}.txt"
 try:
     with open(filename, "r", encoding="utf-8") as f:
         ercot_text = f.read()
