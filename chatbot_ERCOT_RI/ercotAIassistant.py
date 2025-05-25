@@ -19,7 +19,7 @@ Only use the following documentation to answer any questions:\n\n{ercot_text}\n\
 }
 
 # Streamlit UI setup
-st.set_page_config(page_title="Amir Exir's ERCOT AI Assistant", page_icon="⚡")
+st.set_page_config(page_title="Amir Exir's ERCOT Interconnection AI Assistant", page_icon="⚡")
 st.title("⚡ Ask Amir Exir's ERCOT AI Assistant")
 
 # Chat history
