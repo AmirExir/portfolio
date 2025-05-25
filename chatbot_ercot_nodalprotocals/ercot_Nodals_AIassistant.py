@@ -16,11 +16,19 @@ for filepath in sorted(glob.glob("ercotnodals_part*.txt")):
 
 # Simple fuzzy match function (can later be upgraded to semantic search)
 def find_best_chunk(user_question):
-    scores = {
-        part: difflib.SequenceMatcher(None, user_question.lower(), text.lower()).ratio()
-        for part, text in ercot_chunks.items()
-    }
+    scores = {}
+    for part, text in ercot_chunks.items():
+        score = difflib.SequenceMatcher(None, user_question.lower(), text.lower()).ratio()
+        scores[part] = score
+
+    if not scores:
+        return "No protocol text files found."
+
     best_part = max(scores, key=scores.get)
+
+    if scores[best_part] < 0.3:  # Optional: reject poor matches
+        return "Sorry, I couldn't find a relevant section in the protocols."
+
     return ercot_chunks[best_part]
 
 # Initialize chat state

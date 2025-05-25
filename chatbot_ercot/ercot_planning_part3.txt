@@ -1,0 +1,550 @@
+ERCOT Planning Guide
+Section 6:  Data/Modeling
+
+April 1, 2025
+6	DATA/MODELING	1
+6.1	STEADY-STATE MODEL DEVELOPMENT	1
+6.2	DYNAMICS MODEL DEVELOPMENT	3
+6.2.1	Dynamics Data Requirements for Generation Resources and Settlement Only Generators	7
+6.2.2	Dynamics Data Requirements for Load Resources	7
+6.2.3	Dynamics Data Requirements for Transmission and/or Distribution Service Providers	7
+6.2.4	Dynamics Data Screening and Maintenance	8
+6.3	PROCESS FOR DEVELOPING SHORT CIRCUIT CASES	9
+6.4	TRANSMISSION PROJECT AND INFORMATION TRACKING REPORT AND DATA REQUIREMENTS	10
+6.4.1	Transmission Project and Information Tracking Report	10
+6.4.2	ERCOT Responsibilities	11
+6.4.3	TSP Responsibilities	11
+6.4.4	Regional Transmission Plan Projects in Transmission Project and Information Tracking Report	11
+6.4.5	Content of the Transmission Project and Information Tracking Report	11
+6.5	ANNUAL LOAD DATA REQUEST	12
+6.6	INTENTIONALLY LEFT BLANK	13
+6.7	DATA DICTIONARY	13
+6.8	RESOURCE REGISTRATION PROCEDURES	13
+6.8.1	Resource Registration	14
+6.8.2	Resource Registration Process	15
+6.9	ADDITION OF PROPOSED GENERATION TO THE PLANNING MODELS	16
+6.10	CONTINGENCY FILING REQUIREMENTS	18
+6.11	PROCESS FOR DEVELOPING GEOMAGNETICALLY-INDUCED CURRENT (GIC) SYSTEM MODELS	18
+6.12	ADDITION OF A PROPOSED DC TIE TO THE PLANNING MODELS	20
+
+6	DATA/MODELING
+6.1	Steady-State Model Development	
+(1)	To adequately simulate steady-state system conditions, it is necessary to establish and maintain steady-state data and simulation-ready study cases in accordance with the ERCOT Steady State Working Group Procedure Manual.  These case models, known as steady-state base cases, shall contain appropriate equipment characteristics and system data, and shall represent projected system conditions that provide a starting point for each required season and year.  
+(a)	The Annual Planning Model base cases, which represent the annual peak load conditions, as prescribed in Protocol Section 3.10.2, Annual Planning Model, shall be developed annually, updated on a biannual basis, and may be updated as needed on an interim basis.  Each Annual Planning Model base case, biannual updates, and off-cycle updates shall be posted on the Market Information System (MIS) Secure Area to ensure availability of the most accurate steady-state base cases.  
+(b)	Additional steady-state base cases, such as seasonal base cases, shall also be developed annually, updated on a biannual basis, and may also be updated as needed on an interim basis.  These derivative base cases, biannual updates, and off-cycle updates shall be posted on MIS Secure Area to ensure availability of the most accurate steady-state base cases.
+(c)	Off-cycle updates not associated with the biannual update shall be posted in a timely manner and include:
+		(i)	Corrections to significant errors discovered in modeling or major 				changes in operation configuration that affect the steady-state base 				cases; or 
+
+(ii)	A significant change in the scope or timing of a transmission project or the development of a new transmission project that impacts either of the next two summer base cases. 
+(d)	Off-cycle updates that are posted as described in paragraphs (1)(a) through (c) above shall be in the form of a Power System Simulator for Engineering (PSS/E) formatted incremental change file. 
+(e)	All steady-state base cases and incremental change files on the MIS Secure Area shall be available for use by Market Participants. 
+(f)	The ERCOT Steady State Working Group Procedure Manual describes each base case that is required to be built.  The schedule for posting all steady-state base cases shall be made available on the MIS Secure Area. 
+(2)	Transmission Service Providers (TSPs) and ERCOT shall develop the steady-state base cases.  The steady-state base cases are derived from the Network Operations Model to ensure consistency of key characteristics, including Ratings, impedance and connectivity for Transmission Facilities that are common between the Network Operations Model and each steady-state base case.  Minor differences between the models will occur for several reasons.  For example: 
+(a)	Additional detailed modeling may be added to the converted Network Operations Model for planning purposes.
+(b)	Future projects are added to the converted Network Operations Model that do not exist in the Network Operations Model past the model build date used to extract a snapshot from the Network Operations Model. 
+(3)	Using the Network Model Management System (NMMS), ERCOT and TSPs shall create steady-state models that represent current and planned system conditions from the following data elements:
+(a)	Each TSP, or its Designated Agent, shall provide its respective transmission network steady-state model data, including load data.
+(b)	Each TSP, or its Designated Agent, shall not include the impact of energy sources connected to the Distribution System that are registered with ERCOT and required to provide telemetry including, but not limited to, Distribution Generation Resources (DGRs), Distribution Energy Storage Resources (DESRs), or Settlement Only Distribution Generators (SODGs) in its submitted Load data as negative loads or as embedded reductions in the submitted load forecast.
+(c)	Each TSP, or its Designated Agent, shall include the impact of energy sources connected to the Distribution System that are not registered with ERCOT in its submitted Load data.  The methodology used shall be consistent across all TSPs and described in the ERCOT Steady State Working Group Procedure Manual. 
+(d)	ERCOT shall utilize the latest available Resource Entity and Private Use Network model data submitted to ERCOT by the Resource Entity and the Private Use Network owners through the Resource Registration process for Resource Entities.
+(e)	ERCOT shall utilize proposed Generation Resource model data provided by the Interconnecting Entity (IE) during the generation interconnection process in accordance with Section 5, Generator Interconnection or Modification.  
+[PGRR118:  Replace paragraph (e) above with the following upon system implementation of NPRR1246:]
+(e)	ERCOT shall utilize proposed Generation Resource and Energy Storage Resource (ESR) model data provided by the Interconnecting Entity (IE) during the generation interconnection process in accordance with Section 5, Generator Interconnection or Modification. 
+(f)	ERCOT shall determine the operating state of Generation Resources (MW, MVAr) using a security-constrained economic dispatch tool.
+[PGRR118:  Replace paragraph (f) above with the following upon system implementation of NPRR1246:]
+(f)	ERCOT shall determine the operating state of Generation Resources and ESRs (MW, MVAr) using a security-constrained economic dispatch tool.
+(g)	ERCOT shall determine the import/export levels of asynchronous transmission interconnections based on historical data.
+6.2	Dynamics Model Development
+(1)	To adequately simulate dynamic and transient events in the ERCOT System, it is necessary to establish and maintain dynamics data and simulation-ready study cases representing the dynamic capability and frequency characteristics of machines and equipment connected to the ERCOT System.
+(2)	Dynamics data is the network data and mathematical models required in accordance with the Reliability and Operations Subcommittee (ROS)-approved Dynamics Working Group Procedure Manual for simulation of dynamic and transient events in the ERCOT System. 
+(3)	For Resource Entities, dynamics data includes the data needed to represent the dynamic and transient response of Resource Entity-owned devices and/or Loads including but not limited to generating units, plants, and other equipment when connected to the ERCOT System including the data for any privately owned transmission system or collection system used to connect the Resource to the ERCOT System.
+(4)	For Transmission Service Providers (TSPs), dynamics data needed to represent the dynamic and transient capability of TSP-owned devices including but not limited to Load shedding relays, protective relays, FACTS devices (e.g., SVC, STATCOMs), Direct Current Ties (DC Ties), variable-frequency transformers, automatically switched shunts, and transformers with automatic load tap changers.  
+[PGRR101:  Replace paragraph (4) above with the following upon system implementation of NPRR1133:]
+(4)	For Transmission Service Providers (TSPs) and owners of Direct Current Ties (DC Ties), dynamics data includes the data needed to represent the dynamic and transient capability of dynamic devices including but not limited to Load shedding relays, protective relays, FACTS devices (e.g., SVC, STATCOMs), DC Ties, variable-frequency transformers, automatically switched shunts, and transformers with automatic load tap changers.
+(5)	The owner of a generator Facility or any dynamic device shall provide appropriate dynamics data to ERCOT, including the data for a planned Facility, in accordance with the Dynamics Working Group Procedure Manual.  The dynamic data shall include the following:
+(a)	A model with parameters that accurately represent the dynamics of the device and that is compatible with the current version of the planning and operations model software as described in the Dynamics Working Group Procedure Manual.  If a user written model is provided:
+(i)	A model manual containing a technical description of the model characteristics, including descriptions for all model parameters and variables, a list of which parameters are commonly tuned for site-specific settings, and a description of procedures and considerations for using the model in dynamic simulations, including steady state representation and limitations for model adequacy and usability in the planning and operations model software; and
+(ii)	The user-written model shall allow the user to determine the allocation of machine identifiers (bus numbers, bus names, machine IDs etc.) without restriction.
+(b)	Verification reports that support the model data based on documented field settings shall be provided as specified in the Dynamics Working Group Procedure Manual for Generation Resources, Energy Storage Resources (ESRs), and for Transmission Elements represented by a dynamic model.  The reports shall demonstrate that the model parameters which are commonly tuned match site-specific settings implemented in the field.  For new Generation Resources and ESRs, these reports shall be provided as required in paragraph (5) of Section 5.5, Generator Commissioning and Continuing Operations.  For existing Generation Resources and ESRs, these reports shall be provided as required in paragraph (6) of Section 5.5.  For Transmission Elements represented by a dynamic model, these reports shall be provided no later than two years following energization of new equipment and updated a minimum of every ten years.    
+(c)	Results of model quality tests and associated simulation files that demonstrate acceptable performance of the models in the planning model and operations software as described in the Dynamics Working Group Procedure Manual.  The Facility owner shall provide updated information whenever it provides a new or updated dynamic model to ERCOT representing a Generation Resource, ESR, or Transmission Element.  These tests ensure the quality of the provided dynamic data and models for use in numerous system studies and consistency across planning and operations software platforms.  Therefore, the Facility owner shall also assess sufficient sensitivities, including but not limited to Voltage Set Point at the Point of Interconnection (POI), real power output, and Reactive Power output to ensure acceptable model performance over the entire range of operating conditions.  The Facility owner shall provide an explanation if model responses do not match.
+(i)	Facility owners shall include all site-specific dynamic models representing the Facility in the model quality tests.  Facility owners can perform the tests in a simple test system without requiring ERCOT System information.
+(ii)	For Intermittent Renewable Resource (IRR) equipment aggregated together to form an IRR in accordance with paragraph (13) of Protocol Section 3.10.7.2, Modeling of Resources and Transmission Loads, the dynamic model shall represent the aggregated IRR.
+(iii)	Results for the following model quality tests shall be provided to demonstrate acceptable model performance.  Additional details about each test, including the set up and description of desirable response, are included in the Dynamics Working Group Procedure Manual.  
+(A)	Flat start test:  A no-disturbance test shall be performed to demonstrate appropriate model initialization and the Facility’s dynamic response under a no-disturbance condition. 
+(B)	Small voltage disturbance test:  A voltage step increase and decrease shall be applied to the POI to demonstrate the Facility’s dynamic response.
+(C)	Large voltage disturbance test:
+(1)	For IRRs, ESRs, and inverter-based transmission equipment, the high and low voltage ride-through profiles as described in Nodal Operating Guide Section 2.9.1, Voltage Ride-Through Requirements for Intermittent Renewable Resources and Energy Storage Resources Connected to the ERCOT Transmission Grid, shall be applied to the POI to demonstrate the Facility’s dynamic response.
+(2)	For Resources other than IRRs, ESRs, and inverter-based equipment, a fault shall be applied to the POI to demonstrate the Facility’s dynamic response.
+(D)	Small frequency disturbance test:  A frequency step increase and decrease shall be applied to the POI to demonstrate the Facility’s dynamic response.  
+(E)	System strength test:  The model for IRRs and inverter-based Resources shall be tested under a few equivalent short circuit ratios, as described in the Dynamics Working Group Procedure Manual.  This tests the robustness of the model to varying system conditions. 
+(d)	Inverter-Based Resources (IBRs) shall provide results of the unit model validation to demonstrate that the PSCAD model, as described in the Dynamics Working Group Procedure Manual, accurately represents the dynamic responses of all inverter-based dynamic devices within the Facility.  This validation is not intended to be site-specific; rather it is intended to be a hardware type test, where models representing different inverter hardware are benchmarked for accuracy.  Validation results for a specific model of inverter can be submitted for multiple uses of that model of inverter.
+(i)	The validation results shall be included when submitting a PSCAD model to ERCOT.
+(ii)	Results for the following unit model validation tests shall be provided to demonstrate model accuracy.  Additional details about each test are included in the Dynamics Working Group Procedure Manual.
+	(A)	Step change in voltage;
+	(B)	Large voltage disturbance (voltage ride-through tests);
+	(C)	System strength test;
+	(D)	Phase angle jump test; and
+	(E)	Subsynchronous test.
+(6)	Dynamics data for a planned Facility will be updated by the Facility owner upon completion of the design for the Facility.
+(7)	Updated dynamics data for an existing Facility shall be provided to ERCOT when field tests, inspections, or other information demonstrates that the dynamics data should be changed to accurately represent the dynamic characteristics of the Facility.
+(8)	Dynamics Data is considered Protected Information pursuant to Protocol Section 1.3, Confidentiality.
+(9)	Dynamics data shall be provided with the legal authority to provide the information to all TSPs.  If any of the information is considered Protected Information, the Facility owner shall indicate as such.
+6.2.1	Dynamics Data Requirements for Generation Resources and Settlement Only Generators
+[PGRR118:  Replace title above with the following upon system implementation of NPRR1246:]
+6.2.1	Dynamics Data Requirements for Generation Resources, Energy Storage Resources, and Settlement Only Generators
+(1)	A Resource Entity shall submit new or updated dynamics data in accordance with Section 5, Generator Interconnection or Modification.  The Resource Entity shall provide all dynamics data as described in paragraph (5) of Section 6.2, Dynamics Model Development, and the Dynamics Working Group Procedure Manual.
+(2)	A Resource Entity is responsible for tuning and validating the parameters that go into their models to ensure that the models produce an accurate representation of a device’s capability and response.  If ERCOT, the interconnecting TSP, or the Dynamics Working Group (DWG) identifies inappropriate or incomplete dynamics data, ERCOT, in its sole discretion, may reject the submitted dynamics data and will provide the Resource Entity an explanation for the rejection.  The Resource Entity shall take action to resolve discrepancies and provide updated dynamics data to ERCOT and the interconnecting TSP within 30 days.
+6.2.2	Dynamics Data Requirements for Load Resources
+(1)	ERCOT shall provide the updated Load Resource relay models.
+(2)	Load Resource relay models shall be updated as described in the Dynamics Working Group Procedure Manual.
+6.2.3	Dynamics Data Requirements for Transmission and/or Distribution Service Providers
+[PGRR101:  Replace the title for Section 6.2.3 above with the following upon system implementation of NPRR1133:]
+6.2.3	Dynamics Data Requirements for Transmission and/or Distribution Service Providers, Direct Current Tie Facility Owners, and Direct Current Tie Operators
+(1)	The owner of under-frequency Load shedding equipment shall provide necessary data to model under frequency Load shedding relays for their portion of the ERCOT System as described in the Dynamics Working Group Procedure Manual.
+(2)	The owner of under voltage Load shedding equipment shall provide necessary data to model under voltage Load shedding relays for their portion of the ERCOT System as described in the Dynamics Working Group Procedure Manual.
+(3)	When requested by ERCOT or a Transmission and/or Distribution Service Provider (TDSP), the owner of protective relays, control systems, and Remedial Action Schemes (RASs) shall provide dynamics data needed to simulate their action.
+(4)	The DWG shall document appropriate Load model data as described in the Dynamics Working Group Procedure Manual for use in dynamic simulations.
+(5)	The owner of a dynamic element connected to the transmission system shall provide the dynamic data needed to simulate the action of the device in dynamic simulations to ERCOT and the TDSP to which the element is connected.  
+[PGRR101:  Insert paragraph (6) below with the following upon system implementation of NPRR1133 and renumber accordingly:]
+(6)	Each DC Tie Facility owner shall provide the dynamic data needed to simulate the action of any dynamic elements located at its Facility in dynamic simulations to its DCTO, and the DCTO shall submit the data to ERCOT.  The DC Tie Facility owner is responsible for the accuracy and completeness of the data submitted to ERCOT through its DCTO.
+(6)	The owner of a dynamic element connected to the transmission system shall verify the dynamic models through comparison with operational data of actual events or test results within five years of energization and a minimum of every ten years thereafter.  Industry accepted testing techniques shall be used for testing, measuring and calculating the modeling parameters.  The owner of the dynamic element shall document and retain results for the model verification effort.  Documentation shall include the operational data used to verify the modeling parameters. 
+6.2.4	Dynamics Data Screening and Maintenance 
+(1)	In order to maintain simulation-ready base cases and associated dynamics data files for use in dynamic simulations, ERCOT, in consultation with the DWG, shall perform dynamic simulations called flat-start simulations as described in the Dynamics Working Group Procedure Manual.
+(2)	The schedule for producing the flat start simulations will be reviewed annually and submitted to the ROS.
+(3)	Transmission owners shall review the completeness and applicability of dynamics data used in the flat start simulation for equipment connected to their system.  The model should be appropriate for the equipment and the data shall be appropriate for the model.
+(4)	ERCOT shall contact the appropriate TSP or Resource Entity to resolve any dynamics data problems, incomplete or missing data, encountered while preparing the flat start simulation.
+(5)	Upon completion of each flat start simulation, ERCOT shall distribute an electronic copy of all files necessary to replicate the flat start simulation as described in the Dynamics Working Group Procedure Manual to the DWG.
+(6)	ERCOT and the DWG shall document assumptions made, data created, and data changed during the creation of a flat start simulation.  
+(7)	ERCOT shall be responsible for storing all of the dynamics data and shall maintain a repository of dynamics data with tuned parameters and any submitted revisions.  
+(8)	Within 30 days of receipt, ERCOT shall forward all dynamics data received to the TSP to which the dynamics device is connected.
+6.3	Process for Developing Short Circuit Cases
+(1)	This Section describes the process for the development of the short circuit cases used for planning purposes.  Nodal Operating Guide Section 6, Disturbance Monitoring and System Protection, describes other non-planning aspects relating to system protection and disturbance monitoring requirements.
+(a)	ERCOT shall collect the short circuit data sets or data updates developed by each Transmission Service Provider (TSP) and shall compile and maintain the short circuit cases.  
+(b)	During the first quarter of each calendar year, ERCOT shall compile and distribute the Current Year (CY) short circuit case to the System Protection Working Group (SPWG).  
+(c)	During the second quarter of each calendar year, ERCOT shall compile and distribute the Future Year (FY) short circuit cases for years two through five to the SPWG.     
+(d)	The transmission and generation systems of each Facility owner in ERCOT shall be represented completely including positive and zero sequence data.  Generation Resource data shall be provided by the Resource Entity.  
+[PGRR118:  Replace paragraph (d) above with the following upon system implementation of NPRR1246:]
+(d)	The transmission and generation systems of each Facility owner in ERCOT shall be represented completely including positive and zero sequence data.  Generation Resource and Energy Storage Resource (ESR) data shall be provided by the Resource Entity.  
+(e)	Each common bus within both the short circuit case and the corresponding steady-state load flow case shall have a matching bus name and matching bus number.  Each additional bus added to the short circuit case as necessary to perform short circuit studies shall be assigned a name and bus number that does not conflict with pre-existing names and bus numbers used in the current set of load flow cases.  
+(f)	The positive sequence impedance of Transmission Elements used in both the load flow and short circuit cases shall be the same.
+(g)	Zero sequence data shall include mutual impedance of multi-circuit transmission lines and of adjacent circuits within the same right-of-way, unless the TSP considers such impedance to be insignificant for studies made from this data.
+6.4	Transmission Project and Information Tracking Report and Data Requirements
+6.4.1	Transmission Project and Information Tracking Report
+(1)	The ERCOT Transmission Project and Information Tracking (TPIT) report contains the status of the transmission projects (60 kV and above) that are classified as a Tier 1, 2, 3, or 4 project and are updated by the Steady State Working Group (SSWG).  Projects that meet the criteria under paragraph (2) below may be excluded from the TPIT report. 
+(2)	The transmission projects listed in the TPIT report are typically projects that are planned for completion by a Transmission Service Provider (TSP) within the near-term planning horizon.  Projects that may not be listed in the TPIT report include:
+(a)	Any project that requires Regional Planning Group (RPG) review and has not completed the review process;
+(b)	Any project with a projected in-service date beyond the last year for which an ERCOT SSWG case is posted; 
+(c)	Any project that consists of only a Remedial Action Scheme (RAS) or an Automatic Mitigation Plan (AMP) (which is not typically modeled); 
+(d)	A minor physical change to a transmission line that does not affect the flow of power;
+(e)	An impedance change that can be reasonably attributed to a rounding error or recalculation of parameters with no actual construction;
+(f)	Any repair and replacement-in-kind project; or 
+(g)	Any replacement of failed equipment with a rating and/or impedance change that will be included in the equipment owner’s next annual assessment.
+6.4.2	ERCOT Responsibilities
+(1)	ERCOT shall prepare the TPIT report using data supplied by each TSP, or its Designated Agent.  
+(2)	ERCOT shall update the TPIT report with updated information provided through the SSWG case build or SSWG update process.
+(3)	ERCOT shall publish the TPIT report on the ERCOT website on a triannual basis.
+6.4.3	TSP Responsibilities
+(1)	The TSP responsible for submitting model data used in the SSWG case build or SSWG case update shall provide information for its transmission projects to ERCOT.
+(2)	The TSP shall provide transmission project data for inclusion in the TPIT report as specified in the ERCOT Steady State Working Group Procedure Manual. 
+6.4.4	Regional Transmission Plan Projects in Transmission Project and Information Tracking Report
+(1)	Each year, with input from stakeholders, ERCOT develops a Regional Transmission Plan that identifies a set of reliability-driven and economic-driven transmission projects based on the current steady-state base cases.  Transmission projects identified in the Regional Transmission Plan are typically at varying stages within the planning process and thus, are subject to change.  When a Regional Transmission Plan project is deemed appropriate for inclusion in the steady-state base cases, the TSP shall initiate inclusion of the project in the Future Projects section of TPIT, and ERCOT shall assign a TPIT project number.  The project shall also remain in the Regional Transmission Plan section of the TPIT.  
+6.4.5	Content of the Transmission Project and Information Tracking Report
+(1)	The TPIT report shall contain: 
+(a)	A section that describes each data field and the Entity responsible for providing the data within each field;
+(b) 	A section for future projects;
+(c)	A section for completed projects;
+(d)	A section for cancelled projects;
+(e)	A section for projects approved in the ERCOT Regional Transmission Plan; 
+(f)	A section containing transmission owner project contact information; and
+(g)	A section summarizing cost information.
+6.5	Annual Load Data Request
+(1)	The Transmission and/or Distribution Service Provider (TDSP) or its Designated Agent must provide Load data each year to allow necessary ERCOT System reliability analysis and planning and to meet requirements of North American Electric Reliability Corporation (NERC).  Each TDSP or its Designated Agent is responsible for providing historical and forecasted Load data to ERCOT for all Loads connected to its system as outlined in the Annual Load Data Request Form Instructions.  Data supplied in the Annual Load Data Request (ALDR) is considered Protected Information.
+(2)	Some or all of the following factors may be considered when developing Load forecast data:
+(a)	Economic;
+(b)	Demographic;
+(c)	Customer trends;
+(d)	Conservation;
+(e)	Improvements in the efficiency of electrical energy uses; 
+(f)	Other changes in the end uses of electricity; and
+(g)	Weather effects.
+(3)	Each Distribution Service Provider (DSP) or its Designated Agent directly interconnected with the ERCOT Transmission Grid shall provide annual Load forecasts to ERCOT as outlined in the Annual Load Data Request Form Instructions.
+(4)	For each substation not owned by either a Transmission Service Provider (TSP) or a DSP, the owner shall provide a substation Load forecast to the directly-connected TSP sufficient to allow it to adequately include that substation in its ALDR response.
+(5)	ERCOT shall annually provide each DSP with a list of registered Distributed Generation (DG) facilities in the DSP’s territory, including information about how each facility is mapped to its designated Load in the Network Operations Model.  This list will be posted to the Market Information System (MIS) Certified Area.  In conjunction with the ALDR process, the DSP shall verify that each DG facility on the list is correctly mapped to its Load in the Network Operations Model.  TSPs shall cooperate with ERCOT and the DSP to verify that each DG facility on the list is correctly mapped to its Load in the Network Operations Model.    
+(6)	The TDSP or its Designated Agent shall coordinate with the appropriate working group as described in the Annual Load Data Request Form Instructions for issues with data submissions. 
+(7)	Load data that is incomplete, not timely submitted on the schedule, or not in the format defined in the Annual Load Data Request Form Instructions will be considered missing data.  For these missing Load data, ERCOT shall calculate Loads based on historical data and insert these Loads into the Load flow cases during Data Set A and Data Set B annual updates.
+6.6	Intentionally Left Blank
+6.7	Data Dictionary
+(1)	The Data Dictionary provides additional bus data that is not included in the steady-state base cases or network model data.  The ERCOT Steady State Working Group Procedure Manual defines the requirements for the planning portion of the Data Dictionary.  
+(2)	The following items pertain to data updates:  
+(a)	Transmission Service Providers (TSPs) shall submit all pertinent Data Dictionary data for each bus in its transmission system for Steady State Working Group (SSWG) models as specified in the ERCOT Steady State Working Group Procedure Manual.
+(b)	ERCOT shall provide pertinent Resource Entity data for the Data Dictionary.
+(c)	Interim information is provided pursuant to Section 6.4.1, Transmission Project and Information Tracking Report.  TSPs may revise bus data for the Data Dictionary as necessary to reflect changes.
+(3)	ERCOT shall make available a copy of the ERCOT Steady State Planning Data Dictionary and contingency files on the Market Information System (MIS) Secure Area per the ERCOT Steady State Working Group Procedure Manual and in accordance with the schedule posted on the MIS Secure Area for Annual Planning Model Data Submittal.
+6.8	Resource Registration Procedures
+(1)	In accordance with Protocol Sections 3.7, Resource Parameters, 3.10, Network Operations Modeling and Telemetry, and 16.5, Registration of a Resource Entity, a Resource Entity shall register each Generation Resource, Settlement Only Generator (SOG), or Load Resource with ERCOT.  The Resource Entity shall submit Resource Registration data and information through the Resource Registration process pursuant to Section 6.8.2, Resource Registration Process, and made available on the ERCOT website.
+[PGRR118:  Replace paragraph (1) above with the following upon system implementation of NPRR1246:]
+(1)	In accordance with Protocol Sections 3.7, Resource Parameters, 3.10, Network Operations Modeling and Telemetry, and 16.5, Registration of a Resource Entity, a Resource Entity shall register each Generation Resource, Energy Storage Resource (ESR), Settlement Only Generator (SOG), or Load Resource with ERCOT.  The Resource Entity shall submit Resource Registration data and information through the Resource Registration process pursuant to Section 6.8.2, Resource Registration Process, and made available on the ERCOT website.
+6.8.1	Resource Registration
+(1)	A Resource Entity shall submit complete Resource Registration data pursuant to Section 6.8.2, Resource Registration Process, for each Generation Resource, SOG, or Load Resource prior to inclusion in applicable ERCOT systems.
+[PGRR118:  Replace paragraph (1) above with the following upon system implementation of NPRR1246:]
+(1)	A Resource Entity shall submit complete Resource Registration data pursuant to Section 6.8.2, Resource Registration Process, for each Generation Resource, ESR, SOG, or Load Resource prior to inclusion in applicable ERCOT systems.
+(2)	All data elements requested in the Resource Registration process will be contained in the Resource Registration Glossary.  Changes, deletions or additions to the data elements in the Resource Registration Glossary will be made in accordance with the revision process specified for the Resource Registration Glossary.
+(3)	ERCOT shall post the Resource Registration Glossary on the ERCOT website.
+(4)	ERCOT shall post a detailed Resource Registration Guide on the ERCOT website that provides detailed instructions and explanations required for Resource Registration data and shall conform to the Resource Registration Glossary.
+(5)	ERCOT shall make available related documents for Resource Registration on the ERCOT website and shall notify Market Participants when changes are made to the Resource Registration process and requirements, including Resource Registration forms, the Resource Registration Glossary, and the Resource Registration Guide.
+(6)	As required by Section 5, Generator Interconnection or Modification, Generation Resources shall provide accurate initial data for inclusion in the ERCOT Network Operations Model.  The data will be used to model future generation for Steady State Working Group (SSWG), Dynamics Working Group (DWG), and System Protection Working Group (SPWG) base cases.
+6.8.2	Resource Registration Process
+(1)	A Resource Entity shall submit the Resource Registration data for Generation Resources, SOGs, or Load Resources as described in the Resource Registration Glossary. 
+[PGRR118:  Replace paragraph (1) above with the following upon system implementation of NPRR1246:]
+(1)	A Resource Entity shall submit the Resource Registration data for Generation Resources, ESRs, SOGs, or Load Resources as described in the Resource Registration Glossary. 
+(2)	Upon receipt of the Resource Registration data, ERCOT shall review the completeness and accuracy of the data submission.  ERCOT shall provide notice of acceptance and/or deficiencies to the Resource Entity.  
+(3)	ERCOT shall provide notice to the Resource Entity if the Resource Registration data is accepted, which is not the same as an approved Network Operations Model Change Request (NOMCR).  The acceptance of the Resource Registration data only means that the registered data moves to the next step of being converted to a NOMCR.  After acceptance and/or approval, the data is still subject to various and continuous validation processes. 
+(4)	If ERCOT’s notice reports deficiencies through the data submission process or through subsequent validation processes, the Resource Entity shall make necessary changes specified and re-submit the Resource Registration data as necessary, until acceptance of the total set of registered data is granted.
+(5)	Upon acceptance of the Resource Registration data, ERCOT shall provide the Resource Entity with the model ready date on which the Resource Registration data will be implemented in production.  Although a model ready date has been provided, subsequent data corrections may be required as a result of validation processes.  
+(6)	If a Resource Entity desires that the submitted Resource Registration data become effective earlier than the schedule established in Protocol Section 3.10.1, Time Line for Network Operations Model Changes, it may submit a request for interim update as described in the Resource Registration Guide.
+(7)	ERCOT shall notify each Resource Entity when applicable changes to the model are processed and implemented in accordance with Protocol Section 3.10.1.
+(8)	A Resource Entity shall revise the Resource Registration data as required by this Section to reflect changes in any data related to a Generation Resource, SOG, or Load Resource.  
+[PGRR118:  Replace paragraph (8) above with the following upon system implementation of NPRR1246:]
+(8)	A Resource Entity shall revise the Resource Registration data as required by this Section to reflect changes in any data related to a Generation Resource, ESR, SOG, or Load Resource.  
+(9)	The Resource Entity must submit updated Resource Registration data containing changes made for the reasons below for a Generation Resource, SOG, or Load Resource:
+[PGRR118:  Replace paragraph (9) above with the following upon system implementation of NPRR1246:]
+(9)	The Resource Entity must submit updated Resource Registration data containing changes made for the reasons below for a Generation Resource, ESR, SOG, or Load Resource:
+(a)	Within ten Business Days of ERCOT approval of a Net Dependable Capability test to reflect the results of the test;
+(b)	Within ten Business Days of ERCOT approval of a reactive capability test to reflect the results of the test;
+(c)	Within ten Business Days of a request by ERCOT to check or update specific Resource Registration data; and
+(d)	Within ten Business Days of a known change to any Resource Registration data.
+6.9	Addition of Proposed Generation to the Planning Models
+(1)	For large generators meeting the conditions of paragraph (1) of Section 5.2.1, Applicability, ERCOT will include applicable generation in the base cases created and maintained by the Steady State Working Group (SSWG) once each of the following has occurred:
+(a)	The Interconnecting Entity (IE) has posted to the online Resource Integration and Ongoing Operations (RIOO) systems all data required in the Security Screening Study, if the Full Interconnection Study (FIS) has not started, or the FIS, if the FIS has started; 
+(b)	The IE has posted to the online RIOO system documentation that it has received all necessary Texas Commission on Environmental Quality (TCEQ)-approved air permits or that no such permits are required and ERCOT has accepted the IE’s submission;
+(c)	The IE has submitted via the online RIOO system a completed Declaration of Adequate Water Supplies (Section 8, Attachment B, Declaration of Adequate Water Supplies; generation types exempt from this requirement are cited in Attachment B); and 
+(d)	ERCOT receives one of the following via the online RIOO system:
+(i)	A signed Standard Generation Interconnection Agreement (SGIA) from the Transmission Service Provider (TSP) and a written notice from the TSP that the IE has provided: 
+(A)	A notice to proceed with the construction of the interconnection; and
+(B)	The financial security required to fund the interconnection facilities; or 
+(ii)	A public, financially binding agreement between the IE and the TSP under which the interconnection for the applicable generation will be constructed along with: 
+(A)	A written notice from the TSP that the IE has provided notice to proceed with the construction of the interconnection; and
+(B)	The required financial security; or 
+(iii)	A letter from a duly authorized official from a Municipally Owned Utility (MOU) or Electric Cooperative (EC) confirming the Entity’s intent to construct and operate applicable generation and interconnect such generation to its own transmission system.  
+(2)	Upon receiving notice from ERCOT that the large generator has met the requirements of paragraph (1) above, the IE shall provide within 60 days the remaining required data as specified in the Resource Registration Glossary, Planning Model column, using the applicable Resource Registration process.  The purpose of submitting the data is for modeling of the applicable generation in the base cases created and maintained by the System Protection Working Group (SPWG) and the Dynamics Working Group (DWG).
+(3)	For small generators meeting the conditions of paragraph (1) of Section 5.2.1, ERCOT will include applicable generation in the base cases created and maintained by the SSWG, SPWG, and DWG once ERCOT has determined that the IE has submitted all data required on the Resource Registration form and after inclusion of the generator in the Network Operations Model. 
+(4)	Once the IE has met these requirements, ERCOT will notify the SSWG, SPWG, and DWG that the applicable generation will be included in the base cases created and maintained by these working groups.
+6.10	Contingency Filing Requirements
+(1)	Each Transmission Service Provider (TSP), or the entity designated as its modeling entity in Appendix A to the ERCOT Steady State Working Group Procedure Manual, shall provide updates to the ERCOT contingency list corresponding to the steady-state base cases for the TSP’s existing system and planned future Transmission Facilities.  ERCOT shall post the list to the Market Information System (MIS) Secure Area.  The list shall be reviewed and updated as described in the ERCOT Steady State Working Group Procedure Manual.  At a minimum, the list shall contain all required category P1, P2, P4, P5, and P7 contingencies, as described in the North American Electric Reliability Corporation (NERC) Reliability Standard addressing Transmission System Planning Performance Requirements, all contingencies representing the Forced Outage of a double circuit (two circuits on the same structures in excess of 0.5 miles in length), all contingencies representing the Outage of a double circuit (two circuits on the same structure in excess of 0.5 miles in length) where both circuits must be taken out for a maintenance outage, and any other contingencies described in the ERCOT Steady State Working Group Procedure Manual.  
+6.11	Process for Developing Geomagnetically-Induced Current (GIC) System Models
+(1)	To adequately simulate Geomagnetic Disturbance (GMD) events, it is necessary to establish and maintain Geomagnetically-Induced Current (GIC) system models and conduct geomagnetic disturbance vulnerability assessments to determine whether the ERCOT System can meet the performance requirements of the benchmark and supplemental geomagnetic disturbance event described in North American Electric Reliability Corporation (NERC) Reliability Standards.  These GIC system models shall contain appropriate system data, and shall represent projected system conditions that provide a starting point for the required year(s).  
+(a)	ERCOT, in collaboration with Transmission Service Providers (TSPs) and Resource Entities, shall develop and maintain the GIC system models.  The GIC system models are derived from the steady-state base cases developed by Steady State Working Group (SSWG) for the near-term transmission planning horizon to ensure consistency between the system topology in the SSWG base cases and GIC system models. 
+(b)	ERCOT, in collaboration with TSPs and Resource Entities, may set a Generation Resource to out of service prior to receiving a Notification of Suspension of Operations (NSO) if the Resource Entity notifies ERCOT of its intent to retire/mothball the Generation Resource and/or makes a public statement of its intent to retire/mothball the Generation Resource.
+(i)	ERCOT will post and maintain the current list of Generation Resources that will be set to out of service pursuant to paragraph (1)(b) above on the ERCOT website.
+[PGRR118:  Replace paragraph (b) above with the following upon system implementation of NPRR1246:]
+(b)	ERCOT, in collaboration with TSPs and Resource Entities, may set a Generation Resource or Energy Storage Resource (ESR) to out of service prior to receiving a Notification of Suspension of Operations (NSO) if the Resource Entity notifies ERCOT of its intent to retire/mothball the Resource and/or makes a public statement of its intent to retire/mothball the Resource.
+(i)	ERCOT will post and maintain the current list of Generation Resources and ESRs that will be set to out of service pursuant to paragraph (1)(b) above on the ERCOT website.
+(c)	Each TSP, or its Designated Agent, shall provide its respective transmission network GIC model data in accordance with the GIC System Model Procedure Manual.
+(d)	Each Resource Entity, or its Designated Agent, shall provide its respective Resource Entity-owned generating units, plants, transmission lines, shunt devices, Main Power Transformers (MPTs), and Generator Step-Ups (GSUs) connected to the ERCOT System in accordance with the GIC System Model Procedure Manual and the Resource Registration Glossary. 
+(e)	ERCOT shall aggregate the GIC system model data supplied by each TSP and Resource Entity and shall compile the data to form the GIC system models.  Upon completion of compiling the data for the GIC system models, ERCOT and the TSPs shall review and finalize the GIC system models.  Upon completion of the review of the GIC system models, ERCOT shall post these models on the ERCOT Market Information System (MIS) Certified Transmission Service Provider Information page.  
+(f)	Guidelines and formats for the GIC system model data and model maintenance can be found in the GIC System Model Procedure Manual.
+(g)	GIC data is considered Protected Information pursuant to Protocol Section 1.3, Confidentiality.
+(2)	Each TSP and Resource Entity shall provide ERCOT for use in the GMD vulnerability assessments as outlined in Section 3.1.8, Planning Geomagnetic Disturbance (GMD) Activities:
+(a)	A list of equipment potentially removed from service as a result of protection system operation or misoperation due to harmonics that could result from the benchmark GMD event.
+(b)	A list of equipment potentially removed from service as a result of protection system operation or misoperation due to harmonics that could result from the supplemental GMD event.
+(3)	TSPs and Resource Entities may refer to a Reliability and Operations Subcommittee (ROS)-approved methodology for developing the equipment lists described in paragraph (2) above.  TSPs and Resource Entities are not required to submit the equipment lists described in paragraph (2) above until 30 days after ROS approves a methodology.
+6.12	Addition of a Proposed DC Tie to the Planning Models
+(1)	For a proposed Direct Current Tie (DC Tie) that will not be owned by a Transmission Service Provider (TSP), ERCOT will include the applicable DC Tie in the base cases created and maintained by the Steady State Working Group (SSWG), System Protection Working Group (SPWG), and the Dynamics Working Group (DWG), and will notify the SSWG, SPWG, and DWG once ERCOT receives: 
+(a)	A signed interconnection agreement from the TSP and a written notice from the TSP that the DC Tie developer has provided: 
+(i)	A notice to proceed with the construction of the interconnection;
+(ii)	The financial security required to fund the interconnection facilities; and
+(b)	The data required under paragraph (2) below.  
+(2)	ERCOT will provide notice to the DC Tie developer of the specific data ERCOT requires to model the DC Tie after ERCOT receives the information required under paragraph (1)(a) above.    
+(a)	ERCOT retains discretion to request any data it deems necessary to model the new DC Tie. 
+(b)	The DC Tie developer shall provide the data to ERCOT within 60 days of receiving the notice from ERCOT specifying the data required.
+ERCOT Planning Guide
+Section 7:   Market Data Transparency
+February 1, 2025
+7	MARKET DATA TRANSPARENCY	1
+7.1	PLANNING DATA AND INFORMATION	1
+7	MARKET DATA TRANSPARENCY
+7.1	Planning Data and Information
+(1)	The information available on the ERCOT website or applicable Market Information System (MIS) (i.e., Secure or Certified Areas) includes, but is not limited to, planning information pertaining to the following:
+(a)	Long-term planning;
+(b)	Regional transmission planning;
+(c)	Steady state data;
+(d)	Resource integration;
+(e)	Case studies and files used in planning;
+(f)	Model information; and
+(g)	Data and information available to specific groups of Market Participants.
+(i)	Market Participants with a nondisclosure agreement with ERCOT have designated sections on the MIS that allow access to the certified posting of group information.  
+(ii)	Market Participants may access the artifacts posted for their respective groups on the MIS Secure Area.
+[PGRR116:  Insert paragraph (h) below upon system implementation of NPRR1240:]
+(h)	Information on the ERCOT website pertaining to energy and demand shall include monthly reports with 15-minute interval data.
+(2)	The list below includes both data set and designated classification of the available planning data and information.  Where the information is classified as “Certified,” the appropriate Market Participant category or group is “(all TSPs)” to indicate all Transmission Service Providers (TSPs) or “(PDCWG members)” to indicate members of the Performance, Disturbance, Compliance Working Group (PDCWG). 
+Data Set	Classification
+Aggregated Wind Output	ERCOT website
+Annual Planning Model Data Submittal Schedule	Secure
+Demand and Energy Monthly Reports	Secure
+Dynamic Data Information	Certified (all TSPs)
+Economic Studies of Transmission Projects for New Generation	Secure
+ERCOT Long-Term System Assessment (LTSA) (except for Protected Information) 	Secure
+ERCOT LTSA	Certified (all TSPs)
+ERCOT Steady State Planning Contingency Files	Secure
+ERCOT System Operating Limit (SOL) Methodology	ERCOT website
+Generation Data Forms	Secure
+Generator Interconnection Status (GIS) Report	ERCOT website
+Geomagnetically-Induced Current (GIC) Flow Information
+Secure
+Geomagnetic Disturbance (GMD) Vulnerability Assessment Postings (except for Protected Information) – includes ERCOT Critical Energy Infrastructure Information (ECEII)	Secure
+GMD Vulnerability Assessment Postings – includes ECEII and Protected Information	Certified (all TSPs)
+GMD Vulnerability Assessment Postings (redacted) – excludes ECEII and Protected Information	ERCOT website
+Documents Initiating a Generation Interconnection or Change Request (GINR)	Certified (all TSPs)
+GINR Security Screening Studies and Supporting Documents	Secure
+Sub-synchronous Oscillation Studies and Supporting Documents	Certified (all TSPs)
+Full Interconnection Study (FIS): Steady-State, System Protection, Stability, and Facility Studies and Supporting Documents (except for Protected Information)	Secure
+FIS: Draft Steady-State, System Protection, Stability, and Facility Studies and Supporting Documents	Certified (all TSPs)
+Independent Market Monitor (IMM) and Topology Processor Supporting Documents	Certified (all TSPs)
+Performance, Disturbance, Compliance Working Group (PDCWG) Group Documents and Project Files	Certified (PDCWG members)
+Public Generation Information	ERCOT website
+Remedial Action Plan (RAP) Review Cases	Certified (all TSPs)
+Resource Registration Data	Certified (all TSPs)
+Regional Planning Group Projects	Secure
+Regional Transmission Plan Postings (except for Protected Information) – includes ERCOT Critical Energy Infrastructure Information (ECEII)	Secure
+Regional Transmission Plan Postings – includes ECEII and Protected Information	Certified (all TSPs)
+Regional Transmission Plan Postings (redacted) – excludes ECEII and Protected Information	ERCOT website
+Seasonal Voltage Profile Studies	Certified (all TSPs)
+Special Planning Studies (except for Protected Information)	Secure
+Special Planning Studies	Certified (all TSPs)
+Steady State Power Flow Base Cases	Secure
+Steady State Power Flow Case Data	Certified (all TSPs)
+Steady State Topology Processor Files	Secure
+Steady State Transmission Project and Information Tracking (TPIT) Procedures	Secure
+System Protection Short Circuit Data	Secure
+Transient Stability Screening Study for ERCOT System	Certified (all TSPs)
+TSP Planning Criteria and Procedures	Secure
+Voltage Stability Screening Study for ERCOT System	Certified (all TSPs)
+
+[PGRR116:  Replace paragraph (2) above with the following upon system implementation of NPRR1240:]
+(2)	The list below includes both data set and designated classification of the available planning data and information.  Where the information is classified as “Certified,” the appropriate Market Participant category or group is “(all TSPs)” to indicate all Transmission Service Providers (TSPs) or “(PDCWG members)” to indicate members of the Performance, Disturbance, Compliance Working Group (PDCWG).  “RIOO-RS” indicates information in Resource Integration and On-going Operations–Resource Services.  Information classified as “Public” is available on the ERCOT website.  The list below is intended to be only a general guide and not controlling language, and any conflict between this list and another section of the Planning Guide is controlled by the other section.                              
+Data Set	Classification
+Aggregated Wind Output	Public
+Annual Planning Model Data Submittal Schedule	Secure
+Demand and Energy Monthly Reports	ERCOT website
+Dynamic Data Information	Certified (all Transmission Service Providers (TSPs))
+Economic Studies of Transmission Projects for New Generation	Secure
+ERCOT Long-Term System Assessment (LTSA) (except for Protected Information) – includes ERCOT Critical Energy Infrastructure Information (ECEII)	Secure
+ERCOT LTSA – includes ECEII and Protected Information	Certified (all TSPs)
+ERCOT LTSA (redacted) – excludes ECEII and Protected Information	ERCOT website
+ERCOT Steady State Planning Contingency Files	Secure
+ERCOT System Operating Limit (SOL) Methodology	Public
+Generator Interconnection Status (GIS) Report	Public
+Geomagnetically-Induced Current (GIC) Flow Information
+Secure
+Geomagnetic Disturbance (GMD) Vulnerability Assessment Postings (except for Protected Information)	Secure
+GMD Vulnerability Assessment Postings	Certified (all TSPs)
+Documents Initiating a Generation Interconnection or Change Request 	Secure (RIOO-RS)
+Security Screening Studies and Supporting Documents	Secure (RIOO-RS)
+Sub-synchronous Oscillation Studies and Supporting Documents	Certified (all TSPs)
+Full Interconnection Study (FIS): Steady-State, System Protection, Stability, and Facility Studies and Supporting Documents (except for Protected Information)	Secure
+FIS: Draft Steady-State, System Protection, Stability, and Facility Studies and Supporting Documents	Certified (all TSPs)
+Independent Market Monitor (IMM) and Topology Processor Supporting Documents	Certified (all TSPs)
+Performance, Disturbance, Compliance Working Group (PDCWG) Group Documents and Project Files	Certified (PDCWG members)
+Public Generation Information	Public
+Remedial Action Plan (RAP) Review Cases	Certified (all TSPs)
+Resource Registration Data	Certified (all TSPs)
+Regional Planning Group Projects	Secure
+Regional Transmission Plan Postings (except for Protected Information)	Secure
+Regional Transmission Plan Postings	Certified (all TSPs)
+Seasonal Voltage Profile Studies	Certified (all TSPs)
+Special Planning Studies (except for Protected Information)	Secure
+Special Planning Studies	Certified (all TSPs)
+Steady State Power Flow Base Cases	Secure
+Steady State Power Flow Case Data	Certified (all TSPs)
+Steady State Topology Processor Files	Secure
+Steady State Transmission Project and Information Tracking (TPIT) Procedures	Secure
+System Protection Short Circuit Data	Secure
+Transient Stability Screening Study for ERCOT System	Certified (all TSPs)
+TSP Planning Criteria and Procedures	ERCOT website
+Voltage Stability Screening Study for ERCOT System	Certified (all TSPs)
+ERCOT Planning Guide
+Section 8 
+Attachment A:  Declaration of Resource Data Accuracy
+January 1, 2019
+Declaration of Resource Data Accuracy
+Name of Interconnecting Entity:
+_____________________________________________________
+
+Name and INR number of Project:
+
+____________________________________________________
+
+Declaration Submission Period: 
+
+• March 1-15, 20___
+• September 1-15, 20___
+By signing below, I certify that I am knowledgeable about the design of the above-named project, and that the Resource registration form most recently submitted to ERCOT for the above-named project accurately reflects the anticipated characteristics of the proposed Resource and the project contact information in the online Resource Integration and Ongoing Operations (RIOO) system is correct.
+I further certify that I am authorized to execute and submit this declaration on behalf of the Interconnecting Entity listed above, and that the statements contained herein are true and correct.
+______________________________________
+Signature
+
+______________________________________
+Name
+
+______________________________________
+Title
+
+______________________________________
+Date
+
+ERCOT Planning Guide
+Section 8 
+Attachment B:  Declaration of Adequate Water Supplies
+April 1, 2025
+
+Declaration of Adequate Water Supplies
+An Interconnecting Entity (IE) must submit this attestation form to notify ERCOT that water rights, contracts or groundwater supplies sufficient for generation of electricity have been obtained or that water supplies are not required for the generation of electricity at each proposed Generation Resource.  Section 6.9, Addition of Proposed Generation to the Planning Models, requires an IE to submit this form before ERCOT may include certain proposed Generation Resources in the base cases created and maintained by the Steady State Working Group (SSWG), the System Protection Working Group (SPWG), and the Dynamics Working Group (DWG).  Any IE that proposes to interconnect a Generation Resource powered by wind, photovoltaic solar, or battery energy storage Resources does not need to submit this form.  However, any IE proposing to interconnect any other type of Generation Resource must submit this form, even if the IE’s proposed Resource will not use water. 
+Each IE should submit this attestation for each unique Generation Resource Interconnection Request (GINR) within ten Business Days of securing the relevant water supply rights, or, for Generation Resources that do not require water supplies to operate, within ten Business Days of executing the Interconnection Agreement with the Transmission Service Provider (TSP).  The attestation should be signed by an officer or other individual with authority to bind the IE.  The IE should submit the attestation and the necessary attachments to ERCOT via the online Resource Integration and Ongoing Operations (RIOO) system.
+ATTESTATION
+Name of Interconnecting Entity:
+_____________________________________________________
+Name and GINR Number of Project:
+_____________________________________________________
+By signing below, I certify that I am knowledgeable about the above-named project, and hereby represent as follows (check one of the following):
+
+0 No water rights, contracts or groundwater supplies are needed for the above-named proposed Generation Resource to generate electricity.
+
+0 The IE, the owner of the proposed Generation Resource, or another similarly situated party has secured water rights, contracts or groundwater supplies sufficient for the generation of electricity at the above-named proposed Generation Resource.  A copy of the relevant contract(s), permit(s) and/or groundwater adequacy studies is attached to this declaration.  The right(s) or contract(s) allows the Generation Resource owner or operator access to water according to the following terms (describe basic terms, including quantity, duration, and conditions of access):
+
+______________________________________________________________________________
+
+______________________________________________________________________________
+
+______________________________________________________________________________
+
+______________________________________________________________________________
+
+______________________________________________________________________________
+
+_____________________________________________________________________________
+
+______________________________________
+Signature
+______________________________________
+Name
+______________________________________
+Title
+______________________________________
+Date
+
+[PGRR118:  Replace Section 8, Attachment B, above with the following upon system implementation of NPRR1246:]
+Declaration of Adequate Water Supplies
+An Interconnecting Entity (IE) must submit this attestation form to notify ERCOT that water rights, contracts or groundwater supplies sufficient for generation of electricity have been obtained or that water supplies are not required for the generation of electricity at each proposed Generation Resource.  Section 6.9, Addition of Proposed Generation to the Planning Models, requires an IE to submit this form before ERCOT may include certain proposed Generation Resources in the base cases created and maintained by the Steady State Working Group (SSWG), the System Protection Working Group (SPWG), and the Dynamics Working Group (DWG).  Any IE that proposes to interconnect a Generation Resource powered by wind or photovoltaic solar, or an Energy Storage Resource (ESR), does not need to submit this form.  However, any IE proposing to interconnect any other type of Generation Resource must submit this form, even if the IE’s proposed Resource will not use water. 
+Each IE should submit this attestation for each unique Generation Resource Interconnection Request (GINR) within ten Business Days of securing the relevant water supply rights, or, for Generation Resources that do not require water supplies to operate, within ten Business Days of executing the Interconnection Agreement with the Transmission Service Provider (TSP).  The attestation should be signed by an officer or other individual with authority to bind the IE.  The IE should submit the attestation and the necessary attachments to ERCOT via the online Resource Integration and Ongoing Operations (RIOO) system.
+ATTESTATION
+Name of Interconnecting Entity:
+_____________________________________________________
+Name and GINR Number of Project:
+_____________________________________________________
+By signing below, I certify that I am knowledgeable about the above-named project, and hereby represent as follows (check one of the following):
+
+0 No water rights, contracts or groundwater supplies are needed for the above-named proposed Generation Resource to generate electricity.
+
+0 The IE, the owner of the proposed Generation Resource, or another similarly situated party has secured water rights, contracts or groundwater supplies sufficient for the generation of electricity at the above-named proposed Generation Resource.  A copy of the relevant contract(s), permit(s) and/or groundwater adequacy studies is attached to this declaration.  The right(s) or contract(s) allows the Generation Resource owner or operator access to water according to the following terms (describe basic terms, including quantity, duration, and conditions of access):
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+
+______________________________________
+Signature
+
+______________________________________
+Name
+
+______________________________________
+Title
+
+______________________________________
+Date
+
+ERCOT Planning Guide
+Section 8 
+Attachment C:  Declaration of Department of Defense Notification
+April 1, 2025
+
+Declaration of Department of Defense Notification
+Interconnecting Entity (IE):________________________________________________ 
+This declaration applies to the following proposed Generation Resource: 
+_______________________________________________
+ 
+Check the below listed attestation(s) which apply to the Generation Resource. 
+I hereby attest that:
+____	This IE has notified the Department of Defense (DOD) Siting Clearinghouse of the above listed proposed Generation Resource and requested that it perform an Informal Review and/or Formal Review as described in 32 C.F.R. § 211.1 (2013);  
+____	This IE has completed the formal review process for the Generation Resource with the Department of Defense (DOD) Siting Clearinghouse and Federal Aviation Administration (FAA), as described in 14 C.F.R. § 77.7 (2010) and 32 C.F.R. § 211.6 (2013); or
+____	The above listed proposed Generation Resource is exempt from the requirement to seek review from the Department of Defense (DOD) and the Federal Aviation Administration (FAA), as described in 14 C.F.R. § 77.7 (2010) and 32 C.F.R. § 211.6 (2013). 
+
+By signing below, I certify that I am an officer, executive, or authorized employee with authority to bind the IE listed above, that I am authorized to execute and submit this declaration on behalf of each IE listed above, and that, to the best of my knowledge, the statements contained herein are true and correct.
+______________________________________
+Signature
+______________________________________
+Name
+______________________________________
+Title
+_____________________________________
+Date
+[PGRR118:  Replace Section 8, Attachment C, above with the following upon system implementation of NPRR1246:]
+Declaration of Department of Defense Notification
+Interconnecting Entity (IE): ________________________________________________ 
+This declaration applies to the following proposed Generation Resource or Energy Storage Resource (ESR): ________________________________________________
+Check the below listed attestation(s) which apply to the Generation Resource or ESR. 
+
+I hereby attest that:
+
+____	This IE has notified the Department of Defense (DOD) Siting Clearinghouse of the above listed proposed Generation Resource or ESR and requested that it perform an Informal Review and/or Formal Review as described in 32 C.F.R. § 211.1 (2013);  
+
+____	This IE has completed the formal review process for the Generation Resource or ESR with the Department of Defense (DOD) Siting Clearinghouse and Federal Aviation Administration (FAA), as described in 14 C.F.R. § 77.7 (2010) and 32 C.F.R. § 211.6 (2013); or
+____	The above listed proposed Generation Resource or ESR is exempt from the requirement to seek review from the Department of Defense (DOD) and the Federal Aviation Administration (FAA), as described in 14 C.F.R. § 77.7 (2010) and 32 C.F.R. § 211.6 (2013). 
+
+By signing below, I certify that I am an officer, executive, or authorized employee with authority to bind the IE listed above, that I am authorized to execute and submit this declaration on behalf of each IE listed above, and that, to the best of my knowledge, the statements contained herein are true and correct.
+______________________________________
+Signature
+
+______________________________________
+Name
+
+______________________________________
+Title
+
+______________________________________
+
+ERCOT Planning Guide
+Section 8 
+Attachment D:  Attestation Regarding Compliance with the Lone Star Infrastructure Protection Act
+April 1, 2022
+Attestation Regarding Compliance with the Lone Star Infrastructure Protection Act
+Name of Interconnecting Entity (IE):
+_____________________________________________________
+IE’s Interconnection Request (INR) number:
+______________________________________________________
+
+Check the one box that applies [do not check both boxes]:
+1.	With respect to the above referenced IE and INR number and with respect to each Entity with an ownership interest in the real property to be utilized by the above referenced IE’s project (“Property Owner”), I hereby attest that:
+
+   	NONE of the following statements in paragraphs (A) - (C) are TRUE.
+
+   	ONE OR MORE of the following statements in paragraphs (A) - (C) are TRUE.
+
+(A)	The IE or Property Owner, or a wholly owned subsidiary, majority-owned subsidiary, parent company, or affiliate of the IE or Property Owner, is owned by:
+(i)	individuals who are citizens of China, Iran, North Korea, Russia, or a designated country;  or
+(ii)	a company or other entity, including a governmental entity, that is owned or controlled by citizens of or is directly controlled by the government of China, Iran, North Korea, Russia, or a designated country; or
+(B)	The majority of stock or other ownership interest of the IE or Property Owner, or a wholly owned subsidiary, majority-owned subsidiary, parent company, or affiliate of the above referenced IE or Property Owner is held or controlled by:
+(i)	individuals who are citizens of China, Iran, North Korea, Russia, or a designated country; or
+(ii)	a company or other entity, including a governmental entity, that is owned or controlled by citizens of or is directly controlled by the government of China, Iran, North Korea, Russia, or a designated country; or
+(C)	The IE or Property Owner, or a wholly owned subsidiary, majority-owned subsidiary, parent company, or affiliate of the IE or Property Owner is headquartered in China, Iran, North Korea, Russia, or a designated country.
+By signing below, I certify that I am an officer, executive, or authorized employee with authority to bind the IE listed above, that I am authorized to execute and submit this attestation on behalf of each IE listed above, and that the statements contained herein are true and correct.
+_____________________________________________ 
+Signature
+_____________________________________________ 
+Name
+_____________________________________________ 
+Title
+_____________________________________________ 
+Date
