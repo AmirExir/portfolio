@@ -20,7 +20,7 @@ Only use the following documentation to answer any questions:\n\n{ercot_text}\n\
 
 # Streamlit UI setup
 st.set_page_config(page_title="Amir Exir's ERCOT AI Assistant", page_icon="⚡")
-st.title("⚡ Ask Amir Exir's ERCOT AI Assistant")
+st.title("⚡ Ask Amir Exir's ERCOT Planning Guides AI Assistant")
 
 # Chat history
 if "messages" not in st.session_state:
