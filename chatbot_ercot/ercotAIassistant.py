@@ -24,7 +24,6 @@ def load_ercot_chunks_and_embeddings():
         with open(filepath, "r", encoding="utf-8") as f:
             text = f.read()
             chunks.append({"filename": filepath, "text": text})
-
     for chunk in chunks:
         try:
             response = client.embeddings.create(
@@ -34,8 +33,8 @@ def load_ercot_chunks_and_embeddings():
             embeddings.append(response.data[0].embedding)
         except Exception as e:
             st.warning(f"Embedding failed for {chunk['filename']}: {e}")
-            print(f"[Embed Fail] {chunk['filename']}: {e}")
-            embeddings.append(None)  # Placeholder for filtering later
+            print(f"ERROR for {chunk['filename']}: {e}")
+            embeddings.append(None)
 
     # Clean up bad embeddings
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
