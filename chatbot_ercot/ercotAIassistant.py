@@ -1,64 +1,101 @@
 import streamlit as st
-from openai import OpenAI
 import os
+import openai
+import json
 import glob
-import difflib
+from openai import OpenAI
+from sklearn.metrics.pairwise import cosine_similarity
+from typing import List
+import numpy as np
 
-# Set your OpenAI API key
+# Set up OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Page config
+# Load or compute embeddings
+@st.cache_data(show_spinner=False)
+def load_ercot_chunks_and_embeddings():
+    from openai import OpenAI
+    embedding_model = "text-embedding-3-small"
+
+    chunks = []
+    embeddings = []
+
+    for filepath in sorted(glob.glob("ercot_planning_part*.txt")):
+        with open(filepath, "r", encoding="utf-8") as f:
+            text = f.read()
+            chunks.append({"filename": filepath, "text": text})
+
+    for chunk in chunks:
+        response = client.embeddings.create(
+            model=embedding_model,
+            input=chunk["text"][:8192]  # Embed first 8192 tokens max
+        )
+        embeddings.append(response.data[0].embedding)
+
+    return chunks, np.array(embeddings)
+
+# Embed the user query
+def embed_query(query: str) -> List[float]:
+    response = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=query
+    )
+    return response.data[0].embedding
+
+# Find best matching chunk
+def find_best_match(query: str, chunks, embeddings):
+    query_embedding = np.array(embed_query(query)).reshape(1, -1)
+    scores = cosine_similarity(query_embedding, embeddings).flatten()
+    best_idx = int(np.argmax(scores))
+    return chunks[best_idx]
+
+# Streamlit UI
 st.set_page_config(page_title="Amir Exir's ERCOT Planning Guides AI Assistant", page_icon="⚡")
 st.title("⚡ Ask Amir Exir's ERCOT Planning Guides AI Assistant")
 
-# Load and chunk ERCOT planning guide text files
-ercot_chunks = {}
-for filepath in sorted(glob.glob("ercot_planning_part*.txt")):
-    part_number = filepath.replace("ercot_planning_part", "").replace(".txt", "")
-    with open(filepath, "r", encoding="utf-8") as f:
-        ercot_chunks[part_number] = f.read()
+# Load data and embeddings once
+with st.spinner("Loading planning guides and computing embeddings..."):
+    chunks, embeddings = load_ercot_chunks_and_embeddings()
 
-# Fuzzy match to find best chunk
-def find_best_chunk(user_question):
-    scores = {}
-    for part, text in ercot_chunks.items():
-        score = difflib.SequenceMatcher(None, user_question.lower(), text.lower()).ratio()
-        scores[part] = score
-    if not scores:
-        return "No planning guide files found."
-    best_part = max(scores, key=scores.get)
-    if scores[best_part] < 0.3:
-        return "Sorry, I couldn’t find a relevant section."
-    return ercot_chunks[best_part]
-
-# Chat history init
+# Initialize chat
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display past messages
+# Show past messages
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
-# User input
-if prompt := st.chat_input("Ask Amir Exir's AI assistant about ERCOT planning guides..."):
+# Chat input
+if prompt := st.chat_input("Ask about ERCOT planning guides..."):
     st.chat_message("user").markdown(prompt)
-    relevant_text = find_best_chunk(prompt)
-
-    system_prompt = {
-        "role": "system",
-        "content": f"You are an expert assistant on ERCOT's planning guides. Use only the section below to answer:\n\n{relevant_text}"
-    }
-
-    messages = [system_prompt] + st.session_state.messages + [{"role": "user", "content": prompt}]
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
+        best_chunk = find_best_match(prompt, chunks, embeddings)
+
+        system_prompt = {
+            "role": "system",
+            "content": f"""
+You are an expert assistant on ERCOT's planning guides.
+Only use the following documentation to answer the question:
+
+---
+Filename: {best_chunk['filename']}
+
+{best_chunk['text']}
+---
+Stay factual. Do not guess beyond the information provided above.
+"""
+        }
+
+        messages = [system_prompt] + st.session_state.messages
+
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
             max_tokens=1024
         )
 
-    bot_msg = response.choices[0].message.content
-    st.chat_message("assistant").markdown(bot_msg)
-    st.session_state.messages.append({"role": "assistant", "content": bot_msg})
+        bot_msg = response.choices[0].message.content
+        st.chat_message("assistant").markdown(bot_msg)
+        st.session_state.messages.append({"role": "assistant", "content": bot_msg})
