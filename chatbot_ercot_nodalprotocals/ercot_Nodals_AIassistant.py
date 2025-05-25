@@ -10,7 +10,7 @@ st.set_page_config(page_title="Amir Exir's ERCOT AI Assistant – Nodal Protocol
 st.title("⚡ Ask Amir Exir's ERCOT Nodal Protocols Assistant")
 
 # Dropdown for selecting which chunk of the Nodal Protocols to load
-part_number = st.selectbox("Select section of ERCOT Nodal Protocols (split into 28 parts):", list(range(28)))
+part_number = st.selectbox("Select section of ERCOT Nodal Protocols (split into 28 parts):", list(range(1,29)))
 
 # Load selected chunk of ERCOT Nodal Protocols
 filename = f"ercotnodals_part_{part_number}.txt"
