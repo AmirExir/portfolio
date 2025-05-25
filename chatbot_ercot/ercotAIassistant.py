@@ -26,17 +26,21 @@ def load_ercot_chunks_and_embeddings():
             chunks.append({"filename": filepath, "text": text})
 
     for chunk in chunks:
-        response = client.embeddings.create(
-            model=embedding_model,
-            input=chunk["text"][:8192]  # Embed first 8192 tokens max
-        )
-        embeddings.append(response.data[0].embedding)
+        try:
+            response = client.embeddings.create(
+                model=embedding_model,
+                input=chunk["text"][:8192]
+            )
+            embeddings.append(response.data[0].embedding)
+        except Exception as e:
+            st.warning(f"Embedding failed for {chunk['filename']}: {e}")
+            embeddings.append(None)  # Placeholder for filtering later
 
-    embeddings = [e for e in embeddings if e is not None]
+    # Clean up bad embeddings
+    valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
+    chunks, embeddings = zip(*valid_pairs)
     embeddings = np.array(embeddings)
-    if embeddings.ndim != 2:
-        raise ValueError("One or more embeddings are invalid or inconsistent in length.")
-    return chunks[:len(embeddings)], embeddings
+    return list(chunks), embeddings
 
 # Embed the user query
 def embed_query(query: str) -> List[float]:
