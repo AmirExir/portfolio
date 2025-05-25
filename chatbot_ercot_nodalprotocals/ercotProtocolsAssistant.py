@@ -23,7 +23,7 @@ def load_ercot_chunks_and_embeddings():
     st.write("📄 Available ERCOT protocol files:")
     st.write(sorted(glob.glob("chatbot_ercot/ercot_planning_part*.txt")))
 
-    for filepath in sorted(glob.glob("chatbot_ercot_nodalprotocals/ercot_planning_part*.txt")):
+    for filepath in sorted(glob.glob("chatbot_ercot_nodalprotocols/ercot_planning_part*.txt")):
         with open(filepath, "r", encoding="utf-8") as f:
             text = f.read()
             chunks.append({"filename": filepath, "text": text})
@@ -66,11 +66,11 @@ def find_best_match(query: str, chunks, embeddings):
     return chunks[best_idx]
 
 # Streamlit UI
-st.set_page_config(page_title="Amir Exir's ERCOT Protocals AI Assistant", page_icon="⚡")
-st.title("⚡ Ask Amir Exir's ERCOT Nodal Protocals AI Assistant")
+st.set_page_config(page_title="Amir Exir's ERCOT protocols AI Assistant", page_icon="⚡")
+st.title("⚡ Ask Amir Exir's ERCOT Nodal protocols AI Assistant")
 
 # Load data and embeddings once
-with st.spinner("Loading nodal protocals and computing embeddings..."):
+with st.spinner("Loading nodal protocols and computing embeddings..."):
     chunks, embeddings = load_ercot_chunks_and_embeddings()
 
 # Initialize chat
@@ -82,7 +82,7 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
 # Chat input
-if prompt := st.chat_input("Ask about ERCOT nodal protocals..."):
+if prompt := st.chat_input("Ask about ERCOT nodal protocols..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
