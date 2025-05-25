@@ -34,6 +34,7 @@ def load_ercot_chunks_and_embeddings():
             embeddings.append(response.data[0].embedding)
         except Exception as e:
             st.warning(f"Embedding failed for {chunk['filename']}: {e}")
+            print(f"[Embed Fail] {chunk['filename']}: {e}")
             embeddings.append(None)  # Placeholder for filtering later
 
     # Clean up bad embeddings
