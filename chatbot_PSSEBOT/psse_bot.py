@@ -3,6 +3,7 @@ import os
 import json
 import glob
 import openai 
+from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 from typing import List
 import numpy as np
