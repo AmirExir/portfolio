@@ -79,6 +79,17 @@ st.title("🧠 Ask Amir Exir's PSSE API AI Assistant")
 with st.spinner("Loading PSSE API examples and computing embeddings..."):
     chunks, embeddings = load_psse_chunks_and_embeddings()
 
+import re
+
+def extract_function_names(chunks):
+    pattern = r'\bpsspy\.(\w+)\b'
+    func_names = set()
+    for chunk in chunks:
+        func_names.update(re.findall(pattern, chunk["text"]))
+    return func_names
+
+valid_funcs = extract_function_names(chunks)
+
 # Initialize chat
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -126,5 +137,18 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
         )
 
         bot_msg = response.choices[0].message.content
+
+        def find_invalid_functions(response_text, valid_funcs):
+            used = re.findall(r'\bpsspy\.(\w+)\b', response_text)
+            return [f for f in used if f not in valid_funcs]
+
+        invalid_funcs = find_invalid_functions(bot_msg, valid_funcs)
+
+        if invalid_funcs:
+            st.warning(f"⚠️ Warning: These functions may not exist in the API: {', '.join(invalid_funcs)}")
+            bot_msg += f"\n\n⚠️ *Caution: The following PSS/E API function(s) may be hallucinated or not found in the official documentation: {', '.join(invalid_funcs)}*"
+
+
+
         st.chat_message("assistant").markdown(bot_msg)
         st.session_state.messages.append({"role": "assistant", "content": bot_msg})
