@@ -62,7 +62,7 @@ st.set_page_config(page_title="Amir Exir's PSSE API AI Assistant", page_icon="âš
 st.title("ðŸ§  Ask Amir Exir's PSSE API AI Assistant")
 
 # Load data and embeddings once
-with st.spinner("Loading nodal protocols and computing embeddings..."):
+with st.spinner("Loading PSSE API examples and computing embeddings..."):
     chunks, embeddings = load_psse_chunks_and_embeddings()
 
 # Initialize chat
