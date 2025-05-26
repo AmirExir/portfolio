@@ -1,6 +1,5 @@
 import streamlit as st
 import os
-from openai import OpenAI
 import json
 import glob
 import openai 
