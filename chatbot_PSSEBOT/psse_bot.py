@@ -57,7 +57,7 @@ def find_best_match(query: str, chunks, embeddings):
 
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's PSSE API AI Assistant", page_icon="⚡")
-st.title("⚡ Ask Amir Exir's PSSE API AI Assistant")
+st.title("🧠 Ask Amir Exir's PSSE API AI Assistant")
 
 # Load data and embeddings once
 with st.spinner("Loading nodal protocols and computing embeddings..."):
