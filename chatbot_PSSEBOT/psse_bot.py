@@ -14,7 +14,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Load or compute embeddings
 @st.cache_data(show_spinner=False)
 def load_psse_chunks_and_embeddings():
-    with open("psse_api_chunks.json", "r", encoding="utf-8") as f:
+    with open("psse_example_chunks.json", "r", encoding="utf-8") as f:
         chunks = json.load(f)
 
     embeddings = []
@@ -61,7 +61,7 @@ st.title("🧠 Ask Amir Exir's PSSE API AI Assistant")
 
 # Load data and embeddings once
 with st.spinner("Loading nodal protocols and computing embeddings..."):
-    chunks, embeddings = load_ercot_chunks_and_embeddings()
+    chunks, embeddings = load_psse_chunks_and_embeddings()
 
 # Initialize chat
 if "messages" not in st.session_state:
