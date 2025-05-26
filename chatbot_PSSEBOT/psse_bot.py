@@ -51,11 +51,14 @@ def embed_query(query: str) -> List[float]:
     return response.data[0].embedding
 
 # Find best matching chunk
-def find_best_match(query: str, chunks, embeddings):
+TOP_K = 10
+
+def find_top_k_matches(query: str, chunks, embeddings, k=TOP_K):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity(query_embedding.reshape(1, -1), embeddings).flatten()
-    best_idx = int(np.argmax(scores))
-    return chunks[best_idx]
+    scores = cosine_similarity(query_embedding, embeddings).flatten()
+    top_indices = scores.argsort()[-k:][::-1]
+    top_chunks = [chunks[i] for i in top_indices]
+    return top_chunks
 
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's PSSE API AI Assistant", page_icon="⚡")
@@ -79,25 +82,26 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        best_chunk = find_best_match(prompt, chunks, embeddings)
+        top_chunks = find_top_k_matches(prompt, chunks, embeddings)
+        combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in top_chunks)
 
         system_prompt = {
             "role": "system",
             "content": f"""
         You are an expert assistant on the PSS/E Python API and automation for power systems.
 
-        Only use the following API chunk as your source:
+        Use only the following reference chunks (from API manual and examples):
 
         ---
-        {best_chunk['text']}
+        {combined_context}
         ---
 
-        Answer clearly, with a focus on:
-        - What the function(s) do
-        - Example usage in Python
-        - When they are typically used
+        Respond with:
+        - Clear descriptions of function usage
+        - Real working Python code
+        - Best practices and typical use cases
 
-        Do not hallucinate or invent details beyond this context.
+        Prioritize actual examples if available. Do not make up any function names not shown.
         """
         }
 
