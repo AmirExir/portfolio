@@ -42,6 +42,7 @@ def load_psse_chunks_and_embeddings():
     chunks, embeddings = zip(*valid_pairs)
     embeddings = np.array(embeddings)
     return list(chunks), embeddings
+
 # Embed the user query
 def embed_query(query: str) -> List[float]:
     response = client.embeddings.create(
@@ -50,15 +51,25 @@ def embed_query(query: str) -> List[float]:
     )
     return response.data[0].embedding
 
-# Find best matching chunk
-TOP_K = 10
-
-def find_top_k_matches(query: str, chunks, embeddings, k=TOP_K):
+# Find top K matches
+def find_top_k_matches(query: str, chunks, embeddings, k=50):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
     scores = cosine_similarity(query_embedding, embeddings).flatten()
     top_indices = scores.argsort()[-k:][::-1]
     top_chunks = [chunks[i] for i in top_indices]
     return top_chunks
+
+# Limit chunks by token budget
+def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
+    total = 0
+    selected = []
+    for chunk in chunks:
+        token_count = len(chunk["text"].split())  # rough estimate
+        if total + token_count > max_input_tokens:
+            break
+        selected.append(chunk)
+        total += token_count
+    return selected
 
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's PSSE API AI Assistant", page_icon="⚡")
@@ -82,15 +93,16 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        top_chunks = find_top_k_matches(prompt, chunks, embeddings)
-        combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in top_chunks)
+        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=50)
+        trimmed_chunks = limit_chunks_by_token_budget(top_chunks)
+        combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in trimmed_chunks)
 
         system_prompt = {
             "role": "system",
             "content": f"""
         You are an the most advanced PSS/E python API and automation expert for power systems. When given a task, identify the relevant API and return a full code sample. Avoid made-up functions. Cite the chunk you're using.
         
-        Use only the following reference chunks (from API manual and examples):
+        Use only the following {len(trimmed_chunks)} reference chunks (from API manual and examples):
 
         ---
         {combined_context}
@@ -110,7 +122,7 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
-            max_tokens=4096
+            max_tokens=8192
         )
 
         bot_msg = response.choices[0].message.content
