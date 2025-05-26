@@ -110,7 +110,7 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
-            max_tokens=1024
+            max_tokens=4096
         )
 
         bot_msg = response.choices[0].message.content
