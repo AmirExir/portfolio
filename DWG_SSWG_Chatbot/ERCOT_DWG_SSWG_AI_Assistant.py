@@ -70,7 +70,7 @@ st.set_page_config(page_title="Amir Exir's ERCOT DWG & SSWG AI Assistant", page_
 st.title("🤖 ERCOT DWG & SSWG AI Assistant – by Amir Exir 😎")
 
 # Load data and embeddings once
-with st.spinner("Loading nodal DWG & SSWG and computing embeddings..."):
+with st.spinner("Loading  DWG & SSWG and computing embeddings..."):
     chunks, embeddings = load_ercot_chunks_and_embeddings()
 
 # Initialize chat
@@ -82,7 +82,7 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
 # Chat input
-if prompt := st.chat_input("Ask about ERCOT nodal DWG & SSWG..."):
+if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
