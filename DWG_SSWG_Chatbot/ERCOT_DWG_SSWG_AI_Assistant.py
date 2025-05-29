@@ -67,7 +67,7 @@ def find_best_match(query: str, chunks, embeddings):
 
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's ERCOT DWG & SSWG AI Assistant", page_icon="⚡")
-st.title(""⚡ ERCOT DWG & SSWG AI Assistant – by Amir Exir")
+st.title("🤖 ERCOT DWG & SSWG AI Assistant – by Amir Exir 😎")
 
 # Load data and embeddings once
 with st.spinner("Loading nodal DWG & SSWG and computing embeddings..."):
