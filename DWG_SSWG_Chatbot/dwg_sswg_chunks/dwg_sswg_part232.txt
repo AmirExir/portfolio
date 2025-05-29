@@ -1,0 +1,6 @@
+nstant impedance (Z), constant current (I), and constant power (P) representations, known as ZIP models.  PSS/E CONL activity is used to incorporate the ZIP models into a PSS/E study.  
+The DWG recommends the use of the CMLD composite load model to represent various typical dynamic load elements, and in particular, modeling of air conditioning load as needed for studies.  Due to the complexity of flat start case development, these dynamic load models are not included in the DWG flat start cases. Instead, the dynamic load models are documented in the Stability Book. 
+Within 30 days of a written request from ERCOT, a TSP shall provide dynamic load models compatible with the software listed in Section 3.1.1 with documentation explaining the process to derive such models. 
+The DWG shall review the standard load-frequency dependency model (LDFRAL) and update the model if necessary. The model shall be documented in the Stability Book.
+	Other Types of Dynamic Data
+Note: This section addresses

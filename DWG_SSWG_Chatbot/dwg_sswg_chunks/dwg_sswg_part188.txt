@@ -1,0 +1,5 @@
+cted to a controllable infinite bus whose voltage and frequency can be adjusted for testing.  No explicit ERCOT transmission system models are required for this testing.  The tests shall be performed with the current planning model software.
+	For generation resources, the generator is dispatched at full real power output and the Point of Interconnection (POI) bus voltage is initialized to nominal 1.0 per-unit unless the test requires otherwise. Facilities that include energy storage systems should also be tested at full real power withdrawal. The initial reactive power exchange at the POI should be near zero unless the test requires otherwise.  
+	Behind the POI, the generator(s) and step-up transformer(s) shall be represented along with any additional planned or installed static and dynamic reactive equipment.  
+	Station transformer taps and static switched shunts should be initialized to a nominal position appropriate for the initial POI voltage and real power dispatch.
+	Any switching

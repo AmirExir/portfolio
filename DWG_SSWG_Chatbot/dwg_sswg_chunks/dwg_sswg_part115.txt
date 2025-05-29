@@ -1,0 +1,12 @@
+Topology Processor output desired for example input.
+5.4	Planning Data Dictionary
+The Planning Data Dictionary is used by ERCOT to show correlation between SSWG Case bus numbers and TSP area SCADA names.  Additionally, the Planning Data Dictionary without the SCADA names is included as part of ERCOT’s FERC 715 filing.  
+
+The exchange of information for the Planning Data Dictionary will only be communicated using an Excel spreadsheet with the columns as listed in the table below.  The table identifies the columns which the TSPs and ERCOT are responsible for populating.  ERCOT does not create or manually update the information submitted by the TSPs.  The Planning Data Dictionary will be updated with each SSWG Case build.
+
+The format will be as follows (see next page):
+ 
+Column Name	TSP Responsibility	ERCOT Responsibility	Description
+TSP				Shortened version of SSWG Area
+SSWG BUS NUMBER				Extracted from the SSWG Steady State Cases
+SSWG BUS DATE IN				From the SSWG Steady State Cases,

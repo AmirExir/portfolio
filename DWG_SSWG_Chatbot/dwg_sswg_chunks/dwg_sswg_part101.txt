@@ -1,0 +1,9 @@
+ion of at least six months and will model the status in the applicable SSWG Case(s) in accordance with its transmission in-service date.
+ 
+5	OTHER SSWG ACTIVITIES
+5.1	Transmission Loss Factor Calculations
+The transmission loss factors must be calculated according to Protocol Section 13. The loss factors are calculated using the seasonal SSWG Cases. The values are entered in the ERCOT settlements system to account for losses on the transmission system. Separate calculations are performed for the eight seasonal SSWG Cases: spring, summer, fall, and winter with an on and off peak for each season. 
+
+The Non Opt In Entities (NOIE) that provide metering of their system load to the ERCOT settlement system by a set of ERCOT Polled Settlements Meters (EPS) that ‘ring’ their transmission system as defined in Protocol 13.4.1 have additional calculations performed for their transmission loss factors.
+
+The NOIE that send extra data to ERCOT for the loss calculations have EPS settlement meters on al

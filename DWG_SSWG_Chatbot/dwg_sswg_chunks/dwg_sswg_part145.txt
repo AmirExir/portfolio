@@ -1,0 +1,19 @@
+FAKEGEN	ERCOT designated extraordinary dispatch zone for Modeling Fake units
+1199	E_AUXLOAD	ERCOT designated auxiliary load zone
+1200	UNASSIGNED	Planning zones that are not defined in NMMS are defaulted to this zone
+2000	Anderson County	Anderson County For all TSP Use
+2001	Andrews County	Andrews County For all TSP Use
+2002	Angelina County	Angelina County For all TSP Use
+2003	Aransas County	Aransas County For all TSP Use
+2004	Archer County	Archer County For all TSP Use
+2005	Armstrong County	Armstrong County For all TSP Use
+2006	Atascosa County	Atascosa County For all TSP Use
+2007	Austin County	Austin County For all TSP Use
+2008	Bailey County	Bailey County For all TSP Use
+2009	Bandera County	Bandera County For all TSP Use
+2010	Bastrop County	Bastrop County For all TSP Use
+2011	Baylor County	Baylor County For all TSP Use
+2012	Bee County	Bee County For all TSP Use
+2013	Bell County	Bell County For all TSP Use
+2014	Bexar County	Bexar County For all TSP Use
+2015	Blanco County	Blanco County Fo

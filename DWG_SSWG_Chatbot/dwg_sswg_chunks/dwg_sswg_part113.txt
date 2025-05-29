@@ -1,0 +1,10 @@
+evice Missing	A system switching device with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+Transformer Missing	A transformer with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+Generator Missing	A generator with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+Shunt Missing	A shunt with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+
+5.3	Review of NMMS and Topology Processor Compatibility with PSS®E
+From time to time, updated versions of PSS®E may require modifications to the methods of extracting necessary power-flow data from NMMS.  For every PSS®E version change, the following evaluation process shall be followed:
+
+1.	Use PSS®E documentation such as release notes and compatibility references to identify new fields and record formats added to a new version of PSS®E.
+2.	SSWG determines which, if any, of the new field

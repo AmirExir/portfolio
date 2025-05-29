@@ -1,0 +1,12 @@
+, if applicable.
+	Number of machines by manufacturer types.
+	Reactive resource data such as capacitor banks, STATCOMS, etc. Provide the number of devices, location of the devices, step size, speed of switching, location where voltage is monitored and controlled, control strategy, and voltage limits. For dynamic reactive devices, provide the appropriate model and data.
+	Line data from the POI to each generator shall include: 
+	Line type (overhead or underground)
+	Line length 
+	Line resistance in ohms/1000 ft
+	Line reactance in ohms/1000 ft
+	Line susceptance in mhos/1000 ft
+	Wind turbine models shall account for rotor mass, aerodynamic energy conversion, and pitch control.
+	Explicit frequency protection relay models shall be provided for all facilities where relays are set to trip the resource within the “no trip zone” of NERC Standard PRC-024 Attachment 1.
+	Explicit voltage protection relay models shall be provided for all facilities where relays are set to trip the resource within the

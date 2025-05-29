@@ -1,0 +1,12 @@
+ls2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+GSU Specified R 2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+GSU Specified X 2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Rate 1 / Rate 2/ Rate 3 / Rate 4 / Rate 5	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Generator Reactive Devices Control Mode2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Generator Reactive Devices Vhi (pu)2	Resource Registration Data - MOD PROFILES	Resource Registration Data - MOD PROFILES
+Generator Reactive Devices Vlo (pu)2	Resource Registration Data - MOD PROFILES	Resource Registration Data - MOD PROFILES
+Generator Reactive Devices Binit (Mvar)	MOD PROFILES	MOD PROFILES
+Generator Reactive Devices Bsteps (Mvar)2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Wind Machine Control Mo

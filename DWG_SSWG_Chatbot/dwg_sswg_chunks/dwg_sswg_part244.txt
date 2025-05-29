@@ -1,0 +1,5 @@
+Unit MVA Base: this is also known as MBASE and is used as the base quantity for many dynamic model parameters associated with generating units.
+	Zsource: reactive machine impedance that is required to match the subtransient reactance specified in the dynamic generator model for proper initialization of dynamic simulations.
+ERCOT shall compile the list of data changes following finalization of the flat start DWG shall coordinate with SSWG to assure that conflicting data is corrected during future SSWG case building activities. 
+	DWG Dynamic Contingency Assumptions List
+The DWG shall construct a dynamic contingency assumptions list detailing contingency assumptions for each TSP for the purpose of screening studies conducted by ERCOT and the DWG members. ERCOT and the DWG members shall annually review and update the dynamic contingency assumption list. Upon completion of the annual review, ERCOT shall collect the contingency assumptions and submit the finalized dynamic contingency assum

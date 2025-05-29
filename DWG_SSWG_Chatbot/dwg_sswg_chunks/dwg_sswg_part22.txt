@@ -1,0 +1,12 @@
+NMMS_POSTINGS area of the ERCOT Market Information System.
+•	Review and resolve all inconsistencies identified from the incremental update process for their respective Transmission Facilities.
+•	The “MOD Project” is submitted by the TSPs and the MOD Project ID for the project will become the “TPIT number”.  When editing an accepted project, click the “Edit” button from the project list to put project into “Preliminary” state, then “View” the project from project list and use the “Replace” button to upload edited project.  This will preserve the MOD Project ID for TPIT.
+•	TSPs are responsible for updating TPIT project and phase information in MOD during each tri-annual case build/update for all the applicable fields as shown below.
+
+Field Name	Required/ Optional
+ERCOT Project Number	Required
+RTP Project Number	Required if in RTP
+RPG Project Number	Required for submitted Tier 1, 2, and 3 projects
+Project Title	Required
+Project Description	Optional
+Comments/Reasons for Delays/Cancellation

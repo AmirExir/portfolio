@@ -1,0 +1,5 @@
+ue, typically in per unit. Where the base kV contained in the bus data records for the buses connected to transformer terminals are equal to the rated voltage of the transformer windings connected to those terminals, the transformer off-nominal ratio is equal to 1.00. When the transformer has no-load taps, the transformer off-nominal ratio can be something other than 1, but is usually in the range of 0.95 to 1.05. The effects of load tap changing (LTC) transformer taps are also handled in the transformer data record. 
+4.5.1.8.2	Control Mode
+This field enables or disables automatic transformer tap adjustment. Setting this field to a value other than zero (“None” within PSS®E) enables automatic adjustment of the LTC or phase shifter as specified by the adjustment data values during power-flow solution activities. Setting this field to zero prohibits automatic adjustment of this transformer during the power-flow solution activities.
+4.5.1.8.3	Controlled Bus
+The bus number of the bus whose

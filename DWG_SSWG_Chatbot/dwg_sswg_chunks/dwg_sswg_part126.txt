@@ -1,0 +1,23 @@
+Electric - Scurry County
+64	BEPC_Shackelford	Brazos Electric - Shackelford County
+65	BEPC_Somervell	Brazos Electric - Somervell County
+66	BEPC_Stephens	Brazos Electric - Stephens County
+67	BEPC_Stonewall	Brazos Electric - Stonewall County
+68	BEPC_Tarrant	Brazos Electric - Tarrant County
+69	BEPC_Throckmorton	Brazos Electric - Throckmorton County
+70	BEPC_Walker	Brazos Electric - Walker County
+71	BEPC_Williamson	Brazos Electric - Williamson County
+72	BEPC_Wise	Brazos Electric - Wise County
+73	BEPC_Young	Brazos Electric - Young County
+102	O_Rusk	ONCOR - Rusk County
+103	O_Nacogdoches	ONCOR - Nacogdoches County
+104	O_Angelina	ONCOR - Angelina County
+105	O_Smith	ONCOR - Smith County
+106	O_Cherokee	ONCOR - Cherokee County
+107	O_Houston	ONCOR - Houston County
+108	O_Anderson	ONCOR - Anderson County
+109	O_Henderson	ONCOR - Henderson County
+110	O_VanZandt	ONCOR - Rains and Van Zandt Counties
+113	O_Kaufman	ONCOR - Kaufman and Rockwall Counties
+114	O_Dallas	ONCOR - Dallas County
+115	O_Ellis	ONCOR -

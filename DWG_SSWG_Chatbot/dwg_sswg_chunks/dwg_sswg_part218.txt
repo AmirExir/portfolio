@@ -1,0 +1,7 @@
+the Model Quality Guideline Section 3.1.5.  Alternative testing methods may be permissible if the objective is fulfilled.  The following tests should be performed on both the PSCAD model and the actual inverter hardware:
+
+	Step change in voltage, as specified in Section 3.1.5.3
+	Voltage Ride Through, as specified in Section 3.1.5.4 and 3.1.5.5.
+	System Strength Test similar to Section 3.1.5.9.  
+	Voltage Angle Step Test as in Section 3.1.5.10.
+	Subsynchronous Test:  Perform a frequency scan sweep to measure the subsynchronous impedance as seen looking into the inverter over the range 5 to 55 Hz in 1 Hz increments.  This test is generally conducted by adding a small voltage perturbation of variable frequency superimposed on the fundamental (60 Hz) voltage, and measuring the complex impedance as seen looking into the inverter.  The results should be provided both as a plot and as a table and should display Resistance and Reactance plotted over 5 to 55 Hz.  Values should be in per-unit o

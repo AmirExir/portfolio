@@ -1,0 +1,7 @@
+and should display Resistance and Reactance plotted over 5 to 55 Hz.  Values should be in per-unit on the inverter MVA base.  This test should be conducted under the following conditions:  Strong system (short circuit ratio = 10), unity power factor, Weak System Lagging (short circuit ratio = 1.5, 0.95 lagging power factor), and Weak System Leading (short circuit ratio = 1.5, 0.95 leading power factor).  
+
+
+	Maintenance of Dynamic Models
+Maintenance of the models is the responsibility of the device owner. Models shall be maintained in accordance with Section 3.2.  Any user-written dynamic models shall also be maintained to fulfill the requirements as described in the Planning Guide Section 6.2 and Section 3.1.4 in this manual.
+	Dynamic Data for Existing Equipment
+“As-built” data is required for all completed facilities in accordance with Section 3.2.  To help ensure that dynamic model data is kept up to date with site-specific settings, paragraph (5)(b) of Planning Guide Section 6.2 in

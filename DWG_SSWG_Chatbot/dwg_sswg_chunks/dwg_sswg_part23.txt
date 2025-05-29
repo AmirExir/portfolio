@@ -1,0 +1,24 @@
+rojects
+Project Title	Required
+Project Description	Optional
+Comments/Reasons for Delays/Cancellations/Speedup	Optional
+Terminal "from" Location	Optional
+Terminal "to" Location	Optional
+Transmission Status	Optional
+Associated Projects (project number)	Optional
+Transmission Owner	Required
+TSP/Company Contact	Required
+Transmission Owner Project Number	Optional
+Projected In-Service Date (Month/Yr)	Required
+Actual In-Service Date (Month/Yr)	Required once energized in the field
+CONFIDENTIAL Total Project Estimated Cost	Required
+Service Level kV	Required
+Trans Circuit Miles New	Optional
+Trans Circuit Miles Rebuilt or Upgraded	Optional
+Autotransformer Capacity (MVA)	Optional
+Reactive Capability Added	Optional
+County Location for Substation or for a Line	Optional
+County Location for Ending Point for a Line	Optional
+Planning Charter Tier	Required
+Date Submitted TO ERCOT for RPG Review	Required for submitted Tier 1, 2, and 3 projects
+Date RPG Review Completed (Month/Yr)	Required for submitted Tie

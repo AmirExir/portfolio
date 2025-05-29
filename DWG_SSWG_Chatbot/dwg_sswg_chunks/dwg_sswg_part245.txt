@@ -1,0 +1,10 @@
+, ERCOT shall collect the contingency assumptions and submit the finalized dynamic contingency assumptions list to the DWG.
+
+The assumptions shall include:
+	Breaker trip time for normal clearing, 
+	Breaker trip time for delayed clearing due to stuck breaker
+	Breaker trip time for delayed clearing due to relay failure
+	Relay characteristic assumptions to assess generic apparent impedance swings that can trip any transmission system elements
+	Other assumptions deemed necessary by DWG as specified during the annual review
+	DWG Dynamic Contingency Database
+The DWG shall prepare a Dynamic Contingency Database according to a standard spreadsheet format.  The spreadsheet format will be reviewed annually. In addition to the spreadsheet, DWG members can also provide their contingencies in python format if the spreadsheet is inadequate to accurately represent the contingencies (ex. contingencies based on detailed expansion of the station into node breaker). The dynamic contingency database and a

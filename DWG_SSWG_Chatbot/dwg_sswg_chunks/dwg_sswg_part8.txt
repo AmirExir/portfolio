@@ -1,0 +1,14 @@
+process outlined by ERCOT Market Notice W-A032522-0.
+                                                
+Model On Demand	Model On Demand application is a Siemens program that serves as a database and case building tool that SSWG uses to create and maintain the SSWG Cases.
+
+MOD Base Case	The TP Case loaded into MOD that is incrementally updated by ERCOT to maintain consistency between NMMS and MOD and is used as a starting point for building/updating SSWG Cases.
+
+MOD File Builder	An application which converts planning model changes made in the PSS®E application, IDEV,  into a PMCR-ready format, PRJ, which can be uploaded to MOD.
+
+Network Operations Model	The NMMS database containing the model of the ERCOT 
+Management System	interconnection which is the basis for all applications used in reliability and market analysis and system planning.
+
+Off-Cycle Updates			Model updates which occurred between a biannual update cycle.
+
+Planning Model Change Request	A Planning Model Change Request modifie

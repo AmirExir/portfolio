@@ -1,0 +1,20 @@
+y For all TSP Use
+2246	Wilson County	Wilson County For all TSP Use
+2247	Winkler County	Winkler County For all TSP Use
+2248	Wise County	Wise County For all TSP Use
+2249	Wood County	Wood County For all TSP Use
+2250	Yoakum County	Yoakum County For all TSP Use
+2251	Young County	Young County For all TSP Use
+2252	Zapata County	Zapata County For all TSP Use
+2253	Zavala County	Zavala County For all TSP Use
+
+
+
+Appendix B
+Methodology for Calculating Wind Generation levels in the SSWG Cases
+
+Goal – Use available forecast data to set the dispatch for wind generation in the new SSWG Cases.
+
+Section 3.2.6.2.2 of the Nodal Procotols 
+
+WINDPEAKPCT s, r	%	Seasonal Peak Average Wind Capacity as a Percent of Installed Capacity—The average wind capacity available for the summer and winter Peak Load Seasons s and region r, divided by the installed capacity for region r, expressed as a percentage. The Seasonal Peak Average, derived from Settlement data, is first calculated as the average capacity during the

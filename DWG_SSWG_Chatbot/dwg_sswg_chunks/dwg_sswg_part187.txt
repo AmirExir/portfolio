@@ -1,0 +1,14 @@
+, 3.1.5.12
+	Large voltage dist.:
+	LVRT Test†, 3.1.5.4
+	HVRT Test‡, 3.1.5.5
+	AGS System Strength,3.1.5.13
+	AGS Phase Angle Jump, 3.1.5.14
+	AGS Loss of synchronous machine, 3.1.5.15	All tests, except Phase Angle Jump, are required in both PSS/e and PSCAD (and TSAT, if UDM).
+† Low Voltage Ride Through (LVRT): Includes both the Legacy LVRT and the Voltage Dip test fashioned after LVRT curve as defined in Nodal Operating Guide 2.9.1.1.
+‡ High Voltage Ride Through (HVRT): Includes the preferred HVRT curve and, if necessary, the Legacy HVRT curve. See Section 3.1.5.5 for more details. 
+
+3.1.5.1 Simulation Set Up
+
+To examine the dynamic performance of a Generation Facility or dynamic transmission element, all site-specific dynamic models needed to represent the facility shall be included in the test.  Unless otherwise specified, the following model guidelines apply:
+	The facility model is connected to a controllable infinite bus whose voltage and frequency can be adjusted for testing.  No exp

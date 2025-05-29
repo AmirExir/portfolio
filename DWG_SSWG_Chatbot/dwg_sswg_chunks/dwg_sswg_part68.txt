@@ -1,0 +1,13 @@
+ings
+SSWG Cases contain fields for five ratings for each branch record, including zero impedance branches.  The ratings associated with these five fields are commonly referred to as Rate 1, Rate 2, Rate 3, Rate 4, and Rate 5.  Each TSP has their own methodology for calculating these ratings and shall be made available to others within ERCOT upon request. Following are the SSWG Case facility ratings corresponding to the ratings defined in Nodal Protocol 2.1:
+
+Planning Case Rating Definitions	Corresponding Nodal Protocol Section 2.1 Definitions
+Rate 1	Normal Rating
+Rate 2	Emergency Rating
+Rate 3	 15-Minute Rating
+Rate 4	Transformer 2-Hour/Branch Conductor Rating
+Rate 5	Relay Loadability Rating
+
+By definition, Rate 5 ≥ Rate 3 ≥ Rate 2 ≥ Rate 1 and Rate 4 ≥ Rate 2 ≥ Rate 1.
+
+When performing security studies, ERCOT will default to Rate 2, unless the TSP has previously indicated in writing that other ratings (e.g., Rate 1) should be used.  If problems exist using Rate 2 and Rate 2 is signifi

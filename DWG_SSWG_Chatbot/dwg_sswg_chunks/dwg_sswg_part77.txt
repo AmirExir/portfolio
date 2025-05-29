@@ -1,0 +1,17 @@
+it is imperative that neighboring entities exercise care in coordinating tie line data. 
+Ratings for tie lines should be mutually agreed upon by all involved entities and should comply with NERC Reliability Standards. 
+
+It is imperative for neighboring entities to coordinate tie line data in order to allow Planning Case work activities to proceed unimpeded. Entities should exchange tie-line data at least two weeks before the data is due to ERCOT. Coordination of tie line data includes timely agreement between entities on the following for each tie line:
+•	In-service/ out-service dates for ties
+•	From bus number
+•	To bus number
+•	Circuit identifier
+•	Impedance and charging data
+•	Ratings
+•	Transformer adjustment (LTC) data
+•	Status of branch
+•	Circuit miles
+•	Ownership (up to four owners)
+•	Entity responsible for submitting data  
+
+OSRs can be submitted separately into NMMS/MAGE but for PMCRs in MOD only one set of ratings can be submitted.  Impedance and length are only allowed to have

@@ -1,0 +1,38 @@
+Self-Serve	P1	P1	Two units connected to same bus 	Self Serve units
+ 	 	P2		
+ 	 	P1	Only one unit	
+ 	 	 	 	 
+Self-Serve Economic Units	PE	PE	 	Self Serve Economic Units
+ 	 	 	 	 
+Black Start Units	BS	BS	 	Black Start Units
+ 	 	 	 	 
+Battery Units	B	B1	Two units connected to same bus	All battery units
+		B2		
+		B1	Only one unit	
+ 	 	 	 	 
+Block Load Transfer Model	BL	BL	 	Modeling equivalent block load transfer
+ 	 	 	 	 
+Synchronous Condenser	SC	SC		Synchronous Condenser
+				
+Settlement Only Distributed Generation 	J	JB	Battery	SODG unit IDs by resource type
+
+
+		JS	Solar	
+		JN	Natural Gas	
+		JD	Diesel	
+		JW	Wind	
+		JG	Landfill Gas	
+		JH	Hydro	
+		JI	Other Inverter-Based Resource	
+		JO	Other Synchronous Generation	
+
+ 
+Appendix E
+
+Load ID Prefixes
+
+This appendix provides an explanation of selected Load ID prefixes with specific meaning that correspond to modeling in the SSWG Cases.
+
+Types of Loads	Load ID Prefix	Load ID	Comment	Explanation
+				
+City Loads	E	E1	Two loads connected to sam

@@ -1,0 +1,21 @@
+e
+2228	Tyler County	Tyler County For all TSP Use
+2229	Upshur County	Upshur County For all TSP Use
+2230	Upton County	Upton County For all TSP Use
+2231	Uvalde County	Uvalde County For all TSP Use
+2232	Val Verde County	Val Verde County For all TSP Use
+2233	Van Zandt County	Van Zandt County For all TSP Use
+2234	Victoria County	Victoria County For all TSP Use
+2235	Walker County	Walker County For all TSP Use
+2236	Waller County	Waller County For all TSP Use
+2237	Ward County	Ward County For all TSP Use
+2238	Washington County	Washington County For all TSP Use
+2239	Webb County	Webb County For all TSP Use
+2240	Wharton County	Wharton County For all TSP Use
+2241	Wheeler County	Wheeler County For all TSP Use
+2242	Wichita County	Wichita County For all TSP Use
+2243	Wilbarger County	Wilbarger County For all TSP Use
+2244	Willacy County	Willacy County For all TSP Use
+2245	Williamson County	Williamson County For all TSP Use
+2246	Wilson County	Wilson County For all TSP Use
+2247	Winkler County	Winkler Count

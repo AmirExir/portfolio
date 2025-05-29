@@ -1,0 +1,8 @@
+ons with the necessary changes and additions within an agreed upon timeline and format for ERCOT to import into the existing database.
+2.	Upon import, ERCOT will overwrite the previous list of definitions submitted by the TSP.
+3.	ERCOT will verify that the changes were imported into the database and provide the TSPs with a change log which will list the contingency definitions that were updated, deleted or created.
+4.	Steps 1 to 4 will be repeated for each pass of the contingency update process.
+5.	When the contingency list is finalized, ERCOT will post the list on the MIS website along with the contingency files created for use with MUST, PSS®E, PowerWorld, UPLAN and VSAT.  Definitions which are flagged as being invalid will NOT be included in the contingency file.
+6.	The planning or extreme event rationale will be provided in supporting documentation from TSPs upon request.
+
+A TSP may only submit changes for their company and rows with null values in either the Submitter or TOConting

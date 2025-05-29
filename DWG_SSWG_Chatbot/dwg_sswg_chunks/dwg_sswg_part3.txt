@@ -1,0 +1,19 @@
+n a triannual basis.
+
+•	Maintain and update the Planning Data Dictionary to reflect current and future year bus and county information. 
+
+•	Review and update, as necessary (at least every five years), the SSWG Procedural Manual to reflect current planning practices and the latest steady-state modeling methodologies.
+
+•	Prepare data for and review seasonal transmission loss factor calculations by January 1st of each year.  
+
+•	Develop steady state and geomagnetic disturbance model processes for compliance with NERC Reliability Standards for Transmission Planner and Planning Authority/Coordinator.
+
+•	Coordinate tie-line modeling data with adjacent Transmission Planners via the case-building process. 
+
+•	Review and update the contingency definition files used for planning. 
+
+•	Address issues as directed by the ROS.
+
+•	Annually review status of the Network Model Management System (NMMS) and Topology Processor software regarding new planning data needs.
+
+•	Develop GIC system models every 5

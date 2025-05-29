@@ -1,0 +1,13 @@
+QGen (Mvar)	DISPATCH - MOD PROFILES	DISPATCH - MOD PROFILES
+PMax (MW)	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+PMin (MW)	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+QMax (Mvar) 	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+QMin (Mvar)2 	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+Mbase (MVA)2 	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+R Source (pu)2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+X Source (pu)2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Owner	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Generator Step-up Unit (GSU) ID	NMMS	MOD PMCR
+GSU Tap positions2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+GSU Tap Controls2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+GSU Specified R 2	Resour

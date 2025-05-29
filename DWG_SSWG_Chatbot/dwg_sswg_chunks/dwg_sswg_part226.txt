@@ -1,0 +1,8 @@
+ay models shall be provided for all facilities where relays are set to trip the resource within the “no trip zone” of NERC Standard PRC-024 Attachment 2.
+
+	Updates to Existing Dynamic Data
+The RE shall submit dynamic model updates to ERCOT and the TSP to which they are connected within 30 days of any facility change and/or test result that necessitates a model update to accurately reflect dynamic performance.  The data requirements specified in section 3.2.1 for new equipment also apply to all submitted model updates.  Obsolete data should be deleted or commented out as appropriate in the dynamic data.
+	Data for Load Resource
+ERCOT will prepare the dynamic model using a standard model for Load Resource that is qualified to provide Responsive Reserve (RRS) through under frequency relay models.  Data for the Load Resource model shall be documented in the Stability Book. 
+	Dynamic Data for Equipment Owned by Transmission Service Providers (TSPs) or Other Equipment Owners
+	Under Frequency

@@ -1,0 +1,15 @@
+open or normally closed.
+4.6.3	Static Reactive Device Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Switched Shunt: Control Mode	NMMS	MOD PMCR/PROFILES
+Switched Shunt: Voltage Limits	MOD PROFILES/NMMS	MOD PMCR/PROFILES
+Switched Shunt: Controlled Bus	NMMS	MOD PMCR/PROFILES
+Switched Shunt: B init	MOD PROFILES/NMMS	MOD PROFILES
+Switched Shunt: B steps	NMMS	MOD PMCR
+Fixed Shunt: ID	NMMS	MOD PMCR
+Fixed Shunt: Status	NMMS	MOD PMCR
+Fixed Shunt: B-Shunt	NMMS	MOD PMCR
+Series Device	NMMS	MOD PMCR
+ 
+4.7	Dynamic Control Devices
+All existing and planned FACTS devices shall be modeled in the SSWG Cases. There are a multitude of FACTS (Flexible AC Transmission System) devices currently available, comprising shunt devices, such as Static VAR Compensator (SVC), Static Compensator (STATCOM), series devices such as the Static Synchronous Series Compensator (SSSC), combined devices such as the Unified Power Flow Controller (UPFC) and the Interline Power Flow Controller

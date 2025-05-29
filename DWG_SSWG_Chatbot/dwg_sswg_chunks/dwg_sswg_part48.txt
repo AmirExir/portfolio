@@ -1,0 +1,14 @@
+loss is generally not allowed while monitoring Rate 1 (pre-contingency) and Rate 2 (post-contingency) for all transmission lines greater than 60 kV and transformers with the low side greater than 60 kV. 
+2.	The SSWG Cases that are economically dispatched with an attempt to prevent Rate 1 overloads for all transmission lines greater than 60 kV and transformers with the low side greater than 60 kV. 
+3.	Not Economically Dispatched
+4.	The HRML case build process is as follows:
+a.	Topology
+i.	Use the topology as of January 1, YR+4
+b.	Load
+i.	Load shall be set at absolute minimum load expected for the year (the same value utilized by the MIN case)
+c.	Respect existing N-0 GTC limits
+i.	Model and constrain on the GTC interfaces with an N-0 limit that is not 9999
+d.	Dispatch the case
+i.	Dispatch nuclear units at full capacity, and NOIE and PUN units at the output in the NOIE/PUN dispatch sheet
+ii.	Turn DC ties off
+iii.	Determine reserve requirements from ancillary services and dispatch conventi

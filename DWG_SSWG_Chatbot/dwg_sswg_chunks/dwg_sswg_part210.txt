@@ -1,0 +1,22 @@
+est system should be set up with a SCR of 10 at the connection point with a X/R ratio of 6. The initial dispatch of ESR should be set to the max discharging for active power with approximately zero reactive power.
+
+The model shall be tested under the short circuit ratios listed in the table below.  As in the case of non-AGS-ESR, a 3-phase, bolted, 4-cycle fault is applied just before each SCR transition. The SCR transition occurs at fault clearing time.
+Test	SCR
+1	10
+2	5
+3	3
+4	1.5
+5	1.2
+
+
+
+
+The following performance criteria apply:
+	Plant real and reactive power output and RMS voltage should be well controlled
+
+	The plant shall not trip nor reduce power (outside of the fault period) for any extended period of time for all tested SCR range from 10 to 1.2.
+
+ 
+
+3.1.5.14 AGS-ESR Phase Angle Jump Test
+This test examines the capability to maintain the voltage phasor and ability to resist an angle change. In addition, it ensures stable behavior under different angle step changes when an ESR i

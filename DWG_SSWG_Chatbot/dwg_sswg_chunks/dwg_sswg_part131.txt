@@ -1,0 +1,22 @@
+erPoint Energy – CAPE Mutual Coupling Buses
+300	CNPEXNSS	CenterPoint Energy - Exxon Facility self serve
+301	CNP_INDS	CenterPoint Energy - Industrial Customers
+302	CNP_COGN	CenterPoint Energy - Cogeneration
+303	CNP_SS	CenterPoint Energy - Self Serve
+304	CNP_DIST	CenterPoint Energy - Distribution
+305	CNP_TGN	CenterPoint Energy
+306	CNP_IPP	CenterPoint Energy
+307	CNP_NOLOAD	CenterPoint Energy – No Load Transmission Bus
+308	CNP_GALV	CenterPoint Energy - Galveston area distribution buses
+310	STP	South Texas Project
+316	CNP_AUTOSTAR	CenterPoint Energy – Autotransformer Star Buses
+317	CNP_TERT345	CenterPoint Energy- 345kV AUTO TERTIARIES
+318	 CNP TERTIARY	CenterPoint Energy- 138kV – 69kV AUTO TERTIARIES
+319	CNP_LCAP	CenterPoint Energy - In Line Capacitor Banks
+320	CNPDOWSS	CenterPoint Energy  
+350	CPS	CPS Energy
+351	CPS_GENS	CPS Energy
+391	WEATHFRD	American Electric Power - TNC
+393	TNC/LCRA	American Electric Power - TNC
+394	NHVDC	North High Voltage DC Tie
+402	WHEARNE	American Electric Power -

@@ -1,0 +1,11 @@
+t start cases and providing associated dynamic contingencies.  The DWG shall begin the flat start case development process as soon as practicable after SSWG base cases are posted – normally in May.  The DWG shall prepare flat start cases for near term on-peak, near term off-peak and long-term on-peak conditions to facilitate planning assessments required by NERC Standard TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).  It is intended that the three dynamic data sets be developed concurrently to be utilized in planning assessments for the next year (YR+1).  The following diagram presents a schedule as a reference for DWG flat start case development:
+YR (YR=Current Year)	YR + 1
+Apr	May	Jun	Jul	Aug	Sep	Oct	Nov	Dec	Jan	Feb	Mar
+YR SSWG Build Process
+- Cases Posted				 	  			 	 	 
+		Prepare DWG Flat Start Schedule	DWG Dynamic Flat Start Case Development
+Near Term On-Peak Case
+Near Term Off-Peak Case
+Long Term On-Peak Case		
+				 				Final DWG Data Sets Posted		
+								 	Submit Dynamic C

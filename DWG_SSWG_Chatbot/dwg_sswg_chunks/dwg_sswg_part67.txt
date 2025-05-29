@@ -1,0 +1,13 @@
+s value is divided by the base impedance to obtain the per-unit reactance to be used in the SSWG Cases.  This calculation is as follows:
+  
+4.4.1.3.3	Admittance
+Branch admittance is expressed as total branch charging susceptance in per unit on the 100 MVA system base.  The total branch charging is expressed in MVARs and divided by the system base MVA to get per unit charging.  The equation used to accomplish this depends on the starting point. Typically the charging of a transmission line is known in KVARs.  Given the total transmission line charging expressed in KVARs, the equation to calculate the total branch charging susceptance in per unit on the system base is as follows:
+  
+
+Or, given the total capacitive reactance to neutral expressed in ohms  , the equation to calculate the total branch charging susceptance in per unit on the system base is as follows:
+
+ 
+
+ 
+4.4.1.4	Facility Ratings
+SSWG Cases contain fields for five ratings for each branch record, including zero impedance bra

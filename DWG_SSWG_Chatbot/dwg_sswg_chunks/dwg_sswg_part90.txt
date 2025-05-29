@@ -1,0 +1,13 @@
+should be zero.
+4.5.1.10	Load Drop Compensation
+These two fields define the real and reactive impedance compensation components for voltage controlling transformers. They are ignored for MW and MVAR flow controlling transformers. SSWG Cases normally don’t use these fields and they are set to zero by default.
+4.5.1.10.1	Resistive Component
+The resistive component of load drop compensation entered in per unit is based on the resistance between the location of the LTC and the point in the system at which voltage is to be regulated.
+4.5.1.10.2	Reactive Component
+Similar to the resistive component of load drop compensation, this value is entered in per unit and is based on the reactance between the location of the LTC and the point in the system at which voltage is to be regulated.
+4.5.2	Transformer Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+From Bus Number	NMMS	MOD PMCR
+From Bus Name	NMMS 	MOD PMCR 
+To Bus Number	NMMS	MOD PMCR
+To Bus Name	NMMS 	MOD P

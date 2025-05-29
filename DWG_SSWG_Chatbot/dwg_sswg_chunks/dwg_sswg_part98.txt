@@ -1,0 +1,17 @@
+LES	MOD PROFILES
+Q Setpoint (Mvar)	MOD PROFILES	MOD PROFILES
+V Send Setpoint	MOD PROFILES	MOD PROFILES
+Shunt Max (MVA)	MOD STD PMCR 	MOD PMCR 
+RMPCT (%)	MOD STD PMCR 	MOD PMCR 
+V Term Max (pu)	MOD STD PMCR 	MOD PMCR 
+V Term Min (pu)	MOD STD PMCR 	MOD PMCR 
+V Series Max (pu)	MOD STD PMCR 	MOD PMCR 
+I Series Max (MVA)	MOD STD PMCR 	MOD PMCR 
+Owner	MOD STD PMCR 	MOD PMCR 
+NOTE: The above list is an example of typical FACTs device parameters and does not include all possible types of FACTs devices.
+
+ 
+4.8	HVDC Devices
+HVDC Devices allow a specified real power flow to be imposed on the DC link.  For base case operation, this should be set to the desired interchange across the DC tie.  Capacitors, filter banks and reactors should be modeled explicitly and switched in or out of service based on normal DC tie operation.  The HVDC model itself normally calculates reactive power consumption.
+
+HVDC ties with external interconnections may be modeled by the use of either the Two Terminal DC Transmi

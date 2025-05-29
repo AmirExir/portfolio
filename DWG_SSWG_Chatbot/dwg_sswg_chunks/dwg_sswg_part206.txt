@@ -1,0 +1,6 @@
+4 and 3.1.5.5) are applicable to AGS-ESR, while Sections 3.1.5.11-3.1.5.15 contains modified and new tests specific to AGS-ESR: small voltage disturbance, frequency change and inertia response, system strength, and phase angle jump tests, as well as loss of synchronous machine test. 
+
+Any quantities showing oscillations resulting from a test should demonstrate a controlled, damped response. Required plots for all tests include the relevant test profile, POI voltage, and the active/reactive power of the plant with appropriate axis resolution to demonstrate all performance criteria.
+
+3.1.5.11 AGS-ESR Small Voltage Disturbance Test
+In this test, a step change is applied to the voltage magnitude of the controlled source so that the reactive power response time and magnitude can be measured. The purpose of this test is to demonstrate the capability of resisting changes in voltage magnitude. The test system should be set up to have zero impedance (Zth) between the ideal voltage source and th

@@ -1,0 +1,7 @@
+ember shall inform ERCOT and the DWG chair and vice chair of the name of the Designated Agent attending one week prior to the meeting. 
+The chair may coordinate additional meetings, including open meetings, as needed to facilitate the activities of the DWG. Non-DWG members may participate in DWG meetings including open portion of the meeting for specific purposes (e.g. a technical presentation or discussion).  Any such participation should be approved by the chair, limited to the specific purpose, announced in the meeting agenda, and recorded in the meeting minutes.  The vice chair will track attendance and document meeting minutes for in-person meetings.  
+Agendas and meeting schedules should be published at least two weeks prior to the meeting. The minutes of each meeting will be distributed to DWG members.
+	Reports to ROS
+Each month, the DWG chair will provide a written report to the ROS if needed.
+	Dynamic Data Sharing Rules
+Dynamic data and dynamic study cases are considered confi

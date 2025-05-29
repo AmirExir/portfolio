@@ -1,0 +1,23 @@
+MW capacity.  The measured short circuit MVA is defined as the short circuit current contribution from the system multiplied by the nominal system voltage.  Refer to the formula below, assuming a system base MVA of 100.
+
+SCR=〖MVA〗_Fault/〖MW〗_Capacity 
+
+SCR=(100⁄X_pu )/〖MW〗_Capacity 
+
+Rearranging,
+X_pu=100/(〖MW〗_Capacity*SCR)
+
+Where
+〖MW〗_Capacity= Total MW capacity of generator(s) under study
+SCR	= Desired short circuit ratio to test
+Xpu 	= Per unit line reactance, on a 100 MVA system base
+
+Example:
+	A wind farm consisting of one-hundred 2.0 MW wind turbines is to be tested under short circuit ratios of 5, 3, 1.5, and 1.2.  Thus, for the windfarm,
+	〖MW〗_Capacity= 200 MW	
+
+	Using the equation above, the line impedance (Xpu) is calculated for each of the test short circuit ratios.
+	When testing SCR = 5, the line reactance is Xpu = 0.1
+	When testing SCR = 3, the line reactance is Xpu = 0.17
+	When testing SCR = 1.5, the line reactance is Xpu = 0.33
+	When testing SCR = 1.2, the line reactan

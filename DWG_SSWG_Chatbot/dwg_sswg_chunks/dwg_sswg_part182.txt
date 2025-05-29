@@ -1,0 +1,7 @@
+nit shall be provided using a base MVA (MBASE) in accordance with appropriate modeling techniques for the software platform, where the MBASE is typically the generator MVA rating.
+	No model shall restrict the DWG from using any integration time-step less than or equal to a ¼ cycle in simulations when using positive sequence simulation tools.
+	No model in the DWG’s Unacceptable Model List shall be used. Refer to Section 3.1.10.
+	Standard Dynamic Models
+The use of standard dynamic models provided by the software is preferred when they can accurately represent the dynamic performance of the device being modeled. 
+	User-Written Dynamic Models
+A user written model is any model that is not a standard library model within the software(s) and version(s) listed in Section 3.1.1.  When no compatible standard dynamic model(s) provided within the software can be used to represent the dynamics of a device, accurate and appropriate user written models can be used, if accepted by ERCOT and the DWG af

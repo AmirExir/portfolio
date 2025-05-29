@@ -1,0 +1,12 @@
+esents the lowest load on the same day as the (YR) FAL1 case.
+4.	Case to represent the absolute minimum load expected for the year.
+5.	Case to represent a high renewable generation dispatch and absolute minimum load expected for the year.
+3.2.1	Updates
+The SSWG Case updates will be made in the MOD environment by changing an existing PMCR or creating a new PMCR.  It should be recognized that impedance or ratings updates made to the Network Operations Model after the TP case was created will have to be submitted as a ‘NOMCR Pending’ or ‘NOMCR Submitted’ PMCR to maintain consistency with the Network Operations Model.  See Planning Guide Section 6.4 for additional information about the TPIT process.
+
+
+ 
+ 
+3.3	SSWG Case Build Processes
+3.3.1	Overview
+The SSWG Cases are based upon the ERCOT Network Operations Model.  Network model data from the ERCOT NMMS system is used to create the TP case.  The TP case, or an incremental update to the previously uploaded TP case, is then imported into MOD

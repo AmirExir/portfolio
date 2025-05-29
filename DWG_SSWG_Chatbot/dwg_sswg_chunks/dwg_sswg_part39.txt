@@ -1,0 +1,15 @@
+S	MOD PMCR
+Owner Number/Name	NMMS	MOD PMCR
+Bus Code	NMMS 	MOD PMCR
+Load ID	NMMS	MOD PMCR
+Load Zone	NMMS 	MOD PMCR 
+P load (MW)	MOD PROFILES	MOD PROFILES
+Q load (Mvar)	MOD PROFILES	MOD PROFILES
+Scalable Flag	NMMS/MOD PMCR1	MOD PMCR
+Interruptible Flag	NMMS/MOD PMCR2	MOD PMCR
+1 - For the existing load elements, the scalable flag in SSWG Cases is populated based on the value of “CustomerLoad” attribute “Conforming Load Flag” in NMMS. If the “Conforming Load Flag” attribute is set to TRUE in NMMS, then the Scalable flag is “Checked” in SSWG Cases.
+2 - For the existing load elements, the Interruptible flag in SSWG Cases is populated based on the value of “CustomerLoad” attribute “Interruptible” in NMMS. If the “Interruptible” attribute is set to TRUE  in NMMS, then the Interruptible flag is “Checked” in SSWG Cases.
+4.3	Generator Data
+4.3.1	Acquisition of Generator Data
+4.3.1.1	Generation that meets Planning Guide 6.9(1)
+ERCOT will utilize the latest data provided by the IEs/REs in the Securi

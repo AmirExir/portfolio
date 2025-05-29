@@ -1,0 +1,7 @@
+LTC, along with the corresponding maximum and minimum turns ratio adjustment capabilities (i.e. Rmax and Rmin).  The transformer’s turns ratio step increment for a LTC can be calculated based upon data present in the “Tap Positions”, “Rmax”, and “Rmin” fields of the transformer’s PSS®E model.  A common range for a LTC turns ratio step increment is +/- 10 % over 33 tap positions (32 steps), which corresponds to 5/8% or 0.00625 per unit voltage increment per tap step.
+4.5.1.8.7	Table
+The number of a transformer impedance correction table is specified by this field if the transformer's impedance is to be a function of either the off-nominal turns ratio or phase shift angle. SSWG Cases normally don’t use these tables and this field is set to zero by default.
+4.5.1.9	Magnetizing Admittance
+Magnetizing admittance data is not required for SSWG Cases and the values for each of these two fields should be zero.
+4.5.1.10	Load Drop Compensation
+These two fields define the real and reactive impeda

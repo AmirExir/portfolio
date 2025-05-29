@@ -1,0 +1,5 @@
+e are other components that are modeled with more than two buses, such as transformers with tertiary that may be represented by three-bus models. 
+4.4.1.2	Branch Circuit Identifier 
+Circuit identifiers are limited to two alphanumeric characters.  Each TSP will determine its own naming convention for circuit identifiers.  ERCOT will determine its own naming convention for branches owned by REs and PUNs with careful coordination with connected TSPs.  These identifiers are typically numeric values (e.g. 1 or 2) that indicate the number of branches between two common buses, but many exceptions exist. 
+4.4.1.3	Branch Impedance and Admittance Data
+The branch resistance, reactance, and admittance data contained in the SSWG Cases are expressed in per-unit quantities that are calculated from a base impedance. The base impedance for transmission lines is calculated from the system base MVA and the base voltage of the transmission branch of interest.  The system base MVA used in the SSWG Cases is

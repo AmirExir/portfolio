@@ -1,0 +1,8 @@
+age can be represented in the SSWG Cases as a fixed shunt device to accurately simulate operating conditions.  Care should be exercised when specifying the size of cap banks. Be sure that the rated size of the bank is for 1.0 per unit voltage.  Care should be taken to ensure that distribution level capacitors are not modeled in such a way as to be counted twice.
+
+Multiple fixed shunts can be modeled at a bus, each with a unique ID.  These fixed shunts have a status that can be set to on or off.
+
+A positive reactive component of admittance represents a shunt capacitor and a negative reactive component represents a shunt reactor.
+ 
+4.6.1.3	Dummy Bus Shunt
+If a switchable or fixed capacitor or reactor were connected to a transmission line instead of a station bus, an outage of the transmission line would also cause the capacitor or reactor to be taken out of service (see Figure 3).  For these instances, the most accurate model is the switched shunt modeled at a dummy bus connected by a ze

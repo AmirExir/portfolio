@@ -1,0 +1,14 @@
+f relevant quantities for each test.  When submitting PSS/E and PSCAD MQT files, include the leading and lagging power factor cases for the voltage ride-through tests.  Guidelines on how these tests should be performed and the expected model performance are provided in the following sub-sections. All tests are required for PSS/E, TSAT, and PSCAD models with the exception of the Phase Angle Jump Test in Section 3.1.5.9, which is only required for PSCAD models.  A sample report is posted under ‘Model Quality Guide’ on the ERCOT Resource Entity webpage . Plots of PSS/E, TSAT, and PSCAD test results should be overlaid onto the same plot axis for comparison.  However, TSAT model testing is not required for models utilizing a TSAT standard library model.
+
+
+
+
+
+
+
+
+List of Applicable Tests
+Applicable Technologies	Models	Tests and Sections	Notes
+Synchronous Machines 
+(incl. transmission-level synchronous condensers)	PSS/e 
+(and TSAT, and PSCAD if utilizing a UDM in PSS/e model)		Flat-start, 3.1.

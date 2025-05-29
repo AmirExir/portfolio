@@ -1,0 +1,25 @@
+y
+502	BANDERA	Lower Colorado River Authority
+504	BASTROP	Lower Colorado River Authority
+505	BREWSTER	Lower Colorado River Authority
+506	BLANCO	Lower Colorado River Authority
+507	BROWN	Lower Colorado River Authority
+508	BURLESON	Lower Colorado River Authority
+510	BURNET	Lower Colorado River Authority
+511	COKE	Lower Colorado River Authority
+512	CALDWELL	Lower Colorado River Authority
+514	COLORADO	Lower Colorado River Authority
+516	COMAL	Lower Colorado River Authority
+517	CONCHO	Lower Colorado River Authority
+519	CRANE	Lower Colorado River Authority
+520	CROCKETT	Lower Colorado River Authority
+522	L_CULBERSON	Lower Colorado River Authority
+525	DEWITT	Lower Colorado River Authority
+526	DIMMIT	Lower Colorado River Authority
+527	ECTOR	Lower Colorado River Authority
+528	FAYETTE	Lower Colorado River Authority
+529	L_EDWARDS	Lower Colorado River Authority
+531	L_GILLESPIE	Lower Colorado River Authority
+534	GOLIAD	Lower Colorado River Authority
+537	GONZALES	Lower Colorado River Authority
+540	L_GUAD

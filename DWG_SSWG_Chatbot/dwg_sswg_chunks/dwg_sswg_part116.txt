@@ -1,0 +1,7 @@
+		Extracted from the SSWG Steady State Cases
+SSWG BUS DATE IN				From the SSWG Steady State Cases, this is populated by searching for the earliest SSWG Steady State Case that the bus exists.  If the bus exists throughout all of the existing Steady State Cases, the field is left blank under the assumption that it already exists in the NMMS.
+SSWG BUS DATE OUT			From the SSWG Steady State Cases, this is populated by searching for the latest SSWG Steady State Case that the bus exists.  If the bus exists throughout all of the existing SSWG Steady State Cases, the field is left blank under the assumption that it exists beyond the current planning scope.
+SSWG BUS NAME			This is required by FERC for FERC 715 pt. 2 report and is extracted from the SSWG Steady State Cases.  
+SSWG BASE KV			This is required by FERC for FERC 715 pt. 2 report and is extracted from the SSWG Steady State Cases
+SSWG BUS TYPE			Extracted from the SSWG Steady State Cases
+SSWG AREA			Extracted from the SSWG Steady Stat

@@ -1,0 +1,21 @@
+gative number. These are the first and second data fields in the branch record.
+4.4.5	Branch Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+From Bus Number	NMMS	MOD PMCR
+From Bus Name	NMMS 	MOD PMCR 
+To Bus Number	NMMS	MOD PMCR
+To Bus Name	NMMS 	MOD PMCR 
+ID	NMMS	MOD PMCR
+Resistance R (pu) 	NMMS	MOD PMCR
+Reactance X (pu)4	NMMS	MOD PMCR
+Charging Susceptance (pu) 	NMMS	MOD PMCR
+Branch Status	NMMS	MOD PMCR
+Rate 1/Rate 2/ Rate 3 / Rate 4 / Rate 5 (MVA)	NMMS	MOD PMCR
+Line Length (Miles)	NMMS	MOD PMCR
+Owner 	NMMS	MOD PMCR
+RE or PUN Owned Branch data	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Multi-Section Line	NMMS	MOD PMCR
+	 
+4.5	Transformer Data
+4.5.1	Use of Transformer Record Data Fields 
+All existing and planned transformers are to be represented in the SSWG Cases.  Transformer data records specify all the data necessary to model transformers in power flow calculations.  Both two winding transformers and three winding trans

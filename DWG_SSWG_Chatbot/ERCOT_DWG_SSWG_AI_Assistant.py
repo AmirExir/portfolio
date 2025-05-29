@@ -20,10 +20,10 @@ def load_ercot_chunks_and_embeddings():
     chunks = []
     embeddings = []
 
-    st.write("📄 Available ERCOT protocol files:")
-    st.write(sorted(glob.glob("DWG_SSWG_Chatbot/ercotnodals_part*.txt")))
+    st.write("📄 Available DWG_SSW files:")
+    st.write(sorted(glob.glob("DWG_SSWG_Chatbot/dwg_sswg_part*.txt")))
 
-    for filepath in sorted(glob.glob("DWG_SSWG_Chatbot/ercotnodals_part*.txt")):
+    for filepath in sorted(glob.glob("DWG_SSWG_Chatbot/dwg_sswg_part*.txt")):
         with open(filepath, "r", encoding="utf-8") as f:
             text = f.read()
             chunks.append({"filename": filepath, "text": text})
@@ -66,11 +66,11 @@ def find_best_match(query: str, chunks, embeddings):
     return chunks[best_idx]
 
 # Streamlit UI
-st.set_page_config(page_title="Amir Exir's ERCOT protocols AI Assistant", page_icon="⚡")
-st.title("⚡ Ask Amir Exir's ERCOT Nodal protocols AI Assistant")
+st.set_page_config(page_title="Amir Exir's ERCOT DWG & SSWG AI Assistant", page_icon="⚡")
+st.title(""⚡ ERCOT DWG & SSWG AI Assistant – by Amir Exir")
 
 # Load data and embeddings once
-with st.spinner("Loading nodal protocols and computing embeddings..."):
+with st.spinner("Loading nodal DWG & SSWG and computing embeddings..."):
     chunks, embeddings = load_ercot_chunks_and_embeddings()
 
 # Initialize chat
@@ -82,7 +82,7 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
 # Chat input
-if prompt := st.chat_input("Ask about ERCOT nodal protocols..."):
+if prompt := st.chat_input("Ask about ERCOT nodal DWG & SSWG..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
@@ -92,7 +92,7 @@ if prompt := st.chat_input("Ask about ERCOT nodal protocols..."):
         system_prompt = {
             "role": "system",
             "content": f"""
-You are an expert assistant on ERCOT's planning guides.
+You are an expert assistant on ERCOT's DWG and SSWG manuals.
 Only use the following documentation to answer the question:
 
 ---

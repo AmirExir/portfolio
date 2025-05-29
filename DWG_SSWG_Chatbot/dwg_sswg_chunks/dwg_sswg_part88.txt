@@ -1,0 +1,7 @@
+activities.
+4.5.1.8.5.1	Upper Limit (Vmax)
+This field specifies the upper limit for bus voltage in per unit at the controlled bus or for the reactive load flow in MVAR at the tapped side bus. For a phase shifting transformer, this field specifies the upper limit for the real power load flow in MW. Direction for power flow across the phase shifting transformer is referenced from the bus side defined as the “Winding 1” bus.  Negative upper (and lower) limit values for phase shifting transformers imply power flow from the “Winding 2” bus to the “Winding 1” bus.
+4.5.1.8.5.2	Lower Limit (Vmin)
+Similar to the upper limit, this field specifies the lower limit for the bus voltage or the real or reactive load flow for the transformer defined.
+4.5.1.8.6	Tap Positions Step
+Transformer test records or nameplate data should be used to identify the number of tap positions available for a transformer’s LTC, along with the corresponding maximum and minimum turns ratio adjustment capabilities (i.e. Rma

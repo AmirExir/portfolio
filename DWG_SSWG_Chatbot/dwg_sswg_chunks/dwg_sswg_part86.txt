@@ -1,0 +1,7 @@
+during the power-flow solution activities.
+4.5.1.8.3	Controlled Bus
+The bus number of the bus whose voltage is controlled by the transformer LTC and the transformer turns ratio adjustment option of the power-flow solution activities. This record should be non-zero only for voltage controlling transformers.
+4.5.1.8.4	Transformer Adjustment Limits
+These two fields specify the upper and lower limits of the transformer’s turns ratio adjustment or phase shifter’s angle adjustment.  For transformers with automatic tap changer adjustments, these fields are typically populated with values in the range of 0.80 to 1.20 per-unit.  For phase-shifting transformers, these fields may be populated with phase angle adjustment ranges up to +/- 180 degrees, but are typically modeled with values in the range of +30 to -30 degrees.
+4.5.1.8.4.1	Upper Limit (Rmax)
+This field defines the maximum upper limit of the off-nominal ratio for voltage or reactive controlling transformers and is typically entered as

@@ -1,0 +1,9 @@
+le identifies the columns which the TSPs and ERCOT are responsible for populating.  ERCOT does not create or manually update the information submitted by the TSPs.  In an effort to produce a contingency list with complete and accurate data, ERCOT will run topology and data entry checks on submitted information to highlight submission errors that the TSPs will need to correct within a given timeline.  A review of the contingency database will be conducted with each SSWG case build.  ERCOT will accept updates to the contingency list outside of this review process as requested by the TSPs.  This section covers the approved format for submitting contingency definitions, the review process, and the validation rules ERCOT will implement to verify submissions.
+
+ 
+ERCOT Contingency Database Columns
+
+Column Name	TSP Responsibility	ERCOT Responsibility	Default Value	Validation Rule
+Item					Must be a numeric value
+DatabaseID					Must be an alphanumeric with a 12 character maximum
+TOContingency

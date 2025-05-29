@@ -1,0 +1,21 @@
+kell County For all TSP Use
+2104	Hays County	Hays County For all TSP Use
+2105	Hemphill County	Hemphill County For all TSP Use
+2106	Henderson County	Henderson County For all TSP Use
+2107	Hidalgo County	Hidalgo County For all TSP Use
+2108	Hill County	Hill County For all TSP Use
+2109	Hockley County	Hockley County For all TSP Use
+2110	Hood County	Hood County For all TSP Use
+2111	Hopkins County	Hopkins County For all TSP Use
+2112	Houston County	Houston County For all TSP Use
+2113	Howard County	Howard County For all TSP Use
+2114	Hudspeth County	Hudspeth County For all TSP Use
+2115	Hunt County	Hunt County For all TSP Use
+2116	Hutchinson County	Hutchinson County For all TSP Use
+2117	Irion County	Irion County For all TSP Use
+2118	Jack County	Jack County For all TSP Use
+2119	Jackson County	Jackson County For all TSP Use
+2120	Jasper County	Jasper County For all TSP Use
+2121	Jeff Davis County	Jeff Davis County For all TSP Use
+2122	Jefferson County	Jefferson County For all TSP Use
+2123	Jim Hogg Cou

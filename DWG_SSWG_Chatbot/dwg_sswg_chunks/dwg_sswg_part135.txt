@@ -1,0 +1,24 @@
+MCCULLOCH	Lower Colorado River Authority
+573	MENARD	Lower Colorado River Authority
+574	L_MIDLAND	Lower Colorado River Authority
+575	MILLS	Lower Colorado River Authority
+576	L_NOLAN	Lower Colorado River Authority
+577	REAL	Lower Colorado River Authority
+578	PECOS	Lower Colorado River Authority
+579	SAN SABA	Lower Colorado River Authority
+580	TAYLOR	Lower Colorado River Authority
+581	TRAVIS	Lower Colorado River Authority
+582	TOM GREEN	Lower Colorado River Authority
+583	WALLER	Lower Colorado River Authority
+584	UPTON	Lower Colorado River Authority
+585	L_WASHNGTON	Lower Colorado River Authority
+586	VAL VERDE	Lower Colorado River Authority
+587	WILLIAMSON	Lower Colorado River Authority
+588	WHARTON	Lower Colorado River Authority
+589	WILSON	Lower Colorado River Authority
+590	BORDEN	Wind Energy Transmission Texas
+591	MARTIN	Wind Energy Transmission Texas
+592	STERLING	Wind Energy Transmission Texas
+593	GLASSCOCK	Wind Energy Transmission Texas
+594	DICKENS	Wind Energy Transmission Texas
+610	E VALLE

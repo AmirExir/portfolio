@@ -1,0 +1,8 @@
+he test system should be set up to have zero impedance (Zth) between the ideal voltage source and the POI. The initial dispatch of the ESR should be set to its maximum discharging for active power, with approximately zero reactive power.  The figure below illustrates the voltage magnitude profile applied to an ideal source at the POI.
+ 
+The following performance criteria apply:
+	The instantaneous reactive power output of the plant should quickly respond to oppose the voltage step change for each of the step changes, with an initial peak reactive power change of at least 0.03 pu on the rated power base (e.g., A 100 MVA rated plant with 0 MVAR initial output should instantaneously increase reactive power output from 0 MVAr to at least 3 MVAr when source voltage magnitude is decreased by 3%.). 
+
+	The reactive power should not return to the pre-disturbance level within 6 cycles. 
+
+	The response time to 90% of the initial change in instantaneous reactive power should occur within 1 cycle.

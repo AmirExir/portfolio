@@ -1,0 +1,16 @@
+US TYPE			Extracted from the SSWG Steady State Cases
+SSWG AREA			Extracted from the SSWG Steady State Cases
+NMMS BUS NUMBER			Extracted from NMMS
+NMMS BUS NAME			Extracted from NMMS
+NMMS STATION CODE			Extracted from NMMS
+NMMS STATION NAME			Extracted from NMMS
+NMMS BASE KV			Extracted from NMMS
+NMMS TSP				Extracted from NMMS
+NMMS WEATHER ZONE				Extracted from NMMS.  Field is populated via mapping sheet for future buses and are italicized.
+NMMS SETTLEMENT ZONE			Extracted from NMMS.  Field is populated via mapping sheet for future buses and are italicized.
+EIA CODE			EIA Codes for bus within Stations associated with a generating unit.  This is required for the FERC 715 pt. 2 report.
+PLANNING BUS LONG NAME				The Planning Bus Long Name is provided by the TSP
+(“Substation Name or Switchyard Name’)
+PLANNING BUS COUNTY				The Planning Bus County is provided by the TSP
+TSP COMMENTS				Section for TSP to provide comments on individual buses.
+ERCOT COMMENTS			Information for changes of
