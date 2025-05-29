@@ -1,0 +1,17 @@
+intervals throughout each year.  This section describes the creation and update process and schedule to create and update SSWG Cases .
+3.2	SSWG Case Definitions and Build Schedules
+The SSWG Cases are created by SSWG each year and consist of the following:
+
+•	Eight seasonal cases starting with the SPG cases representing on-peak and off-peak conditions for the four seasons of the next year beyond the year the cases are built.  
+•	Six future year cases representing summer on-peak conditions with the first year beginning two years beyond the year the cases are built.  
+•	One future year case representing high renewable and minimum load conditions. 
+•	One future year case representing minimum load conditions. 
+SSWG Case seasons are defined as follows:
+
+SPG		March, April, May
+SUM		June, July, August, September
+FAL		October, November
+WIN		December, January, February
+
+The following table is a guide for case creation.  YR represents the year the case is created.  
+SSWG CASE	NOTES	TRANSMISSION

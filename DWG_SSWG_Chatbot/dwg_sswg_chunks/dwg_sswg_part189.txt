@@ -1,0 +1,5 @@
+o a nominal position appropriate for the initial POI voltage and real power dispatch.
+	Any switching controls that are expected to provide a response within 20 seconds (e.g. automatic switched shunts or on-load transformer tap changers) should be reflected in the dynamic model for the resource. 
+	Aggregate Generation Resources, such as wind and solar, should be represented by a single equivalent aggregate model per registered Resource (i.e. allowed aggregation) and include a representation for the collector impedance and pad-mount transformer.  All dynamic control systems should be modeled (generator, exciter, governor, power system stabilizer, automatic voltage regulator, power plant controller, voltage and frequency protection, etc. as applicable).
+	PSCAD models are not required to be aggregated to match resource registration.  However, PSS/E and TSAT models must match registration.
+	Simulations should be run for a minimum of 20 seconds and show that the facility response has stabili

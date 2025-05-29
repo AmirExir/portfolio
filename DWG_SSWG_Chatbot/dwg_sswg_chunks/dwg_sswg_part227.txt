@@ -1,0 +1,8 @@
+Equipment Owned by Transmission Service Providers (TSPs) or Other Equipment Owners
+	Under Frequency Firm Load Shedding (UFLS) Relay Data 
+UFLS data shall be prepared annually in accordance with ERCOT and NERC standards. TSPs are responsible for preparing the UFLS relay model records for their respective loads.  The TSP shall submit the UFLS relay data to ERCOT in the form of a data file using an appropriate model compatible with the software listed in Section 3.1.1. The models should contain the necessary information to properly represent the UFLS relay actions in a dynamic study, including:
+	Location (bus number and/or load ID) of load to be interrupted.
+	Fraction of load to be interrupted.
+	Corresponding frequency set points.
+	Overall scheme clearing times (including all time delays, breaker clearing times, etc.)
+Also, the TSP should indicate any other schemes that are part of or impact the UFLS programs such as related generation protection, islanding schemes, automatic load restora

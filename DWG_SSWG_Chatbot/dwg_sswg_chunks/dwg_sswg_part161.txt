@@ -1,0 +1,11 @@
+asons s and region r.
+
+
+
+ 
+Appendix C
+Mexico’s Transmission System in ERCOT SSWG Cases
+
+This appendix provides an explanation of the modeling that represents Mexico’s Comisión Federal de Electridad (CFE) system in SSWG cases. A drawing of the system is at the end of this appendix.  All AEP and CFE facilities (bus, lines, etc.) tied to the CFE grid will be assigned to area 24 and zone 612.  The AEP facilities will retain the owner 9 and CFE will be assigned owner 300.
+
+The following generation modeled in the power flow and short circuit cases are system equivalents of the CFE system and are located in Mexico. These units are not in ERCOT and should only be used for specialized studies. These units should not be included when performing transfer studies in ERCOT unless one is studying a transfer to or from CFE. The generation capability is not counted in ERCOT reports. These units are online in the cases to offset the real and reactive losses that are caused by the other CFE transmission

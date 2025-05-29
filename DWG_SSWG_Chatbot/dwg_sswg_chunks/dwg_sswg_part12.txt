@@ -1,0 +1,50 @@
+st
+
+OSR                            Owner’s Share Ratings 
+
+PLWG	Planning Working Group
+
+PMCR	Planning Model Change Request
+
+PPL	Project Priority List
+
+PSS®E	Power System Simulator for Engineering
+
+PUN	Private Use Network
+
+POI	Point of Interconnection
+
+RAWD	PSS®E Raw Data format
+
+RAS	Remedial Action SchemeRE	Resource Entity
+
+ROS	Reliability and Operating Subcommittee
+
+SCADA	Supervisory Control And Data Acquisition
+
+SCR	System Change Request
+
+SODG	Settlement Only Distribution Generator
+
+SS	Steady State Cases
+
+SSWG	Steady-State Working Group
+
+TPIT	Transmission Project Information Tracking
+
+TSP 	Transmission Service Provider
+
+TO	Transmission Owner
+
+UDG	Unregistered Distributed Generation 
+
+WGR	Wind Generation Resource
+
+WMWG	Wholesale Market Working Group
+
+
+
+ 
+3	SSWG CASE PROCEDURES AND SCHEDULES
+3.1	General
+The SSWG and ERCOT create the SSWG Cases annually and update them biannually at fixed intervals throughout each year.  This section describes the creation and update process and schedul

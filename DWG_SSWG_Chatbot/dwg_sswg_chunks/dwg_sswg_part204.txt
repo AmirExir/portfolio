@@ -1,0 +1,12 @@
+When testing SCR = 1.5, the line reactance is Xpu = 0.33
+	When testing SCR = 1.2, the line reactance is Xpu = 0.42
+
+For each increase in line reactance, the plant reactive power controller should adjust to restore voltage schedule and compensate for the increase in reactive losses. After applying the fault disturbance, the Xpu is modified to a value corresponding to the next lower SCR level to be tested.  Models shall provide acceptable responses for an SCR of 3 and higher.  If the responses are not acceptable for an SCR of 1.5, then a technical reason for the limitation should be provided, and a model enhancement should be considered.
+The figures below include examples of acceptable and unacceptable responses. 
+
+ 
+ 
+
+ 
+3.1.5.9 Phase Angle Jump Test (for Inverter-Based Resources)
+This test considers the model performance under a sudden increase or decrease in voltage phase angle as can sometimes occur on the electrical grid under disturbances.  The test consists of exposing the model

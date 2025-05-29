@@ -1,0 +1,6 @@
+o NOIE bus ranges, and latest self serve data. NOIE’s that have a ‘ring’ of EPS meters must validate the PSS®E Metered End data in each of the cases. The PSS®E Metered End for a transmission facility that is not inside the ‘ring’ of EPS meters should be Metered ‘to’ the remote bus, and not Metered ‘to’ bus where the EPS meter is located.
+2.	ERCOT updates the transmission loss factor spreadsheet.
+3.	Send to SSWG for review and approval
+4.	Send to ERCOT settlements (Settlement Metering Manager) to be put into the ERCOT settlement system and post at http://www.ercot.com/mktinfo/data_agg/index.html.     
+5.2	Contingency Database
+The ERCOT contingency database is a compilation of contingency definitions as submitted by the TSPs.  The exchange of information for the contingency database will only be communicated using an Excel spreadsheet with the columns as listed in the table below.  The table identifies the columns which the TSPs and ERCOT are responsible for populating.  ERCOT does not c

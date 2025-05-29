@@ -1,0 +1,12 @@
+ommended DWG Study Methodologies 
+Note: This section addresses, in part, requirements R4, R5 and R6 of NERC Standard TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).
+Voltage stability margin, transient voltage criteria, and damping criteria are described in the ERCOT Planning Guide Section 4.  
+	Voltage Instability Identification in Stability Studies
+Voltage Instability is indicated by severely low bus voltage or bus voltage collapse. 
+Voltage Instability could cause: 
+	Motor stalling leading to significant amount of customer initiated motor tripping.
+	Loss of generator(s) due to low voltage 
+	Voltage collapse of an area
+	Cascading Identification in Stability Studies
+Cascading Definition - Cascading is defined as the uncontrolled loss of any system facilities or load, whether because of thermal overload, voltage collapse, or loss of synchronism, except those occurring as a result of fault isolation. Cascading is indicated by one or more of the following conditions:
+	Uncontrolled seq

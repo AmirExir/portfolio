@@ -1,0 +1,14 @@
+.	Turn DC ties off
+iii.	Determine reserve requirements from ancillary services and dispatch conventional generation on a lowest cost basis at PMIN if needed to meet reserve requirements. 
+1.	Use the average of the last January reserves for:
+a.	Responsive Reserve Service – Primary Frequency Response – to come from online headroom
+b.	Regulation Up – to come from online headroom
+c.	Regulation Down – to come from renewables
+d.	Non-Spin – to come from online headroom 
+iv.	Dispatch additional conventional generation on a lowest cost basis at PMIN to meet the ERCOT critical inertia requirements
+1.	The minimum inertia level to meet is 121 GWs
+2.	If the requirements are already met by meeting AS reserve – do not dispatch additional conventional units
+v.	Calculate the remaining load to be served (MIN load – sum of nuclear/PUN/reserve PGEN)
+vi.	Dispatch renewable units
+1.	Collect historical hourly wind and solar data of the past 18 months
+a.	Monthly report on uncurtailed generation estimate data

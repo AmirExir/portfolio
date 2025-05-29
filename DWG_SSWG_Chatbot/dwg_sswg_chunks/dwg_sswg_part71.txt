@@ -1,0 +1,12 @@
+or complex admittance for line shunts.  These records are rarely used in the SSWG Cases.
+4.4.1.6	Status
+Branch data records include a field for branch status.  Entities are allowed to submit branch data with an out-of-service status for equipment normally out of service.  
+4.4.1.7	Line Length and Ownership
+4.4.1.7.1	Line Length
+This data will be provided in miles.
+4.4.1.7.2	Ownership
+Owner IDs are assigned by ERCOT.  The PSS®E line data record allows the specification of up to four owners for each branch including percent ownership. The percent ownership of each line should sum up to 100%.  Facilities owned by Generators will be assigned a non-TSP ownership ID in the SSWG Cases.
+
+OSRs are ratings submitted by jointly owned facility Owners for their specific ratings  to ERCOT Network Operational Models.
+4.4.1.7.3	Practices for Verification
+Transmission line length for existing lines should be verified from field data and actual values entered into the power flow model.  A simple check c

@@ -1,0 +1,21 @@
+ounty For all TSP Use
+2086	Glasscock County	Glasscock County For all TSP Use
+2087	Goliad County	Goliad County For all TSP Use
+2088	Gonzales County	Gonzales County For all TSP Use
+2089	Gray County	Gray County For all TSP Use
+2090	Grayson County	Grayson County For all TSP Use
+2091	Gregg County	Gregg County For all TSP Use
+2092	Grimes County	Grimes County For all TSP Use
+2093	Guadalupe County	Guadalupe County For all TSP Use
+2094	Hale County	Hale County For all TSP Use
+2095	Hall County	Hall County For all TSP Use
+2096	Hamilton County	Hamilton County For all TSP Use
+2097	Hansford County	Hansford County For all TSP Use
+2098	Hardeman County	Hardeman County For all TSP Use
+2099	Hardin County	Hardin County For all TSP Use
+2100	Harris County	Harris County For all TSP Use
+2101	Harrison County	Harrison County For all TSP Use
+2102	Hartley County	Hartley County For all TSP Use
+2103	Haskell County	Haskell County For all TSP Use
+2104	Hays County	Hays County For all TSP Use
+2105	Hemphill County	Hemphi

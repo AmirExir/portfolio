@@ -1,0 +1,13 @@
+rized in the ERCOT contingency database as ERCOT_1.
+•	A common tower outage as defined in Section 4.1.1.1 of the ERCOT Planning Guides where both circuits must be taken out of servce for a maintenance outage. These contingency scenarios will be categorized in the ERCOT contingency database as ERCOT_98.
+•	Single and multiple element contingencies, not covered by automatic contingency processing capabilities of the various power-flow applications and not fitting the definition of ERCOT_1, for transmission facilities between 60 kV and 100 kV that produce the most severe system results or impacts.  These will be categorized in the ERCOT contingency database as ERCOT_NonBES.
+
+ERCOT shall submit:
+•	Loss of an entire combined cycle plant are to be categorized as ERCOT_CCT. 
+
+Contingency definitions shall take into account the effects of existing and planned protection systems, including any backup or redundant systems.
+
+
+General Data Entry Checks
+
+Error Message	Reason for Failing Data Validat

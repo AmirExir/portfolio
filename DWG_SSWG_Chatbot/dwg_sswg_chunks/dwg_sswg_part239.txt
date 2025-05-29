@@ -1,0 +1,11 @@
+-Peak Case
+Long Term On-Peak Case		
+				 				Final DWG Data Sets Posted		
+								 	Submit Dynamic Contingency Files and  Dynamic Load Models	
+									Stability Book Finalized and Posted
+
+The DWG flat start case development process adds detailed dynamic models to network elements represented in an SSWG base case that reflect behavior during and following system disturbances.  The DWG shall normally prepare dynamic flat start cases based on the following SSWG steady state cases:
+	Near-Term On-Peak Case: (Y+3) SUM1
+	Near-Term Off-Peak Case: (Y+4) HRML
+	Long-Term On-Peak Case: (Y+7) SUM1
+For example, the following flat start cases would be developed during the period from July 2023 through January 2024: 2026 SUM1, 2027 HRML, and 2030 SUM1.  These cases could then be used for planning assessments performed in 2024.  The DWG may choose to develop dynamic flat start data sets for alternative cases that meet the same objectives with respect to facilitating the completion of NERC TPL planning

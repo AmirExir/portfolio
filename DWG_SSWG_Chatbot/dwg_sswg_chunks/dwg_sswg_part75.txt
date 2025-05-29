@@ -1,0 +1,6 @@
+ity in performing contingency studies on SSWG Cases.  When set up correctly, where automatic low-side load rollover occurs, hundreds of contingencies can be analyzed and reported within minutes.
+
+4.4.3	Coordination of Tie Lines 
+A tie line is defined as any transmission circuit with multiple owners represented within the context of the transmission circuit’s associated facility.  As used here, a transmission circuit’s associated facility includes all terminal buses as well as the transmission branch, transformer, bus section, or another electrical component connecting systems together.  For a tie line, each of the interconnected entities (TSP/TSP or TSP/RE) owns one or more elements of the tie line’s associated facility.
+
+Careful coordination and discussion is required among SSWG members to verify all modeled tie line data.  Even in situations where no new tie lines are added to a network model, there could be many tie line changes.  Construction timing for future points of interconnec

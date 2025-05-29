@@ -1,0 +1,6 @@
+t of the annual dynamic data update, shall review and update as necessary protection, control, and RAS systems already in the DWG database.  This review should include evaluating the existing data for applicability and accuracy.  
+Protective relay data included in a DWG flat start case shall be documented in the Stability Book.
+	Load Model Data 
+Note: This section addresses the requirements stated in R1 of NERC Standard MOD 032-1 and R2.4.1 of NERC Standard TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).
+Another key component of any dynamic study is the load model and its representation as a function of changing frequency or voltage.  The load model can have a significant effect on results of dynamic analysis.  For this reason, it is important to use an appropriate load model during the study.  
+The DWG shall review and update static load models for each area, composed of a mix of constant impedance (Z), constant current (I), and constant power (P) representations, known as ZIP mod

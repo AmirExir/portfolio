@@ -1,0 +1,36 @@
+ERCOT STEADY STATE WORKING GROUP
+PROCEDURE MANUAL
+
+
+
+ROS Approved: July 11, 2024
+ 
+Table of Contents
+1	INTRODUCTION	3
+1.1	ERCOT Steady-State Working Group Scope	3
+1.2	Introduction to Case Building Procedures and Methodologies	4
+2	DEFINITIONS AND ACRONYMS	5
+3	SSWG CASE PROCEDURES AND SCHEDULES	9
+3.1	General	9
+3.2	SSWG Case Definitions and Build Schedules	9
+3.3	SSWG Case Build Processes	11
+4	MODELING METHODOLOGIES	16
+4.1	Bus, Area, Zone and Owner Data	16
+4.2	Load Data	17
+4.3	Generator Data	19
+4.4	Branch Data	28
+4.5	Transformer Data	38
+4.6	Static Reactive Devices	44
+4.7	Dynamic Control Devices	46
+4.8	HVDC Devices	47
+5	OTHER SSWG ACTIVITIES	48
+5.1	Transmission Loss Factor Calculations	48
+5.2	Contingency Database	48
+5.3	Review of NMMS and Topology Processor Compatibility with PSS®E	51
+5.4	Planning Data Dictionary	52
+6	APPENDICES	54
+
+ 
+1	INTRODUCTION
+1.1	ERCOT Steady-State Working Group Scope
+The ERCOT Steady-State Working Group (SSWG) operates under the direction of the Reliability and Oper

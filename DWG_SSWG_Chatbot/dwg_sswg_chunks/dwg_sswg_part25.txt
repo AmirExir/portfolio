@@ -1,0 +1,8 @@
+.3.4.3	Resource and Interconnecting Entities
+•	It is the responsibility of REs to provide all data required to accurately model their generators, step-up transformers, associated transmission facilities and reactive devices in the SSWG Cases in accordance with Section 6.8, Resource Registration Procedures of the ERCOT Planning Guide.
+•	Interconnecting Entities are required to submit data for SSWG Cases in accordance with Section 6.9 of the ERCOT Planning Guide.
+•	It is the responsibility of REs to supply any applicable load and/or generation data if they are the designated representatives for either a load or generating entity or both.
+3.3.4.4	ERCOT
+•	It is the responsibility of ERCOT staff to maintain the ERCOT MOD production environment that allows SSWG members to provide appropriate equipment characteristics and system data as stated in this procedure.
+•	ERCOT staff shall be responsible for creating each MOD incremental update base case.
+•	ERCOT staff shall be responsible for the re

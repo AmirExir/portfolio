@@ -1,0 +1,22 @@
+COT designated generation zone
+935	E_CHEROKEE	ERCOT designated generation zone
+937	E_FREESTONE	ERCOT designated generation zone
+939	E_GRIMES	ERCOT designated generation zone
+941	E_HENDERSON	ERCOT designated generation zone
+948	E_NACOGDOC	ERCOT designated generation zone
+951	E_ROBERTSO	ERCOT designated generation zone
+952	E_RUSK	ERCOT designated generation zone
+957	E_TITUS	ERCOT designated generation zone
+971	E_BORDEN	ERCOT designated generation zone
+973	E_CRANE	ERCOT designated generation zone
+975	E_CULBERSON	ERCOT designated generation zone
+977	E_ECTOR	ERCOT designated generation zone
+979	E_GLASSCOCK	ERCOT designated generation zone
+980	E_HOWARD	ERCOT designated generation zone
+984	E_MARTIN	ERCOT designated generation zone
+986	E_PECOS	ERCOT designated generation zone
+987	E_PRESIDIO	ERCOT designated generation zone
+991	E_UPTON	ERCOT designated generation zone
+992	E_WARD	ERCOT designated generation zone
+993	E_WINKLER	ERCOT designated generation zone
+994	E_LYNN	ERCOT designated generatio

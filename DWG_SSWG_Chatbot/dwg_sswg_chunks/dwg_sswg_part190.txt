@@ -1,0 +1,10 @@
+imulations should be run for a minimum of 20 seconds and show that the facility response has stabilized. 
+Example test cases for an Inverter-Based Resource (IBR) with a STATCOM and a synchronous generator test case are shown below.
+ 
+
+ 
+3.1.5.2 Flat Start Test
+Perform a no-disturbance test of the prepared simulation case as described in Section 3.1.5.1 above for a minimum of 20 seconds.  Flat responses of voltage, MW, MVAR, and frequency, as shown in the figure below, are expected to remain very close to the initial system condition. 
+ 
+3.1.5.3 Small Voltage Disturbance Test
+Apply a 3% step increase, and in a separate simulation, a 3% step decrease of voltage at the POI.  The plant Automatic Voltage Regulator (AVR) and the associated droop and dead-band settings (if applicable) should transition the plant to/near maximum leading power factor , or in the latter case, to/near maximum lagging power factor in an attempt to regulate the original voltage set point.  Any oscillations should b

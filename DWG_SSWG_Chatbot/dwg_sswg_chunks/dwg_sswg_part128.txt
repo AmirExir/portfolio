@@ -1,0 +1,26 @@
+County
+140	O_Hamilton	ONCOR - Hamilton and Mills Counties
+141	O_Comanche	ONCOR - Comanche County
+142	O_Brown	ONCOR - Brown County
+145	O_Titus	ONCOR - Franklin and Titus Counties
+146	O_Lamar	ONCOR - Lamar and Red River Counties
+147	O_Hopkins	ONCOR - Delta and Hopkins Counties
+148	O_Hunt	ONCOR - Hunt County
+149	O_Fannin	ONCOR - Fannin County
+150	O_Grayson	ONCOR - Grayson County
+151	O_Collin	ONCOR - Collin County
+152	O_Denton	ONCOR - Denton County
+153	O_Cooke	ONCOR - Cooke County
+154	O_Clay	ONCOR - Clay and Montague Counties
+155	O_Wise	ONCOR - Wise County
+156	O_Jack	ONCOR - Jack County
+157	O_Wichita	ONCOR - Wichita County
+158	O_Archer	ONCOR - Archer and Baylor Counties
+160 	O_Panhandle	ONCOR - Panhandle
+161	O_Shackelford	ONCOR - Shackelford and Throckmorton Counties
+162	O_Haskell	ONCOR - Haskell County
+163	O_Taylor	ONCOR - Jones and Taylor Counties
+164	O_Scurry	ONCOR - Fisher and Scurry Counties
+165	O_Nolan	ONCOR - Nolan County
+166	O_Mitchell	ONCOR - Mitchell County
+167	O_Howard	ONCOR - B

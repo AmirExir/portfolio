@@ -1,0 +1,20 @@
+er County For all TSP Use
+2194	Reeves County	Reeves County For all TSP Use
+2195	Refugio County	Refugio County For all TSP Use
+2196	Roberts County	Roberts County For all TSP Use
+2197	Robertson County	Robertson County For all TSP Use
+2198	Rockwall County	Rockwall County For all TSP Use
+2199	Runnels County	Runnels County For all TSP Use
+2200	Rusk County	Rusk County For all TSP Use
+2201	Sabine County	Sabine County For all TSP Use
+2202	San Augustine County	San Augustine County For all TSP Use
+2203	San Jacinto County	San Jacinto County For all TSP Use
+2204	San Patricio County	San Patricio County For all TSP Use
+2205	San Saba County	San Saba County For all TSP Use
+2206	Schleicher County	Schleicher County For all TSP Use
+2207	Scurry County	Scurry County For all TSP Use
+2208	Shackelford County	Shackelford County For all TSP Use
+2209	Shelby County	Shelby County For all TSP Use
+2210	Sherman County	Sherman County For all TSP Use
+2211	Smith County	Smith County For all TSP Use
+2212	Somervell County

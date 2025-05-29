@@ -1,0 +1,5 @@
+3.1.5.5 Large Voltage Disturbance Test (High Voltage Ride-Through for IBRs, WGRs, and IBTEs) 
+First, apply the “preferred” HVRT curve to the POI per NOG 2.9.1.  If the facility cannot meet the “preferred” ride through requirements, then additionally test the “legacy” HVRT curve and report both results. The “preferred” curve has more stringent requirements, so it is not necessary to test the “legacy” curve for devices passing the “preferred” curve, and such testing would generally not provide additional revelations regarding model behavior.  
+Additionally, the maximized HVRT capability as required in NOG 2.9.1.1(8) or NOG 2.9.1.2(8) shall be documented in a format similar to the tables of NOG 2.9.1.1(1) and NOG 2.9.1.2(1).
+
+The HVRT profiles start at 1.0 pu voltage and end at 1.1 pu.  The tests should be performed for two initial conditions: with the facility operating at 0.95 lagging power factor (at the POI) and with the facility operating at 0.95 leading power factor (at th

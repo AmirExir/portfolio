@@ -1,0 +1,22 @@
+nties
+165	O_Nolan	ONCOR - Nolan County
+166	O_Mitchell	ONCOR - Mitchell County
+167	O_Howard	ONCOR - Borden, Dawson, Howard, and Martin Counties
+168	O_Midland	ONCOR - Glasscock, Midland, Reagan, and Upton Counties
+169	O_Andrews	ONCOR - Andrews County
+170	O_Ector	ONCOR - Ector County
+171	O_Ward	ONCOR - Crane, Pecos, and Ward Counties
+172	O_Winkler	ONCOR - Culberson, Loving, Reeves, and Winkler  Counties
+173	O_Coleman	ONCOR - Coleman and Runnels Counties 
+177	ETEC	East Texas Electric Cooperative
+178	RAYBURN	Rayburn Country Electric Coop
+179	GS_GOLDENSPR	Golden Spread Electric Cooperative
+180	GS_BIGCOUTNR	Big Country Electric Cooperative
+181	GS_COLEMAN	Coleman County Electric Cooperative
+182	GS_CONCHOVAL	Concho Valley Electric Cooperative
+183	GS_LIGHTHOUS	Lighthouse Electric Cooperative
+184	GS_LYNTEGAR	Lyntegar Electric Cooperative
+185	GS_SWTEXAS	Southwest Texas Electric Cooperative
+186	GS_TAYLOR	Taylor Electric Cooperative
+187	LAMAR	Lamar Electric Cooperative
+190	GOLDSMITH	City of Goldsmit

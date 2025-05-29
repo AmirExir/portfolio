@@ -1,0 +1,15 @@
+ench shown in the figure below, with a constant impedance load (L) and a power factor of 0.95 lag, along with the project plant initial dispatch (P1), the duplicated plant initial dispatch (P2), and the load value, the following three scenarios must be tested:
+	Scenario 1: 
+P1 = 0.3 pu discharging, P2 = 0.1 pu discharging, and L = 1.3 pu
+	Scenario 2: 
+P1 = 0.6 pu charging, P2 = 0.4 pu charging, and L = 0.7 pu
+	Scenario 3: 
+P1 = 0, P2 = 1 pu discharging, and L = 1.65 pu
+Note: The dispatch and load values are provided based on the project plant rating.
+
+Simulate the system until a stable response is reached for the given scenario, ensuring that no oscillations occur, then disconnect the voltage source (without fault) and continue the simulation for at least 10 seconds. Plots of the active and reactive power of the ESR, duplicate ESR, load, and voltage source as well as POI frequency should be provided.
+
+ 
+
+The following performance criteria apply:
+	Immediately following the disconnection

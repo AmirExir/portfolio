@@ -1,0 +1,17 @@
+eration zone
+1180	E_ONCOR_PU	ERCOT designated private use network
+1181	E_CNP_PUN	ERCOT designated private use network
+1182	E_AEPTNC_PUN	ERCOT designated private use network
+1183	E_AEPTCC_PUN	ERCOT designated private use network
+1184	E_TNMP_PUN	ERCOT designated private use network
+1188	E_SODG	ERCOT designated zone for Settlment Only Distributed Generation
+1189	SIMPLE_MODEL	ERCOT designated zone for Generator that only meet Section 6.9(1) of PG
+1190	E_MB	ERCOT designated zone for Mothballed units
+1192	E_RMRUNITS	ERCOT designated zone for Reliability Must Run (RMR) Units
+1193	E_SEASNL_GEN	ERCOT designated zone for seasonal units
+1194	E_RETIREDGEN	ERCOT designated zone for retired units
+1195	EX_MB	ERCOT designated extraordinary dispatch zone for mothballed units
+1196	EX_IA_NOFC	ERCOT designated extraordinary dispatch zone
+1197	EX_PUB_NOIA	ERCOT designated extraordinary dispatch zone
+1198	EX_FAKEGEN	ERCOT designated extraordinary dispatch zone for Modeling Fake units
+1199	E_AUXLOAD	ERCOT de

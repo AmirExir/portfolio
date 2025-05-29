@@ -1,0 +1,22 @@
+ation zone
+1129	E_COMAL	ERCOT designated generation zone
+1131	E_FAYETTE	ERCOT designated generation zone
+1132	E_GONZALES	ERCOT designated generation zone
+1133	E_GUADALUPE	ERCOT designated generation zone
+1134	E_HAYS	ERCOT designated generation zone
+1136	E_KENDALL	ERCOT designated generation zone
+1137	E_LAVACA	ERCOT designated generation zone
+1140	E_MILAM	ERCOT designated generation zone
+1141	E_TRAVIS	ERCOT designated generation zone
+1150	E_COKE	ERCOT designated generation zone
+1160	E_KINNEY	ERCOT designated generation zone
+1162	E_LLANO	ERCOT designated generation zone
+1166	E_MITCHELL	ERCOT designated generation zone
+1167	E_NOLAN	ERCOT designated generation zone
+1171	E_SCHLEICHER	ERCOT designated generation zone
+1172	E_SCURRY	ERCOT designated generation zone
+1175	E_TAYLOR	ERCOT designated generation zone
+1178	E_VAL VERDE	ERCOT designated generation zone
+1179	E_LUBBOCK	ERCOT designated generation zone
+1180	E_ONCOR_PU	ERCOT designated private use network
+1181	E_CNP_PUN	ERCOT designated pr

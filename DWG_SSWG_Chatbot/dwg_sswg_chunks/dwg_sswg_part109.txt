@@ -1,0 +1,9 @@
+definition will be highlighted as invalid and an error message will be printed if it fails any of the following data entry or topology checks.
+
+NERC contingencies not covered by automatic contingency processing capabilities of the various power-flow applications, which the TSP deems to have an impact on the power-flow solution, shall be submitted.
+
+NERC contingencies must either be submitted in entirety by each TSP or as a minimum, those planning event and extreme event NERC contingency categories that would produce the more severe system results or impacts. The rationale for the contingencies selected for evaluation shall be available as supporting information upon request. 
+
+In addition to the aforementioned NERC defined contingencies, TSPs shall also submit:
+•	A common tower outage as defined in Section 4.1.1.1 of the ERCOT Planning Guides.  These contingency scenarios will be categorized in the ERCOT contingency database as ERCOT_1.
+•	A common tower outage as defined in Section 4.

@@ -1,0 +1,8 @@
+from data supplied by equipment owners. ERCOT coordinates the compilation and publication of dynamics data and dynamics study cases. The dynamics data are published in the form of dynamics study cases (flat start cases) as described within this document.
+	The DWG prepares the annual update of the Stability Book that documents dynamic data used in the flat start cases.
+	The DWG provides a forum for discussing dynamic modeling and system dynamic performance issues and questions.
+	The DWG performs other activities as directed by the Reliability and Operating Subcommittee (ROS).
+Administrative Procedures
+	Membership
+The DWG is a non-voting working group whose members include representatives from ERCOT, Transmission Service Providers (TSPs), Texas Reliability Entity (Texas RE), and Public Utility Commission of Texas (PUCT).
+Each NERC Transmission Planner within the ERCOT footprint and each ERCOT TSP with an assigned area in the Steady State Working Group (SSWG) and DWG base cases, shall hav

@@ -1,0 +1,25 @@
+ican Electric Power - TNC
+394	NHVDC	North High Voltage DC Tie
+402	WHEARNE	American Electric Power - TNC
+424	TRENT	American Electric Power - TNC
+428	PUTNAM	American Electric Power - TNC
+432	ABILENE	American Electric Power - TNC
+434	PECOS	American Electric Power - TNC
+438	MCCAMEY	American Electric Power - TNC
+442	W CHLDRS	American Electric Power - TNC
+444	TUSCOLA	American Electric Power - TNC
+446	PADUCAH	American Electric Power - TNC
+456	ASPR MNT	American Electric Power - TNC
+458	SOUTHERN	American Electric Power - TNC
+460	E MUNDAY	American Electric Power - TNC
+462	SONORA	American Electric Power - TNC
+466	MASON	American Electric Power - TNC
+472	PRESIDIO	American Electric Power - TNC
+474	SAN ANG	American Electric Power - TNC
+477	OKLUNION	American Electric Power - TNC
+478	CEDR HIL	American Electric Power - TNC
+479	BALLINGR	American Electric Power - TNC
+500	AUSTIN	Lower Colorado River Authority
+502	BANDERA	Lower Colorado River Authority
+504	BASTROP	Lower Colorado River Authority
+505	BREWSTER

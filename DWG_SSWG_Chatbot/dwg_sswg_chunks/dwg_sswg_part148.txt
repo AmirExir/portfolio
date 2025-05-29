@@ -1,0 +1,21 @@
+County For all TSP Use
+2050	Cottle County	Cottle County For all TSP Use
+2051	Crane County	Crane County For all TSP Use
+2052	Crockett County	Crockett County For all TSP Use
+2053	Crosby County	Crosby County For all TSP Use
+2054	Culberson County	Culberson County For all TSP Use
+2055	Dallam County	Dallam County For all TSP Use
+2056	Dallas County	Dallas County For all TSP Use
+2057	Dawson County	Dawson County For all TSP Use
+2058	Deaf Smith County	Deaf Smith County For all TSP Use
+2059	Delta County	Delta County For all TSP Use
+2060	Denton County	Denton County For all TSP Use
+2061	DeWitt County	DeWitt County For all TSP Use
+2062	Dickens County	Dickens County For all TSP Use
+2063	Dimmit County	Dimmit County For all TSP Use
+2064	Donley County	Donley County For all TSP Use
+2065	Duval County	Duval County For all TSP Use
+2066	Eastland County	Eastland County For all TSP Use
+2067	Ector County	Ector County For all TSP Use
+2068	Edwards County	Edwards County For all TSP Use
+2069	Ellis County	Ellis Cou

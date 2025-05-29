@@ -1,0 +1,12 @@
+ault isolation. Cascading is indicated by one or more of the following conditions:
+	Uncontrolled sequential loss of generators
+	Uncontrolled sequential loss of load
+	Uncontrolled sequential loss of branches. 
+Cascading could cause conditions like:
+	Voltage collapse of an area
+	Expanding number of buses with voltage instability
+	System islanding, frequency instability due to power-load unbalance
+NERC Definition: The uncontrolled successive loss of system elements triggered by an incident at any location. Cascading results in widespread electric service interruption that cannot be restrained from sequentially spreading beyond an area predetermined by studies. 
+	Uncontrolled Islanding Identification in Stability Studies
+Uncontrolled islanding is the separation and loss of synchronism between a portion of the interconnection and the remaining interconnected system.  Islanding originates with uncontrolled loss of branches, ending with the formation of sub-network islands.  
+Generators disco

@@ -1,0 +1,9 @@
+base voltage of the transmission branch of interest.  The system base MVA used in the SSWG Cases is 100 MVA (S = 100 MVA).  The base voltage for a transmission line branch is the nominal line-to-line voltage of that particular transmission branch (See Transformer Data for Calculation of Transformer Impedances). Therefore the base impedance used for calculating transmission branch impedances is:
+
+  Ohms
+This base impedance is then used to convert the physical quantities of the transmission line into per-unit values to be used in the SSWG Cases.
+4.4.1.3.1	Resistance
+Once the total transmission line resistance is known and expressed in ohms, then this value is divided by the base impedance to obtain the per-unit resistance to be used in the SSWG Cases.  This calculation is as follows:
+  
+4.4.1.3.2	Reactance
+Once the total transmission line reactance is known and expressed in ohms, then this value is divided by the base impedance to obtain the per-unit reactance to be used in the SSWG Cas

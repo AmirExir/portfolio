@@ -1,0 +1,6 @@
+ed as far out into the future as possible. This technique will make the case building process more efficient when transitioning to new case builds.
+•	TSPs shall submit Profiles of all load data and associated topology for the load entities of which they are designated representatives, as well as, any other load for which it has accepted responsibility for modeling.  
+•	TSPs shall change the load ID to ‘ER’ (or ‘E1’, ‘E2’, etc.) for loads for which it has historically  submitted data but no longer accepts responsibility.  ERCOT will determine the owner of the load and ensure they are part of the ALDR and SSWG processes. See Appendix E for additional details.
+•	PUN loads and POI busses will be provided by TSPs.
+•	NOIEs have the option of submitting a generation dispatch or deferring to ERCOT staff.
+•	Proper transmission system voltages will be maintained by submitting accurate data for static and dynamic reactive resources and transformer settings via a Device Control Profile for each ca

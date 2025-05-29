@@ -1,0 +1,6 @@
+MCRs in MOD only one set of ratings can be submitted.  Impedance and length are only allowed to have one submission, the majority owner of the tie line should submit this data to NMMS/MAGE and MOD and ensure that they are accounting for any other modeling information for connecting entities.
+
+ 
+4.4.4	Metering Point
+Each tie line or branch has a designated metering point and this designation may also be coordinated between neighboring TSP areas.  The location of the metering point determines which TSP area will account for losses on the tie branch.  PSS®E software allocates branch losses to the TSP area of the un-metered bus.  For example, if the metering point is located at the “to” bus then branch losses will be allocated to the TSP area of the “from” bus.  The first bus specified in the branch record is the default location of the metering point unless the second bus is entered as a negative number. These are the first and second data fields in the branch record.
+4.4.5	Branch Data So

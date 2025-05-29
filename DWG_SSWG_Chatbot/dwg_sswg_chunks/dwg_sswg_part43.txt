@@ -1,0 +1,6 @@
+Self-Serve Generation
+Self-serve generators serve local load that does not flow through the ERCOT transmission system. Generation dispatch may be submitted by TSPs on a biannual basis for self-serve facilities serving self-serve load modeled in the SSWG Case. If no generation dispatch is submitted by the TSPs, ERCOT will dispatch the units accordingly to meet the self-serve load.  Total self-serve generation MWs shall match total self-serve load MWs. 
+4.3.1.4	Distribution Generation Resources, Distribution Energy Storage Resources, and Settlement Only Distribution Generators 
+ERCOT will utilize Resource Registration data provided by IEs/REs to model DGR, DESR, and SODG. SODG will be aggregated by fuel type and represented as a simple model and will be assumed to operate at unity power factor with no voltage control.
+4.3.1.5	Coordination with other ERCOT Working Groups 
+All generator data should be coordinated with the Dynamics Working Group, Operations Working Group, Network Data Suppo

@@ -1,0 +1,5 @@
+ed for by a MW of generation. 
+4.3.3	Generation Dispatch Methodology for Planning Purposes
+In order to simulate the future market, the following methodology for generation dispatch has been adopted for building the  Steady State Cases, with the exception of the HRML case. The HRML case build process is described separately below. Generation dispatch, as described below, is for planning and may not necessarily reflect the actual real-time dispatch.
+Existing and planned units owned by Non-Opt-In Entities (NOIE) are dispatched according to the NOIE dispatch spreadsheets submitted to ERCOT on a biannual basis; unless a NOIE requests that their units are to be dispatched according to the order that is described below or do not submit a NOIE dispatch. 
+Private network generation is also dispatched independently. The units are dispatched to meet their load modeled in the case. The import/export contributions of the DC Ties will be set based on historical data to the extent that the contributi

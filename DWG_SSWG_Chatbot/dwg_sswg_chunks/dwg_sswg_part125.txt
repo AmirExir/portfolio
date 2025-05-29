@@ -1,0 +1,22 @@
+od County
+45	BEPC_Jack	Brazos Electric - Jack County
+46	BEPC_Johnson	Brazos Electric - Johnson County
+47	BEPC_Kent	Brazos Electric - Kent County
+48	BEPC_King	Brazos Electric - King County
+49	BEPC_Knox	Brazos Electric - Knox County
+50	BEPC_Lampasas	Brazos Electric - Lampasas County
+51	BEPC_Leon	Brazos Electric - Leon County
+52	BEPC_Limestone	Brazos Electric - Limestone County
+53	BEPC_Madison	Brazos Electric - Madison County
+54	BEPC_McLennan	Brazos Electric - McLennan County
+55	BEPC_Milam	Brazos Electric - Milam County
+56	BEPC_Mills	Brazos Electric - Mills County
+57	BEPC_Montague	Brazos Electric - Montague County
+58	BEPC_Montgomery	Brazos Electric - Montgomery County
+59	BEPC_Navarro	Brazos Electric - Navarro County
+60	BEPC_Palo Pinto	Brazos Electric - Palo Pinto County
+61	BEPC_Parker	Brazos Electric - Parker County
+62	BEPC_Robertson	Brazos Electric - Robertson County
+63	BEPC_Scurry	Brazos Electric - Scurry County
+64	BEPC_Shackelford	Brazos Electric - Shackelford County
+65	BEPC_Somervell

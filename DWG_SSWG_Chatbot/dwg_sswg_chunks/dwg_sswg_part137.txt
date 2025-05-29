@@ -1,0 +1,27 @@
+c Power - TCC
+661	ROBSTOWN	American Electric Power - TCC
+662	KIMBLE	American Electric Power - TCC
+670	SHACKFORD	Lone Star Transmission
+671	EASTLAND	Lone Star Transmission
+672	BOSQUE	Lone Star_Transmission
+673	HILL	Lone Star Transmission
+674	NAVARRO	Lone Star Transmission
+675	FISHER	Lone Star Transmission
+676	JONES	Lone Star Transmission
+677	CALLAHAN	Lone Star Transmission
+688	HILL	Lone Star Transmission
+691	BAST-AEU	Austin Energy
+692	CALD-AEU	Austin Energy
+695	FAYE-AEU	Austin Energy
+709	TRAV-AEU	Austin Energy
+712	WILL-AEU	Austin Energy
+790	GRAY	Cross Texas Transmission
+791	SCOMP	Cross Texas Transmission
+800	BPUB	Public Utility Board of Brownsville
+825	SU CAPROCK	Sharyland Utilities
+829	SHRY	Sharyland Utilities
+870	MEC	South Texas Electric Coop - Medina Electric Coop
+872	JEC	South Texas Electric Coop - Jackson Electric Coop
+874	KEC	South Texas Electric Coop - Karnes Electric Coop
+875	MVEC_E	South Texas Electric Coop - Eastern Magic Valley
+876	MVEC_W	South Texas Electric Coop - Western M

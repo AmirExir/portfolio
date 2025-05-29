@@ -1,0 +1,19 @@
+ween ERCOT and CFE.
+
+Military Highway
+
+The Military Highway Substation (8339) is connected to the CFE Matamoras Substation (86112) by a 1.44 mile 138 kV transmission line and is breakered at each end.  The transmission line is operated normally open and is utilized for emergency block load transfers between ERCOT and CFE.
+
+Frontera
+
+The Frontera Power Plant (86114) is connected to the CFE Cumbres Substation (86107) by a 138 kV transmission line.  This transmission line is privately owned and operated by the owners of the Frontera Power Plant and is utilized to move the generation at Frontera Power Plant between the ERCOT and CFE systems. 
+
+Falcon
+
+The Falcon Substation (8395) is connected to the CFE Falcon Substation (86111) by a .3034 mile 138 kV transmission line and is breakered at each end.  The transmission line is operated normally open and is utilized for emergency block load transfers between ERCOT and CFE. 
+
+
+
+Normally Open Block Load Ties on Distribution 
+  
+There are three n

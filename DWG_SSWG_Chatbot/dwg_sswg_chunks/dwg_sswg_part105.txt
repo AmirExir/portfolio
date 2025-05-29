@@ -1,0 +1,17 @@
+be a numeric value
+DatabaseID					Must be an alphanumeric with a 12 character maximum
+TOContingencyID					May not be null
+ContingencyAction				Open	Must be either open or close
+FromBusNumber_i				0	Must be a numeric value
+ToBusNumber_j				0	Must be a numeric value
+ToBusNumber_k				0	Must be a numeric value
+CircuitID					Must be an alphanumeric with a two character maximum, and must be null if the element identifier for the outage is a bus or switched_shunt
+ElementIdentifier					Must be either a bus, transformer, branch, fixed_bus_shunt, switched_shunt or gen
+Submitter					Must match current submitter name in database
+StartDate				1/1/2000	Must be a valid date
+StopDate				12/31/2099	Must be a valid date
+DateCreated					Must be a valid date
+UpdatedDate					Must be a valid date
+Multi-SectionLine				No	Must be either yes or no
+NERCCategory					Must be NERC Category, ‘.’, and the type of Event; example P4.3* 
+ERCOTCategory					Must be N/A, ERCOT_1, ERCOT_NonBES, ERCOT_CCT, E

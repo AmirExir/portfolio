@@ -1,0 +1,6 @@
+start also includes the steps taken to build the flat start case such as network model changes (i.e. changing the schedule of the North DC, tuning voltages, etc.).  
+	Post Flat Start Activities
+	Distribution of Flat Start Results and the Dynamic Data Base
+Upon completion of each flat start, all dynamic data and final data files shall be posted on the ERCOT MIS so that it is accessible to all DWG members and to ERCOT.  This posting shall be within the schedule established by the DWG for the given flat start. 
+	Stability Book
+The Stability Book is an annual document used to record dynamic data changes and/or corrections required during the flat start processes.  The flat start coordinator shall prepare the annual stability book.  Recommendations to revise load flow data are also included in the book.  DWG Members are required to communicate these recommendations to other respective working groups, including Steady State Working Group, Operations Working Group, and Network Data Support Wo

@@ -1,0 +1,25 @@
+593	GLASSCOCK	Wind Energy Transmission Texas
+594	DICKENS	Wind Energy Transmission Texas
+610	E VALLEY	American Electric Power - TCC
+611	TCCSWIND	American Electric Power - TCC
+612	CFE	CFE
+615	W VALLEY	American Electric Power - TCC
+620	N REGION	American Electric Power - TCC
+621	TCCNWIND	American Electric Power - TCC
+625	C REGION	American Electric Power - TCC
+626	TCCCWIND	American Electric Power - TCC
+630	W REGION	American Electric Power - TCC
+631	TCCWWIND	American Electric Power - TCC
+635	LAREDO	American Electric Power - TCC
+636	TRIANGLE	American Electric Power - TCC
+640	NORTH LI	American Electric Power - TCC
+645	CENT LI	American Electric Power - TCC
+650	NR COGEN	American Electric Power - TCC
+651	CR COGEN	American Electric Power - TCC
+656	TCC/RGEC	American Electric Power - TCC
+658	TCC/LCRA	American Electric Power - TCC
+659	TCC/MEC	American Electric Power - TCC
+660	DAV_1GEN	American Electric Power - TCC
+661	ROBSTOWN	American Electric Power - TCC
+662	KIMBLE	American Electric Power - TCC
+67

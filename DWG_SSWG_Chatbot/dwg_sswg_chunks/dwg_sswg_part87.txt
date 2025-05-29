@@ -1,0 +1,8 @@
+the off-nominal ratio for voltage or reactive controlling transformers and is typically entered as a per-unit value. The limit should take into account the no-load tap setting of the transformer, if applicable. For a phase shifting transformer, the value is entered in degrees.
+4.5.1.8.4.2	Lower Limit (Rmin)
+Similar to the upper limit, this field defines the lower limit of the off-nominal ratio or phase shift angle for the transformer defined.
+
+4.5.1.8.5	Voltage or Power-Flow Limits
+These two fields specify the upper and lower voltage limits at the controlled bus or for the real or reactive load flow through the transformer at the tapped side bus before automatic LTC adjustment will be initiated by the power-flow program. As long as bus voltage, or real power flow for phase shifting transformers, is between the two limits, no LTC adjustment will take place during the power-flow solution activities.
+4.5.1.8.5.1	Upper Limit (Vmax)
+This field specifies the upper limit for bus voltage in p

@@ -1,0 +1,9 @@
+ties with external interconnections may be modeled by the use of either the Two Terminal DC Transmission Line Data or Voltage Source Converter DC Line Data.
+4.8.1	Two Terminal DC Transmission Line Data
+Conventional HVDC ties should be modeled using Two Terminal DC Transmission Line Data.  The Two Terminal DC Transmission Line Data model represents the HVDC terminal equipment, including any converter transformers, thyristors, and the DC link.  The model will calculate voltages, converter transformer taps, losses, and VA requirements, based upon the power transfer over the HVDC facility, and the terminal AC bus voltages. See PSS®E Manual for more information.
+
+4.8.2	Voltage Source Converter (VSC) DC Line Data
+Voltage Source Converter DC line data can be used to model DC ties that use the voltage source converter technology. See PSS®E Manual for more information.
+4.8.3	HVDC Two Terminal Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Line number	MOD STD

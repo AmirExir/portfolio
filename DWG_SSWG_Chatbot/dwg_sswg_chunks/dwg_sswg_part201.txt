@@ -1,0 +1,22 @@
+hould reflect a power availability state (no headroom state) as that would be the normal operating assumption even when dispatched at less than Pmax.
+The figures below include the examples of acceptable and unacceptable responses. 
+
+ 
+
+
+ 
+
+
+ 
+3.1.5.8 System Strength Test (for Inverter-Based Resources, and Inverter-Based Transmission Elements)
+This test considers the model performance under varying short circuit ratios (SCR).  The SCR of the electric grid can vary over time due to line contingencies, nearby generator status, etc., so it is important for a model to behave well under a range of SCR conditions.
+The model shall be tested under at least four different short circuit ratios listed in the table below.  If there are concerns about model accuracy under certain lower short circuit ratios, a written explanation of the reason should be provided.
+
+Test	SCR
+1	5
+2	3
+3	1.5
+4	1.2
+
+Method for Testing SCR:
+A test case is set up where the plant model POI is connected to a controllable infin

@@ -1,0 +1,12 @@
+ned devices such as the Unified Power Flow Controller (UPFC) and the Interline Power Flow Controllers (IPFC). These devices are being studied and installed for their fast and accurate control of the transmission system voltages, currents, impedance and power flow. They are intended to improve power system performance without the need for generator rescheduling or topology changes. These devices are available because of the fast development of power electronic devices.
+
+PSS®E has the capability to model several different FACTS devices and their documentation is the best source for specific applications.
+
+FACT Device – Data SourceData Element	Source For Existing  Elements	Source For Planned Elements
+Device Number	MOD STD PMCR 	MOD PMCR 
+Sending Bus Number	MOD STD PMCR 	MOD PMCR 
+Terminal End Bus Number	MOD STD PMCR 	MOD PMCR 
+Control Mode	MOD PROFILES	MOD PROFILES
+P Setpoint (MW)	MOD PROFILES	MOD PROFILES
+Q Setpoint (Mvar)	MOD PROFILES	MOD PROFILES
+V Send Setpoint	MOD PROFILES	MOD PROFIL

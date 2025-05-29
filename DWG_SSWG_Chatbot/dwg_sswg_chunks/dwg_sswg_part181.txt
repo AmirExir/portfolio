@@ -1,0 +1,5 @@
+within 45 seconds of a disturbance .
+	PSCAD models shall be submitted to ERCOT for all IBRs, Wind-powered Generation Resources (WGRs), and inverter-based transmission elements (IBTEs)  installed on or after January 2015; for equipment installed before 2015 PSCAD models shall be submitted to ERCOT upon request.  For purposes of this manual, IBTEs includes STATCOMs, static VAR compensators (SVCs), and other transmission devices with power electronic grid interfaces.
+	Where multiple models are provided (e.g. PSS/E, TSAT, PSCAD), the model response shall be consistent across software platforms to the extent of platform capability.
+	Dynamic models shall utilize proper memory management within the software.  Data must only be written to allocated memory locations so that other models within the system are not affected.
+	All associated per unit dynamic model parameters for a given generating unit shall be provided using a base MVA (MBASE) in accordance with appropriate modeling techniques fo

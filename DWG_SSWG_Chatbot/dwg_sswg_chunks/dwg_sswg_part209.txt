@@ -1,0 +1,17 @@
+existing IBRs.
+ 
+The following performance criteria apply:
+	Plant real and reactive power output should be well controlled. The frequency and voltage should not oscillate excessively or deviate from steady-state levels for any significant amount of time. 
+
+	Voltage should settle to a stable operating point when the frequency is not ramping 
+
+	The equivalent inertia constant, as calculated below, should be greater than 2.5 s. 
+
+	H ≈ 60 * ∆E [s], where: ∆E is the area under the per unit active power production of the ESR from 0 to 0.5 s, when the RoCoF is 1 Hz/s. 
+
+	Active power should settle according to its frequency droop and deadband settings when the frequency has settled. 
+
+ 
+
+3.1.5.13 AGS-ESR System Strength Test
+This test is similar to the existing system strength test for all IBRs, but AGS-ESR shall demonstrate a stable response for all tested SCR values from 10 down to 1.2. The test system should be set up with a SCR of 10 at the connection point with a X/R ratio of 6. The init

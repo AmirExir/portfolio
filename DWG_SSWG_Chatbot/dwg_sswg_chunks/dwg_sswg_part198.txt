@@ -1,0 +1,14 @@
+table to accommodate  greater reactive power absorbed for sustained POI voltages in the range of 1.05 pu to 1.10 pu provided real power fully recovers when POI voltage returns to normal operating range (0.95-1.05 pu).
+	An explanation, including a reference to any exempt status per ERCOT Nodal Operating Guide Section 2.9.1, shall be provided for models which indicate that the unit trips or fails to meet any of the above performance criteria.
+The following two figures illustrate the “preferred” and the “legacy” HVRT voltage profiles applied at the POI.
+
+ 
+
+The figures below include examples of acceptable and unacceptable responses.
+ 
+ 
+
+ 
+
+3.1.5.6 Large Voltage Disturbance Test (for synchronous machines-based facilities including synchronous generators and synchronous condensers)
+Apply a three-phase fault at the POI for 4 cycles (i.e. apply a step change to zero voltage at the POI for 4 cycles and then a step change back to nominal voltage).  The facility should inject reactive current d

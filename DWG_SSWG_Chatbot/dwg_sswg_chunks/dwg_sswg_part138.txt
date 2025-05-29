@@ -1,0 +1,20 @@
+_E	South Texas Electric Coop - Eastern Magic Valley
+876	MVEC_W	South Texas Electric Coop - Western Magic Valley
+878	NEC	South Texas Electric Coop - Nueces Electric Coop
+880	SPEC	South Texas Electric Coop - San Patricio Electric Coop
+882	VEC	South Texas Electric Coop - Victoria Electric Coop
+884	WCEC	South Texas Electric Coop - Wharton County Electric Coop
+890	STEC	South Texas Electric Coop except member coops
+891	LOAD-EX	American Electric Power - TCC
+900	E_BRAZORIA	ERCOT designated generation zone
+902	E_CHAMBERS	ERCOT designated generation zone
+903	E_FORT BEND	ERCOT designated generation zone
+904	E_GALVESTO	ERCOT designated generation zone
+906	E_HARRIS	ERCOT designated generation zone
+911	E_MATAGORD	ERCOT designated generation zone
+918	E_VICTORIA	ERCOT designated generation zone
+920	E_WHARTON	ERCOT designated generation zone
+931	E_ANGELINA	ERCOT designated generation zone
+932	E_BRAZOS	ERCOT designated generation zone
+935	E_CHEROKEE	ERCOT designated generation zone
+937	E_FREESTONE	ERCOT
