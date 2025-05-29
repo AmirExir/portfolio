@@ -21,9 +21,9 @@ def load_ercot_chunks_and_embeddings():
     embeddings = []
 
     st.write("📄 Available DWG_SSW files:")
-    st.write(sorted(glob.glob("DWG_SSWG_Chatbot/dwg_sswg_chunkts/dwg_sswg_part*.txt")))
+    st.write(sorted(glob.glob("DWG_SSWG_Chatbot/dwg_sswg_chunks/dwg_sswg_part*.txt")))
 
-    for filepath in sorted(glob.glob("DWG_SSWG_Chatbot/dwg_sswg_chunkts/dwg_sswg_part*.txt")):
+    for filepath in sorted(glob.glob("DWG_SSWG_Chatbot/dwg_sswg_chunks/dwg_sswg_part*.txt")):
         with open(filepath, "r", encoding="utf-8") as f:
             text = f.read()
             chunks.append({"filename": filepath, "text": text})
