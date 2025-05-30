@@ -58,15 +58,32 @@ def embed_query(query: str) -> List[float]:
     )
     return response.data[0].embedding
 
-def find_top_k_matches(query: str, chunks, embeddings, top_k: int = 3):
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+
+def find_top_k_matches(query: str, chunks, embeddings, top_k: int = 3, score_threshold: float = 0.6, debug: bool = False):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
     scores = cosine_similarity(query_embedding, embeddings).flatten()
 
-    # Get the top-K highest scoring indices
-    top_k_indices = np.argsort(scores)[-top_k:][::-1]
+    # Score each chunk with its index
+    scored_chunks = [(i, scores[i]) for i in range(len(chunks))]
 
-    # Combine top chunks with filename labels
-    selected_chunks = [chunks[i] for i in top_k_indices]
+    # Filter by threshold
+    filtered = [item for item in scored_chunks if item[1] >= score_threshold]
+
+    # Sort by descending score
+    top_filtered = sorted(filtered, key=lambda x: x[1], reverse=True)[:top_k]
+
+    if debug:
+        print("\n[DEBUG] Top matching chunks:")
+        for i, score in top_filtered:
+            print(f"\nRank: {i+1}, Score: {score:.4f}, Filename: {chunks[i]['filename']}")
+            print(chunks[i]['text'][:300])  # Show snippet
+
+    if not top_filtered:
+        return "No relevant chunks found above the similarity threshold."
+
+    selected_chunks = [chunks[i] for i, _ in top_filtered]
     combined_text = "\n---\n".join([f"Filename: {c['filename']}\n\n{c['text']}" for c in selected_chunks])
 
     return combined_text
