@@ -1,6 +1,0 @@
-sion operation. There are two distinct static reactive devices currently represented in the SSWG Cases: shunt devices and series devices.
-4.6.1	Shunt Devices
-4.6.1.1	Switched Shunt Devices
-A shunt capacitor or reactor located in a station for the purpose of controlling the transmission voltage can be represented in the SSWG Cases as a switched shunt device to accurately simulate operating conditions.  Care should be exercised when specifying the size of cap banks. Be sure that the rated size of the bank is for 1.0 per unit voltage.  Care should be taken to ensure that distribution level capacitors are not modeled in such a way as to be counted twice.
-When a switched capacitor or reactor is submitted as the switched shunt data record, there are three modes that it can operate in: fixed, discrete, or continuous.  Switched capacitors are to be modeled in the mode in which they are operated.
-A switched shunt can be represented as up to eight blocks of admittance, each one consisting of up

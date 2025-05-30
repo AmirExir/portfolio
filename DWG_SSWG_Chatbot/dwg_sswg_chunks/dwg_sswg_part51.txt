@@ -1,8 +1,0 @@
-the average uncurtailed renewable penetration of the top 20 hours for wind and solar respectively 
-9.	Multiply the uncurtailed renewable penetration value by the total load in the MIN case to determine the total number of renewable MW in the case
-10.	Determine the average uncurtailed wind capacity factor and solar capacity factor for the top 20 hours
-11.	Determine the ratio between the average uncurtailed wind and solar capacity factors, then distribute the total renewable MW by this ratio
-12.	For the selected top 20 hours, find the average uncurtailed capacity factors for each wind region and find the ratios between them
-13.	Assign the total wind MW to each region based on these ratios
-14.	If the total amount of renewable generation to be dispatched is greater than the remaining load to be served, reduce the total number of Renewable MW to be dispatched to equal the remaining load to be served and use the same steps as above to determine the ratio of wind to solar generation 
-vii.	If

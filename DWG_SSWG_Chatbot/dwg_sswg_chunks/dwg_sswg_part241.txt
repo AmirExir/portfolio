@@ -1,6 +1,0 @@
-ata for equipment connected to their system for completeness and applicability.  The data should be appropriate for the model, and the model should be appropriate for the equipment.  Before submitting data for inclusion in updated dynamic base cases, each DWG member should perform dynamic data screening.  
-	Flat Start Criteria
-DWG Flat Start cases shall:
-	Initialize with no errors;
-	Demonstrate that simulation output channels for frequency, voltage and power do not deviate from an acceptable range for a Twenty-second run with no disturbance.   
-	The product of a successful flat start will be a planning model software simulation-ready base case (the unconverted base case) with its associated dynamic data files including user models (.dyr, .obj, .lib, and .dll files), stability data change documentation, python (.py) files and response files (.idv) files.  The product of a successful flat start also includes the steps taken to build the flat start case such as network model changes (i.e.

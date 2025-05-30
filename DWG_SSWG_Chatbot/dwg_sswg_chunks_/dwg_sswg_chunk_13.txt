@@ -1,0 +1,63 @@
+itched Shunt Devices
+A shunt capacitor or reactor located in a station for the purpose of controlling the transmission voltage can be represented in the SSWG Cases as a switched shunt device to accurately simulate operating conditions.  Care should be exercised when specifying the size of cap banks. Be sure that the rated size of the bank is for 1.0 per unit voltage.  Care should be taken to ensure that distribution level capacitors are not modeled in such a way as to be counted twice.
+When a switched capacitor or reactor is submitted as the switched shunt data record, there are three modes that it can operate in: fixed, discrete, or continuous.  Switched capacitors are to be modeled in the mode in which they are operated.
+A switched shunt can be represented as up to eight blocks of admittance, each one consisting of up to nine steps of the specified block admittance. The switched shunt device can be a mixture of reactors and capacitors.  The reactor blocks are specified first in the data record (in the order in which they are switched on), followed by the capacitor blocks (in the order in which they are switched on). The complex admittance (p.u.), the desired upper limit voltage (p.u.), desired lower limit voltage (p.u.), and the bus number of the bus whose voltage is regulated must be defined to accurately simulate the switched shunt device. A positive reactive component of admittance represents a shunt capacitor and a negative reactive component represents a shunt reactor. 
+4.6.1.2	Fixed Shunt Devices
+A shunt capacitor or reactor located in a station for the purpose of controlling the transmission voltage can be represented in the SSWG Cases as a fixed shunt device to accurately simulate operating conditions.  Care should be exercised when specifying the size of cap banks. Be sure that the rated size of the bank is for 1.0 per unit voltage.  Care should be taken to ensure that distribution level capacitors are not modeled in such a way as to be counted twice.
+
+Multiple fixed shunts can be modeled at a bus, each with a unique ID.  These fixed shunts have a status that can be set to on or off.
+
+A positive reactive component of admittance represents a shunt capacitor and a negative reactive component represents a shunt reactor.
+ 
+4.6.1.3	Dummy Bus Shunt
+If a switchable or fixed capacitor or reactor were connected to a transmission line instead of a station bus, an outage of the transmission line would also cause the capacitor or reactor to be taken out of service (see Figure 3).  For these instances, the most accurate model is the switched shunt modeled at a dummy bus connected by a zero impedance branch to the real station bus.  This dummy bus must have exactly two branches connected to it, both of which must be members of the same multi-section line grouping.  The status of the line section is that the multi-section line is treated as a single element.  A shunt capacitor or reactor connected to a line but modeled as a shunt within a station will result in power-flow calculations for contingencies that differ from real operating conditions.
+
+
+ 
+	   Figure 3. Example one-line of line connected capacitor bank
+
+4.6.2	Series Devices
+Series capacitors and reactors will be modeled as a series branch with the appropriate impedance. If a parallel bypass exists, it should be modeled as a zero impedance branch with the appropriate branch status indicating whether it is normally open or normally closed.
+4.6.3	Static Reactive Device Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Switched Shunt: Control Mode	NMMS	MOD PMCR/PROFILES
+Switched Shunt: Voltage Limits	MOD PROFILES/NMMS	MOD PMCR/PROFILES
+Switched Shunt: Controlled Bus	NMMS	MOD PMCR/PROFILES
+Switched Shunt: B init	MOD PROFILES/NMMS	MOD PROFILES
+Switched Shunt: B steps	NMMS	MOD PMCR
+Fixed Shunt: ID	NMMS	MOD PMCR
+Fixed Shunt: Status	NMMS	MOD PMCR
+Fixed Shunt: B-Shunt	NMMS	MOD PMCR
+Series Device	NMMS	MOD PMCR
+ 
+4.7	Dynamic Control Devices
+All existing and planned FACTS devices shall be modeled in the SSWG Cases. There are a multitude of FACTS (Flexible AC Transmission System) devices currently available, comprising shunt devices, such as Static VAR Compensator (SVC), Static Compensator (STATCOM), series devices such as the Static Synchronous Series Compensator (SSSC), combined devices such as the Unified Power Flow Controller (UPFC) and the Interline Power Flow Controllers (IPFC). These devices are being studied and installed for their fast and accurate control of the transmission system voltages, currents, impedance and power flow. They are intended to improve power system performance without the need for generator rescheduling or topology changes. These devices are available because of the fast development of power electronic devices.
+
+PSS®E has the capability to model several different FACTS devices and their documentation is the best source for specific applications.
+
+FACT Device – Data SourceData Element	Source For Existing  Elements	Source For Planned Elements
+Device Number	MOD STD PMCR 	MOD PMCR 
+Sending Bus Number	MOD STD PMCR 	MOD PMCR 
+Terminal End Bus Number	MOD STD PMCR 	MOD PMCR 
+Control Mode	MOD PROFILES	MOD PROFILES
+P Setpoint (MW)	MOD PROFILES	MOD PROFILES
+Q Setpoint (Mvar)	MOD PROFILES	MOD PROFILES
+V Send Setpoint	MOD PROFILES	MOD PROFILES
+Shunt Max (MVA)	MOD STD PMCR 	MOD PMCR 
+RMPCT (%)	MOD STD PMCR 	MOD PMCR 
+V Term Max (pu)	MOD STD PMCR 	MOD PMCR 
+V Term Min (pu)	MOD STD PMCR 	MOD PMCR 
+V Series Max (pu)	MOD STD PMCR 	MOD PMCR 
+I Series Max (MVA)	MOD STD PMCR 	MOD PMCR 
+Owner	MOD STD PMCR 	MOD PMCR 
+NOTE: The above list is an example of typical FACTs device parameters and does not include all possible types of FACTs devices.
+
+ 
+4.8	HVDC Devices
+HVDC Devices allow a specified real power flow to be imposed on the DC link.  For base case operation, this should be set to the desired interchange across the DC tie.  Capacitors, filter banks and reactors should be modeled explicitly and switched in or out of service based on normal DC tie operation.  The HVDC model itself normally calculates reactive power consumption.
+
+HVDC ties with external interconnections may be modeled by the use of either the Two Terminal DC Transmission Line Data or Voltage Source Converter DC Line Data.
+4.8.1	Two Terminal DC Transmission Line Data
+Conventional HVDC ties should be modeled using Two Terminal DC Transmission Line Data.  The Two Terminal DC Transmission Line Data model represents the HVDC terminal equipment, including any converter transformers, thyristors, and the DC link.  The model will calculate voltages, converter transformer taps, losses, and VA requirements, based upon the power transfer over the HVDC facility, and the terminal AC bus voltages. See PSS®E Manual for more information.
+
+4.8.2	Voltage Source Converter (VSC) DC

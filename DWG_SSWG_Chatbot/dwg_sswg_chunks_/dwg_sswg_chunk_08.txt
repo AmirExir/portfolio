@@ -1,0 +1,49 @@
+Resources will be included in the SSWG Cases on a biannual basis according to the procedures defined in Planning Guide, Section 6.9, addition of Proposed Generation Resources to the Planning Models.
+New DGRs, DESRs, and SODGs will be included in the SSWG Cases on a biannual basis during the incremental updates with operational data from NMMS.  
+4.3.3.1 	Extraordinary Dispatch Conditions
+On occasion, the total load plus the spinning reserve indicated above can exceed the amount of available generation due to load forecasts.  SSWG Cases typically model load at individual coincident TSP peaks instead of at the ERCOT coincident system peak.  When such a condition is encountered in future cases, ERCOT may increase generation resources by taking the indicated action, or adding generation, in the following order:
+
+1.	Ignore spinning reserve.
+2.	Increase NOIE generation with prior NOIE consent.
+3.	DC ties dispatched to increase transfers into ERCOT to the full capacity of the DC ties.
+4.	Dispatch SODG natural gas and diesel units up to their full capacity.
+5.	Dispatch units that have changed their status to indefinite mothball within the last 18 months and that have not announced their return to service. The dispatch methodology for this procedure is detailed below.
+6.	Scale transmission level wind generation dispatch up to 50% of capability.
+7.	Add units with interconnection agreements, but do not meet all of the requirements for inclusion defined in the Planning Guide. 
+8.	Dispatch units that have changed their status to indefinite mothball over 18 months ago and have not announced their return to service. The dispatch methodology for this procedure is detailed below.
+9.	Add publicly announced  units without interconnection agreements.
+10.	Dispatch units that are solely for black start.
+11.	Scale wind generation dispatch up to 100% of capability
+12.	Add generation resources to the 345 kV transmission system near the sites of existing or retired units.
+
+ERCOT shall post the extraordinary dispatch details used in each case to the MIS website.  
+4.3.4	Generation Guidelines	
+(1)	ERCOT will model registered resources and resource equipment.
+(2)	ERCOT will model future transmission level resources and resource equipment in the interconnection process using the “Generation_Interconnection” project type in MOD.  The project name shall contain the ERCOT GINR. 
+(3)	ERCOT will model SODGs in using the “Standard PMCR” project type in MOD.
+(4)	TSPs may model resource and resource equipment not requiring ERCOT registration and not required by the Generation Interconnection process if they desire the resource to be in the SSWG case.
+(5)	ERCOT shall update the PMAX and PMIN values based upon the Resource Registration Data net seasonal sustainable ratings.  The generator identifier is a two-character alphanumeric identifier used to differentiate between generators at a bus. All self-serve generators must be identified by P1. If there are multiple self-serve generators at the same bus, then self-serve generators must be identified by P1, P2, P3, etc. Self-serve economic generators must be identified by “PE”.
+(6)	Refer to Appendix D for the generator identifiers used in the SSWG cases.
+(7)	In extraordinary dispatch scenarios, the following generator zones should be assigned by ERCOT:
+ 
+Extraordinary Dispatch Step
+Zone Number	Zone Name
+4. & 7. Mothballed units that have not announced their return to service.	1195	EX_MB
+6. For units with interconnection agreements, but do not meet all of the requirements for inclusion defined in the Planning Guide	1196	EX_IA_NOFC
+8. For publicly announced units without interconnect agreements.	1197	EX_PUB_NOIA
+12. For generation resources added to the 345 kV transmission system near the sites of existing or retired units.	1198	EX_FAKEGEN
+
+Methodology for Dispatching Mothballed Units
+In order to minimize the effect on transmission plans of the decision to use mothballed units to meet the load requirement, the generation that is needed from mothballed units as a group will be allocated over all the mothballed units on a capacity ratio share basis.  If this technique results in some of the mothballed units being dispatched at a level below their minimum load, an economic ranking will be used to remove the least economic units from consideration for that particular case so that the allocation of the load requirement among the remaining mothballed units will result in all of those units being loaded above their minimum loads.
+For example, assume that, in some future year, ERCOT has a projected peak demand of 80,000MW and a total installed resource capacity of 82,000MW, with 3000MW of that installed capacity being units that are mothballed and have not indicated they will return.  For this simple example, assume that the mothballed capacity is 20 generating units of equal 150MW size.  Ignoring losses and spinning reserve requirement, the steady-state case would need to include 1000MW of the 3000MW mothballed capacity in order to match the load.   Thus, each of the 20 mothballed units would be set to an output of 50MW in the steady-state case (assuming their minimum load is less than 50MW).
+Consideration of Alternative Dispatch for Studies
+While this treatment of mothballed units attempts to generally minimize the effect of the assumption that mothballed units will be used to meet the load requirement in the SSWG Cases (rather than assumed new generation), the planning process should also consider alternative generation dispatches in instances where this treatment of mothballed units could have a direct effect on transmission plans.  Specifically, in instances where having a mothballed unit available would alleviate the need for a transmission project that would be required to meet reliability criteria if the mothballed unit were not to return, the transmission project should not be deferred based on the assumption that the mothballed unit will return to service. 
+4.3.4	Voltage Profile Adjustments
+	After the generation dispatch has been determined, the expected voltage profile for the system can be applied. The scheduled voltages should reflect actual voltage set points used by the generator operators. 
+	TSPs should check the voltages at several key locations within the system when modifying generation control voltages and reactive devices.  Voltage profile changes can be accomplished by turning on/turning off capacitors or reactors, and by changing the operations of generators (turning on/turning off/redispatching for VAR control). The cases should ultimately model system voltages that could be reasonably expected to occur.
+4.3.5	Generator Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Bus Number	NMMS	MOD PMCR
+Bus Name	NMMS 	MOD PMCR 
+Machine ID	NMMS	MOD PMCR
+Bus Code	NMMS 

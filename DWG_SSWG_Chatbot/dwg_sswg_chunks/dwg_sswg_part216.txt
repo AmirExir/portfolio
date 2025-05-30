@@ -1,6 +1,0 @@
-els against actual inverter testing and should be performed for all inverter-based device types within the facility.  The test report should clarify if the inverter is capable of meeting AGS-ESR requirements and that these control settings are enabled. The tests are inverter specific but need not be site-specific.  The report should include a description of the test set up as well as the simulation plots of relevant quantities for each test.   Guidelines on how these tests should be performed and the expected model performance are provided in the following sub-sections.
-
-
-3.1.6.1 PSCAD Model Setup
-
-Because the purpose of validation is to test the PSCAD inverter model, it is not necessary to model any balance-of-plant equipment, transformers, collector system, power plant controllers, etc., however any auxiliary inverter-based equipment should also be tested (for example, STATCOMs). In simulation software, the PSCAD model(s) should be connected to a controllable voltage source whose vol

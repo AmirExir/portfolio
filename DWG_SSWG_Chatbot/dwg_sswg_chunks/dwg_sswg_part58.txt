@@ -1,7 +1,0 @@
-return to service.	1195	EX_MB
-6. For units with interconnection agreements, but do not meet all of the requirements for inclusion defined in the Planning Guide	1196	EX_IA_NOFC
-8. For publicly announced units without interconnect agreements.	1197	EX_PUB_NOIA
-12. For generation resources added to the 345 kV transmission system near the sites of existing or retired units.	1198	EX_FAKEGEN
-
-Methodology for Dispatching Mothballed Units
-In order to minimize the effect on transmission plans of the decision to use mothballed units to meet the load requirement, the generation that is needed from mothballed units as a group will be allocated over all the mothballed units on a capacity ratio share basis.  If this technique results in some of the mothballed units being dispatched at a level below their minimum load, an economic ranking will be used to remove the least economic units from consideration for that particular case so that the allocation of the load requirement among the remaining mothba

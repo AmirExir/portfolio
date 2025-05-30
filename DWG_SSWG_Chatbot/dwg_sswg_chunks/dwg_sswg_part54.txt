@@ -1,7 +1,0 @@
-ming from Load Resources.  The dispatch may be modified in the seasonal SSWG Cases if necessary to maintain voltages at acceptable levels.
-New transmission level Generation Resources will be included in the SSWG Cases on a biannual basis according to the procedures defined in Planning Guide, Section 6.9, addition of Proposed Generation Resources to the Planning Models.
-New DGRs, DESRs, and SODGs will be included in the SSWG Cases on a biannual basis during the incremental updates with operational data from NMMS.  
-4.3.3.1 	Extraordinary Dispatch Conditions
-On occasion, the total load plus the spinning reserve indicated above can exceed the amount of available generation due to load forecasts.  SSWG Cases typically model load at individual coincident TSP peaks instead of at the ERCOT coincident system peak.  When such a condition is encountered in future cases, ERCOT may increase generation resources by taking the indicated action, or adding generation, in the following order:
-
-1.	Ignor

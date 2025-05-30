@@ -1,9 +1,0 @@
-porting obligations to ensure compliance with NERC reliability standards and/or other requirements.
-The following two subsections describe data requirements for two distinct categories of generation facilities:
-	Synchronous Generation Facilities:
-	The model data shall include, at minimum, a generator model, a governor model, an exciter model, and if applicable, a power system stabilizer model and an excitation limiter model.
-	Explicit frequency protection relay models shall be provided for all generators where relays are set to trip the generating unit within the “no trip zone” of NERC Standard PRC-024 Attachment 1. 
-	Explicit voltage protection relay models shall be provided for all generators where relays are set to trip the generating unit within the “no trip zone” of NERC Standard PRC-024 Attachment 2.
-	 A governor model is not required for the steam turbine(s) of combined cycle plants.
-	IBRs, and WGRs:
-The RE shall provide the following data as applicable to the generator technolo

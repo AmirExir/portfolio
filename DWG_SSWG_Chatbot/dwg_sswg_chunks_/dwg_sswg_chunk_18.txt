@@ -1,0 +1,166 @@
+DC
+220	TNP_CLIF	TNMP – Clifton 
+221	TNP_WLSP	TNMP – Walnut Springs
+222	TNP_VROG	TNMP – Various Central TX buses
+224	TNP_LEW	TNMP - Lewisville
+225	TNP_KTRC	TNMP – Various North TX buses
+226	TNP_BELS	TNMP – Grayson & Fannin Counties
+227	TNP_CLMX	TNMP – Fannin & Collin Counties
+229	TNP_PMWK	TNMP – Wink, Pecos
+230	TNP_TC	TNMP – Galveston County
+233	TNP_COGN	TNMP
+234	TNP_WC	TNMP – Brazoria County
+235	TNP_HC-F	TNMP - Farmersville
+238	TNP_GEN	TNMP
+240	TNP_FS	TNMP – Pecos County
+260	CNP_DNTN	CenterPoint Energy - Dist Buses in Downtown
+261	CNP_INNR	CenterPoint Energy - Dist Buses in Inner Loop
+270	CNP_LLIP	CenterPoint Energy – Large Load Interconnection Process
+290	CNP_DG	CenterPoint Energy – Distributed Generation
+295	CNP_CAPEMUTL	CenterPoint Energy – CAPE Mutual Coupling Buses
+300	CNPEXNSS	CenterPoint Energy - Exxon Facility self serve
+301	CNP_INDS	CenterPoint Energy - Industrial Customers
+302	CNP_COGN	CenterPoint Energy - Cogeneration
+303	CNP_SS	CenterPoint Energy - Self Serve
+304	CNP_DIST	CenterPoint Energy - Distribution
+305	CNP_TGN	CenterPoint Energy
+306	CNP_IPP	CenterPoint Energy
+307	CNP_NOLOAD	CenterPoint Energy – No Load Transmission Bus
+308	CNP_GALV	CenterPoint Energy - Galveston area distribution buses
+310	STP	South Texas Project
+316	CNP_AUTOSTAR	CenterPoint Energy – Autotransformer Star Buses
+317	CNP_TERT345	CenterPoint Energy- 345kV AUTO TERTIARIES
+318	 CNP TERTIARY	CenterPoint Energy- 138kV – 69kV AUTO TERTIARIES
+319	CNP_LCAP	CenterPoint Energy - In Line Capacitor Banks
+320	CNPDOWSS	CenterPoint Energy  
+350	CPS	CPS Energy
+351	CPS_GENS	CPS Energy
+391	WEATHFRD	American Electric Power - TNC
+393	TNC/LCRA	American Electric Power - TNC
+394	NHVDC	North High Voltage DC Tie
+402	WHEARNE	American Electric Power - TNC
+424	TRENT	American Electric Power - TNC
+428	PUTNAM	American Electric Power - TNC
+432	ABILENE	American Electric Power - TNC
+434	PECOS	American Electric Power - TNC
+438	MCCAMEY	American Electric Power - TNC
+442	W CHLDRS	American Electric Power - TNC
+444	TUSCOLA	American Electric Power - TNC
+446	PADUCAH	American Electric Power - TNC
+456	ASPR MNT	American Electric Power - TNC
+458	SOUTHERN	American Electric Power - TNC
+460	E MUNDAY	American Electric Power - TNC
+462	SONORA	American Electric Power - TNC
+466	MASON	American Electric Power - TNC
+472	PRESIDIO	American Electric Power - TNC
+474	SAN ANG	American Electric Power - TNC
+477	OKLUNION	American Electric Power - TNC
+478	CEDR HIL	American Electric Power - TNC
+479	BALLINGR	American Electric Power - TNC
+500	AUSTIN	Lower Colorado River Authority
+502	BANDERA	Lower Colorado River Authority
+504	BASTROP	Lower Colorado River Authority
+505	BREWSTER	Lower Colorado River Authority
+506	BLANCO	Lower Colorado River Authority
+507	BROWN	Lower Colorado River Authority
+508	BURLESON	Lower Colorado River Authority
+510	BURNET	Lower Colorado River Authority
+511	COKE	Lower Colorado River Authority
+512	CALDWELL	Lower Colorado River Authority
+514	COLORADO	Lower Colorado River Authority
+516	COMAL	Lower Colorado River Authority
+517	CONCHO	Lower Colorado River Authority
+519	CRANE	Lower Colorado River Authority
+520	CROCKETT	Lower Colorado River Authority
+522	L_CULBERSON	Lower Colorado River Authority
+525	DEWITT	Lower Colorado River Authority
+526	DIMMIT	Lower Colorado River Authority
+527	ECTOR	Lower Colorado River Authority
+528	FAYETTE	Lower Colorado River Authority
+529	L_EDWARDS	Lower Colorado River Authority
+531	L_GILLESPIE	Lower Colorado River Authority
+534	GOLIAD	Lower Colorado River Authority
+537	GONZALES	Lower Colorado River Authority
+540	L_GUADALUPE	Lower Colorado River Authority
+543	HAYS	Lower Colorado River Authority
+542	KARNES	Lower Colorado River Authority
+546	KENDALL	Lower Colorado River Authority
+549	KERR	Lower Colorado River Authority
+550	PRESIDIO	Lower Colorado River Authority
+551	UVALDE	Lower Colorado River Authority
+553	KIMBLE	Lower Colorado River Authority
+554	KINNEY	Lower Colorado River Authority
+555	LAMPASAS	Lower Colorado River Authority
+558	LAVACA	Lower Colorado River Authority
+561	LEE	Lower Colorado River Authority
+562	ZAVALA	Lower Colorado River Authority
+563	REEVES	Lower Colorado River Authority
+564	LLANO	Lower Colorado River Authority
+566	SCHLEICHER	Lower Colorado River Authority
+567	STERLING	Lower Colorado River Authority
+570	MASON	Lower Colorado River Authority
+571	MAVERICK	Lower Colorado River Authority
+572	MCCULLOCH	Lower Colorado River Authority
+573	MENARD	Lower Colorado River Authority
+574	L_MIDLAND	Lower Colorado River Authority
+575	MILLS	Lower Colorado River Authority
+576	L_NOLAN	Lower Colorado River Authority
+577	REAL	Lower Colorado River Authority
+578	PECOS	Lower Colorado River Authority
+579	SAN SABA	Lower Colorado River Authority
+580	TAYLOR	Lower Colorado River Authority
+581	TRAVIS	Lower Colorado River Authority
+582	TOM GREEN	Lower Colorado River Authority
+583	WALLER	Lower Colorado River Authority
+584	UPTON	Lower Colorado River Authority
+585	L_WASHNGTON	Lower Colorado River Authority
+586	VAL VERDE	Lower Colorado River Authority
+587	WILLIAMSON	Lower Colorado River Authority
+588	WHARTON	Lower Colorado River Authority
+589	WILSON	Lower Colorado River Authority
+590	BORDEN	Wind Energy Transmission Texas
+591	MARTIN	Wind Energy Transmission Texas
+592	STERLING	Wind Energy Transmission Texas
+593	GLASSCOCK	Wind Energy Transmission Texas
+594	DICKENS	Wind Energy Transmission Texas
+610	E VALLEY	American Electric Power - TCC
+611	TCCSWIND	American Electric Power - TCC
+612	CFE	CFE
+615	W VALLEY	American Electric Power - TCC
+620	N REGION	American Electric Power - TCC
+621	TCCNWIND	American Electric Power - TCC
+625	C REGION	American Electric Power - TCC
+626	TCCCWIND	American Electric Power - TCC
+630	W REGION	American Electric Power - TCC
+631	TCCWWIND	American Electric Power - TCC
+635	LAREDO	American Electric Power - TCC
+636	TRIANGLE	American Electric Power - TCC
+640	NORTH LI	American Electric Power - TCC
+645	CENT LI	American Electric Power - TCC
+650	NR COGEN	American Electric Power - TCC
+651	CR COGEN	American Electric Power - TCC
+656	TCC/RGEC	American Electric Power - TCC
+658	TCC/LCRA	American Electric Power - TCC
+659	TCC/MEC	American Electric Power - TCC
+660	DAV_1GEN	American Electric Power - TCC
+661	ROBSTOWN	American Electric Power - TCC
+662	KIMBLE	American Electric Power - TCC
+670	SHACKFORD	Lone Star Transmission
+671	EASTLAND	Lone Star Transmission
+672	BOSQUE	Lone Star_Transmission
+673	HILL	Lone Star Transmission
+674	NAVARRO	Lone Star Transmission
+675	FISHER	Lone Star Transmission
+676	JONES	Lone Star Transmission
+677	CALLAHAN	Lone Star Transmission
+688	HILL	Lone Star Transmission
+691	BAST-AEU	Austin Energy
+692	CALD-AEU	Austin Energy
+695	FAYE-AEU	Austin Energy
+709	TRAV-AEU	Austin Energy
+712	WILL-AEU	Austin Energy
+790	GRAY	Cross Texas Transmission
+791	SCOMP	Cross Texas Transmission
+800	BPUB	Public Utility Board of Brownsville
+825	SU CAPROCK	Sharyland Utilities
+829	SHRY	Sh

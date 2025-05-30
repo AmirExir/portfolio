@@ -1,9 +1,0 @@
-on SSWG for that entity, to that TSP.  If load data is not timely submitted on the schedule and in the format defined by the TSP, then ERCOT shall calculate loads based on historical data and insert these loads into the SSWG Cases during annual updates.
-(5)	Multiple loads from different TSPs at a bus may be used. At this time, each TSP can define a load with a load ID of its choice. Careful coordination, however, is required between TSP representatives to ensure that the multiple loads modeled at the same bus are modeled correctly with unique load IDs. See Appendix E for additional details.
-(6)	Guidelines for modeling DER  are detailed in the following table. DER shall not be modeled as negative load in any case.
-DER Type	Should be Embedded in Load Forecasts?	Modeled as Generation by ERCOT?
-DGR	No	Yes
-DESR	No	Yes
-SODG	No	Yes
-UDG1 	Yes	No
-1Specific guidelines for modeling UDG involve representing the aggregated total nameplate value for UDG behind each load point in each load distribut

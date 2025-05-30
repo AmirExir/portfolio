@@ -1,0 +1,47 @@
+shall not be modeled in any bus record.  
+4.1.2	Bus Number Ranges
+The ERCOT transmission system is modeled within the full PSS®E bus number range (1 through 999,997). The Chairman of the SSWG allocates bus ranges, new or amended, with confirmation from the SSWG members.  Each TSP represents their network in the SSWG Cases within the TSP’s designated bus number range. ERCOT represents Resource Entities (REs) and Private Use Networks (PUNs) in the SSWG Cases within ERCOT’s designated bus number range.  Bus number range assignments are listed in the Bus/Zone Range Table in Appendix A.
+4.1.3	Bus Names 
+Bus names shall not identify the customers or owners of loads or generation at new buses unless requested by customers.  The twelve character bus name in the planning model shall follow certain technical criteria as stated in the ERCOT Nodal Protocol Section 3.10 and Other Binding Documents.
+4.1.4	Area Numbers 
+TSPs and ERCOT are assigned area names and numbers for modeling purposes.  Area names and number assignments are listed in the Bus/Zone Range Table in Appendix A.  The area number does not refer to a geographic area.
+4.1.5	Zone Number Ranges
+In PSS®E, each zone data record has a zone number and a zone name identifier. The Chairman of the SSWG allocates zone number ranges, new or amended, with confirmation from SSWG members. Each TSP represents their network in the SSWG Cases using allocated zone number ranges. Zone numbers from within the TSP’s designated zone range are assigned by the TSP.  ERCOT represents Resource Entities (REs) and Private Use Networks (PUNs) in the SSWG Cases using zone ranges allocated to ERCOT.  Zone numbers from within ERCOT’s designated zone range are assigned by ERCOT.  Zone number range assignments are listed in the Bus/Zone Range Table in Appendix A.  
+
+
+4.1.6	Owner IDs
+In PSS®E, each owner data record has an owner number and an owner name identifier.  Owner IDs are assigned by ERCOT.  
+4.1.7	Bus Voltage Limits
+Normal and Emergency Bus Voltage Minimum and Maximum Limits shall reflect voltage limits set forth by the “System Operating Limit Methodology for Planning and Operations Horizon” document, however, Emergency Bus Voltage Limits for generator buses shall reflect minimum generator or high-side of GSU steady-state or ride-through voltage limitations.
+4.1.8	Bus Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Bus Number	NMMS	MOD PMCR
+Bus Name	NMMS 	MOD PMCR 
+Area Number/Name	NMMS	MOD PMCR
+Owner Number/Name	NMMS	MOD PMCR
+Bus Code	NMMS & MOD STD PMCR	MOD PMCR
+Bus Voltage & angle	NMMS & MOD PMCR	MOD PMCR
+Bus Voltage Limits	NMMS & MOD PMCR	MOD PMCR
+4.2	Load Data
+Real and reactive load forecasts within the SSWG Cases are populated with data consistent with, but not necessarily identical to, load data submitted through the ALDR process.  In general, the ALDR contains non-coincident load data while the SSWG Cases contain load data coincident with either the individual TSP projected load levels or the ERCOT system projected load level.  Furthermore, some of the loads defined in the SSWG Cases are not contained within the ALDR (e.g. off-peak, Spring, and Fall loads are not defined in the ALDR).  See Planning Guides Section 6.5 for further information about the ALDR process.
+Each load data record contains a bus number, load identifier, load status, area, zone, real and reactive power components of constant MVA load, real and reactive power components of constant current load, and real and reactive power components of constant admittance load.  In general, loads (MW and MVAR) should be modeled on the high side of transformers serving load at less than 60 kV.  However, special conditions may require more modeling detail such as parallel operation of power transformers from different sources.
+Load Resources are not modeled in the SSWG Cases but are considered a Responsive Reserve.
+4.2.1	Guidelines 
+(1)	The bus number in the load data record must be a bus that exists in the SSWG Case.  The load identifier is a two-character alphanumeric identifier used to differentiate between loads at a bus. All self-serve loads must be identified by “SS”. If there are multiple self-serve loads at the same bus, then the self-serve loads will be identified by S1, S2, S3, etc.  See Section 4.3.1.1.  Partial self-serve load should be modeled as a multiple load with “SS” identifying the self-serve portion. See Appendix E for additional details.
+(2)	The load data record zone number must be in the zone range of the TSP submitting the load, or in the zone range of ERCOT for loads associated with PUNs.  Zone numbers for loads do not have to be the same as the bus to which the load is connected.
+(3)	Generator auxiliary load should not be modeled at generating station buses. Refer to section 4.3.1. 
+(4)	In conformance with NERC Reliability Standards and the Planning Guide Section 6.5, entities not having representation on SSWG shall submit their load data to ERCOT or, if the directly connected TDSP has agreed to be the agent on SSWG for that entity, to that TSP.  If load data is not timely submitted on the schedule and in the format defined by the TSP, then ERCOT shall calculate loads based on historical data and insert these loads into the SSWG Cases during annual updates.
+(5)	Multiple loads from different TSPs at a bus may be used. At this time, each TSP can define a load with a load ID of its choice. Careful coordination, however, is required between TSP representatives to ensure that the multiple loads modeled at the same bus are modeled correctly with unique load IDs. See Appendix E for additional details.
+(6)	Guidelines for modeling DER  are detailed in the following table. DER shall not be modeled as negative load in any case.
+DER Type	Should be Embedded in Load Forecasts?	Modeled as Generation by ERCOT?
+DGR	No	Yes
+DESR	No	Yes
+SODG	No	Yes
+UDG1 	Yes	No
+1Specific guidelines for modeling UDG involve representing the aggregated total nameplate value for UDG behind each load point in each load distributed generation field, with the ‘Distributed Generation Operator Mode’ field disabled. This is to ensure that only the aggregated total nameplate capability for the UDG is reflected in the models. Enabling the ‘Distributed Generation Operator Mode’ field could risk disproportionate representation of the UDG contribution due to the load models currently aggregating UDG contributions.
+4.2.2	Load Data Source	
+NMMS determines the bus where the load is connected.  TSPs and ERCOT will assign MW and MVAR values by submitting Load/Generation Profiles through MOD.  New loads or corrections to the location of existing loads will be submitted by PMCR through MOD.
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Bus Number	NMMS	MOD PMCR
+Bus Name	NMMS 	MOD PMCR 
+Area Number/Nam

@@ -1,5 +1,0 @@
-present capabilities consistent with the DGR/DESR requirements in the ERCOT Nodal Operating Guide. 
-RE provided models will be used to represent synchronous DGRs. If the RE is not required to provide a model and/or an adequate model is not available to DWG, a generic model with DWG approved parameters in the ERCOT DWG DG Parameterization Guideline will be used with capabilities consistent with the DGR requirements in the ERCOT Nodal Operating Guide.
-3.5.2 Settlement Only Distribution Generator (SODG)
-RE provided models will be used to represent inverter-based SODGs with nameplate capacity of 5 MW or greater. If the RE is not required to provide a model and/or an adequate model is not available to DWG, the DER_A model with DWG approved parameters in the ERCOT DWG DG Parameterization Guideline will be used. 
-RE provided models will be used to represent synchronous SODGs with nameplate capacity of 5 MW or greater. If the RE is not required to provide a model and/or an adequate model is no

@@ -1,6 +1,0 @@
-ased on detailed expansion of the station into node breaker). The dynamic contingency database and any additional contingencies provided in python will be posted on the ERCOT Market Information System (MIS) so that it is accessible to all DWG members and to ERCOT.
-	Other DWG Activities 
-	Event Simulation
-ERCOT will compare dynamic system model performance to that of actual system response data in accordance with NERC MOD-033.  For a selected event, the affected TSP will provide actual measured system behavior data (or a written response that it does not have the requested data) to ERCOT within 30 calendar days of a written request.
-	Procedure Manual Revision Guidelines
-The DWG is responsible for maintaining and updating this Procedure Manual.  Revisions, additions and/or deletions to this Procedure Manual may be undertaken at such times that the DWG feels it is necessary due to changes in dynamic simulation software or to meet new and/or revised requirements of NERC, ERCOT, or any othe

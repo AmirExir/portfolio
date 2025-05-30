@@ -1,6 +1,0 @@
-irements R3.3.1.1 and R4.3.1.2 of NERC Standard TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).
-
-If dynamic models are not provided for Generator protection schemes, generic generator protection may be assumed for screening purposes 
-	For synchronous generators, a rotor angle swing greater than 180 degrees may be considered an unstable generator.  
-	Generators may be assumed to be compliant with the minimum requirements of Section 2.9 Voltage Ride-Through Requirements for Generation Resources of the ERCOT Nodal Operating Guide.
-	Generators may be assumed to be compliant with the minimum requirements of Section 2.6 Requirements for Under/Over-Frequency Relaying of the ERCOT Nodal Operating Guide.

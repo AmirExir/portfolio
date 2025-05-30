@@ -1,0 +1,181 @@
+in the PSS®E application, IDEV,  into a PMCR-ready format, PRJ, which can be uploaded to MOD.
+
+Network Operations Model	The NMMS database containing the model of the ERCOT 
+Management System	interconnection which is the basis for all applications used in reliability and market analysis and system planning.
+
+Off-Cycle Updates			Model updates which occurred between a biannual update cycle.
+
+Planning Model Change Request	A Planning Model Change Request modifies MOD to model future transmission projects in the SSWG Cases.
+
+
+Planning Model Design Guidelines	A manual that describes MOD, MOD File Builder, and naming 
+& Expectations 			conventions for cases.
+
+Profile	A method for specifying non-topology modeling parameters in the SSWG Cases which are not typically constant over the various seasons and years.  This includes load, generation, and device control information.  Profiles are described more fully in the ERCOT MOD Manual.
+
+ROS	ERCOT Reliability and Operating Subcommittee.  SSWG is a working group created by ROS to create the steady-state planning models for ERCOT.  SSWG reports to ROS and takes direction from ROS. 
+
+SSWG Cases:				All of the steady-state base cases created and maintained by the 
+	SSWG, as directed by the ROS.
+
+Standard PMCR	A PMCR for adding planning model elements or modifying planning model attributes in the Network Operations Model in MOD for SSWG Cases that either are not available in the NMMS database or are not properly converted by the Topology Processor.
+
+Topology				The arrangement of buses and lines in a network model.
+
+Topology Processer (TP)	Siemens software application that converts the ERCOT Network Operations network model to a planning bus/branch model.
+
+TP Case	A bus/branch model created from the Network Operations Model using the Topology Processor application for a specific date.
+
+Transmission In-Service Date:	The equipment energization date used in the creation of the TP case and used in MOD to incorporate Project PMCRs that will be included in the MOD case build.
+
+Transmission Project Information 	A report (Excel spreadsheet) that is created triannually to reflect 
+Tracking	the updates related to transmission projects.
+
+
+ 
+2.2	Acronyms
+
+ALDR	Annual Load Data Request
+
+
+CLR	Controllable Load Resource
+
+CMP	Constraint Management Plan
+
+DER	Distributed Energy Resources
+
+DESR	Distribution Energy Storage Resource
+
+DGR	Distribution Generation Resource
+
+DSP	Distribution Service Provider
+
+EPS	ERCOT Polled Settlement (metering)
+
+ERCOT	Electric Reliability Council of Texas
+
+FERC	Federal Energy Regulatory Commission
+
+GINR	Generation Interconnection Request number
+
+HRML	High Renewable/Minimum Load
+
+IMM	Information Model Manager
+
+LFL	Large Flexible Load
+
+LSE	Load Serving Entity
+
+MLSE	Most Limiting Series Element
+
+MOD	Model on Demand
+
+NCLR	Non-Controllable Load Resource
+
+NDCRC	Net Dependable Capability and Reactive Capability
+
+NERC	North American Electric Reliability Corporation 
+
+NMMS	Network Model Management System
+
+NOIE	Non Opt In Entity
+
+NOMCR	Network Operations Model Change Request
+
+OSR                            Owner’s Share Ratings 
+
+PLWG	Planning Working Group
+
+PMCR	Planning Model Change Request
+
+PPL	Project Priority List
+
+PSS®E	Power System Simulator for Engineering
+
+PUN	Private Use Network
+
+POI	Point of Interconnection
+
+RAWD	PSS®E Raw Data format
+
+RAS	Remedial Action SchemeRE	Resource Entity
+
+ROS	Reliability and Operating Subcommittee
+
+SCADA	Supervisory Control And Data Acquisition
+
+SCR	System Change Request
+
+SODG	Settlement Only Distribution Generator
+
+SS	Steady State Cases
+
+SSWG	Steady-State Working Group
+
+TPIT	Transmission Project Information Tracking
+
+TSP 	Transmission Service Provider
+
+TO	Transmission Owner
+
+UDG	Unregistered Distributed Generation 
+
+WGR	Wind Generation Resource
+
+WMWG	Wholesale Market Working Group
+
+
+
+ 
+3	SSWG CASE PROCEDURES AND SCHEDULES
+3.1	General
+The SSWG and ERCOT create the SSWG Cases annually and update them biannually at fixed intervals throughout each year.  This section describes the creation and update process and schedule to create and update SSWG Cases .
+3.2	SSWG Case Definitions and Build Schedules
+The SSWG Cases are created by SSWG each year and consist of the following:
+
+•	Eight seasonal cases starting with the SPG cases representing on-peak and off-peak conditions for the four seasons of the next year beyond the year the cases are built.  
+•	Six future year cases representing summer on-peak conditions with the first year beginning two years beyond the year the cases are built.  
+•	One future year case representing high renewable and minimum load conditions. 
+•	One future year case representing minimum load conditions. 
+SSWG Case seasons are defined as follows:
+
+SPG		March, April, May
+SUM		June, July, August, September
+FAL		October, November
+WIN		December, January, February
+
+The following table is a guide for case creation.  YR represents the year the case is created.  
+SSWG CASE	NOTES	TRANSMISSION IN-SERVICE DATE
+(YR+1) SPG1	2	April 1, (YR+1)
+(YR+1) SPG2	3	April 1, (YR+1)
+(YR+1) SUM1	1	July 1, (YR+1)
+(YR+1) SUM2	3	July 1, (YR+1)
+(YR+1) FAL1	2	October 1, (YR+1)
+(YR+1) FAL2	3	October 1, (YR+1)
+(YR+2) WIN1	1	January 1, (YR+2)
+(YR+2) WIN2	3	January 1, (YR+2)
+(YR+2) SUM1	1	July 1, (YR+2)
+(YR+3) SUM1	1	July 1, (YR+3)
+(YR+4) MIN	4	January 1, (YR+4)
+(YR+4) HRML	5	January 1, (YR+4)
+(YR+4) SUM1	1	July 1, (YR+4)
+(YR+5) SUM1	1	July 1, (YR+5)
+(YR+6) SUM1	1	July 1, (YR+6)
+(YR+7) SUM1	1	July 1, (YR+7)
+
+
+Notes:
+1.	Cases to represent the maximum expected load during the season.
+2.	Cases to represent maximum expected load during month of transmission in-service date.
+3.	Cases to represent lowest load on same day as the corresponding seasonal case (not a minimum case). For example, (YR) FAL2 case represents the lowest load on the same day as the (YR) FAL1 case.
+4.	Case to represent the absolute minimum load expected for the year.
+5.	Case to represent a high renewable generation dispatch and absolute minimum load expected for the year.
+3.2.1	Updates
+The SSWG Case updates will be made in the MOD environment by changing an existing PMCR or creating a new PMCR.  It should be recognized that impedance or ratings updates made to the Network Operations Model after the TP case was created will have to be submitted as a ‘NOMCR Pending’ or ‘NOMCR Submitted’ PMCR to maintain consistency with the Network Operations Model.  See Planning Guide Section 6.4 for additional information about the TPIT process.
+
+
+ 
+ 
+3.3	SSWG Case Build Processes
+3.3.1	Overview
+The SSWG Cases are based upon the ERCOT Network Operations Model.  Network model data from the ERCOT NMMS system is used to create the TP case.  The TP case, or an incremental update to the previously uploaded TP case, is then imported into MOD and becomes the MOD base case.  ERCOT and the TSPs submit Standard PMCRs and 

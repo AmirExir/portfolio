@@ -1,5 +1,0 @@
-agging power factor (at the POI) and with the facility operating at 0.95 leading power factor (at the POI). The model shall exhibit appropriate dynamic reactive response, active current injection, AVR response, and the model shall not exhibit momentary cessation.
-The following criteria apply to both the “preferred” and “legacy” HVRT tests:
-	During the high voltage transient, the model should provide a fast dynamic response to absorb reactive power.  The resource should be absorbing a significant amount of reactive power at the POI during the high voltage transient, and ideally within 0.5 seconds of the transient inception.
-	For 1.1 pu sustained POI voltage, the AVR should move the resource towards nearly full reactive absorbing (significantly leading).
-	Real power should be sustained during high voltage condition.  A modest real power reduction (typically 5% of Pmax or less) may be acceptable to accommodate  greater reactive power absorbed for sustained POI voltages in the range of 1.0

@@ -1,0 +1,68 @@
+ith the model.  
+PSS/E User-written models for the dynamic equipment and associated data must be in dynamic linked library (DLL) format and must include a model manual.  The model manual must show control block diagrams, design logic, descriptions of all model parameters, a list of which parameters are commonly tuned for site-specific settings, and a description of procedures for using the model in dynamic simulations.
+TSAT User-written models for the dynamic equipment and associated data must be in TSAT User Defined Model (UDM) format and associated dynamic linked library (DLL) and template user-defined model (TUDM) if required. The TSAT UDM or DLL shall be able to directly read and support the PSS/E format data (.dyr file).  TSAT UDM models shall be provided with two cases:  one set up using bus numbers (the same numbers as a sample PSS/e case) and the other set up using equipment names.  The equipment name case should include a space character in the name to demonstrate that the model is compatible with space characters (an ERCOT systems requirement).
+All PSCAD models are considered to be user-written models.
+	Dynamic Model Quality Test Guideline
+Submitted dynamic planning and operations models must be accompanied with results from model quality tests (MQT) performed by the facility owner as required in paragraph (5)(c) of Planning Guide Section 6.2.  These results shall include the case simulation files as well as the simulation plots of relevant quantities for each test.  When submitting PSS/E and PSCAD MQT files, include the leading and lagging power factor cases for the voltage ride-through tests.  Guidelines on how these tests should be performed and the expected model performance are provided in the following sub-sections. All tests are required for PSS/E, TSAT, and PSCAD models with the exception of the Phase Angle Jump Test in Section 3.1.5.9, which is only required for PSCAD models.  A sample report is posted under ‘Model Quality Guide’ on the ERCOT Resource Entity webpage . Plots of PSS/E, TSAT, and PSCAD test results should be overlaid onto the same plot axis for comparison.  However, TSAT model testing is not required for models utilizing a TSAT standard library model.
+
+
+
+
+
+
+
+
+List of Applicable Tests
+Applicable Technologies	Models	Tests and Sections	Notes
+Synchronous Machines 
+(incl. transmission-level synchronous condensers)	PSS/e 
+(and TSAT, and PSCAD if utilizing a UDM in PSS/e model)		Flat-start, 3.1.5.2
+	Small volt. disturbance, 3.1.5.3
+	Large volt. disturbance, 3.1.5.6
+	Small frequency disturbance, 3.1.5.7	
+IBRs, WGRs, and IBTEs 
+(all non AGS-ESR)
+
+(Entities that own a generator Facility with a synchronous condenser would also run these tests.)	PSS/e and PSCAD 
+(and TSAT if utilizing a UDM PSS/e model)		Flat-start, 3.1.5.2
+	Small volt. disturbance, 3.1.5.3
+	Small frequency disturbance, 3.1.5.7
+	Large voltage dist.:
+	LVRT Test†, 3.1.5.4
+	HVRT Test‡, 3.1.5.5
+	System Strength, 3.1.5.8
+	Phase Angle Jump, 3.1.5.9	Phase Angle Jump is only required in PSCAD (not in PSS/e and TSAT)
+AGS-ESR
+(Energy storage with Advanced Grid Support)	PSS/e and PSCAD 
+(and TSAT if utilizing a UDM PSS/e model)		Flat-start, 3.1.5.2
+	AGS Small volt. disturbance, 3.1.5.11
+	AGS Frequency change and inertia response , 3.1.5.12
+	Large voltage dist.:
+	LVRT Test†, 3.1.5.4
+	HVRT Test‡, 3.1.5.5
+	AGS System Strength,3.1.5.13
+	AGS Phase Angle Jump, 3.1.5.14
+	AGS Loss of synchronous machine, 3.1.5.15	All tests, except Phase Angle Jump, are required in both PSS/e and PSCAD (and TSAT, if UDM).
+† Low Voltage Ride Through (LVRT): Includes both the Legacy LVRT and the Voltage Dip test fashioned after LVRT curve as defined in Nodal Operating Guide 2.9.1.1.
+‡ High Voltage Ride Through (HVRT): Includes the preferred HVRT curve and, if necessary, the Legacy HVRT curve. See Section 3.1.5.5 for more details. 
+
+3.1.5.1 Simulation Set Up
+
+To examine the dynamic performance of a Generation Facility or dynamic transmission element, all site-specific dynamic models needed to represent the facility shall be included in the test.  Unless otherwise specified, the following model guidelines apply:
+	The facility model is connected to a controllable infinite bus whose voltage and frequency can be adjusted for testing.  No explicit ERCOT transmission system models are required for this testing.  The tests shall be performed with the current planning model software.
+	For generation resources, the generator is dispatched at full real power output and the Point of Interconnection (POI) bus voltage is initialized to nominal 1.0 per-unit unless the test requires otherwise. Facilities that include energy storage systems should also be tested at full real power withdrawal. The initial reactive power exchange at the POI should be near zero unless the test requires otherwise.  
+	Behind the POI, the generator(s) and step-up transformer(s) shall be represented along with any additional planned or installed static and dynamic reactive equipment.  
+	Station transformer taps and static switched shunts should be initialized to a nominal position appropriate for the initial POI voltage and real power dispatch.
+	Any switching controls that are expected to provide a response within 20 seconds (e.g. automatic switched shunts or on-load transformer tap changers) should be reflected in the dynamic model for the resource. 
+	Aggregate Generation Resources, such as wind and solar, should be represented by a single equivalent aggregate model per registered Resource (i.e. allowed aggregation) and include a representation for the collector impedance and pad-mount transformer.  All dynamic control systems should be modeled (generator, exciter, governor, power system stabilizer, automatic voltage regulator, power plant controller, voltage and frequency protection, etc. as applicable).
+	PSCAD models are not required to be aggregated to match resource registration.  However, PSS/E and TSAT models must match registration.
+	Simulations should be run for a minimum of 20 seconds and show that the facility response has stabilized. 
+Example test cases for an Inverter-Based Resource (IBR) with a STATCOM and a synchronous generator test case are shown below.
+ 
+
+ 
+3.1.5.2 Flat Start Test
+Perform a no-disturbance test of the prepared simulation case as described in Section 3.1.5.1 above for a minimum of 20 seconds.  Flat responses of voltage, MW, MVAR, and frequency, as shown in the figure below, are expected to remain very close to the initial system condition. 
+ 
+3.1.5.3 Small Voltage Disturbance Test
+Apply a 3% step increase, and in a separate simulation, a 3% step decrease of voltage at the POI.  The plant Automatic Voltage Regulator (AVR) and the associated droop and dead-band settings (if applicable) should transition the plant to/near maximum leading power factor , or in the latter ca

@@ -1,7 +1,0 @@
-t the UFLS programs such as related generation protection, islanding schemes, automatic load restoration schemes, automatic capacitor/reactor switching, and Remedial Action Scheme (RAS).  
-All UFLS data will be documented in the annual Stability Book. 
-	Under Voltage Load Shedding (UVLS) Relay Data
-An ERCOT TSP which has UVLS relays in its service area designed to mitigate under voltage conditions potentially impacting the system reliability is to establish and maintain a UVLS Program consistent with NERC Standards.
-The TSP owning an UVLS Program will submit the corresponding relay model to ERCOT during the annual Stability Book update. The DWG member shall submit the UVLS relay data in the form of a data file using an appropriate model compatible with the software listed in Section 3.1.1.
-It is the responsibility of the TSP to ensure the UVLS program model submitted has been tested through an assessment as per NERC standards.
-Also, the TSP shall indicate any other schemes that are par

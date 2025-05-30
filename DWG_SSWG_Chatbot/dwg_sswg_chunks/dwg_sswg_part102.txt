@@ -1,7 +1,0 @@
-.
-
-The NOIE that send extra data to ERCOT for the loss calculations have EPS settlement meters on all of their transmission lines that connect or “tie” their system to the rest of the ERCOT transmission network. For the ERCOT settlement process ERCOT calculates their load as the net of inflows minus the outflows from these EPS meters. However calculations must be performed to subtract out the losses on the transmission lines that are ‘inside’ their EPS meters. If this was not done then these NOIE loads would be too high relative to the other loads where EPS meters are at each delivery point. Other NOIE send EPS metering data from each delivery point so their load can be calculated by summing the individual points. Therefore the extra calculations are not necessary.
-
-The process for creating the loss factors is outlined below.
-
-1.	Send out a request to SSWG for any case updates, changes to NOIE bus ranges, and latest self serve data. NOIE’s that have a ‘ring’ of EPS meters must validate

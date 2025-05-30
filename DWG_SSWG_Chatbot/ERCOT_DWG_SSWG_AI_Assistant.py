@@ -58,7 +58,7 @@ def embed_query(query: str) -> List[float]:
     )
     return response.data[0].embedding
 
-def find_top_k_matches(query: str, chunks, embeddings, top_k: int = 5):
+def find_top_k_matches(query: str, chunks, embeddings, top_k: int = 3):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
     scores = cosine_similarity(query_embedding, embeddings).flatten()
 
@@ -93,7 +93,7 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        context = find_top_k_matches(prompt, chunks, embeddings, top_k=10)
+        context = find_top_k_matches(prompt, chunks, embeddings, top_k=5)
 
         system_prompt = {
             "role": "system",

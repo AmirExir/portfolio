@@ -1,8 +1,0 @@
-information consistent with the Network Operations Model.  
-Planning models are bus-branch representations of the transmission system (60 kV and above), which includes buses, branches, impedances, facility ratings, loads, reactive devices, transformers, generators, and DC lines. 
-The ROS directs the SSWG as to which cases are to be created via changes to this procedure manual.  Currently, the SSWG builds a set of steady-state base cases on an annual basis, collectively called the SSWG Cases.  The SSWG Cases consist of the following:
-•	8 seasonal cases representing on-peak and off-peak conditions for the four seasons of the next year beyond the year the cases are built  
-•	6 future year cases representing summer on-peak conditions with the first year beginning two years beyond the year the cases are built.  
-•	1 future year case representing high renewable generation ouput and minimum load conditions
-•	1 future year case representing minimum load conditions 
-The future summer peak case

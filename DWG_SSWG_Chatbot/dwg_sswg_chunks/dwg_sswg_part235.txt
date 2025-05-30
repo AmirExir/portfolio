@@ -1,6 +1,0 @@
-comes available, ERCOT or the DWG member to whose system the equipment is connected shall recommend an interim solution to the missing or problematic data.
-	Dynamic Data and Stability Book Storage
-ERCOT shall make available to the DWG members in electronic format the dynamic data described in this document.  ERCOT shall maintain a repository of dynamic data approved by the DWG and will maintain the submitted revisions.
-3.5	Dynamic Models for Distributed Generation
-3.5.1 Distribution Generation Resource (DGR) and Distribution Energy Storage Resource (DESR) 
-RE provided models will be used to represent inverter-based DGRs and DESRs. If the RE is not required to provide a model and/or an adequate model is not available to DWG, the DER_A model will be used. Parameterization will be based on DWG approved parameters in the ERCOT DWG DG Parameterization Guideline for the DER_A model and will represent capabilities consistent with the DGR/DESR requirements in the ERCOT Nodal Operating Guide.

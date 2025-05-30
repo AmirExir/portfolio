@@ -1,7 +1,0 @@
-gle change. In addition, it ensures stable behavior under different angle step changes when an ESR is working close to its maximum current limit. For large angle changes forcing the controls beyond their maximum current limits, the ESR should be stable and should not degrade the performance of the power grid. The test system should have a SCR of 3 at the connection point with a X/R ratio of 6. Initial dispatch of ESR should be set to the max discharging for active power with approximately zero reactive power. This phase angle jump test must be conducted using PSCAD.
-
-The figure below illustrates the voltage angle profile applied at the 3-phase ideal voltage source.
- 
-
-The following performance criteria apply:
-	The instantaneous active power output of the plant should quickly respond to oppose the angle change with the peak active power change being at least 0.2 pu (based on the rated active power) for each 10-degree voltage phase angle change, in the opposing direction. (e.g., A 100 MW

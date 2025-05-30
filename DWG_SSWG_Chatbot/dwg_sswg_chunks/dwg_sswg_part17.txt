@@ -1,8 +1,0 @@
-ications can be accomplished in MOD by either uploading PMCRs in MOD, or by manual entry using the MOD interface.  SSWG members should consult the Planning Model Design Guidelines & Expectations manual for specific instructions on MOD.
-3.3.2	Incremental Update
-Upon commencement of each new SSWG Case creation and each update, the SSWG implements an incremental update to the MOD base case in order to include the latest Network Operations Model data into the SSWG Cases.  This is accomplished by using MOD File Builder to compare the RAW files of topology processed NMMS data with selected data currently existing in MOD.  MOD File Builder is used to create a comparison PMCR that updates the corresponding Planning Model data in MOD to be consistent with the Network Operations Model data.  The comparison PMCR is subsequently submitted into MOD and committed to the MOD base case to perform the incremental MOD base case update.  
-The sample flowchart below identifies the general process:
-
- 
- 
-3.

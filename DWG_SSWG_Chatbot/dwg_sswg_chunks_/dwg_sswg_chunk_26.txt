@@ -1,0 +1,56 @@
+se, to/near maximum lagging power factor in an attempt to regulate the original voltage set point.  Any oscillations should be well damped.  Real power output should be sustained throughout the small voltage disturbance tests.  The figures below include examples of acceptable and unacceptable responses.  
+ 
+
+ 
+ 
+ 
+
+3.1.5.4 Large Voltage Disturbance Test: (Low Voltage Ride-Through (LVRT) for IBRs, WGRs, and IBTEs)
+All IBRs, WGRs, and IBTEs should test two profiles, both a “legacy” profile and a “voltage dip” profile as described below.  Testing both profiles helps provide important model performance information.
+	The “legacy” Low Voltage Ride Through curve per Nodal Operating Guide (NOG) 2.9.1.2.
+	The “voltage dip” test includes evaluation of NOG 2.9.1.1.  The test shall be run as a series of separate piece-wise disturbances with the voltage returning to 1.0 per-unit (pu) voltage after each disturbance (see below examples).  The spacing between each disturbance may be greater than 10 seconds to allow for recovery as necessary.  
+Each voltage disturbance profile starts at 1.0 pu voltage.  The “legacy” curve ends at 0.90 pu voltage.  In the case of Resources, tests shall be performed for two initial conditions: with the facility operating at a 0.95 lagging power factor (at the POI) and with the facility operating at 0.95 leading power factor (at the POI) . The model shall exhibit appropriate dynamic reactive response, active current injection, AVR response, and the model shall not exhibit momentary cessation.
+Additionally, the maximized LVRT capability as required in NOG 2.9.1.1(8) or NOG 2.9.1.2(8) shall be documented in a format similar to the tables in NOG 2.9.1.1(1) or NOG 2.9.1.2(1).
+
+When testing the “legacy” profile, the following performance criteria apply:
+	For the low voltage transient, the model should inject reactive current throughout the voltage recovery period.  At the POI, both P and Q are necessarily zero during zero voltage. Q injection at the POI should be observable immediately or very shortly after voltage begins ramp up from zero.
+	For 0.9 pu sustained POI voltage, the AVR should provide voltage support that moves the resource towards nearly full reactive production (significantly lagging).
+	Real power recovery should start prior to the POI voltage recovering to 0.9 pu.
+	Real power should recover to full output within 1.0 seconds of POI voltage recovery to 0.9 pu.  A modest real power reduction  (typically 5% of Pmax or less) may be acceptable to accommodate greater terminal reactive power injection for sustained POI voltages in the range of 0.90 pu to 0.95 pu provided real power fully recovers when POI voltage returns to normal operating range (0.95-1.05 pu). An explanation, including a reference to any exempt status per ERCOT Nodal Operating Guide Section 2.9.1, , shall be provided for models which indicate that the unit trips or fails to meet any of the above performance criteria.
+
+
+
+
+When testing the “voltage dip” profile, the following criteria applies:
+	Resources not subject to the “preferred” Voltage Ride Through requirements of NOG 2.9.1.1 are only required to ride through the first dip of the below voltage dip profiles.  This first dip is within the “legacy” LVRT requirements of NOG 2.9.1.2.
+	During the voltage dips:
+	The model shall inject active current for POI voltage dips of 0.5 and higher. 
+	Injections of significantly reduced active current for voltage dips 0.5 pu and 0.7 pu should be accompanied by increased reactive current.
+	Reactive current injection at the POI shall be observable immediately or very shortly after a non-zero voltage dip is applied.
+	After the voltage dips:
+	Real power should recover to full output within 1.0 seconds of POI voltage recovery to 1.0 pu.
+	An explanation, including a reference to any exempt status per ERCOT Nodal Operating Guide Section 2.9.1, shall be provided for models which indicate that the unit trips or fails to meet any of the above performance criteria.
+
+Following are three figures:  The first illustrates the "Legacy” LVRT to be applied at the POI; the second illustrates the “voltage dip” LVRT voltage profile to be applied at the POI for photovoltaic generation resources (PVGRs) and energy storage resources (ESRs), and inverter-based transmission equipment, and the third illustrates the “voltage dip” LVRT voltage profile to be applied at the POI for wind generation resources (WGRs).
+
+ 
+
+The figures below include the examples of acceptable and unacceptable responses:
+ 
+ 
+ 
+
+
+ 
+
+3.1.5.5 Large Voltage Disturbance Test (High Voltage Ride-Through for IBRs, WGRs, and IBTEs) 
+First, apply the “preferred” HVRT curve to the POI per NOG 2.9.1.  If the facility cannot meet the “preferred” ride through requirements, then additionally test the “legacy” HVRT curve and report both results. The “preferred” curve has more stringent requirements, so it is not necessary to test the “legacy” curve for devices passing the “preferred” curve, and such testing would generally not provide additional revelations regarding model behavior.  
+Additionally, the maximized HVRT capability as required in NOG 2.9.1.1(8) or NOG 2.9.1.2(8) shall be documented in a format similar to the tables of NOG 2.9.1.1(1) and NOG 2.9.1.2(1).
+
+The HVRT profiles start at 1.0 pu voltage and end at 1.1 pu.  The tests should be performed for two initial conditions: with the facility operating at 0.95 lagging power factor (at the POI) and with the facility operating at 0.95 leading power factor (at the POI). The model shall exhibit appropriate dynamic reactive response, active current injection, AVR response, and the model shall not exhibit momentary cessation.
+The following criteria apply to both the “preferred” and “legacy” HVRT tests:
+	During the high voltage transient, the model should provide a fast dynamic response to absorb reactive power.  The resource should be absorbing a significant amount of reactive power at the POI during the high voltage transient, and ideally within 0.5 seconds of the transient inception.
+	For 1.1 pu sustained POI voltage, the AVR should move the resource towards nearly full reactive absorbing (significantly leading).
+	Real power should be sustained during high voltage condition.  A modest real power reduction (typically 5% of Pmax or less) may be acceptable to accommodate  greater reactive power absorbed for sustained POI voltages in the range of 1.05 pu to 1.10 pu provided real power fully recovers when POI voltage returns to normal operating range (0.95-1.05 pu).
+	An explanation, including a reference to any exempt status per ERCOT Nodal Operating Guide Section 2.9.1, shall be provided for models which indicate that the unit trips or fails to meet any of the above performance criteria.
+The following two figures illustrate the “preferred” and the “legacy”

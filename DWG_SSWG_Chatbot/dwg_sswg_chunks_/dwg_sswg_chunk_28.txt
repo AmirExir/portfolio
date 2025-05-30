@@ -1,0 +1,80 @@
+, frequency change and inertia response, system strength, and phase angle jump tests, as well as loss of synchronous machine test. 
+
+Any quantities showing oscillations resulting from a test should demonstrate a controlled, damped response. Required plots for all tests include the relevant test profile, POI voltage, and the active/reactive power of the plant with appropriate axis resolution to demonstrate all performance criteria.
+
+3.1.5.11 AGS-ESR Small Voltage Disturbance Test
+In this test, a step change is applied to the voltage magnitude of the controlled source so that the reactive power response time and magnitude can be measured. The purpose of this test is to demonstrate the capability of resisting changes in voltage magnitude. The test system should be set up to have zero impedance (Zth) between the ideal voltage source and the POI. The initial dispatch of the ESR should be set to its maximum discharging for active power, with approximately zero reactive power.  The figure below illustrates the voltage magnitude profile applied to an ideal source at the POI.
+ 
+The following performance criteria apply:
+	The instantaneous reactive power output of the plant should quickly respond to oppose the voltage step change for each of the step changes, with an initial peak reactive power change of at least 0.03 pu on the rated power base (e.g., A 100 MVA rated plant with 0 MVAR initial output should instantaneously increase reactive power output from 0 MVAr to at least 3 MVAr when source voltage magnitude is decreased by 3%.). 
+
+	The reactive power should not return to the pre-disturbance level within 6 cycles. 
+
+	The response time to 90% of the initial change in instantaneous reactive power should occur within 1 cycle. 
+
+	After each step change resulting in POI voltage above or below the nominal value, the reactive power should start to transition toward the maximum reactive capability of the plant in an attempt to regulate the original voltage set point.
+
+ 
+
+3.1.5.12 AGS-ESR Frequency Change and Inertia Response Test
+This test is to evaluate the active power response of the ESR and to estimate its inertia response to frequency change. The test system should be set up with a SCR of 3 at the connection point and with a X/R ratio of 6. The initial dispatch of ESR should be set to zero for active power with approximately zero reactive power
+The figure below illustrates the frequency profile applied to the source at the POI, with initial ramps of 1 Hz/s followed by 0.3 Hz steps which is the same test for the existing IBRs.
+ 
+The following performance criteria apply:
+	Plant real and reactive power output should be well controlled. The frequency and voltage should not oscillate excessively or deviate from steady-state levels for any significant amount of time. 
+
+	Voltage should settle to a stable operating point when the frequency is not ramping 
+
+	The equivalent inertia constant, as calculated below, should be greater than 2.5 s. 
+
+	H ≈ 60 * ∆E [s], where: ∆E is the area under the per unit active power production of the ESR from 0 to 0.5 s, when the RoCoF is 1 Hz/s. 
+
+	Active power should settle according to its frequency droop and deadband settings when the frequency has settled. 
+
+ 
+
+3.1.5.13 AGS-ESR System Strength Test
+This test is similar to the existing system strength test for all IBRs, but AGS-ESR shall demonstrate a stable response for all tested SCR values from 10 down to 1.2. The test system should be set up with a SCR of 10 at the connection point with a X/R ratio of 6. The initial dispatch of ESR should be set to the max discharging for active power with approximately zero reactive power.
+
+The model shall be tested under the short circuit ratios listed in the table below.  As in the case of non-AGS-ESR, a 3-phase, bolted, 4-cycle fault is applied just before each SCR transition. The SCR transition occurs at fault clearing time.
+Test	SCR
+1	10
+2	5
+3	3
+4	1.5
+5	1.2
+
+
+
+
+The following performance criteria apply:
+	Plant real and reactive power output and RMS voltage should be well controlled
+
+	The plant shall not trip nor reduce power (outside of the fault period) for any extended period of time for all tested SCR range from 10 to 1.2.
+
+ 
+
+3.1.5.14 AGS-ESR Phase Angle Jump Test
+This test examines the capability to maintain the voltage phasor and ability to resist an angle change. In addition, it ensures stable behavior under different angle step changes when an ESR is working close to its maximum current limit. For large angle changes forcing the controls beyond their maximum current limits, the ESR should be stable and should not degrade the performance of the power grid. The test system should have a SCR of 3 at the connection point with a X/R ratio of 6. Initial dispatch of ESR should be set to the max discharging for active power with approximately zero reactive power. This phase angle jump test must be conducted using PSCAD.
+
+The figure below illustrates the voltage angle profile applied at the 3-phase ideal voltage source.
+ 
+
+The following performance criteria apply:
+	The instantaneous active power output of the plant should quickly respond to oppose the angle change with the peak active power change being at least 0.2 pu (based on the rated active power) for each 10-degree voltage phase angle change, in the opposing direction. (e.g., A 100 MW rated plant should temporarily decrease active power output from 100 MW to 80 MW, or below, when source voltage angle is increasing 10 degrees; and it should temporarily increase active power from 100 to at least 120 MW, if the current limit allows, when voltage source angle is decreased by 10 degrees.). 
+
+	For the 25-degree voltage phase angle change, the instantaneous active power output of the plant should quickly respond to oppose the angle change with the peak active power change being at least 0.5 pu (based on the rated active power) in the opposing direction. If the criterion is not met for the 25-degree angle change, the rationale should be documented. 
+
+	The active power should not return to the pre-disturbance level for at least 3 cycles. 
+
+	The response time to 90% of the initial change in instantaneous active power should occur within one cycle. 
+
+	If the current limit in the inverter is reached when the angle jump is applied, the performance criteria described above may not apply. However, the active power must return to the pre-disturbance level in a stable manner. 
+
+
+
+ 
+
+3.1.5.15 AGS-ESR Loss of Synchronous Machine Test
+The purpose of this test is to confirm the ability of an AGS-ESR to form voltage and work in parallel with a nearby AGS-ESR. It is not intended to examine the black start capability of AGS-ESR nor to require ESRs operate continuously on a grid without synchronous resources. 
+This test utilizes a duplicate of the AGS-ESR under test to re

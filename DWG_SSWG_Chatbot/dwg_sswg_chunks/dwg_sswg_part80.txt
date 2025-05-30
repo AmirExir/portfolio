@@ -1,5 +1,0 @@
-odel transformers in power flow calculations.  Both two winding transformers and three winding transformers can be specified in the SSWG Cases. 
-4.5.1.1	Bus Specifications
-The end points of each transformer in the SSWG Cases are specified by “winding 1” and “winding 2” bus numbers.  In some cases, the “winding 1” and “winding 2” buses used to specify a transformer are in two different TSP areas, making the transformer a tie line (See Section 4.4.3, Coordination of Tie Lines). Three winding transformers (transformers with a tertiary winding) can be represented by specifying a “winding 3” bus number in the data to represent the tertiary winding.
-4.5.1.2	Transformer Circuit Identifier
-Circuit identifiers are limited to two alphanumeric characters. Each TSP will determine its own naming convention for circuit identifiers. Actual transformer identifiers may be used for circuit identifiers for transformers, however, typically, circuit identifiers are used to indicate which transformer is bei

@@ -1,0 +1,63 @@
+h two-winding and three-winding transformers.
+4.5.1.8	Tap Data
+All transformer tap characteristics should be appropriately modeled.  Such tap characteristics include no-load tap settings and load tap changing (LTC) properties and associated control settings.
+4.5.1.8.1	Ratio
+The ratio is defined as the transformer off nominal turns ratio and is entered as a non-zero value, typically in per unit. Where the base kV contained in the bus data records for the buses connected to transformer terminals are equal to the rated voltage of the transformer windings connected to those terminals, the transformer off-nominal ratio is equal to 1.00. When the transformer has no-load taps, the transformer off-nominal ratio can be something other than 1, but is usually in the range of 0.95 to 1.05. The effects of load tap changing (LTC) transformer taps are also handled in the transformer data record. 
+4.5.1.8.2	Control Mode
+This field enables or disables automatic transformer tap adjustment. Setting this field to a value other than zero (“None” within PSS®E) enables automatic adjustment of the LTC or phase shifter as specified by the adjustment data values during power-flow solution activities. Setting this field to zero prohibits automatic adjustment of this transformer during the power-flow solution activities.
+4.5.1.8.3	Controlled Bus
+The bus number of the bus whose voltage is controlled by the transformer LTC and the transformer turns ratio adjustment option of the power-flow solution activities. This record should be non-zero only for voltage controlling transformers.
+4.5.1.8.4	Transformer Adjustment Limits
+These two fields specify the upper and lower limits of the transformer’s turns ratio adjustment or phase shifter’s angle adjustment.  For transformers with automatic tap changer adjustments, these fields are typically populated with values in the range of 0.80 to 1.20 per-unit.  For phase-shifting transformers, these fields may be populated with phase angle adjustment ranges up to +/- 180 degrees, but are typically modeled with values in the range of +30 to -30 degrees.
+4.5.1.8.4.1	Upper Limit (Rmax)
+This field defines the maximum upper limit of the off-nominal ratio for voltage or reactive controlling transformers and is typically entered as a per-unit value. The limit should take into account the no-load tap setting of the transformer, if applicable. For a phase shifting transformer, the value is entered in degrees.
+4.5.1.8.4.2	Lower Limit (Rmin)
+Similar to the upper limit, this field defines the lower limit of the off-nominal ratio or phase shift angle for the transformer defined.
+
+4.5.1.8.5	Voltage or Power-Flow Limits
+These two fields specify the upper and lower voltage limits at the controlled bus or for the real or reactive load flow through the transformer at the tapped side bus before automatic LTC adjustment will be initiated by the power-flow program. As long as bus voltage, or real power flow for phase shifting transformers, is between the two limits, no LTC adjustment will take place during the power-flow solution activities.
+4.5.1.8.5.1	Upper Limit (Vmax)
+This field specifies the upper limit for bus voltage in per unit at the controlled bus or for the reactive load flow in MVAR at the tapped side bus. For a phase shifting transformer, this field specifies the upper limit for the real power load flow in MW. Direction for power flow across the phase shifting transformer is referenced from the bus side defined as the “Winding 1” bus.  Negative upper (and lower) limit values for phase shifting transformers imply power flow from the “Winding 2” bus to the “Winding 1” bus.
+4.5.1.8.5.2	Lower Limit (Vmin)
+Similar to the upper limit, this field specifies the lower limit for the bus voltage or the real or reactive load flow for the transformer defined.
+4.5.1.8.6	Tap Positions Step
+Transformer test records or nameplate data should be used to identify the number of tap positions available for a transformer’s LTC, along with the corresponding maximum and minimum turns ratio adjustment capabilities (i.e. Rmax and Rmin).  The transformer’s turns ratio step increment for a LTC can be calculated based upon data present in the “Tap Positions”, “Rmax”, and “Rmin” fields of the transformer’s PSS®E model.  A common range for a LTC turns ratio step increment is +/- 10 % over 33 tap positions (32 steps), which corresponds to 5/8% or 0.00625 per unit voltage increment per tap step.
+4.5.1.8.7	Table
+The number of a transformer impedance correction table is specified by this field if the transformer's impedance is to be a function of either the off-nominal turns ratio or phase shift angle. SSWG Cases normally don’t use these tables and this field is set to zero by default.
+4.5.1.9	Magnetizing Admittance
+Magnetizing admittance data is not required for SSWG Cases and the values for each of these two fields should be zero.
+4.5.1.10	Load Drop Compensation
+These two fields define the real and reactive impedance compensation components for voltage controlling transformers. They are ignored for MW and MVAR flow controlling transformers. SSWG Cases normally don’t use these fields and they are set to zero by default.
+4.5.1.10.1	Resistive Component
+The resistive component of load drop compensation entered in per unit is based on the resistance between the location of the LTC and the point in the system at which voltage is to be regulated.
+4.5.1.10.2	Reactive Component
+Similar to the resistive component of load drop compensation, this value is entered in per unit and is based on the reactance between the location of the LTC and the point in the system at which voltage is to be regulated.
+4.5.2	Transformer Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+From Bus Number	NMMS	MOD PMCR
+From Bus Name	NMMS 	MOD PMCR 
+To Bus Number	NMMS	MOD PMCR
+To Bus Name	NMMS 	MOD PMCR 
+Last Bus Number	NMMS	MOD PMCR
+Last Bus Name	NMMS 	MOD PMCR 
+ID	NMMS	MOD PMCR
+Transformer Name	NMMS	MOD PMCR
+Resistance R (pu) 	NMMS	MOD PMCR
+Reactance X (pu)6	NMMS 	MOD PMCR 
+Susceptance	NMMS or N/A	MOD PMCR or N/A
+Rate 1/Rate 2/ Rate 3 / Rate 4 / Rate 5	NMMS 	MOD PMCR 
+Status	NMMS/ MOD STD PMCR	MOD PMCR
+Owner	NMMS	MOD PMCR
+Angle (phase-shift)	NMMS	MOD PMCR
+Tap Ratio	MOD PROFILES	MOD PROFILES
+Control Mode	NMMS	MOD PMCR
+Controlled Bus	NMMS	MOD PMCR
+Transformer Adjustment Limits	NMMS	MOD PMCR
+Voltage or Power-flow Limits	MOD PROFILES	MOD PROFILES
+Transformer Tap Step	NMMS	MOD PMCR
+
+ 
+4.6	Static Reactive Devices
+All existing and planned static reactors and capacitors that are used to control voltage at the transmission level are to be modeled in the SSWG Cases to simulate actual transmission operation. There are two distinct static reactive devices currently represented in the SSWG Cases: shunt devices and series devices.
+4.6.1	Shunt Devices
+4.6.1.1	Sw

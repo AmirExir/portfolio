@@ -1,5 +1,0 @@
-to provide an initial generation dispatch for Pass 0 during the Planning Case creation, but this dispatch does not have to be economic or security constrained.
-•	It is the responsibility of ERCOT staff to provide the revised generation dispatch based on the latest topology and loads by submitting the Generation Profile with each biannual case update.  This dispatch will be in accordance with Section 4.3.3 of this document and will be provided at the next Pass after the case reaches an acceptable AC solution and no islands exist not related to an asynchronous tie or normally open equipment.
-•	ERCOT staff shall revise the generation dispatch as needed throughout the Planning Case building processes.
-•	ERCOT staff shall review submitted PMCRs and notify TSPs of any PMCRs which appear to modify topology, ratings, or impedances from the Network Operations Model which do not have a corresponding future project.
-•	Based on the TSPs NERC responsibilities of providing appropriate equipment char

@@ -1,0 +1,105 @@
+ERCOT STEADY STATE WORKING GROUP
+PROCEDURE MANUAL
+
+
+
+ROS Approved: July 11, 2024
+ 
+Table of Contents
+1	INTRODUCTION	3
+1.1	ERCOT Steady-State Working Group Scope	3
+1.2	Introduction to Case Building Procedures and Methodologies	4
+2	DEFINITIONS AND ACRONYMS	5
+3	SSWG CASE PROCEDURES AND SCHEDULES	9
+3.1	General	9
+3.2	SSWG Case Definitions and Build Schedules	9
+3.3	SSWG Case Build Processes	11
+4	MODELING METHODOLOGIES	16
+4.1	Bus, Area, Zone and Owner Data	16
+4.2	Load Data	17
+4.3	Generator Data	19
+4.4	Branch Data	28
+4.5	Transformer Data	38
+4.6	Static Reactive Devices	44
+4.7	Dynamic Control Devices	46
+4.8	HVDC Devices	47
+5	OTHER SSWG ACTIVITIES	48
+5.1	Transmission Loss Factor Calculations	48
+5.2	Contingency Database	48
+5.3	Review of NMMS and Topology Processor Compatibility with PSS®E	51
+5.4	Planning Data Dictionary	52
+6	APPENDICES	54
+
+ 
+1	INTRODUCTION
+1.1	ERCOT Steady-State Working Group Scope
+The ERCOT Steady-State Working Group (SSWG) operates under the direction of the Reliability and Operations Subcommittee. The SSWG is a non-voting working group whose members include representatives from ERCOT Transmission Service Providers (TSPs) and ERCOT staff. The main objective of SSWG is to produce steady state seasonal and future steady-state base cases, and GIC system models. The SSWG meets twice a year to accomplish these tasks, and at other times during the year as needed to resolve any impending power-flow modeling issues or to provide technical support to the ROS. The SSWG responsibilities are further described as follows:
+•	Develop a set of SSWG Cases annually.
+
+•	Update the SSWG Cases on a biannual basis.
+
+•	Maintain and update the Transmission Project Information Tracking (TPIT) report, which reflects data used for SSWG Case development and updates. Update the TPIT report on a triannual basis.
+
+•	Maintain and update the Planning Data Dictionary to reflect current and future year bus and county information. 
+
+•	Review and update, as necessary (at least every five years), the SSWG Procedural Manual to reflect current planning practices and the latest steady-state modeling methodologies.
+
+•	Prepare data for and review seasonal transmission loss factor calculations by January 1st of each year.  
+
+•	Develop steady state and geomagnetic disturbance model processes for compliance with NERC Reliability Standards for Transmission Planner and Planning Authority/Coordinator.
+
+•	Coordinate tie-line modeling data with adjacent Transmission Planners via the case-building process. 
+
+•	Review and update the contingency definition files used for planning. 
+
+•	Address issues as directed by the ROS.
+
+•	Annually review status of the Network Model Management System (NMMS) and Topology Processor software regarding new planning data needs.
+
+•	Develop GIC system models every 5 years in compliance with NERC TPL-007.
+
+•	Maintain GIC data in alignment with SSWG cases.
+
+•	Communicate information related to updates to the GIC system models during model builds via the GIC listserv.
+
+•	Review and update the GIC Procedure Manual (at least every five years).
+
+1.2	Introduction to Case Building Procedures and Methodologies
+The principal function of the SSWG is to provide steady-state power flow models, or base cases, which contain appropriate equipment characteristics, system data, and shall represent projected system conditions.  This procedure manual is intended to demonstrate compliance with NERC Reliability Standards applicable to steady-state modeling. The ERCOT Protocols require the SSWG Cases developed for annual planning purposes to contain, as much as practicable, information consistent with the Network Operations Model.  
+Planning models are bus-branch representations of the transmission system (60 kV and above), which includes buses, branches, impedances, facility ratings, loads, reactive devices, transformers, generators, and DC lines. 
+The ROS directs the SSWG as to which cases are to be created via changes to this procedure manual.  Currently, the SSWG builds a set of steady-state base cases on an annual basis, collectively called the SSWG Cases.  The SSWG Cases consist of the following:
+•	8 seasonal cases representing on-peak and off-peak conditions for the four seasons of the next year beyond the year the cases are built  
+•	6 future year cases representing summer on-peak conditions with the first year beginning two years beyond the year the cases are built.  
+•	1 future year case representing high renewable generation ouput and minimum load conditions
+•	1 future year case representing minimum load conditions 
+The future summer peak cases are collectively known as the Annual Planning Models and are subject to the requirements defined in the ERCOT Protocols.  Each set of SSWG Cases are to be built or updated during the biannual update cycle.
+Various groups utilize the SSWG Cases for a variety of tasks.   These tasks include, but are not limited to the following:
+
+•	ERCOT and TSPs test the interconnected systems modeled in the cases against the transmission system planning performance requirements set forth by NERC,  ERCOT Planning Guide and their individual TSP planning criteria to assess future system reliability. 
+
+•	ROS Working Groups and ERCOT use the SSWG Cases as the basis for other types of calculations and studies including, but not limited to: 
+
+o	Internal planning studies and generation interconnection studies
+o	Voltage control and reactive planning studies
+o	Basis for Dynamics Working Group stability studies
+o	ERCOT transmission loss factor calculation
+o	Basis for ERCOT operating cases and FERC 715 filing
+ 
+2	DEFINITIONS AND ACRONYMS
+In the event of a conflict between any definitions or acronyms included in this manual and any definitions or acronyms established in the ERCOT Nodal Protocols and Planning Guide, the definitions and acronyms established in the ERCOT Nodal Protocols and Planning Guide take precedence.
+2.1	Definitions
+
+
+Annual Planning Model		The future year cases representing summer on-peak conditions
+with the first year beginning two years beyond the year the cases 
+are built.  This is a subset of the SSWG Cases.
+
+IDEV	A script file recognized by PSS®E used for transporting and applying network model changes.
+
+LLI	Large Load Interconnection; The Interim Large Load Interconnection process outlined by ERCOT Market Notice W-A032522-0.
+                                                
+Model On Demand	Model On Demand application is a Siemens program that serves as a database and case building tool that SSWG uses to create and maintain the SSWG Cases.
+
+MOD Base Case	The TP Case loaded into MOD that is incrementally updated by ERCOT to maintain consistency between NMMS and MOD and is used as a starting point for building/updating SSWG Cases.
+
+MOD File Builder	An application which converts planning model changes made 
