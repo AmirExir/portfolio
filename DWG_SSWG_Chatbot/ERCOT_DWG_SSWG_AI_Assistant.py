@@ -15,7 +15,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 @st.cache_data(show_spinner=False)
 def load_ercot_chunks_and_embeddings():
     from openai import OpenAI
-    embedding_model = "text-embedding-3-small"
+    embedding_model = "text-embedding-3-large"
 
     chunks = []
     embeddings = []
