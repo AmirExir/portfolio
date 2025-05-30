@@ -130,12 +130,12 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
 
         system_prompt = {
             "role": "system",
-            "content": f"""You are an expert assistant trained only on the following excerpts from ERCOT's DWG and SSWG manuals.
+            "content": f"""You are an expert assistant answering questions about ERCOT's DWG and SSWG planning documentation.
 
-        Answer the question strictly based on these excerpts. If the answer isn't fully present, say:
+        Only use the provided context below to answer. If the answer is clearly present, extract it accurately. Do NOT ignore relevant content.
+
+        If you are unsure or the answer is not found, say:
         "I couldn’t find that in the documentation."
-
-        Do NOT guess or hallucinate. Use only the given text.
 
         --- START OF CONTEXT ---
         {context}
