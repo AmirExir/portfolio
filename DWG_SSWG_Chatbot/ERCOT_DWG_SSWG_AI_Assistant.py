@@ -93,11 +93,11 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-    context = find_top_k_matches(prompt, chunks, embeddings, top_k=10)
+        context = find_top_k_matches(prompt, chunks, embeddings, top_k=10)
 
-    system_prompt = {
-        "role": "system",
-        "content": f"""You are an expert assistant on ERCOT's DWG and SSWG manuals.
+        system_prompt = {
+            "role": "system",
+            "content": f"""You are an expert assistant on ERCOT's DWG and SSWG manuals.
 Only use the following documentation to answer the question:
 
 {context}
