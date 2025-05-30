@@ -9,7 +9,7 @@ Proficient in PSS/E, GE EMS SCADA/TSM/DTS, ABB MMS, Python (Pandas, NumPy, Matpl
 
 Work History
 
-Transmission Planning Model and Assessment Engineer (3/2024 – Present)
+LCRA TSP Transmission Planning Model and Assessment Engineer (3/2024 – Present)
 -Review and approve Planned, For - Construction and Operational ratings for LCRA transmission lines and auto transformers and shunts resulting from substations, lines and auto transformers additions or upgrades in capital projects. 
 - Ensure system reliability, and compliance with NERC Standards, ERCOT Operation and Planning Guides.
 -Maintain LCRA Planning Network Model in ERCOT according to capital projects in a timely manner.
@@ -20,7 +20,7 @@ Transmission Planning Model and Assessment Engineer (3/2024 – Present)
 - Perform Dynamic Stability Analysis for MOD-26, MOD-27, and Model Quality Test.
 - Enhanced model accuracy through data comparisons and validity checks.
 
-Transmission Operation Network Model and EMS Engineer (8/2022 – 3/2024)
+LCRA TSP Transmission Operation Network Model and EMS Engineer (8/2022 – 3/2024)
 - Maintain LCRA Operation Network Model in ERCOT and LCRA EMS Model according to capital projects.
 - Draft One Line Diagram for before and after network model changes for new substation, line, transformer additions.
 - Submit NOMCR and DPC to ERCOT for Network model changes and participate in ERCOT NDSWG working groups.
@@ -30,7 +30,7 @@ Transmission Operation Network Model and EMS Engineer (8/2022 – 3/2024)
 - Update Line ratings and Impedances in EROT model and EMS based on Engineering team publications.
 - Participate in network data working groups with ERCOT Collaborate with customers like PEC, BBEC, BEC, SBEC.
 
-Real Time Power System Shift Engineer (CROSSTRAINING) (1/2022-4/2022)
+ERCOT ISO Real Time Power System Engineer (CROSSTRAINING) (1/2022-4/2022)
 - Provided engineering support to ERCOT Control Room System Operators through Power Flow studies, Stability Assessments, and system applications support.
 - Maintained Real-Time ERCOT State Estimator, Contingency Analysis, and Voltage/Transient Stability Analysis tools.
 - Developed Constraint Management Plans such as TOAP based on engineering studies for grid vulnerabilities.
@@ -38,14 +38,14 @@ Real Time Power System Shift Engineer (CROSSTRAINING) (1/2022-4/2022)
 - Collaborated with ERCOT System Operators and Market Participants to maintain grid reliability and security.
 - Troubleshot situational awareness tools and reported grid status and developments to ERCOT departments.
 
-Operation Training Instructor (Full time) (10/2020-8/2022)
+ERCOT ISO Operation Training Instructor (Full time) (10/2020-8/2022)
 -Developed power system simulation training scenarios to enhance ERCOT system operators' performance.
 - Maintained EMS, MMS, and OTS systems, troubleshooted simulator issues.
 - Evaluated operator responses during simulation training such as EEA, Black Start, RTA, IROL, Hurricane Drill, Low Inertia.
 - Participated as a RC, QSE or TO in real time simulations.
 - Prepared presentations for operation engineer and system operators like RTA presentation.
 
-Power Electrical Engineer (ERCOT – SOAL technologies) (10/2019 to 10/2020)
+ERCOT ISO Power Electrical Engineer (ERCOT – SOAL technologies) (10/2019 to 10/2020)
 - Performed RARF registration and Reactive testing.
 - Reviewed and processed generation interconnection and full interconnection study (FIS) applications.
 - Reviewed QSA Full Interconnection Studies such as Short Circuit, Faciality, Steady State, Stability Studies.
@@ -82,7 +82,7 @@ Designed and deployed a responsive website amirexirpe.com to showcase resume, ce
 Embedded custom GPT-powered assistants for PSS®E automation, ERCOT documentation, and resume Q&A using semantic search and Streamlit.
 Integrated interactive project galleries, downloadable credentials, and contact forms for recruiters and collaborators.
 -PSS®E Automation Assistant Bot
-Developed a Copilot-style assistant that semantically searches through code examples to generate Python scripts for automating power system analysis tasks including contingency analysis, dynamic simulation, and model editing.
+Developed a Copilot-style assistant that semantically searches through PSS®E code examples to generate Python scripts for automating power system analysis tasks including contingency analysis, dynamic simulation, and model editing.
 
 -ERCOT Protocol, Planning Guide , ERCOT DWG & SSWG and Resource Integration AI Assistant
 Built GPT-powered assistants using chunked ERCOT planning guides, protocols, DWG & SSWG manuals, and interconnection processes from ERCOT. Enables semantic search and question-answering for engineers working on compliance, integration, SSWG amd DWG working groups and operations.
@@ -95,7 +95,6 @@ Designed a data pipeline to clean, chunk, and embed large technical documents us
 
 -Streamlit-Based Interactive UIs
 Delivered fast, user-friendly apps using Streamlit for all assistants with embedded system prompts, dynamic chunk context injection, and conversation memory for real-time interaction.
-
 Licenses, Certifications, and skills
 - P.E. License (Licensed Professional Engineer) – Texas Board of Professional Engineers #151267
 - NERC System Operator Reliability Coordinator Certification- #RC 202105039
