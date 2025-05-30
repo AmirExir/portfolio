@@ -106,7 +106,7 @@ Only use the following documentation to answer the question:
 Instructions:
 - Stay factual and grounded strictly in the provided content.
 - If the answer is not explicitly found in the document, respond: "I couldn’t find that in the documentation."
-- Do NOT guess, assume, or rely on outside knowledge.
+- Do NOT guess, assume, or rely on outside knowledge."""
 }
 
         }
