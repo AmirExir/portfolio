@@ -136,9 +136,9 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
             "role": "system",
             "content": f"""You are an expert assistant that answers questions about ERCOT's DWG and SSWG planning documentation.
 
-        You are only allowed to use the context below to answer. However, if the answer is clearly and explicitly present in the context, you must extract it and respond precisely.
+        You are only allowed to use the context below to answer. If you find **any** information relevant to the question (even partial), extract it exactly as written in the context and include it in your response.
 
-        Do NOT ignore relevant content. If the answer is not present, say: "I couldn’t find that in the documentation."
+        Do not say "I couldn’t find that" if any part of the question is present in the context. If something is not clear, just repeat what is found without elaboration.
 
         --- START OF CONTEXT ---
         {context}
