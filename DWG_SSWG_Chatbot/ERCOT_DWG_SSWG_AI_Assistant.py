@@ -50,14 +50,9 @@ def load_ercot_chunks_and_embeddings():
         if failed_files:
             st.warning(f"⚠️ Some chunks failed to embed: {failed_files}")
 
-    else:
-    failed_files = [c['filename'] for c, e in zip(chunks, embeddings) if e is None]
-    if failed_files:
-        st.warning(f"⚠️ Some chunks failed to embed: {failed_files}")
-
-    chunks, embeddings = zip(*valid_pairs)
-    embeddings = np.array(embeddings)
-    return list(chunks), embeddings
+        chunks, embeddings = zip(*valid_pairs)
+        embeddings = np.array(embeddings)
+        return list(chunks), embeddings
 
 # Embed the user query
 def embed_query(query: str) -> List[float]:
