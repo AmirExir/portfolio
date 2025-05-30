@@ -97,16 +97,18 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
 
         system_prompt = {
             "role": "system",
-            "content": f"""You are an expert assistant on ERCOT's DWG and SSWG manuals.
-Only use the following documentation to answer the question:
+            "content": f"""You are an expert assistant trained only on the following excerpts from ERCOT's DWG and SSWG manuals.
 
-{context}
+        Answer the question strictly based on these excerpts. If the answer isn't fully present, say:
+        "I couldn’t find that in the documentation."
 
-Instructions:
-- Stay factual and grounded strictly in the provided content.
-- If the answer is not explicitly found in the document, respond: "I couldn’t find that in the documentation."
-- Do NOT guess, assume, or rely on outside knowledge."""
-    }
+        Do NOT guess or hallucinate. Use only the given text.
+
+        --- START OF CONTEXT ---
+        {context}
+        --- END OF CONTEXT ---
+        """
+        }
 
     messages = [system_prompt] + st.session_state.messages
 
