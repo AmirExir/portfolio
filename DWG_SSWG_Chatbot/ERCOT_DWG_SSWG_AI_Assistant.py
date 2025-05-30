@@ -123,7 +123,7 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
 
             # Check for presence of any entity name in prompt
             if any(name in lowered_prompt and name in lowered_chunk for name in ["lcra", "oncor", "austin energy", "cps energy", "goldenspread", "guadalupe valley", "central texas", "new braunfels", "american electric power", "denton", "brazos", "centerpoint", "lubbock", "sharyland", "tri-county", "rayburn", "texas new mexico", "college station", "bryan", "cross texas", "bluebonnet", "bandera", "san bernard", "farmers", "trinity valley", "fannin", "coleman", "concho", "lone star", "wind energy", "goldsmith", "greenville", "garland", "grayson", "pedernales", "rio grande", "lamar", "cooperative", "municipal"]):
-                fallback_context = f"Filename: {c['filename']}\n\n{c['text'][:2000]}"
+                fallback_context = f"Filename: {c['filename']}\n\n{c['text']}"
                 st.info(f"⚡ Matched by keyword fallback: {c['filename']}")
                 break
 
