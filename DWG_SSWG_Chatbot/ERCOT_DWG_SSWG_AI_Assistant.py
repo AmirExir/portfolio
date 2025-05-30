@@ -14,10 +14,10 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Load or compute embeddings
 @st.cache_data(show_spinner=False)
 def load_DWG_SSWG_chunks_and_embeddings():
-    with open(os.path.join(os.path.dirname(__file__), "dwg_sswg_all_chunks.json"), "r", encoding="utf-8") as f:
+    with open(os.path.join(os.path.dirname(__file__), "dwg_sswg_fully_structured.json"), "r", encoding="utf-8") as f:
         chunks = json.load(f)
         st.write("Current working directory:", os.getcwd())
-        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "DWG_SSWG_all_chunks.json"))
+        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "DWG_SSWG_fully_structured.json"))
 
     embeddings = []
     embedding_model = "text-embedding-3-small"
