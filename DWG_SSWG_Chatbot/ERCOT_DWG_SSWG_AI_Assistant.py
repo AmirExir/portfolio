@@ -130,7 +130,7 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
         if fallback_context:
             context = fallback_context
         else:
-            context = find_top_k_matches(prompt, chunks, embeddings, top_k=5, debug=True)
+            context = find_top_k_matches(prompt, chunks, embeddings, top_k=10, debug=True)
 
         system_prompt = {
             "role": "system",
@@ -151,7 +151,7 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=messages,
-        max_tokens=1024
+        max_tokens=32000
     )
 
     bot_msg = response.choices[0].message.content
