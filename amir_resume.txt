@@ -82,7 +82,7 @@ Designed and deployed a responsive website amirexirpe.com to showcase resume, ce
 Embedded custom GPT-powered assistants for PSS®E automation, ERCOT documentation, and resume Q&A using semantic search and Streamlit.
 Integrated interactive project galleries, downloadable credentials, and contact forms for recruiters and collaborators.
 -PSS®E Automation Assistant Bot
-Developed a Copilot-style assistant that semantically searches through PSS®E API documentation and code examples to generate Python scripts for automating power system analysis tasks including contingency analysis, dynamic simulation, and model editing.
+Developed a Copilot-style assistant that semantically searches through code examples to generate Python scripts for automating power system analysis tasks including contingency analysis, dynamic simulation, and model editing.
 
 -ERCOT Protocol, Planning Guide , ERCOT DWG & SSWG and Resource Integration AI Assistant
 Built GPT-powered assistants using chunked ERCOT planning guides, protocols, DWG & SSWG manuals, and interconnection processes from ERCOT. Enables semantic search and question-answering for engineers working on compliance, integration, SSWG amd DWG working groups and operations.
