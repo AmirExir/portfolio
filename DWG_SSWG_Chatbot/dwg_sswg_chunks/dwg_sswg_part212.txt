@@ -1,9 +1,0 @@
-ive power) for each 10-degree voltage phase angle change, in the opposing direction. (e.g., A 100 MW rated plant should temporarily decrease active power output from 100 MW to 80 MW, or below, when source voltage angle is increasing 10 degrees; and it should temporarily increase active power from 100 to at least 120 MW, if the current limit allows, when voltage source angle is decreased by 10 degrees.). 
-
-	For the 25-degree voltage phase angle change, the instantaneous active power output of the plant should quickly respond to oppose the angle change with the peak active power change being at least 0.5 pu (based on the rated active power) in the opposing direction. If the criterion is not met for the 25-degree angle change, the rationale should be documented. 
-
-	The active power should not return to the pre-disturbance level for at least 3 cycles. 
-
-	The response time to 90% of the initial change in instantaneous active power should occur within one cycle. 
-
-	If the current limit in th

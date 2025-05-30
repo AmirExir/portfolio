@@ -1,5 +1,0 @@
-transformers, however, typically, circuit identifiers are used to indicate which transformer is being defined when more than one transformer is modeled between two common buses. TSP’s can identify autotransformers with the letter A as the first character of the ID field.  Generator Step-Up transformers can be identified with the letter G.  Phase-shifting transformers can be identified with the letter P.
-4.5.1.3	Impedance and Admittance Data
-The resistance and reactance data for transformers in the SSWG Cases can be specified in one of three ways: (1) in per-unit on 100 MVA system base (default), (2) in per-unit on winding base MVA and winding bus base voltage, (3) in transformer load loss in watts and impedance magnitude in per-unit on winding base MVA and winding bus base voltage.  Transformer resistance and reactance data supplied from the Topology Processor are specified in per-unit on 100 MVA system base.
-4.5.1.3.1	Resistance 
-Transformer test records should be used to calculate t

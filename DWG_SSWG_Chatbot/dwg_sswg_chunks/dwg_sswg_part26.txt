@@ -1,5 +1,0 @@
-le for creating each MOD incremental update base case.
-•	ERCOT staff shall be responsible for the review and inclusion of all latest available generator models with each biannual case update, including generator step-up transformers and associated RE-owned transmission facilities, RE-owned reactive devices, in the SSWG Cases. ERCOT staff will use a Bus Number range assigned to it and assign equipment IDs per ERCOT’s methodology.  Future units will be modeled in accordance with data provided by REs as required in the Generation Interconnection or Change Request Process.
-•	ERCOT staff shall provide and review all RE topology, ratings, and impedances, and provide technical rationale for any rating or voltage limit increase.
-•	If a TSP has operatorship of the breakers for a PUN, ERCOT will provide a zero impedance tie to the TSP specified POI bus.  
-•	It is the responsibility of ERCOT staff to provide an initial generation dispatch for Pass 0 during the Planning Case creation, but this dis

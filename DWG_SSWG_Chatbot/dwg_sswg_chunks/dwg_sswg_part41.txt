@@ -1,6 +1,0 @@
-ries and other internal power requirements.  All non-self-serve generation connected at 60 kV and above with at least 10 MW aggregated at the point of interconnect must be explicitly modeled. A generator explicitly modeled must include generator step-up transformer and actual no-load tap position. Generation of less than 10 MW is still required to be modeled, but not explicitly.
-Unit Reactive Limits (leading and lagging) for existing units are obtained from the Resource Registration data.  The Resource Registration data should reflect the most recent generator reactive unit test data conducted by the RE.  Limited Resource Registration data shall be made available to SSWG upon request. 
-Generator reactive limits should be modeled with one value for Qmax and one value for Qmin as described below:
-	Qmax
-	
-	Qmax is the maximum net lagging MVAr observed at the low side of the generator step up transformer when the unit is operating at its maximum net dependable MW capability. Qmax is calcul

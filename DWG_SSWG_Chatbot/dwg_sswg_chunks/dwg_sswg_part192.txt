@@ -1,6 +1,0 @@
-examples).  The spacing between each disturbance may be greater than 10 seconds to allow for recovery as necessary.  
-Each voltage disturbance profile starts at 1.0 pu voltage.  The “legacy” curve ends at 0.90 pu voltage.  In the case of Resources, tests shall be performed for two initial conditions: with the facility operating at a 0.95 lagging power factor (at the POI) and with the facility operating at 0.95 leading power factor (at the POI) . The model shall exhibit appropriate dynamic reactive response, active current injection, AVR response, and the model shall not exhibit momentary cessation.
-Additionally, the maximized LVRT capability as required in NOG 2.9.1.1(8) or NOG 2.9.1.2(8) shall be documented in a format similar to the tables in NOG 2.9.1.1(1) or NOG 2.9.1.2(1).
-
-When testing the “legacy” profile, the following performance criteria apply:
-	For the low voltage transient, the model should inject reactive current throughout the voltage recovery period.  At the POI, both P

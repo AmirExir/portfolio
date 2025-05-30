@@ -1,8 +1,0 @@
-cases that meet the same objectives with respect to facilitating the completion of NERC TPL planning assessments.   
-After January 1st, 2015, ERCOT shall serve as the flat start coordinator for all DWG flat start cases.
-	Dynamic Data Updates 
-Each DWG member shall review the dynamic data from the prior year for its portion of the ERCOT System and provide necessary updates according to the schedule established in section 4.1.1. The changes in the data must be identified and submitted with the updated data.  
-Data for mothballed units shall be retained. Obsolete data should be deleted or commented.
-Other revisions of data that should be submitted to the flat start coordinator include updates to the load model, Zsource corrections, generation netting, or any other modifications to the network necessary for dynamic studies.
-	Dynamic Data Screening 
-The DWG members should review the dynamic data for equipment connected to their system for completeness and applicability.  The data should be

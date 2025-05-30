@@ -1,9 +1,0 @@
-groups, including Steady State Working Group, Operations Working Group, and Network Data Support Working Group, to eliminate recurring problems.  
-The following information is included in Stability Book: 
-	Deviation tables or plots of the flat start results are included to verify the successful completion of the flat start process.
-	Dynamic data.  This data is in the DOCU ALL PSS/E activity format.
-	Under frequency and under voltage load shedding relay data submitted by each of the appropriate DWG members.
-	Additional information identified for inclusion by Section 3.4 
-	DWG Coordination with the Steady State Working Group
-To support coordination with the Steady State Working Group, Operations Working Group, and Network Data Support Working Group a list of changes made to the following steady-state power flow data shall be reported to the ERCOT Steady State Working Group representative:
-	Unit MVA Base: this is also known as MBASE and is used as the base quantity for many dynamic model

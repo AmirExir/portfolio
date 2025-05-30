@@ -1,6 +1,0 @@
-shall be documented in the Stability Book.
-	Other Types of Dynamic Data
-Note: This section addresses requirements stated in R1 of NERC Standard MOD 032-1 (effective July 1, 2015). 
-All elements with dynamic response capabilities (such as SVC, STATCOM, Superconducting Magnetic Energy Storage (SMES), DC tie, fast switchable shunts, and Variable-Frequency Transformer) that are in service and/or modeled in the SSWG base cases shall be represented with an appropriate dynamic model compatible with the software listed in Section 3.1.1.  
-The DWG member of the TSP owning the equipment shall submit the model to ERCOT during the annual dynamic database update or as needed for studies. If the equipment owner is not a TSP (e.g. DC tie owners), appropriate models shall be submitted to ERCOT and the TSP to which the equipment is connected within 30 days of any facility change and/or test result that necessitates a model update to accurately reflect dynamic performance.   
-	Missing or Problematic Dyn

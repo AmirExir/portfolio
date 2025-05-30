@@ -1,8 +1,0 @@
-The ERCOT Steady-State Working Group (SSWG) operates under the direction of the Reliability and Operations Subcommittee. The SSWG is a non-voting working group whose members include representatives from ERCOT Transmission Service Providers (TSPs) and ERCOT staff. The main objective of SSWG is to produce steady state seasonal and future steady-state base cases, and GIC system models. The SSWG meets twice a year to accomplish these tasks, and at other times during the year as needed to resolve any impending power-flow modeling issues or to provide technical support to the ROS. The SSWG responsibilities are further described as follows:
-•	Develop a set of SSWG Cases annually.
-
-•	Update the SSWG Cases on a biannual basis.
-
-•	Maintain and update the Transmission Project Information Tracking (TPIT) report, which reflects data used for SSWG Case development and updates. Update the TPIT report on a triannual basis.
-
-•	Maintain and update the Planning Data Dictionary to reflect current and futu

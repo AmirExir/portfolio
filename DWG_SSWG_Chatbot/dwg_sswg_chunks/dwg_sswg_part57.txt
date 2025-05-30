@@ -1,9 +1,0 @@
-ng ERCOT registration and not required by the Generation Interconnection process if they desire the resource to be in the SSWG case.
-(5)	ERCOT shall update the PMAX and PMIN values based upon the Resource Registration Data net seasonal sustainable ratings.  The generator identifier is a two-character alphanumeric identifier used to differentiate between generators at a bus. All self-serve generators must be identified by P1. If there are multiple self-serve generators at the same bus, then self-serve generators must be identified by P1, P2, P3, etc. Self-serve economic generators must be identified by “PE”.
-(6)	Refer to Appendix D for the generator identifiers used in the SSWG cases.
-(7)	In extraordinary dispatch scenarios, the following generator zones should be assigned by ERCOT:
- 
-Extraordinary Dispatch Step
-Zone Number	Zone Name
-4. & 7. Mothballed units that have not announced their return to service.	1195	EX_MB
-6. For units with interconnection agreements, but do not meet all of t

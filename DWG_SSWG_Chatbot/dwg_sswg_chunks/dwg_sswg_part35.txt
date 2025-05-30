@@ -1,5 +1,0 @@
-r further information about the ALDR process.
-Each load data record contains a bus number, load identifier, load status, area, zone, real and reactive power components of constant MVA load, real and reactive power components of constant current load, and real and reactive power components of constant admittance load.  In general, loads (MW and MVAR) should be modeled on the high side of transformers serving load at less than 60 kV.  However, special conditions may require more modeling detail such as parallel operation of power transformers from different sources.
-Load Resources are not modeled in the SSWG Cases but are considered a Responsive Reserve.
-4.2.1	Guidelines 
-(1)	The bus number in the load data record must be a bus that exists in the SSWG Case.  The load identifier is a two-character alphanumeric identifier used to differentiate between loads at a bus. All self-serve loads must be identified by “SS”. If there are multiple self-serve loads at the same bus, then the self-serve

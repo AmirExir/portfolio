@@ -1,0 +1,56 @@
+provided models will be used to represent inverter-based SODGs with nameplate capacity of 5 MW or greater. If the RE is not required to provide a model and/or an adequate model is not available to DWG, the DER_A model with DWG approved parameters in the ERCOT DWG DG Parameterization Guideline will be used. 
+RE provided models will be used to represent synchronous SODGs with nameplate capacity of 5 MW or greater. If the RE is not required to provide a model and/or an adequate model is not available to DWG, a generic model with DWG approved parameters in the ERCOT DWG DG Parameterization Guideline will be used.
+SODGs less than 5 MW will be represented as negative load (with GNET) in DWG base cases. 
+3.5.3 Unregistered Distributed Generation (UDG)
+UDG dynamics will not be explicitly represented in DWG base cases.  DWG will not modify UDG representation from the SSWG  case - UDG will be embedded or reflected in the load according to current TSP conventions.
+
+ 
+Overview of DWG Activities 
+	Updating Dynamic Data and Flat Starts
+	Schedule for Dynamic Data Updates and Flat Start Cases
+Note: This section addresses requirements stated in R2 of NERC Standards TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).
+
+Each June, the DWG shall prepare a detailed schedule for developing flat start cases and providing associated dynamic contingencies.  The DWG shall begin the flat start case development process as soon as practicable after SSWG base cases are posted – normally in May.  The DWG shall prepare flat start cases for near term on-peak, near term off-peak and long-term on-peak conditions to facilitate planning assessments required by NERC Standard TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).  It is intended that the three dynamic data sets be developed concurrently to be utilized in planning assessments for the next year (YR+1).  The following diagram presents a schedule as a reference for DWG flat start case development:
+YR (YR=Current Year)	YR + 1
+Apr	May	Jun	Jul	Aug	Sep	Oct	Nov	Dec	Jan	Feb	Mar
+YR SSWG Build Process
+- Cases Posted				 	  			 	 	 
+		Prepare DWG Flat Start Schedule	DWG Dynamic Flat Start Case Development
+Near Term On-Peak Case
+Near Term Off-Peak Case
+Long Term On-Peak Case		
+				 				Final DWG Data Sets Posted		
+								 	Submit Dynamic Contingency Files and  Dynamic Load Models	
+									Stability Book Finalized and Posted
+
+The DWG flat start case development process adds detailed dynamic models to network elements represented in an SSWG base case that reflect behavior during and following system disturbances.  The DWG shall normally prepare dynamic flat start cases based on the following SSWG steady state cases:
+	Near-Term On-Peak Case: (Y+3) SUM1
+	Near-Term Off-Peak Case: (Y+4) HRML
+	Long-Term On-Peak Case: (Y+7) SUM1
+For example, the following flat start cases would be developed during the period from July 2023 through January 2024: 2026 SUM1, 2027 HRML, and 2030 SUM1.  These cases could then be used for planning assessments performed in 2024.  The DWG may choose to develop dynamic flat start data sets for alternative cases that meet the same objectives with respect to facilitating the completion of NERC TPL planning assessments.   
+After January 1st, 2015, ERCOT shall serve as the flat start coordinator for all DWG flat start cases.
+	Dynamic Data Updates 
+Each DWG member shall review the dynamic data from the prior year for its portion of the ERCOT System and provide necessary updates according to the schedule established in section 4.1.1. The changes in the data must be identified and submitted with the updated data.  
+Data for mothballed units shall be retained. Obsolete data should be deleted or commented.
+Other revisions of data that should be submitted to the flat start coordinator include updates to the load model, Zsource corrections, generation netting, or any other modifications to the network necessary for dynamic studies.
+	Dynamic Data Screening 
+The DWG members should review the dynamic data for equipment connected to their system for completeness and applicability.  The data should be appropriate for the model, and the model should be appropriate for the equipment.  Before submitting data for inclusion in updated dynamic base cases, each DWG member should perform dynamic data screening.  
+	Flat Start Criteria
+DWG Flat Start cases shall:
+	Initialize with no errors;
+	Demonstrate that simulation output channels for frequency, voltage and power do not deviate from an acceptable range for a Twenty-second run with no disturbance.   
+	The product of a successful flat start will be a planning model software simulation-ready base case (the unconverted base case) with its associated dynamic data files including user models (.dyr, .obj, .lib, and .dll files), stability data change documentation, python (.py) files and response files (.idv) files.  The product of a successful flat start also includes the steps taken to build the flat start case such as network model changes (i.e. changing the schedule of the North DC, tuning voltages, etc.).  
+	Post Flat Start Activities
+	Distribution of Flat Start Results and the Dynamic Data Base
+Upon completion of each flat start, all dynamic data and final data files shall be posted on the ERCOT MIS so that it is accessible to all DWG members and to ERCOT.  This posting shall be within the schedule established by the DWG for the given flat start. 
+	Stability Book
+The Stability Book is an annual document used to record dynamic data changes and/or corrections required during the flat start processes.  The flat start coordinator shall prepare the annual stability book.  Recommendations to revise load flow data are also included in the book.  DWG Members are required to communicate these recommendations to other respective working groups, including Steady State Working Group, Operations Working Group, and Network Data Support Working Group, to eliminate recurring problems.  
+The following information is included in Stability Book: 
+	Deviation tables or plots of the flat start results are included to verify the successful completion of the flat start process.
+	Dynamic data.  This data is in the DOCU ALL PSS/E activity format.
+	Under frequency and under voltage load shedding relay data submitted by each of the appropriate DWG members.
+	Additional information identified for inclusion by Section 3.4 
+	DWG Coordination with the Steady State Working Group
+To support coordination with the Steady State Working Group, Operations Working Group, and Network Data Support Working Group a list of changes made to the following steady-state power flow data shall be reported to the ERCOT Steady State Working Group representative:
+	Unit MVA Base: this is also known as MBASE and is used as the base quantity for many dynamic model parameters associated with generating units.
+	Z

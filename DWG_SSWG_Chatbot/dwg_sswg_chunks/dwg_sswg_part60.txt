@@ -1,5 +1,0 @@
-or Studies
-While this treatment of mothballed units attempts to generally minimize the effect of the assumption that mothballed units will be used to meet the load requirement in the SSWG Cases (rather than assumed new generation), the planning process should also consider alternative generation dispatches in instances where this treatment of mothballed units could have a direct effect on transmission plans.  Specifically, in instances where having a mothballed unit available would alleviate the need for a transmission project that would be required to meet reliability criteria if the mothballed unit were not to return, the transmission project should not be deferred based on the assumption that the mothballed unit will return to service. 
-4.3.4	Voltage Profile Adjustments
-	After the generation dispatch has been determined, the expected voltage profile for the system can be applied. The scheduled voltages should reflect actual voltage set points used by the generator operators. 
-	TSPs

@@ -1,0 +1,76 @@
+ HVRT voltage profiles applied at the POI.
+
+ 
+
+The figures below include examples of acceptable and unacceptable responses.
+ 
+ 
+
+ 
+
+3.1.5.6 Large Voltage Disturbance Test (for synchronous machines-based facilities including synchronous generators and synchronous condensers)
+Apply a three-phase fault at the POI for 4 cycles (i.e. apply a step change to zero voltage at the POI for 4 cycles and then a step change back to nominal voltage).  The facility should inject reactive current during the fault.  Following the fault the facility should return to a stable operating point with full real power output.  Any oscillations should be well damped.
+
+3.1.5.7 Small Frequency Disturbance Test (all facilities)
+Apply a 0.3 Hz step increase, and in a separate simulation, a 0.3 Hz step decrease of system frequency from nominal frequency (60Hz).  The governor or frequency controller should lower or raise the real power dispatch according to the droop and deadband characteristic.  A frequency response is required for all Generation Resources and Energy Storage Resources (ESRs) assuming there is sufficient headroom to respond to frequency changes.  The real power should initially be dispatched at 80% of maximum for this test. Tests for ESRs should also be run for a condition at 80% of maximum charging capability.  Since Intermittent Renewable Resources (IRRs) typically operate in a power availability state (no headroom) state even when operating below nameplate capability, two frequency drop simulations shall be performed for IRRs:  One where the resource is modeled in a curtailed (with headroom) state at 80% dispatch, and another simulation where the resource is modeled in a power availability state (no headroom) at 80% dispatch.  A description of how to set up the IRR model for each case (headroom vs. no headroom) should be included.  Non-exempt IRR resource models operating with headroom should provide a real power increase in response to a frequency drop.  An explanation, including a reference to any exempt status per ERCOT Nodal Protocol 8.5.1 shall be provided for models that fail to exhibit sufficient frequency response.  In general, the submitted IRR model should reflect a power availability state (no headroom state) as that would be the normal operating assumption even when dispatched at less than Pmax.
+The figures below include the examples of acceptable and unacceptable responses. 
+
+ 
+
+
+ 
+
+
+ 
+3.1.5.8 System Strength Test (for Inverter-Based Resources, and Inverter-Based Transmission Elements)
+This test considers the model performance under varying short circuit ratios (SCR).  The SCR of the electric grid can vary over time due to line contingencies, nearby generator status, etc., so it is important for a model to behave well under a range of SCR conditions.
+The model shall be tested under at least four different short circuit ratios listed in the table below.  If there are concerns about model accuracy under certain lower short circuit ratios, a written explanation of the reason should be provided.
+
+Test	SCR
+1	5
+2	3
+3	1.5
+4	1.2
+
+Method for Testing SCR:
+A test case is set up where the plant model POI is connected to a controllable infinite bus by a branch whose impedance can be programmatically changed during the simulation.  Initially, the branch impedance is set to Xpu where Xpu represents the per-unit reactance necessary to achieve the desired short circuit ratio.  After applying a 4 cycle bolted three phase fault to the POI, the branch impedance is changed to reflect a post-disturbance system with higher impedance.    A series of short circuit ratios can be tested in the same simulation by progressively increasing the value of Xpu, so long as sufficient run time is provided between changes for the model to reach steady state.
+
+
+ 
+Calculation of Xpu, the Per-Unit Line Impedance:
+The short circuit ratio is defined as the measured short circuit MVA (MVAfault) contribution from the system divided into the total generator MW capacity.  The measured short circuit MVA is defined as the short circuit current contribution from the system multiplied by the nominal system voltage.  Refer to the formula below, assuming a system base MVA of 100.
+
+SCR=〖MVA〗_Fault/〖MW〗_Capacity 
+
+SCR=(100⁄X_pu )/〖MW〗_Capacity 
+
+Rearranging,
+X_pu=100/(〖MW〗_Capacity*SCR)
+
+Where
+〖MW〗_Capacity= Total MW capacity of generator(s) under study
+SCR	= Desired short circuit ratio to test
+Xpu 	= Per unit line reactance, on a 100 MVA system base
+
+Example:
+	A wind farm consisting of one-hundred 2.0 MW wind turbines is to be tested under short circuit ratios of 5, 3, 1.5, and 1.2.  Thus, for the windfarm,
+	〖MW〗_Capacity= 200 MW	
+
+	Using the equation above, the line impedance (Xpu) is calculated for each of the test short circuit ratios.
+	When testing SCR = 5, the line reactance is Xpu = 0.1
+	When testing SCR = 3, the line reactance is Xpu = 0.17
+	When testing SCR = 1.5, the line reactance is Xpu = 0.33
+	When testing SCR = 1.2, the line reactance is Xpu = 0.42
+
+For each increase in line reactance, the plant reactive power controller should adjust to restore voltage schedule and compensate for the increase in reactive losses. After applying the fault disturbance, the Xpu is modified to a value corresponding to the next lower SCR level to be tested.  Models shall provide acceptable responses for an SCR of 3 and higher.  If the responses are not acceptable for an SCR of 1.5, then a technical reason for the limitation should be provided, and a model enhancement should be considered.
+The figures below include examples of acceptable and unacceptable responses. 
+
+ 
+ 
+
+ 
+3.1.5.9 Phase Angle Jump Test (for Inverter-Based Resources)
+This test considers the model performance under a sudden increase or decrease in voltage phase angle as can sometimes occur on the electrical grid under disturbances.  The test consists of exposing the model to an instantaneous voltage phase angle increase, and separately, an instantaneous voltage phase angle decrease, to determine the maximum phase angle jump the model can withstand and still remain online and recover to normal operation.  For example, the test can be conducted starting with a 180 degree jump, and if the model cannot ride through, decreasing by 30 degrees each time until the model is able to ride through.  This test is only required for PSCAD models of inverter-based resources.
+
+3.1.5.10 Model Test Setup and Description for AGS-ESR
+The following sections 3.1.5.11 – 3.1.5.15 outline test procedures and associated criteria to examine and verify functionality for AGS-ESR. The flat start (defined in section 3.1.5.1) and large voltage disturbance tests (defined in Sections 3.1.5.4 and 3.1.5.5) are applicable to AGS-ESR, while Sections 3.1.5.11-3.1.5.15 contains modified and new tests specific to AGS-ESR: small voltage disturbance

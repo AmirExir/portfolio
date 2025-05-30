@@ -1,9 +1,0 @@
-served and use the same steps as above to determine the ratio of wind to solar generation 
-vii.	If there remains load to be served ((MIN load – sum of nuclear/PUN/reserve PGEN/renewables) > 0), dispatch conventional units on a least cost basis to serve the remaining load
-viii.	If any GTCs are violated, adjust the dispatch by moving units with the highest shift factor on the GTC. Overall renewable output should be preserved and if renewables are dispatched downwards to meet GTC limits, then the capacity should be allocated to another region.
-ix.	The Panhandle wind region should remain above 70% capacity factor.
-x.	If the case cannot be solved at given renewable output, adjust generation as needed.
-DGR and DESR shall be committed and dispatched using the same methodology as transmission-connected Resources of the same type. SODG shall be committed and dispatched based on their resource type as noted in the following table.
-SODG Resource Type	Commitment / Dispatch
-Battery	Offline
-Solar	C

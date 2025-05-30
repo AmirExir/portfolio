@@ -1,6 +1,0 @@
-ted by a relay loadability rating is 88888, and the default value for an element that will be protected by a relay loadability rating which hasn’t been determined yet is 99999.
-4.4.1.4.1	Most Limiting Series Element 
-Facility ratings shall not exceed the most limiting applicable equipment rating of the individual equipment that comprises the facility. If the continuous or two (2) hour ratings of any series elements at the station terminals is less than the associated transmission line’s continuous or two (2) hour rating, then the most limiting elements’ rating data will be used as the Rate 1 and/or Rate 2 rating for the transmission line.  The scope of equipment addressed shall include, but not be limited to, conductors, transformers, relay protective devices, terminal equipment, and series and shunt compensation devices.
-4.4.1.5	Shunt Admittance
-Branch Data records include four fields for complex admittance for line shunts.  These records are rarely used in the SSWG Cases.
-4.4.1.6	Sta

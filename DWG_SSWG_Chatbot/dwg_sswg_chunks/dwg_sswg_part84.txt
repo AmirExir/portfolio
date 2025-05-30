@@ -1,9 +1,0 @@
-c) fields.  The phase shift angle is positive when the voltage of the bus corresponding to the referenced winding leads the voltage of the bus connected to the opposite winding.
-
-The phase shift(s) associated with a three-winding transformer is(are) accounted for by the specification of an angle for each of the three windings.  The phase shift angle across a winding is positive when the voltage of the corresponding bus leads the voltage of the star point bus.
-
-The transformer phase shift angle is measured in degrees for both two-winding and three-winding transformers.
-4.5.1.8	Tap Data
-All transformer tap characteristics should be appropriately modeled.  Such tap characteristics include no-load tap settings and load tap changing (LTC) properties and associated control settings.
-4.5.1.8.1	Ratio
-The ratio is defined as the transformer off nominal turns ratio and is entered as a non-zero value, typically in per unit. Where the base kV contained in the bus data records for the buses connect

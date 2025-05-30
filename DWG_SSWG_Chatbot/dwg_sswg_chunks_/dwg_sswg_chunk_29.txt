@@ -1,0 +1,56 @@
+present the neighboring plant. The synchronous source can be represented by a voltage source or any source with sufficiently high inertia and low impedance compared to the AGS-ESR under study.
+Using the testbench shown in the figure below, with a constant impedance load (L) and a power factor of 0.95 lag, along with the project plant initial dispatch (P1), the duplicated plant initial dispatch (P2), and the load value, the following three scenarios must be tested:
+	Scenario 1: 
+P1 = 0.3 pu discharging, P2 = 0.1 pu discharging, and L = 1.3 pu
+	Scenario 2: 
+P1 = 0.6 pu charging, P2 = 0.4 pu charging, and L = 0.7 pu
+	Scenario 3: 
+P1 = 0, P2 = 1 pu discharging, and L = 1.65 pu
+Note: The dispatch and load values are provided based on the project plant rating.
+
+Simulate the system until a stable response is reached for the given scenario, ensuring that no oscillations occur, then disconnect the voltage source (without fault) and continue the simulation for at least 10 seconds. Plots of the active and reactive power of the ESR, duplicate ESR, load, and voltage source as well as POI frequency should be provided.
+
+ 
+
+The following performance criteria apply:
+	Immediately following the disconnection of voltage source, both AGS-ESRs output should be well controlled and exhibit stable response.  
+
+	System frequency and voltage should settle to a stable operating point (within 5 seconds) and be completely damped within 10 seconds.
+
+	Active and reactive power from each plant should move immediately to meet the load requirement, while response time to 90% of initial change should occur within one cycle.
+
+	Active and reactive power from each plant should settle according to its droop setting.
+
+ 
+3.1.6 Unit Model Validation
+PSCAD models must be accompanied with results from the unit model validation tests performed by the Interconnecting Entity or Resource Entity as required in paragraph (5)(d) of Planning Guide Section 6.2.  These validations shall demonstrate the accuracy of the PSCAD models against actual inverter testing and should be performed for all inverter-based device types within the facility.  The test report should clarify if the inverter is capable of meeting AGS-ESR requirements and that these control settings are enabled. The tests are inverter specific but need not be site-specific.  The report should include a description of the test set up as well as the simulation plots of relevant quantities for each test.   Guidelines on how these tests should be performed and the expected model performance are provided in the following sub-sections.
+
+
+3.1.6.1 PSCAD Model Setup
+
+Because the purpose of validation is to test the PSCAD inverter model, it is not necessary to model any balance-of-plant equipment, transformers, collector system, power plant controllers, etc., however any auxiliary inverter-based equipment should also be tested (for example, STATCOMs). In simulation software, the PSCAD model(s) should be connected to a controllable voltage source whose voltage and frequency can be adjusted for testing. The inverter should be dispatched at full real power unless the test requires otherwise.  Energy storage devices should be tested under both charging and discharging modes.  Simulations should be run for a minimum of 10 seconds.
+
+3.1.6.2 Inverter Hardware Testbench Setup
+
+The testbench should utilize actual inverter hardware programmed with typical default settings.  Thus the test should be representative for all inverter devices under the same hardware and control implementation.
+ 
+
+3.1.6.3 Testing
+
+The tests are designed to measure the inverter and model response to small and large magnitude disturbances of frequency and voltage as well as the subsynchronous response to gauge model accuracy.  Many of the tests closely parallel those used in the Model Quality Guideline Section 3.1.5.  Alternative testing methods may be permissible if the objective is fulfilled.  The following tests should be performed on both the PSCAD model and the actual inverter hardware:
+
+	Step change in voltage, as specified in Section 3.1.5.3
+	Voltage Ride Through, as specified in Section 3.1.5.4 and 3.1.5.5.
+	System Strength Test similar to Section 3.1.5.9.  
+	Voltage Angle Step Test as in Section 3.1.5.10.
+	Subsynchronous Test:  Perform a frequency scan sweep to measure the subsynchronous impedance as seen looking into the inverter over the range 5 to 55 Hz in 1 Hz increments.  This test is generally conducted by adding a small voltage perturbation of variable frequency superimposed on the fundamental (60 Hz) voltage, and measuring the complex impedance as seen looking into the inverter.  The results should be provided both as a plot and as a table and should display Resistance and Reactance plotted over 5 to 55 Hz.  Values should be in per-unit on the inverter MVA base.  This test should be conducted under the following conditions:  Strong system (short circuit ratio = 10), unity power factor, Weak System Lagging (short circuit ratio = 1.5, 0.95 lagging power factor), and Weak System Leading (short circuit ratio = 1.5, 0.95 leading power factor).  
+
+
+	Maintenance of Dynamic Models
+Maintenance of the models is the responsibility of the device owner. Models shall be maintained in accordance with Section 3.2.  Any user-written dynamic models shall also be maintained to fulfill the requirements as described in the Planning Guide Section 6.2 and Section 3.1.4 in this manual.
+	Dynamic Data for Existing Equipment
+“As-built” data is required for all completed facilities in accordance with Section 3.2.  To help ensure that dynamic model data is kept up to date with site-specific settings, paragraph (5)(b) of Planning Guide Section 6.2 introduces a “plant verification” requirement.  The plant verification reports should confirm that the model correctly reflects site-specific settings by presenting evidence such as delivery and testing reports, screenshots or pictures of actual hardware settings, attestations from the equipment manufacturer, etc.
+	Dynamic Data for Planned Equipment
+The development of future year case data may require an entity to submit the best available information for the planned equipment prior to development of a detailed design. In such cases, estimated or typical manufacturer’s dynamic data, based on units of similar design and characteristics, may be submitted. However, the Resource Entity shall update the model information upon completion of the detailed design and again upon commissioning the equipment. Dynamic data for planned equipment shall be submitted in accordance with Planning Guide Section 6.2 and Section 3.2 in this manual. 
+	Unacceptable Dynamic Models 
+The DWG adopted a list of unacceptable dynamic models developed by the NERC System Analysis and Modeling Subcommittee (SAMS) with exception of those models for w

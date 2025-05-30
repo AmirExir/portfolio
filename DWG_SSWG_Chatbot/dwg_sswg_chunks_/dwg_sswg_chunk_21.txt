@@ -1,0 +1,126 @@
+y	Lamb County For all TSP Use
+2140	Lampasas County	Lampasas County For all TSP Use
+2141	La Salle County	La Salle County For all TSP Use
+2142	Lavaca County	Lavaca County For all TSP Use
+2143	Lee County	Lee County For all TSP Use
+2144	Leon County	Leon County For all TSP Use
+2145	Liberty County	Liberty County For all TSP Use
+2146	Limestone County	Limestone County For all TSP Use
+2147	Lipscomb County	Lipscomb County For all TSP Use
+2148	Live Oak County	Live Oak County For all TSP Use
+2149	Llano County	Llano County For all TSP Use
+2150	Loving County	Loving County For all TSP Use
+2151	Lubbock County	Lubbock County For all TSP Use
+2152	Lynn County	Lynn County For all TSP Use
+2153	McCulloch County	McCulloch County For all TSP Use
+2154	McLennan County	McLennan County For all TSP Use
+2155	McMullen County	McMullen County For all TSP Use
+2156	Madison County	Madison County For all TSP Use
+2157	Marion County	Marion County For all TSP Use
+2158	Martin County	Martin County For all TSP Use
+2159	Mason County	Mason County For all TSP Use
+2160	Matagorda County	Matagorda County For all TSP Use
+2161	Maverick County	Maverick County For all TSP Use
+2162	Medina County	Medina County For all TSP Use
+2163	Menard County	Menard County For all TSP Use
+2164	Midland County	Midland County For all TSP Use
+2165	Milam County	Milam County For all TSP Use
+2166	Mills County	Mills County For all TSP Use
+2167	Mitchell County	Mitchell County For all TSP Use
+2168	Montague County	Montague County For all TSP Use
+2169	Montgomery County	Montgomery County For all TSP Use
+2170	Moore County	Moore County For all TSP Use
+2171	Morris County	Morris County For all TSP Use
+2172	Motley County	Motley County For all TSP Use
+2173	Nacogdoches County	Nacogdoches County For all TSP Use
+2174	Navarro County	Navarro County For all TSP Use
+2175	Newton County	Newton County For all TSP Use
+2176	Nolan County	Nolan County For all TSP Use
+2177	Nueces County	Nueces County For all TSP Use
+2178	Ochiltree County	Ochiltree County For all TSP Use
+2179	Oldham County	Oldham County For all TSP Use
+2180	Orange County	Orange County For all TSP Use
+2181	Palo Pinto County	Palo Pinto County For all TSP Use
+2182	Panola County	Panola County For all TSP Use
+2183	Parker County	Parker County For all TSP Use
+2184	Parmer County	Parmer County For all TSP Use
+2185	Pecos County	Pecos County For all TSP Use
+2186	Polk County	Polk County For all TSP Use
+2187	Potter County	Potter County For all TSP Use
+2188	Presidio County	Presidio County For all TSP Use
+2189	Rains County	Rains County For all TSP Use
+2190	Randall County	Randall County For all TSP Use
+2191	Reagan County	Reagan County For all TSP Use
+2192	Real County	Real County For all TSP Use
+2193	Red River County	Red River County For all TSP Use
+2194	Reeves County	Reeves County For all TSP Use
+2195	Refugio County	Refugio County For all TSP Use
+2196	Roberts County	Roberts County For all TSP Use
+2197	Robertson County	Robertson County For all TSP Use
+2198	Rockwall County	Rockwall County For all TSP Use
+2199	Runnels County	Runnels County For all TSP Use
+2200	Rusk County	Rusk County For all TSP Use
+2201	Sabine County	Sabine County For all TSP Use
+2202	San Augustine County	San Augustine County For all TSP Use
+2203	San Jacinto County	San Jacinto County For all TSP Use
+2204	San Patricio County	San Patricio County For all TSP Use
+2205	San Saba County	San Saba County For all TSP Use
+2206	Schleicher County	Schleicher County For all TSP Use
+2207	Scurry County	Scurry County For all TSP Use
+2208	Shackelford County	Shackelford County For all TSP Use
+2209	Shelby County	Shelby County For all TSP Use
+2210	Sherman County	Sherman County For all TSP Use
+2211	Smith County	Smith County For all TSP Use
+2212	Somervell County	Somervell County For all TSP Use
+2213	Starr County	Starr County For all TSP Use
+2214	Stephens County	Stephens County For all TSP Use
+2215	Sterling County	Sterling County For all TSP Use
+2216	Stonewall County	Stonewall County For all TSP Use
+2217	Sutton County	Sutton County For all TSP Use
+2218	Swisher County	Swisher County For all TSP Use
+2219	Tarrant County	Tarrant County For all TSP Use
+2220	Taylor County	Taylor County For all TSP Use
+2221	Terrell County	Terrell County For all TSP Use
+2222	Terry County	Terry County For all TSP Use
+2223	Throckmorton County	Throckmorton County For all TSP Use
+2224	Titus County	Titus County For all TSP Use
+2225	Tom Green County	Tom Green County For all TSP Use
+2226	Travis County	Travis County For all TSP Use
+2227	Trinity County	Trinity County For all TSP Use
+2228	Tyler County	Tyler County For all TSP Use
+2229	Upshur County	Upshur County For all TSP Use
+2230	Upton County	Upton County For all TSP Use
+2231	Uvalde County	Uvalde County For all TSP Use
+2232	Val Verde County	Val Verde County For all TSP Use
+2233	Van Zandt County	Van Zandt County For all TSP Use
+2234	Victoria County	Victoria County For all TSP Use
+2235	Walker County	Walker County For all TSP Use
+2236	Waller County	Waller County For all TSP Use
+2237	Ward County	Ward County For all TSP Use
+2238	Washington County	Washington County For all TSP Use
+2239	Webb County	Webb County For all TSP Use
+2240	Wharton County	Wharton County For all TSP Use
+2241	Wheeler County	Wheeler County For all TSP Use
+2242	Wichita County	Wichita County For all TSP Use
+2243	Wilbarger County	Wilbarger County For all TSP Use
+2244	Willacy County	Willacy County For all TSP Use
+2245	Williamson County	Williamson County For all TSP Use
+2246	Wilson County	Wilson County For all TSP Use
+2247	Winkler County	Winkler County For all TSP Use
+2248	Wise County	Wise County For all TSP Use
+2249	Wood County	Wood County For all TSP Use
+2250	Yoakum County	Yoakum County For all TSP Use
+2251	Young County	Young County For all TSP Use
+2252	Zapata County	Zapata County For all TSP Use
+2253	Zavala County	Zavala County For all TSP Use
+
+
+
+Appendix B
+Methodology for Calculating Wind Generation levels in the SSWG Cases
+
+Goal – Use available forecast data to set the dispatch for wind generation in the new SSWG Cases.
+
+Section 3.2.6.2.2 of the Nodal Procotols 
+
+WINDPEAKPCT s, r	%	Seasonal Peak Average Wind Capacity as a Percent of Installed Capacity—The average wind capacity available for the summer and winter Peak Load Seasons s and region r, divided by the installed capacity for region r, expressed as a percentage. The Seasonal Peak Average, derived from Settlement data, is first calculated as the average capacity during the 20 highest system-wide peak Load hours for a given year’s summer and winter Peak Load Seasons. The final value is the average of the previous ten eligible years of Seasonal Peak Average values. Eligible years include 2009 through the most recent year for which COP data is available for the summer and winter Peak Load Seasons.  If the number of eligible years is less than ten, the average shall be based on the numbe
