@@ -1,0 +1,937 @@
+
+
+FACTS Device ID Range Table
+
+FACTS Device ID#	 Ownership claimed by TSP
+4 - 18 	American Electric Power
+1 - 3	Austin Energy 
+19	 
+20 - 30	ONCOR
+30 - 34	 
+35 - 39	Texas New Mexico Power
+40 - 50	Centerpoint Energy
+
+ 
+Description of Zones in the SSWG Cases
+The following table provides a description of the zones.  Zone numbers and zone names are subject to change. 
+
+Zone #	Zone Name	Zone Description
+1	TEMPORARY	TEMPORARY
+2	BRYAN	City of Bryan
+3	DENTON	Denton Municipal Electric
+4	GARLAND	Garland Power and Light
+5	GRNVILLE	Greenville Electric Utility System
+6	TMPA	Texas Municipal Power Agency
+7	GARLAND-WEST	Garland Power and Light
+11	BEPC	Brazos Electric Power Coop.
+12	LUBBOCK	Lubbock Power & Light
+13	BEPC_Archer	Brazos Electric - Archer County
+14	BEPC_Atascosa	Brazos Electric - Atascosa County
+15	BEPC_Baylor	Brazos Electric - Baylor County
+16	BEPC_Bell	Brazos Electric - Bell County
+17	BEPC_Bosque	Brazos Electric - Bosque County
+18	BEPC_Brazos	Brazos Electric - Brazos County
+19	BEPC_Brown	Brazos Electric - Brown County
+20	BEPC_Childress	Brazos Electric - Childress County
+21	BEPC_Clay	Brazos Electric - Clay County
+22	BEPC_Collin	Brazos Electric - Collin County
+23	BEPC_Comanche	Brazos Electric - Comanche County
+24	BEPC_Cooke	Brazos Electric - Cooke County
+25	BEPC_Coryell	Brazos Electric - Coryell County
+26	BEPC_Cottle	Brazos Electric - Cottle County
+27	BEPC_Crosby	Brazos Electric - Crosby County
+28	BEPC_Dallas	Brazos Electric - Dallas County
+29	BEPC_Denton	Brazos Electric - Denton County
+30	BEPC_Dickens	Brazos Electric - Dickens County
+31	BEPC_Eastland	Brazos Electric - Eastland County
+32	BEPC_Ellis	Brazos Electric - Ellis County
+33	BEPC_Erath	Brazos Electric - Erath County
+34	BEPC_Falls	Brazos Electric - Falls County
+35	BEPC_Foard	Brazos Electric - Foard County
+36	BEPC_Freestone	Brazos Electric - Freestone County
+37	BEPC_Grayson	Brazos Electric - Grayson County
+38	BEPC_Grimes	Brazos Electric - Grimes County
+39	BEPC_Guadalupe	Brazos Electric - Guadalupe County
+40	BEPC_Hamilton	Brazos Electric - Hamilton County
+41	BEPC_Hardeman	Brazos Electric - Hardeman County
+42	BEPC_Haskell	Brazos Electric - Haskell County
+43	BEPC_Hill	Brazos Electric - Hill County
+44	BEPC_Hood	Brazos Electric - Hood County
+45	BEPC_Jack	Brazos Electric - Jack County
+46	BEPC_Johnson	Brazos Electric - Johnson County
+47	BEPC_Kent	Brazos Electric - Kent County
+48	BEPC_King	Brazos Electric - King County
+49	BEPC_Knox	Brazos Electric - Knox County
+50	BEPC_Lampasas	Brazos Electric - Lampasas County
+51	BEPC_Leon	Brazos Electric - Leon County
+52	BEPC_Limestone	Brazos Electric - Limestone County
+53	BEPC_Madison	Brazos Electric - Madison County
+54	BEPC_McLennan	Brazos Electric - McLennan County
+55	BEPC_Milam	Brazos Electric - Milam County
+56	BEPC_Mills	Brazos Electric - Mills County
+57	BEPC_Montague	Brazos Electric - Montague County
+58	BEPC_Montgomery	Brazos Electric - Montgomery County
+59	BEPC_Navarro	Brazos Electric - Navarro County
+60	BEPC_Palo Pinto	Brazos Electric - Palo Pinto County
+61	BEPC_Parker	Brazos Electric - Parker County
+62	BEPC_Robertson	Brazos Electric - Robertson County
+63	BEPC_Scurry	Brazos Electric - Scurry County
+64	BEPC_Shackelford	Brazos Electric - Shackelford County
+65	BEPC_Somervell	Brazos Electric - Somervell County
+66	BEPC_Stephens	Brazos Electric - Stephens County
+67	BEPC_Stonewall	Brazos Electric - Stonewall County
+68	BEPC_Tarrant	Brazos Electric - Tarrant County
+69	BEPC_Throckmorton	Brazos Electric - Throckmorton County
+70	BEPC_Walker	Brazos Electric - Walker County
+71	BEPC_Williamson	Brazos Electric - Williamson County
+72	BEPC_Wise	Brazos Electric - Wise County
+73	BEPC_Young	Brazos Electric - Young County
+102	O_Rusk	ONCOR - Rusk County
+103	O_Nacogdoches	ONCOR - Nacogdoches County
+104	O_Angelina	ONCOR - Angelina County
+105	O_Smith	ONCOR - Smith County
+106	O_Cherokee	ONCOR - Cherokee County
+107	O_Houston	ONCOR - Houston County
+108	O_Anderson	ONCOR - Anderson County
+109	O_Henderson	ONCOR - Henderson County
+110	O_VanZandt	ONCOR - Rains and Van Zandt Counties
+113	O_Kaufman	ONCOR - Kaufman and Rockwall Counties
+114	O_Dallas	ONCOR - Dallas County
+115	O_Ellis	ONCOR - Ellis County
+118	O_Tarrant	ONCOR - Tarrant County
+119	O_Johnson	ONCOR - Johnson County
+120	O_Hood	ONCOR - Hood and Somervell Counties
+121	O_Parker	ONCOR - Palo Pinto and Parker Counties
+122	O_Young	ONCOR - Stephens and Young Counties
+125	O_Eastland	ONCOR - Eastland County
+126	O_Erath	ONCOR - Erath County
+127	O_Bosque	ONCOR - Bosque County
+128	O_Hill	ONCOR - Hill County
+129	O_Navarro	ONCOR - Navarro County
+130	O_Freestone	ONCOR - Freestone County
+131	O_Leon	ONCOR - Leon County
+132	O_Limestone	ONCOR - Limestone County
+133	O_Robertson	ONCOR - Robertson County
+134	O_Falls	ONCOR - Falls County
+135	O_McLennan	ONCOR - McLennan County
+136	O_Bell	ONCOR - Bell County
+137	O_Milam	ONCOR - Milam County
+138	O_Williamson	ONCOR - Bastrop, Lee, Travis, and Williamson Counties
+139	O_Coryell	ONCOR - Coryell County
+140	O_Hamilton	ONCOR - Hamilton and Mills Counties
+141	O_Comanche	ONCOR - Comanche County
+142	O_Brown	ONCOR - Brown County
+145	O_Titus	ONCOR - Franklin and Titus Counties
+146	O_Lamar	ONCOR - Lamar and Red River Counties
+147	O_Hopkins	ONCOR - Delta and Hopkins Counties
+148	O_Hunt	ONCOR - Hunt County
+149	O_Fannin	ONCOR - Fannin County
+150	O_Grayson	ONCOR - Grayson County
+151	O_Collin	ONCOR - Collin County
+152	O_Denton	ONCOR - Denton County
+153	O_Cooke	ONCOR - Cooke County
+154	O_Clay	ONCOR - Clay and Montague Counties
+155	O_Wise	ONCOR - Wise County
+156	O_Jack	ONCOR - Jack County
+157	O_Wichita	ONCOR - Wichita County
+158	O_Archer	ONCOR - Archer and Baylor Counties
+160 	O_Panhandle	ONCOR - Panhandle
+161	O_Shackelford	ONCOR - Shackelford and Throckmorton Counties
+162	O_Haskell	ONCOR - Haskell County
+163	O_Taylor	ONCOR - Jones and Taylor Counties
+164	O_Scurry	ONCOR - Fisher and Scurry Counties
+165	O_Nolan	ONCOR - Nolan County
+166	O_Mitchell	ONCOR - Mitchell County
+167	O_Howard	ONCOR - Borden, Dawson, Howard, and Martin Counties
+168	O_Midland	ONCOR - Glasscock, Midland, Reagan, and Upton Counties
+169	O_Andrews	ONCOR - Andrews County
+170	O_Ector	ONCOR - Ector County
+171	O_Ward	ONCOR - Crane, Pecos, and Ward Counties
+172	O_Winkler	ONCOR - Culberson, Loving, Reeves, and Winkler  Counties
+173	O_Coleman	ONCOR - Coleman and Runnels Counties 
+177	ETEC	East Texas Electric Cooperative
+178	RAYBURN	Rayburn Country Electric Coop
+179	GS_GOLDENSPR	Golden Spread Electric Cooperative
+180	GS_BIGCOUTNR	Big Country Electric Cooperative
+181	GS_COLEMAN	Coleman County Electric Cooperative
+182	GS_CONCHOVAL	Concho Valley Electric Cooperative
+183	GS_LIGHTHOUS	Lighthouse Electric Cooperative
+184	GS_LYNTEGAR	Lyntegar Electric Cooperative
+185	GS_SWTEXAS	Southwest Texas Electric Cooperative
+186	GS_TAYLOR	Taylor Electric Cooperative
+187	LAMAR	Lamar Electric Cooperative
+190	GOLDSMITH	City of Goldsmith
+199	COCS	City of College Station
+200	EHVDC	East High Voltage DC
+220	TNP_CLIF	TNMP – Clifton 
+221	TNP_WLSP	TNMP – Walnut Springs
+222	TNP_VROG	TNMP – Various Central TX buses
+224	TNP_LEW	TNMP - Lewisville
+225	TNP_KTRC	TNMP – Various North TX buses
+226	TNP_BELS	TNMP – Grayson & Fannin Counties
+227	TNP_CLMX	TNMP – Fannin & Collin Counties
+229	TNP_PMWK	TNMP – Wink, Pecos
+230	TNP_TC	TNMP – Galveston County
+233	TNP_COGN	TNMP
+234	TNP_WC	TNMP – Brazoria County
+235	TNP_HC-F	TNMP - Farmersville
+238	TNP_GEN	TNMP
+240	TNP_FS	TNMP – Pecos County
+260	CNP_DNTN	CenterPoint Energy - Dist Buses in Downtown
+261	CNP_INNR	CenterPoint Energy - Dist Buses in Inner Loop
+270	CNP_LLIP	CenterPoint Energy – Large Load Interconnection Process
+290	CNP_DG	CenterPoint Energy – Distributed Generation
+295	CNP_CAPEMUTL	CenterPoint Energy – CAPE Mutual Coupling Buses
+300	CNPEXNSS	CenterPoint Energy - Exxon Facility self serve
+301	CNP_INDS	CenterPoint Energy - Industrial Customers
+302	CNP_COGN	CenterPoint Energy - Cogeneration
+303	CNP_SS	CenterPoint Energy - Self Serve
+304	CNP_DIST	CenterPoint Energy - Distribution
+305	CNP_TGN	CenterPoint Energy
+306	CNP_IPP	CenterPoint Energy
+307	CNP_NOLOAD	CenterPoint Energy – No Load Transmission Bus
+308	CNP_GALV	CenterPoint Energy - Galveston area distribution buses
+310	STP	South Texas Project
+316	CNP_AUTOSTAR	CenterPoint Energy – Autotransformer Star Buses
+317	CNP_TERT345	CenterPoint Energy- 345kV AUTO TERTIARIES
+318	 CNP TERTIARY	CenterPoint Energy- 138kV – 69kV AUTO TERTIARIES
+319	CNP_LCAP	CenterPoint Energy - In Line Capacitor Banks
+320	CNPDOWSS	CenterPoint Energy  
+350	CPS	CPS Energy
+351	CPS_GENS	CPS Energy
+391	WEATHFRD	American Electric Power - TNC
+393	TNC/LCRA	American Electric Power - TNC
+394	NHVDC	North High Voltage DC Tie
+402	WHEARNE	American Electric Power - TNC
+424	TRENT	American Electric Power - TNC
+428	PUTNAM	American Electric Power - TNC
+432	ABILENE	American Electric Power - TNC
+434	PECOS	American Electric Power - TNC
+438	MCCAMEY	American Electric Power - TNC
+442	W CHLDRS	American Electric Power - TNC
+444	TUSCOLA	American Electric Power - TNC
+446	PADUCAH	American Electric Power - TNC
+456	ASPR MNT	American Electric Power - TNC
+458	SOUTHERN	American Electric Power - TNC
+460	E MUNDAY	American Electric Power - TNC
+462	SONORA	American Electric Power - TNC
+466	MASON	American Electric Power - TNC
+472	PRESIDIO	American Electric Power - TNC
+474	SAN ANG	American Electric Power - TNC
+477	OKLUNION	American Electric Power - TNC
+478	CEDR HIL	American Electric Power - TNC
+479	BALLINGR	American Electric Power - TNC
+500	AUSTIN	Lower Colorado River Authority
+502	BANDERA	Lower Colorado River Authority
+504	BASTROP	Lower Colorado River Authority
+505	BREWSTER	Lower Colorado River Authority
+506	BLANCO	Lower Colorado River Authority
+507	BROWN	Lower Colorado River Authority
+508	BURLESON	Lower Colorado River Authority
+510	BURNET	Lower Colorado River Authority
+511	COKE	Lower Colorado River Authority
+512	CALDWELL	Lower Colorado River Authority
+514	COLORADO	Lower Colorado River Authority
+516	COMAL	Lower Colorado River Authority
+517	CONCHO	Lower Colorado River Authority
+519	CRANE	Lower Colorado River Authority
+520	CROCKETT	Lower Colorado River Authority
+522	L_CULBERSON	Lower Colorado River Authority
+525	DEWITT	Lower Colorado River Authority
+526	DIMMIT	Lower Colorado River Authority
+527	ECTOR	Lower Colorado River Authority
+528	FAYETTE	Lower Colorado River Authority
+529	L_EDWARDS	Lower Colorado River Authority
+531	L_GILLESPIE	Lower Colorado River Authority
+534	GOLIAD	Lower Colorado River Authority
+537	GONZALES	Lower Colorado River Authority
+540	L_GUADALUPE	Lower Colorado River Authority
+543	HAYS	Lower Colorado River Authority
+542	KARNES	Lower Colorado River Authority
+546	KENDALL	Lower Colorado River Authority
+549	KERR	Lower Colorado River Authority
+550	PRESIDIO	Lower Colorado River Authority
+551	UVALDE	Lower Colorado River Authority
+553	KIMBLE	Lower Colorado River Authority
+554	KINNEY	Lower Colorado River Authority
+555	LAMPASAS	Lower Colorado River Authority
+558	LAVACA	Lower Colorado River Authority
+561	LEE	Lower Colorado River Authority
+562	ZAVALA	Lower Colorado River Authority
+563	REEVES	Lower Colorado River Authority
+564	LLANO	Lower Colorado River Authority
+566	SCHLEICHER	Lower Colorado River Authority
+567	STERLING	Lower Colorado River Authority
+570	MASON	Lower Colorado River Authority
+571	MAVERICK	Lower Colorado River Authority
+572	MCCULLOCH	Lower Colorado River Authority
+573	MENARD	Lower Colorado River Authority
+574	L_MIDLAND	Lower Colorado River Authority
+575	MILLS	Lower Colorado River Authority
+576	L_NOLAN	Lower Colorado River Authority
+577	REAL	Lower Colorado River Authority
+578	PECOS	Lower Colorado River Authority
+579	SAN SABA	Lower Colorado River Authority
+580	TAYLOR	Lower Colorado River Authority
+581	TRAVIS	Lower Colorado River Authority
+582	TOM GREEN	Lower Colorado River Authority
+583	WALLER	Lower Colorado River Authority
+584	UPTON	Lower Colorado River Authority
+585	L_WASHNGTON	Lower Colorado River Authority
+586	VAL VERDE	Lower Colorado River Authority
+587	WILLIAMSON	Lower Colorado River Authority
+588	WHARTON	Lower Colorado River Authority
+589	WILSON	Lower Colorado River Authority
+590	BORDEN	Wind Energy Transmission Texas
+591	MARTIN	Wind Energy Transmission Texas
+592	STERLING	Wind Energy Transmission Texas
+593	GLASSCOCK	Wind Energy Transmission Texas
+594	DICKENS	Wind Energy Transmission Texas
+610	E VALLEY	American Electric Power - TCC
+611	TCCSWIND	American Electric Power - TCC
+612	CFE	CFE
+615	W VALLEY	American Electric Power - TCC
+620	N REGION	American Electric Power - TCC
+621	TCCNWIND	American Electric Power - TCC
+625	C REGION	American Electric Power - TCC
+626	TCCCWIND	American Electric Power - TCC
+630	W REGION	American Electric Power - TCC
+631	TCCWWIND	American Electric Power - TCC
+635	LAREDO	American Electric Power - TCC
+636	TRIANGLE	American Electric Power - TCC
+640	NORTH LI	American Electric Power - TCC
+645	CENT LI	American Electric Power - TCC
+650	NR COGEN	American Electric Power - TCC
+651	CR COGEN	American Electric Power - TCC
+656	TCC/RGEC	American Electric Power - TCC
+658	TCC/LCRA	American Electric Power - TCC
+659	TCC/MEC	American Electric Power - TCC
+660	DAV_1GEN	American Electric Power - TCC
+661	ROBSTOWN	American Electric Power - TCC
+662	KIMBLE	American Electric Power - TCC
+670	SHACKFORD	Lone Star Transmission
+671	EASTLAND	Lone Star Transmission
+672	BOSQUE	Lone Star_Transmission
+673	HILL	Lone Star Transmission
+674	NAVARRO	Lone Star Transmission
+675	FISHER	Lone Star Transmission
+676	JONES	Lone Star Transmission
+677	CALLAHAN	Lone Star Transmission
+688	HILL	Lone Star Transmission
+691	BAST-AEU	Austin Energy
+692	CALD-AEU	Austin Energy
+695	FAYE-AEU	Austin Energy
+709	TRAV-AEU	Austin Energy
+712	WILL-AEU	Austin Energy
+790	GRAY	Cross Texas Transmission
+791	SCOMP	Cross Texas Transmission
+800	BPUB	Public Utility Board of Brownsville
+825	SU CAPROCK	Sharyland Utilities
+829	SHRY	Sharyland Utilities
+870	MEC	South Texas Electric Coop - Medina Electric Coop
+872	JEC	South Texas Electric Coop - Jackson Electric Coop
+874	KEC	South Texas Electric Coop - Karnes Electric Coop
+875	MVEC_E	South Texas Electric Coop - Eastern Magic Valley
+876	MVEC_W	South Texas Electric Coop - Western Magic Valley
+878	NEC	South Texas Electric Coop - Nueces Electric Coop
+880	SPEC	South Texas Electric Coop - San Patricio Electric Coop
+882	VEC	South Texas Electric Coop - Victoria Electric Coop
+884	WCEC	South Texas Electric Coop - Wharton County Electric Coop
+890	STEC	South Texas Electric Coop except member coops
+891	LOAD-EX	American Electric Power - TCC
+900	E_BRAZORIA	ERCOT designated generation zone
+902	E_CHAMBERS	ERCOT designated generation zone
+903	E_FORT BEND	ERCOT designated generation zone
+904	E_GALVESTO	ERCOT designated generation zone
+906	E_HARRIS	ERCOT designated generation zone
+911	E_MATAGORD	ERCOT designated generation zone
+918	E_VICTORIA	ERCOT designated generation zone
+920	E_WHARTON	ERCOT designated generation zone
+931	E_ANGELINA	ERCOT designated generation zone
+932	E_BRAZOS	ERCOT designated generation zone
+935	E_CHEROKEE	ERCOT designated generation zone
+937	E_FREESTONE	ERCOT designated generation zone
+939	E_GRIMES	ERCOT designated generation zone
+941	E_HENDERSON	ERCOT designated generation zone
+948	E_NACOGDOC	ERCOT designated generation zone
+951	E_ROBERTSO	ERCOT designated generation zone
+952	E_RUSK	ERCOT designated generation zone
+957	E_TITUS	ERCOT designated generation zone
+971	E_BORDEN	ERCOT designated generation zone
+973	E_CRANE	ERCOT designated generation zone
+975	E_CULBERSON	ERCOT designated generation zone
+977	E_ECTOR	ERCOT designated generation zone
+979	E_GLASSCOCK	ERCOT designated generation zone
+980	E_HOWARD	ERCOT designated generation zone
+984	E_MARTIN	ERCOT designated generation zone
+986	E_PECOS	ERCOT designated generation zone
+987	E_PRESIDIO	ERCOT designated generation zone
+991	E_UPTON	ERCOT designated generation zone
+992	E_WARD	ERCOT designated generation zone
+993	E_WINKLER	ERCOT designated generation zone
+994	E_LYNN	ERCOT designated generation zone
+1000	E_ARCHER	ERCOT designated generation zone
+1001	E_BAYLOR	ERCOT designated generation zone
+1007	E_CLAY	ERCOT designated generation zone
+1009	E_COOKE	ERCOT designated generation zone
+1012	E_DEAF SMIT	ERCOT designated generation zone
+1013	E_DICKENS	ERCOT designated generation zone
+1015	E_FANNIN	ERCOT designated generation zone
+1020	E_GRAYSON	ERCOT designated generation zone
+1024	E_KENT	ERCOT designated generation zone
+1027	E_LAMAR	ERCOT designated generation zone
+1029	E_MOTLEY	ERCOT designated generation zone
+1033	E_WICHITA	ERCOT designated generation zone
+1034	E_WILBARGER	ERCOT designated generation zone
+1035	E_OKLAHOMA	ERCOT designated generation zone
+1036	E_PITTSBURG-	ERCOT designated generation zone
+1037	E_OLDHAM	ERCOT designated generation zone
+1038	E_CARSON	ERCOT designated generation zone
+1041	E_HALE	ERCOT designated generation zone
+1047	E_BRISCOE	ERCOT designated generation zone
+1050	E_BELL	ERCOT designated generation zone
+1051	E_BOSQUE	ERCOT designated generation zone
+1054	E_COLLIN	ERCOT designated generation zone
+1057	E_DALLAS	ERCOT designated generation zone
+1059	E_DENTON	ERCOT designated generation zone
+1061	E_ELLIS	ERCOT designated generation zone
+1062	E_ERATH	ERCOT designated generation zone
+1066	E_HOOD	ERCOT designated generation zone
+1067	E_HUNT	ERCOT designated generation zone
+1068	E_JACK	ERCOT designated generation zone
+1069	E_JOHNSON	ERCOT designated generation zone
+1070	E_KAUFMAN	ERCOT designated generation zone
+1071	E_LIMESTONE	ERCOT designated generation zone
+1072	E_MCLENNAN	ERCOT designated generation zone
+1075	E_PALO PINTO	ERCOT designated generation zone
+1076	E_PARKER	ERCOT designated generation zone
+1078	E_SHACKELFO	ERCOT designated generation zone
+1079	E_SOMERVELL	ERCOT designated generation zone
+1081	E_TARRANT	ERCOT designated generation zone
+1083	E_WISE	ERCOT designated generation zone
+1084	E_YOUNG	ERCOT designated generation zone
+1091	E_ATASCOSA	ERCOT designated generation zone
+1094	E_CAMERON	ERCOT designated generation zone
+1097	E_FRIO	ERCOT designated generation zone
+1098	E_GOLIAD	ERCOT designated generation zone
+1099	E_HIDALGO	ERCOT designated generation zone
+1102	E_KENEDY	ERCOT designated generation zone
+1106	E_MAVERICK	ERCOT designated generation zone
+1108	E_NUECES	ERCOT designated generation zone
+1110	E_SANPATRICI	ERCOT designated generation zone
+1111	E_STARR	ERCOT designated generation zone
+1112	E_WEBB	ERCOT designated generation zone
+1113	E_WILLACY	ERCOT designated generation zone
+1122	E_BASTROP	ERCOT designated generation zone
+1123	E_BEXAR	ERCOT designated generation zone
+1126	E_BURNET	ERCOT designated generation zone
+1129	E_COMAL	ERCOT designated generation zone
+1131	E_FAYETTE	ERCOT designated generation zone
+1132	E_GONZALES	ERCOT designated generation zone
+1133	E_GUADALUPE	ERCOT designated generation zone
+1134	E_HAYS	ERCOT designated generation zone
+1136	E_KENDALL	ERCOT designated generation zone
+1137	E_LAVACA	ERCOT designated generation zone
+1140	E_MILAM	ERCOT designated generation zone
+1141	E_TRAVIS	ERCOT designated generation zone
+1150	E_COKE	ERCOT designated generation zone
+1160	E_KINNEY	ERCOT designated generation zone
+1162	E_LLANO	ERCOT designated generation zone
+1166	E_MITCHELL	ERCOT designated generation zone
+1167	E_NOLAN	ERCOT designated generation zone
+1171	E_SCHLEICHER	ERCOT designated generation zone
+1172	E_SCURRY	ERCOT designated generation zone
+1175	E_TAYLOR	ERCOT designated generation zone
+1178	E_VAL VERDE	ERCOT designated generation zone
+1179	E_LUBBOCK	ERCOT designated generation zone
+1180	E_ONCOR_PU	ERCOT designated private use network
+1181	E_CNP_PUN	ERCOT designated private use network
+1182	E_AEPTNC_PUN	ERCOT designated private use network
+1183	E_AEPTCC_PUN	ERCOT designated private use network
+1184	E_TNMP_PUN	ERCOT designated private use network
+1188	E_SODG	ERCOT designated zone for Settlment Only Distributed Generation
+1189	SIMPLE_MODEL	ERCOT designated zone for Generator that only meet Section 6.9(1) of PG
+1190	E_MB	ERCOT designated zone for Mothballed units
+1192	E_RMRUNITS	ERCOT designated zone for Reliability Must Run (RMR) Units
+1193	E_SEASNL_GEN	ERCOT designated zone for seasonal units
+1194	E_RETIREDGEN	ERCOT designated zone for retired units
+1195	EX_MB	ERCOT designated extraordinary dispatch zone for mothballed units
+1196	EX_IA_NOFC	ERCOT designated extraordinary dispatch zone
+1197	EX_PUB_NOIA	ERCOT designated extraordinary dispatch zone
+1198	EX_FAKEGEN	ERCOT designated extraordinary dispatch zone for Modeling Fake units
+1199	E_AUXLOAD	ERCOT designated auxiliary load zone
+1200	UNASSIGNED	Planning zones that are not defined in NMMS are defaulted to this zone
+2000	Anderson County	Anderson County For all TSP Use
+2001	Andrews County	Andrews County For all TSP Use
+2002	Angelina County	Angelina County For all TSP Use
+2003	Aransas County	Aransas County For all TSP Use
+2004	Archer County	Archer County For all TSP Use
+2005	Armstrong County	Armstrong County For all TSP Use
+2006	Atascosa County	Atascosa County For all TSP Use
+2007	Austin County	Austin County For all TSP Use
+2008	Bailey County	Bailey County For all TSP Use
+2009	Bandera County	Bandera County For all TSP Use
+2010	Bastrop County	Bastrop County For all TSP Use
+2011	Baylor County	Baylor County For all TSP Use
+2012	Bee County	Bee County For all TSP Use
+2013	Bell County	Bell County For all TSP Use
+2014	Bexar County	Bexar County For all TSP Use
+2015	Blanco County	Blanco County For all TSP Use
+2016	Borden County	Borden County For all TSP Use
+2017	Bosque County	Bosque County For all TSP Use
+2018	Bowie County	Bowie County For all TSP Use
+2019	Brazoria County	Brazoria County For all TSP Use
+2020	Brazos County	Brazos County For all TSP Use
+2021	Brewster County	Brewster County For all TSP Use
+2022	Briscoe County	Briscoe County For all TSP Use
+2023	Brooks County	Brooks County For all TSP Use
+2024	Brown County	Brown County For all TSP Use
+2025	Burleson County	Burleson County For all TSP Use
+2026	Burnet County	Burnet County For all TSP Use
+2027	Caldwell County	Caldwell County For all TSP Use
+2028	Calhoun County	Calhoun County For all TSP Use
+2029	Callahan County	Callahan County For all TSP Use
+2030	Cameron County	Cameron County For all TSP Use
+2031	Camp County	Camp County For all TSP Use
+2032	Carson County	Carson County For all TSP Use
+2033	Cass County	Cass County For all TSP Use
+2034	Castro County	Castro County For all TSP Use
+2035	Chambers County	Chambers County For all TSP Use
+2036	Cherokee County	Cherokee County For all TSP Use
+2037	Childress County	Childress County For all TSP Use
+2038	Clay County	Clay County For all TSP Use
+2039	Cochran County	Cochran County For all TSP Use
+2040	Coke County	Coke County For all TSP Use
+2041	Coleman County	Coleman County For all TSP Use
+2042	Collin County	Collin County For all TSP Use
+2043	Collingsworth County	Collingsworth County For all TSP Use
+2044	Colorado County	Colorado County For all TSP Use
+2045	Comal County	Comal County For all TSP Use
+2046	Comanche County	Comanche County For all TSP Use
+2047	Concho County	Concho County For all TSP Use
+2048	Cooke County	Cooke County For all TSP Use
+2049	Coryell County	Coryell County For all TSP Use
+2050	Cottle County	Cottle County For all TSP Use
+2051	Crane County	Crane County For all TSP Use
+2052	Crockett County	Crockett County For all TSP Use
+2053	Crosby County	Crosby County For all TSP Use
+2054	Culberson County	Culberson County For all TSP Use
+2055	Dallam County	Dallam County For all TSP Use
+2056	Dallas County	Dallas County For all TSP Use
+2057	Dawson County	Dawson County For all TSP Use
+2058	Deaf Smith County	Deaf Smith County For all TSP Use
+2059	Delta County	Delta County For all TSP Use
+2060	Denton County	Denton County For all TSP Use
+2061	DeWitt County	DeWitt County For all TSP Use
+2062	Dickens County	Dickens County For all TSP Use
+2063	Dimmit County	Dimmit County For all TSP Use
+2064	Donley County	Donley County For all TSP Use
+2065	Duval County	Duval County For all TSP Use
+2066	Eastland County	Eastland County For all TSP Use
+2067	Ector County	Ector County For all TSP Use
+2068	Edwards County	Edwards County For all TSP Use
+2069	Ellis County	Ellis County For all TSP Use
+2070	El Paso County	El Paso County For all TSP Use
+2071	Erath County	Erath County For all TSP Use
+2072	Falls County	Falls County For all TSP Use
+2073	Fannin County	Fannin County For all TSP Use
+2074	Fayette County	Fayette County For all TSP Use
+2075	Fisher County	Fisher County For all TSP Use
+2076	Floyd County	Floyd County For all TSP Use
+2077	Foard County	Foard County For all TSP Use
+2078	Fort Bend County	Fort Bend County For all TSP Use
+2079	Franklin County	Franklin County For all TSP Use
+2080	Freestone County	Freestone County For all TSP Use
+2081	Frio County	Frio County For all TSP Use
+2082	Gaines County	Gaines County For all TSP Use
+2083	Galveston County	Galveston County For all TSP Use
+2084	Garza County	Garza County For all TSP Use
+2085	Gillespie County	Gillespie County For all TSP Use
+2086	Glasscock County	Glasscock County For all TSP Use
+2087	Goliad County	Goliad County For all TSP Use
+2088	Gonzales County	Gonzales County For all TSP Use
+2089	Gray County	Gray County For all TSP Use
+2090	Grayson County	Grayson County For all TSP Use
+2091	Gregg County	Gregg County For all TSP Use
+2092	Grimes County	Grimes County For all TSP Use
+2093	Guadalupe County	Guadalupe County For all TSP Use
+2094	Hale County	Hale County For all TSP Use
+2095	Hall County	Hall County For all TSP Use
+2096	Hamilton County	Hamilton County For all TSP Use
+2097	Hansford County	Hansford County For all TSP Use
+2098	Hardeman County	Hardeman County For all TSP Use
+2099	Hardin County	Hardin County For all TSP Use
+2100	Harris County	Harris County For all TSP Use
+2101	Harrison County	Harrison County For all TSP Use
+2102	Hartley County	Hartley County For all TSP Use
+2103	Haskell County	Haskell County For all TSP Use
+2104	Hays County	Hays County For all TSP Use
+2105	Hemphill County	Hemphill County For all TSP Use
+2106	Henderson County	Henderson County For all TSP Use
+2107	Hidalgo County	Hidalgo County For all TSP Use
+2108	Hill County	Hill County For all TSP Use
+2109	Hockley County	Hockley County For all TSP Use
+2110	Hood County	Hood County For all TSP Use
+2111	Hopkins County	Hopkins County For all TSP Use
+2112	Houston County	Houston County For all TSP Use
+2113	Howard County	Howard County For all TSP Use
+2114	Hudspeth County	Hudspeth County For all TSP Use
+2115	Hunt County	Hunt County For all TSP Use
+2116	Hutchinson County	Hutchinson County For all TSP Use
+2117	Irion County	Irion County For all TSP Use
+2118	Jack County	Jack County For all TSP Use
+2119	Jackson County	Jackson County For all TSP Use
+2120	Jasper County	Jasper County For all TSP Use
+2121	Jeff Davis County	Jeff Davis County For all TSP Use
+2122	Jefferson County	Jefferson County For all TSP Use
+2123	Jim Hogg County	Jim Hogg County For all TSP Use
+2124	Jim Wells County	Jim Wells County For all TSP Use
+2125	Johnson County	Johnson County For all TSP Use
+2126	Jones County	Jones County For all TSP Use
+2127	Karnes County	Karnes County For all TSP Use
+2128	Kaufman County	Kaufman County For all TSP Use
+2129	Kendall County	Kendall County For all TSP Use
+2130	Kenedy County	Kenedy County For all TSP Use
+2131	Kent County	Kent County For all TSP Use
+2132	Kerr County	Kerr County For all TSP Use
+2133	Kimble County	Kimble County For all TSP Use
+2134	King County	King County For all TSP Use
+2135	Kinney County	Kinney County For all TSP Use
+2136	Kleberg County	Kleberg County For all TSP Use
+2137	Knox County	Knox County For all TSP Use
+2138	Lamar County	Lamar County For all TSP Use
+2139	Lamb County	Lamb County For all TSP Use
+2140	Lampasas County	Lampasas County For all TSP Use
+2141	La Salle County	La Salle County For all TSP Use
+2142	Lavaca County	Lavaca County For all TSP Use
+2143	Lee County	Lee County For all TSP Use
+2144	Leon County	Leon County For all TSP Use
+2145	Liberty County	Liberty County For all TSP Use
+2146	Limestone County	Limestone County For all TSP Use
+2147	Lipscomb County	Lipscomb County For all TSP Use
+2148	Live Oak County	Live Oak County For all TSP Use
+2149	Llano County	Llano County For all TSP Use
+2150	Loving County	Loving County For all TSP Use
+2151	Lubbock County	Lubbock County For all TSP Use
+2152	Lynn County	Lynn County For all TSP Use
+2153	McCulloch County	McCulloch County For all TSP Use
+2154	McLennan County	McLennan County For all TSP Use
+2155	McMullen County	McMullen County For all TSP Use
+2156	Madison County	Madison County For all TSP Use
+2157	Marion County	Marion County For all TSP Use
+2158	Martin County	Martin County For all TSP Use
+2159	Mason County	Mason County For all TSP Use
+2160	Matagorda County	Matagorda County For all TSP Use
+2161	Maverick County	Maverick County For all TSP Use
+2162	Medina County	Medina County For all TSP Use
+2163	Menard County	Menard County For all TSP Use
+2164	Midland County	Midland County For all TSP Use
+2165	Milam County	Milam County For all TSP Use
+2166	Mills County	Mills County For all TSP Use
+2167	Mitchell County	Mitchell County For all TSP Use
+2168	Montague County	Montague County For all TSP Use
+2169	Montgomery County	Montgomery County For all TSP Use
+2170	Moore County	Moore County For all TSP Use
+2171	Morris County	Morris County For all TSP Use
+2172	Motley County	Motley County For all TSP Use
+2173	Nacogdoches County	Nacogdoches County For all TSP Use
+2174	Navarro County	Navarro County For all TSP Use
+2175	Newton County	Newton County For all TSP Use
+2176	Nolan County	Nolan County For all TSP Use
+2177	Nueces County	Nueces County For all TSP Use
+2178	Ochiltree County	Ochiltree County For all TSP Use
+2179	Oldham County	Oldham County For all TSP Use
+2180	Orange County	Orange County For all TSP Use
+2181	Palo Pinto County	Palo Pinto County For all TSP Use
+2182	Panola County	Panola County For all TSP Use
+2183	Parker County	Parker County For all TSP Use
+2184	Parmer County	Parmer County For all TSP Use
+2185	Pecos County	Pecos County For all TSP Use
+2186	Polk County	Polk County For all TSP Use
+2187	Potter County	Potter County For all TSP Use
+2188	Presidio County	Presidio County For all TSP Use
+2189	Rains County	Rains County For all TSP Use
+2190	Randall County	Randall County For all TSP Use
+2191	Reagan County	Reagan County For all TSP Use
+2192	Real County	Real County For all TSP Use
+2193	Red River County	Red River County For all TSP Use
+2194	Reeves County	Reeves County For all TSP Use
+2195	Refugio County	Refugio County For all TSP Use
+2196	Roberts County	Roberts County For all TSP Use
+2197	Robertson County	Robertson County For all TSP Use
+2198	Rockwall County	Rockwall County For all TSP Use
+2199	Runnels County	Runnels County For all TSP Use
+2200	Rusk County	Rusk County For all TSP Use
+2201	Sabine County	Sabine County For all TSP Use
+2202	San Augustine County	San Augustine County For all TSP Use
+2203	San Jacinto County	San Jacinto County For all TSP Use
+2204	San Patricio County	San Patricio County For all TSP Use
+2205	San Saba County	San Saba County For all TSP Use
+2206	Schleicher County	Schleicher County For all TSP Use
+2207	Scurry County	Scurry County For all TSP Use
+2208	Shackelford County	Shackelford County For all TSP Use
+2209	Shelby County	Shelby County For all TSP Use
+2210	Sherman County	Sherman County For all TSP Use
+2211	Smith County	Smith County For all TSP Use
+2212	Somervell County	Somervell County For all TSP Use
+2213	Starr County	Starr County For all TSP Use
+2214	Stephens County	Stephens County For all TSP Use
+2215	Sterling County	Sterling County For all TSP Use
+2216	Stonewall County	Stonewall County For all TSP Use
+2217	Sutton County	Sutton County For all TSP Use
+2218	Swisher County	Swisher County For all TSP Use
+2219	Tarrant County	Tarrant County For all TSP Use
+2220	Taylor County	Taylor County For all TSP Use
+2221	Terrell County	Terrell County For all TSP Use
+2222	Terry County	Terry County For all TSP Use
+2223	Throckmorton County	Throckmorton County For all TSP Use
+2224	Titus County	Titus County For all TSP Use
+2225	Tom Green County	Tom Green County For all TSP Use
+2226	Travis County	Travis County For all TSP Use
+2227	Trinity County	Trinity County For all TSP Use
+2228	Tyler County	Tyler County For all TSP Use
+2229	Upshur County	Upshur County For all TSP Use
+2230	Upton County	Upton County For all TSP Use
+2231	Uvalde County	Uvalde County For all TSP Use
+2232	Val Verde County	Val Verde County For all TSP Use
+2233	Van Zandt County	Van Zandt County For all TSP Use
+2234	Victoria County	Victoria County For all TSP Use
+2235	Walker County	Walker County For all TSP Use
+2236	Waller County	Waller County For all TSP Use
+2237	Ward County	Ward County For all TSP Use
+2238	Washington County	Washington County For all TSP Use
+2239	Webb County	Webb County For all TSP Use
+2240	Wharton County	Wharton County For all TSP Use
+2241	Wheeler County	Wheeler County For all TSP Use
+2242	Wichita County	Wichita County For all TSP Use
+2243	Wilbarger County	Wilbarger County For all TSP Use
+2244	Willacy County	Willacy County For all TSP Use
+2245	Williamson County	Williamson County For all TSP Use
+2246	Wilson County	Wilson County For all TSP Use
+2247	Winkler County	Winkler County For all TSP Use
+2248	Wise County	Wise County For all TSP Use
+2249	Wood County	Wood County For all TSP Use
+2250	Yoakum County	Yoakum County For all TSP Use
+2251	Young County	Young County For all TSP Use
+2252	Zapata County	Zapata County For all TSP Use
+2253	Zavala County	Zavala County For all TSP Use
+
+
+
+Appendix B
+Methodology for Calculating Wind Generation levels in the SSWG Cases
+
+Goal – Use available forecast data to set the dispatch for wind generation in the new SSWG Cases.
+
+Section 3.2.6.2.2 of the Nodal Procotols 
+
+WINDPEAKPCT s, r	%	Seasonal Peak Average Wind Capacity as a Percent of Installed Capacity—The average wind capacity available for the summer and winter Peak Load Seasons s and region r, divided by the installed capacity for region r, expressed as a percentage. The Seasonal Peak Average, derived from Settlement data, is first calculated as the average capacity during the 20 highest system-wide peak Load hours for a given year’s summer and winter Peak Load Seasons. The final value is the average of the previous ten eligible years of Seasonal Peak Average values. Eligible years include 2009 through the most recent year for which COP data is available for the summer and winter Peak Load Seasons.  If the number of eligible years is less than ten, the average shall be based on the number of eligible years available.  This calculation is limited to WGRs that have been in operation as of January 1 for each year of the period used for the calculation.
+WINDCAP s, i, r	MW	Existing WGR Capacity—The capacity available for all existing WGRs for the summer and winter Peak Load Seasons s, year i, and region r, multiplied by WINDPEAKPCT for summer and winter Peak Load Seasons s and region r.
+
+
+
+ 
+Appendix C
+Mexico’s Transmission System in ERCOT SSWG Cases
+
+This appendix provides an explanation of the modeling that represents Mexico’s Comisión Federal de Electridad (CFE) system in SSWG cases. A drawing of the system is at the end of this appendix.  All AEP and CFE facilities (bus, lines, etc.) tied to the CFE grid will be assigned to area 24 and zone 612.  The AEP facilities will retain the owner 9 and CFE will be assigned owner 300.
+
+The following generation modeled in the power flow and short circuit cases are system equivalents of the CFE system and are located in Mexico. These units are not in ERCOT and should only be used for specialized studies. These units should not be included when performing transfer studies in ERCOT unless one is studying a transfer to or from CFE. The generation capability is not counted in ERCOT reports. These units are online in the cases to offset the real and reactive losses that are caused by the other CFE transmission facilities and reactive flow across the Laredo VFT and Railroad HVDC ties that are modeled in the SSWG cases.  Lines in CFE will not be included in the ERCOT contingency list.
+
+Generation Station Name	Bus Number	Bus Voltage
+CIDINDUS-138 (System Equivalent)	86104	138kV
+CIDINDUS-230 (Swing Bus/Equivalent)	86105	230kV
+CUF-230 (System Equivalent)	86106	230kV
+CUF-138 (System Equivalent)	86107	138kV
+
+The following are the transmission lines between Mexico and the United States.  All of the tie lines between CFE and ERCOT are operated normally open with the exception of the asynchronous ties at Laredo and Railroad.
+
+Mexico	United States
+Bus Name	Bus Number	Bus Voltage	Bus Name	Bus Number	Bus Voltage
+Falcon	86111	138	Falcon	8395	138
+Piedras Negras	86110	138	Laredo VFT	80168	230
+Ciudad Industrial	86105	230	Laredo VFT	80169	138
+Ciudad Industrial	86104	138	Railroad	79604	138
+Cumbres	86107	138	Frontera	86114	138
+Cumbres	86107	138	Military Highway	8339	138
+Matamoras	86112	138	Brownsville Switching Station	8332	69
+Matamoras	86113	69			
+
+
+
+
+ 
+Asynchronous Ties
+
+Laredo
+
+The Variable Frequency Transformer (VFT) in Laredo has a detailed model at busses 80170 (ERCOT Side), 80014 (ERCOT Side), 80169 (CFE Side), and 80165 (CFE Side) with a total transfer capability of 100 MW.  The VFT is tied to the CFE system by a 12.73 mile 230 kV transmission line and a 12.39 mile normally open 138 kV transmission line.  Both lines terminate at the CFE Ciudad Industrial Substation (86103 and 86104) and are breakered at each end.  There is also a normally open 138 kV transmission line between the Laredo Power Plant (8293) and the Laredo VFT (80169) that is utilized for emergency block load transfers between ERCOT and CFE.  The Laredo Power Plant to Laredo VFT 138 kV transmission line is breakered at both ends.
+
+Railroad
+
+The HVDC tie in Mission has a detailed model at busses 79604 (ERCOT Side) and 88254 (CFE Side) with a total transfer capability of 300 MW.  The Railroad HVDC is tied to the CFE system at Cumbres (86107) by an 11.79 mile 138 kV transmission line and is breakered at each end.  There is also a normally open bus tie that by-passes the HVDC that is utilized for emergency block load transfers between ERCOT and CFE.  The by-pass is breakered at both ends.
+
+
+Normally Open Block Load Ties
+
+Brownsville Switching Station
+
+The Brownsville Switching Station (8332) is connected to the CFE Matamoras Substation (86113) by a 1.9 mile 69 kV transmission line and is breakered at each end.  The transmission line is operated normally open and is utilized for emergency block load transfers between ERCOT and CFE.
+
+Military Highway
+
+The Military Highway Substation (8339) is connected to the CFE Matamoras Substation (86112) by a 1.44 mile 138 kV transmission line and is breakered at each end.  The transmission line is operated normally open and is utilized for emergency block load transfers between ERCOT and CFE.
+
+Frontera
+
+The Frontera Power Plant (86114) is connected to the CFE Cumbres Substation (86107) by a 138 kV transmission line.  This transmission line is privately owned and operated by the owners of the Frontera Power Plant and is utilized to move the generation at Frontera Power Plant between the ERCOT and CFE systems. 
+
+Falcon
+
+The Falcon Substation (8395) is connected to the CFE Falcon Substation (86111) by a .3034 mile 138 kV transmission line and is breakered at each end.  The transmission line is operated normally open and is utilized for emergency block load transfers between ERCOT and CFE. 
+
+
+
+Normally Open Block Load Ties on Distribution 
+  
+There are three normally open ties with CFE that are on the 12.47 kV distribution systems. These ties are at Amistad, Presido and Redford. These ties are only used for emergency block load transfers. Since SSWG does not model radial distribution systems these points are not in the SSWG power flow cases.
+
+ 
+Appendix D
+Generation Unit ID Prefixes
+
+This appendix provides an explanation of the Generator ID prefixes that correspond to modeling in the SSWG Cases. 
+Types of Generation Unit	Unit ID Prefix	Unit ID	Comment	Explanation
+ 	 	 	 	 
+Solar	S	S1	Two units connected to same bus
+ 	 Any type of solar technology
+ 	 	S2		
+ 	 	 	 	 
+Coal and Lignite	L	L1	Three units connected to same bus
+
+	Any type of thermal power plant
+ 	 	L2		
+ 	 	L3		
+ 	 	 	 	 
+Natural Gas except Combined Cycle	N	N1	Two units connected to same bus & 1 unit connected to another bus
+
+	Any type of gas unit
+ 	 	N2		
+ 	 	N1		
+ 	 	 	 	 
+Combined Cycle	C	C1	 	Any type of combined cycle plant. Self Serve and Self Serve Economic Units will not be represented by this Unit ID prefix
+ 	 	C2	 	
+ 	 	C3	 	
+ 	 	C0	It’s always C0 for steam units	
+ 	 	 	 	 
+Wind	W	W1	 	Any type of wind generation
+ 	 	W2	 	
+ 	 	W3	 	
+ 	 	W4	 	
+ 	 	W5	 	
+ 	 	W6	 	
+ 	 	W7	 	
+ 	 	 	 	 
+Nuclear	U	U1	 	All nuclear types
+ 	 	U2	 	
+ 	 	U3	 	
+ 	 	 	 	 
+Renewables	R	R1	 	All other renewable generation except solar, wind & hydro
+ 	 	R2	 	
+ 	 	 	 	 
+Hydro	H	H1	 	Hydro
+ 	 	H2	 	
+ 	 	H3	 	
+ 	 	H4	 	
+ 	 	H5	 	
+ 	 	H6	 	
+ 	 	 	 	 
+Oil Fired	O	O1	 	Any type of oil generation
+ 	 	O2	 	
+ 	 	O3	 	
+ 	 	O4	 	
+ 	 	O5	 	
+ 	 	O6	 	
+ 	 	O7	 	
+ 	 	 	 	 
+FACTS Device	F	F1	 	All FACTS devices
+ 	 	F2	 	
+	V	V1		
+		V2		
+ 	 	 	 	 
+Equivalents	EQ	EQ	 	Equivalent units in Mexico and SPP
+ 	 	 	 	 
+Self-Serve	P1	P1	Two units connected to same bus 	Self Serve units
+ 	 	P2		
+ 	 	P1	Only one unit	
+ 	 	 	 	 
+Self-Serve Economic Units	PE	PE	 	Self Serve Economic Units
+ 	 	 	 	 
+Black Start Units	BS	BS	 	Black Start Units
+ 	 	 	 	 
+Battery Units	B	B1	Two units connected to same bus	All battery units
+		B2		
+		B1	Only one unit	
+ 	 	 	 	 
+Block Load Transfer Model	BL	BL	 	Modeling equivalent block load transfer
+ 	 	 	 	 
+Synchronous Condenser	SC	SC		Synchronous Condenser
+				
+Settlement Only Distributed Generation 	J	JB	Battery	SODG unit IDs by resource type
+
+
+		JS	Solar	
+		JN	Natural Gas	
+		JD	Diesel	
+		JW	Wind	
+		JG	Landfill Gas	
+		JH	Hydro	
+		JI	Other Inverter-Based Resource	
+		JO	Other Synchronous Generation	
+
+ 
+Appendix E
+
+Load ID Prefixes
+
+This appendix provides an explanation of selected Load ID prefixes with specific meaning that correspond to modeling in the SSWG Cases.
+
+Types of Loads	Load ID Prefix	Load ID	Comment	Explanation
+				
+City Loads	E	E1	Two loads connected to same bus 	Loads for which a TSP has historically submitted data but no longer accepts responsibility.
+		E2		
+				
+Self-Serve Loads	S	S1	Two loads connected to same bus 	Self-Serve units
+		S2		
+		SS	Only one unit	
+				
+Co-Located Large Loads	U	U#		Loads 75 MW or greater, that are going or have gone through the LLI process, co-located with generation facilities and registered as either CLR or NCLR.
+Co-Located Large Loads	V	V#		Loads 75 MW or greater, that are going or have gone through the LLI process co-located with generation facilities and not registered as either CLR or NCLR.
+				
+Large Transmission Loads	X	X#		Loads 75 MW or greater, that are going or have gone through the LLI process, connected to Transmission and registered as either CLR or NCLR.
+Large Transmission Loads	Y	Y#		Loads 75 MW or greater, that are going or have gone through the LLI process, connected to Transmission and not registered as either CLR or NCLR.
+
+ 
+Appendix F 
+ 
+Technical Rationale for Less limiting Facilities 
+ 
+ERCOT and TSPs shall model Facility Ratings and System steady-state voltage limits (voltage-based Facility Ratings) that are equally limiting or more limiting than operational Facility Ratings and voltage limits developed in accordance with the ERCOT System Operating Limit (SOL) Methodology for the Operations Time Horizon, as represented in the MOD Base Case. Facility Ratings and voltage limits include, but are not limited to, bus voltage limits, transformer ratings, line ratings, breaker ratings, and switch ratings.
+
+ERCOT or TSPs must provide one of the following technical rationale to model less limiting Facility Ratings or voltage limits in the SSWG Cases:
+
+•	Transmission Project, for planned transmission projects that would modify transmission facilities. This category generally applies to the following PMCR types:
+o	Tier 1, 2, 3, & 4
+o	No_TPIT
+o	Generation Interconnection
+•	Data Corrections, for modeling adjustments to correct errors that cannot be corrected in the operational Facility Rating or voltage limit. This category generally applies to the following PMCR type:
+o	Standard_PMCR
+•	Data Updates, for data quality checks and updates for in-service equipment and to reflect as-built Facilities. This category generally applies to the following PMCR types:
+o	NOMCR_Pending
+o	NOMCR_Submitted
+•	Other, for technical rationale that is not in one of the above categories
+
+
+
+ 
+

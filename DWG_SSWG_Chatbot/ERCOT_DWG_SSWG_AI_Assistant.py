@@ -15,15 +15,15 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 @st.cache_data(show_spinner=False)
 def load_ercot_chunks_and_embeddings():
     from openai import OpenAI
-    embedding_model = "text-embedding-3-large"
+    embedding_model = "text-embedding-3-small"
 
     chunks = []
     embeddings = []
 
-    st.write("📄 Available DWG_SSW files:")
-    st.write(sorted(glob.glob("DWG_SSWG_Chatbot/dwg_sswg_chunks/dwg_sswg_chunk_*.txt")))
+    st.write("🔍 Available ERCOT text files:")
+    st.write(sorted(glob.glob("DWG_SSWG_Chatbot/chunk*.txt")))
 
-    for filepath in sorted(glob.glob("DWG_SSWG_Chatbot/dwg_sswg_chunks/dwg_sswg_chunk_*.txt")):
+    for filepath in sorted(glob.glob("DWG_SSWG_Chatbot/chunk*.txt")):
         with open(filepath, "r", encoding="utf-8") as f:
             text = f.read()
             chunks.append({"filename": filepath, "text": text})
@@ -31,7 +31,7 @@ def load_ercot_chunks_and_embeddings():
         try:
             response = client.embeddings.create(
                 model=embedding_model,
-                input=chunk["text"]
+                input=chunk["text"][:8192]
             )
             embeddings.append(response.data[0].embedding)
         except Exception as e:
@@ -45,14 +45,10 @@ def load_ercot_chunks_and_embeddings():
     if not valid_pairs:
         st.warning("⚠️ No embeddings succeeded. Check file contents or OpenAI key.")
         raise ValueError("No valid embeddings were generated. Please check the input files.")
-    else:
-        failed_files = [c['filename'] for c, e in zip(chunks, embeddings) if e is None]
-        if failed_files:
-            st.warning(f"⚠️ Some chunks failed to embed: {failed_files}")
 
-        chunks, embeddings = zip(*valid_pairs)
-        embeddings = np.array(embeddings)
-        return list(chunks), embeddings
+    chunks, embeddings = zip(*valid_pairs)
+    embeddings = np.array(embeddings)
+    return list(chunks), embeddings
 
 # Embed the user query
 def embed_query(query: str) -> List[float]:
@@ -62,42 +58,19 @@ def embed_query(query: str) -> List[float]:
     )
     return response.data[0].embedding
 
-import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
-
-def find_top_k_matches(query: str, chunks, embeddings, top_k: int = 3, score_threshold: float = 0.6, debug: bool = False):
+# Find best matching chunk
+def find_best_match(query: str, chunks, embeddings):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity(query_embedding, embeddings).flatten()
-
-    # Score each chunk with its index
-    scored_chunks = [(i, scores[i]) for i in range(len(chunks))]
-
-    # Filter by threshold
-    filtered = [item for item in scored_chunks if item[1] >= score_threshold]
-
-    # Sort by descending score
-    top_filtered = sorted(filtered, key=lambda x: x[1], reverse=True)[:top_k]
-
-    if debug:
-        print("\n[DEBUG] Top matching chunks:")
-        for i, score in top_filtered:
-            print(f"\nRank: {i+1}, Score: {score:.4f}, Filename: {chunks[i]['filename']}")
-            print(chunks[i]['text'][:300])  # Show snippet
-
-    if not top_filtered:
-        return "No relevant chunks found above the similarity threshold."
-
-    selected_chunks = [chunks[i] for i, _ in top_filtered]
-    combined_text = "\n---\n".join([f"Filename: {c['filename']}\n\n{c['text']}" for c in selected_chunks])
-
-    return combined_text
+    scores = cosine_similarity(query_embedding.reshape(1, -1), embeddings).flatten()
+    best_idx = int(np.argmax(scores))
+    return chunks[best_idx]
 
 # Streamlit UI
-st.set_page_config(page_title="Amir Exir's ERCOT DWG & SSWG AI Assistant", page_icon="⚡")
-st.title("🤖 ERCOT DWG & SSWG AI Assistant – by Amir Exir 😎")
+st.set_page_config(page_title="Amir Exir's ERCOT DWG & SSWG manuals AI Assistant", page_icon="⚡")
+st.title("⚡ Ask Amir Exir's ERCOT DWG & SSWG manuals AI Assistant")
 
 # Load data and embeddings once
-with st.spinner("Loading  DWG & SSWG and computing embeddings..."):
+with st.spinner("Loading DWG & SSWG manuals and computing embeddings..."):
     chunks, embeddings = load_ercot_chunks_and_embeddings()
 
 # Initialize chat
@@ -109,35 +82,39 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
 # Chat input
-if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
+if prompt := st.chat_input("Ask about ERCOT DWG & SSWG manuals..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        context = find_top_k_matches(prompt, chunks, embeddings, top_k=5, debug=True)
+        best_chunk = find_best_match(prompt, chunks, embeddings)
 
         system_prompt = {
             "role": "system",
-            "content": f"""You are an expert assistant that answers questions about ERCOT's DWG and SSWG planning documentation.
+            "content": f"""
+You are an expert assistant on ERCOT's DWG & SSWG manuals.
+Only use the following documentation to answer the question:
 
-        You are only allowed to use the context below to answer. If you find **any** information relevant to the question (even partial), extract it exactly as written in the context and include it in your response.
+---
+Filename: {best_chunk['filename']}
 
-        Do not say "I couldn’t find that" if any part of the question is present in the context. If something is not clear, just repeat what is found without elaboration.
-
-        --- START OF CONTEXT ---
-        {context}
-        --- END OF CONTEXT ---
-        """
+{best_chunk['text']}
+---
+Instructions:
+- Stay factual and grounded strictly in the provided content.
+- If the answer is not explicitly found in the document, respond: "I couldn’t find that in the documentation."
+- Do NOT guess, assume, or rely on outside knowledge..
+"""
         }
 
-    messages = [system_prompt] + st.session_state.messages
+        messages = [system_prompt] + st.session_state.messages
 
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=messages,
-        max_tokens=4096
-    )
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=messages,
+            max_tokens=1024
+        )
 
-    bot_msg = response.choices[0].message.content
-    st.chat_message("assistant").markdown(bot_msg)
-    st.session_state.messages.append({"role": "assistant", "content": bot_msg})
+        bot_msg = response.choices[0].message.content
+        st.chat_message("assistant").markdown(bot_msg)
+        st.session_state.messages.append({"role": "assistant", "content": bot_msg})
