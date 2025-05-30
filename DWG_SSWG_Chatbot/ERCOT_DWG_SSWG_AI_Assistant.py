@@ -93,12 +93,11 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        context = find_top_k_matches(query, chunks, embeddings, top_k=10) 
+    context = find_top_k_matches(prompt, chunks, embeddings, top_k=10)
 
-        system_prompt = {
-            "role": "system",
-            "content": f"""
-You are an expert assistant on ERCOT's DWG and SSWG manuals.
+    system_prompt = {
+        "role": "system",
+        "content": f"""You are an expert assistant on ERCOT's DWG and SSWG manuals.
 Only use the following documentation to answer the question:
 
 {context}
@@ -107,18 +106,16 @@ Instructions:
 - Stay factual and grounded strictly in the provided content.
 - If the answer is not explicitly found in the document, respond: "I couldn’t find that in the documentation."
 - Do NOT guess, assume, or rely on outside knowledge."""
-}
+    }
 
-        }
+    messages = [system_prompt] + st.session_state.messages
 
-        messages = [system_prompt] + st.session_state.messages
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=messages,
+        max_tokens=1024
+    )
 
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=messages,
-            max_tokens=1024
-        )
-
-        bot_msg = response.choices[0].message.content
-        st.chat_message("assistant").markdown(bot_msg)
-        st.session_state.messages.append({"role": "assistant", "content": bot_msg})
+    bot_msg = response.choices[0].message.content
+    st.chat_message("assistant").markdown(bot_msg)
+    st.session_state.messages.append({"role": "assistant", "content": bot_msg})
