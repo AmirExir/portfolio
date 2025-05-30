@@ -31,7 +31,7 @@ def load_ercot_chunks_and_embeddings():
         try:
             response = client.embeddings.create(
                 model=embedding_model,
-                input=chunk["text"][:8192]
+                input=chunk["text"]
             )
             embeddings.append(response.data[0].embedding)
         except Exception as e:

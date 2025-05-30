@@ -1,0 +1,384 @@
+ges to NMMS and Topology Processor output desired for example input.
+5.4	Planning Data Dictionary
+The Planning Data Dictionary is used by ERCOT to show correlation between SSWG Case bus numbers and TSP area SCADA names.  Additionally, the Planning Data Dictionary without the SCADA names is included as part of ERCOT’s FERC 715 filing.  
+
+The exchange of information for the Planning Data Dictionary will only be communicated using an Excel spreadsheet with the columns as listed in the table below.  The table identifies the columns which the TSPs and ERCOT are responsible for populating.  ERCOT does not create or manually update the information submitted by the TSPs.  The Planning Data Dictionary will be updated with each SSWG Case build.
+
+The format will be as follows (see next page):
+ 
+Column Name	TSP Responsibility	ERCOT Responsibility	Description
+TSP				Shortened version of SSWG Area
+SSWG BUS NUMBER				Extracted from the SSWG Steady State Cases
+SSWG BUS DATE IN				From the SSWG Steady State Cases, this is populated by searching for the earliest SSWG Steady State Case that the bus exists.  If the bus exists throughout all of the existing Steady State Cases, the field is left blank under the assumption that it already exists in the NMMS.
+SSWG BUS DATE OUT			From the SSWG Steady State Cases, this is populated by searching for the latest SSWG Steady State Case that the bus exists.  If the bus exists throughout all of the existing SSWG Steady State Cases, the field is left blank under the assumption that it exists beyond the current planning scope.
+SSWG BUS NAME			This is required by FERC for FERC 715 pt. 2 report and is extracted from the SSWG Steady State Cases.  
+SSWG BASE KV			This is required by FERC for FERC 715 pt. 2 report and is extracted from the SSWG Steady State Cases
+SSWG BUS TYPE			Extracted from the SSWG Steady State Cases
+SSWG AREA			Extracted from the SSWG Steady State Cases
+NMMS BUS NUMBER			Extracted from NMMS
+NMMS BUS NAME			Extracted from NMMS
+NMMS STATION CODE			Extracted from NMMS
+NMMS STATION NAME			Extracted from NMMS
+NMMS BASE KV			Extracted from NMMS
+NMMS TSP				Extracted from NMMS
+NMMS WEATHER ZONE				Extracted from NMMS.  Field is populated via mapping sheet for future buses and are italicized.
+NMMS SETTLEMENT ZONE			Extracted from NMMS.  Field is populated via mapping sheet for future buses and are italicized.
+EIA CODE			EIA Codes for bus within Stations associated with a generating unit.  This is required for the FERC 715 pt. 2 report.
+PLANNING BUS LONG NAME				The Planning Bus Long Name is provided by the TSP
+(“Substation Name or Switchyard Name’)
+PLANNING BUS COUNTY				The Planning Bus County is provided by the TSP
+TSP COMMENTS				Section for TSP to provide comments on individual buses.
+ERCOT COMMENTS			Information for changes of bus properties throughout all SSWG Steady State Cases.  This information will point to changes in SSWG BUS NAME, SSWG BASE KV and SSWG BUS TYPE.
+
+
+
+
+6	APPENDICES
+Appendix A
+Bus/Substation/Zone Range, FACTS Device Range, and Zone Description Tables
+
+BUS & SUBSTATION RANGE	DSP, OTHER ENTITY, or SUBSYSTEM	ACRONYM	MODELING ENTITY	PSS®E AREA NO	ZONE RANGE
+						
+1 - 799	BRAZOS ELECTRIC POWER COOPERATIVE	TBREC	TBREC	11	11,13-73	
+33000 - 36999						
+800 - 899	GARLAND, CITY OF	TGAR	TGAR	20	4	
+900 - 934	DENTON MUNICIPAL UTILITIES, CITY OF	TDME	TDME	19	3	
+59000 - 59049						
+935 - 955	GREENVILLE ELECTRIC UTILITY SYSTEM	TGEUS	TGEUS	21	5	
+956 - 999	TEXAS MUNICIPAL POWER AGENCY	TTMPA	TTMPA	12	6	
+9500 - 9699						
+1000 - 4999	ONCOR	TONCOR	TONCOR	1	100 - 175	
+10000 - 31999						
+5000 - 5499	CPS ENERGY 	TCPSE	TCPSE	5	350 - 370	
+50000 - 54999						
+						
+5500 - 5899	SOUTH TEXAS ELECTRIC COOPERATIVE	TSTEC	TSTEC	13	870 - 890	
+55000 - 58999						
+In  TSTEC	SAN BERNARD ELECTRIC COOPERATIVE	TSBEC	TSTEC	 	 	
+5910 - 5919	SOUTH TEXAS POWER PLANT	TCNPE	TCNPE	10	310	
+5920 - 5929	EAST HIGH VOLTAGE DC TIE	 	TAEPTC	16	200	
+5930 - 5989	PUBLIC UTILITY BOARD OF BROWNSVILLE	TBPUB	TBPUB	15	800	
+59300 - 59899						
+6000 - 6699	AMERICAN ELECTRIC POWER- TNC	TAEPTN	TAEPTN	6	402 - 479	
+60000 - 67999						
+69000 - 69999						
+In TAEPTN	COLEMAN COUNTY ELECTRIC COOP	TCOLMN	TGSEC	25	181	
+In TAEPTN	CONCHO VALLEY ELECTRIC COOPERATIVE	TCVEC2	TGSEC	25	182	
+In TAEPTN	LIGHTHOUSE ELECTRIC COOPERATIVE	TLHEC	TGSEC	25	183	
+In TAEPTN	RIO GRANDE ELECTRIC COOPERATIVE	TRGEC1	AEPTN	 	 	
+In TAEPTN	SOUTHWEST TEXAS ELECTRIC COOPERATIVE	TSWEC1	TGSEC	25	185	
+In TAEPTN	TAYLOR ELECTRIC COOPERATIVE	TECX	TGSEC	25	186	
+6096 - 6096	NORTH HIGH VOLTAGE DC	 	AEPTN	14	394	
+6700 - 6749	EAST TEXAS ELECTRIC COOPERATIVE	XETEC	ETECTSP 	3	177	
+6750 - 6765	LAMAR ELECTRIC COOPERATIVE	TLAHOU	TLAMAR	32	187	
+6790 – 6999	RAYBURN COUNTRY ELECTRIC COOPERATIVE	TRAYBN	TRAYBN	2	178	
+7900 - 7999						
+In TRAYBN	GRAYSON COUNTY ELECTRIC COOPERATIVE	TGEC	TRAYBN	2	178	
+In TRAYBN	FARMERS ELECTRIC COOPERATIVE	TFECE	TRAYBN	2	178	
+In TRAYBN	TRINITY VALLEY ELECTRIC COOPERATIVE	TTRINY	TRAYBN	2	178	
+In TRAYBN	FANNIN COUNTY ELECTRIC COOPERATIVE	TFCEC	TRAYBN	2	178	
+7000 – 7899	LCRA TRANSMISSION SERVICES CORPORATION	TLCRA	TLCRA	7	500 - 589	
+71000 - 78999						
+In  TLCRA	BANDERA ELECTRIC COOPERATIVE	TBDEC	TLCRA	 	 	
+In  TLCRA	BLUEBONNET ELECTRIC COOPERATIVE	TBBEC	TLCRA	 	 	
+In  TLCRA	CENTRAL TEXAS ELECTRIC COOPERATIVE	TCTEC	TLCRA	 	 	
+In  TLCRA	GUADALUPE VALLEY ELECTRIC COOPERATIVE	TGVEC	TLCRA	 	 	
+In  TLCRA	NEW BRAUNFELS UTILITIES	TNBRUT	TLCRA	 	 	
+8000 – 8999	AMERICAN ELECTRIC POWER - TCC	TAEPTC	TAEPTC	8	610 - 662	
+80000 - 89999						
+In TAEPTC	LA COMISIÓN FEDERAL DE ELECTRICIDAD	CFE	TAEPTC	24	612	
+In TAEPTC	RIO GRANDE ELECTRIC COOPERATIVE	TRGEC2	TRGEC2	 	 	
+9000 – 9399	AUSTIN ENERGY	TAEN	TAEN	9	691 - 712	
+90000 - 93999						
+9400 - 9490	GOLDENSPREAD ELECTRIC COOP	TGSEC	TGSEC	25	179 - 186	
+9491 - 9499	GOLDSMITH, CITY OF	TGOLDS	TGOLDS	26	190	
+9700 – 9999	ELECTRIC RELIABILITY COUNCIL OF TEXAS	TERCOT	TERCOT	900 - 999	900 - 1199	
+94000 – 99999						
+100000 - 199999						
+600000 - 699999						
+700000 - 799999						
+32000 - 32049	COLLEGE STATION, CITY OF	TCOLGS	TCOLGS	23	199	
+32050 - 32999	BRYAN, CITY OF	TBTU	TBTU	22	2	
+37000 - 39999	TEXAS NEW MEXICO POWER COMPANY	TTNMP	TTNMP	17	220 - 240	
+40000 - 49999	CENTERPOINT	TCNPE	TCNPE	4	260 - 320	
+59100 - 59199	LUBBOCK POWER & LIGHT	TLPL	TLPL	31	12	
+59900 - 59999	WIND ENERGY TRANSMISSION TEXAS	WETT	WETT	29	590 - 609	
+68000 - 68999	LONE STAR TRANSMISSION	TLSTR	TLSTR	27	670 - 689	
+70000 - 70999	PEDERNALES ELECTRIC COOPERATIVE	TPDEC0	TPDEC0	33	241-250	
+79000 - 79499	CROSS TEXAS TRANSMISSION	TCROS	TCROS	30	790 - 799	
+79500 - 79699	SHARYLAND	TSLND1	TSLND1	18	820 - 829	
+79700 - 79999	TRI-COUNTY ELECTRIC COOPERATIVE	 	 	28	2000+	
+5900 - 5909	UNASSIGNED	 	 	1200	 	
+5990 - 5999						
+6766 - 6789						
+7900 - 7999						
+59000 - 59099						
+200000 - 599999						
+800000 - 999999						
+
+
+Entity: BRAZOS ELECTRIC POWER COOPERATIVE
+Bus Range: 799
+Acronym: TBREC
+Modeling Entity: TBREC
+PSS®E Area Number: 11
+Zone Range: 11,13-73
+Hint: BRAZOS ELECTRIC POWER COOPERATIVE is assigned the bus range 799, with PSS®E area number 11 and zone range 11,13-73.
+-----
+
+Entity: GARLAND, CITY OF
+Bus Range: 899
+Acronym: TGAR
+Modeling Entity: TGAR
+PSS®E Area Number: 20
+Zone Range: 4
+Hint: GARLAND, CITY OF is assigned the bus range 899, with PSS®E area number 20 and zone range 4.
+-----
+
+Entity: DENTON MUNICIPAL UTILITIES, CITY OF
+Bus Range: 934
+Acronym: TDME
+Modeling Entity: TDME
+PSS®E Area Number: 19
+Zone Range: 3
+Hint: DENTON MUNICIPAL UTILITIES, CITY OF is assigned the bus range 934, with PSS®E area number 19 and zone range 3.
+-----
+
+Entity: GREENVILLE ELECTRIC UTILITY SYSTEM
+Bus Range: 955
+Acronym: TGEUS
+Modeling Entity: TGEUS
+PSS®E Area Number: 21
+Zone Range: 5
+Hint: GREENVILLE ELECTRIC UTILITY SYSTEM is assigned the bus range 955, with PSS®E area number 21 and zone range 5.
+-----
+
+Entity: TEXAS MUNICIPAL POWER AGENCY
+Bus Range: 999
+Acronym: TTMPA
+Modeling Entity: TTMPA
+PSS®E Area Number: 12
+Zone Range: 6
+Hint: TEXAS MUNICIPAL POWER AGENCY is assigned the bus range 999, with PSS®E area number 12 and zone range 6.
+-----
+
+Entity: ONCOR
+Bus Range: 4999
+Acronym: TONCOR
+Modeling Entity: TONCOR
+PSS®E Area Number: 1
+Zone Range: 100 - 175
+Hint: ONCOR is assigned the bus range 4999, with PSS®E area number 1 and zone range 100 - 175.
+-----
+
+Entity: CPS ENERGY
+Bus Range: 5499
+Acronym: TCPSE
+Modeling Entity: TCPSE
+PSS®E Area Number: 5
+Zone Range: 350 - 370
+Hint: CPS ENERGY is assigned the bus range 5499, with PSS®E area number 5 and zone range 350 - 370.
+-----
+
+Entity: SOUTH TEXAS ELECTRIC COOPERATIVE
+Bus Range: 5899
+Acronym: TSTEC
+Modeling Entity: TSTEC
+PSS®E Area Number: 13
+Zone Range: 870 - 890
+Hint: SOUTH TEXAS ELECTRIC COOPERATIVE is assigned the bus range 5899, with PSS®E area number 13 and zone range 870 - 890.
+-----
+
+Entity: SOUTH TEXAS POWER PLANT
+Bus Range: 5919
+Acronym: TCNPE
+Modeling Entity: TCNPE
+PSS®E Area Number: 10
+Zone Range: 310
+Hint: SOUTH TEXAS POWER PLANT is assigned the bus range 5919, with PSS®E area number 10 and zone range 310.
+-----
+
+Entity: EAST HIGH VOLTAGE DC
+Bus Range: 5929
+Acronym: TIE
+Modeling Entity: TAEPTC
+PSS®E Area Number: 16
+Zone Range: 200
+Hint: EAST HIGH VOLTAGE DC is assigned the bus range 5929, with PSS®E area number 16 and zone range 200.
+-----
+
+Entity: PUBLIC UTILITY BOARD OF BROWNSVILLE
+Bus Range: 5989
+Acronym: TBPUB
+Modeling Entity: TBPUB
+PSS®E Area Number: 15
+Zone Range: 800
+Hint: PUBLIC UTILITY BOARD OF BROWNSVILLE is assigned the bus range 5989, with PSS®E area number 15 and zone range 800.
+-----
+
+Entity: AMERICAN ELECTRIC POWER- TNC
+Bus Range: 6699
+Acronym: TAEPTN
+Modeling Entity: TAEPTN
+PSS®E Area Number: 6
+Zone Range: 402 - 479
+Hint: AMERICAN ELECTRIC POWER- TNC is assigned the bus range 6699, with PSS®E area number 6 and zone range 402 - 479.
+-----
+
+Entity: LAMAR ELECTRIC COOPERATIVE
+Bus Range: 6765
+Acronym: TLAHOU
+Modeling Entity: TLAMAR
+PSS®E Area Number: 32
+Zone Range: 187
+Hint: LAMAR ELECTRIC COOPERATIVE is assigned the bus range 6765, with PSS®E area number 32 and zone range 187.
+-----
+
+Entity: RAYBURN COUNTRY ELECTRIC COOPERATIVE
+Bus Range: 6790 - 6999
+Acronym: TRAYBN
+Modeling Entity: TRAYBN
+PSS®E Area Number: 2
+Zone Range: 178
+Hint: RAYBURN COUNTRY ELECTRIC COOPERATIVE is assigned the bus range 6790 - 6999, with PSS®E area number 2 and zone range 178.
+-----
+
+Entity: LCRA TRANSMISSION SERVICES CORPORATION
+Bus Range: 7000 - 7899
+Acronym: TLCRA
+Modeling Entity: TLCRA
+PSS®E Area Number: 7
+Zone Range: 500 - 589
+Hint: LCRA TRANSMISSION SERVICES CORPORATION is assigned the bus range 7000 - 7899, with PSS®E area number 7 and zone range 500 - 589.
+-----
+
+Entity: AMERICAN ELECTRIC POWER - TCC
+Bus Range: 8000 - 8999
+Acronym: TAEPTC
+Modeling Entity: TAEPTC
+PSS®E Area Number: 8
+Zone Range: 610 - 662
+Hint: AMERICAN ELECTRIC POWER - TCC is assigned the bus range 8000 - 8999, with PSS®E area number 8 and zone range 610 - 662.
+-----
+
+Entity: AUSTIN ENERGY
+Bus Range: 9000 - 9399
+Acronym: TAEN
+Modeling Entity: TAEN
+PSS®E Area Number: 9
+Zone Range: 691 - 712
+Hint: AUSTIN ENERGY is assigned the bus range 9000 - 9399, with PSS®E area number 9 and zone range 691 - 712.
+-----
+
+Entity: GOLDENSPREAD ELECTRIC COOP
+Bus Range: 9490
+Acronym: TGSEC
+Modeling Entity: TGSEC
+PSS®E Area Number: 25
+Zone Range: 179 - 186
+Hint: GOLDENSPREAD ELECTRIC COOP is assigned the bus range 9490, with PSS®E area number 25 and zone range 179 - 186.
+-----
+
+Entity: GOLDSMITH, CITY OF
+Bus Range: 9499
+Acronym: TGOLDS
+Modeling Entity: TGOLDS
+PSS®E Area Number: 26
+Zone Range: 190
+Hint: GOLDSMITH, CITY OF is assigned the bus range 9499, with PSS®E area number 26 and zone range 190.
+-----
+
+Entity: ELECTRIC RELIABILITY COUNCIL OF TEXAS
+Bus Range: 9700 - 9999
+Acronym: TERCOT
+Modeling Entity: TERCOT
+PSS®E Area Number: 900
+Zone Range: - 999
+Hint: ELECTRIC RELIABILITY COUNCIL OF TEXAS is assigned the bus range 9700 - 9999, with PSS®E area number 900 and zone range - 999.
+-----
+
+Entity: COLLEGE STATION, CITY OF
+Bus Range: 32049
+Acronym: TCOLGS
+Modeling Entity: TCOLGS
+PSS®E Area Number: 23
+Zone Range: 199
+Hint: COLLEGE STATION, CITY OF is assigned the bus range 32049, with PSS®E area number 23 and zone range 199.
+-----
+
+Entity: BRYAN, CITY OF
+Bus Range: 32999
+Acronym: TBTU
+Modeling Entity: TBTU
+PSS®E Area Number: 22
+Zone Range: 2
+Hint: BRYAN, CITY OF is assigned the bus range 32999, with PSS®E area number 22 and zone range 2.
+-----
+
+Entity: TEXAS NEW MEXICO POWER COMPANY
+Bus Range: 39999
+Acronym: TTNMP
+Modeling Entity: TTNMP
+PSS®E Area Number: 17
+Zone Range: 220 - 240
+Hint: TEXAS NEW MEXICO POWER COMPANY is assigned the bus range 39999, with PSS®E area number 17 and zone range 220 - 240.
+-----
+
+Entity: CENTERPOINT
+Bus Range: 49999
+Acronym: TCNPE
+Modeling Entity: TCNPE
+PSS®E Area Number: 4
+Zone Range: 260 - 320
+Hint: CENTERPOINT is assigned the bus range 49999, with PSS®E area number 4 and zone range 260 - 320.
+-----
+
+Entity: LUBBOCK POWER & LIGHT
+Bus Range: 59199
+Acronym: TLPL
+Modeling Entity: TLPL
+PSS®E Area Number: 31
+Zone Range: 12
+Hint: LUBBOCK POWER & LIGHT is assigned the bus range 59199, with PSS®E area number 31 and zone range 12.
+-----
+
+Entity: LONE STAR TRANSMISSION
+Bus Range: 68999
+Acronym: TLSTR
+Modeling Entity: TLSTR
+PSS®E Area Number: 27
+Zone Range: 670 - 689
+Hint: LONE STAR TRANSMISSION is assigned the bus range 68999, with PSS®E area number 27 and zone range 670 - 689.
+-----
+
+Entity: PEDERNALES ELECTRIC COOPERATIVE
+Bus Range: 70999
+Acronym: TPDEC0
+Modeling Entity: TPDEC0
+PSS®E Area Number: 33
+Zone Range: 241-250
+Hint: PEDERNALES ELECTRIC COOPERATIVE is assigned the bus range 70999, with PSS®E area number 33 and zone range 241-250.
+-----
+
+Entity: CROSS TEXAS TRANSMISSION
+Bus Range: 79499
+Acronym: TCROS
+Modeling Entity: TCROS
+PSS®E Area Number: 30
+Zone Range: 790 - 799
+Hint: CROSS TEXAS TRANSMISSION is assigned the bus range 79499, with PSS®E area number 30 and zone range 790 - 799.
+-----
+
+Entity: SHARYLAND
+Bus Range: 79699
+Acronym: TSLND1
+Modeling Entity: TSLND1
+PSS®E Area Number: 18
+Zone Range: 820 - 829
+Hint: SHARYLAND is assigned the bus range 79699, with PSS®E area number 18 and zone range 820 - 829.
+-----
+
+
+FACTS Device ID Range Table
+
+FACTS Dev
