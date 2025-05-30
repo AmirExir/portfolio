@@ -58,12 +58,18 @@ def embed_query(query: str) -> List[float]:
     )
     return response.data[0].embedding
 
-# Find best matching chunk
-def find_best_match(query: str, chunks, embeddings):
+def find_top_k_matches(query: str, chunks, embeddings, top_k: int = 5):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity(query_embedding.reshape(1, -1), embeddings).flatten()
-    best_idx = int(np.argmax(scores))
-    return chunks[best_idx]
+    scores = cosine_similarity(query_embedding, embeddings).flatten()
+
+    # Get the top-K highest scoring indices
+    top_k_indices = np.argsort(scores)[-top_k:][::-1]
+
+    # Combine top chunks with filename labels
+    selected_chunks = [chunks[i] for i in top_k_indices]
+    combined_text = "\n---\n".join([f"Filename: {c['filename']}\n\n{c['text']}" for c in selected_chunks])
+
+    return combined_text
 
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's ERCOT DWG & SSWG AI Assistant", page_icon="⚡")
@@ -87,7 +93,7 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        best_chunk = find_best_match(prompt, chunks, embeddings)
+        context = find_top_k_matches(query, chunks, embeddings, top_k=10) 
 
         system_prompt = {
             "role": "system",
@@ -95,16 +101,15 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
 You are an expert assistant on ERCOT's DWG and SSWG manuals.
 Only use the following documentation to answer the question:
 
----
-Filename: {best_chunk['filename']}
+{context}
 
-{best_chunk['text']}
----
 Instructions:
 - Stay factual and grounded strictly in the provided content.
 - If the answer is not explicitly found in the document, respond: "I couldn’t find that in the documentation."
 - Do NOT guess, assume, or rely on outside knowledge.
 """
+}
+
         }
 
         messages = [system_prompt] + st.session_state.messages
