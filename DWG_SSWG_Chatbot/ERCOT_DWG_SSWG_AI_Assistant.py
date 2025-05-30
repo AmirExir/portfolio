@@ -1,8 +1,8 @@
 import streamlit as st
 import os
-import openai
 import json
 import glob
+import openai 
 from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 from typing import List
@@ -13,20 +13,15 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Load or compute embeddings
 @st.cache_data(show_spinner=False)
-def load_ercot_chunks_and_embeddings():
-    from openai import OpenAI
+def load_DWG_SSWG_chunks_and_embeddings():
+    with open(os.path.join(os.path.dirname(__file__), "DWG_SSWG_all_chunks.json"), "r", encoding="utf-8") as f:
+        chunks = json.load(f)
+        st.write("Current working directory:", os.getcwd())
+        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "DWG_SSWG_all_chunks.json"))
+
+    embeddings = []
     embedding_model = "text-embedding-3-small"
 
-    chunks = []
-    embeddings = []
-
-    st.write("🔍 Available ERCOT text files:")
-    st.write(sorted(glob.glob("DWG_SSWG_Chatbot/chunk*.txt")))
-
-    for filepath in sorted(glob.glob("DWG_SSWG_Chatbot/chunk*.txt")):
-        with open(filepath, "r", encoding="utf-8") as f:
-            text = f.read()
-            chunks.append({"filename": filepath, "text": text})
     for chunk in chunks:
         try:
             response = client.embeddings.create(
@@ -35,16 +30,14 @@ def load_ercot_chunks_and_embeddings():
             )
             embeddings.append(response.data[0].embedding)
         except Exception as e:
-            st.warning(f"Embedding failed for {chunk['filename']}: {e}")
-            print(f"ERROR for {chunk['filename']}: {e}")
+            st.warning(f"Embedding failed for chunk {chunk['id']}: {e}")
             embeddings.append(None)
 
-    # Clean up bad embeddings
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
 
     if not valid_pairs:
-        st.warning("⚠️ No embeddings succeeded. Check file contents or OpenAI key.")
-        raise ValueError("No valid embeddings were generated. Please check the input files.")
+        st.warning("⚠️ No valid embeddings. Check your file or API key.")
+        raise ValueError("No valid embeddings were generated.")
 
     chunks, embeddings = zip(*valid_pairs)
     embeddings = np.array(embeddings)
@@ -58,20 +51,44 @@ def embed_query(query: str) -> List[float]:
     )
     return response.data[0].embedding
 
-# Find best matching chunk
-def find_best_match(query: str, chunks, embeddings):
+# Find top K matches
+def find_top_k_matches(query: str, chunks, embeddings, k=50):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity(query_embedding.reshape(1, -1), embeddings).flatten()
-    best_idx = int(np.argmax(scores))
-    return chunks[best_idx]
+    scores = cosine_similarity(query_embedding, embeddings).flatten()
+    top_indices = scores.argsort()[-k:][::-1]
+    top_chunks = [chunks[i] for i in top_indices]
+    return top_chunks
+
+# Limit chunks by token budget
+def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
+    total = 0
+    selected = []
+    for chunk in chunks:
+        token_count = len(chunk["text"].split())  # rough estimate
+        if total + token_count > max_input_tokens:
+            break
+        selected.append(chunk)
+        total += token_count
+    return selected
 
 # Streamlit UI
-st.set_page_config(page_title="Amir Exir's ERCOT DWG & SSWG manuals AI Assistant", page_icon="⚡")
-st.title("⚡ Ask Amir Exir's ERCOT DWG & SSWG manuals AI Assistant")
+st.set_page_config(page_title="Amir Exir's DWG_SSWG  AI Assistant", page_icon="⚡")
+st.title("🧠 Ask Amir Exir's DWG_SSWG  AI Assistant")
 
 # Load data and embeddings once
-with st.spinner("Loading DWG & SSWG manuals and computing embeddings..."):
-    chunks, embeddings = load_ercot_chunks_and_embeddings()
+with st.spinner("Loading DWG_SSWG chunks and computing embeddings..."):
+    chunks, embeddings = load_DWG_SSWG_chunks_and_embeddings()
+
+import re
+
+def extract_function_names(chunks):
+    pattern = r'\bpsspy\.(\w+)\b'
+    func_names = set()
+    for chunk in chunks:
+        func_names.update(re.findall(pattern, chunk["text"]))
+    return func_names
+
+valid_funcs = extract_function_names(chunks)
 
 # Initialize chat
 if "messages" not in st.session_state:
@@ -82,29 +99,33 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
 # Chat input
-if prompt := st.chat_input("Ask about ERCOT DWG & SSWG manuals..."):
+if prompt := st.chat_input("Ask about ERCOT DWG and SSWG manuals..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        best_chunk = find_best_match(prompt, chunks, embeddings)
+        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=50)
+        trimmed_chunks = limit_chunks_by_token_budget(top_chunks)
+        combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in trimmed_chunks)
 
         system_prompt = {
             "role": "system",
             "content": f"""
-You are an expert assistant on ERCOT's DWG & SSWG manuals.
-Only use the following documentation to answer the question:
+        You are an the most advanced ERCOT DWG AND SSWG manual expert. When given a task, identify the relevant  and return a full explaination. Avoid made-up explaination. Cite the chunk you're using.
+        
+        Use only the following {len(trimmed_chunks)} reference chunks (from  manual and examples):
 
----
-Filename: {best_chunk['filename']}
+        ---
+        {combined_context}
+        ---
 
-{best_chunk['text']}
----
-Instructions:
-- Stay factual and grounded strictly in the provided content.
-- If the answer is not explicitly found in the document, respond: "I couldn’t find that in the documentation."
-- Do NOT guess, assume, or rely on outside knowledge..
-"""
+        Respond with:
+        - Clear descriptions of function usage
+        - Real working Python code
+        - Best practices and typical use cases
+
+        Prioritize actual examples if available. Do not make up any function names not shown.
+        """
         }
 
         messages = [system_prompt] + st.session_state.messages
@@ -112,9 +133,22 @@ Instructions:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
-            max_tokens=1024
+            max_tokens=8192
         )
 
         bot_msg = response.choices[0].message.content
+
+        def find_invalid_functions(response_text, valid_funcs):
+            used = re.findall(r'\bpsspy\.(\w+)\b', response_text)
+            return [f for f in used if f not in valid_funcs]
+
+        invalid_funcs = find_invalid_functions(bot_msg, valid_funcs)
+
+        if invalid_funcs:
+            st.warning(f"⚠️ Warning: These functions may not exist in the : {', '.join(invalid_funcs)}")
+            bot_msg += f"\n\n⚠️ *Caution: The following PSS/E  function(s) may be hallucinated or not found in the official documentation: {', '.join(invalid_funcs)}*"
+
+
+
         st.chat_message("assistant").markdown(bot_msg)
         st.session_state.messages.append({"role": "assistant", "content": bot_msg})
