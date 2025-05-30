@@ -114,23 +114,7 @@ if prompt := st.chat_input("Ask about ERCOT  DWG & SSWG..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        fallback_context = None
-
-        # Try exact string match for ANY entity
-        for c in chunks:
-            lowered_chunk = c["text"].lower()
-            lowered_prompt = prompt.lower()
-
-            # Check for presence of any entity name in prompt
-            if any(name in lowered_prompt and name in lowered_chunk for name in ["lcra", "oncor", "austin energy", "cps energy", "goldenspread", "guadalupe valley", "central texas", "new braunfels", "american electric power", "denton", "brazos", "centerpoint", "lubbock", "sharyland", "tri-county", "rayburn", "texas new mexico", "college station", "bryan", "cross texas", "bluebonnet", "bandera", "san bernard", "farmers", "trinity valley", "fannin", "coleman", "concho", "lone star", "wind energy", "goldsmith", "greenville", "garland", "grayson", "pedernales", "rio grande", "lamar", "cooperative", "municipal"]):
-                fallback_context = f"Filename: {c['filename']}\n\n{c['text']}"
-                st.info(f"⚡ Matched by keyword fallback: {c['filename']}")
-                break
-
-        if fallback_context:
-            context = fallback_context
-        else:
-            context = find_top_k_matches(prompt, chunks, embeddings, top_k=5, debug=True)
+        context = find_top_k_matches(prompt, chunks, embeddings, top_k=5, debug=True)
 
         system_prompt = {
             "role": "system",
