@@ -1,0 +1,71 @@
+	MOD PMCR
+V Schedule	MOD PROFILES	MOD PROFILES
+Remote Bus (Voltage Control)	MOD PMCR	MOD PROFILES
+RMPCT	MOD PROFILES	MOD PROFILES
+PGen (MW)	DISPATCH - MOD PROFILES	DISPATCH - MOD PROFILES
+QGen (Mvar)	DISPATCH - MOD PROFILES	DISPATCH - MOD PROFILES
+PMax (MW)	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+PMin (MW)	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+QMax (Mvar) 	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+QMin (Mvar)2 	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+Mbase (MVA)2 	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+R Source (pu)2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+X Source (pu)2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Owner	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Generator Step-up Unit (GSU) ID	NMMS	MOD PMCR
+GSU Tap positions2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+GSU Tap Controls2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+GSU Specified R 2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+GSU Specified X 2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Rate 1 / Rate 2/ Rate 3 / Rate 4 / Rate 5	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Generator Reactive Devices Control Mode2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Generator Reactive Devices Vhi (pu)2	Resource Registration Data - MOD PROFILES	Resource Registration Data - MOD PROFILES
+Generator Reactive Devices Vlo (pu)2	Resource Registration Data - MOD PROFILES	Resource Registration Data - MOD PROFILES
+Generator Reactive Devices Binit (Mvar)	MOD PROFILES	MOD PROFILES
+Generator Reactive Devices Bsteps (Mvar)2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Wind Machine Control Mode	NMMS- / MOD PMCR	MOD PMCR
+Wind Machine Power Factor	NMMS/MOD PMCR	MOD PMCR
+DER Model Data	NMMS/MOD PMCR	N/A
+
+4.4	Branch Data
+4.4.1	Use of Branch Record Data Fields
+All existing and planned transmission lines (60 kV and above) shall be modeled in the SSWG Cases.
+4.4.1.1	Bus Specifications 
+The end points of each branch in the SSWG Cases are specified by “from” and “to” bus numbers.  In most cases the end point buses are in the same TSP area.  However, when the “from” and “to” buses used to specify a branch are in different TSP areas, the branch is considered to be a tie line (See Section 4.4.3, Coordination of Tie Lines). Branch data includes exactly two buses. The end points of Multi-Section Lines (MSL) are defined by two buses specified in a branch data record (See Section 4.4.2). There are other components that are modeled with more than two buses, such as transformers with tertiary that may be represented by three-bus models. 
+4.4.1.2	Branch Circuit Identifier 
+Circuit identifiers are limited to two alphanumeric characters.  Each TSP will determine its own naming convention for circuit identifiers.  ERCOT will determine its own naming convention for branches owned by REs and PUNs with careful coordination with connected TSPs.  These identifiers are typically numeric values (e.g. 1 or 2) that indicate the number of branches between two common buses, but many exceptions exist. 
+4.4.1.3	Branch Impedance and Admittance Data
+The branch resistance, reactance, and admittance data contained in the SSWG Cases are expressed in per-unit quantities that are calculated from a base impedance. The base impedance for transmission lines is calculated from the system base MVA and the base voltage of the transmission branch of interest.  The system base MVA used in the SSWG Cases is 100 MVA (S = 100 MVA).  The base voltage for a transmission line branch is the nominal line-to-line voltage of that particular transmission branch (See Transformer Data for Calculation of Transformer Impedances). Therefore the base impedance used for calculating transmission branch impedances is:
+
+  Ohms
+This base impedance is then used to convert the physical quantities of the transmission line into per-unit values to be used in the SSWG Cases.
+4.4.1.3.1	Resistance
+Once the total transmission line resistance is known and expressed in ohms, then this value is divided by the base impedance to obtain the per-unit resistance to be used in the SSWG Cases.  This calculation is as follows:
+  
+4.4.1.3.2	Reactance
+Once the total transmission line reactance is known and expressed in ohms, then this value is divided by the base impedance to obtain the per-unit reactance to be used in the SSWG Cases.  This calculation is as follows:
+  
+4.4.1.3.3	Admittance
+Branch admittance is expressed as total branch charging susceptance in per unit on the 100 MVA system base.  The total branch charging is expressed in MVARs and divided by the system base MVA to get per unit charging.  The equation used to accomplish this depends on the starting point. Typically the charging of a transmission line is known in KVARs.  Given the total transmission line charging expressed in KVARs, the equation to calculate the total branch charging susceptance in per unit on the system base is as follows:
+  
+
+Or, given the total capacitive reactance to neutral expressed in ohms  , the equation to calculate the total branch charging susceptance in per unit on the system base is as follows:
+
+ 
+
+ 
+4.4.1.4	Facility Ratings
+SSWG Cases contain fields for five ratings for each branch record, including zero impedance branches.  The ratings associated with these five fields are commonly referred to as Rate 1, Rate 2, Rate 3, Rate 4, and Rate 5.  Each TSP has their own methodology for calculating these ratings and shall be made available to others within ERCOT upon request. Following are the SSWG Case facility ratings corresponding to the ratings defined in Nodal Protocol 2.1:
+
+Planning Case Rating Definitions	Corresponding Nodal Protocol Section 2.1 Definitions
+Rate 1	Normal Rating
+Rate 2	Emergency Rating
+Rate 3	 15-Minute Rating
+Rate 4	Transformer 2-Hour/Branch Conductor Rating
+Rate 5	Relay Loadability Rating
+
+By definition, Rate 5 ≥ Rate 3 ≥ Rate 2 ≥ Rate 1 and Rate 4 ≥ Rate 2 ≥ Rate 1.
+
+When performing security studies, ERCOT will default to Rate 2, unless the TSP has previously indicated in writing that other ratings (e.g., Rate 1) should be used.  If problems exist using Rate 2 and Rate 2 is significantly different from Rate 4, then ERCOT will contact the TSP. There may also be 8888 or 9999 ratings in the SSWG Cases. The 8888 rating represents items such as change of ownership at a substation facility, a radial Point Of Interconnect to a custome

@@ -1,0 +1,66 @@
+ Line Data
+Voltage Source Converter DC line data can be used to model DC ties that use the voltage source converter technology. See PSS®E Manual for more information.
+4.8.3	HVDC Two Terminal Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Line number	MOD STD PMCR & PROFILES	MOD PMCR & PROFILES
+Controlled Mode	MOD STD PMCR & PROFILES	MOD PMCR & PROFILES
+Line Resistance (Ohms)	MOD STD PMCR	MOD PMCR
+Demand Setting (MW or Amps)	MOD PROFILES	MOD PROFILES
+V schedule (kV)	MOD PROFILES	MOD PROFILES
+Vcmod (kV)	MOD PROFILES	MOD PROFILES
+Delti (pu)	MOD PROFILES	MOD PROFILES
+Dcvmin (kV)	MOD PROFILES	MOD PROFILES
+Metered (Rect/Invr)	MOD STD PMCR	MOD PMCR
+
+4.9	Modeling of Resource and Transmission Outages
+
+TSPs are responsible for entering known outages of equipment for which they are the modeling entity as normally open equipment in the applicable SSWG Case(s) in accordance with the accepted technical rationale.  ERCOT is responsible for submitting outages for resource and resource owned equipment using the Outage Scheduler to determine outages with duration of at least six months and will model the status in the applicable SSWG Case(s) in accordance with its transmission in-service date.
+ 
+5	OTHER SSWG ACTIVITIES
+5.1	Transmission Loss Factor Calculations
+The transmission loss factors must be calculated according to Protocol Section 13. The loss factors are calculated using the seasonal SSWG Cases. The values are entered in the ERCOT settlements system to account for losses on the transmission system. Separate calculations are performed for the eight seasonal SSWG Cases: spring, summer, fall, and winter with an on and off peak for each season. 
+
+The Non Opt In Entities (NOIE) that provide metering of their system load to the ERCOT settlement system by a set of ERCOT Polled Settlements Meters (EPS) that ‘ring’ their transmission system as defined in Protocol 13.4.1 have additional calculations performed for their transmission loss factors.
+
+The NOIE that send extra data to ERCOT for the loss calculations have EPS settlement meters on all of their transmission lines that connect or “tie” their system to the rest of the ERCOT transmission network. For the ERCOT settlement process ERCOT calculates their load as the net of inflows minus the outflows from these EPS meters. However calculations must be performed to subtract out the losses on the transmission lines that are ‘inside’ their EPS meters. If this was not done then these NOIE loads would be too high relative to the other loads where EPS meters are at each delivery point. Other NOIE send EPS metering data from each delivery point so their load can be calculated by summing the individual points. Therefore the extra calculations are not necessary.
+
+The process for creating the loss factors is outlined below.
+
+1.	Send out a request to SSWG for any case updates, changes to NOIE bus ranges, and latest self serve data. NOIE’s that have a ‘ring’ of EPS meters must validate the PSS®E Metered End data in each of the cases. The PSS®E Metered End for a transmission facility that is not inside the ‘ring’ of EPS meters should be Metered ‘to’ the remote bus, and not Metered ‘to’ bus where the EPS meter is located.
+2.	ERCOT updates the transmission loss factor spreadsheet.
+3.	Send to SSWG for review and approval
+4.	Send to ERCOT settlements (Settlement Metering Manager) to be put into the ERCOT settlement system and post at http://www.ercot.com/mktinfo/data_agg/index.html.     
+5.2	Contingency Database
+The ERCOT contingency database is a compilation of contingency definitions as submitted by the TSPs.  The exchange of information for the contingency database will only be communicated using an Excel spreadsheet with the columns as listed in the table below.  The table identifies the columns which the TSPs and ERCOT are responsible for populating.  ERCOT does not create or manually update the information submitted by the TSPs.  In an effort to produce a contingency list with complete and accurate data, ERCOT will run topology and data entry checks on submitted information to highlight submission errors that the TSPs will need to correct within a given timeline.  A review of the contingency database will be conducted with each SSWG case build.  ERCOT will accept updates to the contingency list outside of this review process as requested by the TSPs.  This section covers the approved format for submitting contingency definitions, the review process, and the validation rules ERCOT will implement to verify submissions.
+
+ 
+ERCOT Contingency Database Columns
+
+Column Name	TSP Responsibility	ERCOT Responsibility	Default Value	Validation Rule
+Item					Must be a numeric value
+DatabaseID					Must be an alphanumeric with a 12 character maximum
+TOContingencyID					May not be null
+ContingencyAction				Open	Must be either open or close
+FromBusNumber_i				0	Must be a numeric value
+ToBusNumber_j				0	Must be a numeric value
+ToBusNumber_k				0	Must be a numeric value
+CircuitID					Must be an alphanumeric with a two character maximum, and must be null if the element identifier for the outage is a bus or switched_shunt
+ElementIdentifier					Must be either a bus, transformer, branch, fixed_bus_shunt, switched_shunt or gen
+Submitter					Must match current submitter name in database
+StartDate				1/1/2000	Must be a valid date
+StopDate				12/31/2099	Must be a valid date
+DateCreated					Must be a valid date
+UpdatedDate					Must be a valid date
+Multi-SectionLine				No	Must be either yes or no
+NERCCategory					Must be NERC Category, ‘.’, and the type of Event; example P4.3* 
+ERCOTCategory					Must be N/A, ERCOT_1, ERCOT_NonBES, ERCOT_CCT, ERCOT_98
+BES Level					Bulk Electric System (BES) level references include extra-high voltage (EHV) Facilities defined as greater than 300kV and high voltage (HV) Facilities defined as the 300kV and lower voltage Systems.
+TDSPComments					May be null
+ERCOTComment					May be null
+ContingencyName					Must be consistent within a contingency definition
+
+* In addition, the steady state contingencies as described by the NERC TPL-001-5.1 Table 1, consist of definitions which may have multiple category classifications.  In this case, each category must be separated by a ‘/’. 
+The procedure to update the contingency database is as follows: ERCOT will send out the current contingency list to SSWG members with invalid entries highlighted.
+1.	TSPs will submit a complete list of contingency definitions with the necessary changes and additions within an agreed upon timeline and format for ERCOT to import into the existing database.
+2.	Upon import, ERCOT will overwrite the previous list of definitions submitted by the TSP.
+3.	ERCOT will verify that the changes were imported into the database and provide the TSPs with a change log which will

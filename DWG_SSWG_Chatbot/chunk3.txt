@@ -1,0 +1,670 @@
+
+
+Dynamics Working Group 
+Procedure Manual
+
+
+
+
+Revision 23
+
+
+
+
+ROS Approved: May 1, 2025
+
+ 
+TABLE OF CONTENTS 
+
+
+Foreword	4
+1	Activities of the Dynamics Working Group (DWG)	5
+2	Administrative Procedures	5
+2.1	Membership	5
+2.2	Duties of Chair and Vice-Chair	6
+2.3	Meetings	6
+2.4	Reports to ROS	6
+2.5	Dynamic Data Sharing Rules	6
+3	Dynamic Data	7
+3.1	General	7
+3.1.1	Software	7
+3.1.2	Dynamic Models – General	7
+3.1.3	Standard Dynamic Models	8
+3.1.4	User-Written Dynamic Models	8
+3.1.5	Dynamic Model Quality Test Guideline	9
+3.1.6	Unit Model Validation	29
+3.1.7	Maintenance of Dynamic Models	31
+3.1.8	Dynamic Data for Existing Equipment	31
+3.1.9	Dynamic Data for Planned Equipment	31
+3.1.10	Unacceptable Dynamic Models	31
+3.2	Dynamic Data for Equipment Owned by Resource Entities (REs)	32
+3.2.1	Dynamic Data Requirements for New Equipment	32
+3.2.2	Updates to Existing Dynamic Data	34
+3.3	Data for Load Resource	34
+3.4	Dynamic Data for Equipment Owned by Transmission Service Providers (TSPs) or Other Equipment Owners	34
+3.4.1	Under Frequency Firm Load Shedding (UFLS) Relay Data	34
+3.4.2	Under Voltage Load Shedding (UVLS) Relay Data	35
+3.4.3	Protective Relay Data	36
+3.4.4	Load Model Data	36
+3.4.5	Other Types of Dynamic Data	37
+3.4.6	Missing or Problematic Dynamics Data	37
+3.4.7	Dynamic Data and Stability Book Storage	38
+3.5	Dynamic Models for Distributed Generation	38
+3.5.1 Distribution Generation Resource (DGR) and Distribution Energy Storage Resource (DESR)	38
+3.5.2 Settlement Only Distribution Generator (SODG)	38
+3.5.3 Unregistered Distributed Generation (UDG)	39
+4	Overview of DWG Activities	40
+4.1	Updating Dynamic Data and Flat Starts	40
+4.1.1	Schedule for Dynamic Data Updates and Flat Start Cases	40
+4.1.2	Dynamic Data Updates	41
+4.1.3	Dynamic Data Screening	41
+4.1.4	Flat Start Criteria	41
+4.2	Post Flat Start Activities	42
+4.2.1	Distribution of Flat Start Results and the Dynamic Data Base	42
+4.2.2	Stability Book	42
+4.2.3	DWG Coordination with the Steady State Working Group	42
+4.2.4	DWG Dynamic Contingency Assumptions List	43
+4.2.5	DWG Dynamic Contingency Database	43
+4.3	Other DWG Activities	44
+4.3.1	Event Simulation	44
+4.3.2	Procedure Manual Revision Guidelines	44
+4.4	Recommended DWG Study Methodologies	44
+4.4.1	Voltage Instability Identification in Stability Studies	44
+4.4.2	Cascading Identification in Stability Studies	45
+4.4.3	Uncontrolled Islanding Identification in Stability Studies	45
+4.4.4	Generator Protection Assumptions	46
+ 
+Foreword
+This Procedure Manual is intended for use by the stakeholder members of the Electric Reliability Council of Texas (ERCOT) for the purpose of creating and maintaining the dynamics database and dynamics simulation cases which are used to evaluate the dynamic performance of the ERCOT system.  
+
+
+
+ 
+Activities of the Dynamics Working Group (DWG)
+	The DWG builds dynamic data sets and dynamic study cases for the ERCOT system from data supplied by equipment owners. ERCOT coordinates the compilation and publication of dynamics data and dynamics study cases. The dynamics data are published in the form of dynamics study cases (flat start cases) as described within this document.
+	The DWG prepares the annual update of the Stability Book that documents dynamic data used in the flat start cases.
+	The DWG provides a forum for discussing dynamic modeling and system dynamic performance issues and questions.
+	The DWG performs other activities as directed by the Reliability and Operating Subcommittee (ROS).
+Administrative Procedures
+	Membership
+The DWG is a non-voting working group whose members include representatives from ERCOT, Transmission Service Providers (TSPs), Texas Reliability Entity (Texas RE), and Public Utility Commission of Texas (PUCT).
+Each NERC Transmission Planner within the ERCOT footprint and each ERCOT TSP with an assigned area in the Steady State Working Group (SSWG) and DWG base cases, shall have at least one designated DWG member.  The designated DWG member(s) shall be an employee(s) of an ERCOT Registered TSP. A Designated Agent that is not a DWG member may represent a DWG member.  Designated Agents are permitted on the DWG email exploder list at the discretion of the sponsoring DWG member under the stipulation that a Non-Disclosure Agreement (NDA) is in place with the sponsoring DWG member and proper notification has been provided to ERCOT. It is the responsibility of the sponsoring DWG member to inform ERCOT of Designated Agents acting on their behalf. It is also the responsibility of the sponsoring DWG member to inform ERCOT of Designated Agents that no longer represent them and to have them removed from the email exploder list. The DWG will review the participating Designated Agents annually.
+DWG members and any Designated Agents shall be identified in the DWG roster, and the roster will be updated as needed by the DWG.  The DWG shall notify ROS (in the monthly report) of any TSPs that are required to have a designated DWG member but do not have a DWG representative identified on the DWG roster.
+
+The DWG will nominate a chair and vice-chair to be approved by the ROS annually.
+
+	Duties of Chair and Vice-Chair
+The chair will coordinate the activities of the DWG and represent the DWG at the ROS meetings and other working group meetings as required.
+The vice chair will support the chair and fulfill the duties of the chair in the absence of the chair.  
+	Meetings
+The DWG will meet at least quarterly. DWG meetings are closed meetings. DWG members and Designated Agents of DWG members may attend. If a Designated Agent is not on the DWG roster, the sponsoring DWG member shall inform ERCOT and the DWG chair and vice chair of the name of the Designated Agent attending one week prior to the meeting. 
+The chair may coordinate additional meetings, including open meetings, as needed to facilitate the activities of the DWG. Non-DWG members may participate in DWG meetings including open portion of the meeting for specific purposes (e.g. a technical presentation or discussion).  Any such participation should be approved by the chair, limited to the specific purpose, announced in the meeting agenda, and recorded in the meeting minutes.  The vice chair will track attendance and document meeting minutes for in-person meetings.  
+Agendas and meeting schedules should be published at least two weeks prior to the meeting. The minutes of each meeting will be distributed to DWG members.
+	Reports to ROS
+Each month, the DWG chair will provide a written report to the ROS if needed.
+	Dynamic Data Sharing Rules
+Dynamic data and dynamic study cases are considered confidential and protected information pursuant to Nodal Protocol Section 1.3, Confidentiality.  They shall be provided to the DWG members only.
+
+
+ 
+Dynamic Data
+
+	General
+Dynamic data is the network data, mathematical models, and supporting information required for simulation of dynamic and transient events in the ERCOT System.     
+	Software
+The current planning model software is PSS/E version 35 and PSCAD version 4.5 or higher.  During years where a PSS/E version change is being conducted, the previous PSS/E version user defined models shall also be provided until a full transition is completed.  The current operations model software is Powertech DSATools™ Transient Security Assessment Tool (TSAT) version 22.
+	Dynamic Models – General
+Dynamic models compatible with the software(s) and version(s) listed in Section 3.1.1 shall be submitted to both ERCOT and the interconnecting TSP.  In addition to the requirements described in the Planning Guide Section 6.2, Dynamics Model Development, providers of dynamic models shall also adhere to the following requirements:
+	Each dynamic device requires a model with model parameters that accurately represent the dynamics of the device over the entire range of operating conditions.
+	Static switchable devices part of Inverter-Based Resource (IBR ) facilities (such as on-load tap changing transformers (OLTC) and switchable reactive shunts) should include an initialization script or logic to correctly initialize for the POI initial conditions of the power flow case the model is integrated in (for example, a Python file for PSS/e and initialization logic for PSCAD), and should include switching control logic if the device is expected to switch within 45 seconds of a disturbance .
+	PSCAD models shall be submitted to ERCOT for all IBRs, Wind-powered Generation Resources (WGRs), and inverter-based transmission elements (IBTEs)  installed on or after January 2015; for equipment installed before 2015 PSCAD models shall be submitted to ERCOT upon request.  For purposes of this manual, IBTEs includes STATCOMs, static VAR compensators (SVCs), and other transmission devices with power electronic grid interfaces.
+	Where multiple models are provided (e.g. PSS/E, TSAT, PSCAD), the model response shall be consistent across software platforms to the extent of platform capability.
+	Dynamic models shall utilize proper memory management within the software.  Data must only be written to allocated memory locations so that other models within the system are not affected.
+	All associated per unit dynamic model parameters for a given generating unit shall be provided using a base MVA (MBASE) in accordance with appropriate modeling techniques for the software platform, where the MBASE is typically the generator MVA rating.
+	No model shall restrict the DWG from using any integration time-step less than or equal to a ¼ cycle in simulations when using positive sequence simulation tools.
+	No model in the DWG’s Unacceptable Model List shall be used. Refer to Section 3.1.10.
+	Standard Dynamic Models
+The use of standard dynamic models provided by the software is preferred when they can accurately represent the dynamic performance of the device being modeled. 
+	User-Written Dynamic Models
+A user written model is any model that is not a standard library model within the software(s) and version(s) listed in Section 3.1.1.  When no compatible standard dynamic model(s) provided within the software can be used to represent the dynamics of a device, accurate and appropriate user written models can be used, if accepted by ERCOT and the DWG after being tested for compatibility with the flat start cases.  A model guideline checksheet is provided by ERCOT for PSS/E, TSAT and PSCAD models to help determine compatibility ; this checksheet shall be completed and submitted along with the model.  
+PSS/E User-written models for the dynamic equipment and associated data must be in dynamic linked library (DLL) format and must include a model manual.  The model manual must show control block diagrams, design logic, descriptions of all model parameters, a list of which parameters are commonly tuned for site-specific settings, and a description of procedures for using the model in dynamic simulations.
+TSAT User-written models for the dynamic equipment and associated data must be in TSAT User Defined Model (UDM) format and associated dynamic linked library (DLL) and template user-defined model (TUDM) if required. The TSAT UDM or DLL shall be able to directly read and support the PSS/E format data (.dyr file).  TSAT UDM models shall be provided with two cases:  one set up using bus numbers (the same numbers as a sample PSS/e case) and the other set up using equipment names.  The equipment name case should include a space character in the name to demonstrate that the model is compatible with space characters (an ERCOT systems requirement).
+All PSCAD models are considered to be user-written models.
+	Dynamic Model Quality Test Guideline
+Submitted dynamic planning and operations models must be accompanied with results from model quality tests (MQT) performed by the facility owner as required in paragraph (5)(c) of Planning Guide Section 6.2.  These results shall include the case simulation files as well as the simulation plots of relevant quantities for each test.  When submitting PSS/E and PSCAD MQT files, include the leading and lagging power factor cases for the voltage ride-through tests.  Guidelines on how these tests should be performed and the expected model performance are provided in the following sub-sections. All tests are required for PSS/E, TSAT, and PSCAD models with the exception of the Phase Angle Jump Test in Section 3.1.5.9, which is only required for PSCAD models.  A sample report is posted under ‘Model Quality Guide’ on the ERCOT Resource Entity webpage . Plots of PSS/E, TSAT, and PSCAD test results should be overlaid onto the same plot axis for comparison.  However, TSAT model testing is not required for models utilizing a TSAT standard library model.
+
+
+
+
+
+
+
+
+List of Applicable Tests
+Applicable Technologies	Models	Tests and Sections	Notes
+Synchronous Machines 
+(incl. transmission-level synchronous condensers)	PSS/e 
+(and TSAT, and PSCAD if utilizing a UDM in PSS/e model)		Flat-start, 3.1.5.2
+	Small volt. disturbance, 3.1.5.3
+	Large volt. disturbance, 3.1.5.6
+	Small frequency disturbance, 3.1.5.7	
+IBRs, WGRs, and IBTEs 
+(all non AGS-ESR)
+
+(Entities that own a generator Facility with a synchronous condenser would also run these tests.)	PSS/e and PSCAD 
+(and TSAT if utilizing a UDM PSS/e model)		Flat-start, 3.1.5.2
+	Small volt. disturbance, 3.1.5.3
+	Small frequency disturbance, 3.1.5.7
+	Large voltage dist.:
+	LVRT Test†, 3.1.5.4
+	HVRT Test‡, 3.1.5.5
+	System Strength, 3.1.5.8
+	Phase Angle Jump, 3.1.5.9	Phase Angle Jump is only required in PSCAD (not in PSS/e and TSAT)
+AGS-ESR
+(Energy storage with Advanced Grid Support)	PSS/e and PSCAD 
+(and TSAT if utilizing a UDM PSS/e model)		Flat-start, 3.1.5.2
+	AGS Small volt. disturbance, 3.1.5.11
+	AGS Frequency change and inertia response , 3.1.5.12
+	Large voltage dist.:
+	LVRT Test†, 3.1.5.4
+	HVRT Test‡, 3.1.5.5
+	AGS System Strength,3.1.5.13
+	AGS Phase Angle Jump, 3.1.5.14
+	AGS Loss of synchronous machine, 3.1.5.15	All tests, except Phase Angle Jump, are required in both PSS/e and PSCAD (and TSAT, if UDM).
+† Low Voltage Ride Through (LVRT): Includes both the Legacy LVRT and the Voltage Dip test fashioned after LVRT curve as defined in Nodal Operating Guide 2.9.1.1.
+‡ High Voltage Ride Through (HVRT): Includes the preferred HVRT curve and, if necessary, the Legacy HVRT curve. See Section 3.1.5.5 for more details. 
+
+3.1.5.1 Simulation Set Up
+
+To examine the dynamic performance of a Generation Facility or dynamic transmission element, all site-specific dynamic models needed to represent the facility shall be included in the test.  Unless otherwise specified, the following model guidelines apply:
+	The facility model is connected to a controllable infinite bus whose voltage and frequency can be adjusted for testing.  No explicit ERCOT transmission system models are required for this testing.  The tests shall be performed with the current planning model software.
+	For generation resources, the generator is dispatched at full real power output and the Point of Interconnection (POI) bus voltage is initialized to nominal 1.0 per-unit unless the test requires otherwise. Facilities that include energy storage systems should also be tested at full real power withdrawal. The initial reactive power exchange at the POI should be near zero unless the test requires otherwise.  
+	Behind the POI, the generator(s) and step-up transformer(s) shall be represented along with any additional planned or installed static and dynamic reactive equipment.  
+	Station transformer taps and static switched shunts should be initialized to a nominal position appropriate for the initial POI voltage and real power dispatch.
+	Any switching controls that are expected to provide a response within 20 seconds (e.g. automatic switched shunts or on-load transformer tap changers) should be reflected in the dynamic model for the resource. 
+	Aggregate Generation Resources, such as wind and solar, should be represented by a single equivalent aggregate model per registered Resource (i.e. allowed aggregation) and include a representation for the collector impedance and pad-mount transformer.  All dynamic control systems should be modeled (generator, exciter, governor, power system stabilizer, automatic voltage regulator, power plant controller, voltage and frequency protection, etc. as applicable).
+	PSCAD models are not required to be aggregated to match resource registration.  However, PSS/E and TSAT models must match registration.
+	Simulations should be run for a minimum of 20 seconds and show that the facility response has stabilized. 
+Example test cases for an Inverter-Based Resource (IBR) with a STATCOM and a synchronous generator test case are shown below.
+ 
+
+ 
+3.1.5.2 Flat Start Test
+Perform a no-disturbance test of the prepared simulation case as described in Section 3.1.5.1 above for a minimum of 20 seconds.  Flat responses of voltage, MW, MVAR, and frequency, as shown in the figure below, are expected to remain very close to the initial system condition. 
+ 
+3.1.5.3 Small Voltage Disturbance Test
+Apply a 3% step increase, and in a separate simulation, a 3% step decrease of voltage at the POI.  The plant Automatic Voltage Regulator (AVR) and the associated droop and dead-band settings (if applicable) should transition the plant to/near maximum leading power factor , or in the latter case, to/near maximum lagging power factor in an attempt to regulate the original voltage set point.  Any oscillations should be well damped.  Real power output should be sustained throughout the small voltage disturbance tests.  The figures below include examples of acceptable and unacceptable responses.  
+ 
+
+ 
+ 
+ 
+
+3.1.5.4 Large Voltage Disturbance Test: (Low Voltage Ride-Through (LVRT) for IBRs, WGRs, and IBTEs)
+All IBRs, WGRs, and IBTEs should test two profiles, both a “legacy” profile and a “voltage dip” profile as described below.  Testing both profiles helps provide important model performance information.
+	The “legacy” Low Voltage Ride Through curve per Nodal Operating Guide (NOG) 2.9.1.2.
+	The “voltage dip” test includes evaluation of NOG 2.9.1.1.  The test shall be run as a series of separate piece-wise disturbances with the voltage returning to 1.0 per-unit (pu) voltage after each disturbance (see below examples).  The spacing between each disturbance may be greater than 10 seconds to allow for recovery as necessary.  
+Each voltage disturbance profile starts at 1.0 pu voltage.  The “legacy” curve ends at 0.90 pu voltage.  In the case of Resources, tests shall be performed for two initial conditions: with the facility operating at a 0.95 lagging power factor (at the POI) and with the facility operating at 0.95 leading power factor (at the POI) . The model shall exhibit appropriate dynamic reactive response, active current injection, AVR response, and the model shall not exhibit momentary cessation.
+Additionally, the maximized LVRT capability as required in NOG 2.9.1.1(8) or NOG 2.9.1.2(8) shall be documented in a format similar to the tables in NOG 2.9.1.1(1) or NOG 2.9.1.2(1).
+
+When testing the “legacy” profile, the following performance criteria apply:
+	For the low voltage transient, the model should inject reactive current throughout the voltage recovery period.  At the POI, both P and Q are necessarily zero during zero voltage. Q injection at the POI should be observable immediately or very shortly after voltage begins ramp up from zero.
+	For 0.9 pu sustained POI voltage, the AVR should provide voltage support that moves the resource towards nearly full reactive production (significantly lagging).
+	Real power recovery should start prior to the POI voltage recovering to 0.9 pu.
+	Real power should recover to full output within 1.0 seconds of POI voltage recovery to 0.9 pu.  A modest real power reduction  (typically 5% of Pmax or less) may be acceptable to accommodate greater terminal reactive power injection for sustained POI voltages in the range of 0.90 pu to 0.95 pu provided real power fully recovers when POI voltage returns to normal operating range (0.95-1.05 pu). An explanation, including a reference to any exempt status per ERCOT Nodal Operating Guide Section 2.9.1, , shall be provided for models which indicate that the unit trips or fails to meet any of the above performance criteria.
+
+
+
+
+When testing the “voltage dip” profile, the following criteria applies:
+	Resources not subject to the “preferred” Voltage Ride Through requirements of NOG 2.9.1.1 are only required to ride through the first dip of the below voltage dip profiles.  This first dip is within the “legacy” LVRT requirements of NOG 2.9.1.2.
+	During the voltage dips:
+	The model shall inject active current for POI voltage dips of 0.5 and higher. 
+	Injections of significantly reduced active current for voltage dips 0.5 pu and 0.7 pu should be accompanied by increased reactive current.
+	Reactive current injection at the POI shall be observable immediately or very shortly after a non-zero voltage dip is applied.
+	After the voltage dips:
+	Real power should recover to full output within 1.0 seconds of POI voltage recovery to 1.0 pu.
+	An explanation, including a reference to any exempt status per ERCOT Nodal Operating Guide Section 2.9.1, shall be provided for models which indicate that the unit trips or fails to meet any of the above performance criteria.
+
+Following are three figures:  The first illustrates the "Legacy” LVRT to be applied at the POI; the second illustrates the “voltage dip” LVRT voltage profile to be applied at the POI for photovoltaic generation resources (PVGRs) and energy storage resources (ESRs), and inverter-based transmission equipment, and the third illustrates the “voltage dip” LVRT voltage profile to be applied at the POI for wind generation resources (WGRs).
+
+ 
+
+The figures below include the examples of acceptable and unacceptable responses:
+ 
+ 
+ 
+
+
+ 
+
+3.1.5.5 Large Voltage Disturbance Test (High Voltage Ride-Through for IBRs, WGRs, and IBTEs) 
+First, apply the “preferred” HVRT curve to the POI per NOG 2.9.1.  If the facility cannot meet the “preferred” ride through requirements, then additionally test the “legacy” HVRT curve and report both results. The “preferred” curve has more stringent requirements, so it is not necessary to test the “legacy” curve for devices passing the “preferred” curve, and such testing would generally not provide additional revelations regarding model behavior.  
+Additionally, the maximized HVRT capability as required in NOG 2.9.1.1(8) or NOG 2.9.1.2(8) shall be documented in a format similar to the tables of NOG 2.9.1.1(1) and NOG 2.9.1.2(1).
+
+The HVRT profiles start at 1.0 pu voltage and end at 1.1 pu.  The tests should be performed for two initial conditions: with the facility operating at 0.95 lagging power factor (at the POI) and with the facility operating at 0.95 leading power factor (at the POI). The model shall exhibit appropriate dynamic reactive response, active current injection, AVR response, and the model shall not exhibit momentary cessation.
+The following criteria apply to both the “preferred” and “legacy” HVRT tests:
+	During the high voltage transient, the model should provide a fast dynamic response to absorb reactive power.  The resource should be absorbing a significant amount of reactive power at the POI during the high voltage transient, and ideally within 0.5 seconds of the transient inception.
+	For 1.1 pu sustained POI voltage, the AVR should move the resource towards nearly full reactive absorbing (significantly leading).
+	Real power should be sustained during high voltage condition.  A modest real power reduction (typically 5% of Pmax or less) may be acceptable to accommodate  greater reactive power absorbed for sustained POI voltages in the range of 1.05 pu to 1.10 pu provided real power fully recovers when POI voltage returns to normal operating range (0.95-1.05 pu).
+	An explanation, including a reference to any exempt status per ERCOT Nodal Operating Guide Section 2.9.1, shall be provided for models which indicate that the unit trips or fails to meet any of the above performance criteria.
+The following two figures illustrate the “preferred” and the “legacy” HVRT voltage profiles applied at the POI.
+
+ 
+
+The figures below include examples of acceptable and unacceptable responses.
+ 
+ 
+
+ 
+
+3.1.5.6 Large Voltage Disturbance Test (for synchronous machines-based facilities including synchronous generators and synchronous condensers)
+Apply a three-phase fault at the POI for 4 cycles (i.e. apply a step change to zero voltage at the POI for 4 cycles and then a step change back to nominal voltage).  The facility should inject reactive current during the fault.  Following the fault the facility should return to a stable operating point with full real power output.  Any oscillations should be well damped.
+
+3.1.5.7 Small Frequency Disturbance Test (all facilities)
+Apply a 0.3 Hz step increase, and in a separate simulation, a 0.3 Hz step decrease of system frequency from nominal frequency (60Hz).  The governor or frequency controller should lower or raise the real power dispatch according to the droop and deadband characteristic.  A frequency response is required for all Generation Resources and Energy Storage Resources (ESRs) assuming there is sufficient headroom to respond to frequency changes.  The real power should initially be dispatched at 80% of maximum for this test. Tests for ESRs should also be run for a condition at 80% of maximum charging capability.  Since Intermittent Renewable Resources (IRRs) typically operate in a power availability state (no headroom) state even when operating below nameplate capability, two frequency drop simulations shall be performed for IRRs:  One where the resource is modeled in a curtailed (with headroom) state at 80% dispatch, and another simulation where the resource is modeled in a power availability state (no headroom) at 80% dispatch.  A description of how to set up the IRR model for each case (headroom vs. no headroom) should be included.  Non-exempt IRR resource models operating with headroom should provide a real power increase in response to a frequency drop.  An explanation, including a reference to any exempt status per ERCOT Nodal Protocol 8.5.1 shall be provided for models that fail to exhibit sufficient frequency response.  In general, the submitted IRR model should reflect a power availability state (no headroom state) as that would be the normal operating assumption even when dispatched at less than Pmax.
+The figures below include the examples of acceptable and unacceptable responses. 
+
+ 
+
+
+ 
+
+
+ 
+3.1.5.8 System Strength Test (for Inverter-Based Resources, and Inverter-Based Transmission Elements)
+This test considers the model performance under varying short circuit ratios (SCR).  The SCR of the electric grid can vary over time due to line contingencies, nearby generator status, etc., so it is important for a model to behave well under a range of SCR conditions.
+The model shall be tested under at least four different short circuit ratios listed in the table below.  If there are concerns about model accuracy under certain lower short circuit ratios, a written explanation of the reason should be provided.
+
+Test	SCR
+1	5
+2	3
+3	1.5
+4	1.2
+
+Method for Testing SCR:
+A test case is set up where the plant model POI is connected to a controllable infinite bus by a branch whose impedance can be programmatically changed during the simulation.  Initially, the branch impedance is set to Xpu where Xpu represents the per-unit reactance necessary to achieve the desired short circuit ratio.  After applying a 4 cycle bolted three phase fault to the POI, the branch impedance is changed to reflect a post-disturbance system with higher impedance.    A series of short circuit ratios can be tested in the same simulation by progressively increasing the value of Xpu, so long as sufficient run time is provided between changes for the model to reach steady state.
+
+
+ 
+Calculation of Xpu, the Per-Unit Line Impedance:
+The short circuit ratio is defined as the measured short circuit MVA (MVAfault) contribution from the system divided into the total generator MW capacity.  The measured short circuit MVA is defined as the short circuit current contribution from the system multiplied by the nominal system voltage.  Refer to the formula below, assuming a system base MVA of 100.
+
+SCR=〖MVA〗_Fault/〖MW〗_Capacity 
+
+SCR=(100⁄X_pu )/〖MW〗_Capacity 
+
+Rearranging,
+X_pu=100/(〖MW〗_Capacity*SCR)
+
+Where
+〖MW〗_Capacity= Total MW capacity of generator(s) under study
+SCR	= Desired short circuit ratio to test
+Xpu 	= Per unit line reactance, on a 100 MVA system base
+
+Example:
+	A wind farm consisting of one-hundred 2.0 MW wind turbines is to be tested under short circuit ratios of 5, 3, 1.5, and 1.2.  Thus, for the windfarm,
+	〖MW〗_Capacity= 200 MW	
+
+	Using the equation above, the line impedance (Xpu) is calculated for each of the test short circuit ratios.
+	When testing SCR = 5, the line reactance is Xpu = 0.1
+	When testing SCR = 3, the line reactance is Xpu = 0.17
+	When testing SCR = 1.5, the line reactance is Xpu = 0.33
+	When testing SCR = 1.2, the line reactance is Xpu = 0.42
+
+For each increase in line reactance, the plant reactive power controller should adjust to restore voltage schedule and compensate for the increase in reactive losses. After applying the fault disturbance, the Xpu is modified to a value corresponding to the next lower SCR level to be tested.  Models shall provide acceptable responses for an SCR of 3 and higher.  If the responses are not acceptable for an SCR of 1.5, then a technical reason for the limitation should be provided, and a model enhancement should be considered.
+The figures below include examples of acceptable and unacceptable responses. 
+
+ 
+ 
+
+ 
+3.1.5.9 Phase Angle Jump Test (for Inverter-Based Resources)
+This test considers the model performance under a sudden increase or decrease in voltage phase angle as can sometimes occur on the electrical grid under disturbances.  The test consists of exposing the model to an instantaneous voltage phase angle increase, and separately, an instantaneous voltage phase angle decrease, to determine the maximum phase angle jump the model can withstand and still remain online and recover to normal operation.  For example, the test can be conducted starting with a 180 degree jump, and if the model cannot ride through, decreasing by 30 degrees each time until the model is able to ride through.  This test is only required for PSCAD models of inverter-based resources.
+
+3.1.5.10 Model Test Setup and Description for AGS-ESR
+The following sections 3.1.5.11 – 3.1.5.15 outline test procedures and associated criteria to examine and verify functionality for AGS-ESR. The flat start (defined in section 3.1.5.1) and large voltage disturbance tests (defined in Sections 3.1.5.4 and 3.1.5.5) are applicable to AGS-ESR, while Sections 3.1.5.11-3.1.5.15 contains modified and new tests specific to AGS-ESR: small voltage disturbance, frequency change and inertia response, system strength, and phase angle jump tests, as well as loss of synchronous machine test. 
+
+Any quantities showing oscillations resulting from a test should demonstrate a controlled, damped response. Required plots for all tests include the relevant test profile, POI voltage, and the active/reactive power of the plant with appropriate axis resolution to demonstrate all performance criteria.
+
+3.1.5.11 AGS-ESR Small Voltage Disturbance Test
+In this test, a step change is applied to the voltage magnitude of the controlled source so that the reactive power response time and magnitude can be measured. The purpose of this test is to demonstrate the capability of resisting changes in voltage magnitude. The test system should be set up to have zero impedance (Zth) between the ideal voltage source and the POI. The initial dispatch of the ESR should be set to its maximum discharging for active power, with approximately zero reactive power.  The figure below illustrates the voltage magnitude profile applied to an ideal source at the POI.
+ 
+The following performance criteria apply:
+	The instantaneous reactive power output of the plant should quickly respond to oppose the voltage step change for each of the step changes, with an initial peak reactive power change of at least 0.03 pu on the rated power base (e.g., A 100 MVA rated plant with 0 MVAR initial output should instantaneously increase reactive power output from 0 MVAr to at least 3 MVAr when source voltage magnitude is decreased by 3%.). 
+
+	The reactive power should not return to the pre-disturbance level within 6 cycles. 
+
+	The response time to 90% of the initial change in instantaneous reactive power should occur within 1 cycle. 
+
+	After each step change resulting in POI voltage above or below the nominal value, the reactive power should start to transition toward the maximum reactive capability of the plant in an attempt to regulate the original voltage set point.
+
+ 
+
+3.1.5.12 AGS-ESR Frequency Change and Inertia Response Test
+This test is to evaluate the active power response of the ESR and to estimate its inertia response to frequency change. The test system should be set up with a SCR of 3 at the connection point and with a X/R ratio of 6. The initial dispatch of ESR should be set to zero for active power with approximately zero reactive power
+The figure below illustrates the frequency profile applied to the source at the POI, with initial ramps of 1 Hz/s followed by 0.3 Hz steps which is the same test for the existing IBRs.
+ 
+The following performance criteria apply:
+	Plant real and reactive power output should be well controlled. The frequency and voltage should not oscillate excessively or deviate from steady-state levels for any significant amount of time. 
+
+	Voltage should settle to a stable operating point when the frequency is not ramping 
+
+	The equivalent inertia constant, as calculated below, should be greater than 2.5 s. 
+
+	H ≈ 60 * ∆E [s], where: ∆E is the area under the per unit active power production of the ESR from 0 to 0.5 s, when the RoCoF is 1 Hz/s. 
+
+	Active power should settle according to its frequency droop and deadband settings when the frequency has settled. 
+
+ 
+
+3.1.5.13 AGS-ESR System Strength Test
+This test is similar to the existing system strength test for all IBRs, but AGS-ESR shall demonstrate a stable response for all tested SCR values from 10 down to 1.2. The test system should be set up with a SCR of 10 at the connection point with a X/R ratio of 6. The initial dispatch of ESR should be set to the max discharging for active power with approximately zero reactive power.
+
+The model shall be tested under the short circuit ratios listed in the table below.  As in the case of non-AGS-ESR, a 3-phase, bolted, 4-cycle fault is applied just before each SCR transition. The SCR transition occurs at fault clearing time.
+Test	SCR
+1	10
+2	5
+3	3
+4	1.5
+5	1.2
+
+
+
+
+The following performance criteria apply:
+	Plant real and reactive power output and RMS voltage should be well controlled
+
+	The plant shall not trip nor reduce power (outside of the fault period) for any extended period of time for all tested SCR range from 10 to 1.2.
+
+ 
+
+3.1.5.14 AGS-ESR Phase Angle Jump Test
+This test examines the capability to maintain the voltage phasor and ability to resist an angle change. In addition, it ensures stable behavior under different angle step changes when an ESR is working close to its maximum current limit. For large angle changes forcing the controls beyond their maximum current limits, the ESR should be stable and should not degrade the performance of the power grid. The test system should have a SCR of 3 at the connection point with a X/R ratio of 6. Initial dispatch of ESR should be set to the max discharging for active power with approximately zero reactive power. This phase angle jump test must be conducted using PSCAD.
+
+The figure below illustrates the voltage angle profile applied at the 3-phase ideal voltage source.
+ 
+
+The following performance criteria apply:
+	The instantaneous active power output of the plant should quickly respond to oppose the angle change with the peak active power change being at least 0.2 pu (based on the rated active power) for each 10-degree voltage phase angle change, in the opposing direction. (e.g., A 100 MW rated plant should temporarily decrease active power output from 100 MW to 80 MW, or below, when source voltage angle is increasing 10 degrees; and it should temporarily increase active power from 100 to at least 120 MW, if the current limit allows, when voltage source angle is decreased by 10 degrees.). 
+
+	For the 25-degree voltage phase angle change, the instantaneous active power output of the plant should quickly respond to oppose the angle change with the peak active power change being at least 0.5 pu (based on the rated active power) in the opposing direction. If the criterion is not met for the 25-degree angle change, the rationale should be documented. 
+
+	The active power should not return to the pre-disturbance level for at least 3 cycles. 
+
+	The response time to 90% of the initial change in instantaneous active power should occur within one cycle. 
+
+	If the current limit in the inverter is reached when the angle jump is applied, the performance criteria described above may not apply. However, the active power must return to the pre-disturbance level in a stable manner. 
+
+
+
+ 
+
+3.1.5.15 AGS-ESR Loss of Synchronous Machine Test
+The purpose of this test is to confirm the ability of an AGS-ESR to form voltage and work in parallel with a nearby AGS-ESR. It is not intended to examine the black start capability of AGS-ESR nor to require ESRs operate continuously on a grid without synchronous resources. 
+This test utilizes a duplicate of the AGS-ESR under test to represent the neighboring plant. The synchronous source can be represented by a voltage source or any source with sufficiently high inertia and low impedance compared to the AGS-ESR under study.
+Using the testbench shown in the figure below, with a constant impedance load (L) and a power factor of 0.95 lag, along with the project plant initial dispatch (P1), the duplicated plant initial dispatch (P2), and the load value, the following three scenarios must be tested:
+	Scenario 1: 
+P1 = 0.3 pu discharging, P2 = 0.1 pu discharging, and L = 1.3 pu
+	Scenario 2: 
+P1 = 0.6 pu charging, P2 = 0.4 pu charging, and L = 0.7 pu
+	Scenario 3: 
+P1 = 0, P2 = 1 pu discharging, and L = 1.65 pu
+Note: The dispatch and load values are provided based on the project plant rating.
+
+Simulate the system until a stable response is reached for the given scenario, ensuring that no oscillations occur, then disconnect the voltage source (without fault) and continue the simulation for at least 10 seconds. Plots of the active and reactive power of the ESR, duplicate ESR, load, and voltage source as well as POI frequency should be provided.
+
+ 
+
+The following performance criteria apply:
+	Immediately following the disconnection of voltage source, both AGS-ESRs output should be well controlled and exhibit stable response.  
+
+	System frequency and voltage should settle to a stable operating point (within 5 seconds) and be completely damped within 10 seconds.
+
+	Active and reactive power from each plant should move immediately to meet the load requirement, while response time to 90% of initial change should occur within one cycle.
+
+	Active and reactive power from each plant should settle according to its droop setting.
+
+ 
+3.1.6 Unit Model Validation
+PSCAD models must be accompanied with results from the unit model validation tests performed by the Interconnecting Entity or Resource Entity as required in paragraph (5)(d) of Planning Guide Section 6.2.  These validations shall demonstrate the accuracy of the PSCAD models against actual inverter testing and should be performed for all inverter-based device types within the facility.  The test report should clarify if the inverter is capable of meeting AGS-ESR requirements and that these control settings are enabled. The tests are inverter specific but need not be site-specific.  The report should include a description of the test set up as well as the simulation plots of relevant quantities for each test.   Guidelines on how these tests should be performed and the expected model performance are provided in the following sub-sections.
+
+
+3.1.6.1 PSCAD Model Setup
+
+Because the purpose of validation is to test the PSCAD inverter model, it is not necessary to model any balance-of-plant equipment, transformers, collector system, power plant controllers, etc., however any auxiliary inverter-based equipment should also be tested (for example, STATCOMs). In simulation software, the PSCAD model(s) should be connected to a controllable voltage source whose voltage and frequency can be adjusted for testing. The inverter should be dispatched at full real power unless the test requires otherwise.  Energy storage devices should be tested under both charging and discharging modes.  Simulations should be run for a minimum of 10 seconds.
+
+3.1.6.2 Inverter Hardware Testbench Setup
+
+The testbench should utilize actual inverter hardware programmed with typical default settings.  Thus the test should be representative for all inverter devices under the same hardware and control implementation.
+ 
+
+3.1.6.3 Testing
+
+The tests are designed to measure the inverter and model response to small and large magnitude disturbances of frequency and voltage as well as the subsynchronous response to gauge model accuracy.  Many of the tests closely parallel those used in the Model Quality Guideline Section 3.1.5.  Alternative testing methods may be permissible if the objective is fulfilled.  The following tests should be performed on both the PSCAD model and the actual inverter hardware:
+
+	Step change in voltage, as specified in Section 3.1.5.3
+	Voltage Ride Through, as specified in Section 3.1.5.4 and 3.1.5.5.
+	System Strength Test similar to Section 3.1.5.9.  
+	Voltage Angle Step Test as in Section 3.1.5.10.
+	Subsynchronous Test:  Perform a frequency scan sweep to measure the subsynchronous impedance as seen looking into the inverter over the range 5 to 55 Hz in 1 Hz increments.  This test is generally conducted by adding a small voltage perturbation of variable frequency superimposed on the fundamental (60 Hz) voltage, and measuring the complex impedance as seen looking into the inverter.  The results should be provided both as a plot and as a table and should display Resistance and Reactance plotted over 5 to 55 Hz.  Values should be in per-unit on the inverter MVA base.  This test should be conducted under the following conditions:  Strong system (short circuit ratio = 10), unity power factor, Weak System Lagging (short circuit ratio = 1.5, 0.95 lagging power factor), and Weak System Leading (short circuit ratio = 1.5, 0.95 leading power factor).  
+
+
+	Maintenance of Dynamic Models
+Maintenance of the models is the responsibility of the device owner. Models shall be maintained in accordance with Section 3.2.  Any user-written dynamic models shall also be maintained to fulfill the requirements as described in the Planning Guide Section 6.2 and Section 3.1.4 in this manual.
+	Dynamic Data for Existing Equipment
+“As-built” data is required for all completed facilities in accordance with Section 3.2.  To help ensure that dynamic model data is kept up to date with site-specific settings, paragraph (5)(b) of Planning Guide Section 6.2 introduces a “plant verification” requirement.  The plant verification reports should confirm that the model correctly reflects site-specific settings by presenting evidence such as delivery and testing reports, screenshots or pictures of actual hardware settings, attestations from the equipment manufacturer, etc.
+	Dynamic Data for Planned Equipment
+The development of future year case data may require an entity to submit the best available information for the planned equipment prior to development of a detailed design. In such cases, estimated or typical manufacturer’s dynamic data, based on units of similar design and characteristics, may be submitted. However, the Resource Entity shall update the model information upon completion of the detailed design and again upon commissioning the equipment. Dynamic data for planned equipment shall be submitted in accordance with Planning Guide Section 6.2 and Section 3.2 in this manual. 
+	Unacceptable Dynamic Models 
+The DWG adopted a list of unacceptable dynamic models developed by the NERC System Analysis and Modeling Subcommittee (SAMS) with exception of those models for which DWG has a technical justification not to adopt.  
+	Unacceptable models that already exist in the ERCOT dynamic dataset shall be phased out through dynamic model updates including updates received via the NERC MOD-026-1 and MOD-027-1 processes.
+	If a generation interconnection or dynamic model update has begun prior to a model being identified as unacceptable by NERC, the model may be allowed. 
+	The list of acceptable/unacceptable dynamic models are published on the NERC website. 
+
+	Dynamic Data for Equipment Owned by Resource Entities (REs)
+	Dynamic Data Requirements for New Equipment
+Note: This section addresses the requirements stated in R1 of NERC Standard MOD-032-1 (effective July 1, 2015).
+REs are responsible for providing models with model parameters resulting in a tuned model that represents the dynamic performance of the device. Final responsibility for the submission and the accuracy of the dynamic data lies on the RE. ERCOT and the DWG will provide voluntary assistance if requested by REs to complete parameter tuning and prepare model records. The DWG member representing the TSP to which the RE is connected is responsible for working with ERCOT to incorporate the dynamic data received from the RE into the DWG Flat Start cases (.dyr file) during annual updates.
+The RE shall fulfill its interconnection data requirement by including acceptable dynamic data and models for their facilities.  The RE may have additional model and data reporting obligations to ensure compliance with NERC reliability standards and/or other requirements.
+The following two subsections describe data requirements for two distinct categories of generation facilities:
+	Synchronous Generation Facilities:
+	The model data shall include, at minimum, a generator model, a governor model, an exciter model, and if applicable, a power system stabilizer model and an excitation limiter model.
+	Explicit frequency protection relay models shall be provided for all generators where relays are set to trip the generating unit within the “no trip zone” of NERC Standard PRC-024 Attachment 1. 
+	Explicit voltage protection relay models shall be provided for all generators where relays are set to trip the generating unit within the “no trip zone” of NERC Standard PRC-024 Attachment 2.
+	 A governor model is not required for the steam turbine(s) of combined cycle plants.
+	IBRs, and WGRs:
+The RE shall provide the following data as applicable to the generator technology:
+	Model, data and description of voltage control method.
+	Model, data and description of how they will meet ERCOT reactive requirements.
+	A one-line diagram of the proposed facility.
+	Data for all transformers. The data should include:
+	MVA rating.
+	High and low-side rated voltage.
+	Number of taps, and step size.
+	Impedance, including base values if different from rated values listed above. 
+	Dynamic modeling data including:
+	Wind generator or solar inverter manufacturer and type.
+	Rated voltage.
+	Rated MVA.
+	Reactive capability, leading and lagging.
+	Rated MW output.
+	Net MW output.
+	Transient or subtransient reactance, including base values, if applicable.
+	Transient or subtransient time constant, if applicable.
+	Total inertia constant, H, of generator, including the shaft and gearbox, if applicable.
+	Number of machines by manufacturer types.
+	Reactive resource data such as capacitor banks, STATCOMS, etc. Provide the number of devices, location of the devices, step size, speed of switching, location where voltage is monitored and controlled, control strategy, and voltage limits. For dynamic reactive devices, provide the appropriate model and data.
+	Line data from the POI to each generator shall include: 
+	Line type (overhead or underground)
+	Line length 
+	Line resistance in ohms/1000 ft
+	Line reactance in ohms/1000 ft
+	Line susceptance in mhos/1000 ft
+	Wind turbine models shall account for rotor mass, aerodynamic energy conversion, and pitch control.
+	Explicit frequency protection relay models shall be provided for all facilities where relays are set to trip the resource within the “no trip zone” of NERC Standard PRC-024 Attachment 1.
+	Explicit voltage protection relay models shall be provided for all facilities where relays are set to trip the resource within the “no trip zone” of NERC Standard PRC-024 Attachment 2.
+
+	Updates to Existing Dynamic Data
+The RE shall submit dynamic model updates to ERCOT and the TSP to which they are connected within 30 days of any facility change and/or test result that necessitates a model update to accurately reflect dynamic performance.  The data requirements specified in section 3.2.1 for new equipment also apply to all submitted model updates.  Obsolete data should be deleted or commented out as appropriate in the dynamic data.
+	Data for Load Resource
+ERCOT will prepare the dynamic model using a standard model for Load Resource that is qualified to provide Responsive Reserve (RRS) through under frequency relay models.  Data for the Load Resource model shall be documented in the Stability Book. 
+	Dynamic Data for Equipment Owned by Transmission Service Providers (TSPs) or Other Equipment Owners
+	Under Frequency Firm Load Shedding (UFLS) Relay Data 
+UFLS data shall be prepared annually in accordance with ERCOT and NERC standards. TSPs are responsible for preparing the UFLS relay model records for their respective loads.  The TSP shall submit the UFLS relay data to ERCOT in the form of a data file using an appropriate model compatible with the software listed in Section 3.1.1. The models should contain the necessary information to properly represent the UFLS relay actions in a dynamic study, including:
+	Location (bus number and/or load ID) of load to be interrupted.
+	Fraction of load to be interrupted.
+	Corresponding frequency set points.
+	Overall scheme clearing times (including all time delays, breaker clearing times, etc.)
+Also, the TSP should indicate any other schemes that are part of or impact the UFLS programs such as related generation protection, islanding schemes, automatic load restoration schemes, automatic capacitor/reactor switching, and Remedial Action Scheme (RAS).  
+All UFLS data will be documented in the annual Stability Book. 
+	Under Voltage Load Shedding (UVLS) Relay Data
+An ERCOT TSP which has UVLS relays in its service area designed to mitigate under voltage conditions potentially impacting the system reliability is to establish and maintain a UVLS Program consistent with NERC Standards.
+The TSP owning an UVLS Program will submit the corresponding relay model to ERCOT during the annual Stability Book update. The DWG member shall submit the UVLS relay data in the form of a data file using an appropriate model compatible with the software listed in Section 3.1.1.
+It is the responsibility of the TSP to ensure the UVLS program model submitted has been tested through an assessment as per NERC standards.
+Also, the TSP shall indicate any other schemes that are part of or impact the UVLS programs such as related generation protection, islanding schemes, automatic load restoration schemes, automatic capacitor/reactor switching, and RASs.  
+The model shall contain the necessary information to properly represent the under voltage relay actions in a dynamic study, including:
+	Location (bus number and/or load ID) of load to be interrupted.
+	Fraction of load to be interrupted.
+	Corresponding voltage set points.
+	Overall scheme clearing times (including all time delays, breaker clearing times, etc.).
+All UVLS data from the responsible entities will be documented in the annual Stability Book.
+	Protective Relay Data
+The operation of protection, control, and RAS systems can affect the dynamic performance of the ERCOT system during and following contingencies. Planning, documenting, maintaining, or other activities associated with these systems is outside the scope of the DWG. However, because they can affect dynamic performance, the DWG should, on an as needed basis, identify and document protection, control, and RAS systems for inclusion to its dynamic data sets.  Identification of these protection systems will normally require the assistance of individuals or groups outside the DWG. The specific information to be considered for inclusion will depend on the type, purpose, and scope of study.
+Protection, control, and RAS systems included in the DWG dynamic data should be in the form of a dynamic model and shall be compatible with the software listed in Section 3.1.1.  Protection, control, and RAS systems adequately modeled for dynamic purposes by other working groups only need to be referenced in the DWG study reports.
+The DWG member, as part of the annual dynamic data update, shall review and update as necessary protection, control, and RAS systems already in the DWG database.  This review should include evaluating the existing data for applicability and accuracy.  
+Protective relay data included in a DWG flat start case shall be documented in the Stability Book.
+	Load Model Data 
+Note: This section addresses the requirements stated in R1 of NERC Standard MOD 032-1 and R2.4.1 of NERC Standard TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).
+Another key component of any dynamic study is the load model and its representation as a function of changing frequency or voltage.  The load model can have a significant effect on results of dynamic analysis.  For this reason, it is important to use an appropriate load model during the study.  
+The DWG shall review and update static load models for each area, composed of a mix of constant impedance (Z), constant current (I), and constant power (P) representations, known as ZIP models.  PSS/E CONL activity is used to incorporate the ZIP models into a PSS/E study.  
+The DWG recommends the use of the CMLD composite load model to represent various typical dynamic load elements, and in particular, modeling of air conditioning load as needed for studies.  Due to the complexity of flat start case development, these dynamic load models are not included in the DWG flat start cases. Instead, the dynamic load models are documented in the Stability Book. 
+Within 30 days of a written request from ERCOT, a TSP shall provide dynamic load models compatible with the software listed in Section 3.1.1 with documentation explaining the process to derive such models. 
+The DWG shall review the standard load-frequency dependency model (LDFRAL) and update the model if necessary. The model shall be documented in the Stability Book.
+	Other Types of Dynamic Data
+Note: This section addresses requirements stated in R1 of NERC Standard MOD 032-1 (effective July 1, 2015). 
+All elements with dynamic response capabilities (such as SVC, STATCOM, Superconducting Magnetic Energy Storage (SMES), DC tie, fast switchable shunts, and Variable-Frequency Transformer) that are in service and/or modeled in the SSWG base cases shall be represented with an appropriate dynamic model compatible with the software listed in Section 3.1.1.  
+The DWG member of the TSP owning the equipment shall submit the model to ERCOT during the annual dynamic database update or as needed for studies. If the equipment owner is not a TSP (e.g. DC tie owners), appropriate models shall be submitted to ERCOT and the TSP to which the equipment is connected within 30 days of any facility change and/or test result that necessitates a model update to accurately reflect dynamic performance.   
+	Missing or Problematic Dynamics Data
+The DWG is responsible for reviewing the dynamic data on an annual basis and reporting to the ROS any missing data or unresolved issues relating to data submission requirements.  DWG will report select data problems to the respective ERCOT working group per Section 4.2.3.  
+If the DWG and/or ERCOT identifies inappropriate or incomplete dynamic data, the appropriate DWG member and/or ERCOT shall request that the equipment owner resolves the discrepancies by following processes established by existing NERC Standards or ERCOT requirements. The final responsibility for the submission and the accuracy of the data lies with the equipment owner. All of the data and the revisions requested by ERCOT shall be resolved by the entity owning the equipment within 30 days.  Until valid data becomes available, ERCOT or the DWG member to whose system the equipment is connected shall recommend an interim solution to the missing or problematic data.
+	Dynamic Data and Stability Book Storage
+ERCOT shall make available to the DWG members in electronic format the dynamic data described in this document.  ERCOT shall maintain a repository of dynamic data approved by the DWG and will maintain the submitted revisions.
+3.5	Dynamic Models for Distributed Generation
+3.5.1 Distribution Generation Resource (DGR) and Distribution Energy Storage Resource (DESR) 
+RE provided models will be used to represent inverter-based DGRs and DESRs. If the RE is not required to provide a model and/or an adequate model is not available to DWG, the DER_A model will be used. Parameterization will be based on DWG approved parameters in the ERCOT DWG DG Parameterization Guideline for the DER_A model and will represent capabilities consistent with the DGR/DESR requirements in the ERCOT Nodal Operating Guide. 
+RE provided models will be used to represent synchronous DGRs. If the RE is not required to provide a model and/or an adequate model is not available to DWG, a generic model with DWG approved parameters in the ERCOT DWG DG Parameterization Guideline will be used with capabilities consistent with the DGR requirements in the ERCOT Nodal Operating Guide.
+3.5.2 Settlement Only Distribution Generator (SODG)
+RE provided models will be used to represent inverter-based SODGs with nameplate capacity of 5 MW or greater. If the RE is not required to provide a model and/or an adequate model is not available to DWG, the DER_A model with DWG approved parameters in the ERCOT DWG DG Parameterization Guideline will be used. 
+RE provided models will be used to represent synchronous SODGs with nameplate capacity of 5 MW or greater. If the RE is not required to provide a model and/or an adequate model is not available to DWG, a generic model with DWG approved parameters in the ERCOT DWG DG Parameterization Guideline will be used.
+SODGs less than 5 MW will be represented as negative load (with GNET) in DWG base cases. 
+3.5.3 Unregistered Distributed Generation (UDG)
+UDG dynamics will not be explicitly represented in DWG base cases.  DWG will not modify UDG representation from the SSWG  case - UDG will be embedded or reflected in the load according to current TSP conventions.
+
+ 
+Overview of DWG Activities 
+	Updating Dynamic Data and Flat Starts
+	Schedule for Dynamic Data Updates and Flat Start Cases
+Note: This section addresses requirements stated in R2 of NERC Standards TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).
+
+Each June, the DWG shall prepare a detailed schedule for developing flat start cases and providing associated dynamic contingencies.  The DWG shall begin the flat start case development process as soon as practicable after SSWG base cases are posted – normally in May.  The DWG shall prepare flat start cases for near term on-peak, near term off-peak and long-term on-peak conditions to facilitate planning assessments required by NERC Standard TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).  It is intended that the three dynamic data sets be developed concurrently to be utilized in planning assessments for the next year (YR+1).  The following diagram presents a schedule as a reference for DWG flat start case development:
+YR (YR=Current Year)	YR + 1
+Apr	May	Jun	Jul	Aug	Sep	Oct	Nov	Dec	Jan	Feb	Mar
+YR SSWG Build Process
+- Cases Posted				 	  			 	 	 
+		Prepare DWG Flat Start Schedule	DWG Dynamic Flat Start Case Development
+Near Term On-Peak Case
+Near Term Off-Peak Case
+Long Term On-Peak Case		
+				 				Final DWG Data Sets Posted		
+								 	Submit Dynamic Contingency Files and  Dynamic Load Models	
+									Stability Book Finalized and Posted
+
+The DWG flat start case development process adds detailed dynamic models to network elements represented in an SSWG base case that reflect behavior during and following system disturbances.  The DWG shall normally prepare dynamic flat start cases based on the following SSWG steady state cases:
+	Near-Term On-Peak Case: (Y+3) SUM1
+	Near-Term Off-Peak Case: (Y+4) HRML
+	Long-Term On-Peak Case: (Y+7) SUM1
+For example, the following flat start cases would be developed during the period from July 2023 through January 2024: 2026 SUM1, 2027 HRML, and 2030 SUM1.  These cases could then be used for planning assessments performed in 2024.  The DWG may choose to develop dynamic flat start data sets for alternative cases that meet the same objectives with respect to facilitating the completion of NERC TPL planning assessments.   
+After January 1st, 2015, ERCOT shall serve as the flat start coordinator for all DWG flat start cases.
+	Dynamic Data Updates 
+Each DWG member shall review the dynamic data from the prior year for its portion of the ERCOT System and provide necessary updates according to the schedule established in section 4.1.1. The changes in the data must be identified and submitted with the updated data.  
+Data for mothballed units shall be retained. Obsolete data should be deleted or commented.
+Other revisions of data that should be submitted to the flat start coordinator include updates to the load model, Zsource corrections, generation netting, or any other modifications to the network necessary for dynamic studies.
+	Dynamic Data Screening 
+The DWG members should review the dynamic data for equipment connected to their system for completeness and applicability.  The data should be appropriate for the model, and the model should be appropriate for the equipment.  Before submitting data for inclusion in updated dynamic base cases, each DWG member should perform dynamic data screening.  
+	Flat Start Criteria
+DWG Flat Start cases shall:
+	Initialize with no errors;
+	Demonstrate that simulation output channels for frequency, voltage and power do not deviate from an acceptable range for a Twenty-second run with no disturbance.   
+	The product of a successful flat start will be a planning model software simulation-ready base case (the unconverted base case) with its associated dynamic data files including user models (.dyr, .obj, .lib, and .dll files), stability data change documentation, python (.py) files and response files (.idv) files.  The product of a successful flat start also includes the steps taken to build the flat start case such as network model changes (i.e. changing the schedule of the North DC, tuning voltages, etc.).  
+	Post Flat Start Activities
+	Distribution of Flat Start Results and the Dynamic Data Base
+Upon completion of each flat start, all dynamic data and final data files shall be posted on the ERCOT MIS so that it is accessible to all DWG members and to ERCOT.  This posting shall be within the schedule established by the DWG for the given flat start. 
+	Stability Book
+The Stability Book is an annual document used to record dynamic data changes and/or corrections required during the flat start processes.  The flat start coordinator shall prepare the annual stability book.  Recommendations to revise load flow data are also included in the book.  DWG Members are required to communicate these recommendations to other respective working groups, including Steady State Working Group, Operations Working Group, and Network Data Support Working Group, to eliminate recurring problems.  
+The following information is included in Stability Book: 
+	Deviation tables or plots of the flat start results are included to verify the successful completion of the flat start process.
+	Dynamic data.  This data is in the DOCU ALL PSS/E activity format.
+	Under frequency and under voltage load shedding relay data submitted by each of the appropriate DWG members.
+	Additional information identified for inclusion by Section 3.4 
+	DWG Coordination with the Steady State Working Group
+To support coordination with the Steady State Working Group, Operations Working Group, and Network Data Support Working Group a list of changes made to the following steady-state power flow data shall be reported to the ERCOT Steady State Working Group representative:
+	Unit MVA Base: this is also known as MBASE and is used as the base quantity for many dynamic model parameters associated with generating units.
+	Zsource: reactive machine impedance that is required to match the subtransient reactance specified in the dynamic generator model for proper initialization of dynamic simulations.
+ERCOT shall compile the list of data changes following finalization of the flat start DWG shall coordinate with SSWG to assure that conflicting data is corrected during future SSWG case building activities. 
+	DWG Dynamic Contingency Assumptions List
+The DWG shall construct a dynamic contingency assumptions list detailing contingency assumptions for each TSP for the purpose of screening studies conducted by ERCOT and the DWG members. ERCOT and the DWG members shall annually review and update the dynamic contingency assumption list. Upon completion of the annual review, ERCOT shall collect the contingency assumptions and submit the finalized dynamic contingency assumptions list to the DWG.
+
+The assumptions shall include:
+	Breaker trip time for normal clearing, 
+	Breaker trip time for delayed clearing due to stuck breaker
+	Breaker trip time for delayed clearing due to relay failure
+	Relay characteristic assumptions to assess generic apparent impedance swings that can trip any transmission system elements
+	Other assumptions deemed necessary by DWG as specified during the annual review
+	DWG Dynamic Contingency Database
+The DWG shall prepare a Dynamic Contingency Database according to a standard spreadsheet format.  The spreadsheet format will be reviewed annually. In addition to the spreadsheet, DWG members can also provide their contingencies in python format if the spreadsheet is inadequate to accurately represent the contingencies (ex. contingencies based on detailed expansion of the station into node breaker). The dynamic contingency database and any additional contingencies provided in python will be posted on the ERCOT Market Information System (MIS) so that it is accessible to all DWG members and to ERCOT.
+	Other DWG Activities 
+	Event Simulation
+ERCOT will compare dynamic system model performance to that of actual system response data in accordance with NERC MOD-033.  For a selected event, the affected TSP will provide actual measured system behavior data (or a written response that it does not have the requested data) to ERCOT within 30 calendar days of a written request.
+	Procedure Manual Revision Guidelines
+The DWG is responsible for maintaining and updating this Procedure Manual.  Revisions, additions and/or deletions to this Procedure Manual may be undertaken at such times that the DWG feels it is necessary due to changes in dynamic simulation software or to meet new and/or revised requirements of NERC, ERCOT, or any other organization having oversight or regulatory authority.
+At least annually, the DWG chair shall request a thorough review of the current Procedure Manual for any needed revisions.  The notification will request that proposed revisions be submitted to the DWG chair (or the chair’s designate) for consolidation and distribution to all DWG members for comment and/or additional revision.
+The DWG chair may seek approval of any revision, addition, or deletion to the Procedure Manual in the regular DWG meetings, or called special meeting as deemed necessary or requested by DWG membership.
+All proposed Procedure Manual revisions shall be submitted to ROS for approval.  After ROS approval, the Procedure Manual will be publicly posted on the DWG webpage: https://www.ercot.com/committees/ros/dwg.
+	Recommended DWG Study Methodologies 
+Note: This section addresses, in part, requirements R4, R5 and R6 of NERC Standard TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).
+Voltage stability margin, transient voltage criteria, and damping criteria are described in the ERCOT Planning Guide Section 4.  
+	Voltage Instability Identification in Stability Studies
+Voltage Instability is indicated by severely low bus voltage or bus voltage collapse. 
+Voltage Instability could cause: 
+	Motor stalling leading to significant amount of customer initiated motor tripping.
+	Loss of generator(s) due to low voltage 
+	Voltage collapse of an area
+	Cascading Identification in Stability Studies
+Cascading Definition - Cascading is defined as the uncontrolled loss of any system facilities or load, whether because of thermal overload, voltage collapse, or loss of synchronism, except those occurring as a result of fault isolation. Cascading is indicated by one or more of the following conditions:
+	Uncontrolled sequential loss of generators
+	Uncontrolled sequential loss of load
+	Uncontrolled sequential loss of branches. 
+Cascading could cause conditions like:
+	Voltage collapse of an area
+	Expanding number of buses with voltage instability
+	System islanding, frequency instability due to power-load unbalance
+NERC Definition: The uncontrolled successive loss of system elements triggered by an incident at any location. Cascading results in widespread electric service interruption that cannot be restrained from sequentially spreading beyond an area predetermined by studies. 
+	Uncontrolled Islanding Identification in Stability Studies
+Uncontrolled islanding is the separation and loss of synchronism between a portion of the interconnection and the remaining interconnected system.  Islanding originates with uncontrolled loss of branches, ending with the formation of sub-network islands.  
+Generators disconnected from the System by fault clearing action or by a RAS are not considered out of synchronism.  Similarly, islands formed from being disconnected from the System by fault clearing action or by a RAS are not considered an uncontrolled island.
+Sub-network islands have the following characteristics:
+	The sub-network islands have both generation and load to support the continuation of the island.  
+	The sub-networks formed are not connected to each other.
+Uncontrolled islanding in a screening study could cause: 
+	Out-of-step generators  
+	Off-nominal frequency disturbances 
+	Eventual collapse of an island due to frequency or voltage instabilities caused by the generation-load unbalance in the sub-network island.
+	Generator Protection Assumptions
+Note: This section addresses, in part, requirements R3.3.1.1 and R4.3.1.2 of NERC Standard TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).
+
+If dynamic models are not provided for Generator protection schemes, generic generator protection may be assumed for screening purposes 
+	For synchronous generators, a rotor angle swing greater than 180 degrees may be considered an unstable generator.  
+	Generators may be assumed to be compliant with the minimum requirements of Section 2.9 Voltage Ride-Through Requirements for Generation Resources of the ERCOT Nodal Operating Guide.
+	Generators may be assumed to be compliant with the minimum requirements of Section 2.6 Requirements for Under/Over-Frequency Relaying of the ERCOT Nodal Operating Guide.
+

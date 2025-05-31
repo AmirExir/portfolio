@@ -1,0 +1,141 @@
+r of eligible years available.  This calculation is limited to WGRs that have been in operation as of January 1 for each year of the period used for the calculation.
+WINDCAP s, i, r	MW	Existing WGR Capacity—The capacity available for all existing WGRs for the summer and winter Peak Load Seasons s, year i, and region r, multiplied by WINDPEAKPCT for summer and winter Peak Load Seasons s and region r.
+
+
+
+ 
+Appendix C
+Mexico’s Transmission System in ERCOT SSWG Cases
+
+This appendix provides an explanation of the modeling that represents Mexico’s Comisión Federal de Electridad (CFE) system in SSWG cases. A drawing of the system is at the end of this appendix.  All AEP and CFE facilities (bus, lines, etc.) tied to the CFE grid will be assigned to area 24 and zone 612.  The AEP facilities will retain the owner 9 and CFE will be assigned owner 300.
+
+The following generation modeled in the power flow and short circuit cases are system equivalents of the CFE system and are located in Mexico. These units are not in ERCOT and should only be used for specialized studies. These units should not be included when performing transfer studies in ERCOT unless one is studying a transfer to or from CFE. The generation capability is not counted in ERCOT reports. These units are online in the cases to offset the real and reactive losses that are caused by the other CFE transmission facilities and reactive flow across the Laredo VFT and Railroad HVDC ties that are modeled in the SSWG cases.  Lines in CFE will not be included in the ERCOT contingency list.
+
+Generation Station Name	Bus Number	Bus Voltage
+CIDINDUS-138 (System Equivalent)	86104	138kV
+CIDINDUS-230 (Swing Bus/Equivalent)	86105	230kV
+CUF-230 (System Equivalent)	86106	230kV
+CUF-138 (System Equivalent)	86107	138kV
+
+The following are the transmission lines between Mexico and the United States.  All of the tie lines between CFE and ERCOT are operated normally open with the exception of the asynchronous ties at Laredo and Railroad.
+
+Mexico	United States
+Bus Name	Bus Number	Bus Voltage	Bus Name	Bus Number	Bus Voltage
+Falcon	86111	138	Falcon	8395	138
+Piedras Negras	86110	138	Laredo VFT	80168	230
+Ciudad Industrial	86105	230	Laredo VFT	80169	138
+Ciudad Industrial	86104	138	Railroad	79604	138
+Cumbres	86107	138	Frontera	86114	138
+Cumbres	86107	138	Military Highway	8339	138
+Matamoras	86112	138	Brownsville Switching Station	8332	69
+Matamoras	86113	69			
+
+
+
+
+ 
+Asynchronous Ties
+
+Laredo
+
+The Variable Frequency Transformer (VFT) in Laredo has a detailed model at busses 80170 (ERCOT Side), 80014 (ERCOT Side), 80169 (CFE Side), and 80165 (CFE Side) with a total transfer capability of 100 MW.  The VFT is tied to the CFE system by a 12.73 mile 230 kV transmission line and a 12.39 mile normally open 138 kV transmission line.  Both lines terminate at the CFE Ciudad Industrial Substation (86103 and 86104) and are breakered at each end.  There is also a normally open 138 kV transmission line between the Laredo Power Plant (8293) and the Laredo VFT (80169) that is utilized for emergency block load transfers between ERCOT and CFE.  The Laredo Power Plant to Laredo VFT 138 kV transmission line is breakered at both ends.
+
+Railroad
+
+The HVDC tie in Mission has a detailed model at busses 79604 (ERCOT Side) and 88254 (CFE Side) with a total transfer capability of 300 MW.  The Railroad HVDC is tied to the CFE system at Cumbres (86107) by an 11.79 mile 138 kV transmission line and is breakered at each end.  There is also a normally open bus tie that by-passes the HVDC that is utilized for emergency block load transfers between ERCOT and CFE.  The by-pass is breakered at both ends.
+
+
+Normally Open Block Load Ties
+
+Brownsville Switching Station
+
+The Brownsville Switching Station (8332) is connected to the CFE Matamoras Substation (86113) by a 1.9 mile 69 kV transmission line and is breakered at each end.  The transmission line is operated normally open and is utilized for emergency block load transfers between ERCOT and CFE.
+
+Military Highway
+
+The Military Highway Substation (8339) is connected to the CFE Matamoras Substation (86112) by a 1.44 mile 138 kV transmission line and is breakered at each end.  The transmission line is operated normally open and is utilized for emergency block load transfers between ERCOT and CFE.
+
+Frontera
+
+The Frontera Power Plant (86114) is connected to the CFE Cumbres Substation (86107) by a 138 kV transmission line.  This transmission line is privately owned and operated by the owners of the Frontera Power Plant and is utilized to move the generation at Frontera Power Plant between the ERCOT and CFE systems. 
+
+Falcon
+
+The Falcon Substation (8395) is connected to the CFE Falcon Substation (86111) by a .3034 mile 138 kV transmission line and is breakered at each end.  The transmission line is operated normally open and is utilized for emergency block load transfers between ERCOT and CFE. 
+
+
+
+Normally Open Block Load Ties on Distribution 
+  
+There are three normally open ties with CFE that are on the 12.47 kV distribution systems. These ties are at Amistad, Presido and Redford. These ties are only used for emergency block load transfers. Since SSWG does not model radial distribution systems these points are not in the SSWG power flow cases.
+
+ 
+Appendix D
+Generation Unit ID Prefixes
+
+This appendix provides an explanation of the Generator ID prefixes that correspond to modeling in the SSWG Cases. 
+Types of Generation Unit	Unit ID Prefix	Unit ID	Comment	Explanation
+ 	 	 	 	 
+Solar	S	S1	Two units connected to same bus
+ 	 Any type of solar technology
+ 	 	S2		
+ 	 	 	 	 
+Coal and Lignite	L	L1	Three units connected to same bus
+
+	Any type of thermal power plant
+ 	 	L2		
+ 	 	L3		
+ 	 	 	 	 
+Natural Gas except Combined Cycle	N	N1	Two units connected to same bus & 1 unit connected to another bus
+
+	Any type of gas unit
+ 	 	N2		
+ 	 	N1		
+ 	 	 	 	 
+Combined Cycle	C	C1	 	Any type of combined cycle plant. Self Serve and Self Serve Economic Units will not be represented by this Unit ID prefix
+ 	 	C2	 	
+ 	 	C3	 	
+ 	 	C0	It’s always C0 for steam units	
+ 	 	 	 	 
+Wind	W	W1	 	Any type of wind generation
+ 	 	W2	 	
+ 	 	W3	 	
+ 	 	W4	 	
+ 	 	W5	 	
+ 	 	W6	 	
+ 	 	W7	 	
+ 	 	 	 	 
+Nuclear	U	U1	 	All nuclear types
+ 	 	U2	 	
+ 	 	U3	 	
+ 	 	 	 	 
+Renewables	R	R1	 	All other renewable generation except solar, wind & hydro
+ 	 	R2	 	
+ 	 	 	 	 
+Hydro	H	H1	 	Hydro
+ 	 	H2	 	
+ 	 	H3	 	
+ 	 	H4	 	
+ 	 	H5	 	
+ 	 	H6	 	
+ 	 	 	 	 
+Oil Fired	O	O1	 	Any type of oil generation
+ 	 	O2	 	
+ 	 	O3	 	
+ 	 	O4	 	
+ 	 	O5	 	
+ 	 	O6	 	
+ 	 	O7	 	
+ 	 	 	 	 
+FACTS Device	F	F1	 	All FACTS devices
+ 	 	F2	 	
+	V	V1		
+		V2		
+ 	 	 	 	 
+Equivalents	EQ	EQ	 	Equivalent units in Mexico and SPP
+ 	 	 	 	 
+Self-Serve	P1	P1	Two units connected to same bus 	Self Serve units
+ 	 	P2		
+ 	 	P1	Only one unit	
+ 	 	 	 	 
+Self-Serve Economic Units	PE	PE	 	Self Serve 

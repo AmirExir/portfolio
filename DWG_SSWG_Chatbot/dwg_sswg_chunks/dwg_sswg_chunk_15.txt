@@ -1,0 +1,56 @@
+ list the contingency definitions that were updated, deleted or created.
+4.	Steps 1 to 4 will be repeated for each pass of the contingency update process.
+5.	When the contingency list is finalized, ERCOT will post the list on the MIS website along with the contingency files created for use with MUST, PSS®E, PowerWorld, UPLAN and VSAT.  Definitions which are flagged as being invalid will NOT be included in the contingency file.
+6.	The planning or extreme event rationale will be provided in supporting documentation from TSPs upon request.
+
+A TSP may only submit changes for their company and rows with null values in either the Submitter or TOContingencyID columns will be ignored.  The default value listed in the table will be used upon import if the provided value is either invalid or missing.  Topology and data entry checks will be completed on the imported rows to highlight invalid contingency definitions.
+
+ERCOT will utilize the latest available SSWG Cases to verify that the devices listed in the contingency definition exist in the SSWG Cases.  Additional columns will be added to the spreadsheet which will correspond to the filename of the SSWG Case used to validate the submissions.  The start and stop dates of the contingency definitions will be used to determine which SSWG Cases they need to be compared against.  Any inconsistencies between the case and contingency definition will be communicated in these columns.  A contingency definition will be highlighted as invalid and an error message will be printed if it fails any of the following data entry or topology checks.
+
+NERC contingencies not covered by automatic contingency processing capabilities of the various power-flow applications, which the TSP deems to have an impact on the power-flow solution, shall be submitted.
+
+NERC contingencies must either be submitted in entirety by each TSP or as a minimum, those planning event and extreme event NERC contingency categories that would produce the more severe system results or impacts. The rationale for the contingencies selected for evaluation shall be available as supporting information upon request. 
+
+In addition to the aforementioned NERC defined contingencies, TSPs shall also submit:
+•	A common tower outage as defined in Section 4.1.1.1 of the ERCOT Planning Guides.  These contingency scenarios will be categorized in the ERCOT contingency database as ERCOT_1.
+•	A common tower outage as defined in Section 4.1.1.1 of the ERCOT Planning Guides where both circuits must be taken out of servce for a maintenance outage. These contingency scenarios will be categorized in the ERCOT contingency database as ERCOT_98.
+•	Single and multiple element contingencies, not covered by automatic contingency processing capabilities of the various power-flow applications and not fitting the definition of ERCOT_1, for transmission facilities between 60 kV and 100 kV that produce the most severe system results or impacts.  These will be categorized in the ERCOT contingency database as ERCOT_NonBES.
+
+ERCOT shall submit:
+•	Loss of an entire combined cycle plant are to be categorized as ERCOT_CCT. 
+
+Contingency definitions shall take into account the effects of existing and planned protection systems, including any backup or redundant systems.
+
+
+General Data Entry Checks
+
+Error Message	Reason for Failing Data Validation
+Duplicate	The device is listed more than once in the contingency definition.
+Needs Consistent Name	For each unique TOContingencyID, only one ContingencyName can be used. 
+Invalid Date Selection	Either the start and/or stop dates for a single contingency definition are inconsistent or the start date occurs after the stop date.  In the case where a single contingency definition has inconsistent start dates, use the one that occurs furthest in the future since the contingency definition will not be valid until all devices listed in the contingency are present in the base case.  The start date is used to determine when the contingency definition becomes valid—it is not the energization date for the device listed on that row.
+Invalid Bus Selection	The same bus number is used twice in the same row, or a needed bus number is missing.
+Invalid Element Identifier	Element Identifier is invalid. The only acceptable values are Bus, Branch, Gen, Transformer, Fixed_Bus_Shunt, or Switched_Shunt
+NERC Category Missing	The new NERC Category is missing.  The only acceptable values are ‘NERC Category’‘.’‘Event’ defined in TPL-001 Table 1.  Multiple Category contingencies are must be separated by ‘/’.  For example: P2.2/P4.3/P5.2
+ERCOT Category Missing	The ERCOT Category is missing.  The only acceptable values are ERCOT_1, ERCOT_NonBES, ERCOT_CCT, ERCOT_98, or N/A.
+
+Topology Checks
+
+Error Message	Reason for Failing Data Validation
+FromBus_i Missing, ToBus_j Missing, ToBus_k Missing	A bus with the corresponding bus number cannot be found in the base case.
+Branch Missing	A branch with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+System Switching Device Missing	A system switching device with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+Transformer Missing	A transformer with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+Generator Missing	A generator with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+Shunt Missing	A shunt with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+
+5.3	Review of NMMS and Topology Processor Compatibility with PSS®E
+From time to time, updated versions of PSS®E may require modifications to the methods of extracting necessary power-flow data from NMMS.  For every PSS®E version change, the following evaluation process shall be followed:
+
+1.	Use PSS®E documentation such as release notes and compatibility references to identify new fields and record formats added to a new version of PSS®E.
+2.	SSWG determines which, if any, of the new fields or records need to be implemented in NMMS and Topology Processor.
+a.	Determine how to use MOD to implement most needed fields immediately
+3.	ERCOT determines approximate implementation method, initial impact analysis and cost of implementation for each new field and/or record determined by the SSWG to be necessary for implementation.
+a.	Determine method to arbitrate disagreement on proposed recommendation
+4.	Present to ROS new fields and/or records that have been jointly determined to be needed, with approximate implementation method, initial impact analysis and cost of implementation.
+5.	Upon ROS approval, prepare Project initiation to create and add projects to PPL.
+6.	Upon addition to PPL above cut line, prepare requirements documents to describe data type addition/chan

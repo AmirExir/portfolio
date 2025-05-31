@@ -1,0 +1,66 @@
+r, normally open facilities inside a substation used for load transfer and other similar situations that are not an integral part of the transmission grid itself. The 8888 ratings are used by the facility owner to indicate they have reviewed the rating. The 9999 ratings are a default value assigned to facilities by the NMMS system as part of the base case preparation; they apply to similar situations as the 8888 ratings and are not an integral part of the transmission grid itself. For Rate 5, the default value for an element that is not protected by a relay loadability rating is 88888, and the default value for an element that will be protected by a relay loadability rating which hasn’t been determined yet is 99999.
+4.4.1.4.1	Most Limiting Series Element 
+Facility ratings shall not exceed the most limiting applicable equipment rating of the individual equipment that comprises the facility. If the continuous or two (2) hour ratings of any series elements at the station terminals is less than the associated transmission line’s continuous or two (2) hour rating, then the most limiting elements’ rating data will be used as the Rate 1 and/or Rate 2 rating for the transmission line.  The scope of equipment addressed shall include, but not be limited to, conductors, transformers, relay protective devices, terminal equipment, and series and shunt compensation devices.
+4.4.1.5	Shunt Admittance
+Branch Data records include four fields for complex admittance for line shunts.  These records are rarely used in the SSWG Cases.
+4.4.1.6	Status
+Branch data records include a field for branch status.  Entities are allowed to submit branch data with an out-of-service status for equipment normally out of service.  
+4.4.1.7	Line Length and Ownership
+4.4.1.7.1	Line Length
+This data will be provided in miles.
+4.4.1.7.2	Ownership
+Owner IDs are assigned by ERCOT.  The PSS®E line data record allows the specification of up to four owners for each branch including percent ownership. The percent ownership of each line should sum up to 100%.  Facilities owned by Generators will be assigned a non-TSP ownership ID in the SSWG Cases.
+
+OSRs are ratings submitted by jointly owned facility Owners for their specific ratings  to ERCOT Network Operational Models.
+4.4.1.7.3	Practices for Verification
+Transmission line length for existing lines should be verified from field data and actual values entered into the power flow model.  A simple check can be utilized to verify certain modeling parameters for overhead lines.  The following equation is an approximation that applies to transmission lines that are completely overhead or assuming    MVA then
+
+
+ 
+
+ 
+4.4.2	Multi-Section Line Grouping 
+A multi-section line is defined as a grouping of several previously defined branches into one long circuit having several sub-sections or segments. 
+
+Example: Two circuits exist (Figure 1) which originate at the same substation (4001) and terminate at the same substation (4742).  Each circuit has a tap to Substation A and a tap to Substation B.  If a fault occurs or maintenance requires an outage of Circuit 09, the circuit would be out-of-service between bus 4001 and bus 4742 including the taps to buses 4099 and 4672.  The loads normally served by these taps would be served by means of low-side rollover to buses 4100 and 4671 on Circuit 21.  This is the type of situation for which multi-section lines are used to accurately model load flows.
+
+ 
+Figure 1.  Example of circuits needing to use multi-section line modeling.
+
+Figure 2 represents a power-flow data model of the circuits in Figure 1.  Branch data record would have included the following:
+4001,4099,09,…
+4099,4672,09,…
+4672,4742,09,…
+4001,4100,21,…
+4100,4671,21,…
+4671,4742,21,…
+along with the necessary bus, load, and shunt data.  To identify these two circuits as multi-section lines, entries must be made in the raw data input file.  The multi-section line data record format is as follows:
+                    
+ 
+I,J,ID,DUM1,DUM2, … DUM9  where :
+
+I	“From bus” number.
+J	“To bus” number. 
+ID	Two characters multi-section line grouping identifier. The first character must be an ampersand (“&”).  ID = ‘&1’ by default.
+DUMi	Bus numbers, or extended bus name enclosed in single quotes, of the “dummy buses” connected by the branches that comprise this multi-section line grouping. No defaults allowed.
+
+Up to 10 line sections (and 9 dummy buses) may be defined in each multi-section line grouping.  A branch may be a line section of at most one multi-section line grouping.
+
+Each dummy bus must have exactly two branches connected to it, both of which must be members of the same multi-section line grouping.
+
+The status of line sections and type codes of dummy buses are set such that the multi-section line is treated as a single element.
+
+ 
+Figure 2. Power-flow model of example circuits.
+
+For our example, the following would be entered as multi-section line data records:
+4001, 4742, &1, 4099, 4672
+4001, 4742, &2, 4100, 4671
+Multi-section lines give a great amount of flexibility in performing contingency studies on SSWG Cases.  When set up correctly, where automatic low-side load rollover occurs, hundreds of contingencies can be analyzed and reported within minutes.
+
+4.4.3	Coordination of Tie Lines 
+A tie line is defined as any transmission circuit with multiple owners represented within the context of the transmission circuit’s associated facility.  As used here, a transmission circuit’s associated facility includes all terminal buses as well as the transmission branch, transformer, bus section, or another electrical component connecting systems together.  For a tie line, each of the interconnected entities (TSP/TSP or TSP/RE) owns one or more elements of the tie line’s associated facility.
+
+Careful coordination and discussion is required among SSWG members to verify all modeled tie line data.  Even in situations where no new tie lines are added to a network model, there could be many tie line changes.  Construction timing for future points of interconnection or modified existing points of interconnection can change.  As a result, a tie line may need to be deleted from some cases and added to others (e.g. deleted from spring cases and added to summer cases).  Additionally, a new substation installed in the middle of an existing tie line can redefine the tie line’s bus numbers, mileages, impedances, ratings, or ownership. 
+
+Tie line models also affect a number of important ERCOT calculations and therefore must accurately reflect real-world conditions.  Missing, redundant, or erroneous tie line models can produce unrealistic indications of stability and/or voltage limits.  Inaccurate impedances, ratings, transformer adjustment data, status information, mileages, or ownership data can all have a profound effect on system studies.  T
