@@ -1,0 +1,35 @@
+submitted has been tested through an assessment as per NERC standards.
+Also, the TSP shall indicate any other schemes that are part of or impact the UVLS programs such as related generation protection, islanding schemes, automatic load restoration schemes, automatic capacitor/reactor switching, and RASs.  
+The model shall contain the necessary information to properly represent the under voltage relay actions in a dynamic study, including:
+	Location (bus number and/or load ID) of load to be interrupted.
+	Fraction of load to be interrupted.
+	Corresponding voltage set points.
+	Overall scheme clearing times (including all time delays, breaker clearing times, etc.).
+All UVLS data from the responsible entities will be documented in the annual Stability Book.
+	Protective Relay Data
+The operation of protection, control, and RAS systems can affect the dynamic performance of the ERCOT system during and following contingencies. Planning, documenting, maintaining, or other activities associated with these systems is outside the scope of the DWG. However, because they can affect dynamic performance, the DWG should, on an as needed basis, identify and document protection, control, and RAS systems for inclusion to its dynamic data sets.  Identification of these protection systems will normally require the assistance of individuals or groups outside the DWG. The specific information to be considered for inclusion will depend on the type, purpose, and scope of study.
+Protection, control, and RAS systems included in the DWG dynamic data should be in the form of a dynamic model and shall be compatible with the software listed in Section 3.1.1.  Protection, control, and RAS systems adequately modeled for dynamic purposes by other working groups only need to be referenced in the DWG study reports.
+The DWG member, as part of the annual dynamic data update, shall review and update as necessary protection, control, and RAS systems already in the DWG database.  This review should include evaluating the existing data for applicability and accuracy.  
+Protective relay data included in a DWG flat start case shall be documented in the Stability Book.
+	Load Model Data 
+Note: This section addresses the requirements stated in R1 of NERC Standard MOD 032-1 and R2.4.1 of NERC Standard TPL-001-4 and TPL-001-5.1 (effective July 1, 2023).
+Another key component of any dynamic study is the load model and its representation as a function of changing frequency or voltage.  The load model can have a significant effect on results of dynamic analysis.  For this reason, it is important to use an appropriate load model during the study.  
+The DWG shall review and update static load models for each area, composed of a mix of constant impedance (Z), constant current (I), and constant power (P) representations, known as ZIP models.  PSS/E CONL activity is used to incorporate the ZIP models into a PSS/E study.  
+The DWG recommends the use of the CMLD composite load model to represent various typical dynamic load elements, and in particular, modeling of air conditioning load as needed for studies.  Due to the complexity of flat start case development, these dynamic load models are not included in the DWG flat start cases. Instead, the dynamic load models are documented in the Stability Book. 
+Within 30 days of a written request from ERCOT, a TSP shall provide dynamic load models compatible with the software listed in Section 3.1.1 with documentation explaining the process to derive such models. 
+The DWG shall review the standard load-frequency dependency model (LDFRAL) and update the model if necessary. The model shall be documented in the Stability Book.
+	Other Types of Dynamic Data
+Note: This section addresses requirements stated in R1 of NERC Standard MOD 032-1 (effective July 1, 2015). 
+All elements with dynamic response capabilities (such as SVC, STATCOM, Superconducting Magnetic Energy Storage (SMES), DC tie, fast switchable shunts, and Variable-Frequency Transformer) that are in service and/or modeled in the SSWG base cases shall be represented with an appropriate dynamic model compatible with the software listed in Section 3.1.1.  
+The DWG member of the TSP owning the equipment shall submit the model to ERCOT during the annual dynamic database update or as needed for studies. If the equipment owner is not a TSP (e.g. DC tie owners), appropriate models shall be submitted to ERCOT and the TSP to which the equipment is connected within 30 days of any facility change and/or test result that necessitates a model update to accurately reflect dynamic performance.   
+	Missing or Problematic Dynamics Data
+The DWG is responsible for reviewing the dynamic data on an annual basis and reporting to the ROS any missing data or unresolved issues relating to data submission requirements.  DWG will report select data problems to the respective ERCOT working group per Section 4.2.3.  
+If the DWG and/or ERCOT identifies inappropriate or incomplete dynamic data, the appropriate DWG member and/or ERCOT shall request that the equipment owner resolves the discrepancies by following processes established by existing NERC Standards or ERCOT requirements. The final responsibility for the submission and the accuracy of the data lies with the equipment owner. All of the data and the revisions requested by ERCOT shall be resolved by the entity owning the equipment within 30 days.  Until valid data becomes available, ERCOT or the DWG member to whose system the equipment is connected shall recommend an interim solution to the missing or problematic data.
+	Dynamic Data and Stability Book Storage
+ERCOT shall make available to the DWG members in electronic format the dynamic data described in this document.  ERCOT shall maintain a repository of dynamic data approved by the DWG and will maintain the submitted revisions.
+3.5	Dynamic Models for Distributed Generation
+3.5.1 Distribution Generation Resource (DGR) and Distribution Energy Storage Resource (DESR) 
+RE provided models will be used to represent inverter-based DGRs and DESRs. If the RE is not required to provide a model and/or an adequate model is not available to DWG, the DER_A model will be used. Parameterization will be based on DWG approved parameters in the ERCOT DWG DG Parameterization Guideline for the DER_A model and will represent capabilities consistent with the DGR/DESR requirements in the ERCOT Nodal Operating Guide. 
+RE provided models will be used to represent synchronous DGRs. If the RE is not required to provide a model and/or an adequate model is not available to DWG, a generic model with DWG approved parameters in the ERCOT DWG DG Parameterization Guideline will be used with capabilities consistent with the DGR requirements in the ERCOT Nodal Operating Guide.
+3.5.2 Settlement Only Distribution Generator (SODG)
+RE 

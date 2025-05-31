@@ -1,0 +1,137 @@
+aryland Utilities
+870	MEC	South Texas Electric Coop - Medina Electric Coop
+872	JEC	South Texas Electric Coop - Jackson Electric Coop
+874	KEC	South Texas Electric Coop - Karnes Electric Coop
+875	MVEC_E	South Texas Electric Coop - Eastern Magic Valley
+876	MVEC_W	South Texas Electric Coop - Western Magic Valley
+878	NEC	South Texas Electric Coop - Nueces Electric Coop
+880	SPEC	South Texas Electric Coop - San Patricio Electric Coop
+882	VEC	South Texas Electric Coop - Victoria Electric Coop
+884	WCEC	South Texas Electric Coop - Wharton County Electric Coop
+890	STEC	South Texas Electric Coop except member coops
+891	LOAD-EX	American Electric Power - TCC
+900	E_BRAZORIA	ERCOT designated generation zone
+902	E_CHAMBERS	ERCOT designated generation zone
+903	E_FORT BEND	ERCOT designated generation zone
+904	E_GALVESTO	ERCOT designated generation zone
+906	E_HARRIS	ERCOT designated generation zone
+911	E_MATAGORD	ERCOT designated generation zone
+918	E_VICTORIA	ERCOT designated generation zone
+920	E_WHARTON	ERCOT designated generation zone
+931	E_ANGELINA	ERCOT designated generation zone
+932	E_BRAZOS	ERCOT designated generation zone
+935	E_CHEROKEE	ERCOT designated generation zone
+937	E_FREESTONE	ERCOT designated generation zone
+939	E_GRIMES	ERCOT designated generation zone
+941	E_HENDERSON	ERCOT designated generation zone
+948	E_NACOGDOC	ERCOT designated generation zone
+951	E_ROBERTSO	ERCOT designated generation zone
+952	E_RUSK	ERCOT designated generation zone
+957	E_TITUS	ERCOT designated generation zone
+971	E_BORDEN	ERCOT designated generation zone
+973	E_CRANE	ERCOT designated generation zone
+975	E_CULBERSON	ERCOT designated generation zone
+977	E_ECTOR	ERCOT designated generation zone
+979	E_GLASSCOCK	ERCOT designated generation zone
+980	E_HOWARD	ERCOT designated generation zone
+984	E_MARTIN	ERCOT designated generation zone
+986	E_PECOS	ERCOT designated generation zone
+987	E_PRESIDIO	ERCOT designated generation zone
+991	E_UPTON	ERCOT designated generation zone
+992	E_WARD	ERCOT designated generation zone
+993	E_WINKLER	ERCOT designated generation zone
+994	E_LYNN	ERCOT designated generation zone
+1000	E_ARCHER	ERCOT designated generation zone
+1001	E_BAYLOR	ERCOT designated generation zone
+1007	E_CLAY	ERCOT designated generation zone
+1009	E_COOKE	ERCOT designated generation zone
+1012	E_DEAF SMIT	ERCOT designated generation zone
+1013	E_DICKENS	ERCOT designated generation zone
+1015	E_FANNIN	ERCOT designated generation zone
+1020	E_GRAYSON	ERCOT designated generation zone
+1024	E_KENT	ERCOT designated generation zone
+1027	E_LAMAR	ERCOT designated generation zone
+1029	E_MOTLEY	ERCOT designated generation zone
+1033	E_WICHITA	ERCOT designated generation zone
+1034	E_WILBARGER	ERCOT designated generation zone
+1035	E_OKLAHOMA	ERCOT designated generation zone
+1036	E_PITTSBURG-	ERCOT designated generation zone
+1037	E_OLDHAM	ERCOT designated generation zone
+1038	E_CARSON	ERCOT designated generation zone
+1041	E_HALE	ERCOT designated generation zone
+1047	E_BRISCOE	ERCOT designated generation zone
+1050	E_BELL	ERCOT designated generation zone
+1051	E_BOSQUE	ERCOT designated generation zone
+1054	E_COLLIN	ERCOT designated generation zone
+1057	E_DALLAS	ERCOT designated generation zone
+1059	E_DENTON	ERCOT designated generation zone
+1061	E_ELLIS	ERCOT designated generation zone
+1062	E_ERATH	ERCOT designated generation zone
+1066	E_HOOD	ERCOT designated generation zone
+1067	E_HUNT	ERCOT designated generation zone
+1068	E_JACK	ERCOT designated generation zone
+1069	E_JOHNSON	ERCOT designated generation zone
+1070	E_KAUFMAN	ERCOT designated generation zone
+1071	E_LIMESTONE	ERCOT designated generation zone
+1072	E_MCLENNAN	ERCOT designated generation zone
+1075	E_PALO PINTO	ERCOT designated generation zone
+1076	E_PARKER	ERCOT designated generation zone
+1078	E_SHACKELFO	ERCOT designated generation zone
+1079	E_SOMERVELL	ERCOT designated generation zone
+1081	E_TARRANT	ERCOT designated generation zone
+1083	E_WISE	ERCOT designated generation zone
+1084	E_YOUNG	ERCOT designated generation zone
+1091	E_ATASCOSA	ERCOT designated generation zone
+1094	E_CAMERON	ERCOT designated generation zone
+1097	E_FRIO	ERCOT designated generation zone
+1098	E_GOLIAD	ERCOT designated generation zone
+1099	E_HIDALGO	ERCOT designated generation zone
+1102	E_KENEDY	ERCOT designated generation zone
+1106	E_MAVERICK	ERCOT designated generation zone
+1108	E_NUECES	ERCOT designated generation zone
+1110	E_SANPATRICI	ERCOT designated generation zone
+1111	E_STARR	ERCOT designated generation zone
+1112	E_WEBB	ERCOT designated generation zone
+1113	E_WILLACY	ERCOT designated generation zone
+1122	E_BASTROP	ERCOT designated generation zone
+1123	E_BEXAR	ERCOT designated generation zone
+1126	E_BURNET	ERCOT designated generation zone
+1129	E_COMAL	ERCOT designated generation zone
+1131	E_FAYETTE	ERCOT designated generation zone
+1132	E_GONZALES	ERCOT designated generation zone
+1133	E_GUADALUPE	ERCOT designated generation zone
+1134	E_HAYS	ERCOT designated generation zone
+1136	E_KENDALL	ERCOT designated generation zone
+1137	E_LAVACA	ERCOT designated generation zone
+1140	E_MILAM	ERCOT designated generation zone
+1141	E_TRAVIS	ERCOT designated generation zone
+1150	E_COKE	ERCOT designated generation zone
+1160	E_KINNEY	ERCOT designated generation zone
+1162	E_LLANO	ERCOT designated generation zone
+1166	E_MITCHELL	ERCOT designated generation zone
+1167	E_NOLAN	ERCOT designated generation zone
+1171	E_SCHLEICHER	ERCOT designated generation zone
+1172	E_SCURRY	ERCOT designated generation zone
+1175	E_TAYLOR	ERCOT designated generation zone
+1178	E_VAL VERDE	ERCOT designated generation zone
+1179	E_LUBBOCK	ERCOT designated generation zone
+1180	E_ONCOR_PU	ERCOT designated private use network
+1181	E_CNP_PUN	ERCOT designated private use network
+1182	E_AEPTNC_PUN	ERCOT designated private use network
+1183	E_AEPTCC_PUN	ERCOT designated private use network
+1184	E_TNMP_PUN	ERCOT designated private use network
+1188	E_SODG	ERCOT designated zone for Settlment Only Distributed Generation
+1189	SIMPLE_MODEL	ERCOT designated zone for Generator that only meet Section 6.9(1) of PG
+1190	E_MB	ERCOT designated zone for Mothballed units
+1192	E_RMRUNITS	ERCOT designated zone for Reliability Must Run (RMR) Units
+1193	E_SEASNL_GEN	ERCOT designated zone for seasonal units
+1194	E_RETIREDGEN	ERCOT designated zone for retired units
+1195	EX_MB	ERCOT designated extraordinary dispatch zone for mothballed units
+1196	EX_IA_NOFC	ERCOT designated extraordinary dispatch zone
+1197	EX_PUB_NOIA	ERCOT designated extraordinary dispatch zone
+1198	EX_FAKEGEN	ERCOT designated extraordinary dispatch zone for Modeling Fake units
+1199	E_AUXLOAD	ERCOT designated auxiliary load zone
+1200	UNASSIGNED	Planning zones that are not defined in NMMS are defaulted to this zone
+2000	Anderson County	Anderson County For all TSP Use
+2001	Andrews County	Andrews County For all TSP Use
+2002	Angelina County	

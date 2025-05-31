@@ -1,8 +1,8 @@
 import streamlit as st
 import os
-import openai
 import json
 import glob
+import openai 
 from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 from typing import List
@@ -14,8 +14,10 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Load or compute embeddings
 @st.cache_data(show_spinner=False)
 def load_psse_chunks_and_embeddings():
-    with open("psse_api_chunks.json", "r", encoding="utf-8") as f:
+    with open(os.path.join(os.path.dirname(__file__), "psse_examples_chunks.json"), "r", encoding="utf-8") as f:
         chunks = json.load(f)
+        st.write("Current working directory:", os.getcwd())
+        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "psse_examples_chunks.json"))
 
     embeddings = []
     embedding_model = "text-embedding-3-small"
@@ -40,6 +42,7 @@ def load_psse_chunks_and_embeddings():
     chunks, embeddings = zip(*valid_pairs)
     embeddings = np.array(embeddings)
     return list(chunks), embeddings
+
 # Embed the user query
 def embed_query(query: str) -> List[float]:
     response = client.embeddings.create(
@@ -48,20 +51,44 @@ def embed_query(query: str) -> List[float]:
     )
     return response.data[0].embedding
 
-# Find best matching chunk
-def find_best_match(query: str, chunks, embeddings):
+# Find top K matches
+def find_top_k_matches(query: str, chunks, embeddings, k=50):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity(query_embedding.reshape(1, -1), embeddings).flatten()
-    best_idx = int(np.argmax(scores))
-    return chunks[best_idx]
+    scores = cosine_similarity(query_embedding, embeddings).flatten()
+    top_indices = scores.argsort()[-k:][::-1]
+    top_chunks = [chunks[i] for i in top_indices]
+    return top_chunks
+
+# Limit chunks by token budget
+def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
+    total = 0
+    selected = []
+    for chunk in chunks:
+        token_count = len(chunk["text"].split())  # rough estimate
+        if total + token_count > max_input_tokens:
+            break
+        selected.append(chunk)
+        total += token_count
+    return selected
 
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's PSSE API AI Assistant", page_icon="⚡")
 st.title("🧠 Ask Amir Exir's PSSE API AI Assistant")
 
 # Load data and embeddings once
-with st.spinner("Loading nodal protocols and computing embeddings..."):
-    chunks, embeddings = load_ercot_chunks_and_embeddings()
+with st.spinner("Loading PSSE API examples and computing embeddings..."):
+    chunks, embeddings = load_psse_chunks_and_embeddings()
+
+import re
+
+def extract_function_names(chunks):
+    pattern = r'\bpsspy\.(\w+)\b'
+    func_names = set()
+    for chunk in chunks:
+        func_names.update(re.findall(pattern, chunk["text"]))
+    return func_names
+
+valid_funcs = extract_function_names(chunks)
 
 # Initialize chat
 if "messages" not in st.session_state:
@@ -77,25 +104,27 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        best_chunk = find_best_match(prompt, chunks, embeddings)
+        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=50)
+        trimmed_chunks = limit_chunks_by_token_budget(top_chunks)
+        combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in trimmed_chunks)
 
         system_prompt = {
             "role": "system",
             "content": f"""
-        You are an expert assistant on the PSS/E Python API and automation for power systems.
-
-        Only use the following API chunk as your source:
+        You are an the most advanced PSS/E python API and automation expert for power systems. When given a task, identify the relevant API and return a full code sample. Avoid made-up functions. Cite the chunk you're using.
+        
+        Use only the following {len(trimmed_chunks)} reference chunks (from API manual and examples):
 
         ---
-        {best_chunk['text']}
+        {combined_context}
         ---
 
-        Answer clearly, with a focus on:
-        - What the function(s) do
-        - Example usage in Python
-        - When they are typically used
+        Respond with:
+        - Clear descriptions of function usage
+        - Real working Python code
+        - Best practices and typical use cases
 
-        Do not hallucinate or invent details beyond this context.
+        Prioritize actual examples if available. Do not make up any function names not shown.
         """
         }
 
@@ -104,9 +133,22 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
-            max_tokens=1024
+            max_tokens=8192
         )
 
         bot_msg = response.choices[0].message.content
+
+        def find_invalid_functions(response_text, valid_funcs):
+            used = re.findall(r'\bpsspy\.(\w+)\b', response_text)
+            return [f for f in used if f not in valid_funcs]
+
+        invalid_funcs = find_invalid_functions(bot_msg, valid_funcs)
+
+        if invalid_funcs:
+            st.warning(f"⚠️ Warning: These functions may not exist in the API: {', '.join(invalid_funcs)}")
+            bot_msg += f"\n\n⚠️ *Caution: The following PSS/E API function(s) may be hallucinated or not found in the official documentation: {', '.join(invalid_funcs)}*"
+
+
+
         st.chat_message("assistant").markdown(bot_msg)
         st.session_state.messages.append({"role": "assistant", "content": bot_msg})

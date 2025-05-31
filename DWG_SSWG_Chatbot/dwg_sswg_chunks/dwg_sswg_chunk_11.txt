@@ -1,0 +1,67 @@
+herefore, it is imperative that neighboring entities exercise care in coordinating tie line data. 
+Ratings for tie lines should be mutually agreed upon by all involved entities and should comply with NERC Reliability Standards. 
+
+It is imperative for neighboring entities to coordinate tie line data in order to allow Planning Case work activities to proceed unimpeded. Entities should exchange tie-line data at least two weeks before the data is due to ERCOT. Coordination of tie line data includes timely agreement between entities on the following for each tie line:
+•	In-service/ out-service dates for ties
+•	From bus number
+•	To bus number
+•	Circuit identifier
+•	Impedance and charging data
+•	Ratings
+•	Transformer adjustment (LTC) data
+•	Status of branch
+•	Circuit miles
+•	Ownership (up to four owners)
+•	Entity responsible for submitting data  
+
+OSRs can be submitted separately into NMMS/MAGE but for PMCRs in MOD only one set of ratings can be submitted.  Impedance and length are only allowed to have one submission, the majority owner of the tie line should submit this data to NMMS/MAGE and MOD and ensure that they are accounting for any other modeling information for connecting entities.
+
+ 
+4.4.4	Metering Point
+Each tie line or branch has a designated metering point and this designation may also be coordinated between neighboring TSP areas.  The location of the metering point determines which TSP area will account for losses on the tie branch.  PSS®E software allocates branch losses to the TSP area of the un-metered bus.  For example, if the metering point is located at the “to” bus then branch losses will be allocated to the TSP area of the “from” bus.  The first bus specified in the branch record is the default location of the metering point unless the second bus is entered as a negative number. These are the first and second data fields in the branch record.
+4.4.5	Branch Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+From Bus Number	NMMS	MOD PMCR
+From Bus Name	NMMS 	MOD PMCR 
+To Bus Number	NMMS	MOD PMCR
+To Bus Name	NMMS 	MOD PMCR 
+ID	NMMS	MOD PMCR
+Resistance R (pu) 	NMMS	MOD PMCR
+Reactance X (pu)4	NMMS	MOD PMCR
+Charging Susceptance (pu) 	NMMS	MOD PMCR
+Branch Status	NMMS	MOD PMCR
+Rate 1/Rate 2/ Rate 3 / Rate 4 / Rate 5 (MVA)	NMMS	MOD PMCR
+Line Length (Miles)	NMMS	MOD PMCR
+Owner 	NMMS	MOD PMCR
+RE or PUN Owned Branch data	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Multi-Section Line	NMMS	MOD PMCR
+	 
+4.5	Transformer Data
+4.5.1	Use of Transformer Record Data Fields 
+All existing and planned transformers are to be represented in the SSWG Cases.  Transformer data records specify all the data necessary to model transformers in power flow calculations.  Both two winding transformers and three winding transformers can be specified in the SSWG Cases. 
+4.5.1.1	Bus Specifications
+The end points of each transformer in the SSWG Cases are specified by “winding 1” and “winding 2” bus numbers.  In some cases, the “winding 1” and “winding 2” buses used to specify a transformer are in two different TSP areas, making the transformer a tie line (See Section 4.4.3, Coordination of Tie Lines). Three winding transformers (transformers with a tertiary winding) can be represented by specifying a “winding 3” bus number in the data to represent the tertiary winding.
+4.5.1.2	Transformer Circuit Identifier
+Circuit identifiers are limited to two alphanumeric characters. Each TSP will determine its own naming convention for circuit identifiers. Actual transformer identifiers may be used for circuit identifiers for transformers, however, typically, circuit identifiers are used to indicate which transformer is being defined when more than one transformer is modeled between two common buses. TSP’s can identify autotransformers with the letter A as the first character of the ID field.  Generator Step-Up transformers can be identified with the letter G.  Phase-shifting transformers can be identified with the letter P.
+4.5.1.3	Impedance and Admittance Data
+The resistance and reactance data for transformers in the SSWG Cases can be specified in one of three ways: (1) in per-unit on 100 MVA system base (default), (2) in per-unit on winding base MVA and winding bus base voltage, (3) in transformer load loss in watts and impedance magnitude in per-unit on winding base MVA and winding bus base voltage.  Transformer resistance and reactance data supplied from the Topology Processor are specified in per-unit on 100 MVA system base.
+4.5.1.3.1	Resistance 
+Transformer test records should be used to calculate the resistance associated with a transformer record. Where transformer test records are unavailable, the resistance should be entered as either a value similar to a comparable transformer or zero.
+4.5.1.3.2	Reactance
+Transformer test records or transformer nameplate impedance should be used to calculate the reactance associated with a transformer record. Where the transformer resistance component is known, the transformer reactance is calculated on the same base using the known data and the reactance component is determined using the Pythagorean Theorem. Where the transformer resistance is assumed to be zero, the calculated transformer reactance can be assumed to be equal to the transformer impedance.
+4.5.1.3.3	Susceptance
+For power-flow modeling purposes, the transformer susceptance is always assumed to be zero.
+
+ 
+4.5.1.4	Transformer Ratings
+The ratings used for transformer are defined the same as the ratings used for branches described in Section 4.4.1.4.
+4.5.1.5	Status
+Transformer data records include a field for status.  Entities are allowed to submit transformer data with an out-of-service status for equipment normally out of service.   
+4.5.1.6	Ownership
+Up to four owners and corresponding percent ownership can be specified for each transformer in the SSWG Cases. Owner IDs and corresponding percent ownership should be included for all transformers. The sum of all percent ownerships should equal 100% for every transformer.
+4.5.1.7	Angle
+In PSS®E, the phase shift across a two-winding transformer is specified by an angle referenced to the winding defined as “winding 1” by the combined logic of the “From Bus Number”, “To Bus Number” and “Winding 1 Side” (From or To logic) fields.  The phase shift angle is positive when the voltage of the bus corresponding to the referenced winding leads the voltage of the bus connected to the opposite winding.
+
+The phase shift(s) associated with a three-winding transformer is(are) accounted for by the specification of an angle for each of the three windings.  The phase shift angle across a winding is positive when the voltage of the corresponding bus leads the voltage of the star point bus.
+
+The transformer phase shift angle is measured in degrees for bot

@@ -1,0 +1,1206 @@
+ERCOT STEADY STATE WORKING GROUP
+PROCEDURE MANUAL
+
+
+
+ROS Approved: July 11, 2024
+ 
+Table of Contents
+1	INTRODUCTION	3
+1.1	ERCOT Steady-State Working Group Scope	3
+1.2	Introduction to Case Building Procedures and Methodologies	4
+2	DEFINITIONS AND ACRONYMS	5
+3	SSWG CASE PROCEDURES AND SCHEDULES	9
+3.1	General	9
+3.2	SSWG Case Definitions and Build Schedules	9
+3.3	SSWG Case Build Processes	11
+4	MODELING METHODOLOGIES	16
+4.1	Bus, Area, Zone and Owner Data	16
+4.2	Load Data	17
+4.3	Generator Data	19
+4.4	Branch Data	28
+4.5	Transformer Data	38
+4.6	Static Reactive Devices	44
+4.7	Dynamic Control Devices	46
+4.8	HVDC Devices	47
+5	OTHER SSWG ACTIVITIES	48
+5.1	Transmission Loss Factor Calculations	48
+5.2	Contingency Database	48
+5.3	Review of NMMS and Topology Processor Compatibility with PSS®E	51
+5.4	Planning Data Dictionary	52
+6	APPENDICES	54
+
+ 
+1	INTRODUCTION
+1.1	ERCOT Steady-State Working Group Scope
+The ERCOT Steady-State Working Group (SSWG) operates under the direction of the Reliability and Operations Subcommittee. The SSWG is a non-voting working group whose members include representatives from ERCOT Transmission Service Providers (TSPs) and ERCOT staff. The main objective of SSWG is to produce steady state seasonal and future steady-state base cases, and GIC system models. The SSWG meets twice a year to accomplish these tasks, and at other times during the year as needed to resolve any impending power-flow modeling issues or to provide technical support to the ROS. The SSWG responsibilities are further described as follows:
+•	Develop a set of SSWG Cases annually.
+
+•	Update the SSWG Cases on a biannual basis.
+
+•	Maintain and update the Transmission Project Information Tracking (TPIT) report, which reflects data used for SSWG Case development and updates. Update the TPIT report on a triannual basis.
+
+•	Maintain and update the Planning Data Dictionary to reflect current and future year bus and county information. 
+
+•	Review and update, as necessary (at least every five years), the SSWG Procedural Manual to reflect current planning practices and the latest steady-state modeling methodologies.
+
+•	Prepare data for and review seasonal transmission loss factor calculations by January 1st of each year.  
+
+•	Develop steady state and geomagnetic disturbance model processes for compliance with NERC Reliability Standards for Transmission Planner and Planning Authority/Coordinator.
+
+•	Coordinate tie-line modeling data with adjacent Transmission Planners via the case-building process. 
+
+•	Review and update the contingency definition files used for planning. 
+
+•	Address issues as directed by the ROS.
+
+•	Annually review status of the Network Model Management System (NMMS) and Topology Processor software regarding new planning data needs.
+
+•	Develop GIC system models every 5 years in compliance with NERC TPL-007.
+
+•	Maintain GIC data in alignment with SSWG cases.
+
+•	Communicate information related to updates to the GIC system models during model builds via the GIC listserv.
+
+•	Review and update the GIC Procedure Manual (at least every five years).
+
+1.2	Introduction to Case Building Procedures and Methodologies
+The principal function of the SSWG is to provide steady-state power flow models, or base cases, which contain appropriate equipment characteristics, system data, and shall represent projected system conditions.  This procedure manual is intended to demonstrate compliance with NERC Reliability Standards applicable to steady-state modeling. The ERCOT Protocols require the SSWG Cases developed for annual planning purposes to contain, as much as practicable, information consistent with the Network Operations Model.  
+Planning models are bus-branch representations of the transmission system (60 kV and above), which includes buses, branches, impedances, facility ratings, loads, reactive devices, transformers, generators, and DC lines. 
+The ROS directs the SSWG as to which cases are to be created via changes to this procedure manual.  Currently, the SSWG builds a set of steady-state base cases on an annual basis, collectively called the SSWG Cases.  The SSWG Cases consist of the following:
+•	8 seasonal cases representing on-peak and off-peak conditions for the four seasons of the next year beyond the year the cases are built  
+•	6 future year cases representing summer on-peak conditions with the first year beginning two years beyond the year the cases are built.  
+•	1 future year case representing high renewable generation ouput and minimum load conditions
+•	1 future year case representing minimum load conditions 
+The future summer peak cases are collectively known as the Annual Planning Models and are subject to the requirements defined in the ERCOT Protocols.  Each set of SSWG Cases are to be built or updated during the biannual update cycle.
+Various groups utilize the SSWG Cases for a variety of tasks.   These tasks include, but are not limited to the following:
+
+•	ERCOT and TSPs test the interconnected systems modeled in the cases against the transmission system planning performance requirements set forth by NERC,  ERCOT Planning Guide and their individual TSP planning criteria to assess future system reliability. 
+
+•	ROS Working Groups and ERCOT use the SSWG Cases as the basis for other types of calculations and studies including, but not limited to: 
+
+o	Internal planning studies and generation interconnection studies
+o	Voltage control and reactive planning studies
+o	Basis for Dynamics Working Group stability studies
+o	ERCOT transmission loss factor calculation
+o	Basis for ERCOT operating cases and FERC 715 filing
+ 
+2	DEFINITIONS AND ACRONYMS
+In the event of a conflict between any definitions or acronyms included in this manual and any definitions or acronyms established in the ERCOT Nodal Protocols and Planning Guide, the definitions and acronyms established in the ERCOT Nodal Protocols and Planning Guide take precedence.
+2.1	Definitions
+
+
+Annual Planning Model		The future year cases representing summer on-peak conditions
+with the first year beginning two years beyond the year the cases 
+are built.  This is a subset of the SSWG Cases.
+
+IDEV	A script file recognized by PSS®E used for transporting and applying network model changes.
+
+LLI	Large Load Interconnection; The Interim Large Load Interconnection process outlined by ERCOT Market Notice W-A032522-0.
+                                                
+Model On Demand	Model On Demand application is a Siemens program that serves as a database and case building tool that SSWG uses to create and maintain the SSWG Cases.
+
+MOD Base Case	The TP Case loaded into MOD that is incrementally updated by ERCOT to maintain consistency between NMMS and MOD and is used as a starting point for building/updating SSWG Cases.
+
+MOD File Builder	An application which converts planning model changes made in the PSS®E application, IDEV,  into a PMCR-ready format, PRJ, which can be uploaded to MOD.
+
+Network Operations Model	The NMMS database containing the model of the ERCOT 
+Management System	interconnection which is the basis for all applications used in reliability and market analysis and system planning.
+
+Off-Cycle Updates			Model updates which occurred between a biannual update cycle.
+
+Planning Model Change Request	A Planning Model Change Request modifies MOD to model future transmission projects in the SSWG Cases.
+
+
+Planning Model Design Guidelines	A manual that describes MOD, MOD File Builder, and naming 
+& Expectations 			conventions for cases.
+
+Profile	A method for specifying non-topology modeling parameters in the SSWG Cases which are not typically constant over the various seasons and years.  This includes load, generation, and device control information.  Profiles are described more fully in the ERCOT MOD Manual.
+
+ROS	ERCOT Reliability and Operating Subcommittee.  SSWG is a working group created by ROS to create the steady-state planning models for ERCOT.  SSWG reports to ROS and takes direction from ROS. 
+
+SSWG Cases:				All of the steady-state base cases created and maintained by the 
+	SSWG, as directed by the ROS.
+
+Standard PMCR	A PMCR for adding planning model elements or modifying planning model attributes in the Network Operations Model in MOD for SSWG Cases that either are not available in the NMMS database or are not properly converted by the Topology Processor.
+
+Topology				The arrangement of buses and lines in a network model.
+
+Topology Processer (TP)	Siemens software application that converts the ERCOT Network Operations network model to a planning bus/branch model.
+
+TP Case	A bus/branch model created from the Network Operations Model using the Topology Processor application for a specific date.
+
+Transmission In-Service Date:	The equipment energization date used in the creation of the TP case and used in MOD to incorporate Project PMCRs that will be included in the MOD case build.
+
+Transmission Project Information 	A report (Excel spreadsheet) that is created triannually to reflect 
+Tracking	the updates related to transmission projects.
+
+
+ 
+2.2	Acronyms
+
+ALDR	Annual Load Data Request
+
+
+CLR	Controllable Load Resource
+
+CMP	Constraint Management Plan
+
+DER	Distributed Energy Resources
+
+DESR	Distribution Energy Storage Resource
+
+DGR	Distribution Generation Resource
+
+DSP	Distribution Service Provider
+
+EPS	ERCOT Polled Settlement (metering)
+
+ERCOT	Electric Reliability Council of Texas
+
+FERC	Federal Energy Regulatory Commission
+
+GINR	Generation Interconnection Request number
+
+HRML	High Renewable/Minimum Load
+
+IMM	Information Model Manager
+
+LFL	Large Flexible Load
+
+LSE	Load Serving Entity
+
+MLSE	Most Limiting Series Element
+
+MOD	Model on Demand
+
+NCLR	Non-Controllable Load Resource
+
+NDCRC	Net Dependable Capability and Reactive Capability
+
+NERC	North American Electric Reliability Corporation 
+
+NMMS	Network Model Management System
+
+NOIE	Non Opt In Entity
+
+NOMCR	Network Operations Model Change Request
+
+OSR                            Owner’s Share Ratings 
+
+PLWG	Planning Working Group
+
+PMCR	Planning Model Change Request
+
+PPL	Project Priority List
+
+PSS®E	Power System Simulator for Engineering
+
+PUN	Private Use Network
+
+POI	Point of Interconnection
+
+RAWD	PSS®E Raw Data format
+
+RAS	Remedial Action SchemeRE	Resource Entity
+
+ROS	Reliability and Operating Subcommittee
+
+SCADA	Supervisory Control And Data Acquisition
+
+SCR	System Change Request
+
+SODG	Settlement Only Distribution Generator
+
+SS	Steady State Cases
+
+SSWG	Steady-State Working Group
+
+TPIT	Transmission Project Information Tracking
+
+TSP 	Transmission Service Provider
+
+TO	Transmission Owner
+
+UDG	Unregistered Distributed Generation 
+
+WGR	Wind Generation Resource
+
+WMWG	Wholesale Market Working Group
+
+
+
+ 
+3	SSWG CASE PROCEDURES AND SCHEDULES
+3.1	General
+The SSWG and ERCOT create the SSWG Cases annually and update them biannually at fixed intervals throughout each year.  This section describes the creation and update process and schedule to create and update SSWG Cases .
+3.2	SSWG Case Definitions and Build Schedules
+The SSWG Cases are created by SSWG each year and consist of the following:
+
+•	Eight seasonal cases starting with the SPG cases representing on-peak and off-peak conditions for the four seasons of the next year beyond the year the cases are built.  
+•	Six future year cases representing summer on-peak conditions with the first year beginning two years beyond the year the cases are built.  
+•	One future year case representing high renewable and minimum load conditions. 
+•	One future year case representing minimum load conditions. 
+SSWG Case seasons are defined as follows:
+
+SPG		March, April, May
+SUM		June, July, August, September
+FAL		October, November
+WIN		December, January, February
+
+The following table is a guide for case creation.  YR represents the year the case is created.  
+SSWG CASE	NOTES	TRANSMISSION IN-SERVICE DATE
+(YR+1) SPG1	2	April 1, (YR+1)
+(YR+1) SPG2	3	April 1, (YR+1)
+(YR+1) SUM1	1	July 1, (YR+1)
+(YR+1) SUM2	3	July 1, (YR+1)
+(YR+1) FAL1	2	October 1, (YR+1)
+(YR+1) FAL2	3	October 1, (YR+1)
+(YR+2) WIN1	1	January 1, (YR+2)
+(YR+2) WIN2	3	January 1, (YR+2)
+(YR+2) SUM1	1	July 1, (YR+2)
+(YR+3) SUM1	1	July 1, (YR+3)
+(YR+4) MIN	4	January 1, (YR+4)
+(YR+4) HRML	5	January 1, (YR+4)
+(YR+4) SUM1	1	July 1, (YR+4)
+(YR+5) SUM1	1	July 1, (YR+5)
+(YR+6) SUM1	1	July 1, (YR+6)
+(YR+7) SUM1	1	July 1, (YR+7)
+
+
+Notes:
+1.	Cases to represent the maximum expected load during the season.
+2.	Cases to represent maximum expected load during month of transmission in-service date.
+3.	Cases to represent lowest load on same day as the corresponding seasonal case (not a minimum case). For example, (YR) FAL2 case represents the lowest load on the same day as the (YR) FAL1 case.
+4.	Case to represent the absolute minimum load expected for the year.
+5.	Case to represent a high renewable generation dispatch and absolute minimum load expected for the year.
+3.2.1	Updates
+The SSWG Case updates will be made in the MOD environment by changing an existing PMCR or creating a new PMCR.  It should be recognized that impedance or ratings updates made to the Network Operations Model after the TP case was created will have to be submitted as a ‘NOMCR Pending’ or ‘NOMCR Submitted’ PMCR to maintain consistency with the Network Operations Model.  See Planning Guide Section 6.4 for additional information about the TPIT process.
+
+
+ 
+ 
+3.3	SSWG Case Build Processes
+3.3.1	Overview
+The SSWG Cases are based upon the ERCOT Network Operations Model.  Network model data from the ERCOT NMMS system is used to create the TP case.  The TP case, or an incremental update to the previously uploaded TP case, is then imported into MOD and becomes the MOD base case.  ERCOT and the TSPs submit Standard PMCRs and PMCRs into MOD.  Other PMCRs are also submitted into MOD (i.e. ‘NOMCR_PENDING’ and ‘NOMCR_SUBMITTED’ PMCRs) which are aimed at maintaining consistency between NMMS and MOD.  Additionally, ERCOT and the TSPs submit Load, Generation, and Device Control Profiles into MOD.  After being submitted, approved, and accepted, the combination of PMCRs and Profiles are applied to the MOD seed case to create the SSWG Cases.
+The primary software tools utilized for these processes are MOD, MOD File Builder and PSS®E. MOD is a web based application maintained by ERCOT.  TSPs and ERCOT use MOD to submit projects and profiles for SSWG Cases.  ERCOT compiles these submitted projects and profiles to build the SSWG Cases.  Case modifications can be accomplished in MOD by either uploading PMCRs in MOD, or by manual entry using the MOD interface.  SSWG members should consult the Planning Model Design Guidelines & Expectations manual for specific instructions on MOD.
+3.3.2	Incremental Update
+Upon commencement of each new SSWG Case creation and each update, the SSWG implements an incremental update to the MOD base case in order to include the latest Network Operations Model data into the SSWG Cases.  This is accomplished by using MOD File Builder to compare the RAW files of topology processed NMMS data with selected data currently existing in MOD.  MOD File Builder is used to create a comparison PMCR that updates the corresponding Planning Model data in MOD to be consistent with the Network Operations Model data.  The comparison PMCR is subsequently submitted into MOD and committed to the MOD base case to perform the incremental MOD base case update.  
+The sample flowchart below identifies the general process:
+
+ 
+ 
+3.3.3	Transmission In-Service Date for the TP Case
+The TP case will be generated by ERCOT staff using an NMMS Transmission In-Service Date agreed upon by SSWG. The TP case will contain all existing NOMCRs with a Transmission In-Service Date on or before the agreed upon Transmission In-Service Date. Any NOMCR submitted after the TP case download which happens to have a Transmission In-Service Date prior to the agreed upon Transmission In-Service Date will not be included in the TP case.  For that situation, the TSP who owns the NOMCR must submit a PMCR to appropriately include the network model change in the SSWG Cases.
+3.3.4	Entity Responsibilities
+The  SSWG Cases are assembled and produced as a collaborative effort by the SSWG.  The responsibilities for providing this data are divided among the various Market Participants (MPs) and ERCOT. These data provision responsibilities may overlap among the various MPs because MPs may designate their representative or MPs may be a member of more than one MP group.  MPs can generally be divided into four groups: TSPs, LSEs, REs, and Market Entities.  ERCOT staff is included as a fifth entity with data provision responsibilities.  The data responsibilities of each group are as follows:
+3.3.4.1	TSPs
+•	It is the responsibility of each TSP to provide accurate modeling information for all ERCOT Transmission Facilities owned or planned by the TSP.  Submission requirements and naming conventions described in the ERCOT Planning Model Design & Expectations manual shall be followed.
+•	Future Transmission Facility changes will be submitted as PMCRs. A PMCR phase date should correspond to the transmission in-service date. PMCRs should be submitted as far out into the future as possible. This technique will make the case building process more efficient when transitioning to new case builds.
+•	TSPs shall submit Profiles of all load data and associated topology for the load entities of which they are designated representatives, as well as, any other load for which it has accepted responsibility for modeling.  
+•	TSPs shall change the load ID to ‘ER’ (or ‘E1’, ‘E2’, etc.) for loads for which it has historically  submitted data but no longer accepts responsibility.  ERCOT will determine the owner of the load and ensure they are part of the ALDR and SSWG processes. See Appendix E for additional details.
+•	PUN loads and POI busses will be provided by TSPs.
+•	NOIEs have the option of submitting a generation dispatch or deferring to ERCOT staff.
+•	Proper transmission system voltages will be maintained by submitting accurate data for static and dynamic reactive resources and transformer settings via a Device Control Profile for each case.  Scheduled bus voltages are maintained by the TSPs and submitted via Device Control Profiles as well.  TSPs can suggest different generator reactive limits Qmax and Qmin for ERCOT to submit in the Load Generation Profiles and should submit data to collaborate the need for the change such as historical unit operation and biennial reactive tests.  ERCOT will submit the change and follow-up with the RE and TSP to determine any Resource Registration Data modifications.
+•	If the TSPs identify errors with generator data or RE topology, the TSPs will notify ERCOT staff in accordance with the identified NMMS process.  This process entails email notification to the TSP of a Resource Registration Data change in their footprint and posting of updated Resource Registration Data data on the Citrix NMMS_POSTINGS area of the ERCOT Market Information System.
+•	Review and resolve all inconsistencies identified from the incremental update process for their respective Transmission Facilities.
+•	The “MOD Project” is submitted by the TSPs and the MOD Project ID for the project will become the “TPIT number”.  When editing an accepted project, click the “Edit” button from the project list to put project into “Preliminary” state, then “View” the project from project list and use the “Replace” button to upload edited project.  This will preserve the MOD Project ID for TPIT.
+•	TSPs are responsible for updating TPIT project and phase information in MOD during each tri-annual case build/update for all the applicable fields as shown below.
+
+Field Name	Required/ Optional
+ERCOT Project Number	Required
+RTP Project Number	Required if in RTP
+RPG Project Number	Required for submitted Tier 1, 2, and 3 projects
+Project Title	Required
+Project Description	Optional
+Comments/Reasons for Delays/Cancellations/Speedup	Optional
+Terminal "from" Location	Optional
+Terminal "to" Location	Optional
+Transmission Status	Optional
+Associated Projects (project number)	Optional
+Transmission Owner	Required
+TSP/Company Contact	Required
+Transmission Owner Project Number	Optional
+Projected In-Service Date (Month/Yr)	Required
+Actual In-Service Date (Month/Yr)	Required once energized in the field
+CONFIDENTIAL Total Project Estimated Cost	Required
+Service Level kV	Required
+Trans Circuit Miles New	Optional
+Trans Circuit Miles Rebuilt or Upgraded	Optional
+Autotransformer Capacity (MVA)	Optional
+Reactive Capability Added	Optional
+County Location for Substation or for a Line	Optional
+County Location for Ending Point for a Line	Optional
+Planning Charter Tier	Required
+Date Submitted TO ERCOT for RPG Review	Required for submitted Tier 1, 2, and 3 projects
+Date RPG Review Completed (Month/Yr)	Required for submitted Tier 1, 2, and 3 projects, if RPG review has been completed.
+Date ERCOT BOD Review Completed	-Required for submitted Tier 1 projects, if ERCOT BOD review completed.
+SSWG Base Case Related Bus Numbers	Required
+Is the project reflected in SSWG Base Cases?	Required
+Part of Interface (Y/N)	Required
+Requested Additional Information	Optional
+Other (Optional)	Optional
+Phase Number & MOD Project Number	Required
+Technical Rationale  	Required if using a less limiting facility rating or voltage limit 
+Other Rationale (Optional) 	Optional 
+3.3.4.2	LSEs
+•	Entities not having representation on SSWG shall submit their data to ERCOT staff or to the directly connected TSP, if the TSP has agreed to be the agent on SSWG for that entity.
+•	See Section 6.5, Annual Load Date Request of the ERCOT Planning Guide.
+3.3.4.3	Resource and Interconnecting Entities
+•	It is the responsibility of REs to provide all data required to accurately model their generators, step-up transformers, associated transmission facilities and reactive devices in the SSWG Cases in accordance with Section 6.8, Resource Registration Procedures of the ERCOT Planning Guide.
+•	Interconnecting Entities are required to submit data for SSWG Cases in accordance with Section 6.9 of the ERCOT Planning Guide.
+•	It is the responsibility of REs to supply any applicable load and/or generation data if they are the designated representatives for either a load or generating entity or both.
+3.3.4.4	ERCOT
+•	It is the responsibility of ERCOT staff to maintain the ERCOT MOD production environment that allows SSWG members to provide appropriate equipment characteristics and system data as stated in this procedure.
+•	ERCOT staff shall be responsible for creating each MOD incremental update base case.
+•	ERCOT staff shall be responsible for the review and inclusion of all latest available generator models with each biannual case update, including generator step-up transformers and associated RE-owned transmission facilities, RE-owned reactive devices, in the SSWG Cases. ERCOT staff will use a Bus Number range assigned to it and assign equipment IDs per ERCOT’s methodology.  Future units will be modeled in accordance with data provided by REs as required in the Generation Interconnection or Change Request Process.
+•	ERCOT staff shall provide and review all RE topology, ratings, and impedances, and provide technical rationale for any rating or voltage limit increase.
+•	If a TSP has operatorship of the breakers for a PUN, ERCOT will provide a zero impedance tie to the TSP specified POI bus.  
+•	It is the responsibility of ERCOT staff to provide an initial generation dispatch for Pass 0 during the Planning Case creation, but this dispatch does not have to be economic or security constrained.
+•	It is the responsibility of ERCOT staff to provide the revised generation dispatch based on the latest topology and loads by submitting the Generation Profile with each biannual case update.  This dispatch will be in accordance with Section 4.3.3 of this document and will be provided at the next Pass after the case reaches an acceptable AC solution and no islands exist not related to an asynchronous tie or normally open equipment.
+•	ERCOT staff shall revise the generation dispatch as needed throughout the Planning Case building processes.
+•	ERCOT staff shall review submitted PMCRs and notify TSPs of any PMCRs which appear to modify topology, ratings, or impedances from the Network Operations Model which do not have a corresponding future project.
+•	Based on the TSPs NERC responsibilities of providing appropriate equipment characteristics and system data, ERCOT staff shall not reject any PMCR that TSPs ultimately determine should be applied to a SSWG Case after appropriate reviews have occurred.
+•	ERCOT staff shall provide case checking files after each pass of the case building processes.
+•	ERCOT staff shall provide a MOD change request report following posting of finalized cases.
+•	Review and resolve all inconsistencies identified from the incremental update process for RE data.
+•	ERCOT staff shall provide TPIT spreadsheet from MOD with each case build pass.
+•	ERCOT staff shall be responsible for posting the final TPIT spreadsheet triannually.
+•	ERCOT staff shall provide all updated SSWG Cases with every pass.
+•	ERCOT staff shall revert temporary configurations created by a RAS or CMP in the SSWG  Cases
+
+3.3.5	Process Overview for Building the SSWG Cases
+•	SSWG Case Preparation
+o	Export the TP Case from NMMS.
+o	Zero out TP Case load MW/MVAR quantities.
+o	Convert the TP Case to the current PSS®E version.
+Incremental update process:
+o	ERCOT produces a comparison file with inconsistencies between the newly produced MOD case with an effective date of the TP pull date and the new TP case.
+o	ERCOT shall upload and commit the comparison file to MOD which synchronizes MOD with NMMS.
+o	ERCOT shall submit a PMCR to remove temporary configurations created by any RAS or CMP
+o	ERCOT shall update all SODGs with the latest information from NMMS.
+
+•	SSWG Case Build:
+o	Review existing PMCRs.
+o	Submit/update PMCRs.
+o	Submit/update Profiles.
+o	Load generation dispatch.
+o	Review generation voltage schedules and suggest changes.
+o	Review generation reactive curves and suggest changes.
+o	Interim final review and tuning.
+o	SSWG approves cases.
+o	Cases finalized by SSWG, the Case Information document, and the change request report are posted on the ERCOT Market Information System (MIS) website.
+
+Any changes required after the SSWG Cases are posted will be made in the MOD environment.  Off-Cycle Updates will be made by posting change files on the ERCOT MIS website per section 6.1 of the ERCOT Planning Guide.
+3.3.6	Transition from Completed Build to Next Case Build
+•	Implement the incremental update process biannual to include the latest Network Operation Modeling data.
+•	Project files representing planned projects and profiles will be retained from the previous case update.
+•	This process will continue for both SSWG Case creation and for each biannual update.
+
+4	MODELING METHODOLOGIES
+4.1	Bus, Area, Zone and Owner Data
+4.1.1	Bus Data Records
+All existing and planned transmission (60kV and above) and generator (greater than 10 MW) terminal buses shall be modeled in the SSWG Cases. Each bus record has a bus number, name, base kV, bus type code, area number, zone number, per-unit bus nominal voltage magnitude, bus voltage phase angle, and owner number. Reactive resources shall be modeled in either the fixed shunt table or the switched shunt table and shall not be modeled in any bus record.  
+4.1.2	Bus Number Ranges
+The ERCOT transmission system is modeled within the full PSS®E bus number range (1 through 999,997). The Chairman of the SSWG allocates bus ranges, new or amended, with confirmation from the SSWG members.  Each TSP represents their network in the SSWG Cases within the TSP’s designated bus number range. ERCOT represents Resource Entities (REs) and Private Use Networks (PUNs) in the SSWG Cases within ERCOT’s designated bus number range.  Bus number range assignments are listed in the Bus/Zone Range Table in Appendix A.
+4.1.3	Bus Names 
+Bus names shall not identify the customers or owners of loads or generation at new buses unless requested by customers.  The twelve character bus name in the planning model shall follow certain technical criteria as stated in the ERCOT Nodal Protocol Section 3.10 and Other Binding Documents.
+4.1.4	Area Numbers 
+TSPs and ERCOT are assigned area names and numbers for modeling purposes.  Area names and number assignments are listed in the Bus/Zone Range Table in Appendix A.  The area number does not refer to a geographic area.
+4.1.5	Zone Number Ranges
+In PSS®E, each zone data record has a zone number and a zone name identifier. The Chairman of the SSWG allocates zone number ranges, new or amended, with confirmation from SSWG members. Each TSP represents their network in the SSWG Cases using allocated zone number ranges. Zone numbers from within the TSP’s designated zone range are assigned by the TSP.  ERCOT represents Resource Entities (REs) and Private Use Networks (PUNs) in the SSWG Cases using zone ranges allocated to ERCOT.  Zone numbers from within ERCOT’s designated zone range are assigned by ERCOT.  Zone number range assignments are listed in the Bus/Zone Range Table in Appendix A.  
+
+
+4.1.6	Owner IDs
+In PSS®E, each owner data record has an owner number and an owner name identifier.  Owner IDs are assigned by ERCOT.  
+4.1.7	Bus Voltage Limits
+Normal and Emergency Bus Voltage Minimum and Maximum Limits shall reflect voltage limits set forth by the “System Operating Limit Methodology for Planning and Operations Horizon” document, however, Emergency Bus Voltage Limits for generator buses shall reflect minimum generator or high-side of GSU steady-state or ride-through voltage limitations.
+4.1.8	Bus Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Bus Number	NMMS	MOD PMCR
+Bus Name	NMMS 	MOD PMCR 
+Area Number/Name	NMMS	MOD PMCR
+Owner Number/Name	NMMS	MOD PMCR
+Bus Code	NMMS & MOD STD PMCR	MOD PMCR
+Bus Voltage & angle	NMMS & MOD PMCR	MOD PMCR
+Bus Voltage Limits	NMMS & MOD PMCR	MOD PMCR
+4.2	Load Data
+Real and reactive load forecasts within the SSWG Cases are populated with data consistent with, but not necessarily identical to, load data submitted through the ALDR process.  In general, the ALDR contains non-coincident load data while the SSWG Cases contain load data coincident with either the individual TSP projected load levels or the ERCOT system projected load level.  Furthermore, some of the loads defined in the SSWG Cases are not contained within the ALDR (e.g. off-peak, Spring, and Fall loads are not defined in the ALDR).  See Planning Guides Section 6.5 for further information about the ALDR process.
+Each load data record contains a bus number, load identifier, load status, area, zone, real and reactive power components of constant MVA load, real and reactive power components of constant current load, and real and reactive power components of constant admittance load.  In general, loads (MW and MVAR) should be modeled on the high side of transformers serving load at less than 60 kV.  However, special conditions may require more modeling detail such as parallel operation of power transformers from different sources.
+Load Resources are not modeled in the SSWG Cases but are considered a Responsive Reserve.
+4.2.1	Guidelines 
+(1)	The bus number in the load data record must be a bus that exists in the SSWG Case.  The load identifier is a two-character alphanumeric identifier used to differentiate between loads at a bus. All self-serve loads must be identified by “SS”. If there are multiple self-serve loads at the same bus, then the self-serve loads will be identified by S1, S2, S3, etc.  See Section 4.3.1.1.  Partial self-serve load should be modeled as a multiple load with “SS” identifying the self-serve portion. See Appendix E for additional details.
+(2)	The load data record zone number must be in the zone range of the TSP submitting the load, or in the zone range of ERCOT for loads associated with PUNs.  Zone numbers for loads do not have to be the same as the bus to which the load is connected.
+(3)	Generator auxiliary load should not be modeled at generating station buses. Refer to section 4.3.1. 
+(4)	In conformance with NERC Reliability Standards and the Planning Guide Section 6.5, entities not having representation on SSWG shall submit their load data to ERCOT or, if the directly connected TDSP has agreed to be the agent on SSWG for that entity, to that TSP.  If load data is not timely submitted on the schedule and in the format defined by the TSP, then ERCOT shall calculate loads based on historical data and insert these loads into the SSWG Cases during annual updates.
+(5)	Multiple loads from different TSPs at a bus may be used. At this time, each TSP can define a load with a load ID of its choice. Careful coordination, however, is required between TSP representatives to ensure that the multiple loads modeled at the same bus are modeled correctly with unique load IDs. See Appendix E for additional details.
+(6)	Guidelines for modeling DER  are detailed in the following table. DER shall not be modeled as negative load in any case.
+DER Type	Should be Embedded in Load Forecasts?	Modeled as Generation by ERCOT?
+DGR	No	Yes
+DESR	No	Yes
+SODG	No	Yes
+UDG1 	Yes	No
+1Specific guidelines for modeling UDG involve representing the aggregated total nameplate value for UDG behind each load point in each load distributed generation field, with the ‘Distributed Generation Operator Mode’ field disabled. This is to ensure that only the aggregated total nameplate capability for the UDG is reflected in the models. Enabling the ‘Distributed Generation Operator Mode’ field could risk disproportionate representation of the UDG contribution due to the load models currently aggregating UDG contributions.
+4.2.2	Load Data Source	
+NMMS determines the bus where the load is connected.  TSPs and ERCOT will assign MW and MVAR values by submitting Load/Generation Profiles through MOD.  New loads or corrections to the location of existing loads will be submitted by PMCR through MOD.
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Bus Number	NMMS	MOD PMCR
+Bus Name	NMMS 	MOD PMCR 
+Area Number/Name	NMMS	MOD PMCR
+Owner Number/Name	NMMS	MOD PMCR
+Bus Code	NMMS 	MOD PMCR
+Load ID	NMMS	MOD PMCR
+Load Zone	NMMS 	MOD PMCR 
+P load (MW)	MOD PROFILES	MOD PROFILES
+Q load (Mvar)	MOD PROFILES	MOD PROFILES
+Scalable Flag	NMMS/MOD PMCR1	MOD PMCR
+Interruptible Flag	NMMS/MOD PMCR2	MOD PMCR
+1 - For the existing load elements, the scalable flag in SSWG Cases is populated based on the value of “CustomerLoad” attribute “Conforming Load Flag” in NMMS. If the “Conforming Load Flag” attribute is set to TRUE in NMMS, then the Scalable flag is “Checked” in SSWG Cases.
+2 - For the existing load elements, the Interruptible flag in SSWG Cases is populated based on the value of “CustomerLoad” attribute “Interruptible” in NMMS. If the “Interruptible” attribute is set to TRUE  in NMMS, then the Interruptible flag is “Checked” in SSWG Cases.
+4.3	Generator Data
+4.3.1	Acquisition of Generator Data
+4.3.1.1	Generation that meets Planning Guide 6.9(1)
+ERCOT will utilize the latest data provided by the IEs/REs in the Security Screening Study, or Full Interconnection Study if started, to model the Resource using the simple model.
+
+Unit Reactive Limits should be modeled at a 95% power factor of the PMAX.  Generator ID prefixes will be designated as specified in Appendix D.  
+
+Each simple modeled generator will be modeled in the following Zone:
+
+Zone Number	Zone Name
+1189	SIMPLE_Model
+
+
+
+
+4.3.1.2	Generation that meets Planning Guide 6.9(2)
+Upon meeting Planning Guide 6.9(2), ERCOT will utilize Resource Registration data provided by IEs/REs in accordance with ERCOT Protocols, Market Guides and the Generation Interconnection Process to model the Resource.  Only net real and reactive generator outputs and ratings should be modeled in SSWG Cases. Net generation is equal to the gross generation minus station auxiliaries and other internal power requirements.  All non-self-serve generation connected at 60 kV and above with at least 10 MW aggregated at the point of interconnect must be explicitly modeled. A generator explicitly modeled must include generator step-up transformer and actual no-load tap position. Generation of less than 10 MW is still required to be modeled, but not explicitly.
+Unit Reactive Limits (leading and lagging) for existing units are obtained from the Resource Registration data.  The Resource Registration data should reflect the most recent generator reactive unit test data conducted by the RE.  Limited Resource Registration data shall be made available to SSWG upon request. 
+Generator reactive limits should be modeled with one value for Qmax and one value for Qmin as described below:
+	Qmax
+	
+	Qmax is the maximum net lagging MVAr observed at the low side of the generator step up transformer when the unit is operating at its maximum net dependable MW capability. Qmax is calculated from the lagging Resource Registration data MW4 MVar value by subtracting Resource Registration data auxiliary load MVAr. 
+	
+	Example:
+	
+	Resource Registration data lagging MW4 value is 85 MVAr
+	Resource Registration data auxiliary Load is 5 MVAr  
+	In this example, Qmax is 85 – 5 = 80 MVAr 
+	
+	Qmin
+	
+	Qmin is the maximum net leading MVAr observed at the low side of the generator step up transformer when the unit is operating at its maximum net dependable MW capability. Qmin is calculated from the leading Resource Registration data MW4 MVar value by subtracting Resource Registration data auxiliary load MVAr. 
+	
+	Example:
+	
+	Resource Registration data leading MW4 value is -55 MVAr
+	Resource Registration data auxiliary Load is 5 MVAr
+	In this example, Qmin is -55 – 5 = -60 MVAr
+4.3.1.3	Self-Serve Generation
+Self-serve generators serve local load that does not flow through the ERCOT transmission system. Generation dispatch may be submitted by TSPs on a biannual basis for self-serve facilities serving self-serve load modeled in the SSWG Case. If no generation dispatch is submitted by the TSPs, ERCOT will dispatch the units accordingly to meet the self-serve load.  Total self-serve generation MWs shall match total self-serve load MWs. 
+4.3.1.4	Distribution Generation Resources, Distribution Energy Storage Resources, and Settlement Only Distribution Generators 
+ERCOT will utilize Resource Registration data provided by IEs/REs to model DGR, DESR, and SODG. SODG will be aggregated by fuel type and represented as a simple model and will be assumed to operate at unity power factor with no voltage control.
+4.3.1.5	Coordination with other ERCOT Working Groups 
+All generator data should be coordinated with the Dynamics Working Group, Operations Working Group, Network Data Support Working Group and System Protection Working Group members to assure that it is correct before submitting the cases. This will insure that all of the cases have the most current steady state and dynamics information.  The following items should be provided to these working groups for data coordination:
+•	Unit bus number
+•	Unit ID
+•	Unit maximum and minimum real power capabilities
+•	Unit maximum and minimum reactive power capabilities
+•	Unit MVA base
+•	Resistive and reactive machine impedances
+•	Resistive and reactive generator step-up transformer impedances
+•	Reactive devices modeled on the Generator side
+4.3.2	Load and Generation Balance
+Before the generation schedule can be determined, the expected ERCOT load and losses (demand) must be determined. Each MW of demand needs to be accounted for by a MW of generation. 
+4.3.3	Generation Dispatch Methodology for Planning Purposes
+In order to simulate the future market, the following methodology for generation dispatch has been adopted for building the  Steady State Cases, with the exception of the HRML case. The HRML case build process is described separately below. Generation dispatch, as described below, is for planning and may not necessarily reflect the actual real-time dispatch.
+Existing and planned units owned by Non-Opt-In Entities (NOIE) are dispatched according to the NOIE dispatch spreadsheets submitted to ERCOT on a biannual basis; unless a NOIE requests that their units are to be dispatched according to the order that is described below or do not submit a NOIE dispatch. 
+Private network generation is also dispatched independently. The units are dispatched to meet their load modeled in the case. The import/export contributions of the DC Ties will be set based on historical data to the extent that the contributions are consistent with those indicated in the most recent Capacity, Demand and Reserves (CDR) Report.  Likewise, wind units are dispatched in accordance with Appendix B, Method for Calculating Wind Generation Levels in SSWG Cases, to extent that the dispatch is consistent with the regional contributions indicated in the CDR Report. Solar units are dispatched at a level consistent with the CDR Report. Battery Energy Storage units are dispatched at a level consistent with the CDR Report for On-Peak Cases.
+Units that are solely for black start purposes are to be modeled in the SSWG Cases; however, these units should not be dispatched.  Black Start units are designated with a unit ID of “BS”.
+All other transmission level units are dispatched using an economic-simulation software package. Units will be dispatched to minimize production costs taking into account unit start-up times and cost and heat rates while adhering to the following guidelines for each set of cases: (YR is the year the case is created)
+
+SSWG CASE	NOTES	TRANSMISSION IN-SERVICE DATE
+(YR+1) SPG1	1	April 1, (YR+1)
+(YR+1) SPG2	1	April 1, (YR+1)
+(YR+1) SUM1	1	July 1, (YR+1)
+(YR+1) SUM2	1	July 1, (YR+1)
+(YR+1) FAL1	1	October 1, (YR+1)
+(YR+1) FAL2	1	October 1, (YR+1)
+(YR+2) WIN1	1	January 1, (YR+2)
+(YR+2) WIN2	1	January 1, (YR+2)
+(YR+2) SUM1	2	July 1, (YR+2)
+(YR+3) SUM1	2	July 1, (YR+3)
+(YR+4) MIN	3	January 1, (YR+4)
+(YR+4) HRML	4	January 1, (YR+4)
+(YR+4) SUM1	2	July 1, (YR+4)
+(YR+5) SUM1	2	July 1, (YR+5)
+(YR+6) SUM1	2	July 1, (YR+6)
+(YR+7) SUM1	2	July 1, (YR+7)
+Notes:
+1.	The SSWG Cases that are Security Constrained Economically Dispatched (SCED) using NERC and ERCOT contingencies for which non-consequential load loss is generally not allowed while monitoring Rate 1 (pre-contingency) and Rate 2 (post-contingency) for all transmission lines greater than 60 kV and transformers with the low side greater than 60 kV. 
+2.	The SSWG Cases that are economically dispatched with an attempt to prevent Rate 1 overloads for all transmission lines greater than 60 kV and transformers with the low side greater than 60 kV. 
+3.	Not Economically Dispatched
+4.	The HRML case build process is as follows:
+a.	Topology
+i.	Use the topology as of January 1, YR+4
+b.	Load
+i.	Load shall be set at absolute minimum load expected for the year (the same value utilized by the MIN case)
+c.	Respect existing N-0 GTC limits
+i.	Model and constrain on the GTC interfaces with an N-0 limit that is not 9999
+d.	Dispatch the case
+i.	Dispatch nuclear units at full capacity, and NOIE and PUN units at the output in the NOIE/PUN dispatch sheet
+ii.	Turn DC ties off
+iii.	Determine reserve requirements from ancillary services and dispatch conventional generation on a lowest cost basis at PMIN if needed to meet reserve requirements. 
+1.	Use the average of the last January reserves for:
+a.	Responsive Reserve Service – Primary Frequency Response – to come from online headroom
+b.	Regulation Up – to come from online headroom
+c.	Regulation Down – to come from renewables
+d.	Non-Spin – to come from online headroom 
+iv.	Dispatch additional conventional generation on a lowest cost basis at PMIN to meet the ERCOT critical inertia requirements
+1.	The minimum inertia level to meet is 121 GWs
+2.	If the requirements are already met by meeting AS reserve – do not dispatch additional conventional units
+v.	Calculate the remaining load to be served (MIN load – sum of nuclear/PUN/reserve PGEN)
+vi.	Dispatch renewable units
+1.	Collect historical hourly wind and solar data of the past 18 months
+a.	Monthly report on uncurtailed generation estimate data is posted on the WMWG meeting page each month
+https://www.ercot.com/committees/wms/wmwg 
+2.	Remove hours where uncurtailed wind or solar capacity output is less than 50%
+3.	Sum the hourly uncurtailed wind and solar capacity output
+4.	Find the penetration of the sum of the hourly uncurtailed wind and solar capacity output to system load during the hour (sum/load)
+5.	Rank the hours by the penetration percentage from the previous step from highest to lowest and select the top twenty hours
+6.	Find the average estimated uncurtailed renewable output (wind output + solar output respectively) from the top twenty hours
+7.	Calculate the average ERCOT load in the top 20 hours
+8.	Take the average estimated uncurtailed renewable output and divide it by the average ERCOT load in the top 20 hours to get the average uncurtailed renewable penetration of the top 20 hours for wind and solar respectively 
+9.	Multiply the uncurtailed renewable penetration value by the total load in the MIN case to determine the total number of renewable MW in the case
+10.	Determine the average uncurtailed wind capacity factor and solar capacity factor for the top 20 hours
+11.	Determine the ratio between the average uncurtailed wind and solar capacity factors, then distribute the total renewable MW by this ratio
+12.	For the selected top 20 hours, find the average uncurtailed capacity factors for each wind region and find the ratios between them
+13.	Assign the total wind MW to each region based on these ratios
+14.	If the total amount of renewable generation to be dispatched is greater than the remaining load to be served, reduce the total number of Renewable MW to be dispatched to equal the remaining load to be served and use the same steps as above to determine the ratio of wind to solar generation 
+vii.	If there remains load to be served ((MIN load – sum of nuclear/PUN/reserve PGEN/renewables) > 0), dispatch conventional units on a least cost basis to serve the remaining load
+viii.	If any GTCs are violated, adjust the dispatch by moving units with the highest shift factor on the GTC. Overall renewable output should be preserved and if renewables are dispatched downwards to meet GTC limits, then the capacity should be allocated to another region.
+ix.	The Panhandle wind region should remain above 70% capacity factor.
+x.	If the case cannot be solved at given renewable output, adjust generation as needed.
+DGR and DESR shall be committed and dispatched using the same methodology as transmission-connected Resources of the same type. SODG shall be committed and dispatched based on their resource type as noted in the following table.
+SODG Resource Type	Commitment / Dispatch
+Battery	Offline
+Solar	Consistent with CDR solar percent capacity contribution
+Natural Gas	Offline
+Diesel	Offline
+Wind	Consistent with CDR wind percent capacity contribution
+Landfill Gas	Offline
+Hydro	Offline
+Other Inverter-Based Resources	Offline
+Other Synchronous Generation	Offline
+
+SSWG members shall be able to review and suggest changes to the generation dispatch based on historical information.
+In all cases spinning reserve is maintained according to ERCOT Nodal Operating Guides, Section 2.3.1.1, to the extent that the extraordinary dispatch conditions in Section 4.3.3.1 Item 1 of this guide are not deployed.  Specifically, spinning reserve is maintained such that 50% of the Responsive Reserve Service obligation is made up of generation resources with the other 50% of Responsive Reserve Service obligation coming from Load Resources.  The dispatch may be modified in the seasonal SSWG Cases if necessary to maintain voltages at acceptable levels.
+New transmission level Generation Resources will be included in the SSWG Cases on a biannual basis according to the procedures defined in Planning Guide, Section 6.9, addition of Proposed Generation Resources to the Planning Models.
+New DGRs, DESRs, and SODGs will be included in the SSWG Cases on a biannual basis during the incremental updates with operational data from NMMS.  
+4.3.3.1 	Extraordinary Dispatch Conditions
+On occasion, the total load plus the spinning reserve indicated above can exceed the amount of available generation due to load forecasts.  SSWG Cases typically model load at individual coincident TSP peaks instead of at the ERCOT coincident system peak.  When such a condition is encountered in future cases, ERCOT may increase generation resources by taking the indicated action, or adding generation, in the following order:
+
+1.	Ignore spinning reserve.
+2.	Increase NOIE generation with prior NOIE consent.
+3.	DC ties dispatched to increase transfers into ERCOT to the full capacity of the DC ties.
+4.	Dispatch SODG natural gas and diesel units up to their full capacity.
+5.	Dispatch units that have changed their status to indefinite mothball within the last 18 months and that have not announced their return to service. The dispatch methodology for this procedure is detailed below.
+6.	Scale transmission level wind generation dispatch up to 50% of capability.
+7.	Add units with interconnection agreements, but do not meet all of the requirements for inclusion defined in the Planning Guide. 
+8.	Dispatch units that have changed their status to indefinite mothball over 18 months ago and have not announced their return to service. The dispatch methodology for this procedure is detailed below.
+9.	Add publicly announced  units without interconnection agreements.
+10.	Dispatch units that are solely for black start.
+11.	Scale wind generation dispatch up to 100% of capability
+12.	Add generation resources to the 345 kV transmission system near the sites of existing or retired units.
+
+ERCOT shall post the extraordinary dispatch details used in each case to the MIS website.  
+4.3.4	Generation Guidelines	
+(1)	ERCOT will model registered resources and resource equipment.
+(2)	ERCOT will model future transmission level resources and resource equipment in the interconnection process using the “Generation_Interconnection” project type in MOD.  The project name shall contain the ERCOT GINR. 
+(3)	ERCOT will model SODGs in using the “Standard PMCR” project type in MOD.
+(4)	TSPs may model resource and resource equipment not requiring ERCOT registration and not required by the Generation Interconnection process if they desire the resource to be in the SSWG case.
+(5)	ERCOT shall update the PMAX and PMIN values based upon the Resource Registration Data net seasonal sustainable ratings.  The generator identifier is a two-character alphanumeric identifier used to differentiate between generators at a bus. All self-serve generators must be identified by P1. If there are multiple self-serve generators at the same bus, then self-serve generators must be identified by P1, P2, P3, etc. Self-serve economic generators must be identified by “PE”.
+(6)	Refer to Appendix D for the generator identifiers used in the SSWG cases.
+(7)	In extraordinary dispatch scenarios, the following generator zones should be assigned by ERCOT:
+ 
+Extraordinary Dispatch Step
+Zone Number	Zone Name
+4. & 7. Mothballed units that have not announced their return to service.	1195	EX_MB
+6. For units with interconnection agreements, but do not meet all of the requirements for inclusion defined in the Planning Guide	1196	EX_IA_NOFC
+8. For publicly announced units without interconnect agreements.	1197	EX_PUB_NOIA
+12. For generation resources added to the 345 kV transmission system near the sites of existing or retired units.	1198	EX_FAKEGEN
+
+Methodology for Dispatching Mothballed Units
+In order to minimize the effect on transmission plans of the decision to use mothballed units to meet the load requirement, the generation that is needed from mothballed units as a group will be allocated over all the mothballed units on a capacity ratio share basis.  If this technique results in some of the mothballed units being dispatched at a level below their minimum load, an economic ranking will be used to remove the least economic units from consideration for that particular case so that the allocation of the load requirement among the remaining mothballed units will result in all of those units being loaded above their minimum loads.
+For example, assume that, in some future year, ERCOT has a projected peak demand of 80,000MW and a total installed resource capacity of 82,000MW, with 3000MW of that installed capacity being units that are mothballed and have not indicated they will return.  For this simple example, assume that the mothballed capacity is 20 generating units of equal 150MW size.  Ignoring losses and spinning reserve requirement, the steady-state case would need to include 1000MW of the 3000MW mothballed capacity in order to match the load.   Thus, each of the 20 mothballed units would be set to an output of 50MW in the steady-state case (assuming their minimum load is less than 50MW).
+Consideration of Alternative Dispatch for Studies
+While this treatment of mothballed units attempts to generally minimize the effect of the assumption that mothballed units will be used to meet the load requirement in the SSWG Cases (rather than assumed new generation), the planning process should also consider alternative generation dispatches in instances where this treatment of mothballed units could have a direct effect on transmission plans.  Specifically, in instances where having a mothballed unit available would alleviate the need for a transmission project that would be required to meet reliability criteria if the mothballed unit were not to return, the transmission project should not be deferred based on the assumption that the mothballed unit will return to service. 
+4.3.4	Voltage Profile Adjustments
+	After the generation dispatch has been determined, the expected voltage profile for the system can be applied. The scheduled voltages should reflect actual voltage set points used by the generator operators. 
+	TSPs should check the voltages at several key locations within the system when modifying generation control voltages and reactive devices.  Voltage profile changes can be accomplished by turning on/turning off capacitors or reactors, and by changing the operations of generators (turning on/turning off/redispatching for VAR control). The cases should ultimately model system voltages that could be reasonably expected to occur.
+4.3.5	Generator Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Bus Number	NMMS	MOD PMCR
+Bus Name	NMMS 	MOD PMCR 
+Machine ID	NMMS	MOD PMCR
+Bus Code	NMMS 	MOD PMCR
+V Schedule	MOD PROFILES	MOD PROFILES
+Remote Bus (Voltage Control)	MOD PMCR	MOD PROFILES
+RMPCT	MOD PROFILES	MOD PROFILES
+PGen (MW)	DISPATCH - MOD PROFILES	DISPATCH - MOD PROFILES
+QGen (Mvar)	DISPATCH - MOD PROFILES	DISPATCH - MOD PROFILES
+PMax (MW)	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+PMin (MW)	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+QMax (Mvar) 	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+QMin (Mvar)2 	Resource Registration Data - NMMS	Resource Registration Data - MOD PROFILES
+Mbase (MVA)2 	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+R Source (pu)2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+X Source (pu)2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Owner	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Generator Step-up Unit (GSU) ID	NMMS	MOD PMCR
+GSU Tap positions2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+GSU Tap Controls2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+GSU Specified R 2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+GSU Specified X 2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Rate 1 / Rate 2/ Rate 3 / Rate 4 / Rate 5	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Generator Reactive Devices Control Mode2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Generator Reactive Devices Vhi (pu)2	Resource Registration Data - MOD PROFILES	Resource Registration Data - MOD PROFILES
+Generator Reactive Devices Vlo (pu)2	Resource Registration Data - MOD PROFILES	Resource Registration Data - MOD PROFILES
+Generator Reactive Devices Binit (Mvar)	MOD PROFILES	MOD PROFILES
+Generator Reactive Devices Bsteps (Mvar)2	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Wind Machine Control Mode	NMMS- / MOD PMCR	MOD PMCR
+Wind Machine Power Factor	NMMS/MOD PMCR	MOD PMCR
+DER Model Data	NMMS/MOD PMCR	N/A
+
+4.4	Branch Data
+4.4.1	Use of Branch Record Data Fields
+All existing and planned transmission lines (60 kV and above) shall be modeled in the SSWG Cases.
+4.4.1.1	Bus Specifications 
+The end points of each branch in the SSWG Cases are specified by “from” and “to” bus numbers.  In most cases the end point buses are in the same TSP area.  However, when the “from” and “to” buses used to specify a branch are in different TSP areas, the branch is considered to be a tie line (See Section 4.4.3, Coordination of Tie Lines). Branch data includes exactly two buses. The end points of Multi-Section Lines (MSL) are defined by two buses specified in a branch data record (See Section 4.4.2). There are other components that are modeled with more than two buses, such as transformers with tertiary that may be represented by three-bus models. 
+4.4.1.2	Branch Circuit Identifier 
+Circuit identifiers are limited to two alphanumeric characters.  Each TSP will determine its own naming convention for circuit identifiers.  ERCOT will determine its own naming convention for branches owned by REs and PUNs with careful coordination with connected TSPs.  These identifiers are typically numeric values (e.g. 1 or 2) that indicate the number of branches between two common buses, but many exceptions exist. 
+4.4.1.3	Branch Impedance and Admittance Data
+The branch resistance, reactance, and admittance data contained in the SSWG Cases are expressed in per-unit quantities that are calculated from a base impedance. The base impedance for transmission lines is calculated from the system base MVA and the base voltage of the transmission branch of interest.  The system base MVA used in the SSWG Cases is 100 MVA (S = 100 MVA).  The base voltage for a transmission line branch is the nominal line-to-line voltage of that particular transmission branch (See Transformer Data for Calculation of Transformer Impedances). Therefore the base impedance used for calculating transmission branch impedances is:
+
+  Ohms
+This base impedance is then used to convert the physical quantities of the transmission line into per-unit values to be used in the SSWG Cases.
+4.4.1.3.1	Resistance
+Once the total transmission line resistance is known and expressed in ohms, then this value is divided by the base impedance to obtain the per-unit resistance to be used in the SSWG Cases.  This calculation is as follows:
+  
+4.4.1.3.2	Reactance
+Once the total transmission line reactance is known and expressed in ohms, then this value is divided by the base impedance to obtain the per-unit reactance to be used in the SSWG Cases.  This calculation is as follows:
+  
+4.4.1.3.3	Admittance
+Branch admittance is expressed as total branch charging susceptance in per unit on the 100 MVA system base.  The total branch charging is expressed in MVARs and divided by the system base MVA to get per unit charging.  The equation used to accomplish this depends on the starting point. Typically the charging of a transmission line is known in KVARs.  Given the total transmission line charging expressed in KVARs, the equation to calculate the total branch charging susceptance in per unit on the system base is as follows:
+  
+
+Or, given the total capacitive reactance to neutral expressed in ohms  , the equation to calculate the total branch charging susceptance in per unit on the system base is as follows:
+
+ 
+
+ 
+4.4.1.4	Facility Ratings
+SSWG Cases contain fields for five ratings for each branch record, including zero impedance branches.  The ratings associated with these five fields are commonly referred to as Rate 1, Rate 2, Rate 3, Rate 4, and Rate 5.  Each TSP has their own methodology for calculating these ratings and shall be made available to others within ERCOT upon request. Following are the SSWG Case facility ratings corresponding to the ratings defined in Nodal Protocol 2.1:
+
+Planning Case Rating Definitions	Corresponding Nodal Protocol Section 2.1 Definitions
+Rate 1	Normal Rating
+Rate 2	Emergency Rating
+Rate 3	 15-Minute Rating
+Rate 4	Transformer 2-Hour/Branch Conductor Rating
+Rate 5	Relay Loadability Rating
+
+By definition, Rate 5 ≥ Rate 3 ≥ Rate 2 ≥ Rate 1 and Rate 4 ≥ Rate 2 ≥ Rate 1.
+
+When performing security studies, ERCOT will default to Rate 2, unless the TSP has previously indicated in writing that other ratings (e.g., Rate 1) should be used.  If problems exist using Rate 2 and Rate 2 is significantly different from Rate 4, then ERCOT will contact the TSP. There may also be 8888 or 9999 ratings in the SSWG Cases. The 8888 rating represents items such as change of ownership at a substation facility, a radial Point Of Interconnect to a customer, normally open facilities inside a substation used for load transfer and other similar situations that are not an integral part of the transmission grid itself. The 8888 ratings are used by the facility owner to indicate they have reviewed the rating. The 9999 ratings are a default value assigned to facilities by the NMMS system as part of the base case preparation; they apply to similar situations as the 8888 ratings and are not an integral part of the transmission grid itself. For Rate 5, the default value for an element that is not protected by a relay loadability rating is 88888, and the default value for an element that will be protected by a relay loadability rating which hasn’t been determined yet is 99999.
+4.4.1.4.1	Most Limiting Series Element 
+Facility ratings shall not exceed the most limiting applicable equipment rating of the individual equipment that comprises the facility. If the continuous or two (2) hour ratings of any series elements at the station terminals is less than the associated transmission line’s continuous or two (2) hour rating, then the most limiting elements’ rating data will be used as the Rate 1 and/or Rate 2 rating for the transmission line.  The scope of equipment addressed shall include, but not be limited to, conductors, transformers, relay protective devices, terminal equipment, and series and shunt compensation devices.
+4.4.1.5	Shunt Admittance
+Branch Data records include four fields for complex admittance for line shunts.  These records are rarely used in the SSWG Cases.
+4.4.1.6	Status
+Branch data records include a field for branch status.  Entities are allowed to submit branch data with an out-of-service status for equipment normally out of service.  
+4.4.1.7	Line Length and Ownership
+4.4.1.7.1	Line Length
+This data will be provided in miles.
+4.4.1.7.2	Ownership
+Owner IDs are assigned by ERCOT.  The PSS®E line data record allows the specification of up to four owners for each branch including percent ownership. The percent ownership of each line should sum up to 100%.  Facilities owned by Generators will be assigned a non-TSP ownership ID in the SSWG Cases.
+
+OSRs are ratings submitted by jointly owned facility Owners for their specific ratings  to ERCOT Network Operational Models.
+4.4.1.7.3	Practices for Verification
+Transmission line length for existing lines should be verified from field data and actual values entered into the power flow model.  A simple check can be utilized to verify certain modeling parameters for overhead lines.  The following equation is an approximation that applies to transmission lines that are completely overhead or assuming    MVA then
+
+
+ 
+
+ 
+4.4.2	Multi-Section Line Grouping 
+A multi-section line is defined as a grouping of several previously defined branches into one long circuit having several sub-sections or segments. 
+
+Example: Two circuits exist (Figure 1) which originate at the same substation (4001) and terminate at the same substation (4742).  Each circuit has a tap to Substation A and a tap to Substation B.  If a fault occurs or maintenance requires an outage of Circuit 09, the circuit would be out-of-service between bus 4001 and bus 4742 including the taps to buses 4099 and 4672.  The loads normally served by these taps would be served by means of low-side rollover to buses 4100 and 4671 on Circuit 21.  This is the type of situation for which multi-section lines are used to accurately model load flows.
+
+ 
+Figure 1.  Example of circuits needing to use multi-section line modeling.
+
+Figure 2 represents a power-flow data model of the circuits in Figure 1.  Branch data record would have included the following:
+4001,4099,09,…
+4099,4672,09,…
+4672,4742,09,…
+4001,4100,21,…
+4100,4671,21,…
+4671,4742,21,…
+along with the necessary bus, load, and shunt data.  To identify these two circuits as multi-section lines, entries must be made in the raw data input file.  The multi-section line data record format is as follows:
+                    
+ 
+I,J,ID,DUM1,DUM2, … DUM9  where :
+
+I	“From bus” number.
+J	“To bus” number. 
+ID	Two characters multi-section line grouping identifier. The first character must be an ampersand (“&”).  ID = ‘&1’ by default.
+DUMi	Bus numbers, or extended bus name enclosed in single quotes, of the “dummy buses” connected by the branches that comprise this multi-section line grouping. No defaults allowed.
+
+Up to 10 line sections (and 9 dummy buses) may be defined in each multi-section line grouping.  A branch may be a line section of at most one multi-section line grouping.
+
+Each dummy bus must have exactly two branches connected to it, both of which must be members of the same multi-section line grouping.
+
+The status of line sections and type codes of dummy buses are set such that the multi-section line is treated as a single element.
+
+ 
+Figure 2. Power-flow model of example circuits.
+
+For our example, the following would be entered as multi-section line data records:
+4001, 4742, &1, 4099, 4672
+4001, 4742, &2, 4100, 4671
+Multi-section lines give a great amount of flexibility in performing contingency studies on SSWG Cases.  When set up correctly, where automatic low-side load rollover occurs, hundreds of contingencies can be analyzed and reported within minutes.
+
+4.4.3	Coordination of Tie Lines 
+A tie line is defined as any transmission circuit with multiple owners represented within the context of the transmission circuit’s associated facility.  As used here, a transmission circuit’s associated facility includes all terminal buses as well as the transmission branch, transformer, bus section, or another electrical component connecting systems together.  For a tie line, each of the interconnected entities (TSP/TSP or TSP/RE) owns one or more elements of the tie line’s associated facility.
+
+Careful coordination and discussion is required among SSWG members to verify all modeled tie line data.  Even in situations where no new tie lines are added to a network model, there could be many tie line changes.  Construction timing for future points of interconnection or modified existing points of interconnection can change.  As a result, a tie line may need to be deleted from some cases and added to others (e.g. deleted from spring cases and added to summer cases).  Additionally, a new substation installed in the middle of an existing tie line can redefine the tie line’s bus numbers, mileages, impedances, ratings, or ownership. 
+
+Tie line models also affect a number of important ERCOT calculations and therefore must accurately reflect real-world conditions.  Missing, redundant, or erroneous tie line models can produce unrealistic indications of stability and/or voltage limits.  Inaccurate impedances, ratings, transformer adjustment data, status information, mileages, or ownership data can all have a profound effect on system studies.  Therefore, it is imperative that neighboring entities exercise care in coordinating tie line data. 
+Ratings for tie lines should be mutually agreed upon by all involved entities and should comply with NERC Reliability Standards. 
+
+It is imperative for neighboring entities to coordinate tie line data in order to allow Planning Case work activities to proceed unimpeded. Entities should exchange tie-line data at least two weeks before the data is due to ERCOT. Coordination of tie line data includes timely agreement between entities on the following for each tie line:
+•	In-service/ out-service dates for ties
+•	From bus number
+•	To bus number
+•	Circuit identifier
+•	Impedance and charging data
+•	Ratings
+•	Transformer adjustment (LTC) data
+•	Status of branch
+•	Circuit miles
+•	Ownership (up to four owners)
+•	Entity responsible for submitting data  
+
+OSRs can be submitted separately into NMMS/MAGE but for PMCRs in MOD only one set of ratings can be submitted.  Impedance and length are only allowed to have one submission, the majority owner of the tie line should submit this data to NMMS/MAGE and MOD and ensure that they are accounting for any other modeling information for connecting entities.
+
+ 
+4.4.4	Metering Point
+Each tie line or branch has a designated metering point and this designation may also be coordinated between neighboring TSP areas.  The location of the metering point determines which TSP area will account for losses on the tie branch.  PSS®E software allocates branch losses to the TSP area of the un-metered bus.  For example, if the metering point is located at the “to” bus then branch losses will be allocated to the TSP area of the “from” bus.  The first bus specified in the branch record is the default location of the metering point unless the second bus is entered as a negative number. These are the first and second data fields in the branch record.
+4.4.5	Branch Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+From Bus Number	NMMS	MOD PMCR
+From Bus Name	NMMS 	MOD PMCR 
+To Bus Number	NMMS	MOD PMCR
+To Bus Name	NMMS 	MOD PMCR 
+ID	NMMS	MOD PMCR
+Resistance R (pu) 	NMMS	MOD PMCR
+Reactance X (pu)4	NMMS	MOD PMCR
+Charging Susceptance (pu) 	NMMS	MOD PMCR
+Branch Status	NMMS	MOD PMCR
+Rate 1/Rate 2/ Rate 3 / Rate 4 / Rate 5 (MVA)	NMMS	MOD PMCR
+Line Length (Miles)	NMMS	MOD PMCR
+Owner 	NMMS	MOD PMCR
+RE or PUN Owned Branch data	Resource Registration Data - NMMS	Resource Registration Data - MOD PMCR
+Multi-Section Line	NMMS	MOD PMCR
+	 
+4.5	Transformer Data
+4.5.1	Use of Transformer Record Data Fields 
+All existing and planned transformers are to be represented in the SSWG Cases.  Transformer data records specify all the data necessary to model transformers in power flow calculations.  Both two winding transformers and three winding transformers can be specified in the SSWG Cases. 
+4.5.1.1	Bus Specifications
+The end points of each transformer in the SSWG Cases are specified by “winding 1” and “winding 2” bus numbers.  In some cases, the “winding 1” and “winding 2” buses used to specify a transformer are in two different TSP areas, making the transformer a tie line (See Section 4.4.3, Coordination of Tie Lines). Three winding transformers (transformers with a tertiary winding) can be represented by specifying a “winding 3” bus number in the data to represent the tertiary winding.
+4.5.1.2	Transformer Circuit Identifier
+Circuit identifiers are limited to two alphanumeric characters. Each TSP will determine its own naming convention for circuit identifiers. Actual transformer identifiers may be used for circuit identifiers for transformers, however, typically, circuit identifiers are used to indicate which transformer is being defined when more than one transformer is modeled between two common buses. TSP’s can identify autotransformers with the letter A as the first character of the ID field.  Generator Step-Up transformers can be identified with the letter G.  Phase-shifting transformers can be identified with the letter P.
+4.5.1.3	Impedance and Admittance Data
+The resistance and reactance data for transformers in the SSWG Cases can be specified in one of three ways: (1) in per-unit on 100 MVA system base (default), (2) in per-unit on winding base MVA and winding bus base voltage, (3) in transformer load loss in watts and impedance magnitude in per-unit on winding base MVA and winding bus base voltage.  Transformer resistance and reactance data supplied from the Topology Processor are specified in per-unit on 100 MVA system base.
+4.5.1.3.1	Resistance 
+Transformer test records should be used to calculate the resistance associated with a transformer record. Where transformer test records are unavailable, the resistance should be entered as either a value similar to a comparable transformer or zero.
+4.5.1.3.2	Reactance
+Transformer test records or transformer nameplate impedance should be used to calculate the reactance associated with a transformer record. Where the transformer resistance component is known, the transformer reactance is calculated on the same base using the known data and the reactance component is determined using the Pythagorean Theorem. Where the transformer resistance is assumed to be zero, the calculated transformer reactance can be assumed to be equal to the transformer impedance.
+4.5.1.3.3	Susceptance
+For power-flow modeling purposes, the transformer susceptance is always assumed to be zero.
+
+ 
+4.5.1.4	Transformer Ratings
+The ratings used for transformer are defined the same as the ratings used for branches described in Section 4.4.1.4.
+4.5.1.5	Status
+Transformer data records include a field for status.  Entities are allowed to submit transformer data with an out-of-service status for equipment normally out of service.   
+4.5.1.6	Ownership
+Up to four owners and corresponding percent ownership can be specified for each transformer in the SSWG Cases. Owner IDs and corresponding percent ownership should be included for all transformers. The sum of all percent ownerships should equal 100% for every transformer.
+4.5.1.7	Angle
+In PSS®E, the phase shift across a two-winding transformer is specified by an angle referenced to the winding defined as “winding 1” by the combined logic of the “From Bus Number”, “To Bus Number” and “Winding 1 Side” (From or To logic) fields.  The phase shift angle is positive when the voltage of the bus corresponding to the referenced winding leads the voltage of the bus connected to the opposite winding.
+
+The phase shift(s) associated with a three-winding transformer is(are) accounted for by the specification of an angle for each of the three windings.  The phase shift angle across a winding is positive when the voltage of the corresponding bus leads the voltage of the star point bus.
+
+The transformer phase shift angle is measured in degrees for both two-winding and three-winding transformers.
+4.5.1.8	Tap Data
+All transformer tap characteristics should be appropriately modeled.  Such tap characteristics include no-load tap settings and load tap changing (LTC) properties and associated control settings.
+4.5.1.8.1	Ratio
+The ratio is defined as the transformer off nominal turns ratio and is entered as a non-zero value, typically in per unit. Where the base kV contained in the bus data records for the buses connected to transformer terminals are equal to the rated voltage of the transformer windings connected to those terminals, the transformer off-nominal ratio is equal to 1.00. When the transformer has no-load taps, the transformer off-nominal ratio can be something other than 1, but is usually in the range of 0.95 to 1.05. The effects of load tap changing (LTC) transformer taps are also handled in the transformer data record. 
+4.5.1.8.2	Control Mode
+This field enables or disables automatic transformer tap adjustment. Setting this field to a value other than zero (“None” within PSS®E) enables automatic adjustment of the LTC or phase shifter as specified by the adjustment data values during power-flow solution activities. Setting this field to zero prohibits automatic adjustment of this transformer during the power-flow solution activities.
+4.5.1.8.3	Controlled Bus
+The bus number of the bus whose voltage is controlled by the transformer LTC and the transformer turns ratio adjustment option of the power-flow solution activities. This record should be non-zero only for voltage controlling transformers.
+4.5.1.8.4	Transformer Adjustment Limits
+These two fields specify the upper and lower limits of the transformer’s turns ratio adjustment or phase shifter’s angle adjustment.  For transformers with automatic tap changer adjustments, these fields are typically populated with values in the range of 0.80 to 1.20 per-unit.  For phase-shifting transformers, these fields may be populated with phase angle adjustment ranges up to +/- 180 degrees, but are typically modeled with values in the range of +30 to -30 degrees.
+4.5.1.8.4.1	Upper Limit (Rmax)
+This field defines the maximum upper limit of the off-nominal ratio for voltage or reactive controlling transformers and is typically entered as a per-unit value. The limit should take into account the no-load tap setting of the transformer, if applicable. For a phase shifting transformer, the value is entered in degrees.
+4.5.1.8.4.2	Lower Limit (Rmin)
+Similar to the upper limit, this field defines the lower limit of the off-nominal ratio or phase shift angle for the transformer defined.
+
+4.5.1.8.5	Voltage or Power-Flow Limits
+These two fields specify the upper and lower voltage limits at the controlled bus or for the real or reactive load flow through the transformer at the tapped side bus before automatic LTC adjustment will be initiated by the power-flow program. As long as bus voltage, or real power flow for phase shifting transformers, is between the two limits, no LTC adjustment will take place during the power-flow solution activities.
+4.5.1.8.5.1	Upper Limit (Vmax)
+This field specifies the upper limit for bus voltage in per unit at the controlled bus or for the reactive load flow in MVAR at the tapped side bus. For a phase shifting transformer, this field specifies the upper limit for the real power load flow in MW. Direction for power flow across the phase shifting transformer is referenced from the bus side defined as the “Winding 1” bus.  Negative upper (and lower) limit values for phase shifting transformers imply power flow from the “Winding 2” bus to the “Winding 1” bus.
+4.5.1.8.5.2	Lower Limit (Vmin)
+Similar to the upper limit, this field specifies the lower limit for the bus voltage or the real or reactive load flow for the transformer defined.
+4.5.1.8.6	Tap Positions Step
+Transformer test records or nameplate data should be used to identify the number of tap positions available for a transformer’s LTC, along with the corresponding maximum and minimum turns ratio adjustment capabilities (i.e. Rmax and Rmin).  The transformer’s turns ratio step increment for a LTC can be calculated based upon data present in the “Tap Positions”, “Rmax”, and “Rmin” fields of the transformer’s PSS®E model.  A common range for a LTC turns ratio step increment is +/- 10 % over 33 tap positions (32 steps), which corresponds to 5/8% or 0.00625 per unit voltage increment per tap step.
+4.5.1.8.7	Table
+The number of a transformer impedance correction table is specified by this field if the transformer's impedance is to be a function of either the off-nominal turns ratio or phase shift angle. SSWG Cases normally don’t use these tables and this field is set to zero by default.
+4.5.1.9	Magnetizing Admittance
+Magnetizing admittance data is not required for SSWG Cases and the values for each of these two fields should be zero.
+4.5.1.10	Load Drop Compensation
+These two fields define the real and reactive impedance compensation components for voltage controlling transformers. They are ignored for MW and MVAR flow controlling transformers. SSWG Cases normally don’t use these fields and they are set to zero by default.
+4.5.1.10.1	Resistive Component
+The resistive component of load drop compensation entered in per unit is based on the resistance between the location of the LTC and the point in the system at which voltage is to be regulated.
+4.5.1.10.2	Reactive Component
+Similar to the resistive component of load drop compensation, this value is entered in per unit and is based on the reactance between the location of the LTC and the point in the system at which voltage is to be regulated.
+4.5.2	Transformer Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+From Bus Number	NMMS	MOD PMCR
+From Bus Name	NMMS 	MOD PMCR 
+To Bus Number	NMMS	MOD PMCR
+To Bus Name	NMMS 	MOD PMCR 
+Last Bus Number	NMMS	MOD PMCR
+Last Bus Name	NMMS 	MOD PMCR 
+ID	NMMS	MOD PMCR
+Transformer Name	NMMS	MOD PMCR
+Resistance R (pu) 	NMMS	MOD PMCR
+Reactance X (pu)6	NMMS 	MOD PMCR 
+Susceptance	NMMS or N/A	MOD PMCR or N/A
+Rate 1/Rate 2/ Rate 3 / Rate 4 / Rate 5	NMMS 	MOD PMCR 
+Status	NMMS/ MOD STD PMCR	MOD PMCR
+Owner	NMMS	MOD PMCR
+Angle (phase-shift)	NMMS	MOD PMCR
+Tap Ratio	MOD PROFILES	MOD PROFILES
+Control Mode	NMMS	MOD PMCR
+Controlled Bus	NMMS	MOD PMCR
+Transformer Adjustment Limits	NMMS	MOD PMCR
+Voltage or Power-flow Limits	MOD PROFILES	MOD PROFILES
+Transformer Tap Step	NMMS	MOD PMCR
+
+ 
+4.6	Static Reactive Devices
+All existing and planned static reactors and capacitors that are used to control voltage at the transmission level are to be modeled in the SSWG Cases to simulate actual transmission operation. There are two distinct static reactive devices currently represented in the SSWG Cases: shunt devices and series devices.
+4.6.1	Shunt Devices
+4.6.1.1	Switched Shunt Devices
+A shunt capacitor or reactor located in a station for the purpose of controlling the transmission voltage can be represented in the SSWG Cases as a switched shunt device to accurately simulate operating conditions.  Care should be exercised when specifying the size of cap banks. Be sure that the rated size of the bank is for 1.0 per unit voltage.  Care should be taken to ensure that distribution level capacitors are not modeled in such a way as to be counted twice.
+When a switched capacitor or reactor is submitted as the switched shunt data record, there are three modes that it can operate in: fixed, discrete, or continuous.  Switched capacitors are to be modeled in the mode in which they are operated.
+A switched shunt can be represented as up to eight blocks of admittance, each one consisting of up to nine steps of the specified block admittance. The switched shunt device can be a mixture of reactors and capacitors.  The reactor blocks are specified first in the data record (in the order in which they are switched on), followed by the capacitor blocks (in the order in which they are switched on). The complex admittance (p.u.), the desired upper limit voltage (p.u.), desired lower limit voltage (p.u.), and the bus number of the bus whose voltage is regulated must be defined to accurately simulate the switched shunt device. A positive reactive component of admittance represents a shunt capacitor and a negative reactive component represents a shunt reactor. 
+4.6.1.2	Fixed Shunt Devices
+A shunt capacitor or reactor located in a station for the purpose of controlling the transmission voltage can be represented in the SSWG Cases as a fixed shunt device to accurately simulate operating conditions.  Care should be exercised when specifying the size of cap banks. Be sure that the rated size of the bank is for 1.0 per unit voltage.  Care should be taken to ensure that distribution level capacitors are not modeled in such a way as to be counted twice.
+
+Multiple fixed shunts can be modeled at a bus, each with a unique ID.  These fixed shunts have a status that can be set to on or off.
+
+A positive reactive component of admittance represents a shunt capacitor and a negative reactive component represents a shunt reactor.
+ 
+4.6.1.3	Dummy Bus Shunt
+If a switchable or fixed capacitor or reactor were connected to a transmission line instead of a station bus, an outage of the transmission line would also cause the capacitor or reactor to be taken out of service (see Figure 3).  For these instances, the most accurate model is the switched shunt modeled at a dummy bus connected by a zero impedance branch to the real station bus.  This dummy bus must have exactly two branches connected to it, both of which must be members of the same multi-section line grouping.  The status of the line section is that the multi-section line is treated as a single element.  A shunt capacitor or reactor connected to a line but modeled as a shunt within a station will result in power-flow calculations for contingencies that differ from real operating conditions.
+
+
+ 
+	   Figure 3. Example one-line of line connected capacitor bank
+
+4.6.2	Series Devices
+Series capacitors and reactors will be modeled as a series branch with the appropriate impedance. If a parallel bypass exists, it should be modeled as a zero impedance branch with the appropriate branch status indicating whether it is normally open or normally closed.
+4.6.3	Static Reactive Device Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Switched Shunt: Control Mode	NMMS	MOD PMCR/PROFILES
+Switched Shunt: Voltage Limits	MOD PROFILES/NMMS	MOD PMCR/PROFILES
+Switched Shunt: Controlled Bus	NMMS	MOD PMCR/PROFILES
+Switched Shunt: B init	MOD PROFILES/NMMS	MOD PROFILES
+Switched Shunt: B steps	NMMS	MOD PMCR
+Fixed Shunt: ID	NMMS	MOD PMCR
+Fixed Shunt: Status	NMMS	MOD PMCR
+Fixed Shunt: B-Shunt	NMMS	MOD PMCR
+Series Device	NMMS	MOD PMCR
+ 
+4.7	Dynamic Control Devices
+All existing and planned FACTS devices shall be modeled in the SSWG Cases. There are a multitude of FACTS (Flexible AC Transmission System) devices currently available, comprising shunt devices, such as Static VAR Compensator (SVC), Static Compensator (STATCOM), series devices such as the Static Synchronous Series Compensator (SSSC), combined devices such as the Unified Power Flow Controller (UPFC) and the Interline Power Flow Controllers (IPFC). These devices are being studied and installed for their fast and accurate control of the transmission system voltages, currents, impedance and power flow. They are intended to improve power system performance without the need for generator rescheduling or topology changes. These devices are available because of the fast development of power electronic devices.
+
+PSS®E has the capability to model several different FACTS devices and their documentation is the best source for specific applications.
+
+FACT Device – Data SourceData Element	Source For Existing  Elements	Source For Planned Elements
+Device Number	MOD STD PMCR 	MOD PMCR 
+Sending Bus Number	MOD STD PMCR 	MOD PMCR 
+Terminal End Bus Number	MOD STD PMCR 	MOD PMCR 
+Control Mode	MOD PROFILES	MOD PROFILES
+P Setpoint (MW)	MOD PROFILES	MOD PROFILES
+Q Setpoint (Mvar)	MOD PROFILES	MOD PROFILES
+V Send Setpoint	MOD PROFILES	MOD PROFILES
+Shunt Max (MVA)	MOD STD PMCR 	MOD PMCR 
+RMPCT (%)	MOD STD PMCR 	MOD PMCR 
+V Term Max (pu)	MOD STD PMCR 	MOD PMCR 
+V Term Min (pu)	MOD STD PMCR 	MOD PMCR 
+V Series Max (pu)	MOD STD PMCR 	MOD PMCR 
+I Series Max (MVA)	MOD STD PMCR 	MOD PMCR 
+Owner	MOD STD PMCR 	MOD PMCR 
+NOTE: The above list is an example of typical FACTs device parameters and does not include all possible types of FACTs devices.
+
+ 
+4.8	HVDC Devices
+HVDC Devices allow a specified real power flow to be imposed on the DC link.  For base case operation, this should be set to the desired interchange across the DC tie.  Capacitors, filter banks and reactors should be modeled explicitly and switched in or out of service based on normal DC tie operation.  The HVDC model itself normally calculates reactive power consumption.
+
+HVDC ties with external interconnections may be modeled by the use of either the Two Terminal DC Transmission Line Data or Voltage Source Converter DC Line Data.
+4.8.1	Two Terminal DC Transmission Line Data
+Conventional HVDC ties should be modeled using Two Terminal DC Transmission Line Data.  The Two Terminal DC Transmission Line Data model represents the HVDC terminal equipment, including any converter transformers, thyristors, and the DC link.  The model will calculate voltages, converter transformer taps, losses, and VA requirements, based upon the power transfer over the HVDC facility, and the terminal AC bus voltages. See PSS®E Manual for more information.
+
+4.8.2	Voltage Source Converter (VSC) DC Line Data
+Voltage Source Converter DC line data can be used to model DC ties that use the voltage source converter technology. See PSS®E Manual for more information.
+4.8.3	HVDC Two Terminal Data Source
+Data Element	Source For Existing  Elements	Source For Planned Elements
+Line number	MOD STD PMCR & PROFILES	MOD PMCR & PROFILES
+Controlled Mode	MOD STD PMCR & PROFILES	MOD PMCR & PROFILES
+Line Resistance (Ohms)	MOD STD PMCR	MOD PMCR
+Demand Setting (MW or Amps)	MOD PROFILES	MOD PROFILES
+V schedule (kV)	MOD PROFILES	MOD PROFILES
+Vcmod (kV)	MOD PROFILES	MOD PROFILES
+Delti (pu)	MOD PROFILES	MOD PROFILES
+Dcvmin (kV)	MOD PROFILES	MOD PROFILES
+Metered (Rect/Invr)	MOD STD PMCR	MOD PMCR
+
+4.9	Modeling of Resource and Transmission Outages
+
+TSPs are responsible for entering known outages of equipment for which they are the modeling entity as normally open equipment in the applicable SSWG Case(s) in accordance with the accepted technical rationale.  ERCOT is responsible for submitting outages for resource and resource owned equipment using the Outage Scheduler to determine outages with duration of at least six months and will model the status in the applicable SSWG Case(s) in accordance with its transmission in-service date.
+ 
+5	OTHER SSWG ACTIVITIES
+5.1	Transmission Loss Factor Calculations
+The transmission loss factors must be calculated according to Protocol Section 13. The loss factors are calculated using the seasonal SSWG Cases. The values are entered in the ERCOT settlements system to account for losses on the transmission system. Separate calculations are performed for the eight seasonal SSWG Cases: spring, summer, fall, and winter with an on and off peak for each season. 
+
+The Non Opt In Entities (NOIE) that provide metering of their system load to the ERCOT settlement system by a set of ERCOT Polled Settlements Meters (EPS) that ‘ring’ their transmission system as defined in Protocol 13.4.1 have additional calculations performed for their transmission loss factors.
+
+The NOIE that send extra data to ERCOT for the loss calculations have EPS settlement meters on all of their transmission lines that connect or “tie” their system to the rest of the ERCOT transmission network. For the ERCOT settlement process ERCOT calculates their load as the net of inflows minus the outflows from these EPS meters. However calculations must be performed to subtract out the losses on the transmission lines that are ‘inside’ their EPS meters. If this was not done then these NOIE loads would be too high relative to the other loads where EPS meters are at each delivery point. Other NOIE send EPS metering data from each delivery point so their load can be calculated by summing the individual points. Therefore the extra calculations are not necessary.
+
+The process for creating the loss factors is outlined below.
+
+1.	Send out a request to SSWG for any case updates, changes to NOIE bus ranges, and latest self serve data. NOIE’s that have a ‘ring’ of EPS meters must validate the PSS®E Metered End data in each of the cases. The PSS®E Metered End for a transmission facility that is not inside the ‘ring’ of EPS meters should be Metered ‘to’ the remote bus, and not Metered ‘to’ bus where the EPS meter is located.
+2.	ERCOT updates the transmission loss factor spreadsheet.
+3.	Send to SSWG for review and approval
+4.	Send to ERCOT settlements (Settlement Metering Manager) to be put into the ERCOT settlement system and post at http://www.ercot.com/mktinfo/data_agg/index.html.     
+5.2	Contingency Database
+The ERCOT contingency database is a compilation of contingency definitions as submitted by the TSPs.  The exchange of information for the contingency database will only be communicated using an Excel spreadsheet with the columns as listed in the table below.  The table identifies the columns which the TSPs and ERCOT are responsible for populating.  ERCOT does not create or manually update the information submitted by the TSPs.  In an effort to produce a contingency list with complete and accurate data, ERCOT will run topology and data entry checks on submitted information to highlight submission errors that the TSPs will need to correct within a given timeline.  A review of the contingency database will be conducted with each SSWG case build.  ERCOT will accept updates to the contingency list outside of this review process as requested by the TSPs.  This section covers the approved format for submitting contingency definitions, the review process, and the validation rules ERCOT will implement to verify submissions.
+
+ 
+ERCOT Contingency Database Columns
+
+Column Name	TSP Responsibility	ERCOT Responsibility	Default Value	Validation Rule
+Item					Must be a numeric value
+DatabaseID					Must be an alphanumeric with a 12 character maximum
+TOContingencyID					May not be null
+ContingencyAction				Open	Must be either open or close
+FromBusNumber_i				0	Must be a numeric value
+ToBusNumber_j				0	Must be a numeric value
+ToBusNumber_k				0	Must be a numeric value
+CircuitID					Must be an alphanumeric with a two character maximum, and must be null if the element identifier for the outage is a bus or switched_shunt
+ElementIdentifier					Must be either a bus, transformer, branch, fixed_bus_shunt, switched_shunt or gen
+Submitter					Must match current submitter name in database
+StartDate				1/1/2000	Must be a valid date
+StopDate				12/31/2099	Must be a valid date
+DateCreated					Must be a valid date
+UpdatedDate					Must be a valid date
+Multi-SectionLine				No	Must be either yes or no
+NERCCategory					Must be NERC Category, ‘.’, and the type of Event; example P4.3* 
+ERCOTCategory					Must be N/A, ERCOT_1, ERCOT_NonBES, ERCOT_CCT, ERCOT_98
+BES Level					Bulk Electric System (BES) level references include extra-high voltage (EHV) Facilities defined as greater than 300kV and high voltage (HV) Facilities defined as the 300kV and lower voltage Systems.
+TDSPComments					May be null
+ERCOTComment					May be null
+ContingencyName					Must be consistent within a contingency definition
+
+* In addition, the steady state contingencies as described by the NERC TPL-001-5.1 Table 1, consist of definitions which may have multiple category classifications.  In this case, each category must be separated by a ‘/’. 
+The procedure to update the contingency database is as follows: ERCOT will send out the current contingency list to SSWG members with invalid entries highlighted.
+1.	TSPs will submit a complete list of contingency definitions with the necessary changes and additions within an agreed upon timeline and format for ERCOT to import into the existing database.
+2.	Upon import, ERCOT will overwrite the previous list of definitions submitted by the TSP.
+3.	ERCOT will verify that the changes were imported into the database and provide the TSPs with a change log which will list the contingency definitions that were updated, deleted or created.
+4.	Steps 1 to 4 will be repeated for each pass of the contingency update process.
+5.	When the contingency list is finalized, ERCOT will post the list on the MIS website along with the contingency files created for use with MUST, PSS®E, PowerWorld, UPLAN and VSAT.  Definitions which are flagged as being invalid will NOT be included in the contingency file.
+6.	The planning or extreme event rationale will be provided in supporting documentation from TSPs upon request.
+
+A TSP may only submit changes for their company and rows with null values in either the Submitter or TOContingencyID columns will be ignored.  The default value listed in the table will be used upon import if the provided value is either invalid or missing.  Topology and data entry checks will be completed on the imported rows to highlight invalid contingency definitions.
+
+ERCOT will utilize the latest available SSWG Cases to verify that the devices listed in the contingency definition exist in the SSWG Cases.  Additional columns will be added to the spreadsheet which will correspond to the filename of the SSWG Case used to validate the submissions.  The start and stop dates of the contingency definitions will be used to determine which SSWG Cases they need to be compared against.  Any inconsistencies between the case and contingency definition will be communicated in these columns.  A contingency definition will be highlighted as invalid and an error message will be printed if it fails any of the following data entry or topology checks.
+
+NERC contingencies not covered by automatic contingency processing capabilities of the various power-flow applications, which the TSP deems to have an impact on the power-flow solution, shall be submitted.
+
+NERC contingencies must either be submitted in entirety by each TSP or as a minimum, those planning event and extreme event NERC contingency categories that would produce the more severe system results or impacts. The rationale for the contingencies selected for evaluation shall be available as supporting information upon request. 
+
+In addition to the aforementioned NERC defined contingencies, TSPs shall also submit:
+•	A common tower outage as defined in Section 4.1.1.1 of the ERCOT Planning Guides.  These contingency scenarios will be categorized in the ERCOT contingency database as ERCOT_1.
+•	A common tower outage as defined in Section 4.1.1.1 of the ERCOT Planning Guides where both circuits must be taken out of servce for a maintenance outage. These contingency scenarios will be categorized in the ERCOT contingency database as ERCOT_98.
+•	Single and multiple element contingencies, not covered by automatic contingency processing capabilities of the various power-flow applications and not fitting the definition of ERCOT_1, for transmission facilities between 60 kV and 100 kV that produce the most severe system results or impacts.  These will be categorized in the ERCOT contingency database as ERCOT_NonBES.
+
+ERCOT shall submit:
+•	Loss of an entire combined cycle plant are to be categorized as ERCOT_CCT. 
+
+Contingency definitions shall take into account the effects of existing and planned protection systems, including any backup or redundant systems.
+
+
+General Data Entry Checks
+
+Error Message	Reason for Failing Data Validation
+Duplicate	The device is listed more than once in the contingency definition.
+Needs Consistent Name	For each unique TOContingencyID, only one ContingencyName can be used. 
+Invalid Date Selection	Either the start and/or stop dates for a single contingency definition are inconsistent or the start date occurs after the stop date.  In the case where a single contingency definition has inconsistent start dates, use the one that occurs furthest in the future since the contingency definition will not be valid until all devices listed in the contingency are present in the base case.  The start date is used to determine when the contingency definition becomes valid—it is not the energization date for the device listed on that row.
+Invalid Bus Selection	The same bus number is used twice in the same row, or a needed bus number is missing.
+Invalid Element Identifier	Element Identifier is invalid. The only acceptable values are Bus, Branch, Gen, Transformer, Fixed_Bus_Shunt, or Switched_Shunt
+NERC Category Missing	The new NERC Category is missing.  The only acceptable values are ‘NERC Category’‘.’‘Event’ defined in TPL-001 Table 1.  Multiple Category contingencies are must be separated by ‘/’.  For example: P2.2/P4.3/P5.2
+ERCOT Category Missing	The ERCOT Category is missing.  The only acceptable values are ERCOT_1, ERCOT_NonBES, ERCOT_CCT, ERCOT_98, or N/A.
+
+Topology Checks
+
+Error Message	Reason for Failing Data Validation
+FromBus_i Missing, ToBus_j Missing, ToBus_k Missing	A bus with the corresponding bus number cannot be found in the base case.
+Branch Missing	A branch with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+System Switching Device Missing	A system switching device with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+Transformer Missing	A transformer with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+Generator Missing	A generator with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+Shunt Missing	A shunt with the submitted combination of bus numbers and circuit ID cannot be found in the base case.
+
+5.3	Review of NMMS and Topology Processor Compatibility with PSS®E
+From time to time, updated versions of PSS®E may require modifications to the methods of extracting necessary power-flow data from NMMS.  For every PSS®E version change, the following evaluation process shall be followed:
+
+1.	Use PSS®E documentation such as release notes and compatibility references to identify new fields and record formats added to a new version of PSS®E.
+2.	SSWG determines which, if any, of the new fields or records need to be implemented in NMMS and Topology Processor.
+a.	Determine how to use MOD to implement most needed fields immediately
+3.	ERCOT determines approximate implementation method, initial impact analysis and cost of implementation for each new field and/or record determined by the SSWG to be necessary for implementation.
+a.	Determine method to arbitrate disagreement on proposed recommendation
+4.	Present to ROS new fields and/or records that have been jointly determined to be needed, with approximate implementation method, initial impact analysis and cost of implementation.
+5.	Upon ROS approval, prepare Project initiation to create and add projects to PPL.
+6.	Upon addition to PPL above cut line, prepare requirements documents to describe data type addition/changes to NMMS and Topology Processor output desired for example input.
+5.4	Planning Data Dictionary
+The Planning Data Dictionary is used by ERCOT to show correlation between SSWG Case bus numbers and TSP area SCADA names.  Additionally, the Planning Data Dictionary without the SCADA names is included as part of ERCOT’s FERC 715 filing.  
+
+The exchange of information for the Planning Data Dictionary will only be communicated using an Excel spreadsheet with the columns as listed in the table below.  The table identifies the columns which the TSPs and ERCOT are responsible for populating.  ERCOT does not create or manually update the information submitted by the TSPs.  The Planning Data Dictionary will be updated with each SSWG Case build.
+
+The format will be as follows (see next page):
+ 
+Column Name	TSP Responsibility	ERCOT Responsibility	Description
+TSP				Shortened version of SSWG Area
+SSWG BUS NUMBER				Extracted from the SSWG Steady State Cases
+SSWG BUS DATE IN				From the SSWG Steady State Cases, this is populated by searching for the earliest SSWG Steady State Case that the bus exists.  If the bus exists throughout all of the existing Steady State Cases, the field is left blank under the assumption that it already exists in the NMMS.
+SSWG BUS DATE OUT			From the SSWG Steady State Cases, this is populated by searching for the latest SSWG Steady State Case that the bus exists.  If the bus exists throughout all of the existing SSWG Steady State Cases, the field is left blank under the assumption that it exists beyond the current planning scope.
+SSWG BUS NAME			This is required by FERC for FERC 715 pt. 2 report and is extracted from the SSWG Steady State Cases.  
+SSWG BASE KV			This is required by FERC for FERC 715 pt. 2 report and is extracted from the SSWG Steady State Cases
+SSWG BUS TYPE			Extracted from the SSWG Steady State Cases
+SSWG AREA			Extracted from the SSWG Steady State Cases
+NMMS BUS NUMBER			Extracted from NMMS
+NMMS BUS NAME			Extracted from NMMS
+NMMS STATION CODE			Extracted from NMMS
+NMMS STATION NAME			Extracted from NMMS
+NMMS BASE KV			Extracted from NMMS
+NMMS TSP				Extracted from NMMS
+NMMS WEATHER ZONE				Extracted from NMMS.  Field is populated via mapping sheet for future buses and are italicized.
+NMMS SETTLEMENT ZONE			Extracted from NMMS.  Field is populated via mapping sheet for future buses and are italicized.
+EIA CODE			EIA Codes for bus within Stations associated with a generating unit.  This is required for the FERC 715 pt. 2 report.
+PLANNING BUS LONG NAME				The Planning Bus Long Name is provided by the TSP
+(“Substation Name or Switchyard Name’)
+PLANNING BUS COUNTY				The Planning Bus County is provided by the TSP
+TSP COMMENTS				Section for TSP to provide comments on individual buses.
+ERCOT COMMENTS			Information for changes of bus properties throughout all SSWG Steady State Cases.  This information will point to changes in SSWG BUS NAME, SSWG BASE KV and SSWG BUS TYPE.
+
+
+
+
+6	APPENDICES
+Appendix A
+Bus/Substation/Zone Range, FACTS Device Range, and Zone Description Tables
+
+BUS & SUBSTATION RANGE	DSP, OTHER ENTITY, or SUBSYSTEM	ACRONYM	MODELING ENTITY	PSS®E AREA NO	ZONE RANGE
+						
+1 - 799	BRAZOS ELECTRIC POWER COOPERATIVE	TBREC	TBREC	11	11,13-73	
+33000 - 36999						
+800 - 899	GARLAND, CITY OF	TGAR	TGAR	20	4	
+900 - 934	DENTON MUNICIPAL UTILITIES, CITY OF	TDME	TDME	19	3	
+59000 - 59049						
+935 - 955	GREENVILLE ELECTRIC UTILITY SYSTEM	TGEUS	TGEUS	21	5	
+956 - 999	TEXAS MUNICIPAL POWER AGENCY	TTMPA	TTMPA	12	6	
+9500 - 9699						
+1000 - 4999	ONCOR	TONCOR	TONCOR	1	100 - 175	
+10000 - 31999						
+5000 - 5499	CPS ENERGY 	TCPSE	TCPSE	5	350 - 370	
+50000 - 54999						
+						
+5500 - 5899	SOUTH TEXAS ELECTRIC COOPERATIVE	TSTEC	TSTEC	13	870 - 890	
+55000 - 58999						
+In  TSTEC	SAN BERNARD ELECTRIC COOPERATIVE	TSBEC	TSTEC	 	 	
+5910 - 5919	SOUTH TEXAS POWER PLANT	TCNPE	TCNPE	10	310	
+5920 - 5929	EAST HIGH VOLTAGE DC TIE	 	TAEPTC	16	200	
+5930 - 5989	PUBLIC UTILITY BOARD OF BROWNSVILLE	TBPUB	TBPUB	15	800	
+59300 - 59899						
+6000 - 6699	AMERICAN ELECTRIC POWER- TNC	TAEPTN	TAEPTN	6	402 - 479	
+60000 - 67999						
+69000 - 69999						
+In TAEPTN	COLEMAN COUNTY ELECTRIC COOP	TCOLMN	TGSEC	25	181	
+In TAEPTN	CONCHO VALLEY ELECTRIC COOPERATIVE	TCVEC2	TGSEC	25	182	
+In TAEPTN	LIGHTHOUSE ELECTRIC COOPERATIVE	TLHEC	TGSEC	25	183	
+In TAEPTN	RIO GRANDE ELECTRIC COOPERATIVE	TRGEC1	AEPTN	 	 	
+In TAEPTN	SOUTHWEST TEXAS ELECTRIC COOPERATIVE	TSWEC1	TGSEC	25	185	
+In TAEPTN	TAYLOR ELECTRIC COOPERATIVE	TECX	TGSEC	25	186	
+6096 - 6096	NORTH HIGH VOLTAGE DC	 	AEPTN	14	394	
+6700 - 6749	EAST TEXAS ELECTRIC COOPERATIVE	XETEC	ETECTSP 	3	177	
+6750 - 6765	LAMAR ELECTRIC COOPERATIVE	TLAHOU	TLAMAR	32	187	
+6790 – 6999	RAYBURN COUNTRY ELECTRIC COOPERATIVE	TRAYBN	TRAYBN	2	178	
+7900 - 7999						
+In TRAYBN	GRAYSON COUNTY ELECTRIC COOPERATIVE	TGEC	TRAYBN	2	178	
+In TRAYBN	FARMERS ELECTRIC COOPERATIVE	TFECE	TRAYBN	2	178	
+In TRAYBN	TRINITY VALLEY ELECTRIC COOPERATIVE	TTRINY	TRAYBN	2	178	
+In TRAYBN	FANNIN COUNTY ELECTRIC COOPERATIVE	TFCEC	TRAYBN	2	178	
+7000 – 7899	LCRA TRANSMISSION SERVICES CORPORATION	TLCRA	TLCRA	7	500 - 589	
+71000 - 78999						
+In  TLCRA	BANDERA ELECTRIC COOPERATIVE	TBDEC	TLCRA	 	 	
+In  TLCRA	BLUEBONNET ELECTRIC COOPERATIVE	TBBEC	TLCRA	 	 	
+In  TLCRA	CENTRAL TEXAS ELECTRIC COOPERATIVE	TCTEC	TLCRA	 	 	
+In  TLCRA	GUADALUPE VALLEY ELECTRIC COOPERATIVE	TGVEC	TLCRA	 	 	
+In  TLCRA	NEW BRAUNFELS UTILITIES	TNBRUT	TLCRA	 	 	
+8000 – 8999	AMERICAN ELECTRIC POWER - TCC	TAEPTC	TAEPTC	8	610 - 662	
+80000 - 89999						
+In TAEPTC	LA COMISIÓN FEDERAL DE ELECTRICIDAD	CFE	TAEPTC	24	612	
+In TAEPTC	RIO GRANDE ELECTRIC COOPERATIVE	TRGEC2	TRGEC2	 	 	
+9000 – 9399	AUSTIN ENERGY	TAEN	TAEN	9	691 - 712	
+90000 - 93999						
+9400 - 9490	GOLDENSPREAD ELECTRIC COOP	TGSEC	TGSEC	25	179 - 186	
+9491 - 9499	GOLDSMITH, CITY OF	TGOLDS	TGOLDS	26	190	
+9700 – 9999	ELECTRIC RELIABILITY COUNCIL OF TEXAS	TERCOT	TERCOT	900 - 999	900 - 1199	
+94000 – 99999						
+100000 - 199999						
+600000 - 699999						
+700000 - 799999						
+32000 - 32049	COLLEGE STATION, CITY OF	TCOLGS	TCOLGS	23	199	
+32050 - 32999	BRYAN, CITY OF	TBTU	TBTU	22	2	
+37000 - 39999	TEXAS NEW MEXICO POWER COMPANY	TTNMP	TTNMP	17	220 - 240	
+40000 - 49999	CENTERPOINT	TCNPE	TCNPE	4	260 - 320	
+59100 - 59199	LUBBOCK POWER & LIGHT	TLPL	TLPL	31	12	
+59900 - 59999	WIND ENERGY TRANSMISSION TEXAS	WETT	WETT	29	590 - 609	
+68000 - 68999	LONE STAR TRANSMISSION	TLSTR	TLSTR	27	670 - 689	
+70000 - 70999	PEDERNALES ELECTRIC COOPERATIVE	TPDEC0	TPDEC0	33	241-250	
+79000 - 79499	CROSS TEXAS TRANSMISSION	TCROS	TCROS	30	790 - 799	
+79500 - 79699	SHARYLAND	TSLND1	TSLND1	18	820 - 829	
+ 79700 - 79999	TRI-COUNTY ELECTRIC COOPERATIVE	 	 	28	2000+	
+5900 - 5909	UNASSIGNED	 	 	1200	 	
+5990 - 5999						
+6766 - 6789						
+7900 - 7999						
+59000 - 59099						
+200000 - 599999						
+800000 - 999999						

@@ -1,0 +1,161 @@
+ice ID#	 Ownership claimed by TSP
+4 - 18 	American Electric Power
+1 - 3	Austin Energy 
+19	 
+20 - 30	ONCOR
+30 - 34	 
+35 - 39	Texas New Mexico Power
+40 - 50	Centerpoint Energy
+
+ 
+Description of Zones in the SSWG Cases
+The following table provides a description of the zones.  Zone numbers and zone names are subject to change. 
+
+Zone #	Zone Name	Zone Description
+1	TEMPORARY	TEMPORARY
+2	BRYAN	City of Bryan
+3	DENTON	Denton Municipal Electric
+4	GARLAND	Garland Power and Light
+5	GRNVILLE	Greenville Electric Utility System
+6	TMPA	Texas Municipal Power Agency
+7	GARLAND-WEST	Garland Power and Light
+11	BEPC	Brazos Electric Power Coop.
+12	LUBBOCK	Lubbock Power & Light
+13	BEPC_Archer	Brazos Electric - Archer County
+14	BEPC_Atascosa	Brazos Electric - Atascosa County
+15	BEPC_Baylor	Brazos Electric - Baylor County
+16	BEPC_Bell	Brazos Electric - Bell County
+17	BEPC_Bosque	Brazos Electric - Bosque County
+18	BEPC_Brazos	Brazos Electric - Brazos County
+19	BEPC_Brown	Brazos Electric - Brown County
+20	BEPC_Childress	Brazos Electric - Childress County
+21	BEPC_Clay	Brazos Electric - Clay County
+22	BEPC_Collin	Brazos Electric - Collin County
+23	BEPC_Comanche	Brazos Electric - Comanche County
+24	BEPC_Cooke	Brazos Electric - Cooke County
+25	BEPC_Coryell	Brazos Electric - Coryell County
+26	BEPC_Cottle	Brazos Electric - Cottle County
+27	BEPC_Crosby	Brazos Electric - Crosby County
+28	BEPC_Dallas	Brazos Electric - Dallas County
+29	BEPC_Denton	Brazos Electric - Denton County
+30	BEPC_Dickens	Brazos Electric - Dickens County
+31	BEPC_Eastland	Brazos Electric - Eastland County
+32	BEPC_Ellis	Brazos Electric - Ellis County
+33	BEPC_Erath	Brazos Electric - Erath County
+34	BEPC_Falls	Brazos Electric - Falls County
+35	BEPC_Foard	Brazos Electric - Foard County
+36	BEPC_Freestone	Brazos Electric - Freestone County
+37	BEPC_Grayson	Brazos Electric - Grayson County
+38	BEPC_Grimes	Brazos Electric - Grimes County
+39	BEPC_Guadalupe	Brazos Electric - Guadalupe County
+40	BEPC_Hamilton	Brazos Electric - Hamilton County
+41	BEPC_Hardeman	Brazos Electric - Hardeman County
+42	BEPC_Haskell	Brazos Electric - Haskell County
+43	BEPC_Hill	Brazos Electric - Hill County
+44	BEPC_Hood	Brazos Electric - Hood County
+45	BEPC_Jack	Brazos Electric - Jack County
+46	BEPC_Johnson	Brazos Electric - Johnson County
+47	BEPC_Kent	Brazos Electric - Kent County
+48	BEPC_King	Brazos Electric - King County
+49	BEPC_Knox	Brazos Electric - Knox County
+50	BEPC_Lampasas	Brazos Electric - Lampasas County
+51	BEPC_Leon	Brazos Electric - Leon County
+52	BEPC_Limestone	Brazos Electric - Limestone County
+53	BEPC_Madison	Brazos Electric - Madison County
+54	BEPC_McLennan	Brazos Electric - McLennan County
+55	BEPC_Milam	Brazos Electric - Milam County
+56	BEPC_Mills	Brazos Electric - Mills County
+57	BEPC_Montague	Brazos Electric - Montague County
+58	BEPC_Montgomery	Brazos Electric - Montgomery County
+59	BEPC_Navarro	Brazos Electric - Navarro County
+60	BEPC_Palo Pinto	Brazos Electric - Palo Pinto County
+61	BEPC_Parker	Brazos Electric - Parker County
+62	BEPC_Robertson	Brazos Electric - Robertson County
+63	BEPC_Scurry	Brazos Electric - Scurry County
+64	BEPC_Shackelford	Brazos Electric - Shackelford County
+65	BEPC_Somervell	Brazos Electric - Somervell County
+66	BEPC_Stephens	Brazos Electric - Stephens County
+67	BEPC_Stonewall	Brazos Electric - Stonewall County
+68	BEPC_Tarrant	Brazos Electric - Tarrant County
+69	BEPC_Throckmorton	Brazos Electric - Throckmorton County
+70	BEPC_Walker	Brazos Electric - Walker County
+71	BEPC_Williamson	Brazos Electric - Williamson County
+72	BEPC_Wise	Brazos Electric - Wise County
+73	BEPC_Young	Brazos Electric - Young County
+102	O_Rusk	ONCOR - Rusk County
+103	O_Nacogdoches	ONCOR - Nacogdoches County
+104	O_Angelina	ONCOR - Angelina County
+105	O_Smith	ONCOR - Smith County
+106	O_Cherokee	ONCOR - Cherokee County
+107	O_Houston	ONCOR - Houston County
+108	O_Anderson	ONCOR - Anderson County
+109	O_Henderson	ONCOR - Henderson County
+110	O_VanZandt	ONCOR - Rains and Van Zandt Counties
+113	O_Kaufman	ONCOR - Kaufman and Rockwall Counties
+114	O_Dallas	ONCOR - Dallas County
+115	O_Ellis	ONCOR - Ellis County
+118	O_Tarrant	ONCOR - Tarrant County
+119	O_Johnson	ONCOR - Johnson County
+120	O_Hood	ONCOR - Hood and Somervell Counties
+121	O_Parker	ONCOR - Palo Pinto and Parker Counties
+122	O_Young	ONCOR - Stephens and Young Counties
+125	O_Eastland	ONCOR - Eastland County
+126	O_Erath	ONCOR - Erath County
+127	O_Bosque	ONCOR - Bosque County
+128	O_Hill	ONCOR - Hill County
+129	O_Navarro	ONCOR - Navarro County
+130	O_Freestone	ONCOR - Freestone County
+131	O_Leon	ONCOR - Leon County
+132	O_Limestone	ONCOR - Limestone County
+133	O_Robertson	ONCOR - Robertson County
+134	O_Falls	ONCOR - Falls County
+135	O_McLennan	ONCOR - McLennan County
+136	O_Bell	ONCOR - Bell County
+137	O_Milam	ONCOR - Milam County
+138	O_Williamson	ONCOR - Bastrop, Lee, Travis, and Williamson Counties
+139	O_Coryell	ONCOR - Coryell County
+140	O_Hamilton	ONCOR - Hamilton and Mills Counties
+141	O_Comanche	ONCOR - Comanche County
+142	O_Brown	ONCOR - Brown County
+145	O_Titus	ONCOR - Franklin and Titus Counties
+146	O_Lamar	ONCOR - Lamar and Red River Counties
+147	O_Hopkins	ONCOR - Delta and Hopkins Counties
+148	O_Hunt	ONCOR - Hunt County
+149	O_Fannin	ONCOR - Fannin County
+150	O_Grayson	ONCOR - Grayson County
+151	O_Collin	ONCOR - Collin County
+152	O_Denton	ONCOR - Denton County
+153	O_Cooke	ONCOR - Cooke County
+154	O_Clay	ONCOR - Clay and Montague Counties
+155	O_Wise	ONCOR - Wise County
+156	O_Jack	ONCOR - Jack County
+157	O_Wichita	ONCOR - Wichita County
+158	O_Archer	ONCOR - Archer and Baylor Counties
+160 	O_Panhandle	ONCOR - Panhandle
+161	O_Shackelford	ONCOR - Shackelford and Throckmorton Counties
+162	O_Haskell	ONCOR - Haskell County
+163	O_Taylor	ONCOR - Jones and Taylor Counties
+164	O_Scurry	ONCOR - Fisher and Scurry Counties
+165	O_Nolan	ONCOR - Nolan County
+166	O_Mitchell	ONCOR - Mitchell County
+167	O_Howard	ONCOR - Borden, Dawson, Howard, and Martin Counties
+168	O_Midland	ONCOR - Glasscock, Midland, Reagan, and Upton Counties
+169	O_Andrews	ONCOR - Andrews County
+170	O_Ector	ONCOR - Ector County
+171	O_Ward	ONCOR - Crane, Pecos, and Ward Counties
+172	O_Winkler	ONCOR - Culberson, Loving, Reeves, and Winkler  Counties
+173	O_Coleman	ONCOR - Coleman and Runnels Counties 
+177	ETEC	East Texas Electric Cooperative
+178	RAYBURN	Rayburn Country Electric Coop
+179	GS_GOLDENSPR	Golden Spread Electric Cooperative
+180	GS_BIGCOUTNR	Big Country Electric Cooperative
+181	GS_COLEMAN	Coleman County Electric Cooperative
+182	GS_CONCHOVAL	Concho Valley Electric Cooperative
+183	GS_LIGHTHOUS	Lighthouse Electric Cooperative
+184	GS_LYNTEGAR	Lyntegar Electric Cooperative
+185	GS_SWTEXAS	Southwest Texas Electric Cooperative
+186	GS_TAYLOR	Taylor Electric Cooperative
+187	LAMAR	Lamar Electric Cooperative
+190	GOLDSMITH	City of Goldsmith
+199	COCS	City of College Station
+200	EHVDC	East High Voltage 

@@ -1,0 +1,72 @@
+ Location for Substation or for a Line	Optional
+County Location for Ending Point for a Line	Optional
+Planning Charter Tier	Required
+Date Submitted TO ERCOT for RPG Review	Required for submitted Tier 1, 2, and 3 projects
+Date RPG Review Completed (Month/Yr)	Required for submitted Tier 1, 2, and 3 projects, if RPG review has been completed.
+Date ERCOT BOD Review Completed	-Required for submitted Tier 1 projects, if ERCOT BOD review completed.
+SSWG Base Case Related Bus Numbers	Required
+Is the project reflected in SSWG Base Cases?	Required
+Part of Interface (Y/N)	Required
+Requested Additional Information	Optional
+Other (Optional)	Optional
+Phase Number & MOD Project Number	Required
+Technical Rationale  	Required if using a less limiting facility rating or voltage limit 
+Other Rationale (Optional) 	Optional 
+3.3.4.2	LSEs
+•	Entities not having representation on SSWG shall submit their data to ERCOT staff or to the directly connected TSP, if the TSP has agreed to be the agent on SSWG for that entity.
+•	See Section 6.5, Annual Load Date Request of the ERCOT Planning Guide.
+3.3.4.3	Resource and Interconnecting Entities
+•	It is the responsibility of REs to provide all data required to accurately model their generators, step-up transformers, associated transmission facilities and reactive devices in the SSWG Cases in accordance with Section 6.8, Resource Registration Procedures of the ERCOT Planning Guide.
+•	Interconnecting Entities are required to submit data for SSWG Cases in accordance with Section 6.9 of the ERCOT Planning Guide.
+•	It is the responsibility of REs to supply any applicable load and/or generation data if they are the designated representatives for either a load or generating entity or both.
+3.3.4.4	ERCOT
+•	It is the responsibility of ERCOT staff to maintain the ERCOT MOD production environment that allows SSWG members to provide appropriate equipment characteristics and system data as stated in this procedure.
+•	ERCOT staff shall be responsible for creating each MOD incremental update base case.
+•	ERCOT staff shall be responsible for the review and inclusion of all latest available generator models with each biannual case update, including generator step-up transformers and associated RE-owned transmission facilities, RE-owned reactive devices, in the SSWG Cases. ERCOT staff will use a Bus Number range assigned to it and assign equipment IDs per ERCOT’s methodology.  Future units will be modeled in accordance with data provided by REs as required in the Generation Interconnection or Change Request Process.
+•	ERCOT staff shall provide and review all RE topology, ratings, and impedances, and provide technical rationale for any rating or voltage limit increase.
+•	If a TSP has operatorship of the breakers for a PUN, ERCOT will provide a zero impedance tie to the TSP specified POI bus.  
+•	It is the responsibility of ERCOT staff to provide an initial generation dispatch for Pass 0 during the Planning Case creation, but this dispatch does not have to be economic or security constrained.
+•	It is the responsibility of ERCOT staff to provide the revised generation dispatch based on the latest topology and loads by submitting the Generation Profile with each biannual case update.  This dispatch will be in accordance with Section 4.3.3 of this document and will be provided at the next Pass after the case reaches an acceptable AC solution and no islands exist not related to an asynchronous tie or normally open equipment.
+•	ERCOT staff shall revise the generation dispatch as needed throughout the Planning Case building processes.
+•	ERCOT staff shall review submitted PMCRs and notify TSPs of any PMCRs which appear to modify topology, ratings, or impedances from the Network Operations Model which do not have a corresponding future project.
+•	Based on the TSPs NERC responsibilities of providing appropriate equipment characteristics and system data, ERCOT staff shall not reject any PMCR that TSPs ultimately determine should be applied to a SSWG Case after appropriate reviews have occurred.
+•	ERCOT staff shall provide case checking files after each pass of the case building processes.
+•	ERCOT staff shall provide a MOD change request report following posting of finalized cases.
+•	Review and resolve all inconsistencies identified from the incremental update process for RE data.
+•	ERCOT staff shall provide TPIT spreadsheet from MOD with each case build pass.
+•	ERCOT staff shall be responsible for posting the final TPIT spreadsheet triannually.
+•	ERCOT staff shall provide all updated SSWG Cases with every pass.
+•	ERCOT staff shall revert temporary configurations created by a RAS or CMP in the SSWG  Cases
+
+3.3.5	Process Overview for Building the SSWG Cases
+•	SSWG Case Preparation
+o	Export the TP Case from NMMS.
+o	Zero out TP Case load MW/MVAR quantities.
+o	Convert the TP Case to the current PSS®E version.
+Incremental update process:
+o	ERCOT produces a comparison file with inconsistencies between the newly produced MOD case with an effective date of the TP pull date and the new TP case.
+o	ERCOT shall upload and commit the comparison file to MOD which synchronizes MOD with NMMS.
+o	ERCOT shall submit a PMCR to remove temporary configurations created by any RAS or CMP
+o	ERCOT shall update all SODGs with the latest information from NMMS.
+
+•	SSWG Case Build:
+o	Review existing PMCRs.
+o	Submit/update PMCRs.
+o	Submit/update Profiles.
+o	Load generation dispatch.
+o	Review generation voltage schedules and suggest changes.
+o	Review generation reactive curves and suggest changes.
+o	Interim final review and tuning.
+o	SSWG approves cases.
+o	Cases finalized by SSWG, the Case Information document, and the change request report are posted on the ERCOT Market Information System (MIS) website.
+
+Any changes required after the SSWG Cases are posted will be made in the MOD environment.  Off-Cycle Updates will be made by posting change files on the ERCOT MIS website per section 6.1 of the ERCOT Planning Guide.
+3.3.6	Transition from Completed Build to Next Case Build
+•	Implement the incremental update process biannual to include the latest Network Operation Modeling data.
+•	Project files representing planned projects and profiles will be retained from the previous case update.
+•	This process will continue for both SSWG Case creation and for each biannual update.
+
+4	MODELING METHODOLOGIES
+4.1	Bus, Area, Zone and Owner Data
+4.1.1	Bus Data Records
+All existing and planned transmission (60kV and above) and generator (greater than 10 MW) terminal buses shall be modeled in the SSWG Cases. Each bus record has a bus number, name, base kV, bus type code, area number, zone number, per-unit bus nominal voltage magnitude, bus voltage phase angle, and owner number. Reactive resources shall be modeled in either the fixed shunt table or the switched shunt table and 

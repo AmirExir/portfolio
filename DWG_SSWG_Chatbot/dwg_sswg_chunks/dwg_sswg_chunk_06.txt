@@ -1,0 +1,69 @@
+e	NMMS	MOD PMCR
+Owner Number/Name	NMMS	MOD PMCR
+Bus Code	NMMS 	MOD PMCR
+Load ID	NMMS	MOD PMCR
+Load Zone	NMMS 	MOD PMCR 
+P load (MW)	MOD PROFILES	MOD PROFILES
+Q load (Mvar)	MOD PROFILES	MOD PROFILES
+Scalable Flag	NMMS/MOD PMCR1	MOD PMCR
+Interruptible Flag	NMMS/MOD PMCR2	MOD PMCR
+1 - For the existing load elements, the scalable flag in SSWG Cases is populated based on the value of “CustomerLoad” attribute “Conforming Load Flag” in NMMS. If the “Conforming Load Flag” attribute is set to TRUE in NMMS, then the Scalable flag is “Checked” in SSWG Cases.
+2 - For the existing load elements, the Interruptible flag in SSWG Cases is populated based on the value of “CustomerLoad” attribute “Interruptible” in NMMS. If the “Interruptible” attribute is set to TRUE  in NMMS, then the Interruptible flag is “Checked” in SSWG Cases.
+4.3	Generator Data
+4.3.1	Acquisition of Generator Data
+4.3.1.1	Generation that meets Planning Guide 6.9(1)
+ERCOT will utilize the latest data provided by the IEs/REs in the Security Screening Study, or Full Interconnection Study if started, to model the Resource using the simple model.
+
+Unit Reactive Limits should be modeled at a 95% power factor of the PMAX.  Generator ID prefixes will be designated as specified in Appendix D.  
+
+Each simple modeled generator will be modeled in the following Zone:
+
+Zone Number	Zone Name
+1189	SIMPLE_Model
+
+
+
+
+4.3.1.2	Generation that meets Planning Guide 6.9(2)
+Upon meeting Planning Guide 6.9(2), ERCOT will utilize Resource Registration data provided by IEs/REs in accordance with ERCOT Protocols, Market Guides and the Generation Interconnection Process to model the Resource.  Only net real and reactive generator outputs and ratings should be modeled in SSWG Cases. Net generation is equal to the gross generation minus station auxiliaries and other internal power requirements.  All non-self-serve generation connected at 60 kV and above with at least 10 MW aggregated at the point of interconnect must be explicitly modeled. A generator explicitly modeled must include generator step-up transformer and actual no-load tap position. Generation of less than 10 MW is still required to be modeled, but not explicitly.
+Unit Reactive Limits (leading and lagging) for existing units are obtained from the Resource Registration data.  The Resource Registration data should reflect the most recent generator reactive unit test data conducted by the RE.  Limited Resource Registration data shall be made available to SSWG upon request. 
+Generator reactive limits should be modeled with one value for Qmax and one value for Qmin as described below:
+	Qmax
+	
+	Qmax is the maximum net lagging MVAr observed at the low side of the generator step up transformer when the unit is operating at its maximum net dependable MW capability. Qmax is calculated from the lagging Resource Registration data MW4 MVar value by subtracting Resource Registration data auxiliary load MVAr. 
+	
+	Example:
+	
+	Resource Registration data lagging MW4 value is 85 MVAr
+	Resource Registration data auxiliary Load is 5 MVAr  
+	In this example, Qmax is 85 – 5 = 80 MVAr 
+	
+	Qmin
+	
+	Qmin is the maximum net leading MVAr observed at the low side of the generator step up transformer when the unit is operating at its maximum net dependable MW capability. Qmin is calculated from the leading Resource Registration data MW4 MVar value by subtracting Resource Registration data auxiliary load MVAr. 
+	
+	Example:
+	
+	Resource Registration data leading MW4 value is -55 MVAr
+	Resource Registration data auxiliary Load is 5 MVAr
+	In this example, Qmin is -55 – 5 = -60 MVAr
+4.3.1.3	Self-Serve Generation
+Self-serve generators serve local load that does not flow through the ERCOT transmission system. Generation dispatch may be submitted by TSPs on a biannual basis for self-serve facilities serving self-serve load modeled in the SSWG Case. If no generation dispatch is submitted by the TSPs, ERCOT will dispatch the units accordingly to meet the self-serve load.  Total self-serve generation MWs shall match total self-serve load MWs. 
+4.3.1.4	Distribution Generation Resources, Distribution Energy Storage Resources, and Settlement Only Distribution Generators 
+ERCOT will utilize Resource Registration data provided by IEs/REs to model DGR, DESR, and SODG. SODG will be aggregated by fuel type and represented as a simple model and will be assumed to operate at unity power factor with no voltage control.
+4.3.1.5	Coordination with other ERCOT Working Groups 
+All generator data should be coordinated with the Dynamics Working Group, Operations Working Group, Network Data Support Working Group and System Protection Working Group members to assure that it is correct before submitting the cases. This will insure that all of the cases have the most current steady state and dynamics information.  The following items should be provided to these working groups for data coordination:
+•	Unit bus number
+•	Unit ID
+•	Unit maximum and minimum real power capabilities
+•	Unit maximum and minimum reactive power capabilities
+•	Unit MVA base
+•	Resistive and reactive machine impedances
+•	Resistive and reactive generator step-up transformer impedances
+•	Reactive devices modeled on the Generator side
+4.3.2	Load and Generation Balance
+Before the generation schedule can be determined, the expected ERCOT load and losses (demand) must be determined. Each MW of demand needs to be accounted for by a MW of generation. 
+4.3.3	Generation Dispatch Methodology for Planning Purposes
+In order to simulate the future market, the following methodology for generation dispatch has been adopted for building the  Steady State Cases, with the exception of the HRML case. The HRML case build process is described separately below. Generation dispatch, as described below, is for planning and may not necessarily reflect the actual real-time dispatch.
+Existing and planned units owned by Non-Opt-In Entities (NOIE) are dispatched according to the NOIE dispatch spreadsheets submitted to ERCOT on a biannual basis; unless a NOIE requests that their units are to be dispatched according to the order that is described below or do not submit a NOIE dispatch. 
+Private network generation is also dispatched independently. The units are dispatched to meet their load modeled in the case. The import/export contributions of the DC Ties will be set based on historical data to the extent that the contributions are consistent with those indicated in the most recent Capacity, Demand and Reserves (CDR) Report.  Likewise, wind units are dispatched in accordance with Appendix B, Method for Calculating Wind Generation Levels in SSWG Cases, to extent that the dispatch is consistent with the regional contributions indicated in the CDR Report. Solar units are dispatched at a level consistent with the CDR Report. Battery Energy Storage units 

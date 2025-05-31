@@ -1,0 +1,163 @@
+Economic Units
+ 	 	 	 	 
+Black Start Units	BS	BS	 	Black Start Units
+ 	 	 	 	 
+Battery Units	B	B1	Two units connected to same bus	All battery units
+		B2		
+		B1	Only one unit	
+ 	 	 	 	 
+Block Load Transfer Model	BL	BL	 	Modeling equivalent block load transfer
+ 	 	 	 	 
+Synchronous Condenser	SC	SC		Synchronous Condenser
+				
+Settlement Only Distributed Generation 	J	JB	Battery	SODG unit IDs by resource type
+
+
+		JS	Solar	
+		JN	Natural Gas	
+		JD	Diesel	
+		JW	Wind	
+		JG	Landfill Gas	
+		JH	Hydro	
+		JI	Other Inverter-Based Resource	
+		JO	Other Synchronous Generation	
+
+ 
+Appendix E
+
+Load ID Prefixes
+
+This appendix provides an explanation of selected Load ID prefixes with specific meaning that correspond to modeling in the SSWG Cases.
+
+Types of Loads	Load ID Prefix	Load ID	Comment	Explanation
+				
+City Loads	E	E1	Two loads connected to same bus 	Loads for which a TSP has historically submitted data but no longer accepts responsibility.
+		E2		
+				
+Self-Serve Loads	S	S1	Two loads connected to same bus 	Self-Serve units
+		S2		
+		SS	Only one unit	
+				
+Co-Located Large Loads	U	U#		Loads 75 MW or greater, that are going or have gone through the LLI process, co-located with generation facilities and registered as either CLR or NCLR.
+Co-Located Large Loads	V	V#		Loads 75 MW or greater, that are going or have gone through the LLI process co-located with generation facilities and not registered as either CLR or NCLR.
+				
+Large Transmission Loads	X	X#		Loads 75 MW or greater, that are going or have gone through the LLI process, connected to Transmission and registered as either CLR or NCLR.
+Large Transmission Loads	Y	Y#		Loads 75 MW or greater, that are going or have gone through the LLI process, connected to Transmission and not registered as either CLR or NCLR.
+
+ 
+Appendix F 
+ 
+Technical Rationale for Less limiting Facilities 
+ 
+ERCOT and TSPs shall model Facility Ratings and System steady-state voltage limits (voltage-based Facility Ratings) that are equally limiting or more limiting than operational Facility Ratings and voltage limits developed in accordance with the ERCOT System Operating Limit (SOL) Methodology for the Operations Time Horizon, as represented in the MOD Base Case. Facility Ratings and voltage limits include, but are not limited to, bus voltage limits, transformer ratings, line ratings, breaker ratings, and switch ratings.
+
+ERCOT or TSPs must provide one of the following technical rationale to model less limiting Facility Ratings or voltage limits in the SSWG Cases:
+
+•	Transmission Project, for planned transmission projects that would modify transmission facilities. This category generally applies to the following PMCR types:
+o	Tier 1, 2, 3, & 4
+o	No_TPIT
+o	Generation Interconnection
+•	Data Corrections, for modeling adjustments to correct errors that cannot be corrected in the operational Facility Rating or voltage limit. This category generally applies to the following PMCR type:
+o	Standard_PMCR
+•	Data Updates, for data quality checks and updates for in-service equipment and to reflect as-built Facilities. This category generally applies to the following PMCR types:
+o	NOMCR_Pending
+o	NOMCR_Submitted
+•	Other, for technical rationale that is not in one of the above categories
+
+
+
+ 
+
+
+
+
+
+
+Dynamics Working Group 
+Procedure Manual
+
+
+
+
+Revision 23
+
+
+
+
+ROS Approved: May 1, 2025
+
+ 
+TABLE OF CONTENTS 
+
+
+Foreword	4
+1	Activities of the Dynamics Working Group (DWG)	5
+2	Administrative Procedures	5
+2.1	Membership	5
+2.2	Duties of Chair and Vice-Chair	6
+2.3	Meetings	6
+2.4	Reports to ROS	6
+2.5	Dynamic Data Sharing Rules	6
+3	Dynamic Data	7
+3.1	General	7
+3.1.1	Software	7
+3.1.2	Dynamic Models – General	7
+3.1.3	Standard Dynamic Models	8
+3.1.4	User-Written Dynamic Models	8
+3.1.5	Dynamic Model Quality Test Guideline	9
+3.1.6	Unit Model Validation	29
+3.1.7	Maintenance of Dynamic Models	31
+3.1.8	Dynamic Data for Existing Equipment	31
+3.1.9	Dynamic Data for Planned Equipment	31
+3.1.10	Unacceptable Dynamic Models	31
+3.2	Dynamic Data for Equipment Owned by Resource Entities (REs)	32
+3.2.1	Dynamic Data Requirements for New Equipment	32
+3.2.2	Updates to Existing Dynamic Data	34
+3.3	Data for Load Resource	34
+3.4	Dynamic Data for Equipment Owned by Transmission Service Providers (TSPs) or Other Equipment Owners	34
+3.4.1	Under Frequency Firm Load Shedding (UFLS) Relay Data	34
+3.4.2	Under Voltage Load Shedding (UVLS) Relay Data	35
+3.4.3	Protective Relay Data	36
+3.4.4	Load Model Data	36
+3.4.5	Other Types of Dynamic Data	37
+3.4.6	Missing or Problematic Dynamics Data	37
+3.4.7	Dynamic Data and Stability Book Storage	38
+3.5	Dynamic Models for Distributed Generation	38
+3.5.1 Distribution Generation Resource (DGR) and Distribution Energy Storage Resource (DESR)	38
+3.5.2 Settlement Only Distribution Generator (SODG)	38
+3.5.3 Unregistered Distributed Generation (UDG)	39
+4	Overview of DWG Activities	40
+4.1	Updating Dynamic Data and Flat Starts	40
+4.1.1	Schedule for Dynamic Data Updates and Flat Start Cases	40
+4.1.2	Dynamic Data Updates	41
+4.1.3	Dynamic Data Screening	41
+4.1.4	Flat Start Criteria	41
+4.2	Post Flat Start Activities	42
+4.2.1	Distribution of Flat Start Results and the Dynamic Data Base	42
+4.2.2	Stability Book	42
+4.2.3	DWG Coordination with the Steady State Working Group	42
+4.2.4	DWG Dynamic Contingency Assumptions List	43
+4.2.5	DWG Dynamic Contingency Database	43
+4.3	Other DWG Activities	44
+4.3.1	Event Simulation	44
+4.3.2	Procedure Manual Revision Guidelines	44
+4.4	Recommended DWG Study Methodologies	44
+4.4.1	Voltage Instability Identification in Stability Studies	44
+4.4.2	Cascading Identification in Stability Studies	45
+4.4.3	Uncontrolled Islanding Identification in Stability Studies	45
+4.4.4	Generator Protection Assumptions	46
+ 
+Foreword
+This Procedure Manual is intended for use by the stakeholder members of the Electric Reliability Council of Texas (ERCOT) for the purpose of creating and maintaining the dynamics database and dynamics simulation cases which are used to evaluate the dynamic performance of the ERCOT system.  
+
+
+
+ 
+Activities of the Dynamics Working Group (DWG)
+	The DWG builds dynamic data sets and dynamic study cases for the ERCOT system from data supplied by equipment owners. ERCOT coordinates the compilation and publication of dynamics data and dynamics study cases. The dynamics data are published in the form of dynamics study cases (flat start cases) as described within this document.
+	The DWG prepares the annual update of the Stability Book that documents dynamic data used in the flat start cases.
+	The DWG provides a forum for discussing dynamic modeling and system dynamic performance issues and questions.
+	The DWG performs other activities as directed by the Reliability and Operating Subcommittee (ROS).
+Administrative Procedures
+	Membership
+The DWG is a non-voting working group whose members include representatives f
