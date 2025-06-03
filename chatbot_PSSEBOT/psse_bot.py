@@ -146,7 +146,7 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
 
         if invalid_funcs:
             st.warning(f"⚠️ Warning: These functions may not exist in the API: {', '.join(invalid_funcs)}")
-            bot_msg += f"\n\n⚠️ *Caution: The following PSS/E API function(s) may be hallucinated or not found in the official documentation: {', '.join(invalid_funcs)}*"
+            bot_msg += f"\n\n⚠️ *Caution: The following PSS/E API function(s) may be hallucinated or not found in the psse python examples: {', '.join(invalid_funcs)}*"
 
 
 
