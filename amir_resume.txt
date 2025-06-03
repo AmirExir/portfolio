@@ -9,7 +9,7 @@ Proficient in PSS/E, GE EMS SCADA/TSM/DTS, ABB MMS, Python (Pandas, NumPy, Matpl
 
 Work History
 
-LCRA TSP Transmission Planning Model and Assessment Engineer (3/2024 – Present)
+Transmission Planning Model and Assessment Engineer | LCRA TSP (3/2024 – Present)
 -Review and approve Planned, For - Construction and Operational ratings for LCRA transmission lines and auto transformers and shunts resulting from substations, lines and auto transformers additions or upgrades in capital projects. 
 - Ensure system reliability, and compliance with NERC Standards, ERCOT Operation and Planning Guides.
 -Maintain LCRA Planning Network Model in ERCOT according to capital projects in a timely manner.
@@ -20,7 +20,7 @@ LCRA TSP Transmission Planning Model and Assessment Engineer (3/2024 – Present
 - Perform Dynamic Stability Analysis for MOD-26, MOD-27, and Model Quality Test.
 - Enhanced model accuracy through data comparisons and validity checks.
 
-LCRA TSP Transmission Operation Network Model and EMS Engineer (8/2022 – 3/2024)
+Transmission Operation Network Model and EMS Engineer | LCRA TSP (8/2022 – 3/2024)
 - Maintain LCRA Operation Network Model in ERCOT and LCRA EMS Model according to capital projects.
 - Draft One Line Diagram for before and after network model changes for new substation, line, transformer additions.
 - Submit NOMCR and DPC to ERCOT for Network model changes and participate in ERCOT NDSWG working groups.
@@ -30,7 +30,7 @@ LCRA TSP Transmission Operation Network Model and EMS Engineer (8/2022 – 3/202
 - Update Line ratings and Impedances in EROT model and EMS based on Engineering team publications.
 - Participate in network data working groups with ERCOT Collaborate with customers like PEC, BBEC, BEC, SBEC.
 
-ERCOT ISO Real Time Power System Engineer (CROSSTRAINING) (1/2022-4/2022)
+Real Time Power System Engineer | ERCOT ISO (CROSSTRAINING) (1/2022-4/2022)
 - Provided engineering support to ERCOT Control Room System Operators through Power Flow studies, Stability Assessments, and system applications support.
 - Maintained Real-Time ERCOT State Estimator, Contingency Analysis, and Voltage/Transient Stability Analysis tools.
 - Developed Constraint Management Plans such as TOAP based on engineering studies for grid vulnerabilities.
@@ -38,42 +38,43 @@ ERCOT ISO Real Time Power System Engineer (CROSSTRAINING) (1/2022-4/2022)
 - Collaborated with ERCOT System Operators and Market Participants to maintain grid reliability and security.
 - Troubleshot situational awareness tools and reported grid status and developments to ERCOT departments.
 
-ERCOT ISO Operation Training Instructor (Full time) (10/2020-8/2022)
+Operation Training Instructor | ERCOT ISO | 10/2020-8/2022
 -Developed power system simulation training scenarios to enhance ERCOT system operators' performance.
 - Maintained EMS, MMS, and OTS systems, troubleshooted simulator issues.
 - Evaluated operator responses during simulation training such as EEA, Black Start, RTA, IROL, Hurricane Drill, Low Inertia.
 - Participated as a RC, QSE or TO in real time simulations.
 - Prepared presentations for operation engineer and system operators like RTA presentation.
 
-ERCOT ISO Power Electrical Engineer (ERCOT – SOAL technologies) (10/2019 to 10/2020)
+Power Electrical Engineer | ERCOT ISO – SOAL technologies| 10/2019 to 10/2020
 - Performed RARF registration and Reactive testing.
 - Reviewed and processed generation interconnection and full interconnection study (FIS) applications.
 - Reviewed QSA Full Interconnection Studies such as Short Circuit, Faciality, Steady State, Stability Studies.
 - Utilized EMS and PSS/E Transmission Planning load flow cases for power system analysis.
 
-HISD Associate Teacher (2/2019 - 3/2022)
+Associate Teacher | HISD | 2/2019 - 3/2022
 - Teach math and physics, manage the classroom and follow the lesson plan.
 
-CFISD Substitute Teacher (4/2018-1/2019)
+Substitute Teacher |CFISD | 4/2018-1/2019
 -Teach various subjects substituting for absent teachers.
 
 Education
 
-The University of Texas at Austin (8/2024 – Present)
--Master of Science in Artificial Intelligence – GPA 4.0
+Master of Science in Artificial Intelligence – GPA 4.0 
+The University of Texas at Austin | 8/2024 – Present|
 Courses: Deep Learning, Machine Learning, Optimization, EAI, AIH 
 Projects:
 -Built a vision system and autonomous racing agent for SuperTuxKart, optimizing performance through advanced deep learning techniques.
 -Applied machine learning algorithms to real-world data sets, solving problems in pattern recognition and dimensionality reduction.
 -Developed ethical AI guidelines for system design, incorporating fairness and transparency into decision-making frameworks.
 
- Lamar University (1/21/2019 to 5/12/2020)
-- Master of Engineering in Electrical and Computer Engineering – GPA: 3.8
+Master of Engineering in Electrical and Computer Engineering – GPA: 3.8 
+Lamar University |1/21/2019 - 5/12/2020 
 - Courses: Power System Motor & protection, Introduction to Robotics, Power Sys Stability & Control, Programmable Logic Controller, Computer Network I & II, Low Power CMOS Des & Rel, Cyber Physical Sys & Security, Instrumentation System and Auto.
 
- Shahid Beheshti University (7/2017)
-- Bachelor of Science in Electrical and Computer Engineering
+Bachelor of Science in Electrical and Computer Engineering 
+Shahid Beheshti University | 10/2012 7/2017
 - Courses: Protection and Relays, Power System I & II and labs, Electrical Machines I, II, III, Especial Machines and labs, Computer Architecture, Computer Programming, Linear Algebra, Electromagnetic, Industrial Drawing, System Analysis, Logical Circuits, Electronics 1 & 2, Telecommunications, Production and Power Station, High Pressure Plant Design and Project, Mathematics I, II and physics, Differential Equations, Statistics and Probability Engineering.
+
 AI & Automation Projects (Self-Initiated)
 
 Technologies: Python, OpenAI API, Streamlit, Embeddings, PSS/E, NLP, HTML, CSS, GitHub Pages, JavaScript
