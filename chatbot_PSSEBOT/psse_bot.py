@@ -138,15 +138,33 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
 
         bot_msg = response.choices[0].message.content
 
-        def find_invalid_functions(response_text, valid_funcs):
-            used = re.findall(r'\bpsspy\.(\w+)\b', response_text)
-            return [f for f in used if f not in valid_funcs]
-
         invalid_funcs = find_invalid_functions(bot_msg, valid_funcs)
 
+        # Auto-correct loop if invalid functions found
         if invalid_funcs:
             st.warning(f"⚠️ Warning: These functions may not exist in the API: {', '.join(invalid_funcs)}")
-            bot_msg += f"\n\n⚠️ *Caution: The following PSS/E API function(s) may be hallucinated or not found in the psse python examples: {', '.join(invalid_funcs)}*"
+
+            correction_prompt = {
+                "role": "user",
+                "content": (
+                    f"⚠️ You used invalid function(s): {', '.join(invalid_funcs)}. "
+                    "Please revise your answer using only valid PSS/E API functions from the reference chunks provided earlier. "
+                    "Do not make up any function names."
+                )
+            }
+
+            # Add original assistant message and correction request
+            messages.append({"role": "assistant", "content": bot_msg})
+            messages.append(correction_prompt)
+
+            with st.spinner("Detected invalid functions. Requesting correction..."):
+                correction_response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=messages,
+                    max_tokens=8192
+                )
+                bot_msg = correction_response.choices[0].message.content
+                st.success("✅ Self-correction applied.")
 
 
 
