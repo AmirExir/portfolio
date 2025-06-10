@@ -1,6 +1,7 @@
 # 3. executor.py
 import re
-
+import openai
+from openai import OpenAI
 def extract_valid_funcs(chunks):
     pattern = r'psspy\.(\w+)' 
     valid = set()
