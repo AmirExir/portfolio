@@ -1,11 +1,13 @@
 # 2. retriever.py
 import json, os
 import numpy as np
+import streamlit as st
 from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+@st.cache_data(show_spinner=False)
 def load_chunks_and_embeddings():
     with open("psse_examples_chunks.json", "r", encoding="utf-8") as f:
         chunks = json.load(f)
