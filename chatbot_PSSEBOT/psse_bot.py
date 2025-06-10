@@ -138,6 +138,14 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
 
         bot_msg = response.choices[0].message.content
 
+        
+        import re
+
+        def find_invalid_functions(response_text, valid_funcs):
+            used = re.findall(r'\bpsspy\.(\w+)\b', response_text)
+            return [f for f in used if f not in valid_funcs]
+
+
         invalid_funcs = find_invalid_functions(bot_msg, valid_funcs)
 
         # Auto-correct loop if invalid functions found
