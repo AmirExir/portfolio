@@ -4,7 +4,7 @@ from planner import plan_tasks
 from retriever import load_chunks_and_embeddings, find_relevant_chunks
 from executor import extract_valid_funcs, run_executor
 
-st.title("🧠 PSS/E Agent Loop")
+st.title("🧠 Amir Exir's PSS/E Agent Loop")
 prompt = st.chat_input("Ask a PSSE task...")
 
 if prompt:
