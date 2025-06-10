@@ -7,7 +7,7 @@ from executor import extract_valid_funcs, run_executor
 
 # Setup
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-st.set_page_config(page_title="🧠 PSS/E Agent Loop", page_icon="🧠")
+st.set_page_config(page_title="🧠 Amir Exir's PSS/E Agent Loop", page_icon="🧠")
 st.title("🧠 PSS/E Automation Agent")
 
 # Prompt input
