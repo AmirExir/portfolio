@@ -1,4 +1,4 @@
-# 2. retriever.py
+# retriever.py
 import json, os
 import numpy as np
 import streamlit as st
@@ -14,7 +14,10 @@ def load_chunks_and_embeddings():
     embeddings = []
     for chunk in chunks:
         try:
-            response = client.embeddings.create(model="text-embedding-3-small", input=chunk["text"][:8192])
+            response = client.embeddings.create(
+                model="text-embedding-3-small", 
+                input=chunk["text"][:8192]
+            )
             embeddings.append(response.data[0].embedding)
         except:
             embeddings.append(None)
