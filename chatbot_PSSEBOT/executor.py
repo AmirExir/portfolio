@@ -1,5 +1,6 @@
 # 3. executor.py
 import re
+import os
 import openai
 from openai import OpenAI
 def extract_valid_funcs(chunks):
