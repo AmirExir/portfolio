@@ -1,104 +1,48 @@
 import streamlit as st
 import os
-import openai
 from openai import OpenAI
 from planner import plan_tasks
-from utils import (
-    load_psse_chunks_and_embeddings,
-    find_top_k_matches,
-    limit_chunks_by_token_budget,
-    extract_function_names,
-    find_invalid_functions,
-)
+from retriever import load_chunks_and_embeddings, find_relevant_chunks
+from executor import extract_valid_funcs, run_executor
 
-# Set up OpenAI client
+# Setup
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+st.set_page_config(page_title="PSS/E Agent Loop", page_icon="⚡")
+st.title("🧠 PSS/E Automation Agent")
 
-# Streamlit UI
-st.set_page_config(page_title="Amir Exir's PSSE API AI Assistant", page_icon="⚡")
-st.title("🧠 Ask Amir Exir's PSSE API AI Assistant")
+# Prompt input
+prompt = st.chat_input("Ask a PSS/E automation task...")
 
-# Load data and embeddings once
-with st.spinner("Loading PSSE API examples and computing embeddings..."):
-    chunks, embeddings = load_psse_chunks_and_embeddings()
-
-valid_funcs = extract_function_names(chunks)
-
-# Initialize chat
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-# Show past messages
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).markdown(msg["content"])
-
-# Chat input
-if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API usage..."):
+if prompt:
     st.chat_message("user").markdown(prompt)
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages = st.session_state.get("messages", []) + [{"role": "user", "content": prompt}]
 
-    with st.spinner("Thinking..."):
-        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=50)
-        trimmed_chunks = limit_chunks_by_token_budget(top_chunks)
-        combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in trimmed_chunks)
+    # Step 1: Plan
+    with st.spinner("🤖 Planning tasks..."):
+        chunks, embeddings = load_chunks_and_embeddings()
+        reference_context = chunks[:30]  # Light context for planner
+        tasks = plan_tasks(prompt, reference_context)
+        st.markdown("**Planned Tasks:**")
+        st.code(tasks)
 
-        system_prompt = {
-            "role": "system",
-            "content": f"""
-        You are the most advanced PSS/E python API and automation expert for power systems. When given a task, identify the relevant API and return a full code sample. Avoid made-up functions. Cite the chunk you're using.
+    # Step 2: Validate funcs
+    valid_funcs = extract_valid_funcs(chunks)
 
-        Use only the following {len(trimmed_chunks)} reference chunks (from API manual and examples):
+    # Step 3: Execute each task
+    task_list = [t.strip("- ") for t in tasks.strip().split("\n") if t.strip()]
+    st.markdown("---")
 
-        ---
-        {combined_context}
-        ---
+    all_results = []
+    for task in task_list:
+        st.markdown(f"### 🔍 Executing Task: `{task}`")
 
-        Respond with:
-        - Clear descriptions of function usage
-        - Real working Python code
-        - Best practices and typical use cases
+        # Step 3.1: Retrieve
+        relevant_chunks = find_relevant_chunks(task, chunks, embeddings)
+        combined_context = "\n---\n".join(chunk["text"] for chunk in relevant_chunks)
 
-        Prioritize actual examples if available. Do not make up any function names not shown.
-        """
-        }
+        # Step 3.2: Execute
+        result = run_executor(task, combined_context, valid_funcs)
+        st.markdown(result)
+        all_results.append(result)
 
-        messages = [system_prompt] + st.session_state.messages
-
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=messages,
-            max_tokens=8192
-        )
-
-        bot_msg = response.choices[0].message.content
-
-        invalid_funcs = find_invalid_functions(bot_msg, valid_funcs)
-
-        # Auto-correct loop if invalid functions found
-        if invalid_funcs:
-            st.warning(f"⚠️ Warning: These functions may not exist in the API: {', '.join(invalid_funcs)}")
-
-            correction_prompt = {
-                "role": "user",
-                "content": (
-                    f"⚠️ You used invalid function(s): {', '.join(invalid_funcs)}. "
-                    "Please revise your answer using only valid PSS/E API functions from the reference chunks provided earlier. "
-                    "Do not make up any function names."
-                )
-            }
-
-            # Add original assistant message and correction request
-            messages.append({"role": "assistant", "content": bot_msg})
-            messages.append(correction_prompt)
-
-            with st.spinner("Detected invalid functions. Requesting correction..."):
-                correction_response = client.chat.completions.create(
-                    model="gpt-4o-mini",
-                    messages=messages,
-                    max_tokens=8192
-                )
-                bot_msg = correction_response.choices[0].message.content
-                st.success("✅ Self-correction applied.")
-
-        st.chat_message("assistant").markdown(bot_msg)
-        st.session_state.messages.append({"role": "assistant", "content": bot_msg})
+    st.session_state.messages.append({"role": "assistant", "content": "\n\n".join(all_results)})
