@@ -1,79 +1,18 @@
 import streamlit as st
 import os
-import json
-import glob
-import openai 
+import openai
 from openai import OpenAI
-from sklearn.metrics.pairwise import cosine_similarity
-from typing import List
-import numpy as np
- from planner import plan_tasks
-
-
-
+from planner import plan_tasks
+from utils import (
+    load_psse_chunks_and_embeddings,
+    find_top_k_matches,
+    limit_chunks_by_token_budget,
+    extract_function_names,
+    find_invalid_functions,
+)
 
 # Set up OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-# Load or compute embeddings
-@st.cache_data(show_spinner=False)
-def load_psse_chunks_and_embeddings():
-    with open(os.path.join(os.path.dirname(__file__), "psse_examples_chunks.json"), "r", encoding="utf-8") as f:
-        chunks = json.load(f)
-        st.write("Current working directory:", os.getcwd())
-        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "psse_examples_chunks.json"))
-
-    embeddings = []
-    embedding_model = "text-embedding-3-small"
-
-    for chunk in chunks:
-        try:
-            response = client.embeddings.create(
-                model=embedding_model,
-                input=chunk["text"][:8192]
-            )
-            embeddings.append(response.data[0].embedding)
-        except Exception as e:
-            st.warning(f"Embedding failed for chunk {chunk['id']}: {e}")
-            embeddings.append(None)
-
-    valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
-
-    if not valid_pairs:
-        st.warning("⚠️ No valid embeddings. Check your file or API key.")
-        raise ValueError("No valid embeddings were generated.")
-
-    chunks, embeddings = zip(*valid_pairs)
-    embeddings = np.array(embeddings)
-    return list(chunks), embeddings
-
-# Embed the user query
-def embed_query(query: str) -> List[float]:
-    response = client.embeddings.create(
-        model="text-embedding-3-small",
-        input=query
-    )
-    return response.data[0].embedding
-
-# Find top K matches
-def find_top_k_matches(query: str, chunks, embeddings, k=50):
-    query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity(query_embedding, embeddings).flatten()
-    top_indices = scores.argsort()[-k:][::-1]
-    top_chunks = [chunks[i] for i in top_indices]
-    return top_chunks
-
-# Limit chunks by token budget
-def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
-    total = 0
-    selected = []
-    for chunk in chunks:
-        token_count = len(chunk["text"].split())  # rough estimate
-        if total + token_count > max_input_tokens:
-            break
-        selected.append(chunk)
-        total += token_count
-    return selected
 
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's PSSE API AI Assistant", page_icon="⚡")
@@ -82,15 +21,6 @@ st.title("🧠 Ask Amir Exir's PSSE API AI Assistant")
 # Load data and embeddings once
 with st.spinner("Loading PSSE API examples and computing embeddings..."):
     chunks, embeddings = load_psse_chunks_and_embeddings()
-
-import re
-
-def extract_function_names(chunks):
-    pattern = r'\bpsspy\.(\w+)\b'
-    func_names = set()
-    for chunk in chunks:
-        func_names.update(re.findall(pattern, chunk["text"]))
-    return func_names
 
 valid_funcs = extract_function_names(chunks)
 
@@ -115,8 +45,8 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
         system_prompt = {
             "role": "system",
             "content": f"""
-        You are an the most advanced PSS/E python API and automation expert for power systems. When given a task, identify the relevant API and return a full code sample. Avoid made-up functions. Cite the chunk you're using.
-        
+        You are the most advanced PSS/E python API and automation expert for power systems. When given a task, identify the relevant API and return a full code sample. Avoid made-up functions. Cite the chunk you're using.
+
         Use only the following {len(trimmed_chunks)} reference chunks (from API manual and examples):
 
         ---
@@ -141,14 +71,6 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
         )
 
         bot_msg = response.choices[0].message.content
-
-        
-        import re
-
-        def find_invalid_functions(response_text, valid_funcs):
-            used = re.findall(r'\bpsspy\.(\w+)\b', response_text)
-            return [f for f in used if f not in valid_funcs]
-
 
         invalid_funcs = find_invalid_functions(bot_msg, valid_funcs)
 
@@ -177,8 +99,6 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
                 )
                 bot_msg = correction_response.choices[0].message.content
                 st.success("✅ Self-correction applied.")
-
-
 
         st.chat_message("assistant").markdown(bot_msg)
         st.session_state.messages.append({"role": "assistant", "content": bot_msg})
