@@ -1,33 +1,41 @@
-from bs4 import BeautifulSoup
 import os
-import re
+import json
+from bs4 import BeautifulSoup
 
-# Set paths
-input_dir = "chatbot_PSSEBOT"  # Folder with your .html API files
-output_dir = "psse_api_extracted"
-os.makedirs(output_dir, exist_ok=True)
+api_dir = "path/to/_as_gen"  # the folder with psspy_xxx.html files
+output = []
 
-# Loop through each HTML file
-for filename in os.listdir(input_dir):
-    if filename.endswith(".html"):
-        filepath = os.path.join(input_dir, filename)
+for filename in os.listdir(api_dir):
+    if not filename.endswith(".html"):
+        continue
 
-        with open(filepath, "r", encoding="utf-8") as f:
-            soup = BeautifulSoup(f, "html.parser")
+    path = os.path.join(api_dir, filename)
+    with open(path, "r", encoding="utf-8") as f:
+        soup = BeautifulSoup(f, "html.parser")
 
-            # Get title (API name)
-            title = soup.find("h1").text.strip() if soup.find("h1") else filename
+    # Extract function name
+    title = soup.find("h1")
+    if not title or "psspy" not in title.text:
+        continue
 
-            # Clean title for use in filenames
-            clean_title = re.sub(r'[\\/*?:"<>|()\s]', "_", title)
+    func_name = title.text.strip()
 
-            # Extract code block (e.g., Python call)
-            code_block = soup.find("pre").text.strip() if soup.find("pre") else ""
+    # Try to find description
+    desc_tag = soup.find("div", {"class": "description"})
+    description = desc_tag.text.strip() if desc_tag else "No description available."
 
-            # Optional: short description
-            description = soup.find("p").text.strip() if soup.find("p") else ""
+    # Optionally grab code example
+    code_block = soup.find("pre")
+    code = code_block.text.strip() if code_block else ""
 
-            # Save to .txt
-            output_file = os.path.join(output_dir, f"{clean_title}.txt")
-            with open(output_file, "w", encoding="utf-8") as out:
-                out.write(f"{title}\n\n{description}\n\n{code_block}")
+    output.append({
+        "function": func_name,
+        "description": description,
+        "code": code
+    })
+
+# Save as JSON
+with open("psse_api_functions.json", "w", encoding="utf-8") as f:
+    json.dump(output, f, indent=2)
+
+print(f"✅ Extracted {len(output)} functions to psse_api_functions.json")
