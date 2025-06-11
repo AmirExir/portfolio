@@ -10,7 +10,7 @@ import numpy as np
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @st.cache_data(show_spinner=False)
-def load_chunks_and_embeddings(json_file="psse__rechunked.json", embedding_model="text-embedding-3-small"):
+def load_chunks_and_embeddings(json_file="psse__examples_chunks.json", embedding_model="text-embedding-3-small"):
     with open(json_file, "r", encoding="utf-8") as f:
         chunks = json.load(f)
 

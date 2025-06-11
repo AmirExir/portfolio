@@ -9,7 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def load_chunks_and_embeddings(json_file="psse__rechunked.json", embedding_model="text-embedding-3-small"):
+def load_chunks_and_embeddings(json_file="psse__examples_chunks.json", embedding_model="text-embedding-3-small"):
     """Load documentation chunks and compute their embeddings."""
     with open(json_file, "r", encoding="utf-8") as f:
         chunks = json.load(f)
