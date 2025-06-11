@@ -14,7 +14,7 @@ st.title("🧠 Amir Exir's PSS/E Automation Agent")
 # Initial load
 with st.spinner("🤖 Loading PSS/E examples and computing embeddings..."):
     chunks, embeddings = load_chunks_and_embeddings()
-st.success(f"✅ Loaded {len(chunks)} chunks from `psse__rechunked.json`")
+st.success(f"✅ Loaded {len(chunks)} chunks from `psse__examples_chunks.json`")
 
 # Prompt input
 prompt = st.chat_input("Ask a PSS/E automation task...")
