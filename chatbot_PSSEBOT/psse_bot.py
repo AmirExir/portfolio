@@ -51,6 +51,14 @@ if prompt:
         with st.spinner("💻 Generating valid Python code..."):
             result = run_executor(task, combined_context, valid_funcs)
         st.markdown(result)
+
+        # Optional retry button for hallucinated results
+        if any(func not in valid_funcs for func in re.findall(r'psspy\.(\w+)', result)):
+            if st.button(f"🔁 Retry Task: {task}"):
+                with st.spinner("♻️ Retrying with valid API functions only..."):
+                    result = run_executor(task, combined_context, valid_funcs)
+                st.markdown(result)
+
         all_results.append(result)
 
     # Step 4: Store result
