@@ -1,4 +1,4 @@
-# retriever.py (Refactored to use utils.py)
+# retriever.py (Full version with no filtering)
 
 import os
 import json
@@ -14,15 +14,8 @@ def load_chunks_and_embeddings(json_file="psse_examples_chunks.json", embedding_
     with open(json_file, "r", encoding="utf-8") as f:
         chunks = json.load(f)
 
-    # Filter out irrelevant content (GIC, harmonics, etc.)
-    excluded_keywords = ["gic", "harmonic", "emtp", "transient stability", "dynamic", "pmu"]
-    filtered_chunks = [
-        chunk for chunk in chunks
-        if not any(keyword in chunk["text"].lower() for keyword in excluded_keywords)
-    ]
-
     embeddings = []
-    for chunk in filtered_chunks:
+    for chunk in chunks:
         try:
             response = client.embeddings.create(model=embedding_model, input=chunk["text"][:8192])
             embeddings.append(response.data[0].embedding)
@@ -31,9 +24,9 @@ def load_chunks_and_embeddings(json_file="psse_examples_chunks.json", embedding_
             embeddings.append(None)
 
     # Filter out chunks with failed embeddings
-    final_pairs = [(c, e) for c, e in zip(filtered_chunks, embeddings) if e is not None]
+    final_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
     if not final_pairs:
-        raise ValueError("No usable chunks found after filtering and embedding.")
+        raise ValueError("No usable chunks found after embedding.")
 
     final_chunks, final_embeddings = zip(*final_pairs)
     return list(final_chunks), np.array(final_embeddings)
