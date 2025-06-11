@@ -8,7 +8,7 @@ from openai import OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @st.cache_data(show_spinner=False)
-def load_chunks_and_embeddings(json_file="psse_rechunked.json", embedding_model="text-embedding-3-small"):
+def load_chunks_and_embeddings(json_file="input_chunks.json", embedding_model="text-embedding-3-small"):
     # Determine absolute path to the current directory (the folder containing this script)
     current_dir = os.path.dirname(os.path.abspath(__file__))
     full_path = os.path.join(current_dir, json_file)
