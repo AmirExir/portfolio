@@ -34,12 +34,26 @@ if prompt:
     with st.spinner("🔎 Extracting valid API functions..."):
         valid_funcs = extract_valid_funcs(chunks)
 
-    # Step 3: Execute each task
+    # Step 3: Execution control setup
+    if "retry_task" not in st.session_state:
+        st.session_state.retry_task = None
+    if "retry_count" not in st.session_state:
+        st.session_state.retry_count = {}
+    if "stop_execution" not in st.session_state:
+        st.session_state.stop_execution = False
+
+    if st.button("🛑 Stop Execution"):
+        st.session_state.stop_execution = True
+
     task_list = [t.strip("- ") for t in tasks.strip().split("\n") if t.strip()]
     st.markdown("---")
 
     all_results = []
     for task in task_list:
+        if st.session_state.stop_execution:
+            st.warning("⛔ Execution manually stopped.")
+            break
+
         st.markdown(f"### 🚀 Executing Task: `{task}`")
         relevant_chunks = find_relevant_chunks(task, chunks, embeddings)
         combined_context = "\n---\n".join(chunk["text"] for chunk in relevant_chunks)
@@ -48,33 +62,36 @@ if prompt:
             result = run_executor(task, combined_context, valid_funcs)
         st.markdown(result)
 
-        # Check for hallucinated functions
         used_funcs = re.findall(r'psspy\.(\w+)', result)
         invalid_funcs = [f for f in used_funcs if f not in valid_funcs]
         if invalid_funcs:
             st.warning(f"⚠️ Invalid functions detected: {invalid_funcs}")
             if st.button(f"🔁 Retry `{task}` with correction", key=task):
-                with st.spinner("♻️ Retrying with valid functions..."):
-                    result = run_executor(task, combined_context, valid_funcs)
-                st.markdown(result)
-
+                if st.session_state.retry_count.get(task, 0) < 2:
+                    st.session_state.retry_count[task] = st.session_state.retry_count.get(task, 0) + 1
+                    with st.spinner("♻️ Retrying with valid functions only..."):
+                        result = run_executor(task, combined_context, valid_funcs)
+                    st.markdown(result)
+                else:
+                    st.error(f"❌ Max retries reached for task: {task}")
         all_results.append(result)
 
     # Step 4: Final Summary Output
-    st.markdown("---")
-    st.markdown("## 📝 Final Summary")
+    if not st.session_state.stop_execution:
+        st.markdown("---")
+        st.markdown("## 📝 Final Summary")
 
-    full_output = "\n\n".join(all_results)
-    st.text_area("🧠 Generated Automation Code", value=full_output, height=400)
+        full_output = "\n\n".join(all_results)
+        st.text_area("🧠 Generated Automation Code", value=full_output, height=400)
 
-    st.download_button(
-        label="📥 Download Output as .txt",
-        data=full_output,
-        file_name="psse_automation_output.txt",
-        mime="text/plain"
-    )
+        st.download_button(
+            label="📥 Download Output as .txt",
+            data=full_output,
+            file_name="psse_automation_output.txt",
+            mime="text/plain"
+        )
 
-    st.session_state.messages.append({
-        "role": "assistant",
-        "content": full_output
-    })
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": full_output
+        })
