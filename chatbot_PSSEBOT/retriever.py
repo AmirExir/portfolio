@@ -1,31 +1,13 @@
-# retriever.py
-import json, os
-import numpy as np
-import streamlit as st
-from openai import OpenAI
-from sklearn.metrics.pairwise import cosine_similarity
+# retriever.py (Refactored to use utils.py)
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+import os
+import streamlit as st
+from utils import load_chunks_and_embeddings, embed_query, find_top_k_chunks
 
 @st.cache_data(show_spinner=False)
-def load_chunks_and_embeddings():
-    with open("psse_examples_chunks.json", "r", encoding="utf-8") as f:
-        chunks = json.load(f)
-    embeddings = []
-    for chunk in chunks:
-        try:
-            response = client.embeddings.create(
-                model="text-embedding-3-small", 
-                input=chunk["text"][:8192]
-            )
-            embeddings.append(response.data[0].embedding)
-        except:
-            embeddings.append(None)
-    chunks, embeddings = zip(*[(c, e) for c, e in zip(chunks, embeddings) if e])
-    return list(chunks), np.array(embeddings)
+def load_chunks_and_embeddings_cached():
+    return load_chunks_and_embeddings("psse_examples_chunks.json")
 
 def find_relevant_chunks(query, chunks, embeddings, k=25):
-    response = client.embeddings.create(model="text-embedding-3-small", input=query)
-    query_embed = np.array(response.data[0].embedding).reshape(1, -1)
-    scores = cosine_similarity(query_embed, embeddings).flatten()
-    return [chunks[i] for i in scores.argsort()[-k:][::-1]]
+    query_embed = embed_query(query)
+    return find_top_k_chunks(query, chunks, embeddings, k)
