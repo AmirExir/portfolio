@@ -1,8 +1,10 @@
-# 3. executor.py
+# executor.py
 import re
 import os
-import openai
 from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 def extract_valid_funcs(chunks):
     pattern = r'psspy\.(\w+)' 
     valid = set()
@@ -11,26 +13,42 @@ def extract_valid_funcs(chunks):
     return valid
 
 def run_executor(prompt, context, valid_funcs):
-    import openai
-    client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-    messages = [
-        {"role": "system", "content": f"""
-            You are a PSS/E automation expert. Use only real API from this reference:
-            ---\n{context}\n---
-            No made-up functions. Provide working Python.
-        """},
-        {"role": "user", "content": prompt}
-    ]
-    response = client.chat.completions.create(model="gpt-4o-mini", messages=messages)
-    output = response.choices[0].message.content
+    system_prompt = {
+        "role": "system",
+        "content": f"""
+You are a Python expert in power system automation using the PSS/E API.
+Use only valid PSSPY functions from the documentation context below.
+Do NOT make up any functions. If you're unsure about a function, do not use it.
 
+Documentation Context:
+---
+{context}
+---
+        """
+    }
+
+    user_prompt = {"role": "user", "content": prompt}
+
+    messages = [system_prompt, user_prompt]
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=messages
+    )
+
+    output = response.choices[0].message.content
     used_funcs = re.findall(r'psspy\.(\w+)', output)
     invalid = [f for f in used_funcs if f not in valid_funcs]
 
     if invalid:
         messages.append({"role": "assistant", "content": output})
-        messages.append({"role": "user", "content": f"You used invalid functions: {invalid}. Retry with only valid ones."})
-        response = client.chat.completions.create(model="gpt-4o-mini", messages=messages)
+        messages.append({"role": "user", "content": f"""
+You used invalid or hallucinated PSSPY functions: {invalid}.
+Please regenerate your response using only valid functions from the context above.
+""".strip()})
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=messages
+        )
         output = response.choices[0].message.content
 
     return output
