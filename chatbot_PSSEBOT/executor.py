@@ -21,14 +21,30 @@ def run_executor(prompt, context, valid_funcs):
     model = "gpt-4o"
     
     context_block = f"""
-You are a Python expert in power system automation using the PSS/E API.
-Use only valid PSSPY functions from the documentation context below.
-Do NOT make up any functions. If you're unsure about a function, do not use it.
+    You are a Python expert in power system automation using the PSS®E API.
 
-Documentation Context:
----
-{context}
----
+    🔧 When performing power system operations, use ONLY the following validated `psspy` functions:
+    {', '.join(sorted(valid_funcs))}
+
+    🛠️ For general-purpose tasks like file I/O, plotting, GUI creation, and data analysis, you may use these **common standard libraries**:
+    - `os`, `sys`, `re`, `csv`, `json`, `math`, `time`
+    - `tkinter` (for GUI)
+    - `matplotlib.pyplot` (for plotting)
+    - `seaborn` (for advanced plotting)
+    - `pandas` (for dataframes and CSV handling)
+    - `numpy` (for array math)
+    - `sklearn` / `scikit-learn` (only for very basic ML tasks if requested)
+    - `streamlit` (for web GUI, optional)
+
+    ⚠️ **Strict Rule**: 
+    - DO NOT make up or guess any `psspy` function. Use only those listed above.
+    - If you are not sure how to proceed using valid functions, state that clearly in the response.
+    - You may safely use the allowed standard libraries for support tasks (e.g., plotting or UI).
+
+    Documentation Context:
+    ---
+    {context}
+    ---
     """.strip()
 
     messages = [
