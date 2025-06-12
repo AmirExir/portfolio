@@ -121,6 +121,6 @@ if prompt:
             "content": full_output
         })
     if st.button("🔄 Reset Agent"):
-    st.session_state.executed_tasks = 0
-    st.session_state.retry_count = {}
-    st.session_state.stop_execution = False
+        st.session_state.executed_tasks = 0
+        st.session_state.retry_count = {}
+        st.session_state.stop_execution = False
