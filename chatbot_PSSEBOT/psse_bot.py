@@ -9,6 +9,22 @@ from sklearn.metrics.pairwise import cosine_similarity
 from typing import List
 import numpy as np
 
+import time
+def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
+    retries = 0
+    while retries < max_retries:
+        try:
+            return api_function(**kwargs)
+        except openai.RateLimitError:
+            wait_time = backoff_factor ** retries
+            st.warning(f"⚠️ Rate limit hit. Retrying in {wait_time} seconds...")
+            time.sleep(wait_time)
+            retries += 1
+        except Exception as e:
+            st.error(f"❌ API call failed: {e}")
+            break
+    return None
+
 # Set up OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -25,9 +41,10 @@ def load_psse_chunks_and_embeddings():
 
     for chunk in chunks:
         try:
-            response = client.embeddings.create(
-                model=embedding_model,
-                input=chunk["text"][:8192]
+            response = safe_openai_call(
+                client.embeddings.create,
+                model="text-embedding-3-small",
+                input=query
             )
             embeddings.append(response.data[0].embedding)
         except Exception as e:
@@ -53,7 +70,7 @@ def embed_query(query: str) -> List[float]:
     return response.data[0].embedding
 
 # Find top K matches
-def find_top_k_matches(query: str, chunks, embeddings, k=50):
+def find_top_k_matches(query: str, chunks, embeddings, k=10):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
     scores = cosine_similarity(query_embedding, embeddings).flatten()
     top_indices = scores.argsort()[-k:][::-1]
