@@ -39,7 +39,7 @@ def load_psse_chunks_and_embeddings():
         return list(chunks), embeddings
 
     # 🔻 Fallback to compute embeddings
-    with open(os.path.join(os.path.dirname(__file__), "inpu_chunks.json"), "r", encoding="utf-8") as f:
+    with open(os.path.join(os.path.dirname(__file__), "input_chunks.json"), "r", encoding="utf-8") as f:
         chunks = json.load(f)
         st.write("Current working directory:", os.getcwd())
         st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "input_chunks.json"))
