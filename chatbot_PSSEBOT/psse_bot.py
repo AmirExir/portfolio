@@ -31,13 +31,21 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Load or compute embeddings
 @st.cache_data(show_spinner=False)
 def load_psse_chunks_and_embeddings():
-    # ✅ Check if precomputed files exist
-    if os.path.exists("psse_embeddings.npy") and os.path.exists("psse_chunks_cached.json"):
+    base_path = os.path.dirname(__file__)
+    cached_emb = os.path.join(base_path, "psse_embeddings.npy")
+    cached_chunks = os.path.join(base_path, "psse_chunks_cached.json")
+    input_file = os.path.join(base_path, "input_chunks.json")
+
+    if os.path.exists(cached_emb) and os.path.exists(cached_chunks):
         st.write("✅ Using precomputed embeddings from .npy and .json")
-        embeddings = np.load("psse_embeddings.npy")
-        with open("psse_chunks_cached.json", "r", encoding="utf-8") as f:
+        with open(cached_chunks, "r", encoding="utf-8") as f:
             chunks = json.load(f)
+        embeddings = np.load(cached_emb)
         return list(chunks), embeddings
+
+    st.write("⚠️ Precomputed files not found, computing new embeddings...")
+    with open(input_file, "r", encoding="utf-8") as f:
+        chunks = json.load(f)
 
     # 🔻 Fallback to compute embeddings
     with open(os.path.join(os.path.dirname(__file__), "input_chunks.json"), "r", encoding="utf-8") as f:
