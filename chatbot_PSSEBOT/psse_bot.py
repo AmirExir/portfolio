@@ -1,126 +1,181 @@
+
 import streamlit as st
 import os
-import re
+import json
+import glob
+import openai 
 from openai import OpenAI
-from planner import plan_tasks
-from retriever import load_chunks_and_embeddings, find_relevant_chunks
-from executor import extract_valid_funcs, run_executor
+from sklearn.metrics.pairwise import cosine_similarity
+from typing import List
+import numpy as np
 
-# Setup
+# Set up OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-st.set_page_config(page_title="Amir Exir's PSS/E Agent Loop", page_icon="🧠")
-st.title("🧠 Amir Exir's PSS/E Automation Agent") 
 
+# Load or compute embeddings
+@st.cache_data(show_spinner=False)
+def load_psse_chunks_and_embeddings():
+    with open(os.path.join(os.path.dirname(__file__), "psse_examples_chunks.json"), "r", encoding="utf-8") as f:
+        chunks = json.load(f)
+        st.write("Current working directory:", os.getcwd())
+        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "psse_examples_chunks.json"))
 
-MAX_RETRIES = 3
-MAX_TASKS = 200
+    embeddings = []
+    embedding_model = "text-embedding-3-small"
 
-if "executed_tasks" not in st.session_state:
-    st.session_state.executed_tasks = 0
+    for chunk in chunks:
+        try:
+            response = client.embeddings.create(
+                model=embedding_model,
+                input=chunk["text"][:8192]
+            )
+            embeddings.append(response.data[0].embedding)
+        except Exception as e:
+            st.warning(f"Embedding failed for chunk {chunk['id']}: {e}")
+            embeddings.append(None)
 
-if "retry_count" not in st.session_state:
-    st.session_state.retry_count = {}
+    valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
 
-if "stop_execution" not in st.session_state:
-    st.session_state.stop_execution = False
+    if not valid_pairs:
+        st.warning("⚠️ No valid embeddings. Check your file or API key.")
+        raise ValueError("No valid embeddings were generated.")
 
+    chunks, embeddings = zip(*valid_pairs)
+    embeddings = np.array(embeddings)
+    return list(chunks), embeddings
 
-# Initial load
-with st.spinner("🤖 Loading PSS/E examples and computing embeddings..."):
-    chunks, embeddings = load_chunks_and_embeddings()
-st.success(f"✅ Loaded {len(chunks)} chunks from `input_chunks.json`")
+# Embed the user query
+def embed_query(query: str) -> List[float]:
+    response = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=query
+    )
+    return response.data[0].embedding
 
-# Prompt input
-prompt = st.chat_input("Ask a PSS/E automation task...")
+# Find top K matches
+def find_top_k_matches(query: str, chunks, embeddings, k=50):
+    query_embedding = np.array(embed_query(query)).reshape(1, -1)
+    scores = cosine_similarity(query_embedding, embeddings).flatten()
+    top_indices = scores.argsort()[-k:][::-1]
+    top_chunks = [chunks[i] for i in top_indices]
+    return top_chunks
 
-if prompt:
+# Limit chunks by token budget
+def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
+    total = 0
+    selected = []
+    for chunk in chunks:
+        token_count = len(chunk["text"].split())  # rough estimate
+        if total + token_count > max_input_tokens:
+            break
+        selected.append(chunk)
+        total += token_count
+    return selected
+
+# Streamlit UI
+st.set_page_config(page_title="Amir Exir's PSSE API AI Assistant", page_icon="⚡")
+st.title("🧠 Ask Amir Exir's PSSE API AI Assistant")
+
+# Load data and embeddings once
+with st.spinner("Loading PSSE API examples and computing embeddings..."):
+    chunks, embeddings = load_psse_chunks_and_embeddings()
+
+import re
+
+def extract_function_names(chunks):
+    pattern = r'\bpsspy\.(\w+)\b'
+    func_names = set()
+    for chunk in chunks:
+        func_names.update(re.findall(pattern, chunk["text"]))
+    return func_names
+
+valid_funcs = extract_function_names(chunks)
+
+# Initialize chat
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# Show past messages
+for msg in st.session_state.messages:
+    st.chat_message(msg["role"]).markdown(msg["content"])
+
+# Chat input
+if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API usage..."):
     st.chat_message("user").markdown(prompt)
-    st.session_state.messages = st.session_state.get("messages", []) + [{"role": "user", "content": prompt}]
+    st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # Step 1: Plan
-    from retriever import find_relevant_chunks, limit_chunks_by_token_budget
+    with st.spinner("Thinking..."):
+        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=50)
+        trimmed_chunks = limit_chunks_by_token_budget(top_chunks)
+        combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in trimmed_chunks)
 
-    with st.spinner("🛠️ Planning tasks..."):
-        planning_chunks = find_relevant_chunks(prompt, chunks, embeddings, k=50)
-        reference_context = limit_chunks_by_token_budget(planning_chunks, max_tokens=40000)
-        tasks = plan_tasks(prompt, reference_context)
-        st.markdown("**🧩 Planned Tasks:**")
-        st.code(tasks)
+        system_prompt = {
+            "role": "system",
+            "content": f"""
+        You are an the most advanced PSS/E python API and automation expert for power systems. When given a task, identify the relevant API and return a full code sample. Avoid made-up functions. Cite the chunk you're using.
+        
+        Use only the following {len(trimmed_chunks)} reference chunks (from API manual and examples):
 
-    # Step 2: Extract valid PSSPY functions
-    with st.spinner("🔎 Extracting valid API functions..."):
-        valid_funcs = extract_valid_funcs(chunks)
+        ---
+        {combined_context}
+        ---
 
-    # Step 3: Execution control setup
-    if "retry_task" not in st.session_state:
-        st.session_state.retry_task = None
-    if "retry_count" not in st.session_state:
-        st.session_state.retry_count = {}
-    if "stop_execution" not in st.session_state:
-        st.session_state.stop_execution = False
+        Respond with:
+        - Clear descriptions of function usage
+        - Real working Python code
+        - Best practices and typical use cases
 
-    if st.button("🛑 Stop Execution"):
-        st.session_state.stop_execution = True
+        Prioritize actual examples if available. Do not make up any function names not shown.
+        """
+        }
 
-    task_list = [t.strip("- ") for t in tasks.strip().split("\n") if t.strip()]
-    task_list = task_list[:MAX_TASKS]  # Only process up to MAX_TASKS
+        messages = [system_prompt] + st.session_state.messages
 
-    all_results = []
-
-    for task in task_list:
-        if st.session_state.stop_execution:
-            st.warning("⛔ Execution manually stopped.")
-            break
-
-        if st.session_state.executed_tasks >= MAX_TASKS:
-            st.info(f"✅ Reached the maximum of {MAX_TASKS} tasks.")
-            break
-
-        st.markdown(f"### 🚀 Executing Task: `{task}`")
-
-        relevant_chunks = find_relevant_chunks(task, chunks, embeddings, k=50)
-        limited_chunks = limit_chunks_by_token_budget(relevant_chunks, max_tokens=30000)
-        combined_context = "\n---\n".join(chunk["text"] for chunk in limited_chunks)
-
-        with st.spinner("💻 Generating valid Python code..."):
-            result = run_executor(task, combined_context, valid_funcs)
-        st.markdown(result)
-
-        used_funcs = re.findall(r'psspy\.(\w+)', result)
-        invalid_funcs = [f for f in used_funcs if f not in valid_funcs]
-
-        if invalid_funcs:
-            count = st.session_state.retry_count.get(task, 0)
-            if count < MAX_RETRIES:
-                st.session_state.retry_count[task] = count + 1
-                st.info(f"🔁 Retrying `{task}` (attempt {count+1}/{MAX_RETRIES})")
-                result = run_executor(task, combined_context, valid_funcs)
-                st.markdown(result)
-            else:
-                st.error(f"❌ Max retries reached for task: {task}")
-
-        all_results.append(result)
-        st.session_state.executed_tasks += 1
-
-    # Step 4: Final Summary Output
-    if st.session_state.executed_tasks >= MAX_TASKS or st.session_state.stop_execution:
-        st.markdown("---")
-        st.markdown("## 📝 Final Summary")
-        final_output = "\n\n".join(all_results)
-        st.text_area("🔚 Final Automation Code", value=final_output, height=400)
-
-        st.download_button(
-            label="📥 Download Output as .txt",
-            data=final_output,
-            file_name="psse_automation_output.txt",
-            mime="text/plain"
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=messages,
+            max_tokens=8192
         )
 
-        st.session_state.messages.append({
-            "role": "assistant",
-            "content": final_output
-        })
-    if st.button("🔄 Reset Agent"):
-        st.session_state.executed_tasks = 0
-        st.session_state.retry_count = {}
-        st.session_state.stop_execution = False
+        bot_msg = response.choices[0].message.content
+
+        
+        import re
+
+        def find_invalid_functions(response_text, valid_funcs):
+            used = re.findall(r'\bpsspy\.(\w+)\b', response_text)
+            return [f for f in used if f not in valid_funcs]
+
+
+        invalid_funcs = find_invalid_functions(bot_msg, valid_funcs)
+
+        # Auto-correct loop if invalid functions found
+        if invalid_funcs:
+            st.warning(f"⚠️ Warning: These functions may not exist in the API: {', '.join(invalid_funcs)}")
+
+            correction_prompt = {
+                "role": "user",
+                "content": (
+                    f"⚠️ You used invalid function(s): {', '.join(invalid_funcs)}. "
+                    "Please revise your answer using only valid PSS/E API functions from the reference chunks provided earlier. "
+                    "Do not make up any function names."
+                )
+            }
+
+            # Add original assistant message and correction request
+            messages.append({"role": "assistant", "content": bot_msg})
+            messages.append(correction_prompt)
+
+            with st.spinner("Detected invalid functions. Requesting correction..."):
+                correction_response = client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=messages,
+                    max_tokens=8192
+                )
+                bot_msg = correction_response.choices[0].message.content
+                st.success("✅ Self-correction applied.")
+
+
+
+        st.chat_message("assistant").markdown(bot_msg)
+        st.session_state.messages.append({"role": "assistant", "content": bot_msg})
