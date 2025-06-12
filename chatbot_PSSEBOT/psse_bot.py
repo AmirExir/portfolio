@@ -151,7 +151,7 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=messages,
-            max_tokens=8192
+            max_tokens=4096
         )
 
         bot_msg = response.choices[0].message.content
@@ -187,7 +187,7 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
                 correction_response = client.chat.completions.create(
                     model="gpt-4o",
                     messages=messages,
-                    max_tokens=8192
+                    max_tokens=4096
                 )
                 bot_msg = correction_response.choices[0].message.content
                 st.success("✅ Self-correction applied.")
