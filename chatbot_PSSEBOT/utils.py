@@ -46,7 +46,7 @@ def find_top_k_chunks(query, chunks, embeddings, k=50):
     top_indices = scores.argsort()[-k:][::-1]
     return [chunks[i] for i in top_indices]
 
-def limit_chunks_by_token_budget(chunks, max_tokens=8000), model="gpt-4o"):
+def limit_chunks_by_token_budget(chunks, max_tokens=8000, model="gpt-4o"):
     """Truncate context chunks to fit within token budget."""
     """Accurately limit total token count using tiktoken."""
     encoding = tiktoken.encoding_for_model(model)
