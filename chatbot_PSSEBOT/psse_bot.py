@@ -13,7 +13,7 @@ st.title("🧠 Amir Exir's PSS/E Automation Agent")
 
 
 MAX_RETRIES = 3
-MAX_TASKS = 5
+MAX_TASKS = 50
 
 if "executed_tasks" not in st.session_state:
     st.session_state.executed_tasks = 0
@@ -38,8 +38,11 @@ if prompt:
     st.session_state.messages = st.session_state.get("messages", []) + [{"role": "user", "content": prompt}]
 
     # Step 1: Plan
+    from retriever import find_relevant_chunks, limit_chunks_by_token_budget
+
     with st.spinner("🛠️ Planning tasks..."):
-        reference_context = chunks[:30]
+        planning_chunks = find_relevant_chunks(prompt, chunks, embeddings, k=100)
+        reference_context = limit_chunks_by_token_budget(planning_chunks, max_tokens=50000)
         tasks = plan_tasks(prompt, reference_context)
         st.markdown("**🧩 Planned Tasks:**")
         st.code(tasks)
@@ -75,8 +78,9 @@ if prompt:
 
         st.markdown(f"### 🚀 Executing Task: `{task}`")
 
-        relevant_chunks = find_relevant_chunks(task, chunks, embeddings)
-        combined_context = "\n---\n".join(chunk["text"] for chunk in relevant_chunks)
+        relevant_chunks = find_relevant_chunks(task, chunks, embeddings, k=300)
+        limited_chunks = limit_chunks_by_token_budget(relevant_chunks, max_tokens=30000)
+        combined_context = "\n---\n".join(chunk["text"] for chunk in limited_chunks)
 
         with st.spinner("💻 Generating valid Python code..."):
             result = run_executor(task, combined_context, valid_funcs)

@@ -36,6 +36,19 @@ def load_chunks_and_embeddings(json_file="input_chunks.json", embedding_model="t
     final_chunks, final_embeddings = zip(*final_pairs)
     return list(final_chunks), np.array(final_embeddings)
 
-def find_relevant_chunks(query, chunks, embeddings, k=25):
+def find_relevant_chunks(query, chunks, embeddings, k=50):
     query_embed = embed_query(query)
     return find_top_k_chunks(query, chunks, embeddings, k)
+def limit_chunks_by_token_budget(chunks, max_tokens= 30000):
+    total_tokens = 0
+    selected_chunks = []
+
+    for chunk in chunks:
+        text = chunk["text"]
+        token_count = len(text.split())  # Approximate token count
+        if total_tokens + token_count > max_tokens:
+            break
+        selected_chunks.append(chunk)
+        total_tokens += token_count
+
+    return selected_chunks

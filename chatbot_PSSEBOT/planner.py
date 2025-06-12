@@ -34,9 +34,9 @@ def plan_tasks(user_query, reference_chunks):
     user_prompt = {"role": "user", "content": user_query}
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=[system_prompt, user_prompt],
-        max_tokens=2048,
+        max_tokens=30000,
         temperature=0.2,
     )
 
