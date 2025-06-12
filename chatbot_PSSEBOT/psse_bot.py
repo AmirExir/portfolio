@@ -43,13 +43,23 @@ def load_psse_chunks_and_embeddings():
         try:
             response = safe_openai_call(
                 client.embeddings.create,
-                model="text-embedding-3-small",
-                input=query
+                model=embedding_model,
+                input=chunk["text"][:8192]
             )
             embeddings.append(response.data[0].embedding)
         except Exception as e:
             st.warning(f"Embedding failed for chunk {chunk['id']}: {e}")
             embeddings.append(None)
+
+    valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
+
+    if not valid_pairs:
+        st.warning("⚠️ No valid embeddings. Check your file or API key.")
+        raise ValueError("No valid embeddings were generated.")
+
+    chunks, embeddings = zip(*valid_pairs)
+    embeddings = np.array(embeddings)
+    return list(chunks), embeddings
 
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
 
