@@ -82,20 +82,16 @@ Technologies: Python, OpenAI API, Streamlit, Embeddings, PSS/E, NLP, HTML, CSS, 
 Designed and deployed a responsive website amirexirpe.com to showcase resume, certifications, and AI-powered tools.
 Embedded custom GPT-powered assistants for PSS®E automation, ERCOT documentation, and resume Q&A using semantic search and Streamlit.
 Integrated interactive project galleries, downloadable credentials, and contact forms for recruiters and collaborators.
--PSS®E Automation Assistant Bot
+-PSS®E Automation Assistant Bot,  
 Developed a Copilot-style assistant that semantically searches through PSS®E code examples to generate Python scripts for automating power system analysis tasks including contingency analysis, dynamic simulation, and model editing.
-
+- PSS®E Multi Agent Automation Bot
+An advanced AI-driven multi-agent assistant for automating complex PSS®E tasks using Python. It combines task planning, retrieval, execution & intelligent code generation Agents in an Agent loop, and retry mechanisms to produce validated scripts for workflows like contingency analysis, load flow, and GUI-based tools. Powered by semantic search over curated PSS/E API and real examples
 -ERCOT Protocol, Planning Guide , ERCOT DWG & SSWG and Resource Integration AI Assistant
 Built GPT-powered assistants using chunked ERCOT planning guides, protocols, DWG & SSWG manuals, and interconnection processes from ERCOT. Enables semantic search and question-answering for engineers working on compliance, integration, SSWG amd DWG working groups and operations.
-
 -Resume & Portfolio Chatbot
 Created a personal assistant embedded in my website that answers recruiter and visitor questions about my background, work history, certifications, and project experience using contextual semantic search over a custom-trained dataset.
-
 -End-to-End Embedding & Retrieval Pipeline
 Designed a data pipeline to clean, chunk, and embed large technical documents using OpenAI’s text-embedding-3-small model. Implemented cosine similarity with token-bounded top-K chunk selection for precise responses.
-
--Streamlit-Based Interactive UIs
-Delivered fast, user-friendly apps using Streamlit for all assistants with embedded system prompts, dynamic chunk context injection, and conversation memory for real-time interaction.
 Licenses, Certifications, and skills
 - P.E. License (Licensed Professional Engineer) – Texas Board of Professional Engineers #151267
 - NERC System Operator Reliability Coordinator Certification- #RC 202105039
