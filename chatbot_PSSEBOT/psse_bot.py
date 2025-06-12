@@ -31,13 +31,21 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Load or compute embeddings
 @st.cache_data(show_spinner=False)
 def load_psse_chunks_and_embeddings():
-    with open(os.path.join(os.path.dirname(__file__), "input_chunks.json"), "r", encoding="utf-8") as f:
+    # ✅ Check if precomputed files exist
+    if os.path.exists("psse_embeddings.npy") and os.path.exists("psse_chunks_cached.json"):
+        embeddings = np.load("psse_embeddings.npy")
+        with open("psse_chunks_cached.json", "r", encoding="utf-8") as f:
+            chunks = json.load(f)
+        return list(chunks), embeddings
+
+    # 🔻 Fallback to compute embeddings
+    with open(os.path.join(os.path.dirname(__file__), "inpu_chunks.json"), "r", encoding="utf-8") as f:
         chunks = json.load(f)
         st.write("Current working directory:", os.getcwd())
         st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "input_chunks.json"))
 
     embeddings = []
-    embedding_model = "text-embedding-3-small"
+    embedding_model = "text-embedding-3-large"
 
     for chunk in chunks:
         try:
@@ -48,17 +56,23 @@ def load_psse_chunks_and_embeddings():
             )
             embeddings.append(response.data[0].embedding)
         except Exception as e:
-            st.warning(f"Embedding failed for chunk {chunk['id']}: {e}")
+            st.warning(f"Embedding failed for chunk {chunk.get('id', 'unknown')}: {e}")
             embeddings.append(None)
 
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
 
     if not valid_pairs:
         st.warning("⚠️ No valid embeddings. Check your file or API key.")
-        return [], np.array([])  # Return empty results gracefully
+        raise ValueError("No valid embeddings were generated.")
 
     chunks, embeddings = zip(*valid_pairs)
     embeddings = np.array(embeddings)
+
+    # ✅ Save to disk for reuse
+    np.save("psse_embeddings.npy", embeddings)
+    with open("psse_chunks_cached.json", "w", encoding="utf-8") as f:
+        json.dump(chunks, f, indent=2)
+
     return list(chunks), embeddings
 
 # Embed the user query
