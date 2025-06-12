@@ -6,6 +6,7 @@ import numpy as np
 import re
 from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
+import tiktoken
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 

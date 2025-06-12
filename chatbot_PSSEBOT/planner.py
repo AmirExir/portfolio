@@ -8,14 +8,10 @@ def count_tokens(text, model="gpt-4o"):
     encoding = tiktoken.encoding_for_model(model)
     return len(encoding.encode(text))
 
-def plan_tasks(user_query, reference_chunks, model="gpt-4o", token_limit=128000, max_response_tokens=32768):
-    """
-    Plan executable steps to solve the user query using reference PSS/E examples.
-    Token-safe version that prevents OpenAI BadRequestError.
-    """
+def plan_tasks(user_query, reference_chunks, model="gpt-4o", token_limit=128000, max_response_tokens=8192):
     encoding = tiktoken.encoding_for_model(model)
 
-    # Initial prompt headers
+    # SYSTEM PROMPT
     preamble = """
 You are a task planner agent specialized in Python automation for PSS/E (power system simulator).
 Your job is to break down the user’s task into specific, executable Python steps using only real API functions from the provided documentation context.
@@ -27,33 +23,43 @@ Strict Rules:
 - Keep task steps clean and short. Use plain English action verbs.
 """.strip()
 
+    # Calculate base token usage (system + user)
     base_tokens = count_tokens(preamble + user_query, model)
+    available_for_chunks = token_limit - max_response_tokens - base_tokens
 
-    # Leave enough room for output
-    available_context_tokens = token_limit - max_response_tokens - base_tokens
+    # Select chunks that fit in remaining budget
     selected_chunks = []
-    total_tokens = 0
-
+    total_chunk_tokens = 0
     for chunk in reference_chunks:
         chunk_tokens = count_tokens(chunk["text"], model)
-        if total_tokens + chunk_tokens > available_context_tokens:
+        if total_chunk_tokens + chunk_tokens > available_for_chunks:
             break
         selected_chunks.append(chunk)
-        total_tokens += chunk_tokens
+        total_chunk_tokens += chunk_tokens
 
-    # Final context
+    # Format context
     context_block = "\n\n---\n\n".join(chunk["text"] for chunk in selected_chunks)
 
+    # Final messages
     messages = [
         {"role": "system", "content": f"{preamble}\n\nDocumentation context:\n---\n{context_block}\n---"},
         {"role": "user", "content": user_query}
     ]
 
-    response = client.chat.completions.create(
-        model=model,
-        messages=messages,
-        max_tokens=max_response_tokens,
-        temperature=0.2,
-    )
+    # Log the token use
+    total_input_tokens = sum(count_tokens(m["content"], model) for m in messages)
+    print(f"[Planner] Tokens: system+user={base_tokens}, context={total_chunk_tokens}, total={total_input_tokens}")
 
-    return response.choices[0].message.content
+    # Call API with safe margins
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            max_tokens=max_response_tokens,
+            temperature=0.2,
+        )
+        return response.choices[0].message.content
+
+    except Exception as e:
+        print(f"[Planner] ❌ OpenAI API Error: {e}")
+        return f"[Error] Could not generate plan due to: {str(e)}"
