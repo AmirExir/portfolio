@@ -38,8 +38,8 @@ Documentation Context:
 
     # Estimate total token usage and adjust output cap
     input_tokens = sum(count_tokens(m["content"], model) for m in messages)
-    max_available = 128000 - input_tokens
-    max_response_tokens = min(max_available, 32768)
+    max_available = 120000 - input_tokens
+    max_response_tokens = min(max_available, 12000)
 
     # Generate first response
     response = client.chat.completions.create(
