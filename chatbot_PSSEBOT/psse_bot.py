@@ -95,7 +95,12 @@ def embed_query(query: str) -> List[float]:
 
 # Find top K matches
 def find_top_k_matches(query: str, chunks, embeddings, k=10):
-    query_embedding = np.array(embed_query(query)).reshape(1, -1)
+    query_vec = embed_query(query)
+    if not query_vec:
+        st.error("❌ Failed to embed query. Please try again or check your API key.")
+        return []
+
+    query_embedding = np.array(query_vec).reshape(1, -1)
     scores = cosine_similarity(query_embedding, embeddings).flatten()
     top_indices = scores.argsort()[-k:][::-1]
     top_chunks = [chunks[i] for i in top_indices]
