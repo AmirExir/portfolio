@@ -4,6 +4,7 @@ import streamlit as st
 from utils import embed_query, find_top_k_chunks
 import numpy as np
 from openai import OpenAI
+import tiktoken
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
