@@ -9,7 +9,7 @@ from executor import extract_valid_funcs, run_executor
 # Setup
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 st.set_page_config(page_title="Amir Exir's PSS/E Agent Loop", page_icon="🧠")
-st.title("🧠 Amir Exir's PSS/E Automation Agent")
+st.title("🧠 Amir Exir's PSS/E Automation Agent") 
 
 
 MAX_RETRIES = 3
@@ -41,8 +41,8 @@ if prompt:
     from retriever import find_relevant_chunks, limit_chunks_by_token_budget
 
     with st.spinner("🛠️ Planning tasks..."):
-        planning_chunks = find_relevant_chunks(prompt, chunks, embeddings, k=100)
-        reference_context = limit_chunks_by_token_budget(planning_chunks, max_tokens=50000)
+        planning_chunks = find_relevant_chunks(prompt, chunks, embeddings, k=50)
+        reference_context = limit_chunks_by_token_budget(planning_chunks, max_tokens=40000)
         tasks = plan_tasks(prompt, reference_context)
         st.markdown("**🧩 Planned Tasks:**")
         st.code(tasks)
@@ -78,7 +78,7 @@ if prompt:
 
         st.markdown(f"### 🚀 Executing Task: `{task}`")
 
-        relevant_chunks = find_relevant_chunks(task, chunks, embeddings, k=300)
+        relevant_chunks = find_relevant_chunks(task, chunks, embeddings, k=50)
         limited_chunks = limit_chunks_by_token_budget(relevant_chunks, max_tokens=30000)
         combined_context = "\n---\n".join(chunk["text"] for chunk in limited_chunks)
 
@@ -111,14 +111,14 @@ if prompt:
 
         st.download_button(
             label="📥 Download Output as .txt",
-            data=full_output,
+            data=final_output,
             file_name="psse_automation_output.txt",
             mime="text/plain"
         )
 
         st.session_state.messages.append({
             "role": "assistant",
-            "content": full_output
+            "content": final_output
         })
     if st.button("🔄 Reset Agent"):
         st.session_state.executed_tasks = 0

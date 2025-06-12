@@ -8,7 +8,7 @@ def count_tokens(text, model="gpt-4o"):
     encoding = tiktoken.encoding_for_model(model)
     return len(encoding.encode(text))
 
-def plan_tasks(user_query, reference_chunks, model="gpt-4o", token_limit=128000, max_response_tokens=8192):
+def plan_tasks(user_query, reference_chunks, model="gpt-4o", token_limit=120000, max_response_tokens=12000):
     encoding = tiktoken.encoding_for_model(model)
 
     # SYSTEM PROMPT
