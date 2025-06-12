@@ -33,6 +33,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def load_psse_chunks_and_embeddings():
     # ✅ Check if precomputed files exist
     if os.path.exists("psse_embeddings.npy") and os.path.exists("psse_chunks_cached.json"):
+        st.write("✅ Using precomputed embeddings from .npy and .json")
         embeddings = np.load("psse_embeddings.npy")
         with open("psse_chunks_cached.json", "r", encoding="utf-8") as f:
             chunks = json.load(f)
