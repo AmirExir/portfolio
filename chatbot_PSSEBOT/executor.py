@@ -21,25 +21,17 @@ def run_executor(prompt, context, valid_funcs):
     model = "gpt-4o"
     
     context_block = f"""
-    You are a Python expert in power system automation using the PSS®E API.
+    You are a Python expert in power system automation using the PSS®E API (psspy), and you are allowed to use supporting standard Python libraries when helpful.
 
-    🔧 When performing power system operations, use ONLY the following validated `psspy` functions:
-    {', '.join(sorted(valid_funcs))}
+    Your job is to generate valid Python code for engineers working with PSS®E.
+    Use only verified PSSPY functions provided in the context below, and if needed, use standard Python libraries such as:
+    - `tkinter`, `pandas`, `numpy`, `matplotlib`, `os`, `csv`, `glob`, `time`, etc.
+    - You may also use simple file handling and GUI operations.
 
-    🛠️ For general-purpose tasks like file I/O, plotting, GUI creation, and data analysis, you may use these **common standard libraries**:
-    - `os`, `sys`, `re`, `csv`, `json`, `math`, `time`
-    - `tkinter` (for GUI)
-    - `matplotlib.pyplot` (for plotting)
-    - `seaborn` (for advanced plotting)
-    - `pandas` (for dataframes and CSV handling)
-    - `numpy` (for array math)
-    - `sklearn` / `scikit-learn` (only for very basic ML tasks if requested)
-    - `streamlit` (for web GUI, optional)
-
-    ⚠️ **Strict Rule**: 
-    - DO NOT make up or guess any `psspy` function. Use only those listed above.
-    - If you are not sure how to proceed using valid functions, state that clearly in the response.
-    - You may safely use the allowed standard libraries for support tasks (e.g., plotting or UI).
+    ⚠️ Strict Rules:
+    - Do NOT make up or guess PSSPY functions.
+    - Use only what is documented in the provided PSS/E chunks.
+    - You MAY use standard Python libraries for GUI, file I/O, or plotting.
 
     Documentation Context:
     ---
