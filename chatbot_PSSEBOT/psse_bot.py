@@ -55,17 +55,7 @@ def load_psse_chunks_and_embeddings():
 
     if not valid_pairs:
         st.warning("⚠️ No valid embeddings. Check your file or API key.")
-        raise ValueError("No valid embeddings were generated.")
-
-    chunks, embeddings = zip(*valid_pairs)
-    embeddings = np.array(embeddings)
-    return list(chunks), embeddings
-
-    valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
-
-    if not valid_pairs:
-        st.warning("⚠️ No valid embeddings. Check your file or API key.")
-        raise ValueError("No valid embeddings were generated.")
+        return [], np.array([])  # Return empty results gracefully
 
     chunks, embeddings = zip(*valid_pairs)
     embeddings = np.array(embeddings)
@@ -73,11 +63,12 @@ def load_psse_chunks_and_embeddings():
 
 # Embed the user query
 def embed_query(query: str) -> List[float]:
-    response = client.embeddings.create(
+    response = safe_openai_call(
+        client.embeddings.create,
         model="text-embedding-3-small",
         input=query
     )
-    return response.data[0].embedding
+    return response.data[0].embedding if response else []
 
 # Find top K matches
 def find_top_k_matches(query: str, chunks, embeddings, k=10):
