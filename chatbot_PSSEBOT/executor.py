@@ -2,6 +2,7 @@
 import re
 import os
 from openai import OpenAI
+import tiktoken  # make sure to install this: pip install tiktoken
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -12,18 +13,14 @@ def extract_valid_funcs(chunks):
         valid.update(re.findall(pattern, chunk["text"]))
     return valid
 
+def count_tokens(text, model="gpt-4o"):
+    encoding = tiktoken.encoding_for_model(model)
+    return len(encoding.encode(text))
+
 def run_executor(prompt, context, valid_funcs):
-    import re
-    from openai import OpenAI
-    import os
-
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-    # Prepare system and user messages
-    messages = [
-        {
-            "role": "system",
-            "content": f"""
+    model = "gpt-4o"
+    
+    context_block = f"""
 You are a Python expert in power system automation using the PSS/E API.
 Use only valid PSSPY functions from the documentation context below.
 Do NOT make up any functions. If you're unsure about a function, do not use it.
@@ -32,20 +29,30 @@ Documentation Context:
 ---
 {context}
 ---
-            """
-        },
+    """.strip()
+
+    messages = [
+        {"role": "system", "content": context_block},
         {"role": "user", "content": prompt}
     ]
 
+    # Estimate total token usage and adjust output cap
+    input_tokens = sum(count_tokens(m["content"], model) for m in messages)
+    max_available = 128000 - input_tokens
+    max_response_tokens = min(max_available, 32768)
+
     # Generate first response
-    response = client.chat.completions.create(model="gpt-4o-mini", messages=messages)
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        max_tokens=max_response_tokens
+    )
     output = response.choices[0].message.content
 
-    # Extract function calls
+    # Extract and check function calls
     used_funcs = re.findall(r'psspy\.(\w+)', output)
     invalid = [f for f in used_funcs if f not in valid_funcs]
 
-    # If hallucinated functions are found, flag them instead of retrying
     if invalid:
         flagged_msg = f"""
 ⚠️ **Warning: The following PSSPY functions are not recognized and may be hallucinated:**
@@ -56,5 +63,4 @@ Please double-check the functions against the PSS/E documentation or JSON source
         """.strip()
         return flagged_msg + "\n\n---\n\n" + output
 
-    # Otherwise, return clean output
     return output
