@@ -105,8 +105,8 @@ def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
     return selected
 
 # Streamlit UI
-st.set_page_config(page_title="Amir Exir's PSSE API AI Assistant", page_icon="⚡")
-st.title("🧠 Ask Amir Exir's PSSE API AI Assistant")
+st.set_page_config(page_title="Amir Exir's PSSE automation Assistant", page_icon="⚡")
+st.title("🧠 Ask Amir Exir's PSSE automation Assistant")
 
 # Load data and embeddings once
 with st.spinner("Loading PSSE API examples and computing embeddings..."):
