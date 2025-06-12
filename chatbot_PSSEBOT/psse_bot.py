@@ -13,7 +13,7 @@ st.title("🧠 Amir Exir's PSS/E Automation Agent")
 
 
 MAX_RETRIES = 3
-MAX_TASKS = 50
+MAX_TASKS = 200
 
 if "executed_tasks" not in st.session_state:
     st.session_state.executed_tasks = 0
