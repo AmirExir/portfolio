@@ -13,7 +13,7 @@ Transmission Planning Model and Assessment Engineer | LCRA TSP (3/2024 – Prese
 -Review and approve Planned, For - Construction and Operational ratings for LCRA transmission lines and auto transformers and shunts resulting from substations, lines and auto transformers additions or upgrades in capital projects. 
 - Ensure system reliability, and compliance with NERC Standards, ERCOT Operation and Planning Guides.
 -Maintain LCRA Planning Network Model in ERCOT according to capital projects in a timely manner.
-- Participate in ERCOT SSWG, DWG, PLWG, RPG, LFLTF working groups.
+- Participate in ERCOT SSWG, DWG, LLWG ,PLWG, RPG, LFLTF working groups.
 - Submits PMCR, DCP on ERCOT MOD for model changes and tunning.
 - Propose and sponsor projects based on load forecast, generation and transmission capacity and budget.
 - Perform Steady State Analysis for new Generation and Load Interconnect Requests.
