@@ -1,5 +1,3 @@
-# utils.py
-
 import os
 import json
 import numpy as np
@@ -37,19 +35,32 @@ def load_chunks_and_embeddings(json_file="input_chunks.json", embedding_model="t
 
 def embed_query(query, embedding_model="text-embedding-3-small"):
     """Embed a user query using OpenAI's embedding model."""
-    response = client.embeddings.create(model=embedding_model, input=query)
-    return response.data[0].embedding
+    try:
+        response = client.embeddings.create(model=embedding_model, input=query)
+        return response.data[0].embedding
+    except Exception as e:
+        print(f"[Query Embedding Error]: {e}")
+        return []
 
 def find_top_k_chunks(query, chunks, embeddings, k=50):
     """Find top-k semantically relevant chunks to a query."""
-    query_emb = np.array(embed_query(query)).reshape(1, -1)
+    query_vec = embed_query(query)
+    if not query_vec:
+        print("❌ Query embedding failed.")
+        return []
+
+    query_emb = np.array(query_vec).reshape(1, -1)
+
+    if query_emb.shape[1] != embeddings.shape[1]:
+        print(f"❌ Embedding shape mismatch: {query_emb.shape[1]} vs {embeddings.shape[1]}")
+        return []
+
     scores = cosine_similarity(query_emb, embeddings).flatten()
     top_indices = scores.argsort()[-k:][::-1]
     return [chunks[i] for i in top_indices]
 
 def limit_chunks_by_token_budget(chunks, max_tokens=8000, model="gpt-4o"):
     """Truncate context chunks to fit within token budget."""
-    """Accurately limit total token count using tiktoken."""
     encoding = tiktoken.encoding_for_model(model)
     total = 0
     selected = []

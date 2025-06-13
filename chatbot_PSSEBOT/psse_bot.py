@@ -96,15 +96,20 @@ def embed_query(query: str) -> List[float]:
 # Find top K matches
 def find_top_k_matches(query: str, chunks, embeddings, k=10):
     query_vec = embed_query(query)
+
     if not query_vec:
-        st.error("❌ Failed to embed query. Please try again or check your API key.")
+        st.error("❌ Failed to embed query — try rephrasing your question.")
         return []
 
     query_embedding = np.array(query_vec).reshape(1, -1)
+
+    if query_embedding.shape[1] != embeddings.shape[1]:
+        st.error(f"❌ Embedding dimension mismatch: {query_embedding.shape[1]} vs {embeddings.shape[1]}")
+        return []
+
     scores = cosine_similarity(query_embedding, embeddings).flatten()
     top_indices = scores.argsort()[-k:][::-1]
-    top_chunks = [chunks[i] for i in top_indices]
-    return top_chunks
+    return [chunks[i] for i in top_indices]
 
 # Limit chunks by token budget
 def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
