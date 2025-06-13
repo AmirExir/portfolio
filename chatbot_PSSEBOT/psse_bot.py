@@ -88,7 +88,7 @@ def load_psse_chunks_and_embeddings():
 def embed_query(query: str) -> List[float]:
     response = safe_openai_call(
         client.embeddings.create,
-        model="text-embedding-3-small",
+        model="text-embedding-3-large",
         input=query
     )
     return response.data[0].embedding if response else []
