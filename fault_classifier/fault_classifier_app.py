@@ -95,21 +95,41 @@ if uploaded_file is not None:
         # Download
         st.download_button("📥 Download Results", df_predictions.to_csv(index=False), "predictions.csv", "text/csv")
 
-        # Accuracy chart
+        
+        # Accuracy Chart with Precision + Clear Labels
         try:
             with open("model_accuracies.json", "r") as f:
                 model_accuracies = json.load(f)
 
             st.subheader("📊 Model Accuracy Comparison")
-            fig, ax = plt.subplots()
-            ax.bar(model_accuracies.keys(), model_accuracies.values(), color='skyblue')
-            ax.set_ylim(0, 1)
+
+            fig, ax = plt.subplots(figsize=(10, 6))
+            models = list(model_accuracies.keys())
+            scores = list(model_accuracies.values())
+
+            # Set tighter y-axis limits
+            min_acc = min(scores)
+            ax.set_ylim(min_acc - 0.01, 1.0)
+
+            bars = ax.bar(models, scores, color='skyblue')
             ax.set_ylabel("Accuracy")
-            ax.set_title("Model Comparison")
+            ax.set_title("Model Accuracy (Validation on classData)")
+
+            # Rotate model names to avoid overlapping
+            ax.set_xticklabels(models, rotation=30, ha='right')
+
+            # Add value labels on top of each bar
+            for bar in bars:
+                height = bar.get_height()
+                ax.text(bar.get_x() + bar.get_width() / 2, height + 0.002,
+                        f'{height:.4f}', ha='center', va='bottom', fontsize=9)
+
             st.pyplot(fig)
+
+            # Optional: print exact values below
+            st.subheader("🧾 Accuracy Scores")
+            for model, acc in model_accuracies.items():
+                st.write(f"🔹 **{model}**: `{acc:.4f}`")
 
         except Exception as e:
             st.warning(f"⚠️ Accuracy chart failed: {e}")
-
-    except Exception as e:
-        st.error(f"💥 Error processing file: {e}")
