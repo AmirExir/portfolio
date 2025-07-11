@@ -40,7 +40,7 @@ if uploaded_file is not None:
         predicted_bits = model.predict(X_scaled)
 
         # Convert each prediction into a 4-bit string like "0110"
-        predicted_faults = [''.join(map(str, row.astype(int))) for row in predicted_bits]
+        predicted_faults = predicted_bits.astype(str).tolist()
 
         st.subheader("🔍 Predicted Fault Types:")
         st.write(pd.DataFrame(predicted_faults, columns=["Fault Code"]))
