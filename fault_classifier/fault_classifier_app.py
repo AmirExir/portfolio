@@ -43,7 +43,12 @@ if uploaded_file is not None:
         # Convert each prediction into a 4-bit string like "0110"
         # Convert prediction indices to original string fault labels
         fault_type_names = dict(enumerate(label_encoder.classes_))
-        predicted_faults = predicted_bits.argmax(axis=1)
+        import numpy as np
+
+        if predicted_bits.ndim == 1:
+            predicted_faults = predicted_bits  # already predicted labels
+        else:
+            predicted_faults = np.argmax(predicted_bits, axis=1)  # pick class with highest probability
 
         # Create DataFrame with both numeric and string labels
         df_predictions = pd.DataFrame({
