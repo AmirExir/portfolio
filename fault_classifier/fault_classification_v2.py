@@ -1,10 +1,8 @@
-# fault_classification_v2.py
-
 import pandas as pd
 import numpy as np
-# from sklearn.model_selection import train_test_split  # ❌ OLD — Not splitting anymore
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
@@ -12,43 +10,30 @@ from sklearn.neural_network import MLPClassifier
 import matplotlib.pyplot as plt
 import joblib
 import json
+import os
 
 try:
     from xgboost import XGBClassifier
     has_xgb = True
 except ImportError:
     has_xgb = False
-    print("XGBoost not installed. Skipping XGBClassifier.")
+    print("⚠️ XGBoost not installed.")
 
-# ✅ Load full training dataset
-df_train = pd.read_csv("classData.csv")
-
-# Preprocessing
-df_train["fault_type"] = df_train[["G", "C", "B", "A"]].astype(str).agg("".join, axis=1)
-print(df_train["fault_type"].value_counts())
-X_train = df_train[["Ia", "Ib", "Ic", "Va", "Vb", "Vc"]]
-y_train = df_train["fault_type"]
+# === LOAD & PREPROCESS TRAINING DATA ===
+df = pd.read_csv("classData.csv")
+df["fault_type"] = df[["G", "C", "B", "A"]].astype(str).agg("".join, axis=1)
+X = df[["Ia", "Ib", "Ic", "Va", "Vb", "Vc"]]
+y = df["fault_type"]
 
 label_encoder = LabelEncoder()
-y_train_encoded = label_encoder.fit_transform(y_train)
-print("Label Mapping:", label_encoder.classes_)
-
+y_encoded = label_encoder.fit_transform(y)
 scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
+X_scaled = scaler.fit_transform(X)
 
-# ✅ Load test set (real-world)
-df_test = pd.read_csv("detect_dataset.csv")
-X_test = df_test[["Ia", "Ib", "Ic", "Va", "Vb", "Vc"]]
+# === EVALUATE: Split for validation only ===
+X_train, X_val, y_train, y_val = train_test_split(X_scaled, y_encoded, test_size=0.2, random_state=42)
 
-# Optional: load true labels if available
-has_labels = "fault_type" in df_test.columns
-if has_labels:
-    df_test["fault_type"] = df_test[["G", "C", "B", "A"]].astype(str).agg("".join, axis=1)
-    y_test = label_encoder.transform(df_test["fault_type"])
-
-X_test_scaled = scaler.transform(X_test)
-
-# Models
+# === MODELS ===
 models = {
     "Logistic Regression": LogisticRegression(max_iter=500),
     "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
@@ -62,54 +47,61 @@ results = {}
 best_model = None
 best_acc = 0
 
+# === VALIDATE MODELS ===
 for name, model in models.items():
     print(f"\n🔍 Training: {name}")
-    if name in ["Logistic Regression", "SVM (RBF Kernel)", "MLP (Neural Net)"]:
-        model.fit(X_train_scaled, y_train_encoded)
-        y_pred = model.predict(X_test_scaled)
-    else:
-        model.fit(X_train, y_train_encoded)
-        y_pred = model.predict(X_test)
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_val)
 
-    if has_labels:
-        acc = accuracy_score(y_test, y_pred)
-        results[name] = acc
-        print(f"✅ Accuracy: {acc:.4f}")
-        print(classification_report(y_test, y_pred, target_names=label_encoder.classes_))
-    else:
-        print("⚠️ No labels available in detect_dataset.csv — skipping accuracy.")
+    acc = accuracy_score(y_val, y_pred)
+    results[name] = acc
+    print(f"✅ Accuracy: {acc:.4f}")
+    print(classification_report(y_val, y_pred, target_names=label_encoder.classes_))
 
-    if has_labels and acc > best_acc:
+    if acc > best_acc:
         best_acc = acc
         best_model = model
 
-# If no labeled test set, just pick last model as "best"
-if not best_model:
-    best_model = list(models.values())[0]
+# === Retrain Best Model on Full Data ===
+best_model.fit(X_scaled, y_encoded)
 
-print("✅ Final best model saved:", type(best_model))
-
-# Save artifacts
+# === SAVE FINAL ARTIFACTS ===
 joblib.dump(best_model, "fault_model.pkl")
 joblib.dump(scaler, "scaler.pkl")
 joblib.dump(label_encoder, "label_encoder.pkl")
-print("✅ Saved model, scaler, and label encoder to .pkl files")
 
-# Save model results
 with open("model_accuracies.json", "w") as f:
     json.dump(results, f, indent=4)
 
-# Save predictions
-y_pred_labels = label_encoder.inverse_transform(y_pred)
-df_test["Predicted"] = y_pred_labels
-df_test.to_csv("predictions_on_detect_dataset.csv", index=False)
-print("✅ Predictions saved to predictions_on_detect_dataset.csv")
+print("✅ Saved model, scaler, encoder, and accuracy")
 
-# Accuracy chart
+# === CONFUSION MATRIX (Validation Data) ===
+cm = confusion_matrix(y_val, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=label_encoder.classes_)
+disp.plot(xticks_rotation=45, cmap='viridis', colorbar=True)
+plt.title("Validation Confusion Matrix (classData split)")
+plt.tight_layout()
+os.makedirs("images", exist_ok=True)
+plt.savefig("images/confusion_matrix_classdata.png")
+plt.show()
+
+# === Predict on REAL detect_dataset.csv ===
+df_detect = pd.read_csv("detect_dataset.csv")
+X_detect = df_detect[["Ia", "Ib", "Ic", "Va", "Vb", "Vc"]]
+X_detect_scaled = scaler.transform(X_detect)
+
+y_detect_pred = best_model.predict(X_detect_scaled)
+y_detect_labels = label_encoder.inverse_transform(y_detect_pred)
+
+df_detect["Predicted"] = y_detect_labels
+df_detect.to_csv("predictions_on_detect_dataset.csv", index=False)
+print("✅ Predictions on detect_dataset saved.")
+
+# === Plot Model Accuracies ===
 plt.figure(figsize=(10, 5))
 plt.bar(results.keys(), results.values(), color='skyblue')
 plt.ylabel("Accuracy")
-plt.title("Model Comparison: Fault Type Classification")
+plt.title("Model Accuracy (Validation on classData)")
 plt.xticks(rotation=15)
 plt.grid(True, axis='y', linestyle='--')
 plt.tight_layout()
