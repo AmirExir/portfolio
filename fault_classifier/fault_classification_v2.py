@@ -75,6 +75,11 @@ joblib.dump(best_model, "fault_model.pkl")
 joblib.dump(scaler, "scaler.pkl")
 joblib.dump(label_encoder, "label_encoder.pkl")
 
+# ✅ Save model accuracy results to JSON for Streamlit
+import json
+with open("model_accuracies.json", "w") as f:
+    json.dump(results, f)
+
 # Accuracy bar chart
 plt.figure(figsize=(10, 5))
 plt.bar(results.keys(), results.values(), color='skyblue')

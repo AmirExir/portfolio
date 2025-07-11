@@ -54,11 +54,21 @@ if uploaded_file is not None:
         st.download_button("📥 Download Results CSV", df_predictions.to_csv(index=False), "predictions.csv", "text/csv")
 
         # Optional: Static accuracy bar chart
-        st.subheader("📊 Model Accuracy Comparison (from training script)")
-        fig, ax = plt.subplots()
-        model_names = ['LogReg', 'RandomForest', 'SVM', 'MLP', 'XGBoost']
-        accuracies = [0.90, 0.88, 0.81, 0.86, 0.83]
-        ax.bar(model_names, accuracies)
+        # Optional: Load accuracy values dynamically
+        import json
+        try:
+            with open("model_accuracies.json", "r") as f:
+                model_accuracies = json.load(f)
+
+            st.subheader("📊 Model Accuracy Comparison (from training script)")
+            fig, ax = plt.subplots()
+            ax.bar(model_accuracies.keys(), model_accuracies.values(), color='skyblue')
+            ax.set_ylim(0, 1)
+            ax.set_ylabel("Accuracy")
+            ax.set_title("Model Comparison: Fault Type Classification")
+            st.pyplot(fig)
+        except Exception as e:
+            st.warning(f"Could not load accuracy chart: {e}")
         ax.set_ylim(0, 1)
         ax.set_ylabel("Accuracy")
         ax.set_title("Model Comparison: Fault Type Classification")
