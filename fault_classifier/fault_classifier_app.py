@@ -20,7 +20,11 @@ if uploaded_file:
         st.write(df.head())
 
         # Preprocess and predict
-        scaled = scaler.transform(df)
+        
+        # Preprocess and predict
+        features = ['Ia', 'Ib', 'Ic', 'Va', 'Vb', 'Vc']
+        df_features = df[features]
+        scaled = scaler.transform(df_features)
         predictions = model.predict(scaled)
         predicted_labels = label_encoder.inverse_transform(predictions)
 
