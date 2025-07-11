@@ -92,9 +92,9 @@ with open("model_accuracies.json", "w") as f:
 best_model.fit(X_scaled, y_encoded)
 
 # === SAVE FINAL ARTIFACTS ===
-joblib.dump(best_model, "fault_model.pkl")
-joblib.dump(scaler, "scaler.pkl")
-joblib.dump(label_encoder, "label_encoder.pkl")
+joblib.dump(best_model, "fault_classifier/fault_model.pkl")
+joblib.dump(scaler, "fault_classifier/scaler.pkl")
+joblib.dump(label_encoder, "fault_classifier/label_encoder.pkl")
 
 print("✅ Saved model, scaler, encoder, and accuracy")
 
