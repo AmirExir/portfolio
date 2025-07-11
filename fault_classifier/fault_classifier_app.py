@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import matplotlib.pyplot as plt
 
 # Load saved model components
 model = joblib.load("fault_model.pkl")
@@ -39,3 +40,17 @@ if uploaded_file:
 
     except Exception as e:
         st.error(f"Something went wrong: {e}")
+# Display model accuracy chart (optional - static, from training phase)
+st.subheader("📊 Model Accuracy Comparison (from training script)")
+
+# Hardcoded results — you can later make it dynamic
+model_names = ['Logistic Regression', 'Random Forest', 'SVM (RBF)', 'MLP', 'XGBoost']
+accuracies = [0.36, 0.88, 0.81, 0.86, 0.83]  # Replace with your actual results
+
+fig, ax = plt.subplots()
+ax.bar(model_names, accuracies, color='skyblue')
+ax.set_ylabel("Accuracy")
+ax.set_ylim(0, 1)
+ax.set_title("Model Comparison: Fault Type Classification")
+plt.xticks(rotation=15)
+st.pyplot(fig)
