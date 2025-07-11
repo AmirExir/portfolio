@@ -5,6 +5,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import json
 
+
+# Streamlit app UI
+st.set_page_config(page_title="Power Fault Classifier", layout="centered")
+st.title("⚡ Power System Fault Classifier by Amir Exir")
+st.write("Upload a CSV with columns: `Ia`, `Ib`, `Ic`, `Va`, `Vb`, `Vc`") 
+
 # Load model artifacts
 try:
     model = joblib.load("fault_model.pkl")
@@ -24,10 +30,7 @@ except FileNotFoundError as e:
     st.error(f"Model files not found: {e}")
     st.stop()
 
-# Streamlit app UI
-st.set_page_config(page_title="Power Fault Classifier", layout="centered")
-st.title("⚡ Power System Fault Classifier by Amir Exir")
-st.write("Upload a CSV with columns: `Ia`, `Ib`, `Ic`, `Va`, `Vb`, `Vc`")
+
 
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
