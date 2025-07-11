@@ -69,6 +69,7 @@ for name, model in models.items():
     if acc > best_acc:
         best_acc = acc
         best_model = model
+        print("✅ Final best model saved:", type(best_model))
 
 # Save the best model and scaler for Streamlit
 joblib.dump(best_model, "fault_model.pkl")
