@@ -24,6 +24,7 @@ df = pd.read_csv("classData.csv")
 
 # Preprocessing
 df["fault_type"] = df[["G", "C", "B", "A"]].astype(str).agg("".join, axis=1)
+print(df["fault_type"].value_counts())  # ← This line shows label distribution
 X = df[["Ia", "Ib", "Ic", "Va", "Vb", "Vc"]]
 y = df["fault_type"]
 
