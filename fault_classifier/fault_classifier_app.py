@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import json
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import seaborn as sns
 
 # ✅ Streamlit config — must go FIRST
 st.set_page_config(page_title="Power Fault Classifier", layout="centered")
@@ -78,10 +79,13 @@ if uploaded_file is not None:
                 y_pred = df_predictions["Fault Code"]
 
                 cm = confusion_matrix(y_true, y_pred)
-                fig, ax = plt.subplots(figsize=(6, 5))
-                disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=label_encoder.classes_)
-                disp.plot(ax=ax, xticks_rotation=45)
-                st.subheader("📉 Confusion Matrix")
+                fig, ax = plt.subplots(figsize=(8, 6))
+                sns.heatmap(cm, annot=True, fmt='d', cmap='viridis',
+                            xticklabels=label_encoder.classes_,
+                            yticklabels=label_encoder.classes_)
+                ax.set_xlabel("Predicted Label")
+                ax.set_ylabel("True Label")
+                ax.set_title("📉 Confusion Matrix")
                 st.pyplot(fig)
 
         # Final results
