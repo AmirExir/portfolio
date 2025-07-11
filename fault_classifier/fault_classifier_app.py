@@ -8,7 +8,7 @@ scaler = joblib.load("scaler.pkl")
 label_encoder = joblib.load("label_encoder.pkl")
 
 st.set_page_config(page_title="⚡ Fault Classifier", page_icon="⚡")
-st.title("⚡ Power System Fault Classifier")
+st.title("⚡ Power System Fault Classifier by Amir Exir")
 st.write("Upload a CSV with columns: Ia, Ib, Ic, Va, Vb, Vc")
 
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
