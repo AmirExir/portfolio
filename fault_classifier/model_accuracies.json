@@ -1,7 +1,0 @@
-{
-    "Logistic Regression": 0.35600762873490144,
-    "Random Forest": 0.8823903369357915,
-    "SVM (RBF Kernel)": 0.8124602670057216,
-    "MLP (Neural Net)": 0.8620470438652257,
-    "XGBoost": 0.828353464717101
-}
