@@ -107,7 +107,6 @@ if uploaded_file is not None:
             models = list(model_accuracies.keys())
             scores = list(model_accuracies.values())
 
-            # Set tighter y-axis limits
             min_acc = min(scores)
             ax.set_ylim(min_acc - 0.01, 1.0)
 
@@ -115,10 +114,9 @@ if uploaded_file is not None:
             ax.set_ylabel("Accuracy")
             ax.set_title("Model Accuracy (Validation on classData)")
 
-            # Rotate model names to avoid overlapping
+            ax.set_xticks(range(len(models)))
             ax.set_xticklabels(models, rotation=30, ha='right')
 
-            # Add value labels on top of each bar
             for bar in bars:
                 height = bar.get_height()
                 ax.text(bar.get_x() + bar.get_width() / 2, height + 0.002,
@@ -126,7 +124,6 @@ if uploaded_file is not None:
 
             st.pyplot(fig)
 
-            # Optional: print exact values below
             st.subheader("🧾 Accuracy Scores")
             for model, acc in model_accuracies.items():
                 st.write(f"🔹 **{model}**: `{acc:.4f}`")
