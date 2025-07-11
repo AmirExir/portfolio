@@ -97,6 +97,7 @@ if uploaded_file is not None:
 
         
         # Accuracy Chart with Precision + Clear Labels
+        # This must be inside the `if uploaded_file is not None:` block or similar
         try:
             with open("model_accuracies.json", "r") as f:
                 model_accuracies = json.load(f)
