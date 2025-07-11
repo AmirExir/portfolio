@@ -3,6 +3,7 @@ import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
 from PIL import Image
+import numpy as np
 
 # Load model artifacts
 try:
@@ -37,38 +38,27 @@ if uploaded_file is not None:
         X = df[feature_cols]
         X_scaled = scaler.transform(X)
 
-        # Make predictions
-        predicted_bits = model.predict(X_scaled)
+        # Predict
+        predicted_faults = model.predict(X_scaled)
 
-        # Convert each prediction into a 4-bit string like "0110"
-        # Convert prediction indices to original string fault labels
+        # Decode fault labels using label_encoder
+        df_predictions = pd.DataFrame(predicted_faults, columns=["Fault Code"])
         fault_type_names = dict(enumerate(label_encoder.classes_))
-        import numpy as np
+        df_predictions["Fault String"] = df_predictions["Fault Code"].map(fault_type_names)
 
-        if predicted_bits.ndim == 1:
-            predicted_faults = predicted_bits  # already predicted labels
-        else:
-            predicted_faults = np.argmax(predicted_bits, axis=1)  # pick class with highest probability
-
-        # Create DataFrame with both numeric and string labels
-        df_predictions = pd.DataFrame({
-            "Fault Code": predicted_faults,
-            "Fault String": [fault_type_names[int(code)] for code in predicted_faults]
-        })
-
-        # Display in Streamlit
+        # Show results
         st.subheader("🔍 Predicted Fault Types:")
-        st.dataframe(df_predictions[["Fault Code", "Fault String"]])
+        st.dataframe(df_predictions)
 
         # Download button
         st.download_button("📥 Download Results CSV", df_predictions.to_csv(index=False), "predictions.csv", "text/csv")
 
-        # Optional: Hardcoded accuracy plot
+        # Optional: Static accuracy bar chart
         st.subheader("📊 Model Accuracy Comparison (from training script)")
         fig, ax = plt.subplots()
         model_names = ['LogReg', 'RandomForest', 'SVM', 'MLP', 'XGBoost']
         accuracies = [0.90, 0.88, 0.81, 0.86, 0.83]
-        ax.bar(model_names, accuracies, color='skyblue')
+        ax.bar(model_names, accuracies)
         ax.set_ylim(0, 1)
         ax.set_ylabel("Accuracy")
         ax.set_title("Model Comparison: Fault Type Classification")
