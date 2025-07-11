@@ -5,11 +5,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import json
 
-
-# Streamlit app UI
+# ✅ Streamlit config — must go FIRST
 st.set_page_config(page_title="Power Fault Classifier", layout="centered")
+
+# App Header
 st.title("⚡ Power System Fault Classifier by Amir Exir")
-st.write("Upload a CSV with columns: `Ia`, `Ib`, `Ic`, `Va`, `Vb`, `Vc`") 
+st.write("Upload a CSV with columns: `Ia`, `Ib`, `Ic`, `Va`, `Vb`, `Vc`")
 
 # Load model artifacts
 try:
@@ -27,12 +28,11 @@ try:
     st.write("Label encoder classes:", label_encoder.classes_)
 
 except FileNotFoundError as e:
-    st.error(f"Model files not found: {e}")
+    st.error(f"❌ Model files not found: {e}")
     st.stop()
 
-
-
-uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+# Upload CSV
+uploaded_file = st.file_uploader("📂 Choose a CSV file", type="csv")
 
 if uploaded_file is not None:
     try:
@@ -42,26 +42,26 @@ if uploaded_file is not None:
         st.subheader("📄 Uploaded Data Preview:")
         st.write(df.head())
 
-        # Features
+        # Feature check
         feature_cols = ['Ia', 'Ib', 'Ic', 'Va', 'Vb', 'Vc']
         if not all(col in df.columns for col in feature_cols):
-            st.error("Missing required columns in uploaded CSV.")
+            st.error("❌ Missing required columns in uploaded CSV.")
             st.stop()
 
         X = df[feature_cols]
-                # 🔍 Debug: Show first few input rows
         st.subheader("🔎 Input Features (Before Scaling)")
-        st.write(X.head())  # This is the same as print(X.head()) in Streamlit
+        st.write(X.head())
+
+        # Scale inputs
         X_scaled = scaler.transform(X)
-        # 🔍 Optional: show scaled values too
         st.subheader("📐 Input Features (After Scaling)")
         st.write(pd.DataFrame(X_scaled, columns=feature_cols).head())
 
         # Predict
         predicted_faults = model.predict(X_scaled)
-
-        # Decode fault labels using label_encoder
         df_predictions = pd.DataFrame(predicted_faults, columns=["Fault Code"])
+
+        # Decode labels
         fault_type_names = dict(enumerate(label_encoder.classes_))
         df_predictions["Fault String"] = df_predictions["Fault Code"].map(fault_type_names)
 
@@ -69,10 +69,10 @@ if uploaded_file is not None:
         st.subheader("🔍 Predicted Fault Types:")
         st.dataframe(df_predictions)
 
-        # Download button
+        # Download results
         st.download_button("📥 Download Results CSV", df_predictions.to_csv(index=False), "predictions.csv", "text/csv")
 
-        # Accuracy chart (loaded from training)
+        # Accuracy chart
         try:
             with open("model_accuracies.json", "r") as f:
                 model_accuracies = json.load(f)
@@ -89,4 +89,4 @@ if uploaded_file is not None:
             st.warning(f"⚠️ Could not load accuracy chart: {e}")
 
     except Exception as e:
-        st.error(f"Something went wrong: {e}")
+        st.error(f"💥 Something went wrong: {e}")
