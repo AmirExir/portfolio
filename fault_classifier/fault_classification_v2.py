@@ -51,7 +51,7 @@ for name, model in models.items():
     prefold_results[name] = acc
     print(f"📊 {name} Pre-Fold Accuracy: {acc:.4f}")
 
-with open("model_accuracies_prefold.json", "w") as f:
+with open("fault_classifier/model_accuracies_prefold.json", "w") as f:
     json.dump(prefold_results, f, indent=4)
 
 # === 5-FOLD CROSS VALIDATION ===
@@ -85,7 +85,7 @@ for name, model in models.items():
         best_model = model
 
 # === Save post-fold results ===
-with open("model_accuracies.json", "w") as f:
+with open("fault_classifier/model_accuracies.json", "w") as f:
     json.dump(results, f, indent=4)
 
 # === Retrain Best Model on Full Data ===
