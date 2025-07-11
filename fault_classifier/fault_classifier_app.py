@@ -4,7 +4,7 @@ import joblib
 import matplotlib.pyplot as plt
 import numpy as np
 import json
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import confusion_matrix
 import seaborn as sns
 
 # ✅ Streamlit config — must go FIRST
@@ -95,34 +95,40 @@ if uploaded_file is not None:
         # Download
         st.download_button("📥 Download Results", df_predictions.to_csv(index=False), "predictions.csv", "text/csv")
 
-        
         # Accuracy Chart with Precision + Clear Labels
-        with open("model_accuracies.json", "r") as f:
-            model_accuracies = json.load(f)
+        try:
+            with open("model_accuracies.json", "r") as f:
+                model_accuracies = json.load(f)
 
-        st.subheader("📊 Model Accuracy Comparison")
+            st.subheader("📊 Model Accuracy Comparison")
 
-        fig, ax = plt.subplots(figsize=(10, 6))
-        models = list(model_accuracies.keys())
-        scores = list(model_accuracies.values())
+            fig, ax = plt.subplots(figsize=(10, 6))
+            models = list(model_accuracies.keys())
+            scores = list(model_accuracies.values())
 
-        min_acc = min(scores)
-        ax.set_ylim(min_acc - 0.01, 1.0)
+            min_acc = min(scores)
+            ax.set_ylim(min_acc - 0.01, 1.0)
 
-        bars = ax.bar(models, scores, color='skyblue')
-        ax.set_ylabel("Accuracy")
-        ax.set_title("Model Accuracy (Validation on classData)")
+            bars = ax.bar(models, scores, color='skyblue')
+            ax.set_ylabel("Accuracy")
+            ax.set_title("Model Accuracy (Validation on classData)")
 
-        ax.set_xticks(range(len(models)))
-        ax.set_xticklabels(models, rotation=30, ha='right')
+            ax.set_xticks(range(len(models)))
+            ax.set_xticklabels(models, rotation=30, ha='right')
 
-        for bar in bars:
-            height = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width() / 2, height + 0.002,
-                    f'{height:.4f}', ha='center', va='bottom', fontsize=9)
+            for bar in bars:
+                height = bar.get_height()
+                ax.text(bar.get_x() + bar.get_width() / 2, height + 0.002,
+                        f'{height:.4f}', ha='center', va='bottom', fontsize=9)
 
-        st.pyplot(fig)
+            st.pyplot(fig)
 
-        st.subheader("🧾 Accuracy Scores")
-        for model, acc in model_accuracies.items():
-            st.write(f"🔹 **{model}**: `{acc:.4f}`")
+            st.subheader("🧾 Accuracy Scores")
+            for model, acc in model_accuracies.items():
+                st.write(f"🔹 **{model}**: `{acc:.4f}`")
+
+        except Exception as e:
+            st.warning(f"⚠️ Accuracy chart failed to load: {e}")
+
+    except Exception as e:
+        st.error(f"❌ Error processing file: {e}")
