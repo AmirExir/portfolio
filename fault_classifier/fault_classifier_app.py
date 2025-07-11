@@ -10,6 +10,16 @@ try:
     model = joblib.load("fault_model.pkl")
     scaler = joblib.load("scaler.pkl")
     label_encoder = joblib.load("label_encoder.pkl")
+
+    # ✅ Check model and label encoder class alignment
+    st.subheader("🧠 Debug: Model Classes and Label Encoder")
+    if hasattr(model, "classes_"):
+        st.write("Model classes:", model.classes_)
+    else:
+        st.write("Model does not expose `.classes_`")
+
+    st.write("Label encoder classes:", label_encoder.classes_)
+
 except FileNotFoundError as e:
     st.error(f"Model files not found: {e}")
     st.stop()
