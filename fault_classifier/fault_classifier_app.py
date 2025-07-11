@@ -63,7 +63,24 @@ if uploaded_file is not None:
 
         # Decode labels
         fault_type_names = dict(enumerate(label_encoder.classes_))
+        st.write("🧭 Label decoder map:", fault_type_names)  # ✅ Add this line
         df_predictions["Fault String"] = df_predictions["Fault Code"].map(fault_type_names)
+
+        # 🧪 Debug output
+        st.subheader("🧪 Debug: Prediction Details")
+        st.write("📐 Scaled Input (X_scaled):")
+        st.write(pd.DataFrame(X_scaled, columns=feature_cols).head())
+
+        st.write("🔢 Raw Predicted Class Indices:")
+        st.write(predicted_faults[:10])
+
+        st.write("🔤 Decoded Fault Strings:")
+        st.write(df_predictions["Fault String"].value_counts())
+
+        st.write("🧭 Fault Code to String Mapping:")
+        st.write(fault_type_names)
+
+        
 
         # Show results
         st.subheader("🔍 Predicted Fault Types:")
