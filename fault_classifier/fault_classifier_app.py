@@ -95,40 +95,42 @@ if uploaded_file is not None:
         # Download
         st.download_button("📥 Download Results", df_predictions.to_csv(index=False), "predictions.csv", "text/csv")
 
-        # Accuracy Chart with Precision + Clear Labels
+        # === COMPARISON PLOT: Prefold vs K-Fold ===
         try:
-            with open("model_accuracies.json", "r") as f:
-                model_accuracies = json.load(f)
+            with open("model_accuracies_prefold.json", "r") as f1, open("model_accuracies.json", "r") as f2:
+                pre_fold = json.load(f1)
+                post_fold = json.load(f2)
 
-            st.subheader("📊 Model Accuracy Comparison")
+            st.subheader("📊 Accuracy Comparison: Train/Test Split vs 5-Fold Cross-Validation")
 
             fig, ax = plt.subplots(figsize=(10, 6))
-            models = list(model_accuracies.keys())
-            scores = list(model_accuracies.values())
+            models = list(pre_fold.keys())
+            x = range(len(models))
 
-            min_acc = min(scores)
-            ax.set_ylim(min_acc - 0.01, 1.0)
+            pre_values = [pre_fold[m] for m in models]
+            post_values = [post_fold.get(m, 0) for m in models]
 
-            bars = ax.bar(models, scores, color='skyblue')
-            ax.set_ylabel("Accuracy")
-            ax.set_title("Model Accuracy (Validation on classData)")
+            ax.bar([i - 0.2 for i in x], pre_values, width=0.4, label="Train/Test Split", color="skyblue")
+            ax.bar([i + 0.2 for i in x], post_values, width=0.4, label="5-Fold CV", color="orange")
 
-            ax.set_xticks(range(len(models)))
+            ax.set_xticks(x)
             ax.set_xticklabels(models, rotation=30, ha='right')
+            ax.set_ylabel("Accuracy")
+            ax.set_title("Model Accuracy: Train/Test Split vs 5-Fold CV")
+            ax.legend()
 
-            for bar in bars:
-                height = bar.get_height()
-                ax.text(bar.get_x() + bar.get_width() / 2, height + 0.002,
-                        f'{height:.4f}', ha='center', va='bottom', fontsize=9)
+            for i, (p, q) in enumerate(zip(pre_values, post_values)):
+                ax.text(i - 0.2, p + 0.002, f"{p:.3f}", ha="center", fontsize=9)
+                ax.text(i + 0.2, q + 0.002, f"{q:.3f}", ha="center", fontsize=9)
 
             st.pyplot(fig)
 
             st.subheader("🧾 Accuracy Scores")
-            for model, acc in model_accuracies.items():
-                st.write(f"🔹 **{model}**: `{acc:.4f}`")
+            for model in models:
+                st.write(f"🔹 **{model}** → Pre-Fold: `{pre_fold[model]:.4f}`, 5-Fold CV: `{post_fold[model]:.4f}`")
 
         except Exception as e:
-            st.warning(f"⚠️ Accuracy chart failed to load: {e}")
+            st.warning(f"⚠️ Accuracy comparison failed to load: {e}")
 
     except Exception as e:
         st.error(f"❌ Error processing file: {e}")
