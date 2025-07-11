@@ -29,6 +29,7 @@ y = df["fault_type"]
 
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
+print("Label Mapping:", label_encoder.classes_)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
 
