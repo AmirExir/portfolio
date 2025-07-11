@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import KFold
+from sklearn.model_selection import train_test_split, KFold
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.metrics import accuracy_score
 from sklearn.linear_model import LogisticRegression
@@ -19,18 +19,19 @@ except ImportError:
     has_xgb = False
     print("⚠️ XGBoost not installed.")
 
-# === LOAD & PREPROCESS TRAINING DATA ===
+# === LOAD DATA ===
 df = pd.read_csv("classData.csv")
 df["fault_type"] = df[["G", "C", "B", "A"]].astype(str).agg("".join, axis=1)
 X = df[["Ia", "Ib", "Ic", "Va", "Vb", "Vc"]]
 y = df["fault_type"]
 
+# === ENCODE & SCALE ===
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# === MODELS ===
+# === DEFINE MODELS ===
 models = {
     "Logistic Regression": LogisticRegression(max_iter=500),
     "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
@@ -40,12 +41,26 @@ models = {
 if has_xgb:
     models["XGBoost"] = XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
 
+# === PREFOLD: Train/Test Split Accuracies ===
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y_encoded, test_size=0.2, random_state=42)
+prefold_scores = {}
+
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    acc = accuracy_score(y_test, y_pred)
+    prefold_scores[name] = acc
+    print(f"📊 {name} Prefold Accuracy: {acc:.4f}")
+
+with open("model_accuracies_prefold.json", "w") as f:
+    json.dump(prefold_scores, f, indent=4)
+
+# === 5-FOLD CROSS VALIDATION ===
 results = {}
-fold_accuracies = {}  # For storing per-fold results
+fold_accuracies = {}
 best_model = None
 best_acc = 0
 
-# === 5-FOLD CROSS VALIDATION ===
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
 
 for name, model in models.items():
@@ -74,49 +89,34 @@ for name, model in models.items():
 # === Retrain Best Model on Full Data ===
 best_model.fit(X_scaled, y_encoded)
 
-# === SAVE FINAL ARTIFACTS ===
+# === SAVE MODEL ARTIFACTS ===
 joblib.dump(best_model, "fault_model.pkl")
 joblib.dump(scaler, "scaler.pkl")
 joblib.dump(label_encoder, "label_encoder.pkl")
-
 with open("model_accuracies.json", "w") as f:
     json.dump(results, f, indent=4)
 
-print("✅ Saved model, scaler, encoder, and accuracy")
-
-# === CREATE OUTPUT FOLDER ===
+# === PLOTS ===
 os.makedirs("images", exist_ok=True)
 
-# === BOX PLOT: Per-Fold Accuracies ===
+# Boxplot of fold accuracies
 plt.figure(figsize=(10, 6))
 plt.boxplot(fold_accuracies.values(), labels=fold_accuracies.keys())
-plt.ylabel("Accuracy")
 plt.title("Per-Fold Accuracy (5-Fold CV)")
+plt.ylabel("Accuracy")
 plt.xticks(rotation=15)
-plt.grid(True, axis='y', linestyle='--')
+plt.grid(True)
 plt.tight_layout()
 plt.savefig("images/foldwise_accuracy_boxplot.png")
 plt.show()
 
-# === BAR CHART: Average Accuracy ===
+# Bar chart of average CV accuracies
 plt.figure(figsize=(10, 5))
 plt.bar(results.keys(), results.values(), color='skyblue')
-plt.ylabel("Avg CV Accuracy")
 plt.title("Model Accuracy (5-Fold Cross-Validation)")
+plt.ylabel("Avg Accuracy")
 plt.xticks(rotation=15)
-plt.grid(True, axis='y', linestyle='--')
+plt.grid(True)
 plt.tight_layout()
 plt.savefig("images/fault_accuracy_comparison.png")
 plt.show()
-
-# === PREDICT ON DETECT DATASET ===
-df_detect = pd.read_csv("detect_dataset.csv")
-X_detect = df_detect[["Ia", "Ib", "Ic", "Va", "Vb", "Vc"]]
-X_detect_scaled = scaler.transform(X_detect)
-
-y_detect_pred = best_model.predict(X_detect_scaled)
-y_detect_labels = label_encoder.inverse_transform(y_detect_pred)
-
-df_detect["Predicted"] = y_detect_labels
-df_detect.to_csv("predictions_on_detect_dataset.csv", index=False)
-print("✅ Predictions on detect_dataset saved.")
