@@ -8,6 +8,7 @@ from PIL import Image
 try:
     model = joblib.load("fault_model.pkl")
     scaler = joblib.load("scaler.pkl")
+    label_encoder = joblib.load("label_encoder.pkl")
 except FileNotFoundError as e:
     st.error(f"Model files not found: {e}")
     st.stop()
@@ -40,14 +41,22 @@ if uploaded_file is not None:
         predicted_bits = model.predict(X_scaled)
 
         # Convert each prediction into a 4-bit string like "0110"
-        predicted_faults = predicted_bits.astype(str).tolist()
+        # Convert prediction indices to original string fault labels
+        fault_type_names = dict(enumerate(label_encoder.classes_))
+        predicted_faults = predicted_bits.argmax(axis=1)
 
+        # Create DataFrame with both numeric and string labels
+        df_predictions = pd.DataFrame({
+            "Fault Code": predicted_faults,
+            "Fault String": [fault_type_names[int(code)] for code in predicted_faults]
+        })
+
+        # Display in Streamlit
         st.subheader("🔍 Predicted Fault Types:")
-        st.write(pd.DataFrame(predicted_faults, columns=["Fault Code"]))
+        st.dataframe(df_predictions[["Fault Code", "Fault String"]])
 
-        # Download results button
-        result_df = pd.DataFrame(predicted_faults, columns=["Fault Code"])
-        st.download_button("📥 Download Results CSV", result_df.to_csv(index=False), "predictions.csv", "text/csv")
+        # Download button
+        st.download_button("📥 Download Results CSV", df_predictions.to_csv(index=False), "predictions.csv", "text/csv")
 
         # Optional: Hardcoded accuracy plot
         st.subheader("📊 Model Accuracy Comparison (from training script)")
