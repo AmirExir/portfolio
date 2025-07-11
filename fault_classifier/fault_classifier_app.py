@@ -36,7 +36,13 @@ if uploaded_file is not None:
             st.stop()
 
         X = df[feature_cols]
+                # 🔍 Debug: Show first few input rows
+        st.subheader("🔎 Input Features (Before Scaling)")
+        st.write(X.head())  # This is the same as print(X.head()) in Streamlit
         X_scaled = scaler.transform(X)
+        # 🔍 Optional: show scaled values too
+        st.subheader("📐 Input Features (After Scaling)")
+        st.write(pd.DataFrame(X_scaled, columns=feature_cols).head())
 
         # Predict
         predicted_faults = model.predict(X_scaled)
