@@ -76,6 +76,8 @@ joblib.dump(best_model, "fault_model.pkl")
 joblib.dump(scaler, "scaler.pkl")
 joblib.dump(label_encoder, "label_encoder.pkl")
 
+print("✅ Saved model, scaler, and label encoder to .pkl files")  # ← Add this here
+
 # ✅ Save model accuracy results to JSON for Streamlit
 import json
 with open("model_accuracies.json", "w") as f:
