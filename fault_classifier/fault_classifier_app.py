@@ -16,9 +16,9 @@ st.write("Upload a CSV with columns: `Ia`, `Ib`, `Ic`, `Va`, `Vb`, `Vc` — opti
 
 # Load model artifacts
 try:
-    model = joblib.load("fault_model.pkl")
-    scaler = joblib.load("scaler.pkl")
-    label_encoder = joblib.load("label_encoder.pkl")
+    model = joblib.load("fault_classifier/fault_model.pkl")
+    scaler = joblib.load("fault_classifier/scaler.pkl")
+    label_encoder = joblib.load("fault_classifier/label_encoder.pkl")
 
     st.subheader("🧠 Debug: Model & Label Info")
     if hasattr(model, "classes_"):
@@ -97,7 +97,7 @@ if uploaded_file is not None:
 
         # === COMPARISON PLOT: Prefold vs K-Fold ===
         try:
-            with open("model_accuracies_prefold.json", "r") as f1, open("model_accuracies.json", "r") as f2:
+            with open("fault_classifier/model_accuracies_prefold.json", "r") as f1, open("model_accuracies.json", "r") as f2:
                 pre_fold = json.load(f1)
                 post_fold = json.load(f2)
 
