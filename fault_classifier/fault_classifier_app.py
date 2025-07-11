@@ -27,7 +27,10 @@ if uploaded_file:
         df_features = df[features]
         scaled = scaler.transform(df_features)
         predictions = model.predict(scaled)
-        predicted_labels = label_encoder.inverse_transform(predictions)
+        predicted_bits = model.predict(X_scaled)
+        fault_strings = [''.join(map(str, row.astype(int))) for row in predicted_bits]
+        st.subheader("🔍 Predicted Fault Types:")
+        st.write(pd.DataFrame(fault_strings, columns=["Predicted Fault"]))
 
         st.subheader("🔍 Predicted Fault Types:")
         st.write(predicted_labels)
