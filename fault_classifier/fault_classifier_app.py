@@ -97,7 +97,7 @@ if uploaded_file is not None:
 
         # === COMPARISON PLOT: Prefold vs K-Fold ===
         try:
-            with open("fault_classifier/model_accuracies_prefold.json", "r") as f1, open("model_accuracies.json", "r") as f2:
+            with open("fault_classifier/model_accuracies_prefold.json", "r") as f1, open("fault_classifier/model_accuracies.json", "r") as f2:
                 pre_fold = json.load(f1)
                 post_fold = json.load(f2)
 
