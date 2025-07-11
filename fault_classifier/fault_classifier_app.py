@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
-from PIL import Image
 import numpy as np
+import json
 
 # Load model artifacts
 try:
@@ -53,9 +53,7 @@ if uploaded_file is not None:
         # Download button
         st.download_button("📥 Download Results CSV", df_predictions.to_csv(index=False), "predictions.csv", "text/csv")
 
-        # Optional: Static accuracy bar chart
-        # Optional: Load accuracy values dynamically
-        import json
+        # Accuracy chart (loaded from training)
         try:
             with open("model_accuracies.json", "r") as f:
                 model_accuracies = json.load(f)
@@ -67,12 +65,9 @@ if uploaded_file is not None:
             ax.set_ylabel("Accuracy")
             ax.set_title("Model Comparison: Fault Type Classification")
             st.pyplot(fig)
+
         except Exception as e:
-            st.warning(f"Could not load accuracy chart: {e}")
-        ax.set_ylim(0, 1)
-        ax.set_ylabel("Accuracy")
-        ax.set_title("Model Comparison: Fault Type Classification")
-        st.pyplot(fig)
+            st.warning(f"⚠️ Could not load accuracy chart: {e}")
 
     except Exception as e:
         st.error(f"Something went wrong: {e}")
