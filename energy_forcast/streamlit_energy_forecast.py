@@ -30,6 +30,7 @@ def load_data():
     df["lag_24"] = df["MW"].shift(24)
     df["lag_168"] = df["MW"].shift(168)
     df["rolling_24h_mean"] = df["MW"].rolling(24).mean()
+    df["rolling_168h_mean"] = df["MW"].rolling(168).mean()
 
     return df
 def forecast_n_hours(model, df, n_steps):
