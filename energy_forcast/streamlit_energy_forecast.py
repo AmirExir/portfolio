@@ -5,14 +5,23 @@ import numpy as np
 from xgboost import XGBRegressor, plot_importance
 from sklearn.metrics import mean_squared_error
 
+import os
+
 @st.cache_data
 def load_data():
-    df = pd.read_csv("AEP_hourly.csv", parse_dates=["Datetime"])
+    csv_path = os.path.join(os.path.dirname(__file__), "AEP_hourly.csv")
+    try:
+        df = pd.read_csv(csv_path, parse_dates=["Datetime"])
+    except FileNotFoundError:
+        st.error("❌ AEP_hourly.csv not found! Make sure it's in the same folder as the Streamlit app.")
+        st.stop()
+
     df.columns = ["Datetime", "MW"]
     df = df.sort_values("Datetime")
     df.set_index("Datetime", inplace=True)
-    df["MW"] = df["MW"].interpolate(method='time')
+    df["MW"] = df["MW"].interpolate(method="time")
     
+    # Your features...
     df["hour"] = df.index.hour
     df["dayofweek"] = df.index.dayofweek
     df["month"] = df.index.month
@@ -21,9 +30,8 @@ def load_data():
     df["lag_24"] = df["MW"].shift(24)
     df["lag_168"] = df["MW"].shift(168)
     df["rolling_24h_mean"] = df["MW"].rolling(24).mean()
-    df["rolling_168h_mean"] = df["MW"].rolling(168).mean()
-    return df.dropna()
 
+    return df
 def forecast_n_hours(model, df, n_steps):
     last_row = df.iloc[-1].copy()
     future_preds, future_index = [], []
