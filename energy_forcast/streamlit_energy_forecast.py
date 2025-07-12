@@ -54,7 +54,7 @@ def forecast_n_hours(model, df, n_steps):
     return pd.DataFrame({"Datetime": future_index, "Predicted_MW": future_preds})
 
 
-st.title("🔮 Hourly Load Forecasting App (AEP / PJM)")
+st.title("🔮 Hourly Load Forecasting App (AEP / PJM) by Amir Exir")
 
 df = load_data()
 st.subheader("📊 Historical Load (last 7 days)")
