@@ -3,7 +3,7 @@
 import streamlit as st
 
 # ✅ THIS MUST BE FIRST Streamlit command
-st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
+st.set_page_config(page_title="ASK Amir Exir ERCOT AI Assistant", page_icon="⚡")
 
 import json
 import numpy as np
@@ -32,7 +32,7 @@ def get_top_k_matches(query, k=5):
     query_embedding = model.encode([query])
     similarities = cosine_similarity(query_embedding, embeddings)[0]
     top_k_idx = np.argsort(similarities)[::-1][:k]
-    return [(chunks[i]["text"], similarities[i]) for i in top_k_idx]
+    return [(chunks[i]["content"], similarities[i]) for i in top_k_idx]  # ✅ fixed "text" → "content"
 
 # === Streamlit UI ===
 st.title("⚡ Ask ERCOT Assistant")
