@@ -25,7 +25,7 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
 
 # === Streamlit page config ===
 st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
-st.title("⚡ Ask Amir Exir Nodal Protocols, Planning Guide, Resource Integration ERCOT AI Assistant")
+st.title("⚡ Ask Amir Exir's Nodal Protocols, Planning Guide, Resource Integration ERCOT AI Assistant")
 
 # === Load API key ===
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
