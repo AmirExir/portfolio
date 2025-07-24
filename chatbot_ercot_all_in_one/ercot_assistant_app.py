@@ -133,7 +133,7 @@ Use the following {len(trimmed_chunks)} document chunks to answer technical or p
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=messages,
-            max_tokens=2048
+            max_tokens=2048,
             temperature= 0.0
         )
 
