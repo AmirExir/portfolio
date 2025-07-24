@@ -35,9 +35,9 @@ if prompt := st.chat_input("Ask Amir Exir's AI assistan about ERCOT interconnect
 
     with st.spinner("Thinking..."):
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=st.session_state.messages,
-            max_tokens=1024
+            max_tokens=4096,
         )
 
     bot_msg = response.choices[0].message.content
