@@ -134,6 +134,7 @@ Use the following {len(trimmed_chunks)} document chunks to answer technical or p
             model="gpt-4o",
             messages=messages,
             max_tokens=2048
+            temperature= 0.0
         )
 
         bot_msg = response.choices[0].message.content
