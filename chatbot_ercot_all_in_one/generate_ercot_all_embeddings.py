@@ -8,7 +8,7 @@ from openai import OpenAI
 source_dir = "ercot_sources"
 chunk_output_file = "ercot_chunks_cached.json"
 embedding_output_file = "ercot_embeddings.npy"
-chunk_size = 800
+chunk_size = 3000
 embedding_model = "text-embedding-3-large"
 
 # === Step 1: Load and chunk all ERCOT .txt files ===
