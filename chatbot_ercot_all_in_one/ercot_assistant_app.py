@@ -48,6 +48,17 @@ def load_ercot_chunks_and_embeddings():
 
 chunks, embeddings = load_ercot_chunks_and_embeddings()
 
+# Show file info
+base_path = os.path.dirname(__file__)
+json_path = os.path.join(base_path, "ercot_chunks_cached.json")
+npy_path = os.path.join(base_path, "ercot_embeddings.npy")
+
+json_size = os.path.getsize(json_path) / (1024 * 1024)  # in MB
+npy_size = os.path.getsize(npy_path) / (1024 * 1024)    # in MB
+
+st.success(f"✅ Loaded embeddings from: `{npy_path}` ({npy_size:.1f} MB)")
+st.success(f"✅ Loaded chunks from: `{json_path}` ({json_size:.1f} MB)")
+st.info(f"🔢 Embedding shape: `{embeddings.shape}`, Total chunks: `{len(chunks)}`")
 # === Embed user query ===
 def embed_query(query: str):
     response = safe_openai_call(
