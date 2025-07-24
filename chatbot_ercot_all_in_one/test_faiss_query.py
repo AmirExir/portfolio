@@ -1,33 +1,43 @@
 import os
 import pickle
-import numpy as np
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import OpenAIEmbeddings
 from openai import OpenAI
-from langchain.vectorstores import FAISS
-from langchain.embeddings.openai import OpenAIEmbeddings
 
-# ✅ Load OpenAI key
+# Set OpenAI API key from environment
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# ✅ Path to FAISS + pickle
+# Set the path to the FAISS index directory
 INDEX_DIR = "ercot_combined_index"
-FAISS_INDEX_PATH = os.path.join(INDEX_DIR, "index.faiss")
 PKL_METADATA_PATH = os.path.join(INDEX_DIR, "index.pkl")
 
-# ✅ Load FAISS index
+# Load metadata stored with the FAISS index
 with open(PKL_METADATA_PATH, "rb") as f:
     stored_data = pickle.load(f)
 
-embedding_model = OpenAIEmbeddings(model="text-embedding-3-large", openai_api_key=os.getenv("OPENAI_API_KEY"))
-faiss_index = FAISS.load_local(INDEX_DIR, embeddings=embedding_model, index_name="index")
+# Load the embedding model
+embedding_model = OpenAIEmbeddings(
+    model="text-embedding-3-large",
+    openai_api_key=os.getenv("OPENAI_API_KEY")
+)
 
-# ✅ Query input
-query = input("🔍 Enter your ERCOT question: ")
+# Load the FAISS index with embedded chunks and allow pickle deserialization
+faiss_index = FAISS.load_local(
+    INDEX_DIR,
+    embeddings=embedding_model,
+    index_name="index",
+    allow_dangerous_deserialization=True
+)
 
-# ✅ Search top 5 matches
+# Prompt user for a query
+query = input("🧠 Enter your ERCOT question: ")
+
+# Search the index (top 5 matches)
 results = faiss_index.similarity_search(query, k=5)
 
-print("\n📌 Top 5 relevant chunks:\n" + "-"*60)
+# Display results
+print("\n🔎 Top 5 results:\n" + "="*60)
 for i, doc in enumerate(results, 1):
-    print(f"\n#{i} — Source: {doc.metadata.get('source', 'unknown')} | Chunk ID: {doc.metadata.get('chunk_id', 'N/A')}")
-    print(doc.page_content[:1000])  # limit output
+    print(f"\n[{i}] 📄 Source: {doc.metadata.get('source', 'unknown')} | 🧩 Chunk ID: {doc.metadata.get('chunk_id', 'N/A')}")
+    print(doc.page_content[:1000])  # Print up to 1000 characters
     print("-"*60)
