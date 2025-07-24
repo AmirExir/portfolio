@@ -3,4 +3,4 @@ langchain
 langchain-community
 openai
 tiktoken
-faiss-cpu
+scikit-learn
