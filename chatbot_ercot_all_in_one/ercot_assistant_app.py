@@ -1,6 +1,10 @@
 # ercot_assistant_app.py
 
 import streamlit as st
+
+# ✅ THIS MUST BE FIRST Streamlit command
+st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
+
 import json
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -31,7 +35,6 @@ def get_top_k_matches(query, k=5):
     return [(chunks[i]["text"], similarities[i]) for i in top_k_idx]
 
 # === Streamlit UI ===
-st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
 st.title("⚡ Ask ERCOT Assistant")
 
 query = st.text_input("Ask your ERCOT-related question:")
