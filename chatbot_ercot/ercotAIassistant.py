@@ -53,7 +53,7 @@ def load_ercot_chunks_and_embeddings():
 # Embed the user query
 def embed_query(query: str) -> List[float]:
     response = client.embeddings.create(
-        model="text-embedding-3-small",
+        model="text-embedding-3-large",
         input=query
     )
     return response.data[0].embedding
