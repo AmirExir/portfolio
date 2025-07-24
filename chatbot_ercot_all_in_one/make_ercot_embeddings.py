@@ -6,7 +6,7 @@ from sentence_transformers import SentenceTransformer
 with open("chunks.json", "r") as f:
     chunks = json.load(f)
 
-with open("chatbot_ercot_all_in_one/ercot_chunks_cached.json", "w") as f:
+with open("ercot_chunks_cached.json", "w") as f:
     json.dump(chunks, f)
 
 print("✅ Step 1: ercot_chunks_cached.json created.")
