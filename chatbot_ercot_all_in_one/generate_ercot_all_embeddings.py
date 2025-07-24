@@ -1,57 +1,30 @@
 import os
 import json
-import numpy as np
-from openai import OpenAI
-from typing import List
-import time
 
-# === Step 1: Load ERCOT document chunks ===
-with open("ercot_combined_chunks.json", "r", encoding="utf-8") as f:
-    chunks = json.load(f)
+source_dir = "ercot_sources"
+output_file = "ercot_combined_chunks.json"
 
-# === Step 2: Initialize OpenAI client ===
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# How many characters per chunk
+CHUNK_SIZE = 800
 
-# === Step 3: Retry-safe OpenAI embedding call ===
-def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
-    retries = 0
-    while retries < max_retries:
-        try:
-            return api_function(**kwargs)
-        except Exception as e:
-            wait_time = backoff_factor ** retries
-            print(f"⚠️ Error: {e} — Retrying in {wait_time} seconds...")
-            time.sleep(wait_time)
-            retries += 1
-    return None
+chunks = []
+for filename in os.listdir(source_dir):
+    if filename.endswith(".txt"):
+        filepath = os.path.join(source_dir, filename)
+        with open(filepath, "r", encoding="utf-8") as f:
+            text = f.read()
+            source = filename.replace(".txt", "")
+            for i in range(0, len(text), CHUNK_SIZE):
+                chunk_text = text[i:i+CHUNK_SIZE].strip()
+                if chunk_text:
+                    chunks.append({
+                        "text": chunk_text,
+                        "source": source,
+                        "chunk_index": i // CHUNK_SIZE
+                    })
 
-# === Step 4: Compute embeddings ===
-embeddings = []
-embedding_model = "text-embedding-3-large"
+# Save to disk
+with open(output_file, "w", encoding="utf-8") as f:
+    json.dump(chunks, f, indent=2)
 
-for i, chunk in enumerate(chunks):
-    text = chunk["text"][:8192]  # limit to token size
-    response = safe_openai_call(
-        client.embeddings.create,
-        model=embedding_model,
-        input=text
-    )
-    if response and response.data:
-        embeddings.append(response.data[0].embedding)
-    else:
-        print(f"❌ Skipped chunk {chunk.get('id', i)} due to error")
-        embeddings.append(None)
-
-# === Step 5: Filter out failed embeddings ===
-valid_data = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
-if not valid_data:
-    raise RuntimeError("No valid embeddings generated.")
-
-final_chunks, final_embeddings = zip(*valid_data)
-
-# === Step 6: Save to disk ===
-np.save("ercot_embeddings.npy", np.array(final_embeddings))
-with open("ercot_chunks_cached.json", "w", encoding="utf-8") as f:
-    json.dump(final_chunks, f, indent=2)
-
-print("✅ Embeddings and chunks saved!")
+print(f"✅ Chunked {len(chunks)} sections into {output_file}")
