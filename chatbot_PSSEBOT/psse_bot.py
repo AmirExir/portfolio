@@ -186,7 +186,7 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
             model="gpt-4o",
             messages=messages,
             max_tokens=2048
-            temperature=0.0
+            temperature=0.2
         )
 
         bot_msg = response.choices[0].message.content
