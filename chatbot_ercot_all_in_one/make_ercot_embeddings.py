@@ -17,6 +17,6 @@ texts = [chunk["content"] for chunk in chunks]
 embeddings = model.encode(texts, show_progress_bar=True)
 
 # === Step 3: Save embeddings to .npy file ===
-np.save("chatbot_ercot_all_in_one/ercot_embeddings.npy", embeddings)
+np.save("ercot_embeddings.npy", embeddings)
 print(f"✅ Step 2: Total embeddings created: {len(embeddings)}")
 print("✅ Step 3: Embeddings saved to ercot_embeddings.npy")
