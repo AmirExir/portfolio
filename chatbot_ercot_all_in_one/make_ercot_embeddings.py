@@ -2,19 +2,21 @@ import json
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-# Load cached chunks
-with open("ercot_chunks_cached.json", "r") as f:
+# === Step 1: Load from chunks.json and write to ercot_chunks_cached.json ===
+with open("chunks.json", "r") as f:
     chunks = json.load(f)
 
-# Load model
-model = SentenceTransformer("all-MiniLM-L6-v2")
+with open("chatbot_ercot_all_in_one/ercot_chunks_cached.json", "w") as f:
+    json.dump(chunks, f)
 
-# Create embeddings
+print("✅ Step 1: ercot_chunks_cached.json created.")
+
+# === Step 2: Generate Embeddings ===
+model = SentenceTransformer("all-MiniLM-L6-v2")
 texts = [chunk["content"] for chunk in chunks]
 embeddings = model.encode(texts, show_progress_bar=True)
 
-# Save to file
-np.save("ercot_embeddings.npy", embeddings)
-
-print(f"🔢 Total embeddings created: {len(embeddings)}")
-print("✅ Done: Embeddings saved to ercot_embeddings.npy")
+# === Step 3: Save embeddings to .npy file ===
+np.save("chatbot_ercot_all_in_one/ercot_embeddings.npy", embeddings)
+print(f"✅ Step 2: Total embeddings created: {len(embeddings)}")
+print("✅ Step 3: Embeddings saved to ercot_embeddings.npy")
