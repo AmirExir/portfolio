@@ -25,7 +25,7 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
 
 # === Streamlit page config ===
 st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
-st.title("⚡ Ask Amir Exir's DWG, SSWG, Nodal Protocols, Planning Guide, Resource Integration ERCOT AI Assistant")
+st.title("⚡ Ask Amir Exir's DWG, SSWG, Nodal Protocols, Planning Guides, Resource Integration ERCOT AI Assistant")
 
 # === Load API key ===
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -106,7 +106,7 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
 # === Chat input ===
-if prompt := st.chat_input("Ask a question about ERCOT protocols, planning, or interconnection..."):
+if prompt := st.chat_input("Ask a question about ERCOT DWG, SSWG,protocols, planning, or interconnection..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
