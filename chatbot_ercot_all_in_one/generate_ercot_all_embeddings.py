@@ -1,45 +1,57 @@
 import os
 import json
-import pickle
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores import FAISS
-from langchain.docstore.document import Document
+import numpy as np
+from openai import OpenAI
+from typing import List
+import time
 
-import os
-print("🔑 OPENAI_API_KEY is:", os.getenv("OPENAI_API_KEY"))
-# Step 1: Load all .txt files from a folder
-TEXT_FOLDER = "ercot_sources"  # Change this if your files are in a subfolder
-CHUNK_SIZE = 800
-CHUNK_OVERLAP = 100
+# Load your ERCOT document chunks (adjust the file if needed)
+with open("ercot_combined_chunks.json", "r", encoding="utf-8") as f:
+    chunks = json.load(f)
 
-# Step 2: Chunk the content
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP)
+# Initialize OpenAI
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-all_documents = []
-for filename in os.listdir(TEXT_FOLDER):
-    if filename.endswith(".txt"):
-        filepath = os.path.join(TEXT_FOLDER, filename)
-        with open(filepath, "r", encoding="utf-8") as f:
-            raw_text = f.read()
-        base_name = os.path.splitext(filename)[0]
-        chunks = text_splitter.split_text(raw_text)
-        for i, chunk in enumerate(chunks):
-            metadata = {"source": base_name, "chunk_id": i}
-            all_documents.append(Document(page_content=chunk, metadata=metadata))
+# Retry-safe OpenAI embedding call
+def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
+    retries = 0
+    while retries < max_retries:
+        try:
+            return api_function(**kwargs)
+        except Exception as e:
+            wait_time = backoff_factor ** retries
+            print(f"⚠️ Error: {e} — Retrying in {wait_time} seconds...")
+            time.sleep(wait_time)
+            retries += 1
+    return None
 
-# Optional: Save chunks to JSON
-json_chunks = [{"content": doc.page_content, "metadata": doc.metadata} for doc in all_documents]
-with open("chunks.json", "w", encoding="utf-8") as f:
-    json.dump(json_chunks, f, indent=2)
+# Compute embeddings
+embeddings = []
+embedding_model = "text-embedding-3-large"  # or "text-embedding-3-small"
 
-# Step 3: Generate and save embeddings
-embedding_model = OpenAIEmbeddings()
-vectorstore = FAISS.from_documents(all_documents, embedding_model)
-vectorstore.save_local("ercot_combined_index")
+for chunk in chunks:
+    text = chunk["text"][:8192]  # token limit
+    response = safe_openai_call(
+        client.embeddings.create,
+        model=embedding_model,
+        input=text
+    )
+    if response and response.data:
+        embeddings.append(response.data[0].embedding)
+    else:
+        print(f"❌ Skipped chunk {chunk.get('id')} due to error")
+        embeddings.append(None)
 
-# Also save as pickle (optional)
-with open("embeddings.pkl", "wb") as f:
-    pickle.dump(vectorstore, f)
+# Filter out any failed embeddings
+valid_data = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
+if not valid_data:
+    raise RuntimeError("No valid embeddings generated.")
 
-print(f"✅ {len(all_documents)} chunks embedded and saved!")
+final_chunks, final_embeddings = zip(*valid_data)
+
+# Save to disk
+np.save("ercot_embeddings.npy", np.array(final_embeddings))
+with open("ercot_chunks_cached.json", "w", encoding="utf-8") as f:
+    json.dump(final_chunks, f, indent=2)
+
+print("✅ Embeddings and chunks saved!")
