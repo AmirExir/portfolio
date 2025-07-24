@@ -48,6 +48,7 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
 embeddings = []
 for i, chunk in enumerate(chunks):
     text = chunk["text"][:8192]
+    print(f"🔄 Processing chunk {i+1}/{len(chunks)}")
     response = safe_openai_call(
         client.embeddings.create,
         model=embedding_model,
@@ -55,6 +56,7 @@ for i, chunk in enumerate(chunks):
     )
     if response and response.data:
         embeddings.append(response.data[0].embedding)
+        print(f"✅ Chunk {i+1} embedded")
     else:
         print(f"❌ Skipped chunk {i} due to error")
         embeddings.append(None)
