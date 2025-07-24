@@ -15,7 +15,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 @st.cache_data(show_spinner=False)
 def load_ercot_chunks_and_embeddings():
     from openai import OpenAI
-    embedding_model = "text-embedding-3-small"
+    embedding_model = "text-embedding-3-large"
 
     chunks = []
     embeddings = []
@@ -110,9 +110,9 @@ Instructions:
         messages = [system_prompt] + st.session_state.messages
 
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=messages,
-            max_tokens=1024
+            max_tokens=10000
         )
 
         bot_msg = response.choices[0].message.content
