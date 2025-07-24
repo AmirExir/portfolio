@@ -17,7 +17,7 @@ with open(PKL_METADATA_PATH, "rb") as f:
 
 # Load the embedding model
 embedding_model = OpenAIEmbeddings(
-    model="text-embedding-3-large",
+    model="text-embedding-ada-002",
     openai_api_key=os.getenv("OPENAI_API_KEY")
 )
 
