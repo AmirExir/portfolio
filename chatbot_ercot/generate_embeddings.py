@@ -1,8 +1,10 @@
 import os
+import json
 import time
-from openai import OpenAI
 from dotenv import load_dotenv
-from openai.error import APIConnectionError, RateLimitError, OpenAIError
+from openai import OpenAI
+from openai.types import APIError
+from openai._exceptions import APIConnectionError, RateLimitError
 from utils import split_text_into_chunks, save_embeddings
 
 # Load API key from .env
@@ -42,8 +44,8 @@ def get_embedding_with_retry(text, retries=5, delay=5):
             print(f"Connection error on attempt {attempt + 1}: {e}")
         except RateLimitError as e:
             print(f"Rate limit error on attempt {attempt + 1}: {e}")
-        except OpenAIError as e:
-            print(f"OpenAI error on attempt {attempt + 1}: {e}")
+        except APIError as e:
+            print(f"OpenAI API error on attempt {attempt + 1}: {e}")
             break
         time.sleep(delay * (2 ** attempt))
     return None
