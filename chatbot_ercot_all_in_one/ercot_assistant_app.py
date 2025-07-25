@@ -136,7 +136,7 @@ if prompt := st.chat_input("Ask a question about ERCOT DWG, SSWG,protocols, plan
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=messages,
-            max_tokens=30000,
+            max_tokens=10000,
             temperature=0
         )
 
