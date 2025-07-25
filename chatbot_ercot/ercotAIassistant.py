@@ -1,54 +1,27 @@
 import streamlit as st
 import os
-import openai
 import json
-import glob
+import numpy as np
 from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 from typing import List
-import numpy as np
 
 # Set up OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Load or compute embeddings
+# Load precomputed chunks and embeddings
 @st.cache_data(show_spinner=False)
 def load_ercot_chunks_and_embeddings():
-    from openai import OpenAI
-    embedding_model = "text-embedding-3-large"
+    chunks_path = "ercot_planning_chunks.json"
+    embeddings_path = "ercot_planning_embeddings.npy"
 
-    chunks = []
-    embeddings = []
+    if not os.path.exists(chunks_path) or not os.path.exists(embeddings_path):
+        raise FileNotFoundError("Embeddings or chunks file not found. Please run generate_embeddings.py first.")
 
-    st.write("🔍 Available ERCOT text files:")
-    st.write(sorted(glob.glob("chatbot_ercot/ercot_planning_part*.txt")))
-
-    for filepath in sorted(glob.glob("chatbot_ercot/ercot_planning_part*.txt")):
-        with open(filepath, "r", encoding="utf-8") as f:
-            text = f.read()
-            chunks.append({"filename": filepath, "text": text})
-    for chunk in chunks:
-        try:
-            response = client.embeddings.create(
-                model=embedding_model,
-                input=chunk["text"][:8192]
-            )
-            embeddings.append(response.data[0].embedding)
-        except Exception as e:
-            st.warning(f"Embedding failed for {chunk['filename']}: {e}")
-            print(f"ERROR for {chunk['filename']}: {e}")
-            embeddings.append(None)
-
-    # Clean up bad embeddings
-    valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
-
-    if not valid_pairs:
-        st.warning("⚠️ No embeddings succeeded. Check file contents or OpenAI key.")
-        raise ValueError("No valid embeddings were generated. Please check the input files.")
-
-    chunks, embeddings = zip(*valid_pairs)
-    embeddings = np.array(embeddings)
-    return list(chunks), embeddings
+    with open(chunks_path, "r", encoding="utf-8") as f:
+        chunks = json.load(f)
+    embeddings = np.load(embeddings_path)
+    return chunks, embeddings
 
 # Embed the user query
 def embed_query(query: str) -> List[float]:
@@ -61,7 +34,7 @@ def embed_query(query: str) -> List[float]:
 # Find best matching chunk
 def find_best_match(query: str, chunks, embeddings):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity(query_embedding.reshape(1, -1), embeddings).flatten()
+    scores = cosine_similarity(query_embedding, embeddings).flatten()
     best_idx = int(np.argmax(scores))
     return chunks[best_idx]
 
@@ -70,14 +43,14 @@ st.set_page_config(page_title="Amir Exir's ERCOT Planning Guides AI Assistant", 
 st.title("⚡ Ask Amir Exir's ERCOT Planning Guides AI Assistant")
 
 # Load data and embeddings once
-with st.spinner("Loading planning guides and computing embeddings..."):
+with st.spinner("Loading planning guide embeddings..."):
     chunks, embeddings = load_ercot_chunks_and_embeddings()
 
 # Initialize chat
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Show past messages
+# Show chat history
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
@@ -96,14 +69,14 @@ You are an expert assistant on ERCOT's planning guides.
 Only use the following documentation to answer the question:
 
 ---
-Filename: {best_chunk['filename']}
+Filename: {best_chunk['source']}
 
 {best_chunk['text']}
 ---
 Instructions:
 - Stay factual and grounded strictly in the provided content.
 - If the answer is not explicitly found in the document, respond: "I couldn’t find that in the documentation."
-- Do NOT guess, assume, or rely on outside knowledge..
+- Do NOT guess, assume, or rely on outside knowledge.
 """
         }
 
@@ -112,7 +85,7 @@ Instructions:
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=messages,
-            max_tokens=10000
+            max_tokens=1000
         )
 
         bot_msg = response.choices[0].message.content
