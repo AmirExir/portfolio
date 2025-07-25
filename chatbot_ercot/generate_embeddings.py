@@ -1,18 +1,14 @@
 import os
-import time
 import json
-import tiktoken
+import time
 from openai import OpenAI
 from dotenv import load_dotenv
 from utils import split_text_into_chunks, save_embeddings
+import openai.error
 
-# Load environment variables from .env file
+# Load API key from .env
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
-if not api_key:
-    raise ValueError("OPENAI_API_KEY not set in .env file.")
-
-# Initialize OpenAI client
 client = OpenAI(api_key=api_key)
 
 # File paths
@@ -24,10 +20,6 @@ input_files = [
 output_json = "ercot_planning_chunks.json"
 output_embeddings = "ercot_planning_embeddings.npy"
 
-# Tokenizer for safety
-encoding = tiktoken.encoding_for_model("text-embedding-3-large")
-max_tokens = 8191  # model limit
-
 # Read and split text
 chunks = []
 for file in input_files:
@@ -38,34 +30,35 @@ for file in input_files:
 
 print(f"Total chunks to embed: {len(chunks)}")
 
-# Generate embeddings
-embeddings = []
-for i, chunk in enumerate(chunks):
-    text = chunk["text"]
-    num_tokens = len(encoding.encode(text))
-    if num_tokens > max_tokens:
-        print(f"Chunk {i} too long ({num_tokens} tokens), skipping.")
-        continue
-
-    print(f"Embedding chunk {i + 1}/{len(chunks)} ({num_tokens} tokens)...")
-
-    for attempt in range(3):  # Retry logic
+# Retry logic
+def get_embedding_with_retry(text, retries=5, delay=5):
+    for attempt in range(retries):
         try:
             response = client.embeddings.create(
                 model="text-embedding-3-large",
                 input=text
             )
-            embeddings.append(response.data[0].embedding)
+            return response.data[0].embedding
+        except openai.APIConnectionError as e:
+            print(f"Connection error on attempt {attempt + 1}: {e}")
+        except openai.RateLimitError as e:
+            print(f"Rate limit error on attempt {attempt + 1}: {e}")
+        except openai.OpenAIError as e:
+            print(f"OpenAI error on attempt {attempt + 1}: {e}")
             break
-        except Exception as e:
-            print(f"Error on chunk {i}: {e}")
-            if attempt < 2:
-                print("Retrying in 5 seconds...")
-                time.sleep(5)
-            else:
-                print("Failed after 3 attempts. Skipping.")
-                embeddings.append([0.0] * 3072)  # Filler vector to maintain length match
+        time.sleep(delay * (2 ** attempt))
+    return None
 
-# Save results
+# Generate embeddings
+embeddings = []
+for i, chunk in enumerate(chunks):
+    print(f"Embedding chunk {i+1}/{len(chunks)} ({len(chunk['text'].split())} tokens)...")
+    embedding = get_embedding_with_retry(chunk["text"])
+    if embedding:
+        embeddings.append(embedding)
+    else:
+        print(f"❌ Failed to embed chunk {i+1}. Skipping.")
+
+# Save to disk
 save_embeddings(chunks, embeddings, output_json, output_embeddings)
 print(f"✅ Saved {len(embeddings)} embeddings to disk.")
