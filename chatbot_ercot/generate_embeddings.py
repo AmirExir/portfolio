@@ -4,7 +4,7 @@ import time
 from openai import OpenAI
 from dotenv import load_dotenv
 from utils import split_text_into_chunks, save_embeddings
-import openai.error
+from openai import APIConnectionError, RateLimitError, OpenAIError
 
 # Load API key from .env
 load_dotenv()
