@@ -12,10 +12,10 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Load precomputed chunks and embeddings
 @st.cache_data(show_spinner=False)
 def load_ercot_chunks_and_embeddings():
-    chunk_path = "ercot_planning_chunks.json"
-    embed_path = "ercot_planning_embeddings.npy"
+    chunks_path = "chatbot_ercot/ercot_planning_chunks.json"
+    embeddings_path = "chatbot_ercot/ercot_planning_embeddings.npy"
 
-    if not os.path.exists(chunk_path) or not os.path.exists(embed_path):
+    if not os.path.exists(chunks_path) or not os.path.exists(embeddings_path):
         raise FileNotFoundError("Embeddings or chunks file not found. Please run generate_embeddings.py first.")
 
     with open(chunk_path, "r", encoding="utf-8") as f:
