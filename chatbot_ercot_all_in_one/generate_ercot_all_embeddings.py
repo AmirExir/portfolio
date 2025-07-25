@@ -2,30 +2,56 @@ import os
 import json
 import numpy as np
 import time
+import re
 from openai import OpenAI
 
 # === Setup ===
 source_dir = "ercot_sources"
 chunk_output_file = "ercot_chunks_cached.json"
 embedding_output_file = "ercot_embeddings.npy"
-chunk_size = 3000
+chunk_size = 8000  # character-based for now (not token)
+chunk_overlap = 500
 embedding_model = "text-embedding-3-large"
 
-# === Step 1: Load and chunk all ERCOT .txt files ===
+# === Step 1: Load and paragraph-aware chunk all ERCOT .txt files ===
 chunks = []
+
+def chunk_paragraphs(text, chunk_size, overlap):
+    paragraphs = re.split(r"\n\s*\n", text)  # split on empty lines
+    current_chunk = ""
+    result_chunks = []
+    for para in paragraphs:
+        para = para.strip()
+        if not para:
+            continue
+        if len(current_chunk) + len(para) + 2 <= chunk_size:
+            current_chunk += para + "\n\n"
+        else:
+            result_chunks.append(current_chunk.strip())
+            current_chunk = para + "\n\n"
+    if current_chunk:
+        result_chunks.append(current_chunk.strip())
+    
+    # Add overlap
+    final_chunks = []
+    for i, chunk in enumerate(result_chunks):
+        overlap_text = result_chunks[i - 1][-overlap:] if i > 0 else ""
+        combined = (overlap_text + "\n" + chunk).strip()
+        final_chunks.append(combined)
+    return final_chunks
+
 for filename in os.listdir(source_dir):
     if filename.endswith(".txt"):
         filepath = os.path.join(source_dir, filename)
         with open(filepath, "r", encoding="utf-8") as f:
             text = f.read()
-            for i in range(0, len(text), chunk_size):
-                chunk_text = text[i:i+chunk_size].strip()
-                if chunk_text:
-                    chunks.append({
-                        "text": chunk_text,
-                        "source": filename,
-                        "chunk_index": i // chunk_size
-                    })
+            chunk_texts = chunk_paragraphs(text, chunk_size, chunk_overlap)
+            for idx, chunk_text in enumerate(chunk_texts):
+                chunks.append({
+                    "text": chunk_text,
+                    "source": filename,
+                    "chunk_index": idx
+                })
 
 print(f"✅ Loaded and chunked {len(chunks)} chunks from {len(os.listdir(source_dir))} files.")
 
@@ -47,7 +73,7 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
 # === Step 3: Compute embeddings ===
 embeddings = []
 for i, chunk in enumerate(chunks):
-    text = chunk["text"][:8192]
+    text = chunk["text"][:8192]  # API limit
     print(f"🔄 Processing chunk {i+1}/{len(chunks)}")
     response = safe_openai_call(
         client.embeddings.create,
@@ -58,7 +84,7 @@ for i, chunk in enumerate(chunks):
         embeddings.append(response.data[0].embedding)
         print(f"✅ Chunk {i+1} embedded")
     else:
-        print(f"❌ Skipped chunk {i} due to error")
+        print(f"❌ Skipped chunk {i+1} due to error")
         embeddings.append(None)
 
 # === Step 4: Filter out failed ===
