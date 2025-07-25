@@ -12,15 +12,16 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Load precomputed chunks and embeddings
 @st.cache_data(show_spinner=False)
 def load_ercot_chunks_and_embeddings():
-    chunks_path = "ercot_planning_chunks.json"
-    embeddings_path = "ercot_planning_embeddings.npy"
+    chunk_path = "ercot_planning_chunks.json"
+    embed_path = "ercot_planning_embeddings.npy"
 
-    if not os.path.exists(chunks_path) or not os.path.exists(embeddings_path):
+    if not os.path.exists(chunk_path) or not os.path.exists(embed_path):
         raise FileNotFoundError("Embeddings or chunks file not found. Please run generate_embeddings.py first.")
 
-    with open(chunks_path, "r", encoding="utf-8") as f:
+    with open(chunk_path, "r", encoding="utf-8") as f:
         chunks = json.load(f)
-    embeddings = np.load(embeddings_path)
+    embeddings = np.load(embed_path)
+
     return chunks, embeddings
 
 # Embed the user query
