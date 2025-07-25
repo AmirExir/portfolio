@@ -2,7 +2,7 @@ import openai
 import numpy as np
 import json
 
-openai.api_key = "YOUR_OPENAI_API_KEY"
+openai.api_key = "OPENAI_API_KEY"
 
 # Load JSON file with chunks
 with open("ercot_planning_chunks.json", "r", encoding="utf-8") as f:
