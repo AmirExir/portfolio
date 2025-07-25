@@ -16,11 +16,11 @@ def load_ercot_chunks_and_embeddings():
     embeddings_path = "chatbot_ercot/ercot_planning_embeddings.npy"
 
     if not os.path.exists(chunks_path) or not os.path.exists(embeddings_path):
-        raise FileNotFoundError("Embeddings or chunks file not found. Please run generate_embeddings.py first.")
+        raise FileNotFoundError("Embeddings or chunks file not found.")
 
-    with open(chunk_path, "r", encoding="utf-8") as f:
+    with open(chunks_path, "r", encoding="utf-8") as f:
         chunks = json.load(f)
-    embeddings = np.load(embed_path)
+    embeddings = np.load(embeddings_path)
 
     return chunks, embeddings
 
