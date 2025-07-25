@@ -111,7 +111,7 @@ if prompt := st.chat_input("Ask a question about ERCOT DWG, SSWG,protocols, plan
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=10)
+        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=30)
         trimmed_chunks = limit_chunks_by_token_budget(top_chunks)
         combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in trimmed_chunks)
 
@@ -136,7 +136,7 @@ if prompt := st.chat_input("Ask a question about ERCOT DWG, SSWG,protocols, plan
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=messages,
-            max_tokens=10000,
+            max_tokens=2048,
             temperature=0.5
         )
 
