@@ -111,21 +111,24 @@ if prompt := st.chat_input("Ask a question about ERCOT DWG, SSWG,protocols, plan
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=30)
+        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=10)
         trimmed_chunks = limit_chunks_by_token_budget(top_chunks)
         combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in trimmed_chunks)
 
         system_prompt = {
             "role": "system",
             "content": f"""
-You are an ERCOT regulatory expert and assistant trained on ERCOT planning guides, protocols, and interconnection documents. 
+        You are an ERCOT regulatory expert trained only on the following documents: protocols, planning guides, interconnection manuals, and working group procedures.
 
-Use the following {len(trimmed_chunks)} document chunks to answer technical or policy questions. Do not make anything up. Respond using actual language and logic from the chunks below.
+        Answer the user's question **only using the text provided below**. 
+        - Do **not make up any information**.
+        - If the answer is **not explicitly stated**, say: "The documents do not contain that information."
+        - **Do not guess** or generate hypothetical information.
 
----
-{combined_context}
----
-            """
+        ---
+        {combined_context}
+        ---
+        """
         }
 
         messages = [system_prompt] + st.session_state.messages
@@ -133,8 +136,8 @@ Use the following {len(trimmed_chunks)} document chunks to answer technical or p
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=messages,
-            max_tokens=2048,
-            temperature= 0.0
+            max_tokens=30000,
+            temperature=0
         )
 
         bot_msg = response.choices[0].message.content
