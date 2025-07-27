@@ -3,7 +3,7 @@ from tkinter import ttk, messagebox
 import pandas as pd
 
 # Load conductor impedance and rating data from CSV
-impedance_df = pd.read_csv("Impedance_estimator.csv")  # CSV must contain 'kV', 'Type', 'Circuit', 'R', 'X', 'B', 'Rate1', ...
+impedance_df = pd.read_csv("_Line Impedance Estimator.csv")  # CSV must contain 'kV', 'Type', 'Circuit', 'R', 'X', 'B', 'Rate1', ...
 
 # GUI setup
 root = tk.Tk()
