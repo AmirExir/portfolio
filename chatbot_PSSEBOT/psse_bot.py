@@ -56,7 +56,8 @@ def load_psse_chunks_and_embeddings():
     embeddings = []
     embedding_model = "text-embedding-3-large"
 
-    for chunk in chunks:
+    for i, chunk in enumerate(chunks):
+        st.info(f"🔄 Embedding chunk {i+1}/{len(chunks)} (ID: {chunk.get('id', 'N/A')})")
         try:
             response = safe_openai_call(
                 client.embeddings.create,
