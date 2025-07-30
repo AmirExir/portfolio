@@ -60,7 +60,7 @@ def load_psse_chunks_and_embeddings():
     progress_bar = st.progress(0)
     status_text = st.empty()
 
-    for chunk in chunks:
+    for i, chunk in enumerate(chunks):
         try:
             current_progress = (i + 1) / total_chunks
             progress_bar.progress(current_progress)
