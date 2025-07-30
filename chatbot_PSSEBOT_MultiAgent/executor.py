@@ -54,7 +54,7 @@ def run_executor(prompt, context, valid_funcs):
         model=model,
         messages=messages,
         max_tokens=max_response_tokens,
-        temperature=0.3,
+        temperature=0.0,
     )
     output = response.choices[0].message.content
 
