@@ -40,6 +40,7 @@ def load_chunks_and_embeddings(json_file="input_chunks.json", embedding_model="t
         except Exception as e:
             print(f"⚠️ Embedding failed for chunk: {e}")
             embeddings.append(None)
+            temperature = 0.0,
 
     final_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
     if not final_pairs:
