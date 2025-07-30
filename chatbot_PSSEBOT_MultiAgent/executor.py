@@ -53,7 +53,7 @@ def run_executor(prompt, context, valid_funcs):
     response = client.chat.completions.create(
         model=model,
         messages=messages,
-        max_tokens=max_response_tokens
+        max_tokens=max_response_tokens,
         temperature=0.0,
     )
     output = response.choices[0].message.content
