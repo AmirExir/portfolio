@@ -166,7 +166,7 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=50)
+        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=10)
         trimmed_chunks = limit_chunks_by_token_budget(top_chunks)
         combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in trimmed_chunks)
 
