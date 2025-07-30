@@ -41,7 +41,7 @@ if prompt:
     from retriever import find_relevant_chunks, limit_chunks_by_token_budget
 
     with st.spinner("🛠️ Planning tasks..."):
-        planning_chunks = find_relevant_chunks(prompt, chunks, embeddings, k=50)
+        planning_chunks = find_relevant_chunks(prompt, chunks, embeddings, k=10)
         reference_context = limit_chunks_by_token_budget(planning_chunks, max_tokens=40000)
         tasks = plan_tasks(prompt, reference_context)
         st.markdown("**🧩 Planned Tasks:**")
@@ -78,7 +78,7 @@ if prompt:
 
         st.markdown(f"### 🚀 Executing Task: `{task}`")
 
-        relevant_chunks = find_relevant_chunks(task, chunks, embeddings, k=50)
+        relevant_chunks = find_relevant_chunks(task, chunks, embeddings, k=10)
         limited_chunks = limit_chunks_by_token_budget(relevant_chunks, max_tokens=30000)
         combined_context = "\n---\n".join(chunk["text"] for chunk in limited_chunks)
 
