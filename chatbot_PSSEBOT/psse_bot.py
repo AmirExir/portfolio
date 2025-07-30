@@ -55,9 +55,16 @@ def load_psse_chunks_and_embeddings():
 
     embeddings = []
     embedding_model = "text-embedding-3-large"
+    total_chunks = len(chunks)
+    st.write(f"🔄 Starting embedding process for {total_chunks} chunks...")
+    progress_bar = st.progress(0)
+    status_text = st.empty()
 
     for chunk in chunks:
         try:
+            current_progress = (i + 1) / total_chunks
+            progress_bar.progress(current_progress)
+            status_text.text(f"Processing embedding {i + 1}/{total_chunks} - Chunk ID: {chunk.get('id', 'unknown')}")
             response = safe_openai_call(
                 client.embeddings.create,
                 model=embedding_model,
@@ -67,6 +74,9 @@ def load_psse_chunks_and_embeddings():
         except Exception as e:
             st.warning(f"Embedding failed for chunk {chunk.get('id', 'unknown')}: {e}")
             embeddings.append(None)
+    progress_bar.empty()
+    status_text.empty()
+    st.write(f"✅ Completed embedding process for {total_chunks} chunks")
 
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
 
