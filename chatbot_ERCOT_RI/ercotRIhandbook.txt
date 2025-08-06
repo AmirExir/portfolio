@@ -2436,3 +2436,32 @@ Hz Thres	Seconds	Hz Thres	Seconds	Verification Method	Match?
 57.5	0.02	57.5	0.02	Inspection of relay curves	Y
 58.5	8	58.5	8	Inspection of relay curves	Y
 
+
+This package provides an example of how to create TSAT files based on bus number and equipment name from PSS/E power flow (.raw) and dynamic (.dyr) files. Please note that due to the confidential nature of user-defined models (UDMs), we do not provide any UDMs in this example. If your PSS/E dynamic data requires .dll files to run, you may have UDMs in your model and need to load the associated .tudm files in TSAT.
+PSS/E files:
+•	Solar.dyr
+•	Solar.raw
+The PSS/E files can be obtained from DMView located at https://sites.google.com/view/dmview/home (DMView 3.0\CASEs\Solar). Please note that the .sav file is converted to a .raw file through the PSS/E GUI.
+TSAT-Bus number files:
+•	Solar.dyr
+•	Solar.raw
+•	TSAT-related .swi and monitor files
+The PSS/E .dyr and .raw files are used with no changes in TSAT. The other files located in the package (.mon, .dat, .swi) are used to create various scenarios in TSAT.
+TSAT-Equipment name files:
+•	Solar_eq.dyr
+•	Solar_eq.raw
+•	TSAT-related .swi and monitor files
+The TSAT equipment name package utilizes all the files in the TSAT bus number package with some modifications:
+•	Solar_eq.raw: An arbitrary equipment name is assigned to each generator, infinite bus, and other buses/branches that are invoked in the .dyr file. The equipment name is assigned by adding *[Equipment Name]*/ to the end of the data line in the .raw file. One may use PSAT to assign equipment names to the element.
+
+•	Solar_eq.dyr: This file is a modified version of the Solar.dyr file in which the bus numbers are substituted with equipment names. To properly assign equipment names to the elements in the .dyr file, please refer to the model manual of the UDM. Alternatively, you can use the built-in TSAT feature to export the dynamic model through the dynamic model editor and save it as "Equipment Name Dynamics (*.dyr)". However, please note that this function may not work properly for some UDMs, depending on how they are set up. In order to use this feature, you need to have a power flow file with equipment names in the power flow section and use the bus-number mode for the dynamic file. 
+
+•	.dat files: .dat files are used for playing back the voltage/frequency to the infinite bus. The equipment name associated with the infinite bus is utilized for these files.
+ERCOT expects to receive consistent dynamic responses between the PSS/E and TSAT MQT in bus number mode. Additionally, ERCOT requires a 100% match between the results for when TSAT is in equipment name mode and TSAT is in bus number mode. Below, you can see an example of the results obtained from the packages in PSS/E and TSAT.
+
+PSS/E (orange), and TSAT-bus number (green) results for LVRT test
+ 
+
+Generator voltage in TSAT-bus number (black) and TSAT-equipment name (red) for LVRT test
+ 
+
