@@ -133,7 +133,9 @@ if prompt := st.chat_input("Ask about ERCOT DWG and SSWG manuals..."):
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
-            max_tokens=8192
+            max_tokens=8192,
+            temperature = 0.2
+            
         )
 
         bot_msg = response.choices[0].message.content
