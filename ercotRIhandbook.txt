@@ -894,3 +894,1545 @@ Generation Resource	000	n/a	Resource status has not been defined.
 	261	FRRSDN	On-Line Controllable Load  Resource with FRRS-Down obligation
 	262	FRRSUP	On-Line Controllable Load  Resource with FRRS-Up obligation
 	263	ONFFRRRSL	Available for FFR Excluding Controllable Load Resources
+
+
+Quarterly Stability Assessment (QSA) Checklist 
+In accordance with Planning Guide Section 5.3.5(4), QSA prerequisites listed below must be met for the large generator to be included in the QSA assessment per the table in Planning Guide 5.3.5(2).  
+Deadlines for QSA submission
+Planning Guide 5.3.5 (2):  Last day for IE to meet prerequisites as listed in paragraph (4)	45-Day Deadline
+Prior August 1	June 17
+Prior November 1	September 17
+Prior February 1	December 18
+Prior May 1	March 17
+
+All links referenced below can be found on the Resource Integration website.
+Completed 45-day requirement and Final QSA requirement checklist must be submitted in RIOO-IS prior to their respective deadlines.   
+45-Day Requirement	File Name	Date 
+Submitted	Status
+Completed and approved FIS			Approved
+
+Steady state study			Approved
+
+Short circuit study			Approved
+
+Dynamics study			Approved
+
+Facilities study			Approved
+
+Dynamic Models (PSSE & PSCAD) *4
+			Approved
+
+PSSE Model			☒
+
+PSSE Model Quality Test			☒
+
+PSCAD Model (psc or .pscx files are accepted)			☒
+
+PSCAD Model Template			☒
+
+PSCAD Model Quality Test			☒
+
+PSCAD Unit Model Validation Report			☒
+
+TSAT Dynamic Data for UDM*4
+			Approved
+
+TSAT Dynamic Model Quality Test			☒
+
+45 Day Requirement 
+
+
+
+
+
+
+
+
+Final QSA Requirements
+
+QSA Requirements	File Name	Date Submitted	Status
+Completed and approved FIS			Approved
+
+Steady state study			Approved
+
+Short circuit study			Approved
+
+Dynamics study			Approved
+
+Facilities study			Approved
+
+Completed and approved reactive study*1
+
+			Approved
+
+Signed SGIA*2
+
+			☒
+
+Financial commitment			☒
+
+Notice to Proceed			☒
+
+Financial Security (upon implementation of PGRR088)			☒
+
+RIOO-Create substation details "Planning" commitment level complete? *3
+
+
+
+			☒
+
+Dynamic Models (PSSE & PSCAD) *4
+			Approved
+
+PSSE Models			☒
+
+PSSE Model Quality Test			☒
+
+PSCAD Model (psc or .pscx files are accepted)			☒
+
+PSCAD Model Template			☒
+
+PSCAD Model Quality Test			☒
+
+PSCAD Unit Model Validation Report			☒
+
+TSAT Dynamic Data for UDM*4
+			Approved
+
+TSAT Dynamic Model Quality Test			☒
+
+Collector System Model			Approved
+
+Collector System Model [(.raw + .seq) OR .OLR files are accepted]			☒
+
+Collector System Template
+(https://www.ercot.com/files/docs/2020/06/30/Collector_System_Template.zip)
+			☒
+
+Air permit from TCEQ (if required) *5			Submitted 
+
+Greenhouse Gas (if required) *5			Submitted
+Declaration of water adequacy (if not IRR)			Approved
+
+
+QSA References:
+1.	Reactive study: The requirements for Reactive Study are detailed in the Reactive Study Scope.
+2.	Standard Interconnection Agreement (SGIA): The SGIA must be signed, executed and submitted in RIOO-IS for the project to meet Planning Guide 6.9.  The model and rating should match the Resource Registration Data and FIS studies. If there are modifications to the original SGIA and the SGIA cannot be amended by the QSA deadline then the TSP needs to confirm in writing that the SGIA will be executed shortly after QSA.
+3.	RIOO-IS Planning Level Data: Refer to Entering Resource Registration Data in RIOO-IS for guidance on how to enter Recourse Registration data in RIOO-IS
+4.	Dynamic Models:  Refer to Model Quality Guide, DWG Procedure Manual and Dynamic Model Template to assist with stability model submission requirements per Planning Guides Section 6.2. 
+•	Conventional and Combined Cycle Resources can EITHER provide the SUBSYNC mass and spring constant data in the RARF OR the PSCAD model plus checklist and MQT Report.
+5.	Air Permit and Greenhouse gas should be confirmed in RIOO-IS.
+6.	Additional Guides:
+•	Managing Your INR as an IE/RE in RIOO-IS
+•	Resource Registration Glossary
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reactive Study Scope v10
+April 13, 2020 
+Table of Contents
+1.	Purposes of the Reactive Study	2
+2.	Which resources have to do a reactive study?	2
+3.	Acronyms and Definitions	2
+4.	Required Documentation	2
+5.	Operating Points to study (see Figure 1)	3
+6.	General Description of the Study	3
+7.	Examples of More Complicated Studies Involving Multiple Resources at the Same POI	4
+8.	Tricky Exceptions to the Standard Requirements (Repowering Projects for Older Resources)	5
+9.	References	5
+10.	Illustrations:  Figure 1 Reactive requirements at POI per 100 MW, Table 1 Reactive Device Inventory, and Table 2 Study Results	6
+Figure 1:  Reactive requirements at POI per 100 MW	7
+Table 1:  Reactive Device Inventory	8
+Table 2:  Study Results	10
+
+
+ 
+1.	Purposes of the Reactive Study
+a.	Show the entire reactive capability of the resource or resources
+b.	Show the plant design will be able to meet Voltage Support Services required for the range of anticipated operating conditions
+c.	Note:  Although a passing reactive study is a requirement for Initial Synchronization, a passing reactive study does not guarantee that a plant will meet protocol requirements once in operation.  Thoughtful, coordinated design of plant reactive controls is paramount.  It is up to the plant designers and operators to make sufficient allowance and margin for real-world operating conditions; designing plants that barely meet standards on paper is risky and not recommended.
+
+2.	Which resources have to do a reactive study?
+a.	All resources going through the Generation Resource Interconnection or Change Request process including those smaller than 20 MVA that are not required to provide Voltage Support Services
+b.	ERCOT staff may waive this requirement for some repower projects if the reactive study has been successfully completed in the past and is well-documented and not expected to change.  (Send request to Resource Integration engineer assigned to the project.)
+
+3.	Acronyms and Definitions
+a.	IA = Interconnection Agreement
+b.	ESR = Energy Storage Resource
+c.	HSL = High Sustainable Limit of a generation resource
+d.	IRR = Intermittent Renewable Resource, a Generation Resource that can only produce energy from variable, uncontrollable Resources, such as wind, solar, or run-of-the-river hydroelectricity
+e.	LSL = Low Sustainable Limit of a generation or energy storage resource
+f.	Low Output Point (LOP)= LSL for conventional generators;  10% of maximum real power output for IRRs;  LSL (maximum charging) for ESRs
+g.	MPT = Main Power Transformer
+h.	P = real power output of a generation resource
+i.	POI = Point Of Interconnection
+j.	Q = reactive output or consumption of a generation resource
+k.	RARF = Resource Asset Registration Forms
+l.	RIOO = Resource Integration Ongoing Operations
+m.	STATCOM = Static Synchronous Compensator
+n.	SVC = Static Var Compensator
+o.	VSS = voltage support services
+
+4.	Required Documentation
+a.	Description of resource that matches RARF, RIOO, and the IA
+b.	Description of the resource connection to ERCOT, including at least:
+i.	POI bus name, nominal voltage
+ii.	Length, voltage, and conductor of gen-tie, if any
+iii.	Size and impedance of MPT 
+iv.	Description of MPT load tap changer (LTC) if any, including which side is controlled, and how quickly (seconds) it can change positions
+c.	Manufacturer’s real versus reactive power curve (also known as “D-curve” or “PQ curve”)
+d.	Manufacturer’s reactive power versus terminal voltage curve (“QV curve”)
+e.	Table 1 (shown below) – Reactive Device Inventory
+f.	Table 2 (shown below) – Study Results
+
+5.	Operating Points to study (see Figure 1)
+a.	POI voltage = 0.95 per unit, reactive power = maximum supplying (lagging)
+i.	HSL 
+ii.	LOP
+b.	POI voltage = 1.0 per unit, reactive power = maximum absorbing (leading)
+i.	HSL 
+ii.	LOP
+c.	POI voltage = 1.04 per unit, reactive power = maximum supplying (lagging)
+i.	HSL 
+ii.	LOP 
+d.	POI voltage = 1.05 per unit, reactive power = maximum absorbing (leading)
+i.	HSL 
+ii.	LOP
+e.	Note 1:  these four operating points are the extreme corners of Figure 1 below and they are required even if a different POI Voltage Profile has been provided.
+
+6.	General Description of the Study
+a.	Check #1, Dynamic Reactive Capability (Gross)
+i.	Use the PQ curve for V = 1.0 pu from the manufacturer:  draw one line at P = HSL and another at the LOP.  Multiply the results by the number of turbines or inverters of this type.  Repeat for each type of inverter or turbine and sum.
+ii.	The resulting Q ranges in Mvar should be no less than +/- 0.329*Pmax in MW, where Pmax is the maximum net real power deliverable to the POI.  If either Q range is too small, the resource will need dynamic reactive support, such as a STATCOM or SVC.
+iii.	If the equipment is sensitive to ambient temperature, use the PQ curve for max design ambient temperature.  Design ambient temperature should be no less than 35C.
+iv.	Fill out the Reactive Device Inventory (Table 1).
+v.	The resulting Q range should not be artificially limited but should reflect the actual equipment capability.
+b.	Check #2, Reactive Performance at POI (Net)
+i.	Use a steady-state loadflow program.  Model a slack bus with one extremely big generator and matching load at the same bus.  The TSP will provide a preliminary short circuit capability of the POI (PGRR076, approval pending).  Use this generator to set the POI voltage.  Model the transmission line gen-tie, if any, from the slack bus to the high-side of the MPT.  Model the MPT.  Model the entire collector system including each cable segment and all the transformers and all turbines or inverters.  Model all switched capacitor banks and reactors.  If a STATCOM or SVC will be part of the resource, then model it.
+ii.	Note 1:  The model should be detailed down to whatever voltage level is represented by the PQ and QV curves.  For wind turbines this may be 690 volts, but for photovoltaic solar resources this may be 34.5kV at the individual skid.  The model may include auxiliary or station service loads if they are known but this is not required.  If loads are modeled this should be noted in the resource interconnection description.
+iii.	Use the slack bus generator to set Vpoi to 0.95 per unit, adjust the MPT LTC and other variables to maximize the Mvar provided to the POI.  Check individual terminal voltages.  If any terminal voltage is outside the permissible operating range then this iteration must be excluded.  Adjust variables again (MPT tap, capbank, reactor, transformer taps, generator Vsched, etc) until an iteration is found with maximum Mvars supplied to POI (lagging) while all generator terminal voltages are within range.  Record this in the Study Results Table (Table 2).
+iv.	Note 2:  The resulting Q values should not be limited by anything other than the voltage operating limits at the generator or inverter terminals but should reflect the actual equipment capability.
+v.	Repeat for Vpoi = 1.0 per unit and maximize Mvar absorbed from the POI (leading).
+vi.	Repeat for Vpoi = 1.04 per unit and maximize Mvar supplied to POI (lagging).
+vii.	Repeat for Vpoi = 1.05 per unit and maximize Mvar absorbed from the POI (leading).
+viii.	These four points are shown as the outside corners of Figure 1 below and are required for ERCOT.  The engineer doing the study may wish to evaluate and document other operating conditions for other reasons, including calculations that will be used to complete the RARF or to consider a known Voltage Profile.
+
+7.	Examples of More Complicated Studies Involving Multiple Resources at the Same POI
+a.	Resources which have different reactive requirements (See next section “Tricky Exceptions”) – Must be evaluated independently
+b.	Resources which have same reactive requirements but different operating regimes.  For example, if one resource is solar and the other is storage, it is expected that the storage may operate in generation mode at night while the solar is not generating.  Evaluate the resources independently.
+c.	Resources which have same reactive requirements and similar operating regimes, such as multiple types of wind turbines on separate feeders within the same project – the resources may be evaluated jointly or independently.
+d.	Resources have same reactive requirements and similar operating regimes, such as multiple types of wind turbines but are on the same feeders – the resources should be evaluated jointly.
+e.	Combined-cycle steam turbine – If GTs are sister units, a single reactive evaluation for one unit plus a second reactive evaluation for min(GT + steamer) and for max(GTs + steamer) is best.  If the GTs are not sister units then each will need its own reactive evaluation plus the min(GT + steamer) and the max(GTs + steamer) evaluations.
+
+8.	Tricky Exceptions to the Standard Requirements (Repowering Projects for Older Resources)
+a.	The 2010 Voltage Profile is posted at http://www.ercot.com/gridinfo/generation/voltprof/ as “Voltage_Profiles_Summer-Fall2010_051010.xls”
+b.	The established reactive capability curve of existing resources is available to the owners in NDCRC and in the RARF.
+c.	Nodal Protocols 3.15 (8), conventional generators online before 9-1-1999 whose designs do not meet the standard requirements
+i.	Owner must provide documentation of initial reactive capability and this should generally agree with the most recent reactive tests
+ii.	No decrease of reactive capability is permitted
+d.	Nodal protocols 3.15 (8) and (9), wind resources online before 2-17-2004 or online before 5-17-2005 and designed before 2-17-2004 (approx. 18 resources) whose designs do not meet the standard requirements
+i.	Owner must provide documentation of initial reactive capability
+ii.	No decrease of reactive capability is permitted
+iii.	If the most recent reactive tests indicates that the documentation of initial reactive capability was overstated, then the owner shall make up the deficit as part of the repower project.
+e.	Nodal Protocols 3.15 (7) (b), Wind Generation Resources online after 2-17-2004 and IA signed before 12-1-2009 with design capable of meeting standard reactive requirement
+i.	Reactive capability requirement is +/- 0.95 power factor of maximum real power output, the “rectangle.”
+ii.	Reactive capability requirement applies to the 2010 Voltage Profile
+iii.	No decrease of reactive capability is permitted.
+f.	Nodal Protocols 3.15 (7) (a), Wind Generation Resources online after 2-17-2004 and IA signed before 12-1-2009 with design not capable of meeting standard reactive requirement
+i.	Reactive capability requirement is +/- 0.95 power factor of current real power output, the “triangle.”
+ii.	Reactive capability requirement applies to the 2010 Voltage Profile
+iii.	No decrease of reactive capability is permitted.
+g.	For repower projects that will result in reduced real power output, the previous reactive capability curve should be truncated at the new maximum real power output but not otherwise reduced. 
+
+9.	References
+a.	Planning Guide 5.7.1(4)(d)(iii) and 5.9(4)(c)(ii)
+b.	Nodal Protocols 3.15 
+c.	Operating Guide 2.7 plus NOGRR195
+
+10.	Illustrations:  Figure 1 Reactive requirements at POI per 100 MW, Table 1 Reactive Device Inventory, and Table 2 Study Results 
+Figure 1:  Reactive requirements at POI per 100 MW
+ 
+
+Notes for Figure 1:
+1.	The solid lines are the minimum reactive capability requirement per 100 MW.
+2.	The dotted lines are the total reactive capability of the resource.
+3.	The reactive study should demonstrate both the total reactive capability of the resource with no artificial restrictions, and compliance with the minimum requirement. 
+Table 1:  Reactive Device Inventory
+Please include the below template in the study report:
+•	Generation Resource High Sustained Limit, net power deliverable to POI: _________ MW.
+•	Generation Resource LOP net power deliverable to POI: _________ MW.  
+•	Required VAR capability @ POI, calculated as 32.9% of HSL: ± ______MVAr.
+•	Inventory total gross reactive capability (nominal, @ device terminals, excluding losses):
+1.	Generating Units (LOP):			_______ MVAr lag / _______ MVAr lead
+2.	Generating Units (HSL):			_______ MVAr lag / _______ MVAr lead
+3.	Switchable Shunts:			_______ MVAr lag / _______ MVAr lead
+4.	Auxiliary Dynamic Devices (SVC, STATCOM) :	_______ MVAr lag / _______ MVAr lead
+5.	Grand Total (add #2, 3, 4):			_______ MVAr lag / _______ MVAr lead
+6.	Total Dynamic at low output point (add #1, 4): 	_______ MVAr lag / _______ MVAr lead
+7.	Total Dynamic at HSL (add #2, 4): 			_______ MVAr lag / _______ MVAr lead
+•	Reminders:  
+o	The resource shall have Automatic Voltage Regulation
+o	The AVR is required to be in automatic voltage control mode controlling the dynamic reactive output and switching static reactive devices  
+o	No alternative control schemes are permitted
+o	The resource must be capable of maintaining a voltage setpoint at the POI
+•	What is the estimated response time of the shunts to a low voltage? ______ seconds
+•	Paste manufacturer charts showing:
+o	Reactive capability versus real power output (“PQ chart”, or “D-curve”).
+o	Reactive capability versus terminal voltage (“QV chart” or family of D-curves).
+•	List acceptable steady-state voltage ratings:
+o	Generating units: _______volts low / _______ volts high
+•	Notes about Droop and Deadband: 
+o	Deadband is the % voltage set-point error range which causes no reactive output
+o	Droop is defined as additional % voltage set-point error (after deadband) causing 100% reactive power dispatch
+o	Voltage droop + deadband should be small enough to keep the POI within the tolerance band in the table from NOGRR195 (approval pending):
+POI Voltage	Tolerance Band KV
+345	+/- 4kV
+230	+/- 3kV
+138	+/- 2kV
+115	+/- 2kV
+69	+/- 1kV
+•	Notes about switchable shunt timing.  Unless doing so would lead to instability or oscillation, the following guidelines are recommended for controlling shunt reactive devices:
+o	Static reactive devices that are used to meet VSS requirements should be able to switch quickly as part of the AVR system.
+o	The AVR system should be configured to control shunt devices with the aim of preserving dynamic capability of the unit(s).
+o	Shunt devices should not wait for the units’ reactive capability to be exhausted before switching.
+o	The first shunt device is expected to switch in less than a minute after an AVR set-point change or voltage event that would require the device to provide reactive power. Subsequent shunt devices can wait up to a minute the since last device switched in before switching.  A reasonable lockout-timer (typically, 5 minutes) which prevents the devices from switching out is acceptable.
+
+
+ 
+Table 2:  Study Results
+This template shows the minimum data required to report the study results.  Rows and columns may be added to enable error-checking and to assist filling out the RARF.
+POI Vol-tage	Dis-patch	Reactive Test	MW Real Power Delivered to POI	Mvar Reactive Power Delivered to POI	Shunts in Service
+(+Mvar cap, or                  -Mvar react)	Total Mvars at all turbine or inverter terminals	Lowest voltage at turbine or inverter terminals, pu	Highest voltage at turbine or inverter terminals, pu
+0.95 pu	HSL	Max Lagging		 +	 			
+	LOP	Max Lagging		 +	 			
+1.00 pu 	HSL	Max Leading		 –	 			
+	LOP	Max Leading		 –	 			
+1.04 pu 	HSL	Max Lagging		 +	 			
+	LOP	Max Lagging		 +	 			
+1.05 pu	HSL	Max Leading		 –	 			
+	LOP	Max Leading		 –	 			
+
+Notes:
+•	A generator operating in lagging excitation injects reactive power similar to a capacitor.  A generator operating in leading excitation absorbs reactive power similar to a reactor.
+•	Total Mvars at all turbine or inverter terminals is the straight summation of the reactive power delivered by each turbine, wind turbine, solar inverter, or ESR inverter.  (Purpose of this column is to allow ERCOT to estimate total losses and compare to size of installed switched shunts.)
+•	The steady-state rating of any STATCOMs (and not the overload rating) should be used when computing reactive power deliverable to the POI.
+•	It is okay to add a column to record the total reactive power delivered to the central low-side bus from all the generator feeders, excluding the output of all shunts and auxiliary dynamic devices.  This data is not used to evaluate the resource’s ability to meet ERCOT reactive standards but it will be helpful to whoever is responsible for filling out the Reactive tab of the RARF.
+•	The purposes of the final two columns are  
+o	To demonstrate that the solution does not put any equipment outside its allowable voltage range 
+o	To give an idea how much the reactive capability of the final turbines or inverters had to be derated with respect to the QV curve
+ERCOT User Defined Model Submittal Guideline
+
+Please provide this Guideline to your manufacturer when requesting PSSE/TSAT dynamic stability model for your plant.  This information will help your manufacturer provide functional models.
+1.	Introduction
+To adequately simulate dynamic and transient events in the ERCOT System, it is necessary to establish and maintain dynamics data and simulation-ready study cases representing the dynamic capability and frequency characteristics of machines and equipment connected to the ERCOT System.  ERCOT Dynamics Working Group (DWG) uses the PSS/E and TSAT software programs.  Standard library models, including the so called “WECC Generic Models” are preferred provided the model accuracy is good, as these models are simpler to use and maintain.  Often, however, generators especially IRRs and batteries will require use of User-Defined Models (UDM).  UDM models utilize compiled model code provided by the manufacturer (.dll file) to expand the capability of the simulation program.  To improve compatibility, ERCOT requests that all UDM models adhere to these guidelines.
+2.	UDM Guidance
+Some UDMs lack features or have certain limitations that have been observed to create challenges in preparing DWG simulation-ready study cases and are often difficult or impossible to use in large scale grid studies.  The following list of items provides discussion and recommendations regarding UDM characteristics based on user experience.
+•	Detailed Model Manual shall be provided:
+The model manual should contain all the information needed to set up the dynamic model and understand its overall behavior.  In particular,
+o	Manual should describe how the poweflow generator model should be set up, including values for Rsource, Xsource, MBase, Qmin, Qmax, and whether the model is considered a “Wind Machine” in PSSE.
+o	Manual should list and describe the major tunable control parameters.
+o	Manual should provide a high level control block diagram illustrating major control functions and how the tunable control parameters are utilized.
+•	Inter-Model Communication:
+o	Documentation should be included on how the model exchanges data (e.g., real and reactive power setpoint or other data exchange) with other downstream or upstream models. 
+o	If submitting a site-specific model, this interfacing between specific upstream/downstream models should be verified, e.g., data exchange between power plant controller (PPC), wind turbine generator (WTG) and STATCOM user-defined models.
+•	Parameter Error Checking: 
+o	Error and warning messages should be provided to users as appropriate.
+o	The model should be setup with correct parameter conditions such as min/max values if applicable to allow the software tool to catch and report on issues when running simulation.
+•	Multiple Module Dependencies:
+When multiple modular user-defined models are used to represent a plant, there is a possibility that the end user may exclude required modules (intentionally or unintentionally). Module dependencies should be verified when a UDM is developed, and an error thrown when dependencies are not present. Failure to perform this dependency/error handling has the potential to cause the simulation software to crash.
+•	Multiple Instances:
+In one ERCOT case, a given user defined model file (.dll or .tudm) may be used at different sites. The UDM should be verified to operate properly in this situation.
+•	Access of External Files:
+o	With default parameters, the UDM code should not write to files.
+o	Error messages should be sent using the appropriate APIs. Diagnostic messages should also be suppressed with default model parameters. 
+o	Accessing/reading from a file is OK, but note that other instances of model may be accessing at the same time.
+•	Operating Points:
+o	Model should be simulated, and behavior validated at a variety of operating points that are expected to be encountered in a powerflow. At minimum, all MQT tests should be performed at 100% dispatch and additional LVRT test should be performed at 50% and 10% dispatches.
+•	Compatible TSAT model shall be provided:
+o	The same UDM shall be supplied for TSAT software. Typically, this requires submitting compatible .dll and .tudm (template UDM) files.  
+o	In addition to ERCOT’s general guideline for UDMs (applicable to both TSAT and PSS/E models), there are some guidelines specific to TSAT:
+	Instantiation Compatibility: 
+The UDM model for TSAT should be compatible with the PSS/E dyr file format, thus one should be able to use the same site-specific parameter list in both software platforms.
+	Equipment Name Support and Validation:
+The model should operate with dynamic data files in “bus number” format (similar to PSS/E) and in “equipment name” format. 
+Equipment name format is specific to TSAT and allows a unique 32-character identified to be used for mapping dynamic (or other auxiliary data). 
+UDM authors should also verify that model works with equipment names that include space characters. 
+It should also be verified that the TSAT case operates equivalently in both bus-number and equipment name format by running equivalent test scenarios.
+	Transfer Analysis: 
+The model should be verified to operate as expected in a “transfer” scenario, that is, utilizing TSAT’s transfer analysis feature to automatically re-dispatch the unit other test (or other units in the system). Here, testing of all model functionality should be performed at multiple transfer “points”. 
+Any model features which are intended to interact directly with TSAT generator (re)dispatch should be verified.
+	Numerical Integration Methods:
+Model should operate consistently when using different numerical integration methods, e.g., Modified Euler (ME), RK2, RK3, or RK4.
+	Compatibility with Distributed Computation:
+Model should be tested for compatibility with TSAT’s distributed computation feature, where multiple TSAT server instances are processing multiple scenarios which all utilize the UDM.
+Model instructions should include details of which supporting files are required to be accessible by TSAT server instances, i.e., in addition to the DLL/TUDM.
+	Model Quality Testing:
+All ERCOT model-quality testing guidelines should be followed, testing the TSAT site-specific model in both equipment name and bus-number format. 
+	Critical Clearing Time (CCT) – TSAT has a special mode of operation which allows for determination of the critical clearing time for a given contingency list.  As the execution sequence for CCT mode differs from basecase or transfer analysis, it is recommended that model authors ensure that this mode of operation does not cause issues with the developed user defined model by including a CCT scan as part of testing.
+	Multi-Threaded capability – As of V23.0.0, TSAT has the capability to perform simulations using a multi-threaded process which can speed up simulation run-time considerably. At present, user-defined DLLs (DLBs) are restricted to a single thread so there are no additional considerations for DLB authors, however it is suggested that the model be tested with TSAT operating in both single- and multi-threaded mode to ensure compatibility with this feature.  In future, if support is expanded to allow vendor DLBs to operate across multiple threads, additional testing may be necessary.
+	Small Signal Stability Analysis (SSAT) – The DSATools SSAT module makes use of linearized eigenvalue analysis to study power system oscillatory behavior. In order for a dynamic model to be incorporated in that analysis, a Jacobian matrix for that device must be defined. This can either be defined explicitly in a DLL (DLB), accounting for initial conditions and all modes of operation. As an alternative, a simplified variant of the model may be prepared in the DSATools UDM standard format, model benchmarked against non-linear time-domain model.
+	Trapezoidal Integration – In order for trapezoidal integration to be used in a TSAT simulation, the Jacobian matrix (as noted with SSAT above) as well as dynamic step size support must be verified in the model (see above regarding variable time steps).
+	Performance Impact Testing – TSAT is commonly used in operation applications (control center environments) where simulation performance is critical. In addition, TSAT-RTDS co-simulation and PMU data streaming (ePMU module) require simulations to run in real-time, and the ability to do so may be impacted by execution of user-defined models. Model developers are therefore recommended to verify and report any significant impact their model may have on simulation performance (and, if applicable, other factors which may impact ability to simulate in real-time), especially when a model may be instantiated many times in a given simulation (i.e., used across multiple plants).
+
+•	Black-box model with limited control and model information:
+Most UDM user manuals focus on how to incorporate model properly in the simulation tool.  Many features are described very briefly without detailed control block diagrams and design logic included in the document.  This basic information may allow a user to include the model in the study tool but is not sufficient to fully understand the response and perform further investigation for observed responses. 
+•	Avoid Multiple library files and specific set up:
+UDMs generally should avoid utilizing multiple linked library files or parameter files or a specific folder structure unless this method provides a clear benefit, such as providing greater fidelity in model response.
+•	.DLL Files only:
+For PSSE software, ERCOT no longer accepts models that require linking and/or compiling.  Thus ERCOT no longer accepts .OBJ and .LIB model files in PSSE.
+•	Time Step Flexibility:
+Models should be capable of running at a range of time steps commonly used in dynamic simulation (e.g. half cycle or lower).
+•	Limited Number of Key Parameters and Settings:
+Manufacturers should strive to limit the number of parameters to those that are typically tuned or adjusted.
+•	Diagnostic Messaging:
+The best UDMs provide informative messages during initialization to help debug issues.
+•	Immune to numerical noise / transients:
+During/after faults, bus frequency, which is a calculated value in PSSE, may be subject to numerical deviations.  Protection models should avoid using instantaneous protection (zero pickup time) and consider whether additional filtering and associated time delay is necessary.
+•	Gracefully Handle Islanding:
+Models should not crash when islanded but instead should trip.
+•	Gracefully Handle GNETing or out-of-service:
+The GNET function in PSSE is a useful debugging tool to discount certain plant dynamics.  Some UDMs also require removal of the dynamic model itself in order to GNET properly, which makes the debugging process cumbersome.
+•	Good Memory Management:
+UDMs require designated memory location to write the response.  Poor memory management can write to the memory address that is out of the bound of the allocated space by PSS/E and affect other models in the system.  
+•	Protocol-Required Capability:
+Except where otherwise allowed, all generating plants must have dynamic reactive power and automatic voltage regulation capability (NP 3.15 and NOG 2.2.5), Voltage Ride Through capability (NOG 2.9), and Frequency Response (NOG 2.2.7), among others.  This required capability should be reflected in provided models.
+o	In addition, control strategies should consider the need to provide system support while coordinating with nearby resources.  Voltage regulation with droop capability and dynamic reactive capability during voltage ride through are examples of such response.
+•	Fully Support PSS/E UDM Implementation:
+Models should avoid requiring a specific unit ID to be utilized such as “1” or “W” or “G1”.  Models should avoid requiring Qmin and Qmax limits to be set artificially in power flow, such as Qmin=Qmax or Qmin=Qmax=0.
+
+ERCOT PSCAD Model Submittal Guidelines
+
+ERCOT requests you submit this completed checklist along with your PSCAD model.  Please include this completed sheet in the same zip file when submitting your PSCAD model to your RARF form or RIOO system.
+1.	Introduction
+PSCAD models are a specialized type of model used in Electromagnetic Transient (EMT) studies.  These models are more detailed than standard dynamic stability models (e.g. PSS/E models) and are necessary for modeling generators in weak grid studies and subsynchronous resonance studies, among others.
+Not all PSCAD models are created equal.  Some are unreasonably difficult to use and some contain certain modeling approximations.  In order to provide better quality control, ERCOT with the help of the Dynamic Model Task Force created this check-sheet.  When submitting a PSCAD model to ERCOT, please fill out this check sheet and attach it along with your model (zip the files together).  This will facilitate ERCOT providing feedback, and ultimately reduce issues that may occur down the road.
+It is expected that all PSCAD models adhere to these guidelines.  Any deviations should be documented and explained and will be subject to review.  This form should only be completed by an SME knowledgeable with the inner-workings of the PSCAD black-box model, usually this implies OEM staff
+  PSCAD submission checklist:
+
+	Include a Model Quality Test (MQT) report overlaying the PSCAD and PSS/E model response.  If utilizing a user-defined-model in PSS/E, then also include the TSAT model response in the overlay.
+	PSCAD model inserted into the ERCOT PSCAD Template, available in the “Dynamic Model Templates” package posted at:  https://www.ercot.com/services/rq/re
+	Include this completed checksheet (check off the items in the below tables).
+	Include the PSCAD model manual.
+	Include PSCAD files and libraries compiled for both 32-bit and 64-bit Fortran compilers if possible.
+
+
+
+
+The checklist below is applicable for models associated with the following facility (indicate project name and/or GINR# and/or ERCOT Site Code):
+
+
+
+
+Contact for person completing this form:
+
+
+
+2.	PSCAD Model Requirement
+Model Accuracy Features
+In order to be sufficiently accurate, the model provided for each facility shall:
+Item	Description	Check
+1	Represent the full detailed inner control loop of the power electronics. The model cannot use the same approximations classically used in transient stability modeling and should fully represent all fast inner controls, as implemented in the real equipment. 	
+2	 Utilize actual hardware code in creating the PSCAD model *OR* validate the model by comparing the model to measured device response.  Validation should be performed for a standard set of disturbances AND include a small signal frequency sweep to confirm the subsynchronous behavior over 5 to 55 Hz.  (Beware that models assembled using standard blocks available in the PSCAD master library introduce unacceptable approximations).	
+3	Incorporate a full IGBT representation (preferred) or use a voltage source interface that mimics IGBT switching.  Average source voltage-like models are acceptable if considered accurate for grid stability studies.  Average source models should contain directly connected back-diodes for numerical stability. 	
+4	Represent plant level controllers as they are implemented in the real controls, such as automatic voltage regulation.  Model communication and other delays.	
+5	Parameters requiring site-specific adjustment should be made user-accessible. For example, the plant level controller should provide access to regulation gains and droop settings.	
+6	Represent all pertinent control features as they are implemented in the real controls (e.g. customized PLLs, ride-through controllers, etc.).  Incorporate expected site-specific adjustments and settings.	
+7	Represent Subsynchronous Oscillation (SSO) mitigation and/or protection including the ability to enable and disable SSO mitigation/protection, if applicable.	
+8	Represent shunt capacitor and reactor banks and any dynamic reactive devices.  The controls should be modeled if the equipment dynamically responds to a disturbance within 10 seconds.  It is recommended to include an initialization routine, even if the controls are not explicitly modeled, so that the capacitor and reactor banks will be at the correct initial operating position at the start of the simulation.  For example, if the plant controller would normally place all shunt capacitors in service for 100% dispatch in real power and no shunt capacitors in service for 50% dispatch in real power, then it is recommended that an initialization routine would include this same logic.	
+9	Represent all pertinent electrical and mechanical configurations, such as filters and specialized transformers.  Mechanical features (such as gearboxes, pitch controllers, etc.) should be included in the model if they impact electrical performance.	
+10	Have all pertinent protections modeled in detail. This includes various over-voltage and under-voltage protections (individual phase and RMS), frequency protections, DC bus voltage protections, overcurrent protection, and any other protection which can influence ride-through behavior.  Actual code is recommended to model these protection features.  Mechanical protections, such as thermal, should be modeled to extent may limit ride through capability.	
+11	Accurately reflect behavior throughout the valid (MW and MVAr) output range from minimum power through maximum power.  Represent machine slip of Type III (DFIG) wind generation as appropriate for the power dispatch.  This value should be calculated and not require manual entry.	
+12	Model main power transformer saturation based upon transformer test reports.  Model main power transformer protection system.  This feature is not required but recommended to help diagnose ferroresonance for resources locating close to series capacitors.	
+13	If PLL loss of synchronism protection, phase angle jump protection, or anti-islanding protection is installed, confirm with the OEM that it is necessary protection and it is correctly modeled in PSCAD.  If not needed, ERCOT requests that these protections be disabled as they have been linked to ride through failures .  If needed, please describe why.	(Not installed / modeled & needed because...)
+14	For Type 3 Wind Turbines, include a note, label, flag, or switch in the model indicating clearly whether subsynchronous damping controls are active.	
+15	Model dynamics of the DC bus in the inverter/converter, including capacitor discharging and protection.	
+
+Model Usability Features
+In order to allow study engineers to perform system studies and analyze simulation results, the model provided for each facility shall:
+15	Have pertinent control or hardware options accessible to the user (e.g. adjustable protection thresholds or real power recovery ramp rates).  Diagnostic flags (e.g. flags to show control mode changes or which protection has been activated) should be accessible to facilitate analysis and should clearly identify why a model trips during simulations.	
+16	Accurately simulates for a timestep between 10 μs and 20 μs.  Requiring a smaller time step may mean that the control implementation has not used the interpolation features of PSCAD or has used inappropriate interfacing between the model and the larger network.  It is preferable if the model can operate accurately for any arbitrary timestep between 10 μs and 20 μs, however ERCOT may accept plant models that require a different time-step if the model simulates reasonably fast per ERCOT’s sole discretion.	
+16.1	Completes a 10-second simulation in PSCAD in under approximately 300 seconds using a typical computer set up (under 180 seconds ideal). If taking more than 300 seconds, subject to further discussion.	
+17	Include documentation and a sample implementation test case.  Access to technical support engineers is desirable.	
+18	Be capable of initializing itself.  Models shall initialize and ramp to full output within without external input from simulation engineers.	
+19	Accept external reference values.  This includes real and reactive power reference values (for Q control modes), or voltage reference values (for V control modes) and utilize a single parameter for adjusting real power, and separately, a single parameter for adjusting voltage setpoints.  Adjustments should be easy to identify, such as using memo markers or a slider control (preferred).	
+20	Allow protection models to be disabled.  Many studies result in inadvertent tripping of converter equipment, and the ability to disable protection functions temporarily provides study engineers with valuable system diagnostic information.	
+21	Provide a switch to disable saturation on the main power transformer and the inverter or turbine local transformers for investigation of ferroresonance.	
+22	Allow the active power capacity of the model to be scaled.  This is distinct from a dispatchable power order and is used for modeling different plant capacities (e.g. if a portion of the plant is offline).	
+23	Have a simple means to represent curtailed operation for a power response to a frequency dip versus uncurtailed operation for no response to a frequency dip.	
+24	Avoid using PSCAD simulation sets, as these are difficult to incorporate into much larger cases.  Use of ETRAN+ is okay.  (ETRAN+ version 5 recommended.)	
+25	Project PSCAD model should accept real power dispatch and voltage reference commands as a variable (not a Fortran constant) for external dispatch initialization.	
+26	Project PSCAD model should accept reactive power initialization to seed the initial Power Plant Controller reactive state variable at the start of the simulation, rather than requiring the PPC to ramp up from zero.	
+
+Model Efficiency Features
+In order to improve study efficiency and model compatibility the following efficiency features are requested.  Note that no feature should compromise model accuracy.
+25	Model is embedded into the PSCAD Template published at: https://www.ercot.com/services/rq/re
+
+26	Model is correctly connected to the Template and inputs real power reference (Pref), voltage setpoint (Vref), and initial reactive reference (Qref).  Model exports trip signals.	
+27	Be compiled using Intel Fortran compiler and capable of running in Intel Fortran version 15 and higher and Microsoft Visual Studio 2015 and higher. Should not require a specific version of Intel Fortran and should support the new Intel OneAPI HPC free Fortran compiler.  	
+28	Provide 32-bit and 64-bit versions of libraries.  As of 2025, Intel has discontinued their 32-bit Fortran compiler.	
+29	Compatible with PSCAD version 5.0.1 and higher.	
+30	Initialize quickly under 5 seconds to user supplied terminal conditions.	
+31	Support multiple instances of its own definition in the same simulation case for situations where the same inverter resource is used at multiple sites.	
+32	Support the PSCAD “snapshot” feature.	
+33	Support the PSCAD “multiple run” feature.	
+34	Allow replication in different PSCAD cases or libraries through the “copy” or “copy transfer” features.	
+
+
+(Sample Verification Report)
+
+Resource Name:  TURTLE GENERATION STATION	Date of this Report: 8/7/2023
+Date(s) Field Settings Checked at Plant:
+5/2023:  Protection and PSS settings 
+6/2022:  Date of MOD-026/027 Reports	Names of Reference Documents (attached):
+Turtle MOD-026/027 Reports
+Turtle commissioning models
+
+
+General Description:
+
+This report is submitted to support the model parameters for the TURTLE GENERATING STATION.  The Governor and Exciter and Stabilizer models were checked through testing in the MOD-026/-027 reports.  In May of 2023, plant personnel downloaded the power system stabilizer and protection parameters to directly confirm the settings in those devices.  Tables of tunable or site-specific model parameters and their verified values are listed below.
+
+(Notes to the author writing this Verification report:
+1.	The new dynamic model Template contains a worksheet that can function as your verification report.  There is no need to prepare a separate report if you complete this worksheet and populate the field-verified data.
+2.	You can verify either your PSS/e or your PSCAD model.  However, if you verify the PSCAD model, please provide evidence you also confirmed the protection models in the PSS/e model, since these are not guaranteed to match when overlaying PSS/e versus PSCAD in the MQT report.
+a.	The new dynamic model Template provides helpful tips on this one. 
+3.	Follow the instructions in the Model Quality Guide on submitting your models along with this report.  You must submit models when submitting a verification report.  This includes submitting both models, even if only verifying one or the other.)  
+
+GENERATOR [GENROU], checked by commissioning model documents.
+PSS/E Index	Parameter Name	Model Value	Actual Field Equipment	Verification Method	Match?
+	H, Inertia	5.7	5.7	DOCS	Y
+	S(1.0) Saturation	0.002	0.002	DOCS	Y
+	S(1.2) Saturation	0.03	0.03	DOCS	Y
+
+
+EXCITER [ESST4B], checked by MOD-026.
+PSS/E Index	Parameter Name	Model Value	Actual Field Equipment	Verification Method	Match?
+	AVR proportional Gain	110	110	MOD-026	Y
+	AVR integral Gain	10	10	MOD-026	Y
+
+
+STABILIZER [PSS2B], checked by directly query digital stabilizer settings.
+PSS/E Index	Parameter Name	Model Value	Actual Field Equipment	Verification Method	Match?
+	Tw1 First Washout	3.5	3.5	Direct	Y
+	Tw2 Second washout	3.5	3.5	Direct	Y
+	Tw1 First Washout	3.5	3.5	Direct	Y
+	Tw2 Second washout	0.5	0.5	Direct	Y
+	Ks2 Gain on Signal #2	0.4	0.4	Direct	Y
+	Ks2 Gain on Signal #2	0.7	0.7	Direct	Y
+
+
+GOVERNOR [GGOV1], checked by MOD-027.  Droop directly checked in equipment settings.
+PSS/E Index	Parameter Name	Model Value	Actual Field Equipment	Verification Method	Match?
+	Droop	5%	5%	Direct	Y
+	Kpgov Proportional Gain	6.0	6.0	MOD-027	Y
+	Kigov Integral Gain	0.5	0.5	MOD-027	Y
+	Actuator Time Const	0.6	0.6	MOD-027	Y
+
+
+PROTECTION [Overvoltage] checked directly in relay settings.
+Model	Field Relay		
+V Thres	Seconds	V Thres	Seconds	Verification Method	Match?
+1.25	0.02	1.25	0.02	Inspection of relay curves	Y
+1.11	8	1.11	8	Inspection of relay curves	Y
+					
+
+
+PROTECTION [Undervoltage] checked directly in relay settings.
+Model	Field Relay		
+V Thres	Seconds	V Thres	Seconds	Verification Method	Match?
+0.6	0.02	1.25	0.02	Inspection of relay curves	Y
+0.80	8	1.11	8	Inspection of relay curves	Y
+
+
+PROTECTION [Underfrequency] checked directly in relay settings.
+Model	Field Relay		
+Hz Thres	Seconds	Hz Thres	Seconds	Verification Method	Match?
+65	0.02	65	0.02	Inspection of relay curves	Y
+62	8	62	8	Inspection of relay curves	Y
+
+
+PROTECTION [Overfrequency] checked directly in relay settings.
+Model	Field Relay		
+Hz Thres	Seconds	Hz Thres	Seconds	Verification Method	Match?
+57.5	0.02	57.5	0.02	Inspection of relay curves	Y
+58.5	8	58.5	8	Inspection of relay curves	Y
+
+ERCOT Public MODEL GUIDELINE
+ERCOT Dynamic Model Submittal Guideline
+Version 1.10
+ERCOT June 2025
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+Document Revisions
+Date Version Description Author(s)
+May 2020 1.0 Initial Draft Jonathan Rose
+Reviewed by: John Schmall
+September 2020 1.1 Add leading / lagging power factor
+scenarios for VRT
+Jonathan Rose
+January 2021 1.2 Updates associated with PGRR 085 Jonathan Rose
+Reviewed by: John Schmall
+April 2021 1.3 Update link to Acceptable Model List,
+elaborate TSAT data submission
+requirements, add Table 1, and
+miscellaneous edits for clarity
+Jonathan Rose
+Mehdi Daryabak
+Reviewed by: John Schmall
+August 2022 1.4 Update various out-of-date links and
+Planning Guide references. Added
+clarifications to Table 1.
+John Schmall
+January 2023 1.5 Clarifications, request overlaid PSS/E,
+TSAT, PSCAD MQT plots, updated
+DMVIEW instructions, add PCAR
+Jonathan Rose
+Reviewed by: John Schmall
+March 2023 1.6 Update TSAT data submission and
+TSAT MQT requirement. Add
+PMVIEW.
+ERCOT Operation Stability
+Analysis Group, Dynamic
+Studies
+December 2023 1.7 Clarifications
+June 2024 1.8 Clarifications, “combined MQT”
+requirement, NOGRR245.
+Dynamic Studies Department
+March 2025 1.9 Reference to operational voltage
+tolerance requirements on pgs. 4 and
+8 and updated Planning Guide 5.5
+section numbers, misc. updates.
+Dynamic Studies Department
+June 2025 1.10 Advanced Grid Support, misc. edits Dynamic Studies Department
+© 2025 ERCOT 1
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+Table of Contents
+Executive Summary .................................................................................................................. 3
+Where to Find Help ................................................................................................................... 3
+ERCOT Dynamic Model Requirements .................................................................................... 4
+AVR and PFR Testing and Modeling Switched Shunt and Transformer Tap Controllers........ 7
+About Dynamic Models ........................................................................................................... 10
+A Caution about Generic Models and MOD 026/027 Studies ................................................ 11
+Dynamic Model Templates ..................................................................................................... 11
+The Model Quality Test ........................................................................................................... 12
+Using DMVIEW .................................................................................................................... 15
+Using PMVIEW .................................................................................................................... 17
+Unacceptable Test Results per the DWG Procedure Manual ................................................ 17
+A special note on the frequency tests ..................................................................................... 17
+Deliverables ............................................................................................................................ 18
+Enclosures .............................................................................................................................. 20
+References .............................................................................................................................. 20
+© 2025 ERCOT 2
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+Executive Summary
+This guideline facilitates a Resource or Interconnecting Entity fulfill ERCOT Dynamic and Transient
+model requirements outlined in the ERCOT Planning Guide (PG) Sections 5.5 and 6.2 and Dynamics
+Working Group Procedure Manual Section 3. This guide applies to all modeled Resources.
+Where to Find Help
+• Questions regarding this guide…… dynamicmodels@ercot.com
+• Interconnection and QSA issues……. Contact your Resource Integration (RI) engineer.
+• General Interconnection questions…... ResourceIntegrationDepartment@ercot.com
+• NOGRR-245 questions (Nodal Operating Guide Section 2) … nogrr245@ercot.com
+• RIOO issues: Refer to the RIOO Documentation at https://www.ercot.com/services/rq/re
+o These helpful guides cover everything from setting up an account to using RIOO.
+o Additional help:
+▪ RIOO-IS issues (for interconnection projects) …. Contact your RI engineer.
+▪ RIOO-RS issues (for online projects) …. Rioo-help@ercot.com
+• Dynamic model questions: Email dynamicmodels@ercot.com (please include your registered
+site-code1 in the email subject line if available).
+• This Guide is posted at https://www.ercot.com/services/rq/re , search Model Quality Guide
+• DWG Procedure Manual Section 3.1 describes model requirements and model testing.
+• Template issues or requesting a model Template: Email dynamicmodels@ercot.com with
+“Template Issue” in the email subject line.
+• TSAT model questions: Email dynamicmodels@ercot.com with “TSAT Question” in the
+subject line.
+• PSS/e and PSCAD model questions…… dynamicmodels@ercot.com
+1 Site-code: Visible in RIOO under Substation → Code.
+© 2025 ERCOT 3
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+ERCOT Dynamic Model Requirements
+Before uploading a model to RIOO-RS, please ensure everything is included:
+Check Model Requirement [PG Section 6.2(5)(a) and Section 5.5]
+Consulted the Deliverables section at the end of this document for additional details?
+A PSS/e version 35 and PSS/e version 36 model (.raw, .dyr files and .dll file if a user-defined
+model; separate .dll files must be provided for version 35 and 36)
+The model should not have been identified as unacceptable by NERC2
+The model should include switched shunt and on-load transformer tap initialization scripts
+(PSS/e Python format) and include dynamic control models
+The number, size, and name of units in PSS/e and TSAT should match registration and should
+not be aggregated differently. Unit definitions can be found in RIOO-RS under “Unit Attributes”.
+IRR (wind and solar) models should be provided set up for “no-headroom” meaning that a
+dispatch less than Pmax does not result in a power increase to a frequency drop. The model
+manual should describe steps to place the model in a “headroom” (curtailed) state.
+PSS/e model in Excel Template format. Blank Templates are downloadable from:
+https://www.ercot.com/services/rq/re . For User-Defined Models (UDMs), the new “Universal”
+model Template included in this package should be capable of importing any type of PSS/e
+model. Problems?: Email dynamicmodels@ercot.com with “Template Issue” in the subject line.
+A TSAT model if submitting a user-defined PSS/E model (.raw, .dyr, .dll, and .tudm files)
+Two TSAT example cases, one set up using bus numbers matching the PSS/e case and the
+other set up using equipment names. Include a space in the generator node name(s) to confirm
+that the model is compatible with space characters. (include .pfb plus above files)
+The TSAT .dyr file should interoperate with the PSS/e .dyr file.
+The TSAT .tudm file should only define the structure of the model and shall not include any
+project-specific information
+Model manuals (okay to reference PSS/e manuals if using standard library models). PSCAD
+models must include manuals.
+PSCAD for Inverter-Based Resources (IBRs), embedded in the PSCAD Template
+downloadable from Dynamic Templates at https://www.ercot.com/services/rq/re
+Completed PSCAD Guideline checksheet. Available in the Model Quality Guide package.
+Model Quality Test report per DWG Procedure Manual. Plots should overlay PSS/e, PSCAD,
+and TSAT models as required. [PG Section 6.2(5)(c), PG Section 5.5(4) and 5.5(6)]
+Model matches field equipment and appears to meet the performance requirements in the DWG
+Procedure Manual section 3.1.5. If not, please explain limitations.
+Plant should regulate POIB voltages within the tolerance specified in NOG 2.7.3.5(4). This
+generally means that plant should provide full reactive capability of at least 0.95 pf or better at
+2 https://www.nerc.com/pa/RAPA/ModelAssessment/Pages/default.aspx . Click on “Dynamic Modeling
+Recommendations.” See Appendix A. If unacceptable, must be corrected at the next MOD-026/027 review.
+© 2025 ERCOT 4
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+POIB, in response to a voltage step of 4 kV for a 345 kV POIB, a step of 2 kV for a 138 kV
+POIB, and a step of 1 kV for a 69 kV POIB. It is recommended that REs test such a voltage
+step and model switched shunt controls to identify issues where their proposed model and
+settings may not meet operational requirements. Refer to Page 7.
+Plant Verification Report if updating field settings or any time per PG 5.5(6)(c). Details on this
+report can be found in the About Verification Report included in this package.
+A Unit Model Validation (“Hardware Benchmark”) report is required to enter the QSA.
+[PG Section 6.2(5)(d), DWG Procedure Manual Section 3.1.6]
+© 2025 ERCOT 5
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+FIS Intercon-
+nection
+• Submit PSS/e and PSCAD models. VRT capability assessed during FIS studies
+• Recommend the IE run MQT and overlay PSS/e and PSCAD to avoid QSA delays
+• Recommend IE test plant model Automatic Voltage Regulation (AVR) and primary frequency
+response (PFR) for compliance (refer to next section)
+Entering
+QSA
+• Submit complete PSS/e, PSCAD, and MQT with overlay; both models in Template format
+• Include a Unit Model Validation report. Refer to DWG Procedure Manual 3.1.6.
+• Recommend confirm AVR and PFR model response in preparation for commissioning tests
+(refer to next section)
+• Check that field settings match QSA model parameters
+Before Synch-
+ronization
+Before
+Commission-
+ing (Part 3)
+(IBRs only)
+• Submit an MQT comparing “as-built” model response with the QSA model response. Submit
+separate MQT comparisons for PSS/e and PSCAD.
+• Submit “as-built” models and re-submit QSA models, both PSS/e and PSCAD.
+• Refer to Planning Guide 5.5(4) --> Please follow the submission instructions!
+• Submit final PSS/e, PSCAD, (and TSAT) models to RIOO-RS
+• Include an MQT overlay of PSS/e and PSCAD (and TSAT)
+• Include a Verification Report. Further instructions in Figure 2
+Commissioning
+(Part 3 approval)
+within 30 days
+1-2 Years after
+Commissioning
+and for MOD-
+026/027 and
+Every 10 Years
+• Re-submit final PSS/e, PSCAD, and TSAT models and MQT overlay to RIOO-RS
+• Submit an updated Verification Report. If no changes since the previous Verification, indicate
+the date and method this was checked in an updated Verification report.
+• Further instructions in Figure 2
+Before Making
+a Field
+Change (IBRs
+Only)
+• Before making a field change affecting the dynamic response, submit an MQT overlay of the
+proposed change model versus the as-built model. Include both models and required files.
+• MQT overlay in PSS/e and a separate MQT overlay in PSCAD.
+• Refer to Planning Guide 5.5(6)(a) --> Please follow the submission instructions!
+• Submit final PSS/e, PSCAD, (and TSAT) models to RIOO-RS
+• Include an MQT overlay of PSS/e and PSCAD (and TSAT)
+• Include a Verification Report. Further instructions in Figure 2.
+After Making a
+Field Change,
+Within 30 days
+Figure 1: Model milestones.
+© 2025 ERCOT 6
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+AVR and PFR Testing and Modeling Switched Shunt and Transformer
+Tap Controllers
+Automatic Voltage Regulation (AVR) and Primary Frequency Response (PFR) are required for all
+resource facilities according to Section 2 of the Nodal Operating Guides. During Part 2 of the
+commissioning process, ERCOT will require operational testing of both.
+ERCOT has observed many plants needing to making field adjustments during commissioning. These
+adjustments sometimes conflict with performance objectives in the Model Quality Testing, resulting in
+additional model updates, and ultimately, a second round of field adjustments and testing.
+Interconnecting Entities can usually avoid these complications by ensuring that the models are
+accurate representations of the future facility and subjecting the models to AVR and PFR tests during
+the planning stage. This requires precise modeling of any switched shunt and transformer tap
+controllers and ensuring they are well coordinated with protection settings and the generator reactive
+controller. To facilitate this effort, ERCOT is strongly encouraging all resources to model such
+controllers and provide initialization scripts in PSS/e (Python format) to ensure that the taps
+and switched shunts are initialized in the correct position for power flow initial conditions (real
+and reactive dispatch, POI voltage, etc.). When reviewing submitted models, ERCOT has often
+needed to reach out regarding an MQT test reflecting poor performance. The Resource Entities (REs)
+reaches out to their consultant, who investigates and finds that the switched shunts were not initialized
+in the proper position. ERCOT must then re-review the model. This inefficient back-and-forth can
+again be avoided by REs who provide accurate models of their shunt / tap controllers.
+• Nodal Operating Guide 2.7.3.5(4) requires plants to regulate their POIB voltage within a tight
+tolerance. For example, externally applying a 4 kV voltage step at a 345 kV POIB should result in
+the model’s voltage regulator transitioning the model to maximum reactive power exchange
+(generally better than 0.95 power factor). Thus, it is recommended to model test applying the
+following voltage steps to the POIB: ±4 kV step for a 345 kV POIB, ±2 kV for a 138 kV POIB, and
+a ±1 kV for a 69 kV POIB.
+• Refer here for a sample IRR AVR test. For more information on the PFR and AVR testing,
+contact Resource Integration. ResourceIntegrationDepartment@ercot.com
+➔ Please provide accurate dynamic models for all switched shunt and transformer tap controllers
+and provide Python file initialization scripts or powerflow model parameters for PSS/e so that
+the correct initial shunt / transformer tap position is selected for the initial POI conditions.
+© 2025 ERCOT 7
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ?
+PLANNING
+MODEL UPDATE FOR
+RESOURCE IN THE
+PLANNING STAGE
+ERCOT Public
+Submit PSCAD model (IBRs) prior to starting SSR
+study or entering QSA
+Also submit Unit Model Validation and TSAT/PSCAD Model
+Quality Test. Ref ERCOT Planning Guide 6.2(5)(c) to (d).
+Before Part 3 of
+Resource
+Commissioning
+OPERATIONAL RESOURCE
+PROPOSED
+CHANGE AT
+RESOURCE
+Check AVR / PFR compliance
+(previous page) and run Model
+Quality Test on PSS/E model
+before starting FIS. See Note 1.
+Run a comparison Model
+Quality Test (MQT), overlaying
+the QSA model versus the
+current field settings model.
+Planning Guide (PG) 5.5(4).
+Submit to ERCOT for approval. ERCOT may
+decide the change requires further study.
+Email notification to
+dynamicmodels@ercot.com with “IBR Prior to
+Commissioning” in subject. Ref. Note 2.
+If the proposed
+change falls under
+PG 5.2.1(1), stop
+and contact
+Resource
+Integration.
+For IBRs, overlay an MQT
+of the old versus new
+model response.
+PG 5.5(6)(a). (Synchronous
+facilities, skip to “Submit a
+model package” block.)
+Submit to TSP and ERCOT for
+approval. Email notification
+to dynamicmodels@ercot.com
+with “IBR Proposed
+Modification” in the subject.
+ERCOT may decide further
+study is required.
+Update PSS/E, TSAT, and PSCAD.
+Include a combined Model Quality Test
+with PSS/E-PSCAD-TSAT overlay. PG
+6.2(5)(c). Ref Note 2.
+Run Model Quality Test and
+Parameter Verification report
+during MOD 26/27 study
+(Note final submission to ERCOT
+will require MQT to have PSCAD-
+Dynamic Model overlay)
+ALWAYS submit updated
+Dynamic Model Template
+Even if the model did not change,
+update the MOD 26/27 date in the
+template and submit to RIOO
+Figure 2: Model update process flow for Resource Entities (REs) and Interconnecting Entities (IEs).
+Note 1: IBRs, a joint Model Quality Test report (showing the PSS/E and PSCAD models overlaid) is required to enter the QSA and may be advisable to enter the FIS.
+Note 2: Follow instructions in this document for submission of models. Per the DWG Procedure Manual, PSCAD models are generally required for all inverter-based resources (certain IBRs
+constructed prior to 2015 may only require a PSCAD model if requested by ERCOT). TSAT models are required if utilizing a PSS/E model that is user-defined. Resource Owners must notify the
+interconnecting TSP of any model updates.
+Within 30 days of ERCOT granting Part 3
+approval, then per PG 5.5(5)…
+After the change is
+approved and
+within 30 days after
+implementation,
+then…
+Submit a model package and
+verification report. The MQT
+should overlay the new PSS/e,
+TSAT, and PSCAD as applicable
+(not include the old model).
+PG 5.5(6)(c)
+MODEL CORRECTION
+/ UPDATE (No change
+at facility)
+SCHEDULED
+NERC MOD
+26/27 Model
+Validation
+Submit Dynamic Model Update Package
+to ERCOT as a zip file upload to RIOO-RS.
+Include all relevant models (PSS/E, TSAT,
+PSCAD), even models that are not being
+updated, and overlay in the MQT report.
+Refer to Note 2 for package contents.
+Also notify TSP of the change.
+TSP
+Review &
+Approval
+RE action
+TSP / ERCOT action
+© 2025 ERCOT 8
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+Requirement Applicable Facilities Required Tests(1) When to Update Responsible
+Entity
+Model Quality Test for PSS/E,
+All Resources and Inverter-Based
+Flat start, small and large voltage
+A new or updated PSS/E, TSAT, or
+Facility owner
+PSCAD model. Model updates are
+TSAT, and PSCAD Models
+Transmission Elements
+disturbance, small frequency
+required:
+(RE, IE, or TSP)
+• TSAT required if utilizing a
+disturbance, system strength, and
+1. When there is a change at the
+user-defined model (UDM)
+phase angle jump(2) tests
+facility (refer to flow chart on
+(A single report should show
+• PSCAD generally required for
+previous page).
+the PSS/E, TSAT, and PSCAD
+Inverter-based Resources
+• Advanced Grid Support (AGS, e.g.,
+2. To enter QSA.
+model responses overlaid on
+(IBRs) and Inverter-based
+“grid forming”) resources have
+3. Before requesting Part 3 approval.
+Dynamic Transmission
+the same plot axes.)
+modified MQT tests which include
+Elements
+4. Within 30 days of Part 3 approval.
+inertia response test and a loss of
+5. Completing MOD-026/027 studies.
+synchronous machine test (3)
+Unit Model Validation for
+Inverter-based Resources (IBRs) Step change in voltage, large voltage
+A new PSCAD model provided after
+Facility owner
+PSCAD Model(4)
+disturbance, system strength, phase
+3/1/21. (UMV reports should not need
+(RE or IE)
+angle jump, and subsynchronous tests
+updating for model parameter
+updates.)
+Model Parameter Verification
+All Resources and Inverter-Based
+Provide evidence that tunable model
+A report is required:
+Facility owner
+1. Within 30 days of Part 3 approval,
+(“Verification Report”)
+Transmission Elements
+parameters match what is
+(RE, IE, or TSP)
+2. Within 12 to 24 months after Part 3
+implemented in the field. Evidence can
+approval. (Projects built before
+take the form of screenshots,
+March 1, 2021, required by March
+nameplate photographs, signed
+1, 2023),
+manufacturer commissioning reports,
+3. A minimum of every ten years, and
+4. Within 30 days of implementing a
+etc.
+change at the facility.
+(1). Detailed test information is available in the DWG Procedural Manual 3.1.5.
+(2). System strength and phase angle jump tests are only applicable to inverter-based facilities. The phase angle jump test is required only for the PSCAD model.
+(3). Refer to the “List of Applicable Tests” table in the DWG Procedure Manual for details on which tests apply for each technology.
+(4). Benchmark the PSCAD model against actual hardware measurements. This is not a site-specific test; the same report can be submitted whenever the same hardware is used.
+© 2025 ERCOT 9
+All rights reserved.
+Planning Guide
+Language
+PG 6.2(5)(c),
+PG 6.2.1,
+PG 5.5(6)(b)
+PG 5.5(4),
+DWG
+Procedure
+Manual 3.1.5(3)
+PG 6.2(5)(d),
+DWG
+Procedure
+Manual 3.1.6
+PG 5.5(5)
+PG 5.5(6)(c),
+PG 6.2(5)(b)
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+About Dynamic Models
+Dynamic models are utilized to simulate time-domain phenomena on the ERCOT system. These
+models use mathematical state equations to represent generating plant behavior to disturbances. A
+summary of the types of models is listed below.
+DYNAMIC STABILITY MODELS
+(PSS/E and TSAT)
+• Used for general dynamic simulations
+• Required for all modeled generators
+• Submitted using Dynamic Model Templates
+• Manual should illustrate control logic
+• Must undergo model quality testing
+• Either Standard Library or UDM (User-
+Defined)
+TRANSIENT (EMT) MODELS
+(PSCAD)
+• Used for specialized studies
+• Required for all inverter-based equipment
+including wind, solar, batteries
+• Must complete PSCAD Model Guideline
+check sheet
+• Manual should describe model set up
+• Must undergo model quality testing
+DYNAMIC STABILITY MODELS CAN BE STANDARD LIBRARY OR UDM
+• Standard Library models come included in the software. This includes WECC “Generic”
+models and most synchronous power plant models
+• User-Defined Models (UDM) models may provide a more accurate response
+• UDM require .DLL files from the OEM for PSS/E and .DLL and .TUDM files for TSAT
+• UDM typically require update with each new version of software*
+• UDM models should adhere to the enclosed ERCOT UDM Guideline
+• Either UDM or Std. Library/Generic are acceptable for ERCOT and for MOD 26/27 studies
+• Generic WECC models should be confirmed by the manufacturer
+* In many cases, this update effort is minimal. Manufacturers compile an updated version of their .DLL file. The parameters
+representing site-specific settings may remain the same in which case the MQT report would not require updating.
+Figure 3: Model Types
+ERCOT requires models to be provided supporting PSS/E and TSAT software and also requires
+PSCAD models for IBRs (e.g., wind / solar / battery resources). These models are typically furnished
+by the device manufacturer and should reflect the site-specific settings and layout of the plant all the
+way up to the Point of Interconnection (POI). The stability models for can be of either UDM or Standard
+Library/Generic type. Both types are acceptable for use in MOD 26/27 studies. See discussion on
+the next page.
+© 2025 ERCOT 10
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+A Caution about Generic Models and MOD 026/027 Studies
+Many REs appear to be using generic models for their MOD 26/27 studies. While not prohibited,
+ERCOT has observed a high proportion of these models not yielding acceptable response, are no
+longer passing Voltage Ride Through, or have a response that is markedly different than the original
+UDM model without providing technical rationale. Per the rules in Planning Guide Section 6, ERCOT
+will reject such models. Please refer to the enclosed presentation.
+The cause of this problem is perhaps rooted in the fact that generic models are lower fidelity models
+and necessitate great care in choosing appropriate parameters. The expertise necessary to convert
+from a UDM model to a generic model usually requires involvement of the manufacturer and is
+sometimes not within the expertise of 3rd party consultants advertising MOD 26/27 services.
+In the ERCOT region, UDM models are allowed for MOD 26/27 studies and there is no requirement
+that generic models must be used. ERCOT DWG has adopted the “unacceptable” portion of the NERC
+Acceptable Models List3
+.
+4 Thus REs may use any model that NERC has not classified as unacceptable
+including models not appearing on the NERC list.
+ERCOT recommends Resource or Interconnecting Entities providing a generic model to obtain
+confirmation from their equipment manufacturer to ensure that the generic model is appropriate.
+Dynamic Model Templates
+Dynamic stability (PSSE/TSAT) and transient (PSCAD) models are submitted to ERCOT using model
+templates. The templates are downloadable from the ERCOT Resource Entity webpage:
+→ https://www.ercot.com/services/rq/re
+The posted templates support a wide range of manufacturers and technologies. If you find that your
+dynamic model is not supported by the posted templates, contact dynamicmodels@ercot.com and put
+the phrase “Template Issue” in the email subject.
+Any updated PSCAD models should be submitted in PSCAD Template format. The PSCAD Template
+is stored in the same zip file as the dynamic model Templates. There is an included slide tutorial.
+3 NERC Acceptable Models List, https://www.nerc.com/pa/RAPA/ModelAssessment/Pages/default.aspx
+4 ERCOT rule regarding acceptable models: Refer to Section 3.1.9 of the DWG Procedure Manual, posted at
+https://www.ercot.com/committees/ros/dwg
+© 2025 ERCOT 11
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+The Model Quality Test
+The model quality test is designed to help a Resource or Interconnecting Entity test their model before
+submitting to ERCOT. This helps ensure the model meets requirements and reduces arduous back
+and forth communication and corrections. Two optional tools are provided to facilitate testing:
+DMVIEW for PSS/E and PMVIEW for PSCAD. (No tool is currently provided for TSAT however it is
+straightforward to set up using the TSAT injection function. Search for “Voltage and Frequency/Angle
+Injection Data” in the TSAT Model Manual.) At the conclusion of the test, the Resource or
+Interconnecting Entity provides a test report and testing files to ERCOT via RIOO.
+• Model quality tests must be performed using the current version of the Planning
+Software (ref. DWG Manual 3.1.5.1). DWG is in the process of transitioning to PSS/e
+version 36; thus, the MQT may be run in either PSS/e version 35 or PSS/e version 36. The
+current version of PSCAD is version 4.5 or higher (ref. DWG Manual 3.1.1).
+• Model quality tests must be provided whenever providing a new or updated PSS/E, TSAT, or
+PSCAD model.
+o Standard library/generic models are not required to provide an MQT report testing
+the model in TSAT. User-defined models (UDM) are required to provide an MQT
+report testing the model in TSAT as well as PSS/E.
+• In most situations, the PSS/E, TSAT and PSCAD models should be updated at the same
+time. Please overlay the PSS/E-TSAT-PSCAD MQT plots to facilitate comparison.
+• For synchronous plants, a MOD 26/27 test report plus TSP usability report of the same
+model may fulfill ERCOT’s model quality test requirements. However, for inverter-based
+resources, MOD 26/27 reports do not fulfill the MQT requirements.
+• Resources should perform model quality testing at the same time as conducting MOD 26/27.
+The table below summarizes the required MQT tests for each type of facility:
+Hybrid Facility
+(battery + other
+generator)
+Solar or Wind Battery only (ESR) Self-Limited (SLF)
+Hybrid Facility
+Run all MQT tests at
+Run all MQT tests at
+Run all MQT tests under
+Run all MQT tests under
+100% generation unless
+100% charging and again
+the following 4 scenarios:
+the following 4 scenarios:
+indicated otherwise by the
+at 100% discharging
+• Standalone battery
+• Standalone battery
+test (e.g. most frequency
+unless otherwise indicated
+charging
+charging
+tests run at 80%)
+by the test.
+• Standalone battery
+• Standalone battery
+discharging
+discharging
+• Standalone generator
+• Standalone generator
+with battery offline
+with battery offline
+• Battery discharging +
+• Battery discharging at
+100% generation
+50% plus generator at
+50% (adjust if
+necessary to respect
+limit)
+© 2025 ERCOT 12
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+Hybrid plants consisting of an energy storage system (“ESS”) plus some other generation resource
+(“non-ESS”) are required to run a combined MQT and submit combined models if any of the
+following apply:
+• The different components share one or more main power transformers
+• The different components share a common control system, such as a master power plant
+controller
+• If neither of these apply, then the hybrid plant may submit separate models and separate
+MQTs of the ESS and of the non-ESS. The MQT of the ESS must consider both charging
+and discharging scenarios.
+© 2025 ERCOT 13
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+Energy Storage Resources consisting of Advanced Grid Support (AGS-ESR) must run the required
+AGS-ESR scenarios (refer to the “List of Applicable Tests” table in the DWG Procedure Manual).
+Table: Required Tests for an AGS-ESR only Facility and DWG Procedure Manual Section
+Stand-alone AGS-ESR
+Run these tests for
+• Flat-start, 3.1.5.2
+both charging and
+• Large volt disturbance
+o LVRT Test, 3.1.5.4
+again for discharging
+o HVRT Test, 3.1.5.5
+Test discharging only • AGS small volt disturbance, 3.1.5.11
+• AGS system strength, 3.1.5.13
+• AGS phase angle jump, 3.1.5.14
+Test at 0 MW dispatch • AGS frequency change and inertia response, 3.1.5.12
+Test with other
+dispatch scenario
+• AGS Loss of synchronous machine, refer to 3.1.5.15 for the dispatch
+Table: Required Tests for a Hybrid AGS-ESR Facility and DWG Procedure Manual Section
+AGS-ESR component
+online, non-AGS-ESR
+offline
+AGS-ESR component offline,
+non-AGS-ESR IBR online,
+Both AGS-ESR component
+online and non-AGS-ESR
+IBR online
+Run these
+Flat-start, 3.1.5.2
+• Flat-start, 3.1.5.2
+tests for both
+Large volt disturbance
+• Small volt disturbance,
+LVRT Test, 3.1.5.4
+3.1.5.3
+charging and
+HVRT Test, 3.1.5.5
+• Large volt disturbance
+again for
+o LVRT Test, 3.1.5.4
+discharging
+o HVRT Test, 3.1.5.5
+• Small frequency disturbance,
+3.1.5.7
+• System Strength, 3.1.5.8
+• Phase Angle Jump, 3.1.5.9
+Test
+discharging
+only
+AGS small volt
+disturbance, 3.1.5.11
+AGS system strength,
+3.1.5.13
+AGS phase angle jump,
+3.1.5.14
+• Flat-start, 3.1.5.2
+• Small volt disturbance,
+3.1.5.3
+• Large volt disturbance
+o LVRT Test, 3.1.5.4
+o HVRT Test, 3.1.5.5
+• Small frequency
+disturbance, 3.1.5.7
+• System Strength, 3.1.5.8
+• Phase Angle Jump, 3.1.5.9
+Test at 0 MW
+• AGS frequency
+dispatch
+change and inertia
+response, 3.1.5.12
+Test with other
+dispatch
+scenario
+• AGS Loss of
+synchronous machine,
+refer to 3.1.5.15 for the
+dispatch
+© 2025 ERCOT 14
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+A sample testing report is enclosed with this document. Details on the model quality test can be
+found in the most recent DWG Procedure Manual, Section 3.1.5 posted at:
+→ https://www.ercot.com/committees/ros/dwg
+The DWG Procedure Manual Section 3.1.5 contains information:
+• How to set up the simulation
+• Types of tests to perform
+• Test criteria
+• Example plots
+Using DMVIEW
+Dynamic Model reView (DMVIEW) is an optional external tool that can be used to perform model
+testing in PSS/E. Download the tool from:
+→ https://sites.google.com/view/dmview/home
+Before using DMVIEW, you must have a working dynamic case with your plant modeled up to the
+Point of Interconnection (POI). Please refer to the DMVIEW manual for complete instructions as
+well as the DWG Procedure Manual Section 3.1.5 for how to set up the case. Some helpful tips are
+provided here.
+1. Copy your model files to a new folder under the CASEs folder. Follow the DMVIEW Program
+Manual instructions to place a slack generator connected to the POI bus by a zero-impedance
+line. Tip: ERCOT has found that adding a very small amount of impedance to the zero-
+impedance line will facilitate setting an initial reactive flow. For example, use a value of 0.001
+reactance.
+a. The generator is connected to the medium voltage bus by the appropriate transformers
+and collector system equivalent. Note: You must use an aggregate model (i.e. do not
+model individual wind turbines or solar inverters). Several methods exist for calculating
+the equivalent collector impedance; see for instance the NREL/WECC method5
+.
+b. Refer to the DWG Procedure Manual Section 3.1.5 for information on setting up the
+initial voltage schedule and dispatch.
+i. For most of the tests, you can set up an initial 0 MVAr reactive exchange at
+the POI. A convenient way to achieve this is to set the voltage schedules of
+the slack generator and test generator to 1.0 per-unit and set the test generator
+to regulate the POI bus. For the lead and lag Voltage Ride Through tests
+(LVRT/HVRT), you can modify the voltage schedule of the test generator
+slightly to achieve a desired reactive dispatch at the POI or the latest version
+of DMVIEW accepts POI_
+PF = 0.95 command in the INI file for lagging
+and -0.95 for leading. Tip: Assign the “zero impedance” branch a slight non-
+zero impedance, say 0.001 reactance, to facilitate voltage control initialization.
+c. Ensure that the powerflow solves.
+5 E. Muldadi, “Method of Equivalencing for a Large Wind Power Plant with Multiple Turbine Representation.”
+NREL Conference paper, July 2008. https://www.nrel.gov/docs/fy08osti/42886.pdf
+© 2025 ERCOT 15
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+2. 3. d. For Inverter-Based Resources (including Wind, Solar, and Batteries), you will generally
+need to set up four powerflow cases and run DMVIEW four times:
+i. Case with 100% real power and minimal reactive power exchange
+ii. Case with 80% real power and minimal reactive power exchange for the
+frequency step tests
+iii. Case with 100% real power and 0.95 power factor leading at the POI for the
+voltage ride through tests (also called the Large Voltage Disturbance tests)
+iv. Case with 100% real power and 0.95 power factor lagging at the POI for the
+voltage ride through tests (also called the Large Voltage Disturbance tests)
+Copy one of the example INI files (either Wind.ini or Solar.ini) and edit the path names to
+correctly point to your project files.
+Change the tests specified in the INI file: (for synchronous plants, see footnote6)
+Test1_FS = ['FS','10']
+Test2_VDWN = ['VOLT','DATAs\\ERCOT_VOLT-STEP-DOWN.xlsx']
+Test3_VUP = ['VOLT','DATAs\\ERCOT_VOLT-STEP-UP.xlsx']
+Test4_HVRT = ['VOLT','DATAs\\ERCOT_HVRT.xlsx']
+Test5_LVRT = ['VOLT','DATAs\\ERCOT_LVRT.xlsx']
+Test6_FRQDWN = ['FREQ','DATAs\\ERCOT_FRQ-STEP-DOWN.xlsx']
+Test7_FRQDWN = ['FREQ','DATAs\\ERCOT_FRQ-STEP-UP.xlsx']
+Test8_SCR2 = ['SCR2', '10->5->3->1.5->1.2, 5, 1'] /SCR is changed from 10 to
+1.2 in 5 second intervals, with fault.
+4. 5. 6. These settings will run the following tests:
+• No disturbance 10-second Flat Start
+• POI Voltage Step Down 3%
+• POI Voltage Step Up 3%
+• HVRT
+• LVRT
+• Frequency Step Down 0.3 Hz, assuming no headroom
+• Frequency Step Down 0.3 Hz, assuming headroom7
+• Frequency Step Up 0.3 Hz
+• Short Circuit Ratio Test
+Follow the program instructions to run the tool.
+Compare your result plots to the examples illustrated in the DWG Procedural Manual. From
+these, you should get a good idea whether your model will be acceptable.
+Prepare a test report similar to the enclosed example. Submit to ERCOT.
+6 For synchronous plants such as fossil, delete the HVRT, LVRT, and SCR2 tests and add Test8_FAULT = ['FAULT','-
+2e10'] at the end. You will need version 2.5.1 or higher of DMVIEW.
+7 “Headroom / no headroom”: Refer to discussion under the heading “A special note on the frequency tests.”
+© 2025 ERCOT 16
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+Using PMVIEW
+PSCAD Model reView (PMVIEW) is an optional external tool that can be used to perform model
+tested in PSCAD. One benefit over other tools is that it will perform most tests in one button click
+using the PSCAD multi-run block. Download the tool from:
+➔ https://sites.google.com/view/pmview
+Before using PMVIEW, you must have a working PSCAD case with your plant modeled up to the
+Point of Interconnection (POI). A brief manual is included in the download. More help is available
+once the tool is opened in PSCAD; the tool has numerous comment boxes to guide you through
+usage.
+Unacceptable Test Results per the DWG Procedure Manual
+If you find that your model is unacceptable and it is for an existing resource, provide a description of
+the issue, including whether the shortcoming is limited to the model or whether the shortcoming really
+exists in the field. Your priority is to first provide an accurate model of your resource as it exists in the
+field. Then afterwards, develop a plan to correct the shortcoming. Provide a proposed model
+illustrating the corrected response to ERCOT for review along with an estimated timeline. After
+adjustments are made, a new PSS/E / TSAT / PSCAD model, model quality test reports, and
+verification report should be submitted.
+A special note on the frequency tests
+Renewable generators typically operate in a “power availability” state without headroom. Thus, there
+will be no response to a low frequency event unless the plant is curtailed (i.e., has headroom). By
+default, the model should be set up to interpret PGEN < PMAX to mean that power availability is less
+than capability (e.g., wind speed or solar insolation is lower than maximum) so the model should not
+respond to a low frequency event. There should be some means to enable headroom (such as a
+switch or flag in the dynamic model) to tell the model to instead interpret PGEN < PMAX to mean that
+the facility is curtailed. The dynamic model should not require adjusting PMAX to indicate whether
+headroom is available. A flag in the dynamic model would be the preferred means to indicate
+headroom availability. (This discussion only applies to renewable units; for conventional units the
+difference between PGEN and the temperature-compensated PMAX is typically available to the
+governor for frequency response.)
+ERCOT requires that all intermittent renewable (IRR) models be able to operate in the “no headroom”
+state and this be the default setting when the model is received. If the model is not currently capable
+of being switched for headroom / no headroom, then this limitation should be explained in the quality
+report with a note when the feature will be added.
+© 2025 ERCOT 17
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+Deliverables
+Models and Verification reports should be submitted to ERCOT’s RIOO-RS portal:
+• Select your plant or station and begin a New Change Request. The type of Change Request
+should be an “Attachment Only” change request.
+• Upload all files as attachments. Compressed .zip file format works best. The maximum size
+per file is approximately 60 MB so it may be necessary to split large files into smaller files by
+un-zipping them first and re-zipping them.
+• Be sure to upload all plant models, manuals, and reports to the change request, even
+models that are not being changed (Refer to Section 1 of this document, ERCOT Dynamic
+Model Requirements). Thus, for example, if you are updating the PSS/E model, then please
+attach your latest PSCAD model as well for IBR plants. To indicate whether a model is being
+updated, please indicate the model update date in the filename. For example, a PSCAD
+model which was last updated December 27th 2018 for Sitecode Turtle should be named
+“TURTLE_PSCAD_2018-12-27.zip” Refer below for file naming instructions.
+• If you have difficulties using RIOO-RS, first see the RIOO guides posted at
+https://www.ercot.com/services/rq/re and, if that does not resolve your issue, then email
+RIOO-help@ercot.com. If all else fails, reach out to your ERCOT client services account
+manager asking to submit files an MIS service request. You will need a digital certificate with
+role assigned called “MP Assets” in order to make the upload.
+Submitting PSS/E and TSAT models:
+✓ Model contained within an Excel model template8
+✓ If the model is a user-defined model (UDM), then submit:
+o Models adhering to the requirements in the included “ERCOT UDM Guideline”
+o PSS/E model package (including .sav or .raw, .dyr, and .dll files) set up based on the
+bus numbers that aligns with the bus numbers in the TSAT model package
+o TSAT model package (.raw, .dyr, .dll, and .tudm files) set up based on the bus numbers
+that align with the bus numbers in the PSS/E model package
+o TSAT model package (.pfb, .dyr, .dll, and .tudm files) set up based on Equipment
+Names. The equipment names should include a space in the names to demonstrate
+that the UDM model is compatible with the space character (an ERCOT TSAT
+requirement)
+o A model manual describing simulation set-up, tunable parameters, and illustrating a
+functional control block diagram
+o Include switched shunt and transformer tap initialization scripts and controls as
+necessary
+✓ Model Quality Test report (a sample report is included)
+o Include the test case consisting of .sav, .dyr, and any .dll files.
+8 Blank Templates for PSS/e and PSCAD can be downloaded from: https://www.ercot.com/services/rq/re User-defined model
+templates are available upon request by emailing dynamicmodels@ercot.com with “Template Request” in the email subject line.
+© 2025 ERCOT 18
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+o Overlay the PSCAD and TSAT model responses with the PSS/E model response.
+(TSAT is required for UDM models and PSCAD is required for most IBR models.)
+Submitting PSCAD models:
+✓ Model contained within a PSCAD template
+✓ PSCAD model with model manual
+✓ Completed PSCAD model guideline (a blank guideline checksheet is included)
+✓ Model Quality Test report showing the PSS/E and TSAT model responses overlaid
+✓ Unit model verification (“hardware benchmark”) (required for resources interconnected after
+3/1/2021)
+File Submission and Naming Guides:
+• For the PSS/E / TSAT models, package all files into a single compressed zip file, name the
+file: (SITECODE)_DYNAMIC_(date).zip with the appropriate sitecode and date, and upload
+to ERCOT’s RIOO portal.
+• For the PSCAD model, package all files into a single compressed zip file, name the file:
+(SITECODE)_PSCAD_(date).zip, and upload to ERCOT’s RIOO portal.
+• The “date” in the filename should refer to the date that the model was last updated.
+• RIOO has an upload file size limit of approximately 60 MB. If your file is too large, you may
+need to re-zip a file, splitting the contents into several smaller zip files for upload.
+• Please submit all models, even models that you are not currently updating. For example, an
+IBR utilizing a UDM model should submit the PSS/E, TSAT, and PSCAD models. The date
+in the filename will indicate to ERCOT whether, for example, the PSCAD model was
+updated.
+Operational resources must also submit a model parameter verification report as required by
+Planning Guide 5.5 (5) and Planning Guide 5.5 (6)(c). Refer to the “About Verification Reports”
+document for additional information about this report.
+Questions:
+➔ Regarding dynamic models? → dynamicmodels@ercot.com
+➔ Regarding RIOO / RIOO-RS system? → RIOO-HELP@ercot.com
+➔ Additional contacts found in the “Where to Find Help” section of this document.
+© 2025 ERCOT 19
+All rights reserved.
+ERCOT Dynamic Model Submittal Guideline ERCOT Public
+Enclosures
+• ERCOT PSCAD Model Guideline
+• ERCOT UDM Model Guideline
+• ERCOT presentation, Caution with Generic Models
+• Memo on REGC Generic Models
+• Sample model quality test report and files
+• Sample verification (PVR) report
+• About Verification Reports informational document
+References
+• Dynamic Model Templates, posted at https://www.ercot.com/services/rq/re
+• DMView PSS/E model testing tool. Available at https://sites.google.com/view/dmview/home
+• PMView PSCAD model testing tool. Available at https://sites.google.com/view/pmview
+• NERC Unacceptable Model List
+https://www.nerc.com/pa/RAPA/ModelAssessment/Pages/default.aspx
+• DWG Procedure Manual Section 3.1.5 https://www.ercot.com/committees/ros/dwg
+• ERCOT Planning Guide Section 5.5 and Section 6,
+http://www.ercot.com/mktrules/guides/planning/current
+• NOGRR-245 Market Notice, https://www.ercot.com/services/comm/mkt_notices/M-A010825-01
+o Questions regarding NOGRR-245 (and Nodal Operating Guide Section 2) → nogrr245@ercot.com
+© 2025 ERCOT 20
+All rights reserved.
+(Sample Verification Report)
+
+Resource Name:  TURTLE GENERATION STATION	Date of this Report: 8/7/2023
+Date(s) Field Settings Checked at Plant:
+5/2023:  Protection and PSS settings 
+6/2022:  Date of MOD-026/027 Reports	Names of Reference Documents (attached):
+Turtle MOD-026/027 Reports
+Turtle commissioning models
+
+
+General Description:
+
+This report is submitted to support the model parameters for the TURTLE GENERATING STATION.  The Governor and Exciter and Stabilizer models were checked through testing in the MOD-026/-027 reports.  In May of 2023, plant personnel downloaded the power system stabilizer and protection parameters to directly confirm the settings in those devices.  Tables of tunable or site-specific model parameters and their verified values are listed below.
+
+(Notes to the author writing this Verification report:
+1.	The new dynamic model Template contains a worksheet that can function as your verification report.  There is no need to prepare a separate report if you complete this worksheet and populate the field-verified data.
+2.	You can verify either your PSS/e or your PSCAD model.  However, if you verify the PSCAD model, please provide evidence you also confirmed the protection models in the PSS/e model, since these are not guaranteed to match when overlaying PSS/e versus PSCAD in the MQT report.
+a.	The new dynamic model Template provides helpful tips on this one. 
+3.	Follow the instructions in the Model Quality Guide on submitting your models along with this report.  You must submit models when submitting a verification report.  This includes submitting both models, even if only verifying one or the other.)  
+
+GENERATOR [GENROU], checked by commissioning model documents.
+PSS/E Index	Parameter Name	Model Value	Actual Field Equipment	Verification Method	Match?
+	H, Inertia	5.7	5.7	DOCS	Y
+	S(1.0) Saturation	0.002	0.002	DOCS	Y
+	S(1.2) Saturation	0.03	0.03	DOCS	Y
+
+
+EXCITER [ESST4B], checked by MOD-026.
+PSS/E Index	Parameter Name	Model Value	Actual Field Equipment	Verification Method	Match?
+	AVR proportional Gain	110	110	MOD-026	Y
+	AVR integral Gain	10	10	MOD-026	Y
+
+
+STABILIZER [PSS2B], checked by directly query digital stabilizer settings.
+PSS/E Index	Parameter Name	Model Value	Actual Field Equipment	Verification Method	Match?
+	Tw1 First Washout	3.5	3.5	Direct	Y
+	Tw2 Second washout	3.5	3.5	Direct	Y
+	Tw1 First Washout	3.5	3.5	Direct	Y
+	Tw2 Second washout	0.5	0.5	Direct	Y
+	Ks2 Gain on Signal #2	0.4	0.4	Direct	Y
+	Ks2 Gain on Signal #2	0.7	0.7	Direct	Y
+
+
+GOVERNOR [GGOV1], checked by MOD-027.  Droop directly checked in equipment settings.
+PSS/E Index	Parameter Name	Model Value	Actual Field Equipment	Verification Method	Match?
+	Droop	5%	5%	Direct	Y
+	Kpgov Proportional Gain	6.0	6.0	MOD-027	Y
+	Kigov Integral Gain	0.5	0.5	MOD-027	Y
+	Actuator Time Const	0.6	0.6	MOD-027	Y
+
+
+PROTECTION [Overvoltage] checked directly in relay settings.
+Model	Field Relay		
+V Thres	Seconds	V Thres	Seconds	Verification Method	Match?
+1.25	0.02	1.25	0.02	Inspection of relay curves	Y
+1.11	8	1.11	8	Inspection of relay curves	Y
+					
+
+
+PROTECTION [Undervoltage] checked directly in relay settings.
+Model	Field Relay		
+V Thres	Seconds	V Thres	Seconds	Verification Method	Match?
+0.6	0.02	1.25	0.02	Inspection of relay curves	Y
+0.80	8	1.11	8	Inspection of relay curves	Y
+
+
+PROTECTION [Underfrequency] checked directly in relay settings.
+Model	Field Relay		
+Hz Thres	Seconds	Hz Thres	Seconds	Verification Method	Match?
+65	0.02	65	0.02	Inspection of relay curves	Y
+62	8	62	8	Inspection of relay curves	Y
+
+
+PROTECTION [Overfrequency] checked directly in relay settings.
+Model	Field Relay		
+Hz Thres	Seconds	Hz Thres	Seconds	Verification Method	Match?
+57.5	0.02	57.5	0.02	Inspection of relay curves	Y
+58.5	8	58.5	8	Inspection of relay curves	Y
+
