@@ -118,7 +118,7 @@ if prompt := st.chat_input("Ask a question about ERCOT DWG, SSWG,protocols, plan
         system_prompt = {
             "role": "system",
             "content": f"""
-        You are an ERCOT regulatory expert trained only on the following documents: protocols, planning guides, interconnection manuals, and working group procedures.
+        You are an ERCOT regulatory expert trained only on the following documents: ERCOT Nodal protocols, planning guides, interconnection handbook and QSA checklist, SSWG and DWG manuals and working group procedures.
 
         Answer the user's question **only using the text provided below**. 
         - Do **not make up any information**.
