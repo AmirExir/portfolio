@@ -148,7 +148,7 @@ if prompt := st.chat_input("Ask about ERCOT DWG and SSWG manuals..."):
 
         if invalid_funcs:
             st.warning(f"⚠️ Warning: These functions may not exist in the : {', '.join(invalid_funcs)}")
-            bot_msg += f"\n\n⚠️ *Caution: The following information may be hallucinated or not found in the official documentation: {', '.join(invalid_funcs)}*"
+            bot_msg += f"\n\n⚠️ *Caution: The following PSS/E  function(s) may be hallucinated or not found in the official documentation: {', '.join(invalid_funcs)}*"
 
 
 
