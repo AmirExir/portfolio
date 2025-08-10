@@ -60,7 +60,7 @@ def find_relevant_chunks(query, chunks, embeddings, k=50):
     query_embed = embed_query(query)
     return find_top_k_chunks(query, chunks, embeddings, k)
 
-def limit_chunks_by_token_budget(chunks, max_tokens=30000, model="gpt-5"):
+def limit_chunks_by_token_budget(chunks, max_tokens=30000, model="gpt-4o"):
     encoding = tiktoken.encoding_for_model(model)
     total = 0
     selected = []

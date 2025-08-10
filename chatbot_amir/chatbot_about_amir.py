@@ -37,7 +37,7 @@ if prompt := st.chat_input("Ask me anything about Amir..."):
 
     with st.spinner("Thinking..."):
         response = client.chat.completions.create(
-            model="gpt-5",
+            model="gpt-5o",
             messages=st.session_state.messages,
             max_tokens=1024
         )

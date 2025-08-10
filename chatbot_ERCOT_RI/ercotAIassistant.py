@@ -131,7 +131,7 @@ if prompt := st.chat_input("Ask about ERCOT Resource Integration, QSA process...
         messages = [system_prompt] + st.session_state.messages
 
         response = client.chat.completions.create(
-            model="gpt-5",
+            model="gpt-5o",
             messages=messages,
             max_tokens=8192
         )
