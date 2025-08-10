@@ -101,7 +101,7 @@ Do not make up anything. Only answer based on the given context.
 
         response = safe_openai_call(
             client.chat.completions.create,
-            model="gpt-5",
+            model="gpt-4o",
             messages=messages,
             max_tokens=2048
         )
