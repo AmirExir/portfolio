@@ -1,8 +1,8 @@
 import streamlit as st
 import os
+import openai
 import json
 import glob
-import openai 
 from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 from typing import List
@@ -13,15 +13,20 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Load or compute embeddings
 @st.cache_data(show_spinner=False)
-def load_ERCOT_Nodal_Protocols_chunks_and_embeddings():
-    with open(os.path.join(os.path.dirname(__file__), "ercot_nodal_protocols_fully_structured.json"), "r", encoding="utf-8") as f:
-        chunks = json.load(f)
-        st.write("Current working directory:", os.getcwd())
-        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "ercot_nodal_protocols_fully_structured.json"))
+def load_ercot_chunks_and_embeddings():
+    from openai import OpenAI
+    embedding_model = "text-embedding-3-small"
 
+    chunks = []
     embeddings = []
-    embedding_model = "text-embedding-3-large"
 
+    st.write("📄 Available ERCOT protocol files:")
+    st.write(sorted(glob.glob("chatbot_ercot_nodalprotocols/ercotnodals_part*.txt")))
+
+    for filepath in sorted(glob.glob("chatbot_ercot_nodalprotocols/ercotnodals_part*.txt")):
+        with open(filepath, "r", encoding="utf-8") as f:
+            text = f.read()
+            chunks.append({"filename": filepath, "text": text})
     for chunk in chunks:
         try:
             response = client.embeddings.create(
@@ -30,14 +35,16 @@ def load_ERCOT_Nodal_Protocols_chunks_and_embeddings():
             )
             embeddings.append(response.data[0].embedding)
         except Exception as e:
-            st.warning(f"Embedding failed for chunk {chunk['id']}: {e}")
+            st.warning(f"Embedding failed for {chunk['filename']}: {e}")
+            print(f"ERROR for {chunk['filename']}: {e}")
             embeddings.append(None)
 
+    # Clean up bad embeddings
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
 
     if not valid_pairs:
-        st.warning("⚠️ No valid embeddings. Check your file or API key.")
-        raise ValueError("No valid embeddings were generated.")
+        st.warning("⚠️ No embeddings succeeded. Check file contents or OpenAI key.")
+        raise ValueError("No valid embeddings were generated. Please check the input files.")
 
     chunks, embeddings = zip(*valid_pairs)
     embeddings = np.array(embeddings)
@@ -46,49 +53,25 @@ def load_ERCOT_Nodal_Protocols_chunks_and_embeddings():
 # Embed the user query
 def embed_query(query: str) -> List[float]:
     response = client.embeddings.create(
-        model="text-embedding-3-large",
+        model="text-embedding-3-small",
         input=query
     )
     return response.data[0].embedding
 
-# Find top K matches
-def find_top_k_matches(query: str, chunks, embeddings, k=50):
+# Find best matching chunk
+def find_best_match(query: str, chunks, embeddings):
     query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity(query_embedding, embeddings).flatten()
-    top_indices = scores.argsort()[-k:][::-1]
-    top_chunks = [chunks[i] for i in top_indices]
-    return top_chunks
-
-# Limit chunks by token budget
-def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
-    total = 0
-    selected = []
-    for chunk in chunks:
-        token_count = len(chunk["text"].split())  # rough estimate
-        if total + token_count > max_input_tokens:
-            break
-        selected.append(chunk)
-        total += token_count
-    return selected
+    scores = cosine_similarity(query_embedding.reshape(1, -1), embeddings).flatten()
+    best_idx = int(np.argmax(scores))
+    return chunks[best_idx]
 
 # Streamlit UI
-st.set_page_config(page_title="Amir Exir's ERCOT Nodal Protocols AI Assistant", page_icon="⚡")
-st.title("🧠 Ask Amir Exir's ERCOT Nodal Protocols AI Assistant")
+st.set_page_config(page_title="Amir Exir's ERCOT protocols AI Assistant", page_icon="⚡")
+st.title("⚡ Ask Amir Exir's ERCOT Nodal protocols AI Assistant")
 
 # Load data and embeddings once
-with st.spinner("Loading ERCOT Nodal Protocols chunks and computing embeddings..."):
-    chunks, embeddings = load_ERCOT_Nodal_Protocols_chunks_and_embeddings()
-
-import re
-
-def extract_function_names(chunks):
-    pattern = r'\bpsspy\.(\w+)\b'
-    func_names = set()
-    for chunk in chunks:
-        func_names.update(re.findall(pattern, chunk["text"]))
-    return func_names
-
-valid_funcs = extract_function_names(chunks)
+with st.spinner("Loading nodal protocols and computing embeddings..."):
+    chunks, embeddings = load_ercot_chunks_and_embeddings()
 
 # Initialize chat
 if "messages" not in st.session_state:
@@ -99,58 +82,36 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
 # Chat input
-if prompt := st.chat_input("Ask about ERCOT Nodal Protocols manuals..."):
+if prompt := st.chat_input("Ask about ERCOT nodal protocols..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=50)
-        trimmed_chunks = limit_chunks_by_token_budget(top_chunks)
-        combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in trimmed_chunks)
+        best_chunk = find_best_match(prompt, chunks, embeddings)
 
         system_prompt = {
             "role": "system",
             "content": f"""
-        You are an the most advanced ERCOT Nodal Protocols manual expert. When given a task, identify the relevant  and return a full explaination. Avoid made-up explaination. Cite the chunk you're using.
+You are an expert assistant on ERCOT's planning guides.
+Only use the following documentation to answer the question:
 
-        Use only the following {len(trimmed_chunks)} reference chunks (from  manual and examples):
+---
+Filename: {best_chunk['filename']}
 
-        ---
-        {combined_context}
-        ---
-
-        Respond with:
-        - Clear descriptions of function usage
-        - Real working Python code
-        - Best practices and typical use cases
-
-        Prioritize actual examples if available. Do not make up any function names not shown.
-        """
+{best_chunk['text']}
+---
+Stay factual. Do not guess beyond the information provided above.
+"""
         }
 
         messages = [system_prompt] + st.session_state.messages
 
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=messages,
-            max_tokens=8192,
-            temperature = 0.2
-            
+            max_tokens=1024
         )
 
         bot_msg = response.choices[0].message.content
-
-        def find_invalid_functions(response_text, valid_funcs):
-            used = re.findall(r'\bpsspy\.(\w+)\b', response_text)
-            return [f for f in used if f not in valid_funcs]
-
-        invalid_funcs = find_invalid_functions(bot_msg, valid_funcs)
-
-        if invalid_funcs:
-            st.warning(f"⚠️ Warning: These functions may not exist in the : {', '.join(invalid_funcs)}")
-            bot_msg += f"\n\n⚠️ *Caution: The following PSS/E  function(s) may be hallucinated or not found in the official documentation: {', '.join(invalid_funcs)}*"
-
-
-
         st.chat_message("assistant").markdown(bot_msg)
         st.session_state.messages.append({"role": "assistant", "content": bot_msg})
