@@ -107,9 +107,9 @@ Stay factual. Do not guess beyond the information provided above.
         messages = [system_prompt] + st.session_state.messages
 
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-5o",
             messages=messages,
-            max_tokens=1024
+            max_tokens=10000,
         )
 
         bot_msg = response.choices[0].message.content
