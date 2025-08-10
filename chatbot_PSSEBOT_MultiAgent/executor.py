@@ -13,12 +13,12 @@ def extract_valid_funcs(chunks):
         valid.update(re.findall(pattern, chunk["text"]))
     return valid
 
-def count_tokens(text, model="gpt-5o"):
+def count_tokens(text, model="gpt-4o"):
     encoding = tiktoken.encoding_for_model(model)
     return len(encoding.encode(text))
 
 def run_executor(prompt, context, valid_funcs):
-    model = "gpt-5o"
+    model = "gpt-4o"
     
     context_block = f"""
     You are a Python expert in power system automation using the PSS®E API (psspy), and you are allowed to use supporting standard Python libraries when helpful.

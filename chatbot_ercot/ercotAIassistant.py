@@ -84,7 +84,7 @@ Instructions:
         messages = [system_prompt] + st.session_state.messages
 
         response = client.chat.completions.create(
-            model="gpt-5o",
+            model="gpt-4o",
             messages=messages,
             max_tokens=1000
         )
