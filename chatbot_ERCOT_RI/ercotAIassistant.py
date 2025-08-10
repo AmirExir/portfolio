@@ -7,8 +7,6 @@ from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 from typing import List
 import numpy as np
-import hashlib
-import time
 
 # Set up OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
