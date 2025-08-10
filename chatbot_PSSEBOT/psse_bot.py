@@ -8,7 +8,6 @@ from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 from typing import List
 import numpy as np
-import hashlib
 
 import time
 def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
