@@ -131,7 +131,7 @@ if prompt := st.chat_input("Ask about ERCOT Nodal Protocols manuals..."):
         messages = [system_prompt] + st.session_state.messages
 
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=messages,
             max_tokens=8192,
             temperature = 0.2
@@ -148,7 +148,7 @@ if prompt := st.chat_input("Ask about ERCOT Nodal Protocols manuals..."):
 
         if invalid_funcs:
             st.warning(f"⚠️ Warning: These functions may not exist in the : {', '.join(invalid_funcs)}")
-            bot_msg += f"\n\n⚠️ *Caution: The following PSS/E  function(s) may be hallucinated or not found in the official documentation: {', '.join(invalid_funcs)}*"
+            bot_msg += f"\n\n⚠️ *Caution: The following information may be hallucinated or not found in the official documentation: {', '.join(invalid_funcs)}*"
 
 
 
