@@ -13,34 +13,77 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Load or compute embeddings
 @st.cache_data(show_spinner=False)
-def load_ERCOT_Nodal_Protocols_chunks_and_embeddings():
-    with open(os.path.join(os.path.dirname(__file__), "ercot_nodal_protocols_fully_structured.json"), "r", encoding="utf-8") as f:
+def load_ERCOT_Nodal_Protocols_chunks_and_embeddings(force_rebuild: bool = False):
+    base_dir = os.path.dirname(__file__)
+    chunks_path = os.path.join(base_dir, "ercot_nodal_protocols_fully_structured.json")
+    emb_path   = os.path.join(base_dir, "ercot_embeddings.npy")
+    meta_path  = os.path.join(base_dir, "ercot_nodal_protocols_embeddings.meta.json")
+
+    def _sha1_texts(texts):
+        h = hashlib.sha1()
+        for t in texts:
+            h.update(t.replace("\r\n", "\n").encode("utf-8"))
+            h.update(b"\xff")
+        return h.hexdigest()
+
+    with open(chunks_path, "r", encoding="utf-8") as f:
         chunks = json.load(f)
-        st.write("Current working directory:", os.getcwd())
-        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "ercot_nodal_protocols_fully_structured.json"))
 
-    embeddings = []
+    st.write("Current working directory:", os.getcwd())
+    st.write("Chunks JSON:", chunks_path)
+
     embedding_model = "text-embedding-3-large"
+    texts = [c["text"] for c in chunks]
+    payload_hash = _sha1_texts(texts) + f"|model={embedding_model}|n={len(texts)}"
 
-    for chunk in chunks:
+    # Load cached embeddings if valid
+    if not force_rebuild and os.path.exists(emb_path) and os.path.exists(meta_path):
         try:
-            response = client.embeddings.create(
-                model=embedding_model,
-                input=chunk["text"][:8192]
-            )
-            embeddings.append(response.data[0].embedding)
+            with open(meta_path, "r", encoding="utf-8") as mf:
+                meta = json.load(mf)
+            if meta.get("payload_hash") == payload_hash:
+                embeddings = np.load(emb_path)
+                if embeddings.shape[0] == len(chunks):
+                    st.success("✅ Loaded cached embeddings from disk.")
+                    return chunks, embeddings
         except Exception as e:
-            st.warning(f"Embedding failed for chunk {chunk['id']}: {e}")
+            st.warning(f"Cached embeddings exist but could not be used: {e}")
+
+    # Build embeddings once
+    st.info("🔄 Building embeddings… (first run only or after content changes)")
+    embeddings = []
+    for i, text in enumerate(texts):
+        try:
+            resp = client.embeddings.create(
+                model=embedding_model,
+                input=text[:8192]
+            )
+            embeddings.append(resp.data[0].embedding)
+        except Exception as e:
+            st.warning(f"Embedding failed for chunk {i}: {e}")
             embeddings.append(None)
 
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
-
     if not valid_pairs:
-        st.warning("⚠️ No valid embeddings. Check your file or API key.")
+        st.error("❌ No valid embeddings. Check API key or input.")
         raise ValueError("No valid embeddings were generated.")
 
     chunks, embeddings = zip(*valid_pairs)
     embeddings = np.array(embeddings)
+
+    # Save cache
+    try:
+        np.save(emb_path, embeddings)
+        with open(meta_path, "w", encoding="utf-8") as mf:
+            json.dump(
+                {"payload_hash": payload_hash, "model": embedding_model,
+                 "num_chunks": len(chunks), "saved_at": int(time.time())},
+                mf, ensure_ascii=False, indent=2
+            )
+        st.success(f"💾 Saved embeddings to: {emb_path}")
+    except Exception as e:
+        st.warning(f"Could not save embeddings cache: {e}")
+
     return list(chunks), embeddings
 
 # Embed the user query
