@@ -15,10 +15,10 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Load or compute embeddings
 @st.cache_data(show_spinner=False)
-def load_RI_chunks_and_embeddings():
+def load_psse_chunks_and_embeddings():
     base_path = os.path.dirname(__file__)
-    cached_emb = os.path.join(base_path, "RI_embeddings.npy")
-    cached_chunks = os.path.join(base_path, "RI_chunks_cached.json")
+    cached_emb = os.path.join(base_path, "psse_embeddings.npy")
+    cached_chunks = os.path.join(base_path, "psse_chunks_cached.json")
     input_file = os.path.join(base_path, "input_chunks.json")
 
     if os.path.exists(cached_emb) and os.path.exists(cached_chunks):
@@ -73,8 +73,8 @@ def load_RI_chunks_and_embeddings():
     embeddings = np.array(embeddings)
 
     # ✅ Save to disk for reuse
-    np.save("RI_embeddings.npy", embeddings)
-    with open("RI_chunks_cached.json", "w", encoding="utf-8") as f:
+    np.save("psse_embeddings.npy", embeddings)
+    with open("psse_chunks_cached.json", "w", encoding="utf-8") as f:
         json.dump(chunks, f, indent=2)
 
     return list(chunks), embeddings
