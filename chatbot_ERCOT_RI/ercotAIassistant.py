@@ -13,53 +13,25 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Load or compute embeddings
 @st.cache_data(show_spinner=False)
-def load_RI_chunks_and_embeddings():
-    base_path = os.path.dirname(__file__)
-    cached_emb = os.path.join(base_path, "RI_embeddings.npy")
-    cached_chunks = os.path.join(base_path, "RI_chunks_cached.json")
-    input_file = os.path.join(base_path, "input_chunks.json")
-
-    if os.path.exists(cached_emb) and os.path.exists(cached_chunks):
-        st.write("✅ Using precomputed embeddings from .npy and .json")
-        with open(cached_chunks, "r", encoding="utf-8") as f:
-            chunks = json.load(f)
-        embeddings = np.load(cached_emb)
-        return list(chunks), embeddings
-
-    st.write("⚠️ Precomputed files not found, computing new embeddings...")
-    with open(input_file, "r", encoding="utf-8") as f:
-        chunks = json.load(f)
-
-    # 🔻 Fallback to compute embeddings
-    with open(os.path.join(os.path.dirname(__file__), "input_chunks.json"), "r", encoding="utf-8") as f:
+def load_Resource_Integration_chunks_and_embeddings():
+    with open(os.path.join(os.path.dirname(__file__), "Resource_Integration_fully_structured.json"), "r", encoding="utf-8") as f:
         chunks = json.load(f)
         st.write("Current working directory:", os.getcwd())
-        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "input_chunks.json"))
+        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "Resource_Integration_fully_structured.json"))
 
     embeddings = []
-    embedding_model = "text-embedding-3-large"
-    total_chunks = len(chunks)
-    st.write(f"🔄 Starting embedding process for {total_chunks} chunks...")
-    progress_bar = st.progress(0)
-    status_text = st.empty()
+    embedding_model = "text-embedding-3-small"
 
-    for i, chunk in enumerate(chunks):
+    for chunk in chunks:
         try:
-            current_progress = (i + 1) / total_chunks
-            progress_bar.progress(current_progress)
-            status_text.text(f"Processing embedding {i + 1}/{total_chunks} - Chunk ID: {chunk.get('id', 'unknown')}")
-            response = safe_openai_call(
-                client.embeddings.create,
+            response = client.embeddings.create(
                 model=embedding_model,
                 input=chunk["text"][:8192]
             )
             embeddings.append(response.data[0].embedding)
         except Exception as e:
-            st.warning(f"Embedding failed for chunk {chunk.get('id', 'unknown')}: {e}")
+            st.warning(f"Embedding failed for chunk {chunk['id']}: {e}")
             embeddings.append(None)
-    progress_bar.empty()
-    status_text.empty()
-    st.write(f"✅ Completed embedding process for {total_chunks} chunks")
 
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
 
@@ -69,12 +41,6 @@ def load_RI_chunks_and_embeddings():
 
     chunks, embeddings = zip(*valid_pairs)
     embeddings = np.array(embeddings)
-
-    # ✅ Save to disk for reuse
-    np.save("RI_embeddings.npy", embeddings)
-    with open("RI_chunks_cached.json", "w", encoding="utf-8") as f:
-        json.dump(chunks, f, indent=2)
-
     return list(chunks), embeddings
 
 # Embed the user query
