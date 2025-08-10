@@ -193,7 +193,7 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
         messages = [system_prompt] + st.session_state.messages
 
         response = client.chat.completions.create(
-            model="gpt-5",
+            model="gpt-5o",
             messages=messages,
             max_tokens=2048,
             temperature=0.3,
