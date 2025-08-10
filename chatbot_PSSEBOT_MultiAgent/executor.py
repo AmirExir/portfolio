@@ -13,7 +13,7 @@ def extract_valid_funcs(chunks):
         valid.update(re.findall(pattern, chunk["text"]))
     return valid
 
-def count_tokens(text, model="gpt-5o"):
+def count_tokens(text, model="gpt-5"):
     encoding = tiktoken.encoding_for_model(model)
     return len(encoding.encode(text))
 
