@@ -9,6 +9,11 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import networkx as nx
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
+import numpy as np
+import torch
+import torch.nn.functional as F
 
 # -----------------------
 # Graph building function
@@ -196,6 +201,22 @@ class GCN(nn.Module):
         logits = self.head(x)
         return logits
 
+
+def _stratified_indices(y_np, train_frac=0.7, seed=42):
+    sss = StratifiedShuffleSplit(n_splits=1, train_size=train_frac, random_state=seed)
+    (train_idx_np, val_idx_np), = sss.split(np.zeros_like(y_np), y_np)
+    return train_idx_np, val_idx_np
+
+def _class_weights(y_np):
+    # inverse-frequency weights for binary {0,1}
+    counts = np.bincount(y_np, minlength=2).astype(float)
+    counts[counts == 0] = 1.0
+    inv = 1.0 / counts
+    w = inv / inv.sum() * 2.0
+    return torch.tensor(w, dtype=torch.float)
+
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
 def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42):
     set_seed(seed)
     model = GCN(in_dim=data.x.size(1)).to(data.x.device)
@@ -211,30 +232,44 @@ def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42):
     history = []
     best = (1e9, None)  # val loss, state
     for epoch in range(1, epochs+1):
+        # Train
         model.train()
         logits = model(data.x, data.edge_index)
         loss = F.cross_entropy(logits[train_idx], data.y[train_idx])
         opt.zero_grad(); loss.backward(); opt.step()
 
-        # eval
+        # Eval
         model.eval()
         with torch.no_grad():
             logits_val = model(data.x, data.edge_index)[val_idx]
         preds = logits_val.argmax(dim=-1).cpu().numpy()
         yv = data.y[val_idx].cpu().numpy()
         val_loss = F.cross_entropy(logits_val, data.y[val_idx]).item()
-        acc = accuracy_score(yv, preds)
-        f1  = f1_score(yv, preds, average='binary')
-        history.append((epoch, float(loss.item()), val_loss, acc, f1))
+        
+        acc  = accuracy_score(yv, preds)
+        prec = precision_score(yv, preds, average='binary', zero_division=0)
+        rec  = recall_score(yv, preds, average='binary', zero_division=0)
+        f1   = f1_score(yv, preds, average='binary')
+        f1m  = f1_score(yv, preds, average='macro')
+
+        history.append((epoch, float(loss.item()), val_loss, acc, prec, rec, f1, f1m))
 
         if val_loss < best[0]:
-            best = (val_loss, {k:v.detach().cpu().clone() for k,v in model.state_dict().items()})
+            best = (val_loss, {k: v.detach().cpu().clone() for k, v in model.state_dict().items()})
 
-    # load best
-    if best[1] is not None:
-        model.load_state_dict({k:v for k,v in best[1].items()})
+    # Restore best model
+    model.load_state_dict(best[1])
 
-    return model, history
+    # Convert history to DataFrame for plotting
+    hist_df = pd.DataFrame(
+        history,
+        columns=["epoch", "train_loss", "val_loss", "val_acc", "val_prec", "val_rec", "val_f1", "val_f1_macro"]
+    )
+
+    st.subheader("Validation Metrics Over Epochs")
+    st.line_chart(hist_df.set_index("epoch")[["val_acc", "val_f1", "val_f1_macro"]])
+
+    return model, hist_df
 
 def to_pyg(edge_index_np, Xn, y):
     device = 'cuda' if (torch is not None and torch.cuda.is_available()) else 'cpu'
