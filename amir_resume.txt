@@ -1,106 +1,113 @@
 Names used: Amir Exir & Seyed Amirhossein Eksir Monfared |US Citizen
+contact@amirexirpe.com - +1(346) 412- 9950 - amirexirpe.com – github.com/amirexir
+
 Professional Summary
 
-Professional Engineer (P.E.) and Reliability Coordinator with 6 years of experience in Power System in Operation, Planning, Resource Integration, Modeling, Steady State and Dynamic Analysis at ERCOT ISO and LCRA TDSP.
-Master of Engineering from Lamar University Major in Power Electrical and Computer Engineering.
+Professional Engineer (P.E.) & Reliability Coordinator with 6 years of experience in Power System in Operation, Planning, Resource Integration, Modeling, Steady State & Dynamic Analysis at ERCOT ISO & LCRA TDSP.
+Master of Engineering from Lamar University Major in Power Electrical & Computer Engineering.
 Currently pursuing a Master of Science in Artificial Intelligence at University of Texas at Austin. AWS/IBM Certified.
 Proficient in PSS/E, GE EMS SCADA/TSM/DTS, ABB MMS, Streamlit, Embeddings, Python (Pandas, NumPy, Matplotlib, Scikit-learn, XGBoost, Pytorch, OpenAI), JavaScript, GitHub Pages.
 
 Work History
 
-Transmission Planning Model and Assessment Engineer | LCRA TSP (3/2024 – Present)
--Review and approved Planned, For - Construction and Operational ratings for LCRA transmission lines and auto transformers and shunts resulting from substations, lines and auto transformers additions or upgrades.
--Prepare Transmission Project Information Tracking (TPIT) updates for internal and costumers’ projects.
-- Lead and present and assign tasks for planning team in multi department rating comparison meetings.
-- Ensure system reliability, and compliance with NERC Standards, ERCOT Operation and Planning Guides.
+Transmission Planning Model & Assessment Engineer 	           LCRA TSP               	3/2024 – Present
+
+-Review & approved Planned, For - Construction & Operational ratings for LCRA transmission lines & auto transformers & shunts resulting from substations, lines & auto transformers additions or upgrades.
+-Prepare Transmission Project Information Tracking (TPIT) updates for internal & costumers’ projects.
+- Lead & present & assign tasks for planning team in multi department rating comparison meetings.
+- Ensure system reliability, & compliance with NERC Standards, ERCOT Operation & Planning Guides.
 -Maintain LCRA Planning Network Model in ERCOT according to capital projects in a timely manner.
 - Participate in ERCOT SSWG, DWG, PLWG, LLWG, RPG, LFLTF working groups.
-- Submit PMCR, DCP on ERCOT MOD for model changes and tunning.
-- Propose and sponsor projects based on load forecast, generation and transmission capacity and budget.
-- Perform Steady State Analysis for new Generation and Load Interconnect Requests.
-- Perform Dynamic Stability Analysis for MOD-26, MOD-27, and Model Quality Test.
-- Enhance model accuracy through data comparisons and validity checks.
+- Submit PMCR, DCP on ERCOT MOD for model changes & tunning.
+- Propose & sponsor projects based on load forecast, generation & transmission capacity & budget.
+- Perform Steady State Analysis for new Generation & Load Interconnect Requests.
+- Perform Dynamic Stability Analysis for MOD-26, MOD-27, & Model Quality Test.
+- Enhance model accuracy through data comparisons & validity checks.
 
-Transmission Operation Network Model and EMS Engineer | LCRA TSP (8/2022 – 3/2024)
-- Maintain LCRA Operation Network Model in ERCOT and LCRA EMS Model according to capital projects.
-- Draft One Line Diagram for before and after network model changes for capital projects.
-- Perform Contingency analysis for capital projects and outages and maintain State Estimator solutions.
-- Submit Network Model Operation Requests (NOMCRs) and participate in ERCOT NDSWG working groups.
-- Address real-time issues for SCADA, Transmission Security Management (TSM) applications and State Estimator.
-- Maintain Dispatcher Training Simulator (DTS) system network model, data base and applications.
-- Maintain PMU data in Epdc and RTDMS server and client access manager.
-- Update Line ratings and Impedances in EROT model and EMS based on Engineering team publications.
+Transmission Operation Network Model & EMS Engineer   	 LCRA TSP		 8/2022 – 3/2024
+
+- Maintain LCRA Operation Network Model in ERCOT & LCRA EMS Model according to capital projects.
+- Draft One Line Diagram for before & after network model changes for capital projects.
+- Perform Contingency analysis for capital projects & outages & maintain State Estimator solutions.
+- Submit Network Model Operation Requests (NOMCRs) & participate in ERCOT NDSWG working groups.
+- Address real-time issues for SCADA, Transmission Security Management (TSM) applications & State Estimator.
+- Maintain Dispatcher Training Simulator (DTS) system network model, data base & applications.
+- Maintain PMU data in Epdc & RTDMS server & client access manager.
+- Update Line ratings & Impedances in EROT model & EMS based on Engineering team publications.
 - Participate in network data working groups with ERCOT Collaborate with customers like PEC, BBEC, BEC, SBEC.
 
-Real Time Power System Engineer | ERCOT ISO (CROSSTRAINING) (1/2022-4/2022)
-- Provide engineering support to ERCOT Control Room System Operators through Power Flow studies, Stability Assessments, and system applications support.
-- Maintain Real-Time ERCOT State Estimator, Contingency Analysis, and Voltage/Transient Stability Analysis tools.
-- Develop Constraint Management Plans such as TOAP based on engineering studies for grid vulnerabilities.
-- Identify network model and applications quality issues.
-- Collaborate with ERCOT System Operators and Market Participants to maintain grid reliability and security.
-- Troubleshot situational awareness tools and reported grid status and developments to ERCOT departments.
+Real Time Power System Engineer 	                ERCOT ISO (CROSSTRAINING) 		                  1/2022-4/2022
 
-Operation Training Instructor | ERCOT ISO | 10/2020-8/2022
+- Provide engineering support to ERCOT Control Room System Operators through Power Flow studies, Stability Assessments, & system applications support.
+- Maintain Real-Time ERCOT State Estimator, Contingency Analysis, & Voltage/Transient Stability Analysis tools.
+- Develop Constraint Management Plans such as TOAP based on engineering studies for grid vulnerabilities.
+- Identify network model & applications quality issues.
+- Collaborate with ERCOT System Operators & Market Participants to maintain grid reliability & security.
+- Troubleshot situational awareness tools & reported grid status & developments to ERCOT departments.
+
+Operation Training Instructor 			       ERCOT ISO 		               	10/2020-8/2022
+
 -Develop power system simulation training scenarios to enhance ERCOT system operators' performance.
-- Maintain EMS, MMS, and OTS systems, troubleshooted simulator issues.
-- Prepare presentations for trainings and evaluate operator’s responses during simulation trainings.
+- Maintain EMS, MMS, & OTS systems, troubleshooted simulator issues.
+- Prepare presentations for trainings & evaluate operator’s responses during simulation trainings.
 - Design simulations events for EEA, Black Start, RTA, IROL, Hurricane Drill, Low Inertia trainings.
 - Participate as a RC, QSE or TO in real time simulations.
 - Perform Contingency Analysis for DTS case preparation.
 
-Power Electrical Engineer | ERCOT ISO – SOAL technologies| 10/2019 to 10/2020
-- Perform RARF registration and Reactive testing.
-- Review and processed generation interconnection and full interconnection study (FIS) applications.
+Power Electrical Engineer 	       	        ERCOT ISO – SOAL technologies                                 10/2019 - 10/2020
+
+- Perform RARF registration & Reactive testing.
+- Review & processed generation interconnection & full interconnection study (FIS) applications.
 - Review QSA Full Interconnection Studies such as Short Circuit, Faciality, Steady State, Stability Studies.
-- Utilize EMS and PSS/E Transmission Planning load flow cases for power system analysis.
-- Perform Steady State N-1 and  N-1-1 Contingency Analysis for Generation Interconnection Requests.
+- Utilize EMS & PSS/E Transmission Planning load flow cases for power system analysis.
+- Perform Steady State N-1 & N-1-1 Contingency Analysis for Generation Interconnection Requests.
 
-Associate Teacher | HISD | 2/2019 - 3/2022
-- Teach math and physics, manage the classroom and follow the lesson plan.
+Associate Teacher 					HISD 			 	                2/2019 - 3/2022
 
-Substitute Teacher |CFISD | 4/2018-1/2019
--Teach various subjects substituting for absent teachers.
+Substitute Teacher 				CFISD 				                  4/2018-1/2019
 	
 Education
 
-Master of Science in Artificial Intelligence – GPA 4.0 
-The University of Texas at Austin | 8/2024 – Present|
-Courses: Deep Learning, Machine Learning, Optimization, EAI, AIH 
+M.S., Artificial Intelligence     (GPA 4.0)  	     The University of Texas at Austin 	              8/2024 – Present
+Courses: Deep Learning, Machine Learning, Optimization, EAI, AIH, CSML,
 Projects:
--Built a vision system and autonomous racing agent for SuperTuxKart, optimizing performance through advanced deep learning techniques.
--Applied machine learning algorithms to real-world data sets, solving problems in pattern recognition and dimensionality reduction.
--Developed ethical AI guidelines for system design, incorporating fairness and transparency into decision-making frameworks.
+-Built a vision system & autonomous racing agent for SuperTuxKart, optimizing performance through advanced deep learning techniques.
+-Applied machine learning algorithms to real-world data sets, solving problems in pattern recognition & dimensionality reduction.
+-Developed ethical AI guidelines for system design, incorporating fairness & transparency into decision-making frameworks.
 
-Master of Engineering in Electrical and Computer Engineering – GPA: 3.8 
-Lamar University |1/21/2019 - 5/12/2020 
-- Courses: Power System Motor & protection, Introduction to Robotics, Power Sys Stability & Control, Programmable Logic Controller, Computer Network I & II, Low Power CMOS Des & Rel, Cyber Physical Sys & Security, Instrumentation System and Auto.
+M.Eng., Electrical & Computer Engineering   (GPA: 3.8)           Lamar University 	           1/2019 - 5/2020 
+- Courses: Power System Motor & protection, Introduction to Robotics, Power Sys Stability & Control, Programmable Logic Controller, Computer Network I & II, Low Power CMOS Des & Rel, Cyber Physical Sys & Security, Instrumentation System & Auto.
 
-Bachelor of Science in Electrical and Computer Engineering 
-Shahid Beheshti University | 10/2012 7/2017
-- Courses: Protection and Relays, Power System I & II and labs, Electrical Machines I, II, III, Especial Machines and labs, Computer Architecture, Computer Programming, Linear Algebra, Electromagnetic, Industrial Drawing, System Analysis, Logical Circuits, Electronics 1 & 2, Telecommunications, Production and Power Station, High Pressure Plant Design and Project, Mathematics I, II and physics, Differential Equations, Statistics and Probability Engineering.
+B.S., in Electrical & Computer Engineering 		   Shahid Beheshti University              10/2012 7/2017
+- Courses: Protection & Relays, Power System I & II & labs, Electrical Machines I, II, III, Especial Machines & labs, Computer Architecture, Computer Programming, Linear Algebra, Electromagnetic, Industrial Drawing, System Analysis, Logical Circuits, Electronics 1 & 2, Telecommunications, Production & Power Station, High Pressure Plant Design & Project, Mathematics I, II & physics, Differential Equations, Statistics & Probability Engineering.
 
-AI & Automation Projects (Self-Initiated)
+AI & Automation Projects
 Technologies: Python, Streamlit, OpenAI API, Embeddings, PSS®E, NLP, Scikit-learn, XGBoost, HTML/CSS, JavaScript, GitHub Pages, Kaggle.
-Personal Portfolio Website and Resume & Portfolio Chatbot
--Developed and deployed amirexirpe.com to showcase my resume, certifications, and AI-powered tools. Integrated a recruiter-facing chatbot trained on my experience and projects using semantic embeddings. The site includes interactive galleries, contact forms, downloadable documents, and iframe-embedded live apps.
+Personal Portfolio Website & Resume & Portfolio Chatbot
+-Developed & deployed amirexirpe.com to showcase my resume, certifications, & AI-powered tools. Integrated a recruiter-facing chatbot trained on my experience & projects using semantic embeddings. The site includes interactive galleries, contact forms, downloadable documents, & iframe-embedded live apps.
 Hourly Load Forecast App (AEP / PJM) – Live App: | Data: Kaggle (PJM Hourly Energy Consumption)
--Built a live load forecasting tool using PJM hourly data from Kaggle. Applied time-series feature engineering (lags, rolling averages, calendar variables) and trained an XGBoost model with low RMSE. Deployed with Streamlit and embedded into portfolio via iframe.
+-Built a live load forecasting tool using PJM hourly data from Kaggle. Applied time-series feature engineering (lags, rolling averages, calendar variables) & trained an XGBoost model with low RMSE. Deployed with Streamlit & embedded into portfolio via iframe.
 PSS®E Automation Assistant Bot,  PSS®E Multi Agent Automation Bot
--Developed Copilot-style assistants that generate Python scripts for PSS®E tasks like contingency analysis, dynamic simulation, and model editing. Multi-agent version adds autonomous task by planning, retrieval and execution agents. Powered by the same end-to-end semantic search pipeline for high-precision technical retrieval.
-ERCOT Nodal Protocols, Planning Guides, DWG SSWG manuals and Resource Integration AI assistant
--Built multiple GPT-powered assistants trained on ERCOT Planning Guides, Protocols, DWG/SSWG manuals, and interconnection processes. Used a custom embedding & retrieval pipeline to chunk, embed, and semantically search technical documents with OpenAI’s text-embedding-3-small model and token-bounded cosine similarity. Supports compliance, model validation, and system integration analysis.
+-Developed Copilot-style assistants that generate Python scripts for PSS®E tasks like contingency analysis, dynamic simulation, & model editing. Multi-agent version adds autonomous task by planning, retrieval & execution agents. Powered by the same end-to-end semantic search pipeline for high-precision technical retrieval.
+ERCOT Nodal Protocols, Planning Guides, DWG SSWG manuals & Resource Integration AI assistant
+-Built multiple GPT-powered assistants trained on ERCOT Planning Guides, Protocols, DWG/SSWG manuals, & interconnection processes. Used a custom embedding & retrieval pipeline to chunk, embed, & semantically search technical documents with OpenAI’s text-embedding-3-small model & token-bounded cosine similarity. Supports compliance, model validation, & system integration analysis.
 Power Fault Classifier App
--Created a Streamlit web app to classify power system faults using phasor measurements (Ia, Ib, Ic, Va, Vb, Vc). Trained and compared models (SVM, RF, MLP, XGBoost) with cross-validation and confusion matrix visualizations. Supports CSV uploads and result downloads.predictions.App: Launch Classifier | Sample: Test CSV
-Licenses, Certifications, and skills
+-Created a Streamlit web app to classify power system faults using phasor measurements (Ia, Ib, Ic, Va, Vb, Vc). Trained & compared models (SVM, RF, MLP, XGBoost) with cross-validation & confusion matrix visualizations. Supports CSV uploads & result downloads.
+Power Grid GNN Alarm Prediction App – Live App: | Data: IEEE 14-Bus (synthetic) + CSV uploads
+Developed a Graph Neural Network (GNN) in PyTorch Geometric with Message Passing Computation (MCP) to predict bus-level alarm probabilities in a simulated power grid, incorporating DC power flow linearization for electrical features alongside topological & operational data, & deployed as a public Streamlit app with example datasets, topology visualization, & feature previews.
+Licenses, Certifications, & skills
+
 - P.E. License (Licensed Professional Engineer) – Texas Board of Professional Engineers #151267
 - NERC System Operator Reliability Coordinator Certification- #RC 202105039
 - AWS Certified Cloud Practitioner.
 - Machine Learning with Python IBM Certification.
-- Databases and SQL for Data Science with Python IBM Certification.
-- Python for Data Science, AI and Development IBM Certification.
+- Databases & SQL for Data Science with Python IBM Certification.
+- Python for Data Science, AI & Development IBM Certification.
 - Data Visualization with Python.
-- Familiar with electrical standards and protocols (NEC NFPA, NERC, ERCOT, ANSI, IEEE).
+- Familiar with electrical standards & protocols (NEC NFPA, NERC, ERCOT, ANSI, IEEE).
+
 Software
+
 EMS GE Alstom, GE Reliance (PSLF, SOTE, TSM, DTSPSM, SCADA, RTNET/RTNA, STNET/STNA, RTCA, STCA)
 MMS ABB (SCED, COP, RUC)
 PSS/E, PSLF, Power World, TARA, DmVIew, DWG True View, PI, Edna, Seeq, MMAP, Xmap, Gridgeo
