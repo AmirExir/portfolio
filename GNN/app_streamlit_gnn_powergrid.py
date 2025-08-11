@@ -18,6 +18,20 @@ import torch.nn.functional as F
 # -----------------------
 # Graph building function
 # -----------------------
+
+def focal_loss(logits, targets, gamma=2.0, alpha=None):
+    """
+    Focal loss for class imbalance.
+    logits: [N, C] raw output of model
+    targets: [N] integer class labels
+    gamma: focusing parameter
+    alpha: class weighting (tensor of size [C] or None)
+    """
+    ce = F.cross_entropy(logits, targets, weight=alpha, reduction='none')
+    pt = torch.exp(-ce)  # softmax probability of the true class
+    loss = ((1 - pt) ** gamma) * ce
+    return loss.mean()
+
 def build_graph_dc(bus_df, edge_df, slack_bus='Bus1'):
     # normalize columns locally so this function is robust
     bus_df  = bus_df.rename(columns=str.lower).copy()
@@ -241,23 +255,37 @@ def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42):
     counts[counts == 0] = 1.0
     inv = 1.0 / counts
     weights = torch.tensor(inv / inv.sum() * 2.0, dtype=torch.float, device=data.x.device)
-                         
+    # ✅ FOCAL LOSS alpha from TRAIN ONLY
+    counts_t = torch.bincount(data.y[train_idx], minlength=2).float()
+    alpha = 1.0 / (counts_t + 1e-6)
+    alpha = (alpha / alpha.sum()).to(data.x.device)                     
     history = []
     best = (1e9, None)  # val loss, state
     for epoch in range(1, epochs+1):
         # Train
         model.train()
         logits = model(data.x, data.edge_index)
-        loss = F.cross_entropy(logits[train_idx], data.y[train_idx], weight=weights)
-        opt.zero_grad(); loss.backward(); opt.step()
+        #loss = F.cross_entropy(logits[train_idx], data.y[train_idx], weight=weights)
+        for epoch in range(1, epochs+1):
+            model.train()
+            logits = model(data.x, data.edge_index)
+            loss = focal_loss(
+                logits[train_idx], 
+                data.y[train_idx], 
+                gamma=2.0, 
+                alpha=alpha        # ✅ pass alpha
+            )
+            opt.zero_grad(); loss.backward(); opt.step()
 
-        # Eval
-        model.eval()
-        with torch.no_grad():
-            logits_val = model(data.x, data.edge_index)[val_idx]
-        preds = logits_val.argmax(dim=-1).cpu().numpy()
-        yv = data.y[val_idx].cpu().numpy()
-        val_loss = F.cross_entropy(logits_val, data.y[val_idx], weight=weights).item()
+            model.eval()
+            with torch.no_grad():
+                logits_val = model(data.x, data.edge_index)[val_idx]
+            val_loss = focal_loss(
+                logits_val, 
+                data.y[val_idx], 
+                gamma=2.0, 
+                alpha=alpha        # ✅ same alpha for val
+            ).item()
 
         acc  = accuracy_score(yv, preds)
         prec = precision_score(yv, preds, average='binary', zero_division=0)
