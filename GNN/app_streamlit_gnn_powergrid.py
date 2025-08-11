@@ -401,42 +401,61 @@ else:
 
             # Final report on validation nodes
             # Put model in eval mode and disable gradient tracking
-            model.eval()
-            with torch.no_grad():
-                logits = model(data.x, data.edge_index)
+# ── EVAL ──────────────────────────────────────────────────────────────────────
+        model.eval()
+        with torch.no_grad():
+            logits = model(data.x, data.edge_index)
 
-            # ✅ Use the *same* val_idx from train_gnn instead of recomputing
-            # (train_gnn should be updated to return train_idx, val_idx)
-            probs_val = torch.softmax(logits[val_idx], dim=-1)[:, 1].cpu().numpy()
+        # Probability threshold (assumes you created a Streamlit slider earlier named `th`)
+        # e.g., th = st.slider("Decision threshold (alarm)", 0.1, 0.9, 0.35, 0.05)
 
-            # Adjustable threshold for classification (default: 0.35 for better recall)
-            th = st.slider("Decision threshold (alarm)", 0.1, 0.9, 0.35, 0.05)
-            pred_val = (probs_val >= th).astype(int)
-            true_val = data.y[val_idx].cpu().numpy()
+        # --- Validation metrics (use the SAME indices returned by train_gnn) ---
+        probs_val = torch.softmax(logits[val_idx], dim=-1)[:, 1].cpu().numpy()
+        pred_val  = (probs_val >= th).astype(int)
+        true_val  = data.y[val_idx].cpu().numpy()
 
-            # Generate classification report
-            from sklearn.metrics import classification_report
-            report = classification_report(true_val, pred_val, digits=3, zero_division=0)
-            st.code(report, language="text")
+        from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 
-            # ✅ Prediction table for all buses
-            probs_all = torch.softmax(logits, dim=-1)[:, 1].cpu().numpy()
-            bus_df_view = bus_df.copy()
-            bus_df_view["pred_alarm_prob"] = probs_all
-            bus_df_view["pred_alarm_label"] = (probs_all >= th).astype(int)
-            st.dataframe(
-                bus_df_view.sort_values("pred_alarm_prob", ascending=False),
-                use_container_width=True
-            )
+        # Classification report
+        report = classification_report(true_val, pred_val, digits=3, zero_division=0)
+        st.code(report, language="text")
 
-            # Optional: save artifacts
-            if st.button("💾 Save model + scaler"):
-                import pickle
-                torch.save(model.state_dict(), "gnn_alarm_model.pt")
-                with open("feature_scaler.pkl", "wb") as f:
-                    pickle.dump(scaler, f)
-                st.success("Saved: gnn_alarm_model.pt, feature_scaler.pkl")
-                st.download_button("Download model weights", data=open("gnn_alarm_model.pt","rb").read(), file_name="gnn_alarm_model.pt")
-                st.download_button("Download scaler", data=open("feature_scaler.pkl","rb").read(), file_name="feature_scaler.pkl")
+        # Confusion matrix
+        cm = confusion_matrix(true_val, pred_val, labels=[0, 1])
+        fig, ax = plt.subplots(figsize=(4, 3))
+        ConfusionMatrixDisplay(cm, display_labels=["no alarm (0)", "alarm (1)"]).plot(
+            ax=ax, values_format="d", colorbar=False
+        )
+        ax.set_title("Validation Confusion Matrix")
+        st.pyplot(fig, use_container_width=False)
+
+        # --- Prediction table (all buses) ---
+        probs_all = torch.softmax(logits, dim=-1)[:, 1].cpu().numpy()
+        pred_all  = (probs_all >= th).astype(int)
+
+        bus_df_view = bus_df.copy()
+        bus_df_view["pred_alarm_prob"]  = probs_all
+        bus_df_view["pred_alarm_label"] = pred_all
+
+        # mark which rows are in validation split + if correct (for those rows)
+        mask_val = np.zeros(len(bus_df_view), dtype=bool)
+        mask_val[val_idx.cpu().numpy()] = True
+        bus_df_view["is_val"] = mask_val.astype(int)
+        bus_df_view.loc[mask_val, "correct"] = (pred_all[mask_val] == true_val).astype(int)
+
+        st.dataframe(
+            bus_df_view.sort_values("pred_alarm_prob", ascending=False),
+            use_container_width=True
+        )
+
+        # ── SAVE ARTIFACTS (optional) ────────────────────────────────────────────────
+        if st.button("💾 Save model + scaler"):
+            import pickle
+            torch.save(model.state_dict(), "gnn_alarm_model.pt")
+            with open("feature_scaler.pkl", "wb") as f:
+                pickle.dump(scaler, f)
+            st.success("Saved: gnn_alarm_model.pt, feature_scaler.pkl")
+            st.download_button("Download model weights", data=open("gnn_alarm_model.pt","rb").read(), file_name="gnn_alarm_model.pt")
+            st.download_button("Download scaler", data=open("feature_scaler.pkl","rb").read(), file_name="feature_scaler.pkl")  
     else:
         st.info("Load/create data first.")
