@@ -365,12 +365,12 @@ with col2:
         st.pyplot(fig, use_container_width=True)
 
         if used_dc:
-            # show DC-derived features
+            # ✅ Use the values you already unpacked from build_graph_dc
             preview = pd.DataFrame({
                 'bus': bus_df['bus'],
                 'theta (rad, DC)': theta_raw,
                 '|flow| sum': flow_sum_raw,
-                'degree': degree
+                'degree (count)': degree_raw.astype(int)
             })
             st.dataframe(preview.round(4), use_container_width=True)
         else:
