@@ -222,20 +222,33 @@ def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42):
     model = GCN(in_dim=data.x.size(1)).to(data.x.device)
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
-    # simple random split
-    num_nodes = data.num_nodes
-    perm = np.random.permutation(num_nodes)
-    split = int(0.7 * num_nodes)
-    train_idx = torch.tensor(perm[:split], dtype=torch.long, device=data.x.device)
-    val_idx   = torch.tensor(perm[split:], dtype=torch.long, device=data.x.device)
-
+    # # simple random split
+    # num_nodes = data.num_nodes
+    # perm = np.random.permutation(num_nodes)
+    # split = int(0.7 * num_nodes)
+    # train_idx = torch.tensor(perm[:split], dtype=torch.long, device=data.x.device)
+    # val_idx   = torch.tensor(perm[split:], dtype=torch.long, device=data.x.device)
+     
+    # stratified split by label so minority class appears in both sets
+    y_np = data.y.cpu().numpy()
+    sss = StratifiedShuffleSplit(n_splits=1, train_size=0.7, random_state=seed)
+    (train_idx_np, val_idx_np), = sss.split(np.zeros_like(y_np), y_np)
+    train_idx = torch.tensor(train_idx_np, dtype=torch.long, device=data.x.device)
+    val_idx   = torch.tensor(val_idx_np,   dtype=torch.long, device=data.x.device)
+    # class weights from the training subset only
+    train_labels_np = y_np[train_idx_np]
+    counts = np.bincount(train_labels_np, minlength=2).astype(float)
+    counts[counts == 0] = 1.0
+    inv = 1.0 / counts
+    weights = torch.tensor(inv / inv.sum() * 2.0, dtype=torch.float, device=data.x.device)
+                         
     history = []
     best = (1e9, None)  # val loss, state
     for epoch in range(1, epochs+1):
         # Train
         model.train()
         logits = model(data.x, data.edge_index)
-        loss = F.cross_entropy(logits[train_idx], data.y[train_idx])
+        loss = F.cross_entropy(logits[train_idx], data.y[train_idx], weight=weights)
         opt.zero_grad(); loss.backward(); opt.step()
 
         # Eval
@@ -244,8 +257,8 @@ def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42):
             logits_val = model(data.x, data.edge_index)[val_idx]
         preds = logits_val.argmax(dim=-1).cpu().numpy()
         yv = data.y[val_idx].cpu().numpy()
-        val_loss = F.cross_entropy(logits_val, data.y[val_idx]).item()
-        
+        val_loss = F.cross_entropy(logits_val, data.y[val_idx], weight=weights).item()
+
         acc  = accuracy_score(yv, preds)
         prec = precision_score(yv, preds, average='binary', zero_division=0)
         rec  = recall_score(yv, preds, average='binary', zero_division=0)
