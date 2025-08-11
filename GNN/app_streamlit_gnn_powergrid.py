@@ -103,8 +103,8 @@ from sklearn.metrics import accuracy_score, f1_score, classification_report
 # -----------------------------
 # Streamlit Page Setup
 # -----------------------------
-st.set_page_config(page_title="Power Grid GNN (Alarms)", layout="wide")
-st.title("⚡ Power Grid GNN — Node Alarm Classification (GCN + Message Passing)")
+st.set_page_config(page_title="Amir ExirPower Grid GNN (Alarms)", layout="wide")
+st.title("⚡ Amir Exir's Power Grid GNN — Node Alarm Classification (GCN + Message Passing)")
 st.caption("Nodes = buses | Edges = lines | Features = voltage, load, breaker_status | Target = alarm_flag")
 
 with st.sidebar:
