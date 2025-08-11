@@ -1,15 +1,13 @@
-streamlit>=1.36
-pandas>=2.0
-numpy>=1.24
-matplotlib>=3.8
-networkx>=3.2
-scikit-learn>=1.3
-watchdog>=4.0
-
-# PyTorch stack (compatible with Python 3.13 on Streamlit Cloud)
-torch==2.8.0
-torchvision==0.23.0
-torchaudio==2.8.0
-
-# PyTorch Geometric matching Torch 2.8
-torch-geometric==2.6.1
+streamlit
+pandas
+numpy
+scikit-learn
+torch
+torch-geometric
+torch-scatter
+torch-sparse
+torch-cluster
+torch-spline-conv
+requests
+matplotlib
+seaborn
