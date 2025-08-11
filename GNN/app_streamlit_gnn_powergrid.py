@@ -14,7 +14,10 @@ from sklearn.preprocessing import StandardScaler
 # Graph building function
 # -----------------------
 def build_graph_dc(bus_df, edge_df, slack_bus='Bus1'):
-    # Need: edge_df['x_pu'] reactance per line; bus_df['p_inj_mw'] net injections
+    # normalize columns locally so this function is robust
+    bus_df  = bus_df.rename(columns=str.lower).copy()
+    edge_df = edge_df.rename(columns=str.lower).copy()
+
     bus_to_idx = {b:i for i,b in enumerate(bus_df['bus'])}
     n = len(bus_df)
 
@@ -32,14 +35,13 @@ def build_graph_dc(bus_df, edge_df, slack_bus='Bus1'):
         B[i, j] += b; B[j, i] += b
         B[i, i] -= b; B[j, j] -= b
 
-    # Set slack angle = 0 by removing its row/col and solving reduced system
+    # Slack removal and solve
     s = bus_to_idx[slack_bus]
     mask = np.ones(n, dtype=bool); mask[s] = False
     B_red = B[mask][:, mask]
 
-    # P injections (convert MW to p.u. if you have base; here we just scale)
     P = bus_df['p_inj_mw'].to_numpy(float)
-    P = P - np.mean(P)  # simple centering to avoid singularity if sums mismatch
+    P = P - np.mean(P)
     P_red = P[mask]
 
     theta = np.zeros(n, dtype=float)
@@ -47,7 +49,7 @@ def build_graph_dc(bus_df, edge_df, slack_bus='Bus1'):
     theta[mask] = theta_red
     theta[s] = 0.0
 
-    # Approx line flows Pij ≈ (θi - θj)/Xij ; accumulate node flow stats
+    # Node flow stats
     flow_abs_sum = np.zeros(n, dtype=float)
     degree = np.zeros(n, dtype=int)
     for _, row in edge_df.iterrows():
@@ -57,9 +59,9 @@ def build_graph_dc(bus_df, edge_df, slack_bus='Bus1'):
         flow_abs_sum[i] += abs(pij); flow_abs_sum[j] += abs(pij)
         degree[i] += 1; degree[j] += 1
 
-    # Original features + DC features
+    # Features (note: load_mw is lowercased)
     X = np.c_[
-        bus_df[['voltage','load_MW','breaker_status']].to_numpy(float),
+        bus_df[['voltage','load_mw','breaker_status']].to_numpy(float),
         theta.reshape(-1,1),
         flow_abs_sum.reshape(-1,1),
         degree.reshape(-1,1)
