@@ -115,7 +115,13 @@ pip install torch-geometric -f https://data.pyg.org/whl/torch-2.5.0+cpu.html
     st.subheader("Data Options")
     use_upload = st.toggle("Upload CSVs (otherwise auto-generate synthetic 14-bus)", value=False)
     st.write("If uploading, provide: **bus_features.csv**, **branch_connections.csv**")
-
+    # --- NEW: DC features toggle ---
+    st.subheader("Features")
+    use_dc = st.toggle(
+        "Add DC power-flow features (θ, |flow| sum, degree)",
+        value=False,
+        help="Needs columns: bus_features.csv → p_inj_mw; branch_connections.csv → x_pu"
+    )
 # -----------------------------
 # Helpers
 # -----------------------------
