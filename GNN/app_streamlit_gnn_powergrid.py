@@ -135,23 +135,28 @@ def set_seed(s=42):
 def synthetic_14_bus():
     buses = [f'Bus{i}' for i in range(1, 15)]
     branches = [
-        ('Bus1', 'Bus2'), ('Bus1', 'Bus5'), ('Bus2', 'Bus3'), ('Bus2', 'Bus4'),
-        ('Bus3', 'Bus4'), ('Bus4', 'Bus5'), ('Bus5', 'Bus6'), ('Bus6', 'Bus11'),
-        ('Bus6', 'Bus12'), ('Bus6', 'Bus13'), ('Bus7', 'Bus8'), ('Bus7', 'Bus9'),
-        ('Bus9', 'Bus10'), ('Bus9', 'Bus14'), ('Bus10', 'Bus11'), ('Bus12', 'Bus13'),
-        ('Bus13', 'Bus14'), ('Bus4', 'Bus7'), ('Bus8', 'Bus14'), ('Bus3', 'Bus9')
+        ('Bus1','Bus2'),('Bus1','Bus5'),('Bus2','Bus3'),('Bus2','Bus4'),
+        ('Bus3','Bus4'),('Bus4','Bus5'),('Bus5','Bus6'),('Bus6','Bus11'),
+        ('Bus6','Bus12'),('Bus6','Bus13'),('Bus7','Bus8'),('Bus7','Bus9'),
+        ('Bus9','Bus10'),('Bus9','Bus14'),('Bus10','Bus11'),('Bus12','Bus13'),
+        ('Bus13','Bus14'),('Bus4','Bus7'),('Bus8','Bus14'),('Bus3','Bus9'),
     ]
-    node_features = {
-        bus: {
-            'voltage': round(1.0 + 0.05 * (i % 3), 3),
-            'load_MW': 50 + 10 * (i % 5),
-            'breaker_status': 1 if i % 4 != 0 else 0,
-            'alarm_flag': 1 if i % 6 == 0 else 0
-        }
-        for i, bus in enumerate(buses)
-    }
-    bus_df = pd.DataFrame.from_dict(node_features, orient='index').reset_index().rename(columns={'index': 'bus'})
-    edge_df = pd.DataFrame(branches, columns=['from_bus', 'to_bus'])
+    # simple synthetic bus features + injections
+    rows = []
+    for i, bus in enumerate(buses):
+        voltage = round(1.0 + 0.05 * (i % 3), 3)
+        load_MW = 50 + 10 * (i % 5)
+        breaker_status = 1 if i % 4 != 0 else 0
+        alarm_flag = 1 if i % 6 == 0 else 0
+        # tiny net injections alternating +/-
+        p_inj_mw = (5 if i % 2 == 0 else -5)
+        rows.append([bus, voltage, load_MW, breaker_status, alarm_flag, p_inj_mw])
+    bus_df = pd.DataFrame(rows, columns=['bus','voltage','load_MW','breaker_status','alarm_flag','p_inj_mw'])
+
+    # simple constant reactance per line
+    edge_df = pd.DataFrame(branches, columns=['from_bus','to_bus'])
+    edge_df['x_pu'] = 0.2  # any positive value works for demo
+
     return bus_df, edge_df
 
 def build_graph(bus_df, edge_df):
@@ -265,18 +270,62 @@ with col1:
 with col2:
     st.subheader("2) Build Graph")
     if bus_df is not None:
-        edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df, edge_df)
+        # choose which builder to use
+        if use_dc:
+            need_bus_cols = {'bus','voltage','load_mw','breaker_status','alarm_flag','p_inj_mw'}
+            need_edge_cols = {'from_bus','to_bus','x_pu'}
+
+            bus_cols_l = set(c.lower() for c in bus_df.columns)
+            edge_cols_l = set(c.lower() for c in edge_df.columns)
+
+            if not need_bus_cols.issubset(bus_cols_l) or not need_edge_cols.issubset(edge_cols_l):
+                st.error(
+                    "DC features requested, but required columns are missing. "
+                    "bus_features.csv needs 'p_inj_mw'; branch_connections.csv needs 'x_pu'. "
+                    "Using the basic graph instead."
+                )
+                edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df, edge_df)
+                used_dc = False
+            else:
+                # normalize column names to lowercase for the DC path
+                bus_df.columns = [c.lower() for c in bus_df.columns]
+                edge_df.columns = [c.lower() for c in edge_df.columns]
+                edge_index_np, Xn, y, scaler, bus_to_idx = build_graph_dc(bus_df, edge_df, slack_bus='Bus1')
+                used_dc = True
+        else:
+            edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df, edge_df)
+            used_dc = False
+
         st.write(f"Nodes: **{len(bus_df)}** | Edges (undirected counted): **{edge_index_np.shape[1]}**")
-        # basic networkx viz for topology
+        if used_dc:
+            st.success("DC power-flow features added: bus angles θ, |flow| sum per node, degree.")
+        else:
+            st.info("Using basic features: voltage, load_MW, breaker_status.")
+
+        # topology preview
         G = nx.Graph()
-        G.add_nodes_from(bus_df['bus'])
+        G.add_nodes_from(bus_df['bus' if 'bus' in bus_df.columns else 'BUS'])
         G.add_edges_from(list(zip(edge_df['from_bus'], edge_df['to_bus'])))
 
         pos = nx.spring_layout(G, seed=42)
         fig, ax = plt.subplots(figsize=(6,4))
-        nx.draw(G, pos, with_labels=True, node_size=600, ax=ax)  # default colors/styles
+        nx.draw(G, pos, with_labels=True, node_size=600, ax=ax)
         ax.set_title("Topology Preview")
         st.pyplot(fig, use_container_width=True)
+
+        if used_dc:
+            # show DC-derived features
+            _, Xtmp, _, _, _ = build_graph_dc(bus_df.copy(), edge_df.copy(), slack_bus='Bus1')
+            theta   = Xtmp[:, 3]
+            flowSum = Xtmp[:, 4]
+            degree  = Xtmp[:, 5]
+            preview = pd.DataFrame({
+                'bus': bus_df['bus'],
+                'theta (rad, DC)': theta,
+                '|flow| sum': flowSum,
+                'degree': degree
+            })
+            st.dataframe(preview.round(4), use_container_width=True)
 
 # -----------------------------
 # Training
