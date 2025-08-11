@@ -75,7 +75,7 @@ def build_graph_dc(bus_df, edge_df, slack_bus='Bus1'):
     Xn = scaler.transform(X)
 
     y = bus_df['alarm_flag'].to_numpy().astype(int)
-    return edge_index, Xn, y, scaler, bus_to_idx
+    return edge_index, Xn, y, scaler, bus_to_idx, theta, flow_abs_sum, degree
 # -----------------------------
 
 # Try to import torch + PyG and fail gracefully with instructions
@@ -282,7 +282,7 @@ def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42):
     st.subheader("Validation Metrics Over Epochs")
     st.line_chart(hist_df.set_index("epoch")[["val_acc", "val_f1", "val_f1_macro"]])
 
-    return model, hist_df
+    return model, hist_df, train_idx, val_idx
 
 def to_pyg(edge_index_np, Xn, y):
     device = 'cuda' if (torch is not None and torch.cuda.is_available()) else 'cpu'
@@ -340,7 +340,8 @@ with col2:
                 # normalize column names to lowercase for the DC path
                 bus_df.columns = [c.lower() for c in bus_df.columns]
                 edge_df.columns = [c.lower() for c in edge_df.columns]
-                edge_index_np, Xn, y, scaler, bus_to_idx = build_graph_dc(bus_df, edge_df, slack_bus='Bus1')
+                edge_index_np, Xn, y, scaler, bus_to_idx, theta_raw, flow_sum_raw, degree_raw = \
+                    build_graph_dc(bus_df, edge_df, slack_bus='Bus1')
                 used_dc = True
         else:
             edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df, edge_df)
@@ -365,17 +366,15 @@ with col2:
 
         if used_dc:
             # show DC-derived features
-            _, Xtmp, _, _, _ = build_graph_dc(bus_df.copy(), edge_df.copy(), slack_bus='Bus1')
-            theta   = Xtmp[:, 3]
-            flowSum = Xtmp[:, 4]
-            degree  = Xtmp[:, 5]
             preview = pd.DataFrame({
                 'bus': bus_df['bus'],
-                'theta (rad, DC)': theta,
-                '|flow| sum': flowSum,
+                'theta (rad, DC)': theta_raw,
+                '|flow| sum': flow_sum_raw,
                 'degree': degree
             })
             st.dataframe(preview.round(4), use_container_width=True)
+        else:
+            st.info("Using basic features: voltage, load_MW, breaker_status.")
 
 # -----------------------------
 # Training
@@ -393,7 +392,7 @@ else:
         if st.button("🚀 Train Model", type="primary"):
             with st.spinner("Training..."):
                 data = to_pyg(edge_index_np, Xn, y)
-                model, history = train_gnn(data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed)
+                model, history, train_idx, val_idx = train_gnn(data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed)
 
             st.success("Training complete. Showing best validation performance observed.")
             hist_df = pd.DataFrame(history, columns=["epoch","train_loss","val_loss","val_acc","val_f1"])
@@ -401,27 +400,34 @@ else:
             st.line_chart(hist_df.set_index("epoch")[["val_acc","val_f1"]])
 
             # Final report on validation nodes
+            # Put model in eval mode and disable gradient tracking
             model.eval()
             with torch.no_grad():
                 logits = model(data.x, data.edge_index)
-            # Recompute split to mirror the one inside train (same seed ensures similar behavior)
-            np.random.seed(seed)
-            perm = np.random.permutation(data.num_nodes)
-            split = int(0.7 * data.num_nodes)
-            train_idx = torch.tensor(perm[:split], dtype=torch.long, device=data.x.device)
-            val_idx   = torch.tensor(perm[split:], dtype=torch.long, device=data.x.device)
 
-            pred_val = logits[val_idx].argmax(dim=-1).cpu().numpy()
+            # ✅ Use the *same* val_idx from train_gnn instead of recomputing
+            # (train_gnn should be updated to return train_idx, val_idx)
+            probs_val = torch.softmax(logits[val_idx], dim=-1)[:, 1].cpu().numpy()
+
+            # Adjustable threshold for classification (default: 0.35 for better recall)
+            th = st.slider("Decision threshold (alarm)", 0.1, 0.9, 0.35, 0.05)
+            pred_val = (probs_val >= th).astype(int)
             true_val = data.y[val_idx].cpu().numpy()
+
+            # Generate classification report
+            from sklearn.metrics import classification_report
             report = classification_report(true_val, pred_val, digits=3, zero_division=0)
             st.code(report, language="text")
 
-            # Predict probabilities for visualization
-            probs = torch.softmax(logits, dim=-1)[:,1].detach().cpu().numpy()
-            # Attach to bus_df for display
+            # ✅ Prediction table for all buses
+            probs_all = torch.softmax(logits, dim=-1)[:, 1].cpu().numpy()
             bus_df_view = bus_df.copy()
-            bus_df_view["pred_alarm_prob"] = probs
-            st.dataframe(bus_df_view.sort_values("pred_alarm_prob", ascending=False), use_container_width=True)
+            bus_df_view["pred_alarm_prob"] = probs_all
+            bus_df_view["pred_alarm_label"] = (probs_all >= th).astype(int)
+            st.dataframe(
+                bus_df_view.sort_values("pred_alarm_prob", ascending=False),
+                use_container_width=True
+            )
 
             # Optional: save artifacts
             if st.button("💾 Save model + scaler"):
