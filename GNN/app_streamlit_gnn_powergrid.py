@@ -11,6 +11,7 @@ import networkx as nx
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
+from sklearn.metrics import precision_recall_curve, classification_report, confusion_matrix, ConfusionMatrixDisplay
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -20,15 +21,8 @@ import torch.nn.functional as F
 # -----------------------
 
 def focal_loss(logits, targets, gamma=2.0, alpha=None):
-    """
-    Focal loss for class imbalance.
-    logits: [N, C] raw output of model
-    targets: [N] integer class labels
-    gamma: focusing parameter
-    alpha: class weighting (tensor of size [C] or None)
-    """
     ce = F.cross_entropy(logits, targets, weight=alpha, reduction='none')
-    pt = torch.exp(-ce)  # softmax probability of the true class
+    pt = torch.exp(-ce)
     loss = ((1 - pt) ** gamma) * ce
     return loss.mean()
 
@@ -300,13 +294,27 @@ def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42):
     if best[1] is not None:
         model.load_state_dict(best[1])
 
+    # ---- Choose a validation threshold that maximizes F1 on the PR curve ----
+    with torch.no_grad():
+        logits_full_val = model(data.x, data.edge_index)[val_idx]
+        probs_val_for_th = torch.softmax(logits_full_val, dim=-1)[:, 1].cpu().numpy()
+        true_val_for_th  = data.y[val_idx].cpu().numpy()
+
+    precisions, recalls, thresholds = precision_recall_curve(true_val_for_th, probs_val_for_th)
+    f1s = 2 * (precisions * recalls) / (precisions + recalls + 1e-12)
+    if thresholds.size > 0:
+        best_idx = int(np.nanargmax(f1s[:-1]))  # thresholds aligns with all but last point
+        best_th = float(thresholds[best_idx])
+    else:
+        best_th = 0.5  # fallback when PR cannot be computed (e.g., single-class val split)
+
     # Convert history to DataFrame for plotting
     hist_df = pd.DataFrame(
         history,
         columns=["epoch", "train_loss", "val_loss", "val_acc", "val_prec", "val_rec", "val_f1", "val_f1_macro"]
     )
 
-    return model, hist_df, train_idx, val_idx
+    return model, hist_df, train_idx, val_idx, best_th
 
 def to_pyg(edge_index_np, Xn, y):
     device = 'cuda' if (torch is not None and torch.cuda.is_available()) else 'cpu'
@@ -416,7 +424,7 @@ else:
         if st.button("🚀 Train Model", type="primary"):
             with st.spinner("Training..."):
                 data = to_pyg(edge_index_np, Xn, y)
-                model, hist_df, train_idx, val_idx = train_gnn(data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed)
+                model, hist_df, train_idx, val_idx, best_th = train_gnn(data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed)
 
             st.success("Training complete. Showing best validation performance observed.")
             st.line_chart(hist_df.set_index("epoch")[["train_loss","val_loss"]])
@@ -426,7 +434,21 @@ else:
             # Put model in eval mode and disable gradient tracking
             # ── EVAL ──────────────────────────────────────────────────────────────────────
             # Add a threshold slider to trade precision/recall for alarms
-            th = st.slider("Decision threshold (alarm)", 0.1, 0.9, 0.35, 0.05)
+            th_default = float(np.clip(best_th, 0.1, 0.9))
+            th = st.slider("Decision threshold (alarm)", 0.1, 0.9, th_default, 0.05, help=f"PR-curve suggested threshold: {best_th:.3f}")
+
+            # Show a simple PR curve from validation to explain the suggested threshold
+            with torch.no_grad():
+                val_logits_for_pr = model(data.x, data.edge_index)[val_idx]
+                pr_probs = torch.softmax(val_logits_for_pr, dim=-1)[:, 1].cpu().numpy()
+                pr_true  = data.y[val_idx].cpu().numpy()
+            p_vals, r_vals, _ = precision_recall_curve(pr_true, pr_probs)
+            fig_pr, ax_pr = plt.subplots(figsize=(4, 3))
+            ax_pr.plot(r_vals, p_vals)
+            ax_pr.set_xlabel("Recall")
+            ax_pr.set_ylabel("Precision")
+            ax_pr.set_title("Validation Precision–Recall")
+            st.pyplot(fig_pr, use_container_width=False)
 
             model.eval()
             with torch.no_grad():
