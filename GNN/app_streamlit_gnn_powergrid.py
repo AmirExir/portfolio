@@ -12,7 +12,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedShuffleSplit, RepeatedStratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from sklearn.metrics import precision_recall_curve, classification_report, confusion_matrix, ConfusionMatrixDisplay
-import numpy as np
 import torch
 import torch.nn.functional as F
 
@@ -379,6 +378,10 @@ def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42):
     )
 
     return model, hist_df, train_idx, val_idx, best_th
+
+
+
+
 def train_gnn_cv(
     data,
     epochs=200,
@@ -406,6 +409,12 @@ def train_gnn_cv(
 
         tr = torch.tensor(tr_np, dtype=torch.long, device=data.x.device)
         va = torch.tensor(va_np, dtype=torch.long, device=data.x.device)
+
+        # ---- Fold-level guard: skip folds with a single-class validation set ----
+        yv_fold = data.y[va].detach().cpu().numpy().astype(int)
+        if len(np.unique(yv_fold)) < 2:
+            # This fold can't produce meaningful PR/F1/PR-curve; skip it.
+            continue
 
         counts_t = torch.bincount(data.y[tr], minlength=2).float()
         alpha = (1.0 / (counts_t + 1e-6))
@@ -437,7 +446,10 @@ def train_gnn_cv(
         with torch.no_grad():
             logits_val_full = model(data.x, data.edge_index)[va]
             probs_val = torch.softmax(logits_val_full, dim=-1)[:,1].cpu().numpy()
-            true_val  = data.y[va].cpu().numpy()
+            true_val  = data.y[va].cpu().numpy().astype(int)
+        # Defensive check: skip if validation is single-class (should have been caught earlier)
+        if len(np.unique(true_val)) < 2:
+            continue
         P, R, T = precision_recall_curve(true_val, probs_val)
         F1s = 2*(P*R)/(P+R+1e-12)
         th  = float(T[np.nanargmax(F1s[:-1])]) if T.size>0 else 0.5
@@ -469,31 +481,6 @@ def train_gnn_cv(
     model.load_state_dict(best_state)
     hist_df = pd.DataFrame(best_hist, columns=["epoch","train_loss","val_loss","val_acc","val_prec","val_rec","val_f1","val_f1_macro"])
     return model, hist_df, best_train_idx, best_val_idx, best_th, cv_summary
-    # Restore best model
-    if best[1] is not None:
-        model.load_state_dict(best[1])
-
-    # ---- Choose a validation threshold that maximizes F1 on the PR curve ----
-    with torch.no_grad():
-        logits_full_val = model(data.x, data.edge_index)[val_idx]
-        probs_val_for_th = torch.softmax(logits_full_val, dim=-1)[:, 1].cpu().numpy()
-        true_val_for_th  = data.y[val_idx].cpu().numpy()
-
-    precisions, recalls, thresholds = precision_recall_curve(true_val_for_th, probs_val_for_th)
-    f1s = 2 * (precisions * recalls) / (precisions + recalls + 1e-12)
-    if thresholds.size > 0:
-        best_idx = int(np.nanargmax(f1s[:-1]))  # thresholds aligns with all but last point
-        best_th = float(thresholds[best_idx])
-    else:
-        best_th = 0.5  # fallback when PR cannot be computed
-
-    # Convert history to DataFrame for plotting
-    hist_df = pd.DataFrame(
-        history,
-        columns=["epoch", "train_loss", "val_loss", "val_acc", "val_prec", "val_rec", "val_f1", "val_f1_macro"]
-    )
-
-    return model, hist_df, train_idx, val_idx, best_th
 
 def to_pyg(edge_index_np, Xn, y):
     device = 'cuda' if (torch is not None and torch.cuda.is_available()) else 'cpu'
@@ -620,20 +607,42 @@ if len(missing) > 0 or Data is None or GCNConv is None:
     st.error("PyTorch and/or PyTorch Geometric are not available. See install commands in the sidebar.")
 else:
     if bus_df is not None:
+        # Hyperparameters (set BEFORE the button so they persist in Streamlit state)
         epochs = st.slider("Epochs", 50, 800, 300, step=50)
-        lr = st.select_slider("Learning Rate", options=[1e-3, 3e-3, 1e-2, 3e-2], value=1e-2)
-        wd = st.select_slider("Weight Decay", options=[0.0, 5e-4, 1e-3], value=5e-4)
-        seed = st.number_input("Seed", value=42, step=1)
+        lr     = st.select_slider("Learning Rate", options=[1e-3, 3e-3, 1e-2, 3e-2], value=1e-2)
+        wd     = st.select_slider("Weight Decay", options=[0.0, 5e-4, 1e-3], value=5e-4)
+        seed   = st.number_input("Seed", value=42, step=1)
 
+        # Build the PyG object once, outside the button.
+        data = to_pyg(edge_index_np, Xn, y)
+
+        # (Optional) show class balance and a suggestion for CV splits
+        y_np = data.y.cpu().numpy()
+        cls, cls_counts = np.unique(y_np, return_counts=True)
+        st.caption(f"Class balance → 0: {int(cls_counts[cls.tolist().index(0)] if 0 in cls else 0)}, "
+                   f"1: {int(cls_counts[cls.tolist().index(1)] if 1 in cls else 0)}")
+
+        # Cross‑validation controls live OUTSIDE the button so the user can set them first
+        use_cv = st.toggle("Use RepeatedStratifiedKFold CV (avg metrics)", value=True,
+                           help="Runs CV, averages metrics, and keeps the best fold's weights for inspection.")
+        n_splits  = st.select_slider("CV n_splits",  options=[3, 5, 7, 10], value=5, disabled=not use_cv)
+        n_repeats = st.select_slider("CV n_repeats", options=[1, 2, 3, 5],  value=3, disabled=not use_cv)
+
+        # Guard: if there are very few positive samples, cap the number of splits
+        if use_cv:
+            pos_count = int(cls_counts[cls.tolist().index(1)]) if 1 in cls else 0
+            max_splits = max(2, min(n_splits, pos_count))
+            if max_splits < n_splits:
+                st.warning(
+                    f"Reducing CV splits from {n_splits} → {max_splits} because some folds would lack positives. "
+                    f"(positives={pos_count})"
+                )
+                n_splits = max_splits
+
+        # --- Train button ---
         if st.button("🚀 Train Model", type="primary"):
-            data = to_pyg(edge_index_np, Xn, y)
-
-            use_cv = st.toggle("Use RepeatedStratifiedKFold CV (avg metrics)", value=True)
-
             if use_cv:
-                n_splits  = st.select_slider("CV n_splits",  options=[3,5,7,10], value=5)
-                n_repeats = st.select_slider("CV n_repeats", options=[1,2,3,5], value=3)
-                with st.spinner("Training (cross-validation)..."):
+                with st.spinner("Training (cross‑validation)..."):
                     model, hist_df, train_idx, val_idx, best_th, cv_summary = train_gnn_cv(
                         data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed,
                         n_splits=n_splits, n_repeats=n_repeats
