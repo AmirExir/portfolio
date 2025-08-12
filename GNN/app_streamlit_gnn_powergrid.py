@@ -9,7 +9,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import networkx as nx
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.model_selection import StratifiedShuffleSplit, RepeatedStratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from sklearn.metrics import precision_recall_curve, classification_report, confusion_matrix, ConfusionMatrixDisplay
 import numpy as np
@@ -146,6 +146,70 @@ def set_seed(s=42):
         torch.manual_seed(s)
         if torch.cuda.is_available():
             torch.cuda.manual_seed_all(s)
+
+def replicate_graph_with_noise(
+    bus_df, edge_df, copies=10,
+    sigma_v=0.01,        # voltage noise (p.u.)
+    sigma_load=3.0,      # MW noise
+    sigma_pinj=1.0,      # MW noise
+    flip_breaker_p=0.02, # small prob to flip 0/1
+    flip_alarm_p=0.02,   # small prob to flip 0/1
+    seed=42
+):
+    """
+    Create N disjoint copies of the same topology with small feature noise.
+    Node names made unique by appending '__k' to each bus in copy k.
+    """
+    rng = np.random.default_rng(seed)
+
+    def getcol(df, name):
+        # case-insensitive lookup
+        m = {c.lower(): c for c in df.columns}
+        return m.get(name, name)
+
+    bus_out  = []
+    edge_out = []
+
+    for k in range(copies):
+        tag = f"__{k}"
+
+        df = bus_df.copy()
+        bcol = getcol(df, 'bus')
+        df[bcol] = df[bcol].astype(str) + tag
+
+        vcol = getcol(df, 'voltage')
+        if vcol in df:
+            df[vcol] = df[vcol].astype(float) + rng.normal(0, sigma_v, len(df))
+
+        lcol = getcol(df, 'load_mw')
+        if lcol in df:
+            df[lcol] = df[lcol].astype(float) + rng.normal(0, sigma_load, len(df))
+        lcol2 = getcol(df, 'load_MW')  # support original casing
+        if lcol2 in df:
+            df[lcol2] = df[lcol2].astype(float) + rng.normal(0, sigma_load, len(df))
+
+        pcol = getcol(df, 'p_inj_mw')
+        if pcol in df:
+            df[pcol] = df[pcol].astype(float) + rng.normal(0, sigma_pinj, len(df))
+
+        brk = getcol(df, 'breaker_status')
+        if brk in df:
+            flip = rng.random(len(df)) < flip_breaker_p
+            df.loc[flip, brk] = 1 - df.loc[flip, brk].astype(int)
+
+        af = getcol(df, 'alarm_flag')
+        if af in df:
+            flip = rng.random(len(df)) < flip_alarm_p
+            df.loc[flip, af] = 1 - df.loc[flip, af].astype(int)
+
+        bus_out.append(df)
+
+        e = edge_df.copy()
+        e['from_bus'] = e['from_bus'].astype(str) + tag
+        e['to_bus']   = e['to_bus'].astype(str) + tag
+        edge_out.append(e)
+
+    return pd.concat(bus_out, ignore_index=True), pd.concat(edge_out, ignore_index=True)
 
 def synthetic_14_bus():
     buses = [f'Bus{i}' for i in range(1, 15)]
@@ -306,7 +370,122 @@ def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42):
         best_idx = int(np.nanargmax(f1s[:-1]))  # thresholds aligns with all but last point
         best_th = float(thresholds[best_idx])
     else:
-        best_th = 0.5  # fallback when PR cannot be computed (e.g., single-class val split)
+        best_th = 0.5  # fallback when PR cannot be computed
+
+    # Convert history to DataFrame for plotting
+    hist_df = pd.DataFrame(
+        history,
+        columns=["epoch", "train_loss", "val_loss", "val_acc", "val_prec", "val_rec", "val_f1", "val_f1_macro"]
+    )
+
+    return model, hist_df, train_idx, val_idx, best_th
+def train_gnn_cv(
+    data,
+    epochs=200,
+    lr=1e-2,
+    weight_decay=5e-4,
+    seed=42,
+    n_splits=5,
+    n_repeats=3
+):
+    set_seed(seed)
+    rskf = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=seed)
+
+    y_np = data.y.cpu().numpy()
+    fold_stats = []
+    best_state = None
+    best_val_loss = float('inf')
+    best_train_idx = None
+    best_val_idx   = None
+    best_hist      = None
+    best_th        = 0.5
+
+    for fold_id, (tr_np, va_np) in enumerate(rskf.split(np.zeros_like(y_np), y_np), start=1):
+        model = GCN(in_dim=data.x.size(1)).to(data.x.device)
+        opt   = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+
+        tr = torch.tensor(tr_np, dtype=torch.long, device=data.x.device)
+        va = torch.tensor(va_np, dtype=torch.long, device=data.x.device)
+
+        counts_t = torch.bincount(data.y[tr], minlength=2).float()
+        alpha = (1.0 / (counts_t + 1e-6))
+        alpha = (alpha / alpha.sum()).to(data.x.device)
+
+        hist = []
+        for epoch in range(1, epochs+1):
+            model.train()
+            logits = model(data.x, data.edge_index)
+            loss = focal_loss(logits[tr], data.y[tr], gamma=2.0, alpha=alpha)
+            opt.zero_grad(); loss.backward(); opt.step()
+
+            model.eval()
+            with torch.no_grad():
+                logits_val = model(data.x, data.edge_index)[va]
+            val_loss = focal_loss(logits_val, data.y[va], gamma=2.0, alpha=alpha).item()
+
+            preds = logits_val.argmax(dim=-1).detach().cpu().numpy().astype(int)
+            yv    = data.y[va].detach().cpu().numpy().astype(int)
+
+            acc  = accuracy_score(yv, preds)
+            prec = precision_score(yv, preds, zero_division=0)
+            rec  = recall_score(yv, preds, zero_division=0)
+            f1   = f1_score(yv, preds)
+            f1m  = f1_score(yv, preds, average='macro')
+            hist.append((epoch, float(loss.item()), val_loss, acc, prec, rec, f1, f1m))
+
+        # pick an F1-maximizing threshold for this fold
+        with torch.no_grad():
+            logits_val_full = model(data.x, data.edge_index)[va]
+            probs_val = torch.softmax(logits_val_full, dim=-1)[:,1].cpu().numpy()
+            true_val  = data.y[va].cpu().numpy()
+        P, R, T = precision_recall_curve(true_val, probs_val)
+        F1s = 2*(P*R)/(P+R+1e-12)
+        th  = float(T[np.nanargmax(F1s[:-1])]) if T.size>0 else 0.5
+
+        preds_th = (probs_val >= th).astype(int)
+        acc_th  = accuracy_score(true_val, preds_th)
+        prec_th = precision_score(true_val, preds_th, zero_division=0)
+        rec_th  = recall_score(true_val, preds_th, zero_division=0)
+        f1_th   = f1_score(true_val, preds_th)
+        fold_stats.append((acc_th, prec_th, rec_th, f1_th))
+
+        if hist[-1][2] < best_val_loss:
+            best_val_loss = hist[-1][2]
+            best_state    = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
+            best_train_idx, best_val_idx = tr, va
+            best_hist = hist
+            best_th   = th
+
+    fold_stats = np.array(fold_stats)
+    cv_summary = {
+        "n_folds": int(len(fold_stats)),
+        "acc_mean": float(fold_stats[:,0].mean()), "acc_std": float(fold_stats[:,0].std(ddof=1)),
+        "prec_mean": float(fold_stats[:,1].mean()), "prec_std": float(fold_stats[:,1].std(ddof=1)),
+        "rec_mean": float(fold_stats[:,2].mean()), "rec_std": float(fold_stats[:,2].std(ddof=1)),
+        "f1_mean": float(fold_stats[:,3].mean()),  "f1_std": float(fold_stats[:,3].std(ddof=1)),
+    }
+
+    model = GCN(in_dim=data.x.size(1)).to(data.x.device)
+    model.load_state_dict(best_state)
+    hist_df = pd.DataFrame(best_hist, columns=["epoch","train_loss","val_loss","val_acc","val_prec","val_rec","val_f1","val_f1_macro"])
+    return model, hist_df, best_train_idx, best_val_idx, best_th, cv_summary
+    # Restore best model
+    if best[1] is not None:
+        model.load_state_dict(best[1])
+
+    # ---- Choose a validation threshold that maximizes F1 on the PR curve ----
+    with torch.no_grad():
+        logits_full_val = model(data.x, data.edge_index)[val_idx]
+        probs_val_for_th = torch.softmax(logits_full_val, dim=-1)[:, 1].cpu().numpy()
+        true_val_for_th  = data.y[val_idx].cpu().numpy()
+
+    precisions, recalls, thresholds = precision_recall_curve(true_val_for_th, probs_val_for_th)
+    f1s = 2 * (precisions * recalls) / (precisions + recalls + 1e-12)
+    if thresholds.size > 0:
+        best_idx = int(np.nanargmax(f1s[:-1]))  # thresholds aligns with all but last point
+        best_th = float(thresholds[best_idx])
+    else:
+        best_th = 0.5  # fallback when PR cannot be computed
 
     # Convert history to DataFrame for plotting
     hist_df = pd.DataFrame(
@@ -349,6 +528,31 @@ with col1:
         st.dataframe(bus_df.head(), use_container_width=True)
         st.dataframe(edge_df.head(), use_container_width=True)
 
+        # ---- Augmentation (optional) ----
+        st.subheader("Augment (optional)")
+        do_aug = st.toggle(
+            "Replicate the 14-bus graph with noise",
+            value=False,
+            help="Creates N disjoint copies with light feature noise to increase samples."
+        )
+        if do_aug and (bus_df is not None) and (edge_df is not None):
+            copies = st.slider("Number of copies (N)", 1, 50, 10, 1)
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                sigma_v = st.number_input("Voltage noise σ (pu)", 0.0, 0.2, 0.01, 0.005)
+            with c2:
+                sigma_load = st.number_input("Load noise σ (MW)", 0.0, 50.0, 3.0, 0.5)
+            with c3:
+                sigma_pinj = st.number_input("P_inj noise σ (MW)", 0.0, 50.0, 1.0, 0.5)
+            flip_breaker_p = st.number_input("Breaker flip prob", 0.0, 0.5, 0.02, 0.01)
+            flip_alarm_p   = st.number_input("Alarm flip prob",   0.0, 0.5, 0.02, 0.01)
+
+            bus_df, edge_df = replicate_graph_with_noise(
+                bus_df, edge_df, copies=copies,
+                sigma_v=sigma_v, sigma_load=sigma_load, sigma_pinj=sigma_pinj,
+                flip_breaker_p=flip_breaker_p, flip_alarm_p=flip_alarm_p, seed=42
+            )
+            st.success(f"Augmented dataset: {len(bus_df)} buses, {len(edge_df)} branches")
 with col2:
     st.subheader("2) Build Graph")
     if bus_df is not None:
@@ -422,9 +626,34 @@ else:
         seed = st.number_input("Seed", value=42, step=1)
 
         if st.button("🚀 Train Model", type="primary"):
-            with st.spinner("Training..."):
-                data = to_pyg(edge_index_np, Xn, y)
-                model, hist_df, train_idx, val_idx, best_th = train_gnn(data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed)
+            data = to_pyg(edge_index_np, Xn, y)
+
+            use_cv = st.toggle("Use RepeatedStratifiedKFold CV (avg metrics)", value=True)
+
+            if use_cv:
+                n_splits  = st.select_slider("CV n_splits",  options=[3,5,7,10], value=5)
+                n_repeats = st.select_slider("CV n_repeats", options=[1,2,3,5], value=3)
+                with st.spinner("Training (cross-validation)..."):
+                    model, hist_df, train_idx, val_idx, best_th, cv_summary = train_gnn_cv(
+                        data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed,
+                        n_splits=n_splits, n_repeats=n_repeats
+                    )
+                st.success(f"CV done over {cv_summary['n_folds']} folds.")
+                st.write(
+                    f"**CV (mean ± std)** — "
+                    f"Acc: {cv_summary['acc_mean']:.3f}±{cv_summary['acc_std']:.3f}, "
+                    f"Prec: {cv_summary['prec_mean']:.3f}±{cv_summary['prec_std']:.3f}, "
+                    f"Rec: {cv_summary['rec_mean']:.3f}±{cv_summary['rec_std']:.3f}, "
+                    f"F1: {cv_summary['f1_mean']:.3f}±{cv_summary['f1_std']:.3f}"
+                )
+            else:
+                with st.spinner("Training..."):
+                    model, hist_df, train_idx, val_idx, best_th = train_gnn(
+                        data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed
+                    )
+
+            
+
 
             st.success("Training complete. Showing best validation performance observed.")
             st.line_chart(hist_df.set_index("epoch")[["train_loss","val_loss"]])
