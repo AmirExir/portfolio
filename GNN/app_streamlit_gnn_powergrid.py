@@ -429,52 +429,53 @@ else:
 
             # Final report on validation nodes
             # Put model in eval mode and disable gradient tracking
-# ── EVAL ──────────────────────────────────────────────────────────────────────
-        model.eval()
-        with torch.no_grad():
-            logits = model(data.x, data.edge_index)
+            # ── EVAL ──────────────────────────────────────────────────────────────────────
+            # Add a threshold slider to trade precision/recall for alarms
+            th = st.slider("Decision threshold (alarm)", 0.1, 0.9, 0.35, 0.05)
 
-        # Probability threshold (assumes you created a Streamlit slider earlier named `th`)
-        # e.g., th = st.slider("Decision threshold (alarm)", 0.1, 0.9, 0.35, 0.05)
+            model.eval()
+            with torch.no_grad():
+                logits = model(data.x, data.edge_index)
 
-        # --- Validation metrics (use the SAME indices returned by train_gnn) ---
-        probs_val = torch.softmax(logits[val_idx], dim=-1)[:, 1].cpu().numpy()
-        pred_val  = (probs_val >= th).astype(int)
-        true_val  = data.y[val_idx].cpu().numpy()
+            # --- Validation metrics (use the SAME indices returned by train_gnn) ---
+            val_indices = val_idx.cpu().numpy()
+            probs_val = torch.softmax(logits[val_idx], dim=-1)[:, 1].cpu().numpy()
+            pred_val  = (probs_val >= th).astype(int)
+            true_val  = data.y[val_idx].cpu().numpy()
 
-        from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
+            from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 
-        # Classification report
-        report = classification_report(true_val, pred_val, digits=3, zero_division=0)
-        st.code(report, language="text")
+            # Classification report
+            report = classification_report(true_val, pred_val, digits=3, zero_division=0)
+            st.code(report, language="text")
 
-        # Confusion matrix
-        cm = confusion_matrix(true_val, pred_val, labels=[0, 1])
-        fig, ax = plt.subplots(figsize=(4, 3))
-        ConfusionMatrixDisplay(cm, display_labels=["no alarm (0)", "alarm (1)"]).plot(
-            ax=ax, values_format="d", colorbar=False
-        )
-        ax.set_title("Validation Confusion Matrix")
-        st.pyplot(fig, use_container_width=False)
+            # Confusion matrix
+            cm = confusion_matrix(true_val, pred_val, labels=[0, 1])
+            fig, ax = plt.subplots(figsize=(4, 3))
+            ConfusionMatrixDisplay(cm, display_labels=["no alarm (0)", "alarm (1)"]).plot(
+                ax=ax, values_format="d", colorbar=False
+            )
+            ax.set_title("Validation Confusion Matrix")
+            st.pyplot(fig, use_container_width=False)
 
-        # --- Prediction table (all buses) ---
-        probs_all = torch.softmax(logits, dim=-1)[:, 1].cpu().numpy()
-        pred_all  = (probs_all >= th).astype(int)
+            # --- Prediction table (all buses) ---
+            probs_all = torch.softmax(logits, dim=-1)[:, 1].cpu().numpy()
+            pred_all  = (probs_all >= th).astype(int)
 
-        bus_df_view = bus_df.copy()
-        bus_df_view["pred_alarm_prob"]  = probs_all
-        bus_df_view["pred_alarm_label"] = pred_all
+            bus_df_view = bus_df.copy()
+            bus_df_view["pred_alarm_prob"]  = probs_all
+            bus_df_view["pred_alarm_label"] = pred_all
 
-        # mark which rows are in validation split + if correct (for those rows)
-        mask_val = np.zeros(len(bus_df_view), dtype=bool)
-        mask_val[val_idx.cpu().numpy()] = True
-        bus_df_view["is_val"] = mask_val.astype(int)
-        bus_df_view.loc[mask_val, "correct"] = (pred_all[mask_val] == true_val).astype(int)
+            # mark which rows are in validation split + if correct (align by val_idx order)
+            bus_df_view["is_val"] = 0
+            bus_df_view.loc[val_indices, "is_val"] = 1
+            # correctness only defined for validation rows; align using val_indices order
+            bus_df_view.loc[val_indices, "correct"] = (pred_all[val_indices] == true_val).astype(int)
 
-        st.dataframe(
-            bus_df_view.sort_values("pred_alarm_prob", ascending=False),
-            use_container_width=True
-        )
+            st.dataframe(
+                bus_df_view.sort_values("pred_alarm_prob", ascending=False),
+                use_container_width=True
+            )
 
         # ── SAVE ARTIFACTS (optional) ────────────────────────────────────────────────
         if st.button("💾 Save model + scaler"):
