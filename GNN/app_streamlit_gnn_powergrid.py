@@ -72,7 +72,7 @@ pip install torch-geometric -f https://data.pyg.org/whl/torch-2.5.0+cpu.html
     use_upload = st.toggle("Upload CSVs (otherwise auto-generate synthetic 14-bus)", value=False)
     st.write("If uploading, provide: **bus_features.csv**, **branch_connections.csv**")
     st.subheader("Features")
-    st.info("Using linearized node features (array): voltage, load_MW, breaker_status. (No DC power-flow.)")
+    st.info("Using linearized node features (array): voltage, load_MW, breaker_status.")
 # -----------------------------
 # Helpers
 # -----------------------------
