@@ -192,22 +192,24 @@ def build_graph(bus_df, edge_df):
     return edge_index, Xn, y, scaler, bus_to_idx
 
 class GCN(nn.Module):
-    def __init__(self, in_dim, h_dim=32, num_classes=2, dropout=0.2):
+    def __init__(self, in_dim, h_dim=32, num_classes=2, dropout=0.2, use_relu=True):
         super().__init__()
         self.g1 = GCNConv(in_dim, h_dim)
         self.g2 = GCNConv(h_dim, h_dim)
         self.do = nn.Dropout(dropout)
-        self.head = nn.Linear(h_dim, num_classes)  # linear classifier head
+        self.head = nn.Linear(h_dim, num_classes)
+        self.use_relu = use_relu
 
     def forward(self, x, edge_index):
         x = self.g1(x, edge_index)
-        x = torch.relu(x)
+        if self.use_relu:
+            x = torch.relu(x)
         x = self.do(x)
         x = self.g2(x, edge_index)
-        x = torch.relu(x)
+        if self.use_relu:
+            x = torch.relu(x)
         x = self.do(x)
-        logits = self.head(x)
-        return logits
+        return self.head(x)
 
 
 def _stratified_indices(y_np, train_frac=0.7, seed=42):
@@ -225,9 +227,9 @@ def _class_weights(y_np):
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
-def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42):
+def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42, use_relu=True):
     set_seed(seed)
-    model = GCN(in_dim=data.x.size(1)).to(data.x.device)
+    model = GCN(in_dim=data.x.size(1), use_relu=use_relu).to(data.x.device)
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
     # Stratified split so minority class appears in both sets
@@ -326,7 +328,8 @@ def train_gnn_cv(
     weight_decay=5e-4,
     seed=42,
     n_splits=5,
-    n_repeats=3
+    n_repeats=3,
+    use_relu=True
 ):
     set_seed(seed)
     rskf = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=seed)
@@ -341,7 +344,7 @@ def train_gnn_cv(
     best_th        = 0.5
 
     for fold_id, (tr_np, va_np) in enumerate(rskf.split(np.zeros_like(y_np), y_np), start=1):
-        model = GCN(in_dim=data.x.size(1)).to(data.x.device)
+        model = GCN(in_dim=data.x.size(1), use_relu=use_relu).to(data.x.device)
         opt   = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
         tr = torch.tensor(tr_np, dtype=torch.long, device=data.x.device)
@@ -414,7 +417,7 @@ def train_gnn_cv(
         "f1_mean": float(fold_stats[:,3].mean()),  "f1_std": float(fold_stats[:,3].std(ddof=1)),
     }
 
-    model = GCN(in_dim=data.x.size(1)).to(data.x.device)
+    model = GCN(in_dim=data.x.size(1), use_relu=use_relu).to(data.x.device)
     model.load_state_dict(best_state)
     hist_df = pd.DataFrame(best_hist, columns=["epoch","train_loss","val_loss","val_acc","val_prec","val_rec","val_f1","val_f1_macro"])
     return model, hist_df, best_train_idx, best_val_idx, best_th, cv_summary
@@ -525,6 +528,44 @@ else:
         n_splits  = st.select_slider("CV n_splits",  options=[3, 5, 7, 10], value=5, disabled=not use_cv)
         n_repeats = st.select_slider("CV n_repeats", options=[1, 2, 3, 5],  value=3, disabled=not use_cv)
 
+        # Option to make the GCN linear (no activations)
+        linear_gcn = st.toggle(
+            "Make GCN linear (no activations)",
+            value=False,
+            help="Removes ReLUs from the GCN so the mapping is linear in the inputs."
+        )
+
+        # --- Baseline: Logistic Regression (no graph) ---
+        st.subheader("Baseline: Logistic Regression (no graph)")
+        if st.button("⚖️ Train linear baseline", key="lin_base"):
+            X_np = Xn.astype(float)
+            y_np2 = y.astype(int)
+            bs_splits  = n_splits if use_cv else 5
+            bs_repeats = n_repeats if use_cv else 3
+            rskf_bs = RepeatedStratifiedKFold(n_splits=bs_splits, n_repeats=bs_repeats, random_state=seed)
+
+            mets = []
+            for tr_idx, va_idx in rskf_bs.split(np.zeros_like(y_np2), y_np2):
+                Xtr, Xva = X_np[tr_idx], X_np[va_idx]
+                ytr, yva = y_np2[tr_idx], y_np2[va_idx]
+                clf = LogisticRegression(max_iter=2000, class_weight='balanced')
+                clf.fit(Xtr, ytr)
+                pr = clf.predict(Xva)
+                mets.append([
+                    accuracy_score(yva, pr),
+                    precision_score(yva, pr, zero_division=0),
+                    recall_score(yva,  pr, zero_division=0),
+                    f1_score(yva, pr)
+                ])
+            mets = np.array(mets)
+            st.write(
+                f"LR CV (mean ± std) — "
+                f"Acc: {mets[:,0].mean():.3f}±{mets[:,0].std(ddof=1):.3f}, "
+                f"Prec: {mets[:,1].mean():.3f}±{mets[:,1].std(ddof=1):.3f}, "
+                f"Rec: {mets[:,2].mean():.3f}±{mets[:,2].std(ddof=1):.3f}, "
+                f"F1: {mets[:,3].mean():.3f}±{mets[:,3].std(ddof=1):.3f}"
+            )
+
         # Guard: if there are very few positive samples, cap the number of splits
         if use_cv:
             pos_count = int(cls_counts[cls.tolist().index(1)]) if 1 in cls else 0
@@ -542,7 +583,7 @@ else:
                 with st.spinner("Training (cross‑validation)..."):
                     model, hist_df, train_idx, val_idx, best_th, cv_summary = train_gnn_cv(
                         data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed,
-                        n_splits=n_splits, n_repeats=n_repeats
+                        n_splits=n_splits, n_repeats=n_repeats, use_relu=(not linear_gcn)
                     )
                 st.success(f"CV done over {cv_summary['n_folds']} folds.")
                 st.write(
@@ -555,7 +596,7 @@ else:
             else:
                 with st.spinner("Training..."):
                     model, hist_df, train_idx, val_idx, best_th = train_gnn(
-                        data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed
+                        data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=(not linear_gcn)
                     )
 
             
