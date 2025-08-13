@@ -170,7 +170,7 @@ def synthetic_14_bus():
 
     # simple constant reactance per line
     edge_df = pd.DataFrame(branches, columns=['from_bus','to_bus'])
-    edge_df['x_pu'] = 0.2  # any positive value works for demo
+    
 
     return bus_df, edge_df
 
