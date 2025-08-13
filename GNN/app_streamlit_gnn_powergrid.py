@@ -14,7 +14,7 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 from sklearn.metrics import precision_recall_curve, classification_report, confusion_matrix, ConfusionMatrixDisplay
 import torch
 import torch.nn.functional as F
-
+from sklearn.linear_model import LogisticRegression
 # -----------------------
 # Graph building function
 # -----------------------
@@ -25,64 +25,6 @@ def focal_loss(logits, targets, gamma=2.0, alpha=None):
     loss = ((1 - pt) ** gamma) * ce
     return loss.mean()
 
-def build_graph_dc(bus_df, edge_df, slack_bus='Bus1'):
-    # normalize columns locally so this function is robust
-    bus_df  = bus_df.rename(columns=str.lower).copy()
-    edge_df = edge_df.rename(columns=str.lower).copy()
-
-    bus_to_idx = {b:i for i,b in enumerate(bus_df['bus'])}
-    n = len(bus_df)
-
-    # Edge index (undirected)
-    src = edge_df['from_bus'].map(bus_to_idx).to_numpy()
-    dst = edge_df['to_bus'  ].map(bus_to_idx).to_numpy()
-    edge_index = np.vstack([np.r_[src, dst], np.r_[dst, src]])
-
-    # Build B' (susceptance) matrix
-    B = np.zeros((n, n), dtype=float)
-    for _, row in edge_df.iterrows():
-        i, j = bus_to_idx[row['from_bus']], bus_to_idx[row['to_bus']]
-        x = float(row['x_pu'])
-        b = -1.0 / x
-        B[i, j] += b; B[j, i] += b
-        B[i, i] -= b; B[j, j] -= b
-
-    # Slack removal and solve
-    s = bus_to_idx[slack_bus]
-    mask = np.ones(n, dtype=bool); mask[s] = False
-    B_red = B[mask][:, mask]
-
-    P = bus_df['p_inj_mw'].to_numpy(float)
-    P = P - np.mean(P)
-    P_red = P[mask]
-
-    theta = np.zeros(n, dtype=float)
-    theta_red = np.linalg.solve(B_red, P_red)
-    theta[mask] = theta_red
-    theta[s] = 0.0
-
-    # Node flow stats
-    flow_abs_sum = np.zeros(n, dtype=float)
-    degree = np.zeros(n, dtype=int)
-    for _, row in edge_df.iterrows():
-        i, j = bus_to_idx[row['from_bus']], bus_to_idx[row['to_bus']]
-        x = float(row['x_pu'])
-        pij = (theta[i] - theta[j]) / x
-        flow_abs_sum[i] += abs(pij); flow_abs_sum[j] += abs(pij)
-        degree[i] += 1; degree[j] += 1
-
-    # Features (note: load_mw is lowercased)
-    X = np.c_[
-        bus_df[['voltage','load_mw','breaker_status']].to_numpy(float),
-        theta.reshape(-1,1),
-        flow_abs_sum.reshape(-1,1),
-        degree.reshape(-1,1)
-    ]
-    scaler = StandardScaler().fit(X)
-    Xn = scaler.transform(X)
-
-    y = bus_df['alarm_flag'].to_numpy().astype(int)
-    return edge_index, Xn, y, scaler, bus_to_idx, theta, flow_abs_sum, degree
 # -----------------------------
 
 # Try to import torch + PyG and fail gracefully with instructions
@@ -129,13 +71,8 @@ pip install torch-geometric -f https://data.pyg.org/whl/torch-2.5.0+cpu.html
     st.subheader("Data Options")
     use_upload = st.toggle("Upload CSVs (otherwise auto-generate synthetic 14-bus)", value=False)
     st.write("If uploading, provide: **bus_features.csv**, **branch_connections.csv**")
-    # --- NEW: DC features toggle ---
     st.subheader("Features")
-    use_dc = st.toggle(
-        "Add DC power-flow features (θ, |flow| sum, degree)",
-        value=False,
-        help="Needs columns: bus_features.csv → p_inj_mw; branch_connections.csv → x_pu"
-    )
+    st.info("Using linearized node features (array): voltage, load_MW, breaker_status. (No DC power-flow.)")
 # -----------------------------
 # Helpers
 # -----------------------------
@@ -543,38 +480,10 @@ with col1:
 with col2:
     st.subheader("2) Build Graph")
     if bus_df is not None:
-        # choose which builder to use
-        if use_dc:
-            need_bus_cols = {'bus','voltage','load_mw','breaker_status','alarm_flag','p_inj_mw'}
-            need_edge_cols = {'from_bus','to_bus','x_pu'}
-
-            bus_cols_l = set(c.lower() for c in bus_df.columns)
-            edge_cols_l = set(c.lower() for c in edge_df.columns)
-
-            if not need_bus_cols.issubset(bus_cols_l) or not need_edge_cols.issubset(edge_cols_l):
-                st.error(
-                    "DC features requested, but required columns are missing. "
-                    "bus_features.csv needs 'p_inj_mw'; branch_connections.csv needs 'x_pu'. "
-                    "Using the basic graph instead."
-                )
-                edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df, edge_df)
-                used_dc = False
-            else:
-                # normalize column names to lowercase for the DC path
-                bus_df.columns = [c.lower() for c in bus_df.columns]
-                edge_df.columns = [c.lower() for c in edge_df.columns]
-                edge_index_np, Xn, y, scaler, bus_to_idx, theta_raw, flow_sum_raw, degree_raw = \
-                    build_graph_dc(bus_df, edge_df, slack_bus='Bus1')
-                used_dc = True
-        else:
-            edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df, edge_df)
-            used_dc = False
-
+        # build graph with basic linearized features
+        edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df, edge_df)
         st.write(f"Nodes: **{len(bus_df)}** | Edges (undirected counted): **{edge_index_np.shape[1]}**")
-        if used_dc:
-            st.success("DC power-flow features added: bus angles θ, |flow| sum per node, degree.")
-        else:
-            st.info("Using basic features: voltage, load_MW, breaker_status.")
+        st.info("Linearized features (array): voltage, load_MW, breaker_status.")
 
         # topology preview
         G = nx.Graph()
@@ -586,18 +495,6 @@ with col2:
         nx.draw(G, pos, with_labels=True, node_size=600, ax=ax)
         ax.set_title("Topology Preview")
         st.pyplot(fig, use_container_width=True)
-
-        if used_dc:
-            # ✅ Use the values you already unpacked from build_graph_dc
-            preview = pd.DataFrame({
-                'bus': bus_df['bus'],
-                'theta (rad, DC)': theta_raw,
-                '|flow| sum': flow_sum_raw,
-                'degree (count)': degree_raw.astype(int)
-            })
-            st.dataframe(preview.round(4), use_container_width=True)
-        else:
-            st.info("Using basic features: voltage, load_MW, breaker_status.")
 
 # -----------------------------
 # Training
