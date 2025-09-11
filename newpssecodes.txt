@@ -1,0 +1,1702 @@
+line_x = [0.6, 0.5, 0.2]
+line_r = [0.1, 0.05, 0]
+
+for x, r in zip(line_x, line_r):
+    try:
+        x_over_r = x/r
+    except:
+        x_over_r = 9999.9
+    print("x is: ", x, " and r is: ", r, "x_over_r = ", x_over_r)
+    
+**************************************************************************
+
+#first solution (good fixed length string)
+busname = s[1:6]
+buskv = s[13:19]
+#buskv = s[-7:-1]
+
+print(busname, float(buskv))
+
+#second solution (generic solution)
+s = s.strip("[]")
+busname, buskv = s.split()
+buskv = float(buskv)
+print(busname, buskv)
+
+**************************************************************************
+
+buses = {'bus1':{'num':101, 'vpu':1.02}, 'bus2':{'num':102, 'vpu':0.98}}
+for name, numv in buses.items():
+    for num, vpu in numv.items():
+        print(name, num, vpu)
+
+for name1, (num1, vpu1) in buses.items():
+    print(name1, num1, vpu1)
+    
+***********************************************  
+import psse3506
+import psspy
+
+savpath = r"C:\Program Files\PTI\PSSE35\35.6\EXAMPLE\savnw.sav"
+
+psspy.psseinit()
+psspy.case(savpath)
+
+psspy.fdns()
+
+
+************************************************************
+dict = {'a':1, 'c':2, 'b':3}
+if 'd' in dict:
+    print("it is in the dictionary")
+else:
+    print("it is not")
+    
+*************************************************************
+
+list2 =[]
+
+if not list2:
+    print("list is empty!")
+else:
+    print('add a new element to the list')
+    list2.append(1)
+
+list3 = [1, 2, 3]
+if list3:
+    list3.append(10)
+    print(list3)
+else:
+    print('list3 is empty')
+    
+***************************************************************
+
+list1 = None
+
+if list1 is None:
+    print('new list is crested')
+    list1 = []
+else:
+    list1.append(1)
+    print(list1)
+
+**************************************************************
+
+list1 = [1, 2, 3, 4]
+list2 = ['a', 'b', 'c', 'd']
+
+data = zip(list1, list2)
+print(type(data))
+
+for l1, l2 in data:
+    print(l1, l2)
+    
+**************************************************************
+buses = {101:230, 102:150, 201:66, 202:500}
+
+for num, vol in buses.items():
+
+    if vol < 100:
+        continue
+    print(num, vol)
+    
+**************************************************************
+
+def print_bus_data():
+    pass
+
+buses = {101:230, 102:150, 201:66, 202:500}
+
+for num, vol in buses.items():
+
+    if vol < 100:
+        pass
+    print(num, vol)
+    
+*****************************************************************
+
+s = 'BUS    152 MID500      500.00 CKT     MW     MVAR     MVA   % 1.0171PU   -1.12'
+
+businfo = s.split()
+
+busv = float(businfo[9].strip('PU'))
+print(busv)
+
+if busv > 1.05:
+    print("Voltage is way too high")
+elif busv > 1.025:
+    print(Voltage is high)
+elif busv < 0.925:
+    print("Voltage is way too low")
+elif busv < 0.95:
+    print("Volatge is low")
+else:
+    print("Normal value")
+*******************************************************************
+
+s = "Generator 101 '1' Qgen: 23.4523658 MVAR"
+
+#print(s)
+
+template = "Generator {0} '1' Qgen: {1:8.2f} MVAR"
+
+s1 = template.format(101, 23.4523658)
+
+print(s1)
+
+s2 = template.format(102, 123.32659871)
+print(s2)
+
+*****************************************************
+gens = {101:23.4523658, 102:123.32659871, 301:520.32166982}
+
+for num, var in gens.items():
+    print(f"\tGenerator {num} '1' \nQgen: {var:8.2f} MVAR")
+  
+*******************************************************************
+
+
+with open("data.txt", "w") as f:
+    f.write("Hello File!")
+
+##with open("data.txt", "r") as f:
+##    print(f.read())
+
+with open("data.txt", "a") as f:
+    f.write("\nThe second line in the file.")
+
+with open("data.txt", "r") as f:
+    print(f.read())
+    
+********************************************************************
+
+import  os
+
+print(os.getcwd())
+
+input_path = r"C:\Program Files\PTI\PSSE35\35.6\EXAMPLE"
+
+savpath = os.path.join(input_path,'savnw.sav')
+print("savepath: ", savpath)
+
+head, tail = os.path.split(savpath)
+
+print("folder: ", head)
+print("file: ", tail)
+
+filename, ext = os.path.splitext(tail)
+
+print("filename: ", filename)
+print("ext: ", ext)
+***********************************************************************
+
+data = [1, 2, 3, 4, 5]
+
+with open('data.txt', 'w') as f:
+    for d in data:
+        f.write(f"{d}\n")
+
+
+with open('data.txt', 'r') as f:
+    lines = f.readlines()
+
+for line in lines:
+    print(line.strip())
+    
+*********************************************************************
+
+busvlt ={
+    101:1.03,
+    102:1.02,
+    201:0.98,
+    202:1.012,
+    301:0.96}
+
+with open("data.csv", "w") as f:
+    f.write("bus number, voltage\n")
+    for num, vlt in busvlt.items():
+        f.write(f"{num}, {vlt}\n")
+
+with open("data.csv", "r") as f:
+    lines = f.readlines()
+
+busvlt1 = {}
+
+for line in lines[1:]:
+    num, vlt = line.split(',')
+    busvlt1[int(num)] = float(vlt.strip())
+    
+*************************************************************************
+def myfunc(a, b=10, c=2):
+
+    d = a**2
+
+    e = b - c
+
+    return d, e
+
+
+r1, r2 = myfunc(1, 2, 3) # the same as myfunc(a=1, b=2, c=3)
+r3, r4 = myfunc(b=1, c=2, a=3)
+r5, r6 = myfunc(3, c=4, b=10)
+r7, r8 = myfunc(3, 10, c=4)
+
+r9, r10 = myfunc(a=3,c=5)
+***************************************************************************
+
+import math
+
+def car2pol(x, y, deg=False):
+
+    r = math.sqrt(x**2+y**2)
+    ph = math.atan2(y,x)
+    if deg:
+        ph = ph * 180 / math.pi
+
+    return r, ph
+
+mag, ang = car2pol(3,4, True)
+
+print(f"{mag}, {ang}")
+
+********************mylibrary.py**************************************************
+
+
+"""
+Initializing PSSE
+
+Description:
+    This file provides initialization method for PSSE
+Arguments:
+    input: savpath is the sav file
+"""
+import os
+
+import psse3603
+import psspy
+
+def start_psse(savpath):
+    """
+    this method initialize PSSE
+    """
+    psspy.psseinit()
+    psspy.case(savpath)
+
+def savfile_name(savpath):
+    head, tail = os.path.split(savpath)
+    filename, ext = os.path.splitext(tail)
+
+    return filename, ext
+
+def _test_start_psse(savpath):
+    start_psse(savpath)
+
+
+if __name__ == "__main__":
+
+    _test_start_psse('savnw.sav')
+
+****************myscript***************************
+
+"revised in 09/09/2025"
+import mylibrary
+
+
+mylibrary.start_psse('savnw.sav')
+
+***************************************************************
+
+import os, sys
+import math
+
+
+x = 10
+
+def myfunc(a, b):
+    global x
+    x = a + b
+    print("in the function: ", x)
+
+print(x)
+
+myfunc(2, 3)
+
+print(x)
+********************************************************************
+
+from glob import glob
+
+savfiles = glob(r"C:\Program Files\PTI\PSSE35\35.6\EXAMPLE\*.sav")
+
+for file in savfiles:
+    # run the load flow and contingency analysis
+*******************************************************************
+from glob import glob
+from time import perf_counter as tic
+
+savfiles = glob(r"C:\Program Files\PTI\PSSE35\35.6\EXAMPLE\*.sav")
+
+t1 = tic()
+for file in savfiles:
+    print(file)
+
+t2 = tic()
+
+print(f"the execution time is {t2-t1} s.")
+*****************************************************************
+
+
+class Bus():
+
+    def __init__(self, num,volt): #constructor
+        self.num = num
+        self.volt = volt
+
+    def __str__(self):
+        return f"{self.num}, {self.volt}"
+
+    def __repr__(self):
+        return f"{self.num}, {self.volt}"
+
+    def __add__(self, num, volt):
+        return f"bus {self.num} has {self.volt} while bus {num} has {volt}"
+
+    def open_bus(self):
+        print("bus gets opened")
+
+    def move_important_load(self):
+        pass
+
+
+
+class MyContingencyAnlyser():
+
+    def __init__(self, savpath, lfoption):
+        self.savpath = savpath
+        self.lfoption = lfoption
+
+    def start_psse(self):
+        import psse3603
+        import psspy
+
+        psspy.case(self.savpath)
+        psspy.fnsl(lfoption)
+
+    def run_contingency(self):
+        pass
+
+    def contingency_report(self):
+        pass
+        
+****************************************************************
+import psse3603
+import psspy
+
+psspy.setThrowPsseExceptions(True)
+
+psspy.psseinit()
+try:
+    psspy.case('dfjhsdfkljsdkl')
+    psspy.fdns()
+except Exception as e:
+    print(f"Can't open the .sav file {e}")
+    
+*********************************************************************
+import psse3603
+import psspy
+
+psspy.setThrowPsseExceptions(True)
+
+psspy.psseinit()
+
+err = psspy.case('dfjhsdfkljsdkl')
+
+if err:
+    if err == 1:
+        print("file is blank")
+        ...
+    print(f"Can't open the .sav file {err}")
+else:
+    psspy.fdns()
+********************************************************************
+import psse3603
+import psspy
+
+psspy.setThrowPsseExceptions(True)
+
+psspy.psseinit()
+
+err = psspy.case('dfjhsdfkljsdkl')
+
+if err:
+    if err == 1:
+        print("file is blank")
+        ...
+    print(f"Can't open the .sav file {err}")
+else:
+    psspy.fdns()
+    
+***************************************************************
+
+import psse3603
+import psspy
+
+psspy.psseinit()
+
+psspy.case('savnw.sav')
+
+# 1. Print out the total number of buses in the case.
+nbus = psspy.totbus()
+
+
+# 2. Print out the two-line case title.
+
+ttl1, ttl2 = psspy.titldt()
+
+# 3. Determine if there are any isolated islands.
+
+nisolated = psspy.chktre()
+
+print(f"Number of isolated buses: {nisolated}")
+
+
+if nisolated != 0:
+    pass
+    #psspy.island()
+
+# 4. Solve the case.
+
+err = psspy.fnsl()
+
+# 5.Check to see if the case is solved and print the solution status.
+
+cnvflg = psspy.solved()
+
+# 6.Print out: system base MVA, total load, total generation, and total losses.
+
+basemva = psspy.sysmva()
+
+err, sgen  = psspy.systot("GEN")
+err, sload = psspy.systot("LOAD")
+err, sloss = psspy.systot("LOSS")
+
+print(f"Generation :{sgen.real:8.2f} Mw and {sgen.imag:8.2f} MVAR" )
+print(f"Load       :{sload.real:8.2f} Mw and {sload.imag:8.2f} MVAR" )
+print(f"Loss       :{sloss.real:8.2f} Mw and {sloss.imag:8.2f} MVAR" )
+**************************************************************************
+import os
+import psse3603
+import psspy
+
+def create_output_file(savpath):
+
+    head, tail = os.path .split(savpath)
+
+    file, ext = os.path.splitext(tail)
+
+    output = head + '\\' + file + '.txt'
+
+    return output
+
+savpath = r"C:\Program Files\PTI\PSSE36\36.3\EXAMPLE\savnw.sav"
+
+output = create_output_file(savpath)
+************************************************************************
+
+
+import psse3603
+import psspy
+
+
+
+psspy.psseinit()
+psspy.case('savnw.sav')
+
+err, nbus = psspy.abuscount()
+
+print(nbus)
+
+sid = 3
+
+usekv = 1
+kvrange = [100.,999.]
+narea = 2
+areas = [1, 2]
+
+
+psspy.bsys(sid=sid, usekv=usekv, basek= kvrange, numarea=narea, areas=areas)
+
+err, (busnums, areas) = psspy.abusint(sid, 2, ['NUMBER', 'AREA'])
+err, (basekvs,vpus) = psspy.abusreal(sid, 2, ['BASE', 'PU'])
+err, (busnames,) = psspy.abuschar(sid, 2, ['NAME'])
+
+bus_data = zip(busnums, busnames, basekvs,vpus,areas)
+*******************************************************************
+
+import math
+
+import psse3603
+import psspy
+
+
+
+psspy.psseinit()
+psspy.case('savnw.sav')
+
+
+sbase = psspy.sysmva()
+
+sid = 3
+
+usekv = 1
+kvrange = [100.,999.]
+narea = 2
+areas = [1, 2]
+
+
+psspy.bsys(sid=sid, usekv=usekv, basek= kvrange, numarea=narea, areas=areas)
+
+err ,(ibuses, jbuses,) = psspy.abrnint(sid, 1, 3, 1, 1, ['FROMNUMBER', 'TONUMBER'])
+err, (ckts,) = psspy.abrnchar(sid, 1, 3, 1, 1, ['ID'])
+err, (ypus,) = psspy.abrnreal(sid, 1, 3, 1, 1, ['CHARGING'])
+err, (zpus,) = psspy.abrncplx(sid, 1, 3, 1, 1, ['RX'])
+
+report_sil =[]
+
+for ibus, jbus, ckt, ypu, zpu in zip(ibuses, jbuses, ckts, ypus, zpus):
+
+    err, buskv = psspy.busdat(ibus,"BASE")
+
+    if err:
+
+        print("can't get bus data!")
+
+    zbase = buskv**2 / sbase
+    yohm = ypu / zbase
+    zohm = zpu.imag * zbase
+
+    if yohm:
+        zs = math.sqrt(zohm/yohm)
+        sil = buskv**2/zs
+    else:
+        sil = 0
+
+    report_sil.append((ibus, jbus, ckt, sil))
+    
+*********************************************************************
+import psse3603
+import psspy
+
+
+
+psspy.psseinit()
+psspy.case('savnw.sav')
+
+
+sbase = psspy.sysmva()
+
+sid = 3
+
+usekv = 1
+kvrange = [100.,999.]
+narea = 2
+areas = [1, 2]
+
+
+psspy.bsys(sid=sid, usekv=usekv, basek= kvrange, numarea=narea, areas=areas)
+
+err ,(ibuses, jbuses,) = psspy.abrnint(sid, 1, 3, 1, 1, ['FROMNUMBER', 'TONUMBER'])
+err, (ckts,) = psspy.abrnchar(sid, 1, 3, 1, 1, ['ID'])
+err, (rates,) = psspy.abrnreal(sid, 1, 3, 1, 1, ['RATE1'])
+
+
+for ibus, jbus, ckt, rate in zip(ibuses, jbuses, ckts, rates):
+
+    rate2 = 1.15*rate
+    rate3 = 1.35*rate
+    psspy.branch_chng_4(ibus, jbus, ckt, ratings2=rate2, ratings3=rate3)
+    
+*********************************************************************************
+import pickle
+
+import psse3603
+import psspy
+
+
+
+psspy.psseinit()
+psspy.case('savnw.sav')
+
+
+sbase = psspy.sysmva()
+
+sid = 3
+
+usekv = 1
+kvrange = [100.,999.]
+narea = 2
+areas = [1, 2]
+
+
+psspy.bsys(sid=sid, usekv=usekv, basek= kvrange, numarea=narea, areas=areas)
+
+err ,(ibuses, jbuses,) = psspy.abrnint(sid, 1, 3, 1, 1, ['FROMNUMBER', 'TONUMBER'])
+err, (ckts,) = psspy.abrnchar(sid, 1, 3, 1, 1, ['ID'])
+err, (rates, ypus,) = psspy.abrnreal(sid, 1, 3, 1, 1, ['RATE1', 'CHARGING'])
+err, (zpus,) = psspy.abrncplx(sid, 1, 3, 1, 1, ['RX'])
+
+branch_data = list(zip(ibuses, jbuses, ckts, zpus, ypus, rates))
+
+with open("branch.pickle", "wb") as f:
+    pickle.dump(branch_data,f)
+
+branch_data1 = []
+
+with open("branch.pickle", "rb") as f:
+    branch_data1 = pickle.load(f)
+
+
+print(branch_data1)
+    
+*****************************************************************
+
+import json
+
+import psse3603
+import psspy
+
+
+
+shunt_data = {
+    '(101,1)':{"mvar":500, "vhi":1.02, "vlo":0.98},
+    '(102,1)':{"mvar":350, "vhi":1.05, "vlo":0.96},
+    '(201,1)':{"mvar":950, "vhi":1.01, "vlo":0.97}
+    }
+
+with open("shunt_data.json", "w") as f:
+    json.dump(shunt_data, f, indent=4)
+
+shunt_data1 = {}
+with open("shunt_data.json", "r") as f:
+    shunt_data1 = json.load(f)
+***********************************************************************
+
+import json
+
+import psse3603
+import psspy
+
+
+case_data = {}
+
+with open("savnw.rawx", "r") as f:
+    case_data = json.load(f)
+
+case_data['network']['bus']['fields'].append("jdhg")
+for i in range(len(case_data['network']['bus']['data'])):
+    case_data['network']['bus']['data'][i].append("cgdcjsdhc-dsdvn-dfsdjfk")
+
+with open ("savnw2.rawx", "w") as f:
+    json.dump(case_data, f)
+****************************************************************************
+
+import psse3603
+import psspy
+import excelpy
+
+
+psspy.psseinit()
+psspy.case('savnw.sav')
+
+
+sbase = psspy.sysmva()
+
+sid = 3
+
+usekv = 1
+kvrange = [100.,999.]
+narea = 2
+areas = [1, 2]
+
+
+psspy.bsys(sid=sid, usekv=usekv, basek= kvrange, numarea=narea, areas=areas)
+
+err ,(ibuses, jbuses,) = psspy.abrnint(sid, 1, 3, 1, 1, ['FROMNUMBER', 'TONUMBER'])
+err, (ckts,) = psspy.abrnchar(sid, 1, 3, 1, 1, ['ID'])
+err, (rates, ypus,) = psspy.abrnreal(sid, 1, 3, 1, 1, ['RATE1', 'CHARGING'])
+err, (zpus,) = psspy.abrncplx(sid, 1, 3, 1, 1, ['RX'])
+
+rls = [rx.real for rx in zpus]
+xls = [rx.imag for rx in zpus]
+branch_data = list(zip(ibuses, jbuses, ckts, rls, xls, ypus, rates))
+
+wb = excelpy.workbook()
+wb.set_range(1,1, ['From Bus', 'To Bus', 'ID', 'Line Resistance (PU)', 'Line Reactance (PU)', 'Line Charging (PU)','Rate1 (MVA)'], fontStyle='bold')
+wb.set_range(2, 1, branch_data)
+wb.set_range(2,4, rls, numberFormat='0.0000', transpose=True)
+
+wb.autofit_columns((1, 1, 1, 7))
+
+wb.save("branch.xlsx")
+wb.close()
+
+******************************************************************************************
+
+import psse3603
+import psspy
+
+sav = 'savnw.sav'
+sub = 'savnw.sub'
+mon = 'savnw.mon'
+con = 'savnw.con'
+
+dfx = 'savnw.dfx'
+acc = 'savnw.acc'
+
+psspy.psseinit()
+
+psspy.case(sav)
+
+psspy.fdns([0,0,0,1,1,0,99,0])
+
+psspy.casolution_parameters_2(intgar8=1, realar2 =100, realar3=2, realar4=10000)
+psspy.dfax_2([1,1,0],sub, mon, con, dfx)
+psspy.accc_with_dsp_3(0.1,[0,0,0,1,1,2,0,0,0,1,0],"STUDY", dfx, acc)
+
+******************************************************************************************
+import psse3603
+import psspy
+import redirect
+
+
+psspy.psseinit()
+
+redirect.reset()
+redirect.py2psse()
+psspy.progress_output(2,r"prog_test.txt",[0,0])
+
+
+psspy.case(r"savnw.sav")
+psspy.fnsl()
+
+print(" I am done")
+redirect.reset()
+psspy.progress_output(1,"",[0,0])
+print('done')
+
+*******************************************************
+
+
+import psse3603
+import psspy
+import arrbox
+import excelpy
+
+from time import perf_counter as tic
+
+
+
+
+sav = 'savnw.sav'
+sub = 'savnw.sub'
+mon = 'savnw.mon'
+con = 'savnw.con'
+
+dfx = 'savnw.dfx'
+acc = 'savnw.acc'
+
+psspy.psseinit()
+psspy.case(sav)
+
+psspy.fdns([0,0,0,1,1,0,99,0])
+
+psspy.casolution_parameters_2(intgar8=1, realar2 =100, realar3=2, realar4=10000)
+psspy.dfax_2([1,1,0],sub, mon, con, dfx)
+
+##t1 = tic()
+##psspy.accc_with_dsp_3(0.1,[0,0,0,1,1,2,0,0,0,1,0],"STUDY", dfx, acc)
+##t2 = tic()
+
+
+psspy.number_threads(8)
+#t3 = tic()
+psspy.accc_parallel_2(0.1,[0,0,0,1,1,2,0,0,0,1,0],"STUDY", dfx, acc)
+#t4 = tic()
+
+#print(f"regular contingency analysis time : {t2-t1}")
+#print(f"parallel contingency analysis time : {t4-t3}")
+
+accdata = arrbox.CONTINGENCY_PP(acc)
+summary = accdata.summary()
+
+branches = summary.melement # these are branches and interfaces
+ratings = summary.rating.b
+buses = summary.mvbuslabel
+
+contingencies = summary.colabel
+
+thermal_violation = []
+voltage_violation = []
+
+for contingency in contingencies:
+
+    solution = accdata.solution(contingency)
+    flows = solution.mvaflow
+    volts = solution.volts
+    cnvflg = solution.cnvflag
+
+    for branch, rating, flow in zip(branches, ratings, flows):
+
+        if rating:
+            loading = abs(flow)/rating
+
+            if loading > 0.8:
+                #print(contingency, loading, cnvflg)
+                thermal_violation.append((contingency, cnvflg, branch, rating, flow, loading*100))
+
+    for bus , volt in zip(buses, volts):
+
+        if volt > 1.03 or volt < 0.95:
+            voltage_violation.append((contingency, cnvflg, bus, volt))
+
+
+wb = excelpy.workbook()
+wb.worksheet_rename("Thermal Violation")
+wb.set_range(1,1, ['Contingency', 'Converge Flag', 'Branch', 'Rating (MVA)', 'Flow (MVA)', 'Loading (%)'])
+wb.set_range(2, 1, thermal_violation)
+wb.autofit_columns((1, 1, 1, 6))
+
+wb.worksheet_add_after("Voltage Violation")
+wb.set_active_sheet("Voltage Violation")
+wb.set_range(1,1, ['Contingency', 'Converge Flag', 'Bus', 'Voltage'])
+wb.set_range(2, 1, voltage_violation)
+wb.autofit_columns((1, 1, 1, 4))
+
+
+
+wb.save("contingency.xlsx")
+wb.close()
+*************************************************************************************
+# File:"C:\Users\z004kdxp\Desktop\not needed\LCRA training\junk.py", generated on THU, SEP 11 2025  12:35, PSS(R)E release 36.03.01
+psspy.case(r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\savnw.sav""")
+psspy.fdns([0,0,0,1,1,0,99,0])
+psspy.cong(0)
+psspy.conl(0,1,1,[0,0],[100.0,0.0,0.0,100.0])
+psspy.conl(0,1,2,[0,0],[100.0,0.0,0.0,100.0])
+psspy.conl(0,1,3,[0,0],[100.0,0.0,0.0,100.0])
+psspy.save(r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\savnw_cnv.sav""")
+psspy.fact()
+psspy.tysl(0)
+psspy.dyre_new_2([1,1,1,1],r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\savnw.dyr""")
+psspy.chsb(0,1,[-1,-1,-1,1,1,0])
+psspy.chsb(0,1,[-1,-1,-1,1,2,0])
+psspy.chsb(0,1,[-1,-1,-1,1,3,0])
+psspy.chsb(0,1,[-1,-1,-1,1,4,0])
+psspy.chsb(0,1,[-1,-1,-1,1,5,0])
+psspy.chsb(0,1,[-1,-1,-1,1,6,0])
+psspy.chsb(0,1,[-1,-1,-1,1,7,0])
+psspy.snap([177,63,8,0,42],r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\savnw.snp""")
+psspy.set_relang(1,-1,"")
+psspy.strt_2([0,0],"")
+psspy.change_channel_out_file(r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\fault.outx""")
+psspy.run(0,1.0,1,1,0)
+psspy.dist_3phase_bus_fault(101,0,1,21.6,[0.0,-0.2E+10])
+psspy.run(0,1.1,1,1,0)
+psspy.dist_clear_fault(1)
+psspy.run(0,20.0,1,1,0)
+pssplot.openchandatafile(r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\fault.outx""")
+pssplot.plot_book(r"""Plot Book 1""")
+pssplot.plot_page(r"""Plot Book 1""",1,"",[2,0,2,2],[1.,1.])
+pssplot.plot_plot(r"""Plot Book 1""",1,1,"",[0,0,1,1,1,2,0],[0.0,0.0,100.,100.])
+pssplot.plot_plot_chng(r"""Plot Book 1""",1,1,"",[0,0,1,1,1,2,0],[0.0,0.0,0.0,0.0])
+pssplot.plot_trace_channel(r"""Plot Book 1""",1,1,0,r"""1 - ANGL   101[NUC-A       21.600]1 : C:\Users\z004kdxp\Desktop\not need""",1,r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\fault.outx""",
+r"""1 - ANGL   101[NUC-A       21.600]1""",[-1,-1,-1,16777215])
+pssplot.plot_plot_chng(r"""Plot Book 1""",1,1,"",[0,0,1,1,1,2,0],[-0.02,0.0,50.0,0.0])
+pssplot.plot_trace_channel(r"""Plot Book 1""",1,1,1,r"""2 - ANGL   102[NUC-B       21.600]1 : C:\Users\z004kdxp\Desktop\not need""",1,r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\fault.outx""",
+r"""2 - ANGL   102[NUC-B       21.600]1""",[-1,-1,-1,16777215])
+pssplot.plot_page(r"""Plot Book 1""",2,"",[2,0,2,2],[1.,1.])
+pssplot.plot_plot(r"""Plot Book 1""",2,1,"",[0,0,1,1,1,2,0],[0.0,0.0,100.,100.])
+pssplot.plot_plot_chng(r"""Plot Book 1""",2,1,"",[0,0,1,1,1,2,0],[0.0,0.0,0.0,0.0])
+pssplot.plot_trace_channel(r"""Plot Book 1""",2,1,0,r"""19 - ETRM   101[NUC-A       21.600]1 : C:\Users\z004kdxp\Desktop\not nee""",1,r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\fault.outx""",
+r"""19 - ETRM   101[NUC-A       21.600]1""",[-1,-1,-1,16777215])
+pssplot.plot_plot_chng(r"""Plot Book 1""",2,1,"",[0,0,1,1,1,2,0],[-0.02,0.0,2.5,0.0])
+pssplot.plot_trace_channel(r"""Plot Book 1""",2,1,1,r"""20 - ETRM   102[NUC-B       21.600]1 : C:\Users\z004kdxp\Desktop\not nee""",1,r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\fault.outx""",
+r"""20 - ETRM   102[NUC-B       21.600]1""",[-1,-1,-1,16777215])
+
+********************************************************************************************************************    
+import psse3603
+import psspy
+import pssplot
+import dyntools
+
+
+sav = 'savnaw.sav'
+cnv = 'svnw_cnv.sav'
+dyr = 'savnw.dyr'
+snp = 'savnw.snp'
+
+# setup
+psspy.case(sav)
+psspy.fdns([0,0,0,1,1,0,99,0])
+psspy.cong(0)
+psspy.conl(0,1,1,[0,0],[100.0,0.0,0.0,100.0])
+psspy.conl(0,1,2,[0,0],[100.0,0.0,0.0,100.0])
+psspy.conl(0,1,3,[0,0],[100.0,0.0,0.0,100.0])
+
+psspy.save(cnv)
+psspy.fact()
+psspy.tysl(0)
+psspy.dyre_new_2([1,1,1,1],dyr)
+psspy.chsb(0,1,[-1,-1,-1,1,1,0])
+psspy.chsb(0,1,[-1,-1,-1,1,2,0])
+psspy.chsb(0,1,[-1,-1,-1,1,3,0])
+psspy.chsb(0,1,[-1,-1,-1,1,4,0])
+psspy.chsb(0,1,[-1,-1,-1,1,5,0])
+psspy.chsb(0,1,[-1,-1,-1,1,6,0])
+psspy.chsb(0,1,[-1,-1,-1,1,7,0])
+psspy.snap([177,63,8,0,42],snp)
+
+psspy.set_zsorce_reconsile_flag(1)
+psspy.set_relang(1,-1,"")
+
+psspy.strt_2([0,0],"")
+psspy.set_zsorce_reconcile_flag('fault.outx')
+psspy.run(0,1.0,1,1,0)
+psspy.dist_3phase_bus_fault(101,0,1,21.6,[0.0,-0.2E+10])
+psspy.run(0,1.1,1,1,0)
+psspy.dist_clear_fault(1)
+psspy.run(0,20.0,1,1,0)
+
+pssplot.openchandatafile(r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\fault.outx""")
+pssplot.plot_book(r"""Plot Book 1""")
+pssplot.plot_page(r"""Plot Book 1""",1,"",[2,0,2,2],[1.,1.])
+pssplot.plot_plot(r"""Plot Book 1""",1,1,"",[0,0,1,1,1,2,0],[0.0,0.0,100.,100.])
+pssplot.plot_plot_chng(r"""Plot Book 1""",1,1,"",[0,0,1,1,1,2,0],[0.0,0.0,0.0,0.0])
+pssplot.plot_trace_channel(r"""Plot Book 1""",1,1,0,r"""1 - ANGL   101[NUC-A       21.600]1 : C:\Users\z004kdxp\Desktop\not need""",1,r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\fault.outx""",
+r"""1 - ANGL   101[NUC-A       21.600]1""",[-1,-1,-1,16777215])
+pssplot.plot_plot_chng(r"""Plot Book 1""",1,1,"",[0,0,1,1,1,2,0],[-0.02,0.0,50.0,0.0])
+pssplot.plot_trace_channel(r"""Plot Book 1""",1,1,1,r"""2 - ANGL   102[NUC-B       21.600]1 : C:\Users\z004kdxp\Desktop\not need""",1,r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\fault.outx""",
+r"""2 - ANGL   102[NUC-B       21.600]1""",[-1,-1,-1,16777215])
+pssplot.plot_page(r"""Plot Book 1""",2,"",[2,0,2,2],[1.,1.])
+pssplot.plot_plot(r"""Plot Book 1""",2,1,"",[0,0,1,1,1,2,0],[0.0,0.0,100.,100.])
+pssplot.plot_plot_chng(r"""Plot Book 1""",2,1,"",[0,0,1,1,1,2,0],[0.0,0.0,0.0,0.0])
+pssplot.plot_trace_channel(r"""Plot Book 1""",2,1,0,r"""19 - ETRM   101[NUC-A       21.600]1 : C:\Users\z004kdxp\Desktop\not nee""",1,r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\fault.outx""",
+r"""19 - ETRM   101[NUC-A       21.600]1""",[-1,-1,-1,16777215])
+pssplot.plot_plot_chng(r"""Plot Book 1""",2,1,"",[0,0,1,1,1,2,0],[-0.02,0.0,2.5,0.0])
+pssplot.plot_trace_channel(r"""Plot Book 1""",2,1,1,r"""20 - ETRM   102[NUC-B       21.600]1 : C:\Users\z004kdxp\Desktop\not nee""",1,r"""C:\Users\z004kdxp\Desktop\not needed\LCRA training\fault.outx""",
+r"""20 - ETRM   102[NUC-B       21.600]1""",[-1,-1,-1,16777215])
+*********************************************************************************************************
+
+  
+
+import psse3603
+import psspy
+import pssplot
+import dyntools
+try:
+    import matplotlib.pyplot as plt
+except:
+    plt = None
+
+
+
+sav = 'savnaw.sav'
+cnv = 'svnw_cnv.sav'
+dyr = 'savnw.dyr'
+snp = 'savnw.snp'
+
+# setupP\AExir\PSSE TRAINING\Course Files\data\savnw.sav')
+
+
+
+import psse3603
+import psspy
+import pssplot
+import dyntools
+try:
+    import matplotlib.pyplot as plt
+except:
+    plt = None
+
+
+
+sav = 'savnaw.sav'
+cnv = 'svnw_cnv.sav'
+dyr = 'savnw.dyr'
+snp = 'savnw.snp'
+
+# setup
+psspy.case(sav)
+psspy.fdns([0,0,0,1,1,0,99,0])
+psspy.cong(0)
+psspy.conl(0,1,1,[0,0],[100.0,0.0,0.0,100.0])
+psspy.conl(0,1,2,[0,0],[100.0,0.0,0.0,100.0])
+psspy.conl(0,1,3,[0,0],[100.0,0.0,0.0,100.0])
+
+psspy.save(cnv)
+psspy.fact()
+psspy.tysl(0)
+psspy.dyre_new_2([1,1,1,1],dyr)
+psspy.chsb(0,1,[-1,-1,-1,1,1,0])
+psspy.chsb(0,1,[-1,-1,-1,1,2,0])
+psspy.chsb(0,1,[-1,-1,-1,1,3,0])
+psspy.chsb(0,1,[-1,-1,-1,1,4,0])
+psspy.chsb(0,1,[-1,-1,-1,1,5,0])
+psspy.chsb(0,1,[-1,-1,-1,1,6,0])
+psspy.chsb(0,1,[-1,-1,-1,1,7,0])
+psspy.snap([177,63,8,0,42],snp)
+
+psspy.set_zsorce_reconcile_flag(1)
+psspy.set_relang(1,-1,"")
+
+psspy.strt_2([0,0],"")
+psspy.change_channel_out_file('fault.outx')
+psspy.run(0,1.0,120,1,0)
+psspy.dist_3phase_bus_fault(101,0,1,21.6,[0.0,-0.2E+10])
+psspy.run(0,1.1,120,1,0)
+psspy.dist_clear_fault(1)
+psspy.run(0,20.0,120,1,0)
+
+chnf = dyntools.CHNF('fault.outx')
+ttls, channels, data = chnf.get_data()
+
+if plt:
+    fig1 = plt.figure()
+    plt.plot(data['time'], data[1], label=channels[1])
+    plt.plot(data['time'], data[2], label=channels[2])
+
+    plt.xlabel("time (s)")
+    plt.ylabel("Angle (deg)")
+    plt.grid()
+    plt.legend()
+
+    fig2 = plt.figure()
+    plt.subplot(2,1,1)
+    plt.plot(data['time'], data[1], label=channels[1])
+    plt.plot(data['time'], data[2], label=channels[2])
+    plt.ylabel("Angle (deg)")
+    plt.grid()
+    plt.legend()
+
+    plt.subplot(2,1,2)
+    plt.plot(data['time'], data[19], label=channels[19])
+    plt.plot(data['time'], data[20], label=channels[19])
+    plt.xlabel("time (s)")
+    plt.ylabel("Voltage (PU)")
+    plt.grid()
+    plt.legend()
+
+**********************************************************************************************************
+
+import psse3603
+import psspy
+import pssplot
+import dyntools
+import runpy
+try:
+    import matplotlib.pyplot as plt
+except:
+    plt = None
+
+
+
+sav = 'savnaw.sav'
+cnv = 'svnw_cnv.sav'
+dyr = 'savnw.dyr'
+snp = 'savnw.snp'
+
+def case_restart():
+    psspy.case(cnv)
+    psspy.rstr(snp)
+
+# setup
+psspy.case(sav)
+psspy.fdns([0,0,0,1,1,0,99,0])
+psspy.cong(0)
+psspy.conl(0,1,1,[0,0],[100.0,0.0,0.0,100.0])
+psspy.conl(0,1,2,[0,0],[100.0,0.0,0.0,100.0])
+psspy.conl(0,1,3,[0,0],[100.0,0.0,0.0,100.0])
+
+psspy.save(cnv)
+psspy.fact()
+psspy.tysl(0)
+psspy.dyre_new_2([1,1,1,1],dyr)
+psspy.chsb(0,1,[-1,-1,-1,1,1,0])
+psspy.chsb(0,1,[-1,-1,-1,1,2,0])
+psspy.chsb(0,1,[-1,-1,-1,1,3,0])
+psspy.chsb(0,1,[-1,-1,-1,1,4,0])
+psspy.chsb(0,1,[-1,-1,-1,1,5,0])
+psspy.chsb(0,1,[-1,-1,-1,1,6,0])
+psspy.chsb(0,1,[-1,-1,-1,1,7,0])
+psspy.snap([177,63,8,0,42],snp)
+
+psspy.set_zsorce_reconcile_flag(1)
+psspy.set_relang(1,-1,"")
+
+runpy.run_path('fault1.py', init_globals={"psspy":psspy})
+case_restart()
+runpy.run_path('fault2.py', init_globals={"psspy":psspy})
+
+##psspy.strt_2([0,0],"")
+##psspy.change_channel_out_file('fault.outx')
+##psspy.run(0,1.0,120,1,0)
+##psspy.dist_3phase_bus_fault(101,0,1,21.6,[0.0,-0.2E+10])
+##psspy.run(0,1.1,120,1,0)
+##psspy.dist_clear_fault(1)
+##psspy.run(0,20.0,120,1,0)
+
+chnf1 = dyntools.CHNF('fault1.outx')
+ttls1, channels1, data1 = chnf1.get_data()
+
+chnf2 = dyntools.CHNF('fault2.outx')
+ttls2, channels2, data2 = chnf2.get_data()
+
+if plt:
+    fig1 = plt.figure()
+    plt.plot(data1['time'], data1[1], label=channels1[1])
+    plt.plot(data1['time'], data1[2], label=channels1[2])
+
+    plt.xlabel("time (s)")
+    plt.ylabel("Angle (deg)")
+    plt.grid()
+    plt.legend()
+
+    fig2 = plt.figure()
+    plt.subplot(2,1,1)
+    plt.plot(data1['time'], data1[1], label=channels1[1])
+    plt.plot(data2['time'], data2[1], label=channels2[1])
+    plt.ylabel("Angle (deg)")
+    plt.grid()
+    plt.legend()
+
+    plt.subplot(2,1,2)
+    plt.plot(data1['time'], data1[19], label=channels1[19])
+    plt.plot(data2['time'], data2[19], label=channels2[19])
+    plt.xlabel("time (s)")
+    plt.ylabel("Voltage (PU)")
+    plt.grid()
+    plt.legend() 
+    
+  ************************************************************
+import multiprocessing as mp
+from time import sleep
+
+# worker
+
+def run(job):
+
+    result = {"id":job["id"], "data":job["data"]**2}
+
+    sleep(job["data"])
+
+    return result
+
+
+
+
+
+
+
+# jobs
+
+if __name__ == '__main__':
+
+    MULTIPROCESSING = True
+
+    pool = mp.Pool(4)
+
+    jobs = [{"id":1, "data":3.0},
+            {"id":2, "data":2.0},
+            {"id":3, "data":1.0},
+            ]
+
+    results = []
+
+    if not MULTIPROCESSING:
+
+
+        for job in jobs:
+            results.append(run(job))
+
+    else:
+
+        results = pool.map(run, jobs)
+************************************************************
+
+import multiprocessing as mp
+from time import sleep
+
+# worker
+
+def run(job):
+
+    result = {"id":job["id"], "data":job["data"]**2}
+
+    sleep(job["data"])
+
+    return result
+
+
+# jobs
+
+if __name__ == '__main__':
+
+    MULTIPROCESSING = True
+
+    pool = mp.Pool(4)
+
+    jobs = [{"id":1, "data":3.0},
+            {"id":2, "data":2.0},
+            {"id":3, "data":1.0},
+            ]
+
+    results = []
+
+    if not MULTIPROCESSING:
+
+
+        for job in jobs:
+            results.append(run(job))
+
+    else:
+
+        # Run asynchronousely, process synchronousely
+        #results = pool.map(run, jobs)
+
+        # Run and process asynchronousely
+        for result in pool.imap_unordered(run,jobs):
+            results.append(result)
+
+    print(results)
+***************************************************************************
+
+
+import psse3603
+import psspy
+import arrbox
+import excelpy
+
+from time import perf_counter as tic
+
+
+
+
+sav = 'savnw.sav'
+sub = 'savnw.sub'
+mon = 'savnw.mon'
+con = 'savnw.con'
+
+dfx = 'savnw.dfx'
+acc = 'savnw.acc'
+
+psspy.psseinit()
+psspy.case(sav)
+
+psspy.fdns([0,0,0,1,1,0,99,0])
+
+psspy.casolution_parameters_2(intgar8=1, realar2 =100, realar3=2, realar4=10000)
+psspy.dfax_2([1,1,0],sub, mon, con, dfx)
+
+##t1 = tic()
+##psspy.accc_with_dsp_3(0.1,[0,0,0,1,1,2,0,0,0,1,0],"STUDY", dfx, acc)
+##t2 = tic()
+
+
+psspy.number_threads(8)
+#t3 = tic()
+psspy.accc_parallel_2(0.1,[0,0,0,1,1,2,0,0,0,1,0],"STUDY", dfx, acc)
+#t4 = tic()
+
+#print(f"regular contingency analysis time : {t2-t1}")
+#print(f"parallel contingency analysis time : {t4-t3}")
+
+accdata = arrbox.CONTINGENCY_PP(acc)
+summary = accdata.summary()
+
+branches = summary.melement # these are branches and interfaces
+ratings = summary.rating.b
+buses = summary.mvbuslabel
+
+contingencies = summary.colabel
+
+thermal_violation = []
+voltage_violation = []
+
+for contingency in contingencies:
+
+    solution = accdata.solution(contingency)
+    flows = solution.mvaflow
+    volts = solution.volts
+    cnvflg = solution.cnvflag
+
+    for branch, rating, flow in zip(branches, ratings, flows):
+
+        if rating:
+            loading = abs(flow)/rating
+
+            if loading > 0.8:
+                #print(contingency, loading, cnvflg)
+                thermal_violation.append((contingency, cnvflg, branch, rating, flow, loading*100))
+
+    for bus , volt in zip(buses, volts):
+
+        if volt > 1.03 or volt < 0.95:
+            voltage_violation.append((contingency, cnvflg, bus, volt))
+
+
+wb = excelpy.workbook()
+wb.worksheet_rename("Thermal Violation")
+wb.set_range(1,1, ['Contingency', 'Converge Flag', 'Branch', 'Rating (MVA)', 'Flow (MVA)', 'Loading (%)'])
+wb.set_range(2, 1, thermal_violation)
+wb.autofit_columns((1, 1, 1, 6))
+
+wb.worksheet_add_after("Voltage Violation")
+wb.set_active_sheet("Voltage Violation")
+wb.set_range(1,1, ['Contingency', 'Converge Flag', 'Bus', 'Voltage'])
+wb.set_range(2, 1, voltage_violation)
+wb.autofit_columns((1, 1, 1, 4))
+
+
+
+wb.save("contingency.xlsx")
+wb.close()
+****************************************************************************
+import os
+
+import psse3603
+import psspy
+import arrbox
+import excelpy
+
+from time import perf_counter as tic
+
+class Accjobs():
+    def __init__(self, sav, sub, mon, con):
+        job.sav = sav
+        job.sub = sub
+        job.mon = mon
+        job.con = con
+
+#worker
+def run_accc(sav, sub, mon , con):
+
+    head, tail = os.path.split(sav)
+    file, ext = os.path.splitext(tail)
+
+    dfx = f"{file}.dfx"
+    acc = f"{file}.acc"
+
+    psspy.psseinit()
+    psspy.case(sav)
+
+    psspy.fdns([0,0,0,1,1,0,99,0])
+
+    psspy.casolution_parameters_2(intgar8=1, realar2 =100, realar3=2, realar4=10000)
+    psspy.dfax_2([1,1,0],sub, mon, con, dfx)
+
+
+    psspy.number_threads(8)
+    psspy.accc_parallel_2(0.1,[0,0,0,1,1,2,0,0,0,1,0],"STUDY", dfx, acc)
+
+    return acc
+
+def run_multi_accc(savs):
+
+    accs = []
+    for sav in savs:
+        accs.append(run_accc(sav, sub, mon , con))
+
+    return accs
+
+if __name__ == '__main__':
+
+    savs = ['savnw.sav', 'sample.sav']
+
+    sub = 'savnw.sub'
+    mon = 'savnw.mon'
+    con = 'savnw.con'
+
+    accs = run_multi_accc(savs)
+    
+    *******************************************************
+  
+import os
+import multiprocessing as mp
+
+import psse3603
+import psspy
+import arrbox
+import excelpy
+
+from time import perf_counter as tic
+
+class Accjobs():
+    def __init__(self, sav, sub, mon, con): #constructor
+        job.sav = sav
+        job.sub = sub
+        job.mon = mon
+        job.con = con
+
+#worker
+#def run_accc(sav, sub, mon , con):
+def run_accc(job):
+
+    head, tail = os.path.split(job.sav)
+    file, ext = os.path.splitext(tail)
+
+    dfx = f"{file}.dfx"
+    acc = f"{file}.acc"
+
+    psspy.psseinit()
+    psspy.case(job.sav)
+
+    psspy.fdns([0,0,0,1,1,0,99,0])
+
+    psspy.casolution_parameters_2(intgar8=1, realar2 =100, realar3=2, realar4=10000)
+    psspy.dfax_2([1,1,0],job.sub, job.mon, job.con, dfx)
+
+
+    psspy.number_threads(8)
+    psspy.accc_parallel_2(0.1,[0,0,0,1,1,2,0,0,0,1,0],"STUDY", dfx, acc)
+
+    return acc
+
+def run_multi_accc(savs):
+
+    accs = []
+    for sav in savs:
+        accs.append(run_accc(sav, sub, mon , con))
+
+    return accs
+
+if __name__ == '__main__':
+
+    pool = mp.Pool(4)
+    sub = 'savnw.sub'
+    mon = 'savnw.mon'
+    con = 'savnw.con'
+
+    #savs = ['savnw.sav', 'sample.sav']
+    job1 = Accjobs('savnw.sav',sub, mon, con)
+    job2 = Accjobs('sample.sav', sub, mon, con)
+    jobs = [job1, job2]
+
+    accs = []
+    accs = pool.map(run_accc, jobs)
+
+*******************************************************************************
+
+
+# 1. import mp module:
+
+import multiprocessing as mp
+from time import sleep
+
+import psse3602
+import psspy
+
+
+
+
+# 2. have a 'worker' function:
+
+def run(job):
+
+    psspy.psseinit()
+    psspy.case(job["data"])
+    psspy.fnsl()
+
+    soln_result = psspy.solved()
+
+    result = {"id":job["id"], "data":soln_result}
+
+    return result
+
+
+# 3. need if __name__ .... to test and run
+
+if __name__ == "__main__":
+
+    MULTIPROCESS = True
+
+    # 4. set up a worker pool:
+
+    pool = mp.Pool()
+
+    # 5. define jobs (can be list of tuples, dicts or objects):
+
+    jobs = [
+    {"id":1, "data":"savnw.sav"},
+    {"id":2, "data":"sample.sav"},
+    {"id":3, "data":"bench.sav"}
+    ]
+
+    if not MULTIPROCESS:
+
+        # 6. run the jobs synchronously:
+
+        results = []
+        for job in jobs:
+
+            result = run(job)
+            results.append(result)
+
+    else:
+
+        # 7. run asynchronously, process synchronously:
+
+        #results = pool.map(run, jobs)
+
+        # 8. run and process asynchronously:
+
+        results = []
+        for result in pool.imap_unordered(run, jobs):
+            results.append(result)
+            print(result)
+
+
+    print(results)
+    
+  *********************************************************************************
+
+# 1. import mp module:
+
+import multiprocessing as mp
+from time import sleep
+
+
+
+# 2. have a 'worker' function:
+
+def run(job):
+
+    result = {"id":job["id"], "data":job["data"]**2}
+
+    sleep(job["data"])
+
+
+
+    return result
+
+
+# 3. need if __name__ .... to test and run
+
+if __name__ == "__main__":
+
+    MULTIPROCESS = True
+
+    # 4. set up a worker pool:
+
+    pool = mp.Pool()
+
+    # 5. define jobs (can be list of tuples, dicts or objects):
+
+    jobs = [
+    {"id":1, "data":3.0},
+    {"id":2, "data":2.0},
+    {"id":3, "data":1.0}
+    ]
+
+    if not MULTIPROCESS:
+
+        # 6. run the jobs synchronously:
+
+        results = []
+        for job in jobs:
+
+            result = run(job)
+            results.append(result)
+
+    else:
+
+        # 7. run asynchronously, process synchronously:
+
+        #results = pool.map(run, jobs)
+
+        # 8. run and process asynchronously:
+
+        results = []
+        for result in pool.imap_unordered(run, jobs):
+            results.append(result)
+            print(result)
+
+
+    print(results)
+    
+***********************************************************************************************
+import os
+
+import multiprocessing as mp
+
+import psse3602
+import psspy
+import arrbox
+import excelpy
+
+
+class AcccJob:
+
+    def __init__(self, jobid, sav, sub, mon, con):
+
+        self.jobid = jobid
+        self.sav = sav
+        self.sub = sub
+        self.mon = mon
+        self.con = con
+
+
+def run_accc(job):
+
+    head, tail = os.path.split(job.sav)
+    name, ext = os.path.splitext(tail)
+
+    dfx = f"{name}.dfx"
+    acc = f"{name}.acc"
+
+    psspy.psseinit()
+    psspy.case(job.sav)
+    psspy.fnsl([0, 0, 0, 1, 1, 0, 99, 0])
+
+    psspy.casolution_parameters_2(intgar8=1, realar2=100.0, realar3=2.0, realar4=10000.0)
+    psspy.number_threads(8)
+
+    psspy.dfax_2([1, 1, 0], job.sub, job.mon, job.con, dfx)
+    psspy.accc_parallel_2(0.1, [0, 0, 0, 1, 1, 2, 0, 0, 0, 1, 0], "STUDY", dfx, acc)
+
+    return acc
+
+def run_multi_accc(jobs):
+
+    accs = []
+
+    for job in jobs:
+        acc = run_accc(job)
+        accs.append(acc)
+
+    return accs
+
+
+
+if __name__ == "__main__":
+
+
+    pool = mp.Pool()
+
+    jobs = [
+        AcccJob(1, "savnw.sav", "savnw.sub", "savnw.mon", "savnw.con"),
+        #AcccJob(2, "savnw1.sav", "savnw.sub", "savnw.mon", "savnw.con"),
+        AcccJob(2, "sample.sav", "savnw.sub", "savnw.mon", "savnw.con"),
+    ]
+
+    #accs = run_multi_accc(jobs) #this is only for testing before
+                                 # adding multiprocessing
+    accs = pool.map(run_accc, jobs)
+
+    acc1, acc2 = accs
+
+
+    print(accs)
+
+******************************************************************************************
+
+    accs = run_multi_accc(savs)
