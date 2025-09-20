@@ -94,11 +94,15 @@ ERCOT Nodal Protocols, Planning Guides, DWG SSWG manuals & Resource Integration 
 Power Fault Classifier App
 -Created a Streamlit web app to classify power system faults using phasor measurements (Ia, Ib, Ic, Va, Vb, Vc). Trained & compared models (SVM, RF, MLP, XGBoost) with cross-validation & confusion matrix visualizations. Supports CSV uploads & result downloads.
 Power Grid GNN Alarm Prediction App – Live App: | Data: IEEE 14-Bus (synthetic) + CSV uploads
-Developed a Graph Neural Network (GNN) in PyTorch Geometric with Message Passing Computation (MCP) to predict bus-level alarm probabilities in a simulated power grid, incorporating DC power flow linearization for electrical features alongside topological & operational data, & deployed as a public Streamlit app with example datasets, topology visualization, & feature previews.
+Built a PyTorch Geometric GNN to predict bus-level alarms on the IEEE-14 synthetic grid and CSV uploads; added a model-linearization toggle (GCN with no activations) and a logistic-regression baseline, RepeatedStratifiedKFold CV with F1-based thresholding, and a tiny data augmenter that replicates the 14-bus graph with noise. Deployed with topology visualization, PR curves, confusion matrix, and downloadable artifacts.
+TinyLlama Fine-Tuning for Medical Q&A 
+I fine-tuned the TinyLlama-1.1B-Chat model on 16K MedQuAD medical question–answer pairs using LoRA adapters, demonstrating that parameter-efficient methods can deliver measurable gains under compute constraints. By applying gradient checkpointing, 4-bit quantization, and an AdamW + warmup training schedule, I made training feasible on modest GPUs. The fine-tuned model achieved up to a 40% improvement in ROUGE-2 scores compared to the baseline and was published on the Hugging Face Hub (tinyllama-medquad-lora), where it has already been downloaded and used by external researchers. I also provided reproducible code, dataset splits, and documentation to support transparency and accessibility for the healthcare AI research community.
+
 Licenses, Certifications, & skills
 
 - P.E. License (Licensed Professional Engineer) – Texas Board of Professional Engineers #151267
 - NERC System Operator Reliability Coordinator Certification- #RC 202105039
+- Siemens PTI Academy Automating PSS®E Using Python (PSSC_625)
 - AWS Certified Cloud Practitioner.
 - Machine Learning with Python IBM Certification.
 - Databases & SQL for Data Science with Python IBM Certification.
@@ -109,6 +113,7 @@ Licenses, Certifications, & skills
 Software
 
 EMS GE Alstom, GE Reliance (PSLF, SOTE, TSM, DTSPSM, SCADA, RTNET/RTNA, STNET/STNA, RTCA, STCA)
-MMS ABB (SCED, COP, RUC)
-PSS/E, PSLF, Power World, TARA, DmVIew, DWG True View, PI, Edna, Seeq, MMAP, Xmap, Gridgeo
-Python, MATLAB, SIMULINK,C++, Linux vi editor.
+MMS ABB (SCED, COP, RUC), Python, MATLAB, SIMULINK,C++, Linux vi editor
+PSS/E, PSLF, Power World, TARA, DmVIew, DWG True View, PI, Edna, Seeq, MMAP, Xmap & Gridgeo
+
+
