@@ -495,57 +495,48 @@
   </video>
 
 <!-- GUI Demo Section -->
-
-<!-- AELab GUI Demo Section -->
 <div style="margin-top: 3rem;">
-  <h2 id="aelab-suite" class="slide-up hover-scale">🧠 AELab – Power System Analysis Suite</h2>
+  <h2 id="gui-demo" class="slide-up hover-scale">⚙️ PSS/E Killer GUI – N-1 Contingency Analysis</h2>
   <p style="max-width: 700px; margin: 0 auto;">
-    AELab is a Python-based GUI that automates key PSS®E workflows for power system engineers, 
-    including contingency analysis, dynamic simulation, transmission project reporting, and IDV generation. 
-    Built using AI-assisted development and real-world experience at LCRA and ERCOT.
+    This demo showcases a Python-based GUI that performs N-1 contingency analysis on custom-built power system models. Built using Tkinter, it allows adding buses, branches, and simulating outages with real-time results.
   </p>
+
+  <video controls style="width: 100%; max-width: 700px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-top: 1rem;">
+    <source src="pssekiller1.mov" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 </div>
 
-<!-- Screenshot Gallery -->
-<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 2rem;">
-  <div>
-    <img src="AELabACCC.png" alt="ACCC Analysis Tab" class="responsive-img" />
-    <p style="text-align: center; font-weight: bold;">ACCC Analysis Input & Progress</p>
-  </div>
-  <div>
-    <img src="AELabACCCThermalResults.png" alt="ACCC Thermal Results" class="responsive-img" />
-    <p style="text-align: center; font-weight: bold;">Thermal Violations Summary</p>
-  </div>
-  <div>
-    <img src="AELABACCVOLTAGERESULTS.png" alt="Voltage Violations Results" class="responsive-img" />
-    <p style="text-align: center; font-weight: bold;">Voltage Violations Summary</p>
-  </div>
-  <div>
-    <img src="AELabDynamicSimResults.png" alt="Dynamic Results" class="responsive-img" />
-    <p style="text-align: center; font-weight: bold;">Dynamic Simulation Report</p>
-  </div>
-  <div>
-    <img src="AELabIDVGenerator.png" alt="IDV Generator" class="responsive-img" />
-    <p style="text-align: center; font-weight: bold;">IDV Generator – Line Upgrades</p>
-  </div>
-  <div>
-    <img src="AELabTPIT.png" alt="TPIT Tool" class="responsive-img" />
-    <p style="text-align: center; font-weight: bold;">TPIT – Transmission Project Info Tool</p>
-  </div>
+<h2 class="slide-up hover-scale">🧠 PSS/E GUI for N-1 Contingency Analysis</h2>
+<div style="text-align: center;">
+  <p style="margin-bottom: 1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+    I developed this Python-based GUI using the PSS/E API to automate N-1 contingency analysis. 
+    The tool visualizes buses, branches, and post-contingency violations, streamlining reliability assessments.
+  </p>
+  <img src="PSSEGUI2.png" alt="Contingency Analysis GUI"
+       style="width: 80%; max-width: 800px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.15);" />
 </div>
 
-<!-- Key Features List -->
-<h3 class="slide-up hover-scale" style="text-align: center; margin-top: 2rem;">🔧 AELab Key Features</h3>
+<!-- IDV Generator Section -->
+<div style="margin-top: 3rem;">
+  <h2 id="idv-generator" class="slide-up hover-scale">🛠️ PSS/E IDV Generator – Transmission Line Upgrade Tool</h2>
+  <p style="max-width: 700px; margin: 0 auto;">
+    This GUI automates the generation of PSS/E `.idv` files for proposed transmission line upgrades. 
+    Given bus numbers, voltage level, conductor type, and length, it calculates impedance, MVA ratings, and produces 
+    ready-to-import `.idv` entries using custom CSV lookup tables.
+  </p>
+
+  <img src="GUI_IDV_Generator_TLU2.png" alt="PSS/E IDV Generator GUI"
+       style="width: 80%; max-width: 800px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.15); margin-top: 1rem;" />
+</div>
+
+<h3 class="slide-up hover-scale" style="text-align: center; margin-top: 2rem;">🔧 Key Features</h3>
 <ul style="max-width: 700px; margin: 0 auto; list-style-type: disc; padding-left: 1.5rem;">
-  <li>⚡ Batch contingency analysis with thermal/voltage violation reporting</li>
-  <li>📈 Dynamic simulation file parsing (.outx) with channel summaries</li>
-  <li>🧰 IDV generation from impedance + rating CSVs (line design automation)</li>
-  <li>🧪 P3/P6 contingency builder for stress testing</li>
-  <li>📂 Transmission Project Info Tool (TPIT) for MOD/Planning workflows</li>
+  <li>Reads impedance and rating data from CSV files</li>
+  <li>Supports multiple conductor types and voltage levels</li>
+  <li>Calculates MVA rating based on user-defined ampacity</li>
+  <li>Outputs PSS/E `.idv` lines with correct syntax and formatting</li>
 </ul>
-
-<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
 
 <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
 
