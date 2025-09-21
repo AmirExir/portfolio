@@ -12,6 +12,7 @@ Work History
 
 Transmission Planning Model & Assessment Engineer 	           LCRA TSP               	3/2024 – Present
 
+-Developed AELab in Python automating Steady State Contingency Analysis, Dynamic Analysis, IDV generation, Contingency Generation & TPIT workflow. 
 -Review & approved Planned, For - Construction & Operational ratings for LCRA transmission lines & auto transformers & shunts resulting from substations, lines & auto transformers additions or upgrades.
 -Prepare Transmission Project Information Tracking (TPIT) updates for internal & costumers’ projects.
 - Lead & present & assign tasks for planning team in multi department rating comparison meetings.
@@ -97,7 +98,6 @@ Power Grid GNN Alarm Prediction App – Live App: | Data: IEEE 14-Bus (synthetic
 Built a PyTorch Geometric GNN to predict bus-level alarms on the IEEE-14 synthetic grid and CSV uploads; added a model-linearization toggle (GCN with no activations) and a logistic-regression baseline, RepeatedStratifiedKFold CV with F1-based thresholding, and a tiny data augmenter that replicates the 14-bus graph with noise. Deployed with topology visualization, PR curves, confusion matrix, and downloadable artifacts.
 TinyLlama Fine-Tuning for Medical Q&A 
 I fine-tuned the TinyLlama-1.1B-Chat model on 16K MedQuAD medical question–answer pairs using LoRA adapters, demonstrating that parameter-efficient methods can deliver measurable gains under compute constraints. By applying gradient checkpointing, 4-bit quantization, and an AdamW + warmup training schedule, I made training feasible on modest GPUs. The fine-tuned model achieved up to a 40% improvement in ROUGE-2 scores compared to the baseline and was published on the Hugging Face Hub (tinyllama-medquad-lora), where it has already been downloaded and used by external researchers. I also provided reproducible code, dataset splits, and documentation to support transparency and accessibility for the healthcare AI research community.
-
 Licenses, Certifications, & skills
 
 - P.E. License (Licensed Professional Engineer) – Texas Board of Professional Engineers #151267
@@ -113,7 +113,8 @@ Licenses, Certifications, & skills
 Software
 
 EMS GE Alstom, GE Reliance (PSLF, SOTE, TSM, DTSPSM, SCADA, RTNET/RTNA, STNET/STNA, RTCA, STCA)
-MMS ABB (SCED, COP, RUC), Python, MATLAB, SIMULINK,C++, Linux vi editor
+MMS ABB (SCED, COP, RUC), 
+Python, MATLAB, SIMULINK,C++, Linux vi editor
 PSS/E, PSLF, Power World, TARA, DmVIew, DWG True View, PI, Edna, Seeq, MMAP, Xmap & Gridgeo
 
 
