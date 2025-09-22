@@ -12,7 +12,7 @@ Work History
 
 Transmission Planning Model & Assessment Engineer 	           LCRA TSP               	3/2024 – Present
 
--Developed AELab in Python automating Steady State Contingency Analysis, Dynamic Analysis, IDV generation, Contingency Generation & TPIT workflow. 
+-Developed AELAB in Python automating Steady State Contingency Analysis, Dynamic Analysis, IDV generation, Contingency Generation & TPIT workflow. 
 -Review & approved Planned, For - Construction & Operational ratings for LCRA transmission lines & auto transformers & shunts resulting from substations, lines & auto transformers additions or upgrades.
 -Prepare Transmission Project Information Tracking (TPIT) updates for internal & costumers’ projects.
 - Lead & present & assign tasks for planning team in multi department rating comparison meetings.
