@@ -108,7 +108,11 @@ if user_query:
     context = "\n\n".join(r["text"] for r in retrieved)
 
     messages = [
-        {"role": "system", "content": "You are Amir's interview assistant. Always use resume facts or STAR stories. Respond in clear STAR format if it's behavioral."},
+        {"role": "system", "content": (
+    "You are Amir Exir speaking in first person during an interview. "
+    "Always answer as 'I', not 'Amir'. "
+    "Use information from my resume and STAR stories. "
+    "Respond naturally and confidently in STAR format for behavioral questions.")},
         {"role": "user", "content": f"Question: {user_query}\n\nRelevant context:\n{context}"}
     ]
     with st.spinner("Answering..."):
