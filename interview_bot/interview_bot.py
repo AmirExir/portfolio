@@ -8,10 +8,12 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # -------------------------
 # Load resume + stories
 # -------------------------
-with open("amir_resume.txt", "r", encoding="utf-8") as f:
+base_path = os.path.dirname(__file__)
+
+with open(os.path.join(base_path, "amir_resume.txt"), "r", encoding="utf-8") as f:
     resume_text = f.read()
 
-with open("stories.json", "r", encoding="utf-8") as f:
+with open(os.path.join(base_path, "stories.json"), "r", encoding="utf-8") as f:
     stories = json.load(f)
 
 chunks = []
