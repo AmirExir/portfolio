@@ -37,7 +37,9 @@ user_query = None
 if audio:
     st.audio(audio["bytes"])  # playback user recording
     with st.spinner("Transcribing..."):
-        audio_file = io.BytesIO(audio["bytes"])  # wrap bytes as file-like object
+        audio_file = io.BytesIO(audio["bytes"])
+        audio_file.name = "speech.wav"   # give it a proper name with extension!
+
         transcription = client.audio.transcriptions.create(
             model="gpt-4o-mini-transcribe",
             file=audio_file
