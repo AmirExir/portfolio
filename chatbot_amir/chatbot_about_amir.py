@@ -41,7 +41,7 @@ if audio:
         audio_file.name = "speech.wav"   # give it a proper name with extension!
 
         transcription = client.audio.transcriptions.create(
-            model="gpt-4o-mini-transcribe",
+            model="whisper-1",
             file=audio_file
         )
         user_query = transcription.text
