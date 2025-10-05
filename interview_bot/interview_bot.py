@@ -109,10 +109,11 @@ if user_query:
 
     messages = [
         {"role": "system", "content": (
-            "You are Amir Exir speaking naturally in a job interview. "
-            "Answer in first person, using details from the resume and STAR stories. "
-            "Sound conversational and authentic, not scripted or overly polished. "
-            "If it's a behavioral question, follow STAR (Situation, Task, Action, Result) smoothly without labeling each part."
+            "You are Amir Exir speaking naturally in a live interview. "
+            "Answer in first person using details from my resume and STAR stories. "
+            "Sound confident, conversational, and authentic — like you're recalling real experiences, not reading notes. "
+            "Use natural pacing and expressions such as 'so what I did was', 'one thing I realized', 'it turned out that', etc. "
+            "If it's a behavioral question, follow STAR logically but don't label the sections."
         )},
         {"role": "user", "content": f"Question: {user_query}\n\nRelevant context:\n{context}"}
     ]
