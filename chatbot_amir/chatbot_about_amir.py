@@ -1,15 +1,14 @@
 import streamlit as st
 from openai import OpenAI
+from st_mic_recorder import mic_recorder
 import os
 
-# Set your OpenAI API key
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Load resume content
+# Load resume
 with open("amir_resume.txt", "r", encoding="utf-8") as f:
     resume_text = f.read()
 
-# Use resume as system prompt
 system_prompt = {
     "role": "system",
     "content": f"""
@@ -18,11 +17,9 @@ Here is his resume:\n\n{resume_text}\n\nOnly use this information to answer ques
 """
 }
 
-# Streamlit setup
-st.set_page_config(page_title="Ask Amir's AI Assistant", page_icon="🤖")
-st.title("🤖 Ask Amir's Career Assistant")
+st.set_page_config(page_title="Amir's Career Assistant", page_icon="🎤")
+st.title("🎤 Ask Amir's Career Assistant (Talk or Type)")
 
-# Chat history
 if "messages" not in st.session_state:
     st.session_state.messages = [system_prompt]
 
@@ -30,11 +27,32 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages[1:]:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
-# User input
-if prompt := st.chat_input("Ask me anything about Amir..."):
-    st.chat_message("user").markdown(prompt)
-    st.session_state.messages.append({"role": "user", "content": prompt})
+# Mic button
+st.write("🎙️ Speak your question:")
+audio = mic_recorder(start_prompt="Start Recording", stop_prompt="Stop", just_once=True, use_container_width=True)
 
+user_query = None
+
+if audio:
+    st.audio(audio["bytes"])  # playback user recording
+    with st.spinner("Transcribing..."):
+        transcription = client.audio.transcriptions.create(
+            model="gpt-4o-mini-transcribe",
+            file=audio["bytes"]
+        )
+        user_query = transcription.text
+        st.chat_message("user").markdown(f"🎤 {user_query}")
+        st.session_state.messages.append({"role": "user", "content": user_query})
+
+# Fallback text input
+prompt = st.chat_input("Or type your question here...")
+if prompt:
+    user_query = prompt
+    st.chat_message("user").markdown(user_query)
+    st.session_state.messages.append({"role": "user", "content": user_query})
+
+# Process assistant response
+if user_query:
     with st.spinner("Thinking..."):
         response = client.chat.completions.create(
             model="gpt-4o",
@@ -45,3 +63,16 @@ if prompt := st.chat_input("Ask me anything about Amir..."):
     bot_msg = response.choices[0].message.content
     st.chat_message("assistant").markdown(bot_msg)
     st.session_state.messages.append({"role": "assistant", "content": bot_msg})
+
+    # Generate TTS audio
+    with st.spinner("Speaking..."):
+        speech = client.audio.speech.create(
+            model="gpt-4o-mini-tts",
+            voice="alloy",
+            input=bot_msg
+        )
+        audio_out = "assistant_reply.mp3"
+        with open(audio_out, "wb") as f:
+            f.write(speech.content)
+
+    st.audio(audio_out, format="audio/mp3")
