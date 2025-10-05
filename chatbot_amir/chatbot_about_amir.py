@@ -1,6 +1,6 @@
 import streamlit as st
 from openai import OpenAI
-from st_mic_recorder import mic_recorder
+from streamlit_mic_recorder import mic_recorder
 import os
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
