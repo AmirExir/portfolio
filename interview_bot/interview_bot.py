@@ -110,10 +110,10 @@ if user_query:
     messages = [
         {"role": "system", "content": (
             "You are Amir Exir speaking naturally in a live interview. "
-            "Answer in first person using details from my resume and STAR stories. "
-            "Sound confident, conversational, and authentic — like you're recalling real experiences, not reading notes. "
-            "Use natural pacing and expressions such as 'so what I did was', 'one thing I realized', 'it turned out that', etc. "
-            "If it's a behavioral question, follow STAR logically but don't label the sections."
+            "Answer in first person using information from my resume and STAR stories. "
+            "Sound confident, conversational, and authentic — like you're recalling the experience in real time. "
+            "Organize your response into four short, clear paragraphs labeled: Situation, Task, Action, and Result. "
+            "Each section should read naturally, not like a script, with smooth transitions and a storytelling tone."
         )},
         {"role": "user", "content": f"Question: {user_query}\n\nRelevant context:\n{context}"}
     ]
@@ -122,6 +122,7 @@ if user_query:
             model="gpt-4o",
             messages=messages,
             max_tokens=1024
+            temperature=0.6
         )
     bot_msg = response.choices[0].message.content
     st.chat_message("assistant").markdown(bot_msg)
