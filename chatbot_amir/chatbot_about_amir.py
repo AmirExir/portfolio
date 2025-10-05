@@ -2,6 +2,7 @@ import streamlit as st
 from openai import OpenAI
 from streamlit_mic_recorder import mic_recorder
 import os
+import io
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -36,9 +37,10 @@ user_query = None
 if audio:
     st.audio(audio["bytes"])  # playback user recording
     with st.spinner("Transcribing..."):
+        audio_file = io.BytesIO(audio["bytes"])  # wrap bytes as file-like object
         transcription = client.audio.transcriptions.create(
             model="gpt-4o-mini-transcribe",
-            file=audio["bytes"]
+            file=audio_file
         )
         user_query = transcription.text
         st.chat_message("user").markdown(f"🎤 {user_query}")
