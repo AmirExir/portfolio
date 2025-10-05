@@ -1,0 +1,294 @@
+[
+  {
+    "text": "Names used: Amir Exir & Seyed Amirhossein Eksir Monfared |US Citizen\ncontact@amirexirpe.com - +1(346) 412- 9950 - amirexirpe.com \u2013 github.com/amirexir",
+    "source": "resume"
+  },
+  {
+    "text": "Professional Summary",
+    "source": "resume"
+  },
+  {
+    "text": "Professional Engineer (P.E.) & Reliability Coordinator with 6 years of experience in Power System in Operation, Planning, Resource Integration, Modeling, Steady State & Dynamic Analysis at ERCOT ISO & LCRA TDSP.\nMaster of Engineering from Lamar University Major in Power Electrical & Computer Engineering.\nCurrently pursuing a Master of Science in Artificial Intelligence at University of Texas at Austin. AWS/IBM Certified.\nProficient in PSS/E, GE EMS SCADA/TSM/DTS, ABB MMS, Streamlit, Embeddings, Python (Pandas, NumPy, Matplotlib, Scikit-learn, XGBoost, Pytorch, OpenAI), JavaScript, GitHub Pages.",
+    "source": "resume"
+  },
+  {
+    "text": "Work History",
+    "source": "resume"
+  },
+  {
+    "text": "Transmission Planning Model & Assessment Engineer \t           LCRA TSP               \t3/2024 \u2013 Present",
+    "source": "resume"
+  },
+  {
+    "text": "-Developed AELAB in Python automating Steady State Contingency Analysis, Dynamic Analysis, IDV generation, Contingency Generation & TPIT workflow. \n-Review & approved Planned, For - Construction & Operational ratings for LCRA transmission lines & auto transformers & shunts resulting from substations, lines & auto transformers additions or upgrades.\n-Prepare Transmission Project Information Tracking (TPIT) updates for internal & costumers\u2019 projects.\n- Lead & present & assign tasks for planning team in multi department rating comparison meetings.\n- Ensure system reliability, & compliance with NERC Standards, ERCOT Operation & Planning Guides.\n-Maintain LCRA Planning Network Model in ERCOT according to capital projects in a timely manner.\n- Participate in ERCOT SSWG, DWG, PLWG, LLWG, RPG, LFLTF working groups.\n- Submit PMCR, DCP on ERCOT MOD for model changes & tunning.\n- Propose & sponsor projects based on load forecast, generation & transmission capacity & budget.\n- Perform Steady State Analysis for new Generation & Load Interconnect Requests.\n- Perform Dynamic Stability Analysis for MOD-26, MOD-27, & Model Quality Test.\n- Enhance model accuracy through data comparisons & validity checks.",
+    "source": "resume"
+  },
+  {
+    "text": "Transmission Operation Network Model & EMS Engineer   \t LCRA TSP\t\t 8/2022 \u2013 3/2024",
+    "source": "resume"
+  },
+  {
+    "text": "- Maintain LCRA Operation Network Model in ERCOT & LCRA EMS Model according to capital projects.\n- Draft One Line Diagram for before & after network model changes for capital projects.\n- Perform Contingency analysis for capital projects & outages & maintain State Estimator solutions.\n- Submit Network Model Operation Requests (NOMCRs) & participate in ERCOT NDSWG working groups.\n- Address real-time issues for SCADA, Transmission Security Management (TSM) applications & State Estimator.\n- Maintain Dispatcher Training Simulator (DTS) system network model, data base & applications.\n- Maintain PMU data in Epdc & RTDMS server & client access manager.\n- Update Line ratings & Impedances in EROT model & EMS based on Engineering team publications.\n- Participate in network data working groups with ERCOT Collaborate with customers like PEC, BBEC, BEC, SBEC.",
+    "source": "resume"
+  },
+  {
+    "text": "Real Time Power System Engineer \t                ERCOT ISO (CROSSTRAINING) \t\t                  1/2022-4/2022",
+    "source": "resume"
+  },
+  {
+    "text": "- Provide engineering support to ERCOT Control Room System Operators through Power Flow studies, Stability Assessments, & system applications support.\n- Maintain Real-Time ERCOT State Estimator, Contingency Analysis, & Voltage/Transient Stability Analysis tools.\n- Develop Constraint Management Plans such as TOAP based on engineering studies for grid vulnerabilities.\n- Identify network model & applications quality issues.\n- Collaborate with ERCOT System Operators & Market Participants to maintain grid reliability & security.\n- Troubleshot situational awareness tools & reported grid status & developments to ERCOT departments.",
+    "source": "resume"
+  },
+  {
+    "text": "Operation Training Instructor \t\t\t       ERCOT ISO \t\t               \t10/2020-8/2022",
+    "source": "resume"
+  },
+  {
+    "text": "-Develop power system simulation training scenarios to enhance ERCOT system operators' performance.\n- Maintain EMS, MMS, & OTS systems, troubleshooted simulator issues.\n- Prepare presentations for trainings & evaluate operator\u2019s responses during simulation trainings.\n- Design simulations events for EEA, Black Start, RTA, IROL, Hurricane Drill, Low Inertia trainings.\n- Participate as a RC, QSE or TO in real time simulations.\n- Perform Contingency Analysis for DTS case preparation.",
+    "source": "resume"
+  },
+  {
+    "text": "Power Electrical Engineer \t       \t        ERCOT ISO \u2013 SOAL technologies                                 10/2019 - 10/2020",
+    "source": "resume"
+  },
+  {
+    "text": "- Perform RARF registration & Reactive testing.\n- Review & processed generation interconnection & full interconnection study (FIS) applications.\n- Review QSA Full Interconnection Studies such as Short Circuit, Faciality, Steady State, Stability Studies.\n- Utilize EMS & PSS/E Transmission Planning load flow cases for power system analysis.\n- Perform Steady State N-1 & N-1-1 Contingency Analysis for Generation Interconnection Requests.",
+    "source": "resume"
+  },
+  {
+    "text": "Associate Teacher \t\t\t\t\tHISD \t\t\t \t                2/2019 - 3/2022",
+    "source": "resume"
+  },
+  {
+    "text": "Substitute Teacher \t\t\t\tCFISD \t\t\t\t                  4/2018-1/2019\n\t\nEducation",
+    "source": "resume"
+  },
+  {
+    "text": "M.S., Artificial Intelligence     (GPA 4.0)  \t     The University of Texas at Austin \t              8/2024 \u2013 Present\nCourses: Deep Learning, Machine Learning, Optimization, EAI, AIH, CSML,\nProjects:\n-Built a vision system & autonomous racing agent for SuperTuxKart, optimizing performance through advanced deep learning techniques.\n-Applied machine learning algorithms to real-world data sets, solving problems in pattern recognition & dimensionality reduction.\n-Developed ethical AI guidelines for system design, incorporating fairness & transparency into decision-making frameworks.",
+    "source": "resume"
+  },
+  {
+    "text": "M.Eng., Electrical & Computer Engineering   (GPA: 3.8)           Lamar University \t           1/2019 - 5/2020 \n- Courses: Power System Motor & protection, Introduction to Robotics, Power Sys Stability & Control, Programmable Logic Controller, Computer Network I & II, Low Power CMOS Des & Rel, Cyber Physical Sys & Security, Instrumentation System & Auto.",
+    "source": "resume"
+  },
+  {
+    "text": "B.S., in Electrical & Computer Engineering \t\t   Shahid Beheshti University              10/2012 7/2017\n- Courses: Protection & Relays, Power System I & II & labs, Electrical Machines I, II, III, Especial Machines & labs, Computer Architecture, Computer Programming, Linear Algebra, Electromagnetic, Industrial Drawing, System Analysis, Logical Circuits, Electronics 1 & 2, Telecommunications, Production & Power Station, High Pressure Plant Design & Project, Mathematics I, II & physics, Differential Equations, Statistics & Probability Engineering.",
+    "source": "resume"
+  },
+  {
+    "text": "AI & Automation Projects\nTechnologies: Python, Streamlit, OpenAI API, Embeddings, PSS\u00aeE, NLP, Scikit-learn, XGBoost, HTML/CSS, JavaScript, GitHub Pages, Kaggle.\nPersonal Portfolio Website & Resume & Portfolio Chatbot\n-Developed & deployed amirexirpe.com to showcase my resume, certifications, & AI-powered tools. Integrated a recruiter-facing chatbot trained on my experience & projects using semantic embeddings. The site includes interactive galleries, contact forms, downloadable documents, & iframe-embedded live apps.\nHourly Load Forecast App (AEP / PJM) \u2013 Live App: | Data: Kaggle (PJM Hourly Energy Consumption)\n-Built a live load forecasting tool using PJM hourly data from Kaggle. Applied time-series feature engineering (lags, rolling averages, calendar variables) & trained an XGBoost model with low RMSE. Deployed with Streamlit & embedded into portfolio via iframe.\nPSS\u00aeE Automation Assistant Bot,  PSS\u00aeE Multi Agent Automation Bot\n-Developed Copilot-style assistants that generate Python scripts for PSS\u00aeE tasks like contingency analysis, dynamic simulation, & model editing. Multi-agent version adds autonomous task by planning, retrieval & execution agents. Powered by the same end-to-end semantic search pipeline for high-precision technical retrieval.\nERCOT Nodal Protocols, Planning Guides, DWG SSWG manuals & Resource Integration AI assistant\n-Built multiple GPT-powered assistants trained on ERCOT Planning Guides, Protocols, DWG/SSWG manuals, & interconnection processes. Used a custom embedding & retrieval pipeline to chunk, embed, & semantically search technical documents with OpenAI\u2019s text-embedding-3-small model & token-bounded cosine similarity. Supports compliance, model validation, & system integration analysis.\nPower Fault Classifier App\n-Created a Streamlit web app to classify power system faults using phasor measurements (Ia, Ib, Ic, Va, Vb, Vc). Trained & compared models (SVM, RF, MLP, XGBoost) with cross-validation & confusion matrix visualizations. Supports CSV uploads & result downloads.\nPower Grid GNN Alarm Prediction App \u2013 Live App: | Data: IEEE 14-Bus (synthetic) + CSV uploads\nBuilt a PyTorch Geometric GNN to predict bus-level alarms on the IEEE-14 synthetic grid and CSV uploads; added a model-linearization toggle (GCN with no activations) and a logistic-regression baseline, RepeatedStratifiedKFold CV with F1-based thresholding, and a tiny data augmenter that replicates the 14-bus graph with noise. Deployed with topology visualization, PR curves, confusion matrix, and downloadable artifacts.\nTinyLlama Fine-Tuning for Medical Q&A \nI fine-tuned the TinyLlama-1.1B-Chat model on 16K MedQuAD medical question\u2013answer pairs using LoRA adapters, demonstrating that parameter-efficient methods can deliver measurable gains under compute constraints. By applying gradient checkpointing, 4-bit quantization, and an AdamW + warmup training schedule, I made training feasible on modest GPUs. The fine-tuned model achieved up to a 40% improvement in ROUGE-2 scores compared to the baseline and was published on the Hugging Face Hub (tinyllama-medquad-lora), where it has already been downloaded and used by external researchers. I also provided reproducible code, dataset splits, and documentation to support transparency and accessibility for the healthcare AI research community.\nLicenses, Certifications, & skills",
+    "source": "resume"
+  },
+  {
+    "text": "- P.E. License (Licensed Professional Engineer) \u2013 Texas Board of Professional Engineers #151267\n- NERC System Operator Reliability Coordinator Certification- #RC 202105039\n- Siemens PTI Academy Automating PSS\u00aeE Using Python (PSSC_625)\n- AWS Certified Cloud Practitioner.\n- Machine Learning with Python IBM Certification.\n- Databases & SQL for Data Science with Python IBM Certification.\n- Python for Data Science, AI & Development IBM Certification.\n- Data Visualization with Python.\n- Familiar with electrical standards & protocols (NEC NFPA, NERC, ERCOT, ANSI, IEEE).",
+    "source": "resume"
+  },
+  {
+    "text": "Software",
+    "source": "resume"
+  },
+  {
+    "text": "EMS GE Alstom, GE Reliance (PSLF, SOTE, TSM, DTSPSM, SCADA, RTNET/RTNA, STNET/STNA, RTCA, STCA)\nMMS ABB (SCED, COP, RUC), \nPython, MATLAB, SIMULINK,C++, Linux vi editor\nPSS/E, PSLF, Power World, TARA, DmVIew, DWG True View, PI, Edna, Seeq, MMAP, Xmap & Gridgeo",
+    "source": "resume"
+  },
+  {
+    "text": "[Customer Obsession] Situation: Pedernales Electric Cooperative (PEC) was transitioning to become an independent utility while maintaining continuous operations. Task: Enable a seamless operational transfer without outages and set PEC up to reinvest savings into their own control center. Action: Submitted NOMCRs early, mapped transferred assets and ownership, and integrated ICCP links while coordinating real\u2011time SCADA updates during cutover. Result: Zero\u2011outage transition; PEC maintained control/visibility throughout and reinvested savings into their control center.",
+    "source": "story",
+    "principle": "Customer Obsession"
+  },
+  {
+    "text": "[Bias for Action / Deliver Results] Situation: A sudden SCADA system failure threatened system visibility and control. Task: Restore situational awareness under time pressure and prevent operational disruption. Action: Executed the switchover checklist, communicated broadly to stakeholders, and brought the backup system online; proposed longer\u2011term resiliency fixes afterward. Result: Monitoring and control restored quickly; no reliability event occurred and the post\u2011mortem drove durable improvements.",
+    "source": "story",
+    "principle": "Bias for Action / Deliver Results"
+  },
+  {
+    "text": "[Dive Deep / Invent and Simplify] Situation: ERCOT stopped receiving PMU data and visibility degraded during operations. Task: Identify and fix the root cause rapidly to restore synchrophasor feeds. Action: Traced the pipeline and uncovered an accidental duplicate configuration entry; removed the duplicate and validated restoration end\u2011to\u2011end. Result: PMU data flow restored; earned recognition from manager and peers for clear root\u2011cause analysis.",
+    "source": "story",
+    "principle": "Dive Deep / Invent and Simplify"
+  },
+  {
+    "text": "[Customer Obsession / Frugality] Situation: A customer study proposed seven capacitor banks for a load interconnection, inflating cost and risk. Task: Deliver a reliable and cost\u2011effective alternative without sacrificing performance. Action: Re\u2011ran contingency and V/Q analysis, demonstrated that two strategically placed banks met performance, and documented the technical basis. Result: Saved millions in equipment/construction, improved reliability, and strengthened customer trust.",
+    "source": "story",
+    "principle": "Customer Obsession / Frugality"
+  },
+  {
+    "text": "[Insist on the Highest Standards / Hire and Develop the Best] Situation: Operator training content was decent but not battle\u2011tested against real incident patterns. Task: Raise the bar on realism and preparedness for emergencies. Action: Built simulation scenarios from actual events, added decision aids and \u2018cheat sheets\u2019 for reserves and emergencies, and looped in operator feedback each iteration. Result: Higher operator confidence and measurable reduction in human\u2011error risks during drills.",
+    "source": "story",
+    "principle": "Insist on the Highest Standards / Hire and Develop the Best"
+  },
+  {
+    "text": "[Ownership / Customer Obsession] Situation: PEC needed to align processes and compliance artifacts to operate as an independent TSP under ERCOT standards. Task: Lead the operational/compliance alignment with minimal disruption. Action: Updated NOMCR submissions, synchronized operational one\u2011lines and displays, and coordinated compliance checkpoints with ERCOT. Result: PEC\u2019s TSP transition executed smoothly while maintaining grid reliability.",
+    "source": "story",
+    "principle": "Ownership / Customer Obsession"
+  },
+  {
+    "text": "[Insist on the Highest Standards / Ownership] Situation: Incorrect jumper ratings in the model were driving artificial congestion. Task: Fix model quality issues and ensure ratings accuracy across tools. Action: Investigated mismatches, aligned with the principal engineer on dynamic ratings, and pushed updates across steady\u2011state and ops models. Result: Avoided potential audits and congestion costs; improved planning/operations alignment.",
+    "source": "story",
+    "principle": "Insist on the Highest Standards / Ownership"
+  },
+  {
+    "text": "[Bias for Action / Deliver Results] Situation: Capital project delays jeopardized planned NOMCR timelines and operator clarity. Task: Prevent confusion or misoperations despite shifting schedules. Action: Modeled temporary configurations, stood up interim ICCP links, and annotated SCADA displays to reflect the real system state. Result: Maintained reliability and operator awareness with no incidents during the delay window.",
+    "source": "story",
+    "principle": "Bias for Action / Deliver Results"
+  },
+  {
+    "text": "[Think Big / Learn and Be Curious] Situation: Compliance constraints slowed AI/ML adoption across planning and operations. Task: Kick\u2011off practical AI/ML initiatives that demonstrate value without risking compliance. Action: Partnered with Operations, Software, and Corporate Strategy; launched pilots in fault detection, a custom LLM for standards/procedures, and load forecasting. Result: Created momentum for AI adoption and a cross\u2011functional roadmap backed by early wins.",
+    "source": "story",
+    "principle": "Think Big / Learn and Be Curious"
+  },
+  {
+    "text": "[Frugality / Ownership / Deliver Results] Situation: Leadership considered replacing the GE EMS at high cost and risk. Task: Ensure the current EMS could meet needs via upgrade vs replacement. Action: Led multiple FAT/SAT cycles, logged and resolved defects with the vendor, trained operators, and implemented post\u2011launch monitoring. Result: Upgrade succeeded, avoided multimillion\u2011dollar spend, and increased operator confidence.",
+    "source": "story",
+    "principle": "Frugality / Ownership / Deliver Results"
+  },
+  {
+    "text": "[Deliver Results / Ownership] Situation: A large backlog of Planned, For Construction, and Operational ratings threatened schedules and safety. Task: Clear the backlog quickly and accurately. Action: Prioritized Operational first, then For Construction, then Planned; instituted tracking and brought stakeholders in early for missing data. Result: Backlog fully cleared; projects stayed on schedule and leaders praised accuracy and throughput.",
+    "source": "story",
+    "principle": "Deliver Results / Ownership"
+  },
+  {
+    "text": "[Deliver Results / Think Big] Situation: Load forecasts showed potential overloads in the next five years from data centers and crypto loads. Task: Create a credible, sequenced strategy for upgrades under budget constraints. Action: Analyzed trends and contingencies, built a Python visualization tool, and proposed a portfolio of new lines and upgrades prioritized by impact. Result: Strategy approved; high\u2011priority projects were fast\u2011tracked and reliability risks mitigated.",
+    "source": "story",
+    "principle": "Deliver Results / Think Big"
+  },
+  {
+    "text": "[Bias for Action / Customer Obsession] Situation: During the Feb\u20112021 Texas winter storm, frequency dropped to 59.3 Hz and a statewide blackout was minutes away. Task: Support control room decisions with real\u2011time facts and coordination. Action: Coordinated with TOs/GOs, quantified required load shed vs generation, and documented unit trips and restorations to guide actions. Result: Frequency restored toward 60 Hz; a cascading blackout was averted and lessons informed future playbooks.",
+    "source": "story",
+    "principle": "Bias for Action / Customer Obsession"
+  },
+  {
+    "text": "[Hire and Develop the Best / Deliver Results] Situation: Interconnection requests surged while several team members were junior and ramping up. Task: Hit deadlines while growing the team\u2019s capabilities. Action: Split work by complexity, mentored associates on modeling, and instituted peer reviews and checklists for quality. Result: Deadlines met; capacity increased and junior engineers advanced faster.",
+    "source": "story",
+    "principle": "Hire and Develop the Best / Deliver Results"
+  },
+  {
+    "text": "[Invent and Simplify] Situation: The interconnection study workflow was slow and repetitive across requests. Task: Automate routine modeling to save engineering time. Action: Built a Python GUI that generated PSS/E models from inputs (resource type/size/connection). Result: Cut ~30 minutes per request and reduced error rates; improved team throughput.",
+    "source": "story",
+    "principle": "Invent and Simplify"
+  },
+  {
+    "text": "[Invent and Simplify / Deliver Results] Situation: Planning engineers spent days on steady\u2011state/dynamic runs, IDVs, contingencies, and TPIT packaging. Task: Automate the end\u2011to\u2011end planning workflow. Action: Developed AELAB.py to automate steady\u2011state contingency analysis, dynamic studies, IDV generation, contingency list creation, and TPIT outputs. Result: Turnaround dropped from days to hours; consistency and auditability improved.",
+    "source": "story",
+    "principle": "Invent and Simplify / Deliver Results"
+  },
+  {
+    "text": "[Are Right, A Lot / Insist on the Highest Standards] Situation: Stakeholders questioned the need to model dynamic ratings that contradicted legacy assumptions. Task: Advocate for technically correct ratings despite pushback. Action: Presented event\u2011based evidence, validated with the principal engineer, and updated models to reflect dynamic limits. Result: Reduced false congestion, improved dispatch, and strengthened credibility.",
+    "source": "story",
+    "principle": "Are Right, A Lot / Insist on the Highest Standards"
+  },
+  {
+    "text": "[Insist on the Highest Standards] Situation: After EMS upgrade, reliability depended on rapid detection of regressions. Task: Ensure post\u2011launch quality remains high. Action: Implemented a monitoring/feedback plan with vendor and operators, and tracked minor cosmetic issues to closure. Result: Stable operations post\u2011upgrade and faster resolution of edge issues.",
+    "source": "story",
+    "principle": "Insist on the Highest Standards"
+  },
+  {
+    "text": "[Earn Trust / Are Right, A Lot] Situation: Vendor disputed certain EMS defects during acceptance testing. Task: Resolve disagreements constructively and factually. Action: Provided logs, screenshots, and reproduction steps; kept discussions data\u2011driven and solution\u2011oriented. Result: Issues acknowledged and fixed; stronger working relationship with the vendor.",
+    "source": "story",
+    "principle": "Earn Trust / Are Right, A Lot"
+  },
+  {
+    "text": "[Learn and Be Curious / Insist on the Highest Standards] Situation: Manual issue triage slowed future upgrades. Task: Shorten feedback cycles and catch bugs earlier. Action: Proposed automated testing harnesses and earlier end\u2011user involvement in UAT to surface usability gaps sooner. Result: Faster detection and higher quality in subsequent releases.",
+    "source": "story",
+    "principle": "Learn and Be Curious / Insist on the Highest Standards"
+  },
+  {
+    "text": "[Dive Deep / Deliver Results] Situation: Growing congestion and model divergence hid true drivers of overloads. Task: Find the highest\u2011leverage fixes quickly. Action: Built a prioritization matrix ranking fixes by severity, frequency, and capital intensity; focused modeling on top drivers. Result: Reduced analysis time and clarified the upgrade roadmap.",
+    "source": "story",
+    "principle": "Dive Deep / Deliver Results"
+  },
+  {
+    "text": "[Are Right, A Lot / Think Big] Situation: Multiple candidate solutions existed for a persistent overload corridor. Task: Select the best long\u2011term option under constraints. Action: Created a decision matrix comparing reliability uplift, cost, schedule, and constructability; recommended the dominant plan. Result: Stakeholders aligned and funding approved for the best\u2011value upgrade.",
+    "source": "story",
+    "principle": "Are Right, A Lot / Think Big"
+  },
+  {
+    "text": "[Invent and Simplify / Deliver Results] Situation: Stakeholders struggled to grasp future risk hotspots. Task: Communicate risk clearly to accelerate decisions. Action: Built a Python visualization app showing load growth, contingencies, and thermal/voltage margins by area. Result: Board\u2011level clarity; several high\u2011impact projects moved forward.",
+    "source": "story",
+    "principle": "Invent and Simplify / Deliver Results"
+  },
+  {
+    "text": "[Insist on the Highest Standards] Situation: SharePoint model submissions arrived inconsistent and error\u2011prone. Task: Raise data quality before it hit the model. Action: Added a QC checklist, standardized templates, and spot\u2011checks before ingestion. Result: Fewer reworks; cleaner inputs accelerated studies.",
+    "source": "story",
+    "principle": "Insist on the Highest Standards"
+  },
+  {
+    "text": "[Hire and Develop the Best] Situation: A new associate engineer needed rapid growth to be productive. Task: Mentor toward licensure and strong independent delivery. Action: Coached through modeling tasks, shared P.E. prep, and set clear growth goals with feedback loops. Result: Engineer earned P.E., was promoted, and became a strong contributor.",
+    "source": "story",
+    "principle": "Hire and Develop the Best"
+  },
+  {
+    "text": "[Strive to be Earth\u2019s Best Employer / Hire and Develop the Best] Situation: After the 2021 storm, new hires needed practical emergency readiness. Task: Equip them to prevent future outages. Action: Built RTA training modules from lessons learned and delivered simulations while filling a temporary Shift Engineer role. Result: New hires were better prepared; subsequent storms had fewer/shorter outages.",
+    "source": "story",
+    "principle": "Strive to be Earth\u2019s Best Employer / Hire and Develop the Best"
+  },
+  {
+    "text": "[Ownership / Insist on the Highest Standards] Situation: Pre\u2011energization model errors could surface late and delay projects. Task: Prevent late surprises before go\u2011live. Action: Created a pre\u2011energization validation checklist across steady\u2011state, dynamics, ratings, and EMS displays. Result: Cleaner energizations and fewer last\u2011minute corrections.",
+    "source": "story",
+    "principle": "Ownership / Insist on the Highest Standards"
+  },
+  {
+    "text": "[Invent and Simplify / Deliver Results] Situation: TPIT packaging was manual and time\u2011consuming across projects. Task: Standardize and automate hand\u2011offs. Action: Scripted TPIT artifacts inside AELAB and documented a repeatable workflow. Result: Consistent, audit\u2011ready submissions completed faster.",
+    "source": "story",
+    "principle": "Invent and Simplify / Deliver Results"
+  },
+  {
+    "text": "[Invent and Simplify / Frugality] Situation: Standing up ICCP links and displays for temporary states created recurring toil. Task: Reduce rework as configurations changed. Action: Authored a lightweight playbook and templates for ICCP points and SCADA display notes tied to milestones. Result: Cut setup time and reduced operator confusion during transitions.",
+    "source": "story",
+    "principle": "Invent and Simplify / Frugality"
+  },
+  {
+    "text": "[Earn Trust / Ownership] Situation: Skepticism existed about upgrading rather than replacing the EMS. Task: Build alignment across leadership and operators. Action: Shared transparent cost\u2011benefit analysis, demoed results from FAT/SAT, and incorporated user feedback into the rollout plan. Result: Consensus to upgrade; smoother adoption and post\u2011cutover trust.",
+    "source": "story",
+    "principle": "Earn Trust / Ownership"
+  },
+  {
+    "text": "[Customer Obsession / Insist on the Highest Standards] Situation: Late end\u2011user involvement caused usability issues to surface near release. Task: Center the operator experience earlier. Action: Brought operators into UAT sooner and translated feedback into test cases and minor UI tweaks. Result: Higher satisfaction and fewer post\u2011launch UX fixes.",
+    "source": "story",
+    "principle": "Customer Obsession / Insist on the Highest Standards"
+  },
+  {
+    "text": "[Frugality / Are Right, A Lot] Situation: Leadership needed proof that an EMS replacement wouldn\u2019t be worth the cost. Task: Quantify savings and risks convincingly. Action: Modeled TCO including training, integration, and downtime risks; compared to targeted upgrade paths. Result: Upgrade path approved; capital preserved for higher\u2011ROI projects.",
+    "source": "story",
+    "principle": "Frugality / Are Right, A Lot"
+  },
+  {
+    "text": "[Bias for Action / Ownership] Situation: Schedule slips on construction risked misaligned models and operator displays. Task: Keep field reality and control room views in sync. Action: Published interim one\u2011lines and SCADA notes and timed model cutovers to the actual field state. Result: Avoided misoperations and kept crews aligned with the control room.",
+    "source": "story",
+    "principle": "Bias for Action / Ownership"
+  },
+  {
+    "text": "[Dive Deep / Insist on the Highest Standards] Situation: Steady\u2011state, dynamics, and operations models diverged in key areas. Task: Eliminate drift across models before audit season. Action: Conducted cross\u2011model audits, reconciled naming/rating mismatches, and instituted version pinning for shared assets. Result: Fewer model defects and smoother audits.",
+    "source": "story",
+    "principle": "Dive Deep / Insist on the Highest Standards"
+  },
+  {
+    "text": "[Customer Obsession / Deliver Results] Situation: Data center and large load customers needed faster interconnection studies without sacrificing quality. Task: Shorten time\u2011to\u2011answer with transparent, defensible results. Action: Automated repetitive builds, standardized assumptions, and created templated outputs with clear sensitivities. Result: Cycle time reduced while maintaining technical rigor; customer satisfaction improved.",
+    "source": "story",
+    "principle": "Customer Obsession / Deliver Results"
+  },
+  {
+    "text": "[Earn Trust / Customer Obsession] Situation: During the winter storm, cross\u2011entity communication determined the speed of response. Task: Keep stakeholders aligned with facts under pressure. Action: Maintained a single source of truth on trips, capacity, and restoration; pushed timely updates to TOs, GOs, and TSPs. Result: Faster, coordinated actions and averted worse outcomes for customers.",
+    "source": "story",
+    "principle": "Earn Trust / Customer Obsession"
+  },
+  {
+    "text": "[Invent and Simplify / Learn and Be Curious] Situation: Engineers repeated similar PSS/E tasks across studies. Task: Reduce toil and knowledge silos. Action: Built a small library of Python utilities for common PSS/E automation and documented usage patterns. Result: Less manual work and easier onboarding for new engineers.",
+    "source": "story",
+    "principle": "Invent and Simplify / Learn and Be Curious"
+  },
+  {
+    "text": "[Think Big / Learn and Be Curious] Situation: Accessing standards and procedures slowed engineering decisions. Task: Accelerate fact\u2011finding while preserving compliance. Action: Prototyped a domain LLM assistant over procedures and standards to answer scoped queries with citations. Result: Quicker answers with better traceability; pilot informed a broader knowledge strategy.",
+    "source": "story",
+    "principle": "Think Big / Learn and Be Curious"
+  },
+  {
+    "text": "[Think Big / Earn Trust] Situation: AI efforts were fragmented across pockets of the organization. Task: Create a credible coalition to drive practical adoption. Action: Formed a cross\u2011functional AI working group with Operations, Software, and Strategy; prioritized 3 pilot use cases with clear metrics. Result: Common roadmap and resourcing emerged; pilots produced measurable value and executive buy\u2011in.",
+    "source": "story",
+    "principle": "Think Big / Earn Trust"
+  },
+  {
+    "text": "[Deliver Results / Invent and Simplify] Situation: Unstructured task lists made it hard to track throughput on ratings and studies. Task: Increase visibility and throughput of the queue. Action: Implemented a Kanban\u2011style tracker and WIP limits, and added lightweight SLAs for hand\u2011offs. Result: Higher sustained throughput and predictable delivery across the team.",
+    "source": "story",
+    "principle": "Deliver Results / Invent and Simplify"
+  }
+]
