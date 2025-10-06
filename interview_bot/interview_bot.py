@@ -25,8 +25,13 @@ for i, para in enumerate(resume_text.split("\n\n")):
 
 # Add STAR stories as chunks
 for s in stories:
-    story_text = f"[{s['principle']}] Situation: {s['situation']} Task: {s['task']} Action: {s['action']} Result: {s['result']}"
-    chunks.append({"text": story_text, "source": "story", "principle": s["principle"]})
+    if all(k in s for k in ("situation", "task", "action", "result")):
+        story_text = f"[{s['principle']}] Situation: {s['situation']} Task: {s['task']} Action: {s['action']} Result: {s['result']}"
+    elif "question" in s and "answer" in s:
+        story_text = f"[{s.get('principle', 'General')}] Q: {s['question']} A: {s['answer']}"
+    else:
+        story_text = json.dumps(s)  # fallback: dump the whole object
+    chunks.append({"text": story_text, "source": "story", "principle": s.get("principle", "General")})
 
 # -------------------------
 # Embeddings cache

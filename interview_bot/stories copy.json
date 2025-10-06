@@ -1,0 +1,476 @@
+[
+  {
+    "principle": "Customer Obsession",
+    "question": "Tell me about a time when you went above and beyond for a customer. Why did you do it? How did the customer respond? What was the outcome?",
+    "situation": "At LCRA, our approach has always been to put the customer at the center of our work, helping them grow by delivering cost-effective and reliable solutions. One of our major customers, Pedernales Electric Cooperative (PEC), was preparing to become an independent utility. This transition required maintaining full operational control and monitoring without outages or interruptions.",
+    "task": "My responsibility was to ensure a seamless operational transition for PEC. The goal was to maintain reliability and continuity of control systems while allowing PEC to save money and reinvest in their new control center.",
+    "action": "I proactively submitted all Network Model Change Requests (NOMCRs) to ERCOT ahead of schedule for the assets being transferred to PEC, verified equipment ownership and configurations, and coordinated ICCP link integration between PEC’s SCADA and LCRA systems. I managed real-time updates during the cutover to ensure uninterrupted visibility and control.",
+    "result": "PEC’s transition was executed flawlessly with zero outages and no loss of situational awareness. The customer commended our foresight and coordination, and LCRA’s leadership recognized the effort as a model example of partnership and customer-first thinking."
+  },
+  {
+    "principle": "Customer Obsession",
+    "question": "Tell me about a time when you evaluated the customer experience of your product or service. What did you do? What was the result?",
+    "situation": "During PEC’s transition to independent operations, I recognized the need to evaluate how our technical and operational support would impact their real-time experience during the changeover.",
+    "task": "My goal was to ensure that PEC’s operators would experience a completely smooth handoff with clear communication, reliable data exchange, and uninterrupted control.",
+    "action": "I met with PEC’s engineers to gather feedback on their operational requirements, adjusted configuration settings in advance, and conducted end-to-end tests to validate data flows through ICCP and NOMCR implementations. I closely monitored their live systems during cutover to ensure visibility and responsiveness.",
+    "result": "PEC reported a seamless experience with no data gaps or alarms, and their operators expressed appreciation for the proactive communication and technical precision. The result strengthened our partnership and demonstrated our commitment to their operational success."
+  },
+  {
+    "principle": "Customer Obsession",
+    "question": "Give me an example of when you were able to anticipate a customer need with a solution/product they didn’t know they needed/wanted yet. How did you know they needed this? How did they respond?",
+    "situation": "Before PEC’s operational separation, I anticipated potential risks related to SCADA visibility and data ownership that PEC’s team hadn’t yet considered.",
+    "task": "I wanted to ensure PEC maintained continuous real-time visibility and full operational control during the transfer of assets, avoiding any unplanned blind spots or downtime.",
+    "action": "I proactively created and submitted the necessary NOMCRs and designed ICCP link configurations that extended data continuity across systems. I verified the data mapping through simulations before the live event and coordinated timing with ERCOT to minimize transition risk.",
+    "result": "The proactive setup eliminated potential disruptions that could have caused outages or data gaps. PEC was pleasantly surprised that these extra safeguards were already in place, and their management highlighted our foresight as critical to the project’s success."
+  },
+  {
+    "principle": "Bias for Action",
+    "question": "Describe a time when you worked against tight deadlines and didn’t have time to consider all options before making a decision. What approach did you take? What did you learn?",
+    "situation": "During my time at LCRA, a sudden SCADA system failure occurred that required immediate action to restore monitoring and control functions for grid operations.",
+    "task": "I was responsible for leading the emergency switchover to the backup SCADA system to ensure reliability and continuity under tight time pressure.",
+    "action": "I followed the emergency checklist, coordinated with control room operators and IT support, and executed the cutover to the backup system while communicating status updates to leadership. Once the system stabilized, I documented root causes and proposed longer-term preventive solutions.",
+    "result": "We restored full SCADA functionality within minutes, preventing operational disruptions. The event strengthened our response protocols and validated the effectiveness of our backup systems."
+  },
+  {
+    "principle": "Dive Deep",
+    "question": "Tell me about a time when you solved a complex problem with a simple solution. What was the problem, and how did you address it?",
+    "situation": "While supporting ERCOT telemetry data, I discovered that Phasor Measurement Unit (PMU) data was not being received by ERCOT’s systems, which risked missing critical real-time visibility.",
+    "task": "I needed to quickly identify the source of the communication failure and restore data transmission without interrupting ongoing operations.",
+    "action": "Through detailed log reviews and configuration checks, I identified that a duplicate entry in the PMU configuration database was preventing proper data registration. I removed the duplicate entry, validated the corrected setup, and confirmed ERCOT was again receiving live data.",
+    "result": "Data transmission was restored immediately, and the simplicity of the fix impressed both ERCOT and my management. The incident was later used as a best-practice example for troubleshooting telemetry data issues."
+  },
+  {
+    "principle": "Customer Obsession",
+    "question": "Give me an example of when you anticipated a customer need with a solution they didn’t know they needed. How did you know, and what was the result?",
+    "situation": "During a load interconnection study, I collaborated with an experienced engineer who had proposed adding seven capacitor banks to meet voltage requirements. The plan seemed excessive based on my preliminary analysis and could have led to unnecessary construction costs.",
+    "task": "My goal was to validate the study’s assumptions and determine the most cost-effective and technically sound capacitor configuration for the customer’s project.",
+    "action": "I performed a detailed PSS®E simulation, analyzing voltage performance under various contingency and load scenarios. Through iterative testing and sensitivity analysis, I identified that installing only two capacitor banks would achieve the same voltage stability and reactive support goals. I shared the results with the team, explaining the system-level reasoning behind the optimization.",
+    "result": "The customer was able to eliminate five unnecessary capacitor installations, saving several million dollars in equipment and construction costs. The optimized configuration improved voltage performance, maintained system reliability, and strengthened trust in our engineering recommendations."
+  },
+  {
+    "principle": "Insist on the Highest Standards",
+    "question": "Tell me about a time when you worked to improve the quality of a product or service that was already getting good feedback. Why did you do it, and what was the result?",
+    "situation": "At ERCOT, our operator training simulations were already receiving positive feedback for their effectiveness. However, I noticed that many scenarios didn’t fully replicate the complexity of real grid events such as low-inertia conditions, EEA declarations, and reserve shortages.",
+    "task": "I wanted to elevate the realism and educational value of the simulations to better prepare system operators for high-stress, real-world situations.",
+    "action": "I collected operator feedback, analyzed recent grid disturbances, and redesigned training scenarios using real system data. I developed customized ‘cheat sheets’ for quick reference during emergency drills and incorporated lessons learned from previous black start and low-frequency events into the simulations.",
+    "result": "The upgraded simulations significantly improved operator preparedness and response accuracy during drills. Feedback from both trainees and leadership highlighted the realism and clarity of the new scenarios, which later became the standard framework for ERCOT training exercises."
+  },
+  {
+    "principle": "Think Big",
+    "question": "Give me an example of how you changed the direction of a function or department and helped them embrace a new way of thinking. Why was a change needed?",
+    "situation": "Pedernales Electric Cooperative (PEC) was preparing to transition into an independent Transmission Service Provider (TSP), requiring new processes, tools, and regulatory compliance under ERCOT standards. The shift demanded not just technical updates but also a cultural shift in how operations and planning aligned.",
+    "task": "My goal was to help PEC embrace their new role as a TSP by aligning their systems and procedures with ERCOT’s operational framework while maintaining grid reliability throughout the transition.",
+    "action": "I collaborated with both PEC and ERCOT teams to map asset ownership, update NOMCR submissions, and ensure accurate representation of network elements in the ERCOT model. I also guided PEC engineers on best practices for operational compliance and contingency analysis under their new responsibilities.",
+    "result": "The transition was completed smoothly, with zero operational disruptions and full compliance with ERCOT requirements. PEC successfully established itself as an independent TSP, and the initiative became an example of effective collaboration and forward-thinking leadership within LCRA."
+  },
+  {
+    "principle": "Ownership",
+    "question": "Tell me about a time when you had to take ownership to prevent an issue or maintain reliability during unexpected project delays. What actions did you take?",
+    "situation": "During my time at LCRA, we experienced repeated delays in submitting Network Model Change Requests (NOMCRs) to ERCOT due to overlapping project timelines and dependencies between engineering and operations teams. These delays risked creating mismatches between the planning and operational network models, which could cause confusion for operators.",
+    "task": "I needed to ensure grid reliability and situational awareness were maintained despite the delayed model updates.",
+    "action": "I modeled temporary system configurations to bridge data gaps, established interim ICCP links to maintain telemetry accuracy, and added detailed SCADA display notes explaining the temporary conditions to operators. I also coordinated with control center staff and planners to ensure alignment during the delay period.",
+    "result": "The proactive mitigation maintained full visibility and prevented operational confusion, allowing safe grid operations throughout the delay. The solution minimized disruptions and earned acknowledgment from management for maintaining reliability under pressure."
+  },
+  {
+    "principle": "Think Big",
+    "question": "Tell me about an initiative you undertook that benefited the company but wasn’t within anyone’s specific responsibility. What was the outcome?",
+    "situation": "While working in operations and planning at LCRA, I noticed that our processes for data analysis, fault detection, and forecasting relied heavily on manual methods, even though AI and machine learning could greatly improve efficiency and insight.",
+    "task": "I wanted to introduce AI and ML concepts into our power system operations, even though no formal program or owner existed for such initiatives.",
+    "action": "I met with corporate strategy, SCADA, and software development teams to demonstrate practical use cases for AI in system operations—such as fault detection from SCADA telemetry and predictive load modeling. I also collaborated with a corporate strategy analyst to design pilot projects and encouraged him to join the MSAI program at UT Austin to help scale our internal capabilities.",
+    "result": "These efforts sparked executive interest in AI adoption, leading to the launch of pilot projects in fault detection and forecasting. The initiative inspired a culture of innovation and positioned LCRA as a forward-thinking organization exploring AI in utility operations."
+  },
+  {
+    "principle": "Earn Trust",
+    "question": "Describe a time when you had to influence a peer with a differing opinion about a shared goal. What did you do, and what was the outcome?",
+    "situation": "During a planning model update, a colleague disagreed with my proposal to add dynamic line ratings to certain transmission corridors. He believed static ratings were sufficient, while I saw risks of underutilizing system capacity and potential operational inefficiencies.",
+    "task": "My goal was to convince him and the broader team of the technical and reliability benefits of dynamic ratings using data-driven evidence.",
+    "action": "I gathered historical weather and load data, simulated both static and dynamic rating scenarios in PSS®E, and quantified the performance difference. I presented my findings to the team and involved a respected principal engineer to review and validate the methodology. This open and collaborative approach built credibility.",
+    "result": "The team agreed to implement dynamic ratings in the affected corridors, which improved model accuracy, enhanced operational flexibility, and prevented future deratings. The success built mutual respect and demonstrated the value of analytical collaboration."
+  },
+  {
+    "principle": "Invent and Simplify",
+    "question": "Tell me about a time when you made something simpler for customers. What drove you to implement the change, and what was the impact?",
+    "situation": "Interconnection study modeling was a repetitive and time-consuming process, requiring engineers to manually edit PSS®E files and verify configurations for each project.",
+    "task": "I wanted to reduce manual workload, eliminate errors, and accelerate turnaround time for both internal and external customers requesting interconnection analyses.",
+    "action": "I developed a Python-based automation tool that generated interconnection study cases, applied contingencies, and exported reports automatically. The tool included a simple GUI for selecting inputs and parameters, making it accessible even to non-programmers. I also integrated validation checks and output logs for transparency.",
+    "result": "The tool reduced case-building time from hours to minutes, freeing engineers to focus on higher-value analysis. The streamlined workflow improved consistency, reduced errors, and increased customer satisfaction due to faster study delivery."
+  },
+  {
+    "principle": "Customer Obsession",
+    "question": "Tell me about a time when you maintained strong customer communication and coordination during a complex transition. What did you do, and what was the result?",
+    "situation": "As part of supporting Pedernales Electric Cooperative’s (PEC) transition to becoming an independent Transmission Service Provider, we needed to ensure alignment between engineering, operations, and customer expectations while maintaining real-time system control.",
+    "task": "My task was to manage communications and real-time coordination with both PEC and internal LCRA teams to ensure smooth integration and handoff of responsibilities.",
+    "action": "I maintained constant communication with PEC engineers during live updates, coordinated ICCP link activations, verified NOMCR submissions, and issued operational advisories to avoid confusion during the cutover process. I ensured every change was documented and communicated promptly to both sides.",
+    "result": "The transition was executed flawlessly, with no outages or loss of visibility. PEC was able to reinvest cost savings into developing their new control center and security systems. My efforts were publicly recognized in a company safety meeting for demonstrating precision, reliability, and customer focus."
+  },
+  {
+    "principle": "Customer Obsession",
+    "question": "Tell me about a time when you went above and beyond for a customer. Why did you do it? How did the customer respond? What was the outcome?",
+    "situation": "During a meeting with Waterloo, a generation customer interested in interconnecting a new generator to our system, they expressed concerns about how to maximize MW output while maintaining reliability and cost-effectiveness.",
+    "task": "My goal was to understand their operational and financial priorities in detail and develop an interconnection solution that maximized their generation potential while keeping system reliability and costs balanced.",
+    "action": "I conducted a detailed contingency analysis using PSS®E to evaluate different interconnection options, including a two-line connection versus a single-line tie. After reviewing multiple configurations, I recommended the single-line option because it reduced equipment and substation costs, minimized power flow stress, and improved reliability. I presented the technical trade-offs and cost implications to Waterloo, ensuring transparency and collaboration in the decision process.",
+    "result": "Waterloo appreciated the analysis and decided to adopt the single-line solution. The improved reliability and cost savings encouraged them to increase their generator size, which optimized their performance and boosted our revenue through better infrastructure utilization. The project strengthened our partnership and was cited internally as a model for customer-focused engineering."
+  },
+  {
+    "principle": "Customer Obsession",
+    "question": "Give me an example of when you were able to anticipate a customer need with a solution they didn’t know they wanted yet. How did you know they needed this, and what was the result?",
+    "situation": "While planning Waterloo’s generator interconnection, they were considering a dual-line setup to improve redundancy, but I saw that this design would increase costs and limit their operational flexibility.",
+    "task": "I wanted to anticipate their true goal—maximizing MW output under secure and cost-efficient conditions—and find a simpler, smarter solution before they realized the limitations of their initial design.",
+    "action": "Using system studies, I identified that a single-line interconnection would perform better technically and financially. I provided clear modeling evidence to show that the single-line option reduced contingency constraints and improved dynamic response while cutting construction costs. I walked the customer through the simulations and explained how this setup would achieve their long-term goals more effectively.",
+    "result": "They were surprised by the finding and quickly adopted the single-line recommendation. The change not only improved reliability and reduced costs but also allowed them to expand their generator output. Their positive response reinforced trust and positioned us as a proactive and technically competent partner."
+  },
+  {
+    "principle": "Customer Obsession",
+    "question": "Tell me about a time when you evaluated the customer experience of your service and what the result was.",
+    "situation": "Waterloo’s interconnection project required a solution that balanced system performance, cost, and operational ease. I realized that beyond the technical results, their satisfaction depended on how we communicated findings and adapted to their feedback.",
+    "task": "My goal was to ensure Waterloo felt confident and supported throughout the process, turning a complex engineering project into a smooth, transparent experience.",
+    "action": "I held several review sessions to walk them through the PSS®E study results, explained key reliability metrics, and addressed their questions on contingency handling. I customized the reports and visuals to align with their engineering team’s workflows and provided clear recommendations with cost-benefit explanations.",
+    "result": "The customer appreciated the clarity and collaboration, calling the process one of the smoothest interconnection studies they had been part of. The partnership strengthened our reputation for being responsive and customer-focused while achieving a technically optimal solution."
+  },
+  {
+    "principle": "Ownership",
+    "question": "Tell me about a time when you were accountable for delivering a challenging project under pressure. How did you ensure success?",
+    "situation": "I was assigned to complete a large-scale transmission contingency study on a tight timeline after another engineer was reassigned. The project was critical for meeting an ERCOT compliance deadline, and missing it would delay approvals for multiple transmission upgrades.",
+    "task": "My responsibility was to take ownership of the entire study process—data validation, case setup, and reporting—while maintaining accuracy under time pressure.",
+    "action": "I consolidated previous analysis notes, automated contingency checks using Python scripts I had developed, and collaborated with system planning to validate assumptions in real time. I worked extended hours to review voltage violations and ensure all study scenarios were covered.",
+    "result": "I delivered the complete study ahead of schedule with zero errors in the review process. ERCOT approved it without revisions, and my manager cited it as an example of reliability and accountability under pressure."
+  },
+  {
+    "principle": "Frugality",
+    "question": "Tell me about a time when you accomplished more with less. How did you do it?",
+    "situation": "During multiple planning studies, we faced limited time and staff resources to complete large batches of contingency and power flow analyses before ERCOT submission deadlines.",
+    "task": "I needed to find a way to deliver results efficiently without compromising quality or compliance.",
+    "action": "I repurposed portions of my AELAB automation tool to batch-run contingency scenarios and automatically flag voltage or thermal violations. This eliminated the need for manual case-by-case reviews and reduced human error. I also shared the tool with other planners to accelerate their work.",
+    "result": "The automation cut study time by over 50%, reduced manual workload, and allowed the team to meet every ERCOT deadline on schedule. It became a standard workflow within our planning group, showing that innovation can achieve high impact even under resource constraints."
+  },
+  {
+    "principle": "Ownership",
+    "question": "Tell me about a time when you took on something significant outside your area of responsibility. Why was it important, and what was the outcome?",
+    "situation": "At LCRA, we had been using a GE Energy Management System (EMS) for several years to monitor and control grid operations. Some within the organization proposed replacing it with a new platform, which would have required millions in new licensing costs, training, and integration work. I recognized that the existing system still had strong capabilities if properly optimized.",
+    "task": "My goal was to take ownership of evaluating and testing the upgraded EMS to ensure it met operational and reliability standards—avoiding unnecessary spending on a full replacement.",
+    "action": "I performed a complete functional review of every EMS application, from real-time SCADA and State Estimator to contingency analysis and alarm processors. I documented all bugs and performance issues the vendor claimed were resolved, and coordinated with their engineers through three formal testing phases: Factory Acceptance Testing (FAT), Site Acceptance Testing 1 (SAT1), and Site Acceptance Testing 2 (SAT2). I verified each fix, validated performance against operator workflows, and stayed on-site during commissioning to support control room staff. After go-live, I continued addressing cosmetic and interface issues reported by operators, ensuring their feedback loop remained active.",
+    "result": "The upgraded EMS went live smoothly and met all operational requirements without the need for a costly replacement. My proactive testing and vendor coordination avoided substantial capital and subscription costs, improved reliability, and earned strong praise from operators who found the upgraded system faster and more stable. The success demonstrated how taking full ownership and applying cross-functional collaboration can save millions while delivering better results."
+  },
+  
+  {
+    "principle": "Ownership",
+    "question": "Tell me about a time when you took ownership of a problem that wasn’t originally your responsibility and ensured a successful outcome.",
+    "situation": "While preparing for an upcoming audit at LCRA, multiple teams—including Steady State, Dynamic, Operations, and the Rating Calculator group—were performing spot checks on transformer and line ratings to verify compliance. I was originally responsible only for steady-state model validation. However, a colleague from the dynamic team called in sick, leaving their part incomplete just days before the audit.",
+    "task": "Although my formal responsibility was limited to steady-state checks, I recognized that missing dynamic validations could risk audit findings and compliance issues. I decided to take ownership of both the steady-state and dynamic reviews to ensure everything was accurate before the auditors arrived.",
+    "action": "I reviewed both steady-state and dynamic models, cross-verifying results against operational data and the rating calculator outputs. Using my operations background, I compared transformer and line ratings across different systems and noticed inconsistencies between models and the official calculator data. I traced the issue through SharePoint archives, identified the original submission, and found that incorrect rating data had been entered. I immediately contacted the responsible engineer, explained the mismatch, and worked with them to correct the record before the audit.",
+    "result": "When auditors conducted their random review, one of the auto-transformers they selected was the same unit I had corrected. The updated data passed inspection with zero findings, preventing a potential compliance violation and significant financial penalties. The fix also prevented the error from propagating into future planning and operational models, safeguarding both system reliability and cost efficiency. My initiative demonstrated accountability, attention to detail, and a deep understanding of how cross-functional data integrity protects compliance and grid safety."
+  },
+  
+  {
+    "principle": "Invent and Simplify",
+    "question": "Give me an example of a complex problem you solved with a simple solution. What made the problem complex, and how did you know your solution worked?",
+    "situation": "At LCRA, the surge in interconnection requests from data centers, renewable projects, and cryptocurrency facilities created a significant workload for our planning team. The manual process of building system models for each request was time-consuming, repetitive, and increasingly unsustainable as volumes grew.",
+    "task": "I needed to simplify and accelerate the interconnection study process while maintaining accuracy and quality, so our team could handle the workload efficiently without additional staffing or burnout.",
+    "action": "I designed and developed a Python-based automation tool with a graphical user interface (GUI) that streamlined the modeling process. The tool prompted users to input key project parameters—generator type, size, connection type (looped or radial), and connection point—and automatically generated accurate system models for the interconnection study. I wrote modular Python scripts that interfaced with our PSS®E model files and ensured that even non-programmers could use the tool easily. I tested the tool across multiple interconnection cases and gathered feedback from team members to refine usability.",
+    "result": "The tool reduced study preparation time by about 30 minutes per request, increasing overall throughput and reducing manual fatigue. It enabled the team to process more interconnection requests without overtime or added staff. The simplified workflow improved morale and was later adopted as a standard step in our study preparation process, demonstrating how a simple automation can deliver outsized impact in both productivity and quality."
+  },
+  
+  {
+    "principle": "Invent and Simplify",
+    "question": "Describe a time when you simplified a complex process to improve efficiency and enable your team to deliver better results.",
+    "situation": "As interconnection demand grew rapidly, especially from large data centers and renewable resources, our LCRA planning team faced increasing grid congestion in simulations. Many models began diverging or failing to solve due to overloaded transmission lines and transformers. We were tasked with identifying future congestion points and determining which system upgrades were most critical.",
+    "task": "I was responsible for leading the effort to identify high-priority transmission and transformer upgrades through detailed power flow and contingency analysis. At the same time, I needed to simplify the workflow to handle the growing workload and help new team members ramp up quickly.",
+    "action": "I started by running detailed power flow and contingency analyses to locate critical congestion points in the system. Recognizing the inefficiency in the manual workflow, I broke down the contingency process into smaller, repeatable tasks and created a prioritization matrix to rank upgrade options based on cost, system reliability impact, and load-serving potential. I delegated simpler analysis tasks—such as preliminary contingency screening and data validation—to newer engineers, while mentoring a more experienced colleague to take on advanced stability and voltage analysis. This structure allowed parallel work and knowledge sharing within the team.",
+    "result": "The structured approach reduced our collective workload by about 50% and allowed us to identify key transmission lines and auto-transformers that needed upgrades to relieve congestion. The models began solving consistently, and we met all project deadlines without additional staffing. Beyond solving the immediate issue, the new workflow became a lasting framework that improved team efficiency, collaboration, and capability for future planning projects."
+  },
+  
+  {
+    "principle": "Invent and Simplify",
+    "question": "Tell me about a time when you invented or simplified a process that significantly improved performance or efficiency. What was the problem, and what was innovative about your solution?",
+    "situation": "At LCRA, our planning team was spending an excessive amount of time running steady-state and dynamic contingency analyses for interconnection and reliability studies. Each analysis required multiple manual steps—opening PSS®E cases, editing parameters, executing contingencies, and compiling reports. The process was repetitive, time-consuming, and prone to human error, especially with the growing number of interconnection requests.",
+    "task": "I wanted to automate and simplify this process to save engineers time, ensure consistent results, and make advanced studies accessible to both new and experienced team members without requiring them to code or perform repetitive modeling steps manually.",
+    "action": "I developed a Python-based platform called AELAB that automated end-to-end power system analysis workflows. The tool integrated with PSS®E and could automatically generate contingencies, run power flows, execute dynamic simulations, and export results into standardized CSV and text reports. I designed a simple graphical user interface (GUI) that allowed users to select cases, contingencies, and study types with a few clicks, without touching any code. I also added detailed logs and error handling for transparency and troubleshooting. After several test runs and feedback sessions, I refined the tool to meet different team needs across planning and operations.",
+    "result": "AELAB reduced the time required for contingency and dynamic analysis by more than 60%, transforming a process that once took hours into minutes. It improved study consistency, eliminated common human errors, and became a shared resource among engineers. The automation significantly increased team productivity and established a foundation for future AI-assisted analysis projects. The success of AELAB was recognized internally and demonstrated how innovation and simplicity can drive measurable results in a highly technical environment."
+  },
+  
+  {
+    "principle": "Hire and Develop the Best",
+    "question": "Tell me about a time when you helped someone improve their performance. How did you support their development?",
+    "situation": "At LCRA, several key engineers left for new opportunities, which created knowledge gaps and increased workload on the remaining team. To maintain our team’s technical standards and reliability, we needed to not only hire strong replacements but also help new hires develop quickly into high-performing contributors.",
+    "task": "I was involved in identifying and mentoring a new hire who could fill one of these critical roles. My goal was to ensure he had the technical and professional development support necessary to grow into a fully capable engineer and future leader within the organization.",
+    "action": "I participated in the interview process, helping evaluate candidates based on both technical ability and long-term potential. We hired an Associate Engineer with a Ph.D. in Electrical Engineering from a neighboring utility, whose analytical mindset fit our team’s needs. I took the initiative to mentor him personally—sharing my Professional Engineer (P.E.) exam prep materials, explaining practical applications of power system theory, and guiding him through LCRA’s procedures and ERCOT standards. I also made time for regular one-on-one discussions to help him strengthen his technical decision-making and confidence.",
+    "result": "Within a year, he successfully passed the P.E. exam, earned his Professional Engineer license, and was promoted to Engineer. His confidence, independence, and contributions grew significantly, helping our team close critical skill gaps. His success reinforced the importance of investing in people and confirmed that strong mentorship can multiply a team’s long-term impact."
+  },
+  
+  {
+    "principle": "Hire and Develop the Best",
+    "question": "Tell me about a time when you helped others improve their performance during a critical situation. How did you develop their capabilities and ensure long-term success?",
+    "situation": "After the catastrophic Texas winter storm at ERCOT, several Senior Engineers left their positions, creating serious staffing gaps in the Control Room Operations team. The grid was still recovering, and maintaining reliability required around-the-clock coverage from highly skilled engineers. Finding and training replacements who met ERCOT’s standards was extremely difficult.",
+    "task": "I was asked to temporarily step in as a Shift Engineer because of my background in power systems and my NERC Reliability Coordinator (RC) certification. My goals were to ensure continuous system operations and to help develop new engineers who could eventually fill these critical roles permanently.",
+    "action": "I took ownership of the Shift Engineer role, covering demanding schedules—including 72-hour work weeks—to keep the control room fully staffed. While maintaining real-time operations, I used firsthand insights from that period to design and deliver Real-Time Assessment (RTA) presentations and simulation-based training sessions. I developed practical materials that incorporated lessons from the winter storm, focusing on identifying system vulnerabilities, improving situational awareness, and executing emergency procedures. I mentored new hires directly, preparing them to manage future extreme-weather scenarios confidently.",
+    "result": "My efforts ensured that ERCOT maintained reliable 24/7 operations during a critical staffing shortage. The training materials and simulations I developed became part of ERCOT’s standard onboarding for new engineers, helping them perform effectively under stress. During subsequent winter events, operators demonstrated faster and more coordinated responses, reducing outage durations and preventing widespread disruptions. This experience reinforced the importance of investing in talent development even in times of crisis."
+  },
+  
+  {
+    "principle": "Think Big & Look Around Corners",
+    "question": "Tell me about a time when you anticipated future opportunities or challenges and took initiative to drive innovation. What was your vision, and what did you do to make it happen?",
+    "situation": "In the utility industry, innovation often moves slowly due to strict compliance and safety standards. At LCRA, most processes were manual or spreadsheet-based, and advanced technologies like Artificial Intelligence (AI) and Machine Learning (ML) were rarely used because of compliance and cybersecurity constraints. I saw a long-term opportunity to apply AI and automation to make power system operations, documentation, and planning faster, more accurate, and more scalable.",
+    "task": "My goal was to introduce AI and ML into our power system environment in a responsible, compliance-aligned way—demonstrating their value in reliability, planning, and decision support. I wanted to create proof-of-concept tools that could show leadership how AI could transform future grid operations.",
+    "action": "I collaborated with the Manager of Operations, Supervisor of Software Development, and Manager of Corporate Strategy to identify pilot AI initiatives. Together, we launched experimental projects in three key areas: predictive maintenance using SCADA telemetry data, AI-based load forecasting models using historical demand data, and natural-language retrieval tools for ERCOT documentation. To accelerate this, I personally built a series of AI assistants—custom RAG (retrieval-augmented generation) bots trained on ERCOT Nodal Protocols, Planning Guides, and the Resource Integration Handbook—that allowed engineers to query standards, model validation procedures, and interconnection processes instantly instead of searching lengthy PDFs. I also developed AELAB and load forecasting apps to automate contingency and demand analysis workflows. To strengthen my technical base, I enrolled in the M.S. in Artificial Intelligence program at UT Austin and later encouraged a Corporate Strategy Analyst to join the program, expanding our internal AI capability.",
+    "result": "These efforts kick-started a digital transformation mindset across departments, leading to multiple active AI pilot projects and growing leadership interest in broader automation initiatives. The RAG assistants became daily reference tools for planning engineers, reducing document lookup time dramatically, while the forecasting and analysis tools improved operational readiness. My work proved that innovation can coexist with compliance in critical infrastructure. It positioned our organization—and my career—for a future where power systems and AI evolve together, aligning perfectly with the culture of companies like Amazon and NextEra that value forward-thinking, scalable innovation."
+  },
+  {
+    "principle": "Think Big & Look Around Corners",
+    "question": "Tell me about a time when you were working on an initiative or goal and saw an opportunity to do something much bigger or better than the initial focus. Did you take that opportunity? Why or why not? What was the outcome?",
+    "situation": "During my M.S. in Artificial Intelligence program at UT Austin, I took an Optimization course where we worked on complex real-world problems like electric power capacity expansion and workforce scheduling. Both problems involved balancing multiple competing constraints—demand forecasts, cost efficiency, and regulatory limits—while ensuring reliability and long-term scalability.",
+    "task": "My goal was to develop optimization models that not only solved the given problem but also revealed broader opportunities for improving cost efficiency and adaptability. I wanted to push beyond the assignment requirements to create scalable frameworks applicable to real-world energy systems and operations planning.",
+    "action": "I applied linear programming, mixed-integer optimization, and constraint modeling to simulate realistic decision-making environments. In the power capacity expansion project, I incorporated future demand forecasts, cost per megawatt, policy constraints, and reliability margins to determine the optimal mix of nuclear and coal generation. In the scheduling problem, I used similar principles to minimize labor costs for nurse shift assignments while maintaining coverage and fairness constraints. Throughout both projects, I 'looked around corners' by anticipating external factors like policy shifts, equipment retirement, and renewable integration, ensuring my models were flexible and forward-compatible.",
+    "result": "The models I built delivered scalable, cost-efficient solutions—reducing expansion costs in the energy project by optimizing the mix of generation resources and cutting staffing costs by 20% in the scheduling project. These outcomes demonstrated how strategic optimization can extend beyond immediate goals to drive long-term efficiency and resilience. The experience reinforced my passion for using AI and optimization to anticipate challenges and design intelligent, future-ready solutions in power systems."
+  },
+  
+  {
+    "principle": "Deliver Results / Bias for Action / Invent and Simplify",
+    "question": "Tell me about a time when you had to manage multiple projects with tight deadlines. How did you prioritize your work?",
+    "situation": "At LCRA, we managed multiple complex projects involving infrastructure upgrades and new resource integrations. Each project required submitting detailed data to ERCOT through tools like TIPIT, MAGE, and PSS/E (Siemens). These projects had tight deadlines, and any delays in submission could directly impact energization timelines and cause costly operational delays.",
+    "task": "My responsibility was to manage and organize critical project information—such as costs, substation buses, lines, and equipment configurations—from various sources. I needed to submit this data accurately and on time to ERCOT, ensuring compliance with strict deadlines and preventing any energization or operational delays.",
+    "action": "To manage these complex tasks and avoid missing deadlines, I developed a structured, step-by-step process: gathered data from multiple internal and external sources, mapped and organized project data, analyzed and modeled system changes in PSS/E and MAGE, created one-line diagrams to visualize configurations, and tracked project milestones like energization dates and ERCOT deadlines. This structured workflow ensured nothing was missed even under heavy workload.",
+    "result": "By breaking down the process and managing each step systematically, I ensured 100% on-time submissions to ERCOT, preventing energization delays. This streamlined approach reduced errors, improved efficiency, and kept projects aligned with both internal milestones and ERCOT’s strict regulatory deadlines. My proactive management directly supported the successful and timely integration of new infrastructure into the grid."
+  },
+  
+  {
+    "principle": "Deliver Results / Bias for Action / Invent and Simplify",
+    "question": "Tell me about a time when you had to manage multiple projects with tight deadlines. How did you prioritize your work?",
+    "situation": "Managing multiple infrastructure projects required submitting detailed data to ERCOT on tight deadlines, where missing even one submission could delay energization and cause costly operational issues.",
+    "task": "I had to prioritize and execute various tasks—data collection, modeling, and submission—across multiple concurrent projects to ensure all ERCOT deadlines were met without errors.",
+    "action": "I prioritized projects based on ERCOT deadlines and energization dates, addressing high-risk or dependency-heavy projects first. I broke down each project into clear phases—data gathering, mapping, modeling, validation, and submission—to manage complexity. I focused on critical-path tasks like PSS®E model updates early while deferring non-critical administrative work. I used risk-based prioritization to start projects with uncertain data or third-party dependencies earlier and continuously tracked progress, adjusting priorities as new information emerged.",
+    "result": "This structured prioritization ensured that all submissions to ERCOT were completed on time and error-free, preventing costly energization delays and keeping all transmission and interconnection projects on schedule. The consistent delivery under tight timelines reinforced my reputation for reliability and efficiency in critical planning work."
+  },
+  {
+    "principle": "Deliver Results / Bias for Action / Invent and Simplify",
+    "question": "Tell me about a time when you had to manage multiple projects with tight deadlines. How did you prioritize your work?",
+    "situation": "Managing multiple infrastructure projects required submitting detailed data to ERCOT on tight deadlines, where missing even one submission could delay energization and cause costly operational issues.",
+    "task": "I had to prioritize various tasks—data collection, modeling, and submission—across multiple projects to ensure all deadlines were met accurately and efficiently.",
+    "action": "I prioritized projects based on ERCOT deadlines and energization dates, addressing high-risk projects first. I broke down each project into key phases—data gathering, mapping, modeling, validation, and submission—to manage complexity. I focused on critical-path tasks like PSS®E model updates early and deferred non-critical items. I used risk-based prioritization to start projects with unclear data or external dependencies earlier, and continuously tracked progress to adjust priorities as new information emerged.",
+    "result": "This structured prioritization ensured that all submissions to ERCOT were completed on time and error-free, preventing costly energization delays and keeping all transmission and interconnection projects on track. The approach reinforced my reputation for reliability, efficiency, and strong execution under pressure."
+  },
+  
+  {
+    "principle": "Ownership",
+    "question": "How did you motivate others to support your decision to improve the existing EMS rather than purchase a new system?",
+    "answer": "I presented a detailed cost-benefit analysis comparing the EMS upgrade versus a full system replacement. I emphasized the hidden costs of purchasing a new platform—such as integration challenges, retraining operators, and long-term subscription fees. I then demonstrated that through thorough testing and vendor collaboration, we could achieve the same functionality without those expenses. The data-driven evidence and structured testing plan earned leadership’s trust and motivated the team to fully support the upgrade."
+  },
+  {
+    "principle": "Ownership",
+    "question": "Were there any objections from leadership or other teams about not replacing the EMS system? How did you address them?",
+    "answer": "Yes. Some stakeholders initially worried that the existing EMS might not support future operational needs. I addressed their concerns by designing a rigorous testing plan to evaluate system performance under high-stress operational scenarios. I worked directly with the vendor to fix critical issues and validate the system’s performance against future demands. Once leadership saw the data proving the system’s capability, they agreed that upgrading was the most practical and cost-effective approach."
+  },
+  {
+    "principle": "Ownership",
+    "question": "What steps did you take to ensure the system remained reliable after the upgrade was implemented?",
+    "answer": "I implemented a post-launch monitoring and feedback loop, tracking key performance metrics and gathering operator feedback during real operations. I personally addressed minor interface and usability issues, coordinated vendor follow-ups for any emerging bugs, and created a long-term support log to ensure accountability. This proactive monitoring ensured ongoing reliability and built confidence in the upgraded EMS."
+  },
+  {
+    "principle": "Frugality",
+    "question": "How did you measure and communicate the cost savings to leadership after avoiding the new system purchase?",
+    "answer": "I performed a cost comparison between purchasing a new EMS and upgrading the existing one. This included hardware, software licenses, training, and potential downtime. The analysis showed that our upgrade approach saved the company several million dollars, which I presented in a clear cost-benefit breakdown to leadership."
+  },
+  {
+    "principle": "Frugality",
+    "question": "Were there any compromises you had to make to balance cost savings with system performance?",
+    "answer": "The main compromise was deferring cosmetic interface issues until after deployment. These minor visual inconsistencies didn’t affect performance but fixing them pre-launch could have delayed the go-live date. By prioritizing critical functionality, we delivered a reliable system on schedule without sacrificing quality."
+  },
+  {
+    "principle": "Frugality",
+    "question": "If given a larger budget, would you have approached the EMS upgrade differently?",
+    "answer": "With a larger budget, I would have implemented automated testing tools and performance monitoring software to speed up validation. However, I would have still followed the same principle—maximize the value of existing assets before investing in replacements. The upgrade approach proved both cost-effective and sustainable."
+  },
+  {
+    "principle": "Deliver Results",
+    "question": "How did you prioritize which bugs and issues to address first during the testing phases?",
+    "answer": "I prioritized based on operational impact—critical bugs that could cause data loss, control issues, or downtime came first. Lower-priority items, such as user interface or cosmetic issues, were tracked separately for later fixes. This ensured that system reliability was secured before focusing on enhancements."
+  },
+  {
+    "principle": "Deliver Results",
+    "question": "What were some unexpected challenges that arose during the Factory and Site Acceptance Testing? How did you handle them?",
+    "answer": "We encountered inconsistent application behavior under variable load conditions. To resolve it, I worked with the vendor to replicate the issues, perform root cause analysis, and adjust our test environment to better simulate real grid conditions. These corrections stabilized system performance before deployment."
+  },
+  {
+    "principle": "Deliver Results",
+    "question": "How did you ensure that the system operators were comfortable using the upgraded EMS?",
+    "answer": "I conducted live hands-on training sessions, walking operators through each updated feature and workflow. I also created quick reference guides and established a feedback loop so operators could report issues in real time. This approach built user confidence and ensured a smooth transition post-upgrade."
+  },
+  
+  {
+    "principle": "Problem Solving",
+    "question": "Can you walk me through how you identified and tracked system bugs during testing?",
+    "answer": "I developed a comprehensive tracking system where each issue was logged with detailed descriptions, severity levels, and status updates. I held regular check-ins with the vendor to review progress and prioritized fixes based on operational impact. This structured approach ensured that no critical issues were overlooked."
+  },
+  {
+    "principle": "Problem Solving",
+    "question": "How did you collaborate with the vendor when disagreements occurred about system functionality?",
+    "answer": "When the vendor disagreed with some of our findings, I provided detailed evidence, including screenshots, logs, and replication steps. I focused on data-driven discussions rather than assigning blame. By staying solution-oriented and maintaining open communication, we resolved disagreements and kept the project on track."
+  },
+  {
+    "principle": "Problem Solving",
+    "question": "What would you do differently if you had to lead another system upgrade in the future?",
+    "answer": "I would implement automated testing tools earlier in the process to speed up issue detection and resolution. Additionally, I would involve end-users earlier in testing to gather feedback sooner, ensuring the system is more aligned with operational needs."
+  },
+  {
+    "principle": "Behavioral Reflection",
+    "question": "How did this experience change the way you approach large, complex projects?",
+    "answer": "This experience taught me the value of proactive ownership and the importance of balancing technical performance with cost efficiency. I now focus on breaking down complex projects into smaller, manageable tasks and aligning all stakeholders early in the process."
+  },
+  {
+    "principle": "Behavioral Reflection",
+    "question": "Can you give another example where you had to balance technical performance with cost savings?",
+    "answer": "Yes — when developing a Python tool with a GUI to automate the interconnection study process, I chose to build the tool in-house rather than purchasing expensive software. This decision saved costs while improving process efficiency and reducing human errors."
+  },
+  {
+    "principle": "Behavioral Reflection",
+    "question": "How did leadership and your peers respond after the success of the EMS upgrade?",
+    "answer": "Leadership appreciated the significant cost savings and recognized my initiative as a model for future projects. The operations team was satisfied with the system’s performance and expressed confidence in the support structure I had put in place."
+  },
+
+  {
+  "principle": "Ownership",
+  "question": "How did you motivate others to support your decision to improve the existing EMS rather than purchase a new system?",
+  "answer": "I presented a detailed cost-benefit analysis that compared upgrading the EMS versus purchasing a new system. I highlighted the hidden costs of a new system, such as training, integration challenges, and ongoing subscription fees. Additionally, I demonstrated how thorough testing and collaboration with the vendor could address the system’s issues. This data-driven approach gained leadership’s trust and motivated the team to support the upgrade."
+  },
+  {
+    "principle": "Ownership",
+    "question": "Were there any objections from leadership or other teams about not replacing the EMS system? How did you address them?",
+    "answer": "Yes, some stakeholders were concerned that the existing system might not meet future operational needs. I addressed these concerns by creating a testing plan that evaluated the system’s performance under various scenarios. I also collaborated closely with the vendor to ensure critical bugs were fixed. Once leadership saw that the system could meet our needs without additional costs, their concerns were alleviated."
+  },
+  {
+    "principle": "Ownership",
+    "question": "What steps did you take to ensure the system remained reliable after the upgrade was implemented?",
+    "answer": "I implemented a post-launch monitoring plan to track system performance and user feedback. I continued working with the operators to resolve minor cosmetic issues and monitored the system for any emerging problems. Additionally, I created a feedback loop with the vendor to address any future bugs promptly."
+  },
+  {
+    "principle": "Frugality",
+    "question": "How did you measure and communicate the cost savings to leadership after avoiding the new system purchase?",
+    "answer": "I calculated the projected costs of purchasing and implementing a new EMS versus the actual costs of upgrading and testing the existing system. I factored in hardware expenses, software licenses, training costs, and potential downtime. I presented this analysis to leadership, clearly showing that our approach saved the company several million dollars."
+  },
+  {
+    "principle": "Frugality",
+    "question": "Were there any compromises you had to make to balance cost savings with system performance?",
+    "answer": "One compromise was addressing cosmetic issues after deployment instead of before going live. While these issues didn’t impact system performance, they could have delayed deployment if we focused on fixing every small detail. Prioritizing operational functionality allowed us to deliver results without sacrificing system reliability."
+  },
+  {
+    "principle": "Frugality",
+    "question": "If given a larger budget, would you have approached the EMS upgrade differently?",
+    "answer": "With a larger budget, I might have invested in advanced diagnostic tools to speed up the testing process or implemented automated testing scripts to reduce manual efforts. However, the overall approach would remain the same—maximizing the value of our existing system before considering a complete replacement."
+  },
+  {
+    "principle": "Deliver Results",
+    "question": "How did you prioritize which bugs and issues to address first during the testing phases?",
+    "answer": "I categorized issues based on their impact on system reliability and operational performance. Critical bugs that could cause system failure or operational delays were prioritized. Less critical issues, like user interface glitches, were documented and scheduled for later resolution. This approach ensured system stability before addressing minor improvements."
+  },
+  {
+    "principle": "Deliver Results",
+    "question": "What were some unexpected challenges that arose during the Factory and Site Acceptance Testing? How did you handle them?",
+    "answer": "During testing, we discovered that some applications didn’t behave consistently under different load conditions. I worked with the vendor to replicate these issues and identify their root causes. We adjusted the testing environment to better simulate real-world conditions and resolved the issues before deployment."
+  },
+  {
+    "principle": "Deliver Results",
+    "question": "How did you ensure that the system operators were comfortable using the upgraded EMS?",
+    "answer": "I organized hands-on training sessions for system operators and provided detailed documentation on the new features. I also set up a direct feedback channel so operators could report issues in real time, allowing me to resolve concerns quickly and build trust in the system."
+  },
+  {
+    "principle": "Problem Solving",
+    "question": "Can you walk me through how you identified and tracked system bugs during testing?",
+    "answer": "I developed a comprehensive tracking system where each issue was logged with detailed descriptions, severity levels, and status updates. I held regular check-ins with the vendor to review progress and prioritized fixes based on operational impact. This structured approach ensured that no critical issues were overlooked."
+  },
+  {
+    "principle": "Problem Solving",
+    "question": "How did you collaborate with the vendor when disagreements occurred about system functionality?",
+    "answer": "When the vendor disagreed with some of our findings, I provided detailed evidence, including screenshots, logs, and replication steps. I focused on data-driven discussions rather than assigning blame. By staying solution-oriented and maintaining open communication, we resolved disagreements and kept the project on track."
+  },
+  {
+    "principle": "Problem Solving",
+    "question": "What would you do differently if you had to lead another system upgrade in the future?",
+    "answer": "I would implement automated testing tools earlier in the process to speed up issue detection and resolution. Additionally, I would involve end-users earlier in testing to gather feedback sooner, ensuring the system is more aligned with operational needs."
+  },
+  {
+    "principle": "Behavioral Reflection",
+    "question": "How did this experience change the way you approach large, complex projects?",
+    "answer": "This experience taught me the value of proactive ownership and the importance of balancing technical performance with cost efficiency. I now focus on breaking down complex projects into smaller, manageable tasks and aligning all stakeholders early in the process."
+  },
+  {
+    "principle": "Behavioral Reflection",
+    "question": "Can you give another example where you had to balance technical performance with cost savings?",
+    "answer": "Yes, when developing a Python tool with a GUI to automate the interconnection study process, I chose to build the tool in-house rather than purchasing expensive software. This decision saved costs while improving process efficiency and reducing human errors."
+  },
+  {
+    "principle": "Behavioral Reflection",
+    "question": "How did leadership respond after the success of the EMS upgrade?",
+    "answer": "Leadership appreciated the significant cost savings and recognized my initiative as a model for future projects. The operations team was satisfied with the system’s performance and expressed confidence in the support structure I had put in place."
+  },
+  {
+    "principle": "Ownership / Bias for Action / Deliver Results / Customer Obsession",
+    "question": [
+      "Tell me about a time when you had to perform under extreme pressure.",
+      "Describe a situation where you had to solve a critical problem with limited time or resources.",
+      "Give me an example of when you had to make a quick decision with incomplete information.",
+      "Tell me about a time when you took ownership of a problem outside your regular responsibilities."
+    ],
+    "situation": "In February 2021, during the Texas Winter Storm, the ERCOT grid faced unprecedented stress. Over 20,000 MW of load was shed due to widespread generator failures across solar, wind, gas, and even nuclear units caused by equipment freezing under prolonged subfreezing temperatures. The system frequency dropped to 59.3 Hz—only minutes away from a full statewide blackout—placing the grid and millions of customers at severe risk.",
+    "task": "My role was to support system operations by providing real-time situational awareness and data-driven insights to help operators make fast, informed decisions. Specifically, I was responsible for communicating with Transmission and Generation Owners to track generation losses, calculating required load-shed values to stabilize frequency, and documenting unit outages to guide control room actions.",
+    "action": "I proactively reached out to Transmission Owners (TOs) and Generation Owners (GOs) to gather real-time data on unit performance, capacity, and restoration progress. Using SCADA and telemetry data, I continuously analyzed generation versus load to calculate the exact amount of load that needed to be shed to rebalance the system. I coordinated with Transmission Service Providers (TSPs) to execute immediate load-shedding measures and simultaneously documented every generator trip, restoration effort, and timeline to inform operational decisions. Despite incomplete information and worsening conditions, I maintained composure and clear communication across multiple departments.",
+    "result": "Our coordinated actions successfully stabilized system frequency and prevented a cascading blackout. The grid recovered from 59.3 Hz to a stable 60 Hz, avoiding catastrophic statewide failure and protecting millions of customers from extended outages. My real-time event documentation became a key reference in post-event investigations and ERCOT’s emergency response improvement plans. The experience reinforced my ability to stay composed under pressure, make fast data-driven decisions, and demonstrate ownership and customer focus in crisis situations."
+  },
+  
+  {
+    "principle": "Hire and Develop the Best / Deliver Results / Invent and Simplify",
+    "question": "Tell me about a time you led a team to achieve a challenging goal.",
+    "situation": "At LCRA, we faced a surge in renewable generation interconnections and new large load requests from cryptocurrency and data center facilities. This sudden increase in workload required extensive modeling for transmission upgrades and interconnection studies. The challenge was compounded by a newly formed team of associate engineers who lacked experience in performing complex transmission modeling and system analysis.",
+    "task": "My responsibility was to ensure the accuracy and reliability of both existing and future transmission network models. This involved detecting current and projected overloads based on load forecasts and capital projects, proposing feasible upgrade solutions, and submitting recommendations for construction while simultaneously developing the capabilities of my junior team members.",
+    "action": "To address this challenge, I led the team through a structured and collaborative approach. First, I provided one-on-one training sessions and group workshops to teach the fundamentals of steady-state and dynamic analysis in PSS®E. I assigned tasks based on each member’s strengths and coordinated efforts to maximize productivity. To improve efficiency, I developed a Python-based automation tool that identified network modeling inconsistencies and flagged overloaded elements. This tool not only accelerated the validation process but also revealed issues that manual reviews had previously missed. Throughout the project, I reviewed my team’s analyses, ensured quality control, and provided ongoing mentorship to help them gain independence.",
+    "result": "The initiative delivered multiple positive outcomes: the team’s technical confidence and modeling proficiency improved significantly; the Python automation tool reduced the time required to identify network issues by approximately 30%; and we successfully identified both existing and future overloads, proposing targeted construction solutions that enhanced grid reliability. Our team’s work was recognized by management for ensuring the timely completion of interconnection studies and maintaining the reliability of the transmission system during a period of rapid renewable and data center growth."
+  },
+  
+  {
+    "principle": "Dive Deep / Deliver Results / Bias for Action",
+    "question": "Tell me about a time when you were faced with a problem that had a number of possible solutions. What was the problem and how did you determine the course of action? What was the outcome?",
+    "situation": "At LCRA, we identified a critical transmission line overload during peak load forecasts. Several potential solutions were available, including constructing a new transmission line, upgrading the existing line, rerouting power flows, or installing a capacitor bank. Each option had different trade-offs involving cost, implementation time, and operational reliability.",
+    "task": "As the lead engineer, I was responsible for evaluating these alternatives and recommending the most effective solution that balanced cost-efficiency, system reliability, and project feasibility.",
+    "action": "I conducted detailed steady-state and contingency analyses in PSS®E to evaluate how each solution performed under different load and outage scenarios. I collaborated with the planning, operations, and finance teams to assess the technical and economic implications of each option. To ensure objectivity, I created a decision matrix that ranked alternatives based on key criteria—cost, reliability impact, construction feasibility, and long-term system value. This structured framework enabled data-driven decision-making and alignment across departments.",
+    "result": "The analysis led to selecting an advanced conductor upgrade for the existing transmission line, which delivered optimal performance at a lower cost than building new infrastructure. The project was completed ahead of schedule, eliminated the overload condition, and enhanced grid reliability during future peak demand events. The success of this decision-making framework set a precedent for evaluating similar projects across the organization."
+  },
+  
+  {
+    "principle": "Learn and Be Curious / Dive Deep / Ownership",
+    "question": "When did you take a risk, make a mistake, or fail? How did you respond, and how did you grow?",
+    "situation": "During a dynamic stability study for a generation interconnection project, I accidentally overlooked a key model parameter for a synchronous generator, which caused the simulation results to deviate significantly during validation against real system behavior.",
+    "task": "I needed to identify the source of the discrepancy, correct the error promptly, and implement safeguards to prevent similar issues in future studies.",
+    "action": "I carefully reviewed the input data and discovered that the generator’s governor model settings were entered incorrectly. I reached out to the generator owner for accurate data, recalibrated the model, and reran the dynamic simulation to ensure alignment with expected system performance. To prevent recurrence, I developed a verification checklist for all model parameters and introduced a peer-review process to catch potential oversights during study preparation.",
+    "result": "The corrected dynamic study results passed ERCOT’s validation and were accepted without revision. The new verification checklist and peer-review workflow reduced modeling errors across the team in subsequent studies. The experience reinforced the importance of data accuracy, accountability, and continuous process improvement in high-impact engineering work."
+  },
+  {
+    "principle": "Ownership / Deliver Results / Invent and Simplify",
+    "question": "Describe a time you took the lead on a project.",
+    "situation": "As the number of interconnection requests from renewable generators and data centers surged, our existing workflow couldn’t keep pace, leading to project delays and increased workload across the team.",
+    "task": "I was tasked with creating an efficient and scalable process to manage interconnection studies while maintaining the technical quality and meeting strict ERCOT deadlines.",
+    "action": "I designed a project-tracking framework that prioritized interconnection requests based on their impact and timeline, allowing the team to focus on high-priority projects first. I led weekly coordination meetings to review progress, remove bottlenecks, and reallocate tasks as needed. To improve efficiency, I developed Python scripts that automated routine modeling steps—such as identifying critical contingencies and generating preliminary study reports—reducing manual effort and error risk.",
+    "result": "The new workflow reduced average study completion time by 25% and eliminated backlog issues. We successfully met all annual ERCOT submission deadlines, and the process became a standard practice within the department. This initiative demonstrated my ability to lead under pressure, simplify complex processes, and drive measurable improvements in team productivity and reliability."
+  },
+  {
+    "principle": "Earn Trust / Hire and Develop the Best / Deliver Results",
+    "question": "What did you do when you needed to motivate a group of people or promote collaboration on a project?",
+    "situation": "Our team was working on a critical load forecast update under tight deadlines and heavy workloads. The high pressure had lowered morale and was beginning to affect both productivity and communication.",
+    "task": "As the project lead, I needed to re-engage the team, restore motivation, and ensure we delivered the forecast update on time and with high accuracy.",
+    "action": "I began by holding an open team meeting where I acknowledged the challenges and encouraged everyone to share their concerns honestly. Then, I divided the workload into smaller, manageable tasks and reassigned responsibilities based on each member’s strengths and interests. To promote collaboration, I introduced short daily check-ins for progress sharing and peer support. I also made a point to celebrate incremental wins—like meeting a modeling milestone or completing a critical validation—to build momentum and morale.",
+    "result": "The team’s motivation and collaboration improved significantly. We completed the load forecast update ahead of schedule and with excellent accuracy. The renewed sense of teamwork carried into future projects, creating a stronger, more cohesive and results-driven culture within the group."
+  },
+  {
+    "principle": "Dive Deep / Think Big / Deliver Results",
+    "question": "How have you used data to develop a strategy?",
+    "situation": "At LCRA, five-year load forecasts showed significant growth in data centers and cryptocurrency mining, threatening to overload parts of the transmission system. A strategic plan was needed to proactively address future reliability risks without exceeding budgetary limits.",
+    "task": "I was responsible for analyzing the data to identify potential system constraints and developing a forward-looking strategy that balanced reliability, cost, and project feasibility.",
+    "action": "I analyzed historical and projected load data, identifying areas at risk of future congestion. Using Python, I built a visualization and analytics tool to present trends, load hotspots, and contingency outcomes in a way that was clear to both technical and non-technical stakeholders. I developed a ranked list of proposed projects—combining new transmission lines, substation upgrades, and capacity enhancements—based on cost-benefit analysis and reliability impact. I presented these findings to planning leadership for prioritization.",
+    "result": "The data-driven strategy was approved, leading to several high-priority transmission projects being accelerated for construction. The proactive approach ensured reliable grid performance under growing demand while optimizing investment efficiency. The tool I developed became a recurring asset for future long-term planning and resource allocation discussions."
+  },
+  {
+    "principle": "Deliver Results / Ownership / Bias for Action / Invent and Simplify",
+    "question": "Tell me about a time when you had to manage a backlog of tasks. How did you prioritize and deliver results?",
+    "situation": "At LCRA, as part of the ongoing effort to expand transmission capacity through substation and line upgrades, the Planning group was responsible for publishing three types of equipment ratings for each capital project: Planned, For Construction, and Operational. When I assumed responsibility for this process, there was a significant backlog due to the departure of the previous engineer handling these reviews.",
+    "task": "My task was to review and approve all outstanding ratings across these categories to ensure timely project execution and system reliability. Any delay in updating or approving Operational Ratings could jeopardize system safety and delay energization of key infrastructure.",
+    "action": "To manage and clear the backlog effectively, I implemented a structured prioritization strategy. First, I focused on Operational Ratings since they posed the greatest risk to ongoing operations. Next, I moved to For Construction Ratings, which were essential for projects nearing energization and needed to be finalized months in advance. For Planned Ratings, which often lacked complete data, I proactively engaged with project teams to collect missing information early so reviews could proceed smoothly once higher-priority items were completed. Additionally, I streamlined the review workflow by creating a tracking system that organized projects by priority, ensuring nothing fell through the cracks.",
+    "result": "I successfully cleared the entire backlog, approving all Operational and For Construction Ratings on time and preventing any project delays or reliability risks. My structured approach not only restored compliance but also improved communication across departments. My former Operations supervisor personally thanked me, noting it was the fastest turnaround he had seen in rating approvals, and the Director of Protection commended the accuracy and clarity of my reviews. The streamlined process I implemented remains a standard approach for future engineers."
+  }
+]
