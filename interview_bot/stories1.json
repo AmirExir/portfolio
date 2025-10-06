@@ -1,0 +1,282 @@
+[
+  {
+    "principle": "Customer Obsession",
+    "situation": "Pedernales Electric Cooperative (PEC) was transitioning to become an independent utility while maintaining continuous operations.",
+    "task": "Enable a seamless operational transfer without outages and set PEC up to reinvest savings into their own control center.",
+    "action": "Submitted NOMCRs early, mapped transferred assets and ownership, and integrated ICCP links while coordinating real‑time SCADA updates during cutover.",
+    "result": "Zero‑outage transition; PEC maintained control/visibility throughout and reinvested savings into their control center."
+  },
+  {
+    "principle": "Bias for Action / Deliver Results",
+    "situation": "A sudden SCADA system failure threatened system visibility and control.",
+    "task": "Restore situational awareness under time pressure and prevent operational disruption.",
+    "action": "Executed the switchover checklist, communicated broadly to stakeholders, and brought the backup system online; proposed longer‑term resiliency fixes afterward.",
+    "result": "Monitoring and control restored quickly; no reliability event occurred and the post‑mortem drove durable improvements."
+  },
+  {
+    "principle": "Dive Deep / Invent and Simplify",
+    "situation": "ERCOT stopped receiving PMU data and visibility degraded during operations.",
+    "task": "Identify and fix the root cause rapidly to restore synchrophasor feeds.",
+    "action": "Traced the pipeline and uncovered an accidental duplicate configuration entry; removed the duplicate and validated restoration end‑to‑end.",
+    "result": "PMU data flow restored; earned recognition from manager and peers for clear root‑cause analysis."
+  },
+  {
+    "principle": "Customer Obsession / Frugality",
+    "situation": "A customer study proposed seven capacitor banks for a load interconnection, inflating cost and risk.",
+    "task": "Deliver a reliable and cost‑effective alternative without sacrificing performance.",
+    "action": "Re‑ran contingency and V/Q analysis, demonstrated that two strategically placed banks met performance, and documented the technical basis.",
+    "result": "Saved millions in equipment/construction, improved reliability, and strengthened customer trust."
+  },
+  {
+    "principle": "Insist on the Highest Standards / Hire and Develop the Best",
+    "situation": "Operator training content was decent but not battle‑tested against real incident patterns.",
+    "task": "Raise the bar on realism and preparedness for emergencies.",
+    "action": "Built simulation scenarios from actual events, added decision aids and ‘cheat sheets’ for reserves and emergencies, and looped in operator feedback each iteration.",
+    "result": "Higher operator confidence and measurable reduction in human‑error risks during drills."
+  },
+  {
+    "principle": "Ownership / Customer Obsession",
+    "situation": "PEC needed to align processes and compliance artifacts to operate as an independent TSP under ERCOT standards.",
+    "task": "Lead the operational/compliance alignment with minimal disruption.",
+    "action": "Updated NOMCR submissions, synchronized operational one‑lines and displays, and coordinated compliance checkpoints with ERCOT.",
+    "result": "PEC’s TSP transition executed smoothly while maintaining grid reliability."
+  },
+  {
+    "principle": "Insist on the Highest Standards / Ownership",
+    "situation": "Incorrect jumper ratings in the model were driving artificial congestion.",
+    "task": "Fix model quality issues and ensure ratings accuracy across tools.",
+    "action": "Investigated mismatches, aligned with the principal engineer on dynamic ratings, and pushed updates across steady‑state and ops models.",
+    "result": "Avoided potential audits and congestion costs; improved planning/operations alignment."
+  },
+  {
+    "principle": "Bias for Action / Deliver Results",
+    "situation": "Capital project delays jeopardized planned NOMCR timelines and operator clarity.",
+    "task": "Prevent confusion or misoperations despite shifting schedules.",
+    "action": "Modeled temporary configurations, stood up interim ICCP links, and annotated SCADA displays to reflect the real system state.",
+    "result": "Maintained reliability and operator awareness with no incidents during the delay window."
+  },
+  {
+    "principle": "Think Big / Learn and Be Curious",
+    "situation": "Compliance constraints slowed AI/ML adoption across planning and operations.",
+    "task": "Kick‑off practical AI/ML initiatives that demonstrate value without risking compliance.",
+    "action": "Partnered with Operations, Software, and Corporate Strategy; launched pilots in fault detection, a custom LLM for standards/procedures, and load forecasting.",
+    "result": "Created momentum for AI adoption and a cross‑functional roadmap backed by early wins."
+  },
+  {
+    "principle": "Frugality / Ownership / Deliver Results",
+    "situation": "Leadership considered replacing the GE EMS at high cost and risk.",
+    "task": "Ensure the current EMS could meet needs via upgrade vs replacement.",
+    "action": "Led multiple FAT/SAT cycles, logged and resolved defects with the vendor, trained operators, and implemented post‑launch monitoring.",
+    "result": "Upgrade succeeded, avoided multimillion‑dollar spend, and increased operator confidence."
+  },
+  {
+    "principle": "Deliver Results / Ownership",
+    "situation": "A large backlog of Planned, For Construction, and Operational ratings threatened schedules and safety.",
+    "task": "Clear the backlog quickly and accurately.",
+    "action": "Prioritized Operational first, then For Construction, then Planned; instituted tracking and brought stakeholders in early for missing data.",
+    "result": "Backlog fully cleared; projects stayed on schedule and leaders praised accuracy and throughput."
+  },
+  {
+    "principle": "Deliver Results / Think Big",
+    "situation": "Load forecasts showed potential overloads in the next five years from data centers and crypto loads.",
+    "task": "Create a credible, sequenced strategy for upgrades under budget constraints.",
+    "action": "Analyzed trends and contingencies, built a Python visualization tool, and proposed a portfolio of new lines and upgrades prioritized by impact.",
+    "result": "Strategy approved; high‑priority projects were fast‑tracked and reliability risks mitigated."
+  },
+  {
+    "principle": "Bias for Action / Customer Obsession",
+    "situation": "During the Feb‑2021 Texas winter storm, frequency dropped to 59.3 Hz and a statewide blackout was minutes away.",
+    "task": "Support control room decisions with real‑time facts and coordination.",
+    "action": "Coordinated with TOs/GOs, quantified required load shed vs generation, and documented unit trips and restorations to guide actions.",
+    "result": "Frequency restored toward 60 Hz; a cascading blackout was averted and lessons informed future playbooks."
+  },
+  {
+    "principle": "Hire and Develop the Best / Deliver Results",
+    "situation": "Interconnection requests surged while several team members were junior and ramping up.",
+    "task": "Hit deadlines while growing the team’s capabilities.",
+    "action": "Split work by complexity, mentored associates on modeling, and instituted peer reviews and checklists for quality.",
+    "result": "Deadlines met; capacity increased and junior engineers advanced faster."
+  },
+  {
+    "principle": "Invent and Simplify",
+    "situation": "The interconnection study workflow was slow and repetitive across requests.",
+    "task": "Automate routine modeling to save engineering time.",
+    "action": "Built a Python GUI that generated PSS/E models from inputs (resource type/size/connection).",
+    "result": "Cut ~30 minutes per request and reduced error rates; improved team throughput."
+  },
+  {
+    "principle": "Invent and Simplify / Deliver Results",
+    "situation": "Planning engineers spent days on steady‑state/dynamic runs, IDVs, contingencies, and TPIT packaging.",
+    "task": "Automate the end‑to‑end planning workflow.",
+    "action": "Developed AELAB.py to automate steady‑state contingency analysis, dynamic studies, IDV generation, contingency list creation, and TPIT outputs.",
+    "result": "Turnaround dropped from days to hours; consistency and auditability improved."
+  },
+  {
+    "principle": "Are Right, A Lot / Insist on the Highest Standards",
+    "situation": "Stakeholders questioned the need to model dynamic ratings that contradicted legacy assumptions.",
+    "task": "Advocate for technically correct ratings despite pushback.",
+    "action": "Presented event‑based evidence, validated with the principal engineer, and updated models to reflect dynamic limits.",
+    "result": "Reduced false congestion, improved dispatch, and strengthened credibility."
+  },
+  {
+    "principle": "Insist on the Highest Standards",
+    "situation": "After EMS upgrade, reliability depended on rapid detection of regressions.",
+    "task": "Ensure post‑launch quality remains high.",
+    "action": "Implemented a monitoring/feedback plan with vendor and operators, and tracked minor cosmetic issues to closure.",
+    "result": "Stable operations post‑upgrade and faster resolution of edge issues."
+  },
+  {
+    "principle": "Earn Trust / Are Right, A Lot",
+    "situation": "Vendor disputed certain EMS defects during acceptance testing.",
+    "task": "Resolve disagreements constructively and factually.",
+    "action": "Provided logs, screenshots, and reproduction steps; kept discussions data‑driven and solution‑oriented.",
+    "result": "Issues acknowledged and fixed; stronger working relationship with the vendor."
+  },
+  {
+    "principle": "Learn and Be Curious / Insist on the Highest Standards",
+    "situation": "Manual issue triage slowed future upgrades.",
+    "task": "Shorten feedback cycles and catch bugs earlier.",
+    "action": "Proposed automated testing harnesses and earlier end‑user involvement in UAT to surface usability gaps sooner.",
+    "result": "Faster detection and higher quality in subsequent releases."
+  },
+  {
+    "principle": "Dive Deep / Deliver Results",
+    "situation": "Growing congestion and model divergence hid true drivers of overloads.",
+    "task": "Find the highest‑leverage fixes quickly.",
+    "action": "Built a prioritization matrix ranking fixes by severity, frequency, and capital intensity; focused modeling on top drivers.",
+    "result": "Reduced analysis time and clarified the upgrade roadmap."
+  },
+  {
+    "principle": "Are Right, A Lot / Think Big",
+    "situation": "Multiple candidate solutions existed for a persistent overload corridor.",
+    "task": "Select the best long‑term option under constraints.",
+    "action": "Created a decision matrix comparing reliability uplift, cost, schedule, and constructability; recommended the dominant plan.",
+    "result": "Stakeholders aligned and funding approved for the best‑value upgrade."
+  },
+  {
+    "principle": "Invent and Simplify / Deliver Results",
+    "situation": "Stakeholders struggled to grasp future risk hotspots.",
+    "task": "Communicate risk clearly to accelerate decisions.",
+    "action": "Built a Python visualization app showing load growth, contingencies, and thermal/voltage margins by area.",
+    "result": "Board‑level clarity; several high‑impact projects moved forward."
+  },
+  {
+    "principle": "Insist on the Highest Standards",
+    "situation": "SharePoint model submissions arrived inconsistent and error‑prone.",
+    "task": "Raise data quality before it hit the model.",
+    "action": "Added a QC checklist, standardized templates, and spot‑checks before ingestion.",
+    "result": "Fewer reworks; cleaner inputs accelerated studies."
+  },
+  {
+    "principle": "Hire and Develop the Best",
+    "situation": "A new associate engineer needed rapid growth to be productive.",
+    "task": "Mentor toward licensure and strong independent delivery.",
+    "action": "Coached through modeling tasks, shared P.E. prep, and set clear growth goals with feedback loops.",
+    "result": "Engineer earned P.E., was promoted, and became a strong contributor."
+  },
+  {
+    "principle": "Strive to be Earth’s Best Employer / Hire and Develop the Best",
+    "situation": "After the 2021 storm, new hires needed practical emergency readiness.",
+    "task": "Equip them to prevent future outages.",
+    "action": "Built RTA training modules from lessons learned and delivered simulations while filling a temporary Shift Engineer role.",
+    "result": "New hires were better prepared; subsequent storms had fewer/shorter outages."
+  },
+  {
+    "principle": "Ownership / Insist on the Highest Standards",
+    "situation": "Pre‑energization model errors could surface late and delay projects.",
+    "task": "Prevent late surprises before go‑live.",
+    "action": "Created a pre‑energization validation checklist across steady‑state, dynamics, ratings, and EMS displays.",
+    "result": "Cleaner energizations and fewer last‑minute corrections."
+  },
+  {
+    "principle": "Invent and Simplify / Deliver Results",
+    "situation": "TPIT packaging was manual and time‑consuming across projects.",
+    "task": "Standardize and automate hand‑offs.",
+    "action": "Scripted TPIT artifacts inside AELAB and documented a repeatable workflow.",
+    "result": "Consistent, audit‑ready submissions completed faster."
+  },
+  {
+    "principle": "Invent and Simplify / Frugality",
+    "situation": "Standing up ICCP links and displays for temporary states created recurring toil.",
+    "task": "Reduce rework as configurations changed.",
+    "action": "Authored a lightweight playbook and templates for ICCP points and SCADA display notes tied to milestones.",
+    "result": "Cut setup time and reduced operator confusion during transitions."
+  },
+  {
+    "principle": "Earn Trust / Ownership",
+    "situation": "Skepticism existed about upgrading rather than replacing the EMS.",
+    "task": "Build alignment across leadership and operators.",
+    "action": "Shared transparent cost‑benefit analysis, demoed results from FAT/SAT, and incorporated user feedback into the rollout plan.",
+    "result": "Consensus to upgrade; smoother adoption and post‑cutover trust."
+  },
+  {
+    "principle": "Customer Obsession / Insist on the Highest Standards",
+    "situation": "Late end‑user involvement caused usability issues to surface near release.",
+    "task": "Center the operator experience earlier.",
+    "action": "Brought operators into UAT sooner and translated feedback into test cases and minor UI tweaks.",
+    "result": "Higher satisfaction and fewer post‑launch UX fixes."
+  },
+  {
+    "principle": "Frugality / Are Right, A Lot",
+    "situation": "Leadership needed proof that an EMS replacement wouldn’t be worth the cost.",
+    "task": "Quantify savings and risks convincingly.",
+    "action": "Modeled TCO including training, integration, and downtime risks; compared to targeted upgrade paths.",
+    "result": "Upgrade path approved; capital preserved for higher‑ROI projects."
+  },
+  {
+    "principle": "Bias for Action / Ownership",
+    "situation": "Schedule slips on construction risked misaligned models and operator displays.",
+    "task": "Keep field reality and control room views in sync.",
+    "action": "Published interim one‑lines and SCADA notes and timed model cutovers to the actual field state.",
+    "result": "Avoided misoperations and kept crews aligned with the control room."
+  },
+  {
+    "principle": "Dive Deep / Insist on the Highest Standards",
+    "situation": "Steady‑state, dynamics, and operations models diverged in key areas.",
+    "task": "Eliminate drift across models before audit season.",
+    "action": "Conducted cross‑model audits, reconciled naming/rating mismatches, and instituted version pinning for shared assets.",
+    "result": "Fewer model defects and smoother audits."
+  },
+  {
+    "principle": "Customer Obsession / Deliver Results",
+    "situation": "Data center and large load customers needed faster interconnection studies without sacrificing quality.",
+    "task": "Shorten time‑to‑answer with transparent, defensible results.",
+    "action": "Automated repetitive builds, standardized assumptions, and created templated outputs with clear sensitivities.",
+    "result": "Cycle time reduced while maintaining technical rigor; customer satisfaction improved."
+  },
+  {
+    "principle": "Earn Trust / Customer Obsession",
+    "situation": "During the winter storm, cross‑entity communication determined the speed of response.",
+    "task": "Keep stakeholders aligned with facts under pressure.",
+    "action": "Maintained a single source of truth on trips, capacity, and restoration; pushed timely updates to TOs, GOs, and TSPs.",
+    "result": "Faster, coordinated actions and averted worse outcomes for customers."
+  },
+  {
+    "principle": "Invent and Simplify / Learn and Be Curious",
+    "situation": "Engineers repeated similar PSS/E tasks across studies.",
+    "task": "Reduce toil and knowledge silos.",
+    "action": "Built a small library of Python utilities for common PSS/E automation and documented usage patterns.",
+    "result": "Less manual work and easier onboarding for new engineers."
+  },
+  {
+    "principle": "Think Big / Learn and Be Curious",
+    "situation": "Accessing standards and procedures slowed engineering decisions.",
+    "task": "Accelerate fact‑finding while preserving compliance.",
+    "action": "Prototyped a domain LLM assistant over procedures and standards to answer scoped queries with citations.",
+    "result": "Quicker answers with better traceability; pilot informed a broader knowledge strategy."
+  },
+  {
+    "principle": "Think Big / Earn Trust",
+    "situation": "AI efforts were fragmented across pockets of the organization.",
+    "task": "Create a credible coalition to drive practical adoption.",
+    "action": "Formed a cross‑functional AI working group with Operations, Software, and Strategy; prioritized 3 pilot use cases with clear metrics.",
+    "result": "Common roadmap and resourcing emerged; pilots produced measurable value and executive buy‑in."
+  },
+  {
+    "principle": "Deliver Results / Invent and Simplify",
+    "situation": "Unstructured task lists made it hard to track throughput on ratings and studies.",
+    "task": "Increase visibility and throughput of the queue.",
+    "action": "Implemented a Kanban‑style tracker and WIP limits, and added lightweight SLAs for hand‑offs.",
+    "result": "Higher sustained throughput and predictable delivery across the team."
+  }
+]
