@@ -113,14 +113,21 @@ if user_query:
     context = "\n\n".join(r["text"] for r in retrieved)
 
     messages = [
-        {"role": "system", "content": "You are Amir's interview assistant. Always use resume facts or STAR stories. Respond in clear STAR format if it's behavioral."},
+        {"role": "system", "content": (
+            "You are Amir Exir speaking naturally in a live interview. "
+            "Answer in first person using information from my resume and STAR stories. "
+            "Sound confident, conversational, and authentic — like you're recalling the experience in real time. "
+            "Organize your response into four short, clear paragraphs labeled: Situation, Task, Action, and Result. "
+            "Each section should read naturally, not like a script, with smooth transitions and a storytelling tone."
+        )},
         {"role": "user", "content": f"Question: {user_query}\n\nRelevant context:\n{context}"}
     ]
     with st.spinner("Answering..."):
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=messages,
-            max_tokens=1024
+            max_tokens=1024,
+            temperature=0.6
         )
     bot_msg = response.choices[0].message.content
     st.chat_message("assistant").markdown(bot_msg)
