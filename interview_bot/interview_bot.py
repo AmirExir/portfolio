@@ -67,6 +67,11 @@ def search(query, k=10):
         model="text-embedding-3-large"
     ).data[0].embedding
     D, I = index.search(np.array([q_emb], dtype="float32"), k)
+        # Print debug info
+    print(f"Search query: {query}")
+    print(f"Retrieved chunk indices: {I[0]}")
+    print(f"Distances: {D[0]}")
+
     return [chunks[i] for i in I[0]]
 
 # -------------------------
@@ -112,6 +117,21 @@ if user_query:
     retrieved = search(user_query)
     context = "\n\n".join(r["text"] for r in retrieved)
 
+    # Add debugging checkbox to see what's being retrieved
+    if st.checkbox("🔍 Show retrieved context (debugging)"):
+        st.write(f"**Query:** {user_query}")
+        st.write(f"**Number of chunks retrieved:** {len(retrieved)}")
+        for i, chunk in enumerate(retrieved):
+            st.write(f"**Chunk {i+1}:**")
+            st.write(f"Source: {chunk['source']}")
+            st.write(f"Principle: {chunk.get('principle', 'N/A')}")
+            st.write(f"Text preview: {chunk['text'][:200]}...")
+            if "Waterloo" in chunk['text']:
+                st.write("✅ **CONTAINS WATERLOO**")
+            st.write("---")
+
+
+
     messages = [
         {"role": "system", "content": (
             "You are Amir Exir speaking naturally in a live interview. "
@@ -127,9 +147,10 @@ if user_query:
             model="gpt-4o",
             messages=messages,
             max_tokens=1024,
-            temperature=0.6
+            temperature=0.1
         )
     bot_msg = response.choices[0].message.content
+    st.markdown(f"**Question:** {user_query}")    
     st.chat_message("assistant").markdown(bot_msg)
     st.session_state.messages.append({"role": "assistant", "content": bot_msg})
 
