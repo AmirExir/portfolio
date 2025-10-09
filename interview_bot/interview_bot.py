@@ -93,14 +93,24 @@ else:
     with open(CHUNKS_FILE, "r", encoding="utf-8") as f:
         chunks = json.load(f)
 
-def search(query, k=8):
+def search(query, k=25):
     q_emb = client.embeddings.create(
         input=query, model="text-embedding-3-large"
     ).data[0].embedding
     q_emb = np.array(q_emb, dtype=np.float32)
     sims = np.dot(embeddings, q_emb) / (np.linalg.norm(embeddings, axis=1) * np.linalg.norm(q_emb))
     top_k_idx = np.argsort(sims)[-k:][::-1]
-    return [chunks[i] for i in top_k_idx]
+    candidates = [chunks[i] for i in top_k_idx]
+
+    # Boost by direct keyword overlap
+    query_lower = query.lower()
+    for c in candidates:
+        text_lower = c["text"].lower()
+        c["boost"] = sims[top_k_idx[candidates.index(c)]] + 0.15 * sum(
+            word in text_lower for word in query_lower.split()
+        )
+    reranked = sorted(candidates, key=lambda x: x["boost"], reverse=True)
+    return reranked[:6]
 # -------------------------
 # Streamlit UI
 # -------------------------
