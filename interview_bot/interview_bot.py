@@ -4,7 +4,11 @@ from openai import OpenAI
 from streamlit_mic_recorder import mic_recorder
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
+# -------------------------
+# Embeddings cache
+# -------------------------
+EMB_FILE = "embeddings.npy"
+CHUNKS_FILE = "chunks.json"
 # -------------------------
 # Load resume + stories
 # -------------------------
@@ -40,11 +44,7 @@ if st.button("🔄 Force Rebuild Embeddings"):
     st.warning("Cache cleared! Please restart the app to rebuild embeddings.")
     st.stop()
 
-# -------------------------
-# Embeddings cache
-# -------------------------
-EMB_FILE = "embeddings.npy"
-CHUNKS_FILE = "chunks.json"
+
 
 if not os.path.exists(EMB_FILE):
     embeddings = []
