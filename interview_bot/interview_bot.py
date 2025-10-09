@@ -68,18 +68,25 @@ else:
 index = faiss.IndexFlatL2(embeddings.shape[1])
 index.add(embeddings)
 
-def search(query, k=10):
+def search(query, k=12):
+    # Step 1: semantic FAISS search
     q_emb = client.embeddings.create(
-        input=query, 
+        input=query,
         model="text-embedding-3-large"
     ).data[0].embedding
     D, I = index.search(np.array([q_emb], dtype="float32"), k)
-        # Print debug info
-    print(f"Search query: {query}")
-    print(f"Retrieved chunk indices: {I[0]}")
-    print(f"Distances: {D[0]}")
+    retrieved = [chunks[i] for i in I[0]]
 
-    return [chunks[i] for i in I[0]]
+    # Step 2: rerank by keyword overlap to catch exact matches like 'Waterloo'
+    query_lower = query.lower().split()
+    def keyword_score(text):
+        t = text.lower()
+        return sum(word in t for word in query_lower)
+
+    reranked = sorted(retrieved, key=lambda c: keyword_score(c["text"]), reverse=True)
+
+    # Step 3: take top 4 (semantic + keyword-weighted)
+    return reranked[:4]
 
 # -------------------------
 # Streamlit UI
