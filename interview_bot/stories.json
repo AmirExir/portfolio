@@ -200,7 +200,7 @@
   },
   {
     "principle": "Frugality",
-    "question": "Tell me about a time when you accomplished more with less. How did you do it?",
+    "question": "Tell me about a time when you accomplished more wi   th less. How did you do it?",
     "situation": "During multiple planning studies, we faced limited time and staff resources to complete large batches of contingency and power flow analyses before ERCOT submission deadlines.",
     "task": "I needed to find a way to deliver results efficiently without compromising quality or compliance.",
     "action": "I repurposed portions of my AELAB automation tool to batch-run contingency scenarios and automatically flag voltage or thermal violations. This eliminated the need for manual case-by-case reviews and reduced human error. I also shared the tool with other planners to accelerate their work.",
