@@ -78,7 +78,8 @@ if st.button("🔄 Force Rebuild Embeddings"):
 
 if not os.path.exists(EMB_FILE):
     embeddings = []
-    for c in chunks:
+    for i, c in enumerate(chunks):
+        print(f"Embedding chunk {i+1}/{len(chunks)}: {c['text'][:100]}...")
         emb = client.embeddings.create(
             input=c["text"], 
             model="text-embedding-3-large"
