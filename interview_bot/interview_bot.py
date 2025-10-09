@@ -27,33 +27,31 @@ for i, para in enumerate(resume_text.split("\n\n")):
     if para.strip():
         chunks.append({"text": para.strip(), "source": "resume"})
 
-# Add STAR stories as chunks
-# Add STAR stories as chunks (improved retrieval coverage)
+# Add STAR stories as chunks (combine all possible fields into one chunk for each story)
 for s in stories:
     principle = s.get("principle", "General")
-
-    # For STAR-type stories
-    if all(k in s for k in ("situation", "task", "action", "result")):
-        # 1️⃣ STAR content embedding (where keywords like Waterloo live)
-        star_text = (
-            f"[{principle}] Situation: {s['situation']} "
-            f"Task: {s['task']} Action: {s['action']} Result: {s['result']}"
-        )
+    # Combine all relevant fields into one chunk for embedding
+    fields = []
+    if "principle" in s:
+        fields.append(f"Principle: {s['principle']}")
+    if "question" in s and s["question"]:
+        fields.append(f"Question: {s['question']}")
+    if "situation" in s and s["situation"]:
+        fields.append(f"Situation: {s['situation']}")
+    if "task" in s and s["task"]:
+        fields.append(f"Task: {s['task']}")
+    if "action" in s and s["action"]:
+        fields.append(f"Action: {s['action']}")
+    if "result" in s and s["result"]:
+        fields.append(f"Result: {s['result']}")
+    if fields:
+        combined_text = " | ".join(fields)
         chunks.append({
-            "text": star_text,
-            "source": "story-body",
+            "text": combined_text,
+            "source": "story-full",
             "principle": principle,
             "question": s.get("question", "")
         })
-
-        # 2️⃣ Question-only embedding (helps if user asks question-style queries)
-        q_text = f"[{principle}] {s['question']}"
-        chunks.append({
-            "text": q_text,
-            "source": "story-question",
-            "principle": principle
-        })
-
     else:
         # Fallback for other formats
         story_text = json.dumps(s)
