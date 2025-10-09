@@ -61,7 +61,7 @@ else:
 index = faiss.IndexFlatL2(embeddings.shape[1])
 index.add(embeddings)
 
-def search(query, k=4):
+def search(query, k=10):
     q_emb = client.embeddings.create(
         input=query, 
         model="text-embedding-3-large"
