@@ -28,40 +28,10 @@ for i, para in enumerate(resume_text.split("\n\n")):
         chunks.append({"text": para.strip(), "source": "resume"})
 
 # Add STAR stories as chunks
-
 for s in stories:
-    principle = s.get("principle", "General")
-
-    # For STAR-type stories
-    if all(k in s for k in ("situation", "task", "action", "result")):
-        # 1️⃣ STAR content embedding (where keywords like Waterloo live)
-        star_text = (
-            f"[{principle}] Situation: {s['situation']} "
-            f"Task: {s['task']} Action: {s['action']} Result: {s['result']}"
-        )
-        chunks.append({
-            "text": star_text,
-            "source": "story-body",
-            "principle": principle,
-            "question": s.get("question", "")
-        })
-
-        # 2️⃣ Question-only embedding (helps if user asks question-style queries)
-        q_text = f"[{principle}] {s['question']}"
-        chunks.append({
-            "text": q_text,
-            "source": "story-question",
-            "principle": principle
-        })
-
-    else:
-        # Fallback for other formats
-        story_text = json.dumps(s)
-        chunks.append({
-            "text": story_text,
-            "source": "story-generic",
-            "principle": principle
-        })
+    # All stories now have the same format: principle, question, situation, task, action, result
+    story_text = f"[{s['principle']}] Question: {s['question']} Situation: {s['situation']} Task: {s['task']} Action: {s['action']} Result: {s['result']}"
+    chunks.append({"text": story_text, "source": "story", "principle": s["principle"]})
 
 # Force rebuild button to clear cache
 if st.button("🔄 Force Rebuild Embeddings"):
