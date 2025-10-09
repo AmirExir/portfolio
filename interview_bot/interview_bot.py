@@ -62,7 +62,7 @@ for s in stories:
             "source": "story-generic",
             "principle": principle
         })
-        
+
 # Force rebuild button to clear cache
 if st.button("🔄 Force Rebuild Embeddings"):
     if os.path.exists(EMB_FILE):
@@ -161,31 +161,31 @@ if user_query:
     retrieved = search(user_query)
     context = "\n\n".join(r["text"] for r in retrieved)
 
-    # Add debugging checkbox to see what's being retrieved
-    if st.checkbox("🔍 Show retrieved context (debugging)"):
-        st.write(f"**Query:** {user_query}")
-        st.write(f"**Number of chunks retrieved:** {len(retrieved)}")
+    # ✅ Debugging: show retrieved chunks before calling GPT
+    show_debug = st.checkbox("🔍 Show retrieved context (debugging)")
+    if show_debug:
+        st.markdown(f"**Query:** `{user_query}`")
+        st.markdown(f"**Retrieved {len(retrieved)} chunks**")
         for i, chunk in enumerate(retrieved):
-            st.write(f"**Chunk {i+1}:**")
-            st.write(f"Source: {chunk['source']}")
-            st.write(f"Principle: {chunk.get('principle', 'N/A')}")
-            st.write(f"Text preview: {chunk['text'][:200]}...")
-            if "Waterloo" in chunk['text']:
-                st.write("✅ **CONTAINS WATERLOO**")
+            st.markdown(f"**Chunk {i+1}** — Source: `{chunk['source']}` | Principle: `{chunk.get('principle', 'N/A')}`")
+            st.code(chunk["text"][:300] + "...", language="markdown")
+            if "waterloo" in chunk["text"].lower():
+                st.success("✅ Contains 'Waterloo'")
             st.write("---")
 
-
-
+    # GPT response block
     messages = [
         {"role": "system", "content": (
-            "You are Amir Exir in an interview. Answer using ONLY the provided context. If the context doesn't contain relevant information, say 'I don't have specific experience with that.' Never fabricate experiences."
+            "You are Amir Exir in an interview. Answer using ONLY the provided context. "
+            "If the context doesn't contain relevant information, say 'I don't have specific experience with that.' "
+            "Never fabricate experiences. "
             "Answer in first person using information from my resume and STAR stories. "
             "Sound confident, conversational, and authentic — like you're recalling the experience in real time. "
-            "Organize your response into four short, clear paragraphs labeled: Situation, Task, Action, and Result. "
-            "Each section should read naturally, not like a script, with smooth transitions and a storytelling tone."
+            "Organize your response into four short, clear paragraphs labeled: Situation, Task, Action, and Result."
         )},
         {"role": "user", "content": f"Question: {user_query}\n\nRelevant context:\n{context}"}
     ]
+
     with st.spinner("Answering..."):
         response = client.chat.completions.create(
             model="gpt-4o",
@@ -193,6 +193,7 @@ if user_query:
             max_tokens=1024,
             temperature=0.1
         )
+        
     bot_msg = response.choices[0].message.content
     st.markdown(f"**Question:** {user_query}")    
     st.chat_message("assistant").markdown(bot_msg)
