@@ -49,7 +49,7 @@
     "task": "My goal was to demonstrate that parameter-efficient fine-tuning (PEFT) could deliver measurable improvements in medical-domain performance without requiring massive compute resources. I aimed to build, fine-tune, and publish an accessible model for the healthcare AI research community.",
     "action": "I fine-tuned the TinyLlama-1.1B-Chat model on 16K MedQuAD medical question–answer pairs using Low-Rank Adaptation (LoRA) adapters. To make training feasible on modest GPUs, I implemented gradient checkpointing, 4-bit quantization, and an AdamW optimizer with warmup scheduling. I benchmarked the fine-tuned model against the baseline, achieving significant improvements in ROUGE metrics. I published the resulting model (tinyllama-medquad-lora) on the Hugging Face Hub, complete with reproducible training scripts, dataset splits, and transparent documentation.",
     "result": "The fine-tuned model achieved up to a 40% improvement in ROUGE-2 scores compared to the baseline, validating the effectiveness of PEFT in constrained environments. It has since been downloaded and used by external researchers, contributing to the broader medical NLP community. This project not only advanced my expertise in efficient fine-tuning but also reinforced my commitment to democratizing access to high-quality AI tools in specialized domains."
-  }
+  },
 
   {
     "principle": "Learn and Be Curious / Deliver Results / Think Big",
