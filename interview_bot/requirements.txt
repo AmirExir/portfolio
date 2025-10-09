@@ -3,3 +3,6 @@ openai
 faiss-cpu
 numpy
 streamlit-mic-recorder
+tqdm
+soundfile
+pydub
