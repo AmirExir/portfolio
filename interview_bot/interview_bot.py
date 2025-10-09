@@ -132,8 +132,19 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
 # Voice input
-st.write("🎙️ Speak your question:")
-audio = mic_recorder(start_prompt="Start Recording", stop_prompt="Stop", just_once=True)
+st.markdown("### 🎤 Tap below to ask your question")
+st.markdown(
+    "<div style='text-align:center; padding:10px;'>"
+    "<span style='font-size:18px;'>🎙️ Ready to listen...</span>"
+    "</div>",
+    unsafe_allow_html=True,
+)
+
+audio = mic_recorder(
+    start_prompt="🎙️ Start Recording (Tap Once)",
+    stop_prompt="⏹️ Stop Recording",
+    use_container_width=True
+)
 
 user_query = None
 if audio:
@@ -193,7 +204,7 @@ if user_query:
             max_tokens=1024,
             temperature=0.1
         )
-        
+
     bot_msg = response.choices[0].message.content
     st.markdown(f"**Question:** {user_query}")    
     st.chat_message("assistant").markdown(bot_msg)
