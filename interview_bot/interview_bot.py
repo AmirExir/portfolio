@@ -1,5 +1,5 @@
 import streamlit as st
-import faiss, numpy as np, json, os, io
+import numpy as np, json, os, io
 from openai import OpenAI
 from streamlit_mic_recorder import mic_recorder
 
@@ -94,30 +94,14 @@ else:
     with open(CHUNKS_FILE, "r", encoding="utf-8") as f:
         chunks = json.load(f)
 
-# Build FAISS index
-index = faiss.IndexFlatL2(embeddings.shape[1])
-index.add(embeddings)
-
-def search(query, k=12):
-    # Step 1: semantic FAISS search
+def search(query, k=8):
     q_emb = client.embeddings.create(
-        input=query,
-        model="text-embedding-3-large"
+        input=query, model="text-embedding-3-large"
     ).data[0].embedding
-    D, I = index.search(np.array([q_emb], dtype="float32"), k)
-    retrieved = [chunks[i] for i in I[0]]
-
-    # Step 2: rerank by keyword overlap to catch exact matches like 'Waterloo'
-    query_lower = query.lower().split()
-    def keyword_score(text):
-        t = text.lower()
-        return sum(word in t for word in query_lower)
-
-    reranked = sorted(retrieved, key=lambda c: keyword_score(c["text"]), reverse=True)
-
-    # Step 3: take top 4 (semantic + keyword-weighted)
-    return reranked[:4]
-
+    q_emb = np.array(q_emb, dtype=np.float32)
+    sims = np.dot(embeddings, q_emb) / (np.linalg.norm(embeddings, axis=1) * np.linalg.norm(q_emb))
+    top_k_idx = np.argsort(sims)[-k:][::-1]
+    return [chunks[i] for i in top_k_idx]
 # -------------------------
 # Streamlit UI
 # -------------------------
@@ -173,7 +157,7 @@ if user_query:
     context = "\n\n".join(r["text"] for r in retrieved)
 
     # ✅ Debugging: show retrieved chunks before calling GPT
-    show_debug = st.checkbox("🔍 Show retrieved context (debugging)")
+    show_debug = st.checkbox("Show retrieved context (cosine search)")
     if show_debug:
         st.markdown(f"**Query:** `{user_query}`")
         st.markdown(f"**Retrieved {len(retrieved)} chunks**")
