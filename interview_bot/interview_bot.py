@@ -25,13 +25,20 @@ for i, para in enumerate(resume_text.split("\n\n")):
 
 # Add STAR stories as chunks
 for s in stories:
-    if all(k in s for k in ("situation", "task", "action", "result")):
-        story_text = f"[{s['principle']}] Situation: {s['situation']} Task: {s['task']} Action: {s['action']} Result: {s['result']}"
-    elif "question" in s and "answer" in s:
-        story_text = f"[{s.get('principle', 'General')}] Q: {s['question']} A: {s['answer']}"
-    else:
-        story_text = json.dumps(s)  # fallback: dump the whole object
-    chunks.append({"text": story_text, "source": "story", "principle": s.get("principle", "General")})
+    # All stories now have the same format: principle, question, situation, task, action, result
+    story_text = f"[{s['principle']}] Question: {s['question']} Situation: {s['situation']} Task: {s['task']} Action: {s['action']} Result: {s['result']}"
+    chunks.append({"text": story_text, "source": "story", "principle": s["principle"]})
+
+# Force rebuild button to clear cache
+if st.button("🔄 Force Rebuild Embeddings"):
+    if os.path.exists(EMB_FILE):
+        os.remove(EMB_FILE)
+        st.success("Deleted embeddings.npy")
+    if os.path.exists(CHUNKS_FILE):
+        os.remove(CHUNKS_FILE)
+        st.success("Deleted chunks.json")
+    st.warning("Cache cleared! Please restart the app to rebuild embeddings.")
+    st.stop()
 
 # -------------------------
 # Embeddings cache
