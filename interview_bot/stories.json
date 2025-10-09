@@ -403,12 +403,7 @@
   },
   {
     "principle": "Ownership / Bias for Action / Deliver Results / Customer Obsession",
-    "question": [
-      "Tell me about a time when you had to perform under extreme pressure.",
-      "Describe a situation where you had to solve a critical problem with limited time or resources.",
-      "Give me an example of when you had to make a quick decision with incomplete information.",
-      "Tell me about a time when you took ownership of a problem outside your regular responsibilities."
-    ],
+    "question":   "Tell me about a time when you had to perform under extreme pressure.",
     "situation": "In February 2021, during the Texas Winter Storm, the ERCOT grid faced unprecedented stress. Over 20,000 MW of load was shed due to widespread generator failures across solar, wind, gas, and even nuclear units caused by equipment freezing under prolonged subfreezing temperatures. The system frequency dropped to 59.3 Hz—only minutes away from a full statewide blackout—placing the grid and millions of customers at severe risk.",
     "task": "My role was to support system operations by providing real-time situational awareness and data-driven insights to help operators make fast, informed decisions. Specifically, I was responsible for communicating with Transmission and Generation Owners to track generation losses, calculating required load-shed values to stabilize frequency, and documenting unit outages to guide control room actions.",
     "action": "I proactively reached out to Transmission Owners (TOs) and Generation Owners (GOs) to gather real-time data on unit performance, capacity, and restoration progress. Using SCADA and telemetry data, I continuously analyzed generation versus load to calculate the exact amount of load that needed to be shed to rebalance the system. I coordinated with Transmission Service Providers (TSPs) to execute immediate load-shedding measures and simultaneously documented every generator trip, restoration effort, and timeline to inform operational decisions. Despite incomplete information and worsening conditions, I maintained composure and clear communication across multiple departments.",
