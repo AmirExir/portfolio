@@ -31,36 +31,27 @@ for i, para in enumerate(resume_text.split("\n\n")):
 # Add STAR stories as chunks (combine all possible fields into one chunk for each story)
 for s in stories:
     principle = s.get("principle", "General")
-    # Combine all relevant fields into one chunk for embedding
-    fields = []
-    if "principle" in s:
-        fields.append(f"Principle: {s['principle']}")
-    if "question" in s and s["question"]:
-        fields.append(f"Question: {s['question']}")
-    if "situation" in s and s["situation"]:
-        fields.append(f"Situation: {s['situation']}")
-    if "task" in s and s["task"]:
-        fields.append(f"Task: {s['task']}")
-    if "action" in s and s["action"]:
-        fields.append(f"Action: {s['action']}")
-    if "result" in s and s["result"]:
-        fields.append(f"Result: {s['result']}")
-    if fields:
-        combined_text = "\n".join(fields)
-        chunks.append({
-            "text": combined_text,
-            "source": "story-full",
-            "principle": principle,
-            "question": s.get("question", "")
-        })
-    else:
-        # Fallback for other formats
-        story_text = json.dumps(s)
-        chunks.append({
-            "text": story_text,
-            "source": "story-generic",
-            "principle": principle
-        })
+    question = s.get("question", "")
+    situation = s.get("situation", "")
+    task = s.get("task", "")
+    action = s.get("action", "")
+    result = s.get("result", "")
+
+    combined_text = (
+        f"Principle: {principle}\n"
+        f"Question: {question}\n"
+        f"Situation: {situation}\n"
+        f"Task: {task}\n"
+        f"Action: {action}\n"
+        f"Result: {result}"
+    )
+
+    chunks.append({
+        "text": combined_text.strip(),
+        "source": "story-full",
+        "principle": principle,
+        "question": question
+    })
 
 # Force rebuild button to clear cache
 if st.button("🔄 Force Rebuild Embeddings"):
