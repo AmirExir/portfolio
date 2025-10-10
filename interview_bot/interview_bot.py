@@ -45,7 +45,7 @@ for s in stories:
     if "result" in s and s["result"]:
         fields.append(f"Result: {s['result']}")
     if fields:
-        combined_text = " | ".join(fields)
+        combined_text = "\n".join(fields)
         chunks.append({
             "text": combined_text,
             "source": "story-full",
@@ -94,21 +94,26 @@ else:
         chunks = json.load(f)
 
 def search(query, k=25):
+    # Embed query
     q_emb = client.embeddings.create(
         input=query, model="text-embedding-3-large"
     ).data[0].embedding
     q_emb = np.array(q_emb, dtype=np.float32)
-    sims = np.dot(embeddings, q_emb) / (np.linalg.norm(embeddings, axis=1) * np.linalg.norm(q_emb))
+
+    # Compute cosine similarity
+    norms = np.linalg.norm(embeddings, axis=1) * np.linalg.norm(q_emb)
+    sims = np.dot(embeddings, q_emb) / norms
     top_k_idx = np.argsort(sims)[-k:][::-1]
     candidates = [chunks[i] for i in top_k_idx]
 
-    # Boost by direct keyword overlap
+    # Add keyword boosting (heavier weight)
     query_lower = query.lower()
     for c in candidates:
         text_lower = c["text"].lower()
-        c["boost"] = sims[top_k_idx[candidates.index(c)]] + 0.15 * sum(
-            word in text_lower for word in query_lower.split()
-        )
+        keyword_hits = sum(word in text_lower for word in query_lower.split())
+        c["boost"] = sims[top_k_idx[candidates.index(c)]] + 0.3 * keyword_hits
+
+    # Re-rank
     reranked = sorted(candidates, key=lambda x: x["boost"], reverse=True)
     return reranked[:6]
 # -------------------------
