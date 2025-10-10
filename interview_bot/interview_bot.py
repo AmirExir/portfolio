@@ -61,19 +61,26 @@ def search(query, index, chunks, embeddings, k=5):
     query_lower = query.lower().strip()
     keywords = [w for w in query_lower.split() if len(w) > 2]
 
-    # --- 1️⃣ Exact keyword match (case-insensitive) ---
+    # --- 1️⃣ Exact + partial keyword match (case-insensitive) ---
     keyword_hits = []
     for c in chunks:
         text_lower = c["text"].lower()
-        # prioritize strong keyword hits for technical terms
+        # match exact or partial words (like "aelab" in "developed aelab in python")
         if any(k in text_lower for k in keywords):
             keyword_hits.append(c["text"])
+
+    # ✅ Extra boost: check for strong domain keywords even if they are partial or capitalized
+    if not keyword_hits:
+        strong_terms = ["aelab", "psse", "ercot", "interconnection", "contingency", "dynamic", "mod-26", "mod-27"]
+        for term in strong_terms:
+            if term in query_lower:
+                keyword_hits += [c["text"] for c in chunks if term in c["text"].lower()]
 
     if keyword_hits:
         print(f"✅ Keyword matches found for query: {query} ({len(keyword_hits)} hits)")
         return keyword_hits[:k]
 
-    # --- 2️⃣ Semantic fallback ---
+    # --- 2️⃣ Semantic fallback if no strong matches ---
     print(f"⚠️ No keyword hits for '{query}', switching to semantic search...")
     q_emb = client.embeddings.create(
         input=query,
