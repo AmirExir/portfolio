@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np, json, os, io
 from openai import OpenAI
 from streamlit_mic_recorder import mic_recorder
+import faiss
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # -------------------------
@@ -93,35 +94,56 @@ else:
     with open(CHUNKS_FILE, "r", encoding="utf-8") as f:
         chunks = json.load(f)
 
-def search(query, k=10):
+if 'index' not in locals():
+    if embeddings is not None and len(embeddings) > 0:
+        index = faiss.IndexFlatL2(embeddings.shape[1])
+        index.add(embeddings)
+    else:
+        st.error("❌ No embeddings found! Please rebuild embeddings.")
+        st.stop()
+
+
+
+
+def search(query, k=12):
+    if 'index' not in locals():
+        st.error("FAISS index not initialized.")
+        return []
+
     query_lower = query.lower()
-    query_words = [w for w in query_lower.split() if len(w) > 2]
 
-    # 1️⃣ Keyword match
-    keyword_hits = []
-    for i, c in enumerate(chunks):
-        text = c["text"].lower()
-        if any(w in text for w in query_words):
-            keyword_hits.append((i, 1.0))  # full weight for keyword hit
+    # 🔹 1. Keyword (hard) filter — catch exact matches like 'AELAB' or 'MOD-26'
+    keyword_matches = [
+        c for c in chunks if any(term in c["text"].lower() for term in query_lower.split())
+    ]
 
-    # 2️⃣ Semantic FAISS search
+    # 🔹 2. Semantic search
     q_emb = client.embeddings.create(
         input=query,
         model="text-embedding-3-large"
     ).data[0].embedding
     D, I = index.search(np.array([q_emb], dtype="float32"), k)
-    semantic_hits = [(int(i), float(1/(1+d))) for d, i in zip(D[0], I[0])]  # invert distance to weight
+    semantic_matches = [chunks[i] for i in I[0]]
 
-    # 3️⃣ Combine results
-    combined = {}
-    for i, score in keyword_hits + semantic_hits:
-        combined[i] = combined.get(i, 0) + score
+    # 🔹 3. Merge (keyword hits first, then semantic)
+    combined = keyword_matches + [s for s in semantic_matches if s not in keyword_matches]
 
-    # 4️⃣ Sort and select top k
-    sorted_hits = sorted(combined.items(), key=lambda x: x[1], reverse=True)[:k]
-    retrieved = [chunks[i] for i, _ in sorted_hits]
+    # 🔹 4. Rerank lightly by keyword overlap
+    def score(text):
+        t = text.lower()
+        return sum(w in t for w in query_lower.split())
 
-    return retrieved
+    reranked = sorted(combined, key=lambda c: score(c["text"]), reverse=True)
+
+    # Debug log
+    print("\n🔍 Query:", query)
+    print(f"Keyword matches: {len(keyword_matches)} | Semantic matches: {len(semantic_matches)}")
+    for i, c in enumerate(reranked[:5]):
+        print(f"  {i+1}. {c.get('principle', 'N/A')} | {c.get('question', '')[:80]}")
+
+    return reranked[:4]
+
+
 # -------------------------
 # Streamlit UI
 # -------------------------
