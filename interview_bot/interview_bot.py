@@ -155,7 +155,7 @@ if user_query:
             "If there is any mention of the topic or related tools (like AELAB, automation, PSS/E, ERCOT), explain it in a STAR-like manner. "
             "Only say 'I don't have specific experience with that' if the topic is clearly unrelated. "
             "Answer naturally in first person and organize into four short paragraphs labeled: Situation, Task, Action, and Result."
-        )}
+        )},
         {"role": "user", "content": f"Question: {user_query}\n\nRelevant context:\n{context}"}
     ]
 
