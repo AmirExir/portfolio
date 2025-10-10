@@ -93,29 +93,35 @@ else:
     with open(CHUNKS_FILE, "r", encoding="utf-8") as f:
         chunks = json.load(f)
 
-def search(query, k=25):
-    # Embed query
-    q_emb = client.embeddings.create(
-        input=query, model="text-embedding-3-large"
-    ).data[0].embedding
-    q_emb = np.array(q_emb, dtype=np.float32)
-
-    # Compute cosine similarity
-    norms = np.linalg.norm(embeddings, axis=1) * np.linalg.norm(q_emb)
-    sims = np.dot(embeddings, q_emb) / norms
-    top_k_idx = np.argsort(sims)[-k:][::-1]
-    candidates = [chunks[i] for i in top_k_idx]
-
-    # Add keyword boosting (heavier weight)
+def search(query, k=10):
     query_lower = query.lower()
-    for c in candidates:
-        text_lower = c["text"].lower()
-        keyword_hits = sum(word in text_lower for word in query_lower.split())
-        c["boost"] = sims[top_k_idx[candidates.index(c)]] + 0.3 * keyword_hits
+    query_words = [w for w in query_lower.split() if len(w) > 2]
 
-    # Re-rank
-    reranked = sorted(candidates, key=lambda x: x["boost"], reverse=True)
-    return reranked[:6]
+    # 1️⃣ Keyword match
+    keyword_hits = []
+    for i, c in enumerate(chunks):
+        text = c["text"].lower()
+        if any(w in text for w in query_words):
+            keyword_hits.append((i, 1.0))  # full weight for keyword hit
+
+    # 2️⃣ Semantic FAISS search
+    q_emb = client.embeddings.create(
+        input=query,
+        model="text-embedding-3-large"
+    ).data[0].embedding
+    D, I = index.search(np.array([q_emb], dtype="float32"), k)
+    semantic_hits = [(int(i), float(1/(1+d))) for d, i in zip(D[0], I[0])]  # invert distance to weight
+
+    # 3️⃣ Combine results
+    combined = {}
+    for i, score in keyword_hits + semantic_hits:
+        combined[i] = combined.get(i, 0) + score
+
+    # 4️⃣ Sort and select top k
+    sorted_hits = sorted(combined.items(), key=lambda x: x[1], reverse=True)[:k]
+    retrieved = [chunks[i] for i, _ in sorted_hits]
+
+    return retrieved
 # -------------------------
 # Streamlit UI
 # -------------------------
