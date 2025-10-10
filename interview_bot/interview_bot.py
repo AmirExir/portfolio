@@ -56,42 +56,36 @@ if "index" not in st.session_state:
         st.stop()
 else:
     index = st.session_state["index"]
-
+    
 def search(query, index, chunks, embeddings, k=5):
-    # --- 1. Create embedding for the query ---
+    # Normalize query
+    query_lower = query.lower().strip()
+    keywords = [w for w in query_lower.split() if len(w) > 2]
+
+    # --- 1️⃣ Exact keyword filtering ---
+    keyword_matches = []
+    for c in chunks:
+        text_lower = c["text"].lower()
+        if any(k in text_lower for k in keywords):
+            keyword_matches.append(c["text"])
+
+    # --- 2️⃣ If we found strong keyword matches, prioritize them ---
+    if keyword_matches:
+        print(f"✅ Keyword matches found for query: {query}")
+        return keyword_matches[:k]
+
+    # --- 3️⃣ Otherwise, fallback to semantic search ---
+    print(f"⚠️ No keyword hits for '{query}', using semantic search...")
     q_emb = client.embeddings.create(
         input=query,
         model="text-embedding-3-large"
     ).data[0].embedding
+
     q_emb = np.array(q_emb, dtype="float32").reshape(1, -1)
     faiss.normalize_L2(q_emb)
 
-    # --- 2. Semantic search with FAISS ---
-    D, I = index.search(q_emb, k*4)  # search wider (4x more candidates)
-    candidates = [chunks[i]["text"] for i in I[0]]
-
-    # --- 3. Keyword boosting (exact term match bonus) ---
-    query_terms = [w.strip().lower() for w in query.split()]
-    scored = []
-    for text in candidates:
-        t = text.lower()
-        keyword_hits = sum(w in t for w in query_terms)
-        score = keyword_hits * 0.5  # weight keywords
-        scored.append((score, text))
-
-    # --- 4. Sort by hybrid (semantic + keyword) ---
-    ranked = sorted(scored, key=lambda x: x[0], reverse=True)
-    top_texts = [t for _, t in ranked[:k]]
-
-    # --- 5. Fallback: if no hits, pick top semantic only ---
-    if not top_texts:
-        top_texts = candidates[:k]
-
-    # Debug log
-    print("\n🔍 Query:", query)
-    for i, t in enumerate(top_texts):
-        print(f"{i+1}. {t[:120]}...")
-    print("-----")
+    D, I = index.search(q_emb, k)
+    top_texts = [chunks[i]["text"] for i in I[0]]
 
     return top_texts
 
