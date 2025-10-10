@@ -1,797 +1,100 @@
 [
+  {
+    "text": "Principle: Customer Obsession / Earn Trust / Dive Deep / Deliver Results | Question: Describe a difficult interaction you had with a customer. How did you deal with it? What was the outcome? How would you handle it differently? | Situation: A large industrial customer submitted an interconnection request for a new load at Waterloo, but during the study process, they changed the Point of Interconnection (POI) three times. This was highly unusual and created major delays because each change required re-evaluating system impacts, updating models, and recalculating costs. Additionally, the customer was focused on minimizing their upfront costs, while our priority was ensuring grid reliability and long-term efficiency. | Task: My responsibility was to find the most optimal POI that would balance both the customer’s cost concerns and the technical feasibility of integrating their load without causing long-term congestion or reliability risks. I needed to manage stakeholder expectations while keeping the study on track despite the changes. | Action: I collaborated across teams, engaging Substation Engineering, Transmission Line Engineering, and the Scoping Team to evaluate all possible interconnection points. I developed a cost-benefit analysis of each POI, comparing construction costs, expected congestion, and long-term operational impact. Then, I proactively scheduled a working session with the customer to walk them through trade-offs, identifying a location that would save them approximately $8 million in unnecessary infrastructure while minimizing congestion risks. Finally, I documented the lessons learned and created clearer internal guidelines for handling multiple POI requests in the future. | Result: The customer accepted my recommendation, saving about $8 million in project costs. The final POI selection improved grid reliability and avoided future reinforcements. My transparent communication built customer trust, and my process improvements reduced future study delays. | Reflection: In the future, I would implement a structured POI evaluation process earlier, set clearer expectations with customers upfront, and develop an automated cost-comparison tool to visualize POI trade-offs efficiently."
+  },
+  
+  {
+    "text": "Principle: Customer Obsession / Ownership / Invent and Simplify / Dive Deep / Deliver Results | Question: Tell me about a time when you took on something significant outside your area of responsibility. Why was it important? What was the outcome? | Situation: As an Operations Training Instructor, my primary role was to develop and deliver Real-Time Assessment (RTA) training for system operators. This training was critical for ensuring grid reliability when the state estimator solution failed to converge. Per NERC requirements, operators had to manually estimate voltages and flows across the grid every 30 minutes to maintain stability and prevent potential grid instability. While my official responsibility was to design training, I realized that to truly serve my customers—the operators—standard training wasn’t enough. They were the frontline of the business, responsible for preventing outages. To provide them with the most effective training, I needed to go beyond my role, step into their environment, and understand their challenges firsthand. | Task: I aimed to improve the realism and effectiveness of the training by embedding real-world scenarios and operator feedback. The goal was to enhance customer satisfaction, increase preparedness, and raise the standard for operator performance to improve grid reliability. | Action: I volunteered to work directly with operators on shift as a Real-Time Engineer—even though it was outside my assigned role. By working alongside them, I observed how they handled contingencies, identified training gaps, gathered direct feedback, and integrated real incidents into training simulations. I also developed a 'Lessons Learned' section, created quick-reference materials, and improved simulation realism with recent grid events and corrective actions. | Result: The enhanced training led to highly realistic simulations that prepared operators for real-world incidents. During the next state estimator failure, they confidently executed RTA assessments, maintaining grid stability and preventing blackouts. Leadership recognized my initiative, and my approach became a model for future instructors. | Reflection: In the future, I would formalize an operator feedback loop, create a shadowing program for new instructors, and develop an automated simulation builder that adapts to recent grid conditions."
+  },
 
-  [
   {
-    "text": "Stepping Beyond My Role to Enhance Operator Training",
-    
+    "text": "Principle: Earn Trust / Dive Deep / Ownership / Customer Obsession / Deliver Results | Question: Tell me about a time when you had to communicate a change in direction that you anticipated people would have concerns with. What did you do to understand the concerns and mitigate them? Were there any changes you made along the way after hearing these concerns? How did you handle questions and/or resistance? Were you able to get people comfortable with the change? | Situation: PEC (Pedernales Electric Cooperative), previously operating under LCRA’s Transmission Service Provider (TSP) footprint, was undergoing a transition to become an independent TSP. This shift required PEC to take full ownership of its transmission planning, operations, and compliance. The transition involved separating all network modeling, SCADA telemetry, and NOMCR submissions from LCRA’s systems, introducing new challenges and risks. Anticipating resistance, I focused on building alignment and ensuring operational reliability. | Task: My responsibility was to lead the modeling and operational transition, ensuring PEC’s assets were accurately represented in ERCOT’s planning and operational models while maintaining real-time reliability. I needed to ensure accurate data migration, coordinate across multiple teams, and manage stakeholder concerns as PEC assumed full control of its grid operations. | Action: I facilitated cross-team collaboration by organizing working group meetings with PEC, LCRA, ERCOT, and consultants to align efforts. I developed a detailed step-by-step transition roadmap covering SCADA separation, NOMCR workflow creation, and model validation. To empower PEC engineers, I documented LCRA’s processes, created training guides, and hosted Q&A workshops. I worked closely with ERCOT model coordinators to ensure data accuracy and helped set up temporary ICCP telemetry links to maintain real-time visibility during the transition. | Result: PEC successfully transitioned to an independent TSP with zero operational disruptions. All assets were accurately modeled in ERCOT’s system, and SCADA monitoring continued seamlessly. PEC’s engineers gained the confidence and expertise to manage their systems independently, supported by the documentation and training I provided. The project earned positive recognition from leadership and stakeholders for its flawless execution. | Reflection: In future transitions, I would create a formalized checklist earlier to streamline validation and recommend automating NOMCR tracking for efficiency."
   },
-  {
-    "text": "Situation: As an Operations Training Instructor, my primary responsibility was to develop and deliver Real-Time Assessment (RTA) training for system operators. This training was critical for ensuring grid reliability when the state estimator solution failed to converge. Per NERC requirements, operators had to manually estimate voltages and flows across the grid every 30 minutes to maintain stable voltage and prevent potential grid instability. While my job was to design the training, I realized that for operators—who are the frontline of the business—standard training alone wasn’t enough. To truly serve my customers (the operators), I needed to step beyond my assigned responsibilities and build a more realistic, impactful simulation.",
-    
-  },
-  {
-    "text": "Task: I aimed to enhance customer satisfaction by improving the realism and effectiveness of our training, ensuring that operators were better prepared for real-world scenarios. Instead of just delivering the training based on theoretical knowledge, I wanted to experience the challenges firsthand and integrate real incidents and feedback into my lessons.",
-    
-  },
-  {
-    "text": "Action: To achieve this, I volunteered to work directly with operators on shift as a Real-Time Engineer, even though this was outside my official role. By embedding myself in their environment, I observed how they responded to incidents, collaborated with different desks (Transmission, Reliability, RUC, Generation, and Shift Supervisors), and tackled real-time challenges. This hands-on experience allowed me to: • Identify the gaps between training and real-world execution • Learn from recent incidents and solve them firsthand alongside operators • Gather direct feedback from operators on the challenges they faced • Integrate lessons learned into training simulations, making them more realistic and aligned with actual grid events",
-    
-  },
-  {
-    "text": "I used these insights to redesign the training, incorporating real-life scenarios, updated simulations, and practical case studies that better reflected operational challenges.",
-    
-  },
-  {
-    "text": "Result: • Operators received a highly improved, realistic simulation that better prepared them for future incidents. • When the next state estimator failure occurred, they confidently executed RTA assessments, maintaining grid reliability and keeping power on for Texans. • Leadership recognized my initiative and ownership, setting my efforts as an example of a high-performing instructor who goes beyond the standard responsibilities to drive excellence. This story effectively demonstrates Ownership, Customer Obsession, and Raising the Bar—all key qualities Amazon values. Let me know if you’d like any refinements! 🚀",
-    
-  },
-  {
-    "text": "write about when I stepped significantly outside my responsibilities, when I was operation training instructor where my operators were like my costumers, they are the front line of the busniess and i centered them in my focus, I started with them and went backward to find out how I can have a better simulation for them and have a better costumer satisfaction by raising the standards and going beyond of my responsibilties and taking ownership of my job. my task was to prepare Real time assessment training for them which performed when state estimator solution doesnt converge and there is a need to perform RTA assessment every 30 minutes per NERC requirement to estimate the voltages and flows across the gird and maintain the frequency and stabale voltage by estimating the flows and voltages manually to avoid voltage collapse or other incidents, my significant outside responsibility action was that i volunteered to work with operators on shift as shift real time engineer so i can see what is going on my costumer side, which challenges they are facing and learn through the recent incident and by solving them myself with collaboration with transmission desk, reliability desk, ruc desk and gen desk and shfit supervisors. i Implemented my learnings and the operators my cosutmers feedback into my simulation and integrated lessions learned into the presentation and created more realistic simulation and up todate presentation for them as the result of this training operators received highly improved simulation that prepared them future incidents. they were able to tackle the next times when state estimator did not solve and kept the reliability of the gird and texasn powers on. my efferot was recognized by leadership and this was set an example of highly performing instructor. Here’s your STAR-based story incorporating the SCADA failure, immediate response, API node checks, RTU validation, and incident reporting—all reinforcing Ownership, Deliver Results, and Earn Trust. Handling a Critical System Switchover Alone at Midnight During SCADA Failure",
-    
-  },
-  {
-    "text": "Situation: One night during my time as a power system engineer, I was responsible for a critical system switchover from SSOC (System Security Operations Center) to BOCC (Backup Operations Control Center). This was a high-risk transition, ensuring that real-time grid monitoring continued without disruption.",
-    
-  },
-  {
-    "text": "At midnight, while performing pre-switch checks, I noticed the SCADA display suddenly turned red, indicating a system failure at SSOC—meaning operators had lost visibility into real-time grid conditions. This was an urgent situation, as any delays in restoring SCADA could have impacted grid stability and system reliability. I was the only engineer on-site, meaning I had to take full ownership of the response.",
-    
-  },
-  {
-    "text": "Task: My responsibility shifted from just executing the planned switchover to immediately restoring SCADA functionality by transitioning to BOCC while ensuring that operators had full system visibility. Given the urgency, I needed to act quickly and decisively to prevent a prolonged outage.",
-    
-  },
-  {
-    "text": "Action: • Immediate Communication: As soon as I saw the SCADA display turn red, I immediately contacted the Control Room to inform them of the situation and let them know I was proceeding with the immediate switchover to BOCC. • API Node Validation: Before executing the transition, I checked the API nodes on BOCC to ensure they were up and running, preventing a failed takeover. • Executing the Switchover: I initiated the switchover, carefully monitoring system logs and ensuring a seamless transition from SSOC to BOCC. • Real-Time RTU Checks & System Recovery: After the switchover, I conducted before-and-after online RTU checks, pinged them to verify their response, and manually brought back any RTUs that should have been online but were not, ensuring operators had accurate real-time data. • Incident Logging & Reporting: Once the system was fully restored, I logged the incident, documented the root cause and recovery steps, and submitted a detailed report for leadership and system reliability teams.",
-    
-  },
-  {
-    "text": "Result: • SCADA was restored quickly, ensuring no prolonged loss of real-time grid visibility. • Operators were able to continue monitoring and managing the grid without disruption. • The swift and methodical response prevented potential system instability and set a new best practice for responding to unexpected SCADA failures. • My initiative and ability to remain calm under pressure were recognized by leadership, reinforcing my reputation as a high-performing, reliable engineer. Possible Interview Question:",
-    
-  },
-  {
-    "text": "“Tell me about a time when you had to respond to an urgent technical failure under high pressure. How did you handle it?”",
-    
-  },
-  {
-    "text": "This story demonstrates Ownership, Deliver Results, and Earn Trust—all key leadership principles Amazon values. It also highlights your ability to troubleshoot, communicate effectively, and maintain operational stability under pressure.",
-    
-  },
-  {
-    "text": "Let me know if you’d like any refinements! 🚀",
-    
-  },
-  {
-    "text": "Here’s your STAR-based response for the PMU failure and switchover, focusing on how you identified the duplicate entry preventing data transmission to ERCOT and ensured system reliability. This showcases Ownership, Dive Deep, and Deliver Results—all crucial Amazon leadership principles. Resolving PMU Data Failure & Switchover by Identifying a Duplicate Entry",
-    
-  },
-  {
-    "text": "Situation: During my time as a power system engineer, I was responsible for maintaining the Phasor Measurement Unit (PMU) data stream to ERCOT, ensuring that real-time grid monitoring remained accurate and uninterrupted.",
-    
-  },
-  {
-    "text": "One day, ERCOT reported that they were not receiving PMU data from our system, which was critical for monitoring grid stability. This posed a major reliability risk, as PMUs provide high-speed, time-synchronized data essential for voltage stability analysis, oscillation detection, and disturbance monitoring. Without this data, ERCOT’s ability to assess real-time grid conditions would be significantly impacted.",
-    
-  },
-  {
-    "text": "Task: My responsibility was to quickly diagnose and resolve the issue to restore data transmission while ensuring minimal disruption to grid monitoring. Given the complexity of the data pipeline and potential causes, I needed to Dive Deep into system logs and configurations to pinpoint the root cause.",
-    
-  },
-  {
-    "text": "Action: • Systematic Investigation: I immediately began troubleshooting by checking the PMU server logs, network connections, and firewall configurations to rule out any external connectivity issues. • Analyzing Data Transmission Paths: After confirming that there were no hardware failures, I suspected a configuration error and examined the PMU data processing pipeline. • Identifying the Root Cause: By carefully reviewing system entries, I discovered a duplicate data entry in the configuration file, which was causing a conflict and preventing data from being sent to ERCOT. Essentially, the system was attempting to process two conflicting data streams for the same PMU, which resulted in data transmission failure. • Immediate Resolution & Switchover: I removed the duplicate entry, refreshed the PMU data pipeline, and initiated a switchover to restore data flow. • Validation & Reporting: Once the issue was resolved, I monitored the data transmission to ERCOT in real-time, verified consistency, and logged the incident resolution details for future reference.",
-    
-  },
-  {
-    "text": "Result: • PMU data transmission to ERCOT was fully restored, ensuring uninterrupted real-time monitoring of the grid. • Prevented potential grid stability risks by swiftly identifying and resolving the issue before it could escalate. • Leadership recognized my ability to Dive Deep, take Ownership, and Deliver Results under time-sensitive conditions. • My root cause analysis and resolution process were later integrated into best practices for handling future PMU failures, improving long-term system reliability. Possible Interview Question:",
-    
-  },
-  {
-    "text": "“Tell me about a time when you had to troubleshoot a complex technical issue. How did you identify and resolve the problem?”",
-    
-  },
-  {
-    "text": "This story highlights technical problem-solving, deep analytical skills, and ownership, all of which align with Amazon’s leadership principles. Let me know if you’d like any refinements! 🚀",
-    
-  },
-  {
-    "text": "Optimizing a Load Interconnection Study by Identifying Hidden Inefficiencies",
-    
-  },
-  {
-    "text": "Situation: A former colleague, who had recently transitioned back to planning after working in operations, reached out to me for help. Having worked together in real-time operations, he trusted my expertise and asked for my assistance in setting up his software and guiding him through a generation interconnection study.",
-    
-  },
-  {
-    "text": "Later, out of curiosity, I decided to review his load interconnection study for a new 150 MW project. His analysis proposed seven new capacitor banks across five substations to maintain voltage stability. While his results seemed reasonable at first glance, I had a gut feeling that something was off—given our existing grid infrastructure, this seemed excessive.",
-    
-  },
-  {
-    "text": "Task: I took the initiative to double-check his work to ensure the proposed solution was truly optimal. My goal was to identify potential inefficiencies, optimize the use of existing infrastructure, and reduce unnecessary costs while maintaining grid reliability.",
-    
-  },
-  {
-    "text": "Action: • Assisted in Setting Up His Tools: First, I helped him configure his power flow simulation software and walked him through the generation interconnection study process, ensuring he had the right methodology in place. • Reviewed His Load Interconnection Study: Later, I examined his capacitor bank placement analysis and noticed that he had locked the automatic shunt switching in his simulation model, preventing the software from optimizing the use of existing capacitors. • Re-ran the Power Flow Study: By enabling automatic shunt switching, I allowed the system to dynamically optimize capacitor placement based on real-time system conditions. • Discovered a More Efficient Solution: Instead of installing seven new capacitor banks, my optimized study showed that only two capacitor banks at two key substations were needed. Additionally, I proposed leveraging mobile transformers and existing capacitor banks to support voltage during construction. • Collaborated and Shared Findings: I walked my colleague and the planning team through my analysis, showing them how this revised approach would save money, reduce system complexity, and improve operational reliability.",
-    
-  },
-  {
-    "text": "Result: • Reduced new capacitor installations from 7 to 2, significantly cutting equipment, construction, and labor costs. • Avoided unnecessary planned outages, ensuring continuous power for customers during the project. • Simplified project execution, making coordination between planning and operations smoother. • Maximized existing infrastructure, reducing capital expenditures and utilizing mobile transformers where necessary. • Strengthened collaboration between planning and operations, reinforcing trust and knowledge-sharing. • Leadership recognized my initiative as an example of Ownership, Dive Deep, and Frugality, setting a standard for thorough validation of planning studies. Possible Interview Question:",
-    
-  },
-  {
-    "text": "“Tell me about a time when you went beyond your responsibilities to improve an existing process or decision. What impact did it have?”",
-    
-  },
-  {
-    "text": "This story effectively demonstrates Dive Deep, Ownership, Frugality, and Customer Obsession—all key leadership principles at Amazon. Let me know if you’d like any refinements! 🚀",
-    
-  },
-  {
-    "text": "STAR Response for Waterloo Interconnection Study",
-    
-  },
-  {
-    "text": "Question: Describe a difficult interaction you had with a customer. How did you deal with it? What was the outcome? How would you handle it differently?",
-    
-  },
-  {
-    "text": "Situation:",
-    
-  },
-  {
-    "text": "A large industrial customer submitted an interconnection request for a new load at Waterloo, but during the study process, they changed the Point of Interconnection (POI) three times. This was highly unusual and created major delays because each change required re-evaluating system impacts, updating models, and recalculating costs. Additionally, the customer was focused on minimizing their upfront costs, while our priority was ensuring grid reliability and long-term efficiency.",
-    
-  },
-  {
-    "text": "Task:",
-    
-  },
-  {
-    "text": "My responsibility was to find the most optimal POI that would balance both the customer’s cost concerns and the technical feasibility of integrating their load without causing long-term congestion or reliability risks. I needed to manage stakeholder expectations while keeping the study on track despite the changes.",
-    
-  },
-  {
-    "text": "Action: 1. Collaborated Across Teams: I engaged Substation Engineering, Transmission Line Engineering, and the Scoping Team to evaluate all possible interconnection points. 2. Performed Comparative Analysis: I developed a cost-benefit analysis of each POI, comparing construction costs, expected congestion, and long-term operational impact to ensure we found the best trade-off. 3. Engaged with the Customer: Instead of waiting for further POI changes, I proactively scheduled a working session with the customer and explained the trade-offs of each option. 4. Recommended the Best POI: I identified a location that would save the customer approximately $8 million in unnecessary infrastructure while minimizing congestion risks for the broader grid. 5. Documented a Lessons-Learned Process: I worked with my team to establish clearer guidelines for handling multiple POI requests in the future to streamline similar studies.",
-    
-  },
-  {
-    "text": "Result: • The customer accepted my recommendation, and the final POI decision resulted in significant cost savings (~$8 million). • The solution improved grid reliability, preventing the need for additional reinforcements in the future. • My approach built trust with the customer, as they appreciated the transparent comparison of options rather than being told a single choice without context. • Our internal process was improved for future interconnection requests, reducing potential delays when customers change POIs multiple times.",
-    
-  },
-  {
-    "text": "Reflection - What I Would Do Differently: • I would implement a structured POI evaluation process earlier to prevent repeated changes. • I would set clearer expectations with the customer upfront about the impacts of POI changes on study timelines and costs. • I would create an automated cost-comparison tool to quickly visualize the trade-offs between multiple POI options in future projects. Amazon Leadership Principles Demonstrated: ✔ Customer Obsession – Ensured the customer’s needs were met while balancing long-term reliability. ✔ Earn Trust – Gained credibility by transparently explaining the trade-offs. ✔ Dive Deep – Performed a detailed technical and financial analysis to find the best solution. ✔ Deliver Results – Successfully identified a cost-effective solution, saving $8M and improving grid stability. STAR Response: Stepping Beyond My Role to Enhance Operator Training",
-    
-  },
-  {
-    "text": "Question: Tell me about a time when you took on something significant outside your area of responsibility. Why was it important? What was the outcome? Situation:",
-    
-  },
-  {
-    "text": "As an Operations Training Instructor, my primary role was to develop and deliver Real-Time Assessment (RTA) training for system operators. This training was critical for ensuring grid reliability when the state estimator solution failed to converge. Per NERC requirements, operators had to manually estimate voltages and flows across the grid every 30 minutes to maintain stable voltage and frequency and prevent potential grid instability.",
-    
-  },
-  {
-    "text": "While my assigned responsibility was to design the training program, I realized that to truly serve my customers—the operators—standard training alone wasn’t enough. They were the frontline of the business, responsible for making real-time decisions that could prevent blackouts. To provide them with the most effective training, I needed to go beyond my role, step into their environment, and understand their challenges firsthand. Task:",
-    
-  },
-  {
-    "text": "I aimed to improve the realism and effectiveness of the training by embedding real-world scenarios and operator feedback. Instead of just creating training based on theoretical knowledge, I wanted to experience the operational challenges firsthand and identify gaps between training and execution.",
-    
-  },
-  {
-    "text": "The goal was to: • Enhance customer satisfaction by ensuring training reflected real-world challenges. • Increase training effectiveness so operators felt more prepared. • Raise the standard for operator preparedness, improving grid reliability. Action:",
-    
-  },
-  {
-    "text": "To accomplish this, I volunteered to work directly with operators on shift as a Real-Time Engineer—even though this was outside my official responsibilities. By working alongside them, I: 1. Observed real-time operations—monitoring how operators handled contingencies, collaborated with different desks (Transmission, Reliability, RUC, Generation, and Shift Supervisors), and executed grid stability measures. 2. Identified training gaps—seeing firsthand where theoretical training fell short in practical application. 3. Gathered direct feedback from operators, understanding their challenges and pain points. 4. Integrated real incidents into training simulations—ensuring scenarios were realistic, up-to-date, and actionable. 5. Developed a “Lessons Learned” section—incorporating previous grid events, failures, and best practices. 6. Created quick-reference materials—including cheat sheets and emergency procedures for frequency events, voltage issues, and corrective actions. Result:",
-    
-  },
-  {
-    "text": "✔ More effective training: Operators received a highly improved, realistic simulation, preparing them for future incidents. ✔ Grid reliability improved: When the next state estimator failure occurred, operators executed RTA assessments confidently, maintaining grid stability and preventing blackouts. ✔ Leadership recognition: My initiative was acknowledged, and my approach was set as a best practice for future training instructors. ✔ Culture shift: By centering operators as the “customer”, I raised the standard of training and ensured it aligned with real-world operational needs. Reflection – What I Would Do Differently: • I would formalize a feedback loop where operators could continually contribute real-world scenarios to training updates. • I would implement an operator “shadowing” program for future instructors to ensure ongoing improvements. • I would develop an automated simulation builder that adjusts scenarios based on recent grid conditions. Amazon Leadership Principles Demonstrated:",
-    
-  },
-  {
-    "text": "✔ Customer Obsession – Prioritized operators’ needs by designing training based on their real-world challenges. ✔ Ownership – Took initiative to step outside my role, ensuring the best possible outcome for the operators and grid reliability. ✔ Invent and Simplify – Developed real-world case studies, lessons learned, and cheat sheets to enhance training efficiency. ✔ Dive Deep – Embedded myself in real-time operations, identifying training gaps that were otherwise overlooked. ✔ Deliver Results – The improved training enabled operators to maintain grid stability during real-world failures, preventing potential outages. Final Thoughts:",
-    
-  },
-  {
-    "text": "This story perfectly aligns with Amazon’s expectations for taking initiative, improving customer experience, and raising the bar. Let me know if you’d like any refinements! 🚀",
-    
-  },
-  {
-    "text": "STAR Response: Leading the PEC Transition to an Independent Transmission Service Provider (TSP)",
-    
-  },
-  {
-    "text": "Question: Tell me about a time when you had to communicate a change in direction that you anticipated people would have concerns with. What did you do to understand the concerns and mitigate them? Were there any changes you made along the way after hearing these concerns? How did you handle questions and/or resistance? Were you able to get people comfortable with the change? Situation:",
-    
-  },
-  {
-    "text": "PEC (Pedernales Electric Cooperative), previously operating under LCRA’s Transmission Service Provider (TSP) footprint, was undergoing a transition to become an independent TSP. This shift required PEC to take full ownership of its transmission planning, operations, and compliance.",
-    
-  },
-  {
-    "text": "As part of this transition, all network modeling, planning processes, SCADA telemetry, and NOMCR (Network Operations Model Change Request) submissions had to be separated from LCRA and fully integrated under PEC’s standalone entity. This was a complex and unprecedented transition, involving multiple stakeholders—including PEC’s leadership, LCRA’s operations team, ERCOT, and regulatory bodies.",
-    
-  },
-  {
-    "text": "I anticipated resistance from both PEC and LCRA teams, as the transition introduced new operational challenges, regulatory compliance risks, and concerns over real-time reliability. Task:",
-    
-  },
-  {
-    "text": "My responsibility was to lead the modeling and operational transition, ensuring that PEC’s assets were accurately represented in ERCOT’s planning and operational models and that real-time reliability was not compromised during the separation.",
-    
-  },
-  {
-    "text": "The key challenges included: 1. Ensuring accurate data migration – PEC needed its own independent SCADA and EMS model, requiring the careful separation of its data from LCRA’s existing infrastructure. 2. Coordinating across multiple teams – I had to align PEC, LCRA, ERCOT, and engineering consultants to ensure a smooth transition. 3. Overcoming resistance and concerns – PEC staff was accustomed to relying on LCRA’s processes, and there was uncertainty about how to handle planning studies, NOMCR submissions, and regulatory compliance independently. Action:",
-    
-  },
-  {
-    "text": "To successfully transition PEC while addressing stakeholder concerns, I took the following steps: 1. Facilitated Cross-Team Collaboration: I organized regular working group meetings with PEC, LCRA, ERCOT, and external consultants to align on transition steps, ensure clear communication, and address concerns proactively. 2. Developed a Step-by-Step Transition Plan: I created a detailed transition roadmap, breaking down key phases such as SCADA separation, NOMCR workflow establishment, and model validation in ERCOT’s system. 3. Created a Knowledge-Sharing Framework: Recognizing that PEC’s team needed to develop independent expertise, I: • Documented LCRA’s past processes to create an internal training guide for PEC. • Provided one-on-one support to PEC engineers to guide them through new responsibilities. • Conducted Q&A sessions to address knowledge gaps. 4. Ensured Data Accuracy in ERCOT’s Models: I worked closely with ERCOT model coordinators to ensure that all transmission elements, connectivity nodes, and load-serving entities were correctly mapped in the planning and operations models. 5. Mitigated Real-Time Reliability Risks: Since PEC was moving to its own SCADA system, I helped set up temporary ICCP telemetry links so ERCOT and LCRA could still monitor PEC’s system during the transition, ensuring no loss of visibility. Result:",
-    
-  },
-  {
-    "text": "✔ Successful TSP Independence: PEC officially transitioned to an independent TSP with all assets correctly modeled in ERCOT’s system. ✔ Zero Operational Disruptions: Despite the complexity of the transition, there were no SCADA monitoring issues or modeling errors during the cutover. ✔ Knowledge Transfer & Long-Term Success: PEC staff gained the technical expertise and confidence needed to operate independently, thanks to the training materials, documentation, and workshops I provided. ✔ Positive Stakeholder Buy-In: By addressing concerns early and providing structured guidance, I helped PEC’s engineers and leadership embrace the transition with confidence. Reflection – What I Would Do Differently: • I would establish a formalized transition checklist earlier in the process to prevent last-minute data validation issues. • I would recommend automating some of the NOMCR tracking and model updates to ensure smoother workflows post-transition. Amazon Leadership Principles Demonstrated:",
-    
-  },
-  {
-    "text": "✔ Earn Trust – Built credibility with PEC and ERCOT stakeholders by delivering a structured, well-executed transition. ✔ Dive Deep – Worked at a granular level to ensure modeling accuracy, SCADA separation, and operational readiness. ✔ Ownership – Took full responsibility for the technical and operational transition, ensuring zero disruptions. ✔ Customer Obsession – Focused on ensuring PEC’s long-term success, not just a short-term cutover. ✔ Deliver Results – The transition was completed successfully with no operational downtime, setting a model for future TSP separations. Final Thoughts:",
-    
-  },
-  {
-    "text": "This story is an excellent demonstration of leadership, problem-solving, and stakeholder management, making it a strong fit for Amazon’s high-ownership culture. Let me know if you’d like any refinements! 🚀 STAR Response: Identifying Rating Discrepancies to Prevent Audit Issues",
-    
-  },
-  {
-    "text": "Question: Tell me about a time when you identified a critical issue before it became a problem. How did you handle it? What was the impact? Situation:",
-    
-  },
-  {
-    "text": "As part of an upcoming regulatory audit, we were conducting spot checks to ensure that equipment ratings were accurate and consistent across multiple models used in planning and operations. These ratings are crucial because they determine transmission line limits, congestion management, and real-time operational decisions.",
-    
-  },
-  {
-    "text": "During my review, I discovered a significant discrepancy between the equipment ratings in the steady-state planning model, the dynamic model, and the real-time operational model. If left unresolved, this mismatch could have led to misreported system limits, potential reliability violations, and non-compliance with NERC regulations—potentially exposing the company to millions of dollars in fines.",
-    
-  },
-  {
-    "text": "The issue was not immediately obvious, as most engineers focused only on their respective models, but I took the initiative to cross-check the data across all systems. Task:",
-    
-  },
-  {
-    "text": "My responsibility was to: ✔ Identify and correct the rating discrepancies before the audit. ✔ Ensure consistency across all models so that real-time operations, system planning, and regulatory reports were aligned. ✔ Prevent compliance violations that could result in financial penalties or reliability risks. Action: 1. Performed a Deep Dive into the Ratings Data: • I manually compared ratings from the steady-state model (PSSE), the dynamic model (DSA), and the real-time EMS model. • I traced back the discrepancies to outdated NOMCR (Network Operations Model Change Request) submissions that had not been correctly updated across models. 2. Validated the Findings with a Principal Engineer: • To ensure accuracy, I collaborated with a Principal Engineer who confirmed that my findings were valid and critical to address. • He backed my analysis and agreed that this issue could lead to compliance risks. 3. Facilitated Cross-Team Collaboration to Correct the Issue: • I arranged a meeting with the Operations Modeling team, Planning Engineers, and EMS Engineers to address the inconsistencies. • I presented my findings, showing how missing or incorrect updates could cause reliability issues and congestion management errors. 4. Implemented a Long-Term Fix to Prevent Future Discrepancies: • I proposed and helped implement a peer review process where any rating updates in one model had to be verified and applied across all models before finalizing. • I created a checklist to ensure that updates were properly validated before submission to ERCOT. • Additionally, I recommended a new automation script that flags mismatched ratings before they become an issue. Result:",
-    
-  },
-  {
-    "text": "✔ Avoided Audit Findings and Fines: Our team was able to correct the discrepancies before the audit, preventing compliance violations and potential fines that could have been millions of dollars. ✔ Ensured Grid Reliability: By ensuring the correct ratings were in place, we avoided potential misoperations, congestion issues, and unnecessary transmission constraints. ✔ Standardized Rating Updates Across Models: My initiative led to the implementation of a cross-model validation process, reducing future discrepancies and improving model accuracy. ✔ Earned Leadership Trust: My ability to proactively catch and fix critical issues increased my credibility, leading to more responsibilities in future model validation projects. Reflection – What I Would Do Differently: • I would propose a dashboard or automated report to continuously track rating mismatches before they escalate. • I would engage with ERCOT earlier to validate and confirm industry best practices for rating updates. Amazon Leadership Principles Demonstrated:",
-    
-  },
-  {
-    "text": "✔ Dive Deep – I investigated an issue that many overlooked and traced it back to its root cause. ✔ Ownership – I took responsibility for ensuring company-wide model accuracy, even though it wasn’t assigned to me. ✔ Earn Trust – My findings and initiative gained recognition from senior engineers and leadership. ✔ Deliver Results – I fixed the issue before the audit, preventing financial penalties and operational risks. Final Thoughts:",
-    
-  },
-  {
-    "text": "This story demonstrates attention to detail, problem-solving, and risk mitigation, which aligns well with Amazon’s high-accountability culture. Let me know if you’d like refinements! 🚀 STAR Response: Driving AI Adoption in Power Systems",
-    
-  },
-  {
-    "text": "Question: Give me an example of an initiative you undertook because you saw that it could benefit the whole company or your customers, but wasn’t within any group’s individual responsibility so nothing was being done. Situation:",
-    
-  },
-  {
-    "text": "At my company, AI and Machine Learning were largely unexplored in power systems operations and planning due to strict compliance regulations, a lack of in-house expertise, and resistance to new technologies.",
-    
-  },
-  {
-    "text": "However, I saw a massive opportunity to enhance operational efficiency, automate repetitive tasks, and improve decision-making using AI-driven insights. Despite the challenges, I believed that AI could optimize grid reliability, improve SCADA telemetry analysis, and enhance real-time operations by predicting system behavior.",
-    
-  },
-  {
-    "text": "The problem was that no team was responsible for AI integration, and there was no structured approach to experimenting with AI in a high-compliance environment. Task:",
-    
-  },
-  {
-    "text": "✔ Introduce AI to the company and prove its value in a way that aligned with compliance and business needs. ✔ Gain leadership buy-in by demonstrating practical applications and measurable benefits. ✔ Initiate AI-driven experiments despite skepticism from leadership and colleagues. Action: 1. Conducted Independent Research & Identified AI Use Cases: • Researched how AI and ML were used in other industries and power utilities to identify practical applications. • Identified AI use cases that aligned with business-critical problems, including: • SCADA Data Analysis: Using AI to detect anomalies in real-time telemetry. • Fault Detection & Root Cause Analysis: Automating fault detection using pattern recognition. • Load Forecasting & Predictive Analytics: Improving system planning based on historical trends. 2. Engaged Key Stakeholders & Overcame Resistance: • Met with the Manager of Operations, the Supervisor of Software Development, and the Manager of Corporate Strategy to advocate for AI. • Framed AI as an enhancement, not a replacement, ensuring teams saw it as a tool to make their jobs easier rather than a threat. • Addressed compliance concerns by proposing controlled AI experiments that would not interfere with real-time operations. 3. Took Initiative to Develop AI Prototypes: • With no formal AI team, I personally built a Python-based AI tool to analyze SCADA telemetry for fault detection. • Launched experimental projects in collaboration with the Corporate Strategy Analyst, successfully proving AI’s potential impact on decision-making. • Led discussions with internal teams and IT departments to establish a pathway for integrating AI into operations. 4. Promoted AI Training & Upskilling: • Encouraged internal teams to participate in AI learning opportunities, increasing awareness and acceptance. • Enrolled in a Master’s program in AI (MSAI) to bridge the gap between power systems and data science, demonstrating my commitment to the initiative. Result:",
-    
-  },
-  {
-    "text": "✔ Secured AI Pilot Projects – Successfully launched small-scale AI projects, including a fault detection model and load forecasting tool, proving AI’s value. ✔ Gained Leadership Support – Leadership recognized AI’s potential impact on operations, opening discussions for future AI-driven automation. ✔ Changed Company Perception of AI – By focusing on practical applications, I helped shift the mindset from resistance to cautious exploration. ✔ Created a Path for AI in Power Systems – My efforts led to a dedicated discussion group on AI applications within our company, bringing together stakeholders from operations, software development, and corporate strategy. Reflection – What I Would Do Differently: • I would build a formal AI proposal earlier to streamline leadership buy-in. • I would collaborate with external AI vendors sooner to accelerate AI adoption. Amazon Leadership Principles Demonstrated:",
-    
-  },
-  {
-    "text": "✔ Think Big – I envisioned long-term AI-driven transformation in a traditional industry. ✔ Invent and Simplify – Developed an AI prototype despite resource constraints. ✔ Bias for Action – Took ownership without waiting for leadership approval. ✔ Earn Trust – Built credibility by demonstrating AI’s value through real experiments. ✔ Deliver Results – Led successful AI pilot projects that influenced long-term company strategy. Final Thoughts:",
-    
-  },
-  {
-    "text": "This story highlights strategic thinking, innovation, and leadership in driving AI adoption, which strongly aligns with Amazon’s culture of long-term vision and problem-solving. Let me know if you’d like refinements! 🚀",
-    
-  },
-  {
-    "text": "⭐ Emergency Load Shedding – Acting Under Pressure",
-    
-  },
-  {
-    "text": "Question: Tell me about a time when you had to gather information and respond immediately to a situation. What was the outcome? Would you have done anything differently? 🟢 Situation:",
-    
-  },
-  {
-    "text": "During real-time operations, I noticed the system frequency had unexpectedly dropped to 59.91 Hz, dangerously close to ERCOT’s first threshold for automatic load-shedding procedures. A continued drop could have led to a widespread system failure or rolling blackouts affecting millions of customers.",
-    
-  },
-  {
-    "text": "🎯 Task:",
-    
-  },
-  {
-    "text": "As a Real-Time Operations Engineer, my responsibility was to act quickly to help stabilize the grid and prevent cascading failures by shedding the appropriate amount of load, ensuring the system remained within safe frequency limits.",
-    
-  },
-  {
-    "text": "⚡ Action: 1. Immediate Communication: I immediately notified ERCOT and coordinated with system operators and generation dispatch to confirm real-time system conditions. 2. Analyzed Frequency Trends: I reviewed real-time SCADA data to assess the trend of frequency decline and identified the most effective locations for load shedding. 3. Implemented Load Shedding: • Recommended targeted shedding of non-critical industrial loads. • Verified which circuits could be de-energized with minimal impact to essential services. 4. Restored Balance: Once frequency started recovering, I ensured incremental restoration of shed load to avoid secondary frequency fluctuations. 5. Post-Incident Review: After stabilizing the system, I worked with ERCOT and the operations team to conduct a post-event analysis, identifying areas for improving response times in future incidents.",
-    
-  },
-  {
-    "text": "🏆 Result:",
-    
-  },
-  {
-    "text": "✅ The grid frequency was restored above critical levels, avoiding an ERCOT-triggered rolling blackout event. ✅ No major customer disruptions beyond the planned load-shedding measures. ✅ The incident review led to improvements in automatic load-shedding protocols, reducing future response times. ✅ I was recognized by my manager for my quick decision-making under pressure and for ensuring system stability in a high-stakes situation.",
-    
-  },
-  {
-    "text": "🔹 Leadership Principles Demonstrated: • Bias for Action: Took immediate steps to mitigate risk without hesitation. • Deliver Results: Successfully prevented a major grid reliability event. • Ownership: Acted proactively in a critical real-time scenario. • Dive Deep: Analyzed frequency trends to determine optimal load-shedding strategy. Would I have done anything differently? Yes, after the event, I worked with my team to develop pre-configured load-shedding scenarios based on different frequency thresholds. This would allow operators to automate portions of the response in the future, reducing manual decision-making time and ensuring even faster action when every second matters.",
-    
-  },
-  {
-    "text": "📌 STAR Interview Story Cheat Sheet – Quick Reference Guide 🚀 1️⃣ SCADA System Switchover During SOCC Failure",
-    
-  },
-  {
-    "text": "🔹 Question: Tell me about a time when you acted quickly under pressure to solve a problem. ⭐ Situation: SCADA system (SOCC) failed, turning my screen red, indicating loss of real-time monitoring. 🎯 Task: Quickly restore SCADA by switching to the backup system (BOCC) to prevent operational disruption. ⚡ Action: ✅ Notified SCADA EMS supervisor and control room. ✅ Followed system switchover checklist and ensured all RTUs remained operational. ✅ Monitored transition for data consistency. 🏆 Result: Avoided major operational failure, maintained control & monitoring. Recognized by leadership for fast response. 🔹 Leadership Principles: Bias for Action, Deliver Results, Ownership, Dive Deep. 2️⃣ Load Shedding – Emergency Response",
-    
-  },
-  {
-    "text": "🔹 Question: Tell me about a time when you had to gather information and respond immediately to a situation. ⭐ Situation: System frequency dropped to 59.91 Hz, triggering an imminent load-shedding response to avoid a widespread blackout. 🎯 Task: Ensure grid stability by implementing targeted load shedding while minimizing customer impact. ⚡ Action: ✅ Identified circuits to shed with minimal impact to essential services. ✅ Communicated with ERCOT & system operators for coordinated action. ✅ Implemented incremental restoration after frequency stabilized. 🏆 Result: Grid stabilized, no ERCOT-triggered rolling blackouts, post-event improvements made for faster response. 🔹 Leadership Principles: Bias for Action, Deliver Results, Dive Deep, Ownership. 3️⃣ Disagreement on Dynamic Ratings for Jumpers (Temporary Equipment Causing Congestion)",
-    
-  },
-  {
-    "text": "🔹 Question: Describe a time when you needed to influence a peer who had a differing opinion about a shared goal. What did you do? What was the outcome? ⭐ Situation: A temporary jumper was modeled as a static-rated line, causing congestion & conflicting study results. Others dismissed my concern, stating it wasn’t a “real” line. 🎯 Task: Advocate for dynamic ratings in the model to prevent congestion & ensure real-time & future study accuracy. ⚡ Action: ✅ Presented historical congestion cases & financial losses (~$10M in 10 days) due to similar rating issues. ✅ Engaged the principal engineer for additional technical validation. ✅ Provided data-backed evidence to show how dynamic ratings improve grid optimization & reduce unnecessary congestion costs. 🏆 Result: Dynamic ratings implemented, avoiding congestion & preventing future audit issues. Recognized for analytical approach & leadership. 🔹 Leadership Principles: Earn Trust, Dive Deep, Have Backbone & Commit. 4️⃣ AI & Machine Learning for Power Systems",
-    
-  },
-  {
-    "text": "🔹 Question: Give me an example of an initiative you undertook that wasn’t part of any group’s responsibility but benefited the company/customers. ⭐ Situation: Strict compliance barriers made AI initiatives difficult in power system operations. No one was taking ownership of launching AI experiments. 🎯 Task: Work across departments (Operations, Corporate Strategy, SCADA, Protection) to initiate AI pilot projects & encourage leadership buy-in. ⚡ Action: ✅ Identified AI use cases: Fault detection, SCADA decision-making, large language model (LLM) for compliance reference, load forecasting. ✅ Engaged corporate strategy analyst & encouraged MSAI enrollment to build AI expertise internally. ✅ Launched pilot projects to demonstrate feasibility within compliance limitations. 🏆 Result: Initiated first AI experiments in company history, built cross-functional AI advocacy, and drove future roadmap discussions. 🔹 Leadership Principles: Think Big, Invent & Simplify, Bias for Action. 5️⃣ PEC Transition to Independent TSP",
-    
-  },
-  {
-    "text": "🔹 Question: Tell me about a time when you had to communicate a change in direction that you anticipated people would have concerns with. ⭐ Situation: PEC transitioning to independent Transmission Service Provider (TSP) required major network model updates & coordination with ERCOT. 🎯 Task: Ensure smooth transition while mitigating concerns about impact on existing operations & compliance requirements. ⚡ Action: ✅ Led cross-team discussions with planning, operations & ERCOT. ✅ Created transition roadmap & risk analysis to ensure seamless execution. ✅ Provided technical validation & documentation to prevent ERCOT modeling conflicts. 🏆 Result: Transition completed successfully, no operational issues, ERCOT approved updates without delays. 🔹 Leadership Principles: Earn Trust, Dive Deep, Deliver Results. 6️⃣ Rating Discrepancies Between Models – Audit Preparation",
-    
-  },
-  {
-    "text": "🔹 Question: Tell me about a time when you refused to compromise on quality standards. ⭐ Situation: Discrepancies in transformer ratings across different models (steady-state, dynamic, real-time) risked audit compliance violations. 🎯 Task: Ensure consistent equipment ratings across all models to prevent operational errors. ⚡ Action: ✅ Conducted spot checks on ratings across all models. ✅ Identified typos & propagated errors in multiple systems. ✅ Worked with multiple teams (steady-state modeling, dynamics, real-time operations) to align data sources. 🏆 Result: Audit passed without findings, ensuring accurate system analysis & avoiding regulatory fines. 🔹 Leadership Principles: Insist on the Highest Standards, Dive Deep, Deliver Results. 7️⃣ Waterloo Interconnection – Costumer POI Changes",
-    
-  },
-  {
-    "text": "🔹 Question: Describe a difficult interaction you had with a customer. How did you deal with it? What was the outcome? ⭐ Situation: A customer changed their point of interconnection (POI) three times, creating delays and inefficiencies in the interconnection study. 🎯 Task: Find the best POI configuration that balances cost, reliability & feasibility while keeping the customer engaged. ⚡ Action: ✅ Collaborated with substation, transmission, and scoping teams for POI evaluation. ✅ Developed comparative analysis for the customer with cost/benefit breakdown. ✅ Proposed optimal POI, saving ~$8M in infrastructure costs. 🏆 Result: Customer agreed to final POI selection, reducing delays & unnecessary costs. 🔹 Leadership Principles: Customer Obsession, Earn Trust, Dive Deep. 8️⃣ Large Load Interconnection – Optimizing Capacitor Bank Placement",
-    
-  },
-  {
-    "text": "🔹 Question: Give me an example of when you were able to anticipate a customer need with a solution they didn’t know they needed. ⭐ Situation: A principal engineer planned to install 7 capacitor banks to mitigate voltage drop for a 150MW load interconnection, but I suspected overengineering. 🎯 Task: Evaluate whether existing capacitor infrastructure could stabilize voltage before approving new construction. ⚡ Action: ✅ Reviewed power flow settings & found that automatic capacitor switching was disabled. ✅ Enabled automatic capacitor switching and found only 2 capacitor banks were needed instead of 7. ✅ Avoided millions in unnecessary construction & prevented additional outages. 🏆 Result: Cost savings, fewer customer disruptions, & more optimized voltage support. 🔹 Leadership Principles: Frugality, Think Big, Dive Deep. 🚀 Quick Use Tips:",
-    
-  },
-  {
-    "text": "🔹 Have Backbone, Disagree & Commit? → Dynamic ratings for jumpers, interconnection changes. 🔹 Bias for Action? → SCADA switchover, load shedding, AI initiative. 🔹 Customer Obsession? → Operator training improvements, interconnection studies. 🔹 Think Big? → AI, automation, capacitor bank optimization. 🔹 Deliver Results? → Audit preparation, PEC transition, SCADA fix. This cheat sheet should help you recall key stories quickly during the interview. Let me know if you want any refinements or additions! 🚀",
-    
-  },
-  {
-    "text": "Amazon STAR Interview Stories – Quick Reference Cheat Sheet",
-    
-  },
-  {
-    "text": "This cheat sheet provides a STAR (Situation, Task, Action, Result) summary in a star-shaped format for quick recall during interviews. ⭐ SCADA System Failure – Emergency Switchover",
-    
-  },
-  {
-    "text": "📍 Situation: SCADA failed, risking real-time grid control. 🎯 Task: Restore monitoring/control before cascading failures. ⚡ Action: Switched operations to backup SCADA, notified stakeholders, ensured RTUs were online. 🏆 Result: Prevented grid instability, recognized for leadership. 🔹 Principles: Bias for Action, Deliver Results, Ownership, Dive Deep ⭐ Waterloo Load Interconnection – Customer Dispute & $8M Savings",
-    
-  },
-  {
-    "text": "📍 Situation: Customer changed POI 3 times, causing delays/cost increases. 🎯 Task: Identify an optimal POI that balances cost, feasibility, and grid stability. ⚡ Action: Collaborated with Substation & Transmission Engineering, provided comparative analysis. 🏆 Result: Found the best POI, saving $8M in construction costs. 🔹 Principles: Customer Obsession, Dive Deep, Frugality, Earn Trust ⭐ AI Adoption – Driving Innovation in Power Systems",
-    
-  },
-  {
-    "text": "📍 Situation: No AI initiatives due to compliance concerns. 🎯 Task: Explore AI use cases for SCADA telemetry & load forecasting. ⚡ Action: Engaged Operations, Software, and Corporate Strategy, launched AI pilot projects. 🏆 Result: Secured internal buy-in, led first AI experiments in the company. 🔹 Principles: Think Big, Invent and Simplify, Bias for Action, Earn Trust ⭐ Black Start Simulation – Conflict Resolution & Leadership",
-    
-  },
-  {
-    "text": "📍 Situation: Disagreement during Black Start Training on proper procedure. 🎯 Task: Ensure accurate execution based on grid restoration standards. ⚡ Action: Verified procedures, presented findings to leadership. 🏆 Result: Proved correctness, gained trust from senior engineers. 🔹 Principles: Earn Trust, Have Backbone, Dive Deep ⭐ Audit Preparation – Catching Rating Discrepancies",
-    
-  },
-  {
-    "text": "📍 Situation: Equipment ratings in SCADA, Planning & Operations models didn’t match. 🎯 Task: Identify and resolve discrepancies before audits. ⚡ Action: Cross-checked models, found & corrected multiple rating errors. 🏆 Result: Avoided regulatory penalties, improved data accuracy. 🔹 Principles: Dive Deep, Ownership, Deliver Results ⭐ PEC Transition – Navigating Organizational Change",
-    
-  },
-  {
-    "text": "📍 Situation: PEC transitioning to an Independent TSP, impacting operations. 🎯 Task: Ensure smooth integration with ERCOT without system disruptions. ⚡ Action: Attended ERCOT stakeholder meetings, aligned models with new standards. 🏆 Result: Transition completed without compliance violations. 🔹 Principles: Deliver Results, Earn Trust, Ownership ⭐ AI for Grid Optimization – Innovating Without a Mandate",
-    
-  },
-  {
-    "text": "📍 Situation: Compliance barriers stalled AI adoption in power systems. 🎯 Task: Prove AI’s value through real-world use cases. ⚡ Action: Developed AI prototypes for fault detection & forecasting, involved leadership. 🏆 Result: AI discussions became a company initiative, first AI projects launched. 🔹 Principles: Think Big, Invent and Simplify, Bias for Action ⭐ Operator Training – Going Beyond My Role",
-    
-  },
-  {
-    "text": "📍 Situation: Operator training lacked real-world simulation accuracy. 🎯 Task: Improve Real-Time Assessment (RTA) training for system operators. ⚡ Action: Worked directly in operations, gathered feedback, redesigned training. 🏆 Result: Operators better prepared for real incidents, improved grid reliability. 🔹 Principles: Customer Obsession, Ownership, Dive Deep ⭐ Planning Ratings – Prioritizing Urgent Needs",
-    
-  },
-  {
-    "text": "📍 Situation: Needed to update operational, future construction, and planning ratings. 🎯 Task: Prioritize operational ratings due to real-time impact. ⚡ Action: Submitted ratings in priority order, ensuring compliance and accuracy. 🏆 Result: Prevented operational confusion, met all deadlines. 🔹 Principles: Deliver Results, Bias for Action, Dive Deep ⭐ Emergency Load Shedding – Acting Under Pressure",
-    
-  },
-  {
-    "text": "📍 Situation: Grid frequency dropped dangerously low (59.91 Hz). 🎯 Task: Shed load resources quickly to stabilize the grid. ⚡ Action: Worked with ERCOT & operators to implement immediate load shedding. 🏆 Result: Prevented cascading failures, ensured system stability. 🔹 Principles: Bias for Action, Deliver Results, Ownership",
-    
-  },
-  {
-    "text": "💡 Tip: Use this STAR format to recall stories quickly and align them with Amazon’s Leadership Principles during your interview! 🚀 Handling a Last-Minute Project Delay – Circuit Switcher Upgrade (NOMCR Submission)",
-    
-  },
-  {
-    "text": "🔹 Question: Give me an example of a time when you were not able to meet a commitment. What was the commitment, and what were the obstacles that prevented success? What was the impact to your customers/peers, and what did you learn from it? ⭐ Situation:",
-    
-  },
-  {
-    "text": "I was responsible for submitting a Network Operations Model Change Request (NOMCR) four months ahead of time for a circuit switcher upgrade project. This ensured the new configuration would be in the operational model right after retiring the old equipment and before energizing the new one.",
-    
-  },
-  {
-    "text": "To ensure everything was on track: ✅ I attended project meetings and tracked the progress. ✅ I monitored the outage scheduler for planned energization. ✅ I reviewed meeting notes the day before the energization date.",
-    
-  },
-  {
-    "text": "However, on the scheduled energization date, I noticed the equipment was not appearing in the model as expected. ERCOT reached out asking why they were not receiving ICCP data for the old or new equipment. 🎯 Task:",
-    
-  },
-  {
-    "text": "I needed to ensure seamless transition between the old and new configurations while keeping ERCOT and LCRA operators informed. However, the last-minute project delay prevented me from making the necessary adjustments in time. Since interim modeling changes take three weeks to process, there was no quick fix.",
-    
-  },
-  {
-    "text": "The root cause was a lack of communication from the Project Manager (PM)—even he was unaware of the delay until the day of the scheduled energization. ⚡ Action:",
-    
-  },
-  {
-    "text": "Since I was already too late to submit a corrective NOMCR for the operational model, I had to quickly find an alternative solution to minimize operational confusion:",
-    
-  },
-  {
-    "text": "✅ Communicated directly with ERCOT & internal operators to inform them of the situation. ✅ Created temporary ICCP links to manually update ERCOT with real-time data. ✅ Added notes on SCADA displays to inform LCRA operators & engineers about the delay and direct them to use the old configuration until the new one was energized. ✅ Developed a backup modeling strategy: going forward, I ensured that both the old and new configurations would remain in the model until the project was confirmed complete. This way, if a project was delayed, operators could still use the old equipment without disruption. 🏆 Result:",
-    
-  },
-  {
-    "text": "✅ Prevented operational confusion by ensuring the old configuration remained usable. ✅ Maintained clear communication with ERCOT, preventing delayed model updates from affecting reliability. ✅ Created a long-term process improvement to account for last-minute project delays. 🎯 Lessons Learned & Improvements:",
-    
-  },
-  {
-    "text": "🔹 I implemented a contingency plan for future projects by ensuring both old and new configurations remain in the model until energization is confirmed. 🔹 Proactively followed up with PMs beyond meetings to ensure fieldwork was progressing as planned. 🔹 Advocated for a tracking system that provides real-time updates on fieldwork progress to avoid future miscommunication. 🔹 Leadership Principles Demonstrated:",
-    
-  },
-  {
-    "text": "✅ Deliver Results – Ensured operators and ERCOT had accurate data despite delays. ✅ Dive Deep – Investigated the root cause and implemented a long-term fix. ✅ Ownership – Took initiative to solve an issue caused by poor communication. ✅ Earn Trust – Kept stakeholders informed and developed a fail-safe modeling strategy. This STAR response highlights problem-solving, proactive communication, and process improvement—all critical qualities for Amazon. 🚀 Let me know if you’d like any refinements!",
-    
-  },
-  {
-    "text": "Day two when I was operation training instructor at ERCOT, I went beyond my responsibility by not only preparing the cases before the simulation start, I also covered for the absents TOs and QSEs and ERCOT operators. This training is has been recognized as the biggest training simulation in Texas.",
-    
-  },
-  {
-    "text": "my task was to prepare the cases and facilitate in the simulation.",
-    
-  },
-  {
-    "text": "the actions i took were : prepare the cases by setting up the black start units and power flow settings, setting the cold load pick up at *2 nominal. facilitate in simulations and answer questions if any. report the simulations issues operators facing and escaladed them to EMS /DTS support. fill the gaps in the simulation, if any operator was absent, follow their black start and execute it. on day one, i filled in for the QLCRA, I started the black start unit writs, i put it on isynchronous mode and coordinated with LCRATO whenever he wanted to pick up loads I would ramp up my unit . I keep the unit within its limit I let them know about my max unit capability so he can only picks up loads up to 5% of my 20mw unit which is 1 mw at a time or my unit would trip. one day two, i filled in for TLCRA i continued picking up loads till i made it to the next start unit at Ferguson, I told QLCRA to take the black start unit off the isochronous mode closed the breaker when the angles and voltages were right and synched up my black start unit and next start unit and put them on Automatic generation mode. I continued picking up loads at more speed as I could pick up up to 5% of total capacity of my generators on AGC. I continiued following black start plan and made parallel ways to stabalize my island, I  tried to synch with the neighboring islands such as centerpoint, Austin Energy, AEP, STEC to have more stable island. I help Centerpoint to have more stable island so they can deliver shut down power to the STP nuclear unit quicker which should be within 8 hours. one day 3 I played the shift engineer role for ERCOT and helped the islands synchrnize and go to constant frequency control and eventualy to the coordinated with Qlumen and NRG which had the largest regulation up and down to sync and Q lumen stayed on CFC and NRG of CFC, on the last day as there were more intertia in the system system was much more stable and they were able to quickly transfer mode to Load frequency control. ERCOT eventually took over and started using emergency basepoints to the generators and later on market opened and SCED was running. Also at the end of the training I picked up the rubricks and costumer feedbacks (operators) to be able to integrate them in future trainings. I escladed the operators feedbacks about the issues such as loads that were performing like a generator or breakers not wroking or the frustration about loosing all the island when making a mistake and starting over to leardership and ems operation engineers. as result i was able to preform direct roles before during and after the simulation and filled in the gaps in the simulation and integrated the feedbacks in future simulations and have them fixed before the next week simulation. Tell me about a time when you went above and beyond for a customer. Why did you do it? How did the customer respond? What was the outcome?",
-    
-  },
-  {
-    "text": "Situation:",
-    
-  },
-  {
-    "text": "I was responsible for preparing and facilitating the Black Start simulation, the largest simulation training in Texas, designed to prepare operators for real-world blackout restoration scenarios. This week-long simulation involved ERCOT, Transmission Operators (TOs), Qualified Scheduling Entities (QSEs), and operators from multiple utilities.",
-    
-  },
-  {
-    "text": "However, during the simulation, several key participants were absent, including TOs, QSEs, and ERCOT operators, which could have jeopardized the training’s effectiveness. Without these roles being filled, operators would not get the hands-on experience needed to restore power in an actual blackout.",
-    
-  },
-  {
-    "text": "Task:",
-    
-  },
-  {
-    "text": "My original role was to prepare the training cases and facilitate the simulation, ensuring that the power system models were properly set up and that the simulation ran smoothly. However, recognizing the risk of having critical gaps in the exercise, I took ownership beyond my responsibility to fill the missing roles and ensure that the simulation remained valuable for the operators.",
-    
-  },
-  {
-    "text": "Action:",
-    
-  },
-  {
-    "text": "✅ Case Preparation: • Set up Black Start units and power flow settings. • Adjusted cold load pickup to account for 2x nominal conditions to reflect real-world restoration.",
-    
-  },
-  {
-    "text": "✅ Facilitated the Simulation: • Guided participants through the process, addressing technical questions and troubleshooting. • Escalated simulation issues (e.g., incorrect breaker operations, load behavior, etc.) to EMS/DTS support for resolution.",
-    
-  },
-  {
-    "text": "✅ Filled Critical Gaps in the Simulation: • Day 1: Played the role of QLCRA (Generation Operator) – Started the Black Start unit and carefully managed load pickup while ensuring system stability. • Day 2: Acted as TLCRA (Transmission Operator) – Picked up loads, synchronized units, and stabilized the system before integrating with neighboring islands. • Day 3: Took on the ERCOT Shift Engineer role – Coordinated system-wide interconnection between CenterPoint, Austin Energy, AEP, and STEC and transitioned the system from local control to Constant Frequency Control (CFC). • Final Day: Oversaw the transition to Load Frequency Control (LFC) as ERCOT resumed normal operations.",
-    
-  },
-  {
-    "text": "✅ Post-Simulation Feedback & Improvement: • Gathered rubrics and feedback from operators to improve future training. • Escalated operator concerns (e.g., incorrect load behaviors, breaker malfunctions) to leadership and EMS engineers for fixes. • Proposed and implemented enhancements in EMS/DTS systems before the next simulation to improve accuracy.",
-    
-  },
-  {
-    "text": "Result: • Recognized as the largest simulation training in Texas, successfully training hundreds of operators to handle real-world blackout scenarios. • Operators were better equipped to restore power quickly and efficiently, improving Texas’s grid resilience. • Identified critical EMS/DTS system gaps, leading to improvements that made future simulations more effective. • Earned leadership recognition for my initiative, ownership, and problem-solving in ensuring the simulation’s success.",
-    
-  },
-  {
-    "text": "Leadership Principles Demonstrated:",
-    
-  },
-  {
-    "text": "✅ Ownership – Took responsibility beyond my assigned role to ensure the training’s success. ✅ Customer Obsession – Focused on operators’ learning experience and adjusted the training based on real-world needs. ✅ Bias for Action – Immediately stepped in to fill critical gaps when key participants were missing. ✅ Deliver Results – Ensured that ERCOT, TOs, and QSEs received valuable, high-quality training. ✅ Insist on the Highest Standards – Escalated technical and training gaps to EMS/DTS support for continuous improvement. This is a strong ownership story with clear impact on grid reliability and training effectiveness. Would you like to refine any details? 🚀 SBEC transition – SBEC left LCRA and Joined STEC. Situation  LCRA for years supported SBEC. LCRA and its other costumers including the SBEC were one of the few utilities that suffered the least from the winter storm in 2021 Feburary. SBEC decided to Join STEC to gain their larger scale power generation and transmission infrastructure. there were about 20 substations with 350 equipment such as lines, breakers, switches etc. in the scope of the transition. Performing the transition on time and accurately was very important for maintaining grid reliability. my task was to identify the equipment and verify the ownerships of euqipments and swap the LCRA ICCPs for these equipment with update STEC version.",
-    
-  },
-  {
-    "text": "Pre transition : I manually verified and checked the equipment ownerships based on the subsation one line diagrams. Collaborated with ERCOT, SBEC and STEC for scheduling the transition one substation at a time every week. Created a python GUI tool for swapping the LCRA ICCP names with STEC ones. Submitted A Collaborative Action model request (CAMR) to swap the Ownership and ICCPs in ERCOT model according the schedule. During transition : on the day of each substation and equipement I swapped the ICCPs in real time system and update the TSM model in EMS. post transition, identified and troubleshooted the none functional items that ERCOT had missed in the CAMR and submitted NOMCRs Network model change requests to ERCOT to fix them.  As result the transitioned went smoothly and leadership recognized my effort in the safety meeting.  also my python tool was used for the next transition for PEC transition and made it faster and more accurate.",
-    
-  },
-  {
-    "text": "PEC Transition: Ensuring a Smooth Transfer of Grid Ownership",
-    
-  },
-  {
-    "text": "Question:",
-    
-  },
-  {
-    "text": "“Tell me about a time when you took on something significant outside your area of responsibility. Why was it important? What was the outcome?” Situation:",
-    
-  },
-  {
-    "text": "LCRA had supported SBEC for years, providing transmission and operational support. In the aftermath of the 2021 February winter storm, SBEC decided to transition to STEC, seeking a larger-scale power generation and transmission infrastructure. This transition involved approximately 20 substations and 350 pieces of equipment (lines, breakers, switches, etc.), requiring seamless data migration and operational updates to maintain grid reliability and avoid operational disruptions.",
-    
-  },
-  {
-    "text": "The transition was highly complex and time-sensitive, requiring coordination between LCRA, ERCOT, SBEC, and STEC. Any errors or delays could jeopardize real-time system operations, ICCP data exchange, and network model integrity. Task:",
-    
-  },
-  {
-    "text": "My role was to: ✅ Identify and verify ownership of all equipment transitioning from LCRA to STEC. ✅ Swap the LCRA ICCP (Inter-Control Center Protocol) data points with STEC’s updated versions. ✅ Ensure ERCOT’s network model was updated accurately for a smooth transition.",
-    
-  },
-  {
-    "text": "This was critical for maintaining real-time grid operations and ensuring ERCOT had accurate visibility and control of these substations. Action:",
-    
-  },
-  {
-    "text": "🔹 Pre-Transition: ✔ Manually verified and checked equipment ownership by reviewing substation one-line diagrams. ✔ Collaborated with ERCOT, SBEC, and STEC to schedule substation-by-substation transitions on a weekly basis. ✔ Developed a Python GUI tool that automated ICCP name swaps, reducing manual errors and making the transition faster. ✔ Submitted a Collaborative Action Model Request (CAMR) to ERCOT to update ownership and ICCP mappings in the ERCOT network model.",
-    
-  },
-  {
-    "text": "🔹 During Transition: ✔ On each substation’s transition date, I manually swapped ICCPs in real-time EMS and updated the TSM model. ✔ Monitored SCADA telemetry and confirmed data integrity post-swap.",
-    
-  },
-  {
-    "text": "🔹 Post-Transition: ✔ Identified and troubleshooted non-functional ICCPs that ERCOT missed in the CAMR. ✔ Submitted Network Model Change Requests (NOMCRs) to fix any inconsistencies in ERCOT’s model. ✔ Provided documentation and lessons learned to improve future transitions. Result:",
-    
-  },
-  {
-    "text": "🏆 Successful & Seamless Transition – The entire process was executed smoothly, preventing grid disruptions or loss of visibility. 🏆 Leadership Recognition – My work was acknowledged in a company-wide safety meeting for ensuring a flawless transition. 🏆 Reusable Python Tool – My automation tool was later adopted for the PEC transition, making future transitions faster and more accurate. Amazon Leadership Principles Demonstrated:",
-    
-  },
-  {
-    "text": "✅ Ownership – Took full responsibility for ensuring accuracy and preventing operational risk. ✅ Invent and Simplify – Developed a Python tool to automate ICCP swaps, improving accuracy and efficiency. ✅ Deliver Results – Ensured a seamless transition without disruptions to ERCOT operations. ✅ Dive Deep – Manually verified equipment ownership and troubleshooted post-transition issues to ensure a robust outcome. Would You Like Any Refinements? 🚀 The Bar Raiser interview is usually the most challenging part of Amazon’s hiring process. The Bar Raiser is not part of the hiring team and is an independent Amazon employee trained to ensure that new hires raise the talent bar. Their main goal is to assess whether you will contribute beyond just filling the role and whether you align with Amazon’s Leadership Principles (LPs) at a high level.",
-    
-  },
-  {
-    "text": "What to Expect in the Bar Raiser Interview 1. Deep Dive into Leadership Principles • The Bar Raiser will probe deeper into how you exhibit Amazon’s Leadership Principles beyond just your technical or functional expertise. • Expect follow-up questions that dig into the depth of your impact, decisions, and thought process. 2. Behavioral & Situational Questions • The questions will likely focus on Ownership, Think Big, Customer Obsession, Invent & Simplify, Deliver Results, and Bias for Action. • They might challenge your responses to see if you can defend your decisions and analyze the trade-offs you made. 3. Follow-up & Clarification Questions • The Bar Raiser will pressure-test your answers with follow-ups like: • “What would you have done differently?” • “How did you measure success?” • “Tell me about another time you faced a similar situation and handled it differently.” • “How did you prioritize competing demands?” • They want to see if your actions were intentional, repeatable, and scalable. 4. Assessing Long-Term Thinking & Business Impact • They will assess if you think strategically beyond your immediate role. • Questions may focus on scalability, automation, efficiency, and long-term results. Questions Likely to Come Up in the Bar Raiser Round",
-    
-  },
-  {
-    "text": "Here are 6 high-probability Bar Raiser questions mapped to Amazon’s Leadership Principles:",
-    
-  },
-  {
-    "text": "1. Tell me about a time when you took on something significant outside your area of responsibility. • LP: Ownership, Think Big • Example Story: SBEC Transition → Led the ICCP model transition for 350+ equipment, developed a Python tool, collaborated with ERCOT/STEC, and ensured a smooth transition.",
-    
-  },
-  {
-    "text": "2. Tell me about a time when you proposed a novel approach to a problem. • LP: Invent & Simplify, Think Big • Example Story: Python Generator Modeling Tool → Automated study data entry, reduced errors, and improved efficiency across multiple teams.",
-    
-  },
-  {
-    "text": "3. Tell me about a time when you had to make a decision with limited data. • LP: Bias for Action, Deliver Results • Example Story: EMS SCADA Switchover → Had to improvise quickly during a critical SCADA switchover by checking real-time node connectivity & ICCP.",
-    
-  },
-  {
-    "text": "4. Describe a time when you had to influence a senior leader or a peer who disagreed with you. • LP: Earn Trust, Insist on the Highest Standards • Example Story: Jumper Modeled as a Line (Dynamic Ratings Disagreement) → Convinced Operations & Planning teams to adjust ratings, preventing a $10M congestion event.",
-    
-  },
-  {
-    "text": "5. Tell me about a time when you had to communicate a difficult change and get buy-in from a resistant group. • LP: Earn Trust, Customer Obsession • Example Story: Black Start Simulation Enhancements → Integrated operator feedback, improved realism, and escalated concerns to leadership.",
-    
-  },
-  {
-    "text": "6. Describe a time when you had to deliver an important project under a tight deadline. • LP: Deliver Results, Bias for Action • Example Story: Tesla Giga Factory Interconnection → Modeled temporary & permanent solutions to expedite power delivery, ensuring Tesla’s operations remained uninterrupted. How to Prepare for the Bar Raiser",
-    
-  },
-  {
-    "text": "✅ Have Strong Stories for All Leadership Principles • The Bar Raiser will look for breadth and depth in your experience. • Have backup examples if they probe deeper into a principle.",
-    
-  },
-  {
-    "text": "✅ Be Ready for Follow-Ups & Scrutiny • If they challenge your decision-making, justify your trade-offs and impact.",
-    
-  },
-  {
-    "text": "✅ Use Metrics & Business Impact • Amazon values data-driven decisions—mention savings, efficiency, or customer impact.",
-    
-  },
-  {
-    "text": "✅ Show Scalability & Long-Term Thinking • Did your solution influence future processes? • How did it set a new standard or drive innovation? Final Thoughts",
-    
-  },
-  {
-    "text": "Your SBEC Transition, Tesla Giga Factory, Black Start Simulation, and Python Generator Tool stories are strong for this round. Bar Raisers look for people who challenge the status quo and push for innovation.",
-    
-  },
-  {
-    "text": "Would you like me to refine your responses for mock interview practice? 🚀’",
-    
-  },
-  {
-    "text": "Tesla Giga Factory Interconnection - STAR Response",
-    
-  },
-  {
-    "text": "Leadership Principle: Bias for Action, Deliver Results, Think Big Potential Question: Tell me about a time when you had significant, unanticipated obstacles to overcome in achieving a key goal. What was the obstacle? Were you eventually successful? ⭐ Situation",
-    
-  },
-  {
-    "text": "Tesla was rapidly expanding and needed power as quickly as possible to maintain its production schedule. Our goal was to provide a reliable and fast power interconnection by tying an LCRA substation to two AEN circuits, initially using a temporary solution while working toward a permanent resolution. 🎯 Task",
-    
-  },
-  {
-    "text": "I was responsible for modeling both the temporary and permanent arrangements for the Hornsby Substation, ensuring that Tesla had continuous and stable power while the transition to the permanent setup was underway. 🚀 Action 1. Developed the Temporary Solution Quickly • Modeled a 138kV Hornsby substation connected to two AEN circuits using four 56MVA autotransformers. • Ensured power flow from Sandhill and Decker plants to stabilize Tesla’s load. 2. Designed & Modeled the Permanent Solution • Planned and modeled a 345kV breaker-and-a-half substation cut between Gilliland Creek and Clearspring, ensuring higher reliability and long-term scalability. • Connected Tesla’s new giga line to the 345kV substation, allowing for greater load capacity and redundancy. 3. Retirement & Future Expansion Considerations • Retired the 138kV portion of Hornsby and its autotransformers as the permanent 345kV solution came online. • Later modeled the John Dumas Generators, which provided additional generation capacity to meet Tesla’s growing power demands. 🎯 Result • Accelerated the timeline for Tesla’s interconnection, ensuring power was delivered faster than expected. • Guaranteed continuous power, avoiding costly downtime for Tesla’s high-speed production lines. • The permanent 345kV infrastructure provided scalability and long-term grid stability, supporting Tesla’s expansion plans. 💡 Why This Fits the Leadership Principles?",
-    
-  },
-  {
-    "text": "✅ Bias for Action – Acted quickly to model the temporary solution, preventing delays in Tesla’s power needs. ✅ Deliver Results – Successfully implemented both short-term and long-term solutions while ensuring grid reliability. ✅ Think Big – The transition from a temporary 138kV setup to a 345kV substation and new generators created future-proof power infrastructure for Tesla. Would you like to refine this further or map it to another STAR question? 🚀 Mapping Your Day 2 Stories to Amazon Leadership Principles & Questions",
-    
-  },
-  {
-    "text": "Based on your Tesla, SBEC Transition, Black Start Simulation, Generator Modeling Python Tool, and AI Initiative, here’s how they align with questions they haven’t asked yet: 📌 Customer Obsession",
-    
-  },
-  {
-    "text": "Question: Tell me about a time when you evaluated the customer experience of your product or service. What did you do? What was the result? • Best Fit: Black Start Simulation • Why? You incorporated operator feedback, filled in for absent personnel, and escalated technical issues to EMS/DTS support, improving future grid restoration training. • How to Position? • Your goal was to ensure a realistic and effective simulation experience for operators. • You proactively gathered feedback, documented pain points (e.g., load issues, frustrating resets), and recommended fixes for future simulations.",
-    
-  },
-  {
-    "text": "Question: Give me an example of when you were able to anticipate a customer need with a solution/product they didn’t know they needed/wanted yet. How did you know they needed this? How did they respond? • Best Fit: Generator Modeling Python Tool • Why? You developed a Python tool to automate the generator modeling process, addressing inefficiencies that engineers hadn’t even recognized yet. • How to Position? • Engineers used a manual approach, which was time-consuming and error-prone. • You automated it, making modeling faster and more accurate, reducing errors and processing time. • The tool was adopted beyond your initial use case, proving its value. 📌 Ownership",
-    
-  },
-  {
-    "text": "Question: Tell me about a time when you took on something significant outside your area of responsibility. Why was it important? What was the outcome? • Best Fit: SBEC Transition • Why? You took the lead on a high-visibility project that wasn’t directly your responsibility, ensuring a smooth ICCP transition for 350+ assets. • How to Position? • You verified asset ownership, coordinated ERCOT, SBEC, and STEC, and built a Python tool for faster ICCP swaps, making future transitions easier. • Leadership recognized your effort in a safety meeting because of the project’s complexity and success.",
-    
-  },
-  {
-    "text": "Question: Give me an example of an initiative you undertook because you saw that it could benefit the whole company or your customers, but wasn’t within any group’s individual responsibility so nothing was being done. • Best Fit: AI Initiative • Why? You spearheaded the introduction of AI into power systems, despite strict compliance barriers. • How to Position? • You collaborated with Operations, SCADA, Protection, and Strategy teams to explore AI use cases, such as fault detection and load forecasting. • You mentored a Corporate Strategy Analyst and convinced leadership to experiment with AI applications, opening new doors for innovation. 📌 Invent & Simplify",
-    
-  },
-  {
-    "text": "Question: Give me an example of a complex problem you solved with a simple solution. What made the problem complex? How do you know your solution addressed the problem? • Best Fit: Generator Modeling Python Tool • Why? The manual generator modeling process was inefficient, and you automated it with Python, making it more accurate and scalable. • How to Position? • The problem was complex due to manual errors, time-consuming steps, and inconsistencies. • You simplified it by automating the process, ensuring accuracy and consistency across models.",
-    
-  },
-  {
-    "text": "Question: Tell me about a time when you were able to make something simpler for customers. What drove you to implement this change? What was the impact? • Best Fit: SBEC Transition Python Tool • Why? Manually updating ICCPs and ownership transfers was tedious. You built a tool that automated the process, saving time and improving accuracy. • How to Position? • Before: Manual, error-prone, and slow. • After: Automated, accurate, and faster. • Your tool was used in future transitions (PEC transition), proving its long-term impact. 📌 Think Big",
-    
-  },
-  {
-    "text": "Question: Give me an example of how you have changed the direction or view of a specific function/department and helped them embrace a new way of thinking. Why was a change needed? What was the outcome? • Best Fit: AI Initiative • Why? You introduced AI concepts to a compliance-heavy environment, shifting company mindset toward innovation. • How to Position? • You educated leadership on AI’s potential, despite initial resistance. • You collaborated across departments to launch experimental AI projects, demonstrating its practical benefits. • This effort paved the way for AI adoption in power systems. 📌 Bias for Action",
-    
-  },
-  {
-    "text": "Question: Give me an example of a calculated risk that you have taken where speed was critical. What was the situation and how did you handle it? • Best Fit: Black Start Simulation • Why? You stepped in for absent operators, ensuring the simulation stayed on track while making quick, high-stakes decisions during a critical training exercise. • How to Position? • Time-sensitive decision-making: You had to fill in gaps on the spot to keep the training running. • Risk Mitigation: You made calculated moves, ensuring smooth operations despite unexpected personnel shortages. 📌 Deliver Results",
-    
-  },
-  {
-    "text": "Question: Tell me about a time when you had significant, unanticipated obstacles to overcome in achieving a key goal. What was the obstacle? Were you eventually successful? • Best Fit: Tesla Load Modeling • Why? You had to quickly model a temporary jumper setup for a 50MW load interconnection, working with AEP, ERCOT, and Tesla under tight constraints. • How to Position? • Obstacle: Uncertain conditions, needing a temporary but reliable solution. • Solution: You collaborated with multiple teams and optimized the setup efficiently, ensuring Tesla’s interconnection proceeded smoothly. Final Takeaways",
-    
-  },
-  {
-    "text": "✅ SBEC Transition → Ownership, Deliver Results, Invent & Simplify ✅ Tesla Load Modeling → Bias for Action, Deliver Results ✅ Black Start Simulation → Customer Obsession, Bias for Action ✅ Generator Modeling Python Tool → Invent & Simplify, Customer Obsession ✅ AI Initiative → Think Big, Ownership",
-    
-  },
-  {
-    "text": "These stories will cover the remaining leadership principles you haven’t fully explored yet. Let me know if you want me to refine any STAR responses for specific questions! 🚀",
-    
-  },
-  {
-    "text": "🟦 Think Big – Interview Question",
-    
-  },
-  {
-    "text": "“Tell me about a time when you thought of a new way to accomplish a goal or task. What was your idea, and how did you come up with it?”",
-    
-  },
-  {
-    "text": "We’ll use your AI initiative — proposing and prototyping LLM tools for ERCOT documentation and PSS/E automation.",
-    
-  },
-  {
-    "text": "📝 STAR Response",
-    
-  },
-  {
-    "text": "S – Situation: Working in a traditional utility environment, I noticed that engineers repeatedly struggled to navigate large volumes of technical documents — from ERCOT protocols and planning guides to complex PSS®E API references. It was slowing down studies, onboarding, and compliance work.",
-    
-  },
-  {
-    "text": "T – Task: I saw an opportunity to innovate. My goal was to design a solution that would let engineers — including myself — extract insights from these documents faster, without needing to manually search hundreds of pages or remember specific API calls.",
-    
-  },
-  {
-    "text": "A – Action: On my own time, I designed and built a suite of AI-powered assistants using GPT models and Python-based semantic search. I created embedding pipelines to chunk and vectorize ERCOT documents, PSS/E manuals, and resume data. Then I used Streamlit to deploy interactive web tools: One for searching ERCOT rules, One for automating PSS/E scripts using intent + code retrieval, And one chatbot that could answer recruiter questions from my portfolio.",
-    
-  },
-  {
-    "text": "To align with future team use, I collaborated with our software supervisor and strategy manager to explore compliance-safe paths and shared early demos.",
-    
-  },
-  {
-    "text": "R – Result: The tools saved hours in my own workflow and earned interest across departments — including operations and planning strategy. A corporate strategy analyst joined to help formalize these into proof-of-concept use cases. It showed that innovation was possible even in a legacy-driven environment — and opened the door for longer-term AI adoption at LCRA.",
-    
-  },
-  {
-    "text": "🔍 Highlights: Think Big: You introduced transformative tools with minimal resources. Invent & Simplify: You solved a complex, recurring problem with an intuitive solution. Bias for Action: You didn’t wait for permission — you started building.",
-    
-  },
-  {
-    "text": "✅ Want to follow up with questions like “What would you have done differently?” or jump to another story (like your dynamic rating conflict or custom load shedding RTA)? 🟧 Question:",
-    
-  },
-  {
-    "text": "Describe a time when you refused to compromise your standards around quality or technical accuracy. What was the result?",
-    
-  },
-  {
-    "text": "📝 STAR Response:",
-    
-  },
-  {
-    "text": "S – Situation: While reviewing planning tickets and engineering design packages for a new substation addition at LCRA, I noticed something odd. The jumper and breaker ratings listed in the under-construction equipment didn’t align with the ratings in the planning model.",
-    
-  },
-  {
-    "text": "T – Task: My responsibility was to validate the planned configuration — but this mismatch raised a red flag. Even though construction had already started, I knew that if the issue wasn’t resolved, it could cause reliability issues or compliance violations later on.",
-    
-  },
-  {
-    "text": "A – Action: I reviewed the equipment submittals, vendor specs, and one-line drawings. I then coordinated with the design engineering team, construction team, and planning engineers to confirm the mismatch wasn’t intentional. It turned out the field-ordered breakers had lower continuous ratings than the planning assumptions. Despite pressure to let it go since the discrepancy seemed minor and construction was progressing, I escalated the issue to management and pushed for a redesign. I also updated the planning ticket to reflect corrected values and ensured model alignment across both PSS/E and EMS.",
-    
-  },
-  {
-    "text": "R – Result: The issue was fixed before the breaker installation phase, avoiding costly rework or worse — operating the system with under-rated protection equipment. My attention to detail prevented a future reliability gap, and the incident became part of a lessons-learned discussion at a department-wide standards review.",
-    
-  },
-  {
-    "text": "🧠 Why this works for Highest Standards : You caught a non-obvious technical risk. You refused to cut corners, even when it would’ve been easier. You pushed for long-term reliability over short-term convenience.",
-    
-  }
-]
 
 
+  {
+    "text": "Principle: Dive Deep / Ownership / Earn Trust / Deliver Results | Question: Tell me about a time when you identified a critical issue before it became a problem. How did you handle it? What was the impact? | Situation: During a pre-audit review, I discovered a major discrepancy between equipment ratings across multiple models—specifically the steady-state planning model, dynamic model, and real-time EMS model. These ratings determine transmission limits, congestion management, and real-time decisions. If left uncorrected, the mismatch could have caused reliability violations and non-compliance with NERC standards, potentially resulting in millions in fines. I noticed that most engineers only verified their own model, so I took the initiative to cross-check all models. | Task: My responsibility was to identify and correct all rating inconsistencies before the audit to ensure model alignment across planning, operations, and regulatory reporting. The goal was to prevent compliance violations, maintain accurate system limits, and ensure model synchronization across all departments. | Action: I performed a deep dive into ratings data by manually comparing entries across PSSE, DSA, and EMS models. I traced the issue to outdated NOMCR submissions that were never propagated correctly. To confirm my findings, I collaborated with a Principal Engineer, who validated the issue’s significance. I then organized a cross-functional meeting between Operations Modeling, Planning, and EMS teams to correct the errors. I proposed a new peer-review process where any rating change had to be applied across all models before finalization. Additionally, I developed a checklist and proposed an automation script to flag mismatches early. | Result: The discrepancies were corrected before the audit, avoiding compliance findings and potential fines. Grid reliability improved as consistent ratings prevented congestion miscalculations. The new cross-model validation process standardized future updates and reduced the chance of errors. Leadership recognized my proactive approach, and I was trusted with greater responsibility in model validation projects. | Reflection: I would build an automated dashboard to continuously track rating mismatches and collaborate earlier with ERCOT to align best practices for model updates."
+  },
+
+
+  {
+  "text": "Principle: Think Big / Invent and Simplify / Bias for Action / Earn Trust / Deliver Results | Question: Give me an example of an initiative you undertook because you saw that it could benefit the whole company or your customers, but wasn’t within any group’s individual responsibility so nothing was being done. | Situation: At my company, AI and Machine Learning were largely unexplored in power systems operations and planning due to strict compliance regulations, lack of in-house expertise, and organizational resistance. I recognized a huge opportunity to enhance efficiency, automate repetitive tasks, and improve decision-making using AI-driven insights. Despite no existing framework or ownership for AI integration, I decided to take the initiative to explore and implement AI solutions that could optimize grid reliability, SCADA telemetry, and real-time operational analytics. | Task: My goal was to introduce AI in a way that demonstrated its value while aligning with compliance and business needs. I needed to gain leadership support, identify practical use cases, and show measurable results—all without a formal AI team or budget. | Action: I independently researched AI applications in power utilities and identified use cases such as SCADA anomaly detection, fault classification, and predictive load forecasting. I met with the Manager of Operations, Supervisor of Software Development, and Manager of Corporate Strategy to advocate for controlled AI experiments that wouldn’t interfere with real-time operations. With no AI team in place, I personally developed a Python-based fault detection tool using SCADA telemetry and collaborated with the Corporate Strategy Analyst on pilot projects. I also promoted AI training among colleagues and enrolled in a Master’s program in Artificial Intelligence to bridge the technical gap and strengthen the initiative. | Result: My efforts led to the launch of AI pilot projects for fault detection and load forecasting, both proving tangible value and operational benefits. Leadership recognized AI’s potential and began supporting broader AI-driven automation efforts. The company’s perception of AI shifted from skepticism to curiosity, creating a path for future adoption and the formation of an internal AI working group connecting operations, software, and strategy teams. | Reflection: I would formalize an AI proposal earlier to streamline leadership buy-in and partner with external AI vendors sooner to accelerate the adoption timeline."
+  },
+  
+
+  {
+  "text": "Principle: Bias for Action / Deliver Results / Ownership / Dive Deep | Question: Tell me about a time when you had to gather information and respond immediately to a situation. What was the outcome? Would you have done anything differently? | Situation: During real-time operations, I noticed the system frequency had unexpectedly dropped to 59.91 Hz, dangerously close to ERCOT’s first threshold for automatic load-shedding procedures. A continued drop could have led to widespread system failure or rolling blackouts affecting millions of customers. | Task: As a Real-Time Operations Engineer, my responsibility was to act quickly to help stabilize the grid and prevent cascading failures by shedding the appropriate amount of load, ensuring the system remained within safe frequency limits. | Action: I immediately notified ERCOT and coordinated with system operators and generation dispatch to confirm real-time conditions. I reviewed SCADA data to assess frequency trends and pinpointed the most effective load-shedding locations. I recommended targeted shedding of non-critical industrial loads, verified which circuits could be safely de-energized, and then supervised the incremental restoration once frequency stabilized. Following the event, I led a post-incident review with ERCOT to identify areas for faster response in future events. | Result: The grid frequency was restored above critical thresholds, preventing ERCOT from triggering a widespread rolling blackout. No major customers were impacted beyond the planned measures, and the event prompted improvements in automatic load-shedding protocols. My leadership recognized me for quick decision-making under pressure and for ensuring grid stability in a critical moment. | Reflection: After the event, I helped develop pre-configured load-shedding scenarios for different frequency thresholds, allowing partial automation of responses and reducing human reaction time during future emergencies."
+  },
+
+
+
+  {
+    "text": "Principle: Earn Trust / Dive Deep / Have Backbone and Commit / Bias for Action / Deliver Results / Ownership | Question: Describe a time when you needed to influence a peer who had a differing opinion about a shared goal. What did you do? What was the outcome? | Situation: A temporary jumper was modeled as a static-rated line, which led to congestion and conflicting study results. Several engineers dismissed my concern, arguing it wasn’t a real transmission line and thus didn’t warrant a dynamic rating. | Task: My goal was to advocate for modeling the jumper with dynamic ratings to reflect its actual thermal capabilities and prevent unnecessary congestion, ensuring both real-time operations and future planning studies remained accurate. | Action: I collected historical congestion data and demonstrated how similar rating errors had led to approximately $10 million in congestion costs within just ten days. I then engaged the Principal Engineer to validate my findings and presented a detailed technical comparison showing the reliability and financial benefits of using dynamic ratings. I used factual, data-driven arguments to persuade the team and leadership of the operational value and compliance advantages. | Result: Dynamic ratings were successfully implemented for the jumper, eliminating the congestion issue and preventing future discrepancies. This change improved system efficiency and audit readiness. Leadership commended my analytical depth and willingness to challenge assumptions to drive improvement."
+  },
+
+
+  {
+  "text": "Principle: Think Big / Invent and Simplify / Earn Trust / Bias for Action / Deliver Results | Question: Give me an example of an initiative you undertook that wasn’t part of any group’s responsibility but benefited the company or customers. | Situation: Due to strict compliance regulations, AI and Machine Learning initiatives were nearly impossible to launch in power system operations. No team had taken ownership of exploring or piloting AI, even though it could significantly improve efficiency, fault detection, and data-driven decision-making. | Task: I aimed to introduce AI into the organization in a way that aligned with compliance standards and business goals. My objective was to identify impactful use cases, gain leadership buy-in, and demonstrate that AI could add measurable value to system operations. | Action: I collaborated across multiple departments—including Operations, Corporate Strategy, SCADA, and Protection—to identify and prioritize AI opportunities. I proposed pilot projects focused on fault detection, SCADA-driven decision-making, developing a Large Language Model (LLM) for compliance document reference, and load forecasting using historical data. To strengthen internal capability, I encouraged a corporate strategy analyst to enroll in the MSAI program at UT Austin and partnered with him to design early prototypes. Despite having no official AI team, I built proof-of-concept tools in Python to demonstrate feasibility while maintaining full regulatory compliance. | Result: The company launched its first AI pilot projects, validating fault detection and forecasting models under controlled conditions. These initiatives inspired cross-functional collaboration, shifting leadership perception toward AI adoption. My efforts laid the foundation for the company’s long-term AI roadmap and positioned us as a forward-thinking organization exploring intelligent automation."
+  },
+
+  {
+    "text": "Principle: Think Big / Invent and Simplify / Bias for Action / Earn Trust / Deliver Results | Question: Tell me about a time when you had to communicate a change in direction that you anticipated people would have concerns with. | Situation: Pedernales Electric Cooperative (PEC) was transitioning to become an independent Transmission Service Provider (TSP), requiring major changes to network modeling, planning, and coordination with ERCOT. This was a complex process involving multiple stakeholders and potential risks to ongoing operations. | Task: My responsibility was to ensure a seamless transition while addressing concerns from operations, planning, and ERCOT teams about compliance, reliability, and data accuracy. | Action: I led cross-functional meetings with ERCOT, operations, and planning groups to coordinate all required updates. I developed a detailed transition roadmap, including risk assessments and contingency plans. To ensure accuracy, I conducted thorough model validations, verified data consistency across systems, and provided technical documentation to prevent modeling conflicts. I also maintained continuous communication with ERCOT to preempt any discrepancies before submission. | Result: The PEC transition was completed successfully, with zero operational disruptions or compliance violations. ERCOT approved all updates on the first submission without delays. My structured approach and proactive communication built confidence among stakeholders and ensured the transition became a model for future TSP separations."
+  },
+
+  {
+    "text": "Principle: Insist on the Highest Standards / Dive Deep / Deliver Results | Question: Tell me about a time when you refused to compromise on quality standards. | Situation: Discrepancies in transformer ratings across different models—including steady-state, dynamic, and real-time—posed a major compliance risk and could have led to inaccurate operational decisions during audits. | Task: My goal was to ensure that all transformer ratings were accurate and consistent across every model to maintain compliance and system reliability. | Action: I performed detailed spot checks across multiple models to identify mismatched values, traced the errors to typos and incorrect data propagation, and collaborated with the steady-state, dynamics, and real-time operations teams to synchronize data sources and establish a standardized validation process for future updates. | Result: The audit passed with zero findings, confirming complete alignment across models. My initiative not only prevented potential regulatory fines but also strengthened our internal data quality process, setting a new benchmark for model consistency."
+  },
+
+  {
+    "text": "Principle: Customer Obsession / Earn Trust / Dive Deep | Question: Describe a difficult interaction you had with a customer. How did you deal with it? What was the outcome? | Situation: A large industrial customer changed their Point of Interconnection (POI) three times during the interconnection study, causing repeated delays, rework, and inefficiencies in the planning process. Each change required new studies and model updates, impacting both cost and timeline. | Task: My goal was to identify the most optimal POI configuration that balanced cost, reliability, and technical feasibility while maintaining a strong relationship with the customer and keeping the project on track. | Action: I collaborated with substation, transmission, and scoping teams to analyze each potential POI, developed a detailed cost-benefit analysis comparing construction costs and long-term system impact, and proactively scheduled a working session with the customer to explain the trade-offs. I proposed an optimal interconnection point that minimized cost and congestion risks, saving approximately $8 million in unnecessary infrastructure costs. | Result: The customer accepted the recommended POI, which reduced project delays, improved transparency, and strengthened trust between both parties. The final solution improved grid reliability and became a best-practice example for handling future interconnection requests."
+  },
+
+  {
+  "text": "Principle: Frugality / Think Big / Dive Deep | Question: Give me an example of when you were able to anticipate a customer need with a solution they didn’t know they needed. | Situation: A principal engineer planned to install seven capacitor banks to mitigate voltage drop for a 150 MW load interconnection project. Based on system familiarity, I suspected this approach was overengineered and might result in unnecessary costs and outages. | Task: My objective was to evaluate whether existing capacitor infrastructure could provide adequate voltage stability before approving new construction, optimizing costs while maintaining reliability. | Action: I reviewed the power flow simulation settings and discovered that automatic capacitor switching had been disabled in the model. After enabling automatic switching, I reran the study and found that only two capacitor banks were required instead of seven. I documented and presented these findings, collaborating with the planning and operations teams to validate the optimized solution. | Result: My analysis prevented millions of dollars in unnecessary construction costs, reduced the number of planned outages, and optimized voltage support using existing infrastructure. The solution improved reliability, saved resources, and demonstrated the value of deep technical validation and proactive problem-solving."
+  },
+
+  {
+    "text": "Principle: Bias for Action / Deliver Results / Ownership / Dive Deep | Question: Tell me about a time when you had to respond to an urgent technical failure under pressure. | Situation: The SCADA system failed during real-time operations, risking loss of grid visibility and control. | Task: Restore monitoring and control before cascading failures. | Action: Switched operations to backup SCADA, coordinated with operators, verified RTU communication, and ensured system integrity. | Result: Prevented grid instability, restored full visibility, and was recognized by leadership for decisive response under pressure."
+  },
+  {
+    "text": "Principle: Customer Obsession / Dive Deep / Frugality / Earn Trust | Question: Describe a difficult interaction you had with a customer and how you resolved it. | Situation: The customer repeatedly changed their point of interconnection (POI) during a load interconnection study, causing delays and inefficiencies. | Task: Identify the optimal POI that balanced cost, technical feasibility, and reliability. | Action: Collaborated with Substation and Transmission Engineering teams, performed cost-benefit analysis, and presented clear trade-offs to the customer. | Result: Found the best POI, saving approximately $8 million in infrastructure costs, while improving trust and transparency with the customer."
+  },
+  {
+    "text": "Principle: Think Big / Invent and Simplify / Bias for Action / Earn Trust | Question: Give me an example of when you initiated an innovation project outside your defined responsibilities. | Situation: The organization lacked AI initiatives due to compliance and cultural barriers. | Task: Explore AI use cases to improve SCADA telemetry and load forecasting. | Action: Partnered with Operations, Software, and Corporate Strategy teams, identified safe pilot projects, and launched internal AI experiments. | Result: Secured leadership buy-in and successfully launched the company’s first AI pilot projects for fault detection and forecasting."
+  },
+  {
+    "text": "Principle: Earn Trust / Have Backbone / Dive Deep | Question: Tell me about a time when you had to resolve a disagreement in a high-stakes situation. | Situation: During Black Start Training, there was a disagreement about the proper grid restoration procedure. | Task: Ensure accurate procedure alignment with grid restoration standards. | Action: Reviewed documentation, verified procedures with ERCOT standards, and presented validated results to leadership. | Result: Resolved conflict, confirmed correct approach, and strengthened trust and collaboration within the team."
+  },
+  {
+    "text": "Principle: Dive Deep / Ownership / Deliver Results | Question: Tell me about a time when you identified a critical issue before it became a problem. | Situation: Equipment ratings across SCADA, Planning, and Operations models didn’t match, creating compliance and reliability risks. | Task: Identify and resolve discrepancies before the upcoming audit. | Action: Cross-checked data across models, found rating inconsistencies, and worked with teams to correct and align data. | Result: Prevented audit findings, improved data accuracy, and ensured regulatory compliance."
+  },
+  {
+    "text": "Principle: Deliver Results / Earn Trust / Ownership | Question: Tell me about a time when you had to communicate a major change that people were concerned about. | Situation: PEC transitioned to an independent Transmission Service Provider (TSP), requiring operational separation from LCRA and ERCOT integration. | Task: Lead technical and modeling coordination to ensure a smooth transition. | Action: Organized stakeholder meetings, developed transition roadmaps, validated data accuracy, and mitigated risks. | Result: PEC’s transition was completed successfully with zero operational disruptions or compliance violations."
+  },
+  {
+    "text": "Principle: Think Big / Invent and Simplify / Bias for Action | Question: Tell me about an initiative you started that benefited the company without being part of your assigned role. | Situation: Compliance barriers and lack of ownership stalled AI innovation in power systems. | Task: Demonstrate AI’s value through pilot projects to improve grid analysis. | Action: Built AI prototypes for fault detection and forecasting, engaged leadership, and encouraged cross-team AI participation. | Result: AI adoption became a company-level initiative, with multiple pilot projects underway."
+  },
+  {
+    "text": "Principle: Customer Obsession / Ownership / Dive Deep | Question: Tell me about a time when you went above and beyond for a customer. | Situation: Operator training lacked realistic simulation accuracy for real-time contingency handling. | Task: Improve RTA training to better prepare operators for real incidents. | Action: Worked directly in real-time operations, gathered feedback, and integrated real-world scenarios into training. | Result: Operators were significantly better prepared for emergencies, enhancing reliability and earning leadership recognition."
+  },
+  {
+    "text": "Principle: Deliver Results / Bias for Action / Dive Deep | Question: Tell me about a time when you had to manage competing priorities under tight deadlines. | Situation: Needed to update and publish ratings across operational, future construction, and planning models simultaneously. | Task: Prioritize updates to prevent compliance issues and maintain schedule integrity. | Action: Focused first on operational ratings, then construction, and finally planning, ensuring accuracy and coordination across teams. | Result: Prevented operational confusion, maintained compliance, and met all submission deadlines."
+  },
+  {
+    "text": "Principle: Bias for Action / Deliver Results / Ownership | Question: Tell me about a time when you had to act quickly in an emergency situation. | Situation: The grid frequency dropped to 59.91 Hz, approaching ERCOT’s first automatic load-shedding threshold. | Task: Shed appropriate loads quickly to stabilize the grid. | Action: Coordinated with ERCOT, analyzed SCADA data, implemented targeted load shedding, and supervised recovery. | Result: Prevented cascading failures, stabilized grid frequency, and improved future emergency response protocols."
+  },
+
+  {
+  "text": "Principle: Deliver Results / Dive Deep / Ownership / Earn Trust | Question: Give me an example of a time when you were not able to meet a commitment. What was the commitment, and what were the obstacles that prevented success? | Situation: I was responsible for submitting a Network Operations Model Change Request (NOMCR) four months ahead of time for a circuit switcher upgrade project. This ensured the new configuration would be in the operational model right after retiring the old equipment and before energizing the new one. Despite attending project meetings, tracking progress, and monitoring the outage scheduler, I discovered on the energization date that the equipment was not appearing in the model as expected, and ERCOT reached out regarding missing ICCP data. | Task: I needed to ensure a seamless transition between the old and new configurations while keeping ERCOT and LCRA operators informed. However, a last-minute project delay and lack of communication from the Project Manager prevented me from submitting the necessary updates in time. | Action: I quickly informed ERCOT and internal operators about the issue, created temporary ICCP links to provide real-time data, and updated SCADA displays to clarify the situation. I also implemented a long-term solution by ensuring both old and new configurations would remain in the model until field confirmation of project completion. | Result: Prevented operational confusion, maintained clear communication with ERCOT, and ensured continued reliability. Developed a long-term modeling strategy to handle last-minute delays and implemented a proactive communication process with project managers to avoid similar issues in the future."
+  },
+
+  {
+  "text": "Principle: Ownership / Customer Obsession / Bias for Action / Deliver Results / Insist on the Highest Standards | Question: Tell me about a time when you went above and beyond for a customer. Why did you do it? How did the customer respond? What was the outcome? | Situation: I was responsible for preparing and facilitating the Black Start simulation, the largest simulation training in Texas, designed to prepare operators for real-world blackout restoration scenarios. This week-long simulation involved ERCOT, Transmission Operators (TOs), Qualified Scheduling Entities (QSEs), and operators from multiple utilities. However, during the simulation, several key participants were absent, including TOs, QSEs, and ERCOT operators, which could have jeopardized the training’s effectiveness. Without these roles being filled, operators would not get the hands-on experience needed to restore power in an actual blackout. | Task: My original role was to prepare the training cases and facilitate the simulation, ensuring that the power system models were properly set up and that the simulation ran smoothly. However, recognizing the risk of having critical gaps in the exercise, I took ownership beyond my responsibility to fill the missing roles and ensure that the simulation remained valuable for the operators. | Action: Set up Black Start units and power flow settings, adjusted cold load pickup to account for 2x nominal conditions to reflect real-world restoration, guided participants through the simulation, addressed technical issues, and escalated EMS/DTS bugs for resolution. When key participants were missing, I played multiple critical roles: as QLCRA (Generation Operator) to start the Black Start unit and manage load pickup, as TLCRA (Transmission Operator) to synchronize units and stabilize the system, and as ERCOT Shift Engineer to coordinate interconnections and transition the system from local control to CFC and then to LFC. I also gathered post-simulation feedback, escalated operator concerns, and implemented EMS/DTS enhancements for future accuracy. | Result: The training was recognized as the largest and most effective simulation in Texas, preparing hundreds of operators for blackout restoration scenarios. Operators were better equipped to restore power quickly, improving statewide grid resilience. My feedback led to technical improvements in the EMS/DTS system and I earned leadership recognition for ownership and initiative in ensuring the simulation’s success."
+  },
+
+  {
+    "text": "Principle: Ownership / Invent and Simplify / Deliver Results / Dive Deep | Question: Tell me about a time when you took on something significant outside your area of responsibility. Why was it important? What was the outcome? | Situation: LCRA had supported SBEC for years, providing transmission and operational support. After the February 2021 winter storm, SBEC decided to transition to STEC, seeking access to a larger-scale generation and transmission network. This transition involved about 20 substations and over 350 pieces of equipment, including lines, breakers, and switches. The process required precise data migration, operational updates, and coordination among LCRA, ERCOT, SBEC, and STEC to maintain grid reliability and prevent real-time disruptions. | Task: My responsibility was to identify and verify ownership of all equipment transitioning from LCRA to STEC, swap ICCP data points between the two entities, and ensure ERCOT’s network model reflected accurate ownership and telemetry updates. The goal was to execute a seamless transition that maintained real-time visibility, avoided data mismatches, and ensured operational continuity. | Action: Before the transition, I manually verified all substation equipment ownership using one-line diagrams and coordinated with ERCOT, SBEC, and STEC to schedule each substation’s transition. I developed a Python GUI automation tool that handled ICCP name swaps, reducing manual work and human error. I submitted a Collaborative Action Model Request (CAMR) to ERCOT to update ownership data. During the transition, I manually swapped ICCP links in real-time EMS, updated TSM models, and monitored SCADA telemetry to confirm data accuracy. Afterward, I identified and corrected missing ICCPs, submitted NOMCRs to fix any inconsistencies, and documented lessons learned for future transitions. | Result: The SBEC-to-STEC transition was executed successfully without any grid reliability or SCADA visibility issues. Leadership recognized my initiative during a company-wide safety meeting for ensuring flawless execution. The Python tool I developed was later reused for the PEC transition, further improving efficiency and accuracy for future ownership transfers."
+  },
 
   {
     "text": "Names used: Amir Exir & Seyed Amirhossein Eksir Monfared |US Citizen, Austin TX | contact@amirexirpe.com - +1(346) 412- 9950 - amirexirpe.com \u2013 github.com/amirexir"
