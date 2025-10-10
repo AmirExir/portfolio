@@ -30,27 +30,22 @@ for i, para in enumerate(resume_text.split("\n\n")):
 
 # Add STAR stories as chunks (combine all possible fields into one chunk for each story)
 for s in stories:
+    # Combine all fields into one text for maximum search coverage
     principle = s.get("principle", "General")
-    question = s.get("question", "")
-    situation = s.get("situation", "")
-    task = s.get("task", "")
-    action = s.get("action", "")
-    result = s.get("result", "")
+    text_parts = [f"Principle: {principle}"]
 
-    combined_text = (
-        f"Principle: {principle}\n"
-        f"Question: {question}\n"
-        f"Situation: {situation}\n"
-        f"Task: {task}\n"
-        f"Action: {action}\n"
-        f"Result: {result}"
-    )
+    for field in ["question", "situation", "task", "action", "result", "answer"]:
+        value = s.get(field)
+        if value and isinstance(value, str):
+            text_parts.append(f"{field.capitalize()}: {value.strip()}")
+
+    combined_text = "\n".join(text_parts)
 
     chunks.append({
         "text": combined_text.strip(),
         "source": "story-full",
         "principle": principle,
-        "question": question
+        "question": s.get("question", "")
     })
 
 # Force rebuild button to clear cache
