@@ -93,7 +93,7 @@ else:
     embeddings = np.load(EMB_FILE)
     with open(CHUNKS_FILE, "r", encoding="utf-8") as f:
         chunks = json.load(f)
-import faiss
+
 
 # -------------------------
 # Build FAISS index (robust version)
@@ -116,43 +116,41 @@ else:
 
 
 def search(query, k=12):
-    if 'index' not in locals():
+    if "index" not in st.session_state:
         st.error("FAISS index not initialized.")
         return []
 
-    query_lower = query.lower()
-
-    # 🔹 1. Keyword (hard) filter — catch exact matches like 'AELAB' or 'MOD-26'
-    keyword_matches = [
-        c for c in chunks if any(term in c["text"].lower() for term in query_lower.split())
-    ]
-
-    # 🔹 2. Semantic search
+    # 🔹 2. Semantic search with cosine similarity
     q_emb = client.embeddings.create(
         input=query,
         model="text-embedding-3-large"
     ).data[0].embedding
-    D, I = index.search(np.array([q_emb], dtype="float32"), k)
+
+    q_emb = np.array([q_emb], dtype="float32")
+    faiss.normalize_L2(q_emb)  # normalize query vector
+
+    D, I = index.search(q_emb, k)
     semantic_matches = [chunks[i] for i in I[0]]
 
-    # 🔹 3. Merge (keyword hits first, then semantic)
-    combined = keyword_matches + [s for s in semantic_matches if s not in keyword_matches]
-
-    # 🔹 4. Rerank lightly by keyword overlap
-    def score(text):
+    # 🔹 Keyword scoring
+    query_terms = query.lower().split()
+    def keyword_score(text):
         t = text.lower()
-        return sum(w in t for w in query_lower.split())
+        return sum(w in t for w in query_terms)
 
-    reranked = sorted(combined, key=lambda c: score(c["text"]), reverse=True)
+    for c in semantic_matches:
+        c["score"] = keyword_score(c["text"])
 
-    # Debug log
-    print("\n🔍 Query:", query)
-    print(f"Keyword matches: {len(keyword_matches)} | Semantic matches: {len(semantic_matches)}")
+    # 🔹 Combine + rerank
+    reranked = sorted(semantic_matches, key=lambda x: x["score"], reverse=True)
+
+    # Debug print
+    print(f"\n🔍 Query: {query}")
     for i, c in enumerate(reranked[:5]):
-        print(f"  {i+1}. {c.get('principle', 'N/A')} | {c.get('question', '')[:80]}")
+        print(f"{i+1}. {c.get('principle','N/A')} | {c.get('question','')[:80]}")
+    print("-----")
 
     return reranked[:4]
-
 
 # -------------------------
 # Streamlit UI
