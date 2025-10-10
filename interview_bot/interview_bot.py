@@ -57,9 +57,8 @@ if "index" not in st.session_state:
 else:
     index = st.session_state["index"]
 
-
 def search(query, index, chunks, embeddings, k=5):
-    # --- 1. Get embedding for the query ---
+    # --- 1. Create embedding for the query ---
     q_emb = client.embeddings.create(
         input=query,
         model="text-embedding-3-large"
@@ -68,26 +67,33 @@ def search(query, index, chunks, embeddings, k=5):
     faiss.normalize_L2(q_emb)
 
     # --- 2. Semantic search with FAISS ---
-    D, I = index.search(q_emb, k)
-    semantic_matches = [chunks[i]["text"] for i in I[0]]
+    D, I = index.search(q_emb, k*4)  # search wider (4x more candidates)
+    candidates = [chunks[i]["text"] for i in I[0]]
 
-    # --- 3. Simple keyword search on text ---
-    query_terms = query.lower().split()
-    keyword_scores = []
-    for chunk in chunks:
-        text = chunk["text"].lower()
-        score = sum(text.count(term) for term in query_terms)
-        keyword_scores.append(score)
+    # --- 3. Keyword boosting (exact term match bonus) ---
+    query_terms = [w.strip().lower() for w in query.split()]
+    scored = []
+    for text in candidates:
+        t = text.lower()
+        keyword_hits = sum(w in t for w in query_terms)
+        score = keyword_hits * 0.5  # weight keywords
+        scored.append((score, text))
 
-    # Top-k by keyword
-    top_keyword_idx = np.argsort(keyword_scores)[::-1][:k]
-    keyword_matches = [chunks[i]["text"] for i in top_keyword_idx if keyword_scores[i] > 0]
+    # --- 4. Sort by hybrid (semantic + keyword) ---
+    ranked = sorted(scored, key=lambda x: x[0], reverse=True)
+    top_texts = [t for _, t in ranked[:k]]
 
-    # --- 4. Merge both sets (semantic + keyword) ---
-    combined = list(dict.fromkeys(semantic_matches + keyword_matches))[:k]
+    # --- 5. Fallback: if no hits, pick top semantic only ---
+    if not top_texts:
+        top_texts = candidates[:k]
 
-    # --- 5. Return final top results ---
-    return combined
+    # Debug log
+    print("\n🔍 Query:", query)
+    for i, t in enumerate(top_texts):
+        print(f"{i+1}. {t[:120]}...")
+    print("-----")
+
+    return top_texts
 
 
 # -------------------------
