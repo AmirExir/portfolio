@@ -9,57 +9,21 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Embeddings cache
 # -------------------------
 EMB_FILE = "embeddings.npy"
-CHUNKS_FILE = "chunks.json"
 # -------------------------
-# Load resume + stories
+# Load chunks_cleaned.json
 # -------------------------
 base_path = os.path.dirname(__file__)
 
-with open(os.path.join(base_path, "amir_resume.txt"), "r", encoding="utf-8") as f:
-    resume_text = f.read()
-
-with open(os.path.join(base_path, "stories.json"), "r", encoding="utf-8") as f:
-    stories = json.load(f)
-
-chunks = []
-
-# Split resume into chunks
-for i, para in enumerate(resume_text.split("\n\n")):
-    if para.strip():
-        chunks.append({"text": para.strip(), "source": "resume"})
-
-# Add STAR stories as chunks (combine all possible fields into one chunk for each story)
-for s in stories:
-    # Combine all fields into one text for maximum search coverage
-    principle = s.get("principle", "General")
-    text_parts = [f"Principle: {principle}"]
-
-    for field in ["question", "situation", "task", "action", "result", "answer"]:
-        value = s.get(field)
-        if value and isinstance(value, str):
-            text_parts.append(f"{field.capitalize()}: {value.strip()}")
-
-    combined_text = "\n".join(text_parts)
-
-    chunks.append({
-        "text": combined_text.strip(),
-        "source": "story-full",
-        "principle": principle,
-        "question": s.get("question", "")
-    })
+with open(os.path.join(base_path, "chunks_cleaned.json"), "r", encoding="utf-8") as f:
+    chunks = json.load(f)
 
 # Force rebuild button to clear cache
 if st.button("🔄 Force Rebuild Embeddings"):
     if os.path.exists(EMB_FILE):
         os.remove(EMB_FILE)
         st.success("Deleted embeddings.npy")
-    if os.path.exists(CHUNKS_FILE):
-        os.remove(CHUNKS_FILE)
-        st.success("Deleted chunks.json")
     st.warning("Cache cleared! Please restart the app to rebuild embeddings.")
     st.stop()
-
-
 
 if not os.path.exists(EMB_FILE):
     embeddings = []
@@ -72,14 +36,8 @@ if not os.path.exists(EMB_FILE):
         embeddings.append(emb)
     embeddings = np.array(embeddings, dtype="float32")
     np.save(EMB_FILE, embeddings)
-
-    with open(CHUNKS_FILE, "w", encoding="utf-8") as f:
-        json.dump(chunks, f, indent=2)
 else:
     embeddings = np.load(EMB_FILE)
-    with open(CHUNKS_FILE, "r", encoding="utf-8") as f:
-        chunks = json.load(f)
-
 
 # -------------------------
 # Build FAISS index (robust version)
@@ -100,55 +58,37 @@ else:
     index = st.session_state["index"]
 
 
-
-def search(query, k=10):
-    if "index" not in st.session_state:
-        st.error("FAISS index not initialized.")
-        return []
-
-    query_lower = query.lower()
-    query_terms = query_lower.split()
-
-    # 🔹 Semantic Search (FAISS cosine similarity)
+def search(query, index, chunks, embeddings, k=5):
+    # --- 1. Get embedding for the query ---
     q_emb = client.embeddings.create(
         input=query,
         model="text-embedding-3-large"
     ).data[0].embedding
-    q_emb = np.array([q_emb], dtype="float32")
+    q_emb = np.array(q_emb, dtype="float32").reshape(1, -1)
     faiss.normalize_L2(q_emb)
 
+    # --- 2. Semantic search with FAISS ---
     D, I = index.search(q_emb, k)
-    semantic_matches = [chunks[i] for i in I[0]]
+    semantic_matches = [chunks[i]["text"] for i in I[0]]
 
-    # 🔹 Keyword Search across all fields
-    keyword_hits = []
-    for c in chunks:
-        combined = " ".join([
-            c.get("text", ""),
-            c.get("question", ""),
-            c.get("principle", "")
-        ]).lower()
-        score = sum(w in combined for w in query_terms)
-        if score > 0:
-            keyword_hits.append((score, c))
+    # --- 3. Simple keyword search on text ---
+    query_terms = query.lower().split()
+    keyword_scores = []
+    for chunk in chunks:
+        text = chunk["text"].lower()
+        score = sum(text.count(term) for term in query_terms)
+        keyword_scores.append(score)
 
-    # Sort keyword hits
-    keyword_hits = [c for _, c in sorted(keyword_hits, key=lambda x: -x[0])][:k]
+    # Top-k by keyword
+    top_keyword_idx = np.argsort(keyword_scores)[::-1][:k]
+    keyword_matches = [chunks[i]["text"] for i in top_keyword_idx if keyword_scores[i] > 0]
 
-    # 🔹 Merge semantic + keyword results
-    all_matches = semantic_matches + [c for c in keyword_hits if c not in semantic_matches]
+    # --- 4. Merge both sets (semantic + keyword) ---
+    combined = list(dict.fromkeys(semantic_matches + keyword_matches))[:k]
 
-    # 🔹 Re-rank for combined strength
-    for c in all_matches:
-        c["score"] = sum(w in c["text"].lower() for w in query_terms)
-    reranked = sorted(all_matches, key=lambda x: x["score"], reverse=True)
+    # --- 5. Return final top results ---
+    return combined
 
-    # ✅ Debug log for console
-    print(f"\n🔍 Query: {query}")
-    for i, c in enumerate(reranked[:5]):
-        print(f"{i+1}. {c.get('principle','N/A')} | {c.get('question','')[:80]}")
-
-    return reranked[:4]
 
 # -------------------------
 # Streamlit UI
@@ -201,18 +141,18 @@ if prompt:
 
 # Process assistant response
 if user_query:
-    retrieved = search(user_query)
-    context = "\n\n".join(r["text"] for r in retrieved)
+    retrieved_texts = search(user_query, index, chunks, embeddings)
+    context = "\n\n".join(retrieved_texts)
 
     # ✅ Debugging: show retrieved chunks before calling GPT
     show_debug = st.checkbox("Show retrieved context (cosine search)")
     if show_debug:
         st.markdown(f"**Query:** `{user_query}`")
-        st.markdown(f"**Retrieved {len(retrieved)} chunks**")
-        for i, chunk in enumerate(retrieved):
-            st.markdown(f"**Chunk {i+1}** — Source: `{chunk['source']}` | Principle: `{chunk.get('principle', 'N/A')}`")
-            st.code(chunk["text"][:300] + "...", language="markdown")
-            if "waterloo" in chunk["text"].lower():
+        st.markdown(f"**Retrieved {len(retrieved_texts)} chunks**")
+        for i, text in enumerate(retrieved_texts):
+            st.markdown(f"**Chunk {i+1}**")
+            st.code(text[:300] + "...", language="markdown")
+            if "waterloo" in text.lower():
                 st.success("✅ Contains 'Waterloo'")
             st.write("---")
 
