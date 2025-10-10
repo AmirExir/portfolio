@@ -58,30 +58,10 @@ else:
     index = st.session_state["index"]
 
 def search(query, index, chunks, embeddings, k=5):
-    query_lower = query.lower().strip()
-    keywords = [w for w in query_lower.split() if len(w) > 2]
+    # 🔹 Pure semantic (embedding-based) search only
+    print(f"🔍 Semantic search for query: {query}")
 
-    # --- 1️⃣ Exact + partial keyword match (case-insensitive) ---
-    keyword_hits = []
-    for c in chunks:
-        text_lower = c["text"].lower()
-        # match exact or partial words (like "aelab" in "developed aelab in python")
-        if any(k in text_lower for k in keywords):
-            keyword_hits.append(c["text"])
-
-    # ✅ Extra boost: check for strong domain keywords even if they are partial or capitalized
-    if not keyword_hits:
-        strong_terms = ["aelab", "psse", "ercot", "interconnection", "contingency", "dynamic", "mod-26", "mod-27"]
-        for term in strong_terms:
-            if term in query_lower:
-                keyword_hits += [c["text"] for c in chunks if term in c["text"].lower()]
-
-    if keyword_hits:
-        print(f"✅ Keyword matches found for query: {query} ({len(keyword_hits)} hits)")
-        return keyword_hits[:k]
-
-    # --- 2️⃣ Semantic fallback if no strong matches ---
-    print(f"⚠️ No keyword hits for '{query}', switching to semantic search...")
+    # Create embedding for the query
     q_emb = client.embeddings.create(
         input=query,
         model="text-embedding-3-large"
@@ -90,11 +70,17 @@ def search(query, index, chunks, embeddings, k=5):
     q_emb = np.array(q_emb, dtype="float32").reshape(1, -1)
     faiss.normalize_L2(q_emb)
 
+    # FAISS similarity search
     D, I = index.search(q_emb, k)
+
+    # Retrieve corresponding text chunks
     top_texts = [chunks[i]["text"] for i in I[0]]
 
-    return top_texts
+    print(f"✅ Retrieved {len(top_texts)} results from FAISS")
+    for i, t in enumerate(top_texts):
+        print(f"{i+1}. {t[:120]}...")
 
+    return top_texts
 # -------------------------
 # Streamlit UI
 # -------------------------
