@@ -56,26 +56,25 @@ if "index" not in st.session_state:
         st.stop()
 else:
     index = st.session_state["index"]
-    
+
 def search(query, index, chunks, embeddings, k=5):
-    # Normalize query
     query_lower = query.lower().strip()
     keywords = [w for w in query_lower.split() if len(w) > 2]
 
-    # --- 1️⃣ Exact keyword filtering ---
-    keyword_matches = []
+    # --- 1️⃣ Exact keyword match (case-insensitive) ---
+    keyword_hits = []
     for c in chunks:
         text_lower = c["text"].lower()
+        # prioritize strong keyword hits for technical terms
         if any(k in text_lower for k in keywords):
-            keyword_matches.append(c["text"])
+            keyword_hits.append(c["text"])
 
-    # --- 2️⃣ If we found strong keyword matches, prioritize them ---
-    if keyword_matches:
-        print(f"✅ Keyword matches found for query: {query}")
-        return keyword_matches[:k]
+    if keyword_hits:
+        print(f"✅ Keyword matches found for query: {query} ({len(keyword_hits)} hits)")
+        return keyword_hits[:k]
 
-    # --- 3️⃣ Otherwise, fallback to semantic search ---
-    print(f"⚠️ No keyword hits for '{query}', using semantic search...")
+    # --- 2️⃣ Semantic fallback ---
+    print(f"⚠️ No keyword hits for '{query}', switching to semantic search...")
     q_emb = client.embeddings.create(
         input=query,
         model="text-embedding-3-large"
@@ -88,7 +87,6 @@ def search(query, index, chunks, embeddings, k=5):
     top_texts = [chunks[i]["text"] for i in I[0]]
 
     return top_texts
-
 
 # -------------------------
 # Streamlit UI
