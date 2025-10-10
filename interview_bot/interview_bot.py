@@ -101,40 +101,52 @@ else:
 
 
 
-def search(query, k=12):
+def search(query, k=10):
     if "index" not in st.session_state:
         st.error("FAISS index not initialized.")
         return []
 
-    # 🔹 2. Semantic search with cosine similarity
+    query_lower = query.lower()
+    query_terms = query_lower.split()
+
+    # 🔹 Semantic Search (FAISS cosine similarity)
     q_emb = client.embeddings.create(
         input=query,
         model="text-embedding-3-large"
     ).data[0].embedding
-
     q_emb = np.array([q_emb], dtype="float32")
-    faiss.normalize_L2(q_emb)  # normalize query vector
+    faiss.normalize_L2(q_emb)
 
     D, I = index.search(q_emb, k)
     semantic_matches = [chunks[i] for i in I[0]]
 
-    # 🔹 Keyword scoring
-    query_terms = query.lower().split()
-    def keyword_score(text):
-        t = text.lower()
-        return sum(w in t for w in query_terms)
+    # 🔹 Keyword Search across all fields
+    keyword_hits = []
+    for c in chunks:
+        combined = " ".join([
+            c.get("text", ""),
+            c.get("question", ""),
+            c.get("principle", "")
+        ]).lower()
+        score = sum(w in combined for w in query_terms)
+        if score > 0:
+            keyword_hits.append((score, c))
 
-    for c in semantic_matches:
-        c["score"] = keyword_score(c["text"])
+    # Sort keyword hits
+    keyword_hits = [c for _, c in sorted(keyword_hits, key=lambda x: -x[0])][:k]
 
-    # 🔹 Combine + rerank
-    reranked = sorted(semantic_matches, key=lambda x: x["score"], reverse=True)
+    # 🔹 Merge semantic + keyword results
+    all_matches = semantic_matches + [c for c in keyword_hits if c not in semantic_matches]
 
-    # Debug print
+    # 🔹 Re-rank for combined strength
+    for c in all_matches:
+        c["score"] = sum(w in c["text"].lower() for w in query_terms)
+    reranked = sorted(all_matches, key=lambda x: x["score"], reverse=True)
+
+    # ✅ Debug log for console
     print(f"\n🔍 Query: {query}")
     for i, c in enumerate(reranked[:5]):
         print(f"{i+1}. {c.get('principle','N/A')} | {c.get('question','')[:80]}")
-    print("-----")
 
     return reranked[:4]
 
