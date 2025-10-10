@@ -1,8 +1,7 @@
 streamlit
-openai
-faiss-cpu
-numpy
 streamlit-mic-recorder
+faiss-cpu
+openai>=1.40.0
+numpy
+jsonschema
 tqdm
-soundfile
-pydub
