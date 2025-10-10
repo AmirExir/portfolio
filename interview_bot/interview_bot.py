@@ -93,15 +93,25 @@ else:
     embeddings = np.load(EMB_FILE)
     with open(CHUNKS_FILE, "r", encoding="utf-8") as f:
         chunks = json.load(f)
+import faiss
 
-if 'index' not in locals():
+# -------------------------
+# Build FAISS index (robust version)
+# -------------------------
+if "index" not in st.session_state:
     if embeddings is not None and len(embeddings) > 0:
-        index = faiss.IndexFlatL2(embeddings.shape[1])
+        # Normalize for cosine similarity (optional but better for semantic match)
+        faiss.normalize_L2(embeddings)
+
+        index = faiss.IndexFlatIP(embeddings.shape[1])  # IP = cosine similarity
         index.add(embeddings)
+        st.session_state["index"] = index
+        st.success("✅ FAISS index initialized successfully.")
     else:
         st.error("❌ No embeddings found! Please rebuild embeddings.")
         st.stop()
-
+else:
+    index = st.session_state["index"]
 
 
 
