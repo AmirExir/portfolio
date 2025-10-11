@@ -1,13 +1,29 @@
-# agent/backtest.py
 import pandas as pd
+import numpy as np
 
-def simple_vector_backtest(df: pd.DataFrame, signal: pd.Series, fee_bps=1) -> pd.DataFrame:
-    ret = df["close"].pct_change().fillna(0.0)
-    pos = signal.shift(1).fillna(0.0)  # enter at next bar
-    gross = pos * ret
-    # fees when position changes
-    turns = (pos - pos.shift(1)).abs().fillna(0.0)
-    fee = turns * (fee_bps/10000)
-    net = gross - fee
-    curve = (1 + net).cumprod()
-    return pd.DataFrame({"ret": net, "curve": curve})
+def simple_vector_backtest(df: pd.DataFrame, signal: pd.Series, fee_bps: float = 1) -> pd.DataFrame:
+    """
+    Simple vectorized backtest for SMA crossover strategy.
+    df: DataFrame with 'close' column
+    signal: Series of 1 (buy/hold) or 0 (flat)
+    fee_bps: trading fee in basis points (default 1 = 0.01%)
+    """
+    # Ensure alignment
+    df = df.copy()
+    signal = signal.reindex(df.index).fillna(0)
+
+    # Daily returns
+    df["ret"] = df["close"].pct_change().fillna(0)
+
+    # Strategy returns (only earn when in position)
+    df["strategy_ret"] = df["ret"] * signal.shift(1)
+
+    # Apply trading fees when position changes
+    df["trade"] = signal.diff().abs()
+    df["strategy_ret"] -= df["trade"] * (fee_bps / 10000.0)
+
+    # Compute cumulative returns
+    df["curve"] = (1 + df["strategy_ret"]).cumprod()
+    df["net"] = df["strategy_ret"]
+
+    return df[["net", "curve"]]
