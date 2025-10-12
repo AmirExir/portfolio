@@ -1,25 +1,32 @@
 import streamlit as st
 import pandas as pd
-from agent.data import get_ohlcv
-from agent.strategy import sma_crossover
-from agent.backtest import simple_vector_backtest
-from agent.broker import get_account, submit_order, cancel_open_orders
 import datetime as dt
 import os
 import sys
 import requests
-
 import base64
 import json
 
-sys.path.append(os.path.dirname(__file__))
+# Add the parent directory to the path for local imports
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+# Try to import agent modules, with fallback handling
+try:
+    from agent.data import get_ohlcv
+    from agent.strategy import sma_crossover
+    from agent.backtest import simple_vector_backtest
+    from agent.broker import get_account, submit_order, cancel_open_orders
+except ImportError as e:
+    st.error(f"⚠️ Failed to import agent modules: {e}")
+    st.info("Please ensure the 'agent' folder exists in the same directory as this app.")
+    st.stop()
 
 st.set_page_config(page_title="Market Agent Dashboard", layout="wide")
 
 st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
 
 # --- Fetch the latest summary from GitHub ---
-st.markdown("### 🧠 Latest AI Summary")
+st.markdown("## 📊 AI-Generated Market Summary")
 
 url = "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent/summary.txt"
 
@@ -33,16 +40,18 @@ try:
         # GitHub API returns content with newlines, so we need to remove them first
         content_base64 = data["content"].replace("\n", "")
         summary_text = base64.b64decode(content_base64).decode("utf-8")
+        
+        # Display in a nice info box
+        st.info(summary_text)
     else:
-        summary_text = "⚠️ No content found in the response"
+        st.warning("⚠️ No content found in the response")
         
 except requests.exceptions.RequestException as e:
-    summary_text = f"⚠️ Error fetching summary from GitHub: {e}"
+    st.warning(f"⚠️ Error fetching summary from GitHub: {e}")
 except Exception as e:
-    summary_text = f"⚠️ Error decoding summary: {e}"
+    st.warning(f"⚠️ Error decoding summary: {e}")
 
-# Display the summary in a nice format
-st.markdown(summary_text)
+st.markdown("---")
 
 # Owner Key unlock system
 owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password")
@@ -89,8 +98,14 @@ st.sidebar.metric("Buying Power", f"${buying_power:,.2f}")
 
 # --- Add a Cancel Orders Button ---
 if st.sidebar.button("🧹 Cancel Open Orders"):
-    cancel_open_orders()
-    st.sidebar.success("All open orders canceled!")
+    if not demo_mode:
+        try:
+            cancel_open_orders()
+            st.sidebar.success("All open orders canceled!")
+        except Exception as e:
+            st.sidebar.error(f"Failed to cancel orders: {e}")
+    else:
+        st.sidebar.info("(Demo) Orders not canceled in demo mode")
 
 # --- Strategy Settings ---
 st.sidebar.header("📊 Strategy Settings")
@@ -98,7 +113,7 @@ short_window = st.sidebar.number_input("Short-term MA window", min_value=1, max_
 long_window = st.sidebar.number_input("Long-term MA window", min_value=1, max_value=200, value=50, step=1)
 
 # --- Symbol input ---
-symbol = st.text_input("Symbol", "AAPL", key="symbol_input")
+symbol = st.text_input("Symbol", "AAPL", key="symbol_input").upper()
 
 # --- Manual Trade Buttons ---
 col1, col2 = st.columns(2)
@@ -107,40 +122,55 @@ with col1:
         if demo_mode:
             st.info(f"(Demo) Pretending to buy 1 share of {symbol}")
         else:
-            result = submit_order(symbol, 1, "buy")
-            st.success(f"Bought 1 share of {symbol}")
-            st.json(result)
+            try:
+                result = submit_order(symbol, 1, "buy")
+                st.success(f"Bought 1 share of {symbol}")
+                st.json(result)
+            except Exception as e:
+                st.error(f"Failed to buy: {e}")
 with col2:
     if st.button(f"🔴 Sell {symbol}"):
         if demo_mode:
             st.info(f"(Demo) Pretending to sell 1 share of {symbol}")
         else:
-            result = submit_order(symbol, 1, "sell")
-            st.warning(f"Sold 1 share of {symbol}")
-            st.json(result)
+            try:
+                result = submit_order(symbol, 1, "sell")
+                st.warning(f"Sold 1 share of {symbol}")
+                st.json(result)
+            except Exception as e:
+                st.error(f"Failed to sell: {e}")
 
 # --- Load data and backtest ---
-df = get_ohlcv(symbol, 400)
+try:
+    df = get_ohlcv(symbol, 400)
+    
+    sig = sma_crossover(df, short_window, long_window)
+    bt = simple_vector_backtest(df, sig)
+    
+    st.subheader("📊 Price Chart")
+    st.line_chart(df["close"])
+    
+    st.subheader("📈 Strategy Equity Curve")
+    st.line_chart(bt["curve"])
+    
+    # --- Latest Signal + Timestamp ---
+    signal_emoji = "🟢 BUY" if sig.iloc[-1] == 1 else "🔴 FLAT"
+    st.write(f"**Latest Signal:** {signal_emoji}")
+    st.caption(f"Last updated {dt.datetime.utcnow():%Y-%m-%d %H:%M UTC}")
+    
+except Exception as e:
+    st.error(f"⚠️ Error loading market data: {e}")
+    st.info("Please check if the symbol is valid and try again.")
 
-sig = sma_crossover(df, short_window, long_window)
-bt = simple_vector_backtest(df, sig)
-
-st.subheader("📊 Price Chart")
-st.line_chart(df["close"])
-
-st.subheader("Strategy Equity Curve")
-st.line_chart(bt["curve"])
-
-# --- Latest Signal + Timestamp ---
-st.write("Latest Signal:", "🟢 BUY" if sig.iloc[-1] == 1 else "🔴 FLAT")
-st.caption(f"Last updated {dt.datetime.utcnow():%Y-%m-%d %H:%M UTC}")
 st.markdown("---")
 
-try:
-    r = requests.get("https://paper-api.alpaca.markets/v2/orders", headers={
-        "APCA-API-KEY-ID": os.getenv("ALPACA_KEY"),
-        "APCA-API-SECRET-KEY": os.getenv("ALPACA_SECRET"),
-    })
-    print(r.json())
-except Exception as e:
-    st.error(f"Failed to fetch orders from Alpaca API: {e}")
+# Debug info (only show in sidebar if needed)
+if st.sidebar.checkbox("Show Debug Info", value=False):
+    try:
+        r = requests.get("https://paper-api.alpaca.markets/v2/orders", headers={
+            "APCA-API-KEY-ID": ALPACA_KEY,
+            "APCA-API-SECRET-KEY": ALPACA_SECRET,
+        })
+        st.sidebar.json(r.json())
+    except Exception as e:
+        st.sidebar.error(f"Failed to fetch orders: {e}")
