@@ -3,9 +3,11 @@ import pandas as pd
 from agent.data import get_ohlcv
 from agent.strategy import sma_crossover
 from agent.backtest import simple_vector_backtest
-from agent.broker import get_account, submit_order, cancel_open_orders  # make sure cancel_open_orders is imported
+from agent.broker import get_account, submit_order, cancel_open_orders
 import datetime as dt
 import os
+import sys
+sys.path.append(os.path.dirname(__file__))
 
 st.set_page_config(page_title="Market Agent", layout="wide")
 
@@ -49,7 +51,7 @@ else:
     except Exception as e:
         st.sidebar.error(f"⚠️ Failed to fetch Alpaca account: {e}")
         equity, cash, buying_power = 100000.0, 100000.0, 200000.0
-        
+
 st.sidebar.header("💰 Account Summary (Paper Trading)")
 st.sidebar.metric("Equity", f"${equity:,.2f}")
 st.sidebar.metric("Cash", f"${cash:,.2f}")
