@@ -19,3 +19,10 @@ def submit_order(symbol, qty, side, type="market", tif="day", stop_price=None):
     if stop_price: payload["stop_price"] = str(stop_price)
     r = requests.post(f"{BASE}/v2/orders", headers=_headers(), json=payload)
     return r.json()
+
+def submit_order(symbol, qty, side, type="market", tif="day", stop_price=None):
+    payload = {"symbol": symbol, "qty": qty, "side": side, "type": type, "time_in_force": tif}
+    if stop_price:
+        payload["stop_price"] = stop_price
+    r = requests.post(f"{BASE}/v2/orders", headers=headers(), json=payload)
+    return r.json()
