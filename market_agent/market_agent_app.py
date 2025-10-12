@@ -12,6 +12,30 @@ st.set_page_config(page_title="Market Agent", layout="wide")
 st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
 
 
+MY_EMAIL = "amirexirpe@gmail.com"  # replace with your Streamlit Cloud account email
+
+# Try to detect current Streamlit Cloud user (if available)
+try:
+    from streamlit.runtime.scriptrunner import get_script_run_ctx
+    ctx = get_script_run_ctx()
+    user_email = getattr(ctx, "user_email", None)
+except Exception:
+    user_email = None
+
+# Determine if user is owner
+is_owner = (user_email == MY_EMAIL)
+
+# If you are the owner, show toggle
+if is_owner:
+    demo_mode = st.sidebar.checkbox("🧪 Demo Mode", value=False, help="Toggle between live and demo mode")
+    if demo_mode:
+        st.sidebar.info("🧪 Demo Mode active — trades will not be executed.")
+    else:
+        st.sidebar.success("✅ Live Mode active — connected to Alpaca paper trading.")
+else:
+    demo_mode = True
+    st.sidebar.info("🧪 Demo Mode forced ON for public viewers — safe demo mode.")
+
 # --- Load Alpaca credentials from Streamlit Secrets ---
 ALPACA_KEY = st.secrets["ALPACA_KEY"]
 ALPACA_SECRET = st.secrets["ALPACA_SECRET"]
@@ -44,14 +68,20 @@ symbol = st.text_input("Symbol", "AAPL", key="symbol_input")
 col1, col2 = st.columns(2)
 with col1:
     if st.button(f"🟢 Buy {symbol}"):
-        result = submit_order(symbol, 1, "buy")
-        st.success(f"Bought 1 share of {symbol}")
-        st.json(result)
+        if demo_mode:
+            st.info(f"(Demo) Pretending to buy 1 share of {symbol}")
+        else:
+            result = submit_order(symbol, 1, "buy")
+            st.success(f"Bought 1 share of {symbol}")
+            st.json(result)
 with col2:
     if st.button(f"🔴 Sell {symbol}"):
-        result = submit_order(symbol, 1, "sell")
-        st.warning(f"Sold 1 share of {symbol}")
-        st.json(result)
+        if demo_mode:
+            st.info(f"(Demo) Pretending to sell 1 share of {symbol}")
+        else:
+            result = submit_order(symbol, 1, "sell")
+            st.warning(f"Sold 1 share of {symbol}")
+            st.json(result)
 
 
 
