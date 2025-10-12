@@ -27,20 +27,29 @@ else:
     st.sidebar.info("🧪 Demo Mode forced ON for public viewers — safe demo mode.")
 
 # --- Load Alpaca credentials from Streamlit Secrets ---
-ALPACA_KEY = st.secrets["ALPACA_KEY"]
-ALPACA_SECRET = st.secrets["ALPACA_SECRET"]
+ALPACA_KEY = st.secrets.get("ALPACA_KEY")
+ALPACA_SECRET = st.secrets.get("ALPACA_SECRET")
 ALPACA_ENDPOINT = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
 
 # --- Account Summary ---
-if demo_mode:
-    equity = 100000
-    cash = 100000
-    buying_power = 200000
+if demo_mode or not ALPACA_KEY or not ALPACA_SECRET:
+    equity, cash, buying_power = 100000.0, 100000.0, 200000.0
+    if not ALPACA_KEY or not ALPACA_SECRET:
+        st.sidebar.warning("⚠️ Alpaca API keys not found — using demo values.")
 else:
-    acct = get_account()
-    equity = float(acct.get("equity", 0))
-    cash = float(acct.get("cash", 0))
-    buying_power = float(acct.get("buying_power", 0))
+    try:
+        acct = get_account()
+        if isinstance(acct, dict) and "equity" in acct:
+            equity = float(acct.get("equity", 0))
+            cash = float(acct.get("cash", 0))
+            buying_power = float(acct.get("buying_power", 0))
+        else:
+            st.sidebar.warning("⚠️ Invalid response from Alpaca — using demo values.")
+            equity, cash, buying_power = 100000.0, 100000.0, 200000.0
+    except Exception as e:
+        st.sidebar.error(f"⚠️ Failed to fetch Alpaca account: {e}")
+        equity, cash, buying_power = 100000.0, 100000.0, 200000.0
+        
 st.sidebar.header("💰 Account Summary (Paper Trading)")
 st.sidebar.metric("Equity", f"${equity:,.2f}")
 st.sidebar.metric("Cash", f"${cash:,.2f}")
