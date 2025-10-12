@@ -35,21 +35,37 @@ try:
     response.raise_for_status()
     data = response.json()
 
+    # Debug: Show what we got
+    # st.write("DEBUG - Response type:", type(data))
+    # st.write("DEBUG - Response keys:", data.keys() if isinstance(data, dict) else "Not a dict")
+
     # Decode Base64 content from GitHub API
-    if "content" in data:
+    if isinstance(data, dict) and "content" in data:
         # GitHub API returns content with newlines, so we need to remove them first
-        content_base64 = data["content"].replace("\n", "")
+        content_base64 = data["content"].replace("\n", "").replace(" ", "")
         summary_text = base64.b64decode(content_base64).decode("utf-8")
+        
+        # Ensure it's a string
+        if not isinstance(summary_text, str):
+            summary_text = str(summary_text)
         
         # Display in a nice info box
         st.info(summary_text)
+    elif isinstance(data, dict) and "message" in data:
+        # GitHub API error message
+        st.error(f"GitHub API Error: {data.get('message', 'Unknown error')}")
+        if data.get('message') == 'Not Found':
+            st.info("The summary.txt file doesn't exist yet. The n8n workflow will create it on first run.")
     else:
-        st.warning("⚠️ No content found in the response")
+        st.warning("⚠️ Unexpected response format from GitHub API")
+        st.json(data)  # Show the actual response for debugging
         
 except requests.exceptions.RequestException as e:
     st.warning(f"⚠️ Error fetching summary from GitHub: {e}")
+    st.info("Make sure the file exists at: https://github.com/AmirExir/portfolio/blob/main/market_agent/summary.txt")
 except Exception as e:
     st.warning(f"⚠️ Error decoding summary: {e}")
+    st.info("There might be an issue with the file encoding or format.")
 
 st.markdown("---")
 
