@@ -41,16 +41,22 @@ try:
 
     # Decode Base64 content from GitHub API
     if isinstance(data, dict) and "content" in data:
-        # GitHub API returns content with newlines, so we need to remove them first
         content_base64 = data["content"].replace("\n", "").replace(" ", "")
-        summary_text = base64.b64decode(content_base64).decode("utf-8")
-        
-        # Ensure it's a string
-        if not isinstance(summary_text, str):
-            summary_text = str(summary_text)
-        
-        # Display in a nice info box
-        st.info(summary_text)
+        summary_decoded = base64.b64decode(content_base64).decode("utf-8", errors="ignore")
+
+        # Try parsing as JSON if it's not plain text
+        try:
+            maybe_json = json.loads(summary_decoded)
+            if isinstance(maybe_json, dict):
+                summary_text = maybe_json.get("content") or maybe_json.get("message") or str(maybe_json)
+            elif isinstance(maybe_json, list):
+                summary_text = "\n".join([str(item) for item in maybe_json])
+            else:
+                summary_text = str(maybe_json)
+        except json.JSONDecodeError:
+            summary_text = summary_decoded
+
+        st.info(summary_text.strip())
     elif isinstance(data, dict) and "message" in data:
         # GitHub API error message
         st.error(f"GitHub API Error: {data.get('message', 'Unknown error')}")
