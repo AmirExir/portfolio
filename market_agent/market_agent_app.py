@@ -30,12 +30,14 @@ st.markdown("## 📊 AI-Generated Market Summary")
 
 url = "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent/summary.txt"
 
-summary_text = None
-
 try:
     response = requests.get(url)
     response.raise_for_status()
     data = response.json()
+
+    # Debug: Show what we got
+    # st.write("DEBUG - Response type:", type(data))
+    # st.write("DEBUG - Response keys:", data.keys() if isinstance(data, dict) else "Not a dict")
 
     # Decode Base64 content from GitHub API
     if isinstance(data, dict) and "content" in data:
@@ -43,8 +45,12 @@ try:
         content_base64 = data["content"].replace("\n", "").replace(" ", "")
         summary_text = base64.b64decode(content_base64).decode("utf-8")
         
-        # Display in a nice markdown box
-        st.markdown(f"```\n{summary_text}\n```")
+        # Ensure it's a string
+        if not isinstance(summary_text, str):
+            summary_text = str(summary_text)
+        
+        # Display in a nice info box
+        st.info(summary_text)
     elif isinstance(data, dict) and "message" in data:
         # GitHub API error message
         st.error(f"GitHub API Error: {data.get('message', 'Unknown error')}")
@@ -52,12 +58,14 @@ try:
             st.info("The summary.txt file doesn't exist yet. The n8n workflow will create it on first run.")
     else:
         st.warning("⚠️ Unexpected response format from GitHub API")
+        st.json(data)  # Show the actual response for debugging
         
 except requests.exceptions.RequestException as e:
     st.warning(f"⚠️ Error fetching summary from GitHub: {e}")
     st.info("Make sure the file exists at: https://github.com/AmirExir/portfolio/blob/main/market_agent/summary.txt")
 except Exception as e:
     st.warning(f"⚠️ Error decoding summary: {e}")
+    st.info("There might be an issue with the file encoding or format.")
 
 st.markdown("---")
 
@@ -155,32 +163,11 @@ try:
     sig = sma_crossover(df, short_window, long_window)
     bt = simple_vector_backtest(df, sig)
     
-    # Create two columns for charts
-    col1, col2 = st.columns(2)
+    st.subheader("📊 Price Chart")
+    st.line_chart(df["close"])
     
-    with col1:
-        st.subheader("📊 Price Chart")
-        # Check if 'close' column exists (might be multi-index)
-        if isinstance(df.columns, pd.MultiIndex):
-            # Multi-index DataFrame - get the close column
-            close_data = df.xs('close', axis=1, level=0)
-        else:
-            close_data = df["close"]
-        st.line_chart(close_data)
-    
-    with col2:
-        st.subheader("📈 Strategy Equity Curve")
-        # Check what bt["curve"] actually is
-        if isinstance(bt, dict) and "curve" in bt:
-            curve_data = bt["curve"]
-            if isinstance(curve_data, pd.Series):
-                st.line_chart(curve_data)
-            elif isinstance(curve_data, pd.DataFrame):
-                st.line_chart(curve_data)
-            else:
-                st.error(f"Unexpected curve data type: {type(curve_data)}")
-        else:
-            st.error("Backtest results don't contain 'curve' data")
+    st.subheader("📈 Strategy Equity Curve")
+    st.line_chart(bt["curve"])
     
     # --- Latest Signal + Timestamp ---
     signal_emoji = "🟢 BUY" if sig.iloc[-1] == 1 else "🔴 FLAT"
@@ -190,8 +177,6 @@ try:
 except Exception as e:
     st.error(f"⚠️ Error loading market data: {e}")
     st.info("Please check if the symbol is valid and try again.")
-    import traceback
-    st.code(traceback.format_exc())
 
 st.markdown("---")
 
