@@ -89,19 +89,31 @@ df_filtered["ma_long"] = df_filtered["close"].rolling(window=long_window).mean()
 with col1:
     st.subheader("📊 Price and Moving Averages")
     
-    # Debug: Check the data
+    # Debug: Check the data structure
+    st.write("DataFrame columns:", df_filtered.columns.tolist())
+    st.write("DataFrame shape:", df_filtered.shape)
     st.write(f"Data range: {df_filtered.index.min()} to {df_filtered.index.max()}")
-    st.write(f"Close price range: ${float(df_filtered['close'].min()):.2f} to ${float(df_filtered['close'].max()):.2f}")
+    
+    # Check if 'close' column exists, if not, try 'Close'
+    if 'close' in df_filtered.columns:
+        close_col = 'close'
+    elif 'Close' in df_filtered.columns:
+        close_col = 'Close'
+    else:
+        st.error(f"Cannot find 'close' or 'Close' column. Available columns: {df_filtered.columns.tolist()}")
+        st.stop()
+    
+    st.write(f"Close price range: ${float(df_filtered[close_col].min()):.2f} to ${float(df_filtered[close_col].max()):.2f}")
     st.write(f"Number of data points: {len(df_filtered)}")
     
     # Prepare Plotly figure
     fig = go.Figure()
     
-    # Convert data to lists to ensure proper plotting
-    x_data = df_filtered.index.tolist()
-    close_data = df_filtered["close"].tolist()
-    ma_short_data = df_filtered["ma_short"].tolist()
-    ma_long_data = df_filtered["ma_long"].tolist()
+    # Convert data to numpy arrays first, then to lists
+    x_data = df_filtered.index.values
+    close_data = df_filtered[close_col].values
+    ma_short_data = df_filtered["ma_short"].values
+    ma_long_data = df_filtered["ma_long"].values
     
     # Add Close price trace
     fig.add_trace(go.Scatter(
@@ -141,11 +153,9 @@ with col1:
 
     # Add buy markers
     if buy_points.any():
-        buy_indices = df_filtered.index[buy_points].tolist()
-        buy_prices = df_filtered["close"][buy_points].tolist()
         fig.add_trace(go.Scatter(
-            x=buy_indices,
-            y=buy_prices,
+            x=df_filtered.index[buy_points].values,
+            y=df_filtered[close_col][buy_points].values,
             mode="markers",
             marker=dict(symbol="triangle-up", color="lime", size=15, line=dict(color="darkgreen", width=2)),
             name="Buy",
@@ -154,11 +164,9 @@ with col1:
     
     # Add sell markers
     if sell_points.any():
-        sell_indices = df_filtered.index[sell_points].tolist()
-        sell_prices = df_filtered["close"][sell_points].tolist()
         fig.add_trace(go.Scatter(
-            x=sell_indices,
-            y=sell_prices,
+            x=df_filtered.index[sell_points].values,
+            y=df_filtered[close_col][sell_points].values,
             mode="markers",
             marker=dict(symbol="triangle-down", color="red", size=15, line=dict(color="darkred", width=2)),
             name="Sell",
@@ -166,8 +174,8 @@ with col1:
         ))
 
     # Calculate y-axis range with padding
-    y_min = float(df_filtered["close"].min())
-    y_max = float(df_filtered["close"].max())
+    y_min = float(df_filtered[close_col].min())
+    y_max = float(df_filtered[close_col].max())
     y_padding = (y_max - y_min) * 0.1
     y_range = [y_min - y_padding, y_max + y_padding]
 
@@ -218,8 +226,7 @@ with col1:
             linecolor="#555555",
             linewidth=2,
             mirror=True,
-            autorange=True,
-            rangemode='normal'
+            range=y_range
         ),
         title=dict(
             text=f"📈 {symbol} Price Chart - {timeframe}", 
