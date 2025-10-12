@@ -90,10 +90,11 @@ with col1:
     st.subheader("📊 Price and Moving Averages")
     # Prepare Plotly figure
     fig = go.Figure()
-    # Convert y values to float to ensure proper scaling
-    close_vals = df_filtered["close"].astype(float)
-    ma_short_vals = df_filtered["ma_short"].astype(float)
-    ma_long_vals = df_filtered["ma_long"].astype(float)
+    # Don't convert to float - keep as is, pandas Series already has proper values
+    close_vals = df_filtered["close"]
+    ma_short_vals = df_filtered["ma_short"]
+    ma_long_vals = df_filtered["ma_long"]
+    
     fig.add_trace(go.Scatter(x=df_filtered.index, y=close_vals, mode="lines", name="Close",
                              line=dict(color='cyan', width=3), yaxis="y1"))
     fig.add_trace(go.Scatter(x=df_filtered.index, y=ma_short_vals, mode="lines", name=f"MA {short_window}",
@@ -125,9 +126,9 @@ with col1:
         yaxis="y1"
     ))
 
-    # Determine y-axis range with padding
-    y_min = close_vals.min()
-    y_max = close_vals.max()
+    # Determine y-axis range with padding - use proper min/max
+    y_min = float(close_vals.min())
+    y_max = float(close_vals.max())
     y_range = [y_min - (y_max - y_min)*0.05, y_max + (y_max - y_min)*0.05]
 
     # Determine x-axis tickformat based on timeframe
@@ -161,15 +162,13 @@ with col1:
             automargin=True,
         ),
         yaxis=dict(
-            title="Price",
+            title="Price ($)",
             showgrid=True,
             gridcolor="#222222",
             showline=True,
             linecolor="#444444",
             range=y_range,
-            zeroline=True,
-            zerolinewidth=1,
-            zerolinecolor="#666666",
+            zeroline=False,
             ticks="outside",
             minor=dict(ticks="outside", ticklen=4, showgrid=True, gridcolor="#333333"),
             automargin=True,
