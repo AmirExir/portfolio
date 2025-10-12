@@ -8,6 +8,10 @@ import datetime as dt
 import os
 import sys
 import requests
+
+import base64
+import json
+
 sys.path.append(os.path.dirname(__file__))
 
 st.set_page_config(page_title="Market Agent", layout="wide")
@@ -19,17 +23,24 @@ st.set_page_config(page_title="Market Agent Dashboard", layout="wide")
 st.title("📈 AI-Generated Market Summary")
 
 # --- Fetch the latest summary from GitHub ---
-url = "https://raw.githubusercontent.com/AmirExir/portfolio/main/market_agent/summary.txt"
+st.markdown("### 🧠 Latest AI Summary")
+
+url = "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent/summary.txt"
 
 try:
     response = requests.get(url)
     response.raise_for_status()
-    summary_text = response.text
+    data = response.json()
+
+    # If GitHub API returns Base64-encoded content
+    if isinstance(data, dict) and "content" in data:
+        summary_text = base64.b64decode(data["content"]).decode("utf-8")
+    else:
+        # fallback for plain text (raw URL use)
+        summary_text = str(data)
 except Exception as e:
     summary_text = f"⚠️ Error fetching summary: {e}"
 
-# --- Display it in the app ---
-st.markdown("### 🧠 Latest AI Summary")
 st.write(summary_text)
 
 # Owner Key unlock system
