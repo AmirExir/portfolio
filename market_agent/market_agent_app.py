@@ -87,12 +87,15 @@ col1, col2 = st.columns(2)
 df_filtered["ma_short"] = df_filtered["close"].rolling(window=short_window).mean()
 df_filtered["ma_long"] = df_filtered["close"].rolling(window=long_window).mean()
 with col1:
-    st.subheader("Price Chart")
+    st.subheader("📊 Price and Moving Averages")
     # Prepare Plotly figure
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df_filtered.index, y=df_filtered["close"], mode="lines", name="Close"))
-    fig.add_trace(go.Scatter(x=df_filtered.index, y=df_filtered["ma_short"], mode="lines", name=f"MA {short_window}"))
-    fig.add_trace(go.Scatter(x=df_filtered.index, y=df_filtered["ma_long"], mode="lines", name=f"MA {long_window}"))
+    fig.add_trace(go.Scatter(x=df_filtered.index, y=df_filtered["close"], mode="lines", name="Close",
+                             line=dict(color='cyan', width=3)))
+    fig.add_trace(go.Scatter(x=df_filtered.index, y=df_filtered["ma_short"], mode="lines", name=f"MA {short_window}",
+                             line=dict(color='white', width=1), opacity=0.6))
+    fig.add_trace(go.Scatter(x=df_filtered.index, y=df_filtered["ma_long"], mode="lines", name=f"MA {long_window}",
+                             line=dict(color='white', width=1), opacity=0.6))
 
     # Find buy and sell points
     sig_shift = sig.shift(1).fillna(0)
@@ -115,9 +118,31 @@ with col1:
         marker=dict(symbol="triangle-down", color="red", size=12),
         name="Sell"
     ))
-    fig.update_layout(legend=dict(x=0, y=1), margin=dict(l=20, r=20, t=30, b=20))
-    fig.update_layout(dragmode="drawline")
-    fig.update_layout(newshape_line_color="yellow")
+    fig.update_layout(
+        template="plotly_dark",
+        legend=dict(x=1, y=1, xanchor='right', yanchor='top', bgcolor='rgba(0,0,0,0)'),
+        margin=dict(l=20, r=20, t=50, b=40),
+        dragmode="drawline",
+        newshape_line_color="yellow",
+        plot_bgcolor="#111111",
+        paper_bgcolor="#111111",
+        xaxis=dict(
+            tickangle=-45,
+            showgrid=True,
+            gridcolor="#222222",
+            zerolinecolor="#444444",
+            showline=True,
+            linecolor="#444444",
+        ),
+        yaxis=dict(
+            showgrid=True,
+            gridcolor="#222222",
+            zerolinecolor="#444444",
+            showline=True,
+            linecolor="#444444",
+        ),
+        title=dict(text="Price Chart", x=0.5, xanchor='center', font=dict(color='white', size=16))
+    )
     st.plotly_chart(fig, use_container_width=True)
     st.info("Use the toolbar above the chart to draw lines, shapes, or annotations directly on the chart.")
 with col2:
