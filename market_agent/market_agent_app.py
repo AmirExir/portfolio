@@ -14,13 +14,9 @@ import json
 
 sys.path.append(os.path.dirname(__file__))
 
-st.set_page_config(page_title="Market Agent", layout="wide")
+st.set_page_config(page_title="Market Agent Dashboard", layout="wide")
 
 st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
-
-
-st.set_page_config(page_title="Market Agent Dashboard", layout="wide")
-st.title("📈 AI-Generated Market Summary")
 
 # --- Fetch the latest summary from GitHub ---
 st.markdown("### 🧠 Latest AI Summary")
@@ -32,16 +28,21 @@ try:
     response.raise_for_status()
     data = response.json()
 
-    # If GitHub API returns Base64-encoded content
-    if isinstance(data, dict) and "content" in data:
-        summary_text = base64.b64decode(data["content"]).decode("utf-8")
+    # Decode Base64 content from GitHub API
+    if "content" in data:
+        # GitHub API returns content with newlines, so we need to remove them first
+        content_base64 = data["content"].replace("\n", "")
+        summary_text = base64.b64decode(content_base64).decode("utf-8")
     else:
-        # fallback for plain text (raw URL use)
-        summary_text = str(data)
+        summary_text = "⚠️ No content found in the response"
+        
+except requests.exceptions.RequestException as e:
+    summary_text = f"⚠️ Error fetching summary from GitHub: {e}"
 except Exception as e:
-    summary_text = f"⚠️ Error fetching summary: {e}"
+    summary_text = f"⚠️ Error decoding summary: {e}"
 
-st.write(summary_text)
+# Display the summary in a nice format
+st.markdown(summary_text)
 
 # Owner Key unlock system
 owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password")
@@ -118,9 +119,6 @@ with col2:
             st.warning(f"Sold 1 share of {symbol}")
             st.json(result)
 
-
-
-
 # --- Load data and backtest ---
 df = get_ohlcv(symbol, 400)
 
@@ -137,7 +135,6 @@ st.line_chart(bt["curve"])
 st.write("Latest Signal:", "🟢 BUY" if sig.iloc[-1] == 1 else "🔴 FLAT")
 st.caption(f"Last updated {dt.datetime.utcnow():%Y-%m-%d %H:%M UTC}")
 st.markdown("---")
-import requests
 
 try:
     r = requests.get("https://paper-api.alpaca.markets/v2/orders", headers={
