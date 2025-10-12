@@ -164,7 +164,6 @@ with col1:
             title="Price",
             showgrid=True,
             gridcolor="#222222",
-            zerolinecolor="#444444",
             showline=True,
             linecolor="#444444",
             range=y_range,
