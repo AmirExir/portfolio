@@ -90,12 +90,16 @@ with col1:
     st.subheader("📊 Price and Moving Averages")
     # Prepare Plotly figure
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df_filtered.index, y=df_filtered["close"], mode="lines", name="Close",
-                             line=dict(color='cyan', width=3)))
-    fig.add_trace(go.Scatter(x=df_filtered.index, y=df_filtered["ma_short"], mode="lines", name=f"MA {short_window}",
-                             line=dict(color='white', width=1), opacity=0.6))
-    fig.add_trace(go.Scatter(x=df_filtered.index, y=df_filtered["ma_long"], mode="lines", name=f"MA {long_window}",
-                             line=dict(color='white', width=1), opacity=0.6))
+    # Convert y values to float to ensure proper scaling
+    close_vals = df_filtered["close"].astype(float)
+    ma_short_vals = df_filtered["ma_short"].astype(float)
+    ma_long_vals = df_filtered["ma_long"].astype(float)
+    fig.add_trace(go.Scatter(x=df_filtered.index, y=close_vals, mode="lines", name="Close",
+                             line=dict(color='cyan', width=3), yaxis="y1"))
+    fig.add_trace(go.Scatter(x=df_filtered.index, y=ma_short_vals, mode="lines", name=f"MA {short_window}",
+                             line=dict(color='white', width=1), opacity=0.6, yaxis="y1"))
+    fig.add_trace(go.Scatter(x=df_filtered.index, y=ma_long_vals, mode="lines", name=f"MA {long_window}",
+                             line=dict(color='white', width=1), opacity=0.6, yaxis="y1"))
 
     # Find buy and sell points
     sig_shift = sig.shift(1).fillna(0)
@@ -105,43 +109,73 @@ with col1:
     # Add buy markers
     fig.add_trace(go.Scatter(
         x=df_filtered.index[buy_points],
-        y=df_filtered["close"][buy_points],
+        y=close_vals[buy_points],
         mode="markers",
         marker=dict(symbol="triangle-up", color="green", size=12),
-        name="Buy"
+        name="Buy",
+        yaxis="y1"
     ))
     # Add sell markers
     fig.add_trace(go.Scatter(
         x=df_filtered.index[sell_points],
-        y=df_filtered["close"][sell_points],
+        y=close_vals[sell_points],
         mode="markers",
         marker=dict(symbol="triangle-down", color="red", size=12),
-        name="Sell"
+        name="Sell",
+        yaxis="y1"
     ))
+
+    # Determine y-axis range with padding
+    y_min = close_vals.min()
+    y_max = close_vals.max()
+    y_range = [y_min - (y_max - y_min)*0.05, y_max + (y_max - y_min)*0.05]
+
+    # Determine x-axis tickformat based on timeframe
+    if timeframe in ["1Y", "6M", "1M"]:
+        x_tickformat = "%b %Y"
+    else:
+        x_tickformat = "%H:%M"
+
     fig.update_layout(
         template="plotly_dark",
         legend=dict(x=1, y=1, xanchor='right', yanchor='top', bgcolor='rgba(0,0,0,0)'),
-        margin=dict(l=20, r=20, t=50, b=40),
+        margin=dict(l=20, r=20, t=60, b=50),
         dragmode="drawline",
         newshape_line_color="yellow",
         plot_bgcolor="#111111",
         paper_bgcolor="#111111",
         xaxis=dict(
+            type="date",
+            tickformat=x_tickformat,
             tickangle=-45,
             showgrid=True,
             gridcolor="#222222",
             zerolinecolor="#444444",
             showline=True,
             linecolor="#444444",
+            ticks="outside",
+            tickson="labels",
+            showticklabels=True,
+            nticks=10,
+            minor=dict(ticks="outside", ticklen=4, showgrid=True, gridcolor="#333333"),
+            automargin=True,
         ),
         yaxis=dict(
+            title="Price",
             showgrid=True,
             gridcolor="#222222",
             zerolinecolor="#444444",
             showline=True,
             linecolor="#444444",
+            range=y_range,
+            zeroline=True,
+            zerolinewidth=1,
+            zerolinecolor="#666666",
+            ticks="outside",
+            minor=dict(ticks="outside", ticklen=4, showgrid=True, gridcolor="#333333"),
+            automargin=True,
         ),
-        title=dict(text="Price Chart", x=0.5, xanchor='center', font=dict(color='white', size=16))
+        title=dict(text="📉 Price Chart (Zoom or Draw Lines with Toolbar)", x=0.5, xanchor='center', font=dict(color='white', size=18))
     )
     st.plotly_chart(fig, use_container_width=True)
     st.info("Use the toolbar above the chart to draw lines, shapes, or annotations directly on the chart.")
