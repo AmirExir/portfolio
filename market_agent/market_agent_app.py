@@ -7,6 +7,7 @@ from agent.broker import get_account, submit_order, cancel_open_orders
 import datetime as dt
 import os
 import sys
+import requests
 sys.path.append(os.path.dirname(__file__))
 
 st.set_page_config(page_title="Market Agent", layout="wide")
