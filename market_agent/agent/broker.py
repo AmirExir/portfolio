@@ -14,11 +14,12 @@ def _headers():
         "Content-Type": "application/json",
     }
 
+BASE = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets").rstrip("/")
+
 def get_account():
     """Fetch account info safely."""
     try:
-        endpoint = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
-        r = requests.get(f"{endpoint}/v2/account", headers=_headers())
+        r = requests.get(f"{BASE}/v2/account", headers=_headers())
         if r.status_code == 200:
             return r.json()
         else:
@@ -27,7 +28,7 @@ def get_account():
     except Exception as e:
         st.error(f"⚠️ Error fetching account: {e}")
         return {}
-
+    
 def submit_order(symbol, qty, side, type="market", tif="day", stop_price=None):
     """Send a buy or sell order to Alpaca. Cancels open orders for the same symbol before submitting."""
     cancel_open_orders(symbol)
