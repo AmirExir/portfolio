@@ -3,7 +3,7 @@ import pandas as pd
 from agent.data import get_ohlcv
 from agent.strategy import sma_crossover
 from agent.backtest import simple_vector_backtest
-from agent.broker import get_account, submit_order
+from agent.broker import get_account, submit_order, cancel_open_orders  # make sure cancel_open_orders is imported
 import datetime as dt
 import os
 
@@ -28,6 +28,22 @@ st.sidebar.header("💰 Account Summary (Paper Trading)")
 st.sidebar.metric("Equity", f"${equity:,.2f}")
 st.sidebar.metric("Cash", f"${cash:,.2f}")
 st.sidebar.metric("Buying Power", f"${buying_power:,.2f}")
+
+
+# --- Account Summary ---
+acct = get_account()
+equity = float(acct.get("equity", 0))
+cash = float(acct.get("cash", 0))
+buying_power = float(acct.get("buying_power", 0))
+st.sidebar.header("💰 Account Summary (Paper Trading)")
+st.sidebar.metric("Equity", f"${equity:,.2f}")
+st.sidebar.metric("Cash", f"${cash:,.2f}")
+st.sidebar.metric("Buying Power", f"${buying_power:,.2f}")
+
+# --- Add a Cancel Orders Button ---
+if st.sidebar.button("🧹 Cancel Open Orders"):
+    cancel_open_orders()
+    st.sidebar.success("All open orders canceled!")
 
 # --- Strategy Settings ---
 st.sidebar.header("📊 Strategy Settings")
