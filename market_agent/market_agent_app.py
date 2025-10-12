@@ -58,8 +58,14 @@ st.write("Latest Signal:", "🟢 BUY" if sig.iloc[-1] == 1 else "🔴 FLAT")
 st.caption(f"Last updated {dt.datetime.utcnow():%Y-%m-%d %H:%M UTC}")
 st.markdown("---")
 import requests, os
+
 r = requests.get("https://paper-api.alpaca.markets/v2/orders", headers={
     "APCA-API-KEY-ID": os.getenv("ALPACA_KEY"),
     "APCA-API-SECRET-KEY": os.getenv("ALPACA_SECRET"),
 })
+
+if "ALPACA_KEY" in st.secrets:
+    os.environ["ALPACA_KEY"] = st.secrets["ALPACA_KEY"]
+    os.environ["ALPACA_SECRET"] = st.secrets["ALPACA_SECRET"]
+    os.environ["ALPACA_ENDPOINT"] = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
 print(r.json())
