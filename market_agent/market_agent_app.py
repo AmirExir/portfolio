@@ -12,21 +12,11 @@ st.set_page_config(page_title="Market Agent", layout="wide")
 st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
 
 
-MY_EMAIL = "amir.exir.pe@gmail.com"  # replace with your Streamlit Cloud account email
+# Owner Key unlock system
+owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password")
+OWNER_KEY = st.secrets.get("OWNER_KEY", "")
 
-# Try to detect current Streamlit Cloud user (if available)
-try:
-    from streamlit.runtime.scriptrunner import get_script_run_ctx
-    ctx = get_script_run_ctx()
-    user_email = getattr(ctx, "user_email", None)
-except Exception:
-    user_email = None
-
-# Determine if user is owner
-is_owner = (user_email == MY_EMAIL)
-
-# If you are the owner, show toggle
-if is_owner:
+if owner_key_input == OWNER_KEY and OWNER_KEY != "":
     demo_mode = st.sidebar.checkbox("🧪 Demo Mode", value=False, help="Toggle between live and demo mode")
     if demo_mode:
         st.sidebar.info("🧪 Demo Mode active — trades will not be executed.")
