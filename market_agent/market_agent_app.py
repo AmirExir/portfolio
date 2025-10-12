@@ -14,6 +14,23 @@ st.set_page_config(page_title="Market Agent", layout="wide")
 st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
 
 
+st.set_page_config(page_title="Market Agent Dashboard", layout="wide")
+st.title("📈 AI-Generated Market Summary")
+
+# --- Fetch the latest summary from GitHub ---
+url = "https://raw.githubusercontent.com/AmirExir/portfolio/main/market_agent/summary.txt"
+
+try:
+    response = requests.get(url)
+    response.raise_for_status()
+    summary_text = response.text
+except Exception as e:
+    summary_text = f"⚠️ Error fetching summary: {e}"
+
+# --- Display it in the app ---
+st.markdown("### 🧠 Latest AI Summary")
+st.write(summary_text)
+
 # Owner Key unlock system
 owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password")
 OWNER_KEY = st.secrets.get("OWNER_KEY", "")
