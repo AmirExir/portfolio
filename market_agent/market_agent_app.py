@@ -91,47 +91,38 @@ with col1:
     
     # Debug: Check the data
     st.write(f"Data range: {df_filtered.index.min()} to {df_filtered.index.max()}")
-    st.write(f"Close price range: ${float(df_filtered['close'].min()):.2f} to ${float(df_filtered['close'].max()):.2f}")
+    st.write(f"Close price range: ${df_filtered['close'].min():.2f} to ${df_filtered['close'].max():.2f}")
     st.write(f"Number of data points: {len(df_filtered)}")
     
     # Prepare Plotly figure
     fig = go.Figure()
     
-    # Convert data to lists to ensure proper plotting
-    x_data = df_filtered.index.tolist()
-    close_data = df_filtered["close"].tolist()
-    ma_short_data = df_filtered["ma_short"].tolist()
-    ma_long_data = df_filtered["ma_long"].tolist()
-    
     # Add Close price trace
     fig.add_trace(go.Scatter(
-        x=x_data, 
-        y=close_data, 
+        x=df_filtered.index, 
+        y=df_filtered["close"], 
         mode="lines", 
         name="Close",
-        line=dict(color='cyan', width=2),
-        visible=True
+        line=dict(color='cyan', width=3)
     ))
     
     # Add MA traces
     fig.add_trace(go.Scatter(
-        x=x_data, 
-        y=ma_short_data, 
+        x=df_filtered.index, 
+        y=df_filtered["ma_short"], 
         mode="lines", 
         name=f"MA {short_window}",
-        line=dict(color='orange', width=2), 
-        opacity=0.7,
-        visible=True
+        line=dict(color='white', width=1), 
+        opacity=0.6
     ))
     
     fig.add_trace(go.Scatter(
-        x=x_data, 
-        y=ma_long_data, 
+        x=df_filtered.index, 
+        y=df_filtered["ma_long"], 
         mode="lines", 
         name=f"MA {long_window}",
-        line=dict(color='purple', width=2), 
-        opacity=0.7,
-        visible=True
+        line=dict(color='white', width=1), 
+        opacity=0.6
     ))
 
     # Find buy and sell points
@@ -141,33 +132,27 @@ with col1:
 
     # Add buy markers
     if buy_points.any():
-        buy_indices = df_filtered.index[buy_points].tolist()
-        buy_prices = df_filtered["close"][buy_points].tolist()
         fig.add_trace(go.Scatter(
-            x=buy_indices,
-            y=buy_prices,
+            x=df_filtered.index[buy_points],
+            y=df_filtered["close"][buy_points],
             mode="markers",
-            marker=dict(symbol="triangle-up", color="lime", size=15, line=dict(color="darkgreen", width=2)),
-            name="Buy",
-            visible=True
+            marker=dict(symbol="triangle-up", color="green", size=12),
+            name="Buy"
         ))
     
     # Add sell markers
     if sell_points.any():
-        sell_indices = df_filtered.index[sell_points].tolist()
-        sell_prices = df_filtered["close"][sell_points].tolist()
         fig.add_trace(go.Scatter(
-            x=sell_indices,
-            y=sell_prices,
+            x=df_filtered.index[sell_points],
+            y=df_filtered["close"][sell_points],
             mode="markers",
-            marker=dict(symbol="triangle-down", color="red", size=15, line=dict(color="darkred", width=2)),
-            name="Sell",
-            visible=True
+            marker=dict(symbol="triangle-down", color="red", size=12),
+            name="Sell"
         ))
 
     # Calculate y-axis range with padding
-    y_min = float(df_filtered["close"].min())
-    y_max = float(df_filtered["close"].max())
+    y_min = df_filtered["close"].min()
+    y_max = df_filtered["close"].max()
     y_padding = (y_max - y_min) * 0.1
     y_range = [y_min - y_padding, y_max + y_padding]
 
@@ -182,71 +167,41 @@ with col1:
     fig.update_layout(
         template="plotly_dark",
         height=600,
-        legend=dict(
-            x=0.01, 
-            y=0.99, 
-            xanchor='left', 
-            yanchor='top', 
-            bgcolor='rgba(0,0,0,0.7)',
-            bordercolor='white',
-            borderwidth=1
-        ),
-        margin=dict(l=60, r=20, t=80, b=60),
-        dragmode="pan",
-        plot_bgcolor="#0a0a0a",
-        paper_bgcolor="#000000",
+        legend=dict(x=0.01, y=0.99, xanchor='left', yanchor='top', bgcolor='rgba(0,0,0,0.5)'),
+        margin=dict(l=50, r=50, t=80, b=50),
+        dragmode="zoom",
+        newshape_line_color="yellow",
+        plot_bgcolor="#1a1a1a",
+        paper_bgcolor="#0e0e0e",
         xaxis=dict(
             title="Date",
-            titlefont=dict(size=14, color='white'),
+            type="date",
             tickformat=x_tickformat,
             tickangle=-45,
             showgrid=True,
-            gridcolor="#2a2a2a",
-            gridwidth=1,
+            gridcolor="#333333",
             showline=True,
-            linecolor="#555555",
-            linewidth=2,
-            mirror=True
+            linecolor="#666666"
         ),
         yaxis=dict(
             title="Price ($)",
-            titlefont=dict(size=14, color='white'),
             showgrid=True,
-            gridcolor="#2a2a2a",
-            gridwidth=1,
+            gridcolor="#333333",
             showline=True,
-            linecolor="#555555",
-            linewidth=2,
-            mirror=True,
-            autorange=True,
-            rangemode='normal'
+            linecolor="#666666",
+            range=y_range,
+            fixedrange=False
         ),
         title=dict(
-            text=f"📈 {symbol} Price Chart - {timeframe}", 
+            text=f"📉 {symbol} Price Chart - {timeframe}", 
             x=0.5, 
             xanchor='center', 
-            font=dict(color='white', size=20, family='Arial Black')
-        ),
-        hovermode='x unified',
-        showlegend=True
+            font=dict(color='white', size=20)
+        )
     )
     
-    # Add configuration for interactivity
-    config = {
-        'displayModeBar': True,
-        'displaylogo': False,
-        'modeBarButtonsToRemove': ['lasso2d', 'select2d'],
-        'toImageButtonOptions': {
-            'format': 'png',
-            'filename': f'{symbol}_chart',
-            'height': 600,
-            'width': 1200,
-            'scale': 2
-        }
-    }
-    
-    st.plotly_chart(fig, use_container_width=True, config=config, key="price_chart")
-    st.info("💡 Use the toolbar to zoom, pan, or reset the view.")
+    st.plotly_chart(fig, use_container_width=True, key="price_chart")
+    st.info("💡 Use the toolbar above to zoom, pan, or draw on the chart.")
 with col2:
     st.subheader("Strategy Equity Curve")
     st.line_chart(bt["curve"])
