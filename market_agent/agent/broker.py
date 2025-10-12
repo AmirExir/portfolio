@@ -1,15 +1,16 @@
 # agent/broker.py
 import os
 import requests
+import streamlit as st
 
-ALPACA_KEY = os.getenv("ALPACA_KEY")
-ALPACA_SECRET = os.getenv("ALPACA_SECRET")
-BASE = "https://paper-api.alpaca.markets"
+# Define BASE for consistent API base URL
+BASE = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
+
 
 def _headers():
     return {
-        "APCA-API-KEY-ID": ALPACA_KEY,
-        "APCA-API-SECRET-KEY": ALPACA_SECRET,
+        "APCA-API-KEY-ID": st.secrets["ALPACA_KEY"],
+        "APCA-API-SECRET-KEY": st.secrets["ALPACA_SECRET"],
         "Content-Type": "application/json",
     }
 
