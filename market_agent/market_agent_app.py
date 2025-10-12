@@ -5,10 +5,19 @@ from agent.strategy import sma_crossover
 from agent.backtest import simple_vector_backtest
 from agent.broker import get_account, submit_order
 import datetime as dt
+import os
 
 st.set_page_config(page_title="Market Agent", layout="wide")
 
 st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
+
+
+if "ALPACA_KEY" in st.secrets:
+    os.environ["ALPACA_KEY"] = st.secrets["ALPACA_KEY"]
+    os.environ["ALPACA_SECRET"] = st.secrets["ALPACA_SECRET"]
+    os.environ["ALPACA_ENDPOINT"] = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
+else:
+    st.error("API secrets for Alpaca are not set. Please add them to the Streamlit secrets.")
 
 # --- Account Summary ---
 acct = get_account()
@@ -41,6 +50,9 @@ with col2:
         st.warning(f"Sold 1 share of {symbol}")
         st.json(result)
 
+
+
+
 # --- Load data and backtest ---
 df = get_ohlcv(symbol, 400)
 
@@ -57,15 +69,13 @@ st.line_chart(bt["curve"])
 st.write("Latest Signal:", "🟢 BUY" if sig.iloc[-1] == 1 else "🔴 FLAT")
 st.caption(f"Last updated {dt.datetime.utcnow():%Y-%m-%d %H:%M UTC}")
 st.markdown("---")
-import requests, os
+import requests
 
-r = requests.get("https://paper-api.alpaca.markets/v2/orders", headers={
-    "APCA-API-KEY-ID": os.getenv("ALPACA_KEY"),
-    "APCA-API-SECRET-KEY": os.getenv("ALPACA_SECRET"),
-})
-
-if "ALPACA_KEY" in st.secrets:
-    os.environ["ALPACA_KEY"] = st.secrets["ALPACA_KEY"]
-    os.environ["ALPACA_SECRET"] = st.secrets["ALPACA_SECRET"]
-    os.environ["ALPACA_ENDPOINT"] = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
-print(r.json())
+try:
+    r = requests.get("https://paper-api.alpaca.markets/v2/orders", headers={
+        "APCA-API-KEY-ID": os.getenv("ALPACA_KEY"),
+        "APCA-API-SECRET-KEY": os.getenv("ALPACA_SECRET"),
+    })
+    print(r.json())
+except Exception as e:
+    st.error(f"Failed to fetch orders from Alpaca API: {e}")

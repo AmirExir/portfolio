@@ -32,3 +32,11 @@ def submit_order(symbol, qty, side, type="market", tif="day", stop_price=None):
 
     r = requests.post(f"{BASE}/v2/orders", headers=_headers(), json=payload)
     return r.json()
+
+def cancel_open_orders(symbol=None):
+    """Cancel any open orders (optionally filtered by symbol)."""
+    r = requests.get(f"{BASE}/v2/orders", headers=_headers())
+    orders = r.json()
+    for o in orders:
+        if (symbol is None) or (o["symbol"].upper() == symbol.upper()):
+            requests.delete(f"{BASE}/v2/orders/{o['id']}", headers=_headers())
