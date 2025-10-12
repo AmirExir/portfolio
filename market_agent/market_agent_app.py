@@ -7,12 +7,43 @@ from agent.broker import get_account, submit_order, cancel_open_orders
 import datetime as dt
 import os
 import sys
+
+import streamlit as st
+import json
+from fastapi import FastAPI, Request
+from streamlit.web.server.fastapi_server import FastAPIHandler
+
+
 sys.path.append(os.path.dirname(__file__))
+
 
 st.set_page_config(page_title="Market Agent", layout="wide")
 
 st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
 
+
+
+
+# Create a FastAPI app
+app = FastAPI()
+
+# Route to receive POST requests from n8n
+@app.post("/update")
+async def update_summary(request: Request):
+    data = await request.json()
+    summary = data.get("summary", "No summary received.")
+    st.session_state["latest_summary"] = summary
+    return {"status": "success", "received": summary}
+
+# Register this FastAPI endpoint with Streamlit
+FastAPIHandler(app)
+
+# Display latest summary
+st.title("📈 Daily Business News Summary")
+if "latest_summary" in st.session_state:
+    st.write(st.session_state["latest_summary"])
+else:
+    st.info("Waiting for today's summary...")
 
 # Owner Key unlock system
 owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password")
