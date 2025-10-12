@@ -4,7 +4,7 @@ from agent.data import get_ohlcv
 from agent.strategy import sma_crossover
 from agent.backtest import simple_vector_backtest
 from agent.broker import get_account, submit_order
-
+import datetime as dt
 
 
 st.set_page_config(page_title="Market Agent", layout="wide")
@@ -19,6 +19,20 @@ st.sidebar.header("💰 Account Summary (Paper Trading)")
 st.sidebar.metric("Equity", f"${equity:,.2f}")
 st.sidebar.metric("Cash", f"${cash:,.2f}")
 st.sidebar.metric("Buying Power", f"${buying_power:,.2f}")
+
+symbol = st.text_input("Symbol", "AAPL")
+
+col1, col2 = st.columns(2)
+with col1:
+    if st.button(f"🟢 Buy {symbol}"):
+        result = submit_order(symbol, 1, "buy")
+        st.success(f"Bought 1 share of {symbol}")
+        st.json(result)
+with col2:
+    if st.button(f"🔴 Sell {symbol}"):
+        result = submit_order(symbol, 1, "sell")
+        st.warning(f"Sold 1 share of {symbol}")
+        st.json(result)
 
 symbol = st.text_input("Symbol", "AAPL")
 df = get_ohlcv(symbol, 400)
