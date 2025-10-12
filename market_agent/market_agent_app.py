@@ -1,12 +1,24 @@
 import streamlit as st
+import pandas as pd
 from agent.data import get_ohlcv
 from agent.strategy import sma_crossover
 from agent.backtest import simple_vector_backtest
-import datetime as dt
+from agent.broker import get_account, submit_order
+
+
 
 st.set_page_config(page_title="Market Agent", layout="wide")
 
-st.title("📈 Stock Market & Crypto AI Agent")
+st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
+
+acct = get_account()
+equity = float(acct.get("equity", 0))
+cash = float(acct.get("cash", 0))
+buying_power = float(acct.get("buying_power", 0))
+st.sidebar.header("💰 Account Summary (Paper Trading)")
+st.sidebar.metric("Equity", f"${equity:,.2f}")
+st.sidebar.metric("Cash", f"${cash:,.2f}")
+st.sidebar.metric("Buying Power", f"${buying_power:,.2f}")
 
 symbol = st.text_input("Symbol", "AAPL")
 df = get_ohlcv(symbol, 400)
