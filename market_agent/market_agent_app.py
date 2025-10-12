@@ -12,7 +12,7 @@ st.set_page_config(page_title="Market Agent", layout="wide")
 st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
 
 
-MY_EMAIL = "amir.exir@utexas.edu"  # replace with your Streamlit Cloud account email
+MY_EMAIL = "amir.exir.pe@gmail.com"  # replace with your Streamlit Cloud account email
 
 # Try to detect current Streamlit Cloud user (if available)
 try:
