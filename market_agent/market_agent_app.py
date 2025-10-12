@@ -42,10 +42,15 @@ ALPACA_SECRET = st.secrets["ALPACA_SECRET"]
 ALPACA_ENDPOINT = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
 
 # --- Account Summary ---
-acct = get_account()
-equity = float(acct.get("equity", 0))
-cash = float(acct.get("cash", 0))
-buying_power = float(acct.get("buying_power", 0))
+if demo_mode:
+    equity = 100000
+    cash = 100000
+    buying_power = 200000
+else:
+    acct = get_account()
+    equity = float(acct.get("equity", 0))
+    cash = float(acct.get("cash", 0))
+    buying_power = float(acct.get("buying_power", 0))
 st.sidebar.header("💰 Account Summary (Paper Trading)")
 st.sidebar.metric("Equity", f"${equity:,.2f}")
 st.sidebar.metric("Cash", f"${cash:,.2f}")
