@@ -19,7 +19,8 @@ def get_account():
     return r.json()
 
 def submit_order(symbol, qty, side, type="market", tif="day", stop_price=None):
-    """Send a buy or sell order to Alpaca"""
+    """Send a buy or sell order to Alpaca. Cancels open orders for the same symbol before submitting."""
+    cancel_open_orders(symbol)
     payload = {
         "symbol": symbol,
         "qty": qty,
