@@ -12,12 +12,10 @@ st.set_page_config(page_title="Market Agent", layout="wide")
 st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
 
 
-if "ALPACA_KEY" in st.secrets:
-    os.environ["ALPACA_KEY"] = st.secrets["ALPACA_KEY"]
-    os.environ["ALPACA_SECRET"] = st.secrets["ALPACA_SECRET"]
-    os.environ["ALPACA_ENDPOINT"] = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
-else:
-    st.error("API secrets for Alpaca are not set. Please add them to the Streamlit secrets.")
+# --- Load Alpaca credentials from Streamlit Secrets ---
+ALPACA_KEY = st.secrets["ALPACA_KEY"]
+ALPACA_SECRET = st.secrets["ALPACA_SECRET"]
+ALPACA_ENDPOINT = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
 
 # --- Account Summary ---
 acct = get_account()
