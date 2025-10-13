@@ -28,47 +28,46 @@ st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
 # --- Fetch the latest summary from GitHub ---
 st.markdown("## 📊 AI-Generated Market Summary")
 
-url = "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent/summary.txt"
-
 try:
-    response = requests.get(url)
+    contents_url = "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent"
+    response = requests.get(contents_url)
     response.raise_for_status()
-    data = response.json()
+    files = response.json()
 
-    # Debug: Show what we got
-    # st.write("DEBUG - Response type:", type(data))
-    # st.write("DEBUG - Response keys:", data.keys() if isinstance(data, dict) else "Not a dict")
+    # Filter files starting with 'summary_' and ending with '.txt'
+    summary_files = [f for f in files if f.get("type") == "file" and f.get("name", "").startswith("summary_") and f.get("name", "").endswith(".txt")]
 
-    # Decode Base64 content from GitHub API
-    if isinstance(data, dict) and "content" in data:
-        content_base64 = data["content"].replace("\n", "").replace(" ", "")
-        summary_decoded = base64.b64decode(content_base64).decode("utf-8", errors="ignore")
-
-        # Try parsing as JSON if it's not plain text
-        try:
-            maybe_json = json.loads(summary_decoded)
-            if isinstance(maybe_json, dict):
-                summary_text = maybe_json.get("content") or maybe_json.get("message") or str(maybe_json)
-            elif isinstance(maybe_json, list):
-                summary_text = "\n".join([str(item) for item in maybe_json])
-            else:
-                summary_text = str(maybe_json)
-        except json.JSONDecodeError:
-            summary_text = summary_decoded
-
-        st.info(summary_text.strip())
-    elif isinstance(data, dict) and "message" in data:
-        # GitHub API error message
-        st.error(f"GitHub API Error: {data.get('message', 'Unknown error')}")
-        if data.get('message') == 'Not Found':
-            st.info("The summary.txt file doesn't exist yet. The n8n workflow will create it on first run.")
+    if not summary_files:
+        st.info("No summary files found yet. The n8n workflow will create summary_*.txt files on first run.")
     else:
-        st.warning("⚠️ Unexpected response format from GitHub API")
-        st.json(data)  # Show the actual response for debugging
-        
+        # Sort by name descending to get the latest
+        summary_files_sorted = sorted(summary_files, key=lambda x: x["name"], reverse=True)
+        latest_file = summary_files_sorted[0]
+        download_url = latest_file.get("download_url")
+
+        if download_url:
+            content_response = requests.get(download_url)
+            content_response.raise_for_status()
+            summary_decoded = content_response.text
+
+            # Try parsing as JSON if it's not plain text
+            try:
+                maybe_json = json.loads(summary_decoded)
+                if isinstance(maybe_json, dict):
+                    summary_text = maybe_json.get("content") or maybe_json.get("message") or str(maybe_json)
+                elif isinstance(maybe_json, list):
+                    summary_text = "\n".join([str(item) for item in maybe_json])
+                else:
+                    summary_text = str(maybe_json)
+            except json.JSONDecodeError:
+                summary_text = summary_decoded
+
+            st.info(summary_text.strip())
+        else:
+            st.warning("⚠️ Could not find download URL for the latest summary file.")
 except requests.exceptions.RequestException as e:
     st.warning(f"⚠️ Error fetching summary from GitHub: {e}")
-    st.info("Make sure the file exists at: https://github.com/AmirExir/portfolio/blob/main/market_agent/summary.txt")
+    st.info("Make sure the summary files exist at: https://github.com/AmirExir/portfolio/tree/main/market_agent")
 except Exception as e:
     st.warning(f"⚠️ Error decoding summary: {e}")
     st.info("There might be an issue with the file encoding or format.")
