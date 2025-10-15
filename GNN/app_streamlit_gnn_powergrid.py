@@ -69,65 +69,6 @@ def set_seed(s=42):
         if torch.cuda.is_available():
             torch.cuda.manual_seed_all(s)
 
-def replicate_graph_with_noise(
-    bus_df, edge_df, copies=10,
-    sigma_v=0.05,        # voltage noise (p.u.)
-    sigma_load=20.0,     # MW noise
-    sigma_pinj=10.0,     # MW noise
-    flip_alarm_p=0.1,    # small prob to flip 0/1
-    seed=42
-):
-    """
-    Create N disjoint copies of the same topology with small feature noise.
-    Node names made unique by appending '__k' to each bus in copy k.
-    """
-    rng = np.random.default_rng(seed)
-
-    def getcol(df, name):
-        # case-insensitive lookup
-        m = {c.lower(): c for c in df.columns}
-        return m.get(name, name)
-
-    bus_out  = []
-    edge_out = []
-
-    for k in range(copies):
-        tag = f"__{k}"
-
-        df = bus_df.copy()
-        bcol = getcol(df, 'bus')
-        df[bcol] = df[bcol].astype(str) + tag
-
-        vcol = getcol(df, 'voltage')
-        if vcol in df:
-            df[vcol] = df[vcol].astype(float) + rng.normal(0, sigma_v, len(df))
-
-        lcol = getcol(df, 'load_mw')
-        if lcol in df:
-            df[lcol] = df[lcol].astype(float) + rng.normal(0, sigma_load, len(df))
-        lcol2 = getcol(df, 'load_MW')  # support original casing
-        if lcol2 in df:
-            df[lcol2] = df[lcol2].astype(float) + rng.normal(0, sigma_load, len(df))
-
-        pcol = getcol(df, 'p_inj_mw')
-        if pcol in df:
-            df[pcol] = df[pcol].astype(float) + rng.normal(0, sigma_pinj, len(df))
-
-        # breaker_status noise/flip removed
-
-        af = getcol(df, 'alarm_flag')
-        if af in df:
-            flip = rng.random(len(df)) < flip_alarm_p
-            df.loc[flip, af] = 1 - df.loc[flip, af].astype(int)
-
-        bus_out.append(df)
-
-        e = edge_df.copy()
-        e['from_bus'] = e['from_bus'].astype(str) + tag
-        e['to_bus']   = e['to_bus'].astype(str) + tag
-        edge_out.append(e)
-
-    return pd.concat(bus_out, ignore_index=True), pd.concat(edge_out, ignore_index=True)
 
 def synthetic_14_bus():
     buses = [f'Bus{i}' for i in range(1, 15)]
@@ -409,9 +350,15 @@ def train_gnn_cv(
     }
 
     if best_state is None:
-        st.warning("⚠️ No valid folds produced a trained model — check data or class balance.")
+        st.warning("⚠️ No valid folds produced a trained model — likely due to class imbalance or insufficient samples.")
         model = GCN(in_dim=data.x.size(1), h_dim=64, use_relu=use_relu).to(data.x.device)
-        cv_summary = {"n_folds": 0, "acc_mean": 0.0, "prec_mean": 0.0, "rec_mean": 0.0, "f1_mean": 0.0}
+        cv_summary = {
+            "n_folds": 0,
+            "acc_mean": 0.0, "acc_std": 0.0,
+            "prec_mean": 0.0, "prec_std": 0.0,
+            "rec_mean": 0.0, "rec_std": 0.0,
+            "f1_mean": 0.0, "f1_std": 0.0,
+        }
         return model, pd.DataFrame(), None, None, 0.5, cv_summary
     model = GCN(in_dim=data.x.size(1), h_dim=64, use_relu=use_relu).to(data.x.device)
     model.load_state_dict(best_state)
@@ -623,6 +570,18 @@ else:
                     f"F1: {cv_summary['f1_mean']:.3f}±{cv_summary['f1_std']:.3f}"
                 )
                 st.caption("Precision → low false alarms.  Recall → missed alarms.  F1 balances both.")
+                # --- Model Quality Check ---
+                if cv_summary["n_folds"] == 0 or cv_summary["f1_mean"] < 0.6:
+                    st.error(
+                        "🚨 The model did not train properly or achieved low performance.\n\n"
+                        "Possible reasons:\n"
+                        "• Class imbalance (too few alarm samples)\n"
+                        "• Too many CV splits for dataset size\n"
+                        "• Learning rate or weight decay too high\n"
+                        "• GNN not converging\n\n"
+                        "Try reducing CV folds, increasing epochs, or adjusting learning rate."
+                    )
+                    st.stop()
             else:
                 with st.spinner("Training..."):
                     model, hist_df, train_idx, val_idx, best_th = train_gnn(
