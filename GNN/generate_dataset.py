@@ -1,11 +1,10 @@
-import pandapower as pp
-from pypower import case118
+import pandapower.networks as pn
 import pandas as pd
 import numpy as np
+import pandapower as pp
 
 def build_ieee118():
-    ppc = case118.case118()           # MATPOWER format
-    net = pp.from_ppc(ppc, f_hz=60)   # convert to pandapower
+    net = pn.case118()   # built-in IEEE-118 test system
     return net
 
 def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42):
