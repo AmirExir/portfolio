@@ -480,6 +480,19 @@ with col2:
         ax.set_title(f"Scenario {scenario_id} Topology (in-service lines only)")
         st.pyplot(fig, use_container_width=True)
 
+        # --- Show out-of-service lines ---
+        if "in_service" in edge_df_vis.columns:
+            out_of_service = edge_df_vis[edge_df_vis["in_service"] == False]
+            if not out_of_service.empty:
+                st.warning(f"⚠️ {len(out_of_service)} lines are out of service in Scenario {scenario_id}:")
+                st.dataframe(
+                    out_of_service[["from_bus", "to_bus", "length_km"]] if "length_km" in out_of_service.columns else out_of_service[["from_bus", "to_bus"]],
+                    use_container_width=True,
+                    hide_index=True
+                )
+            else:
+                st.success(f"✅ All {len(edge_df_vis)} lines are in service in Scenario {scenario_id}.")
+
 # -----------------------------
 # Training
 # -----------------------------
