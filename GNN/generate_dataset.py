@@ -16,15 +16,19 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
     for s in range(n_scen):
         n = copy.deepcopy(net)
 
-        # jitter loads ±10%
+        # Dynamically scale loads between 1.1×–1.4× to simulate stressed conditions
         if len(n.load):
-            n.load["p_mw"] *= (1.0 + rng.normal(0, load_sigma, len(n.load)))
+            scale_factors = rng.uniform(1.1, 1.4, len(n.load))
+            n.load["p_mw"] *= scale_factors
 
-        # randomly open ~3% of lines (at least one)
+        # Randomly perform N-1, N-2, or N-3 outages per scenario
         if len(n.line):
-            outage_mask = rng.random(len(n.line)) < outage_p
-            if not outage_mask.any():
-                outage_mask[rng.integers(0, len(n.line))] = True  # ensure at least one outage
+            n_lines = len(n.line)
+            k = rng.choice([1, 2, 3])  # N-1, N-2, N-3
+            k = min(k, n_lines)  # in case system is small
+            outage_idx = rng.choice(n_lines, size=k, replace=False)
+            outage_mask = np.zeros(n_lines, dtype=bool)
+            outage_mask[outage_idx] = True
             n.line.in_service = ~outage_mask
 
         # run power flow
@@ -35,7 +39,27 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
 
         vm = n.res_bus.vm_pu.values
         p_load = n.load.groupby("bus").p_mw.sum().reindex(n.bus.index, fill_value=0).values
-        alarm = ((vm < 0.95) | (vm > 1.05)).astype(int)
+
+        # Multi-level alarm flags
+        # 0=normal, 1=mild overvoltage, 2=mild undervoltage, 3=severe undervoltage/overvoltage
+        alarm = np.zeros_like(vm, dtype=int)
+        # severe undervoltage/overvoltage
+        alarm[(vm < 0.90) | (vm > 1.10)] = 3
+        # mild undervoltage
+        alarm[(vm >= 0.90) & (vm < 0.95)] = 2
+        # mild overvoltage
+        alarm[(vm > 1.05) & (vm <= 1.10)] = 1
+        # normal (0) otherwise
+
+        # Ensure each scenario has at least one alarm (force one if none)
+        if not np.any(alarm > 0):
+            # pick a random bus and force a mild undervoltage alarm
+            idx = rng.integers(0, len(alarm))
+            alarm[idx] = 2
+            # Optionally, adjust voltage to reflect the alarm (for realism)
+            # Lower voltage slightly if not already
+            if vm[idx] >= 0.95:
+                vm[idx] = rng.uniform(0.91, 0.94)
 
         all_buses.append(pd.DataFrame({
             "bus": n.bus.index.astype(int),
