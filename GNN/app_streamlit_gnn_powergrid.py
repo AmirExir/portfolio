@@ -472,7 +472,7 @@ with col2:
         G.add_edges_from(list(zip(edges_active['from_bus'], edges_active['to_bus'])))
 
         pos = nx.kamada_kawai_layout(G)
-        fig, ax = plt.subplots(figsize=(6, 4))
+        fig, ax = plt.subplots(figsize=(12, 8))
         nx.draw(
             G, pos, with_labels=True, node_size=600, ax=ax,
             edge_color='black', width=1.5, node_color='#1f78b4', font_weight='bold'
