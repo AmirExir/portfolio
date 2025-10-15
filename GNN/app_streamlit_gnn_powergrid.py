@@ -57,17 +57,6 @@ st.title("⚡ Amir Exir's Power Grid GNN — Node Alarm Classification (GCN + Me
 st.caption("Nodes = buses | Edges = lines | Features = voltage, load_MW | Target = alarm_flag")
 
 with st.sidebar:
-    st.header("Setup")
-    st.markdown("""
-**Install requirements (terminal):**
-```bash
-pip install streamlit torch torchvision torchaudio scikit-learn networkx matplotlib pandas
-pip install torch-geometric -f https://data.pyg.org/whl/torch-2.5.0+cpu.html
-```
-*(Use the CPU wheel above; switch to CUDA wheel if you have GPU.)*
-    """)
-
-    st.divider()
     st.subheader("Data Options")
     use_upload = st.toggle("Upload CSVs (otherwise auto-generate synthetic 14-bus)", value=False)
     st.write("If uploading, provide: **bus_features.csv**, **branch_connections.csv**")
@@ -494,9 +483,13 @@ with col2:
         G.add_nodes_from(bus_df['bus' if 'bus' in bus_df.columns else 'BUS'])
         G.add_edges_from(list(zip(edge_df['from_bus'], edge_df['to_bus'])))
 
-        pos = nx.spring_layout(G, seed=42)
+        # Use kamada_kawai_layout for stable, even spacing
+        pos = nx.kamada_kawai_layout(G)
         fig, ax = plt.subplots(figsize=(6,4))
-        nx.draw(G, pos, with_labels=True, node_size=600, ax=ax)
+        nx.draw(
+            G, pos, with_labels=True, node_size=600, ax=ax,
+            edge_color='gray', width=1.5, node_color='#1f78b4', font_weight='bold'
+        )
         ax.set_title("Topology Preview")
         st.pyplot(fig, use_container_width=True)
 
