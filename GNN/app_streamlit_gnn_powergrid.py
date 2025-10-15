@@ -62,6 +62,7 @@ st.caption("Nodes = buses | Edges = lines | Features = voltage, load_MW | Target
 with st.sidebar:
     st.header("⚙️ Power Grid GNN Settings")
     scenario_id_input = st.text_input("Enter Scenario Number", value="0")
+    st.markdown("Use the input below to select which **scenario** to visualize. The app will automatically load the corresponding bus and edge data, build the topology, and prepare the graph features for the GNN.")
     try:
         scenario_id = int(scenario_id_input)
     except ValueError:
@@ -432,10 +433,8 @@ col1, col2 = st.columns([1,1])
 
 with col1:
     st.subheader("1) Load or Create Data")
-    st.info("Enter a scenario number to visualize and build the corresponding graph.")
     bus_df = pd.read_csv("bus_scenarios.csv")
     edge_df = pd.read_csv("edge_scenarios.csv")
-    st.success(f"✅ Loaded scenario {scenario_id} from bus_scenarios.csv and edge_scenarios.csv")
 
     if bus_df is not None:
         # ---- Scenario Picker ----
@@ -444,7 +443,6 @@ with col1:
             # scenario_id already defined above from user input (now in sidebar)
             bus_df_s  = bus_df[bus_df["scenario"] == scenario_id].copy()
             edge_df_s = edge_df[edge_df["scenario"] == scenario_id].copy()
-            st.success(f"Showing Scenario {scenario_id} (14 buses, ~20 lines)")
         else:
             bus_df_s, edge_df_s = bus_df, edge_df
 
@@ -482,7 +480,6 @@ with col2:
         # build graph with basic linearized features
         edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df_s, edge_df_s)
         st.write(f"Nodes: **{len(bus_df_s)}** | Edges: **{len(edge_df_s)}**")
-        st.info("Linearized features (array): voltage, load_MW.")
 
         # topology preview
         G = nx.Graph()
