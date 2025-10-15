@@ -649,7 +649,7 @@ else:
                 pr_probs = torch.softmax(val_logits_for_pr, dim=-1)[:, 1].cpu().numpy()
                 pr_true = data.y[val_idx].cpu().numpy()
             p_vals, r_vals, _ = precision_recall_curve(pr_true, pr_probs)
-            fig_pr, ax_pr = plt.subplots(figsize=(4, 3))
+            fig_pr, ax_pr = plt.subplots(figsize=(2, 1.5))
             ax_pr.plot(r_vals, p_vals)
             ax_pr.set_xlabel("Recall")
             ax_pr.set_ylabel("Precision")
@@ -679,7 +679,7 @@ else:
                 report = classification_report(true_test, pred_test, digits=3, zero_division=0)
                 st.code(report, language="text")
                 cm = confusion_matrix(true_test, pred_test, labels=[0, 1])
-                fig, ax = plt.subplots(figsize=(4, 3))
+                fig, ax = plt.subplots(figsize=(2, 1.5))
                 ConfusionMatrixDisplay(cm, display_labels=["no alarm (0)", "alarm (1)"]).plot(
                     ax=ax, values_format="d", colorbar=False
                 )
