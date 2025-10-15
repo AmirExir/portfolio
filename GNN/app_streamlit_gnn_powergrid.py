@@ -449,8 +449,8 @@ with col1:
             bus_df_s, edge_df_s = bus_df, edge_df
 
         st.caption(f"Showing scenario {scenario_id} — {len(bus_df_s)} buses, {len(edge_df_s)} lines")
-        st.dataframe(bus_df_s.head(), use_container_width=True)
-        st.dataframe(edge_df_s.head(), use_container_width=True)
+        st.dataframe(bus_df_s, use_container_width=True, height=250, hide_index=True)
+        st.dataframe(edge_df_s, use_container_width=True, height=180, hide_index=True)
 
         # ---- Augmentation (optional) ----
         st.subheader("Augment (optional)")
