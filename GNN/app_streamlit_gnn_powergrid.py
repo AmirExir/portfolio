@@ -576,6 +576,12 @@ else:
         if st.button("⚖️ Train linear baseline", key="lin_base"):
             X_np = Xn.astype(float)
             y_np2 = y.astype(int)
+            # Handle missing values safely before training
+            if np.isnan(X_np).any():
+                st.warning("Detected NaN values in feature matrix — replacing with column means.")
+                col_means = np.nanmean(X_np, axis=0)
+                inds = np.where(np.isnan(X_np))
+                X_np[inds] = np.take(col_means, inds[1])
             bs_splits  = n_splits if use_cv else 5
             bs_repeats = n_repeats if use_cv else 3
             rskf_bs = RepeatedStratifiedKFold(n_splits=bs_splits, n_repeats=bs_repeats, random_state=seed)
