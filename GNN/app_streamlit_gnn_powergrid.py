@@ -61,6 +61,11 @@ st.caption("Nodes = buses | Edges = lines | Features = voltage, load_MW | Target
 # -----------------------------
 with st.sidebar:
     st.header("⚙️ Power Grid GNN Settings")
+    scenario_id_input = st.text_input("Enter Scenario Number", value="0")
+    try:
+        scenario_id = int(scenario_id_input)
+    except ValueError:
+        scenario_id = 0
 # -----------------------------
 # Helpers
 # -----------------------------
@@ -430,11 +435,6 @@ with col1:
     st.info("Enter a scenario number to visualize and build the corresponding graph.")
     bus_df = pd.read_csv("bus_scenarios.csv")
     edge_df = pd.read_csv("edge_scenarios.csv")
-    scenario_id_input = st.text_input("Enter Scenario Number", value="0")
-    try:
-        scenario_id = int(scenario_id_input)
-    except ValueError:
-        scenario_id = 0
     st.success(f"✅ Loaded scenario {scenario_id} from bus_scenarios.csv and edge_scenarios.csv")
 
     if bus_df is not None:
@@ -444,7 +444,7 @@ with col1:
         # ---- Scenario Picker ----
         if "scenario" in bus_df.columns:
             max_scn = int(bus_df["scenario"].max())
-            # scenario_id already defined above from user input
+            # scenario_id already defined above from user input (now in sidebar)
             bus_df_s  = bus_df[bus_df["scenario"] == scenario_id].copy()
             edge_df_s = edge_df[edge_df["scenario"] == scenario_id].copy()
             st.success(f"Showing Scenario {scenario_id} (14 buses, ~20 lines)")
