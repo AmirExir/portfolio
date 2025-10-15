@@ -54,7 +54,7 @@ from sklearn.metrics import accuracy_score, f1_score, classification_report
 # -----------------------------
 st.set_page_config(page_title="Amir ExirPower Grid GNN (Alarms)", layout="wide")
 st.title("⚡ Amir Exir's Power Grid GNN — Node Alarm Classification (GCN + Message Passing)")
-st.caption("Nodes = buses | Edges = lines | Features = voltage, load, breaker_status | Target = alarm_flag")
+st.caption("Nodes = buses | Edges = lines | Features = voltage, load_MW | Target = alarm_flag")
 
 with st.sidebar:
     st.header("Setup")
@@ -72,7 +72,7 @@ pip install torch-geometric -f https://data.pyg.org/whl/torch-2.5.0+cpu.html
     use_upload = st.toggle("Upload CSVs (otherwise auto-generate synthetic 14-bus)", value=False)
     st.write("If uploading, provide: **bus_features.csv**, **branch_connections.csv**")
     st.subheader("Features")
-    st.info("Using linearized node features (array): voltage, load_MW, breaker_status.")
+    st.info("Using linearized node features (array): voltage, load_MW.")
 # -----------------------------
 # Helpers
 # -----------------------------
@@ -88,7 +88,6 @@ def replicate_graph_with_noise(
     sigma_v=0.01,        # voltage noise (p.u.)
     sigma_load=3.0,      # MW noise
     sigma_pinj=1.0,      # MW noise
-    flip_breaker_p=0.02, # small prob to flip 0/1
     flip_alarm_p=0.02,   # small prob to flip 0/1
     seed=42
 ):
@@ -128,10 +127,7 @@ def replicate_graph_with_noise(
         if pcol in df:
             df[pcol] = df[pcol].astype(float) + rng.normal(0, sigma_pinj, len(df))
 
-        brk = getcol(df, 'breaker_status')
-        if brk in df:
-            flip = rng.random(len(df)) < flip_breaker_p
-            df.loc[flip, brk] = 1 - df.loc[flip, brk].astype(int)
+        # breaker_status noise/flip removed
 
         af = getcol(df, 'alarm_flag')
         if af in df:
@@ -161,12 +157,11 @@ def synthetic_14_bus():
     for i, bus in enumerate(buses):
         voltage = round(1.0 + 0.05 * (i % 3), 3)
         load_MW = 50 + 10 * (i % 5)
-        breaker_status = 1 if i % 4 != 0 else 0
         alarm_flag = 1 if i % 6 == 0 else 0
         # tiny net injections alternating +/-
         p_inj_mw = (5 if i % 2 == 0 else -5)
-        rows.append([bus, voltage, load_MW, breaker_status, alarm_flag, p_inj_mw])
-    bus_df = pd.DataFrame(rows, columns=['bus','voltage','load_MW','breaker_status','alarm_flag','p_inj_mw'])
+        rows.append([bus, voltage, load_MW, alarm_flag, p_inj_mw])
+    bus_df = pd.DataFrame(rows, columns=['bus','voltage','load_MW','alarm_flag','p_inj_mw'])
 
     # simple constant reactance per line
     edge_df = pd.DataFrame(branches, columns=['from_bus','to_bus'])
@@ -175,6 +170,13 @@ def synthetic_14_bus():
     return bus_df, edge_df
 
 def build_graph(bus_df, edge_df):
+    # Ensure bus and edge IDs are string type for mapping
+    bus_df = bus_df.copy()
+    edge_df = edge_df.copy()
+    bus_df['bus'] = bus_df['bus'].astype(str)
+    edge_df['from_bus'] = edge_df['from_bus'].astype(str)
+    edge_df['to_bus'] = edge_df['to_bus'].astype(str)
+
     # map bus to index
     bus_to_idx = {b:i for i,b in enumerate(bus_df['bus'])}
 
@@ -471,13 +473,12 @@ with col1:
                 sigma_load = st.number_input("Load noise σ (MW)", 0.0, 50.0, 3.0, 0.5)
             with c3:
                 sigma_pinj = st.number_input("P_inj noise σ (MW)", 0.0, 50.0, 1.0, 0.5)
-            flip_breaker_p = st.number_input("Breaker flip prob", 0.0, 0.5, 0.02, 0.01)
             flip_alarm_p   = st.number_input("Alarm flip prob",   0.0, 0.5, 0.02, 0.01)
 
             bus_df, edge_df = replicate_graph_with_noise(
                 bus_df, edge_df, copies=copies,
                 sigma_v=sigma_v, sigma_load=sigma_load, sigma_pinj=sigma_pinj,
-                flip_breaker_p=flip_breaker_p, flip_alarm_p=flip_alarm_p, seed=42
+                flip_alarm_p=flip_alarm_p, seed=42
             )
             st.success(f"Augmented dataset: {len(bus_df)} buses, {len(edge_df)} branches")
 with col2:
@@ -486,7 +487,7 @@ with col2:
         # build graph with basic linearized features
         edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df, edge_df)
         st.write(f"Nodes: **{len(bus_df)}** | Edges (undirected counted): **{edge_index_np.shape[1]}**")
-        st.info("Linearized features (array): voltage, load_MW, breaker_status.")
+        st.info("Linearized features (array): voltage, load_MW.")
 
         # topology preview
         G = nx.Graph()
