@@ -168,10 +168,10 @@ def build_graph(bus_df, edge_df):
     # map bus to index
     bus_to_idx = {b:i for i,b in enumerate(bus_df['bus'])}
 
-    # edge index (undirected)
+    # edge index (directed, as per PyG)
     src = edge_df['from_bus'].map(bus_to_idx).to_numpy()
     dst = edge_df['to_bus'  ].map(bus_to_idx).to_numpy()
-    edge_index = np.vstack([np.r_[src, dst], np.r_[dst, src]])
+    edge_index = np.vstack([src, dst])
 
     # features (linearized input)
     X = bus_df[['voltage','load_MW']].to_numpy(dtype=float)
@@ -447,6 +447,16 @@ with col1:
         st.dataframe(bus_df.head(), use_container_width=True)
         st.dataframe(edge_df.head(), use_container_width=True)
 
+        # ---- Scenario Picker ----
+        if "scenario" in bus_df.columns:
+            max_scn = int(bus_df["scenario"].max())
+            scenario_id = st.slider("Select Scenario ID", 0, max_scn, 0, 1)
+            bus_df_s  = bus_df[bus_df["scenario"] == scenario_id].copy()
+            edge_df_s = edge_df[edge_df["scenario"] == scenario_id].copy()
+            st.success(f"Showing Scenario {scenario_id} (14 buses, ~20 lines)")
+        else:
+            bus_df_s, edge_df_s = bus_df, edge_df
+
         # ---- Augmentation (optional) ----
         st.subheader("Augment (optional)")
         do_aug = st.toggle(
@@ -454,7 +464,7 @@ with col1:
             value=False,
             help="Creates N disjoint copies with light feature noise to increase samples."
         )
-        if do_aug and (bus_df is not None) and (edge_df is not None):
+        if do_aug and (bus_df_s is not None) and (edge_df_s is not None):
             copies = st.slider("Number of copies (N)", 1, 50, 10, 1)
             c1, c2, c3 = st.columns(3)
             with c1:
@@ -465,24 +475,24 @@ with col1:
                 sigma_pinj = st.number_input("P_inj noise σ (MW)", 0.0, 50.0, 1.0, 0.5)
             flip_alarm_p   = st.number_input("Alarm flip prob",   0.0, 0.5, 0.02, 0.01)
 
-            bus_df, edge_df = replicate_graph_with_noise(
-                bus_df, edge_df, copies=copies,
+            bus_df_s, edge_df_s = replicate_graph_with_noise(
+                bus_df_s, edge_df_s, copies=copies,
                 sigma_v=sigma_v, sigma_load=sigma_load, sigma_pinj=sigma_pinj,
                 flip_alarm_p=flip_alarm_p, seed=42
             )
-            st.success(f"Augmented dataset: {len(bus_df)} buses, {len(edge_df)} branches")
+            st.success(f"Augmented dataset: {len(bus_df_s)} buses, {len(edge_df_s)} branches")
 with col2:
     st.subheader("2) Build Graph")
     if bus_df is not None:
         # build graph with basic linearized features
-        edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df, edge_df)
-        st.write(f"Nodes: **{len(bus_df)}** | Edges (undirected counted): **{edge_index_np.shape[1]}**")
+        edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df_s, edge_df_s)
+        st.write(f"Nodes: **{len(bus_df_s)}** | Edges: **{len(edge_df_s)}** (directed index count: {edge_index_np.shape[1]})")
         st.info("Linearized features (array): voltage, load_MW.")
 
         # topology preview
         G = nx.Graph()
-        G.add_nodes_from(bus_df['bus' if 'bus' in bus_df.columns else 'BUS'])
-        G.add_edges_from(list(zip(edge_df['from_bus'], edge_df['to_bus'])))
+        G.add_nodes_from(bus_df_s['bus' if 'bus' in bus_df_s.columns else 'BUS'])
+        G.add_edges_from(list(zip(edge_df_s['from_bus'], edge_df_s['to_bus'])))
 
         # Use kamada_kawai_layout for stable, even spacing
         pos = nx.kamada_kawai_layout(G)
