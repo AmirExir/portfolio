@@ -20,9 +20,11 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
         if len(n.load):
             n.load["p_mw"] *= (1.0 + rng.normal(0, load_sigma, len(n.load)))
 
-        # randomly open ~3% of lines
+        # randomly open ~3% of lines (at least one)
         if len(n.line):
             outage_mask = rng.random(len(n.line)) < outage_p
+            if not outage_mask.any():
+                outage_mask[rng.integers(0, len(n.line))] = True  # ensure at least one outage
             n.line.in_service = ~outage_mask
 
         # run power flow
