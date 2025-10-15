@@ -480,30 +480,7 @@ with col1:
         st.dataframe(bus_df_vis, use_container_width=True, height=250, hide_index=True)
         st.dataframe(edge_df_vis, use_container_width=True, height=180, hide_index=True)
 
-        # ---- Augmentation (optional, for visualization only) ----
-        st.subheader("Augment (optional)")
-        do_aug = st.toggle(
-            "Replicate the 14-bus graph with noise",
-            value=False,
-            help="Creates N disjoint copies with light feature noise to increase samples."
-        )
-        if do_aug and (bus_df_vis is not None) and (edge_df_vis is not None):
-            copies = st.slider("Number of copies (N)", 1, 50, 10, 1)
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                sigma_v = st.number_input("Voltage noise σ (pu)", 0.0, 0.2, 0.01, 0.005)
-            with c2:
-                sigma_load = st.number_input("Load noise σ (MW)", 0.0, 50.0, 3.0, 0.5)
-            with c3:
-                sigma_pinj = st.number_input("P_inj noise σ (MW)", 0.0, 50.0, 1.0, 0.5)
-            flip_alarm_p = st.number_input("Alarm flip prob", 0.0, 0.5, 0.02, 0.01)
 
-            bus_df_vis, edge_df_vis = replicate_graph_with_noise(
-                bus_df_vis, edge_df_vis, copies=copies,
-                sigma_v=sigma_v, sigma_load=sigma_load, sigma_pinj=sigma_pinj,
-                flip_alarm_p=flip_alarm_p, seed=42
-            )
-            st.success(f"Augmented dataset: {len(bus_df_vis)} buses, {len(edge_df_vis)} branches")
 
 with col2:
     st.subheader("2) Build Graph")
