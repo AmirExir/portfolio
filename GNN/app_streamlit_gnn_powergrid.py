@@ -57,9 +57,8 @@ st.title("⚡ Amir Exir's Power Grid GNN — Node Alarm Classification (GCN + Me
 st.caption("Nodes = buses | Edges = lines | Features = voltage, load_MW | Target = alarm_flag")
 
 with st.sidebar:
-    st.subheader("Data Options")
-    use_upload = st.toggle("Upload CSVs (otherwise auto-generate synthetic 14-bus)", value=False)
-    st.write("If uploading, provide: **bus_features.csv**, **branch_connections.csv**")
+    st.subheader("Data Source")
+    st.success("Using dynamic 14‑bus scenario dataset (bus_scenarios.csv + edge_scenarios.csv)")
     st.subheader("Features")
     st.info("Using linearized node features (array): voltage, load_MW.")
 # -----------------------------
@@ -428,19 +427,21 @@ col1, col2 = st.columns([1,1])
 
 with col1:
     st.subheader("1) Load or Create Data")
-    if use_upload:
-        bus_file = st.file_uploader("Upload bus_features.csv", type=["csv"], key="bus_csv")
-        edge_file = st.file_uploader("Upload branch_connections.csv", type=["csv"], key="edge_csv")
-        if bus_file and edge_file:
-            bus_df = pd.read_csv(bus_file)
-            edge_df = pd.read_csv(edge_file)
-            st.success("✅ CSVs uploaded.")
-        else:
-            st.info("Upload both CSVs or uncheck 'Upload CSVs' to use synthetic data.")
-            bus_df, edge_df = None, None
-    bus_df = pd.read_csv("bus_scenarios.csv")
-    edge_df = pd.read_csv("edge_scenarios.csv")
-    st.success("✅ Loaded dynamic 14-bus scenario dataset with corresponding edge topology.")
+    # Toggle for dynamic/static dataset
+    use_dynamic = st.toggle("Use dynamic scenarios (bus_scenarios.csv + edge_scenarios.csv)", value=True)
+    if use_dynamic:
+        bus_df = pd.read_csv("bus_scenarios.csv")
+        edge_df = pd.read_csv("edge_scenarios.csv")
+        st.success("✅ Loaded dynamic 14-bus scenario dataset with corresponding edge topology.")
+    else:
+        bus_df = pd.read_csv("bus_features.csv")
+        edge_df = pd.read_csv("branch_connections.csv")
+        st.success("✅ Loaded static base 14-bus network (bus_features.csv + branch_connections.csv).")
+
+    # Remove or comment out previous unconditional CSV loading lines
+    # bus_df = pd.read_csv("bus_scenarios.csv")
+    # edge_df = pd.read_csv("edge_scenarios.csv")
+    # st.success("✅ Loaded dynamic 14-bus scenario dataset with corresponding edge topology.")
 
     if bus_df is not None:
         st.dataframe(bus_df.head(), use_container_width=True)
