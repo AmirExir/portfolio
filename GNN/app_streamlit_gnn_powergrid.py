@@ -62,7 +62,6 @@ st.caption("Nodes = buses | Edges = lines | Features = voltage, load_MW | Target
 with st.sidebar:
     st.header("⚙️ Power Grid GNN Settings")
     scenario_id_input = st.text_input("Enter Scenario Number", value="0")
-    st.markdown("Use the input below to select which **scenario** to visualize. The app will automatically load the corresponding bus and edge data, build the topology, and prepare the graph features for the GNN.")
     try:
         scenario_id = int(scenario_id_input)
     except ValueError:
@@ -432,7 +431,12 @@ def to_pyg(edge_index_np, Xn, y):
 col1, col2 = st.columns([1,1])
 
 with col1:
-    st.subheader("1) Load or Create Data")
+    st.subheader("1) Choose Scenario")
+    st.info(
+        "Enter a **scenario number** in the sidebar to visualize it. "
+        "The app will automatically load the corresponding bus and edge data, "
+        "build the topology, and prepare the graph features for the GNN."
+    )
     bus_df = pd.read_csv("bus_scenarios.csv")
     edge_df = pd.read_csv("edge_scenarios.csv")
 
