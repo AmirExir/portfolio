@@ -91,8 +91,14 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
 
     bus_df.to_csv("bus_scenarios.csv", index=False)
     edge_df.to_csv("edge_scenarios.csv", index=False)
+    # Create and save unlabeled versions for prediction
+    bus_inputs = bus_df.drop(columns=["alarm_flag"])
+    bus_inputs.to_csv("bus_inputs.csv", index=False)
+    edge_inputs = edge_df.drop(columns=["in_service"]) if "in_service" in edge_df.columns else edge_df.copy()
+    edge_inputs.to_csv("edge_inputs.csv", index=False)
     print(f"✅ Generated {len(bus_df)} bus rows = {n_buses} buses × {n_scenarios} scenarios.")
     print(f"   Edges: {len(edge_df)} rows (~{edges_mean:.1f} per scenario, min {edges_min}, max {edges_max}).")
+    print("🟢 Saved unlabeled prediction-ready datasets: bus_inputs.csv and edge_inputs.csv")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
