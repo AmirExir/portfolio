@@ -57,10 +57,6 @@ st.title("⚡ Amir Exir's Power Grid GNN — Node Alarm Classification (GCN + Me
 st.caption("Nodes = buses | Edges = lines | Features = voltage, load_MW | Target = alarm_flag")
 
 with st.sidebar:
-    st.subheader("Data Source")
-    st.success("Using dynamic 14‑bus scenario dataset (bus_scenarios.csv + edge_scenarios.csv)")
-    st.subheader("Features")
-    st.info("Using linearized node features (array): voltage, load_MW.")
 # -----------------------------
 # Helpers
 # -----------------------------
@@ -427,21 +423,15 @@ col1, col2 = st.columns([1,1])
 
 with col1:
     st.subheader("1) Load or Create Data")
-    # Toggle for dynamic/static dataset
-    use_dynamic = st.toggle("Use dynamic scenarios (bus_scenarios.csv + edge_scenarios.csv)", value=True)
-    if use_dynamic:
-        bus_df = pd.read_csv("bus_scenarios.csv")
-        edge_df = pd.read_csv("edge_scenarios.csv")
-        st.success("✅ Loaded dynamic 14-bus scenario dataset with corresponding edge topology.")
-    else:
-        bus_df = pd.read_csv("bus_features.csv")
-        edge_df = pd.read_csv("branch_connections.csv")
-        st.success("✅ Loaded static base 14-bus network (bus_features.csv + branch_connections.csv).")
-
-    # Remove or comment out previous unconditional CSV loading lines
-    # bus_df = pd.read_csv("bus_scenarios.csv")
-    # edge_df = pd.read_csv("edge_scenarios.csv")
-    # st.success("✅ Loaded dynamic 14-bus scenario dataset with corresponding edge topology.")
+    st.info("Enter a scenario number to visualize and build the corresponding graph.")
+    bus_df = pd.read_csv("bus_scenarios.csv")
+    edge_df = pd.read_csv("edge_scenarios.csv")
+    scenario_id_input = st.text_input("Enter Scenario Number", value="0")
+    try:
+        scenario_id = int(scenario_id_input)
+    except ValueError:
+        scenario_id = 0
+    st.success(f"✅ Loaded scenario {scenario_id} from bus_scenarios.csv and edge_scenarios.csv")
 
     if bus_df is not None:
         st.dataframe(bus_df.head(), use_container_width=True)
@@ -450,7 +440,7 @@ with col1:
         # ---- Scenario Picker ----
         if "scenario" in bus_df.columns:
             max_scn = int(bus_df["scenario"].max())
-            scenario_id = st.slider("Select Scenario ID", 0, max_scn, 0, 1)
+            # scenario_id already defined above from user input
             bus_df_s  = bus_df[bus_df["scenario"] == scenario_id].copy()
             edge_df_s = edge_df[edge_df["scenario"] == scenario_id].copy()
             st.success(f"Showing Scenario {scenario_id} (14 buses, ~20 lines)")
