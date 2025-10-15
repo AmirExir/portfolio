@@ -421,8 +421,17 @@ def to_pyg(edge_index_np, Xn, y):
 # -----------------------------
 # Data Input UI
 # -----------------------------
-col1, col2 = st.columns([1,1])
 
+# -----------------------------
+# Data Input UI (Revised: separate data for visualization and training)
+# -----------------------------
+col1, col2 = st.columns([1, 1])
+
+# Read entire datasets for all scenarios (used for training)
+bus_df_all = pd.read_csv("bus_scenarios.csv")
+edge_df_all = pd.read_csv("edge_scenarios.csv")
+
+# Scenario selection and visualization
 with col1:
     st.subheader("1) Choose Scenario")
     scenario_id_input = st.text_input("Enter Scenario Number", value="0")
@@ -435,30 +444,28 @@ with col1:
         "The app will automatically load the corresponding bus and edge data, "
         "build the topology, and prepare the graph features for the GNN."
     )
-    bus_df = pd.read_csv("bus_scenarios.csv")
-    edge_df = pd.read_csv("edge_scenarios.csv")
 
-    if bus_df is not None:
-        # ---- Scenario Picker ----
-        if "scenario" in bus_df.columns:
-            max_scn = int(bus_df["scenario"].max())
-            bus_df_s  = bus_df[bus_df["scenario"] == scenario_id].copy()
-            edge_df_s = edge_df[edge_df["scenario"] == scenario_id].copy()
+    # Extract scenario-specific data for visualization
+    if bus_df_all is not None:
+        if "scenario" in bus_df_all.columns:
+            max_scn = int(bus_df_all["scenario"].max())
+            bus_df_vis = bus_df_all[bus_df_all["scenario"] == scenario_id].copy()
+            edge_df_vis = edge_df_all[edge_df_all["scenario"] == scenario_id].copy()
         else:
-            bus_df_s, edge_df_s = bus_df, edge_df
+            bus_df_vis, edge_df_vis = bus_df_all, edge_df_all
 
-        st.caption(f"Showing scenario {scenario_id} — {len(bus_df_s)} buses, {len(edge_df_s)} lines")
-        st.dataframe(bus_df_s, use_container_width=True, height=250, hide_index=True)
-        st.dataframe(edge_df_s, use_container_width=True, height=180, hide_index=True)
+        st.caption(f"Showing scenario {scenario_id} — {len(bus_df_vis)} buses, {len(edge_df_vis)} lines")
+        st.dataframe(bus_df_vis, use_container_width=True, height=250, hide_index=True)
+        st.dataframe(edge_df_vis, use_container_width=True, height=180, hide_index=True)
 
-        # ---- Augmentation (optional) ----
+        # ---- Augmentation (optional, for visualization only) ----
         st.subheader("Augment (optional)")
         do_aug = st.toggle(
             "Replicate the 14-bus graph with noise",
             value=False,
             help="Creates N disjoint copies with light feature noise to increase samples."
         )
-        if do_aug and (bus_df_s is not None) and (edge_df_s is not None):
+        if do_aug and (bus_df_vis is not None) and (edge_df_vis is not None):
             copies = st.slider("Number of copies (N)", 1, 50, 10, 1)
             c1, c2, c3 = st.columns(3)
             with c1:
@@ -467,29 +474,30 @@ with col1:
                 sigma_load = st.number_input("Load noise σ (MW)", 0.0, 50.0, 3.0, 0.5)
             with c3:
                 sigma_pinj = st.number_input("P_inj noise σ (MW)", 0.0, 50.0, 1.0, 0.5)
-            flip_alarm_p   = st.number_input("Alarm flip prob",   0.0, 0.5, 0.02, 0.01)
+            flip_alarm_p = st.number_input("Alarm flip prob", 0.0, 0.5, 0.02, 0.01)
 
-            bus_df_s, edge_df_s = replicate_graph_with_noise(
-                bus_df_s, edge_df_s, copies=copies,
+            bus_df_vis, edge_df_vis = replicate_graph_with_noise(
+                bus_df_vis, edge_df_vis, copies=copies,
                 sigma_v=sigma_v, sigma_load=sigma_load, sigma_pinj=sigma_pinj,
                 flip_alarm_p=flip_alarm_p, seed=42
             )
-            st.success(f"Augmented dataset: {len(bus_df_s)} buses, {len(edge_df_s)} branches")
+            st.success(f"Augmented dataset: {len(bus_df_vis)} buses, {len(edge_df_vis)} branches")
+
 with col2:
     st.subheader("2) Build Graph")
-    if bus_df is not None:
-        # build graph with basic linearized features
-        edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df_s, edge_df_s)
-        st.write(f"Nodes: **{len(bus_df_s)}** | Edges: **{len(edge_df_s)}**")
+    if bus_df_all is not None and bus_df_vis is not None and edge_df_vis is not None:
+        # For visualization, build and show the graph for the selected scenario only
+        edge_index_np_vis, Xn_vis, y_vis, scaler_vis, bus_to_idx_vis = build_graph(bus_df_vis, edge_df_vis)
+        st.write(f"Nodes: **{len(bus_df_vis)}** | Edges: **{len(edge_df_vis)}**")
 
-        # topology preview
+        # Topology preview for selected scenario
         G = nx.Graph()
-        G.add_nodes_from(bus_df_s['bus' if 'bus' in bus_df_s.columns else 'BUS'])
-        G.add_edges_from(list(zip(edge_df_s['from_bus'], edge_df_s['to_bus'])))
+        G.add_nodes_from(bus_df_vis['bus' if 'bus' in bus_df_vis.columns else 'BUS'])
+        G.add_edges_from(list(zip(edge_df_vis['from_bus'], edge_df_vis['to_bus'])))
 
         # Use kamada_kawai_layout for stable, even spacing
         pos = nx.kamada_kawai_layout(G)
-        fig, ax = plt.subplots(figsize=(6,4))
+        fig, ax = plt.subplots(figsize=(6, 4))
         nx.draw(
             G, pos, with_labels=True, node_size=600, ax=ax,
             edge_color='gray', width=1.5, node_color='#1f78b4', font_weight='bold'
@@ -500,18 +508,22 @@ with col2:
 # -----------------------------
 # Training
 # -----------------------------
+
 st.subheader("3) Train GNN (GCN)")
 if len(missing) > 0 or Data is None or GCNConv is None:
     st.error("PyTorch and/or PyTorch Geometric are not available. See install commands in the sidebar.")
 else:
-    if bus_df is not None:
+    # Use all scenarios for training (bus_df_all, edge_df_all)
+    if bus_df_all is not None and edge_df_all is not None:
+        # Build the graph and PyG dataset for ALL scenarios (for training)
+        edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df_all, edge_df_all)
+
         # Hyperparameters (set BEFORE the button so they persist in Streamlit state)
         epochs = st.slider("Epochs", 50, 800, 300, step=50)
         lr     = st.select_slider("Learning Rate", options=[1e-3, 3e-3, 1e-2, 3e-2], value=1e-2)
         wd     = st.select_slider("Weight Decay", options=[0.0, 5e-4, 1e-3], value=5e-4)
         seed   = st.number_input("Seed", value=42, step=1)
 
-        # Build the PyG object once, outside the button.
         data = to_pyg(edge_index_np, Xn, y)
 
         # (Optional) show class balance and a suggestion for CV splits
@@ -597,12 +609,9 @@ else:
                         data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=(not linear_gcn)
                     )
 
-            
-
-
             st.success("Training complete. Showing best validation performance observed.")
-            st.line_chart(hist_df.set_index("epoch")[["train_loss","val_loss"]])
-            st.line_chart(hist_df.set_index("epoch")[["val_acc","val_f1","val_f1_macro"]])
+            st.line_chart(hist_df.set_index("epoch")[["train_loss", "val_loss"]])
+            st.line_chart(hist_df.set_index("epoch")[["val_acc", "val_f1", "val_f1_macro"]])
 
             # Final report on validation nodes
             # Put model in eval mode and disable gradient tracking
@@ -615,7 +624,7 @@ else:
             with torch.no_grad():
                 val_logits_for_pr = model(data.x, data.edge_index)[val_idx]
                 pr_probs = torch.softmax(val_logits_for_pr, dim=-1)[:, 1].cpu().numpy()
-                pr_true  = data.y[val_idx].cpu().numpy()
+                pr_true = data.y[val_idx].cpu().numpy()
             p_vals, r_vals, _ = precision_recall_curve(pr_true, pr_probs)
             fig_pr, ax_pr = plt.subplots(figsize=(4, 3))
             ax_pr.plot(r_vals, p_vals)
@@ -631,8 +640,8 @@ else:
             # --- Validation metrics (use the SAME indices returned by train_gnn) ---
             val_indices = val_idx.cpu().numpy()
             probs_val = torch.softmax(logits[val_idx], dim=-1)[:, 1].cpu().numpy()
-            pred_val  = (probs_val >= th).astype(int)
-            true_val  = data.y[val_idx].cpu().numpy()
+            pred_val = (probs_val >= th).astype(int)
+            true_val = data.y[val_idx].cpu().numpy()
 
             from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 
@@ -651,10 +660,10 @@ else:
 
             # --- Prediction table (all buses) ---
             probs_all = torch.softmax(logits, dim=-1)[:, 1].cpu().numpy()
-            pred_all  = (probs_all >= th).astype(int)
+            pred_all = (probs_all >= th).astype(int)
 
-            bus_df_view = bus_df.copy()
-            bus_df_view["pred_alarm_prob"]  = probs_all
+            bus_df_view = bus_df_all.copy()
+            bus_df_view["pred_alarm_prob"] = probs_all
             bus_df_view["pred_alarm_label"] = pred_all
 
             # mark which rows are in validation split + if correct (align by val_idx order)
@@ -675,7 +684,7 @@ else:
             with open("feature_scaler.pkl", "wb") as f:
                 pickle.dump(scaler, f)
             st.success("Saved: gnn_alarm_model.pt, feature_scaler.pkl")
-            st.download_button("Download model weights", data=open("gnn_alarm_model.pt","rb").read(), file_name="gnn_alarm_model.pt")
-            st.download_button("Download scaler", data=open("feature_scaler.pkl","rb").read(), file_name="feature_scaler.pkl")  
+            st.download_button("Download model weights", data=open("gnn_alarm_model.pt", "rb").read(), file_name="gnn_alarm_model.pt")
+            st.download_button("Download scaler", data=open("feature_scaler.pkl", "rb").read(), file_name="feature_scaler.pkl")
     else:
         st.info("Load/create data first.")
