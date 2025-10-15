@@ -374,6 +374,9 @@ def train_gnn_cv(
         with torch.no_grad():
             logits_val_full = model(data.x, data.edge_index)[va]
             probs_val = torch.softmax(logits_val_full, dim=-1)[:,1].cpu().numpy()
+            # NaN guard: replace any NaN probabilities with 0.5
+            if np.isnan(probs_val).any():
+                probs_val = np.nan_to_num(probs_val, nan=0.5)
             true_val  = data.y[va].cpu().numpy().astype(int)
         # Defensive check: skip if validation is single-class (should have been caught earlier)
         if len(np.unique(true_val)) < 2:
