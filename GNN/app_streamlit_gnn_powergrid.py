@@ -427,9 +427,31 @@ def to_pyg(edge_index_np, Xn, y):
 # -----------------------------
 col1, col2 = st.columns([1, 1])
 
-# Read entire datasets for all scenarios (used for training)
 bus_df_all = pd.read_csv("bus_scenarios.csv")
 edge_df_all = pd.read_csv("edge_scenarios.csv")
+
+# --- Scenario train/test split ---
+if "scenario" in bus_df_all.columns and "scenario" in edge_df_all.columns:
+    scenario_ids = sorted(bus_df_all["scenario"].unique())
+    from sklearn.model_selection import train_test_split
+    train_scenarios, test_scenarios = train_test_split(
+        scenario_ids, test_size=0.2, random_state=42
+    )
+    train_scenarios = set(train_scenarios)
+    test_scenarios = set(test_scenarios)
+    train_bus_df = bus_df_all[bus_df_all["scenario"].isin(train_scenarios)].copy()
+    train_edge_df = edge_df_all[edge_df_all["scenario"].isin(train_scenarios)].copy()
+    test_bus_df = bus_df_all[bus_df_all["scenario"].isin(test_scenarios)].copy()
+    test_edge_df = edge_df_all[edge_df_all["scenario"].isin(test_scenarios)].copy()
+    n_train_scen = len(train_scenarios)
+    n_test_scen = len(test_scenarios)
+else:
+    # fallback: use all
+    train_bus_df = bus_df_all
+    train_edge_df = edge_df_all
+    test_bus_df = None
+    test_edge_df = None
+    n_train_scen = n_test_scen = None
 
 # Scenario selection and visualization
 with col1:
@@ -513,10 +535,14 @@ st.subheader("3) Train GNN (GCN)")
 if len(missing) > 0 or Data is None or GCNConv is None:
     st.error("PyTorch and/or PyTorch Geometric are not available. See install commands in the sidebar.")
 else:
-    # Use all scenarios for training (bus_df_all, edge_df_all)
-    if bus_df_all is not None and edge_df_all is not None:
-        # Build the graph and PyG dataset for ALL scenarios (for training)
-        edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df_all, edge_df_all)
+    # Only proceed if train_bus_df and train_edge_df exist and are not empty
+    if train_bus_df is not None and train_edge_df is not None and not train_bus_df.empty and not train_edge_df.empty:
+        # Build the graph and PyG dataset for TRAIN scenarios only
+        edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(train_bus_df, train_edge_df)
+
+        # Info: show number of scenarios in train/test
+        if n_train_scen is not None and n_test_scen is not None:
+            st.info(f"Training on {n_train_scen} scenarios, testing on {n_test_scen}")
 
         # Hyperparameters (set BEFORE the button so they persist in Streamlit state)
         epochs = st.slider("Epochs", 50, 800, 300, step=50)
@@ -613,10 +639,7 @@ else:
             st.line_chart(hist_df.set_index("epoch")[["train_loss", "val_loss"]])
             st.line_chart(hist_df.set_index("epoch")[["val_acc", "val_f1", "val_f1_macro"]])
 
-            # Final report on validation nodes
-            # Put model in eval mode and disable gradient tracking
             # ── EVAL ──────────────────────────────────────────────────────────────────────
-            # Add a threshold slider to trade precision/recall for alarms
             th_default = float(np.clip(best_th, 0.1, 0.9))
             th = st.slider("Decision threshold (alarm)", 0.1, 0.9, th_default, 0.05, help=f"PR-curve suggested threshold: {best_th:.3f}")
 
@@ -633,49 +656,46 @@ else:
             ax_pr.set_title("Validation Precision–Recall")
             st.pyplot(fig_pr, use_container_width=False)
 
-            model.eval()
-            with torch.no_grad():
-                logits = model(data.x, data.edge_index)
-
-            # --- Validation metrics (use the SAME indices returned by train_gnn) ---
-            val_indices = val_idx.cpu().numpy()
-            probs_val = torch.softmax(logits[val_idx], dim=-1)[:, 1].cpu().numpy()
-            pred_val = (probs_val >= th).astype(int)
-            true_val = data.y[val_idx].cpu().numpy()
-
-            from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
-
-            # Classification report
-            report = classification_report(true_val, pred_val, digits=3, zero_division=0)
-            st.code(report, language="text")
-
-            # Confusion matrix
-            cm = confusion_matrix(true_val, pred_val, labels=[0, 1])
-            fig, ax = plt.subplots(figsize=(4, 3))
-            ConfusionMatrixDisplay(cm, display_labels=["no alarm (0)", "alarm (1)"]).plot(
-                ax=ax, values_format="d", colorbar=False
-            )
-            ax.set_title("Validation Confusion Matrix")
-            st.pyplot(fig, use_container_width=False)
-
-            # --- Prediction table (all buses) ---
-            probs_all = torch.softmax(logits, dim=-1)[:, 1].cpu().numpy()
-            pred_all = (probs_all >= th).astype(int)
-
-            bus_df_view = bus_df_all.copy()
-            bus_df_view["pred_alarm_prob"] = probs_all
-            bus_df_view["pred_alarm_label"] = pred_all
-
-            # mark which rows are in validation split + if correct (align by val_idx order)
-            bus_df_view["is_val"] = 0
-            bus_df_view.loc[val_indices, "is_val"] = 1
-            # correctness only defined for validation rows; align using val_indices order
-            bus_df_view.loc[val_indices, "correct"] = (pred_all[val_indices] == true_val).astype(int)
-
-            st.dataframe(
-                bus_df_view.sort_values("pred_alarm_prob", ascending=False),
-                use_container_width=True
-            )
+            # --- EVALUATE ON TEST SCENARIOS ---
+            # If test_bus_df/test_edge_df is available, evaluate there
+            if test_bus_df is not None and test_edge_df is not None and not test_bus_df.empty:
+                # Build test graph (using scaler from train)
+                edge_index_np_test, Xn_test, y_test, _, _ = build_graph(test_bus_df, test_edge_df)
+                # Use same scaler as train (already fit)
+                # (To ensure: Xn_test already scaled, as build_graph fits scaler. Instead, use train scaler.)
+                # So, re-scale test features using train scaler:
+                X_test_raw = test_bus_df[['voltage','load_MW']].to_numpy(dtype=float)
+                Xn_test = scaler.transform(X_test_raw)
+                # Build PyG data for test
+                data_test = to_pyg(edge_index_np_test, Xn_test, y_test)
+                model.eval()
+                with torch.no_grad():
+                    logits_test = model(data_test.x, data_test.edge_index)
+                probs_test = torch.softmax(logits_test, dim=-1)[:, 1].cpu().numpy()
+                pred_test = (probs_test >= th).astype(int)
+                true_test = data_test.y.cpu().numpy()
+                # Report
+                st.subheader("Test Set Evaluation (unseen scenarios)")
+                report = classification_report(true_test, pred_test, digits=3, zero_division=0)
+                st.code(report, language="text")
+                cm = confusion_matrix(true_test, pred_test, labels=[0, 1])
+                fig, ax = plt.subplots(figsize=(4, 3))
+                ConfusionMatrixDisplay(cm, display_labels=["no alarm (0)", "alarm (1)"]).plot(
+                    ax=ax, values_format="d", colorbar=False
+                )
+                ax.set_title("Test Set Confusion Matrix")
+                st.pyplot(fig, use_container_width=False)
+                # Test set prediction table
+                test_bus_df_view = test_bus_df.copy()
+                test_bus_df_view["pred_alarm_prob"] = probs_test
+                test_bus_df_view["pred_alarm_label"] = pred_test
+                test_bus_df_view["correct"] = (pred_test == true_test).astype(int)
+                st.dataframe(
+                    test_bus_df_view.sort_values("pred_alarm_prob", ascending=False),
+                    use_container_width=True
+                )
+            else:
+                st.info("No test scenarios available for evaluation.")
 
         # ── SAVE ARTIFACTS (optional) ────────────────────────────────────────────────
         if st.button("💾 Save model + scaler"):
