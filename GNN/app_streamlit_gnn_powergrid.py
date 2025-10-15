@@ -464,16 +464,20 @@ with col1:
 with col2:
     st.subheader("2) Graph Preview")
     if bus_df_vis is not None and edge_df_vis is not None and not bus_df_vis.empty and not edge_df_vis.empty:
+        # Filter active lines for the chosen scenario
+        edges_active = edge_df_vis[edge_df_vis["in_service"] == True] if "in_service" in edge_df_vis.columns else edge_df_vis
+
         G = nx.Graph()
         G.add_nodes_from(bus_df_vis['bus' if 'bus' in bus_df_vis.columns else 'BUS'])
-        G.add_edges_from(list(zip(edge_df_vis['from_bus'], edge_df_vis['to_bus'])))
+        G.add_edges_from(list(zip(edges_active['from_bus'], edges_active['to_bus'])))
+
         pos = nx.kamada_kawai_layout(G)
         fig, ax = plt.subplots(figsize=(6, 4))
         nx.draw(
             G, pos, with_labels=True, node_size=600, ax=ax,
-            edge_color='gray', width=1.5, node_color='#1f78b4', font_weight='bold'
+            edge_color='black', width=1.5, node_color='#1f78b4', font_weight='bold'
         )
-        ax.set_title("Scenario Topology Preview")
+        ax.set_title(f"Scenario {scenario_id} Topology (in-service lines only)")
         st.pyplot(fig, use_container_width=True)
 
 # -----------------------------
