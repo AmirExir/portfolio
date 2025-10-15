@@ -438,9 +438,6 @@ with col1:
     st.success(f"✅ Loaded scenario {scenario_id} from bus_scenarios.csv and edge_scenarios.csv")
 
     if bus_df is not None:
-        st.dataframe(bus_df.head(), use_container_width=True)
-        st.dataframe(edge_df.head(), use_container_width=True)
-
         # ---- Scenario Picker ----
         if "scenario" in bus_df.columns:
             max_scn = int(bus_df["scenario"].max())
@@ -450,6 +447,10 @@ with col1:
             st.success(f"Showing Scenario {scenario_id} (14 buses, ~20 lines)")
         else:
             bus_df_s, edge_df_s = bus_df, edge_df
+
+        st.caption(f"Showing scenario {scenario_id} — {len(bus_df_s)} buses, {len(edge_df_s)} lines")
+        st.dataframe(bus_df_s.head(), use_container_width=True)
+        st.dataframe(edge_df_s.head(), use_container_width=True)
 
         # ---- Augmentation (optional) ----
         st.subheader("Augment (optional)")
