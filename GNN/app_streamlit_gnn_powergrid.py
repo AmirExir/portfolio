@@ -486,7 +486,7 @@ with col2:
     if bus_df is not None:
         # build graph with basic linearized features
         edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df_s, edge_df_s)
-        st.write(f"Nodes: **{len(bus_df_s)}** | Edges: **{len(edge_df_s)}** (directed index count: {edge_index_np.shape[1]})")
+        st.write(f"Nodes: **{len(bus_df_s)}** | Edges: **{len(edge_df_s)}**")
         st.info("Linearized features (array): voltage, load_MW.")
 
         # topology preview
