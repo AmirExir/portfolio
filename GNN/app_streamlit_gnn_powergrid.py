@@ -519,7 +519,7 @@ with col2:
 
         # Use kamada_kawai_layout for stable, even spacing
         pos = nx.kamada_kawai_layout(G)
-        fig, ax = plt.subplots(figsize=(6, 4))
+        fig, ax = plt.subplots(figsize=(12, 8))
         nx.draw(
             G, pos, with_labels=True, node_size=600, ax=ax,
             edge_color='gray', width=1.5, node_color='#1f78b4', font_weight='bold'
