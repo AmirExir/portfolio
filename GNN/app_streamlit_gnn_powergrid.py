@@ -71,10 +71,10 @@ def set_seed(s=42):
 
 def replicate_graph_with_noise(
     bus_df, edge_df, copies=10,
-    sigma_v=0.01,        # voltage noise (p.u.)
-    sigma_load=3.0,      # MW noise
-    sigma_pinj=1.0,      # MW noise
-    flip_alarm_p=0.02,   # small prob to flip 0/1
+    sigma_v=0.05,        # voltage noise (p.u.)
+    sigma_load=20.0,     # MW noise
+    sigma_pinj=10.0,     # MW noise
+    flip_alarm_p=0.1,    # small prob to flip 0/1
     seed=42
 ):
     """
@@ -180,7 +180,7 @@ def build_graph(bus_df, edge_df):
     return edge_index, Xn, y, scaler, bus_to_idx
 
 class GCN(nn.Module):
-    def __init__(self, in_dim, h_dim=32, num_classes=2, dropout=0.2, use_relu=True):
+    def __init__(self, in_dim, h_dim=32, num_classes=2, dropout=0.4, use_relu=True):
         super().__init__()
         self.g1 = GCNConv(in_dim, h_dim)
         self.g2 = GCNConv(h_dim, h_dim)
@@ -545,9 +545,9 @@ else:
             st.info(f"Training on {n_train_scen} scenarios, testing on {n_test_scen}")
 
         # Hyperparameters (set BEFORE the button so they persist in Streamlit state)
-        epochs = st.slider("Epochs", 50, 800, 300, step=50)
+        epochs = st.slider("Epochs", 50, 800, 150, step=50)
         lr     = st.select_slider("Learning Rate", options=[1e-3, 3e-3, 1e-2, 3e-2], value=1e-2)
-        wd     = st.select_slider("Weight Decay", options=[0.0, 5e-4, 1e-3], value=5e-4)
+        wd     = st.select_slider("Weight Decay", options=[0.0, 5e-4, 1e-3], value=1e-3)
         seed   = st.number_input("Seed", value=42, step=1)
 
         data = to_pyg(edge_index_np, Xn, y)
@@ -677,7 +677,7 @@ else:
                 # Report
                 st.subheader("Test Set Evaluation (unseen scenarios)")
                 report = classification_report(true_test, pred_test, digits=3, zero_division=0)
-                st.code(report, language="text")
+                st.markdown(f"```\n{report}\n```")
                 cm = confusion_matrix(true_test, pred_test, labels=[0, 1])
                 fig, ax = plt.subplots(figsize=(2, 1.5))
                 ConfusionMatrixDisplay(cm, display_labels=["no alarm (0)", "alarm (1)"]).plot(
