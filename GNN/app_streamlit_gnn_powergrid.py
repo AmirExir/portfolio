@@ -180,7 +180,7 @@ def build_graph(bus_df, edge_df):
     return edge_index, Xn, y, scaler, bus_to_idx
 
 class GCN(nn.Module):
-    def __init__(self, in_dim, h_dim=32, num_classes=2, dropout=0.4, use_relu=True):
+    def __init__(self, in_dim, h_dim=64, num_classes=2, dropout=0.4, use_relu=True):
         super().__init__()
         self.g1 = GCNConv(in_dim, h_dim)
         self.g2 = GCNConv(h_dim, h_dim)
@@ -332,7 +332,7 @@ def train_gnn_cv(
     best_th        = 0.5
 
     for fold_id, (tr_np, va_np) in enumerate(rskf.split(np.zeros_like(y_np), y_np), start=1):
-        model = GCN(in_dim=data.x.size(1), use_relu=use_relu).to(data.x.device)
+        model = GCN(in_dim=data.x.size(1), h_dim=64, use_relu=use_relu).to(data.x.device)
         opt   = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
         tr = torch.tensor(tr_np, dtype=torch.long, device=data.x.device)
@@ -408,7 +408,12 @@ def train_gnn_cv(
         "f1_mean": float(fold_stats[:,3].mean()),  "f1_std": float(fold_stats[:,3].std(ddof=1)),
     }
 
-    model = GCN(in_dim=data.x.size(1), use_relu=use_relu).to(data.x.device)
+    if best_state is None:
+        st.warning("⚠️ No valid folds produced a trained model — check data or class balance.")
+        model = GCN(in_dim=data.x.size(1), h_dim=64, use_relu=use_relu).to(data.x.device)
+        cv_summary = {"n_folds": 0, "acc_mean": 0.0, "prec_mean": 0.0, "rec_mean": 0.0, "f1_mean": 0.0}
+        return model, pd.DataFrame(), None, None, 0.5, cv_summary
+    model = GCN(in_dim=data.x.size(1), h_dim=64, use_relu=use_relu).to(data.x.device)
     model.load_state_dict(best_state)
     hist_df = pd.DataFrame(best_hist, columns=["epoch","train_loss","val_loss","val_acc","val_prec","val_rec","val_f1","val_f1_macro"])
     return model, hist_df, best_train_idx, best_val_idx, best_th, cv_summary
@@ -512,6 +517,8 @@ with col2:
 # -----------------------------
 
 st.subheader("3) Train GNN (GCN)")
+# Future Note: To detect specific outage or fault types, extend 'alarm_flag' to a multi-class label
+# (e.g., 0=normal, 1=fault, 2=line_outage, 3=voltage_violation)
 if len(missing) > 0 or Data is None or GCNConv is None:
     st.error("PyTorch and/or PyTorch Geometric are not available. See install commands in the sidebar.")
 else:
@@ -615,11 +622,16 @@ else:
                     f"Rec: {cv_summary['rec_mean']:.3f}±{cv_summary['rec_std']:.3f}, "
                     f"F1: {cv_summary['f1_mean']:.3f}±{cv_summary['f1_std']:.3f}"
                 )
+                st.caption("Precision → low false alarms.  Recall → missed alarms.  F1 balances both.")
             else:
                 with st.spinner("Training..."):
                     model, hist_df, train_idx, val_idx, best_th = train_gnn(
                         data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=(not linear_gcn)
                     )
+
+            if hist_df.empty:
+                st.error("Model did not train properly — no valid best state found.")
+                st.stop()
 
             st.success("Training complete. Showing best validation performance observed.")
             st.line_chart(hist_df.set_index("epoch")[["train_loss", "val_loss"]])
