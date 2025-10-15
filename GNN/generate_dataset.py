@@ -1,3 +1,4 @@
+import copy
 import pandapower.networks as pn
 import pandas as pd
 import numpy as np
@@ -12,7 +13,7 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42):
     all_buses, all_edges = [], []
 
     for s in range(n_scen):
-        n = net.deepcopy()
+        n = copy.deepcopy(net)
 
         # jitter loads ±10%
         if len(n.load):
@@ -25,7 +26,7 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42):
 
         # run power flow
         try:
-            pp.runpp(n, numba=True)
+            pp.runpp(n, numba=False)
         except Exception:
             continue  # skip infeasible scenarios
 
