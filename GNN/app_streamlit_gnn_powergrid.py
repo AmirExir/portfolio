@@ -447,9 +447,9 @@ with col1:
         else:
             st.info("Upload both CSVs or uncheck 'Upload CSVs' to use synthetic data.")
             bus_df, edge_df = None, None
-    else:
-        bus_df, edge_df = synthetic_14_bus()
-        st.success("✅ Using synthetic 14-bus dataset.")
+    bus_df = pd.read_csv("bus_scenarios.csv")
+    edge_df = pd.read_csv("edge_scenarios.csv")
+    st.success("✅ Loaded dynamic 14-bus scenario dataset with corresponding edge topology.")
 
     if bus_df is not None:
         st.dataframe(bus_df.head(), use_container_width=True)
