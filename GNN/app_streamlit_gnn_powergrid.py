@@ -59,13 +59,6 @@ st.caption("Nodes = buses | Edges = lines | Features = voltage, load_MW | Target
 # -----------------------------
 # Sidebar (Settings, instructions, install help)
 # -----------------------------
-with st.sidebar:
-    st.header("⚙️ Power Grid GNN Settings")
-    scenario_id_input = st.text_input("Enter Scenario Number", value="0")
-    try:
-        scenario_id = int(scenario_id_input)
-    except ValueError:
-        scenario_id = 0
 # -----------------------------
 # Helpers
 # -----------------------------
@@ -432,8 +425,13 @@ col1, col2 = st.columns([1,1])
 
 with col1:
     st.subheader("1) Choose Scenario")
+    scenario_id_input = st.text_input("Enter Scenario Number", value="0")
+    try:
+        scenario_id = int(scenario_id_input)
+    except ValueError:
+        scenario_id = 0
     st.info(
-        "Enter a **scenario number** in the sidebar to visualize it. "
+        "Enter a **scenario number** to visualize it. "
         "The app will automatically load the corresponding bus and edge data, "
         "build the topology, and prepare the graph features for the GNN."
     )
@@ -444,7 +442,6 @@ with col1:
         # ---- Scenario Picker ----
         if "scenario" in bus_df.columns:
             max_scn = int(bus_df["scenario"].max())
-            # scenario_id already defined above from user input (now in sidebar)
             bus_df_s  = bus_df[bus_df["scenario"] == scenario_id].copy()
             edge_df_s = edge_df[edge_df["scenario"] == scenario_id].copy()
         else:
