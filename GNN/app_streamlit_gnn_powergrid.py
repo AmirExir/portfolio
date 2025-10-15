@@ -184,7 +184,7 @@ def build_graph(bus_df, edge_df):
     edge_index = np.vstack([np.r_[src, dst], np.r_[dst, src]])
 
     # features (linearized input)
-    X = bus_df[['voltage','load_MW','breaker_status']].to_numpy(dtype=float)
+    X = bus_df[['voltage','load_MW']].to_numpy(dtype=float)
     scaler = StandardScaler().fit(X)
     Xn = scaler.transform(X)
     y = bus_df['alarm_flag'].to_numpy().astype(int)
