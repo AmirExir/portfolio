@@ -667,7 +667,7 @@ def main():
     train_data_list = build_data_list(train_bus_df, train_edge_df, train_scenarios, mode=mode, scaler=scaler)
     # --- Train GNN using per-scenario batching ---
     epochs = args.epochs
-    lr = 1e-2
+    lr = 1e-3
     wd = 1e-3
     seed = 42
     use_relu = True
