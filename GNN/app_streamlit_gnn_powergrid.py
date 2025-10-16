@@ -371,11 +371,45 @@ def load_bus_edge_csvs(bus_path="bus_scenarios.csv", edge_path="edge_scenarios.c
 bus_df_all, edge_df_all = load_bus_edge_csvs()
 
 # --- Build global graph: bus__scenario labels so each scenario is a component ---
-def make_global_graph(bus_df, edge_df):
+def make_global_graph(bus_çdf, edge_df):
     # Each bus gets a unique id: bus__scenario
     bus_df = bus_df.copy()
     edge_df = edge_df.copy()
     assert "bus" in bus_df.columns and "scenario" in bus_df.columns
+
+    # --- Handle alarm_flag column creation if missing ---
+    if "alarm_flag" not in bus_df.columns:
+        # Use voltage_class and thermal_class to derive alarm_flag if present
+        v_alarm = None
+        t_alarm_bus = None
+        if "voltage_class" in bus_df.columns:
+            v_alarm = (bus_df["voltage_class"] != "Normal").astype(int)
+        else:
+            v_alarm = pd.Series(0, index=bus_df.index)
+        # For thermal, propagate line alarms to buses in each scenario
+        if "thermal_class" in edge_df.columns and "from_bus" in edge_df.columns and "to_bus" in edge_df.columns and "scenario" in edge_df.columns:
+            # Line-level thermal alarm
+            t_alarm_line = (edge_df["thermal_class"] != "Normal").astype(int)
+            # For each scenario, for each bus, if any incident line is in alarm, mark t_alarm_bus = 1
+            t_alarm_bus = pd.Series(0, index=bus_df.index)
+            # Build mapping of bus_scenario to index for fast lookup
+            bus_df["_bus_scen_key"] = bus_df["bus"].astype(str) + "__" + bus_df["scenario"].astype(str)
+            bus_scen_to_idx = {k: i for i, k in enumerate(bus_df["_bus_scen_key"])}
+            # For each row in edge_df, if t_alarm_line is 1, set for both from and to bus in that scenario
+            for i, row in edge_df.iterrows():
+                if t_alarm_line.iloc[i]:
+                    scen = row["scenario"]
+                    for bus_col in ["from_bus", "to_bus"]:
+                        key = str(row[bus_col]) + "__" + str(scen)
+                        idx = bus_scen_to_idx.get(key, None)
+                        if idx is not None:
+                            t_alarm_bus.iloc[idx] = 1
+            bus_df = bus_df.drop(columns="_bus_scen_key")
+        else:
+            t_alarm_bus = pd.Series(0, index=bus_df.index)
+        # alarm_flag = v_alarm + 2 * t_alarm_bus
+        bus_df["alarm_flag"] = v_alarm + 2 * t_alarm_bus
+
     bus_df["bus_scen"] = bus_df["bus"].astype(str) + "__" + bus_df["scenario"].astype(str)
     edge_df["from_bus_scen"] = edge_df["from_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
     edge_df["to_bus_scen"]   = edge_df["to_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
