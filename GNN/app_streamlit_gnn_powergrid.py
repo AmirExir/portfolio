@@ -371,7 +371,7 @@ def load_bus_edge_csvs(bus_path="bus_scenarios.csv", edge_path="edge_scenarios.c
 bus_df_all, edge_df_all = load_bus_edge_csvs()
 
 # --- Build global graph: bus__scenario labels so each scenario is a component ---
-def make_global_graph(bus_çdf, edge_df):
+def make_global_graph(bus_df, edge_df):
     # Each bus gets a unique id: bus__scenario
     bus_df = bus_df.copy()
     edge_df = edge_df.copy()
@@ -410,6 +410,7 @@ def make_global_graph(bus_çdf, edge_df):
         # alarm_flag = v_alarm + 2 * t_alarm_bus
         bus_df["alarm_flag"] = v_alarm + 2 * t_alarm_bus
 
+    # Ensure that alarm_flag column is present in bus_df before further processing
     bus_df["bus_scen"] = bus_df["bus"].astype(str) + "__" + bus_df["scenario"].astype(str)
     edge_df["from_bus_scen"] = edge_df["from_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
     edge_df["to_bus_scen"]   = edge_df["to_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
