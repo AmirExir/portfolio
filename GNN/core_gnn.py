@@ -354,76 +354,115 @@ def load_bus_edge_csvs(bus_path="bus_scenarios.csv", edge_path="edge_scenarios.c
     return bus_df, edge_df
 
 # --- Build global graph: bus__scenario labels so each scenario is a component ---
-def make_global_graph(bus_df, edge_df):
-    # Each bus gets a unique id: bus__scenario
+def make_global_graph(bus_df, edge_df, mode="voltage"):
+    """
+    Builds a global graph for either voltage or thermal classification.
+    mode: "voltage" or "thermal"
+    Returns edge_index, features, y, scaler, index mapping, scenario array, bus_df, edge_df
+    """
     bus_df = bus_df.copy()
     edge_df = edge_df.copy()
     assert "bus" in bus_df.columns and "scenario" in bus_df.columns
 
-    # --- Handle alarm_flag column creation if missing ---
-    if "alarm_flag" not in bus_df.columns:
-        # Use voltage_class and thermal_class to derive alarm_flag if present
-        v_alarm = None
-        t_alarm_bus = None
+    if mode == "voltage":
+        # --- Handle voltage_class column creation if missing ---
+        if "voltage_class" not in bus_df.columns:
+            bus_df["voltage_class"] = 0
+        # Target: voltage_class (convert to int if not already)
         if "voltage_class" in bus_df.columns:
-            v_alarm = (bus_df["voltage_class"] != "Normal").astype(int)
+            y = bus_df["voltage_class"]
+            # If not integer, convert (e.g., from string labels)
+            if not np.issubdtype(y.dtype, np.integer):
+                y = y.astype(str)
+                # Map to int: "Normal"->0, others->1,2,...
+                classes = sorted(y.unique())
+                class_map = {cls: idx for idx, cls in enumerate(classes)}
+                y = y.map(class_map)
+            y = y.fillna(0).to_numpy().astype(int)
         else:
-            v_alarm = pd.Series(0, index=bus_df.index)
-        # For thermal, propagate line alarms to buses in each scenario
-        if "thermal_class" in edge_df.columns and "from_bus" in edge_df.columns and "to_bus" in edge_df.columns and "scenario" in edge_df.columns:
-            # Line-level thermal alarm
-            t_alarm_line = (edge_df["thermal_class"] != "Normal").astype(int)
-            # For each scenario, for each bus, if any incident line is in alarm, mark t_alarm_bus = 1
-            t_alarm_bus = pd.Series(0, index=bus_df.index)
-            # Build mapping of bus_scenario to index for fast lookup
-            bus_df["_bus_scen_key"] = bus_df["bus"].astype(str) + "__" + bus_df["scenario"].astype(str)
-            bus_scen_to_idx = {k: i for i, k in enumerate(bus_df["_bus_scen_key"])}
-            # For each row in edge_df, if t_alarm_line is 1, set for both from and to bus in that scenario
-            for i, row in edge_df.iterrows():
-                # Use safer check to avoid IndexError
-                if i < len(t_alarm_line) and t_alarm_line.iat[i] == 1:
-                    scen = row["scenario"]
-                    for bus_col in ["from_bus", "to_bus"]:
-                        key = str(row[bus_col]) + "__" + str(scen)
-                        idx = bus_scen_to_idx.get(key, None)
-                        if idx is not None:
-                            t_alarm_bus.iloc[idx] = 1
-            bus_df = bus_df.drop(columns="_bus_scen_key")
+            y = np.zeros(len(bus_df), dtype=int)
+        # Features: voltage, load_MW
+        features = ["voltage", "load_MW"]
+        X = bus_df[features].to_numpy(dtype=float)
+        scaler = StandardScaler().fit(X)
+        Xn = scaler.transform(X)
+        # Edge index: bus-based
+        bus_df["bus_scen"] = bus_df["bus"].astype(str) + "__" + bus_df["scenario"].astype(str)
+        edge_df["from_bus_scen"] = edge_df["from_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
+        edge_df["to_bus_scen"]   = edge_df["to_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
+        bus_to_idx = {b: i for i, b in enumerate(bus_df["bus_scen"])}
+        src = edge_df["from_bus_scen"].map(bus_to_idx).to_numpy()
+        dst = edge_df["to_bus_scen"].map(bus_to_idx).to_numpy()
+        edge_index = np.vstack([src, dst])
+        scenario_arr = bus_df["scenario"].to_numpy().astype(int)
+        return edge_index, Xn, y, scaler, bus_to_idx, scenario_arr, bus_df, edge_df
+    elif mode == "thermal":
+        # --- Handle thermal_class column creation if missing ---
+        if "thermal_class" not in edge_df.columns:
+            edge_df["thermal_class"] = 0
+        # Target: thermal_class (convert to int if not already)
+        if "thermal_class" in edge_df.columns:
+            y = edge_df["thermal_class"]
+            if not np.issubdtype(y.dtype, np.integer):
+                y = y.astype(str)
+                classes = sorted(y.unique())
+                class_map = {cls: idx for idx, cls in enumerate(classes)}
+                y = y.map(class_map)
+            y = y.fillna(0).to_numpy().astype(int)
         else:
-            t_alarm_bus = pd.Series(0, index=bus_df.index)
-        # bus_df["alarm_flag"] = v_alarm + 2 * t_alarm_bus
-
-        bus_df["alarm_flag"] = (
-            v_alarm * (t_alarm_bus == 0) * 1 +     # Voltage-only
-            (t_alarm_bus * (v_alarm == 0)) * 2 +   # Thermal-only
-            (v_alarm * t_alarm_bus) * 3            # Both
-        )
-        bus_df["alarm_flag"] = bus_df["alarm_flag"].fillna(0).astype(int)
-
-    # Ensure that alarm_flag column is present in bus_df before further processing
-    bus_df["bus_scen"] = bus_df["bus"].astype(str) + "__" + bus_df["scenario"].astype(str)
-    edge_df["from_bus_scen"] = edge_df["from_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
-    edge_df["to_bus_scen"]   = edge_df["to_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
-    # Map unique bus_scen to index
-    bus_to_idx = {b: i for i, b in enumerate(bus_df["bus_scen"])}
-    src = edge_df["from_bus_scen"].map(bus_to_idx).to_numpy()
-    dst = edge_df["to_bus_scen"].map(bus_to_idx).to_numpy()
-    edge_index = np.vstack([src, dst])
-    # Features and label
-    X = bus_df[["voltage", "load_MW"]].to_numpy(dtype=float)
-    scaler = StandardScaler().fit(X)
-    Xn = scaler.transform(X)
-    y = bus_df["alarm_flag"].to_numpy().astype(int)
-    scenario_arr = bus_df["scenario"].to_numpy().astype(int)
-    return edge_index, Xn, y, scaler, bus_to_idx, scenario_arr, bus_df, edge_df
+            y = np.zeros(len(edge_df), dtype=int)
+        # Features: x_pu, length_km, loading_percent (drop missing columns safely)
+        features = [col for col in ["x_pu", "length_km", "loading_percent"] if col in edge_df.columns]
+        if len(features) == 0:
+            # fallback: all numeric columns except target and indexes
+            features = [c for c in edge_df.columns if c not in ["thermal_class", "from_bus", "to_bus", "scenario", "from_bus_scen", "to_bus_scen"] and pd.api.types.is_numeric_dtype(edge_df[c])]
+        if len(features) == 0:
+            # fallback: zeros
+            X = np.zeros((len(edge_df), 1))
+        else:
+            X = edge_df[features].to_numpy(dtype=float)
+        scaler = StandardScaler().fit(X)
+        Xn = scaler.transform(X)
+        # Edge index: line-based (from_bus_scen <-> to_bus_scen for each edge)
+        edge_df["from_bus_scen"] = edge_df["from_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
+        edge_df["to_bus_scen"]   = edge_df["to_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
+        # Each edge is a node, so assign an index to each edge row
+        edge_to_idx = {i: i for i in range(len(edge_df))}
+        # For GNN, we create a graph where each edge is a node, and connect edges sharing a bus in the same scenario (line-graph)
+        # For simplicity, connect edges that share a bus_scen
+        edge_nodes = edge_df.reset_index()
+        neighbors = []
+        for i, row_i in edge_nodes.iterrows():
+            for j, row_j in edge_nodes.iterrows():
+                if i == j:
+                    continue
+                # If they share a bus_scen in the same scenario, connect
+                if row_i["scenario"] == row_j["scenario"]:
+                    buses_i = {row_i["from_bus_scen"], row_i["to_bus_scen"]}
+                    buses_j = {row_j["from_bus_scen"], row_j["to_bus_scen"]}
+                    if len(buses_i & buses_j) > 0:
+                        neighbors.append((i, j))
+        if len(neighbors) == 0:
+            edge_index = np.zeros((2, 0), dtype=int)
+        else:
+            edge_index = np.array(neighbors).T
+        scenario_arr = edge_df["scenario"].to_numpy().astype(int)
+        return edge_index, Xn, y, scaler, edge_to_idx, scenario_arr, bus_df, edge_df
+    else:
+        raise ValueError(f"Unknown mode {mode}. Choose 'voltage' or 'thermal'.")
 
 
 # -----------------------------
 # Main function for CLI/VS Code execution
 # -----------------------------
 def main():
-    print("⚡ Amir Exir's Power Grid GNN — Node Alarm Classification (GCN + Message Passing)")
-    print("Nodes = buses | Edges = lines | Features = voltage, load_MW | Target = alarm_flag (0: normal, 1: voltage, 2: thermal, 3: both)")
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--mode", choices=["voltage", "thermal"], default="voltage",
+                        help="Choose whether to train on voltage_class or thermal_class")
+    args = parser.parse_args()
+    mode = args.mode
+    print(f"Running in {mode.upper()} classification mode")
 
     # --- Load CSVs ---
     bus_path = "bus_scenarios.csv"
@@ -457,7 +496,16 @@ def main():
     print(f"Training on {n_train_scen} scenarios, testing on {n_test_scen}")
 
     # --- Build global graph for training ---
-    edge_index_np, Xn, y, scaler, bus_to_idx, scenario_arr, bus_df_full, edge_df_full = make_global_graph(train_bus_df, train_edge_df)
+    edge_index_np, Xn, y, scaler, idx_map, scenario_arr, bus_df_full, edge_df_full = make_global_graph(train_bus_df, train_edge_df, mode=mode)
+    # Print features used
+    if mode == "voltage":
+        feature_names = ["voltage", "load_MW"]
+        print("Features used for VOLTAGE classification:", feature_names)
+        print("Target: voltage_class")
+    elif mode == "thermal":
+        feature_names = [col for col in ["x_pu", "length_km", "loading_percent"] if col in train_edge_df.columns]
+        print("Features used for THERMAL classification:", feature_names if feature_names else "No features found (using zeros)")
+        print("Target: thermal_class")
 
     # --- Show class balance ---
     cls, cls_counts = np.unique(y, return_counts=True)
@@ -485,43 +533,70 @@ def main():
             print(f"{int(row['epoch']):4d} | {row['train_loss']:.4f} | {row['val_loss']:.4f} | {row['val_acc']:.4f} | {row['val_f1']:.4f}")
 
     # --- Evaluate on test set ---
-    if test_bus_df is not None and test_edge_df is not None and not test_bus_df.empty:
-        def make_test_graph(test_bus_df, test_edge_df, scaler):
+    if test_bus_df is not None and test_edge_df is not None and ((mode == "voltage" and not test_bus_df.empty) or (mode == "thermal" and not test_edge_df.empty)):
+        def make_test_graph(test_bus_df, test_edge_df, scaler, mode="voltage"):
             test_bus_df = test_bus_df.copy()
             test_edge_df = test_edge_df.copy()
-
-            # If alarm_flag is missing, rebuild it from voltage_class and thermal_class
-            if "alarm_flag" not in test_bus_df.columns:
-                v_alarm = (test_bus_df["voltage_class"] != "Normal").astype(int) if "voltage_class" in test_bus_df.columns else 0
-                t_alarm_bus = pd.Series(0, index=test_bus_df.index)
-                if "thermal_class" in test_edge_df.columns:
-                    t_alarm_line = (test_edge_df["thermal_class"] != "Normal").astype(int)
-                    test_bus_df["_bus_scen_key"] = test_bus_df["bus"].astype(str) + "__" + test_bus_df["scenario"].astype(str)
-                    bus_scen_to_idx = {k: i for i, k in enumerate(test_bus_df["_bus_scen_key"])}
-                    for i, row in test_edge_df.iterrows():
-                        if i < len(t_alarm_line) and t_alarm_line.iat[i] == 1:
-                            scen = row["scenario"]
-                            for bus_col in ["from_bus", "to_bus"]:
-                                key = str(row[bus_col]) + "__" + str(scen)
-                                idx = bus_scen_to_idx.get(key, None)
-                                if idx is not None:
-                                    t_alarm_bus.iloc[idx] = 1
-                    test_bus_df.drop(columns="_bus_scen_key", inplace=True, errors="ignore")
-                test_bus_df["alarm_flag"] = v_alarm + 2 * t_alarm_bus
-
-            # Standard graph assembly
-            test_bus_df["bus_scen"] = test_bus_df["bus"].astype(str) + "__" + test_bus_df["scenario"].astype(str)
-            test_edge_df["from_bus_scen"] = test_edge_df["from_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
-            test_edge_df["to_bus_scen"]   = test_edge_df["to_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
-            bus_to_idx = {b: i for i, b in enumerate(test_bus_df["bus_scen"])}
-            src = test_edge_df["from_bus_scen"].map(bus_to_idx).to_numpy()
-            dst = test_edge_df["to_bus_scen"].map(bus_to_idx).to_numpy()
-            edge_index = np.vstack([src, dst])
-            X_test_raw = test_bus_df[["voltage", "load_MW"]].to_numpy(dtype=float)
-            Xn_test = scaler.transform(X_test_raw)
-            y_test = test_bus_df["alarm_flag"].to_numpy().astype(int)
-            return edge_index, Xn_test, y_test, bus_to_idx
-        edge_index_np_test, Xn_test, y_test, _ = make_test_graph(test_bus_df, test_edge_df, scaler)
+            if mode == "voltage":
+                # Target: voltage_class
+                if "voltage_class" not in test_bus_df.columns:
+                    test_bus_df["voltage_class"] = 0
+                y_test = test_bus_df["voltage_class"]
+                if not np.issubdtype(y_test.dtype, np.integer):
+                    y_test = y_test.astype(str)
+                    classes = sorted(y_test.unique())
+                    class_map = {cls: idx for idx, cls in enumerate(classes)}
+                    y_test = y_test.map(class_map)
+                y_test = y_test.fillna(0).to_numpy().astype(int)
+                test_bus_df["bus_scen"] = test_bus_df["bus"].astype(str) + "__" + test_bus_df["scenario"].astype(str)
+                test_edge_df["from_bus_scen"] = test_edge_df["from_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
+                test_edge_df["to_bus_scen"]   = test_edge_df["to_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
+                bus_to_idx = {b: i for i, b in enumerate(test_bus_df["bus_scen"])}
+                src = test_edge_df["from_bus_scen"].map(bus_to_idx).to_numpy()
+                dst = test_edge_df["to_bus_scen"].map(bus_to_idx).to_numpy()
+                edge_index = np.vstack([src, dst])
+                X_test_raw = test_bus_df[["voltage", "load_MW"]].to_numpy(dtype=float)
+                Xn_test = scaler.transform(X_test_raw)
+                return edge_index, Xn_test, y_test, bus_to_idx
+            elif mode == "thermal":
+                # Target: thermal_class
+                if "thermal_class" not in test_edge_df.columns:
+                    test_edge_df["thermal_class"] = 0
+                y_test = test_edge_df["thermal_class"]
+                if not np.issubdtype(y_test.dtype, np.integer):
+                    y_test = y_test.astype(str)
+                    classes = sorted(y_test.unique())
+                    class_map = {cls: idx for idx, cls in enumerate(classes)}
+                    y_test = y_test.map(class_map)
+                y_test = y_test.fillna(0).to_numpy().astype(int)
+                test_edge_df["from_bus_scen"] = test_edge_df["from_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
+                test_edge_df["to_bus_scen"]   = test_edge_df["to_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
+                edge_to_idx = {i: i for i in range(len(test_edge_df))}
+                edge_nodes = test_edge_df.reset_index()
+                neighbors = []
+                for i, row_i in edge_nodes.iterrows():
+                    for j, row_j in edge_nodes.iterrows():
+                        if i == j:
+                            continue
+                        if row_i["scenario"] == row_j["scenario"]:
+                            buses_i = {row_i["from_bus_scen"], row_i["to_bus_scen"]}
+                            buses_j = {row_j["from_bus_scen"], row_j["to_bus_scen"]}
+                            if len(buses_i & buses_j) > 0:
+                                neighbors.append((i, j))
+                if len(neighbors) == 0:
+                    edge_index = np.zeros((2, 0), dtype=int)
+                else:
+                    edge_index = np.array(neighbors).T
+                features = [col for col in ["x_pu", "length_km", "loading_percent"] if col in test_edge_df.columns]
+                if len(features) == 0:
+                    X_test = np.zeros((len(test_edge_df), 1))
+                else:
+                    X_test = test_edge_df[features].to_numpy(dtype=float)
+                Xn_test = scaler.transform(X_test)
+                return edge_index, Xn_test, y_test, edge_to_idx
+            else:
+                raise ValueError("Unknown mode")
+        edge_index_np_test, Xn_test, y_test, _ = make_test_graph(test_bus_df, test_edge_df, scaler, mode=mode)
         data_test = to_pyg(edge_index_np_test, Xn_test, y_test)
         model.eval()
         with torch.no_grad():
