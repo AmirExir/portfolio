@@ -538,15 +538,16 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
         # For macro F1/acc, accumulate over all val nodes in all scenarios
         # Train on all scenario batches
         for i, batch in enumerate(loader):
-            # Each batch is a batch of graphs (scenarios)
             batch = batch.to(device)
-            # Find train_idx in this batch: concatenate for all graphs in batch
             batch_train_idx = []
             offset = 0
-            for j in range(batch.num_graphs):
-                idx = splits[batch.ptr[j].item()][0] if hasattr(batch, "ptr") else splits[j][0]
-                batch_train_idx.append(idx + offset)
-                offset += batch.batch.eq(j).sum().item()
+            for j, (tr_idx, _) in enumerate(splits):
+                n_nodes = (batch.batch == j).sum().item()
+                if len(tr_idx) > 0 and tr_idx.max().item() < n_nodes:
+                    batch_train_idx.append(tr_idx + offset)
+                offset += n_nodes
+            if not batch_train_idx:
+                continue
             train_idx = torch.cat(batch_train_idx).to(device)
             logits = model(batch.x, batch.edge_index)
             loss = focal_loss(logits[train_idx], batch.y[train_idx], gamma=2.0, alpha=alpha)
