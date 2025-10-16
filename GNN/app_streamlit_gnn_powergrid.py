@@ -193,9 +193,19 @@ def build_graph(bus_df, edge_df, target_col="alarm_flag"):
     X = bus_df[['voltage','load_MW']].to_numpy(dtype=float)
     scaler = StandardScaler().fit(X)
     Xn = scaler.transform(X)
-    # Use correct label column
+    # Use correct label column, with fallback to "alarm_flag"
     if target_col not in bus_df.columns:
-        raise ValueError(f"Target column '{target_col}' not found in bus dataframe columns: {bus_df.columns.tolist()}")
+        # Fallback: try "alarm_flag"
+        import streamlit as st
+        st.warning(
+            f"Target column '{target_col}' not found in bus dataframe columns. "
+            f"Falling back to 'alarm_flag'."
+        )
+        if "alarm_flag" not in bus_df.columns:
+            raise ValueError(
+                f"Neither '{target_col}' nor 'alarm_flag' found in bus dataframe columns: {bus_df.columns.tolist()}"
+            )
+        target_col = "alarm_flag"
     y = bus_df[target_col].to_numpy().astype(int)
 
     return edge_index, Xn, y, scaler, bus_to_idx
