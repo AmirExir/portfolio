@@ -53,26 +53,30 @@ from sklearn.metrics import accuracy_score, f1_score, classification_report
 # Streamlit Page Setup
 # -----------------------------
 st.set_page_config(page_title="Amir ExirPower Grid GNN (Alarms)", layout="wide")
-st.title("⚡ Amir Exir's Power Grid GNN — Node Alarm Classification (GCN + Message Passing)")
-st.caption("Nodes = buses | Edges = lines | Features = voltage, load, breaker_status | Target = alarm_flag")
+st.title("⚡ Amir Exir's Power Grid GNN — Node Alarm Classification")
 
-with st.sidebar:
-    st.header("Setup")
-    st.markdown("""
-**Install requirements (terminal):**
-```bash
-pip install streamlit torch torchvision torchaudio scikit-learn networkx matplotlib pandas
-pip install torch-geometric -f https://data.pyg.org/whl/torch-2.5.0+cpu.html
-```
-*(Use the CPU wheel above; switch to CUDA wheel if you have GPU.)*
-    """)
+# --- Alarm type selection ---
+alarm_type = st.selectbox(
+    "Alarm Type for Prediction",
+    options=["Voltage Alarms", "Thermal Alarms", "Combined (Voltage + Thermal)"],
+    index=0,
+    help="Choose which type of alarm to train and predict on."
+)
+if alarm_type == "Voltage Alarms":
+    alarm_target_col = "voltage_class"
+    alarm_caption = "Target = voltage_class"
+elif alarm_type == "Thermal Alarms":
+    alarm_target_col = "thermal_class"
+    alarm_caption = "Target = thermal_class"
+else:
+    alarm_target_col = "alarm_flag"
+    alarm_caption = "Target = alarm_flag (combined)"
 
-    st.divider()
-    st.subheader("Data Options")
-    use_upload = st.toggle("Upload CSVs (otherwise auto-generate synthetic 14-bus)", value=False)
-    st.write("If uploading, provide: **bus_features.csv**, **branch_connections.csv**")
-    st.subheader("Features")
-    st.info("Using linearized node features (array): voltage, load_MW, breaker_status.")
+st.caption(f"Nodes = buses | Edges = lines | Features = voltage, load_MW | {alarm_caption}")
+
+# -----------------------------
+# Sidebar (Settings, instructions, install help)
+# -----------------------------
 # -----------------------------
 # Helpers
 # -----------------------------
@@ -85,11 +89,10 @@ def set_seed(s=42):
 
 def replicate_graph_with_noise(
     bus_df, edge_df, copies=10,
-    sigma_v=0.01,        # voltage noise (p.u.)
-    sigma_load=3.0,      # MW noise
-    sigma_pinj=1.0,      # MW noise
-    flip_breaker_p=0.02, # small prob to flip 0/1
-    flip_alarm_p=0.02,   # small prob to flip 0/1
+    sigma_v=0.05,        # voltage noise (p.u.)
+    sigma_load=20.0,     # MW noise
+    sigma_pinj=10.0,     # MW noise
+    flip_alarm_p=0.1,    # small prob to flip 0/1
     seed=42
 ):
     """
@@ -128,10 +131,7 @@ def replicate_graph_with_noise(
         if pcol in df:
             df[pcol] = df[pcol].astype(float) + rng.normal(0, sigma_pinj, len(df))
 
-        brk = getcol(df, 'breaker_status')
-        if brk in df:
-            flip = rng.random(len(df)) < flip_breaker_p
-            df.loc[flip, brk] = 1 - df.loc[flip, brk].astype(int)
+        # breaker_status noise/flip removed
 
         af = getcol(df, 'alarm_flag')
         if af in df:
@@ -161,12 +161,11 @@ def synthetic_14_bus():
     for i, bus in enumerate(buses):
         voltage = round(1.0 + 0.05 * (i % 3), 3)
         load_MW = 50 + 10 * (i % 5)
-        breaker_status = 1 if i % 4 != 0 else 0
         alarm_flag = 1 if i % 6 == 0 else 0
         # tiny net injections alternating +/-
         p_inj_mw = (5 if i % 2 == 0 else -5)
-        rows.append([bus, voltage, load_MW, breaker_status, alarm_flag, p_inj_mw])
-    bus_df = pd.DataFrame(rows, columns=['bus','voltage','load_MW','breaker_status','alarm_flag','p_inj_mw'])
+        rows.append([bus, voltage, load_MW, alarm_flag, p_inj_mw])
+    bus_df = pd.DataFrame(rows, columns=['bus','voltage','load_MW','alarm_flag','p_inj_mw'])
 
     # simple constant reactance per line
     edge_df = pd.DataFrame(branches, columns=['from_bus','to_bus'])
@@ -174,25 +173,45 @@ def synthetic_14_bus():
 
     return bus_df, edge_df
 
-def build_graph(bus_df, edge_df):
+def build_graph(bus_df, edge_df, target_col="alarm_flag"):
+    # Ensure bus and edge IDs are string type for mapping
+    bus_df = bus_df.copy()
+    edge_df = edge_df.copy()
+    bus_df['bus'] = bus_df['bus'].astype(str)
+    edge_df['from_bus'] = edge_df['from_bus'].astype(str)
+    edge_df['to_bus'] = edge_df['to_bus'].astype(str)
+
     # map bus to index
     bus_to_idx = {b:i for i,b in enumerate(bus_df['bus'])}
 
-    # edge index (undirected)
+    # edge index (directed, as per PyG)
     src = edge_df['from_bus'].map(bus_to_idx).to_numpy()
     dst = edge_df['to_bus'  ].map(bus_to_idx).to_numpy()
-    edge_index = np.vstack([np.r_[src, dst], np.r_[dst, src]])
+    edge_index = np.vstack([src, dst])
 
     # features (linearized input)
-    X = bus_df[['voltage','load_MW','breaker_status']].to_numpy(dtype=float)
+    X = bus_df[['voltage','load_MW']].to_numpy(dtype=float)
     scaler = StandardScaler().fit(X)
     Xn = scaler.transform(X)
-    y = bus_df['alarm_flag'].to_numpy().astype(int)
+    # Use correct label column, with fallback to "alarm_flag"
+    if target_col not in bus_df.columns:
+        # Fallback: try "alarm_flag"
+        import streamlit as st
+        st.warning(
+            f"Target column '{target_col}' not found in bus dataframe columns. "
+            f"Falling back to 'alarm_flag'."
+        )
+        if "alarm_flag" not in bus_df.columns:
+            raise ValueError(
+                f"Neither '{target_col}' nor 'alarm_flag' found in bus dataframe columns: {bus_df.columns.tolist()}"
+            )
+        target_col = "alarm_flag"
+    y = bus_df[target_col].to_numpy().astype(int)
 
     return edge_index, Xn, y, scaler, bus_to_idx
 
 class GCN(nn.Module):
-    def __init__(self, in_dim, h_dim=32, num_classes=2, dropout=0.2, use_relu=True):
+    def __init__(self, in_dim, h_dim=32, num_classes=2, dropout=0.4, use_relu=True):
         super().__init__()
         self.g1 = GCNConv(in_dim, h_dim)
         self.g2 = GCNConv(h_dim, h_dim)
@@ -433,36 +452,73 @@ def to_pyg(edge_index_np, Xn, y):
 # -----------------------------
 # Data Input UI
 # -----------------------------
-col1, col2 = st.columns([1,1])
 
+# -----------------------------
+# Data Input UI (Revised: separate data for visualization and training)
+# -----------------------------
+col1, col2 = st.columns([1, 1])
+
+bus_df_all = pd.read_csv("bus_scenarios.csv")
+edge_df_all = pd.read_csv("edge_scenarios.csv")
+
+# --- Scenario train/test split ---
+if "scenario" in bus_df_all.columns and "scenario" in edge_df_all.columns:
+    scenario_ids = sorted(bus_df_all["scenario"].unique())
+    from sklearn.model_selection import train_test_split
+    train_scenarios, test_scenarios = train_test_split(
+        scenario_ids, test_size=0.2, random_state=42
+    )
+    train_scenarios = set(train_scenarios)
+    test_scenarios = set(test_scenarios)
+    train_bus_df = bus_df_all[bus_df_all["scenario"].isin(train_scenarios)].copy()
+    train_edge_df = edge_df_all[edge_df_all["scenario"].isin(train_scenarios)].copy()
+    test_bus_df = bus_df_all[bus_df_all["scenario"].isin(test_scenarios)].copy()
+    test_edge_df = edge_df_all[edge_df_all["scenario"].isin(test_scenarios)].copy()
+    n_train_scen = len(train_scenarios)
+    n_test_scen = len(test_scenarios)
+else:
+    # fallback: use all
+    train_bus_df = bus_df_all
+    train_edge_df = edge_df_all
+    test_bus_df = None
+    test_edge_df = None
+    n_train_scen = n_test_scen = None
+
+# Scenario selection and visualization
 with col1:
-    st.subheader("1) Load or Create Data")
-    if use_upload:
-        bus_file = st.file_uploader("Upload bus_features.csv", type=["csv"], key="bus_csv")
-        edge_file = st.file_uploader("Upload branch_connections.csv", type=["csv"], key="edge_csv")
-        if bus_file and edge_file:
-            bus_df = pd.read_csv(bus_file)
-            edge_df = pd.read_csv(edge_file)
-            st.success("✅ CSVs uploaded.")
+    st.subheader("1) Choose Scenario")
+    scenario_id_input = st.text_input("Enter Scenario Number", value="0")
+    try:
+        scenario_id = int(scenario_id_input)
+    except ValueError:
+        scenario_id = 0
+    st.info(
+        "Enter a **scenario number** to visualize it. "
+        "The app will automatically load the corresponding bus and edge data, "
+        "build the topology, and prepare the graph features for the GNN."
+    )
+
+    # Extract scenario-specific data for visualization
+    if bus_df_all is not None:
+        if "scenario" in bus_df_all.columns:
+            max_scn = int(bus_df_all["scenario"].max())
+            bus_df_vis = bus_df_all[bus_df_all["scenario"] == scenario_id].copy()
+            edge_df_vis = edge_df_all[edge_df_all["scenario"] == scenario_id].copy()
         else:
-            st.info("Upload both CSVs or uncheck 'Upload CSVs' to use synthetic data.")
-            bus_df, edge_df = None, None
-    else:
-        bus_df, edge_df = synthetic_14_bus()
-        st.success("✅ Using synthetic 14-bus dataset.")
+            bus_df_vis, edge_df_vis = bus_df_all, edge_df_all
 
-    if bus_df is not None:
-        st.dataframe(bus_df.head(), use_container_width=True)
-        st.dataframe(edge_df.head(), use_container_width=True)
+        st.caption(f"Showing scenario {scenario_id} — {len(bus_df_vis)} buses, {len(edge_df_vis)} lines")
+        st.dataframe(bus_df_vis, use_container_width=True, height=250, hide_index=True)
+        st.dataframe(edge_df_vis, use_container_width=True, height=180, hide_index=True)
 
-        # ---- Augmentation (optional) ----
+        # ---- Augmentation (optional, for visualization only) ----
         st.subheader("Augment (optional)")
         do_aug = st.toggle(
             "Replicate the 14-bus graph with noise",
             value=False,
             help="Creates N disjoint copies with light feature noise to increase samples."
         )
-        if do_aug and (bus_df is not None) and (edge_df is not None):
+        if do_aug and (bus_df_vis is not None) and (edge_df_vis is not None):
             copies = st.slider("Number of copies (N)", 1, 50, 10, 1)
             c1, c2, c3 = st.columns(3)
             with c1:
@@ -471,56 +527,82 @@ with col1:
                 sigma_load = st.number_input("Load noise σ (MW)", 0.0, 50.0, 3.0, 0.5)
             with c3:
                 sigma_pinj = st.number_input("P_inj noise σ (MW)", 0.0, 50.0, 1.0, 0.5)
-            flip_breaker_p = st.number_input("Breaker flip prob", 0.0, 0.5, 0.02, 0.01)
-            flip_alarm_p   = st.number_input("Alarm flip prob",   0.0, 0.5, 0.02, 0.01)
+            flip_alarm_p = st.number_input("Alarm flip prob", 0.0, 0.5, 0.02, 0.01)
 
-            bus_df, edge_df = replicate_graph_with_noise(
-                bus_df, edge_df, copies=copies,
+            bus_df_vis, edge_df_vis = replicate_graph_with_noise(
+                bus_df_vis, edge_df_vis, copies=copies,
                 sigma_v=sigma_v, sigma_load=sigma_load, sigma_pinj=sigma_pinj,
-                flip_breaker_p=flip_breaker_p, flip_alarm_p=flip_alarm_p, seed=42
+                flip_alarm_p=flip_alarm_p, seed=42
             )
-            st.success(f"Augmented dataset: {len(bus_df)} buses, {len(edge_df)} branches")
+            st.success(f"Augmented dataset: {len(bus_df_vis)} buses, {len(edge_df_vis)} branches")
+
 with col2:
     st.subheader("2) Build Graph")
-    if bus_df is not None:
-        # build graph with basic linearized features
-        edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(bus_df, edge_df)
-        st.write(f"Nodes: **{len(bus_df)}** | Edges (undirected counted): **{edge_index_np.shape[1]}**")
-        st.info("Linearized features (array): voltage, load_MW, breaker_status.")
+    if bus_df_all is not None and bus_df_vis is not None and edge_df_vis is not None:
+        # For visualization, build and show the graph for the selected scenario only
+        try:
+            edge_index_np_vis, Xn_vis, y_vis, scaler_vis, bus_to_idx_vis = build_graph(
+                bus_df_vis, edge_df_vis, target_col=alarm_target_col
+            )
+        except Exception as e:
+            st.error(f"Error building graph: {e}")
+            edge_index_np_vis, Xn_vis, y_vis, scaler_vis, bus_to_idx_vis = None, None, None, None, None
+        st.write(f"Nodes: **{len(bus_df_vis)}** | Edges: **{len(edge_df_vis)}**")
 
-        # topology preview
+        # Topology preview for selected scenario
         G = nx.Graph()
-        G.add_nodes_from(bus_df['bus' if 'bus' in bus_df.columns else 'BUS'])
-        G.add_edges_from(list(zip(edge_df['from_bus'], edge_df['to_bus'])))
+        G.add_nodes_from(bus_df_vis['bus' if 'bus' in bus_df_vis.columns else 'BUS'])
+        G.add_edges_from(list(zip(edge_df_vis['from_bus'], edge_df_vis['to_bus'])))
 
-        pos = nx.spring_layout(G, seed=42)
-        fig, ax = plt.subplots(figsize=(6,4))
-        nx.draw(G, pos, with_labels=True, node_size=600, ax=ax)
+        # Use kamada_kawai_layout for stable, even spacing
+        pos = nx.kamada_kawai_layout(G)
+        fig, ax = plt.subplots(figsize=(6, 4))
+        nx.draw(
+            G, pos, with_labels=True, node_size=600, ax=ax,
+            edge_color='gray', width=1.5, node_color='#1f78b4', font_weight='bold'
+        )
         ax.set_title("Topology Preview")
         st.pyplot(fig, use_container_width=True)
 
 # -----------------------------
 # Training
 # -----------------------------
+
 st.subheader("3) Train GNN (GCN)")
 if len(missing) > 0 or Data is None or GCNConv is None:
     st.error("PyTorch and/or PyTorch Geometric are not available. See install commands in the sidebar.")
 else:
-    if bus_df is not None:
+    # Only proceed if train_bus_df and train_edge_df exist and are not empty
+    if train_bus_df is not None and train_edge_df is not None and not train_bus_df.empty and not train_edge_df.empty:
+        # Build the graph and PyG dataset for TRAIN scenarios only
+        try:
+            edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(
+                train_bus_df, train_edge_df, target_col=alarm_target_col
+            )
+        except Exception as e:
+            st.error(f"Error building graph for training: {e}")
+            edge_index_np, Xn, y, scaler, bus_to_idx = None, None, None, None, None
+
+        # Info: show number of scenarios in train/test
+        if n_train_scen is not None and n_test_scen is not None:
+            st.info(f"Training on {n_train_scen} scenarios, testing on {n_test_scen}")
+
         # Hyperparameters (set BEFORE the button so they persist in Streamlit state)
-        epochs = st.slider("Epochs", 50, 800, 300, step=50)
+        epochs = st.slider("Epochs", 50, 800, 150, step=50)
         lr     = st.select_slider("Learning Rate", options=[1e-3, 3e-3, 1e-2, 3e-2], value=1e-2)
-        wd     = st.select_slider("Weight Decay", options=[0.0, 5e-4, 1e-3], value=5e-4)
+        wd     = st.select_slider("Weight Decay", options=[0.0, 5e-4, 1e-3], value=1e-3)
         seed   = st.number_input("Seed", value=42, step=1)
 
-        # Build the PyG object once, outside the button.
-        data = to_pyg(edge_index_np, Xn, y)
+        if edge_index_np is not None and Xn is not None and y is not None:
+            data = to_pyg(edge_index_np, Xn, y)
 
-        # (Optional) show class balance and a suggestion for CV splits
-        y_np = data.y.cpu().numpy()
-        cls, cls_counts = np.unique(y_np, return_counts=True)
-        st.caption(f"Class balance → 0: {int(cls_counts[cls.tolist().index(0)] if 0 in cls else 0)}, "
-                   f"1: {int(cls_counts[cls.tolist().index(1)] if 1 in cls else 0)}")
+            # (Optional) show class balance and a suggestion for CV splits
+            y_np = data.y.cpu().numpy()
+            cls, cls_counts = np.unique(y_np, return_counts=True)
+            st.caption(f"Class balance → 0: {int(cls_counts[cls.tolist().index(0)] if 0 in cls else 0)}, "
+                       f"1: {int(cls_counts[cls.tolist().index(1)] if 1 in cls else 0)}")
+        else:
+            data = None
 
         # Cross‑validation controls live OUTSIDE the button so the user can set them first
         use_cv = st.toggle("Use RepeatedStratifiedKFold CV (avg metrics)", value=True,
@@ -538,36 +620,39 @@ else:
         # --- Baseline: Logistic Regression (no graph) ---
         st.subheader("Baseline: Logistic Regression (no graph)")
         if st.button("⚖️ Train linear baseline", key="lin_base"):
-            X_np = Xn.astype(float)
-            y_np2 = y.astype(int)
-            bs_splits  = n_splits if use_cv else 5
-            bs_repeats = n_repeats if use_cv else 3
-            rskf_bs = RepeatedStratifiedKFold(n_splits=bs_splits, n_repeats=bs_repeats, random_state=seed)
+            if Xn is not None and y is not None:
+                X_np = Xn.astype(float)
+                y_np2 = y.astype(int)
+                bs_splits  = n_splits if use_cv else 5
+                bs_repeats = n_repeats if use_cv else 3
+                rskf_bs = RepeatedStratifiedKFold(n_splits=bs_splits, n_repeats=bs_repeats, random_state=seed)
 
-            mets = []
-            for tr_idx, va_idx in rskf_bs.split(np.zeros_like(y_np2), y_np2):
-                Xtr, Xva = X_np[tr_idx], X_np[va_idx]
-                ytr, yva = y_np2[tr_idx], y_np2[va_idx]
-                clf = LogisticRegression(max_iter=2000, class_weight='balanced')
-                clf.fit(Xtr, ytr)
-                pr = clf.predict(Xva)
-                mets.append([
-                    accuracy_score(yva, pr),
-                    precision_score(yva, pr, zero_division=0),
-                    recall_score(yva,  pr, zero_division=0),
-                    f1_score(yva, pr)
-                ])
-            mets = np.array(mets)
-            st.write(
-                f"LR CV (mean ± std) — "
-                f"Acc: {mets[:,0].mean():.3f}±{mets[:,0].std(ddof=1):.3f}, "
-                f"Prec: {mets[:,1].mean():.3f}±{mets[:,1].std(ddof=1):.3f}, "
-                f"Rec: {mets[:,2].mean():.3f}±{mets[:,2].std(ddof=1):.3f}, "
-                f"F1: {mets[:,3].mean():.3f}±{mets[:,3].std(ddof=1):.3f}"
-            )
+                mets = []
+                for tr_idx, va_idx in rskf_bs.split(np.zeros_like(y_np2), y_np2):
+                    Xtr, Xva = X_np[tr_idx], X_np[va_idx]
+                    ytr, yva = y_np2[tr_idx], y_np2[va_idx]
+                    clf = LogisticRegression(max_iter=2000, class_weight='balanced')
+                    clf.fit(Xtr, ytr)
+                    pr = clf.predict(Xva)
+                    mets.append([
+                        accuracy_score(yva, pr),
+                        precision_score(yva, pr, zero_division=0),
+                        recall_score(yva,  pr, zero_division=0),
+                        f1_score(yva, pr)
+                    ])
+                mets = np.array(mets)
+                st.write(
+                    f"LR CV (mean ± std) — "
+                    f"Acc: {mets[:,0].mean():.3f}±{mets[:,0].std(ddof=1):.3f}, "
+                    f"Prec: {mets[:,1].mean():.3f}±{mets[:,1].std(ddof=1):.3f}, "
+                    f"Rec: {mets[:,2].mean():.3f}±{mets[:,2].std(ddof=1):.3f}, "
+                    f"F1: {mets[:,3].mean():.3f}±{mets[:,3].std(ddof=1):.3f}"
+                )
+            else:
+                st.warning("Cannot train baseline: Data not available.")
 
         # Guard: if there are very few positive samples, cap the number of splits
-        if use_cv:
+        if use_cv and data is not None:
             pos_count = int(cls_counts[cls.tolist().index(1)]) if 1 in cls else 0
             max_splits = max(2, min(n_splits, pos_count))
             if max_splits < n_splits:
@@ -579,105 +664,104 @@ else:
 
         # --- Train button ---
         if st.button("🚀 Train Model", type="primary"):
-            if use_cv:
-                with st.spinner("Training (cross‑validation)..."):
-                    model, hist_df, train_idx, val_idx, best_th, cv_summary = train_gnn_cv(
-                        data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed,
-                        n_splits=n_splits, n_repeats=n_repeats, use_relu=(not linear_gcn)
-                    )
-                st.success(f"CV done over {cv_summary['n_folds']} folds.")
-                st.write(
-                    f"**CV (mean ± std)** — "
-                    f"Acc: {cv_summary['acc_mean']:.3f}±{cv_summary['acc_std']:.3f}, "
-                    f"Prec: {cv_summary['prec_mean']:.3f}±{cv_summary['prec_std']:.3f}, "
-                    f"Rec: {cv_summary['rec_mean']:.3f}±{cv_summary['rec_std']:.3f}, "
-                    f"F1: {cv_summary['f1_mean']:.3f}±{cv_summary['f1_std']:.3f}"
-                )
+            if data is None:
+                st.error("No data available for training. Check your selections and input files.")
             else:
-                with st.spinner("Training..."):
-                    model, hist_df, train_idx, val_idx, best_th = train_gnn(
-                        data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=(not linear_gcn)
+                if use_cv:
+                    with st.spinner("Training (cross‑validation)..."):
+                        model, hist_df, train_idx, val_idx, best_th, cv_summary = train_gnn_cv(
+                            data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed,
+                            n_splits=n_splits, n_repeats=n_repeats, use_relu=(not linear_gcn)
+                        )
+                    st.success(f"CV done over {cv_summary['n_folds']} folds.")
+                    st.write(
+                        f"**CV (mean ± std)** — "
+                        f"Acc: {cv_summary['acc_mean']:.3f}±{cv_summary['acc_std']:.3f}, "
+                        f"Prec: {cv_summary['prec_mean']:.3f}±{cv_summary['prec_std']:.3f}, "
+                        f"Rec: {cv_summary['rec_mean']:.3f}±{cv_summary['rec_std']:.3f}, "
+                        f"F1: {cv_summary['f1_mean']:.3f}±{cv_summary['f1_std']:.3f}"
                     )
+                else:
+                    with st.spinner("Training..."):
+                        model, hist_df, train_idx, val_idx, best_th = train_gnn(
+                            data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=(not linear_gcn)
+                        )
 
-            
+                st.success("Training complete. Showing best validation performance observed.")
+                st.line_chart(hist_df.set_index("epoch")[["train_loss", "val_loss"]])
+                st.line_chart(hist_df.set_index("epoch")[["val_acc", "val_f1", "val_f1_macro"]])
 
+                # ── EVAL ──────────────────────────────────────────────────────────────────────
+                th_default = float(np.clip(best_th, 0.1, 0.9))
+                th = st.slider("Decision threshold (alarm)", 0.1, 0.9, th_default, 0.05, help=f"PR-curve suggested threshold: {best_th:.3f}")
 
-            st.success("Training complete. Showing best validation performance observed.")
-            st.line_chart(hist_df.set_index("epoch")[["train_loss","val_loss"]])
-            st.line_chart(hist_df.set_index("epoch")[["val_acc","val_f1","val_f1_macro"]])
+                # Show a simple PR curve from validation to explain the suggested threshold
+                with torch.no_grad():
+                    val_logits_for_pr = model(data.x, data.edge_index)[val_idx]
+                    pr_probs = torch.softmax(val_logits_for_pr, dim=-1)[:, 1].cpu().numpy()
+                    pr_true = data.y[val_idx].cpu().numpy()
+                p_vals, r_vals, _ = precision_recall_curve(pr_true, pr_probs)
+                fig_pr, ax_pr = plt.subplots(figsize=(2, 1.5))
+                ax_pr.plot(r_vals, p_vals)
+                ax_pr.set_xlabel("Recall")
+                ax_pr.set_ylabel("Precision")
+                ax_pr.set_title("Validation Precision–Recall")
+                st.pyplot(fig_pr, use_container_width=False)
 
-            # Final report on validation nodes
-            # Put model in eval mode and disable gradient tracking
-            # ── EVAL ──────────────────────────────────────────────────────────────────────
-            # Add a threshold slider to trade precision/recall for alarms
-            th_default = float(np.clip(best_th, 0.1, 0.9))
-            th = st.slider("Decision threshold (alarm)", 0.1, 0.9, th_default, 0.05, help=f"PR-curve suggested threshold: {best_th:.3f}")
-
-            # Show a simple PR curve from validation to explain the suggested threshold
-            with torch.no_grad():
-                val_logits_for_pr = model(data.x, data.edge_index)[val_idx]
-                pr_probs = torch.softmax(val_logits_for_pr, dim=-1)[:, 1].cpu().numpy()
-                pr_true  = data.y[val_idx].cpu().numpy()
-            p_vals, r_vals, _ = precision_recall_curve(pr_true, pr_probs)
-            fig_pr, ax_pr = plt.subplots(figsize=(4, 3))
-            ax_pr.plot(r_vals, p_vals)
-            ax_pr.set_xlabel("Recall")
-            ax_pr.set_ylabel("Precision")
-            ax_pr.set_title("Validation Precision–Recall")
-            st.pyplot(fig_pr, use_container_width=False)
-
-            model.eval()
-            with torch.no_grad():
-                logits = model(data.x, data.edge_index)
-
-            # --- Validation metrics (use the SAME indices returned by train_gnn) ---
-            val_indices = val_idx.cpu().numpy()
-            probs_val = torch.softmax(logits[val_idx], dim=-1)[:, 1].cpu().numpy()
-            pred_val  = (probs_val >= th).astype(int)
-            true_val  = data.y[val_idx].cpu().numpy()
-
-            from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
-
-            # Classification report
-            report = classification_report(true_val, pred_val, digits=3, zero_division=0)
-            st.code(report, language="text")
-
-            # Confusion matrix
-            cm = confusion_matrix(true_val, pred_val, labels=[0, 1])
-            fig, ax = plt.subplots(figsize=(4, 3))
-            ConfusionMatrixDisplay(cm, display_labels=["no alarm (0)", "alarm (1)"]).plot(
-                ax=ax, values_format="d", colorbar=False
-            )
-            ax.set_title("Validation Confusion Matrix")
-            st.pyplot(fig, use_container_width=False)
-
-            # --- Prediction table (all buses) ---
-            probs_all = torch.softmax(logits, dim=-1)[:, 1].cpu().numpy()
-            pred_all  = (probs_all >= th).astype(int)
-
-            bus_df_view = bus_df.copy()
-            bus_df_view["pred_alarm_prob"]  = probs_all
-            bus_df_view["pred_alarm_label"] = pred_all
-
-            # mark which rows are in validation split + if correct (align by val_idx order)
-            bus_df_view["is_val"] = 0
-            bus_df_view.loc[val_indices, "is_val"] = 1
-            # correctness only defined for validation rows; align using val_indices order
-            bus_df_view.loc[val_indices, "correct"] = (pred_all[val_indices] == true_val).astype(int)
-
-            st.dataframe(
-                bus_df_view.sort_values("pred_alarm_prob", ascending=False),
-                use_container_width=True
-            )
+                # --- EVALUATE ON TEST SCENARIOS ---
+                # If test_bus_df/test_edge_df is available, evaluate there
+                if test_bus_df is not None and test_edge_df is not None and not test_bus_df.empty:
+                    try:
+                        edge_index_np_test, Xn_test, y_test, _, _ = build_graph(
+                            test_bus_df, test_edge_df, target_col=alarm_target_col
+                        )
+                        # Use same scaler as train (already fit)
+                        X_test_raw = test_bus_df[['voltage','load_MW']].to_numpy(dtype=float)
+                        Xn_test = scaler.transform(X_test_raw)
+                        # Build PyG data for test
+                        data_test = to_pyg(edge_index_np_test, Xn_test, y_test)
+                        model.eval()
+                        with torch.no_grad():
+                            logits_test = model(data_test.x, data_test.edge_index)
+                        probs_test = torch.softmax(logits_test, dim=-1)[:, 1].cpu().numpy()
+                        pred_test = (probs_test >= th).astype(int)
+                        true_test = data_test.y.cpu().numpy()
+                        # Report
+                        st.subheader("Test Set Evaluation (unseen scenarios)")
+                        report = classification_report(true_test, pred_test, digits=3, zero_division=0)
+                        st.markdown(f"```\n{report}\n```")
+                        cm = confusion_matrix(true_test, pred_test, labels=[0, 1])
+                        fig, ax = plt.subplots(figsize=(2, 1.5))
+                        ConfusionMatrixDisplay(cm, display_labels=["no alarm (0)", "alarm (1)"]).plot(
+                            ax=ax, values_format="d", colorbar=False
+                        )
+                        ax.set_title("Test Set Confusion Matrix")
+                        st.pyplot(fig, use_container_width=False)
+                        # Test set prediction table
+                        test_bus_df_view = test_bus_df.copy()
+                        test_bus_df_view["pred_alarm_prob"] = probs_test
+                        test_bus_df_view["pred_alarm_label"] = pred_test
+                        test_bus_df_view["correct"] = (pred_test == true_test).astype(int)
+                        st.dataframe(
+                            test_bus_df_view.sort_values("pred_alarm_prob", ascending=False),
+                            use_container_width=True
+                        )
+                    except Exception as e:
+                        st.error(f"Error during test set evaluation: {e}")
+                else:
+                    st.info("No test scenarios available for evaluation.")
 
         # ── SAVE ARTIFACTS (optional) ────────────────────────────────────────────────
         if st.button("💾 Save model + scaler"):
             import pickle
-            torch.save(model.state_dict(), "gnn_alarm_model.pt")
-            with open("feature_scaler.pkl", "wb") as f:
-                pickle.dump(scaler, f)
-            st.success("Saved: gnn_alarm_model.pt, feature_scaler.pkl")
-            st.download_button("Download model weights", data=open("gnn_alarm_model.pt","rb").read(), file_name="gnn_alarm_model.pt")
-            st.download_button("Download scaler", data=open("feature_scaler.pkl","rb").read(), file_name="feature_scaler.pkl")  
+            if 'model' in locals() and scaler is not None:
+                torch.save(model.state_dict(), "gnn_alarm_model.pt")
+                with open("feature_scaler.pkl", "wb") as f:
+                    pickle.dump(scaler, f)
+                st.success("Saved: gnn_alarm_model.pt, feature_scaler.pkl")
+                st.download_button("Download model weights", data=open("gnn_alarm_model.pt", "rb").read(), file_name="gnn_alarm_model.pt")
+                st.download_button("Download scaler", data=open("feature_scaler.pkl", "rb").read(), file_name="feature_scaler.pkl")
+            else:
+                st.warning("No trained model/scaler to save.")
     else:
         st.info("Load/create data first.")
