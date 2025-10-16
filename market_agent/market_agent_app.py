@@ -195,3 +195,41 @@ if st.sidebar.checkbox("Show Debug Info", value=False):
         st.sidebar.json(r.json())
     except Exception as e:
         st.sidebar.error(f"Failed to fetch orders: {e}")
+
+# --- Target variable creation from bus and edge dataframes ---
+
+# Example placeholders for bus_df and edge_df, replace with actual data loading code
+# bus_df = ...
+# edge_df = ...
+
+# Original code (to be replaced):
+# y = bus_df["alarm_flag"].to_numpy().astype(int)
+
+# New combined target creation:
+if "bus_df" in locals() and isinstance(bus_df, pd.DataFrame):
+    # Voltage alarm
+    if "voltage_class" in bus_df.columns:
+        v_alarm = (bus_df["voltage_class"] > 0).astype(int)
+    else:
+        v_alarm = pd.Series(0, index=bus_df.index)
+
+    # Thermal alarm
+    if "edge_df" in locals() and isinstance(edge_df, pd.DataFrame) and "thermal_class" in edge_df.columns:
+        # Count overloaded lines connected to each bus
+        # Assuming edge_df has 'from_bus' and 'to_bus' columns representing connections
+        overloaded_edges = edge_df[edge_df["thermal_class"] > 0]
+        thermal_counts = pd.concat([
+            overloaded_edges["from_bus"],
+            overloaded_edges["to_bus"]
+        ]).value_counts()
+        # Map counts back to bus_df index, fill missing with 0
+        t_alarm = bus_df.index.to_series().map(thermal_counts).fillna(0).astype(int)
+        # Convert to binary: 1 if any overloaded lines connected, else 0
+        t_alarm = (t_alarm > 0).astype(int)
+    else:
+        t_alarm = pd.Series(0, index=bus_df.index)
+
+    # Combine to create 4-class label
+    y = v_alarm + 2 * t_alarm
+else:
+    y = None  # or raise an error or handle appropriately
