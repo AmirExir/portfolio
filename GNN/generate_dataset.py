@@ -9,16 +9,16 @@ def build_ieee118():
     net = pn.case118()   # built-in IEEE-118 test system
     return net
 
-def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use_numba=False):
+def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use_numba=False, load_scale=(1.1, 1.4)):
     rng = np.random.default_rng(seed)
     all_buses, all_edges = [], []
 
     for s in range(n_scen):
         n = copy.deepcopy(net)
 
-        # Dynamically scale loads between 1.1×–1.4× to simulate stressed conditions
+        # Dynamically scale loads between load_scale[0]×–load_scale[1]× to simulate stressed conditions
         if len(n.load):
-            scale_factors = rng.uniform(1.1, 1.4, len(n.load))
+            scale_factors = rng.uniform(load_scale[0], load_scale[1], len(n.load))
             n.load["p_mw"] *= scale_factors
 
         # Randomly perform N-1, N-2, or N-3 outages per scenario
@@ -150,7 +150,23 @@ if __name__ == "__main__":
     parser.add_argument("--load-sigma", type=float, default=0.10)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--numba", action='store_true', default=False)
+    parser.add_argument(
+        "--load-scale",
+        type=float,
+        nargs=2,
+        default=[1.1, 1.4],
+        metavar=('MIN', 'MAX'),
+        help="Bounds for random load scaling (default: 1.1 1.4)"
+    )
     args = parser.parse_args()
 
     net = build_ieee118()
-    sample_scenarios(net, n_scen=args.scenarios, outage_p=args.outage_p, load_sigma=args.load_sigma, seed=args.seed, use_numba=args.numba)
+    sample_scenarios(
+        net,
+        n_scen=args.scenarios,
+        outage_p=args.outage_p,
+        load_sigma=args.load_sigma,
+        seed=args.seed,
+        use_numba=args.numba,
+        load_scale=args.load_scale
+    )
