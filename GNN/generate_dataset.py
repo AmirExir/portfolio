@@ -49,11 +49,15 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
 
         # Define bus voltage_class:
         # 0.95 ≤ V ≤ 1.05 → class 0
-        # 0.90 ≤ V < 0.95 or 1.05 < V ≤ 1.10 → class 1
-        # V < 0.90 or V > 1.10 → class 2
+        # 0.90 ≤ V < 0.95 → class 1
+        # 1.05 < V ≤ 1.10 → class 2
+        # V < 0.90 → class 3
+        # V > 1.10 → class 4
         voltage_class = np.zeros_like(vm, dtype=int)
-        voltage_class[(vm < 0.90) | (vm > 1.10)] = 2
-        voltage_class[((vm >= 0.90) & (vm < 0.95)) | ((vm > 1.05) & (vm <= 1.10))] = 1
+        voltage_class[(vm >= 0.90) & (vm < 0.95)] = 1
+        voltage_class[(vm > 1.05) & (vm <= 1.10)] = 2
+        voltage_class[vm < 0.90] = 3
+        voltage_class[vm > 1.10] = 4
         # class 0 otherwise
 
         # Calculate line loading percent and thermal_class using varied limits
