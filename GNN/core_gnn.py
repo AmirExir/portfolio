@@ -365,22 +365,31 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
     assert "bus" in bus_df.columns and "scenario" in bus_df.columns
 
     if mode == "voltage":
-        # --- Handle voltage_class column creation if missing ---
+        # --- Define voltage_class for 7 classes based on voltage ranges ---
+        def voltage_to_class(v):
+            if v < 0.90:
+                return 1  # Severe Low
+            elif 0.90 <= v < 0.95:
+                return 2  # Very Low
+            elif 0.95 <= v < 0.98:
+                return 3  # Slightly Low
+            elif 0.98 <= v <= 1.02:
+                return 4  # Normal
+            elif 1.02 < v <= 1.05:
+                return 5  # Slightly High
+            elif 1.05 < v <= 1.10:
+                return 6  # Very High
+            elif v > 1.10:
+                return 7  # Severe High
+            else:
+                return 4  # Default to Normal
+        # If voltage_class not already defined, create it using voltage
         if "voltage_class" not in bus_df.columns:
-            bus_df["voltage_class"] = 0
-        # Target: voltage_class (convert to int if not already)
-        if "voltage_class" in bus_df.columns:
-            y = bus_df["voltage_class"]
-            # If not integer, convert (e.g., from string labels)
-            if not np.issubdtype(y.dtype, np.integer):
-                y = y.astype(str)
-                # Map to int: "Normal"->0, others->1,2,...
-                classes = sorted(y.unique())
-                class_map = {cls: idx for idx, cls in enumerate(classes)}
-                y = y.map(class_map)
-            y = y.fillna(0).to_numpy().astype(int)
+            bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
         else:
-            y = np.zeros(len(bus_df), dtype=int)
+            # Even if present, ensure it follows the 7-class rule
+            bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
+        y = bus_df["voltage_class"].fillna(4).to_numpy().astype(int)
         # Features: voltage, load_MW
         features = ["voltage", "load_MW"]
         X = bus_df[features].to_numpy(dtype=float)
@@ -428,20 +437,19 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
         edge_df["to_bus_scen"]   = edge_df["to_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
         # Each edge is a node, so assign an index to each edge row
         edge_to_idx = {i: i for i in range(len(edge_df))}
-        # For GNN, we create a graph where each edge is a node, and connect edges sharing a bus in the same scenario (line-graph)
-        # For simplicity, connect edges that share a bus_scen
-        edge_nodes = edge_df.reset_index()
+        # For GNN, create adjacency by connecting edges that share a bus within each scenario (line-graph)
         neighbors = []
-        for i, row_i in edge_nodes.iterrows():
-            for j, row_j in edge_nodes.iterrows():
-                if i == j:
-                    continue
-                # If they share a bus_scen in the same scenario, connect
-                if row_i["scenario"] == row_j["scenario"]:
-                    buses_i = {row_i["from_bus_scen"], row_i["to_bus_scen"]}
-                    buses_j = {row_j["from_bus_scen"], row_j["to_bus_scen"]}
-                    if len(buses_i & buses_j) > 0:
-                        neighbors.append((i, j))
+        for scen, group in edge_df.groupby("scenario"):
+            bus_map = {}
+            for idx, row in group.iterrows():
+                for b in [row["from_bus_scen"], row["to_bus_scen"]]:
+                    bus_map.setdefault(b, []).append(idx)
+            for edges in bus_map.values():
+                if len(edges) > 1:
+                    for a in edges:
+                        for b in edges:
+                            if a != b:
+                                neighbors.append((a, b))
         if len(neighbors) == 0:
             edge_index = np.zeros((2, 0), dtype=int)
         else:
@@ -460,6 +468,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", choices=["voltage", "thermal"], default="voltage",
                         help="Choose whether to train on voltage_class or thermal_class")
+    parser.add_argument("--epochs", type=int, default=150, help="Number of training epochs")
     args = parser.parse_args()
     mode = args.mode
     print(f"Running in {mode.upper()} classification mode")
@@ -511,12 +520,22 @@ def main():
     cls, cls_counts = np.unique(y, return_counts=True)
     class_counts_str = ", ".join([f"{c}: {int(n)}" for c, n in zip(cls, cls_counts)])
     print(f"Class balance: {class_counts_str}")
+    # Print voltage class mapping if in voltage mode
+    if mode == "voltage":
+        print("Voltage class label mapping:")
+        print("  1: Severe Low (<0.90)")
+        print("  2: Very Low (0.90–0.95)")
+        print("  3: Slightly Low (0.95–0.98)")
+        print("  4: Normal (0.98–1.02)")
+        print("  5: Slightly High (1.02–1.05)")
+        print("  6: Very High (1.05–1.10)")
+        print("  7: Severe High (>1.10)")
 
     # --- Build PyG data ---
     data = to_pyg(edge_index_np, Xn, y)
 
     # --- Train GNN ---
-    epochs = 150
+    epochs = args.epochs
     lr = 1e-2
     wd = 1e-3
     seed = 42
