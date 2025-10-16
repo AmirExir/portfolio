@@ -47,16 +47,19 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
         vm = n.res_bus.vm_pu.values
         p_load = n.load.groupby("bus").p_mw.sum().reindex(n.bus.index, fill_value=0).values
 
-        # --- 4-class voltage scheme (no explicit "Normal") ---
-        # Class 0: Low (≤ 0.95)
-        # Class 1: Slightly Low (0.95, 1.00]
-        # Class 2: Slightly High (1.00, 1.05]
-        # Class 3: High (> 1.05)
-        voltage_class = np.empty_like(vm, dtype=int)
-        voltage_class[vm <= 0.95] = 0
-        voltage_class[(vm > 0.95) & (vm <= 1.00)] = 1
-        voltage_class[(vm > 1.00) & (vm <= 1.05)] = 2
-        voltage_class[vm > 1.05] = 3
+        # --- 5-class voltage classification ---
+        # 0: Low (<0.95)
+        # 1: Slightly Low [0.95, 0.98)
+        # 2: Near Nominal [0.98, 1.00)
+        # 3: Slightly High [1.00, 1.02)
+        # 4: High (>=1.02)
+        voltage_class = np.full_like(vm, 1, dtype=int)  # initialize to "slightly low" by default
+
+        voltage_class[vm < 0.95] = 0
+        voltage_class[(vm >= 0.95) & (vm < 0.98)] = 1
+        voltage_class[(vm >= 0.98) & (vm < 1.00)] = 2
+        voltage_class[(vm >= 1.00) & (vm < 1.02)] = 3
+        voltage_class[vm >= 1.02] = 4
 
         # Calculate line loading percent and thermal_class using varied limits
         loading_percent = n.res_line.loading_percent.values if "loading_percent" in n.res_line else np.full(len(n.line), np.nan)
@@ -128,10 +131,11 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
     # Show mapped class distribution summary
     print("\n📘 Class Mapping and Distribution:")
     voltage_labels = {
-        0: "Low (≤0.95 pu)",
-        1: "Slightly Low (0.95–1.00 pu)",
-        2: "Slightly High (1.00–1.05 pu)",
-        3: "High (>1.05 pu)"
+        0: "Low (<0.95 pu)",
+        1: "Slightly Low (0.95–0.98 pu)",
+        2: "Near Nominal (0.98–1.00 pu)",
+        3: "Slightly High (1.00–1.02 pu)",
+        4: "High (≥1.02 pu)"
     }
     thermal_labels = {0: "Normal", 1: "Mild (90–100%)", 2: "Overloaded (100–150%)", 3: "Severely Overloaded (>150%)"}
 
