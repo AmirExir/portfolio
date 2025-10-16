@@ -47,18 +47,17 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
         vm = n.res_bus.vm_pu.values
         p_load = n.load.groupby("bus").p_mw.sum().reindex(n.bus.index, fill_value=0).values
 
-        # Define bus voltage_class:
-        # 0.95 ≤ V ≤ 1.05 → class 0
-        # 0.90 ≤ V < 0.95 → class 1
-        # 1.05 < V ≤ 1.10 → class 2
-        # V < 0.90 → class 3
-        # V > 1.10 → class 4
+        # Define bus voltage_class using new bins:
+        # ≤ 0.95 → class 1
+        # (0.95, 1.00] → class 2
+        # (1.00, 1.05] → class 3
+        # > 1.05 → class 4
+        # Default 0 for normal otherwise.
         voltage_class = np.zeros_like(vm, dtype=int)
-        voltage_class[(vm >= 0.90) & (vm < 0.95)] = 1
-        voltage_class[(vm > 1.05) & (vm <= 1.10)] = 2
-        voltage_class[vm < 0.90] = 3
-        voltage_class[vm > 1.10] = 4
-        # class 0 otherwise
+        voltage_class[vm <= 0.95] = 1
+        voltage_class[(vm > 0.95) & (vm <= 1.00)] = 2
+        voltage_class[(vm > 1.00) & (vm <= 1.05)] = 3
+        voltage_class[vm > 1.05] = 4
 
         # Calculate line loading percent and thermal_class using varied limits
         loading_percent = n.res_line.loading_percent.values if "loading_percent" in n.res_line else np.full(len(n.line), np.nan)
@@ -129,7 +128,13 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
 
     # Show mapped class distribution summary
     print("\n📘 Class Mapping and Distribution:")
-    voltage_labels = {0: "Normal", 1: "Low (0.90–0.95 pu)", 2: "High (1.05–1.10 pu)", 3: "Very Low (<0.90 pu)", 4: "Very High (>1.10 pu)"}
+    voltage_labels = {
+        0: "Normal",
+        1: "Low (≤0.95 pu)",
+        2: "Slightly Low (0.95–1.00 pu)",
+        3: "Slightly High (1.00–1.05 pu)",
+        4: "High (>1.05 pu)"
+    }
     thermal_labels = {0: "Normal", 1: "Mild (90–100%)", 2: "Overloaded (100–150%)", 3: "Severely Overloaded (>150%)"}
 
     v_counts = bus_df["voltage_class"].value_counts().sort_index()
@@ -142,6 +147,13 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
     print("\nThermal Class Distribution:")
     for k, v in t_counts.items():
         print(f"  {thermal_labels.get(k, 'Unknown')}: {v} lines")
+
+    # Compute and print total number of unique classes and list them
+    unique_voltage_classes = sorted(bus_df["voltage_class"].unique())
+    unique_thermal_classes = sorted(edge_df["thermal_class"].unique())
+
+    print(f"\nDetected {len(unique_voltage_classes)} voltage classes: {unique_voltage_classes}")
+    print(f"Detected {len(unique_thermal_classes)} thermal classes: {unique_thermal_classes}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
