@@ -131,9 +131,19 @@ class GCN(nn.Module):
 
 
 def _stratified_indices(y_np, train_frac=0.7, seed=42):
-    sss = StratifiedShuffleSplit(n_splits=1, train_size=train_frac, random_state=seed)
-    (train_idx_np, val_idx_np), = sss.split(np.zeros_like(y_np), y_np)
-    return train_idx_np, val_idx_np
+    try:
+        sss = StratifiedShuffleSplit(n_splits=1, train_size=train_frac, random_state=seed)
+        (train_idx_np, val_idx_np), = sss.split(np.zeros_like(y_np), y_np)
+        return train_idx_np, val_idx_np
+    except ValueError as e:
+        if "The least populated class in y has only" in str(e):
+            # Fallback: random split
+            from sklearn.model_selection import train_test_split
+            idx = np.arange(len(y_np))
+            train_idx_np, val_idx_np = train_test_split(idx, train_size=train_frac, random_state=seed, shuffle=True)
+            return train_idx_np, val_idx_np
+        else:
+            raise
 
 def _class_weights(y_np, n_classes):
     # inverse-frequency weights for multiclass
@@ -365,31 +375,21 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
     assert "bus" in bus_df.columns and "scenario" in bus_df.columns
 
     if mode == "voltage":
-        # --- Define voltage_class for 7 classes based on voltage ranges ---
+        # --- Define voltage_class for 5 classes based on voltage ranges ---
         def voltage_to_class(v):
-            if v < 0.90:
-                return 1  # Severe Low
-            elif 0.90 <= v < 0.95:
-                return 2  # Very Low
+            if v < 0.95:
+                return 0  # low
             elif 0.95 <= v < 0.98:
-                return 3  # Slightly Low
-            elif 0.98 <= v <= 1.02:
-                return 4  # Normal
-            elif 1.02 < v <= 1.05:
-                return 5  # Slightly High
-            elif 1.05 < v <= 1.10:
-                return 6  # Very High
-            elif v > 1.10:
-                return 7  # Severe High
-            else:
-                return 4  # Default to Normal
+                return 1  # slightly low
+            elif 0.98 <= v < 1.00:
+                return 2  # near nominal
+            elif 1.00 <= v < 1.02:
+                return 3  # slightly high
+            else:  # v >= 1.02
+                return 4  # high
         # If voltage_class not already defined, create it using voltage
-        if "voltage_class" not in bus_df.columns:
-            bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
-        else:
-            # Even if present, ensure it follows the 7-class rule
-            bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
-        y = bus_df["voltage_class"].fillna(4).to_numpy().astype(int)
+        bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
+        y = bus_df["voltage_class"].fillna(2).to_numpy().astype(int)
         # Features: voltage, load_MW
         features = ["voltage", "load_MW"]
         X = bus_df[features].to_numpy(dtype=float)
@@ -651,13 +651,11 @@ def main():
     # Print voltage class mapping if in voltage mode
     if mode == "voltage":
         print("Voltage class label mapping:")
-        print("  1: Severe Low (<0.90)")
-        print("  2: Very Low (0.90–0.95)")
-        print("  3: Slightly Low (0.95–0.98)")
-        print("  4: Normal (0.98–1.02)")
-        print("  5: Slightly High (1.02–1.05)")
-        print("  6: Very High (1.05–1.10)")
-        print("  7: Severe High (>1.10)")
+        print("  0: low (<0.95)")
+        print("  1: slightly low [0.95–0.98)")
+        print("  2: near nominal [0.98–1.00)")
+        print("  3: slightly high [1.00–1.02)")
+        print("  4: high (≥1.02)")
 
     # --- Build per-scenario PyG data list ---
     train_data_list = build_data_list(train_bus_df, train_edge_df, train_scenarios, mode=mode, scaler=scaler)
