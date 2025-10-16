@@ -73,8 +73,8 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
         # > 120 → class 3
         thermal_class = np.zeros_like(loading_percent, dtype=int)
         thermal_class[(loading_percent > 90) & (loading_percent <= 100)] = 1
-        thermal_class[(loading_percent > 100) & (loading_percent <= 110)] = 2
-        thermal_class[loading_percent > 120] = 3
+        thermal_class[(loading_percent > 100) & (loading_percent <= 150)] = 2
+        thermal_class[loading_percent > 150] = 3
 
         all_buses.append(pd.DataFrame({
             "bus": n.bus.index.astype(int),
@@ -126,6 +126,22 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
     print(f"🔥 Total line thermal alarms (class>0): {total_thermal_alarms}")
     print("🟢 Saved labeled datasets: bus_scenarios.csv and edge_scenarios.csv")
     print("🟢 Saved unlabeled prediction-ready datasets: bus_inputs.csv and edge_inputs.csv")
+
+    # Show mapped class distribution summary
+    print("\n📘 Class Mapping and Distribution:")
+    voltage_labels = {0: "Normal", 1: "Low (0.90–0.95 pu)", 2: "High (1.05–1.10 pu)", 3: "Very Low (<0.90 pu)", 4: "Very High (>1.10 pu)"}
+    thermal_labels = {0: "Normal", 1: "Mild (90–100%)", 2: "Overloaded (100–150%)", 3: "Severely Overloaded (>150%)"}
+
+    v_counts = bus_df["voltage_class"].value_counts().sort_index()
+    t_counts = edge_df["thermal_class"].value_counts().sort_index()
+
+    print("Voltage Class Distribution:")
+    for k, v in v_counts.items():
+        print(f"  {voltage_labels.get(k, 'Unknown')}: {v} buses")
+
+    print("\nThermal Class Distribution:")
+    for k, v in t_counts.items():
+        print(f"  {thermal_labels.get(k, 'Unknown')}: {v} lines")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
