@@ -397,7 +397,8 @@ def make_global_graph(bus_df, edge_df):
             bus_scen_to_idx = {k: i for i, k in enumerate(bus_df["_bus_scen_key"])}
             # For each row in edge_df, if t_alarm_line is 1, set for both from and to bus in that scenario
             for i, row in edge_df.iterrows():
-                if t_alarm_line.iloc[i]:
+                # Use safer check to avoid IndexError
+                if i < len(t_alarm_line) and t_alarm_line.iat[i] == 1:
                     scen = row["scenario"]
                     for bus_col in ["from_bus", "to_bus"]:
                         key = str(row[bus_col]) + "__" + str(scen)
