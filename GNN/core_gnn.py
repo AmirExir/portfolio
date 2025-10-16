@@ -630,38 +630,7 @@ def main():
 
     print(f"Training on {n_train_scen} scenarios, testing on {n_test_scen}")
 
-    # Optional: Balance dataset to handle class imbalance
-    def balance_dataset(bus_df, target_col="voltage_class", factor=2, random_state=42):
-        from sklearn.utils import resample
-        # Separate majority and minority classes
-        normal = bus_df[bus_df[target_col] == 0]
-        others = bus_df[bus_df[target_col] != 0]
-        if len(others) == 0:
-            return bus_df
-        # Downsample normal class
-        normal_down = resample(
-            normal,
-            replace=False,
-            n_samples=min(len(normal), len(others) * factor),
-            random_state=random_state,
-        )
-        balanced_df = pd.concat([normal_down, others]).sample(frac=1, random_state=random_state)
-        print(f"🔁 Balanced dataset: {len(bus_df)} → {len(balanced_df)} rows "
-              f"(Normal={len(normal_down)}, Alarms={len(others)})")
-        return balanced_df
-
-    # Apply balancing only for voltage or thermal modes
-    if mode == "voltage" and "voltage_class" in train_bus_df.columns:
-        train_bus_df = balance_dataset(train_bus_df, target_col="voltage_class")
-    elif mode == "thermal" and "thermal_class" in train_edge_df.columns:
-        # Optionally balance edges for thermal mode
-        from sklearn.utils import resample
-        normal = train_edge_df[train_edge_df["thermal_class"] == 0]
-        others = train_edge_df[train_edge_df["thermal_class"] != 0]
-        if len(others) > 0:
-            normal_down = resample(normal, replace=False, n_samples=min(len(normal), len(others) * 2), random_state=42)
-            train_edge_df = pd.concat([normal_down, others]).sample(frac=1, random_state=42)
-            print(f"🔥 Balanced thermal dataset: {len(train_edge_df)} edges")
+    # Dataset balancing removed: train on original data directly
 
     # --- Build global graph for training (for feature/target info and scaler) ---
     edge_index_np, Xn, y, scaler, idx_map, scenario_arr, bus_df_full, edge_df_full = make_global_graph(train_bus_df, train_edge_df, mode=mode)
