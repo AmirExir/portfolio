@@ -69,10 +69,12 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
         # Define line thermal_class:
         # ≤ 90 → class 0
         # 90 < loading ≤ 100 → class 1
-        # > 100 → class 2
+        # 100 < loading ≤ 110 → class 2
+        # > 120 → class 3
         thermal_class = np.zeros_like(loading_percent, dtype=int)
-        thermal_class[loading_percent > 90] = 1
-        thermal_class[loading_percent > 100] = 2
+        thermal_class[(loading_percent > 90) & (loading_percent <= 100)] = 1
+        thermal_class[(loading_percent > 100) & (loading_percent <= 110)] = 2
+        thermal_class[loading_percent > 120] = 3
 
         all_buses.append(pd.DataFrame({
             "bus": n.bus.index.astype(int),
