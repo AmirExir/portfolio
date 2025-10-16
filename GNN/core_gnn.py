@@ -454,6 +454,9 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
             edge_index = np.zeros((2, 0), dtype=int)
         else:
             edge_index = np.array(neighbors).T
+        # --- SAFETY CHECK: prevent index out of bounds ---
+        num_nodes = len(edge_df)
+        edge_index = np.clip(edge_index, 0, num_nodes - 1)
         scenario_arr = edge_df["scenario"].to_numpy().astype(int)
         return edge_index, Xn, y, scaler, edge_to_idx, scenario_arr, bus_df, edge_df
     else:
@@ -541,8 +544,10 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
             batch = batch.to(device)
             batch_train_idx = []
             offset = 0
-            for j, (tr_idx, _) in enumerate(splits):
-                n_nodes = (batch.batch == j).sum().item()
+            # Only process scenario IDs present in this batch
+            for scen_id in batch.batch.unique().tolist():
+                tr_idx, _ = splits[scen_id]
+                n_nodes = (batch.batch == scen_id).sum().item()
                 if len(tr_idx) > 0 and tr_idx.max().item() < n_nodes:
                     batch_train_idx.append(tr_idx + offset)
                 offset += n_nodes
