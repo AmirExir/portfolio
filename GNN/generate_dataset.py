@@ -31,6 +31,13 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
             outage_mask[outage_idx] = True
             n.line.in_service = ~outage_mask
 
+        # Add slight randomness to line thermal limits to simulate realistic variability
+        if "max_loading_percent" in n.line.columns:
+            variability = rng.normal(loc=0.0, scale=2.0, size=len(n.line))  # ±2% variability
+            n.line["max_loading_percent_varied"] = n.line["max_loading_percent"] * (1 + variability / 100)
+        else:
+            n.line["max_loading_percent_varied"] = 100.0  # default if not present
+
         # run power flow
         try:
             pp.runpp(n, numba=use_numba)
@@ -61,11 +68,12 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
             if vm[idx] >= 0.95:
                 vm[idx] = rng.uniform(0.91, 0.94)
 
-        # Calculate line loading percent and thermal_class
+        # Calculate line loading percent and thermal_class using varied limits
         loading_percent = n.res_line.loading_percent.values if "loading_percent" in n.res_line else np.full(len(n.line), np.nan)
+        max_limits = n.line["max_loading_percent_varied"].values
         thermal_class = np.zeros_like(loading_percent, dtype=int)
-        thermal_class[(loading_percent >= 95) & (loading_percent <= 100)] = 1
-        thermal_class[loading_percent > 100] = 2
+        thermal_class[(loading_percent >= 0.95 * max_limits) & (loading_percent <= max_limits)] = 1
+        thermal_class[loading_percent > max_limits] = 2
 
         # Flag buses connected to overloaded lines (thermal_class=2)
         overloaded_lines = np.where(thermal_class == 2)[0]
@@ -110,6 +118,10 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
     edges_min = int(edges_per_s.min()) if len(edges_per_s) > 0 else 0
     edges_max = int(edges_per_s.max()) if len(edges_per_s) > 0 else 0
 
+    total_voltage_alarms = bus_df['voltage_alarm'].gt(0).sum()
+    total_thermal_alarms = bus_df['thermal_alarm'].gt(0).sum()
+    total_combined_alarms = bus_df['combined_alarm'].gt(0).sum()
+
     bus_df.to_csv("bus_scenarios.csv", index=False)
     edge_df.to_csv("edge_scenarios.csv", index=False)
     # Create and save unlabeled versions for prediction
@@ -117,8 +129,13 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
     bus_inputs.to_csv("bus_inputs.csv", index=False)
     edge_inputs = edge_df.drop(columns=["in_service", "thermal_class"]) if "in_service" in edge_df.columns else edge_df.copy()
     edge_inputs.to_csv("edge_inputs.csv", index=False)
+
     print(f"✅ Generated {len(bus_df)} bus rows = {n_buses} buses × {n_scenarios} scenarios.")
     print(f"   Edges: {len(edge_df)} rows (~{edges_mean:.1f} per scenario, min {edges_min}, max {edges_max}).")
+    print(f"⚠️  Total voltage alarms: {total_voltage_alarms}")
+    print(f"🔥 Total thermal alarms: {total_thermal_alarms}")
+    print(f"🚨 Total combined alarms: {total_combined_alarms}")
+    print("🟢 Saved labeled datasets: bus_scenarios.csv and edge_scenarios.csv")
     print("🟢 Saved unlabeled prediction-ready datasets: bus_inputs.csv and edge_inputs.csv")
 
 if __name__ == "__main__":
