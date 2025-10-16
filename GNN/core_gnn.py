@@ -463,6 +463,132 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
 # -----------------------------
 # Main function for CLI/VS Code execution
 # -----------------------------
+
+# -----------------------------
+# Per-scenario batching helpers and new training logic
+# -----------------------------
+def build_data_list(bus_df, edge_df, scenario_ids, mode="voltage", scaler=None):
+    """
+    For each scenario in scenario_ids, build a PyG Data object.
+    Returns a list of Data objects.
+    If scaler is not None, use it to transform features (for test set).
+    """
+    data_list = []
+    for scen in scenario_ids:
+        bus_sub = bus_df[bus_df["scenario"] == scen].copy()
+        edge_sub = edge_df[edge_df["scenario"] == scen].copy()
+        if bus_sub.empty or edge_sub.empty:
+            continue
+        # Use make_global_graph for this scenario only
+        edge_index_np, Xn, y, scaler_this, idx_map, scenario_arr, bdf, edf = make_global_graph(bus_sub, edge_sub, mode=mode)
+        # Use provided scaler for test set, else fit on the scenario
+        if scaler is not None:
+            if mode == "voltage":
+                X_raw = bus_sub[["voltage", "load_MW"]].to_numpy(dtype=float)
+                Xn = scaler.transform(X_raw)
+            elif mode == "thermal":
+                features = [col for col in ["x_pu", "length_km", "loading_percent"] if col in edge_sub.columns]
+                if len(features) == 0:
+                    X_raw = np.zeros((len(edge_sub), 1))
+                else:
+                    X_raw = edge_sub[features].to_numpy(dtype=float)
+                Xn = scaler.transform(X_raw)
+        data = to_pyg(edge_index_np, Xn, y)
+        data_list.append(data)
+    return data_list
+
+def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42, use_relu=True, batch_size=1):
+    """
+    Train a GCN model on batches of per-scenario graphs.
+    data_list: list of torch_geometric.data.Data objects (each is a scenario).
+    Returns model, history DataFrame.
+    """
+    import torch
+    from torch_geometric.loader import DataLoader
+    set_seed(seed)
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    # Assume all data in data_list have same feature dim and class count
+    in_dim = data_list[0].x.size(1)
+    # Get number of classes from y
+    all_y = torch.cat([d.y for d in data_list])
+    n_classes = int(all_y.max().item()) + 1
+    model = GCN(in_dim=in_dim, num_classes=n_classes, use_relu=use_relu).to(device)
+    opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+    # Stratified split for each scenario: for each Data, split its y into train/val
+    splits = []
+    for data in data_list:
+        y_np = data.y.cpu().numpy()
+        train_idx_np, val_idx_np = _stratified_indices(y_np, train_frac=0.7, seed=seed)
+        splits.append((torch.tensor(train_idx_np, dtype=torch.long), torch.tensor(val_idx_np, dtype=torch.long)))
+    # Focal loss alpha: compute from all train indices across all scenarios
+    train_y = torch.cat([d.y[s[0]] for d, s in zip(data_list, splits)])
+    counts_t = torch.bincount(train_y, minlength=n_classes).float()
+    alpha = 1.0 / (counts_t + 1e-6)
+    alpha = (alpha / alpha.sum()).to(device)
+    # Dataloader for batching scenarios
+    loader = DataLoader(data_list, batch_size=batch_size, shuffle=True)
+    history = []
+    best = (1e9, None)
+    for epoch in range(1, epochs + 1):
+        model.train()
+        total_loss = 0.0
+        total_items = 0
+        total_preds = []
+        total_true = []
+        # For macro F1/acc, accumulate over all val nodes in all scenarios
+        # Train on all scenario batches
+        for i, batch in enumerate(loader):
+            # Each batch is a batch of graphs (scenarios)
+            batch = batch.to(device)
+            # Find train_idx in this batch: concatenate for all graphs in batch
+            batch_train_idx = []
+            offset = 0
+            for j in range(batch.num_graphs):
+                idx = splits[batch.ptr[j].item()][0] if hasattr(batch, "ptr") else splits[j][0]
+                batch_train_idx.append(idx + offset)
+                offset += batch.batch.eq(j).sum().item()
+            train_idx = torch.cat(batch_train_idx).to(device)
+            logits = model(batch.x, batch.edge_index)
+            loss = focal_loss(logits[train_idx], batch.y[train_idx], gamma=2.0, alpha=alpha)
+            opt.zero_grad()
+            loss.backward()
+            opt.step()
+            total_loss += loss.item() * train_idx.numel()
+            total_items += train_idx.numel()
+        # Validation: evaluate on all graphs' val_idx
+        model.eval()
+        val_loss_sum = 0.0
+        val_items = 0
+        val_preds = []
+        val_true = []
+        with torch.no_grad():
+            for data, (tr_idx, va_idx) in zip(data_list, splits):
+                data = data.to(device)
+                logits = model(data.x, data.edge_index)
+                val_loss = focal_loss(logits[va_idx], data.y[va_idx], gamma=2.0, alpha=alpha)
+                val_loss_sum += val_loss.item() * va_idx.numel()
+                val_items += va_idx.numel()
+                preds = logits[va_idx].argmax(dim=-1).cpu().numpy()
+                true = data.y[va_idx].cpu().numpy()
+                val_preds.append(preds)
+                val_true.append(true)
+        # Aggregate metrics
+        train_loss_avg = total_loss / total_items if total_items else 0.0
+        val_loss_avg = val_loss_sum / val_items if val_items else 0.0
+        val_preds_all = np.concatenate(val_preds)
+        val_true_all = np.concatenate(val_true)
+        acc = accuracy_score(val_true_all, val_preds_all)
+        f1 = f1_score(val_true_all, val_preds_all, average='macro')
+        history.append((epoch, train_loss_avg, val_loss_avg, acc, f1))
+        if val_loss_avg < best[0]:
+            best = (val_loss_avg, {k: v.detach().cpu().clone() for k, v in model.state_dict().items()})
+    # Restore best model
+    if best[1] is not None:
+        model.load_state_dict(best[1])
+    import pandas as pd
+    hist_df = pd.DataFrame(history, columns=["epoch", "train_loss", "val_loss", "val_acc", "val_f1"])
+    return model, hist_df, splits
+
 def main():
     import argparse
     parser = argparse.ArgumentParser()
@@ -537,7 +663,7 @@ def main():
             train_edge_df = pd.concat([normal_down, others]).sample(frac=1, random_state=42)
             print(f"🔥 Balanced thermal dataset: {len(train_edge_df)} edges")
 
-    # --- Build global graph for training ---
+    # --- Build global graph for training (for feature/target info and scaler) ---
     edge_index_np, Xn, y, scaler, idx_map, scenario_arr, bus_df_full, edge_df_full = make_global_graph(train_bus_df, train_edge_df, mode=mode)
     # Print features used
     if mode == "voltage":
@@ -564,19 +690,17 @@ def main():
         print("  6: Very High (1.05–1.10)")
         print("  7: Severe High (>1.10)")
 
-    # --- Build PyG data ---
-    data = to_pyg(edge_index_np, Xn, y)
-
-    # --- Train GNN ---
+    # --- Build per-scenario PyG data list ---
+    train_data_list = build_data_list(train_bus_df, train_edge_df, train_scenarios, mode=mode, scaler=scaler)
+    # --- Train GNN using per-scenario batching ---
     epochs = args.epochs
     lr = 1e-2
     wd = 1e-3
     seed = 42
     use_relu = True
-    print(f"Training GNN for {epochs} epochs (lr={lr}, weight_decay={wd}, seed={seed})...")
-
-    model, hist_df, train_idx, val_idx, best_th = train_gnn(
-        data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=use_relu
+    print(f"Training GNN (per-scenario batching) for {epochs} epochs (lr={lr}, weight_decay={wd}, seed={seed})...")
+    model, hist_df, splits = train_gnn_batches(
+        train_data_list, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=use_relu, batch_size=1
     )
     # Print progress every 10 epochs
     print("Epoch | Train Loss | Val Loss | Val Acc | Val F1")
@@ -584,87 +708,31 @@ def main():
         if int(row["epoch"]) % 10 == 0 or int(row["epoch"]) == epochs:
             print(f"{int(row['epoch']):4d} | {row['train_loss']:.4f} | {row['val_loss']:.4f} | {row['val_acc']:.4f} | {row['val_f1']:.4f}")
 
-    # --- Evaluate on test set ---
+    # --- Evaluate on test set, per scenario ---
     if test_bus_df is not None and test_edge_df is not None and ((mode == "voltage" and not test_bus_df.empty) or (mode == "thermal" and not test_edge_df.empty)):
-        def make_test_graph(test_bus_df, test_edge_df, scaler, mode="voltage"):
-            test_bus_df = test_bus_df.copy()
-            test_edge_df = test_edge_df.copy()
-            if mode == "voltage":
-                # Target: voltage_class
-                if "voltage_class" not in test_bus_df.columns:
-                    test_bus_df["voltage_class"] = 0
-                y_test = test_bus_df["voltage_class"]
-                if not np.issubdtype(y_test.dtype, np.integer):
-                    y_test = y_test.astype(str)
-                    classes = sorted(y_test.unique())
-                    class_map = {cls: idx for idx, cls in enumerate(classes)}
-                    y_test = y_test.map(class_map)
-                y_test = y_test.fillna(0).to_numpy().astype(int)
-                test_bus_df["bus_scen"] = test_bus_df["bus"].astype(str) + "__" + test_bus_df["scenario"].astype(str)
-                test_edge_df["from_bus_scen"] = test_edge_df["from_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
-                test_edge_df["to_bus_scen"]   = test_edge_df["to_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
-                bus_to_idx = {b: i for i, b in enumerate(test_bus_df["bus_scen"])}
-                src = test_edge_df["from_bus_scen"].map(bus_to_idx).to_numpy()
-                dst = test_edge_df["to_bus_scen"].map(bus_to_idx).to_numpy()
-                edge_index = np.vstack([src, dst])
-                X_test_raw = test_bus_df[["voltage", "load_MW"]].to_numpy(dtype=float)
-                Xn_test = scaler.transform(X_test_raw)
-                return edge_index, Xn_test, y_test, bus_to_idx
-            elif mode == "thermal":
-                # Target: thermal_class
-                if "thermal_class" not in test_edge_df.columns:
-                    test_edge_df["thermal_class"] = 0
-                y_test = test_edge_df["thermal_class"]
-                if not np.issubdtype(y_test.dtype, np.integer):
-                    y_test = y_test.astype(str)
-                    classes = sorted(y_test.unique())
-                    class_map = {cls: idx for idx, cls in enumerate(classes)}
-                    y_test = y_test.map(class_map)
-                y_test = y_test.fillna(0).to_numpy().astype(int)
-                test_edge_df["from_bus_scen"] = test_edge_df["from_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
-                test_edge_df["to_bus_scen"]   = test_edge_df["to_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
-                edge_to_idx = {i: i for i in range(len(test_edge_df))}
-                edge_nodes = test_edge_df.reset_index()
-                neighbors = []
-                for i, row_i in edge_nodes.iterrows():
-                    for j, row_j in edge_nodes.iterrows():
-                        if i == j:
-                            continue
-                        if row_i["scenario"] == row_j["scenario"]:
-                            buses_i = {row_i["from_bus_scen"], row_i["to_bus_scen"]}
-                            buses_j = {row_j["from_bus_scen"], row_j["to_bus_scen"]}
-                            if len(buses_i & buses_j) > 0:
-                                neighbors.append((i, j))
-                if len(neighbors) == 0:
-                    edge_index = np.zeros((2, 0), dtype=int)
-                else:
-                    edge_index = np.array(neighbors).T
-                features = [col for col in ["x_pu", "length_km", "loading_percent"] if col in test_edge_df.columns]
-                if len(features) == 0:
-                    X_test = np.zeros((len(test_edge_df), 1))
-                else:
-                    X_test = test_edge_df[features].to_numpy(dtype=float)
-                Xn_test = scaler.transform(X_test)
-                return edge_index, Xn_test, y_test, edge_to_idx
-            else:
-                raise ValueError("Unknown mode")
-        edge_index_np_test, Xn_test, y_test, _ = make_test_graph(test_bus_df, test_edge_df, scaler, mode=mode)
-        data_test = to_pyg(edge_index_np_test, Xn_test, y_test)
+        test_data_list = build_data_list(test_bus_df, test_edge_df, test_scenarios, mode=mode, scaler=scaler)
         model.eval()
-        with torch.no_grad():
-            logits_test = model(data_test.x, data_test.edge_index)
-        probs_test = torch.softmax(logits_test, dim=-1).cpu().numpy()
-        pred_test = np.argmax(probs_test, axis=-1)
-        true_test = data_test.y.cpu().numpy()
-        print("\nTest Set Evaluation (unseen scenarios):")
-        report = classification_report(true_test, pred_test, digits=3, zero_division=0)
+        all_preds = []
+        all_true = []
+        for data in test_data_list:
+            data = data.to(next(model.parameters()).device)
+            with torch.no_grad():
+                logits = model(data.x, data.edge_index)
+            preds = logits.argmax(dim=-1).cpu().numpy()
+            true = data.y.cpu().numpy()
+            all_preds.append(preds)
+            all_true.append(true)
+        all_preds = np.concatenate(all_preds)
+        all_true = np.concatenate(all_true)
+        print("\nTest Set Evaluation (unseen scenarios, per-scenario evaluation):")
+        report = classification_report(all_true, all_preds, digits=3, zero_division=0)
         print(report)
-        all_labels = sorted(set(np.unique(true_test)).union(set(np.unique(pred_test))))
-        cm = confusion_matrix(true_test, pred_test, labels=all_labels)
+        all_labels = sorted(set(np.unique(all_true)).union(set(np.unique(all_preds))))
+        cm = confusion_matrix(all_true, all_preds, labels=all_labels)
         print("Confusion Matrix:")
         print(cm)
-        acc = accuracy_score(true_test, pred_test)
-        f1 = f1_score(true_test, pred_test, average='macro')
+        acc = accuracy_score(all_true, all_preds)
+        f1 = f1_score(all_true, all_preds, average='macro')
         print(f"Test Accuracy: {acc:.4f}, Macro F1: {f1:.4f}")
     else:
         print("No test scenarios available for evaluation.")
