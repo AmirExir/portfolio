@@ -391,8 +391,14 @@ def make_global_graph(bus_df, edge_df):
             bus_df = bus_df.drop(columns="_bus_scen_key")
         else:
             t_alarm_bus = pd.Series(0, index=bus_df.index)
-        # alarm_flag = v_alarm + 2 * t_alarm_bus
-        bus_df["alarm_flag"] = v_alarm + 2 * t_alarm_bus
+        # bus_df["alarm_flag"] = v_alarm + 2 * t_alarm_bus
+
+        bus_df["alarm_flag"] = (
+            v_alarm * (t_alarm_bus == 0) * 1 +     # Voltage-only
+            (t_alarm_bus * (v_alarm == 0)) * 2 +   # Thermal-only
+            (v_alarm * t_alarm_bus) * 3            # Both
+        )
+        bus_df["alarm_flag"] = bus_df["alarm_flag"].fillna(0).astype(int)
 
     # Ensure that alarm_flag column is present in bus_df before further processing
     bus_df["bus_scen"] = bus_df["bus"].astype(str) + "__" + bus_df["scenario"].astype(str)
