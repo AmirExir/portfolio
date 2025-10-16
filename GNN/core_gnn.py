@@ -483,6 +483,27 @@ def main():
         def make_test_graph(test_bus_df, test_edge_df, scaler):
             test_bus_df = test_bus_df.copy()
             test_edge_df = test_edge_df.copy()
+
+            # If alarm_flag is missing, rebuild it from voltage_class and thermal_class
+            if "alarm_flag" not in test_bus_df.columns:
+                v_alarm = (test_bus_df["voltage_class"] != "Normal").astype(int) if "voltage_class" in test_bus_df.columns else 0
+                t_alarm_bus = pd.Series(0, index=test_bus_df.index)
+                if "thermal_class" in test_edge_df.columns:
+                    t_alarm_line = (test_edge_df["thermal_class"] != "Normal").astype(int)
+                    test_bus_df["_bus_scen_key"] = test_bus_df["bus"].astype(str) + "__" + test_bus_df["scenario"].astype(str)
+                    bus_scen_to_idx = {k: i for i, k in enumerate(test_bus_df["_bus_scen_key"])}
+                    for i, row in test_edge_df.iterrows():
+                        if i < len(t_alarm_line) and t_alarm_line.iat[i] == 1:
+                            scen = row["scenario"]
+                            for bus_col in ["from_bus", "to_bus"]:
+                                key = str(row[bus_col]) + "__" + str(scen)
+                                idx = bus_scen_to_idx.get(key, None)
+                                if idx is not None:
+                                    t_alarm_bus.iloc[idx] = 1
+                    test_bus_df.drop(columns="_bus_scen_key", inplace=True, errors="ignore")
+                test_bus_df["alarm_flag"] = v_alarm + 2 * t_alarm_bus
+
+            # Standard graph assembly
             test_bus_df["bus_scen"] = test_bus_df["bus"].astype(str) + "__" + test_bus_df["scenario"].astype(str)
             test_edge_df["from_bus_scen"] = test_edge_df["from_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
             test_edge_df["to_bus_scen"]   = test_edge_df["to_bus"].astype(str) + "__" + test_edge_df["scenario"].astype(str)
