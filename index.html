@@ -418,26 +418,35 @@
     <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
 
 
-<!-- Power Grid GNN App Section -->
-<h2 id="gnn-app" class="slide-up hover-scale">🔍 Power Grid GNN Predictor</h2>
-<p>
-  An AI-powered Graph Neural Network that analyzes simulated power grid states 
-  to predict alarm probabilities for each bus. Built using PyTorch Geometric, Scikit-learn, and Streamlit.
-</p>
-<a href="https://ai-in-power-system-electrical-engineering-hw6ktvbujtbw5zygqxxj.streamlit.app/" 
-   target="_blank" class="ercot-bot-button">
-  Launch the Power Grid GNN App
-</a>
+      <!-- Power Grid GNN App Section -->
+      <h2 id="gnn-app" class="slide-up hover-scale">🔍 Power Grid GNN Predictor</h2>
+      <!-- Power Grid GNN App Section -->
+      <h2 id="gnn-app" class="slide-up hover-scale">⚡ Power Grid GNN Predictor</h2>
+      <p>
+        An advanced <strong>Graph Convolutional Network (GCN + Message Passing)</strong> that learns from simulated power grid scenarios 
+        to predict <strong>voltage</strong> and <strong>thermal alarms</strong> across buses and transmission lines. 
+        The model dynamically reconstructs grid topologies, trains on N-1/N-2 contingency cases, and performs cross-validation to ensure high accuracy.
+        Built using <strong>PyTorch Geometric</strong>, <strong>Pandapower</strong>, <strong>Scikit-learn</strong>, and <strong>Streamlit</strong>.
+      </p>
 
-<!-- 📂 Example Data for Power Grid GNN App -->
-<p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
-  📂 Example datasets for testing the Power Grid GNN App:<br>
-  &nbsp;&nbsp;• <a href="branch_connections_dc.csv" download>branch_connections_dc.csv</a> — includes <code>x_pu</code> for DC power flow<br>
-  &nbsp;&nbsp;• <a href="bus_features_dc.csv" download>bus_features_dc.csv</a> — includes <code>p_inj_mw</code> for DC power flow
-</p>
-<p style="margin-top: 0.5rem; font-size: 0.85rem; color: #777;">
-  Tip: Toggle <strong>"Add DC power-flow features (θ, |flow| sum, degree)"</strong> in the app to use the linearized (DC) calculations.
-</p>
+      <a href="https://ai-in-power-system-electrical-engineering-hw6ktvbujtbw5zygqxxj.streamlit.app/" 
+        target="_blank" class="ercot-bot-button">
+        🚀 Launch the Power Grid GNN App
+      </a>
+
+      <!-- 📂 Example Data for Power Grid GNN App -->
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+        📂 Example datasets for testing the Power Grid GNN App:<br>
+        &nbsp;&nbsp;• <a href="bus_scenarios.csv" download>bus_scenarios.csv</a> — labeled bus data including <code>voltage_class</code> and <code>alarm_flag</code><br>
+        &nbsp;&nbsp;• <a href="edge_scenarios.csv" download>edge_scenarios.csv</a> — line-level data including <code>thermal_class</code> and connectivity<br>
+        &nbsp;&nbsp;• <a href="bus_inputs.csv" download>bus_inputs.csv</a> — unlabeled bus dataset for GNN inference<br>
+        &nbsp;&nbsp;• <a href="edge_inputs.csv" download>edge_inputs.csv</a> — unlabeled line dataset for GNN inference
+      </p>
+
+      <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #777;">
+        Tip: In the Streamlit app, you can toggle between <strong>Voltage Alarms</strong>, <strong>Thermal Alarms</strong>, 
+        or <strong>Combined</strong> prediction modes for end-to-end learning and real-time grid visualization.
+      </p>
 
 
 
