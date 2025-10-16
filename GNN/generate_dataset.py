@@ -103,9 +103,12 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
     bus_df.to_csv("bus_scenarios.csv", index=False)
     edge_df.to_csv("edge_scenarios.csv", index=False)
     # Create and save unlabeled versions for prediction
-    bus_inputs = bus_df.drop(columns=["voltage_class"])
+    bus_inputs = bus_df.drop(columns=["voltage", "voltage_class"])
     bus_inputs.to_csv("bus_inputs.csv", index=False)
-    edge_inputs = edge_df.drop(columns=["in_service", "thermal_class"]) if "in_service" in edge_df.columns else edge_df.copy()
+    if "in_service" in edge_df.columns:
+        edge_inputs = edge_df.drop(columns=["in_service", "loading_percent", "thermal_class"])
+    else:
+        edge_inputs = edge_df.drop(columns=["loading_percent", "thermal_class"])
     edge_inputs.to_csv("edge_inputs.csv", index=False)
 
     print(f"✅ Generated {len(bus_df)} bus rows = {n_buses} buses × {n_scenarios} scenarios.")
