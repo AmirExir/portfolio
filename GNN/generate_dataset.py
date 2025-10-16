@@ -59,10 +59,7 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
         # Calculate line loading percent and thermal_class using varied limits
         loading_percent = n.res_line.loading_percent.values if "loading_percent" in n.res_line else np.full(len(n.line), np.nan)
 
-        # --- Detect unit bug in pandapower ---
-        # If "percent" values are unrealistically small (<10), treat as fraction and convert
-        if np.nanmax(loading_percent) < 10:
-            loading_percent *= 100.0  # Convert fraction to percentage
+        loading_percent *= 100.0  # Force conversion to percentage for consistency
 
         max_limits = n.line["max_loading_percent_varied"].values
         # Define line thermal_class:
