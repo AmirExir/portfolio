@@ -21,12 +21,19 @@ def sample_scenario(base_net, rng):
     p_load = np.zeros(len(net.bus))
     for _, row in net.load.iterrows():
         p_load[int(row.bus)] += float(row.p_mw)
-    alarms = ((vm < 0.95) | (vm > 1.05)).astype(int)
+    voltage_alarm = ((vm < 0.95) | (vm > 1.05)).astype(int)
+    thermal_alarm = (net.res_line.loading_percent > 100).astype(int)
+    thermal_alarm_per_bus = np.zeros(len(net.bus), dtype=int)
+    for idx, row in net.line.iterrows():
+        if row.in_service and thermal_alarm[idx]:
+            thermal_alarm_per_bus[int(row.from_bus)] = 1
+            thermal_alarm_per_bus[int(row.to_bus)] = 1
+    alarm_flag = voltage_alarm + 2 * thermal_alarm_per_bus
     df = pd.DataFrame({
         "bus": net.bus.index,
         "voltage": vm,
         "load_MW": p_load,
-        "alarm_flag": alarms
+        "alarm_flag": alarm_flag
     })
     active_lines = net.line[net.line.in_service]
     edge_df = pd.DataFrame({
@@ -53,4 +60,3 @@ if __name__ == "__main__":
     df_all_edge.to_csv("edge_scenarios.csv", index=False)
     print("✅ Saved bus dataset:", df_all_bus.shape)
     print("✅ Saved edge dataset:", df_all_edge.shape)
-    print(df_all_bus.head())
