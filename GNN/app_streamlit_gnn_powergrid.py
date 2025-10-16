@@ -610,12 +610,6 @@ else:
         n_splits  = st.select_slider("CV n_splits",  options=[3, 5, 7, 10], value=5, disabled=not use_cv)
         n_repeats = st.select_slider("CV n_repeats", options=[1, 2, 3, 5],  value=3, disabled=not use_cv)
 
-        # Option to make the GCN linear (no activations)
-        linear_gcn = st.toggle(
-            "Make GCN linear (no activations)",
-            value=False,
-            help="Removes ReLUs from the GCN so the mapping is linear in the inputs."
-        )
 
         # --- Baseline: Logistic Regression (no graph) ---
         st.subheader("Baseline: Logistic Regression (no graph)")
@@ -671,7 +665,7 @@ else:
                     with st.spinner("Training (cross‑validation)..."):
                         model, hist_df, train_idx, val_idx, best_th, cv_summary = train_gnn_cv(
                             data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed,
-                            n_splits=n_splits, n_repeats=n_repeats, use_relu=(not linear_gcn)
+                            n_splits=n_splits, n_repeats=n_repeats, use_relu=True
                         )
                     st.success(f"CV done over {cv_summary['n_folds']} folds.")
                     st.write(
@@ -684,7 +678,7 @@ else:
                 else:
                     with st.spinner("Training..."):
                         model, hist_df, train_idx, val_idx, best_th = train_gnn(
-                            data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=(not linear_gcn)
+                            data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=True
                         )
 
                 st.success("Training complete. Showing best validation performance observed.")
@@ -693,9 +687,9 @@ else:
 
                 # ── EVAL ──────────────────────────────────────────────────────────────────────
                 th_default = float(np.clip(best_th, 0.1, 0.9))
-                th = st.slider("Decision threshold (alarm)", 0.1, 0.9, th_default, 0.05, help=f"PR-curve suggested threshold: {best_th:.3f}")
+                th = st.slider("Decisionß threshold (aßlarm)", 0.1, 0.9, th_default, 0.05, help=f"PR-curve suggested threshold: {best_th:.3f}")
 
-                # Show a simple PR curve from validation to explain the suggested threshold
+                # Show a simple PR cßßurve from validation to explain the suggested threshold
                 with torch.no_grad():
                     val_logits_for_pr = model(data.x, data.edge_index)[val_idx]
                     pr_probs = torch.softmax(val_logits_for_pr, dim=-1)[:, 1].cpu().numpy()
