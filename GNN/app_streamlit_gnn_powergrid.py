@@ -54,7 +54,7 @@ from sklearn.metrics import accuracy_score, f1_score, classification_report
 # -----------------------------
 st.set_page_config(page_title="Amir ExirPower Grid GNN (Alarms)", layout="wide")
 st.title("⚡ Amir Exir's Power Grid GNN — Node Alarm Classification (GCN + Message Passing)")
-st.caption("Nodes = buses | Edges = lines | Features = voltage, load_MW | Target = alarm_flag")
+st.caption("Nodes = buses | Edges = lines | Features = voltage, load_MW | Target = alarm_flag (0: normal, 1: voltage, 2: thermal, 3: both)")
 
 # -----------------------------
 # Sidebar (Settings, instructions, install help)
@@ -146,19 +146,20 @@ def _stratified_indices(y_np, train_frac=0.7, seed=42):
     (train_idx_np, val_idx_np), = sss.split(np.zeros_like(y_np), y_np)
     return train_idx_np, val_idx_np
 
-def _class_weights(y_np):
-    # inverse-frequency weights for binary {0,1}
-    counts = np.bincount(y_np, minlength=2).astype(float)
+def _class_weights(y_np, n_classes):
+    # inverse-frequency weights for multiclass
+    counts = np.bincount(y_np, minlength=n_classes).astype(float)
     counts[counts == 0] = 1.0
     inv = 1.0 / counts
-    w = inv / inv.sum() * 2.0
+    w = inv / inv.sum() * n_classes
     return torch.tensor(w, dtype=torch.float)
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42, use_relu=True):
     set_seed(seed)
-    model = GCN(in_dim=data.x.size(1), use_relu=use_relu).to(data.x.device)
+    n_classes = int(data.y.max().item()) + 1
+    model = GCN(in_dim=data.x.size(1), num_classes=n_classes, use_relu=use_relu).to(data.x.device)
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
     # Stratified split so minority class appears in both sets
@@ -169,7 +170,7 @@ def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42, use_relu=Tr
     val_idx   = torch.tensor(val_idx_np,   dtype=torch.long, device=data.x.device)
 
     # FOCAL LOSS alpha from TRAIN ONLY
-    counts_t = torch.bincount(data.y[train_idx], minlength=2).float()
+    counts_t = torch.bincount(data.y[train_idx], minlength=n_classes).float()
     alpha = 1.0 / (counts_t + 1e-6)
     alpha = (alpha / alpha.sum()).to(data.x.device)
 
@@ -211,10 +212,10 @@ def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42, use_relu=Tr
         yv    = yv_t.detach().cpu().numpy().astype(int)
 
         acc  = accuracy_score(yv, preds)
-        prec = precision_score(yv, preds, average='binary', zero_division=0)
-        rec  = recall_score(yv, preds, average='binary', zero_division=0)
-        f1   = f1_score(yv, preds, average='binary')
-        f1m  = f1_score(yv, preds, average='macro')
+        prec = precision_score(yv, preds, average='macro', zero_division=0)
+        rec  = recall_score(yv, preds, average='macro', zero_division=0)
+        f1   = f1_score(yv, preds, average='macro')
+        f1m  = f1  # macro F1
 
         history.append((epoch, float(loss.item()), val_loss, acc, prec, rec, f1, f1m))
 
@@ -226,18 +227,8 @@ def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42, use_relu=Tr
         model.load_state_dict(best[1])
 
     # ---- Choose a validation threshold that maximizes F1 on the PR curve ----
-    with torch.no_grad():
-        logits_full_val = model(data.x, data.edge_index)[val_idx]
-        probs_val_for_th = torch.softmax(logits_full_val, dim=-1)[:, 1].cpu().numpy()
-        true_val_for_th  = data.y[val_idx].cpu().numpy()
-
-    precisions, recalls, thresholds = precision_recall_curve(true_val_for_th, probs_val_for_th)
-    f1s = 2 * (precisions * recalls) / (precisions + recalls + 1e-12)
-    if thresholds.size > 0:
-        best_idx = int(np.nanargmax(f1s[:-1]))  # thresholds aligns with all but last point
-        best_th = float(thresholds[best_idx])
-    else:
-        best_th = 0.5  # fallback when PR cannot be computed
+    # For multiclass, thresholding is not used; just return None for best_th
+    best_th = None
 
     # Convert history to DataFrame for plotting
     hist_df = pd.DataFrame(
@@ -261,6 +252,7 @@ def train_gnn_cv(
     use_relu=True
 ):
     set_seed(seed)
+    n_classes = int(data.y.max().item()) + 1
     rskf = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=seed)
 
     y_np = data.y.cpu().numpy()
@@ -270,10 +262,10 @@ def train_gnn_cv(
     best_train_idx = None
     best_val_idx   = None
     best_hist      = None
-    best_th        = 0.5
+    best_th        = None
 
     for fold_id, (tr_np, va_np) in enumerate(rskf.split(np.zeros_like(y_np), y_np), start=1):
-        model = GCN(in_dim=data.x.size(1), h_dim=64, use_relu=use_relu).to(data.x.device)
+        model = GCN(in_dim=data.x.size(1), h_dim=64, num_classes=n_classes, use_relu=use_relu).to(data.x.device)
         opt   = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
         tr = torch.tensor(tr_np, dtype=torch.long, device=data.x.device)
@@ -282,10 +274,9 @@ def train_gnn_cv(
         # ---- Fold-level guard: skip folds with a single-class validation set ----
         yv_fold = data.y[va].detach().cpu().numpy().astype(int)
         if len(np.unique(yv_fold)) < 2:
-            # This fold can't produce meaningful PR/F1/PR-curve; skip it.
             continue
 
-        counts_t = torch.bincount(data.y[tr], minlength=2).float()
+        counts_t = torch.bincount(data.y[tr], minlength=n_classes).float()
         alpha = (1.0 / (counts_t + 1e-6))
         alpha = (alpha / alpha.sum()).to(data.x.device)
 
@@ -305,32 +296,20 @@ def train_gnn_cv(
             yv    = data.y[va].detach().cpu().numpy().astype(int)
 
             acc  = accuracy_score(yv, preds)
-            prec = precision_score(yv, preds, zero_division=0)
-            rec  = recall_score(yv, preds, zero_division=0)
-            f1   = f1_score(yv, preds)
-            f1m  = f1_score(yv, preds, average='macro')
+            prec = precision_score(yv, preds, average='macro', zero_division=0)
+            rec  = recall_score(yv, preds, average='macro', zero_division=0)
+            f1   = f1_score(yv, preds, average='macro')
+            f1m  = f1
             hist.append((epoch, float(loss.item()), val_loss, acc, prec, rec, f1, f1m))
 
-        # pick an F1-maximizing threshold for this fold
-        with torch.no_grad():
-            logits_val_full = model(data.x, data.edge_index)[va]
-            probs_val = torch.softmax(logits_val_full, dim=-1)[:,1].cpu().numpy()
-            # NaN guard: replace any NaN probabilities with 0.5
-            if np.isnan(probs_val).any():
-                probs_val = np.nan_to_num(probs_val, nan=0.5)
-            true_val  = data.y[va].cpu().numpy().astype(int)
-        # Defensive check: skip if validation is single-class (should have been caught earlier)
-        if len(np.unique(true_val)) < 2:
-            continue
-        P, R, T = precision_recall_curve(true_val, probs_val)
-        F1s = 2*(P*R)/(P+R+1e-12)
-        th  = float(T[np.nanargmax(F1s[:-1])]) if T.size>0 else 0.5
-
-        preds_th = (probs_val >= th).astype(int)
-        acc_th  = accuracy_score(true_val, preds_th)
-        prec_th = precision_score(true_val, preds_th, zero_division=0)
-        rec_th  = recall_score(true_val, preds_th, zero_division=0)
-        f1_th   = f1_score(true_val, preds_th)
+        # For multiclass, thresholding is not used; just use argmax
+        # Instead, evaluate metrics on argmax
+        preds_fold = logits_val.argmax(dim=-1).detach().cpu().numpy().astype(int)
+        yv_fold = data.y[va].detach().cpu().numpy().astype(int)
+        acc_th  = accuracy_score(yv_fold, preds_fold)
+        prec_th = precision_score(yv_fold, preds_fold, average='macro', zero_division=0)
+        rec_th  = recall_score(yv_fold, preds_fold, average='macro', zero_division=0)
+        f1_th   = f1_score(yv_fold, preds_fold, average='macro')
         fold_stats.append((acc_th, prec_th, rec_th, f1_th))
 
         if hist[-1][2] < best_val_loss:
@@ -338,20 +317,20 @@ def train_gnn_cv(
             best_state    = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
             best_train_idx, best_val_idx = tr, va
             best_hist = hist
-            best_th   = th
+            best_th   = None
 
     fold_stats = np.array(fold_stats)
     cv_summary = {
         "n_folds": int(len(fold_stats)),
-        "acc_mean": float(fold_stats[:,0].mean()), "acc_std": float(fold_stats[:,0].std(ddof=1)),
-        "prec_mean": float(fold_stats[:,1].mean()), "prec_std": float(fold_stats[:,1].std(ddof=1)),
-        "rec_mean": float(fold_stats[:,2].mean()), "rec_std": float(fold_stats[:,2].std(ddof=1)),
-        "f1_mean": float(fold_stats[:,3].mean()),  "f1_std": float(fold_stats[:,3].std(ddof=1)),
+        "acc_mean": float(fold_stats[:,0].mean()) if len(fold_stats) else 0.0, "acc_std": float(fold_stats[:,0].std(ddof=1)) if len(fold_stats) > 1 else 0.0,
+        "prec_mean": float(fold_stats[:,1].mean()) if len(fold_stats) else 0.0, "prec_std": float(fold_stats[:,1].std(ddof=1)) if len(fold_stats) > 1 else 0.0,
+        "rec_mean": float(fold_stats[:,2].mean()) if len(fold_stats) else 0.0, "rec_std": float(fold_stats[:,2].std(ddof=1)) if len(fold_stats) > 1 else 0.0,
+        "f1_mean": float(fold_stats[:,3].mean()) if len(fold_stats) else 0.0,  "f1_std": float(fold_stats[:,3].std(ddof=1)) if len(fold_stats) > 1 else 0.0,
     }
 
     if best_state is None:
         st.warning("⚠️ No valid folds produced a trained model — likely due to class imbalance or insufficient samples.")
-        model = GCN(in_dim=data.x.size(1), h_dim=64, use_relu=use_relu).to(data.x.device)
+        model = GCN(in_dim=data.x.size(1), h_dim=64, num_classes=n_classes, use_relu=use_relu).to(data.x.device)
         cv_summary = {
             "n_folds": 0,
             "acc_mean": 0.0, "acc_std": 0.0,
@@ -359,8 +338,8 @@ def train_gnn_cv(
             "rec_mean": 0.0, "rec_std": 0.0,
             "f1_mean": 0.0, "f1_std": 0.0,
         }
-        return model, pd.DataFrame(), None, None, 0.5, cv_summary
-    model = GCN(in_dim=data.x.size(1), h_dim=64, use_relu=use_relu).to(data.x.device)
+        return model, pd.DataFrame(), None, None, None, cv_summary
+    model = GCN(in_dim=data.x.size(1), h_dim=64, num_classes=n_classes, use_relu=use_relu).to(data.x.device)
     model.load_state_dict(best_state)
     hist_df = pd.DataFrame(best_hist, columns=["epoch","train_loss","val_loss","val_acc","val_prec","val_rec","val_f1","val_f1_macro"])
     return model, hist_df, best_train_idx, best_val_idx, best_th, cv_summary
@@ -519,8 +498,8 @@ else:
         data = to_pyg(edge_index_np, Xn, y)
         y_np = data.y.cpu().numpy()
         cls, cls_counts = np.unique(y_np, return_counts=True)
-        st.caption(f"Class balance → 0: {int(cls_counts[cls.tolist().index(0)] if 0 in cls else 0)}, "
-                   f"1: {int(cls_counts[cls.tolist().index(1)] if 1 in cls else 0)}")
+        class_counts_str = ", ".join([f"{c}: {int(n)}" for c, n in zip(cls, cls_counts)])
+        st.caption(f"Class balance → {class_counts_str}")
 
         # Cross-validation controls
         use_cv = st.toggle("Use RepeatedStratifiedKFold CV (avg metrics)", value=True,
@@ -596,7 +575,7 @@ else:
                     f"Rec: {cv_summary['rec_mean']:.3f}±{cv_summary['rec_std']:.3f}, "
                     f"F1: {cv_summary['f1_mean']:.3f}±{cv_summary['f1_std']:.3f}"
                 )
-                st.caption("Precision → low false alarms.  Recall → missed alarms.  F1 balances both.")
+                st.caption("Precision, recall, and F1 are macro-averaged for multiclass alarms.")
                 if cv_summary["n_folds"] == 0 or cv_summary["f1_mean"] < 0.6:
                     st.error(
                         "🚨 The model did not train properly or achieved low performance.\n\n"
@@ -621,21 +600,8 @@ else:
             st.line_chart(hist_df.set_index("epoch")[["val_acc", "val_f1", "val_f1_macro"]])
 
             # ── EVAL ──────────────────────────────────────────────────────────────────────
-            th_default = float(np.clip(best_th, 0.1, 0.9))
-            th = st.slider("Decision threshold (alarm)", 0.1, 0.9, th_default, 0.05, help=f"PR-curve suggested threshold: {best_th:.3f}")
-
-            # PR curve: smaller figure (3×2.2)
-            with torch.no_grad():
-                val_logits_for_pr = model(data.x, data.edge_index)[val_idx]
-                pr_probs = torch.softmax(val_logits_for_pr, dim=-1)[:, 1].cpu().numpy()
-                pr_true = data.y[val_idx].cpu().numpy()
-            p_vals, r_vals, _ = precision_recall_curve(pr_true, pr_probs)
-            fig_pr, ax_pr = plt.subplots(figsize=(3, 2.2))
-            ax_pr.plot(r_vals, p_vals)
-            ax_pr.set_xlabel("Recall")
-            ax_pr.set_ylabel("Precision")
-            ax_pr.set_title("Validation Precision–Recall")
-            st.pyplot(fig_pr, use_container_width=False)
+            # For multiclass, no threshold slider; just use argmax
+            st.info("Multiclass alarm: predictions shown for each class (0: normal, 1: voltage, 2: thermal, 3: both).")
 
             # --- EVALUATE ON TEST SCENARIOS ---
             if test_bus_df is not None and test_edge_df is not None and not test_bus_df.empty:
@@ -659,21 +625,25 @@ else:
                 model.eval()
                 with torch.no_grad():
                     logits_test = model(data_test.x, data_test.edge_index)
-                probs_test = torch.softmax(logits_test, dim=-1)[:, 1].cpu().numpy()
-                pred_test = (probs_test >= th).astype(int)
+                probs_test = torch.softmax(logits_test, dim=-1).cpu().numpy()
+                pred_test = np.argmax(probs_test, axis=-1)
                 true_test = data_test.y.cpu().numpy()
                 st.subheader("Test Set Evaluation (unseen scenarios)")
                 report = classification_report(true_test, pred_test, digits=3, zero_division=0)
                 st.markdown(f"```\n{report}\n```")
-                cm = confusion_matrix(true_test, pred_test, labels=[0, 1])
+                # Dynamically get all unique classes in test/true/pred
+                all_labels = sorted(set(np.unique(true_test)).union(set(np.unique(pred_test))))
+                display_labels = [f"class {i}" for i in all_labels]
+                cm = confusion_matrix(true_test, pred_test, labels=all_labels)
                 fig, ax = plt.subplots(figsize=(3, 2.2))
-                ConfusionMatrixDisplay(cm, display_labels=["no alarm (0)", "alarm (1)"]).plot(
+                ConfusionMatrixDisplay(cm, display_labels=display_labels).plot(
                     ax=ax, values_format="d", colorbar=False
                 )
                 ax.set_title("Test Set Confusion Matrix")
                 st.pyplot(fig, use_container_width=False)
                 test_bus_df_view = test_bus_df.copy()
-                test_bus_df_view["pred_alarm_prob"] = probs_test
+                # For multiclass, show max prob and predicted class
+                test_bus_df_view["pred_alarm_prob"] = probs_test.max(axis=1)
                 test_bus_df_view["pred_alarm_label"] = pred_test
                 test_bus_df_view["correct"] = (pred_test == true_test).astype(int)
                 st.dataframe(

@@ -72,8 +72,9 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
         loading_percent = n.res_line.loading_percent.values if "loading_percent" in n.res_line else np.full(len(n.line), np.nan)
         max_limits = n.line["max_loading_percent_varied"].values
         thermal_class = np.zeros_like(loading_percent, dtype=int)
-        thermal_class[(loading_percent >= 0.95 * max_limits) & (loading_percent <= max_limits)] = 1
-        thermal_class[loading_percent > max_limits] = 2
+        loading_percent_scaled = loading_percent * 100
+        thermal_class[(loading_percent_scaled >= 95) & (loading_percent_scaled <= max_limits)] = 1
+        thermal_class[loading_percent_scaled > max_limits] = 2
 
         # Flag buses connected to overloaded lines (thermal_class=2)
         overloaded_lines = np.where(thermal_class == 2)[0]
