@@ -28,7 +28,7 @@ if "stop_execution" not in st.session_state:
 # Initial load
 with st.spinner(" Loading PSS/E examples and computing embeddings..."):
     chunks, embeddings = load_chunks_and_embeddings()
-st.success(f" Loaded {len(chunks)} chunks from `input_chunks.json`")
+#st.success(f" Loaded {len(chunks)} chunks from `input_chunks.json`")
 
 # Prompt input
 prompt = st.chat_input("Ask a PSS/E automation task...")
@@ -44,7 +44,7 @@ if prompt:
         planning_chunks = find_relevant_chunks(prompt, chunks, embeddings, k=10)
         reference_context = limit_chunks_by_token_budget(planning_chunks, max_tokens=40000)
         tasks = plan_tasks(prompt, reference_context)
-        st.markdown("** Planned Tasks:**")
+        st.markdown("Planned Tasks:")
         st.code(tasks)
 
     # Step 2: Extract valid PSSPY functions
@@ -76,7 +76,7 @@ if prompt:
             st.info(f" Reached the maximum of {MAX_TASKS} tasks.")
             break
 
-        st.markdown(f"###  Executing Task: `{task}`")
+        st.markdown(f" Executing Task: `{task}`")
 
         relevant_chunks = find_relevant_chunks(task, chunks, embeddings, k=10)
         limited_chunks = limit_chunks_by_token_budget(relevant_chunks, max_tokens=30000)
@@ -105,7 +105,7 @@ if prompt:
     # Step 4: Final Summary Output
     if st.session_state.executed_tasks >= MAX_TASKS or st.session_state.stop_execution:
         st.markdown("---")
-        st.markdown("##  Final Summary")
+        st.markdown(" Final Summary")
         final_output = "\n\n".join(all_results)
         st.text_area(" Final Automation Code", value=final_output, height=400)
 

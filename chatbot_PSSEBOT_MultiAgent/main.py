@@ -10,14 +10,14 @@ prompt = st.chat_input("Ask a PSSE task...")
 if prompt:
     st.chat_message("user").markdown(prompt)
     tasks = plan_tasks(prompt)
-    st.write("**Planned tasks:**", tasks)
+    st.write("Planned tasks:", tasks)
 
     chunks, embeddings = load_chunks_and_embeddings()
     valid_funcs = extract_valid_funcs(chunks)
 
     all_results = []
     for task in tasks:
-        st.markdown(f"### 🔍 Executing: `{task}`")
+        st.markdown(f" Executing: `{task}`")
         top_chunks = find_relevant_chunks(task, chunks, embeddings)
         context = "\n---\n".join(c["text"] for c in top_chunks)
         result = run_executor(task, context, valid_funcs)
