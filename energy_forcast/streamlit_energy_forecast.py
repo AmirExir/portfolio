@@ -86,7 +86,7 @@ rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 st.success(f" Model RMSE: {rmse:.2f} MW")
 
 # Feature importance
-st.subheader("📈 Feature Importance")
+st.subheader("Feature Importance")
 fig_imp, ax_imp = plt.subplots()
 plot_importance(model, ax=ax_imp, height=0.6, importance_type='gain')
 st.pyplot(fig_imp)
