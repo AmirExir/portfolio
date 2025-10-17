@@ -16,9 +16,6 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def load_Resource_Integration_chunks_and_embeddings():
     with open(os.path.join(os.path.dirname(__file__), "Resource_Integration_fully_structured.json"), "r", encoding="utf-8") as f:
         chunks = json.load(f)
-        st.write("Current working directory:", os.getcwd())
-        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "Resource_Integration_fully_structured.json"))
-
     embeddings = []
     embedding_model = "text-embedding-3-small"
 
