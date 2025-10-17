@@ -37,7 +37,7 @@ def load_psse_chunks_and_embeddings():
     input_file = os.path.join(base_path, "input_chunks.json")
 
     if os.path.exists(cached_emb) and os.path.exists(cached_chunks):
-        st.write(" Using precomputed embeddings from .npy and .json")
+        #st.write(" Using precomputed embeddings from .npy and .json")
         with open(cached_chunks, "r", encoding="utf-8") as f:
             chunks = json.load(f)
         embeddings = np.load(cached_emb)
