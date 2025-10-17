@@ -61,5 +61,5 @@ Strict Rules:
         return response.choices[0].message.content
 
     except Exception as e:
-        print(f"[Planner] ❌ OpenAI API Error: {e}")
+        print(f"[Planner]  OpenAI API Error: {e}")
         return f"[Error] Could not generate plan due to: {str(e)}"

@@ -17,7 +17,7 @@ try:
     has_xgb = True
 except ImportError:
     has_xgb = False
-    print("⚠️ XGBoost not installed.")
+    print("XGBoost not installed.")
 
 # === LOAD & PREPROCESS TRAINING DATA ===
 df = pd.read_csv("classData.csv")
@@ -78,7 +78,7 @@ for name, model in models.items():
     avg_acc = np.mean(acc_scores)
     results[name] = avg_acc
     fold_accuracies[name] = acc_scores
-    print(f"✅ Average CV Accuracy: {avg_acc:.4f}")
+    print(f"Average CV Accuracy: {avg_acc:.4f}")
 
     if avg_acc > best_acc:
         best_acc = avg_acc
@@ -96,7 +96,7 @@ joblib.dump(best_model, "fault_classifier/fault_model.pkl")
 joblib.dump(scaler, "fault_classifier/scaler.pkl")
 joblib.dump(label_encoder, "fault_classifier/label_encoder.pkl")
 
-print("✅ Saved model, scaler, encoder, and accuracy")
+print(" Saved model, scaler, encoder, and accuracy")
 
 # === CREATE OUTPUT FOLDER ===
 os.makedirs("images", exist_ok=True)
@@ -134,4 +134,4 @@ if os.path.exists("detect_dataset.csv"):
 
     df_detect["Predicted"] = y_detect_labels
     df_detect.to_csv("predictions_on_detect_dataset.csv", index=False)
-    print("✅ Predictions on detect_dataset saved.")
+    print(" Predictions on detect_dataset saved.")

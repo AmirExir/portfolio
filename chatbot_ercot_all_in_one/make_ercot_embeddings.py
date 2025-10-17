@@ -9,7 +9,7 @@ with open("chunks.json", "r") as f:
 with open("ercot_chunks_cached.json", "w") as f:
     json.dump(chunks, f)
 
-print("✅ Step 1: ercot_chunks_cached.json created.")
+print(" Step 1: ercot_chunks_cached.json created.")
 
 # === Step 2: Generate Embeddings ===
 model = SentenceTransformer("all-MiniLM-L6-v2")
@@ -18,5 +18,5 @@ embeddings = model.encode(texts, show_progress_bar=True)
 
 # === Step 3: Save embeddings to .npy file ===
 np.save("ercot_embeddings.npy", embeddings)
-print(f"✅ Step 2: Total embeddings created: {len(embeddings)}")
-print("✅ Step 3: Embeddings saved to ercot_embeddings.npy")    
+print(f" Step 2: Total embeddings created: {len(embeddings)}")
+print(" Step 3: Embeddings saved to ercot_embeddings.npy")    

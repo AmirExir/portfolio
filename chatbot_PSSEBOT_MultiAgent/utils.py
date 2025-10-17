@@ -28,7 +28,7 @@ def load_chunks_and_embeddings(json_file="input_chunks.json", embedding_model="t
     # Filter out failed embeddings
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
     if not valid_pairs:
-        raise ValueError("❌ No valid embeddings generated. Check input or OpenAI key.")
+        raise ValueError(" No valid embeddings generated. Check input or OpenAI key.")
 
     chunks, embeddings = zip(*valid_pairs)
     return list(chunks), np.array(embeddings)
@@ -46,13 +46,13 @@ def find_top_k_chunks(query, chunks, embeddings, k=50):
     """Find top-k semantically relevant chunks to a query."""
     query_vec = embed_query(query)
     if not query_vec:
-        print("❌ Query embedding failed.")
+        print(" Query embedding failed.")
         return []
 
     query_emb = np.array(query_vec).reshape(1, -1)
 
     if query_emb.shape[1] != embeddings.shape[1]:
-        print(f"❌ Embedding shape mismatch: {query_emb.shape[1]} vs {embeddings.shape[1]}")
+        print(f" Embedding shape mismatch: {query_emb.shape[1]} vs {embeddings.shape[1]}")
         return []
 
     scores = cosine_similarity(query_emb, embeddings).flatten()

@@ -53,7 +53,7 @@ for filename in os.listdir(source_dir):
                     "chunk_index": idx
                 })
 
-print(f"✅ Loaded and chunked {len(chunks)} chunks from {len(os.listdir(source_dir))} files.")
+print(f" Loaded and chunked {len(chunks)} chunks from {len(os.listdir(source_dir))} files.")
 
 # === Step 2: Initialize OpenAI ===
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -65,7 +65,7 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
             return api_function(**kwargs)
         except Exception as e:
             wait_time = backoff_factor ** retries
-            print(f"⚠️ Error: {e} — Retrying in {wait_time} seconds...")
+            print(f" Error: {e} — Retrying in {wait_time} seconds...")
             time.sleep(wait_time)
             retries += 1
     return None
@@ -74,7 +74,7 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
 embeddings = []
 for i, chunk in enumerate(chunks):
     text = chunk["text"][:8192]  # API limit
-    print(f"🔄 Processing chunk {i+1}/{len(chunks)}")
+    print(f" Processing chunk {i+1}/{len(chunks)}")
     response = safe_openai_call(
         client.embeddings.create,
         model=embedding_model,
@@ -82,9 +82,9 @@ for i, chunk in enumerate(chunks):
     )
     if response and response.data:
         embeddings.append(response.data[0].embedding)
-        print(f"✅ Chunk {i+1} embedded")
+        print(f" Chunk {i+1} embedded")
     else:
-        print(f"❌ Skipped chunk {i+1} due to error")
+        print(f" Skipped chunk {i+1} due to error")
         embeddings.append(None)
 
 # === Step 4: Filter out failed ===
@@ -98,6 +98,6 @@ with open(chunk_output_file, "w", encoding="utf-8") as f:
     json.dump(final_chunks, f, indent=2)
 np.save(embedding_output_file, np.array(final_embeddings))
 
-print(f"\n✅ Saved {len(final_chunks)} valid chunks to:")
+print(f"\n Saved {len(final_chunks)} valid chunks to:")
 print(f"   → {chunk_output_file}")
 print(f"   → {embedding_output_file}")

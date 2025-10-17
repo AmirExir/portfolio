@@ -36,7 +36,7 @@ def load_DWG_SSWG_chunks_and_embeddings():
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
 
     if not valid_pairs:
-        st.warning("⚠️ No valid embeddings. Check your file or API key.")
+        st.warning(" No valid embeddings. Check your file or API key.")
         raise ValueError("No valid embeddings were generated.")
 
     chunks, embeddings = zip(*valid_pairs)
@@ -73,7 +73,7 @@ def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
 
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's DWG_SSWG  AI Assistant", page_icon="⚡")
-st.title("🧠 Ask Amir Exir's DWG_SSWG  AI Assistant")
+st.title("Ask Amir Exir's DWG_SSWG  AI Assistant")
 
 # Load data and embeddings once
 with st.spinner("Loading DWG_SSWG chunks and computing embeddings..."):
@@ -147,8 +147,8 @@ if prompt := st.chat_input("Ask about ERCOT DWG and SSWG manuals..."):
         invalid_funcs = find_invalid_functions(bot_msg, valid_funcs)
 
         if invalid_funcs:
-            st.warning(f"⚠️ Warning: These functions may not exist in the : {', '.join(invalid_funcs)}")
-            bot_msg += f"\n\n⚠️ *Caution: The following PSS/E  function(s) may be hallucinated or not found in the official documentation: {', '.join(invalid_funcs)}*"
+            st.warning(f" Warning: These functions may not exist in the : {', '.join(invalid_funcs)}")
+            bot_msg += f"\n\n *Caution: The following PSS/E  function(s) may be hallucinated or not found in the official documentation: {', '.join(invalid_funcs)}*"
 
 
 

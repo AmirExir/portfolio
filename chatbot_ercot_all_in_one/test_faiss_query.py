@@ -30,7 +30,7 @@ faiss_index = FAISS.load_local(
 )
 
 # Prompt user for a query
-query = input("🧠 Enter your ERCOT question: ")
+query = input(" Enter your ERCOT question: ")
 
 # Search the index (top 5 matches)
 results = faiss_index.similarity_search(query, k=5)
@@ -38,6 +38,6 @@ results = faiss_index.similarity_search(query, k=5)
 # Display results
 print("\n🔎 Top 5 results:\n" + "="*60)
 for i, doc in enumerate(results, 1):
-    print(f"\n[{i}] 📄 Source: {doc.metadata.get('source', 'unknown')} | 🧩 Chunk ID: {doc.metadata.get('chunk_id', 'N/A')}")
+    print(f"\n[{i}] 📄 Source: {doc.metadata.get('source', 'unknown')} |  Chunk ID: {doc.metadata.get('chunk_id', 'N/A')}")
     print(doc.page_content[:1000])  # Print up to 1000 characters
     print("-"*60)

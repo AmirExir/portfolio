@@ -41,4 +41,4 @@ vectorstore.save_local("ercot_combined_index")
 with open("embeddings.pkl", "wb") as f:
     pickle.dump(vectorstore, f)
 
-print(f"✅ {len(all_documents)} chunks embedded and saved!")
+print(f" {len(all_documents)} chunks embedded and saved!")

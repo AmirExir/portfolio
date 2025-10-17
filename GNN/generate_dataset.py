@@ -58,5 +58,5 @@ if __name__ == "__main__":
     df_all_edge = pd.concat(edge_data, ignore_index=True)
     df_all_bus.to_csv("bus_scenarios.csv", index=False)
     df_all_edge.to_csv("edge_scenarios.csv", index=False)
-    print("✅ Saved bus dataset:", df_all_bus.shape)
-    print("✅ Saved edge dataset:", df_all_edge.shape)
+    print(" Saved bus dataset:", df_all_bus.shape)
+    print(" Saved edge dataset:", df_all_edge.shape)

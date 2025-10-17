@@ -43,7 +43,7 @@ def load_ercot_chunks_and_embeddings():
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
 
     if not valid_pairs:
-        st.warning("⚠️ No embeddings succeeded. Check file contents or OpenAI key.")
+        st.warning(" No embeddings succeeded. Check file contents or OpenAI key.")
         raise ValueError("No valid embeddings were generated. Please check the input files.")
 
     chunks, embeddings = zip(*valid_pairs)

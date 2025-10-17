@@ -7,7 +7,7 @@ import json
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 
-# ✅ Streamlit config — must go FIRST
+#  Streamlit config — must go FIRST
 st.set_page_config(page_title="Power Fault Classifier", layout="centered")
 
 # App Header
@@ -20,13 +20,13 @@ try:
     scaler = joblib.load("fault_classifier/scaler.pkl")
     label_encoder = joblib.load("fault_classifier/label_encoder.pkl")
 
-    st.subheader("🧠 Debug: Model & Label Info")
+    st.subheader(" Debug: Model & Label Info")
     if hasattr(model, "classes_"):
         st.write("Model classes:", model.classes_)
     st.write("Label encoder classes:", label_encoder.classes_)
 
 except FileNotFoundError as e:
-    st.error(f"❌ Model files not found: {e}")
+    st.error(f" Model files not found: {e}")
     st.stop()
 
 # Upload CSV
@@ -41,15 +41,15 @@ if uploaded_file is not None:
 
         feature_cols = ['Ia', 'Ib', 'Ic', 'Va', 'Vb', 'Vc']
         if not all(col in df.columns for col in feature_cols):
-            st.error("❌ Required columns missing.")
+            st.error(" Required columns missing.")
             st.stop()
 
         X = df[feature_cols]
-        st.subheader("🔎 Features Before Scaling")
+        st.subheader(" Features Before Scaling")
         st.write(X.head())
 
         X_scaled = scaler.transform(X)
-        st.subheader("📐 Features After Scaling")
+        st.subheader(" Features After Scaling")
         st.write(pd.DataFrame(X_scaled, columns=feature_cols).head())
 
         # Prediction
@@ -59,20 +59,20 @@ if uploaded_file is not None:
         fault_type_names = dict(enumerate(label_encoder.classes_))
         df_predictions["Fault String"] = df_predictions["Fault Code"].map(fault_type_names)
 
-        st.subheader("🧪 Prediction Debug Info")
-        st.write("🧭 Label decoder map:", fault_type_names)
-        st.write("🔢 Predicted Class Indices:", predicted_faults[:10])
-        st.write("🔤 Fault String Counts:")
+        st.subheader("Prediction Debug Info")
+        st.write("Label decoder map:", fault_type_names)
+        st.write("Predicted Class Indices:", predicted_faults[:10])
+        st.write("Fault String Counts:")
         st.write(df_predictions["Fault String"].value_counts())
 
-        # ✅ Optional ground truth comparison
+        #  Optional ground truth comparison
         if all(col in df.columns for col in ["G", "C", "B", "A"]):
             df["True Fault"] = df[["G", "C", "B", "A"]].astype(str).agg("".join, axis=1)
 
             if set(df["True Fault"]).issubset(set(label_encoder.classes_)):
                 df_predictions["True Fault"] = df["True Fault"]
 
-                st.subheader("✅ Ground Truth vs Prediction")
+                st.subheader(" Ground Truth vs Prediction")
                 st.dataframe(df_predictions[["True Fault", "Fault String"]])
 
                 y_true = label_encoder.transform(df_predictions["True Fault"])
@@ -89,11 +89,11 @@ if uploaded_file is not None:
                 st.pyplot(fig)
 
         # Final results
-        st.subheader("🔍 Predicted Fault Types")
+        st.subheader(" Predicted Fault Types")
         st.dataframe(df_predictions)
 
         # Download
-        st.download_button("📥 Download Results", df_predictions.to_csv(index=False), "predictions.csv", "text/csv")
+        st.download_button("Download Results", df_predictions.to_csv(index=False), "predictions.csv", "text/csv")
 
         # === COMPARISON PLOT: Prefold vs K-Fold ===
         try:
@@ -101,7 +101,7 @@ if uploaded_file is not None:
                 pre_fold = json.load(f1)
                 post_fold = json.load(f2)
 
-            st.subheader("📊 Accuracy Comparison: Train/Test Split vs 5-Fold Cross-Validation")
+            st.subheader("Accuracy Comparison: Train/Test Split vs 5-Fold Cross-Validation")
 
             fig, ax = plt.subplots(figsize=(10, 6))
             models = list(pre_fold.keys())
@@ -127,10 +127,10 @@ if uploaded_file is not None:
 
             st.subheader("🧾 Accuracy Scores")
             for model in models:
-                st.write(f"🔹 **{model}** → Pre-Fold: `{pre_fold[model]:.4f}`, 5-Fold CV: `{post_fold[model]:.4f}`")
+                st.write(f"{model} → Pre-Fold: `{pre_fold[model]:.4f}`, 5-Fold CV: `{post_fold[model]:.4f}`")
 
         except Exception as e:
-            st.warning(f"⚠️ Accuracy comparison failed to load: {e}")
+            st.warning(f"Accuracy comparison failed to load: {e}")
 
     except Exception as e:
-        st.error(f"❌ Error processing file: {e}")
+        st.error(f"Error processing file: {e}")

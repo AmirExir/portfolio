@@ -12,20 +12,20 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def load_chunks_and_embeddings(json_file="input_chunks.json", embedding_model="text-embedding-3-large"):
     current_dir = os.path.dirname(os.path.abspath(__file__))
     full_path = os.path.join(current_dir, json_file)
-    print(f"📂 Reading file from: {full_path}")
+    print(f" Reading file from: {full_path}")
 
     if not os.path.isfile(full_path):
-        raise FileNotFoundError(f"❌ File not found: {full_path}")
+        raise FileNotFoundError(f" File not found: {full_path}")
 
     # Load cached if exists
     cached_emb = os.path.join(current_dir, "psse_embeddings.npy")
     cached_chunks = os.path.join(current_dir, "psse_chunks_cached.json")
     if os.path.exists(cached_emb) and os.path.exists(cached_chunks):
-        st.write("✅ Using precomputed embeddings from .npy and .json")
+        st.write(" Using precomputed embeddings from .npy and .json")
         with open(cached_chunks, "r", encoding="utf-8") as f:
             chunks = json.load(f)
         embeddings = np.load(cached_emb)
-        print("✅ Loaded cached embeddings.")
+        print(" Loaded cached embeddings.")
         return list(chunks), embeddings
 
     # Else compute and save
@@ -38,7 +38,7 @@ def load_chunks_and_embeddings(json_file="input_chunks.json", embedding_model="t
             response = client.embeddings.create(model=embedding_model, input=chunk["text"][:8192])
             embeddings.append(response.data[0].embedding)
         except Exception as e:
-            print(f"⚠️ Embedding failed for chunk: {e}")
+            print(f" Embedding failed for chunk: {e}")
             embeddings.append(None)
             temperature = 0.0,
 
@@ -52,7 +52,7 @@ def load_chunks_and_embeddings(json_file="input_chunks.json", embedding_model="t
     with open(cached_chunks, "w", encoding="utf-8") as f:
         json.dump(list(final_chunks), f, indent=2)
     np.save(cached_emb, final_embeddings)
-    print("💾 Embeddings saved for future use.")
+    print("Embeddings saved for future use.")
 
     return list(final_chunks), np.array(final_embeddings)
 

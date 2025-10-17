@@ -18,7 +18,7 @@ with open(os.path.join(base_path, "chunks_cleaned.json"), "r", encoding="utf-8")
     chunks = json.load(f)
 
 # Force rebuild button to clear cache
-if st.button("🔄 Force Rebuild Embeddings"):
+if st.button(" Force Rebuild Embeddings"):
     if os.path.exists(EMB_FILE):
         os.remove(EMB_FILE)
         st.success("Deleted embeddings.npy")
@@ -50,15 +50,15 @@ if "index" not in st.session_state:
         index = faiss.IndexFlatIP(embeddings.shape[1])  # IP = cosine similarity
         index.add(embeddings)
         st.session_state["index"] = index
-        st.success("✅ FAISS index initialized successfully.")
+        st.success(" FAISS index initialized successfully.")
     else:
-        st.error("❌ No embeddings found! Please rebuild embeddings.")
+        st.error(" No embeddings found! Please rebuild embeddings.")
         st.stop()
 else:
     index = st.session_state["index"]
 
 def search(query, index, chunks, embeddings, k=5):
-    # 🔹 Pure semantic (embedding-based) search only
+    #  Pure semantic (embedding-based) search only
     print(f"🔍 Semantic search for query: {query}")
 
     # Create embedding for the query
@@ -76,7 +76,7 @@ def search(query, index, chunks, embeddings, k=5):
     # Retrieve corresponding text chunks
     top_texts = [chunks[i]["text"] for i in I[0]]
 
-    print(f"✅ Retrieved {len(top_texts)} results from FAISS")
+    print(f" Retrieved {len(top_texts)} results from FAISS")
     for i, t in enumerate(top_texts):
         print(f"{i+1}. {t[:120]}...")
 
@@ -84,8 +84,8 @@ def search(query, index, chunks, embeddings, k=5):
 # -------------------------
 # Streamlit UI
 # -------------------------
-st.set_page_config(page_title="InterviewBot", page_icon="🎤")
-st.title("🎤 Amir's InterviewBot (Resume + STAR RAG)")
+st.set_page_config(page_title="InterviewBot")
+st.title("Amir's InterviewBot (Resume + STAR RAG)")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -95,17 +95,17 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
 # Voice input
-st.markdown("### 🎤 Tap below to ask your question")
+st.markdown("### Tap below to ask your question")
 st.markdown(
     "<div style='text-align:center; padding:10px;'>"
-    "<span style='font-size:18px;'>🎙️ Ready to listen...</span>"
+    "<span style='font-size:18px;'> Ready to listen...</span>"
     "</div>",
     unsafe_allow_html=True,
 )
 
 audio = mic_recorder(
-    start_prompt="🎙️ Start Recording (Tap Once)",
-    stop_prompt="⏹️ Stop Recording",
+    start_prompt=" Start Recording (Tap Once)",
+    stop_prompt=" Stop Recording",
     use_container_width=True
 )
 
@@ -120,7 +120,7 @@ if audio:
             file=audio_file
         )
         user_query = transcription.text
-        st.chat_message("user").markdown(f"🎤 {user_query}")
+        st.chat_message("user").markdown(f" {user_query}")
         st.session_state.messages.append({"role": "user", "content": user_query})
 
 # Fallback text input
@@ -135,7 +135,7 @@ if user_query:
     retrieved_texts = search(user_query, index, chunks, embeddings)
     context = "\n\n".join(retrieved_texts)
 
-    # ✅ Debugging: show retrieved chunks before calling GPT
+    #  Debugging: show retrieved chunks before calling GPT
     show_debug = st.checkbox("Show retrieved context (cosine search)")
     if show_debug:
         st.markdown(f"**Query:** `{user_query}`")
@@ -144,7 +144,7 @@ if user_query:
             st.markdown(f"**Chunk {i+1}**")
             st.code(text[:300] + "...", language="markdown")
             if "waterloo" in text.lower():
-                st.success("✅ Contains 'Waterloo'")
+                st.success(" Contains 'Waterloo'")
             st.write("---")
 
     # GPT response block

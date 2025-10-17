@@ -17,11 +17,11 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
             return api_function(**kwargs)
         except openai.RateLimitError:
             wait_time = backoff_factor ** retries
-            st.warning(f"⚠️ Rate limit hit. Retrying in {wait_time} seconds...")
+            st.warning(f" Rate limit hit. Retrying in {wait_time} seconds...")
             time.sleep(wait_time)
             retries += 1
         except Exception as e:
-            st.error(f"❌ API call failed: {e}")
+            st.error(f" API call failed: {e}")
             break
     return None
 
@@ -37,17 +37,17 @@ def load_psse_chunks_and_embeddings():
     input_file = os.path.join(base_path, "input_chunks.json")
 
     if os.path.exists(cached_emb) and os.path.exists(cached_chunks):
-        st.write("✅ Using precomputed embeddings from .npy and .json")
+        st.write(" Using precomputed embeddings from .npy and .json")
         with open(cached_chunks, "r", encoding="utf-8") as f:
             chunks = json.load(f)
         embeddings = np.load(cached_emb)
         return list(chunks), embeddings
 
-    st.write("⚠️ Precomputed files not found, computing new embeddings...")
+    st.write(" Precomputed files not found, computing new embeddings...")
     with open(input_file, "r", encoding="utf-8") as f:
         chunks = json.load(f)
 
-    # 🔻 Fallback to compute embeddings
+    #  Fallback to compute embeddings
     with open(os.path.join(os.path.dirname(__file__), "input_chunks.json"), "r", encoding="utf-8") as f:
         chunks = json.load(f)
         st.write("Current working directory:", os.getcwd())
@@ -56,7 +56,7 @@ def load_psse_chunks_and_embeddings():
     embeddings = []
     embedding_model = "text-embedding-3-large"
     total_chunks = len(chunks)
-    st.write(f"🔄 Starting embedding process for {total_chunks} chunks...")
+    st.write(f" Starting embedding process for {total_chunks} chunks...")
     progress_bar = st.progress(0)
     status_text = st.empty()
 
@@ -76,18 +76,18 @@ def load_psse_chunks_and_embeddings():
             embeddings.append(None)
     progress_bar.empty()
     status_text.empty()
-    st.write(f"✅ Completed embedding process for {total_chunks} chunks")
+    st.write(f" Completed embedding process for {total_chunks} chunks")
 
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
 
     if not valid_pairs:
-        st.warning("⚠️ No valid embeddings. Check your file or API key.")
+        st.warning(" No valid embeddings. Check your file or API key.")
         raise ValueError("No valid embeddings were generated.")
 
     chunks, embeddings = zip(*valid_pairs)
     embeddings = np.array(embeddings)
 
-    # ✅ Save to disk for reuse
+    #  Save to disk for reuse
     np.save("psse_embeddings.npy", embeddings)
     with open("psse_chunks_cached.json", "w", encoding="utf-8") as f:
         json.dump(chunks, f, indent=2)
@@ -108,13 +108,13 @@ def find_top_k_matches(query: str, chunks, embeddings, k=10):
     query_vec = embed_query(query)
 
     if not query_vec:
-        st.error("❌ Failed to embed query — try rephrasing your question.")
+        st.error(" Failed to embed query — try rephrasing your question.")
         return []
 
     query_embedding = np.array(query_vec).reshape(1, -1)
 
     if query_embedding.shape[1] != embeddings.shape[1]:
-        st.error(f"❌ Embedding dimension mismatch: {query_embedding.shape[1]} vs {embeddings.shape[1]}")
+        st.error(f" Embedding dimension mismatch: {query_embedding.shape[1]} vs {embeddings.shape[1]}")
         return []
 
     scores = cosine_similarity(query_embedding, embeddings).flatten()
@@ -135,7 +135,7 @@ def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
 
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's PSSE automation Assistant", page_icon="⚡")
-st.title("🧠 Ask Amir Exir's PSSE automation Assistant")
+st.title(" Ask Amir Exir's PSSE automation Assistant")
 
 # Load data and embeddings once
 with st.spinner("Loading PSSE API examples and computing embeddings..."):
@@ -213,12 +213,12 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
 
         # Auto-correct loop if invalid functions found
         if invalid_funcs:
-            st.warning(f"⚠️ Warning: These functions may not exist in the API: {', '.join(invalid_funcs)}")
+            st.warning(f" Warning: These functions may not exist in the API: {', '.join(invalid_funcs)}")
 
             correction_prompt = {
                 "role": "user",
                 "content": (
-                    f"⚠️ You used invalid function(s): {', '.join(invalid_funcs)}. "
+                    f" You used invalid function(s): {', '.join(invalid_funcs)}. "
                     "Please revise your answer using only valid PSS/E API functions from the reference chunks provided earlier. "
                     "Do not make up any function names."
                 )
@@ -236,7 +236,7 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
                     temperature=0.3,
                 )
                 bot_msg = correction_response.choices[0].message.content
-                st.success("✅ Self-correction applied.")
+                st.success(" Self-correction applied.")
 
 
 
