@@ -8,8 +8,8 @@ from executor import extract_valid_funcs, run_executor
 
 # Setup
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-st.set_page_config(page_title="Amir Exir's PSS/E Agent Loop", page_icon="🧠")
-st.title("🧠 Amir Exir's PSS/E Automation Agent") 
+st.set_page_config(page_title="Amir Exir's PSS/E Agent Loop")
+st.title(" Amir Exir's PSS/E Automation Agent") 
 
 
 MAX_RETRIES = 3
@@ -26,9 +26,9 @@ if "stop_execution" not in st.session_state:
 
 
 # Initial load
-with st.spinner("🤖 Loading PSS/E examples and computing embeddings..."):
+with st.spinner(" Loading PSS/E examples and computing embeddings..."):
     chunks, embeddings = load_chunks_and_embeddings()
-st.success(f"✅ Loaded {len(chunks)} chunks from `input_chunks.json`")
+st.success(f" Loaded {len(chunks)} chunks from `input_chunks.json`")
 
 # Prompt input
 prompt = st.chat_input("Ask a PSS/E automation task...")
@@ -40,15 +40,15 @@ if prompt:
     # Step 1: Plan
     from retriever import find_relevant_chunks, limit_chunks_by_token_budget
 
-    with st.spinner("🛠️ Planning tasks..."):
+    with st.spinner(" Planning tasks..."):
         planning_chunks = find_relevant_chunks(prompt, chunks, embeddings, k=10)
         reference_context = limit_chunks_by_token_budget(planning_chunks, max_tokens=40000)
         tasks = plan_tasks(prompt, reference_context)
-        st.markdown("**🧩 Planned Tasks:**")
+        st.markdown("** Planned Tasks:**")
         st.code(tasks)
 
     # Step 2: Extract valid PSSPY functions
-    with st.spinner("🔎 Extracting valid API functions..."):
+    with st.spinner(" Extracting valid API functions..."):
         valid_funcs = extract_valid_funcs(chunks)
 
     # Step 3: Execution control setup
@@ -59,7 +59,7 @@ if prompt:
     if "stop_execution" not in st.session_state:
         st.session_state.stop_execution = False
 
-    if st.button("🛑 Stop Execution"):
+    if st.button(" Stop Execution"):
         st.session_state.stop_execution = True
 
     task_list = [t.strip("- ") for t in tasks.strip().split("\n") if t.strip()]
@@ -69,20 +69,20 @@ if prompt:
 
     for task in task_list:
         if st.session_state.stop_execution:
-            st.warning("⛔ Execution manually stopped.")
+            st.warning(" Execution manually stopped.")
             break
 
         if st.session_state.executed_tasks >= MAX_TASKS:
-            st.info(f"✅ Reached the maximum of {MAX_TASKS} tasks.")
+            st.info(f" Reached the maximum of {MAX_TASKS} tasks.")
             break
 
-        st.markdown(f"### 🚀 Executing Task: `{task}`")
+        st.markdown(f"###  Executing Task: `{task}`")
 
         relevant_chunks = find_relevant_chunks(task, chunks, embeddings, k=10)
         limited_chunks = limit_chunks_by_token_budget(relevant_chunks, max_tokens=30000)
         combined_context = "\n---\n".join(chunk["text"] for chunk in limited_chunks)
 
-        with st.spinner("💻 Generating valid Python code..."):
+        with st.spinner(" Generating valid Python code..."):
             result = run_executor(task, combined_context, valid_funcs)
         st.markdown(result)
 
@@ -93,11 +93,11 @@ if prompt:
             count = st.session_state.retry_count.get(task, 0)
             if count < MAX_RETRIES:
                 st.session_state.retry_count[task] = count + 1
-                st.info(f"🔁 Retrying `{task}` (attempt {count+1}/{MAX_RETRIES})")
+                st.info(f" Retrying `{task}` (attempt {count+1}/{MAX_RETRIES})")
                 result = run_executor(task, combined_context, valid_funcs)
                 st.markdown(result)
             else:
-                st.error(f"❌ Max retries reached for task: {task}")
+                st.error(f" Max retries reached for task: {task}")
 
         all_results.append(result)
         st.session_state.executed_tasks += 1
@@ -105,12 +105,12 @@ if prompt:
     # Step 4: Final Summary Output
     if st.session_state.executed_tasks >= MAX_TASKS or st.session_state.stop_execution:
         st.markdown("---")
-        st.markdown("## 📝 Final Summary")
+        st.markdown("##  Final Summary")
         final_output = "\n\n".join(all_results)
-        st.text_area("🔚 Final Automation Code", value=final_output, height=400)
+        st.text_area(" Final Automation Code", value=final_output, height=400)
 
         st.download_button(
-            label="📥 Download Output as .txt",
+            label=" Download Output as .txt",
             data=final_output,
             file_name="psse_automation_output.txt",
             mime="text/plain"
@@ -120,7 +120,7 @@ if prompt:
             "role": "assistant",
             "content": final_output
         })
-    if st.button("🔄 Reset Agent"):
+    if st.button(" Reset Agent"):
         st.session_state.executed_tasks = 0
         st.session_state.retry_count = {}
         st.session_state.stop_execution = False

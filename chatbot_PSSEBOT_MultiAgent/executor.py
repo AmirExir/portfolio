@@ -28,7 +28,7 @@ def run_executor(prompt, context, valid_funcs):
     - `tkinter`, `pandas`, `numpy`, `matplotlib`, `os`, `csv`, `glob`, `time`, etc.
     - You may also use simple file handling and GUI operations.
 
-    ⚠️ Strict Rules:
+     Strict Rules:
     - Do NOT make up or guess PSSPY functions.
     - Use only what is documented in the provided PSS/E chunks.
     - You MAY use standard Python libraries for GUI, file I/O, or plotting.
@@ -64,7 +64,7 @@ def run_executor(prompt, context, valid_funcs):
 
     if invalid:
         flagged_msg = f"""
-⚠️ **Warning: The following PSSPY functions are not recognized and may be hallucinated:**
+ **Warning: The following PSSPY functions are not recognized and may be hallucinated:**
 
 `{', '.join(sorted(set(invalid)))}`
 

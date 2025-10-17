@@ -663,7 +663,7 @@ else:
                 n_splits = max_splits
 
         # --- Train button ---
-        if st.button("🚀 Train Model", type="primary"):
+        if st.button(" Train Model", type="primary"):
             if data is None:
                 st.error("No data available for training. Check your selections and input files.")
             else:
@@ -752,7 +752,7 @@ else:
                     st.info("No test scenarios available for evaluation.")
 
         # ── SAVE ARTIFACTS (optional) ────────────────────────────────────────────────
-        if st.button("💾 Save model + scaler"):
+        if st.button(" Save model + scaler"):
             import pickle
             if 'model' in locals() and scaler is not None:
                 torch.save(model.state_dict(), "gnn_alarm_model.pt")

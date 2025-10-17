@@ -15,11 +15,11 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
             return api_function(**kwargs)
         except openai.RateLimitError:
             wait_time = backoff_factor ** retries
-            st.warning(f"⚠️ Rate limit hit. Retrying in {wait_time} seconds...")
+            st.warning(f" Rate limit hit. Retrying in {wait_time} seconds...")
             time.sleep(wait_time)
             retries += 1
         except Exception as e:
-            st.error(f"❌ API call failed: {e}")
+            st.error(f" API call failed: {e}")
             break
     return None
 
@@ -43,7 +43,7 @@ def load_ercot_chunks_and_embeddings():
         embeddings = np.load(cached_emb)
         return list(chunks), embeddings
     else:
-        st.error("❌ Missing cached ERCOT embeddings or chunks.")
+        st.error(" Missing cached ERCOT embeddings or chunks.")
         raise FileNotFoundError("Missing ERCOT files.")
 
 chunks, embeddings = load_ercot_chunks_and_embeddings()
@@ -56,9 +56,9 @@ npy_path = os.path.join(base_path, "ercot_embeddings.npy")
 json_size = os.path.getsize(json_path) / (1024 * 1024)  # in MB
 npy_size = os.path.getsize(npy_path) / (1024 * 1024)    # in MB
 
-st.success(f"✅ Loaded embeddings from: `{npy_path}` ({npy_size:.1f} MB)")
-st.success(f"✅ Loaded chunks from: `{json_path}` ({json_size:.1f} MB)")
-st.info(f"🔢 Embedding shape: `{embeddings.shape}`, Total chunks: `{len(chunks)}`")
+st.success(f" Loaded embeddings from: `{npy_path}` ({npy_size:.1f} MB)")
+st.success(f" Loaded chunks from: `{json_path}` ({json_size:.1f} MB)")
+st.info(f" Embedding shape: `{embeddings.shape}`, Total chunks: `{len(chunks)}`")
 # === Embed user query ===
 def embed_query(query: str):
     response = safe_openai_call(
@@ -72,13 +72,13 @@ def embed_query(query: str):
 def find_top_k_matches(query: str, chunks, embeddings, k=10):
     query_vec = embed_query(query)
     if not query_vec:
-        st.error("❌ Failed to embed query — try rephrasing your question.")
+        st.error("Failed to embed query — try rephrasing your question.")
         return []
 
     query_embedding = np.array(query_vec).reshape(1, -1)
 
     if query_embedding.shape[1] != embeddings.shape[1]:
-        st.error(f"❌ Embedding dimension mismatch: {query_embedding.shape[1]} vs {embeddings.shape[1]}")
+        st.error(f"Embedding dimension mismatch: {query_embedding.shape[1]} vs {embeddings.shape[1]}")
         return []
 
     scores = cosine_similarity(query_embedding, embeddings).flatten()

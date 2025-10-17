@@ -17,16 +17,16 @@ try:
     from agent.backtest import simple_vector_backtest
     from agent.broker import get_account, submit_order, cancel_open_orders
 except ImportError as e:
-    st.error(f"⚠️ Failed to import agent modules: {e}")
+    st.error(f" Failed to import agent modules: {e}")
     st.info("Please ensure the 'agent' folder exists in the same directory as this app.")
     st.stop()
 
 st.set_page_config(page_title="Market Agent Dashboard", layout="wide")
 
-st.title("📈 Amir Exir Stock Market & Crypto AI Agent")
+st.title(" Amir Exir Stock Market & Crypto AI Agent")
 
 # --- Fetch the latest summary from GitHub ---
-st.markdown("## 📊 AI-Generated Market Summary")
+st.markdown(" AI-Generated Market Summary")
 
 try:
     contents_url = "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent"
@@ -64,12 +64,12 @@ try:
 
             st.info(summary_text.strip())
         else:
-            st.warning("⚠️ Could not find download URL for the latest summary file.")
+            st.warning(" Could not find download URL for the latest summary file.")
 except requests.exceptions.RequestException as e:
-    st.warning(f"⚠️ Error fetching summary from GitHub: {e}")
+    st.warning(f" Error fetching summary from GitHub: {e}")
     st.info("Make sure the summary files exist at: https://github.com/AmirExir/portfolio/tree/main/market_agent")
 except Exception as e:
-    st.warning(f"⚠️ Error decoding summary: {e}")
+    st.warning(f" Error decoding summary: {e}")
     st.info("There might be an issue with the file encoding or format.")
 
 st.markdown("---")
@@ -79,14 +79,14 @@ owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password")
 OWNER_KEY = st.secrets.get("OWNER_KEY", "")
 
 if owner_key_input == OWNER_KEY and OWNER_KEY != "":
-    demo_mode = st.sidebar.checkbox("🧪 Demo Mode", value=False, help="Toggle between live and demo mode")
+    demo_mode = st.sidebar.checkbox("Demo Mode", value=False, help="Toggle between live and demo mode")
     if demo_mode:
-        st.sidebar.info("🧪 Demo Mode active — trades will not be executed.")
+        st.sidebar.info("Demo Mode active — trades will not be executed.")
     else:
-        st.sidebar.success("✅ Live Mode active — connected to Alpaca paper trading.")
+        st.sidebar.success(" Live Mode active — connected to Alpaca paper trading.")
 else:
     demo_mode = True
-    st.sidebar.info("🧪 Demo Mode forced ON for public viewers — safe demo mode.")
+    st.sidebar.info("Demo Mode forced ON for public viewers — safe demo mode.")
 
 # --- Load Alpaca credentials from Streamlit Secrets ---
 ALPACA_KEY = st.secrets.get("ALPACA_KEY")
@@ -97,7 +97,7 @@ ALPACA_ENDPOINT = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.ma
 if demo_mode or not ALPACA_KEY or not ALPACA_SECRET:
     equity, cash, buying_power = 100000.0, 100000.0, 200000.0
     if not ALPACA_KEY or not ALPACA_SECRET:
-        st.sidebar.warning("⚠️ Alpaca API keys not found — using demo values.")
+        st.sidebar.warning("Alpaca API keys not found — using demo values.")
 else:
     try:
         acct = get_account()
@@ -106,13 +106,13 @@ else:
             cash = float(acct.get("cash", 0))
             buying_power = float(acct.get("buying_power", 0))
         else:
-            st.sidebar.warning("⚠️ Invalid response from Alpaca — using demo values.")
+            st.sidebar.warning("Invalid response from Alpaca — using demo values.")
             equity, cash, buying_power = 100000.0, 100000.0, 200000.0
     except Exception as e:
-        st.sidebar.error(f"⚠️ Failed to fetch Alpaca account: {e}")
+        st.sidebar.error(f"Failed to fetch Alpaca account: {e}")
         equity, cash, buying_power = 100000.0, 100000.0, 200000.0
 
-st.sidebar.header("💰 Account Summary (Paper Trading)")
+st.sidebar.header("Account Summary (Paper Trading)")
 st.sidebar.metric("Equity", f"${equity:,.2f}")
 st.sidebar.metric("Cash", f"${cash:,.2f}")
 st.sidebar.metric("Buying Power", f"${buying_power:,.2f}")
@@ -129,7 +129,7 @@ if st.sidebar.button("🧹 Cancel Open Orders"):
         st.sidebar.info("(Demo) Orders not canceled in demo mode")
 
 # --- Strategy Settings ---
-st.sidebar.header("📊 Strategy Settings")
+st.sidebar.header("Strategy Settings")
 short_window = st.sidebar.number_input("Short-term MA window", min_value=1, max_value=100, value=20, step=1)
 long_window = st.sidebar.number_input("Long-term MA window", min_value=1, max_value=200, value=50, step=1)
 
@@ -139,7 +139,7 @@ symbol = st.text_input("Symbol", "AAPL", key="symbol_input").upper()
 # --- Manual Trade Buttons ---
 col1, col2 = st.columns(2)
 with col1:
-    if st.button(f"🟢 Buy {symbol}"):
+    if st.button(f"Buy {symbol}"):
         if demo_mode:
             st.info(f"(Demo) Pretending to buy 1 share of {symbol}")
         else:
@@ -150,7 +150,7 @@ with col1:
             except Exception as e:
                 st.error(f"Failed to buy: {e}")
 with col2:
-    if st.button(f"🔴 Sell {symbol}"):
+    if st.button(f"Sell {symbol}"):
         if demo_mode:
             st.info(f"(Demo) Pretending to sell 1 share of {symbol}")
         else:
@@ -168,19 +168,19 @@ try:
     sig = sma_crossover(df, short_window, long_window)
     bt = simple_vector_backtest(df, sig)
     
-    st.subheader("📊 Price Chart")
+    st.subheader("Price Chart")
     st.line_chart(df["close"])
     
-    st.subheader("📈 Strategy Equity Curve")
+    st.subheader("Strategy Equity Curve")
     st.line_chart(bt["curve"])
     
     # --- Latest Signal + Timestamp ---
-    signal_emoji = "🟢 BUY" if sig.iloc[-1] == 1 else "🔴 FLAT"
+    signal_emoji = "BUY" if sig.iloc[-1] == 1 else "FLAT"
     st.write(f"**Latest Signal:** {signal_emoji}")
     st.caption(f"Last updated {dt.datetime.utcnow():%Y-%m-%d %H:%M UTC}")
     
 except Exception as e:
-    st.error(f"⚠️ Error loading market data: {e}")
+    st.error(f" Error loading market data: {e}")
     st.info("Please check if the symbol is valid and try again.")
 
 st.markdown("---")

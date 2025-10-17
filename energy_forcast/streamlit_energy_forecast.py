@@ -13,7 +13,7 @@ def load_data():
     try:
         df = pd.read_csv(csv_path, parse_dates=["Datetime"])
     except FileNotFoundError:
-        st.error("❌ AEP_hourly.csv not found! Make sure it's in the same folder as the Streamlit app.")
+        st.error(" AEP_hourly.csv not found! Make sure it's in the same folder as the Streamlit app.")
         st.stop()
 
     df.columns = ["Datetime", "MW"]
@@ -63,10 +63,10 @@ def forecast_n_hours(model, df, n_steps):
     return pd.DataFrame({"Datetime": future_index, "Predicted_MW": future_preds})
 
 
-st.title("🔮 Hourly Load Forecasting App (AEP / PJM) by Amir Exir")
+st.title(" Hourly Load Forecasting App (AEP / PJM) by Amir Exir")
 
 df = load_data()
-st.subheader("📊 Historical Load (last 7 days)")
+st.subheader(" Historical Load (last 7 days)")
 st.line_chart(df["MW"].iloc[-7*24:])
 
 # Model training
@@ -83,7 +83,7 @@ model.fit(X_train, y_train)
 # Evaluation
 y_pred = model.predict(X_test)
 rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-st.success(f"✅ Model RMSE: {rmse:.2f} MW")
+st.success(f" Model RMSE: {rmse:.2f} MW")
 
 # Feature importance
 st.subheader("📈 Feature Importance")
@@ -92,10 +92,10 @@ plot_importance(model, ax=ax_imp, height=0.6, importance_type='gain')
 st.pyplot(fig_imp)
 
 # Forecast
-n_steps = st.slider("⏳ Select number of hours to forecast", min_value=1, max_value=48, value=12)
+n_steps = st.slider(" Select number of hours to forecast", min_value=1, max_value=48, value=12)
 forecast_df = forecast_n_hours(model, df.copy(), n_steps)
 
-st.subheader(f"🔮 Forecast of Next {n_steps} Hours")
+st.subheader(f" Forecast of Next {n_steps} Hours")
 
 fig_forecast, ax_forecast = plt.subplots(figsize=(12, 5))
 ax_forecast.plot(df["MW"].iloc[-48:], label="Historical", linewidth=2)

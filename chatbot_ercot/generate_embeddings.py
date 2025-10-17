@@ -58,8 +58,8 @@ for i, chunk in enumerate(chunks):
     if embedding:
         embeddings.append(embedding)
     else:
-        print(f"❌ Failed to embed chunk {i+1}. Skipping.")
+        print(f" Failed to embed chunk {i+1}. Skipping.")
 
 # Save to disk
 save_embeddings(chunks, embeddings, output_json, output_embeddings)
-print(f"✅ Saved {len(embeddings)} embeddings to disk.")
+print(f" Saved {len(embeddings)} embeddings to disk.")

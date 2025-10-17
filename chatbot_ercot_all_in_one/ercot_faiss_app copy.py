@@ -18,7 +18,7 @@ faiss_index = FAISS.load_local(INDEX_DIR, embedding_model, index_name=INDEX_NAME
 st.title("ERCOT AI Assistant")
 st.markdown("Ask me about ERCOT Planning Guide, Protocols, or Interconnection Handbook!")
 
-query = st.text_input("🧠 Enter your question about ERCOT:")
+query = st.text_input(" Enter your question about ERCOT:")
 
 if query:
     results = faiss_index.similarity_search(query, k=5)

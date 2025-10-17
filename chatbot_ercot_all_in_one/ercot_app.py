@@ -21,7 +21,7 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
             st.warning(f"Retrying in {wait} sec due to: {e}")
             time.sleep(wait)
             retries += 1
-    st.error("❌ Failed after retries.")
+    st.error(" Failed after retries.")
     return None
 
 # Load ERCOT chunks and embeddings
