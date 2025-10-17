@@ -30,7 +30,7 @@ except FileNotFoundError as e:
     st.stop()
 
 # Upload CSV
-uploaded_file = st.file_uploader("📂 Upload test CSV", type="csv")
+uploaded_file = st.file_uploader(" Upload test CSV", type="csv")
 
 if uploaded_file is not None:
     try:
