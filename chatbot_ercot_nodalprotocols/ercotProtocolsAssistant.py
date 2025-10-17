@@ -20,8 +20,8 @@ def load_ercot_chunks_and_embeddings():
     chunks = []
     embeddings = []
 
-    st.write("📄 Available ERCOT protocol files:")
-    st.write(sorted(glob.glob("chatbot_ercot_nodalprotocols/ercotnodals_part*.txt")))
+    #st.write(" Available ERCOT protocol files:")
+    #st.write(sorted(glob.glob("chatbot_ercot_nodalprotocols/ercotnodals_part*.txt")))
 
     for filepath in sorted(glob.glob("chatbot_ercot_nodalprotocols/ercotnodals_part*.txt")):
         with open(filepath, "r", encoding="utf-8") as f:
@@ -67,7 +67,7 @@ def find_best_match(query: str, chunks, embeddings):
 
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's ERCOT protocols AI Assistant", page_icon="⚡")
-st.title("⚡ Ask Amir Exir's ERCOT Nodal protocols AI Assistant")
+st.title("Ask Amir Exir's ERCOT Nodal protocols AI Assistant")
 
 # Load data and embeddings once
 with st.spinner("Loading nodal protocols and computing embeddings..."):
