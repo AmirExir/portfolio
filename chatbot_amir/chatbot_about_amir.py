@@ -13,13 +13,13 @@ with open("amir_resume.txt", "r", encoding="utf-8") as f:
 system_prompt = {
     "role": "system",
     "content": f"""
-You are a helpful assistant who knows the professional background of Amir Exir (Seyed Amirhossein Eksir Monfared).
+You are a helpful assistant who knows the professional background of Seyed Amirhossein Eksir Monfared (Amir Exir).
 Here is his resume:\n\n{resume_text}\n\nOnly use this information to answer questions about Amir.
 """
 }
 
-st.set_page_config(page_title="Amir's Career Assistant")
-st.title(" Ask Amir's Career Assistant")
+st.set_page_config(page_title="Amir's Career Assistant", page_icon="🎤")
+st.title("🎤 Ask Amir's Career Assistant (Talk or Type)")
 
 if "messages" not in st.session_state:
     st.session_state.messages = [system_prompt]
@@ -29,7 +29,7 @@ for msg in st.session_state.messages[1:]:
     st.chat_message(msg["role"]).markdown(msg["content"])
 
 # Mic button
-st.write("Speak your question:")
+st.write("🎙️ Speak your question:")
 audio = mic_recorder(start_prompt="Start Recording", stop_prompt="Stop", just_once=True, use_container_width=True)
 
 user_query = None
@@ -45,7 +45,7 @@ if audio:
             file=audio_file
         )
         user_query = transcription.text
-        st.chat_message("user").markdown(f" {user_query}")
+        st.chat_message("user").markdown(f"🎤 {user_query}")
         st.session_state.messages.append({"role": "user", "content": user_query})
 
 # Fallback text input
