@@ -85,7 +85,7 @@ def search(query, index, chunks, embeddings, k=5):
 # Streamlit UI
 # -------------------------
 st.set_page_config(page_title="InterviewBot")
-st.title("Amir's InterviewBot (Resume + STAR RAG)")
+st.title("Amir's InterviewBot")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
