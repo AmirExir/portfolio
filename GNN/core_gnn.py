@@ -390,8 +390,8 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
         # If voltage_class not already defined, create it using voltage
         bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
         y = bus_df["voltage_class"].fillna(2).to_numpy().astype(int)
-        # Features: voltage, load_MW
-        features = ["voltage", "load_MW"]
+        # Features: voltage, load_MW, p_inj_mw if present
+        features = [c for c in ["voltage", "load_MW", "p_inj_mw"] if c in bus_df.columns]
         X = bus_df[features].to_numpy(dtype=float)
         scaler = StandardScaler().fit(X)
         Xn = scaler.transform(X)
@@ -487,7 +487,7 @@ def build_data_list(bus_df, edge_df, scenario_ids, mode="voltage", scaler=None):
         # Use provided scaler for test set, else fit on the scenario
         if scaler is not None:
             if mode == "voltage":
-                X_raw = bus_sub[["voltage", "load_MW"]].to_numpy(dtype=float)
+                X_raw = bus_sub[[c for c in ["voltage", "load_MW", "p_inj_mw"] if c in bus_sub.columns]].to_numpy(dtype=float)
                 Xn = scaler.transform(X_raw)
             elif mode == "thermal":
                 features = [col for col in ["x_pu", "length_km", "loading_percent"] if col in edge_sub.columns]
