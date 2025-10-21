@@ -437,6 +437,10 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
         src = edge_df["from_bus_scen"].map(bus_to_idx).to_numpy()
         dst = edge_df["to_bus_scen"].map(bus_to_idx).to_numpy()
         edge_index = np.vstack([src, dst])
+        # --- Final Safety Filter: ensure valid edge indices ---
+        num_nodes = len(bus_df)
+        edge_index = edge_index[:, (edge_index[0] < num_nodes) & (edge_index[1] < num_nodes)]
+        edge_index = np.clip(edge_index, 0, num_nodes - 1)
         scenario_arr = bus_df["scenario"].to_numpy().astype(int)
         return edge_index, Xn, y, scaler, bus_to_idx, scenario_arr, bus_df, edge_df
     elif mode == "thermal":
@@ -488,8 +492,9 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
             edge_index = np.zeros((2, 0), dtype=int)
         else:
             edge_index = np.array(neighbors).T
-        # --- SAFETY CHECK: prevent index out of bounds ---
+        # --- Final Safety Filter: ensure valid edge indices ---
         num_nodes = len(edge_df)
+        edge_index = edge_index[:, (edge_index[0] < num_nodes) & (edge_index[1] < num_nodes)]
         edge_index = np.clip(edge_index, 0, num_nodes - 1)
         scenario_arr = edge_df["scenario"].to_numpy().astype(int)
         return edge_index, Xn, y, scaler, edge_to_idx, scenario_arr, bus_df, edge_df
