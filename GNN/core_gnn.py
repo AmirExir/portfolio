@@ -396,6 +396,13 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
         # --- Remove edges with missing bus references after oversampling ---
         valid_buses = set(bus_df["bus"].astype(str))
         edge_df = edge_df[edge_df["from_bus"].astype(str).isin(valid_buses) & edge_df["to_bus"].astype(str).isin(valid_buses)].reset_index(drop=True)
+        # --- Rebuild mapping after filtering edges ---
+        bus_df = bus_df.reset_index(drop=True)
+        bus_to_idx = {b: i for i, b in enumerate(bus_df["bus"].astype(str))}
+        edge_df["from_idx"] = edge_df["from_bus"].astype(str).map(bus_to_idx)
+        edge_df["to_idx"]   = edge_df["to_bus"].astype(str).map(bus_to_idx)
+        # Remove edges with unmapped buses
+        edge_df = edge_df.dropna(subset=["from_idx", "to_idx"]).astype({"from_idx": int, "to_idx": int}).reset_index(drop=True)
 
     if mode == "voltage":
         # --- Add neighbor_count column ---
