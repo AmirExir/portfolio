@@ -436,9 +436,18 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
         bus_to_idx = {b: i for i, b in enumerate(bus_df["bus_scen"])}
         src = edge_df["from_bus_scen"].map(bus_to_idx).to_numpy()
         dst = edge_df["to_bus_scen"].map(bus_to_idx).to_numpy()
+        # --- Strict safety filter before building edge_index ---
+        # Ensure all edges reference valid node indices before creating edge_index
+        valid_mask = (~np.isnan(src)) & (~np.isnan(dst))
+        src = src[valid_mask].astype(int)
+        dst = dst[valid_mask].astype(int)
+        num_nodes = len(bus_df)
+        mask_in_bounds = (src < num_nodes) & (dst < num_nodes)
+        src = src[mask_in_bounds]
+        dst = dst[mask_in_bounds]
         edge_index = np.vstack([src, dst])
         # --- Final Safety Filter: ensure valid edge indices ---
-        num_nodes = len(bus_df)
+        # (already filtered above, but keep final clip for safety)
         edge_index = edge_index[:, (edge_index[0] < num_nodes) & (edge_index[1] < num_nodes)]
         edge_index = np.clip(edge_index, 0, num_nodes - 1)
         scenario_arr = bus_df["scenario"].to_numpy().astype(int)
