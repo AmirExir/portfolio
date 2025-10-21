@@ -393,6 +393,9 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
                 resample(subset, replace=True, n_samples=max_count, random_state=42)
             )
         bus_df = pd.concat(bus_df_balanced).reset_index(drop=True)
+        # --- Remove edges with missing bus references after oversampling ---
+        valid_buses = set(bus_df["bus"].astype(str))
+        edge_df = edge_df[edge_df["from_bus"].astype(str).isin(valid_buses) & edge_df["to_bus"].astype(str).isin(valid_buses)].reset_index(drop=True)
 
     if mode == "voltage":
         # --- Add neighbor_count column ---
