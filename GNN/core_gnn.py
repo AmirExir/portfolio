@@ -131,9 +131,19 @@ class GCN(nn.Module):
 
 
 def _stratified_indices(y_np, train_frac=0.7, seed=42):
-    sss = StratifiedShuffleSplit(n_splits=1, train_size=train_frac, random_state=seed)
-    (train_idx_np, val_idx_np), = sss.split(np.zeros_like(y_np), y_np)
-    return train_idx_np, val_idx_np
+    try:
+        sss = StratifiedShuffleSplit(n_splits=1, train_size=train_frac, random_state=seed)
+        (train_idx_np, val_idx_np), = sss.split(np.zeros_like(y_np), y_np)
+        return train_idx_np, val_idx_np
+    except ValueError as e:
+        if "The least populated class in y has only" in str(e):
+            # Fallback: random split
+            from sklearn.model_selection import train_test_split
+            idx = np.arange(len(y_np))
+            train_idx_np, val_idx_np = train_test_split(idx, train_size=train_frac, random_state=seed, shuffle=True)
+            return train_idx_np, val_idx_np
+        else:
+            raise
 
 def _class_weights(y_np, n_classes):
     # inverse-frequency weights for multiclass
@@ -365,31 +375,21 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
     assert "bus" in bus_df.columns and "scenario" in bus_df.columns
 
     if mode == "voltage":
-        # --- Define voltage_class for 7 classes based on voltage ranges ---
+        # --- Define voltage_class for 5 classes based on voltage ranges ---
         def voltage_to_class(v):
-            if v < 0.90:
-                return 1  # Severe Low
-            elif 0.90 <= v < 0.95:
-                return 2  # Very Low
+            if v < 0.95:
+                return 0  # low
             elif 0.95 <= v < 0.98:
-                return 3  # Slightly Low
-            elif 0.98 <= v <= 1.02:
-                return 4  # Normal
-            elif 1.02 < v <= 1.05:
-                return 5  # Slightly High
-            elif 1.05 < v <= 1.10:
-                return 6  # Very High
-            elif v > 1.10:
-                return 7  # Severe High
-            else:
-                return 4  # Default to Normal
+                return 1  # slightly low
+            elif 0.98 <= v < 1.00:
+                return 2  # near nominal
+            elif 1.00 <= v < 1.02:
+                return 3  # slightly high
+            else:  # v >= 1.02
+                return 4  # high
         # If voltage_class not already defined, create it using voltage
-        if "voltage_class" not in bus_df.columns:
-            bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
-        else:
-            # Even if present, ensure it follows the 7-class rule
-            bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
-        y = bus_df["voltage_class"].fillna(4).to_numpy().astype(int)
+        bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
+        y = bus_df["voltage_class"].fillna(2).to_numpy().astype(int)
         # Features: voltage, load_MW
         features = ["voltage", "load_MW"]
         X = bus_df[features].to_numpy(dtype=float)
@@ -454,6 +454,9 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
             edge_index = np.zeros((2, 0), dtype=int)
         else:
             edge_index = np.array(neighbors).T
+        # --- SAFETY CHECK: prevent index out of bounds ---
+        num_nodes = len(edge_df)
+        edge_index = np.clip(edge_index, 0, num_nodes - 1)
         scenario_arr = edge_df["scenario"].to_numpy().astype(int)
         return edge_index, Xn, y, scaler, edge_to_idx, scenario_arr, bus_df, edge_df
     else:
@@ -538,15 +541,18 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
         # For macro F1/acc, accumulate over all val nodes in all scenarios
         # Train on all scenario batches
         for i, batch in enumerate(loader):
-            # Each batch is a batch of graphs (scenarios)
             batch = batch.to(device)
-            # Find train_idx in this batch: concatenate for all graphs in batch
             batch_train_idx = []
             offset = 0
-            for j in range(batch.num_graphs):
-                idx = splits[batch.ptr[j].item()][0] if hasattr(batch, "ptr") else splits[j][0]
-                batch_train_idx.append(idx + offset)
-                offset += batch.batch.eq(j).sum().item()
+            # Only process scenario IDs present in this batch
+            for scen_id in batch.batch.unique().tolist():
+                tr_idx, _ = splits[scen_id]
+                n_nodes = (batch.batch == scen_id).sum().item()
+                if len(tr_idx) > 0 and tr_idx.max().item() < n_nodes:
+                    batch_train_idx.append(tr_idx + offset)
+                offset += n_nodes
+            if not batch_train_idx:
+                continue
             train_idx = torch.cat(batch_train_idx).to(device)
             logits = model(batch.x, batch.edge_index)
             loss = focal_loss(logits[train_idx], batch.y[train_idx], gamma=2.0, alpha=alpha)
@@ -651,19 +657,17 @@ def main():
     # Print voltage class mapping if in voltage mode
     if mode == "voltage":
         print("Voltage class label mapping:")
-        print("  1: Severe Low (<0.90)")
-        print("  2: Very Low (0.90–0.95)")
-        print("  3: Slightly Low (0.95–0.98)")
-        print("  4: Normal (0.98–1.02)")
-        print("  5: Slightly High (1.02–1.05)")
-        print("  6: Very High (1.05–1.10)")
-        print("  7: Severe High (>1.10)")
+        print("  0: low (<0.95)")
+        print("  1: slightly low [0.95–0.98)")
+        print("  2: near nominal [0.98–1.00)")
+        print("  3: slightly high [1.00–1.02)")
+        print("  4: high (≥1.02)")
 
     # --- Build per-scenario PyG data list ---
     train_data_list = build_data_list(train_bus_df, train_edge_df, train_scenarios, mode=mode, scaler=scaler)
     # --- Train GNN using per-scenario batching ---
     epochs = args.epochs
-    lr = 1e-2
+    lr = 1e-3
     wd = 1e-3
     seed = 42
     use_relu = True
