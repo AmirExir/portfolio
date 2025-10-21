@@ -374,7 +374,31 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
     edge_df = edge_df.copy()
     assert "bus" in bus_df.columns and "scenario" in bus_df.columns
 
+    # --- Oversample voltage classes for balance ---
+    if mode == "voltage" and "voltage" in bus_df.columns:
+        def voltage_to_class(v):
+            if v < 0.95: return 0
+            elif 0.95 <= v < 0.98: return 1
+            elif 0.98 <= v < 1.00: return 2
+            elif 1.00 <= v < 1.02: return 3
+            else: return 4
+        bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
+        counts = bus_df["voltage_class"].value_counts()
+        max_count = counts.max()
+        from sklearn.utils import resample
+        bus_df_balanced = []
+        for c in counts.index:
+            subset = bus_df[bus_df["voltage_class"] == c]
+            bus_df_balanced.append(
+                resample(subset, replace=True, n_samples=max_count, random_state=42)
+            )
+        bus_df = pd.concat(bus_df_balanced).reset_index(drop=True)
+
     if mode == "voltage":
+        # --- Add neighbor_count column ---
+        bus_df["neighbor_count"] = bus_df["bus"].map(
+            edge_df["from_bus"].value_counts().add(edge_df["to_bus"].value_counts(), fill_value=0)
+        ).fillna(0)
         # --- Define voltage_class for 5 classes based on voltage ranges ---
         def voltage_to_class(v):
             if v < 0.95:
@@ -390,8 +414,8 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
         # If voltage_class not already defined, create it using voltage
         bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
         y = bus_df["voltage_class"].fillna(2).to_numpy().astype(int)
-        # Features: voltage, load_MW, p_inj_mw if present
-        features = [c for c in ["voltage", "load_MW", "p_inj_mw"] if c in bus_df.columns]
+        # Features: load_MW, p_inj_mw, neighbor_count if present
+        features = [c for c in ["load_MW", "p_inj_mw", "neighbor_count"] if c in bus_df.columns]
         X = bus_df[features].to_numpy(dtype=float)
         scaler = StandardScaler().fit(X)
         Xn = scaler.transform(X)
