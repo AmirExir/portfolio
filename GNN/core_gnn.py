@@ -532,6 +532,15 @@ def build_data_list(bus_df, edge_df, scenario_ids, mode="voltage", scaler=None):
             continue
         # Use make_global_graph for this scenario only
         edge_index_np, Xn, y, scaler_this, idx_map, scenario_arr, bdf, edf = make_global_graph(bus_sub, edge_sub, mode=mode)
+        # --- Global safety check for edge index validity ---
+        if edge_index_np.size > 0:
+            num_nodes = Xn.shape[0]
+            mask_valid = (edge_index_np[0] < num_nodes) & (edge_index_np[1] < num_nodes)
+            invalid_edges = np.sum(~mask_valid)
+            if invalid_edges > 0:
+                print(f"⚠️  Scenario {scen}: removing {invalid_edges} invalid edges referencing out-of-range nodes.")
+            edge_index_np = edge_index_np[:, mask_valid]
+            edge_index_np = np.clip(edge_index_np, 0, num_nodes - 1)
         # Use provided scaler for test set, else fit on the scenario
         if scaler is not None:
             if mode == "voltage":
