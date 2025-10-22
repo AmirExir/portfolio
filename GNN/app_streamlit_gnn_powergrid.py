@@ -53,7 +53,7 @@ from sklearn.metrics import accuracy_score, f1_score, classification_report
 # Streamlit Page Setup
 # -----------------------------
 st.set_page_config(page_title="Amir ExirPower Grid GNN (Alarms)", layout="wide")
-st.title("⚡ Amir Exir's Power Grid GNN — Node Alarm Classification")
+st.title("Amir Exir's Power Grid GNN — Node Alarm Classification")
 
 # --- Alarm type selection ---
 alarm_type = st.selectbox(
