@@ -567,7 +567,7 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
     Returns model, history DataFrame.
     """
     import torch
-    from torch_geomegnntric.loader import DataLoader
+    from torch_geometric.loader import DataLoader
     set_seed(seed)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     # Assume all data in data_list have same feature dim and class count
