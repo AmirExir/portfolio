@@ -631,7 +631,7 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
         # Shuffle the order of graphs each epoch
         order = torch.randperm(len(data_list)).tolist()
         for gi in order:
-            data = data_ßlist[gi].to(device)
+            data = data_list[gi].to(device)
 
             # ---- Per-graph edge sanitization & self-loop fallback ----
             if data.edge_index.numel() > 0:
@@ -654,7 +654,7 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
                     device=data.edge_index.device
                 )
                 # Remap feature matrix x accordingly
-                data.x = data.x[unique_nodes]ß
+                data.x = data.x[unique_nodes]
                 # Also remap y and indices if present
                 data.y = data.y[unique_nodes]
                 if hasattr(data, "train_idx"):
