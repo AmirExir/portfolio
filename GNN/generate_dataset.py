@@ -9,6 +9,12 @@ def build_ieee118():
     net = pn.case118()   # built-in IEEE-118 test system
     return net
 
+def normalize_features(df, cols):
+    for c in cols:
+        if c in df.columns:
+            df[c] = (df[c] - df[c].mean()) / (df[c].std() + 1e-6)
+    return df
+
 def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use_numba=False, load_scale=(1.1, 1.4)):
     rng = np.random.default_rng(seed)
     all_buses, all_edges = [], []
@@ -58,6 +64,13 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
                 neighbor_count[f] += 1
                 neighbor_count[t] += 1
 
+        # Additional node features
+        v_nom = 1.0
+        v_deviation = (vm - v_nom) * 100
+        load_ratio = p_load / (p_load.max() + 1e-6)
+        gen_flag = (p_inj_mw > 0).astype(int)
+        degree_centrality = neighbor_count / (neighbor_count.max() + 1e-6)
+
         # --- 5-class voltage classification ---
         # 0: Low (<0.95)
         # 1: Slightly Low [0.95, 0.98)
@@ -88,6 +101,13 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
         thermal_class[(loading_percent > 100) & (loading_percent <= 150)] = 2
         thermal_class[loading_percent > 150] = 3
 
+        # Additional edge features
+        r_ohm = n.line.r_ohm_per_km.values if "r_ohm_per_km" in n.line else np.zeros(len(n.line))
+        x_ohm = n.line.x_ohm_per_km.values if "x_ohm_per_km" in n.line else np.zeros(len(n.line))
+        r_over_x = np.divide(r_ohm, x_ohm + 1e-6)
+        impedance_mag = np.sqrt(r_ohm**2 + x_ohm**2)
+        contingency_mask = (~n.line.in_service).astype(int)
+
         all_buses.append(pd.DataFrame({
             "bus": n.bus.index.astype(int),
             "voltage": vm,
@@ -95,6 +115,10 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
             "p_inj_mw": p_inj_mw,
             "neighbor_count": neighbor_count,
             "voltage_class": voltage_class,
+            "v_deviation": v_deviation,
+            "load_ratio": load_ratio,
+            "gen_flag": gen_flag,
+            "degree_centrality": degree_centrality,
             "scenario": s
         }))
 
@@ -106,11 +130,26 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
             "length_km": n.line.length_km.values if "length_km" in n.line else np.nan,
             "loading_percent": loading_percent,
             "thermal_class": thermal_class,
+            "r_over_x": r_over_x,
+            "impedance_mag": impedance_mag,
+            "contingency_mask": contingency_mask,
             "scenario": s
         }))
 
     bus_df = pd.concat(all_buses, ignore_index=True)
     edge_df = pd.concat(all_edges, ignore_index=True)
+
+    # Duplicate directional edges by flipping from_bus and to_bus
+    flipped_edges = edge_df.copy()
+    flipped_edges["from_bus"], flipped_edges["to_bus"] = edge_df["to_bus"], edge_df["from_bus"]
+    edge_df = pd.concat([edge_df, flipped_edges], ignore_index=True)
+
+    # Normalize numeric columns
+    bus_numeric_cols = ["voltage", "load_MW", "p_inj_mw", "v_deviation", "load_ratio", "neighbor_count", "degree_centrality"]
+    edge_numeric_cols = ["x_pu", "length_km", "r_over_x", "impedance_mag", "loading_percent"]
+
+    bus_df = normalize_features(bus_df, bus_numeric_cols)
+    edge_df = normalize_features(edge_df, edge_numeric_cols)
 
     n_scenarios = bus_df['scenario'].nunique()
     buses_per_s = bus_df.groupby('scenario')['bus'].nunique()
@@ -140,7 +179,7 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
     print(f"🔥 Total line thermal alarms (class>0): {total_thermal_alarms}")
     print("🟢 Saved labeled datasets: bus_scenarios.csv and edge_scenarios.csv")
     print("🟢 Saved unlabeled prediction-ready datasets: bus_inputs.csv and edge_inputs.csv")
-    print("\n🔧 Feature columns included in bus_scenarios.csv: voltage, load_MW, p_inj_mw, neighbor_count")
+    print("\n🔧 Feature columns included in bus_scenarios.csv: voltage, load_MW, p_inj_mw, v_deviation, load_ratio, neighbor_count, degree_centrality")
 
     # Show mapped class distribution summary
     print("\n📘 Class Mapping and Distribution:")
