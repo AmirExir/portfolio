@@ -920,68 +920,84 @@ def main():
     model_type = args.model
     print(f"Running in {mode.upper()} classification mode")
 
-    # --- Load CSVs ---
-    bus_path = "bus_scenarios.csv"
-    edge_path = "edge_scenarios.csv"
-    print(f"Loading data: {bus_path}, {edge_path}")
-    bus_df_all, edge_df_all = load_bus_edge_csvs(bus_path, edge_path)
-    print(f"Loaded {len(bus_df_all)} bus rows, {len(edge_df_all)} edge rows")
+    # --- Try to load preprocessed graphs if available, otherwise load CSVs ---
+    import torch
+    use_pt_data = False
+    pt_path = "graph_scenarios.pt"
+    if os.path.exists(pt_path):
+        print(f"Found {pt_path}. Loading preprocessed graphs...")
+        data_list = torch.load(pt_path)
+        print(f"Loaded {len(data_list)} graphs from {pt_path}")
+        use_pt_data = True
+        bus_df_all = None
+        edge_df_all = None
+    else:
+        bus_path = "bus_scenarios.csv"
+        edge_path = "edge_scenarios.csv"
+        print(f"Loading data: {bus_path}, {edge_path}")
+        bus_df_all, edge_df_all = load_bus_edge_csvs(bus_path, edge_path)
+        print(f"Loaded {len(bus_df_all)} bus rows, {len(edge_df_all)} edge rows")
+        use_pt_data = False
 
     # --- Scenario train/test split ---
-    if "scenario" in bus_df_all.columns and "scenario" in edge_df_all.columns:
-        scenario_ids = sorted(bus_df_all["scenario"].unique())
-        from sklearn.model_selection import train_test_split
-        train_scenarios, test_scenarios = train_test_split(
-            scenario_ids, test_size=0.2, random_state=42
-        )
-        train_scenarios = set(train_scenarios)
-        test_scenarios = set(test_scenarios)
-        train_bus_df = bus_df_all[bus_df_all["scenario"].isin(train_scenarios)].copy()
-        train_edge_df = edge_df_all[edge_df_all["scenario"].isin(train_scenarios)].copy()
-        test_bus_df = bus_df_all[bus_df_all["scenario"].isin(test_scenarios)].copy()
-        test_edge_df = edge_df_all[edge_df_all["scenario"].isin(test_scenarios)].copy()
-        n_train_scen = len(train_scenarios)
-        n_test_scen = len(test_scenarios)
-    else:
-        train_bus_df = bus_df_all
-        train_edge_df = edge_df_all
-        test_bus_df = None
-        test_edge_df = None
-        n_train_scen = n_test_scen = None
-
-    print(f"Training on {n_train_scen} scenarios, testing on {n_test_scen}")
+    if not use_pt_data:
+        if "scenario" in bus_df_all.columns and "scenario" in edge_df_all.columns:
+            scenario_ids = sorted(bus_df_all["scenario"].unique())
+            from sklearn.model_selection import train_test_split
+            train_scenarios, test_scenarios = train_test_split(
+                scenario_ids, test_size=0.2, random_state=42
+            )
+            train_scenarios = set(train_scenarios)
+            test_scenarios = set(test_scenarios)
+            train_bus_df = bus_df_all[bus_df_all["scenario"].isin(train_scenarios)].copy()
+            train_edge_df = edge_df_all[edge_df_all["scenario"].isin(train_scenarios)].copy()
+            test_bus_df = bus_df_all[bus_df_all["scenario"].isin(test_scenarios)].copy()
+            test_edge_df = edge_df_all[edge_df_all["scenario"].isin(test_scenarios)].copy()
+            n_train_scen = len(train_scenarios)
+            n_test_scen = len(test_scenarios)
+        else:
+            train_bus_df = bus_df_all
+            train_edge_df = edge_df_all
+            test_bus_df = None
+            test_edge_df = None
+            n_train_scen = n_test_scen = None
+        print(f"Training on {n_train_scen} scenarios, testing on {n_test_scen}")
 
     # --- Build global graph for training (for feature/target info and scaler) ---
-    edge_index_np, Xn, y, scaler, idx_map, scenario_arr, bus_df_full, edge_df_full = make_global_graph(train_bus_df, train_edge_df, mode=mode)
-    # Print features used
-    if mode == "voltage":
-        # Use full cheat feature list and auto-add missing columns as zeros
-        for feat in ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]:
-            if feat not in bus_df_full.columns:
-                bus_df_full[feat] = 0.0
-        feature_names = ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]
-        print("Features used for VOLTAGE classification:", feature_names)
-        print("Target: voltage_class")
-    elif mode == "thermal":
-        feature_names = [col for col in ["x_pu", "length_km", "loading_percent"] if col in train_edge_df.columns]
-        print("Features used for THERMAL classification:", feature_names if feature_names else "No features found (using zeros)")
-        print("Target: thermal_class")
+    if not use_pt_data:
+        edge_index_np, Xn, y, scaler, idx_map, scenario_arr, bus_df_full, edge_df_full = make_global_graph(train_bus_df, train_edge_df, mode=mode)
+        # Print features used
+        if mode == "voltage":
+            # Use full cheat feature list and auto-add missing columns as zeros
+            for feat in ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]:
+                if feat not in bus_df_full.columns:
+                    bus_df_full[feat] = 0.0
+            feature_names = ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]
+            print("Features used for VOLTAGE classification:", feature_names)
+            print("Target: voltage_class")
+        elif mode == "thermal":
+            feature_names = [col for col in ["x_pu", "length_km", "loading_percent"] if col in train_edge_df.columns]
+            print("Features used for THERMAL classification:", feature_names if feature_names else "No features found (using zeros)")
+            print("Target: thermal_class")
 
-    # --- Show class balance ---
-    cls, cls_counts = np.unique(y, return_counts=True)
-    class_counts_str = ", ".join([f"{c}: {int(n)}" for c, n in zip(cls, cls_counts)])
-    print(f"Class balance: {class_counts_str}")
-    # Print voltage class mapping if in voltage mode
-    if mode == "voltage":
-        print("Voltage class label mapping:")
-        print("  0: low (<0.95)")
-        print("  1: slightly low [0.95–0.98)")
-        print("  2: near nominal [0.98–1.00)")
-        print("  3: slightly high [1.00–1.02)")
-        print("  4: high (≥1.02)")
+        # --- Show class balance ---
+        cls, cls_counts = np.unique(y, return_counts=True)
+        class_counts_str = ", ".join([f"{c}: {int(n)}" for c, n in zip(cls, cls_counts)])
+        print(f"Class balance: {class_counts_str}")
+        # Print voltage class mapping if in voltage mode
+        if mode == "voltage":
+            print("Voltage class label mapping:")
+            print("  0: low (<0.95)")
+            print("  1: slightly low [0.95–0.98)")
+            print("  2: near nominal [0.98–1.00)")
+            print("  3: slightly high [1.00–1.02)")
+            print("  4: high (≥1.02)")
 
     # --- Build per-scenario PyG data list ---
-    train_data_list = build_data_list(train_bus_df, train_edge_df, train_scenarios, mode=mode, scaler=scaler)
+    if use_pt_data:
+        train_data_list = data_list
+    else:
+        train_data_list = build_data_list(train_bus_df, train_edge_df, train_scenarios, mode=mode, scaler=scaler)
     # --- Train GNN using per-scenario batching ---
     epochs = args.epochs
     lr = 5e-4
@@ -1002,35 +1018,36 @@ def main():
                 print(f"{int(row['epoch']):4d} | {row['train_loss']:.4f} | {row['val_loss']:.4f} | {row['val_acc']:.4f} | {row['val_f1']:.4f}")
 
         # --- Evaluate on test set, per scenario ---
-        if test_bus_df is not None and test_edge_df is not None and ((mode == "voltage" and not test_bus_df.empty) or (mode == "thermal" and not test_edge_df.empty)):
-            test_data_list = build_data_list(test_bus_df, test_edge_df, test_scenarios, mode=mode, scaler=scaler)
-            model.eval()
-            all_preds = []
-            all_true = []
-            for data in test_data_list:
-                data = data.to(next(model.parameters()).device)
-                # Make test graph indices safe/consistent with its x
-                sanitize_pyg_data(data, add_loops_if_empty=True, verbose_prefix="Test: ")
-                with torch.no_grad():
-                    logits = model(data.x, data.edge_index)
-                preds = logits.argmax(dim=-1).cpu().numpy()
-                true = data.y.cpu().numpy()
-                all_preds.append(preds)
-                all_true.append(true)
-            all_preds = np.concatenate(all_preds)
-            all_true = np.concatenate(all_true)
-            print(f"\nTest Set Evaluation (unseen scenarios, per-scenario evaluation) for model {model_type_loop.upper()}:")
-            report = classification_report(all_true, all_preds, digits=3, zero_division=0)
-            print(report)
-            all_labels = sorted(set(np.unique(all_true)).union(set(np.unique(all_preds))))
-            cm = confusion_matrix(all_true, all_preds, labels=all_labels)
-            print("Confusion Matrix:")
-            print(cm)
-            acc = accuracy_score(all_true, all_preds)
-            f1 = f1_score(all_true, all_preds, average='macro')
-            print(f"Test Accuracy: {acc:.4f}, Macro F1: {f1:.4f}")
-        else:
-            print("No test scenarios available for evaluation.")
+        if not use_pt_data:
+            if test_bus_df is not None and test_edge_df is not None and ((mode == "voltage" and not test_bus_df.empty) or (mode == "thermal" and not test_edge_df.empty)):
+                test_data_list = build_data_list(test_bus_df, test_edge_df, test_scenarios, mode=mode, scaler=scaler)
+                model.eval()
+                all_preds = []
+                all_true = []
+                for data in test_data_list:
+                    data = data.to(next(model.parameters()).device)
+                    # Make test graph indices safe/consistent with its x
+                    sanitize_pyg_data(data, add_loops_if_empty=True, verbose_prefix="Test: ")
+                    with torch.no_grad():
+                        logits = model(data.x, data.edge_index)
+                    preds = logits.argmax(dim=-1).cpu().numpy()
+                    true = data.y.cpu().numpy()
+                    all_preds.append(preds)
+                    all_true.append(true)
+                all_preds = np.concatenate(all_preds)
+                all_true = np.concatenate(all_true)
+                print(f"\nTest Set Evaluation (unseen scenarios, per-scenario evaluation) for model {model_type_loop.upper()}:")
+                report = classification_report(all_true, all_preds, digits=3, zero_division=0)
+                print(report)
+                all_labels = sorted(set(np.unique(all_true)).union(set(np.unique(all_preds))))
+                cm = confusion_matrix(all_true, all_preds, labels=all_labels)
+                print("Confusion Matrix:")
+                print(cm)
+                acc = accuracy_score(all_true, all_preds)
+                f1 = f1_score(all_true, all_preds, average='macro')
+                print(f"Test Accuracy: {acc:.4f}, Macro F1: {f1:.4f}")
+            else:
+                print("No test scenarios available for evaluation.")
 
 if __name__ == "__main__":
     main()
