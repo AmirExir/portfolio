@@ -631,7 +631,7 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
         # Shuffle the order of graphs each epoch
         order = torch.randperm(len(data_list)).tolist()
         for gi in order:
-            data = data_list[gi].to(device)
+            data = data_ßlist[gi].to(device)
 
             # ---- Per-graph edge sanitization & self-loop fallback ----
             if data.edge_index.numel() > 0:
@@ -642,6 +642,39 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
                     invalid = int((~mask).sum().item())
                     data.edge_index = data.edge_index[:, mask]
                     print(f"⚠️  Graph {gi}: filtered {invalid} invalid edges; continuing with {data.edge_index.size(1)} edges.")
+
+                # --- Fix: remap node indices to consecutive 0..N-1 after filtering ---
+                unique_nodes = torch.unique(data.edge_index)
+                mapping = {int(n): i for i, n in enumerate(unique_nodes.tolist())}
+                # Remap edge_index to new indices
+                data.edge_index = torch.tensor(
+                    [[mapping[int(s.item())] for s in data.edge_index[0]],
+                     [mapping[int(t.item())] for t in data.edge_index[1]]],
+                    dtype=torch.long,
+                    device=data.edge_index.device
+                )
+                # Remap feature matrix x accordingly
+                data.x = data.x[unique_nodes]ß
+                # Also remap y and indices if present
+                data.y = data.y[unique_nodes]
+                if hasattr(data, "train_idx"):
+                    # Map old indices to new indices; only keep those present in unique_nodes
+                    old_to_new = {int(n): i for i, n in enumerate(unique_nodes.tolist())}
+                    mask_train = [int(idx.item()) in old_to_new for idx in data.train_idx]
+                    data.train_idx = torch.tensor(
+                        [old_to_new[int(idx.item())] for idx in data.train_idx if int(idx.item()) in old_to_new],
+                        dtype=torch.long,
+                        device=data.x.device
+                    )
+                if hasattr(data, "val_idx"):
+                    old_to_new = {int(n): i for i, n in enumerate(unique_nodes.tolist())}
+                    mask_val = [int(idx.item()) in old_to_new for idx in data.val_idx]
+                    data.val_idx = torch.tensor(
+                        [old_to_new[int(idx.item())] for idx in data.val_idx if int(idx.item()) in old_to_new],
+                        dtype=torch.long,
+                        device=data.x.device
+                    )
+
                 if data.edge_index.size(1) == 0:
                     if add_self_loops is not None:
                         data.edge_index, _ = add_self_loops(data.edge_index, num_nodes=data.x.size(0))
