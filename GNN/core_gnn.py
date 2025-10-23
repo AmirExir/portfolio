@@ -41,9 +41,11 @@ except Exception as e:
 try:
     from torch_geometric.data import Data
     from torch_geometric.nn import GCNConv
+    from torch_geometric.utils import add_self_loops
 except Exception as e:
     Data = None
     GCNConv = None
+    add_self_loops = None
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, f1_score, classification_report
@@ -433,26 +435,39 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
         bus_df["bus_scen"] = bus_df["bus"].astype(str) + "__" + bus_df["scenario"].astype(str)
         edge_df["from_bus_scen"] = edge_df["from_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
         edge_df["to_bus_scen"]   = edge_df["to_bus"].astype(str) + "__" + edge_df["scenario"].astype(str)
+
+        # --- Robust reindexing fix (only keep edges whose endpoints exist in bus_df) ---
         bus_to_idx = {b: i for i, b in enumerate(bus_df["bus_scen"])}
-        src = edge_df["from_bus_scen"].map(bus_to_idx).to_numpy()
-        dst = edge_df["to_bus_scen"].map(bus_to_idx).to_numpy()
-        # --- Strict safety filter before building edge_index ---
-        # Ensure all edges reference valid node indices before creating edge_index
-        valid_mask = (~np.isnan(src)) & (~np.isnan(dst))
-        if np.sum(~valid_mask) > 0:
-            print(f"⚠️  make_global_graph: removing {np.sum(~valid_mask)} edges with NaN indices (invalid bus mapping).")
-        src = src[valid_mask].astype(int)
-        dst = dst[valid_mask].astype(int)
+        edge_df = edge_df[
+            edge_df["from_bus_scen"].isin(bus_to_idx.keys()) &
+            edge_df["to_bus_scen"].isin(bus_to_idx.keys())
+        ].reset_index(drop=True)
+
+        src = edge_df["from_bus_scen"].map(bus_to_idx).to_numpy(dtype=int)
+        dst = edge_df["to_bus_scen"].map(bus_to_idx).to_numpy(dtype=int)
+
         num_nodes = len(bus_df)
-        mask_in_bounds = (src < num_nodes) & (dst < num_nodes)
-        if np.sum(~mask_in_bounds) > 0:
-            print(f"⚠️  make_global_graph: removing {np.sum(~mask_in_bounds)} edges referencing out-of-range nodes.")
+        mask_in_bounds = (src >= 0) & (dst >= 0) & (src < num_nodes) & (dst < num_nodes)
+        invalid_edges = int((~mask_in_bounds).sum())
+        if invalid_edges > 0:
+            print(f"⚠️  make_global_graph: corrected {invalid_edges} edges referencing invalid nodes.")
         src = src[mask_in_bounds]
         dst = dst[mask_in_bounds]
+
         edge_index = np.vstack([src, dst])
-        # --- Final Safety Filter: ensure valid edge indices ---
-        edge_index = edge_index[:, (edge_index[0] < num_nodes) & (edge_index[1] < num_nodes)]
-        edge_index = np.clip(edge_index, 0, num_nodes - 1)
+
+        # If graph loses all edges, fall back to self-loops so GCNConv remains stable
+        if edge_index.size == 0:
+            if add_self_loops is not None:
+                # Build empty edge_index then add self loops
+                import torch as _torch
+                ei = _torch.zeros((2, 0), dtype=_torch.long)
+                ei, _ = add_self_loops(ei, num_nodes=num_nodes)
+                edge_index = ei.cpu().numpy()
+            else:
+                # Fallback: create explicit self-loop adjacency in numpy
+                edge_index = np.vstack([np.arange(num_nodes), np.arange(num_nodes)])
+
         scenario_arr = bus_df["scenario"].to_numpy().astype(int)
         return edge_index, Xn, y, scaler, bus_to_idx, scenario_arr, bus_df, edge_df
     elif mode == "thermal":
@@ -614,12 +629,23 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
         # Train on all scenario batches
         for i, batch in enumerate(loader):
             batch = batch.to(device)
-            # --- Defensive check: skip batches with out-of-range edge indices ---
+            # --- Defensive check: filter out invalid edge indices, add self-loops if needed ---
             if batch.edge_index.numel() > 0:
                 max_idx = batch.x.size(0)
-                if (batch.edge_index[0] >= max_idx).any() or (batch.edge_index[1] >= max_idx).any():
-                    print(f"⚠️  Skipping batch {i} due to out-of-range edge indices (max_idx={max_idx}).")
-                    continue
+                mask = (batch.edge_index[0] >= 0) & (batch.edge_index[1] >= 0) & \
+                       (batch.edge_index[0] < max_idx) & (batch.edge_index[1] < max_idx)
+                if (~mask).any():
+                    invalid = int((~mask).sum().item())
+                    batch.edge_index = batch.edge_index[:, mask]
+                    print(f"⚠️  Batch {i}: filtered {invalid} invalid edges; continuing with {batch.edge_index.size(1)} edges.")
+                if batch.edge_index.size(1) == 0:
+                    # add self-loops so the batch remains trainable
+                    if add_self_loops is not None:
+                        batch.edge_index, _ = add_self_loops(batch.edge_index, num_nodes=batch.x.size(0))
+                    else:
+                        # manual self-loops (numpy -> torch)
+                        idx = torch.arange(batch.x.size(0), device=batch.x.device, dtype=torch.long)
+                        batch.edge_index = torch.stack([idx, idx], dim=0)
             batch_train_idx = []
             offset = 0
             # Only process scenario IDs present in this batch
