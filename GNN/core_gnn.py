@@ -1185,172 +1185,105 @@ def main():
                         help="Choose whether to train on voltage_class or thermal_class")
     parser.add_argument("--epochs", type=int, default=150, help="Number of training epochs")
     parser.add_argument("--model", choices=["gcn", "gat", "gin", "transformer"], default="gcn", help="Model architecture to use")
+    parser.add_argument("--lr", type=float, default=5e-4, help="Learning rate")
+    parser.add_argument("--weight_decay", type=float, default=1e-3, help="Weight decay")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed")
+    parser.add_argument("--use_relu", action="store_true", help="Use ReLU activation")
     args = parser.parse_args()
     mode = args.mode
     model_type = args.model
+    epochs = args.epochs
+    lr = args.lr
+    weight_decay = args.weight_decay
+    seed = args.seed
+    use_relu = args.use_relu
     print(f"Running in {mode.upper()} classification mode")
 
-    # --- Try to load preprocessed graphs if available, otherwise load CSVs ---
     import torch
-    use_pt_data = False
     pt_path = "graph_scenarios.pt"
     if os.path.exists(pt_path):
-        print(f"Found {pt_path}. Loading preprocessed graphs...")
-        data_list = torch.load(pt_path)
-        print(f"Loaded {len(data_list)} graphs from {pt_path}")
-        use_pt_data = True
-        bus_df_all = None
-        edge_df_all = None
-    else:
-        bus_path = "bus_scenarios.csv"
-        edge_path = "edge_scenarios.csv"
-        print(f"Loading data: {bus_path}, {edge_path}")
-        bus_df_all, edge_df_all = load_bus_edge_csvs(bus_path, edge_path)
-        print(f"Loaded {len(bus_df_all)} bus rows, {len(edge_df_all)} edge rows")
-        use_pt_data = False
-
-    # --- Scenario train/test split ---
-    if not use_pt_data:
-        if "scenario" in bus_df_all.columns and "scenario" in edge_df_all.columns:
-            scenario_ids = sorted(bus_df_all["scenario"].unique())
-            from sklearn.model_selection import train_test_split
-            train_scenarios, test_scenarios = train_test_split(
-                scenario_ids, test_size=0.2, random_state=42
-            )
-            train_scenarios = set(train_scenarios)
-            test_scenarios = set(test_scenarios)
-            train_bus_df = bus_df_all[bus_df_all["scenario"].isin(train_scenarios)].copy()
-            train_edge_df = edge_df_all[edge_df_all["scenario"].isin(train_scenarios)].copy()
-            test_bus_df = bus_df_all[bus_df_all["scenario"].isin(test_scenarios)].copy()
-            test_edge_df = edge_df_all[edge_df_all["scenario"].isin(test_scenarios)].copy()
-            n_train_scen = len(train_scenarios)
-            n_test_scen = len(test_scenarios)
-        else:
-            train_bus_df = bus_df_all
-            train_edge_df = edge_df_all
-            test_bus_df = None
-            test_edge_df = None
-            n_train_scen = n_test_scen = None
-        print(f"Training on {n_train_scen} scenarios, testing on {n_test_scen}")
-
-    # --- Build global graph for training (for feature/target info and scaler) ---
-    if not use_pt_data:
-        edge_index_np, Xn, y, scaler, idx_map, scenario_arr, bus_df_full, edge_df_full = make_global_graph(train_bus_df, train_edge_df, mode=mode)
-        # Print features used
-        if mode == "voltage":
-            # Use full cheat feature list and auto-add missing columns as zeros
-            for feat in ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]:
-                if feat not in bus_df_full.columns:
-                    bus_df_full[feat] = 0.0
-            feature_names = ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]
-            print("Features used for VOLTAGE classification:", feature_names)
-            print("Target: voltage_class")
-        elif mode == "thermal":
-            feature_names = [col for col in ["x_pu", "length_km", "loading_percent"] if col in train_edge_df.columns]
-            print("Features used for THERMAL classification:", feature_names if feature_names else "No features found (using zeros)")
-            print("Target: thermal_class")
-
-        # --- Show class balance ---
-        cls, cls_counts = np.unique(y, return_counts=True)
-        class_counts_str = ", ".join([f"{c}: {int(n)}" for c, n in zip(cls, cls_counts)])
-        print(f"Class balance: {class_counts_str}")
-        # Print voltage class mapping if in voltage mode
-        if mode == "voltage":
-            print("Voltage class label mapping:")
-            print("  0: low (<0.95)")
-            print("  1: slightly low [0.95–0.98)")
-            print("  2: near nominal [0.98–1.00)")
-            print("  3: slightly high [1.00–1.02)")
-            print("  4: high (≥1.02)")
-
-    # --- Build per-scenario PyG data list ---
-    if use_pt_data:
-        train_data_list = data_list
-    else:
-        train_data_list = build_data_list(train_bus_df, train_edge_df, train_scenarios, mode=mode, scaler=scaler)
-    # --- Train GNN using per-scenario batching ---
-    epochs = args.epochs
-    lr = 5e-4
-    wd = 1e-3
-    seed = 42
-    use_relu = True
-    # Loop through model types if requested, else just use the selected one
-    model_types = [model_type]
-    for model_type_loop in model_types:
-        print(f"=== Training model type: {model_type_loop.upper()} ===")
-        model, hist_df, splits = train_gnn_batches(
-            train_data_list, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=use_relu, batch_size=1, model_type=model_type_loop
+        print(f"Found {pt_path}. Loading preprocessed global graph...")
+        # Assume .pt contains a single Data object (global graph)
+        data = torch.load(pt_path)
+        if isinstance(data, list):
+            # If list of Data, concatenate into a single Data (legacy fallback)
+            print("Loaded a list of Data objects; using only the first for global training.")
+            data = data[0]
+        print("Sanitizing loaded PyG Data...")
+        sanitize_pyg_data(data, add_loops_if_empty=True, verbose_prefix="Loaded: ")
+        print("Training GNN on loaded .pt global graph...")
+        model, hist_df, train_idx, val_idx, best_th = train_gnn(
+            data,
+            epochs=epochs,
+            lr=lr,
+            weight_decay=weight_decay,
+            seed=seed,
+            use_relu=use_relu
         )
-        # Print progress every 10 epochs
-        print("Epoch | Train Loss | Val Loss | Val Acc | Val F1")
+        print("Epoch | Train Loss | Val Loss | Val Acc | Val Prec | Val Rec | Val F1 | Val F1_macro")
         for i, row in hist_df.iterrows():
             if int(row["epoch"]) % 10 == 0 or int(row["epoch"]) == epochs:
-                print(f"{int(row['epoch']):4d} | {row['train_loss']:.4f} | {row['val_loss']:.4f} | {row['val_acc']:.4f} | {row['val_f1']:.4f}")
+                print(
+                    f"{int(row['epoch']):4d} | {row['train_loss']:.4f} | {row['val_loss']:.4f} | "
+                    f"{row['val_acc']:.4f} | {row['val_prec']:.4f} | {row['val_rec']:.4f} | {row['val_f1']:.4f} | {row['val_f1_macro']:.4f}"
+                )
+        print("Best model loaded. You can now evaluate or export.")
+        # Optionally, save model or evaluate on test set if available.
+        return
 
-        # --- Evaluate on test set, per scenario ---
-        if not use_pt_data:
-            if test_bus_df is not None and test_edge_df is not None and ((mode == "voltage" and not test_bus_df.empty) or (mode == "thermal" and not test_edge_df.empty)):
-                test_data_list = build_data_list(test_bus_df, test_edge_df, test_scenarios, mode=mode, scaler=scaler)
-                model.eval()
-                all_preds = []
-                all_true = []
-                for data in test_data_list:
-                    data = data.to(next(model.parameters()).device)
-                    # Make test graph indices safe/consistent with its x
-                    sanitize_pyg_data(data, add_loops_if_empty=True, verbose_prefix="Test: ")
-                    with torch.no_grad():
-                        logits = model(data.x, data.edge_index)
-                    preds = logits.argmax(dim=-1).cpu().numpy()
-                    true = data.y.cpu().numpy()
-                    all_preds.append(preds)
-                    all_true.append(true)
-                all_preds = np.concatenate(all_preds)
-                all_true = np.concatenate(all_true)
-                print(f"\nTest Set Evaluation (unseen scenarios, per-scenario evaluation) for model {model_type_loop.upper()}:")
-                report = classification_report(all_true, all_preds, digits=3, zero_division=0)
-                print(report)
-                all_labels = sorted(set(np.unique(all_true)).union(set(np.unique(all_preds))))
-                cm = confusion_matrix(all_true, all_preds, labels=all_labels)
-                print("Confusion Matrix:")
-                print(cm)
-                acc = accuracy_score(all_true, all_preds)
-                f1 = f1_score(all_true, all_preds, average='macro')
-                print(f"Test Accuracy: {acc:.4f}, Macro F1: {f1:.4f}")
-            else:
-                print("No test scenarios available for evaluation.")
+    # --- Otherwise, load CSVs and build a global graph for scenario-wise training ---
+    bus_path = "bus_scenarios.csv"
+    edge_path = "edge_scenarios.csv"
+    print(f"Loading data: {bus_path}, {edge_path}")
+    bus_df_all, edge_df_all = load_bus_edge_csvs(bus_path, edge_path)
+    print(f"Loaded {len(bus_df_all)} bus rows, {len(edge_df_all)} edge rows")
+
+    # --- Build global graph ---
+    edge_index_np, Xn, y, scaler, idx_map, scenario_arr, bus_df_full, edge_df_full = make_global_graph(bus_df_all, edge_df_all, mode=mode)
+    # Print features used
+    if mode == "voltage":
+        for feat in ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]:
+            if feat not in bus_df_full.columns:
+                bus_df_full[feat] = 0.0
+        feature_names = ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]
+        print("Features used for VOLTAGE classification:", feature_names)
+        print("Target: voltage_class")
+    elif mode == "thermal":
+        feature_names = [col for col in ["x_pu", "length_km", "loading_percent"] if col in edge_df_full.columns]
+        print("Features used for THERMAL classification:", feature_names if feature_names else "No features found (using zeros)")
+        print("Target: thermal_class")
+    # --- Show class balance ---
+    cls, cls_counts = np.unique(y, return_counts=True)
+    class_counts_str = ", ".join([f"{c}: {int(n)}" for c, n in zip(cls, cls_counts)])
+    print(f"Class balance: {class_counts_str}")
+    if mode == "voltage":
+        print("Voltage class label mapping:")
+        print("  0: low (<0.95)")
+        print("  1: slightly low [0.95–0.98)")
+        print("  2: near nominal [0.98–1.00)")
+        print("  3: slightly high [1.00–1.02)")
+        print("  4: high (≥1.02)")
+
+    # --- Convert to PyG Data and train ---
+    data = to_pyg(edge_index_np, Xn, y)
+    sanitize_pyg_data(data, add_loops_if_empty=True, verbose_prefix="Global: ")
+    print("Training global GNN with stratified split and focal loss...")
+    model, hist_df, train_idx, val_idx, best_th = train_gnn(
+        data,
+        epochs=epochs,
+        lr=lr,
+        weight_decay=weight_decay,
+        seed=seed,
+        use_relu=use_relu
+    )
+    print("Epoch | Train Loss | Val Loss | Val Acc | Val Prec | Val Rec | Val F1 | Val F1_macro")
+    for i, row in hist_df.iterrows():
+        if int(row["epoch"]) % 10 == 0 or int(row["epoch"]) == epochs:
+            print(
+                f"{int(row['epoch']):4d} | {row['train_loss']:.4f} | {row['val_loss']:.4f} | "
+                f"{row['val_acc']:.4f} | {row['val_prec']:.4f} | {row['val_rec']:.4f} | {row['val_f1']:.4f} | {row['val_f1_macro']:.4f}"
+            )
+    print("Best model loaded. You can now evaluate or export.")
 
 if __name__ == "__main__":
-    # --- Example usage: train with TrainModel on .pt PyG DataLoader ---
-    import torch
-    from torch_geometric.loader import DataLoader
-    # Try to load .pt file (list of Data objects)
-    pt_path = "graph_scenarios.pt"
-    if os.path.exists(pt_path):
-        print(f"Loading {pt_path} for TrainModel test...")
-        data_list = torch.load(pt_path)
-        print(f"Loaded {len(data_list)} graphs.")
-        # Get input dim and num_classes
-        in_dim = data_list[0].x.size(1)
-        y_cat = torch.cat([d.y for d in data_list])
-        n_classes = int(y_cat.max().item()) + 1 if y_cat.dtype == torch.long else 1
-        # Classification example
-        model = get_model("gcn", in_dim, num_classes=n_classes)
-        trainer = TrainModel(
-            model=model,
-            dataset=data_list,
-            device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
-            seed=42,
-            graph_classification=True,
-            graph_regression=False,
-            save_dir="models",
-            save_name="coregnn"
-        )
-        trainer.train(train_params={"num_epochs": 30, "num_early_stop": 10})
-        print("Evaluation after training:")
-        eval_result = trainer.eval()
-        print("Eval result:", eval_result)
-        print("Testing best checkpoint:")
-        test_result = trainer.test()
-        print("Test result:", test_result)
-    else:
-        print("graph_scenarios.pt not found. Please generate it using generate_dataset.py.")
+    main()

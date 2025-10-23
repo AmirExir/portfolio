@@ -1,296 +1,76 @@
-import copy
-import pandapower.networks as pn
-import pandas as pd
-import numpy as np
-import pandapower as pp
 import argparse
+import os
+import pandas as pd
 import torch
-from torch_geometric.data import Data
+from powergrid import PowerGrid, get_dataloader
+from gengraph import build_graphs
 
-def build_ieee118():
-    net = pn.case118()   # built-in IEEE-118 test system
-    return net
-
-def normalize_features(df, cols):
-    for c in cols:
-        if c in df.columns:
-            df[c] = (df[c] - df[c].mean()) / (df[c].std() + 1e-6)
-    return df
-
-def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use_numba=False, load_scale=(1.1, 1.4)):
-    rng = np.random.default_rng(seed)
-    all_buses, all_edges = [], []
-
-    for s in range(n_scen):
-        n = copy.deepcopy(net)
-
-        # Dynamically scale loads between load_scale[0]×–load_scale[1]× to simulate stressed conditions
-        if len(n.load):
-            scale_factors = rng.uniform(load_scale[0], load_scale[1], len(n.load))
-            n.load["p_mw"] *= scale_factors
-
-        # Randomly perform N-1, N-2, or N-3 outages per scenario
-        if len(n.line):
-            n_lines = len(n.line)
-            k = rng.choice([1, 2, 3])  # N-1, N-2, N-3
-            k = min(k, n_lines)  # in case system is small
-            outage_idx = rng.choice(n_lines, size=k, replace=False)
-            outage_mask = np.zeros(n_lines, dtype=bool)
-            outage_mask[outage_idx] = True
-            n.line.in_service = ~outage_mask
-
-        # Add slight randomness to line thermal limits to simulate realistic variability
-        if "max_loading_percent" in n.line.columns:
-            variability = rng.normal(loc=0.0, scale=2.0, size=len(n.line))  # ±2% variability
-            n.line["max_loading_percent_varied"] = n.line["max_loading_percent"] * (1 + variability / 100)
-        else:
-            n.line["max_loading_percent_varied"] = 100.0  # default if not present
-
-        # run power flow
-        try:
-            pp.runpp(n, numba=use_numba)
-        except Exception:
-            continue  # skip infeasible scenarios
-
-        vm = n.res_bus.vm_pu.values
-        p_load = n.load.groupby("bus").p_mw.sum().reindex(n.bus.index, fill_value=0).values
-
-        # Compute net bus injections (generation minus load)
-        gen_p = n.gen.groupby("bus").p_mw.sum().reindex(n.bus.index, fill_value=0).values
-        p_inj_mw = gen_p - p_load
-
-        # Compute neighbor count per bus from line connectivity
-        neighbor_count = np.zeros(len(n.bus))
-        for f, t in zip(n.line.from_bus, n.line.to_bus):
-            if f < len(neighbor_count) and t < len(neighbor_count):
-                neighbor_count[f] += 1
-                neighbor_count[t] += 1
-
-        # Additional node features
-        v_nom = 1.0
-        v_deviation = (vm - v_nom) * 100
-        load_ratio = p_load / (p_load.max() + 1e-6)
-        gen_flag = (p_inj_mw > 0).astype(int)
-        degree_centrality = neighbor_count / (neighbor_count.max() + 1e-6)
-
-        # --- 5-class voltage classification ---
-        # 0: Low (<0.95)
-        # 1: Slightly Low [0.95, 0.98)
-        # 2: Near Nominal [0.98, 1.00)
-        # 3: Slightly High [1.00, 1.02)
-        # 4: High (>=1.02)
-        voltage_class = np.full_like(vm, 1, dtype=int)  # initialize to "slightly low" by default
-
-        voltage_class[vm < 0.95] = 0
-        voltage_class[(vm >= 0.95) & (vm < 0.98)] = 1
-        voltage_class[(vm >= 0.98) & (vm < 1.00)] = 2
-        voltage_class[(vm >= 1.00) & (vm < 1.02)] = 3
-        voltage_class[vm >= 1.02] = 4
-
-        # Calculate line loading percent and thermal_class using varied limits
-        loading_percent = n.res_line.loading_percent.values if "loading_percent" in n.res_line else np.full(len(n.line), np.nan)
-
-        loading_percent *= 100.0  # Force conversion to percentage for consistency
-
-        max_limits = n.line["max_loading_percent_varied"].values
-        # Define line thermal_class:
-        # ≤ 90 → class 0
-        # 90 < loading ≤ 100 → class 1
-        # 100 < loading ≤ 110 → class 2
-        # > 120 → class 3
-        thermal_class = np.zeros_like(loading_percent, dtype=int)
-        thermal_class[(loading_percent > 90) & (loading_percent <= 100)] = 1
-        thermal_class[(loading_percent > 100) & (loading_percent <= 150)] = 2
-        thermal_class[loading_percent > 150] = 3
-
-        # Additional edge features
-        r_ohm = n.line.r_ohm_per_km.values if "r_ohm_per_km" in n.line else np.zeros(len(n.line))
-        x_ohm = n.line.x_ohm_per_km.values if "x_ohm_per_km" in n.line else np.zeros(len(n.line))
-        r_over_x = np.divide(r_ohm, x_ohm + 1e-6)
-        impedance_mag = np.sqrt(r_ohm**2 + x_ohm**2)
-        contingency_mask = (~n.line.in_service).astype(int)
-
-        all_buses.append(pd.DataFrame({
-            "bus": n.bus.index.astype(int),
-            "voltage": vm,
-            "load_MW": p_load,
-            "p_inj_mw": p_inj_mw,
-            "neighbor_count": neighbor_count,
-            "voltage_class": voltage_class,
-            "v_deviation": v_deviation,
-            "load_ratio": load_ratio,
-            "gen_flag": gen_flag,
-            "degree_centrality": degree_centrality,
-            "scenario": s
-        }))
-
-        all_edges.append(pd.DataFrame({
-            "from_bus": n.line.from_bus.values,
-            "to_bus": n.line.to_bus.values,
-            "x_pu": n.line.x_ohm_per_km.values if "x_ohm_per_km" in n.line else np.nan,
-            "in_service": n.line.in_service.values,
-            "length_km": n.line.length_km.values if "length_km" in n.line else np.nan,
-            "loading_percent": loading_percent,
-            "thermal_class": thermal_class,
-            "r_over_x": r_over_x,
-            "impedance_mag": impedance_mag,
-            "contingency_mask": contingency_mask,
-            "scenario": s
-        }))
-
-    bus_df = pd.concat(all_buses, ignore_index=True)
-    edge_df = pd.concat(all_edges, ignore_index=True)
-
-    # Duplicate directional edges by flipping from_bus and to_bus
-    flipped_edges = edge_df.copy()
-    flipped_edges["from_bus"], flipped_edges["to_bus"] = edge_df["to_bus"], edge_df["from_bus"]
-    edge_df = pd.concat([edge_df, flipped_edges], ignore_index=True)
-
-    # Normalize numeric columns
-    bus_numeric_cols = ["voltage", "load_MW", "p_inj_mw", "v_deviation", "load_ratio", "neighbor_count", "degree_centrality"]
-    edge_numeric_cols = ["x_pu", "length_km", "r_over_x", "impedance_mag", "loading_percent"]
-
-    bus_df = normalize_features(bus_df, bus_numeric_cols)
-    edge_df = normalize_features(edge_df, edge_numeric_cols)
-
-    n_scenarios = bus_df['scenario'].nunique()
-    buses_per_s = bus_df.groupby('scenario')['bus'].nunique()
-    edges_per_s = edge_df.groupby('scenario')[['from_bus','to_bus']].size()
-    n_buses = int(buses_per_s.iloc[0]) if not buses_per_s.empty else 0
-    edges_mean = float(edges_per_s.mean()) if len(edges_per_s) > 0 else 0.0
-    edges_min = int(edges_per_s.min()) if len(edges_per_s) > 0 else 0
-    edges_max = int(edges_per_s.max()) if len(edges_per_s) > 0 else 0
-
-    total_voltage_alarms = bus_df['voltage_class'].gt(0).sum()
-    total_thermal_alarms = edge_df['thermal_class'].gt(0).sum()
-
-    bus_df.to_csv("bus_scenarios.csv", index=False)
-    edge_df.to_csv("edge_scenarios.csv", index=False)
-    # Create and save unlabeled versions for prediction
-    bus_inputs = bus_df.drop(columns=["voltage", "voltage_class"])
-    bus_inputs.to_csv("bus_inputs.csv", index=False)
-    if "in_service" in edge_df.columns:
-        edge_inputs = edge_df.drop(columns=["in_service", "loading_percent", "thermal_class"])
-    else:
-        edge_inputs = edge_df.drop(columns=["loading_percent", "thermal_class"])
-    edge_inputs.to_csv("edge_inputs.csv", index=False)
-
-    # Create PowerGrid-compatible PyG graph dataset
-    data_list = []
-    for s in range(n_scenarios):
-        bus_s = bus_df[bus_df['scenario'] == s].sort_values('bus')
-        edge_s = edge_df[edge_df['scenario'] == s]
-
-        # Node features: voltage, load_MW, p_inj_mw, v_deviation, load_ratio, gen_flag, degree_centrality
-        # We need to add gen_flag to bus_df numeric columns for normalization, so add it here without normalization
-        # Extract gen_flag separately from bus_df (original values before normalization)
-        # But gen_flag is binary, no normalization needed, so we can directly extract from bus_df before normalization
-        # To handle this, we take gen_flag from all_buses list for this scenario:
-        # But easier to re-extract gen_flag from the original DataFrame in all_buses for this scenario:
-        # Instead, we add gen_flag column to bus_df normalized, so we add gen_flag column to bus_numeric_cols and normalize it
-        # But gen_flag is binary, so normalization is not meaningful. So just extract gen_flag from bus_df without normalization.
-        # Let's just extract gen_flag from bus_df without normalization.
-
-        # Since bus_df normalized gen_flag, we undo normalization for gen_flag by extracting original from all_buses:
-        # We'll extract gen_flag from all_buses list for scenario s:
-        gen_flag_s = all_buses[s]["gen_flag"].values
-
-        x_np = np.stack([
-            bus_s["voltage"].values,
-            bus_s["load_MW"].values,
-            bus_s["p_inj_mw"].values,
-            bus_s["v_deviation"].values,
-            bus_s["load_ratio"].values,
-            gen_flag_s,
-            bus_s["degree_centrality"].values
-        ], axis=1)
-        x = torch.tensor(x_np, dtype=torch.float)
-
-        # Build edge_index (2 x num_edges) tensor
-        from_idx = torch.tensor(edge_s["from_bus"].values, dtype=torch.long)
-        to_idx = torch.tensor(edge_s["to_bus"].values, dtype=torch.long)
-        edge_index = torch.stack([from_idx, to_idx], dim=0)
-
-        # Edge features: x_pu, r_over_x, impedance_mag, length_km, contingency_mask
-        edge_attr_np = np.stack([
-            edge_s["x_pu"].values,
-            edge_s["r_over_x"].values,
-            edge_s["impedance_mag"].values,
-            edge_s["length_km"].values,
-            edge_s["contingency_mask"].values
-        ], axis=1)
-        edge_attr = torch.tensor(edge_attr_np, dtype=torch.float)
-
-        # Target labels: voltage_class (node classification)
-        y = torch.tensor(bus_s["voltage_class"].values, dtype=torch.long)
-
-        data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, y=y)
-        data_list.append(data)
-
-    torch.save(data_list, "graph_scenarios.pt")
-
-    print(f"✅ Generated {len(bus_df)} bus rows = {n_buses} buses × {n_scenarios} scenarios.")
-    print(f"   Edges: {len(edge_df)} rows (~{edges_mean:.1f} per scenario, min {edges_min}, max {edges_max}).")
-    print(f"⚠️  Total bus voltage alarms (class>0): {total_voltage_alarms}")
-    print(f"🔥 Total line thermal alarms (class>0): {total_thermal_alarms}")
-    print("🟢 Saved labeled datasets: bus_scenarios.csv and edge_scenarios.csv")
-    print("🟢 Saved unlabeled prediction-ready datasets: bus_inputs.csv and edge_inputs.csv")
-    print("🟢 Saved PyG graph dataset: graph_scenarios.pt")
-    print("\n🔧 Feature columns included in bus_scenarios.csv: voltage, load_MW, p_inj_mw, v_deviation, load_ratio, neighbor_count, degree_centrality")
-
-    # Show mapped class distribution summary
-    print("\n📘 Class Mapping and Distribution:")
-    voltage_labels = {
-        0: "Low (<0.95 pu)",
-        1: "Slightly Low (0.95–0.98 pu)",
-        2: "Near Nominal (0.98–1.00 pu)",
-        3: "Slightly High (1.00–1.02 pu)",
-        4: "High (≥1.02 pu)"
-    }
-    thermal_labels = {0: "Normal", 1: "Mild (90–100%)", 2: "Overloaded (100–150%)", 3: "Severely Overloaded (>150%)"}
-
-    v_counts = bus_df["voltage_class"].value_counts().sort_index()
-    t_counts = edge_df["thermal_class"].value_counts().sort_index()
-
-    print("Voltage Class Distribution:")
-    for k, v in v_counts.items():
-        print(f"  {voltage_labels.get(k, 'Unknown')}: {v} buses")
-
-    print("\nThermal Class Distribution:")
-    for k, v in t_counts.items():
-        print(f"  {thermal_labels.get(k, 'Unknown')}: {v} lines")
-
-    # Compute and print total number of unique classes and list them
-    unique_voltage_classes = sorted(bus_df["voltage_class"].unique())
-    unique_thermal_classes = sorted(edge_df["thermal_class"].unique())
-
-    print(f"\nDetected {len(unique_voltage_classes)} voltage classes: {unique_voltage_classes}")
-    print(f"Detected {len(unique_thermal_classes)} thermal classes: {unique_thermal_classes}")
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--scenarios", type=int, default=200)
-    parser.add_argument("--outage-p", type=float, default=0.03)
-    parser.add_argument("--load-sigma", type=float, default=0.10)
-    parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--numba", action='store_true', default=False)
-    parser.add_argument(
-        "--load-scale",
-        type=float,
-        nargs=2,
-        default=[1.1, 1.4],
-        metavar=('MIN', 'MAX'),
-        help="Bounds for random load scaling (default: 1.1 1.4)"
-    )
+def main():
+    parser = argparse.ArgumentParser(description="Generate PowerGrid dataset and process graphs.")
+    parser.add_argument("--root", type=str, required=True, help="Root directory of the dataset")
+    parser.add_argument("--name", type=str, required=True, help="Name of the dataset")
+    parser.add_argument("--type", type=str, choices=["binary", "multiclass", "regression"], default="multiclass", help="Type of prediction task")
     args = parser.parse_args()
 
-    net = build_ieee118()
-    sample_scenarios(
-        net,
-        n_scen=args.scenarios,
-        outage_p=args.outage_p,
-        load_sigma=args.load_sigma,
-        seed=args.seed,
-        use_numba=args.numba,
-        load_scale=args.load_scale
-    )
+    # Initialize PowerGrid dataset
+    dataset = PowerGrid(root=args.root, name=args.name, task_type=args.type)
+    print(f"Loaded dataset '{args.name}' with {len(dataset)} graphs.")
+
+    # Build PyG Data objects from dataset
+    data_list = build_graphs(dataset)
+    print(f"Built {len(data_list)} graph objects.")
+
+    # Save PyG dataset
+    save_path = os.path.join(args.root, "graph_scenarios.pt")
+    torch.save(data_list, save_path)
+    print(f"Saved PyG dataset to {save_path}")
+
+    # Extract and save node and edge features to CSV for inspection
+    all_nodes = []
+    all_edges = []
+    for i, data in enumerate(data_list):
+        # Nodes
+        node_df = pd.DataFrame(data.x.numpy())
+        node_df["graph_id"] = i
+        all_nodes.append(node_df)
+
+        # Edges
+        edge_index = data.edge_index.numpy()
+        edge_attr = data.edge_attr.numpy() if data.edge_attr is not None else None
+        edge_df = pd.DataFrame({
+            "from_node": edge_index[0],
+            "to_node": edge_index[1]
+        })
+        if edge_attr is not None:
+            for j in range(edge_attr.shape[1]):
+                edge_df[f"edge_attr_{j}"] = edge_attr[:, j]
+        edge_df["graph_id"] = i
+        all_edges.append(edge_df)
+
+    nodes_df = pd.concat(all_nodes, ignore_index=True)
+    edges_df = pd.concat(all_edges, ignore_index=True)
+
+    nodes_csv_path = os.path.join(args.root, "nodes_summary.csv")
+    edges_csv_path = os.path.join(args.root, "edges_summary.csv")
+    nodes_df.to_csv(nodes_csv_path, index=False)
+    edges_df.to_csv(edges_csv_path, index=False)
+    print(f"Saved node features summary to {nodes_csv_path}")
+    print(f"Saved edge features summary to {edges_csv_path}")
+
+    # Print feature dimensionality and class balance info
+    feat_dim = data_list[0].x.shape[1] if len(data_list) > 0 else 0
+    print(f"Node feature dimension: {feat_dim}")
+
+    # Aggregate target labels
+    ys = torch.cat([data.y for data in data_list], dim=0) if len(data_list) > 0 else torch.tensor([])
+    if ys.numel() > 0:
+        unique_classes, counts = torch.unique(ys, return_counts=True)
+        print(f"Number of graphs: {len(data_list)}")
+        print("Class distribution:")
+        for cls, cnt in zip(unique_classes.tolist(), counts.tolist()):
+            print(f"  Class {cls}: {cnt} samples")
+    else:
+        print("No target labels found in dataset.")
+
+if __name__ == "__main__":
+    main()
