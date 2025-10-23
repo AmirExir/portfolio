@@ -47,6 +47,17 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
         vm = n.res_bus.vm_pu.values
         p_load = n.load.groupby("bus").p_mw.sum().reindex(n.bus.index, fill_value=0).values
 
+        # Compute net bus injections (generation minus load)
+        gen_p = n.gen.groupby("bus").p_mw.sum().reindex(n.bus.index, fill_value=0).values
+        p_inj_mw = gen_p - p_load
+
+        # Compute neighbor count per bus from line connectivity
+        neighbor_count = np.zeros(len(n.bus))
+        for f, t in zip(n.line.from_bus, n.line.to_bus):
+            if f < len(neighbor_count) and t < len(neighbor_count):
+                neighbor_count[f] += 1
+                neighbor_count[t] += 1
+
         # --- 5-class voltage classification ---
         # 0: Low (<0.95)
         # 1: Slightly Low [0.95, 0.98)
@@ -81,6 +92,8 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
             "bus": n.bus.index.astype(int),
             "voltage": vm,
             "load_MW": p_load,
+            "p_inj_mw": p_inj_mw,
+            "neighbor_count": neighbor_count,
             "voltage_class": voltage_class,
             "scenario": s
         }))
@@ -127,6 +140,7 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
     print(f"🔥 Total line thermal alarms (class>0): {total_thermal_alarms}")
     print("🟢 Saved labeled datasets: bus_scenarios.csv and edge_scenarios.csv")
     print("🟢 Saved unlabeled prediction-ready datasets: bus_inputs.csv and edge_inputs.csv")
+    print("\n🔧 Feature columns included in bus_scenarios.csv: voltage, load_MW, p_inj_mw, neighbor_count")
 
     # Show mapped class distribution summary
     print("\n📘 Class Mapping and Distribution:")
