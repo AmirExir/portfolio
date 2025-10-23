@@ -40,11 +40,14 @@ except Exception as e:
 
 try:
     from torch_geometric.data import Data
-    from torch_geometric.nn import GCNConv
+    from torch_geometric.nn import GCNConv, GATConv, GINConv, TransformerConv
     from torch_geometric.utils import add_self_loops
 except Exception as e:
     Data = None
     GCNConv = None
+    GATConv = None
+    GINConv = None
+    TransformerConv = None
     add_self_loops = None
 
 from sklearn.preprocessing import StandardScaler
@@ -111,25 +114,98 @@ def build_graph(bus_df, edge_df):
 
     return edge_index, Xn, y, scaler, bus_to_idx
 
-class GCN(nn.Module):
-    def __init__(self, in_dim, h_dim=64, num_classes=2, dropout=0.4, use_relu=True):
-        super().__init__()
-        self.g1 = GCNConv(in_dim, h_dim)
-        self.g2 = GCNConv(h_dim, h_dim)
-        self.do = nn.Dropout(dropout)
-        self.head = nn.Linear(h_dim, num_classes)
-        self.use_relu = use_relu
 
-    def forward(self, x, edge_index):
-        x = self.g1(x, edge_index)
-        if self.use_relu:
-            x = torch.relu(x)
-        x = self.do(x)
-        x = self.g2(x, edge_index)
-        if self.use_relu:
-            x = torch.relu(x)
-        x = self.do(x)
-        return self.head(x)
+# ---- Model Selector ----
+import torch.nn as nn
+def get_model(model_type, in_dim, h_dim=64, num_classes=2, dropout=0.4, use_relu=True):
+    """
+    Returns an instance of the selected GNN model type.
+    Supported: 'gcn', 'gat', 'gin', 'transformer'
+    """
+    if model_type.lower() == "gcn":
+        class GCN(nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.g1 = GCNConv(in_dim, h_dim)
+                self.g2 = GCNConv(h_dim, h_dim)
+                self.do = nn.Dropout(dropout)
+                self.head = nn.Linear(h_dim, num_classes)
+                self.use_relu = use_relu
+            def forward(self, x, edge_index):
+                x = self.g1(x, edge_index)
+                if self.use_relu:
+                    x = torch.relu(x)
+                x = self.do(x)
+                x = self.g2(x, edge_index)
+                if self.use_relu:
+                    x = torch.relu(x)
+                x = self.do(x)
+                return self.head(x)
+        return GCN()
+    elif model_type.lower() == "gat":
+        class GAT(nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.g1 = GATConv(in_dim, h_dim, heads=2, dropout=dropout)
+                self.g2 = GATConv(h_dim * 2, h_dim, heads=1, dropout=dropout)
+                self.do = nn.Dropout(dropout)
+                self.head = nn.Linear(h_dim, num_classes)
+                self.use_relu = use_relu
+            def forward(self, x, edge_index):
+                x = self.g1(x, edge_index)
+                if self.use_relu:
+                    x = torch.relu(x)
+                x = self.do(x)
+                x = self.g2(x, edge_index)
+                if self.use_relu:
+                    x = torch.relu(x)
+                x = self.do(x)
+                return self.head(x)
+        return GAT()
+    elif model_type.lower() == "gin":
+        class GIN(nn.Module):
+            def __init__(self):
+                super().__init__()
+                nn1 = nn.Sequential(nn.Linear(in_dim, h_dim), nn.ReLU(), nn.Linear(h_dim, h_dim))
+                nn2 = nn.Sequential(nn.Linear(h_dim, h_dim), nn.ReLU(), nn.Linear(h_dim, h_dim))
+                self.g1 = GINConv(nn1)
+                self.g2 = GINConv(nn2)
+                self.do = nn.Dropout(dropout)
+                self.head = nn.Linear(h_dim, num_classes)
+                self.use_relu = use_relu
+            def forward(self, x, edge_index):
+                x = self.g1(x, edge_index)
+                if self.use_relu:
+                    x = torch.relu(x)
+                x = self.do(x)
+                x = self.g2(x, edge_index)
+                if self.use_relu:
+                    x = torch.relu(x)
+                x = self.do(x)
+                return self.head(x)
+        return GIN()
+    elif model_type.lower() == "transformer":
+        class Transformer(nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.g1 = TransformerConv(in_dim, h_dim, heads=2, dropout=dropout)
+                self.g2 = TransformerConv(h_dim * 2, h_dim, heads=1, dropout=dropout)
+                self.do = nn.Dropout(dropout)
+                self.head = nn.Linear(h_dim, num_classes)
+                self.use_relu = use_relu
+            def forward(self, x, edge_index):
+                x = self.g1(x, edge_index)
+                if self.use_relu:
+                    x = torch.relu(x)
+                x = self.do(x)
+                x = self.g2(x, edge_index)
+                if self.use_relu:
+                    x = torch.relu(x)
+                x = self.do(x)
+                return self.head(x)
+        return Transformer()
+    else:
+        raise ValueError(f"Unknown model_type '{model_type}'. Supported: gcn, gat, gin, transformer")
 
 
 def _stratified_indices(y_np, train_frac=0.7, seed=42):
@@ -674,10 +750,20 @@ def build_data_list(bus_df, edge_df, scenario_ids, mode="voltage", scaler=None):
         data_list.append(data)
     return data_list
 
-def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42, use_relu=True, batch_size=1):
+def train_gnn_batches(
+    data_list,
+    epochs=150,
+    lr=1e-2,
+    weight_decay=1e-3,
+    seed=42,
+    use_relu=True,
+    batch_size=1,
+    model_type="gcn"
+):
     """
-    Train a GCN model by iterating **per graph** (no PyG DataLoader batching).
+    Train a GNN model by iterating **per graph** (no PyG DataLoader batching).
     This avoids mixing per-graph index spaces and eliminates out-of-bounds errors.
+    Supports multiple model types.
     """
     import torch
     set_seed(seed)
@@ -689,7 +775,8 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
     all_y = torch.cat([d.y for d in data_list])
     n_classes = int(all_y.max().item()) + 1
 
-    model = GCN(in_dim=in_dim, num_classes=n_classes, use_relu=use_relu).to(device)
+    model = get_model(model_type, in_dim=in_dim, num_classes=n_classes, use_relu=use_relu).to(device)
+    print(f"Training model type: {model_type.upper()}")
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
     # Precompute stratified splits per-graph and store on the Data objects
@@ -800,8 +887,10 @@ def main():
     parser.add_argument("--mode", choices=["voltage", "thermal"], default="voltage",
                         help="Choose whether to train on voltage_class or thermal_class")
     parser.add_argument("--epochs", type=int, default=150, help="Number of training epochs")
+    parser.add_argument("--model", choices=["gcn", "gat", "gin", "transformer"], default="gcn", help="Model architecture to use")
     args = parser.parse_args()
     mode = args.mode
+    model_type = args.model
     print(f"Running in {mode.upper()} classification mode")
 
     # --- Load CSVs ---
@@ -834,8 +923,6 @@ def main():
         n_train_scen = n_test_scen = None
 
     print(f"Training on {n_train_scen} scenarios, testing on {n_test_scen}")
-
-    # Dataset balancing removed: train on original data directly
 
     # --- Build global graph for training (for feature/target info and scaler) ---
     edge_index_np, Xn, y, scaler, idx_map, scenario_arr, bus_df_full, edge_df_full = make_global_graph(train_bus_df, train_edge_df, mode=mode)
@@ -874,46 +961,49 @@ def main():
     wd = 1e-3
     seed = 42
     use_relu = True
-    print(f"Training GNN (per-scenario batching) for {epochs} epochs (lr={lr}, weight_decay={wd}, seed={seed})...")
-    model, hist_df, splits = train_gnn_batches(
-        train_data_list, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=use_relu, batch_size=1
-    )
-    # Print progress every 10 epochs
-    print("Epoch | Train Loss | Val Loss | Val Acc | Val F1")
-    for i, row in hist_df.iterrows():
-        if int(row["epoch"]) % 10 == 0 or int(row["epoch"]) == epochs:
-            print(f"{int(row['epoch']):4d} | {row['train_loss']:.4f} | {row['val_loss']:.4f} | {row['val_acc']:.4f} | {row['val_f1']:.4f}")
+    # Loop through model types if requested, else just use the selected one
+    model_types = [model_type]
+    for model_type_loop in model_types:
+        print(f"=== Training model type: {model_type_loop.upper()} ===")
+        model, hist_df, splits = train_gnn_batches(
+            train_data_list, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=use_relu, batch_size=1, model_type=model_type_loop
+        )
+        # Print progress every 10 epochs
+        print("Epoch | Train Loss | Val Loss | Val Acc | Val F1")
+        for i, row in hist_df.iterrows():
+            if int(row["epoch"]) % 10 == 0 or int(row["epoch"]) == epochs:
+                print(f"{int(row['epoch']):4d} | {row['train_loss']:.4f} | {row['val_loss']:.4f} | {row['val_acc']:.4f} | {row['val_f1']:.4f}")
 
-    # --- Evaluate on test set, per scenario ---
-    if test_bus_df is not None and test_edge_df is not None and ((mode == "voltage" and not test_bus_df.empty) or (mode == "thermal" and not test_edge_df.empty)):
-        test_data_list = build_data_list(test_bus_df, test_edge_df, test_scenarios, mode=mode, scaler=scaler)
-        model.eval()
-        all_preds = []
-        all_true = []
-        for data in test_data_list:
-            data = data.to(next(model.parameters()).device)
-            # Make test graph indices safe/consistent with its x
-            sanitize_pyg_data(data, add_loops_if_empty=True, verbose_prefix="Test: ")
-            with torch.no_grad():
-                logits = model(data.x, data.edge_index)
-            preds = logits.argmax(dim=-1).cpu().numpy()
-            true = data.y.cpu().numpy()
-            all_preds.append(preds)
-            all_true.append(true)
-        all_preds = np.concatenate(all_preds)
-        all_true = np.concatenate(all_true)
-        print("\nTest Set Evaluation (unseen scenarios, per-scenario evaluation):")
-        report = classification_report(all_true, all_preds, digits=3, zero_division=0)
-        print(report)
-        all_labels = sorted(set(np.unique(all_true)).union(set(np.unique(all_preds))))
-        cm = confusion_matrix(all_true, all_preds, labels=all_labels)
-        print("Confusion Matrix:")
-        print(cm)
-        acc = accuracy_score(all_true, all_preds)
-        f1 = f1_score(all_true, all_preds, average='macro')
-        print(f"Test Accuracy: {acc:.4f}, Macro F1: {f1:.4f}")
-    else:
-        print("No test scenarios available for evaluation.")
+        # --- Evaluate on test set, per scenario ---
+        if test_bus_df is not None and test_edge_df is not None and ((mode == "voltage" and not test_bus_df.empty) or (mode == "thermal" and not test_edge_df.empty)):
+            test_data_list = build_data_list(test_bus_df, test_edge_df, test_scenarios, mode=mode, scaler=scaler)
+            model.eval()
+            all_preds = []
+            all_true = []
+            for data in test_data_list:
+                data = data.to(next(model.parameters()).device)
+                # Make test graph indices safe/consistent with its x
+                sanitize_pyg_data(data, add_loops_if_empty=True, verbose_prefix="Test: ")
+                with torch.no_grad():
+                    logits = model(data.x, data.edge_index)
+                preds = logits.argmax(dim=-1).cpu().numpy()
+                true = data.y.cpu().numpy()
+                all_preds.append(preds)
+                all_true.append(true)
+            all_preds = np.concatenate(all_preds)
+            all_true = np.concatenate(all_true)
+            print(f"\nTest Set Evaluation (unseen scenarios, per-scenario evaluation) for model {model_type_loop.upper()}:")
+            report = classification_report(all_true, all_preds, digits=3, zero_division=0)
+            print(report)
+            all_labels = sorted(set(np.unique(all_true)).union(set(np.unique(all_preds))))
+            cm = confusion_matrix(all_true, all_preds, labels=all_labels)
+            print("Confusion Matrix:")
+            print(cm)
+            acc = accuracy_score(all_true, all_preds)
+            f1 = f1_score(all_true, all_preds, average='macro')
+            print(f"Test Accuracy: {acc:.4f}, Macro F1: {f1:.4f}")
+        else:
+            print("No test scenarios available for evaluation.")
 
 if __name__ == "__main__":
     main()
