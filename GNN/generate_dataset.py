@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 import pandapower as pp
 import argparse
+import torch
+from torch_geometric.data import Data
 
 def build_ieee118():
     net = pn.case118()   # built-in IEEE-118 test system
@@ -173,12 +175,67 @@ def sample_scenarios(net, n_scen=50, outage_p=0.03, load_sigma=0.1, seed=42, use
         edge_inputs = edge_df.drop(columns=["loading_percent", "thermal_class"])
     edge_inputs.to_csv("edge_inputs.csv", index=False)
 
+    # Create PowerGrid-compatible PyG graph dataset
+    data_list = []
+    for s in range(n_scenarios):
+        bus_s = bus_df[bus_df['scenario'] == s].sort_values('bus')
+        edge_s = edge_df[edge_df['scenario'] == s]
+
+        # Node features: voltage, load_MW, p_inj_mw, v_deviation, load_ratio, gen_flag, degree_centrality
+        # We need to add gen_flag to bus_df numeric columns for normalization, so add it here without normalization
+        # Extract gen_flag separately from bus_df (original values before normalization)
+        # But gen_flag is binary, no normalization needed, so we can directly extract from bus_df before normalization
+        # To handle this, we take gen_flag from all_buses list for this scenario:
+        # But easier to re-extract gen_flag from the original DataFrame in all_buses for this scenario:
+        # Instead, we add gen_flag column to bus_df normalized, so we add gen_flag column to bus_numeric_cols and normalize it
+        # But gen_flag is binary, so normalization is not meaningful. So just extract gen_flag from bus_df without normalization.
+        # Let's just extract gen_flag from bus_df without normalization.
+
+        # Since bus_df normalized gen_flag, we undo normalization for gen_flag by extracting original from all_buses:
+        # We'll extract gen_flag from all_buses list for scenario s:
+        gen_flag_s = all_buses[s]["gen_flag"].values
+
+        x_np = np.stack([
+            bus_s["voltage"].values,
+            bus_s["load_MW"].values,
+            bus_s["p_inj_mw"].values,
+            bus_s["v_deviation"].values,
+            bus_s["load_ratio"].values,
+            gen_flag_s,
+            bus_s["degree_centrality"].values
+        ], axis=1)
+        x = torch.tensor(x_np, dtype=torch.float)
+
+        # Build edge_index (2 x num_edges) tensor
+        from_idx = torch.tensor(edge_s["from_bus"].values, dtype=torch.long)
+        to_idx = torch.tensor(edge_s["to_bus"].values, dtype=torch.long)
+        edge_index = torch.stack([from_idx, to_idx], dim=0)
+
+        # Edge features: x_pu, r_over_x, impedance_mag, length_km, contingency_mask
+        edge_attr_np = np.stack([
+            edge_s["x_pu"].values,
+            edge_s["r_over_x"].values,
+            edge_s["impedance_mag"].values,
+            edge_s["length_km"].values,
+            edge_s["contingency_mask"].values
+        ], axis=1)
+        edge_attr = torch.tensor(edge_attr_np, dtype=torch.float)
+
+        # Target labels: voltage_class (node classification)
+        y = torch.tensor(bus_s["voltage_class"].values, dtype=torch.long)
+
+        data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, y=y)
+        data_list.append(data)
+
+    torch.save(data_list, "graph_scenarios.pt")
+
     print(f"✅ Generated {len(bus_df)} bus rows = {n_buses} buses × {n_scenarios} scenarios.")
     print(f"   Edges: {len(edge_df)} rows (~{edges_mean:.1f} per scenario, min {edges_min}, max {edges_max}).")
     print(f"⚠️  Total bus voltage alarms (class>0): {total_voltage_alarms}")
     print(f"🔥 Total line thermal alarms (class>0): {total_thermal_alarms}")
     print("🟢 Saved labeled datasets: bus_scenarios.csv and edge_scenarios.csv")
     print("🟢 Saved unlabeled prediction-ready datasets: bus_inputs.csv and edge_inputs.csv")
+    print("🟢 Saved PyG graph dataset: graph_scenarios.pt")
     print("\n🔧 Feature columns included in bus_scenarios.csv: voltage, load_MW, p_inj_mw, v_deviation, load_ratio, neighbor_count, degree_centrality")
 
     # Show mapped class distribution summary
