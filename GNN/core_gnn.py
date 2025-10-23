@@ -355,6 +355,84 @@ def to_pyg(edge_index_np, Xn, y):
 
 
 # -----------------------------
+# Helper: sanitize PyG Data
+# -----------------------------
+def sanitize_pyg_data(data, add_loops_if_empty=True, verbose_prefix=""):
+    """
+    Ensure edge_index is valid w.r.t. data.x; remap nodes to 0..N-1; filter/realign train/val indices.
+    Operates in-place and returns the same data object.
+    """
+    import torch as _torch
+    # If there are no edges, optionally add self-loops to keep GCN stable
+    if data.edge_index is None or data.edge_index.numel() == 0:
+        if add_loops_if_empty:
+            if add_self_loops is not None:
+                data.edge_index, _ = add_self_loops(_torch.zeros((2, 0), dtype=_torch.long, device=data.x.device),
+                                                     num_nodes=data.x.size(0))
+            else:
+                idx = _torch.arange(data.x.size(0), device=data.x.device, dtype=_torch.long)
+                data.edge_index = _torch.stack([idx, idx], dim=0)
+        return data
+
+    # Filter any out-of-range edges
+    max_idx = data.x.size(0)
+    mask = (data.edge_index[0] >= 0) & (data.edge_index[1] >= 0) & \
+           (data.edge_index[0] < max_idx) & (data.edge_index[1] < max_idx)
+    if (~mask).any():
+        invalid = int((~mask).sum().item())
+        data.edge_index = data.edge_index[:, mask]
+        if invalid > 0:
+            print(f"⚠️  {verbose_prefix}filtered {invalid} invalid edges; continuing with {data.edge_index.size(1)} edges.")
+
+    # If no edges remain, add self-loops if requested
+    if data.edge_index.size(1) == 0:
+        if add_loops_if_empty:
+            if add_self_loops is not None:
+                data.edge_index, _ = add_self_loops(data.edge_index, num_nodes=data.x.size(0))
+            else:
+                idx = _torch.arange(data.x.size(0), device=data.x.device, dtype=_torch.long)
+                data.edge_index = _torch.stack([idx, idx], dim=0)
+        return data
+
+    # Remap node indices appearing in edges to a consecutive 0..K-1 range
+    unique_nodes = _torch.unique(data.edge_index)
+    old_to_new = {int(n): i for i, n in enumerate(unique_nodes.tolist())}
+
+    # Remap edge_index
+    data.edge_index = _torch.tensor(
+        [[old_to_new[int(s.item())] for s in data.edge_index[0]],
+         [old_to_new[int(t.item())] for t in data.edge_index[1]]],
+        dtype=_torch.long,
+        device=data.edge_index.device
+    )
+
+    # Slice features/labels to only nodes present in edges
+    data.x = data.x[unique_nodes]
+    if hasattr(data, "y") and data.y is not None:
+        data.y = data.y[unique_nodes]
+
+    # Remap/clip train & val indices if they exist
+    def _remap_idx(idx_tensor, name):
+        if not hasattr(data, idx_tensor):
+            return
+        idx = getattr(data, idx_tensor)
+        if idx is None:
+            return
+        kept = []
+        for el in idx.tolist():
+            if int(el) in old_to_new:
+                kept.append(old_to_new[int(el)])
+        if len(kept) == 0:
+            setattr(data, idx_tensor, _torch.empty((0,), dtype=_torch.long, device=data.x.device))
+        else:
+            setattr(data, idx_tensor, _torch.tensor(kept, dtype=_torch.long, device=data.x.device))
+
+    _remap_idx("train_idx", "train")
+    _remap_idx("val_idx", "val")
+    return data
+
+
+# -----------------------------
 # Scenario-wise GNN Surrogate Pipeline
 # -----------------------------
 
@@ -633,54 +711,8 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
         for gi in order:
             data = data_list[gi].to(device)
 
-            # ---- Per-graph edge sanitization & self-loop fallback ----
-            if data.edge_index.numel() > 0:
-                max_idx = data.x.size(0)
-                mask = (data.edge_index[0] >= 0) & (data.edge_index[1] >= 0) & \
-                       (data.edge_index[0] < max_idx) & (data.edge_index[1] < max_idx)
-                if (~mask).any():
-                    invalid = int((~mask).sum().item())
-                    data.edge_index = data.edge_index[:, mask]
-                    print(f"⚠️  Graph {gi}: filtered {invalid} invalid edges; continuing with {data.edge_index.size(1)} edges.")
-
-                # --- Fix: remap node indices to consecutive 0..N-1 after filtering ---
-                unique_nodes = torch.unique(data.edge_index)
-                mapping = {int(n): i for i, n in enumerate(unique_nodes.tolist())}
-                # Remap edge_index to new indices
-                data.edge_index = torch.tensor(
-                    [[mapping[int(s.item())] for s in data.edge_index[0]],
-                     [mapping[int(t.item())] for t in data.edge_index[1]]],
-                    dtype=torch.long,
-                    device=data.edge_index.device
-                )
-                # Remap feature matrix x accordingly
-                data.x = data.x[unique_nodes]
-                # Also remap y and indices if present
-                data.y = data.y[unique_nodes]
-                if hasattr(data, "train_idx"):
-                    # Map old indices to new indices; only keep those present in unique_nodes
-                    old_to_new = {int(n): i for i, n in enumerate(unique_nodes.tolist())}
-                    mask_train = [int(idx.item()) in old_to_new for idx in data.train_idx]
-                    data.train_idx = torch.tensor(
-                        [old_to_new[int(idx.item())] for idx in data.train_idx if int(idx.item()) in old_to_new],
-                        dtype=torch.long,
-                        device=data.x.device
-                    )
-                if hasattr(data, "val_idx"):
-                    old_to_new = {int(n): i for i, n in enumerate(unique_nodes.tolist())}
-                    mask_val = [int(idx.item()) in old_to_new for idx in data.val_idx]
-                    data.val_idx = torch.tensor(
-                        [old_to_new[int(idx.item())] for idx in data.val_idx if int(idx.item()) in old_to_new],
-                        dtype=torch.long,
-                        device=data.x.device
-                    )
-
-                if data.edge_index.size(1) == 0:
-                    if add_self_loops is not None:
-                        data.edge_index, _ = add_self_loops(data.edge_index, num_nodes=data.x.size(0))
-                    else:
-                        idx = torch.arange(data.x.size(0), device=data.x.device, dtype=torch.long)
-                        data.edge_index = torch.stack([idx, idx], dim=0)
+            # ---- Per-graph edge sanitization & remapping ----
+            sanitize_pyg_data(data, add_loops_if_empty=True, verbose_prefix=f"Graph {gi}: ")
 
             # --- Guard: ensure train indices are within valid range ---
             valid_train_mask = (data.train_idx >= 0) & (data.train_idx < data.x.size(0))
@@ -719,7 +751,7 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
                 if data.val_idx.numel() == 0:
                     continue
                 vloss = focal_loss(logits[data.val_idx], data.y[data.val_idx], gamma=2.0, alpha=alpha)
-                val_loss_sum += vloss.item() * data.val_idx.numel()
+                val_loss_sum += vloss.item() * data.vaßl_idx.numel()
                 val_items += data.val_idx.numel()
                 preds = logits[data.val_idx].argmax(dim=-1).cpu().numpy()
                 true  = data.y[data.val_idx].cpu().numpy()
@@ -800,7 +832,7 @@ def main():
     edge_index_np, Xn, y, scaler, idx_map, scenario_arr, bus_df_full, edge_df_full = make_global_graph(train_bus_df, train_edge_df, mode=mode)
     # Print features used
     if mode == "voltage":
-        feature_names = ["voltage", "load_MW"]
+        feature_names = [c for c in ["load_MW", "p_inj_mw", "neighbor_count"] if c in bus_df_full.columns]
         print("Features used for VOLTAGE classification:", feature_names)
         print("Target: voltage_class")
     elif mode == "thermal":
@@ -829,7 +861,7 @@ def main():
     wd = 1e-3
     seed = 42
     use_relu = True
-    print(f"Training GNN (per-scenario batching) for {epochs} epochs (lr={lr}, weight_decay={wd}, seed={seed})...")
+    print(f"Training GNN (per-scenario batchßing) for {epochs} epochs (lr={lr}, weight_decay={wd}, seed={seed})...")
     model, hist_df, splits = train_gnn_batches(
         train_data_list, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=use_relu, batch_size=1
     )
@@ -847,9 +879,11 @@ def main():
         all_true = []
         for data in test_data_list:
             data = data.to(next(model.parameters()).device)
+            # Make test graph indices safe/consistent with its x
+            sanitize_pyg_data(data, add_loops_if_empty=True, verbose_prefix="Test: ")
             with torch.no_grad():
                 logits = model(data.x, data.edge_index)
-            preds = logits.argmax(dim=-1).cpu().numpy()
+            preds = logits.argmax(dim=-1).cpu().numpy()ß
             true = data.y.cpu().numpy()
             all_preds.append(preds)
             all_true.append(true)
