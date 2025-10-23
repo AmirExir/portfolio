@@ -535,15 +535,27 @@ def build_data_list(bus_df, edge_df, scenario_ids, mode="voltage", scaler=None):
             continue
         # Use make_global_graph for this scenario only
         edge_index_np, Xn, y, scaler_this, idx_map, scenario_arr, bdf, edf = make_global_graph(bus_sub, edge_sub, mode=mode)
-        # --- Global safety check for edge index validity ---
+        # --- Full edge index safety fix ---
+        num_nodes = Xn.shape[0]
         if edge_index_np.size > 0:
-            num_nodes = Xn.shape[0]
-            mask_valid = (edge_index_np[0] < num_nodes) & (edge_index_np[1] < num_nodes)
+            # Filter out invalid edges (out-of-range or NaN)
+            mask_valid = (
+                (~np.isnan(edge_index_np[0])) &
+                (~np.isnan(edge_index_np[1])) &
+                (edge_index_np[0] >= 0) & (edge_index_np[1] >= 0) &
+                (edge_index_np[0] < num_nodes) & (edge_index_np[1] < num_nodes)
+            )
             invalid_edges = np.sum(~mask_valid)
             if invalid_edges > 0:
-                print(f"⚠️  Scenario {scen}: removing {invalid_edges} invalid edges referencing out-of-range nodes (global check).")
-            edge_index_np = edge_index_np[:, mask_valid]
-            edge_index_np = np.clip(edge_index_np, 0, num_nodes - 1)
+                print(f"⚠️  Scenario {scen}: removed {invalid_edges} edges with invalid node indices.")
+            edge_index_np = edge_index_np[:, mask_valid].astype(int)
+        else:
+            print(f"⚠️  Scenario {scen}: has no valid edges.")
+
+        # Skip graphs that are too small or invalid
+        if num_nodes == 0 or edge_index_np.shape[1] == 0:
+            print(f"⚠️  Scenario {scen}: skipped (no valid nodes or edges).")
+            continue
         # Use provided scaler for test set, else fit on the scenario
         if scaler is not None:
             if mode == "voltage":
