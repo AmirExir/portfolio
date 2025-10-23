@@ -589,112 +589,121 @@ def build_data_list(bus_df, edge_df, scenario_ids, mode="voltage", scaler=None):
 
 def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42, use_relu=True, batch_size=1):
     """
-    Train a GCN model on batches of per-scenario graphs.
-    data_list: list of torch_geometric.data.Data objects (each is a scenario).
-    Returns model, history DataFrame.
+    Train a GCN model by iterating **per graph** (no PyG DataLoader batching).
+    This avoids mixing per-graph index spaces and eliminates out-of-bounds errors.
     """
     import torch
-    from torch_geometric.loader import DataLoader
     set_seed(seed)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    # Assume all data in data_list have same feature dim and class count
+
+    # Assume all graphs share the same input dimension
     in_dim = data_list[0].x.size(1)
-    # Get number of classes from y
+    # Number of classes from concatenated labels
     all_y = torch.cat([d.y for d in data_list])
     n_classes = int(all_y.max().item()) + 1
+
     model = GCN(in_dim=in_dim, num_classes=n_classes, use_relu=use_relu).to(device)
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-    # Stratified split for each scenario: for each Data, split its y into train/val
+
+    # Precompute stratified splits per-graph and store on the Data objects
     splits = []
-    for data in data_list:
-        y_np = data.y.cpu().numpy()
-        train_idx_np, val_idx_np = _stratified_indices(y_np, train_frac=0.7, seed=seed)
-        splits.append((torch.tensor(train_idx_np, dtype=torch.long), torch.tensor(val_idx_np, dtype=torch.long)))
-    # Focal loss alpha: compute from all train indices across all scenarios
-    train_y = torch.cat([d.y[s[0]] for d, s in zip(data_list, splits)])
+    for d in data_list:
+        y_np = d.y.cpu().numpy()
+        tr_np, va_np = _stratified_indices(y_np, train_frac=0.7, seed=seed)
+        d.train_idx = torch.tensor(tr_np, dtype=torch.long, device=device)
+        d.val_idx   = torch.tensor(va_np, dtype=torch.long, device=device)
+        splits.append((d.train_idx, d.val_idx))
+
+    # Focal-loss class weights computed from all train nodes across all graphs
+    train_y = torch.cat([d.y[d.train_idx].to(device) for d in data_list])
     counts_t = torch.bincount(train_y, minlength=n_classes).float()
-    alpha = 1.0 / (counts_t + 1e-6)
+    alpha = (1.0 / (counts_t + 1e-6))
     alpha = (alpha / alpha.sum()).to(device)
-    # Dataloader for batching scenarios
-    loader = DataLoader(data_list, batch_size=batch_size, shuffle=True)
+
     history = []
-    best = (1e9, None)
+    best = (1e9, None)  # (val_loss, state_dict)
+
     for epoch in range(1, epochs + 1):
         model.train()
         total_loss = 0.0
         total_items = 0
-        total_preds = []
-        total_true = []
-        # For macro F1/acc, accumulate over all val nodes in all scenarios
-        # Train on all scenario batches
-        for i, batch in enumerate(loader):
-            batch = batch.to(device)
-            # --- Defensive check: filter out invalid edge indices, add self-loops if needed ---
-            if batch.edge_index.numel() > 0:
-                max_idx = batch.x.size(0)
-                mask = (batch.edge_index[0] >= 0) & (batch.edge_index[1] >= 0) & \
-                       (batch.edge_index[0] < max_idx) & (batch.edge_index[1] < max_idx)
+
+        # Shuffle the order of graphs each epoch
+        order = torch.randperm(len(data_list)).tolist()
+        for gi in order:
+            data = data_list[gi].to(device)
+
+            # ---- Per-graph edge sanitization & self-loop fallback ----
+            if data.edge_index.numel() > 0:
+                max_idx = data.x.size(0)
+                mask = (data.edge_index[0] >= 0) & (data.edge_index[1] >= 0) & \
+                       (data.edge_index[0] < max_idx) & (data.edge_index[1] < max_idx)
                 if (~mask).any():
                     invalid = int((~mask).sum().item())
-                    batch.edge_index = batch.edge_index[:, mask]
-                    print(f"⚠️  Batch {i}: filtered {invalid} invalid edges; continuing with {batch.edge_index.size(1)} edges.")
-                if batch.edge_index.size(1) == 0:
-                    # add self-loops so the batch remains trainable
+                    data.edge_index = data.edge_index[:, mask]
+                    print(f"⚠️  Graph {gi}: filtered {invalid} invalid edges; continuing with {data.edge_index.size(1)} edges.")
+                if data.edge_index.size(1) == 0:
                     if add_self_loops is not None:
-                        batch.edge_index, _ = add_self_loops(batch.edge_index, num_nodes=batch.x.size(0))
+                        data.edge_index, _ = add_self_loops(data.edge_index, num_nodes=data.x.size(0))
                     else:
-                        # manual self-loops (numpy -> torch)
-                        idx = torch.arange(batch.x.size(0), device=batch.x.device, dtype=torch.long)
-                        batch.edge_index = torch.stack([idx, idx], dim=0)
-            batch_train_idx = []
-            offset = 0
-            # Only process scenario IDs present in this batch
-            for scen_id in batch.batch.unique().tolist():
-                tr_idx, _ = splits[scen_id]
-                n_nodes = (batch.batch == scen_id).sum().item()
-                if len(tr_idx) > 0 and tr_idx.max().item() < n_nodes:
-                    batch_train_idx.append(tr_idx + offset)
-                offset += n_nodes
-            if not batch_train_idx:
+                        idx = torch.arange(data.x.size(0), device=data.x.device, dtype=torch.long)
+                        data.edge_index = torch.stack([idx, idx], dim=0)
+
+            if data.train_idx.numel() == 0:
                 continue
-            train_idx = torch.cat(batch_train_idx).to(device)
-            logits = model(batch.x, batch.edge_index)
-            loss = focal_loss(logits[train_idx], batch.y[train_idx], gamma=2.0, alpha=alpha)
+
+            logits = model(data.x, data.edge_index)
+            loss = focal_loss(logits[data.train_idx], data.y[data.train_idx], gamma=2.0, alpha=alpha)
             opt.zero_grad()
             loss.backward()
             opt.step()
-            total_loss += loss.item() * train_idx.numel()
-            total_items += train_idx.numel()
-        # Validation: evaluate on all graphs' val_idx
+
+            total_loss += loss.item() * data.train_idx.numel()
+            total_items += data.train_idx.numel()
+
+        # ---------- Validation over all graphs ----------
         model.eval()
         val_loss_sum = 0.0
         val_items = 0
-        val_preds = []
-        val_true = []
+        val_preds_all = []
+        val_true_all = []
         with torch.no_grad():
-            for data, (tr_idx, va_idx) in zip(data_list, splits):
+            for gi, data in enumerate(data_list):
                 data = data.to(device)
                 logits = model(data.x, data.edge_index)
-                val_loss = focal_loss(logits[va_idx], data.y[va_idx], gamma=2.0, alpha=alpha)
-                val_loss_sum += val_loss.item() * va_idx.numel()
-                val_items += va_idx.numel()
-                preds = logits[va_idx].argmax(dim=-1).cpu().numpy()
-                true = data.y[va_idx].cpu().numpy()
-                val_preds.append(preds)
-                val_true.append(true)
-        # Aggregate metrics
+                if data.val_idx.numel() == 0:
+                    continue
+                vloss = focal_loss(logits[data.val_idx], data.y[data.val_idx], gamma=2.0, alpha=alpha)
+                val_loss_sum += vloss.item() * data.val_idx.numel()
+                val_items += data.val_idx.numel()
+                preds = logits[data.val_idx].argmax(dim=-1).cpu().numpy()
+                true  = data.y[data.val_idx].cpu().numpy()
+                val_preds_all.append(preds)
+                val_true_all.append(true)
+
         train_loss_avg = total_loss / total_items if total_items else 0.0
-        val_loss_avg = val_loss_sum / val_items if val_items else 0.0
-        val_preds_all = np.concatenate(val_preds)
-        val_true_all = np.concatenate(val_true)
-        acc = accuracy_score(val_true_all, val_preds_all)
-        f1 = f1_score(val_true_all, val_preds_all, average='macro')
+
+        if val_items:
+            import numpy as _np
+            val_preds_all = _np.concatenate(val_preds_all)
+            val_true_all  = _np.concatenate(val_true_all)
+            val_loss_avg = val_loss_sum / val_items
+            acc = accuracy_score(val_true_all, val_preds_all)
+            f1  = f1_score(val_true_all, val_preds_all, average='macro')
+        else:
+            val_loss_avg = 0.0
+            acc = 0.0
+            f1 = 0.0
+
         history.append((epoch, train_loss_avg, val_loss_avg, acc, f1))
+
         if val_loss_avg < best[0]:
             best = (val_loss_avg, {k: v.detach().cpu().clone() for k, v in model.state_dict().items()})
+
     # Restore best model
     if best[1] is not None:
         model.load_state_dict(best[1])
+
     import pandas as pd
     hist_df = pd.DataFrame(history, columns=["epoch", "train_loss", "val_loss", "val_acc", "val_f1"])
     return model, hist_df, splits
