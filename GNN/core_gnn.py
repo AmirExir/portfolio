@@ -751,7 +751,7 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
                 if data.val_idx.numel() == 0:
                     continue
                 vloss = focal_loss(logits[data.val_idx], data.y[data.val_idx], gamma=2.0, alpha=alpha)
-                val_loss_sum += vloss.item() * data.vaßl_idx.numel()
+                val_loss_sum += vloss.item() * data.val_idx.numel()
                 val_items += data.val_idx.numel()
                 preds = logits[data.val_idx].argmax(dim=-1).cpu().numpy()
                 true  = data.y[data.val_idx].cpu().numpy()
@@ -861,7 +861,7 @@ def main():
     wd = 1e-3
     seed = 42
     use_relu = True
-    print(f"Training GNN (per-scenario batchßing) for {epochs} epochs (lr={lr}, weight_decay={wd}, seed={seed})...")
+    print(f"Training GNN (per-scenario batching) for {epochs} epochs (lr={lr}, weight_decay={wd}, seed={seed})...")
     model, hist_df, splits = train_gnn_batches(
         train_data_list, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=use_relu, batch_size=1
     )
@@ -883,7 +883,7 @@ def main():
             sanitize_pyg_data(data, add_loops_if_empty=True, verbose_prefix="Test: ")
             with torch.no_grad():
                 logits = model(data.x, data.edge_index)
-            preds = logits.argmax(dim=-1).cpu().numpy()ß
+            preds = logits.argmax(dim=-1).cpu().numpy()
             true = data.y.cpu().numpy()
             all_preds.append(preds)
             all_true.append(true)
