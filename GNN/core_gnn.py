@@ -1,3 +1,273 @@
+import shutil
+import warnings
+from torch.optim import Adam
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+from sklearn.metrics import balanced_accuracy_score, f1_score, r2_score, accuracy_score
+class TrainModel(object):
+    def __init__(
+        self,
+        model,
+        dataset,
+        device,
+        seed=42,
+        graph_classification=False,
+        graph_regression=False,
+        save_dir=None,
+        save_name="coregnn",
+        dataloader_params=None,
+        **kwargs,
+    ):
+        """
+        Args:
+            model: PyTorch GNN model
+            dataset: list of PyG Data objects, or DataLoader
+            device: torch.device
+            seed: random seed
+            graph_classification: bool
+            graph_regression: bool
+            save_dir: directory for saving models
+            save_name: base name for checkpoints
+            dataloader_params: dict for DataLoader (e.g. batch_size)
+        """
+        set_seed(seed)
+        self.model = model
+        self.device = device
+        self.seed = seed
+        self.graph_classification = graph_classification
+        self.graph_regression = graph_regression
+        self.save_dir = save_dir if save_dir is not None else "models"
+        self.save_name = save_name
+        self.save = self.save_dir is not None
+        if not os.path.exists(self.save_dir):
+            os.makedirs(self.save_dir, exist_ok=True)
+        # Accept dataset as list of Data or DataLoader
+        from torch_geometric.loader import DataLoader
+        if isinstance(dataset, list):
+            # Build loader dict
+            dl_params = dataloader_params if dataloader_params is not None else dict(batch_size=1, shuffle=True)
+            self.train_loader = DataLoader(dataset, **dl_params)
+            self.eval_loader = DataLoader(dataset, **{**dl_params, "shuffle": False})
+            self.test_loader = self.eval_loader
+        elif hasattr(dataset, "__iter__"):
+            # Assume it's a DataLoader
+            self.train_loader = dataset
+            self.eval_loader = dataset
+            self.test_loader = dataset
+        else:
+            # Fallback: treat as singleton Data
+            self.train_loader = [dataset]
+            self.eval_loader = [dataset]
+            self.test_loader = [dataset]
+        self.optimizer = None
+
+    def __loss__(self, logits, labels):
+        if self.graph_classification:
+            return F.cross_entropy(logits, labels)
+        elif self.graph_regression:
+            return F.mse_loss(logits.squeeze(), labels)
+        else:
+            # fallback: try cross_entropy
+            return F.cross_entropy(logits, labels)
+
+    def _train_batch(self, batch):
+        self.model.train()
+        batch = batch.to(self.device)
+        logits = self.model(batch.x, batch.edge_index)
+        if self.graph_classification:
+            loss = self.__loss__(logits, batch.y)
+        elif self.graph_regression:
+            loss = self.__loss__(logits, batch.y)
+        else:
+            loss = self.__loss__(logits, batch.y)
+        self.optimizer.zero_grad()
+        loss.backward()
+        self.optimizer.step()
+        return loss.item()
+
+    def _eval_batch(self, batch):
+        self.model.eval()
+        batch = batch.to(self.device)
+        with torch.no_grad():
+            logits = self.model(batch.x, batch.edge_index)
+            if self.graph_classification:
+                loss = self.__loss__(logits, batch.y).item()
+                preds = logits.argmax(dim=-1)
+                return loss, preds, logits
+            elif self.graph_regression:
+                loss = self.__loss__(logits, batch.y).item()
+                preds = logits.squeeze()
+                return loss, preds
+            else:
+                loss = self.__loss__(logits, batch.y).item()
+                preds = logits.argmax(dim=-1)
+                return loss, preds
+
+    def train(self, train_params=None, optimizer_params=None):
+        num_epochs = 100 if train_params is None or "num_epochs" not in train_params else train_params["num_epochs"]
+        num_early_stop = 10 if train_params is None or "num_early_stop" not in train_params else train_params["num_early_stop"]
+        lr = 1e-3
+        if optimizer_params is not None and "lr" in optimizer_params:
+            lr = optimizer_params["lr"]
+        self.model.to(self.device)
+        if optimizer_params is None:
+            self.optimizer = Adam(self.model.parameters(), lr=lr)
+        else:
+            self.optimizer = Adam(self.model.parameters(), **optimizer_params)
+        if self.graph_classification:
+            scheduler = ReduceLROnPlateau(self.optimizer, mode='max', factor=0.2, patience=10, verbose=False)
+        else:
+            scheduler = ReduceLROnPlateau(self.optimizer, mode='min', factor=0.2, patience=10, verbose=False)
+        best_metric = None
+        best_loss = float("inf")
+        early_stop_counter = 0
+        for epoch in range(num_epochs):
+            train_losses = []
+            for batch in self.train_loader:
+                loss = self._train_batch(batch)
+                train_losses.append(loss)
+            train_loss = np.mean(train_losses)
+            # Evaluate on eval_loader
+            if self.graph_classification:
+                eval_loss, eval_acc, eval_bal_acc, eval_f1 = self.eval()
+                metric = eval_acc
+                scheduler.step(metric)
+            elif self.graph_regression:
+                eval_loss, eval_r2 = self.eval()
+                metric = -eval_loss
+                scheduler.step(eval_loss)
+            else:
+                eval_loss, eval_acc, eval_bal_acc, eval_f1 = self.eval()
+                metric = eval_acc
+                scheduler.step(metric)
+            print(f"Epoch {epoch+1:3d}: train_loss={train_loss:.4f} eval_loss={eval_loss:.4f}")
+            is_best = False
+            if self.graph_classification:
+                if best_metric is None or metric > best_metric:
+                    best_metric = metric
+                    is_best = True
+                    early_stop_counter = 0
+                else:
+                    early_stop_counter += 1
+            else:
+                if eval_loss <= best_loss:
+                    best_loss = eval_loss
+                    is_best = True
+                    early_stop_counter = 0
+                else:
+                    early_stop_counter += 1
+            # Save models
+            if self.save:
+                self.save_model(is_best)
+            if num_early_stop > 0 and early_stop_counter > num_early_stop:
+                print(f"Early stopping at epoch {epoch+1}")
+                break
+
+    def eval(self):
+        self.model.eval()
+        losses = []
+        preds_all = []
+        targets_all = []
+        if self.graph_classification:
+            for batch in self.eval_loader:
+                loss, preds, logits = self._eval_batch(batch)
+                losses.append(loss)
+                preds_all.append(preds.cpu())
+                targets_all.append(batch.y.cpu())
+            y_pred = torch.cat(preds_all).numpy()
+            y_true = torch.cat(targets_all).numpy()
+            eval_loss = np.mean(losses)
+            acc = accuracy_score(y_true, y_pred)
+            bal_acc = balanced_accuracy_score(y_true, y_pred)
+            f1 = f1_score(y_true, y_pred, average="weighted")
+            return eval_loss, acc, bal_acc, f1
+        elif self.graph_regression:
+            for batch in self.eval_loader:
+                loss, preds = self._eval_batch(batch)
+                losses.append(loss)
+                preds_all.append(preds.detach().cpu())
+                targets_all.append(batch.y.detach().cpu())
+            y_pred = torch.cat(preds_all).numpy()
+            y_true = torch.cat(targets_all).numpy()
+            eval_loss = np.mean(losses)
+            r2 = r2_score(y_true, y_pred)
+            return eval_loss, r2
+        else:
+            # fallback: node classification
+            for batch in self.eval_loader:
+                loss, preds = self._eval_batch(batch)
+                losses.append(loss)
+                preds_all.append(preds.cpu())
+                targets_all.append(batch.y.cpu())
+            y_pred = torch.cat(preds_all).numpy()
+            y_true = torch.cat(targets_all).numpy()
+            eval_loss = np.mean(losses)
+            acc = accuracy_score(y_true, y_pred)
+            bal_acc = balanced_accuracy_score(y_true, y_pred)
+            f1 = f1_score(y_true, y_pred, average="weighted")
+            return eval_loss, acc, bal_acc, f1
+
+    def test(self):
+        # Load best model if exists
+        if self.save and os.path.exists(os.path.join(self.save_dir, "best_coregnn.pt")):
+            self.load_model()
+        self.model.eval()
+        losses = []
+        preds_all = []
+        targets_all = []
+        if self.graph_classification:
+            for batch in self.test_loader:
+                loss, preds, logits = self._eval_batch(batch)
+                losses.append(loss)
+                preds_all.append(preds.cpu())
+                targets_all.append(batch.y.cpu())
+            y_pred = torch.cat(preds_all).numpy()
+            y_true = torch.cat(targets_all).numpy()
+            test_loss = np.mean(losses)
+            acc = accuracy_score(y_true, y_pred)
+            bal_acc = balanced_accuracy_score(y_true, y_pred)
+            f1 = f1_score(y_true, y_pred, average="weighted")
+            print(f"Test loss: {test_loss:.4f}, acc: {acc:.4f}, bal_acc: {bal_acc:.4f}, f1: {f1:.4f}")
+            return test_loss, acc, bal_acc, f1
+        elif self.graph_regression:
+            for batch in self.test_loader:
+                loss, preds = self._eval_batch(batch)
+                losses.append(loss)
+                preds_all.append(preds.detach().cpu())
+                targets_all.append(batch.y.detach().cpu())
+            y_pred = torch.cat(preds_all).numpy()
+            y_true = torch.cat(targets_all).numpy()
+            test_loss = np.mean(losses)
+            r2 = r2_score(y_true, y_pred)
+            print(f"Test loss: {test_loss:.4f}, r2: {r2:.4f}")
+            return test_loss, r2
+        else:
+            for batch in self.test_loader:
+                loss, preds = self._eval_batch(batch)
+                losses.append(loss)
+                preds_all.append(preds.cpu())
+                targets_all.append(batch.y.cpu())
+            y_pred = torch.cat(preds_all).numpy()
+            y_true = torch.cat(targets_all).numpy()
+            test_loss = np.mean(losses)
+            acc = accuracy_score(y_true, y_pred)
+            bal_acc = balanced_accuracy_score(y_true, y_pred)
+            f1 = f1_score(y_true, y_pred, average="weighted")
+            print(f"Test loss: {test_loss:.4f}, acc: {acc:.4f}, bal_acc: {bal_acc:.4f}, f1: {f1:.4f}")
+            return test_loss, acc, bal_acc, f1
+
+    def save_model(self, is_best=False):
+        # Save latest and best checkpoint
+        path_latest = os.path.join(self.save_dir, "latest_coregnn.pt")
+        path_best = os.path.join(self.save_dir, "best_coregnn.pt")
+        torch.save({"net": self.model.state_dict()}, path_latest)
+        if is_best:
+            shutil.copy(path_latest, path_best)
+
+    def load_model(self):
+        path_best = os.path.join(self.save_dir, "best_coregnn.pt")
+        state = torch.load(path_best, map_location=self.device)
+        self.model.load_state_dict(state["net"])
+        self.model.to(self.device)
 
 import os
 import io
@@ -1050,4 +1320,37 @@ def main():
                 print("No test scenarios available for evaluation.")
 
 if __name__ == "__main__":
-    main()
+    # --- Example usage: train with TrainModel on .pt PyG DataLoader ---
+    import torch
+    from torch_geometric.loader import DataLoader
+    # Try to load .pt file (list of Data objects)
+    pt_path = "graph_scenarios.pt"
+    if os.path.exists(pt_path):
+        print(f"Loading {pt_path} for TrainModel test...")
+        data_list = torch.load(pt_path)
+        print(f"Loaded {len(data_list)} graphs.")
+        # Get input dim and num_classes
+        in_dim = data_list[0].x.size(1)
+        y_cat = torch.cat([d.y for d in data_list])
+        n_classes = int(y_cat.max().item()) + 1 if y_cat.dtype == torch.long else 1
+        # Classification example
+        model = get_model("gcn", in_dim, num_classes=n_classes)
+        trainer = TrainModel(
+            model=model,
+            dataset=data_list,
+            device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
+            seed=42,
+            graph_classification=True,
+            graph_regression=False,
+            save_dir="models",
+            save_name="coregnn"
+        )
+        trainer.train(train_params={"num_epochs": 30, "num_early_stop": 10})
+        print("Evaluation after training:")
+        eval_result = trainer.eval()
+        print("Eval result:", eval_result)
+        print("Testing best checkpoint:")
+        test_result = trainer.test()
+        print("Test result:", test_result)
+    else:
+        print("graph_scenarios.pt not found. Please generate it using generate_dataset.py.")
