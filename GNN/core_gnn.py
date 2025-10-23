@@ -439,15 +439,18 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
         # --- Strict safety filter before building edge_index ---
         # Ensure all edges reference valid node indices before creating edge_index
         valid_mask = (~np.isnan(src)) & (~np.isnan(dst))
+        if np.sum(~valid_mask) > 0:
+            print(f"⚠️  make_global_graph: removing {np.sum(~valid_mask)} edges with NaN indices (invalid bus mapping).")
         src = src[valid_mask].astype(int)
         dst = dst[valid_mask].astype(int)
         num_nodes = len(bus_df)
         mask_in_bounds = (src < num_nodes) & (dst < num_nodes)
+        if np.sum(~mask_in_bounds) > 0:
+            print(f"⚠️  make_global_graph: removing {np.sum(~mask_in_bounds)} edges referencing out-of-range nodes.")
         src = src[mask_in_bounds]
         dst = dst[mask_in_bounds]
         edge_index = np.vstack([src, dst])
         # --- Final Safety Filter: ensure valid edge indices ---
-        # (already filtered above, but keep final clip for safety)
         edge_index = edge_index[:, (edge_index[0] < num_nodes) & (edge_index[1] < num_nodes)]
         edge_index = np.clip(edge_index, 0, num_nodes - 1)
         scenario_arr = bus_df["scenario"].to_numpy().astype(int)
@@ -538,7 +541,7 @@ def build_data_list(bus_df, edge_df, scenario_ids, mode="voltage", scaler=None):
             mask_valid = (edge_index_np[0] < num_nodes) & (edge_index_np[1] < num_nodes)
             invalid_edges = np.sum(~mask_valid)
             if invalid_edges > 0:
-                print(f"⚠️  Scenario {scen}: removing {invalid_edges} invalid edges referencing out-of-range nodes.")
+                print(f"⚠️  Scenario {scen}: removing {invalid_edges} invalid edges referencing out-of-range nodes (global check).")
             edge_index_np = edge_index_np[:, mask_valid]
             edge_index_np = np.clip(edge_index_np, 0, num_nodes - 1)
         # Use provided scaler for test set, else fit on the scenario
@@ -564,7 +567,7 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
     Returns model, history DataFrame.
     """
     import torch
-    from torch_geometric.loader import DataLoader
+    from torch_geomegnntric.loader import DataLoader
     set_seed(seed)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     # Assume all data in data_list have same feature dim and class count
@@ -599,6 +602,12 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
         # Train on all scenario batches
         for i, batch in enumerate(loader):
             batch = batch.to(device)
+            # --- Defensive check: skip batches with out-of-range edge indices ---
+            if batch.edge_index.numel() > 0:
+                max_idx = batch.x.size(0)
+                if (batch.edge_index[0] >= max_idx).any() or (batch.edge_index[1] >= max_idx).any():
+                    print(f"⚠️  Skipping batch {i} due to out-of-range edge indices (max_idx={max_idx}).")
+                    continue
             batch_train_idx = []
             offset = 0
             # Only process scenario IDs present in this batch
