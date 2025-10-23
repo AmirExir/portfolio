@@ -649,6 +649,12 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
                         idx = torch.arange(data.x.size(0), device=data.x.device, dtype=torch.long)
                         data.edge_index = torch.stack([idx, idx], dim=0)
 
+            # --- Guard: ensure train indices are within valid range ---
+            valid_train_mask = (data.train_idx >= 0) & (data.train_idx < data.x.size(0))
+            if not valid_train_mask.all():
+                n_invalid = (~valid_train_mask).sum().item()
+                print(f"⚠️  Graph {gi}: {n_invalid} out-of-range train indices removed (max allowed {data.x.size(0)-1}).")
+                data.train_idx = data.train_idx[valid_train_mask]
             if data.train_idx.numel() == 0:
                 continue
 
@@ -671,6 +677,12 @@ def train_gnn_batches(data_list, epochs=150, lr=1e-2, weight_decay=1e-3, seed=42
             for gi, data in enumerate(data_list):
                 data = data.to(device)
                 logits = model(data.x, data.edge_index)
+                # --- Guard: ensure val indices are within valid range ---
+                valid_val_mask = (data.val_idx >= 0) & (data.val_idx < data.x.size(0))
+                if not valid_val_mask.all():
+                    n_invalid = (~valid_val_mask).sum().item()
+                    print(f"⚠️  Graph {gi}: {n_invalid} out-of-range val indices removed (max allowed {data.x.size(0)-1}).")
+                    data.val_idx = data.val_idx[valid_val_mask]
                 if data.val_idx.numel() == 0:
                     continue
                 vloss = focal_loss(logits[data.val_idx], data.y[data.val_idx], gamma=2.0, alpha=alpha)
