@@ -4,8 +4,9 @@ import sys
 sys.path.append(os.path.dirname(__file__))
 import pandas as pd
 import torch
-from powergrid import PowerGrid, get_dataloader
-from gengraph import build_graphs
+from GNN.powergrid import PowerGrid
+from GNN.gendata import get_dataloader
+from GNN.gengraph import build_graphs
 
 def main():
     parser = argparse.ArgumentParser(description="Generate PowerGrid dataset and process graphs.")
