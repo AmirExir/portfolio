@@ -489,6 +489,10 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
         bus_df["neighbor_count"] = bus_df["bus"].map(
             edge_df["from_bus"].value_counts().add(edge_df["to_bus"].value_counts(), fill_value=0)
         ).fillna(0)
+        # --- Ensure all cheat features exist; fill with zeros if missing ---
+        for feat in ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]:
+            if feat not in bus_df.columns:
+                bus_df[feat] = 0.0
         # --- Define voltage_class for 5 classes based on voltage ranges ---
         def voltage_to_class(v):
             if v < 0.95:
@@ -504,8 +508,8 @@ def make_global_graph(bus_df, edge_df, mode="voltage"):
         # If voltage_class not already defined, create it using voltage
         bus_df["voltage_class"] = bus_df["voltage"].apply(voltage_to_class)
         y = bus_df["voltage_class"].fillna(2).to_numpy().astype(int)
-        # Features: load_MW, p_inj_mw, neighbor_count if present
-        features = [c for c in ["load_MW", "p_inj_mw", "neighbor_count"] if c in bus_df.columns]
+        # Features: voltage, load_MW, p_inj_mw, neighbor_count
+        features = [c for c in ["voltage", "load_MW", "p_inj_mw", "neighbor_count"] if c in bus_df.columns]
         X = bus_df[features].to_numpy(dtype=float)
         scaler = StandardScaler().fit(X)
         Xn = scaler.transform(X)
@@ -652,7 +656,12 @@ def build_data_list(bus_df, edge_df, scenario_ids, mode="voltage", scaler=None):
         # Use provided scaler for test set, else fit on the scenario
         if scaler is not None:
             if mode == "voltage":
-                X_raw = bus_sub[[c for c in ["voltage", "load_MW", "p_inj_mw"] if c in bus_sub.columns]].to_numpy(dtype=float)
+                # --- Ensure all cheat features exist; fill with zeros if missing ---
+                for feat in ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]:
+                    if feat not in bdf.columns:
+                        bdf[feat] = 0.0
+                use_cols = feature_names if 'feature_names' in locals() and feature_names is not None else [c for c in ["voltage", "load_MW", "p_inj_mw", "neighbor_count"] if c in bdf.columns]
+                X_raw = bdf[use_cols].to_numpy(dtype=float)
                 Xn = scaler.transform(X_raw)
             elif mode == "thermal":
                 features = [col for col in ["x_pu", "length_km", "loading_percent"] if col in edge_sub.columns]
@@ -832,7 +841,11 @@ def main():
     edge_index_np, Xn, y, scaler, idx_map, scenario_arr, bus_df_full, edge_df_full = make_global_graph(train_bus_df, train_edge_df, mode=mode)
     # Print features used
     if mode == "voltage":
-        feature_names = [c for c in ["load_MW", "p_inj_mw", "neighbor_count"] if c in bus_df_full.columns]
+        # Use full cheat feature list and auto-add missing columns as zeros
+        for feat in ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]:
+            if feat not in bus_df_full.columns:
+                bus_df_full[feat] = 0.0
+        feature_names = ["voltage", "load_MW", "p_inj_mw", "neighbor_count"]
         print("Features used for VOLTAGE classification:", feature_names)
         print("Target: voltage_class")
     elif mode == "thermal":
