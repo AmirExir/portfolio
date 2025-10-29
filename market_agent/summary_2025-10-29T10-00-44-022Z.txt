@@ -1,0 +1,5 @@
+- **PayPal Teams with OpenAI**: PayPal has become the first payment wallet integrated into ChatGPT, enhancing the AI's capabilities for e-commerce transactions, marking a significant collaboration in the digital finance sector. [Link](https://www.cnbc.com/2025/10/28/paypal-openai-chatgpt-payments-deal.html)
+
+- **Amazon Job Cuts**: In a move to streamline operations amid rising costs from AI investments, Amazon is set to reduce its workforce by 14,000 corporate positions, highlighting challenges in balancing growth with cost management. [Link](https://www.ft.com/content/106a0ea2-5f76-47c3-b1d6-c6b425b556fc)
+
+- **Soaring Electricity Costs**: Households across the U.S. are increasingly burdened by rising electricity bills, as utility companies seek higher rates, signaling economic strain on consumers amidst ongoing inflation concerns. [Link](https://www.cbsnews.com/news/utility-bills-rate-hikes-2025/)
