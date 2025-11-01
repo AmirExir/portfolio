@@ -13,7 +13,7 @@ class ErcotAPI:
         self,
         public_key: Optional[str] = None,
         esr_key: Optional[str] = None,
-        base_url_public: str = "https://api.ercot.com/api/public/v1",
+        base_url_public: str = "https://api.ercot.com/api/public-reports",
         base_url_esr: str = "https://api.ercot.com/api/esr/v1"
     ):
         self.public_key = public_key or os.getenv("ERCOT_PUBLIC_KEY")
@@ -50,18 +50,24 @@ class ErcotAPI:
 
 
 if __name__ == "__main__":
-    api = ErcotAPI()  
+    api = ErcotAPI()
 
     try:
-        system_data = api.get_public("systemconditions")
-        print("✅ Public API connected! Example data:")
-        print(system_data.get("items", system_data)[:2])
+        load_data = api.get_public("np6-346-cd/act_sys_load_by_fzn")
+        print("✅ Public API connected! Example Load Data:")
+        print(load_data)
+
+        # Show download URL if available
+        if isinstance(load_data, dict) and "value" in load_data and len(load_data["value"]) > 0:
+            first_item = load_data["value"][0]
+            if "artifactUrl" in first_item:
+                print("📥 Download data file:", first_item["artifactUrl"])
     except Exception as e:
         print("❌ Public API connection error:", e)
 
     try:
-        esr_data = api.get_esr("resources")
-        print("✅ ESR API connected! Example data:")
-        print(esr_data.get("items", esr_data)[:2])
+        esr_data = api.get_esr("summary")
+        print("✅ ESR API connected! Summary data:")
+        print(esr_data)
     except Exception as e:
         print("❌ ESR API connection error:", e)
