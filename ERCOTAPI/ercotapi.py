@@ -284,7 +284,7 @@ def train_load_forecast_model(historical_data):
 
 # --- Streamlit Dashboard ---
 def main():
-    st.set_page_config(page_title="ERCOT Grid Analytics Dashboard", layout="wide")
+    st.set_page_config(page_title="Amir Exir's ERCOT Grid Analytics Dashboard", layout="wide")
     st.title(" ERCOT Grid Analytics & Forecasting Dashboard")
     st.markdown("**Real-time grid monitoring, renewable generation tracking, and ML-powered load forecasting**")
 
