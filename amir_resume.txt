@@ -93,6 +93,13 @@ Personal Portfolio Website & Resume & Portfolio Chatbot
 -Developed & deployed amirexirpe.com to showcase my resume, certifications, & AI-powered tools. Integrated a recruiter-facing chatbot trained on my experience & projects using semantic embeddings. The site includes interactive galleries, contact forms, downloadable documents, & iframe-embedded live apps.
 Hourly Load Forecast App (AEP / PJM) 
 -Built a live load forecasting tool using PJM hourly data from Kaggle. Applied time-series feature engineering (lags, rolling averages, calendar variables) & trained an XGBoost model with low RMSE. Deployed with Streamlit & embedded into portfolio via iframe.
+ERCOT Grid Analytics & Forecasting Dashboard
+
+-Designed and deployed a real-time ERCOT data analytics platform using Streamlit, Plotly, and the ERCOT Public API to visualize system load, renewable generation, outages, and market prices.
+-Implemented OAuth2.0 authentication (B2C flow) with token management and smart caching to handle ERCOT’s API rate limits.
+-Built an XGBoost-based load forecasting engine with time-series feature engineering (lags, rolling averages, cyclical encoding) and interactive hyperparameter tuning via sidebar controls.
+-Added automatic train/test split validation with MAE, RMSE, and R² performance metrics, and dynamic Plotly diagnostics comparing actual vs forecasted loads.
+
 PSS®E Automation Assistant Bot,  PSS®E Multi Agent Automation Bot
 -Developed Copilot-style assistants that generate Python scripts for PSS®E tasks like contingency analysis, dynamic simulation, & model editing. Multi-agent version adds autonomous task by planning, retrieval & execution agents. Powered by the same end-to-end semantic search pipeline for high-precision technical retrieval.
 ERCOT Nodal Protocols, Planning Guides, DWG SSWG manuals & Resource Integration AI assistant
@@ -101,6 +108,7 @@ Power Fault Classifier App
 -Created a Streamlit web app to classify power system faults using phasor measurements (Ia, Ib, Ic, Va, Vb, Vc). Trained & compared models (SVM, RF, MLP, XGBoost) with cross-validation & confusion matrix visualizations. Supports CSV uploads & result downloads.
 Power Grid GNN Alarm Prediction App 
 Developed a GCN with focal loss and F1-optimized CV to predict voltage and thermal alarms on IEEE 14-bus scenarios. Implemented graph augmentation, dynamic topology mapping, and a linearized GCN toggle; deployed an interactive Streamlit dashboard with visual diagnostics and model artifact export.
+
 TinyLlama Fine-Tuning for Medical Q&A 
 I fine-tuned the TinyLlama-1.1B-Chat model on 16K MedQuAD medical question–answer pairs using LoRA adapters, demonstrating that parameter-efficient methods can deliver measurable gains under compute constraints. By applying gradient checkpointing, 4-bit quantization, and an AdamW + warmup training schedule, I made training feasible on modest GPUs. The fine-tuned model achieved up to a 40% improvement in ROUGE-2 scores compared to the baseline and was published on the Hugging Face Hub (tinyllama-medquad-lora), where it has already been downloaded and used by external researchers. I also provided reproducible code, dataset splits, and documentation to support transparency and accessibility for the healthcare AI research community.
 
