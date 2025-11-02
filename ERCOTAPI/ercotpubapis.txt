@@ -10,7 +10,7 @@ Generate Client
 About
 Sign in to Swagger Pro
 Try Swagger Pro
-  
+
 ERCOT Public API Client/Developer Documentation
  1.0 
 OAS 3.0
