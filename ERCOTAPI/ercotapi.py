@@ -106,8 +106,7 @@ if __name__ == "__main__":
         print("❌ Public API error:", e)
 
 
-# Streamlit dashboard block - only run when executed via streamlit run
-if __name__ != "__main__" and "streamlit" in os.environ.get("STREAMLIT_SERVER_RUN", "") or "streamlit" in os.sys.argv[0]:
+if __name__ != "__main__":
     st.title("⚡ ERCOT API Dashboard")
 
     api = ErcotAPI()
