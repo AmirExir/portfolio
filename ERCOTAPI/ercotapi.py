@@ -15,7 +15,54 @@ from sklearn.preprocessing import StandardScaler
 class ErcotAPI:
     """
     Simple client for interacting with ERCOT Public Reports API (https://api.ercot.com/api/public-reports).
-    Requires environment variables or direct API key input.
+    Requir                        # C                        # Check for STWPF forecast column
+                        forecast_co                        # Check for STPPF forecast column
+                        forecast_solar_col = None
+                        for col in solar_df.columns:
+                            if isinstance(col, str) and 'stppf' in col.lower() and 'system' in col.lower():
+                                forecast_solar_col = col
+                                break
+                        
+                        if forecast_solar_col:
+                            fig_solar.add_trace(
+                                go.Scatter(
+                                    x=x_axis_solar,
+                                    y=solar_df[forecast_solar_col],
+                                    mode='lines',
+                                    name='STPPF Forecast',
+                                    line=dict(color='orange', width=2, dash='dash')
+                                )
+                            )                       for col in wind_df.columns:
+                            if isinstance(col, str) and 'stwpf' in col.lower() and 'system' in col.lower():
+                                forecast_col = col
+                                break
+                        
+                        if forecast_col:
+                            fig_wind.add_trace(
+                                go.Scatter(
+                                    x=x_axis_wind,
+                                    y=wind_df[forecast_col],
+                                    mode='lines',
+                                    name='STWPF Forecast',
+                                    line=dict(color='orange', width=2, dash='dash')
+                                )
+                            )ctual wind column (case-insensitive)
+                        actual_col = None
+                        for col in wind_df.columns:
+                            if isinstance(col, str) and 'actual' in col.lower() and 'system' in col.lower():
+                                actual_col = col
+                                break
+                        
+                        if actual_col:
+                            fig_wind.add_trace(
+                                go.Scatter(
+                                    x=x_axis_wind,
+                                    y=wind_df[actual_col],
+                                    mode='lines',
+                                    name='Actual Wind',
+                                    line=dict(color='green', width=2)
+                                )
+                            )ment variables or direct API key input.
     """
 
     def __init__(
@@ -299,30 +346,18 @@ def main():
         
         try:
             with st.spinner("Fetching load data..."):
-                # Fetch actual load data - try different parameter formats
-                # ERCOT API may use deliveryDateFrom/To or other naming conventions
+                # Fetch actual load data using correct parameter names from API docs
+                # NP6-345-CD uses operatingDayFrom/To (not deliveryDateFrom/To)
                 load_params = {
-                    "deliveryDateFrom": start_date.strftime("%Y-%m-%d"),
-                    "deliveryDateTo": end_date.strftime("%Y-%m-%d"),
+                    "operatingDayFrom": start_date.strftime("%Y-%m-%d"),
+                    "operatingDayTo": end_date.strftime("%Y-%m-%d"),
                     "page": 1,
                     "size": 5000
                 }
                 
-                try:
-                    actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
-                    if debug_mode:
-                        st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
-                except Exception as e1:
-                    # Try alternative parameter naming
-                    if debug_mode:
-                        st.warning(f"First attempt failed: {str(e1)}")
-                    load_params = {
-                        "page": 1,
-                        "size": 5000
-                    }
-                    actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
-                    if debug_mode:
-                        st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
+                actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
+                if debug_mode:
+                    st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
                 
                 try:
                     forecast_data = api.get_public("np3-565-cd/lf_by_model_weather_zone", params=load_params, verbose=False)
@@ -357,12 +392,19 @@ def main():
                         actual_df['timestamp'] = pd.to_datetime(actual_df[time_cols[0]])
                         actual_df = actual_df.sort_values('timestamp')
                     
-                    # Display metrics
+                    # Display metrics - use 'total' column for system-wide load
                     col1, col2, col3 = st.columns(3)
-                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
-                        latest_load = actual_df['ERCOT'].iloc[-1]
-                        avg_load = actual_df['ERCOT'].mean()
-                        max_load = actual_df['ERCOT'].max()
+                    load_col = None
+                    # Check for possible column names (case-insensitive)
+                    for col in actual_df.columns:
+                        if isinstance(col, str) and col.lower() in ['total', 'ercot', 'system_wide', 'systemwide']:
+                            load_col = col
+                            break
+                    
+                    if load_col and not actual_df.empty:
+                        latest_load = actual_df[load_col].iloc[-1]
+                        avg_load = actual_df[load_col].mean()
+                        max_load = actual_df[load_col].max()
                         
                         col1.metric("Current System Load", f"{latest_load:,.0f} MW")
                         col2.metric("Average Load", f"{avg_load:,.0f} MW")
@@ -371,12 +413,12 @@ def main():
                     # Plot actual vs forecast
                     fig = make_subplots(specs=[[{"secondary_y": False}]])
                     
-                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
+                    if load_col and not actual_df.empty:
                         x_axis = actual_df['timestamp'] if 'timestamp' in actual_df.columns else actual_df.index
                         fig.add_trace(
                             go.Scatter(
                                 x=x_axis,
-                                y=actual_df['ERCOT'],
+                                y=actual_df[load_col],
                                 mode='lines',
                                 name='Actual Load',
                                 line=dict(color='blue', width=2)
@@ -414,10 +456,10 @@ def main():
                     # ML Forecast Section
                     st.subheader("🤖 Machine Learning Load Forecast (Next 24 Hours)")
                     
-                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
+                    if load_col and not actual_df.empty:
                         # Prepare data for ML
                         ml_df = pd.DataFrame({
-                            'load': actual_df['ERCOT'].values
+                            'load': actual_df[load_col].values
                         }, index=range(len(actual_df)))
                         
                         model, scaler = train_load_forecast_model(ml_df)
@@ -589,11 +631,18 @@ def main():
                         fig_solar = go.Figure()
                         x_axis_solar = solar_df['timestamp'] if 'timestamp' in solar_df.columns else solar_df.index
                         
-                        if 'ACTUAL_SYSTEM_WIDE' in solar_df.columns:
+                        # Check for actual solar column (case-insensitive)
+                        actual_solar_col = None
+                        for col in solar_df.columns:
+                            if isinstance(col, str) and 'actual' in col.lower() and 'system' in col.lower():
+                                actual_solar_col = col
+                                break
+                        
+                        if actual_solar_col:
                             fig_solar.add_trace(
                                 go.Scatter(
                                     x=x_axis_solar,
-                                    y=solar_df['ACTUAL_SYSTEM_WIDE'],
+                                    y=solar_df[actual_solar_col],
                                     mode='lines',
                                     name='Actual Solar',
                                     line=dict(color='gold', width=2)
@@ -633,7 +682,10 @@ def main():
         
         try:
             with st.spinner("Fetching pricing data..."):
+                # NP6-788-CD uses SCEDTimestampFrom/To (not date parameters)
                 lmp_params = {
+                    "SCEDTimestampFrom": start_date.strftime("%Y-%m-%dT00:00:00"),
+                    "SCEDTimestampTo": end_date.strftime("%Y-%m-%dT23:59:59"),
                     "page": 1,
                     "size": 1000
                 }
