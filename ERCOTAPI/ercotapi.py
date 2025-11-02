@@ -653,8 +653,13 @@ def main():
                     if "data" in wind_data and len(wind_data["data"]) > 0:
                         wind_df = pd.DataFrame(wind_data["data"])
                         
+                        # Map column indices to names using 'fields' metadata (if available)
+                        if "fields" in wind_data and isinstance(wind_data["fields"], list):
+                            column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(wind_data["fields"])}
+                            wind_df.rename(columns=column_mapping, inplace=True)
+                        
                         # Parse timestamp
-                        wind_time_cols = [col for col in wind_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        wind_time_cols = [col for col in wind_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                         if wind_time_cols:
                             wind_df['timestamp'] = pd.to_datetime(wind_df[wind_time_cols[0]])
                             wind_df = wind_df.sort_values('timestamp')
@@ -738,8 +743,13 @@ def main():
                     if "data" in solar_data and len(solar_data["data"]) > 0:
                         solar_df = pd.DataFrame(solar_data["data"])
                         
+                        # Map column indices to names using 'fields' metadata (if available)
+                        if "fields" in solar_data and isinstance(solar_data["fields"], list):
+                            column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(solar_data["fields"])}
+                            solar_df.rename(columns=column_mapping, inplace=True)
+                        
                         # Parse timestamp
-                        solar_time_cols = [col for col in solar_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        solar_time_cols = [col for col in solar_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                         if solar_time_cols:
                             solar_df['timestamp'] = pd.to_datetime(solar_df[solar_time_cols[0]])
                             solar_df = solar_df.sort_values('timestamp')
@@ -872,8 +882,13 @@ def main():
                 if "data" in outage_data and len(outage_data["data"]) > 0:
                     outage_df = pd.DataFrame(outage_data["data"])
                     
+                    # Map column indices to names using 'fields' metadata (if available)
+                    if "fields" in outage_data and isinstance(outage_data["fields"], list):
+                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(outage_data["fields"])}
+                        outage_df.rename(columns=column_mapping, inplace=True)
+                    
                     # Parse timestamp
-                    outage_time_cols = [col for col in outage_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                    outage_time_cols = [col for col in outage_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                     if outage_time_cols:
                         outage_df['timestamp'] = pd.to_datetime(outage_df[outage_time_cols[0]])
                         outage_df = outage_df.sort_values('timestamp')
