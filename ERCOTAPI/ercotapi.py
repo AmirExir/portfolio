@@ -463,17 +463,14 @@ def main():
                                 date = pd.to_datetime(row['operatingDay'])
                                 hour_str = str(row['hourEnding']).strip().replace('.0', '')
                                 hour = int(hour_str) if hour_str.isdigit() else 0
-                                # ERCOT defines hourEnding=24 as midnight of the next day
-                                if hour == 24:
-                                    return date + timedelta(days=1)
-                                else:
-                                    return date + timedelta(hours=hour)
-                            except Exception as e:
+                                # ERCOT defines 24 as midnight next day
+                                return date + timedelta(days=1) if hour == 24 else date + timedelta(hours=hour)
+                            except:
                                 return pd.NaT
 
                         actual_df['timestamp'] = actual_df.apply(parse_ercot_timestamp, axis=1)
                         actual_df = actual_df.dropna(subset=['timestamp']).sort_values('timestamp')
-                    
+                                        
                     # Display metrics - use 'total' column for system-wide load
                     col1, col2, col3 = st.columns(3)
                     load_col = None
