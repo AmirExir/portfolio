@@ -1,6 +1,9 @@
 import os
 import requests
 from typing import Optional, Dict, Any
+import streamlit as st
+import pandas as pd
+import plotly.express as px
 
 
 class ErcotAPI:
@@ -101,3 +104,49 @@ if __name__ == "__main__":
                 print(record)
     except Exception as e:
         print("❌ Public API error:", e)
+
+
+# Streamlit dashboard block - only run when executed via streamlit run
+if __name__ != "__main__" and "streamlit" in os.environ.get("STREAMLIT_SERVER_RUN", "") or "streamlit" in os.sys.argv[0]:
+    st.title("⚡ ERCOT API Dashboard")
+
+    api = ErcotAPI()
+
+    endpoint = st.text_input("API Endpoint", value="np3-233-cd/hourly_res_outage_cap")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        start_date = st.date_input("Start Date", value=pd.to_datetime("2025-10-01"))
+    with col2:
+        end_date = st.date_input("End Date", value=pd.to_datetime("2025-10-02"))
+
+    if start_date > end_date:
+        st.error("Start Date must be before or equal to End Date.")
+    else:
+        params = {
+            "operatingDateFrom": start_date.strftime("%Y-%m-%d"),
+            "operatingDateTo": end_date.strftime("%Y-%m-%d"),
+            "page": 1,
+            "size": 1000
+        }
+
+        try:
+            with st.spinner("Fetching data from ERCOT API..."):
+                data_json = api.get_public(endpoint, params=params)
+            if "data" not in data_json or not isinstance(data_json["data"], list) or len(data_json["data"]) == 0:
+                st.warning("No data returned for the selected parameters.")
+            else:
+                df = pd.DataFrame(data_json["data"])
+                st.subheader("Sample Records")
+                st.dataframe(df.head(10))
+
+                if "operatingDateTime" in df.columns and "totalOutageMW" in df.columns:
+                    color_col = "fuelType" if "fuelType" in df.columns else None
+                    fig = px.line(df, x="operatingDateTime", y="totalOutageMW", color=color_col,
+                                  title="Total Outage MW Over Time",
+                                  labels={"operatingDateTime": "Operating DateTime", "totalOutageMW": "Total Outage (MW)"})
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("Data does not contain required columns 'operatingDateTime' and 'totalOutageMW' for plotting.")
+        except Exception as e:
+            st.error(f"Error fetching or processing data: {e}")
