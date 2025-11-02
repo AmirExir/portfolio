@@ -15,54 +15,7 @@ from sklearn.preprocessing import StandardScaler
 class ErcotAPI:
     """
     Simple client for interacting with ERCOT Public Reports API (https://api.ercot.com/api/public-reports).
-    Requir                        # C                        # Check for STWPF forecast column
-                        forecast_co                        # Check for STPPF forecast column
-                        forecast_solar_col = None
-                        for col in solar_df.columns:
-                            if isinstance(col, str) and 'stppf' in col.lower() and 'system' in col.lower():
-                                forecast_solar_col = col
-                                break
-                        
-                        if forecast_solar_col:
-                            fig_solar.add_trace(
-                                go.Scatter(
-                                    x=x_axis_solar,
-                                    y=solar_df[forecast_solar_col],
-                                    mode='lines',
-                                    name='STPPF Forecast',
-                                    line=dict(color='orange', width=2, dash='dash')
-                                )
-                            )                       for col in wind_df.columns:
-                            if isinstance(col, str) and 'stwpf' in col.lower() and 'system' in col.lower():
-                                forecast_col = col
-                                break
-                        
-                        if forecast_col:
-                            fig_wind.add_trace(
-                                go.Scatter(
-                                    x=x_axis_wind,
-                                    y=wind_df[forecast_col],
-                                    mode='lines',
-                                    name='STWPF Forecast',
-                                    line=dict(color='orange', width=2, dash='dash')
-                                )
-                            )ctual wind column (case-insensitive)
-                        actual_col = None
-                        for col in wind_df.columns:
-                            if isinstance(col, str) and 'actual' in col.lower() and 'system' in col.lower():
-                                actual_col = col
-                                break
-                        
-                        if actual_col:
-                            fig_wind.add_trace(
-                                go.Scatter(
-                                    x=x_axis_wind,
-                                    y=wind_df[actual_col],
-                                    mode='lines',
-                                    name='Actual Wind',
-                                    line=dict(color='green', width=2)
-                                )
-                            )ment variables or direct API key input.
+    Requires environment variables or direct API key input.
     """
 
     def __init__(
@@ -267,25 +220,63 @@ def main():
             """)
             api = None
     else:
-        st.sidebar.error("❌ No credentials configured")
-        api = None
+        st.sidebar.warning("⚠️ No environment credentials found. Please enter manually:")
+        
+        with st.sidebar.expander("Enter ERCOT API Credentials", expanded=True):
+            st.markdown("**Step 1: Get Subscription Key**")
+            st.markdown("1. Go to [ERCOT API Market](https://apimarket.ercot.com/)")
+            st.markdown("2. Sign in and navigate to 'Products'")
+            st.markdown("3. Subscribe to 'ERCOT Public API' (free tier)")
+            st.markdown("4. Copy your **Subscription Key** from your profile")
+            st.markdown("---")
+            st.markdown("**Step 2: Enter Credentials**")
+            
+            username = st.text_input("Username (Email)", type="default", help="Your ERCOT portal username/email")
+            password = st.text_input("Password", type="password", help="Your ERCOT portal password")
+            subscription_key = st.text_input("Subscription Key", type="password", help="From ERCOT API Market portal")
+            client_id = st.text_input("Client ID", value="fec253ea-0d06-4272-a5e6-b478baeecd70", help="ERCOT API Client ID (default)")
+            
+            if username and password and client_id and subscription_key:
+                try:
+                    api = ErcotAPI(username=username, password=password, client_id=client_id, subscription_key=subscription_key)
+                    st.sidebar.success("✅ Credentials accepted! Bearer token acquired.")
+                    
+                    # Ask if user wants to save for this session
+                    save_creds = st.sidebar.checkbox("💾 Remember credentials for this session", value=False,
+                                                     help="Credentials will be stored in memory (not saved to disk) for this browser session only")
+                    if save_creds:
+                        st.session_state.saved_credentials = {
+                            'username': username,
+                            'password': password,
+                            'client_id': client_id,
+                            'subscription_key': subscription_key
+                        }
+                        st.sidebar.success("✅ Credentials saved for this session!")
+                        st.sidebar.info("🔒 Secure: Credentials only in browser memory, not saved to disk")
+                except Exception as e:
+                    st.sidebar.error(f"❌ Authentication failed: {e}")
+                    api = None
+            else:
+                st.sidebar.info("👆 Please enter all credentials above to continue")
+                api = None
     
     # Only show the rest of the app if API is initialized
     if api is None:
-        st.error("🔐 **Credentials Required**")
+        st.warning("⚠️ Please configure API credentials to access ERCOT data.")
         
         # Check if running on Streamlit Cloud
         is_cloud = os.getenv("STREAMLIT_SHARING_MODE") or os.getenv("STREAMLIT_CLOUD")
         
         if is_cloud:
-            st.warning("""
-            **⚙️ Action Required: Configure Secrets**
+            st.error("""
+            **🚀 Streamlit Cloud Deployment Detected**
             
-            You're viewing this on Streamlit Cloud. To make the app work:
-            
-            1. Click the **⚙️ Settings** menu (three dots, top-right)
-            2. Select **"Secrets"** from the left sidebar
-            3. Delete the example text and paste YOUR credentials:
+            To configure secrets on Streamlit Cloud:
+            1. Go to your app dashboard: https://share.streamlit.io/
+            2. Click on your app
+            3. Click the **⚙️ Settings** button (three dots menu)
+            4. Select **"Secrets"** from the left sidebar
+            5. Paste the following format:
             
             ```toml
             ERCOT_USERNAME = "your_email@example.com"
@@ -346,18 +337,30 @@ def main():
         
         try:
             with st.spinner("Fetching load data..."):
-                # Fetch actual load data using correct parameter names from API docs
-                # NP6-345-CD uses operatingDayFrom/To (not deliveryDateFrom/To)
+                # Fetch actual load data - try different parameter formats
+                # ERCOT API may use deliveryDateFrom/To or other naming conventions
                 load_params = {
-                    "operatingDayFrom": start_date.strftime("%Y-%m-%d"),
-                    "operatingDayTo": end_date.strftime("%Y-%m-%d"),
+                    "deliveryDateFrom": start_date.strftime("%Y-%m-%d"),
+                    "deliveryDateTo": end_date.strftime("%Y-%m-%d"),
                     "page": 1,
                     "size": 5000
                 }
                 
-                actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
-                if debug_mode:
-                    st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
+                try:
+                    actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
+                    if debug_mode:
+                        st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
+                except Exception as e1:
+                    # Try alternative parameter naming
+                    if debug_mode:
+                        st.warning(f"First attempt failed: {str(e1)}")
+                    load_params = {
+                        "page": 1,
+                        "size": 5000
+                    }
+                    actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
+                    if debug_mode:
+                        st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
                 
                 try:
                     forecast_data = api.get_public("np3-565-cd/lf_by_model_weather_zone", params=load_params, verbose=False)
@@ -373,55 +376,19 @@ def main():
                         st.write("**Load Data Sample:**")
                         st.dataframe(actual_df.head())
                         st.write(f"Columns: {list(actual_df.columns)}")
-                        st.write("**Fields metadata:**")
-                        if "fields" in actual_load_data:
-                            st.json(actual_load_data["fields"])
                     
-                    # Map column indices to names using the 'fields' metadata
-                    if "fields" in actual_load_data and isinstance(actual_load_data["fields"], list):
-                        # Create column name mapping from fields metadata
-                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(actual_load_data["fields"])}
-                        actual_df.rename(columns=column_mapping, inplace=True)
-                        
-                        if debug_mode:
-                            st.write("**Renamed Columns:**", list(actual_df.columns))
-                    
-                    # Parse timestamp: ERCOT uses operatingDay + hourEnding (where hour 24 = midnight next day)
-                    if 'operatingDay' in actual_df.columns and 'hourEnding' in actual_df.columns:
-                        def parse_ercot_timestamp(row):
-                            try:
-                                date = pd.to_datetime(row['operatingDay'])
-                                hour = int(row['hourEnding'])
-                                # Hour 24 means midnight of next day (hour 0)
-                                if hour == 24:
-                                    return date + timedelta(days=1)
-                                else:
-                                    return date + timedelta(hours=hour)
-                            except:
-                                return pd.NaT
-                        
-                        actual_df['timestamp'] = actual_df.apply(parse_ercot_timestamp, axis=1)
+                    # Parse timestamp column if exists
+                    time_cols = [col for col in actual_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                    if time_cols:
+                        actual_df['timestamp'] = pd.to_datetime(actual_df[time_cols[0]])
                         actual_df = actual_df.sort_values('timestamp')
-                    else:
-                        # Fallback: look for any timestamp column
-                        time_cols = [col for col in actual_df.columns if isinstance(col, str) and 'time' in col.lower()]
-                        if time_cols:
-                            actual_df['timestamp'] = pd.to_datetime(actual_df[time_cols[0]])
-                            actual_df = actual_df.sort_values('timestamp')
                     
-                    # Display metrics - use 'total' column for system-wide load
+                    # Display metrics
                     col1, col2, col3 = st.columns(3)
-                    load_col = None
-                    # Check for possible column names (case-insensitive)
-                    for col in actual_df.columns:
-                        if isinstance(col, str) and col.lower() in ['total', 'ercot', 'system_wide', 'systemwide']:
-                            load_col = col
-                            break
-                    
-                    if load_col and not actual_df.empty:
-                        latest_load = actual_df[load_col].iloc[-1]
-                        avg_load = actual_df[load_col].mean()
-                        max_load = actual_df[load_col].max()
+                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
+                        latest_load = actual_df['ERCOT'].iloc[-1]
+                        avg_load = actual_df['ERCOT'].mean()
+                        max_load = actual_df['ERCOT'].max()
                         
                         col1.metric("Current System Load", f"{latest_load:,.0f} MW")
                         col2.metric("Average Load", f"{avg_load:,.0f} MW")
@@ -430,12 +397,12 @@ def main():
                     # Plot actual vs forecast
                     fig = make_subplots(specs=[[{"secondary_y": False}]])
                     
-                    if load_col and not actual_df.empty:
+                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
                         x_axis = actual_df['timestamp'] if 'timestamp' in actual_df.columns else actual_df.index
                         fig.add_trace(
                             go.Scatter(
                                 x=x_axis,
-                                y=actual_df[load_col],
+                                y=actual_df['ERCOT'],
                                 mode='lines',
                                 name='Actual Load',
                                 line=dict(color='blue', width=2)
@@ -443,25 +410,11 @@ def main():
                         )
                     
                     if not forecast_df.empty:
-                        # Parse timestamp for forecast data (handle hourEnding = 24)
-                        if 'operatingDay' in forecast_df.columns and 'hourEnding' in forecast_df.columns:
-                            def parse_ercot_timestamp(row):
-                                try:
-                                    date = pd.to_datetime(row['operatingDay'])
-                                    hour = int(row['hourEnding'])
-                                    if hour == 24:
-                                        return date + timedelta(days=1)
-                                    else:
-                                        return date + timedelta(hours=hour)
-                                except:
-                                    return pd.NaT
-                            forecast_df['timestamp'] = forecast_df.apply(parse_ercot_timestamp, axis=1)
+                        # Parse timestamp for forecast data
+                        forecast_time_cols = [col for col in forecast_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        if forecast_time_cols:
+                            forecast_df['timestamp'] = pd.to_datetime(forecast_df[forecast_time_cols[0]])
                             forecast_df = forecast_df.sort_values('timestamp')
-                        else:
-                            forecast_time_cols = [col for col in forecast_df.columns if isinstance(col, str) and 'time' in col.lower()]
-                            if forecast_time_cols:
-                                forecast_df['timestamp'] = pd.to_datetime(forecast_df[forecast_time_cols[0]])
-                                forecast_df = forecast_df.sort_values('timestamp')
                         
                         x_axis_forecast = forecast_df['timestamp'] if 'timestamp' in forecast_df.columns else forecast_df.index
                         fig.add_trace(
@@ -487,10 +440,10 @@ def main():
                     # ML Forecast Section
                     st.subheader("🤖 Machine Learning Load Forecast (Next 24 Hours)")
                     
-                    if load_col and not actual_df.empty:
+                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
                         # Prepare data for ML
                         ml_df = pd.DataFrame({
-                            'load': actual_df[load_col].values
+                            'load': actual_df['ERCOT'].values
                         }, index=range(len(actual_df)))
                         
                         model, scaler = train_load_forecast_model(ml_df)
@@ -573,30 +526,11 @@ def main():
                     if "data" in wind_data and len(wind_data["data"]) > 0:
                         wind_df = pd.DataFrame(wind_data["data"])
                         
-                        # Map column indices to names using the 'fields' metadata
-                        if "fields" in wind_data and isinstance(wind_data["fields"], list):
-                            column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(wind_data["fields"])}
-                            wind_df.rename(columns=column_mapping, inplace=True)
-                        
-                        # Parse timestamp: Wind API uses deliveryDate + hourEnding (hour 24 = midnight next day)
-                        if 'deliveryDate' in wind_df.columns and 'hourEnding' in wind_df.columns:
-                            def parse_ercot_timestamp(row):
-                                try:
-                                    date = pd.to_datetime(row['deliveryDate'])
-                                    hour = int(row['hourEnding'])
-                                    if hour == 24:
-                                        return date + timedelta(days=1)
-                                    else:
-                                        return date + timedelta(hours=hour)
-                                except:
-                                    return pd.NaT
-                            wind_df['timestamp'] = wind_df.apply(parse_ercot_timestamp, axis=1)
+                        # Parse timestamp
+                        wind_time_cols = [col for col in wind_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        if wind_time_cols:
+                            wind_df['timestamp'] = pd.to_datetime(wind_df[wind_time_cols[0]])
                             wind_df = wind_df.sort_values('timestamp')
-                        else:
-                            wind_time_cols = [col for col in wind_df.columns if isinstance(col, str) and 'time' in col.lower()]
-                            if wind_time_cols:
-                                wind_df['timestamp'] = pd.to_datetime(wind_df[wind_time_cols[0]])
-                                wind_df = wind_df.sort_values('timestamp')
                         
                         if debug_mode:
                             st.write("**Wind Data Sample:**", wind_df.head())
@@ -605,23 +539,37 @@ def main():
                         fig_wind = go.Figure()
                         x_axis_wind = wind_df['timestamp'] if 'timestamp' in wind_df.columns else wind_df.index
                         
-                        # Add actual and forecast traces
-                        if 'ACTUAL_SYSTEM_WIDE' in wind_df.columns:
+                        # Add actual and forecast traces - API uses 'genSystemWide' not 'ACTUAL_SYSTEM_WIDE'
+                        # Find actual column
+                        actual_col = None
+                        for col in wind_df.columns:
+                            if isinstance(col, str) and ('gensystemwide' in col.lower() or 'actual' in col.lower() and 'system' in col.lower()):
+                                actual_col = col
+                                break
+                        
+                        if actual_col:
                             fig_wind.add_trace(
                                 go.Scatter(
                                     x=x_axis_wind,
-                                    y=wind_df['ACTUAL_SYSTEM_WIDE'],
+                                    y=wind_df[actual_col],
                                     mode='lines',
                                     name='Actual Wind',
                                     line=dict(color='teal', width=2)
                                 )
                             )
                         
-                        if 'STWPF' in wind_df.columns:
+                        # Find forecast column
+                        forecast_col = None
+                        for col in wind_df.columns:
+                            if isinstance(col, str) and ('stwpf' in col.lower() and 'system' in col.lower()):
+                                forecast_col = col
+                                break
+                        
+                        if forecast_col:
                             fig_wind.add_trace(
                                 go.Scatter(
                                     x=x_axis_wind,
-                                    y=wind_df['STWPF'],
+                                    y=wind_df[forecast_col],
                                     mode='lines',
                                     name='Wind Forecast',
                                     line=dict(color='lightblue', width=2, dash='dash')
@@ -658,30 +606,11 @@ def main():
                     if "data" in solar_data and len(solar_data["data"]) > 0:
                         solar_df = pd.DataFrame(solar_data["data"])
                         
-                        # Map column indices to names using the 'fields' metadata
-                        if "fields" in solar_data and isinstance(solar_data["fields"], list):
-                            column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(solar_data["fields"])}
-                            solar_df.rename(columns=column_mapping, inplace=True)
-                        
-                        # Parse timestamp: Solar API uses deliveryDate + hourEnding (hour 24 = midnight next day)
-                        if 'deliveryDate' in solar_df.columns and 'hourEnding' in solar_df.columns:
-                            def parse_ercot_timestamp(row):
-                                try:
-                                    date = pd.to_datetime(row['deliveryDate'])
-                                    hour = int(row['hourEnding'])
-                                    if hour == 24:
-                                        return date + timedelta(days=1)
-                                    else:
-                                        return date + timedelta(hours=hour)
-                                except:
-                                    return pd.NaT
-                            solar_df['timestamp'] = solar_df.apply(parse_ercot_timestamp, axis=1)
+                        # Parse timestamp
+                        solar_time_cols = [col for col in solar_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        if solar_time_cols:
+                            solar_df['timestamp'] = pd.to_datetime(solar_df[solar_time_cols[0]])
                             solar_df = solar_df.sort_values('timestamp')
-                        else:
-                            solar_time_cols = [col for col in solar_df.columns if isinstance(col, str) and 'time' in col.lower()]
-                            if solar_time_cols:
-                                solar_df['timestamp'] = pd.to_datetime(solar_df[solar_time_cols[0]])
-                                solar_df = solar_df.sort_values('timestamp')
                         
                         if debug_mode:
                             st.write("**Solar Data Sample:**", solar_df.head())
@@ -690,10 +619,10 @@ def main():
                         fig_solar = go.Figure()
                         x_axis_solar = solar_df['timestamp'] if 'timestamp' in solar_df.columns else solar_df.index
                         
-                        # Check for actual solar column (case-insensitive)
+                        # Find actual solar column - API uses 'genSystemWide'
                         actual_solar_col = None
                         for col in solar_df.columns:
-                            if isinstance(col, str) and 'actual' in col.lower() and 'system' in col.lower():
+                            if isinstance(col, str) and ('gensystemwide' in col.lower() or 'actual' in col.lower() and 'system' in col.lower()):
                                 actual_solar_col = col
                                 break
                         
@@ -708,11 +637,18 @@ def main():
                                 )
                             )
                         
-                        if 'STPPF' in solar_df.columns:
+                        # Find solar forecast column
+                        forecast_solar_col = None
+                        for col in solar_df.columns:
+                            if isinstance(col, str) and ('stppf' in col.lower() and 'system' in col.lower()):
+                                forecast_solar_col = col
+                                break
+                        
+                        if forecast_solar_col:
                             fig_solar.add_trace(
                                 go.Scatter(
                                     x=x_axis_solar,
-                                    y=solar_df['STPPF'],
+                                    y=solar_df[forecast_solar_col],
                                     mode='lines',
                                     name='Solar Forecast',
                                     line=dict(color='orange', width=2, dash='dash')
@@ -741,10 +677,7 @@ def main():
         
         try:
             with st.spinner("Fetching pricing data..."):
-                # NP6-788-CD uses SCEDTimestampFrom/To (not date parameters)
                 lmp_params = {
-                    "SCEDTimestampFrom": start_date.strftime("%Y-%m-%dT00:00:00"),
-                    "SCEDTimestampTo": end_date.strftime("%Y-%m-%dT23:59:59"),
                     "page": 1,
                     "size": 1000
                 }
@@ -752,11 +685,6 @@ def main():
                 
                 if "data" in lmp_data and len(lmp_data["data"]) > 0:
                     lmp_df = pd.DataFrame(lmp_data["data"])
-                    
-                    # Map column indices to names using the 'fields' metadata
-                    if "fields" in lmp_data and isinstance(lmp_data["fields"], list):
-                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(lmp_data["fields"])}
-                        lmp_df.rename(columns=column_mapping, inplace=True)
                     
                     # Filter for major hubs
                     if 'SettlementPoint' in lmp_df.columns:
@@ -802,43 +730,11 @@ def main():
                 if "data" in outage_data and len(outage_data["data"]) > 0:
                     outage_df = pd.DataFrame(outage_data["data"])
                     
-                    # Map column indices to names using the 'fields' metadata
-                    if "fields" in outage_data and isinstance(outage_data["fields"], list):
-                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(outage_data["fields"])}
-                        outage_df.rename(columns=column_mapping, inplace=True)
-                    
-                    # Parse timestamp: Outage API may use different date/hour fields
-                    if 'deliveryDate' in outage_df.columns and 'hourEnding' in outage_df.columns:
-                        def parse_ercot_timestamp(row):
-                            try:
-                                date = pd.to_datetime(row['deliveryDate'])
-                                hour = int(row['hourEnding'])
-                                if hour == 24:
-                                    return date + timedelta(days=1)
-                                else:
-                                    return date + timedelta(hours=hour)
-                            except:
-                                return pd.NaT
-                        outage_df['timestamp'] = outage_df.apply(parse_ercot_timestamp, axis=1)
+                    # Parse timestamp
+                    outage_time_cols = [col for col in outage_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                    if outage_time_cols:
+                        outage_df['timestamp'] = pd.to_datetime(outage_df[outage_time_cols[0]])
                         outage_df = outage_df.sort_values('timestamp')
-                    elif 'operatingDay' in outage_df.columns and 'hourEnding' in outage_df.columns:
-                        def parse_ercot_timestamp(row):
-                            try:
-                                date = pd.to_datetime(row['operatingDay'])
-                                hour = int(row['hourEnding'])
-                                if hour == 24:
-                                    return date + timedelta(days=1)
-                                else:
-                                    return date + timedelta(hours=hour)
-                            except:
-                                return pd.NaT
-                        outage_df['timestamp'] = outage_df.apply(parse_ercot_timestamp, axis=1)
-                        outage_df = outage_df.sort_values('timestamp')
-                    else:
-                        outage_time_cols = [col for col in outage_df.columns if isinstance(col, str) and 'time' in col.lower()]
-                        if outage_time_cols:
-                            outage_df['timestamp'] = pd.to_datetime(outage_df[outage_time_cols[0]])
-                            outage_df = outage_df.sort_values('timestamp')
                     
                     if debug_mode:
                         st.write("**Outage Data Sample:**", outage_df.head())
