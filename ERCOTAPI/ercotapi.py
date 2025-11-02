@@ -4,6 +4,12 @@ from typing import Optional, Dict, Any
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+from datetime import datetime, timedelta
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import StandardScaler
 
 
 class ErcotAPI:
@@ -19,20 +25,19 @@ class ErcotAPI:
             username: Optional[str] = None,
             password: Optional[str] = None,
             client_id: Optional[str] = None,
+            subscription_key: Optional[str] = None,
         ):
         self.public_key = public_key or os.getenv("ERCOT_PUBLIC_KEY")
         self.bearer_token = bearer_token or os.getenv("ERCOT_BEARER_TOKEN")
+        self.subscription_key = subscription_key or os.getenv("ERCOT_SUBSCRIPTION_KEY")
         username = username or os.getenv("ERCOT_USERNAME")
         password = password or os.getenv("ERCOT_PASSWORD")
         client_id = client_id or os.getenv("ERCOT_CLIENT_ID")
 
-        if not self.public_key:
-            print("⚠️ Warning: Missing ERCOT_PUBLIC_KEY. Set it as env var or pass to constructor.")
-
         if not self.bearer_token and username and password and client_id:
-            self.get_bearer_token(username, password, client_id)
+            self.get_bearer_token(username, password, client_id, verbose=False)
 
-    def get_bearer_token(self, username: str, password: str, client_id: str, scope: str = "openid fec253ea-0d06-4272-a5e6-b478baeecd70 offline_access") -> None:
+    def get_bearer_token(self, username: str, password: str, client_id: str, scope: str = "openid fec253ea-0d06-4272-a5e6-b478baeecd70 offline_access", verbose: bool = False) -> None:
         """Retrieve a bearer token from ERCOT's OAuth endpoint and store it."""
         token_url = "https://ercotb2c.b2clogin.com/ercotb2c.onmicrosoft.com/B2C_1_PUBAPI-ROPC-FLOW/oauth2/v2.0/token"
         data = {
@@ -42,17 +47,19 @@ class ErcotAPI:
             "username": username,
             "password": password,
         }
-        print("🔐 Requesting bearer token from ERCOT...")
+        if verbose:
+            print("🔐 Requesting bearer token from ERCOT...")
         response = requests.post(token_url, data=data)
         response.raise_for_status()
         token_info = response.json()
         self.bearer_token = token_info.get("access_token") 
         if self.bearer_token:
-            print("✅ Bearer token acquired.")
+            if verbose:
+                print("✅ Bearer token acquired.")
         else:
             raise ValueError("Failed to obtain bearer token.")
 
-    def _make_request(self, base_url: str, endpoint: str, key: str, params: Optional[Dict[str, Any]] = None) -> Dict:
+    def _make_request(self, base_url: str, endpoint: str, key: str, params: Optional[Dict[str, Any]] = None, verbose: bool = False) -> Dict:
         """Internal method to send a GET request to ERCOT API."""
         url = f"{base_url}/{endpoint.lstrip('/')}"
         
@@ -60,80 +67,593 @@ class ErcotAPI:
         headers = {}
         if self.bearer_token:
             headers["Authorization"] = f"Bearer {self.bearer_token}"
-        if key:
-            headers["Ocp-Apim-Subscription-Key"] = key
+        if key or self.subscription_key:
+            headers["Ocp-Apim-Subscription-Key"] = key or self.subscription_key
         
-        print(f"🌐 Requesting: {url}")
-        print(f"🧾 Headers: {headers}")
-        print(f"🔍 Params: {params}")
+        if verbose:
+            print(f"🌐 Requesting: {url}")
+            print(f"🔍 Params: {params}")
+            print(f"🔑 Headers: {list(headers.keys())}")
         
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
         return response.json()
 
-    def get_public(self, endpoint: str, params: Optional[Dict[str, Any]] = None) -> Dict:
+    def get_public(self, endpoint: str, params: Optional[Dict[str, Any]] = None, verbose: bool = False) -> Dict:
         """Query ERCOT Public Reports API (base: https://api.ercot.com/api/public-reports)"""
-        if not self.public_key and not self.bearer_token:
-            raise ValueError("Missing ERCOT Public API key or Bearer token")
+        if not self.bearer_token and not self.subscription_key:
+            raise ValueError("Missing ERCOT Bearer token or Subscription Key. You need BOTH authentication methods.")
 
         base_url = "https://api.ercot.com/api/public-reports"
-        print(f"🔄 Using Public Reports API: {base_url}/{endpoint}")
+        if verbose:
+            print(f"🔄 Using Public Reports API: {base_url}/{endpoint}")
 
-        return self._make_request(base_url, endpoint, self.public_key, params)
+        return self._make_request(base_url, endpoint, self.public_key, params, verbose)
 
+
+
+# --- Helper Functions ---
+def train_load_forecast_model(historical_data):
+    """Train a simple ML model to forecast load based on historical patterns."""
+    if len(historical_data) < 48:  # Need at least 2 days
+        return None, None
+    
+    # Feature engineering: hour of day, day of week, rolling averages
+    df = historical_data.copy()
+    df['hour'] = pd.to_datetime(df.index).hour
+    df['day_of_week'] = pd.to_datetime(df.index).dayofweek
+    df['rolling_mean_24h'] = df['load'].rolling(24, min_periods=1).mean()
+    df['rolling_std_24h'] = df['load'].rolling(24, min_periods=1).std()
+    
+    # Prepare features and target
+    features = ['hour', 'day_of_week', 'rolling_mean_24h', 'rolling_std_24h']
+    df = df.dropna()
+    
+    if len(df) < 24:
+        return None, None
+    
+    X = df[features]
+    y = df['load']
+    
+    # Train model
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+    
+    model = RandomForestRegressor(n_estimators=50, random_state=42, max_depth=10)
+    model.fit(X_scaled, y)
+    
+    return model, scaler
 
 
 # --- Streamlit Dashboard ---
 def main():
-    st.set_page_config(page_title="ERCOT API Dashboard", layout="wide")
-    st.title(" ERCOT API Dashboard")
+    st.set_page_config(page_title="ERCOT Grid Analytics Dashboard", layout="wide")
+    st.title("⚡ ERCOT Grid Analytics & Forecasting Dashboard")
+    st.markdown("**Real-time grid monitoring, renewable generation tracking, and ML-powered load forecasting**")
 
-    api = ErcotAPI()
-
-    endpoint = st.text_input("API Endpoint", value="np3-233-cd/hourly_res_outage_cap")
-
-    col1, col2 = st.columns(2)
-    with col1:
-        start_date = st.date_input("Start Date", value=pd.to_datetime("2025-10-01"))
-    with col2:
-        end_date = st.date_input("End Date", value=pd.to_datetime("2025-10-02"))
-
-    if start_date > end_date:
-        st.error("Start Date must be before or equal to End Date.")
-    else:
-        params = {
-            "operatingDateFrom": start_date.strftime("%Y-%m-%d"),
-            "operatingDateTo": end_date.strftime("%Y-%m-%d"),
-            "page": 1,
-            "size": 1000
-        }
-
+    # Sidebar for configuration
+    st.sidebar.header("⚙️ Configuration")
+    
+    # Credentials section
+    st.sidebar.subheader("🔐 API Credentials")
+    
+    # Check if credentials are in environment or Streamlit secrets
+    has_env_creds = bool(os.getenv("ERCOT_USERNAME") and os.getenv("ERCOT_PASSWORD") and os.getenv("ERCOT_CLIENT_ID") and os.getenv("ERCOT_SUBSCRIPTION_KEY"))
+    has_secrets = False
+    
+    # Try Streamlit secrets
+    if not has_env_creds:
         try:
-            with st.spinner("Fetching data from ERCOT API..."):
-                data_json = api.get_public(endpoint, params=params)
-
-            if "data" not in data_json or not isinstance(data_json["data"], list) or len(data_json["data"]) == 0:
-                st.warning("No data returned for the selected parameters.")
+            has_secrets = bool(st.secrets.get("ERCOT_USERNAME") and st.secrets.get("ERCOT_PASSWORD") and 
+                             st.secrets.get("ERCOT_CLIENT_ID") and st.secrets.get("ERCOT_SUBSCRIPTION_KEY"))
+        except:
+            pass
+    
+    if has_env_creds:
+        st.sidebar.success("✅ Using credentials from environment variables")
+        api = ErcotAPI()
+    elif has_secrets:
+        st.sidebar.success("✅ Using credentials from Streamlit secrets")
+        api = ErcotAPI(
+            username=st.secrets["ERCOT_USERNAME"],
+            password=st.secrets["ERCOT_PASSWORD"],
+            client_id=st.secrets["ERCOT_CLIENT_ID"],
+            subscription_key=st.secrets["ERCOT_SUBSCRIPTION_KEY"]
+        )
+    else:
+        st.sidebar.warning("⚠️ No environment credentials found. Please enter manually:")
+        
+        with st.sidebar.expander("Enter ERCOT API Credentials", expanded=True):
+            st.markdown("**Step 1: Get Subscription Key**")
+            st.markdown("1. Go to [ERCOT API Market](https://apimarket.ercot.com/)")
+            st.markdown("2. Sign in and navigate to 'Products'")
+            st.markdown("3. Subscribe to 'ERCOT Public API' (free tier)")
+            st.markdown("4. Copy your **Subscription Key** from your profile")
+            st.markdown("---")
+            st.markdown("**Step 2: Enter Credentials**")
+            
+            username = st.text_input("Username (Email)", type="default", help="Your ERCOT portal username/email")
+            password = st.text_input("Password", type="password", help="Your ERCOT portal password")
+            subscription_key = st.text_input("Subscription Key", type="password", help="From ERCOT API Market portal")
+            client_id = st.text_input("Client ID", value="fec253ea-0d06-4272-a5e6-b478baeecd70", help="ERCOT API Client ID (default)")
+            
+            if username and password and client_id and subscription_key:
+                try:
+                    api = ErcotAPI(username=username, password=password, client_id=client_id, subscription_key=subscription_key)
+                    st.sidebar.success("✅ Credentials accepted! Bearer token acquired.")
+                except Exception as e:
+                    st.sidebar.error(f"❌ Authentication failed: {e}")
+                    api = None
             else:
-                df = pd.DataFrame(data_json["data"])
-                st.subheader("Sample Records")
-                st.dataframe(df.head(10))
-
-                if "operatingDateTime" in df.columns and "totalOutageMW" in df.columns:
-                    color_col = "fuelType" if "fuelType" in df.columns else None
-                    fig = px.line(
-                        df,
-                        x="operatingDateTime",
-                        y="totalOutageMW",
-                        color=color_col,
-                        title="Total Outage MW Over Time",
-                        labels={"operatingDateTime": "Operating DateTime", "totalOutageMW": "Total Outage (MW)"}
+                st.sidebar.info("👆 Please enter all credentials above to continue")
+                api = None
+    
+    # Only show the rest of the app if API is initialized
+    if api is None:
+        st.warning("⚠️ Please configure API credentials in the sidebar to access ERCOT data.")
+        st.info("""
+        **How to get ERCOT API credentials:**
+        
+        **Important:** You need TWO things:
+        1. **Subscription Key** (Primary requirement):
+           - Register at https://apimarket.ercot.com/
+           - Sign in and click "Products" → "ERCOT Public API"
+           - Click "Subscribe" (free tier available)
+           - Go to "Profile" → "Subscriptions" to find your **Primary Key**
+           - This is your **Subscription Key**
+        
+        2. **Login Credentials** (Username & Password):
+           - Use the same username/email and password from your ERCOT portal account
+           - The Client ID is pre-filled (default value)
+        
+        **The 401 Access Denied error means you're missing the Subscription Key!**
+        """)
+        return
+    
+    # Date range selector
+    date_range = st.sidebar.slider(
+        "Historical Days to Load",
+        min_value=1,
+        max_value=7,
+        value=3,
+        help="Number of days of historical data to fetch"
+    )
+    
+    # Debug mode
+    debug_mode = st.sidebar.checkbox("🔍 Debug Mode", value=False, help="Show detailed API request/response info")
+    
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=date_range)
+    
+    # Dashboard sections
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "📊 Load Analysis & Forecast", 
+        "🌬️ Renewable Generation", 
+        "💰 Real-Time Pricing",
+        "⚠️ Resource Outages"
+    ])
+    
+    # TAB 1: LOAD ANALYSIS & FORECAST
+    with tab1:
+        st.header("System Load: Actual vs Forecast with ML Prediction")
+        
+        try:
+            with st.spinner("Fetching load data..."):
+                # Fetch actual load data - try different parameter formats
+                # ERCOT API may use deliveryDateFrom/To or other naming conventions
+                load_params = {
+                    "deliveryDateFrom": start_date.strftime("%Y-%m-%d"),
+                    "deliveryDateTo": end_date.strftime("%Y-%m-%d"),
+                    "page": 1,
+                    "size": 5000
+                }
+                
+                try:
+                    actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
+                    if debug_mode:
+                        st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
+                except Exception as e1:
+                    # Try alternative parameter naming
+                    if debug_mode:
+                        st.warning(f"First attempt failed: {str(e1)}")
+                    load_params = {
+                        "page": 1,
+                        "size": 5000
+                    }
+                    actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
+                    if debug_mode:
+                        st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
+                
+                try:
+                    forecast_data = api.get_public("np3-565-cd/lf_by_model_weather_zone", params=load_params, verbose=False)
+                except:
+                    forecast_data = {"data": []}
+                
+                if "data" in actual_load_data and len(actual_load_data["data"]) > 0:
+                    actual_df = pd.DataFrame(actual_load_data["data"])
+                    forecast_df = pd.DataFrame(forecast_data["data"]) if "data" in forecast_data else pd.DataFrame()
+                    
+                    # Debug: Show first few rows
+                    if debug_mode:
+                        st.write("**Load Data Sample:**")
+                        st.dataframe(actual_df.head())
+                        st.write(f"Columns: {list(actual_df.columns)}")
+                    
+                    # Parse timestamp column if exists
+                    time_cols = [col for col in actual_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                    if time_cols:
+                        actual_df['timestamp'] = pd.to_datetime(actual_df[time_cols[0]])
+                        actual_df = actual_df.sort_values('timestamp')
+                    
+                    # Display metrics
+                    col1, col2, col3 = st.columns(3)
+                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
+                        latest_load = actual_df['ERCOT'].iloc[-1]
+                        avg_load = actual_df['ERCOT'].mean()
+                        max_load = actual_df['ERCOT'].max()
+                        
+                        col1.metric("Current System Load", f"{latest_load:,.0f} MW")
+                        col2.metric("Average Load", f"{avg_load:,.0f} MW")
+                        col3.metric("Peak Load", f"{max_load:,.0f} MW")
+                    
+                    # Plot actual vs forecast
+                    fig = make_subplots(specs=[[{"secondary_y": False}]])
+                    
+                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
+                        x_axis = actual_df['timestamp'] if 'timestamp' in actual_df.columns else actual_df.index
+                        fig.add_trace(
+                            go.Scatter(
+                                x=x_axis,
+                                y=actual_df['ERCOT'],
+                                mode='lines',
+                                name='Actual Load',
+                                line=dict(color='blue', width=2)
+                            )
+                        )
+                    
+                    if not forecast_df.empty:
+                        # Parse timestamp for forecast data
+                        forecast_time_cols = [col for col in forecast_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        if forecast_time_cols:
+                            forecast_df['timestamp'] = pd.to_datetime(forecast_df[forecast_time_cols[0]])
+                            forecast_df = forecast_df.sort_values('timestamp')
+                        
+                        x_axis_forecast = forecast_df['timestamp'] if 'timestamp' in forecast_df.columns else forecast_df.index
+                        fig.add_trace(
+                            go.Scatter(
+                                x=x_axis_forecast,
+                                y=forecast_df.get('SystemTotal', forecast_df.iloc[:, -1]),
+                                mode='lines',
+                                name='Forecast Load',
+                                line=dict(color='orange', width=2, dash='dash')
+                            )
+                        )
+                    
+                    fig.update_layout(
+                        title="ERCOT System Load: Actual vs Forecast",
+                        xaxis_title="Time",
+                        yaxis_title="Load (MW)",
+                        height=500,
+                        hovermode='x unified'
                     )
+                    
                     st.plotly_chart(fig, use_container_width=True)
+                    
+                    # ML Forecast Section
+                    st.subheader("🤖 Machine Learning Load Forecast (Next 24 Hours)")
+                    
+                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
+                        # Prepare data for ML
+                        ml_df = pd.DataFrame({
+                            'load': actual_df['ERCOT'].values
+                        }, index=range(len(actual_df)))
+                        
+                        model, scaler = train_load_forecast_model(ml_df)
+                        
+                        if model is not None:
+                            # Generate forecast for next 24 hours
+                            last_timestamp = pd.Timestamp.now()
+                            future_hours = []
+                            future_features = []
+                            
+                            for h in range(24):
+                                future_time = last_timestamp + timedelta(hours=h)
+                                future_hours.append(future_time)
+                                
+                                # Create features
+                                hour = future_time.hour
+                                dow = future_time.dayofweek
+                                recent_mean = ml_df['load'].iloc[-24:].mean()
+                                recent_std = ml_df['load'].iloc[-24:].std()
+                                
+                                future_features.append([hour, dow, recent_mean, recent_std])
+                            
+                            future_X = scaler.transform(future_features)
+                            future_load = model.predict(future_X)
+                            
+                            # Plot ML forecast
+                            fig_ml = go.Figure()
+                            
+                            fig_ml.add_trace(
+                                go.Scatter(
+                                    x=future_hours,
+                                    y=future_load,
+                                    mode='lines+markers',
+                                    name='ML Forecast',
+                                    line=dict(color='green', width=3)
+                                )
+                            )
+                            
+                            fig_ml.update_layout(
+                                title="Random Forest Load Forecast (Next 24 Hours)",
+                                xaxis_title="Time",
+                                yaxis_title="Predicted Load (MW)",
+                                height=400
+                            )
+                            
+                            st.plotly_chart(fig_ml, use_container_width=True)
+                            
+                            # Show forecast table
+                            forecast_table = pd.DataFrame({
+                                'Hour': [f"{h.hour}:00" for h in future_hours],
+                                'Predicted Load (MW)': [f"{load:,.0f}" for load in future_load]
+                            })
+                            st.dataframe(forecast_table, use_container_width=True)
+                        else:
+                            st.warning("Not enough historical data to train ML model. Need at least 48 hours.")
+                    
                 else:
-                    st.info("Data does not contain required columns for plotting.")
+                    st.warning("No load data available for the selected period.")
+                    
         except Exception as e:
-            st.error(f"Error fetching or processing data: {e}")
+            st.error(f"Error fetching load data: {e}")
+    
+    # TAB 2: RENEWABLE GENERATION
+    with tab2:
+        st.header("Renewable Energy Generation (Wind & Solar)")
+        
+        col1, col2 = st.columns(2)
+        
+        # Wind Generation
+        with col1:
+            st.subheader("🌬️ Wind Power Production")
+            try:
+                with st.spinner("Fetching wind data..."):
+                    wind_params = {
+                        "page": 1,
+                        "size": 2000
+                    }
+                    wind_data = api.get_public("np4-732-cd/wpp_hrly_avrg_actl_fcast", params=wind_params)
+                    
+                    if "data" in wind_data and len(wind_data["data"]) > 0:
+                        wind_df = pd.DataFrame(wind_data["data"])
+                        
+                        # Parse timestamp
+                        wind_time_cols = [col for col in wind_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        if wind_time_cols:
+                            wind_df['timestamp'] = pd.to_datetime(wind_df[wind_time_cols[0]])
+                            wind_df = wind_df.sort_values('timestamp')
+                        
+                        if debug_mode:
+                            st.write("**Wind Data Sample:**", wind_df.head())
+                            st.write(f"Columns: {list(wind_df.columns)}")
+                        
+                        fig_wind = go.Figure()
+                        x_axis_wind = wind_df['timestamp'] if 'timestamp' in wind_df.columns else wind_df.index
+                        
+                        # Add actual and forecast traces
+                        if 'ACTUAL_SYSTEM_WIDE' in wind_df.columns:
+                            fig_wind.add_trace(
+                                go.Scatter(
+                                    x=x_axis_wind,
+                                    y=wind_df['ACTUAL_SYSTEM_WIDE'],
+                                    mode='lines',
+                                    name='Actual Wind',
+                                    line=dict(color='teal', width=2)
+                                )
+                            )
+                        
+                        if 'STWPF' in wind_df.columns:
+                            fig_wind.add_trace(
+                                go.Scatter(
+                                    x=x_axis_wind,
+                                    y=wind_df['STWPF'],
+                                    mode='lines',
+                                    name='Wind Forecast',
+                                    line=dict(color='lightblue', width=2, dash='dash')
+                                )
+                            )
+                        
+                        fig_wind.update_layout(
+                            title="Wind Generation (Actual vs Forecast)",
+                            xaxis_title="Time",
+                            yaxis_title="Generation (MW)",
+                            height=400
+                        )
+                        
+                        if len(fig_wind.data) > 0:
+                            st.plotly_chart(fig_wind, use_container_width=True)
+                        else:
+                            st.warning("Wind data received but columns not found. Enable Debug Mode to see data structure.")
+                    else:
+                        st.info("No wind data available.")
+            except Exception as e:
+                st.error(f"Error fetching wind data: {e}")
+        
+        # Solar Generation
+        with col2:
+            st.subheader("☀️ Solar Power Production")
+            try:
+                with st.spinner("Fetching solar data..."):
+                    solar_params = {
+                        "page": 1,
+                        "size": 2000
+                    }
+                    solar_data = api.get_public("np4-737-cd/spp_hrly_avrg_actl_fcast", params=solar_params)
+                    
+                    if "data" in solar_data and len(solar_data["data"]) > 0:
+                        solar_df = pd.DataFrame(solar_data["data"])
+                        
+                        # Parse timestamp
+                        solar_time_cols = [col for col in solar_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        if solar_time_cols:
+                            solar_df['timestamp'] = pd.to_datetime(solar_df[solar_time_cols[0]])
+                            solar_df = solar_df.sort_values('timestamp')
+                        
+                        if debug_mode:
+                            st.write("**Solar Data Sample:**", solar_df.head())
+                            st.write(f"Columns: {list(solar_df.columns)}")
+                        
+                        fig_solar = go.Figure()
+                        x_axis_solar = solar_df['timestamp'] if 'timestamp' in solar_df.columns else solar_df.index
+                        
+                        if 'ACTUAL_SYSTEM_WIDE' in solar_df.columns:
+                            fig_solar.add_trace(
+                                go.Scatter(
+                                    x=x_axis_solar,
+                                    y=solar_df['ACTUAL_SYSTEM_WIDE'],
+                                    mode='lines',
+                                    name='Actual Solar',
+                                    line=dict(color='gold', width=2)
+                                )
+                            )
+                        
+                        if 'STPPF' in solar_df.columns:
+                            fig_solar.add_trace(
+                                go.Scatter(
+                                    x=x_axis_solar,
+                                    y=solar_df['STPPF'],
+                                    mode='lines',
+                                    name='Solar Forecast',
+                                    line=dict(color='orange', width=2, dash='dash')
+                                )
+                            )
+                        
+                        fig_solar.update_layout(
+                            title="Solar Generation (Actual vs Forecast)",
+                            xaxis_title="Time",
+                            yaxis_title="Generation (MW)",
+                            height=400
+                        )
+                        
+                        if len(fig_solar.data) > 0:
+                            st.plotly_chart(fig_solar, use_container_width=True)
+                        else:
+                            st.warning("Solar data received but columns not found. Enable Debug Mode to see data structure.")
+                    else:
+                        st.info("No solar data available.")
+            except Exception as e:
+                st.error(f"Error fetching solar data: {e}")
+    
+    # TAB 3: REAL-TIME PRICING
+    with tab3:
+        st.header("💰 Real-Time Market Pricing (LMPs)")
+        
+        try:
+            with st.spinner("Fetching pricing data..."):
+                lmp_params = {
+                    "page": 1,
+                    "size": 1000
+                }
+                lmp_data = api.get_public("np6-788-cd/lmp_node_zone_hub", params=lmp_params)
+                
+                if "data" in lmp_data and len(lmp_data["data"]) > 0:
+                    lmp_df = pd.DataFrame(lmp_data["data"])
+                    
+                    # Filter for major hubs
+                    if 'SettlementPoint' in lmp_df.columns:
+                        hubs = lmp_df[lmp_df['SettlementPointType'] == 'HU'] if 'SettlementPointType' in lmp_df.columns else lmp_df
+                        
+                        if not hubs.empty and 'SettlementPointPrice' in hubs.columns:
+                            fig_lmp = px.bar(
+                                hubs.head(10),
+                                x='SettlementPoint',
+                                y='SettlementPointPrice',
+                                title="Latest LMP Prices at Major Hubs",
+                                labels={'SettlementPointPrice': 'Price ($/MWh)', 'SettlementPoint': 'Hub'},
+                                color='SettlementPointPrice',
+                                color_continuous_scale='RdYlGn_r'
+                            )
+                            
+                            fig_lmp.update_layout(height=500)
+                            st.plotly_chart(fig_lmp, use_container_width=True)
+                            
+                            # Show data table
+                            st.dataframe(hubs[['SettlementPoint', 'SettlementPointPrice']].head(20), use_container_width=True)
+                        else:
+                            st.info("Price data columns not found.")
+                    else:
+                        st.dataframe(lmp_df.head(20), use_container_width=True)
+                else:
+                    st.warning("No pricing data available.")
+        except Exception as e:
+            st.error(f"Error fetching pricing data: {e}")
+    
+    # TAB 4: RESOURCE OUTAGES
+    with tab4:
+        st.header("⚠️ Resource Outages by Fuel Type")
+        
+        try:
+            with st.spinner("Fetching outage data..."):
+                outage_params = {
+                    "page": 1,
+                    "size": 2000
+                }
+                outage_data = api.get_public("np3-233-cd/hourly_res_outage_cap", params=outage_params)
+                
+                if "data" in outage_data and len(outage_data["data"]) > 0:
+                    outage_df = pd.DataFrame(outage_data["data"])
+                    
+                    # Parse timestamp
+                    outage_time_cols = [col for col in outage_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                    if outage_time_cols:
+                        outage_df['timestamp'] = pd.to_datetime(outage_df[outage_time_cols[0]])
+                        outage_df = outage_df.sort_values('timestamp')
+                    
+                    if debug_mode:
+                        st.write("**Outage Data Sample:**", outage_df.head())
+                        st.write(f"Columns: {list(outage_df.columns)}")
+                    
+                    # Create stacked area chart for outages
+                    numeric_cols = outage_df.select_dtypes(include=[np.number]).columns
+                    
+                    if len(numeric_cols) > 3:
+                        fig_outage = go.Figure()
+                        x_axis_outage = outage_df['timestamp'] if 'timestamp' in outage_df.columns else outage_df.index
+                        
+                        # Define proper colors
+                        colors = ['rgba(255,99,132,0.6)', 'rgba(54,162,235,0.6)', 'rgba(255,206,86,0.6)', 
+                                  'rgba(75,192,192,0.6)', 'rgba(153,102,255,0.6)', 'rgba(255,159,64,0.6)']
+                        
+                        for idx, col in enumerate(numeric_cols[2:min(8, len(numeric_cols))]):  # Show first few MW columns
+                            fig_outage.add_trace(
+                                go.Scatter(
+                                    x=x_axis_outage,
+                                    y=outage_df[col],
+                                    mode='lines',
+                                    name=str(col),
+                                    stackgroup='one',
+                                    fillcolor=colors[idx % len(colors)]
+                                )
+                            )
+                        
+                        fig_outage.update_layout(
+                            title="Resource Outages by Category Over Time",
+                            xaxis_title="Time",
+                            yaxis_title="Outage Capacity (MW)",
+                            height=500,
+                            hovermode='x unified'
+                        )
+                        
+                        st.plotly_chart(fig_outage, use_container_width=True)
+                    
+                    # Show summary statistics
+                    st.subheader("📊 Outage Summary Statistics")
+                    st.dataframe(outage_df.describe(), use_container_width=True)
+                else:
+                    st.warning("No outage data available.")
+        except Exception as e:
+            st.error(f"Error fetching outage data: {e}")
 
 
 # Run the Streamlit dashboard
