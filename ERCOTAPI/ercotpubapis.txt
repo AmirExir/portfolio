@@ -883,3 +883,1489 @@ Jump to definitionResultMetadata
 Jump to definitionVersion
 Not available in hosted editor.
 Try API Hub Trial
+
+
+
+NP6-345-CD
+Actual System Load by Weather Zone
+
+Report of Actual hourly load data by weather zone and ERCOT total.
+
+
+
+GET
+/np6-345-cd/act_sys_load_by_wzn
+Actual System Load by Weather Zone
+
+Jump to definition
+Actual System Load by Weather Zone
+
+Parameters
+Try it out
+Name	Description
+operatingDayFrom
+string($yyyy-MM-dd)
+(query)
+Format - yyyy-MM-dd.
+
+operatingDayFrom
+operatingDayTo
+string($yyyy-MM-dd)
+(query)
+Format - yyyy-MM-dd.
+
+operatingDayTo
+hourEnding
+string($abc123)
+(query)
+Format - abc123.
+
+hourEnding
+coastFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+coastFrom
+coastTo
+number($####.###)
+(query)
+Format - ####.###.
+
+coastTo
+eastFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+eastFrom
+eastTo
+number($####.###)
+(query)
+Format - ####.###.
+
+eastTo
+farWestFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+farWestFrom
+farWestTo
+number($####.###)
+(query)
+Format - ####.###.
+
+farWestTo
+northFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+northFrom
+northTo
+number($####.###)
+(query)
+Format - ####.###.
+
+northTo
+northCFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+northCFrom
+northCTo
+number($####.###)
+(query)
+Format - ####.###.
+
+northCTo
+southernFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+southernFrom
+southernTo
+number($####.###)
+(query)
+Format - ####.###.
+
+southernTo
+southCFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+southCFrom
+southCTo
+number($####.###)
+(query)
+Format - ####.###.
+
+southCTo
+westFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+westFrom
+westTo
+number($####.###)
+(query)
+Format - ####.###.
+
+westTo
+totalFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+totalFrom
+totalTo
+number($####.###)
+(query)
+Format - ####.###.
+
+totalTo
+DSTFlag
+boolean($true | false)
+(query)
+Format - true | false.
+
+DSTFlag
+page
+integer($###)
+(query)
+Format - ###. Page number of returned values in the collection.
+
+page
+size
+integer($###)
+(query)
+Format - ###. Number of returned items per page.
+
+size
+sort
+string($abc123)
+(query)
+Format - abc123. Defines field by which to sort the returned resource values.
+
+sort
+dir
+string($abc123)
+(query)
+Format - abc123. Defines sort order of returned values based on the primary business key of the resource.
+
+dir
+Responses
+Code	Description	Links
+200	
+OK The operation completed successfully.
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "_meta": {
+    "totalRecords": 0,
+    "pageSize": 0,
+    "totalPages": 0,
+    "currentPage": 0,
+    "query": {
+      "parameterCount": 0,
+      "parameters": {},
+      "sortedBy": "string"
+    }
+  },
+  "report": {
+    "reportName": "string",
+    "reportDisplayName": "string",
+    "reportId": "string",
+    "reportEMIL": "string"
+  },
+  "fields": [
+    {
+      "name": "string",
+      "label": "string",
+      "cardinality": 0,
+      "dataType": "BOOLEAN",
+      "searchable": true,
+      "sortable": true,
+      "hasRange": true
+    }
+  ],
+  "data": {},
+  "links": [
+    {
+      "rel": "string",
+      "href": "string",
+      "hreflang": "string",
+      "media": "string",
+      "title": "string",
+      "type": "string",
+      "deprecation": "string",
+      "profile": "string",
+      "name": "string"
+    }
+  ]
+}
+No links
+400	
+The request operation failed. The request and/or one or more of its parameters are invalid.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+403	
+The request operation failed. You do not have access to the requested resource.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+404	
+The request operation failed. The requested resource does not exist.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+
+
+
+
+
+
+Wind Power Production - Hourly Averaged Actual and Forecasted Values
+
+This report is posted every hour and includes System-wide and Regional actual hourly averaged wind power production, STWPF, WGRPP and COP HSLs for On-Line WGRs for a rolling historical 48-hour period as well as the System-wide and Regional STWPF, WGRPP and COP HSLs for On-Line WGRs for the rolling future 168-hour period. Our forecasts attempt to predict HSL, which is uncurtailed power generation potential. Actual system-wide generation, which is included in this report as "ACTUAL_SYSTEM_WIDE" or "SYSTEM_WIDE" is impacted by curtailments. Because of this, the data in this report should not be used to evaluate forecast performance. Steps will be taken to include Actual System-wide HSL in this report in the future.
+
+
+
+GET
+/np4-732-cd/wpp_hrly_avrg_actl_fcast
+Wind Power Production - Hourly Averaged Actual and Forecasted Values
+
+Jump to definition
+Wind Power Production - Hourly Averaged Actual and Forecasted Values
+
+Parameters
+Try it out
+Name	Description
+WGRPPLoadZoneNorthFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneNorthFrom
+WGRPPLoadZoneNorthTo
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneNorthTo
+DSTFlag
+boolean($true | false)
+(query)
+Format - true | false.
+
+DSTFlag
+postedDatetimeFrom
+string($yyyy-MM-ddTH24:mm:ss)
+(query)
+Format - yyyy-MM-ddTH24:mm:ss.
+
+postedDatetimeFrom
+postedDatetimeTo
+string($yyyy-MM-ddTH24:mm:ss)
+(query)
+Format - yyyy-MM-ddTH24:mm:ss.
+
+postedDatetimeTo
+deliveryDateFrom
+string($yyyy-MM-dd)
+(query)
+Format - yyyy-MM-dd.
+
+deliveryDateFrom
+deliveryDateTo
+string($yyyy-MM-dd)
+(query)
+Format - yyyy-MM-dd.
+
+deliveryDateTo
+hourEndingFrom
+integer($###)
+(query)
+Format - ###.
+
+hourEndingFrom
+hourEndingTo
+integer($###)
+(query)
+Format - ###.
+
+hourEndingTo
+actualSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+actualSystemWideFrom
+actualSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+actualSystemWideTo
+COPHSLSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLSystemWideFrom
+COPHSLSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLSystemWideTo
+STWPFSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFSystemWideFrom
+STWPFSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFSystemWideTo
+WGRPPSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPSystemWideFrom
+WGRPPSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPSystemWideTo
+actualLoadZoneSouthHoustonFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneSouthHoustonFrom
+actualLoadZoneSouthHoustonTo
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneSouthHoustonTo
+COPHSLLoadZoneSouthHoustonFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneSouthHoustonFrom
+COPHSLLoadZoneSouthHoustonTo
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneSouthHoustonTo
+STWPFLoadZoneSouthHoustonFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneSouthHoustonFrom
+STWPFLoadZoneSouthHoustonTo
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneSouthHoustonTo
+WGRPPLoadZoneSouthHoustonFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneSouthHoustonFrom
+WGRPPLoadZoneSouthHoustonTo
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneSouthHoustonTo
+actualLoadZoneWestFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneWestFrom
+actualLoadZoneWestTo
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneWestTo
+COPHSLLoadZoneWestFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneWestFrom
+COPHSLLoadZoneWestTo
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneWestTo
+STWPFLoadZoneWestFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneWestFrom
+STWPFLoadZoneWestTo
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneWestTo
+WGRPPLoadZoneWestFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneWestFrom
+WGRPPLoadZoneWestTo
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneWestTo
+actualLoadZoneNorthFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneNorthFrom
+actualLoadZoneNorthTo
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneNorthTo
+COPHSLLoadZoneNorthFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneNorthFrom
+COPHSLLoadZoneNorthTo
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneNorthTo
+STWPFLoadZoneNorthFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneNorthFrom
+STWPFLoadZoneNorthTo
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneNorthTo
+page
+integer($###)
+(query)
+Format - ###. Page number of returned values in the collection.
+
+page
+size
+integer($###)
+(query)
+Format - ###. Number of returned items per page.
+
+size
+sort
+string($abc123)
+(query)
+Format - abc123. Defines field by which to sort the returned resource values.
+
+sort
+dir
+string($abc123)
+(query)
+Format - abc123. Defines sort order of returned values based on the primary business key of the resource.
+
+dir
+Responses
+Code	Description	Links
+200	
+OK The operation completed successfully.
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "_meta": {
+    "totalRecords": 0,
+    "pageSize": 0,
+    "totalPages": 0,
+    "currentPage": 0,
+    "query": {
+      "parameterCount": 0,
+      "parameters": {},
+      "sortedBy": "string"
+    }
+  },
+  "report": {
+    "reportName": "string",
+    "reportDisplayName": "string",
+    "reportId": "string",
+    "reportEMIL": "string"
+  },
+  "fields": [
+    {
+      "name": "string",
+      "label": "string",
+      "cardinality": 0,
+      "dataType": "BOOLEAN",
+      "searchable": true,
+      "sortable": true,
+      "hasRange": true
+    }
+  ],
+  "data": {},
+  "links": [
+    {
+      "rel": "string",
+      "href": "string",
+      "hreflang": "string",
+      "media": "string",
+      "title": "string",
+      "type": "string",
+      "deprecation": "string",
+      "profile": "string",
+      "name": "string"
+    }
+  ]
+}
+No links
+400	
+The request operation failed. The request and/or one or more of its parameters are invalid.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+403	
+The request operation failed. You do not have access to the requested resource.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+404	
+The request operation failed. The requested resource does not exist.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+
+
+
+
+
+
+
+Solar Power Production - Hourly Averaged Actual and Forecasted Values
+
+This report includes System-wide actual hourly averaged solar power production, STPPF, PVGRPP, and COP HSLs for On-Line PVGRs for a rolling historical 48-hour period as well as the System-wide STPPF, PVGRPP and COP HSLs for On-Line PVGRs for the rolling future 168-hour period. Our forecasts attempt to predict HSL, which is uncurtailed power generation potential. Actual system-wide generation, which is included in this report as "ACTUAL_SYSTEM_WIDE" or "SYSTEM_WIDE" is impacted by curtailments. Because of this, the data in this report should not be used to evaluate forecast performance. Steps will be taken to include Actual System-wide HSL in this report in the future.
+
+
+
+GET
+/np4-737-cd/spp_hrly_avrg_actl_fcast
+Solar Power Production - Hourly Averaged Actual and Forecasted Values
+
+Jump to definition
+Solar Power Production - Hourly Averaged Actual and Forecasted Values
+
+Parameters
+Try it out
+Name	Description
+STPPFSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+STPPFSystemWideFrom
+STPPFSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+STPPFSystemWideTo
+PVGRPPSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+PVGRPPSystemWideFrom
+PVGRPPSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+PVGRPPSystemWideTo
+DSTFlag
+boolean($true | false)
+(query)
+Format - true | false.
+
+DSTFlag
+deliveryDateFrom
+string($yyyy-MM-dd)
+(query)
+Format - yyyy-MM-dd.
+
+deliveryDateFrom
+deliveryDateTo
+string($yyyy-MM-dd)
+(query)
+Format - yyyy-MM-dd.
+
+deliveryDateTo
+hourEndingFrom
+integer($###)
+(query)
+Format - ###.
+
+hourEndingFrom
+hourEndingTo
+integer($###)
+(query)
+Format - ###.
+
+hourEndingTo
+actualSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+actualSystemWideFrom
+actualSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+actualSystemWideTo
+COPHSLSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLSystemWideFrom
+COPHSLSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLSystemWideTo
+postedDatetimeFrom
+string($yyyy-MM-ddTH24:mm:ss)
+(query)
+Format - yyyy-MM-ddTH24:mm:ss.
+
+postedDatetimeFrom
+postedDatetimeTo
+string($yyyy-MM-ddTH24:mm:ss)
+(query)
+Format - yyyy-MM-ddTH24:mm:ss.
+
+postedDatetimeTo
+page
+integer($###)
+(query)
+Format - ###. Page number of returned values in the collection.
+
+page
+size
+integer($###)
+(query)
+Format - ###. Number of returned items per page.
+
+size
+sort
+string($abc123)
+(query)
+Format - abc123. Defines field by which to sort the returned resource values.
+
+sort
+dir
+string($abc123)
+(query)
+Format - abc123. Defines sort order of returned values based on the primary business key of the resource.
+
+dir
+Responses
+Code	Description	Links
+200	
+OK The operation completed successfully.
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "_meta": {
+    "totalRecords": 0,
+    "pageSize": 0,
+    "totalPages": 0,
+    "currentPage": 0,
+    "query": {
+      "parameterCount": 0,
+      "parameters": {},
+      "sortedBy": "string"
+    }
+  },
+  "report": {
+    "reportName": "string",
+    "reportDisplayName": "string",
+    "reportId": "string",
+    "reportEMIL": "string"
+  },
+  "fields": [
+    {
+      "name": "string",
+      "label": "string",
+      "cardinality": 0,
+      "dataType": "BOOLEAN",
+      "searchable": true,
+      "sortable": true,
+      "hasRange": true
+    }
+  ],
+  "data": {},
+  "links": [
+    {
+      "rel": "string",
+      "href": "string",
+      "hreflang": "string",
+      "media": "string",
+      "title": "string",
+      "type": "string",
+      "deprecation": "string",
+      "profile": "string",
+      "name": "string"
+    }
+  ]
+}
+No links
+400	
+The request operation failed. The request and/or one or more of its parameters are invalid.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+403	
+The request operation failed. You do not have access to the requested resource.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+404	
+The request operation failed. The requested resource does not exist.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+
+
+
+
+
+NP6-788-CD
+LMPs by Resource Nodes, Load Zones and Trading Hubs
+
+The Locational Marginal Price for each Settlement Point, normally produced by SCED every five minutes.
+
+
+
+GET
+/np6-788-cd/lmp_node_zone_hub
+LMPs by Resource Nodes, Load Zones and Trading Hubs
+
+Jump to definition
+LMPs by Resource Nodes, Load Zones and Trading Hubs
+
+Parameters
+Try it out
+Name	Description
+SCEDTimestampFrom
+string($yyyy-MM-ddTH24:mm:ss)
+(query)
+Format - yyyy-MM-ddTH24:mm:ss.
+
+SCEDTimestampFrom
+SCEDTimestampTo
+string($yyyy-MM-ddTH24:mm:ss)
+(query)
+Format - yyyy-MM-ddTH24:mm:ss.
+
+SCEDTimestampTo
+repeatHourFlag
+boolean($true | false)
+(query)
+Format - true | false.
+
+repeatHourFlag
+settlementPoint
+string($abc123)
+(query)
+Format - abc123.
+
+settlementPoint
+LMPFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+LMPFrom
+LMPTo
+number($####.###)
+(query)
+Format - ####.###.
+
+LMPTo
+page
+integer($###)
+(query)
+Format - ###. Page number of returned values in the collection.
+
+page
+size
+integer($###)
+(query)
+Format - ###. Number of returned items per page.
+
+size
+sort
+string($abc123)
+(query)
+Format - abc123. Defines field by which to sort the returned resource values.
+
+sort
+dir
+string($abc123)
+(query)
+Format - abc123. Defines sort order of returned values based on the primary business key of the resource.
+
+dir
+Responses
+Code	Description	Links
+200	
+OK The operation completed successfully.
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "_meta": {
+    "totalRecords": 0,
+    "pageSize": 0,
+    "totalPages": 0,
+    "currentPage": 0,
+    "query": {
+      "parameterCount": 0,
+      "parameters": {},
+      "sortedBy": "string"
+    }
+  },
+  "report": {
+    "reportName": "string",
+    "reportDisplayName": "string",
+    "reportId": "string",
+    "reportEMIL": "string"
+  },
+  "fields": [
+    {
+      "name": "string",
+      "label": "string",
+      "cardinality": 0,
+      "dataType": "BOOLEAN",
+      "searchable": true,
+      "sortable": true,
+      "hasRange": true
+    }
+  ],
+  "data": {},
+  "links": [
+    {
+      "rel": "string",
+      "href": "string",
+      "hreflang": "string",
+      "media": "string",
+      "title": "string",
+      "type": "string",
+      "deprecation": "string",
+      "profile": "string",
+      "name": "string"
+    }
+  ]
+}
+No links
+400	
+The request operation failed. The request and/or one or more of its parameters are invalid.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+403	
+The request operation failed. You do not have access to the requested resource.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+404	
+The request operation failed. The requested resource does not exist.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+
+
+
+
+
+
+
+
+
+
+
+NP3-233-CD
+Hourly Resource Outage Capacity
+
+This report includes all approved and accepted Planned, Forced and Maintenance Resource outages EXCEPT Resource outages for retirement of old equipment, seasonal mothballed (during the outaged season), and mothballed. The outage capacity in this report reflects aggregated ACTIVE resource outaged capacity by Load Zone sourced from the Outage Scheduler (OS) for the next 168 hours and is published every hour. Columns 'C' - 'F' consists of the aggregated outaged capacity of ALL the ACTIVE resource outages by Load Zone in the OS for each hour excluding the outages stated above, IRR resource outages, and new equipment outages. Columns 'G' - 'J' consists of the aggregated outaged capacity of ALL the ACTIVE IRR resource outages by Load Zone in the OS for each hour excluding the outages stated above, outages in columns 'C' - 'F' and new equipment outages. Columns 'K' - 'N' consists of the aggregated outaged capacity of ALL the ACTIVE New Equipment Energization resource outages by Load Zone. Note that this report contains OS data only and does not look at telemetry. It includes both entire resource outage and de-rates.
+
+
+NP4-732-CD
+Wind Power Production - Hourly Averaged Actual and Forecasted Values
+
+This report is posted every hour and includes System-wide and Regional actual hourly averaged wind power production, STWPF, WGRPP and COP HSLs for On-Line WGRs for a rolling historical 48-hour period as well as the System-wide and Regional STWPF, WGRPP and COP HSLs for On-Line WGRs for the rolling future 168-hour period. Our forecasts attempt to predict HSL, which is uncurtailed power generation potential. Actual system-wide generation, which is included in this report as "ACTUAL_SYSTEM_WIDE" or "SYSTEM_WIDE" is impacted by curtailments. Because of this, the data in this report should not be used to evaluate forecast performance. Steps will be taken to include Actual System-wide HSL in this report in the future.
+
+
+
+GET
+/np4-732-cd/wpp_hrly_avrg_actl_fcast
+Wind Power Production - Hourly Averaged Actual and Forecasted Values
+
+Jump to definition
+Wind Power Production - Hourly Averaged Actual and Forecasted Values
+
+Parameters
+Try it out
+Name	Description
+WGRPPLoadZoneNorthFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneNorthFrom
+WGRPPLoadZoneNorthTo
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneNorthTo
+DSTFlag
+boolean($true | false)
+(query)
+Format - true | false.
+
+DSTFlag
+postedDatetimeFrom
+string($yyyy-MM-ddTH24:mm:ss)
+(query)
+Format - yyyy-MM-ddTH24:mm:ss.
+
+postedDatetimeFrom
+postedDatetimeTo
+string($yyyy-MM-ddTH24:mm:ss)
+(query)
+Format - yyyy-MM-ddTH24:mm:ss.
+
+postedDatetimeTo
+deliveryDateFrom
+string($yyyy-MM-dd)
+(query)
+Format - yyyy-MM-dd.
+
+deliveryDateFrom
+deliveryDateTo
+string($yyyy-MM-dd)
+(query)
+Format - yyyy-MM-dd.
+
+deliveryDateTo
+hourEndingFrom
+integer($###)
+(query)
+Format - ###.
+
+hourEndingFrom
+hourEndingTo
+integer($###)
+(query)
+Format - ###.
+
+hourEndingTo
+actualSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+actualSystemWideFrom
+actualSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+actualSystemWideTo
+COPHSLSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLSystemWideFrom
+COPHSLSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLSystemWideTo
+STWPFSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFSystemWideFrom
+STWPFSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFSystemWideTo
+WGRPPSystemWideFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPSystemWideFrom
+WGRPPSystemWideTo
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPSystemWideTo
+actualLoadZoneSouthHoustonFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneSouthHoustonFrom
+actualLoadZoneSouthHoustonTo
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneSouthHoustonTo
+COPHSLLoadZoneSouthHoustonFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneSouthHoustonFrom
+COPHSLLoadZoneSouthHoustonTo
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneSouthHoustonTo
+STWPFLoadZoneSouthHoustonFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneSouthHoustonFrom
+STWPFLoadZoneSouthHoustonTo
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneSouthHoustonTo
+WGRPPLoadZoneSouthHoustonFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneSouthHoustonFrom
+WGRPPLoadZoneSouthHoustonTo
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneSouthHoustonTo
+actualLoadZoneWestFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneWestFrom
+actualLoadZoneWestTo
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneWestTo
+COPHSLLoadZoneWestFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneWestFrom
+COPHSLLoadZoneWestTo
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneWestTo
+STWPFLoadZoneWestFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneWestFrom
+STWPFLoadZoneWestTo
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneWestTo
+WGRPPLoadZoneWestFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneWestFrom
+WGRPPLoadZoneWestTo
+number($####.###)
+(query)
+Format - ####.###.
+
+WGRPPLoadZoneWestTo
+actualLoadZoneNorthFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneNorthFrom
+actualLoadZoneNorthTo
+number($####.###)
+(query)
+Format - ####.###.
+
+actualLoadZoneNorthTo
+COPHSLLoadZoneNorthFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneNorthFrom
+COPHSLLoadZoneNorthTo
+number($####.###)
+(query)
+Format - ####.###.
+
+COPHSLLoadZoneNorthTo
+STWPFLoadZoneNorthFrom
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneNorthFrom
+STWPFLoadZoneNorthTo
+number($####.###)
+(query)
+Format - ####.###.
+
+STWPFLoadZoneNorthTo
+page
+integer($###)
+(query)
+Format - ###. Page number of returned values in the collection.
+
+page
+size
+integer($###)
+(query)
+Format - ###. Number of returned items per page.
+
+size
+sort
+string($abc123)
+(query)
+Format - abc123. Defines field by which to sort the returned resource values.
+
+sort
+dir
+string($abc123)
+(query)
+Format - abc123. Defines sort order of returned values based on the primary business key of the resource.
+
+dir
+Responses
+Code	Description	Links
+200	
+OK The operation completed successfully.
+
+Media type
+
+application/json
+Controls Accept header.
+Example Value
+Schema
+{
+  "_meta": {
+    "totalRecords": 0,
+    "pageSize": 0,
+    "totalPages": 0,
+    "currentPage": 0,
+    "query": {
+      "parameterCount": 0,
+      "parameters": {},
+      "sortedBy": "string"
+    }
+  },
+  "report": {
+    "reportName": "string",
+    "reportDisplayName": "string",
+    "reportId": "string",
+    "reportEMIL": "string"
+  },
+  "fields": [
+    {
+      "name": "string",
+      "label": "string",
+      "cardinality": 0,
+      "dataType": "BOOLEAN",
+      "searchable": true,
+      "sortable": true,
+      "hasRange": true
+    }
+  ],
+  "data": {},
+  "links": [
+    {
+      "rel": "string",
+      "href": "string",
+      "hreflang": "string",
+      "media": "string",
+      "title": "string",
+      "type": "string",
+      "deprecation": "string",
+      "profile": "string",
+      "name": "string"
+    }
+  ]
+}
+No links
+400	
+The request operation failed. The request and/or one or more of its parameters are invalid.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+403	
+The request operation failed. You do not have access to the requested resource.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
+404	
+The request operation failed. The requested resource does not exist.
+
+Media type
+
+application/json
+Example Value
+Schema
+{
+  "timestamp": "string",
+  "code": 0,
+  "status": "string",
+  "message": "string",
+  "data": {}
+}
+No links
