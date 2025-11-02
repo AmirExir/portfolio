@@ -63,7 +63,7 @@ class ErcotAPI:
             self.bearer_token = token_info.get("access_token") 
             if self.bearer_token:
                 if verbose:
-                    print("✅ Bearer token acquired.")
+                    print(" Bearer token acquired.")
             else:
                 raise ValueError("Failed to obtain bearer token.")
         except requests.exceptions.HTTPError as e:
@@ -89,9 +89,9 @@ class ErcotAPI:
             headers["Ocp-Apim-Subscription-Key"] = key or self.subscription_key
         
         if verbose:
-            print(f"🌐 Requesting: {url}")
-            print(f"🔍 Params: {params}")
-            print(f"🔑 Headers: {list(headers.keys())}")
+            print(f" Requesting: {url}")
+            print(f" Params: {params}")
+            print(f" Headers: {list(headers.keys())}")
         
         # Retry logic for rate limiting
         for attempt in range(max_retries):
@@ -119,7 +119,7 @@ class ErcotAPI:
 
         base_url = "https://api.ercot.com/api/public-reports"
         if verbose:
-            print(f"🔄 Using Public Reports API: {base_url}/{endpoint}")
+            print(f" Using Public Reports API: {base_url}/{endpoint}")
 
         return self._make_request(base_url, endpoint, self.public_key, params, verbose, max_retries)
 
@@ -208,14 +208,14 @@ def train_load_forecast_model(historical_data):
 # --- Streamlit Dashboard ---
 def main():
     st.set_page_config(page_title="ERCOT Grid Analytics Dashboard", layout="wide")
-    st.title("⚡ ERCOT Grid Analytics & Forecasting Dashboard")
+    st.title(" ERCOT Grid Analytics & Forecasting Dashboard")
     st.markdown("**Real-time grid monitoring, renewable generation tracking, and ML-powered load forecasting**")
 
     # Sidebar for configuration
-    st.sidebar.header("⚙️ Configuration")
+    st.sidebar.header(" Configuration")
     
     # Credentials section
-    st.sidebar.subheader("🔐 API Credentials")
+    st.sidebar.subheader(" API Credentials")
     
     # Check if credentials are in environment or Streamlit secrets
     # Check for non-empty values
@@ -241,20 +241,20 @@ def main():
     
     # Check session state for saved credentials
     if st.session_state.saved_credentials:
-        st.sidebar.success("✅ Using saved credentials (this session only)")
+        st.sidebar.success(" Using saved credentials (this session only)")
         try:
             api = ErcotAPI(**st.session_state.saved_credentials)
         except Exception as e:
-            st.sidebar.error(f"❌ Failed to authenticate")
+            st.sidebar.error(f" Failed to authenticate")
             st.error(f"**Authentication Error:** {str(e)}")
             st.session_state.saved_credentials = None
             api = None
     elif has_env_creds:
-        st.sidebar.success("✅ Using credentials from environment variables")
+        st.sidebar.success(" Using credentials from environment variables")
         try:
             api = ErcotAPI()
         except Exception as e:
-            st.sidebar.error(f"❌ Failed to authenticate with environment credentials")
+            st.sidebar.error(f" Failed to authenticate with environment credentials")
             st.error(f"""
             **Authentication Error:** {str(e)}
             
@@ -270,7 +270,7 @@ def main():
             """)
             api = None
     elif has_secrets:
-        st.sidebar.success("✅ Using credentials from Streamlit secrets file")
+        st.sidebar.success("Using credentials from Streamlit secrets file")
         st.sidebar.info("📁 Credentials stored in `.streamlit/secrets.toml` (not in code!)")
         try:
             api = ErcotAPI(
@@ -280,7 +280,7 @@ def main():
                 subscription_key=st.secrets["ERCOT_SUBSCRIPTION_KEY"]
             )
         except Exception as e:
-            st.sidebar.error(f"❌ Failed to authenticate with secrets")
+            st.sidebar.error(f"Failed to authenticate with secrets")
             st.error(f"""
             **Authentication Error:** {str(e)}
             
@@ -288,7 +288,7 @@ def main():
             """)
             api = None
     else:
-        st.sidebar.warning("⚠️ No environment credentials found. Please enter manually:")
+        st.sidebar.warning(" No environment credentials found. Please enter manually:")
         
         with st.sidebar.expander("Enter ERCOT API Credentials", expanded=True):
             st.markdown("**Step 1: Get Subscription Key**")
@@ -307,10 +307,10 @@ def main():
             if username and password and client_id and subscription_key:
                 try:
                     api = ErcotAPI(username=username, password=password, client_id=client_id, subscription_key=subscription_key)
-                    st.sidebar.success("✅ Credentials accepted! Bearer token acquired.")
+                    st.sidebar.success(" Credentials accepted! Bearer token acquired.")
                     
                     # Ask if user wants to save for this session
-                    save_creds = st.sidebar.checkbox("💾 Remember credentials for this session", value=False,
+                    save_creds = st.sidebar.checkbox(" Remember credentials for this session", value=False,
                                                      help="Credentials will be stored in memory (not saved to disk) for this browser session only")
                     if save_creds:
                         st.session_state.saved_credentials = {
@@ -319,18 +319,18 @@ def main():
                             'client_id': client_id,
                             'subscription_key': subscription_key
                         }
-                        st.sidebar.success("✅ Credentials saved for this session!")
-                        st.sidebar.info("🔒 Secure: Credentials only in browser memory, not saved to disk")
+                        st.sidebar.success(" Credentials saved for this session!")
+                        st.sidebar.info(" Secure: Credentials only in browser memory, not saved to disk")
                 except Exception as e:
-                    st.sidebar.error(f"❌ Authentication failed: {e}")
+                    st.sidebar.error(f" Authentication failed: {e}")
                     api = None
             else:
-                st.sidebar.info("👆 Please enter all credentials above to continue")
+                st.sidebar.info(" Please enter all credentials above to continue")
                 api = None
     
     # Only show the rest of the app if API is initialized
     if api is None:
-        st.warning("⚠️ Please configure API credentials to access ERCOT data.")
+        st.warning(" Please configure API credentials to access ERCOT data.")
         
         # Check if running on Streamlit Cloud
         is_cloud = os.getenv("STREAMLIT_SHARING_MODE") or os.getenv("STREAMLIT_CLOUD")
@@ -342,7 +342,7 @@ def main():
             To configure secrets on Streamlit Cloud:
             1. Go to your app dashboard: https://share.streamlit.io/
             2. Click on your app
-            3. Click the **⚙️ Settings** button (three dots menu)
+            3. Click the ** Settings** button (three dots menu)
             4. Select **"Secrets"** from the left sidebar
             5. Paste the following format:
             
@@ -386,20 +386,20 @@ def main():
     )
     
     # Debug mode
-    debug_mode = st.sidebar.checkbox("🔍 Debug Mode", value=False, help="Show detailed API request/response info")
+    debug_mode = st.sidebar.checkbox(" Debug Mode", value=False, help="Show detailed API request/response info")
     
     # Cache info
-    st.sidebar.info("💾 **Smart Caching Enabled**\n\nData cached for 5 minutes to prevent rate limits. Click 'Clear cache' in Settings menu to force refresh.")
+    st.sidebar.info(" **Smart Caching Enabled**\n\nData cached for 5 minutes to prevent rate limits. Click 'Clear cache' in Settings menu to force refresh.")
     
     end_date = datetime.now()
     start_date = end_date - timedelta(days=date_range)
     
     # Dashboard sections
     tab1, tab2, tab3, tab4 = st.tabs([
-        "📊 Load Analysis & Forecast", 
-        "🌬️ Renewable Generation", 
-        "💰 Real-Time Pricing",
-        "⚠️ Resource Outages"
+        " Load Analysis & Forecast", 
+        " Renewable Generation", 
+        " Real-Time Pricing",
+        " Resource Outages"
     ])
     
     # TAB 1: LOAD ANALYSIS & FORECAST
@@ -532,7 +532,7 @@ def main():
                     st.plotly_chart(fig, use_container_width=True)
                     
                     # ML Forecast Section
-                    st.subheader("🤖 Machine Learning Load Forecast (Next 24 Hours)")
+                    st.subheader(" Machine Learning Load Forecast (Next 24 Hours)")
                     
                     if load_col and not actual_df.empty:
                         # Prepare data for ML
@@ -726,7 +726,7 @@ def main():
         
         # Solar Generation
         with col2:
-            st.subheader("☀️ Solar Power Production")
+            st.subheader(" Solar Power Production")
             try:
                 with st.spinner("Fetching solar data..."):
                     solar_params = {
@@ -815,7 +815,7 @@ def main():
     
     # TAB 3: REAL-TIME PRICING
     with tab3:
-        st.header("💰 Real-Time Market Pricing (LMPs)")
+        st.header(" Real-Time Market Pricing (LMPs)")
         
         try:
             with st.spinner("Fetching pricing data..."):
@@ -864,7 +864,7 @@ def main():
     
     # TAB 4: RESOURCE OUTAGES
     with tab4:
-        st.header("⚠️ Resource Outages by Fuel Type")
+        st.header(" Resource Outages by Fuel Type")
         
         try:
             with st.spinner("Fetching outage data..."):
