@@ -9,7 +9,24 @@ A comprehensive Streamlit dashboard for monitoring ERCOT grid operations, featur
 
 ## 🔐 Setup Credentials (Choose One Method)
 
-### Method 1: Streamlit Secrets (Recommended)
+### Method 1: Streamlit Cloud Secrets (RECOMMENDED for Production)
+
+**Perfect for deployed apps - credentials are encrypted and never in your code!**
+
+1. Deploy to Streamlit Cloud: https://share.streamlit.io/
+2. Go to App Settings → **Secrets**
+3. Paste your credentials:
+   ```toml
+   ERCOT_USERNAME = "your_email@example.com"
+   ERCOT_PASSWORD = "your_password"
+   ERCOT_CLIENT_ID = "fec253ea-0d06-4272-a5e6-b478baeecd70"
+   ERCOT_SUBSCRIPTION_KEY = "your_subscription_key"
+   ```
+4. Click "Save" - Done! 🎉
+
+**See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.**
+
+### Method 2: Local Secrets File (For Local Development)
 
 1. Create the secrets file:
    ```bash
@@ -17,13 +34,7 @@ A comprehensive Streamlit dashboard for monitoring ERCOT grid operations, featur
    nano .streamlit/secrets.toml
    ```
 
-2. Add your credentials:
-   ```toml
-   ERCOT_USERNAME = "your_email@example.com"
-   ERCOT_PASSWORD = "your_password"
-   ERCOT_CLIENT_ID = "fec253ea-0d06-4272-a5e6-b478baeecd70"
-   ERCOT_SUBSCRIPTION_KEY = "your_subscription_key"
-   ```
+2. Add your credentials (same format as above)
 
 3. Save and restart Streamlit
 

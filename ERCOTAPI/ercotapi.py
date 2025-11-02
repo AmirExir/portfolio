@@ -49,15 +49,27 @@ class ErcotAPI:
         }
         if verbose:
             print("🔐 Requesting bearer token from ERCOT...")
-        response = requests.post(token_url, data=data)
-        response.raise_for_status()
-        token_info = response.json()
-        self.bearer_token = token_info.get("access_token") 
-        if self.bearer_token:
-            if verbose:
-                print("✅ Bearer token acquired.")
-        else:
-            raise ValueError("Failed to obtain bearer token.")
+        
+        try:
+            response = requests.post(token_url, data=data)
+            response.raise_for_status()
+            token_info = response.json()
+            self.bearer_token = token_info.get("access_token") 
+            if self.bearer_token:
+                if verbose:
+                    print("✅ Bearer token acquired.")
+            else:
+                raise ValueError("Failed to obtain bearer token.")
+        except requests.exceptions.HTTPError as e:
+            # Try to extract error details from response
+            error_detail = ""
+            try:
+                error_json = e.response.json()
+                error_detail = f"\nError details: {error_json.get('error_description', error_json)}"
+            except:
+                error_detail = f"\nResponse: {e.response.text[:200]}"
+            
+            raise ValueError(f"Authentication failed: {str(e)}{error_detail}\n\nPlease check your username, password, and client ID.")
 
     def _make_request(self, base_url: str, endpoint: str, key: str, params: Optional[Dict[str, Any]] = None, verbose: bool = False) -> Dict:
         """Internal method to send a GET request to ERCOT API."""
@@ -138,10 +150,16 @@ def main():
     st.sidebar.subheader("🔐 API Credentials")
     
     # Check if credentials are in environment or Streamlit secrets
-    has_env_creds = bool(os.getenv("ERCOT_USERNAME") and os.getenv("ERCOT_PASSWORD") and os.getenv("ERCOT_CLIENT_ID") and os.getenv("ERCOT_SUBSCRIPTION_KEY"))
+    # Check for non-empty values
+    env_username = os.getenv("ERCOT_USERNAME", "").strip()
+    env_password = os.getenv("ERCOT_PASSWORD", "").strip()
+    env_client_id = os.getenv("ERCOT_CLIENT_ID", "").strip()
+    env_sub_key = os.getenv("ERCOT_SUBSCRIPTION_KEY", "").strip()
+    
+    has_env_creds = bool(env_username and env_password and env_client_id and env_sub_key)
     has_secrets = False
     
-    # Try Streamlit secrets
+    # Try Streamlit secrets (from .streamlit/secrets.toml or Streamlit Cloud secrets manager)
     if not has_env_creds:
         try:
             has_secrets = bool(st.secrets.get("ERCOT_USERNAME") and st.secrets.get("ERCOT_PASSWORD") and 
@@ -149,17 +167,58 @@ def main():
         except:
             pass
     
-    if has_env_creds:
+    # Check if user wants to save credentials to session state (for this session only)
+    if 'saved_credentials' not in st.session_state:
+        st.session_state.saved_credentials = None
+    
+    # Check session state for saved credentials
+    if st.session_state.saved_credentials:
+        st.sidebar.success("✅ Using saved credentials (this session only)")
+        try:
+            api = ErcotAPI(**st.session_state.saved_credentials)
+        except Exception as e:
+            st.sidebar.error(f"❌ Failed to authenticate")
+            st.error(f"**Authentication Error:** {str(e)}")
+            st.session_state.saved_credentials = None
+            api = None
+    elif has_env_creds:
         st.sidebar.success("✅ Using credentials from environment variables")
-        api = ErcotAPI()
+        try:
+            api = ErcotAPI()
+        except Exception as e:
+            st.sidebar.error(f"❌ Failed to authenticate with environment credentials")
+            st.error(f"""
+            **Authentication Error:** {str(e)}
+            
+            **Common Issues:**
+            1. **Wrong password** - Double-check your ERCOT_PASSWORD
+            2. **Wrong username** - Should be your email address
+            3. **Expired credentials** - You may need to reset your password at https://apimarket.ercot.com/
+            4. **Client ID mismatch** - Verify ERCOT_CLIENT_ID is correct
+            
+            **To fix:**
+            - Check your environment variables with: `echo $ERCOT_USERNAME`
+            - Or use the manual input below
+            """)
+            api = None
     elif has_secrets:
-        st.sidebar.success("✅ Using credentials from Streamlit secrets")
-        api = ErcotAPI(
-            username=st.secrets["ERCOT_USERNAME"],
-            password=st.secrets["ERCOT_PASSWORD"],
-            client_id=st.secrets["ERCOT_CLIENT_ID"],
-            subscription_key=st.secrets["ERCOT_SUBSCRIPTION_KEY"]
-        )
+        st.sidebar.success("✅ Using credentials from Streamlit secrets file")
+        st.sidebar.info("📁 Credentials stored in `.streamlit/secrets.toml` (not in code!)")
+        try:
+            api = ErcotAPI(
+                username=st.secrets["ERCOT_USERNAME"],
+                password=st.secrets["ERCOT_PASSWORD"],
+                client_id=st.secrets["ERCOT_CLIENT_ID"],
+                subscription_key=st.secrets["ERCOT_SUBSCRIPTION_KEY"]
+            )
+        except Exception as e:
+            st.sidebar.error(f"❌ Failed to authenticate with secrets")
+            st.error(f"""
+            **Authentication Error:** {str(e)}
+            
+            **To fix:** Edit `.streamlit/secrets.toml` and verify all credentials are correct
+            """)
+            api = None
     else:
         st.sidebar.warning("⚠️ No environment credentials found. Please enter manually:")
         
@@ -181,6 +240,19 @@ def main():
                 try:
                     api = ErcotAPI(username=username, password=password, client_id=client_id, subscription_key=subscription_key)
                     st.sidebar.success("✅ Credentials accepted! Bearer token acquired.")
+                    
+                    # Ask if user wants to save for this session
+                    save_creds = st.sidebar.checkbox("💾 Remember credentials for this session", value=False,
+                                                     help="Credentials will be stored in memory (not saved to disk) for this browser session only")
+                    if save_creds:
+                        st.session_state.saved_credentials = {
+                            'username': username,
+                            'password': password,
+                            'client_id': client_id,
+                            'subscription_key': subscription_key
+                        }
+                        st.sidebar.success("✅ Credentials saved for this session!")
+                        st.sidebar.info("🔒 Secure: Credentials only in browser memory, not saved to disk")
                 except Exception as e:
                     st.sidebar.error(f"❌ Authentication failed: {e}")
                     api = None
@@ -190,7 +262,35 @@ def main():
     
     # Only show the rest of the app if API is initialized
     if api is None:
-        st.warning("⚠️ Please configure API credentials in the sidebar to access ERCOT data.")
+        st.warning("⚠️ Please configure API credentials to access ERCOT data.")
+        
+        # Check if running on Streamlit Cloud
+        is_cloud = os.getenv("STREAMLIT_SHARING_MODE") or os.getenv("STREAMLIT_CLOUD")
+        
+        if is_cloud:
+            st.error("""
+            **🚀 Streamlit Cloud Deployment Detected**
+            
+            To configure secrets on Streamlit Cloud:
+            1. Go to your app dashboard: https://share.streamlit.io/
+            2. Click on your app
+            3. Click the **⚙️ Settings** button (three dots menu)
+            4. Select **"Secrets"** from the left sidebar
+            5. Paste the following format:
+            
+            ```toml
+            ERCOT_USERNAME = "your_email@example.com"
+            ERCOT_PASSWORD = "your_password"
+            ERCOT_CLIENT_ID = "fec253ea-0d06-4272-a5e6-b478baeecd70"
+            ERCOT_SUBSCRIPTION_KEY = "your_subscription_key"
+            ```
+            
+            6. Click **"Save"**
+            7. Your app will automatically restart with the credentials!
+            
+            🔒 **These credentials are encrypted and never visible in your code or GitHub!**
+            """)
+        
         st.info("""
         **How to get ERCOT API credentials:**
         
@@ -205,8 +305,6 @@ def main():
         2. **Login Credentials** (Username & Password):
            - Use the same username/email and password from your ERCOT portal account
            - The Client ID is pre-filled (default value)
-        
-        **The 401 Access Denied error means you're missing the Subscription Key!**
         """)
         return
     
