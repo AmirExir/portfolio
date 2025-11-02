@@ -617,18 +617,11 @@ def main():
                         fig_wind = go.Figure()
                         x_axis_wind = wind_df['timestamp'] if 'timestamp' in wind_df.columns else wind_df.index
                         
-<<<<<<< HEAD
-                        # Add actual and forecast traces - API uses 'genSystemWide'
-                        actual_col = None
-                        for col in wind_df.columns:
-                            if isinstance(col, str) and ('gensystemwide' in col.lower() or ('actual' in col.lower() and 'system' in col.lower())):
-=======
                         # Add actual and forecast traces - API uses 'genSystemWide' not 'ACTUAL_SYSTEM_WIDE'
                         # Find actual column
                         actual_col = None
                         for col in wind_df.columns:
                             if isinstance(col, str) and ('gensystemwide' in col.lower() or 'actual' in col.lower() and 'system' in col.lower()):
->>>>>>> f56b3538ceb2e0c951a1ebe05e926b73fb68cc72
                                 actual_col = col
                                 break
                         
@@ -643,10 +636,7 @@ def main():
                                 )
                             )
                         
-<<<<<<< HEAD
-=======
                         # Find forecast column
->>>>>>> f56b3538ceb2e0c951a1ebe05e926b73fb68cc72
                         forecast_col = None
                         for col in wind_df.columns:
                             if isinstance(col, str) and ('stwpf' in col.lower() and 'system' in col.lower()):
@@ -710,11 +700,7 @@ def main():
                         # Find actual solar column - API uses 'genSystemWide'
                         actual_solar_col = None
                         for col in solar_df.columns:
-<<<<<<< HEAD
-                            if isinstance(col, str) and ('gensystemwide' in col.lower() or ('actual' in col.lower() and 'system' in col.lower())):
-=======
                             if isinstance(col, str) and ('gensystemwide' in col.lower() or 'actual' in col.lower() and 'system' in col.lower()):
->>>>>>> f56b3538ceb2e0c951a1ebe05e926b73fb68cc72
                                 actual_solar_col = col
                                 break
                         
@@ -729,10 +715,7 @@ def main():
                                 )
                             )
                         
-<<<<<<< HEAD
-=======
                         # Find solar forecast column
->>>>>>> f56b3538ceb2e0c951a1ebe05e926b73fb68cc72
                         forecast_solar_col = None
                         for col in solar_df.columns:
                             if isinstance(col, str) and ('stppf' in col.lower() and 'system' in col.lower()):
