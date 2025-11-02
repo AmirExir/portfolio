@@ -8,6 +8,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 from datetime import datetime, timedelta
+import time
 try:
     from xgboost import XGBRegressor
     HAS_XGBOOST = True
@@ -76,8 +77,8 @@ class ErcotAPI:
             
             raise ValueError(f"Authentication failed: {str(e)}{error_detail}\n\nPlease check your username, password, and client ID.")
 
-    def _make_request(self, base_url: str, endpoint: str, key: str, params: Optional[Dict[str, Any]] = None, verbose: bool = False) -> Dict:
-        """Internal method to send a GET request to ERCOT API."""
+    def _make_request(self, base_url: str, endpoint: str, key: str, params: Optional[Dict[str, Any]] = None, verbose: bool = False, max_retries: int = 3) -> Dict:
+        """Internal method to send a GET request to ERCOT API with retry logic for rate limits."""
         url = f"{base_url}/{endpoint.lstrip('/')}"
         
         # Prepare headers
@@ -92,11 +93,26 @@ class ErcotAPI:
             print(f"🔍 Params: {params}")
             print(f"🔑 Headers: {list(headers.keys())}")
         
-        response = requests.get(url, headers=headers, params=params)
-        response.raise_for_status()
-        return response.json()
+        # Retry logic for rate limiting
+        for attempt in range(max_retries):
+            try:
+                response = requests.get(url, headers=headers, params=params)
+                response.raise_for_status()
+                return response.json()
+            except requests.exceptions.HTTPError as e:
+                if e.response.status_code == 429:  # Rate limit exceeded
+                    if attempt < max_retries - 1:
+                        # Exponential backoff: wait 2^attempt seconds
+                        wait_time = 2 ** attempt
+                        if verbose:
+                            print(f"⏳ Rate limit hit. Waiting {wait_time}s before retry {attempt + 1}/{max_retries}...")
+                        time.sleep(wait_time)
+                    else:
+                        raise  # Re-raise if max retries reached
+                else:
+                    raise  # Re-raise for non-429 errors
 
-    def get_public(self, endpoint: str, params: Optional[Dict[str, Any]] = None, verbose: bool = False) -> Dict:
+    def get_public(self, endpoint: str, params: Optional[Dict[str, Any]] = None, verbose: bool = False, max_retries: int = 3) -> Dict:
         """Query ERCOT Public Reports API (base: https://api.ercot.com/api/public-reports)"""
         if not self.bearer_token and not self.subscription_key:
             raise ValueError("Missing ERCOT Bearer token or Subscription Key. You need BOTH authentication methods.")
@@ -105,11 +121,24 @@ class ErcotAPI:
         if verbose:
             print(f"🔄 Using Public Reports API: {base_url}/{endpoint}")
 
-        return self._make_request(base_url, endpoint, self.public_key, params, verbose)
+        return self._make_request(base_url, endpoint, self.public_key, params, verbose, max_retries)
 
 
 
 # --- Helper Functions ---
+
+# Cache API calls for 5 minutes to avoid rate limits
+@st.cache_data(ttl=300, show_spinner=False)
+def fetch_ercot_data_cached(endpoint: str, params_str: str, bearer_token: str, subscription_key: str):
+    """Cached wrapper for ERCOT API calls. TTL=5 minutes to reduce rate limit issues."""
+    import json
+    params = json.loads(params_str) if params_str else None
+    
+    # Create temporary API instance
+    api = ErcotAPI(bearer_token=bearer_token, subscription_key=subscription_key)
+    return api.get_public(endpoint, params=params, verbose=False, max_retries=3)
+
+
 def train_load_forecast_model(historical_data):
     """Train an ML model (XGBoost or Random Forest) to forecast load based on historical patterns."""
     if len(historical_data) < 48:  # Need at least 2 days
@@ -359,6 +388,9 @@ def main():
     # Debug mode
     debug_mode = st.sidebar.checkbox("🔍 Debug Mode", value=False, help="Show detailed API request/response info")
     
+    # Cache info
+    st.sidebar.info("💾 **Smart Caching Enabled**\n\nData cached for 5 minutes to prevent rate limits. Click 'Clear cache' in Settings menu to force refresh.")
+    
     end_date = datetime.now()
     start_date = end_date - timedelta(days=date_range)
     
@@ -384,12 +416,23 @@ def main():
                     "size": 5000
                 }
                 
-                actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
+                import json
+                actual_load_data = fetch_ercot_data_cached(
+                    "np6-345-cd/act_sys_load_by_wzn",
+                    json.dumps(load_params),
+                    api.bearer_token,
+                    api.subscription_key
+                )
                 if debug_mode:
                     st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
                 
                 try:
-                    forecast_data = api.get_public("np3-565-cd/lf_by_model_weather_zone", params=load_params, verbose=False)
+                    forecast_data = fetch_ercot_data_cached(
+                        "np3-565-cd/lf_by_model_weather_zone",
+                        json.dumps(load_params),
+                        api.bearer_token,
+                        api.subscription_key
+                    )
                 except:
                     forecast_data = {"data": []}
                 
@@ -599,7 +642,13 @@ def main():
                         "page": 1,
                         "size": 2000
                     }
-                    wind_data = api.get_public("np4-732-cd/wpp_hrly_avrg_actl_fcast", params=wind_params)
+                    import json
+                    wind_data = fetch_ercot_data_cached(
+                        "np4-732-cd/wpp_hrly_avrg_actl_fcast",
+                        json.dumps(wind_params),
+                        api.bearer_token,
+                        api.subscription_key
+                    )
                     
                     if "data" in wind_data and len(wind_data["data"]) > 0:
                         wind_df = pd.DataFrame(wind_data["data"])
@@ -679,7 +728,12 @@ def main():
                         "page": 1,
                         "size": 2000
                     }
-                    solar_data = api.get_public("np4-737-cd/spp_hrly_avrg_actl_fcast", params=solar_params)
+                    solar_data = fetch_ercot_data_cached(
+                        "np4-737-cd/spp_hrly_avrg_actl_fcast",
+                        json.dumps(solar_params),
+                        api.bearer_token,
+                        api.subscription_key
+                    )
                     
                     if "data" in solar_data and len(solar_data["data"]) > 0:
                         solar_df = pd.DataFrame(solar_data["data"])
@@ -759,7 +813,12 @@ def main():
                     "page": 1,
                     "size": 1000
                 }
-                lmp_data = api.get_public("np6-788-cd/lmp_node_zone_hub", params=lmp_params)
+                lmp_data = fetch_ercot_data_cached(
+                    "np6-788-cd/lmp_node_zone_hub",
+                    json.dumps(lmp_params),
+                    api.bearer_token,
+                    api.subscription_key
+                )
                 
                 if "data" in lmp_data and len(lmp_data["data"]) > 0:
                     lmp_df = pd.DataFrame(lmp_data["data"])
@@ -803,7 +862,12 @@ def main():
                     "page": 1,
                     "size": 2000
                 }
-                outage_data = api.get_public("np3-233-cd/hourly_res_outage_cap", params=outage_params)
+                outage_data = fetch_ercot_data_cached(
+                    "np3-233-cd/hourly_res_outage_cap",
+                    json.dumps(outage_params),
+                    api.bearer_token,
+                    api.subscription_key
+                )
                 
                 if "data" in outage_data and len(outage_data["data"]) > 0:
                     outage_df = pd.DataFrame(outage_data["data"])
