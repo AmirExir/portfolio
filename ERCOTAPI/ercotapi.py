@@ -106,46 +106,51 @@ if __name__ == "__main__":
         print("❌ Public API error:", e)
 
 
-if __name__ != "__main__":
-    st.title("⚡ ERCOT API Dashboard")
+if __name__ == "__main__":
+    import sys
+    if any("streamlit" in arg for arg in sys.argv):
+        # Running via Streamlit
+        st.set_page_config(page_title="ERCOT API Dashboard", layout="wide")
+        st.title("⚡ ERCOT API Dashboard")
 
-    api = ErcotAPI()
+        api = ErcotAPI()
 
-    endpoint = st.text_input("API Endpoint", value="np3-233-cd/hourly_res_outage_cap")
+        endpoint = st.text_input("API Endpoint", value="np3-233-cd/hourly_res_outage_cap")
 
-    col1, col2 = st.columns(2)
-    with col1:
-        start_date = st.date_input("Start Date", value=pd.to_datetime("2025-10-01"))
-    with col2:
-        end_date = st.date_input("End Date", value=pd.to_datetime("2025-10-02"))
+        col1, col2 = st.columns(2)
+        with col1:
+            start_date = st.date_input("Start Date", value=pd.to_datetime("2025-10-01"))
+        with col2:
+            end_date = st.date_input("End Date", value=pd.to_datetime("2025-10-02"))
 
-    if start_date > end_date:
-        st.error("Start Date must be before or equal to End Date.")
-    else:
-        params = {
-            "operatingDateFrom": start_date.strftime("%Y-%m-%d"),
-            "operatingDateTo": end_date.strftime("%Y-%m-%d"),
-            "page": 1,
-            "size": 1000
-        }
+        if start_date > end_date:
+            st.error("Start Date must be before or equal to End Date.")
+        else:
+            params = {
+                "operatingDateFrom": start_date.strftime("%Y-%m-%d"),
+                "operatingDateTo": end_date.strftime("%Y-%m-%d"),
+                "page": 1,
+                "size": 1000
+            }
 
-        try:
-            with st.spinner("Fetching data from ERCOT API..."):
-                data_json = api.get_public(endpoint, params=params)
-            if "data" not in data_json or not isinstance(data_json["data"], list) or len(data_json["data"]) == 0:
-                st.warning("No data returned for the selected parameters.")
-            else:
-                df = pd.DataFrame(data_json["data"])
-                st.subheader("Sample Records")
-                st.dataframe(df.head(10))
+            try:
+                with st.spinner("Fetching data from ERCOT API..."):
+                    data_json = api.get_public(endpoint, params=params)
 
-                if "operatingDateTime" in df.columns and "totalOutageMW" in df.columns:
-                    color_col = "fuelType" if "fuelType" in df.columns else None
-                    fig = px.line(df, x="operatingDateTime", y="totalOutageMW", color=color_col,
-                                  title="Total Outage MW Over Time",
-                                  labels={"operatingDateTime": "Operating DateTime", "totalOutageMW": "Total Outage (MW)"})
-                    st.plotly_chart(fig, use_container_width=True)
+                if "data" not in data_json or not isinstance(data_json["data"], list) or len(data_json["data"]) == 0:
+                    st.warning("No data returned for the selected parameters.")
                 else:
-                    st.info("Data does not contain required columns 'operatingDateTime' and 'totalOutageMW' for plotting.")
-        except Exception as e:
-            st.error(f"Error fetching or processing data: {e}")
+                    df = pd.DataFrame(data_json["data"])
+                    st.subheader("Sample Records")
+                    st.dataframe(df.head(10))
+
+                    if "operatingDateTime" in df.columns and "totalOutageMW" in df.columns:
+                        color_col = "fuelType" if "fuelType" in df.columns else None
+                        fig = px.line(df, x="operatingDateTime", y="totalOutageMW", color=color_col,
+                                      title="Total Outage MW Over Time",
+                                      labels={"operatingDateTime": "Operating DateTime", "totalOutageMW": "Total Outage (MW)"})
+                        st.plotly_chart(fig, use_container_width=True)
+                    else:
+                        st.info("Data does not contain required columns for plotting.")
+            except Exception as e:
+                st.error(f"Error fetching or processing data: {e}")
