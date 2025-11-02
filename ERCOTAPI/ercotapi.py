@@ -337,30 +337,17 @@ def main():
         
         try:
             with st.spinner("Fetching load data..."):
-                # Fetch actual load data - try different parameter formats
-                # ERCOT API may use deliveryDateFrom/To or other naming conventions
+                # Fetch actual load data using correct parameters: operatingDayFrom/To
                 load_params = {
-                    "deliveryDateFrom": start_date.strftime("%Y-%m-%d"),
-                    "deliveryDateTo": end_date.strftime("%Y-%m-%d"),
+                    "operatingDayFrom": start_date.strftime("%Y-%m-%d"),
+                    "operatingDayTo": end_date.strftime("%Y-%m-%d"),
                     "page": 1,
                     "size": 5000
                 }
                 
-                try:
-                    actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
-                    if debug_mode:
-                        st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
-                except Exception as e1:
-                    # Try alternative parameter naming
-                    if debug_mode:
-                        st.warning(f"First attempt failed: {str(e1)}")
-                    load_params = {
-                        "page": 1,
-                        "size": 5000
-                    }
-                    actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
-                    if debug_mode:
-                        st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
+                actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
+                if debug_mode:
+                    st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
                 
                 try:
                     forecast_data = api.get_public("np3-565-cd/lf_by_model_weather_zone", params=load_params, verbose=False)
@@ -376,19 +363,44 @@ def main():
                         st.write("**Load Data Sample:**")
                         st.dataframe(actual_df.head())
                         st.write(f"Columns: {list(actual_df.columns)}")
+                        if "fields" in actual_load_data:
+                            st.write("**Fields metadata:**")
+                            st.json(actual_load_data["fields"])
                     
-                    # Parse timestamp column if exists
-                    time_cols = [col for col in actual_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
-                    if time_cols:
-                        actual_df['timestamp'] = pd.to_datetime(actual_df[time_cols[0]])
+                    # Map column indices to names using 'fields' metadata
+                    if "fields" in actual_load_data and isinstance(actual_load_data["fields"], list):
+                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(actual_load_data["fields"])}
+                        actual_df.rename(columns=column_mapping, inplace=True)
+                        if debug_mode:
+                            st.write("**Renamed Columns:**", list(actual_df.columns))
+                    
+                    # Parse timestamp: ERCOT uses operatingDay + hourEnding (hour 24 = midnight next day)
+                    if 'operatingDay' in actual_df.columns and 'hourEnding' in actual_df.columns:
+                        def parse_ercot_timestamp(row):
+                            try:
+                                date = pd.to_datetime(row['operatingDay'])
+                                hour = int(row['hourEnding'])
+                                if hour == 24:
+                                    return date + timedelta(days=1)
+                                else:
+                                    return date + timedelta(hours=hour)
+                            except:
+                                return pd.NaT
+                        actual_df['timestamp'] = actual_df.apply(parse_ercot_timestamp, axis=1)
                         actual_df = actual_df.sort_values('timestamp')
                     
-                    # Display metrics
+                    # Display metrics - use 'total' column for system-wide load
                     col1, col2, col3 = st.columns(3)
-                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
-                        latest_load = actual_df['ERCOT'].iloc[-1]
-                        avg_load = actual_df['ERCOT'].mean()
-                        max_load = actual_df['ERCOT'].max()
+                    load_col = None
+                    for col in actual_df.columns:
+                        if isinstance(col, str) and col.lower() in ['total', 'ercot', 'system_wide', 'systemwide']:
+                            load_col = col
+                            break
+                    
+                    if load_col and not actual_df.empty:
+                        latest_load = actual_df[load_col].iloc[-1]
+                        avg_load = actual_df[load_col].mean()
+                        max_load = actual_df[load_col].max()
                         
                         col1.metric("Current System Load", f"{latest_load:,.0f} MW")
                         col2.metric("Average Load", f"{avg_load:,.0f} MW")
@@ -397,12 +409,12 @@ def main():
                     # Plot actual vs forecast
                     fig = make_subplots(specs=[[{"secondary_y": False}]])
                     
-                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
+                    if load_col and not actual_df.empty:
                         x_axis = actual_df['timestamp'] if 'timestamp' in actual_df.columns else actual_df.index
                         fig.add_trace(
                             go.Scatter(
                                 x=x_axis,
-                                y=actual_df['ERCOT'],
+                                y=actual_df[load_col],
                                 mode='lines',
                                 name='Actual Load',
                                 line=dict(color='blue', width=2)
@@ -440,10 +452,10 @@ def main():
                     # ML Forecast Section
                     st.subheader("🤖 Machine Learning Load Forecast (Next 24 Hours)")
                     
-                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
+                    if load_col and not actual_df.empty:
                         # Prepare data for ML
                         ml_df = pd.DataFrame({
-                            'load': actual_df['ERCOT'].values
+                            'load': actual_df[load_col].values
                         }, index=range(len(actual_df)))
                         
                         model, scaler = train_load_forecast_model(ml_df)
