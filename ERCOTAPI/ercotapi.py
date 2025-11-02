@@ -220,63 +220,25 @@ def main():
             """)
             api = None
     else:
-        st.sidebar.warning("⚠️ No environment credentials found. Please enter manually:")
-        
-        with st.sidebar.expander("Enter ERCOT API Credentials", expanded=True):
-            st.markdown("**Step 1: Get Subscription Key**")
-            st.markdown("1. Go to [ERCOT API Market](https://apimarket.ercot.com/)")
-            st.markdown("2. Sign in and navigate to 'Products'")
-            st.markdown("3. Subscribe to 'ERCOT Public API' (free tier)")
-            st.markdown("4. Copy your **Subscription Key** from your profile")
-            st.markdown("---")
-            st.markdown("**Step 2: Enter Credentials**")
-            
-            username = st.text_input("Username (Email)", type="default", help="Your ERCOT portal username/email")
-            password = st.text_input("Password", type="password", help="Your ERCOT portal password")
-            subscription_key = st.text_input("Subscription Key", type="password", help="From ERCOT API Market portal")
-            client_id = st.text_input("Client ID", value="fec253ea-0d06-4272-a5e6-b478baeecd70", help="ERCOT API Client ID (default)")
-            
-            if username and password and client_id and subscription_key:
-                try:
-                    api = ErcotAPI(username=username, password=password, client_id=client_id, subscription_key=subscription_key)
-                    st.sidebar.success("✅ Credentials accepted! Bearer token acquired.")
-                    
-                    # Ask if user wants to save for this session
-                    save_creds = st.sidebar.checkbox("💾 Remember credentials for this session", value=False,
-                                                     help="Credentials will be stored in memory (not saved to disk) for this browser session only")
-                    if save_creds:
-                        st.session_state.saved_credentials = {
-                            'username': username,
-                            'password': password,
-                            'client_id': client_id,
-                            'subscription_key': subscription_key
-                        }
-                        st.sidebar.success("✅ Credentials saved for this session!")
-                        st.sidebar.info("🔒 Secure: Credentials only in browser memory, not saved to disk")
-                except Exception as e:
-                    st.sidebar.error(f"❌ Authentication failed: {e}")
-                    api = None
-            else:
-                st.sidebar.info("👆 Please enter all credentials above to continue")
-                api = None
+        st.sidebar.error("❌ No credentials configured")
+        api = None
     
     # Only show the rest of the app if API is initialized
     if api is None:
-        st.warning("⚠️ Please configure API credentials to access ERCOT data.")
+        st.error("🔐 **Credentials Required**")
         
         # Check if running on Streamlit Cloud
         is_cloud = os.getenv("STREAMLIT_SHARING_MODE") or os.getenv("STREAMLIT_CLOUD")
         
         if is_cloud:
-            st.error("""
-            **🚀 Streamlit Cloud Deployment Detected**
+            st.warning("""
+            **⚙️ Action Required: Configure Secrets**
             
-            To configure secrets on Streamlit Cloud:
-            1. Go to your app dashboard: https://share.streamlit.io/
-            2. Click on your app
-            3. Click the **⚙️ Settings** button (three dots menu)
-            4. Select **"Secrets"** from the left sidebar
-            5. Paste the following format:
+            You're viewing this on Streamlit Cloud. To make the app work:
+            
+            1. Click the **⚙️ Settings** menu (three dots, top-right)
+            2. Select **"Secrets"** from the left sidebar
+            3. Delete the example text and paste YOUR credentials:
             
             ```toml
             ERCOT_USERNAME = "your_email@example.com"
