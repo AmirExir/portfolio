@@ -338,6 +338,18 @@ def main():
                         st.write("**Load Data Sample:**")
                         st.dataframe(actual_df.head())
                         st.write(f"Columns: {list(actual_df.columns)}")
+                        st.write("**Fields metadata:**")
+                        if "fields" in actual_load_data:
+                            st.json(actual_load_data["fields"])
+                    
+                    # Map column indices to names using the 'fields' metadata
+                    if "fields" in actual_load_data and isinstance(actual_load_data["fields"], list):
+                        # Create column name mapping from fields metadata
+                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(actual_load_data["fields"])}
+                        actual_df.rename(columns=column_mapping, inplace=True)
+                        
+                        if debug_mode:
+                            st.write("**Renamed Columns:**", list(actual_df.columns))
                     
                     # Parse timestamp column if exists
                     time_cols = [col for col in actual_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
@@ -488,6 +500,11 @@ def main():
                     if "data" in wind_data and len(wind_data["data"]) > 0:
                         wind_df = pd.DataFrame(wind_data["data"])
                         
+                        # Map column indices to names using the 'fields' metadata
+                        if "fields" in wind_data and isinstance(wind_data["fields"], list):
+                            column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(wind_data["fields"])}
+                            wind_df.rename(columns=column_mapping, inplace=True)
+                        
                         # Parse timestamp
                         wind_time_cols = [col for col in wind_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                         if wind_time_cols:
@@ -553,6 +570,11 @@ def main():
                     
                     if "data" in solar_data and len(solar_data["data"]) > 0:
                         solar_df = pd.DataFrame(solar_data["data"])
+                        
+                        # Map column indices to names using the 'fields' metadata
+                        if "fields" in solar_data and isinstance(solar_data["fields"], list):
+                            column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(solar_data["fields"])}
+                            solar_df.rename(columns=column_mapping, inplace=True)
                         
                         # Parse timestamp
                         solar_time_cols = [col for col in solar_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
@@ -620,6 +642,11 @@ def main():
                 if "data" in lmp_data and len(lmp_data["data"]) > 0:
                     lmp_df = pd.DataFrame(lmp_data["data"])
                     
+                    # Map column indices to names using the 'fields' metadata
+                    if "fields" in lmp_data and isinstance(lmp_data["fields"], list):
+                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(lmp_data["fields"])}
+                        lmp_df.rename(columns=column_mapping, inplace=True)
+                    
                     # Filter for major hubs
                     if 'SettlementPoint' in lmp_df.columns:
                         hubs = lmp_df[lmp_df['SettlementPointType'] == 'HU'] if 'SettlementPointType' in lmp_df.columns else lmp_df
@@ -663,6 +690,11 @@ def main():
                 
                 if "data" in outage_data and len(outage_data["data"]) > 0:
                     outage_df = pd.DataFrame(outage_data["data"])
+                    
+                    # Map column indices to names using the 'fields' metadata
+                    if "fields" in outage_data and isinstance(outage_data["fields"], list):
+                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(outage_data["fields"])}
+                        outage_df.rename(columns=column_mapping, inplace=True)
                     
                     # Parse timestamp
                     outage_time_cols = [col for col in outage_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
