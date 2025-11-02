@@ -271,10 +271,10 @@ def train_load_forecast_model(historical_data):
     # Compute metrics
     metrics = {
         "train_mae": mean_absolute_error(y_train, y_train_pred),
-        "train_rmse": mean_squared_error(y_train, y_train_pred, squared=False),
+        "train_rmse": np.sqrt(mean_squared_error(y_train, y_train_pred)),
         "train_r2": r2_score(y_train, y_train_pred),
         "test_mae": mean_absolute_error(y_test, y_test_pred),
-        "test_rmse": mean_squared_error(y_test, y_test_pred, squared=False),
+        "test_rmse": np.sqrt(mean_squared_error(y_test, y_test_pred)),
         "test_r2": r2_score(y_test, y_test_pred)
     }
 
