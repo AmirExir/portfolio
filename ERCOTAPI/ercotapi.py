@@ -139,10 +139,14 @@ def fetch_ercot_data_cached(endpoint: str, params_str: str, bearer_token: str, s
     return api.get_public(endpoint, params=params, verbose=False, max_retries=3)
 
 
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
 def train_load_forecast_model(historical_data):
-    """Train an ML model (XGBoost or Random Forest) to forecast load based on historical patterns."""
+    """Train an ML model (XGBoost or Random Forest) to forecast load based on historical patterns.
+       Returns: model, scaler, df, train/test split, predictions, and metrics for plotting/metrics display."""
     if len(historical_data) < 48:  # Need at least 2 days
-        return None, None, None
+        return None, None, None, None, None, None
 
     # Feature engineering: hour of day, day of week, rolling averages
     df = historical_data.copy()
@@ -170,14 +174,20 @@ def train_load_forecast_model(historical_data):
     df = df.dropna()
 
     if len(df) < 24:
-        return None, None, None
+        return None, None, None, None, None, None
 
     X = df[features]
     y = df['load']
 
+    # Train/test split (80/20, no shuffle to preserve time order)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, shuffle=False
+    )
+
     # Train model
     scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
 
     # --- XGBoost hyperparameter sidebar controls ---
     xgb_params = {}
@@ -229,7 +239,7 @@ def train_load_forecast_model(historical_data):
         )
         show_params_plot = False
 
-    model.fit(X_scaled, y)
+    model.fit(X_train_scaled, y_train)
 
     # --- Sidebar Plotly param visualization ---
     if HAS_XGBOOST and show_params_plot:
@@ -255,7 +265,22 @@ def train_load_forecast_model(historical_data):
         )
         st.sidebar.plotly_chart(fig_params, use_container_width=True)
 
-    return model, scaler, df
+    # Predict on train and test sets
+    y_train_pred = model.predict(X_train_scaled)
+    y_test_pred = model.predict(X_test_scaled)
+
+    # Compute metrics
+    metrics = {
+        "train_mae": mean_absolute_error(y_train, y_train_pred),
+        "train_rmse": mean_squared_error(y_train, y_train_pred, squared=False),
+        "train_r2": r2_score(y_train, y_train_pred),
+        "test_mae": mean_absolute_error(y_test, y_test_pred),
+        "test_rmse": mean_squared_error(y_test, y_test_pred, squared=False),
+        "test_r2": r2_score(y_test, y_test_pred)
+    }
+
+    # For plotting: return the indices for X_train and X_test (to allow time series plotting)
+    return model, scaler, df, (X_train, X_test, y_train, y_test), (y_train_pred, y_test_pred), metrics
 
 
 # --- Streamlit Dashboard ---
@@ -605,9 +630,65 @@ def main():
                                 'load': actual_df[load_col].values
                             }, index=pd.date_range(end=pd.Timestamp.now(), periods=len(actual_df), freq='H'))
                         
-                        model, scaler, training_df = train_load_forecast_model(ml_df)
+                        model, scaler, training_df, split_data, preds, metrics = train_load_forecast_model(ml_df)
                         
                         if model is not None:
+                            # --- ML Model Performance Metrics and Diagnostics ---
+                            if split_data is not None and preds is not None and metrics is not None:
+                                X_train, X_test, y_train, y_test = split_data
+                                y_train_pred, y_test_pred = preds
+
+                                with st.expander("Model Performance Metrics (Train/Test)", expanded=False):
+                                    st.markdown("**Training Set:**")
+                                    st.write(f"MAE: {metrics['train_mae']:.2f} | RMSE: {metrics['train_rmse']:.2f} | R²: {metrics['train_r2']:.3f}")
+                                    st.markdown("**Validation/Test Set:**")
+                                    st.write(f"MAE: {metrics['test_mae']:.2f} | RMSE: {metrics['test_rmse']:.2f} | R²: {metrics['test_r2']:.3f}")
+
+                                # Plot Training Fit vs Validation
+                                import plotly.graph_objects as go
+                                fig_diag = go.Figure()
+                                # Get time indices for train and test
+                                train_idx = y_train.index if hasattr(y_train, "index") else None
+                                test_idx = y_test.index if hasattr(y_test, "index") else None
+                                # Plot actual vs predicted for train
+                                fig_diag.add_trace(go.Scatter(
+                                    x=train_idx,
+                                    y=y_train,
+                                    mode='lines',
+                                    name='Train Actual',
+                                    line=dict(color='blue', width=2, dash='solid')
+                                ))
+                                fig_diag.add_trace(go.Scatter(
+                                    x=train_idx,
+                                    y=y_train_pred,
+                                    mode='lines',
+                                    name='Train Predicted',
+                                    line=dict(color='blue', width=2, dash='dot')
+                                ))
+                                # Plot actual vs predicted for test
+                                fig_diag.add_trace(go.Scatter(
+                                    x=test_idx,
+                                    y=y_test,
+                                    mode='lines',
+                                    name='Validation Actual',
+                                    line=dict(color='red', width=2, dash='solid')
+                                ))
+                                fig_diag.add_trace(go.Scatter(
+                                    x=test_idx,
+                                    y=y_test_pred,
+                                    mode='lines',
+                                    name='Validation Predicted',
+                                    line=dict(color='red', width=2, dash='dot')
+                                ))
+                                fig_diag.update_layout(
+                                    title="Training Fit vs Validation (ML Model)",
+                                    xaxis_title="Time",
+                                    yaxis_title="Load (MW)",
+                                    height=400,
+                                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+                                )
+                                st.plotly_chart(fig_diag, use_container_width=True)
+
                             # Generate forecast for next 24 hours
                             last_timestamp = training_df.index[-1] if hasattr(training_df.index[-1], 'hour') else pd.Timestamp.now()
                             future_hours = []
