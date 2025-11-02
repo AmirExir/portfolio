@@ -386,11 +386,28 @@ def main():
                         if debug_mode:
                             st.write("**Renamed Columns:**", list(actual_df.columns))
                     
-                    # Parse timestamp column if exists
-                    time_cols = [col for col in actual_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
-                    if time_cols:
-                        actual_df['timestamp'] = pd.to_datetime(actual_df[time_cols[0]])
+                    # Parse timestamp: ERCOT uses operatingDay + hourEnding (where hour 24 = midnight next day)
+                    if 'operatingDay' in actual_df.columns and 'hourEnding' in actual_df.columns:
+                        def parse_ercot_timestamp(row):
+                            try:
+                                date = pd.to_datetime(row['operatingDay'])
+                                hour = int(row['hourEnding'])
+                                # Hour 24 means midnight of next day (hour 0)
+                                if hour == 24:
+                                    return date + timedelta(days=1)
+                                else:
+                                    return date + timedelta(hours=hour)
+                            except:
+                                return pd.NaT
+                        
+                        actual_df['timestamp'] = actual_df.apply(parse_ercot_timestamp, axis=1)
                         actual_df = actual_df.sort_values('timestamp')
+                    else:
+                        # Fallback: look for any timestamp column
+                        time_cols = [col for col in actual_df.columns if isinstance(col, str) and 'time' in col.lower()]
+                        if time_cols:
+                            actual_df['timestamp'] = pd.to_datetime(actual_df[time_cols[0]])
+                            actual_df = actual_df.sort_values('timestamp')
                     
                     # Display metrics - use 'total' column for system-wide load
                     col1, col2, col3 = st.columns(3)
@@ -426,11 +443,25 @@ def main():
                         )
                     
                     if not forecast_df.empty:
-                        # Parse timestamp for forecast data
-                        forecast_time_cols = [col for col in forecast_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
-                        if forecast_time_cols:
-                            forecast_df['timestamp'] = pd.to_datetime(forecast_df[forecast_time_cols[0]])
+                        # Parse timestamp for forecast data (handle hourEnding = 24)
+                        if 'operatingDay' in forecast_df.columns and 'hourEnding' in forecast_df.columns:
+                            def parse_ercot_timestamp(row):
+                                try:
+                                    date = pd.to_datetime(row['operatingDay'])
+                                    hour = int(row['hourEnding'])
+                                    if hour == 24:
+                                        return date + timedelta(days=1)
+                                    else:
+                                        return date + timedelta(hours=hour)
+                                except:
+                                    return pd.NaT
+                            forecast_df['timestamp'] = forecast_df.apply(parse_ercot_timestamp, axis=1)
                             forecast_df = forecast_df.sort_values('timestamp')
+                        else:
+                            forecast_time_cols = [col for col in forecast_df.columns if isinstance(col, str) and 'time' in col.lower()]
+                            if forecast_time_cols:
+                                forecast_df['timestamp'] = pd.to_datetime(forecast_df[forecast_time_cols[0]])
+                                forecast_df = forecast_df.sort_values('timestamp')
                         
                         x_axis_forecast = forecast_df['timestamp'] if 'timestamp' in forecast_df.columns else forecast_df.index
                         fig.add_trace(
@@ -547,11 +578,25 @@ def main():
                             column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(wind_data["fields"])}
                             wind_df.rename(columns=column_mapping, inplace=True)
                         
-                        # Parse timestamp
-                        wind_time_cols = [col for col in wind_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
-                        if wind_time_cols:
-                            wind_df['timestamp'] = pd.to_datetime(wind_df[wind_time_cols[0]])
+                        # Parse timestamp: Wind API uses deliveryDate + hourEnding (hour 24 = midnight next day)
+                        if 'deliveryDate' in wind_df.columns and 'hourEnding' in wind_df.columns:
+                            def parse_ercot_timestamp(row):
+                                try:
+                                    date = pd.to_datetime(row['deliveryDate'])
+                                    hour = int(row['hourEnding'])
+                                    if hour == 24:
+                                        return date + timedelta(days=1)
+                                    else:
+                                        return date + timedelta(hours=hour)
+                                except:
+                                    return pd.NaT
+                            wind_df['timestamp'] = wind_df.apply(parse_ercot_timestamp, axis=1)
                             wind_df = wind_df.sort_values('timestamp')
+                        else:
+                            wind_time_cols = [col for col in wind_df.columns if isinstance(col, str) and 'time' in col.lower()]
+                            if wind_time_cols:
+                                wind_df['timestamp'] = pd.to_datetime(wind_df[wind_time_cols[0]])
+                                wind_df = wind_df.sort_values('timestamp')
                         
                         if debug_mode:
                             st.write("**Wind Data Sample:**", wind_df.head())
@@ -618,11 +663,25 @@ def main():
                             column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(solar_data["fields"])}
                             solar_df.rename(columns=column_mapping, inplace=True)
                         
-                        # Parse timestamp
-                        solar_time_cols = [col for col in solar_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
-                        if solar_time_cols:
-                            solar_df['timestamp'] = pd.to_datetime(solar_df[solar_time_cols[0]])
+                        # Parse timestamp: Solar API uses deliveryDate + hourEnding (hour 24 = midnight next day)
+                        if 'deliveryDate' in solar_df.columns and 'hourEnding' in solar_df.columns:
+                            def parse_ercot_timestamp(row):
+                                try:
+                                    date = pd.to_datetime(row['deliveryDate'])
+                                    hour = int(row['hourEnding'])
+                                    if hour == 24:
+                                        return date + timedelta(days=1)
+                                    else:
+                                        return date + timedelta(hours=hour)
+                                except:
+                                    return pd.NaT
+                            solar_df['timestamp'] = solar_df.apply(parse_ercot_timestamp, axis=1)
                             solar_df = solar_df.sort_values('timestamp')
+                        else:
+                            solar_time_cols = [col for col in solar_df.columns if isinstance(col, str) and 'time' in col.lower()]
+                            if solar_time_cols:
+                                solar_df['timestamp'] = pd.to_datetime(solar_df[solar_time_cols[0]])
+                                solar_df = solar_df.sort_values('timestamp')
                         
                         if debug_mode:
                             st.write("**Solar Data Sample:**", solar_df.head())
@@ -748,11 +807,38 @@ def main():
                         column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(outage_data["fields"])}
                         outage_df.rename(columns=column_mapping, inplace=True)
                     
-                    # Parse timestamp
-                    outage_time_cols = [col for col in outage_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
-                    if outage_time_cols:
-                        outage_df['timestamp'] = pd.to_datetime(outage_df[outage_time_cols[0]])
+                    # Parse timestamp: Outage API may use different date/hour fields
+                    if 'deliveryDate' in outage_df.columns and 'hourEnding' in outage_df.columns:
+                        def parse_ercot_timestamp(row):
+                            try:
+                                date = pd.to_datetime(row['deliveryDate'])
+                                hour = int(row['hourEnding'])
+                                if hour == 24:
+                                    return date + timedelta(days=1)
+                                else:
+                                    return date + timedelta(hours=hour)
+                            except:
+                                return pd.NaT
+                        outage_df['timestamp'] = outage_df.apply(parse_ercot_timestamp, axis=1)
                         outage_df = outage_df.sort_values('timestamp')
+                    elif 'operatingDay' in outage_df.columns and 'hourEnding' in outage_df.columns:
+                        def parse_ercot_timestamp(row):
+                            try:
+                                date = pd.to_datetime(row['operatingDay'])
+                                hour = int(row['hourEnding'])
+                                if hour == 24:
+                                    return date + timedelta(days=1)
+                                else:
+                                    return date + timedelta(hours=hour)
+                            except:
+                                return pd.NaT
+                        outage_df['timestamp'] = outage_df.apply(parse_ercot_timestamp, axis=1)
+                        outage_df = outage_df.sort_values('timestamp')
+                    else:
+                        outage_time_cols = [col for col in outage_df.columns if isinstance(col, str) and 'time' in col.lower()]
+                        if outage_time_cols:
+                            outage_df['timestamp'] = pd.to_datetime(outage_df[outage_time_cols[0]])
+                            outage_df = outage_df.sort_values('timestamp')
                     
                     if debug_mode:
                         st.write("**Outage Data Sample:**", outage_df.head())
