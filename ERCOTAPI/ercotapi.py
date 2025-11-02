@@ -243,7 +243,6 @@ def train_load_forecast_model(historical_data):
 
     # --- Sidebar Plotly param visualization ---
     if HAS_XGBOOST and show_params_plot:
-        import plotly.graph_objects as go
         param_names = ["n_estimators", "max_depth", "learning_rate"]
         param_vals = [xgb_params["n_estimators"], xgb_params["max_depth"], xgb_params["learning_rate"]]
         # Make a small horizontal bar chart
@@ -645,7 +644,6 @@ def main():
                                     st.write(f"MAE: {metrics['test_mae']:.2f} | RMSE: {metrics['test_rmse']:.2f} | R²: {metrics['test_r2']:.3f}")
 
                                 # Plot Training Fit vs Validation
-                                import plotly.graph_objects as go
                                 fig_diag = go.Figure()
                                 # Get time indices for train and test
                                 train_idx = y_train.index if hasattr(y_train, "index") else None
