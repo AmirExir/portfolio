@@ -8,7 +8,12 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 from datetime import datetime, timedelta
-from sklearn.ensemble import RandomForestRegressor
+try:
+    from xgboost import XGBRegressor
+    HAS_XGBOOST = True
+except ImportError:
+    from sklearn.ensemble import RandomForestRegressor
+    HAS_XGBOOST = False
 from sklearn.preprocessing import StandardScaler
 
 
@@ -106,23 +111,37 @@ class ErcotAPI:
 
 # --- Helper Functions ---
 def train_load_forecast_model(historical_data):
-    """Train a simple ML model to forecast load based on historical patterns."""
+    """Train an ML model (XGBoost or Random Forest) to forecast load based on historical patterns."""
     if len(historical_data) < 48:  # Need at least 2 days
-        return None, None
+        return None, None, None
     
     # Feature engineering: hour of day, day of week, rolling averages
     df = historical_data.copy()
     df['hour'] = pd.to_datetime(df.index).hour
     df['day_of_week'] = pd.to_datetime(df.index).dayofweek
+    df['is_weekend'] = (df['day_of_week'] >= 5).astype(int)
+    
+    # Cyclical encoding for hour (23:00 and 00:00 are close)
+    df['hour_sin'] = np.sin(2 * np.pi * df['hour'] / 24)
+    df['hour_cos'] = np.cos(2 * np.pi * df['hour'] / 24)
+    
+    # Lag features
+    df['load_lag_1h'] = df['load'].shift(1)
+    df['load_lag_24h'] = df['load'].shift(24)
+    
+    # Rolling statistics
+    df['rolling_mean_3h'] = df['load'].rolling(3, min_periods=1).mean()
     df['rolling_mean_24h'] = df['load'].rolling(24, min_periods=1).mean()
     df['rolling_std_24h'] = df['load'].rolling(24, min_periods=1).std()
     
     # Prepare features and target
-    features = ['hour', 'day_of_week', 'rolling_mean_24h', 'rolling_std_24h']
+    features = ['hour', 'day_of_week', 'is_weekend', 'hour_sin', 'hour_cos',
+                'load_lag_1h', 'load_lag_24h', 'rolling_mean_3h', 'rolling_mean_24h', 'rolling_std_24h']
+    
     df = df.dropna()
     
     if len(df) < 24:
-        return None, None
+        return None, None, None
     
     X = df[features]
     y = df['load']
@@ -131,10 +150,30 @@ def train_load_forecast_model(historical_data):
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     
-    model = RandomForestRegressor(n_estimators=50, random_state=42, max_depth=10)
+    if HAS_XGBOOST:
+        # XGBoost with optimized hyperparameters for time series
+        model = XGBRegressor(
+            n_estimators=100,
+            max_depth=6,
+            learning_rate=0.1,
+            subsample=0.8,
+            colsample_bytree=0.8,
+            random_state=42,
+            objective='reg:squarederror',
+            verbosity=0
+        )
+    else:
+        # Fallback to Random Forest
+        model = RandomForestRegressor(
+            n_estimators=100,
+            random_state=42,
+            max_depth=15,
+            min_samples_split=5
+        )
+    
     model.fit(X_scaled, y)
     
-    return model, scaler
+    return model, scaler, df
 
 
 # --- Streamlit Dashboard ---
@@ -220,25 +259,63 @@ def main():
             """)
             api = None
     else:
-        st.sidebar.error("❌ No credentials configured")
-        api = None
+        st.sidebar.warning("⚠️ No environment credentials found. Please enter manually:")
+        
+        with st.sidebar.expander("Enter ERCOT API Credentials", expanded=True):
+            st.markdown("**Step 1: Get Subscription Key**")
+            st.markdown("1. Go to [ERCOT API Market](https://apimarket.ercot.com/)")
+            st.markdown("2. Sign in and navigate to 'Products'")
+            st.markdown("3. Subscribe to 'ERCOT Public API' (free tier)")
+            st.markdown("4. Copy your **Subscription Key** from your profile")
+            st.markdown("---")
+            st.markdown("**Step 2: Enter Credentials**")
+            
+            username = st.text_input("Username (Email)", type="default", help="Your ERCOT portal username/email")
+            password = st.text_input("Password", type="password", help="Your ERCOT portal password")
+            subscription_key = st.text_input("Subscription Key", type="password", help="From ERCOT API Market portal")
+            client_id = st.text_input("Client ID", value="fec253ea-0d06-4272-a5e6-b478baeecd70", help="ERCOT API Client ID (default)")
+            
+            if username and password and client_id and subscription_key:
+                try:
+                    api = ErcotAPI(username=username, password=password, client_id=client_id, subscription_key=subscription_key)
+                    st.sidebar.success("✅ Credentials accepted! Bearer token acquired.")
+                    
+                    # Ask if user wants to save for this session
+                    save_creds = st.sidebar.checkbox("💾 Remember credentials for this session", value=False,
+                                                     help="Credentials will be stored in memory (not saved to disk) for this browser session only")
+                    if save_creds:
+                        st.session_state.saved_credentials = {
+                            'username': username,
+                            'password': password,
+                            'client_id': client_id,
+                            'subscription_key': subscription_key
+                        }
+                        st.sidebar.success("✅ Credentials saved for this session!")
+                        st.sidebar.info("🔒 Secure: Credentials only in browser memory, not saved to disk")
+                except Exception as e:
+                    st.sidebar.error(f"❌ Authentication failed: {e}")
+                    api = None
+            else:
+                st.sidebar.info("👆 Please enter all credentials above to continue")
+                api = None
     
     # Only show the rest of the app if API is initialized
     if api is None:
-        st.error("🔐 **Credentials Required**")
+        st.warning("⚠️ Please configure API credentials to access ERCOT data.")
         
         # Check if running on Streamlit Cloud
         is_cloud = os.getenv("STREAMLIT_SHARING_MODE") or os.getenv("STREAMLIT_CLOUD")
         
         if is_cloud:
-            st.warning("""
-            **⚙️ Action Required: Configure Secrets**
+            st.error("""
+            **🚀 Streamlit Cloud Deployment Detected**
             
-            You're viewing this on Streamlit Cloud. To make the app work:
-            
-            1. Click the **⚙️ Settings** menu (three dots, top-right)
-            2. Select **"Secrets"** from the left sidebar
-            3. Delete the example text and paste YOUR credentials:
+            To configure secrets on Streamlit Cloud:
+            1. Go to your app dashboard: https://share.streamlit.io/
+            2. Click on your app
+            3. Click the **⚙️ Settings** button (three dots menu)
+            4. Select **"Secrets"** from the left sidebar
+            5. Paste the following format:
             
             ```toml
             ERCOT_USERNAME = "your_email@example.com"
@@ -299,30 +376,17 @@ def main():
         
         try:
             with st.spinner("Fetching load data..."):
-                # Fetch actual load data - try different parameter formats
-                # ERCOT API may use deliveryDateFrom/To or other naming conventions
+                # Fetch actual load data using correct parameters: operatingDayFrom/To
                 load_params = {
-                    "deliveryDateFrom": start_date.strftime("%Y-%m-%d"),
-                    "deliveryDateTo": end_date.strftime("%Y-%m-%d"),
+                    "operatingDayFrom": start_date.strftime("%Y-%m-%d"),
+                    "operatingDayTo": end_date.strftime("%Y-%m-%d"),
                     "page": 1,
                     "size": 5000
                 }
                 
-                try:
-                    actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
-                    if debug_mode:
-                        st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
-                except Exception as e1:
-                    # Try alternative parameter naming
-                    if debug_mode:
-                        st.warning(f"First attempt failed: {str(e1)}")
-                    load_params = {
-                        "page": 1,
-                        "size": 5000
-                    }
-                    actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
-                    if debug_mode:
-                        st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
+                actual_load_data = api.get_public("np6-345-cd/act_sys_load_by_wzn", params=load_params, verbose=debug_mode)
+                if debug_mode:
+                    st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
                 
                 try:
                     forecast_data = api.get_public("np3-565-cd/lf_by_model_weather_zone", params=load_params, verbose=False)
@@ -338,16 +402,14 @@ def main():
                         st.write("**Load Data Sample:**")
                         st.dataframe(actual_df.head())
                         st.write(f"Columns: {list(actual_df.columns)}")
-                        st.write("**Fields metadata:**")
                         if "fields" in actual_load_data:
+                            st.write("**Fields metadata:**")
                             st.json(actual_load_data["fields"])
                     
-                    # Map column indices to names using the 'fields' metadata
+                    # Map column indices to names using 'fields' metadata
                     if "fields" in actual_load_data and isinstance(actual_load_data["fields"], list):
-                        # Create column name mapping from fields metadata
                         column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(actual_load_data["fields"])}
                         actual_df.rename(columns=column_mapping, inplace=True)
-                        
                         if debug_mode:
                             st.write("**Renamed Columns:**", list(actual_df.columns))
                     
@@ -400,7 +462,7 @@ def main():
                     
                     if not forecast_df.empty:
                         # Parse timestamp for forecast data
-                        forecast_time_cols = [col for col in forecast_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
+                        forecast_time_cols = [col for col in forecast_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
                         if forecast_time_cols:
                             forecast_df['timestamp'] = pd.to_datetime(forecast_df[forecast_time_cols[0]])
                             forecast_df = forecast_df.sort_values('timestamp')
@@ -431,32 +493,64 @@ def main():
                     
                     if load_col and not actual_df.empty:
                         # Prepare data for ML
+<<<<<<< HEAD
                         ml_df = pd.DataFrame({
                             'load': actual_df[load_col].values
                         }, index=range(len(actual_df)))
+=======
+                        if 'timestamp' in actual_df.columns:
+                            ml_df = pd.DataFrame({
+                                'load': actual_df[load_col].values
+                            }, index=actual_df['timestamp'].values)
+                        else:
+                            ml_df = pd.DataFrame({
+                                'load': actual_df[load_col].values
+                            }, index=pd.date_range(end=pd.Timestamp.now(), periods=len(actual_df), freq='H'))
+>>>>>>> f56b3538ceb2e0c951a1ebe05e926b73fb68cc72
                         
-                        model, scaler = train_load_forecast_model(ml_df)
+                        model, scaler, training_df = train_load_forecast_model(ml_df)
                         
                         if model is not None:
                             # Generate forecast for next 24 hours
-                            last_timestamp = pd.Timestamp.now()
+                            last_timestamp = training_df.index[-1] if hasattr(training_df.index[-1], 'hour') else pd.Timestamp.now()
                             future_hours = []
-                            future_features = []
+                            future_loads = []
+                            
+                            # Get last known values for lag features
+                            last_load = training_df['load'].iloc[-1]
+                            last_load_24h_ago = training_df['load'].iloc[-24] if len(training_df) >= 24 else last_load
                             
                             for h in range(24):
-                                future_time = last_timestamp + timedelta(hours=h)
+                                future_time = last_timestamp + timedelta(hours=h+1)
                                 future_hours.append(future_time)
                                 
                                 # Create features
                                 hour = future_time.hour
                                 dow = future_time.dayofweek
-                                recent_mean = ml_df['load'].iloc[-24:].mean()
-                                recent_std = ml_df['load'].iloc[-24:].std()
+                                is_weekend = 1 if dow >= 5 else 0
+                                hour_sin = np.sin(2 * np.pi * hour / 24)
+                                hour_cos = np.cos(2 * np.pi * hour / 24)
                                 
-                                future_features.append([hour, dow, recent_mean, recent_std])
+                                # Use predicted values as lag features for future predictions
+                                load_lag_1h = future_loads[-1] if future_loads else last_load
+                                load_lag_24h = last_load_24h_ago
+                                
+                                # Rolling statistics from recent data
+                                recent_3h = training_df['load'].iloc[-3:].tolist() + future_loads[-2:]
+                                rolling_mean_3h = np.mean(recent_3h[-3:]) if len(recent_3h) >= 3 else training_df['rolling_mean_3h'].iloc[-1]
+                                rolling_mean_24h = training_df['rolling_mean_24h'].iloc[-1]
+                                rolling_std_24h = training_df['rolling_std_24h'].iloc[-1]
+                                
+                                features = [[hour, dow, is_weekend, hour_sin, hour_cos,
+                                           load_lag_1h, load_lag_24h, rolling_mean_3h,
+                                           rolling_mean_24h, rolling_std_24h]]
+                                
+                                # Predict
+                                features_scaled = scaler.transform(features)
+                                predicted_load = model.predict(features_scaled)[0]
+                                future_loads.append(predicted_load)
                             
-                            future_X = scaler.transform(future_features)
-                            future_load = model.predict(future_X)
+                            future_load = np.array(future_loads)
                             
                             # Plot ML forecast
                             fig_ml = go.Figure()
@@ -471,8 +565,9 @@ def main():
                                 )
                             )
                             
+                            model_name = "XGBoost" if HAS_XGBOOST else "Random Forest"
                             fig_ml.update_layout(
-                                title="Random Forest Load Forecast (Next 24 Hours)",
+                                title=f"{model_name} Load Forecast (Next 24 Hours)",
                                 xaxis_title="Time",
                                 yaxis_title="Predicted Load (MW)",
                                 height=400
@@ -515,13 +610,8 @@ def main():
                     if "data" in wind_data and len(wind_data["data"]) > 0:
                         wind_df = pd.DataFrame(wind_data["data"])
                         
-                        # Map column indices to names using the 'fields' metadata
-                        if "fields" in wind_data and isinstance(wind_data["fields"], list):
-                            column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(wind_data["fields"])}
-                            wind_df.rename(columns=column_mapping, inplace=True)
-                        
                         # Parse timestamp
-                        wind_time_cols = [col for col in wind_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
+                        wind_time_cols = [col for col in wind_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
                         if wind_time_cols:
                             wind_df['timestamp'] = pd.to_datetime(wind_df[wind_time_cols[0]])
                             wind_df = wind_df.sort_values('timestamp')
@@ -533,10 +623,18 @@ def main():
                         fig_wind = go.Figure()
                         x_axis_wind = wind_df['timestamp'] if 'timestamp' in wind_df.columns else wind_df.index
                         
+<<<<<<< HEAD
                         # Add actual and forecast traces - API uses 'genSystemWide'
                         actual_col = None
                         for col in wind_df.columns:
                             if isinstance(col, str) and ('gensystemwide' in col.lower() or ('actual' in col.lower() and 'system' in col.lower())):
+=======
+                        # Add actual and forecast traces - API uses 'genSystemWide' not 'ACTUAL_SYSTEM_WIDE'
+                        # Find actual column
+                        actual_col = None
+                        for col in wind_df.columns:
+                            if isinstance(col, str) and ('gensystemwide' in col.lower() or 'actual' in col.lower() and 'system' in col.lower()):
+>>>>>>> f56b3538ceb2e0c951a1ebe05e926b73fb68cc72
                                 actual_col = col
                                 break
                         
@@ -551,6 +649,10 @@ def main():
                                 )
                             )
                         
+<<<<<<< HEAD
+=======
+                        # Find forecast column
+>>>>>>> f56b3538ceb2e0c951a1ebe05e926b73fb68cc72
                         forecast_col = None
                         for col in wind_df.columns:
                             if isinstance(col, str) and ('stwpf' in col.lower() and 'system' in col.lower()):
@@ -598,13 +700,8 @@ def main():
                     if "data" in solar_data and len(solar_data["data"]) > 0:
                         solar_df = pd.DataFrame(solar_data["data"])
                         
-                        # Map column indices to names using the 'fields' metadata
-                        if "fields" in solar_data and isinstance(solar_data["fields"], list):
-                            column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(solar_data["fields"])}
-                            solar_df.rename(columns=column_mapping, inplace=True)
-                        
                         # Parse timestamp
-                        solar_time_cols = [col for col in solar_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
+                        solar_time_cols = [col for col in solar_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
                         if solar_time_cols:
                             solar_df['timestamp'] = pd.to_datetime(solar_df[solar_time_cols[0]])
                             solar_df = solar_df.sort_values('timestamp')
@@ -619,7 +716,11 @@ def main():
                         # Find actual solar column - API uses 'genSystemWide'
                         actual_solar_col = None
                         for col in solar_df.columns:
+<<<<<<< HEAD
                             if isinstance(col, str) and ('gensystemwide' in col.lower() or ('actual' in col.lower() and 'system' in col.lower())):
+=======
+                            if isinstance(col, str) and ('gensystemwide' in col.lower() or 'actual' in col.lower() and 'system' in col.lower()):
+>>>>>>> f56b3538ceb2e0c951a1ebe05e926b73fb68cc72
                                 actual_solar_col = col
                                 break
                         
@@ -634,6 +735,10 @@ def main():
                                 )
                             )
                         
+<<<<<<< HEAD
+=======
+                        # Find solar forecast column
+>>>>>>> f56b3538ceb2e0c951a1ebe05e926b73fb68cc72
                         forecast_solar_col = None
                         for col in solar_df.columns:
                             if isinstance(col, str) and ('stppf' in col.lower() and 'system' in col.lower()):
@@ -682,11 +787,6 @@ def main():
                 if "data" in lmp_data and len(lmp_data["data"]) > 0:
                     lmp_df = pd.DataFrame(lmp_data["data"])
                     
-                    # Map column indices to names using the 'fields' metadata
-                    if "fields" in lmp_data and isinstance(lmp_data["fields"], list):
-                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(lmp_data["fields"])}
-                        lmp_df.rename(columns=column_mapping, inplace=True)
-                    
                     # Filter for major hubs
                     if 'SettlementPoint' in lmp_df.columns:
                         hubs = lmp_df[lmp_df['SettlementPointType'] == 'HU'] if 'SettlementPointType' in lmp_df.columns else lmp_df
@@ -731,13 +831,8 @@ def main():
                 if "data" in outage_data and len(outage_data["data"]) > 0:
                     outage_df = pd.DataFrame(outage_data["data"])
                     
-                    # Map column indices to names using the 'fields' metadata
-                    if "fields" in outage_data and isinstance(outage_data["fields"], list):
-                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(outage_data["fields"])}
-                        outage_df.rename(columns=column_mapping, inplace=True)
-                    
                     # Parse timestamp
-                    outage_time_cols = [col for col in outage_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
+                    outage_time_cols = [col for col in outage_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
                     if outage_time_cols:
                         outage_df['timestamp'] = pd.to_datetime(outage_df[outage_time_cols[0]])
                         outage_df = outage_df.sort_values('timestamp')
