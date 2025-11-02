@@ -340,7 +340,7 @@ def main():
                         st.write(f"Columns: {list(actual_df.columns)}")
                     
                     # Parse timestamp column if exists
-                    time_cols = [col for col in actual_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                    time_cols = [col for col in actual_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                     if time_cols:
                         actual_df['timestamp'] = pd.to_datetime(actual_df[time_cols[0]])
                         actual_df = actual_df.sort_values('timestamp')
@@ -373,7 +373,7 @@ def main():
                     
                     if not forecast_df.empty:
                         # Parse timestamp for forecast data
-                        forecast_time_cols = [col for col in forecast_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        forecast_time_cols = [col for col in forecast_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                         if forecast_time_cols:
                             forecast_df['timestamp'] = pd.to_datetime(forecast_df[forecast_time_cols[0]])
                             forecast_df = forecast_df.sort_values('timestamp')
@@ -489,7 +489,7 @@ def main():
                         wind_df = pd.DataFrame(wind_data["data"])
                         
                         # Parse timestamp
-                        wind_time_cols = [col for col in wind_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        wind_time_cols = [col for col in wind_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                         if wind_time_cols:
                             wind_df['timestamp'] = pd.to_datetime(wind_df[wind_time_cols[0]])
                             wind_df = wind_df.sort_values('timestamp')
@@ -555,7 +555,7 @@ def main():
                         solar_df = pd.DataFrame(solar_data["data"])
                         
                         # Parse timestamp
-                        solar_time_cols = [col for col in solar_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        solar_time_cols = [col for col in solar_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                         if solar_time_cols:
                             solar_df['timestamp'] = pd.to_datetime(solar_df[solar_time_cols[0]])
                             solar_df = solar_df.sort_values('timestamp')
@@ -665,7 +665,7 @@ def main():
                     outage_df = pd.DataFrame(outage_data["data"])
                     
                     # Parse timestamp
-                    outage_time_cols = [col for col in outage_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                    outage_time_cols = [col for col in outage_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                     if outage_time_cols:
                         outage_df['timestamp'] = pd.to_datetime(outage_df[outage_time_cols[0]])
                         outage_df = outage_df.sort_values('timestamp')
