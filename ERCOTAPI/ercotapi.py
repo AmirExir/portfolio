@@ -8,7 +8,12 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 from datetime import datetime, timedelta
-from sklearn.ensemble import RandomForestRegressor
+try:
+    from xgboost import XGBRegressor
+    HAS_XGBOOST = True
+except ImportError:
+    from sklearn.ensemble import RandomForestRegressor
+    HAS_XGBOOST = False
 from sklearn.preprocessing import StandardScaler
 
 
@@ -106,23 +111,37 @@ class ErcotAPI:
 
 # --- Helper Functions ---
 def train_load_forecast_model(historical_data):
-    """Train a simple ML model to forecast load based on historical patterns."""
+    """Train an ML model (XGBoost or Random Forest) to forecast load based on historical patterns."""
     if len(historical_data) < 48:  # Need at least 2 days
-        return None, None
+        return None, None, None
     
     # Feature engineering: hour of day, day of week, rolling averages
     df = historical_data.copy()
     df['hour'] = pd.to_datetime(df.index).hour
     df['day_of_week'] = pd.to_datetime(df.index).dayofweek
+    df['is_weekend'] = (df['day_of_week'] >= 5).astype(int)
+    
+    # Cyclical encoding for hour (23:00 and 00:00 are close)
+    df['hour_sin'] = np.sin(2 * np.pi * df['hour'] / 24)
+    df['hour_cos'] = np.cos(2 * np.pi * df['hour'] / 24)
+    
+    # Lag features
+    df['load_lag_1h'] = df['load'].shift(1)
+    df['load_lag_24h'] = df['load'].shift(24)
+    
+    # Rolling statistics
+    df['rolling_mean_3h'] = df['load'].rolling(3, min_periods=1).mean()
     df['rolling_mean_24h'] = df['load'].rolling(24, min_periods=1).mean()
     df['rolling_std_24h'] = df['load'].rolling(24, min_periods=1).std()
     
     # Prepare features and target
-    features = ['hour', 'day_of_week', 'rolling_mean_24h', 'rolling_std_24h']
+    features = ['hour', 'day_of_week', 'is_weekend', 'hour_sin', 'hour_cos',
+                'load_lag_1h', 'load_lag_24h', 'rolling_mean_3h', 'rolling_mean_24h', 'rolling_std_24h']
+    
     df = df.dropna()
     
     if len(df) < 24:
-        return None, None
+        return None, None, None
     
     X = df[features]
     y = df['load']
@@ -131,10 +150,30 @@ def train_load_forecast_model(historical_data):
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     
-    model = RandomForestRegressor(n_estimators=50, random_state=42, max_depth=10)
+    if HAS_XGBOOST:
+        # XGBoost with optimized hyperparameters for time series
+        model = XGBRegressor(
+            n_estimators=100,
+            max_depth=6,
+            learning_rate=0.1,
+            subsample=0.8,
+            colsample_bytree=0.8,
+            random_state=42,
+            objective='reg:squarederror',
+            verbosity=0
+        )
+    else:
+        # Fallback to Random Forest
+        model = RandomForestRegressor(
+            n_estimators=100,
+            random_state=42,
+            max_depth=15,
+            min_samples_split=5
+        )
+    
     model.fit(X_scaled, y)
     
-    return model, scaler
+    return model, scaler, df
 
 
 # --- Streamlit Dashboard ---
@@ -454,32 +493,58 @@ def main():
                     
                     if load_col and not actual_df.empty:
                         # Prepare data for ML
-                        ml_df = pd.DataFrame({
-                            'load': actual_df[load_col].values
-                        }, index=range(len(actual_df)))
+                        if 'timestamp' in actual_df.columns:
+                            ml_df = pd.DataFrame({
+                                'load': actual_df[load_col].values
+                            }, index=actual_df['timestamp'].values)
+                        else:
+                            ml_df = pd.DataFrame({
+                                'load': actual_df[load_col].values
+                            }, index=pd.date_range(end=pd.Timestamp.now(), periods=len(actual_df), freq='H'))
                         
-                        model, scaler = train_load_forecast_model(ml_df)
+                        model, scaler, training_df = train_load_forecast_model(ml_df)
                         
                         if model is not None:
                             # Generate forecast for next 24 hours
-                            last_timestamp = pd.Timestamp.now()
+                            last_timestamp = training_df.index[-1] if hasattr(training_df.index[-1], 'hour') else pd.Timestamp.now()
                             future_hours = []
-                            future_features = []
+                            future_loads = []
+                            
+                            # Get last known values for lag features
+                            last_load = training_df['load'].iloc[-1]
+                            last_load_24h_ago = training_df['load'].iloc[-24] if len(training_df) >= 24 else last_load
                             
                             for h in range(24):
-                                future_time = last_timestamp + timedelta(hours=h)
+                                future_time = last_timestamp + timedelta(hours=h+1)
                                 future_hours.append(future_time)
                                 
                                 # Create features
                                 hour = future_time.hour
                                 dow = future_time.dayofweek
-                                recent_mean = ml_df['load'].iloc[-24:].mean()
-                                recent_std = ml_df['load'].iloc[-24:].std()
+                                is_weekend = 1 if dow >= 5 else 0
+                                hour_sin = np.sin(2 * np.pi * hour / 24)
+                                hour_cos = np.cos(2 * np.pi * hour / 24)
                                 
-                                future_features.append([hour, dow, recent_mean, recent_std])
+                                # Use predicted values as lag features for future predictions
+                                load_lag_1h = future_loads[-1] if future_loads else last_load
+                                load_lag_24h = last_load_24h_ago
+                                
+                                # Rolling statistics from recent data
+                                recent_3h = training_df['load'].iloc[-3:].tolist() + future_loads[-2:]
+                                rolling_mean_3h = np.mean(recent_3h[-3:]) if len(recent_3h) >= 3 else training_df['rolling_mean_3h'].iloc[-1]
+                                rolling_mean_24h = training_df['rolling_mean_24h'].iloc[-1]
+                                rolling_std_24h = training_df['rolling_std_24h'].iloc[-1]
+                                
+                                features = [[hour, dow, is_weekend, hour_sin, hour_cos,
+                                           load_lag_1h, load_lag_24h, rolling_mean_3h,
+                                           rolling_mean_24h, rolling_std_24h]]
+                                
+                                # Predict
+                                features_scaled = scaler.transform(features)
+                                predicted_load = model.predict(features_scaled)[0]
+                                future_loads.append(predicted_load)
                             
-                            future_X = scaler.transform(future_features)
-                            future_load = model.predict(future_X)
+                            future_load = np.array(future_loads)
                             
                             # Plot ML forecast
                             fig_ml = go.Figure()
@@ -494,8 +559,9 @@ def main():
                                 )
                             )
                             
+                            model_name = "XGBoost" if HAS_XGBOOST else "Random Forest"
                             fig_ml.update_layout(
-                                title="Random Forest Load Forecast (Next 24 Hours)",
+                                title=f"{model_name} Load Forecast (Next 24 Hours)",
                                 xaxis_title="Time",
                                 yaxis_title="Predicted Load (MW)",
                                 height=400
