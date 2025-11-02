@@ -493,11 +493,6 @@ def main():
                     
                     if load_col and not actual_df.empty:
                         # Prepare data for ML
-<<<<<<< HEAD
-                        ml_df = pd.DataFrame({
-                            'load': actual_df[load_col].values
-                        }, index=range(len(actual_df)))
-=======
                         if 'timestamp' in actual_df.columns:
                             ml_df = pd.DataFrame({
                                 'load': actual_df[load_col].values
@@ -506,7 +501,6 @@ def main():
                             ml_df = pd.DataFrame({
                                 'load': actual_df[load_col].values
                             }, index=pd.date_range(end=pd.Timestamp.now(), periods=len(actual_df), freq='H'))
->>>>>>> f56b3538ceb2e0c951a1ebe05e926b73fb68cc72
                         
                         model, scaler, training_df = train_load_forecast_model(ml_df)
                         
