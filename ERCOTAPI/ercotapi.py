@@ -143,48 +143,76 @@ def train_load_forecast_model(historical_data):
     """Train an ML model (XGBoost or Random Forest) to forecast load based on historical patterns."""
     if len(historical_data) < 48:  # Need at least 2 days
         return None, None, None
-    
+
     # Feature engineering: hour of day, day of week, rolling averages
     df = historical_data.copy()
     df['hour'] = pd.to_datetime(df.index).hour
     df['day_of_week'] = pd.to_datetime(df.index).dayofweek
     df['is_weekend'] = (df['day_of_week'] >= 5).astype(int)
-    
+
     # Cyclical encoding for hour (23:00 and 00:00 are close)
     df['hour_sin'] = np.sin(2 * np.pi * df['hour'] / 24)
     df['hour_cos'] = np.cos(2 * np.pi * df['hour'] / 24)
-    
+
     # Lag features
     df['load_lag_1h'] = df['load'].shift(1)
     df['load_lag_24h'] = df['load'].shift(24)
-    
+
     # Rolling statistics
     df['rolling_mean_3h'] = df['load'].rolling(3, min_periods=1).mean()
     df['rolling_mean_24h'] = df['load'].rolling(24, min_periods=1).mean()
     df['rolling_std_24h'] = df['load'].rolling(24, min_periods=1).std()
-    
+
     # Prepare features and target
     features = ['hour', 'day_of_week', 'is_weekend', 'hour_sin', 'hour_cos',
                 'load_lag_1h', 'load_lag_24h', 'rolling_mean_3h', 'rolling_mean_24h', 'rolling_std_24h']
-    
+
     df = df.dropna()
-    
+
     if len(df) < 24:
         return None, None, None
-    
+
     X = df[features]
     y = df['load']
-    
+
     # Train model
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
-    
+
+    # --- XGBoost hyperparameter sidebar controls ---
+    xgb_params = {}
+    show_params_plot = False
     if HAS_XGBOOST:
-        # XGBoost with optimized hyperparameters for time series
+        # Only show sliders if running in Streamlit context (should always be true here)
+        xgb_params['n_estimators'] = st.sidebar.slider(
+            "XGBoost: n_estimators",
+            min_value=50,
+            max_value=300,
+            value=100,
+            step=10,
+            help="Number of boosting rounds (trees)"
+        )
+        xgb_params['max_depth'] = st.sidebar.slider(
+            "XGBoost: max_depth",
+            min_value=3,
+            max_value=12,
+            value=6,
+            step=1,
+            help="Maximum tree depth"
+        )
+        xgb_params['learning_rate'] = st.sidebar.slider(
+            "XGBoost: learning_rate",
+            min_value=0.01,
+            max_value=0.3,
+            value=0.1,
+            step=0.01,
+            help="Learning rate (eta)"
+        )
+        show_params_plot = True
         model = XGBRegressor(
-            n_estimators=100,
-            max_depth=6,
-            learning_rate=0.1,
+            n_estimators=xgb_params['n_estimators'],
+            max_depth=xgb_params['max_depth'],
+            learning_rate=xgb_params['learning_rate'],
             subsample=0.8,
             colsample_bytree=0.8,
             random_state=42,
@@ -199,9 +227,34 @@ def train_load_forecast_model(historical_data):
             max_depth=15,
             min_samples_split=5
         )
-    
+        show_params_plot = False
+
     model.fit(X_scaled, y)
-    
+
+    # --- Sidebar Plotly param visualization ---
+    if HAS_XGBOOST and show_params_plot:
+        import plotly.graph_objects as go
+        param_names = ["n_estimators", "max_depth", "learning_rate"]
+        param_vals = [xgb_params["n_estimators"], xgb_params["max_depth"], xgb_params["learning_rate"]]
+        # Make a small horizontal bar chart
+        fig_params = go.Figure(go.Bar(
+            x=param_vals,
+            y=param_names,
+            orientation='h',
+            marker_color=['#1f77b4', '#ff7f0e', '#2ca02c'],
+            text=[str(v) for v in param_vals],
+            textposition='auto'
+        ))
+        fig_params.update_layout(
+            title="XGBoost Hyperparameters",
+            height=180,
+            margin=dict(l=5, r=5, t=30, b=5),
+            xaxis=dict(showticklabels=True, automargin=True),
+            yaxis=dict(showticklabels=True),
+            plot_bgcolor='rgba(0,0,0,0)',
+        )
+        st.sidebar.plotly_chart(fig_params, use_container_width=True)
+
     return model, scaler, df
 
 
@@ -469,8 +522,15 @@ def main():
                                 return pd.NaT
 
                         actual_df['timestamp'] = actual_df.apply(parse_ercot_timestamp, axis=1)
-                        actual_df = actual_df.dropna(subset=['timestamp']).sort_values('timestamp')
-                                        
+                        actual_df = (
+                            actual_df.dropna(subset=['timestamp'])
+                                    .sort_values('timestamp')
+                                    .drop_duplicates(subset=['timestamp'])
+                                    .set_index('timestamp')
+                                    .resample('H').interpolate()
+                                    .reset_index()
+                        )
+                                                                
                     # Display metrics - use 'total' column for system-wide load
                     col1, col2, col3 = st.columns(3)
                     load_col = None
