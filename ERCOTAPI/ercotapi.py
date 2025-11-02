@@ -351,18 +351,33 @@ def main():
                         if debug_mode:
                             st.write("**Renamed Columns:**", list(actual_df.columns))
                     
-                    # Parse timestamp column if exists
-                    time_cols = [col for col in actual_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
-                    if time_cols:
-                        actual_df['timestamp'] = pd.to_datetime(actual_df[time_cols[0]])
+                    # Parse timestamp: ERCOT uses operatingDay + hourEnding (hour 24 = midnight next day)
+                    if 'operatingDay' in actual_df.columns and 'hourEnding' in actual_df.columns:
+                        def parse_ercot_timestamp(row):
+                            try:
+                                date = pd.to_datetime(row['operatingDay'])
+                                hour = int(row['hourEnding'])
+                                if hour == 24:
+                                    return date + timedelta(days=1)
+                                else:
+                                    return date + timedelta(hours=hour)
+                            except:
+                                return pd.NaT
+                        actual_df['timestamp'] = actual_df.apply(parse_ercot_timestamp, axis=1)
                         actual_df = actual_df.sort_values('timestamp')
                     
-                    # Display metrics
+                    # Display metrics - use 'total' column for system-wide load
                     col1, col2, col3 = st.columns(3)
-                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
-                        latest_load = actual_df['ERCOT'].iloc[-1]
-                        avg_load = actual_df['ERCOT'].mean()
-                        max_load = actual_df['ERCOT'].max()
+                    load_col = None
+                    for col in actual_df.columns:
+                        if isinstance(col, str) and col.lower() in ['total', 'ercot', 'system_wide', 'systemwide']:
+                            load_col = col
+                            break
+                    
+                    if load_col and not actual_df.empty:
+                        latest_load = actual_df[load_col].iloc[-1]
+                        avg_load = actual_df[load_col].mean()
+                        max_load = actual_df[load_col].max()
                         
                         col1.metric("Current System Load", f"{latest_load:,.0f} MW")
                         col2.metric("Average Load", f"{avg_load:,.0f} MW")
@@ -371,12 +386,12 @@ def main():
                     # Plot actual vs forecast
                     fig = make_subplots(specs=[[{"secondary_y": False}]])
                     
-                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
+                    if load_col and not actual_df.empty:
                         x_axis = actual_df['timestamp'] if 'timestamp' in actual_df.columns else actual_df.index
                         fig.add_trace(
                             go.Scatter(
                                 x=x_axis,
-                                y=actual_df['ERCOT'],
+                                y=actual_df[load_col],
                                 mode='lines',
                                 name='Actual Load',
                                 line=dict(color='blue', width=2)
@@ -414,10 +429,10 @@ def main():
                     # ML Forecast Section
                     st.subheader("🤖 Machine Learning Load Forecast (Next 24 Hours)")
                     
-                    if not actual_df.empty and 'ERCOT' in actual_df.columns:
+                    if load_col and not actual_df.empty:
                         # Prepare data for ML
                         ml_df = pd.DataFrame({
-                            'load': actual_df['ERCOT'].values
+                            'load': actual_df[load_col].values
                         }, index=range(len(actual_df)))
                         
                         model, scaler = train_load_forecast_model(ml_df)
@@ -518,23 +533,35 @@ def main():
                         fig_wind = go.Figure()
                         x_axis_wind = wind_df['timestamp'] if 'timestamp' in wind_df.columns else wind_df.index
                         
-                        # Add actual and forecast traces
-                        if 'ACTUAL_SYSTEM_WIDE' in wind_df.columns:
+                        # Add actual and forecast traces - API uses 'genSystemWide'
+                        actual_col = None
+                        for col in wind_df.columns:
+                            if isinstance(col, str) and ('gensystemwide' in col.lower() or ('actual' in col.lower() and 'system' in col.lower())):
+                                actual_col = col
+                                break
+                        
+                        if actual_col:
                             fig_wind.add_trace(
                                 go.Scatter(
                                     x=x_axis_wind,
-                                    y=wind_df['ACTUAL_SYSTEM_WIDE'],
+                                    y=wind_df[actual_col],
                                     mode='lines',
                                     name='Actual Wind',
                                     line=dict(color='teal', width=2)
                                 )
                             )
                         
-                        if 'STWPF' in wind_df.columns:
+                        forecast_col = None
+                        for col in wind_df.columns:
+                            if isinstance(col, str) and ('stwpf' in col.lower() and 'system' in col.lower()):
+                                forecast_col = col
+                                break
+                        
+                        if forecast_col:
                             fig_wind.add_trace(
                                 go.Scatter(
                                     x=x_axis_wind,
-                                    y=wind_df['STWPF'],
+                                    y=wind_df[forecast_col],
                                     mode='lines',
                                     name='Wind Forecast',
                                     line=dict(color='lightblue', width=2, dash='dash')
@@ -589,22 +616,35 @@ def main():
                         fig_solar = go.Figure()
                         x_axis_solar = solar_df['timestamp'] if 'timestamp' in solar_df.columns else solar_df.index
                         
-                        if 'ACTUAL_SYSTEM_WIDE' in solar_df.columns:
+                        # Find actual solar column - API uses 'genSystemWide'
+                        actual_solar_col = None
+                        for col in solar_df.columns:
+                            if isinstance(col, str) and ('gensystemwide' in col.lower() or ('actual' in col.lower() and 'system' in col.lower())):
+                                actual_solar_col = col
+                                break
+                        
+                        if actual_solar_col:
                             fig_solar.add_trace(
                                 go.Scatter(
                                     x=x_axis_solar,
-                                    y=solar_df['ACTUAL_SYSTEM_WIDE'],
+                                    y=solar_df[actual_solar_col],
                                     mode='lines',
                                     name='Actual Solar',
                                     line=dict(color='gold', width=2)
                                 )
                             )
                         
-                        if 'STPPF' in solar_df.columns:
+                        forecast_solar_col = None
+                        for col in solar_df.columns:
+                            if isinstance(col, str) and ('stppf' in col.lower() and 'system' in col.lower()):
+                                forecast_solar_col = col
+                                break
+                        
+                        if forecast_solar_col:
                             fig_solar.add_trace(
                                 go.Scatter(
                                     x=x_axis_solar,
-                                    y=solar_df['STPPF'],
+                                    y=solar_df[forecast_solar_col],
                                     mode='lines',
                                     name='Solar Forecast',
                                     line=dict(color='orange', width=2, dash='dash')
