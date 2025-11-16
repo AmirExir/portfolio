@@ -1,0 +1,5 @@
+- **Tesla's Supply Chain Shift**: Tesla is mandating that suppliers refrain from using components made in China for U.S. car production, a strategic move to mitigate geopolitical risks and tariff implications amidst rising tensions with China. [Read more](https://www.wsj.com/business/autos/tesla-china-parts-supply-chain-639efc84)
+
+- **Energy Demand Surge from Data Centers**: Utilities forecast significant increases in electricity needs driven by new data centers supporting the expanding AI sector, prompting state-level inquiries into construction commitments. [Read more](https://abcnews.go.com/Technology/wireStory/future-data-centers-driving-forecasts-energy-demand-states-127547022)
+
+- **Walmart's CEO Retirement**: Doug McMillon, CEO of Walmart, has announced his surprise retirement effective January 31, 2026; he will be succeeded by John Furner, reflecting a transition in leadership for the retail giant after a notable tenure. [Read more](https://apnews.com/article/walmart-ceo-retire-mcmillon-furner-b97f97d17a692c9280c954775481ce2d)
