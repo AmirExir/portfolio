@@ -130,7 +130,7 @@ except Exception as e:
 
 # --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
 # --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
-st.subheader("💰 Real-Time Crypto Heatmap")
+st.subheader(" Real-Time Crypto Heatmap")
 
 # Timeframe selector for crypto
 crypto_tf = st.selectbox(
