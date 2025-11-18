@@ -185,6 +185,27 @@ except Exception as e:
 
 st.markdown("---")
 
+# --- Market Heatmap Section ---
+st.subheader("📊 Live Stock Market Heatmap")
+
+heatmap_url = "https://finviz.com/export.ashx?v=2"
+
+try:
+    heatmap_response = requests.get(
+        heatmap_url,
+        headers={"User-Agent": "Mozilla/5.0"},
+        timeout=10
+    )
+
+    if heatmap_response.status_code == 200:
+        st.image(heatmap_response.content, caption="FinViz S&P 500 Heatmap")
+    else:
+        st.warning("Unable to fetch heatmap. FinViz might be blocking requests.")
+
+except Exception as e:
+    st.error(f"Error loading heatmap: {e}")
+    st.info("Try again later, or check your network/VPN.")
+
 # Debug info (only show in sidebar if needed)
 if st.sidebar.checkbox("Show Debug Info", value=False):
     try:
