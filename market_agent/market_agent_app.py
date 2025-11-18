@@ -71,27 +71,31 @@ try:
     
     # Fallback: If GitHub API fails, try reading from local directory (for Streamlit Cloud deployment)
     if files is None:
-        st.warning("📡 GitHub API unavailable. Using local files...")
-        local_dir = os.path.dirname(__file__)
-        local_files = [f for f in os.listdir(local_dir) if f.startswith("summary_2025-") and f.endswith(".txt")]
+        st.info("📡 GitHub API unavailable. Using local files...")
+        local_dir = os.path.dirname(__file__) if __file__ else "."
         
-        if local_files:
-            # Sort and get latest
-            local_files_sorted = sorted(local_files, reverse=True)
-            latest_local_file = local_files_sorted[0]
+        try:
+            local_files = [f for f in os.listdir(local_dir) if f.startswith("summary_2025-") and f.endswith(".txt")]
             
-            with open(os.path.join(local_dir, latest_local_file), 'r') as f:
-                summary_text = f.read()
-            
-            # Extract timestamp
-            try:
-                st.caption(f"📅 Last updated: {latest_local_file.split('_')[1].split('T')[0]} at {latest_local_file.split('T')[1].replace('-', ':').replace('.txt', '').replace('Z', ' UTC')}")
-            except:
-                pass
-            
-            st.info(summary_text.strip())
-        else:
-            st.warning("No local summary files found.")
+            if local_files:
+                # Sort and get latest
+                local_files_sorted = sorted(local_files, reverse=True)
+                latest_local_file = local_files_sorted[0]
+                
+                with open(os.path.join(local_dir, latest_local_file), 'r') as f:
+                    summary_text = f.read()
+                
+                # Extract timestamp
+                try:
+                    st.caption(f"📅 Last updated: {latest_local_file.split('_')[1].split('T')[0]} at {latest_local_file.split('T')[1].replace('-', ':').replace('.txt', '').replace('Z', ' UTC')}")
+                except:
+                    pass
+                
+                st.info(summary_text.strip())
+            else:
+                st.warning("No local summary files found.")
+        except Exception as local_error:
+            st.error(f"Failed to read local files: {local_error}")
     else:
         # Filter files starting with 'summary_' and ending with '.txt'
         # Exclude summary_xxx.txt and only get files with proper timestamps
@@ -140,12 +144,9 @@ try:
                 st.info(summary_text.strip())
             else:
                 st.warning(" Could not find download URL for the latest summary file.")
-except requests.exceptions.RequestException as e:
-    st.warning(f" Error fetching summary from GitHub: {e}")
-    st.info("Make sure the summary files exist at: https://github.com/AmirExir/portfolio/tree/main/market_agent")
 except Exception as e:
-    st.warning(f" Error decoding summary: {e}")
-    st.info("There might be an issue with the file encoding or format.")
+    st.error(f"⚠️ Unable to load summary: {e}")
+    st.info("The news summary will be available when GitHub API or local files are accessible.")
 
 st.markdown("---")
 
