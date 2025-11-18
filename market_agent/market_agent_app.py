@@ -30,6 +30,15 @@ st.set_page_config(page_title="Market Agent Dashboard", layout="wide")
 st.title(" Amir Exir Stock Market & Crypto AI Agent")
 
 # --- Fetch the latest summary from GitHub ---
+@st.cache_data(ttl=300)  # Cache for 5 minutes
+def fetch_latest_summary():
+    """Fetch the latest summary file from GitHub"""
+    contents_url = "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent"
+    response = requests.get(contents_url)
+    response.raise_for_status()
+    files = response.json()
+    return files
+
 col_summary, col_refresh = st.columns([4, 1])
 with col_summary:
     st.markdown(" AI-Generated Market Summary")
@@ -39,10 +48,7 @@ with col_refresh:
         st.rerun()
 
 try:
-    contents_url = "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent"
-    response = requests.get(contents_url)
-    response.raise_for_status()
-    files = response.json()
+    files = fetch_latest_summary()
 
     # Filter files starting with 'summary_' and ending with '.txt'
     summary_files = [f for f in files if f.get("type") == "file" and f.get("name", "").startswith("summary_") and f.get("name", "").endswith(".txt")]
