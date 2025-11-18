@@ -60,7 +60,7 @@ col_summary, col_refresh = st.columns([4, 1])
 with col_summary:
     st.markdown(" AI-Generated Market Summary")
 with col_refresh:
-    if st.button("🔄 Refresh News", help="Fetch the latest news from GitHub"):
+    if st.button(" Refresh News", help="Fetch the latest news from GitHub"):
         st.cache_data.clear()
         st.rerun()
 
@@ -69,7 +69,7 @@ try:
     
     # Fallback: If GitHub API fails, try reading from local directory (for Streamlit Cloud deployment)
     if files is None:
-        st.info("📡 GitHub API unavailable. Using local files...")
+        st.info(" GitHub API unavailable. Using local files...")
         local_dir = os.path.dirname(__file__) if __file__ else "."
         
         try:
@@ -85,7 +85,7 @@ try:
                 
                 # Extract timestamp
                 try:
-                    st.caption(f"📅 Last updated: {latest_local_file.split('_')[1].split('T')[0]} at {latest_local_file.split('T')[1].replace('-', ':').replace('.txt', '').replace('Z', ' UTC')}")
+                    st.caption(f" Last updated: {latest_local_file.split('_')[1].split('T')[0]} at {latest_local_file.split('T')[1].replace('-', ':').replace('.txt', '').replace('Z', ' UTC')}")
                 except:
                     pass
                 
