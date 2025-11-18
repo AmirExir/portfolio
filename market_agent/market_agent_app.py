@@ -78,6 +78,47 @@ except Exception as e:
 
 st.markdown("---")
 
+st.markdown("---")
+
+# 📊 Real-Time S&P 500 Heatmap
+st.subheader("📊 Real-Time S&P 500 Heatmap")
+
+# S&P 500 sample
+tickers = [
+    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
+    "UNH", "XOM", "V", "JNJ", "WMT", "PG", "KO", "HD", "BAC", "CVX",
+    "LLY", "PEP"
+]
+
+try:
+    # Download 2 days so we always have a % change
+    hist = yf.download(tickers, period="2d")["Close"]
+    
+    # Compute daily % change
+    data = hist.pct_change().iloc[-1] * 100
+    
+    # Drop missing
+    data = data.dropna()
+    
+    df = data.reset_index()
+    df.columns = ["Ticker", "Percent Change"]
+    
+    fig = px.treemap(
+        df,
+        path=["Ticker"],
+        values="Percent Change",
+        color="Percent Change",
+        color_continuous_scale="RdYlGn",
+        title="S&P 500 Daily Percent Change"
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
+
+except Exception as e:
+    st.error(f"Error generating heatmap: {e}")
+
+
+
 # Owner Key unlock system
 owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password")
 OWNER_KEY = st.secrets.get("OWNER_KEY", "")
@@ -189,37 +230,6 @@ except Exception as e:
 
 st.markdown("---")
 
-# List of a few major S&P 500 stocks
-# You can expand this list, or fetch a dynamic list
-tickers = [
-    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM", "UNH", "XOM", 
-    "V", "JNJ", "WMT", "PG", "KO", "HD", "BAC", "CVX", "LLY", "PEP"
-]
-
-st.subheader("📊 Real-Time S&P 500 Heatmap (Dynamic)")
-
-try:
-    # Fetch data
-    data = yf.download(tickers, period="1d")["Close"].pct_change().iloc[-1]
-
-    # Create DataFrame
-    df = data.reset_index()
-    df.columns = ["Ticker", "Percent Change"]
-
-    # Plot heatmap using Plotly
-    fig = px.treemap(
-        df,
-        path=["Ticker"],
-        values="Percent Change",
-        color="Percent Change",
-        color_continuous_scale="RdYlGn",
-        title="S&P 500 Daily Percent Change"
-    )
-    st.plotly_chart(fig, use_container_width=True)
-
-except Exception as e:
-    st.error(f"Error generating heatmap: {e}")
-    st.info("Try again later or check your connection.")
 # Debug info (only show in sidebar if needed)
 if st.sidebar.checkbox("Show Debug Info", value=False):
     try:
