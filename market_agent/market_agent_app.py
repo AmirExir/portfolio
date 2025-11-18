@@ -78,8 +78,8 @@ except Exception as e:
 
 st.markdown("---")
 
-# 📊 Real-Time S&P 500 Heatmap (Market Cap Weighted + Labels)
-st.subheader("📊 Real-Time S&P 500 Heatmap")
+#  Real-Time S&P 500 Heatmap (Market Cap Weighted + Labels)
+st.subheader(" Real-Time S&P 500 Heatmap")
 
 tickers = [
     "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
