@@ -85,7 +85,8 @@ st.subheader(" Real-Time S&P 500 Heatmap")
 sp_tf = st.selectbox(
     "Stock change timeframe",
     ["1D", "7D", "1M", "3M", "1Y", "5Y"],
-    index=0
+    index=0,
+    key="stock_tf"
 )
 
 # Time-to-days map
@@ -121,8 +122,33 @@ try:
     pct_change = (last_sp - base_sp) / base_sp * 100
     pct_change = pct_change.fillna(0)
 
-    # Market cap and DataFrame...
-    ...
+
+    # Fetch market cap for each ticker
+    market_caps = {}
+    for t in tickers:
+        info = yf.Ticker(t).info
+        market_caps[t] = info.get("marketCap", 1)
+
+    df = pd.DataFrame({
+        "Ticker": pct_change.index,
+        "Percent Change": pct_change.values,
+        "Market Cap": [market_caps[t] for t in pct_change.index]
+    })
+
+    # Label blocks with ticker + percent change
+    df["Label"] = df.apply(lambda row: f"{row['Ticker']}\n{row['Percent Change']:.2f}%", axis=1)
+
+    fig = px.treemap(
+        df,
+        path=["Ticker"],
+        values="Market Cap",
+        color="Percent Change",
+        color_continuous_scale="RdYlGn",
+        hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
+        title=f"S&P 500 Change ({sp_tf}) – Sized by Market Cap"
+    )
+
+    fig.update_traces(text=df["Label"])
     st.plotly_chart(fig, use_container_width=True)
 
 except Exception as e:
