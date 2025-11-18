@@ -32,12 +32,31 @@ st.title(" Amir Exir Stock Market & Crypto AI Agent")
 # --- Fetch the latest summary from GitHub ---
 @st.cache_data(ttl=300)  # Cache for 5 minutes
 def fetch_latest_summary():
-    """Fetch the latest summary file from GitHub"""
+    """Fetch the latest summary file from GitHub with better error handling"""
     contents_url = "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent"
-    response = requests.get(contents_url)
-    response.raise_for_status()
-    files = response.json()
-    return files
+    
+    try:
+        # Add headers to avoid rate limiting
+        headers = {
+            "Accept": "application/vnd.github.v3+json",
+            "User-Agent": "Streamlit-Market-Agent"
+        }
+        response = requests.get(contents_url, headers=headers, timeout=10)
+        
+        # Check for rate limiting
+        if response.status_code == 403 and 'rate limit' in response.text.lower():
+            st.warning("⚠️ GitHub API rate limit reached. Showing cached data.")
+            return None
+        
+        response.raise_for_status()
+        files = response.json()
+        return files
+    except requests.exceptions.Timeout:
+        st.warning("⚠️ GitHub API timeout. Showing cached data.")
+        return None
+    except Exception as e:
+        st.error(f"GitHub API error: {e}")
+        return None
 
 col_summary, col_refresh = st.columns([4, 1])
 with col_summary:
@@ -49,54 +68,78 @@ with col_refresh:
 
 try:
     files = fetch_latest_summary()
-
-    # Filter files starting with 'summary_' and ending with '.txt'
-    # Exclude summary_xxx.txt and only get files with proper timestamps
-    summary_files = [
-        f for f in files 
-        if f.get("type") == "file" 
-        and f.get("name", "").startswith("summary_2025-")  # Only files with year prefix
-        and f.get("name", "").endswith(".txt")
-    ]
-
-    if not summary_files:
-        st.info("No summary files found yet. The n8n workflow will create summary_*.txt files on first run.")
-    else:
-        # Sort by name descending to get the latest (ISO format sorts correctly)
-        summary_files_sorted = sorted(summary_files, key=lambda x: x["name"], reverse=True)
-        latest_file = summary_files_sorted[0]
+    
+    # Fallback: If GitHub API fails, try reading from local directory (for Streamlit Cloud deployment)
+    if files is None:
+        st.warning("📡 GitHub API unavailable. Using local files...")
+        local_dir = os.path.dirname(__file__)
+        local_files = [f for f in os.listdir(local_dir) if f.startswith("summary_2025-") and f.endswith(".txt")]
         
-        # Extract timestamp from filename (format: summary_2025-11-18T20-16-10-053Z.txt)
-        filename = latest_file.get("name", "")
-        try:
-            timestamp_str = filename.replace("summary_", "").replace(".txt", "").replace("T", " ").replace("-", ":")
-            # Show when the summary was generated
-            st.caption(f"📅 Last updated: {filename.split('_')[1].split('T')[0]} at {filename.split('T')[1].replace('-', ':').replace('.txt', '').replace('Z', ' UTC')}")
-        except:
-            pass
-        
-        download_url = latest_file.get("download_url")
-
-        if download_url:
-            content_response = requests.get(download_url)
-            content_response.raise_for_status()
-            summary_decoded = content_response.text
-
-            # Try parsing as JSON if it's not plain text
+        if local_files:
+            # Sort and get latest
+            local_files_sorted = sorted(local_files, reverse=True)
+            latest_local_file = local_files_sorted[0]
+            
+            with open(os.path.join(local_dir, latest_local_file), 'r') as f:
+                summary_text = f.read()
+            
+            # Extract timestamp
             try:
-                maybe_json = json.loads(summary_decoded)
-                if isinstance(maybe_json, dict):
-                    summary_text = maybe_json.get("content") or maybe_json.get("message") or str(maybe_json)
-                elif isinstance(maybe_json, list):
-                    summary_text = "\n".join([str(item) for item in maybe_json])
-                else:
-                    summary_text = str(maybe_json)
-            except json.JSONDecodeError:
-                summary_text = summary_decoded
-
+                st.caption(f"📅 Last updated: {latest_local_file.split('_')[1].split('T')[0]} at {latest_local_file.split('T')[1].replace('-', ':').replace('.txt', '').replace('Z', ' UTC')}")
+            except:
+                pass
+            
             st.info(summary_text.strip())
         else:
-            st.warning(" Could not find download URL for the latest summary file.")
+            st.warning("No local summary files found.")
+    else:
+        # Filter files starting with 'summary_' and ending with '.txt'
+        # Exclude summary_xxx.txt and only get files with proper timestamps
+        summary_files = [
+            f for f in files 
+            if f.get("type") == "file" 
+            and f.get("name", "").startswith("summary_2025-")  # Only files with year prefix
+            and f.get("name", "").endswith(".txt")
+        ]
+
+        if not summary_files:
+            st.info("No summary files found yet. The n8n workflow will create summary_*.txt files on first run.")
+        else:
+            # Sort by name descending to get the latest (ISO format sorts correctly)
+            summary_files_sorted = sorted(summary_files, key=lambda x: x["name"], reverse=True)
+            latest_file = summary_files_sorted[0]
+            
+            # Extract timestamp from filename (format: summary_2025-11-18T20-16-10-053Z.txt)
+            filename = latest_file.get("name", "")
+            try:
+                timestamp_str = filename.replace("summary_", "").replace(".txt", "").replace("T", " ").replace("-", ":")
+                # Show when the summary was generated
+                st.caption(f"📅 Last updated: {filename.split('_')[1].split('T')[0]} at {filename.split('T')[1].replace('-', ':').replace('.txt', '').replace('Z', ' UTC')}")
+            except:
+                pass
+            
+            download_url = latest_file.get("download_url")
+
+            if download_url:
+                content_response = requests.get(download_url)
+                content_response.raise_for_status()
+                summary_decoded = content_response.text
+
+                # Try parsing as JSON if it's not plain text
+                try:
+                    maybe_json = json.loads(summary_decoded)
+                    if isinstance(maybe_json, dict):
+                        summary_text = maybe_json.get("content") or maybe_json.get("message") or str(maybe_json)
+                    elif isinstance(maybe_json, list):
+                        summary_text = "\n".join([str(item) for item in maybe_json])
+                    else:
+                        summary_text = str(maybe_json)
+                except json.JSONDecodeError:
+                    summary_text = summary_decoded
+
+                st.info(summary_text.strip())
+            else:
+                st.warning(" Could not find download URL for the latest summary file.")
 except requests.exceptions.RequestException as e:
     st.warning(f" Error fetching summary from GitHub: {e}")
     st.info("Make sure the summary files exist at: https://github.com/AmirExir/portfolio/tree/main/market_agent")
