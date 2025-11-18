@@ -78,12 +78,9 @@ except Exception as e:
 
 st.markdown("---")
 
-st.markdown("---")
-
-# 📊 Real-Time S&P 500 Heatmap
+# 📊 Real-Time S&P 500 Heatmap (Market Cap Weighted + Labels)
 st.subheader("📊 Real-Time S&P 500 Heatmap")
 
-# S&P 500 sample
 tickers = [
     "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
     "UNH", "XOM", "V", "JNJ", "WMT", "PG", "KO", "HD", "BAC", "CVX",
@@ -91,32 +88,43 @@ tickers = [
 ]
 
 try:
-    # Download 2 days so we always have a % change
+    # Fetch price data (2 days to compute pct change)
     hist = yf.download(tickers, period="2d")["Close"]
-    
-    # Compute daily % change
-    data = hist.pct_change().iloc[-1] * 100
-    
-    # Drop missing
-    data = data.dropna()
-    
-    df = data.reset_index()
-    df.columns = ["Ticker", "Percent Change"]
-    
+    pct_change = hist.pct_change().iloc[-1] * 100
+    pct_change = pct_change.fillna(0)
+
+    # Fetch market cap for weighting
+    market_caps = {}
+    for t in tickers:
+        info = yf.Ticker(t).info
+        market_caps[t] = info.get("marketCap", 1)  # fallback to 1 if missing
+
+    df = pd.DataFrame({
+        "Ticker": pct_change.index,
+        "Percent Change": pct_change.values,
+        "Market Cap": [market_caps[t] for t in pct_change.index]
+    })
+
+    # Text labels: ticker + %
+    df["Label"] = df.apply(lambda row: f"{row['Ticker']}\n{row['Percent Change']:.2f}%", axis=1)
+
     fig = px.treemap(
         df,
         path=["Ticker"],
-        values="Percent Change",
+        values="Market Cap",
         color="Percent Change",
         color_continuous_scale="RdYlGn",
-        title="S&P 500 Daily Percent Change"
+        hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
+        title="S&P 500 Percent Change (Sized by Market Cap)"
     )
-    
+
+    # Show label inside block
+    fig.update_traces(text=df["Label"])
+
     st.plotly_chart(fig, use_container_width=True)
 
 except Exception as e:
     st.error(f"Error generating heatmap: {e}")
-
 
 
 # Owner Key unlock system
