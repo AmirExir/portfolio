@@ -101,6 +101,7 @@ sp_days_map = {
 
 lookback_days = sp_days_map[sp_tf]
 
+# S&P 500 sample tickers
 tickers = [
     "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
     "UNH", "XOM", "V", "JNJ", "WMT", "PG", "KO", "HD", "BAC", "CVX",
