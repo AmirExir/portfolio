@@ -30,7 +30,13 @@ st.set_page_config(page_title="Market Agent Dashboard", layout="wide")
 st.title(" Amir Exir Stock Market & Crypto AI Agent")
 
 # --- Fetch the latest summary from GitHub ---
-st.markdown(" AI-Generated Market Summary")
+col_summary, col_refresh = st.columns([4, 1])
+with col_summary:
+    st.markdown(" AI-Generated Market Summary")
+with col_refresh:
+    if st.button("🔄 Refresh News", help="Fetch the latest news from GitHub"):
+        st.cache_data.clear()
+        st.rerun()
 
 try:
     contents_url = "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent"
@@ -47,6 +53,16 @@ try:
         # Sort by name descending to get the latest
         summary_files_sorted = sorted(summary_files, key=lambda x: x["name"], reverse=True)
         latest_file = summary_files_sorted[0]
+        
+        # Extract timestamp from filename (format: summary_2025-11-18T20-16-10-053Z.txt)
+        filename = latest_file.get("name", "")
+        try:
+            timestamp_str = filename.replace("summary_", "").replace(".txt", "").replace("T", " ").replace("-", ":")
+            # Show when the summary was generated
+            st.caption(f"📅 Last updated: {filename.split('_')[1].split('T')[0]} at {filename.split('T')[1].replace('-', ':').replace('.txt', '').replace('Z', ' UTC')}")
+        except:
+            pass
+        
         download_url = latest_file.get("download_url")
 
         if download_url:
