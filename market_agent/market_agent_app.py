@@ -129,53 +129,7 @@ except Exception as e:
 
 
 # --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
-st.subheader(" Real-Time Crypto Heatmap")
-
-crypto_tickers = [
-    "BTC-USD", "ETH-USD", "BNB-USD", "SOL-USD", "XRP-USD", "ADA-USD",
-    "DOGE-USD", "AVAX-USD", "TON-USD", "DOT-USD"
-]
-
-try:
-    # Fetch price data (2 days to compute pct change)
-    crypto_hist = yf.download(crypto_tickers, period="3d", interval="1h")["Close"]
-    crypto_pct_change = crypto_hist.pct_change().iloc[-1] * 100
-    crypto_pct_change = crypto_pct_change.fillna(0)
-
-    # Fetch market cap for weighting
-    crypto_market_caps = {}
-    for t in crypto_tickers:
-        info = yf.Ticker(t).info
-        crypto_market_caps[t] = info.get("marketCap", 1)  # fallback to 1 if missing
-
-    crypto_df = pd.DataFrame({
-        "Crypto": crypto_pct_change.index,
-        "Percent Change": crypto_pct_change.values,
-        "Market Cap": [crypto_market_caps[t] for t in crypto_pct_change.index]
-    })
-
-    # Text labels: crypto + %
-    crypto_df["Label"] = crypto_df.apply(lambda row: f"{row['Crypto']}\n{row['Percent Change']:.2f}%", axis=1)
-
-    crypto_fig = px.treemap(
-        crypto_df,
-        path=["Crypto"],
-        values="Market Cap",
-        color="Percent Change",
-        color_continuous_scale="RdYlGn",
-        hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-        title="Crypto Percent Change (Sized by Market Cap)"
-    )
-
-    # Show label inside block
-    crypto_fig.update_traces(text=crypto_df["Label"])
-
-    st.plotly_chart(crypto_fig, use_container_width=True)
-
-except Exception as e:
-    st.error(f"Error generating crypto heatmap: {e}")
-
-
+crypto_hist = yf.download(crypto_tickers, period="3d", interval="1h")["Close"]
 # Owner Key unlock system
 owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password")
 OWNER_KEY = st.secrets.get("OWNER_KEY", "")
