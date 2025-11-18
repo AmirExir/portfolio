@@ -81,6 +81,25 @@ st.markdown("---")
 #  Real-Time S&P 500 Heatmap (Market Cap Weighted + Labels)
 st.subheader(" Real-Time S&P 500 Heatmap")
 
+# Timeframe selector
+sp_tf = st.selectbox(
+    "Stock change timeframe",
+    ["1D", "7D", "1M", "3M", "1Y", "5Y"],
+    index=0
+)
+
+# Time-to-days map
+sp_days_map = {
+    "1D": 1,
+    "7D": 7,
+    "1M": 30,
+    "3M": 90,
+    "1Y": 365,
+    "5Y": 365 * 5,
+}
+
+lookback_days = sp_days_map[sp_tf]
+
 tickers = [
     "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
     "UNH", "XOM", "V", "JNJ", "WMT", "PG", "KO", "HD", "BAC", "CVX",
@@ -88,11 +107,19 @@ tickers = [
 ]
 
 try:
-    # Fetch price data (2 days to compute pct change)
-    hist = yf.download(tickers, period="2d")["Close"]
-    pct_change = hist.pct_change().iloc[-1] * 100
-    pct_change = pct_change.fillna(0)
+    # Fetch enough price history for selected timeframe
+    period_days = lookback_days + 3  # add a few buffer days
+    hist = yf.download(tickers, period=f"{period_days}d", interval="1d")["Close"]
 
+    # Determine base price
+    if hist.shape[0] <= lookback_days:
+        base_sp = hist.iloc[0]
+    else:
+        base_sp = hist.iloc[-(lookback_days + 1)]
+
+    last_sp = hist.iloc[-1]
+    pct_change = (last_sp - base_sp) / base_sp * 100
+    pct_change = pct_change.fillna(0)
     # Fetch market cap for weighting
     market_caps = {}
     for t in tickers:
