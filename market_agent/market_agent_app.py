@@ -7,6 +7,10 @@ import requests
 import base64
 import json
 
+import yfinance as yf
+import plotly.express as px
+
+
 # Add the parent directory to the path for local imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -185,35 +189,37 @@ except Exception as e:
 
 st.markdown("---")
 
-# --- Market Heatmap Section ---
-st.subheader("📊 Live Stock Market Heatmap")
+# List of a few major S&P 500 stocks
+# You can expand this list, or fetch a dynamic list
+tickers = [
+    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM", "UNH", "XOM", 
+    "V", "JNJ", "WMT", "PG", "KO", "HD", "BAC", "CVX", "LLY", "PEP"
+]
 
-heatmap_url = "https://finviz.com/export.ashx?v=2"
-
-headers = {
-    "User-Agent": (
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/118.0.0.0 Safari/537.36"
-    ),
-    "Referer": "https://finviz.com/map.ashx",
-    "Accept": "image/png,image/*;q=0.8,*/*;q=0.5"
-}
+st.subheader("📊 Real-Time S&P 500 Heatmap (Dynamic)")
 
 try:
-    r = requests.get(heatmap_url, headers=headers, timeout=10)
+    # Fetch data
+    data = yf.download(tickers, period="1d")["Close"].pct_change().iloc[-1]
 
-    if r.status_code != 200:
-        st.warning(f"FinViz request failed with status: {r.status_code}")
-    elif r.headers.get("Content-Type", "").startswith("image"):
-        st.image(r.content, caption="FinViz Market Heatmap")
-    else:
-        st.warning("FinViz returned non-image content (likely HTML block)")
-        st.code(r.text[:500])
-        st.info("Try again later — IP may be rate limited.")
+    # Create DataFrame
+    df = data.reset_index()
+    df.columns = ["Ticker", "Percent Change"]
+
+    # Plot heatmap using Plotly
+    fig = px.treemap(
+        df,
+        path=["Ticker"],
+        values="Percent Change",
+        color="Percent Change",
+        color_continuous_scale="RdYlGn",
+        title="S&P 500 Daily Percent Change"
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
 except Exception as e:
-    st.error(f"Error loading heatmap: {e}")
+    st.error(f"Error generating heatmap: {e}")
+    st.info("Try again later or check your connection.")
 # Debug info (only show in sidebar if needed)
 if st.sidebar.checkbox("Show Debug Info", value=False):
     try:
