@@ -190,22 +190,30 @@ st.subheader("📊 Live Stock Market Heatmap")
 
 heatmap_url = "https://finviz.com/export.ashx?v=2"
 
-try:
-    heatmap_response = requests.get(
-        heatmap_url,
-        headers={"User-Agent": "Mozilla/5.0"},
-        timeout=10
-    )
+headers = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/118.0.0.0 Safari/537.36"
+    ),
+    "Referer": "https://finviz.com/map.ashx",
+    "Accept": "image/png,image/*;q=0.8,*/*;q=0.5"
+}
 
-    if heatmap_response.status_code == 200:
-        st.image(heatmap_response.content, caption="FinViz S&P 500 Heatmap")
+try:
+    r = requests.get(heatmap_url, headers=headers, timeout=10)
+
+    if r.status_code != 200:
+        st.warning(f"FinViz request failed with status: {r.status_code}")
+    elif r.headers.get("Content-Type", "").startswith("image"):
+        st.image(r.content, caption="FinViz Market Heatmap")
     else:
-        st.warning("Unable to fetch heatmap. FinViz might be blocking requests.")
+        st.warning("FinViz returned non-image content (likely HTML block)")
+        st.code(r.text[:500])
+        st.info("Try again later — IP may be rate limited.")
 
 except Exception as e:
     st.error(f"Error loading heatmap: {e}")
-    st.info("Try again later, or check your network/VPN.")
-
 # Debug info (only show in sidebar if needed)
 if st.sidebar.checkbox("Show Debug Info", value=False):
     try:
