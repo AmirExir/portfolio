@@ -129,7 +129,7 @@ except Exception as e:
 
 
 # --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
-st.subheader("💰 Real-Time Crypto Heatmap")
+st.subheader(" Real-Time Crypto Heatmap")
 
 crypto_tickers = [
     "BTC-USD", "ETH-USD", "BNB-USD", "SOL-USD", "XRP-USD", "ADA-USD",
