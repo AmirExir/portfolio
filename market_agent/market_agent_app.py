@@ -115,7 +115,7 @@ try:
         color="Percent Change",
         color_continuous_scale="RdYlGn",
         hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-        title="S&P 500 Percent Change (Sized by Market Cap)"
+        title="S&P 500 Percent Change"
     )
 
     # Show label inside block
