@@ -129,7 +129,86 @@ except Exception as e:
 
 
 # --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
-crypto_hist = yf.download(crypto_tickers, period="3d", interval="1h")["Close"]
+# --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
+st.subheader("💰 Real-Time Crypto Heatmap")
+
+# Timeframe selector for crypto
+crypto_tf = st.selectbox(
+    "Crypto change timeframe",
+    ["24H", "7D", "1M", "3M", "1Y", "5Y"],
+    index=0
+)
+
+# Map timeframe -> lookback in days
+tf_days_map = {
+    "24H": 1,
+    "7D": 7,
+    "1M": 30,
+    "3M": 90,
+    "1Y": 365,
+    "5Y": 365 * 5,
+}
+
+lookback_days = tf_days_map[crypto_tf]
+
+crypto_tickers = [
+    "BTC-USD", "ETH-USD", "BNB-USD", "SOL-USD", "XRP-USD", "ADA-USD",
+    "DOGE-USD", "AVAX-USD", "TON-USD", "DOT-USD"
+]
+
+try:
+    # Fetch daily close data for enough days
+    period_days = lookback_days + 5
+    crypto_hist = yf.download(
+        crypto_tickers,
+        period=f"{period_days}d",
+        interval="1d"
+    )["Close"]
+
+    if crypto_hist.shape[0] <= lookback_days:
+        base = crypto_hist.iloc[0]
+    else:
+        base = crypto_hist.iloc[-(lookback_days + 1)]
+
+    last = crypto_hist.iloc[-1]
+
+    crypto_pct_change = (last - base) / base * 100.0
+    crypto_pct_change = crypto_pct_change.fillna(0)
+
+    crypto_market_caps = {}
+    for t in crypto_tickers:
+        info = yf.Ticker(t).info
+        crypto_market_caps[t] = info.get("marketCap", 1)
+
+    crypto_df = pd.DataFrame({
+        "Crypto": crypto_pct_change.index,
+        "Percent Change": crypto_pct_change.values,
+        "Market Cap": [crypto_market_caps[t] for t in crypto_pct_change.index]
+    })
+
+    crypto_df["Symbol"] = crypto_df["Crypto"].apply(lambda s: s.split("-")[0])
+    crypto_df["Label"] = crypto_df.apply(
+        lambda row: f"{row['Symbol']}\n{row['Percent Change']:.2f}%",
+        axis=1
+    )
+
+    crypto_fig = px.treemap(
+        crypto_df,
+        path=["Symbol"],
+        values="Market Cap",
+        color="Percent Change",
+        color_continuous_scale="RdYlGn",
+        hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
+        title=f"Crypto Change ({crypto_tf}) – Sized by Market Cap"
+    )
+
+    crypto_fig.update_traces(text=crypto_df["Label"])
+    st.plotly_chart(crypto_fig, use_container_width=True)
+
+except Exception as e:
+    st.error(f"Error generating crypto heatmap: {e}")
+
+
 # Owner Key unlock system
 owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password")
 OWNER_KEY = st.secrets.get("OWNER_KEY", "")
