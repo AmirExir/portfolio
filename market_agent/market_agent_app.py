@@ -45,17 +45,15 @@ def fetch_latest_summary():
         
         # Check for rate limiting
         if response.status_code == 403 and 'rate limit' in response.text.lower():
-            st.warning("⚠️ GitHub API rate limit reached. Showing cached data.")
             return None
         
         response.raise_for_status()
         files = response.json()
         return files
     except requests.exceptions.Timeout:
-        st.warning("⚠️ GitHub API timeout. Showing cached data.")
         return None
     except Exception as e:
-        st.error(f"GitHub API error: {e}")
+        # Silently fail and let the fallback handle it
         return None
 
 col_summary, col_refresh = st.columns([4, 1])
