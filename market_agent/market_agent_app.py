@@ -138,7 +138,7 @@ crypto_tickers = [
 
 try:
     # Fetch price data (2 days to compute pct change)
-    crypto_hist = yf.download(crypto_tickers, period="2d")["Close"]
+    crypto_hist = yf.download(crypto_tickers, period="3d", interval="1h")["Close"]
     crypto_pct_change = crypto_hist.pct_change().iloc[-1] * 100
     crypto_pct_change = crypto_pct_change.fillna(0)
 
