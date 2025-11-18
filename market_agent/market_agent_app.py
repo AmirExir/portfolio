@@ -51,12 +51,18 @@ try:
     files = fetch_latest_summary()
 
     # Filter files starting with 'summary_' and ending with '.txt'
-    summary_files = [f for f in files if f.get("type") == "file" and f.get("name", "").startswith("summary_") and f.get("name", "").endswith(".txt")]
+    # Exclude summary_xxx.txt and only get files with proper timestamps
+    summary_files = [
+        f for f in files 
+        if f.get("type") == "file" 
+        and f.get("name", "").startswith("summary_2025-")  # Only files with year prefix
+        and f.get("name", "").endswith(".txt")
+    ]
 
     if not summary_files:
         st.info("No summary files found yet. The n8n workflow will create summary_*.txt files on first run.")
     else:
-        # Sort by name descending to get the latest
+        # Sort by name descending to get the latest (ISO format sorts correctly)
         summary_files_sorted = sorted(summary_files, key=lambda x: x["name"], reverse=True)
         latest_file = summary_files_sorted[0]
         
