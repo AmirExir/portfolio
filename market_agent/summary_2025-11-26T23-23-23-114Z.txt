@@ -1,0 +1,5 @@
+- **AI Recipes Disrupting Traditional Cooking**: Home cooks are increasingly turning to AI-generated recipes for Thanksgiving, driving traffic away from established food bloggers and reshaping culinary trends online. [Bloomberg](https://www.bloomberg.com/news/articles/2025-11-25/ai-slop-recipes-are-taking-over-the-internet-and-thanksgiving-dinner).
+
+- **Market Volatility Amid AI Developments**: The stock market displayed mixed results, with the Dow rising over 1% despite Nvidia's decline in shares due to intensifying competition in the AI chip sector led by companies like Alphabet. [The Wall Street Journal](https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-11-25-2025).
+
+- **Regulation of Rent Algorithms**: Following a settlement, landlords will face new limitations on using rental pricing algorithms, designed to prevent collusion and artificially inflated housing costs. [NPR](https://www.npr.org/2025/11/25/g-s1-99331/realpage-rent-algorithm-limits-settlement).
