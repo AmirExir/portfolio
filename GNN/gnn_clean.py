@@ -10,7 +10,7 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch_geometric.nn import GCNConv
+from torch_geometric.nn import GCNConv, GATConv, GINConv, TransformerConv
 from torch_geometric.loader import DataLoader
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
@@ -47,8 +47,76 @@ class GCN(nn.Module):
         return self.head(x)
 
 
+class GAT(nn.Module):
+    """Graph Attention Network for node classification"""
+    def __init__(self, in_dim, num_classes=2, hidden=64, dropout=0.4, use_relu=True):
+        super().__init__()
+        self.g1 = GATConv(in_dim, hidden, heads=2, dropout=dropout)
+        self.g2 = GATConv(hidden * 2, hidden, heads=1, dropout=dropout)
+        self.do = nn.Dropout(dropout)
+        self.head = nn.Linear(hidden, num_classes)
+        self.use_relu = use_relu
+        
+    def forward(self, x, edge_index):
+        x = self.g1(x, edge_index)
+        if self.use_relu:
+            x = torch.relu(x)
+        x = self.do(x)
+        x = self.g2(x, edge_index)
+        if self.use_relu:
+            x = torch.relu(x)
+        x = self.do(x)
+        return self.head(x)
+
+
+class GIN(nn.Module):
+    """Graph Isomorphism Network for node classification"""
+    def __init__(self, in_dim, num_classes=2, hidden=64, dropout=0.4, use_relu=True):
+        super().__init__()
+        nn1 = nn.Sequential(nn.Linear(in_dim, hidden), nn.ReLU(), nn.Linear(hidden, hidden))
+        nn2 = nn.Sequential(nn.Linear(hidden, hidden), nn.ReLU(), nn.Linear(hidden, hidden))
+        self.g1 = GINConv(nn1)
+        self.g2 = GINConv(nn2)
+        self.do = nn.Dropout(dropout)
+        self.head = nn.Linear(hidden, num_classes)
+        self.use_relu = use_relu
+        
+    def forward(self, x, edge_index):
+        x = self.g1(x, edge_index)
+        if self.use_relu:
+            x = torch.relu(x)
+        x = self.do(x)
+        x = self.g2(x, edge_index)
+        if self.use_relu:
+            x = torch.relu(x)
+        x = self.do(x)
+        return self.head(x)
+
+
+class GraphTransformer(nn.Module):
+    """Graph Transformer for node classification"""
+    def __init__(self, in_dim, num_classes=2, hidden=64, dropout=0.4, use_relu=True):
+        super().__init__()
+        self.g1 = TransformerConv(in_dim, hidden, heads=2, dropout=dropout)
+        self.g2 = TransformerConv(hidden * 2, hidden, heads=1, dropout=dropout)
+        self.do = nn.Dropout(dropout)
+        self.head = nn.Linear(hidden, num_classes)
+        self.use_relu = use_relu
+        
+    def forward(self, x, edge_index):
+        x = self.g1(x, edge_index)
+        if self.use_relu:
+            x = torch.relu(x)
+        x = self.do(x)
+        x = self.g2(x, edge_index)
+        if self.use_relu:
+            x = torch.relu(x)
+        x = self.do(x)
+        return self.head(x)
+
+
 def train_gnn_multi_graph(graph_list, epochs=100, lr=1e-3, weight_decay=5e-4, 
-                          seed=42, use_relu=True, batch_size=32):
+                          seed=42, use_relu=True, batch_size=32, model_type='gcn'):
     """
     Train GNN on multiple graphs using DataLoader.
     
@@ -60,9 +128,10 @@ def train_gnn_multi_graph(graph_list, epochs=100, lr=1e-3, weight_decay=5e-4,
         seed: Random seed for reproducibility
         use_relu: Use ReLU activation in GCN
         batch_size: Batch size for DataLoader
+        model_type: Model architecture ('gcn', 'gat', 'gin', 'transformer')
         
     Returns:
-        model: Trained GCN model
+        model: Trained GNN model
         hist_df: Training history DataFrame
     """
     set_seed(seed)
@@ -83,8 +152,21 @@ def train_gnn_multi_graph(graph_list, epochs=100, lr=1e-3, weight_decay=5e-4,
     in_dim = graph_list[0].num_features
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     
-    # Initialize model
-    model = GCN(in_dim=in_dim, num_classes=n_classes, hidden=64, use_relu=use_relu).to(device)
+    # Initialize model based on type
+    model_type = model_type.lower()
+    if model_type == 'gcn':
+        model = GCN(in_dim=in_dim, num_classes=n_classes, hidden=64, use_relu=use_relu)
+    elif model_type == 'gat':
+        model = GAT(in_dim=in_dim, num_classes=n_classes, hidden=64, use_relu=use_relu)
+    elif model_type == 'gin':
+        model = GIN(in_dim=in_dim, num_classes=n_classes, hidden=64, use_relu=use_relu)
+    elif model_type == 'transformer':
+        model = GraphTransformer(in_dim=in_dim, num_classes=n_classes, hidden=64, use_relu=use_relu)
+    else:
+        raise ValueError(f"Unknown model_type '{model_type}'. Supported: gcn, gat, gin, transformer")
+    
+    model = model.to(device)
+    print(f"Using {model_type.upper()} architecture")
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
     
     # Compute class weights from training graphs (handle class imbalance)
@@ -162,6 +244,8 @@ def main():
     parser = argparse.ArgumentParser(description='Train GNN for power grid violation detection')
     parser.add_argument("--mode", choices=["voltage", "thermal"], default="voltage",
                         help="Classification mode: voltage (bus-level) or thermal (line-level)")
+    parser.add_argument("--model", choices=["gcn", "gat", "gin", "transformer"], default="gcn",
+                        help="Model architecture: GCN, GAT, GIN, or Transformer")
     parser.add_argument("--epochs", type=int, default=100, help="Number of training epochs")
     parser.add_argument("--lr", type=float, default=1e-3, help="Learning rate")
     parser.add_argument("--weight_decay", type=float, default=5e-4, help="L2 regularization")
@@ -209,7 +293,7 @@ def main():
     print(f"  Class distribution: {class_dist}")
     
     # Train model
-    print(f"\n🚀 Training GNN...")
+    print(f"\n🚀 Training {args.model.upper()} model...")
     model, hist_df = train_gnn_multi_graph(
         data,
         epochs=args.epochs,
@@ -217,7 +301,8 @@ def main():
         weight_decay=args.weight_decay,
         seed=args.seed,
         use_relu=args.use_relu,
-        batch_size=args.batch_size
+        batch_size=args.batch_size,
+        model_type=args.model
     )
     
     # Print training results
