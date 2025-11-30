@@ -628,12 +628,7 @@ def main():
     use_relu = args.use_relu
     print(f"Running in {mode.upper()} classification mode")
 
-    # Select appropriate dataset file based on mode
-    if mode == "thermal":
-        pt_path = "graph_scenarios_thermal.pt"
-    else:
-        pt_path = "graph_scenarios.pt"
-    
+    pt_path = "graph_scenarios.pt"
     if os.path.exists(pt_path):
         print(f"Found {pt_path}. Loading preprocessed graph data...")
         data = torch.load(pt_path)
