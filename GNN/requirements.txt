@@ -5,6 +5,7 @@ matplotlib==3.10.5
 networkx==3.5
 scikit-learn==1.7.1
 watchdog==6.0.0
+plotly==5.18.0
 
 torch==2.8.0
 torchvision==0.23.0
