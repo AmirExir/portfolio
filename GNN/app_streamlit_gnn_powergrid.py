@@ -92,11 +92,30 @@ def load_dataset(mode):
     """Load the preprocessed graph dataset"""
     if mode == "thermal":
         pt_path = "graph_scenarios_thermal.pt"
+        generator_script = "create_graph_dataset_thermal.py"
     else:
         pt_path = "graph_scenarios.pt"
+        generator_script = "create_graph_dataset.py"
     
+    # Auto-generate dataset if missing
     if not Path(pt_path).exists():
-        return None, f"Dataset file '{pt_path}' not found!"
+        st.warning(f"Dataset '{pt_path}' not found. Generating now... This may take 1-2 minutes.")
+        try:
+            import subprocess
+            result = subprocess.run(
+                [sys.executable, generator_script],
+                capture_output=True,
+                text=True,
+                timeout=300,
+                cwd=Path(__file__).parent
+            )
+            if result.returncode != 0:
+                return None, f"Failed to generate dataset: {result.stderr}"
+            st.success(f"✅ Dataset generated successfully!")
+        except subprocess.TimeoutExpired:
+            return None, "Dataset generation timed out (>5 minutes)"
+        except Exception as e:
+            return None, f"Error generating dataset: {str(e)}"
     
     try:
         data = torch.load(pt_path, weights_only=False)
