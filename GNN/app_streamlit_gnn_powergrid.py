@@ -90,24 +90,26 @@ with st.sidebar:
 @st.cache_data
 def load_dataset(mode):
     """Load the preprocessed graph dataset"""
+    script_dir = Path(__file__).parent
+    
     if mode == "thermal":
-        pt_path = "graph_scenarios_thermal.pt"
-        generator_script = "create_graph_dataset_thermal.py"
+        pt_path = script_dir / "graph_scenarios_thermal.pt"
+        generator_script = script_dir / "create_graph_dataset_thermal.py"
     else:
-        pt_path = "graph_scenarios.pt"
-        generator_script = "create_graph_dataset.py"
+        pt_path = script_dir / "graph_scenarios.pt"
+        generator_script = script_dir / "create_graph_dataset.py"
     
     # Auto-generate dataset if missing
-    if not Path(pt_path).exists():
+    if not pt_path.exists():
         st.warning(f"Dataset '{pt_path}' not found. Generating now... This may take 1-2 minutes.")
         try:
             import subprocess
             result = subprocess.run(
-                [sys.executable, generator_script],
+                [sys.executable, str(generator_script)],
                 capture_output=True,
                 text=True,
                 timeout=300,
-                cwd=Path(__file__).parent
+                cwd=str(script_dir)
             )
             if result.returncode != 0:
                 return None, f"Failed to generate dataset: {result.stderr}"
@@ -118,7 +120,7 @@ def load_dataset(mode):
             return None, f"Error generating dataset: {str(e)}"
     
     try:
-        data = torch.load(pt_path, weights_only=False)
+        data = torch.load(str(pt_path), weights_only=False)
         if not isinstance(data, list):
             return None, f"Expected list of graphs, got {type(data)}"
         return data, None
