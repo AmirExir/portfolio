@@ -469,21 +469,24 @@
 
 
       <!-- Power Grid GNN App Section -->
-      <h2 id="gnn-app" class="slide-up hover-scale"> Power Grid GNN Predictor</h2>
+      <h2 id="gnn-app" class="slide-up hover-scale">Power Grid GNN Predictor</h2>
       <p>
-        An advanced <strong>Graph Convolutional Network (GCN + Message Passing)</strong> that learns from simulated power grid scenarios 
-        to predict <strong>voltage</strong> and <strong>thermal alarms</strong> across buses and transmission lines. 
-        The model dynamically reconstructs grid topologies, trains on N-1/N-2 contingency cases, and performs cross-validation to ensure high accuracy.
+        An advanced <strong>Graph Neural Network (GNN)</strong> system that learns from simulated power grid scenarios 
+        to predict <strong>voltage violations</strong> and <strong>thermal overloads</strong> across buses and transmission lines. 
+        Features four state-of-the-art architectures: <strong>GCN</strong> (baseline), <strong>GAT</strong> (attention-based), 
+        <strong>GIN</strong> (isomorphism-aware), and <strong>Graph Transformer</strong> (achieving 94.53% voltage accuracy and 96.51% thermal accuracy).
+        The system trains on 200 N-1 contingency scenarios with complete topology reconstruction and real-time graph visualization.
         Built using <strong>PyTorch Geometric</strong>, <strong>Pandapower</strong>, <strong>Scikit-learn</strong>, and <strong>Streamlit</strong>.
       </p>
 
       <a href="https://ai-in-power-system-electrical-engineering-hw6ktvbujtbw5zygqxxj.streamlit.app/" 
         target="_blank" class="ercot-bot-button">
-         Launch the Power Grid GNN App
+        Launch the Power Grid GNN App
       </a>
       <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #777;">
-        Tip: In the Streamlit app, you can toggle between <strong>Voltage Alarms</strong>, <strong>Thermal Alarms</strong>, 
-        or <strong>Combined</strong> prediction modes for end-to-end learning and real-time grid visualization.
+        Tip: In the Streamlit app, select between <strong>GCN</strong>, <strong>GAT</strong>, <strong>GIN</strong>, or <strong>Transformer</strong> architectures, 
+        toggle between <strong>Voltage</strong> or <strong>Thermal</strong> classification modes, and visualize interactive power grid topologies 
+        with real-time training metrics and class-balanced performance analysis.
       </p>
 
 
@@ -784,7 +787,7 @@ This project combines real-time market data, AI-generated trading summaries, and
 
   <h2 id="download" class="slide-up hover-scale">Download My Resume & Certificates</h2>
   <div class="links">
-    <a href="amirexir_CV20.pdf" download> Resume</a>
+    <a href="amirexir_CV21.pdf" download> Resume</a>
     <a href ="EXIR_PSSC_625_Certificate.pdf" download> Automating PSS®E Using Python</a>
     <a href="Coursera BYBV066EFBS7.pdf" download> IBM AI Certificate</a>
     <a href="Coursera DCHGTCGASDAH.pdf" download> ML Certificate</a>
