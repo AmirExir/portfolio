@@ -467,8 +467,40 @@
 <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
 
 
-
       <!-- Power Grid GNN App Section -->
+      <h2 id="gnn-app" class="slide-up hover-scale"> Power Grid GNN analyzer</h2>
+
+      <p>
+        An advanced <strong>Graph Convolutional Network (GCN + Message Passing)</strong> 
+        that learns from simulated power grid scenarios to predict 
+        <strong>voltage</strong> and <strong>thermal alarms</strong> 
+        across buses and transmission lines. 
+        The model dynamically reconstructs grid topologies, trains on N-1/N-2 
+        contingency cases, and performs cross-validation to ensure high accuracy.
+        <br><br>
+        Built using <strong>PyTorch Geometric</strong>, 
+        <strong>Pandapower</strong>, 
+        <strong>Scikit-learn</strong>, 
+        and <strong>Streamlit</strong>.
+      </p>
+
+      <a href="https://portfolio-kucwkosbrixdtcgkae7yvm.streamlit.app/" 
+        target="_blank" class="ercot-bot-button">
+        Launch the Power Grid GNN App
+      </a>
+
+      <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #777;">
+        Tip: In the Streamlit app, you can toggle between 
+        <strong>Voltage Alarms</strong>, 
+        <strong>Thermal Alarms</strong>, 
+        or <strong>Combined</strong> prediction modes for end-to-end learning 
+        and real-time grid visualization.
+      </p>
+
+
+
+
+      
       <h2 id="gnn-app" class="slide-up hover-scale">Power Grid GNN Predictor</h2>
       <p>
         An advanced <strong>Graph Neural Network (GNN)</strong> system that learns from simulated power grid scenarios 
