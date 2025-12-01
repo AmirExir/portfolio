@@ -18,7 +18,7 @@ from gnn_clean import GCN, GAT, GIN, GraphTransformer, train_gnn_multi_graph, se
 # Page configuration
 st.set_page_config(
     page_title="Power Grid GNN Analyzer",
-    page_icon="⚡",
+    page_icon="🔌",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -46,11 +46,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Title
-st.markdown('<p class="main-header">⚡ Power Grid Violation Detection with GNNs</p>', unsafe_allow_html=True)
+st.markdown('<p class="main-header">Power Grid Violation Detection with GNNs</p>', unsafe_allow_html=True)
 
 # Sidebar configuration
 with st.sidebar:
-    st.header("⚙️ Configuration")
+    st.header("Configuration")
     
     # Mode selection
     mode = st.selectbox(
@@ -212,8 +212,10 @@ def visualize_graph(graph_data, scenario_id, mode, show_edge_labels=False, node_
     # Create figure
     fig = go.Figure(data=[edge_trace, node_trace],
                    layout=go.Layout(
-                       title=f"Scenario {scenario_id} - {mode.title()} Graph ({graph_data.num_nodes} nodes)",
-                       titlefont_size=16,
+                       title=dict(
+                           text=f"Scenario {scenario_id} - {mode.title()} Graph ({graph_data.num_nodes} nodes)",
+                           font=dict(size=16)
+                       ),
                        showlegend=False,
                        hovermode='closest',
                        margin=dict(b=20, l=5, r=5, t=40),
@@ -231,18 +233,18 @@ def visualize_graph(graph_data, scenario_id, mode, show_edge_labels=False, node_
     return fig
 
 # Main content
-tab1, tab2, tab3 = st.tabs(["📊 Training", "🔍 Graph Visualization", "📈 Performance Analysis"])
+tab1, tab2, tab3 = st.tabs(["Training", "Graph Visualization", "Performance Analysis"])
 
 # Load dataset
 data, error = load_dataset(mode)
 
 if error:
-    st.error(f"❌ {error}")
+    st.error(f"{error}")
     st.info("Please generate the dataset first using `create_graph_dataset.py` or `create_graph_dataset_thermal.py`")
     st.stop()
 
 # Dataset info
-with st.expander("📦 Dataset Information", expanded=False):
+with st.expander("Dataset Information", expanded=False):
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.metric("Total Graphs", len(data))
@@ -266,7 +268,7 @@ with st.expander("📦 Dataset Information", expanded=False):
 
 # Tab 1: Training
 with tab1:
-    st.header("🎯 Model Training")
+    st.header("Model Training")
     
     col1, col2 = st.columns([1, 2])
     
@@ -286,7 +288,7 @@ with tab1:
             st.text(f"{key}: {value}")
     
     with col2:
-        if st.button("🚀 Start Training", type="primary", use_container_width=True):
+        if st.button("Start Training", type="primary", use_container_width=True):
             with st.spinner("Training model... This may take a few minutes."):
                 try:
                     model, hist_df = train_model(
@@ -298,7 +300,7 @@ with tab1:
                     st.session_state.hist_df = hist_df
                     st.session_state.trained = True
                     
-                    st.success("✅ Training completed successfully!")
+                    st.success("Training completed successfully!")
                     
                     # Display final metrics
                     final = hist_df.iloc[-1]
@@ -314,12 +316,12 @@ with tab1:
                         st.metric("Macro F1", f"{final['val_f1_macro']:.2%}")
                     
                 except Exception as e:
-                    st.error(f"❌ Training failed: {str(e)}")
+                    st.error(f"Training failed: {str(e)}")
     
     # Display training history if available
     if 'hist_df' in st.session_state:
         st.divider()
-        st.subheader("📉 Training History")
+        st.subheader("Training History")
         
         hist_df = st.session_state.hist_df
         
@@ -351,12 +353,12 @@ with tab1:
             st.plotly_chart(fig_f1, use_container_width=True)
         
         # Show data table
-        with st.expander("📋 View Training Data"):
+        with st.expander("View Training Data"):
             st.dataframe(hist_df, use_container_width=True)
 
 # Tab 2: Graph Visualization
 with tab2:
-    st.header("🔍 Scenario Graph Visualization")
+    st.header("Scenario Graph Visualization")
     
     if scenario_to_view >= len(data):
         st.error(f"Scenario {scenario_to_view} does not exist. Valid range: 0-{len(data)-1}")
@@ -380,7 +382,7 @@ with tab2:
         st.plotly_chart(fig, use_container_width=True)
         
         # Show node statistics
-        with st.expander("📊 Node Statistics"):
+        with st.expander("Node Statistics"):
             node_features = graph_data.x.cpu().numpy()
             node_labels = graph_data.y.cpu().numpy()
             
@@ -412,16 +414,16 @@ with tab2:
 
 # Tab 3: Performance Analysis
 with tab3:
-    st.header("📈 Model Performance Analysis")
+    st.header("Model Performance Analysis")
     
     if 'hist_df' not in st.session_state:
-        st.info("👈 Please train a model first in the Training tab")
+        st.info("Please train a model first in the Training tab")
     else:
         hist_df = st.session_state.hist_df
         final = hist_df.iloc[-1]
         best_epoch = hist_df.loc[hist_df['val_loss'].idxmin()]
         
-        st.subheader("🏆 Best Model Performance")
+        st.subheader("Best Model Performance")
         
         col1, col2, col3 = st.columns(3)
         
@@ -449,7 +451,7 @@ with tab3:
         
         # Detailed metrics over time
         st.divider()
-        st.subheader("📊 Metrics Evolution")
+        st.subheader("Metrics Evolution")
         
         metrics_to_plot = st.multiselect(
             "Select metrics to plot",
@@ -468,12 +470,12 @@ with tab3:
         
         # Model comparison
         st.divider()
-        st.subheader("🔬 Model Comparison Guide")
+        st.subheader("Model Comparison Guide")
         
         comparison_data = {
             "Model": ["GCN", "GAT", "GIN", "Transformer"],
             "Typical Accuracy": ["85-86%", "84-85%", "87-88%", "94-95%"],
-            "Speed": ["Fast ⚡", "Medium ⏱️", "Fast ⚡", "Slow 🐢"],
+            "Speed": ["Fast", "Medium", "Fast", "Slow"],
             "Best For": [
                 "Baseline, fast training",
                 "When node importance varies",
