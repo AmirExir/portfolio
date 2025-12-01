@@ -1,0 +1,767 @@
+
+import os
+import io
+import time
+import random
+import numpy as np
+import pandas as pd
+import streamlit as st
+import matplotlib.pyplot as plt
+import networkx as nx
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import StratifiedShuffleSplit, RepeatedStratifiedKFold
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
+from sklearn.metrics import precision_recall_curve, classification_report, confusion_matrix, ConfusionMatrixDisplay
+import torch
+import torch.nn.functional as F
+from sklearn.linear_model import LogisticRegression
+# -----------------------
+# Graph building function
+# -----------------------
+
+def focal_loss(logits, targets, gamma=2.0, alpha=None):
+    ce = F.cross_entropy(logits, targets, weight=alpha, reduction='none')
+    pt = torch.exp(-ce)
+    loss = ((1 - pt) ** gamma) * ce
+    return loss.mean()
+
+# -----------------------------
+
+# Try to import torch + PyG and fail gracefully with instructions
+missing = []
+try:
+    import torch
+    import torch.nn as nn
+    import torch.nn.functional as F
+except Exception as e:
+    missing.append("torch / torch.nn")
+    torch = None
+    nn = None
+    F = None
+
+try:
+    from torch_geometric.data import Data
+    from torch_geometric.nn import GCNConv
+except Exception as e:
+    Data = None
+    GCNConv = None
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, f1_score, classification_report
+
+# -----------------------------
+# Streamlit Page Setup
+# -----------------------------
+st.set_page_config(page_title="Amir Exir Power Grid GNN (Alarms)", layout="wide")
+st.title("Amir Exir's Power Grid GNN — Node Alarm Classification")
+
+# --- Alarm type selection ---
+alarm_type = st.selectbox(
+    "Alarm Type for Prediction",
+    options=["Voltage Alarms", "Thermal Alarms", "Combined (Voltage + Thermal)"],
+    index=0,
+    help="Choose which type of alarm to train and predict on."
+)
+if alarm_type == "Voltage Alarms":
+    alarm_target_col = "voltage_class"
+    alarm_caption = "Target = voltage_class"
+elif alarm_type == "Thermal Alarms":
+    alarm_target_col = "thermal_class"
+    alarm_caption = "Target = thermal_class"
+else:
+    alarm_target_col = "alarm_flag"
+    alarm_caption = "Target = alarm_flag (combined)"
+
+st.caption(f"Nodes = buses | Edges = lines | Features = voltage, load_MW | {alarm_caption}")
+
+# -----------------------------
+# Sidebar (Settings, instructions, install help)
+# -----------------------------
+# -----------------------------
+# Helpers
+# -----------------------------
+def set_seed(s=42):
+    random.seed(s); np.random.seed(s)
+    if torch is not None and hasattr(torch, "manual_seed"):
+        torch.manual_seed(s)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(s)
+
+def replicate_graph_with_noise(
+    bus_df, edge_df, copies=10,
+    sigma_v=0.05,        # voltage noise (p.u.)
+    sigma_load=20.0,     # MW noise
+    sigma_pinj=10.0,     # MW noise
+    flip_alarm_p=0.1,    # small prob to flip 0/1
+    seed=42
+):
+    """
+    Create N disjoint copies of the same topology with small feature noise.
+    Node names made unique by appending '__k' to each bus in copy k.
+    """
+    rng = np.random.default_rng(seed)
+
+    def getcol(df, name):
+        # case-insensitive lookup
+        m = {c.lower(): c for c in df.columns}
+        return m.get(name, name)
+
+    bus_out  = []
+    edge_out = []
+
+    for k in range(copies):
+        tag = f"__{k}"
+
+        df = bus_df.copy()
+        bcol = getcol(df, 'bus')
+        df[bcol] = df[bcol].astype(str) + tag
+
+        vcol = getcol(df, 'voltage')
+        if vcol in df:
+            df[vcol] = df[vcol].astype(float) + rng.normal(0, sigma_v, len(df))
+
+        lcol = getcol(df, 'load_mw')
+        if lcol in df:
+            df[lcol] = df[lcol].astype(float) + rng.normal(0, sigma_load, len(df))
+        lcol2 = getcol(df, 'load_MW')  # support original casing
+        if lcol2 in df:
+            df[lcol2] = df[lcol2].astype(float) + rng.normal(0, sigma_load, len(df))
+
+        pcol = getcol(df, 'p_inj_mw')
+        if pcol in df:
+            df[pcol] = df[pcol].astype(float) + rng.normal(0, sigma_pinj, len(df))
+
+        # breaker_status noise/flip removed
+
+        af = getcol(df, 'alarm_flag')
+        if af in df:
+            flip = rng.random(len(df)) < flip_alarm_p
+            df.loc[flip, af] = 1 - df.loc[flip, af].astype(int)
+
+        bus_out.append(df)
+
+        e = edge_df.copy()
+        e['from_bus'] = e['from_bus'].astype(str) + tag
+        e['to_bus']   = e['to_bus'].astype(str) + tag
+        edge_out.append(e)
+
+    return pd.concat(bus_out, ignore_index=True), pd.concat(edge_out, ignore_index=True)
+
+def synthetic_14_bus():
+    buses = [f'Bus{i}' for i in range(1, 15)]
+    branches = [
+        ('Bus1','Bus2'),('Bus1','Bus5'),('Bus2','Bus3'),('Bus2','Bus4'),
+        ('Bus3','Bus4'),('Bus4','Bus5'),('Bus5','Bus6'),('Bus6','Bus11'),
+        ('Bus6','Bus12'),('Bus6','Bus13'),('Bus7','Bus8'),('Bus7','Bus9'),
+        ('Bus9','Bus10'),('Bus9','Bus14'),('Bus10','Bus11'),('Bus12','Bus13'),
+        ('Bus13','Bus14'),('Bus4','Bus7'),('Bus8','Bus14'),('Bus3','Bus9'),
+    ]
+    # simple synthetic bus features + injections
+    rows = []
+    for i, bus in enumerate(buses):
+        voltage = round(1.0 + 0.05 * (i % 3), 3)
+        load_MW = 50 + 10 * (i % 5)
+        alarm_flag = 1 if i % 6 == 0 else 0
+        # tiny net injections alternating +/-
+        p_inj_mw = (5 if i % 2 == 0 else -5)
+        rows.append([bus, voltage, load_MW, alarm_flag, p_inj_mw])
+    bus_df = pd.DataFrame(rows, columns=['bus','voltage','load_MW','alarm_flag','p_inj_mw'])
+
+    # simple constant reactance per line
+    edge_df = pd.DataFrame(branches, columns=['from_bus','to_bus'])
+    
+
+    return bus_df, edge_df
+
+def build_graph(bus_df, edge_df, target_col="alarm_flag"):
+    # Ensure bus and edge IDs are string type for mapping
+    bus_df = bus_df.copy()
+    edge_df = edge_df.copy()
+    bus_df['bus'] = bus_df['bus'].astype(str)
+    edge_df['from_bus'] = edge_df['from_bus'].astype(str)
+    edge_df['to_bus'] = edge_df['to_bus'].astype(str)
+
+    # map bus to index
+    bus_to_idx = {b:i for i,b in enumerate(bus_df['bus'])}
+
+    # edge index (directed, as per PyG)
+    src = edge_df['from_bus'].map(bus_to_idx).to_numpy()
+    dst = edge_df['to_bus'  ].map(bus_to_idx).to_numpy()
+    edge_index = np.vstack([src, dst])
+
+    # features (linearized input)
+    X = bus_df[['voltage','load_MW']].to_numpy(dtype=float)
+    scaler = StandardScaler().fit(X)
+    Xn = scaler.transform(X)
+    # Use correct label column, with fallback to "alarm_flag"
+    if target_col not in bus_df.columns:
+        # Fallback: try "alarm_flag"
+        import streamlit as st
+        st.warning(
+            f"Target column '{target_col}' not found in bus dataframe columns. "
+            f"Falling back to 'alarm_flag'."
+        )
+        if "alarm_flag" not in bus_df.columns:
+            raise ValueError(
+                f"Neither '{target_col}' nor 'alarm_flag' found in bus dataframe columns: {bus_df.columns.tolist()}"
+            )
+        target_col = "alarm_flag"
+    y = bus_df[target_col].to_numpy().astype(int)
+
+    return edge_index, Xn, y, scaler, bus_to_idx
+
+class GCN(nn.Module):
+    def __init__(self, in_dim, h_dim=32, num_classes=2, dropout=0.4, use_relu=True):
+        super().__init__()
+        self.g1 = GCNConv(in_dim, h_dim)
+        self.g2 = GCNConv(h_dim, h_dim)
+        self.do = nn.Dropout(dropout)
+        self.head = nn.Linear(h_dim, num_classes)
+        self.use_relu = use_relu
+
+    def forward(self, x, edge_index):
+        x = self.g1(x, edge_index)
+        if self.use_relu:
+            x = torch.relu(x)
+        x = self.do(x)
+        x = self.g2(x, edge_index)
+        if self.use_relu:
+            x = torch.relu(x)
+        x = self.do(x)
+        return self.head(x)
+
+
+def _stratified_indices(y_np, train_frac=0.7, seed=42):
+    sss = StratifiedShuffleSplit(n_splits=1, train_size=train_frac, random_state=seed)
+    (train_idx_np, val_idx_np), = sss.split(np.zeros_like(y_np), y_np)
+    return train_idx_np, val_idx_np
+
+def _class_weights(y_np):
+    # inverse-frequency weights for binary {0,1}
+    counts = np.bincount(y_np, minlength=2).astype(float)
+    counts[counts == 0] = 1.0
+    inv = 1.0 / counts
+    w = inv / inv.sum() * 2.0
+    return torch.tensor(w, dtype=torch.float)
+
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+def train_gnn(data, epochs=300, lr=1e-2, weight_decay=5e-4, seed=42, use_relu=True):
+    set_seed(seed)
+    model = GCN(in_dim=data.x.size(1), use_relu=use_relu).to(data.x.device)
+    opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+
+    # Stratified split so minority class appears in both sets
+    y_np = data.y.cpu().numpy()
+    sss = StratifiedShuffleSplit(n_splits=1, train_size=0.7, random_state=seed)
+    (train_idx_np, val_idx_np), = sss.split(np.zeros_like(y_np), y_np)
+    train_idx = torch.tensor(train_idx_np, dtype=torch.long, device=data.x.device)
+    val_idx   = torch.tensor(val_idx_np,   dtype=torch.long, device=data.x.device)
+
+    # FOCAL LOSS alpha from TRAIN ONLY
+    counts_t = torch.bincount(data.y[train_idx], minlength=2).float()
+    alpha = 1.0 / (counts_t + 1e-6)
+    alpha = (alpha / alpha.sum()).to(data.x.device)
+
+    history = []
+    best = (1e9, None)  # (val_loss, state_dict)
+
+    for epoch in range(1, epochs + 1):
+        # ---- Train ----
+        model.train()
+        logits = model(data.x, data.edge_index)
+        loss = focal_loss(
+            logits[train_idx],
+            data.y[train_idx],
+            gamma=2.0,
+            alpha=alpha
+        )
+        opt.zero_grad()
+        loss.backward()
+        opt.step()
+
+        # ---- Eval ----
+        model.eval()
+        with torch.no_grad():
+            logits_val = model(data.x, data.edge_index)[val_idx]
+
+        # validation loss with focal loss
+        val_loss = focal_loss(
+            logits_val,
+            data.y[val_idx],
+            gamma=2.0,
+            alpha=alpha
+        ).item()
+
+        # metrics: use argmax for logging (UI thresholding happens later)
+        preds_t = torch.argmax(logits_val, dim=-1)
+        yv_t    = data.y[val_idx]
+
+        preds = preds_t.detach().cpu().numpy().astype(int)
+        yv    = yv_t.detach().cpu().numpy().astype(int)
+
+        acc  = accuracy_score(yv, preds)
+        prec = precision_score(yv, preds, average='binary', zero_division=0)
+        rec  = recall_score(yv, preds, average='binary', zero_division=0)
+        f1   = f1_score(yv, preds, average='binary')
+        f1m  = f1_score(yv, preds, average='macro')
+
+        history.append((epoch, float(loss.item()), val_loss, acc, prec, rec, f1, f1m))
+
+        if val_loss < best[0]:
+            best = (val_loss, {k: v.detach().cpu().clone() for k, v in model.state_dict().items()})
+
+    # Restore best model
+    if best[1] is not None:
+        model.load_state_dict(best[1])
+
+    # ---- Choose a validation threshold that maximizes F1 on the PR curve ----
+    with torch.no_grad():
+        logits_full_val = model(data.x, data.edge_index)[val_idx]
+        probs_val_for_th = torch.softmax(logits_full_val, dim=-1)[:, 1].cpu().numpy()
+        true_val_for_th  = data.y[val_idx].cpu().numpy()
+
+    precisions, recalls, thresholds = precision_recall_curve(true_val_for_th, probs_val_for_th)
+    f1s = 2 * (precisions * recalls) / (precisions + recalls + 1e-12)
+    if thresholds.size > 0:
+        best_idx = int(np.nanargmax(f1s[:-1]))  # thresholds aligns with all but last point
+        best_th = float(thresholds[best_idx])
+    else:
+        best_th = 0.5  # fallback when PR cannot be computed
+
+    # Convert history to DataFrame for plotting
+    hist_df = pd.DataFrame(
+        history,
+        columns=["epoch", "train_loss", "val_loss", "val_acc", "val_prec", "val_rec", "val_f1", "val_f1_macro"]
+    )
+
+    return model, hist_df, train_idx, val_idx, best_th
+
+
+
+
+def train_gnn_cv(
+    data,
+    epochs=200,
+    lr=1e-2,
+    weight_decay=5e-4,
+    seed=42,
+    n_splits=5,
+    n_repeats=3,
+    use_relu=True
+):
+    set_seed(seed)
+    rskf = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=seed)
+
+    y_np = data.y.cpu().numpy()
+    fold_stats = []
+    best_state = None
+    best_val_loss = float('inf')
+    best_train_idx = None
+    best_val_idx   = None
+    best_hist      = None
+    best_th        = 0.5
+
+    for fold_id, (tr_np, va_np) in enumerate(rskf.split(np.zeros_like(y_np), y_np), start=1):
+        model = GCN(in_dim=data.x.size(1), use_relu=use_relu).to(data.x.device)
+        opt   = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+
+        tr = torch.tensor(tr_np, dtype=torch.long, device=data.x.device)
+        va = torch.tensor(va_np, dtype=torch.long, device=data.x.device)
+
+        # ---- Fold-level guard: skip folds with a single-class validation set ----
+        yv_fold = data.y[va].detach().cpu().numpy().astype(int)
+        if len(np.unique(yv_fold)) < 2:
+            # This fold can't produce meaningful PR/F1/PR-curve; skip it.
+            continue
+
+        counts_t = torch.bincount(data.y[tr], minlength=2).float()
+        alpha = (1.0 / (counts_t + 1e-6))
+        alpha = (alpha / alpha.sum()).to(data.x.device)
+
+        hist = []
+        for epoch in range(1, epochs+1):
+            model.train()
+            logits = model(data.x, data.edge_index)
+            loss = focal_loss(logits[tr], data.y[tr], gamma=2.0, alpha=alpha)
+            opt.zero_grad(); loss.backward(); opt.step()
+
+            model.eval()
+            with torch.no_grad():
+                logits_val = model(data.x, data.edge_index)[va]
+            val_loss = focal_loss(logits_val, data.y[va], gamma=2.0, alpha=alpha).item()
+
+            preds = logits_val.argmax(dim=-1).detach().cpu().numpy().astype(int)
+            yv    = data.y[va].detach().cpu().numpy().astype(int)
+
+            acc  = accuracy_score(yv, preds)
+            prec = precision_score(yv, preds, zero_division=0)
+            rec  = recall_score(yv, preds, zero_division=0)
+            f1   = f1_score(yv, preds)
+            f1m  = f1_score(yv, preds, average='macro')
+            hist.append((epoch, float(loss.item()), val_loss, acc, prec, rec, f1, f1m))
+
+        # pick an F1-maximizing threshold for this fold
+        with torch.no_grad():
+            logits_val_full = model(data.x, data.edge_index)[va]
+            probs_val = torch.softmax(logits_val_full, dim=-1)[:,1].cpu().numpy()
+            true_val  = data.y[va].cpu().numpy().astype(int)
+        # Defensive check: skip if validation is single-class (should have been caught earlier)
+        if len(np.unique(true_val)) < 2:
+            continue
+        P, R, T = precision_recall_curve(true_val, probs_val)
+        F1s = 2*(P*R)/(P+R+1e-12)
+        th  = float(T[np.nanargmax(F1s[:-1])]) if T.size>0 else 0.5
+
+        preds_th = (probs_val >= th).astype(int)
+        acc_th  = accuracy_score(true_val, preds_th)
+        prec_th = precision_score(true_val, preds_th, zero_division=0)
+        rec_th  = recall_score(true_val, preds_th, zero_division=0)
+        f1_th   = f1_score(true_val, preds_th)
+        fold_stats.append((acc_th, prec_th, rec_th, f1_th))
+
+        if hist[-1][2] < best_val_loss:
+            best_val_loss = hist[-1][2]
+            best_state    = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
+            best_train_idx, best_val_idx = tr, va
+            best_hist = hist
+            best_th   = th
+
+    fold_stats = np.array(fold_stats)
+    cv_summary = {
+        "n_folds": int(len(fold_stats)),
+        "acc_mean": float(fold_stats[:,0].mean()), "acc_std": float(fold_stats[:,0].std(ddof=1)),
+        "prec_mean": float(fold_stats[:,1].mean()), "prec_std": float(fold_stats[:,1].std(ddof=1)),
+        "rec_mean": float(fold_stats[:,2].mean()), "rec_std": float(fold_stats[:,2].std(ddof=1)),
+        "f1_mean": float(fold_stats[:,3].mean()),  "f1_std": float(fold_stats[:,3].std(ddof=1)),
+    }
+
+    model = GCN(in_dim=data.x.size(1), use_relu=use_relu).to(data.x.device)
+    model.load_state_dict(best_state)
+    hist_df = pd.DataFrame(best_hist, columns=["epoch","train_loss","val_loss","val_acc","val_prec","val_rec","val_f1","val_f1_macro"])
+    return model, hist_df, best_train_idx, best_val_idx, best_th, cv_summary
+
+def to_pyg(edge_index_np, Xn, y):
+    device = 'cuda' if (torch is not None and torch.cuda.is_available()) else 'cpu'
+    edge_index = torch.tensor(edge_index_np, dtype=torch.long, device=device)
+    x = torch.tensor(Xn, dtype=torch.float, device=device)
+    y = torch.tensor(y, dtype=torch.long, device=device)
+    data = Data(x=x, edge_index=edge_index, y=y)
+    return data
+
+# -----------------------------
+# Data Input UI
+# -----------------------------
+
+# -----------------------------
+# Data Input UI (Revised: separate data for visualization and training)
+# -----------------------------
+col1, col2 = st.columns([1, 1])
+
+bus_df_all = pd.read_csv("bus_scenarios.csv")
+edge_df_all = pd.read_csv("edge_scenarios.csv")
+
+# --- Scenario train/test split ---
+if "scenario" in bus_df_all.columns and "scenario" in edge_df_all.columns:
+    scenario_ids = sorted(bus_df_all["scenario"].unique())
+    from sklearn.model_selection import train_test_split
+    train_scenarios, test_scenarios = train_test_split(
+        scenario_ids, test_size=0.2, random_state=42
+    )
+    train_scenarios = set(train_scenarios)
+    test_scenarios = set(test_scenarios)
+    train_bus_df = bus_df_all[bus_df_all["scenario"].isin(train_scenarios)].copy()
+    train_edge_df = edge_df_all[edge_df_all["scenario"].isin(train_scenarios)].copy()
+    test_bus_df = bus_df_all[bus_df_all["scenario"].isin(test_scenarios)].copy()
+    test_edge_df = edge_df_all[edge_df_all["scenario"].isin(test_scenarios)].copy()
+    n_train_scen = len(train_scenarios)
+    n_test_scen = len(test_scenarios)
+else:
+    # fallback: use all
+    train_bus_df = bus_df_all
+    train_edge_df = edge_df_all
+    test_bus_df = None
+    test_edge_df = None
+    n_train_scen = n_test_scen = None
+
+# Scenario selection and visualization
+with col1:
+    st.subheader("1) Choose Scenario")
+    scenario_id_input = st.text_input("Enter Scenario Number", value="0")
+    try:
+        scenario_id = int(scenario_id_input)
+    except ValueError:
+        scenario_id = 0
+    st.info(
+        "Enter a **scenario number** to visualize it. "
+        "The app will automatically load the corresponding bus and edge data, "
+        "build the topology, and prepare the graph features for the GNN."
+    )
+
+    # Extract scenario-specific data for visualization
+    if bus_df_all is not None:
+        if "scenario" in bus_df_all.columns:
+            max_scn = int(bus_df_all["scenario"].max())
+            bus_df_vis = bus_df_all[bus_df_all["scenario"] == scenario_id].copy()
+            edge_df_vis = edge_df_all[edge_df_all["scenario"] == scenario_id].copy()
+        else:
+            bus_df_vis, edge_df_vis = bus_df_all, edge_df_all
+
+        st.caption(f"Showing scenario {scenario_id} — {len(bus_df_vis)} buses, {len(edge_df_vis)} lines")
+        st.dataframe(bus_df_vis, use_container_width=True, height=250, hide_index=True)
+        st.dataframe(edge_df_vis, use_container_width=True, height=180, hide_index=True)
+
+        # ---- Augmentation (optional, for visualization only) ----
+        st.subheader("Augment (optional)")
+        do_aug = st.toggle(
+            "Replicate the 14-bus graph with noise",
+            value=False,
+            help="Creates N disjoint copies with light feature noise to increase samples."
+        )
+        if do_aug and (bus_df_vis is not None) and (edge_df_vis is not None):
+            copies = st.slider("Number of copies (N)", 1, 50, 10, 1)
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                sigma_v = st.number_input("Voltage noise σ (pu)", 0.0, 0.2, 0.01, 0.005)
+            with c2:
+                sigma_load = st.number_input("Load noise σ (MW)", 0.0, 50.0, 3.0, 0.5)
+            with c3:
+                sigma_pinj = st.number_input("P_inj noise σ (MW)", 0.0, 50.0, 1.0, 0.5)
+            flip_alarm_p = st.number_input("Alarm flip prob", 0.0, 0.5, 0.02, 0.01)
+
+            bus_df_vis, edge_df_vis = replicate_graph_with_noise(
+                bus_df_vis, edge_df_vis, copies=copies,
+                sigma_v=sigma_v, sigma_load=sigma_load, sigma_pinj=sigma_pinj,
+                flip_alarm_p=flip_alarm_p, seed=42
+            )
+            st.success(f"Augmented dataset: {len(bus_df_vis)} buses, {len(edge_df_vis)} branches")
+
+with col2:
+    st.subheader("2) Build Graph")
+    if bus_df_all is not None and bus_df_vis is not None and edge_df_vis is not None:
+        # For visualization, build and show the graph for the selected scenario only
+        try:
+            edge_index_np_vis, Xn_vis, y_vis, scaler_vis, bus_to_idx_vis = build_graph(
+                bus_df_vis, edge_df_vis, target_col=alarm_target_col
+            )
+        except Exception as e:
+            st.error(f"Error building graph: {e}")
+            edge_index_np_vis, Xn_vis, y_vis, scaler_vis, bus_to_idx_vis = None, None, None, None, None
+        st.write(f"Nodes: **{len(bus_df_vis)}** | Edges: **{len(edge_df_vis)}**")
+
+        # Topology preview for selected scenario
+        G = nx.Graph()
+        G.add_nodes_from(bus_df_vis['bus' if 'bus' in bus_df_vis.columns else 'BUS'])
+        G.add_edges_from(list(zip(edge_df_vis['from_bus'], edge_df_vis['to_bus'])))
+
+        # Use kamada_kawai_layout for stable, even spacing
+        pos = nx.kamada_kawai_layout(G)
+        fig, ax = plt.subplots(figsize=(6, 4))
+        nx.draw(
+            G, pos, with_labels=True, node_size=600, ax=ax,
+            edge_color='gray', width=1.5, node_color='#1f78b4', font_weight='bold'
+        )
+        ax.set_title("Topology Preview")
+        st.pyplot(fig, use_container_width=True)
+
+# -----------------------------
+# Training
+# -----------------------------
+
+st.subheader("3) Train GNN (GCN)")
+if len(missing) > 0 or Data is None or GCNConv is None:
+    st.error("PyTorch and/or PyTorch Geometric are not available. See install commands in the sidebar.")
+else:
+    # Only proceed if train_bus_df and train_edge_df exist and are not empty
+    if train_bus_df is not None and train_edge_df is not None and not train_bus_df.empty and not train_edge_df.empty:
+        # Build the graph and PyG dataset for TRAIN scenarios only
+        try:
+            edge_index_np, Xn, y, scaler, bus_to_idx = build_graph(
+                train_bus_df, train_edge_df, target_col=alarm_target_col
+            )
+        except Exception as e:
+            st.error(f"Error building graph for training: {e}")
+            edge_index_np, Xn, y, scaler, bus_to_idx = None, None, None, None, None
+
+        # Info: show number of scenarios in train/test
+        if n_train_scen is not None and n_test_scen is not None:
+            st.info(f"Training on {n_train_scen} scenarios, testing on {n_test_scen}")
+
+        # Hyperparameters (set BEFORE the button so they persist in Streamlit state)
+        epochs = st.slider("Epochs", 50, 800, 150, step=50)
+        lr     = st.select_slider("Learning Rate", options=[1e-3, 3e-3, 1e-2, 3e-2], value=1e-2)
+        wd     = st.select_slider("Weight Decay", options=[0.0, 5e-4, 1e-3], value=1e-3)
+        seed   = st.number_input("Seed", value=42, step=1)
+
+        if edge_index_np is not None and Xn is not None and y is not None:
+            data = to_pyg(edge_index_np, Xn, y)
+
+            # (Optional) show class balance and a suggestion for CV splits
+            y_np = data.y.cpu().numpy()
+            cls, cls_counts = np.unique(y_np, return_counts=True)
+            st.caption(f"Class balance → 0: {int(cls_counts[cls.tolist().index(0)] if 0 in cls else 0)}, "
+                       f"1: {int(cls_counts[cls.tolist().index(1)] if 1 in cls else 0)}")
+        else:
+            data = None
+
+        # Cross‑validation controls live OUTSIDE the button so the user can set them first
+        use_cv = st.toggle("Use RepeatedStratifiedKFold CV (avg metrics)", value=True,
+                           help="Runs CV, averages metrics, and keeps the best fold's weights for inspection.")
+        n_splits  = st.select_slider("CV n_splits",  options=[3, 5, 7, 10], value=5, disabled=not use_cv)
+        n_repeats = st.select_slider("CV n_repeats", options=[1, 2, 3, 5],  value=3, disabled=not use_cv)
+
+        # Option to make the GCN linear (no activations)
+        linear_gcn = st.toggle(
+            "Make GCN linear (no activations)",
+            value=False,
+            help="Removes ReLUs from the GCN so the mapping is linear in the inputs."
+        )
+
+        # --- Baseline: Logistic Regression (no graph) ---
+        st.subheader("Baseline: Logistic Regression (no graph)")
+        if st.button("⚖️ Train linear baseline", key="lin_base"):
+            if Xn is not None and y is not None:
+                X_np = Xn.astype(float)
+                y_np2 = y.astype(int)
+                bs_splits  = n_splits if use_cv else 5
+                bs_repeats = n_repeats if use_cv else 3
+                rskf_bs = RepeatedStratifiedKFold(n_splits=bs_splits, n_repeats=bs_repeats, random_state=seed)
+
+                mets = []
+                for tr_idx, va_idx in rskf_bs.split(np.zeros_like(y_np2), y_np2):
+                    Xtr, Xva = X_np[tr_idx], X_np[va_idx]
+                    ytr, yva = y_np2[tr_idx], y_np2[va_idx]
+                    clf = LogisticRegression(max_iter=2000, class_weight='balanced')
+                    clf.fit(Xtr, ytr)
+                    pr = clf.predict(Xva)
+                    mets.append([
+                        accuracy_score(yva, pr),
+                        precision_score(yva, pr, zero_division=0),
+                        recall_score(yva,  pr, zero_division=0),
+                        f1_score(yva, pr)
+                    ])
+                mets = np.array(mets)
+                st.write(
+                    f"LR CV (mean ± std) — "
+                    f"Acc: {mets[:,0].mean():.3f}±{mets[:,0].std(ddof=1):.3f}, "
+                    f"Prec: {mets[:,1].mean():.3f}±{mets[:,1].std(ddof=1):.3f}, "
+                    f"Rec: {mets[:,2].mean():.3f}±{mets[:,2].std(ddof=1):.3f}, "
+                    f"F1: {mets[:,3].mean():.3f}±{mets[:,3].std(ddof=1):.3f}"
+                )
+            else:
+                st.warning("Cannot train baseline: Data not available.")
+
+        # Guard: if there are very few positive samples, cap the number of splits
+        if use_cv and data is not None:
+            pos_count = int(cls_counts[cls.tolist().index(1)]) if 1 in cls else 0
+            max_splits = max(2, min(n_splits, pos_count))
+            if max_splits < n_splits:
+                st.warning(
+                    f"Reducing CV splits from {n_splits} → {max_splits} because some folds would lack positives. "
+                    f"(positives={pos_count})"
+                )
+                n_splits = max_splits
+
+        # --- Train button ---
+        if st.button(" Train Model", type="primary"):
+            if data is None:
+                st.error("No data available for training. Check your selections and input files.")
+            else:
+                if use_cv:
+                    with st.spinner("Training (cross‑validation)..."):
+                        model, hist_df, train_idx, val_idx, best_th, cv_summary = train_gnn_cv(
+                            data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed,
+                            n_splits=n_splits, n_repeats=n_repeats, use_relu=(not linear_gcn)
+                        )
+                    st.success(f"CV done over {cv_summary['n_folds']} folds.")
+                    st.write(
+                        f"**CV (mean ± std)** — "
+                        f"Acc: {cv_summary['acc_mean']:.3f}±{cv_summary['acc_std']:.3f}, "
+                        f"Prec: {cv_summary['prec_mean']:.3f}±{cv_summary['prec_std']:.3f}, "
+                        f"Rec: {cv_summary['rec_mean']:.3f}±{cv_summary['rec_std']:.3f}, "
+                        f"F1: {cv_summary['f1_mean']:.3f}±{cv_summary['f1_std']:.3f}"
+                    )
+                else:
+                    with st.spinner("Training..."):
+                        model, hist_df, train_idx, val_idx, best_th = train_gnn(
+                            data, epochs=epochs, lr=lr, weight_decay=wd, seed=seed, use_relu=(not linear_gcn)
+                        )
+
+                st.success("Training complete. Showing best validation performance observed.")
+                st.line_chart(hist_df.set_index("epoch")[["train_loss", "val_loss"]])
+                st.line_chart(hist_df.set_index("epoch")[["val_acc", "val_f1", "val_f1_macro"]])
+
+                # ── EVAL ──────────────────────────────────────────────────────────────────────
+                th_default = float(np.clip(best_th, 0.1, 0.9))
+                th = st.slider("Decision threshold (alarm)", 0.1, 0.9, th_default, 0.05, help=f"PR-curve suggested threshold: {best_th:.3f}")
+
+                # Show a simple PR curve from validation to explain the suggested threshold
+                with torch.no_grad():
+                    val_logits_for_pr = model(data.x, data.edge_index)[val_idx]
+                    pr_probs = torch.softmax(val_logits_for_pr, dim=-1)[:, 1].cpu().numpy()
+                    pr_true = data.y[val_idx].cpu().numpy()
+                p_vals, r_vals, _ = precision_recall_curve(pr_true, pr_probs)
+                fig_pr, ax_pr = plt.subplots(figsize=(2, 1.5))
+                ax_pr.plot(r_vals, p_vals)
+                ax_pr.set_xlabel("Recall")
+                ax_pr.set_ylabel("Precision")
+                ax_pr.set_title("Validation Precision–Recall")
+                st.pyplot(fig_pr, use_container_width=False)
+
+                # --- EVALUATE ON TEST SCENARIOS ---
+                # If test_bus_df/test_edge_df is available, evaluate there
+                if test_bus_df is not None and test_edge_df is not None and not test_bus_df.empty:
+                    try:
+                        edge_index_np_test, Xn_test, y_test, _, _ = build_graph(
+                            test_bus_df, test_edge_df, target_col=alarm_target_col
+                        )
+                        # Use same scaler as train (already fit)
+                        X_test_raw = test_bus_df[['voltage','load_MW']].to_numpy(dtype=float)
+                        Xn_test = scaler.transform(X_test_raw)
+                        # Build PyG data for test
+                        data_test = to_pyg(edge_index_np_test, Xn_test, y_test)
+                        model.eval()
+                        with torch.no_grad():
+                            logits_test = model(data_test.x, data_test.edge_index)
+                        probs_test = torch.softmax(logits_test, dim=-1)[:, 1].cpu().numpy()
+                        pred_test = (probs_test >= th).astype(int)
+                        true_test = data_test.y.cpu().numpy()
+                        # Report
+                        st.subheader("Test Set Evaluation (unseen scenarios)")
+                        report = classification_report(true_test, pred_test, digits=3, zero_division=0)
+                        st.markdown(f"```\n{report}\n```")
+                        cm = confusion_matrix(true_test, pred_test, labels=[0, 1])
+                        fig, ax = plt.subplots(figsize=(2, 1.5))
+                        ConfusionMatrixDisplay(cm, display_labels=["no alarm (0)", "alarm (1)"]).plot(
+                            ax=ax, values_format="d", colorbar=False
+                        )
+                        ax.set_title("Test Set Confusion Matrix")
+                        st.pyplot(fig, use_container_width=False)
+                        # Test set prediction table
+                        test_bus_df_view = test_bus_df.copy()
+                        test_bus_df_view["pred_alarm_prob"] = probs_test
+                        test_bus_df_view["pred_alarm_label"] = pred_test
+                        test_bus_df_view["correct"] = (pred_test == true_test).astype(int)
+                        st.dataframe(
+                            test_bus_df_view.sort_values("pred_alarm_prob", ascending=False),
+                            use_container_width=True
+                        )
+                    except Exception as e:
+                        st.error(f"Error during test set evaluation: {e}")
+                else:
+                    st.info("No test scenarios available for evaluation.")
+
+        # ── SAVE ARTIFACTS (optional) ────────────────────────────────────────────────
+        if st.button(" Save model + scaler"):
+            import pickle
+            if 'model' in locals() and scaler is not None:
+                torch.save(model.state_dict(), "gnn_alarm_model.pt")
+                with open("feature_scaler.pkl", "wb") as f:
+                    pickle.dump(scaler, f)
+                st.success("Saved: gnn_alarm_model.pt, feature_scaler.pkl")
+                st.download_button("Download model weights", data=open("gnn_alarm_model.pt", "rb").read(), file_name="gnn_alarm_model.pt")
+                st.download_button("Download scaler", data=open("feature_scaler.pkl", "rb").read(), file_name="feature_scaler.pkl")
+            else:
+                st.warning("No trained model/scaler to save.")
+    else:
+        st.info("Load/create data first.")
