@@ -19,7 +19,7 @@ Here is his resume:\n\n{resume_text}\n\nOnly use this information to answer ques
 }
 
 st.set_page_config(page_title="Amir's Career Assistant", page_icon="🎤")
-st.title(" Ask Amir's Career Assistant (Talk or Type)")
+st.title(" Ask Amir's Career Assistant")
 
 if "messages" not in st.session_state:
     st.session_state.messages = [system_prompt]
