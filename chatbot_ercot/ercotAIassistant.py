@@ -76,8 +76,16 @@ Filename: {best_chunk['source']}
 ---
 Instructions:
 - Stay factual and grounded strictly in the provided content.
-- If the answer is not explicitly found in the document, respond: "I couldn’t find that in the documentation."
 - Do NOT guess, assume, or rely on outside knowledge.
+- If the answer is not explicitly found in the document, respond exactly:
+  "I couldn’t find that in the documentation."
+
+Formatting requirements (MANDATORY):
+- Write in clear, well-spaced paragraphs.
+- Use a short introductory sentence before any list.
+- Use bullet points or numbered lists when presenting multiple items.
+- Do NOT combine headings and content into a single sentence.
+- Ensure readability suitable for a technical ERCOT planning audience.
 """
         }
 
