@@ -58,11 +58,14 @@ if prompt:
 # Process assistant response
 if user_query:
     with st.spinner("Thinking..."):
-        response = client.chat.completions.create(
+        response = client.responses.create(
             model="gpt-5.2",
-            messages=st.session_state.messages,
-            max_tokens=1024
+            reasoning={"effort": "medium"},
+            input=st.session_state.messages,
+            max_output_tokens=1024
         )
+
+bot_msg = response.output_text
 
     bot_msg = response.choices[0].message.content
     st.chat_message("assistant").markdown(bot_msg)
