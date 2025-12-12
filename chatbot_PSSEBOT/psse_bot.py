@@ -25,6 +25,19 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
             break
     return None
 
+def extract_response_text(response):
+    """
+    Safely extract text from OpenAI Responses API output.
+    """
+    texts = []
+    for item in response.output:
+        if item["type"] == "message":
+            for content in item["content"]:
+                if content["type"] == "output_text":
+                    texts.append(content["text"])
+    return "\n".join(texts).strip()
+
+
 # Set up OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -199,7 +212,11 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
             max_output_tokens=2048
         )
 
-        bot_msg = response.output_text
+        bot_msg = extract_response_text(response)
+
+        if not bot_msg:
+            st.error("Model returned no text output.")
+            st.stop()
 
         
         import re
@@ -236,7 +253,12 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
                     max_output_tokens=2048
                 )
 
-                bot_msg = correction_response.output_text
+                bot_msg = extract_response_text(correction_response)
+
+                if not bot_msg:
+                    st.error("Correction produced no output.")
+                    st.stop()
+
                 st.success(" Self-correction applied.")
 
 
