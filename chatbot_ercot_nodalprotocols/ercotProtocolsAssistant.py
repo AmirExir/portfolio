@@ -106,12 +106,13 @@ Stay factual. Do not guess beyond the information provided above.
 
         messages = [system_prompt] + st.session_state.messages
 
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=messages,
-            max_tokens=1024
+        response = client.responses.create(
+            model="gpt-5.2",
+            reasoning={"effort": "xhigh"},  # justified here
+            input=messages,
+            max_output_tokens=10000
         )
 
-        bot_msg = response.choices[0].message.content
+        bot_msg = response.output_text
         st.chat_message("assistant").markdown(bot_msg)
         st.session_state.messages.append({"role": "assistant", "content": bot_msg})
