@@ -127,14 +127,13 @@ if prompt := st.chat_input("Ask a question about ERCOT DWG, SSWG,protocols, plan
 
         messages = [system_prompt] + st.session_state.messages
 
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=messages,
-            max_tokens=10000,
-            temperature=0.2,
-            
+        response = client.responses.create(
+            model="gpt-5.2",
+            reasoning={"effort": "xhigh"},  # justified here
+            input=messages,
+            max_output_tokens=10000
         )
 
-        bot_msg = response.choices[0].message.content
+        bot_msg = response.output_text
         st.chat_message("assistant").markdown(bot_msg)
         st.session_state.messages.append({"role": "assistant", "content": bot_msg})
