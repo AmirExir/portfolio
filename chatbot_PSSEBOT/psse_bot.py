@@ -1,54 +1,82 @@
-
 import streamlit as st
 import os
 import json
-import glob
-import openai 
+import time
+import re
+import numpy as np
+from typing import List
 from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
-from typing import List
-import numpy as np
 
-import time
+# ---------------------------
+# OpenAI client
+# ---------------------------
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# ---------------------------
+# Retry-safe OpenAI call
+# ---------------------------
 def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
     retries = 0
     while retries < max_retries:
         try:
             return api_function(**kwargs)
-        except openai.RateLimitError:
-            wait_time = backoff_factor ** retries
-            st.warning(f" Rate limit hit. Retrying in {wait_time} seconds...")
-            time.sleep(wait_time)
-            retries += 1
         except Exception as e:
-            st.error(f" API call failed: {e}")
-            break
+            # Rate limit / transient errors often show up as generic Exception in some environments
+            wait_time = backoff_factor ** retries
+            if retries < max_retries - 1:
+                st.warning(f"API call failed (attempt {retries+1}/{max_retries}): {e}\nRetrying in {wait_time}s...")
+                time.sleep(wait_time)
+                retries += 1
+                continue
+            st.error(f"API call failed (final): {e}")
+            return None
     return None
 
-def extract_response_text(response):
-    """
-    Safely extract text from OpenAI Responses API output.
-    Works with object-based response.output items.
-    """
+# ---------------------------
+# Robust Responses API extractor
+# ---------------------------
+def extract_response_text(response) -> str:
+    # Fast path: some SDK versions provide this
+    direct = getattr(response, "output_text", None)
+    if isinstance(direct, str) and direct.strip():
+        return direct.strip()
+
     texts = []
-
-    if not hasattr(response, "output"):
-        return ""
-
-    for item in response.output:
-        # item is an object, not a dict
-        if getattr(item, "type", None) == "message":
-            for content in getattr(item, "content", []):
-                if getattr(content, "type", None) == "output_text":
-                    texts.append(content.text)
+    output_items = getattr(response, "output", None) or []
+    for item in output_items:
+        if getattr(item, "type", None) != "message":
+            continue
+        for content in getattr(item, "content", None) or []:
+            t = getattr(content, "text", None)
+            if isinstance(t, str) and t.strip():
+                texts.append(t.strip())
 
     return "\n".join(texts).strip()
 
+def response_debug_dict(response) -> dict:
+    """
+    Try to turn the response into something printable for debugging.
+    """
+    for fn in ("model_dump", "to_dict", "dict"):
+        m = getattr(response, fn, None)
+        if callable(m):
+            try:
+                return m()
+            except Exception:
+                pass
+    # fallback: shallow introspection
+    return {
+        "has_output_text": hasattr(response, "output_text"),
+        "output_text": getattr(response, "output_text", None),
+        "has_output": hasattr(response, "output"),
+        "output_len": len(getattr(response, "output", []) or []),
+        "output_types": [getattr(x, "type", None) for x in (getattr(response, "output", []) or [])],
+    }
 
-# Set up OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-# Load or compute embeddings
+# ---------------------------
+# Load / cache embeddings
+# ---------------------------
 @st.cache_data(show_spinner=False)
 def load_psse_chunks_and_embeddings():
     base_path = os.path.dirname(__file__)
@@ -57,218 +85,174 @@ def load_psse_chunks_and_embeddings():
     input_file = os.path.join(base_path, "input_chunks.json")
 
     if os.path.exists(cached_emb) and os.path.exists(cached_chunks):
-        #st.write(" Using precomputed embeddings from .npy and .json")
         with open(cached_chunks, "r", encoding="utf-8") as f:
             chunks = json.load(f)
         embeddings = np.load(cached_emb)
         return list(chunks), embeddings
 
-    st.write(" Precomputed files not found, computing new embeddings...")
+    # compute new embeddings
     with open(input_file, "r", encoding="utf-8") as f:
         chunks = json.load(f)
 
-    #  Fallback to compute embeddings
-    with open(os.path.join(os.path.dirname(__file__), "input_chunks.json"), "r", encoding="utf-8") as f:
-        chunks = json.load(f)
-        st.write("Current working directory:", os.getcwd())
-        st.write("File absolute path:", os.path.join(os.path.dirname(__file__), "input_chunks.json"))
-
     embeddings = []
-    embedding_model = "text-embedding-3-large"
-    total_chunks = len(chunks)
-    st.write(f" Starting embedding process for {total_chunks} chunks...")
-    progress_bar = st.progress(0)
-    status_text = st.empty()
-
     for i, chunk in enumerate(chunks):
-        try:
-            current_progress = (i + 1) / total_chunks
-            progress_bar.progress(current_progress)
-            status_text.text(f"Processing embedding {i + 1}/{total_chunks} - Chunk ID: {chunk.get('id', 'unknown')}")
-            response = safe_openai_call(
-                client.embeddings.create,
-                model=embedding_model,
-                input=chunk["text"][:8192]
-            )
-            embeddings.append(response.data[0].embedding)
-        except Exception as e:
-            st.warning(f"Embedding failed for chunk {chunk.get('id', 'unknown')}: {e}")
-            embeddings.append(None)
-    progress_bar.empty()
-    status_text.empty()
-    st.write(f" Completed embedding process for {total_chunks} chunks")
+        resp = safe_openai_call(
+            client.embeddings.create,
+            model="text-embedding-3-large",
+            input=chunk["text"][:8192]
+        )
+        embeddings.append(resp.data[0].embedding if resp else None)
 
     valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
-
     if not valid_pairs:
-        st.warning(" No valid embeddings. Check your file or API key.")
         raise ValueError("No valid embeddings were generated.")
 
-    chunks, embeddings = zip(*valid_pairs)
-    embeddings = np.array(embeddings)
+    chunks2, emb2 = zip(*valid_pairs)
+    emb2 = np.array(emb2)
 
-    #  Save to disk for reuse
-    np.save("psse_embeddings.npy", embeddings)
-    with open("psse_chunks_cached.json", "w", encoding="utf-8") as f:
-        json.dump(chunks, f, indent=2)
+    # ✅ IMPORTANT FIX: save to the SAME directory (base_path)
+    np.save(cached_emb, emb2)
+    with open(cached_chunks, "w", encoding="utf-8") as f:
+        json.dump(list(chunks2), f, indent=2)
 
-    return list(chunks), embeddings
+    return list(chunks2), emb2
 
-# Embed the user query
+# ---------------------------
+# Retrieval
+# ---------------------------
 def embed_query(query: str) -> List[float]:
-    response = safe_openai_call(
+    resp = safe_openai_call(
         client.embeddings.create,
         model="text-embedding-3-large",
         input=query
     )
-    return response.data[0].embedding if response else []
+    return resp.data[0].embedding if resp else []
 
-# Find top K matches
 def find_top_k_matches(query: str, chunks, embeddings, k=10):
-    query_vec = embed_query(query)
-
-    if not query_vec:
-        st.error(" Failed to embed query — try rephrasing your question.")
+    q = embed_query(query)
+    if not q:
         return []
+    scores = cosine_similarity(np.array(q).reshape(1, -1), embeddings).flatten()
+    idx = scores.argsort()[-k:][::-1]
+    return [chunks[i] for i in idx]
 
-    query_embedding = np.array(query_vec).reshape(1, -1)
-
-    if query_embedding.shape[1] != embeddings.shape[1]:
-        st.error(f" Embedding dimension mismatch: {query_embedding.shape[1]} vs {embeddings.shape[1]}")
-        return []
-
-    scores = cosine_similarity(query_embedding, embeddings).flatten()
-    top_indices = scores.argsort()[-k:][::-1]
-    return [chunks[i] for i in top_indices]
-
-# Limit chunks by token budget
-def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
+def limit_chunks_by_token_budget(chunks, max_words=50000):
+    # keep your rough limiter (works), but make it deterministic
     total = 0
     selected = []
-    for chunk in chunks:
-        token_count = len(chunk["text"].split())  # rough estimate
-        if total + token_count > max_input_tokens:
+    for c in chunks:
+        w = len(c["text"].split())
+        if total + w > max_words:
             break
-        selected.append(chunk)
-        total += token_count
+        selected.append(c)
+        total += w
     return selected
 
-# Streamlit UI
-st.set_page_config(page_title="Amir Exir's PSSE automation Assistant", page_icon="⚡")
-st.title(" Ask Amir Exir's PSSE automation Assistant")
-
-# Load data and embeddings once
-with st.spinner("Loading PSSE API examples and computing embeddings..."):
-    chunks, embeddings = load_psse_chunks_and_embeddings()
-
-import re
-
 def extract_function_names(chunks):
-    pattern = r'\bpsspy\.(\w+)\b'
-    func_names = set()
-    for chunk in chunks:
-        func_names.update(re.findall(pattern, chunk["text"]))
-    return func_names
+    funcs = set()
+    for c in chunks:
+        funcs.update(re.findall(r"\bpsspy\.(\w+)\b", c["text"]))
+    return funcs
+
+def find_invalid_functions(response_text, valid_funcs):
+    used = re.findall(r"\bpsspy\.(\w+)\b", response_text)
+    return [f for f in used if f not in valid_funcs]
+
+# ---------------------------
+# Streamlit UI
+# ---------------------------
+st.set_page_config(page_title="Amir Exir's PSSE Automation Assistant", page_icon="⚡")
+st.title("Ask Amir Exir's PSSE Automation Assistant")
+
+with st.spinner("Loading PSS/E documentation..."):
+    chunks, embeddings = load_psse_chunks_and_embeddings()
 
 valid_funcs = extract_function_names(chunks)
 
-# Initialize chat
+# Debug toggle
+DEBUG = st.sidebar.checkbox("Debug mode", value=True)
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Show past messages
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).markdown(msg["content"])
+for m in st.session_state.messages:
+    st.chat_message(m["role"]).markdown(m["content"])
 
-# Chat input
+# ---------------------------
+# Chat
+# ---------------------------
 if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API usage..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
         top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=10)
-        trimmed_chunks = limit_chunks_by_token_budget(top_chunks)
-        combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in trimmed_chunks)
+        trimmed = limit_chunks_by_token_budget(top_chunks, max_words=40000)
+        context = "\n\n---\n\n".join(c["text"] for c in trimmed)
 
         system_prompt = {
             "role": "system",
             "content": f"""
-        You are an the most advanced PSS/E python API and automation expert for power systems. When given a task, identify the relevant API and return a full code sample. Avoid made-up functions. Cite the chunk you're using.
-        
-        Use only the following {len(trimmed_chunks)} reference chunks (from API manual and examples):
+You are a PSS/E Python automation expert.
 
-        ---
-        {combined_context}
-        ---
+You MUST always produce a final answer with working Python code.
+Use only psspy functions that appear in the provided reference chunks.
+If the reference chunks are insufficient, say so and return a best-practice skeleton.
 
-        Respond with:
-        - Clear descriptions of function usage
-        - Real working Python code
-        - Best practices and typical use cases
-
-        Prioritize actual examples if available. Do not make up any function names not shown.
-        """
+Reference documentation chunks:
+---
+{context}
+---
+"""
         }
 
         messages = [system_prompt] + st.session_state.messages
 
-        response = client.responses.create(
-            model="gpt-5.2",
-            reasoning={"effort": "xhigh"},
+        response = safe_openai_call(
+            client.responses.create,
+            model="gpt-5.2",                 # ✅ only model used for generation
+            reasoning={"effort": "high"},
             input=messages,
             max_output_tokens=2048
         )
 
-        bot_msg = extract_response_text(response)
-
-        if not bot_msg:
-            st.error("Model returned no text output.")
+        if response is None:
+            st.error("OpenAI call failed (response is None).")
             st.stop()
 
-        
-        import re
+        bot_msg = extract_response_text(response)
 
-        def find_invalid_functions(response_text, valid_funcs):
-            used = re.findall(r'\bpsspy\.(\w+)\b', response_text)
-            return [f for f in used if f not in valid_funcs]
+        # ✅ If empty, show debug dump so we can see what the model returned
+        if not bot_msg:
+            st.error("Model returned no text output.")
+            if DEBUG:
+                st.subheader("Debug: raw response")
+                st.json(response_debug_dict(response))
+            st.stop()
 
-
-        invalid_funcs = find_invalid_functions(bot_msg, valid_funcs)
-
-        # Auto-correct loop if invalid functions found
-        if invalid_funcs:
-            st.warning(f" Warning: These functions may not exist in the API: {', '.join(invalid_funcs)}")
-
+        # Optional invalid-function correction
+        invalid = find_invalid_functions(bot_msg, valid_funcs)
+        if invalid:
+            st.warning(f"Possible invalid psspy functions: {', '.join(invalid)}")
             correction_prompt = {
                 "role": "user",
                 "content": (
-                    f" You used invalid function(s): {', '.join(invalid_funcs)}. "
-                    "Please revise your answer using only valid PSS/E API functions from the reference chunks provided earlier. "
-                    "Do not make up any function names."
+                    f"You used invalid function(s): {', '.join(invalid)}. "
+                    "Revise using ONLY valid psspy functions found in the reference chunks."
                 )
             }
-
-            # Add original assistant message and correction request
-            messages.append({"role": "assistant", "content": bot_msg})
-            messages.append(correction_prompt)
-
-            with st.spinner("Detected invalid functions. Requesting correction..."):
-                correction_response = client.responses.create(
-                    model="gpt-5.2",
-                    reasoning={"effort": "xhigh"},
-                    input=messages,
-                    max_output_tokens=2048
-                )
-
-                bot_msg = extract_response_text(correction_response)
-
-                if not bot_msg:
-                    st.error("Correction produced no output.")
-                    st.stop()
-
-                st.success(" Self-correction applied.")
-
-
+            messages2 = messages + [{"role": "assistant", "content": bot_msg}] + [correction_prompt]
+            corr = safe_openai_call(
+                client.responses.create,
+                model="gpt-5.2",
+                reasoning={"effort": "high"},
+                input=messages2,
+                max_output_tokens=2048
+            )
+            if corr:
+                corrected = extract_response_text(corr)
+                if corrected:
+                    bot_msg = corrected
 
         st.chat_message("assistant").markdown(bot_msg)
         st.session_state.messages.append({"role": "assistant", "content": bot_msg})
