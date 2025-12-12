@@ -13,12 +13,12 @@ def extract_valid_funcs(chunks):
         valid.update(re.findall(pattern, chunk["text"]))
     return valid
 
-def count_tokens(text, model="gpt-4o"):
-    encoding = tiktoken.encoding_for_model(model)
+def count_tokens(text):
+    encoding = tiktoken.get_encoding("cl100k_base")
     return len(encoding.encode(text))
 
 def run_executor(prompt, context, valid_funcs):
-    model = "gpt-4o"
+    model = "gpt-5.2"
     
     context_block = f"""
     You are a Python expert in power system automation using the PSS®E API (psspy), and you are allowed to use supporting standard Python libraries when helpful.
@@ -50,13 +50,14 @@ def run_executor(prompt, context, valid_funcs):
     max_response_tokens = min(max_available, 12000)
 
     # Generate first response
-    response = client.chat.completions.create(
+    response = client.responses.create(
         model=model,
-        messages=messages,
-        max_tokens=max_response_tokens,
-        temperature=0.0,
+        reasoning={"effort": "xhigh"},
+        input=messages,
+        max_output_tokens=max_response_tokens
     )
-    output = response.choices[0].message.content
+
+    output = response.output_text
 
     # Extract and check function calls
     used_funcs = re.findall(r'psspy\.(\w+)', output)

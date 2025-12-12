@@ -1,81 +1,92 @@
-import os
-import json
-import numpy as np
+# utils.py
 import re
+import numpy as np
+import tiktoken
 from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
-import tiktoken
+import os
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def load_chunks_and_embeddings(json_file="input_chunks.json", embedding_model="text-embedding-3-small"):
-    """Load documentation chunks and compute their embeddings."""
-    with open(json_file, "r", encoding="utf-8") as f:
-        chunks = json.load(f)
+# ---------------------------
+# Embeddings
+# ---------------------------
 
-    embeddings = []
-    for chunk in chunks:
-        try:
-            response = client.embeddings.create(
-                model=embedding_model,
-                input=chunk["text"][:8192]
-            )
-            embeddings.append(response.data[0].embedding)
-        except Exception as e:
-            print(f"[Embedding Error] Chunk ID {chunk.get('id', '?')}: {e}")
-            embeddings.append(None)
-
-    # Filter out failed embeddings
-    valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
-    if not valid_pairs:
-        raise ValueError(" No valid embeddings generated. Check input or OpenAI key.")
-
-    chunks, embeddings = zip(*valid_pairs)
-    return list(chunks), np.array(embeddings)
-
-def embed_query(query, embedding_model="text-embedding-3-small"):
-    """Embed a user query using OpenAI's embedding model."""
+def embed_text(text: str, model="text-embedding-3-large"):
+    """Embed a single text string."""
     try:
-        response = client.embeddings.create(model=embedding_model, input=query)
+        response = client.embeddings.create(
+            model=model,
+            input=text
+        )
         return response.data[0].embedding
     except Exception as e:
-        print(f"[Query Embedding Error]: {e}")
-        return []
+        print(f"[Embedding Error]: {e}")
+        return None
 
-def find_top_k_chunks(query, chunks, embeddings, k=50):
-    """Find top-k semantically relevant chunks to a query."""
+
+def embed_query(query: str, model="text-embedding-3-large"):
+    """Embed a user query."""
+    return embed_text(query, model=model)
+
+
+# ---------------------------
+# Similarity Search
+# ---------------------------
+
+def find_top_k_chunks(query, chunks, embeddings, k=10):
+    """Return top-k most relevant chunks based on cosine similarity."""
     query_vec = embed_query(query)
-    if not query_vec:
-        print(" Query embedding failed.")
+    if query_vec is None:
         return []
 
     query_emb = np.array(query_vec).reshape(1, -1)
 
     if query_emb.shape[1] != embeddings.shape[1]:
-        print(f" Embedding shape mismatch: {query_emb.shape[1]} vs {embeddings.shape[1]}")
-        return []
+        raise ValueError(
+            f"Embedding dimension mismatch: {query_emb.shape[1]} vs {embeddings.shape[1]}"
+        )
 
     scores = cosine_similarity(query_emb, embeddings).flatten()
     top_indices = scores.argsort()[-k:][::-1]
     return [chunks[i] for i in top_indices]
 
-def limit_chunks_by_token_budget(chunks, max_tokens=8000, model="gpt-4o"):
-    """Truncate context chunks to fit within token budget."""
-    encoding = tiktoken.encoding_for_model(model)
+
+# ---------------------------
+# Token Utilities
+# ---------------------------
+
+def count_tokens(text: str, encoding_name="cl100k_base"):
+    """Count tokens without tying to a specific model."""
+    encoding = tiktoken.get_encoding(encoding_name)
+    return len(encoding.encode(text))
+
+
+def limit_chunks_by_token_budget(chunks, max_tokens=30000, encoding_name="cl100k_base"):
+    """Trim chunks to fit within a token budget."""
     total = 0
     selected = []
+
     for chunk in chunks:
-        tokens = len(encoding.encode(chunk["text"]))
+        tokens = count_tokens(chunk["text"], encoding_name)
         if total + tokens > max_tokens:
             break
         selected.append(chunk)
         total += tokens
+
     return selected
 
-def extract_function_names(chunks):
-    """Extract all PSSPY function names from chunks for validation."""
+
+# ---------------------------
+# Static Parsing / Validation
+# ---------------------------
+
+def extract_psspy_function_names(chunks):
+    """Extract all psspy.* function names from documentation chunks."""
     pattern = r'\bpsspy\.(\w+)\b'
-    func_names = set()
+    funcs = set()
+
     for chunk in chunks:
-        func_names.update(re.findall(pattern, chunk["text"]))
-    return func_names
+        funcs.update(re.findall(pattern, chunk["text"]))
+
+    return funcs

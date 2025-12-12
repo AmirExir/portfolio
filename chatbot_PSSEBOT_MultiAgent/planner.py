@@ -4,11 +4,11 @@ import tiktoken
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def count_tokens(text, model="gpt-4o"):
-    encoding = tiktoken.encoding_for_model(model)
+def count_tokens(text):
+    encoding = tiktoken.get_encoding("cl100k_base")
     return len(encoding.encode(text))
 
-def plan_tasks(user_query, reference_chunks, model="gpt-4o", token_limit=120000, max_response_tokens=12000):
+def plan_tasks(user_query, reference_chunks, model="gpt-5.2", token_limit=120000, max_response_tokens=12000):
     encoding = tiktoken.encoding_for_model(model)
 
     # SYSTEM PROMPT
@@ -52,13 +52,14 @@ Strict Rules:
 
     # Call API with safe margins
     try:
-        response = client.chat.completions.create(
+        response = client.responses.create(
             model=model,
-            messages=messages,
-            max_tokens=max_response_tokens,
-            temperature=0.3,
+            reasoning={"effort": "high"},   # planner does NOT need xhigh
+            input=messages,
+            max_output_tokens=max_response_tokens
         )
-        return response.choices[0].message.content
+
+        return response.output_text
 
     except Exception as e:
         print(f"[Planner]  OpenAI API Error: {e}")
