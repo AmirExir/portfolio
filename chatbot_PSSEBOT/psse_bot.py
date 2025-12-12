@@ -192,14 +192,14 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
 
         messages = [system_prompt] + st.session_state.messages
 
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=messages,
-            max_tokens=2048,
-            temperature=0.3,
+        response = client.responses.create(
+            model="gpt-5.2",
+            reasoning={"effort": "xhigh"},
+            input=messages,
+            max_output_tokens=2048
         )
 
-        bot_msg = response.choices[0].message.content
+        bot_msg = response.output_text
 
         
         import re
@@ -229,13 +229,14 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
             messages.append(correction_prompt)
 
             with st.spinner("Detected invalid functions. Requesting correction..."):
-                correction_response = client.chat.completions.create(
-                    model="gpt-4o",
-                    messages=messages,
-                    max_tokens=2048,
-                    temperature=0.3,
+                correction_response = client.responses.create(
+                    model="gpt-5.2",
+                    reasoning={"effort": "xhigh"},
+                    input=messages,
+                    max_output_tokens=2048
                 )
-                bot_msg = correction_response.choices[0].message.content
+
+                bot_msg = correction_response.output_text
                 st.success(" Self-correction applied.")
 
 
