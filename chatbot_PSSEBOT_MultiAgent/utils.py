@@ -1,12 +1,26 @@
 # utils.py
 import re
+import os
 import numpy as np
 import tiktoken
 from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
-import os
+
+# ---------------------------
+# OpenAI client
+# ---------------------------
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# ---------------------------
+# Tokenizer (GLOBAL, SHARED)
+# ---------------------------
+
+TOKENIZER = tiktoken.get_encoding("cl100k_base")
+
+def count_tokens(text: str) -> int:
+    """Count tokens using a fixed, model-agnostic tokenizer."""
+    return len(TOKENIZER.encode(text))
 
 # ---------------------------
 # Embeddings
@@ -29,7 +43,6 @@ def embed_query(query: str, model="text-embedding-3-large"):
     """Embed a user query."""
     return embed_text(query, model=model)
 
-
 # ---------------------------
 # Similarity Search
 # ---------------------------
@@ -51,31 +64,23 @@ def find_top_k_chunks(query, chunks, embeddings, k=10):
     top_indices = scores.argsort()[-k:][::-1]
     return [chunks[i] for i in top_indices]
 
-
 # ---------------------------
-# Token Utilities
+# Token Budget Control
 # ---------------------------
 
-def count_tokens(text: str, encoding_name="cl100k_base"):
-    """Count tokens without tying to a specific model."""
-    encoding = tiktoken.get_encoding(encoding_name)
-    return len(encoding.encode(text))
-
-
-def limit_chunks_by_token_budget(chunks, max_tokens=30000, encoding_name="cl100k_base"):
+def limit_chunks_by_token_budget(chunks, max_tokens=30000):
     """Trim chunks to fit within a token budget."""
     total = 0
     selected = []
 
     for chunk in chunks:
-        tokens = count_tokens(chunk["text"], encoding_name)
+        tokens = count_tokens(chunk["text"])
         if total + tokens > max_tokens:
             break
         selected.append(chunk)
         total += tokens
 
     return selected
-
 
 # ---------------------------
 # Static Parsing / Validation
