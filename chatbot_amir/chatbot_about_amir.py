@@ -65,12 +65,10 @@ if user_query:
             max_output_tokens=1024
         )
 
-bot_msg = response.output_text
-
-    bot_msg = response.choices[0].message.content
+    bot_msg = response.output_text
     st.chat_message("assistant").markdown(bot_msg)
     st.session_state.messages.append({"role": "assistant", "content": bot_msg})
-
+    
     # Generate TTS audio
     with st.spinner("Speaking..."):
         speech = client.audio.speech.create(
