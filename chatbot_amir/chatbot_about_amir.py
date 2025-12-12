@@ -59,7 +59,7 @@ if prompt:
 if user_query:
     with st.spinner("Thinking..."):
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-5.2",
             messages=st.session_state.messages,
             max_tokens=1024
         )
