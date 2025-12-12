@@ -28,13 +28,20 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
 def extract_response_text(response):
     """
     Safely extract text from OpenAI Responses API output.
+    Works with object-based response.output items.
     """
     texts = []
+
+    if not hasattr(response, "output"):
+        return ""
+
     for item in response.output:
-        if item["type"] == "message":
-            for content in item["content"]:
-                if content["type"] == "output_text":
-                    texts.append(content["text"])
+        # item is an object, not a dict
+        if getattr(item, "type", None) == "message":
+            for content in getattr(item, "content", []):
+                if getattr(content, "type", None) == "output_text":
+                    texts.append(content.text)
+
     return "\n".join(texts).strip()
 
 
