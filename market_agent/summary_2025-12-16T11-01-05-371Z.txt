@@ -1,0 +1,5 @@
+- **Tech Stock Decline**: U.S. stock markets retreated from significant highs, primarily led by a steep drop in Broadcom's shares, which fell by over 11%. Investor concerns surrounding lower margins and uncertain future deals are driving this sell-off in the tech sector, particularly affecting AI stocks.
+
+- **iRobot Bankruptcy**: iRobot, known for its Roomba vacuums, has filed for bankruptcy but will be acquired by Picea Robotics, signaling a potential continuity in operations despite financial challenges in the competitive robotics market.
+
+- **AI's Rising Influence**: A recent Gallup survey indicates a surge in AI adoption at workplaces, with 45% of employees using AI regularly. However, this rise is accompanied by increased anxiety over job security as workers grapple with AI's implications on employment.
