@@ -9,8 +9,11 @@ Currently pursuing a Master of Science in Artificial Intelligence at University 
 Proficient in PSS/E, GE EMS SCADA/TSM/DTS, ABB MMS, Streamlit, Embeddings, Python (Pandas, NumPy, Matplotlib, Scikit-learn, XGBoost, Pytorch, Tensorflow Keras ,OpenAI, N8N), ERCOT PUBLIC API, JavaScript, GitHub Pages.
 
 Work History
+Transmission Planning Engineer 4 | PEC |          1/2026 - Present
 
-Transmission Planning Model & Assessment Engineer 	  |         LCRA TSP       |        	3/2024 – Present
+
+
+Transmission Planning Model & Assessment Engineer 	  |         LCRA TSC       |        	3/2024 – 1/2026
 
 -Developed AELAB in Python automating Steady State Contingency Analysis, Dynamic Analysis, IDV generation, Contingency Generation & TPIT workflow. 
 -Review & approve Planned, For - Construction & Operational ratings for LCRA transmission lines & auto transformers & shunts resulting from substations, lines & auto transformers additions or upgrades.
@@ -25,7 +28,7 @@ Transmission Planning Model & Assessment Engineer 	  |         LCRA TSP       | 
 - Perform Dynamic Stability Analysis for MOD-26, MOD-27, & Model Quality Test.
 - Enhance model accuracy through data comparisons & validity checks.
 
-Transmission Operation Network Model & EMS Engineer   |	 LCRA TSP	   |	 8/2022 – 3/2024
+Transmission Operation Network Model & EMS Engineer   |	 LCRA TSC	   |	 8/2022 – 3/2024
 
 - Maintain LCRA Operation Network Model in ERCOT & LCRA EMS Model according to capital projects.
 - Draft One Line Diagram for before & after network model changes for capital projects.
