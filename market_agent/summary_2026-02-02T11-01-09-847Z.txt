@@ -1,0 +1,5 @@
+- **Bitcoin Decline**: Bitcoin's value drops below $80,000 for the first time since April 2025, impacted by profit-taking and reduced liquidity in the market, raising concerns about the sustainability of its recent gains. [CoinDesk](https://www.coindesk.com/markets/2026/02/01/bitcoin-drops-to-usd78-000-as-microstrategy-fueled-rally-runs-out-of-buyers-traders-say)
+
+- **Nvidia's Major Investment**: Nvidia plans to participate in OpenAI's funding round, potentially marking the largest investment in the company's history, signaling its commitment to advancing AI technology. [Bloomberg](https://www.bloomberg.com/news/articles/2026-01-31/nvidia-to-join-openai-s-current-funding-round-huang-says)
+
+- **Waymo's Valuation Boost**: Waymo secures a $16 billion funding round, reaching a $110 billion valuation as it continues to roll out its robotaxi services amidst intensifying competition from Tesla. [Financial Times](https://www.ft.com/content/94663caf-6c98-4883-b3f0-cc763a3b95ff)
