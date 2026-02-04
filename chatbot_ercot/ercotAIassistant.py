@@ -6,6 +6,20 @@ from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 from typing import List
 
+# Optional: hide Streamlit Community Cloud footer/badges (UI hack; may vary by Streamlit version)
+HIDE_STREAMLIT_UI = """
+<style>
+    #MainMenu { visibility: hidden; }
+    footer { visibility: hidden; }
+    header { visibility: hidden; }
+    [data-testid="stFooter"] { display: none; }
+    [data-testid="stHeader"] { display: none; }
+    [data-testid="stToolbar"] { display: none; }
+    .viewerBadge_container__1QSob { display: none; }
+    .styles_viewerBadge__1yB5_ { display: none; }
+</style>
+"""
+
 # Set up OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -54,9 +68,6 @@ def is_meta_visibility_question(prompt: str) -> bool:
     p = (prompt or "").strip().lower()
     triggers = [
         "can you see",
-        "what can you read",
-        "what is the last thing you can read",
-        "last thing you can read",
         "which files",
         "what files",
         "planning guides do you have",
@@ -64,8 +75,77 @@ def is_meta_visibility_question(prompt: str) -> bool:
     ]
     return any(t in p for t in triggers)
 
+
+def is_last_read_question(prompt: str) -> bool:
+    p = (prompt or "").strip().lower()
+    triggers = [
+        "what is the last thing you can read",
+        "last thing you can read",
+        "last paragraph you can read",
+        "what are the last 3 words",
+        "what are the last three words",
+    ]
+    return any(t in p for t in triggers)
+
+
+def _last_paragraph(text: str) -> str:
+    if not text:
+        return ""
+    parts = [p.strip() for p in text.replace("\r\n", "\n").split("\n\n") if p.strip()]
+    return parts[-1] if parts else text.strip()
+
+
+def _last_words(text: str, n: int) -> str:
+    words = (text or "").split()
+    if not words:
+        return ""
+    return " ".join(words[-n:])
+
+
+def build_last_read_answer(chunks, sources: list[str]) -> str:
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    lines: list[str] = [
+        "Here’s the last content I can read from each loaded part (deterministic, from the raw files when available):",
+        "",
+    ]
+
+    # Group chunks by source as a fallback if raw files are missing.
+    chunks_by_source: dict[str, list[dict]] = {}
+    for c in chunks:
+        if isinstance(c, dict) and c.get("source"):
+            chunks_by_source.setdefault(c["source"], []).append(c)
+
+    for src in sources:
+        raw_path = os.path.join(base_dir, src)
+        raw_text = ""
+        if os.path.exists(raw_path):
+            with open(raw_path, "r", encoding="utf-8") as f:
+                raw_text = f.read()
+        else:
+            # Fallback: last chunk by max chunk_index for that source
+            candidates = chunks_by_source.get(src, [])
+            if candidates:
+                last_chunk = max(candidates, key=lambda d: int(d.get("chunk_index", -1)))
+                raw_text = last_chunk.get("text", "")
+
+        last_para = _last_paragraph(raw_text)
+        last_10 = _last_words(raw_text, 10)
+        lines.append(f"File: {src}")
+        if last_para:
+            lines.append(f"Last paragraph: {last_para}")
+        else:
+            lines.append("Last paragraph: (no content found)")
+        if last_10:
+            lines.append(f"Last 10 words: {last_10}")
+        else:
+            lines.append("Last 10 words: (no content found)")
+        lines.append("")
+
+    return "\n".join(lines).strip()
+
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's ERCOT Planning Guides AI Assistant", page_icon="⚡")
+st.markdown(HIDE_STREAMLIT_UI, unsafe_allow_html=True)
 st.title("Ask Amir Exir's ERCOT Planning Guides AI Assistant")
 
 # Load data and embeddings once
@@ -111,6 +191,13 @@ if prompt := st.chat_input("Ask about ERCOT planning guides..."):
 
         st.chat_message("assistant").markdown(meta_answer)
         st.session_state.messages.append({"role": "assistant", "content": meta_answer})
+        st.stop()
+
+    # Handle "last thing you can read" questions deterministically.
+    if is_last_read_question(prompt):
+        last_answer = build_last_read_answer(chunks, sources)
+        st.chat_message("assistant").markdown(last_answer)
+        st.session_state.messages.append({"role": "assistant", "content": last_answer})
         st.stop()
 
     with st.spinner("Thinking..."):
