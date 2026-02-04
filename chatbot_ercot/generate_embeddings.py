@@ -12,21 +12,24 @@ load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
 
-# File paths
+# File paths (resolved relative to this script so it works
+# whether you run it from repo root or from within chatbot_ercot/)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 input_files = [
-    "ercot_planning_part1.txt",
-    "ercot_planning_part2.txt",
-    "ercot_planning_part3.txt",
+    os.path.join(BASE_DIR, "ercot_planning_part1.txt"),
+    os.path.join(BASE_DIR, "ercot_planning_part2.txt"),
+    os.path.join(BASE_DIR, "ercot_planning_part3.txt"),
 ]
-output_json = "ercot_planning_chunks.json"
-output_embeddings = "ercot_planning_embeddings.npy"
+output_json = os.path.join(BASE_DIR, "ercot_planning_chunks.json")
+output_embeddings = os.path.join(BASE_DIR, "ercot_planning_embeddings.npy")
 
 # Read and split text
 chunks = []
 for file in input_files:
     with open(file, "r", encoding="utf-8") as f:
         text = f.read()
-        file_chunks = split_text_into_chunks(text, source=file)
+        file_chunks = split_text_into_chunks(text, source=os.path.basename(file))
         chunks.extend(file_chunks)
 
 print(f"Total chunks to embed: {len(chunks)}")

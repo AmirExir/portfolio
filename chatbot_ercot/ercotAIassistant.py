@@ -11,10 +11,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Load precomputed chunks and embeddings
 @st.cache_data(show_spinner=False)
-def load_ercot_chunks_and_embeddings():
-    chunks_path = "chatbot_ercot/ercot_planning_chunks.json"
-    embeddings_path = "chatbot_ercot/ercot_planning_embeddings.npy"
-
+def load_ercot_chunks_and_embeddings(chunks_path: str, embeddings_path: str, chunks_mtime: float, embeddings_mtime: float):
     if not os.path.exists(chunks_path) or not os.path.exists(embeddings_path):
         raise FileNotFoundError("Embeddings or chunks file not found.")
 
@@ -39,13 +36,54 @@ def find_best_match(query: str, chunks, embeddings):
     best_idx = int(np.argmax(scores))
     return chunks[best_idx]
 
+
+def find_top_matches(query: str, chunks, embeddings, k: int = 5):
+    query_embedding = np.array(embed_query(query)).reshape(1, -1)
+    scores = cosine_similarity(query_embedding, embeddings).flatten()
+    k = max(1, min(k, len(scores)))
+    top_indices = np.argsort(scores)[-k:][::-1]
+    return [chunks[int(i)] for i in top_indices]
+
+
+def get_loaded_sources(chunks) -> list[str]:
+    sources = sorted({c.get("source", "") for c in chunks if isinstance(c, dict)})
+    return [s for s in sources if s]
+
+
+def is_meta_visibility_question(prompt: str) -> bool:
+    p = (prompt or "").strip().lower()
+    triggers = [
+        "can you see",
+        "what can you read",
+        "what is the last thing you can read",
+        "last thing you can read",
+        "which files",
+        "what files",
+        "planning guides do you have",
+        "what documents",
+    ]
+    return any(t in p for t in triggers)
+
 # Streamlit UI
 st.set_page_config(page_title="Amir Exir's ERCOT Planning Guides AI Assistant", page_icon="⚡")
 st.title("Ask Amir Exir's ERCOT Planning Guides AI Assistant")
 
 # Load data and embeddings once
 with st.spinner("Loading planning guide embeddings..."):
-    chunks, embeddings = load_ercot_chunks_and_embeddings()
+    chunks_path = "chatbot_ercot/ercot_planning_chunks.json"
+    embeddings_path = "chatbot_ercot/ercot_planning_embeddings.npy"
+    chunks_mtime = os.path.getmtime(chunks_path) if os.path.exists(chunks_path) else 0.0
+    embeddings_mtime = os.path.getmtime(embeddings_path) if os.path.exists(embeddings_path) else 0.0
+    chunks, embeddings = load_ercot_chunks_and_embeddings(chunks_path, embeddings_path, chunks_mtime, embeddings_mtime)
+
+sources = get_loaded_sources(chunks)
+with st.sidebar:
+    st.markdown("### Loaded planning guide parts")
+    if sources:
+        for s in sources:
+            st.markdown(f"- {s}")
+    else:
+        st.markdown("No sources found in chunks file.")
 
 # Initialize chat
 if "messages" not in st.session_state:
@@ -60,8 +98,31 @@ if prompt := st.chat_input("Ask about ERCOT planning guides..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
+    # Handle visibility/meta questions without calling the LLM.
+    if is_meta_visibility_question(prompt):
+        if sources:
+            meta_answer = (
+                "I can access the planning guide content that has been embedded and loaded into this app.\n\n"
+                "These files are currently loaded:\n"
+                + "\n".join([f"- {s}" for s in sources])
+            )
+        else:
+            meta_answer = "I can’t determine which planning guide files are loaded (no sources found in the chunks file)."
+
+        st.chat_message("assistant").markdown(meta_answer)
+        st.session_state.messages.append({"role": "assistant", "content": meta_answer})
+        st.stop()
+
     with st.spinner("Thinking..."):
-        best_chunk = find_best_match(prompt, chunks, embeddings)
+        top_chunks = find_top_matches(prompt, chunks, embeddings, k=5)
+
+        context_blocks = []
+        for c in top_chunks:
+            context_blocks.append(
+                f"Filename: {c.get('source', 'unknown')}\n\n{c.get('text', '')}"
+            )
+
+        context_text = "\n\n---\n\n".join(context_blocks)
 
         system_prompt = {
             "role": "system",
@@ -70,9 +131,7 @@ You are an expert assistant on ERCOT's planning guides.
 Only use the following documentation to answer the question:
 
 ---
-Filename: {best_chunk['source']}
-
-{best_chunk['text']}
+{context_text}
 ---
 Instructions:
 - Stay factual and grounded strictly in the provided content.
