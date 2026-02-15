@@ -1,0 +1,5 @@
+- **Stock Market Update:** Major U.S. stock indexes are poised for weekly losses, with the Nasdaq experiencing the largest decline, as inflation rates gradually decrease to 2.4%, driven by lower prices for gas and used cars. 
+
+- **Rivian's Market Momentum:** Rivian's shares surged following positive upgrades and anticipation of kickstarting R2 deliveries, challenging competitor Tesla's Model Y with its latest offerings.
+
+- **OpenAI's Model Controversy:** OpenAI's decision to remove access to its GPT-4o model has sparked discontent among its user base, particularly in China, highlighting the emotional connections users have developed with AI technologies.
