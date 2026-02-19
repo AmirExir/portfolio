@@ -1,0 +1,5 @@
+- **Positive Market Outlook**: US stock futures reflect improved sentiment following a volatile trading session, with the S&P 500 contracts rising 0.4%, as investors continue to evaluate the implications of advancements in artificial intelligence (AI) (Bloomberg).
+
+- **Tesla's Regulatory Win**: Tesla avoids a potential 30-day suspension of its sales and manufacturing licenses in California after discontinuing its Autopilot system and ceasing to market it under that name (TechCrunch).
+
+- **Meta's Significant Investment in AI**: Meta has committed billions to purchase a range of chips from Nvidia, signaling a strong push into the next phase of artificial intelligence development amid its ongoing data center expansions (Axios).
