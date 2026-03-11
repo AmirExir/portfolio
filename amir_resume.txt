@@ -9,7 +9,15 @@ Currently pursuing a Master of Science in Artificial Intelligence at University 
 Proficient in PSS/E, GE EMS SCADA/TSM/DTS, ABB MMS, Streamlit, Embeddings, Python (Pandas, NumPy, Matplotlib, Scikit-learn, XGBoost, Pytorch, Tensorflow Keras ,OpenAI, N8N), ERCOT PUBLIC API, JavaScript, GitHub Pages.
 
 Work History
-Transmission Planning Engineer 4 | PEC |          1/2026 - Present
+Transmission Engineer 4 (Lead Professional / Technical Supervisor)	  |  PEC  |          1/2026 – Present
+-Served as technical lead for 3 engineers in planning team.
+-Structure processes, automate workflows and provide procedures and templates.
+-Represent PEC in ERCOT PLWG, DWG, SSWG.
+-Perform Steady State and Stability Analysis for Generator and Large Load Interconnections Requests and Transmission Planning System Improvements. 
+-Propose and sponsor transmission system improvement projects.
+-Submits CMLD, UFLS, DWG Contingencies.
+-Submit PMCR, LGP, DCP, SSWG Contingencies.
+
 
 
 
