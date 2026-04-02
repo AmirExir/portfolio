@@ -139,6 +139,34 @@ def fetch_ercot_data_cached(endpoint: str, params_str: str, bearer_token: str, s
     return api.get_public(endpoint, params=params, verbose=False, max_retries=3)
 
 
+def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    """Convert problematic object-dtype datetime values to strings for Streamlit Arrow serialization."""
+    if df is None or not isinstance(df, pd.DataFrame) or df.empty:
+        return df
+
+    safe_df = df.copy()
+    object_cols = safe_df.select_dtypes(include=['object']).columns
+
+    for col in object_cols:
+        series = safe_df[col]
+        non_null = series.dropna()
+        if non_null.empty:
+            continue
+
+        has_datetime_objects = non_null.map(
+            lambda v: isinstance(v, (pd.Timestamp, datetime, np.datetime64))
+        ).any()
+
+        if has_datetime_objects:
+            safe_df[col] = series.map(
+                lambda v: v.isoformat()
+                if isinstance(v, (pd.Timestamp, datetime))
+                else (pd.Timestamp(v).isoformat() if isinstance(v, np.datetime64) else v)
+            )
+
+    return safe_df
+
+
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
@@ -262,7 +290,7 @@ def train_load_forecast_model(historical_data):
             yaxis=dict(showticklabels=True),
             plot_bgcolor='rgba(0,0,0,0)',
         )
-        st.sidebar.plotly_chart(fig_params, use_container_width=True)
+        st.sidebar.plotly_chart(fig_params, width='stretch')
 
     # Predict on train and test sets
     y_train_pred = model.predict(X_train_scaled)
@@ -520,7 +548,7 @@ def main():
                     # Debug: Show first few rows
                     if debug_mode:
                         st.write("**Load Data Sample:**")
-                        st.dataframe(actual_df.head())
+                        st.dataframe(make_arrow_safe_dataframe(actual_df.head()), width='stretch')
                         st.write(f"Columns: {list(actual_df.columns)}")
                         if "fields" in actual_load_data:
                             st.write("**Fields metadata:**")
@@ -551,9 +579,24 @@ def main():
                                     .sort_values('timestamp')
                                     .drop_duplicates(subset=['timestamp'])
                                     .set_index('timestamp')
-                                    .resample('h').interpolate()
-                                    .reset_index()
                         )
+
+                        # Interpolate only numeric columns; string/bool columns are filled by nearest known values.
+                        numeric_cols = actual_df.select_dtypes(include=['number']).columns
+                        non_numeric_cols = actual_df.columns.difference(numeric_cols)
+
+                        actual_df = actual_df.resample('h').asfreq()
+
+                        if len(numeric_cols) > 0:
+                            actual_df[numeric_cols] = actual_df[numeric_cols].apply(pd.to_numeric, errors='coerce')
+                            actual_df[numeric_cols] = actual_df[numeric_cols].interpolate(method='linear', limit_direction='both')
+
+                        if len(non_numeric_cols) > 0:
+                            actual_df[non_numeric_cols] = actual_df[non_numeric_cols].ffill().bfill()
+
+                        actual_df = actual_df.reset_index()
+                        actual_df['timestamp'] = pd.to_datetime(actual_df['timestamp'], errors='coerce')
+                        actual_df = actual_df.dropna(subset=['timestamp'])
                                                                 
                     # Display metrics - use 'total' column for system-wide load
                     col1, col2, col3 = st.columns(3)
@@ -591,7 +634,8 @@ def main():
                         # Parse timestamp for forecast data
                         forecast_time_cols = [col for col in forecast_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
                         if forecast_time_cols:
-                            forecast_df['timestamp'] = pd.to_datetime(forecast_df[forecast_time_cols[0]])
+                            forecast_df['timestamp'] = pd.to_datetime(forecast_df[forecast_time_cols[0]], errors='coerce')
+                            forecast_df = forecast_df.dropna(subset=['timestamp'])
                             forecast_df = forecast_df.sort_values('timestamp')
                         
                         x_axis_forecast = forecast_df['timestamp'] if 'timestamp' in forecast_df.columns else forecast_df.index
@@ -613,7 +657,7 @@ def main():
                         hovermode='x unified'
                     )
                     
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
                     
                     # ML Forecast Section
                     st.subheader("🤖 Machine Learning Load Forecast (Next 24 Hours)")
@@ -685,7 +729,7 @@ def main():
                                     height=400,
                                     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
                                 )
-                                st.plotly_chart(fig_diag, use_container_width=True)
+                                st.plotly_chart(fig_diag, width='stretch')
 
                             # Generate forecast for next 24 hours
                             last_timestamp = training_df.index[-1] if hasattr(training_df.index[-1], 'hour') else pd.Timestamp.now()
@@ -749,14 +793,14 @@ def main():
                                 height=400
                             )
                             
-                            st.plotly_chart(fig_ml, use_container_width=True)
+                            st.plotly_chart(fig_ml, width='stretch')
                             
                             # Show forecast table
                             forecast_table = pd.DataFrame({
                                 'Hour': [f"{h.hour}:00" for h in future_hours],
                                 'Predicted Load (MW)': [f"{load:,.0f}" for load in future_load]
                             })
-                            st.dataframe(forecast_table, use_container_width=True)
+                            st.dataframe(make_arrow_safe_dataframe(forecast_table), width='stretch')
                         else:
                             st.warning("⚠️ Not enough historical data to train ML model. Need at least 48 hours.")
                     
@@ -800,11 +844,13 @@ def main():
                         # Parse timestamp
                         wind_time_cols = [col for col in wind_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                         if wind_time_cols:
-                            wind_df['timestamp'] = pd.to_datetime(wind_df[wind_time_cols[0]])
+                            wind_df['timestamp'] = pd.to_datetime(wind_df[wind_time_cols[0]], errors='coerce')
+                            wind_df = wind_df.dropna(subset=['timestamp'])
                             wind_df = wind_df.sort_values('timestamp')
                         
                         if debug_mode:
-                            st.write("**Wind Data Sample:**", wind_df.head())
+                            st.write("**Wind Data Sample:**")
+                            st.dataframe(make_arrow_safe_dataframe(wind_df.head()), width='stretch')
                             st.write(f"Columns: {list(wind_df.columns)}")
                         
                         fig_wind = go.Figure()
@@ -855,7 +901,7 @@ def main():
                         )
                         
                         if len(fig_wind.data) > 0:
-                            st.plotly_chart(fig_wind, use_container_width=True)
+                            st.plotly_chart(fig_wind, width='stretch')
                         else:
                             st.warning("⚠️ Wind data received but columns not found. Enable Debug Mode to see data structure.")
                     else:
@@ -890,11 +936,13 @@ def main():
                         # Parse timestamp
                         solar_time_cols = [col for col in solar_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                         if solar_time_cols:
-                            solar_df['timestamp'] = pd.to_datetime(solar_df[solar_time_cols[0]])
+                            solar_df['timestamp'] = pd.to_datetime(solar_df[solar_time_cols[0]], errors='coerce')
+                            solar_df = solar_df.dropna(subset=['timestamp'])
                             solar_df = solar_df.sort_values('timestamp')
                         
                         if debug_mode:
-                            st.write("**Solar Data Sample:**", solar_df.head())
+                            st.write("**Solar Data Sample:**")
+                            st.dataframe(make_arrow_safe_dataframe(solar_df.head()), width='stretch')
                             st.write(f"Columns: {list(solar_df.columns)}")
                         
                         fig_solar = go.Figure()
@@ -944,7 +992,7 @@ def main():
                         )
                         
                         if len(fig_solar.data) > 0:
-                            st.plotly_chart(fig_solar, use_container_width=True)
+                            st.plotly_chart(fig_solar, width='stretch')
                         else:
                             st.warning("⚠️ Solar data received but columns not found. Enable Debug Mode to see data structure.")
                     else:
@@ -988,14 +1036,14 @@ def main():
                             )
                             
                             fig_lmp.update_layout(height=500)
-                            st.plotly_chart(fig_lmp, use_container_width=True)
+                            st.plotly_chart(fig_lmp, width='stretch')
                             
                             # Show data table
-                            st.dataframe(hubs[['SettlementPoint', 'SettlementPointPrice']].head(20), use_container_width=True)
+                            st.dataframe(make_arrow_safe_dataframe(hubs[['SettlementPoint', 'SettlementPointPrice']].head(20)), width='stretch')
                         else:
                             st.info("ℹ️ Price data columns not found.")
                     else:
-                        st.dataframe(lmp_df.head(20), use_container_width=True)
+                        st.dataframe(make_arrow_safe_dataframe(lmp_df.head(20)), width='stretch')
                 else:
                         st.warning("📭 No pricing data available.")
         except Exception as e:
@@ -1029,11 +1077,13 @@ def main():
                     # Parse timestamp
                     outage_time_cols = [col for col in outage_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                     if outage_time_cols:
-                        outage_df['timestamp'] = pd.to_datetime(outage_df[outage_time_cols[0]])
+                        outage_df['timestamp'] = pd.to_datetime(outage_df[outage_time_cols[0]], errors='coerce')
+                        outage_df = outage_df.dropna(subset=['timestamp'])
                         outage_df = outage_df.sort_values('timestamp')
                     
                     if debug_mode:
-                        st.write("**Outage Data Sample:**", outage_df.head())
+                        st.write("**Outage Data Sample:**")
+                        st.dataframe(make_arrow_safe_dataframe(outage_df.head()), width='stretch')
                         st.write(f"Columns: {list(outage_df.columns)}")
                     
                     # Create stacked area chart for outages
@@ -1067,11 +1117,11 @@ def main():
                             hovermode='x unified'
                         )
                         
-                        st.plotly_chart(fig_outage, use_container_width=True)
+                        st.plotly_chart(fig_outage, width='stretch')
                     
                     # Show summary statistics
                     st.subheader("📊 Outage Summary Statistics")
-                    st.dataframe(outage_df.describe(), use_container_width=True)
+                    st.dataframe(make_arrow_safe_dataframe(outage_df.describe()), width='stretch')
                 else:
                     st.warning("📭 No outage data available.")
         except Exception as e:
