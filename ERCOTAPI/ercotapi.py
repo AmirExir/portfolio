@@ -167,47 +167,6 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-def get_texas_lmp_coordinates(settlement_point: str) -> Optional[tuple[float, float]]:
-    """Return approximate latitude/longitude for major ERCOT hub points."""
-    if not settlement_point:
-        return None
-
-    normalized = str(settlement_point).strip().upper().replace(" ", "_")
-
-    coordinate_map = {
-        "HB_HOUSTON": (29.7604, -95.3698),
-        "HOUSTON": (29.7604, -95.3698),
-        "HB_NORTH": (32.7767, -96.7970),
-        "NORTH": (32.7767, -96.7970),
-        "HB_SOUTH": (27.8006, -97.3964),
-        "SOUTH": (27.8006, -97.3964),
-        "HB_WEST": (31.9974, -102.0779),
-        "WEST": (31.9974, -102.0779),
-        "HB_COAST": (29.4241, -95.1380),
-        "COAST": (29.4241, -95.1380),
-        "NORTH_HUB": (32.7767, -96.7970),
-        "HOUSTON_HUB": (29.7604, -95.3698),
-        "SOUTH_HUB": (27.8006, -97.3964),
-        "WEST_HUB": (31.9974, -102.0779),
-    }
-
-    if normalized in coordinate_map:
-        return coordinate_map[normalized]
-
-    if "HOUSTON" in normalized:
-        return coordinate_map["HB_HOUSTON"]
-    if "NORTH" in normalized:
-        return coordinate_map["HB_NORTH"]
-    if "SOUTH" in normalized:
-        return coordinate_map["HB_SOUTH"]
-    if "WEST" in normalized:
-        return coordinate_map["HB_WEST"]
-    if "COAST" in normalized:
-        return coordinate_map["HB_COAST"]
-
-    return None
-
-
 from sklearn.model_selection import train_test_split, RandomizedSearchCV, TimeSeriesSplit
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
@@ -1129,70 +1088,21 @@ def main():
                         hubs = lmp_df[lmp_df['SettlementPointType'] == 'HU'] if 'SettlementPointType' in lmp_df.columns else lmp_df
                         
                         if not hubs.empty and 'SettlementPointPrice' in hubs.columns:
-                            hubs = hubs.copy()
-                            hubs["SettlementPointPrice"] = pd.to_numeric(hubs["SettlementPointPrice"], errors="coerce")
-                            hubs = hubs.dropna(subset=["SettlementPointPrice"])
-
-                            latest_hubs = hubs.sort_values("SettlementPointPrice", ascending=False).head(10)
-
-                            col1, col2, col3 = st.columns(3)
-                            col1.metric("Highest Hub LMP", f"${latest_hubs['SettlementPointPrice'].max():,.2f}/MWh")
-                            col2.metric("Lowest Hub LMP", f"${latest_hubs['SettlementPointPrice'].min():,.2f}/MWh")
-                            col3.metric("Average Hub LMP", f"${latest_hubs['SettlementPointPrice'].mean():,.2f}/MWh")
-
-                            map_hubs = hubs.copy()
-                            map_hubs[["lat", "lon"]] = map_hubs["SettlementPoint"].apply(
-                                lambda point: pd.Series(get_texas_lmp_coordinates(point))
+                            fig_lmp = px.bar(
+                                hubs.head(10),
+                                x='SettlementPoint',
+                                y='SettlementPointPrice',
+                                title="Latest LMP Prices at Major Hubs",
+                                labels={'SettlementPointPrice': 'Price ($/MWh)', 'SettlementPoint': 'Hub'},
+                                color='SettlementPointPrice',
+                                color_continuous_scale='RdYlGn_r'
                             )
-                            map_hubs = map_hubs.dropna(subset=["lat", "lon"])
-
-                            if not map_hubs.empty:
-                                fig_lmp_map = go.Figure()
-                                fig_lmp_map.add_trace(
-                                    go.Scattergeo(
-                                        lon=map_hubs["lon"],
-                                        lat=map_hubs["lat"],
-                                        text=map_hubs["SettlementPoint"],
-                                        mode="markers+text",
-                                        textposition="top center",
-                                        marker=dict(
-                                            size=np.clip(map_hubs["SettlementPointPrice"].abs() / 5, 12, 34),
-                                            color=map_hubs["SettlementPointPrice"],
-                                            colorscale="RdYlGn_r",
-                                            showscale=True,
-                                            colorbar=dict(title="$/MWh"),
-                                            line=dict(width=1, color="#1f2937")
-                                        ),
-                                        hovertemplate=(
-                                            "%{text}<br>" 
-                                            "Price: %{marker.color:.2f} $/MWh<extra></extra>"
-                                        )
-                                    )
-                                )
-                                fig_lmp_map.update_layout(
-                                    title="Texas LMP Map - Major ERCOT Hubs",
-                                    geo=dict(
-                                        scope="usa",
-                                        projection_type="albers usa",
-                                        showland=True,
-                                        landcolor="rgb(245,247,250)",
-                                        subunitcolor="rgb(200,200,200)",
-                                        countrycolor="rgb(200,200,200)",
-                                        showlakes=True,
-                                        lakecolor="rgb(230,240,255)",
-                                        bgcolor="rgba(0,0,0,0)"
-                                    ),
-                                    height=560,
-                                    margin=dict(l=0, r=0, t=50, b=0)
-                                )
-                                st.plotly_chart(fig_lmp_map, width='stretch')
-                            else:
-                                st.info("ℹ️ Hub coordinates not available for the current settlement points, so the map view is hidden.")
-
-                            st.subheader("📋 Ranked Hub Prices")
-                            display_table = latest_hubs[["SettlementPoint", "SettlementPointPrice"]].copy()
-                            display_table = display_table.rename(columns={"SettlementPoint": "Hub", "SettlementPointPrice": "Price ($/MWh)"})
-                            st.dataframe(make_arrow_safe_dataframe(display_table), width='stretch')
+                            
+                            fig_lmp.update_layout(height=500)
+                            st.plotly_chart(fig_lmp, width='stretch')
+                            
+                            # Show data table
+                            st.dataframe(make_arrow_safe_dataframe(hubs[['SettlementPoint', 'SettlementPointPrice']].head(20)), width='stretch')
                         else:
                             st.info("ℹ️ Price data columns not found.")
                     else:
