@@ -285,11 +285,11 @@ def train_load_forecast_model(historical_data):
 # --- Streamlit Dashboard ---
 def main():
     st.set_page_config(page_title="Amir Exir's ERCOT Grid Analytics Dashboard", layout="wide")
-    st.title(" ERCOT Grid Analytics & Forecasting Dashboard")
+    st.title("⚡ ERCOT Grid Analytics & Forecasting Dashboard")
     st.markdown("**Real-time grid monitoring, renewable generation tracking, and ML-powered load forecasting**")
 
     # Sidebar for configuration
-    st.sidebar.header(" Configuration")
+    st.sidebar.header("⚙️ Configuration")
     
     # Credentials section
     st.sidebar.subheader(" API Credentials")
@@ -455,7 +455,7 @@ def main():
     
     # Date range selector
     date_range = st.sidebar.slider(
-        "Historical Days to Load",
+        "📅 Historical Days to Load",
         min_value=1,
         max_value=7,
         value=3,
@@ -463,28 +463,28 @@ def main():
     )
     
     # Debug mode
-    debug_mode = st.sidebar.checkbox(" Debug Mode", value=False, help="Show detailed API request/response info")
+    debug_mode = st.sidebar.checkbox("🐞 Debug Mode", value=False, help="Show detailed API request/response info")
     
     # Cache info
-    st.sidebar.info(" **Smart Caching Enabled**\n\nData cached for 5 minutes to prevent rate limits. Click 'Clear cache' in Settings menu to force refresh.")
+    st.sidebar.info("🧠 **Smart Caching Enabled**\n\nData cached for 5 minutes to prevent rate limits. Click 'Clear cache' in Settings menu to force refresh.")
     
     end_date = datetime.now()
     start_date = end_date - timedelta(days=date_range)
     
     # Dashboard sections
     tab1, tab2, tab3, tab4 = st.tabs([
-        " Load Analysis & Forecast", 
-        " Renewable Generation", 
-        " Real-Time Pricing",
-        " Resource Outages"
+        "📈 Load Analysis & Forecast", 
+        "🌱 Renewable Generation", 
+        "💸 Real-Time Pricing",
+        "🛠️ Resource Outages"
     ])
     
     # TAB 1: LOAD ANALYSIS & FORECAST
     with tab1:
-        st.header("System Load: Actual vs Forecast with ML Prediction")
+        st.header("📊 System Load: Actual vs Forecast with ML Prediction")
         
         try:
-            with st.spinner("Fetching load data..."):
+            with st.spinner("📥 Fetching load data..."):
                 # Fetch actual load data using correct parameters: operatingDayFrom/To
                 load_params = {
                     "operatingDayFrom": start_date.strftime("%Y-%m-%d"),
@@ -568,9 +568,9 @@ def main():
                         avg_load = actual_df[load_col].mean()
                         max_load = actual_df[load_col].max()
                         
-                        col1.metric("Current System Load", f"{latest_load:,.0f} MW")
-                        col2.metric("Average Load", f"{avg_load:,.0f} MW")
-                        col3.metric("Peak Load", f"{max_load:,.0f} MW")
+                        col1.metric("⚡ Current System Load", f"{latest_load:,.0f} MW")
+                        col2.metric("📊 Average Load", f"{avg_load:,.0f} MW")
+                        col3.metric("🏔️ Peak Load", f"{max_load:,.0f} MW")
                     
                     # Plot actual vs forecast
                     fig = make_subplots(specs=[[{"secondary_y": False}]])
@@ -616,7 +616,7 @@ def main():
                     st.plotly_chart(fig, use_container_width=True)
                     
                     # ML Forecast Section
-                    st.subheader(" Machine Learning Load Forecast (Next 24 Hours)")
+                    st.subheader("🤖 Machine Learning Load Forecast (Next 24 Hours)")
                     
                     if load_col and not actual_df.empty:
                         # Prepare data for ML
@@ -637,7 +637,7 @@ def main():
                                 X_train, X_test, y_train, y_test = split_data
                                 y_train_pred, y_test_pred = preds
 
-                                with st.expander("Model Performance Metrics (Train/Test)", expanded=False):
+                                with st.expander("📐 Model Performance Metrics (Train/Test)", expanded=False):
                                     st.markdown("**Training Set:**")
                                     st.write(f"MAE: {metrics['train_mae']:.2f} | RMSE: {metrics['train_rmse']:.2f} | R²: {metrics['train_r2']:.3f}")
                                     st.markdown("**Validation/Test Set:**")
@@ -758,17 +758,17 @@ def main():
                             })
                             st.dataframe(forecast_table, use_container_width=True)
                         else:
-                            st.warning("Not enough historical data to train ML model. Need at least 48 hours.")
+                            st.warning("⚠️ Not enough historical data to train ML model. Need at least 48 hours.")
                     
                 else:
-                    st.warning("No load data available for the selected period.")
+                    st.warning("📭 No load data available for the selected period.")
                     
         except Exception as e:
-            st.error(f"Error fetching load data: {e}")
+            st.error(f"❌ Error fetching load data: {e}")
     
     # TAB 2: RENEWABLE GENERATION
     with tab2:
-        st.header("Renewable Energy Generation (Wind & Solar)")
+        st.header("🌱 Renewable Energy Generation (Wind & Solar)")
         
         col1, col2 = st.columns(2)
         
@@ -776,7 +776,7 @@ def main():
         with col1:
             st.subheader("🌬️ Wind Power Production")
             try:
-                with st.spinner("Fetching wind data..."):
+                with st.spinner("🌬️ Fetching wind data..."):
                     wind_params = {
                         "page": 1,
                         "size": 2000
@@ -857,17 +857,17 @@ def main():
                         if len(fig_wind.data) > 0:
                             st.plotly_chart(fig_wind, use_container_width=True)
                         else:
-                            st.warning("Wind data received but columns not found. Enable Debug Mode to see data structure.")
+                            st.warning("⚠️ Wind data received but columns not found. Enable Debug Mode to see data structure.")
                     else:
-                        st.info("No wind data available.")
+                        st.info("📭 No wind data available.")
             except Exception as e:
-                st.error(f"Error fetching wind data: {e}")
+                st.error(f"❌ Error fetching wind data: {e}")
         
         # Solar Generation
         with col2:
-            st.subheader(" Solar Power Production")
+            st.subheader("☀️ Solar Power Production")
             try:
-                with st.spinner("Fetching solar data..."):
+                with st.spinner("☀️ Fetching solar data..."):
                     solar_params = {
                         "page": 1,
                         "size": 2000
@@ -946,18 +946,18 @@ def main():
                         if len(fig_solar.data) > 0:
                             st.plotly_chart(fig_solar, use_container_width=True)
                         else:
-                            st.warning("Solar data received but columns not found. Enable Debug Mode to see data structure.")
+                            st.warning("⚠️ Solar data received but columns not found. Enable Debug Mode to see data structure.")
                     else:
-                        st.info("No solar data available.")
+                        st.info("📭 No solar data available.")
             except Exception as e:
-                st.error(f"Error fetching solar data: {e}")
+                st.error(f"❌ Error fetching solar data: {e}")
     
     # TAB 3: REAL-TIME PRICING
     with tab3:
-        st.header(" Real-Time Market Pricing (LMPs)")
+        st.header("💸 Real-Time Market Pricing (LMPs)")
         
         try:
-            with st.spinner("Fetching pricing data..."):
+            with st.spinner("💹 Fetching pricing data..."):
                 lmp_params = {
                     "page": 1,
                     "size": 1000
@@ -993,20 +993,20 @@ def main():
                             # Show data table
                             st.dataframe(hubs[['SettlementPoint', 'SettlementPointPrice']].head(20), use_container_width=True)
                         else:
-                            st.info("Price data columns not found.")
+                            st.info("ℹ️ Price data columns not found.")
                     else:
                         st.dataframe(lmp_df.head(20), use_container_width=True)
                 else:
-                    st.warning("No pricing data available.")
+                        st.warning("📭 No pricing data available.")
         except Exception as e:
-            st.error(f"Error fetching pricing data: {e}")
+                    st.error(f"❌ Error fetching pricing data: {e}")
     
     # TAB 4: RESOURCE OUTAGES
     with tab4:
-        st.header(" Resource Outages by Fuel Type")
+        st.header("🛠️ Resource Outages by Fuel Type")
         
         try:
-            with st.spinner("Fetching outage data..."):
+            with st.spinner("🚧 Fetching outage data..."):
                 outage_params = {
                     "page": 1,
                     "size": 2000
@@ -1073,9 +1073,9 @@ def main():
                     st.subheader("📊 Outage Summary Statistics")
                     st.dataframe(outage_df.describe(), use_container_width=True)
                 else:
-                    st.warning("No outage data available.")
+                    st.warning("📭 No outage data available.")
         except Exception as e:
-            st.error(f"Error fetching outage data: {e}")
+            st.error(f"❌ Error fetching outage data: {e}")
 
 
 # Run the Streamlit dashboard
