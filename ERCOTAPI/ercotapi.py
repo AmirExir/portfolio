@@ -551,7 +551,7 @@ def main():
                                     .sort_values('timestamp')
                                     .drop_duplicates(subset=['timestamp'])
                                     .set_index('timestamp')
-                                    .resample('H').interpolate()
+                                    .resample('h').interpolate()
                                     .reset_index()
                         )
                                                                 
@@ -627,7 +627,7 @@ def main():
                         else:
                             ml_df = pd.DataFrame({
                                 'load': actual_df[load_col].values
-                            }, index=pd.date_range(end=pd.Timestamp.now(), periods=len(actual_df), freq='H'))
+                            }, index=pd.date_range(end=pd.Timestamp.now(), periods=len(actual_df), freq='h'))
                         
                         model, scaler, training_df, split_data, preds, metrics = train_load_forecast_model(ml_df)
                         
