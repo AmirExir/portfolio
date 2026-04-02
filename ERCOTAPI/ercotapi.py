@@ -167,10 +167,10 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, RandomizedSearchCV, TimeSeriesSplit
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-def train_load_forecast_model(historical_data):
+def train_load_forecast_model(historical_data, tuning_mode: str = "auto", manual_params: Optional[Dict[str, Any]] = None):
     """Train an ML model (XGBoost or Random Forest) to forecast load based on historical patterns.
        Returns: model, scaler, df, train/test split, predictions, and metrics for plotting/metrics display."""
     if len(historical_data) < 48:  # Need at least 2 days
@@ -217,80 +217,95 @@ def train_load_forecast_model(historical_data):
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
-    # --- XGBoost hyperparameter sidebar controls ---
-    xgb_params = {}
-    show_params_plot = False
+    # Use time-series-aware validation for tuning.
+    n_splits = min(5, max(2, len(X_train_scaled) // 10))
+    cv = TimeSeriesSplit(n_splits=n_splits)
+
+    best_params = {}
+    best_cv_score = None
+
     if HAS_XGBOOST:
-        # Only show sliders if running in Streamlit context (should always be true here)
-        xgb_params['n_estimators'] = st.sidebar.slider(
-            "XGBoost: n_estimators",
-            min_value=50,
-            max_value=300,
-            value=100,
-            step=10,
-            help="Number of boosting rounds (trees)"
-        )
-        xgb_params['max_depth'] = st.sidebar.slider(
-            "XGBoost: max_depth",
-            min_value=3,
-            max_value=12,
-            value=6,
-            step=1,
-            help="Maximum tree depth"
-        )
-        xgb_params['learning_rate'] = st.sidebar.slider(
-            "XGBoost: learning_rate",
-            min_value=0.01,
-            max_value=0.3,
-            value=0.1,
-            step=0.01,
-            help="Learning rate (eta)"
-        )
-        show_params_plot = True
-        model = XGBRegressor(
-            n_estimators=xgb_params['n_estimators'],
-            max_depth=xgb_params['max_depth'],
-            learning_rate=xgb_params['learning_rate'],
-            subsample=0.8,
-            colsample_bytree=0.8,
-            random_state=42,
-            objective='reg:squarederror',
-            verbosity=0
-        )
+        if tuning_mode == "manual":
+            manual_params = manual_params or {}
+            best_params = {
+                'n_estimators': int(manual_params.get('n_estimators', 100)),
+                'max_depth': int(manual_params.get('max_depth', 6)),
+                'learning_rate': float(manual_params.get('learning_rate', 0.1)),
+                'subsample': float(manual_params.get('subsample', 0.8)),
+                'colsample_bytree': float(manual_params.get('colsample_bytree', 0.8)),
+                'min_child_weight': int(manual_params.get('min_child_weight', 1))
+            }
+            model = XGBRegressor(
+                objective='reg:squarederror',
+                random_state=42,
+                verbosity=0,
+                **best_params
+            )
+            model.fit(X_train_scaled, y_train)
+        else:
+            base_model = XGBRegressor(
+                objective='reg:squarederror',
+                random_state=42,
+                verbosity=0
+            )
+            param_distributions = {
+                'n_estimators': [100, 150, 200, 250, 300, 400],
+                'max_depth': [3, 4, 5, 6, 7, 8, 10],
+                'learning_rate': [0.01, 0.03, 0.05, 0.07, 0.1, 0.15, 0.2, 0.3],
+                'subsample': [0.7, 0.8, 0.9, 1.0],
+                'colsample_bytree': [0.7, 0.8, 0.9, 1.0],
+                'min_child_weight': [1, 3, 5]
+            }
+            search = RandomizedSearchCV(
+                estimator=base_model,
+                param_distributions=param_distributions,
+                n_iter=20,
+                scoring='neg_mean_absolute_error',
+                cv=cv,
+                random_state=42,
+                n_jobs=-1,
+                verbose=0
+            )
+            search.fit(X_train_scaled, y_train)
+            model = search.best_estimator_
+            best_params = search.best_params_
+            best_cv_score = -search.best_score_
     else:
-        # Fallback to Random Forest
-        model = RandomForestRegressor(
-            n_estimators=100,
-            random_state=42,
-            max_depth=15,
-            min_samples_split=5
-        )
-        show_params_plot = False
-
-    model.fit(X_train_scaled, y_train)
-
-    # --- Sidebar Plotly param visualization ---
-    if HAS_XGBOOST and show_params_plot:
-        param_names = ["n_estimators", "max_depth", "learning_rate"]
-        param_vals = [xgb_params["n_estimators"], xgb_params["max_depth"], xgb_params["learning_rate"]]
-        # Make a small horizontal bar chart
-        fig_params = go.Figure(go.Bar(
-            x=param_vals,
-            y=param_names,
-            orientation='h',
-            marker_color=['#1f77b4', '#ff7f0e', '#2ca02c'],
-            text=[str(v) for v in param_vals],
-            textposition='auto'
-        ))
-        fig_params.update_layout(
-            title="XGBoost Hyperparameters",
-            height=180,
-            margin=dict(l=5, r=5, t=30, b=5),
-            xaxis=dict(showticklabels=True, automargin=True),
-            yaxis=dict(showticklabels=True),
-            plot_bgcolor='rgba(0,0,0,0)',
-        )
-        st.sidebar.plotly_chart(fig_params, width='stretch')
+        if tuning_mode == "manual":
+            manual_params = manual_params or {}
+            best_params = {
+                'n_estimators': int(manual_params.get('n_estimators', 100)),
+                'max_depth': manual_params.get('max_depth', 15),
+                'min_samples_split': int(manual_params.get('min_samples_split', 5)),
+                'min_samples_leaf': int(manual_params.get('min_samples_leaf', 1))
+            }
+            model = RandomForestRegressor(
+                random_state=42,
+                **best_params
+            )
+            model.fit(X_train_scaled, y_train)
+        else:
+            base_model = RandomForestRegressor(random_state=42)
+            param_distributions = {
+                'n_estimators': [100, 150, 200, 300, 400],
+                'max_depth': [8, 12, 15, 20, None],
+                'min_samples_split': [2, 5, 10],
+                'min_samples_leaf': [1, 2, 4]
+            }
+            search = RandomizedSearchCV(
+                estimator=base_model,
+                param_distributions=param_distributions,
+                n_iter=12,
+                scoring='neg_mean_absolute_error',
+                cv=cv,
+                random_state=42,
+                n_jobs=-1,
+                verbose=0
+            )
+            search.fit(X_train_scaled, y_train)
+            model = search.best_estimator_
+            best_params = search.best_params_
+            best_cv_score = -search.best_score_
 
     # Predict on train and test sets
     y_train_pred = model.predict(X_train_scaled)
@@ -303,7 +318,10 @@ def train_load_forecast_model(historical_data):
         "train_r2": r2_score(y_train, y_train_pred),
         "test_mae": mean_absolute_error(y_test, y_test_pred),
         "test_rmse": np.sqrt(mean_squared_error(y_test, y_test_pred)),
-        "test_r2": r2_score(y_test, y_test_pred)
+        "test_r2": r2_score(y_test, y_test_pred),
+        "best_params": best_params,
+        "cv_mae": best_cv_score,
+        "tuning_mode": tuning_mode
     }
 
     # For plotting: return the indices for X_train and X_test (to allow time series plotting)
@@ -492,6 +510,40 @@ def main():
     
     # Debug mode
     debug_mode = st.sidebar.checkbox("🐞 Debug Mode", value=False, help="Show detailed API request/response info")
+
+    # Load model tuning controls
+    if "load_model_auto_tune" not in st.session_state:
+        st.session_state.load_model_auto_tune = True
+
+    st.sidebar.subheader("🤖 Load Model Settings")
+    mode_col_1, mode_col_2 = st.sidebar.columns(2)
+    with mode_col_1:
+        if st.button("Auto-optimize"):
+            st.session_state.load_model_auto_tune = True
+    with mode_col_2:
+        if st.button("Manual"):
+            st.session_state.load_model_auto_tune = False
+
+    manual_load_params = {}
+    if st.session_state.load_model_auto_tune:
+        st.sidebar.success("Automatic tuning enabled")
+        st.sidebar.caption("The app will search for the best settings from the historical load data.")
+        tuning_mode = "auto"
+    else:
+        st.sidebar.info("Manual tuning enabled")
+        tuning_mode = "manual"
+        if HAS_XGBOOST:
+            manual_load_params["n_estimators"] = st.sidebar.slider("n_estimators", 50, 500, 200, 10)
+            manual_load_params["max_depth"] = st.sidebar.slider("max_depth", 3, 12, 6, 1)
+            manual_load_params["learning_rate"] = st.sidebar.slider("learning_rate", 0.01, 0.3, 0.1, 0.01)
+            manual_load_params["subsample"] = st.sidebar.slider("subsample", 0.5, 1.0, 0.8, 0.05)
+            manual_load_params["colsample_bytree"] = st.sidebar.slider("colsample_bytree", 0.5, 1.0, 0.8, 0.05)
+            manual_load_params["min_child_weight"] = st.sidebar.slider("min_child_weight", 1, 10, 1, 1)
+        else:
+            manual_load_params["n_estimators"] = st.sidebar.slider("n_estimators", 50, 500, 200, 10)
+            manual_load_params["max_depth"] = st.sidebar.slider("max_depth", 5, 30, 15, 1)
+            manual_load_params["min_samples_split"] = st.sidebar.slider("min_samples_split", 2, 20, 5, 1)
+            manual_load_params["min_samples_leaf"] = st.sidebar.slider("min_samples_leaf", 1, 10, 1, 1)
     
     # Cache info
     st.sidebar.info("🧠 **Smart Caching Enabled**\n\nData cached for 5 minutes to prevent rate limits. Click 'Clear cache' in Settings menu to force refresh.")
@@ -673,7 +725,11 @@ def main():
                                 'load': actual_df[load_col].values
                             }, index=pd.date_range(end=pd.Timestamp.now(), periods=len(actual_df), freq='h'))
                         
-                        model, scaler, training_df, split_data, preds, metrics = train_load_forecast_model(ml_df)
+                        model, scaler, training_df, split_data, preds, metrics = train_load_forecast_model(
+                            ml_df,
+                            tuning_mode=tuning_mode,
+                            manual_params=manual_load_params
+                        )
                         
                         if model is not None:
                             # --- ML Model Performance Metrics and Diagnostics ---
@@ -686,6 +742,13 @@ def main():
                                     st.write(f"MAE: {metrics['train_mae']:.2f} | RMSE: {metrics['train_rmse']:.2f} | R²: {metrics['train_r2']:.3f}")
                                     st.markdown("**Validation/Test Set:**")
                                     st.write(f"MAE: {metrics['test_mae']:.2f} | RMSE: {metrics['test_rmse']:.2f} | R²: {metrics['test_r2']:.3f}")
+
+                                if metrics.get("best_params"):
+                                    with st.expander("🧠 Selected Settings", expanded=False):
+                                        st.write(f"Mode: {'Automatic' if metrics.get('tuning_mode') == 'auto' else 'Manual'}")
+                                        if metrics.get("cv_mae") is not None:
+                                            st.write(f"Cross-validated MAE: {metrics['cv_mae']:.2f}")
+                                        st.json(metrics["best_params"])
 
                                 # Plot Training Fit vs Validation
                                 fig_diag = go.Figure()
