@@ -172,7 +172,7 @@ def get_texas_lmp_coordinates(settlement_point: str) -> Optional[tuple[float, fl
     if not settlement_point:
         return None
 
-    normalized = str(settlement_point).strip().upper().replace(" ", "_").replace("-", "_")
+    normalized = str(settlement_point).strip().upper().replace(" ", "_")
 
     coordinate_map = {
         "HB_HOUSTON": (29.7604, -95.3698),
@@ -194,13 +194,6 @@ def get_texas_lmp_coordinates(settlement_point: str) -> Optional[tuple[float, fl
     if normalized in coordinate_map:
         return coordinate_map[normalized]
 
-    if normalized.startswith("HB_") and normalized[3:] in coordinate_map:
-        return coordinate_map[normalized[3:]]
-    if normalized.startswith("LZ_") and normalized[3:] in coordinate_map:
-        return coordinate_map[normalized[3:]]
-    if normalized.startswith("HB") and normalized[2:] in coordinate_map:
-        return coordinate_map[normalized[2:]]
-
     if "HOUSTON" in normalized:
         return coordinate_map["HB_HOUSTON"]
     if "NORTH" in normalized:
@@ -213,30 +206,6 @@ def get_texas_lmp_coordinates(settlement_point: str) -> Optional[tuple[float, fl
         return coordinate_map["HB_COAST"]
 
     return None
-
-
-def settlement_point_matches_canonical(settlement_point: str, canonical_name: str) -> bool:
-    if not settlement_point or not canonical_name:
-        return False
-
-    point = str(settlement_point).strip().upper().replace(" ", "_").replace("-", "_")
-    canonical = str(canonical_name).strip().upper().replace(" ", "_").replace("-", "_")
-
-    if point == canonical:
-        return True
-
-    if canonical in point:
-        return True
-
-    aliases = {
-        "HB_HOUSTON": ["HOUSTON"],
-        "HB_NORTH": ["NORTH"],
-        "HB_SOUTH": ["SOUTH"],
-        "HB_WEST": ["WEST"],
-        "HB_COAST": ["COAST"],
-    }
-
-    return any(alias in point for alias in aliases.get(canonical, []))
 
 
 from sklearn.model_selection import train_test_split, RandomizedSearchCV, TimeSeriesSplit
@@ -1154,115 +1123,75 @@ def main():
                 
                 if "data" in lmp_data and len(lmp_data["data"]) > 0:
                     lmp_df = pd.DataFrame(lmp_data["data"])
-
-                    # Map column indices to names using 'fields' metadata when the API returns positional data.
-                    if "fields" in lmp_data and isinstance(lmp_data["fields"], list):
-                        column_mapping = {
-                            i: field.get("name", f"col_{i}")
-                            for i, field in enumerate(lmp_data["fields"])
-                        }
-                        lmp_df.rename(columns=column_mapping, inplace=True)
-
-                    if debug_mode:
-                        st.write("**LMP Columns:**", list(lmp_df.columns))
                     
                     # Filter for major hubs
-                    point_col = next((col for col in ["SettlementPoint", "settlementPoint", "SettlPoint", "SP"] if col in lmp_df.columns), None)
-                    price_col = next((col for col in ["SettlementPointPrice", "LMP", "lmp", "Price", "price"] if col in lmp_df.columns), None)
-
-                    if point_col:
+                    if 'SettlementPoint' in lmp_df.columns:
                         hubs = lmp_df[lmp_df['SettlementPointType'] == 'HU'] if 'SettlementPointType' in lmp_df.columns else lmp_df
                         
-                        if not hubs.empty and price_col:
+                        if not hubs.empty and 'SettlementPointPrice' in hubs.columns:
                             hubs = hubs.copy()
-                            hubs[price_col] = pd.to_numeric(hubs[price_col], errors="coerce")
-                            hubs = hubs.dropna(subset=[price_col])
+                            hubs["SettlementPointPrice"] = pd.to_numeric(hubs["SettlementPointPrice"], errors="coerce")
+                            hubs = hubs.dropna(subset=["SettlementPointPrice"])
 
-                            latest_hubs = hubs.sort_values(price_col, ascending=False).head(10)
+                            latest_hubs = hubs.sort_values("SettlementPointPrice", ascending=False).head(10)
 
                             col1, col2, col3 = st.columns(3)
-                            col1.metric("Highest Hub LMP", f"${latest_hubs[price_col].max():,.2f}/MWh")
-                            col2.metric("Lowest Hub LMP", f"${latest_hubs[price_col].min():,.2f}/MWh")
-                            col3.metric("Average Hub LMP", f"${latest_hubs[price_col].mean():,.2f}/MWh")
+                            col1.metric("Highest Hub LMP", f"${latest_hubs['SettlementPointPrice'].max():,.2f}/MWh")
+                            col2.metric("Lowest Hub LMP", f"${latest_hubs['SettlementPointPrice'].min():,.2f}/MWh")
+                            col3.metric("Average Hub LMP", f"${latest_hubs['SettlementPointPrice'].mean():,.2f}/MWh")
 
-                            canonical_hubs = pd.DataFrame([
-                                {"SettlementPoint": "HB_HOUSTON", "lat": 29.7604, "lon": -95.3698},
-                                {"SettlementPoint": "HB_NORTH", "lat": 32.7767, "lon": -96.7970},
-                                {"SettlementPoint": "HB_SOUTH", "lat": 27.8006, "lon": -97.3964},
-                                {"SettlementPoint": "HB_WEST", "lat": 31.9974, "lon": -102.0779},
-                                {"SettlementPoint": "HB_COAST", "lat": 29.4241, "lon": -95.1380},
-                            ])
+                            map_hubs = hubs.copy()
+                            map_hubs[["lat", "lon"]] = map_hubs["SettlementPoint"].apply(
+                                lambda point: pd.Series(get_texas_lmp_coordinates(point))
+                            )
+                            map_hubs = map_hubs.dropna(subset=["lat", "lon"])
 
-                            canonical_hubs["SettlementPointPrice"] = np.nan
-                            canonical_hubs["MatchedLabel"] = canonical_hubs["SettlementPoint"]
-
-                            for idx, hub_name in canonical_hubs["SettlementPoint"].items():
-                                matched_rows = hubs[hubs[point_col].astype(str).apply(
-                                    lambda point: settlement_point_matches_canonical(point, hub_name)
-                                )]
-                                if not matched_rows.empty:
-                                    matched_row = matched_rows.sort_values(price_col, ascending=False).iloc[0]
-                                    canonical_hubs.at[idx, "SettlementPointPrice"] = matched_row[price_col]
-                                    canonical_hubs.at[idx, "MatchedLabel"] = matched_row[point_col]
-
-                            fig_lmp_map = go.Figure()
-                            matched_prices = canonical_hubs["SettlementPointPrice"].dropna()
-                            marker_colors = canonical_hubs["SettlementPointPrice"].fillna(0)
-                            marker_sizes = canonical_hubs["SettlementPointPrice"].fillna(0).abs().clip(lower=0)
-
-                            fig_lmp_map.add_trace(
-                                go.Scattergeo(
-                                    lon=canonical_hubs["lon"],
-                                    lat=canonical_hubs["lat"],
-                                    text=canonical_hubs["MatchedLabel"],
-                                    mode="markers+text",
-                                    textposition="top center",
-                                    marker=dict(
-                                        size=np.where(marker_sizes > 0, np.clip(marker_sizes / 5, 12, 34), 14),
-                                        color=marker_colors,
-                                        colorscale="RdYlGn_r",
-                                        cmin=float(matched_prices.min()) if not matched_prices.empty else -100,
-                                        cmax=float(matched_prices.max()) if not matched_prices.empty else 100,
-                                        showscale=True,
-                                        colorbar=dict(title="$/MWh"),
-                                        line=dict(width=1, color="#1f2937")
-                                    ),
-                                    hovertemplate=(
-                                        "%{text}<br>"
-                                        "Price: %{marker.color:.2f} $/MWh<extra></extra>"
+                            if not map_hubs.empty:
+                                fig_lmp_map = go.Figure()
+                                fig_lmp_map.add_trace(
+                                    go.Scattergeo(
+                                        lon=map_hubs["lon"],
+                                        lat=map_hubs["lat"],
+                                        text=map_hubs["SettlementPoint"],
+                                        mode="markers+text",
+                                        textposition="top center",
+                                        marker=dict(
+                                            size=np.clip(map_hubs["SettlementPointPrice"].abs() / 5, 12, 34),
+                                            color=map_hubs["SettlementPointPrice"],
+                                            colorscale="RdYlGn_r",
+                                            showscale=True,
+                                            colorbar=dict(title="$/MWh"),
+                                            line=dict(width=1, color="#1f2937")
+                                        ),
+                                        hovertemplate=(
+                                            "%{text}<br>" 
+                                            "Price: %{marker.color:.2f} $/MWh<extra></extra>"
+                                        )
                                     )
                                 )
-                            )
-                            fig_lmp_map.add_annotation(
-                                x=0.5,
-                                y=1.08,
-                                xref="paper",
-                                yref="paper",
-                                text="Texas hub overview. If a settlement point label does not match exactly, the closest major ERCOT hub is shown instead.",
-                                showarrow=False,
-                                font=dict(size=12, color="#475569")
-                            )
-                            fig_lmp_map.update_layout(
-                                title="Texas LMP Map - Major ERCOT Hubs",
-                                geo=dict(
-                                    scope="usa",
-                                    projection_type="albers usa",
-                                    showland=True,
-                                    landcolor="rgb(245,247,250)",
-                                    subunitcolor="rgb(200,200,200)",
-                                    countrycolor="rgb(200,200,200)",
-                                    showlakes=True,
-                                    lakecolor="rgb(230,240,255)",
-                                    bgcolor="rgba(0,0,0,0)"
-                                ),
-                                height=580,
-                                margin=dict(l=0, r=0, t=70, b=0)
-                            )
-                            st.plotly_chart(fig_lmp_map, width='stretch')
+                                fig_lmp_map.update_layout(
+                                    title="Texas LMP Map - Major ERCOT Hubs",
+                                    geo=dict(
+                                        scope="usa",
+                                        projection_type="albers usa",
+                                        showland=True,
+                                        landcolor="rgb(245,247,250)",
+                                        subunitcolor="rgb(200,200,200)",
+                                        countrycolor="rgb(200,200,200)",
+                                        showlakes=True,
+                                        lakecolor="rgb(230,240,255)",
+                                        bgcolor="rgba(0,0,0,0)"
+                                    ),
+                                    height=560,
+                                    margin=dict(l=0, r=0, t=50, b=0)
+                                )
+                                st.plotly_chart(fig_lmp_map, width='stretch')
+                            else:
+                                st.info("ℹ️ Hub coordinates not available for the current settlement points, so the map view is hidden.")
 
                             st.subheader("📋 Ranked Hub Prices")
-                            display_table = latest_hubs[[point_col, price_col]].copy()
-                            display_table = display_table.rename(columns={point_col: "Hub", price_col: "Price ($/MWh)"})
+                            display_table = latest_hubs[["SettlementPoint", "SettlementPointPrice"]].copy()
+                            display_table = display_table.rename(columns={"SettlementPoint": "Hub", "SettlementPointPrice": "Price ($/MWh)"})
                             st.dataframe(make_arrow_safe_dataframe(display_table), width='stretch')
                         else:
                             st.info("ℹ️ Price data columns not found.")
