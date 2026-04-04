@@ -25,9 +25,9 @@ except ImportError as e:
     st.info("Please ensure the 'agent' folder exists in the same directory as this app.")
     st.stop()
 
-st.set_page_config(page_title="Market Agent Dashboard", layout="wide")
+st.set_page_config(page_title="📈 Market Agent Dashboard", layout="wide")
 
-st.title(" Amir Exir Stock Market & Crypto AI Agent")
+st.title("🤖 Amir Exir Stock Market & Crypto AI Agent")
 
 # --- Fetch the latest summary from GitHub ---
 @st.cache_data(ttl=300)  # Cache for 5 minutes
@@ -58,9 +58,9 @@ def fetch_latest_summary():
 
 col_summary, col_refresh = st.columns([4, 1])
 with col_summary:
-    st.markdown(" AI-Generated Market Summary")
+    st.markdown("📰 AI-Generated Market Summary")
 with col_refresh:
-    if st.button(" Refresh News", help="Fetch the latest news from GitHub"):
+    if st.button("🔄 Refresh News", help="Fetch the latest news from GitHub"):
         st.cache_data.clear()
         st.rerun()
 
@@ -149,11 +149,11 @@ except Exception as e:
 st.markdown("---")
 
 #  Real-Time S&P 500 Heatmap (Market Cap Weighted + Labels)
-st.subheader(" Real-Time S&P 500 Heatmap")
+st.subheader("🧭 Real-Time S&P 500 Heatmap")
 
 # Timeframe selector
 sp_tf = st.selectbox(
-    "Stock change timeframe",
+    "📉 Stock change timeframe",
     ["1D", "7D", "1M", "3M", "1Y", "5Y"],
     index=0,
     key="stock_tf"
@@ -216,7 +216,7 @@ try:
         color="Percent Change",
         color_continuous_scale="RdYlGn",
         hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-        title=f"S&P 500 Change ({sp_tf}) – Sized by Market Cap"
+        title=f"📊 S&P 500 Change ({sp_tf}) – Sized by Market Cap"
     )
 
     fig.update_traces(text=df["Label"])
@@ -229,11 +229,11 @@ except Exception as e:
 
 # --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
 # --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
-st.subheader(" Real-Time Crypto Heatmap")
+st.subheader("🪙 Real-Time Crypto Heatmap")
 
 # Timeframe selector for crypto
 crypto_tf = st.selectbox(
-    "Crypto change timeframe",
+    "⏱️ Crypto change timeframe",
     ["24H", "7D", "1M", "3M", "1Y", "5Y"],
     index=0
 )
@@ -298,7 +298,7 @@ try:
         color="Percent Change",
         color_continuous_scale="RdYlGn",
         hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-        title=f"Crypto Change ({crypto_tf}) – Sized by Market Cap"
+        title=f"🪙 Crypto Change ({crypto_tf}) – Sized by Market Cap"
     )
 
     crypto_fig.update_traces(text=crypto_df["Label"])
@@ -309,11 +309,11 @@ except Exception as e:
 
 
 # Owner Key unlock system
-owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password")
+owner_key_input = st.sidebar.text_input("🔑 Enter Owner Key", type="password")
 OWNER_KEY = st.secrets.get("OWNER_KEY", "")
 
 if owner_key_input == OWNER_KEY and OWNER_KEY != "":
-    demo_mode = st.sidebar.checkbox("Demo Mode", value=False, help="Toggle between live and demo mode")
+    demo_mode = st.sidebar.checkbox("🎭 Demo Mode", value=False, help="Toggle between live and demo mode")
     if demo_mode:
         st.sidebar.info("Demo Mode active — trades will not be executed.")
     else:
@@ -346,7 +346,7 @@ else:
         st.sidebar.error(f"Failed to fetch Alpaca account: {e}")
         equity, cash, buying_power = 100000.0, 100000.0, 200000.0
 
-st.sidebar.header("Account Summary (Paper Trading)")
+st.sidebar.header("💼 Account Summary (Paper Trading)")
 st.sidebar.metric("Equity", f"${equity:,.2f}")
 st.sidebar.metric("Cash", f"${cash:,.2f}")
 st.sidebar.metric("Buying Power", f"${buying_power:,.2f}")
@@ -363,17 +363,17 @@ if st.sidebar.button("🧹 Cancel Open Orders"):
         st.sidebar.info("(Demo) Orders not canceled in demo mode")
 
 # --- Strategy Settings ---
-st.sidebar.header("Strategy Settings")
-short_window = st.sidebar.number_input("Short-term MA window", min_value=1, max_value=100, value=20, step=1)
-long_window = st.sidebar.number_input("Long-term MA window", min_value=1, max_value=200, value=50, step=1)
+st.sidebar.header("⚙️ Strategy Settings")
+short_window = st.sidebar.number_input("📏 Short-term MA window", min_value=1, max_value=100, value=20, step=1)
+long_window = st.sidebar.number_input("📐 Long-term MA window", min_value=1, max_value=200, value=50, step=1)
 
 # --- Symbol input ---
-symbol = st.text_input("Symbol", "AAPL", key="symbol_input").upper()
+symbol = st.text_input("🏷️ Symbol", "AAPL", key="symbol_input").upper()
 
 # --- Manual Trade Buttons ---
 col1, col2 = st.columns(2)
 with col1:
-    if st.button(f"Buy {symbol}"):
+    if st.button(f"🟢 Buy {symbol}"):
         if demo_mode:
             st.info(f"(Demo) Pretending to buy 1 share of {symbol}")
         else:
@@ -384,7 +384,7 @@ with col1:
             except Exception as e:
                 st.error(f"Failed to buy: {e}")
 with col2:
-    if st.button(f"Sell {symbol}"):
+    if st.button(f"🔴 Sell {symbol}"):
         if demo_mode:
             st.info(f"(Demo) Pretending to sell 1 share of {symbol}")
         else:
@@ -402,15 +402,15 @@ try:
     sig = sma_crossover(df, short_window, long_window)
     bt = simple_vector_backtest(df, sig)
     
-    st.subheader("Price Chart")
+    st.subheader("📈 Price Chart")
     st.line_chart(df["close"])
     
-    st.subheader("Strategy Equity Curve")
+    st.subheader("📊 Strategy Equity Curve")
     st.line_chart(bt["curve"])
     
     # --- Latest Signal + Timestamp ---
     signal_emoji = "BUY" if sig.iloc[-1] == 1 else "FLAT"
-    st.write(f"**Latest Signal:** {signal_emoji}")
+    st.write(f"**✨ Latest Signal:** {signal_emoji}")
     st.caption(f"Last updated {dt.datetime.utcnow():%Y-%m-%d %H:%M UTC}")
     
 except Exception as e:
@@ -420,7 +420,7 @@ except Exception as e:
 st.markdown("---")
 
 # Debug info (only show in sidebar if needed)
-if st.sidebar.checkbox("Show Debug Info", value=False):
+if st.sidebar.checkbox("🐞 Show Debug Info", value=False):
     try:
         r = requests.get("https://paper-api.alpaca.markets/v2/orders", headers={
             "APCA-API-KEY-ID": ALPACA_KEY,
