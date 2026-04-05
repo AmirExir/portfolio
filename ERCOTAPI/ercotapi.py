@@ -419,6 +419,7 @@ def main():
     st.set_page_config(page_title="Amir Exir's ERCOT Grid Analytics Dashboard", layout="wide")
     st.title("⚡ ERCOT Grid Analytics & Forecasting Dashboard")
     st.markdown("**Real-time grid monitoring, renewable generation tracking, and ML-powered load forecasting**")
+    st.caption("Build: 2026-04-05 news-unified-v1")
 
     # News ingestion panel (GitHub n8n output -> dashboard)
     st.markdown("---")
@@ -432,27 +433,21 @@ def main():
     with telegram_col:
         st.link_button("Telegram", "https://t.me/ERCOT_Newsbot", help="Open ERCOT News bot")
 
-    # Define news category prefixes
-    ercot_prefixes = ["ercot_news_", "ercot_summary_", "summary_ercot_", "datacenter_news_", "data_center_news_", "dc_news_"]
-    regulatory_prefixes = ["nogrr_", "nodal_operating_guide_", "nodal_guide_change_", "pgrr_", "planning_guide_change_", "planning_guide_update_"]
-    
-    news_col1, news_col2 = st.columns(2)
-    
-    # ERCOT News & Data Center
-    with news_col1:
-        item = get_latest_news_by_prefix(ercot_prefixes, repo_path="ERCOTAPI")
-        if item:
-            st.markdown("**ERCOT News**")
-            st.caption(f"Latest: {item['name']}")
-            st.markdown(item["content"])
-    
-    # Regulatory Updates (NOGRR & PGRR)
-    with news_col2:
-        item = get_latest_news_by_prefix(regulatory_prefixes, repo_path="ERCOTAPI")
-        if item:
-            st.markdown("**Regulatory Updates**")
-            st.caption(f"Latest: {item['name']}")
-            st.markdown(item["content"])
+    # Unified news prefixes (ERCOT + regulatory updates in one panel)
+    all_news_prefixes = [
+        "ercot_news_", "ercot_summary_", "summary_ercot_",
+        "datacenter_news_", "data_center_news_", "dc_news_",
+        "nogrr_", "nodal_operating_guide_", "nodal_guide_change_",
+        "pgrr_", "planning_guide_change_", "planning_guide_update_",
+    ]
+
+    item = get_latest_news_by_prefix(all_news_prefixes, repo_path="ERCOTAPI")
+    if item:
+        st.markdown("**ERCOT News & Regulatory Updates**")
+        st.caption(f"Latest: {item['name']}")
+        st.markdown(item["content"])
+    else:
+        st.info("Awaiting n8n workflow updates...")
 
     # Sidebar for configuration
     st.sidebar.header("⚙️ Configuration")
