@@ -425,7 +425,7 @@ def main():
     st.markdown("---")
     news_col, refresh_col, telegram_col = st.columns([4, 1, 1.4])
     with news_col:
-        st.subheader("📰 News & Regulatory Updates")
+        st.subheader("📰 ERCOT News")
     with refresh_col:
         if st.button("Refresh", help="Reload cached news files"):
             st.cache_data.clear()
@@ -443,7 +443,7 @@ def main():
 
     item = get_latest_news_by_prefix(all_news_prefixes, repo_path="ERCOTAPI")
     if item:
-        st.markdown("**ERCOT News & Regulatory Updates**")
+        st.markdown("**ERCOT News**")
         st.caption(f"Latest: {item['name']}")
         st.markdown(item["content"])
     else:
@@ -616,7 +616,7 @@ def main():
     
     # Date range selector
     date_range = st.sidebar.slider(
-        "📅 Historical Days to Load",
+        "📅 Historical Days to Load (1-90, default 30)",
         min_value=1,
         max_value=90,
         value=30,
