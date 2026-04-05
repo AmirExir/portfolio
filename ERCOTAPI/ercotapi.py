@@ -424,45 +424,39 @@ def main():
     st.markdown("---")
     news_col, refresh_col = st.columns([4, 1])
     with news_col:
-        st.subheader("News & Regulatory Updates")
+        st.subheader("📰 ERCOT News & Updates")
     with refresh_col:
-        if st.button("Refresh News", help="Reload cached news files from GitHub/local storage"):
+        if st.button("Refresh", help="Reload cached news files"):
             st.cache_data.clear()
             st.rerun()
 
-    news_sources = [
-        {
-            "title": "ERCOT News",
-            "prefixes": ["ercot_news_", "ercot_summary_", "summary_ercot_"],
-        },
-        {
-            "title": "Data Center News",
-            "prefixes": ["datacenter_news_", "data_center_news_", "dc_news_"],
-        },
-        {
-            "title": "NOGRR Updates",
-            "prefixes": ["nogrr_", "nodal_operating_guide_", "nodal_guide_change_"],
-        },
-        {
-            "title": "PGRR Updates",
-            "prefixes": ["pgrr_", "planning_guide_change_", "planning_guide_update_"],
-        },
-    ]
-
-    news_cols = st.columns(2)
-    for idx, source in enumerate(news_sources):
-        with news_cols[idx % 2]:
-            item = get_latest_news_by_prefix(source["prefixes"], repo_path="ERCOTAPI")
-            if item:
-                st.markdown(f"**{source['title']}**")
-                st.caption(f"Latest file: {item['name']}")
-                st.info(item["content"])
-            else:
-                st.markdown(f"**{source['title']}**")
-                st.warning(
-                    "No updates found yet. Add n8n output files in ERCOTAPI with one of these prefixes: "
-                    + ", ".join(source["prefixes"])
-                )
+    # Define news category prefixes
+    ercot_prefixes = ["ercot_news_", "ercot_summary_", "summary_ercot_", "datacenter_news_", "data_center_news_", "dc_news_"]
+    regulatory_prefixes = ["nogrr_", "nodal_operating_guide_", "nodal_guide_change_", "pgrr_", "planning_guide_change_", "planning_guide_update_"]
+    
+    news_col1, news_col2 = st.columns(2)
+    
+    # ERCOT News & Data Center
+    with news_col1:
+        item = get_latest_news_by_prefix(ercot_prefixes, repo_path="ERCOTAPI")
+        if item:
+            st.markdown("**ERCOT News**")
+            st.caption(f"Latest: {item['name']}")
+            st.info(item["content"])
+        else:
+            st.markdown("**ERCOT News**")
+            st.info("Awaiting n8n workflow updates...")
+    
+    # Regulatory Updates (NOGRR & PGRR)
+    with news_col2:
+        item = get_latest_news_by_prefix(regulatory_prefixes, repo_path="ERCOTAPI")
+        if item:
+            st.markdown("**Regulatory Updates**")
+            st.caption(f"Latest: {item['name']}")
+            st.info(item["content"])
+        else:
+            st.markdown("**Regulatory Updates**")
+            st.info("Awaiting n8n workflow updates...")
 
     # Sidebar for configuration
     st.sidebar.header("⚙️ Configuration")
