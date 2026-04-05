@@ -135,6 +135,50 @@ The dashboard includes a **Random Forest Regressor** that:
 - [ ] Include weather correlation analysis
 - [ ] Deploy alerts for high price events
 
+## ERCOT News Workflow
+
+This repo also supports a news pipeline for:
+
+- ERCOT announcements
+- Data center news
+- NOGRR updates
+- PGRR updates
+
+### Workflow Pattern
+
+1. Have your n8n workflow write a news summary file into `ERCOTAPI/`.
+2. Use a filename prefix that matches the category:
+   - `ercot_news_`
+   - `datacenter_news_` or `data_center_news_`
+   - `nogrr_`
+   - `pgrr_`
+3. The dashboard will automatically show the latest file for each category.
+4. The Telegram workflow script can send a digest when a new file appears.
+
+### Telegram Secrets
+
+Set these environment variables or Streamlit secrets for the ERCOT news bot:
+
+```toml
+ERCOT_NEWS_TELEGRAM_BOT_TOKEN = "your_bot_token"
+ERCOT_NEWS_TELEGRAM_CHAT_ID = "your_chat_id"
+```
+
+Optional:
+
+```toml
+ERCOT_NEWS_STATE_FILE = "/path/to/.ercot_news_state.json"
+ERCOT_NEWS_DRY_RUN = "false"
+```
+
+### Run the News Workflow
+
+```bash
+python ercot_news_workflow.py
+```
+
+If you prefer n8n, call the script from a command node or reuse the same file naming convention when writing summaries to GitHub.
+
 ## License
 
 MIT License - See LICENSE file for details

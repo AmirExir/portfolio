@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 from typing import Optional, Dict, Any
 import streamlit as st
 import pandas as pd
@@ -137,6 +138,91 @@ def fetch_ercot_data_cached(endpoint: str, params_str: str, bearer_token: str, s
     # Create temporary API instance
     api = ErcotAPI(bearer_token=bearer_token, subscription_key=subscription_key)
     return api.get_public(endpoint, params=params, verbose=False, max_retries=3)
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def fetch_news_file_index(path: str = "ERCOTAPI"):
+    """Fetch file index from GitHub for n8n-generated news files (cached for 5 minutes)."""
+    contents_url = f"https://api.github.com/repos/AmirExir/portfolio/contents/{path.strip('/')}"
+    headers = {
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "Streamlit-ERCOT-Dashboard",
+    }
+    response = requests.get(contents_url, headers=headers, timeout=12)
+    if response.status_code == 403 and "rate limit" in response.text.lower():
+        return None
+    response.raise_for_status()
+    files = response.json()
+    return files if isinstance(files, list) else []
+
+
+def _normalize_news_text(raw_text: str) -> str:
+    """Parse text payloads that may be plain text or JSON from n8n outputs."""
+    try:
+        payload = json.loads(raw_text)
+        if isinstance(payload, dict):
+            return str(payload.get("content") or payload.get("message") or payload)
+        if isinstance(payload, list):
+            return "\n".join(str(item) for item in payload)
+        return str(payload)
+    except json.JSONDecodeError:
+        return raw_text
+
+
+def _read_latest_local_news(local_dir: str, prefixes) -> Optional[Dict[str, str]]:
+    """Local fallback for Streamlit deployments when GitHub API is unavailable."""
+    if not os.path.isdir(local_dir):
+        return None
+
+    candidates = [
+        name for name in os.listdir(local_dir)
+        if os.path.isfile(os.path.join(local_dir, name))
+        and name.lower().endswith((".txt", ".md", ".json"))
+        and any(name.lower().startswith(p.lower()) for p in prefixes)
+    ]
+    if not candidates:
+        return None
+
+    latest_name = sorted(candidates, reverse=True)[0]
+    try:
+        with open(os.path.join(local_dir, latest_name), "r", encoding="utf-8") as f:
+            content = _normalize_news_text(f.read().strip())
+        return {"name": latest_name, "content": content}
+    except Exception:
+        return None
+
+
+def get_latest_news_by_prefix(prefixes, repo_path: str = "ERCOTAPI") -> Optional[Dict[str, str]]:
+    """Return the latest matching news item using GitHub first, then local fallback."""
+    try:
+        files = fetch_news_file_index(repo_path)
+    except Exception:
+        files = None
+
+    if files:
+        matches = [
+            f for f in files
+            if f.get("type") == "file"
+            and f.get("name", "").lower().endswith((".txt", ".md", ".json"))
+            and any(f.get("name", "").lower().startswith(p.lower()) for p in prefixes)
+        ]
+        if matches:
+            latest = sorted(matches, key=lambda x: x.get("name", ""), reverse=True)[0]
+            download_url = latest.get("download_url")
+            if download_url:
+                try:
+                    r = requests.get(download_url, timeout=12)
+                    r.raise_for_status()
+                    return {
+                        "name": latest.get("name", ""),
+                        "content": _normalize_news_text(r.text.strip()),
+                    }
+                except Exception:
+                    pass
+
+    # Fallback to local files in ERCOTAPI directory
+    local_dir = os.path.dirname(os.path.abspath(__file__))
+    return _read_latest_local_news(local_dir, prefixes)
 
 
 def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
@@ -333,6 +419,50 @@ def main():
     st.set_page_config(page_title="Amir Exir's ERCOT Grid Analytics Dashboard", layout="wide")
     st.title("⚡ ERCOT Grid Analytics & Forecasting Dashboard")
     st.markdown("**Real-time grid monitoring, renewable generation tracking, and ML-powered load forecasting**")
+
+    # News ingestion panel (GitHub n8n output -> dashboard)
+    st.markdown("---")
+    news_col, refresh_col = st.columns([4, 1])
+    with news_col:
+        st.subheader("News & Regulatory Updates")
+    with refresh_col:
+        if st.button("Refresh News", help="Reload cached news files from GitHub/local storage"):
+            st.cache_data.clear()
+            st.rerun()
+
+    news_sources = [
+        {
+            "title": "ERCOT News",
+            "prefixes": ["ercot_news_", "ercot_summary_", "summary_ercot_"],
+        },
+        {
+            "title": "Data Center News",
+            "prefixes": ["datacenter_news_", "data_center_news_", "dc_news_"],
+        },
+        {
+            "title": "NOGRR Updates",
+            "prefixes": ["nogrr_", "nodal_operating_guide_", "nodal_guide_change_"],
+        },
+        {
+            "title": "PGRR Updates",
+            "prefixes": ["pgrr_", "planning_guide_change_", "planning_guide_update_"],
+        },
+    ]
+
+    news_cols = st.columns(2)
+    for idx, source in enumerate(news_sources):
+        with news_cols[idx % 2]:
+            item = get_latest_news_by_prefix(source["prefixes"], repo_path="ERCOTAPI")
+            if item:
+                st.markdown(f"**{source['title']}**")
+                st.caption(f"Latest file: {item['name']}")
+                st.info(item["content"])
+            else:
+                st.markdown(f"**{source['title']}**")
+                st.warning(
+                    "No updates found yet. Add n8n output files in ERCOTAPI with one of these prefixes: "
+                    + ", ".join(source["prefixes"])
+                )
 
     # Sidebar for configuration
     st.sidebar.header("⚙️ Configuration")
