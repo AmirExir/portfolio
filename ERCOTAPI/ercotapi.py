@@ -216,12 +216,17 @@ def _read_latest_local_news(local_dir: str, prefixes) -> Optional[Dict[str, str]
 
 def get_latest_news_by_prefix(prefixes, repo_path: str = "ERCOTAPI") -> Optional[Dict[str, str]]:
     """Return the latest matching news item using GitHub first, then local fallback."""
-    try:
-        files = fetch_news_file_index(repo_path)
-    except Exception:
-        files = None
+    candidate_paths = [repo_path, f"{repo_path}/market_agent"]
 
-    if files:
+    for candidate_path in candidate_paths:
+        try:
+            files = fetch_news_file_index(candidate_path)
+        except Exception:
+            files = None
+
+        if not files:
+            continue
+
         matches = [
             f for f in files
             if f.get("type") == "file"
