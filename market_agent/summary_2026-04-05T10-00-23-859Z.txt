@@ -1,0 +1,5 @@
+- **Anthropic Discontinues Support for OpenClaw**: Anthropic has severed ties with the AI agent platform OpenClaw for its Claude subscriptions, citing high system strain due to demand. OpenClaw’s founder expressed disappointment, emphasizing the impact of the decision on users.
+
+- **United Airlines Increases Baggage Fees**: Amid rising fuel costs, United Airlines will hike checked bag fees by $10, with the first checked bag now costing $45, affecting travelers within the U.S., Canada, Mexico, and Latin America as airlines face increased operational pressures.
+
+- **U.S. Bonds Dip Following Labor Data**: Bond traders are banking on stable interest rates this year after robust U.S. jobs data, which showed a stabilizing labor market despite ongoing uncertainties from geopolitical events, including tensions in the Middle East.
