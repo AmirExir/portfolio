@@ -156,6 +156,23 @@ def fetch_news_file_index(path: str = "ERCOTAPI"):
     return files if isinstance(files, list) else []
 
 
+@st.cache_data(ttl=300, show_spinner=False)
+def fetch_news_repo_tree(branch: str = "main"):
+    """Fetch recursive file tree from GitHub as a fallback when folder listing is insufficient."""
+    tree_url = f"https://api.github.com/repos/AmirExir/portfolio/git/trees/{branch}?recursive=1"
+    headers = {
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "Streamlit-ERCOT-Dashboard",
+    }
+    response = requests.get(tree_url, headers=headers, timeout=12)
+    if response.status_code == 403 and "rate limit" in response.text.lower():
+        return []
+    response.raise_for_status()
+    payload = response.json()
+    tree = payload.get("tree", []) if isinstance(payload, dict) else []
+    return tree if isinstance(tree, list) else []
+
+
 def _normalize_news_text(raw_text: str) -> str:
     """Parse text payloads that may be plain text or JSON from n8n outputs."""
     try:
@@ -174,20 +191,25 @@ def _read_latest_local_news(local_dir: str, prefixes) -> Optional[Dict[str, str]
     if not os.path.isdir(local_dir):
         return None
 
-    candidates = [
-        name for name in os.listdir(local_dir)
-        if os.path.isfile(os.path.join(local_dir, name))
-        and name.lower().endswith((".txt", ".md", ".json"))
-        and any(name.lower().startswith(p.lower()) for p in prefixes)
-    ]
+    candidates = []
+    for root, _, files in os.walk(local_dir):
+        for name in files:
+            lower_name = name.lower()
+            if not lower_name.endswith((".txt", ".md", ".json")):
+                continue
+            if any(lower_name.startswith(p.lower()) for p in prefixes):
+                rel_path = os.path.relpath(os.path.join(root, name), local_dir)
+                candidates.append(rel_path)
+
     if not candidates:
         return None
 
     latest_name = sorted(candidates, reverse=True)[0]
+    latest_path = os.path.join(local_dir, latest_name)
     try:
-        with open(os.path.join(local_dir, latest_name), "r", encoding="utf-8") as f:
+        with open(latest_path, "r", encoding="utf-8") as f:
             content = _normalize_news_text(f.read().strip())
-        return {"name": latest_name, "content": content}
+        return {"name": os.path.basename(latest_name), "content": content}
     except Exception:
         return None
 
@@ -219,6 +241,46 @@ def get_latest_news_by_prefix(prefixes, repo_path: str = "ERCOTAPI") -> Optional
                     }
                 except Exception:
                     pass
+
+    # Fallback: search full repo tree (helps when n8n writes files outside ERCOTAPI/).
+    try:
+        tree_items = fetch_news_repo_tree("main")
+    except Exception:
+        tree_items = []
+
+    if tree_items:
+        tree_matches = []
+        heuristic_matches = []
+        for item in tree_items:
+            if item.get("type") != "blob":
+                continue
+            rel_path = item.get("path", "")
+            if not rel_path.lower().endswith((".txt", ".md", ".json")):
+                continue
+            base_name = os.path.basename(rel_path).lower()
+            if any(base_name.startswith(p.lower()) for p in prefixes):
+                tree_matches.append(rel_path)
+            elif base_name.startswith("summary_") or ("ercot" in base_name and ("news" in base_name or "summary" in base_name)):
+                heuristic_matches.append(rel_path)
+
+        if not tree_matches and heuristic_matches:
+            tree_matches = heuristic_matches
+
+        if tree_matches:
+            latest_path = sorted(tree_matches, reverse=True)[0]
+            raw_url = (
+                "https://raw.githubusercontent.com/AmirExir/portfolio/main/"
+                f"{latest_path}"
+            )
+            try:
+                r = requests.get(raw_url, timeout=12)
+                r.raise_for_status()
+                return {
+                    "name": os.path.basename(latest_path),
+                    "content": _normalize_news_text(r.text.strip()),
+                }
+            except Exception:
+                pass
 
     # Fallback to local files in ERCOTAPI directory
     local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -436,6 +498,7 @@ def main():
     # Unified news prefixes (ERCOT + regulatory updates in one panel)
     all_news_prefixes = [
         "ercot_news_", "ercot_summary_", "summary_ercot_",
+        "summary_",
         "datacenter_news_", "data_center_news_", "dc_news_",
         "nogrr_", "nodal_operating_guide_", "nodal_guide_change_",
         "pgrr_", "planning_guide_change_", "planning_guide_update_",
