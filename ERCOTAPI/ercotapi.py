@@ -424,39 +424,27 @@ def main():
     st.markdown("---")
     news_col, refresh_col = st.columns([4, 1])
     with news_col:
-        st.subheader("📰 ERCOT News & Updates")
+        st.subheader("📰 ERCOT News")
     with refresh_col:
         if st.button("Refresh", help="Reload cached news files"):
             st.cache_data.clear()
             st.rerun()
 
-    # Define news category prefixes
-    ercot_prefixes = ["ercot_news_", "ercot_summary_", "summary_ercot_", "datacenter_news_", "data_center_news_", "dc_news_"]
-    regulatory_prefixes = ["nogrr_", "nodal_operating_guide_", "nodal_guide_change_", "pgrr_", "planning_guide_change_", "planning_guide_update_"]
+    # Define comprehensive news category prefixes (all categories in one section)
+    all_news_prefixes = [
+        "ercot_news_", "ercot_summary_", "summary_ercot_", 
+        "datacenter_news_", "data_center_news_", "dc_news_",
+        "nogrr_", "nodal_operating_guide_", "nodal_guide_change_", 
+        "pgrr_", "planning_guide_change_", "planning_guide_update_"
+    ]
     
-    news_col1, news_col2 = st.columns(2)
-    
-    # ERCOT News & Data Center
-    with news_col1:
-        item = get_latest_news_by_prefix(ercot_prefixes, repo_path="ERCOTAPI")
-        if item:
-            st.markdown("**ERCOT News**")
-            st.caption(f"Latest: {item['name']}")
-            st.info(item["content"])
-        else:
-            st.markdown("**ERCOT News**")
-            st.info("Awaiting n8n workflow updates...")
-    
-    # Regulatory Updates (NOGRR & PGRR)
-    with news_col2:
-        item = get_latest_news_by_prefix(regulatory_prefixes, repo_path="ERCOTAPI")
-        if item:
-            st.markdown("**Regulatory Updates**")
-            st.caption(f"Latest: {item['name']}")
-            st.info(item["content"])
-        else:
-            st.markdown("**Regulatory Updates**")
-            st.info("Awaiting n8n workflow updates...")
+    # Single unified ERCOT News panel
+    item = get_latest_news_by_prefix(all_news_prefixes, repo_path="ERCOTAPI")
+    if item:
+        st.caption(f"Latest Update: {item['name']}")
+        st.info(item["content"])
+    else:
+        st.info("Awaiting n8n workflow updates...")
 
     # Sidebar for configuration
     st.sidebar.header("⚙️ Configuration")
@@ -627,8 +615,8 @@ def main():
     date_range = st.sidebar.slider(
         "📅 Historical Days to Load",
         min_value=1,
-        max_value=7,
-        value=3,
+        max_value=90,
+        value=30,
         help="Number of days of historical data to fetch"
     )
     
