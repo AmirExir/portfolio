@@ -1,0 +1,3 @@
+- Microsoft and Chevron are in exclusive talks to develop a multi-billion dollar gas power plant in West Texas, aimed at supporting a large data center campus, which could significantly increase power demand and strain the ERCOT grid. This partnership underscores a growing trend of integrating large-scale energy projects with tech infrastructure in the region. (Financial Post)
+
+- The proposed power plant's capacity is expected to be 2.5 gigawatts initially, potentially doubling, which raises concerns about the adequacy of the current ERCOT infrastructure to handle surges in demand from both new and existing data centers. Such expansions could necessitate updates to the NOGRR and PGRR frameworks to ensure grid reliability. (OilPrice.com)
