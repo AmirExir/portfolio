@@ -1,0 +1,5 @@
+- Microsoft and Chevron are in exclusive talks to establish a substantial gas-fired power plant in West Texas, aimed at supporting a major AI data center campus with an initial capacity of 2.5 gigawatts, which could impact future grid stability and demand in the ERCOT region. (Financial Post)
+
+- The partnership between Chevron, Microsoft, and investment firm Engine No. 1, valued at approximately $7 billion for the power plant, marks a significant move in enhancing energy infrastructure that could alleviate pressures on ERCOT during peak demand periods. (OilPrice.com)
+
+- The growing trend of colocating data centers with power generation facilities, as seen with the Microsoft-Chevron project, may catalyze further investment in ERCOT to meet the increasing demand for electricity from tech infrastructure, underscoring the need for proactive grid management and planning. (Fortune)
