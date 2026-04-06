@@ -1,0 +1,5 @@
+- Microsoft and Chevron are in exclusive discussions for a long-term agreement to develop a multi-billion dollar gas power plant in West Texas, aimed at supporting a large data center campus. This project could significantly increase demand on the ERCOT grid as data centers continue to proliferate in the area. (Financial Post)
+
+- The partnership highlights the growing intersection between traditional energy and tech industries, emphasizing the importance of grid reliability in accommodating substantial new power loads from AI data centers, which is critical for ERCOT's future planning and operational strategies. (OilPrice.com)
+
+- This development aligns with ERCOT's ongoing efforts to enhance grid reliability, indicating a need for updated protocols and resource allocation to ensure that the grid can manage increased stress from new energy projects linked to data centers. (Fortune)
