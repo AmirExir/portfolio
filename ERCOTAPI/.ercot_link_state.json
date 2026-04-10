@@ -1,0 +1,61 @@
+{
+  "BOARD OF DIRECTORS": [
+    "BOARD OF DIRECTORS|https://www.ercot.com/files/docs/2026/03/18/ERCOT-Monthly-Operational-Overview-February-2026.pdf",
+    "BOARD OF DIRECTORS|https://www.ercot.com/files/docs/2026/02/18/ERCOT-Monthly-Operational-Overview-January-2026.pdf",
+    "BOARD OF DIRECTORS|https://www.ercot.com/committees/workshops"
+  ],
+  "DWG": [
+    "DWG|https://www.ercot.com/files/docs/2025/12/19/LEL-Modeling-Approach-and-Survey-Update_Dec-18-2025_R03.pdf",
+    "DWG|https://www.ercot.com/files/docs/2025/06/06/DWG-Procedure-Manual-Revision-24-ROS.docx",
+    "DWG|https://www.ercot.com/files/docs/2024/07/08/DWG_Roster_20260304.docx",
+    "DWG|https://www.ercot.com/files/docs/2021/12/20/ERCOT_DWG_DG_Parameterization_Guideline.xlsx",
+    "DWG|https://www.ercot.com/files/docs/2021/01/20/ERCOT_SSR_Study_Scope_Guideline_10-27-2020-external.docx"
+  ],
+  "LLWG": [
+    "LLWG|https://www.ercot.com/files/docs/2025/07/30/FAQ-Stakeholder-Questions-on-Large-Loads_LLWG_14Aug2025.docx",
+    "LLWG|https://www.ercot.com/files/docs/2025/04/28/LLWG-Charter_TAC-Approved-042325.docx",
+    "LLWG|https://www.ercot.com/committees/workshops",
+    "LLWG|https://www.ercot.com/committees/tac/4/2/2026 PUCT%20\u2013%20Open%20Meeting Update https:/www.adminmonitor.com/tx/puct/open_meeting/20260402/"
+  ],
+  "NOGRR": [
+    "NOGRR|https://www.ercot.com/mktrules/issues/NOGRR286",
+    "NOGRR|https://www.ercot.com/mktrules/issues/NOGRR284",
+    "NOGRR|https://www.ercot.com/mktrules/issues/NOGRR283",
+    "NOGRR|https://www.ercot.com/mktrules/issues/NOGRR282",
+    "NOGRR|https://www.ercot.com/mktrules/issues/NOGRR281"
+  ],
+  "PGRR": [
+    "PGRR|https://www.ercot.com/mktrules/issues/PGRR145",
+    "PGRR|https://www.ercot.com/mktrules/issues/PGRR144",
+    "PGRR|https://www.ercot.com/mktrules/issues/PGRR143",
+    "PGRR|https://www.ercot.com/mktrules/issues/PGRR142",
+    "PGRR|https://www.ercot.com/mktrules/issues/PGRR141"
+  ],
+  "RIWG": [
+    "RIWG|https://www.ercot.com/files/docs/2021/01/19/ERCOT_Resource_Integration_Working_Group_Charter.docx",
+    "RIWG|https://www.ercot.com/committees/workshops"
+  ],
+  "RPG": [
+    "RPG|https://www.ercot.com/files/docs/2022/01/11/ERCOT_Planning_Contact_List_2025.doc",
+    "RPG|https://www.ercot.com/files/docs/2018/06/25/ERCOT_Regional_Planning_Group_Charter.docx",
+    "RPG|http://ercot.com/committees/workshops"
+  ],
+  "RTP": [
+    "RTP|https://www.ercot.com/mp/data-products/data-product-details?id=pg7-048-m#collapseDetails",
+    "RTP|https://www.ercot.com/committees/workshops"
+  ],
+  "SSWG": [
+    "SSWG|https://www.ercot.com/files/docs/2025/09/24/SSWG-Procedure-Manual-ROS-Approved-20250911.docx",
+    "SSWG|https://www.ercot.com/files/docs/2025/01/02/ERCOT_SSWG_Schedule_2026.docx",
+    "SSWG|https://www.ercot.com/files/docs/2024/07/12/SSWG_Procedure_Manual_ROS_Approved_06052025.docx",
+    "SSWG|https://www.ercot.com/files/docs/2022/08/12/Methodology_for_Assessing_GMD_Impacts_ROS_APPROVED%2020220810.docx",
+    "SSWG|https://www.ercot.com/files/docs/2022/08/12/GIC_System_Model_Procedure_Manual_ROS_APPROVED_20220810.docx"
+  ],
+  "TAC": [
+    "TAC|https://www.ercot.com/files/docs/2026/02/03/SG-WG-TF-Leadership-Guide.docx",
+    "TAC|https://www.ercot.com/files/docs/2025/10/23/TAC-Procedures-Approved-10222025.docx",
+    "TAC|https://www.ercot.com/files/docs/2025/08/12/2026-Block-Meeting-Schedule.Final.xls",
+    "TAC|https://www.ercot.com/files/docs/2025/08/05/Revision-Request-by-Reason-2025-120525.xlsx",
+    "TAC|https://www.ercot.com/files/docs/2024/09/25/proxy_and_alternate_representative_form.docx"
+  ]
+}
