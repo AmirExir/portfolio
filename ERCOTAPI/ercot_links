@@ -1,0 +1,10 @@
+NOGRR = https://www.ercot.com/mktrules/issues/nogrr
+PGRR = https://www.ercot.com/mktrules/issues/pgrr
+SSWG = https://www.ercot.com/committees/ros/sswg
+DWG = https://www.ercot.com/committees/ros/dwg
+RPG = http://ercot.com/committees/other/rpg
+RTP = https://www.ercot.com/mp/data-products/data-product-details?id=pg7-048-m
+LLWG = https://www.ercot.com/committees/tac/llwg
+RIWG = https://www.ercot.com/committees/other/riwg
+TAC = https://www.ercot.com/committees/tac
+BOARD OF DIRECTORS = https://www.ercot.com/committees/board

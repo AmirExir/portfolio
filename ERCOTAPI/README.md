@@ -179,6 +179,61 @@ python ercot_news_workflow.py
 
 If you prefer n8n, call the script from a command node or reuse the same file naming convention when writing summaries to GitHub.
 
+## ERCOT Document Monitor
+
+You can also monitor ERCOT committee and market-rule pages directly for newly posted files or meeting-detail links.
+
+### Links File
+
+The watcher reads `ERCOTAPI/ercot_links` with one entry per line:
+
+```txt
+NOGRR = https://www.ercot.com/mktrules/issues/nogrr
+PGRR = https://www.ercot.com/mktrules/issues/pgrr
+SSWG = https://www.ercot.com/committees/ros/sswg
+DWG = https://www.ercot.com/committees/ros/dwg
+RPG = http://ercot.com/committees/other/rpg
+RTP = https://www.ercot.com/mp/data-products/data-product-details?id=pg7-048-m
+LLWG = https://www.ercot.com/committees/tac/llwg
+RIWG = https://www.ercot.com/committees/other/riwg
+TAC = https://www.ercot.com/committees/tac
+BOARD OF DIRECTORS = https://www.ercot.com/committees/board
+```
+
+### Run the Monitor
+
+```bash
+python ercot_link_monitor.py
+```
+
+It prints a JSON payload with:
+
+- `has_updates`: whether new items were found
+- `changes`: each new file/page with source, URL, type, and summary
+- `telegram_text`: a ready-to-send HTML message
+
+### Telegram / n8n Integration
+
+Optional environment variables:
+
+```bash
+export ERCOT_LINK_TELEGRAM_BOT_TOKEN="your_bot_token"
+export ERCOT_LINK_TELEGRAM_CHAT_ID="your_chat_id"
+export ERCOT_LINK_SEND_TELEGRAM="true"
+```
+
+If `ERCOT_LINK_SEND_TELEGRAM=true`, the script sends the Telegram message itself when new items are found.
+
+For n8n, the simplest pattern is:
+
+1. `Schedule Trigger`
+2. `Execute Command` running `python /path/to/ERCOTAPI/ercot_link_monitor.py`
+3. `Code` node: parse the JSON output and check `has_updates`
+4. `IF` node: only continue when `has_updates === true`
+5. `Telegram` node: send `telegram_text`
+
+The monitor keeps local state in `ERCOTAPI/.ercot_link_state.json`, so each link is only sent once unless the state file is deleted.
+
 ## License
 
 MIT License - See LICENSE file for details
