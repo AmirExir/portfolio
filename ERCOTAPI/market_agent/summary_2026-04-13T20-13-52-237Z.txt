@@ -1,0 +1,11 @@
+- Texas data center expansion remains the clearest emerging ERCOT load-growth driver, with the state now reportedly granting more than $1 billion per year in tax breaks to support these projects; the immediate grid implication is faster large-load interconnection pressure, while the policy implication is growing scrutiny over whether economic incentives are outpacing transmission, generation, and reliability planning (Grist / Texas Tribune; TechRadar)
+
+- A 540 MW “Project Caprock” data center campus broke ground in Northwest Texas, adding another very large prospective ERCOT load that could materially affect local transmission needs, congestion patterns, and the timing of substation and network upgrades in West Texas and Panhandle-adjacent areas (GlobeNewswire)
+
+- Multiple reports point to AI infrastructure pushing new gas and pipeline investment, especially in Texas and the Permian; for ERCOT, that reinforces expectations of more gas-backed generation, behind-the-meter concepts, and fuel-deliverability questions as hyperscale loads seek firm power at scale (Fortune; OilPrice.com)
+
+- Investor and developer activity around Permian and West Texas sites suggests AI and HPC loads are increasingly being paired with land, water, and power-development plays rather than traditional urban data-center models; that raises ERCOT planning stakes around remote large loads, transmission buildout, and generator/load co-location arrangements (IBTimes.com.au; CoinDesk; Business Insider)
+
+- Several articles indicate data-center projects nationally are being delayed by supply-chain, chip, and infrastructure bottlenecks; for ERCOT, that means near-term load forecasts may stay volatile even as the long-run large-load pipeline remains strong, complicating reserve-margin, interconnection, and transmission timing assumptions (TechRadar; Fortune)
+
+- National pushback against data centers over power costs, water use, and local impacts is spreading; while not ERCOT-specific, it is a warning sign for Texas that local opposition and governance friction could increasingly influence siting, permitting, and the pace at which large ERCOT load additions actually materialize (Harvard Gazette; Digital Journal; Fox News)
