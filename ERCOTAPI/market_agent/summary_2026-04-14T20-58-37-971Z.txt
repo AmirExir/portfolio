@@ -1,0 +1,11 @@
+- Multiple reports point to Texas becoming a leading destination for new AI/data center development, especially in rural areas where land and power are more available; for ERCOT, that reinforces the large-load interconnection wave now driving transmission, generation, and load-forecast uncertainty far more than traditional demand growth. (Pew Research Center; ComputerWeekly.com)
+
+- Texas’ data center buildout is being accelerated by more than $1 billion per year in state tax breaks, which likely strengthens the pipeline of ERCOT-connected large loads and increases pressure on planners to distinguish speculative projects from loads that will actually materialize on the grid. (Grist)
+
+- The same data center trend is also increasing expectations for new gas-fired generation and pipeline infrastructure to support 24/7 power needs; in ERCOT, that implies tighter coupling between large-load growth, fuel deliverability, and dispatchable capacity additions rather than renewables alone meeting incremental demand. (Fortune)
+
+- National reporting that many 2026 data center projects are being delayed or canceled highlights a key ERCOT planning risk: announced gigawatt-scale loads may not arrive on schedule, complicating transmission timing, generator interconnection assumptions, and market expectations around future reserve margins. (TechRadar)
+
+- Broader coverage of bitcoin mining’s industrial consolidation and AI operators’ search for cheap, abundant power suggests ERCOT will continue attracting both flexible and inflexible large loads, raising important operational questions around curtailability, coincident peak exposure, and how different load types affect reliability during scarcity conditions. (Bitcoinfoundation.org; ComputerWeekly.com; Pew Research Center)
+
+- News that high power prices and regulatory friction are stalling AI data center plans in other markets underscores ERCOT’s comparative advantage in speed and power access, but also signals that Texas’ attractiveness could intensify queue congestion and governance pressure around interconnection, cost allocation, and system upgrade sequencing. (OilPrice.com)
