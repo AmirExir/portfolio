@@ -1,0 +1,12 @@
+- Multiple national reports continue to identify Texas as a leading destination for new data center development because of available power, cheaper energy, and faster expansion potential, reinforcing ERCOT’s large-load growth outlook and pressure on generation, transmission, and interconnection queues (Business Insider; ComputerWeekly; Pew Research Center)
+
+- New reporting that nearly half of planned 2026 U.S. data center capacity has been delayed or canceled is a meaningful counterweight to extreme load-growth assumptions; for ERCOT, that suggests some announced large loads may slip, reducing near-term timing certainty even if long-run demand remains strong (The New Republic; TechRadar)
+
+- Texas tax incentives for data centers are now reported to exceed $1 billion per year, signaling that state policy is still materially supporting ERCOT-connected load growth even as grid planners face rising questions about who pays for the generation, wires, and reliability upgrades needed to serve it (Grist)
+
+- Broader market coverage ties the AI/data center buildout to rising gas and pipeline demand, which matters for ERCOT because sustained large-load growth can tighten dependence on new thermal supply, gas deliverability, and fuel infrastructure alongside renewable and transmission expansion (Fortune)
+
+- Several articles point to rural and West/Texas siting trends for new data centers; in ERCOT terms, that likely means more load requests landing in transmission-constrained areas, increasing the importance of substation upgrades, long-lead transmission projects, and coordinated planning for remote large-load interconnections (Pew Research Center; ComputerWeekly)
+
+- Reports of investor enthusiasm around Permian-linked power and AI infrastructure highlight growing interest in self-supplied or directly contracted generation for large loads near West Texas; for ERCOT, that raises planning questions around behind-the-meter structures, network impacts, and how much new load will rely on grid service versus dedicated supply (IBTimes.com.au; Fortune)
+
