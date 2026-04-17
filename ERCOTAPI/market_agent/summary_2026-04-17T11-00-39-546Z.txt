@@ -1,0 +1,15 @@
+- Texas’ data-center buildout is increasingly becoming an ERCOT system-planning issue, not just an economic-development story: multiple reports point to Texas as a preferred location because of available land and power access, reinforcing continued pressure on load forecasting, transmission expansion, interconnection timing, and reliability planning for large flexible loads. (Business Insider; ComputerWeekly; Pew Research Center)
+
+- Texas is reportedly providing data centers more than $1 billion per year in tax breaks, highlighting a growing mismatch between aggressive load recruitment and who pays for the grid upgrades needed to serve it; this raises governance and cost-allocation questions for ERCOT planners, regulators, and market participants. (Grist/The Texas Tribune; The Register)
+
+- Federal scrutiny of data-center electricity use is rising, with the EIA reportedly planning a mandatory survey of data-center power consumption; for ERCOT, better visibility into actual and projected hyperscale load could materially improve long-term load modeling, resource adequacy analysis, and transmission planning. (WIRED)
+
+- New financing for a data-center campus in Ector County signals that West Texas remains a live frontier for large-load interconnection; if the project advances, ERCOT may face additional local transmission, deliverability, and congestion considerations in a region already balancing generation growth with new industrial demand. (GlobeNewswire; Yahoo Finance syndicated item)
+
+- The broader AI infrastructure race is pushing developers toward behind-the-meter and on-site generation because grid interconnections are slow and equipment is scarce; for ERCOT, that trend could complicate load visibility, emissions profiles, and reliability assumptions if large customers increasingly pair new demand with self-supply or hybrid configurations. (The Register; TechRadar; Fortune)
+
+- Community and political backlash against data centers is strengthening nationally over power, water, and cost concerns, which matters for ERCOT because siting opposition can delay projects, shift load to different zones, and create uncertainty around which large-load requests will actually materialize in planning cases. (Business Insider; CNBC; San Francisco Chronicle)
+
+- If Texas continues to attract hyperscale and AI loads while other states tighten local restrictions, ERCOT could see even more concentrated large-load growth; the operational upside is more economic activity and potentially more demand response opportunities, but the risk is sharper reserve-margin pressure and faster need for transmission and generation additions. (Business Insider; Pew Research Center; CNBC)
+
+- The main policy signal from this news cycle is that data-center demand growth is no longer being treated as a passive load forecast assumption: it is becoming a contested governance issue involving incentives, disclosure, cost recovery, and public acceptance, all of which could shape future ERCOT market-rule debates around large-load interconnection and planning transparency. (Grist/The Texas Tribune; WIRED; The Register)
