@@ -1,0 +1,11 @@
+- ERCOT is warning that Texas power demand could rise to roughly four times recent record peaks by 2032, driven largely by data centers and population growth; the key grid implication is a much larger buildout need for generation, transmission, and interconnection infrastructure on a compressed timeline. (Insurance Journal)
+
+- Multiple reports point to Texas becoming a top destination for hyperscale data centers because of power availability and land, reinforcing ERCOT’s near-term challenge of screening large-load requests, assigning upgrade costs, and managing local reliability risks where load is clustering faster than wires and generation can be added. (Business Insider; ComputerWeekly; Pew Research Center)
+
+- A funded data center campus in Ector County signals that West Texas is not just a generation export region anymore; new large loads there could change transmission flows, reduce export headroom, and increase the need for substation, reactive power, and local deliverability upgrades. (GlobeNewswire)
+
+- National scrutiny of data center power use is rising, with the EIA planning a mandatory survey and broader media attention on utility spending and siting impacts; for ERCOT, better load transparency could improve forecasting, but growing political and community pushback may also slow project realization and widen the gap between announced load and actual connected demand. (Wired; Fortune; CNBC)
+
+- The broader AI infrastructure buildout is increasingly leaning on behind-the-meter and self-supplied power because grid hookups are slow; that is a relevant signal for ERCOT planning, as some Texas large loads may pursue on-site gas, fuel cells, storage, or hybrid configurations that still affect outage coordination, fuel assurance, and transmission planning even if they reduce net grid purchases. (The Register; TechRadar)
+
+- Public opposition to data centers is becoming a real development risk, including local moratoria and tougher scrutiny over water, land use, and subsidies; in Texas and ERCOT, that could reshape where large loads ultimately land, which matters for long-range transmission planning and the credibility of interconnection queues built around speculative demand. (San Francisco Chronicle; Business Insider; The Register)
