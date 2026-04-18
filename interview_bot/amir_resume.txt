@@ -10,7 +10,17 @@ Proficient in PSS/E, GE EMS SCADA/TSM/DTS, ABB MMS, Streamlit, Embeddings, Pytho
 
 Work History
 
-Transmission Planning Model & Assessment Engineer 	           LCRA TSP               	3/2024 – Present
+Transmission Engineer 4 (Lead Professional / Technical Supervisor)	  |  PEC  |          1/2026 – Present
+-Served as technical lead for 3 engineers in planning team.
+-Structure processes, automate workflows and provide procedures and templates.
+-Represent PEC in ERCOT PLWG, DWG, SSWG.
+-Perform Steady State and Stability Analysis for Generator and Large Load Interconnections Requests and Transmission Planning System Improvements. 
+-Propose and sponsor transmission system improvement projects.
+-Submits CMLD, UFLS, DWG Contingencies.
+-Submit PMCR, LGP, DCP, SSWG Contingencies.
+
+
+Transmission Planning Model & Assessment Engineer 	           LCRA TSP               	3/2024 – 1/2026
 
 -Developed AELAB in Python automating Steady State Contingency Analysis, Dynamic Analysis, IDV generation, Contingency Generation & TPIT workflow. 
 -Review & approve Planned, For - Construction & Operational ratings for LCRA transmission lines & auto transformers & shunts resulting from substations, lines & auto transformers additions or upgrades.
