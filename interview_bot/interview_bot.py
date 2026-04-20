@@ -1,5 +1,6 @@
 import streamlit as st
 import numpy as np, json, os, io
+import re
 from openai import OpenAI
 from streamlit_mic_recorder import mic_recorder
 import faiss
@@ -81,6 +82,21 @@ def search(query, index, chunks, embeddings, k=5):
         print(f"{i+1}. {t[:120]}...")
 
     return top_texts
+
+
+def detect_principle_from_context(retrieved_texts):
+    # Use the highest-ranked retrieved chunk and extract its single Principle tag.
+    if not retrieved_texts:
+        return "Unknown"
+
+    match = re.search(r"Principle:\s*([^|]+)", retrieved_texts[0])
+    if not match:
+        return "Unknown"
+
+    principle = match.group(1).strip()
+    return principle if principle else "Unknown"
+
+
 # -------------------------
 # Streamlit UI
 # -------------------------
@@ -134,6 +150,8 @@ if prompt:
 if user_query:
     retrieved_texts = search(user_query, index, chunks, embeddings)
     context = "\n\n".join(retrieved_texts)
+    detected_principle = detect_principle_from_context(retrieved_texts)
+    st.markdown(f"**Detected Principle:** {detected_principle}")
 
     #  Debugging: show retrieved chunks before calling GPT
     show_debug = st.checkbox("Show retrieved context (cosine search)")
