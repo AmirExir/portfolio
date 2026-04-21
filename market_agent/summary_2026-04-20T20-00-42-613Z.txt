@@ -1,0 +1,23 @@
+- **Energy shock remains the big macro story:** U.S. gas prices may stay above **$3/gallon until next year**, while economists warn the **Iran conflict** could keep inflation elevated even after fighting ends.
+
+- **Travel costs are rising:** **Jet fuel shortages and higher prices** are threatening Europe’s summer travel season, pointing to **more expensive airfares** on both sides of the Atlantic.
+
+- **Markets are shrugging off geopolitics—for now:** The **S&P 500 moved above 7,000**, suggesting investors are looking past war-related risks, though that optimism could be vulnerable if energy disruptions worsen.
+
+- **Battery storage is becoming a major infrastructure winner:** Falling battery costs and rising power demand are accelerating adoption across global grids—an important long-term theme for utilities, renewables, and energy security.
+
+- **Space sector gets mixed signals:** **Blue Origin’s New Glenn** recovered its first stage but placed a payload into the **wrong orbit**, a reminder that commercial space remains high-potential but execution-sensitive. **AST SpaceMobile’s BlueBird 7** launch also drew attention.
+
+- **AI in government is getting more complex:** Despite reported Pentagon tensions with Anthropic, the **NSA is using Anthropic’s Mythos**, underscoring how strategic AI demand is outweighing internal policy disputes.
+
+- **AI monetization still hasn’t clearly shown up in the real economy:** A **Fortune** report says many CEOs see **little impact from AI on productivity or employment** so far, reviving the classic “productivity paradox.”
+
+- **AI chip competition is intensifying:** **Google is reportedly in talks with Marvell** on new AI chips, signaling more pressure on **Nvidia** and continued vertical integration by big tech.
+
+- **Cybersecurity risk remains front and center:** **Vercel confirmed a security incident** after hackers claimed they were selling stolen data, a reminder that cloud-platform trust is a business-critical asset.
+
+- **Tesla’s robotaxi push is facing credibility questions:** Reports suggest its expansion into **Dallas and Houston** had **very limited availability**, raising concerns that the rollout may be more about market optics than operational scale ahead of earnings.
+
+- **Palantir is leaning harder into culture-war branding:** Its new manifesto criticizing inclusivity and “regressive” cultures may strengthen support among some customers and investors, while increasing reputational risk with others.
+
+- **Consumer/restaurant note:** A once-prominent **celebrity fried chicken chain is reportedly down to one location**, highlighting continued consolidation and survival pressure in legacy food brands.
