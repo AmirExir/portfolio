@@ -1,6 +1,8 @@
 import streamlit as st
 import numpy as np, json, os, io
 import re
+from datetime import datetime
+from uuid import uuid4
 from openai import OpenAI
 from streamlit_mic_recorder import mic_recorder
 import faiss
@@ -14,6 +16,8 @@ EMB_FILE = "embeddings.npy"
 # Load chunks_cleaned.json
 # -------------------------
 base_path = os.path.dirname(__file__)
+AUDIO_DIR = os.path.join(base_path, "saved_audio")
+os.makedirs(AUDIO_DIR, exist_ok=True)
 
 with open(os.path.join(base_path, "chunks_cleaned.json"), "r", encoding="utf-8") as f:
     chunks = json.load(f)
@@ -95,6 +99,13 @@ def detect_principle_from_context(retrieved_texts):
 
     principle = match.group(1).strip()
     return principle if principle else "Unknown"
+
+
+def build_unique_audio_path(prefix="answer", ext="mp3"):
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    unique_id = uuid4().hex[:8]
+    filename = f"{prefix}_{timestamp}_{unique_id}.{ext}"
+    return os.path.join(AUDIO_DIR, filename)
 
 
 # -------------------------
@@ -198,7 +209,8 @@ if user_query:
             voice="alloy",
             input=bot_msg
         )
-        audio_out = "answer.mp3"
+        audio_out = build_unique_audio_path(prefix="answer", ext="mp3")
         with open(audio_out, "wb") as f:
             f.write(speech.content)
     st.audio(audio_out, format="audio/mp3")
+    st.caption(f"Saved audio file: {os.path.basename(audio_out)}")
