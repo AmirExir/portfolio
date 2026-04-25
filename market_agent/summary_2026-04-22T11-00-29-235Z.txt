@@ -1,0 +1,23 @@
+- **Oil pulls back on diplomacy hopes:** Crude fell as markets bet U.S.-Iran talks will continue, easing fears of supply disruption. The key takeaway: geopolitical risk premia remain highly sensitive to any sign of de-escalation.
+
+- **Airlines face a jet-fuel squeeze:** Even with oil down today, the Iran conflict is threatening jet-fuel availability, especially for Europe and Asia. That could keep upward pressure on fares and travel costs into peak summer season.
+
+- **Markets turn cautious:** The **Nasdaq snapped a 13-day winning streak**, while the Dow and S&P 500 edged lower as investors weighed Iran-related uncertainty and broader risk sentiment.
+
+- **Apple announces major succession move:** **John Ternus** is set to succeed **Tim Cook** as CEO, with Cook becoming executive chairman. It marks Apple’s biggest leadership transition in years and puts fresh focus on execution beyond the Cook era.
+
+- **AI race gets more capital-intensive:** **Anthropic** struck a massive compute deal with **Amazon**, underscoring that access to chips, power, and cloud infrastructure is becoming the defining bottleneck—and moat—in generative AI.
+
+- **Defense and AI lines blur further:** Reports that the **NSA is using Anthropic’s restricted Mythos model** highlight growing government demand for frontier AI, even as relationships between AI firms and defense agencies remain politically delicate.
+
+- **Big biotech deal:** **Eli Lilly** is acquiring **Kelonia Therapeutics** for **$3.25 billion**, signaling continued appetite for targeted platform bets in oncology and autoimmune treatments.
+
+- **Media consolidation hits a legal roadblock:** A judge ordered **Nexstar and Tegna** to pause their merger, a setback for broadcast industry consolidation and a sign that courts may remain wary of consumer pricing impacts.
+
+- **Regulatory power may stay intact:** The **Supreme Court showed little interest in limiting the SEC’s disgorgement authority**, which suggests the agency may retain an important enforcement lever.
+
+- **EV and industrial disruption watch:** **Rivian’s factory was damaged by a tornado** during a crucial launch period for its R2, a reminder that operational and climate-related risks can hit manufacturing narratives fast.
+
+- **Auto electrification continues:** **Mercedes unveiled an electric C-Class**, reinforcing how legacy automakers are integrating EVs into core lineups rather than treating them as side brands.
+
+- **Energy transition milestone:** The **IEA says solar led global energy growth**, a notable sign that rising electricity demand from EVs and data centers is increasingly being met by renewables.
