@@ -7,6 +7,7 @@
   ],
   "DWG": [
     "DWG|https://www.ercot.com/files/docs/2025/12/19/LEL-Modeling-Approach-and-Survey-Update_Dec-18-2025_R03.pdf",
+    "DWG|https://www.ercot.com/files/docs/2025/08/25/Large_Load_Stability_Whitepaper.pdf",
     "DWG|https://www.ercot.com/files/docs/2025/06/06/DWG-Procedure-Manual-Revision-24-ROS.docx",
     "DWG|https://www.ercot.com/files/docs/2024/07/08/DWG_Roster_20260304.docx",
     "DWG|https://www.ercot.com/files/docs/2021/12/20/ERCOT_DWG_DG_Parameterization_Guideline.xlsx",
@@ -38,7 +39,9 @@
     "RIWG|https://www.ercot.com/committees/workshops"
   ],
   "RPG": [
+    "RPG|https://www.ercot.com/files/docs/2022/01/11/ERCOT_Planning_Contact_List_2026.doc",
     "RPG|https://www.ercot.com/files/docs/2022/01/11/ERCOT_Planning_Contact_List_2025.doc",
+    "RPG|https://www.ercot.com/files/docs/2018/06/25/ERCOT_Regional_Planning_Group_Charter.pdf",
     "RPG|https://www.ercot.com/files/docs/2018/06/25/ERCOT_Regional_Planning_Group_Charter.docx",
     "RPG|http://ercot.com/committees/workshops"
   ],
