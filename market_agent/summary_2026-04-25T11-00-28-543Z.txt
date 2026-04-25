@@ -1,0 +1,19 @@
+- **AI race intensifies:** China’s DeepSeek unveiled preview versions of its long-awaited V4 model, signaling fresh momentum in Chinese AI and possible progress for domestic chip capabilities.
+
+- **Intel delivers a surprise rebound:** Intel beat Wall Street expectations, with management arguing that agentic AI is reviving CPU demand; shares reportedly jumped sharply, suggesting investors are warming to its turnaround story.
+
+- **Big Tech’s AI spending pressure is hitting jobs:** Meta plans to cut about **8,000 jobs** to offset rising AI infrastructure costs, while **Nike** is eliminating roughly **1,400 roles** in operations and tech as restructuring continues.
+
+- **Software and AI economics under scrutiny:** ServiceNow suffered its worst stock drop on disappointing sales and delayed deals, while reporting around Cursor/SpaceX highlighted how compute costs are becoming a central issue for AI startups.
+
+- **Markets lose risk appetite:** Asian stocks fell and broader equities pulled back as tech weakness combined with rising oil prices and geopolitical uncertainty tied to Iran.
+
+- **Energy shock is feeding inflation concerns:** Japan’s core inflation accelerated to **1.8%**, and higher oil prices are keeping pressure on central banks and consumer spending.
+
+- **Consumers may feel more pain at the pump and in travel:** Trump said Americans should expect higher gasoline prices “for a little while,” and Chevron’s CEO warned that airline fares could rise and flight availability could tighten.
+
+- **Policy and market caution are getting louder:** A Bank of England deputy warned global stock markets look overvalued, an unusually blunt signal as AI-driven exuberance raises bubble concerns.
+
+- **Transportation headlines turned more political and operational:** Trump said the U.S. is weighing a potential purchase of **Spirit Airlines**, while an NTSB report described chaos at LaGuardia ahead of a deadly Air Canada crash.
+
+- **Auto electrification keeps moving upscale:** Porsche revealed the **2026 Cayenne Coupe Electric**, underscoring how premium automakers continue expanding EV lineups even amid a tougher market backdrop.
