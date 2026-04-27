@@ -1,0 +1,9 @@
+- ERCOT’s long-range load outlook is being repriced upward by AI and data center demand, with reports citing ERCOT’s projection of roughly 367.8 GW of demand by 2032—more than 4x today’s peak—signaling major implications for transmission buildout, resource adequacy, interconnection queues, and operational planning assumptions. (Rigzone; Business Insider)
+
+- CenterPoint said it is targeting about 8 GW of data-center-related generation to be energized by 2029 in the Houston area, indicating large load growth is increasingly being paired with dedicated or closely linked supply rather than relying solely on existing grid headroom. (Rigzone)
+
+- The operational takeaway is that ERCOT may face more behind-the-meter or directly supported large-load configurations using gas generation plus batteries, a model now gaining traction nationally to speed data center energization and reduce dependence on constrained grid timelines. (Fortune; Financial Post)
+
+- For planners and market participants, the data-center surge points to tighter scrutiny of large load interconnection, deliverability, fuel assurance, and who pays for network upgrades as utilities and developers race to secure both wires capacity and dispatchable backup. (Rigzone; Business Insider; Fortune)
+
+- Broader capital markets are increasingly financing gas, pipeline, and power-adjacent infrastructure on expectations of sustained AI-driven electricity growth, reinforcing the likelihood of more thermal generation, gas transportation expansion, and industrial load additions affecting ERCOT’s future supply stack and congestion patterns. (MarketBeat on Kinder Morgan; Rigzone on EIV Capital)
