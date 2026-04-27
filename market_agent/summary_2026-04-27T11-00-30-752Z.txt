@@ -1,0 +1,23 @@
+- **Google doubles down on AI to grow cloud share**: Google Cloud is pitching its AI chips and models as a way to narrow the gap with AWS and Microsoft Azure—signaling that proprietary AI infrastructure is becoming a central competitive weapon in cloud.
+
+- **AI infrastructure boom keeps accelerating**: A massive Oracle-linked data center project in Michigan reportedly secured **$16 billion** in funding, underscoring how investor capital is pouring into power-hungry AI compute assets.
+
+- **Europe seeks an AI alternative to U.S. giants**: Cohere’s merger with Aleph Alpha points to a broader push for “sovereign AI” in Europe, with governments and major corporates backing local AI stacks instead of relying solely on U.S. providers.
+
+- **Housing market shift flagged by Zillow**: Zillow says homebuying behavior is changing in a meaningful way, suggesting affordability pressures and buyer caution are still reshaping the U.S. housing market.
+
+- **Used EV prices may face more pressure**: More than **1 million used EVs** could hit the market over the next three years, which may help consumers but squeeze resale values and put pressure on automakers and leasing economics.
+
+- **China’s auto industry showcases rapid innovation**: At the Beijing auto show, Chinese carmakers highlighted intelligent driving, ultrafast charging, and EV advances—another sign China is setting the pace in next-gen auto tech.
+
+- **Tesla and Rivian signal uneven EV rollout reality**: Tesla is reportedly moving Cybercab into mass production, while Rivian’s R2 launch will initially offer fewer configurations than expected—showing how execution and manufacturing constraints still matter as much as product hype.
+
+- **Airlines face rising fuel stress**: Flight disruptions are increasing as Middle East conflict strains jet fuel supplies and lifts costs, adding another inflationary pressure point for travel and airline margins.
+
+- **Oil producers remain cautious despite higher crude prices**: U.S. drillers are not rushing to boost output, reflecting how policy uncertainty and weak confidence can override favorable commodity prices.
+
+- **Crypto edges further into politics and policy**: Trump’s defense of crypto legislation at a private investor event suggests digital assets are becoming more mainstream politically, though the overlap of policy, fundraising, and branded tokens raises governance questions.
+
+- **Spirit bailout idea draws backlash**: Reports that Trump floated buying bankrupt Spirit Airlines triggered opposition from within the GOP, highlighting tensions between pro-market rhetoric and interventionist rescue proposals.
+
+- **Apple’s next phase may tilt back toward hardware**: With John Ternus rising, investors may see a renewed hardware-first strategy at Apple—even as the company remains under pressure to sharpen its AI position.
