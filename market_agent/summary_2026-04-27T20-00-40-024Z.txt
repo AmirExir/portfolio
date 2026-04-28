@@ -1,0 +1,19 @@
+- **Tesla tackles charger congestion:** Tesla is rolling out a queueing solution for busy Supercharger sites, aiming to reduce disputes and improve customer experience — a small operational fix with outsized brand value as EV adoption grows.
+
+- **Data center boom meets local backlash:** In Archbald, Pennsylvania, plans for massive data center expansion highlight a growing tension in the AI economy: surging infrastructure demand versus land use, power consumption, and community resistance.
+
+- **Big Tech earnings are pivotal this week:** With roughly **$16 trillion** in market cap reporting, results from mega-cap tech companies could determine whether the stock rally has staying power or starts to wobble.
+
+- **AI economics are getting more complicated:** Multiple stories point to a tougher reality: AI can now cost more than human labor in some workflows, while companies increasingly favor buyouts over layoffs as they rebalance spending toward AI investment.
+
+- **China is pulling ahead in EV momentum:** Coverage from the Beijing Auto Show suggests the center of gravity in autos continues shifting toward Chinese and electric vehicle makers, raising competitive pressure on Western incumbents.
+
+- **Energy inflation remains politically potent:** Rising gas prices — amplified by disruption around the Strait of Hormuz — are keeping pressure on consumers and policymakers, especially in places like California where fuel costs are already a flashpoint.
+
+- **Utility affordability is a bigger issue than many assumed:** U.S. power was reportedly shut off **13.4 million times** in a year, underscoring how inflation and household financial strain are spilling into essential services.
+
+- **Privacy concerns are intensifying in transportation:** Reports about connected vehicles sharing driving data with insurers and airlines allegedly selling travel/payment data to federal agencies reinforce that data monetization is becoming a bigger business and reputational risk.
+
+- **Crypto faces a governance stress test:** Debate over whether dormant Bitcoin should ever be frozen shows how even decentralized assets can run into hard questions around property rights, precedent, and market stability.
+
+- **One subtle market theme: infrastructure is the real bottleneck:** From EV chargers to electric grids to data centers and AI compute, demand is racing ahead of physical capacity — and that’s increasingly where business opportunities and conflicts are emerging.
