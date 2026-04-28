@@ -66,6 +66,9 @@ def search(query, index, chunks, embeddings, k=5):
     #  Pure semantic (embedding-based) search only
     print(f"🔍 Semantic search for query: {query}")
 
+    normalized_query = query.lower().strip()
+    query_terms = [term for term in re.findall(r"[a-z0-9]+", normalized_query) if len(term) > 2]
+
     # Create embedding for the query
     q_emb = client.embeddings.create(
         input=query,
@@ -76,10 +79,34 @@ def search(query, index, chunks, embeddings, k=5):
     faiss.normalize_L2(q_emb)
 
     # FAISS similarity search
-    D, I = index.search(q_emb, k)
+    D, I = index.search(q_emb, min(max(k * 4, k), len(chunks)))
+
+    # Re-rank retrieved chunks so exact keyword matches surface before purely semantic neighbors.
+    reranked = []
+    seen_indices = set()
+    for score, idx in zip(D[0], I[0]):
+        text = chunks[idx]["text"]
+        normalized_text = text.lower()
+        keyword_hits = sum(1 for term in query_terms if term in normalized_text)
+        exact_query_hit = 1 if normalized_query and normalized_query in normalized_text else 0
+        rerank_score = float(score) + (0.15 * keyword_hits) + (0.5 * exact_query_hit)
+        reranked.append((rerank_score, idx, text))
+        seen_indices.add(idx)
+
+    for idx, chunk in enumerate(chunks):
+        if idx in seen_indices:
+            continue
+        normalized_text = chunk["text"].lower()
+        keyword_hits = sum(1 for term in query_terms if term in normalized_text)
+        exact_query_hit = 1 if normalized_query and normalized_query in normalized_text else 0
+        if keyword_hits or exact_query_hit:
+            rerank_score = (0.15 * keyword_hits) + (0.5 * exact_query_hit)
+            reranked.append((rerank_score, idx, chunk["text"]))
+
+    reranked.sort(key=lambda item: item[0], reverse=True)
 
     # Retrieve corresponding text chunks
-    top_texts = [chunks[i]["text"] for i in I[0]]
+    top_texts = [text for _, _, text in reranked[:k]]
 
     print(f" Retrieved {len(top_texts)} results from FAISS")
     for i, t in enumerate(top_texts):
