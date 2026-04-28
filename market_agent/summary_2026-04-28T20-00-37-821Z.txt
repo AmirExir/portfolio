@@ -1,0 +1,10 @@
+- **AI geopolitics escalated:** China moved to block Meta’s acquisition of Manus AI, signaling a tougher stance on keeping AI talent and strategic assets at home.  
+- **Musk vs. Altman heads to court:** A major OpenAI-related trial is set to spotlight control, governance, and the commercial future of generative AI.  
+- **OpenAI reshapes cloud power dynamics:** OpenAI reportedly won concessions from Microsoft that let it sell on AWS, loosening Microsoft’s grip while preserving a revenue-sharing tie.  
+- **Google faces internal AI backlash:** Employees petitioned CEO Sundar Pichai to reject classified Pentagon AI work, underscoring rising ethical tension around defense contracts.  
+- **Markets are cautious ahead of catalysts:** The Dow dipped while AI/chip names were mixed; investors are watching Big Tech earnings, the Fed, and geopolitical risk.  
+- **AI funding boom continues:** Former DeepMind researcher David Silver’s startup raised a record **$1.1B seed round**, showing capital remains aggressive in frontier AI.  
+- **Consumer weakness hits restaurants:** Domino’s shares fell after soft sales, with management warning weak sentiment and weather may pressure more fast-food chains.  
+- **Canada launches a sovereign wealth fund:** The new **C$25B Canada Strong Fund** aims to finance infrastructure and strategic sectors like energy, mining, and tech.  
+- **Real estate deal reshapes HQ map:** Re/Max is being acquired, and the combined company’s headquarters will move from Colorado to Florida.  
+- **Regulation and labor remain in focus:** Maryland became the first state to ban dynamic pricing at grocery stores, while layoffs remain a key corporate theme, especially in tech as AI adoption accelerates.
