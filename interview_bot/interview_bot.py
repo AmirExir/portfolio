@@ -221,7 +221,7 @@ if user_query:
             model="gpt-4o",
             messages=messages,
             max_tokens=2048,
-            temperature=0.2
+            temperature=0.1
         )
 
     bot_msg = response.choices[0].message.content
