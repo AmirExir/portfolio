@@ -35,7 +35,7 @@ if not os.path.exists(EMB_FILE):
     for i, c in enumerate(chunks):
         print(f"Embedding chunk {i+1}/{len(chunks)}: {c['text'][:100]}...")
         emb = client.embeddings.create(
-            input=c["text"], 
+            input=c["text"],
             model="text-embedding-3-large"
         ).data[0].embedding
         embeddings.append(emb)
@@ -63,7 +63,7 @@ else:
     index = st.session_state["index"]
 
 def search(query, index, chunks, embeddings, k=5):
-    #  Pure semantic (embedding-based) search only
+    # Pure semantic retrieval with keyword-aware reranking.
     print(f"🔍 Semantic search for query: {query}")
 
     normalized_query = query.lower().strip()
@@ -105,12 +105,14 @@ def search(query, index, chunks, embeddings, k=5):
 
     reranked.sort(key=lambda item: item[0], reverse=True)
 
-    # Retrieve corresponding text chunks
-    top_texts = [text for _, _, text in reranked[:k]]
+    if not reranked:
+        return []
 
-    print(f" Retrieved {len(top_texts)} results from FAISS")
-    for i, t in enumerate(top_texts):
-        print(f"{i+1}. {t[:120]}...")
+    top_k = reranked[:k]
+    top_texts = [text for _, _, text in top_k]
+    print(f" Retrieved {len(top_texts)} ranked results from FAISS")
+    for i, (score, _, text) in enumerate(top_k):
+        print(f"{i+1}. score={score:.4f} | {text[:120]}...")
 
     return top_texts
 
@@ -135,6 +137,23 @@ def build_unique_audio_path(prefix="answer", ext="mp3"):
     return os.path.join(AUDIO_DIR, filename)
 
 
+def enforce_single_star_story(text):
+    # If the model outputs multiple STAR blocks, keep only the first one.
+    if not text:
+        return text
+
+    first_idx = text.find("Situation:")
+    if first_idx == -1:
+        return text
+
+    second_idx = text.find("\nSituation:", first_idx + 1)
+    if second_idx == -1:
+        return text
+
+    trimmed = text[:second_idx].rstrip()
+    return trimmed + "\n\nIf you'd like another example, click 'Give me another story.'"
+
+
 # -------------------------
 # Streamlit UI
 # -------------------------
@@ -143,6 +162,15 @@ st.title("Amir's InterviewBot")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
+if "candidate_stories" not in st.session_state:
+    st.session_state.candidate_stories = []
+
+if "candidate_story_pos" not in st.session_state:
+    st.session_state.candidate_story_pos = 0
+
+if "active_query" not in st.session_state:
+    st.session_state.active_query = ""
 
 # Show chat history
 for msg in st.session_state.messages:
@@ -184,19 +212,50 @@ if prompt:
     st.chat_message("user").markdown(user_query)
     st.session_state.messages.append({"role": "user", "content": user_query})
 
-# Process assistant response
+another_story = st.button("Give me another story")
+
+query_to_answer = None
+retrieved_texts = []
+
 if user_query:
-    retrieved_texts = search(user_query, index, chunks, embeddings)
+    st.session_state.candidate_stories = search(user_query, index, chunks, embeddings, k=4)
+    st.session_state.candidate_story_pos = 0
+    st.session_state.active_query = user_query
+
+    if st.session_state.candidate_stories:
+        query_to_answer = user_query
+        retrieved_texts = [st.session_state.candidate_stories[0]]
+elif another_story:
+    if not st.session_state.candidate_stories:
+        st.warning("Ask a question first so I can find matching stories.")
+    else:
+        current_pos = st.session_state.candidate_story_pos
+        if current_pos < len(st.session_state.candidate_stories) - 1:
+            st.session_state.candidate_story_pos += 1
+            query_to_answer = st.session_state.active_query
+            retrieved_texts = [st.session_state.candidate_stories[st.session_state.candidate_story_pos]]
+            st.chat_message("user").markdown("Give me another story for the same question.")
+            st.session_state.messages.append(
+                {"role": "user", "content": "Give me another story for the same question."}
+            )
+        else:
+            st.info("You have reached story 4 for this question. Ask a new question to get a new top-4 set.")
+
+# Process assistant response
+if retrieved_texts and query_to_answer:
     context = "\n\n".join(retrieved_texts)
     detected_principle = detect_principle_from_context(retrieved_texts)
     st.markdown(f"**Detected Principle:** {detected_principle}")
+    st.caption(
+        f"Story {st.session_state.candidate_story_pos + 1} of {len(st.session_state.candidate_stories)} for this question"
+    )
 
     #  Debugging: show retrieved chunks before calling GPT
     show_debug = st.checkbox("Show retrieved context (cosine search)")
     if show_debug:
-        st.markdown(f"**Query:** `{user_query}`")
-        st.markdown(f"**Retrieved {len(retrieved_texts)} chunks**")
-        for i, text in enumerate(retrieved_texts):
+        st.markdown(f"**Query:** `{query_to_answer}`")
+        st.markdown(f"**Retrieved {len(st.session_state.candidate_stories)} chunks**")
+        for i, text in enumerate(st.session_state.candidate_stories):
             st.markdown(f"**Chunk {i+1}**")
             st.code(text[:300] + "...", language="markdown")
             if "waterloo" in text.lower():
@@ -210,10 +269,13 @@ if user_query:
             "Even if the context is not structured, infer meaning from relevant sentences. "
             "If there is any mention of the topic or related tools (like AELAB, automation, PSS/E, ERCOT), explain it in a STAR-like manner. "
             "Only say 'I don't have specific experience with that' if the topic is clearly unrelated. "
-            "Answer naturally in first person and organize into four short paragraphs labeled: Situation, Task, Action, and Result."
+            "Answer naturally in first person and organize into four short paragraphs labeled: Situation, Task, Action, and Result. "
+            "Use exactly one story from the provided context for this response. "
+            "Do not provide a second example in the same response, even if the question asks for multiple examples. "
+            "If asked for more examples, provide only the best one now and wait for follow-up. "
             "prioritze transmission planning stories over operational stories slightly"
         )},
-        {"role": "user", "content": f"Question: {user_query}\n\nRelevant context:\n{context}"}
+        {"role": "user", "content": f"Question: {query_to_answer}\n\nRelevant context:\n{context}"}
     ]
 
     with st.spinner("Answering..."):
@@ -221,11 +283,11 @@ if user_query:
             model="gpt-4o",
             messages=messages,
             max_tokens=2048,
-            temperature=0.1
+            temperature=0.2
         )
 
-    bot_msg = response.choices[0].message.content
-    st.markdown(f"**Question:** {user_query}")    
+    bot_msg = enforce_single_star_story(response.choices[0].message.content)
+    st.markdown(f"**Question:** {query_to_answer}")
     st.chat_message("assistant").markdown(bot_msg)
     st.session_state.messages.append({"role": "assistant", "content": bot_msg})
 
