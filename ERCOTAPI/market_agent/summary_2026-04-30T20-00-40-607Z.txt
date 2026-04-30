@@ -1,0 +1,17 @@
+- U.S. natural gas oversupply is keeping domestic fuel and power costs relatively low despite global disruption, which is supportive for ERCOT gas-fired generation economics and near-term reliability; the bigger watch item is whether cheap gas accelerates new thermal builds or delays storage and demand-side investment decisions (Bloomberg/Rigzone/Financial Post)
+
+- Texas data-center growth remains the dominant ERCOT demand theme: multiple reports point to continued AI infrastructure expansion, financing, and site development in Texas, reinforcing expectations for large-load interconnection pressure, faster load growth, and more transmission and local substation upgrade needs even if some developers shift from owning projects to leasing capacity (Texas Tribune/The Verge/Financial Post/CoinDesk/Cointelegraph)
+
+- OpenAI/Stargate-related strategy appears to be shifting from direct ownership to more flexible leasing structures, which may reduce certainty around individual flagship campuses but does not materially reduce ERCOT planning risk because compute demand can still land in Texas through third-party developers and colocation deals (Tom's Hardware UK/The Verge)
+
+- Reports of a 1.5 GW AI-focused campus expansion at Core Scientific’s Pecos, Texas site underscore how former crypto infrastructure is being repurposed into large, persistent ERCOT load; this changes the operational profile from highly price-responsive mining load toward potentially firmer, transmission-intensive data-center demand (Cointelegraph)
+
+- Data centers are not only adding megawatts but also creating fast load swings that can move sharply within milliseconds, highlighting an ERCOT operational need for stricter interconnection studies, power-quality requirements, ride-through standards, and possibly buffering technologies at large-load points of interconnection (IEEE Spectrum)
+
+- The Texas data-center buildout is also tightening skilled-labor availability, especially electricians, which could slow not just commercial projects but also housing, transmission, substation, and generation construction schedules that ERCOT and market participants are counting on (Texas Tribune/Insurance Journal)
+
+- Texas manufacturing expansion tied to semiconductors and AI supply chains continues to add to future ERCOT load growth: Applied Optoelectronics received state funding for a Sugar Land expansion, while broader Texas chip and power-electronics activity points to sustained industrial demand in major load pockets (GlobeNewswire/Digitimes)
+
+- A national RAND assessment suggests planned U.S. resources could add meaningful capacity by 2030 but dependable capacity is far lower than nameplate, reinforcing an ERCOT-relevant takeaway: meeting AI and large-load growth will depend less on announced MW and more on accredited capacity, deliverability, and completion rates (RAND)
+
+- Financial and corporate signals around AI infrastructure are becoming more mixed—strong debt issuance and campus expansion on one side, softer software/AI growth expectations on the other—so ERCOT should expect continued volatility in which projects actually materialize, even as the overall large-load pipeline remains structurally strong (Financial Post/SiliconANGLE/The Verge)
