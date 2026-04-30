@@ -1,0 +1,13 @@
+- Texas data-center expansion remains the dominant ERCOT theme: reports point to new or expanding large loads in West Texas and the Houston area, including Core Scientific’s plan to scale its Pecos site to 1.5 GW and CenterPoint’s target to support 8 GW of data-center-related load by 2029, reinforcing pressure on interconnection queues, local transmission, and load forecasting assumptions. (Cointelegraph; Rigzone)
+
+- The grid impact is not just energy demand but delivery readiness: CenterPoint said it plans to energize generation projects tied to data centers, while multiple AI-infrastructure announcements highlight fast-moving load requests that may depend on dedicated generation, substation buildouts, and accelerated transmission/service upgrades rather than traditional retail load growth patterns. (Rigzone; GlobeNewswire)
+
+- Reliability and planning risk is broadening from megawatts to workforce and construction bottlenecks: Texas homebuilders report data centers are pulling electricians away from other construction, a sign that labor scarcity could slow not only private development but also power-delivery, generation, and interconnection projects needed to serve ERCOT load growth. (Insurance Journal)
+
+- A national RAND review of how much power the U.S. grid can provide for AI by 2030 is directly relevant to ERCOT because it frames dependable capacity—not just nameplate additions—as the binding constraint; for Texas, that supports continued focus on accredited capacity, deliverability, and coincidence of peak demand from large AI loads. (Rand.org)
+
+- Natural gas supply looks structurally supportive for Texas generation, with Bloomberg reporting the U.S. has more gas than it can use domestically and other reports pointing to fresh investment in U.S. gas infrastructure; for ERCOT this could improve the economics and fuel availability outlook for gas-fired capacity additions, though pipeline and basis constraints still matter locally. (Financial Post; OilPrice.com)
+
+- At the same time, global conflict and oil-market volatility remain a risk factor for ERCOT operations and market pricing because Iran/Hormuz uncertainty can still move fuel markets; even if U.S. gas supply is ample, geopolitical shocks can influence gas, power forwards, and generator risk management in Texas. (CNBC; Financial Post)
+
+- Several chip and AI infrastructure stories reinforce that semiconductor and cloud firms still expect sustained compute buildout despite market volatility, supporting the case that ERCOT should treat data-center demand as an ongoing structural planning issue rather than a short-lived hype cycle. (Financial Post; CNA; Digitimes)
