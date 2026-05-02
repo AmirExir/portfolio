@@ -1,0 +1,8 @@
+Generated: 2026-05-02 21:32 UTC 
+Horizon: 30 trading days
+
+Strongest Buy Forecasts: None
+
+Strongest Sell Forecasts:
+AAPL; Forecast Price: 270.952260458197; Forecasted Return: -3.279700760268332%; Model Edge: 17.1%; Error: 8.02%
+MSFT; Forecast Price: 398.65391849403227; Forecasted Return: -3.809015503904113%; Model Edge: 14.4%; Error: 11.2%
