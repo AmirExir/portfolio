@@ -1341,7 +1341,7 @@ symbol = st.selectbox(
     key="symbol_select",
 )
 
-analysis_tab, trading_tab = st.tabs(["📈 Market Analysis", "💰 Paper Trading"])
+analysis_tab, trading_tab, money_tab = st.tabs(["📈 Market Analysis", "💰 Paper Trading", "💹 Money Chart"])
 
 # --- Manual Trade Buttons ---
 with trading_tab:
@@ -1792,7 +1792,8 @@ try:
         elif auto_trade_enabled and auto_trade_result.get("status") == "skipped":
             st.caption(f"Auto-trade check: {auto_trade_result.get('reason', 'skipped')}")
 
-        st.subheader("💰 Paper Trading Money Chart")
+    with money_tab:
+        st.subheader("💹 Money Chart")
         trade_log_df = load_trade_log(limit=500)
         if not demo_mode:
             live_money_df = _fetch_alpaca_portfolio_history(period="1M", timeframe="1D")
