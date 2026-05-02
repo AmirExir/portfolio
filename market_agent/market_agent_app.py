@@ -1767,126 +1767,127 @@ try:
             st.line_chart(actual_close)
             st.warning(f"ML forecast unavailable: {forecast_error}")
     
-    # --- Latest Signal + Timestamp ---
-    signal_emoji = "BUY" if sig.iloc[-1] == 1 else "FLAT"
-    st.write(f"**✨ Latest Signal:** {signal_emoji}")
-    st.caption(f"Last updated {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M UTC}")
+    with trading_tab:
+        # --- Latest Signal + Timestamp ---
+        signal_emoji = "BUY" if sig.iloc[-1] == 1 else "FLAT"
+        st.write(f"**✨ Latest Signal:** {signal_emoji}")
+        st.caption(f"Last updated {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M UTC}")
 
-    auto_trade_result = maybe_execute_auto_trade(
-        symbol=symbol,
-        sig=sig,
-        close_prices=actual_close,
-        equity=equity,
-        risk_fraction=auto_trade_risk_fraction,
-        enabled=auto_trade_enabled,
-        demo_mode=demo_mode,
-    )
-    if auto_trade_result.get("status") == "executed":
-        entry = auto_trade_result["entry"]
-        mode_label = "Demo" if entry.get("demo_mode") else "Live"
-        st.success(
-            f"{mode_label} auto-trade executed: {entry.get('action')} {entry.get('qty')} {entry.get('symbol')} @ ${entry.get('price')}"
+        auto_trade_result = maybe_execute_auto_trade(
+            symbol=symbol,
+            sig=sig,
+            close_prices=actual_close,
+            equity=equity,
+            risk_fraction=auto_trade_risk_fraction,
+            enabled=auto_trade_enabled,
+            demo_mode=demo_mode,
         )
-        st.rerun()
-    elif auto_trade_enabled and auto_trade_result.get("status") == "skipped":
-        st.caption(f"Auto-trade check: {auto_trade_result.get('reason', 'skipped')}")
-
-    st.subheader("💰 Paper Trading Money Chart")
-    trade_log_df = load_trade_log(limit=500)
-    if not demo_mode:
-        live_money_df = _fetch_alpaca_portfolio_history(period="1M", timeframe="1D")
-    else:
-        live_money_df = pd.DataFrame()
-
-    if not live_money_df.empty:
-        money_fig = go.Figure()
-        money_fig.add_trace(
-            go.Scatter(
-                x=live_money_df["timestamp"],
-                y=live_money_df["equity"],
-                mode="lines+markers",
-                name="Equity",
-                line=dict(color="#2ca02c", width=2),
+        if auto_trade_result.get("status") == "executed":
+            entry = auto_trade_result["entry"]
+            mode_label = "Demo" if entry.get("demo_mode") else "Live"
+            st.success(
+                f"{mode_label} auto-trade executed: {entry.get('action')} {entry.get('qty')} {entry.get('symbol')} @ ${entry.get('price')}"
             )
-        )
-        if "profit_loss" in live_money_df.columns and live_money_df["profit_loss"].notna().any():
+            st.rerun()
+        elif auto_trade_enabled and auto_trade_result.get("status") == "skipped":
+            st.caption(f"Auto-trade check: {auto_trade_result.get('reason', 'skipped')}")
+
+        st.subheader("💰 Paper Trading Money Chart")
+        trade_log_df = load_trade_log(limit=500)
+        if not demo_mode:
+            live_money_df = _fetch_alpaca_portfolio_history(period="1M", timeframe="1D")
+        else:
+            live_money_df = pd.DataFrame()
+
+        if not live_money_df.empty:
+            money_fig = go.Figure()
             money_fig.add_trace(
                 go.Scatter(
                     x=live_money_df["timestamp"],
-                    y=live_money_df["profit_loss"],
-                    mode="lines",
-                    name="Profit/Loss",
-                    yaxis="y2",
-                    line=dict(color="#ff7f0e", width=1.5, dash="dot"),
+                    y=live_money_df["equity"],
+                    mode="lines+markers",
+                    name="Equity",
+                    line=dict(color="#2ca02c", width=2),
                 )
             )
+            if "profit_loss" in live_money_df.columns and live_money_df["profit_loss"].notna().any():
+                money_fig.add_trace(
+                    go.Scatter(
+                        x=live_money_df["timestamp"],
+                        y=live_money_df["profit_loss"],
+                        mode="lines",
+                        name="Profit/Loss",
+                        yaxis="y2",
+                        line=dict(color="#ff7f0e", width=1.5, dash="dot"),
+                    )
+                )
+                money_fig.update_layout(
+                    yaxis2=dict(
+                        title="Profit/Loss",
+                        overlaying="y",
+                        side="right",
+                        showgrid=False,
+                    )
+                )
             money_fig.update_layout(
-                yaxis2=dict(
-                    title="Profit/Loss",
-                    overlaying="y",
-                    side="right",
-                    showgrid=False,
-                )
+                xaxis_title="Time",
+                yaxis_title="Equity ($)",
+                hovermode="x unified",
+                margin=dict(l=10, r=10, t=30, b=10),
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
             )
-        money_fig.update_layout(
-            xaxis_title="Time",
-            yaxis_title="Equity ($)",
-            hovermode="x unified",
-            margin=dict(l=10, r=10, t=30, b=10),
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
-        )
-        st.plotly_chart(money_fig, use_container_width=True)
-    else:
-        fallback_money_df = _money_history_from_trade_log(trade_log_df, equity, cash)
-        fallback_fig = go.Figure()
-        fallback_fig.add_trace(
-            go.Scatter(
-                x=fallback_money_df["timestamp"],
-                y=fallback_money_df["equity"],
-                mode="lines+markers",
-                name="Equity",
-                line=dict(color="#2ca02c", width=2),
-            )
-        )
-        if "cash" in fallback_money_df.columns and fallback_money_df["cash"].notna().any():
+            st.plotly_chart(money_fig, use_container_width=True)
+        else:
+            fallback_money_df = _money_history_from_trade_log(trade_log_df, equity, cash)
+            fallback_fig = go.Figure()
             fallback_fig.add_trace(
                 go.Scatter(
                     x=fallback_money_df["timestamp"],
-                    y=fallback_money_df["cash"],
+                    y=fallback_money_df["equity"],
                     mode="lines+markers",
-                    name="Cash",
-                    line=dict(color="#1f77b4", width=1.8),
+                    name="Equity",
+                    line=dict(color="#2ca02c", width=2),
                 )
             )
-        fallback_fig.update_layout(
-            xaxis_title="Time",
-            yaxis_title="Balance ($)",
-            hovermode="x unified",
-            margin=dict(l=10, r=10, t=30, b=10),
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
-        )
-        st.plotly_chart(fallback_fig, use_container_width=True)
+            if "cash" in fallback_money_df.columns and fallback_money_df["cash"].notna().any():
+                fallback_fig.add_trace(
+                    go.Scatter(
+                        x=fallback_money_df["timestamp"],
+                        y=fallback_money_df["cash"],
+                        mode="lines+markers",
+                        name="Cash",
+                        line=dict(color="#1f77b4", width=1.8),
+                    )
+                )
+            fallback_fig.update_layout(
+                xaxis_title="Time",
+                yaxis_title="Balance ($)",
+                hovermode="x unified",
+                margin=dict(l=10, r=10, t=30, b=10),
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
+            )
+            st.plotly_chart(fallback_fig, use_container_width=True)
 
-    st.subheader("🧾 Recent Trade Log")
-    if trade_log_df.empty:
-        st.info("No trades logged yet.")
-    else:
-        display_cols = [
-            col
-            for col in [
-                "timestamp_utc",
-                "source",
-                "symbol",
-                "action",
-                "qty",
-                "price",
-                "equity_after",
-                "cash_after",
-                "demo_mode",
+        st.subheader("🧾 Recent Trade Log")
+        if trade_log_df.empty:
+            st.info("No trades logged yet.")
+        else:
+            display_cols = [
+                col
+                for col in [
+                    "timestamp_utc",
+                    "source",
+                    "symbol",
+                    "action",
+                    "qty",
+                    "price",
+                    "equity_after",
+                    "cash_after",
+                    "demo_mode",
+                ]
+                if col in trade_log_df.columns
             ]
-            if col in trade_log_df.columns
-        ]
-        st.dataframe(trade_log_df.head(100)[display_cols], use_container_width=True)
+            st.dataframe(trade_log_df.head(100)[display_cols], use_container_width=True)
     
 except Exception as e:
     st.error(f" Error loading market data: {e}")
