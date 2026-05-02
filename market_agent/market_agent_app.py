@@ -9,6 +9,7 @@ import json
 
 import yfinance as yf
 import plotly.express as px
+import plotly.graph_objects as go
 
 
 # Add the parent directory to the path for local imports
@@ -17,6 +18,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # Try to import agent modules, with fallback handling
 try:
     from agent.data import get_ohlcv
+    from agent.forecast import forecast_close_prices
     from agent.strategy import sma_crossover
     from agent.backtest import simple_vector_backtest
     from agent.broker import get_account, submit_order, cancel_open_orders
@@ -367,6 +369,17 @@ st.sidebar.header("⚙️ Strategy Settings")
 short_window = st.sidebar.number_input("📏 Short-term MA window", min_value=1, max_value=100, value=20, step=1)
 long_window = st.sidebar.number_input("📐 Long-term MA window", min_value=1, max_value=200, value=50, step=1)
 
+st.sidebar.header("🔮 ML Forecast Settings")
+forecast_horizon = st.sidebar.slider("Forecast horizon", min_value=5, max_value=60, value=30, step=5)
+forecast_lookback = st.sidebar.slider("Lag window", min_value=5, max_value=60, value=20, step=5)
+forecast_alpha = st.sidebar.number_input(
+    "Ridge regularization",
+    min_value=0.1,
+    max_value=100.0,
+    value=10.0,
+    step=0.5,
+)
+
 # --- Symbol input ---
 symbol = st.text_input("🏷️ Symbol", "AAPL", key="symbol_input").upper()
 
@@ -402,8 +415,99 @@ try:
     sig = sma_crossover(df, short_window, long_window)
     bt = simple_vector_backtest(df, sig)
     
-    st.subheader("📈 Price Chart")
-    st.line_chart(df["close"])
+    st.subheader("📈 Price Chart + ML Forecast")
+    try:
+        forecast_result = forecast_close_prices(
+            df,
+            horizon_days=forecast_horizon,
+            lookback_window=forecast_lookback,
+            ridge_alpha=forecast_alpha,
+        )
+        forecast_df = forecast_result.forecast
+
+        price_fig = go.Figure()
+        price_fig.add_trace(
+            go.Scatter(
+                x=df.index,
+                y=df["close"],
+                mode="lines",
+                name="Historical close",
+                line=dict(color="#1f77b4", width=2),
+            )
+        )
+        price_fig.add_trace(
+            go.Scatter(
+                x=forecast_df.index,
+                y=forecast_df["upper_estimate"],
+                mode="lines",
+                line=dict(width=0),
+                showlegend=False,
+                hoverinfo="skip",
+            )
+        )
+        price_fig.add_trace(
+            go.Scatter(
+                x=forecast_df.index,
+                y=forecast_df["lower_estimate"],
+                mode="lines",
+                line=dict(width=0),
+                fill="tonexty",
+                fillcolor="rgba(44, 160, 44, 0.15)",
+                name="90% estimate range",
+                hoverinfo="skip",
+            )
+        )
+        price_fig.add_trace(
+            go.Scatter(
+                x=forecast_df.index,
+                y=forecast_df["forecast_close"],
+                mode="lines",
+                name="ML forecast",
+                line=dict(color="#2ca02c", width=2, dash="dash"),
+            )
+        )
+        price_fig.update_layout(
+            xaxis_title="Date",
+            yaxis_title="Close",
+            hovermode="x unified",
+            margin=dict(l=10, r=10, t=30, b=10),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
+        )
+        st.plotly_chart(price_fig, use_container_width=True)
+
+        forecast_change = forecast_result.metrics.get("forecast_change_pct", 0.0)
+        metric_cols = st.columns(3)
+        metric_cols[0].metric(
+            f"{forecast_horizon}-day forecast",
+            f"${forecast_df['forecast_close'].iloc[-1]:,.2f}",
+            f"{forecast_change:.2f}%",
+        )
+        if "holdout_direction_accuracy" in forecast_result.metrics:
+            metric_cols[1].metric(
+                "Holdout direction",
+                f"{forecast_result.metrics['holdout_direction_accuracy']:.1f}%",
+            )
+            metric_cols[2].metric(
+                "Holdout MAE",
+                f"{forecast_result.metrics['holdout_mae_pct']:.2f}%",
+            )
+        else:
+            metric_cols[1].metric("Training samples", forecast_result.metrics.get("training_samples", 0))
+            metric_cols[2].metric("Model", "Ridge AR")
+
+        with st.expander("Forecast values"):
+            display_forecast = forecast_df.rename(
+                columns={
+                    "forecast_close": "Forecast Close",
+                    "lower_estimate": "Lower Estimate",
+                    "upper_estimate": "Upper Estimate",
+                    "expected_daily_return_pct": "Expected Daily Return %",
+                }
+            )
+            st.dataframe(display_forecast)
+    except Exception as forecast_error:
+        st.line_chart(df["close"])
+        st.warning(f"ML forecast unavailable: {forecast_error}")
     
     st.subheader("📊 Strategy Equity Curve")
     st.line_chart(bt["curve"])
