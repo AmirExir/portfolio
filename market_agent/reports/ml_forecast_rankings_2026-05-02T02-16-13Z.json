@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-05-02T02-16-13Z",
+  "horizon_days": 10,
+  "primary_model": "Ensemble",
+  "symbols": [
+    "AAPL",
+    "AVGO",
+    "SPY"
+  ],
+  "rows": [],
+  "errors": [
+    "AAPL: No positive close prices available for forecasting.",
+    "AVGO: No positive close prices available for forecasting.",
+    "SPY: No positive close prices available for forecasting."
+  ],
+  "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-02 02:16 UTC\nHorizon: 10 trading days | Primary: Ensemble\n\nStrongest Buy Forecasts\nNo positive forecast candidates.\n\nStrongest Sell Forecasts\nNo negative forecast candidates.\n\nSkipped\nAAPL: No positive close prices available for forecasting.\nAVGO: No positive close prices available for forecasting.\nSPY: No positive close prices available for forecasting.\n\nModel output only. Not financial advice."
+}

@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-05-02T02-16-51Z",
+  "horizon_days": 10,
+  "primary_model": "Ensemble",
+  "symbols": [
+    "AAPL",
+    "AVGO",
+    "SPY"
+  ],
+  "rows": [
+    {
+      "symbol": "AAPL",
+      "model_call": "Neutral / No Edge",
+      "selected_model": "Ensemble",
+      "last_price": 280.1400146484375,
+      "forecast_price": 283.00554429802395,
+      "forecast_return_pct": 1.0228919467940363,
+      "probability_up_pct": 61.56878654255036,
+      "model_edge_pct": 11.568786542550363,
+      "signal_quality": "Moderate Edge",
+      "expected_error_pct": 3.857691073149046,
+      "score": 0.06135078400092917,
+      "ridge_return_pct": 1.3025629856387577,
+      "xgboost_return_pct": 0.5561267877690818,
+      "ensemble_return_pct": 1.0228919467940363
+    },
+    {
+      "symbol": "AVGO",
+      "model_call": "Neutral / No Edge",
+      "selected_model": "Ensemble",
+      "last_price": 421.2799987792969,
+      "forecast_price": 441.8695761414275,
+      "forecast_return_pct": 4.887385449532652,
+      "probability_up_pct": 67.77731616139116,
+      "model_edge_pct": 17.777316161391155,
+      "signal_quality": "High Edge",
+      "expected_error_pct": 10.89811213062563,
+      "score": 0.1594488940791197,
+      "ridge_return_pct": 4.914359791524184,
+      "xgboost_return_pct": 4.8607824665194865,
+      "ensemble_return_pct": 4.887385449532652
+    },
+    {
+      "symbol": "SPY",
+      "model_call": "Neutral / No Edge",
+      "selected_model": "Ensemble",
+      "last_price": 720.6500244140625,
+      "forecast_price": 720.6431072748405,
+      "forecast_return_pct": -0.000959847219506423,
+      "probability_up_pct": 49.98972640106891,
+      "model_edge_pct": 0.01027359893109292,
+      "signal_quality": "No Edge",
+      "expected_error_pct": 3.930484577843707,
+      "score": -5.0177453558378104e-08,
+      "ridge_return_pct": 0.0019186728427244121,
+      "xgboost_return_pct": -0.0037151802310337826,
+      "ensemble_return_pct": -0.000959847219506423
+    }
+  ],
+  "errors": [],
+  "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-02 02:16 UTC\nHorizon: 10 trading days | Primary: Ensemble\n\nStrongest Buy Forecasts\nAVGO: +4.89% (Neutral / No Edge, edge 17.8%, err +/-10.90%, Ensemble)\nAAPL: +1.02% (Neutral / No Edge, edge 11.6%, err +/-3.86%, Ensemble)\n\nStrongest Sell Forecasts\nSPY: -0.00% (Neutral / No Edge, edge 0.0%, err +/-3.93%, Ensemble)\n\nModel output only. Not financial advice."
+}
