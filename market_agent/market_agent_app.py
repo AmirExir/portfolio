@@ -1448,323 +1448,324 @@ try:
     actual_close = pd.to_numeric(actual_close, errors="coerce").dropna()
     context_df = load_market_context(history_days) if use_market_context else pd.DataFrame()
     
-    st.subheader("📈 Actual Value, ML Based Forecast, and Crossover Strategy")
-    try:
-        model_results = cached_model_results(
-            symbol,
-            history_days,
-            forecast_horizon,
-            forecast_lookback,
-            forecast_alpha,
-            optimize_forecast_model,
-            use_market_context,
-            tuple(selected_forecast_symbols),
-            st.session_state["symbol_refresh_nonce"],
-        )
-        if primary_model_choice == "Best Validation":
-            primary_model = best_model_name(model_results, preferred="")
-        else:
-            primary_model = best_model_name(model_results, preferred=primary_model_choice)
-        if not primary_model:
-            raise ValueError("No forecast model produced a usable forecast.")
-
-        forecast_result = model_results[primary_model]
-        forecast_df = forecast_result.forecast
-        historical_result = None
-        historical_forecasts = pd.DataFrame()
-        forecast_change = forecast_result.metrics.get("forecast_change_pct", 0.0)
-        probability_up = forecast_result.metrics.get("probability_up_pct", 0.0)
-        probability_down = forecast_result.metrics.get("probability_down_pct", 0.0)
-        confidence = forecast_result.metrics.get("confidence_pct", 0.0)
-        model_edge = max(confidence - 50.0, 0.0)
-        quality_label = signal_quality(confidence)
-        expected_error = forecast_result.metrics.get("expected_error_pct", 0.0)
-        selected_window = forecast_result.metrics.get("selected_lookback_window", forecast_lookback)
-        selected_alpha = forecast_result.metrics.get("selected_ridge_alpha", forecast_alpha)
-        shrink_factor = forecast_result.metrics.get("shrink_factor", 1.0)
-        raw_forecast = forecast_result.metrics.get("raw_forecast_change_pct", forecast_change)
+    with analysis_tab:
+        st.subheader("📈 Actual Value, ML Based Forecast, and Crossover Strategy")
         try:
-            historical_result = cached_historical_forecasts(
+            model_results = cached_model_results(
                 symbol,
                 history_days,
                 forecast_horizon,
-                int(selected_window),
-                float(selected_alpha),
-                historical_test_points,
-                primary_model,
+                forecast_lookback,
+                forecast_alpha,
+                optimize_forecast_model,
                 use_market_context,
+                tuple(selected_forecast_symbols),
                 st.session_state["symbol_refresh_nonce"],
             )
-            historical_forecasts = historical_result.forecasts
-        except Exception as history_error:
-            st.info(f"Previous ML forecast test unavailable: {history_error}")
+            if primary_model_choice == "Best Validation":
+                primary_model = best_model_name(model_results, preferred="")
+            else:
+                primary_model = best_model_name(model_results, preferred=primary_model_choice)
+            if not primary_model:
+                raise ValueError("No forecast model produced a usable forecast.")
 
-        latest_actual_date = actual_close.index[-1]
-        latest_actual_price = float(actual_close.iloc[-1])
-        latest_actual_label = f"Actual: ${latest_actual_price:,.2f}"
-        final_forecast_date = forecast_df.index[-1]
-        final_forecast_price = float(forecast_df["forecast_close"].iloc[-1])
-        final_forecast_label = f"{primary_model}: ${final_forecast_price:,.2f} ({forecast_change:+.2f}%)"
-        forecast_plot_x = [latest_actual_date, *forecast_df.index.tolist()]
-        forecast_plot_y = [latest_actual_price, *forecast_df["forecast_close"].tolist()]
+            forecast_result = model_results[primary_model]
+            forecast_df = forecast_result.forecast
+            historical_result = None
+            historical_forecasts = pd.DataFrame()
+            forecast_change = forecast_result.metrics.get("forecast_change_pct", 0.0)
+            probability_up = forecast_result.metrics.get("probability_up_pct", 0.0)
+            probability_down = forecast_result.metrics.get("probability_down_pct", 0.0)
+            confidence = forecast_result.metrics.get("confidence_pct", 0.0)
+            model_edge = max(confidence - 50.0, 0.0)
+            quality_label = signal_quality(confidence)
+            expected_error = forecast_result.metrics.get("expected_error_pct", 0.0)
+            selected_window = forecast_result.metrics.get("selected_lookback_window", forecast_lookback)
+            selected_alpha = forecast_result.metrics.get("selected_ridge_alpha", forecast_alpha)
+            shrink_factor = forecast_result.metrics.get("shrink_factor", 1.0)
+            raw_forecast = forecast_result.metrics.get("raw_forecast_change_pct", forecast_change)
+            try:
+                historical_result = cached_historical_forecasts(
+                    symbol,
+                    history_days,
+                    forecast_horizon,
+                    int(selected_window),
+                    float(selected_alpha),
+                    historical_test_points,
+                    primary_model,
+                    use_market_context,
+                    st.session_state["symbol_refresh_nonce"],
+                )
+                historical_forecasts = historical_result.forecasts
+            except Exception as history_error:
+                st.info(f"Previous ML forecast test unavailable: {history_error}")
 
-        price_fig = go.Figure()
-        price_fig.add_trace(
-            go.Scatter(
-                x=actual_close.index,
-                y=actual_close,
-                mode="lines",
-                name="Actual Value",
-                line=dict(color="#1f77b4", width=2),
-                hovertemplate="%{x}<br>Actual value: $%{y:,.2f}<extra></extra>",
-            )
-        )
-        price_fig.add_trace(
-            go.Scatter(
-                x=forecast_df.index,
-                y=forecast_df["upper_estimate"],
-                mode="lines",
-                line=dict(width=0),
-                showlegend=False,
-                hoverinfo="skip",
-            )
-        )
-        price_fig.add_trace(
-            go.Scatter(
-                x=forecast_df.index,
-                y=forecast_df["lower_estimate"],
-                mode="lines",
-                line=dict(width=0),
-                fill="tonexty",
-                fillcolor="rgba(44, 160, 44, 0.15)",
-                name="90% estimate range",
-                hoverinfo="skip",
-            )
-        )
-        price_fig.add_trace(
-            go.Scatter(
-                x=forecast_plot_x,
-                y=forecast_plot_y,
-                mode="lines",
-                name=f"Primary ML Forecast ({primary_model})",
-                line=dict(color="#2ca02c", width=2, dash="dash"),
-                hovertemplate="%{x}<br>Primary ML forecast: $%{y:,.2f}<extra></extra>",
-            )
-        )
-        comparison_colors = {"Ridge": "#8c564b", "XGBoost": "#d62728", "Ensemble": "#2ca02c"}
-        for comparison_name, comparison_result in model_results.items():
-            if comparison_name == primary_model or comparison_result.forecast is None or comparison_result.forecast.empty:
-                continue
+            latest_actual_date = actual_close.index[-1]
+            latest_actual_price = float(actual_close.iloc[-1])
+            latest_actual_label = f"Actual: ${latest_actual_price:,.2f}"
+            final_forecast_date = forecast_df.index[-1]
+            final_forecast_price = float(forecast_df["forecast_close"].iloc[-1])
+            final_forecast_label = f"{primary_model}: ${final_forecast_price:,.2f} ({forecast_change:+.2f}%)"
+            forecast_plot_x = [latest_actual_date, *forecast_df.index.tolist()]
+            forecast_plot_y = [latest_actual_price, *forecast_df["forecast_close"].tolist()]
 
+            price_fig = go.Figure()
             price_fig.add_trace(
                 go.Scatter(
-                    x=[latest_actual_date, *comparison_result.forecast.index.tolist()],
-                    y=[latest_actual_price, *comparison_result.forecast["forecast_close"].tolist()],
+                    x=actual_close.index,
+                    y=actual_close,
                     mode="lines",
-                    name=f"{comparison_name} Forecast",
-                    line=dict(
-                        color=comparison_colors.get(comparison_name, "#7f7f7f"),
-                        width=1.5,
-                        dash="dot",
-                    ),
-                    hovertemplate=f"%{{x}}<br>{comparison_name}: $%{{y:,.2f}}<extra></extra>",
+                    name="Actual Value",
+                    line=dict(color="#1f77b4", width=2),
+                    hovertemplate="%{x}<br>Actual value: $%{y:,.2f}<extra></extra>",
                 )
             )
-        if not historical_forecasts.empty:
-            error_line_x = []
-            error_line_y = []
-            for _, row in historical_forecasts.iterrows():
-                error_line_x.extend([row["forecast_date"], row["forecast_date"], None])
-                error_line_y.extend([row["actual_close"], row["forecast_close"], None])
-
             price_fig.add_trace(
                 go.Scatter(
-                    x=error_line_x,
-                    y=error_line_y,
+                    x=forecast_df.index,
+                    y=forecast_df["upper_estimate"],
                     mode="lines",
-                    name="Previous Forecast Error",
-                    line=dict(color="rgba(255, 127, 14, 0.25)", width=1),
+                    line=dict(width=0),
+                    showlegend=False,
                     hoverinfo="skip",
                 )
             )
             price_fig.add_trace(
                 go.Scatter(
-                    x=historical_forecasts["forecast_date"],
-                    y=historical_forecasts["forecast_close"],
-                    mode="markers",
-                    name="Previous ML Forecasts",
-                    marker=dict(color="#ff7f0e", size=7, symbol="diamond"),
-                    customdata=historical_forecasts[
-                        ["actual_close", "error_pct", "confidence_pct", "expected_error_pct"]
-                    ],
-                    hovertemplate=(
-                        "%{x}<br>"
-                        "Previous ML forecast: $%{y:,.2f}<br>"
-                        "Actual close: $%{customdata[0]:,.2f}<br>"
-                        "Error: %{customdata[1]:+.2f}%<br>"
-                        "Confidence then: %{customdata[2]:.1f}%<br>"
-                        "Expected error then: %{customdata[3]:.2f}%"
-                        "<extra></extra>"
-                    ),
+                    x=forecast_df.index,
+                    y=forecast_df["lower_estimate"],
+                    mode="lines",
+                    line=dict(width=0),
+                    fill="tonexty",
+                    fillcolor="rgba(44, 160, 44, 0.15)",
+                    name="90% estimate range",
+                    hoverinfo="skip",
                 )
             )
-        price_fig.add_trace(
-            go.Scatter(
-                x=[latest_actual_date],
-                y=[latest_actual_price],
-                mode="markers+text",
-                name="Latest Actual Value",
-                marker=dict(color="#1f77b4", size=10, line=dict(color="white", width=2)),
-                text=[latest_actual_label],
-                textposition="bottom left",
-                textfont=dict(color="#0d47a1", size=13),
-                hovertemplate="%{x}<br>Latest actual value: $%{y:,.2f}<extra></extra>",
+            price_fig.add_trace(
+                go.Scatter(
+                    x=forecast_plot_x,
+                    y=forecast_plot_y,
+                    mode="lines",
+                    name=f"Primary ML Forecast ({primary_model})",
+                    line=dict(color="#2ca02c", width=2, dash="dash"),
+                    hovertemplate="%{x}<br>Primary ML forecast: $%{y:,.2f}<extra></extra>",
+                )
             )
-        )
-        price_fig.add_trace(
-            go.Scatter(
-                x=[final_forecast_date],
-                y=[final_forecast_price],
-                mode="markers+text",
-                name=f"{forecast_horizon}-Day {primary_model} Forecast",
-                marker=dict(color="#2ca02c", size=10, line=dict(color="white", width=2)),
-                text=[final_forecast_label],
-                textposition="top right",
-                textfont=dict(color="#1b5e20", size=13),
-                hovertemplate="%{x}<br>ML based forecast value: $%{y:,.2f}<extra></extra>",
-            )
-        )
-        price_fig.add_trace(
-            go.Scatter(
-                x=bt.index,
-                y=bt["curve"],
-                mode="lines",
-                name="Using the Crossover Strategy",
-                line=dict(color="#9467bd", width=2),
-                yaxis="y2",
-                hovertemplate="%{x}<br>Crossover strategy equity: %{y:.4f}<extra></extra>",
-            )
-        )
-        price_fig.update_layout(
-            xaxis_title="Date",
-            yaxis=dict(title="Actual / Forecast Price"),
-            yaxis2=dict(
-                title="Crossover Strategy Equity Curve",
-                overlaying="y",
-                side="right",
-                showgrid=False,
-            ),
-            hovermode="x unified",
-            margin=dict(l=10, r=10, t=30, b=10),
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
-        )
-        st.plotly_chart(price_fig, use_container_width=True)
+            comparison_colors = {"Ridge": "#8c564b", "XGBoost": "#d62728", "Ensemble": "#2ca02c"}
+            for comparison_name, comparison_result in model_results.items():
+                if comparison_name == primary_model or comparison_result.forecast is None or comparison_result.forecast.empty:
+                    continue
 
-        metric_cols = st.columns(3)
-        metric_cols[0].metric(
-            f"{forecast_horizon}-day forecast",
-            f"${final_forecast_price:,.2f}",
-            f"{forecast_change:.2f}%",
-        )
-        metric_cols[1].metric("Probability Up", f"{probability_up:.1f}%")
-        metric_cols[2].metric("Expected Error", f"±{expected_error:.2f}%")
+                price_fig.add_trace(
+                    go.Scatter(
+                        x=[latest_actual_date, *comparison_result.forecast.index.tolist()],
+                        y=[latest_actual_price, *comparison_result.forecast["forecast_close"].tolist()],
+                        mode="lines",
+                        name=f"{comparison_name} Forecast",
+                        line=dict(
+                            color=comparison_colors.get(comparison_name, "#7f7f7f"),
+                            width=1.5,
+                            dash="dot",
+                        ),
+                        hovertemplate=f"%{{x}}<br>{comparison_name}: $%{{y:,.2f}}<extra></extra>",
+                    )
+                )
+            if not historical_forecasts.empty:
+                error_line_x = []
+                error_line_y = []
+                for _, row in historical_forecasts.iterrows():
+                    error_line_x.extend([row["forecast_date"], row["forecast_date"], None])
+                    error_line_y.extend([row["actual_close"], row["forecast_close"], None])
 
-        quality_cols = st.columns(3)
-        quality_cols[0].metric("Model Edge", f"{model_edge:.1f}%", quality_label)
-        if historical_result is not None:
-            quality_cols[1].metric(
-                "Previous Forecast MAE",
-                f"{historical_result.metrics['historical_mae_pct']:.2f}%",
+                price_fig.add_trace(
+                    go.Scatter(
+                        x=error_line_x,
+                        y=error_line_y,
+                        mode="lines",
+                        name="Previous Forecast Error",
+                        line=dict(color="rgba(255, 127, 14, 0.25)", width=1),
+                        hoverinfo="skip",
+                    )
+                )
+                price_fig.add_trace(
+                    go.Scatter(
+                        x=historical_forecasts["forecast_date"],
+                        y=historical_forecasts["forecast_close"],
+                        mode="markers",
+                        name="Previous ML Forecasts",
+                        marker=dict(color="#ff7f0e", size=7, symbol="diamond"),
+                        customdata=historical_forecasts[
+                            ["actual_close", "error_pct", "confidence_pct", "expected_error_pct"]
+                        ],
+                        hovertemplate=(
+                            "%{x}<br>"
+                            "Previous ML forecast: $%{y:,.2f}<br>"
+                            "Actual close: $%{customdata[0]:,.2f}<br>"
+                            "Error: %{customdata[1]:+.2f}%<br>"
+                            "Confidence then: %{customdata[2]:.1f}%<br>"
+                            "Expected error then: %{customdata[3]:.2f}%"
+                            "<extra></extra>"
+                        ),
+                    )
+                )
+            price_fig.add_trace(
+                go.Scatter(
+                    x=[latest_actual_date],
+                    y=[latest_actual_price],
+                    mode="markers+text",
+                    name="Latest Actual Value",
+                    marker=dict(color="#1f77b4", size=10, line=dict(color="white", width=2)),
+                    text=[latest_actual_label],
+                    textposition="bottom left",
+                    textfont=dict(color="#0d47a1", size=13),
+                    hovertemplate="%{x}<br>Latest actual value: $%{y:,.2f}<extra></extra>",
+                )
             )
-            quality_cols[2].metric(
-                "Previous Direction Hit Rate",
-                f"{historical_result.metrics['historical_direction_accuracy']:.1f}%",
+            price_fig.add_trace(
+                go.Scatter(
+                    x=[final_forecast_date],
+                    y=[final_forecast_price],
+                    mode="markers+text",
+                    name=f"{forecast_horizon}-Day {primary_model} Forecast",
+                    marker=dict(color="#2ca02c", size=10, line=dict(color="white", width=2)),
+                    text=[final_forecast_label],
+                    textposition="top right",
+                    textfont=dict(color="#1b5e20", size=13),
+                    hovertemplate="%{x}<br>ML based forecast value: $%{y:,.2f}<extra></extra>",
+                )
             )
-        elif "holdout_direction_accuracy" in forecast_result.metrics:
-            quality_cols[1].metric(
-                "Holdout Direction",
-                f"{forecast_result.metrics['holdout_direction_accuracy']:.1f}%",
+            price_fig.add_trace(
+                go.Scatter(
+                    x=bt.index,
+                    y=bt["curve"],
+                    mode="lines",
+                    name="Using the Crossover Strategy",
+                    line=dict(color="#9467bd", width=2),
+                    yaxis="y2",
+                    hovertemplate="%{x}<br>Crossover strategy equity: %{y:.4f}<extra></extra>",
+                )
             )
-            quality_cols[2].metric(
-                "Holdout MAE",
-                f"{forecast_result.metrics['holdout_mae_pct']:.2f}%",
-            )
-        else:
-            quality_cols[1].metric("Training Samples", forecast_result.metrics.get("training_samples", 0))
-            quality_cols[2].metric("Probability Down", f"{probability_down:.1f}%")
-
-        st.caption(
-            "Model: "
-            f"{forecast_result.model_name}. "
-            f"Primary model: {primary_model}. "
-            f"Market context features: {'on' if use_market_context and not context_df.empty else 'off'}. "
-            f"Selected lag window: {selected_window}; "
-            f"ridge alpha: {selected_alpha:g}; "
-            f"raw forecast: {raw_forecast:+.2f}%; "
-            f"calibrated forecast: {forecast_change:+.2f}%; "
-            f"shrink factor: {shrink_factor:.2f}."
-        )
-        if quality_label == "No Edge":
-            st.info(
-                "The optimized model is effectively neutral here: directional probability is close to 50%, "
-                "so the current feature set does not justify a strong forecast."
-            )
-
-        with st.expander("Model comparison"):
-            comparison_table = model_results_table(model_results)
-            st.dataframe(
-                comparison_table.style.format(
-                    {
-                        "Forecast Price": "${:,.2f}",
-                        "Forecast Return %": "{:+.2f}%",
-                        "Probability Up %": "{:.1f}%",
-                        "Model Edge %": "{:.1f}%",
-                        "Expected Error %": "{:.2f}%",
-                        "Validation MAE %": "{:.2f}%",
-                        "Validation Direction %": "{:.1f}%",
-                        "Score": "{:+.3f}",
-                    },
-                    na_rep="",
+            price_fig.update_layout(
+                xaxis_title="Date",
+                yaxis=dict(title="Actual / Forecast Price"),
+                yaxis2=dict(
+                    title="Crossover Strategy Equity Curve",
+                    overlaying="y",
+                    side="right",
+                    showgrid=False,
                 ),
-                use_container_width=True,
+                hovermode="x unified",
+                margin=dict(l=10, r=10, t=30, b=10),
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
             )
+            st.plotly_chart(price_fig, use_container_width=True)
 
-        if historical_result is not None:
-            with st.expander("Previous forecast accuracy"):
-                st.caption(
-                    "Each row shows what the ML model would have forecasted using only data available at that past date."
+            metric_cols = st.columns(3)
+            metric_cols[0].metric(
+                f"{forecast_horizon}-day forecast",
+                f"${final_forecast_price:,.2f}",
+                f"{forecast_change:.2f}%",
+            )
+            metric_cols[1].metric("Probability Up", f"{probability_up:.1f}%")
+            metric_cols[2].metric("Expected Error", f"±{expected_error:.2f}%")
+
+            quality_cols = st.columns(3)
+            quality_cols[0].metric("Model Edge", f"{model_edge:.1f}%", quality_label)
+            if historical_result is not None:
+                quality_cols[1].metric(
+                    "Previous Forecast MAE",
+                    f"{historical_result.metrics['historical_mae_pct']:.2f}%",
                 )
-                display_history = historical_forecasts.rename(
+                quality_cols[2].metric(
+                    "Previous Direction Hit Rate",
+                    f"{historical_result.metrics['historical_direction_accuracy']:.1f}%",
+                )
+            elif "holdout_direction_accuracy" in forecast_result.metrics:
+                quality_cols[1].metric(
+                    "Holdout Direction",
+                    f"{forecast_result.metrics['holdout_direction_accuracy']:.1f}%",
+                )
+                quality_cols[2].metric(
+                    "Holdout MAE",
+                    f"{forecast_result.metrics['holdout_mae_pct']:.2f}%",
+                )
+            else:
+                quality_cols[1].metric("Training Samples", forecast_result.metrics.get("training_samples", 0))
+                quality_cols[2].metric("Probability Down", f"{probability_down:.1f}%")
+
+            st.caption(
+                "Model: "
+                f"{forecast_result.model_name}. "
+                f"Primary model: {primary_model}. "
+                f"Market context features: {'on' if use_market_context and not context_df.empty else 'off'}. "
+                f"Selected lag window: {selected_window}; "
+                f"ridge alpha: {selected_alpha:g}; "
+                f"raw forecast: {raw_forecast:+.2f}%; "
+                f"calibrated forecast: {forecast_change:+.2f}%; "
+                f"shrink factor: {shrink_factor:.2f}."
+            )
+            if quality_label == "No Edge":
+                st.info(
+                    "The optimized model is effectively neutral here: directional probability is close to 50%, "
+                    "so the current feature set does not justify a strong forecast."
+                )
+
+            with st.expander("Model comparison"):
+                comparison_table = model_results_table(model_results)
+                st.dataframe(
+                    comparison_table.style.format(
+                        {
+                            "Forecast Price": "${:,.2f}",
+                            "Forecast Return %": "{:+.2f}%",
+                            "Probability Up %": "{:.1f}%",
+                            "Model Edge %": "{:.1f}%",
+                            "Expected Error %": "{:.2f}%",
+                            "Validation MAE %": "{:.2f}%",
+                            "Validation Direction %": "{:.1f}%",
+                            "Score": "{:+.3f}",
+                        },
+                        na_rep="",
+                    ),
+                    use_container_width=True,
+                )
+
+            if historical_result is not None:
+                with st.expander("Previous forecast accuracy"):
+                    st.caption(
+                        "Each row shows what the ML model would have forecasted using only data available at that past date."
+                    )
+                    display_history = historical_forecasts.rename(
+                        columns={
+                            "as_of_date": "Forecast Made On",
+                            "forecast_date": "Forecast Target Date",
+                            "as_of_price": "Price Then",
+                            "forecast_close": "Forecast Close",
+                            "actual_close": "Actual Close",
+                            "predicted_change_pct": "Forecast Return %",
+                            "actual_change_pct": "Actual Return %",
+                            "error_pct": "Error %",
+                            "abs_error_pct": "Absolute Error %",
+                            "confidence_pct": "Confidence %",
+                            "expected_error_pct": "Expected Error %",
+                            "direction_correct": "Direction Correct",
+                        }
+                    )
+                    st.dataframe(display_history)
+
+            with st.expander("Forecast values"):
+                display_forecast = forecast_df.rename(
                     columns={
-                        "as_of_date": "Forecast Made On",
-                        "forecast_date": "Forecast Target Date",
-                        "as_of_price": "Price Then",
                         "forecast_close": "Forecast Close",
-                        "actual_close": "Actual Close",
-                        "predicted_change_pct": "Forecast Return %",
-                        "actual_change_pct": "Actual Return %",
-                        "error_pct": "Error %",
-                        "abs_error_pct": "Absolute Error %",
-                        "confidence_pct": "Confidence %",
-                        "expected_error_pct": "Expected Error %",
-                        "direction_correct": "Direction Correct",
+                        "lower_estimate": "Lower Estimate",
+                        "upper_estimate": "Upper Estimate",
+                        "expected_daily_return_pct": "Expected Daily Return %",
                     }
                 )
-                st.dataframe(display_history)
-
-        with st.expander("Forecast values"):
-            display_forecast = forecast_df.rename(
-                columns={
-                    "forecast_close": "Forecast Close",
-                    "lower_estimate": "Lower Estimate",
-                    "upper_estimate": "Upper Estimate",
-                    "expected_daily_return_pct": "Expected Daily Return %",
-                }
-            )
-            st.dataframe(display_forecast)
-    except Exception as forecast_error:
-        st.line_chart(actual_close)
-        st.warning(f"ML forecast unavailable: {forecast_error}")
+                st.dataframe(display_forecast)
+        except Exception as forecast_error:
+            st.line_chart(actual_close)
+            st.warning(f"ML forecast unavailable: {forecast_error}")
     
     # --- Latest Signal + Timestamp ---
     signal_emoji = "BUY" if sig.iloc[-1] == 1 else "FLAT"
