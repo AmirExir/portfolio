@@ -1,12 +1,1 @@
-ML Forecast Rankings
-Generated: 2026-05-02 17:30 UTC
-Horizon: 30 trading days | Primary: Ensemble
-
-Strongest Buy Forecasts
-MSFT: +3.78% (Neutral / No Edge, edge 15.7%, err +/-8.69%, Ensemble)
-AAPL: +2.01% (Neutral / No Edge, edge 6.9%, err +/-8.44%, Ensemble)
-
-Strongest Sell Forecasts
-No negative forecast candidates.
-
-Model output only. Not financial advice.
+No optimized recommendation text was produced.
