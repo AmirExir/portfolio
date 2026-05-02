@@ -27,6 +27,15 @@ except ImportError as e:
     st.info("Please ensure the 'agent' folder exists in the same directory as this app.")
     st.stop()
 
+
+def get_secret(name, default=None):
+    """Read Streamlit secrets when configured, otherwise fall back to env/default."""
+    try:
+        return st.secrets.get(name, os.getenv(name, default))
+    except Exception:
+        return os.getenv(name, default)
+
+
 st.set_page_config(page_title="📈 Market Agent Dashboard", layout="wide")
 
 st.title("🤖 Amir Exir Stock Market & Crypto AI Agent")
@@ -312,7 +321,7 @@ except Exception as e:
 
 # Owner Key unlock system
 owner_key_input = st.sidebar.text_input("🔑 Enter Owner Key", type="password")
-OWNER_KEY = st.secrets.get("OWNER_KEY", "")
+OWNER_KEY = get_secret("OWNER_KEY", "")
 
 if owner_key_input == OWNER_KEY and OWNER_KEY != "":
     demo_mode = st.sidebar.checkbox("🎭 Demo Mode", value=False, help="Toggle between live and demo mode")
@@ -325,9 +334,9 @@ else:
     st.sidebar.info("Demo Mode forced ON for public viewers — safe demo mode.")
 
 # --- Load Alpaca credentials from Streamlit Secrets ---
-ALPACA_KEY = st.secrets.get("ALPACA_KEY")
-ALPACA_SECRET = st.secrets.get("ALPACA_SECRET")
-ALPACA_ENDPOINT = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
+ALPACA_KEY = get_secret("ALPACA_KEY")
+ALPACA_SECRET = get_secret("ALPACA_SECRET")
+ALPACA_ENDPOINT = get_secret("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
 
 # --- Account Summary ---
 if demo_mode or not ALPACA_KEY or not ALPACA_SECRET:
