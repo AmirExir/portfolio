@@ -23,6 +23,7 @@ try:
     from agent.strategy import sma_crossover
     from agent.backtest import simple_vector_backtest
     from agent.broker import get_account, submit_order, cancel_open_orders
+    from agent.risk import target_position_qty
     from forecast_cache import (
         forecast_cache_path,
         forecast_result_from_dict,
@@ -42,6 +43,253 @@ def get_secret(name, default=None):
         return st.secrets.get(name, os.getenv(name, default))
     except Exception:
         return os.getenv(name, default)
+
+
+def _reports_dir() -> str:
+    return os.path.join(os.path.dirname(__file__), "reports")
+
+
+def _trade_log_path() -> str:
+    return os.path.join(_reports_dir(), "paper_trade_log.jsonl")
+
+
+def _trade_state_path() -> str:
+    return os.path.join(_reports_dir(), "paper_trade_state.json")
+
+
+def _read_trade_state() -> dict:
+    path = _trade_state_path()
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path, "r") as handle:
+            return json.load(handle)
+    except Exception:
+        return {}
+
+
+def _write_trade_state(state: dict) -> None:
+    os.makedirs(_reports_dir(), exist_ok=True)
+    with open(_trade_state_path(), "w") as handle:
+        json.dump(state, handle, indent=2, default=str)
+
+
+def _append_trade_log(entry: dict) -> None:
+    os.makedirs(_reports_dir(), exist_ok=True)
+    with open(_trade_log_path(), "a") as handle:
+        handle.write(json.dumps(entry, default=str) + "\n")
+
+
+def load_trade_log(limit: int = 300) -> pd.DataFrame:
+    path = _trade_log_path()
+    if not os.path.exists(path):
+        return pd.DataFrame()
+
+    rows = []
+    try:
+        with open(path, "r") as handle:
+            for line in handle:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    rows.append(json.loads(line))
+                except Exception:
+                    continue
+    except Exception:
+        return pd.DataFrame()
+
+    if not rows:
+        return pd.DataFrame()
+
+    df = pd.DataFrame(rows)
+    if "timestamp_utc" in df.columns:
+        df = df.sort_values("timestamp_utc", ascending=False)
+    return df.head(limit)
+
+
+def _alpaca_position_qty(symbol: str) -> int:
+    key = get_secret("ALPACA_KEY")
+    secret = get_secret("ALPACA_SECRET")
+    endpoint = get_secret("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets").rstrip("/")
+    if not key or not secret:
+        return 0
+
+    url = f"{endpoint}/v2/positions/{symbol}"
+    headers = {
+        "APCA-API-KEY-ID": key,
+        "APCA-API-SECRET-KEY": secret,
+    }
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        if response.status_code == 200:
+            payload = response.json()
+            return int(float(payload.get("qty", 0)))
+        return 0
+    except Exception:
+        return 0
+
+
+def _fetch_live_account_snapshot() -> dict:
+    try:
+        account = get_account()
+        if isinstance(account, dict) and "equity" in account:
+            return {
+                "equity": float(account.get("equity", 0.0)),
+                "cash": float(account.get("cash", 0.0)),
+                "buying_power": float(account.get("buying_power", 0.0)),
+            }
+    except Exception:
+        pass
+    return {}
+
+
+def _fetch_alpaca_portfolio_history(period: str = "1M", timeframe: str = "1D") -> pd.DataFrame:
+    key = get_secret("ALPACA_KEY")
+    secret = get_secret("ALPACA_SECRET")
+    endpoint = get_secret("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets").rstrip("/")
+    if not key or not secret:
+        return pd.DataFrame()
+
+    try:
+        response = requests.get(
+            f"{endpoint}/v2/account/portfolio/history",
+            headers={
+                "APCA-API-KEY-ID": key,
+                "APCA-API-SECRET-KEY": secret,
+            },
+            params={"period": period, "timeframe": timeframe, "extended_hours": "false"},
+            timeout=12,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        timestamps = payload.get("timestamp", [])
+        equity = payload.get("equity", [])
+        if not timestamps or not equity:
+            return pd.DataFrame()
+
+        history_df = pd.DataFrame(
+            {
+                "timestamp": pd.to_datetime(timestamps, unit="s", utc=True),
+                "equity": pd.to_numeric(equity, errors="coerce"),
+                "profit_loss": pd.to_numeric(payload.get("profit_loss", []), errors="coerce"),
+            }
+        ).dropna(subset=["timestamp", "equity"])
+        return history_df.sort_values("timestamp")
+    except Exception:
+        return pd.DataFrame()
+
+
+def _money_history_from_trade_log(trade_log_df: pd.DataFrame, current_equity: float, current_cash: float) -> pd.DataFrame:
+    rows = []
+    if not trade_log_df.empty and "timestamp_utc" in trade_log_df.columns:
+        for _, row in trade_log_df.iterrows():
+            ts = pd.to_datetime(row.get("timestamp_utc"), utc=True, errors="coerce")
+            eq = pd.to_numeric(row.get("equity_after"), errors="coerce")
+            cs = pd.to_numeric(row.get("cash_after"), errors="coerce")
+            if pd.notna(ts) and (pd.notna(eq) or pd.notna(cs)):
+                rows.append(
+                    {
+                        "timestamp": ts,
+                        "equity": float(eq) if pd.notna(eq) else np.nan,
+                        "cash": float(cs) if pd.notna(cs) else np.nan,
+                    }
+                )
+
+    rows.append(
+        {
+            "timestamp": pd.Timestamp.now(tz="UTC"),
+            "equity": float(current_equity),
+            "cash": float(current_cash),
+        }
+    )
+    money_df = pd.DataFrame(rows).sort_values("timestamp")
+    return money_df.drop_duplicates(subset=["timestamp"], keep="last")
+
+
+def maybe_execute_auto_trade(
+    symbol: str,
+    sig: pd.Series,
+    close_prices: pd.Series,
+    equity: float,
+    risk_fraction: float,
+    enabled: bool,
+    demo_mode: bool,
+) -> dict:
+    if not enabled:
+        return {"status": "disabled"}
+    if len(sig.dropna()) < 2:
+        return {"status": "skipped", "reason": "not enough signal history"}
+
+    prev_sig = int(sig.iloc[-2])
+    last_sig = int(sig.iloc[-1])
+    if prev_sig == last_sig:
+        return {"status": "skipped", "reason": "no signal flip"}
+
+    signal_ts = pd.to_datetime(sig.index[-1]).strftime("%Y-%m-%d")
+    action_key = f"{signal_ts}:{prev_sig}->{last_sig}"
+    state = _read_trade_state()
+    symbol_state = state.get(symbol, {})
+    if symbol_state.get("last_action_key") == action_key:
+        return {"status": "skipped", "reason": "already executed for this signal"}
+
+    last_price = float(close_prices.iloc[-1])
+    suggested_qty = max(target_position_qty(float(equity), last_price, risk_fraction), 1)
+
+    if prev_sig == 0 and last_sig == 1:
+        side = "buy"
+        action = "BUY"
+        qty = suggested_qty
+    elif prev_sig == 1 and last_sig == 0:
+        side = "sell"
+        action = "SELL"
+        qty = _alpaca_position_qty(symbol) if not demo_mode else suggested_qty
+        qty = max(int(qty), 1)
+    else:
+        return {"status": "skipped", "reason": "unsupported signal transition"}
+
+    if demo_mode:
+        order_result = {"demo": True, "symbol": symbol, "side": side, "qty": qty}
+    else:
+        order_result = submit_order(symbol, qty, side)
+
+    account_snapshot = {
+        "equity": float(equity),
+        "cash": None,
+        "buying_power": None,
+    }
+    if not demo_mode:
+        live_snapshot = _fetch_live_account_snapshot()
+        if live_snapshot:
+            account_snapshot = live_snapshot
+
+    log_entry = {
+        "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "source": "auto",
+        "symbol": symbol,
+        "action": action,
+        "side": side,
+        "qty": int(qty),
+        "price": round(last_price, 4),
+        "prev_signal": prev_sig,
+        "last_signal": last_sig,
+        "risk_fraction": float(risk_fraction),
+        "demo_mode": bool(demo_mode),
+        "equity_after": account_snapshot.get("equity"),
+        "cash_after": account_snapshot.get("cash"),
+        "buying_power_after": account_snapshot.get("buying_power"),
+        "order_result": order_result,
+    }
+    _append_trade_log(log_entry)
+
+    state[symbol] = {
+        "last_action_key": action_key,
+        "last_signal": last_sig,
+        "last_timestamp": log_entry["timestamp_utc"],
+    }
+    _write_trade_state(state)
+
+    return {"status": "executed", "entry": log_entry}
 
 
 st.set_page_config(page_title="📈 Market Agent Dashboard", layout="wide")
@@ -896,6 +1144,9 @@ else:
     demo_mode = True
     st.sidebar.info("Demo Mode forced ON for public viewers — safe demo mode.")
 
+if OWNER_KEY == "":
+    st.sidebar.caption("Owner key not configured: live mode is disabled, auto-trades run in demo simulation only.")
+
 # --- Load Alpaca credentials from Streamlit Secrets ---
 ALPACA_KEY = get_secret("ALPACA_KEY")
 ALPACA_SECRET = get_secret("ALPACA_SECRET")
@@ -924,6 +1175,8 @@ st.sidebar.header("💼 Account Summary (Paper Trading)")
 st.sidebar.metric("Equity", f"${equity:,.2f}")
 st.sidebar.metric("Cash", f"${cash:,.2f}")
 st.sidebar.metric("Buying Power", f"${buying_power:,.2f}")
+if st.sidebar.button("🔄 Refresh Account and Money Chart"):
+    st.rerun()
 
 # --- Add a Cancel Orders Button ---
 if st.sidebar.button("🧹 Cancel Open Orders"):
@@ -940,6 +1193,22 @@ if st.sidebar.button("🧹 Cancel Open Orders"):
 st.sidebar.header("⚙️ Strategy Settings")
 short_window = st.sidebar.number_input("📏 Short-term MA window", min_value=1, max_value=100, value=20, step=1)
 long_window = st.sidebar.number_input("📐 Long-term MA window", min_value=1, max_value=200, value=50, step=1)
+
+st.sidebar.header("🤖 Auto Paper Trading")
+auto_trade_enabled = st.sidebar.checkbox(
+    "Enable automatic paper trades",
+    value=False,
+    help="Places BUY/SELL orders when SMA crossover flips.",
+)
+auto_trade_risk_fraction = st.sidebar.slider(
+    "Auto-trade position size (% of equity)",
+    min_value=0.01,
+    max_value=0.50,
+    value=0.10,
+    step=0.01,
+)
+if auto_trade_enabled and demo_mode:
+    st.sidebar.info("Auto trading enabled in demo mode: orders are simulated and still logged.")
 
 st.sidebar.header("🔮 ML Forecast Settings")
 history_options = {
@@ -1078,22 +1347,88 @@ with col1:
     if st.button(f"🟢 Buy {symbol}"):
         if demo_mode:
             st.info(f"(Demo) Pretending to buy 1 share of {symbol}")
+            _append_trade_log(
+                {
+                    "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                    "source": "manual",
+                    "symbol": symbol,
+                    "action": "BUY",
+                    "side": "buy",
+                    "qty": 1,
+                    "equity_after": float(equity),
+                    "cash_after": float(cash),
+                    "buying_power_after": float(buying_power),
+                    "demo_mode": True,
+                    "order_result": {"demo": True},
+                }
+            )
+            st.rerun()
         else:
             try:
                 result = submit_order(symbol, 1, "buy")
                 st.success(f"Bought 1 share of {symbol}")
                 st.json(result)
+                account_snapshot = _fetch_live_account_snapshot()
+                _append_trade_log(
+                    {
+                        "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                        "source": "manual",
+                        "symbol": symbol,
+                        "action": "BUY",
+                        "side": "buy",
+                        "qty": 1,
+                        "equity_after": account_snapshot.get("equity"),
+                        "cash_after": account_snapshot.get("cash"),
+                        "buying_power_after": account_snapshot.get("buying_power"),
+                        "demo_mode": False,
+                        "order_result": result,
+                    }
+                )
+                st.rerun()
             except Exception as e:
                 st.error(f"Failed to buy: {e}")
 with col2:
     if st.button(f"🔴 Sell {symbol}"):
         if demo_mode:
             st.info(f"(Demo) Pretending to sell 1 share of {symbol}")
+            _append_trade_log(
+                {
+                    "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                    "source": "manual",
+                    "symbol": symbol,
+                    "action": "SELL",
+                    "side": "sell",
+                    "qty": 1,
+                    "equity_after": float(equity),
+                    "cash_after": float(cash),
+                    "buying_power_after": float(buying_power),
+                    "demo_mode": True,
+                    "order_result": {"demo": True},
+                }
+            )
+            st.rerun()
         else:
             try:
                 result = submit_order(symbol, 1, "sell")
                 st.warning(f"Sold 1 share of {symbol}")
                 st.json(result)
+                account_snapshot = _fetch_live_account_snapshot()
+                _append_trade_log(
+                    {
+                        "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                        "source": "manual",
+                        "symbol": symbol,
+                        "action": "SELL",
+                        "side": "sell",
+                        "qty": 1,
+                        "equity_after": account_snapshot.get("equity"),
+                        "cash_after": account_snapshot.get("cash"),
+                        "buying_power_after": account_snapshot.get("buying_power"),
+                        "demo_mode": False,
+                        "order_result": result,
+                    }
+                )
+                st.rerun()
             except Exception as e:
                 st.error(f"Failed to sell: {e}")
 
@@ -1431,6 +1766,122 @@ try:
     signal_emoji = "BUY" if sig.iloc[-1] == 1 else "FLAT"
     st.write(f"**✨ Latest Signal:** {signal_emoji}")
     st.caption(f"Last updated {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M UTC}")
+
+    auto_trade_result = maybe_execute_auto_trade(
+        symbol=symbol,
+        sig=sig,
+        close_prices=actual_close,
+        equity=equity,
+        risk_fraction=auto_trade_risk_fraction,
+        enabled=auto_trade_enabled,
+        demo_mode=demo_mode,
+    )
+    if auto_trade_result.get("status") == "executed":
+        entry = auto_trade_result["entry"]
+        mode_label = "Demo" if entry.get("demo_mode") else "Live"
+        st.success(
+            f"{mode_label} auto-trade executed: {entry.get('action')} {entry.get('qty')} {entry.get('symbol')} @ ${entry.get('price')}"
+        )
+        st.rerun()
+    elif auto_trade_enabled and auto_trade_result.get("status") == "skipped":
+        st.caption(f"Auto-trade check: {auto_trade_result.get('reason', 'skipped')}")
+
+    st.subheader("💰 Paper Trading Money Chart")
+    trade_log_df = load_trade_log(limit=500)
+    if not demo_mode:
+        live_money_df = _fetch_alpaca_portfolio_history(period="1M", timeframe="1D")
+    else:
+        live_money_df = pd.DataFrame()
+
+    if not live_money_df.empty:
+        money_fig = go.Figure()
+        money_fig.add_trace(
+            go.Scatter(
+                x=live_money_df["timestamp"],
+                y=live_money_df["equity"],
+                mode="lines+markers",
+                name="Equity",
+                line=dict(color="#2ca02c", width=2),
+            )
+        )
+        if "profit_loss" in live_money_df.columns and live_money_df["profit_loss"].notna().any():
+            money_fig.add_trace(
+                go.Scatter(
+                    x=live_money_df["timestamp"],
+                    y=live_money_df["profit_loss"],
+                    mode="lines",
+                    name="Profit/Loss",
+                    yaxis="y2",
+                    line=dict(color="#ff7f0e", width=1.5, dash="dot"),
+                )
+            )
+            money_fig.update_layout(
+                yaxis2=dict(
+                    title="Profit/Loss",
+                    overlaying="y",
+                    side="right",
+                    showgrid=False,
+                )
+            )
+        money_fig.update_layout(
+            xaxis_title="Time",
+            yaxis_title="Equity ($)",
+            hovermode="x unified",
+            margin=dict(l=10, r=10, t=30, b=10),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
+        )
+        st.plotly_chart(money_fig, use_container_width=True)
+    else:
+        fallback_money_df = _money_history_from_trade_log(trade_log_df, equity, cash)
+        fallback_fig = go.Figure()
+        fallback_fig.add_trace(
+            go.Scatter(
+                x=fallback_money_df["timestamp"],
+                y=fallback_money_df["equity"],
+                mode="lines+markers",
+                name="Equity",
+                line=dict(color="#2ca02c", width=2),
+            )
+        )
+        if "cash" in fallback_money_df.columns and fallback_money_df["cash"].notna().any():
+            fallback_fig.add_trace(
+                go.Scatter(
+                    x=fallback_money_df["timestamp"],
+                    y=fallback_money_df["cash"],
+                    mode="lines+markers",
+                    name="Cash",
+                    line=dict(color="#1f77b4", width=1.8),
+                )
+            )
+        fallback_fig.update_layout(
+            xaxis_title="Time",
+            yaxis_title="Balance ($)",
+            hovermode="x unified",
+            margin=dict(l=10, r=10, t=30, b=10),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
+        )
+        st.plotly_chart(fallback_fig, use_container_width=True)
+
+    st.subheader("🧾 Recent Trade Log")
+    if trade_log_df.empty:
+        st.info("No trades logged yet.")
+    else:
+        display_cols = [
+            col
+            for col in [
+                "timestamp_utc",
+                "source",
+                "symbol",
+                "action",
+                "qty",
+                "price",
+                "equity_after",
+                "cash_after",
+                "demo_mode",
+            ]
+            if col in trade_log_df.columns
+        ]
+        st.dataframe(trade_log_df.head(100)[display_cols], use_container_width=True)
     
 except Exception as e:
     st.error(f" Error loading market data: {e}")

@@ -158,47 +158,70 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
 
 
 def format_row(row: dict) -> str:
+    ridge_return = float(row_value(row, "Ridge Return %", default=0.0))
+    xgboost_return = float(row_value(row, "XGBoost Return %", default=0.0))
+    ensemble_return = float(row_value(row, "Ensemble Return %", default=0.0))
     return (
         f"{row_value(row, 'symbol', 'Symbol')}: {float(row_value(row, 'forecast_return_pct', 'Forecast Return %', default=0.0)):+.2f}% "
-        f"({row_value(row, 'model_call', 'Model Call')}, edge {float(row_value(row, 'model_edge_pct', 'Model Edge %', default=0.0)):.1f}%, "
-        f"err +/-{float(row_value(row, 'expected_error_pct', 'Expected Error %', default=0.0)):.2f}%, {row_value(row, 'selected_model', 'Selected Model')})"
+        f"({row_value(row, 'model_call', 'Model Call')}, selected {row_value(row, 'selected_model', 'Selected Model')}, "
+        f"prob up {float(row_value(row, 'Probability Up %', default=0.0)):.1f}%, edge {float(row_value(row, 'model_edge_pct', 'Model Edge %', default=0.0)):.1f}%, "
+        f"err +/-{float(row_value(row, 'expected_error_pct', 'Expected Error %', default=0.0)):.2f}%, "
+        f"Ridge {ridge_return:+.2f}%, XGBoost {xgboost_return:+.2f}%, Ensemble {ensemble_return:+.2f}%)"
     )
 
 
-def build_telegram_text(rows: list[dict], errors: list[str], args: argparse.Namespace) -> str:
+def build_market_report(rows: list[dict], errors: list[str], args: argparse.Namespace) -> dict:
     generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    sorted_buy = sorted(
-        [row for row in rows if float(row_value(row, "forecast_return_pct", "Forecast Return %", default=0.0)) > 0],
-        key=lambda r: float(row_value(r, "score", "Score", default=0.0)),
-        reverse=True,
-    )
-    sorted_sell = sorted(
-        [row for row in rows if float(row_value(row, "forecast_return_pct", "Forecast Return %", default=0.0)) < 0],
-        key=lambda r: float(row_value(r, "score", "Score", default=0.0)),
-    )
+    sorted_rows = sorted(rows, key=lambda r: float(row_value(r, "Score", default=0.0)), reverse=True)
+    sorted_buy = [row for row in sorted_rows if float(row_value(row, "Forecast Return %", default=0.0)) > 0]
+    sorted_sell = [row for row in sorted_rows if float(row_value(row, "Forecast Return %", default=0.0)) < 0]
+
+    top_buy_symbols = [str(row_value(row, "Symbol", default="")) for row in sorted_buy[: args.top_n] if row_value(row, "Symbol", default="")]
+    top_sell_symbols = [str(row_value(row, "Symbol", default="")) for row in sorted_sell[: args.top_n] if row_value(row, "Symbol", default="")]
 
     lines = [
         "ML Forecast Rankings",
         f"Generated: {generated_at}",
         f"Horizon: {args.horizon} trading days | Primary: {args.primary_model}",
+        f"Universe: {len(rows)} symbols | Stocks + crypto + commodities",
         "",
         "Strongest Buy Forecasts",
     ]
-    lines.extend(format_row(row) for row in sorted_buy[: args.top_n])
-    if not sorted_buy:
+    if sorted_buy:
+        lines.extend(format_row(row) for row in sorted_buy[: args.top_n])
+    else:
         lines.append("No positive forecast candidates.")
 
     lines.extend(["", "Strongest Sell Forecasts"])
-    lines.extend(format_row(row) for row in sorted_sell[: args.top_n])
-    if not sorted_sell:
+    if sorted_sell:
+        lines.extend(format_row(row) for row in sorted_sell[: args.top_n])
+    else:
         lines.append("No negative forecast candidates.")
+
+    lines.extend(["", "Model Comparison Snapshot"])
+    if sorted_rows:
+        lines.extend(format_row(row) for row in sorted_rows)
+    else:
+        lines.append("No ranked rows were generated.")
 
     if errors:
         lines.extend(["", "Skipped"])
         lines.extend(errors[:10])
 
     lines.extend(["", "Model output only. Not financial advice."])
-    return "\n".join(lines)
+    report_text = "\n".join(lines)
+
+    return {
+        "report_text": report_text,
+        "website_recommendations": report_text,
+        "telegram_recommendations": report_text,
+        "top_buys": top_buy_symbols,
+        "top_sells": top_sell_symbols,
+    }
+
+
+def build_telegram_text(rows: list[dict], errors: list[str], args: argparse.Namespace) -> str:
+    return build_market_report(rows, errors, args)["report_text"]
 
 
 def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args: argparse.Namespace, snapshots: list[dict]) -> dict:
@@ -216,6 +239,8 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
         not args.no_optimize,
         not args.no_market_context,
     )
+
+    report = build_market_report(rows, errors, args)
 
     payload = {
         "generated_at": timestamp,
@@ -235,6 +260,11 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
         "snapshots": snapshots,
         "errors": errors,
         "telegram_text": telegram_text,
+        "report_text": report["report_text"],
+        "website_recommendations": report["website_recommendations"],
+        "telegram_recommendations": report["telegram_recommendations"],
+        "top_buys": report["top_buys"],
+        "top_sells": report["top_sells"],
     }
 
     json_path = output_dir / f"ml_forecast_rankings_{timestamp}.json"
