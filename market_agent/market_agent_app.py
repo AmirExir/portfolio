@@ -804,7 +804,7 @@ forecast_lookback = st.sidebar.slider("Lag window", min_value=5, max_value=60, v
 historical_test_points = st.sidebar.slider("Previous forecast test points", min_value=10, max_value=100, value=50, step=10)
 optimize_forecast_model = st.sidebar.checkbox("Optimize ML model", value=True)
 use_market_context = st.sidebar.checkbox("Use market context features", value=True)
-primary_model_choice = st.sidebar.selectbox("Primary forecast model", ["Ensemble", "Best Validation", "Ridge", "XGBoost"], index=0)
+primary_model_choice = st.sidebar.selectbox("Primary forecast model", ["Ensemble", "Best Validation", "Ridge", "XGBoost"], index=1)
 forecast_alpha = st.sidebar.number_input(
     "Ridge regularization",
     min_value=0.1,
