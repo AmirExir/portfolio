@@ -1,283 +1,1456 @@
 {
-  "generated_at": "2026-05-02T02-32-46Z",
+  "generated_at": "2026-05-02T17-30-32Z",
   "horizon_days": 30,
   "primary_model": "Ensemble",
   "symbols": [
     "AAPL",
-    "MSFT",
-    "NVDA",
-    "GOOGL",
-    "AMZN",
-    "META",
-    "TSLA",
-    "JPM",
-    "XOM",
-    "UNH",
-    "SPY",
-    "VOO",
-    "AVGO",
-    "GLD",
-    "SLV",
-    "USO"
+    "MSFT"
   ],
+  "cache_key": "dede436ea2d62615",
   "rows": [
     {
+      "Symbol": "AAPL",
+      "Model Call": "Neutral / No Edge",
+      "Selected Model": "Ensemble",
+      "Last Price": 280.1400146484375,
+      "Forecast Price": 285.78372121742143,
+      "Forecast Return %": 2.014602082485955,
+      "Ridge Return %": 5.575539581251198,
+      "XGBoost Return %": 0.09988487529954793,
+      "Ensemble Return %": 2.014602082485955,
+      "Probability Up %": 56.91914137659464,
+      "Probability Down %": 43.08085862340536,
+      "Directional Probability %": 56.91914137659464,
+      "Model Edge %": 6.919141376594638,
+      "Signal Quality": "Weak Edge",
+      "Expected Error %": 8.441720826804545,
+      "Score": 0.03302482257418778
+    },
+    {
+      "Symbol": "MSFT",
+      "Model Call": "Neutral / No Edge",
+      "Selected Model": "Ensemble",
+      "Last Price": 414.44000244140625,
+      "Forecast Price": 430.1119511155698,
+      "Forecast Return %": 3.7814758666736994,
+      "Ridge Return %": 6.437452484423101,
+      "XGBoost Return %": 1.7019833047897694,
+      "Ensemble Return %": 3.7814758666736994,
+      "Probability Up %": 65.65114318736036,
+      "Probability Down %": 34.34885681263964,
+      "Directional Probability %": 65.65114318736036,
+      "Model Edge %": 15.651143187360361,
+      "Signal Quality": "High Edge",
+      "Expected Error %": 8.685179620504396,
+      "Score": 0.13628830452540605
+    }
+  ],
+  "snapshots": [
+    {
       "symbol": "AAPL",
-      "model_call": "Neutral / No Edge",
-      "selected_model": "Ensemble",
       "last_price": 280.1400146484375,
-      "forecast_price": 285.3526255322682,
-      "forecast_return_pct": 1.860716288735894,
-      "probability_up_pct": 56.26381412909325,
-      "model_edge_pct": 6.263814129093248,
-      "signal_quality": "Weak Edge",
-      "expected_error_pct": 9.09265599387247,
-      "score": 0.02563647186800481,
-      "ridge_return_pct": 4.933205831432151,
-      "xgboost_return_pct": 0.36224425059718784,
-      "ensemble_return_pct": 1.860716288735894
+      "models": {
+        "Ridge": {
+          "model_name": "optimized direct ridge horizon model",
+          "metrics": {
+            "holdout_direction_accuracy": 54.54545454545454,
+            "holdout_mae_pct": 9.729035577651937,
+            "holdout_rmse_pct": 11.825093533477071,
+            "holdout_bias_pct": 7.001438343142806,
+            "holdout_samples": 110,
+            "forecast_change_pct": 5.575539581251198,
+            "probability_up_pct": 68.6320837178049,
+            "probability_down_pct": 31.367916282195097,
+            "confidence_pct": 68.6320837178049,
+            "expected_error_pct": 11.825093533477071,
+            "forecast_score": 0.1757008009377851,
+            "raw_forecast_change_pct": 8.838973819365505,
+            "shrink_factor": 0.6405782101322915,
+            "selected_lookback_window": 30,
+            "selected_ridge_alpha": 1.0,
+            "training_samples": 441
+          },
+          "forecast": [
+            {
+              "date": "2026-05-04",
+              "forecast_close": 280.64712053708644,
+              "lower_estimate": 271.3829578036264,
+              "upper_estimate": 290.2275327205732,
+              "expected_daily_return_pct": 0.181018727112336
+            },
+            {
+              "date": "2026-05-05",
+              "forecast_close": 281.1551443823601,
+              "lower_estimate": 268.1202415296072,
+              "upper_estimate": 294.8237505743737,
+              "expected_daily_return_pct": 0.181018727112336
+            },
+            {
+              "date": "2026-05-06",
+              "forecast_close": 281.6640878459319,
+              "lower_estimate": 265.7551003113874,
+              "upper_estimate": 298.5254404868383,
+              "expected_daily_return_pct": 0.18101872711233605
+            },
+            {
+              "date": "2026-05-07",
+              "forecast_close": 282.17395259248315,
+              "lower_estimate": 263.8522994419548,
+              "upper_estimate": 301.7678439417243,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-05-08",
+              "forecast_close": 282.6847402897086,
+              "lower_estimate": 262.2436153295888,
+              "upper_estimate": 304.7191913222672,
+              "expected_daily_return_pct": 0.18101872711233602
+            },
+            {
+              "date": "2026-05-11",
+              "forecast_close": 283.19645260832186,
+              "lower_estimate": 260.8429484272031,
+              "upper_estimate": 307.4655889818698,
+              "expected_daily_return_pct": 0.1810187271123361
+            },
+            {
+              "date": "2026-05-12",
+              "forecast_close": 283.70909122206075,
+              "lower_estimate": 259.599253541953,
+              "upper_estimate": 310.05808893452655,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-05-13",
+              "forecast_close": 284.2226578076929,
+              "lower_estimate": 258.47933726886583,
+              "upper_estimate": 312.52989142122516,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-05-14",
+              "forecast_close": 284.7371540450212,
+              "lower_estimate": 257.46018826701595,
+              "upper_estimate": 314.9040146338033,
+              "expected_daily_return_pct": 0.1810187271123361
+            },
+            {
+              "date": "2026-05-15",
+              "forecast_close": 285.25258161688936,
+              "lower_estimate": 256.52508448418325,
+              "upper_estimate": 317.1971874903219,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-05-18",
+              "forecast_close": 285.76894220918734,
+              "lower_estimate": 255.66142635338076,
+              "upper_estimate": 319.42201643857004,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-05-19",
+              "forecast_close": 286.2862375108568,
+              "lower_estimate": 254.85944395021127,
+              "upper_estimate": 321.58827829874014,
+              "expected_daily_return_pct": 0.18101872711233627
+            },
+            {
+              "date": "2026-05-20",
+              "forecast_close": 286.8044692138967,
+              "lower_estimate": 254.11138252473546,
+              "upper_estimate": 323.70373473159185,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-05-21",
+              "forecast_close": 287.323639013369,
+              "lower_estimate": 253.41096644445514,
+              "upper_estimate": 325.7746682955013,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-05-22",
+              "forecast_close": 287.8437486074038,
+              "lower_estimate": 252.75303342698115,
+              "upper_estimate": 327.8062482138254,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-05-25",
+              "forecast_close": 288.3647996972056,
+              "lower_estimate": 252.13327730478687,
+              "upper_estimate": 329.80278761018116,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-05-26",
+              "forecast_close": 288.88679398705756,
+              "lower_estimate": 251.54806240101996,
+              "upper_estimate": 331.7679291326644,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-05-27",
+              "forecast_close": 289.40973318432856,
+              "lower_estimate": 250.9942865757556,
+              "upper_estimate": 333.70478190763214,
+              "expected_daily_return_pct": 0.18101872711233627
+            },
+            {
+              "date": "2026-05-28",
+              "forecast_close": 289.933618999478,
+              "lower_estimate": 250.46927820942807,
+              "upper_estimate": 335.61602455630134,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-05-29",
+              "forecast_close": 290.45845314606163,
+              "lower_estimate": 249.97071738584992,
+              "upper_estimate": 337.5039840117632,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-06-01",
+              "forecast_close": 290.9842373407368,
+              "lower_estimate": 249.49657467514766,
+              "upper_estimate": 339.3706967360798,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-06-02",
+              "forecast_close": 291.5109733032685,
+              "lower_estimate": 249.04506294318867,
+              "upper_estimate": 341.21795691089034,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-06-03",
+              "forecast_close": 292.03866275653485,
+              "lower_estimate": 248.61459895489827,
+              "upper_estimate": 343.04735483412674,
+              "expected_daily_return_pct": 0.1810187271123366
+            },
+            {
+              "date": "2026-06-04",
+              "forecast_close": 292.56730742653264,
+              "lower_estimate": 248.20377244571839,
+              "upper_estimate": 344.8603078485877,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-06-05",
+              "forecast_close": 293.09690904238295,
+              "lower_estimate": 247.81132096093256,
+              "upper_estimate": 346.6580855026472,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-06-08",
+              "forecast_close": 293.6274693363371,
+              "lower_estimate": 247.4361092017182,
+              "upper_estimate": 348.44183020423463,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-06-09",
+              "forecast_close": 294.15899004378184,
+              "lower_estimate": 247.07711193005989,
+              "upper_estimate": 350.2125743159555,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-06-10",
+              "forecast_close": 294.6914729032456,
+              "lower_estimate": 246.73339971148346,
+              "upper_estimate": 351.9712544123895,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-06-11",
+              "forecast_close": 295.22491965640364,
+              "lower_estimate": 246.4041269409854,
+              "upper_estimate": 353.71872325419514,
+              "expected_daily_return_pct": 0.1810187271123359
+            },
+            {
+              "date": "2026-06-12",
+              "forecast_close": 295.7593320480841,
+              "lower_estimate": 246.0885217211739,
+              "upper_estimate": 355.4557599100018,
+              "expected_daily_return_pct": 0.1810187271123359
+            }
+          ]
+        },
+        "XGBoost": {
+          "model_name": "optimized direct XGBoost horizon model",
+          "metrics": {
+            "holdout_direction_accuracy": 61.32075471698113,
+            "holdout_mae_pct": 5.231305473998996,
+            "holdout_rmse_pct": 6.622480263880583,
+            "holdout_bias_pct": 4.0124931175646115,
+            "holdout_samples": 106,
+            "forecast_change_pct": 0.09988487529954793,
+            "probability_up_pct": 50.62108861513109,
+            "probability_down_pct": 49.37891138486891,
+            "confidence_pct": 50.62108861513109,
+            "expected_error_pct": 6.622480263880583,
+            "forecast_score": 0.00018735385052242055,
+            "raw_forecast_change_pct": 0.2009899022598566,
+            "shrink_factor": 0.4972156213376936,
+            "selected_lookback_window": 45,
+            "selected_ridge_alpha": 25.0,
+            "training_samples": 426
+          },
+          "forecast": [
+            {
+              "date": "2026-05-04",
+              "forecast_close": 280.14933739854627,
+              "lower_estimate": 274.8056445399554,
+              "upper_estimate": 285.59694025292623,
+              "expected_daily_return_pct": 0.003327889491395696
+            },
+            {
+              "date": "2026-05-05",
+              "forecast_close": 280.1586604589056,
+              "lower_estimate": 272.63125310199337,
+              "upper_estimate": 287.8939011470012,
+              "expected_daily_return_pct": 0.003327889491395696
+            },
+            {
+              "date": "2026-05-06",
+              "forecast_close": 280.1679838295263,
+              "lower_estimate": 270.97655507320485,
+              "upper_estimate": 289.67118259325565,
+              "expected_daily_return_pct": 0.0033278894913956972
+            },
+            {
+              "date": "2026-05-07",
+              "forecast_close": 280.1773075104185,
+              "lower_estimate": 269.59079291144786,
+              "upper_estimate": 291.1795421350765,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-08",
+              "forecast_close": 280.18663150159244,
+              "lower_estimate": 268.3768478727063,
+              "upper_estimate": 292.5160985177254,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-11",
+              "forecast_close": 280.1959558030583,
+              "lower_estimate": 267.2849164969754,
+              "upper_estimate": 293.73065520245257,
+              "expected_daily_return_pct": 0.0033278894913957003
+            },
+            {
+              "date": "2026-05-12",
+              "forecast_close": 280.20528041482686,
+              "lower_estimate": 266.2854161307472,
+              "upper_estimate": 294.85279484401275,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-13",
+              "forecast_close": 280.2146053369082,
+              "lower_estimate": 265.3590739022766,
+              "upper_estimate": 295.9017903153964,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-14",
+              "forecast_close": 280.22393056931264,
+              "lower_estimate": 264.4925041165724,
+              "upper_estimate": 296.8910273128408,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-15",
+              "forecast_close": 280.23325611205024,
+              "lower_estimate": 263.67596166463363,
+              "upper_estimate": 297.8302509465925,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-18",
+              "forecast_close": 280.2425819651319,
+              "lower_estimate": 262.9020904796829,
+              "upper_estimate": 298.7268172846762,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-19",
+              "forecast_close": 280.25190812856755,
+              "lower_estimate": 262.16517617496567,
+              "upper_estimate": 299.58644071509224,
+              "expected_daily_return_pct": 0.0033278894913957055
+            },
+            {
+              "date": "2026-05-20",
+              "forecast_close": 280.26123460236767,
+              "lower_estimate": 261.46067483176626,
+              "upper_estimate": 300.4136651578027,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-21",
+              "forecast_close": 280.2705613865423,
+              "lower_estimate": 260.78490260898025,
+              "upper_estimate": 301.21217445515805,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-22",
+              "forecast_close": 280.2798884811022,
+              "lower_estimate": 260.1348237820982,
+              "upper_estimate": 301.98500433291525,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-25",
+              "forecast_close": 280.2892158860575,
+              "lower_estimate": 259.5079015551061,
+              "upper_estimate": 302.7346915883346,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-26",
+              "forecast_close": 280.29854360141854,
+              "lower_estimate": 258.90199031727445,
+              "upper_estimate": 303.46338183339253,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-27",
+              "forecast_close": 280.3078716271954,
+              "lower_estimate": 258.3152560858518,
+              "upper_estimate": 304.1729090520867,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-28",
+              "forecast_close": 280.31719996339893,
+              "lower_estimate": 257.74611661483146,
+              "upper_estimate": 304.8648554916718,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-05-29",
+              "forecast_close": 280.32652861003913,
+              "lower_estimate": 257.19319553587394,
+              "upper_estimate": 305.540597521734,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-06-01",
+              "forecast_close": 280.3358575671264,
+              "lower_estimate": 256.6552867110023,
+              "upper_estimate": 306.20134128149743,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-06-02",
+              "forecast_close": 280.3451868346708,
+              "lower_estimate": 256.13132614825173,
+              "upper_estimate": 306.84815076417374,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-06-03",
+              "forecast_close": 280.3545164126832,
+              "lower_estimate": 255.62036960706075,
+              "upper_estimate": 307.4819702115727,
+              "expected_daily_return_pct": 0.0033278894913957163
+            },
+            {
+              "date": "2026-06-04",
+              "forecast_close": 280.3638463011736,
+              "lower_estimate": 255.1215745449856,
+              "upper_estimate": 308.1036421673851,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-06-05",
+              "forecast_close": 280.37317650015217,
+              "lower_estimate": 254.6341854194553,
+              "upper_estimate": 308.713922175429,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-06-08",
+              "forecast_close": 280.38250700962965,
+              "lower_estimate": 254.1575216126295,
+              "upper_estimate": 309.31349085479343,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-06-09",
+              "forecast_close": 280.39183782961624,
+              "lower_estimate": 253.69096742895795,
+              "upper_estimate": 309.90296390227587,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-06-10",
+              "forecast_close": 280.40116896012216,
+              "lower_estimate": 253.23396374653782,
+              "upper_estimate": 310.4829004410271,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-06-11",
+              "forecast_close": 280.41050040115755,
+              "lower_estimate": 252.78600099987827,
+              "upper_estimate": 311.0538100377854,
+              "expected_daily_return_pct": 0.0033278894913956946
+            },
+            {
+              "date": "2026-06-12",
+              "forecast_close": 280.41983215273325,
+              "lower_estimate": 252.34661324342818,
+              "upper_estimate": 311.616158639351,
+              "expected_daily_return_pct": 0.0033278894913956946
+            }
+          ]
+        },
+        "Ensemble": {
+          "model_name": "weighted ensemble forecast model",
+          "metrics": {
+            "forecast_change_pct": 2.014602082485955,
+            "probability_up_pct": 56.91914137659464,
+            "probability_down_pct": 43.08085862340536,
+            "confidence_pct": 56.91914137659464,
+            "expected_error_pct": 8.441720826804545,
+            "forecast_score": 0.03302482257418778,
+            "holdout_mae_pct": 6.804063744052819,
+            "holdout_rmse_pct": 8.441720826804545,
+            "holdout_direction_accuracy": 58.95157979289863,
+            "component_weights": {
+              "Ridge": 0.35,
+              "XGBoost": 0.65
+            }
+          },
+          "forecast": [
+            {
+              "date": "2026-05-04",
+              "forecast_close": 280.3234013218565,
+              "lower_estimate": 273.6088055242054,
+              "upper_estimate": 287.2161575983214,
+              "expected_daily_return_pct": 0.06546250582912362
+            },
+            {
+              "date": "2026-05-05",
+              "forecast_close": 280.5071091864795,
+              "lower_estimate": 271.05385059155446,
+              "upper_estimate": 290.3171185802296,
+              "expected_daily_return_pct": 0.06546250582912362
+            },
+            {
+              "date": "2026-05-06",
+              "forecast_close": 280.69113882336455,
+              "lower_estimate": 269.15072605076296,
+              "upper_estimate": 292.76732375922103,
+              "expected_daily_return_pct": 0.06546250582912364
+            },
+            {
+              "date": "2026-05-07",
+              "forecast_close": 280.875490814621,
+              "lower_estimate": 267.5841667124981,
+              "upper_estimate": 294.8820406951182,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-05-08",
+              "forecast_close": 281.0601657434121,
+              "lower_estimate": 266.23219001595385,
+              "upper_estimate": 296.78325432438214,
+              "expected_daily_return_pct": 0.06546250582912362
+            },
+            {
+              "date": "2026-05-11",
+              "forecast_close": 281.2451641939566,
+              "lower_estimate": 265.03230054989393,
+              "upper_estimate": 298.5334624390797,
+              "expected_daily_return_pct": 0.06546250582912365
+            },
+            {
+              "date": "2026-05-12",
+              "forecast_close": 281.43048675153113,
+              "lower_estimate": 263.9474106781946,
+              "upper_estimate": 300.16975506135293,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-05-13",
+              "forecast_close": 281.6161340024714,
+              "lower_estimate": 262.95337982178893,
+              "upper_estimate": 301.71627516148425,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-05-14",
+              "forecast_close": 281.80210653417475,
+              "lower_estimate": 262.03345640692044,
+              "upper_estimate": 303.1897767096553,
+              "expected_daily_return_pct": 0.06546250582912365
+            },
+            {
+              "date": "2026-05-15",
+              "forecast_close": 281.9884049351013,
+              "lower_estimate": 261.17545563948147,
+              "upper_estimate": 304.6024469016187,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-05-18",
+              "forecast_close": 282.1750297947773,
+              "lower_estimate": 260.3701879148592,
+              "upper_estimate": 305.9634777488651,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-05-19",
+              "forecast_close": 282.36198170379527,
+              "lower_estimate": 259.61052071310297,
+              "upper_estimate": 307.28000418346465,
+              "expected_daily_return_pct": 0.06546250582912372
+            },
+            {
+              "date": "2026-05-20",
+              "forecast_close": 282.5492612538172,
+              "lower_estimate": 258.89078735774063,
+              "upper_estimate": 308.5576952992636,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-05-21",
+              "forecast_close": 282.7368690375759,
+              "lower_estimate": 258.2063977146588,
+              "upper_estimate": 309.80114365301426,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-05-22",
+              "forecast_close": 282.92480564887745,
+              "lower_estimate": 257.55357244836773,
+              "upper_estimate": 311.0141310081231,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-05-25",
+              "forecast_close": 283.11307168260265,
+              "lower_estimate": 256.92915605216695,
+              "upper_estimate": 312.19981530449417,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-05-26",
+              "forecast_close": 283.3016677347089,
+              "lower_estimate": 256.3304818716531,
+              "upper_estimate": 313.3608656350338,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-05-27",
+              "forecast_close": 283.4905944022325,
+              "lower_estimate": 255.75527247712785,
+              "upper_estimate": 314.4995618732541,
+              "expected_daily_return_pct": 0.06546250582912372
+            },
+            {
+              "date": "2026-05-28",
+              "forecast_close": 283.67985228329087,
+              "lower_estimate": 255.20156469237432,
+              "upper_estimate": 315.6178696445084,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-05-29",
+              "forecast_close": 283.8694419770836,
+              "lower_estimate": 254.66765221091816,
+              "upper_estimate": 316.7174977097403,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-06-01",
+              "forecast_close": 284.0593640838954,
+              "lower_estimate": 254.1520410075351,
+              "upper_estimate": 317.7999425539883,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-06-02",
+              "forecast_close": 284.2496192050968,
+              "lower_estimate": 253.65341422319216,
+              "upper_estimate": 318.8665235014558,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-06-03",
+              "forecast_close": 284.4402079431481,
+              "lower_estimate": 253.17060417486195,
+              "upper_estimate": 319.91841070570933,
+              "expected_daily_return_pct": 0.06546250582912384
+            },
+            {
+              "date": "2026-06-04",
+              "forecast_close": 284.6311309015992,
+              "lower_estimate": 252.70256980004064,
+              "upper_estimate": 320.9566477051704,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-06-05",
+              "forecast_close": 284.8223886850927,
+              "lower_estimate": 252.24837830001906,
+              "upper_estimate": 321.9821697798567,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-06-08",
+              "forecast_close": 285.0139818993661,
+              "lower_estimate": 251.80719006491893,
+              "upper_estimate": 322.9958190263583,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-06-09",
+              "forecast_close": 285.20591115125313,
+              "lower_estimate": 251.37824619110853,
+              "upper_estimate": 323.9983568404321,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-06-10",
+              "forecast_close": 285.39817704868585,
+              "lower_estimate": 250.96085806644317,
+              "upper_estimate": 324.9904743317737,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-06-11",
+              "forecast_close": 285.59078020069677,
+              "lower_estimate": 250.5543986197324,
+              "upper_estimate": 325.9728010745617,
+              "expected_daily_return_pct": 0.0654625058291236
+            },
+            {
+              "date": "2026-06-12",
+              "forecast_close": 285.78372121742143,
+              "lower_estimate": 250.15829492072908,
+              "upper_estimate": 326.9459125074809,
+              "expected_daily_return_pct": 0.0654625058291236
+            }
+          ]
+        }
+      }
     },
     {
       "symbol": "MSFT",
-      "model_call": "Neutral / No Edge",
-      "selected_model": "Ensemble",
       "last_price": 414.44000244140625,
-      "forecast_price": 424.0481961148039,
-      "forecast_return_pct": 2.3183557612193058,
-      "probability_up_pct": 58.186756946040425,
-      "model_edge_pct": 8.186756946040425,
-      "signal_quality": "Moderate Edge",
-      "expected_error_pct": 10.961901762151083,
-      "score": 0.0346286904286771,
-      "ridge_return_pct": 4.624612888671913,
-      "xgboost_return_pct": 1.4118266723765647,
-      "ensemble_return_pct": 2.3183557612193058
-    },
-    {
-      "symbol": "NVDA",
-      "model_call": "Buy",
-      "selected_model": "Ensemble",
-      "last_price": 198.4499969482422,
-      "forecast_price": 215.12345129728487,
-      "forecast_return_pct": 8.401841574929044,
-      "probability_up_pct": 73.95616566434283,
-      "model_edge_pct": 23.956165664342834,
-      "signal_quality": "High Edge",
-      "expected_error_pct": 13.184216143091877,
-      "score": 0.305328593630537,
-      "ridge_return_pct": 16.358598261592483,
-      "xgboost_return_pct": 5.71335886386324,
-      "ensemble_return_pct": 8.401841574929044
-    },
-    {
-      "symbol": "GOOGL",
-      "model_call": "Buy",
-      "selected_model": "Ensemble",
-      "last_price": 385.69000244140625,
-      "forecast_price": 435.7268117860173,
-      "forecast_return_pct": 12.973322883113276,
-      "probability_up_pct": 83.24491444498008,
-      "model_edge_pct": 33.24491444498008,
-      "signal_quality": "High Edge",
-      "expected_error_pct": 13.654447756140108,
-      "score": 0.6317311648466462,
-      "ridge_return_pct": 16.068977349411274,
-      "xgboost_return_pct": 11.230661234106881,
-      "ensemble_return_pct": 12.973322883113276
-    },
-    {
-      "symbol": "AMZN",
-      "model_call": "Buy",
-      "selected_model": "Ensemble",
-      "last_price": 268.260009765625,
-      "forecast_price": 291.27737928385454,
-      "forecast_return_pct": 8.580246283573697,
-      "probability_up_pct": 72.51433474147353,
-      "model_edge_pct": 22.514334741473533,
-      "signal_quality": "High Edge",
-      "expected_error_pct": 12.66993411331459,
-      "score": 0.30494008140051,
-      "ridge_return_pct": 14.966304872428452,
-      "xgboost_return_pct": 3.599705484292671,
-      "ensemble_return_pct": 8.580246283573697
-    },
-    {
-      "symbol": "META",
-      "model_call": "Neutral / No Edge",
-      "selected_model": "Ensemble",
-      "last_price": 608.7449951171875,
-      "forecast_price": 610.9709041400006,
-      "forecast_return_pct": 0.36565541247441613,
-      "probability_up_pct": 51.81562972342525,
-      "model_edge_pct": 1.8156297234252534,
-      "signal_quality": "No Edge",
-      "expected_error_pct": 9.813614464604898,
-      "score": 0.0013530077787636014,
-      "ridge_return_pct": -0.34476952935319927,
-      "xgboost_return_pct": 0.9619461252441461,
-      "ensemble_return_pct": 0.36565541247441613
-    },
-    {
-      "symbol": "TSLA",
-      "model_call": "Neutral / No Edge",
-      "selected_model": "Ensemble",
-      "last_price": 390.82000732421875,
-      "forecast_price": 409.7935333985334,
-      "forecast_return_pct": 4.854799068302158,
-      "probability_up_pct": 58.73626982422566,
-      "model_edge_pct": 8.736269824225658,
-      "signal_quality": "Moderate Edge",
-      "expected_error_pct": 29.72564547738697,
-      "score": 0.028536190835856845,
-      "ridge_return_pct": 3.1156828239513983,
-      "xgboost_return_pct": 5.561089965266783,
-      "ensemble_return_pct": 4.854799068302158
-    },
-    {
-      "symbol": "JPM",
-      "model_call": "Neutral / No Edge",
-      "selected_model": "Ensemble",
-      "last_price": 312.4700012207031,
-      "forecast_price": 323.98900946302734,
-      "forecast_return_pct": 3.68643652104958,
-      "probability_up_pct": 65.62650795413033,
-      "model_edge_pct": 15.626507954130332,
-      "signal_quality": "High Edge",
-      "expected_error_pct": 9.84843743168747,
-      "score": 0.11698531877398005,
-      "ridge_return_pct": 4.184250150607673,
-      "xgboost_return_pct": 3.40922700641937,
-      "ensemble_return_pct": 3.68643652104958
-    },
-    {
-      "symbol": "XOM",
-      "model_call": "Neutral / No Edge",
-      "selected_model": "Ensemble",
-      "last_price": 152.75,
-      "forecast_price": 156.739862552556,
-      "forecast_return_pct": 2.612021311002262,
-      "probability_up_pct": 59.25257138950995,
-      "model_edge_pct": 9.252571389509953,
-      "signal_quality": "Moderate Edge",
-      "expected_error_pct": 11.45034550257548,
-      "score": 0.04221342254787651,
-      "ridge_return_pct": 1.9558918222312502,
-      "xgboost_return_pct": 3.4030436725082494,
-      "ensemble_return_pct": 2.612021311002262
-    },
-    {
-      "symbol": "UNH",
-      "model_call": "Neutral / No Edge",
-      "selected_model": "Ensemble",
-      "last_price": 368.7799987792969,
-      "forecast_price": 372.50054020514085,
-      "forecast_return_pct": 1.0088783117738176,
-      "probability_up_pct": 50.86764090403807,
-      "model_edge_pct": 0.867640904038069,
-      "signal_quality": "No Edge",
-      "expected_error_pct": 17.843316932280864,
-      "score": 0.0009811450346524143,
-      "ridge_return_pct": 4.961410932253261,
-      "xgboost_return_pct": -1.580456453141685,
-      "ensemble_return_pct": 1.0088783117738176
-    },
-    {
-      "symbol": "SPY",
-      "model_call": "Neutral / No Edge",
-      "selected_model": "Ensemble",
-      "last_price": 720.6500244140625,
-      "forecast_price": 735.2605128767798,
-      "forecast_return_pct": 2.0274041445563813,
-      "probability_up_pct": 64.34088561079008,
-      "model_edge_pct": 14.340885610790082,
-      "signal_quality": "Moderate Edge",
-      "expected_error_pct": 4.9672918443836505,
-      "score": 0.11706487895128873,
-      "ridge_return_pct": 4.626342647679192,
-      "xgboost_return_pct": 1.1083093681938743,
-      "ensemble_return_pct": 2.0274041445563813
-    },
-    {
-      "symbol": "VOO",
-      "model_call": "Buy",
-      "selected_model": "Ensemble",
-      "last_price": 662.52001953125,
-      "forecast_price": 680.5172181048626,
-      "forecast_return_pct": 2.716476188349147,
-      "probability_up_pct": 72.5956726172495,
-      "model_edge_pct": 22.595672617249505,
-      "signal_quality": "High Edge",
-      "expected_error_pct": 4.776835819677557,
-      "score": 0.25699274139438355,
-      "ridge_return_pct": 4.17094318944565,
-      "xgboost_return_pct": 2.1736168807731997,
-      "ensemble_return_pct": 2.716476188349147
-    },
-    {
-      "symbol": "AVGO",
-      "model_call": "Neutral / No Edge",
-      "selected_model": "Ensemble",
-      "last_price": 421.2799987792969,
-      "forecast_price": 440.4069283602928,
-      "forecast_return_pct": 4.540194083844054,
-      "probability_up_pct": 66.99472611413789,
-      "model_edge_pct": 16.99472611413789,
-      "signal_quality": "High Edge",
-      "expected_error_pct": 12.470224787922863,
-      "score": 0.12374974192074872,
-      "ridge_return_pct": -0.30445865563344554,
-      "xgboost_return_pct": 7.249872167331962,
-      "ensemble_return_pct": 4.540194083844054
-    },
-    {
-      "symbol": "GLD",
-      "model_call": "Neutral / No Edge",
-      "selected_model": "Ensemble",
-      "last_price": 423.17999267578125,
-      "forecast_price": 427.1850564797122,
-      "forecast_return_pct": 0.9464208784084899,
-      "probability_up_pct": 54.42769948340046,
-      "model_edge_pct": 4.42769948340046,
-      "signal_quality": "Weak Edge",
-      "expected_error_pct": 9.116571201842408,
-      "score": 0.009193077400770609,
-      "ridge_return_pct": 0.3991901648274835,
-      "xgboost_return_pct": 1.4469319544876493,
-      "ensemble_return_pct": 0.9464208784084899
-    },
-    {
-      "symbol": "SLV",
-      "model_call": "Buy",
-      "selected_model": "Ensemble",
-      "last_price": 68.29000091552734,
-      "forecast_price": 79.72475495865103,
-      "forecast_return_pct": 16.744404583136735,
-      "probability_up_pct": 71.57067566697938,
-      "model_edge_pct": 21.570675666979383,
-      "signal_quality": "High Edge",
-      "expected_error_pct": 31.007035419917216,
-      "score": 0.23297172116462206,
-      "ridge_return_pct": 18.960104659624957,
-      "xgboost_return_pct": 14.473115801324058,
-      "ensemble_return_pct": 16.744404583136735
-    },
-    {
-      "symbol": "USO",
-      "model_call": "Neutral / No Edge",
-      "selected_model": "Ensemble",
-      "last_price": 142.8000030517578,
-      "forecast_price": 145.8850796291265,
-      "forecast_return_pct": 2.1604177250965906,
-      "probability_up_pct": 53.283409588707634,
-      "model_edge_pct": 3.2834095887076344,
-      "signal_quality": "Weak Edge",
-      "expected_error_pct": 29.988847242767832,
-      "score": 0.004730782891901102,
-      "ridge_return_pct": 0.9231031045354579,
-      "xgboost_return_pct": 3.302492508200322,
-      "ensemble_return_pct": 2.1604177250965906
+      "models": {
+        "Ridge": {
+          "model_name": "optimized direct ridge horizon model",
+          "metrics": {
+            "holdout_direction_accuracy": 59.80392156862745,
+            "holdout_mae_pct": 7.747126196180441,
+            "holdout_rmse_pct": 10.349096919891597,
+            "holdout_bias_pct": 7.215763782478873,
+            "holdout_samples": 102,
+            "forecast_change_pct": 6.437452484423101,
+            "probability_up_pct": 73.67998225927401,
+            "probability_down_pct": 26.320017740725987,
+            "confidence_pct": 73.67998225927401,
+            "expected_error_pct": 10.349096919891597,
+            "forecast_score": 0.2945933578669301,
+            "raw_forecast_change_pct": 9.155250599663297,
+            "shrink_factor": 0.7121759547229036,
+            "selected_lookback_window": 60,
+            "selected_ridge_alpha": 50.0,
+            "training_samples": 411
+          },
+          "forecast": [
+            {
+              "date": "2026-05-04",
+              "forecast_close": 415.30275933363265,
+              "lower_estimate": 403.19939702251554,
+              "upper_estimate": 427.7694440611918,
+              "expected_daily_return_pct": 0.20817413549470667
+            },
+            {
+              "date": "2026-05-05",
+              "forecast_close": 416.1673122625611,
+              "lower_estimate": 399.1190650113087,
+              "upper_estimate": 433.9437701151577,
+              "expected_daily_return_pct": 0.20817413549470667
+            },
+            {
+              "date": "2026-05-06",
+              "forecast_close": 417.0336649670752,
+              "lower_estimate": 396.2078002802108,
+              "upper_estimate": 438.95419926834103,
+              "expected_daily_return_pct": 0.2081741354947068
+            },
+            {
+              "date": "2026-05-07",
+              "forecast_close": 417.90182119384224,
+              "lower_estimate": 393.8985466569813,
+              "upper_estimate": 443.36780026054157,
+              "expected_daily_return_pct": 0.20817413549470654
+            },
+            {
+              "date": "2026-05-08",
+              "forecast_close": 418.7717846973295,
+              "lower_estimate": 391.9721831750811,
+              "upper_estimate": 447.403706656027,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-05-11",
+              "forecast_close": 419.64355923981884,
+              "lower_estimate": 390.31658607191287,
+              "upper_estimate": 451.1740548453612,
+              "expected_daily_return_pct": 0.2081741354947069
+            },
+            {
+              "date": "2026-05-12",
+              "forecast_close": 420.51714859142555,
+              "lower_estimate": 388.8652963654926,
+              "upper_estimate": 454.74531646880877,
+              "expected_daily_return_pct": 0.20817413549470654
+            },
+            {
+              "date": "2026-05-13",
+              "forecast_close": 421.3925565301127,
+              "lower_estimate": 387.57510707064927,
+              "upper_estimate": 458.16071120020484,
+              "expected_daily_return_pct": 0.20817413549470654
+            },
+            {
+              "date": "2026-05-14",
+              "forecast_close": 422.26978684170825,
+              "lower_estimate": 386.4160715389523,
+              "upper_estimate": 461.4501984071001,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-05-15",
+              "forecast_close": 423.1488433199213,
+              "lower_estimate": 385.36643269338964,
+              "upper_estimate": 464.6355479161553,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-05-18",
+              "forecast_close": 424.02972976635834,
+              "lower_estimate": 384.4098008106859,
+              "upper_estimate": 467.7331622308958,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-05-19",
+              "forecast_close": 424.9124499905399,
+              "lower_estimate": 383.53346978578315,
+              "upper_estimate": 470.75576026730323,
+              "expected_daily_return_pct": 0.20817413549470706
+            },
+            {
+              "date": "2026-05-20",
+              "forecast_close": 425.7970078099171,
+              "lower_estimate": 382.7273565118011,
+              "upper_estimate": 473.71343797392825,
+              "expected_daily_return_pct": 0.20817413549470637
+            },
+            {
+              "date": "2026-05-21",
+              "forecast_close": 426.68340704988805,
+              "lower_estimate": 381.9833028815248,
+              "upper_estimate": 476.61436633047657,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-05-22",
+              "forecast_close": 427.57165154381346,
+              "lower_estimate": 381.2945995687398,
+              "upper_estimate": 479.46526756654447,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-05-25",
+              "forecast_close": 428.4617451330352,
+              "lower_estimate": 380.65565114751166,
+              "upper_estimate": 482.27175004241644,
+              "expected_daily_return_pct": 0.20817413549470637
+            },
+            {
+              "date": "2026-05-26",
+              "forecast_close": 429.3536916668914,
+              "lower_estimate": 380.0617344612337,
+              "upper_estimate": 485.0385498800885,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-05-27",
+              "forecast_close": 430.2474950027335,
+              "lower_estimate": 379.50882036405795,
+              "upper_estimate": 487.76970922191157,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-05-28",
+              "forecast_close": 431.14315900594306,
+              "lower_estimate": 378.99343964763176,
+              "upper_estimate": 490.46871030392896,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-05-29",
+              "forecast_close": 432.0406875499482,
+              "lower_estimate": 378.51258047268345,
+              "upper_estimate": 493.1385780243645,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-06-01",
+              "forecast_close": 432.94008451624063,
+              "lower_estimate": 378.0636087117843,
+              "upper_estimate": 495.7819596009352,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-06-02",
+              "forecast_close": 433.8413537943923,
+              "lower_estimate": 377.6442052484455,
+              "upper_estimate": 498.40118727182795,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-06-03",
+              "forecast_close": 434.7444992820727,
+              "lower_estimate": 377.2523160237779,
+              "upper_estimate": 500.99832824911647,
+              "expected_daily_return_pct": 0.20817413549470742
+            },
+            {
+              "date": "2026-06-04",
+              "forecast_close": 435.6495248850639,
+              "lower_estimate": 376.8861118028386,
+              "upper_estimate": 503.5752249524851,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-06-05",
+              "forecast_close": 436.55643451728014,
+              "lower_estimate": 376.54395544722365,
+              "upper_estimate": 506.1335277367164,
+              "expected_daily_return_pct": 0.20817413549470604
+            },
+            {
+              "date": "2026-06-08",
+              "forecast_close": 437.46523210078294,
+              "lower_estimate": 376.2243750522303,
+              "upper_estimate": 508.674721754601,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-06-09",
+              "forecast_close": 438.37592156579865,
+              "lower_estimate": 375.92604171480633,
+              "upper_estimate": 511.20014918906384,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-06-10",
+              "forecast_close": 439.28850685073513,
+              "lower_estimate": 375.6477509937865,
+              "upper_estimate": 513.7110277930037,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-06-11",
+              "forecast_close": 440.20299190219924,
+              "lower_estimate": 375.3884073405811,
+              "upper_estimate": 516.20846645868,
+              "expected_daily_return_pct": 0.20817413549470673
+            },
+            {
+              "date": "2026-06-12",
+              "forecast_close": 441.1193806750134,
+              "lower_estimate": 375.14701093942455,
+              "upper_estimate": 518.6934783775406,
+              "expected_daily_return_pct": 0.20817413549470673
+            }
+          ]
+        },
+        "XGBoost": {
+          "model_name": "optimized direct XGBoost horizon model",
+          "metrics": {
+            "holdout_direction_accuracy": 85.45454545454545,
+            "holdout_mae_pct": 6.065599822405286,
+            "holdout_rmse_pct": 7.382418284225135,
+            "holdout_bias_pct": 5.280821987879672,
+            "holdout_samples": 110,
+            "forecast_change_pct": 1.7019833047897694,
+            "probability_up_pct": 59.36497672827641,
+            "probability_down_pct": 40.63502327172359,
+            "confidence_pct": 59.36497672827641,
+            "expected_error_pct": 7.382418284225135,
+            "forecast_score": 0.043181064598655804,
+            "raw_forecast_change_pct": 2.506947007357634,
+            "shrink_factor": 0.6815975492130539,
+            "selected_lookback_window": 30,
+            "selected_ridge_alpha": 5.0,
+            "training_samples": 441
+          },
+          "forecast": [
+            {
+              "date": "2026-05-04",
+              "forecast_close": 414.6732128909916,
+              "lower_estimate": 405.89684851335994,
+              "upper_estimate": 423.639341175318,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-05",
+              "forecast_close": 414.9065545709446,
+              "lower_estimate": 402.542578557215,
+              "upper_estimate": 427.6502864440816,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-06",
+              "forecast_close": 415.1400275551099,
+              "lower_estimate": 400.0399222530616,
+              "upper_estimate": 430.8101089206689,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-07",
+              "forecast_close": 415.37363191737404,
+              "lower_estimate": 397.977316467023,
+              "upper_estimate": 433.5303720922664,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-08",
+              "forecast_close": 415.6073677316651,
+              "lower_estimate": 396.19545618576245,
+              "upper_estimate": 435.970381325768,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-11",
+              "forecast_close": 415.8412350719527,
+              "lower_estimate": 394.6126941776988,
+              "upper_estimate": 438.2117842065601,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-12",
+              "forecast_close": 416.0752340122478,
+              "lower_estimate": 393.18055973414545,
+              "upper_estimate": 440.3030517973811,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-13",
+              "forecast_close": 416.309364626604,
+              "lower_estimate": 391.86749179512464,
+              "upper_estimate": 442.2757455125115,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-14",
+              "forecast_close": 416.54362698911564,
+              "lower_estimate": 390.65158195914535,
+              "upper_estimate": 444.1517741079906,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-15",
+              "forecast_close": 416.7780211739189,
+              "lower_estimate": 389.5168889774731,
+              "upper_estimate": 445.9470791873504,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-18",
+              "forecast_close": 417.01254725519186,
+              "lower_estimate": 388.45138610338887,
+              "upper_estimate": 447.67368785235624,
+              "expected_daily_return_pct": 0.05627122097570166
+            },
+            {
+              "date": "2026-05-19",
+              "forecast_close": 417.2472053071543,
+              "lower_estimate": 387.4457356387565,
+              "upper_estimate": 449.34093815643905,
+              "expected_daily_return_pct": 0.056271220975701836
+            },
+            {
+              "date": "2026-05-20",
+              "forecast_close": 417.4819954040676,
+              "lower_estimate": 386.49251646828475,
+              "upper_estimate": 450.956251570434,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-21",
+              "forecast_close": 417.7169176202352,
+              "lower_estimate": 385.58571535121496,
+              "upper_estimate": 452.52564169089254,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-22",
+              "forecast_close": 417.95197203000225,
+              "lower_estimate": 384.72037961359587,
+              "upper_estimate": 454.05406154780815,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-25",
+              "forecast_close": 418.18715870775554,
+              "lower_estimate": 383.89237275413103,
+              "upper_estimate": 455.54564799876886,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-26",
+              "forecast_close": 418.42247772792405,
+              "lower_estimate": 383.0981979847254,
+              "upper_estimate": 457.0038981884108,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-27",
+              "forecast_close": 418.6579291649783,
+              "lower_estimate": 382.33486796370863,
+              "upper_estimate": 458.4317998151954,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-28",
+              "forecast_close": 418.8935130934311,
+              "lower_estimate": 381.5998067530735,
+              "upper_estimate": 459.83192917417074,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-05-29",
+              "forecast_close": 419.12922958783645,
+              "lower_estimate": 380.89077476402724,
+              "upper_estimate": 461.20652621141977,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-06-01",
+              "forecast_close": 419.3650787227916,
+              "lower_estimate": 380.2058104290305,
+              "upper_estimate": 462.5575528520248,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-06-02",
+              "forecast_close": 419.60106057293467,
+              "lower_estimate": 379.5431842594159,
+              "upper_estimate": 463.88673894244397,
+              "expected_daily_return_pct": 0.05627122097570157
+            },
+            {
+              "date": "2026-06-03",
+              "forecast_close": 419.8371752129461,
+              "lower_estimate": 378.901362219192,
+              "upper_estimate": 465.19561887671136,
+              "expected_daily_return_pct": 0.05627122097570209
+            },
+            {
+              "date": "2026-06-04",
+              "forecast_close": 420.07342271754834,
+              "lower_estimate": 378.27897620590176,
+              "upper_estimate": 466.4855611155769,
+              "expected_daily_return_pct": 0.05627122097570157
+            },
+            {
+              "date": "2026-06-05",
+              "forecast_close": 420.30980316150595,
+              "lower_estimate": 377.67480002291416,
+              "upper_estimate": 467.757792214216,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-06-08",
+              "forecast_close": 420.5463166196255,
+              "lower_estimate": 377.08772964436196,
+              "upper_estimate": 469.0134165572911,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-06-09",
+              "forecast_close": 420.78296316675574,
+              "lower_estimate": 376.5167668713943,
+              "upper_estimate": 470.2534327026998,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-06-10",
+              "forecast_close": 421.01974287778745,
+              "lower_estimate": 375.9610056938494,
+              "upper_estimate": 471.4787470199017,
+              "expected_daily_return_pct": 0.056271220975701745
+            },
+            {
+              "date": "2026-06-11",
+              "forecast_close": 421.25665582765356,
+              "lower_estimate": 375.41962082956115,
+              "upper_estimate": 472.69018515061293,
+              "expected_daily_return_pct": 0.05627122097570192
+            },
+            {
+              "date": "2026-06-12",
+              "forecast_close": 421.4937020913292,
+              "lower_estimate": 374.8918580310304,
+              "upper_estimate": 473.8885017021342,
+              "expected_daily_return_pct": 0.05627122097570157
+            }
+          ]
+        },
+        "Ensemble": {
+          "model_name": "weighted ensemble forecast model",
+          "metrics": {
+            "forecast_change_pct": 3.7814758666736994,
+            "probability_up_pct": 65.65114318736036,
+            "probability_down_pct": 34.34885681263964,
+            "confidence_pct": 65.65114318736036,
+            "expected_error_pct": 8.685179620504396,
+            "forecast_score": 0.13628830452540605,
+            "holdout_mae_pct": 6.804010622736553,
+            "holdout_rmse_pct": 8.685179620504396,
+            "holdout_direction_accuracy": 74.19055459005865,
+            "component_weights": {
+              "Ridge": 0.439,
+              "XGBoost": 0.561
+            }
+          },
+          "forecast": [
+            {
+              "date": "2026-05-04",
+              "forecast_close": 414.94966641548353,
+              "lower_estimate": 404.712313233228,
+              "upper_estimate": 425.45299847202864,
+              "expected_daily_return_pct": 0.1229765396861109
+            },
+            {
+              "date": "2026-05-05",
+              "forecast_close": 415.46019268843685,
+              "lower_estimate": 401.0392067298068,
+              "upper_estimate": 430.4139518774092,
+              "expected_daily_return_pct": 0.1229765396861109
+            },
+            {
+              "date": "2026-05-06",
+              "forecast_close": 415.9715829435439,
+              "lower_estimate": 398.35711769104523,
+              "upper_estimate": 434.3864336012588,
+              "expected_daily_return_pct": 0.12297653968611096
+            },
+            {
+              "date": "2026-05-07",
+              "forecast_close": 416.4838388675241,
+              "lower_estimate": 396.1862011287378,
+              "upper_estimate": 437.8502943487513,
+              "expected_daily_return_pct": 0.12297653968611083
+            },
+            {
+              "date": "2026-05-08",
+              "forecast_close": 416.9969621505455,
+              "lower_estimate": 394.34088497446874,
+              "upper_estimate": 440.991111918658,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-05-11",
+              "forecast_close": 417.51095448623084,
+              "lower_estimate": 392.72613879909903,
+              "upper_estimate": 443.9039224838914,
+              "expected_daily_return_pct": 0.122976539686111
+            },
+            {
+              "date": "2026-05-12",
+              "forecast_close": 418.0258175716659,
+              "lower_estimate": 391.28559268076924,
+              "upper_estimate": 446.645101723534,
+              "expected_daily_return_pct": 0.12297653968611083
+            },
+            {
+              "date": "2026-05-13",
+              "forecast_close": 418.541553107407,
+              "lower_estimate": 389.9825714696625,
+              "upper_estimate": 449.25133055810943,
+              "expected_daily_return_pct": 0.12297653968611083
+            },
+            {
+              "date": "2026-05-14",
+              "forecast_close": 419.0581627974866,
+              "lower_estimate": 388.7916369187566,
+              "upper_estimate": 451.74805301885795,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-05-15",
+              "forecast_close": 419.5756483494216,
+              "lower_estimate": 387.6942938672999,
+              "upper_estimate": 454.1537700642953,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-05-18",
+              "forecast_close": 420.0940114742205,
+              "lower_estimate": 386.6765996491677,
+              "upper_estimate": 456.48243017188804,
+              "expected_daily_return_pct": 0.12297653968611089
+            },
+            {
+              "date": "2026-05-19",
+              "forecast_close": 420.6132538863904,
+              "lower_estimate": 385.7277373934379,
+              "upper_estimate": 458.74485603750907,
+              "expected_daily_return_pct": 0.12297653968611112
+            },
+            {
+              "date": "2026-05-20",
+              "forecast_close": 421.13337730394426,
+              "lower_estimate": 384.8391170210906,
+              "upper_estimate": 460.94964357877075,
+              "expected_daily_return_pct": 0.12297653968611076
+            },
+            {
+              "date": "2026-05-21",
+              "forecast_close": 421.65438344840857,
+              "lower_estimate": 384.0037834134512,
+              "upper_estimate": 463.10375376661386,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-05-22",
+              "forecast_close": 422.1762740448296,
+              "lower_estimate": 383.21601249564117,
+              "upper_estimate": 465.21291654188803,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-05-25",
+              "forecast_close": 422.69905082178195,
+              "lower_estimate": 382.47102710694537,
+              "upper_estimate": 467.2819149450189,
+              "expected_daily_return_pct": 0.12297653968611076
+            },
+            {
+              "date": "2026-05-26",
+              "forecast_close": 423.2227155113753,
+              "lower_estimate": 381.7647919225152,
+              "upper_estimate": 469.3147901943355,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-05-27",
+              "forecast_close": 423.74726984926133,
+              "lower_estimate": 381.093862111896,
+              "upper_estimate": 471.3149930275763,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-05-28",
+              "forecast_close": 424.2727155746419,
+              "lower_estimate": 380.45526947414555,
+              "upper_estimate": 473.28549756680286,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-05-29",
+              "forecast_close": 424.7990544302753,
+              "lower_estimate": 379.84643530114283,
+              "upper_estimate": 475.22888845512307,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-06-01",
+              "forecast_close": 425.3262881624853,
+              "lower_estimate": 379.2651026832749,
+              "upper_estimate": 477.1474285510395,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-06-02",
+              "forecast_close": 425.8544185211666,
+              "lower_estimate": 378.7092832078643,
+              "upper_estimate": 479.04311223005107,
+              "expected_daily_return_pct": 0.12297653968611083
+            },
+            {
+              "date": "2026-06-03",
+              "forecast_close": 426.3834472597938,
+              "lower_estimate": 378.17721448060786,
+              "upper_estimate": 480.9177078632505,
+              "expected_daily_return_pct": 0.12297653968611143
+            },
+            {
+              "date": "2026-06-04",
+              "forecast_close": 426.91337613542726,
+              "lower_estimate": 377.6673259013576,
+              "upper_estimate": 482.7727920415732,
+              "expected_daily_return_pct": 0.12297653968611083
+            },
+            {
+              "date": "2026-06-05",
+              "forecast_close": 427.4442069087222,
+              "lower_estimate": 377.1782108161026,
+              "upper_estimate": 484.6097774238513,
+              "expected_daily_return_pct": 0.12297653968611062
+            },
+            {
+              "date": "2026-06-08",
+              "forecast_close": 427.9759413439351,
+              "lower_estimate": 376.708603651878,
+              "upper_estimate": 486.4299356019364,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-06-09",
+              "forecast_close": 428.5085812089317,
+              "lower_estimate": 376.2573609872793,
+              "upper_estimate": 488.2344160302182,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-06-10",
+              "forecast_close": 429.0421282751938,
+              "lower_estimate": 375.82344576176126,
+              "upper_estimate": 490.0242618163595,
+              "expected_daily_return_pct": 0.12297653968611093
+            },
+            {
+              "date": "2026-06-11",
+              "forecast_close": 429.5765843178273,
+              "lower_estimate": 375.4059140107219,
+              "upper_estimate": 491.80042298624505,
+              "expected_daily_return_pct": 0.12297653968611102
+            },
+            {
+              "date": "2026-06-12",
+              "forecast_close": 430.1119511155698,
+              "lower_estimate": 375.00390364995894,
+              "upper_estimate": 493.5637676995586,
+              "expected_daily_return_pct": 0.12297653968611083
+            }
+          ]
+        }
+      }
     }
   ],
   "errors": [],
-  "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-02 02:32 UTC\nHorizon: 30 trading days | Primary: Ensemble\n\nStrongest Buy Forecasts\nGOOGL: +12.97% (Buy, edge 33.2%, err +/-13.65%, Ensemble)\nNVDA: +8.40% (Buy, edge 24.0%, err +/-13.18%, Ensemble)\nAMZN: +8.58% (Buy, edge 22.5%, err +/-12.67%, Ensemble)\nVOO: +2.72% (Buy, edge 22.6%, err +/-4.78%, Ensemble)\nSLV: +16.74% (Buy, edge 21.6%, err +/-31.01%, Ensemble)\n\nStrongest Sell Forecasts\nNo negative forecast candidates.\n\nModel output only. Not financial advice."
+  "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-02 17:30 UTC\nHorizon: 30 trading days | Primary: Ensemble\n\nStrongest Buy Forecasts\nMSFT: +3.78% (Neutral / No Edge, edge 15.7%, err +/-8.69%, Ensemble)\nAAPL: +2.01% (Neutral / No Edge, edge 6.9%, err +/-8.44%, Ensemble)\n\nStrongest Sell Forecasts\nNo negative forecast candidates.\n\nModel output only. Not financial advice."
 }

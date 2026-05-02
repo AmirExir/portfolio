@@ -23,6 +23,13 @@ try:
     from agent.strategy import sma_crossover
     from agent.backtest import simple_vector_backtest
     from agent.broker import get_account, submit_order, cancel_open_orders
+    from forecast_cache import (
+        forecast_cache_path,
+        forecast_result_from_dict,
+        snapshots_to_ranking_frame,
+        snapshot_from_model_results,
+        select_model_name,
+    )
 except ImportError as e:
     st.error(f" Failed to import agent modules: {e}")
     st.info("Please ensure the 'agent' folder exists in the same directory as this app.")
@@ -308,6 +315,89 @@ def result_metric(model_results: dict, model_name: str, metric_name: str, defaul
         return default
     return result.metrics.get(metric_name, default)
 
+def best_ranked_symbol(ranking_table: pd.DataFrame, fallback: str = "AAPL") -> str:
+    if ranking_table.empty or "Symbol" not in ranking_table.columns:
+        return fallback
+
+    positive_candidates = ranking_table[ranking_table.get("Forecast Return %", pd.Series(dtype=float)) > 0]
+    if not positive_candidates.empty and "Score" in positive_candidates.columns:
+        return positive_candidates.sort_values("Score", ascending=False).iloc[0]["Symbol"]
+
+    if "Score" in ranking_table.columns:
+        return ranking_table.sort_values("Score", ascending=False).iloc[0]["Symbol"]
+
+    return ranking_table.iloc[0]["Symbol"]
+
+
+def build_quick_price_chart(df: pd.DataFrame, short_window: int, long_window: int, symbol: str) -> go.Figure:
+    close = df["close"]
+    if isinstance(close, pd.DataFrame):
+        close = close.iloc[:, 0]
+    close = pd.to_numeric(close, errors="coerce").dropna()
+
+    short_ma = close.rolling(short_window).mean()
+    long_ma = close.rolling(long_window).mean()
+
+    fig = go.Figure()
+    fig.add_trace(
+        go.Scatter(
+            x=close.index,
+            y=close,
+            mode="lines",
+            name="Price",
+            line=dict(color="#1f77b4", width=2),
+            hovertemplate="%{x}<br>Price: $%{y:,.2f}<extra></extra>",
+        )
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=short_ma.index,
+            y=short_ma,
+            mode="lines",
+            name=f"{short_window}-day MA",
+            line=dict(color="#ff7f0e", width=1.8),
+            hovertemplate="%{x}<br>Short MA: $%{y:,.2f}<extra></extra>",
+        )
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=long_ma.index,
+            y=long_ma,
+            mode="lines",
+            name=f"{long_window}-day MA",
+            line=dict(color="#2ca02c", width=1.8),
+            hovertemplate="%{x}<br>Long MA: $%{y:,.2f}<extra></extra>",
+        )
+    )
+    fig.update_layout(
+        title=f"⚡ Quick Price View for {ticker_label(symbol)}",
+        xaxis_title="Date",
+        yaxis_title="Price",
+        margin=dict(l=10, r=10, t=40, b=10),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
+    )
+    return fig
+
+
+def _forecast_reports_dir() -> str:
+    return os.path.join(os.path.dirname(__file__), "reports")
+
+
+def _load_forecast_payload(cache_path: str) -> dict:
+    if not os.path.exists(cache_path):
+        return {}
+    try:
+        with open(cache_path, "r") as handle:
+            return json.load(handle)
+    except Exception:
+        return {}
+
+
+def _save_forecast_payload(cache_path: str, payload: dict) -> None:
+    os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+    with open(cache_path, "w") as handle:
+        json.dump(payload, handle, indent=2, default=str)
+
 
 @st.cache_data(ttl=900, show_spinner=False)
 def cached_model_results(
@@ -318,10 +408,53 @@ def cached_model_results(
     forecast_alpha: float,
     optimize_forecast_model: bool,
     use_market_context: bool,
+    ranking_symbols: tuple[str, ...] | None = None,
+    cache_buster: int = 0,
 ) -> dict:
+    ranking_symbols = ranking_symbols or tuple()
+    ranking_cache_path = None
+    if symbol in ranking_symbols:
+        ranking_cache_path = forecast_cache_path(
+            _forecast_reports_dir(),
+            ranking_symbols,
+            history_days,
+            forecast_horizon,
+            forecast_lookback,
+            forecast_alpha,
+            optimize_forecast_model,
+            use_market_context,
+        )
+
+    cache_path = forecast_cache_path(
+        _forecast_reports_dir(),
+        (symbol,),
+        history_days,
+        forecast_horizon,
+        forecast_lookback,
+        forecast_alpha,
+        optimize_forecast_model,
+        use_market_context,
+    )
+
+    if cache_buster == 0:
+        for candidate_cache_path in [ranking_cache_path, cache_path]:
+            if not candidate_cache_path:
+                continue
+            cached_payload = _load_forecast_payload(str(candidate_cache_path))
+            snapshots = cached_payload.get("snapshots") or []
+            if snapshots:
+                snapshot = next((item for item in snapshots if item.get("symbol") == symbol), None)
+                if snapshot:
+                    model_results = {
+                        model_name: forecast_result_from_dict(model_payload)
+                        for model_name, model_payload in (snapshot.get("models") or {}).items()
+                    }
+                    if model_results:
+                        return model_results
+
     df = get_ohlcv(symbol, history_days)
     context_df = _load_market_context_data(history_days) if use_market_context else pd.DataFrame()
-    return compare_forecast_models(
+    model_results = compare_forecast_models(
         df,
         horizon_days=forecast_horizon,
         lookback_window=forecast_lookback,
@@ -329,6 +462,28 @@ def cached_model_results(
         optimize_model=optimize_forecast_model,
         context_df=context_df,
     )
+
+    close = df["close"]
+    if isinstance(close, pd.DataFrame):
+        close = close.iloc[:, 0]
+    close = pd.to_numeric(close, errors="coerce").dropna()
+    payload = {
+        "generated_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ"),
+        "symbols": [symbol],
+        "history_days": history_days,
+        "horizon_days": forecast_horizon,
+        "lookback_window": forecast_lookback,
+        "ridge_alpha": forecast_alpha,
+        "optimize_model": optimize_forecast_model,
+        "use_market_context": use_market_context,
+        "primary_model": "Ensemble",
+        "snapshots": [snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results)],
+        "rows": [],
+        "errors": [],
+        "telegram_text": "",
+    }
+    _save_forecast_payload(str(cache_path), payload)
+    return model_results
 
 
 @st.cache_data(ttl=900, show_spinner=False)
@@ -341,6 +496,7 @@ def cached_historical_forecasts(
     historical_test_points: int,
     primary_model: str,
     use_market_context: bool,
+    cache_buster: int = 0,
 ):
     df = get_ohlcv(symbol, history_days)
     context_df = _load_market_context_data(history_days) if use_market_context else pd.DataFrame()
@@ -366,68 +522,63 @@ def cached_forecast_rankings(
     optimize_forecast_model: bool,
     use_market_context: bool,
     primary_model_choice: str,
+    cache_buster: int = 0,
 ) -> tuple[pd.DataFrame, list[str]]:
-    ranking_context_df = _load_market_context_data(history_days) if use_market_context else pd.DataFrame()
-    ranking_rows = []
-    ranking_errors = []
+    ranking_cache_path = forecast_cache_path(
+        _forecast_reports_dir(),
+        ranking_symbols,
+        history_days,
+        forecast_horizon,
+        forecast_lookback,
+        forecast_alpha,
+        optimize_forecast_model,
+        use_market_context,
+    )
 
-    for ranking_symbol in ranking_symbols:
-        try:
-            ranking_df = get_ohlcv(ranking_symbol, history_days)
-            ranking_results = compare_forecast_models(
-                ranking_df,
-                horizon_days=forecast_horizon,
-                lookback_window=forecast_lookback,
-                ridge_alpha=forecast_alpha,
-                optimize_model=optimize_forecast_model,
-                context_df=ranking_context_df,
-            )
-            if primary_model_choice == "Best Validation":
-                ranking_primary = best_model_name(ranking_results, preferred="")
-            else:
-                ranking_primary = best_model_name(ranking_results, preferred=primary_model_choice)
-            if not ranking_primary:
-                raise ValueError("No usable forecast model result.")
+    ranking_payload = _load_forecast_payload(str(ranking_cache_path)) if cache_buster == 0 else {}
+    ranking_snapshots = ranking_payload.get("snapshots") or []
+    ranking_errors = list(ranking_payload.get("errors", [])) if ranking_snapshots else []
 
-            ranking_result = ranking_results[ranking_primary]
-            ranking_close = ranking_df["close"]
-            if isinstance(ranking_close, pd.DataFrame):
-                ranking_close = ranking_close.iloc[:, 0]
-            ranking_close = pd.to_numeric(ranking_close, errors="coerce").dropna()
+    if not ranking_snapshots:
+        ranking_context_df = _load_market_context_data(history_days) if use_market_context else pd.DataFrame()
+        ranking_snapshots = []
 
-            last_price = float(ranking_close.iloc[-1])
-            forecast_price = float(ranking_result.forecast["forecast_close"].iloc[-1])
-            forecast_return = ranking_result.metrics.get("forecast_change_pct", 0.0)
-            probability_up = ranking_result.metrics.get("probability_up_pct", 0.0)
-            confidence = ranking_result.metrics.get("confidence_pct", 0.0)
-            edge = max(confidence - 50.0, 0.0)
-            expected_error = ranking_result.metrics.get("expected_error_pct", 0.0)
-            score = ranking_result.metrics.get("forecast_score", 0.0)
+        for ranking_symbol in ranking_symbols:
+            try:
+                ranking_df = get_ohlcv(ranking_symbol, history_days)
+                ranking_results = compare_forecast_models(
+                    ranking_df,
+                    horizon_days=forecast_horizon,
+                    lookback_window=forecast_lookback,
+                    ridge_alpha=forecast_alpha,
+                    optimize_model=optimize_forecast_model,
+                    context_df=ranking_context_df,
+                )
+                ranking_close = ranking_df["close"]
+                if isinstance(ranking_close, pd.DataFrame):
+                    ranking_close = ranking_close.iloc[:, 0]
+                ranking_close = pd.to_numeric(ranking_close, errors="coerce").dropna()
+                ranking_snapshots.append(snapshot_from_model_results(ranking_symbol, float(ranking_close.iloc[-1]), ranking_results))
+            except Exception as ranking_error:
+                ranking_errors.append(f"{ranking_symbol}: {ranking_error}")
 
-            ranking_rows.append(
-                {
-                    "Symbol": ranking_symbol,
-                    "Model Call": model_call(forecast_return, expected_error, confidence),
-                    "Selected Model": ranking_primary,
-                    "Last Price": last_price,
-                    "Forecast Price": forecast_price,
-                    "Forecast Return %": forecast_return,
-                    "Ridge Return %": result_metric(ranking_results, "Ridge", "forecast_change_pct"),
-                    "XGBoost Return %": result_metric(ranking_results, "XGBoost", "forecast_change_pct"),
-                    "Ensemble Return %": result_metric(ranking_results, "Ensemble", "forecast_change_pct"),
-                    "Probability Up %": probability_up,
-                    "Probability Down %": 100.0 - probability_up,
-                    "Directional Probability %": confidence,
-                    "Model Edge %": edge,
-                    "Signal Quality": signal_quality(confidence),
-                    "Expected Error %": expected_error,
-                    "Score": score,
-                }
-            )
-        except Exception as ranking_error:
-            ranking_errors.append(f"{ranking_symbol}: {ranking_error}")
+        ranking_payload = {
+            "generated_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ"),
+            "horizon_days": forecast_horizon,
+            "primary_model": primary_model_choice,
+            "symbols": list(ranking_symbols),
+            "cache_key": "",
+            "rows": [],
+            "snapshots": ranking_snapshots,
+            "errors": ranking_errors,
+            "telegram_text": "",
+        }
+        _save_forecast_payload(str(ranking_cache_path), ranking_payload)
 
-    return pd.DataFrame(ranking_rows), ranking_errors
+    ranking_table, ranking_errors_from_snapshots = snapshots_to_ranking_frame(ranking_snapshots, primary_model_choice)
+    if ranking_errors_from_snapshots:
+        ranking_errors.extend(ranking_errors_from_snapshots)
+    return ranking_table, ranking_errors
 
 
 def report_generated_caption(report_text: str) -> str | None:
@@ -820,13 +971,51 @@ selected_forecast_symbols = st.sidebar.multiselect(
     format_func=ticker_label,
 )
 
-# --- Compute ML Forecast Rankings First (if enabled) ---
-best_stock_for_analysis = "AAPL"  # Default fallback
+if "ranking_refresh_nonce" not in st.session_state:
+    st.session_state["ranking_refresh_nonce"] = 0
+if "symbol_refresh_nonce" not in st.session_state:
+    st.session_state["symbol_refresh_nonce"] = 0
+
+refresh_all = st.sidebar.button("🔄 Force recalculate all rankings", help="Ignore saved ranking caches and recompute every symbol.")
+refresh_selected = st.sidebar.button("🔄 Force recalculate selected stock", help="Ignore the saved selected-stock cache and recompute only the active symbol.")
+
+if refresh_all:
+    st.session_state["ranking_refresh_nonce"] += 1
+    st.session_state["symbol_refresh_nonce"] += 1
+    st.rerun()
+
+if refresh_selected:
+    st.session_state["symbol_refresh_nonce"] += 1
+    st.rerun()
+
+# --- Quick Price + SMA Crossover View ---
+quick_symbol = st.selectbox(
+    "⚡ Quick chart symbol",
+    options=SYMBOL_OPTIONS,
+    index=SYMBOL_OPTIONS.index("AAPL"),
+    format_func=ticker_label,
+    key="quick_symbol_select",
+)
+
+st.subheader("⚡ Quick Price + SMA Crossover")
+try:
+    quick_df = load_ohlcv(quick_symbol, history_days)
+    st.plotly_chart(
+        build_quick_price_chart(quick_df, short_window, long_window, quick_symbol),
+        use_container_width=True,
+    )
+except Exception as quick_error:
+    quick_df = None
+    st.warning(f"Quick price chart unavailable: {quick_error}")
+
+# --- Compute ML Forecast Rankings After the quick view ---
 ranking_table = pd.DataFrame()
+ranking_errors: list[str] = []
+best_stock_for_analysis = "AAPL"
 
 if run_forecast_rankings and selected_forecast_symbols:
     try:
-        with st.spinner("Computing ML forecast rankings..."):
+        with st.spinner("Computing ML forecast rankings and optimization..."):
             ranking_table, ranking_errors = cached_forecast_rankings(
                 tuple(selected_forecast_symbols),
                 history_days,
@@ -836,15 +1025,43 @@ if run_forecast_rankings and selected_forecast_symbols:
                 optimize_forecast_model,
                 use_market_context,
                 primary_model_choice,
+                st.session_state["ranking_refresh_nonce"],
             )
-        
-        # Extract best buy candidate (highest score among positive forecasts)
-        if not ranking_table.empty:
-            buy_candidates = ranking_table[ranking_table["Forecast Return %"] > 0]
-            if not buy_candidates.empty:
-                best_stock_for_analysis = buy_candidates.sort_values("Score", ascending=False).iloc[0]["Symbol"]
+        best_stock_for_analysis = best_ranked_symbol(ranking_table, fallback="AAPL")
     except Exception as ranking_error:
         st.warning(f"Could not compute rankings initially: {ranking_error}")
+
+if run_forecast_rankings and not ranking_table.empty:
+    st.markdown("---")
+    st.subheader("🔎 ML Based Forecast Rankings (Early View)")
+
+    buy_candidates = ranking_table[ranking_table["Forecast Return %"] > 0]
+    sell_candidates = ranking_table[ranking_table["Forecast Return %"] < 0]
+    strongest_buy = buy_candidates.sort_values("Score", ascending=False).head(10)
+    strongest_sell = sell_candidates.sort_values("Score", ascending=True).head(10)
+
+    buy_col, sell_col = st.columns(2)
+    with buy_col:
+        st.markdown("**Strongest Buy Forecasts**")
+        if strongest_buy.empty:
+            st.info("No positive forecast candidates.")
+        else:
+            st.dataframe(format_ranking_table(strongest_buy), use_container_width=True)
+    with sell_col:
+        st.markdown("**Strongest Sell Forecasts**")
+        if strongest_sell.empty:
+            st.info("No negative forecast candidates.")
+        else:
+            st.dataframe(format_ranking_table(strongest_sell), use_container_width=True)
+
+    with st.expander("All forecast ranking results"):
+        st.dataframe(format_ranking_table(ranking_table.sort_values("Score", ascending=False)), use_container_width=True)
+
+    if ranking_errors:
+        with st.expander("Symbols skipped during forecast ranking"):
+            st.write("\n".join(ranking_errors))
+
+    st.markdown("---")
 
 # --- Symbol input (defaults to best stock from rankings) ---
 symbol = st.selectbox(
@@ -880,35 +1097,6 @@ with col2:
             except Exception as e:
                 st.error(f"Failed to sell: {e}")
 
-# --- Display ML Forecast Rankings Early ---
-if run_forecast_rankings and not ranking_table.empty:
-    st.markdown("---")
-    st.subheader("🔎 ML Based Forecast Rankings (Early View)")
-    
-    buy_candidates = ranking_table[ranking_table["Forecast Return %"] > 0]
-    sell_candidates = ranking_table[ranking_table["Forecast Return %"] < 0]
-    strongest_buy = buy_candidates.sort_values("Score", ascending=False).head(10)
-    strongest_sell = sell_candidates.sort_values("Score", ascending=True).head(10)
-
-    buy_col, sell_col = st.columns(2)
-    with buy_col:
-        st.markdown("**Strongest Buy Forecasts**")
-        if strongest_buy.empty:
-            st.info("No positive forecast candidates.")
-        else:
-            st.dataframe(format_ranking_table(strongest_buy), use_container_width=True)
-    with sell_col:
-        st.markdown("**Strongest Sell Forecasts**")
-        if strongest_sell.empty:
-            st.info("No negative forecast candidates.")
-        else:
-            st.dataframe(format_ranking_table(strongest_sell), use_container_width=True)
-
-    with st.expander("All forecast ranking results"):
-        st.dataframe(format_ranking_table(ranking_table.sort_values("Score", ascending=False)), use_container_width=True)
-
-    st.markdown("---")
-
 # --- Load data and backtest ---
 try:
     df = load_ohlcv(symbol, history_days)
@@ -931,6 +1119,8 @@ try:
             forecast_alpha,
             optimize_forecast_model,
             use_market_context,
+            tuple(selected_forecast_symbols),
+            st.session_state["symbol_refresh_nonce"],
         )
         if primary_model_choice == "Best Validation":
             primary_model = best_model_name(model_results, preferred="")
@@ -964,6 +1154,7 @@ try:
                 historical_test_points,
                 primary_model,
                 use_market_context,
+                st.session_state["symbol_refresh_nonce"],
             )
             historical_forecasts = historical_result.forecasts
         except Exception as history_error:
@@ -1246,46 +1437,6 @@ except Exception as e:
     st.info("Please check if the symbol is valid and try again.")
 
 st.markdown("---")
-
-# --- Display Forecast ranking tables (computed earlier) ---
-if run_forecast_rankings:
-    st.subheader("🔎 ML Based Forecast Rankings")
-    ranking_symbols = selected_forecast_symbols
-
-    if not ranking_symbols:
-        st.info("Add at least one symbol in the forecast ranking symbols box.")
-    elif ranking_table.empty:
-        st.info("Rankings will appear once they are computed.")
-    else:
-        buy_candidates = ranking_table[ranking_table["Forecast Return %"] > 0]
-        sell_candidates = ranking_table[ranking_table["Forecast Return %"] < 0]
-        strongest_buy = buy_candidates.sort_values("Score", ascending=False).head(10)
-        strongest_sell = sell_candidates.sort_values("Score", ascending=True).head(10)
-
-        buy_col, sell_col = st.columns(2)
-        with buy_col:
-            st.markdown("**Strongest Buy Forecasts**")
-            if strongest_buy.empty:
-                st.info("No positive forecast candidates.")
-            else:
-                st.dataframe(format_ranking_table(strongest_buy), use_container_width=True)
-        with sell_col:
-            st.markdown("**Strongest Sell Forecasts**")
-            if strongest_sell.empty:
-                st.info("No negative forecast candidates.")
-            else:
-                st.dataframe(format_ranking_table(strongest_sell), use_container_width=True)
-
-        with st.expander("All forecast ranking results"):
-            st.dataframe(format_ranking_table(ranking_table.sort_values("Score", ascending=False)), use_container_width=True)
-
-        st.caption(
-            "Rankings are model outputs based on forecast return, confidence, and expected error. They are not financial advice."
-        )
-
-        if 'ranking_errors' in locals() and ranking_errors:
-            with st.expander("Symbols skipped during forecast ranking"):
-                st.write("\n".join(ranking_errors))
 
 # Debug info (only show in sidebar if needed)
 if st.sidebar.checkbox("🐞 Show Debug Info", value=False):

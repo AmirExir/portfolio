@@ -16,7 +16,7 @@ The ML forecast step can run from the same Schedule Trigger as a parallel branch
 2. Add an **Execute Command** node named **ML Forecast Rankings**:
 
 ```bash
-cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --no-optimize
+cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py
 ```
 
 3. Connect the Execute Command node to your existing **Telegram Send Message** node.
@@ -30,9 +30,10 @@ The script also writes:
 
 - `market_agent/reports/ml_forecast_rankings_latest.txt`
 - `market_agent/reports/ml_forecast_rankings_latest.json`
+- `market_agent/reports/ml_forecast_rankings_cache_*.json`
 - timestamped `.txt` and `.json` report files
 
-The Streamlit website now reads `market_agent/reports/ml_forecast_rankings_latest.txt`, so your existing **Stock Market** publish branch can upload that file to GitHub the same way it uploads `summary_*.txt`.
+The Streamlit website reads the saved forecast cache first, so your existing **Stock Market** publish branch can upload the latest `market_agent/reports/ml_forecast_rankings_latest.json` or `ml_forecast_rankings_latest.txt` the same way it uploads `summary_*.txt`.
 
 ## Add it to the existing workflow
 
@@ -96,7 +97,7 @@ If the **Stock Market** node is a GitHub `PUT /contents` HTTP request, send `con
 
 ## Option B: script sends directly to Telegram
 
-Set these environment variables in n8n:
+Set these environment variables in n8n if you want the script to post directly to Telegram:
 
 ```bash
 TELEGRAM_BOT_TOKEN=your_bot_token
@@ -108,6 +109,8 @@ Then run:
 ```bash
 cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --no-optimize --send-telegram
 ```
+
+If you want the scheduled node to precompute the optimized model comparison for the app and the LLM, keep the default optimization run and just add `--send-telegram` when you want the script to deliver the forecast text directly.
 
 ## Useful arguments
 
@@ -123,4 +126,4 @@ cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/d
 ```
 
 The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, and Ensemble forecast comparison used in the Streamlit app.
-The scheduled examples use `--no-optimize` because the full optimized XGBoost search can take several minutes across a larger watchlist.
+The JSON payload now includes all model snapshots per symbol, which makes it usable by the app and by an LLM-driven n8n branch without rerunning forecasts.
