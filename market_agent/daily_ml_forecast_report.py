@@ -27,6 +27,7 @@ from forecast_cache import (
 DEFAULT_SYMBOLS = [
     "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
     "XOM", "UNH", "SPY", "VOO", "AVGO", "GLD", "SLV", "USO",
+    "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "PEPE-USD",
 ]
 MARKET_CONTEXT_TICKERS = [
     "SPY", "VOO", "QQQ", "IWM", "DIA", "^VIX",
