@@ -1399,100 +1399,7 @@ symbol = st.selectbox(
     key="symbol_select",
 )
 
-analysis_tab, trading_tab, money_tab = st.tabs(["📈 Market Analysis", "💰 Paper Trading", "💹 Money Chart"])
-
-# --- Manual Trade Buttons ---
-with trading_tab:
-    st.subheader("🧾 Paper Trading Controls")
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button(f"🟢 Buy {symbol}"):
-            if demo_mode:
-                st.info(f"(Demo) Pretending to buy 1 share of {symbol}")
-                _append_trade_log(
-                    {
-                        "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
-                        "source": "manual",
-                        "symbol": symbol,
-                        "action": "BUY",
-                        "side": "buy",
-                        "qty": 1,
-                        "equity_after": float(equity),
-                        "cash_after": float(cash),
-                        "buying_power_after": float(buying_power),
-                        "demo_mode": True,
-                        "order_result": {"demo": True},
-                    }
-                )
-                st.rerun()
-            else:
-                try:
-                    result = submit_order(symbol, 1, "buy")
-                    st.success(f"Bought 1 share of {symbol}")
-                    st.json(result)
-                    account_snapshot = _fetch_live_account_snapshot()
-                    _append_trade_log(
-                        {
-                            "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
-                            "source": "manual",
-                            "symbol": symbol,
-                            "action": "BUY",
-                            "side": "buy",
-                            "qty": 1,
-                            "equity_after": account_snapshot.get("equity"),
-                            "cash_after": account_snapshot.get("cash"),
-                            "buying_power_after": account_snapshot.get("buying_power"),
-                            "demo_mode": False,
-                            "order_result": result,
-                        }
-                    )
-                    st.rerun()
-                except Exception as e:
-                    st.error(f"Failed to buy: {e}")
-    with col2:
-        if st.button(f"🔴 Sell {symbol}"):
-            if demo_mode:
-                st.info(f"(Demo) Pretending to sell 1 share of {symbol}")
-                _append_trade_log(
-                    {
-                        "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
-                        "source": "manual",
-                        "symbol": symbol,
-                        "action": "SELL",
-                        "side": "sell",
-                        "qty": 1,
-                        "equity_after": float(equity),
-                        "cash_after": float(cash),
-                        "buying_power_after": float(buying_power),
-                        "demo_mode": True,
-                        "order_result": {"demo": True},
-                    }
-                )
-                st.rerun()
-            else:
-                try:
-                    result = submit_order(symbol, 1, "sell")
-                    st.warning(f"Sold 1 share of {symbol}")
-                    st.json(result)
-                    account_snapshot = _fetch_live_account_snapshot()
-                    _append_trade_log(
-                        {
-                            "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
-                            "source": "manual",
-                            "symbol": symbol,
-                            "action": "SELL",
-                            "side": "sell",
-                            "qty": 1,
-                            "equity_after": account_snapshot.get("equity"),
-                            "cash_after": account_snapshot.get("cash"),
-                            "buying_power_after": account_snapshot.get("buying_power"),
-                            "demo_mode": False,
-                            "order_result": result,
-                        }
-                    )
-                    st.rerun()
-                except Exception as e:
-                    st.error(f"Failed to sell: {e}")
+analysis_tab, money_tab = st.tabs(["📈 Market Analysis", "💼 Portfolio Balance"])
 
 # --- Load data and backtest ---
 try:
@@ -1824,9 +1731,116 @@ try:
         except Exception as forecast_error:
             st.line_chart(actual_close)
             st.warning(f"ML forecast unavailable: {forecast_error}")
-    
-    with trading_tab:
-        # --- Latest Signal + Timestamp ---
+
+        st.subheader("🧾 Paper Trading Controls")
+        trade_log_df = load_trade_log(limit=500)
+        trade_summary = _trade_summary(trade_log_df, symbol, float(actual_close.iloc[-1]))
+
+        control_col1, control_col2 = st.columns(2)
+        buy_qty = control_col1.number_input("Buy shares", min_value=1, max_value=100000, value=1, step=1)
+        sell_qty = control_col2.number_input("Sell shares", min_value=1, max_value=100000, value=1, step=1)
+        est_buy_dollars = float(buy_qty) * float(actual_close.iloc[-1])
+        est_sell_dollars = float(sell_qty) * float(actual_close.iloc[-1])
+
+        action_col1, action_col2 = st.columns(2)
+        with action_col1:
+            if st.button(f"🟢 Buy {buy_qty} shares of {symbol} (${est_buy_dollars:,.2f})"):
+                if demo_mode:
+                    st.info(f"(Demo) Pretending to buy {buy_qty} shares of {symbol}")
+                    _append_trade_log(
+                        {
+                            "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                            "source": "manual",
+                            "symbol": symbol,
+                            "action": "BUY",
+                            "side": "buy",
+                            "qty": int(buy_qty),
+                            "price": float(actual_close.iloc[-1]),
+                            "notional": est_buy_dollars,
+                            "equity_after": float(equity),
+                            "cash_after": float(cash),
+                            "buying_power_after": float(buying_power),
+                            "demo_mode": True,
+                            "order_result": {"demo": True},
+                        }
+                    )
+                    st.rerun()
+                else:
+                    try:
+                        result = submit_order(symbol, int(buy_qty), "buy")
+                        st.success(f"Bought {buy_qty} shares of {symbol}")
+                        st.json(result)
+                        account_snapshot = _fetch_live_account_snapshot()
+                        _append_trade_log(
+                            {
+                                "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                                "source": "manual",
+                                "symbol": symbol,
+                                "action": "BUY",
+                                "side": "buy",
+                                "qty": int(buy_qty),
+                                "price": float(actual_close.iloc[-1]),
+                                "notional": est_buy_dollars,
+                                "equity_after": account_snapshot.get("equity"),
+                                "cash_after": account_snapshot.get("cash"),
+                                "buying_power_after": account_snapshot.get("buying_power"),
+                                "demo_mode": False,
+                                "order_result": result,
+                            }
+                        )
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Failed to buy: {e}")
+        with action_col2:
+            if st.button(f"🔴 Sell {sell_qty} shares of {symbol} (${est_sell_dollars:,.2f})"):
+                if demo_mode:
+                    st.info(f"(Demo) Pretending to sell {sell_qty} shares of {symbol}")
+                    _append_trade_log(
+                        {
+                            "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                            "source": "manual",
+                            "symbol": symbol,
+                            "action": "SELL",
+                            "side": "sell",
+                            "qty": int(sell_qty),
+                            "price": float(actual_close.iloc[-1]),
+                            "notional": est_sell_dollars,
+                            "equity_after": float(equity),
+                            "cash_after": float(cash),
+                            "buying_power_after": float(buying_power),
+                            "demo_mode": True,
+                            "order_result": {"demo": True},
+                        }
+                    )
+                    st.rerun()
+                else:
+                    try:
+                        result = submit_order(symbol, int(sell_qty), "sell")
+                        st.warning(f"Sold {sell_qty} shares of {symbol}")
+                        st.json(result)
+                        account_snapshot = _fetch_live_account_snapshot()
+                        _append_trade_log(
+                            {
+                                "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                                "source": "manual",
+                                "symbol": symbol,
+                                "action": "SELL",
+                                "side": "sell",
+                                "qty": int(sell_qty),
+                                "price": float(actual_close.iloc[-1]),
+                                "notional": est_sell_dollars,
+                                "equity_after": account_snapshot.get("equity"),
+                                "cash_after": account_snapshot.get("cash"),
+                                "buying_power_after": account_snapshot.get("buying_power"),
+                                "demo_mode": False,
+                                "order_result": result,
+                            }
+                        )
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Failed to sell: {e}")
+
+        st.markdown("---")
         signal_emoji = "BUY" if sig.iloc[-1] == 1 else "FLAT"
         st.write(f"**✨ Latest Signal:** {signal_emoji}")
         st.caption(f"Last updated {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M UTC}")
@@ -1844,11 +1858,24 @@ try:
             entry = auto_trade_result["entry"]
             mode_label = "Demo" if entry.get("demo_mode") else "Live"
             st.success(
-                f"{mode_label} auto-trade executed: {entry.get('action')} {entry.get('qty')} {entry.get('symbol')} @ ${entry.get('price')}"
+                f"{mode_label} auto-trade executed: {entry.get('action')} {entry.get('qty')} shares of {entry.get('symbol')} (${entry.get('qty') * entry.get('price', 0):,.2f})"
             )
             st.rerun()
         elif auto_trade_enabled and auto_trade_result.get("status") == "skipped":
             st.caption(f"Auto-trade check: {auto_trade_result.get('reason', 'skipped')}")
+
+        st.subheader("📊 Trade Metrics")
+        metric_cols = st.columns(4)
+        metric_cols[0].metric("Bought Shares", f"{trade_summary['buy_qty']:.0f}")
+        metric_cols[1].metric("Sold Shares", f"{trade_summary['sell_qty']:.0f}")
+        metric_cols[2].metric("Avg Buy Price", f"${trade_summary['avg_buy_price']:,.2f}" if pd.notna(trade_summary["avg_buy_price"]) else "n/a")
+        metric_cols[3].metric("Avg Sell Price", f"${trade_summary['avg_sell_price']:,.2f}" if pd.notna(trade_summary["avg_sell_price"]) else "n/a")
+
+        metric_cols_2 = st.columns(4)
+        metric_cols_2[0].metric("Bought $", f"${trade_summary['buy_notional']:,.2f}")
+        metric_cols_2[1].metric("Sold $", f"${trade_summary['sell_notional']:,.2f}")
+        metric_cols_2[2].metric("Logged Gross Profit", f"${trade_summary['gross_profit']:,.2f}")
+        metric_cols_2[3].metric("Profit %", f"{trade_summary['profit_pct']:.2f}%")
 
     with money_tab:
         st.subheader("💹 Money Chart")
@@ -1940,6 +1967,7 @@ try:
                     "action",
                     "qty",
                     "price",
+                    "notional",
                     "equity_after",
                     "cash_after",
                     "demo_mode",
