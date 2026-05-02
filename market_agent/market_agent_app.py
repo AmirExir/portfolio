@@ -1341,34 +1341,16 @@ symbol = st.selectbox(
     key="symbol_select",
 )
 
+analysis_tab, trading_tab = st.tabs(["📈 Market Analysis", "💰 Paper Trading"])
+
 # --- Manual Trade Buttons ---
-col1, col2 = st.columns(2)
-with col1:
-    if st.button(f"🟢 Buy {symbol}"):
-        if demo_mode:
-            st.info(f"(Demo) Pretending to buy 1 share of {symbol}")
-            _append_trade_log(
-                {
-                    "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
-                    "source": "manual",
-                    "symbol": symbol,
-                    "action": "BUY",
-                    "side": "buy",
-                    "qty": 1,
-                    "equity_after": float(equity),
-                    "cash_after": float(cash),
-                    "buying_power_after": float(buying_power),
-                    "demo_mode": True,
-                    "order_result": {"demo": True},
-                }
-            )
-            st.rerun()
-        else:
-            try:
-                result = submit_order(symbol, 1, "buy")
-                st.success(f"Bought 1 share of {symbol}")
-                st.json(result)
-                account_snapshot = _fetch_live_account_snapshot()
+with trading_tab:
+    st.subheader("🧾 Paper Trading Controls")
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button(f"🟢 Buy {symbol}"):
+            if demo_mode:
+                st.info(f"(Demo) Pretending to buy 1 share of {symbol}")
                 _append_trade_log(
                     {
                         "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
@@ -1377,42 +1359,42 @@ with col1:
                         "action": "BUY",
                         "side": "buy",
                         "qty": 1,
-                        "equity_after": account_snapshot.get("equity"),
-                        "cash_after": account_snapshot.get("cash"),
-                        "buying_power_after": account_snapshot.get("buying_power"),
-                        "demo_mode": False,
-                        "order_result": result,
+                        "equity_after": float(equity),
+                        "cash_after": float(cash),
+                        "buying_power_after": float(buying_power),
+                        "demo_mode": True,
+                        "order_result": {"demo": True},
                     }
                 )
                 st.rerun()
-            except Exception as e:
-                st.error(f"Failed to buy: {e}")
-with col2:
-    if st.button(f"🔴 Sell {symbol}"):
-        if demo_mode:
-            st.info(f"(Demo) Pretending to sell 1 share of {symbol}")
-            _append_trade_log(
-                {
-                    "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
-                    "source": "manual",
-                    "symbol": symbol,
-                    "action": "SELL",
-                    "side": "sell",
-                    "qty": 1,
-                    "equity_after": float(equity),
-                    "cash_after": float(cash),
-                    "buying_power_after": float(buying_power),
-                    "demo_mode": True,
-                    "order_result": {"demo": True},
-                }
-            )
-            st.rerun()
-        else:
-            try:
-                result = submit_order(symbol, 1, "sell")
-                st.warning(f"Sold 1 share of {symbol}")
-                st.json(result)
-                account_snapshot = _fetch_live_account_snapshot()
+            else:
+                try:
+                    result = submit_order(symbol, 1, "buy")
+                    st.success(f"Bought 1 share of {symbol}")
+                    st.json(result)
+                    account_snapshot = _fetch_live_account_snapshot()
+                    _append_trade_log(
+                        {
+                            "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                            "source": "manual",
+                            "symbol": symbol,
+                            "action": "BUY",
+                            "side": "buy",
+                            "qty": 1,
+                            "equity_after": account_snapshot.get("equity"),
+                            "cash_after": account_snapshot.get("cash"),
+                            "buying_power_after": account_snapshot.get("buying_power"),
+                            "demo_mode": False,
+                            "order_result": result,
+                        }
+                    )
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Failed to buy: {e}")
+    with col2:
+        if st.button(f"🔴 Sell {symbol}"):
+            if demo_mode:
+                st.info(f"(Demo) Pretending to sell 1 share of {symbol}")
                 _append_trade_log(
                     {
                         "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
@@ -1421,16 +1403,38 @@ with col2:
                         "action": "SELL",
                         "side": "sell",
                         "qty": 1,
-                        "equity_after": account_snapshot.get("equity"),
-                        "cash_after": account_snapshot.get("cash"),
-                        "buying_power_after": account_snapshot.get("buying_power"),
-                        "demo_mode": False,
-                        "order_result": result,
+                        "equity_after": float(equity),
+                        "cash_after": float(cash),
+                        "buying_power_after": float(buying_power),
+                        "demo_mode": True,
+                        "order_result": {"demo": True},
                     }
                 )
                 st.rerun()
-            except Exception as e:
-                st.error(f"Failed to sell: {e}")
+            else:
+                try:
+                    result = submit_order(symbol, 1, "sell")
+                    st.warning(f"Sold 1 share of {symbol}")
+                    st.json(result)
+                    account_snapshot = _fetch_live_account_snapshot()
+                    _append_trade_log(
+                        {
+                            "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                            "source": "manual",
+                            "symbol": symbol,
+                            "action": "SELL",
+                            "side": "sell",
+                            "qty": 1,
+                            "equity_after": account_snapshot.get("equity"),
+                            "cash_after": account_snapshot.get("cash"),
+                            "buying_power_after": account_snapshot.get("buying_power"),
+                            "demo_mode": False,
+                            "order_result": result,
+                        }
+                    )
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Failed to sell: {e}")
 
 # --- Load data and backtest ---
 try:
