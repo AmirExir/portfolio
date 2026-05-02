@@ -1,1 +1,4 @@
 newsapi_query_expanded.txt
+__pycache__/
+*.py[cod]
+market_agent/reports/
