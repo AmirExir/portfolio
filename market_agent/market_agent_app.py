@@ -216,8 +216,10 @@ def _trade_summary(trade_log_df: pd.DataFrame, symbol: str, current_price: float
             "sell_notional": 0.0,
             "avg_buy_price": np.nan,
             "avg_sell_price": np.nan,
-            "gross_profit": 0.0,
-            "profit_pct": 0.0,
+            "position_qty": 0.0,
+            "open_position_value": 0.0,
+            "estimated_total_pnl": 0.0,
+            "estimated_total_return_pct": 0.0,
         }
 
     symbol_trades = trade_log_df.copy()
@@ -231,8 +233,10 @@ def _trade_summary(trade_log_df: pd.DataFrame, symbol: str, current_price: float
             "sell_notional": 0.0,
             "avg_buy_price": np.nan,
             "avg_sell_price": np.nan,
-            "gross_profit": 0.0,
-            "profit_pct": 0.0,
+            "position_qty": 0.0,
+            "open_position_value": 0.0,
+            "estimated_total_pnl": 0.0,
+            "estimated_total_return_pct": 0.0,
         }
 
     if "qty" not in symbol_trades.columns:
@@ -250,8 +254,10 @@ def _trade_summary(trade_log_df: pd.DataFrame, symbol: str, current_price: float
 
     avg_buy_price = buy_notional / buy_qty if buy_qty else np.nan
     avg_sell_price = sell_notional / sell_qty if sell_qty else np.nan
-    gross_profit = sell_notional - buy_notional
-    profit_pct = (gross_profit / buy_notional * 100.0) if buy_notional else 0.0
+    position_qty = buy_qty - sell_qty
+    open_position_value = position_qty * float(current_price)
+    estimated_total_pnl = sell_notional + open_position_value - buy_notional
+    estimated_total_return_pct = (estimated_total_pnl / buy_notional * 100.0) if buy_notional else 0.0
 
     return {
         "buy_qty": buy_qty,
@@ -260,8 +266,10 @@ def _trade_summary(trade_log_df: pd.DataFrame, symbol: str, current_price: float
         "sell_notional": sell_notional,
         "avg_buy_price": avg_buy_price,
         "avg_sell_price": avg_sell_price,
-        "gross_profit": gross_profit,
-        "profit_pct": profit_pct,
+        "position_qty": position_qty,
+        "open_position_value": open_position_value,
+        "estimated_total_pnl": estimated_total_pnl,
+        "estimated_total_return_pct": estimated_total_return_pct,
     }
 
 
@@ -961,104 +969,110 @@ def fetch_latest_summary():
         # Silently fail and let the fallback handle it
         return None
 
-col_summary, col_refresh = st.columns([4, 1])
-with col_summary:
+# Top-level tabs: Portfolio Balance first, then AI-Generated Market Summary, then Market Analysis
+top_portfolio_tab, top_summary_tab, top_analysis_tab = st.tabs([
+    "💼 Portfolio Balance",
+    "📰 AI-Generated Market Summary",
+    "📈 Market Analysis",
+])
+
+with top_summary_tab:
     st.markdown("📰 AI-Generated Market Summary")
-with col_refresh:
     if st.button("🔄 Refresh News", help="Fetch the latest news from GitHub"):
         st.cache_data.clear()
         st.rerun()
 
-try:
-    files = fetch_latest_summary()
-    
-    # Fallback: If GitHub API fails, try reading from local directory (for Streamlit Cloud deployment)
-    if files is None:
-        st.info(" GitHub API unavailable. Using local files...")
-        local_dir = os.path.dirname(__file__) if __file__ else "."
-        
-        try:
-            local_files = [f for f in os.listdir(local_dir) if is_timestamped_summary(f)]
-            
-            if local_files:
-                # Sort and get latest
-                local_files_sorted = sorted(local_files, reverse=True)
-                latest_local_file = local_files_sorted[0]
-                
-                with open(os.path.join(local_dir, latest_local_file), 'r') as f:
-                    summary_text = f.read()
-                
-                caption = summary_timestamp_caption(latest_local_file)
+    try:
+        files = fetch_latest_summary()
+
+        # Fallback: If GitHub API fails, try reading from local directory (for Streamlit Cloud deployment)
+        if files is None:
+            st.info(" GitHub API unavailable. Using local files...")
+            local_dir = os.path.dirname(__file__) if __file__ else "."
+
+            try:
+                local_files = [f for f in os.listdir(local_dir) if is_timestamped_summary(f)]
+
+                if local_files:
+                    # Sort and get latest
+                    local_files_sorted = sorted(local_files, reverse=True)
+                    latest_local_file = local_files_sorted[0]
+
+                    with open(os.path.join(local_dir, latest_local_file), "r") as f:
+                        summary_text = f.read()
+
+                    caption = summary_timestamp_caption(latest_local_file)
+                    if caption:
+                        st.caption(caption)
+
+                    st.info(summary_text.strip())
+                else:
+                    st.warning("No local summary files found.")
+            except Exception as local_error:
+                st.error(f"Failed to read local files: {local_error}")
+        else:
+            # Filter timestamped summary files across years.
+            summary_files = [
+                f for f in files
+                if f.get("type") == "file"
+                and is_timestamped_summary(f.get("name", ""))
+            ]
+
+            if not summary_files:
+                st.info("No summary files found yet. The n8n workflow will create summary_*.txt files on first run.")
+            else:
+                # Sort by name descending to get the latest (ISO format sorts correctly)
+                summary_files_sorted = sorted(summary_files, key=lambda x: x["name"], reverse=True)
+                latest_file = summary_files_sorted[0]
+
+                # Extract timestamp from filename (format: summary_2026-05-01T11-00-28-733Z.txt)
+                filename = latest_file.get("name", "")
+                caption = summary_timestamp_caption(filename)
                 if caption:
                     st.caption(caption)
-                
-                st.info(summary_text.strip())
-            else:
-                st.warning("No local summary files found.")
-        except Exception as local_error:
-            st.error(f"Failed to read local files: {local_error}")
-    else:
-        # Filter timestamped summary files across years.
-        summary_files = [
-            f for f in files 
-            if f.get("type") == "file" 
-            and is_timestamped_summary(f.get("name", ""))
-        ]
 
-        if not summary_files:
-            st.info("No summary files found yet. The n8n workflow will create summary_*.txt files on first run.")
+                download_url = latest_file.get("download_url")
+
+                if download_url:
+                    content_response = requests.get(download_url, timeout=10)
+                    content_response.raise_for_status()
+                    summary_decoded = content_response.text
+
+                    # Try parsing as JSON if it's not plain text
+                    try:
+                        maybe_json = json.loads(summary_decoded)
+                        if isinstance(maybe_json, dict):
+                            summary_text = maybe_json.get("content") or maybe_json.get("message") or str(maybe_json)
+                        elif isinstance(maybe_json, list):
+                            summary_text = "\n".join([str(item) for item in maybe_json])
+                        else:
+                            summary_text = str(maybe_json)
+                    except json.JSONDecodeError:
+                        summary_text = summary_decoded
+
+                    st.info(summary_text.strip())
+                else:
+                    st.warning(" Could not find download URL for the latest summary file.")
+    except Exception as e:
+        st.error(f"⚠️ Unable to load summary: {e}")
+        st.info("The news summary will be available when GitHub API or local files are accessible.")
+
+with top_analysis_tab:
+    try:
+        latest_ml_report = fetch_latest_ml_report()
+        if latest_ml_report:
+            st.markdown("🧠 Scheduled ML Forecast Rankings")
+            report_caption = report_generated_caption(latest_ml_report)
+            if report_caption:
+                st.caption(report_caption)
+            st.info(latest_ml_report.strip())
         else:
-            # Sort by name descending to get the latest (ISO format sorts correctly)
-            summary_files_sorted = sorted(summary_files, key=lambda x: x["name"], reverse=True)
-            latest_file = summary_files_sorted[0]
-            
-            # Extract timestamp from filename (format: summary_2026-05-01T11-00-28-733Z.txt)
-            filename = latest_file.get("name", "")
-            caption = summary_timestamp_caption(filename)
-            if caption:
-                st.caption(caption)
-            
-            download_url = latest_file.get("download_url")
-
-            if download_url:
-                content_response = requests.get(download_url, timeout=10)
-                content_response.raise_for_status()
-                summary_decoded = content_response.text
-
-                # Try parsing as JSON if it's not plain text
-                try:
-                    maybe_json = json.loads(summary_decoded)
-                    if isinstance(maybe_json, dict):
-                        summary_text = maybe_json.get("content") or maybe_json.get("message") or str(maybe_json)
-                    elif isinstance(maybe_json, list):
-                        summary_text = "\n".join([str(item) for item in maybe_json])
-                    else:
-                        summary_text = str(maybe_json)
-                except json.JSONDecodeError:
-                    summary_text = summary_decoded
-
-                st.info(summary_text.strip())
-            else:
-                st.warning(" Could not find download URL for the latest summary file.")
-except Exception as e:
-    st.error(f"⚠️ Unable to load summary: {e}")
-    st.info("The news summary will be available when GitHub API or local files are accessible.")
-
-try:
-    latest_ml_report = fetch_latest_ml_report()
-    if latest_ml_report:
-        st.markdown("🧠 Scheduled ML Forecast Rankings")
-        report_caption = report_generated_caption(latest_ml_report)
-        if report_caption:
-            st.caption(report_caption)
-        st.info(latest_ml_report.strip())
-    else:
-        st.caption(
-            "Scheduled ML forecast rankings will appear here after n8n writes "
-            "market_agent/reports/ml_forecast_rankings_latest.txt."
-        )
-except Exception as e:
-    st.caption(f"Scheduled ML forecast report unavailable: {e}")
+            st.caption(
+                "Scheduled ML forecast rankings will appear here after n8n writes "
+                "market_agent/reports/ml_forecast_rankings_latest.txt."
+            )
+    except Exception as e:
+        st.caption(f"Scheduled ML forecast report unavailable: {e}")
 
 st.markdown("---")
 
@@ -1399,7 +1413,9 @@ symbol = st.selectbox(
     key="symbol_select",
 )
 
-analysis_tab, money_tab = st.tabs(["📈 Market Analysis", "💼 Portfolio Balance"])
+# Re-use the previously created top-level tabs so Portfolio Balance stays at the very top
+analysis_tab = top_analysis_tab
+money_tab = top_portfolio_tab
 
 # --- Load data and backtest ---
 try:
@@ -1874,8 +1890,15 @@ try:
         metric_cols_2 = st.columns(4)
         metric_cols_2[0].metric("Bought $", f"${trade_summary['buy_notional']:,.2f}")
         metric_cols_2[1].metric("Sold $", f"${trade_summary['sell_notional']:,.2f}")
-        metric_cols_2[2].metric("Logged Gross Profit", f"${trade_summary['gross_profit']:,.2f}")
-        metric_cols_2[3].metric("Profit %", f"{trade_summary['profit_pct']:.2f}%")
+        metric_cols_2[2].metric("Open Position Shares", f"{trade_summary['position_qty']:.0f}")
+        metric_cols_2[3].metric("Open Position Value", f"${trade_summary['open_position_value']:,.2f}")
+
+        metric_cols_3 = st.columns(2)
+        metric_cols_3[0].metric("Estimated Total P/L", f"${trade_summary['estimated_total_pnl']:,.2f}")
+        metric_cols_3[1].metric("Estimated Total Return", f"{trade_summary['estimated_total_return_pct']:.2f}%")
+        st.caption(
+            "Estimated total P/L is mark-to-market: sells plus the current value of any open shares, minus logged buys."
+        )
 
     with money_tab:
         st.subheader("💹 Money Chart")
