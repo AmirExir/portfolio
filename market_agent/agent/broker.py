@@ -3,20 +3,37 @@ import os
 import requests
 import streamlit as st
 
-# Define consistent API base URL (ensure single /v2 root)
-BASE = st.secrets.get("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets/v2").rstrip("/")
+
+def _secret(name, default=None):
+    """Read Streamlit secrets when configured, otherwise fall back to env/default."""
+    try:
+        return st.secrets.get(name, os.getenv(name, default))
+    except Exception:
+        return os.getenv(name, default)
+
+
+def _base_url():
+    # Define consistent API base URL (ensure single /v2 root).
+    return _secret("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets/v2").rstrip("/")
+
 
 def _headers():
+    key = _secret("ALPACA_KEY")
+    secret = _secret("ALPACA_SECRET")
+    if not key or not secret:
+        raise ValueError("Alpaca API keys are not configured.")
+
     return {
-        "APCA-API-KEY-ID": st.secrets["ALPACA_KEY"],
-        "APCA-API-SECRET-KEY": st.secrets["ALPACA_SECRET"],
+        "APCA-API-KEY-ID": key,
+        "APCA-API-SECRET-KEY": secret,
         "Content-Type": "application/json",
     }
 
 def get_account():
     """Fetch account info safely."""
     try:
-        url = f"{BASE}/account"
+        base = _base_url()
+        url = f"{base}/account"
         r = requests.get(url, headers=_headers())
         if r.status_code == 200:
             return r.json()
@@ -24,7 +41,7 @@ def get_account():
             st.warning(f"⚠️ Alpaca API returned {r.status_code} for {url}: {r.text[:200]}")
             return {}
     except Exception as e:
-        st.error(f"⚠️ Error fetching account from {BASE}: {e}")
+        st.error(f"⚠️ Error fetching Alpaca account: {e}")
         return {}
 
 def submit_order(symbol, qty, side, type="market", tif="day", stop_price=None):
@@ -41,7 +58,7 @@ def submit_order(symbol, qty, side, type="market", tif="day", stop_price=None):
         payload["stop_price"] = str(stop_price)
 
     try:
-        url = f"{BASE}/orders"
+        url = f"{_base_url()}/orders"
         r = requests.post(url, headers=_headers(), json=payload)
         if r.status_code in [200, 201]:
             return r.json()
@@ -55,7 +72,8 @@ def submit_order(symbol, qty, side, type="market", tif="day", stop_price=None):
 def cancel_open_orders(symbol=None):
     """Cancel any open orders (optionally filtered by symbol)."""
     try:
-        url = f"{BASE}/orders"
+        base = _base_url()
+        url = f"{base}/orders"
         r = requests.get(url, headers=_headers())
         if r.status_code != 200:
             st.warning(f"⚠️ Failed to fetch open orders: {r.status_code} - {r.text[:200]}")
@@ -63,6 +81,6 @@ def cancel_open_orders(symbol=None):
         orders = r.json()
         for o in orders:
             if (symbol is None) or (o["symbol"].upper() == symbol.upper()):
-                requests.delete(f"{BASE}/orders/{o['id']}", headers=_headers())
+                requests.delete(f"{base}/orders/{o['id']}", headers=_headers())
     except Exception as e:
         st.error(f"⚠️ Error cancelling orders: {e}")
