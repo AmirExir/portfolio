@@ -358,6 +358,93 @@ def maybe_execute_auto_trade(
     return {"status": "executed", "entry": log_entry}
 
 
+def maybe_execute_auto_trade_ml(
+    symbol: str,
+    forecast_change_pct: float,
+    equity: float,
+    risk_fraction: float,
+    enabled: bool,
+    demo_mode: bool,
+) -> dict:
+    """Execute an auto trade based on the ML forecast direction (buy if positive, sell if negative).
+
+    Uses the same duplicate-protection state file but stores a separate ML action key.
+    """
+    if not enabled:
+        return {"status": "disabled"}
+
+    state = _read_trade_state()
+    signal_ts = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
+    direction = 1 if float(forecast_change_pct) > 0 else 0
+    action_key = f"ml:{signal_ts}:{direction}"
+    symbol_state = state.get(symbol, {})
+    if symbol_state.get("last_ml_action_key") == action_key:
+        return {"status": "skipped", "reason": "already executed ML action for today"}
+
+    last_price = None
+    try:
+        df = load_ohlcv(symbol, 5)
+        if not df.empty:
+            last_close = df["close"]
+            if isinstance(last_close, pd.DataFrame):
+                last_close = last_close.iloc[:, 0]
+            last_price = float(last_close.iloc[-1])
+    except Exception:
+        last_price = None
+
+    if last_price is None:
+        return {"status": "skipped", "reason": "no price available"}
+
+    suggested_qty = max(target_position_qty(float(equity), last_price, risk_fraction), 1)
+
+    if direction == 1:
+        action = "BUY"
+        side = "buy"
+        qty = int(suggested_qty)
+    else:
+        action = "SELL"
+        side = "sell"
+        qty = _alpaca_position_qty(symbol) if not demo_mode else int(suggested_qty)
+        qty = max(int(qty), 1)
+
+    if demo_mode:
+        order_result = {"demo": True, "symbol": symbol, "side": side, "qty": qty}
+    else:
+        order_result = submit_order(symbol, qty, side)
+
+    account_snapshot = {"equity": float(equity), "cash": None, "buying_power": None}
+    if not demo_mode:
+        live_snapshot = _fetch_live_account_snapshot()
+        if live_snapshot:
+            account_snapshot = live_snapshot
+
+    log_entry = {
+        "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "source": "auto_ml",
+        "symbol": symbol,
+        "action": action,
+        "side": side,
+        "qty": int(qty),
+        "price": round(last_price, 4),
+        "forecast_change_pct": float(forecast_change_pct),
+        "risk_fraction": float(risk_fraction),
+        "demo_mode": bool(demo_mode),
+        "equity_after": account_snapshot.get("equity"),
+        "cash_after": account_snapshot.get("cash"),
+        "buying_power_after": account_snapshot.get("buying_power"),
+        "order_result": order_result,
+    }
+    _append_trade_log(log_entry)
+
+    state[symbol] = symbol_state if symbol_state else {}
+    state[symbol]["last_ml_action_key"] = action_key
+    state[symbol]["last_ml_signal"] = direction
+    state[symbol]["last_ml_timestamp"] = log_entry["timestamp_utc"]
+    _write_trade_state(state)
+
+    return {"status": "executed", "entry": log_entry}
+
+
 st.set_page_config(page_title="📈 Market Agent Dashboard", layout="wide")
 
 st.title("🤖 Amir Exir Stock Market & Crypto AI Agent")
@@ -1048,6 +1135,12 @@ auto_trade_risk_fraction = st.sidebar.slider(
 )
 if auto_trade_enabled and demo_mode:
     st.sidebar.info("Auto trading enabled in demo mode: orders are simulated and still logged.")
+auto_trade_trigger = st.sidebar.selectbox(
+    "Auto-trade trigger",
+    ["SMA Crossover", "ML Forecast", "Either"],
+    index=0,
+    help="Choose whether to trigger auto-trades from SMA crossover, ML forecast direction, or either",
+)
 
 st.sidebar.header("🔮 ML Forecast Settings")
 history_options = {
@@ -1859,15 +1952,47 @@ try:
         st.write(f"**✨ Latest Signal:** {signal_emoji}")
         st.caption(f"Last updated {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M UTC}")
 
-        auto_trade_result = maybe_execute_auto_trade(
-            symbol=symbol,
-            sig=sig,
-            close_prices=actual_close,
-            equity=equity,
-            risk_fraction=auto_trade_risk_fraction,
-            enabled=auto_trade_enabled,
-            demo_mode=demo_mode,
-        )
+        auto_trade_result = {"status": "disabled"}
+        if auto_trade_enabled:
+            if auto_trade_trigger == "SMA Crossover":
+                auto_trade_result = maybe_execute_auto_trade(
+                    symbol=symbol,
+                    sig=sig,
+                    close_prices=actual_close,
+                    equity=equity,
+                    risk_fraction=auto_trade_risk_fraction,
+                    enabled=True,
+                    demo_mode=demo_mode,
+                )
+            elif auto_trade_trigger == "ML Forecast":
+                auto_trade_result = maybe_execute_auto_trade_ml(
+                    symbol=symbol,
+                    forecast_change_pct=forecast_change,
+                    equity=equity,
+                    risk_fraction=auto_trade_risk_fraction,
+                    enabled=True,
+                    demo_mode=demo_mode,
+                )
+            else:  # Either
+                # Try SMA first, then ML; both functions have their own duplicate protection
+                auto_trade_result = maybe_execute_auto_trade(
+                    symbol=symbol,
+                    sig=sig,
+                    close_prices=actual_close,
+                    equity=equity,
+                    risk_fraction=auto_trade_risk_fraction,
+                    enabled=True,
+                    demo_mode=demo_mode,
+                )
+                if auto_trade_result.get("status") != "executed":
+                    auto_trade_result = maybe_execute_auto_trade_ml(
+                        symbol=symbol,
+                        forecast_change_pct=forecast_change,
+                        equity=equity,
+                        risk_fraction=auto_trade_risk_fraction,
+                        enabled=True,
+                        demo_mode=demo_mode,
+                    )
         if auto_trade_result.get("status") == "executed":
             entry = auto_trade_result["entry"]
             mode_label = "Demo" if entry.get("demo_mode") else "Live"
