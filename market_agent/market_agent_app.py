@@ -207,6 +207,64 @@ def _money_history_from_trade_log(trade_log_df: pd.DataFrame, current_equity: fl
     return money_df.drop_duplicates(subset=["timestamp"], keep="last")
 
 
+def _trade_summary(trade_log_df: pd.DataFrame, symbol: str, current_price: float) -> dict:
+    if trade_log_df.empty:
+        return {
+            "buy_qty": 0,
+            "sell_qty": 0,
+            "buy_notional": 0.0,
+            "sell_notional": 0.0,
+            "avg_buy_price": np.nan,
+            "avg_sell_price": np.nan,
+            "gross_profit": 0.0,
+            "profit_pct": 0.0,
+        }
+
+    symbol_trades = trade_log_df.copy()
+    if "symbol" in symbol_trades.columns:
+        symbol_trades = symbol_trades[symbol_trades["symbol"] == symbol]
+    if symbol_trades.empty:
+        return {
+            "buy_qty": 0,
+            "sell_qty": 0,
+            "buy_notional": 0.0,
+            "sell_notional": 0.0,
+            "avg_buy_price": np.nan,
+            "avg_sell_price": np.nan,
+            "gross_profit": 0.0,
+            "profit_pct": 0.0,
+        }
+
+    if "qty" not in symbol_trades.columns:
+        symbol_trades["qty"] = 0
+    if "price" not in symbol_trades.columns:
+        symbol_trades["price"] = np.nan
+
+    buy_mask = symbol_trades["action"].astype(str).str.upper().eq("BUY")
+    sell_mask = symbol_trades["action"].astype(str).str.upper().eq("SELL")
+
+    buy_qty = float(pd.to_numeric(symbol_trades.loc[buy_mask, "qty"], errors="coerce").fillna(0).sum())
+    sell_qty = float(pd.to_numeric(symbol_trades.loc[sell_mask, "qty"], errors="coerce").fillna(0).sum())
+    buy_notional = float((pd.to_numeric(symbol_trades.loc[buy_mask, "qty"], errors="coerce").fillna(0) * pd.to_numeric(symbol_trades.loc[buy_mask, "price"], errors="coerce").fillna(current_price)).sum())
+    sell_notional = float((pd.to_numeric(symbol_trades.loc[sell_mask, "qty"], errors="coerce").fillna(0) * pd.to_numeric(symbol_trades.loc[sell_mask, "price"], errors="coerce").fillna(current_price)).sum())
+
+    avg_buy_price = buy_notional / buy_qty if buy_qty else np.nan
+    avg_sell_price = sell_notional / sell_qty if sell_qty else np.nan
+    gross_profit = sell_notional - buy_notional
+    profit_pct = (gross_profit / buy_notional * 100.0) if buy_notional else 0.0
+
+    return {
+        "buy_qty": buy_qty,
+        "sell_qty": sell_qty,
+        "buy_notional": buy_notional,
+        "sell_notional": sell_notional,
+        "avg_buy_price": avg_buy_price,
+        "avg_sell_price": avg_sell_price,
+        "gross_profit": gross_profit,
+        "profit_pct": profit_pct,
+    }
+
+
 def maybe_execute_auto_trade(
     symbol: str,
     sig: pd.Series,
