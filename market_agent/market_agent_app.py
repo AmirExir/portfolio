@@ -969,240 +969,7 @@ def fetch_latest_summary():
         # Silently fail and let the fallback handle it
         return None
 
-# Top-level tabs: Portfolio Balance first, then AI-Generated Market Summary, then Market Analysis
-top_portfolio_tab, top_summary_tab, top_analysis_tab = st.tabs([
-    "💼 Portfolio Balance",
-    "📰 AI-Generated Market Summary",
-    "📈 Market Analysis",
-])
-
-with top_summary_tab:
-    st.markdown("📰 AI-Generated Market Summary")
-    if st.button("🔄 Refresh News", help="Fetch the latest news from GitHub"):
-        st.cache_data.clear()
-        st.rerun()
-
-    try:
-        files = fetch_latest_summary()
-
-        # Fallback: If GitHub API fails, try reading from local directory (for Streamlit Cloud deployment)
-        if files is None:
-            st.info(" GitHub API unavailable. Using local files...")
-            local_dir = os.path.dirname(__file__) if __file__ else "."
-
-            try:
-                local_files = [f for f in os.listdir(local_dir) if is_timestamped_summary(f)]
-
-                if local_files:
-                    # Sort and get latest
-                    local_files_sorted = sorted(local_files, reverse=True)
-                    latest_local_file = local_files_sorted[0]
-
-                    with open(os.path.join(local_dir, latest_local_file), "r") as f:
-                        summary_text = f.read()
-
-                    caption = summary_timestamp_caption(latest_local_file)
-                    if caption:
-                        st.caption(caption)
-
-                    st.info(summary_text.strip())
-                else:
-                    st.warning("No local summary files found.")
-            except Exception as local_error:
-                st.error(f"Failed to read local files: {local_error}")
-        else:
-            # Filter timestamped summary files across years.
-            summary_files = [
-                f for f in files
-                if f.get("type") == "file"
-                and is_timestamped_summary(f.get("name", ""))
-            ]
-
-            if not summary_files:
-                st.info("No summary files found yet. The n8n workflow will create summary_*.txt files on first run.")
-            else:
-                # Sort by name descending to get the latest (ISO format sorts correctly)
-                summary_files_sorted = sorted(summary_files, key=lambda x: x["name"], reverse=True)
-                latest_file = summary_files_sorted[0]
-
-                # Extract timestamp from filename (format: summary_2026-05-01T11-00-28-733Z.txt)
-                filename = latest_file.get("name", "")
-                caption = summary_timestamp_caption(filename)
-                if caption:
-                    st.caption(caption)
-
-                download_url = latest_file.get("download_url")
-
-                if download_url:
-                    content_response = requests.get(download_url, timeout=10)
-                    content_response.raise_for_status()
-                    summary_decoded = content_response.text
-
-                    # Try parsing as JSON if it's not plain text
-                    try:
-                        maybe_json = json.loads(summary_decoded)
-                        if isinstance(maybe_json, dict):
-                            summary_text = maybe_json.get("content") or maybe_json.get("message") or str(maybe_json)
-                        elif isinstance(maybe_json, list):
-                            summary_text = "\n".join([str(item) for item in maybe_json])
-                        else:
-                            summary_text = str(maybe_json)
-                    except json.JSONDecodeError:
-                        summary_text = summary_decoded
-
-                    st.info(summary_text.strip())
-                else:
-                    st.warning(" Could not find download URL for the latest summary file.")
-    except Exception as e:
-        st.error(f"⚠️ Unable to load summary: {e}")
-        st.info("The news summary will be available when GitHub API or local files are accessible.")
-
-with top_analysis_tab:
-    try:
-        latest_ml_report = fetch_latest_ml_report()
-        if latest_ml_report:
-            st.markdown("🧠 Scheduled ML Forecast Rankings")
-            report_caption = report_generated_caption(latest_ml_report)
-            if report_caption:
-                st.caption(report_caption)
-            st.info(latest_ml_report.strip())
-        else:
-            st.caption(
-                "Scheduled ML forecast rankings will appear here after n8n writes "
-                "market_agent/reports/ml_forecast_rankings_latest.txt."
-            )
-    except Exception as e:
-        st.caption(f"Scheduled ML forecast report unavailable: {e}")
-
-st.markdown("---")
-
-#  Real-Time S&P 500 Heatmap (Market Cap Weighted + Labels)
-st.subheader("🧭 Real-Time S&P 500 Heatmap")
-
-# Timeframe selector
-sp_tf = st.selectbox(
-    "📉 Stock change timeframe",
-    ["1D", "7D", "1M", "3M", "1Y", "5Y"],
-    index=0,
-    key="stock_tf"
-)
-
-# Time-to-days map
-sp_days_map = {
-    "1D": 1,
-    "7D": 7,
-    "1M": 30,
-    "3M": 90,
-    "1Y": 365,
-    "5Y": 365 * 5,
-}
-
-lookback_days = sp_days_map[sp_tf]
-
-# S&P 500 sample tickers
-tickers = [
-    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
-    "UNH", "XOM", "V", "JNJ", "WMT", "PG", "KO", "HD", "BAC", "CVX",
-    "LLY", "PEP", "AVGO"
-]
-
-try:
-    df = load_stock_heatmap_data(tuple(tickers), lookback_days)
-    fig = px.treemap(
-        df,
-        path=["Ticker"],
-        values="Market Cap",
-        color="Percent Change",
-        color_continuous_scale="RdYlGn",
-        hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-        title=f"📊 S&P 500 Change ({sp_tf}) – Sized by Market Cap"
-    )
-
-    fig.update_traces(text=df["Label"])
-    st.plotly_chart(fig, use_container_width=True)
-
-except Exception as e:
-    st.error(f"Error generating heatmap: {e}")
-    st.info("Please try a different timeframe or check your network connection.")
-
-
-# ETF / commodity watchlist requested for broader market context
-st.subheader("🧾 ETF and Commodity Watchlist")
-
-watchlist_tickers = ["SPY", "VOO", "GLD", "SLV", "USO"]
-watchlist_labels = {
-    "SPY": "SPY",
-    "VOO": "VOO",
-    "GLD": "Gold (GLD)",
-    "SLV": "Silver (SLV)",
-    "USO": "Oil (USO)",
-}
-
-try:
-    watch_df = load_watchlist_heatmap_data(tuple(watchlist_tickers), watchlist_labels, lookback_days)
-    watch_fig = px.treemap(
-        watch_df,
-        path=["Label"],
-        values="Weight",
-        color="Percent Change",
-        color_continuous_scale="RdYlGn",
-        hover_data={"Percent Change": ":.2f"},
-        title=f"SPY, VOO, Gold, Silver, and Oil Change ({sp_tf})",
-    )
-    watch_fig.update_traces(text=watch_df["Display"])
-    st.plotly_chart(watch_fig, use_container_width=True)
-except Exception as e:
-    st.error(f"Error generating watchlist heatmap: {e}")
-
-
-# --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
-# --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
-st.subheader("🪙 Real-Time Crypto Heatmap")
-
-# Timeframe selector for crypto
-crypto_tf = st.selectbox(
-    "⏱️ Crypto change timeframe",
-    ["24H", "7D", "1M", "3M", "1Y", "5Y"],
-    index=0
-)
-
-# Map timeframe -> lookback in days
-tf_days_map = {
-    "24H": 1,
-    "7D": 7,
-    "1M": 30,
-    "3M": 90,
-    "1Y": 365,
-    "5Y": 365 * 5,
-}
-
-lookback_days = tf_days_map[crypto_tf]
-
-crypto_tickers = [
-    "BTC-USD", "ETH-USD", "BNB-USD", "SOL-USD", "XRP-USD", "ADA-USD",
-    "DOGE-USD", "AVAX-USD", "TON-USD", "DOT-USD"
-]
-
-try:
-    crypto_df = load_crypto_heatmap_data(tuple(crypto_tickers), lookback_days)
-    crypto_fig = px.treemap(
-        crypto_df,
-        path=["Symbol"],
-        values="Market Cap",
-        color="Percent Change",
-        color_continuous_scale="RdYlGn",
-        hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-        title=f"🪙 Crypto Change ({crypto_tf}) – Sized by Market Cap"
-    )
-
-    crypto_fig.update_traces(text=crypto_df["Label"])
-    st.plotly_chart(crypto_fig, use_container_width=True)
-
-except Exception as e:
-    st.error(f"Error generating crypto heatmap: {e}")
-
-
-# Owner Key unlock system
+# Sidebar: Owner key, Alpaca creds, account summary, strategy and forecast settings
 owner_key_input = st.sidebar.text_input("🔑 Enter Owner Key", type="password")
 OWNER_KEY = get_secret("OWNER_KEY", "")
 
@@ -1329,89 +1096,320 @@ if refresh_selected:
     st.session_state["symbol_refresh_nonce"] += 1
     st.rerun()
 
-# --- Quick Price + SMA Crossover View ---
-quick_symbol = st.selectbox(
-    "⚡ Quick chart symbol",
-    options=SYMBOL_OPTIONS,
-    index=SYMBOL_OPTIONS.index("AAPL"),
-    format_func=ticker_label,
-    key="quick_symbol_select",
-)
+# Top-level tabs: Portfolio Balance first, then AI-Generated Market Summary, then Market Analysis
+top_portfolio_tab, top_summary_tab, top_analysis_tab = st.tabs([
+    "💼 Portfolio Balance",
+    "📰 AI-Generated Market Summary",
+    "📈 Market Analysis",
+])
 
-st.subheader("⚡ Quick Price + SMA Crossover")
-try:
-    quick_df = load_ohlcv(quick_symbol, history_days)
-    st.plotly_chart(
-        build_quick_price_chart(quick_df, short_window, long_window, quick_symbol),
-        use_container_width=True,
-    )
-except Exception as quick_error:
-    quick_df = None
-    st.warning(f"Quick price chart unavailable: {quick_error}")
+with top_summary_tab:
+    st.markdown("📰 AI-Generated Market Summary")
+    if st.button("🔄 Refresh News", help="Fetch the latest news from GitHub"):
+        st.cache_data.clear()
+        st.rerun()
 
-# --- Compute ML Forecast Rankings After the quick view ---
-ranking_table = pd.DataFrame()
-ranking_errors: list[str] = []
-best_stock_for_analysis = "AAPL"
-
-if run_forecast_rankings and selected_forecast_symbols:
     try:
-        with st.spinner("Computing ML forecast rankings and optimization..."):
-            ranking_table, ranking_errors = cached_forecast_rankings(
-                tuple(selected_forecast_symbols),
-                history_days,
-                forecast_horizon,
-                forecast_lookback,
-                forecast_alpha,
-                optimize_forecast_model,
-                use_market_context,
-                primary_model_choice,
-                st.session_state["ranking_refresh_nonce"],
+        files = fetch_latest_summary()
+
+        # Fallback: If GitHub API fails, try reading from local directory (for Streamlit Cloud deployment)
+        if files is None:
+            st.info(" GitHub API unavailable. Using local files...")
+            local_dir = os.path.dirname(__file__) if __file__ else "."
+
+            try:
+                local_files = [f for f in os.listdir(local_dir) if is_timestamped_summary(f)]
+
+                if local_files:
+                    # Sort and get latest
+                    local_files_sorted = sorted(local_files, reverse=True)
+                    latest_local_file = local_files_sorted[0]
+
+                    with open(os.path.join(local_dir, latest_local_file), "r") as f:
+                        summary_text = f.read()
+
+                    caption = summary_timestamp_caption(latest_local_file)
+                    if caption:
+                        st.caption(caption)
+
+                    st.info(summary_text.strip())
+                else:
+                    st.warning("No local summary files found.")
+            except Exception as local_error:
+                st.error(f"Failed to read local files: {local_error}")
+        else:
+            # Filter timestamped summary files across years.
+            summary_files = [
+                f for f in files
+                if f.get("type") == "file"
+                and is_timestamped_summary(f.get("name", ""))
+            ]
+
+            if not summary_files:
+                st.info("No summary files found yet. The n8n workflow will create summary_*.txt files on first run.")
+            else:
+                # Sort by name descending to get the latest (ISO format sorts correctly)
+                summary_files_sorted = sorted(summary_files, key=lambda x: x["name"], reverse=True)
+                latest_file = summary_files_sorted[0]
+
+                # Extract timestamp from filename (format: summary_2026-05-01T11-00-28-733Z.txt)
+                filename = latest_file.get("name", "")
+                caption = summary_timestamp_caption(filename)
+                if caption:
+                    st.caption(caption)
+
+                download_url = latest_file.get("download_url")
+
+                if download_url:
+                    content_response = requests.get(download_url, timeout=10)
+                    content_response.raise_for_status()
+                    summary_decoded = content_response.text
+
+                    # Try parsing as JSON if it's not plain text
+                    try:
+                        maybe_json = json.loads(summary_decoded)
+                        if isinstance(maybe_json, dict):
+                            summary_text = maybe_json.get("content") or maybe_json.get("message") or str(maybe_json)
+                        elif isinstance(maybe_json, list):
+                            summary_text = "\n".join([str(item) for item in maybe_json])
+                        else:
+                            summary_text = str(maybe_json)
+                    except json.JSONDecodeError:
+                        summary_text = summary_decoded
+
+                    st.info(summary_text.strip())
+                else:
+                    st.warning(" Could not find download URL for the latest summary file.")
+    except Exception as e:
+        st.error(f"⚠️ Unable to load summary: {e}")
+        st.info("The news summary will be available when GitHub API or local files are accessible.")
+
+with top_analysis_tab:
+    try:
+        latest_ml_report = fetch_latest_ml_report()
+        if latest_ml_report:
+            st.markdown("🧠 Scheduled ML Forecast Rankings")
+            report_caption = report_generated_caption(latest_ml_report)
+            if report_caption:
+                st.caption(report_caption)
+            st.info(latest_ml_report.strip())
+        else:
+            st.caption(
+                "Scheduled ML forecast rankings will appear here after n8n writes "
+                "market_agent/reports/ml_forecast_rankings_latest.txt."
             )
-        best_stock_for_analysis = best_ranked_symbol(ranking_table, fallback="AAPL")
-    except Exception as ranking_error:
-        st.warning(f"Could not compute rankings initially: {ranking_error}")
-
-if run_forecast_rankings and not ranking_table.empty:
-    st.markdown("---")
-    st.subheader("🔎 ML Based Forecast Rankings (Early View)")
-
-    buy_candidates = ranking_table[ranking_table["Forecast Return %"] > 0]
-    sell_candidates = ranking_table[ranking_table["Forecast Return %"] < 0]
-    strongest_buy = buy_candidates.sort_values("Score", ascending=False).head(10)
-    strongest_sell = sell_candidates.sort_values("Score", ascending=True).head(10)
-
-    buy_col, sell_col = st.columns(2)
-    with buy_col:
-        st.markdown("**Strongest Buy Forecasts**")
-        if strongest_buy.empty:
-            st.info("No positive forecast candidates.")
-        else:
-            st.dataframe(format_ranking_table(strongest_buy), use_container_width=True)
-    with sell_col:
-        st.markdown("**Strongest Sell Forecasts**")
-        if strongest_sell.empty:
-            st.info("No negative forecast candidates.")
-        else:
-            st.dataframe(format_ranking_table(strongest_sell), use_container_width=True)
-
-    with st.expander("All forecast ranking results"):
-        st.dataframe(format_ranking_table(ranking_table.sort_values("Score", ascending=False)), use_container_width=True)
-
-    if ranking_errors:
-        with st.expander("Symbols skipped during forecast ranking"):
-            st.write("\n".join(ranking_errors))
+    except Exception as e:
+        st.caption(f"Scheduled ML forecast report unavailable: {e}")
 
     st.markdown("---")
 
-# --- Symbol input (defaults to best stock from rankings) ---
-symbol = st.selectbox(
-    "🏷️ Symbol",
-    options=SYMBOL_OPTIONS,
-    index=SYMBOL_OPTIONS.index(best_stock_for_analysis) if best_stock_for_analysis in SYMBOL_OPTIONS else SYMBOL_OPTIONS.index("AAPL"),
-    format_func=ticker_label,
-    key="symbol_select",
-)
+    #  Real-Time S&P 500 Heatmap (Market Cap Weighted + Labels)
+    st.subheader("🧭 Real-Time S&P 500 Heatmap")
+
+    # Timeframe selector
+    sp_tf = st.selectbox(
+        "📉 Stock change timeframe",
+        ["1D", "7D", "1M", "3M", "1Y", "5Y"],
+        index=0,
+        key="stock_tf"
+    )
+
+    # Time-to-days map
+    sp_days_map = {
+        "1D": 1,
+        "7D": 7,
+        "1M": 30,
+        "3M": 90,
+        "1Y": 365,
+        "5Y": 365 * 5,
+    }
+
+    lookback_days = sp_days_map[sp_tf]
+
+    # S&P 500 sample tickers
+    tickers = [
+        "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
+        "UNH", "XOM", "V", "JNJ", "WMT", "PG", "KO", "HD", "BAC", "CVX",
+        "LLY", "PEP", "AVGO"
+    ]
+
+    try:
+        df = load_stock_heatmap_data(tuple(tickers), lookback_days)
+        fig = px.treemap(
+            df,
+            path=["Ticker"],
+            values="Market Cap",
+            color="Percent Change",
+            color_continuous_scale="RdYlGn",
+            hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
+            title=f"📊 S&P 500 Change ({sp_tf}) – Sized by Market Cap"
+        )
+
+        fig.update_traces(text=df["Label"])
+        st.plotly_chart(fig, use_container_width=True)
+
+    except Exception as e:
+        st.error(f"Error generating heatmap: {e}")
+        st.info("Please try a different timeframe or check your network connection.")
+
+
+    # ETF / commodity watchlist requested for broader market context
+    st.subheader("🧾 ETF and Commodity Watchlist")
+
+    watchlist_tickers = ["SPY", "VOO", "GLD", "SLV", "USO"]
+    watchlist_labels = {
+        "SPY": "SPY",
+        "VOO": "VOO",
+        "GLD": "Gold (GLD)",
+        "SLV": "Silver (SLV)",
+        "USO": "Oil (USO)",
+    }
+
+    try:
+        watch_df = load_watchlist_heatmap_data(tuple(watchlist_tickers), watchlist_labels, lookback_days)
+        watch_fig = px.treemap(
+            watch_df,
+            path=["Label"],
+            values="Weight",
+            color="Percent Change",
+            color_continuous_scale="RdYlGn",
+            hover_data={"Percent Change": ":.2f"},
+            title=f"SPY, VOO, Gold, Silver, and Oil Change ({sp_tf})",
+        )
+        watch_fig.update_traces(text=watch_df["Display"])
+        st.plotly_chart(watch_fig, use_container_width=True)
+    except Exception as e:
+        st.error(f"Error generating watchlist heatmap: {e}")
+
+
+    # --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
+    st.subheader("🪙 Real-Time Crypto Heatmap")
+
+    # Timeframe selector for crypto
+    crypto_tf = st.selectbox(
+        "⏱️ Crypto change timeframe",
+        ["24H", "7D", "1M", "3M", "1Y", "5Y"],
+        index=0
+    )
+
+    # Map timeframe -> lookback in days
+    tf_days_map = {
+        "24H": 1,
+        "7D": 7,
+        "1M": 30,
+        "3M": 90,
+        "1Y": 365,
+        "5Y": 365 * 5,
+    }
+
+    lookback_days = tf_days_map[crypto_tf]
+
+    crypto_tickers = [
+        "BTC-USD", "ETH-USD", "BNB-USD", "SOL-USD", "XRP-USD", "ADA-USD",
+        "DOGE-USD", "AVAX-USD", "TON-USD", "DOT-USD"
+    ]
+
+    try:
+        crypto_df = load_crypto_heatmap_data(tuple(crypto_tickers), lookback_days)
+        crypto_fig = px.treemap(
+            crypto_df,
+            path=["Symbol"],
+            values="Market Cap",
+            color="Percent Change",
+            color_continuous_scale="RdYlGn",
+            hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
+            title=f"🪙 Crypto Change ({crypto_tf}) – Sized by Market Cap"
+        )
+
+        crypto_fig.update_traces(text=crypto_df["Label"])
+        st.plotly_chart(crypto_fig, use_container_width=True)
+
+    except Exception as e:
+        st.error(f"Error generating crypto heatmap: {e}")
+
+    # --- Quick Price + SMA Crossover View ---
+    quick_symbol = st.selectbox(
+        "⚡ Quick chart symbol",
+        options=SYMBOL_OPTIONS,
+        index=SYMBOL_OPTIONS.index("AAPL"),
+        format_func=ticker_label,
+        key="quick_symbol_select",
+    )
+
+    st.subheader("⚡ Quick Price + SMA Crossover")
+    try:
+        quick_df = load_ohlcv(quick_symbol, history_days)
+        st.plotly_chart(
+            build_quick_price_chart(quick_df, short_window, long_window, quick_symbol),
+            use_container_width=True,
+        )
+    except Exception as quick_error:
+        quick_df = None
+        st.warning(f"Quick price chart unavailable: {quick_error}")
+
+    # --- Compute ML Forecast Rankings After the quick view ---
+    ranking_table = pd.DataFrame()
+    ranking_errors: list[str] = []
+    best_stock_for_analysis = "AAPL"
+
+    if run_forecast_rankings and selected_forecast_symbols:
+        try:
+            with st.spinner("Computing ML forecast rankings and optimization..."):
+                ranking_table, ranking_errors = cached_forecast_rankings(
+                    tuple(selected_forecast_symbols),
+                    history_days,
+                    forecast_horizon,
+                    forecast_lookback,
+                    forecast_alpha,
+                    optimize_forecast_model,
+                    use_market_context,
+                    primary_model_choice,
+                    st.session_state["ranking_refresh_nonce"],
+                )
+            best_stock_for_analysis = best_ranked_symbol(ranking_table, fallback="AAPL")
+        except Exception as ranking_error:
+            st.warning(f"Could not compute rankings initially: {ranking_error}")
+
+    if run_forecast_rankings and not ranking_table.empty:
+        st.markdown("---")
+        st.subheader("🔎 ML Based Forecast Rankings (Early View)")
+
+        buy_candidates = ranking_table[ranking_table["Forecast Return %"] > 0]
+        sell_candidates = ranking_table[ranking_table["Forecast Return %"] < 0]
+        strongest_buy = buy_candidates.sort_values("Score", ascending=False).head(10)
+        strongest_sell = sell_candidates.sort_values("Score", ascending=True).head(10)
+
+        buy_col, sell_col = st.columns(2)
+        with buy_col:
+            st.markdown("**Strongest Buy Forecasts**")
+            if strongest_buy.empty:
+                st.info("No positive forecast candidates.")
+            else:
+                st.dataframe(format_ranking_table(strongest_buy), use_container_width=True)
+        with sell_col:
+            st.markdown("**Strongest Sell Forecasts**")
+            if strongest_sell.empty:
+                st.info("No negative forecast candidates.")
+            else:
+                st.dataframe(format_ranking_table(strongest_sell), use_container_width=True)
+
+        with st.expander("All forecast ranking results"):
+            st.dataframe(format_ranking_table(ranking_table.sort_values("Score", ascending=False)), use_container_width=True)
+
+        if ranking_errors:
+            with st.expander("Symbols skipped during forecast ranking"):
+                st.write("\n".join(ranking_errors))
+
+        st.markdown("---")
+
+    # --- Symbol input (defaults to best stock from rankings) ---
+    symbol = st.selectbox(
+        "🏷️ Symbol",
+        options=SYMBOL_OPTIONS,
+        index=SYMBOL_OPTIONS.index(best_stock_for_analysis) if best_stock_for_analysis in SYMBOL_OPTIONS else SYMBOL_OPTIONS.index("AAPL"),
+        format_func=ticker_label,
+        key="symbol_select",
+    )
 
 # Re-use the previously created top-level tabs so Portfolio Balance stays at the very top
 analysis_tab = top_analysis_tab
