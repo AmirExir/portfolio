@@ -1863,9 +1863,13 @@ try:
     
     with analysis_tab:
         st.subheader("📈 Actual Value, ML Based Forecast, and Crossover Strategy")
+        forecast_change = 0.0
+        ml_forecast_available = False
         try:
             if forecast_work_paused:
                 raise RuntimeError("ML forecast calculations are paused from the sidebar.")
+            if not run_symbol_forecast:
+                raise RuntimeError("Enable 'Run selected-symbol ML forecast' in the sidebar to calculate ML overlays.")
             model_results = cached_model_results(
                 symbol,
                 history_days,
@@ -1886,6 +1890,7 @@ try:
                 raise ValueError("No forecast model produced a usable forecast.")
 
             forecast_result = model_results[primary_model]
+            ml_forecast_available = True
             forecast_df = forecast_result.forecast
             historical_result = None
             historical_forecasts = pd.DataFrame()
@@ -2188,7 +2193,13 @@ try:
                 st.dataframe(display_forecast)
         except Exception as forecast_error:
             st.line_chart(actual_close)
-            st.warning(f"ML forecast unavailable: {forecast_error}")
+            forecast_error_text = str(forecast_error)
+            if forecast_error_text.startswith("Enable 'Run selected-symbol ML forecast'"):
+                st.info(forecast_error_text)
+            elif "paused from the sidebar" in forecast_error_text:
+                st.info(forecast_error_text)
+            else:
+                st.warning(f"ML forecast unavailable: {forecast_error}")
 
         st.subheader("🧾 Paper Trading Controls")
         trade_log_df = load_trade_log(limit=500)
