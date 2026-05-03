@@ -124,13 +124,17 @@ If you want the scheduled node to precompute the optimized model comparison for 
 --top-n 5
 --no-market-context
 --no-optimize
+--force-retrain
+--model-cache-max-age-days 7
+--include-rl-policy
 --show-timing
 --json-only
 ```
 
 Use `--sequence-model both` for the slower overnight run that trains both LSTM and Transformer. You can also use `--sequence-model lstm` or `--sequence-model transformer` to run only one deep sequence model. If you want the report text and Telegram message to stay clean, omit `--show-timing`; timing details are still saved in the JSON file.
 
-The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, Neural Net, optional LSTM/Transformer, and Ensemble forecast comparison used in the Streamlit app.
+The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, Neural Net, optional LSTM/Transformer, optional RL Policy, and Ensemble forecast comparison used in the Streamlit app.
+Model weights are persisted under `market_agent/reports/model_weights/`: Ridge updates saved sufficient statistics, XGBoost continues from its saved booster, LSTM/Transformer reload saved PyTorch weights and fine-tune on new labeled samples, and RL Policy updates a saved Q-table. Use `--force-retrain` when you want to ignore saved weights and rebuild from scratch.
 If you omit `--symbols`, the script uses the full default stock, ETF, commodity, crypto, and meme-crypto universe from the app.
 The text report and JSON rows include the recognized primary pattern, validation MAE, direction hit rate, and per-model returns for each ranked ticker, so the n8n summary and website table can describe the same pick.
 The JSON payload includes all model snapshots per symbol, which makes it usable by the app and by an LLM-driven n8n branch without rerunning forecasts.

@@ -1,5 +1,9 @@
 from dataclasses import dataclass
+import hashlib
 from math import erf, sqrt
+import os
+from pathlib import Path
+import pickle
 import warnings
 
 import numpy as np
@@ -25,6 +29,9 @@ except Exception:  # pragma: no cover - optional dependency fallback
     nn = None
 
 
+MODEL_WEIGHT_ARTIFACT_VERSION = 1
+
+
 @dataclass(frozen=True)
 class ForecastResult:
     forecast: pd.DataFrame
@@ -46,6 +53,10 @@ def forecast_close_prices(
     optimize_model: bool = True,
     model_type: str = "ridge",
     context_df: pd.DataFrame | None = None,
+    symbol: str | None = None,
+    warm_start: bool = True,
+    force_retrain: bool = False,
+    model_artifact_dir: str | Path | None = None,
 ) -> ForecastResult:
     """
     Forecast future close prices from the OHLCV frame already loaded by the app.
@@ -92,7 +103,19 @@ def forecast_close_prices(
     if len(y) < 20:
         raise ValueError("Not enough training samples for ML forecasting.")
 
-    model = _fit_model(x, y, ridge_alpha, model_type)
+    model = _fit_model(
+        x,
+        y,
+        ridge_alpha,
+        model_type,
+        symbol=symbol,
+        horizon_days=horizon_days,
+        lookback_window=lookback_window,
+        optimize_model=optimize_model,
+        warm_start=warm_start,
+        force_retrain=force_retrain,
+        artifact_dir=model_artifact_dir,
+    )
     latest_features = _latest_features_for_model(log_returns, extra_feature_arrays, len(log_returns), lookback_window, model_type)
     raw_horizon_return = float(_predict_row(latest_features, model))
     raw_horizon_return = _clip_horizon_return(raw_horizon_return, y)
@@ -140,6 +163,7 @@ def forecast_close_prices(
     metrics["selected_lookback_window"] = int(lookback_window)
     metrics["selected_ridge_alpha"] = float(ridge_alpha)
     metrics["training_samples"] = int(len(y))
+    metrics.update(model.get("training_metadata", {}))
 
     return ForecastResult(
         forecast=forecast,
@@ -255,6 +279,11 @@ def compare_forecast_models(
     optimize_model: bool = True,
     context_df: pd.DataFrame | None = None,
     sequence_model: str = "off",
+    symbol: str | None = None,
+    warm_start: bool = True,
+    force_retrain: bool = False,
+    model_artifact_dir: str | Path | None = None,
+    include_rl: bool = False,
 ) -> dict[str, ForecastResult]:
     """Run baseline models plus an optional LSTM/Transformer sequence model."""
     results = {}
@@ -266,6 +295,10 @@ def compare_forecast_models(
         optimize_model=optimize_model,
         model_type="ridge",
         context_df=context_df,
+        symbol=symbol,
+        warm_start=warm_start,
+        force_retrain=force_retrain,
+        model_artifact_dir=model_artifact_dir,
     )
 
     if XGBRegressor is not None:
@@ -278,6 +311,10 @@ def compare_forecast_models(
                 optimize_model=optimize_model,
                 model_type="xgboost",
                 context_df=context_df,
+                symbol=symbol,
+                warm_start=warm_start,
+                force_retrain=force_retrain,
+                model_artifact_dir=model_artifact_dir,
             )
         except Exception as exc:
             results["XGBoost"] = _unavailable_result("xgboost unavailable", exc)
@@ -294,6 +331,10 @@ def compare_forecast_models(
                 optimize_model=optimize_model,
                 model_type="neural_net",
                 context_df=context_df,
+                symbol=symbol,
+                warm_start=warm_start,
+                force_retrain=force_retrain,
+                model_artifact_dir=model_artifact_dir,
             )
         except Exception as exc:
             results["Neural Net"] = _unavailable_result("neural net unavailable", exc)
@@ -310,9 +351,27 @@ def compare_forecast_models(
                 optimize_model=optimize_model,
                 model_type=model_key,
                 context_df=context_df,
+                symbol=symbol,
+                warm_start=warm_start,
+                force_retrain=force_retrain,
+                model_artifact_dir=model_artifact_dir,
             )
         except Exception as exc:
             results[display_name] = _unavailable_result(f"{display_name.lower()} unavailable", exc)
+
+    if include_rl:
+        try:
+            results["RL Policy"] = reinforcement_policy_forecast(
+                df,
+                horizon_days=horizon_days,
+                lookback_window=lookback_window,
+                symbol=symbol,
+                warm_start=warm_start,
+                force_retrain=force_retrain,
+                artifact_dir=model_artifact_dir,
+            )
+        except Exception as exc:
+            results["RL Policy"] = _unavailable_result("rl policy unavailable", exc)
 
     available_components = {
         name: result
@@ -323,6 +382,114 @@ def compare_forecast_models(
         results["Ensemble"] = _ensemble_result(available_components)
 
     return results
+
+
+def reinforcement_policy_forecast(
+    df: pd.DataFrame,
+    horizon_days: int = 30,
+    lookback_window: int = 20,
+    symbol: str | None = None,
+    warm_start: bool = True,
+    force_retrain: bool = False,
+    artifact_dir: str | Path | None = None,
+) -> ForecastResult:
+    close = _clean_close(df)
+    horizon_days = max(1, int(horizon_days))
+    lookback_window = max(5, int(lookback_window))
+    log_returns = np.diff(np.log(close.to_numpy(dtype=float)))
+    states, targets = _rl_training_data(log_returns, lookback_window, horizon_days)
+    if len(targets) < 35:
+        raise ValueError("Not enough training samples for RL policy forecasting.")
+
+    artifact_path = None
+    artifact = {}
+    if warm_start and symbol:
+        artifact_path = _model_weight_artifact_path(
+            symbol=symbol,
+            model_type="rl_policy",
+            horizon_days=horizon_days,
+            lookback_window=lookback_window,
+            alpha=0.0,
+            optimize_model=False,
+            x_shape=states.shape,
+            artifact_dir=artifact_dir,
+        )
+        if not force_retrain:
+            artifact = _load_model_weight_artifact(artifact_path)
+
+    q_table = {}
+    previous_samples = 0
+    mode = "full_fit"
+    if artifact and _artifact_training_prefix_matches(artifact, states, targets):
+        q_table = {
+            key: np.asarray(value, dtype=float)
+            for key, value in (artifact.get("q_table") or {}).items()
+        }
+        previous_samples = int(artifact.get("training_samples", 0) or 0)
+        mode = "incremental_q_update" if len(targets) > previous_samples else "reused_artifact"
+
+    start_index = previous_samples if q_table and previous_samples < len(targets) else 0 if not q_table else len(targets)
+    if start_index < len(targets):
+        _update_rl_q_table(q_table, states, targets, start_index=start_index)
+
+    latest_state = _rl_state_from_window(log_returns[-lookback_window:])
+    q_values = q_table.get(_rl_state_key(latest_state), np.zeros(3, dtype=float))
+    action_index = int(np.argmax(q_values))
+    action_name = ["short", "hold", "long"][action_index]
+    if action_index == 2:
+        raw_horizon_return = float(q_values[2])
+    elif action_index == 0:
+        raw_horizon_return = float(-q_values[0])
+    else:
+        raw_horizon_return = 0.0
+    horizon_return = _clip_horizon_return(raw_horizon_return, targets)
+
+    predicted_targets = np.asarray([_rl_forecast_for_state(q_table, state) for state in states], dtype=float)
+    errors_pct = (np.expm1(predicted_targets) - np.expm1(targets)) * 100.0
+    holdout_size = min(max(8, int(len(targets) * 0.25)), len(targets) - 20)
+    holdout_errors = errors_pct[-holdout_size:] if holdout_size > 0 else errors_pct
+    holdout_predicted = predicted_targets[-holdout_size:] if holdout_size > 0 else predicted_targets
+    holdout_actual = targets[-holdout_size:] if holdout_size > 0 else targets
+    residual_std = float(np.std(targets - predicted_targets, ddof=1)) if len(targets) > 1 else 1e-6
+    residual_std = max(residual_std, 1e-6)
+
+    metrics = {
+        "holdout_direction_accuracy": float((np.sign(holdout_predicted) == np.sign(holdout_actual)).mean() * 100.0),
+        "holdout_mae_pct": float(np.abs(holdout_errors).mean()),
+        "holdout_rmse_pct": float(np.sqrt(np.square(holdout_errors).mean())),
+        "holdout_bias_pct": float(holdout_errors.mean()),
+        "holdout_samples": int(len(holdout_actual)),
+        "selected_lookback_window": int(lookback_window),
+        "selected_ridge_alpha": 0.0,
+        "training_samples": int(len(targets)),
+        "model_training_mode": mode,
+        "warm_start_used": bool(q_table and previous_samples > 0),
+        "new_labeled_samples": int(max(len(targets) - previous_samples, 0)) if previous_samples else int(len(targets)),
+        "rl_action": action_name,
+        "rl_q_short": float(q_values[0]),
+        "rl_q_hold": float(q_values[1]),
+        "rl_q_long": float(q_values[2]),
+    }
+    result = _forecast_from_horizon_return(
+        close=close,
+        horizon_days=horizon_days,
+        horizon_return=horizon_return,
+        raw_horizon_return=raw_horizon_return,
+        residual_std=residual_std,
+        metrics=metrics,
+        model_name="warm-start tabular Q-learning trading policy",
+    )
+
+    if artifact_path is not None:
+        model = {
+            "kind": "rl_policy",
+            "q_table": {key: value.tolist() for key, value in q_table.items()},
+            "residual_std": residual_std,
+            "training_metadata": result.metrics,
+        }
+        _save_model_weight_artifact(artifact_path, model, states, targets, symbol or "", "rl_policy")
+        result.metrics["model_artifact_path"] = str(artifact_path)
+    return result
 
 
 def _unavailable_result(model_name: str, error: Exception | str) -> ForecastResult:
@@ -650,7 +817,231 @@ def _summary_features(window: np.ndarray) -> np.ndarray:
     return summary_features
 
 
-def _fit_ridge(x: np.ndarray, y: np.ndarray, alpha: float) -> dict:
+def _model_weight_root(artifact_dir: str | Path | None = None) -> Path:
+    configured = artifact_dir or os.getenv("MARKET_AGENT_MODEL_WEIGHT_DIR")
+    if configured:
+        return Path(configured)
+    return Path(__file__).resolve().parents[1] / "reports" / "model_weights"
+
+
+def _model_weight_artifact_path(
+    symbol: str,
+    model_type: str,
+    horizon_days: int | None,
+    lookback_window: int | None,
+    alpha: float,
+    optimize_model: bool,
+    x_shape: tuple[int, ...],
+    artifact_dir: str | Path | None = None,
+) -> Path:
+    feature_shape = tuple(int(value) for value in x_shape[1:])
+    payload = {
+        "artifact_version": MODEL_WEIGHT_ARTIFACT_VERSION,
+        "symbol": str(symbol),
+        "model_type": str(model_type),
+        "horizon_days": int(horizon_days or 0),
+        "lookback_window": int(lookback_window or 0),
+        "alpha": round(float(alpha), 8),
+        "optimize_model": bool(optimize_model),
+        "feature_shape": feature_shape,
+    }
+    digest = hashlib.sha256(repr(sorted(payload.items())).encode("utf-8")).hexdigest()[:18]
+    safe_symbol = "".join(ch if ch.isalnum() else "_" for ch in str(symbol).upper()).strip("_") or "SYMBOL"
+    return _model_weight_root(artifact_dir) / safe_symbol / f"{model_type}_{digest}.pkl"
+
+
+def _training_hash(x: np.ndarray, y: np.ndarray) -> str:
+    x_arr = np.asarray(x, dtype=np.float64)
+    y_arr = np.asarray(y, dtype=np.float64)
+    digest = hashlib.sha256()
+    digest.update(str(x_arr.shape).encode("utf-8"))
+    digest.update(np.ascontiguousarray(np.round(x_arr, 12)).tobytes())
+    digest.update(str(y_arr.shape).encode("utf-8"))
+    digest.update(np.ascontiguousarray(np.round(y_arr, 12)).tobytes())
+    return digest.hexdigest()
+
+
+def _artifact_training_prefix_matches(artifact: dict | None, x: np.ndarray, y: np.ndarray) -> bool:
+    if not artifact:
+        return False
+    previous_samples = int(artifact.get("training_samples", 0) or 0)
+    if previous_samples <= 0 or previous_samples > len(y):
+        return False
+    if artifact.get("feature_shape") != tuple(int(value) for value in np.asarray(x).shape[1:]):
+        return False
+    previous_hash = artifact.get("training_hash")
+    if not previous_hash:
+        return False
+    return previous_hash == _training_hash(x[:previous_samples], y[:previous_samples])
+
+
+def _load_model_weight_artifact(path: Path) -> dict:
+    try:
+        if not path.exists():
+            return {}
+        with path.open("rb") as handle:
+            artifact = pickle.load(handle)
+        if int(artifact.get("artifact_version", 0)) != MODEL_WEIGHT_ARTIFACT_VERSION:
+            return {}
+        return artifact
+    except Exception:
+        return {}
+
+
+def _save_model_weight_artifact(
+    path: Path,
+    model: dict,
+    x: np.ndarray,
+    y: np.ndarray,
+    symbol: str,
+    model_type: str,
+) -> None:
+    artifact = {
+        "artifact_version": MODEL_WEIGHT_ARTIFACT_VERSION,
+        "symbol": str(symbol),
+        "model_type": str(model_type),
+        "feature_shape": tuple(int(value) for value in np.asarray(x).shape[1:]),
+        "training_samples": int(len(y)),
+        "training_hash": _training_hash(x, y),
+        "residual_std": float(model.get("residual_std", 0.0)),
+        "training_metadata": dict(model.get("training_metadata", {})),
+    }
+
+    for key in [
+        "kind",
+        "beta",
+        "x_mean",
+        "x_std",
+        "y_mean",
+        "y_std",
+        "ridge_stats",
+        "sequence_length",
+        "feature_count",
+        "model",
+        "q_table",
+        "rl_counts",
+    ]:
+        if key in model:
+            artifact[key] = model[key]
+
+    if torch is not None and model.get("kind") in {"lstm", "transformer"} and "model" in model:
+        artifact["state_dict"] = {
+            key: value.detach().cpu()
+            for key, value in model["model"].state_dict().items()
+        }
+        artifact.pop("model", None)
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("wb") as handle:
+        pickle.dump(artifact, handle)
+
+
+def _ridge_stats_from_xy(x: np.ndarray, y: np.ndarray) -> dict:
+    x = np.asarray(x, dtype=float)
+    y = np.asarray(y, dtype=float)
+    return {
+        "n": int(len(y)),
+        "x_sum": x.sum(axis=0),
+        "x_square_sum": np.square(x).sum(axis=0),
+        "xtx_raw": x.T @ x,
+        "xty_raw": x.T @ y,
+        "y_sum": float(y.sum()),
+        "yy_sum": float(np.dot(y, y)),
+    }
+
+
+def _append_ridge_stats(stats: dict, x: np.ndarray, y: np.ndarray) -> dict:
+    updated = {key: np.array(value, copy=True) if isinstance(value, np.ndarray) else value for key, value in stats.items()}
+    tail_stats = _ridge_stats_from_xy(x, y)
+    updated["n"] = int(updated["n"]) + int(tail_stats["n"])
+    for key in ["x_sum", "x_square_sum", "xtx_raw", "xty_raw"]:
+        updated[key] = updated[key] + tail_stats[key]
+    updated["y_sum"] = float(updated["y_sum"]) + float(tail_stats["y_sum"])
+    updated["yy_sum"] = float(updated["yy_sum"]) + float(tail_stats["yy_sum"])
+    return updated
+
+
+def _fit_ridge_from_stats(stats: dict, alpha: float) -> dict:
+    n = int(stats["n"])
+    x_sum = np.asarray(stats["x_sum"], dtype=float)
+    x_square_sum = np.asarray(stats["x_square_sum"], dtype=float)
+    xtx_raw = np.asarray(stats["xtx_raw"], dtype=float)
+    xty_raw = np.asarray(stats["xty_raw"], dtype=float)
+    y_sum = float(stats["y_sum"])
+    yy_sum = float(stats["yy_sum"])
+
+    x_mean = x_sum / float(n)
+    variance = np.maximum(x_square_sum / float(n) - np.square(x_mean), 0.0)
+    x_std = np.sqrt(variance)
+    x_std[x_std == 0] = 1.0
+
+    centered_xtx = xtx_raw - np.outer(x_sum, x_mean) - np.outer(x_mean, x_sum) + n * np.outer(x_mean, x_mean)
+    scaled_xtx = centered_xtx / np.outer(x_std, x_std)
+    centered_xty = xty_raw - x_mean * y_sum
+    scaled_xty = centered_xty / x_std
+
+    ztz = np.empty((scaled_xtx.shape[0] + 1, scaled_xtx.shape[1] + 1), dtype=float)
+    ztz[0, 0] = n
+    ztz[0, 1:] = 0.0
+    ztz[1:, 0] = 0.0
+    ztz[1:, 1:] = scaled_xtx
+    zty = np.concatenate([[y_sum], scaled_xty])
+    penalty = np.eye(ztz.shape[0])
+    penalty[0, 0] = 0.0
+    lhs = ztz + float(alpha) * penalty
+    try:
+        beta = np.linalg.solve(lhs, zty)
+    except np.linalg.LinAlgError:
+        beta = np.linalg.pinv(lhs) @ zty
+
+    sse = yy_sum - 2.0 * float(beta @ zty) + float(beta @ ztz @ beta)
+    denominator = max(n - 1, 1)
+    residual_std = float(np.sqrt(max(sse / denominator, 0.0)))
+    return {
+        "kind": "ridge",
+        "beta": beta,
+        "x_mean": x_mean,
+        "x_std": x_std,
+        "residual_std": residual_std,
+        "ridge_stats": stats,
+    }
+
+
+def _fit_ridge_warm_start(x: np.ndarray, y: np.ndarray, alpha: float, artifact: dict) -> dict | None:
+    if artifact.get("kind") != "ridge":
+        return None
+    if not _artifact_training_prefix_matches(artifact, x, y):
+        return None
+    previous_samples = int(artifact.get("training_samples", 0) or 0)
+    stats = artifact.get("ridge_stats")
+    if not stats:
+        return None
+    if previous_samples < len(y):
+        stats = _append_ridge_stats(stats, x[previous_samples:], y[previous_samples:])
+        mode = "incremental_stats_update"
+    else:
+        mode = "reused_artifact"
+    model = _fit_ridge_from_stats(stats, alpha)
+    model["training_metadata"] = {
+        "model_training_mode": mode,
+        "warm_start_used": True,
+        "new_labeled_samples": int(max(len(y) - previous_samples, 0)),
+    }
+    return model
+
+
+def _fit_ridge(
+    x: np.ndarray,
+    y: np.ndarray,
+    alpha: float,
+    artifact: dict | None = None,
+    force_full_fit: bool = False,
+) -> dict:
+    if artifact and not force_full_fit:
+        warm_model = _fit_ridge_warm_start(x, y, alpha, artifact)
+        if warm_model is not None:
+            return warm_model
+
     x_mean = x.mean(axis=0)
     x_std = x.std(axis=0)
     x_std[x_std == 0] = 1.0
@@ -677,15 +1068,62 @@ def _fit_ridge(x: np.ndarray, y: np.ndarray, alpha: float) -> dict:
         "x_mean": x_mean,
         "x_std": x_std,
         "residual_std": residual_std,
+        "ridge_stats": _ridge_stats_from_xy(x, y),
+        "training_metadata": {
+            "model_training_mode": "full_fit",
+            "warm_start_used": False,
+            "new_labeled_samples": int(len(y)),
+        },
     }
 
 
-def _fit_xgboost(x: np.ndarray, y: np.ndarray, reg_lambda: float) -> dict:
+def _fit_xgboost(
+    x: np.ndarray,
+    y: np.ndarray,
+    reg_lambda: float,
+    artifact: dict | None = None,
+    force_full_fit: bool = False,
+) -> dict:
     if XGBRegressor is None:
         raise ValueError("XGBoost package is not installed.")
 
+    previous_model = None
+    previous_samples = 0
+    warm_start_mode = "full_fit"
+    if artifact and not force_full_fit and _artifact_training_prefix_matches(artifact, x, y):
+        previous_model = artifact.get("model")
+        previous_samples = int(artifact.get("training_samples", 0) or 0)
+
+    if previous_model is not None and previous_samples > 0 and previous_samples <= len(y):
+        new_samples = len(y) - previous_samples
+        if new_samples <= 0:
+            fitted = previous_model.predict(x)
+            residuals = y - fitted
+            residual_std = residuals.std(ddof=1) if len(residuals) > 1 else residuals.std(ddof=0)
+            return {
+                "kind": "xgboost",
+                "model": previous_model,
+                "residual_std": residual_std,
+                "training_metadata": {
+                    "model_training_mode": "reused_artifact",
+                    "warm_start_used": True,
+                    "new_labeled_samples": 0,
+                },
+            }
+
+        fine_tune_start = max(0, previous_samples - 30)
+        fit_x = x[fine_tune_start:]
+        fit_y = y[fine_tune_start:]
+        warm_start_mode = "warm_booster_update"
+        n_estimators = 24
+    else:
+        fit_x = x
+        fit_y = y
+        new_samples = len(y)
+        n_estimators = 90
+
     model = XGBRegressor(
-        n_estimators=90,
+        n_estimators=n_estimators,
         max_depth=2,
         learning_rate=0.04,
         subsample=0.9,
@@ -696,7 +1134,10 @@ def _fit_xgboost(x: np.ndarray, y: np.ndarray, reg_lambda: float) -> dict:
         random_state=7,
         n_jobs=1,
     )
-    model.fit(x, y)
+    if previous_model is not None and warm_start_mode == "warm_booster_update":
+        model.fit(fit_x, fit_y, xgb_model=previous_model.get_booster())
+    else:
+        model.fit(fit_x, fit_y)
     fitted = model.predict(x)
     residuals = y - fitted
     residual_std = residuals.std(ddof=1) if len(residuals) > 1 else residuals.std(ddof=0)
@@ -704,10 +1145,21 @@ def _fit_xgboost(x: np.ndarray, y: np.ndarray, reg_lambda: float) -> dict:
         "kind": "xgboost",
         "model": model,
         "residual_std": residual_std,
+        "training_metadata": {
+            "model_training_mode": warm_start_mode,
+            "warm_start_used": warm_start_mode != "full_fit",
+            "new_labeled_samples": int(new_samples),
+        },
     }
 
 
-def _fit_neural_net(x: np.ndarray, y: np.ndarray, alpha: float) -> dict:
+def _fit_neural_net(
+    x: np.ndarray,
+    y: np.ndarray,
+    alpha: float,
+    artifact: dict | None = None,
+    force_full_fit: bool = False,
+) -> dict:
     if MLPRegressor is None:
         raise ValueError("scikit-learn package is not installed.")
 
@@ -722,21 +1174,49 @@ def _fit_neural_net(x: np.ndarray, y: np.ndarray, alpha: float) -> dict:
         y_std = 1.0
     y_scaled = (y - y_mean) / y_std
 
-    model = MLPRegressor(
-        hidden_layer_sizes=(24, 12),
-        activation="relu",
-        solver="adam",
-        alpha=max(float(alpha), 0.01) / 10000.0,
-        learning_rate_init=0.003,
-        max_iter=300,
-        random_state=11,
-        shuffle=False,
-        early_stopping=False,
-        tol=1e-4,
-    )
+    previous_model = None
+    previous_samples = 0
+    warm_start_mode = "full_fit"
+    if artifact and not force_full_fit and _artifact_training_prefix_matches(artifact, x, y):
+        previous_model = artifact.get("model")
+        previous_samples = int(artifact.get("training_samples", 0) or 0)
+        if previous_model is not None:
+            x_mean = np.asarray(artifact.get("x_mean", x_mean), dtype=float)
+            x_std = np.asarray(artifact.get("x_std", x_std), dtype=float)
+            x_std[x_std == 0] = 1.0
+            y_mean = float(artifact.get("y_mean", y_mean))
+            y_std = float(artifact.get("y_std", y_std) or 1.0)
+            x_scaled = (x - x_mean) / x_std
+            y_scaled = (y - y_mean) / y_std
+
+    if previous_model is not None and previous_samples > 0 and previous_samples <= len(y):
+        new_samples = len(y) - previous_samples
+        if new_samples <= 0:
+            model = previous_model
+        else:
+            model = previous_model
+            model.warm_start = True
+            model.max_iter = 80
+            warm_start_mode = "warm_partial_fit"
+    else:
+        new_samples = len(y)
+        model = MLPRegressor(
+            hidden_layer_sizes=(24, 12),
+            activation="relu",
+            solver="adam",
+            alpha=max(float(alpha), 0.01) / 10000.0,
+            learning_rate_init=0.003,
+            max_iter=300,
+            random_state=11,
+            shuffle=False,
+            early_stopping=False,
+            tol=1e-4,
+        )
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", ConvergenceWarning)
-        model.fit(x_scaled, y_scaled)
+        if previous_model is None or warm_start_mode == "warm_partial_fit":
+            fit_start = max(0, previous_samples - 30) if previous_model is not None else 0
+            model.fit(x_scaled[fit_start:], y_scaled[fit_start:])
 
     fitted = model.predict(x_scaled) * y_std + y_mean
     residuals = y - fitted
@@ -749,10 +1229,22 @@ def _fit_neural_net(x: np.ndarray, y: np.ndarray, alpha: float) -> dict:
         "y_mean": y_mean,
         "y_std": y_std,
         "residual_std": residual_std,
+        "training_metadata": {
+            "model_training_mode": "reused_artifact" if previous_model is not None and new_samples <= 0 else warm_start_mode,
+            "warm_start_used": previous_model is not None,
+            "new_labeled_samples": int(max(new_samples, 0)),
+        },
     }
 
 
-def _fit_sequence_model(x: np.ndarray, y: np.ndarray, alpha: float, model_type: str) -> dict:
+def _fit_sequence_model(
+    x: np.ndarray,
+    y: np.ndarray,
+    alpha: float,
+    model_type: str,
+    artifact: dict | None = None,
+    force_full_fit: bool = False,
+) -> dict:
     if torch is None or nn is None:
         raise ValueError("PyTorch package is not installed.")
     if x.ndim != 3:
@@ -769,12 +1261,34 @@ def _fit_sequence_model(x: np.ndarray, y: np.ndarray, alpha: float, model_type: 
     x_mean = x.reshape(-1, feature_count).mean(axis=0)
     x_std = x.reshape(-1, feature_count).std(axis=0)
     x_std[x_std == 0] = 1.0
-    x_scaled = (x - x_mean) / x_std
 
     y_mean = float(y.mean())
     y_std = float(y.std(ddof=0))
     if y_std == 0.0:
         y_std = 1.0
+
+    previous_state = None
+    previous_samples = 0
+    warm_start_mode = "full_fit"
+    if (
+        artifact
+        and not force_full_fit
+        and artifact.get("kind") == model_type
+        and int(artifact.get("sequence_length", 0) or 0) == sequence_length
+        and int(artifact.get("feature_count", 0) or 0) == feature_count
+        and _artifact_training_prefix_matches(artifact, x, y)
+    ):
+        previous_state = artifact.get("state_dict")
+        previous_samples = int(artifact.get("training_samples", 0) or 0)
+        if previous_state is not None:
+            x_mean = np.asarray(artifact.get("x_mean", x_mean), dtype=float)
+            x_std = np.asarray(artifact.get("x_std", x_std), dtype=float)
+            x_std[x_std == 0] = 1.0
+            y_mean = float(artifact.get("y_mean", y_mean))
+            y_std = float(artifact.get("y_std", y_std) or 1.0)
+            warm_start_mode = "torch_fine_tune" if len(y) > previous_samples else "reused_artifact"
+
+    x_scaled = (x - x_mean) / x_std
     y_scaled = (y - y_mean) / y_std
 
     class LSTMRegressor(nn.Module):
@@ -819,11 +1333,24 @@ def _fit_sequence_model(x: np.ndarray, y: np.ndarray, alpha: float, model_type: 
             return self.head(encoded[:, -1, :]).squeeze(-1)
 
     model = LSTMRegressor() if model_type == "lstm" else TinyTransformerRegressor()
+    if previous_state is not None:
+        model.load_state_dict(previous_state, strict=True)
+
     x_tensor = torch.as_tensor(x_scaled, dtype=torch.float32)
     y_tensor = torch.as_tensor(y_scaled, dtype=torch.float32)
+    if previous_state is not None and warm_start_mode == "torch_fine_tune":
+        fit_start = max(0, previous_samples - 40)
+        fit_x_tensor = x_tensor[fit_start:]
+        fit_y_tensor = y_tensor[fit_start:]
+        epochs = 24 if model_type == "lstm" else 20
+    else:
+        fit_x_tensor = x_tensor
+        fit_y_tensor = y_tensor
+        epochs = 80 if model_type == "lstm" else 65
+
     optimizer = torch.optim.AdamW(
         model.parameters(),
-        lr=0.01,
+        lr=0.003 if previous_state is not None else 0.01,
         weight_decay=max(float(alpha), 0.01) / 10000.0,
     )
     loss_fn = nn.MSELoss()
@@ -831,26 +1358,28 @@ def _fit_sequence_model(x: np.ndarray, y: np.ndarray, alpha: float, model_type: 
     best_state = None
     patience = 8
     stale_epochs = 0
-    epochs = 80 if model_type == "lstm" else 65
+    epochs_run = 0
 
-    for _ in range(epochs):
-        model.train()
-        optimizer.zero_grad(set_to_none=True)
-        prediction = model(x_tensor)
-        loss = loss_fn(prediction, y_tensor)
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-        optimizer.step()
+    if warm_start_mode != "reused_artifact":
+        for _ in range(epochs):
+            model.train()
+            optimizer.zero_grad(set_to_none=True)
+            prediction = model(fit_x_tensor)
+            loss = loss_fn(prediction, fit_y_tensor)
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+            optimizer.step()
+            epochs_run += 1
 
-        loss_value = float(loss.detach().cpu())
-        if loss_value + 1e-5 < best_loss:
-            best_loss = loss_value
-            best_state = {key: value.detach().clone() for key, value in model.state_dict().items()}
-            stale_epochs = 0
-        else:
-            stale_epochs += 1
-            if stale_epochs >= patience:
-                break
+            loss_value = float(loss.detach().cpu())
+            if loss_value + 1e-5 < best_loss:
+                best_loss = loss_value
+                best_state = {key: value.detach().clone() for key, value in model.state_dict().items()}
+                stale_epochs = 0
+            else:
+                stale_epochs += 1
+                if stale_epochs >= patience:
+                    break
 
     if best_state is not None:
         model.load_state_dict(best_state)
@@ -869,18 +1398,60 @@ def _fit_sequence_model(x: np.ndarray, y: np.ndarray, alpha: float, model_type: 
         "residual_std": residual_std,
         "sequence_length": int(sequence_length),
         "feature_count": int(feature_count),
-        "training_epochs": int(epochs - max(stale_epochs - patience + 1, 0)),
+        "training_epochs": int(epochs_run),
+        "training_metadata": {
+            "model_training_mode": warm_start_mode,
+            "warm_start_used": previous_state is not None,
+            "new_labeled_samples": int(max(len(y) - previous_samples, 0)) if previous_state is not None else int(len(y)),
+            "fine_tune_epochs": int(epochs_run),
+        },
     }
 
 
-def _fit_model(x: np.ndarray, y: np.ndarray, alpha: float, model_type: str) -> dict:
+def _fit_model(
+    x: np.ndarray,
+    y: np.ndarray,
+    alpha: float,
+    model_type: str,
+    symbol: str | None = None,
+    horizon_days: int | None = None,
+    lookback_window: int | None = None,
+    optimize_model: bool = True,
+    warm_start: bool = True,
+    force_retrain: bool = False,
+    artifact_dir: str | Path | None = None,
+) -> dict:
+    artifact_path = None
+    artifact = None
+    if warm_start and symbol:
+        artifact_path = _model_weight_artifact_path(
+            symbol=symbol,
+            model_type=model_type,
+            horizon_days=horizon_days,
+            lookback_window=lookback_window,
+            alpha=alpha,
+            optimize_model=optimize_model,
+            x_shape=x.shape,
+            artifact_dir=artifact_dir,
+        )
+        if not force_retrain:
+            artifact = _load_model_weight_artifact(artifact_path)
+
     if model_type == "xgboost":
-        return _fit_xgboost(x, y, alpha)
-    if model_type == "neural_net":
-        return _fit_neural_net(x, y, alpha)
-    if model_type in {"lstm", "transformer"}:
-        return _fit_sequence_model(x, y, alpha, model_type)
-    return _fit_ridge(x, y, alpha)
+        model = _fit_xgboost(x, y, alpha, artifact=artifact, force_full_fit=force_retrain)
+    elif model_type == "neural_net":
+        model = _fit_neural_net(x, y, alpha, artifact=artifact, force_full_fit=force_retrain)
+    elif model_type in {"lstm", "transformer"}:
+        model = _fit_sequence_model(x, y, alpha, model_type, artifact=artifact, force_full_fit=force_retrain)
+    else:
+        model = _fit_ridge(x, y, alpha, artifact=artifact, force_full_fit=force_retrain)
+
+    if artifact_path is not None:
+        _save_model_weight_artifact(artifact_path, model, x, y, symbol, model_type)
+        metadata = dict(model.get("training_metadata", {}))
+        metadata["model_artifact_path"] = str(artifact_path)
+        model["training_metadata"] = metadata
+    return model
 
 
 def _predict_matrix(x: np.ndarray, model: dict) -> np.ndarray:
@@ -1099,6 +1670,151 @@ def _prediction_shrink_factor(prediction: float, metrics: dict) -> float:
     signal_strength = signal_to_error / (1.0 + signal_to_error)
     directional_strength = np.clip((direction_accuracy - 45.0) / 25.0, 0.0, 1.0)
     return float(np.clip(0.35 + 0.45 * signal_strength + 0.20 * directional_strength, 0.25, 1.0))
+
+
+def _forecast_from_horizon_return(
+    close: pd.Series,
+    horizon_days: int,
+    horizon_return: float,
+    raw_horizon_return: float,
+    residual_std: float,
+    metrics: dict,
+    model_name: str,
+) -> ForecastResult:
+    horizon_days = max(1, int(horizon_days))
+    residual_std = max(float(residual_std), 1e-6)
+    steps = np.arange(1, horizon_days + 1, dtype=float)
+    cumulative_returns = float(horizon_return) * (steps / float(horizon_days))
+    future_log_returns = np.diff(np.concatenate([[0.0], cumulative_returns]))
+    last_log_price = float(np.log(close.iloc[-1]))
+    interval_scale = np.sqrt(steps / float(horizon_days))
+
+    forecast = pd.DataFrame(
+        {
+            "forecast_close": np.exp(last_log_price + cumulative_returns),
+            "lower_estimate": np.exp(last_log_price + cumulative_returns - 1.645 * residual_std * interval_scale),
+            "upper_estimate": np.exp(last_log_price + cumulative_returns + 1.645 * residual_std * interval_scale),
+            "expected_daily_return_pct": np.expm1(future_log_returns) * 100.0,
+        },
+        index=_future_index(close.index, horizon_days),
+    )
+    forecast.index.name = "date"
+
+    probability_up_pct = _normal_cdf(float(horizon_return) / residual_std) * 100.0
+    confidence_pct = max(probability_up_pct, 100.0 - probability_up_pct)
+    expected_error_pct = np.expm1(residual_std) * 100.0
+    forecast_change_pct = np.expm1(float(horizon_return)) * 100.0
+    metrics = dict(metrics)
+    metrics.update(
+        {
+            "forecast_change_pct": forecast_change_pct,
+            "probability_up_pct": probability_up_pct,
+            "probability_down_pct": 100.0 - probability_up_pct,
+            "confidence_pct": confidence_pct,
+            "expected_error_pct": expected_error_pct,
+            "forecast_score": _forecast_score(forecast_change_pct, expected_error_pct, confidence_pct),
+            "raw_forecast_change_pct": np.expm1(float(raw_horizon_return)) * 100.0,
+            "shrink_factor": 1.0,
+        }
+    )
+    return ForecastResult(forecast=forecast, metrics=metrics, model_name=model_name)
+
+
+def _rl_training_data(log_returns: np.ndarray, lookback_window: int, horizon_days: int) -> tuple[np.ndarray, np.ndarray]:
+    rows = []
+    targets = []
+    last_start = len(log_returns) - horizon_days
+    for as_of_pos in range(lookback_window, last_start + 1):
+        window = log_returns[as_of_pos - lookback_window : as_of_pos]
+        target = log_returns[as_of_pos : as_of_pos + horizon_days].sum()
+        state = _rl_state_from_window(window)
+        if np.isfinite(state).all() and np.isfinite(target):
+            rows.append(state)
+            targets.append(target)
+    return np.asarray(rows, dtype=float), np.asarray(targets, dtype=float)
+
+
+def _rl_state_from_window(window: np.ndarray) -> np.ndarray:
+    window = np.asarray(window, dtype=float)
+    recent_5 = window[-min(5, len(window)) :]
+    recent_20 = window[-min(20, len(window)) :]
+    momentum_5 = recent_5.sum()
+    momentum_20 = recent_20.sum()
+    volatility = recent_20.std(ddof=0)
+    downside = np.minimum(recent_20, 0.0).std(ddof=0)
+    mean_reversion = 0.0 if volatility == 0 else recent_5.mean() / volatility
+    return np.asarray(
+        [
+            _bin_three_way(momentum_5, 0.01),
+            _bin_three_way(momentum_20, 0.025),
+            _bin_volatility(volatility),
+            _bin_three_way(mean_reversion, 0.35),
+            _bin_volatility(downside),
+        ],
+        dtype=float,
+    )
+
+
+def _bin_three_way(value: float, threshold: float) -> int:
+    if value > threshold:
+        return 1
+    if value < -threshold:
+        return -1
+    return 0
+
+
+def _bin_volatility(value: float) -> int:
+    if value >= 0.035:
+        return 2
+    if value >= 0.015:
+        return 1
+    return 0
+
+
+def _rl_state_key(state: np.ndarray) -> str:
+    return "|".join(str(int(value)) for value in np.asarray(state, dtype=float))
+
+
+def _update_rl_q_table(
+    q_table: dict[str, np.ndarray],
+    states: np.ndarray,
+    targets: np.ndarray,
+    start_index: int = 0,
+    learning_rate: float = 0.08,
+    gamma: float = 0.05,
+    trade_cost: float = 0.001,
+) -> None:
+    start_index = max(0, int(start_index))
+    for idx in range(start_index, len(targets)):
+        state_key = _rl_state_key(states[idx])
+        q_values = q_table.setdefault(state_key, np.zeros(3, dtype=float))
+        if idx + 1 < len(states):
+            next_values = q_table.setdefault(_rl_state_key(states[idx + 1]), np.zeros(3, dtype=float))
+            next_best = float(np.max(next_values))
+        else:
+            next_best = 0.0
+        realized_return = float(targets[idx])
+        rewards = np.asarray(
+            [
+                -realized_return - trade_cost,
+                0.0,
+                realized_return - trade_cost,
+            ],
+            dtype=float,
+        )
+        q_values += learning_rate * (rewards + gamma * next_best - q_values)
+
+
+def _rl_forecast_for_state(q_table: dict[str, np.ndarray], state: np.ndarray) -> float:
+    q_values = q_table.get(_rl_state_key(state))
+    if q_values is None:
+        return 0.0
+    action_index = int(np.argmax(q_values))
+    if action_index == 2:
+        return float(q_values[2])
+    if action_index == 0:
+        return float(-q_values[0])
+    return 0.0
 
 
 def _normal_cdf(value: float) -> float:

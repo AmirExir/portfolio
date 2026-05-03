@@ -14,8 +14,8 @@ except ImportError:  # pragma: no cover - package import path
     from .agent.forecast import ForecastResult
 
 
-CACHE_VERSION = 3
-MODEL_RESULT_CACHE_VERSION = 1
+CACHE_VERSION = 4
+MODEL_RESULT_CACHE_VERSION = 2
 
 
 def _json_safe(value):
@@ -67,6 +67,7 @@ def build_cache_key(
     optimize_model: bool,
     use_market_context: bool,
     sequence_model: str = "off",
+    include_rl_policy: bool = False,
 ) -> str:
     payload = {
         "cache_version": CACHE_VERSION,
@@ -78,6 +79,7 @@ def build_cache_key(
         "optimize_model": bool(optimize_model),
         "use_market_context": bool(use_market_context),
         "sequence_model": str(sequence_model or "off"),
+        "include_rl_policy": bool(include_rl_policy),
     }
     raw = json.dumps(payload, sort_keys=True, default=_json_safe).encode("utf-8")
     return hashlib.sha256(raw).hexdigest()[:16]
@@ -93,6 +95,7 @@ def forecast_cache_path(
     optimize_model: bool,
     use_market_context: bool,
     sequence_model: str = "off",
+    include_rl_policy: bool = False,
 ) -> Path:
     output_path = Path(output_dir)
     cache_key = build_cache_key(
@@ -104,6 +107,7 @@ def forecast_cache_path(
         optimize_model=optimize_model,
         use_market_context=use_market_context,
         sequence_model=sequence_model,
+        include_rl_policy=include_rl_policy,
     )
     return output_path / f"ml_forecast_rankings_cache_{cache_key}.json"
 
@@ -144,6 +148,7 @@ def model_result_cache_path(
     sequence_model: str,
     data_fingerprint: dict,
     context_fingerprint: dict | None = None,
+    include_rl_policy: bool = False,
 ) -> Path:
     payload = {
         "cache_version": MODEL_RESULT_CACHE_VERSION,
@@ -157,6 +162,7 @@ def model_result_cache_path(
         "sequence_model": str(sequence_model or "off"),
         "data_fingerprint": data_fingerprint,
         "context_fingerprint": context_fingerprint if use_market_context else None,
+        "include_rl_policy": bool(include_rl_policy),
     }
     raw = json.dumps(payload, sort_keys=True, default=_json_safe).encode("utf-8")
     cache_key = hashlib.sha256(raw).hexdigest()[:20]
@@ -287,6 +293,7 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
         "Neural Net Return %": _return_for("Neural Net"),
         "LSTM Return %": _return_for("LSTM"),
         "Transformer Return %": _return_for("Transformer"),
+        "RL Policy Return %": _return_for("RL Policy"),
         "Ensemble Return %": _return_for("Ensemble"),
         "Probability Up %": probability_up,
         "Probability Down %": 100.0 - probability_up,

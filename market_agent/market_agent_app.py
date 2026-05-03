@@ -955,6 +955,7 @@ def cached_model_results(
     optimize_forecast_model: bool,
     use_market_context: bool,
     sequence_model_choice: str,
+    include_rl_policy: bool,
     ranking_symbols: tuple[str, ...] | None = None,
     cache_buster: int = 0,
 ) -> dict:
@@ -969,6 +970,7 @@ def cached_model_results(
         optimize_forecast_model,
         use_market_context,
         sequence_model_choice,
+        include_rl_policy,
     )
     df = get_ohlcv(symbol, history_days)
     context_df = _load_market_context_data(history_days) if use_market_context else pd.DataFrame()
@@ -986,6 +988,7 @@ def cached_model_results(
         sequence_model_choice,
         data_fingerprint,
         context_fingerprint,
+        include_rl_policy,
     )
 
     if cache_buster == 0:
@@ -1003,6 +1006,9 @@ def cached_model_results(
         optimize_model=optimize_forecast_model,
         context_df=context_df,
         sequence_model=sequence_model_choice,
+        symbol=symbol,
+        force_retrain=cache_buster != 0,
+        include_rl=include_rl_policy,
     )
 
     close = df["close"]
@@ -1012,7 +1018,7 @@ def cached_model_results(
     snapshot = snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results)
     payload = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "model_result_cache_version": 1,
+        "model_result_cache_version": 2,
         "symbols": [symbol],
         "history_days": history_days,
         "horizon_days": forecast_horizon,
@@ -1021,6 +1027,7 @@ def cached_model_results(
         "optimize_model": optimize_forecast_model,
         "use_market_context": use_market_context,
         "sequence_model": sequence_model_choice,
+        "include_rl_policy": include_rl_policy,
         "primary_model": "Ensemble",
         "data_fingerprint": data_fingerprint,
         "context_fingerprint": context_fingerprint,
@@ -1071,6 +1078,7 @@ def cached_forecast_rankings(
     optimize_forecast_model: bool,
     use_market_context: bool,
     sequence_model_choice: str,
+    include_rl_policy: bool,
     primary_model_choice: str,
     cache_buster: int = 0,
 ) -> tuple[pd.DataFrame, list[str]]:
@@ -1084,6 +1092,7 @@ def cached_forecast_rankings(
         optimize_forecast_model,
         use_market_context,
         sequence_model_choice,
+        include_rl_policy,
     )
 
     ranking_context_df = _load_market_context_data(history_days) if use_market_context else pd.DataFrame()
@@ -1108,6 +1117,7 @@ def cached_forecast_rankings(
                 sequence_model_choice,
                 data_fingerprint,
                 context_fingerprint,
+                include_rl_policy,
             )
             cached_payload = _load_model_result_cache(str(model_cache_path)) if cache_buster == 0 else {}
             if cached_payload:
@@ -1123,6 +1133,9 @@ def cached_forecast_rankings(
                 optimize_model=optimize_forecast_model,
                 context_df=ranking_context_df,
                 sequence_model=sequence_model_choice,
+                symbol=ranking_symbol,
+                force_retrain=cache_buster != 0,
+                include_rl=include_rl_policy,
             )
             ranking_close = ranking_df["close"]
             if isinstance(ranking_close, pd.DataFrame):
@@ -1134,7 +1147,7 @@ def cached_forecast_rankings(
                 str(model_cache_path),
                 {
                     "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-                    "model_result_cache_version": 1,
+                    "model_result_cache_version": 2,
                     "symbol": ranking_symbol,
                     "history_days": history_days,
                     "horizon_days": forecast_horizon,
@@ -1143,6 +1156,7 @@ def cached_forecast_rankings(
                     "optimize_model": optimize_forecast_model,
                     "use_market_context": use_market_context,
                     "sequence_model": sequence_model_choice,
+                    "include_rl_policy": include_rl_policy,
                     "data_fingerprint": data_fingerprint,
                     "context_fingerprint": context_fingerprint,
                     "snapshot": snapshot,
@@ -1156,6 +1170,7 @@ def cached_forecast_rankings(
         "horizon_days": forecast_horizon,
         "primary_model": primary_model_choice,
         "sequence_model": sequence_model_choice,
+        "include_rl_policy": include_rl_policy,
         "symbols": list(ranking_symbols),
         "cache_key": "",
         "model_cache_hits": model_cache_hits,
@@ -1388,7 +1403,7 @@ optimize_forecast_model = st.sidebar.checkbox("Optimize ML model", value=True)
 use_market_context = st.sidebar.checkbox("Use market context features", value=True)
 primary_model_choice = st.sidebar.selectbox(
     "Primary forecast model",
-    ["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer"],
+    ["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer", "RL Policy"],
     index=1,
 )
 sequence_model_label = st.sidebar.selectbox("Deep sequence model", ["Off", "LSTM", "Transformer", "Both"], index=0)
@@ -1397,6 +1412,13 @@ if primary_model_choice == "LSTM":
     sequence_model_choice = "lstm"
 elif primary_model_choice == "Transformer":
     sequence_model_choice = "transformer"
+include_rl_policy = st.sidebar.checkbox(
+    "Include RL policy",
+    value=primary_model_choice == "RL Policy",
+    help="Adds a persisted tabular Q-learning buy/hold/sell policy to the model comparison.",
+)
+if primary_model_choice == "RL Policy":
+    include_rl_policy = True
 forecast_alpha = st.sidebar.number_input(
     "Ridge regularization",
     min_value=0.1,
@@ -1874,6 +1896,7 @@ with top_analysis_tab:
                         optimize_forecast_model,
                         use_market_context,
                         sequence_model_choice,
+                        include_rl_policy,
                         primary_model_choice,
                         st.session_state["ranking_refresh_nonce"],
                     )
@@ -1960,6 +1983,7 @@ try:
                 optimize_forecast_model,
                 use_market_context,
                 sequence_model_choice,
+                include_rl_policy,
                 tuple(selected_forecast_symbols),
                 st.session_state["symbol_refresh_nonce"],
             )
@@ -2060,6 +2084,7 @@ try:
                 "Neural Net": "#17becf",
                 "LSTM": "#9467bd",
                 "Transformer": "#e377c2",
+                "RL Policy": "#bcbd22",
                 "Ensemble": "#2ca02c",
             }
             for comparison_name, comparison_result in model_results.items():

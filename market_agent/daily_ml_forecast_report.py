@@ -196,9 +196,14 @@ def sequence_model_from_args(args: argparse.Namespace) -> str:
     return str(getattr(args, "sequence_model", "off") or "off").strip().lower()
 
 
+def include_rl_policy_from_args(args: argparse.Namespace) -> bool:
+    return bool(getattr(args, "include_rl_policy", False) or getattr(args, "primary_model", "") == "RL Policy")
+
+
 def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[dict], dict]:
     symbols = parse_symbols(args.symbols)
     sequence_model = sequence_model_from_args(args)
+    include_rl_policy = include_rl_policy_from_args(args)
     output_dir = Path(args.output_dir)
     started_at = time.perf_counter()
     context_started_at = time.perf_counter()
@@ -228,6 +233,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 sequence_model,
                 data_fingerprint,
                 context_fingerprint,
+                include_rl_policy,
             )
 
             if not args.force_retrain:
@@ -263,6 +269,9 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 optimize_model=not args.no_optimize,
                 context_df=context_df,
                 sequence_model=sequence_model,
+                symbol=symbol,
+                force_retrain=args.force_retrain,
+                include_rl=include_rl_policy,
             )
             close = clean_close(df)
             snapshot = snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results)
@@ -275,7 +284,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
             save_json_payload(
                 model_cache_path,
                 {
-                    "model_result_cache_version": 1,
+                    "model_result_cache_version": 2,
                     "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
                     "symbol": symbol,
                     "history_days": args.history_days,
@@ -285,6 +294,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                     "optimize_model": not args.no_optimize,
                     "use_market_context": not args.no_market_context,
                     "sequence_model": sequence_model,
+                    "include_rl_policy": include_rl_policy,
                     "data_fingerprint": data_fingerprint,
                     "context_fingerprint": context_fingerprint,
                     "pattern_info": pattern_info,
@@ -367,6 +377,7 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
         f"Horizon: {args.horizon} trading days | Primary: {args.primary_model}",
         f"Pattern windows: {args.pattern_short_window}/{args.pattern_long_window} trading days",
         f"Sequence model: {sequence_model_from_args(args)}",
+        f"RL policy: {'on' if include_rl_policy_from_args(args) else 'off'}",
         f"Universe: {len(rows)} symbols | Stocks + crypto + commodities",
     ]
     if timings:
@@ -446,6 +457,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
     timestamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ")
     symbols = parse_symbols(args.symbols)
     sequence_model = sequence_model_from_args(args)
+    include_rl_policy = include_rl_policy_from_args(args)
     cache_path = forecast_cache_path(
         output_dir,
         symbols,
@@ -456,6 +468,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
         not args.no_optimize,
         not args.no_market_context,
         sequence_model,
+        include_rl_policy,
     )
 
     report = build_market_report(rows, errors, args, timings if args.show_timing else None)
@@ -465,6 +478,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
         "horizon_days": args.horizon,
         "primary_model": args.primary_model,
         "sequence_model": sequence_model,
+        "include_rl_policy": include_rl_policy,
         "symbols": symbols,
         "cache_key": build_cache_key(
             symbols,
@@ -475,6 +489,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
             not args.no_optimize,
             not args.no_market_context,
             sequence_model,
+            include_rl_policy,
         ),
         "rows": rows,
         "snapshots": snapshots,
@@ -483,6 +498,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
         "model_cache": {
             "force_retrain": bool(args.force_retrain),
             "max_age_days": float(args.model_cache_max_age_days),
+            "include_rl_policy": include_rl_policy,
         },
         "telegram_text": telegram_text,
         "report_text": report["report_text"],
@@ -544,8 +560,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--ridge-alpha", type=float, default=10.0)
     parser.add_argument("--pattern-short-window", type=int, default=20)
     parser.add_argument("--pattern-long-window", type=int, default=50)
-    parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer"], default="Best Validation")
+    parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer", "RL Policy"], default="Best Validation")
     parser.add_argument("--sequence-model", choices=["off", "lstm", "transformer", "both"], default="off")
+    parser.add_argument("--include-rl-policy", action="store_true")
     parser.add_argument("--top-n", type=int, default=5)
     parser.add_argument("--output-dir", default=str(Path(__file__).resolve().parent / "reports"))
     parser.add_argument("--no-market-context", action="store_true")
