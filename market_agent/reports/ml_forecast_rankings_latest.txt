@@ -1,19 +1,37 @@
 ML Forecast Rankings
-Generated: 2026-05-03 22:09 UTC
+Generated: 2026-05-03 23:02 UTC
 Horizon: 30 trading days | Primary: Transformer
 Pattern windows: 20/50 trading days
 Sequence model: transformer
-Universe: 1 symbols | Stocks + crypto + commodities
-Calculation time: 1m 42s total | context 0.8s | 1/1 ranked
-Slowest symbols: BTC-USD: 1m 41s
+Universe: 65 symbols | Stocks + crypto + commodities
+Calculation time: 1h 21m 41s total | context 0.9s | 65/65 ranked
+Slowest symbols: XRP-USD: 2m 4s, ETH-USD: 1m 52s, BNB-USD: 1m 52s, ADA-USD: 1m 50s, SOL-USD: 1m 47s
 
 Best Picked Forecast
-BTC-USD: Neutral / No Edge | Pattern: Near 60-Day High | Forecast Return: -4.74% | Selected model: Transformer
+JNJ: Strong Buy | Pattern: Oversold | Forecast Return: +11.55% | Selected model: Transformer
 
 Strongest Buy Forecasts
-No positive forecast candidates.
+JNJ: +11.55% | Strong Buy | model Transformer | prob up 92.1% | edge 42.1% | err +/-8.06% | pattern Oversold
+DOGE-USD: +29.25% | Strong Buy | model Transformer | prob up 89.0% | edge 39.0% | err +/-23.24% | pattern Near 60-Day High
+USO: +26.23% | Strong Buy | model Transformer | prob up 87.3% | edge 37.3% | err +/-22.64% | pattern Uptrend
+V: +7.50% | Strong Buy | model Transformer | prob up 87.3% | edge 37.3% | err +/-6.56% | pattern Bullish MA Crossover
+GS: +13.27% | Buy | model Transformer | prob up 83.1% | edge 33.1% | err +/-13.88% | pattern Uptrend
+XLY: +7.74% | Buy | model Transformer | prob up 81.6% | edge 31.6% | err +/-8.65% | pattern Bullish MA Crossover
+SLB: +13.20% | Buy | model Transformer | prob up 80.0% | edge 30.0% | err +/-15.86% | pattern Uptrend
+WMT: +8.05% | Buy | model Transformer | prob up 78.8% | edge 28.8% | err +/-10.16% | pattern Uptrend
+GEV: +15.69% | Buy | model Transformer | prob up 78.1% | edge 28.1% | err +/-20.72% | pattern Uptrend
+GOOGL: +10.36% | Buy | model Transformer | prob up 77.9% | edge 27.9% | err +/-13.65% | pattern Uptrend
 
 Strongest Sell Forecasts
-BTC-USD: -4.74% | Neutral / No Edge | model Transformer | prob up 37.2% | edge 12.8% | err +/-16.08% | pattern Near 60-Day High
+PEPE-USD: -19.92% | Strong Sell | model Transformer | prob up 4.6% | edge 45.4% | err +/-14.10% | pattern Downtrend
+MSFT: -8.12% | Sell | model Transformer | prob up 24.4% | edge 25.6% | err +/-12.97% | pattern Bullish MA Crossover
+ORCA-USD: -18.01% | Neutral / No Edge | model Transformer | prob up 30.4% | edge 19.6% | err +/-47.37% | pattern Overbought
+BTC-USD: -6.43% | Neutral / No Edge | model Transformer | prob up 32.6% | edge 17.4% | err +/-15.92% | pattern Near 60-Day High
+XRP-USD: -7.50% | Neutral / No Edge | model Transformer | prob up 38.3% | edge 11.7% | err +/-29.90% | pattern Rebound From 60-Day Low
+AVAX-USD: -9.62% | Neutral / No Edge | model Transformer | prob up 38.3% | edge 11.7% | err +/-40.32% | pattern Range / No Dominant Pattern
+ADA-USD: -7.10% | Neutral / No Edge | model Transformer | prob up 39.1% | edge 10.9% | err +/-30.67% | pattern Downtrend
+HD: -2.68% | Neutral / No Edge | model Transformer | prob up 39.8% | edge 10.2% | err +/-11.05% | pattern Downtrend
+BNB-USD: -4.46% | Neutral / No Edge | model Transformer | prob up 40.3% | edge 9.7% | err +/-20.34% | pattern Bullish MA Crossover
+PG: -1.75% | Neutral / No Edge | model Transformer | prob up 40.8% | edge 9.2% | err +/-7.90% | pattern High Volatility
 
 Model output only. Not financial advice.

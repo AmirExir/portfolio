@@ -35,7 +35,30 @@ DEFAULT_SYMBOLS = [
     "XLK", "XLF", "XLE", "XLV", "XLY",
     "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
     "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FLOKI-USD", "PEPE-USD",
+    "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
+REPORT_SYMBOLS = {
+    "BTC-USD": "BTC",
+    "ETH-USD": "ETH",
+    "SOL-USD": "SOL",
+    "XRP-USD": "XRP",
+    "ADA-USD": "ADA",
+    "BNB-USD": "BNB",
+    "AVAX-USD": "AVAX",
+    "ORCA-USD": "ORCA",
+    "PNUT-USD": "PNUT",
+    "DOGE-USD": "DOGE",
+    "SHIB-USD": "SHIB",
+    "FLOKI-USD": "FLOKI",
+    "PEPE-USD": "PEPE",
+    "ZEC-USD": "ZEC",
+    "COMP5692-USD": "COMP",
+    "HYPE32196-USD": "HYPE",
+    "MNT27075-USD": "MNT",
+    "UNI7083-USD": "UNI",
+    "ENA-USD": "ENA",
+    "DOT-USD": "DOT",
+}
 MARKET_CONTEXT_TICKERS = [
     "SPY", "VOO", "QQQ", "IWM", "DIA", "^VIX",
     "XLK", "XLF", "XLE", "XLV", "XLY",
@@ -50,6 +73,10 @@ def parse_symbols(symbols_text: str) -> list[str]:
         if symbol and symbol not in symbols:
             symbols.append(symbol)
     return symbols
+
+
+def report_symbol(symbol: str) -> str:
+    return REPORT_SYMBOLS.get(str(symbol), str(symbol))
 
 
 def load_market_context(history_days: int) -> pd.DataFrame:
@@ -215,6 +242,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
         rows_frame["All Patterns"] = rows_frame["Symbol"].map(
             lambda symbol: patterns_by_symbol.get(symbol, {}).get("All Patterns", "")
         )
+        rows_frame["Symbol"] = rows_frame["Symbol"].map(report_symbol)
     rows = rows_frame.to_dict(orient="records")
     errors.extend(row_errors)
     timings = {
@@ -274,7 +302,7 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
     if timings:
         slowest = sorted(timings.get("symbol_timings", []), key=lambda item: item.get("seconds", 0.0), reverse=True)[:5]
         slowest_text = ", ".join(
-            f"{item.get('symbol')}: {format_duration(item.get('seconds', 0.0))}"
+            f"{report_symbol(item.get('symbol'))}: {format_duration(item.get('seconds', 0.0))}"
             for item in slowest
         )
         lines.extend(

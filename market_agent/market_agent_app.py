@@ -459,6 +459,7 @@ SYMBOL_OPTIONS = [
     "XLK", "XLF", "XLE", "XLV", "XLY",
     "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
     "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "FLOKI-USD", "PEPE-USD",
+    "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 DEFAULT_FORECAST_SYMBOLS = [
     "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "AVGO",
@@ -469,6 +470,7 @@ DEFAULT_FORECAST_SYMBOLS = [
     "XLK", "XLF", "XLE", "XLV", "XLY",
     "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
     "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "FLOKI-USD", "PEPE-USD",
+    "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 SYMBOL_LABELS = {
     "AVGO": "Broadcom (AVGO)",
@@ -503,6 +505,13 @@ SYMBOL_LABELS = {
     "FOLKI-USD": "Floki (FOLKI)",
     "FLOKI-USD": "Floki (FLOKI)",
     "PEPE-USD": "Pepe (PEPE)",
+    "ZEC-USD": "Zcash (ZEC)",
+    "COMP5692-USD": "Compound (COMP)",
+    "HYPE32196-USD": "Hyperliquid (HYPE)",
+    "MNT27075-USD": "Mantle (MNT)",
+    "UNI7083-USD": "Uniswap (UNI)",
+    "ENA-USD": "Ethena (ENA)",
+    "DOT-USD": "Polkadot (DOT)",
 }
 MARKET_CONTEXT_TICKERS = [
     "SPY", "VOO", "QQQ", "IWM", "DIA", "^VIX",
@@ -613,7 +622,7 @@ def load_crypto_heatmap_data(crypto_tickers: tuple[str, ...], lookback_days: int
             "Market Cap": [crypto_market_caps[ticker] for ticker in crypto_pct_change.index],
         }
     )
-    crypto_df["Symbol"] = crypto_df["Crypto"].apply(lambda value: value.split("-")[0])
+    crypto_df["Symbol"] = crypto_df["Crypto"].apply(ticker_short_label)
     crypto_df["Label"] = crypto_df.apply(
         lambda row: f"{row['Symbol']}\n{row['Percent Change']:.2f}%",
         axis=1,
@@ -623,6 +632,13 @@ def load_crypto_heatmap_data(crypto_tickers: tuple[str, ...], lookback_days: int
 
 def ticker_label(symbol: str) -> str:
     return SYMBOL_LABELS.get(symbol, symbol)
+
+
+def ticker_short_label(symbol: str) -> str:
+    label = ticker_label(symbol)
+    if label.endswith(")") and "(" in label:
+        return label.rsplit("(", 1)[-1].rstrip(")")
+    return str(symbol).replace("-USD", "")
 
 
 def is_timestamped_summary(filename: str) -> bool:
@@ -672,6 +688,8 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
     display_df = df.reset_index(drop=True).copy()
     if "Rank" not in display_df.columns:
         display_df.insert(0, "Rank", np.arange(1, len(display_df) + 1))
+    if "Symbol" in display_df.columns:
+        display_df["Symbol"] = display_df["Symbol"].map(ticker_label)
 
     display_columns = [
         "Rank",
@@ -1730,7 +1748,8 @@ with top_analysis_tab:
 
     crypto_tickers = [
         "BTC-USD", "ETH-USD", "BNB-USD", "SOL-USD", "XRP-USD", "ADA-USD",
-        "DOGE-USD", "AVAX-USD", "TON-USD", "DOT-USD"
+        "DOGE-USD", "AVAX-USD", "TON-USD", "DOT-USD", "ZEC-USD",
+        "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD",
     ]
 
     try:
