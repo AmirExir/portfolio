@@ -25,8 +25,11 @@ try:
     from agent.broker import get_account, submit_order, cancel_open_orders
     from agent.risk import target_position_qty
     from forecast_cache import (
+        cache_payload_fresh,
         forecast_cache_path,
         forecast_result_from_dict,
+        frame_fingerprint,
+        model_result_cache_path,
         snapshots_to_ranking_frame,
         snapshot_from_model_results,
         select_model_name,
@@ -919,6 +922,29 @@ def _save_forecast_payload(cache_path: str, payload: dict) -> None:
         json.dump(payload, handle, indent=2, default=str)
 
 
+def _model_results_from_snapshot(snapshot: dict) -> dict:
+    return {
+        model_name: forecast_result_from_dict(model_payload)
+        for model_name, model_payload in (snapshot.get("models") or {}).items()
+    }
+
+
+def _load_model_result_cache(cache_path: str, max_age_days: float = 7.0) -> dict:
+    payload = _load_forecast_payload(cache_path)
+    if not cache_payload_fresh(payload, max_age_days=max_age_days):
+        return {}
+    snapshot = payload.get("snapshot") or {}
+    if not snapshot:
+        return {}
+    return payload
+
+
+def _save_model_result_cache(cache_path: str, payload: dict) -> None:
+    os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+    with open(cache_path, "w") as handle:
+        json.dump(payload, handle, indent=2, default=str)
+
+
 @st.cache_data(ttl=900, show_spinner=False)
 def cached_model_results(
     symbol: str,
@@ -933,20 +959,6 @@ def cached_model_results(
     cache_buster: int = 0,
 ) -> dict:
     ranking_symbols = ranking_symbols or tuple()
-    ranking_cache_path = None
-    if symbol in ranking_symbols:
-        ranking_cache_path = forecast_cache_path(
-            _forecast_reports_dir(),
-            ranking_symbols,
-            history_days,
-            forecast_horizon,
-            forecast_lookback,
-            forecast_alpha,
-            optimize_forecast_model,
-            use_market_context,
-            sequence_model_choice,
-        )
-
     cache_path = forecast_cache_path(
         _forecast_reports_dir(),
         (symbol,),
@@ -958,25 +970,31 @@ def cached_model_results(
         use_market_context,
         sequence_model_choice,
     )
-
-    if cache_buster == 0:
-        for candidate_cache_path in [ranking_cache_path, cache_path]:
-            if not candidate_cache_path:
-                continue
-            cached_payload = _load_forecast_payload(str(candidate_cache_path))
-            snapshots = cached_payload.get("snapshots") or []
-            if snapshots:
-                snapshot = next((item for item in snapshots if item.get("symbol") == symbol), None)
-                if snapshot:
-                    model_results = {
-                        model_name: forecast_result_from_dict(model_payload)
-                        for model_name, model_payload in (snapshot.get("models") or {}).items()
-                    }
-                    if model_results:
-                        return model_results
-
     df = get_ohlcv(symbol, history_days)
     context_df = _load_market_context_data(history_days) if use_market_context else pd.DataFrame()
+    data_fingerprint = frame_fingerprint(df)
+    context_fingerprint = frame_fingerprint(context_df) if use_market_context else None
+    model_cache_path = model_result_cache_path(
+        _forecast_reports_dir(),
+        symbol,
+        history_days,
+        forecast_horizon,
+        forecast_lookback,
+        forecast_alpha,
+        optimize_forecast_model,
+        use_market_context,
+        sequence_model_choice,
+        data_fingerprint,
+        context_fingerprint,
+    )
+
+    if cache_buster == 0:
+        cached_payload = _load_model_result_cache(str(model_cache_path))
+        if cached_payload:
+            model_results = _model_results_from_snapshot(cached_payload["snapshot"])
+            if model_results:
+                return model_results
+
     model_results = compare_forecast_models(
         df,
         horizon_days=forecast_horizon,
@@ -991,8 +1009,10 @@ def cached_model_results(
     if isinstance(close, pd.DataFrame):
         close = close.iloc[:, 0]
     close = pd.to_numeric(close, errors="coerce").dropna()
+    snapshot = snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results)
     payload = {
-        "generated_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ"),
+        "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "model_result_cache_version": 1,
         "symbols": [symbol],
         "history_days": history_days,
         "horizon_days": forecast_horizon,
@@ -1002,12 +1022,16 @@ def cached_model_results(
         "use_market_context": use_market_context,
         "sequence_model": sequence_model_choice,
         "primary_model": "Ensemble",
-        "snapshots": [snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results)],
+        "data_fingerprint": data_fingerprint,
+        "context_fingerprint": context_fingerprint,
+        "snapshot": snapshot,
+        "snapshots": [snapshot],
         "rows": [],
         "errors": [],
         "telegram_text": "",
     }
     _save_forecast_payload(str(cache_path), payload)
+    _save_model_result_cache(str(model_cache_path), payload)
     return model_results
 
 
@@ -1062,47 +1086,85 @@ def cached_forecast_rankings(
         sequence_model_choice,
     )
 
-    ranking_payload = _load_forecast_payload(str(ranking_cache_path)) if cache_buster == 0 else {}
-    ranking_snapshots = ranking_payload.get("snapshots") or []
-    ranking_errors = list(ranking_payload.get("errors", [])) if ranking_snapshots else []
+    ranking_context_df = _load_market_context_data(history_days) if use_market_context else pd.DataFrame()
+    context_fingerprint = frame_fingerprint(ranking_context_df) if use_market_context else None
+    ranking_snapshots = []
+    ranking_errors: list[str] = []
+    model_cache_hits = 0
 
-    if not ranking_snapshots:
-        ranking_context_df = _load_market_context_data(history_days) if use_market_context else pd.DataFrame()
-        ranking_snapshots = []
+    for ranking_symbol in ranking_symbols:
+        try:
+            ranking_df = get_ohlcv(ranking_symbol, history_days)
+            data_fingerprint = frame_fingerprint(ranking_df)
+            model_cache_path = model_result_cache_path(
+                _forecast_reports_dir(),
+                ranking_symbol,
+                history_days,
+                forecast_horizon,
+                forecast_lookback,
+                forecast_alpha,
+                optimize_forecast_model,
+                use_market_context,
+                sequence_model_choice,
+                data_fingerprint,
+                context_fingerprint,
+            )
+            cached_payload = _load_model_result_cache(str(model_cache_path)) if cache_buster == 0 else {}
+            if cached_payload:
+                ranking_snapshots.append(cached_payload["snapshot"])
+                model_cache_hits += 1
+                continue
 
-        for ranking_symbol in ranking_symbols:
-            try:
-                ranking_df = get_ohlcv(ranking_symbol, history_days)
-                ranking_results = compare_forecast_models(
-                    ranking_df,
-                    horizon_days=forecast_horizon,
-                    lookback_window=forecast_lookback,
-                    ridge_alpha=forecast_alpha,
-                    optimize_model=optimize_forecast_model,
-                    context_df=ranking_context_df,
-                    sequence_model=sequence_model_choice,
-                )
-                ranking_close = ranking_df["close"]
-                if isinstance(ranking_close, pd.DataFrame):
-                    ranking_close = ranking_close.iloc[:, 0]
-                ranking_close = pd.to_numeric(ranking_close, errors="coerce").dropna()
-                ranking_snapshots.append(snapshot_from_model_results(ranking_symbol, float(ranking_close.iloc[-1]), ranking_results))
-            except Exception as ranking_error:
-                ranking_errors.append(f"{ranking_symbol}: {ranking_error}")
+            ranking_results = compare_forecast_models(
+                ranking_df,
+                horizon_days=forecast_horizon,
+                lookback_window=forecast_lookback,
+                ridge_alpha=forecast_alpha,
+                optimize_model=optimize_forecast_model,
+                context_df=ranking_context_df,
+                sequence_model=sequence_model_choice,
+            )
+            ranking_close = ranking_df["close"]
+            if isinstance(ranking_close, pd.DataFrame):
+                ranking_close = ranking_close.iloc[:, 0]
+            ranking_close = pd.to_numeric(ranking_close, errors="coerce").dropna()
+            snapshot = snapshot_from_model_results(ranking_symbol, float(ranking_close.iloc[-1]), ranking_results)
+            ranking_snapshots.append(snapshot)
+            _save_model_result_cache(
+                str(model_cache_path),
+                {
+                    "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                    "model_result_cache_version": 1,
+                    "symbol": ranking_symbol,
+                    "history_days": history_days,
+                    "horizon_days": forecast_horizon,
+                    "lookback_window": forecast_lookback,
+                    "ridge_alpha": forecast_alpha,
+                    "optimize_model": optimize_forecast_model,
+                    "use_market_context": use_market_context,
+                    "sequence_model": sequence_model_choice,
+                    "data_fingerprint": data_fingerprint,
+                    "context_fingerprint": context_fingerprint,
+                    "snapshot": snapshot,
+                },
+            )
+        except Exception as ranking_error:
+            ranking_errors.append(f"{ranking_symbol}: {ranking_error}")
 
-        ranking_payload = {
-            "generated_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ"),
-            "horizon_days": forecast_horizon,
-            "primary_model": primary_model_choice,
-            "sequence_model": sequence_model_choice,
-            "symbols": list(ranking_symbols),
-            "cache_key": "",
-            "rows": [],
-            "snapshots": ranking_snapshots,
-            "errors": ranking_errors,
-            "telegram_text": "",
-        }
-        _save_forecast_payload(str(ranking_cache_path), ranking_payload)
+    ranking_payload = {
+        "generated_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ"),
+        "horizon_days": forecast_horizon,
+        "primary_model": primary_model_choice,
+        "sequence_model": sequence_model_choice,
+        "symbols": list(ranking_symbols),
+        "cache_key": "",
+        "model_cache_hits": model_cache_hits,
+        "rows": [],
+        "snapshots": ranking_snapshots,
+        "errors": ranking_errors,
+        "telegram_text": "",
+    }
+    _save_forecast_payload(str(ranking_cache_path), ranking_payload)
 
     ranking_table, ranking_errors_from_snapshots = snapshots_to_ranking_frame(ranking_snapshots, primary_model_choice)
     if ranking_errors_from_snapshots:

@@ -18,7 +18,11 @@ from agent.data import get_ohlcv
 from agent.forecast import compare_forecast_models
 from forecast_cache import (
     build_cache_key,
+    cache_payload_fresh,
+    forecast_result_from_dict,
     forecast_cache_path,
+    frame_fingerprint,
+    model_result_cache_path,
     select_model_name,
     snapshot_from_model_results,
     snapshots_to_ranking_frame,
@@ -162,6 +166,27 @@ def format_duration(seconds: float) -> str:
     return f"{int(hours)}h {int(minutes)}m {remainder:.0f}s"
 
 
+def load_json_payload(path: Path) -> dict:
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text())
+    except Exception:
+        return {}
+
+
+def save_json_payload(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2, default=_json_default))
+
+
+def model_results_from_snapshot(snapshot: dict) -> dict:
+    return {
+        model_name: forecast_result_from_dict(model_payload)
+        for model_name, model_payload in (snapshot.get("models") or {}).items()
+    }
+
+
 def sequence_model_from_args(args: argparse.Namespace) -> str:
     primary = str(getattr(args, "primary_model", "") or "").strip()
     if primary == "LSTM":
@@ -174,9 +199,11 @@ def sequence_model_from_args(args: argparse.Namespace) -> str:
 def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[dict], dict]:
     symbols = parse_symbols(args.symbols)
     sequence_model = sequence_model_from_args(args)
+    output_dir = Path(args.output_dir)
     started_at = time.perf_counter()
     context_started_at = time.perf_counter()
     context_df = pd.DataFrame() if args.no_market_context else load_market_context(args.history_days)
+    context_fingerprint = None if args.no_market_context else frame_fingerprint(context_df)
     context_seconds = time.perf_counter() - context_started_at
     snapshots = []
     patterns_by_symbol = {}
@@ -188,17 +215,46 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
         symbol_status = "ok"
         try:
             df = get_ohlcv(symbol, args.history_days)
+            data_fingerprint = frame_fingerprint(df)
+            model_cache_path = model_result_cache_path(
+                output_dir,
+                symbol,
+                args.history_days,
+                args.horizon,
+                args.lookback,
+                args.ridge_alpha,
+                not args.no_optimize,
+                not args.no_market_context,
+                sequence_model,
+                data_fingerprint,
+                context_fingerprint,
+            )
+
+            if not args.force_retrain:
+                cached_payload = load_json_payload(model_cache_path)
+                cached_snapshot = cached_payload.get("snapshot") or {}
+                if cached_snapshot and cache_payload_fresh(cached_payload, args.model_cache_max_age_days):
+                    snapshots.append(cached_snapshot)
+                    patterns_by_symbol[symbol] = cached_payload.get("pattern_info") or {
+                        "Primary Pattern": "Unavailable",
+                        "All Patterns": "",
+                    }
+                    symbol_status = "cached"
+                    continue
+
             try:
-                patterns_by_symbol[symbol] = recognize_patterns(
+                pattern_info = recognize_patterns(
                     df,
                     short_window=args.pattern_short_window,
                     long_window=args.pattern_long_window,
                 )
             except Exception:
-                patterns_by_symbol[symbol] = {
+                pattern_info = {
                     "Primary Pattern": "Unavailable",
                     "All Patterns": "",
                 }
+            patterns_by_symbol[symbol] = pattern_info
+
             model_results = compare_forecast_models(
                 df,
                 horizon_days=args.horizon,
@@ -209,19 +265,32 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 sequence_model=sequence_model,
             )
             close = clean_close(df)
-            snapshots.append(snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results))
+            snapshot = snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results)
+            snapshots.append(snapshot)
 
             primary_model = select_model_name(model_results, preferred=args.primary_model)
             if not primary_model:
                 raise ValueError("No usable model forecast.")
 
-            result = model_results[primary_model]
-            forecast_price = float(result.forecast["forecast_close"].iloc[-1])
-            forecast_return = float(result.metrics.get("forecast_change_pct", 0.0))
-            probability_up = float(result.metrics.get("probability_up_pct", 50.0))
-            confidence = float(result.metrics.get("confidence_pct", 50.0))
-            expected_error = float(result.metrics.get("expected_error_pct", 0.0))
-            edge = max(confidence - 50.0, 0.0)
+            save_json_payload(
+                model_cache_path,
+                {
+                    "model_result_cache_version": 1,
+                    "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                    "symbol": symbol,
+                    "history_days": args.history_days,
+                    "horizon_days": args.horizon,
+                    "lookback_window": args.lookback,
+                    "ridge_alpha": args.ridge_alpha,
+                    "optimize_model": not args.no_optimize,
+                    "use_market_context": not args.no_market_context,
+                    "sequence_model": sequence_model,
+                    "data_fingerprint": data_fingerprint,
+                    "context_fingerprint": context_fingerprint,
+                    "pattern_info": pattern_info,
+                    "snapshot": snapshot,
+                },
+            )
         except Exception as exc:
             symbol_status = "error"
             errors.append(f"{symbol}: {exc}")
@@ -250,7 +319,8 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
         "context_seconds": round(context_seconds, 3),
         "symbols_attempted": len(symbols),
         "symbols_ranked": len(rows),
-        "symbols_failed": sum(1 for item in symbol_timings if item["status"] != "ok"),
+        "symbols_cached": sum(1 for item in symbol_timings if item["status"] == "cached"),
+        "symbols_failed": sum(1 for item in symbol_timings if item["status"] not in {"ok", "cached"}),
         "symbol_timings": symbol_timings,
     }
     return rows, errors, snapshots, timings
@@ -311,7 +381,8 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
                     "Calculation time: "
                     f"{format_duration(timings.get('total_seconds', 0.0))} total | "
                     f"context {format_duration(timings.get('context_seconds', 0.0))} | "
-                    f"{timings.get('symbols_ranked', len(rows))}/{timings.get('symbols_attempted', len(rows))} ranked"
+                    f"{timings.get('symbols_ranked', len(rows))}/{timings.get('symbols_attempted', len(rows))} ranked | "
+                    f"{timings.get('symbols_cached', 0)} cached"
                 ),
                 f"Slowest symbols: {slowest_text}" if slowest_text else "Slowest symbols: unavailable",
             ]
@@ -409,6 +480,10 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
         "snapshots": snapshots,
         "errors": errors,
         "timings": timings,
+        "model_cache": {
+            "force_retrain": bool(args.force_retrain),
+            "max_age_days": float(args.model_cache_max_age_days),
+        },
         "telegram_text": telegram_text,
         "report_text": report["report_text"],
         "website_recommendations": report["website_recommendations"],
@@ -475,6 +550,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-dir", default=str(Path(__file__).resolve().parent / "reports"))
     parser.add_argument("--no-market-context", action="store_true")
     parser.add_argument("--no-optimize", action="store_true")
+    parser.add_argument("--force-retrain", action="store_true")
+    parser.add_argument("--model-cache-max-age-days", type=float, default=7.0)
     parser.add_argument("--show-timing", action="store_true")
     parser.add_argument("--send-telegram", action="store_true")
     parser.add_argument("--json-only", action="store_true")

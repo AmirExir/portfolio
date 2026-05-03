@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import datetime as dt
 import hashlib
 import json
 from pathlib import Path
@@ -7,10 +8,14 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from agent.forecast import ForecastResult
+try:
+    from agent.forecast import ForecastResult
+except ImportError:  # pragma: no cover - package import path
+    from .agent.forecast import ForecastResult
 
 
 CACHE_VERSION = 3
+MODEL_RESULT_CACHE_VERSION = 1
 
 
 def _json_safe(value):
@@ -101,6 +106,82 @@ def forecast_cache_path(
         sequence_model=sequence_model,
     )
     return output_path / f"ml_forecast_rankings_cache_{cache_key}.json"
+
+
+def frame_fingerprint(frame: pd.DataFrame | pd.Series | None) -> dict:
+    if frame is None or frame.empty:
+        return {"rows": 0, "start": None, "end": None, "hash": "empty"}
+
+    normalized = frame.copy()
+    if isinstance(normalized, pd.Series):
+        normalized = normalized.to_frame("value")
+    normalized = normalized.sort_index()
+    normalized.index = pd.to_datetime(normalized.index, errors="coerce")
+    normalized = normalized[~normalized.index.isna()]
+    normalized = normalized.apply(pd.to_numeric, errors="coerce").dropna(how="all")
+    if normalized.empty:
+        return {"rows": 0, "start": None, "end": None, "hash": "empty"}
+
+    hash_values = pd.util.hash_pandas_object(normalized.round(10), index=True).values.tobytes()
+    digest = hashlib.sha256(hash_values).hexdigest()[:16]
+    return {
+        "rows": int(len(normalized)),
+        "start": normalized.index.min().isoformat(),
+        "end": normalized.index.max().isoformat(),
+        "hash": digest,
+    }
+
+
+def model_result_cache_path(
+    output_dir: str | Path,
+    symbol: str,
+    history_days: int,
+    horizon_days: int,
+    lookback_window: int,
+    ridge_alpha: float,
+    optimize_model: bool,
+    use_market_context: bool,
+    sequence_model: str,
+    data_fingerprint: dict,
+    context_fingerprint: dict | None = None,
+) -> Path:
+    payload = {
+        "cache_version": MODEL_RESULT_CACHE_VERSION,
+        "symbol": str(symbol),
+        "history_days": int(history_days),
+        "horizon_days": int(horizon_days),
+        "lookback_window": int(lookback_window),
+        "ridge_alpha": float(ridge_alpha),
+        "optimize_model": bool(optimize_model),
+        "use_market_context": bool(use_market_context),
+        "sequence_model": str(sequence_model or "off"),
+        "data_fingerprint": data_fingerprint,
+        "context_fingerprint": context_fingerprint if use_market_context else None,
+    }
+    raw = json.dumps(payload, sort_keys=True, default=_json_safe).encode("utf-8")
+    cache_key = hashlib.sha256(raw).hexdigest()[:20]
+    return Path(output_dir) / "model_artifacts" / f"model_results_{cache_key}.json"
+
+
+def cache_payload_fresh(payload: dict, max_age_days: float | None = None) -> bool:
+    if not payload:
+        return False
+    if int(payload.get("model_result_cache_version", 0)) != MODEL_RESULT_CACHE_VERSION:
+        return False
+    if max_age_days is None or float(max_age_days) <= 0:
+        return True
+
+    generated_at = payload.get("generated_at")
+    if not generated_at:
+        return False
+    try:
+        generated_dt = dt.datetime.fromisoformat(str(generated_at).replace("Z", "+00:00"))
+        if generated_dt.tzinfo is None:
+            generated_dt = generated_dt.replace(tzinfo=dt.timezone.utc)
+    except Exception:
+        return False
+    age = dt.datetime.now(dt.timezone.utc) - generated_dt.astimezone(dt.timezone.utc)
+    return age <= dt.timedelta(days=float(max_age_days))
 
 
 def forecast_result_to_dict(result: ForecastResult) -> dict:
