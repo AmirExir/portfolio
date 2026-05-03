@@ -2331,14 +2331,17 @@ try:
                     demo_mode=demo_mode,
                 )
             elif auto_trade_trigger == "ML Forecast":
-                auto_trade_result = maybe_execute_auto_trade_ml(
-                    symbol=symbol,
-                    forecast_change_pct=forecast_change,
-                    equity=equity,
-                    risk_fraction=auto_trade_risk_fraction,
-                    enabled=True,
-                    demo_mode=demo_mode,
-                )
+                if ml_forecast_available:
+                    auto_trade_result = maybe_execute_auto_trade_ml(
+                        symbol=symbol,
+                        forecast_change_pct=forecast_change,
+                        equity=equity,
+                        risk_fraction=auto_trade_risk_fraction,
+                        enabled=True,
+                        demo_mode=demo_mode,
+                    )
+                else:
+                    auto_trade_result = {"status": "skipped", "reason": "ML forecast is disabled or unavailable"}
             else:  # Either
                 # Try SMA first, then ML; both functions have their own duplicate protection
                 auto_trade_result = maybe_execute_auto_trade(
@@ -2350,7 +2353,7 @@ try:
                     enabled=True,
                     demo_mode=demo_mode,
                 )
-                if auto_trade_result.get("status") != "executed":
+                if auto_trade_result.get("status") != "executed" and ml_forecast_available:
                     auto_trade_result = maybe_execute_auto_trade_ml(
                         symbol=symbol,
                         forecast_change_pct=forecast_change,
@@ -2359,6 +2362,11 @@ try:
                         enabled=True,
                         demo_mode=demo_mode,
                     )
+                elif auto_trade_result.get("status") != "executed":
+                    auto_trade_result = {
+                        "status": "skipped",
+                        "reason": "SMA did not trigger and ML forecast is disabled or unavailable",
+                    }
         if auto_trade_result.get("status") == "executed":
             entry = auto_trade_result["entry"]
             mode_label = "Demo" if entry.get("demo_mode") else "Live"
