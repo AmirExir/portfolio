@@ -1,0 +1,70 @@
+Here are the **today’s business headlines**, separated into **facts** and **interpretation/watchpoints**, with a focus on likely market movers:
+
+- **Spirit Airlines to cease operations after failed bailout effort**
+  - **Fact:** Spirit said it is shutting down after failing to secure a **$500 million federal rescue package**, according to CBS News.
+  - **Why markets may care:** Directly relevant for airline creditors, lessors, employees, airports, and potentially competitors on ultra-low-cost routes.
+  - **Interpretation/watch:** Could tighten capacity in some domestic leisure markets, but the broader airline pricing impact depends on how quickly rivals absorb routes and aircraft.
+
+- **Berkshire Hathaway Q1: profits more than doubled; cash pile hit a record**
+  - **Fact:** WSJ and Bloomberg report Berkshire’s operating earnings rose strongly, supported by insurance, railroad, and energy businesses; cash reportedly climbed to a record **about $397 billion** in Greg Abel’s first quarter as CEO.
+  - **Why markets may care:** Berkshire is a bellwether for U.S. industrial, insurance, and consumer activity; the cash level also matters for expectations around acquisitions and capital deployment.
+  - **Interpretation/watch:** Strong earnings are supportive, but an even larger cash pile may also be read as continued caution on valuations.
+
+- **Warren Buffett comments flagged market “gambling” concerns**
+  - **Fact:** At Berkshire’s annual meeting, Buffett warned about unprecedented levels of “gambling” in markets, per Business Insider.
+  - **Why markets may care:** Buffett commentary can affect sentiment, particularly around speculative corners of the market.
+  - **Interpretation/watch:** This is sentiment-relevant rather than a concrete policy or earnings catalyst; more important for tone than immediate fundamentals.
+
+- **Buffett highlighted Apple and praised Tim Cook**
+  - **Fact:** Buffett publicly thanked Tim Cook for Berkshire’s successful Apple investment during the shareholder meeting, according to Business Insider.
+  - **Why markets may care:** Reinforces Apple’s importance to Berkshire and may support investor confidence around the long-term relationship.
+  - **Interpretation/watch:** Symbolically positive for Apple sentiment, but not new financial guidance.
+
+- **Pentagon signs AI deals with seven tech companies for classified systems**
+  - **Fact:** AP reported the U.S. military reached agreements with **seven tech firms**, including Google, to deploy AI on classified networks.
+  - **Why markets may care:** Positive read-through for defense-tech, cloud, and AI infrastructure demand, especially among large-cap tech contractors/providers.
+  - **Interpretation/watch:** Commercial revenue impact may take time, but it underscores government AI adoption as a durable demand driver.
+
+- **Nvidia CEO Jensen Huang pushes back on AI job-apocalypse messaging**
+  - **Fact:** Huang said some CEOs have a “God complex” in warning about AI-driven labor displacement, Yahoo Finance reported.
+  - **Why markets may care:** AI narrative and labor-market expectations can influence valuations across semis, software, and enterprise tech.
+  - **Interpretation/watch:** Mostly narrative-setting; not a direct earnings or policy development.
+
+- **California to start ticketing autonomous vehicles via manufacturers**
+  - **Fact:** BBC reported California will allow police to issue traffic tickets directly to AV manufacturers when driverless cars break traffic laws.
+  - **Why markets may care:** Regulatory significance for autonomous vehicle operators and suppliers, including robotaxi economics and legal risk.
+  - **Interpretation/watch:** Likely modestly negative for AV rollout friction in the near term, though it may also create clearer operating rules over time.
+
+- **Elon Musk/OpenAI trial opens with tense courtroom tone**
+  - **Fact:** The Washington Post reported the judge showed impatience with Musk as the OpenAI-related case went to trial.
+  - **Why markets may care:** Relevant for AI sector governance, OpenAI’s structure, and potentially Musk-linked ventures.
+  - **Interpretation/watch:** Market impact is uncertain unless the case produces meaningful operational restrictions, financial exposure, or governance changes.
+
+- **Gas prices rising nationwide**
+  - **Fact:** ABC News reported U.S. gasoline prices are increasing, with regional variation.
+  - **Why markets may care:** Higher fuel costs can affect inflation expectations, consumer spending, airlines, trucking, and retail.
+  - **Interpretation/watch:** Without more detail, this is a macro watch item rather than a same-day tradable catalyst.
+
+- **Forbes analysis: UAE’s OPEC exit tied to sovereign wealth strategy**
+  - **Fact:** Forbes argues the UAE’s sovereign wealth interests now outweigh its oil-price incentives.
+  - **Why markets may care:** Relevant to crude market structure and OPEC cohesion.
+  - **Interpretation/watch:** This appears more analysis/opinion than fresh hard news; useful context, but not a confirmed new market event.
+
+- **Texas court lets smokable hemp products remain on shelves for now**
+  - **Fact:** A judge temporarily blocked parts of Texas hemp restrictions, allowing continued sale of certain hemp products during litigation, per KUT.
+  - **Why markets may care:** Relevant for hemp/cannabis operators, retailers, and related supply chains.
+  - **Interpretation/watch:** Sector-specific and likely limited in broad market impact.
+
+- **Fortune: Powell staying on the Fed board could aid incoming chair**
+  - **Fact:** Fortune framed Jerome Powell’s continued board presence as potentially helping incoming Fed Chair Kevin Warsh.
+  - **Why markets may care:** Fed leadership expectations strongly affect rates, banks, and equities.
+  - **Interpretation/watch:** This is commentary, not a new Fed action.
+
+**Biggest likely market movers today:**
+1. **Spirit Airlines shutdown**
+2. **Berkshire earnings + record cash**
+3. **Pentagon AI contracts**
+4. **Rising gas prices / energy implications**
+5. **California AV enforcement change**
+
+If you want, I can also turn this into a **pre-market trader-style note** with **tickers and likely sector impacts**.
