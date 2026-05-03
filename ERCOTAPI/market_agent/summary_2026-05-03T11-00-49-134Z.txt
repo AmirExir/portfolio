@@ -1,0 +1,11 @@
+- Riot’s Rockdale campus is deepening its pivot from bitcoin mining to data center load, with AMD expanding contracted capacity and Riot reporting $33.2 million in first-quarter data center revenue; for ERCOT, this reinforces that former flexible crypto sites are becoming large, more persistent power demand that could materially change local load shapes and congestion patterns in Central Texas load pockets. (CoinDesk; Cointelegraph)
+
+- IREN announced energization of its 1.4 GW Sweetwater 1 Texas data center site, a major milestone that moves a very large load project closer to actual ERCOT system impact; the key implication is that transmission availability, interconnection timing, and operational flexibility at this scale now matter as much as the data center build itself. (GlobeNewswire)
+
+- Multiple reports point to accelerating AI/data-center expansion in Texas, with large projects competing aggressively for electricians and construction capacity; beyond labor shortages, this suggests ERCOT planners and TSPs may face tighter schedules for substation, transmission, and interconnection work needed to serve new large loads. (Tom’s Hardware citing Texas Tribune; OilPrice.com)
+
+- Public crypto miners are increasingly repositioning as AI/HPC infrastructure operators rather than purely interruptible mining load; for ERCOT, that matters because these facilities may shift from highly dispatchable, price-responsive consumption toward steadier, higher-load-factor demand with different reliability and market effects. (Cointelegraph; CoinDesk)
+
+- Community opposition to data center development is becoming more visible in Texas, including complaints about light pollution and local impacts; while not an ERCOT rule issue yet, rising siting friction could slow project execution, increase local permitting risk, and push developers toward sites with clearer transmission access and fewer land-use conflicts. (Daily Mail)
+
+- Commentary urging Texas to introduce more competition in transmission development highlights a live policy fault line: if large-load growth continues at the current pace, pressure will likely increase on ERCOT and state policymakers to revisit how quickly major transmission can be planned, approved, and built to serve new generation and data center demand. (Watts Up With That?)

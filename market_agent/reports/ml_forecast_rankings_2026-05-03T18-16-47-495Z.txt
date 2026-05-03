@@ -1,0 +1,26 @@
+Generated: 2026-05-03 18:16 UTC
+Horizon: 30 trading days
+Universe: 65 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast Return: +18.32% | Probability up: 96.7% | Edge: 46.7% | Expected error: +/-9.59% | Selected model: Ridge
+JNJ — Strong Buy | Pattern: Oversold | Forecast Return: +11.00% | Probability up: 91.9% | Edge: 41.9% | Expected error: +/-7.77% | Selected model: Transformer
+DOGE-USD — Buy | Pattern: Near 60-Day High | Forecast Return: +21.32% | Probability up: 83.1% | Edge: 33.1% | Expected error: +/-22.38% | Selected model: Transformer. Risk note: expected error is slightly larger than forecast return, so conviction is lower despite the positive edge. Model disagreement is elevated because LSTM is sharply negative while several other models are positive.
+LUV — Strong Buy | Pattern: Range / No Dominant Pattern | Forecast Return: +15.04% | Probability up: 85.1% | Edge: 35.1% | Expected error: +/-14.39% | Selected model: Ridge
+
+Top Sell / Avoid Signals
+PEPE-USD — Strong Sell | Pattern: Downtrend | Forecast Return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+NFLX — Strong Sell | Pattern: Oversold | Forecast Return: -23.84% | Probability down: 97.8% | Edge: 47.8% | Expected error: +/-14.49% | Selected model: XGBoost. Conflict note: bearish model output with oversold condition implies elevated reversal risk if momentum snaps back.
+PNUT-USD — Sell | Pattern: High Volatility | Forecast Return: -18.83% | Probability down: 87.7% | Edge: 37.7% | Expected error: +/-19.70% | Selected model: XGBoost. Risk note: expected error is larger than forecast return, which reduces trade clarity.
+INTC — Sell | Pattern: Uptrend | Forecast Return: -16.37% | Probability down: 78.1% | Edge: 28.1% | Expected error: +/-25.89% | Selected model: LSTM. Conflict note: selected model is bearish, but Ridge, XGBoost, and Neural Net are positive. Uptrend and overbought conditions create mixed context and higher model disagreement.
+AVGO — Sell | Pattern: Uptrend | Forecast Return: -9.52% | Probability down: 75.6% | Edge: 25.6% | Expected error: +/-15.52% | Selected model: Ridge. Risk note: expected error exceeds forecast return. Some models remain positive, so signal consistency is limited.
+
+Watchlist / Neutral
+AAPL — Neutral watchlist only. Forecast return is +3.39%, but model call remains Neutral / No Edge and the signal does not qualify as actionable.
+AMZN — Neutral watchlist only. Forecast return is -4.94%, but model disagreement is high, with Ridge, Neural Net, and LSTM positive versus XGBoost negative.
+GOOGL — Neutral watchlist only. Forecast return is +3.76%, but model call remains Neutral / No Edge.
+XRP-USD — Neutral watchlist only. Forecast return is +7.19%, but expected error is very high and the signal remains non-actionable.
+
+Summary
+The cleanest long setups are GEV and JNJ based on strong edge and favorable forecast-to-error balance. LUV also screens positively, though with less margin over expected error. DOGE-USD has a strong upside forecast and edge, but the forecast is nearly matched by expected error and cross-model disagreement is high.
+On the short side, PEPE-USD is the strongest bearish signal with broad model alignment and a clear downtrend. NFLX and PNUT-USD remain valid bearish candidates, but NFLX carries oversold rebound risk and PNUT-USD has high volatility with error larger than the forecast. INTC and AVGO qualify as sells by filter rules, though both have notable model conflict and weaker risk-adjusted clarity than PEPE-USD or NFLX.
