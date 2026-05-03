@@ -1324,7 +1324,18 @@ forecast_alpha = st.sidebar.number_input(
     value=10.0,
     step=0.5,
 )
-run_forecast_rankings = st.sidebar.checkbox("Run forecast rankings", value=not demo_mode)
+run_symbol_forecast = st.sidebar.checkbox(
+    "Run selected-symbol ML forecast",
+    value=False,
+    key="run_symbol_forecast_v2",
+    help="Adds the ML forecast overlay to the selected-symbol chart. Leave off for a fast public dashboard load.",
+)
+run_forecast_rankings = st.sidebar.checkbox(
+    "Run forecast rankings",
+    value=False,
+    key="run_forecast_rankings_v2",
+    help="Computes fresh ML rankings for the selected ticker universe. Leave off to show saved reports and quick charts immediately.",
+)
 selected_forecast_symbols = st.sidebar.multiselect(
     "Forecast ranking tickers",
     options=SYMBOL_OPTIONS,
@@ -1366,6 +1377,7 @@ skip_heavy_once = bool(st.session_state.pop("skip_heavy_once", False))
 forecast_work_paused = bool(st.session_state.get("forecast_work_paused", False))
 if forecast_work_paused:
     run_forecast_rankings = False
+    run_symbol_forecast = False
 
 ranking_table = pd.DataFrame()
 ranking_errors: list[str] = []
@@ -1373,25 +1385,6 @@ best_stock_for_analysis = "AAPL"
 pattern_summary = pd.DataFrame()
 pattern_details = pd.DataFrame()
 pattern_errors: list[str] = []
-
-if run_forecast_rankings and selected_forecast_symbols and not skip_heavy_once:
-    try:
-        with st.spinner("Computing ML forecast rankings and optimization..."):
-            ranking_table, ranking_errors = cached_forecast_rankings(
-                tuple(selected_forecast_symbols),
-                history_days,
-                forecast_horizon,
-                forecast_lookback,
-                forecast_alpha,
-                optimize_forecast_model,
-                use_market_context,
-                sequence_model_choice,
-                primary_model_choice,
-                st.session_state["ranking_refresh_nonce"],
-            )
-        best_stock_for_analysis = best_ranked_symbol(ranking_table, fallback="AAPL")
-    except Exception as ranking_error:
-        st.warning(f"Could not compute rankings initially: {ranking_error}")
 
 # Top-level tabs: Portfolio Balance first, then AI-Generated Market Summary, patterns, then Market Analysis
 top_portfolio_tab, top_summary_tab, top_patterns_tab, top_analysis_tab = st.tabs([
@@ -1778,35 +1771,68 @@ with top_analysis_tab:
         quick_df = None
         st.warning(f"Quick price chart unavailable: {quick_error}")
 
-    if run_forecast_rankings and not ranking_table.empty:
+    if run_forecast_rankings:
         st.markdown("---")
-        st.subheader("🔎 ML Based Forecast Rankings (Early View)")
+        st.subheader("🔎 ML Based Forecast Rankings")
 
-        buy_candidates = ranking_table[ranking_table["Forecast Return %"] > 0]
-        sell_candidates = ranking_table[ranking_table["Forecast Return %"] < 0]
-        strongest_buy = buy_candidates.sort_values("Score", ascending=False).head(10)
-        strongest_sell = sell_candidates.sort_values("Score", ascending=True).head(10)
+        if not selected_forecast_symbols:
+            st.info("Select forecast ranking tickers in the sidebar to compute rankings.")
+        elif skip_heavy_once:
+            st.info("Heavy forecast work was skipped on this rerun. Re-enable or refresh rankings when ready.")
+        elif forecast_work_paused:
+            st.info("Resume ML forecasts in the sidebar to compute rankings.")
+        else:
+            try:
+                with st.spinner("Computing ML forecast rankings and optimization..."):
+                    ranking_table, ranking_errors = cached_forecast_rankings(
+                        tuple(selected_forecast_symbols),
+                        history_days,
+                        forecast_horizon,
+                        forecast_lookback,
+                        forecast_alpha,
+                        optimize_forecast_model,
+                        use_market_context,
+                        sequence_model_choice,
+                        primary_model_choice,
+                        st.session_state["ranking_refresh_nonce"],
+                    )
+                best_stock_for_analysis = best_ranked_symbol(ranking_table, fallback="AAPL")
+                if not ranking_table.empty and not pattern_details.empty:
+                    ranking_pattern_columns = pattern_details[["Symbol", "Primary Pattern"]].drop_duplicates("Symbol")
+                    ranking_table = ranking_table.drop(columns=["Primary Pattern"], errors="ignore").merge(
+                        ranking_pattern_columns,
+                        on="Symbol",
+                        how="left",
+                    )
+            except Exception as ranking_error:
+                st.warning(f"Could not compute forecast rankings: {ranking_error}")
 
-        buy_col, sell_col = st.columns(2)
-        with buy_col:
-            st.markdown("**Strongest Buy Forecasts**")
-            if strongest_buy.empty:
-                st.info("No positive forecast candidates.")
-            else:
-                st.dataframe(format_ranking_table(strongest_buy), use_container_width=True)
-        with sell_col:
-            st.markdown("**Strongest Sell Forecasts**")
-            if strongest_sell.empty:
-                st.info("No negative forecast candidates.")
-            else:
-                st.dataframe(format_ranking_table(strongest_sell), use_container_width=True)
+        if not ranking_table.empty:
+            buy_candidates = ranking_table[ranking_table["Forecast Return %"] > 0]
+            sell_candidates = ranking_table[ranking_table["Forecast Return %"] < 0]
+            strongest_buy = buy_candidates.sort_values("Score", ascending=False).head(10)
+            strongest_sell = sell_candidates.sort_values("Score", ascending=True).head(10)
 
-        with st.expander("All forecast ranking results"):
-            st.dataframe(format_ranking_table(ranking_table.sort_values("Score", ascending=False)), use_container_width=True)
+            buy_col, sell_col = st.columns(2)
+            with buy_col:
+                st.markdown("**Strongest Buy Forecasts**")
+                if strongest_buy.empty:
+                    st.info("No positive forecast candidates.")
+                else:
+                    st.dataframe(format_ranking_table(strongest_buy), use_container_width=True)
+            with sell_col:
+                st.markdown("**Strongest Sell Forecasts**")
+                if strongest_sell.empty:
+                    st.info("No negative forecast candidates.")
+                else:
+                    st.dataframe(format_ranking_table(strongest_sell), use_container_width=True)
 
-        if ranking_errors:
-            with st.expander("Symbols skipped during forecast ranking"):
-                st.write("\n".join(ranking_errors))
+            with st.expander("All forecast ranking results"):
+                st.dataframe(format_ranking_table(ranking_table.sort_values("Score", ascending=False)), use_container_width=True)
+
+            if ranking_errors:
+                with st.expander("Symbols skipped during forecast ranking"):
+                    st.write("\n".join(ranking_errors))
 
         st.markdown("---")
 
