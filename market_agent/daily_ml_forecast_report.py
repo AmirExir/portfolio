@@ -4,6 +4,7 @@ import datetime as dt
 import json
 import os
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -123,14 +124,31 @@ def row_value(row: dict, *keys, default=None):
     return default
 
 
-def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[dict]]:
+def format_duration(seconds: float) -> str:
+    seconds = max(float(seconds or 0.0), 0.0)
+    if seconds < 60.0:
+        return f"{seconds:.1f}s"
+    minutes, remainder = divmod(seconds, 60.0)
+    if minutes < 60.0:
+        return f"{int(minutes)}m {remainder:.0f}s"
+    hours, minutes = divmod(minutes, 60.0)
+    return f"{int(hours)}h {int(minutes)}m {remainder:.0f}s"
+
+
+def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[dict], dict]:
     symbols = parse_symbols(args.symbols)
+    started_at = time.perf_counter()
+    context_started_at = time.perf_counter()
     context_df = pd.DataFrame() if args.no_market_context else load_market_context(args.history_days)
+    context_seconds = time.perf_counter() - context_started_at
     snapshots = []
     patterns_by_symbol = {}
     errors = []
+    symbol_timings = []
 
     for symbol in symbols:
+        symbol_started_at = time.perf_counter()
+        symbol_status = "ok"
         try:
             df = get_ohlcv(symbol, args.history_days)
             try:
@@ -167,7 +185,16 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
             expected_error = float(result.metrics.get("expected_error_pct", 0.0))
             edge = max(confidence - 50.0, 0.0)
         except Exception as exc:
+            symbol_status = "error"
             errors.append(f"{symbol}: {exc}")
+        finally:
+            symbol_timings.append(
+                {
+                    "symbol": symbol,
+                    "seconds": round(time.perf_counter() - symbol_started_at, 3),
+                    "status": symbol_status,
+                }
+            )
 
     rows_frame, row_errors = snapshots_to_ranking_frame(snapshots, args.primary_model)
     if not rows_frame.empty:
@@ -179,7 +206,15 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
         )
     rows = rows_frame.to_dict(orient="records")
     errors.extend(row_errors)
-    return rows, errors, snapshots
+    timings = {
+        "total_seconds": round(time.perf_counter() - started_at, 3),
+        "context_seconds": round(context_seconds, 3),
+        "symbols_attempted": len(symbols),
+        "symbols_ranked": len(rows),
+        "symbols_failed": sum(1 for item in symbol_timings if item["status"] != "ok"),
+        "symbol_timings": symbol_timings,
+    }
+    return rows, errors, snapshots, timings
 
 
 def format_row(row: dict) -> str:
@@ -214,7 +249,7 @@ def format_row(row: dict) -> str:
     )
 
 
-def build_market_report(rows: list[dict], errors: list[str], args: argparse.Namespace) -> dict:
+def build_market_report(rows: list[dict], errors: list[str], args: argparse.Namespace, timings: dict | None = None) -> dict:
     generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     sorted_rows = sorted(rows, key=lambda r: float(row_value(r, "Score", default=0.0)), reverse=True)
     sorted_buy = [row for row in sorted_rows if float(row_value(row, "Forecast Return %", default=0.0)) > 0]
@@ -229,8 +264,25 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
         f"Horizon: {args.horizon} trading days | Primary: {args.primary_model}",
         f"Pattern windows: {args.pattern_short_window}/{args.pattern_long_window} trading days",
         f"Universe: {len(rows)} symbols | Stocks + crypto + commodities",
-        "",
     ]
+    if timings:
+        slowest = sorted(timings.get("symbol_timings", []), key=lambda item: item.get("seconds", 0.0), reverse=True)[:5]
+        slowest_text = ", ".join(
+            f"{item.get('symbol')}: {format_duration(item.get('seconds', 0.0))}"
+            for item in slowest
+        )
+        lines.extend(
+            [
+                (
+                    "Calculation time: "
+                    f"{format_duration(timings.get('total_seconds', 0.0))} total | "
+                    f"context {format_duration(timings.get('context_seconds', 0.0))} | "
+                    f"{timings.get('symbols_ranked', len(rows))}/{timings.get('symbols_attempted', len(rows))} ranked"
+                ),
+                f"Slowest symbols: {slowest_text}" if slowest_text else "Slowest symbols: unavailable",
+            ]
+        )
+    lines.append("")
 
     if sorted_rows:
         best_row = sorted_buy[0] if sorted_buy else sorted_rows[0]
@@ -283,11 +335,11 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
     }
 
 
-def build_telegram_text(rows: list[dict], errors: list[str], args: argparse.Namespace) -> str:
-    return build_market_report(rows, errors, args)["report_text"]
+def build_telegram_text(rows: list[dict], errors: list[str], args: argparse.Namespace, timings: dict | None = None) -> str:
+    return build_market_report(rows, errors, args, timings)["report_text"]
 
 
-def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args: argparse.Namespace, snapshots: list[dict]) -> dict:
+def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args: argparse.Namespace, snapshots: list[dict], timings: dict) -> dict:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     timestamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ")
@@ -303,7 +355,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
         not args.no_market_context,
     )
 
-    report = build_market_report(rows, errors, args)
+    report = build_market_report(rows, errors, args, timings)
 
     payload = {
         "generated_at": timestamp,
@@ -322,6 +374,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
         "rows": rows,
         "snapshots": snapshots,
         "errors": errors,
+        "timings": timings,
         "telegram_text": telegram_text,
         "report_text": report["report_text"],
         "website_recommendations": report["website_recommendations"],
@@ -394,15 +447,15 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = build_parser().parse_args()
-    rows, errors, snapshots = run_rankings(args)
-    telegram_text = build_telegram_text(rows, errors, args)
-    paths = write_outputs(rows, errors, telegram_text, args, snapshots)
+    rows, errors, snapshots, timings = run_rankings(args)
+    telegram_text = build_telegram_text(rows, errors, args, timings)
+    paths = write_outputs(rows, errors, telegram_text, args, snapshots, timings)
 
     if args.send_telegram:
         send_telegram(telegram_text)
 
     if args.json_only:
-        print(json.dumps({"paths": paths, "telegram_text": telegram_text, "rows": rows, "errors": errors}, default=_json_default))
+        print(json.dumps({"paths": paths, "telegram_text": telegram_text, "rows": rows, "errors": errors, "timings": timings}, default=_json_default))
     else:
         print(telegram_text)
 
