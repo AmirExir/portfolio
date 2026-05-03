@@ -1,0 +1,32 @@
+Generated: 2026-05-03 23:29 UTC
+Horizon: 30 trading days
+Universe: 65 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Strong Buy | pattern: Uptrend | forecast return: +19.17% | probability up: 93.0% | edge: 43.0% | expected error: +/-12.23% | selected model: Ensemble. Highest-ranked long signal in the run. Forecast return remains above expected error, which supports signal quality, though volatility is still material.
+
+SLB — Buy | pattern: Uptrend | forecast return: +12.66% | probability up: 77.1% | edge: 27.1% | expected error: +/-13.57% | selected model: Ensemble. Positive directional setup, but expected error is slightly larger than forecast return, so conviction is weaker than the headline return suggests.
+
+LUV — Buy | pattern: Range / No Dominant Pattern | forecast return: +9.83% | probability up: 72.1% | edge: 22.1% | expected error: +/-15.73% | selected model: Ensemble. Tradable upside forecast, but the lack of a dominant pattern and error above forecast imply higher uncertainty.
+
+JNJ — Buy | pattern: Oversold | forecast return: +6.76% | probability up: 76.3% | edge: 26.3% | expected error: +/-8.93% | selected model: Ensemble. Oversold condition aligns with a rebound call, but expected error exceeds forecast return, so this is better treated as a moderate-quality recovery setup rather than a high-conviction trend trade.
+
+DIA — Buy | pattern: Uptrend | forecast return: +2.70% | probability up: 70.0% | edge: 20.0% | expected error: +/-5.12% | selected model: Ensemble. Clears the noise filter, but the expected error is notably larger than the projected gain. More suitable as a watch candidate than a strong standalone buy.
+
+Top Sell / Avoid Signals
+PEPE-USD — Strong Sell | pattern: Downtrend | forecast return: -26.56% | probability down: 93.9% | edge: 43.9% | expected error: +/-17.76% | selected model: Ensemble. Strongest bearish signal in the universe. All major models are negative, which reduces internal conflict and strengthens the avoid/short case.
+
+NFLX — Sell | pattern: Oversold | forecast return: -13.13% | probability down: 77.6% | edge: 27.6% | expected error: +/-17.15% | selected model: Ensemble. Bearish model output is notable, but the oversold pattern raises reversal risk. Expected error is also larger than forecast return, so downside may be less linear than the ranking suggests.
+
+Watchlist / Neutral
+C — Neutral / No Edge | Uptrend | forecast return: +6.01%. Positive return forecast, but not actionable under the model call filter.
+GS — Neutral / No Edge | Uptrend | forecast return: +6.42%. Similar profile to C; favorable directional bias without enough edge for inclusion.
+ETH-USD — Neutral / No Edge | Range / No Dominant Pattern | forecast return: +12.57% | expected error: +/-26.27%. Large upside forecast, but uncertainty is very high and the signal remains neutral.
+AVAX-USD — Neutral / No Edge | Range / No Dominant Pattern | forecast return: -6.31% | expected error: +/-29.51%. Weak actionable value because forecast is small relative to uncertainty.
+SHIB-USD — Neutral / No Edge | Bullish MA Crossover | forecast return: -12.85% | expected error: +/-41.98%. Bearish forecast conflicts with a bullish crossover pattern, implying elevated reversal risk.
+PNUT-USD — Neutral / No Edge | High Volatility | forecast return: -10.43% | expected error: +/-28.05%. Downside forecast is notable, but neutral classification and very high uncertainty keep it off the actionable sell list.
+
+Model conflict notes
+Several neutral names show substantial disagreement across sub-models. For example, XRP-USD has a mildly bearish ensemble forecast while XGBoost is strongly positive and several sequence models are negative. SHIB-USD also shows a bearish ensemble reading despite some models being positive and the chart pattern showing a bullish crossover. These conflicts reduce confidence even when forecast magnitude looks large.
+
+Overall, the actionable list is concentrated: GEV is the clearest buy candidate, with SLB, LUV, JNJ, and DIA as lower-confidence longs due to error size. On the bearish side, PEPE-USD is the only clean high-conviction sell, while NFLX qualifies but carries oversold reversal risk.

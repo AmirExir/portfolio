@@ -1,0 +1,9 @@
+Generated: 2026-05-03 23:30 UTC
+Horizon: 30 trading days
+Universe: 65 symbols | Stocks + crypto + commodities
+
+Actionable bullish signals meeting the filter are limited to four names. GEV is the strongest long setup with a Strong Buy call, forecast return of +19.10%, high upside probability at 93.0%, and an uptrend pattern. The next bullish candidates are SLB at +11.98% in an uptrend, LUV at +9.68% with a Buy rating despite a range-bound pattern, and JNJ at +6.97% with a Buy rating tied to an oversold pattern.
+
+On the bearish side, PEPE-USD is the clearest negative signal with a Strong Sell call and forecast return of -26.56% in a downtrend. NFLX is the only additional qualifying sell signal, with a Sell call and forecast return of -13.13%, while the pattern is oversold.
+
+No other symbols should be elevated as primary ideas from this run because the remaining names are Neutral / No Edge or fall below the requested signal filter. A short watchlist from stronger non-actionable readings includes AMZN on the upside and AVGO, ADA-USD, and AVAX-USD on the downside, but these do not qualify as buy or sell recommendations under the stated rules.
