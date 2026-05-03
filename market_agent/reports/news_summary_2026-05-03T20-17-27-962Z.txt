@@ -1,0 +1,41 @@
+Here are the **concise, market-focused business headlines** from your list, with **Facts** separated from **Interpretation**:
+
+- **Berkshire Hathaway: cash hits record; earnings rise under new CEO Greg Abel**
+  - **Facts:** Berkshire’s cash pile reached a record high in Abel’s first quarter as CEO. Operating earnings increased, with strength cited in insurance, railroad, and energy. Abel said Berkshire has a shortlist of acquisition targets.
+  - **Interpretation:** Higher cash and stronger operating profit may be read as a sign of balance-sheet strength and optionality for deals, but the large cash balance can also suggest a lack of attractively priced opportunities.
+
+- **Buffett publicly praises Tim Cook and Berkshire’s Apple investment**
+  - **Facts:** At Berkshire’s shareholder meeting, Warren Buffett thanked Apple CEO Tim Cook and highlighted the success of Berkshire’s Apple stake.
+  - **Interpretation:** This reinforces Apple’s importance to Berkshire’s long-term returns and may be seen as a positive signal for investor sentiment around Apple, though it does not change Berkshire’s reported fundamentals by itself.
+
+- **Spirit Airlines shuts down after rescue deal fails**
+  - **Facts:** Spirit said it is winding down operations immediately after a White House-backed rescue proposal fell through.
+  - **Interpretation:** This is a significant negative for airline-sector credit and budget-travel competition, and could benefit rivals on pricing and capacity in affected routes.
+
+- **Pentagon expands classified military AI use with Nvidia, Microsoft, and AWS**
+  - **Facts:** The Defense Department reached agreements to broaden use of advanced AI tools on classified military networks involving Nvidia, Microsoft, and Amazon Web Services.
+  - **Interpretation:** The announcement may be supportive for defense-tech and AI-related revenue expectations, especially for infrastructure and cloud providers tied to government contracts.
+
+- **Oil and gasoline prices pressured by Middle East tensions and refinery disruption**
+  - **Facts:** Coverage cites higher fuel prices tied to the Iran war and a power loss at BP’s Whiting, Indiana refinery. Forbes also reports the UAE has left OPEC.
+  - **Interpretation:** Rising oil and regional fuel prices can lift energy stocks and refining margins in some cases, while increasing inflation pressure and weighing on transport and consumer-sensitive sectors.
+
+- **Thermos recalls 8.2 million insulated containers**
+  - **Facts:** Thermos recalled about 8.2 million containers after reports of injuries linked to a missing pressure-relief feature.
+  - **Interpretation:** This looks most relevant for consumer-product liability exposure and retail partners, but it is likely less market-moving than the Berkshire, Spirit, AI, and energy headlines unless broader brand or litigation effects emerge.
+
+- **Atrium Health proposes combination with WakeMed**
+  - **Facts:** Atrium Health is seeking to combine with WakeMed, extending the reach of North Carolina’s largest hospital system.
+  - **Interpretation:** The deal could reshape regional healthcare competition and trigger antitrust scrutiny, making it more important for local hospital and payer dynamics than for broad markets.
+
+- **Texas court keeps smokable hemp on shelves for now**
+  - **Facts:** A judge temporarily blocked parts of Texas hemp regulations, allowing continued sales of hemp flower and concentrates while litigation proceeds.
+  - **Interpretation:** Near term, this is supportive for affected hemp businesses and retailers in Texas, but the impact is mostly sector-specific and dependent on the legal outcome.
+
+### Biggest likely market movers from this set
+- Berkshire Hathaway earnings/cash update
+- Spirit Airlines shutdown
+- Pentagon AI expansion involving Nvidia/Microsoft/AWS
+- Oil/gas price pressure tied to geopolitical risk and refinery outage
+
+If you want, I can also turn this into a **“What matters for stocks today”** version with **bullish / bearish / watchlist** labels.
