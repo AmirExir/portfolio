@@ -1,0 +1,18 @@
+Generated: 2026-05-03 22:58 UTC
+Horizon: 30 trading days
+Universe: 65 symbols | Stocks + crypto + commodities
+
+Actionable long signals meeting the filter were limited to four names.
+
+Buy-side focus:
+GEV is the highest-conviction long signal in the set with a Strong Buy call, +19.19% forecast return, 93.0% probability up, and an Uptrend pattern.
+SLB has a Buy call with a +12.42% forecast return, 76.4% probability up, and an Uptrend pattern.
+LUV has a Buy call with a +10.38% forecast return, 72.5% probability up, and a Range / No Dominant Pattern backdrop.
+JNJ has a Buy call with a +6.37% forecast return, 75.0% probability up, and an Oversold pattern.
+
+Sell-side focus:
+PEPE-USD is the clearest downside signal with a Strong Sell call, -26.56% forecast return, 93.9% probability down, and a Downtrend pattern.
+NFLX has a Sell call with a -9.28% forecast return, 70.0% probability down, and an Oversold pattern.
+
+Watchlist note:
+Other names in the file may show notable forecast magnitudes, but they were excluded because the model call was Neutral / No Edge or the move did not meet the stated filter.
