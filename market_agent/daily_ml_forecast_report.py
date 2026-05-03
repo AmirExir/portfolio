@@ -22,6 +22,7 @@ from forecast_cache import (
     snapshot_from_model_results,
     snapshots_to_ranking_frame,
 )
+from patterns import recognize_patterns
 
 
 DEFAULT_SYMBOLS = [
@@ -126,11 +127,23 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
     symbols = parse_symbols(args.symbols)
     context_df = pd.DataFrame() if args.no_market_context else load_market_context(args.history_days)
     snapshots = []
+    patterns_by_symbol = {}
     errors = []
 
     for symbol in symbols:
         try:
             df = get_ohlcv(symbol, args.history_days)
+            try:
+                patterns_by_symbol[symbol] = recognize_patterns(
+                    df,
+                    short_window=args.pattern_short_window,
+                    long_window=args.pattern_long_window,
+                )
+            except Exception:
+                patterns_by_symbol[symbol] = {
+                    "Primary Pattern": "Unavailable",
+                    "All Patterns": "",
+                }
             model_results = compare_forecast_models(
                 df,
                 horizon_days=args.horizon,
@@ -157,6 +170,13 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
             errors.append(f"{symbol}: {exc}")
 
     rows_frame, row_errors = snapshots_to_ranking_frame(snapshots, args.primary_model)
+    if not rows_frame.empty:
+        rows_frame["Primary Pattern"] = rows_frame["Symbol"].map(
+            lambda symbol: patterns_by_symbol.get(symbol, {}).get("Primary Pattern", "Unavailable")
+        )
+        rows_frame["All Patterns"] = rows_frame["Symbol"].map(
+            lambda symbol: patterns_by_symbol.get(symbol, {}).get("All Patterns", "")
+        )
     rows = rows_frame.to_dict(orient="records")
     errors.extend(row_errors)
     return rows, errors, snapshots
@@ -166,12 +186,27 @@ def format_row(row: dict) -> str:
     ridge_return = float(row_value(row, "Ridge Return %", default=0.0))
     xgboost_return = float(row_value(row, "XGBoost Return %", default=0.0))
     ensemble_return = float(row_value(row, "Ensemble Return %", default=0.0))
+    primary_pattern = row_value(row, "Primary Pattern", "primary_pattern", default="Unavailable")
+    details = [
+        str(row_value(row, "model_call", "Model Call", default="")),
+        f"selected {row_value(row, 'selected_model', 'Selected Model', default='')}",
+    ]
+    if primary_pattern and primary_pattern != "Unavailable":
+        details.append(f"pattern {primary_pattern}")
+    details.extend(
+        [
+            f"prob up {float(row_value(row, 'Probability Up %', default=0.0)):.1f}%",
+            f"edge {float(row_value(row, 'model_edge_pct', 'Model Edge %', default=0.0)):.1f}%",
+            f"err +/-{float(row_value(row, 'expected_error_pct', 'Expected Error %', default=0.0)):.2f}%",
+            f"Ridge {ridge_return:+.2f}%",
+            f"XGBoost {xgboost_return:+.2f}%",
+            f"Ensemble {ensemble_return:+.2f}%",
+        ]
+    )
     return (
-        f"{row_value(row, 'symbol', 'Symbol')}: {float(row_value(row, 'forecast_return_pct', 'Forecast Return %', default=0.0)):+.2f}% "
-        f"({row_value(row, 'model_call', 'Model Call')}, selected {row_value(row, 'selected_model', 'Selected Model')}, "
-        f"prob up {float(row_value(row, 'Probability Up %', default=0.0)):.1f}%, edge {float(row_value(row, 'model_edge_pct', 'Model Edge %', default=0.0)):.1f}%, "
-        f"err +/-{float(row_value(row, 'expected_error_pct', 'Expected Error %', default=0.0)):.2f}%, "
-        f"Ridge {ridge_return:+.2f}%, XGBoost {xgboost_return:+.2f}%, Ensemble {ensemble_return:+.2f}%)"
+        f"{row_value(row, 'symbol', 'Symbol', default='')}: "
+        f"{float(row_value(row, 'forecast_return_pct', 'Forecast Return %', default=0.0)):+.2f}% "
+        f"({', '.join(details)})"
     )
 
 
@@ -188,10 +223,29 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
         "ML Forecast Rankings",
         f"Generated: {generated_at}",
         f"Horizon: {args.horizon} trading days | Primary: {args.primary_model}",
+        f"Pattern windows: {args.pattern_short_window}/{args.pattern_long_window} trading days",
         f"Universe: {len(rows)} symbols | Stocks + crypto + commodities",
         "",
-        "Strongest Buy Forecasts",
     ]
+
+    if sorted_rows:
+        best_row = sorted_buy[0] if sorted_buy else sorted_rows[0]
+        lines.extend(
+            [
+                "Best Picked Forecast",
+                (
+                    f"{row_value(best_row, 'Symbol', default='')}: {row_value(best_row, 'Model Call', default='')} | "
+                    f"Pattern: {row_value(best_row, 'Primary Pattern', default='Unavailable')} | "
+                    f"Forecast Return: {float(row_value(best_row, 'Forecast Return %', default=0.0)):+.2f}% | "
+                    f"Selected model: {row_value(best_row, 'Selected Model', default='')}"
+                ),
+                "",
+            ]
+        )
+
+    lines.extend([
+        "Strongest Buy Forecasts",
+    ])
     if sorted_buy:
         lines.extend(format_row(row) for row in sorted_buy[: args.top_n])
     else:
@@ -322,7 +376,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--horizon", type=int, default=30)
     parser.add_argument("--lookback", type=int, default=20)
     parser.add_argument("--ridge-alpha", type=float, default=10.0)
-    parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost"], default="Ensemble")
+    parser.add_argument("--pattern-short-window", type=int, default=20)
+    parser.add_argument("--pattern-long-window", type=int, default=50)
+    parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost"], default="Best Validation")
     parser.add_argument("--top-n", type=int, default=5)
     parser.add_argument("--output-dir", default=str(Path(__file__).resolve().parent / "reports"))
     parser.add_argument("--no-market-context", action="store_true")

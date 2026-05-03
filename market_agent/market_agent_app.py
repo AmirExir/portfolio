@@ -31,6 +31,7 @@ try:
         snapshot_from_model_results,
         select_model_name,
     )
+    from patterns import scan_patterns
 except ImportError as e:
     st.error(f" Failed to import agent modules: {e}")
     st.info("Please ensure the 'agent' folder exists in the same directory as this app.")
@@ -676,6 +677,7 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
         "Rank",
         "Symbol",
         "Model Call",
+        "Primary Pattern",
         "Selected Model",
         "Last Price",
         "Forecast Price",
@@ -690,6 +692,7 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
         "Expected Error %",
         "Score",
     ]
+    display_columns = [column for column in display_columns if column in display_df.columns]
     return display_df[display_columns].style.format(
         {
             "Rank": "{:.0f}",
@@ -809,130 +812,13 @@ def scan_common_patterns(
     long_window: int,
     cache_buster: int = 0,
 ) -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
-    detail_rows = []
-    pattern_rows = []
-    errors = []
-
-    for symbol in symbols:
-        try:
-            frame = get_ohlcv(symbol, history_days)
-            close = _clean_series(frame, "close")
-            if close.shape[0] < max(60, short_window, long_window):
-                raise ValueError("Not enough clean close prices for pattern scan.")
-
-            volume = _clean_series(frame, "volume") if "volume" in frame.columns else pd.Series(dtype=float)
-            last_close = float(close.iloc[-1])
-            sma_short = close.rolling(short_window).mean()
-            sma_long = close.rolling(long_window).mean()
-            sma_200 = close.rolling(200).mean()
-            ret_5 = (last_close / float(close.iloc[-6]) - 1.0) * 100.0 if close.shape[0] > 5 else np.nan
-            ret_20 = (last_close / float(close.iloc[-21]) - 1.0) * 100.0 if close.shape[0] > 20 else np.nan
-            ret_60 = (last_close / float(close.iloc[-61]) - 1.0) * 100.0 if close.shape[0] > 60 else np.nan
-            high_60 = float(close.tail(60).max())
-            low_60 = float(close.tail(60).min())
-            daily_returns = close.pct_change().dropna()
-            rolling_vol = daily_returns.rolling(20).std() * np.sqrt(252) * 100.0
-            latest_vol = _latest_value(rolling_vol)
-            vol_percentile = np.nan
-            vol_window = rolling_vol.dropna().tail(252)
-            if not vol_window.empty and np.isfinite(latest_vol):
-                vol_percentile = float((vol_window <= latest_vol).mean() * 100.0)
-            latest_rsi = _latest_value(_rsi(close))
-            volume_ratio = np.nan
-            if not volume.empty and volume.tail(20).mean() > 0:
-                volume_ratio = float(volume.iloc[-1] / volume.tail(20).mean())
-
-            short_now = _latest_value(sma_short)
-            long_now = _latest_value(sma_long)
-            sma200_now = _latest_value(sma_200)
-            uptrend = (
-                np.isfinite(short_now)
-                and np.isfinite(long_now)
-                and last_close > long_now
-                and short_now > long_now
-                and (not np.isfinite(sma200_now) or long_now > sma200_now)
-            )
-            downtrend = (
-                np.isfinite(short_now)
-                and np.isfinite(long_now)
-                and last_close < long_now
-                and short_now < long_now
-                and (not np.isfinite(sma200_now) or long_now < sma200_now)
-            )
-
-            patterns = []
-            if uptrend:
-                patterns.append("Uptrend")
-            if downtrend:
-                patterns.append("Downtrend")
-            if _recent_cross(sma_short, sma_long, "bullish"):
-                patterns.append("Bullish MA Crossover")
-            if _recent_cross(sma_short, sma_long, "bearish"):
-                patterns.append("Bearish MA Crossover")
-            if high_60 > 0 and last_close >= high_60 * 0.98 and ret_20 > 0:
-                patterns.append("Near 60-Day High")
-            if low_60 > 0 and last_close <= low_60 * 1.08 and ret_5 > 0:
-                patterns.append("Rebound From 60-Day Low")
-            if uptrend and np.isfinite(short_now) and np.isfinite(long_now) and short_now > last_close > long_now:
-                patterns.append("Pullback In Uptrend")
-            if np.isfinite(latest_rsi) and latest_rsi < 35:
-                patterns.append("Oversold")
-            if np.isfinite(latest_rsi) and latest_rsi > 70:
-                patterns.append("Overbought")
-            if np.isfinite(volume_ratio) and volume_ratio >= 1.8:
-                patterns.append("Volume Spike")
-            if np.isfinite(vol_percentile) and vol_percentile >= 80:
-                patterns.append("High Volatility")
-            if not patterns:
-                patterns.append("Range / No Dominant Pattern")
-
-            primary_pattern = patterns[0]
-            detail_rows.append(
-                {
-                    "Symbol": symbol,
-                    "Primary Pattern": primary_pattern,
-                    "All Patterns": ", ".join(patterns),
-                    "Last Price": last_close,
-                    "5D Return %": ret_5,
-                    "20D Return %": ret_20,
-                    "60D Return %": ret_60,
-                    "RSI": latest_rsi,
-                    "20D Volatility %": latest_vol,
-                    "Volume Ratio": volume_ratio,
-                }
-            )
-            for pattern in patterns:
-                pattern_rows.append(
-                    {
-                        "Pattern": pattern,
-                        "Symbol": symbol,
-                        "20D Return %": ret_20,
-                        "60D Return %": ret_60,
-                    }
-                )
-        except Exception as pattern_error:
-            errors.append(f"{symbol}: {pattern_error}")
-
-    detail_df = pd.DataFrame(detail_rows)
-    if not pattern_rows:
-        return pd.DataFrame(), detail_df, errors
-
-    raw_patterns = pd.DataFrame(pattern_rows)
-    summary_rows = []
-    for pattern, group in raw_patterns.groupby("Pattern"):
-        symbols_list = sorted(group["Symbol"].unique().tolist())
-        summary_rows.append(
-            {
-                "Pattern": pattern,
-                "Count": int(group["Symbol"].nunique()),
-                "Avg 20D Return %": float(group["20D Return %"].mean()),
-                "Avg 60D Return %": float(group["60D Return %"].mean()),
-                "Symbols": ", ".join(symbols_list),
-            }
-        )
-
-    summary_df = pd.DataFrame(summary_rows).sort_values(["Count", "Avg 20D Return %"], ascending=[False, False])
-    return summary_df, detail_df, errors
+    return scan_patterns(
+        symbols=symbols,
+        history_days=history_days,
+        get_ohlcv=get_ohlcv,
+        short_window=short_window,
+        long_window=long_window,
+    )
 
 
 def build_quick_price_chart(df: pd.DataFrame, short_window: int, long_window: int, symbol: str) -> go.Figure:
@@ -1394,6 +1280,31 @@ if refresh_selected:
     st.session_state["symbol_refresh_nonce"] += 1
     st.rerun()
 
+ranking_table = pd.DataFrame()
+ranking_errors: list[str] = []
+best_stock_for_analysis = "AAPL"
+pattern_summary = pd.DataFrame()
+pattern_details = pd.DataFrame()
+pattern_errors: list[str] = []
+
+if run_forecast_rankings and selected_forecast_symbols:
+    try:
+        with st.spinner("Computing ML forecast rankings and optimization..."):
+            ranking_table, ranking_errors = cached_forecast_rankings(
+                tuple(selected_forecast_symbols),
+                history_days,
+                forecast_horizon,
+                forecast_lookback,
+                forecast_alpha,
+                optimize_forecast_model,
+                use_market_context,
+                primary_model_choice,
+                st.session_state["ranking_refresh_nonce"],
+            )
+        best_stock_for_analysis = best_ranked_symbol(ranking_table, fallback="AAPL")
+    except Exception as ranking_error:
+        st.warning(f"Could not compute rankings initially: {ranking_error}")
+
 # Top-level tabs: Portfolio Balance first, then AI-Generated Market Summary, patterns, then Market Analysis
 top_portfolio_tab, top_summary_tab, top_patterns_tab, top_analysis_tab = st.tabs([
     "💼 Portfolio Balance",
@@ -1498,6 +1409,30 @@ with top_patterns_tab:
                     st.session_state["ranking_refresh_nonce"],
                 )
 
+            best_pattern_row = pd.DataFrame()
+            if not pattern_details.empty:
+                best_pattern_row = pattern_details[pattern_details["Symbol"] == best_stock_for_analysis]
+            best_rank_row = pd.DataFrame()
+            if not ranking_table.empty and "Symbol" in ranking_table.columns:
+                best_rank_row = ranking_table[ranking_table["Symbol"] == best_stock_for_analysis]
+            if not best_pattern_row.empty:
+                picked = best_pattern_row.iloc[0]
+                picked_cols = st.columns(4)
+                picked_cols[0].metric("ML Picked Stock", ticker_label(best_stock_for_analysis))
+                picked_cols[1].metric("Recognized Pattern", str(picked["Primary Pattern"]))
+                if not best_rank_row.empty:
+                    picked_cols[2].metric(
+                        "Forecast Return",
+                        f"{float(best_rank_row.iloc[0]['Forecast Return %']):+.2f}%",
+                        str(best_rank_row.iloc[0]["Model Call"]),
+                    )
+                else:
+                    picked_cols[2].metric("20D Return", f"{float(picked['20D Return %']):+.2f}%")
+                picked_cols[3].metric("RSI", f"{float(picked['RSI']):.1f}")
+                st.caption(f"{best_stock_for_analysis} patterns: {picked['All Patterns']}")
+            elif best_stock_for_analysis:
+                st.caption(f"ML picked {ticker_label(best_stock_for_analysis)}, but no pattern row was available for that ticker.")
+
             if pattern_summary.empty:
                 st.info("No pattern data was available for the selected tickers.")
             else:
@@ -1564,6 +1499,14 @@ with top_patterns_tab:
                     st.write("\n".join(pattern_errors))
         except Exception as pattern_scan_error:
             st.warning(f"Pattern scan unavailable: {pattern_scan_error}")
+
+if not ranking_table.empty and not pattern_details.empty:
+    ranking_pattern_columns = pattern_details[["Symbol", "Primary Pattern"]].drop_duplicates("Symbol")
+    ranking_table = ranking_table.drop(columns=["Primary Pattern"], errors="ignore").merge(
+        ranking_pattern_columns,
+        on="Symbol",
+        how="left",
+    )
 
 with top_analysis_tab:
     try:
@@ -1727,29 +1670,6 @@ with top_analysis_tab:
     except Exception as quick_error:
         quick_df = None
         st.warning(f"Quick price chart unavailable: {quick_error}")
-
-    # --- Compute ML Forecast Rankings After the quick view ---
-    ranking_table = pd.DataFrame()
-    ranking_errors: list[str] = []
-    best_stock_for_analysis = "AAPL"
-
-    if run_forecast_rankings and selected_forecast_symbols:
-        try:
-            with st.spinner("Computing ML forecast rankings and optimization..."):
-                ranking_table, ranking_errors = cached_forecast_rankings(
-                    tuple(selected_forecast_symbols),
-                    history_days,
-                    forecast_horizon,
-                    forecast_lookback,
-                    forecast_alpha,
-                    optimize_forecast_model,
-                    use_market_context,
-                    primary_model_choice,
-                    st.session_state["ranking_refresh_nonce"],
-                )
-            best_stock_for_analysis = best_ranked_symbol(ranking_table, fallback="AAPL")
-        except Exception as ranking_error:
-            st.warning(f"Could not compute rankings initially: {ranking_error}")
 
     if run_forecast_rankings and not ranking_table.empty:
         st.markdown("---")

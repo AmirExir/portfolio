@@ -68,7 +68,7 @@ Then set your Telegram message body to:
 For the forecast **Stock Market Code** node, if you are using `--json-only`, use this command:
 
 ```bash
-cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --no-optimize --json-only
+cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --json-only
 ```
 
 Then parse it in a Code node:
@@ -107,7 +107,7 @@ TELEGRAM_CHAT_ID=your_chat_id
 Then run:
 
 ```bash
-cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --no-optimize --send-telegram
+cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --send-telegram
 ```
 
 If you want the scheduled node to precompute the optimized model comparison for the app and the LLM, keep the default optimization run and just add `--send-telegram` when you want the script to deliver the forecast text directly.
@@ -115,10 +115,11 @@ If you want the scheduled node to precompute the optimized model comparison for 
 ## Useful arguments
 
 ```bash
---symbols "AAPL,MSFT,NVDA,AVGO,SPY,VOO,GLD,SLV,USO"
 --horizon 30
 --history-days 913
---primary-model Ensemble
+--primary-model "Best Validation"
+--pattern-short-window 20
+--pattern-long-window 50
 --top-n 5
 --no-market-context
 --no-optimize
@@ -126,4 +127,6 @@ If you want the scheduled node to precompute the optimized model comparison for 
 ```
 
 The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, and Ensemble forecast comparison used in the Streamlit app.
-The JSON payload now includes all model snapshots per symbol, which makes it usable by the app and by an LLM-driven n8n branch without rerunning forecasts.
+If you omit `--symbols`, the script uses the full default stock, ETF, commodity, crypto, and meme-crypto universe from the app.
+The text report and JSON rows include the recognized primary pattern for each ranked ticker, so the n8n summary and website table can describe the same pick.
+The JSON payload includes all model snapshots per symbol, which makes it usable by the app and by an LLM-driven n8n branch without rerunning forecasts.
