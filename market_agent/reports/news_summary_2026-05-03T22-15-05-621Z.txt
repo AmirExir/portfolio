@@ -1,0 +1,45 @@
+Here are the **concise, market-focused business headlines** separated into **Facts** and **Interpretation**:
+
+## Facts
+- **Spirit Airlines to shut down operations**
+  - Spirit said it is ceasing operations after failing to secure a **$500 million federal bailout**.
+  - Likely implications: disruption for airline passengers, potential ripple effects for creditors, lessors, airports, and U.S. airline pricing/capacity.
+
+- **Berkshire Hathaway Q1 profit jumped; cash hit a record**
+  - Berkshire reported profits **more than doubled**, helped by gains in its **insurance, railroad, and energy** businesses.
+  - Berkshire’s cash pile rose to a **record level** (Bloomberg reported about **$397 billion**).
+  - CEO Greg Abel said Berkshire has a **shortlist of acquisition targets**.
+
+- **Warren Buffett comments on markets**
+  - At Berkshire’s annual meeting, Buffett warned about increased **“gambling” in markets** and also flagged risks around **deepfakes** and **nuclear weapons**.
+  - Buffett also publicly praised **Apple CEO Tim Cook** for Berkshire’s successful Apple investment.
+
+- **Pentagon signs AI deals with 7 tech companies**
+  - The U.S. military reached agreements with **seven tech firms** to use AI on **classified systems**.
+  - The deals expand government adoption of AI in defense and secure networks.
+
+- **California to ticket autonomous vehicles via manufacturers**
+  - California will begin issuing traffic-law citations for driverless vehicles directly to the **manufacturer** when AVs violate rules.
+  - This is a regulatory development relevant to autonomous-vehicle operators such as **Waymo and others**.
+
+- **Elon Musk/OpenAI trial underway**
+  - A federal judge reportedly rebuked Elon Musk as trial proceedings opened in Musk’s case against **OpenAI** and Sam Altman.
+  - The case keeps attention on governance, control, and competitive dynamics in AI.
+
+- **Nvidia CEO Jensen Huang pushes back on AI job-loss narrative**
+  - Huang said some CEOs have a **“God complex”** in framing AI apocalypse scenarios and warned that such messaging could worsen shortages of critical workers.
+  - Relevant for AI labor-market sentiment and enterprise adoption narratives.
+
+- **Gas prices rising nationwide**
+  - ABC reported U.S. gas prices are moving higher, with regional differences in the most and least expensive states.
+  - Higher fuel prices can affect consumer spending, transportation, and inflation expectations.
+
+## Interpretation
+- **Most market-moving item:** Spirit’s shutdown is the clearest near-term corporate event, especially for **airlines, travel, aircraft lessors, and credit markets** tied to the carrier.
+- **Berkshire’s record cash** may reinforce a view that large investors still see **few attractively priced acquisitions/assets**, while its earnings strength supports the broader case for resilience in traditional businesses like insurance and infrastructure.
+- **Defense AI deals** are incrementally positive for large-cap AI/software/cloud names exposed to federal spending.
+- **California’s AV enforcement change** raises regulatory and compliance risk for autonomous-vehicle operators, though it may also help formalize the sector’s operating framework.
+- **Buffett’s “gambling” warning** is more sentiment-relevant than immediately market-moving, but it may feed debate about froth in risk assets.
+- **Rising gas prices** could become a broader macro issue if sustained, especially via inflation expectations and pressure on household budgets.
+
+If you want, I can turn this into a **“Before the open” market brief** with **What happened / Why it matters / Stocks to watch**.
