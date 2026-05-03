@@ -1,0 +1,12 @@
+Generated: 2026-05-03 21:35 UTC
+Horizon: 30 trading days
+Universe: 65 symbols | Stocks + crypto + commodities
+
+Buy-side signals meeting the stated filter are concentrated in a small group. GEV is the strongest long setup with a Strong Buy signal and a forecast return of +19.48%, supported by a 93.4% probability-up reading and an uptrend pattern. Additional Buy signals are SLB at +12.33%, LUV at +9.69%, GS at +6.77%, and JNJ at +6.16%. Among these, SLB, GS, and GEV are aligned with uptrend patterns, while JNJ is flagged as oversold and LUV is in a range pattern.
+
+Sell-side signals are more limited. PEPE-USD is the clearest downside setup with a Strong Sell signal and a forecast return of -26.56%, paired with a downtrend pattern and only 6.1% probability up. NFLX is the only additional qualifying Sell signal at -12.82%, with an oversold pattern.
+
+No other listed names should be elevated into recommendations under the current rules because they are Neutral / No Edge or do not materially exceed the filtering threshold in signal quality terms. A short watchlist outside the recommendation set could include C, EOG, IWM, and DIA on the upside and AVGO or ADA-USD on the downside, but these remain non-actionable under the current framework.
+
+Top buy candidates: GEV, SLB, LUV, GS, JNJ.
+Top sell candidates: PEPE-USD, NFLX.
