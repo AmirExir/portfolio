@@ -1,0 +1,19 @@
+
+ML Forecast Rankings
+Generated: 2026-05-03 03:00 UTC
+Horizon: 30 trading days 
+Pattern windows: 20/50 trading days
+Universe: 3 symbols | Stocks + crypto + commodities
+Calculation time: 3.1s total
+
+Best Picked Forecast
+GOOGL: Strong Buy | Pattern: Uptrend | Forecast Return: +11.51% | Selected model: XGBoost
+
+Strongest Buy Forecasts
+GOOGL: +11.51% | Strong Buy | model XGBoost | prob up 88.5% | edge 38.5% | err +/-9.51% | pattern Uptrend
+MSFT: +2.10% | Neutral / No Edge | model Neural Net | prob up 56.9% | edge 6.9% | err +/-12.69% | pattern Bullish MA Crossover
+
+Strongest Sell Forecasts
+AAPL: -0.33% | Neutral / No Edge | model XGBoost | prob up 48.2% | edge 1.8% | err +/-7.74% | pattern Uptrend
+
+Model output only. Not financial advice.
