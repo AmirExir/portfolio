@@ -1,0 +1,55 @@
+Here are the **today’s business headlines** in **concise, market-focused bullets**, with **facts separated from interpretation**:
+
+## Facts
+- **Spirit Airlines to cease operations**
+  - Spirit said it is shutting down after failing to secure a **$500 million federal bailout**, according to CBS.
+  - Likely relevant for **airline stocks, creditors, airports, aircraft lessors, and ultra-low-cost fare competition**.
+
+- **Berkshire Hathaway earnings rose sharply**
+  - WSJ/Bloomberg reported **Berkshire profits more than doubled / operating earnings jumped** in Greg Abel’s first quarter as CEO.
+  - Berkshire’s **cash pile reportedly rose to a record**, with Bloomberg citing about **$397 billion**.
+  - Abel said Berkshire has a **shortlist of acquisition targets**.
+
+- **Warren Buffett comments on markets**
+  - At Berkshire’s annual meeting, Buffett warned about increased **“gambling” in markets**, per Business Insider.
+  - He also praised **Tim Cook** and highlighted the success of Berkshire’s Apple investment.
+
+- **Pentagon signs AI deals with 7 tech companies**
+  - The AP reported the **U.S. military reached agreements with seven tech companies** to use AI in classified systems.
+  - Companies named include major tech players such as **Google and OpenAI**, with defense/AI demand implications.
+
+- **California to ticket autonomous-vehicle makers for traffic violations**
+  - BBC reported police will be able to issue tickets **directly to manufacturers** when driverless cars break traffic laws.
+  - Relevant to **autonomous-vehicle developers** such as Waymo and broader AV regulation.
+
+- **Elon Musk/OpenAI trial under way**
+  - The Washington Post reported a federal judge gave Musk **stern words** as the trial opened in his case against **OpenAI and Sam Altman**.
+  - This is relevant to **AI governance, OpenAI partners, and legal overhang for Musk-related ventures**.
+
+- **Nvidia CEO pushes back on AI job-loss rhetoric**
+  - Yahoo Finance/Fortune reported Jensen Huang criticized some CEOs for overstating **AI-apocalypse warnings**.
+  - While not a hard corporate action, remarks may influence **AI labor and adoption sentiment**.
+
+- **Gas prices are rising nationally**
+  - ABC reported **U.S. gas prices are up across the country**.
+  - Relevant for **inflation expectations, consumer spending, and refining/energy names**.
+
+- **UAE/OPEC angle in focus**
+  - Forbes reported the **UAE left OPEC**, arguing sovereign wealth interests now matter more than oil-price maximization.
+  - Relevant to **oil-market expectations and OPEC cohesion narratives**, though this is more analytical than incremental hard news.
+
+- **Texas hemp products remain on shelves for now**
+  - A court order temporarily blocked parts of Texas’ new hemp rules, allowing continued sales of **smokable hemp products**.
+  - Relevant for **regional cannabis/hemp operators**.
+
+## Interpretation
+- **Most market-moving item:** Spirit’s shutdown is the clearest immediate single-company development and could also affect the **broader U.S. airline pricing landscape**.
+- **Most important broad-market signal:** Berkshire’s results and record cash balance may reinforce attention on **insurance strength, capital allocation, and Buffett/Abel succession**.
+- **AI remains a major policy + spending theme:** The Pentagon AI deals are a tangible sign of **government AI procurement**, which may support sentiment for select software, cloud, and model providers.
+- **Energy/inflation watch:** Rising gas prices could become a **macro sensitivity** if sustained, especially for consumer and transport sectors.
+- **Regulatory pressure on autonomy is increasing:** California’s move suggests a tougher framework for **driverless commercial deployment**, potentially slowing adoption or raising compliance costs.
+
+If you want, I can also turn this into:
+1. a **pre-market brief**,  
+2. a **sector-by-sector summary**, or  
+3. a **“what matters for stocks today” watchlist**.

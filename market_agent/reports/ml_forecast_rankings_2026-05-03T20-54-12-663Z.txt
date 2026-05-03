@@ -1,0 +1,30 @@
+Generated: 2026-05-03 20:53 UTC
+Horizon: 30 trading days
+Universe: 65 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +19.15% | Probability up: 93.0% | Edge: 43.0% | Expected error: +/-12.23% | Selected model: Ensemble. Highest-ranked long setup in the current run. Forecast exceeds expected error, which supports signal quality, though volatility risk remains material.
+SLB — Buy | Pattern: Uptrend | Forecast return: +13.08% | Probability up: 78.0% | Edge: 28.0% | Expected error: +/-13.46% | Selected model: Ensemble. Positive trend signal, but expected error is slightly larger than forecast return, so conviction is moderate rather than high.
+LUV — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +9.96% | Probability up: 72.3% | Edge: 22.3% | Expected error: +/-15.65% | Selected model: Ensemble. Positive directional edge, but the non-trending pattern and error above forecast imply less stable setup quality.
+GS — Buy | Pattern: Uptrend | Forecast return: +6.79% | Probability up: 68.6% | Edge: 18.6% | Expected error: +/-13.52% | Selected model: Ensemble. Trend-aligned upside forecast, but expected error is about double the forecast return, so position risk is elevated.
+JNJ — Buy | Pattern: Oversold | Forecast return: +6.64% | Probability up: 76.0% | Edge: 26.0% | Expected error: +/-8.97% | Selected model: Ensemble. Oversold condition supports rebound potential, but oversold setups can also reflect persistent weakness. Error remains larger than the forecast return.
+IWM — Buy | Pattern: Uptrend | Forecast return: +3.93% | Probability up: 67.5% | Edge: 17.5% | Expected error: +/-7.70% | Selected model: Ensemble. Moderate upside signal above the 2% noise filter, but expected error materially exceeds forecast return.
+DIA — Buy | Pattern: Uptrend | Forecast return: +2.71% | Probability up: 70.1% | Edge: 20.1% | Expected error: +/-5.14% | Selected model: Ensemble. Small but actionable positive forecast. Because the return is close to the minimum threshold and the expected error is larger, this fits better as a lower-conviction buy.
+
+Top Sell / Avoid Signals
+PEPE-USD — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble. Clear negative outlier with strong directional confidence and trend alignment. Expected error is sizable, but still below the projected decline.
+NFLX — Sell | Pattern: Oversold | Forecast return: -12.57% | Probability down: 76.7% | Edge: 26.7% | Expected error: +/-17.12% | Selected model: Ensemble. Bearish model output remains actionable, but the oversold pattern raises reversal risk. Expected error is larger than forecast return, which reduces confidence.
+
+Watchlist / Neutral
+ETH-USD — Neutral / No Edge despite a +12.16% ensemble forecast. Expected error is very high at +/-26.36%, so the move is not clean enough to treat as actionable.
+C — Neutral / No Edge with +6.11% forecast and 68.8% probability up. The label remains neutral, so it should be monitored rather than traded from this output alone.
+KO — Neutral / No Edge with +2.88% forecast. Rebound-from-low pattern is notable, but not enough edge to upgrade.
+SHIB-USD — Neutral / No Edge despite -12.36% forecast. Bearish output conflicts with a bullish MA crossover, indicating elevated reversal risk. Expected error is extremely high at +/-43.44%.
+PNUT-USD — Neutral / No Edge despite -9.87% forecast and relatively high downside probability. High-volatility regime and large expected error of +/-28.39% weaken the usability of the signal.
+
+Model conflict notes
+Several neutral names show meaningful disagreement across sub-models and should not be treated as directional trades. Examples include NVDA, AMZN, ORCA-USD, DOGE-USD, and SHIB-USD, where individual model returns differ sharply in sign and magnitude. In these cases, the ensemble output is less reliable as a standalone trigger.
+
+Summary
+Actionable buys are concentrated in GEV, SLB, LUV, GS, JNJ, IWM, and DIA, with GEV standing out on both forecast return and edge. Actionable sells are limited to PEPE-USD and NFLX. Many crypto and large-cap tech names remain neutral because forecast uncertainty or model disagreement is too high relative to projected return.

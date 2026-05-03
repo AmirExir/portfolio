@@ -1,0 +1,59 @@
+Here are the **today’s market-relevant business headlines**, separated into **facts** and **interpretation**:
+
+## Facts
+- **Berkshire Hathaway reported stronger Q1 results and a record cash pile**
+  - Berkshire’s cash holdings rose to an all-time high.
+  - Operating earnings increased in Greg Abel’s first quarter as CEO.
+  - WSJ reported profits more than doubled, helped by insurance, railroad, and energy businesses.
+  - Abel said Berkshire has a shortlist of acquisition targets.
+
+- **Warren Buffett publicly praised Apple and Tim Cook at Berkshire’s meeting**
+  - Buffett highlighted Berkshire’s Apple investment as a major success.
+  - He asked Tim Cook to take a bow during the shareholder meeting.
+
+- **Spirit Airlines said it is shutting down operations immediately**
+  - The airline said it had “no choice” after a White House rescue proposal fell through.
+
+- **Pentagon expanded classified AI work with major tech firms**
+  - Bloomberg reported the Defense Department reached agreements with **Nvidia, Microsoft, and AWS** for broader use of advanced AI tools on classified military networks.
+
+- **Oil and gasoline price pressures remain in focus**
+  - ABC Chicago reported gas prices rose sharply in Illinois.
+  - The move was linked to higher oil prices amid Iran-related tensions and a power loss at BP’s Whiting, Indiana refinery.
+
+- **Thermos recalled about 8.2 million insulated containers**
+  - The recall followed reports of injuries tied to a missing pressure-relief feature.
+
+- **Atrium Health is seeking a combination with WakeMed**
+  - The proposed deal would expand Atrium’s footprint in North Carolina.
+
+- **Texas hemp products remain on shelves for now**
+  - A judge temporarily blocked parts of new state hemp regulations, allowing continued sales of smokable hemp and concentrates while litigation proceeds.
+
+## Interpretation / Why markets may care
+- **Berkshire’s results reinforce confidence in the post-Buffett transition**
+  - Strong earnings and higher cash suggest operational resilience under Abel.
+  - The growing cash pile may also sharpen investor focus on future acquisitions or capital deployment.
+
+- **Buffett’s Apple remarks may support sentiment around Apple’s strategic importance to Berkshire**
+  - While not new financial data, the endorsement underscores Apple’s role in Berkshire’s long-term value creation narrative.
+
+- **Spirit’s shutdown is a negative for budget-airline competition and could affect travel pricing**
+  - The loss of a low-cost carrier could tighten capacity in some routes and pressure consumers, while benefiting rivals selectively.
+
+- **Defense AI agreements are potentially supportive for big-cap tech and AI infrastructure names**
+  - Expanded classified-network use signals deeper government adoption of AI, which could be viewed as commercially and strategically positive for Nvidia, Microsoft, and Amazon/AWS.
+
+- **Energy-market disruptions could add inflation pressure**
+  - Geopolitical oil risk plus refinery outages can feed through to gasoline prices, which matters for inflation expectations and consumer spending.
+
+- **The Atrium-WakeMed proposal may raise antitrust and healthcare consolidation concerns**
+  - Investors may view it through the lens of hospital pricing power, regional scale, and regulatory scrutiny.
+
+## Lower market impact / more niche
+- **Thermos recall**: material mainly for product-liability and consumer-safety watchers, not broadly market-moving.
+- **Texas hemp court order**: relevant to regional cannabis/hemp operators, but limited broader market significance.
+- **Forbes on UAE and OPEC**: more analysis than hard headline news based on the item provided.
+- **Fortune pieces on Powell/debt** and **Intercept opinion on Musk/AI**: mostly commentary rather than fresh market-moving facts.
+
+If you want, I can also turn this into a **“what matters for stocks, rates, oil, and airlines”** format.

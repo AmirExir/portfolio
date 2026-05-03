@@ -1,0 +1,13 @@
+ML Forecast Rankings
+Generated: 2026-05-03 21:53 UTC
+Horizon: 30 trading days
+Universe: 65 symbols | Stocks + crypto + commodities
+
+Qualified bullish signals meeting the filter were led by GEV, the only Strong Buy in the provided output, with a forecast return of +19.37%, high directional probability, and an uptrend pattern. Additional Buy signals were SLB at +12.14% in an uptrend, LUV at +10.01% with a range/no dominant pattern, and JNJ at +6.68% with an oversold pattern.
+
+Qualified bearish signals were led by PEPE-USD at -26.56% with a Strong Sell call and a downtrend pattern. NFLX also met the filter with a Sell call at -12.89% and an oversold pattern.
+
+Watchlist note: several names showed forecast returns above 2% in magnitude but were explicitly labeled Neutral / No Edge in the optimizer output and are therefore excluded from the actionable lists.
+
+Top buy candidates: GEV, SLB, LUV, JNJ
+Top sell candidates: PEPE-USD, NFLX

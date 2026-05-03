@@ -1,0 +1,11 @@
+- Riot’s Rockdale campus continues shifting from bitcoin mining toward AI/data-center load, with AMD expanding contracted capacity and Riot reporting a meaningful first quarter contribution from its data center business; for ERCOT, this reinforces that behind-the-meter and large flexible loads are becoming a major planning and interconnection issue in Central Texas load pockets. (CoinDesk, Cointelegraph)
+
+- IREN announced successful energization of its 1.4 GW Sweetwater 1 Texas data center site, a notable milestone because energized capacity tends to move projects from speculative queue demand toward real system load, increasing the need for transmission, substation, and operational planning in West Texas. (GlobeNewswire)
+
+- Multiple reports point to accelerating Texas AI/data-center buildout and rising competition for power infrastructure, with developers increasingly valuing sites that already have grid access; the practical ERCOT takeaway is that speed-to-power is now a core market driver, likely intensifying large-load interconnection requests, local congestion risk, and pressure on utility/ERCOT study timelines. (GlobeNewswire, OilPrice.com, Tom’s Hardware UK)
+
+- Data-center expansion is also starting to show second-order system impacts beyond megawatts: reports of Texas electricians being pulled from other construction sectors indicate labor constraints that can slow not only private development but potentially grid upgrades, generation tie-ins, and transmission build schedules needed to serve new load. (Tom’s Hardware UK)
+
+- Fermi America highlighted leadership around a claimed 17 GW energy infrastructure buildout in Texas; even if promotional, a project of that scale signals the magnitude of load and supply concepts now being discussed in ERCOT and underscores growing governance, siting, fuel, and transmission questions around very large co-located power-and-compute campuses. (PR Newswire UK)
+
+- Commentary calling for more competition in Texas transmission development is directionally relevant to ERCOT because the data-center and load-growth wave is strengthening the case for faster, more scalable transmission delivery; the policy debate is increasingly not whether more wires are needed, but how quickly they can be planned, approved, and built. (Watts Up With That?)

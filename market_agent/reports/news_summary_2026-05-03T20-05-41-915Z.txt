@@ -1,0 +1,49 @@
+Here are today’s business headlines, focused on likely market movers and clearly split into **facts** vs **interpretation**.
+
+- **Berkshire Hathaway: cash hits record; earnings rise under new CEO Greg Abel**
+  - **Facts:** Berkshire’s cash pile rose to a record high in Abel’s first quarter as CEO. Operating earnings increased, with strength reported in insurance, railroad, and energy businesses. Abel also said Berkshire has a shortlist of acquisition targets.
+  - **Interpretation:** Read-through is broadly positive for Berkshire operations, but the growing cash balance may also signal continued difficulty finding attractively priced large deals.
+
+- **Buffett highlights Apple stake, publicly praises Tim Cook**
+  - **Facts:** Warren Buffett used Berkshire’s shareholder meeting to credit Tim Cook for the success of Berkshire’s Apple investment and asked him to take a bow.
+  - **Interpretation:** Mostly symbolic rather than directly market-moving, but it reinforces Berkshire’s longstanding endorsement of Apple management.
+
+- **Spirit Airlines shuts down after rescue deal collapses**
+  - **Facts:** Spirit said it would wind down operations immediately after a White House-backed rescue proposal fell through.
+  - **Interpretation:** Negative for airline competition and for stakeholders tied to Spirit; could modestly benefit rival carriers on pricing/capacity in affected routes.
+
+- **Pentagon expands classified military AI use with Nvidia, Microsoft, and AWS**
+  - **Facts:** The Defense Department struck agreements to expand use of advanced AI tools on classified military networks involving Nvidia, Microsoft, and Amazon Web Services.
+  - **Interpretation:** Supports the defense/sovereign-demand case for major AI infrastructure providers and may reinforce bullish sentiment around government AI spending.
+
+- **Oil and gasoline prices pressured by Middle East tensions and refinery disruption**
+  - **Facts:** Reports linked higher fuel prices in Illinois/Chicago to the Iran conflict and a power loss at BP’s Whiting, Indiana refinery.
+  - **Interpretation:** Rising energy prices can support oil-related equities but are a headwind for consumers, transport firms, and inflation sentiment.
+
+- **UAE exits OPEC, spotlighting shift away from pure oil dependence**
+  - **Facts:** Forbes reports the UAE left OPEC, arguing its sovereign wealth interests now outweigh direct oil-price dependence.
+  - **Interpretation:** Potentially important for oil-market structure and future quota discipline, though the immediate market effect depends on actual production behavior, not just membership optics.
+
+- **Thermos recalls 8.2 million containers after injury reports**
+  - **Facts:** Thermos recalled about 8.2 million insulated containers over a pressure-relief issue linked to injuries, including vision injuries.
+  - **Interpretation:** Material consumer-product safety event, but likely limited broad market impact unless exposure extends meaningfully to retailers, insurers, or a parent company.
+
+- **Atrium Health proposes combination with WakeMed**
+  - **Facts:** Atrium Health is pursuing a combination with WakeMed, which would expand the reach of North Carolina’s largest hospital system.
+  - **Interpretation:** Could be significant for regional healthcare competition and hospital pricing, though this is more sector-specific than a broad market mover.
+
+- **Texas court allows smokable hemp products to remain on shelves temporarily**
+  - **Facts:** A judge issued a temporary injunction blocking parts of Texas hemp regulations, allowing continued sales of hemp flower and concentrates for now.
+  - **Interpretation:** Near-term positive for Texas hemp businesses and related operators, but the legal overhang remains.
+
+- **Fed leadership chatter: Powell may remain on the Board after chair term**
+  - **Facts:** Fortune reported that Jerome Powell could remain on the Federal Reserve Board even after his chair term ends.
+  - **Interpretation:** This is governance/political analysis rather than confirmed policy change, but markets may view continuity on the Board as mildly stabilizing.
+
+- **U.S. debt surpasses GDP, drawing political criticism**
+  - **Facts:** Fortune reported that debt held by the public has exceeded the size of the U.S. economy, prompting renewed criticism from lawmakers and business leaders.
+  - **Interpretation:** Long-run macro concern for rates and fiscal policy, but not necessarily an immediate market-moving catalyst on its own.
+
+If you want, I can turn this into a **pre-market trader-style brief** with:
+1. **Likely movers by ticker**, or  
+2. **Top 5 headlines only**.
