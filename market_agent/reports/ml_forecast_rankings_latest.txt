@@ -1,23 +1,19 @@
 ML Forecast Rankings
-Generated: 2026-05-03 18:16 UTC
-Horizon: 30 trading days | Primary: Best Validation
+Generated: 2026-05-03 22:09 UTC
+Horizon: 30 trading days | Primary: Transformer
 Pattern windows: 20/50 trading days
-Sequence model: both
-Universe: 65 symbols | Stocks + crypto + commodities
-Calculation time: 1h 11m 29s total | context 1.0s | 65/65 ranked
-Slowest symbols: BTC-USD: 1m 32s, SOL-USD: 1m 32s, SHIB-USD: 1m 32s, ETH-USD: 1m 32s, DOGE-USD: 1m 32s
+Sequence model: transformer
+Universe: 1 symbols | Stocks + crypto + commodities
+Calculation time: 1m 42s total | context 0.8s | 1/1 ranked
+Slowest symbols: BTC-USD: 1m 41s
 
 Best Picked Forecast
-GEV: Strong Buy | Pattern: Uptrend | Forecast Return: +18.32% | Selected model: Ridge
+BTC-USD: Neutral / No Edge | Pattern: Near 60-Day High | Forecast Return: -4.74% | Selected model: Transformer
 
 Strongest Buy Forecasts
-GEV: +18.32% | Strong Buy | model Ridge | prob up 96.7% | edge 46.7% | err +/-9.59% | pattern Uptrend
-JNJ: +11.00% | Strong Buy | model Transformer | prob up 91.9% | edge 41.9% | err +/-7.77% | pattern Oversold
-LUV: +15.04% | Strong Buy | model Ridge | prob up 85.1% | edge 35.1% | err +/-14.39% | pattern Range / No Dominant Pattern
+No positive forecast candidates.
 
 Strongest Sell Forecasts
-PEPE-USD: -31.94% | Strong Sell | model Ridge | prob up 0.1% | edge 49.9% | err +/-13.60% | pattern Downtrend
-NFLX: -23.84% | Strong Sell | model XGBoost | prob up 2.2% | edge 47.8% | err +/-14.49% | pattern Oversold
-PNUT-USD: -18.83% | Sell | model XGBoost | prob up 12.3% | edge 37.7% | err +/-19.70% | pattern High Volatility
+BTC-USD: -4.74% | Neutral / No Edge | model Transformer | prob up 37.2% | edge 12.8% | err +/-16.08% | pattern Near 60-Day High
 
 Model output only. Not financial advice.

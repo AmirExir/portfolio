@@ -1336,9 +1336,22 @@ if "ranking_refresh_nonce" not in st.session_state:
     st.session_state["ranking_refresh_nonce"] = 0
 if "symbol_refresh_nonce" not in st.session_state:
     st.session_state["symbol_refresh_nonce"] = 0
+if "forecast_work_paused" not in st.session_state:
+    st.session_state["forecast_work_paused"] = False
 
 refresh_all = st.sidebar.button("🔄 Force recalculate all rankings", help="Ignore saved ranking caches and recompute every symbol.")
 refresh_selected = st.sidebar.button("🔄 Force recalculate selected stock", help="Ignore the saved selected-stock cache and recompute only the active symbol.")
+
+if st.session_state["forecast_work_paused"]:
+    st.sidebar.warning("Heavy ML forecast work is paused.")
+    if st.sidebar.button("▶️ Resume ML forecasts"):
+        st.session_state["forecast_work_paused"] = False
+        st.rerun()
+else:
+    if st.sidebar.button("⏹️ Stop / pause ML forecasts", help="Prevents forecast rankings and selected-symbol ML forecasts from starting on rerun."):
+        st.session_state["forecast_work_paused"] = True
+        st.session_state["skip_heavy_once"] = True
+        st.rerun()
 
 if refresh_all:
     st.session_state["ranking_refresh_nonce"] += 1
@@ -1350,6 +1363,9 @@ if refresh_selected:
     st.rerun()
 
 skip_heavy_once = bool(st.session_state.pop("skip_heavy_once", False))
+forecast_work_paused = bool(st.session_state.get("forecast_work_paused", False))
+if forecast_work_paused:
+    run_forecast_rankings = False
 
 ranking_table = pd.DataFrame()
 ranking_errors: list[str] = []
@@ -1470,6 +1486,8 @@ with top_patterns_tab:
     st.markdown("🧩 Most Common Patterns")
     if not selected_forecast_symbols:
         st.info("Select forecast ranking tickers to scan current patterns.")
+    elif forecast_work_paused:
+        st.info("Resume ML forecasts in the sidebar to calculate pattern summaries.")
     elif not run_forecast_rankings or skip_heavy_once:
         st.info("Enable Run forecast rankings to calculate pattern summaries.")
     else:
@@ -1820,6 +1838,8 @@ try:
     with analysis_tab:
         st.subheader("📈 Actual Value, ML Based Forecast, and Crossover Strategy")
         try:
+            if forecast_work_paused:
+                raise RuntimeError("ML forecast calculations are paused from the sidebar.")
             model_results = cached_model_results(
                 symbol,
                 history_days,
