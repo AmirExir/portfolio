@@ -120,13 +120,17 @@ If you want the scheduled node to precompute the optimized model comparison for 
 --primary-model "Best Validation"
 --pattern-short-window 20
 --pattern-long-window 50
+--sequence-model off
 --top-n 5
 --no-market-context
 --no-optimize
+--show-timing
 --json-only
 ```
 
-The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, Neural Net, and Ensemble forecast comparison used in the Streamlit app.
+Use `--sequence-model both` for the slower overnight run that trains both LSTM and Transformer. You can also use `--sequence-model lstm` or `--sequence-model transformer` to run only one deep sequence model. If you want the report text and Telegram message to stay clean, omit `--show-timing`; timing details are still saved in the JSON file.
+
+The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, Neural Net, optional LSTM/Transformer, and Ensemble forecast comparison used in the Streamlit app.
 If you omit `--symbols`, the script uses the full default stock, ETF, commodity, crypto, and meme-crypto universe from the app.
 The text report and JSON rows include the recognized primary pattern, validation MAE, direction hit rate, and per-model returns for each ranked ticker, so the n8n summary and website table can describe the same pick.
 The JSON payload includes all model snapshots per symbol, which makes it usable by the app and by an LLM-driven n8n branch without rerunning forecasts.

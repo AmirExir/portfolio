@@ -135,8 +135,18 @@ def format_duration(seconds: float) -> str:
     return f"{int(hours)}h {int(minutes)}m {remainder:.0f}s"
 
 
+def sequence_model_from_args(args: argparse.Namespace) -> str:
+    primary = str(getattr(args, "primary_model", "") or "").strip()
+    if primary == "LSTM":
+        return "lstm"
+    if primary == "Transformer":
+        return "transformer"
+    return str(getattr(args, "sequence_model", "off") or "off").strip().lower()
+
+
 def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[dict], dict]:
     symbols = parse_symbols(args.symbols)
+    sequence_model = sequence_model_from_args(args)
     started_at = time.perf_counter()
     context_started_at = time.perf_counter()
     context_df = pd.DataFrame() if args.no_market_context else load_market_context(args.history_days)
@@ -169,6 +179,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 ridge_alpha=args.ridge_alpha,
                 optimize_model=not args.no_optimize,
                 context_df=context_df,
+                sequence_model=sequence_model,
             )
             close = clean_close(df)
             snapshots.append(snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results))
@@ -257,6 +268,7 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
         f"Generated: {generated_at}",
         f"Horizon: {args.horizon} trading days | Primary: {args.primary_model}",
         f"Pattern windows: {args.pattern_short_window}/{args.pattern_long_window} trading days",
+        f"Sequence model: {sequence_model_from_args(args)}",
         f"Universe: {len(rows)} symbols | Stocks + crypto + commodities",
     ]
     if timings:
@@ -334,6 +346,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
     output_dir.mkdir(parents=True, exist_ok=True)
     timestamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ")
     symbols = parse_symbols(args.symbols)
+    sequence_model = sequence_model_from_args(args)
     cache_path = forecast_cache_path(
         output_dir,
         symbols,
@@ -343,14 +356,16 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
         args.ridge_alpha,
         not args.no_optimize,
         not args.no_market_context,
+        sequence_model,
     )
 
-    report = build_market_report(rows, errors, args, timings)
+    report = build_market_report(rows, errors, args, timings if args.show_timing else None)
 
     payload = {
         "generated_at": timestamp,
         "horizon_days": args.horizon,
         "primary_model": args.primary_model,
+        "sequence_model": sequence_model,
         "symbols": symbols,
         "cache_key": build_cache_key(
             symbols,
@@ -360,6 +375,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
             args.ridge_alpha,
             not args.no_optimize,
             not args.no_market_context,
+            sequence_model,
         ),
         "rows": rows,
         "snapshots": snapshots,
@@ -425,11 +441,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--ridge-alpha", type=float, default=10.0)
     parser.add_argument("--pattern-short-window", type=int, default=20)
     parser.add_argument("--pattern-long-window", type=int, default=50)
-    parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net"], default="Best Validation")
+    parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer"], default="Best Validation")
+    parser.add_argument("--sequence-model", choices=["off", "lstm", "transformer", "both"], default="off")
     parser.add_argument("--top-n", type=int, default=5)
     parser.add_argument("--output-dir", default=str(Path(__file__).resolve().parent / "reports"))
     parser.add_argument("--no-market-context", action="store_true")
     parser.add_argument("--no-optimize", action="store_true")
+    parser.add_argument("--show-timing", action="store_true")
     parser.add_argument("--send-telegram", action="store_true")
     parser.add_argument("--json-only", action="store_true")
     return parser
@@ -438,14 +456,17 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     args = build_parser().parse_args()
     rows, errors, snapshots, timings = run_rankings(args)
-    telegram_text = build_telegram_text(rows, errors, args, timings)
+    telegram_text = build_telegram_text(rows, errors, args, timings if args.show_timing else None)
     paths = write_outputs(rows, errors, telegram_text, args, snapshots, timings)
 
     if args.send_telegram:
         send_telegram(telegram_text)
 
     if args.json_only:
-        print(json.dumps({"paths": paths, "telegram_text": telegram_text, "rows": rows, "errors": errors, "timings": timings}, default=_json_default))
+        output_payload = {"paths": paths, "telegram_text": telegram_text, "rows": rows, "errors": errors}
+        if args.show_timing:
+            output_payload["timings"] = timings
+        print(json.dumps(output_payload, default=_json_default))
     else:
         print(telegram_text)
 

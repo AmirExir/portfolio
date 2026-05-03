@@ -685,6 +685,8 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
         "Ridge Return %",
         "XGBoost Return %",
         "Neural Net Return %",
+        "LSTM Return %",
+        "Transformer Return %",
         "Ensemble Return %",
         "Probability Up %",
         "Directional Probability %",
@@ -705,6 +707,8 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
             "Ridge Return %": "{:+.2f}%",
             "XGBoost Return %": "{:+.2f}%",
             "Neural Net Return %": "{:+.2f}%",
+            "LSTM Return %": "{:+.2f}%",
+            "Transformer Return %": "{:+.2f}%",
             "Ensemble Return %": "{:+.2f}%",
             "Probability Up %": "{:.1f}%",
             "Directional Probability %": "{:.1f}%",
@@ -906,6 +910,7 @@ def cached_model_results(
     forecast_alpha: float,
     optimize_forecast_model: bool,
     use_market_context: bool,
+    sequence_model_choice: str,
     ranking_symbols: tuple[str, ...] | None = None,
     cache_buster: int = 0,
 ) -> dict:
@@ -921,6 +926,7 @@ def cached_model_results(
             forecast_alpha,
             optimize_forecast_model,
             use_market_context,
+            sequence_model_choice,
         )
 
     cache_path = forecast_cache_path(
@@ -932,6 +938,7 @@ def cached_model_results(
         forecast_alpha,
         optimize_forecast_model,
         use_market_context,
+        sequence_model_choice,
     )
 
     if cache_buster == 0:
@@ -959,6 +966,7 @@ def cached_model_results(
         ridge_alpha=forecast_alpha,
         optimize_model=optimize_forecast_model,
         context_df=context_df,
+        sequence_model=sequence_model_choice,
     )
 
     close = df["close"]
@@ -974,6 +982,7 @@ def cached_model_results(
         "ridge_alpha": forecast_alpha,
         "optimize_model": optimize_forecast_model,
         "use_market_context": use_market_context,
+        "sequence_model": sequence_model_choice,
         "primary_model": "Ensemble",
         "snapshots": [snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results)],
         "rows": [],
@@ -1019,6 +1028,7 @@ def cached_forecast_rankings(
     forecast_alpha: float,
     optimize_forecast_model: bool,
     use_market_context: bool,
+    sequence_model_choice: str,
     primary_model_choice: str,
     cache_buster: int = 0,
 ) -> tuple[pd.DataFrame, list[str]]:
@@ -1031,6 +1041,7 @@ def cached_forecast_rankings(
         forecast_alpha,
         optimize_forecast_model,
         use_market_context,
+        sequence_model_choice,
     )
 
     ranking_payload = _load_forecast_payload(str(ranking_cache_path)) if cache_buster == 0 else {}
@@ -1051,6 +1062,7 @@ def cached_forecast_rankings(
                     ridge_alpha=forecast_alpha,
                     optimize_model=optimize_forecast_model,
                     context_df=ranking_context_df,
+                    sequence_model=sequence_model_choice,
                 )
                 ranking_close = ranking_df["close"]
                 if isinstance(ranking_close, pd.DataFrame):
@@ -1064,6 +1076,7 @@ def cached_forecast_rankings(
             "generated_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ"),
             "horizon_days": forecast_horizon,
             "primary_model": primary_model_choice,
+            "sequence_model": sequence_model_choice,
             "symbols": list(ranking_symbols),
             "cache_key": "",
             "rows": [],
@@ -1293,7 +1306,17 @@ forecast_lookback = st.sidebar.slider("Lag window", min_value=5, max_value=60, v
 historical_test_points = st.sidebar.slider("Previous forecast test points", min_value=10, max_value=100, value=50, step=10)
 optimize_forecast_model = st.sidebar.checkbox("Optimize ML model", value=True)
 use_market_context = st.sidebar.checkbox("Use market context features", value=True)
-primary_model_choice = st.sidebar.selectbox("Primary forecast model", ["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net"], index=1)
+primary_model_choice = st.sidebar.selectbox(
+    "Primary forecast model",
+    ["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer"],
+    index=1,
+)
+sequence_model_label = st.sidebar.selectbox("Deep sequence model", ["Off", "LSTM", "Transformer", "Both"], index=0)
+sequence_model_choice = {"Off": "off", "LSTM": "lstm", "Transformer": "transformer", "Both": "both"}[sequence_model_label]
+if primary_model_choice == "LSTM":
+    sequence_model_choice = "lstm"
+elif primary_model_choice == "Transformer":
+    sequence_model_choice = "transformer"
 forecast_alpha = st.sidebar.number_input(
     "Ridge regularization",
     min_value=0.1,
@@ -1346,6 +1369,7 @@ if run_forecast_rankings and selected_forecast_symbols and not skip_heavy_once:
                 forecast_alpha,
                 optimize_forecast_model,
                 use_market_context,
+                sequence_model_choice,
                 primary_model_choice,
                 st.session_state["ranking_refresh_nonce"],
             )
@@ -1804,6 +1828,7 @@ try:
                 forecast_alpha,
                 optimize_forecast_model,
                 use_market_context,
+                sequence_model_choice,
                 tuple(selected_forecast_symbols),
                 st.session_state["symbol_refresh_nonce"],
             )
@@ -1901,6 +1926,8 @@ try:
                 "Ridge": "#8c564b",
                 "XGBoost": "#d62728",
                 "Neural Net": "#17becf",
+                "LSTM": "#9467bd",
+                "Transformer": "#e377c2",
                 "Ensemble": "#2ca02c",
             }
             for comparison_name, comparison_result in model_results.items():

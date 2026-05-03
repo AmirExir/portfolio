@@ -10,7 +10,7 @@ import pandas as pd
 from agent.forecast import ForecastResult
 
 
-CACHE_VERSION = 2
+CACHE_VERSION = 3
 
 
 def _json_safe(value):
@@ -61,6 +61,7 @@ def build_cache_key(
     ridge_alpha: float,
     optimize_model: bool,
     use_market_context: bool,
+    sequence_model: str = "off",
 ) -> str:
     payload = {
         "cache_version": CACHE_VERSION,
@@ -71,6 +72,7 @@ def build_cache_key(
         "ridge_alpha": float(ridge_alpha),
         "optimize_model": bool(optimize_model),
         "use_market_context": bool(use_market_context),
+        "sequence_model": str(sequence_model or "off"),
     }
     raw = json.dumps(payload, sort_keys=True, default=_json_safe).encode("utf-8")
     return hashlib.sha256(raw).hexdigest()[:16]
@@ -85,6 +87,7 @@ def forecast_cache_path(
     ridge_alpha: float,
     optimize_model: bool,
     use_market_context: bool,
+    sequence_model: str = "off",
 ) -> Path:
     output_path = Path(output_dir)
     cache_key = build_cache_key(
@@ -95,6 +98,7 @@ def forecast_cache_path(
         ridge_alpha=ridge_alpha,
         optimize_model=optimize_model,
         use_market_context=use_market_context,
+        sequence_model=sequence_model,
     )
     return output_path / f"ml_forecast_rankings_cache_{cache_key}.json"
 
@@ -200,6 +204,8 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
         "Ridge Return %": _return_for("Ridge"),
         "XGBoost Return %": _return_for("XGBoost"),
         "Neural Net Return %": _return_for("Neural Net"),
+        "LSTM Return %": _return_for("LSTM"),
+        "Transformer Return %": _return_for("Transformer"),
         "Ensemble Return %": _return_for("Ensemble"),
         "Probability Up %": probability_up,
         "Probability Down %": 100.0 - probability_up,

@@ -1,36 +1,23 @@
 ML Forecast Rankings
-Generated: 2026-05-03 11:01 UTC
+Generated: 2026-05-03 18:16 UTC
 Horizon: 30 trading days | Primary: Best Validation
 Pattern windows: 20/50 trading days
+Sequence model: both
 Universe: 65 symbols | Stocks + crypto + commodities
-Calculation time: 1h 1m 41s total | context 1.1s | 65/65 ranked
-Slowest symbols: AVAX-USD: 1m 21s, XRP-USD: 1m 20s, BNB-USD: 1m 20s, ETH-USD: 1m 20s, SHIB-USD: 1m 19s
+Calculation time: 1h 11m 29s total | context 1.0s | 65/65 ranked
+Slowest symbols: BTC-USD: 1m 32s, SOL-USD: 1m 32s, SHIB-USD: 1m 32s, ETH-USD: 1m 32s, DOGE-USD: 1m 32s
 
 Best Picked Forecast
 GEV: Strong Buy | Pattern: Uptrend | Forecast Return: +18.32% | Selected model: Ridge
 
 Strongest Buy Forecasts
 GEV: +18.32% | Strong Buy | model Ridge | prob up 96.7% | edge 46.7% | err +/-9.59% | pattern Uptrend
+JNJ: +11.00% | Strong Buy | model Transformer | prob up 91.9% | edge 41.9% | err +/-7.77% | pattern Oversold
 LUV: +15.04% | Strong Buy | model Ridge | prob up 85.1% | edge 35.1% | err +/-14.39% | pattern Range / No Dominant Pattern
-JNJ: +7.03% | Buy | model Ridge | prob up 78.9% | edge 28.9% | err +/-8.81% | pattern Oversold
-QQQ: +3.23% | Neutral / No Edge | model Neural Net | prob up 68.1% | edge 18.1% | err +/-6.98% | pattern Uptrend
-C: +4.97% | Neutral / No Edge | model XGBoost | prob up 66.9% | edge 16.9% | err +/-11.70% | pattern Uptrend
-AAPL: +3.39% | Neutral / No Edge | model XGBoost | prob up 66.7% | edge 16.7% | err +/-8.01% | pattern Uptrend
-XRP-USD: +7.80% | Neutral / No Edge | model XGBoost | prob up 65.8% | edge 15.8% | err +/-20.32% | pattern Rebound From 60-Day Low
-WMT: +2.51% | Neutral / No Edge | model XGBoost | prob up 65.3% | edge 15.3% | err +/-6.52% | pattern Uptrend
-DIA: +1.55% | Neutral / No Edge | model XGBoost | prob up 64.3% | edge 14.3% | err +/-4.29% | pattern Uptrend
-BTC-USD: +4.40% | Neutral / No Edge | model Ridge | prob up 63.6% | edge 13.6% | err +/-13.22% | pattern Near 60-Day High
 
 Strongest Sell Forecasts
-BNB-USD: -0.01% | Neutral / No Edge | model XGBoost | prob up 50.0% | edge 0.0% | err +/-14.94% | pattern Bullish MA Crossover
-COP: -0.13% | Neutral / No Edge | model XGBoost | prob up 49.5% | edge 0.5% | err +/-10.16% | pattern Uptrend
-UNH: -0.37% | Neutral / No Edge | model XGBoost | prob up 49.1% | edge 0.9% | err +/-18.47% | pattern Near 60-Day High
-TSLA: -0.59% | Neutral / No Edge | model XGBoost | prob up 48.7% | edge 1.3% | err +/-19.98% | pattern Range / No Dominant Pattern
-ORCL: -0.73% | Neutral / No Edge | model XGBoost | prob up 48.5% | edge 1.5% | err +/-21.75% | pattern High Volatility
-SOL-USD: -0.94% | Neutral / No Edge | model XGBoost | prob up 48.5% | edge 1.5% | err +/-28.16% | pattern Downtrend
-NVDA: -0.59% | Neutral / No Edge | model XGBoost | prob up 48.5% | edge 1.5% | err +/-16.46% | pattern Uptrend
-MSFT: -0.38% | Neutral / No Edge | model XGBoost | prob up 48.5% | edge 1.5% | err +/-10.33% | pattern Bullish MA Crossover
-SHIB-USD: -1.76% | Neutral / No Edge | model XGBoost | prob up 47.4% | edge 2.6% | err +/-31.89% | pattern Bullish MA Crossover
-TLT: -0.30% | Neutral / No Edge | model XGBoost | prob up 46.9% | edge 3.1% | err +/-4.05% | pattern Range / No Dominant Pattern
+PEPE-USD: -31.94% | Strong Sell | model Ridge | prob up 0.1% | edge 49.9% | err +/-13.60% | pattern Downtrend
+NFLX: -23.84% | Strong Sell | model XGBoost | prob up 2.2% | edge 47.8% | err +/-14.49% | pattern Oversold
+PNUT-USD: -18.83% | Sell | model XGBoost | prob up 12.3% | edge 37.7% | err +/-19.70% | pattern High Volatility
 
 Model output only. Not financial advice.

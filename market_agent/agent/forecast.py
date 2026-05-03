@@ -17,6 +17,13 @@ except Exception:  # pragma: no cover - optional dependency fallback
     ConvergenceWarning = Warning
     MLPRegressor = None
 
+try:
+    import torch
+    from torch import nn
+except Exception:  # pragma: no cover - optional dependency fallback
+    torch = None
+    nn = None
+
 
 @dataclass(frozen=True)
 class ForecastResult:
@@ -81,12 +88,12 @@ def forecast_close_prices(
             extra_feature_arrays,
         )
 
-    x, y = _build_direct_training_data(log_returns, lookback_window, horizon_days, extra_feature_arrays)
+    x, y = _training_data_for_model(log_returns, lookback_window, horizon_days, model_type, extra_feature_arrays)
     if len(y) < 20:
         raise ValueError("Not enough training samples for ML forecasting.")
 
     model = _fit_model(x, y, ridge_alpha, model_type)
-    latest_features = _features_for_position(log_returns, extra_feature_arrays, len(log_returns), lookback_window)
+    latest_features = _latest_features_for_model(log_returns, extra_feature_arrays, len(log_returns), lookback_window, model_type)
     raw_horizon_return = float(_predict_row(latest_features, model))
     raw_horizon_return = _clip_horizon_return(raw_horizon_return, y)
     shrink_factor = _prediction_shrink_factor(raw_horizon_return, metrics)
@@ -247,8 +254,9 @@ def compare_forecast_models(
     ridge_alpha: float = 10.0,
     optimize_model: bool = True,
     context_df: pd.DataFrame | None = None,
+    sequence_model: str = "off",
 ) -> dict[str, ForecastResult]:
-    """Run Ridge, XGBoost, Neural Net, and Ensemble forecasts on the same feature set."""
+    """Run baseline models plus an optional LSTM/Transformer sequence model."""
     results = {}
     results["Ridge"] = forecast_close_prices(
         df,
@@ -291,6 +299,20 @@ def compare_forecast_models(
             results["Neural Net"] = _unavailable_result("neural net unavailable", exc)
     else:
         results["Neural Net"] = _unavailable_result("neural net unavailable", "scikit-learn package is not installed")
+
+    for model_key, display_name in _sequence_model_choices(sequence_model):
+        try:
+            results[display_name] = forecast_close_prices(
+                df,
+                horizon_days=horizon_days,
+                lookback_window=lookback_window,
+                ridge_alpha=ridge_alpha,
+                optimize_model=optimize_model,
+                model_type=model_key,
+                context_df=context_df,
+            )
+        except Exception as exc:
+            results[display_name] = _unavailable_result(f"{display_name.lower()} unavailable", exc)
 
     available_components = {
         name: result
@@ -394,7 +416,39 @@ def _normalize_model_type(model_type: str) -> str:
         if MLPRegressor is None:
             raise ValueError("scikit-learn package is not installed.")
         return "neural_net"
+    if model_type in {"lstm", "rnn"}:
+        if torch is None or nn is None:
+            raise ValueError("PyTorch package is not installed.")
+        return "lstm"
+    if model_type in {"transformer", "tft"}:
+        if torch is None or nn is None:
+            raise ValueError("PyTorch package is not installed.")
+        return "transformer"
     raise ValueError(f"Unsupported model type: {model_type}")
+
+
+def _normalize_sequence_model(sequence_model: str | None) -> str:
+    sequence_model = (sequence_model or "off").strip().lower()
+    if sequence_model in {"", "off", "none", "false", "0"}:
+        return "off"
+    if sequence_model in {"lstm", "rnn"}:
+        return "lstm"
+    if sequence_model in {"transformer", "tft"}:
+        return "transformer"
+    if sequence_model in {"both", "all", "lstm+transformer", "transformer+lstm"}:
+        return "both"
+    raise ValueError(f"Unsupported sequence model: {sequence_model}")
+
+
+def _sequence_model_choices(sequence_model: str | None) -> list[tuple[str, str]]:
+    sequence_model = _normalize_sequence_model(sequence_model)
+    if sequence_model == "lstm":
+        return [("lstm", "LSTM")]
+    if sequence_model == "transformer":
+        return [("transformer", "Transformer")]
+    if sequence_model == "both":
+        return [("lstm", "LSTM"), ("transformer", "Transformer")]
+    return []
 
 
 def _model_display_name(model_type: str, optimize_model: bool) -> str:
@@ -403,6 +457,10 @@ def _model_display_name(model_type: str, optimize_model: bool) -> str:
         return f"{prefix}direct XGBoost horizon model"
     if model_type == "neural_net":
         return f"{prefix}direct neural net horizon model"
+    if model_type == "lstm":
+        return f"{prefix}direct LSTM sequence horizon model"
+    if model_type == "transformer":
+        return f"{prefix}direct transformer sequence horizon model"
     return f"{prefix}direct ridge horizon model"
 
 
@@ -479,6 +537,68 @@ def _build_direct_training_data(
             targets.append(target)
 
     return np.asarray(rows, dtype=float), np.asarray(targets, dtype=float)
+
+
+def _is_sequence_model(model_type: str) -> bool:
+    return model_type in {"lstm", "transformer"}
+
+
+def _training_data_for_model(
+    log_returns: np.ndarray,
+    lookback_window: int,
+    horizon_days: int,
+    model_type: str,
+    extra_feature_arrays: list[np.ndarray] | None = None,
+) -> tuple[np.ndarray, np.ndarray]:
+    if _is_sequence_model(model_type):
+        return _build_sequence_training_data(log_returns, lookback_window, horizon_days, extra_feature_arrays)
+    return _build_direct_training_data(log_returns, lookback_window, horizon_days, extra_feature_arrays)
+
+
+def _latest_features_for_model(
+    log_returns: np.ndarray,
+    extra_feature_arrays: list[np.ndarray] | None,
+    as_of_pos: int,
+    lookback_window: int,
+    model_type: str,
+) -> np.ndarray:
+    if _is_sequence_model(model_type):
+        return _sequence_features_for_position(log_returns, extra_feature_arrays, as_of_pos, lookback_window)
+    return _features_for_position(log_returns, extra_feature_arrays, as_of_pos, lookback_window)
+
+
+def _build_sequence_training_data(
+    log_returns: np.ndarray,
+    lookback_window: int,
+    horizon_days: int,
+    extra_feature_arrays: list[np.ndarray] | None = None,
+) -> tuple[np.ndarray, np.ndarray]:
+    rows = []
+    targets = []
+    last_start = len(log_returns) - horizon_days
+
+    for as_of_pos in range(lookback_window, last_start + 1):
+        features = _sequence_features_for_position(log_returns, extra_feature_arrays, as_of_pos, lookback_window)
+        target = log_returns[as_of_pos : as_of_pos + horizon_days].sum()
+        if np.isfinite(features).all() and np.isfinite(target):
+            rows.append(features)
+            targets.append(target)
+
+    return np.asarray(rows, dtype=float), np.asarray(targets, dtype=float)
+
+
+def _sequence_features_for_position(
+    log_returns: np.ndarray,
+    extra_feature_arrays: list[np.ndarray] | None,
+    as_of_pos: int,
+    lookback_window: int,
+) -> np.ndarray:
+    start = as_of_pos - lookback_window
+    columns = [np.asarray(log_returns[start:as_of_pos], dtype=float)]
+    for array in extra_feature_arrays or []:
+        if len(array) >= as_of_pos:
+            columns.append(np.asarray(array[start:as_of_pos], dtype=float))
+    return np.column_stack(columns)
 
 
 def _features_for_position(
@@ -632,11 +752,134 @@ def _fit_neural_net(x: np.ndarray, y: np.ndarray, alpha: float) -> dict:
     }
 
 
+def _fit_sequence_model(x: np.ndarray, y: np.ndarray, alpha: float, model_type: str) -> dict:
+    if torch is None or nn is None:
+        raise ValueError("PyTorch package is not installed.")
+    if x.ndim != 3:
+        raise ValueError("Sequence model needs 3D training data.")
+
+    try:
+        torch.set_num_threads(1)
+    except Exception:
+        pass
+    torch.manual_seed(17)
+
+    sample_count, sequence_length, feature_count = x.shape
+    hidden_size = 18
+    x_mean = x.reshape(-1, feature_count).mean(axis=0)
+    x_std = x.reshape(-1, feature_count).std(axis=0)
+    x_std[x_std == 0] = 1.0
+    x_scaled = (x - x_mean) / x_std
+
+    y_mean = float(y.mean())
+    y_std = float(y.std(ddof=0))
+    if y_std == 0.0:
+        y_std = 1.0
+    y_scaled = (y - y_mean) / y_std
+
+    class LSTMRegressor(nn.Module):
+        def __init__(self) -> None:
+            super().__init__()
+            self.lstm = nn.LSTM(feature_count, hidden_size, num_layers=1, batch_first=True)
+            self.head = nn.Sequential(
+                nn.LayerNorm(hidden_size),
+                nn.Linear(hidden_size, 8),
+                nn.ReLU(),
+                nn.Linear(8, 1),
+            )
+
+        def forward(self, features):
+            output, _ = self.lstm(features)
+            return self.head(output[:, -1, :]).squeeze(-1)
+
+    class TinyTransformerRegressor(nn.Module):
+        def __init__(self) -> None:
+            super().__init__()
+            d_model = 18
+            self.projection = nn.Linear(feature_count, d_model)
+            self.position = nn.Parameter(torch.zeros(1, sequence_length, d_model))
+            layer = nn.TransformerEncoderLayer(
+                d_model=d_model,
+                nhead=2,
+                dim_feedforward=36,
+                dropout=0.05,
+                batch_first=True,
+                activation="gelu",
+            )
+            self.encoder = nn.TransformerEncoder(layer, num_layers=1)
+            self.head = nn.Sequential(
+                nn.LayerNorm(d_model),
+                nn.Linear(d_model, 8),
+                nn.ReLU(),
+                nn.Linear(8, 1),
+            )
+
+        def forward(self, features):
+            encoded = self.encoder(self.projection(features) + self.position)
+            return self.head(encoded[:, -1, :]).squeeze(-1)
+
+    model = LSTMRegressor() if model_type == "lstm" else TinyTransformerRegressor()
+    x_tensor = torch.as_tensor(x_scaled, dtype=torch.float32)
+    y_tensor = torch.as_tensor(y_scaled, dtype=torch.float32)
+    optimizer = torch.optim.AdamW(
+        model.parameters(),
+        lr=0.01,
+        weight_decay=max(float(alpha), 0.01) / 10000.0,
+    )
+    loss_fn = nn.MSELoss()
+    best_loss = np.inf
+    best_state = None
+    patience = 8
+    stale_epochs = 0
+    epochs = 80 if model_type == "lstm" else 65
+
+    for _ in range(epochs):
+        model.train()
+        optimizer.zero_grad(set_to_none=True)
+        prediction = model(x_tensor)
+        loss = loss_fn(prediction, y_tensor)
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        optimizer.step()
+
+        loss_value = float(loss.detach().cpu())
+        if loss_value + 1e-5 < best_loss:
+            best_loss = loss_value
+            best_state = {key: value.detach().clone() for key, value in model.state_dict().items()}
+            stale_epochs = 0
+        else:
+            stale_epochs += 1
+            if stale_epochs >= patience:
+                break
+
+    if best_state is not None:
+        model.load_state_dict(best_state)
+    model.eval()
+    with torch.no_grad():
+        fitted = model(x_tensor).detach().cpu().numpy() * y_std + y_mean
+    residuals = y - fitted
+    residual_std = residuals.std(ddof=1) if len(residuals) > 1 else residuals.std(ddof=0)
+    return {
+        "kind": model_type,
+        "model": model,
+        "x_mean": x_mean,
+        "x_std": x_std,
+        "y_mean": y_mean,
+        "y_std": y_std,
+        "residual_std": residual_std,
+        "sequence_length": int(sequence_length),
+        "feature_count": int(feature_count),
+        "training_epochs": int(epochs - max(stale_epochs - patience + 1, 0)),
+    }
+
+
 def _fit_model(x: np.ndarray, y: np.ndarray, alpha: float, model_type: str) -> dict:
     if model_type == "xgboost":
         return _fit_xgboost(x, y, alpha)
     if model_type == "neural_net":
         return _fit_neural_net(x, y, alpha)
+    if model_type in {"lstm", "transformer"}:
+        return _fit_sequence_model(x, y, alpha, model_type)
     return _fit_ridge(x, y, alpha)
 
 
@@ -647,6 +890,13 @@ def _predict_matrix(x: np.ndarray, model: dict) -> np.ndarray:
     if model.get("kind") == "neural_net":
         x_scaled = (x - model["x_mean"]) / model["x_std"]
         return model["model"].predict(x_scaled) * model["y_std"] + model["y_mean"]
+
+    if model.get("kind") in {"lstm", "transformer"}:
+        x_scaled = (x - model["x_mean"]) / model["x_std"]
+        tensor = torch.as_tensor(x_scaled, dtype=torch.float32)
+        model["model"].eval()
+        with torch.no_grad():
+            return model["model"](tensor).detach().cpu().numpy() * model["y_std"] + model["y_mean"]
 
     x_scaled = (x - model["x_mean"]) / model["x_std"]
     design = np.column_stack([np.ones(len(x_scaled)), x_scaled])
@@ -725,6 +975,19 @@ def _select_direct_model(
             upper=250.0,
             cast=float,
         )
+    if model_type in {"lstm", "transformer"}:
+        window_candidates = _candidate_values(
+            [requested_lookback],
+            lower=5,
+            upper=max_window,
+            cast=int,
+        )
+        alpha_candidates = _candidate_values(
+            [requested_alpha],
+            lower=0.01,
+            upper=250.0,
+            cast=float,
+        )
 
     for window in window_candidates:
         for alpha in alpha_candidates:
@@ -778,7 +1041,7 @@ def _direct_holdout_metrics(
     model_type: str = "ridge",
     extra_feature_arrays: list[np.ndarray] | None = None,
 ) -> dict:
-    x, y = _build_direct_training_data(log_returns, lookback_window, horizon_days, extra_feature_arrays)
+    x, y = _training_data_for_model(log_returns, lookback_window, horizon_days, model_type, extra_feature_arrays)
     if len(y) < 35:
         return {}
 
