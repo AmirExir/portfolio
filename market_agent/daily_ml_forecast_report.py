@@ -25,9 +25,14 @@ from forecast_cache import (
 
 
 DEFAULT_SYMBOLS = [
-    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
-    "XOM", "UNH", "SPY", "VOO", "AVGO", "GLD", "SLV", "USO",
-    "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "PEPE-USD",
+    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "AVGO",
+    "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
+    "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
+    "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
+    "SPY", "VOO", "QQQ", "IWM", "DIA", "GLD", "SLV", "USO", "TLT",
+    "XLK", "XLF", "XLE", "XLV", "XLY",
+    "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
+    "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "FLOKI-USD", "PEPE-USD",
 ]
 MARKET_CONTEXT_TICKERS = [
     "SPY", "VOO", "QQQ", "IWM", "DIA", "^VIX",
@@ -313,7 +318,7 @@ def send_telegram(text: str) -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Generate daily ML forecast rankings for Telegram/n8n.")
     parser.add_argument("--symbols", default=",".join(DEFAULT_SYMBOLS))
-    parser.add_argument("--history-days", type=int, default=365)
+    parser.add_argument("--history-days", type=int, default=913)
     parser.add_argument("--horizon", type=int, default=30)
     parser.add_argument("--lookback", type=int, default=20)
     parser.add_argument("--ridge-alpha", type=float, default=10.0)

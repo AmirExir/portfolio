@@ -117,7 +117,7 @@ If you want the scheduled node to precompute the optimized model comparison for 
 ```bash
 --symbols "AAPL,MSFT,NVDA,AVGO,SPY,VOO,GLD,SLV,USO"
 --horizon 30
---history-days 365
+--history-days 913
 --primary-model Ensemble
 --top-n 5
 --no-market-context

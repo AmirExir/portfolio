@@ -451,19 +451,57 @@ st.title("🤖 Amir Exir Stock Market & Crypto AI Agent")
 
 SYMBOL_OPTIONS = [
     "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "AVGO",
-    "JPM", "BAC", "V", "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD",
-    "XOM", "CVX", "PEP", "SPY", "VOO", "QQQ", "IWM", "DIA", "GLD",
-    "SLV", "USO", "TLT", "XLK", "XLF", "XLE", "XLV", "XLY",
+    "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
+    "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
+    "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
+    "SPY", "VOO", "QQQ", "IWM", "DIA", "GLD", "SLV", "USO", "TLT",
+    "XLK", "XLF", "XLE", "XLV", "XLY",
+    "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
+    "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "FLOKI-USD", "PEPE-USD",
 ]
 DEFAULT_FORECAST_SYMBOLS = [
-    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
-    "XOM", "UNH", "SPY", "VOO", "AVGO", "GLD", "SLV", "USO",
+    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "AVGO",
+    "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
+    "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
+    "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
+    "SPY", "VOO", "QQQ", "IWM", "DIA", "GLD", "SLV", "USO", "TLT",
+    "XLK", "XLF", "XLE", "XLV", "XLY",
+    "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
+    "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "FLOKI-USD", "PEPE-USD",
 ]
 SYMBOL_LABELS = {
     "AVGO": "Broadcom (AVGO)",
+    "ORCL": "Oracle (ORCL)",
+    "NFLX": "Netflix (NFLX)",
+    "WFC": "Wells Fargo (WFC)",
+    "C": "Citigroup (C)",
+    "GS": "Goldman Sachs (GS)",
+    "MS": "Morgan Stanley (MS)",
+    "DAL": "Delta Air Lines (DAL)",
+    "UAL": "United Airlines (UAL)",
+    "AAL": "American Airlines (AAL)",
+    "LUV": "Southwest Airlines (LUV)",
+    "COP": "ConocoPhillips (COP)",
+    "OXY": "Occidental (OXY)",
+    "SLB": "SLB (SLB)",
+    "EOG": "EOG Resources (EOG)",
     "GLD": "Gold (GLD)",
     "SLV": "Silver (SLV)",
     "USO": "Oil (USO)",
+    "BTC-USD": "Bitcoin (BTC)",
+    "ETH-USD": "Ethereum (ETH)",
+    "SOL-USD": "Solana (SOL)",
+    "XRP-USD": "XRP (XRP)",
+    "ADA-USD": "Cardano (ADA)",
+    "BNB-USD": "BNB (BNB)",
+    "AVAX-USD": "Avalanche (AVAX)",
+    "ORCA-USD": "Orca (ORCA)",
+    "PNUT-USD": "Peanut (PNUT)",
+    "DOGE-USD": "Dogecoin (DOGE)",
+    "SHIB-USD": "Shiba Inu (SHIB)",
+    "FOLKI-USD": "Floki (FOLKI)",
+    "FLOKI-USD": "Floki (FLOKI)",
+    "PEPE-USD": "Pepe (PEPE)",
 }
 MARKET_CONTEXT_TICKERS = [
     "SPY", "VOO", "QQQ", "IWM", "DIA", "^VIX",
@@ -1149,7 +1187,7 @@ history_options = {
     "~10 years": 1825,
     "~15 years": 2738,
 }
-history_label = st.sidebar.selectbox("Historical data lookback", list(history_options.keys()), index=0)
+history_label = st.sidebar.selectbox("Historical data lookback", list(history_options.keys()), index=1)
 history_days = history_options[history_label]
 forecast_horizon = st.sidebar.slider("Forecast horizon", min_value=5, max_value=60, value=30, step=5)
 forecast_lookback = st.sidebar.slider("Lag window", min_value=5, max_value=60, value=20, step=5)
