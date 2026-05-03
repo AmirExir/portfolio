@@ -1,0 +1,39 @@
+Generated: 2026-05-03 20:08 UTC
+Horizon: 30 trading days
+Universe: 65 symbols | Stocks + crypto + commodities
+Primary selection: Best Validation
+
+Top Buy Signals
+LUV — Strong Buy | Pattern: Range / No Dominant Pattern | Forecast return: +23.87% | Probability up: 94.1% | Edge: 44.1% | Expected error: +/-14.72% | Selected model: Neural Net
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +18.32% | Probability up: 96.7% | Edge: 46.7% | Expected error: +/-9.59% | Selected model: Ridge
+JNJ — Strong Buy | Pattern: Oversold | Forecast return: +11.23% | Probability up: 91.9% | Edge: 41.9% | Expected error: +/-7.91% | Selected model: Transformer
+DOGE-USD — Buy | Pattern: Near 60-Day High | Forecast return: +21.27% | Probability up: 83.2% | Edge: 33.2% | Expected error: +/-22.22% | Selected model: Transformer
+
+Assessment of buy side:
+LUV ranks first on forecast return among the listed buy signals and still carries a high directional edge. The main caution is that the pattern is range-bound rather than trending, so path volatility may be higher than for a cleaner trend setup.
+GEV combines the strongest probability profile with a relatively lower expected error versus forecast return, making it one of the cleaner long setups in this batch.
+JNJ stands out as an oversold recovery candidate with solid probability support and expected error below forecast return, which improves signal quality.
+DOGE-USD qualifies on forecast return and edge, but risk is elevated because expected error is slightly larger than forecast return. In addition, the asset is near a 60-day high and flagged overbought, which raises pullback risk despite the bullish model output.
+
+Top Sell / Avoid Signals
+PEPE-USD — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+NFLX — Strong Sell | Pattern: Oversold | Forecast return: -23.84% | Probability down: 97.8% | Edge: 47.8% | Expected error: +/-14.49% | Selected model: XGBoost
+PNUT-USD — Sell | Pattern: High Volatility | Forecast return: -18.82% | Probability down: 87.7% | Edge: 37.7% | Expected error: +/-19.70% | Selected model: XGBoost
+INTC — Sell | Pattern: Uptrend | Forecast return: -14.82% | Probability down: 75.7% | Edge: 25.7% | Expected error: +/-25.91% | Selected model: LSTM
+AVGO — Sell | Pattern: Uptrend | Forecast return: -9.52% | Probability down: 75.6% | Edge: 25.6% | Expected error: +/-15.52% | Selected model: Ridge
+
+Assessment of sell side:
+PEPE-USD is the clearest bearish signal in the set. Forecast size, probability, and agreement across multiple model returns all align with the downtrend pattern.
+NFLX is a strong bearish signal on model metrics, but the oversold pattern introduces conflict: bearish model output with oversold condition indicates elevated reversal risk if price mean reverts.
+PNUT-USD has a material negative forecast and strong downside probability, but expected error is larger than the forecast return and the pattern is high volatility. This makes it actionable only with stricter risk controls.
+INTC and AVGO both screen as sells, but each shows strong model disagreement. INTC has sharply positive Ridge, XGBoost, and Neural Net forecasts against a bearish LSTM selection. AVGO also has mixed signals, with Ridge/LSTM/Neural Net negative while XGBoost and Transformer are positive. Both should be treated as lower-conviction shorts or avoid candidates rather than clean directional sells.
+
+Watchlist / Neutral
+AMZN — Neutral / No Edge despite a -4.89% selected-model forecast. Probability down is notable at 68.4%, but the official call remains neutral and model disagreement is substantial, so it does not qualify as an actionable sell.
+AAPL — Neutral / No Edge with a +3.39% selected-model forecast, but edge is only 16.7% and expected error is much larger than forecast return.
+ADA-USD — Neutral / No Edge with a +5.88% selected-model forecast, but the broader model set is mixed and the primary pattern remains downtrend/rebound, so confirmation is lacking.
+XRP-USD — Neutral / No Edge with a +7.19% selected-model forecast, yet expected error is very large and other models disagree materially.
+
+Overall read:
+The strongest actionable longs are LUV, GEV, and JNJ. DOGE-USD is a higher-risk momentum buy with error exceeding forecast return.
+The strongest actionable short is PEPE-USD. NFLX is also materially bearish, though oversold conditions increase reversal risk. PNUT-USD, INTC, and AVGO are weaker than the top bearish names because volatility or model conflict is more pronounced.
