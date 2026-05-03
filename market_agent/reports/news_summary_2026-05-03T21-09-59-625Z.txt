@@ -1,0 +1,42 @@
+Here are the **concise, market-focused business headlines** separated into **Facts** and **Interpretation**:
+
+## Facts
+- **Spirit Airlines to shut down operations** after failing to secure a **$500 million federal bailout**, according to CBS News.
+- **Berkshire Hathaway Q1 results:** profit more than doubled, helped by gains in **insurance, railroad, and energy**, per WSJ.
+- **Berkshire’s cash pile rose to a record** in Greg Abel’s first quarter as CEO, Bloomberg reported.
+- **Greg Abel said Berkshire has a shortlist of acquisition targets**, according to WSJ.
+- **Warren Buffett highlighted Apple’s importance to Berkshire** and publicly praised **Tim Cook** at Berkshire’s annual meeting, per Business Insider.
+- **Buffett warned about “gambling” in markets**, and also raised concerns about **deepfakes** and **nuclear risks**, according to Business Insider.
+- The **Pentagon reached deals with seven tech companies** to deploy AI in **classified military systems**, AP reported.
+- **California will begin ticketing autonomous vehicles** for traffic-law violations, with citations going to the **manufacturer**, BBC reported.
+- **Gas prices are rising nationwide**, according to ABC News.
+- A federal judge reportedly gave **Elon Musk a stern reception** as trial proceedings began in his case against **OpenAI**, per The Washington Post.
+- A Texas court order will allow **smokable hemp products to remain on shelves for now**, blocking parts of a stricter state regulatory regime, per KUT.
+
+## Interpretation / Why it may matter
+- **Spirit’s shutdown** could affect:
+  - airline and travel-related stocks,
+  - airport exposure in Spirit-heavy markets,
+  - pricing power for rival carriers if low-cost capacity exits.
+- **Berkshire’s strong earnings and record cash** may support sentiment around:
+  - insurers,
+  - industrial/transport businesses,
+  - the broader view that Berkshire remains defensive but financially powerful.
+- **Berkshire’s acquisition shortlist** may fuel speculation around potential takeover targets.
+- **Buffett’s warning about market “gambling”** may reinforce concerns about froth in speculative corners of the market, though it is commentary rather than a discrete policy or earnings event.
+- **Pentagon AI contracts** are potentially positive for:
+  - major AI and cloud providers,
+  - defense-tech names,
+  - companies with secure government infrastructure exposure.
+- **California’s autonomous-vehicle enforcement rules** could raise compliance and legal risk for robotaxi and AV developers, especially firms with large fleets in the state.
+- **Higher gas prices** may pressure consumer spending expectations and lift inflation sensitivity, with possible read-through to energy markets and transport stocks.
+- **Musk/OpenAI courtroom friction** may add uncertainty to AI-sector legal overhang, but the direct near-term market impact is less clear from the headline alone.
+
+## Most market-moving items today
+- **Spirit Airlines shutting down**
+- **Berkshire Hathaway earnings and record cash**
+- **Pentagon AI deals with seven tech companies**
+- **Gas prices moving higher nationwide**
+- **California tightening enforcement on driverless cars**
+
+If you want, I can also turn this into a **pre-market brief sorted by stocks/sectors affected**.
