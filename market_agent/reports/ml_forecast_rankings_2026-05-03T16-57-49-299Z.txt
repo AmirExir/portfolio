@@ -1,0 +1,28 @@
+Generated: 2026-05-03 16:57 UTC
+Horizon: 30 trading days
+Universe: 65 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV | Strong Buy | pattern Uptrend | forecast return +18.32% | probability up 96.7% | edge 46.7% | expected error +/-9.59% | selected model Ridge
+LUV | Strong Buy | pattern Range / No Dominant Pattern | forecast return +15.04% | probability up 85.1% | edge 35.1% | expected error +/-14.39% | selected model Ridge
+JNJ | Buy | pattern Oversold | forecast return +7.03% | probability up 78.9% | edge 28.9% | expected error +/-8.81% | selected model Ridge
+
+Assessment: GEV ranks as the clearest long setup with the highest combination of forecast return, directional confidence, and edge. LUV also screens positively, but expected error is close to forecast return, so the signal is less robust than the headline return implies. JNJ has a favorable probability profile, but the oversold pattern can mean either recovery continuation or unstable price action; expected error exceeds forecast return, which raises risk.
+
+Top Sell / Avoid Signals
+PEPE-USD | Strong Sell | pattern Downtrend | forecast return -31.94% | probability down 99.9% | edge 49.9% | expected error +/-13.60% | selected model Ridge
+PNUT-USD | Sell | pattern High Volatility | forecast return -17.86% | probability down 86.4% | edge 36.4% | expected error +/-19.62% | selected model XGBoost
+AVGO | Sell | pattern Uptrend | forecast return -9.52% | probability down 75.6% | edge 25.6% | expected error +/-15.52% | selected model Ridge
+AMZN | Sell bias in model output, but labeled Neutral / No Edge | pattern Near 60-Day High | forecast return -4.94% | probability down 68.6% | edge 18.6% | expected error +/-11.03% | selected model XGBoost
+
+Assessment: PEPE-USD is the strongest bearish signal in the dataset, supported by a downtrend pattern, very high probability down, and forecast magnitude comfortably above the noise filter. PNUT-USD also qualifies, though the expected error is larger than the forecast return, which implies high dispersion around the bearish call. AVGO is a valid sell/avoid signal, but there is notable model disagreement: Ridge and Neural Net are negative while XGBoost is positive, so reversal risk is elevated despite the sell label. AMZN shows a meaningful negative forecast and bearish probability skew, but because the official model call is Neutral / No Edge, it is better treated as a watchlist avoid rather than a primary short candidate.
+
+Watchlist / Neutral
+XRP-USD | Neutral / No Edge | pattern Rebound From 60-Day Low | forecast return +7.19% | probability up 64.6% | edge 14.6% | expected error +/-20.32% | selected model XGBoost
+C | Neutral / No Edge | pattern Uptrend | forecast return +4.97% | probability up 66.9% | edge 16.9% | expected error +/-11.70% | selected model XGBoost
+QQQ | Neutral / No Edge | pattern Uptrend | forecast return +3.47% | probability up 69.3% | edge 19.3% | expected error +/-6.98% | selected model Neural Net
+
+These are not actionable under the stated filter because the model call remains Neutral / No Edge. XRP-USD is notable for forecast size, but expected error is far larger than the forecast return. C and QQQ have constructive directional probabilities, yet neither clears the action threshold due to neutral classification and weaker risk-adjusted confidence.
+
+Risk notes
+Use caution when expected error exceeds forecast return; this applies notably to JNJ, PNUT-USD, AVGO, XRP-USD, and C. Conflicting model outputs are important in AVGO and AMZN, where selected-model bearish calls are opposed by at least one other model. Bearish model output paired with bullish or uptrend conditions can increase reversal risk, especially in AVGO.
