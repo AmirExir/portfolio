@@ -1,0 +1,32 @@
+Generated: 2026-05-03 23:25 UTC
+Horizon: 30 trading days
+Universe: 65 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+DOGE-USD — Strong Buy | Pattern: Near 60-Day High | Forecast return: +24.46% | Probability up: 85.8% | Edge: 35.8% | Expected error: +/-22.65% | Selected model: Transformer. Highest upside forecast among the actionable buys. Risk note: expected error is close to forecast return, and the pattern is extended near highs, so upside remains meaningful but path risk is elevated. Models are mixed, with LSTM negative while Transformer is strongly positive.
+
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +18.32% | Probability up: 96.7% | Edge: 46.7% | Expected error: +/-9.59% | Selected model: Ridge. Strong directional confidence with forecast return comfortably above expected error. This is one of the cleaner long signals in the set.
+
+JNJ — Strong Buy | Pattern: Oversold | Forecast return: +11.44% | Probability up: 92.3% | Edge: 42.3% | Expected error: +/-7.90% | Selected model: Transformer. Oversold setup with strong upside probability and a forecast that exceeds model error by a reasonable margin. Rebound-type signal appears favorable.
+
+Top Sell / Avoid Signals
+PEPE-USD — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge. Strongest downside setup in the list, with broad agreement across models and a persistent downtrend pattern.
+
+NFLX — Strong Sell | Pattern: Oversold | Forecast return: -23.84% | Probability down: 97.8% | Edge: 47.8% | Expected error: +/-14.49% | Selected model: XGBoost. Large negative forecast with high directional confidence. Risk note: bearish model output with oversold condition implies elevated reversal risk even though the primary signal remains negative.
+
+PNUT-USD — Sell | Pattern: High Volatility | Forecast return: -17.90% | Probability down: 86.5% | Edge: 36.5% | Expected error: +/-19.58% | Selected model: XGBoost. Actionable downside signal, but expected error is larger than forecast return, so conviction is lower than headline return suggests. Also shows model conflict, with Transformer positive while XGBoost and LSTM are negative.
+
+Additional sell signals from the ranking output
+INTC — Sell | Pattern: Uptrend | Forecast return: -15.81% | Probability down: 77.2% | Edge: 27.2% | Expected error: +/-25.96% | Selected model: LSTM. Downside call conflicts with the prevailing uptrend and overbought backdrop. Risk is high because expected error exceeds the forecast return and several other models are positive.
+
+AVGO — Sell | Pattern: Uptrend | Forecast return: -9.52% | Probability down: 75.6% | Edge: 25.6% | Expected error: +/-15.52% | Selected model: Ridge. Negative signal is notable, but there is substantial model disagreement with XGBoost and Neural Net positive. Expected error is larger than forecast return.
+
+GOOGL — Sell | Pattern: Uptrend | Forecast return: -7.27% | Probability down: 73.8% | Edge: 23.8% | Expected error: +/-12.59% | Selected model: Neural Net. Actionable under the ranking rules, though the signal conflicts with the trend regime and other models are mixed to positive. Risk is elevated because expected error exceeds forecast return.
+
+Watchlist / Neutral
+AAPL — Neutral / No Edge despite a +3.39% forecast. Probability up is 66.7%, but the official model call is neutral, so it is not actionable.
+AMZN — Neutral / No Edge despite a -4.94% forecast. Downside is not actionable because the model does not issue a sell call.
+XRP-USD and ADA-USD — positive forecast returns above 2%, but both remain Neutral / No Edge and should stay on watch rather than in active buy lists.
+
+Summary view
+Most reliable long setups appear to be GEV and JNJ based on edge relative to expected error, while DOGE-USD offers the largest upside but with materially higher uncertainty. On the downside, PEPE-USD is the clearest avoid/short candidate, followed by NFLX. Several equity sell calls such as INTC, AVGO, and GOOGL carry trend conflict and high error, so they rank below the primary sell names.
