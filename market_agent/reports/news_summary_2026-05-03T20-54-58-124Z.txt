@@ -1,0 +1,43 @@
+Here are the **market-relevant business headlines**, separated into **Facts** and **Interpretation**:
+
+- **Berkshire Hathaway Q1**
+  - **Fact:** Berkshire reported a record cash pile and higher operating earnings in Greg Abel’s first quarter as CEO, with strength cited in insurance, railroad, and energy businesses.  
+  - **Interpretation:** Supports the view that Berkshire remains financially defensive and acquisition-ready under new leadership; could be read as positive for Berkshire sentiment and as a signal Abel is emphasizing continuity.
+
+- **Buffett highlights Apple / Tim Cook**
+  - **Fact:** Warren Buffett publicly praised Tim Cook at Berkshire’s shareholder meeting for the success of Berkshire’s Apple investment.  
+  - **Interpretation:** Reinforces Apple’s importance to Berkshire’s long-term returns and may be seen as a symbolic endorsement of Apple management, though it is not new operating guidance from Apple itself.
+
+- **Spirit Airlines shuts down**
+  - **Fact:** Spirit said it is winding down operations immediately after a proposed White House rescue deal fell through.  
+  - **Interpretation:** Materially negative for airline creditors, employees, and possibly some travel-related counterparties; could modestly affect pricing dynamics for other airlines on overlapping routes.
+
+- **Pentagon expands classified AI use**
+  - **Fact:** The Pentagon reached agreements with additional tech companies, including Nvidia, Microsoft, and AWS, to expand advanced AI tools on classified military networks.  
+  - **Interpretation:** Potential positive read-through for defense-tech and AI infrastructure demand, especially for companies supplying chips, cloud, and secure enterprise AI.
+
+- **Oil / fuel-price pressure tied to Middle East tensions**
+  - **Fact:** Regional reports said gas prices jumped in parts of Illinois amid higher oil prices linked to the Iran conflict and a refinery power disruption at BP’s Whiting refinery.  
+  - **Interpretation:** Adds to inflation and consumer-cost concerns if sustained; near-term supportive for crude-sensitive energy names but negative for transport and fuel-intensive sectors.
+
+- **UAE and OPEC**
+  - **Fact:** Forbes reported the UAE left OPEC, arguing its sovereign wealth interests now outweigh direct oil-price dependence.  
+  - **Interpretation:** If the policy shift proves durable, markets may see it as a sign of changing producer incentives and potentially looser long-term cartel cohesion; however, this is more structural than an immediate trading catalyst.
+
+- **Atrium Health seeks WakeMed combination**
+  - **Fact:** Atrium Health is pursuing a combination with WakeMed, which would expand Atrium’s footprint in North Carolina.  
+  - **Interpretation:** Could raise antitrust and regional healthcare competition concerns; most relevant for local healthcare markets rather than broad equity indexes.
+
+- **Texas smokable hemp ruling**
+  - **Fact:** A Texas judge temporarily blocked key parts of new state hemp regulations, allowing smokable hemp products to remain on shelves for now.  
+  - **Interpretation:** Short-term positive for hemp operators and retailers exposed to Texas; impact is likely sector-specific rather than market-wide.
+
+- **Thermos recall**
+  - **Fact:** Thermos recalled about 8.2 million insulated containers after reports of injuries linked to lack of a pressure-relief feature.  
+  - **Interpretation:** Negative for the company and potentially relevant to retailers carrying the products, but likely not a broad market mover.
+
+- **Fed / debt commentary**
+  - **Fact:** Commentary pieces focused on Jerome Powell potentially staying on the Fed board after his chair term and on rising concern in Washington over U.S. debt exceeding GDP.  
+  - **Interpretation:** These themes may shape rate and fiscal narratives, but the cited items are analysis-driven rather than fresh policy actions.
+
+If you want, I can turn this into a **“Top 5 for markets before the open”** version or sort it by **stocks, macro, and commodities**.
