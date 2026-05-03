@@ -218,35 +218,26 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
 
 
 def format_row(row: dict) -> str:
-    ridge_return = float(row_value(row, "Ridge Return %", default=0.0))
-    xgboost_return = float(row_value(row, "XGBoost Return %", default=0.0))
-    neural_return = float(row_value(row, "Neural Net Return %", default=0.0))
-    ensemble_return = float(row_value(row, "Ensemble Return %", default=0.0))
+    symbol = str(row_value(row, "symbol", "Symbol", default=""))
+    forecast_return = float(row_value(row, "forecast_return_pct", "Forecast Return %", default=0.0))
+    model_call_text = str(row_value(row, "model_call", "Model Call", default=""))
+    selected_model = str(row_value(row, "selected_model", "Selected Model", default=""))
+    probability_up = float(row_value(row, "Probability Up %", default=0.0))
+    edge = float(row_value(row, "model_edge_pct", "Model Edge %", default=0.0))
+    expected_error = float(row_value(row, "expected_error_pct", "Expected Error %", default=0.0))
     primary_pattern = row_value(row, "Primary Pattern", "primary_pattern", default="Unavailable")
-    details = [
-        str(row_value(row, "model_call", "Model Call", default="")),
-        f"selected {row_value(row, 'selected_model', 'Selected Model', default='')}",
+
+    parts = [
+        f"{symbol}: {forecast_return:+.2f}%",
+        model_call_text,
+        f"model {selected_model}",
+        f"prob up {probability_up:.1f}%",
+        f"edge {edge:.1f}%",
+        f"err +/-{expected_error:.2f}%",
     ]
     if primary_pattern and primary_pattern != "Unavailable":
-        details.append(f"pattern {primary_pattern}")
-    details.extend(
-        [
-            f"prob up {float(row_value(row, 'Probability Up %', default=0.0)):.1f}%",
-            f"edge {float(row_value(row, 'model_edge_pct', 'Model Edge %', default=0.0)):.1f}%",
-            f"err +/-{float(row_value(row, 'expected_error_pct', 'Expected Error %', default=0.0)):.2f}%",
-            f"Ridge {ridge_return:+.2f}%",
-            f"XGBoost {xgboost_return:+.2f}%",
-            f"Neural Net {neural_return:+.2f}%",
-            f"Ensemble {ensemble_return:+.2f}%",
-            f"validation MAE {float(row_value(row, 'Validation MAE %', default=0.0)):.2f}%",
-            f"direction hit {float(row_value(row, 'Direction Hit Rate %', default=0.0)):.1f}%",
-        ]
-    )
-    return (
-        f"{row_value(row, 'symbol', 'Symbol', default='')}: "
-        f"{float(row_value(row, 'forecast_return_pct', 'Forecast Return %', default=0.0)):+.2f}% "
-        f"({', '.join(details)})"
-    )
+        parts.append(f"pattern {primary_pattern}")
+    return " | ".join(parts)
 
 
 def build_market_report(rows: list[dict], errors: list[str], args: argparse.Namespace, timings: dict | None = None) -> dict:
@@ -313,11 +304,7 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
     else:
         lines.append("No negative forecast candidates.")
 
-    lines.extend(["", "Model Comparison Snapshot"])
-    if sorted_rows:
-        lines.extend(format_row(row) for row in sorted_rows)
-    else:
-        lines.append("No ranked rows were generated.")
+    # Keep the report compact for LLMs; full details are available in JSON rows.
 
     if errors:
         lines.extend(["", "Skipped"])

@@ -1126,6 +1126,46 @@ def fetch_latest_ml_report():
         return None
 
 
+@st.cache_data(ttl=300)
+def fetch_latest_ml_payload() -> dict | None:
+    local_path = os.path.join(
+        os.path.dirname(__file__) if __file__ else ".",
+        "reports",
+        "ml_forecast_rankings_latest.json",
+    )
+    if os.path.exists(local_path):
+        try:
+            with open(local_path, "r") as f:
+                return json.load(f)
+        except Exception:
+            pass
+
+    contents_url = (
+        "https://api.github.com/repos/AmirExir/portfolio/contents/"
+        "market_agent/reports/ml_forecast_rankings_latest.json"
+    )
+    try:
+        response = requests.get(
+            contents_url,
+            headers={
+                "Accept": "application/vnd.github.v3+json",
+                "User-Agent": "Streamlit-Market-Agent",
+            },
+            timeout=10,
+        )
+        if response.status_code == 404:
+            return None
+        response.raise_for_status()
+        download_url = response.json().get("download_url")
+        if not download_url:
+            return None
+        report_response = requests.get(download_url, timeout=10)
+        report_response.raise_for_status()
+        return report_response.json()
+    except Exception:
+        return None
+
+
 # --- Fetch the latest summary from GitHub ---
 @st.cache_data(ttl=300)  # Cache for 5 minutes
 def fetch_latest_summary():
@@ -1261,7 +1301,7 @@ forecast_alpha = st.sidebar.number_input(
     value=10.0,
     step=0.5,
 )
-run_forecast_rankings = st.sidebar.checkbox("Run forecast rankings", value=True)
+run_forecast_rankings = st.sidebar.checkbox("Run forecast rankings", value=not demo_mode)
 selected_forecast_symbols = st.sidebar.multiselect(
     "Forecast ranking tickers",
     options=SYMBOL_OPTIONS,
@@ -1286,6 +1326,8 @@ if refresh_selected:
     st.session_state["symbol_refresh_nonce"] += 1
     st.rerun()
 
+skip_heavy_once = bool(st.session_state.pop("skip_heavy_once", False))
+
 ranking_table = pd.DataFrame()
 ranking_errors: list[str] = []
 best_stock_for_analysis = "AAPL"
@@ -1293,7 +1335,7 @@ pattern_summary = pd.DataFrame()
 pattern_details = pd.DataFrame()
 pattern_errors: list[str] = []
 
-if run_forecast_rankings and selected_forecast_symbols:
+if run_forecast_rankings and selected_forecast_symbols and not skip_heavy_once:
     try:
         with st.spinner("Computing ML forecast rankings and optimization..."):
             ranking_table, ranking_errors = cached_forecast_rankings(
@@ -1404,6 +1446,8 @@ with top_patterns_tab:
     st.markdown("🧩 Most Common Patterns")
     if not selected_forecast_symbols:
         st.info("Select forecast ranking tickers to scan current patterns.")
+    elif not run_forecast_rankings or skip_heavy_once:
+        st.info("Enable Run forecast rankings to calculate pattern summaries.")
     else:
         try:
             with st.spinner("Scanning current technical patterns..."):
@@ -1516,8 +1560,23 @@ if not ranking_table.empty and not pattern_details.empty:
 
 with top_analysis_tab:
     try:
+        latest_ml_payload = fetch_latest_ml_payload()
         latest_ml_report = fetch_latest_ml_report()
-        if latest_ml_report:
+        if latest_ml_payload and latest_ml_payload.get("rows"):
+            st.markdown("🧠 Scheduled ML Forecast Rankings")
+            generated_at = latest_ml_payload.get("generated_at")
+            if generated_at:
+                st.caption(f"📅 Generated: {generated_at}")
+
+            rows_df = pd.DataFrame(latest_ml_payload.get("rows", []))
+            if not rows_df.empty:
+                rows_sorted = rows_df.sort_values("Score", ascending=False)
+                st.dataframe(format_ranking_table(rows_sorted.head(15)), use_container_width=True)
+
+            if latest_ml_report:
+                with st.expander("Full scheduled report text"):
+                    st.info(latest_ml_report.strip())
+        elif latest_ml_report:
             st.markdown("🧠 Scheduled ML Forecast Rankings")
             report_caption = report_generated_caption(latest_ml_report)
             if report_caption:
@@ -2090,6 +2149,7 @@ try:
                             "order_result": {"demo": True},
                         }
                     )
+                    st.session_state["skip_heavy_once"] = True
                     st.rerun()
                 else:
                     try:
@@ -2114,6 +2174,7 @@ try:
                                 "order_result": result,
                             }
                         )
+                        st.session_state["skip_heavy_once"] = True
                         st.rerun()
                     except Exception as e:
                         st.error(f"Failed to buy: {e}")
@@ -2138,6 +2199,7 @@ try:
                             "order_result": {"demo": True},
                         }
                     )
+                    st.session_state["skip_heavy_once"] = True
                     st.rerun()
                 else:
                     try:
@@ -2162,6 +2224,7 @@ try:
                                 "order_result": result,
                             }
                         )
+                        st.session_state["skip_heavy_once"] = True
                         st.rerun()
                     except Exception as e:
                         st.error(f"Failed to sell: {e}")
@@ -2218,6 +2281,7 @@ try:
             st.success(
                 f"{mode_label} auto-trade executed: {entry.get('action')} {entry.get('qty')} shares of {entry.get('symbol')} (${entry.get('qty') * entry.get('price', 0):,.2f})"
             )
+            st.session_state["skip_heavy_once"] = True
             st.rerun()
         elif auto_trade_enabled and auto_trade_result.get("status") == "skipped":
             st.caption(f"Auto-trade check: {auto_trade_result.get('reason', 'skipped')}")
