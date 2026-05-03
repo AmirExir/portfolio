@@ -8,3 +8,4 @@ loguru
 pydantic
 plotly
 xgboost
+scikit-learn

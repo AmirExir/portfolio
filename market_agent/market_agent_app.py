@@ -684,12 +684,15 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
         "Forecast Return %",
         "Ridge Return %",
         "XGBoost Return %",
+        "Neural Net Return %",
         "Ensemble Return %",
         "Probability Up %",
         "Directional Probability %",
         "Model Edge %",
         "Signal Quality",
         "Expected Error %",
+        "Validation MAE %",
+        "Direction Hit Rate %",
         "Score",
     ]
     display_columns = [column for column in display_columns if column in display_df.columns]
@@ -701,11 +704,14 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
             "Forecast Return %": "{:+.2f}%",
             "Ridge Return %": "{:+.2f}%",
             "XGBoost Return %": "{:+.2f}%",
+            "Neural Net Return %": "{:+.2f}%",
             "Ensemble Return %": "{:+.2f}%",
             "Probability Up %": "{:.1f}%",
             "Directional Probability %": "{:.1f}%",
             "Model Edge %": "{:.1f}%",
             "Expected Error %": "{:.2f}%",
+            "Validation MAE %": "{:.2f}%",
+            "Direction Hit Rate %": "{:.1f}%",
             "Score": "{:+.2f}",
         }
     ).hide(axis="index")
@@ -1247,7 +1253,7 @@ forecast_lookback = st.sidebar.slider("Lag window", min_value=5, max_value=60, v
 historical_test_points = st.sidebar.slider("Previous forecast test points", min_value=10, max_value=100, value=50, step=10)
 optimize_forecast_model = st.sidebar.checkbox("Optimize ML model", value=True)
 use_market_context = st.sidebar.checkbox("Use market context features", value=True)
-primary_model_choice = st.sidebar.selectbox("Primary forecast model", ["Ensemble", "Best Validation", "Ridge", "XGBoost"], index=1)
+primary_model_choice = st.sidebar.selectbox("Primary forecast model", ["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net"], index=1)
 forecast_alpha = st.sidebar.number_input(
     "Ridge regularization",
     min_value=0.1,
@@ -1832,7 +1838,12 @@ try:
                     hovertemplate="%{x}<br>Primary ML forecast: $%{y:,.2f}<extra></extra>",
                 )
             )
-            comparison_colors = {"Ridge": "#8c564b", "XGBoost": "#d62728", "Ensemble": "#2ca02c"}
+            comparison_colors = {
+                "Ridge": "#8c564b",
+                "XGBoost": "#d62728",
+                "Neural Net": "#17becf",
+                "Ensemble": "#2ca02c",
+            }
             for comparison_name, comparison_result in model_results.items():
                 if comparison_name == primary_model or comparison_result.forecast is None or comparison_result.forecast.empty:
                     continue

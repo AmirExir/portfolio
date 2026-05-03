@@ -185,6 +185,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
 def format_row(row: dict) -> str:
     ridge_return = float(row_value(row, "Ridge Return %", default=0.0))
     xgboost_return = float(row_value(row, "XGBoost Return %", default=0.0))
+    neural_return = float(row_value(row, "Neural Net Return %", default=0.0))
     ensemble_return = float(row_value(row, "Ensemble Return %", default=0.0))
     primary_pattern = row_value(row, "Primary Pattern", "primary_pattern", default="Unavailable")
     details = [
@@ -200,7 +201,10 @@ def format_row(row: dict) -> str:
             f"err +/-{float(row_value(row, 'expected_error_pct', 'Expected Error %', default=0.0)):.2f}%",
             f"Ridge {ridge_return:+.2f}%",
             f"XGBoost {xgboost_return:+.2f}%",
+            f"Neural Net {neural_return:+.2f}%",
             f"Ensemble {ensemble_return:+.2f}%",
+            f"validation MAE {float(row_value(row, 'Validation MAE %', default=0.0)):.2f}%",
+            f"direction hit {float(row_value(row, 'Direction Hit Rate %', default=0.0)):.1f}%",
         ]
     )
     return (
@@ -378,7 +382,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--ridge-alpha", type=float, default=10.0)
     parser.add_argument("--pattern-short-window", type=int, default=20)
     parser.add_argument("--pattern-long-window", type=int, default=50)
-    parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost"], default="Best Validation")
+    parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net"], default="Best Validation")
     parser.add_argument("--top-n", type=int, default=5)
     parser.add_argument("--output-dir", default=str(Path(__file__).resolve().parent / "reports"))
     parser.add_argument("--no-market-context", action="store_true")

@@ -126,7 +126,7 @@ If you want the scheduled node to precompute the optimized model comparison for 
 --json-only
 ```
 
-The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, and Ensemble forecast comparison used in the Streamlit app.
+The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, Neural Net, and Ensemble forecast comparison used in the Streamlit app.
 If you omit `--symbols`, the script uses the full default stock, ETF, commodity, crypto, and meme-crypto universe from the app.
-The text report and JSON rows include the recognized primary pattern for each ranked ticker, so the n8n summary and website table can describe the same pick.
+The text report and JSON rows include the recognized primary pattern, validation MAE, direction hit rate, and per-model returns for each ranked ticker, so the n8n summary and website table can describe the same pick.
 The JSON payload includes all model snapshots per symbol, which makes it usable by the app and by an LLM-driven n8n branch without rerunning forecasts.

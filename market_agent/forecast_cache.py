@@ -10,7 +10,7 @@ import pandas as pd
 from agent.forecast import ForecastResult
 
 
-CACHE_VERSION = 1
+CACHE_VERSION = 2
 
 
 def _json_safe(value):
@@ -199,6 +199,7 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
         "Forecast Return %": forecast_return,
         "Ridge Return %": _return_for("Ridge"),
         "XGBoost Return %": _return_for("XGBoost"),
+        "Neural Net Return %": _return_for("Neural Net"),
         "Ensemble Return %": _return_for("Ensemble"),
         "Probability Up %": probability_up,
         "Probability Down %": 100.0 - probability_up,
@@ -206,6 +207,8 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
         "Model Edge %": edge,
         "Signal Quality": signal_quality(confidence),
         "Expected Error %": expected_error,
+        "Validation MAE %": float(metrics.get("holdout_mae_pct", np.nan)),
+        "Direction Hit Rate %": float(metrics.get("holdout_direction_accuracy", np.nan)),
         "Score": score,
     }
 

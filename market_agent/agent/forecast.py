@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from math import erf, sqrt
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -8,6 +9,13 @@ try:
     from xgboost import XGBRegressor
 except Exception:  # pragma: no cover - optional dependency fallback
     XGBRegressor = None
+
+try:
+    from sklearn.exceptions import ConvergenceWarning
+    from sklearn.neural_network import MLPRegressor
+except Exception:  # pragma: no cover - optional dependency fallback
+    ConvergenceWarning = Warning
+    MLPRegressor = None
 
 
 @dataclass(frozen=True)
@@ -240,7 +248,7 @@ def compare_forecast_models(
     optimize_model: bool = True,
     context_df: pd.DataFrame | None = None,
 ) -> dict[str, ForecastResult]:
-    """Run Ridge, XGBoost, and Ensemble forecasts on the same feature set."""
+    """Run Ridge, XGBoost, Neural Net, and Ensemble forecasts on the same feature set."""
     results = {}
     results["Ridge"] = forecast_close_prices(
         df,
@@ -267,6 +275,22 @@ def compare_forecast_models(
             results["XGBoost"] = _unavailable_result("xgboost unavailable", exc)
     else:
         results["XGBoost"] = _unavailable_result("xgboost unavailable", "xgboost package is not installed")
+
+    if MLPRegressor is not None:
+        try:
+            results["Neural Net"] = forecast_close_prices(
+                df,
+                horizon_days=horizon_days,
+                lookback_window=lookback_window,
+                ridge_alpha=ridge_alpha,
+                optimize_model=optimize_model,
+                model_type="neural_net",
+                context_df=context_df,
+            )
+        except Exception as exc:
+            results["Neural Net"] = _unavailable_result("neural net unavailable", exc)
+    else:
+        results["Neural Net"] = _unavailable_result("neural net unavailable", "scikit-learn package is not installed")
 
     available_components = {
         name: result
@@ -366,6 +390,10 @@ def _normalize_model_type(model_type: str) -> str:
         if XGBRegressor is None:
             raise ValueError("XGBoost package is not installed.")
         return "xgboost"
+    if model_type in {"neural", "neural_net", "neural net", "mlp", "nn"}:
+        if MLPRegressor is None:
+            raise ValueError("scikit-learn package is not installed.")
+        return "neural_net"
     raise ValueError(f"Unsupported model type: {model_type}")
 
 
@@ -373,6 +401,8 @@ def _model_display_name(model_type: str, optimize_model: bool) -> str:
     prefix = "optimized " if optimize_model else ""
     if model_type == "xgboost":
         return f"{prefix}direct XGBoost horizon model"
+    if model_type == "neural_net":
+        return f"{prefix}direct neural net horizon model"
     return f"{prefix}direct ridge horizon model"
 
 
@@ -557,15 +587,66 @@ def _fit_xgboost(x: np.ndarray, y: np.ndarray, reg_lambda: float) -> dict:
     }
 
 
+def _fit_neural_net(x: np.ndarray, y: np.ndarray, alpha: float) -> dict:
+    if MLPRegressor is None:
+        raise ValueError("scikit-learn package is not installed.")
+
+    x_mean = x.mean(axis=0)
+    x_std = x.std(axis=0)
+    x_std[x_std == 0] = 1.0
+    x_scaled = (x - x_mean) / x_std
+
+    y_mean = float(y.mean())
+    y_std = float(y.std(ddof=0))
+    if y_std == 0.0:
+        y_std = 1.0
+    y_scaled = (y - y_mean) / y_std
+
+    model = MLPRegressor(
+        hidden_layer_sizes=(24, 12),
+        activation="relu",
+        solver="adam",
+        alpha=max(float(alpha), 0.01) / 10000.0,
+        learning_rate_init=0.003,
+        max_iter=300,
+        random_state=11,
+        shuffle=False,
+        early_stopping=False,
+        tol=1e-4,
+    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ConvergenceWarning)
+        model.fit(x_scaled, y_scaled)
+
+    fitted = model.predict(x_scaled) * y_std + y_mean
+    residuals = y - fitted
+    residual_std = residuals.std(ddof=1) if len(residuals) > 1 else residuals.std(ddof=0)
+    return {
+        "kind": "neural_net",
+        "model": model,
+        "x_mean": x_mean,
+        "x_std": x_std,
+        "y_mean": y_mean,
+        "y_std": y_std,
+        "residual_std": residual_std,
+    }
+
+
 def _fit_model(x: np.ndarray, y: np.ndarray, alpha: float, model_type: str) -> dict:
     if model_type == "xgboost":
         return _fit_xgboost(x, y, alpha)
+    if model_type == "neural_net":
+        return _fit_neural_net(x, y, alpha)
     return _fit_ridge(x, y, alpha)
 
 
 def _predict_matrix(x: np.ndarray, model: dict) -> np.ndarray:
     if model.get("kind") == "xgboost":
         return model["model"].predict(x)
+
+    if model.get("kind") == "neural_net":
+        x_scaled = (x - model["x_mean"]) / model["x_std"]
+        return model["model"].predict(x_scaled) * model["y_std"] + model["y_mean"]
 
     x_scaled = (x - model["x_mean"]) / model["x_std"]
     design = np.column_stack([np.ones(len(x_scaled)), x_scaled])
@@ -627,6 +708,19 @@ def _select_direct_model(
         )
         alpha_candidates = _candidate_values(
             [5.0, 25.0, requested_alpha],
+            lower=0.01,
+            upper=250.0,
+            cast=float,
+        )
+    if model_type == "neural_net":
+        window_candidates = _candidate_values(
+            [requested_lookback, 30],
+            lower=5,
+            upper=max_window,
+            cast=int,
+        )
+        alpha_candidates = _candidate_values(
+            [requested_alpha],
             lower=0.01,
             upper=250.0,
             cast=float,
