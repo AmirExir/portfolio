@@ -244,7 +244,10 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
     generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     sorted_rows = sorted(rows, key=lambda r: float(row_value(r, "Score", default=0.0)), reverse=True)
     sorted_buy = [row for row in sorted_rows if float(row_value(row, "Forecast Return %", default=0.0)) > 0]
-    sorted_sell = [row for row in sorted_rows if float(row_value(row, "Forecast Return %", default=0.0)) < 0]
+    sorted_sell = sorted(
+        [row for row in rows if float(row_value(row, "Forecast Return %", default=0.0)) < 0],
+        key=lambda r: float(row_value(r, "Score", default=0.0)),
+    )
 
     top_buy_symbols = [str(row_value(row, "Symbol", default="")) for row in sorted_buy[: args.top_n] if row_value(row, "Symbol", default="")]
     top_sell_symbols = [str(row_value(row, "Symbol", default="")) for row in sorted_sell[: args.top_n] if row_value(row, "Symbol", default="")]
