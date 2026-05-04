@@ -1,0 +1,17 @@
+ML forecast rankings generated 2026-05-04 08:59 UTC.
+Horizon: 30 trading days. Primary model: RL Policy.
+Universe: 73 symbols across stocks, crypto, and commodities.
+
+Buy-side signals meeting the filter:
+GLD is the strongest validated long signal in the current run with a Strong Buy and forecast return of +8.73%. The setup is a range-bound pattern with no dominant trend, supported by 92.7% probability up and a 42.7% model edge.
+DOGE is also rated Strong Buy with a forecast return of +41.65%, tied to a near 60-day high pattern. The signal has high directional confidence at 90.8% probability up, but the expected error is wide at +/-29.90%.
+Among Buy-rated names, SLV (+9.42%), OXY (+9.08%), AVGO (+8.31%), GOOGL (+7.80%), KO (+4.78%), ZEC (+28.25%), UNI (+16.84%), and FLOKI (+47.99%) meet the minimum return threshold. GOOGL and AVGO stand out as higher-quality equity buy candidates due to relatively strong edge with less extreme forecast dispersion than several crypto names.
+Crypto buy signals such as FLOKI, ZEC, UNI, and DOGE offer larger forecast returns, but all carry materially higher expected error ranges and should be interpreted as lower-precision signals than the top equity and commodity entries.
+
+Sell-side signals meeting the filter:
+NFLX has the largest listed sell forecast at -9.64% with an oversold pattern, followed by ORCL at -8.76%, EOG at -6.16%, XLV at -4.28%, PG at -3.88%, AAPL at -2.80%, and V at -3.12% if using the raw table. However, V is marked Neutral / No Edge in the summary and is excluded from the actionable list.
+The highest-conviction published sell signals from the optimizer output are ORCL, NFLX, EOG, XLV, PG, and AAPL. ORCL and NFLX appear to be the clearest downside candidates by forecast magnitude among named sell signals.
+
+Watchlist notes:
+Several large-cap names including NVDA and AMZN show positive forecast returns above 2%, but they are classified as Neutral / No Edge and are not actionable under the stated filter.
+RIOT shows a large negative forecast in the raw output, but it remains Neutral / No Edge and should not be treated as a sell recommendation.
