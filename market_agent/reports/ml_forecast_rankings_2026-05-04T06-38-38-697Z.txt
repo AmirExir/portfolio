@@ -1,0 +1,29 @@
+Generated: 2026-05-04 06:38 UTC
+Horizon: 30 trading days
+Universe: 72 symbols across stocks, crypto, and commodities
+Primary model: RL Policy
+
+Buy signals meeting the filter:
+GLD is the top long signal with a Strong Buy and forecast return of +8.73%. The setup is range-bound rather than trend-led, with a 92.7% probability up and relatively moderate expected error versus other high-return names.
+DOGE is also rated Strong Buy with a forecast return of +41.65%, supported by a 90.8% probability up. The signal strength is high, but the expected error is also high, so conviction should be balanced against wider uncertainty.
+GOOGL is a Buy with forecast return of +7.80%, showing a high-edge uptrend profile and 78.6% probability up.
+SLV is a Buy with forecast return of +9.42%, also coming from a range-bound pattern rather than a directional breakout.
+OXY is a Buy with forecast return of +9.08% and an uptrend pattern.
+KO is a Buy with forecast return of +4.78%, tied to a rebound from the 60-day low.
+AVGO is a Buy with forecast return of +8.31% and an uptrend pattern.
+UNI is a Buy with forecast return of +16.84%, though expected error is elevated.
+ZEC is a Buy with forecast return of +28.25%, but with high expected error and a near-60-day-high pattern.
+FLOKI is a Buy with forecast return of +47.99%; however, the expected error is extremely high, making it one of the least stable positive forecasts in the group.
+
+Sell signals meeting the filter:
+NFLX is the strongest short-side signal with a Sell and forecast return of -9.64%. The pattern is oversold, so the model still favors downside despite a stretched condition.
+ORCL is a Sell with forecast return of -8.76% and a high-volatility pattern.
+XLV is a Sell with forecast return of -4.28%, despite a rebound-from-low pattern.
+EOG is a Sell with forecast return of -6.16% while still classified in an uptrend pattern.
+PG is a Sell with forecast return of -3.88% and high volatility.
+AAPL is a Sell with forecast return of -2.80% despite an uptrend pattern, indicating model disagreement with recent price structure.
+
+Most actionable positives by signal quality and return: GLD, GOOGL, SLV, OXY, AVGO.
+Most actionable negatives by signal quality and return: NFLX, ORCL, XLV, EOG, PG, AAPL.
+
+Higher-volatility names with positive signals but larger forecast uncertainty: DOGE, FLOKI, ZEC, UNI.
