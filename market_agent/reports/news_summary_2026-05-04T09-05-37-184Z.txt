@@ -1,0 +1,67 @@
+Here are today’s business headlines, distilled into **market-moving facts** and **clearly labeled interpretation**.
+
+## Facts
+- **[2026-05-03 07:31 UTC] OpenAI IPO ambitions highlighted by WSJ**  
+  WSJ reports OpenAI wants to eventually go public, with CFO Sarah Friar focused first on maturing the company and improving growth/operations.  
+  **Why it matters:** Relevant for AI valuations, private-market comps, and suppliers/partners in the AI ecosystem.
+
+- **[2026-05-03 00:39 UTC] Spirit Airlines shuts down operations**  
+  The Washington Post reports Spirit said it had “no choice” but to wind down immediately after bailout efforts failed.  
+  **Why it matters:** Direct impact on airline competition, airfare pricing dynamics, aircraft/creditor recoveries, and travel-sector sentiment.
+
+- **[2026-05-02 21:30 UTC] Buffett warns markets are in a “gambling mood”**  
+  Fortune reports Warren Buffett said speculative behavior is elevated, though he did not say investing itself is broken.  
+  **Why it matters:** Can influence sentiment around frothy asset classes, retail trading, options activity, and valuation discipline.
+
+- **[2026-05-02 19:27 UTC] Interest on U.S. debt seen as key future deficit driver**  
+  Fortune says rising interest expense on existing debt is becoming a major force worsening long-term fiscal outlook.  
+  **Why it matters:** Important for Treasury yields, fiscal policy expectations, and rate-sensitive sectors.
+
+- **[2026-05-02 18:49 UTC] Greg Abel signals Berkshire will stay patient on capital deployment**  
+  FT reports Buffett’s successor told shareholders Berkshire is not eager to deploy cash into subpar opportunities.  
+  **Why it matters:** Reinforces Berkshire’s conservative stance; may temper expectations for major acquisitions or aggressive buy-side activity.
+
+- **[2026-05-02 18:25 UTC] Meta faces new remedy phase in New Mexico case**  
+  The Verge reports a public-nuisance trial phase begins Monday, with the state pushing for changes to Meta’s business to better protect children.  
+  **Why it matters:** Regulatory/legal risk for Meta may extend beyond fines into product or operational changes.
+
+- **[2026-05-02 16:03 UTC] Crypto groups back CLARITY Act compromise, seek Senate markup**  
+  CoinDesk reports industry groups support compromise language on yield/staking-style rewards and want Senate Banking action.  
+  **Why it matters:** Potentially market-moving for crypto exchanges, token projects, and U.S. regulatory clarity.
+
+- **[2026-05-02 16:00 UTC] OpenAI-Musk trial opens with judge criticizing Musk’s conduct**  
+  The Washington Post reports federal judge Yvonne Gonzalez Rogers had stern words for Elon Musk as the OpenAI case began.  
+  **Why it matters:** Adds legal overhang for Musk/OpenAI and could affect governance narratives around major AI companies.
+
+- **[2026-05-02 15:31 UTC] California to ticket autonomous-vehicle makers for traffic violations**  
+  BBC reports police will be able to issue citations directly to manufacturers when driverless cars break traffic laws.  
+  **Why it matters:** Regulatory tightening for AV developers such as Waymo and peers; could raise compliance and operating costs.
+
+- **[2026-05-02 14:30 UTC] Berkshire cash hits record, operating earnings rise**  
+  Bloomberg reports Berkshire Hathaway’s cash pile rose to a record **$397 billion** in Greg Abel’s first quarter as CEO, with operating earnings also up.  
+  **Why it matters:** Major signal for market liquidity preferences, valuation caution, and Berkshire’s optionality.
+
+- **[2026-05-02 13:31 UTC] Google’s stakes in SpaceX and Anthropic draw attention**  
+  MarketWatch reports Google’s investments in SpaceX and Anthropic have become unusually valuable.  
+  **Why it matters:** Highlights hidden asset value within Alphabet and supports sum-of-the-parts valuation arguments.
+
+- **[2026-05-02 11:00 UTC] China EV battery makers tout ultra-fast charging advances**  
+  TechRadar reports CATL, BYD, and Sunwoda are racing to reduce EV charging times toward roughly 5–7 minutes.  
+  **Why it matters:** Relevant for global EV competition, battery supply chains, and pressure on non-China automakers.
+
+## Interpretation
+- **Spirit’s shutdown is likely bullish for surviving airlines on pricing power**, though negative for consumers and some airports exposed to ultra-low-cost traffic.
+- **Berkshire’s record cash and Buffett/Abel caution together suggest top-tier investors still see limited bargains**, a mildly defensive read for broader equities.
+- **The OpenAI headlines cut both ways:** IPO ambition supports AI enthusiasm, but the Musk trial and “grow up first” framing suggest governance and execution risks remain central.
+- **Meta’s legal exposure may matter more for long-term margins than any one-time penalty** if courts force product changes.
+- **Crypto regulation appears to be inching toward clearer rules rather than outright restriction**, which could be supportive for the sector if legislative momentum holds.
+- **China’s battery progress increases competitive pressure on Western EV makers**, especially where charging speed is still a consumer barrier.
+
+## Lower-priority / less clearly market-moving
+- **[2026-05-02 22:01 UTC] Subway reportedly closed 729 more restaurants** — relevant for restaurant/franchise trends, but lower immediate market impact from this headline alone.
+- **[2026-05-02 17:07 UTC] Axios on AI disrupting junior-lawyer training** — important structural trend, limited immediate trading impact.
+- **[2026-05-02 16:29 UTC] New York pied-à-terre tax expansion idea** — local real estate/policy relevance.
+- **[2026-05-02 16:12 UTC] U.S. gas prices rising** — could matter for inflation and consumer spending, but headline lacks specific market catalyst detail here.
+- **[2026-05-02 13:03 UTC] Mortgage rates rebounded but buyers remain active** — relevant for housing sentiment, though more incremental than headline-shifting.
+
+If you want, I can also turn this into a **pre-market trader-style brief** with **“bullish / bearish / watchlist”** labels.
