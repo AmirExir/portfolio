@@ -657,16 +657,27 @@ def ticker_short_label(symbol: str) -> str:
     return str(symbol).replace("-USD", "")
 
 
+NEWS_SUMMARY_DIR = "news_summaries"
+NEWS_SUMMARY_PREFIXES = ("summary_", "news_summary_")
+
+
+def _summary_timestamp(filename: str) -> str:
+    for prefix in NEWS_SUMMARY_PREFIXES:
+        if filename.startswith(prefix) and filename.endswith(".txt"):
+            return filename.removeprefix(prefix).removesuffix(".txt")
+    return ""
+
+
 def is_timestamped_summary(filename: str) -> bool:
-    if not filename.startswith("summary_") or not filename.endswith(".txt"):
+    timestamp = _summary_timestamp(filename)
+    if not timestamp:
         return False
-    timestamp = filename.removeprefix("summary_").removesuffix(".txt")
     return len(timestamp) >= 11 and timestamp[:4].isdigit() and timestamp[4] == "-" and "T" in timestamp
 
 
 def summary_timestamp_caption(filename: str) -> str | None:
     try:
-        timestamp = filename.removeprefix("summary_").removesuffix(".txt")
+        timestamp = _summary_timestamp(filename)
         date_part, time_part = timestamp.split("T", 1)
         time_part = time_part.replace("Z", "").replace("-", ":")
         return f"📅 Last updated: {date_part} at {time_part} UTC"
@@ -1328,23 +1339,36 @@ def fetch_latest_ml_payload() -> dict | None:
 @st.cache_data(ttl=300)  # Cache for 5 minutes
 def fetch_latest_summary():
     """Fetch the latest summary file from GitHub with better error handling"""
-    contents_url = "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent"
-    
+    contents_urls = [
+        f"https://api.github.com/repos/AmirExir/portfolio/contents/market_agent/reports/{NEWS_SUMMARY_DIR}",
+        "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent/reports",
+        "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent",
+    ]
+
     try:
         # Add headers to avoid rate limiting
         headers = {
             "Accept": "application/vnd.github.v3+json",
             "User-Agent": "Streamlit-Market-Agent"
         }
-        response = requests.get(contents_url, headers=headers, timeout=10)
-        
-        # Check for rate limiting
-        if response.status_code == 403 and 'rate limit' in response.text.lower():
-            return None
-        
-        response.raise_for_status()
-        files = response.json()
-        return files
+        for contents_url in contents_urls:
+            response = requests.get(contents_url, headers=headers, timeout=10)
+
+            # Check for rate limiting
+            if response.status_code == 403 and 'rate limit' in response.text.lower():
+                return None
+            if response.status_code == 404:
+                continue
+
+            response.raise_for_status()
+            files = response.json()
+            summary_files = [
+                item for item in files
+                if item.get("type") == "file" and is_timestamped_summary(item.get("name", ""))
+            ]
+            if summary_files:
+                return summary_files
+        return []
     except requests.exceptions.Timeout:
         return None
     except Exception as e:
@@ -1561,17 +1585,27 @@ with top_summary_tab:
         # Fallback: If GitHub API fails, try reading from local directory (for Streamlit Cloud deployment)
         if files is None:
             st.info(" GitHub API unavailable. Using local files...")
-            local_dir = os.path.dirname(__file__) if __file__ else "."
+            base_local_dir = os.path.dirname(__file__) if __file__ else "."
+            local_dirs = [
+                os.path.join(base_local_dir, "reports", NEWS_SUMMARY_DIR),
+                os.path.join(base_local_dir, "reports"),
+                base_local_dir,
+            ]
 
             try:
-                local_files = [f for f in os.listdir(local_dir) if is_timestamped_summary(f)]
+                local_candidates = []
+                for local_dir in local_dirs:
+                    if not os.path.isdir(local_dir):
+                        continue
+                    for filename in os.listdir(local_dir):
+                        if is_timestamped_summary(filename):
+                            local_candidates.append((filename, os.path.join(local_dir, filename)))
 
-                if local_files:
+                if local_candidates:
                     # Sort and get latest
-                    local_files_sorted = sorted(local_files, reverse=True)
-                    latest_local_file = local_files_sorted[0]
+                    latest_local_file, latest_local_path = sorted(local_candidates, key=lambda item: _summary_timestamp(item[0]), reverse=True)[0]
 
-                    with open(os.path.join(local_dir, latest_local_file), "r") as f:
+                    with open(latest_local_path, "r") as f:
                         summary_text = f.read()
 
                     caption = summary_timestamp_caption(latest_local_file)
@@ -1592,10 +1626,10 @@ with top_summary_tab:
             ]
 
             if not summary_files:
-                st.info("No summary files found yet. The n8n workflow will create summary_*.txt files on first run.")
+                st.info(f"No summary files found yet. The n8n workflow will create news_summary_*.txt files in reports/{NEWS_SUMMARY_DIR}/ on first run.")
             else:
                 # Sort by name descending to get the latest (ISO format sorts correctly)
-                summary_files_sorted = sorted(summary_files, key=lambda x: x["name"], reverse=True)
+                summary_files_sorted = sorted(summary_files, key=lambda x: _summary_timestamp(x["name"]), reverse=True)
                 latest_file = summary_files_sorted[0]
 
                 # Extract timestamp from filename (format: summary_2026-05-01T11-00-28-733Z.txt)
