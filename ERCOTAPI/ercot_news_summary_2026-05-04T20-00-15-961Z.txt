@@ -1,0 +1,13 @@
+- Texas lawmakers are moving to address the local impacts of AI-driven data center growth, signaling possible new scrutiny on how very large loads are sited, served, and cost-allocated in ERCOT; the key grid issue is whether rapid demand growth outpaces transmission, generation, and interconnection processes. (Daily Signal)
+
+- Multiple reports point to the same ERCOT theme: gigawatt-scale AI and data center expansion is becoming a first-order planning risk, increasing pressure on ERCOT to require more dispatchable support, demand flexibility, and clearer large-load interconnection standards to avoid reliability degradation during peak conditions. (24/7 Wall St.; Daily Signal)
+
+- New Texas data center capacity is materializing, not just being proposed: IREN said it energized its 1.4 GW Sweetwater 1 site, reinforcing that West Texas load growth is now arriving at utility scale and may accelerate the need for local transmission reinforcement, congestion management, and load forecasting updates. (GlobeNewswire)
+
+- Riot’s expanded AMD deal at Rockdale shows former crypto sites are increasingly converting into AI/HPC load centers in Texas; for ERCOT, that means existing large flexible loads may become less interruptible and more capacity-intensive, changing assumptions about demand response value and coincidence with system peaks. (CoinDesk; Cointelegraph)
+
+- Community pushback is becoming an ERCOT-adjacent development risk: Texas and national coverage highlights opposition tied to land use, lighting, water, and local infrastructure strain, which could delay projects unevenly and complicate ERCOT’s long-range load forecasts and transmission planning for large-load clusters. (Daily Mail; Business Insider)
+
+- The AI buildout is also tightening Texas skilled-labor availability, with reports that data center projects are pulling electricians away from other construction; for the grid, that can translate into longer lead times for substation, transmission, and interconnection work needed to serve both load and generation additions. (Tom's Hardware UK; Slashdot)
+
+- Broader market commentary continues to favor gas-backed or behind-the-meter power strategies for AI load, underscoring an important ERCOT implication: if hyperscale customers seek dedicated generation or co-located supply, ERCOT may face more complex questions around interconnection treatment, deliverability, and market participation of hybrid load-generation campuses. (OilPrice.com; 24/7 Wall St.; PR Newswire UK)
