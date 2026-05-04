@@ -4,3 +4,5 @@ langchain-community
 openai
 tiktoken
 scikit-learn
+fastapi
+uvicorn
