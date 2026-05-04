@@ -1,0 +1,35 @@
+Here are **concise, market-focused business headlines**, with **Facts** separated from **Interpretation**:
+
+- **Spirit Airlines to cease operations after failed bailout effort**
+  - **Facts:** CBS reports Spirit Airlines is shutting down after failing to secure a **$500 million federal bailout**.  
+  - **Interpretation:** Negative for airline competition in the budget segment; could modestly benefit rival low-cost carriers and affect airport/creditor exposures.
+
+- **Berkshire leadership transition continues as Greg Abel leads without Buffett on stage**
+  - **Facts:** AP/Yahoo reports **Greg Abel** led Berkshire Hathaway’s annual meeting without Warren Buffett on stage. Business Insider also reports Buffett publicly praised **Tim Cook** for Berkshire’s successful Apple investment.  
+  - **Interpretation:** Mostly governance/transition news; relevant for Berkshire sentiment, but not an immediate operating catalyst on its own.
+
+- **Buffett warns of rising speculation in markets**
+  - **Facts:** Fortune reports Warren Buffett said markets are in a stronger **“gambling mood”** than before, citing speculative behavior.  
+  - **Interpretation:** Reinforces concerns about frothy valuations and elevated retail/speculative activity; may weigh on sentiment toward high-beta or speculative assets.
+
+- **OpenAI-Musk legal fight remains in focus**
+  - **Facts:** The Washington Post reports a judge overseeing **Elon Musk’s case against OpenAI** expressed frustration with Musk in court. Business Insider separately reports **Sam Altman** made conciliatory public remarks toward Musk ahead of a GPT-related event.  
+  - **Interpretation:** Legal overhang remains for OpenAI/Musk-related ecosystems; likely more sentiment-driven than immediately market-moving for broad public markets.
+
+- **California to begin ticketing autonomous vehicles for traffic violations**
+  - **Facts:** BBC reports California will allow police to issue tickets directly to **manufacturers** when driverless cars break traffic laws.  
+  - **Interpretation:** Increases regulatory/accountability pressure on AV developers such as Waymo and other autonomous vehicle operators; could raise compliance costs and slow deployment.
+
+- **Gas prices rise across the U.S.**
+  - **Facts:** ABC reports **gas prices are increasing nationwide**, with regional variation in the most expensive and cheapest states.  
+  - **Interpretation:** Potential inflation-sensitive development; could affect consumer spending sentiment and transport-sensitive sectors if the rise persists.
+
+- **UAE/OPEC-oil strategy commentary draws attention**
+  - **Facts:** Forbes argues the **UAE’s sovereign wealth interests** may now matter more than oil-price maximization after its OPEC exit, amid focus on crude and Strait of Hormuz tensions.  
+  - **Interpretation:** Broader implication is that producer incentives may be shifting, which could matter for medium-term oil supply expectations; this is analysis rather than a hard new event.
+
+- **Jeff Bezos fashion profile is not a clear market mover**
+  - **Facts:** WSJ published a feature on **Jeff Bezos** and fashion influence.  
+  - **Interpretation:** Limited direct market relevance.
+
+If you want, I can also turn this into a **“Top 5 market movers only”** version or a **pre-market brief by asset class** (stocks, oil, airlines, tech/regulation).
