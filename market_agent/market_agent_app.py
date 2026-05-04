@@ -44,9 +44,20 @@ except ImportError as e:
 def get_secret(name, default=None):
     """Read Streamlit secrets when configured, otherwise fall back to env/default."""
     try:
-        return st.secrets.get(name, os.getenv(name, default))
+        value = st.secrets.get(name, os.getenv(name, default))
     except Exception:
-        return os.getenv(name, default)
+        value = os.getenv(name, default)
+    if isinstance(value, str):
+        return value.strip()
+    return value
+
+
+def get_first_secret(names, default=None):
+    for name in names:
+        value = get_secret(name)
+        if value not in (None, ""):
+            return value
+    return default
 
 
 def _reports_dir() -> str:
@@ -1303,8 +1314,8 @@ def fetch_latest_summary():
         return None
 
 # Sidebar: Owner key, Alpaca creds, account summary, strategy and forecast settings
-owner_key_input = st.sidebar.text_input("🔑 Enter Owner Key", type="password")
-OWNER_KEY = get_secret("OWNER_KEY", "")
+owner_key_input = st.sidebar.text_input("🔑 Enter Owner Key", type="password").strip()
+OWNER_KEY = get_first_secret(["OWNER_KEY", "MARKET_AGENT_OWNER_KEY"], "")
 
 if owner_key_input == OWNER_KEY and OWNER_KEY != "":
     demo_mode = st.sidebar.checkbox("🎭 Demo Mode", value=False, help="Toggle between live and demo mode")
@@ -1314,10 +1325,13 @@ if owner_key_input == OWNER_KEY and OWNER_KEY != "":
         st.sidebar.success(" Live Mode active — connected to Alpaca paper trading.")
 else:
     demo_mode = True
-    st.sidebar.info("Demo Mode forced ON for public viewers — safe demo mode.")
+    if OWNER_KEY:
+        st.sidebar.info("Demo Mode forced ON until the owner key matches.")
+    else:
+        st.sidebar.info("Demo Mode forced ON for public viewers — safe demo mode.")
 
 if OWNER_KEY == "":
-    st.sidebar.caption("Owner key not configured: live mode is disabled, auto-trades run in demo simulation only.")
+    st.sidebar.caption("Owner key not configured in Streamlit secrets or environment: live mode is disabled, auto-trades run in demo simulation only.")
 
 # --- Load Alpaca credentials from Streamlit Secrets ---
 ALPACA_KEY = get_secret("ALPACA_KEY")

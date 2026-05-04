@@ -1,5 +1,6 @@
 newsapi_query_expanded.txt
 __pycache__/
 *.py[cod]
+.streamlit/secrets.toml
 market_agent/reports/
 n8n_market_telegram_calendar_combined.workflow.json
