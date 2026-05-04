@@ -454,7 +454,7 @@ st.set_page_config(page_title="📈 Market Agent Dashboard", layout="wide")
 st.title("🤖 Amir Exir Stock Market & Crypto AI Agent")
 
 SYMBOL_OPTIONS = [
-    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "AVGO",
+    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO",
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
@@ -465,7 +465,7 @@ SYMBOL_OPTIONS = [
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 DEFAULT_FORECAST_SYMBOLS = [
-    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "AVGO",
+    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO",
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
@@ -477,6 +477,7 @@ DEFAULT_FORECAST_SYMBOLS = [
 ]
 SYMBOL_LABELS = {
     "AVGO": "Broadcom (AVGO)",
+    "RIOT": "Riot Platforms (RIOT)",
     "ORCL": "Oracle (ORCL)",
     "NFLX": "Netflix (NFLX)",
     "WFC": "Wells Fargo (WFC)",
