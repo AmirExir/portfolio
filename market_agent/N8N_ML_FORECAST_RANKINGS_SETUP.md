@@ -127,9 +127,28 @@ If you want the scheduled node to precompute the optimized model comparison for 
 --force-retrain
 --model-cache-max-age-days 7
 --include-rl-policy
+--no-rl-policy
+--request-text "Run a full market optimization without RL"
 --show-timing
 --json-only
 ```
+
+## On-demand command safety
+
+For Telegram on-demand runs, pass the original user text into the runner:
+
+```bash
+cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --request-text "{{$json.message.text}}" --json-only
+```
+
+The Python runner now treats phrases like `without RL`, `no RL`, `skip RL`, and `exclude reinforcement` as a hard override. That override forces:
+
+```text
+primary_model = Best Validation
+include_rl_policy = false
+```
+
+even if an upstream n8n model accidentally emits `primary_model = RL Policy` or `--include-rl-policy`.
 
 Use `--sequence-model both` for the slower overnight run that trains both LSTM and Transformer. You can also use `--sequence-model lstm` or `--sequence-model transformer` to run only one deep sequence model. If you want the report text and Telegram message to stay clean, omit `--show-timing`; timing details are still saved in the JSON file.
 

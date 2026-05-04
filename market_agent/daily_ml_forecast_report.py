@@ -33,12 +33,12 @@ from patterns import recognize_patterns
 DEFAULT_SYMBOLS = [
     "AAPL", "MSFT", "NVDA", "AMD", "INTC", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "GEV",
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
-    "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
+    "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP", "DELL",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
     "SPY", "VOO", "QQQ", "IWM", "DIA", "GLD", "SLV", "USO", "TLT",
     "XLK", "XLF", "XLE", "XLV", "XLY",
     "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
-    "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FLOKI-USD", "PEPE-USD", "ONDO-USD",
+        "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FLOKI-USD", "PEPE-USD", "ONDO-USD",
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 REPORT_SYMBOLS = {
@@ -197,8 +197,38 @@ def sequence_model_from_args(args: argparse.Namespace) -> str:
     return str(getattr(args, "sequence_model", "off") or "off").strip().lower()
 
 
+def request_text_from_args(args: argparse.Namespace) -> str:
+    return str(getattr(args, "request_text", "") or os.getenv("MARKET_AGENT_REQUEST_TEXT", "") or "")
+
+
+def no_rl_policy_from_args(args: argparse.Namespace) -> bool:
+    request_text = request_text_from_args(args).lower().replace("-", " ")
+    negative_phrases = [
+        "without rl",
+        "with no rl",
+        "no rl",
+        "not rl",
+        "skip rl",
+        "exclude rl",
+        "without reinforcement",
+        "no reinforcement",
+        "skip reinforcement",
+        "exclude reinforcement",
+    ]
+    return bool(getattr(args, "no_rl_policy", False) or any(phrase in request_text for phrase in negative_phrases))
+
+
+def primary_model_from_args(args: argparse.Namespace) -> str:
+    primary = str(getattr(args, "primary_model", "") or "Best Validation").strip()
+    if no_rl_policy_from_args(args) and primary == "RL Policy":
+        return "Best Validation"
+    return primary
+
+
 def include_rl_policy_from_args(args: argparse.Namespace) -> bool:
-    return bool(getattr(args, "include_rl_policy", False) or getattr(args, "primary_model", "") == "RL Policy")
+    if no_rl_policy_from_args(args):
+        return False
+    return bool(getattr(args, "include_rl_policy", False) or primary_model_from_args(args) == "RL Policy")
 
 
 def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[dict], dict]:
@@ -278,7 +308,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
             snapshot = snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results)
             snapshots.append(snapshot)
 
-            primary_model = select_model_name(model_results, preferred=args.primary_model)
+            primary_model = select_model_name(model_results, preferred=primary_model_from_args(args))
             if not primary_model:
                 raise ValueError("No usable model forecast.")
 
@@ -314,7 +344,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 }
             )
 
-    rows_frame, row_errors = snapshots_to_ranking_frame(snapshots, args.primary_model)
+    rows_frame, row_errors = snapshots_to_ranking_frame(snapshots, primary_model_from_args(args))
     if not rows_frame.empty:
         rows_frame["Primary Pattern"] = rows_frame["Symbol"].map(
             lambda symbol: patterns_by_symbol.get(symbol, {}).get("Primary Pattern", "Unavailable")
@@ -375,10 +405,10 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
     lines = [
         "ML Forecast Rankings",
         f"Generated: {generated_at}",
-        f"Horizon: {args.horizon} trading days | Primary: {args.primary_model}",
+        f"Horizon: {args.horizon} trading days | Primary: {primary_model_from_args(args)}",
         f"Pattern windows: {args.pattern_short_window}/{args.pattern_long_window} trading days",
         f"Sequence model: {sequence_model_from_args(args)}",
-        f"RL policy: {'on' if include_rl_policy_from_args(args) else 'off'}",
+        f"RL policy: {'off (disabled by request)' if no_rl_policy_from_args(args) else ('on' if include_rl_policy_from_args(args) else 'off')}",
         f"Universe: {len(rows)} symbols | Stocks + crypto + commodities",
     ]
     if timings:
@@ -477,9 +507,11 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
     payload = {
         "generated_at": timestamp,
         "horizon_days": args.horizon,
-        "primary_model": args.primary_model,
+        "primary_model": primary_model_from_args(args),
+        "requested_primary_model": args.primary_model,
         "sequence_model": sequence_model,
         "include_rl_policy": include_rl_policy,
+        "no_rl_policy": no_rl_policy_from_args(args),
         "symbols": symbols,
         "cache_key": build_cache_key(
             symbols,
@@ -500,6 +532,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
             "force_retrain": bool(args.force_retrain),
             "max_age_days": float(args.model_cache_max_age_days),
             "include_rl_policy": include_rl_policy,
+            "no_rl_policy": no_rl_policy_from_args(args),
         },
         "telegram_text": telegram_text,
         "report_text": report["report_text"],
@@ -564,6 +597,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer", "RL Policy"], default="Best Validation")
     parser.add_argument("--sequence-model", choices=["off", "lstm", "transformer", "both"], default="off")
     parser.add_argument("--include-rl-policy", action="store_true")
+    parser.add_argument("--no-rl-policy", action="store_true")
+    parser.add_argument("--request-text", default="")
     parser.add_argument("--top-n", type=int, default=5)
     parser.add_argument("--output-dir", default=str(Path(__file__).resolve().parent / "reports"))
     parser.add_argument("--no-market-context", action="store_true")
