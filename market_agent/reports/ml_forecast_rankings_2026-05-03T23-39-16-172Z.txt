@@ -1,0 +1,11 @@
+ML forecast rankings generated 2026-05-03 23:39 UTC.
+Horizon: 30 trading days. Universe: 65 symbols across stocks, crypto, and commodities.
+
+Buy-side signals meeting the filter are led by GEV, the only Strong Buy in the snapshot, with a forecast return of +19.16%, 93.0% probability up, and an uptrend pattern. Other qualifying Buy signals are SLB at +12.25% in an uptrend, LUV at +10.20% in a range-bound setup, JNJ at +6.10% with an oversold pattern, and DIA at +2.59% in an uptrend.
+
+Sell-side signals meeting the filter are limited. PEPE-USD is the clearest downside signal with a Strong Sell at -26.56%, 93.9% probability down, and a downtrend pattern. NFLX also qualifies as a Sell at -12.95% with an oversold pattern.
+
+Short watchlist from weaker but notable negatives with forecast magnitude above 2% includes AVGO at -3.11%, AVAX-USD at -6.09%, SHIB-USD at -12.42%, and PNUT-USD at -9.93%, but these were not classified as Sell or Strong Sell and therefore are lower conviction under the stated rules.
+
+Top actionable buy candidates: GEV, SLB, LUV, JNJ, DIA.
+Top actionable sell candidates: PEPE-USD, NFLX.
