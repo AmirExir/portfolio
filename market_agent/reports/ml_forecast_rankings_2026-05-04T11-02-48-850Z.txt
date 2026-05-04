@@ -1,0 +1,11 @@
+Generated: 2026-05-04 11:02 UTC
+Horizon: 30 trading days
+Universe: 74 symbols across stocks, crypto, and commodities
+
+Buy-side signals meeting the return filter were concentrated in gold, selected equities, silver, energy, and several crypto names. GLD was the highest-conviction long signal at +8.73% with a Strong Buy call and the highest stated probability-up profile in the list. DOGE also screened as Strong Buy with a much larger forecast return of +41.65%, though with substantially wider expected error. Additional Buy signals above the threshold were KO (+4.78%), GOOGL (+7.80%), SLV (+9.42%), OXY (+9.08%), FLOKI (+47.99%), ZEC (+28.25%), AVGO (+8.31%), and C (+5.71%).
+
+Sell-side signals meeting the return filter were led by BTC (-10.19%), NFLX (-9.64%), ORCL (-8.76%), EOG (-6.16%), XLV (-4.28%), PG (-3.88%), and AAPL (-2.80%). These names carried Sell classifications with probability-up readings below 30% in the summary list, indicating the model favored downside over the next 30 trading days.
+
+Interpretation is mixed by asset type. Precious metals were constructive through GLD and SLV, while the crypto set was split: DOGE, FLOKI, and ZEC screened positive, while BTC screened negative. In equities, the model favored selected defensive and cyclical names on the long side, including KO, OXY, AVGO, C, and GOOGL, while flagging weakness in ORCL, NFLX, AAPL, PG, EOG, and the healthcare ETF XLV.
+
+Watchlist note: several names showed sizable forecast moves but were not actionable under the stated rules because they were Neutral / No Edge, including NVDA, RIOT, ENA, and DOT.
