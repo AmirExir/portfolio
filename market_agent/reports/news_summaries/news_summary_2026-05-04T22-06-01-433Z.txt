@@ -1,0 +1,31 @@
+Here are the **concise, market-focused business headlines** from today, with **facts separated from interpretation**:
+
+## Facts
+- **Oil / Energy:** **OPEC+** agreed to a **modest production increase starting in June**, according to AP.  
+- **Oil / Supply risk:** Multiple outlets highlighted worsening disruption around the **Strait of Hormuz**, with **U.S. crude shipments rising** to help offset shortages in global markets.  
+- **Berkshire Hathaway:** **Greg Abel** received broadly positive reviews from shareholders after his **first Berkshire annual meeting** as lead executive voice, per CNBC.  
+- **Big Tech / AI:** Recent **large-cap tech earnings** were strong overall, with reporting suggesting investors are increasingly distinguishing between **AI beneficiaries and laggards**.  
+- **Airlines:** **Spirit Airlines’ shutdown/wind-down efforts** remain in focus, with CNN reporting on a failed push for Trump administration help.  
+- **Airlines / United:** A **United flight struck a light pole** while landing at **Newark**, and the **FAA is investigating**.  
+- **Airlines / United:** In a separate incident, a **United passenger allegedly assaulted a flight attendant and tried to access the cockpit** before removal by police at Newark, NBC reported.  
+- **China / Labor / AI:** A **Chinese court ruled companies can’t fire workers solely to replace them with AI**, according to Fortune/Bloomberg.  
+- **U.S. renewables policy:** The **Trump administration is widening restrictions on wind farm projects** on national security grounds, the FT reported.  
+- **Health tech / AI:** A **Harvard-linked study** reported at least one AI model produced **more accurate ER diagnoses than two human doctors** in the study context, per TechCrunch.
+
+## Interpretation / Why markets may care
+- **Oil prices:** The combination of **Hormuz disruption** and only a **modest OPEC+ output increase** is likely the **most immediate macro market-moving story**, with potential implications for **crude, inflation expectations, airlines, and transport stocks**.  
+- **Energy equities:** Higher supply-risk premiums could support **oil producers and shippers**, while pressuring **fuel-sensitive sectors**.  
+- **Berkshire sentiment:** Positive reception for **Greg Abel** may reduce some **succession-risk concerns** around Berkshire.  
+- **AI trade:** The growing split between **AI winners and losers** suggests markets may become **more selective**, rewarding companies with clearer monetization and punishing those with weaker payoff.  
+- **Airlines:** The Newark incidents are likely **company-specific operational/reputation risks** for **United**, but probably less market-moving than the broader **Spirit shutdown / industry stress** story.  
+- **China AI labor ruling:** The court decision could signal **regulatory friction around automation**, potentially affecting expectations for labor-saving AI adoption in China.  
+- **Wind policy:** Expanded wind-project restrictions could weigh on **renewable developers, equipment suppliers, and project pipelines** if the clampdown broadens.
+
+## Likely biggest market movers today
+1. **Hormuz disruption + oil supply stress**
+2. **OPEC+ modest June production increase**
+3. **Big Tech earnings reinforcing a selective AI trade**
+4. **Berkshire post-Buffett-transition sentiment around Greg Abel**
+5. **Spirit Airlines shutdown / bailout politics**
+
+If you want, I can also turn this into a **pre-market style briefing** with **tickers and sector impact**.
