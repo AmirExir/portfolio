@@ -1,0 +1,26 @@
+**Today’s business headlines — market-moving focus**
+
+### Facts
+- **22:00 UTC — Spirit Airlines to cease operations** after failing to secure a **$500 million federal bailout**, according to CBS News. This is a direct corporate distress/debt-credit event with likely implications for airline capacity, creditors, employees, and travel pricing.  
+- **21:30 UTC — Warren Buffett warned of a “gambling mood” in markets**, citing speculation in areas like short-dated options and prediction markets, per Fortune.  
+- **13:38 UTC / 14:59 UTC — Berkshire Hathaway leadership transition remains in focus**: Greg Abel led the annual meeting without Warren Buffett on stage for the first time (AP/Yahoo), while Buffett also praised Apple CEO Tim Cook and highlighted Berkshire’s successful Apple investment (Business Insider).  
+- **16:12 UTC — U.S. gas prices are rising nationwide**, according to ABC News; the report highlights regional differences in the most- and least-expensive markets.  
+- **15:31 UTC — California will begin ticketing driverless cars that violate traffic laws**, with citations able to go directly to manufacturers, BBC reported. This is a notable regulatory development for autonomous-vehicle operators.  
+- **16:00 UTC — Elon Musk/OpenAI trial continues**, with a federal judge reportedly criticizing Musk in court, according to The Washington Post.  
+- **10:00 UTC — Forbes reported the UAE quit OPEC**, arguing Abu Dhabi’s sovereign wealth interests now outweigh oil-price maximization.  
+- **20:17 UTC — OpenAI’s Sam Altman made conciliatory comments toward Elon Musk** amid their legal dispute, Business Insider reported.  
+- **23:00 UTC — WSJ profiled Jeff Bezos’ growing presence in fashion circles**; this is more feature/lifestyle than a clear market-moving item.
+
+### Interpretation / likely market relevance
+- **Most market-moving headline:** Spirit’s shutdown is the clearest immediate event, potentially affecting **airline equities, bonds/credit, airport exposure, and fare dynamics** in budget travel markets.  
+- **Berkshire headlines matter for sentiment and succession-watchers**, especially around **capital allocation, Buffett’s legacy, and Apple exposure**, but there’s no obvious hard catalyst in these summaries beyond leadership transition optics.  
+- **Buffett’s market-gambling warning** is primarily **interpretive/sentiment-related**, not a discrete fundamental event.  
+- **Rising gas prices** could feed into **inflation expectations, consumer spending concerns, and transportation-sector costs**, depending on magnitude and persistence.  
+- **California AV enforcement** may increase compliance and legal risk for autonomous-vehicle developers such as robotaxi operators; regulatory scrutiny could weigh on sentiment toward the sector.  
+- **UAE/OPEC item** could matter for **oil-price expectations and energy markets**, but from the supplied headline alone, the main claim appears analytical rather than a fresh spot-news development.  
+- **Musk/OpenAI coverage** is significant for AI-sector sentiment and governance/legal overhang, though the provided summaries do not indicate an immediate financial ruling.
+
+If you want, I can turn this into:
+1. a **pre-market note**,  
+2. a **sector-by-sector takeaway**, or  
+3. a **“top 5 for investors”** version.
