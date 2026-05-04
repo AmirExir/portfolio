@@ -486,6 +486,7 @@ DEFAULT_FORECAST_SYMBOLS = [
     "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "FLOKI-USD", "PEPE-USD",
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
+SHORT_TERM_SIGNAL_HORIZONS = (1, 3, 5)
 SYMBOL_LABELS = {
     "AVGO": "Broadcom (AVGO)",
     "RIOT": "Riot Platforms (RIOT)",
@@ -778,6 +779,43 @@ def model_results_table(model_results: dict) -> pd.DataFrame:
             }
         )
     return pd.DataFrame(rows)
+
+
+def short_term_signal_row(horizon_days: int, model_results: dict, primary_model_choice: str) -> dict:
+    primary_model = best_model_name(
+        model_results,
+        preferred="" if primary_model_choice == "Best Validation" else primary_model_choice,
+    )
+    if not primary_model:
+        raise ValueError("No usable short-term forecast.")
+
+    result = model_results[primary_model]
+    forecast = result.forecast
+    if forecast is None or forecast.empty:
+        raise ValueError("No usable short-term forecast.")
+
+    metrics = result.metrics or {}
+    confidence = float(metrics.get("confidence_pct", 50.0))
+    expected_error = float(metrics.get("expected_error_pct", 0.0))
+    forecast_return = float(metrics.get("forecast_change_pct", 0.0))
+    probability_up = float(metrics.get("probability_up_pct", 50.0))
+    target_date = forecast.index[-1]
+    if isinstance(target_date, pd.Timestamp):
+        target_date = target_date.strftime("%Y-%m-%d")
+
+    return {
+        "Horizon": f"{horizon_days} trading day" + ("" if int(horizon_days) == 1 else "s"),
+        "Target Date": target_date,
+        "Signal": model_call(forecast_return, expected_error, confidence),
+        "Selected Model": primary_model,
+        "Forecast Price": float(forecast["forecast_close"].iloc[-1]),
+        "Forecast Return %": forecast_return,
+        "Probability Up %": probability_up,
+        "Model Edge %": max(confidence - 50.0, 0.0),
+        "Signal Quality": signal_quality(confidence),
+        "Expected Error %": expected_error,
+        "Score": float(metrics.get("forecast_score", np.nan)),
+    }
 
 
 def best_model_name(model_results: dict, preferred: str = "Ensemble") -> str:
@@ -1411,7 +1449,7 @@ history_options = {
 }
 history_label = st.sidebar.selectbox("Historical data lookback", list(history_options.keys()), index=1)
 history_days = history_options[history_label]
-forecast_horizon = st.sidebar.slider("Forecast horizon", min_value=5, max_value=60, value=30, step=5)
+forecast_horizon = st.sidebar.slider("Forecast horizon", min_value=1, max_value=60, value=30, step=1)
 forecast_lookback = st.sidebar.slider("Lag window", min_value=5, max_value=60, value=20, step=5)
 historical_test_points = st.sidebar.slider("Previous forecast test points", min_value=10, max_value=100, value=50, step=10)
 optimize_forecast_model = st.sidebar.checkbox("Optimize ML model", value=True)
@@ -2242,6 +2280,56 @@ try:
             else:
                 quality_cols[1].metric("Training Samples", forecast_result.metrics.get("training_samples", 0))
                 quality_cols[2].metric("Probability Down", f"{probability_down:.1f}%")
+
+            short_signal_rows = []
+            short_signal_errors = []
+            for short_horizon in SHORT_TERM_SIGNAL_HORIZONS:
+                try:
+                    if int(short_horizon) == int(forecast_horizon):
+                        short_model_results = model_results
+                    else:
+                        short_model_results = cached_model_results(
+                            symbol,
+                            history_days,
+                            int(short_horizon),
+                            forecast_lookback,
+                            forecast_alpha,
+                            optimize_forecast_model,
+                            use_market_context,
+                            sequence_model_choice,
+                            include_rl_policy,
+                            tuple(selected_forecast_symbols),
+                            st.session_state["symbol_refresh_nonce"],
+                        )
+                    short_signal_rows.append(
+                        short_term_signal_row(int(short_horizon), short_model_results, primary_model_choice)
+                    )
+                except Exception as short_signal_error:
+                    short_signal_errors.append(f"{short_horizon}D: {short_signal_error}")
+
+            if short_signal_rows:
+                st.markdown("**Short-Term ML Signals**")
+                st.caption(
+                    "These are separate direct forecasts for the next 1, 3, and 5 trading days, not slices of the 30-day forecast."
+                )
+                short_signal_table = pd.DataFrame(short_signal_rows)
+                st.dataframe(
+                    short_signal_table.style.format(
+                        {
+                            "Forecast Price": "${:,.2f}",
+                            "Forecast Return %": "{:+.2f}%",
+                            "Probability Up %": "{:.1f}%",
+                            "Model Edge %": "{:.1f}%",
+                            "Expected Error %": "{:.2f}%",
+                            "Score": "{:+.3f}",
+                        },
+                        na_rep="",
+                    ).hide(axis="index"),
+                    use_container_width=True,
+                )
+            if short_signal_errors:
+                with st.expander("Short-term signal errors"):
+                    st.write("\n".join(short_signal_errors))
 
             st.caption(
                 "Model: "

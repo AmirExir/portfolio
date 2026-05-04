@@ -80,6 +80,21 @@ def parse_symbols(symbols_text: str) -> list[str]:
     return symbols
 
 
+def parse_horizons(horizons_text: str, main_horizon: int | None = None) -> list[int]:
+    horizons = []
+    for raw_horizon in str(horizons_text or "").replace(";", ",").split(","):
+        raw_horizon = raw_horizon.strip()
+        if not raw_horizon:
+            continue
+        try:
+            horizon = max(1, int(raw_horizon))
+        except ValueError:
+            continue
+        if horizon != int(main_horizon or 0) and horizon not in horizons:
+            horizons.append(horizon)
+    return horizons
+
+
 def report_symbol(symbol: str) -> str:
     return REPORT_SYMBOLS.get(str(symbol), str(symbol))
 
@@ -154,6 +169,28 @@ def row_value(row: dict, *keys, default=None):
         if key in row:
             return row[key]
     return default
+
+
+def compact_short_horizon_reports(short_horizon_reports: list[dict]) -> list[dict]:
+    compact_reports = []
+    for short_report in short_horizon_reports or []:
+        rows = short_report.get("rows") or []
+        sorted_rows = sorted(rows, key=lambda r: float(row_value(r, "Score", default=0.0)), reverse=True)
+        buys = [row for row in sorted_rows if float(row_value(row, "Forecast Return %", default=0.0)) > 0]
+        sells = sorted(
+            [row for row in rows if float(row_value(row, "Forecast Return %", default=0.0)) < 0],
+            key=lambda r: float(row_value(r, "Score", default=0.0)),
+        )
+        compact_reports.append(
+            {
+                "horizon_days": short_report.get("horizon_days"),
+                "top_buys": buys[:10],
+                "top_sells": sells[:10],
+                "errors": (short_report.get("errors") or [])[:10],
+                "timings": short_report.get("timings") or {},
+            }
+        )
+    return compact_reports
 
 
 def format_duration(seconds: float) -> str:
@@ -367,6 +404,24 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
     return rows, errors, snapshots, timings
 
 
+def run_short_horizon_reports(args: argparse.Namespace) -> list[dict]:
+    reports = []
+    for horizon in parse_horizons(getattr(args, "short_horizons", ""), getattr(args, "horizon", None)):
+        horizon_args = argparse.Namespace(**vars(args))
+        horizon_args.horizon = horizon
+        rows, errors, snapshots, timings = run_rankings(horizon_args)
+        reports.append(
+            {
+                "horizon_days": horizon,
+                "rows": rows,
+                "errors": errors,
+                "snapshots": snapshots,
+                "timings": timings,
+            }
+        )
+    return reports
+
+
 def format_row(row: dict) -> str:
     symbol = str(row_value(row, "symbol", "Symbol", default=""))
     forecast_return = float(row_value(row, "forecast_return_pct", "Forecast Return %", default=0.0))
@@ -390,7 +445,13 @@ def format_row(row: dict) -> str:
     return " | ".join(parts)
 
 
-def build_market_report(rows: list[dict], errors: list[str], args: argparse.Namespace, timings: dict | None = None) -> dict:
+def build_market_report(
+    rows: list[dict],
+    errors: list[str],
+    args: argparse.Namespace,
+    timings: dict | None = None,
+    short_horizon_reports: list[dict] | None = None,
+) -> dict:
     generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     sorted_rows = sorted(rows, key=lambda r: float(row_value(r, "Score", default=0.0)), reverse=True)
     sorted_buy = [row for row in sorted_rows if float(row_value(row, "Forecast Return %", default=0.0)) > 0]
@@ -446,6 +507,33 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
             ]
         )
 
+    if short_horizon_reports:
+        lines.extend(["Short-Term Forecast Signals"])
+        for short_report in short_horizon_reports:
+            horizon = int(short_report.get("horizon_days", 0) or 0)
+            short_rows = short_report.get("rows") or []
+            short_sorted = sorted(
+                short_rows,
+                key=lambda r: float(row_value(r, "Score", default=0.0)),
+                reverse=True,
+            )
+            short_buys = [row for row in short_sorted if float(row_value(row, "Forecast Return %", default=0.0)) > 0]
+            short_sells = sorted(
+                [row for row in short_rows if float(row_value(row, "Forecast Return %", default=0.0)) < 0],
+                key=lambda r: float(row_value(r, "Score", default=0.0)),
+            )
+            horizon_label = f"{horizon} trading day" + ("" if horizon == 1 else "s")
+            lines.append(horizon_label)
+            if short_buys:
+                lines.append("Buys: " + " ; ".join(format_row(row) for row in short_buys[:3]))
+            else:
+                lines.append("Buys: no positive forecast candidates.")
+            if short_sells:
+                lines.append("Sells: " + " ; ".join(format_row(row) for row in short_sells[:3]))
+            else:
+                lines.append("Sells: no negative forecast candidates.")
+        lines.append("")
+
     lines.extend([
         "Strongest Buy Forecasts",
     ])
@@ -478,11 +566,25 @@ def build_market_report(rows: list[dict], errors: list[str], args: argparse.Name
     }
 
 
-def build_telegram_text(rows: list[dict], errors: list[str], args: argparse.Namespace, timings: dict | None = None) -> str:
-    return build_market_report(rows, errors, args, timings)["report_text"]
+def build_telegram_text(
+    rows: list[dict],
+    errors: list[str],
+    args: argparse.Namespace,
+    timings: dict | None = None,
+    short_horizon_reports: list[dict] | None = None,
+) -> str:
+    return build_market_report(rows, errors, args, timings, short_horizon_reports)["report_text"]
 
 
-def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args: argparse.Namespace, snapshots: list[dict], timings: dict) -> dict:
+def write_outputs(
+    rows: list[dict],
+    errors: list[str],
+    telegram_text: str,
+    args: argparse.Namespace,
+    snapshots: list[dict],
+    timings: dict,
+    short_horizon_reports: list[dict] | None = None,
+) -> dict:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     timestamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ")
@@ -502,7 +604,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
         include_rl_policy,
     )
 
-    report = build_market_report(rows, errors, args, timings if args.show_timing else None)
+    report = build_market_report(rows, errors, args, timings if args.show_timing else None, short_horizon_reports)
 
     payload = {
         "generated_at": timestamp,
@@ -526,6 +628,7 @@ def write_outputs(rows: list[dict], errors: list[str], telegram_text: str, args:
         ),
         "rows": rows,
         "snapshots": snapshots,
+        "short_horizon_reports": short_horizon_reports or [],
         "errors": errors,
         "timings": timings,
         "model_cache": {
@@ -590,6 +693,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--symbols", default=",".join(DEFAULT_SYMBOLS))
     parser.add_argument("--history-days", type=int, default=913)
     parser.add_argument("--horizon", type=int, default=30)
+    parser.add_argument("--short-horizons", default="", help="Optional comma-separated extra horizons, such as 1,3,5.")
     parser.add_argument("--lookback", type=int, default=20)
     parser.add_argument("--ridge-alpha", type=float, default=10.0)
     parser.add_argument("--pattern-short-window", type=int, default=20)
@@ -614,14 +718,27 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     args = build_parser().parse_args()
     rows, errors, snapshots, timings = run_rankings(args)
-    telegram_text = build_telegram_text(rows, errors, args, timings if args.show_timing else None)
-    paths = write_outputs(rows, errors, telegram_text, args, snapshots, timings)
+    short_horizon_reports = run_short_horizon_reports(args)
+    telegram_text = build_telegram_text(
+        rows,
+        errors,
+        args,
+        timings if args.show_timing else None,
+        short_horizon_reports,
+    )
+    paths = write_outputs(rows, errors, telegram_text, args, snapshots, timings, short_horizon_reports)
 
     if args.send_telegram:
         send_telegram(telegram_text)
 
     if args.json_only:
-        output_payload = {"paths": paths, "telegram_text": telegram_text, "rows": rows, "errors": errors}
+        output_payload = {
+            "paths": paths,
+            "telegram_text": telegram_text,
+            "rows": rows,
+            "short_horizon_reports": compact_short_horizon_reports(short_horizon_reports),
+            "errors": errors,
+        }
         if args.show_timing:
             output_payload["timings"] = timings
         print(json.dumps(output_payload, default=_json_default))
