@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from typing import List
 
 import numpy as np
@@ -79,6 +80,67 @@ def _build_context(chunks: List[dict]) -> str:
     return "\n\n---\n\n".join(c.get("text", "") for c in chunks)
 
 
+def _query_terms(question: str) -> set[str]:
+    stop_words = {
+        "what", "where", "when", "why", "how", "the", "and", "for", "with", "from",
+        "that", "this", "ercot", "guide", "section", "does", "mean",
+    }
+    return {
+        token
+        for token in re.findall(r"[a-z0-9]+(?:\.[0-9]+)*", question.lower())
+        if len(token) > 2 and token not in stop_words
+    }
+
+
+def _lexical_score(question: str, chunk: dict) -> float:
+    text = str(chunk.get("text", "")).lower()
+    if not text:
+        return 0.0
+
+    score = 0.0
+    terms = _query_terms(question)
+    if terms:
+        matched = sum(1 for term in terms if term in text)
+        score += matched / max(len(terms), 1)
+
+    question_lower = question.lower()
+    phrase_boosts = {
+        "nodal operating guide": ["nodal operating guide", "operating guide"],
+        "operating guide": ["nodal operating guide", "operating guide", "operating guides"],
+        "planning guide": ["planning guide"],
+        "nodal protocol": ["nodal protocol", "nodal protocols"],
+        "resource interconnection": ["resource interconnection", "resource interconnection handbook"],
+        "generator interconnection": ["generator interconnection", "generation interconnection", "generation interconnection process"],
+        "generation interconnection": ["generator interconnection", "generation interconnection", "generation interconnection process"],
+        "interconnection process": ["interconnection process", "generation interconnection process", "gim", "ginr"],
+        "full interconnection study": ["full interconnection study", "fis"],
+        "ginr": ["ginr", "generation interconnection or change request"],
+        "fis": ["fis", "full interconnection study"],
+    }
+    for query_phrase, text_phrases in phrase_boosts.items():
+        if query_phrase in question_lower and any(text_phrase in text for text_phrase in text_phrases):
+            score += 0.8
+
+    section_matches = re.findall(r"(?:section\s*)?(\d+(?:\.\d+)+)", question_lower)
+    for section in section_matches:
+        if re.search(rf"(?<![\d.]){re.escape(section)}(?![\d.])", text):
+            score += 0.6
+
+    return score
+
+
+def _rank_chunks(question: str, scores: np.ndarray, top_k: int) -> List[dict]:
+    candidate_count = len(CHUNKS)
+    candidate_indices = scores.argsort()[-candidate_count:][::-1]
+    ranked = []
+    for index in candidate_indices:
+        vector_score = float(scores[index])
+        lexical_score = _lexical_score(question, CHUNKS[index])
+        ranked.append((vector_score + 0.12 * lexical_score, vector_score, lexical_score, index))
+    ranked.sort(key=lambda item: (-item[0], -item[1], -item[2], item[3]))
+    return [CHUNKS[index] for _, _, _, index in ranked[:top_k]]
+
+
 @app.get("/health")
 def health() -> dict:
     return {
@@ -105,8 +167,7 @@ def retrieve(payload: RetrieveRequest) -> RetrieveResponse:
             )
 
         scores = cosine_similarity(query_vec, EMBEDDINGS).flatten()
-        top_indices = scores.argsort()[-payload.top_k :][::-1]
-        top_chunks = [CHUNKS[i] for i in top_indices]
+        top_chunks = _rank_chunks(payload.question, scores, payload.top_k)
 
         limited = _limit_chunks_by_word_budget(top_chunks, payload.max_context_tokens)
         context = _build_context(limited)
