@@ -1,0 +1,44 @@
+Here are **today’s business headlines**, focused on likely **market-moving items**, with **facts separated from interpretation**:
+
+- **22:00 UTC — Spirit Airlines to shut down operations after failed bailout effort**  
+  - **Fact:** CBS reports Spirit Airlines is ceasing operations after failing to secure a **$500 million federal bailout** from the Trump administration.  
+  - **Why it matters / interpretation:** Material for **airline, travel, aerospace, airport, and distressed debt** names; could affect fare pricing and capacity across U.S. budget travel.
+
+- **21:30 UTC — Warren Buffett warns markets are in a strong “gambling mood”**  
+  - **Fact:** Fortune reports Buffett said, “we've never had people in a more gambling mood than now,” citing speculation around markets.  
+  - **Why it matters / interpretation:** Potential sentiment signal for **high-beta stocks, options activity, retail trading platforms, and speculative assets**; more commentary than a discrete catalyst.
+
+- **15:31 UTC — California to begin ticketing driverless cars for traffic violations**  
+  - **Fact:** BBC reports California will allow police to issue tickets directly to the **manufacturer** when an autonomous vehicle breaks traffic laws.  
+  - **Why it matters / interpretation:** Regulatory overhang for **AV developers** such as robotaxi and autonomous driving companies; may raise compliance costs and scrutiny.
+
+- **16:00 UTC — OpenAI/Musk trial draws judge’s criticism of Elon Musk**  
+  - **Fact:** The Washington Post reports the federal judge in Musk’s case against OpenAI had stern words for Musk as trial proceedings began.  
+  - **Why it matters / interpretation:** Relevant to **AI sector sentiment**, but immediate market impact is less direct unless new rulings alter OpenAI/Microsoft/related competitive dynamics.
+
+- **13:38 UTC — Greg Abel leads Berkshire annual meeting without Warren Buffett on stage**  
+  - **Fact:** AP/Yahoo reports **Greg Abel**, Berkshire Hathaway’s new CEO, began leading the annual meeting without Buffett on stage.  
+  - **Why it matters / interpretation:** Important governance/leadership transition for **Berkshire Hathaway** and potentially for holdings closely associated with Buffett-era capital allocation.
+
+- **14:59 UTC — Buffett publicly praises Tim Cook and Berkshire’s Apple investment**  
+  - **Fact:** Business Insider reports Buffett asked **Tim Cook** to take a bow and highlighted the success of Berkshire’s Apple stake.  
+  - **Why it matters / interpretation:** Positive symbolic support for **Apple**, though this appears more reputational than a new fundamental development.
+
+- **16:12 UTC — U.S. gas prices rising nationwide**  
+  - **Fact:** ABC News reports gas prices are increasing across the country and highlights the most and least expensive regions.  
+  - **Why it matters / interpretation:** Relevant for **consumer spending, inflation expectations, airlines, trucking, and retail**; market impact depends on persistence and crude moves.
+
+- **10:00 UTC — Forbes says UAE left OPEC as sovereign wealth priorities outweigh oil-price dependence**  
+  - **Fact:** Forbes argues the UAE’s large sovereign wealth portfolio now matters more than crude prices in its policy calculus.  
+  - **Why it matters / interpretation:** This is primarily **analysis/opinion**, not a fresh reported event; only indirectly relevant to **oil market expectations**.
+
+### Lower market relevance / mainly feature or personality-driven
+- **23:00 UTC — WSJ on Jeff Bezos entering fashion’s inner circle**  
+  - **Fact:** Feature story on Bezos and fashion/social positioning.  
+  - **Interpretation:** Not obviously market-moving.
+
+- **20:17 UTC — Sam Altman says Elon Musk can come to GPT-5.5 party**  
+  - **Fact:** Business Insider reports Altman made a conciliatory comment amid rivalry with Musk.  
+  - **Interpretation:** Mostly personality/news-cycle driven, not a clear market catalyst.
+
+If you want, I can also turn this into a **pre-market trader brief ranked by likely market impact**.
