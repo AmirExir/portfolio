@@ -1,0 +1,13 @@
+Generated: 2026-05-04 05:35 UTC
+Horizon: 30 trading days
+Universe: 72 symbols | Stocks + crypto + commodities
+
+Buy-side signals meeting the return filter were led by GLD (+8.73%, Strong Buy), DOGE (+41.65%, Strong Buy), KO (+4.78%, Buy), GOOGL (+7.80%, Buy), SLV (+9.42%, Buy), FLOKI (+51.35%, Buy), OXY (+9.08%, Buy), ZEC (+28.25%, Buy), AVGO (+8.31%, Buy), and UNI (+16.84%, Buy).
+
+The most defensive or short-side signals were XLV (-4.28%, Sell), ETH (-14.13%, Sell), ORCL (-8.76%, Sell), AAPL (-2.80%, Sell), PG (-3.88%, Sell), EOG (-6.16%, Sell), and NFLX (-9.64%, Sell).
+
+Highest-conviction upside signal in the run was GLD, supported by a 92.7% probability-up reading and a range-bound pattern classification. DOGE and FLOKI showed the largest forecast returns on the buy side, but both also carried materially wider expected error bands than the equity and metals signals. Among equities, GOOGL, AVGO, KO, and OXY were the cleaner positive setups by probability and edge.
+
+On the sell side, ETH and NFLX had the deepest projected declines among named sell signals, while XLV, AAPL, and PG represented lower-magnitude defensive signals. ORCL and EOG also screened as notable negative setups with forecast declines greater than 6%.
+
+A practical watchlist from the current ranked output would emphasize buys in GLD, DOGE, GOOGL, SLV, OXY, AVGO, and UNI, with sells in ETH, NFLX, ORCL, XLV, and EOG.
