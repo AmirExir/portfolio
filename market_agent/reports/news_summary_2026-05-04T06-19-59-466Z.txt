@@ -1,0 +1,41 @@
+**Today’s business headlines — market-moving focus**
+
+### Facts
+- **22:00 UTC — Spirit Airlines to cease operations after bailout failure**  
+  CBS News reports Spirit Airlines is shutting down after failing to secure a **$500 million federal bailout**. This is the clearest directly market-moving corporate headline in the batch, with implications for airline competition, creditors, employees, airports, and fare pricing.  
+
+- **21:30 UTC — Buffett warns speculative behavior is distorting markets**  
+  Fortune reports Warren Buffett said, **“we've never had people in a more gambling mood than now,”** citing speculation in areas such as short-dated options and prediction-style trading.  
+
+- **13:38 UTC — Greg Abel leads Berkshire annual meeting without Buffett on stage**  
+  AP/Yahoo Finance says **Greg Abel** is now leading Berkshire Hathaway’s annual meeting format without Warren Buffett appearing on stage, marking a symbolic leadership transition at a major U.S. conglomerate.  
+
+- **14:59 UTC — Buffett highlights Apple/Tim Cook contribution**  
+  Business Insider reports Buffett publicly praised **Tim Cook** for the success of Berkshire’s Apple investment, underscoring Apple’s importance in Berkshire’s capital-allocation history.  
+
+- **16:12 UTC — U.S. gas prices rising nationwide**  
+  ABC News reports gasoline prices are moving higher across the country, with regional variation in the most expensive and cheapest markets.  
+
+- **15:31 UTC — California to ticket autonomous vehicles via manufacturers**  
+  BBC reports California will begin issuing traffic-law tickets for driverless-car violations directly to the **manufacturer**, a notable regulatory development for autonomous-vehicle operators such as Waymo and peers.  
+
+- **16:00 UTC — OpenAI/Musk trial features judicial friction**  
+  The Washington Post reports the judge in Elon Musk’s case against OpenAI was openly critical in court, highlighting escalating legal tension around one of AI’s most prominent disputes.  
+
+- **10:00 UTC — UAE exit from OPEC framed around sovereign wealth priorities**  
+  Forbes says the UAE’s strategic priorities increasingly reflect the scale of its sovereign wealth assets relative to oil-market dependence, adding context to energy-market positioning.  
+
+### Interpretation / why investors may care
+- **Spirit shutdown:** Potentially the most immediate tradable item here. It may affect **airline pricing, route capacity, aircraft lessors, airport exposure, and distressed debt recoveries**.  
+- **Buffett comments:** Not a discrete earnings/event catalyst, but they reinforce concern that parts of the market may be **overheated or speculation-driven**, which can influence sentiment.  
+- **Berkshire leadership transition:** Mostly symbolic today, but relevant for long-term views on **capital allocation, succession, and Berkshire’s valuation framework**.  
+- **Higher gas prices:** Could matter for **inflation expectations, consumer spending, transport margins, and airlines/logistics stocks** if the move persists.  
+- **California AV enforcement:** Incrementally raises **regulatory and compliance risk** for autonomous-vehicle companies, though the immediate financial effect is likely limited.  
+- **OpenAI/Musk legal clash:** More sentiment- and governance-relevant than immediately market-moving unless it alters ownership, funding, product rollout, or legal constraints.  
+- **UAE/OPEC context:** Worth watching for **oil-price expectations and producer strategy**, but this item appears more analytical than a fresh market-moving development today.  
+
+### Lower market relevance / mostly feature or personality-driven
+- **WSJ — Jeff Bezos and fashion**: lifestyle/profile piece, not obviously market-moving.  
+- **Business Insider — Sam Altman invites Elon Musk to GPT 5.5 party**: colorful AI-rivalry item, but not a clear business catalyst by itself.  
+
+If you want, I can turn this into a **pre-market style brief** ranked by likely impact on **stocks, rates, oil, and credit**.
