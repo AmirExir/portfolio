@@ -1,0 +1,38 @@
+Here are **today’s market-relevant business headlines**, separated into **facts** and **interpretation/watchpoints**:
+
+- **Spirit Airlines shut down operations after a failed bailout**  
+  - **Fact:** CNBC reports Spirit ceased operations overnight after failing to secure a government bailout.  
+  - **Why markets may care:** Direct read-through for airline creditors, lessors, airport operators, and ultra-low-cost airline competition.
+
+- **Berkshire Hathaway profit more than doubled, helped by insurance, railroad, and energy**  
+  - **Fact:** WSJ says Berkshire’s profits more than doubled; CEO Greg Abel said the company has a shortlist of acquisition targets as cash continues to build.  
+  - **Why markets may care:** Signals strength in core cyclical/defensive businesses and keeps focus on Berkshire’s capital deployment.
+
+- **Warren Buffett warned markets are in a strong ‘gambling mood’**  
+  - **Fact:** Fortune reports Buffett said “we’ve never had people in a more gambling mood than now,” pointing to speculative behavior in markets.  
+  - **Interpretation:** Not a specific market call, but a cautionary signal on frothy risk appetite, especially in highly speculative assets.
+
+- **Buffett publicly praised Apple and Tim Cook at Berkshire’s meeting**  
+  - **Fact:** Business Insider reports Buffett highlighted Berkshire’s Apple investment and asked Tim Cook to take a bow.  
+  - **Why markets may care:** Reinforces Berkshire’s positive framing around Apple’s long-term value creation, though it is not new financial guidance.
+
+- **Google’s stakes in SpaceX and Anthropic are drawing renewed investor attention**  
+  - **Fact:** MarketWatch says Google’s early investments in SpaceX and Anthropic are being viewed as highly successful venture-style bets.  
+  - **Interpretation:** Positive for the “sum-of-the-parts” narrative around Alphabet, though this is more valuation framing than fresh operating news.
+
+- **Gas prices are rising nationwide**  
+  - **Fact:** ABC News reports U.S. gas prices are increasing, with regional differences in the highest and lowest prices.  
+  - **Why markets may care:** Potential inflation and consumer-spending implication, especially for travel, retail, and transportation stocks.
+
+- **Elon Musk’s OpenAI court case opened with visible judicial friction**  
+  - **Fact:** The Washington Post reports the judge overseeing Musk’s case against OpenAI had stern words as trial proceedings began.  
+  - **Why markets may care:** Legal overhang for AI-sector sentiment, though immediate public-market impact is likely limited unless material disclosures emerge.
+
+- **Forbes argues the UAE’s economic incentives have shifted away from oil-price maximization**  
+  - **Fact:** Forbes says the UAE’s sovereign wealth base now outweighs the importance of oil revenue in its broader economic strategy.  
+  - **Interpretation:** This is analysis, not a hard policy announcement, but it matters for how investors think about OPEC/ex-OPEC supply behavior and oil-price stability.
+
+If you want, I can also turn this into a **pre-market note** with:
+1. **Likely movers**,  
+2. **Macro implications**, and  
+3. **A “what to watch next” section.**
