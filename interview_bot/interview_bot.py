@@ -8,14 +8,15 @@ from streamlit_mic_recorder import mic_recorder
 import faiss
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+base_path = os.path.dirname(__file__)
+st.set_page_config(page_title="InterviewBot")
 # -------------------------
 # Embeddings cache
 # -------------------------
-EMB_FILE = "embeddings.npy"
+EMB_FILE = os.path.join(base_path, "embeddings.npy")
 # -------------------------
 # Load chunks_cleaned.json
 # -------------------------
-base_path = os.path.dirname(__file__)
 AUDIO_DIR = os.path.join(base_path, "saved_audio")
 os.makedirs(AUDIO_DIR, exist_ok=True)
 
@@ -62,8 +63,51 @@ if "index" not in st.session_state:
 else:
     index = st.session_state["index"]
 
+STORY_TAGS = ("Situation", "Task", "Action", "Result")
+
+
+def extract_tag_value(text, tag):
+    match = re.search(
+        rf"{tag}:\s*(.*?)(?=\s*\|\s*(?:Principle|Question|Situation|Task|Action|Result|Reflection):|$)",
+        text,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    return match.group(1).strip() if match else ""
+
+
+def is_star_story(text):
+    return all(re.search(rf"{tag}:\s*", text, flags=re.IGNORECASE) for tag in STORY_TAGS)
+
+
+def story_identity(text):
+    # Use the situation as the story identity so duplicate LP variants do not
+    # show up as separate "next story" options.
+    situation = extract_tag_value(text, "Situation")
+    identity_source = situation if situation else text[:500]
+    return re.sub(r"\W+", " ", identity_source.lower()).strip()
+
+
+def build_story_candidate(score, idx, text):
+    return {
+        "score": float(score),
+        "index": int(idx),
+        "text": text.strip(),
+        "principle": extract_tag_value(text, "Principle") or "Unknown",
+        "question": extract_tag_value(text, "Question") or "Untitled story",
+        "is_story": is_star_story(text),
+        "story_key": story_identity(text),
+    }
+
+
+def coerce_story_candidate(candidate):
+    if isinstance(candidate, dict):
+        return candidate
+    return build_story_candidate(0, -1, str(candidate))
+
+
 def search(query, index, chunks, embeddings, k=5):
-    # Pure semantic retrieval with keyword-aware reranking.
+    # Semantic retrieval with keyword-aware reranking. Return one structured
+    # candidate per underlying STAR story instead of a bag of raw chunks.
     print(f"🔍 Semantic search for query: {query}")
 
     normalized_query = query.lower().strip()
@@ -78,8 +122,10 @@ def search(query, index, chunks, embeddings, k=5):
     q_emb = np.array(q_emb, dtype="float32").reshape(1, -1)
     faiss.normalize_L2(q_emb)
 
-    # FAISS similarity search
-    D, I = index.search(q_emb, min(max(k * 4, k), len(chunks)))
+    # Pull more than the final count because several chunks can describe the
+    # same underlying story with different LP wording.
+    search_window = min(max(k * 10, 40), len(chunks))
+    D, I = index.search(q_emb, search_window)
 
     # Re-rank retrieved chunks so exact keyword matches surface before purely semantic neighbors.
     reranked = []
@@ -90,7 +136,7 @@ def search(query, index, chunks, embeddings, k=5):
         keyword_hits = sum(1 for term in query_terms if term in normalized_text)
         exact_query_hit = 1 if normalized_query and normalized_query in normalized_text else 0
         rerank_score = float(score) + (0.15 * keyword_hits) + (0.5 * exact_query_hit)
-        reranked.append((rerank_score, idx, text))
+        reranked.append(build_story_candidate(rerank_score, idx, text))
         seen_indices.add(idx)
 
     for idx, chunk in enumerate(chunks):
@@ -101,33 +147,49 @@ def search(query, index, chunks, embeddings, k=5):
         exact_query_hit = 1 if normalized_query and normalized_query in normalized_text else 0
         if keyword_hits or exact_query_hit:
             rerank_score = (0.15 * keyword_hits) + (0.5 * exact_query_hit)
-            reranked.append((rerank_score, idx, chunk["text"]))
+            reranked.append(build_story_candidate(rerank_score, idx, chunk["text"]))
 
-    reranked.sort(key=lambda item: item[0], reverse=True)
+    reranked.sort(key=lambda item: item["score"], reverse=True)
 
     if not reranked:
         return []
 
-    top_k = reranked[:k]
-    top_texts = [text for _, _, text in top_k]
-    print(f" Retrieved {len(top_texts)} ranked results from FAISS")
-    for i, (score, _, text) in enumerate(top_k):
-        print(f"{i+1}. score={score:.4f} | {text[:120]}...")
+    unique_stories = []
+    seen_story_keys = set()
+    for candidate in reranked:
+        if not candidate["is_story"]:
+            continue
+        story_key = candidate["story_key"]
+        if story_key in seen_story_keys:
+            continue
+        seen_story_keys.add(story_key)
+        unique_stories.append(candidate)
+        if len(unique_stories) == k:
+            break
 
-    return top_texts
+    # If the query is about resume/study context and no STAR story is found,
+    # still answer from a single best chunk rather than combining many chunks.
+    if not unique_stories:
+        for candidate in reranked:
+            story_key = candidate["story_key"]
+            if story_key in seen_story_keys:
+                continue
+            seen_story_keys.add(story_key)
+            unique_stories.append(candidate)
+            if len(unique_stories) == k:
+                break
+
+    print(f" Retrieved {len(unique_stories)} unique ranked stories from FAISS")
+    for i, candidate in enumerate(unique_stories):
+        print(f"{i+1}. score={candidate['score']:.4f} | {candidate['text'][:120]}...")
+
+    return unique_stories
 
 
-def detect_principle_from_context(retrieved_texts):
-    # Use the highest-ranked retrieved chunk and extract its single Principle tag.
-    if not retrieved_texts:
+def detect_principle_from_story(story):
+    if not story:
         return "Unknown"
-
-    match = re.search(r"Principle:\s*([^|]+)", retrieved_texts[0])
-    if not match:
-        return "Unknown"
-
-    principle = match.group(1).strip()
-    return principle if principle else "Unknown"
+    return story.get("principle") or "Unknown"
 
 
 def build_unique_audio_path(prefix="answer", ext="mp3"):
@@ -157,7 +219,6 @@ def enforce_single_star_story(text):
 # -------------------------
 # Streamlit UI
 # -------------------------
-st.set_page_config(page_title="InterviewBot")
 st.title("Amir's InterviewBot")
 
 if "messages" not in st.session_state:
@@ -215,7 +276,7 @@ if prompt:
 another_story = st.button("Give me another story")
 
 query_to_answer = None
-retrieved_texts = []
+selected_story = None
 
 if user_query:
     st.session_state.candidate_stories = search(user_query, index, chunks, embeddings, k=4)
@@ -224,7 +285,7 @@ if user_query:
 
     if st.session_state.candidate_stories:
         query_to_answer = user_query
-        retrieved_texts = [st.session_state.candidate_stories[0]]
+        selected_story = coerce_story_candidate(st.session_state.candidate_stories[0])
 elif another_story:
     if not st.session_state.candidate_stories:
         st.warning("Ask a question first so I can find matching stories.")
@@ -233,18 +294,25 @@ elif another_story:
         if current_pos < len(st.session_state.candidate_stories) - 1:
             st.session_state.candidate_story_pos += 1
             query_to_answer = st.session_state.active_query
-            retrieved_texts = [st.session_state.candidate_stories[st.session_state.candidate_story_pos]]
+            selected_story = coerce_story_candidate(
+                st.session_state.candidate_stories[st.session_state.candidate_story_pos]
+            )
             st.chat_message("user").markdown("Give me another story for the same question.")
             st.session_state.messages.append(
                 {"role": "user", "content": "Give me another story for the same question."}
             )
         else:
-            st.info("You have reached story 4 for this question. Ask a new question to get a new top-4 set.")
+            story_count = len(st.session_state.candidate_stories)
+            st.info(
+                f"You have reached story {story_count} for this question. "
+                f"Ask a new question to get a new top-{story_count} set."
+            )
 
 # Process assistant response
-if retrieved_texts and query_to_answer:
-    context = "\n\n".join(retrieved_texts)
-    detected_principle = detect_principle_from_context(retrieved_texts)
+if selected_story and query_to_answer:
+    selected_story = coerce_story_candidate(selected_story)
+    selected_context = selected_story["text"]
+    detected_principle = detect_principle_from_story(selected_story)
     st.markdown(f"**Detected Principle:** {detected_principle}")
     st.caption(
         f"Story {st.session_state.candidate_story_pos + 1} of {len(st.session_state.candidate_stories)} for this question"
@@ -254,11 +322,15 @@ if retrieved_texts and query_to_answer:
     show_debug = st.checkbox("Show retrieved context (cosine search)")
     if show_debug:
         st.markdown(f"**Query:** `{query_to_answer}`")
-        st.markdown(f"**Retrieved {len(st.session_state.candidate_stories)} chunks**")
-        for i, text in enumerate(st.session_state.candidate_stories):
-            st.markdown(f"**Chunk {i+1}**")
-            st.code(text[:300] + "...", language="markdown")
-            if "waterloo" in text.lower():
+        st.markdown("**Selected story sent to GPT**")
+        st.code(selected_context, language="markdown")
+        st.markdown(f"**Candidate story pool ({len(st.session_state.candidate_stories)} total, not sent together)**")
+        for i, story in enumerate(st.session_state.candidate_stories):
+            story = coerce_story_candidate(story)
+            marker = " - selected" if i == st.session_state.candidate_story_pos else ""
+            st.markdown(f"**Story {i+1}{marker}: {story['principle']}**")
+            st.code(story["text"][:300] + "...", language="markdown")
+            if "waterloo" in story["text"].lower():
                 st.success(" Contains 'Waterloo'")
             st.write("---")
 
@@ -270,12 +342,19 @@ if retrieved_texts and query_to_answer:
             "If there is any mention of the topic or related tools (like AELAB, automation, PSS/E, ERCOT), explain it in a STAR-like manner. "
             "Only say 'I don't have specific experience with that' if the topic is clearly unrelated. "
             "Answer naturally in first person and organize into four short paragraphs labeled: Situation, Task, Action, and Result. "
-            "Use exactly one story from the provided context for this response. "
+            "Use only the single story inside <selected_story> for this response. "
+            "Do not combine, borrow, or merge facts from any other story, prior answer, or candidate pool. "
             "Do not provide a second example in the same response, even if the question asks for multiple examples. "
             "If asked for more examples, provide only the best one now and wait for follow-up. "
-            "prioritze transmission planning stories over operational stories slightly"
+            "Prioritize transmission planning stories over operational stories slightly."
         )},
-        {"role": "user", "content": f"Question: {query_to_answer}\n\nRelevant context:\n{context}"}
+        {"role": "user", "content": (
+            f"Question: {query_to_answer}\n\n"
+            "Selected story context:\n"
+            "<selected_story>\n"
+            f"{selected_context}\n"
+            "</selected_story>"
+        )}
     ]
 
     with st.spinner("Answering..."):
