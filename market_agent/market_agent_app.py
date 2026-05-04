@@ -720,6 +720,7 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
 
     display_columns = [
         "Rank",
+        "Horizon",
         "Symbol",
         "Model Call",
         "Primary Pattern",
@@ -764,6 +765,31 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
             "Score": "{:+.2f}",
         }
     ).hide(axis="index")
+
+
+def scheduled_short_horizon_table(short_horizon_reports: list[dict], max_rows_per_horizon: int = 10) -> pd.DataFrame:
+    frames = []
+    for short_report in short_horizon_reports or []:
+        rows = short_report.get("rows") or []
+        if not rows:
+            rows = (short_report.get("top_buys") or []) + (short_report.get("top_sells") or [])
+        if not rows:
+            continue
+
+        horizon = short_report.get("horizon_days")
+        horizon_label = f"{int(horizon)}D" if horizon else "Short"
+        horizon_df = pd.DataFrame(rows)
+        if horizon_df.empty:
+            continue
+        if "Score" in horizon_df.columns:
+            horizon_df = horizon_df.sort_values("Score", ascending=False)
+        horizon_df = horizon_df.head(max_rows_per_horizon).copy()
+        horizon_df.insert(0, "Horizon", horizon_label)
+        frames.append(horizon_df)
+
+    if not frames:
+        return pd.DataFrame()
+    return pd.concat(frames, ignore_index=True)
 
 
 def model_results_table(model_results: dict) -> pd.DataFrame:
@@ -1795,7 +1821,14 @@ with top_analysis_tab:
             rows_df = pd.DataFrame(latest_ml_payload.get("rows", []))
             if not rows_df.empty:
                 rows_sorted = rows_df.sort_values("Score", ascending=False)
+                st.caption(f"{int(latest_ml_payload.get('horizon_days', 30))} trading-day scheduled ranking")
                 st.dataframe(format_ranking_table(rows_sorted.head(15)), use_container_width=True)
+
+            short_horizon_df = scheduled_short_horizon_table(latest_ml_payload.get("short_horizon_reports", []))
+            if not short_horizon_df.empty:
+                st.markdown("**Short-Term Scheduled Rankings**")
+                st.caption("Separate scheduled model runs for the next 1, 3, and 5 trading days.")
+                st.dataframe(format_ranking_table(short_horizon_df), use_container_width=True)
 
             if latest_ml_report:
                 with st.expander("Full scheduled report text"):
