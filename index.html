@@ -274,11 +274,13 @@
       <div class="hamburger" onclick="toggleMenu()">☰</div>
     </div>
     <ul class="nav-links" id="nav-links">
+      <li><a href="#projects">ERCOT AI RAGs</a></li>
+      <li><a href="#market-agent">Stock Agent</a></li>
+      <li><a href="#aelab-suite">AELab</a></li>
       <li><a href="#summary">Summary</a></li>
       <li><a href="#education">Education</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#certifications">Certs</a></li>
-      <li><a href="#projects">Projects</a></li>
       <li><a href="#fun">Fun</a></li>
       <li><a href="#download">Download</a></li>
       <li><a href="#music">Music</a></li>
@@ -614,7 +616,7 @@
 <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
 
 <!-- Stock Market & Crypto AI Agent Section -->
-<h2 id="interview-bot" class="slide-up hover-scale" style="margin-top:2.5rem;">  Stock Market & Crypto AI Agent</h2>
+<h2 id="market-agent" class="slide-up hover-scale" style="margin-top:2.5rem;">  Stock Market & Crypto AI Agent</h2>
 <p>
 This project combines real-time market data, AI-generated buy/sell recommendations, automated daily updates, and Telegram-driven on-demand runs using Streamlit, n8n, and the Alpaca Paper Trading API. It compares multiple forecasting models, validates them against historical data, and now supports natural-language commands, RL policy runs, daily RL-style retraining/fine-tuning requests, and calendar delivery of market signals.
 </p>
@@ -661,7 +663,78 @@ This project combines real-time market data, AI-generated buy/sell recommendatio
   </ul>
 </div>
 
+<!-- Market Gallery Carousel -->
+<div id="market-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
+  <style>
+    .market-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+    .market-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
+    .market-gallery .slide { min-width: 100%; box-sizing: border-box; padding: 14px; display:flex; justify-content:center; align-items:center; }
+    .market-gallery .slide img { max-width: 100%; height: auto; display:block; border-radius:8px; }
+    .market-gallery .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; display: flex; align-items:center; justify-content:center; cursor:pointer; border: none; font-size: 24px; }
+    .market-gallery .nav.left { left: 10px; }
+    .market-gallery .nav.right { right: 10px; }
+    .market-gallery .dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
+    .market-gallery .dot { width:10px; height:10px; border-radius:50%; background:#ddd; cursor:pointer; }
+    .market-gallery .dot.active { background:#00bfff; }
+    @media (min-width:700px){ .market-gallery .slide { padding:18px; } }
+  </style>
 
+  <div class="market-gallery" aria-label="Market screenshots gallery">
+    <button class="nav left" aria-label="Previous slide">‹</button>
+    <div class="viewport" id="marketGalleryViewport">
+      <div class="slide"><img src="n8n Workflow.png" alt="n8n workflow"></div>
+      <div class="slide"><img src="Telegram on demand News and Optimization Prediction request.png" alt="Telegram request"></div>
+      <div class="slide"><img src="Telegram Precition Results on Demand.png" alt="Telegram results"></div>
+      <div class="slide"><img src="Multi Model predictions.jpg" alt="Multi model predictions"></div>
+      <div class="slide"><img src="predictions .jpg" alt="Predictions"></div>
+      <div class="slide"><img src="Qick SMA corssover check.png" alt="SMA crossover"></div>
+      <div class="slide"><img src="Heatmap.png" alt="Crypto heatmap"></div>
+      <div class="slide"><img src="Screenshot 2026-05-03 at 7.40.37 PM.png" alt="Screenshot"></div>
+      <div class="slide"><img src="Screenshot 2026-05-03 at 7.52.55 PM.png" alt="Screenshot"></div>
+    </div>
+    <button class="nav right" aria-label="Next slide">›</button>
+  </div>
+
+  <div class="dots" id="marketGalleryDots" style="margin-top:6px; display:flex; justify-content:center;"></div>
+
+  <script>
+    (function(){
+      const viewport = document.getElementById('marketGalleryViewport');
+      const slides = viewport ? viewport.children : [];
+      const dotsContainer = document.getElementById('marketGalleryDots');
+      let idx = 0;
+      const total = slides.length;
+      let autoplay = true;
+      let autoplayTimer = null;
+
+      function show(i){
+        idx = (i + total) % total;
+        const offset = -idx * 100;
+        viewport.style.transform = `translateX(${offset}%)`;
+        if(dotsContainer){ Array.from(dotsContainer.children).forEach((d, di) => d.classList.toggle('active', di===idx)); }
+      }
+
+      function next(){ show(idx+1); }
+      function prev(){ show(idx-1); }
+
+      if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
+
+      const left = document.querySelector('.market-gallery .nav.left');
+      const right = document.querySelector('.market-gallery .nav.right');
+      left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
+      right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
+
+      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+
+      function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
+      function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
+
+      show(0);
+      startAutoplay();
+    })();
+  </script>
+
+</div>
 
 <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
 <!-- Interview Assistant App Section -->
@@ -708,58 +781,78 @@ This project combines real-time market data, AI-generated buy/sell recommendatio
   Built using AI-assisted development and real-world experience at LCRA and ERCOT.
 </p>
 
-<!-- Screenshot Gallery -->
-<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2.5rem;">
-  <div>
-    <img src="AELabACCC.png" alt="ACCC Analysis Tab" class="responsive-img" style="max-width: 1000px; width: 100%;" />
-    <p style="text-align: center; font-weight: bold;">ACCC Analysis Input & Progress</p>
+<!-- AELab Gallery Carousel -->
+<div id="aelab-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
+  <style>
+    .aelab-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+    .aelab-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
+    .aelab-gallery .slide { min-width: 100%; box-sizing: border-box; padding: 14px; display:flex; justify-content:center; align-items:center; }
+    .aelab-gallery .slide img { max-width: 100%; height: auto; display:block; border-radius:8px; }
+    .aelab-gallery .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; display: flex; align-items:center; justify-content:center; cursor:pointer; border: none; font-size: 24px; }
+    .aelab-gallery .nav.left { left: 10px; }
+    .aelab-gallery .nav.right { right: 10px; }
+    .aelab-gallery .dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
+    .aelab-gallery .dot { width:10px; height:10px; border-radius:50%; background:#ddd; cursor:pointer; }
+    .aelab-gallery .dot.active { background:#00bfff; }
+    @media (min-width:700px){ .aelab-gallery .slide { padding:18px; } }
+  </style>
+
+  <div class="aelab-gallery" aria-label="AELab screenshots gallery">
+    <button class="nav left" aria-label="Previous slide">‹</button>
+    <div class="viewport" id="aelabGalleryViewport">
+      <div class="slide"><img src="AELabACCC.png" alt="ACCC Analysis"></div>
+      <div class="slide"><img src="AELabContingencyGenerator.png" alt="Contingency Generator"></div>
+      <div class="slide"><img src="AELabACCCThermalResults.png" alt="Thermal Results"></div>
+      <div class="slide"><img src="AELABACCVOLTAGERESULTS.png" alt="Voltage Results"></div>
+      <div class="slide"><img src="AELABVOLTAGEVIOLATIONEXCEL.png" alt="Voltage Violations Excel"></div>
+      <div class="slide"><img src="AELabThermalViolationsExcel.png" alt="Thermal Violations Excel"></div>
+      <div class="slide"><img src="AELabDARKMODE.png" alt="Dark Mode"></div>
+      <div class="slide"><img src="AELabDynamicSimResults.png" alt="Dynamic Results"></div>
+      <div class="slide"><img src="AELabDynamicPlots.png" alt="Dynamic Plots"></div>
+      <div class="slide"><img src="AELabIDVGenerator.png" alt="IDV Generator"></div>
+      <div class="slide"><img src="AELabTPIT.png" alt="TPIT Tool"></div>
+    </div>
+    <button class="nav right" aria-label="Next slide">›</button>
   </div>
 
-  <div>
-    <img src="AELabContingencyGenerator.png" alt="AELabDARKMODE" class="responsive-img" style="max-width: 1000px; width: 100%;" />
-    <p style="text-align: center; font-weight: bold;"> Single and Double Contingency Generator to use for steady state Analysis </p>
-  </div>
+  <div class="dots" id="aelabGalleryDots" style="margin-top:6px; display:flex; justify-content:center;"></div>
 
-  <div>
-    <img src="AELabACCCThermalResults.png" alt="ACCC Thermal Results" class="responsive-img" style="max-width: 1000px; width: 100%;" />
-    <p style="text-align: center; font-weight: bold;">Thermal Violations Summary</p>
-  </div>
-  <div>
-    <img src="AELABACCVOLTAGERESULTS.png" alt="Voltage Violations Results" class="responsive-img" style="max-width: 1000px; width: 100%;" />
-    <p style="text-align: center; font-weight: bold;">Voltage Violations Summary</p>
-  </div>
-  <div>
-    <img src="AELABVOLTAGEVIOLATIONEXCEL.png" alt="AELABVOLTAGEVIOLATIONEXCEL" class="responsive-img" style="max-width: 1000px; width: 100%;" />
-    <p style="text-align: center; font-weight: bold;">TPIT – AELAB Voltage Violations in Excel</p>
-  </div>
-    <div>
-    <img src="AELabThermalViolationsExcel.png" alt="AELabThermalViolationsExcel" class="responsive-img" style="max-width: 1000px; width: 100%;" />
-    <p style="text-align: center; font-weight: bold;">TPIT – AELab Thermal Violations in Excel</p>
-  </div>
+  <script>
+    (function(){
+      const viewport = document.getElementById('aelabGalleryViewport');
+      const slides = viewport ? viewport.children : [];
+      const dotsContainer = document.getElementById('aelabGalleryDots');
+      let idx = 0;
+      const total = slides.length;
+      let autoplay = true;
+      let autoplayTimer = null;
 
-  <div>
-    <img src="AELabDARKMODE.png" alt="AELabDARKMODE" class="responsive-img" style="max-width: 1000px; width: 100%;" />
-    <p style="text-align: center; font-weight: bold;"> Dynamic Analysis– AELab Dark Mode </p>
-  </div>
+      function show(i){
+        idx = (i + total) % total;
+        const offset = -idx * 100;
+        viewport.style.transform = `translateX(${offset}%)`;
+        if(dotsContainer){ Array.from(dotsContainer.children).forEach((d, di) => d.classList.toggle('active', di===idx)); }
+      }
 
-  <div>
-    <img src="AELabDynamicSimResults.png" alt="Dynamic Results" class="responsive-img" style="max-width: 1000px; width: 100%;" />
-    <p style="text-align: center; font-weight: bold;">Dynamic Simulation Report</p>
-  </div>
+      function next(){ show(idx+1); }
+      function prev(){ show(idx-1); }
 
-  <div>
-  <img src="AELabDynamicPlots.png" alt="Dynamic Results" class="responsive-img" style="max-width: 1000px; width: 100%;" />
-  <p style="text-align: center; font-weight: bold;">Dynamic Simulation Plot</p>
-</div>
-  <div>
-    <img src="AELabIDVGenerator.png" alt="IDV Generator" class="responsive-img" style="max-width: 1000px; width: 100%;" />
-    <p style="text-align: center; font-weight: bold;">IDV Generator – Line Upgrades</p>
-  </div>
-  <div>
-    <img src="AELabTPIT.png" alt="TPIT Tool" class="responsive-img" style="max-width: 1000px; width: 100%;" />
-    <p style="text-align: center; font-weight: bold;">TPIT – Transmission Project Info Tool</p>
-  </div>
-  
+      if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
+
+      const left = document.querySelector('.aelab-gallery .nav.left');
+      const right = document.querySelector('.aelab-gallery .nav.right');
+      left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
+      right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
+
+      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+
+      function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
+      function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
+
+      show(0);
+      startAutoplay();
+    })();
+  </script>
 
 </div>
 
@@ -890,14 +983,76 @@ This project combines real-time market data, AI-generated buy/sell recommendatio
 <!-- Fun Activity Section -->
 <div class="section">
   <h2 id="fun" class="slide-up hover-scale"> Outside the Office – Paddleboarding & Biking Fun</h2>
-  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
-    <img src="paddle1.jpg" class="hover-scale"  alt="Paddleboarding 1" style="width: 300px; border-radius: 10px;">
-    <img src="paddle2.jpg" class="hover-scale"  alt="Paddleboarding 2" style="width: 300px; border-radius: 10px;">
-    <img src="bike1.jpg" class="hover-scale"  alt="Biking 1" style="width: 300px; border-radius: 10px;">
-    <img src="bike2.jpg" class="hover-scale"  alt="Biking 2" style="width: 300px; border-radius: 10px;">
-    <img src="bike3.jpg" class="hover-scale"  alt="Biking 3" style="width: 300px; border-radius: 10px;">
-    <img src="bike4.jpg" class="hover-scale"  alt="Biking 4" style="width: 300px; border-radius: 10px;">
+
+<!-- Fun Activity Gallery Carousel -->
+<div id="fun-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
+  <style>
+    .fun-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+    .fun-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
+    .fun-gallery .slide { min-width: 100%; box-sizing: border-box; padding: 14px; display:flex; justify-content:center; align-items:center; }
+    .fun-gallery .slide img { max-width: 100%; height: auto; display:block; border-radius:8px; }
+    .fun-gallery .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; display: flex; align-items:center; justify-content:center; cursor:pointer; border: none; font-size: 24px; }
+    .fun-gallery .nav.left { left: 10px; }
+    .fun-gallery .nav.right { right: 10px; }
+    .fun-gallery .dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
+    .fun-gallery .dot { width:10px; height:10px; border-radius:50%; background:#ddd; cursor:pointer; }
+    .fun-gallery .dot.active { background:#00bfff; }
+    @media (min-width:700px){ .fun-gallery .slide { padding:18px; } }
+  </style>
+
+  <div class="fun-gallery" aria-label="Fun activity photos gallery">
+    <button class="nav left" aria-label="Previous slide">‹</button>
+    <div class="viewport" id="funGalleryViewport">
+      <div class="slide"><img src="paddle1.jpg" alt="Paddleboarding 1"></div>
+      <div class="slide"><img src="paddle2.jpg" alt="Paddleboarding 2"></div>
+      <div class="slide"><img src="bike1.jpg" alt="Biking 1"></div>
+      <div class="slide"><img src="bike2.jpg" alt="Biking 2"></div>
+      <div class="slide"><img src="bike3.jpg" alt="Biking 3"></div>
+      <div class="slide"><img src="bike4.jpg" alt="Biking 4"></div>
+    </div>
+    <button class="nav right" aria-label="Next slide">›</button>
   </div>
+
+  <div class="dots" id="funGalleryDots" style="margin-top:6px; display:flex; justify-content:center;"></div>
+
+  <script>
+    (function(){
+      const viewport = document.getElementById('funGalleryViewport');
+      const slides = viewport ? viewport.children : [];
+      const dotsContainer = document.getElementById('funGalleryDots');
+      let idx = 0;
+      const total = slides.length;
+      let autoplay = true;
+      let autoplayTimer = null;
+
+      function show(i){
+        idx = (i + total) % total;
+        const offset = -idx * 100;
+        viewport.style.transform = `translateX(${offset}%)`;
+        if(dotsContainer){ Array.from(dotsContainer.children).forEach((d, di) => d.classList.toggle('active', di===idx)); }
+      }
+
+      function next(){ show(idx+1); }
+      function prev(){ show(idx-1); }
+
+      if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
+
+      const left = document.querySelector('.fun-gallery .nav.left');
+      const right = document.querySelector('.fun-gallery .nav.right');
+      left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
+      right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
+
+      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+
+      function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
+      function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
+
+      show(0);
+      startAutoplay();
+    })();
+  </script>
+
+</div>
 
 <h2 class="slide-up hover-scale"> My Music Setup </h2>
 <div style="text-align: center;">
