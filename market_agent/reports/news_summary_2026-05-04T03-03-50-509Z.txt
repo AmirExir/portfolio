@@ -1,0 +1,43 @@
+Here are today’s **concise, market-focused business headlines**, split into **facts** and **interpretation**:
+
+- **Spirit Airlines shut down operations after failing to secure a government bailout.**  
+  - **Fact:** CNBC reports the carrier ceased operations overnight and ran its final flights Friday.  
+  - **Why markets may care:** Could affect airline competition, route capacity, airport exposure, and creditor recovery values.  
+  - **Interpretation:** Most relevant for airline pricing dynamics and distressed-debt fallout rather than broad market direction.
+
+- **Berkshire Hathaway profit more than doubled, driven by insurance, railroad, and energy.**  
+  - **Fact:** WSJ says Berkshire’s earnings surged, and CEO Greg Abel said the company has a shortlist of acquisition targets as cash continues to build.  
+  - **Why markets may care:** Read-through for insurers, industrials, rails, utilities, and M&A expectations.  
+  - **Interpretation:** Strong operating results reinforce Berkshire as a barometer for parts of the real economy.
+
+- **Warren Buffett warned markets are in an unusually strong “gambling mood.”**  
+  - **Fact:** Fortune reports Buffett said speculation is elevated, citing a market culture around short-dated options, prediction markets, and betting behavior.  
+  - **Why markets may care:** Comments could influence sentiment around frothy assets and speculative trading activity.  
+  - **Interpretation:** This is cautionary commentary, not a specific market call.
+
+- **Buffett publicly praised Apple and Tim Cook at Berkshire’s meeting.**  
+  - **Fact:** Business Insider reports Buffett asked Tim Cook to take a bow and credited Apple as a major Berkshire investment success.  
+  - **Why markets may care:** Positive signaling around Apple from one of its most closely watched long-term investors.  
+  - **Interpretation:** Symbolically supportive for Apple sentiment, though not new fundamental guidance.
+
+- **Google’s stakes in SpaceX and Anthropic are drawing attention for embedded value.**  
+  - **Fact:** MarketWatch says Alphabet’s early investments in SpaceX and Anthropic are being viewed as highly successful venture-style bets.  
+  - **Why markets may care:** Supports “sum-of-the-parts” valuation arguments around Alphabet beyond core ads and cloud.  
+  - **Interpretation:** Potentially bullish for valuation debate, but this is more analytical framing than hard new corporate news.
+
+- **Oil-market geopolitics remain in focus after the UAE’s exit from OPEC.**  
+  - **Fact:** Forbes argues the UAE’s sovereign wealth interests may now outweigh the importance of oil-price support, reshaping its incentives after leaving OPEC.  
+  - **Why markets may care:** Any shift in Gulf production strategy can matter for crude prices, inflation expectations, and energy equities.  
+  - **Interpretation:** The article is largely analytical; immediate market impact depends on actual supply policy changes.
+
+- **U.S. gas prices are rising nationwide.**  
+  - **Fact:** ABC News reports higher gasoline prices across the country.  
+  - **Why markets may care:** Fuel costs can affect inflation expectations, consumer spending, and transportation stocks.  
+  - **Interpretation:** Market impact depends on how persistent the move is and whether it feeds into broader inflation data.
+
+- **Elon Musk’s OpenAI court case hit a tense moment with the judge.**  
+  - **Fact:** The Washington Post reports the judge sharply addressed Musk as the trial opened in his case against OpenAI and Sam Altman.  
+  - **Why markets may care:** Legal developments could affect AI-sector governance narratives and investor perception around OpenAI-linked ecosystems.  
+  - **Interpretation:** At this stage, this appears more reputational/legal than clearly market-moving for listed equities.
+
+If you want, I can also turn this into a **“Top 5 headlines before the bell”** version or a **sector-by-sector market impact brief**.
