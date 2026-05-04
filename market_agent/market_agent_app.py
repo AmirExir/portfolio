@@ -486,7 +486,7 @@ DEFAULT_FORECAST_SYMBOLS = [
     "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "FLOKI-USD", "PEPE-USD",
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
-SHORT_TERM_SIGNAL_HORIZONS = (1, 3, 5)
+SHORT_TERM_SIGNAL_HORIZONS = (1,)
 SYMBOL_LABELS = {
     "AVGO": "Broadcom (AVGO)",
     "RIOT": "Riot Platforms (RIOT)",
@@ -767,16 +767,23 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
     ).hide(axis="index")
 
 
-def scheduled_short_horizon_table(short_horizon_reports: list[dict], max_rows_per_horizon: int = 10) -> pd.DataFrame:
+def scheduled_short_horizon_table(
+    short_horizon_reports: list[dict],
+    allowed_horizons: tuple[int, ...] = SHORT_TERM_SIGNAL_HORIZONS,
+    max_rows_per_horizon: int = 10,
+) -> pd.DataFrame:
     frames = []
     for short_report in short_horizon_reports or []:
+        horizon = short_report.get("horizon_days")
+        if allowed_horizons and int(horizon or 0) not in allowed_horizons:
+            continue
+
         rows = short_report.get("rows") or []
         if not rows:
             rows = (short_report.get("top_buys") or []) + (short_report.get("top_sells") or [])
         if not rows:
             continue
 
-        horizon = short_report.get("horizon_days")
         horizon_label = f"{int(horizon)}D" if horizon else "Short"
         horizon_df = pd.DataFrame(rows)
         if horizon_df.empty:
@@ -1826,9 +1833,14 @@ with top_analysis_tab:
 
             short_horizon_df = scheduled_short_horizon_table(latest_ml_payload.get("short_horizon_reports", []))
             if not short_horizon_df.empty:
-                st.markdown("**Short-Term Scheduled Rankings**")
-                st.caption("Separate scheduled model runs for the next 1, 3, and 5 trading days.")
+                st.markdown("**1-Day Scheduled Rankings**")
+                st.caption("Separate scheduled model run for the next trading day.")
                 st.dataframe(format_ranking_table(short_horizon_df), use_container_width=True)
+            else:
+                st.caption(
+                    "1-Day Scheduled Rankings will appear here after the scheduled JSON is regenerated "
+                    "with --short-horizons 1."
+                )
 
             if latest_ml_report:
                 with st.expander("Full scheduled report text"):
@@ -2375,9 +2387,9 @@ try:
                     short_signal_errors.append(f"{short_horizon}D: {short_signal_error}")
 
             if short_signal_rows:
-                st.markdown("**Short-Term ML Signals**")
+                st.markdown("**1-Day ML Signal**")
                 st.caption(
-                    "These are separate direct forecasts for the next 1, 3, and 5 trading days, not slices of the 30-day forecast."
+                    "This is a separate direct forecast for the next trading day, not a slice of the 30-day forecast."
                 )
                 short_signal_table = pd.DataFrame(short_signal_rows)
                 st.dataframe(

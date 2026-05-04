@@ -693,7 +693,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--symbols", default=",".join(DEFAULT_SYMBOLS))
     parser.add_argument("--history-days", type=int, default=913)
     parser.add_argument("--horizon", type=int, default=30)
-    parser.add_argument("--short-horizons", default="", help="Optional comma-separated extra horizons, such as 1,3,5.")
+    parser.add_argument("--short-horizons", default="", help="Optional comma-separated extra horizons, such as 1.")
     parser.add_argument("--lookback", type=int, default=20)
     parser.add_argument("--ridge-alpha", type=float, default=10.0)
     parser.add_argument("--pattern-short-window", type=int, default=20)
