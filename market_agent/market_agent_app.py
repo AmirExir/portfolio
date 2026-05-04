@@ -487,6 +487,7 @@ DEFAULT_FORECAST_SYMBOLS = [
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 SHORT_TERM_SIGNAL_HORIZONS = (1,)
+SCHEDULED_ONE_DAY_FALLBACK_LIMIT = 10
 SYMBOL_LABELS = {
     "AVGO": "Broadcom (AVGO)",
     "RIOT": "Riot Platforms (RIOT)",
@@ -797,6 +798,30 @@ def scheduled_short_horizon_table(
     if not frames:
         return pd.DataFrame()
     return pd.concat(frames, ignore_index=True)
+
+
+def scheduled_one_day_fallback_symbols(payload: dict | None, limit: int = SCHEDULED_ONE_DAY_FALLBACK_LIMIT) -> tuple[str, ...]:
+    payload = payload or {}
+    rows = pd.DataFrame(payload.get("rows", []))
+    symbols: list[str] = []
+
+    if not rows.empty and "Symbol" in rows.columns:
+        if "Score" in rows.columns:
+            rows = rows.sort_values("Score", ascending=False)
+        for symbol in rows["Symbol"].dropna().astype(str):
+            if symbol and symbol not in symbols:
+                symbols.append(symbol)
+            if len(symbols) >= limit:
+                return tuple(symbols)
+
+    for symbol in payload.get("symbols", []) or []:
+        symbol = str(symbol)
+        if symbol and symbol not in symbols:
+            symbols.append(symbol)
+        if len(symbols) >= limit:
+            break
+
+    return tuple(symbols)
 
 
 def model_results_table(model_results: dict) -> pd.DataFrame:
@@ -1837,10 +1862,59 @@ with top_analysis_tab:
                 st.caption("Separate scheduled model run for the next trading day.")
                 st.dataframe(format_ranking_table(short_horizon_df), use_container_width=True)
             else:
-                st.caption(
-                    "1-Day Scheduled Rankings will appear here after the scheduled JSON is regenerated "
-                    "with --short-horizons 1."
-                )
+                fallback_symbols = scheduled_one_day_fallback_symbols(latest_ml_payload)
+                fallback_state = st.session_state.get("scheduled_one_day_fallback", {})
+                fallback_rows = fallback_state.get("rows") if fallback_state.get("source_generated_at") == generated_at else None
+                fallback_errors = fallback_state.get("errors", []) if fallback_state.get("source_generated_at") == generated_at else []
+
+                if fallback_rows:
+                    st.markdown("**1-Day Scheduled Rankings**")
+                    st.caption(
+                        "Live fallback: next-trading-day model run for top scheduled symbols while waiting for n8n to write the stored 1D report."
+                    )
+                    fallback_df = pd.DataFrame(fallback_rows)
+                    if not fallback_df.empty and "Score" in fallback_df.columns:
+                        fallback_df = fallback_df.sort_values("Score", ascending=False)
+                    st.dataframe(format_ranking_table(fallback_df), use_container_width=True)
+                else:
+                    st.info(
+                        "The saved scheduled JSON does not include a 1-day ranking yet. "
+                        "Run it here now, or wait for n8n to regenerate the file with --short-horizons 1."
+                    )
+                    if fallback_symbols:
+                        st.caption(
+                            f"Fast page fallback will rank the top {len(fallback_symbols)} symbols from the latest 30-day scheduled run: "
+                            + ", ".join(fallback_symbols)
+                        )
+                    if fallback_symbols and st.button("Run 1-Day Scheduled Ranking Now", key="run_scheduled_one_day_now"):
+                        with st.spinner("Computing real 1-day ML ranking..."):
+                            fallback_df, fallback_errors = cached_forecast_rankings(
+                                fallback_symbols,
+                                history_days,
+                                1,
+                                forecast_lookback,
+                                forecast_alpha,
+                                optimize_forecast_model,
+                                use_market_context,
+                                sequence_model_choice,
+                                include_rl_policy,
+                                primary_model_choice,
+                                st.session_state["ranking_refresh_nonce"],
+                            )
+                        fallback_records = fallback_df.to_dict("records") if not fallback_df.empty else []
+                        st.session_state["scheduled_one_day_fallback"] = {
+                            "source_generated_at": generated_at,
+                            "rows": fallback_records,
+                            "errors": fallback_errors,
+                        }
+                        st.markdown("**1-Day Scheduled Rankings**")
+                        if not fallback_df.empty and "Score" in fallback_df.columns:
+                            fallback_df = fallback_df.sort_values("Score", ascending=False)
+                        st.dataframe(format_ranking_table(fallback_df), use_container_width=True)
+
+                if fallback_errors:
+                    with st.expander("1-day scheduled ranking errors"):
+                        st.write("\n".join(map(str, fallback_errors)))
 
             if latest_ml_report:
                 with st.expander("Full scheduled report text"):
