@@ -1,0 +1,79 @@
+Here are **concise, market-focused business headlines** from your list, with **facts separated from interpretation**, **timestamps**, **sentiment**, and **likely impacted stocks**.
+
+---
+
+- **22:00 UTC — Spirit Airlines to cease operations after failing to secure $500M bailout**  
+  - **Facts:** CBS reports Spirit Airlines is shutting down after failing to obtain a federal rescue package.  
+  - **Interpretation:** Materially negative for Spirit stakeholders; could modestly benefit competing low-cost and major airlines by reducing capacity.  
+  - **Sentiment:** **Bearish**  
+  - **Impacted stocks:** **Spirit Airlines / Spirit Aviation Holdings** (if still traded or related claims), **ULCC**, **AAL**, **DAL**, **UAL**, **LUV**
+
+- **15:31 UTC — California to begin ticketing autonomous vehicles for traffic-law violations**  
+  - **Facts:** BBC reports California will allow police to issue tickets directly to manufacturers when driverless cars break traffic laws.  
+  - **Interpretation:** Regulatory tightening is a negative for autonomous-vehicle operators due to compliance/legal risk; may slow deployment or raise costs.  
+  - **Sentiment:** **Bearish**  
+  - **Impacted stocks:** **GOOGL** (Waymo), **TSLA**, **GM** (Cruise legacy AV exposure), **UBER**, **LYFT**
+
+- **21:30 UTC — Warren Buffett warns markets are in a strong “gambling mood”**  
+  - **Facts:** Fortune reports Buffett said speculative behavior is elevated and that many asset prices may look “very silly.”  
+  - **Interpretation:** Broad cautionary signal for speculative assets and high-multiple stocks; not a company-specific earnings or deal event.  
+  - **Sentiment:** **Bearish**  
+  - **Impacted stocks:** **BRK.B**, **BRK.A**; higher-beta/speculative names broadly, including options-heavy retail favorites
+
+- **14:59 UTC — Buffett publicly praises Tim Cook and Apple investment at Berkshire meeting**  
+  - **Facts:** Business Insider reports Buffett highlighted Apple’s contribution to Berkshire’s success and asked Tim Cook to take a bow.  
+  - **Interpretation:** Reinforces confidence in Apple’s strategic importance and Berkshire’s endorsement; supportive, though largely symbolic.  
+  - **Sentiment:** **Bullish**  
+  - **Impacted stocks:** **AAPL**, **BRK.B**, **BRK.A**
+
+- **13:38 UTC — Greg Abel leads Berkshire annual meeting without Warren Buffett on stage**  
+  - **Facts:** AP/Yahoo Finance reports new Berkshire CEO Greg Abel is leading the first annual meeting without Buffett on stage.  
+  - **Interpretation:** Leadership transition is a key governance milestone; near-term market impact likely limited unless accompanied by strategic changes.  
+  - **Sentiment:** **Neutral**  
+  - **Impacted stocks:** **BRK.B**, **BRK.A**
+
+- **16:00 UTC — Musk/OpenAI trial highlights judge’s criticism of Elon Musk**  
+  - **Facts:** Washington Post reports the judge had stern words for Musk as the OpenAI-related trial opened.  
+  - **Interpretation:** Legal/reputational overhang for Musk-linked entities, but unclear direct financial impact from this headline alone.  
+  - **Sentiment:** **Neutral to Bearish**  
+  - **Impacted stocks:** **TSLA**; potentially **MSFT** via OpenAI exposure
+
+- **20:17 UTC — Sam Altman extends a conciliatory gesture to Elon Musk amid legal fight**  
+  - **Facts:** Business Insider reports Altman said Musk could come to OpenAI’s GPT 5.5 party.  
+  - **Interpretation:** Mostly personal/PR color; no clear market-moving development by itself.  
+  - **Sentiment:** **Neutral**  
+  - **Impacted stocks:** **MSFT**, **TSLA** (indirectly)
+
+- **16:12 UTC — U.S. gas prices rise nationwide**  
+  - **Facts:** ABC reports gasoline prices are increasing across the country.  
+  - **Interpretation:** Higher fuel prices can pressure consumers, airlines, shippers, and retailers; supportive for energy producers/refiners if sustained.  
+  - **Sentiment:** **Bullish for energy / Bearish for fuel-sensitive sectors**  
+  - **Impacted stocks:** **XOM**, **CVX**, **MPC**, **VLO**; **AAL**, **DAL**, **UAL**, **LUV**, **FDX**, **UPS**, consumer names broadly
+
+- **10:00 UTC — Forbes analysis: UAE left OPEC as sovereign wealth interests outweigh oil-price focus**  
+  - **Facts:** Forbes frames the UAE’s OPEC exit as tied to broader portfolio interests rather than maximizing crude prices.  
+  - **Interpretation:** This is primarily analysis, not a fresh hard-news catalyst in the headline itself; could imply looser long-term oil-discipline expectations.  
+  - **Sentiment:** **Neutral**  
+  - **Impacted stocks:** **XOM**, **CVX**, oil ETFs and broader energy complex
+
+- **23:00 UTC — WSJ feature on Jeff Bezos and fashion influence**  
+  - **Facts:** WSJ article is about Bezos entering fashion’s inner circle.  
+  - **Interpretation:** Lifestyle/profile piece, not obviously market-moving from the headline alone.  
+  - **Sentiment:** **Neutral**  
+  - **Impacted stocks:** **AMZN** (very indirect)
+
+---
+
+## Most market-moving items likely today
+1. **Spirit Airlines shutdown** — strongest direct corporate event  
+2. **California AV ticketing rules** — meaningful regulatory headline for autonomous driving  
+3. **Rise in gas prices** — cross-sector macro input  
+4. **Buffett warning on speculation** — broad sentiment signal  
+5. **Buffett praise for Apple / Berkshire transition** — supportive but less catalytic
+
+## Notes
+- I treated **reported facts** separately from **likely market interpretation** as requested.
+- A few items are more **feature/analysis pieces** than hard catalysts, so I labeled those **Neutral** unless there was a clearer market implication.
+- You asked for “**stucks**”; I assume you meant **stocks**.
+
+If you want, I can also convert this into a **pre-market trader note format** with columns: **Headline | Why it matters | Tickers | Sentiment**.
