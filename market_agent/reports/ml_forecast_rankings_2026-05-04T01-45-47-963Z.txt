@@ -1,0 +1,24 @@
+Generated: 2026-05-04 01:45 UTC
+Horizon: 30 trading days
+Universe: 72 symbols | Stocks + crypto + commodities
+
+Buy signals meeting the return filter:
+GLD is the highest-conviction long in the current ranking with a 30-day forecast return of +8.73%, Strong Buy, 92.7% probability up, and a range-bound pattern.
+DOGE is rated Strong Buy with a forecast return of +41.65% and 90.8% probability up, though the expected error is large at +/-29.90%.
+KO is rated Buy with a forecast return of +4.78% and 79.1% probability up after a rebound from the 60-day low.
+GOOGL is rated Buy with a forecast return of +7.80%, 78.6% probability up, and an uptrend pattern.
+SLV is rated Buy with a forecast return of +9.42% and 77.8% probability up in a range-bound pattern.
+OXY is rated Buy with a forecast return of +9.08%, 76.8% probability up, and an uptrend pattern.
+FLOKI is rated Buy with a forecast return of +47.99% and 76.4% probability up, but with very high expected error at +/-72.33%.
+ZEC is rated Buy with a forecast return of +28.25% and 75.9% probability up, also with high expected error at +/-42.47%.
+AVGO is rated Buy with a forecast return of +8.31%, 74.7% probability up, and an uptrend pattern.
+C is rated Buy with a forecast return of +5.71%, 70.7% probability up, and an uptrend pattern.
+
+Sell signals meeting the return filter:
+BTC is rated Sell with a forecast return of -10.19%, 24.6% probability up, and a near-60-day-high pattern.
+NFLX is rated Sell with a forecast return of -9.64%, 27.1% probability up, and an oversold pattern.
+ORCL is rated Sell with a forecast return of -8.76%, 24.7% probability up, and high volatility.
+EOG is rated Sell with a forecast return of -6.16%, 27.2% probability up, and an uptrend pattern.
+XLV is rated Sell with a forecast return of -4.28%, 17.9% probability up, after a rebound from the 60-day low.
+PG is rated Sell with a forecast return of -3.88%, 26.8% probability up, with high volatility.
+V and PNUT are excluded because they are Neutral / No Edge. Signals below 2% absolute forecast return are excluded.
