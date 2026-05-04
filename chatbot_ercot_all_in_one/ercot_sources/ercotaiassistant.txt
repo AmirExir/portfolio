@@ -126,8 +126,33 @@ Declaration of Resource Data Accuracy	8(A)
 Declaration of Adequate Water Supplies	8(B)
 Declaration of Department of Defense Notification	8(C)
 Attestation Regarding Compliance with the Lone Star Infrastructure Protection Act	8(D)
-9	RESERVED	9-1
-ERCOT Planning Guide
+9	Large Load Additions at New or Modification of Existing Load Interconnection(s)
+	
+
+
+
+
+ 
+9	LARGE LOAD ADDITIONS AT NEW OR MODIFICATION OF EXISTING LOAD INTERCONNECTION(S)	1
+9.1	INTRODUCTION	1
+9.2	GENERAL PROVISIONS	2
+9.2.1	Applicability of the Large Load Interconnection Study Process	2
+9.2.2	Submission of Large Load Project Information and Initiation of the Large Load Interconnection Study (LLIS)	2
+9.2.3	Modification of Large Load Project Information	3
+9.2.4	Load Commissioning Plan	4
+9.2.5	 Required Interconnection Equipment	4
+9.3	INTERCONNECTION STUDY PROCEDURES FOR LARGE LOADS	5
+9.3.1	Large Load Interconnection Study (LLIS)	5
+9.3.2	Large Load Interconnection Study Scoping Process	6
+9.3.3	Large Load Interconnection Study Description and Methodology	7
+9.3.4.1	Steady-State Analysis	8
+9.3.4.2	System Protection (Short-Circuit) Analysis	9
+9.3.4.3	Dynamic and Transient Stability Analysis	9
+9.4	LLIS REPORT AND FOLLOW-UP	10
+9.5	INTERCONNECTION AGREEMENTS AND RESPONSIBILITIES	12
+9.6	INITIAL ENERGIZATION AND CONTINUING OPERATIONS FOR LARGE LOADS	14
+
+
 Section 1:  Overview
 June 1, 2023
 1	OVERVIEW	1
@@ -1559,3 +1584,173 @@ _____________________________________________
 Title
 _____________________________________________ 
 Date
+
+
+
+
+
+
+ERCOT Planning Guide
+Section 9:   Large Load Additions at New or Modification of Existing Load Interconnection(s)
+
+December 15, 2025
+
+
+
+
+
+
+ 
+9	LARGE LOAD ADDITIONS AT NEW OR MODIFICATION OF EXISTING LOAD INTERCONNECTION(S)	1
+9.1	INTRODUCTION	1
+9.2	GENERAL PROVISIONS	2
+9.2.1	Applicability of the Large Load Interconnection Study Process	2
+9.2.2	Submission of Large Load Project Information and Initiation of the Large Load Interconnection Study (LLIS)	2
+9.2.3	Modification of Large Load Project Information	3
+9.2.4	Load Commissioning Plan	4
+9.2.5	 Required Interconnection Equipment	4
+9.3	INTERCONNECTION STUDY PROCEDURES FOR LARGE LOADS	5
+9.3.1	Large Load Interconnection Study (LLIS)	5
+9.3.2	Large Load Interconnection Study Scoping Process	6
+9.3.3	Large Load Interconnection Study Description and Methodology	7
+9.3.4.1	Steady-State Analysis	8
+9.3.4.2	System Protection (Short-Circuit) Analysis	9
+9.3.4.3	Dynamic and Transient Stability Analysis	9
+9.4	LLIS REPORT AND FOLLOW-UP	10
+9.5	INTERCONNECTION AGREEMENTS AND RESPONSIBILITIES	12
+9.6	INITIAL ENERGIZATION AND CONTINUING OPERATIONS FOR LARGE LOADS	14
+
+ 
+9	LARGE LOAD ADDITIONS AT NEW OR MODIFICATION OF EXISTING LOAD INTERCONNECTION(S) 
+9.1	Introduction
+(1)	This Section defines the requirements and processes used to facilitate new or modified Large Load interconnections with the ERCOT System.  This process will be referred to as the Large Load Interconnection Study (LLIS) process.  The requirements are designed to:
+(a)	Facilitate studies to identify potential system limitations and determine facilities needed to interconnect a new Large Load to or modify an existing Large Load on the ERCOT network;
+(b)	Facilitate orderly and organized Large Load interconnections, while allowing ERCOT to determine whether the interconnection of the proposed Large Load would comply with North American Electric Reliability Corporation (NERC) Reliability Standards, ERCOT Protocols, ERCOT Planning and Operating Guides, Transmission Service Provider (TSP) criteria, and any Applicable Legal Authority (ALA);
+(c)	Specify the communications required between Interconnecting Large Load Entities (ILLEs), TSPs, Distribution Service Providers (DSPs), Resource Entities, Interconnecting Entities (IEs), and ERCOT;
+(d)	Provide the best information on future Large Load additions for use in identifying, forecasting, and analyzing short- and long-range ERCOT capabilities, demands, and reserves; and
+(e)	Provide ERCOT accurate data about new and modified Large Load subject to the provisions detailed in section 9.2.1, Applicability of the Large Load Interconnection Study Process, to ensure that ERCOT and stakeholders have the information necessary for planning purposes.
+(2)	Submission of all project data, and other communications described in this Section shall be in the manner and format prescribed by ERCOT.  ERCOT shall publicly post the format of such submissions on the ERCOT website.
+(3)	ERCOT shall manage a confidential email list (Transmission Owner Load Interconnection) to facilitate communication of confidential Large Load-related information among TSPs and ERCOT.  Membership to this email list will be limited to ERCOT and appropriate TSP personnel.
+9.2	General Provisions
+9.2.1	Applicability of the Large Load Interconnection Study Process
+(1)	Any request to interconnect or modify a Load Facility that meets one or more of the following criteria shall be subject to the Large Load Interconnection Study (LLIS) process:
+(a)	A new Large Load;
+(b)	A modification of any existing Load Facility that increases the aggregate peak Demand of the Facility by 75 MW or more; or
+(c)	A modification of an existing Large Load that changes or adds a Point of Interconnection (POI) or Service Delivery Point to a different electrical bus on a different electrical circuit.
+9.2.2	Submission of Large Load Project Information and Initiation of the Large Load Interconnection Study (LLIS)
+(1)	For any Load request meeting one or more criteria defined in paragraph (1) of Section 9.2.1, Applicability of Large Load Interconnection Study Process, the following actions shall be completed prior to the initiation of the LLIS process described in Section 9.3, Interconnection Study Procedures for Large Loads.
+(a)	Submission of all information, including but not limited to, data required by the lead Transmission Service Provider (TSP) to perform steady state, short circuit, motor start, stability analyses and any other studies the lead TSP deems necessary to reliably interconnect the Load.  The dynamic load model to be provided for performing stability analysis will be in a format prescribed by the lead TSP and/or ERCOT;
+(b)	Submission of a preliminary Load Commissioning Plan (LCP) that fully reflects the proposed project schedule; 
+(c)	Written acknowledgement from the Interconnecting Large Load Entity (ILLE) of its obligations to notify the interconnecting TSP of changes to the Large Load project information or to the load composition, technology, or parameters, as described in Section 9.2.3, Modification of Large Load Project Information, during the interconnection process; and
+(d)	A formal request to initiate the LLIS process described in Section 9.3. 
+[PGRR115:  Insert paragraph (e) below upon system implementation of NPRR1234:]
+(e)	Payment of the LLIS Application Fee to ERCOT as described in paragraph (3).
+(2)	The interconnecting TSP shall submit the information described in paragraphs (1)(a) through (1)(d) above on behalf of the ILLE.
+[PGRR115:  Insert paragraph (3) below upon system implementation of NPRR1234:]
+(3)	The ILLE shall pay to ERCOT the LLIS Application Fee, as described in the ERCOT Fee Schedule prior to the commencement of the LLIS.  The interconnecting TSP, Resource Entity, or Interconnecting Entity (IE) may choose to submit this fee to ERCOT on the behalf of the ILLE.  Payment of the ERCOT LLIS Application Fee shall not affect the independent responsibility of the ILLE to pay for interconnection studies conducted by the interconnecting TSP or for any Distribution Service Provider (DSP) studies.
+9.2.3	Modification of Large Load Project Information
+(1)	The interconnecting TSP shall update any project information submitted per paragraph (1) of Section 9.2.2, Submission of Large Load Project Information and Initiation of the Large Load Interconnection Study (LLIS), within ten Business Days of being notified by the ILLE of a material change.
+(2)	The ILLE shall notify the lead TSP if a change to the load composition, technology, or parameters occurs after the ILLE has provided the TSP with its initial dynamic load model(s) per paragraph (2) of Section 9.3.4.3, Dynamic and Transient Stability Analysis.  If the change to load composition, technology, or parameters differ substantially from the dynamic model information used in the LLIS stability study as described in Section 9.3.4.3 is made at any time after the initiation of the LLIS, the lead TSP shall determine whether a new stability study is required and provide a written explanation of its determination to ERCOT.  The lead TSP shall perform a new stability study that reflects the new composition of the proposed Load unless ERCOT in collaboration with the lead TSP agree such a study is not needed. 
+(3)	If a material change is made such that the interconnection request no longer meets the applicability criteria of Section 9.2.1, Applicability of the Large Load Interconnection Study Process, the interconnecting TSP shall respect the conclusions of any completed LLIS study elements when evaluating the reliability of the modified interconnection request.
+9.2.4	Load Commissioning Plan
+(1)	The LCP shall be maintained and updated by the interconnecting TSP using information provided by the ILLE.  The LCP must specify the load increments and timeline by which the ILLE intends to increase peak Demand.  The plan shall reflect the most currently available project information and shall be updated upon receipt of updated project information from the ILLE and as otherwise described in this section.
+(2)	Upon the completion of the LLIS, as described in Section 9.4, LLIS Report and Follow-up, the interconnecting TSP shall update the preliminary LCP to reflect any changes in the ILLE’s timeline that are needed to account for the completion of the required transmission upgrades identified in the LLIS.  If one or more levels of Demand in the LCP are contingent on one or more transmission upgrade projects, as determined in paragraph (6) of Section 9.4, those transmission projects shall be identified in the updated LCP.
+(3)	Upon the execution of any required agreements prescribed in Section 9.5, Interconnection Agreements and Responsibilities, the interconnecting TSP shall update the LCP to reflect changes to the ILLE’s load increments and implementation timeline in the executed Interconnection Agreement.
+(4)	The interconnecting TSP shall continue to maintain the LCP after Initial Energization until the Large Load reaches its full requested peak Demand.
+9.2.5	 Required Interconnection Equipment
+(1)	Each Service Delivery Point for a Large Load not co-located with a Generation Resource, Energy Storage Resource (ESR), or Settlement Only Generator (SOG) interconnected at transmission voltage to the ERCOT System must have a permanent configuration consisting of one or more breakers capable of interrupting fault current to isolate the Large Load from the ERCOT System without interrupting flow on the associated transmission lines.  The breakers shall be under the remote control of the applicable Transmission Operator (TO).
+(2)	Each Large Load co-located with a Generation Resource, ESR, or SOG interconnected at transmission voltage to the ERCOT System must have a permanent configuration consisting of one or more breakers capable of interrupting fault current to isolate the Large Load from the ERCOT System without isolating any of the co-located generators.  The breakers shall be remotely controllable at the direction of the applicable Qualified Scheduling Entity (QSE).
+(3)	Projects with an initial LLIS submission date on or after June 1, 2025 shall not have an interconnection configuration such that any category P1 or P7 event described in the North American Reliability Corporation (NERC) Reliability Standard addressing transmission planning performance requirements results in more than 1,000 MW of consequential Load loss. 
+(a)	All Loads co-located with a Generation Resource as described in Protocol Section 10.3.2.3, Generation Netting for ERCOT-Polled Settlement Meters, shall be subject to the requirements of this paragraph. 
+(4)	Projects with an initial LLIS submission date before June 1, 2025 shall comply with the requirements of paragraph (3) of this Section if, on or after June 1, 2025 a modification to the Large Load subject to the requirements of Section 9.2.1, Applicability of the Large Load Interconnection Study Process, is made.
+9.3	Interconnection Study Procedures for Large Loads
+(1)	This Section establishes the procedures for conducting a Large Load Interconnection Study (LLIS) for new or modified Large Loads, as defined by Section 9.2.1, Applicability of the Large Load Interconnection Study Process.
+9.3.1	Large Load Interconnection Study (LLIS)
+(1)	An LLIS consists of the set of steady-state, stability, short-circuit and other relevant studies that are necessary to determine the reliability impact of a Large Load interconnection on affected Transmission Facilities and identify the Transmission Facilities that are needed to reliably interconnect the new or modified Large Load to the ERCOT System.
+(2)	If an Interconnecting Entity (IE) or Resource Entity submits a large Generation Resource interconnection request, as defined in Section 5.3, Interconnection Study Procedures for Large Generators, that also includes a co-located Large Load, the Full Interconnection Study (FIS) may be used in place of a separate LLIS.  The FIS shall reflect the full requested Load amount and conform to all study requirements detailed in Sections 5.3 and 9.3, Interconnection Study Procedures for Large Loads.  For any deadlines or timelines set out in this section that conflict with the deadlines or timelines in Sections 5.2, General Provisions, and 5.3, the deadlines or timelines in Sections 5.2 and 5.3 shall govern.
+(3)	During the LLIS, the interconnecting Transmission Service Provider (TSP) shall be the lead TSP unless otherwise designated by ERCOT during the study scoping process detailed in Section 9.3.2, Large Load Interconnection Study Scoping Process.
+(4)	For an interconnection request involving a Large Load interconnecting at distribution voltage, the LLIS shall evaluate only the proposed Load’s transmission-level impacts, if any.  The affected Distribution Service Provider (DSP) shall provide the lead TSP with all information concerning the DSP's facilities needed to complete any required studies.
+9.3.2	Large Load Interconnection Study Scoping Process
+(1)	ERCOT will notify the interconnecting TSP after all requirements detailed in paragraph (1) of Section 9.2.2, Submission of Large Load Project Information and Initiation of the Large Load Interconnection Study (LLIS), have been met.  Within ten Business Days of this notification, the lead TSP shall schedule a kick-off meeting with ERCOT and the certificated DSP to occur soon thereafter. If the proposed project is co-located with a Generation Resource, the kick-off meeting must also include the affected Resource Entity or IE.  The lead TSP shall invite the Interconnecting Large Load Entity (ILLE) to attend the kick-off meeting.  The ILLE may attend at its option.
+(2)	ERCOT will notify all other TSPs of the LLIS request.  Each TSP may evaluate if it is directly affected by the interconnection request and determine if it should participate in the LLIS.  Examples of a directly affected TSP may include, but are not limited to, a TSP whose facilities are likely to experience changes in voltage or power flow because of the Load interconnection request. 
+(3)	Each directly affected TSP desiring to participate in the LLIS shall promptly notify the lead TSP and ERCOT and must provide a description of the expected effect of the Load interconnection on the TSP’s facilities in its notification.  The lead TSP shall include all directly affected TSP(s) in the LLIS kickoff meeting.
+(4)	At the LLIS kickoff meeting, the lead TSP will present the proposed project and facilitate a general discussion of the preliminary study scope of work for the LLIS.
+(5)	Any reactive studies required under Protocol Section 3.15, Voltage Support, or Subsynchronous Oscillation (SSO) studies required under Protocol Section 3.22.1.4, Large Load Interconnection Assessment, shall be scoped simultaneously with the LLIS but do not need to be included as part of the LLIS.  The Resource Entity responsible for the reactive study shall provide it to ERCOT directly.
+(6)	The lead TSP will develop a preliminary LLIS study scope within ten Business Days following the kickoff meeting.
+(a)	The study scope must include all study elements required by Section 9.3.4, Large Load Interconnection Study Elements, unless ERCOT in collaboration with the TSP(s) determine that one or more studies are unnecessary.  If a study element is deemed unnecessary, the lead TSP shall provide a written technical justification for not performing the analysis in lieu of the study report.
+(b)	The study scope shall specify the base cases, study assumptions, and scenarios that will be used in each LLIS element.  Any transmission facilities that will not be in service before Initial Energization of the proposed Load that may significantly impact the study results, as initially identified by the lead TSP during the project kickoff meeting, shall be documented in the study scope.  All study assumptions related to maintenance outage scenarios required under Section 4.1.1.8, Maintenance Outage Reliability Criteria, shall be explicitly identified in the study scope.
+(c)	The study scope shall specify the involvement of any directly affected TSPs in the study process.  In some cases, it may be necessary for the ILLE to execute study agreements with multiple TSP(s).
+(d)	The lead TSP may propose interconnection design alternatives during the scoping process.  Such alternative options shall be fully studied in all required LLIS study elements.
+(7)	The lead TSP shall submit the preliminary study scope for review by ERCOT and all directly affected TSPs, including TSPs which may be directly affected due to proposed interconnection topology. Directly affected TSPs and ERCOT may provide comments on the preliminary study scope within ten Business Days of posting.
+(8)	Upon closing of the comment period described in paragraph (7) above, the lead TSP shall, within ten Business Days, submit a final study scope that addresses submitted comments to the extent possible.  ERCOT in collaboration with the TSP(s) shall determine the study scope.
+(9)	Within five Business Days of the lead TSP submitting the final study scope, ERCOT shall approve the final study scope or return the scope to the lead TSP with comments.  The lead TSP shall promptly address ERCOT comments and resubmit according to paragraph (8) above.
+9.3.3	Large Load Interconnection Study Description and Methodology 
+(1)	The primary purpose of the LLIS is to determine whether the amount of Load being requested by the ILLE can be placed in service by the desired Initial Energization date while maintaining the reliability of the ERCOT System and ensuring compliance with all North American Reliability Corporation (NERC) Reliability Standards, Protocols, this Planning Guide, and the Operating Guides.  The LLIS will also identify any transmission improvements needed to serve the full requested Load amount, including individual load increments requested by the ILLE in the initial Load Commissioning Plan (LCP).
+(2)	The LLIS consists of a series of distinct study elements.  The specific elements included in a particular LLIS will be stated in the LLIS scope.
+(3)	Each proposed Large Load interconnection that requests more than one physical transmission interconnection will be studied as an individual study for each interconnection to be analyzed separately from all other such requests unless otherwise agreed by the TSP(s) in the interconnection study agreement.
+(4)	The LLIS process includes developing and analyzing various computer model simulations of the existing and proposed ERCOT transmission system.  The results from these simulations will be utilized by the TSP(s) to determine the impact of the proposed interconnection.
+(5)	The study shall include an analysis demonstrating the adequate reliability of any temporary interconnection configurations.
+9.3.4	Large Load Interconnection Study Elements
+9.3.4.1	Steady-State Analysis
+(1)	The steady-state interconnection study base case shall be created from the most recently approved Steady State Working Group (SSWG) base case appropriate for the desired Initial Energization date of the Load.  The lead TSP shall remove from the study base case all Transmission Facilities it determines may significantly impact study results that will not be in service before Initial Energization of the proposed Load, as identified in the preliminary LLIS study scope.  The steady-state analysis shall include other relevant Large Loads and any transmission upgrades included in the LCPs for those Large Loads that have a complete LLIS per paragraph (6) of Section 9.4, LLIS Report and Follow-up, and that have met the requirements of Section 9.5, Interconnection Agreements and Responsibilities.  The lead TSP may include other transmission projects and Substantiated Load in the study base case.  All modifications to the SSWG base case made as part of the study assumptions shall be documented in the LLIS report.
+(2)	The lead TSP shall perform contingency analyses as required by the NERC Reliability Standards, ERCOT Nodal Protocols, this Planning Guide, and the Operating Guides to identify any additional Facilities that may be necessary to ensure that results of the system performance conform to these standards.  The study shall identify any system limitations that would prevent the ILLE from achieving the requested load in the desired timeframe.  If the study identifies system limitations, the lead TSP shall identify potential transmission system improvements necessary to achieve the requested Load.  The results of this analysis shall be shared with TSP(s) that have Facilities identified with planning criteria violations, and those affected TSP(s) will be responsible for evaluating the impact of the Large Load and the validity of the anticipated violations.
+(3)	Upon completion of the steady-state study as described in paragraph (2) above, the lead TSP shall identify any modifications to the levels of Demand and timeline specified in the ILLE’s initial LCP that are needed to account for all transmission upgrades required to support the full requested amount of Load.
+9.3.4.2	System Protection (Short-Circuit) Analysis
+(1)	The short-circuit study shall use the most recently approved System Protection Working Group (SPWG) base case appropriate for the desired Initial Energization date of the Load.  The initial transmission configuration of the study area shall correspond to the configuration used in the corresponding steady-state study to the extent practicable.
+(2)	The lead TSP will determine the maximum available fault currents at the interconnection substation for determining switching device interrupting capabilities and protective relay settings.
+9.3.4.3	Dynamic and Transient Stability Analysis
+(1)	The lead TSP shall not initiate the stability study prior to receiving from the ILLE dynamic load modeling information sufficient to properly model the load in the stability studies.  The TSP shall check the dynamic load information according to the procedure specified in Section 3.4.4, Load Model Data, of the Dynamics Working Group Procedure Manual.  
+(2)	The stability study base case shall be created from the most recently approved Dynamics Working Group (DWG) base case appropriate for the desired Initial Energization date of the Load.  The initial transmission configuration of the study area shall be consistent with the configuration used in the corresponding steady-state study to the extent practicable.
+(3)	All stability studies shall be performed in accordance with NERC Reliability Standards, Protocols, this Planning Guide, and the Operating Guides.  Transient stability studies will analyze the performance of the ERCOT System in terms of angular stability, voltage stability, and excessive frequency excursions.  Additional studies may include small signal stability or critical clearing time analyses.  Such studies should incorporate reasonable and conservative assumptions regarding impacted facility operating conditions.  ERCOT in collaboration with the TSP(s) shall determine the stability analysis to be performed.
+(4)	The stability study portion of the LLIS shall document any identified instability.
+(5)	If the lead TSP identifies instability (other than instability identified for extreme events) in the stability portion of the LLIS, the TSP shall investigate alternative solutions, including transmission improvements, to mitigate the instability.  The lead TSP shall identify any modifications to the levels of Demand and the timeline specified in the ILLE’s initial LCP that are needed to account for all transmission upgrades required to support the full requested amount of Load.  The TSP shall implement any mitigation measure that may be needed to address a stability risk before the Initial Energization of the Large Load in accordance with Protocol Section 3.11.4, Regional Planning Group Project Review Process.
+9.4	LLIS Report and Follow-up
+(1)	For each of the Large Load Interconnection Study (LLIS) study elements, the lead Transmission Service Provider (TSP) shall submit a preliminary study report to ERCOT and other directly affected TSPs.  The report shall include a description of the study methodology and assumptions, findings, and recommendations.  The report shall also identify any changes to the Interconnecting Large Load Entity’s (ILLE’s) Load Commissioning Plan (LCP) to allow for transmission upgrades in accordance with the criteria in Section 9.3.4, Large Load Interconnection Study Elements.  The lead TSP may include additional information in the study report and may combine multiple LLIS study elements into a single report.
+(2)	ERCOT shall review the preliminary study report within ten Business Days and provide to the lead TSP any questions, comments, and proposed revisions necessary to ensure the report complies with the requirements in Section 9.3, Interconnection Study Procedures for Large Loads.  ERCOT may extend this review period by an additional 20 Business Days and shall notify in writing the lead and directly affected TSPs of the extension.  Directly affected TSPs may also provide questions, comments, and proposed revisions during this review period.  All comments from ERCOT and directly affected TSPs shall be provided to the lead TSP in writing.
+(3)	If, after considering the responses received from ERCOT and directly affected TSPs, ERCOT in collaboration with the lead TSP determines if an additional study is required, the lead TSP shall promptly perform the additional study and submit an updated preliminary study report for review as described in paragraph (1) above. 
+(4)	If no additional study is required as described in paragraph (3) above, the lead TSP shall prepare a final LLIS study report that incorporates all relevant feedback received in paragraph (2) above within ten Business Days. 
+(5)	When complete, the lead TSP shall provide the final report for the LLIS study element(s) to ERCOT and the directly affected TSPs only. 
+(6)	The LLIS is deemed complete when the final report has been provided for all LLIS study elements.  Within ten Business Days following the completion of the LLIS, ERCOT shall: 
+(a)	Determine whether system upgrades recommended to support the full requested Load amount specified in the initial LCP are sufficient based on the report in paragraph (5) above;
+(b)	Grant conditional approval for the interconnection of Load in accordance with the schedule in the final LCP, as may be revised by the TSP, as the necessary transmission upgrades identified in the LCP become operational, if ERCOT has determined pursuant to paragraph (a) above that the system upgrades recommended in the LLIS are sufficient to address the reliability risks associated with the proposed load additions;
+(i)	For transmission upgrades that are subject to Regional Planning Group (RPG) review as described in Protocol Section 3.11.4, Regional Planning Group Project Review Process, ERCOT shall grant conditional approval if it determines that a project with an equivalent impact on the ability to serve the requested Load has become operational; and
+(c)	Communicate the completion of the LLIS and the resulting LCP to the lead TSP and directly affected TSPs.
+(7)	The lead TSP may provide a redacted copy of the final report for each LLIS study element to the ILLE upon request.  The redacted report(s) shall conform with Protocol Section 1.3, Confidentiality.
+(8)	If a material change that impacts one or more LLIS study assumptions occurs before the requirements of Section 9.5, Interconnection Agreements and Responsibilities, have been met, ERCOT or the lead TSP may require one or more LLIS study elements be updated.  ERCOT in collaboration with the lead TSP shall have discretion to determine if a change impacts any LLIS study assumptions and to require a modification of the study or a restudy be performed.  Any modification of the study report shall be treated as a preliminary study and reviewed according to paragraph (1) above.
+(9)	If the requirements of Section 9.5, have not been satisfied within 180 days after the communication of the completion of the LLIS by ERCOT as described in paragraph (6) above, ERCOT may notify the lead TSP that the project is subject to cancellation.  Upon receipt of this notification, the lead TSP may submit a project status update to ERCOT that includes a request for an extension and provides an opinion on whether any of the completed LLIS elements require restudy.  If no such project status update is received within 30 days from the date the notice is issued, ERCOT may consider the project canceled.
+(10)	If the Large Load has not met the requirements for Initial Energization as described in paragraph (1) of Section 9.6, Initial Energization and Continuing Operations for Large Loads, within 365 days after the Initial Energization date identified in the LLIS study report, the lead TSP shall provide an opinion to ERCOT on whether any of the completed LLIS elements require restudy.  ERCOT may require one or more LLIS study elements be updated prior to approval of Initial Energization.
+9.5	Interconnection Agreements and Responsibilities
+9.5.1	Interconnection Agreement for Large Loads not Co-Located with a Generation Resource Facility
+(1)	For a Large Load not co-located with a Generation Resource Facility, ERCOT shall not allow Initial Energization prior to receiving one of the following:
+(a)	Confirmation from the interconnecting Transmission Service Provider (TSP) that:
+(i)	All required interconnection agreements or equivalent service extension agreements with the Interconnecting Large Load Entity (ILLE) and, if applicable, directly affected TSP(s) have been executed; 
+(ii)	The interconnecting TSP has received written acknowledgement from the ILLE of the ILLE’s obligations to:
+(A)	Notify the interconnecting TSP of changes to the Large Load project information or to the load composition, technology, or parameters, as described in Section 9.2.3, Modification of Large Load Project Information; and
+(B)	Maintain Load consumption at or below the level(s) of peak Demand established in the Load Commissioning Plan (LCP);
+(iii)	The interconnecting TSP has received notice to proceed with the construction of all required interconnection Facilities; and
+(iv)	The interconnecting TSP and, if applicable, directly affected TSP(s) have received the financial security, applicable payments, and/or other agreements required to fund all required interconnection Facilities; or
+(b)	A letter from a duly authorized person from a Municipally Owned Utility (MOU) or Electric Cooperative (EC) confirming its intent to construct and operate applicable Large Load and interconnect such Large Load to its transmission system.
+9.5.2	Interconnection Agreement for Large Loads Co-Located with One or More Generation Resource Facilities
+(1)	For a Large Load co-located with a Generation Resource Facility, ERCOT shall not allow Initial Energization prior to receiving one of the following:
+(a)	Confirmation from the interconnecting TSP that:
+(i)	All required interconnection agreements and/or equivalent service extension or other agreements with the Resource Entity, Interconnecting Entity (IE), and ILLE have been executed; 
+(A)	If the required agreements include a new Standard Generation Interconnection Agreement (SGIA) or an amendment to an existing SGIA, a copy of this agreement shall be provided to ERCOT once executed, per Section 5.2.8.1, Standard Generation Interconnection Agreement for Transmission-Connected Generators; or
+(B)	If no new or amended agreements are required, the interconnecting TSP shall so notify ERCOT and state affirmatively it agrees to energize the new Load per the approved LLIS studies;
+(ii)	The interconnecting TSP has received written acknowledgement from either the ILLE, or the Resource Entity on behalf of the ILLE, of the obligations to:
+(A)	Notify the interconnecting TSP of changes to the Large Load project information or to the load composition, technology, or parameters, as described in Section 9.2.3, Modification of Large Load Project Information; and
+(B)	Maintain Load consumption at or below the level(s) of peak Demand established in the LCP; and
+(iii)	The interconnecting TSP has received notice to proceed with the construction of all required interconnection Facilities; and
+(iv)	The interconnecting TSP and, if applicable, directly affected TSP(s) have received the financial security required, applicable payments, and/or other agreements to fund all required interconnection Facilities; or
+(b)	A letter from a duly authorized person from a MOU or EC confirming its intent to construct and operate applicable Large Load and interconnect such Large Load to its transmission system.
+9.6	Initial Energization and Continuing Operations for Large Loads
+(1)	Each Large Load shall meet the conditions established by ERCOT before proceeding to Initial Energization.  These conditions may include, but are not limited to:
+(a)	Inclusion of the Load in the Network Operations Model in accordance with Section 6.6, Modeling of Large Loads;
+(b)	Verification that all required telemetry is operational and accurate;
+(c)	Completion of the requirements of Section 5.3.5, ERCOT Quarterly Stability Assessment;
+(d)	Completion and approval of any required Subsynchronous Oscillation (SSO) studies, SSO Mitigation plan, SSO Countermeasures, and SSO monitoring, if required; and
+(e)	Submission of a current Load Commissioning Plan (LCP) meeting the requirements of Section 9.2.4, Load Commissioning Plan.
+(2)	During continuing operations:
+(a)	The interconnecting Transmission Service Provider (TSP) or, if applicable, the Resource Entity shall notify ERCOT if it identifies that a Large Load has exceeded a limit on peak Demand established in the Large Load Interconnection Study (LLIS) and LCP. 
+(b)	The applicable TSP shall notify ERCOT when a transmission upgrade identified in an LCP becomes operational.  ERCOT must give written approval before Demand may increase.
+(c)	Pursuant to Section 9.5, Interconnection Agreements and Responsibilities, if a Large Load modifies its facilities such that a previously provided dynamic load model is invalid, the Large Load shall notify and provide an updated model to the Transmission and/or Distribution Service Provider (TDSP) that provides service to the Large Load.  The TDSP shall subsequently provide this updated dynamic load model to ERCOT.
+
