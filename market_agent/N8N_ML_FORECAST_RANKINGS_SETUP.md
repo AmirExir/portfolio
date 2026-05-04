@@ -117,6 +117,7 @@ If you want the scheduled node to precompute the optimized model comparison for 
 ```bash
 --horizon 30
 --short-horizons 1
+--short-sequence-model both
 --history-days 913
 --primary-model "Best Validation"
 --pattern-short-window 20

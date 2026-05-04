@@ -184,6 +184,7 @@ def compact_short_horizon_reports(short_horizon_reports: list[dict]) -> list[dic
         compact_reports.append(
             {
                 "horizon_days": short_report.get("horizon_days"),
+                "sequence_model": short_report.get("sequence_model"),
                 "top_buys": buys[:10],
                 "top_sells": sells[:10],
                 "errors": (short_report.get("errors") or [])[:10],
@@ -232,6 +233,13 @@ def sequence_model_from_args(args: argparse.Namespace) -> str:
     if primary == "Transformer":
         return "transformer"
     return str(getattr(args, "sequence_model", "off") or "off").strip().lower()
+
+
+def short_sequence_model_from_args(args: argparse.Namespace) -> str:
+    short_sequence_model = str(getattr(args, "short_sequence_model", "same") or "same").strip().lower()
+    if short_sequence_model in {"off", "lstm", "transformer", "both"}:
+        return short_sequence_model
+    return sequence_model_from_args(args)
 
 
 def request_text_from_args(args: argparse.Namespace) -> str:
@@ -409,10 +417,12 @@ def run_short_horizon_reports(args: argparse.Namespace) -> list[dict]:
     for horizon in parse_horizons(getattr(args, "short_horizons", ""), getattr(args, "horizon", None)):
         horizon_args = argparse.Namespace(**vars(args))
         horizon_args.horizon = horizon
+        horizon_args.sequence_model = short_sequence_model_from_args(args)
         rows, errors, snapshots, timings = run_rankings(horizon_args)
         reports.append(
             {
                 "horizon_days": horizon,
+                "sequence_model": sequence_model_from_args(horizon_args),
                 "rows": rows,
                 "errors": errors,
                 "snapshots": snapshots,
@@ -511,6 +521,7 @@ def build_market_report(
         lines.extend(["Short-Term Forecast Signals"])
         for short_report in short_horizon_reports:
             horizon = int(short_report.get("horizon_days", 0) or 0)
+            short_sequence_model = short_report.get("sequence_model") or short_sequence_model_from_args(args)
             short_rows = short_report.get("rows") or []
             short_sorted = sorted(
                 short_rows,
@@ -523,7 +534,7 @@ def build_market_report(
                 key=lambda r: float(row_value(r, "Score", default=0.0)),
             )
             horizon_label = f"{horizon} trading day" + ("" if horizon == 1 else "s")
-            lines.append(horizon_label)
+            lines.append(f"{horizon_label} | sequence model: {short_sequence_model}")
             if short_buys:
                 lines.append("Buys: " + " ; ".join(format_row(row) for row in short_buys[:3]))
             else:
@@ -614,6 +625,7 @@ def write_outputs(
         "sequence_model": sequence_model,
         "include_rl_policy": include_rl_policy,
         "no_rl_policy": no_rl_policy_from_args(args),
+        "short_sequence_model": short_sequence_model_from_args(args),
         "symbols": symbols,
         "cache_key": build_cache_key(
             symbols,
@@ -694,6 +706,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--history-days", type=int, default=913)
     parser.add_argument("--horizon", type=int, default=30)
     parser.add_argument("--short-horizons", default="", help="Optional comma-separated extra horizons, such as 1.")
+    parser.add_argument(
+        "--short-sequence-model",
+        choices=["same", "off", "lstm", "transformer", "both"],
+        default="same",
+        help="Sequence model for --short-horizons. Use both to enable LSTM and Transformer on the 1-day report.",
+    )
     parser.add_argument("--lookback", type=int, default=20)
     parser.add_argument("--ridge-alpha", type=float, default=10.0)
     parser.add_argument("--pattern-short-window", type=int, default=20)

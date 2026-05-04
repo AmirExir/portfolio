@@ -722,6 +722,7 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
     display_columns = [
         "Rank",
         "Horizon",
+        "Sequence Model",
         "Symbol",
         "Model Call",
         "Primary Pattern",
@@ -793,6 +794,7 @@ def scheduled_short_horizon_table(
             horizon_df = horizon_df.sort_values("Score", ascending=False)
         horizon_df = horizon_df.head(max_rows_per_horizon).copy()
         horizon_df.insert(0, "Horizon", horizon_label)
+        horizon_df.insert(1, "Sequence Model", short_report.get("sequence_model") or "")
         frames.append(horizon_df)
 
     if not frames:
@@ -1547,6 +1549,19 @@ if primary_model_choice == "LSTM":
     sequence_model_choice = "lstm"
 elif primary_model_choice == "Transformer":
     sequence_model_choice = "transformer"
+one_day_sequence_model_label = st.sidebar.selectbox(
+    "1-day sequence model",
+    ["Both", "LSTM", "Transformer", "Off", "Same as 30-day"],
+    index=0,
+    help="Controls the next-trading-day forecast only. Both enables LSTM and Transformer for the 1-day model.",
+)
+one_day_sequence_model_choice = {
+    "Both": "both",
+    "LSTM": "lstm",
+    "Transformer": "transformer",
+    "Off": "off",
+    "Same as 30-day": sequence_model_choice,
+}[one_day_sequence_model_label]
 include_rl_policy = st.sidebar.checkbox(
     "Include RL policy",
     value=primary_model_choice == "RL Policy",
@@ -1864,17 +1879,26 @@ with top_analysis_tab:
             else:
                 fallback_symbols = scheduled_one_day_fallback_symbols(latest_ml_payload)
                 fallback_state = st.session_state.get("scheduled_one_day_fallback", {})
-                fallback_rows = fallback_state.get("rows") if fallback_state.get("source_generated_at") == generated_at else None
-                fallback_errors = fallback_state.get("errors", []) if fallback_state.get("source_generated_at") == generated_at else []
+                fallback_cache_matches = (
+                    fallback_state.get("source_generated_at") == generated_at
+                    and fallback_state.get("sequence_model") == one_day_sequence_model_choice
+                )
+                fallback_rows = fallback_state.get("rows") if fallback_cache_matches else None
+                fallback_errors = fallback_state.get("errors", []) if fallback_cache_matches else []
 
                 if fallback_rows:
                     st.markdown("**1-Day Scheduled Rankings**")
                     st.caption(
-                        "Live fallback: next-trading-day model run for top scheduled symbols while waiting for n8n to write the stored 1D report."
+                        "Live fallback: next-trading-day model run for top scheduled symbols while waiting for n8n to write the stored 1D report. "
+                        f"Sequence model: {one_day_sequence_model_choice}."
                     )
                     fallback_df = pd.DataFrame(fallback_rows)
                     if not fallback_df.empty and "Score" in fallback_df.columns:
                         fallback_df = fallback_df.sort_values("Score", ascending=False)
+                    if not fallback_df.empty and "Horizon" not in fallback_df.columns:
+                        fallback_df.insert(0, "Horizon", "1D")
+                    if not fallback_df.empty and "Sequence Model" not in fallback_df.columns:
+                        fallback_df.insert(1, "Sequence Model", one_day_sequence_model_choice)
                     st.dataframe(format_ranking_table(fallback_df), use_container_width=True)
                 else:
                     st.info(
@@ -1885,6 +1909,7 @@ with top_analysis_tab:
                         st.caption(
                             f"Fast page fallback will rank the top {len(fallback_symbols)} symbols from the latest 30-day scheduled run: "
                             + ", ".join(fallback_symbols)
+                            + f". Sequence model: {one_day_sequence_model_choice}."
                         )
                     if fallback_symbols and st.button("Run 1-Day Scheduled Ranking Now", key="run_scheduled_one_day_now"):
                         with st.spinner("Computing real 1-day ML ranking..."):
@@ -1896,7 +1921,7 @@ with top_analysis_tab:
                                 forecast_alpha,
                                 optimize_forecast_model,
                                 use_market_context,
-                                sequence_model_choice,
+                                one_day_sequence_model_choice,
                                 include_rl_policy,
                                 primary_model_choice,
                                 st.session_state["ranking_refresh_nonce"],
@@ -1904,12 +1929,17 @@ with top_analysis_tab:
                         fallback_records = fallback_df.to_dict("records") if not fallback_df.empty else []
                         st.session_state["scheduled_one_day_fallback"] = {
                             "source_generated_at": generated_at,
+                            "sequence_model": one_day_sequence_model_choice,
                             "rows": fallback_records,
                             "errors": fallback_errors,
                         }
                         st.markdown("**1-Day Scheduled Rankings**")
                         if not fallback_df.empty and "Score" in fallback_df.columns:
                             fallback_df = fallback_df.sort_values("Score", ascending=False)
+                        if not fallback_df.empty and "Horizon" not in fallback_df.columns:
+                            fallback_df.insert(0, "Horizon", "1D")
+                        if not fallback_df.empty and "Sequence Model" not in fallback_df.columns:
+                            fallback_df.insert(1, "Sequence Model", one_day_sequence_model_choice)
                         st.dataframe(format_ranking_table(fallback_df), use_container_width=True)
 
                 if fallback_errors:
@@ -2438,7 +2468,7 @@ try:
             short_signal_errors = []
             for short_horizon in SHORT_TERM_SIGNAL_HORIZONS:
                 try:
-                    if int(short_horizon) == int(forecast_horizon):
+                    if int(short_horizon) == int(forecast_horizon) and one_day_sequence_model_choice == sequence_model_choice:
                         short_model_results = model_results
                     else:
                         short_model_results = cached_model_results(
@@ -2449,7 +2479,7 @@ try:
                             forecast_alpha,
                             optimize_forecast_model,
                             use_market_context,
-                            sequence_model_choice,
+                            one_day_sequence_model_choice,
                             include_rl_policy,
                             tuple(selected_forecast_symbols),
                             st.session_state["symbol_refresh_nonce"],
@@ -2463,7 +2493,8 @@ try:
             if short_signal_rows:
                 st.markdown("**1-Day ML Signal**")
                 st.caption(
-                    "This is a separate direct forecast for the next trading day, not a slice of the 30-day forecast."
+                    "This is a separate direct forecast for the next trading day, not a slice of the 30-day forecast. "
+                    f"Sequence model: {one_day_sequence_model_choice}."
                 )
                 short_signal_table = pd.DataFrame(short_signal_rows)
                 st.dataframe(
