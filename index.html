@@ -451,7 +451,6 @@
     (function(){
       const viewport = document.getElementById('LicenseandCertificateViewreport');
       const slides = viewport ? viewport.children : [];
-      const dotsContainer = document.getElementById('LicenseandCertificateViewreport');
       let idx = 0;
       const total = slides.length;
       let autoplay = true;
@@ -466,8 +465,6 @@
 
       function next(){ show(idx+1); }
       function prev(){ show(idx-1); }
-
-      if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
 
       const left = document.querySelector('.fun-gallery .nav.left');
       const right = document.querySelector('.fun-gallery .nav.right');
