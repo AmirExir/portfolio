@@ -443,12 +443,50 @@
        style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
 </a>
 
+
+
 <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;"> 
+ 
+  <script>
+    (function(){
+      const viewport = document.getElementById('LicenseandCertificateViewreport');
+      const slides = viewport ? viewport.children : [];
+      const dotsContainer = document.getElementById('LicenseandCertificateViewreport');
+      let idx = 0;
+      const total = slides.length;
+      let autoplay = true;
+      let autoplayTimer = null;
 
+      function show(i){
+        idx = (i + total) % total;
+        const offset = -idx * 100;
+        viewport.style.transform = `translateX(${offset}%)`;
+        if(dotsContainer){ Array.from(dotsContainer.children).forEach((d, di) => d.classList.toggle('active', di===idx)); }
+      }
 
+      function next(){ show(idx+1); }
+      function prev(){ show(idx-1); }
+
+      if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
+
+      const left = document.querySelector('.fun-gallery .nav.left');
+      const right = document.querySelector('.fun-gallery .nav.right');
+      left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
+      right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
+
+      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+
+      function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
+      function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
+
+      show(0);
+      startAutoplay();
+    })();
+  </script>
+  
   <div class="fun-gallery" aria-label="License and Certificate">
     <button class="nav left" aria-label="Previous slide">‹</button>
-      <div class="viewport" id="License_and_Certificate">
+      <div class="viewport" id="LicenseandCertificateViewreport">
         <div class="slide"><img src="pe.png" alt="PE License"></div>
         <div class="slide"><img src="Masters.png" alt="Masters"></div>
         <div class="slide"><img src="NERC.png" alt="NERC Cert"></div>
