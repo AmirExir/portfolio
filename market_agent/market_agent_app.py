@@ -470,7 +470,7 @@ SYMBOL_OPTIONS = [
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
     "SPY", "VOO", "QQQ", "IWM", "DIA", "GLD", "SLV", "USO", "TLT",
-    "XLK", "XLF", "XLE", "XLV", "XLY",
+    "XLK", "XLF", "XLE", "XLV", "XLY","SNDK",
     "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
     "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "FLOKI-USD", "PEPE-USD",
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
@@ -1992,7 +1992,7 @@ with top_analysis_tab:
     tickers = [
         "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
         "UNH", "XOM", "V", "JNJ", "WMT", "PG", "KO", "HD", "BAC", "CVX",
-        "LLY", "PEP", "AVGO"
+        "LLY", "PEP", "AVGO",'SNDK'
     ]
 
     try:
