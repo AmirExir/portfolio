@@ -471,8 +471,48 @@
 
   <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
 
-  
+<!--  AELab – Power System Analysis Suite -->
+<h2 id="aelab-suite" class="slide-up hover-scale" style="text-align: center;"> AELab – Power System Analysis Suite</h2>
+<p style="max-width: 800px; margin: 0 auto; text-align: center;">
+  AELab is a Python-based GUI that automates key PSS®E workflows for power system engineers, 
+  including contingency analysis, dynamic simulation, transmission project reporting, and IDV generation. 
+  Built using AI-assisted development and real-world experience at LCRA and ERCOT.
+</p>
 
+<!-- AELab Gallery Carousel -->
+<div id="aelab-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
+  <style>
+    .aelab-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+    .aelab-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
+    .aelab-gallery .slide { min-width: 100%; box-sizing: border-box; padding: 14px; display:flex; justify-content:center; align-items:center; }
+    .aelab-gallery .slide img { max-width: 100%; height: auto; display:block; border-radius:8px; }
+    .aelab-gallery .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; display: flex; align-items:center; justify-content:center; cursor:pointer; border: none; font-size: 24px; }
+    .aelab-gallery .nav.left { left: 10px; }
+    .aelab-gallery .nav.right { right: 10px; }
+    .aelab-gallery .dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
+    .aelab-gallery .dot { width:10px; height:10px; border-radius:50%; background:#ddd; cursor:pointer; }
+    .aelab-gallery .dot.active { background:#00bfff; }
+    @media (min-width:700px){ .aelab-gallery .slide { padding:18px; } }
+  </style>
+
+  <div class="aelab-gallery" aria-label="AELab screenshots gallery">
+    <button class="nav left" aria-label="Previous slide">‹</button>
+    <div class="viewport" id="aelabGalleryViewport">
+      <div class="slide"><img src="AELabACCC.png" alt="ACCC Analysis"></div>
+      <div class="slide"><img src="AELabContingencyGenerator.png" alt="Contingency Generator"></div>
+      <div class="slide"><img src="AELabACCCThermalResults.png" alt="Thermal Results"></div>
+      <div class="slide"><img src="AELABACCVOLTAGERESULTS.png" alt="Voltage Results"></div>
+      <div class="slide"><img src="AELABVOLTAGEVIOLATIONEXCEL.png" alt="Voltage Violations Excel"></div>
+      <div class="slide"><img src="AELabThermalViolationsExcel.png" alt="Thermal Violations Excel"></div>
+      <div class="slide"><img src="AELabDARKMODE.png" alt="Dark Mode"></div>
+      <div class="slide"><img src="AELabDynamicSimResults.png" alt="Dynamic Results"></div>
+      <div class="slide"><img src="AELabDynamicPlots.png" alt="Dynamic Plots"></div>
+      <div class="slide"><img src="AELabIDVGenerator.png" alt="IDV Generator"></div>
+      <div class="slide"><img src="AELabTPIT.png" alt="TPIT Tool"></div>
+    </div>
+    <button class="nav right" aria-label="Next slide">›</button>
+  </div>
+<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
     <h2 style="text-align: center; font-size: 2.2em; margin-top: 2rem;">
       Amir Exir’s Interactive AI Projects
     </h2>
@@ -881,47 +921,7 @@ This project combines real-time market data, AI-generated buy/sell recommendatio
  <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
 </div> <!-- CLOSE .section after GUI Demo -->
 
-<!--  AELab – Power System Analysis Suite -->
-<h2 id="aelab-suite" class="slide-up hover-scale" style="text-align: center;"> AELab – Power System Analysis Suite</h2>
-<p style="max-width: 800px; margin: 0 auto; text-align: center;">
-  AELab is a Python-based GUI that automates key PSS®E workflows for power system engineers, 
-  including contingency analysis, dynamic simulation, transmission project reporting, and IDV generation. 
-  Built using AI-assisted development and real-world experience at LCRA and ERCOT.
-</p>
 
-<!-- AELab Gallery Carousel -->
-<div id="aelab-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
-  <style>
-    .aelab-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
-    .aelab-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
-    .aelab-gallery .slide { min-width: 100%; box-sizing: border-box; padding: 14px; display:flex; justify-content:center; align-items:center; }
-    .aelab-gallery .slide img { max-width: 100%; height: auto; display:block; border-radius:8px; }
-    .aelab-gallery .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; display: flex; align-items:center; justify-content:center; cursor:pointer; border: none; font-size: 24px; }
-    .aelab-gallery .nav.left { left: 10px; }
-    .aelab-gallery .nav.right { right: 10px; }
-    .aelab-gallery .dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
-    .aelab-gallery .dot { width:10px; height:10px; border-radius:50%; background:#ddd; cursor:pointer; }
-    .aelab-gallery .dot.active { background:#00bfff; }
-    @media (min-width:700px){ .aelab-gallery .slide { padding:18px; } }
-  </style>
-
-  <div class="aelab-gallery" aria-label="AELab screenshots gallery">
-    <button class="nav left" aria-label="Previous slide">‹</button>
-    <div class="viewport" id="aelabGalleryViewport">
-      <div class="slide"><img src="AELabACCC.png" alt="ACCC Analysis"></div>
-      <div class="slide"><img src="AELabContingencyGenerator.png" alt="Contingency Generator"></div>
-      <div class="slide"><img src="AELabACCCThermalResults.png" alt="Thermal Results"></div>
-      <div class="slide"><img src="AELABACCVOLTAGERESULTS.png" alt="Voltage Results"></div>
-      <div class="slide"><img src="AELABVOLTAGEVIOLATIONEXCEL.png" alt="Voltage Violations Excel"></div>
-      <div class="slide"><img src="AELabThermalViolationsExcel.png" alt="Thermal Violations Excel"></div>
-      <div class="slide"><img src="AELabDARKMODE.png" alt="Dark Mode"></div>
-      <div class="slide"><img src="AELabDynamicSimResults.png" alt="Dynamic Results"></div>
-      <div class="slide"><img src="AELabDynamicPlots.png" alt="Dynamic Plots"></div>
-      <div class="slide"><img src="AELabIDVGenerator.png" alt="IDV Generator"></div>
-      <div class="slide"><img src="AELabTPIT.png" alt="TPIT Tool"></div>
-    </div>
-    <button class="nav right" aria-label="Next slide">›</button>
-  </div>
 
   <div class="dots" id="aelabGalleryDots" style="margin-top:6px; display:flex; justify-content:center;"></div>
 
