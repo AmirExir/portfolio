@@ -1,0 +1,41 @@
+Here are today’s business headlines in concise, market-focused bullets, with **Facts** separated from **Interpretation**:
+
+- **Oil / Middle East / Markets**
+  - **Facts:** Bloomberg says oil moved sharply on heightened Strait of Hormuz tensions after Iran reportedly attacked a tanker with drones; Trump said the U.S. would begin guiding ships through the waterway. CNBC says Dow futures fell about 150 points as oil spiked, while the S&P 500 was little changed and the Russell 2000 hit an intraday record.
+  - **Interpretation:** Energy price volatility and shipping risk are the clearest near-term macro market drivers; higher oil could pressure equities if disruptions worsen.
+
+- **Airlines / Travel disruption**
+  - **Facts:** Financial Times reports airlines are cutting flights amid rising fuel-shortage fears tied to the Middle East crisis. Separate non-core coverage also points to stress around airline operations and fuel costs.
+  - **Interpretation:** Airline stocks and broader travel names could face pressure from both higher fuel prices and operational disruption.
+
+- **eBay / GameStop / Ryan Cohen**
+  - **Facts:** AP reports GameStop, led by Ryan Cohen, is pursuing an approximately **$56 billion** takeover of eBay; eBay shares surged premarket on the news.
+  - **Interpretation:** This is a major event-driven mover for eBay and potentially GameStop; investors may question financing, strategic fit, and execution.
+
+- **American Express Global Business Travel**
+  - **Facts:** WSJ reports American Express Global Business Travel entered a **$6.3 billion** take-private deal.
+  - **Interpretation:** Another sign private equity / dealmaking remains active despite macro uncertainty.
+
+- **SAP / AI-data infrastructure**
+  - **Facts:** SAP announced it will acquire **Dremio**, a data lakehouse platform, to unify SAP and non-SAP data for AI use cases.
+  - **Interpretation:** The deal reinforces that enterprise software vendors are still spending to strengthen AI and data-stack capabilities.
+
+- **Anthropic / AI financing**
+  - **Facts:** WSJ reports Anthropic is nearing a **$1.5 billion** joint venture with Wall Street firms including Blackstone, Hellman & Friedman, and Goldman Sachs.
+  - **Interpretation:** Investor appetite for AI infrastructure and commercialization remains strong, especially for private-market leaders.
+
+- **Biotech M&A**
+  - **Facts:** Endpoints reports UCB will acquire **Candid Therapeutics** for **$2 billion upfront**, with possible additional milestone payments.
+  - **Interpretation:** Large pharma continues to use acquisitions to add pipeline assets, supporting sentiment in biotech dealmaking.
+
+- **Cross-asset reaction**
+  - **Facts:** Some coverage says crypto rallied while oil later pared gains or slipped after Trump’s shipping-security announcement in Hormuz.
+  - **Interpretation:** Markets may be oscillating between pricing in immediate geopolitical risk and relief that the U.S. is moving to protect shipping lanes.
+
+- **Items with limited market relevance from this list**
+  - **Facts:** Several links are opinion, consumer, or off-market stories, including Teacher Appreciation promotions, airline incident videos, and stock commentary pieces.
+  - **Interpretation:** These are unlikely to be primary market movers compared with oil, M&A, and AI capital/deal activity.
+
+**Bottom line:**  
+- **Biggest likely market movers today:** **Hormuz/oil tensions**, **eBay takeover bid**, and **major AI/M&A announcements**.  
+- **Most important macro watchpoint:** whether oil and shipping disruption keep escalating or stabilize.
