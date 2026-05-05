@@ -1069,8 +1069,11 @@ This project combines real-time market data, AI-generated buy/sell recommendatio
 
       if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
 
-      const left = document.querySelector('.fun-gallery .nav.left');
-      const right = document.querySelector('.fun-gallery .nav.right');
+
+      const container = viewport.closest('.fun-gallery');
+      const left = container.querySelector('.nav.left');
+      const right = container.querySelector('.nav.right');
+
       left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
       right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
 
