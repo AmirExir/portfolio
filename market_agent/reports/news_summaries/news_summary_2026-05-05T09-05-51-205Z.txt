@@ -1,0 +1,55 @@
+Here are today’s business headlines, focused on likely market movers and clearly separating **facts** from **interpretation**:
+
+## Facts
+- **Oil/geopolitics:**  
+  - **OPEC+** said seven member countries will make a **modest production increase starting in June**.  
+  - The move comes while **Iran retains a chokehold on the Strait of Hormuz**, a key global oil shipping route.  
+  - Source: AP
+
+- **Energy/inflation:**  
+  - **U.S. gasoline prices rose more than 30 cents per gallon in the past week**, according to NPR’s report.  
+  - Source report ties the rise to the **Iran war and the Strait of Hormuz closure**.  
+  - Source: NPR
+
+- **Fed commentary:**  
+  - Minneapolis Fed President **Neel Kashkari** said the **Iran conflict raises inflation risks** and makes the outlook for **rate cuts more uncertain**.  
+  - Source: Yahoo Finance / Investing.com
+
+- **U.S. markets:**  
+  - **U.S. stock futures were mostly higher** early Monday.  
+  - Investors were watching **Middle East developments** after the **S&P 500 and Nasdaq hit fresh records Friday**.  
+  - Source: CNBC
+
+- **Major M&A proposal:**  
+  - **GameStop** is proposing a roughly **$56 billion cash-and-stock takeover of eBay**, according to Bloomberg.  
+  - Source: Bloomberg
+
+- **AI/finance deal:**  
+  - **Anthropic** is nearing a **$1.5 billion joint venture with Wall Street firms**, according to the WSJ.  
+  - Source: The Wall Street Journal
+
+- **Samsung governance/ownership:**  
+  - The **Samsung family has paid off a record $8 billion inheritance tax bill** tied to the estate of late chairman **Lee Kun-hee**.  
+  - Source: BBC
+
+- **Berkshire Hathaway:**  
+  - **Greg Abel** received broadly positive reviews from shareholders after his first annual meeting as Berkshire’s leader.  
+  - Source: CNBC
+
+## Interpretation
+- **Biggest macro market driver today appears to be oil and inflation risk.**  
+  Hormuz disruption, higher gasoline prices, and Kashkari’s comments together suggest markets may stay focused on **energy, inflation expectations, and interest-rate repricing**.
+
+- **Energy-sensitive sectors could remain in focus.**  
+  Airlines, transports, and consumer-facing sectors may be pressured if fuel costs keep rising, while oil-related names could stay supported.
+
+- **GameStop/eBay is a high-volatility, stock-specific story.**  
+  If investors treat the bid as credible, it could move both stocks sharply, but the proposal also carries obvious execution and financing questions.
+
+- **Anthropic’s reported JV reinforces the AI-capex and AI-finance theme.**  
+  It may be read as another sign that large institutions are still committing major capital to AI infrastructure and applications.
+
+- **Samsung inheritance-tax overhang appears reduced.**  
+  Paying off the bill may be viewed as removing a long-running estate-related uncertainty around the founding family’s holdings.
+
+If you want, I can also turn this into a **“what matters for markets before the open”** version with **bullish vs. bearish catalysts**.
