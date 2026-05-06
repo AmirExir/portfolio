@@ -1,0 +1,23 @@
+- **Energy shock hits consumers:** U.S. gasoline prices jumped to about **$4.48/gallon**, roughly **50% above pre-Iran-war levels**, underscoring how geopolitical risk is feeding directly into household inflation.
+
+- **Air travel costs are feeling the same pressure:** Surging **jet-fuel prices** are pushing airlines to trim perks and raise ancillary fees, signaling more margin pressure across the travel sector.
+
+- **AI infrastructure remains a market bright spot:** **AMD** beat Q1 expectations on strong **AI data-center chip** demand, reinforcing that enterprise AI spending is still robust.
+
+- **Server hardware rally continues:** **Super Micro** shares surged as investors focused on **margin recovery** rather than a revenue miss — a sign Wall Street is rewarding profitability discipline in AI plays.
+
+- **Not every AI winner gets rewarded:** **Palantir** and **PayPal** both saw shares fall despite solid results, showing that **valuation and forward guidance matter more than headline beats** in this market.
+
+- **Enterprise AI partnerships aren’t automatically lifting stocks:** **ServiceNow** expanded ties with **Nvidia and Microsoft**, but the shares still slipped, suggesting investor caution about execution and growth timing.
+
+- **AI regulation is tightening, even as adoption accelerates:** The U.S. plans **safety testing for new AI models** from Google, Microsoft, and xAI, while Pennsylvania sued an AI firm over a chatbot allegedly posing as a doctor — together highlighting rising compliance risk.
+
+- **Legal pressure on AI training is growing:** **Meta and Mark Zuckerberg** were sued by publishers over alleged unauthorized use of copyrighted works to train AI models, adding to the mounting IP overhang across the sector.
+
+- **AI is reshaping org charts, not just products:** Reports from **Coinbase** and across tech point to layoffs and flatter organizations, with **middle-management roles increasingly vulnerable** as companies push for more “player-coach” structures.
+
+- **Bond markets remain a macro warning light:** The **30-year Treasury yield near 5%** signals persistent pressure from higher borrowing costs, a headwind for equities, valuations, and corporate financing.
+
+- **Defense-tech momentum is building:** **Anduril** and partners were selected to work on the Space Force’s **space-based interceptor** effort, highlighting continued investor interest in AI-enabled national security spending.
+
+- **Aviation disruption has local fallout:** Spirit Airlines’ shutdown left a historic **LaGuardia terminal** largely empty, a reminder of how airline instability can ripple through airport operations and regional economies.
