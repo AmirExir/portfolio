@@ -1,0 +1,7 @@
+Generated time: not available
+Horizon: not available
+Universe: not available
+
+No valid optimizer output was available. The parser failed due to invalid JSON in the source data, so no ranked Buy or Sell recommendations could be produced.
+
+No signals met publication criteria for Strong Buy, Buy, Strong Sell, or Sell.
