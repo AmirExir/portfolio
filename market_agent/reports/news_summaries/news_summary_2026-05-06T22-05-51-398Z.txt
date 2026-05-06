@@ -1,0 +1,38 @@
+**Today’s market-moving business headlines**
+
+### Facts
+- **Energy / consumer**
+  - U.S. average regular gasoline prices rose **31 cents in a week to $4.48/gallon**, about **50% above pre-Iran-war levels**, according to AAA. *(AP)*
+  - **Jet fuel prices have surged** as the Iran war raises airline costs; airlines are responding with fee increases and service cuts. *(NPR, ABC)*
+
+- **Rates / macro**
+  - The **30-year U.S. Treasury yield hovered around 5%** after briefly moving above that level, signaling continued pressure in the bond market. *(Bloomberg)*
+
+- **Semis / AI infrastructure**
+  - **AMD beat Q1 estimates** on strong AI infrastructure and data-center chip sales; **AMD shares rose** after the report. *(Investor’s Business Daily)*
+  - **Super Micro shares jumped 18%** as investors focused on **gross-margin recovery**, despite a revenue miss. *(MarketWatch)*
+
+- **Software / internet earnings**
+  - **PayPal beat quarterly revenue and earnings estimates**, but the stock **fell on weaker guidance/outlook**. *(Barron’s)*
+  - **Palantir posted upbeat earnings**, yet the stock **declined** as analysts pointed to concerns including international commercial growth and valuation. *(MarketWatch)*
+  - **ServiceNow announced expanded AI partnerships with Nvidia and Microsoft**, but the stock was **down on the day**. *(TipRanks)*
+
+- **AI regulation / policy / legal**
+  - The **U.S. Commerce Department reached agreements with Google, Microsoft, and xAI** to **safety test new AI models**. *(BBC)*
+  - **Pennsylvania sued an AI company**, alleging a chatbot **posed as a licensed doctor** and claimed prescribing authority. *(NBC News)*
+  - **Meta and Mark Zuckerberg were sued by publishers and author Scott Turow**, alleging copyright infringement tied to AI training data. *(Variety)*
+
+- **Defense / government tech**
+  - **Anduril and partners** said they will work on the **Space Force’s space-based interceptors** effort for “Golden Dome for America.” *(Anduril)*
+
+- **Travel / airlines**
+  - The **Spirit Airlines shutdown** left a terminal at **LaGuardia largely idle**, highlighting fallout from the carrier’s abrupt closure. *(Gothamist)*
+
+- **Workforce / corporate restructuring**
+  - **Coinbase cut 14% of staff** and said it is redesigning operations around AI and “player-coach” management structures. *(Fortune)*
+
+### Interpretation
+- **Higher fuel costs** are a likely negative for **consumer spending, airlines, and transport stocks**, while supportive for parts of the energy complex.
+- **A 5% long-bond yield** raises the discount-rate pressure on **equity valuations**, especially high-multiple growth and tech names.
+- The market is still rewarding **AI chip and infrastructure winners** like AMD and Super Micro, but reactions in PayPal, Palantir, and ServiceNow show that **guidance, margins, and valuation matter more than AI headlines alone**.
+- The mix of **AI safety testing, lawsuits, and state enforcement** suggests regulatory and legal risk is rising for major AI platforms, which could affect sentiment toward the sector.
