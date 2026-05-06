@@ -1,0 +1,11 @@
+- Texas lawmakers are increasingly focused on the grid effects of AI/data center growth, highlighting concerns that large new loads could outpace local infrastructure and shift upgrade costs, a sign that ERCOT load interconnection and siting policy may face more scrutiny. (Daily Signal)
+
+- Two Texas project updates reinforce that gigawatt-scale data center development is moving from concept to energization in ERCOT: IREN said its 1.4 GW Sweetwater 1 site was energized, while Riot/AMD expanded at Rockdale, signaling continued growth in very large power demand requests with implications for transmission buildout, congestion, and resource adequacy. (GlobeNewswire; CoinDesk; Cointelegraph)
+
+- The main ERCOT-relevant trend this week is not a single market-rule filing but accelerating large-load demand: data centers, crypto-to-AI conversions, and behind-the-meter gas-backed concepts are advancing faster than traditional grid planning cycles, increasing pressure on ERCOT forecasting, interconnection studies, and transmission timing. (Daily Signal; GlobeNewswire; CoinDesk; Fortune; OilPrice.com)
+
+- Public and local-government resistance to data center development is rising, including in Texas, with complaints centered on land use, lighting, water, and dedicated generation; for ERCOT, that raises the risk that local opposition could slow load additions, alter project design, or push more developers toward onsite generation and non-traditional interconnection structures. (Daily Mail; Business Insider; CBC News)
+
+- Multiple national stories emphasize that AI load growth is increasingly being paired with natural gas as the only scalable near-term firm supply option; in ERCOT, that points to higher interest in gas-fired generation, colocation, and hybrid supply arrangements as developers try to secure reliability faster than new transmission or long-duration clean firming can be built. (Fortune; OilPrice.com; NaturalNews)
+
+- Commentary around competitive transmission development in Texas suggests governance and market-structure debates are widening beyond generation and into who gets to build major lines; if that debate gains traction, it could affect how quickly ERCOT can deliver transmission needed for remote generation, large load growth, and congestion relief. (Watts Up With That?)

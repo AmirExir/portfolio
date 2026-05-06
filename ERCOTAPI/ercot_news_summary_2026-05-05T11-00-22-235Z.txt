@@ -1,0 +1,11 @@
+- Texas data-center growth is emerging as the dominant ERCOT theme: lawmakers and local communities are pushing for protections as large AI loads raise concerns about siting, grid stress, retail bill impacts, and local quality-of-life issues, signaling tougher scrutiny of future hyperscale interconnections and possible pressure for stronger load flexibility requirements. (Daily Signal; Daily Mail; Next City; Business Insider)
+
+- New Texas data-center capacity is moving from concept to energized load: IREN said its 1.4 GW Sweetwater 1 site has been energized, underscoring how quickly ERCOT is absorbing very large new demand and increasing the need for transmission, deliverability studies, and coordinated generation additions in West Texas. (GlobeNewswire)
+
+- Rockdale and other Texas crypto-to-AI campuses continue pivoting into firm data-center demand: Riot reported growing data-center revenue and an expanded AMD deal at its Rockdale site, indicating former interruptible or price-responsive mining infrastructure may increasingly convert into higher-load-factor digital demand with different operational behavior for ERCOT. (CoinDesk; Cointelegraph)
+
+- Across multiple reports, AI infrastructure is still expected to rely heavily on natural gas and direct energy procurement rather than waiting for emerging technologies like fusion or space solar; for ERCOT, that points to continued interest in gas generation, behind-the-meter or co-located supply, and pipeline-deliverability as core enablers of large-load growth. (Fortune; OilPrice.com; NaturalNews)
+
+- Rising warnings about gigawatt-scale AI buildouts and blackout risk elsewhere reinforce an ERCOT planning issue already in focus: the system can add large loads, but reliability will increasingly depend on interconnection discipline, curtailment capability, transmission readiness, and clear rules on who bears upgrade costs when demand arrives ahead of infrastructure. (24/7 Wall St.; Daily Signal)
+
+- Transmission policy remains a live Texas debate, with outside commentary calling for more competition in transmission development; regardless of the policy stance, the practical ERCOT implication is that accelerating major line approvals and construction is becoming more urgent as load growth concentrates in remote resource areas and new large-load hubs. (Watts Up With That?)
