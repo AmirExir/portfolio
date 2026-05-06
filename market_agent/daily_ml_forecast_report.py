@@ -216,7 +216,7 @@ def load_json_payload(path: Path) -> dict:
 
 def save_json_payload(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, default=_json_default))
+    path.write_text(json_dumps_strict(payload, indent=2))
 
 
 def model_results_from_snapshot(snapshot: dict) -> dict:
@@ -662,7 +662,7 @@ def write_outputs(
     latest_json_path = output_dir / "ml_forecast_rankings_latest.json"
     latest_txt_path = output_dir / "ml_forecast_rankings_latest.txt"
 
-    json_payload = json.dumps(payload, indent=2, default=_json_default)
+    json_payload = json_dumps_strict(payload, indent=2)
     json_path.write_text(json_payload)
     latest_json_path.write_text(json_payload)
     cache_path.write_text(json_payload)
@@ -684,6 +684,35 @@ def _json_default(value):
     if pd.isna(value):
         return None
     return str(value)
+
+
+def sanitize_json_value(value):
+    if isinstance(value, dict):
+        return {str(key): sanitize_json_value(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [sanitize_json_value(item) for item in value]
+    if isinstance(value, np.ndarray):
+        return [sanitize_json_value(item) for item in value.tolist()]
+    if isinstance(value, np.integer):
+        return int(value)
+    if isinstance(value, (np.floating, float)):
+        number = float(value)
+        return number if np.isfinite(number) else None
+    try:
+        if pd.isna(value):
+            return None
+    except (TypeError, ValueError):
+        pass
+    return value
+
+
+def json_dumps_strict(payload, **kwargs) -> str:
+    return json.dumps(
+        sanitize_json_value(payload),
+        default=_json_default,
+        allow_nan=False,
+        **kwargs,
+    )
 
 
 def send_telegram(text: str) -> None:
@@ -759,7 +788,7 @@ def main() -> int:
         }
         if args.show_timing:
             output_payload["timings"] = timings
-        print(json.dumps(output_payload, default=_json_default))
+        print(json_dumps_strict(output_payload))
     else:
         print(telegram_text)
 
