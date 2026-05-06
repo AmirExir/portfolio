@@ -1,0 +1,74 @@
+**Today’s business headlines — concise, market-focused**
+
+### Facts
+- **SEC proposes easing public-company reporting cadence**
+  - The SEC proposed rule changes that would let public companies **opt for semiannual reporting instead of quarterly reporting** to satisfy periodic disclosure requirements.
+  - If adopted, this would mark a significant shift in U.S. public-market disclosure practice.
+
+- **Long-end Treasury yields remain under pressure**
+  - The **30-year U.S. Treasury yield hovered around 5%** after moving above that level for the first time this year, according to Bloomberg.
+  - That keeps borrowing-cost and valuation pressure in focus across equities and credit.
+
+- **U.S. stocks traded higher near record levels**
+  - Multiple market live blogs reported the **Dow, S&P 500, and Nasdaq rose**, with the **Nasdaq reaching/approaching a record high** intraday.
+  - Coverage cited **falling oil prices** and reduced immediate concern around **U.S.-Iran tensions** during the session.
+
+- **Palantir fell despite strong results/guidance**
+  - Palantir reported **its fastest revenue growth since at least 2020** and **raised full-year 2026 guidance above Wall Street expectations**.
+  - Even so, shares **declined** in trading after the report.
+
+- **Intel surged; AMD also among notable chip movers**
+  - Market coverage highlighted **Intel as a major gainer** during the session.
+  - Barron’s also flagged **AMD** among notable movers, though the supplied summaries did not specify a catalyst.
+
+- **Micron rallied on industry outlook**
+  - Micron shares rose after an **IDC report** said the memory-chip market may be able to **break from its usual boom-bust cycle**.
+
+- **Shopify shares fell after earnings**
+  - Shopify posted **revenue slightly above estimates**, but **operating profit missed consensus**.
+  - Shares **declined** following the results.
+
+- **Anthropic launched AI agents for finance**
+  - Anthropic released **new AI agents tailored for financial-services firms**, expanding its push into enterprise AI for banks and similar customers.
+
+- **NIST signed frontier-AI testing agreements**
+  - NIST’s CAISI unit announced agreements with **Google DeepMind, Microsoft, and xAI** for **pre-deployment national-security testing and related research**.
+
+- **Google DeepMind labor/deployment issue emerged**
+  - WIRED reported that **Google DeepMind employees in London voted to unionize**, with objections tied to potential **military uses of AI**.
+
+- **Biotech mover: Cytokinetics reported positive Phase 3 data**
+  - Cytokinetics announced **positive topline Phase 3 results** for **aficamten** in patients with **non-obstructive hypertrophic cardiomyopathy**.
+  - The trial **met dual primary endpoints**.
+
+- **FDA leadership remains under scrutiny**
+  - FDA Commissioner **Marty Makary defended recent drug-approval decisions** after backlash over rejections, according to CNBC.
+  - This keeps regulatory risk in focus for parts of biotech and pharma.
+
+### Interpretation / why markets may care
+- **SEC reporting proposal could matter most for exchanges, issuers, and market structure**
+  - If the proposal gains traction, investors may debate whether **less frequent reporting reduces compliance costs** or **cuts market transparency**.
+  - Potential beneficiaries could include smaller issuers; potential losers could include investors who prefer frequent disclosure.
+
+- **A 5% 30-year yield is a broad valuation headwind**
+  - Elevated long-term yields can pressure **rate-sensitive sectors**, raise financing costs, and compete with equities for investor capital.
+  - It is especially relevant for **growth stocks, housing, and leveraged companies**.
+
+- **Today’s tape suggests markets are prioritizing earnings and rates over geopolitics**
+  - Stocks rising while oil eases implies investors are, for now, **discounting immediate geopolitical escalation risk**.
+  - That can reverse quickly if Middle East developments worsen.
+
+- **Palantir’s drop looks like a “high expectations” reaction**
+  - A selloff despite strong growth and raised guidance suggests valuation and positioning may have been more important than headline fundamentals.
+
+- **AI remains a two-sided market theme**
+  - Product launches from Anthropic and government testing deals support the **commercialization and institutionalization of AI**.
+  - But unionization and military-use concerns show **governance/reputational risk** is also rising.
+
+- **Cytokinetics’ data may support biotech sentiment**
+  - Positive late-stage trial results can reprice a biotech name sharply and may spill over to peers in cardiometabolic/cardiology innovation.
+
+If you want, I can turn this into:
+1. a **pre-market note**,  
+2. a **sector-by-sector summary**, or  
+3. a **“top 5 items to watch at the open”** version.
