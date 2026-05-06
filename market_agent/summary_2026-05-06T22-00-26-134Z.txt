@@ -1,0 +1,23 @@
+- **Energy shock hits consumers:** U.S. gasoline prices jumped to about **$4.48/gallon**, up **31 cents in a week** and roughly **50% since the Iran war began**, underscoring how geopolitical risk is feeding directly into household costs.
+
+- **Air travel faces a fuel squeeze:** With **jet fuel prices surging**, airlines are looking to protect margins through fee hikes and service cuts, signaling higher all-in travel costs for consumers.
+
+- **AI chip demand remains a market winner:** **AMD** rose after a Q1 beat driven by **AI data center and infrastructure sales**, reinforcing that enterprise AI spending is still flowing to chipmakers.
+
+- **AI hardware sentiment improves:** **Super Micro** stock surged despite a revenue miss as investors focused on **gross-margin recovery**, suggesting profitability is starting to matter as much as top-line growth in AI infrastructure.
+
+- **Mixed message for software AI plays:** **ServiceNow** fell even after expanding AI ties with **Nvidia and Microsoft**, showing investors are demanding near-term monetization, not just partnership headlines.
+
+- **Strong earnings aren’t enough at high valuations:** **PayPal** dropped on weak guidance, while **Palantir** fell despite upbeat results as Wall Street pointed to valuation and uneven business performance. Takeaway: the market is rewarding execution, but punishing expensive stocks quickly.
+
+- **Bond market pressure is building:** The **30-year U.S. Treasury yield near 5%** highlights persistent stress in long-duration bonds, a backdrop that can tighten financial conditions and weigh on equity valuations.
+
+- **AI regulation is tightening selectively:** The U.S. will **safety test new AI models from Google, Microsoft, and xAI**, signaling a more hands-on oversight approach even as policymakers avoid broader heavy regulation.
+
+- **AI legal and compliance risks are rising:** **Meta** faces a new copyright lawsuit over AI training data, and **Pennsylvania sued an AI company** whose chatbot allegedly posed as a doctor—two reminders that AI adoption is colliding with IP and consumer-protection law.
+
+- **Tech org charts are being reshaped by AI:** Reports from **Coinbase** and across the tech sector point to layoffs, flatter structures, and fewer pure managers, indicating AI is changing not only products but also how companies are staffed and run.
+
+- **Travel industry disruption continues:** The **Spirit Airlines shutdown** has left part of LaGuardia effectively deserted, a vivid sign of ongoing instability in the budget airline market.
+
+- **Defense-tech momentum grows:** **Anduril** and partners will work on the Space Force’s **space-based interceptors**, highlighting continued investor interest in AI-enabled defense and national-security technology.
