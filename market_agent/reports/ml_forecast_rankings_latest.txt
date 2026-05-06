@@ -1,38 +1,43 @@
 ML Forecast Rankings
-Generated: 2026-05-04 16:46 UTC
+Generated: 2026-05-06 01:50 UTC
 Horizon: 30 trading days | Primary: Ensemble
 Pattern windows: 20/50 trading days
 Sequence model: both
-RL policy: off (disabled by request)
+RL policy: off
 Universe: 75 symbols | Stocks + crypto + commodities
-Calculation time: 1h 30m 13s total | context 1.0s | 75/75 ranked | 0 cached
-Slowest symbols: BNB: 1m 47s, DOGE: 1m 46s, SHIB: 1m 40s, SOL: 1m 40s, BTC: 1m 38s
+Calculation time: 1h 13m 42s total | context 15.5s | 75/75 ranked | 0 cached
+Slowest symbols: ETH: 1m 27s, XRP: 1m 26s, BNB: 1m 24s, SOL: 1m 23s, COMP: 1m 23s
 
 Best Picked Forecast
-GEV: Strong Buy | Pattern: Uptrend | Forecast Return: +20.61% | Selected model: Ensemble
+GEV: Strong Buy | Pattern: Uptrend | Forecast Return: +18.26% | Selected model: Ensemble
+
+Short-Term Forecast Signals
+1 trading day | sequence model: both
+Buys: USO: +0.60% | Neutral / No Edge | model Ensemble | prob up 57.6% | edge 7.6% | err +/-2.98% | pattern Uptrend ; RIOT: +1.16% | Neutral / No Edge | model Ensemble | prob up 56.5% | edge 6.5% | err +/-6.82% | pattern Near 60-Day High ; IWM: +0.22% | Neutral / No Edge | model Ensemble | prob up 55.4% | edge 5.4% | err +/-1.66% | pattern Uptrend
+Sells: PG: -0.42% | Neutral / No Edge | model Ensemble | prob up 41.0% | edge 9.0% | err +/-1.42% | pattern Downtrend ; AMD: -1.13% | Neutral / No Edge | model Ensemble | prob up 40.8% | edge 9.2% | err +/-4.48% | pattern Uptrend ; WMT: -0.33% | Neutral / No Edge | model Ensemble | prob up 43.2% | edge 6.8% | err +/-1.82% | pattern Uptrend
 
 Strongest Buy Forecasts
-GEV: +20.61% | Strong Buy | model Ensemble | prob up 94.3% | edge 44.3% | err +/-12.00% | pattern Uptrend
-ENA: +38.25% | Strong Buy | model Ensemble | prob up 77.8% | edge 27.8% | err +/-32.91% | pattern Oversold
-DOGE: +22.24% | Buy | model Ensemble | prob up 72.2% | edge 22.2% | err +/-26.99% | pattern Near 60-Day High
-LUV: +10.89% | Buy | model Ensemble | prob up 74.2% | edge 24.2% | err +/-15.77% | pattern Rebound From 60-Day Low
-JNJ: +5.90% | Buy | model Ensemble | prob up 73.9% | edge 23.9% | err +/-8.98% | pattern Rebound From 60-Day Low
-MS: +8.09% | Buy | model Ensemble | prob up 73.9% | edge 23.9% | err +/-12.88% | pattern Uptrend
-SLB: +8.70% | Buy | model Ensemble | prob up 72.2% | edge 22.2% | err +/-13.99% | pattern Uptrend
-GS: +8.22% | Buy | model Ensemble | prob up 72.3% | edge 22.3% | err +/-13.50% | pattern Uptrend
-DIA: +3.07% | Buy | model Ensemble | prob up 71.8% | edge 21.8% | err +/-5.05% | pattern Uptrend
-IWM: +4.32% | Buy | model Ensemble | prob up 69.4% | edge 19.4% | err +/-7.72% | pattern Uptrend
+GEV: +18.26% | Strong Buy | model Ensemble | prob up 88.1% | edge 38.1% | err +/-13.39% | pattern Uptrend
+ENA: +23.31% | Buy | model Ensemble | prob up 71.6% | edge 21.6% | err +/-36.41% | pattern Range / No Dominant Pattern
+JNJ: +5.15% | Buy | model Ensemble | prob up 72.6% | edge 22.6% | err +/-8.52% | pattern Oversold
+GS: +7.12% | Buy | model Ensemble | prob up 68.8% | edge 18.8% | err +/-13.88% | pattern Uptrend
+ORCA: +21.05% | Buy | model Ensemble | prob up 66.8% | edge 16.8% | err +/-40.21% | pattern Overbought
+XLE: +4.38% | Neutral / No Edge | model Ensemble | prob up 64.9% | edge 14.9% | err +/-9.59% | pattern Bearish MA Crossover
+LUV: +6.83% | Neutral / No Edge | model Ensemble | prob up 65.5% | edge 15.5% | err +/-16.47% | pattern Range / No Dominant Pattern
+DIA: +2.06% | Neutral / No Edge | model Ensemble | prob up 65.4% | edge 15.4% | err +/-5.07% | pattern Uptrend
+MS: +5.00% | Neutral / No Edge | model Ensemble | prob up 64.9% | edge 14.9% | err +/-12.62% | pattern Uptrend
+VOO: +2.03% | Neutral / No Edge | model Ensemble | prob up 64.1% | edge 14.1% | err +/-5.42% | pattern Uptrend
 
 Strongest Sell Forecasts
-PEPE: -26.56% | Strong Sell | model Ensemble | prob up 6.1% | edge 43.9% | err +/-17.76% | pattern Downtrend
-PNUT: -19.68% | Sell | model Ensemble | prob up 20.8% | edge 29.2% | err +/-29.36% | pattern High Volatility
-NFLX: -10.08% | Sell | model Ensemble | prob up 26.2% | edge 23.8% | err +/-17.25% | pattern Oversold
-ONDO: -11.99% | Neutral / No Edge | model Ensemble | prob up 32.2% | edge 17.8% | err +/-32.04% | pattern Bullish MA Crossover
-SHIB: -12.70% | Neutral / No Edge | model Ensemble | prob up 35.2% | edge 14.8% | err +/-43.12% | pattern Bullish MA Crossover
-DOT: -5.71% | Neutral / No Edge | model Ensemble | prob up 40.1% | edge 9.9% | err +/-22.73% | pattern Downtrend
-AVAX: -6.48% | Neutral / No Edge | model Ensemble | prob up 39.9% | edge 10.1% | err +/-28.84% | pattern Rebound From 60-Day Low
-AAPL: -1.19% | Neutral / No Edge | model Ensemble | prob up 42.6% | edge 7.4% | err +/-7.20% | pattern Uptrend
-LLY: -2.46% | Neutral / No Edge | model Ensemble | prob up 42.9% | edge 7.1% | err +/-14.53% | pattern Range / No Dominant Pattern
-PG: -1.03% | Neutral / No Edge | model Ensemble | prob up 44.6% | edge 5.4% | err +/-7.33% | pattern High Volatility
+PEPE: -23.28% | Strong Sell | model Ensemble | prob up 9.9% | edge 40.1% | err +/-18.60% | pattern Downtrend
+NFLX: -13.45% | Sell | model Ensemble | prob up 22.9% | edge 27.1% | err +/-16.35% | pattern Oversold
+PNUT: -16.67% | Sell | model Ensemble | prob up 28.4% | edge 21.6% | err +/-32.34% | pattern High Volatility
+DOT: -10.70% | Neutral / No Edge | model Ensemble | prob up 31.6% | edge 18.4% | err +/-23.50% | pattern Downtrend
+UNH: -4.79% | Neutral / No Edge | model Ensemble | prob up 39.7% | edge 10.3% | err +/-19.28% | pattern Overbought
+PG: -1.63% | Neutral / No Edge | model Ensemble | prob up 41.2% | edge 8.8% | err +/-6.72% | pattern Downtrend
+DELL: -5.14% | Neutral / No Edge | model Ensemble | prob up 40.5% | edge 9.5% | err +/-23.34% | pattern Uptrend
+AVAX: -5.51% | Neutral / No Edge | model Ensemble | prob up 40.3% | edge 9.7% | err +/-29.28% | pattern Range / No Dominant Pattern
+XLV: -0.81% | Neutral / No Edge | model Ensemble | prob up 43.3% | edge 6.7% | err +/-5.16% | pattern Rebound From 60-Day Low
+BNB: -2.39% | Neutral / No Edge | model Ensemble | prob up 44.1% | edge 5.9% | err +/-16.96% | pattern Bullish MA Crossover
 
 Model output only. Not financial advice.
