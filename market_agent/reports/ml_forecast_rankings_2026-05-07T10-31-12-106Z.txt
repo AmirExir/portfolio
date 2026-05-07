@@ -1,0 +1,47 @@
+Generated: 2026-05-07 10:30 UTC
+Horizon: 30 trading days
+Universe: 74 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +19.79% | Probability up: 94.3% | Edge: 44.3% | Expected error: +/-12.08% | Selected model: Ensemble
+Highest-conviction long signal in the list. Forecast return is materially above the error band, and probability support is strong.
+
+JNJ — Buy | Pattern: Oversold | Forecast return: +7.17% | Probability up: 78.0% | Edge: 28.0% | Expected error: +/-8.88% | Selected model: Ensemble
+Positive edge with an oversold setup, but expected error exceeds forecast return, so position risk is elevated.
+
+GS — Buy | Pattern: Uptrend | Forecast return: +8.12% | Probability up: 70.9% | Edge: 20.9% | Expected error: +/-13.64% | Selected model: Ensemble
+Trend is supportive, but forecast magnitude is smaller than expected error. Also flagged near a 60-day high, which can limit upside if momentum fades.
+
+SLB — Buy | Pattern: Uptrend | Forecast return: +7.31% | Probability up: 70.4% | Edge: 20.4% | Expected error: +/-13.50% | Selected model: Ensemble
+Constructive directional signal, though uncertainty remains high relative to the forecast.
+
+USO — Buy | Pattern: Uptrend | Forecast return: +10.27% | Probability up: 68.6% | Edge: 18.6% | Expected error: +/-20.44% | Selected model: Ensemble
+Directional bias is positive, but this is a higher-risk setup because expected error is roughly double the forecast return.
+
+XRP — Buy | Pattern: Rebound From 60-Day Low | Forecast return: +11.83% | Probability up: 64.3% | Edge: 14.3% | Expected error: +/-23.60% | Selected model: Ensemble
+Rebound setup is notable, but model disagreement is visible: XGBoost is strongly positive while Transformer is negative. Elevated uncertainty.
+
+ENA — Buy | Pattern: Volume Spike | Forecast return: +20.01% | Probability up: 62.5% | Edge: 12.5% | Expected error: +/-33.05% | Selected model: Ensemble
+Large forecast, but reliability is weaker than the headline return suggests. Expected error is very large, and underlying models disagree sharply, indicating unstable signal quality.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+Clear bearish leader. Forecast size, probability, and pattern all align on the downside.
+
+NFLX — Sell | Pattern: Oversold | Forecast return: -11.33% | Probability down: 75.5% | Edge: 25.5% | Expected error: +/-17.40% | Selected model: Ensemble
+Bearish model output remains actionable, but oversold conditions increase reversal risk. Expected error is larger than forecast return, so downside view should be treated with caution.
+
+Watchlist / Neutral
+XLE and JPM show positive directional probabilities but were classified Neutral / No Edge, so they do not meet the action threshold.
+COP shows a positive forecast but with a bearish moving-average crossover, which creates a conflicting technical backdrop.
+AVAX, AAPL, SHIB, MNT, UNI, ADA, BNB, and UNH do not qualify as sell signals under the stated filter because they are Neutral / No Edge.
+
+Summary
+Most credible long setup: GEV.
+More tentative buy candidates: JNJ, GS, SLB.
+Higher-volatility/speculative buys with weaker reliability: USO, XRP, ENA.
+Most credible short/avoid setup: PEPE.
+Secondary bearish setup with reversal risk: NFLX.
+
+Model output only. Not financial advice.
