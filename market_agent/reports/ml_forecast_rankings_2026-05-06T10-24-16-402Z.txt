@@ -1,0 +1,17 @@
+Generated time: not provided
+Horizon: not provided
+Universe: not provided
+
+The provided optimizer output could not be parsed, so no validated ranking can be produced.
+
+Top Buy Signals
+No valid buy signals available due to parsing error.
+
+Top Sell / Avoid Signals
+No strong sell signals detected
+
+Watchlist / Neutral
+No watchlist available due to parsing error.
+
+Quality note
+The input contained only: "Parsing error" with no usable signal rows, forecast returns, probabilities, edges, expected errors, or model selections. To generate recommendations, provide the parsed optimizer output with actionable Buy/Sell signals above the 2% noise filter.

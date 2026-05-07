@@ -1,0 +1,22 @@
+Generated: 2026-05-07 11:50 UTC
+Horizon: 30 trading days
+Universe: 74 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No qualifying 1 trading-day Buy or Sell signals met the publication filter. The available short-horizon names were Neutral / No Edge or below the 2% absolute forecast-return threshold, so no short-term ranking is published.
+
+30 trading-day buy rankings
+GEV — Strong Buy. Forecast return +20.04%, probability up 94.4%, pattern Uptrend.
+SLB — Buy. Forecast return +8.80%, probability up 74.0%, pattern Uptrend.
+JNJ — Buy. Forecast return +7.32%, probability up 78.5%, pattern Oversold.
+GS — Buy. Forecast return +7.30%, probability up 69.7%, pattern Uptrend.
+ORCA — Buy. Forecast return +24.26%, probability up 61.4%, pattern High Volatility. This has the largest upside forecast among Buy-rated names, but expected error is high.
+
+30 trading-day sell rankings
+PEPE — Strong Sell. Forecast return -26.56%, probability down 93.9%, pattern Downtrend.
+NFLX — Sell. Forecast return -10.94%, probability down 75.0%, pattern Oversold.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% are included.
+One symbol was skipped due to missing OHLCV data: RIOTORCL.

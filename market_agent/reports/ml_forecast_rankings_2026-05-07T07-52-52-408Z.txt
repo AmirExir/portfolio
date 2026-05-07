@@ -1,0 +1,27 @@
+Generated: 2026-05-07 07:52 UTC
+Horizon: 30 trading days
+Universe: 74 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both
+Only signals meeting the filter of Buy/Sell class and absolute forecast return of at least 2% are included.
+Buy candidates:
+SHIB — Buy, forecast return +3.75%, probability up 65.0%, pattern Bullish MA Crossover.
+No qualifying sell signals met the filter for the 1 trading-day section.
+
+30 trading-day rankings
+Buy side:
+GEV — Strong Buy, forecast return +19.84%, probability up 94.3%, pattern Uptrend. Highest-ranked long signal in the report.
+ENA — Buy, forecast return +22.83%, probability up 65.2%, pattern Volume Spike. Return is high, but expected error is also elevated.
+USO — Buy, forecast return +11.32%, probability up 69.9%, pattern Uptrend.
+GS — Buy, forecast return +7.58%, probability up 70.1%, pattern Uptrend.
+SLB — Buy, forecast return +7.03%, probability up 69.5%, pattern Uptrend.
+JNJ — Buy, forecast return +5.99%, probability up 73.7%, pattern Oversold.
+
+Sell side:
+PEPE — Strong Sell, forecast return -26.56%, probability down 93.9%, pattern Downtrend. Strongest negative signal in the report.
+NFLX — Sell, forecast return -11.34%, probability down 75.6%, pattern Oversold.
+
+Notes:
+Signals labeled Neutral / No Edge were excluded from the ranked recommendations even when forecast magnitude was large.
+One symbol was skipped due to missing OHLCV data: RIOTORCL.

@@ -1,0 +1,66 @@
+Here are today’s business headlines, separated into **Facts** and **Interpretation / market read-through**.
+
+- **SEC proposes letting public companies report semiannually instead of quarterly**
+  - **Fact:** The SEC proposed rule changes that would allow public companies to file **semiannual reports in place of quarterly reports** for interim disclosure.
+  - **Interpretation:** If adopted, this could be **material for equity markets, disclosure timing, and investor relations**, especially for smaller or more volatile companies. It may reduce reporting burden but could also lower information frequency for investors.
+
+- **Long bond yield pressure persists: 30-year Treasury yield hovers around 5%**
+  - **Fact:** Bloomberg reports the **30-year U.S. Treasury yield breached and hovered near 5%**, a key psychological level.
+  - **Interpretation:** This is a **broad market-moving macro item**. Higher long-term yields can pressure **equities, housing, rate-sensitive sectors, and valuations**, while tightening financial conditions.
+
+- **Stocks rise despite geopolitical concerns; Nasdaq near/at records**
+  - **Fact:** Market coverage from Barron’s/IBD/WSJ says the **Dow, S&P 500, and Nasdaq moved higher**, with the **Nasdaq pushing to record levels**, while oil prices slipped.
+  - **Interpretation:** The session tone appears **risk-on**, with investors focusing more on earnings and AI-linked stocks than on geopolitical concerns.
+
+- **Palantir falls even after strong growth and higher outlook**
+  - **Fact:** Palantir reportedly posted its **fastest revenue growth since at least 2020** and **raised full-year 2026 guidance**, yet the stock **declined**.
+  - **Interpretation:** The move suggests **expectations were already very high**, making this a valuation/sentiment story rather than a fundamentals miss.
+
+- **Intel surges; AMD also among active chip movers**
+  - **Fact:** Live market coverage highlighted **Intel as a strong gainer** and **AMD among notable movers**.
+  - **Interpretation:** Semiconductor names remain a key driver of index performance; moves in large chip stocks are likely helping support the **tech-heavy Nasdaq**.
+
+- **Micron rallies on report arguing memory-cycle dynamics may be improving structurally**
+  - **Fact:** MarketWatch says **Micron shares jumped** after an IDC report suggested the **memory-chip market may break from its historical boom-bust pattern**.
+  - **Interpretation:** This is supportive for the **AI and semiconductor supply chain**, though the “this time is different” thesis is still an analytical view, not a confirmed structural shift.
+
+- **Anthropic launches AI agents for financial-services firms**
+  - **Fact:** WSJ reports Anthropic released **new AI agents tailored to banks and other financial firms**.
+  - **Interpretation:** This underscores continued **AI monetization in enterprise software/financial services** and reinforces the theme of intensifying AI competition for regulated-industry use cases.
+
+- **NIST signs frontier-AI national-security testing agreements with Google DeepMind, Microsoft, and xAI**
+  - **Fact:** The U.S. government’s CAISI/NIST announced **agreements for pre-deployment evaluations and related research** with **Google DeepMind, Microsoft, and xAI**.
+  - **Interpretation:** This is relevant for **AI governance and regulatory risk**. It may be seen as supportive for larger AI labs that can navigate compliance frameworks.
+
+- **Google DeepMind workers in London vote to unionize over military AI concerns**
+  - **Fact:** WIRED reports some DeepMind employees voted to **unionize**, citing opposition to military use of AI.
+  - **Interpretation:** Not an immediate market mover on its own, but it highlights **labor, governance, and reputational risks** around commercialization of frontier AI.
+
+- **Shopify shares fall after profit misses despite revenue beat**
+  - **Fact:** Investor’s Business Daily reports **Shopify stock dropped** after **Q1 operating profit missed estimates**, though **revenue edged above consensus**.
+  - **Interpretation:** Another example of the market emphasizing **profitability and margin quality over top-line growth**.
+
+- **Cytokinetics reports positive Phase 3 results for aficamten in non-obstructive HCM**
+  - **Fact:** Cytokinetics announced its Phase 3 **ACACIA-HCM trial met dual primary endpoints** and showed positive key secondary outcomes.
+  - **Interpretation:** This is a potentially **significant biotech stock catalyst**, with implications for valuation, pipeline credibility, and future regulatory/commercial expectations.
+
+- **FDA commissioner defends recent drug approval decisions amid criticism**
+  - **Fact:** CNBC reports FDA Commissioner Marty Makary publicly defended the agency after backlash over recent drug rejections.
+  - **Interpretation:** This may matter most for **biotech and pharma regulatory sentiment**, especially for companies awaiting FDA decisions.
+
+- **Jet fuel supply concerns in Europe could keep summer travel costs elevated**
+  - **Fact:** The Washington Post reports experts see a risk of **tight jet fuel supply in Europe**, and even if shortages are avoided, **high fuel prices may persist through summer**.
+  - **Interpretation:** This is relevant for **airline margins and travel pricing**, though it appears more sector-specific than a top cross-market mover today.
+
+- **Michael Burry says he exited GameStop and is short Palantir**
+  - **Fact:** Business Insider reports Michael Burry said he **sold his entire GameStop stake** and opened an **“outright short” on Palantir**.
+  - **Interpretation:** This is more of a **sentiment headline** than a fundamental market driver, but it may reinforce debate around **meme/AI valuation extremes**.
+
+- **Nvidia and PulteGroup back startup using homes as mini data-center nodes**
+  - **Fact:** CNBC reports Nvidia and PulteGroup are helping a startup develop **distributed “mini data centers” on homes**.
+  - **Interpretation:** Interesting for the longer-term **AI infrastructure/power-grid theme**, but likely not a major immediate market mover.
+
+If you want, I can turn this into:
+1. a **pre-market note**,  
+2. a **trader-style watchlist**, or  
+3. a **“top 5 market movers only”** version.

@@ -1,0 +1,13 @@
+Generated: 2026-05-07 04:59 UTC
+Horizon: 30 trading days
+Universe: 1 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model: both
+No qualifying Buy or Sell signals met the minimum 2% absolute forecast return threshold.
+
+30 trading-day signals
+No qualifying Strong Buy, Buy, Strong Sell, or Sell signals met the minimum 2% absolute forecast return threshold.
+
+Notes
+RIOT was excluded because the 30-day signal was Neutral / No Edge and the 1 trading-day forecast magnitude was below 2%.

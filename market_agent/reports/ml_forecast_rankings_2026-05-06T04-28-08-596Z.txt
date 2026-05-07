@@ -1,0 +1,7 @@
+Generated time: not available
+Horizon: not available
+Universe: not available
+
+No valid optimizer output was available. The provided payload indicates a parsing failure, so no verified Buy, Strong Buy, Sell, or Strong Sell signals can be listed.
+
+No qualifying recommendations for the current report.

@@ -1,0 +1,7 @@
+Generated time: not available
+Horizon: not available
+Universe: not available
+
+No valid optimizer output was available because the input could not be parsed as JSON. No actionable Strong Buy, Buy, Strong Sell, or Sell signals meeting the 2% absolute forecast return threshold were provided.
+
+There are no website ranking recommendations at this time.

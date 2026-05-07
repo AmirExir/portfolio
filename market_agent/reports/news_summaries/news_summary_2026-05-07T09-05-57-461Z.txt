@@ -1,0 +1,36 @@
+Here are today’s business headlines, split into **facts** and **market interpretation**:
+
+## Facts
+- **U.S. stock futures rose**: S&P 500, Nasdaq, and Dow futures moved higher after fresh record closes for major U.S. indexes.  
+- **AI/tech earnings continued to support markets**:
+  - **AMD** reported solid Q1 results, with **data-center revenue up 57%**; shares rose in after-hours trading.
+  - **Super Micro** shares jumped about **18% after hours** after issuing better-than-expected guidance, despite revenue missing estimates.
+- **Novo Nordisk raised 2026 guidance** after stronger-than-expected sales of its newly launched **Wegovy pill**.
+- **Asian stocks were set to follow U.S. gains**, with reports citing strength in tech shares and optimism around geopolitical/trade tensions.
+- **Oil prices eased** as the U.S. sought reopening of the **Strait of Hormuz** and signaled possible progress with Iran.
+- **Disney** was due to report earnings before the bell; it would be the **first earnings call under new CEO Josh D’Amaro**.
+- **U.S. Commerce Department** will **test AI models from Google, Microsoft, and xAI before release**, indicating increased federal oversight.
+- **Apple agreed to pay $250 million** to settle allegations it misled iPhone buyers about AI capabilities.
+- **Meta was sued by publishers** alleging copyright infringement tied to AI training on books.
+- **UnitedHealthcare said it will remove prior authorization requirements for 30% of services**.
+- **FDA authorized fruit-flavored vape products for the first time**, approving certain products from Glas Inc.
+- **Lucid said it will adjust EV production** after supplier issues affected Gravity deliveries and inventory rose.
+
+## Market interpretation
+- **Tech remains the main market driver**: Strong semiconductor/server earnings and AI-related demand appear to be reinforcing the rally in U.S. equities.
+- **The market tone is risk-on**: Rising index futures, strength in Asian equities, and softer oil suggest investors are leaning toward growth assets.
+- **Healthcare names may see divergent reactions**:
+  - **Novo Nordisk’s guidance raise** is a positive read for obesity-drug demand.
+  - **UnitedHealthcare’s policy change** could be viewed as margin-negative or regulation-response-related, depending on investor framing.
+- **Lower oil reduces one near-term inflation risk**, if the easing around Hormuz holds.
+- **Regulatory pressure on big tech/AI is building**: Federal AI testing, Apple’s settlement, and Meta’s lawsuit point to a more complex legal and policy backdrop for AI leaders.
+
+## Likely market-moving items to watch first
+- **AMD / Super Micro / broader AI trade**
+- **Novo Nordisk guidance raise**
+- **U.S. index futures at record-adjacent levels**
+- **Oil/Hormuz developments**
+- **Disney earnings**
+- **New U.S. oversight of AI model releases**
+
+If you want, I can also turn this into a **pre-market trader brief** with **“bullish / bearish / watchlist”** tags.

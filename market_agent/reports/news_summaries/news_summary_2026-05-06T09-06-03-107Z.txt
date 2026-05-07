@@ -1,0 +1,54 @@
+Here are the **concise, market-focused business headlines**, with **Facts** separated from **Interpretation**:
+
+- **Markets stabilize after oil-driven selloff**
+  - **Facts:** U.S. stock futures were modestly higher Tuesday after Monday’s decline. Asian shares fell, while oil prices retreated after an earlier spike tied to renewed U.S.-Iran/Middle East tensions.
+  - **Interpretation:** Markets appear to be reassessing geopolitical risk rather than pricing in an immediate worst-case supply shock.
+
+- **Oil and gasoline remain a key macro risk**
+  - **Facts:** Oil jumped on Middle East escalation concerns, and the U.S. average gasoline price reportedly rose to **$4.46/gallon** as shippers avoided the Strait of Hormuz.
+  - **Interpretation:** Sustained energy price pressure could complicate inflation and central-bank expectations, especially if shipping disruptions persist.
+
+- **Australia’s central bank raised rates to 4.35%**
+  - **Facts:** The Reserve Bank of Australia increased its policy rate to **4.35%**, citing sticky inflation and higher fuel/commodity prices linked to Middle East conflict.
+  - **Interpretation:** This reinforces the idea that geopolitical energy shocks are feeding into global inflation concerns and may keep policy tighter for longer.
+
+- **Amazon logistics expansion hit transport stocks**
+  - **Facts:** FedEx and UPS shares fell after Amazon expanded logistics offerings, a move Bloomberg described as a major competitive step into parcel and freight markets.
+  - **Interpretation:** Investors are treating Amazon’s push as a structural threat to incumbent delivery and transport firms’ margins and volumes.
+
+- **Palantir beat on earnings, helped by government growth**
+  - **Facts:** Palantir reported Q1 earnings and revenue above estimates, with particularly strong U.S. government business growth, though commercial sales were described as lighter.
+  - **Interpretation:** The result supports the bullish AI/government-demand narrative, but uneven commercial momentum may matter for valuation.
+
+- **JetBlue moved to capture demand after Spirit shutdown**
+  - **Facts:** JetBlue announced **$99 rescue fares** for stranded Spirit customers and plans to add **11 destinations from Fort Lauderdale**.
+  - **Interpretation:** JetBlue is trying to quickly capture market share and strengthen its South Florida position following Spirit’s exit.
+
+- **Trump White House may pursue federal AI model oversight**
+  - **Facts:** Mashable reported insiders say the administration is considering federal oversight of AI models.
+  - **Interpretation:** If formalized, this could become a meaningful regulatory overhang or moat-creating framework for large AI developers.
+
+- **Musk settled SEC case over Twitter stock disclosures**
+  - **Facts:** Elon Musk reached a settlement with the SEC; a trust in his name will pay **$1.5 million** over allegations tied to late disclosure of Twitter stock purchases in 2022.
+  - **Interpretation:** The settlement removes one legal overhang, though the financial impact itself appears limited.
+
+- **Paramount says Warner deal is on track**
+  - **Facts:** Paramount reported year-over-year growth in revenue and adjusted EBITDA and said it is making “great progress” on its Warner Bros. acquisition, reaffirming timing.
+  - **Interpretation:** Investors may view this as incremental execution reassurance, though deal integration risk remains.
+
+- **Insurance risk spotlight: California targets State Farm**
+  - **Facts:** California said State Farm violated the law in handling claims from the 2025 wildfires; penalties and a temporary license suspension are possible.
+  - **Interpretation:** The case underscores regulatory and catastrophe-exposure risks for insurers operating in high-loss states.
+
+- **Crypto/legal headline involving Trump family and Justin Sun**
+  - **Facts:** ABC reported the Trump family’s crypto firm sued investor Justin Sun.
+  - **Interpretation:** This is more idiosyncratic than broad market-moving for now, but it may add headline risk around politically connected crypto ventures.
+
+- **U.S. wind projects face policy uncertainty**
+  - **Facts:** Electrek, citing FT reporting, said the Trump administration has effectively stalled **165 U.S. onshore wind projects** amid approval/security issues.
+  - **Interpretation:** If sustained, this would be a negative for renewable project developers and could shift investment toward other generation sources.
+
+If you want, I can also turn this into:
+1. a **pre-market trader brief**,  
+2. a **sector-by-sector summary**, or  
+3. a **“what matters for stocks today” top 5**.

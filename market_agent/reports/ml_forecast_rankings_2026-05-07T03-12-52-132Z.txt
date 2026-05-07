@@ -1,0 +1,26 @@
+Generated: 2026-05-07 03:12 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model used: both
+No qualifying 1 trading-day Buy or Sell signals met the publication filter. All reported short-horizon names were Neutral / No Edge and/or below the 2% forecast return threshold.
+
+30 trading-day buy rankings
+GEV ranks first with a Strong Buy signal, a +19.90% forecast return, 94.3% probability up, and an Uptrend pattern.
+ENA is rated Buy with a +18.30% forecast return and a Volume Spike pattern, though expected error is high at 33.01%.
+XRP is rated Buy with a +12.08% forecast return and a Rebound From 60-Day Low pattern.
+SLB is rated Buy with a +7.70% forecast return in an Uptrend pattern.
+GS is rated Buy with a +7.24% forecast return in an Uptrend pattern.
+JNJ is rated Buy with a +7.00% forecast return and an Oversold pattern.
+
+30 trading-day sell rankings
+PEPE ranks first on the sell side with a Strong Sell signal, a -26.56% forecast return, 93.9% probability down, and a Downtrend pattern.
+NFLX is rated Sell with a -11.33% forecast return and an Oversold pattern.
+
+Editorial notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% are included.
+No additional qualifying sell signals were present beyond PEPE and NFLX.
+Crypto buy signals show larger projected moves but also materially wider expected error bands than the leading equity buy signals.

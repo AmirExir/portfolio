@@ -1,0 +1,17 @@
+No optimizer output was provided, so no valid ranked signals can be extracted.
+
+Generated time: not provided
+Horizon: not provided
+Universe: not provided
+
+Top Buy Signals
+No qualifying buy signals detected.
+
+Top Sell / Avoid Signals
+No strong sell signals detected.
+
+Watchlist / Neutral
+No neutral watchlist can be formed because no source signals were provided.
+
+Notes
+Actionable signals require Strong Buy, Buy, Strong Sell, or Sell classifications with absolute forecast return of at least 2%. Without the underlying optimizer rows, symbols, model calls, forecast returns, probabilities, edge, expected error, and selected models cannot be verified.

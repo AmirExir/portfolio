@@ -1,0 +1,38 @@
+Generated: 2026-05-07 10:25 UTC
+Horizon: 30 trading days
+Universe: 74 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+XRP — Strong Buy | Pattern: Rebound From 60-Day Low | Forecast return: +41.33% | Probability up: 95.7% | Edge: 45.7% | Expected error: +/-22.36% | Selected model: XGBoost. Highest forecast and edge in the set. Risk note: expected error is large in absolute terms, but still below forecast return.
+
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +15.80% | Probability up: 94.4% | Edge: 44.4% | Expected error: +/-9.66% | Selected model: Ridge. Broad model support is positive, with several alternative models showing even stronger upside.
+
+JNJ — Strong Buy | Pattern: Oversold | Forecast return: +9.95% | Probability up: 88.8% | Edge: 38.8% | Expected error: +/-8.10% | Selected model: Transformer. Setup is supported by a rebound-style pattern. Risk note: oversold conditions can help reversal trades, but the forecast is not far above expected error.
+
+ENA — Buy | Pattern: Volume Spike | Forecast return: +16.41% | Probability up: 77.3% | Edge: 27.3% | Expected error: +/-22.51% | Selected model: XGBoost. Positive return is meaningful, but model disagreement is high: Ridge and LSTM are negative while Transformer is sharply positive. Expected error exceeds forecast return, so confidence is lower than headline return suggests.
+
+QQQ — Buy | Pattern: Uptrend | Forecast return: +5.23% | Probability up: 76.1% | Edge: 26.1% | Expected error: +/-7.46% | Selected model: Ridge. Trend remains positive, but Near 60-Day High and Overbought tags raise pullback risk. Expected error exceeds forecast return.
+
+C — Buy | Pattern: Uptrend | Forecast return: +6.53% | Probability up: 71.9% | Edge: 21.9% | Expected error: +/-11.52% | Selected model: Transformer. Positive bias, but upside is moderate and expected error is larger than forecast return.
+
+BTC — Buy | Pattern: Near 60-Day High | Forecast return: +7.32% | Probability up: 71.5% | Edge: 21.5% | Expected error: +/-13.22% | Selected model: Ridge. Trade remains positive after the 2% noise filter, but alternative models are mixed to negative. Expected error exceeds forecast return.
+
+AVGO — Buy | Pattern: Uptrend | Forecast return: +8.67% | Probability up: 71.6% | Edge: 21.6% | Expected error: +/-15.71% | Selected model: Ridge. Trend is constructive, though expected error is materially larger than forecast return.
+
+WMT — Buy | Pattern: Uptrend | Forecast return: +3.56% | Probability up: 71.0% | Edge: 21.0% | Expected error: +/-6.53% | Selected model: XGBoost. Signal clears the noise filter but is relatively modest; expected error exceeds forecast return.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge. Strongest bearish setup in the list with consistent negative model outputs.
+
+NFLX — Strong Sell | Pattern: Oversold | Forecast return: -20.87% | Probability down: 95.7% | Edge: 45.7% | Expected error: +/-14.65% | Selected model: XGBoost. Bearish setup is strong, but oversold condition implies elevated reversal risk.
+
+HYPE — Sell | Pattern: Uptrend | Forecast return: -14.43% | Probability down: 77.0% | Edge: 27.0% | Expected error: +/-23.51% | Selected model: LSTM. Bearish model output conflicts with an uptrend pattern and several other models that are positive. Expected error is larger than forecast return, indicating a weaker short signal.
+
+INTC — Sell | Pattern: Uptrend | Forecast return: -17.86% | Probability down: 77.4% | Edge: 27.4% | Expected error: +/-29.84% | Selected model: LSTM. Strong conflict across models: Ridge, XGBoost, and Transformer are positive while LSTM is sharply negative. Uptrend, Near 60-Day High, and Overbought tags suggest trend exhaustion is possible, but expected error is very high.
+
+VOO — Sell | Pattern: Uptrend | Forecast return: -3.29% | Probability down: 73.2% | Edge: 23.2% | Expected error: +/-5.56% | Selected model: LSTM. Cleared the noise filter, but this is a weak bearish signal relative to stronger sell candidates. Uptrend and Overbought tags point to possible short-term mean reversion rather than a major breakdown.
+
+Watchlist / Neutral
+No neutral watchlist included from the provided data set. The main area to monitor is model disagreement: ENA, BTC, HYPE, INTC, and VOO all show notable cross-model conflict, which raises execution risk.
+
+Overall ranking favors XRP, GEV, and JNJ on the long side, and PEPE and NFLX on the short/avoid side. Lower-ranked buy signals often have expected error above forecast return, while several sell signals rely on LSTM against otherwise mixed or positive model outputs.
