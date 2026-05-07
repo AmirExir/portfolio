@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "generated_at": "2026-05-07T18-59-10Z",
   "horizon_days": 30,
   "primary_model": "Ensemble",
@@ -85,6 +86,16 @@
     "DOT-USD"
   ],
   "cache_key": "2513feb129d11239",
+=======
+  "paths": {
+    "json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-07T18-59-10Z.json",
+    "txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-07T18-59-10Z.txt",
+    "latest_json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.json",
+    "latest_txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.txt",
+    "cache": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_cache_2513feb129d11239.json"
+  },
+  "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-07 18:59 UTC\nHorizon: 30 trading days | Primary: Ensemble\nPattern windows: 20/50 trading days\nSequence model: both\nRL policy: off\nUniverse: 74 symbols | Stocks + crypto + commodities\nCalculation time: 1h 22m 6s total | context 1.2s | 74/75 ranked | 0 cached\nSlowest symbols: XRP: 1m 40s, SOL: 1m 39s, ADA: 1m 36s, SHIB: 1m 35s, BNB: 1m 34s\n\nBest Picked Forecast\nGEV: Strong Buy | Pattern: Uptrend | Forecast Return: +16.60% | Selected model: Ensemble\n\nShort-Term Forecast Signals\n1 trading day | sequence model: both\nBuys: ORCA: +5.80% | Buy | model Ensemble | prob up 68.8% | edge 18.8% | err +/-9.71% | pattern High Volatility ; BAC: +0.95% | Neutral / No Edge | model Ensemble | prob up 65.4% | edge 15.4% | err +/-1.96% | pattern Range / No Dominant Pattern ; SPY: +0.44% | Neutral / No Edge | model Ensemble | prob up 61.3% | edge 11.3% | err +/-1.31% | pattern Uptrend\nSells: GEV: -1.30% | Neutral / No Edge | model Ensemble | prob up 38.9% | edge 11.1% | err +/-4.04% | pattern Uptrend ; PEPE: -1.32% | Neutral / No Edge | model Ensemble | prob up 40.6% | edge 9.4% | err +/-5.87% | pattern Downtrend ; HYPE: -0.96% | Neutral / No Edge | model Ensemble | prob up 43.9% | edge 6.1% | err +/-6.10% | pattern Uptrend\n\nStrongest Buy Forecasts\nGEV: +16.60% | Strong Buy | model Ensemble | prob up 88.8% | edge 38.8% | err +/-12.06% | pattern Uptrend\nSLB: +13.61% | Buy | model Ensemble | prob up 82.6% | edge 32.6% | err +/-13.74% | pattern Uptrend\nWMT: +7.19% | Buy | model Ensemble | prob up 78.2% | edge 28.2% | err +/-8.70% | pattern Uptrend\nJNJ: +6.48% | Buy | model Ensemble | prob up 75.8% | edge 25.8% | err +/-8.93% | pattern Oversold\nGS: +9.26% | Buy | model Ensemble | prob up 74.1% | edge 24.1% | err +/-13.64% | pattern Uptrend\nIWM: +5.06% | Buy | model Ensemble | prob up 72.4% | edge 22.4% | err +/-7.83% | pattern Uptrend\nMS: +7.89% | Buy | model Ensemble | prob up 73.0% | edge 23.0% | err +/-12.93% | pattern Uptrend\nXLE: +5.08% | Buy | model Ensemble | prob up 71.4% | edge 21.4% | err +/-8.64% | pattern High Volatility\nJPM: +5.48% | Buy | model Ensemble | prob up 70.6% | edge 20.6% | err +/-9.30% | pattern Range / No Dominant Pattern\nEOG: +6.23% | Buy | model Ensemble | prob up 69.8% | edge 19.8% | err +/-11.34% | pattern Bearish MA Crossover\n\nStrongest Sell Forecasts\nPEPE: -26.56% | Strong Sell | model Ensemble | prob up 6.1% | edge 43.9% | err +/-17.76% | pattern Downtrend\nAVAX: -9.68% | Neutral / No Edge | model Ensemble | prob up 34.2% | edge 15.8% | err +/-28.76% | pattern Range / No Dominant Pattern\nNFLX: -5.40% | Neutral / No Edge | model Ensemble | prob up 36.2% | edge 13.8% | err +/-17.38% | pattern Downtrend\nBNB: -4.35% | Neutral / No Edge | model Ensemble | prob up 38.5% | edge 11.5% | err +/-16.17% | pattern Range / No Dominant Pattern\nMNT: -7.94% | Neutral / No Edge | model Ensemble | prob up 38.2% | edge 11.8% | err +/-31.41% | pattern Downtrend\nSHIB: -10.19% | Neutral / No Edge | model Ensemble | prob up 39.2% | edge 10.8% | err +/-44.33% | pattern Bullish MA Crossover\nAAPL: -2.05% | Neutral / No Edge | model Ensemble | prob up 40.5% | edge 9.5% | err +/-9.27% | pattern Uptrend\nSOL: -3.75% | Neutral / No Edge | model Ensemble | prob up 44.4% | edge 5.6% | err +/-32.27% | pattern Bullish MA Crossover\nMSFT: -0.90% | Neutral / No Edge | model Ensemble | prob up 46.8% | edge 3.2% | err +/-11.35% | pattern Near 60-Day High\nUNH: -1.45% | Neutral / No Edge | model Ensemble | prob up 46.7% | edge 3.3% | err +/-19.30% | pattern Near 60-Day High\n\nSkipped\nRIOTORCL: No OHLCV data returned for RIOTORCL.\n\nModel output only. Not financial advice.",
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
   "rows": [
     {
       "Symbol": "AAPL",
@@ -1468,7 +1479,11 @@
       "Symbol": "BTC",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< HEAD
       "Last Price": 79812.0,
+=======
+      "Last Price": 79812,
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
       "Forecast Price": 85460.04898753857,
       "Forecast Return %": 7.076691459352696,
       "Ridge Return %": 10.668348119534746,
@@ -1728,8 +1743,13 @@
       "Symbol": "SHIB",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< HEAD
       "Last Price": 6.24999984211172e-06,
       "Forecast Price": 5.613059861616842e-06,
+=======
+      "Last Price": 0.00000624999984211172,
+      "Forecast Price": 0.000005613059861616842,
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
       "Forecast Return %": -10.191039945365441,
       "Ridge Return %": -20.85860002863843,
       "XGBoost Return %": 0.24102770294176973,
@@ -1754,8 +1774,13 @@
       "Symbol": "FLOKI",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< HEAD
       "Last Price": 3.460000152699649e-05,
       "Forecast Price": 3.637083985848815e-05,
+=======
+      "Last Price": 0.00003460000152699649,
+      "Forecast Price": 0.00003637083985848815,
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
       "Forecast Return %": 5.118029633929277,
       "Ridge Return %": 6.123702509997708,
       "XGBoost Return %": 1.338309874380161,
@@ -1780,8 +1805,13 @@
       "Symbol": "PEPE",
       "Model Call": "Strong Sell",
       "Selected Model": "Ensemble",
+<<<<<<< HEAD
       "Last Price": 6.000000212225132e-06,
       "Forecast Price": 4.406437076039159e-06,
+=======
+      "Last Price": 0.000006000000212225132,
+      "Forecast Price": 0.000004406437076039159,
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
       "Forecast Return %": -26.559384663671402,
       "Ridge Return %": -31.940764381164712,
       "XGBoost Return %": -35.24866034754006,
@@ -2011,6 +2041,7 @@
       "All Patterns": "Range / No Dominant Pattern"
     }
   ],
+<<<<<<< HEAD
   "snapshots": [
     {
       "symbol": "AAPL",
@@ -107537,10 +107568,13 @@
       }
     }
   ],
+=======
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
   "short_horizon_reports": [
     {
       "horizon_days": 1,
       "sequence_model": "both",
+<<<<<<< HEAD
       "rows": [
         {
           "Symbol": "AAPL",
@@ -107591,10 +107625,37 @@
           "Validation MAE %": 1.5154593279546251,
           "Direction Hit Rate %": 50.64499122765017,
           "Score": 0.024921112092138566,
+=======
+      "top_buys": [
+        {
+          "Symbol": "ORCA",
+          "Model Call": "Buy",
+          "Selected Model": "Ensemble",
+          "Last Price": 1.5889999866485596,
+          "Forecast Price": 1.681183494082329,
+          "Forecast Return %": 5.80135356880638,
+          "Ridge Return %": 1.537683060848437,
+          "XGBoost Return %": -0.11593675266806086,
+          "Neural Net Return %": 6.164512280095911,
+          "LSTM Return %": 8.368246426043038,
+          "Transformer Return %": 15.382219623034384,
+          "RL Policy Return %": null,
+          "Ensemble Return %": 5.80135356880638,
+          "Probability Up %": 68.77744976829015,
+          "Probability Down %": 31.222550231709846,
+          "Directional Probability %": 68.77744976829015,
+          "Model Edge %": 18.777449768290154,
+          "Signal Quality": "High Edge",
+          "Expected Error %": 9.71000663909739,
+          "Validation MAE %": 5.382692051629077,
+          "Direction Hit Rate %": 51.34520573956244,
+          "Score": 0.22437600565117394,
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
           "Primary Pattern": "High Volatility",
           "All Patterns": "High Volatility"
         },
         {
+<<<<<<< HEAD
           "Symbol": "NVDA",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -107907,6 +107968,8 @@
           "All Patterns": "Range / No Dominant Pattern"
         },
         {
+=======
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
           "Symbol": "BAC",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -107933,6 +107996,7 @@
           "All Patterns": "Range / No Dominant Pattern"
         },
         {
+<<<<<<< HEAD
           "Symbol": "WFC",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -108319,10 +108383,35 @@
           "Validation MAE %": 2.546065562302228,
           "Direction Hit Rate %": 50.54431557288598,
           "Score": 0.0027854739755041225,
+=======
+          "Symbol": "SPY",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 731.7899780273438,
+          "Forecast Price": 735.0314413734778,
+          "Forecast Return %": 0.44294995059535086,
+          "Ridge Return %": 0.37357054350245944,
+          "XGBoost Return %": 0.08743359319826709,
+          "Neural Net Return %": 0.09231061857625857,
+          "LSTM Return %": 1.7068284058284315,
+          "Transformer Return %": -0.06608423762567792,
+          "RL Policy Return %": null,
+          "Ensemble Return %": 0.44294995059535086,
+          "Probability Up %": 61.33570161822466,
+          "Probability Down %": 38.66429838177534,
+          "Directional Probability %": 61.33570161822466,
+          "Model Edge %": 11.335701618224661,
+          "Signal Quality": "Moderate Edge",
+          "Expected Error %": 1.31121836190908,
+          "Validation MAE %": 0.8742973212190196,
+          "Direction Hit Rate %": 53.25624323817627,
+          "Score": 0.07658752527604429,
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
           "Primary Pattern": "Uptrend",
           "All Patterns": "Uptrend, Near 60-Day High"
         },
         {
+<<<<<<< HEAD
           "Symbol": "UAL",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -108401,6 +108490,8 @@
           "All Patterns": "Range / No Dominant Pattern"
         },
         {
+=======
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
           "Symbol": "XOM",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -108427,6 +108518,7 @@
           "All Patterns": "High Volatility"
         },
         {
+<<<<<<< HEAD
           "Symbol": "CVX",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -108973,6 +109065,8 @@
           "All Patterns": "Range / No Dominant Pattern"
         },
         {
+=======
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
           "Symbol": "SOL",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -108999,6 +109093,7 @@
           "All Patterns": "Bullish MA Crossover"
         },
         {
+<<<<<<< HEAD
           "Symbol": "XRP",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -109283,6 +109378,84 @@
           "Score": 0.013142945475540256,
           "Primary Pattern": "Near 60-Day High",
           "All Patterns": "Near 60-Day High, Overbought, Volume Spike"
+=======
+          "Symbol": "INTC",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 110.55010223388672,
+          "Forecast Price": 112.10292439999213,
+          "Forecast Return %": 1.4046320489330142,
+          "Ridge Return %": 1.0207047520043397,
+          "XGBoost Return %": 0.5228823190828198,
+          "Neural Net Return %": 0.45147007642718767,
+          "LSTM Return %": 3.0812774785338206,
+          "Transformer Return %": 2.2024945782550107,
+          "RL Policy Return %": null,
+          "Ensemble Return %": 1.4046320489330142,
+          "Probability Up %": 60.80512259076971,
+          "Probability Down %": 39.19487740923029,
+          "Directional Probability %": 60.80512259076971,
+          "Model Edge %": 10.805122590769713,
+          "Signal Quality": "Moderate Edge",
+          "Expected Error %": 5.020302970648237,
+          "Validation MAE %": 3.6222508437742906,
+          "Direction Hit Rate %": 50.78207730721059,
+          "Score": 0.06046336873443927,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend, Overbought, High Volatility"
+        },
+        {
+          "Symbol": "LUV",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 40.88999938964844,
+          "Forecast Price": 41.28304724419588,
+          "Forecast Return %": 0.9612322338330609,
+          "Ridge Return %": 1.181410482772661,
+          "XGBoost Return %": 0.09798340793722977,
+          "Neural Net Return %": 1.8005839305912577,
+          "LSTM Return %": 0.1342350417841811,
+          "Transformer Return %": 1.7838135127391705,
+          "RL Policy Return %": null,
+          "Ensemble Return %": 0.9612322338330609,
+          "Probability Up %": 60.74445591354648,
+          "Probability Down %": 39.25554408645352,
+          "Directional Probability %": 60.74445591354648,
+          "Model Edge %": 10.744455913546481,
+          "Signal Quality": "Moderate Edge",
+          "Expected Error %": 3.4297511772919114,
+          "Validation MAE %": 2.4336537038599593,
+          "Direction Hit Rate %": 51.52717053754215,
+          "Score": 0.06022546141235773,
+          "Primary Pattern": "Range / No Dominant Pattern",
+          "All Patterns": "Range / No Dominant Pattern"
+        },
+        {
+          "Symbol": "KO",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 78.54499816894531,
+          "Forecast Price": 78.80363213906563,
+          "Forecast Return %": 0.32928127334603474,
+          "Ridge Return %": 0.0972729812780946,
+          "XGBoost Return %": 0.04335286540211203,
+          "Neural Net Return %": 0.10483475040012045,
+          "LSTM Return %": 1.2862173626797333,
+          "Transformer Return %": 0.3044614364158055,
+          "RL Policy Return %": null,
+          "Ensemble Return %": 0.32928127334603474,
+          "Probability Up %": 58.706376572587466,
+          "Probability Down %": 41.293623427412534,
+          "Directional Probability %": 58.706376572587466,
+          "Model Edge %": 8.706376572587466,
+          "Signal Quality": "Moderate Edge",
+          "Expected Error %": 1.2730146526435002,
+          "Validation MAE %": 0.9833520663178097,
+          "Direction Hit Rate %": 51.256126624058204,
+          "Score": 0.045040279121665826,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend, Bullish MA Crossover, High Volatility"
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
         },
         {
           "Symbol": "ZEC",
@@ -109311,6 +109484,7 @@
           "All Patterns": "Near 60-Day High, Overbought"
         },
         {
+<<<<<<< HEAD
           "Symbol": "COMP",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -109335,6 +109509,86 @@
           "Score": 0.0005931427171352121,
           "Primary Pattern": "Range / No Dominant Pattern",
           "All Patterns": "Range / No Dominant Pattern"
+=======
+          "Symbol": "GOOGL",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 395.8800048828125,
+          "Forecast Price": 397.8643467621763,
+          "Forecast Return %": 0.5012483214329522,
+          "Ridge Return %": 0.17211059934240577,
+          "XGBoost Return %": 0.3033566880982302,
+          "Neural Net Return %": 0.6972210216513702,
+          "LSTM Return %": 1.6459389831133215,
+          "Transformer Return %": 0.11497441315115144,
+          "RL Policy Return %": null,
+          "Ensemble Return %": 0.5012483214329522,
+          "Probability Up %": 57.24596487281131,
+          "Probability Down %": 42.75403512718869,
+          "Directional Probability %": 57.24596487281131,
+          "Model Edge %": 7.245964872811307,
+          "Signal Quality": "Weak Edge",
+          "Expected Error %": 2.4579666013510226,
+          "Validation MAE %": 1.852663591331781,
+          "Direction Hit Rate %": 50.93596640952448,
+          "Score": 0.0295531088800186,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend, Near 60-Day High, Overbought, High Volatility"
+        }
+      ],
+      "top_sells": [
+        {
+          "Symbol": "GEV",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 1057.52001953125,
+          "Forecast Price": 1043.8207557123455,
+          "Forecast Return %": -1.2954141355145916,
+          "Ridge Return %": -0.6584242250491322,
+          "XGBoost Return %": 0.00422603526654324,
+          "Neural Net Return %": -2.0915623315494263,
+          "LSTM Return %": -4.087523682934603,
+          "Transformer Return %": -0.5222378998266639,
+          "RL Policy Return %": null,
+          "Ensemble Return %": -1.2954141355145916,
+          "Probability Up %": 38.89511930567725,
+          "Probability Down %": 61.10488069432275,
+          "Directional Probability %": 61.10488069432275,
+          "Model Edge %": 11.104880694322752,
+          "Signal Quality": "Moderate Edge",
+          "Expected Error %": 4.039178297302641,
+          "Validation MAE %": 2.9892429390669455,
+          "Direction Hit Rate %": 53.33577365134968,
+          "Score": -0.07122943512662144,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend, High Volatility"
+        },
+        {
+          "Symbol": "PEPE",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 0.000006000000212225132,
+          "Forecast Price": 0.000005920853593909587,
+          "Forecast Return %": -1.319110258601007,
+          "Ridge Return %": -2.840812976526508,
+          "XGBoost Return %": -0.7752332798205679,
+          "Neural Net Return %": -3.0701838007349687,
+          "LSTM Return %": -0.23928225837166295,
+          "Transformer Return %": -0.46342590297825204,
+          "RL Policy Return %": null,
+          "Ensemble Return %": -1.319110258601007,
+          "Probability Up %": 40.649432816678676,
+          "Probability Down %": 59.350567183321324,
+          "Directional Probability %": 59.350567183321324,
+          "Model Edge %": 9.350567183321324,
+          "Signal Quality": "Moderate Edge",
+          "Expected Error %": 5.869881223688387,
+          "Validation MAE %": 3.989756559696191,
+          "Direction Hit Rate %": 3.4910687307042463,
+          "Score": -0.04202616245616856,
+          "Primary Pattern": "Downtrend",
+          "All Patterns": "Downtrend"
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
         },
         {
           "Symbol": "HYPE",
@@ -109363,6 +109617,7 @@
           "All Patterns": "Uptrend"
         },
         {
+<<<<<<< HEAD
           "Symbol": "MNT",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -109387,6 +109642,58 @@
           "Score": -0.001095781721250945,
           "Primary Pattern": "Downtrend",
           "All Patterns": "Downtrend, Rebound From 60-Day Low"
+=======
+          "Symbol": "RIOT",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 23.219999313354492,
+          "Forecast Price": 23.00859258512019,
+          "Forecast Return %": -0.9104510529107654,
+          "Ridge Return %": -0.14154909934497914,
+          "XGBoost Return %": 0.15535761847729473,
+          "Neural Net Return %": -0.8173041682318406,
+          "LSTM Return %": -1.9116071695521586,
+          "Transformer Return %": -2.363370607963306,
+          "RL Policy Return %": null,
+          "Ensemble Return %": -0.9104510529107654,
+          "Probability Up %": 44.867848313794525,
+          "Probability Down %": 55.132151686205475,
+          "Directional Probability %": 55.132151686205475,
+          "Model Edge %": 5.132151686205475,
+          "Signal Quality": "Weak Edge",
+          "Expected Error %": 6.680043233935796,
+          "Validation MAE %": 5.205064432992257,
+          "Direction Hit Rate %": 51.35032073466016,
+          "Score": -0.013989648697679208,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend, High Volatility"
+        },
+        {
+          "Symbol": "SHIB",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 0.000006289999873843044,
+          "Forecast Price": 0.000006229834289045789,
+          "Forecast Return %": -0.9565275994273443,
+          "Ridge Return %": 0.7296333806970166,
+          "XGBoost Return %": -0.3020575113023032,
+          "Neural Net Return %": -8.289293289020659,
+          "LSTM Return %": 0.3209659788553584,
+          "Transformer Return %": -0.09339244997171774,
+          "RL Policy Return %": null,
+          "Ensemble Return %": -0.9565275994273443,
+          "Probability Up %": 45.93775528549722,
+          "Probability Down %": 54.06224471450278,
+          "Directional Probability %": 54.06224471450278,
+          "Model Edge %": 4.062244714502782,
+          "Signal Quality": "Weak Edge",
+          "Expected Error %": 6.638369173552666,
+          "Validation MAE %": 4.059581447087153,
+          "Direction Hit Rate %": 16.306380263757543,
+          "Score": -0.011706637830659469,
+          "Primary Pattern": "Bullish MA Crossover",
+          "All Patterns": "Bullish MA Crossover, Near 60-Day High"
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
         },
         {
           "Symbol": "UNI",
@@ -109415,6 +109722,7 @@
           "All Patterns": "Range / No Dominant Pattern"
         },
         {
+<<<<<<< HEAD
           "Symbol": "ENA",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -109437,10 +109745,35 @@
           "Validation MAE %": 5.207935922272432,
           "Direction Hit Rate %": 50.52750148898969,
           "Score": -0.0021731241062376205,
+=======
+          "Symbol": "LLY",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 971.7999877929688,
+          "Forecast Price": 968.9337235122132,
+          "Forecast Return %": -0.29494384819505515,
+          "Ridge Return %": -0.33213763901906923,
+          "XGBoost Return %": 0.08376313902797312,
+          "Neural Net Return %": 0.14394122375677054,
+          "LSTM Return %": -1.304033787852864,
+          "Transformer Return %": -0.14244053611485763,
+          "RL Policy Return %": null,
+          "Ensemble Return %": -0.29494384819505515,
+          "Probability Up %": 46.05283411204141,
+          "Probability Down %": 53.94716588795859,
+          "Directional Probability %": 53.94716588795859,
+          "Model Edge %": 3.9471658879585902,
+          "Signal Quality": "Weak Edge",
+          "Expected Error %": 2.891238170567319,
+          "Validation MAE %": 2.0880865887181113,
+          "Direction Hit Rate %": 50.04774771412875,
+          "Score": -0.00805324381996742,
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
           "Primary Pattern": "Range / No Dominant Pattern",
           "All Patterns": "Range / No Dominant Pattern"
         },
         {
+<<<<<<< HEAD
           "Symbol": "DOT",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -109463,6 +109796,82 @@
           "Validation MAE %": 3.8468698694712744,
           "Direction Hit Rate %": 51.093678907103886,
           "Score": 0.00016564713413665469,
+=======
+          "Symbol": "XRP",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 1.3955999612808228,
+          "Forecast Price": 1.389511228290257,
+          "Forecast Return %": -0.43628067924116376,
+          "Ridge Return %": -0.34674786495594767,
+          "XGBoost Return %": 0.004223710977404601,
+          "Neural Net Return %": -0.3996408293126966,
+          "LSTM Return %": -1.315411548630847,
+          "Transformer Return %": -0.479862561752834,
+          "RL Policy Return %": null,
+          "Ensemble Return %": -0.43628067924116376,
+          "Probability Up %": 46.74835088582978,
+          "Probability Down %": 53.25164911417022,
+          "Directional Probability %": 53.25164911417022,
+          "Model Edge %": 3.2516491141702204,
+          "Signal Quality": "Weak Edge",
+          "Expected Error %": 5.032930269638656,
+          "Validation MAE %": 3.482880132221295,
+          "Direction Hit Rate %": 48.112644951089884,
+          "Score": -0.005637398526031891,
+          "Primary Pattern": "Rebound From 60-Day Low",
+          "All Patterns": "Rebound From 60-Day Low"
+        },
+        {
+          "Symbol": "DELL",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 230.86000061035156,
+          "Forecast Price": 230.1077295290254,
+          "Forecast Return %": -0.32585596436682923,
+          "Ridge Return %": 0.2987681235134874,
+          "XGBoost Return %": 0.03605517070871162,
+          "Neural Net Return %": -1.14989291847428,
+          "LSTM Return %": 0.5626249696176967,
+          "Transformer Return %": -1.470941829946508,
+          "RL Policy Return %": null,
+          "Ensemble Return %": -0.32585596436682923,
+          "Probability Up %": 47.041774332343635,
+          "Probability Down %": 52.958225667656365,
+          "Directional Probability %": 52.958225667656365,
+          "Model Edge %": 2.9582256676563645,
+          "Signal Quality": "No Edge",
+          "Expected Error %": 4.1160264017234045,
+          "Validation MAE %": 2.919166238417957,
+          "Direction Hit Rate %": 52.73445797957837,
+          "Score": -0.004683912996016051,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend, Overbought, High Volatility"
+        },
+        {
+          "Symbol": "PNUT",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 0.06019999831914902,
+          "Forecast Price": 0.05978846949616886,
+          "Forecast Return %": -0.6836027150672673,
+          "Ridge Return %": -0.48489347812270434,
+          "XGBoost Return %": 0.2314139013829695,
+          "Neural Net Return %": -4.269785953294168,
+          "LSTM Return %": -0.3000403145568556,
+          "Transformer Return %": 0.07726675956237385,
+          "RL Policy Return %": null,
+          "Ensemble Return %": -0.6836027150672673,
+          "Probability Up %": 47.207929480247195,
+          "Probability Down %": 52.792070519752805,
+          "Directional Probability %": 52.792070519752805,
+          "Model Edge %": 2.792070519752805,
+          "Signal Quality": "No Edge",
+          "Expected Error %": 8.667331336406592,
+          "Validation MAE %": 5.914064235176362,
+          "Direction Hit Rate %": 53.18289342635657,
+          "Score": -0.004404278350234646,
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
           "Primary Pattern": "Range / No Dominant Pattern",
           "All Patterns": "Range / No Dominant Pattern"
         }
@@ -109470,6 +109879,7 @@
       "errors": [
         "RIOTORCL: No OHLCV data returned for RIOTORCL."
       ],
+<<<<<<< HEAD
       "snapshots": [
         {
           "symbol": "AAPL",
@@ -124864,6 +125274,8 @@
           }
         }
       ],
+=======
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
       "timings": {
         "total_seconds": 5215.593,
         "context_seconds": 0.865,
@@ -125638,6 +126050,7 @@
         "status": "ok"
       }
     ]
+<<<<<<< HEAD
   },
   "model_cache": {
     "force_retrain": false,
@@ -125673,4 +126086,7 @@
     "MSFT",
     "UNH"
   ]
+=======
+  }
+>>>>>>> 9c3019a6e979bb782e76b1d732b0c1b01ac5756b
 }
