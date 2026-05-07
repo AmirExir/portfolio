@@ -1,38 +1,46 @@
 ML Forecast Rankings
-Generated: 2026-05-07 01:43 UTC
+Generated: 2026-05-07 11:50 UTC
 Horizon: 30 trading days | Primary: Ensemble
 Pattern windows: 20/50 trading days
 Sequence model: both
 RL policy: off
-Universe: 75 symbols | Stocks + crypto + commodities
-Calculation time: 1h 34m 41s total | context 1.3s | 75/75 ranked | 0 cached
-Slowest symbols: LLY: 2m 33s, GS: 2m 31s, MS: 2m 18s, C: 1m 45s, DOGE: 1m 41s
+Universe: 74 symbols | Stocks + crypto + commodities
+Calculation time: 1h 23m 50s total | context 1.0s | 74/75 ranked | 0 cached
+Slowest symbols: COMP: 1m 37s, AVAX: 1m 37s, DOGE: 1m 36s, BNB: 1m 36s, BTC: 1m 36s
 
 Best Picked Forecast
-GEV: Strong Buy | Pattern: Uptrend | Forecast Return: +20.02% | Selected model: Ensemble
+GEV: Strong Buy | Pattern: Uptrend | Forecast Return: +20.04% | Selected model: Ensemble
+
+Short-Term Forecast Signals
+1 trading day | sequence model: both
+Buys: ORCA: +2.33% | Neutral / No Edge | model Ensemble | prob up 58.1% | edge 8.1% | err +/-9.74% | pattern High Volatility ; V: +0.37% | Neutral / No Edge | model Ensemble | prob up 57.5% | edge 7.5% | err +/-1.77% | pattern Bullish MA Crossover ; MS: +0.41% | Neutral / No Edge | model Ensemble | prob up 57.3% | edge 7.3% | err +/-2.31% | pattern Uptrend
+Sells: LLY: -1.10% | Neutral / No Edge | model Ensemble | prob up 36.4% | edge 13.6% | err +/-2.89% | pattern Range / No Dominant Pattern ; RIOT: -1.78% | Neutral / No Edge | model Ensemble | prob up 41.3% | edge 8.7% | err +/-6.77% | pattern Uptrend ; PEPE: -1.34% | Neutral / No Edge | model Ensemble | prob up 40.5% | edge 9.5% | err +/-5.85% | pattern Downtrend
 
 Strongest Buy Forecasts
-GEV: +20.02% | Strong Buy | model Ensemble | prob up 94.4% | edge 44.4% | err +/-12.10% | pattern Uptrend
-SLB: +8.82% | Buy | model Ensemble | prob up 73.8% | edge 23.8% | err +/-13.58% | pattern Uptrend
-JNJ: +5.49% | Buy | model Ensemble | prob up 72.5% | edge 22.5% | err +/-8.90% | pattern Oversold
-GS: +7.24% | Buy | model Ensemble | prob up 69.5% | edge 19.5% | err +/-13.58% | pattern Uptrend
-XLE: +4.50% | Buy | model Ensemble | prob up 69.1% | edge 19.1% | err +/-8.57% | pattern High Volatility
-C: +6.37% | Buy | model Ensemble | prob up 69.7% | edge 19.7% | err +/-12.72% | pattern Uptrend
-USO: +9.05% | Neutral / No Edge | model Ensemble | prob up 66.8% | edge 16.8% | err +/-20.56% | pattern Uptrend
-BTC: +6.57% | Neutral / No Edge | model Ensemble | prob up 66.1% | edge 16.1% | err +/-14.92% | pattern Near 60-Day High
-ENA: +17.39% | Buy | model Ensemble | prob up 62.9% | edge 12.9% | err +/-33.07% | pattern Volume Spike
-QQQ: +3.17% | Neutral / No Edge | model Ensemble | prob up 65.3% | edge 15.3% | err +/-7.43% | pattern Uptrend
+GEV: +20.04% | Strong Buy | model Ensemble | prob up 94.4% | edge 44.4% | err +/-12.11% | pattern Uptrend
+JNJ: +7.32% | Buy | model Ensemble | prob up 78.5% | edge 28.5% | err +/-8.79% | pattern Oversold
+SLB: +8.80% | Buy | model Ensemble | prob up 74.0% | edge 24.0% | err +/-13.67% | pattern Uptrend
+GS: +7.30% | Buy | model Ensemble | prob up 69.7% | edge 19.7% | err +/-13.56% | pattern Uptrend
+C: +6.13% | Neutral / No Edge | model Ensemble | prob up 69.1% | edge 19.1% | err +/-12.70% | pattern Uptrend
+XLE: +4.25% | Neutral / No Edge | model Ensemble | prob up 68.5% | edge 18.5% | err +/-8.54% | pattern High Volatility
+WMT: +3.90% | Neutral / No Edge | model Ensemble | prob up 67.5% | edge 17.5% | err +/-8.74% | pattern Uptrend
+ORCA: +24.26% | Buy | model Ensemble | prob up 61.4% | edge 11.4% | err +/-41.84% | pattern High Volatility
+COP: +5.27% | Neutral / No Edge | model Ensemble | prob up 65.6% | edge 15.6% | err +/-12.64% | pattern Bearish MA Crossover
+JPM: +3.81% | Neutral / No Edge | model Ensemble | prob up 65.4% | edge 15.4% | err +/-9.35% | pattern Near 60-Day High
 
 Strongest Sell Forecasts
 PEPE: -26.56% | Strong Sell | model Ensemble | prob up 6.1% | edge 43.9% | err +/-17.76% | pattern Downtrend
-NFLX: -11.00% | Sell | model Ensemble | prob up 24.8% | edge 25.2% | err +/-17.13% | pattern Oversold
-AVAX: -11.20% | Neutral / No Edge | model Ensemble | prob up 32.1% | edge 17.9% | err +/-28.88% | pattern Range / No Dominant Pattern
-AAPL: -2.77% | Neutral / No Edge | model Ensemble | prob up 35.9% | edge 14.1% | err +/-8.34% | pattern Uptrend
-MNT: -8.52% | Neutral / No Edge | model Ensemble | prob up 37.2% | edge 12.8% | err +/-31.44% | pattern Downtrend
-BNB: -3.31% | Neutral / No Edge | model Ensemble | prob up 41.2% | edge 8.8% | err +/-16.29% | pattern Range / No Dominant Pattern
-UNH: -3.88% | Neutral / No Edge | model Ensemble | prob up 41.3% | edge 8.7% | err +/-19.37% | pattern Near 60-Day High
-LLY: -2.47% | Neutral / No Edge | model Ensemble | prob up 42.7% | edge 7.3% | err +/-14.24% | pattern Range / No Dominant Pattern
-SHIB: -6.25% | Neutral / No Edge | model Ensemble | prob up 43.0% | edge 7.0% | err +/-40.66% | pattern Bullish MA Crossover
-SOL: -3.96% | Neutral / No Edge | model Ensemble | prob up 44.2% | edge 5.8% | err +/-32.41% | pattern Bullish MA Crossover
+NFLX: -10.94% | Sell | model Ensemble | prob up 25.0% | edge 25.0% | err +/-17.17% | pattern Oversold
+AAPL: -2.76% | Neutral / No Edge | model Ensemble | prob up 36.0% | edge 14.0% | err +/-8.34% | pattern Uptrend
+AVAX: -8.79% | Neutral / No Edge | model Ensemble | prob up 36.0% | edge 14.0% | err +/-29.24% | pattern Range / No Dominant Pattern
+SHIB: -12.23% | Neutral / No Edge | model Ensemble | prob up 37.1% | edge 12.9% | err +/-43.97% | pattern Bullish MA Crossover
+MNT: -6.97% | Neutral / No Edge | model Ensemble | prob up 39.2% | edge 10.8% | err +/-31.48% | pattern Downtrend
+ADA: -4.59% | Neutral / No Edge | model Ensemble | prob up 41.5% | edge 8.5% | err +/-23.11% | pattern Overbought
+BNB: -2.95% | Neutral / No Edge | model Ensemble | prob up 42.2% | edge 7.8% | err +/-16.43% | pattern Range / No Dominant Pattern
+UNH: -3.32% | Neutral / No Edge | model Ensemble | prob up 42.5% | edge 7.5% | err +/-19.36% | pattern Near 60-Day High
+SOL: -4.17% | Neutral / No Edge | model Ensemble | prob up 43.7% | edge 6.3% | err +/-32.31% | pattern Bullish MA Crossover
+
+Skipped
+RIOTORCL: No OHLCV data returned for RIOTORCL.
 
 Model output only. Not financial advice.
