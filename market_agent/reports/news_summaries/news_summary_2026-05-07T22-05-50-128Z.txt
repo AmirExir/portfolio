@@ -1,0 +1,48 @@
+Here are today’s **market-moving business headlines**, separated into **Facts** and **Interpretation**.
+
+## Facts
+- **U.S. stocks rose as oil fell on signs of a possible U.S.-Iran deal**
+  - The **Dow gained about 500+ points**, while the **S&P 500 and Nasdaq moved higher**.
+  - Coverage from CNBC/WSJ/MarketWatch linked the move to **lower oil prices**, continued **tech strength**, and improving risk appetite.
+
+- **Oil prices slid on reports of progress toward a U.S.-Iran peace agreement**
+  - Business Insider reported crude fell sharply as markets reacted to potential de-escalation.
+  - Lower oil also fed into a broader equity rally.
+
+- **U.S. gasoline prices surged**
+  - AP said the national average for regular gasoline reached **$4.54/gallon**, up **31 cents in a week** and **52% above** the level before the Iran war began.
+
+- **AMD shares jumped after earnings**
+  - Barron’s said AMD stock surged after reporting solid quarterly results.
+  - Its **data-center segment grew 57%**, driven by AI demand.
+
+- **Novo Nordisk raised annual guidance**
+  - Barron’s reported Novo Nordisk lifted its outlook, citing strong demand for its **weight-loss pill**.
+  - The stock rose on the news.
+
+- **SpaceX is set to rent data-center capacity to Anthropic**
+  - The Financial Times reported Anthropic is seeking more computing power, and SpaceX will provide data-center capacity.
+
+- **Apple’s $250 million class-action settlement moved toward payouts**
+  - ABC reported the settlement clears the way for payments to eligible iPhone owners.
+
+- **Federal prosecutors charged 30 people in a major insider-trading case**
+  - Local 10 reported Boston prosecutors described it as a **decade-long scheme** generating **tens of millions of dollars** in illicit profits.
+
+## Interpretation
+- **The strongest immediate market drivers appear to be geopolitics and AI earnings**
+  - Falling oil helped lift stocks broadly, while AMD’s results reinforced confidence in the AI trade.
+
+- **Energy price relief is helping sentiment, but fuel inflation remains a live risk**
+  - Even with oil retreating today, gasoline prices remain elevated, which could still affect consumer spending and inflation expectations.
+
+- **Novo Nordisk’s guidance increase may strengthen investor conviction in obesity-drug demand**
+  - The update suggests the GLP-1 market remains a major healthcare growth theme.
+
+- **Anthropic’s reported deal with SpaceX underscores ongoing AI infrastructure bottlenecks**
+  - Demand for compute remains strong enough that alternative capacity arrangements are becoming headline-worthy.
+
+If you want, I can also turn this into:
+1. a **pre-market/opening bell note**,  
+2. a **sector-by-sector summary**, or  
+3. a **“what matters for investors tomorrow”** version.
