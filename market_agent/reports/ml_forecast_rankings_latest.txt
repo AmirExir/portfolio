@@ -1,38 +1,38 @@
 ML Forecast Rankings
-Generated: 2026-05-06 10:29 UTC
+Generated: 2026-05-07 01:43 UTC
 Horizon: 30 trading days | Primary: Ensemble
 Pattern windows: 20/50 trading days
 Sequence model: both
 RL policy: off
 Universe: 75 symbols | Stocks + crypto + commodities
-Calculation time: 1h 23m 36s total | context 0.9s | 75/75 ranked | 0 cached
-Slowest symbols: DOGE: 1m 35s, ADA: 1m 35s, ZEC: 1m 35s, BTC: 1m 35s, ETH: 1m 34s
+Calculation time: 1h 34m 41s total | context 1.3s | 75/75 ranked | 0 cached
+Slowest symbols: LLY: 2m 33s, GS: 2m 31s, MS: 2m 18s, C: 1m 45s, DOGE: 1m 41s
 
 Best Picked Forecast
-GEV: Strong Buy | Pattern: Uptrend | Forecast Return: +20.45% | Selected model: Ensemble
+GEV: Strong Buy | Pattern: Uptrend | Forecast Return: +20.02% | Selected model: Ensemble
 
 Strongest Buy Forecasts
-GEV: +20.45% | Strong Buy | model Ensemble | prob up 94.8% | edge 44.8% | err +/-12.01% | pattern Uptrend
-JNJ: +5.35% | Buy | model Ensemble | prob up 72.8% | edge 22.8% | err +/-8.87% | pattern Oversold
-ENA: +23.68% | Buy | model Ensemble | prob up 69.0% | edge 19.0% | err +/-33.23% | pattern Range / No Dominant Pattern
-SLB: +8.65% | Buy | model Ensemble | prob up 69.9% | edge 19.9% | err +/-13.80% | pattern Uptrend
-LUV: +8.46% | Buy | model Ensemble | prob up 70.0% | edge 20.0% | err +/-15.90% | pattern Range / No Dominant Pattern
-IWM: +3.86% | Neutral / No Edge | model Ensemble | prob up 67.4% | edge 17.4% | err +/-7.82% | pattern Uptrend
-DIA: +2.40% | Neutral / No Edge | model Ensemble | prob up 67.9% | edge 17.9% | err +/-5.10% | pattern Uptrend
-JPM: +4.29% | Neutral / No Edge | model Ensemble | prob up 67.5% | edge 17.5% | err +/-9.31% | pattern Range / No Dominant Pattern
-GS: +6.18% | Neutral / No Edge | model Ensemble | prob up 67.3% | edge 17.3% | err +/-13.67% | pattern Uptrend
-ETH: +12.49% | Neutral / No Edge | model Ensemble | prob up 66.4% | edge 16.4% | err +/-26.34% | pattern Near 60-Day High
+GEV: +20.02% | Strong Buy | model Ensemble | prob up 94.4% | edge 44.4% | err +/-12.10% | pattern Uptrend
+SLB: +8.82% | Buy | model Ensemble | prob up 73.8% | edge 23.8% | err +/-13.58% | pattern Uptrend
+JNJ: +5.49% | Buy | model Ensemble | prob up 72.5% | edge 22.5% | err +/-8.90% | pattern Oversold
+GS: +7.24% | Buy | model Ensemble | prob up 69.5% | edge 19.5% | err +/-13.58% | pattern Uptrend
+XLE: +4.50% | Buy | model Ensemble | prob up 69.1% | edge 19.1% | err +/-8.57% | pattern High Volatility
+C: +6.37% | Buy | model Ensemble | prob up 69.7% | edge 19.7% | err +/-12.72% | pattern Uptrend
+USO: +9.05% | Neutral / No Edge | model Ensemble | prob up 66.8% | edge 16.8% | err +/-20.56% | pattern Uptrend
+BTC: +6.57% | Neutral / No Edge | model Ensemble | prob up 66.1% | edge 16.1% | err +/-14.92% | pattern Near 60-Day High
+ENA: +17.39% | Buy | model Ensemble | prob up 62.9% | edge 12.9% | err +/-33.07% | pattern Volume Spike
+QQQ: +3.17% | Neutral / No Edge | model Ensemble | prob up 65.3% | edge 15.3% | err +/-7.43% | pattern Uptrend
 
 Strongest Sell Forecasts
 PEPE: -26.56% | Strong Sell | model Ensemble | prob up 6.1% | edge 43.9% | err +/-17.76% | pattern Downtrend
-NFLX: -13.47% | Sell | model Ensemble | prob up 21.0% | edge 29.0% | err +/-17.37% | pattern Oversold
-AAPL: -2.53% | Neutral / No Edge | model Ensemble | prob up 36.1% | edge 13.9% | err +/-7.72% | pattern Uptrend
-DOT: -5.70% | Neutral / No Edge | model Ensemble | prob up 38.7% | edge 11.3% | err +/-21.81% | pattern Range / No Dominant Pattern
-SHIB: -10.26% | Neutral / No Edge | model Ensemble | prob up 38.8% | edge 11.2% | err +/-39.30% | pattern Bullish MA Crossover
-AVAX: -6.87% | Neutral / No Edge | model Ensemble | prob up 39.5% | edge 10.5% | err +/-29.36% | pattern Range / No Dominant Pattern
-LLY: -3.19% | Neutral / No Edge | model Ensemble | prob up 41.0% | edge 9.0% | err +/-14.51% | pattern Range / No Dominant Pattern
-BNB: -3.29% | Neutral / No Edge | model Ensemble | prob up 41.3% | edge 8.7% | err +/-16.25% | pattern Range / No Dominant Pattern
-XLV: -1.07% | Neutral / No Edge | model Ensemble | prob up 42.1% | edge 7.9% | err +/-5.02% | pattern Rebound From 60-Day Low
-ADA: -4.75% | Neutral / No Edge | model Ensemble | prob up 41.9% | edge 8.1% | err +/-23.59% | pattern Overbought
+NFLX: -11.00% | Sell | model Ensemble | prob up 24.8% | edge 25.2% | err +/-17.13% | pattern Oversold
+AVAX: -11.20% | Neutral / No Edge | model Ensemble | prob up 32.1% | edge 17.9% | err +/-28.88% | pattern Range / No Dominant Pattern
+AAPL: -2.77% | Neutral / No Edge | model Ensemble | prob up 35.9% | edge 14.1% | err +/-8.34% | pattern Uptrend
+MNT: -8.52% | Neutral / No Edge | model Ensemble | prob up 37.2% | edge 12.8% | err +/-31.44% | pattern Downtrend
+BNB: -3.31% | Neutral / No Edge | model Ensemble | prob up 41.2% | edge 8.8% | err +/-16.29% | pattern Range / No Dominant Pattern
+UNH: -3.88% | Neutral / No Edge | model Ensemble | prob up 41.3% | edge 8.7% | err +/-19.37% | pattern Near 60-Day High
+LLY: -2.47% | Neutral / No Edge | model Ensemble | prob up 42.7% | edge 7.3% | err +/-14.24% | pattern Range / No Dominant Pattern
+SHIB: -6.25% | Neutral / No Edge | model Ensemble | prob up 43.0% | edge 7.0% | err +/-40.66% | pattern Bullish MA Crossover
+SOL: -3.96% | Neutral / No Edge | model Ensemble | prob up 44.2% | edge 5.8% | err +/-32.41% | pattern Bullish MA Crossover
 
 Model output only. Not financial advice.
