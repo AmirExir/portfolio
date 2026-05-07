@@ -1,0 +1,50 @@
+Generated: 2026-05-07 23:30 UTC
+Horizon: 30 trading days
+Universe: 74 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+XRP — Strong Buy | Pattern: Range / No Dominant Pattern | Forecast return: +42.23% | Probability up: 96.0% | Edge: 46.0% | Expected error: +/-22.30% | Selected model: XGBoost
+Largest positive forecast in the set and the highest-ranked buy. Risk is still material because expected error is large in absolute terms, but it remains below the forecast return.
+
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +17.45% | Probability up: 96.0% | Edge: 46.0% | Expected error: +/-9.65% | Selected model: Ridge
+Strong directional confidence with a cleaner error profile than most names in the list. Multiple models are also positive, which reduces conflict risk.
+
+QQQ — Strong Buy | Pattern: Uptrend | Forecast return: +8.23% | Probability up: 87.4% | Edge: 37.4% | Expected error: +/-7.14% | Selected model: Neural Net
+Constructive signal with broad positive model support. However, the pattern set includes Near 60-Day High and Overbought, so upside may be more sensitive to pullbacks.
+
+JNJ — Strong Buy | Pattern: Oversold | Forecast return: +9.86% | Probability up: 86.8% | Edge: 36.8% | Expected error: +/-8.78% | Selected model: Ridge
+Oversold setup supports a rebound case. Expected error is close to forecast return, so this looks more moderate-conviction than the top three despite the strong label.
+
+LUV — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +11.35% | Probability up: 78.6% | Edge: 28.6% | Expected error: +/-14.51% | Selected model: Ridge
+Positive forecast is meaningful, but expected error is larger than the forecast return, which raises execution risk.
+
+ENA — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +16.52% | Probability up: 77.4% | Edge: 27.4% | Expected error: +/-22.52% | Selected model: XGBoost
+Forecast is strong enough to qualify, but model disagreement is elevated: Ridge and LSTM are negative while XGBoost, Neural Net, and Transformer are positive. Expected error is larger than forecast return, so this is a higher-risk signal.
+
+BTC — Buy | Pattern: Near 60-Day High | Forecast return: +8.41% | Probability up: 74.2% | Edge: 24.2% | Expected error: +/-13.22% | Selected model: Ridge
+Actionable positive edge, but several models disagree, including mildly negative XGBoost and negative Transformer. Expected error exceeds forecast return, so position sizing should account for that uncertainty.
+
+WMT — Buy | Pattern: Uptrend | Forecast return: +3.68% | Probability up: 71.7% | Edge: 21.7% | Expected error: +/-6.50% | Selected model: XGBoost
+Meets the noise filter, but the return is modest and expected error is larger than the forecast return. Better viewed as a lower-strength buy than the names above.
+
+DIA — Buy | Pattern: Uptrend | Forecast return: +2.27% | Probability up: 70.4% | Edge: 20.4% | Expected error: +/-4.28% | Selected model: XGBoost
+Barely above the action threshold. Forecast is positive, but expected error is meaningfully larger than the projected return, so this is a weaker actionable signal.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+Strongest negative signal in the universe. All major model returns are negative and the pattern is aligned with the sell case.
+
+INTC — Sell | Pattern: Uptrend | Forecast return: -18.29% | Probability down: 77.4% | Edge: 27.4% | Expected error: +/-30.74% | Selected model: LSTM
+Large negative forecast, but confidence is mixed because most other models are positive. Uptrend, overbought, and high volatility create a conflicting setup. Expected error is much larger than the forecast return, so reversal risk is elevated.
+
+NFLX — Sell | Pattern: Downtrend | Forecast return: -7.58% | Probability down: 71.9% | Edge: 21.9% | Expected error: +/-14.55% | Selected model: XGBoost
+Bearish overall, with Ridge, XGBoost, Neural Net, and Transformer all negative. However, the pattern also includes Oversold, which increases rebound risk despite the downtrend.
+
+AAPL — Sell | Pattern: Uptrend | Forecast return: -4.56% | Probability down: 72.6% | Edge: 22.6% | Expected error: +/-8.08% | Selected model: XGBoost
+Negative forecast passes the threshold, but this is a weaker sell than PEPE or INTC. The uptrend and Near 60-Day High pattern create a mixed picture rather than a clean breakdown signal.
+
+Watchlist / Neutral
+No neutral watchlist included from the supplied actionable set. The main names requiring caution due to model conflict or forecast-to-error imbalance are ENA, BTC, INTC, WMT, and DIA.
+
+General notes
+Signals were filtered to include only Buy/Strong Buy and Sell/Strong Sell with absolute forecast return of at least 2%. The most internally consistent bullish setups are XRP, GEV, and QQQ. The most internally consistent bearish setup is PEPE. Several lower-ranked signals remain actionable but carry higher uncertainty because expected error exceeds forecast return or because models disagree materially.
