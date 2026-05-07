@@ -1,0 +1,105 @@
+{
+  "paths": {
+    "json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-07T04-59-31Z.json",
+    "txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-07T04-59-31Z.txt",
+    "latest_json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.json",
+    "latest_txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.txt",
+    "cache": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_cache_e0e5871f81459ca4.json"
+  },
+  "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-07 04:59 UTC\nHorizon: 30 trading days | Primary: Ensemble\nPattern windows: 20/50 trading days\nSequence model: both\nRL policy: off\nUniverse: 1 symbols | Stocks + crypto + commodities\nCalculation time: 1m 17s total | context 1.1s | 1/1 ranked | 0 cached\nSlowest symbols: RIOT: 1m 16s\n\nBest Picked Forecast\nRIOT: Neutral / No Edge | Pattern: Uptrend | Forecast Return: +3.70% | Selected model: Ensemble\n\nShort-Term Forecast Signals\n1 trading day | sequence model: both\nBuys: no positive forecast candidates.\nSells: RIOT: -1.81% | Neutral / No Edge | model Ensemble | prob up 41.3% | edge 8.7% | err +/-6.86% | pattern Uptrend\n\nStrongest Buy Forecasts\nRIOT: +3.70% | Neutral / No Edge | model Ensemble | prob up 54.5% | edge 4.5% | err +/-31.23% | pattern Uptrend\n\nStrongest Sell Forecasts\nNo negative forecast candidates.\n\nModel output only. Not financial advice.",
+  "rows": [
+    {
+      "Symbol": "RIOT",
+      "Model Call": "Neutral / No Edge",
+      "Selected Model": "Ensemble",
+      "Last Price": 23.700000762939453,
+      "Forecast Price": 24.576320622727312,
+      "Forecast Return %": 3.6975520319737334,
+      "Ridge Return %": 20.011779510554696,
+      "XGBoost Return %": 4.125018103845188,
+      "Neural Net Return %": 6.149742559747519,
+      "LSTM Return %": 5.149188499200766,
+      "Transformer Return %": -16.1256933156421,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 3.6975520319737334,
+      "Probability Up %": 54.51736241539999,
+      "Probability Down %": 45.48263758460001,
+      "Directional Probability %": 54.51736241539999,
+      "Model Edge %": 4.517362415399987,
+      "Signal Quality": "Weak Edge",
+      "Expected Error %": 31.22659075651281,
+      "Validation MAE %": 25.197158128514182,
+      "Direction Hit Rate %": 56.9995638138208,
+      "Score": 0.010698050714832054,
+      "Primary Pattern": "Uptrend",
+      "All Patterns": "Uptrend, Near 60-Day High, Overbought, High Volatility"
+    }
+  ],
+  "short_horizon_reports": [
+    {
+      "horizon_days": 1,
+      "sequence_model": "both",
+      "top_buys": [],
+      "top_sells": [
+        {
+          "Symbol": "RIOT",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 23.700000762939453,
+          "Forecast Price": 23.270521594821105,
+          "Forecast Return %": -1.812148330349176,
+          "Ridge Return %": 0.09991830040393299,
+          "XGBoost Return %": 0.4506533888769415,
+          "Neural Net Return %": -6.781554092949868,
+          "LSTM Return %": -0.37320184708748216,
+          "Transformer Return %": -4.0718535996172704,
+          "RL Policy Return %": null,
+          "Ensemble Return %": -1.812148330349176,
+          "Probability Up %": 41.252403566127896,
+          "Probability Down %": 58.747596433872104,
+          "Directional Probability %": 58.747596433872104,
+          "Model Edge %": 8.747596433872104,
+          "Signal Quality": "Moderate Edge",
+          "Expected Error %": 6.860142701508272,
+          "Validation MAE %": 5.320923104832865,
+          "Direction Hit Rate %": 48.75091057553637,
+          "Score": -0.046214613782668196,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend, Near 60-Day High, Overbought, High Volatility"
+        }
+      ],
+      "errors": [],
+      "timings": {
+        "total_seconds": 70.237,
+        "context_seconds": 0.685,
+        "symbols_attempted": 1,
+        "symbols_ranked": 1,
+        "symbols_cached": 0,
+        "symbols_failed": 0,
+        "symbol_timings": [
+          {
+            "symbol": "RIOT",
+            "seconds": 69.549,
+            "status": "ok"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "timings": {
+    "total_seconds": 77.041,
+    "context_seconds": 1.123,
+    "symbols_attempted": 1,
+    "symbols_ranked": 1,
+    "symbols_cached": 0,
+    "symbols_failed": 0,
+    "symbol_timings": [
+      {
+        "symbol": "RIOT",
+        "seconds": 75.914,
+        "status": "ok"
+      }
+    ]
+  }
+}
