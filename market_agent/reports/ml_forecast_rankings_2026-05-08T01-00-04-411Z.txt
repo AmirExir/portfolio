@@ -1,0 +1,26 @@
+Generated: 2026-05-08 00:59 UTC
+Horizon: 30 trading days
+Universe: 74 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both LSTM and Transformer.
+No actionable 1 trading-day signals met the publication filter. Reported short-horizon names were Neutral / No Edge and below the 2% minimum absolute forecast threshold, so no short-term buy or sell rankings are included.
+
+30 trading-day buy rankings
+GEV is the strongest long candidate with a Strong Buy signal, a +16.93% forecast return, 90.2% probability up, and an uptrend pattern.
+SLB ranks next with a Buy signal and +10.90% forecast return, supported by an uptrend pattern.
+GS shows a Buy signal with +9.86% forecast return and an uptrend pattern.
+GOOGL posts a Buy signal with +8.30% forecast return in an uptrend.
+AMZN carries a Buy signal with +6.66% forecast return and an uptrend pattern.
+JPM has a Buy signal with +6.13% forecast return from a range-bound pattern.
+JNJ shows a Buy signal with +5.83% forecast return from an oversold pattern.
+WMT has a Buy signal with +5.61% forecast return in an uptrend.
+XLE registers a Buy signal with +5.49% forecast return under high volatility.
+QQQ rounds out the published buys with a Buy signal and +4.31% forecast return in an uptrend.
+
+30 trading-day sell rankings
+PEPE is the only publishable short candidate. It carries a Strong Sell signal with a -26.56% forecast return, 93.9% probability down, and a downtrend pattern.
+
+Notes
+Neutral / No Edge names were excluded from the rankings, including reported downside forecasts such as NFLX, MNT, AAPL, AVAX, SHIB, BNB, UNI, SOL, and MSFT.
+Skipped due to missing data: RIOTORCL.
