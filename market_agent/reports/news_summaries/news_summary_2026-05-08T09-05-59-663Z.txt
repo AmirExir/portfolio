@@ -1,0 +1,52 @@
+Here are today’s **market-moving business headlines**, split into **facts** and **interpretation**:
+
+- **Markets / macro**
+  - **Fact:** U.S. stock futures pointed higher as reports cited hopes around an Iran-related deal; **crude oil futures fell sharply**. Nvidia was highlighted among leadership names, and Arm moved notably after earnings.  
+  - **Interpretation:** Lower oil and easing geopolitical-risk expectations appear supportive for equities, especially growth/tech.
+
+- **Energy / inflation**
+  - **Fact:** The **WSJ** reported **jet-fuel prices are spiking**, raising concern among Trump advisers. Separately, a **NY Fed report** said the recent **gas-price surge is hitting lower-income households harder**.
+  - **Interpretation:** Rising fuel costs could pressure airlines, transportation, consumers, and inflation expectations.
+
+- **McDonald’s earnings preview**
+  - **Fact:** **McDonald’s** is set to report **Q1 earnings before the bell Thursday**. CNBC said Wall Street expects results against a backdrop of a **10% share decline over the past year** tied to economic concerns.
+  - **Interpretation:** The report could move consumer-discretionary and restaurant stocks if management commentary signals weakening demand.
+
+- **Arm earnings**
+  - **Fact:** **Arm** **beat quarterly estimates and issued outlook guidance**, according to Investor’s Business Daily/CNBC coverage, but **the stock fell in extended trading**.
+  - **Interpretation:** The reaction suggests expectations were high; even beats may not satisfy investors in AI/semiconductor names.
+
+- **Disney vs. Warner Bros. Discovery**
+  - **Fact:** **Disney** topped earnings expectations, helped by **streaming profit growth**, and its stock **surged**.  
+  - **Fact:** **Warner Bros. Discovery** said **HBO Max exceeded internal forecasts**, topping **140 million subscribers in Q1**, with a **150 million year-end target**, but reports said **WBD missed overall expectations**.
+  - **Interpretation:** Streaming profitability and subscriber momentum are rewarding Disney more than peers; WBD’s user growth may not be enough if broader financials disappoint.
+
+- **Airbus / aerospace**
+  - **Fact:** **Airbus won a $19 billion order** from **AirAsia** for **150 A220-300 jets**, described by the FT as **Canada’s biggest-ever aircraft deal**.
+  - **Interpretation:** This is a major positive for Airbus and the broader aerospace supply chain.
+
+- **Whirlpool / consumer demand**
+  - **Fact:** The **WSJ** reported **Whirlpool** said the **Iran war** is hurting profits, contributing to a **recession-level industry decline**, and that **higher prices are coming**.
+  - **Interpretation:** Appliance demand looks under pressure, and price hikes could further test consumer spending.
+
+- **IonQ earnings**
+  - **Fact:** **IonQ** raised its **full-year revenue guidance** after strong earnings, but **the stock fell** after the report, per Barron’s.
+  - **Interpretation:** As with other high-multiple tech names, strong results may still trigger selling if investors expected more.
+
+- **Snap / Perplexity**
+  - **Fact:** **Snap** said its previously announced **$400 million deal with Perplexity ended amicably**; the deal would have integrated Perplexity’s AI search into Snapchat.
+  - **Interpretation:** The unwind may be viewed as a setback for Snap’s AI feature ambitions.
+
+- **Anthropic / SpaceX**
+  - **Fact:** **Anthropic** raised **Claude Code usage limits** and attributed this partly to a **new deal with SpaceX**, according to Ars Technica.
+  - **Interpretation:** Another sign of rising enterprise demand for AI coding tools and deeper commercialization of frontier models.
+
+- **Legal / market structure**
+  - **Fact:** U.S. prosecutors alleged **elite M&A lawyers** supplied tips to an **insider-trading ring** that generated **tens of millions of dollars** in illegal profits, Bloomberg reported.
+  - **Interpretation:** The case could raise compliance scrutiny across Wall Street law firms and dealmaking networks.
+
+- **SpaceX IPO chatter**
+  - **Fact:** MarketWatch reported a major union warned regulators that a possible **SpaceX IPO** at a valuation of **up to $2 trillion** “defies financial logic.”
+  - **Interpretation:** If IPO plans advance, valuation debate alone could become a major market theme.
+
+If you want, I can also turn this into a **pre-market briefing format** with sections for **stocks up/down, sectors to watch, and key catalysts today**.
