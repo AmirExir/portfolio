@@ -1,0 +1,47 @@
+Generated: 2026-05-08 10:27 UTC
+Horizon: 30 trading days
+Universe: 74 symbols across stocks, crypto, and commodities
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +16.96% | Probability up: 90.4% | Edge: 40.4% | Expected error: +/-12.12% | Selected model: Ensemble
+Highest-ranked long signal in the set. Trend and probability are aligned, and the expected return remains larger than the model error band, which makes it one of the cleaner bullish setups.
+
+SLB — Buy | Pattern: Uptrend | Forecast return: +11.89% | Probability up: 80.1% | Edge: 30.1% | Expected error: +/-13.66% | Selected model: Ensemble
+Constructive directional signal with strong probability support. Risk note: expected error is larger than forecast return, so position sizing should account for a wide outcome range.
+
+GS — Buy | Pattern: Uptrend | Forecast return: +9.55% | Probability up: 74.8% | Edge: 24.8% | Expected error: +/-13.66% | Selected model: Ensemble
+Bullish setup with broad positive support, but the forecast is still smaller than the expected error band. That lowers confidence in precision even though direction is favorable.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +7.60% | Probability up: 72.3% | Edge: 22.3% | Expected error: +/-12.42% | Selected model: Ensemble
+Positive ensemble call with trend support. However, the broader pattern set includes Near 60-Day High and Overbought, which raises pullback risk despite the bullish base case.
+
+JNJ — Buy | Pattern: Oversold | Forecast return: +6.14% | Probability up: 74.2% | Edge: 24.2% | Expected error: +/-9.03% | Selected model: Ensemble
+Bullish model output tied to an oversold condition. This can support a rebound, but oversold setups can also remain weak if the recovery does not develop quickly.
+
+JPM — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +5.65% | Probability up: 72.1% | Edge: 22.1% | Expected error: +/-9.43% | Selected model: Ensemble
+Positive signal, but the absence of a dominant pattern suggests less technical confirmation than the stronger uptrend names.
+
+WMT — Buy | Pattern: Uptrend | Forecast return: +5.50% | Probability up: 73.3% | Edge: 23.3% | Expected error: +/-8.63% | Selected model: Ensemble
+Steady bullish profile with trend confirmation. As with several names in this list, expected error exceeds forecast return, so this looks more suitable as a moderate-conviction signal rather than a high-conviction breakout.
+
+XLE — Buy | Pattern: High Volatility | Forecast return: +5.39% | Probability up: 72.5% | Edge: 22.5% | Expected error: +/-8.63% | Selected model: Ensemble
+Bullish forecast with acceptable directional probability, but the high-volatility pattern implies wider path risk and potentially less stable execution.
+
+DIA — Buy | Pattern: Uptrend | Forecast return: +2.61% | Probability up: 69.2% | Edge: 19.2% | Expected error: +/-5.10% | Selected model: Ensemble
+Included under the noise filter because forecast return exceeds 2%, but the edge is modest and expected error is nearly double the forecast. Better viewed as a lower-priority broad-market long than a primary trade.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+Only valid high-conviction sell signal in the provided output. Very strong downside probability and clear downtrend alignment. Despite the large expected error band, the forecast decline is large enough to remain actionable relative to the rest of the universe.
+
+Watchlist / Neutral
+NFLX, AVAX, AAPL, SHIB, LLY, MSFT, SOL, BNB, and MNT were all shown with negative forecasts, but each was labeled Neutral / No Edge and should not be treated as active sell signals under the ranking rules.
+
+Notable watchlist items:
+AVAX — negative forecast but Neutral / No Edge, with very high expected error (+/-28.23%) and no dominant pattern. Weak reliability.
+SOL — negative forecast with Bullish MA Crossover. Bearish model output with a bullish technical condition implies elevated reversal risk.
+SHIB — negative forecast with Bullish MA Crossover and extremely high expected error (+/-43.24%). Directional confidence is poor.
+AAPL — small negative forecast despite Uptrend pattern. Mixed message, not actionable.
+
+Overall read
+The long side is broader than the short side in this run, with multiple Buy signals above the 2% forecast threshold. However, many bullish entries have expected error larger than forecast return, which means directional bias may be more useful than price precision. The sell side is narrow: PEPE is the only actionable bearish signal, while the rest of the negative forecasts remain neutral and should be monitored rather than traded directly.
