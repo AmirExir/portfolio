@@ -87,6 +87,49 @@ def story_identity(text):
     return re.sub(r"\W+", " ", identity_source.lower()).strip()
 
 
+def normalize_query(text):
+    return re.sub(r"\s+", " ", text.lower()).strip()
+
+
+TOPIC_BOOST_TERMS = {
+    "transmission planning": 1.5,
+    "load interconnection": 1.8,
+    "generator interconnection": 1.8,
+    "interconnection": 0.9,
+    "steady state": 1.5,
+    "stability": 1.4,
+    "stability analysis": 1.6,
+    "project recommendation": 1.4,
+    "automation": 1.4,
+    "aelab": 2.2,
+    "workflow": 1.1,
+    "streamlining": 1.1,
+    "substation upgrade": 1.4,
+    "line upgrade": 1.4,
+    "substation addition": 1.4,
+    "rating comparison": 1.6,
+    "rating rejection": 1.6,
+    "failure": 0.7,
+}
+
+
+TOPIC_PRIORITY_PHRASES = (
+    "transmission planning",
+    "load interconnection",
+    "generator interconnection",
+    "steady state",
+    "stability analysis",
+    "project recommendation",
+    "aelab",
+    "streamlining workflow",
+    "substation upgrade",
+    "line upgrade",
+    "substation addition",
+    "rating comparison",
+    "rating rejection",
+)
+
+
 def build_story_candidate(score, idx, text):
     return {
         "score": float(score),
@@ -135,7 +178,13 @@ def search(query, index, chunks, embeddings, k=5):
         normalized_text = text.lower()
         keyword_hits = sum(1 for term in query_terms if term in normalized_text)
         exact_query_hit = 1 if normalized_query and normalized_query in normalized_text else 0
-        rerank_score = float(score) + (0.15 * keyword_hits) + (0.5 * exact_query_hit)
+        topic_bonus = 0.0
+        for phrase, bonus in TOPIC_BOOST_TERMS.items():
+            if phrase in normalized_text:
+                topic_bonus += bonus
+        if any(phrase in normalized_text for phrase in TOPIC_PRIORITY_PHRASES):
+            topic_bonus += 0.75
+        rerank_score = float(score) + (0.15 * keyword_hits) + (0.5 * exact_query_hit) + topic_bonus
         reranked.append(build_story_candidate(rerank_score, idx, text))
         seen_indices.add(idx)
 
@@ -146,7 +195,13 @@ def search(query, index, chunks, embeddings, k=5):
         keyword_hits = sum(1 for term in query_terms if term in normalized_text)
         exact_query_hit = 1 if normalized_query and normalized_query in normalized_text else 0
         if keyword_hits or exact_query_hit:
-            rerank_score = (0.15 * keyword_hits) + (0.5 * exact_query_hit)
+            topic_bonus = 0.0
+            for phrase, bonus in TOPIC_BOOST_TERMS.items():
+                if phrase in normalized_text:
+                    topic_bonus += bonus
+            if any(phrase in normalized_text for phrase in TOPIC_PRIORITY_PHRASES):
+                topic_bonus += 0.75
+            rerank_score = (0.15 * keyword_hits) + (0.5 * exact_query_hit) + topic_bonus
             reranked.append(build_story_candidate(rerank_score, idx, chunk["text"]))
 
     reranked.sort(key=lambda item: item["score"], reverse=True)
@@ -233,6 +288,9 @@ if "candidate_story_pos" not in st.session_state:
 if "active_query" not in st.session_state:
     st.session_state.active_query = ""
 
+if "active_query_key" not in st.session_state:
+    st.session_state.active_query_key = ""
+
 # Show chat history
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
@@ -278,15 +336,14 @@ another_story = st.button("Give me another story")
 query_to_answer = None
 selected_story = None
 
-if user_query:
-    st.session_state.candidate_stories = search(user_query, index, chunks, embeddings, k=4)
-    st.session_state.candidate_story_pos = 0
-    st.session_state.active_query = user_query
+current_query_key = normalize_query(user_query) if user_query else ""
+same_question = (
+    bool(user_query)
+    and current_query_key == st.session_state.active_query_key
+    and bool(st.session_state.candidate_stories)
+)
 
-    if st.session_state.candidate_stories:
-        query_to_answer = user_query
-        selected_story = coerce_story_candidate(st.session_state.candidate_stories[0])
-elif another_story:
+if another_story:
     if not st.session_state.candidate_stories:
         st.warning("Ask a question first so I can find matching stories.")
     else:
@@ -307,6 +364,21 @@ elif another_story:
                 f"You have reached story {story_count} for this question. "
                 f"Ask a new question to get a new top-{story_count} set."
             )
+elif user_query:
+    if same_question:
+        query_to_answer = st.session_state.active_query or user_query
+        selected_story = coerce_story_candidate(
+            st.session_state.candidate_stories[st.session_state.candidate_story_pos]
+        )
+    else:
+        st.session_state.candidate_stories = search(user_query, index, chunks, embeddings, k=4)
+        st.session_state.candidate_story_pos = 0
+        st.session_state.active_query = user_query
+        st.session_state.active_query_key = current_query_key
+
+        if st.session_state.candidate_stories:
+            query_to_answer = user_query
+            selected_story = coerce_story_candidate(st.session_state.candidate_stories[0])
 
 # Process assistant response
 if selected_story and query_to_answer:
