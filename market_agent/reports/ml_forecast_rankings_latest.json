@@ -1,6 +1,7 @@
 {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   "paths": {
     "json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-08T00-59-49Z.json",
     "txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-08T00-59-49Z.txt",
@@ -10,6 +11,8 @@
   },
   "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-08 00:59 UTC\nHorizon: 30 trading days | Primary: Ensemble\nPattern windows: 20/50 trading days\nSequence model: both\nRL policy: off\nUniverse: 74 symbols | Stocks + crypto + commodities\nCalculation time: 1h 29m 49s total | context 1.0s | 74/75 ranked | 0 cached\nSlowest symbols: DOGE: 1m 50s, AVAX: 1m 47s, ADA: 1m 46s, BNB: 1m 45s, SHIB: 1m 45s\n\nBest Picked Forecast\nGEV: Strong Buy | Pattern: Uptrend | Forecast Return: +16.93% | Selected model: Ensemble\n\nShort-Term Forecast Signals\n1 trading day | sequence model: both\nBuys: BAC: +0.96% | Neutral / No Edge | model Ensemble | prob up 65.2% | edge 15.2% | err +/-1.96% | pattern Range / No Dominant Pattern ; INTC: +1.42% | Neutral / No Edge | model Ensemble | prob up 60.2% | edge 10.2% | err +/-5.03% | pattern Uptrend ; VOO: +0.31% | Neutral / No Edge | model Ensemble | prob up 58.1% | edge 8.1% | err +/-1.27% | pattern Uptrend\nSells: GEV: -1.38% | Neutral / No Edge | model Ensemble | prob up 38.3% | edge 11.7% | err +/-4.04% | pattern Uptrend ; PEPE: -1.32% | Neutral / No Edge | model Ensemble | prob up 40.7% | edge 9.3% | err +/-5.87% | pattern Downtrend ; RIOT: -0.80% | Neutral / No Edge | model Ensemble | prob up 45.7% | edge 4.3% | err +/-6.71% | pattern Uptrend\n\nStrongest Buy Forecasts\nGEV: +16.93% | Strong Buy | model Ensemble | prob up 90.2% | edge 40.2% | err +/-12.10% | pattern Uptrend\nSLB: +10.90% | Buy | model Ensemble | prob up 77.1% | edge 27.1% | err +/-13.81% | pattern Uptrend\nGS: +9.86% | Buy | model Ensemble | prob up 75.5% | edge 25.5% | err +/-13.63% | pattern Uptrend\nWMT: +5.61% | Buy | model Ensemble | prob up 73.8% | edge 23.8% | err +/-8.61% | pattern Uptrend\nJNJ: +5.83% | Buy | model Ensemble | prob up 73.5% | edge 23.5% | err +/-8.98% | pattern Oversold\nJPM: +6.13% | Buy | model Ensemble | prob up 72.8% | edge 22.8% | err +/-9.32% | pattern Range / No Dominant Pattern\nXLE: +5.49% | Buy | model Ensemble | prob up 72.8% | edge 22.8% | err +/-8.57% | pattern High Volatility\nGOOGL: +8.30% | Buy | model Ensemble | prob up 72.2% | edge 22.2% | err +/-13.19% | pattern Uptrend\nQQQ: +4.31% | Buy | model Ensemble | prob up 71.5% | edge 21.5% | err +/-7.38% | pattern Uptrend\nAMZN: +6.66% | Buy | model Ensemble | prob up 70.2% | edge 20.2% | err +/-12.35% | pattern Uptrend\n\nStrongest Sell Forecasts\nPEPE: -26.56% | Strong Sell | model Ensemble | prob up 6.1% | edge 43.9% | err +/-17.76% | pattern Downtrend\nNFLX: -7.36% | Neutral / No Edge | model Ensemble | prob up 32.0% | edge 18.0% | err +/-17.37% | pattern Downtrend\nMNT: -10.11% | Neutral / No Edge | model Ensemble | prob up 35.0% | edge 15.0% | err +/-31.48% | pattern Downtrend\nAAPL: -2.64% | Neutral / No Edge | model Ensemble | prob up 37.7% | edge 12.3% | err +/-9.21% | pattern Uptrend\nAVAX: -8.00% | Neutral / No Edge | model Ensemble | prob up 37.5% | edge 12.5% | err +/-28.93% | pattern Range / No Dominant Pattern\nSHIB: -10.00% | Neutral / No Edge | model Ensemble | prob up 39.5% | edge 10.5% | err +/-43.37% | pattern Bullish MA Crossover\nBNB: -3.87% | Neutral / No Edge | model Ensemble | prob up 40.0% | edge 10.0% | err +/-16.33% | pattern Range / No Dominant Pattern\nUNI: -4.11% | Neutral / No Edge | model Ensemble | prob up 42.8% | edge 7.2% | err +/-26.02% | pattern Range / No Dominant Pattern\nSOL: -4.98% | Neutral / No Edge | model Ensemble | prob up 42.7% | edge 7.3% | err +/-32.52% | pattern Bullish MA Crossover\nMSFT: -1.75% | Neutral / No Edge | model Ensemble | prob up 44.2% | edge 5.8% | err +/-11.34% | pattern High Volatility\n\nSkipped\nRIOTORCL: No OHLCV data returned for RIOTORCL.\n\nModel output only. Not financial advice.",
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   "generated_at": "2026-05-08T10-27-54Z",
@@ -99,6 +102,9 @@
   ],
   "cache_key": "2513feb129d11239",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -108,6 +114,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 287.44000244140625,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 279.8456793623905,
@@ -159,11 +166,30 @@
       "Model Edge %": 12.113278445928351,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 279.985400597272,
+      "Forecast Return %": -2.59344620818867,
+      "Ridge Return %": -3.3197071283932873,
+      "XGBoost Return %": -4.5594351041888865,
+      "Neural Net Return %": -0.9692862601175172,
+      "LSTM Return %": -1.0066955129508313,
+      "Transformer Return %": -2.57181264229882,
+      "RL Policy Return %": null,
+      "Ensemble Return %": -2.59344620818867,
+      "Probability Up %": 37.88672155407165,
+      "Probability Down %": 62.11327844592835,
+      "Directional Probability %": 62.11327844592835,
+      "Model Edge %": 12.113278445928351,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 9.212128256839879,
       "Validation MAE %": 7.585769617674769,
       "Direction Hit Rate %": 40.73678562487316,
       "Score": -0.06820386164511141,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -175,6 +201,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 420.7699890136719,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 413.4190125990811,
@@ -226,11 +253,30 @@
       "Model Edge %": 7.225665171799953,
       "Signal Quality": "Weak Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 411.84926612619665,
+      "Forecast Return %": -2.120094854765326,
+      "Ridge Return %": -1.9916925364415576,
+      "XGBoost Return %": 0.469145343665565,
+      "Neural Net Return %": 0.6835495696364415,
+      "LSTM Return %": -1.82487458515271,
+      "Transformer Return %": -8.893259296038378,
+      "RL Policy Return %": null,
+      "Ensemble Return %": -2.120094854765326,
+      "Probability Up %": 42.77433482820005,
+      "Probability Down %": 57.22566517179995,
+      "Directional Probability %": 57.22566517179995,
+      "Model Edge %": 7.225665171799953,
+      "Signal Quality": "Weak Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 11.23711703045289,
       "Validation MAE %": 9.080420310027115,
       "Direction Hit Rate %": 46.71780439949568,
       "Score": -0.027265170437354942,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -242,6 +288,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 211.5,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 221.52333839766135,
@@ -281,6 +328,16 @@
       "Transformer Return %": 2.3188819406486005,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 216.59973793157354,
+      "Forecast Return %": 2.4112236083089438,
+      "Ridge Return %": 3.7044596092701254,
+      "XGBoost Return %": 0.45127453790761607,
+      "Neural Net Return %": 6.88719931723859,
+      "LSTM Return %": -0.03269629543121461,
+      "Transformer Return %": 2.3188819406486005,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 2.4112236083089438,
       "Probability Up %": 54.817328980079026,
       "Probability Down %": 45.182671019920974,
@@ -292,6 +349,9 @@
       "Direction Hit Rate %": 54.73138090612518,
       "Score": 0.011813909640273613,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -303,6 +363,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 408.4599914550781,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 400.3578883657521,
@@ -342,6 +403,16 @@
       "Transformer Return %": -0.7882027162802835,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 399.86872340686045,
+      "Forecast Return %": -2.1033315937780586,
+      "Ridge Return %": -4.281803334650891,
+      "XGBoost Return %": 0.3902043509941648,
+      "Neural Net Return %": -3.487426436034498,
+      "LSTM Return %": -2.219010933844736,
+      "Transformer Return %": -0.7882027162802835,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": -2.1033315937780586,
       "Probability Up %": 46.57955136567032,
       "Probability Down %": 53.42044863432968,
@@ -353,6 +424,9 @@
       "Direction Hit Rate %": 51.32095539517577,
       "Score": -0.004981139440377431,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -364,6 +438,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 109.62000274658203,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 110.05516099214258,
@@ -415,11 +490,30 @@
       "Model Edge %": 1.1233674053606961,
       "Signal Quality": "No Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 109.24457065730243,
+      "Forecast Return %": -0.3424850208656742,
+      "Ridge Return %": 8.700432138095774,
+      "XGBoost Return %": 5.508202650671789,
+      "Neural Net Return %": 1.059333949601029,
+      "LSTM Return %": -17.0345176121832,
+      "Transformer Return %": 1.9758378675152757,
+      "RL Policy Return %": null,
+      "Ensemble Return %": -0.3424850208656742,
+      "Probability Up %": 48.876632594639304,
+      "Probability Down %": 51.123367405360696,
+      "Directional Probability %": 51.123367405360696,
+      "Model Edge %": 1.1233674053606961,
+      "Signal Quality": "No Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 32.59169918617678,
       "Validation MAE %": 22.539713605189338,
       "Direction Hit Rate %": 50.76961347927595,
       "Score": -0.00023609478417618417,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -431,6 +525,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 397.989990234375,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 431.0330232669623,
@@ -482,11 +577,30 @@
       "Model Edge %": 15.773958783728233,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 419.74800002964287,
+      "Forecast Return %": 5.4669741272775365,
+      "Ridge Return %": 7.014343424876756,
+      "XGBoost Return %": 0.9322267589853387,
+      "Neural Net Return %": 3.9226412365575127,
+      "LSTM Return %": 4.878695727312987,
+      "Transformer Return %": 10.810627405107013,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 5.4669741272775365,
+      "Probability Up %": 65.77395878372823,
+      "Probability Down %": 34.22604121627177,
+      "Directional Probability %": 65.77395878372823,
+      "Model Edge %": 15.773958783728233,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 13.312907823441535,
       "Validation MAE %": 11.035242282655627,
       "Direction Hit Rate %": 64.90817100319182,
       "Score": 0.12955219956310277,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -498,6 +612,7 @@
       "Model Call": "Buy",
       "Selected Model": "Ensemble",
       "Last Price": 271.1700134277344,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 289.2283108460008,
@@ -549,11 +664,30 @@
       "Model Edge %": 22.329722269626913,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 291.7785025404116,
+      "Forecast Return %": 7.599840724339282,
+      "Ridge Return %": 9.535996814649984,
+      "XGBoost Return %": 1.1304084316951135,
+      "Neural Net Return %": 8.71228111112437,
+      "LSTM Return %": 12.897706586244597,
+      "Transformer Return %": 6.00079733951936,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 7.599840724339282,
+      "Probability Up %": 72.32972226962691,
+      "Probability Down %": 27.670277730373087,
+      "Directional Probability %": 72.32972226962691,
+      "Model Edge %": 22.329722269626913,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 12.415445195421114,
       "Validation MAE %": 9.584625972355553,
       "Direction Hit Rate %": 54.6486532850807,
       "Score": 0.27337293185504713,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -565,6 +699,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 616.8099975585938,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 638.8733768088185,
@@ -616,11 +751,30 @@
       "Model Edge %": 10.174229842559257,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 641.6740042825511,
+      "Forecast Return %": 4.031064156283426,
+      "Ridge Return %": 4.560416141072181,
+      "XGBoost Return %": 0.6001060682960437,
+      "Neural Net Return %": 3.763495973814667,
+      "LSTM Return %": 2.5687337810862765,
+      "Transformer Return %": 9.527527264435722,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 4.031064156283426,
+      "Probability Up %": 60.17422984255926,
+      "Probability Down %": 39.82577015744074,
+      "Directional Probability %": 60.17422984255926,
+      "Model Edge %": 10.174229842559257,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 15.682412677586552,
       "Validation MAE %": 12.360997810278729,
       "Direction Hit Rate %": 49.926403665993156,
       "Score": 0.05230441779503214,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -632,6 +786,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 411.7900085449219,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 432.2684315433133,
@@ -671,6 +826,16 @@
       "Transformer Return %": -0.07000451855169118,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 418.3239162814131,
+      "Forecast Return %": 1.5867086624027635,
+      "Ridge Return %": 3.692294147578591,
+      "XGBoost Return %": 7.284471734536934,
+      "Neural Net Return %": 4.908193203721966,
+      "LSTM Return %": -15.694540249622468,
+      "Transformer Return %": -0.07000451855169118,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 1.5867086624027635,
       "Probability Up %": 54.26482974386057,
       "Probability Down %": 45.73517025613943,
@@ -682,6 +847,9 @@
       "Direction Hit Rate %": 46.146345855358696,
       "Score": 0.004714824769355131,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -693,6 +861,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 24.110000610351562,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 25.197310019710827,
@@ -732,6 +901,16 @@
       "Transformer Return %": -12.861484716908569,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 24.765303284725892,
+      "Forecast Return %": 2.7179703765456678,
+      "Ridge Return %": 21.2587277476887,
+      "XGBoost Return %": 2.9661062502921016,
+      "Neural Net Return %": 0.5695226760511213,
+      "LSTM Return %": 1.8796831708619195,
+      "Transformer Return %": -12.861484716908569,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 2.7179703765456678,
       "Probability Up %": 53.1023655091948,
       "Probability Down %": 46.8976344908052,
@@ -743,6 +922,9 @@
       "Direction Hit Rate %": 58.47233537926273,
       "Score": 0.005320597266004426,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -754,6 +936,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 412.55999755859375,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 427.6446058506451,
@@ -793,6 +976,16 @@
       "Transformer Return %": 4.4241632407816125,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 421.5955718616132,
+      "Forecast Return %": 2.1901237047918816,
+      "Ridge Return %": 5.959755342360857,
+      "XGBoost Return %": 8.146712638318643,
+      "Neural Net Return %": -2.592720046899346,
+      "LSTM Return %": -5.415672649968742,
+      "Transformer Return %": 4.4241632407816125,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 2.1901237047918816,
       "Probability Up %": 54.98776657839669,
       "Probability Down %": 45.01223342160331,
@@ -804,6 +997,9 @@
       "Direction Hit Rate %": 62.20474673733496,
       "Score": 0.012371754721831716,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -815,6 +1011,7 @@
       "Model Call": "Strong Buy",
       "Selected Model": "Ensemble",
       "Last Price": 1045.6300048828125,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 1222.6607894771423,
@@ -866,11 +1063,30 @@
       "Model Edge %": 40.384885824701996,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 1222.9525981863922,
+      "Forecast Return %": 16.95844538465142,
+      "Ridge Return %": 17.46512584803189,
+      "XGBoost Return %": 20.816004322028352,
+      "Neural Net Return %": 18.16593780091129,
+      "LSTM Return %": 8.617475181124307,
+      "Transformer Return %": 17.353564566456416,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 16.95844538465142,
+      "Probability Up %": 90.384885824702,
+      "Probability Down %": 9.615114175298004,
+      "Directional Probability %": 90.384885824702,
+      "Model Edge %": 40.384885824701996,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 12.12222207412809,
       "Validation MAE %": 9.50577890520417,
       "Direction Hit Rate %": 85.43892897658655,
       "Score": 1.1299329057587026,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -882,6 +1098,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 88.25,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 81.75533063213052,
@@ -921,6 +1138,16 @@
       "Transformer Return %": -8.46932290551014,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 81.27631424744234,
+      "Forecast Return %": -7.902193487317399,
+      "Ridge Return %": -8.79309303698211,
+      "XGBoost Return %": -7.925902076020044,
+      "Neural Net Return %": -15.639425911211601,
+      "LSTM Return %": 1.7048711766218163,
+      "Transformer Return %": -8.46932290551014,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": -7.902193487317399,
       "Probability Up %": 30.892736432963545,
       "Probability Down %": 69.10726356703645,
@@ -932,6 +1159,9 @@
       "Direction Hit Rate %": 40.829530479104704,
       "Score": -0.17232019625982975,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -943,6 +1173,7 @@
       "Model Call": "Buy",
       "Selected Model": "Ensemble",
       "Last Price": 306.2699890136719,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 325.0339718898458,
@@ -994,11 +1225,30 @@
       "Model Edge %": 22.137865587320505,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 323.58743442774613,
+      "Forecast Return %": 5.654306995551316,
+      "Ridge Return %": 4.841978020905937,
+      "XGBoost Return %": 3.099413131059906,
+      "Neural Net Return %": 9.498364399439193,
+      "LSTM Return %": 6.11418436732734,
+      "Transformer Return %": 5.424734407419313,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 5.654306995551316,
+      "Probability Up %": 72.1378655873205,
+      "Probability Down %": 27.862134412679495,
+      "Directional Probability %": 72.1378655873205,
+      "Model Edge %": 22.137865587320505,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 9.430472467624806,
       "Validation MAE %": 7.512184775941469,
       "Direction Hit Rate %": 52.858194705569915,
       "Score": 0.26546769249725183,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1010,6 +1260,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 52.75,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 55.61027143363375,
@@ -1061,11 +1312,30 @@
       "Model Edge %": 18.099573388669185,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 55.546073790423506,
+      "Forecast Return %": 5.300613820708074,
+      "Ridge Return %": 7.790792246501756,
+      "XGBoost Return %": 2.7345284161773664,
+      "Neural Net Return %": 8.583941430987377,
+      "LSTM Return %": 7.3765430639754355,
+      "Transformer Return %": 0.6233101353038095,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 5.300613820708074,
+      "Probability Up %": 68.09957338866919,
+      "Probability Down %": 31.900426611330815,
+      "Directional Probability %": 68.09957338866919,
+      "Model Edge %": 18.099573388669185,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 10.965161601521356,
       "Validation MAE %": 8.6452805978432,
       "Direction Hit Rate %": 50.72701744205006,
       "Score": 0.17498848140931908,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1077,6 +1347,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 79.16000366210938,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 82.69564779143187,
@@ -1128,11 +1399,30 @@
       "Model Edge %": 16.988905174380136,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 83.16511080476057,
+      "Forecast Return %": 5.059508536339704,
+      "Ridge Return %": 6.529668760102902,
+      "XGBoost Return %": 1.6866663887503193,
+      "Neural Net Return %": 11.40686621265245,
+      "LSTM Return %": 2.2459883404165866,
+      "Transformer Return %": 4.398373875116757,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 5.059508536339704,
+      "Probability Up %": 66.98890517438014,
+      "Probability Down %": 33.011094825619864,
+      "Directional Probability %": 66.98890517438014,
+      "Model Edge %": 16.988905174380136,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 10.934686009533406,
       "Validation MAE %": 8.90988091353766,
       "Direction Hit Rate %": 52.122778167290015,
       "Score": 0.1572162395479884,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1144,6 +1434,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 129.08999633789062,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 136.1728675531728,
@@ -1183,6 +1474,16 @@
       "Transformer Return %": 3.0560038094384145,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 134.6952940985173,
+      "Forecast Return %": 4.342162769882565,
+      "Ridge Return %": 8.954474619887836,
+      "XGBoost Return %": 4.427592866393888,
+      "Neural Net Return %": 2.233648989048052,
+      "LSTM Return %": 2.4151219061421036,
+      "Transformer Return %": 3.0560038094384145,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 4.342162769882565,
       "Probability Up %": 63.657491946950095,
       "Probability Down %": 36.342508053049905,
@@ -1194,6 +1495,9 @@
       "Direction Hit Rate %": 60.938014781736854,
       "Score": 0.09240666039754807,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1205,6 +1509,7 @@
       "Model Call": "Buy",
       "Selected Model": "Ensemble",
       "Last Price": 925.8699951171875,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 1017.1626238212108,
@@ -1256,11 +1561,30 @@
       "Model Edge %": 24.808423051492596,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 1014.335053254267,
+      "Forecast Return %": 9.554803439319004,
+      "Ridge Return %": 11.77364338993826,
+      "XGBoost Return %": 2.5754121416632003,
+      "Neural Net Return %": 13.048639069170632,
+      "LSTM Return %": 11.221404409685926,
+      "Transformer Return %": 10.481412863280918,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 9.554803439319004,
+      "Probability Up %": 74.8084230514926,
+      "Probability Down %": 25.191576948507404,
+      "Directional Probability %": 74.8084230514926,
+      "Model Edge %": 24.808423051492596,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 13.656221651363486,
       "Validation MAE %": 10.83055532504388,
       "Direction Hit Rate %": 59.927642695744645,
       "Score": 0.34715254621371117,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1272,6 +1596,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 190.1699981689453,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 202.0363338687828,
@@ -1323,11 +1648,30 @@
       "Model Edge %": 15.59177771148147,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 201.04553487736848,
+      "Forecast Return %": 5.718849878076711,
+      "Ridge Return %": 7.4825930312860764,
+      "XGBoost Return %": 0.48011812402875265,
+      "Neural Net Return %": 1.4714465304861883,
+      "LSTM Return %": 13.660647730438388,
+      "Transformer Return %": 7.140758346758841,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 5.718849878076711,
+      "Probability Up %": 65.59177771148147,
+      "Probability Down %": 34.40822228851853,
+      "Directional Probability %": 65.59177771148147,
+      "Model Edge %": 15.59177771148147,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 12.950812454131352,
       "Validation MAE %": 10.323066495676182,
       "Direction Hit Rate %": 59.43809409537269,
       "Score": 0.13770106914931102,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1339,6 +1683,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 321.2799987792969,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 325.1848561271268,
@@ -1390,11 +1735,30 @@
       "Model Edge %": 5.109161108265944,
       "Signal Quality": "Weak Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 325.0151749380361,
+      "Forecast Return %": 1.1625921852997756,
+      "Ridge Return %": -2.0313195109671285,
+      "XGBoost Return %": 0.11900461371984429,
+      "Neural Net Return %": 1.3366639193807028,
+      "LSTM Return %": -0.564843231230251,
+      "Transformer Return %": 7.636426928482505,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 1.1625921852997756,
+      "Probability Up %": 55.109161108265944,
+      "Probability Down %": 44.890838891734056,
+      "Directional Probability %": 55.109161108265944,
+      "Model Edge %": 5.109161108265944,
+      "Signal Quality": "Weak Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 6.322466140028954,
       "Validation MAE %": 5.093368835099015,
       "Direction Hit Rate %": 51.851636245844254,
       "Score": 0.01878972744607004,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1406,6 +1770,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 369.739990234375,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 365.43576147077135,
@@ -1445,6 +1810,16 @@
       "Transformer Return %": 4.799147127023267,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 364.4925703346107,
+      "Forecast Return %": -1.4192189209606283,
+      "Ridge Return %": -6.699785986745247,
+      "XGBoost Return %": -0.7735211168716429,
+      "Neural Net Return %": -1.345854505266735,
+      "LSTM Return %": -2.989949509429799,
+      "Transformer Return %": 4.799147127023267,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": -1.4192189209606283,
       "Probability Up %": 46.84270195487363,
       "Probability Down %": 53.15729804512637,
@@ -1456,6 +1831,9 @@
       "Direction Hit Rate %": 54.09956073742221,
       "Score": -0.004635342559728534,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1467,6 +1845,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 974.9600219726562,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 965.2461224395995,
@@ -1506,6 +1885,16 @@
       "Transformer Return %": 5.873082980969971,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 949.4977466389212,
+      "Forecast Return %": -2.611622503476249,
+      "Ridge Return %": -2.787392676720961,
+      "XGBoost Return %": -2.259642124473638,
+      "Neural Net Return %": -9.586730433090667,
+      "LSTM Return %": -3.8147857757569765,
+      "Transformer Return %": 5.873082980969971,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": -2.611622503476249,
       "Probability Up %": 41.90790488143992,
       "Probability Down %": 58.09209511856008,
@@ -1517,6 +1906,9 @@
       "Direction Hit Rate %": 48.39031767158255,
       "Score": -0.029543459676161003,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1528,6 +1920,7 @@
       "Model Call": "Buy",
       "Selected Model": "Ensemble",
       "Last Price": 222.50999450683594,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 235.48826613175848,
@@ -1579,11 +1972,30 @@
       "Model Edge %": 24.17860950158706,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 236.18257123441813,
+      "Forecast Return %": 6.144702289839006,
+      "Ridge Return %": 10.05644929710215,
+      "XGBoost Return %": 2.5848396594900764,
+      "Neural Net Return %": 4.360799721724233,
+      "LSTM Return %": 4.197596930344668,
+      "Transformer Return %": 9.287420132802701,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 6.144702289839006,
+      "Probability Up %": 74.17860950158706,
+      "Probability Down %": 25.82139049841294,
+      "Directional Probability %": 74.17860950158706,
+      "Model Edge %": 24.17860950158706,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 9.028814148915522,
       "Validation MAE %": 7.4838729965493505,
       "Direction Hit Rate %": 50.5156942927675,
       "Score": 0.32910270323234064,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1595,6 +2007,7 @@
       "Model Call": "Buy",
       "Selected Model": "Ensemble",
       "Last Price": 130.1999969482422,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 137.50630145205247,
@@ -1646,11 +2059,30 @@
       "Model Edge %": 23.326102403114973,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 137.35762083348615,
+      "Forecast Return %": 5.497407106767699,
+      "Ridge Return %": 7.325800903771751,
+      "XGBoost Return %": 3.7707008788306045,
+      "Neural Net Return %": 4.723433935937874,
+      "LSTM Return %": 2.504788268711927,
+      "Transformer Return %": 9.695695519004003,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 5.497407106767699,
+      "Probability Up %": 73.32610240311497,
+      "Probability Down %": 26.673897596885027,
+      "Directional Probability %": 73.32610240311497,
+      "Model Edge %": 23.326102403114973,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 8.63111247018266,
       "Validation MAE %": 6.456674135124725,
       "Direction Hit Rate %": 69.35275965360324,
       "Score": 0.2971414903167437,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1662,6 +2094,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 146.05999755859375,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 147.23444640697645,
@@ -1713,11 +2146,30 @@
       "Model Edge %": 4.457866391144812,
       "Signal Quality": "Weak Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 147.14864890325367,
+      "Forecast Return %": 0.7453453121024635,
+      "Ridge Return %": 2.770114470230399,
+      "XGBoost Return %": 1.2783584112194482,
+      "Neural Net Return %": -0.6771888663876705,
+      "LSTM Return %": -0.9386161261544783,
+      "Transformer Return %": 0.8352538012596377,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 0.7453453121024635,
+      "Probability Up %": 54.45786639114481,
+      "Probability Down %": 45.54213360885519,
+      "Directional Probability %": 54.45786639114481,
+      "Model Edge %": 4.457866391144812,
+      "Signal Quality": "Weak Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 7.31658362545036,
       "Validation MAE %": 5.830475737916893,
       "Direction Hit Rate %": 46.85750335487366,
       "Score": 0.00908251716022556,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1729,6 +2181,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 78.43000030517578,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 79.50008867499308,
@@ -1768,6 +2221,16 @@
       "Transformer Return %": 0.6747503905681896,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 79.06273305307364,
+      "Forecast Return %": 0.8067483685271383,
+      "Ridge Return %": 1.1678262418360246,
+      "XGBoost Return %": 0.5641479280148423,
+      "Neural Net Return %": 0.6644507201951895,
+      "LSTM Return %": 0.9529590014018329,
+      "Transformer Return %": 0.6747503905681896,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 0.8067483685271383,
       "Probability Up %": 55.2595880772921,
       "Probability Down %": 44.7404119227079,
@@ -1779,6 +2242,9 @@
       "Direction Hit Rate %": 51.01352040159721,
       "Score": 0.013137381134260074,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1790,6 +2256,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 322.6400146484375,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 323.3523989587766,
@@ -1829,6 +2296,16 @@
       "Transformer Return %": -3.9512994051827266,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 324.32056693548236,
+      "Forecast Return %": 0.5208753442675186,
+      "Ridge Return %": 2.0449573693471113,
+      "XGBoost Return %": 1.0326891350186995,
+      "Neural Net Return %": 5.328202667853809,
+      "LSTM Return %": -1.1484198317528964,
+      "Transformer Return %": -3.9512994051827266,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 0.5208753442675186,
       "Probability Up %": 51.32033413818854,
       "Probability Down %": 48.67966586181146,
@@ -1840,6 +2317,9 @@
       "Direction Hit Rate %": 48.052532797065034,
       "Score": 0.0013585156539965518,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1851,6 +2331,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 156.2899932861328,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 159.95715891589535,
@@ -1902,11 +2383,30 @@
       "Model Edge %": 10.827788305252497,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 160.10910576447978,
+      "Forecast Return %": 2.443606527869618,
+      "Ridge Return %": 2.88606646202743,
+      "XGBoost Return %": 0.15129159846611043,
+      "Neural Net Return %": 6.005349705157322,
+      "LSTM Return %": 3.535112516127876,
+      "Transformer Return %": -0.16766141769636383,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 2.443606527869618,
+      "Probability Up %": 60.8277883052525,
+      "Probability Down %": 39.1722116947475,
+      "Directional Probability %": 60.8277883052525,
+      "Model Edge %": 10.827788305252497,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 8.641405759314875,
       "Validation MAE %": 6.838983875204872,
       "Direction Hit Rate %": 46.13398774430191,
       "Score": 0.06123738410636345,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1918,6 +2418,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 230.27000427246094,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 231.8346852839806,
@@ -1957,6 +2458,16 @@
       "Transformer Return %": -10.383141261141523,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 230.44372752046706,
+      "Forecast Return %": 0.07544328170532677,
+      "Ridge Return %": 12.49034746871735,
+      "XGBoost Return %": 1.9891486552729112,
+      "Neural Net Return %": -0.1058806502299796,
+      "LSTM Return %": -5.678613801998767,
+      "Transformer Return %": -10.383141261141523,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 0.07544328170532677,
       "Probability Up %": 50.23136829214829,
       "Probability Down %": 49.76863170785171,
@@ -1968,6 +2479,9 @@
       "Direction Hit Rate %": 47.46261361424603,
       "Score": 1.5064315864598149e-05,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1979,6 +2493,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 73.11000061035156,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 79.48952870436753,
@@ -2030,11 +2545,30 @@
       "Model Edge %": 17.307187948876376,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 79.31231919646596,
+      "Forecast Return %": 8.483543337894895,
+      "Ridge Return %": 9.410498096476648,
+      "XGBoost Return %": 2.8396237955548274,
+      "Neural Net Return %": 10.892515292918374,
+      "LSTM Return %": 9.000539010484772,
+      "Transformer Return %": 12.088320568915266,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 8.483543337894895,
+      "Probability Up %": 67.30718794887638,
+      "Probability Down %": 32.692812051123624,
+      "Directional Probability %": 67.30718794887638,
+      "Model Edge %": 17.307187948876376,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 18.95164332184442,
       "Validation MAE %": 14.47716818469257,
       "Direction Hit Rate %": 55.14101047271859,
       "Score": 0.15494833511577036,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2046,6 +2580,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 99.69999694824219,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 103.1599171802436,
@@ -2097,11 +2632,30 @@
       "Model Edge %": 5.792524730352845,
       "Signal Quality": "Weak Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 103.01487758342785,
+      "Forecast Return %": 3.324855302559885,
+      "Ridge Return %": 9.271273438444604,
+      "XGBoost Return %": 3.047177142650308,
+      "Neural Net Return %": 5.0726624634830655,
+      "LSTM Return %": -0.8574515926401781,
+      "Transformer Return %": 0.6452596830211468,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 3.324855302559885,
+      "Probability Up %": 55.792524730352845,
+      "Probability Down %": 44.207475269647155,
+      "Directional Probability %": 55.792524730352845,
+      "Model Edge %": 5.792524730352845,
+      "Signal Quality": "Weak Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 24.215247232679744,
       "Validation MAE %": 19.045691521415055,
       "Direction Hit Rate %": 47.91712911137114,
       "Score": 0.015906760215878765,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2113,6 +2667,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 13.180000305175781,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 14.066617754412844,
@@ -2152,6 +2707,16 @@
       "Transformer Return %": 9.299957392235472,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 14.088977910593346,
+      "Forecast Return %": 6.896643280505916,
+      "Ridge Return %": 9.971685752688137,
+      "XGBoost Return %": 3.065972379193739,
+      "Neural Net Return %": 10.396582524812125,
+      "LSTM Return %": 2.60286152773542,
+      "Transformer Return %": 9.299957392235472,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 6.896643280505916,
       "Probability Up %": 63.814900181796276,
       "Probability Down %": 36.185099818203724,
@@ -2163,6 +2728,9 @@
       "Direction Hit Rate %": 56.70566636294886,
       "Score": 0.09513689185157324,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2174,6 +2742,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 41.38999938964844,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 44.2337885256572,
@@ -2225,11 +2794,30 @@
       "Model Edge %": 17.02144701305987,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 44.2586851540119,
+      "Forecast Return %": 6.930866892162623,
+      "Ridge Return %": 11.573635329796344,
+      "XGBoost Return %": 2.883046993419414,
+      "Neural Net Return %": 8.054437640426796,
+      "LSTM Return %": -0.020000187401685268,
+      "Transformer Return %": 11.766862704309439,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 6.930866892162623,
+      "Probability Up %": 67.02144701305987,
+      "Probability Down %": 32.97855298694013,
+      "Directional Probability %": 67.02144701305987,
+      "Model Edge %": 17.02144701305987,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 15.791904119924814,
       "Validation MAE %": 12.474227886489023,
       "Direction Hit Rate %": 62.02140390591124,
       "Score": 0.14940995419376787,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2241,6 +2829,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 146.5800018310547,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 150.80029513319812,
@@ -2292,11 +2881,30 @@
       "Model Edge %": 10.736904975228349,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 150.42942152841627,
+      "Forecast Return %": 2.6261561258529698,
+      "Ridge Return %": 6.974046446375951,
+      "XGBoost Return %": 2.1499158394048217,
+      "Neural Net Return %": 3.6036281307023486,
+      "LSTM Return %": -0.9986658254989814,
+      "Transformer Return %": 0.28528884270555366,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 2.6261561258529698,
+      "Probability Up %": 60.73690497522835,
+      "Probability Down %": 39.26309502477165,
+      "Directional Probability %": 60.73690497522835,
+      "Model Edge %": 10.736904975228349,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 10.113665052563602,
       "Validation MAE %": 7.756558370225685,
       "Direction Hit Rate %": 47.99579802002894,
       "Score": 0.05575978367258635,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2308,6 +2916,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 182.5,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 189.103948407828,
@@ -2347,6 +2956,16 @@
       "Transformer Return %": 6.4283038100013945,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 190.40701089686564,
+      "Forecast Return %": 4.332608710611346,
+      "Ridge Return %": 4.7441024009122446,
+      "XGBoost Return %": 2.781459087586717,
+      "Neural Net Return %": 5.310055059285233,
+      "LSTM Return %": 2.9801131683413753,
+      "Transformer Return %": 6.4283038100013945,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 4.332608710611346,
       "Probability Up %": 66.04569994301292,
       "Probability Down %": 33.95430005698708,
@@ -2358,6 +2977,9 @@
       "Direction Hit Rate %": 54.27495717243578,
       "Score": 0.13105607406024744,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2369,6 +2991,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 114.87999725341797,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 120.95921191010052,
@@ -2420,11 +3043,30 @@
       "Model Edge %": 16.420968194928093,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 120.84482726930942,
+      "Forecast Return %": 5.192226809279449,
+      "Ridge Return %": 7.817680542218255,
+      "XGBoost Return %": 2.552624963744199,
+      "Neural Net Return %": 3.034035746781946,
+      "LSTM Return %": 3.9273446973092048,
+      "Transformer Return %": 9.547612679270431,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 5.192226809279449,
+      "Probability Up %": 66.4209681949281,
+      "Probability Down %": 33.57903180507191,
+      "Directional Probability %": 66.4209681949281,
+      "Model Edge %": 16.420968194928093,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 12.052251521716382,
       "Validation MAE %": 9.583193655860663,
       "Direction Hit Rate %": 46.09330437658789,
       "Score": 0.14148624618794642,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2436,6 +3078,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 53.939998626708984,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 54.82334743298257,
@@ -2475,6 +3118,16 @@
       "Transformer Return %": -3.7053882873422843,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 54.861398626452825,
+      "Forecast Return %": 1.7081943329668565,
+      "Ridge Return %": 6.3600377030371895,
+      "XGBoost Return %": 0.461386026988543,
+      "Neural Net Return %": 3.2142069699509195,
+      "LSTM Return %": 3.171750094062431,
+      "Transformer Return %": -3.7053882873422843,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 1.7081943329668565,
       "Probability Up %": 54.04818587611241,
       "Probability Down %": 45.95181412388759,
@@ -2486,6 +3139,9 @@
       "Direction Hit Rate %": 49.31154174977674,
       "Score": 0.009141716594962771,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2496,6 +3152,7 @@
       "Symbol": "SLB",
       "Model Call": "Buy",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 53,
@@ -2550,11 +3207,31 @@
       "Model Edge %": 30.06924039635193,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Last Price": 53.0,
+      "Forecast Price": 59.30261210098635,
+      "Forecast Return %": 11.891720945257259,
+      "Ridge Return %": 15.098767135972283,
+      "XGBoost Return %": 5.891280709143472,
+      "Neural Net Return %": 13.263718292863993,
+      "LSTM Return %": 15.79785729919897,
+      "Transformer Return %": 11.332626769981147,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 11.891720945257259,
+      "Probability Up %": 80.06924039635193,
+      "Probability Down %": 19.93075960364807,
+      "Directional Probability %": 80.06924039635193,
+      "Model Edge %": 30.06924039635193,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 13.656185211750726,
       "Validation MAE %": 10.820161136194184,
       "Direction Hit Rate %": 53.33086094327999,
       "Score": 0.5236821415128313,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2566,6 +3243,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 130.88999938964844,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 138.31744171445467,
@@ -2617,11 +3295,30 @@
       "Model Edge %": 16.824370298739012,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 137.65513381882906,
+      "Forecast Return %": 5.168564795421359,
+      "Ridge Return %": 6.361319537594342,
+      "XGBoost Return %": 1.1785192640008133,
+      "Neural Net Return %": 9.576479975285258,
+      "LSTM Return %": 3.212669847854295,
+      "Transformer Return %": 7.447974090551847,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 5.168564795421359,
+      "Probability Up %": 66.82437029873901,
+      "Probability Down %": 33.17562970126099,
+      "Directional Probability %": 66.82437029873901,
+      "Model Edge %": 16.824370298739012,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 11.342876077454285,
       "Validation MAE %": 8.847714338446472,
       "Direction Hit Rate %": 52.03757417995892,
       "Score": 0.1533259244611467,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2633,6 +3330,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 731.5800170898438,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 747.6733969974116,
@@ -2684,11 +3382,30 @@
       "Model Edge %": 13.142186071681706,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 747.2371151007588,
+      "Forecast Return %": 2.1401757354168565,
+      "Ridge Return %": 4.582225459282535,
+      "XGBoost Return %": 1.792013622525247,
+      "Neural Net Return %": 4.740028534553186,
+      "LSTM Return %": -0.9476577422733551,
+      "Transformer Return %": 1.3944886307453441,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 2.1401757354168565,
+      "Probability Up %": 63.14218607168171,
+      "Probability Down %": 36.85781392831829,
+      "Directional Probability %": 63.14218607168171,
+      "Model Edge %": 13.142186071681706,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 5.7570974316191,
       "Validation MAE %": 4.267563940746802,
       "Direction Hit Rate %": 63.12302700623861,
       "Score": 0.09771100133365769,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2700,6 +3417,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 672.5399780273438,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 686.4298205466105,
@@ -2751,11 +3469,30 @@
       "Model Edge %": 14.429856428247092,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 689.3885963849236,
+      "Forecast Return %": 2.50522183186777,
+      "Ridge Return %": 4.720168715805383,
+      "XGBoost Return %": 1.484448551780775,
+      "Neural Net Return %": 6.8699249565436435,
+      "LSTM Return %": -0.7453787437929819,
+      "Transformer Return %": 1.186058335152488,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 2.50522183186777,
+      "Probability Up %": 64.42985642824709,
+      "Probability Down %": 35.57014357175291,
+      "Directional Probability %": 64.42985642824709,
+      "Model Edge %": 14.429856428247092,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 5.993699419103496,
       "Validation MAE %": 4.385440717114619,
       "Direction Hit Rate %": 64.86592632196047,
       "Score": 0.12062664083401503,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2767,6 +3504,7 @@
       "Model Call": "Buy",
       "Selected Model": "Ensemble",
       "Last Price": 694.9400024414062,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 724.8872783163174,
@@ -2818,11 +3556,30 @@
       "Model Edge %": 18.140580680355242,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 719.773672685449,
+      "Forecast Return %": 3.5734984540822756,
+      "Ridge Return %": 5.415025862816957,
+      "XGBoost Return %": 0.8261684883125776,
+      "Neural Net Return %": 5.1916005777268746,
+      "LSTM Return %": 1.6656681507844944,
+      "Transformer Return %": 4.612487702122974,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 3.5734984540822756,
+      "Probability Up %": 68.14058068035524,
+      "Probability Down %": 31.859419319644758,
+      "Directional Probability %": 68.14058068035524,
+      "Model Edge %": 18.140580680355242,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 7.496649133060463,
       "Validation MAE %": 5.506155968661163,
       "Direction Hit Rate %": 62.898749986021244,
       "Score": 0.17294483406332156,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2834,6 +3591,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 282.260009765625,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 292.8813070420576,
@@ -2885,11 +3643,30 @@
       "Model Edge %": 18.300917295798342,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 292.8502546511922,
+      "Forecast Return %": 3.75194661629918,
+      "Ridge Return %": 4.998579641995281,
+      "XGBoost Return %": 1.5310848724091755,
+      "Neural Net Return %": 5.346298689539157,
+      "LSTM Return %": 3.227578260836191,
+      "Transformer Return %": 3.9105056520404795,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 3.75194661629918,
+      "Probability Up %": 68.30091729579834,
+      "Probability Down %": 31.699082704201658,
+      "Directional Probability %": 68.30091729579834,
+      "Model Edge %": 18.300917295798342,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 7.788730369127811,
       "Validation MAE %": 6.30572335778402,
       "Direction Hit Rate %": 54.622326859267964,
       "Score": 0.1763164507409461,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2901,6 +3678,7 @@
       "Model Call": "Buy",
       "Selected Model": "Ensemble",
       "Last Price": 495.9100036621094,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 507.7800323850186,
@@ -2952,11 +3730,30 @@
       "Model Edge %": 19.238487175097816,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 508.82994683761945,
+      "Forecast Return %": 2.6052999697729913,
+      "Ridge Return %": 4.407677896229062,
+      "XGBoost Return %": 2.2876174088812307,
+      "Neural Net Return %": 3.231053444205771,
+      "LSTM Return %": 1.3139846226258691,
+      "Transformer Return %": 2.0365576107395347,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 2.6052999697729913,
+      "Probability Up %": 69.23848717509782,
+      "Probability Down %": 30.761512824902184,
+      "Directional Probability %": 69.23848717509782,
+      "Model Edge %": 19.238487175097816,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 5.100460602534761,
       "Validation MAE %": 3.7446618919730454,
       "Direction Hit Rate %": 64.33852299941591,
       "Score": 0.1965392303230474,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2968,6 +3765,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 431.67999267578125,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 439.6619540896267,
@@ -3019,11 +3817,30 @@
       "Model Edge %": 8.581534367904247,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 439.2166406915961,
+      "Forecast Return %": 1.7458877278742764,
+      "Ridge Return %": 2.741585513817882,
+      "XGBoost Return %": 1.5061597829289959,
+      "Neural Net Return %": -0.3059494970951545,
+      "LSTM Return %": 3.815731585577267,
+      "Transformer Return %": 0.6977299251279738,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 1.7458877278742764,
+      "Probability Up %": 58.58153436790425,
+      "Probability Down %": 41.41846563209575,
+      "Directional Probability %": 58.58153436790425,
+      "Model Edge %": 8.581534367904247,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 8.320625543017814,
       "Validation MAE %": 6.571173642784503,
       "Direction Hit Rate %": 63.97892416323658,
       "Score": 0.03601266626360255,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3035,6 +3852,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 71.5999984741211,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 70.62275191344139,
@@ -3074,6 +3892,16 @@
       "Transformer Return %": -4.000624502284654,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 70.51251354972294,
+      "Forecast Return %": -1.5188337256615896,
+      "Ridge Return %": -0.3705742940286197,
+      "XGBoost Return %": 3.5925032474073073,
+      "Neural Net Return %": -2.799859836209966,
+      "LSTM Return %": -4.51185707244762,
+      "Transformer Return %": -4.000624502284654,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": -1.5188337256615896,
       "Probability Up %": 46.94754857410118,
       "Probability Down %": 53.05245142589882,
@@ -3085,6 +3913,9 @@
       "Direction Hit Rate %": 44.91015765864114,
       "Score": -0.004290177790642028,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3096,6 +3927,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 134.97000122070312,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 142.05605817848465,
@@ -3147,11 +3979,30 @@
       "Model Edge %": 10.679647069437785,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 142.7626855152618,
+      "Forecast Return %": 5.773641715995857,
+      "Ridge Return %": 12.009498565798571,
+      "XGBoost Return %": 3.417142708224754,
+      "Neural Net Return %": -3.1177329283743043,
+      "LSTM Return %": -0.37490954433375673,
+      "Transformer Return %": 16.968657329381514,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 5.773641715995857,
+      "Probability Up %": 60.679647069437785,
+      "Probability Down %": 39.320352930562215,
+      "Directional Probability %": 60.679647069437785,
+      "Model Edge %": 10.679647069437785,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 20.570091560663442,
       "Validation MAE %": 13.04279075794902,
       "Direction Hit Rate %": 50.73275503977503,
       "Score": 0.05995156185899853,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3163,6 +4014,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 85.6500015258789,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 85.64949481406033,
@@ -3202,6 +4054,16 @@
       "Transformer Return %": 2.187397915366033,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 85.93965068638838,
+      "Forecast Return %": 0.33817764781003434,
+      "Ridge Return %": 0.7008699380688415,
+      "XGBoost Return %": -0.9397481731819137,
+      "Neural Net Return %": 0.06917266255985506,
+      "LSTM Return %": -0.10543447219550517,
+      "Transformer Return %": 2.187397915366033,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 0.33817764781003434,
       "Probability Up %": 52.84660229626982,
       "Probability Down %": 47.15339770373018,
@@ -3213,6 +4075,9 @@
       "Direction Hit Rate %": 55.093102276011805,
       "Score": 0.004248660097126252,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3224,6 +4089,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 169.69000244140625,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 167.96314104472222,
@@ -3275,11 +4141,30 @@
       "Model Edge %": 1.5758514057187725,
       "Signal Quality": "No Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 170.04968531129674,
+      "Forecast Return %": 0.21196467954240694,
+      "Ridge Return %": 2.3769202405161454,
+      "XGBoost Return %": 1.9301824981294593,
+      "Neural Net Return %": 1.816817062391354,
+      "LSTM Return %": -8.946175062937135,
+      "Transformer Return %": 4.217089289399912,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 0.21196467954240694,
+      "Probability Up %": 51.57585140571877,
+      "Probability Down %": 48.42414859428123,
+      "Directional Probability %": 51.57585140571877,
+      "Model Edge %": 1.5758514057187725,
+      "Signal Quality": "No Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 9.07062341511876,
       "Validation MAE %": 7.080240073903287,
       "Direction Hit Rate %": 63.17720325029384,
       "Score": 0.0007364980838315572,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3291,6 +4176,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 51.54999923706055,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 52.194022400142046,
@@ -3342,11 +4228,30 @@
       "Model Edge %": 5.328435918879407,
       "Signal Quality": "Weak Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 51.97928940218583,
+      "Forecast Return %": 0.8327646391440491,
+      "Ridge Return %": 2.0584105357313685,
+      "XGBoost Return %": 1.5705887098048987,
+      "Neural Net Return %": 1.0087358928512216,
+      "LSTM Return %": -1.1525779638281886,
+      "Transformer Return %": 0.35887210370739353,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 0.8327646391440491,
+      "Probability Up %": 55.32843591887941,
+      "Probability Down %": 44.67156408112059,
+      "Directional Probability %": 55.32843591887941,
+      "Model Edge %": 5.328435918879407,
+      "Signal Quality": "Weak Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 6.772487532815739,
       "Validation MAE %": 5.235155242227114,
       "Direction Hit Rate %": 46.3648755067469,
       "Score": 0.013103997589325725,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3358,6 +4263,7 @@
       "Model Call": "Buy",
       "Selected Model": "Ensemble",
       "Last Price": 55.95000076293945,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 59.02320616500337,
@@ -3409,11 +4315,30 @@
       "Model Edge %": 22.466682300781827,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 58.967550020794945,
+      "Forecast Return %": 5.393296187145487,
+      "Ridge Return %": 10.160031167932761,
+      "XGBoost Return %": 1.7093186847922603,
+      "Neural Net Return %": 6.415281191095695,
+      "LSTM Return %": 4.031041781764201,
+      "Transformer Return %": 4.915661153495302,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 5.393296187145487,
+      "Probability Up %": 72.46668230078183,
+      "Probability Down %": 27.533317699218173,
+      "Directional Probability %": 72.46668230078183,
+      "Model Edge %": 22.466682300781827,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 8.629556146325822,
       "Validation MAE %": 6.666482701899248,
       "Direction Hit Rate %": 57.65928697856527,
       "Score": 0.2808243435375423,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3425,6 +4350,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 144.72000122070312,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 144.6459792522952,
@@ -3464,6 +4390,16 @@
       "Transformer Return %": 0.5095258969464979,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 144.45426423733386,
+      "Forecast Return %": -0.1836214629131001,
+      "Ridge Return %": 0.09200608448281976,
+      "XGBoost Return %": 1.498136025207737,
+      "Neural Net Return %": -4.900142748586451,
+      "LSTM Return %": 0.8511333690789473,
+      "Transformer Return %": 0.5095258969464979,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": -0.1836214629131001,
       "Probability Up %": 50.3504810698857,
       "Probability Down %": 49.6495189301143,
@@ -3475,6 +4411,9 @@
       "Direction Hit Rate %": 60.37516632088415,
       "Score": -0.0002514790228998671,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3486,6 +4425,7 @@
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 119.87999725341797,
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Forecast Price": 123.9067660536076,
@@ -3537,11 +4477,30 @@
       "Model Edge %": 12.920993498225641,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Forecast Price": 123.5668338422058,
+      "Forecast Return %": 3.07543933371475,
+      "Ridge Return %": 4.147180729977578,
+      "XGBoost Return %": 1.7378334000239568,
+      "Neural Net Return %": 5.614127150462097,
+      "LSTM Return %": -2.0223580096959486,
+      "Transformer Return %": 7.551630250200205,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 3.07543933371475,
+      "Probability Up %": 62.92099349822564,
+      "Probability Down %": 37.07900650177436,
+      "Directional Probability %": 62.92099349822564,
+      "Model Edge %": 12.920993498225641,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 8.539358498602436,
       "Validation MAE %": 6.574085145861905,
       "Direction Hit Rate %": 57.7899394496921,
       "Score": 0.09306959449382345,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3552,6 +4511,7 @@
       "Symbol": "BTC",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 79963.3515625,
@@ -3594,6 +4554,17 @@
       "Transformer Return %": -4.042536840638947,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 79850.6015625,
+      "Forecast Price": 82598.48263289318,
+      "Forecast Return %": 3.441277857177275,
+      "Ridge Return %": 7.0070579116019935,
+      "XGBoost Return %": 0.5244759750923206,
+      "Neural Net Return %": 10.092480295604132,
+      "LSTM Return %": 3.0671096243874088,
+      "Transformer Return %": -4.042536840638947,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 3.441277857177275,
       "Probability Up %": 59.19819475743048,
       "Probability Down %": 40.80180524256952,
@@ -3605,6 +4576,9 @@
       "Direction Hit Rate %": 52.780291970596394,
       "Score": 0.04193671834799105,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3615,6 +4589,7 @@
       "Symbol": "ETH-USD",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 2289.860107421875,
@@ -3657,6 +4632,17 @@
       "Transformer Return %": 2.296613462710101,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 2283.076171875,
+      "Forecast Price": 2503.232917935045,
+      "Forecast Return %": 9.642987333148788,
+      "Ridge Return %": 13.05763370223615,
+      "XGBoost Return %": 3.0461477756116135,
+      "Neural Net Return %": 25.97009625394053,
+      "LSTM Return %": 4.70215598384013,
+      "Transformer Return %": 2.296613462710101,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 9.642987333148788,
       "Probability Up %": 64.05027025245688,
       "Probability Down %": 35.94972974754312,
@@ -3668,6 +4654,9 @@
       "Direction Hit Rate %": 61.315644789697316,
       "Score": 0.10338794460435011,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3678,6 +4667,7 @@
       "Symbol": "SOL",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 88.25,
@@ -3732,11 +4722,31 @@
       "Model Edge %": 7.5250429758931645,
       "Signal Quality": "Weak Edge",
 >>>>>>> Stashed changes
+=======
+      "Last Price": 88.41299438476562,
+      "Forecast Price": 84.07238914656122,
+      "Forecast Return %": -4.909465252714432,
+      "Ridge Return %": 0.6466353209998943,
+      "XGBoost Return %": -6.560038953785713,
+      "Neural Net Return %": -7.915850331467745,
+      "LSTM Return %": -9.898770090137809,
+      "Transformer Return %": 0.4352425299611322,
+      "RL Policy Return %": null,
+      "Ensemble Return %": -4.909465252714432,
+      "Probability Up %": 42.474957024106835,
+      "Probability Down %": 57.525042975893165,
+      "Directional Probability %": 57.525042975893165,
+      "Model Edge %": 7.5250429758931645,
+      "Signal Quality": "Weak Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 32.90044369369827,
       "Validation MAE %": 24.06341579183912,
       "Direction Hit Rate %": 46.270957425827504,
       "Score": -0.02245801750230287,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3747,6 +4757,7 @@
       "Symbol": "XRP",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 1.3863999843597412,
@@ -3801,11 +4812,31 @@
       "Model Edge %": 14.730096682077885,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Last Price": 1.3867909908294678,
+      "Forecast Price": 1.5322937947059696,
+      "Forecast Return %": 10.492049980038708,
+      "Ridge Return %": 1.9535918674441586,
+      "XGBoost Return %": 25.121506041664055,
+      "Neural Net Return %": 26.14089553069573,
+      "LSTM Return %": -2.9563425838859683,
+      "Transformer Return %": -2.4354522515463763,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 10.492049980038708,
+      "Probability Up %": 64.73009668207789,
+      "Probability Down %": 35.269903317922115,
+      "Directional Probability %": 64.73009668207789,
+      "Model Edge %": 14.730096682077885,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 24.13139944135266,
       "Validation MAE %": 16.809327428485364,
       "Direction Hit Rate %": 54.69795225219292,
       "Score": 0.12808947195521658,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3816,6 +4847,7 @@
       "Symbol": "ADA",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 0.26249998807907104,
@@ -3872,6 +4904,23 @@
       "Model Edge %": 1.5562202987878564,
       "Signal Quality": "No Edge",
 >>>>>>> Stashed changes
+=======
+      "Last Price": 0.2639528214931488,
+      "Forecast Price": 0.2683374848190142,
+      "Forecast Return %": 1.6611541793953617,
+      "Ridge Return %": -2.4310959777869265,
+      "XGBoost Return %": 0.5613386978061576,
+      "Neural Net Return %": 25.86268083002871,
+      "LSTM Return %": -8.061856445684453,
+      "Transformer Return %": -12.65012355228314,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 1.6611541793953617,
+      "Probability Up %": 51.556220298787856,
+      "Probability Down %": 48.443779701212144,
+      "Directional Probability %": 51.556220298787856,
+      "Model Edge %": 1.5562202987878564,
+      "Signal Quality": "No Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 23.428841941913767,
       "Validation MAE %": 17.128166400456337,
       "Direction Hit Rate %": 62.884990210065666,
@@ -3879,6 +4928,9 @@
       "Primary Pattern": "Bullish MA Crossover",
       "All Patterns": "Bullish MA Crossover"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3887,6 +4939,7 @@
       "Symbol": "BNB",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 636.0900268554688,
@@ -3929,6 +4982,17 @@
       "Transformer Return %": -8.096182568397598,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 638.684326171875,
+      "Forecast Price": 622.0257257753736,
+      "Forecast Return %": -2.608268234222886,
+      "Ridge Return %": -1.2024602336370278,
+      "XGBoost Return %": -0.47280780922931925,
+      "Neural Net Return %": -3.9673219759459526,
+      "LSTM Return %": 0.01046101945801605,
+      "Transformer Return %": -8.096182568397598,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": -2.608268234222886,
       "Probability Up %": 43.28021182991247,
       "Probability Down %": 56.71978817008753,
@@ -3940,6 +5004,9 @@
       "Direction Hit Rate %": 57.484842031990624,
       "Score": -0.02158167332411784,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3950,6 +5017,7 @@
       "Symbol": "AVAX",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 9.479999542236328,
@@ -3992,6 +5060,17 @@
       "Transformer Return %": -13.747269020291109,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 9.587957382202148,
+      "Forecast Price": 8.702748038516773,
+      "Forecast Return %": -9.23251229014187,
+      "Ridge Return %": -19.91756299233626,
+      "XGBoost Return %": 1.174364453977762,
+      "Neural Net Return %": -7.006641034529888,
+      "LSTM Return %": -8.980523044871239,
+      "Transformer Return %": -13.747269020291109,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": -9.23251229014187,
       "Probability Up %": 35.186492387320214,
       "Probability Down %": 64.81350761267979,
@@ -4003,6 +5082,9 @@
       "Direction Hit Rate %": 57.17924993151146,
       "Score": -0.09690821484457864,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4013,6 +5095,7 @@
       "Symbol": "ORCA",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 1.5579999685287476,
@@ -4055,6 +5138,17 @@
       "Transformer Return %": 30.254772761052863,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 1.5758198499679565,
+      "Forecast Price": 1.8919716899831736,
+      "Forecast Return %": 20.06268927388152,
+      "Ridge Return %": 6.8699673808644395,
+      "XGBoost Return %": 36.33932177393108,
+      "Neural Net Return %": 33.25071450377781,
+      "LSTM Return %": -9.528660077149349,
+      "Transformer Return %": 30.254772761052863,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 20.06268927388152,
       "Probability Up %": 67.90894283027818,
       "Probability Down %": 32.09105716972182,
@@ -4066,6 +5160,9 @@
       "Direction Hit Rate %": 55.08539526285042,
       "Score": 0.17088430683516137,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4076,6 +5173,7 @@
       "Symbol": "PNUT",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 0.06069999933242798,
@@ -4120,6 +5218,17 @@
       "Transformer Return %": -9.955095271789162,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 0.061211783438920975,
+      "Forecast Price": 0.0642592368562217,
+      "Forecast Return %": 4.978540480431476,
+      "Ridge Return %": 22.55761183259869,
+      "XGBoost Return %": 0.4274368510399704,
+      "Neural Net Return %": 23.71607847073065,
+      "LSTM Return %": -10.984420175184027,
+      "Transformer Return %": -9.955095271789162,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 4.978540480431476,
       "Probability Up %": 55.33990862938235,
       "Probability Down %": 44.66009137061765,
@@ -4133,6 +5242,9 @@
       "Primary Pattern": "Overbought",
       "All Patterns": "Overbought"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4141,6 +5253,7 @@
       "Symbol": "DOGE",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 0.10767000168561935,
@@ -4183,6 +5296,17 @@
       "Transformer Return %": -4.386123098045499,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 0.10718466341495514,
+      "Forecast Price": 0.10769845231095154,
+      "Forecast Return %": 0.479349264742557,
+      "Ridge Return %": 20.256221970275792,
+      "XGBoost Return %": 5.320142170938777,
+      "Neural Net Return %": -0.39624107267256575,
+      "LSTM Return %": -18.310050046966236,
+      "Transformer Return %": -4.386123098045499,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 0.479349264742557,
       "Probability Up %": 50.861481467148764,
       "Probability Down %": 49.138518532851236,
@@ -4194,6 +5318,9 @@
       "Direction Hit Rate %": 64.14263556189873,
       "Score": 0.0003316904489607637,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4204,6 +5331,7 @@
       "Symbol": "SHIB",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 0.000006260000191105064,
@@ -4258,11 +5386,31 @@
       "Model Edge %": 11.441448743230808,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Last Price": 6.3035881794348825e-06,
+      "Forecast Price": 5.6105158492088285e-06,
+      "Forecast Return %": -10.994885936349194,
+      "Ridge Return %": -31.924834159147668,
+      "XGBoost Return %": 1.2519373305901669,
+      "Neural Net Return %": -28.843753289800034,
+      "LSTM Return %": 0.3086132732152411,
+      "Transformer Return %": -4.462784087128728,
+      "RL Policy Return %": null,
+      "Ensemble Return %": -10.994885936349194,
+      "Probability Up %": 38.55855125676919,
+      "Probability Down %": 61.44144874323081,
+      "Directional Probability %": 61.44144874323081,
+      "Model Edge %": 11.441448743230808,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 43.24479534573929,
       "Validation MAE %": 23.502570705147022,
       "Direction Hit Rate %": 43.44136638142428,
       "Score": -0.05817922035364785,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4273,6 +5421,7 @@
       "Symbol": "FLOKI",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 0.00003479999941191636,
@@ -4342,11 +5491,35 @@
       "Primary Pattern": "Near 60-Day High",
       "All Patterns": "Near 60-Day High, Overbought"
 >>>>>>> Stashed changes
+=======
+      "Last Price": 3.584880687412806e-05,
+      "Forecast Price": 3.9143163315389276e-05,
+      "Forecast Return %": 9.189584615265751,
+      "Ridge Return %": 6.505588047039603,
+      "XGBoost Return %": 5.116941594733362,
+      "Neural Net Return %": -7.843683758279994,
+      "LSTM Return %": 44.38479587960762,
+      "Transformer Return %": 3.351656115608046,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 9.189584615265751,
+      "Probability Up %": 55.81005145940974,
+      "Probability Down %": 44.18994854059026,
+      "Directional Probability %": 55.81005145940974,
+      "Model Edge %": 5.810051459409742,
+      "Signal Quality": "Weak Edge",
+      "Expected Error %": 59.233840415695454,
+      "Validation MAE %": 36.585436894725426,
+      "Direction Hit Rate %": 51.85519455522876,
+      "Score": 0.018027519110898838,
+      "Primary Pattern": "Near 60-Day High",
+      "All Patterns": "Near 60-Day High, Overbought"
+>>>>>>> Stashed changes
     },
     {
       "Symbol": "PEPE",
       "Model Call": "Strong Sell",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 0.000006000000212225132,
@@ -4401,11 +5574,31 @@
       "Model Edge %": 43.934403239377716,
       "Signal Quality": "High Edge",
 >>>>>>> Stashed changes
+=======
+      "Last Price": 6.000000212225132e-06,
+      "Forecast Price": 4.406439952438245e-06,
+      "Forecast Return %": -26.55933672368834,
+      "Ridge Return %": -31.940482228496986,
+      "XGBoost Return %": -35.24866034754006,
+      "Neural Net Return %": -18.12010039393077,
+      "LSTM Return %": -17.61202870792713,
+      "Transformer Return %": -19.92396596088852,
+      "RL Policy Return %": null,
+      "Ensemble Return %": -26.55933672368834,
+      "Probability Up %": 6.065596760622279,
+      "Probability Down %": 93.93440323937772,
+      "Directional Probability %": 93.93440323937772,
+      "Model Edge %": 43.934403239377716,
+      "Signal Quality": "High Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 17.761120858462608,
       "Validation MAE %": 13.338681665770528,
       "Direction Hit Rate %": 82.38687488077608,
       "Score": -1.3139583010415257,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4416,6 +5609,7 @@
       "Symbol": "ONDO",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 0.35100001096725464,
@@ -4458,6 +5652,17 @@
       "Transformer Return %": 78.62813094576052,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 0.3915036916732788,
+      "Forecast Price": 0.44621325826193464,
+      "Forecast Return %": 13.974214739796762,
+      "Ridge Return %": 9.40157669784838,
+      "XGBoost Return %": -2.693887741422251,
+      "Neural Net Return %": 5.591474290761707,
+      "LSTM Return %": -21.204527008956788,
+      "Transformer Return %": 78.62813094576052,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 13.974214739796762,
       "Probability Up %": 57.983202160682005,
       "Probability Down %": 42.016797839317995,
@@ -4469,6 +5674,9 @@
       "Direction Hit Rate %": 58.594740705768345,
       "Score": 0.07667955548058097,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4479,6 +5687,7 @@
       "Symbol": "ZEC",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 571.2000122070312,
@@ -4535,6 +5744,23 @@
       "Model Edge %": 7.089090725965917,
       "Signal Quality": "Weak Edge",
 >>>>>>> Stashed changes
+=======
+      "Last Price": 560.270263671875,
+      "Forecast Price": 644.7992616396768,
+      "Forecast Return %": 15.087182641787784,
+      "Ridge Return %": 9.13393682367551,
+      "XGBoost Return %": 2.4068789931448125,
+      "Neural Net Return %": 2.4203815102471977,
+      "LSTM Return %": 28.674666730232257,
+      "Transformer Return %": 34.62660980337581,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 15.087182641787784,
+      "Probability Up %": 57.08909072596592,
+      "Probability Down %": 42.91090927403408,
+      "Directional Probability %": 57.08909072596592,
+      "Model Edge %": 7.089090725965917,
+      "Signal Quality": "Weak Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 109.24785753487711,
       "Validation MAE %": 58.11399535811206,
       "Direction Hit Rate %": 47.14047677285921,
@@ -4542,6 +5768,9 @@
       "Primary Pattern": "Overbought",
       "All Patterns": "Overbought"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4550,6 +5779,7 @@
       "Symbol": "COMP",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 22.829999923706055,
@@ -4592,6 +5822,17 @@
       "Transformer Return %": 10.881749990757159,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 21.927871704101562,
+      "Forecast Price": 24.484173192092666,
+      "Forecast Return %": 11.657772913332703,
+      "Ridge Return %": 1.0656158055721798,
+      "XGBoost Return %": 2.403159586022875,
+      "Neural Net Return %": 2.1617307924111664,
+      "LSTM Return %": 44.882280334311005,
+      "Transformer Return %": 10.881749990757159,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 11.657772913332703,
       "Probability Up %": 63.96679173847647,
       "Probability Down %": 36.03320826152353,
@@ -4603,6 +5844,9 @@
       "Direction Hit Rate %": 60.38970439418233,
       "Score": 0.13197935585388218,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4613,6 +5857,7 @@
       "Symbol": "HYPE",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 42.45000076293945,
@@ -4667,11 +5912,31 @@
       "Model Edge %": 3.181944752815383,
       "Signal Quality": "Weak Edge",
 >>>>>>> Stashed changes
+=======
+      "Last Price": 42.52595901489258,
+      "Forecast Price": 41.85144229539177,
+      "Forecast Return %": -1.5861293551653741,
+      "Ridge Return %": 5.2800873908824775,
+      "XGBoost Return %": 11.097800891559135,
+      "Neural Net Return %": 5.867603050463132,
+      "LSTM Return %": -12.832246730763316,
+      "Transformer Return %": -16.561121430020414,
+      "RL Policy Return %": null,
+      "Ensemble Return %": -1.5861293551653741,
+      "Probability Up %": 46.81805524718462,
+      "Probability Down %": 53.18194475281538,
+      "Directional Probability %": 53.18194475281538,
+      "Model Edge %": 3.181944752815383,
+      "Signal Quality": "Weak Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 29.152052339027353,
       "Validation MAE %": 23.401561103493975,
       "Direction Hit Rate %": 55.48167308661799,
       "Score": -0.0034625184671463164,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4682,6 +5947,7 @@
       "Symbol": "MNT",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 0.6620000004768372,
@@ -4724,6 +5990,17 @@
       "Transformer Return %": 8.437530768237005,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 0.6645911335945129,
+      "Forecast Price": 0.6368448309644633,
+      "Forecast Return %": -4.174943243672349,
+      "Ridge Return %": -19.404235108561334,
+      "XGBoost Return %": -2.197275996547953,
+      "Neural Net Return %": -2.61615317306634,
+      "LSTM Return %": -4.642230387355326,
+      "Transformer Return %": 8.437530768237005,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": -4.174943243672349,
       "Probability Up %": 43.427498472942396,
       "Probability Down %": 56.572501527057604,
@@ -4735,6 +6012,9 @@
       "Direction Hit Rate %": 55.21155590418305,
       "Score": -0.017537942476736765,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4745,6 +6025,7 @@
       "Symbol": "UNI",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 3.4260001182556152,
@@ -4789,6 +6070,17 @@
       "Transformer Return %": -4.99298505368616,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 3.472717761993408,
+      "Forecast Price": 3.4920266653830287,
+      "Forecast Return %": 0.5560170653930872,
+      "Ridge Return %": 1.207860733562437,
+      "XGBoost Return %": 1.7338336427000796,
+      "Neural Net Return %": 20.43144789917059,
+      "LSTM Return %": -15.899430493005068,
+      "Transformer Return %": -4.99298505368616,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 0.5560170653930872,
       "Probability Up %": 49.921323081101235,
       "Probability Down %": 50.078676918898765,
@@ -4802,6 +6094,9 @@
       "Primary Pattern": "Overbought",
       "All Patterns": "Overbought"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4810,6 +6105,7 @@
       "Symbol": "ENA",
       "Model Call": "Buy",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 0.11990000307559967,
@@ -4864,11 +6160,31 @@
       "Model Edge %": 9.967874440279878,
       "Signal Quality": "Moderate Edge",
 >>>>>>> Stashed changes
+=======
+      "Last Price": 0.12138357013463974,
+      "Forecast Price": 0.14270176683866642,
+      "Forecast Return %": 17.56267069783855,
+      "Ridge Return %": -8.22198495152167,
+      "XGBoost Return %": 18.636612739103228,
+      "Neural Net Return %": 3.2994377122811724,
+      "LSTM Return %": -30.399127602943686,
+      "Transformer Return %": 108.95564492517423,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 17.56267069783855,
+      "Probability Up %": 59.96787444027988,
+      "Probability Down %": 40.03212555972012,
+      "Directional Probability %": 59.96787444027988,
+      "Model Edge %": 9.967874440279878,
+      "Signal Quality": "Moderate Edge",
+>>>>>>> Stashed changes
       "Expected Error %": 33.48522031078516,
       "Validation MAE %": 23.56862965955245,
       "Direction Hit Rate %": 81.18354602220751,
       "Score": 0.10456105393796787,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4879,6 +6195,7 @@
       "Symbol": "DOT",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
       "Last Price": 1.3079999685287476,
@@ -4921,6 +6238,17 @@
       "Transformer Return %": -4.595182108148964,
       "RL Policy Return %": null,
 >>>>>>> Stashed changes
+=======
+      "Last Price": 1.3182231187820435,
+      "Forecast Price": 1.319428310115975,
+      "Forecast Return %": 0.09142544359598848,
+      "Ridge Return %": -0.19676685313191164,
+      "XGBoost Return %": 1.9283625055159386,
+      "Neural Net Return %": -6.199759538433581,
+      "LSTM Return %": 10.013977361047425,
+      "Transformer Return %": -4.595182108148964,
+      "RL Policy Return %": null,
+>>>>>>> Stashed changes
       "Ensemble Return %": 0.09142544359598848,
       "Probability Up %": 49.762035902537924,
       "Probability Down %": 50.237964097462076,
@@ -4932,6 +6260,9 @@
       "Direction Hit Rate %": 61.13176352999783,
       "Score": 1.993582212479021e-05,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -4939,6 +6270,7 @@
       "All Patterns": "Range / No Dominant Pattern"
     }
   ],
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
   "short_horizon_reports": [
@@ -5860,6 +7192,8 @@
     }
   ],
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   "snapshots": [
@@ -111390,6 +112724,9 @@
   ],
   "short_horizon_reports": [],
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -111399,8 +112736,13 @@
   "timings": {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "total_seconds": 5388.652,
     "context_seconds": 0.955,
+=======
+    "total_seconds": 4906.267,
+    "context_seconds": 0.867,
+>>>>>>> Stashed changes
 =======
     "total_seconds": 4906.267,
     "context_seconds": 0.867,
@@ -111418,7 +112760,11 @@
         "symbol": "AAPL",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 4.779,
+=======
+        "seconds": 4.96,
+>>>>>>> Stashed changes
 =======
         "seconds": 4.96,
 >>>>>>> Stashed changes
@@ -111431,7 +112777,11 @@
         "symbol": "MSFT",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 68.47,
+=======
+        "seconds": 64.814,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.814,
 >>>>>>> Stashed changes
@@ -111444,7 +112794,11 @@
         "symbol": "NVDA",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 68.075,
+=======
+        "seconds": 64.288,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.288,
 >>>>>>> Stashed changes
@@ -111457,7 +112811,11 @@
         "symbol": "AMD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 68.171,
+=======
+        "seconds": 64.189,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.189,
 >>>>>>> Stashed changes
@@ -111470,7 +112828,11 @@
         "symbol": "INTC",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 68.345,
+=======
+        "seconds": 64.329,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.329,
 >>>>>>> Stashed changes
@@ -111483,7 +112845,11 @@
         "symbol": "GOOGL",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 66.842,
+=======
+        "seconds": 64.417,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.417,
 >>>>>>> Stashed changes
@@ -111496,7 +112862,11 @@
         "symbol": "AMZN",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 66.796,
+=======
+        "seconds": 64.599,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.599,
 >>>>>>> Stashed changes
@@ -111509,7 +112879,11 @@
         "symbol": "META",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 67.211,
+=======
+        "seconds": 64.558,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.558,
 >>>>>>> Stashed changes
@@ -111522,7 +112896,11 @@
         "symbol": "TSLA",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 74.348,
+=======
+        "seconds": 64.587,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.587,
 >>>>>>> Stashed changes
@@ -111535,7 +112913,11 @@
         "symbol": "RIOT",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 68.873,
+=======
+        "seconds": 64.202,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.202,
 >>>>>>> Stashed changes
@@ -111548,7 +112930,11 @@
         "symbol": "AVGO",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 70.751,
+=======
+        "seconds": 64.196,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.196,
 >>>>>>> Stashed changes
@@ -111561,7 +112947,11 @@
         "symbol": "GEV",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 29.263,
+=======
+        "seconds": 26.912,
+>>>>>>> Stashed changes
 =======
         "seconds": 26.912,
 >>>>>>> Stashed changes
@@ -111574,7 +112964,11 @@
         "symbol": "RIOTORCL",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 0.98,
+=======
+        "seconds": 0.984,
+>>>>>>> Stashed changes
 =======
         "seconds": 0.984,
 >>>>>>> Stashed changes
@@ -111587,7 +112981,11 @@
         "symbol": "NFLX",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 78.543,
+=======
+        "seconds": 64.269,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.269,
 >>>>>>> Stashed changes
@@ -111600,7 +112998,11 @@
         "symbol": "JPM",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 73.1,
+=======
+        "seconds": 64.513,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.513,
 >>>>>>> Stashed changes
@@ -111613,7 +113015,11 @@
         "symbol": "BAC",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 73.394,
+=======
+        "seconds": 64.446,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.446,
 >>>>>>> Stashed changes
@@ -111626,7 +113032,11 @@
         "symbol": "WFC",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 69.577,
+=======
+        "seconds": 64.457,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.457,
 >>>>>>> Stashed changes
@@ -111639,7 +113049,11 @@
         "symbol": "C",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 79.63,
+=======
+        "seconds": 64.545,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.545,
 >>>>>>> Stashed changes
@@ -111652,7 +113066,11 @@
         "symbol": "GS",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 70.786,
+=======
+        "seconds": 64.785,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.785,
 >>>>>>> Stashed changes
@@ -111665,7 +113083,11 @@
         "symbol": "MS",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 69.858,
+=======
+        "seconds": 64.319,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.319,
 >>>>>>> Stashed changes
@@ -111678,7 +113100,11 @@
         "symbol": "V",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 71.083,
+=======
+        "seconds": 64.346,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.346,
 >>>>>>> Stashed changes
@@ -111689,6 +113115,7 @@
       },
       {
         "symbol": "UNH",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
         "seconds": 69.248,
@@ -111723,6 +113150,8 @@
         "symbol": "HD",
         "seconds": 69.814,
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         "seconds": 64.396,
@@ -111790,10 +113219,44 @@
         "status": "ok"
       },
       {
+        "symbol": "LLY",
+        "seconds": 64.289,
+        "status": "ok"
+      },
+      {
+        "symbol": "JNJ",
+        "seconds": 64.463,
+        "status": "ok"
+      },
+      {
+        "symbol": "WMT",
+        "seconds": 64.472,
+        "status": "ok"
+      },
+      {
+        "symbol": "PG",
+        "seconds": 64.968,
+        "status": "ok"
+      },
+      {
+        "symbol": "KO",
+        "seconds": 64.643,
+        "status": "ok"
+      },
+      {
+        "symbol": "HD",
+        "seconds": 64.385,
+        "status": "ok"
+      },
+      {
         "symbol": "PEP",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 75.83,
+=======
+        "seconds": 64.273,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.273,
 >>>>>>> Stashed changes
@@ -111806,7 +113269,11 @@
         "symbol": "DELL",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 71.548,
+=======
+        "seconds": 64.327,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.327,
 >>>>>>> Stashed changes
@@ -111819,7 +113286,11 @@
         "symbol": "DAL",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 70.367,
+=======
+        "seconds": 64.49,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.49,
 >>>>>>> Stashed changes
@@ -111832,7 +113303,11 @@
         "symbol": "UAL",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 73.938,
+=======
+        "seconds": 64.481,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.481,
 >>>>>>> Stashed changes
@@ -111845,7 +113320,11 @@
         "symbol": "AAL",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 77.166,
+=======
+        "seconds": 64.363,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.363,
 >>>>>>> Stashed changes
@@ -111858,7 +113337,11 @@
         "symbol": "LUV",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 74.934,
+=======
+        "seconds": 64.412,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.412,
 >>>>>>> Stashed changes
@@ -111871,7 +113354,11 @@
         "symbol": "XOM",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 70.499,
+=======
+        "seconds": 64.39,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.39,
 >>>>>>> Stashed changes
@@ -111884,7 +113371,11 @@
         "symbol": "CVX",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 69.891,
+=======
+        "seconds": 64.666,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.666,
 >>>>>>> Stashed changes
@@ -111897,7 +113388,11 @@
         "symbol": "COP",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 71.577,
+=======
+        "seconds": 64.223,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.223,
 >>>>>>> Stashed changes
@@ -111910,7 +113405,11 @@
         "symbol": "OXY",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 78.181,
+=======
+        "seconds": 64.544,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.544,
 >>>>>>> Stashed changes
@@ -111923,7 +113422,11 @@
         "symbol": "SLB",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 69.696,
+=======
+        "seconds": 64.382,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.382,
 >>>>>>> Stashed changes
@@ -111936,7 +113439,11 @@
         "symbol": "EOG",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 72.587,
+=======
+        "seconds": 64.338,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.338,
 >>>>>>> Stashed changes
@@ -111949,7 +113456,11 @@
         "symbol": "SPY",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 70.905,
+=======
+        "seconds": 64.648,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.648,
 >>>>>>> Stashed changes
@@ -111962,7 +113473,11 @@
         "symbol": "VOO",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 71.423,
+=======
+        "seconds": 64.387,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.387,
 >>>>>>> Stashed changes
@@ -111975,7 +113490,11 @@
         "symbol": "QQQ",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 71.706,
+=======
+        "seconds": 64.35,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.35,
 >>>>>>> Stashed changes
@@ -111988,7 +113507,11 @@
         "symbol": "IWM",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 72.246,
+=======
+        "seconds": 64.286,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.286,
 >>>>>>> Stashed changes
@@ -112001,7 +113524,11 @@
         "symbol": "DIA",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 70.889,
+=======
+        "seconds": 64.851,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.851,
 >>>>>>> Stashed changes
@@ -112014,7 +113541,11 @@
         "symbol": "GLD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 71.337,
+=======
+        "seconds": 64.182,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.182,
 >>>>>>> Stashed changes
@@ -112027,7 +113558,11 @@
         "symbol": "SLV",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 70.17,
+=======
+        "seconds": 64.176,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.176,
 >>>>>>> Stashed changes
@@ -112040,7 +113575,11 @@
         "symbol": "USO",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 72.642,
+=======
+        "seconds": 64.757,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.757,
 >>>>>>> Stashed changes
@@ -112053,7 +113592,11 @@
         "symbol": "TLT",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 68.757,
+=======
+        "seconds": 64.384,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.384,
 >>>>>>> Stashed changes
@@ -112066,7 +113609,11 @@
         "symbol": "XLK",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 67.036,
+=======
+        "seconds": 63.979,
+>>>>>>> Stashed changes
 =======
         "seconds": 63.979,
 >>>>>>> Stashed changes
@@ -112079,7 +113626,11 @@
         "symbol": "XLF",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 73.83,
+=======
+        "seconds": 63.682,
+>>>>>>> Stashed changes
 =======
         "seconds": 63.682,
 >>>>>>> Stashed changes
@@ -112092,7 +113643,11 @@
         "symbol": "XLE",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 70.201,
+=======
+        "seconds": 64.045,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.045,
 >>>>>>> Stashed changes
@@ -112105,7 +113660,11 @@
         "symbol": "XLV",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 68.249,
+=======
+        "seconds": 64.728,
+>>>>>>> Stashed changes
 =======
         "seconds": 64.728,
 >>>>>>> Stashed changes
@@ -112118,7 +113677,11 @@
         "symbol": "XLY",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 67.75,
+=======
+        "seconds": 63.994,
+>>>>>>> Stashed changes
 =======
         "seconds": 63.994,
 >>>>>>> Stashed changes
@@ -112131,7 +113694,11 @@
         "symbol": "BTC-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 98.052,
+=======
+        "seconds": 93.406,
+>>>>>>> Stashed changes
 =======
         "seconds": 93.406,
 >>>>>>> Stashed changes
@@ -112144,7 +113711,11 @@
         "symbol": "ETH-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 98.479,
+=======
+        "seconds": 92.857,
+>>>>>>> Stashed changes
 =======
         "seconds": 92.857,
 >>>>>>> Stashed changes
@@ -112157,7 +113728,11 @@
         "symbol": "SOL-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 98.573,
+=======
+        "seconds": 94.004,
+>>>>>>> Stashed changes
 =======
         "seconds": 94.004,
 >>>>>>> Stashed changes
@@ -112170,7 +113745,11 @@
         "symbol": "XRP-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 104.376,
+=======
+        "seconds": 93.371,
+>>>>>>> Stashed changes
 =======
         "seconds": 93.371,
 >>>>>>> Stashed changes
@@ -112183,7 +113762,11 @@
         "symbol": "ADA-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 105.92,
+=======
+        "seconds": 93.899,
+>>>>>>> Stashed changes
 =======
         "seconds": 93.899,
 >>>>>>> Stashed changes
@@ -112196,7 +113779,11 @@
         "symbol": "BNB-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 104.709,
+=======
+        "seconds": 93.21,
+>>>>>>> Stashed changes
 =======
         "seconds": 93.21,
 >>>>>>> Stashed changes
@@ -112209,7 +113796,11 @@
         "symbol": "AVAX-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 107.337,
+=======
+        "seconds": 93.994,
+>>>>>>> Stashed changes
 =======
         "seconds": 93.994,
 >>>>>>> Stashed changes
@@ -112222,7 +113813,11 @@
         "symbol": "ORCA-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 99.399,
+=======
+        "seconds": 88.281,
+>>>>>>> Stashed changes
 =======
         "seconds": 88.281,
 >>>>>>> Stashed changes
@@ -112235,7 +113830,11 @@
         "symbol": "PNUT-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 33.795,
+=======
+        "seconds": 27.787,
+>>>>>>> Stashed changes
 =======
         "seconds": 27.787,
 >>>>>>> Stashed changes
@@ -112248,7 +113847,11 @@
         "symbol": "DOGE-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 110.05,
+=======
+        "seconds": 95.67,
+>>>>>>> Stashed changes
 =======
         "seconds": 95.67,
 >>>>>>> Stashed changes
@@ -112261,7 +113864,11 @@
         "symbol": "SHIB-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 104.648,
+=======
+        "seconds": 93.802,
+>>>>>>> Stashed changes
 =======
         "seconds": 93.802,
 >>>>>>> Stashed changes
@@ -112274,7 +113881,11 @@
         "symbol": "FLOKI-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 102.264,
+=======
+        "seconds": 89.535,
+>>>>>>> Stashed changes
 =======
         "seconds": 89.535,
 >>>>>>> Stashed changes
@@ -112287,7 +113898,11 @@
         "symbol": "PEPE-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 4.334,
+=======
+        "seconds": 3.585,
+>>>>>>> Stashed changes
 =======
         "seconds": 3.585,
 >>>>>>> Stashed changes
@@ -112300,7 +113915,11 @@
         "symbol": "ONDO-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 47.207,
+=======
+        "seconds": 42.774,
+>>>>>>> Stashed changes
 =======
         "seconds": 42.774,
 >>>>>>> Stashed changes
@@ -112313,7 +113932,11 @@
         "symbol": "ZEC-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 100.109,
+=======
+        "seconds": 93.653,
+>>>>>>> Stashed changes
 =======
         "seconds": 93.653,
 >>>>>>> Stashed changes
@@ -112326,7 +113949,11 @@
         "symbol": "COMP5692-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 98.264,
+=======
+        "seconds": 94.053,
+>>>>>>> Stashed changes
 =======
         "seconds": 94.053,
 >>>>>>> Stashed changes
@@ -112339,7 +113966,11 @@
         "symbol": "HYPE32196-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 27.941,
+=======
+        "seconds": 26.61,
+>>>>>>> Stashed changes
 =======
         "seconds": 26.61,
 >>>>>>> Stashed changes
@@ -112352,7 +113983,11 @@
         "symbol": "MNT27075-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 53.379,
+=======
+        "seconds": 52.641,
+>>>>>>> Stashed changes
 =======
         "seconds": 52.641,
 >>>>>>> Stashed changes
@@ -112365,7 +114000,11 @@
         "symbol": "UNI7083-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 95.065,
+=======
+        "seconds": 93.485,
+>>>>>>> Stashed changes
 =======
         "seconds": 93.485,
 >>>>>>> Stashed changes
@@ -112378,7 +114017,11 @@
         "symbol": "ENA-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 39.113,
+=======
+        "seconds": 39.616,
+>>>>>>> Stashed changes
 =======
         "seconds": 39.616,
 >>>>>>> Stashed changes
@@ -112391,12 +114034,15 @@
         "symbol": "DOT-USD",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         "seconds": 93.262,
         "status": "ok"
       }
     ]
   }
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         "seconds": 91.457,
@@ -112439,6 +114085,9 @@
     "MNT"
   ]
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
