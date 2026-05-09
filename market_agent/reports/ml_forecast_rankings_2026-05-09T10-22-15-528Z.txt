@@ -1,0 +1,36 @@
+Generated: 2026-05-09 10:21 UTC
+Horizon: 30 trading days
+Universe: 74 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +21.18% | Probability up: 98.3% | Edge: 48.3% | Expected error: 9.51% | Selected model: Ridge
+Highest-ranked buy in the current run. Forecast return remains well above expected error, and the signal is supported by a strong directional probability.
+
+XRP — Buy | Pattern: Rebound From 60-Day Low | Forecast return: +21.63% | Probability up: 83.4% | Edge: 33.4% | Expected error: 22.32% | Selected model: XGBoost
+Large upside forecast, but expected error is slightly larger than forecast return, so confidence in the magnitude is limited. Models disagree materially: Ridge is negative while XGBoost is strongly positive and Transformer is also negative. This is a positive signal with elevated model conflict risk.
+
+JNJ — Strong Buy | Pattern: Oversold | Forecast return: +10.36% | Probability up: 88.0% | Edge: 38.0% | Expected error: 8.77% | Selected model: Ridge
+Constructive long setup with an oversold pattern and favorable probability profile. Forecast return is above expected error, which improves signal usability versus several other names in the list.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +10.74% | Probability up: 83.1% | Edge: 33.1% | Expected error: 11.22% | Selected model: Neural Net
+Trend remains positive, but expected error is slightly above forecast return. Near-60-day-high/overbought context suggests less margin for error than the headline return implies.
+
+ENA — Buy | Pattern: Overbought | Forecast return: +19.87% | Probability up: 81.8% | Edge: 31.8% | Expected error: 22.13% | Selected model: XGBoost
+Positive signal passes the return threshold, but risk is elevated because expected error exceeds forecast return. Model disagreement is substantial, with Ridge and LSTM negative while XGBoost and Transformer are strongly positive. Overbought condition adds reversal risk.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: 13.60% | Selected model: Ridge
+Strongest bearish signal in the set. Forecast magnitude is large relative to expected error, and the broader model stack is consistently negative.
+
+HYPE — Sell | Pattern: Uptrend | Forecast return: -20.04% | Probability down: 83.8% | Edge: 33.8% | Expected error: 25.49% | Selected model: LSTM
+Bearish model output appears against an uptrend pattern, which creates elevated reversal risk. Expected error exceeds forecast return, and other models are mixed to positive, so this is a conflicted sell rather than a clean trend-aligned short.
+
+NFLX — Sell | Pattern: Downtrend | Forecast return: -8.48% | Probability down: 74.4% | Edge: 24.4% | Expected error: 14.49% | Selected model: XGBoost
+Bearish setup remains actionable on forecast size, but expected error is materially larger than the return estimate. Oversold context raises the chance of sharp countertrend rebounds even though most models are negative.
+
+Watchlist / Neutral
+RIOT — Buy signal on return (+17.15%) but not preferred for action due to very high expected error (30.72%), which is far above forecast return.
+ORCA — Buy signal on return (+18.15%) but expected error is very high (35.11%) and model dispersion is wide.
+QQQ, CVX, WMT — Positive but lower-return buy signals; actionable by threshold, though weaker than the top-ranked longs.
+
+Overall, the cleanest long signals are GEV and JNJ. XRP offers high upside but with notable model disagreement and forecast uncertainty. On the short side, PEPE is the clearest bearish setup, while HYPE and NFLX carry higher reversal or forecast-error risk.
