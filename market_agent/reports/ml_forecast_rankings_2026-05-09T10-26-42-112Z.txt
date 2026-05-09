@@ -1,0 +1,52 @@
+ML Forecast Rankings
+Generated: 2026-05-09 10:26 UTC
+Horizon: 30 trading days
+Universe: 74 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +20.09% | Probability up: 93.8% | Edge: 43.8% | Expected error: +/-12.27% | Selected model: Ensemble
+This is the strongest long signal in the set by both edge and directional confidence. Forecast return remains comfortably above expected error, which supports signal quality.
+
+SLB — Buy | Pattern: Uptrend | Forecast return: +10.97% | Probability up: 75.7% | Edge: 25.7% | Expected error: +/-13.78% | Selected model: Ensemble
+Positive trend setup with solid edge, but expected error is larger than the forecast return, so position sizing should account for elevated uncertainty. Model disagreement is present because Transformer is slightly negative while most other models are positive.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +8.02% | Probability up: 73.5% | Edge: 23.5% | Expected error: +/-12.54% | Selected model: Ensemble
+Constructive directional setup with broad positive model support, though XGBoost is materially weaker than the rest. Expected error exceeds forecast return, which limits conviction despite the buy call.
+
+JNJ — Buy | Pattern: Oversold | Forecast return: +5.86% | Probability up: 72.8% | Edge: 22.8% | Expected error: +/-8.97% | Selected model: Ensemble
+Oversold condition aligns with a positive forecast, making this a cleaner rebound setup. Still, expected error is above forecast return, so follow-through risk remains relevant.
+
+XLE — Buy | Pattern: High Volatility | Forecast return: +5.05% | Probability up: 70.4% | Edge: 20.4% | Expected error: +/-8.67% | Selected model: Ensemble
+Buy signal is valid under the noise filter, but the high-volatility pattern and error band larger than the projected move reduce reliability. More suitable as a monitored tactical setup than a high-conviction long.
+
+ETH-USD — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +13.49% | Probability up: 68.7% | Edge: 18.7% | Expected error: +/-25.84% | Selected model: Ensemble
+Forecast is positive and above threshold, but the range-bound pattern and very large expected error indicate substantial uncertainty. Model dispersion is wide, with Neural Net strongly bullish and LSTM much more muted.
+
+ORCA — Buy | Pattern: Uptrend | Forecast return: +27.20% | Probability up: 65.1% | Edge: 15.1% | Expected error: +/-42.14% | Selected model: Ensemble
+Large upside forecast, but expected error is far larger than forecast return. Models disagree sharply, including a negative LSTM and an extremely bullish Transformer, so this is a high-variance signal rather than a stable one.
+
+ONDO — Buy | Pattern: Overbought | Forecast return: +16.12% | Probability up: 62.1% | Edge: 12.1% | Expected error: +/-28.72% | Selected model: Ensemble
+Positive forecast passes the threshold, but the overbought pattern introduces pullback risk and the expected error is much larger than the projected gain. Models also conflict, with Ridge positive but XGBoost and LSTM negative.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+This is the clearest downside signal in the universe. All listed component models are negative, and forecast magnitude remains well beyond expected error, reinforcing the bearish view.
+
+NFLX — Sell | Pattern: Downtrend | Forecast return: -9.72% | Probability down: 73.2% | Edge: 23.2% | Expected error: +/-17.42% | Selected model: Ensemble
+Bearish signal is actionable under the rules, but expected error is larger than the projected decline. There is also a conflict worth noting: bearish model output with an oversold condition in the pattern mix suggests elevated reversal risk.
+
+Watchlist / Neutral
+GS and JPM are positive but labeled Neutral / No Edge, so they are not actionable despite decent forecast direction.
+AVAX, MNT, UNH, DOT, BNB, and AMD show negative forecasts but remain Neutral / No Edge, so they should not be treated as sell signals.
+ENA is excluded from top buys because edge quality is weak despite a forecast above 2%, and model disagreement is significant.
+
+Ranking summary
+Highest-quality buy: GEV
+Most favorable secondary buys: SLB, AMZN, JNJ
+Highest-quality sell: PEPE
+Secondary sell / avoid: NFLX
+
+Risk notes
+Several buy signals have expected error larger than forecast return, which lowers practical confidence even when edge is positive.
+Crypto names show the widest model dispersion and error bands, so reversal and volatility risk are materially higher there than in the stronger equity signals.

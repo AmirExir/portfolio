@@ -1,0 +1,38 @@
+Generated: 2026-05-08 23:26 UTC
+Horizon: 30 trading days
+Universe: 74 symbols across stocks, crypto, and commodities
+Primary model: Ensemble
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +20.24% | Probability up: 94.0% | Edge: 44.0% | Expected error: +/-12.28% | Selected model: Ensemble
+Highest-ranked long signal in the set. Forecast return is well above the noise filter and the edge is the strongest among buys. Expected error is material but still smaller than the forecast return, which supports actionability relative to the rest of the list.
+
+SLB — Buy | Pattern: Uptrend | Forecast return: +9.01% | Probability up: 72.8% | Edge: 22.8% | Expected error: +/-13.62% | Selected model: Ensemble
+Positive directional setup with acceptable edge, but forecast return is smaller than the expected error, so confidence should be treated as moderate. There is also some model disagreement: most models are positive, while the Transformer is slightly negative.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +8.74% | Probability up: 74.7% | Edge: 24.7% | Expected error: +/-12.46% | Selected model: Ensemble
+Solid probability and edge, but expected error exceeds forecast return. Model dispersion is meaningful: XGBoost is near flat while Neural Net is notably more bullish, so this is constructive but not cleanly aligned.
+
+JNJ — Buy | Pattern: Oversold | Forecast return: +5.59% | Probability up: 72.2% | Edge: 22.2% | Expected error: +/-8.98% | Selected model: Ensemble
+Oversold pattern supports rebound potential. Forecast remains above the 2% filter, though expected error is larger than forecast return, which raises uncertainty. This looks more like a measured bounce setup than a high-conviction trend signal.
+
+XLE — Buy | Pattern: High Volatility | Forecast return: +4.92% | Probability up: 69.9% | Edge: 19.9% | Expected error: +/-8.64% | Selected model: Ensemble
+Included because it meets the buy criteria and exceeds the noise filter. However, this is a lower-strength actionable signal given the modest forecast and high volatility backdrop. Expected error is larger than forecast return.
+
+ENA — Buy | Pattern: Near 60-Day High | Forecast return: +17.40% | Probability up: 62.1% | Edge: 12.1% | Expected error: +/-33.48% | Selected model: Ensemble
+Large upside forecast, but risk is elevated. Expected error is roughly double the forecast return, and the underlying models disagree sharply: Ridge and LSTM are negative while Transformer is extremely positive. Near-60-day-high and overbought conditions add pullback risk. This is a high-dispersion signal rather than a clean long.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+Clear strongest bearish signal in the universe. Downtrend pattern, very high probability down, and broad model agreement all support the sell/avoid view. Expected error is significant, but still smaller than the magnitude of the forecast decline.
+
+NFLX — Sell | Pattern: Downtrend | Forecast return: -9.48% | Probability down: 72.8% | Edge: 22.8% | Expected error: +/-17.43% | Selected model: Ensemble
+Actionable bearish signal, but with elevated uncertainty because expected error exceeds the forecast decline. Pattern stack is bearish overall, though the oversold condition creates reversal risk if sentiment shifts.
+
+Watchlist / Neutral
+WMT, GS, JPM, and C show positive forecasts but are labeled Neutral / No Edge, so they are not actionable buys under the stated rules.
+AVAX, BNB, DOT, AMD, UNH, and SOL show negative forecasts but remain Neutral / No Edge, so they are not actionable sells. SOL is notable because bearish model output appears alongside a bullish MA crossover, which increases conflict risk.
+MSFT and AAPL are below the 2% absolute forecast threshold and should be ignored as noise-level signals.
+
+Overall
+The strongest long is GEV by a clear margin. The strongest short is PEPE. Several other buy candidates qualify, but many have expected error larger than forecast return, which limits conviction. ENA stands out for large forecast upside but also for unusually high uncertainty and sharp model disagreement.
