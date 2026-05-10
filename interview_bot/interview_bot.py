@@ -279,7 +279,7 @@ query_to_answer = None
 selected_story = None
 
 if user_query:
-    st.session_state.candidate_stories = search(user_query, index, chunks, embeddings, k=4)
+    st.session_state.candidate_stories = search(user_query, index, chunks, embeddings, k=6)
     st.session_state.candidate_story_pos = 0
     st.session_state.active_query = user_query
 
@@ -370,15 +370,17 @@ if selected_story and query_to_answer:
     st.chat_message("assistant").markdown(bot_msg)
     st.session_state.messages.append({"role": "assistant", "content": bot_msg})
 
-    # TTS response
-    with st.spinner("Speaking..."):
-        speech = client.audio.speech.create(
-            model="gpt-4o-mini-tts",
-            voice="alloy",
-            input=bot_msg
-        )
-        audio_out = build_unique_audio_path(prefix="answer", ext="mp3")
-        with open(audio_out, "wb") as f:
-            f.write(speech.content)
-    st.audio(audio_out, format="audio/mp3")
-    st.caption(f"Saved audio file: {os.path.basename(audio_out)}")
+    # Optional TTS — generate only when user requests it
+    make_audio = st.button("Make STAR audio")
+    if make_audio:
+        with st.spinner("Generating audio..."):
+            speech = client.audio.speech.create(
+                model="gpt-4o-mini-tts",
+                voice="alloy",
+                input=bot_msg
+            )
+            audio_out = build_unique_audio_path(prefix="answer", ext="mp3")
+            with open(audio_out, "wb") as f:
+                f.write(speech.content)
+        st.audio(audio_out, format="audio/mp3")
+        st.caption(f"Saved audio file: {os.path.basename(audio_out)}")
