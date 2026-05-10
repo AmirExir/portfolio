@@ -1,0 +1,10 @@
+- **Markets stayed risk-on:** The **Nasdaq and S&P 500 hit record closes**, helped by easing Iran-war fears, solid U.S. jobs data, and another surge in AI/chip stocks.  
+- **Wall Street is flashing caution:** Bloomberg notes the **momentum trade is at extremes**, suggesting investors are crowding into winners — especially AI names — raising reversal risk.  
+- **AI infrastructure boom keeps widening:** **Anthropic reportedly signed a $1.8B compute deal with Akamai**, while Business Insider says it’s also relying on **SpaceX data-center capacity** — a sign AI demand is reshaping cloud and infrastructure economics.  
+- **AI is boosting revenue — and cutting jobs:** **Cloudflare** said AI efficiencies made **1,100 roles obsolete** even as revenue hit a record, underscoring how generative AI is translating into labor disruption.  
+- **Semis remain the market’s leadership group:** **Nvidia hit fresh highs**, **memory stocks like Micron and Sandisk kept rallying**, and **Lumentum’s strong run earned it a Nasdaq-100 spot** — all reinforcing the market’s AI-hardware obsession.  
+- **IPO market may be thawing:** **Inspire Brands** confidentially filed for a proposed IPO, a potentially positive signal for dealmaking and public-market appetite.  
+- **Trading firms are minting money in volatile markets:** **Jane Street reportedly earned $10B in Q1**, highlighting how market-making and quantitative trading continue to benefit from heavy volumes and dispersion.  
+- **Consumer/energy pressure remains a live issue:** California gas prices are back in focus as **Gov. Gavin Newsom rejected a gas-tax suspension**, keeping attention on cost-of-living and energy policy.  
+- **Auto sector stress is bifurcated:** **Porsche is shutting e-bike, battery, and software units** to refocus amid weaker performance, while **Tesla faces another Cybertruck recall**, adding to execution and quality concerns.  
+- **Policy uncertainty is becoming a business risk:** Reported turmoil around the **FDA leadership** and **mixed White House signals on AI oversight** are adding uncertainty for healthcare, biotech, and AI companies planning around regulation.
