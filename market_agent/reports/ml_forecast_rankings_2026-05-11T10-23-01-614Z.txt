@@ -1,0 +1,35 @@
+Generated: 2026-05-11 10:22 UTC
+Horizon: 30 trading days
+Universe: 74 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +21.18% | Probability up: 98.3% | Edge: 48.3% | Expected error: +/-9.51% | Selected model: Ridge
+Highest-confidence long signal in the ranked set. Forecast return is well above the error band, and model agreement is broadly supportive across methods.
+
+ENA — Strong Buy | Pattern: Near 60-Day High | Forecast return: +33.27% | Probability up: 92.4% | Edge: 42.4% | Expected error: +/-22.18% | Selected model: XGBoost
+Large upside forecast, but risk is elevated because expected error is large relative to the forecast. Model dispersion is significant: Ridge and LSTM are negative while XGBoost and Transformer are strongly positive. Near-60-day-high and overbought conditions suggest trend strength, but also raise pullback risk.
+
+JNJ — Strong Buy | Pattern: Oversold | Forecast return: +10.36% | Probability up: 88.0% | Edge: 38.0% | Expected error: +/-8.77% | Selected model: Ridge
+Constructive setup with an oversold pattern and favorable probability profile. Forecast remains above the expected error band, though not by a wide margin. Better risk balance than some higher-volatility crypto names.
+
+ADA — Buy | Pattern: Bullish MA Crossover | Forecast return: +10.94% | Probability up: 71.5% | Edge: 21.5% | Expected error: +/-20.03% | Selected model: XGBoost
+Actionable positive signal by return threshold, but expected error exceeds the forecast return, so conviction is lower. Models disagree materially: Ridge, LSTM, and Transformer are negative while XGBoost and Neural Net are positive. Bullish crossover is constructive, but overbought status increases reversal risk.
+
+WMT — Buy | Pattern: Uptrend | Forecast return: +3.44% | Probability up: 70.4% | Edge: 20.4% | Expected error: +/-6.52% | Selected model: XGBoost
+Meets the noise filter and has a positive directional edge, but expected error is larger than forecast return. This makes it a lower-conviction buy relative to GEV, ENA, and JNJ.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+Strongest bearish signal in the set. Forecast magnitude is large, the probability profile is decisive, and all major models are negative.
+
+HYPE — Sell | Pattern: Uptrend | Forecast return: -21.37% | Probability down: 87.7% | Edge: 37.7% | Expected error: +/-23.03% | Selected model: LSTM
+Bearish model output despite an uptrend pattern, which creates elevated reversal and conflict risk. Expected error is larger than forecast return, and models disagree: XGBoost and Transformer are positive while Ridge, Neural Net, and LSTM are negative.
+
+NFLX — Sell | Pattern: Downtrend | Forecast return: -8.48% | Probability down: 74.4% | Edge: 24.4% | Expected error: +/-14.49% | Selected model: XGBoost
+Negative setup remains actionable under the filter, but expected error is larger than forecast return. Downtrend and bearish MA crossover support the sell case, while the oversold condition raises the chance of a countertrend bounce.
+
+Watchlist / Neutral
+No neutral watchlist entries were provided in the source rankings. Monitoring may be warranted for names with strong model disagreement such as ENA, ADA, and HYPE, where direction is actionable but uncertainty is higher than usual.
+
+Summary
+Highest-quality buy signals by combined edge and forecast return are GEV, ENA, and JNJ. Highest-quality sell signals are PEPE, HYPE, and NFLX, with PEPE standing out as the clearest bearish setup. Lower-conviction signals where expected error exceeds forecast return should be treated more cautiously.

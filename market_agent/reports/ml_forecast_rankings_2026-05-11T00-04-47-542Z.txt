@@ -1,0 +1,47 @@
+Generated: 2026-05-11 00:04 UTC
+Horizon: 30 trading days
+Universe: 74 symbols across stocks, crypto, and commodities
+
+Top Buy Signals
+ONDO — Strong Buy | Pattern: Overbought | Forecast return: +62.56% | Probability up: 99.1% | Edge: 49.1% | Expected error: +/-22.89% | Selected model: Transformer
+Largest upside forecast in the ranked set and the strongest probability/edge combination. Model disagreement is material: Ridge is positive, but XGBoost and LSTM are negative, which raises forecast dispersion risk. Overbought condition means continuation is possible, but pullback risk is elevated despite the bullish primary signal.
+
+ENA — Strong Buy | Pattern: Near 60-Day High | Forecast return: +32.79% | Probability up: 92.2% | Edge: 42.2% | Expected error: +/-22.17% | Selected model: XGBoost
+Strong upside forecast with high edge. However, model conflict is significant: Ridge and LSTM are negative while Transformer is much more bullish than the selected model. Near-60-day-high and overbought conditions support momentum but also raise reversal risk. Expected error is large relative to forecast, so position sizing discipline matters.
+
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +21.18% | Probability up: 98.3% | Edge: 48.3% | Expected error: +/-9.50% | Selected model: Ridge
+This is one of the cleaner bullish setups. All major models are positive and clustered in a relatively tight range, while expected error is meaningfully below the forecast return. Primary trend condition is supportive, though high volatility is noted.
+
+AMZN — Strong Buy | Pattern: Uptrend | Forecast return: +13.29% | Probability up: 87.5% | Edge: 37.5% | Expected error: +/-11.47% | Selected model: Neural Net
+Broadly constructive signal with most models positive. The setup is trend-supported, but near-60-day-high and overbought conditions suggest a less favorable entry if price extends further before consolidation. Expected error is slightly below forecast return, so the signal is usable but not as clean as GEV.
+
+JNJ — Strong Buy | Pattern: Oversold | Forecast return: +10.36% | Probability up: 88.0% | Edge: 38.0% | Expected error: +/-8.77% | Selected model: Ridge
+Bullish signal supported by an oversold pattern, which can improve rebound potential. Forecast is moderate rather than aggressive, and expected error remains below forecast return. Direction hit rate is weaker than some other buy candidates, so this looks more like a controlled rebound setup than a high-momentum breakout.
+
+ADA — Buy | Pattern: Bullish MA Crossover | Forecast return: +10.75% | Probability up: 71.3% | Edge: 21.3% | Expected error: +/-19.97% | Selected model: XGBoost
+Directional upside exists, but confidence quality is lower than the top Strong Buy names. Model disagreement is substantial: Ridge and Transformer are negative while Neural Net is strongly positive. Expected error is larger than forecast return, which raises uncertainty. Bullish crossover helps, but overbought status adds pullback risk.
+
+CVX — Buy | Pattern: High Volatility | Forecast return: +6.55% | Probability up: 75.9% | Edge: 25.9% | Expected error: +/-9.44% | Selected model: Neural Net
+Positive edge and acceptable forecast magnitude above the noise filter, but expected error exceeds forecast return. This makes the signal less robust than the higher-ranked buys. High volatility suggests wider path risk.
+
+WMT — Buy | Pattern: Uptrend | Forecast return: +3.45% | Probability up: 70.5% | Edge: 20.5% | Expected error: +/-6.50% | Selected model: XGBoost
+Meets the minimum return filter, but forecast is modest and expected error is meaningfully larger than the upside estimate. Better treated as a lower-priority continuation candidate rather than a top actionable long.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+Strongest bearish signal in the list. All major models are negative and the pattern is aligned with the forecast. Expected error is sizable but still materially smaller than the magnitude of the forecast decline, making this the cleanest avoid/short candidate.
+
+HYPE — Sell | Pattern: Uptrend | Forecast return: -17.13% | Probability down: 80.0% | Edge: 30.0% | Expected error: +/-25.02% | Selected model: LSTM
+Bearish model output conflicts with the observed uptrend pattern, creating elevated reversal risk. Model disagreement is also notable, with Ridge and XGBoost both positive. Expected error is larger than forecast return, so this is a weak-quality sell despite the negative headline forecast.
+
+DELL — Sell | Pattern: Uptrend | Forecast return: -10.85% | Probability down: 72.7% | Edge: 22.7% | Expected error: +/-20.97% | Selected model: Transformer
+Bearish forecast, but the chart condition is unfavorable for a clean short: uptrend, near-60-day high, overbought, and volume spike can all support momentum continuation. Ridge and XGBoost are positive, showing clear model disagreement. Expected error is much larger than forecast return.
+
+NFLX — Sell | Pattern: Downtrend | Forecast return: -8.48% | Probability down: 74.4% | Edge: 24.4% | Expected error: +/-14.49% | Selected model: XGBoost
+Negative signal is directionally aligned with the downtrend and bearish MA crossover, but the oversold condition introduces rebound risk. LSTM is slightly positive while the other major models are negative. Expected error exceeds forecast return, so conviction is moderate at best.
+
+Watchlist / Neutral
+No neutral watchlist entries were provided in the optimizer output. Within the actionable list, the most notable conflict cases are ONDO, ENA, HYPE, and DELL due to strong cross-model disagreement.
+
+Overall ranking view
+The strongest long candidates by combined edge and forecast quality are ONDO, GEV, and ENA, with GEV appearing the cleanest from a cross-model consistency standpoint. The strongest bearish candidate is PEPE. Several lower-ranked buy and sell signals pass the 2% filter but have expected errors larger than the forecast, so they carry weaker trade quality.
