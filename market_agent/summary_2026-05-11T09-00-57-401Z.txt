@@ -1,0 +1,21 @@
+- **Rates and debt are back in focus:** The U.S. Treasury now expects to borrow more than planned as cash flow weakens, reinforcing concerns about rising long-term yields and tighter financial conditions.
+
+- **Powell adds policy uncertainty:** Jerome Powell’s decision to stay on the Fed board after his chair term ends breaks long-standing precedent and could prolong market sensitivity to Fed independence and rate-path debates.
+
+- **Energy shock is broadening:** Reports on the Iran war point to rapidly falling global oil buffers, raising risks for inflation, transport costs, and already-fragile supply chains.
+
+- **Food inflation risk is rising:** Higher fuel and fertilizer costs are forcing some Asian farmers to skip planting, a warning sign for future agricultural output and global food prices.
+
+- **Big Tech infrastructure is hitting real-world limits:** A Georgia data center’s unnoticed use of 29 million gallons of water highlights mounting utility, permitting, and community backlash risks around AI/data-center expansion.
+
+- **AI adoption is widening—but cautiously:** The FAA is testing AI for airspace routing support in non-safety-critical areas, showing regulators are moving toward practical, lower-risk use cases first.
+
+- **Corporate AI positioning is getting more complicated:** Palantir is benefiting from AI demand but also facing questions about whether general-purpose AI models could weaken parts of its moat.
+
+- **Semiconductor reshoring got a boost:** Intel shares rose on a preliminary manufacturing deal with Apple, suggesting strategic customers may increasingly support domestic chip capacity.
+
+- **Crypto volatility hit earnings hard:** Trump Media posted a much wider quarterly loss, driven largely by markdowns on bitcoin and CRO holdings—another reminder that crypto exposure can overwhelm operating results.
+
+- **Consumer strain remains uneven:** Auto lenders say rising car prices and longer loan terms are still manageable relative to income, but affordability pressures remain elevated across households.
+
+- **Food safety alert worth noting:** The USDA issued a public health alert for headcheese deli meat over possible listeria contamination, a small but relevant reminder of ongoing compliance and brand-risk issues in food supply chains.
