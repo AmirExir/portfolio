@@ -2,6 +2,9 @@ import pandas as pd
 import yfinance as yf
 from datetime import datetime, timedelta
 from pathlib import Path
+import contextlib
+import io
+import logging
 import os
 import re
 
@@ -70,6 +73,32 @@ def _trim_lookback(frame: pd.DataFrame, lookback_days: int) -> pd.DataFrame:
     return frame[frame.index >= cutoff]
 
 
+@contextlib.contextmanager
+def _quiet_yfinance_output():
+    sink = io.StringIO()
+    previous_disable_level = logging.root.manager.disable
+    logging.disable(logging.CRITICAL)
+    try:
+        with contextlib.redirect_stdout(sink), contextlib.redirect_stderr(sink):
+            yield
+    finally:
+        logging.disable(previous_disable_level)
+
+
+def _download_ohlcv(symbol: str, fetch_start: str, interval: str) -> pd.DataFrame:
+    try:
+        with _quiet_yfinance_output():
+            return yf.download(
+                symbol,
+                start=fetch_start,
+                interval=interval,
+                progress=False,
+                threads=False,
+            )
+    except Exception:
+        return pd.DataFrame()
+
+
 def get_ohlcv(symbol: str, lookback_days: int = 200, interval="1d") -> pd.DataFrame:
     path = _cache_path(symbol, interval)
     use_cache = os.getenv("MARKET_AGENT_DISABLE_OHLCV_CACHE", "").strip().lower() not in {"1", "true", "yes"}
@@ -80,10 +109,7 @@ def get_ohlcv(symbol: str, lookback_days: int = 200, interval="1d") -> pd.DataFr
     else:
         fetch_start = (datetime.utcnow() - timedelta(days=lookback_days * 2)).strftime("%Y-%m-%d")
 
-    try:
-        downloaded = _normalize_ohlcv(yf.download(symbol, start=fetch_start, interval=interval, progress=False))
-    except Exception:
-        downloaded = pd.DataFrame()
+    downloaded = _normalize_ohlcv(_download_ohlcv(symbol, fetch_start, interval))
 
     if use_cache:
         if not downloaded.empty:

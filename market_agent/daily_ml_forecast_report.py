@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 import argparse
+import contextlib
 import datetime as dt
+import io
 import json
+import logging
 import os
 import sys
 import time
@@ -31,18 +34,18 @@ from patterns import recognize_patterns
 
 
 DEFAULT_SYMBOLS = [
-    "AAPL", "MSFT", "NVDA", "AMD", "INTC", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "GEV","RIOT"
+    "AAPL", "MSFT", "NVDA", "AMD", "INTC", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "GEV",
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP", "DELL",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
     "SPY", "VOO", "QQQ", "IWM", "DIA", "GLD", "SLV", "USO", "TLT",
     "XLK", "XLF", "XLE", "XLV", "XLY",
     "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
-        "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FLOKI-USD", "PEPE-USD", "ONDO-USD",
+    "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FLOKI-USD", "PEPE-USD", "ONDO-USD",
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 REPORT_SYMBOLS = {
-    "BTC-USD": "BTC", "RIOT"
+    "BTC-USD": "BTC",
     "ETH-USD": "ETH",
     "SOL-USD": "SOL",
     "XRP-USD": "XRP",
@@ -99,9 +102,31 @@ def report_symbol(symbol: str) -> str:
     return REPORT_SYMBOLS.get(str(symbol), str(symbol))
 
 
+@contextlib.contextmanager
+def _quiet_yfinance_output():
+    sink = io.StringIO()
+    previous_disable_level = logging.root.manager.disable
+    logging.disable(logging.CRITICAL)
+    try:
+        with contextlib.redirect_stdout(sink), contextlib.redirect_stderr(sink):
+            yield
+    finally:
+        logging.disable(previous_disable_level)
+
+
+def _yf_download(tickers, **kwargs) -> pd.DataFrame:
+    kwargs.setdefault("progress", False)
+    kwargs.setdefault("threads", False)
+    try:
+        with _quiet_yfinance_output():
+            return yf.download(tickers, **kwargs)
+    except Exception:
+        return pd.DataFrame()
+
+
 def load_market_context(history_days: int) -> pd.DataFrame:
     start = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=history_days * 2)).strftime("%Y-%m-%d")
-    raw = yf.download(MARKET_CONTEXT_TICKERS, start=start, interval="1d", progress=False)
+    raw = _yf_download(MARKET_CONTEXT_TICKERS, start=start, interval="1d")
     if raw.empty:
         return pd.DataFrame()
 

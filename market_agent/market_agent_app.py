@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import datetime as dt
+import contextlib
+import io
+import logging
 import os
 import sys
 import requests
@@ -472,7 +475,7 @@ SYMBOL_OPTIONS = [
     "SPY", "VOO", "QQQ", "IWM", "DIA", "GLD", "SLV", "USO", "TLT",
     "XLK", "XLF", "XLE", "XLV", "XLY","SNDK",
     "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
-    "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "FLOKI-USD", "PEPE-USD",
+    "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FLOKI-USD", "PEPE-USD",
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 DEFAULT_FORECAST_SYMBOLS = [
@@ -483,7 +486,7 @@ DEFAULT_FORECAST_SYMBOLS = [
     "SPY", "VOO", "QQQ", "IWM", "DIA", "GLD", "SLV", "USO", "TLT",
     "XLK", "XLF", "XLE", "XLV", "XLY",
     "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
-    "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FOLKI-USD", "FLOKI-USD", "PEPE-USD",
+    "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FLOKI-USD", "PEPE-USD",
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 SHORT_TERM_SIGNAL_HORIZONS = (1,)
@@ -519,7 +522,6 @@ SYMBOL_LABELS = {
     "PNUT-USD": "Peanut (PNUT)",
     "DOGE-USD": "Dogecoin (DOGE)",
     "SHIB-USD": "Shiba Inu (SHIB)",
-    "FOLKI-USD": "Floki (FOLKI)",
     "FLOKI-USD": "Floki (FLOKI)",
     "PEPE-USD": "Pepe (PEPE)",
     "ZEC-USD": "Zcash (ZEC)",
@@ -537,6 +539,120 @@ MARKET_CONTEXT_TICKERS = [
 ]
 
 
+@contextlib.contextmanager
+def _quiet_yfinance_output():
+    sink = io.StringIO()
+    previous_disable_level = logging.root.manager.disable
+    logging.disable(logging.CRITICAL)
+    try:
+        with contextlib.redirect_stdout(sink), contextlib.redirect_stderr(sink):
+            yield
+    finally:
+        logging.disable(previous_disable_level)
+
+
+def _ticker_tuple(tickers) -> tuple[str, ...]:
+    if isinstance(tickers, str):
+        tickers = [tickers]
+    cleaned = []
+    for ticker in tickers:
+        ticker = str(ticker).strip().upper()
+        if ticker and ticker not in cleaned:
+            cleaned.append(ticker)
+    return tuple(cleaned)
+
+
+def _yf_download(tickers, **kwargs) -> pd.DataFrame:
+    ticker_list = _ticker_tuple(tickers)
+    if not ticker_list:
+        return pd.DataFrame()
+
+    target = ticker_list[0] if len(ticker_list) == 1 else list(ticker_list)
+    kwargs.setdefault("progress", False)
+    kwargs.setdefault("threads", False)
+    try:
+        with _quiet_yfinance_output():
+            return yf.download(target, **kwargs)
+    except Exception:
+        return pd.DataFrame()
+
+
+def _close_price_frame(raw: pd.DataFrame, tickers) -> pd.DataFrame:
+    ticker_list = _ticker_tuple(tickers)
+    if raw is None or raw.empty:
+        return pd.DataFrame()
+
+    if isinstance(raw, pd.Series):
+        close = raw.to_frame(name=ticker_list[0] if ticker_list else raw.name)
+    elif isinstance(raw.columns, pd.MultiIndex):
+        column_levels = raw.columns
+        if "Close" in column_levels.get_level_values(0):
+            close = raw["Close"]
+        elif "Close" in column_levels.get_level_values(column_levels.nlevels - 1):
+            close = raw.xs("Close", axis=1, level=column_levels.nlevels - 1)
+        else:
+            return pd.DataFrame()
+    elif "Close" in raw.columns:
+        close = raw[["Close"]].copy()
+        if len(ticker_list) == 1:
+            close.columns = [ticker_list[0]]
+    else:
+        close = raw.copy()
+
+    if isinstance(close, pd.Series):
+        close = close.to_frame(name=ticker_list[0] if ticker_list else close.name)
+
+    close = close.copy()
+    close.columns = [str(column[-1] if isinstance(column, tuple) else column) for column in close.columns]
+    requested_columns = [ticker for ticker in ticker_list if ticker in close.columns]
+    if requested_columns:
+        close = close[requested_columns]
+
+    close = close.apply(pd.to_numeric, errors="coerce")
+    close = close.dropna(axis=1, how="all").dropna(how="all")
+    return close.loc[:, ~close.columns.duplicated()]
+
+
+def _download_close_prices(tickers, **kwargs) -> pd.DataFrame:
+    ticker_list = _ticker_tuple(tickers)
+    raw = _yf_download(ticker_list, **kwargs)
+    return _close_price_frame(raw, ticker_list)
+
+
+def _price_change_pct(close: pd.DataFrame, lookback_days: int) -> pd.Series:
+    if close.empty:
+        return pd.Series(dtype=float)
+
+    close = close.sort_index().ffill().dropna(axis=1, how="all").dropna(how="all")
+    if close.empty:
+        return pd.Series(dtype=float)
+
+    if close.shape[0] <= lookback_days:
+        base = close.iloc[0]
+    else:
+        base = close.iloc[-(lookback_days + 1)]
+    last = close.iloc[-1]
+    pct_change = (last - base) / base * 100.0
+    pct_change = pct_change.replace([np.inf, -np.inf], np.nan)
+    return pct_change.dropna()
+
+
+def _yf_market_cap(ticker: str) -> float:
+    try:
+        ticker_obj = yf.Ticker(ticker)
+        with _quiet_yfinance_output():
+            fast_info = getattr(ticker_obj, "fast_info", {}) or {}
+            market_cap = fast_info.get("market_cap") if hasattr(fast_info, "get") else None
+            if not market_cap:
+                market_cap = (ticker_obj.info or {}).get("marketCap")
+        market_cap = float(market_cap or 1.0)
+        if np.isnan(market_cap) or market_cap <= 0:
+            return 1.0
+        return market_cap
+    except Exception:
+        return 1.0
+
+
 @st.cache_data(ttl=900, show_spinner=False)
 def load_ohlcv(symbol: str, history_days: int) -> pd.DataFrame:
     return get_ohlcv(symbol, history_days)
@@ -544,11 +660,11 @@ def load_ohlcv(symbol: str, history_days: int) -> pd.DataFrame:
 
 def _load_market_context_data(history_days: int) -> pd.DataFrame:
     start = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=history_days * 2)).strftime("%Y-%m-%d")
-    raw = yf.download(MARKET_CONTEXT_TICKERS, start=start, interval="1d", progress=False)
-    if raw.empty:
+    raw = _yf_download(MARKET_CONTEXT_TICKERS, start=start, interval="1d")
+    close = _close_price_frame(raw, MARKET_CONTEXT_TICKERS)
+    if close.empty:
         return pd.DataFrame()
 
-    close = raw["Close"] if isinstance(raw.columns, pd.MultiIndex) else raw
     close = close.rename(columns={ticker: f"context_{ticker}" for ticker in close.columns})
     return close.dropna(how="all").ffill()
 
@@ -561,18 +677,12 @@ def load_market_context(history_days: int) -> pd.DataFrame:
 @st.cache_data(ttl=900, show_spinner=False)
 def load_stock_heatmap_data(tickers: tuple[str, ...], lookback_days: int) -> pd.DataFrame:
     period_days = lookback_days + 3
-    hist = yf.download(list(tickers), period=f"{period_days}d", interval="1d", progress=False)["Close"]
+    hist = _download_close_prices(tickers, period=f"{period_days}d", interval="1d")
+    pct_change = _price_change_pct(hist, lookback_days)
+    if pct_change.empty:
+        return pd.DataFrame(columns=["Ticker", "Percent Change", "Market Cap", "Label"])
 
-    if hist.shape[0] <= lookback_days:
-        base_sp = hist.iloc[0]
-    else:
-        base_sp = hist.iloc[-(lookback_days + 1)]
-
-    last_sp = hist.iloc[-1]
-    pct_change = ((last_sp - base_sp) / base_sp * 100).fillna(0)
-    market_caps = {}
-    for ticker in tickers:
-        market_caps[ticker] = yf.Ticker(ticker).info.get("marketCap", 1)
+    market_caps = {ticker: _yf_market_cap(ticker) for ticker in pct_change.index}
 
     df = pd.DataFrame(
         {
@@ -592,15 +702,11 @@ def load_watchlist_heatmap_data(
     lookback_days: int,
 ) -> pd.DataFrame:
     period_days = lookback_days + 3
-    watch_hist = yf.download(list(watchlist_tickers), period=f"{period_days}d", interval="1d", progress=False)["Close"]
+    watch_hist = _download_close_prices(watchlist_tickers, period=f"{period_days}d", interval="1d")
+    watch_pct_change = _price_change_pct(watch_hist, lookback_days)
+    if watch_pct_change.empty:
+        return pd.DataFrame(columns=["Ticker", "Label", "Percent Change", "Weight", "Display"])
 
-    if watch_hist.shape[0] <= lookback_days:
-        watch_base = watch_hist.iloc[0]
-    else:
-        watch_base = watch_hist.iloc[-(lookback_days + 1)]
-
-    watch_last = watch_hist.iloc[-1]
-    watch_pct_change = ((watch_last - watch_base) / watch_base * 100).fillna(0)
     watch_df = pd.DataFrame(
         {
             "Ticker": watch_pct_change.index,
@@ -619,18 +725,12 @@ def load_watchlist_heatmap_data(
 @st.cache_data(ttl=900, show_spinner=False)
 def load_crypto_heatmap_data(crypto_tickers: tuple[str, ...], lookback_days: int) -> pd.DataFrame:
     period_days = lookback_days + 5
-    crypto_hist = yf.download(list(crypto_tickers), period=f"{period_days}d", interval="1d", progress=False)["Close"]
+    crypto_hist = _download_close_prices(crypto_tickers, period=f"{period_days}d", interval="1d")
+    crypto_pct_change = _price_change_pct(crypto_hist, lookback_days)
+    if crypto_pct_change.empty:
+        return pd.DataFrame(columns=["Crypto", "Percent Change", "Market Cap", "Symbol", "Label"])
 
-    if crypto_hist.shape[0] <= lookback_days:
-        base = crypto_hist.iloc[0]
-    else:
-        base = crypto_hist.iloc[-(lookback_days + 1)]
-
-    last = crypto_hist.iloc[-1]
-    crypto_pct_change = ((last - base) / base * 100.0).fillna(0)
-    crypto_market_caps = {}
-    for ticker in crypto_tickers:
-        crypto_market_caps[ticker] = yf.Ticker(ticker).info.get("marketCap", 1)
+    crypto_market_caps = {ticker: _yf_market_cap(ticker) for ticker in crypto_pct_change.index}
 
     crypto_df = pd.DataFrame(
         {
@@ -1997,18 +2097,21 @@ with top_analysis_tab:
 
     try:
         df = load_stock_heatmap_data(tuple(tickers), lookback_days)
-        fig = px.treemap(
-            df,
-            path=["Ticker"],
-            values="Market Cap",
-            color="Percent Change",
-            color_continuous_scale="RdYlGn",
-            hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-            title=f"📊 S&P 500 Change ({sp_tf}) – Sized by Market Cap"
-        )
+        if df.empty:
+            st.info("No stock heatmap price data returned. Try refreshing or selecting a longer timeframe.")
+        else:
+            fig = px.treemap(
+                df,
+                path=["Ticker"],
+                values="Market Cap",
+                color="Percent Change",
+                color_continuous_scale="RdYlGn",
+                hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
+                title=f"📊 S&P 500 Change ({sp_tf}) – Sized by Market Cap"
+            )
 
-        fig.update_traces(text=df["Label"])
-        st.plotly_chart(fig, use_container_width=True)
+            fig.update_traces(text=df["Label"])
+            st.plotly_chart(fig, use_container_width=True)
 
     except Exception as e:
         st.error(f"Error generating heatmap: {e}")
@@ -2029,17 +2132,20 @@ with top_analysis_tab:
 
     try:
         watch_df = load_watchlist_heatmap_data(tuple(watchlist_tickers), watchlist_labels, lookback_days)
-        watch_fig = px.treemap(
-            watch_df,
-            path=["Label"],
-            values="Weight",
-            color="Percent Change",
-            color_continuous_scale="RdYlGn",
-            hover_data={"Percent Change": ":.2f"},
-            title=f"SPY, VOO, Gold, Silver, and Oil Change ({sp_tf})",
-        )
-        watch_fig.update_traces(text=watch_df["Display"])
-        st.plotly_chart(watch_fig, use_container_width=True)
+        if watch_df.empty:
+            st.info("No ETF or commodity watchlist data returned.")
+        else:
+            watch_fig = px.treemap(
+                watch_df,
+                path=["Label"],
+                values="Weight",
+                color="Percent Change",
+                color_continuous_scale="RdYlGn",
+                hover_data={"Percent Change": ":.2f"},
+                title=f"SPY, VOO, Gold, Silver, and Oil Change ({sp_tf})",
+            )
+            watch_fig.update_traces(text=watch_df["Display"])
+            st.plotly_chart(watch_fig, use_container_width=True)
     except Exception as e:
         st.error(f"Error generating watchlist heatmap: {e}")
 
@@ -2074,18 +2180,21 @@ with top_analysis_tab:
 
     try:
         crypto_df = load_crypto_heatmap_data(tuple(crypto_tickers), lookback_days)
-        crypto_fig = px.treemap(
-            crypto_df,
-            path=["Symbol"],
-            values="Market Cap",
-            color="Percent Change",
-            color_continuous_scale="RdYlGn",
-            hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-            title=f"🪙 Crypto Change ({crypto_tf}) – Sized by Market Cap"
-        )
+        if crypto_df.empty:
+            st.info("No crypto heatmap price data returned. Yahoo Finance may not have data for this moment.")
+        else:
+            crypto_fig = px.treemap(
+                crypto_df,
+                path=["Symbol"],
+                values="Market Cap",
+                color="Percent Change",
+                color_continuous_scale="RdYlGn",
+                hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
+                title=f"🪙 Crypto Change ({crypto_tf}) – Sized by Market Cap"
+            )
 
-        crypto_fig.update_traces(text=crypto_df["Label"])
-        st.plotly_chart(crypto_fig, use_container_width=True)
+            crypto_fig.update_traces(text=crypto_df["Label"])
+            st.plotly_chart(crypto_fig, use_container_width=True)
 
     except Exception as e:
         st.error(f"Error generating crypto heatmap: {e}")
