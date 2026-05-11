@@ -1,0 +1,34 @@
+Generated: 2026-05-11 10:26 UTC
+Horizon: 30 trading days
+Universe: 74 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +20.02% | Probability up: 93.8% | Edge: 43.8% | Expected error: +/-12.26% | Selected model: Ensemble
+This is the strongest long signal in the ranked universe. Forecast return is well above the noise filter and the probability/edge profile is the best in the list. Expected error is material but remains below forecast return, so the signal quality is comparatively stronger than the other buy candidates.
+
+SLB — Buy | Pattern: Uptrend | Forecast return: +8.78% | Probability up: 71.9% | Edge: 21.9% | Expected error: +/-13.99% | Selected model: Ensemble
+Positive directional setup with a clear buy label and solid edge. Risk note: expected error exceeds the forecast return, which lowers confidence in sizing and timing even though the directional bias is positive.
+
+XLE — Buy | Pattern: High Volatility | Forecast return: +4.62% | Probability up: 68.8% | Edge: 18.8% | Expected error: +/-8.66% | Selected model: Ensemble
+A valid buy under the model rules, but this is a lower-conviction setup than GEV and SLB because the return forecast is modest and volatility is elevated. Expected error is larger than forecast return, so this looks more suitable as a secondary candidate rather than a primary long.
+
+JNJ — Buy | Pattern: Oversold | Forecast return: +4.58% | Probability up: 68.8% | Edge: 18.8% | Expected error: +/-8.91% | Selected model: Ensemble
+Oversold condition supports a rebound thesis and the model call is positive. Risk note: expected error is larger than forecast return, which means the setup may be sensitive to short-term noise despite the favorable directional probability.
+
+ENA — Strong Buy | Pattern: Near 60-Day High | Forecast return: +33.15% | Probability up: 71.7% | Edge: 21.7% | Expected error: +/-32.49% | Selected model: Ensemble
+Large upside forecast, but this is a higher-risk signal. Expected error is nearly as large as the forecast return, and the underlying model components show notable disagreement, with Ridge and LSTM negative while XGBoost and especially Transformer are strongly positive. Near-60-day-high behavior can support trend continuation, but it also raises pullback risk after extended moves.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+This is the clearest downside signal in the universe. The forecast is strongly negative, the probability-down profile is very high, and all major model components are aligned bearish. Despite high volatility, the directional setup is comparatively clean.
+
+NFLX — Sell | Pattern: Downtrend | Forecast return: -10.30% | Probability down: 74.4% | Edge: 24.4% | Expected error: +/-17.31% | Selected model: Ensemble
+Actionable negative signal with a clear sell label and meaningful downside forecast. Risk note: expected error exceeds the forecast return, and the pattern set includes oversold alongside downtrend and bearish crossover, which creates elevated reversal risk if short-term mean reversion develops.
+
+Watchlist / Neutral
+GS, AMZN, GOOGL, JPM, and C show positive forecasts but are explicitly Neutral / No Edge, so they do not qualify as actionable buys under the ranking rules.
+AVAX and UNI show negative forecasts but are also Neutral / No Edge, so they should not be treated as active sell signals. AVAX is additionally flagged as overbought, while UNI shows a bullish moving-average crossover, indicating mixed technical context.
+
+Summary
+The strongest long candidate is GEV by a clear margin. SLB, XLE, and JNJ qualify as buys but with forecast-to-error profiles that warrant caution. ENA has a large upside forecast but also unusually high model uncertainty and internal disagreement. On the downside, PEPE is the strongest avoid/short signal, while NFLX is a valid sell with notable reversal risk due to oversold conditions.
