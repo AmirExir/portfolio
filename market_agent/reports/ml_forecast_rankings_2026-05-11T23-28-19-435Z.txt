@@ -1,0 +1,40 @@
+Generated: 2026-05-11 23:27 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +21.57% | Probability up: 94.6% | Edge: 44.6% | Expected error: +/-12.27% | Selected model: Ensemble
+Highest-ranked long signal in the set. Pattern and probability are aligned with the bullish forecast. Expected error is material but still below forecast return, so the signal remains actionable on the model output.
+
+ENA — Buy | Pattern: Overbought | Forecast return: +27.49% | Probability up: 71.1% | Edge: 21.1% | Expected error: +/-32.87% | Selected model: Ensemble
+Large upside forecast, but risk is elevated because expected error exceeds forecast return. There is also model disagreement: Ridge is slightly negative while XGBoost and Transformer are strongly positive. Bullish ensemble output with an overbought condition increases pullback risk.
+
+SLB — Buy | Pattern: Uptrend | Forecast return: +8.96% | Probability up: 71.0% | Edge: 21.0% | Expected error: +/-13.69% | Selected model: Ensemble
+Constructive directional setup with trend support, but expected error is larger than forecast return, which lowers confidence in position sizing.
+
+GS — Buy | Pattern: Uptrend | Forecast return: +8.39% | Probability up: 71.4% | Edge: 21.4% | Expected error: +/-13.55% | Selected model: Ensemble
+Positive ensemble signal with broad model support from neural net, LSTM, and transformer. Risk remains moderate because forecast magnitude is smaller than expected error.
+
+PEP — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +5.63% | Probability up: 73.2% | Edge: 23.2% | Expected error: +/-8.71% | Selected model: Ensemble
+Lower-return but cleaner defensive-type long candidate. Range pattern suggests less trend confirmation than the top-ranked uptrend names.
+
+JNJ — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +5.45% | Probability up: 72.0% | Edge: 22.0% | Expected error: +/-8.88% | Selected model: Ensemble
+Similar profile to PEP: moderate positive edge with a smaller forecast and no dominant pattern. Expected error is above forecast return, so conviction is limited.
+
+XLE — Buy | Pattern: High Volatility | Forecast return: +5.27% | Probability up: 72.1% | Edge: 22.1% | Expected error: +/-8.76% | Selected model: Ensemble
+Positive directional signal, but high-volatility regime raises execution risk. Expected error is also larger than forecast return.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+Strongest bearish signal in the ranking. Downtrend pattern and high probability down are aligned. Despite high volatility typical of the asset class, the forecast remains materially larger than expected error.
+
+AVAX — Sell | Pattern: Overbought | Forecast return: -17.70% | Probability down: 75.1% | Edge: 25.1% | Expected error: +/-28.92% | Selected model: Ensemble
+Bearish signal is actionable on direction, but risk is elevated because expected error exceeds forecast return. There is also model conflict: XGBoost is slightly positive while most other models are negative. Bearish model output with overbought condition supports caution, but reversal risk is non-trivial.
+
+Watchlist / Neutral
+AMZN, LUV, and WMT show positive forecast returns above the noise threshold, but all are explicitly Neutral / No Edge and should not be treated as active buy signals.
+NFLX and COMP show notable negative forecast returns, but both are Neutral / No Edge and do not qualify as sell signals under the filter.
+
+Summary
+The strongest long candidate is GEV based on edge, probability, and trend alignment. Secondary long ideas are SLB and GS, with PEP, JNJ, and XLE as lower-conviction buys due to forecast-to-error balance. On the bearish side, PEPE is the clearest avoid/short candidate, while AVAX qualifies as a sell with notable model conflict and higher forecast uncertainty.
