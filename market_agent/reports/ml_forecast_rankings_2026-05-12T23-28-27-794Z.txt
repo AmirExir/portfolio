@@ -1,0 +1,31 @@
+Generated: 2026-05-12 23:28 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +19.34% | Probability up: 91.9% | Edge: 41.9% | Expected error: +/-12.30% | Selected model: Ensemble
+Highest-ranked long signal in the current universe. Forecast return is well above the noise filter and the probability/edge profile is the strongest in the list. Expected error is material but still below forecast return, which keeps the signal actionable.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +7.70% | Probability up: 72.1% | Edge: 22.1% | Expected error: +/-12.68% | Selected model: Ensemble
+Positive directional setup with good edge, but expected error is larger than forecast return, so confidence in sizing should be more conservative. Model dispersion is notable: Ridge and neural net are stronger than XGBoost, indicating some disagreement beneath the ensemble.
+
+LUV — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +8.83% | Probability up: 68.8% | Edge: 18.8% | Expected error: +/-16.04% | Selected model: Ensemble
+Forecast clears the action threshold, but the market structure is non-trending and expected error exceeds projected return. This raises execution risk and suggests the signal is weaker than GEV despite the higher nominal return versus some peers.
+
+SLB — Buy | Pattern: Uptrend | Forecast return: +7.34% | Probability up: 66.0% | Edge: 16.0% | Expected error: +/-13.69% | Selected model: Ensemble
+Constructive trend signal with acceptable edge. However, expected error is larger than forecast return, and underlying model outputs vary widely, with Ridge much more bullish than the other components. That disagreement lowers conviction.
+
+ONDO — Buy | Pattern: Overbought | Forecast return: +18.89% | Probability up: 61.7% | Edge: 11.7% | Expected error: +/-29.20% | Selected model: Ensemble
+Large upside forecast, but this is the highest-risk buy in the list. Expected error is substantially larger than forecast return, and the overbought pattern adds reversal risk. Model disagreement is pronounced, with some sub-models negative and one extremely bullish, so this should be treated as speculative rather than a high-confidence buy.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+Clearest avoid/short candidate in the current rankings. The forecast is strongly negative, directional confidence is very high, and all listed component models are aligned to the downside. Expected error is elevated, but still well below the magnitude of the forecast decline.
+
+Watchlist / Neutral
+GOOGL — Neutral / No Edge despite +6.63% forecast. Positive return estimate, but not actionable under the signal filter.
+JNJ — Neutral / No Edge with +4.18% forecast and moderate probability up.
+NFLX — Neutral / No Edge with -7.07% forecast in a downtrend. Not a valid sell signal under the stated rules, but worth monitoring if conviction increases.
+AVAX — Neutral / No Edge with -11.26% forecast. Large nominal downside but not actionable because the model call remains neutral and expected error is very high.
+
+Overall, the strongest actionable long is GEV. AMZN, LUV, and SLB remain secondary buy candidates with weaker risk-adjusted profiles due to error bands exceeding forecast return. ONDO offers high upside potential but also the most visible conflict and reversal risk. On the short side, PEPE is the only valid high-conviction sell signal in the provided output.
