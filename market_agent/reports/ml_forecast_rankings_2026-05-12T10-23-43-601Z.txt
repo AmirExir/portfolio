@@ -1,0 +1,35 @@
+Generated: 2026-05-12 10:23 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +21.93% | Probability up: 98.6% | Edge: 48.6% | Expected error: +/-9.47% | Selected model: Ridge
+Highest-ranked long setup in the current run. Forecast return and directional confidence are both strong, and the expected error is materially below the projected gain.
+
+ENA — Strong Buy | Pattern: Range / No Dominant Pattern | Forecast return: +21.68% | Probability up: 84.4% | Edge: 34.4% | Expected error: +/-21.42% | Selected model: XGBoost
+Large projected upside, but risk control matters because expected error is almost as large as the forecast return. Model disagreement is elevated: Ridge and Neural Net are negative while XGBoost and Transformer are strongly positive. Treat as a higher-volatility, less stable signal.
+
+DELL — Buy | Pattern: Uptrend | Forecast return: +14.59% | Probability up: 78.0% | Edge: 28.0% | Expected error: +/-19.31% | Selected model: Neural Net
+Positive directional edge with meaningful upside, but expected error exceeds the forecast return. There is also notable disagreement across models, with LSTM and Transformer negative. Actionable, but with elevated forecast uncertainty.
+
+JNJ — Strong Buy | Pattern: Range / No Dominant Pattern | Forecast return: +10.51% | Probability up: 88.5% | Edge: 38.5% | Expected error: +/-8.69% | Selected model: Ridge
+A relatively cleaner defensive-style buy candidate. The projected gain is moderate, but confidence and edge are strong, and expected error remains below the forecast return.
+
+LUV — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +8.76% | Probability up: 72.8% | Edge: 22.8% | Expected error: +/-14.87% | Selected model: Ridge
+Positive edge passes the noise filter, though expected error is larger than the projected return. More suitable as a secondary candidate than a primary conviction idea.
+
+WMT — Buy | Pattern: Uptrend | Forecast return: +3.42% | Probability up: 70.3% | Edge: 20.3% | Expected error: +/-6.52% | Selected model: XGBoost
+Forecast exceeds the 2% noise threshold, but the return is modest and expected error is larger than the projected move. This is a weaker actionable buy than the names above.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+Strongest downside setup in the list. Deep negative forecast, very high directional confidence, and broad agreement across major models support the bearish call.
+
+HYPE — Sell | Pattern: Uptrend | Forecast return: -16.78% | Probability down: 82.2% | Edge: 32.2% | Expected error: +/-22.02% | Selected model: LSTM
+Bearish model output appears against an uptrend backdrop, which raises reversal risk. Expected error is larger than the forecast return, and model disagreement is substantial: XGBoost, Neural Net, and Transformer are positive while LSTM is sharply negative.
+
+NFLX — Sell | Pattern: Downtrend | Forecast return: -9.23% | Probability down: 76.2% | Edge: 26.2% | Expected error: +/-14.56% | Selected model: XGBoost
+Downtrend supports the sell signal, but expected error is larger than the projected decline. One conflict is present: LSTM is slightly positive. Oversold condition also implies elevated bounce risk even within a broader bearish setup.
+
+Watchlist / Neutral
+No neutral watchlist included. Current actionable focus is concentrated in the names above after applying the 2% noise filter.

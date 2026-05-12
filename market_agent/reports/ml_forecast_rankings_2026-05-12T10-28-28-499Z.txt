@@ -1,0 +1,42 @@
+Generated: 2026-05-12 10:28 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +21.71% | Probability up: 94.8% | Edge: 44.8% | Expected error: +/-12.27% | Selected model: Ensemble
+This is the clearest long signal in the ranking. Forecast return is well above the noise filter and the directional probability is very strong. Error is material but still below the forecast return, so the signal remains actionable.
+
+SLB — Buy | Pattern: Uptrend | Forecast return: +8.17% | Probability up: 69.5% | Edge: 19.5% | Expected error: +/-13.60% | Selected model: Ensemble
+Positive forecast with acceptable edge, but expected error is larger than forecast return, which raises risk. Ridge is much more bullish than the other models, so model dispersion is elevated.
+
+GS — Buy | Pattern: Uptrend | Forecast return: +7.84% | Probability up: 70.5% | Edge: 20.5% | Expected error: +/-13.50% | Selected model: Ensemble
+Constructive uptrend signal with solid edge. Risk is higher because expected error exceeds forecast return. Neural net is notably more bullish than Ridge and XGBoost, indicating some model disagreement.
+
+GOOGL — Buy | Pattern: Uptrend | Forecast return: +7.83% | Probability up: 71.6% | Edge: 21.6% | Expected error: +/-13.54% | Selected model: Ensemble
+Good directional edge and supportive trend pattern. However, expected error is larger than the forecast return, and the pattern set includes overbought and high volatility, which increases pullback risk.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +7.59% | Probability up: 70.5% | Edge: 20.5% | Expected error: +/-12.69% | Selected model: Ensemble
+Reasonable positive edge with trend support. Expected error is larger than forecast return, so confidence in sizing should be tempered. There is clear model disagreement: Ridge and Neural Net are bullish, while Transformer is near flat and XGBoost is only slightly positive.
+
+PEP — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +5.86% | Probability up: 73.7% | Edge: 23.7% | Expected error: +/-8.75% | Selected model: Ensemble
+A moderate upside setup with strong probability, but the lack of a dominant pattern reduces conviction. Expected error is above the forecast return, so this looks more like a lower-volatility watchable buy than a high-conviction trend trade.
+
+JNJ — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +5.82% | Probability up: 73.4% | Edge: 23.4% | Expected error: +/-8.94% | Selected model: Ensemble
+Similar profile to PEP: positive edge and supportive probability, but range-bound pattern and expected error above forecast return reduce clarity.
+
+XLE — Buy | Pattern: High Volatility | Forecast return: +4.77% | Probability up: 70.2% | Edge: 20.2% | Expected error: +/-8.86% | Selected model: Ensemble
+Forecast clears the noise filter and edge is respectable. Still, expected error is larger than the projected gain and the high-volatility pattern implies wider outcome dispersion.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+This is the only valid sell signal under the stated rules. The forecast is deeply negative, directional probability is very strong, and all listed models are aligned bearish. Error is high, but still below the magnitude of the forecast return.
+
+Watchlist / Neutral
+ONDO — Buy signal exists numerically with forecast return of +18.30%, but it is not included as a top actionable buy because edge is only 8.9% and expected error is very high at +/-29.31%. Model conflict is substantial: Ridge, XGBoost, and LSTM are negative while Transformer is extremely positive. Overbought and high-volatility conditions further increase uncertainty.
+
+LUV and IWM are neutral despite positive forecasts, so they are not actionable under the signal rules.
+AVAX, NFLX, BNB, MSFT, SOL, DOT, COMP, AAPL, and UNH show negative forecasts but remain neutral / no edge, so they are not valid sell calls.
+
+Overall ranking view
+The buy side is concentrated in equities with uptrend patterns, but many of those signals carry expected error larger than the forecast return, which limits confidence. The sell side is sparse: only PEPE qualifies as a valid bearish setup. This implies a selective rather than broad risk-on or risk-off posture in the current 30-day model output.
