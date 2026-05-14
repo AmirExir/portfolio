@@ -1,0 +1,38 @@
+Generated: 2026-05-14 23:23 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +15.20% | Probability up: 94.0% | Edge: 44.0% | Expected error: +/-9.54% | Selected model: Ridge
+Highest-quality long setup in the current list. Forecast return is well above the noise filter and the expected error is lower than the projected gain, which supports signal usability. Pattern context remains constructive.
+
+ENA — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +19.92% | Probability up: 83.1% | Edge: 33.1% | Expected error: +/-20.84% | Selected model: XGBoost
+Large projected upside, but risk is elevated because expected error is slightly larger than the forecast return. Model disagreement is significant: Ridge and Neural Net are negative while Transformer is strongly positive. This is a positive signal with unstable cross-model confirmation.
+
+DELL — Buy | Pattern: Uptrend | Forecast return: +18.88% | Probability up: 82.7% | Edge: 32.7% | Expected error: +/-20.15% | Selected model: Neural Net
+Strong upside forecast with favorable directional probability. Risk remains elevated because expected error exceeds forecast return. There is also notable model conflict: LSTM and Transformer are negative while Neural Net is strongly positive.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +8.84% | Probability up: 77.2% | Edge: 27.2% | Expected error: +/-12.01% | Selected model: Neural Net
+Constructive medium-strength buy signal. Expected error is larger than forecast return, so sizing discipline is important. Cross-model support is mixed but mostly positive.
+
+ADA — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +11.76% | Probability up: 73.1% | Edge: 23.1% | Expected error: +/-19.79% | Selected model: XGBoost
+Positive forecast passes the actionability filter, but uncertainty is high because expected error materially exceeds the projected gain. Ridge and LSTM are negative, indicating disagreement.
+
+GOOGL — Buy | Pattern: Uptrend | Forecast return: +8.13% | Probability up: 72.5% | Edge: 22.5% | Expected error: +/-13.99% | Selected model: LSTM
+Moderate positive setup with trend support. However, the pattern set also includes Near 60-Day High and Overbought, which raises pullback risk. Expected error is larger than forecast return.
+
+ORCL — Buy | Pattern: Near 60-Day High | Forecast return: +11.48% | Probability up: 71.5% | Edge: 21.5% | Expected error: +/-21.13% | Selected model: Transformer
+Positive forecast with meaningful upside, but confidence is limited by heavy model disagreement: Ridge, XGBoost, Neural Net, and LSTM are all negative. Near-60-day-high condition can support momentum continuation, but reversal risk should be noted.
+
+PG — Buy | Pattern: Downtrend | Forecast return: +3.23% | Probability up: 70.5% | Edge: 20.5% | Expected error: +/-6.08% | Selected model: XGBoost
+Passes the 2% noise filter, but this is a lower-conviction buy than the names above. Bullish model output against a downtrend pattern raises conflict and increases false-signal risk.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+Strongest bearish signal in the set. Forecast magnitude is large, directional confidence is extremely high, and all listed model returns are negative. Downtrend pattern aligns with the bearish output.
+
+AVGO — Sell | Pattern: Uptrend | Forecast return: -9.47% | Probability down: 75.9% | Edge: 25.9% | Expected error: +/-15.19% | Selected model: Ridge
+Bearish forecast is actionable, but risk is elevated because expected error exceeds forecast return. This is also a conflicted signal: XGBoost, Neural Net, and Transformer are positive while Ridge is negative. Bearish model output with an uptrend / near-60-day-high condition implies elevated reversal risk.
+
+Watchlist / Neutral
+RIOT appears on the source list with a negative forecast, but the model call is Neutral / No Edge, so it is excluded from actionable sell ideas under the stated rules.
