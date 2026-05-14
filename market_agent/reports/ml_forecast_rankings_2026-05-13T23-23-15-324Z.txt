@@ -1,0 +1,43 @@
+Generated: 2026-05-13 23:22 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +18.76% | Probability up: 97.2% | Edge: 47.2% | Expected error: +/-9.44% | Selected model: Ridge
+Highest-quality long signal in the current set. Forecast return is comfortably above expected error, and model confidence is strong.
+
+ENA — Strong Buy | Pattern: Range / No Dominant Pattern | Forecast return: +27.36% | Probability up: 88.9% | Edge: 38.9% | Expected error: +/-21.89% | Selected model: XGBoost
+Large upside forecast, but risk is elevated because expected error is large relative to the return. Models disagree materially: Ridge and Neural Net are negative while XGBoost is strongly positive and Transformer is far more bullish. Treat as high-variance rather than clean trend continuation.
+
+GOOGL — Strong Buy | Pattern: Uptrend | Forecast return: +15.04% | Probability up: 86.6% | Edge: 36.6% | Expected error: +/-13.48% | Selected model: Ridge
+Constructive setup with positive edge and broad upside bias, though the margin over expected error is modest. Pattern notes include Near 60-Day High and Overbought, which can support momentum but also increase pullback risk.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +10.20% | Probability up: 81.2% | Edge: 31.2% | Expected error: +/-11.60% | Selected model: Neural Net
+Positive directional signal, but expected error exceeds forecast return, so conviction is lower than the top three buys.
+
+DELL — Buy | Pattern: Uptrend | Forecast return: +14.47% | Probability up: 77.5% | Edge: 27.5% | Expected error: +/-19.56% | Selected model: Neural Net
+Actionable positive signal by threshold, but risk is elevated because expected error is greater than forecast return. Model disagreement is significant: LSTM is strongly negative and Transformer is near flat.
+
+ORCL — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +14.37% | Probability up: 76.1% | Edge: 26.1% | Expected error: +/-20.84% | Selected model: Transformer
+Forecast qualifies as a buy, but confidence is mixed. Most other models are negative or near flat, so this is a disagreement-driven signal with weaker consensus.
+
+XOM — Buy | Pattern: Rebound From 60-Day Low | Forecast return: +4.81% | Probability up: 70.6% | Edge: 20.6% | Expected error: +/-9.06% | Selected model: XGBoost
+Meets the noise filter, but expected error is almost double the forecast return. More suitable as a lower-conviction watch candidate than a primary buy.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+Strongest bearish signal in the set. Downtrend pattern aligns with the forecast, and the expected error is well below the projected move.
+
+RIOT — Sell | Pattern: Uptrend | Forecast return: -28.01% | Probability down: 88.4% | Edge: 38.4% | Expected error: +/-31.60% | Selected model: Transformer
+Bearish forecast is meaningful, but risk is elevated because expected error exceeds forecast return. There is also major model conflict: Ridge, XGBoost, and Neural Net are positive while Transformer is sharply negative. Bearish model output with an uptrend / overbought condition implies elevated reversal risk in both directions.
+
+NFLX — Sell | Pattern: Downtrend | Forecast return: -7.96% | Probability down: 72.9% | Edge: 22.9% | Expected error: +/-14.58% | Selected model: XGBoost
+Moderate bearish signal with pattern alignment from the downtrend and bearish MA crossover. However, oversold status raises rebound risk, and expected error is larger than the forecast move.
+
+Watchlist / Neutral
+No neutral watchlist provided in the source rankings. Among weaker actionable names, XOM is the least compelling buy due to forecast magnitude being small relative to expected error.
+
+Summary
+Most credible long setups: GEV, GOOGL, then ENA with higher variance.
+Most credible short/avoid setup: PEPE.
+RIOT and NFLX are valid bearish signals, but both carry notable risk due to error size and/or conflicting conditions.

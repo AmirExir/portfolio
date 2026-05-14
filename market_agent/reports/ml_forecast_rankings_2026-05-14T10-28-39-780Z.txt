@@ -1,0 +1,32 @@
+Generated: 2026-05-14 10:28 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +16.89% | Probability up: 90.5% | Edge: 40.5% | Expected error: +/-12.34% | Selected model: Ensemble
+Highest-ranked long signal in the current set. The forecast return is materially above the noise filter and the directional confidence is the strongest in the universe snapshot. Risk note: expected error is sizable, though still below forecast return.
+
+SLB — Buy | Pattern: Uptrend | Forecast return: +8.61% | Probability up: 71.2% | Edge: 21.2% | Expected error: +/-13.39% | Selected model: Ensemble
+Positive directional signal with an uptrend pattern, but forecast uncertainty exceeds the projected return. This reduces conviction despite the valid buy call. Model dispersion is notable: Ridge is much more bullish than Transformer, indicating disagreement across models.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +7.02% | Probability up: 69.8% | Edge: 19.8% | Expected error: +/-12.62% | Selected model: Ensemble
+Constructive upside forecast with a favorable probability profile. Risk note: expected error is larger than forecast return, so position sizing should account for wider outcome dispersion. There is also cross-model conflict: XGBoost is negative while neural and transformer models are positive.
+
+JNJ — Buy | Pattern: Rebound From 60-Day Low | Forecast return: +5.79% | Probability up: 73.2% | Edge: 23.2% | Expected error: +/-8.82% | Selected model: Ensemble
+A rebound-style long setup with solid probability and edge. Risk note: expected error exceeds the forecast return, implying a lower margin of safety than the probability alone suggests.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+Strongest bearish signal in the list. The downtrend pattern aligns with the model output, and both directional probability and edge are exceptionally high. Risk note: volatility remains elevated given the large expected error, but the forecast move is still substantial relative to that uncertainty.
+
+NFLX — Sell | Pattern: Downtrend | Forecast return: -9.84% | Probability down: 73.1% | Edge: 23.1% | Expected error: +/-17.31% | Selected model: Ensemble
+Valid bearish signal with a clear downtrend classification. Risk note: expected error is larger than forecast return, which lowers confidence in trade precision. Also note conflicting pattern context from the full pattern set: bearish model output appears alongside an oversold condition, which raises reversal risk.
+
+Watchlist / Neutral
+GOOGL — Neutral / No Edge | Uptrend pattern and +6.83% forecast, but not actionable under the stated signal rules.
+INTC — Neutral / No Edge | Large +16.74% forecast, but expected error is extremely high at +/-39.15%, making it unsuitable as an actionable long.
+DAL — Neutral / No Edge | +8.54% forecast, but expected error of +/-18.74% is too wide for a high-confidence setup.
+AVAX — Neutral / No Edge | -14.33% forecast, but the signal is neutral and expected error is very high at +/-29.27%.
+
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% were treated as actionable. Neutral signals were excluded from buy/sell rankings.

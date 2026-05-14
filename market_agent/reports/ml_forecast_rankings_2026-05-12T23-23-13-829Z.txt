@@ -1,0 +1,31 @@
+Generated: 2026-05-12 23:22 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV: Strong Buy | pattern Uptrend | forecast return +19.08% | probability up 97.5% | edge 47.5% | expected error +/-9.33% | selected model Ridge. Highest-ranked buy with strong directional confidence and forecast comfortably above expected error.
+
+DELL: Buy | pattern Uptrend | forecast return +17.52% | probability up 82.1% | edge 32.1% | expected error +/-19.24% | selected model Neural Net. Positive return and solid probability, but expected error exceeds forecast return, which raises execution risk. Model conflict is present: LSTM and Transformer are negative while Neural Net is strongly positive.
+
+AMZN: Buy | pattern Uptrend | forecast return +11.33% | probability up 83.4% | edge 33.4% | expected error +/-11.71% | selected model Neural Net. Good directional setup, though expected error is slightly larger than forecast return, so conviction is moderate rather than high.
+
+ORCL: Buy | pattern Range / No Dominant Pattern | forecast return +14.39% | probability up 75.9% | edge 25.9% | expected error +/-21.12% | selected model Transformer. Forecast clears the noise filter, but dispersion across models is high: Ridge, Neural Net, and LSTM are negative while Transformer is strongly positive. Expected error is materially above forecast return.
+
+ENA: Buy | pattern Range / No Dominant Pattern | forecast return +16.69% | probability up 78.7% | edge 28.7% | expected error +/-21.42% | selected model XGBoost. Forecast is sizeable, but model disagreement is significant: Ridge and LSTM are negative, Neural Net is near flat, and Transformer is much higher. Expected error exceeds forecast return.
+
+JNJ: Buy | pattern Range / No Dominant Pattern | forecast return +7.01% | probability up 79.2% | edge 29.2% | expected error +/-8.70% | selected model Ridge. Lower-return buy candidate with acceptable directional probability, but forecast is modest and expected error is larger than the forecast.
+
+QQQ: Buy | pattern Uptrend | forecast return +4.43% | probability up 74.0% | edge 24.0% | expected error +/-6.97% | selected model Transformer. Trend is positive, but signal is relatively small and the instrument is flagged as Near 60-Day High and Overbought, which can limit upside or increase pullback risk. Expected error is above forecast return.
+
+Top Sell / Avoid Signals
+PEPE: Strong Sell | pattern Downtrend | forecast return -31.94% | probability down 99.9% | edge 49.9% | expected error +/-13.60% | selected model Ridge. Clear top sell with broad model alignment and forecast magnitude well beyond expected error.
+
+HYPE: Sell | pattern Range / No Dominant Pattern | forecast return -12.11% | probability down 74.2% | edge 24.2% | expected error +/-21.99% | selected model LSTM. Negative signal is actionable on return magnitude, but expected error is much larger than forecast return. Models disagree materially: XGBoost and Transformer are positive, which increases reversal risk.
+
+NFLX: Sell | pattern Downtrend | forecast return -7.39% | probability down 71.4% | edge 21.4% | expected error +/-14.53% | selected model XGBoost. Bearish setup remains valid, but expected error is larger than forecast return. The symbol is also marked Oversold alongside a bearish MA crossover and downtrend, which implies elevated reversal risk despite the sell call.
+
+Watchlist / Neutral
+No neutral watchlist included. Focus remains on signals that passed the return and directional filters.
+
+Overall assessment
+GEV and PEPE stand out as the clearest directional signals. Most other actionable names pass the forecast threshold but carry higher uncertainty because expected error exceeds forecast return and several have notable cross-model disagreement.
