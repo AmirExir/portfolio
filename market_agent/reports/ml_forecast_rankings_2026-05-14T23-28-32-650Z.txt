@@ -1,0 +1,31 @@
+Generated: 2026-05-14 23:28 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Buy | Pattern: Uptrend | Forecast return: +11.83% | Probability up: 81.6% | Edge: 31.6% | Expected error: +/-12.74% | Selected model: Ensemble
+Highest-ranked long signal in the set. Model alignment is broadly positive across major sub-models, which supports the buy call. Risk note: expected error is slightly larger than the forecast return, so conviction is directional rather than precision-based.
+
+SLB — Buy | Pattern: Uptrend | Forecast return: +9.93% | Probability up: 71.6% | Edge: 21.6% | Expected error: +/-13.48% | Selected model: Ensemble
+Positive directional setup with meaningful edge. However, internal model dispersion is notable, with some models much stronger than others and Transformer negative, indicating moderate disagreement. Risk note: expected error exceeds forecast return.
+
+GOOGL — Buy | Pattern: Uptrend | Forecast return: +9.14% | Probability up: 73.6% | Edge: 23.6% | Expected error: +/-13.77% | Selected model: Ensemble
+Constructive buy signal with strong probability and edge. Most component models are positive, but the pattern stack includes Near 60-Day High and Overbought, which raises pullback risk despite the bullish forecast. Risk note: expected error exceeds forecast return.
+
+USO — Buy | Pattern: Uptrend | Forecast return: +10.61% | Probability up: 67.8% | Edge: 17.8% | Expected error: +/-20.41% | Selected model: Ensemble
+Forecast return is strong enough to pass the noise filter, but confidence is lower than the top three buys due to very large expected error. There is also model disagreement: LSTM is slightly negative while Transformer is strongly positive, so the ensemble buy should be treated as higher-variance.
+
+JNJ — Buy | Pattern: Rebound From 60-Day Low | Forecast return: +5.43% | Probability up: 72.9% | Edge: 22.9% | Expected error: +/-8.63% | Selected model: Ensemble
+Cleaner defensive buy profile than several other names. The rebound pattern is supportive, and model outputs are consistently positive. Risk note: expected error remains larger than forecast return, but less extreme than USO.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+Clear downside outlier and the only valid actionable sell signal in the provided rankings. Sub-models are uniformly negative, which reduces conflict risk versus other names. Despite high volatility, the downside forecast is large enough to remain actionable after accounting for expected error.
+
+Watchlist / Neutral
+AMZN, PG, PEP, GLD, WMT remain neutral and are not actionable under the current rules.
+On the downside, NFLX, MSFT, DOT, AVAX, AAPL, SOL, MNT, V, and XLK are also neutral rather than sell signals, so they should not be treated as shorts or avoids based on this output alone.
+Notable conflict cases among neutrals: DOT shows a negative forecast despite a Bullish MA Crossover, implying mixed technical and model evidence. AAPL shows a negative forecast while tagged Uptrend, which suggests weak bearish conviction rather than a confirmed sell.
+
+Summary
+Most actionable opportunities are on the buy side, led by GEV, SLB, GOOGL, USO, and JNJ. The sell side is very narrow, with PEPE as the only confirmed strong downside signal. In several buy cases, expected error is larger than forecast return, so position sizing and risk control matter more than the point forecast alone.

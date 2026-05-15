@@ -1,0 +1,28 @@
+- **Fed policy outlook turned more hawkish, not easier:** The Senate confirmed **Kevin Warsh as Fed chair**, but markets got a reminder that **rate cuts may still be distant**. Boston Fed President Collins even flagged a **possible rate hike scenario** as inflation risks rise.
+
+- **Bond markets are reacting to sticky inflation:** The **10-year Treasury yield hit its highest since July** after fresh producer-price data, signaling investors increasingly expect **higher-for-longer rates**.
+
+- **AI remains the strongest corporate demand story:** **Cisco beat on earnings and revenue**, with management citing **strong AI-related orders**, helping push the stock to a record high.
+
+- **But AI’s infrastructure boom is facing growing friction:**  
+  - **xAI** is reportedly running dozens of gas turbines at a Mississippi data center amid regulatory scrutiny.  
+  - **Gallup** found strong public opposition to local AI data centers.  
+  - **PJM** governance is under fire as grid strain from data-center demand becomes a bigger policy issue.
+
+- **Big Tech/AI competition is spreading downmarket:** **Anthropic** launched offerings for **small businesses**, showing the AI platform battle is moving beyond large enterprises.
+
+- **Labor and cost discipline are still in focus in tech:** **LinkedIn** is reportedly cutting jobs and scaling back some investments, a sign that even major platform businesses remain cautious on spending.
+
+- **M&A and strategic positioning picked up:**  
+  - **Allegiant’s acquisition of Sun Country** closed, reinforcing consolidation in budget air travel.  
+  - **Arm and SoftBank reportedly tried to buy Cerebras** ahead of its IPO, underscoring the race to secure AI chip assets.
+
+- **Geopolitics is overlapping with business more openly:** A billionaire-heavy U.S. delegation, including major CEOs, joined **Trump’s meeting with Xi**, highlighting how corporate influence is increasingly tied to trade and diplomacy.
+
+- **Crypto regulation may be moving forward:** Sen. **John Kennedy’s support for a Senate crypto bill** improves the odds of legislative progress, a potentially meaningful shift for the digital-asset sector.
+
+- **Energy and supply-chain pressures remain a background risk:** Reports on **Iran-war-related shortages** and higher fuel costs point to lingering inflationary pressure across transportation, manufacturing, and consumer goods.
+
+- **A few notable market-specific movers:**  
+  - **Ford shares jumped** on optimism around its CATL-backed energy business.  
+  - **Space stocks rose** on reports of a possible **SpaceX-Google orbital data center** partnership.
