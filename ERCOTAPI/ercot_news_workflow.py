@@ -16,8 +16,6 @@ from typing import Dict, List, Optional
 
 import requests
 
-from ercotapi import get_latest_news_by_prefix
-
 
 NEWS_CATEGORIES = [
     {
@@ -42,12 +40,172 @@ NEWS_CATEGORIES = [
     },
 ]
 
+DEFAULT_TELEGRAM_CHAT_ID = "@ERCOTNEWS"
 STATE_FILE = Path(
     os.getenv("ERCOT_NEWS_STATE_FILE", Path(__file__).with_name(".ercot_news_state.json"))
 )
-BOT_TOKEN = os.getenv("ERCOT_NEWS_TELEGRAM_BOT_TOKEN", "").strip()
-CHAT_ID = os.getenv("ERCOT_NEWS_TELEGRAM_CHAT_ID", "").strip()
 DRY_RUN = os.getenv("ERCOT_NEWS_DRY_RUN", "false").lower() in {"1", "true", "yes"}
+FORCE_SEND = os.getenv("ERCOT_NEWS_FORCE_SEND", "false").lower() in {"1", "true", "yes"}
+SEND_NO_UPDATES = os.getenv("ERCOT_NEWS_SEND_NO_UPDATES", "false").lower() in {"1", "true", "yes"}
+
+
+def first_env(names: List[str], default: str = "") -> str:
+    for name in names:
+        value = os.getenv(name, "").strip()
+        if value:
+            return value
+    return default
+
+
+BOT_TOKEN = first_env(
+    [
+        "ERCOT_NEWS_TELEGRAM_BOT_TOKEN",
+        "ERCOT_LINK_TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_BOT_TOKEN",
+    ]
+)
+CHAT_ID = first_env(
+    [
+        "ERCOT_NEWS_TELEGRAM_CHAT_ID",
+        "ERCOT_LINK_TELEGRAM_CHAT_ID",
+        "TELEGRAM_CHAT_ID",
+    ],
+    DEFAULT_TELEGRAM_CHAT_ID,
+)
+
+
+def fetch_news_file_index(path: str = "ERCOTAPI"):
+    contents_url = f"https://api.github.com/repos/AmirExir/portfolio/contents/{path.strip('/')}"
+    headers = {
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "ERCOT-News-Workflow",
+    }
+    response = requests.get(contents_url, headers=headers, timeout=12)
+    if response.status_code == 403 and "rate limit" in response.text.lower():
+        return None
+    response.raise_for_status()
+    files = response.json()
+    return files if isinstance(files, list) else []
+
+
+def fetch_news_repo_tree(branch: str = "main"):
+    tree_url = f"https://api.github.com/repos/AmirExir/portfolio/git/trees/{branch}?recursive=1"
+    headers = {
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "ERCOT-News-Workflow",
+    }
+    response = requests.get(tree_url, headers=headers, timeout=12)
+    if response.status_code == 403 and "rate limit" in response.text.lower():
+        return []
+    response.raise_for_status()
+    payload = response.json()
+    tree = payload.get("tree", []) if isinstance(payload, dict) else []
+    return tree if isinstance(tree, list) else []
+
+
+def normalize_news_text(raw_text: str) -> str:
+    try:
+        payload = json.loads(raw_text)
+        if isinstance(payload, dict):
+            return str(payload.get("content") or payload.get("message") or payload)
+        if isinstance(payload, list):
+            return "\n".join(str(item) for item in payload)
+        return str(payload)
+    except json.JSONDecodeError:
+        return raw_text
+
+
+def read_latest_local_news(local_dir: Path, prefixes: List[str]) -> Optional[Dict[str, str]]:
+    if not local_dir.is_dir():
+        return None
+
+    candidates = []
+    for root, _, files in os.walk(local_dir):
+        for name in files:
+            lower_name = name.lower()
+            if not lower_name.endswith((".txt", ".md", ".json")):
+                continue
+            if any(lower_name.startswith(prefix.lower()) for prefix in prefixes):
+                candidates.append(Path(root) / name)
+
+    if not candidates:
+        return None
+
+    latest_path = sorted(candidates, key=lambda path: path.name, reverse=True)[0]
+    try:
+        content = normalize_news_text(latest_path.read_text(encoding="utf-8").strip())
+        return {"name": latest_path.name, "content": content}
+    except Exception:
+        return None
+
+
+def get_latest_news_by_prefix(prefixes: List[str], repo_path: str = "ERCOTAPI") -> Optional[Dict[str, str]]:
+    candidate_paths = [repo_path, f"{repo_path}/market_agent"]
+
+    for candidate_path in candidate_paths:
+        try:
+            files = fetch_news_file_index(candidate_path)
+        except Exception:
+            files = None
+
+        if not files:
+            continue
+
+        matches = [
+            file_info
+            for file_info in files
+            if file_info.get("type") == "file"
+            and file_info.get("name", "").lower().endswith((".txt", ".md", ".json"))
+            and any(file_info.get("name", "").lower().startswith(prefix.lower()) for prefix in prefixes)
+        ]
+        if not matches:
+            continue
+
+        latest = sorted(matches, key=lambda item: item.get("name", ""), reverse=True)[0]
+        download_url = latest.get("download_url")
+        if not download_url:
+            continue
+
+        try:
+            response = requests.get(download_url, timeout=12)
+            response.raise_for_status()
+            return {
+                "name": latest.get("name", ""),
+                "content": normalize_news_text(response.text.strip()),
+            }
+        except Exception:
+            pass
+
+    try:
+        tree_items = fetch_news_repo_tree("main")
+    except Exception:
+        tree_items = []
+
+    tree_matches = []
+    for item in tree_items:
+        if item.get("type") != "blob":
+            continue
+        rel_path = item.get("path", "")
+        base_name = os.path.basename(rel_path).lower()
+        if not base_name.endswith((".txt", ".md", ".json")):
+            continue
+        if any(base_name.startswith(prefix.lower()) for prefix in prefixes):
+            tree_matches.append(rel_path)
+
+    if tree_matches:
+        latest_path = sorted(tree_matches, reverse=True)[0]
+        raw_url = f"https://raw.githubusercontent.com/AmirExir/portfolio/main/{latest_path}"
+        try:
+            response = requests.get(raw_url, timeout=12)
+            response.raise_for_status()
+            return {
+                "name": os.path.basename(latest_path),
+                "content": normalize_news_text(response.text.strip()),
+            }
+        except Exception:
+            pass
+
+    return read_latest_local_news(Path(__file__).resolve().parent, prefixes)
 
 
 def load_state() -> Dict[str, str]:
@@ -75,7 +233,7 @@ def send_telegram_message(text: str) -> None:
 
     if not BOT_TOKEN or not CHAT_ID:
         raise ValueError(
-            "Missing ERCOT_NEWS_TELEGRAM_BOT_TOKEN or ERCOT_NEWS_TELEGRAM_CHAT_ID"
+            "Missing ERCOT_NEWS_TELEGRAM_BOT_TOKEN or ERCOT_LINK_TELEGRAM_BOT_TOKEN"
         )
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -106,18 +264,21 @@ def format_digest(changes: List[Dict[str, str]]) -> str:
     return "\n".join(lines).strip()
 
 
-def collect_latest_news() -> List[Dict[str, str]]:
+def collect_latest_news(force_send: bool = False) -> List[Dict[str, str]]:
     state = load_state()
     changes: List[Dict[str, str]] = []
 
     for category in NEWS_CATEGORIES:
-        latest = get_latest_news_by_prefix(category["prefixes"], repo_path="ERCOTAPI")
+        latest = get_latest_news_by_prefix(
+            category["prefixes"],
+            repo_path="ERCOTAPI",
+        )
         if not latest:
             continue
 
         current_name = latest.get("name", "")
         last_name = state.get(category["key"])
-        if current_name and current_name != last_name:
+        if current_name and (force_send or current_name != last_name):
             changes.append(
                 {
                     "key": category["key"],
@@ -133,15 +294,15 @@ def collect_latest_news() -> List[Dict[str, str]]:
 
 
 def main() -> None:
-    changes = collect_latest_news()
+    changes = collect_latest_news(force_send=FORCE_SEND)
     digest = format_digest(changes)
 
-    if not changes:
+    if not changes and not SEND_NO_UPDATES:
         print("No new ERCOT news updates found.")
         return
 
     send_telegram_message(digest)
-    print(f"Sent {len(changes)} ERCOT news update(s) to Telegram.")
+    print(f"Sent {len(changes)} ERCOT news update(s) to Telegram chat {CHAT_ID}.")
 
 
 if __name__ == "__main__":

@@ -161,7 +161,7 @@ Set these environment variables or Streamlit secrets for the ERCOT news bot:
 
 ```toml
 ERCOT_NEWS_TELEGRAM_BOT_TOKEN = "your_bot_token"
-ERCOT_NEWS_TELEGRAM_CHAT_ID = "your_chat_id"
+ERCOT_NEWS_TELEGRAM_CHAT_ID = "@ERCOTNEWS"
 ```
 
 Optional:
@@ -169,6 +169,8 @@ Optional:
 ```toml
 ERCOT_NEWS_STATE_FILE = "/path/to/.ercot_news_state.json"
 ERCOT_NEWS_DRY_RUN = "false"
+ERCOT_NEWS_FORCE_SEND = "false"
+ERCOT_NEWS_SEND_NO_UPDATES = "false"
 ```
 
 ### Run the News Workflow
@@ -218,11 +220,11 @@ Optional environment variables:
 
 ```bash
 export ERCOT_LINK_TELEGRAM_BOT_TOKEN="your_bot_token"
-export ERCOT_LINK_TELEGRAM_CHAT_ID="your_chat_id"
+export ERCOT_LINK_TELEGRAM_CHAT_ID="@ERCOTNEWS"
 export ERCOT_LINK_SEND_TELEGRAM="true"
 ```
 
-If `ERCOT_LINK_SEND_TELEGRAM=true`, the script sends the Telegram message itself when new items are found.
+If `ERCOT_LINK_SEND_TELEGRAM=true`, the script sends the Telegram message itself when new items are found. `ERCOT_LINK_TELEGRAM_CHAT_ID` defaults to `@ERCOTNEWS`, so the bot token only needs to belong to a bot that is allowed to post in that channel.
 
 For n8n, the simplest pattern is:
 

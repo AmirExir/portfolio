@@ -75,6 +75,12 @@ Message:
 {{ $json.telegram_text }}
 ```
 
+Chat ID:
+
+```javascript
+{{ $json.telegram_chat_id || '@ERCOTNEWS' }}
+```
+
 Parse Mode:
 
 ```txt

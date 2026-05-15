@@ -214,7 +214,11 @@ def _read_latest_local_news(local_dir: str, prefixes) -> Optional[Dict[str, str]
         return None
 
 
-def get_latest_news_by_prefix(prefixes, repo_path: str = "ERCOTAPI") -> Optional[Dict[str, str]]:
+def get_latest_news_by_prefix(
+    prefixes,
+    repo_path: str = "ERCOTAPI",
+    allow_heuristic_fallback: bool = True,
+) -> Optional[Dict[str, str]]:
     """Return the latest matching news item using GitHub first, then local fallback."""
     candidate_paths = [repo_path, f"{repo_path}/market_agent"]
 
@@ -265,10 +269,13 @@ def get_latest_news_by_prefix(prefixes, repo_path: str = "ERCOTAPI") -> Optional
             base_name = os.path.basename(rel_path).lower()
             if any(base_name.startswith(p.lower()) for p in prefixes):
                 tree_matches.append(rel_path)
-            elif base_name.startswith("summary_") or ("ercot" in base_name and ("news" in base_name or "summary" in base_name)):
+            elif allow_heuristic_fallback and (
+                base_name.startswith("summary_")
+                or ("ercot" in base_name and ("news" in base_name or "summary" in base_name))
+            ):
                 heuristic_matches.append(rel_path)
 
-        if not tree_matches and heuristic_matches:
+        if not tree_matches and allow_heuristic_fallback and heuristic_matches:
             tree_matches = heuristic_matches
 
         if tree_matches:
@@ -498,7 +505,7 @@ def main():
             st.cache_data.clear()
             st.rerun()
     with telegram_col:
-        st.link_button("Telegram", "https://t.me/ERCOT_Newsbot", help="Open ERCOT News bot")
+        st.link_button("Telegram", "https://t.me/ERCOTNEWS", help="Open ERCOT News channel")
 
     # Unified news prefixes (ERCOT + regulatory updates in one panel)
     all_news_prefixes = [

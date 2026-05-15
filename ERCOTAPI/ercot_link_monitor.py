@@ -16,8 +16,9 @@ Optional environment variables:
     ERCOT_LINK_MAX_ITEMS_PER_SOURCE=5
     ERCOT_LINK_MAX_SUMMARY_CHARS=1200
     ERCOT_LINK_TELEGRAM_BOT_TOKEN=...
-    ERCOT_LINK_TELEGRAM_CHAT_ID=...
+    ERCOT_LINK_TELEGRAM_CHAT_ID=@ERCOTNEWS
     ERCOT_LINK_SEND_TELEGRAM=true
+    ERCOT_LINK_SEND_NO_UPDATES=false
 """
 
 from __future__ import annotations
@@ -49,8 +50,8 @@ REQUEST_TIMEOUT = 20
 MAX_ITEMS_PER_SOURCE = int(os.getenv("ERCOT_LINK_MAX_ITEMS_PER_SOURCE", "5"))
 MAX_SUMMARY_CHARS = int(os.getenv("ERCOT_LINK_MAX_SUMMARY_CHARS", "1200"))
 SEND_TELEGRAM = os.getenv("ERCOT_LINK_SEND_TELEGRAM", "false").lower() in {"1", "true", "yes"}
-TELEGRAM_BOT_TOKEN = os.getenv("ERCOT_LINK_TELEGRAM_BOT_TOKEN", "").strip()
-TELEGRAM_CHAT_ID = os.getenv("ERCOT_LINK_TELEGRAM_CHAT_ID", "").strip()
+SEND_NO_UPDATES = os.getenv("ERCOT_LINK_SEND_NO_UPDATES", "false").lower() in {"1", "true", "yes"}
+DEFAULT_TELEGRAM_CHAT_ID = "@ERCOTNEWS"
 USER_AGENT = "ERCOT-Link-Monitor/1.0 (+https://github.com/AmirExir/portfolio)"
 
 NS = {
@@ -101,6 +102,31 @@ MEETING_HINTS = (
     "packet",
     "briefing",
     "operational overview",
+)
+
+
+def first_env(names: Sequence[str], default: str = "") -> str:
+    for name in names:
+        value = os.getenv(name, "").strip()
+        if value:
+            return value
+    return default
+
+
+TELEGRAM_BOT_TOKEN = first_env(
+    (
+        "ERCOT_LINK_TELEGRAM_BOT_TOKEN",
+        "ERCOT_NEWS_TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_BOT_TOKEN",
+    )
+)
+TELEGRAM_CHAT_ID = first_env(
+    (
+        "ERCOT_LINK_TELEGRAM_CHAT_ID",
+        "ERCOT_NEWS_TELEGRAM_CHAT_ID",
+        "TELEGRAM_CHAT_ID",
+    ),
+    DEFAULT_TELEGRAM_CHAT_ID,
 )
 
 
@@ -538,8 +564,10 @@ def format_telegram_message(changes: Sequence[Dict[str, str]]) -> str:
 
 
 def send_telegram_message(text: str) -> None:
-    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        raise ValueError("Missing ERCOT_LINK_TELEGRAM_BOT_TOKEN or ERCOT_LINK_TELEGRAM_CHAT_ID")
+    if not TELEGRAM_BOT_TOKEN:
+        raise ValueError("Missing ERCOT_LINK_TELEGRAM_BOT_TOKEN or ERCOT_NEWS_TELEGRAM_BOT_TOKEN")
+    if not TELEGRAM_CHAT_ID:
+        raise ValueError("Missing ERCOT_LINK_TELEGRAM_CHAT_ID or ERCOT_NEWS_TELEGRAM_CHAT_ID")
 
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     response = requests.post(
@@ -564,18 +592,25 @@ def main() -> None:
     changes, new_state = scan_sources(links, state)
     save_state(state_file, new_state)
 
+    telegram_sent = False
     payload = {
         "checked_sources": len(links),
         "new_items": len([item for item in changes if item.get("status") == "new"]),
         "has_updates": any(item.get("status") == "new" for item in changes),
         "changes": changes,
         "telegram_text": format_telegram_message(changes),
+        "telegram_chat_id": TELEGRAM_CHAT_ID,
+        "telegram_send_enabled": SEND_TELEGRAM,
+        "telegram_send_no_updates": SEND_NO_UPDATES,
         "state_file": str(state_file),
         "links_file": str(links_file),
     }
 
-    if SEND_TELEGRAM and payload["has_updates"]:
+    if SEND_TELEGRAM and (payload["has_updates"] or SEND_NO_UPDATES):
         send_telegram_message(payload["telegram_text"])
+        telegram_sent = True
+
+    payload["telegram_sent"] = telegram_sent
 
     print(json.dumps(payload, indent=2, ensure_ascii=False))
 
