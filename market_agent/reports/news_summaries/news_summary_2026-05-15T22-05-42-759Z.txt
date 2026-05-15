@@ -1,0 +1,51 @@
+Here’s a concise, market-focused summary, with **Facts** separated from **Interpretation**:
+
+## Facts
+- **U.S. stocks rallied, led by AI-related names**
+  - The **Dow hit 50,000**, with WSJ highlighting AI enthusiasm as a key market theme.
+  - **Cerebras’ IPO** drew major attention and was described by TechCrunch as a “smash hit.”
+
+- **Nvidia extended gains**
+  - Investor’s Business Daily reported **Nvidia stock rose again** on news that **Chinese firms may buy its AI chips** if they receive regulatory approval.
+  - Separate coverage said **Bank of America raised/updated its Nvidia outlook** and highlighted a larger AI market assumption.
+
+- **Crypto moved higher**
+  - **Bitcoin rose to $82,000**, according to CoinDesk.
+  - The **Clarity Act** advanced in the **Senate Banking Committee**, helping lift crypto sentiment.
+  - **Coinbase** was among the crypto-related stock gainers.
+
+- **Fed leadership/news shifted**
+  - CNBC reported **Fed Governor Stephen Miran resigned** and endorsed **Kevin Warsh** as incoming chair.
+
+- **U.S. retail sales increased again in April**
+  - Reuters/Yahoo Finance reported **retail sales rose for a third straight month**, with tax refunds helping support spending.
+
+- **Cisco paired strong revenue with layoffs**
+  - Ars Technica reported **Cisco announced record revenue** and **4,000 layoffs** on the same day.
+
+- **Ford surged**
+  - CNBC reported **Ford stock jumped nearly 20% over two days**, tied to buzz around its **energy storage exposure**.
+
+- **Honda shifted strategy after losses**
+  - Electrek reported **Honda is leaning back toward hybrids** after a **record loss tied to its EV push**.
+
+- **Oil supply concerns remained in focus**
+  - OilPrice reported **global oil stockpiles are falling sharply** amid supply disruptions linked to the **Iran conflict** and shipping constraints.
+
+- **Tech/legal headline risk**
+  - TechCrunch reported **OpenAI is reportedly exploring legal action against Apple** over a disappointing ChatGPT integration outcome.
+
+## Interpretation
+- **AI remains the dominant market driver**
+  - The day’s biggest equity moves appear concentrated in the **AI trade**, including index strength, Nvidia momentum, and Cerebras enthusiasm.
+
+- **Risk appetite broadened beyond mega-cap tech**
+  - Moves in **Cerebras, crypto, and Ford** suggest speculative appetite may be expanding into adjacent and momentum-driven themes.
+
+- **Macro signals were mixed rather than cleanly bullish**
+  - Stronger retail sales support growth, but reports on **stagflation fears**, **Fed turnover**, and **oil supply pressure** suggest investors still face inflation and policy uncertainty.
+
+- **Layoffs despite strong revenue reinforce uneven tech conditions**
+  - Cisco’s results suggest companies may still be prioritizing efficiency even when topline performance is strong.
+
+If you want, I can also turn this into a **“what matters for markets tomorrow”** version.

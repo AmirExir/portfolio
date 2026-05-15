@@ -1,0 +1,19 @@
+Generated: 2026-05-15 22:28 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both (LSTM and Transformer)
+No actionable 1 trading-day signals met the filter. All short-horizon entries were Neutral / No Edge and below the 2% forecast-return threshold.
+
+30 trading-day buy signals
+GEV is the clearest long candidate with a Buy rating, +9.48% forecast return, 75.7% probability up, and an Uptrend pattern.
+USO also rates Buy with a +13.59% forecast return, 71.4% probability up, and an Uptrend pattern.
+GOOGL remains in the buy group with a +8.29% forecast return, 71.5% probability up, and an Uptrend pattern.
+
+30 trading-day sell signals
+PEPE is the only qualifying sell signal in the ranked output, with a Strong Sell rating, -26.56% forecast return, 93.9% probability down, and a Downtrend pattern.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% were included.
+Neutral / No Edge names were excluded from the main rankings.
