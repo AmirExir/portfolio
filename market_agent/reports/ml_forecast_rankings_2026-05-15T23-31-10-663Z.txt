@@ -1,0 +1,24 @@
+Generated: 2026-05-15 23:30 UTC
+Horizon: 30 trading days
+Universe: 75 symbols across stocks, crypto, and commodities
+
+Top Buy Signals
+GEV — Buy | Pattern: Uptrend | Forecast return: +10.93% | Probability up: 79.5% | Edge: 29.5% | Expected error: +/-12.86% | Selected model: Ensemble
+Highest-ranked actionable long signal in the current output. The model probability and edge are both strong, and the broader model set is consistently positive. Risk note: expected error is slightly larger than the forecast return, so conviction is directional rather than precision on target magnitude.
+
+USO — Buy | Pattern: Uptrend | Forecast return: +12.82% | Probability up: 70.6% | Edge: 20.6% | Expected error: +/-20.32% | Selected model: Ensemble
+Positive 30-day forecast with an uptrend pattern, but the setup has elevated uncertainty. Model disagreement is visible: LSTM is negative while several other models are strongly positive. Risk note: expected error is materially larger than the forecast return, which weakens confidence in sizing and target reliability.
+
+GOOGL — Buy | Pattern: Uptrend | Forecast return: +7.72% | Probability up: 70.2% | Edge: 20.2% | Expected error: +/-13.87% | Selected model: Ensemble
+Constructive directional setup with a solid probability-up reading and positive edge. Most sub-models are positive, though magnitude varies. Risk note: expected error exceeds forecast return, and the pattern set includes overbought and high-volatility conditions, which can increase pullback risk even with a bullish base case.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+This is the only actionable bearish signal passing both the model-call and noise filters. The bearish view is reinforced by broad agreement across models and a clear downtrend pattern. Despite high expected volatility, the forecast magnitude remains large enough to keep the signal actionable.
+
+Watchlist / Neutral
+WMT, AMZN, SLB, DELL, QQQ, IWM, INTC, BTC, AVAX, NFLX, MSFT, DOT, XOM, UNI, ORCA, and SOL were listed as Neutral / No Edge and are not treated as actionable trades here.
+Notable watchlist names: DELL and INTC have large positive forecast returns, but both remain non-actionable because the official call is Neutral / No Edge and expected error is high, especially INTC. BTC and AVAX show negative forecasts, but the model call is still Neutral / No Edge, so they should not be categorized as sell signals.
+
+Summary
+Actionable longs are concentrated in GEV, USO, and GOOGL. The main actionable short/avoid signal is PEPE. Across several buy candidates, expected error is larger than forecast return, which argues for caution when interpreting price targets and position sizing.
