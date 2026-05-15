@@ -1,0 +1,41 @@
+Generated: 2026-05-15 23:26 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+DELL — Strong Buy | Pattern: Uptrend | Forecast return: +29.37% | Probability up: 92.3% | Edge: 42.3% | Expected error: +/-19.76% | Selected model: Neural Net
+Highest forecasted upside in the ranked list and the strongest positive edge among buys. However, model disagreement is notable: Ridge and XGBoost are positive, while LSTM and Transformer are slightly negative. Expected error is large, so volatility and path risk remain elevated.
+
+GOOGL — Strong Buy | Pattern: Uptrend | Forecast return: +15.31% | Probability up: 86.0% | Edge: 36.0% | Expected error: +/-14.10% | Selected model: LSTM
+Positive forecast with strong directional probability and an established uptrend. Several other models are also positive, which improves consistency versus some other names. Risk note: expected error is close to forecast return, so conviction is moderate rather than cleanly high.
+
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +12.35% | Probability up: 88.9% | Edge: 38.9% | Expected error: +/-9.98% | Selected model: Ridge
+High directional probability with forecast return that remains above expected error, making this one of the cleaner buy setups in the list. Cross-model support is broadly constructive, with Ridge, XGBoost, LSTM, and Transformer all positive.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +10.04% | Probability up: 81.0% | Edge: 31.0% | Expected error: +/-11.53% | Selected model: Neural Net
+Constructive trend and solid probability up. Forecast is meaningful, but expected error exceeds forecast return, which raises uncertainty around sizing and timing.
+
+ENA — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +16.25% | Probability up: 79.0% | Edge: 29.0% | Expected error: +/-20.57% | Selected model: XGBoost
+Forecast return is strong enough to pass the noise filter, but the signal quality is mixed. Models disagree sharply: Ridge and XGBoost are positive, Neural Net and LSTM are negative, and Transformer is extremely positive. Range-bound pattern plus expected error above forecast return implies elevated uncertainty.
+
+ADA — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +12.89% | Probability up: 74.9% | Edge: 24.9% | Expected error: +/-19.78% | Selected model: XGBoost
+Actionable positive return, but conviction is weaker than the top names because most alternate models are negative or near flat. Range-bound structure and expected error above forecast return increase reversal risk.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+Strongest bearish signal in the set. All major models are negative and the primary pattern is a downtrend, giving this the cleanest sell/avoid profile. Expected error is material but still well below the magnitude of forecast decline.
+
+AVGO — Sell | Pattern: Uptrend | Forecast return: -11.49% | Probability down: 81.0% | Edge: 31.0% | Expected error: +/-14.95% | Selected model: Ridge
+Bearish model output conflicts with an uptrend pattern, creating elevated reversal risk. Model disagreement is severe: selected Ridge is negative, while XGBoost, Neural Net, LSTM, and Transformer are all positive. Expected error is larger than forecast return, so this is better treated as cautious avoidance than a high-conviction short.
+
+VOO — Sell | Pattern: Uptrend | Forecast return: -3.29% | Probability down: 72.1% | Edge: 22.1% | Expected error: +/-5.88% | Selected model: LSTM
+Meets the minimum return threshold but is comparatively weak. Uptrend pattern and mixed model set reduce conviction, and expected error is notably larger than the forecast decline. This is a low-conviction avoid signal rather than an aggressive short candidate.
+
+Watchlist / Neutral
+WMT is not included as an actionable buy despite a Buy label because the forecast return is only +3.54%, and expected error (+/-6.61%) is substantially larger than the projected gain.
+SHIB is not promoted despite a +17.46% forecast because expected error is very large (+/-31.20%) and historical directional hit rate is weak. This looks speculative.
+
+Overall ranking takeaway
+Most credible long setups: DELL, GOOGL, GEV, then AMZN.
+Most credible bearish setup: PEPE.
+Lower-confidence bearish names: AVGO and VOO due to uptrend context and cross-model conflict.
