@@ -1,0 +1,38 @@
+Generated: 2026-05-15 10:25 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +15.53% | Probability up: 94.3% | Edge: 44.3% | Expected error: +/-9.54% | Selected model: Ridge
+Most balanced long signal in the set. Forecast return is meaningfully above the expected error, probability is very high, and the pattern is aligned with the model call.
+
+DELL — Strong Buy | Pattern: Uptrend | Forecast return: +21.97% | Probability up: 86.4% | Edge: 36.4% | Expected error: +/-19.80% | Selected model: Neural Net
+High upside forecast with strong probability support. Risk is elevated because expected error is close to the forecast return, and model disagreement is notable: LSTM is negative while the selected neural net model is strongly positive.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +11.35% | Probability up: 82.8% | Edge: 32.8% | Expected error: +/-12.04% | Selected model: Neural Net
+Constructive directional setup with good probability support. However, expected error is slightly larger than the forecast return, so conviction should be moderated. There is some disagreement across models, with XGBoost slightly negative.
+
+ENA — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +16.12% | Probability up: 78.8% | Edge: 28.8% | Expected error: +/-20.53% | Selected model: XGBoost
+Forecast is strong enough to pass the noise filter, but uncertainty is high because expected error exceeds the forecast return. Model dispersion is wide, including negative Ridge and Neural Net outputs and an extreme positive Transformer reading, which raises instability risk.
+
+GOOGL — Buy | Pattern: Uptrend | Forecast return: +10.31% | Probability up: 77.9% | Edge: 27.9% | Expected error: +/-13.61% | Selected model: LSTM
+Positive multi-model backdrop overall, with Ridge and Transformer also supportive. Risk note: the pattern set includes Near 60-Day High and Overbought, so upside may be more vulnerable to pullbacks despite the bullish forecast.
+
+ORCL — Buy | Pattern: Near 60-Day High | Forecast return: +12.10% | Probability up: 71.9% | Edge: 21.9% | Expected error: +/-21.71% | Selected model: Transformer
+Actionable by return threshold, but risk is elevated because expected error is much larger than the forecast return. Model conflict is substantial: Ridge and LSTM are negative while Transformer is positive, so this looks less robust than the higher-ranked buys.
+
+SHIB — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +18.06% | Probability up: 72.9% | Edge: 22.9% | Expected error: +/-31.22% | Selected model: XGBoost
+Large forecast return, but this is a high-uncertainty signal. Expected error is far above forecast return and several models disagree, including negative Ridge and Transformer outputs. Suitable only as a lower-conviction watch candidate among bullish signals.
+
+PG — Buy | Pattern: Downtrend | Forecast return: +3.18% | Probability up: 70.5% | Edge: 20.5% | Expected error: +/-5.97% | Selected model: XGBoost
+Forecast exceeds the 2% filter, but this is a weaker long than the names above. Pattern is in downtrend, which conflicts with the buy call and increases reversal risk.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+Clearest bearish signal in the set. Deep negative forecast, strong pattern alignment, and extremely high probability down. This is the strongest avoid / short candidate from the ranking.
+
+AVGO — Sell | Pattern: Uptrend | Forecast return: -9.46% | Probability down: 75.9% | Edge: 25.9% | Expected error: +/-15.19% | Selected model: Ridge
+Bearish call qualifies on return and probability, but confidence is reduced because expected error is larger than the forecast return. There is also strong model disagreement: XGBoost, Neural Net, and Transformer are positive while Ridge is negative. Bearish model output with uptrend condition implies elevated reversal risk.
+
+Watchlist / Neutral
+RIOT appears in the raw ranking with a large negative forecast, but the official call is Neutral / No Edge, so it is not treated as an actionable sell under the stated rules.
