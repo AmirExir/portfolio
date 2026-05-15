@@ -1,0 +1,59 @@
+Here are **concise, market-focused business headlines**, with **Facts** separated from **Interpretation**:
+
+- **U.S. stocks rose; Dow topped 50,000**
+  - **Facts:** WSJ says the Dow hit **50,000** amid AI-driven enthusiasm; Cerebras’ IPO was a major focus.
+  - **Interpretation:** AI remains the dominant near-term market narrative, supporting broad indexes as well as semiconductor and infrastructure names.
+
+- **Cerebras IPO surged in a strong debut**
+  - **Facts:** TechCrunch reports the **Cerebras IPO was a “smash hit,”** generating billions in value for the company, founders, and investors including Benchmark.
+  - **Interpretation:** Strong demand for an AI-chip IPO suggests investor appetite for AI hardware plays remains high and could lift sentiment across adjacent names.
+
+- **Nvidia extended gains on China-related demand news**
+  - **Facts:** Investor’s Business Daily says Nvidia stock jumped on a report that **Chinese firms are lining up to buy its AI chips**, contingent on regulatory approval in China.
+  - **Interpretation:** Any sign of revived China demand is a potential upside catalyst for Nvidia and the broader AI supply chain, though approval risk remains.
+
+- **Bank of America raised assumptions tied to Nvidia/AI market potential**
+  - **Facts:** TheStreet reports Bank of America **reset Nvidia’s stock price target** and increased a key AI market assumption.
+  - **Interpretation:** Bullish sell-side revisions reinforce momentum in AI leaders, though this is analyst opinion rather than new company guidance.
+
+- **Cisco paired record revenue with 4,000 layoffs**
+  - **Facts:** Ars Technica reports Cisco announced **record revenue** and **4,000 job cuts** on the same day.
+  - **Interpretation:** Markets may read this as margin discipline and demand resilience, but the layoffs also underscore uneven hiring conditions in tech.
+
+- **Fed Governor Stephen Miran resigned and backed Kevin Warsh**
+  - **Facts:** CNBC reports Fed Governor **Stephen Miran submitted his resignation** and said he would leave when or before **Kevin Warsh** takes over as chair.
+  - **Interpretation:** Leadership turnover at the Fed could affect expectations for future rate policy, depending on how investors view Warsh’s stance.
+
+- **Retail sales rose again in April**
+  - **Facts:** Reuters/Yahoo Finance reports **U.S. retail sales increased for a third straight month** in April, helped in part by tax refunds; rising inflation may weigh ahead.
+  - **Interpretation:** The data point to continued consumer activity for now, but the inflation backdrop complicates the growth outlook and Fed expectations.
+
+- **Traders see elevated stagflation risk**
+  - **Facts:** CNBC says traders assign **nearly a 40% chance of stagflation by end-2026**.
+  - **Interpretation:** This reflects market sentiment, not an economic forecast, but it highlights concern about the mix of sticky inflation and weakening labor conditions.
+
+- **Bitcoin climbed to $82,000; crypto stocks advanced**
+  - **Facts:** CoinDesk reports **Bitcoin hit $82,000**, while crypto-related equities including Coinbase rose as the **Clarity Act** advanced in the Senate Banking Committee.
+  - **Interpretation:** Regulatory progress appears to be acting as a positive catalyst for crypto assets and related stocks.
+
+- **Ford jumped nearly 20% in two days**
+  - **Facts:** CNBC reports Ford surged on enthusiasm around its **energy-storage ties**.
+  - **Interpretation:** The move looks driven more by thematic/speculative trading than by a clearly defined earnings-related catalyst.
+
+- **Honda took a major hit and shifted back toward hybrids**
+  - **Facts:** Electrek reports Honda posted a **record $9 billion loss** tied to its EV strategy and is now previewing new hybrids through 2028.
+  - **Interpretation:** The pivot may reinforce investor skepticism toward weaker EV strategies and favor automakers with more flexible powertrain plans.
+
+- **Oil supply fears remained in focus**
+  - **Facts:** OilPrice reports global oil stockpiles are falling as conflict tied to Iran disrupts supply and tanker traffic through Hormuz.
+  - **Interpretation:** If sustained, supply disruption would be supportive for crude prices and energy stocks while adding inflation risk for the broader market.
+
+- **Tech layoffs continued despite selective strength**
+  - **Facts:** SFGate says 2026 tech layoffs are accelerating and could approach the scale of early 2023’s wave.
+  - **Interpretation:** The sector appears bifurcated: capital is flowing to AI winners while broader tech employment conditions remain weak.
+
+- **OpenAI reportedly explored legal action against Apple**
+  - **Facts:** TechCrunch reports OpenAI is **reportedly preparing legal options** over a ChatGPT integration dispute with Apple.
+  - **Interpretation:** If the dispute escalates, it could raise questions about AI platform partnerships, though immediate market impact is less clear than in chips or macro.
+
+If you want, I can also turn this into a **pre-market style note** with sections like **Equities, Macro, Tech/AI, Crypto, and Energy**.
