@@ -1,0 +1,12 @@
+**Fresh market-moving headlines only, from the last 36 hours**
+
+## Facts
+- **Reuters via The Times of India — 2026-05-15T01:56:47Z:** Gold fell to a more-than-one-week low and was headed for a weekly loss, with the article citing **higher energy prices**, **inflation fears**, and focus on possible **Trump-Xi talks**.  
+- **Reuters via The Times of India — 2026-05-15T01:54:34Z:** The **U.S. dollar** was described as on track for its **largest weekly rise in more than two months**, as **rising energy prices** and **shipping disruptions** were said to be increasing inflation pressure and **boosting bets on a Federal Reserve rate hike**.  
+- **Livemint — 2026-05-15T01:39:49Z:** The **Senate Banking Committee advanced the Clarity Act**, a crypto-market structure bill that would create a clearer regulatory framework for **cryptocurrencies, stablecoins, and exchanges**.
+
+## Interpretation
+- The clearest fresh macro driver in this article set is a **renewed inflation/rates concern** tied to **energy prices** and **shipping disruptions**, which Reuters says is feeding **Fed hike bets** and supporting the **dollar**.
+- The gold article reinforces that same message: markets are treating the energy/shipping backdrop as potentially **inflationary** and therefore relevant for **rate expectations**.
+- On crypto, the Clarity Act headline is a **regulatory-development positive** for the sector in terms of framework clarity, but this article set does **not** provide enough evidence to explain broader equity index moves or today’s full tape.
+- There are **no strong fresh earnings, AI/semi, mega-cap tech, Fed-speaker, CPI/PPI, or major index-specific headlines** in the supplied fresh set. So if markets moved sharply today, **these articles alone do not fully explain it**.
