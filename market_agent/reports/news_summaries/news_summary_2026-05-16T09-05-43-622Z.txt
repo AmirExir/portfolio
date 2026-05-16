@@ -1,0 +1,16 @@
+Fresh market-moving headlines are thin in this article set, and there is not enough high-quality fresh reporting here to fully explain today’s tape.
+
+**Facts**
+- **NPR — 2026-05-15T09:01:00Z:** An NPR quiz article says the **Senate confirmed Kevin Warsh as the next chair of the Federal Reserve**. The item is not a dedicated markets report, but the Fed leadership change is potentially market-relevant.
+- **CBS News — 2026-05-15T09:00:15Z:** CBS published a piece on **Jerome Powell’s legacy as he exits as Fed chair**, framing the handoff to **Kevin Warsh** as a major Fed transition.
+- **Bitcoinist — 2026-05-15T09:03:44Z:** OKX is reportedly in discussions to buy about a **20% stake in South Korean crypto exchange Coinone**, citing Yonhap. This points to continued strategic expansion in regulated Asian crypto markets.
+- **Bitcoinist — 2026-05-15T09:00:35Z:** A report says the **Bank of England may soften proposed stablecoin rules** after industry and political pushback, which is relevant for crypto regulatory sentiment.
+- **CryptoSlate — 2026-05-15T08:49:48Z:** CryptoSlate reported the **CLARITY Act survived a contentious Senate markup**, suggesting U.S. crypto market-structure legislation is still advancing despite opposition.
+- **GlobeNewswire / Li Auto — 2026-05-15T09:00:00Z:** **Li Auto launched the new Li L9** and highlighted “embodied AI” features; deliveries are set to start May 17. This is a company press release, so it should be treated cautiously.
+- **NewsX — 2026-05-15T08:52:49Z:** NewsX reported **another round of Amazon layoffs**, this time affecting its Selling Partner Services unit, while saying the company continues shifting toward AI-driven automation. Source quality is weaker than top-tier wires.
+
+**Interpretation**
+- The most important potentially market-moving development in this set is the **Fed leadership transition to Kevin Warsh**, which could affect rate expectations, Treasury yields, and rate-sensitive equities if confirmed by stronger reporting.
+- In crypto, the fresh headlines lean toward a **more constructive regulatory and institutional backdrop**: OKX expansion in South Korea, possible BoE stablecoin flexibility, and continued U.S. legislative progress.
+- In AI/equities, the article set does **not** provide strong fresh top-tier reporting on major U.S. semiconductor or megacap AI names, so there is limited basis here to explain moves in that part of the market.
+- There are **no meaningful fresh inflation, oil/energy, or broad index headlines** in this dataset from strong market-reporting sources.
