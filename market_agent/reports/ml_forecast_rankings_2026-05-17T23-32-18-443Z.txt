@@ -1,0 +1,25 @@
+Generated: 2026-05-17 23:31 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Buy | Pattern: Uptrend | Forecast return: +11.22% | Probability up: 79.9% | Edge: 29.9% | Expected error: +/-12.86% | Selected model: Ensemble
+Comments: Highest-ranked actionable long signal in the output. Trend and probability are supportive. Risk note: expected error is slightly larger than forecast return, so position sizing should account for forecast uncertainty.
+
+USO — Buy | Pattern: Uptrend | Forecast return: +13.88% | Probability up: 71.5% | Edge: 21.5% | Expected error: +/-20.33% | Selected model: Ensemble
+Comments: Strong projected return with positive edge. Risk note: expected error materially exceeds forecast return, indicating a wider outcome range. Internal model dispersion is notable, with at least one component model negative while others are strongly positive, so conviction is lower than the headline return suggests.
+
+GOOGL — Buy | Pattern: Uptrend | Forecast return: +8.20% | Probability up: 71.3% | Edge: 21.3% | Expected error: +/-13.78% | Selected model: Ensemble
+Comments: Positive directional setup with solid probability support. Risk note: expected error is larger than forecast return. Pattern set includes overbought and high volatility, which raises pullback risk even though the primary trend remains up.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+Comments: Clear negative outlier in the ranked universe. Forecast, probability, and pattern all align bearish. Expected error is high in absolute terms, but still smaller than the projected decline, which makes this the cleanest avoid / sell signal in the current set.
+
+Watchlist / Neutral
+WMT, AMZN, SLB, DELL, INTC, IWM, and ENA show positive forecasts but were classified Neutral / No Edge, so they do not meet the action threshold here.
+AVAX, NFLX, XRP, MSFT, XOM, UNI, BNB, DOT, and COMP show negative forecasts but were also Neutral / No Edge, so they are not valid sell signals under the filter.
+Among notable neutrals, INTC and DELL have large upside forecasts but very large expected error, which reduces reliability. MSFT and XOM have negative forecasts above the 2% noise filter, but the model call remains Neutral, so they should be treated as watchlist names rather than sell signals.
+
+Summary
+Actionable buys are limited to GEV, USO, and GOOGL based on the provided model calls and the 2% noise filter. Actionable sell exposure is concentrated in PEPE. Several other names have sizable forecast returns, but the optimizer explicitly labeled them Neutral / No Edge, so they should not be promoted to buys or sells.
