@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **Semis/AI capex:** **Crypto Briefing, 2026-05-16** — Tata Electronics partnered with **ASML** on what it described as **India’s first semiconductor fab**, focused on **mature-node chips** and backed by government support plus collaboration with Taiwan’s **PSMC**. This is relevant to the semiconductor supply-chain buildout theme.  
+- **AI governance / OpenAI:** **Crypto Briefing, 2026-05-16** — Testimony in **Elon Musk’s case** against OpenAI raised fresh scrutiny around **Sam Altman/OpenAI governance**. The article frames it as a legal and governance issue for a major AI platform, but it does **not** provide a direct public-market earnings or guidance update.  
+- **Energy / geopolitical supply risk:** **Financial Post (Bloomberg), 2026-05-16** — A **global inventory race** is intensifying amid concern about an **energy-supply crunch tied to the Iran war**. The piece says fear of prolonged Middle East disruption is shaping business/inventory behavior and flags the coming week’s macro focus, including **Fed minutes** and inflation-related data.  
+- **Energy / shipping risk angle:** **Crypto Briefing, 2026-05-16** — Reported that oil stockpiles have fallen sharply amid fears tied to a **Strait of Hormuz blockade** and broader **Iran-war-related supply disruption**. Source quality is less authoritative than Bloomberg, but it points in the same direction: elevated energy-security concern.  
+- **Crypto / Solana ecosystem:** **Crypto Briefing, 2026-05-16** — **Jito Labs** launched **JTX**, a self-custodial trading platform on **Solana**, with revenue-sharing tied to **JTO** token holders. Relevant for Solana ecosystem activity, though not a broad crypto market macro catalyst by itself.  
+- **Bitcoin technical/flows chatter:** **newsBTC, 2026-05-16** — Commentary suggested **Bitcoin** may be consolidating around **$80,000**. This is market commentary rather than hard news, so it should be treated cautiously, but it does indicate current crypto attention is centered on BTC holding near that level.  
+
+## Interpretation
+- The **cleanest fresh macro headline** in this set is **energy/geopolitical risk tied to Iran**, which could matter for **oil, inflation expectations, and rates sensitivity** if the story escalates.  
+- On **AI/semis**, the India fab/ASML item supports the ongoing long-term semiconductor capacity expansion theme, but it is **more strategic than immediate tape-moving** for U.S. equities.  
+- The **OpenAI/Musk legal-governance** headline is notable for AI sentiment, but based on this article alone, it is **not enough to explain broad index action**.  
+- The **crypto headlines** here are mostly **ecosystem-specific or technical commentary**, not decisive fresh macro drivers for BTC or major risk assets.  
+- Overall, this is a **thin fresh set** for explaining today’s tape. There are **no strong fresh earnings, Fed, CPI/PCE, or major index-specific headlines** in the provided articles that clearly account for broad market moves.
