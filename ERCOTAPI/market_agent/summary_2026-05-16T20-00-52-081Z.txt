@@ -1,0 +1,17 @@
+- Data-center-driven load growth remains the dominant Texas grid theme: multiple reports point to new behind-the-meter, modular, and dedicated-power concepts in Texas, indicating ERCOT may face more requests that blur the line between retail load, large flexible load, and self-supplied generation rather than traditional utility-served interconnections (Fortune; GlobeNewswire; PRNewswire; Yahoo Finance/OilPrice)
+
+- New Era Energy & Digital highlighted progress on integrated power assets and digital infrastructure in the Permian Basin, reinforcing West Texas as a focal point where data-center demand could compete with oilfield load, transmission capacity, and generator interconnection priorities (GlobeNewswire)
+
+- Fermi said it has secured more than 2 GW of generation capacity and is advancing permitting for roughly 11 GW of future Texas AI campus development; if realized, projects of this scale would materially affect ERCOT load forecasting, local transmission planning, fuel supply assumptions, and reliability studies (Yahoo Finance/OilPrice)
+
+- AZIO AI announced an additional roughly 6 MW modular AI data-center deployment in South Texas; small relative to hyperscale projects, but this type of incremental buildout can accumulate quickly in constrained areas and create planning blind spots if load appears faster than transmission upgrades (PRNewswire)
+
+- A reported Chevron effort to secure a major Texas tax break for a power plant dedicated to a data center underscores a growing trend toward co-located or captive generation for large loads; for ERCOT, the key issue is whether such facilities reduce system stress or still rely on the grid for backup, ancillary services, transmission support, and fuel security (Mother Jones/WIRED)
+
+- Texas local opposition to data-center and storage siting is becoming a planning factor: Hill County reportedly approved a one-year moratorium on new data centers and energy storage, signaling that local permitting and community pushback could slow ERCOT load additions, alter where projects cluster, and shift transmission upgrade needs (Insurance Journal)
+
+- Public sentiment is turning against AI data centers, with national polling showing strong opposition to local siting; for ERCOT this raises execution risk for large-load interconnections, especially where projects face concerns over power availability, water use, land use, and perceived reliability tradeoffs (Forbes; Daily Caller)
+
+- EIA forecasts utility-scale solar generation in ERCOT will exceed coal generation in 2026 for the first time, highlighting a structural shift in the resource mix that increases the importance of storage, dispatchable flexibility, curtailment management, and transmission buildout to maintain reliability during non-solar hours (EIA)
+
+- Emerging “distributed compute” concepts such as mini data centers in homes suggest a possible future pathway for geographically dispersed AI load, but for ERCOT the more immediate implication is governance: regulators may eventually need clearer rules on how aggregated residential-scale computing participates in demand response, retail service, and distribution planning (Fortune)

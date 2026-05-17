@@ -1,0 +1,13 @@
+- Multiple new reports reinforce that AI and data-center development is becoming the main load-growth story relevant to ERCOT, with Texas repeatedly cited as a prime location; the practical grid impact is accelerating need for transmission, firming capacity, large-load interconnection discipline, and clearer cost-allocation/gating rules for speculative versus committed load. (Fortune/Yahoo/The Verge/WattsUpWithThat)
+
+- Fermi America said it has secured more than 2 GW of generation capacity and is advancing permitting for roughly 11 GW of future Texas development tied to an AI power campus, signaling the scale of behind-the-meter or dedicated-supply strategies now competing with traditional ERCOT load interconnection pathways. (Yahoo Entertainment/Oilprice)
+
+- New Era Energy & Digital highlighted Q1 progress on integrated power assets and digital infrastructure in the Permian Basin, another sign that developers are pairing generation with computing load in West Texas; for ERCOT, that points to more complex interactions between oilfield regions, private-wire concepts, and transmission planning. (GlobeNewswire)
+
+- A Texas county outside Dallas reportedly imposed a one-year moratorium on new data center and energy storage projects, showing local siting resistance is emerging even in Texas; for ERCOT this raises a planning risk that load forecasts may become less certain geographically even as statewide large-load interest remains high. (Insurance Journal)
+
+- Coverage of Chevron seeking a large Texas tax break for a power plant dedicated to a single data center underscores a growing governance issue: major new loads may pursue bespoke generation and subsidy structures rather than relying solely on ERCOT market procurement, with implications for market fairness, fuel diversity, emissions, and resource adequacy. (Mother Jones/WIRED)
+
+- National coverage of communities pushing back on data centers over power and water use highlights a non-market constraint ERCOT planners should watch closely: social-license and local permitting friction could slow some projects, but it also increases pressure for demonstrable reliability benefits, water-efficient cooling, and transparent infrastructure planning around new large loads. (Fortune/Forbes/The Verge)
+
+- Broader commentary about distributed “tiny data centers” in homes remains early-stage, but if such models scale they could blur the line between retail load, DERs, and controllable computing demand; the ERCOT relevance is less immediate than hyperscale campuses, but the concept points toward future demand-response or flexible-load opportunities. (Fortune/Yahoo)

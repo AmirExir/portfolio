@@ -1,0 +1,28 @@
+Generated: 2026-05-16 23:31 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV | Buy | Pattern: Uptrend | Forecast return: +11.18% | Probability up: 79.8% | Edge: 29.8% | Expected error: +/-12.86% | Selected model: Ensemble
+Highest-ranked buy in the set. Trend and probability are supportive, but expected error is slightly larger than forecast return, so sizing discipline is important.
+
+USO | Buy | Pattern: Uptrend | Forecast return: +14.24% | Probability up: 71.8% | Edge: 21.8% | Expected error: +/-20.30% | Selected model: Ensemble
+Positive directional setup, but model dispersion is notable: Ridge and XGBoost are modestly positive, Neural Net and Transformer are much stronger, while LSTM is slightly negative. Expected error exceeds forecast return, indicating elevated uncertainty despite the buy call.
+
+GOOGL | Buy | Pattern: Uptrend | Forecast return: +7.88% | Probability up: 70.4% | Edge: 20.4% | Expected error: +/-13.90% | Selected model: Ensemble
+Constructive trend and solid probability support. However, expected error is materially above the forecast return, and the pattern set includes overbought and high-volatility conditions, which raises pullback risk.
+
+ONDO | Buy | Pattern: High Volatility | Forecast return: +16.57% | Probability up: 68.0% | Edge: 18.0% | Expected error: +/-30.61% | Selected model: Ensemble
+Forecast return is large enough to pass the noise filter, but risk is high. Expected error is almost twice the forecast return, and the underlying model outputs vary widely, with Transformer very bullish while LSTM is near flat. High-volatility regime means wider outcome dispersion.
+
+Top Sell / Avoid Signals
+PEPE | Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+Clear negative outlier in the ranked list. All listed sub-models are bearish, which reduces conflict risk relative to other names. Despite high volatility typical of the asset class, this is the strongest avoid / sell signal in the output.
+
+Watchlist / Neutral
+WMT, AMZN, SLB, INTC, IWM, and QQQ show positive forecasts but were classified Neutral / No Edge, so they are not actionable under the current rules.
+NFLX, AVAX, MSFT, XOM, XRP, COMP, BTC, and DOT show negative forecasts but remain Neutral / No Edge, so they are not valid sell signals here.
+INTC is notable for a large positive forecast (+15.08%) paired with very high expected error (+/-40.30%), making the signal unstable.
+DOT is notable because the model output is negative while the pattern is Bullish MA Crossover, indicating a conflict between forecast direction and technical regime.
+
+Overall, actionable signals are concentrated in four buys and one strong sell. Several buy candidates carry expected error above forecast return, so the model is signaling edge with substantial uncertainty rather than clean low-risk setups.
