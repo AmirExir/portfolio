@@ -1,0 +1,28 @@
+Generated: 2026-05-17 10:28 UTC
+Horizon: 30 trading days
+Universe: 75 symbols across stocks, crypto, and commodities
+
+Top Buy Signals
+GEV — Buy | Pattern: Uptrend | Forecast return: +11.16% | Probability up: 79.8% | Edge: 29.8% | Expected error: +/-12.83% | Selected model: Ensemble
+Highest-ranked buy in the current run. Trend and probability are supportive, but expected error is slightly larger than forecast return, so position sizing should account for forecast uncertainty.
+
+USO — Buy | Pattern: Uptrend | Forecast return: +14.33% | Probability up: 71.8% | Edge: 21.8% | Expected error: +/-20.24% | Selected model: Ensemble
+Positive directional setup with the largest forecast return among actionable buys. Risk is elevated because expected error exceeds the forecast return. There is also model disagreement: LSTM is negative while several other models are positive, which reduces conviction despite the buy call.
+
+GOOGL — Buy | Pattern: Uptrend | Forecast return: +7.81% | Probability up: 70.9% | Edge: 20.9% | Expected error: +/-13.90% | Selected model: Ensemble
+Constructive buy signal with strong probability support. Risk remains material because expected error is above the forecast return. Pattern set includes Near 60-Day High and Overbought, so upside may be more vulnerable to short-term pullbacks even though the 30-day model output is positive.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+Clear negative outlier in the ranking. All major models are negative and the primary pattern is Downtrend, which supports the avoid/sell view. Expected error is large in absolute terms, but still smaller than the forecast decline, leaving this as the strongest bearish signal in the set.
+
+Watchlist / Neutral
+WMT, AMZN, SLB, DELL, IWM, JPM, INTC, AVAX, NFLX, XRP, MSFT and others were labeled Neutral / No Edge and are not treated as actionable under the current filter.
+
+Notable watchlist names:
+WMT — Neutral / No Edge | Forecast return: +4.06% | Probability up: 68.0% | Pattern: Uptrend. Positive drift, but not a qualified buy.
+INTC — Neutral / No Edge | Forecast return: +12.91% | Probability up: 62.5% | Pattern: Uptrend. Large upside forecast, but expected error is extremely high at +/-40.35%, which weakens signal reliability.
+MSFT — Neutral / No Edge | Forecast return: -3.02% | Probability down: 60.3% | Pattern: High Volatility. Mildly negative but not strong enough to classify as a sell.
+AVAX — Neutral / No Edge | Forecast return: -12.26% | Probability down: 67.4% | Pattern: Range / No Dominant Pattern. Forecast is negative, but the optimizer did not classify it as a sell, so this is best treated as a cautionary watchlist item rather than an actionable short.
+
+Overall, the actionable list is narrow: three buys and one strong sell passed the signal and noise filters. Several neutral names show sizable forecast returns, but classification, pattern quality, or forecast uncertainty prevent them from qualifying as trades.
