@@ -1,0 +1,38 @@
+Generated: 2026-05-17 23:27 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+DELL: Strong Buy | pattern Uptrend | forecast return +30.96% | probability up 92.9% | edge 42.9% | expected error +/-20.22% | selected model Neural Net
+Highest upside forecast in the set and the strongest positive edge. There is model disagreement: Ridge and XGBoost are positive, but LSTM and Transformer are negative. Expected error is large, though still below forecast return, so conviction is strong but volatility risk is elevated.
+
+GOOGL: Strong Buy | pattern Uptrend | forecast return +15.08% | probability up 86.0% | edge 36.0% | expected error +/-13.88% | selected model LSTM
+Strong directional probability and solid return forecast. Most models are positive, which reduces conflict risk versus some other names. However, the pattern set includes Near 60-Day High and Overbought, which raises pullback risk despite the bullish forecast. Expected error is only slightly below forecast return, so position sizing should remain controlled.
+
+GEV: Strong Buy | pattern Uptrend | forecast return +12.32% | probability up 88.9% | edge 38.9% | expected error +/-9.98% | selected model Ridge
+Consistent bullish setup with multiple models also positive and expected error below forecast return. This is one of the cleaner long signals in the group. High volatility is present, but the signal quality remains favorable.
+
+AMZN: Buy | pattern Uptrend | forecast return +9.76% | probability up 79.4% | edge 29.4% | expected error +/-12.04% | selected model Neural Net
+Positive edge and trend alignment support inclusion. Risk note: expected error is larger than the forecast return, which lowers confidence in the magnitude of the move even if direction remains favorable.
+
+WMT: Buy | pattern Uptrend | forecast return +3.54% | probability up 70.7% | edge 20.7% | expected error +/-6.61% | selected model XGBoost
+Modest upside above the noise filter with generally supportive multi-model readings. Risk note: expected error is materially larger than forecast return, so this looks lower conviction than the top buy signals.
+
+DIA: Buy | pattern Uptrend | forecast return +2.47% | probability up 71.4% | edge 21.4% | expected error +/-4.42% | selected model XGBoost
+Barely clears the action threshold. Positive probability edge is present, but expected error exceeds forecast return and the upside is limited. More suitable as a lower-priority watchlist buy than a top-conviction trade.
+
+Top Sell / Avoid Signals
+PEPE: Strong Sell | pattern Downtrend | forecast return -31.94% | probability down 99.9% | edge 49.9% | expected error +/-13.60% | selected model Ridge
+Strongest bearish signal in the ranking. All listed model returns are negative, pattern is aligned with the forecast, and expected error is well below the magnitude of the predicted decline. This is the clearest avoid or short candidate in the current set.
+
+AVGO: Sell | pattern Uptrend | forecast return -11.69% | probability down 81.4% | edge 31.4% | expected error +/-14.95% | selected model Ridge
+Negative selected-model output is meaningful, but there is major model conflict: XGBoost, Neural Net, LSTM, and Transformer are all positive. The primary pattern is also Uptrend, which conflicts with the sell call. Bearish model output with an uptrend backdrop implies elevated reversal risk. Expected error is larger than forecast return, further reducing confidence.
+
+VOO: Sell | pattern Uptrend | forecast return -4.27% | probability down 77.7% | edge 27.7% | expected error +/-5.88% | selected model LSTM
+Forecast is negative enough to pass the noise filter, but conviction is moderate. Ridge is slightly negative while other models are near flat to positive, and the pattern remains Uptrend with Near 60-Day High. That combination creates conflict and increases risk of a continued grind higher. Expected error is larger than forecast return.
+
+Watchlist / Neutral
+ADA: Buy signal exists on the selected model with forecast return +10.32%, but it is excluded from the actionable buy list due to heavy disagreement across models. Ridge, LSTM, and Transformer are all negative, ensemble return is negative, and the primary pattern is Range / No Dominant Pattern. Expected error +/-19.88% is much larger than the forecast return, so this is a high-uncertainty setup rather than a clean long.
+
+Overall read
+The highest-quality long signals are DELL, GEV, and GOOGL. The clearest bearish signal is PEPE. AVGO and VOO qualify as sells by forecast, but both carry notable conflict risk due to trend backdrop or model disagreement.
