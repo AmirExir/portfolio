@@ -1,0 +1,17 @@
+Fresh market-moving headlines are limited in this article set, and they only partly explain today’s tape.
+
+**Facts**
+- **Reuters via Yahoo, 2026-05-16 07:13 UTC**: President Trump said Xi agreed Iran must reopen the **Strait of Hormuz**; China did **not** confirm that and said the war “shouldn’t have started.” This is relevant to **oil/energy risk** because Hormuz is a critical crude shipping chokepoint.  
+- **BusinessLine/Reuters, 2026-05-16 08:19 UTC**: Same Iran/Hormuz development, with Trump also saying he was considering whether to lift U.S. sanctions on Chinese companies buying Iranian oil.  
+- **Cointelegraph, 2026-05-16 08:19 UTC**: **Spot Bitcoin ETFs saw $1 billion of weekly net outflows**, ending a six-week inflow streak that had totaled $3.4 billion.  
+- **The Times of India, 2026-05-16 08:04 UTC**: Report said **Bitcoin slipped toward $79,000** amid pressure from **higher Treasury yields, inflation worries, and elevated oil prices**.  
+- **CryptoSlate, 2026-05-16 09:00 UTC**: Strategy said it may use **cash reserves, ATM proceeds, or “sales of bitcoin”** to help fund about **$1.38 billion** in cash for repurchasing 2029 convertible notes.  
+- **GlobeNewswire, 2026-05-16 08:20 UTC**: **nVent (NVT)** announced a new **3-year share repurchase authorization**.  
+- **Reuters cited by Economic Times, 2026-05-16 07:42 UTC**: **SpaceX shareholders approved a 5-for-1 stock split** ahead of a reported planned IPO timeline. This is notable for private-market/IPO sentiment, though it is not directly tradable in public equities yet.
+
+**Interpretation**
+- The clearest fresh macro driver in this set is **Middle East / Hormuz uncertainty**, which matters mainly through the **oil and inflation channel** and, by extension, **rates and broad risk sentiment**.
+- The crypto-related flow picture looks **softer**, with **ETF outflows** and reporting that links crypto pressure to **higher yields and oil**.
+- There is **very little fresh coverage here on Fed policy, inflation data releases, major earnings, or AI/semi fundamentals**, so this set does **not fully explain today’s broader equity tape**.
+- The nVent buyback is a **single-stock corporate action**, not a broad market driver.
+- The SpaceX split/IPO headline may matter for **IPO and growth-equity sentiment**, but it is more of a developing side story than a primary market-wide catalyst today.
