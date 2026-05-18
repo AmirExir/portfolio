@@ -1,0 +1,19 @@
+Generated: 2026-05-18 11:57 UTC
+Horizon: 5 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No qualifying 1 trading-day buy or sell signals met the filter. All short-horizon signals were Neutral / No Edge and below the 2% absolute forecast-return threshold.
+
+5 trading-day rankings
+No qualifying Buy, Strong Buy, Sell, or Strong Sell signals were present.
+
+Forecasts above the 2% absolute return threshold were limited to INTC (+5.23%), DELL (+3.69%), GEV (+2.33%), HYPE (-5.83%), COMP (-4.24%), XRP (-2.40%), and DOT (-2.33%), but each was labeled Neutral / No Edge and therefore excluded from actionable rankings under the stated filter.
+
+Short watchlist
+INTC: +5.23% forecast return | pattern Uptrend | model Ensemble
+HYPE: -5.83% forecast return | pattern Uptrend | model Ensemble
+COMP: -4.24% forecast return | pattern Oversold | model Ensemble
+XRP: -2.40% forecast return | pattern Range / No Dominant Pattern | model Ensemble
+DOT: -2.33% forecast return | pattern Range / No Dominant Pattern | model Ensemble
