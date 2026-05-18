@@ -1,0 +1,21 @@
+Generated: 2026-05-18 23:31 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV | Buy | pattern: Uptrend | forecast return: +9.51% | probability up: 76.1% | edge: 26.1% | expected error: +/-12.99% | selected model: Ensemble
+GEV is the only actionable long signal in the provided output after applying the signal filter. The forecast return and directional probability are both strong, but expected error is larger than the forecast return, so position sizing and risk control matter.
+
+Top Sell / Avoid Signals
+PEPE | Strong Sell | pattern: Downtrend | forecast return: -26.56% | probability down: 93.9% | edge: 43.9% | expected error: +/-17.76% | selected model: Ensemble
+PEPE is the only actionable bearish signal in the provided output. The pattern and model call are aligned bearish, and probability down is very high. Expected error is sizable but still below the magnitude of the forecast decline, which keeps the signal comparatively stronger than the rest of the list.
+
+Watchlist / Neutral
+Several names show notable forecast magnitude but remain Neutral / No Edge, so they are not treated as actionable trades: GOOGL, AMZN, SLB, DELL, USO, INTC on the long side; NFLX, AVAX, XLF, XLK, MSFT, AMD on the bearish side.
+
+Risk notes
+Many neutral names have expected error well above forecast return, which weakens conviction despite directional lean.
+INTC, DELL, AVAX, and AMD stand out for large forecast moves but very high expected error, indicating elevated uncertainty.
+PG shows a positive forecast despite a Downtrend pattern, which is a pattern/forecast conflict and raises reversal risk.
+XLK and AMD show bearish forecasts while still tagged with Uptrend patterns, which suggests potential trend conflict and lower reliability.
+COMP has a bearish forecast with an Oversold pattern, which increases reversal risk.
