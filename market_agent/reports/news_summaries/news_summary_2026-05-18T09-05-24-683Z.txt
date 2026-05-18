@@ -1,0 +1,18 @@
+Fresh headline set is thin and only partially explains today’s tape. The usable market-moving items in the last 36 hours are concentrated in semis/AI, oil/geopolitics, crypto, and Fed leadership.
+
+**Facts**
+- **Fortune (2026-05-17T09:03:00Z):** Reported that a **45,000-person labor strike at Samsung’s memory chip plants** could disrupt DRAM/HBM supply, with potential implications for AI-related chip availability.
+- **IBTimes Australia (2026-05-17T07:19:59Z):** Reported Samsung’s largest union **rejected management’s offer and is proceeding with an 18-day strike starting May 21**.
+- **IBTimes Australia (2026-05-17T09:02:24Z):** Reported **Nvidia shares fell 4.4% Friday** amid investor concerns about AI spending slowdown and valuation.
+- **Cointelegraph (2026-05-17T08:50:02Z):** Reported **Bitcoin fell below $79,000**, citing macro fears and geopolitical uncertainty.
+- **BusinessLine / PTI (2026-05-17T08:02:34Z):** Citing Moody’s, reported that **India and other key oil importers may seek bilateral/transit arrangements with Iran**, and that a return to pre-war Strait of Hormuz traffic is not expected by 2026.
+- **Economic Times / PTI (2026-05-17T07:58:06Z):** Also cited Moody’s saying **Hormuz recovery looks distant**, implying prolonged friction for energy transit.
+- **Fortune (2026-05-17T08:00:00Z):** Reported that **Wall Street is closely watching incoming Fed chair Kevin Warsh**, framing his transition as important for markets, though without a specific fresh policy action in the article set.
+- **Crypto Briefing (2026-05-17T07:34:40Z):** Reported **G-7 finance ministers pledged to address “unsustainable global imbalances”** after Trump’s China summit, signaling continued focus on trade and global growth tensions.
+
+**Interpretation**
+- The **clearest fresh equity-moving headline** is the Samsung labor dispute, which matters for **memory/HBM supply and AI semiconductor names**.
+- The Nvidia article points to **pressure on AI-linked sentiment**, but it is more a report on prior price action than a new catalyst by itself.
+- The Moody’s/Iran-Hormuz headlines are the main **energy/risk-sentiment drivers** in the set, suggesting **ongoing supply-route uncertainty** rather than a resolved backdrop.
+- Bitcoin weakness in the fresh set aligns with a **macro/risk-sensitive tone**.
+- There are **no strong fresh articles here on CPI/PCE, Treasury yields, a Fed decision, or major earnings**, so if those are driving today’s tape, this article set does **not fully capture it**.
