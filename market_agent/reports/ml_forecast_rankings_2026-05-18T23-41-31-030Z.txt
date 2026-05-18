@@ -1,0 +1,26 @@
+Generated: 2026-05-18 23:41 UTC
+Horizon: 30 trading days
+Universe: 9 symbols | Stocks + crypto + commodities
+Primary model: LSTM
+Sequence model: lstm
+
+1 trading-day signals
+Sequence model used: LSTM
+Only signals with forecast return of at least 2% in absolute value are included.
+Buy candidates:
+- INTC: Buy, forecast return +4.95%, probability up 81.0%, edge 31.0%, pattern Uptrend.
+No qualifying sell signals met the 2% threshold for the 1 trading-day horizon.
+
+30 trading-day rankings
+Buy candidates:
+- GEV: Buy, forecast return +12.50%, probability up 79.0%, edge 29.0%, pattern Uptrend.
+- GOOGL: Buy, forecast return +8.53%, probability up 73.5%, edge 23.5%, pattern Uptrend.
+
+Sell candidates:
+- HYPE: Sell, forecast return -18.32%, probability down 84.6%, edge 34.6%, pattern Uptrend.
+- PEPE: Sell, forecast return -17.61%, probability down 78.9%, edge 28.9%, pattern Downtrend.
+- VOO: Sell, forecast return -3.81%, probability down 74.1%, edge 24.1%, pattern Uptrend.
+
+Notes:
+- Neutral / No Edge names were excluded from the ranked recommendations.
+- Signals below a 2% absolute forecast return threshold were excluded.
