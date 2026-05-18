@@ -1,0 +1,16 @@
+Fresh market-moving headlines are limited in this feed, and several items are live blogs, opinion/speculation, crypto commentary, or non-market stories. Based on the usable articles from the last 36 hours, here’s the clean summary.
+
+**Facts**
+- **CNBC, 2026-05-17T22:02:39Z:** U.S. stock futures were described as little changed Sunday night after a record-setting week, with investors focused on **upcoming earnings from Nvidia on Wednesday, Target on Wednesday, and Walmart on Thursday**, while also watching the **U.S.-Iran conflict**.
+- **Crypto Briefing, 2026-05-17T21:19:01Z:** Reported a **U.S.-China trade agreement** covering **rare earth exports, fentanyl precursors, semiconductors, and agricultural access**. The article itself noted that **skepticism is warranted**.
+- **Mediaite, 2026-05-17T21:32:10Z:** CBS’s Margaret Brennan pressed U.S. Trade Representative **Jamieson Greer** over President Trump’s claims that China agreed to major future purchases of **U.S. soybeans and aircraft**, citing a Wall Street Journal characterization that the administration may be playing a “shell game.”
+- **Crypto Briefing, 2026-05-17T21:00:47Z:** Said a Trump post depicting a nuclear strike **escalated U.S.-Iran tensions**; the article framed this as a development affecting geopolitical risk sentiment.
+- **New Zealand Herald, 2026-05-17T22:00:00Z:** Reported **New Zealand 10-year government bond yields** climbed to about **4.7%**, highlighting higher sovereign funding costs.
+- **GlobeNewswire, 2026-05-17T21:00:00Z:** **Life360** said its board authorized a **share repurchase program of up to $225 million** over multiple years to offset stock-based compensation dilution.
+
+**Interpretation**
+- The clearest near-term macro drivers in this feed are **event risk ahead of Nvidia and major retail earnings**, plus **geopolitical uncertainty tied to Iran**.
+- The **U.S.-China trade headline could matter for semis, industrials, and agriculture**, but the supplied articles also show **questions about how firm or substantive the deal is**, so conviction should be limited.
+- On rates, this feed does **not** provide fresh Fed or U.S. inflation headlines sufficient to explain today’s tape.
+- For crypto, there are many fresh articles, but most are **speculative analysis or commentary**, not solid market-moving news. No strong fresh headline here clearly explains major crypto price action.
+- Overall, the fresh article set is **thin** and does **not fully explain today's market tape** beyond earnings anticipation and geopolitical/trade headline risk.
