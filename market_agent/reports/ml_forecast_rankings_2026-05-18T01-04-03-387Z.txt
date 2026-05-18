@@ -1,0 +1,22 @@
+Generated: 2026-05-18 01:03 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model used: both
+No qualifying 1 trading-day Buy or Sell signals met the filtering threshold. Reported short-horizon names were Neutral / No Edge and below the 2% absolute forecast-return cutoff.
+
+30 trading-day buy rankings
+1. USO — Buy — forecast return +12.73% — uptrend pattern.
+2. GEV — Buy — forecast return +11.25% — uptrend pattern.
+3. GOOGL — Buy — forecast return +8.14% — uptrend pattern.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell — forecast return -26.56% — downtrend pattern.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% were included.
+No additional qualifying sell signals were present in the ranked output beyond PEPE.
+Several high-return 30-day names appeared on the watchlist, including INTC, ENA, AVAX, RIOT, ONDO, and DELL, but they were excluded because they were labeled Neutral / No Edge.
