@@ -1,0 +1,105 @@
+{
+  "paths": {
+    "json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-18T22-08-09Z.json",
+    "txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-18T22-08-09Z.txt",
+    "latest_json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.json",
+    "latest_txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.txt",
+    "cache": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_cache_85ad17c6e905fb74.json"
+  },
+  "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-18 22:08 UTC\nHorizon: 5 trading days | Primary: Ensemble\nPattern windows: 20/50 trading days\nSequence model: both\nRL policy: off\nUniverse: 1 symbols | Stocks + crypto + commodities\nCalculation time: 1m 17s total | context 4.6s | 1/1 ranked | 0 cached\nSlowest symbols: AMD: 1m 12s\n\nBest Picked Forecast\nAMD: Neutral / No Edge | Pattern: Uptrend | Forecast Return: +0.13% | Selected model: Ensemble\n\nShort-Term Forecast Signals\n1 trading day | sequence model: both\nBuys: no positive forecast candidates.\nSells: AMD: -0.39% | Neutral / No Edge | model Ensemble | prob up 46.9% | edge 3.1% | err +/-4.81% | pattern Uptrend\n\nStrongest Buy Forecasts\nAMD: +0.13% | Neutral / No Edge | model Ensemble | prob up 50.5% | edge 0.5% | err +/-11.31% | pattern Uptrend\n\nStrongest Sell Forecasts\nNo negative forecast candidates.\n\nModel output only. Not financial advice.",
+  "rows": [
+    {
+      "Symbol": "AMD",
+      "Model Call": "Neutral / No Edge",
+      "Selected Model": "Ensemble",
+      "Last Price": 420.989990234375,
+      "Forecast Price": 421.54180307932336,
+      "Forecast Return %": 0.1310750511291503,
+      "Ridge Return %": -0.5207609492260878,
+      "XGBoost Return %": 0.6553904409959933,
+      "Neural Net Return %": -0.08401124065608269,
+      "LSTM Return %": -0.35990015016157845,
+      "Transformer Return %": 0.8827841096750619,
+      "RL Policy Return %": null,
+      "Ensemble Return %": 0.1310750511291503,
+      "Probability Up %": 50.54148336623773,
+      "Probability Down %": 49.45851663376227,
+      "Directional Probability %": 50.54148336623773,
+      "Model Edge %": 0.5414833662377276,
+      "Signal Quality": "No Edge",
+      "Expected Error %": 11.306113240167893,
+      "Validation MAE %": 8.556828107018138,
+      "Direction Hit Rate %": 44.60423054521284,
+      "Score": 0.00012555147539658042,
+      "Primary Pattern": "Uptrend",
+      "All Patterns": "Uptrend, High Volatility"
+    }
+  ],
+  "short_horizon_reports": [
+    {
+      "horizon_days": 1,
+      "sequence_model": "both",
+      "top_buys": [],
+      "top_sells": [
+        {
+          "Symbol": "AMD",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 420.989990234375,
+          "Forecast Price": 419.3608612342209,
+          "Forecast Return %": -0.3869757091486085,
+          "Ridge Return %": -0.3588754521327713,
+          "XGBoost Return %": 0.13582449663555107,
+          "Neural Net Return %": -0.6331808431420195,
+          "LSTM Return %": 0.09041428600121708,
+          "Transformer Return %": -1.3422361013419621,
+          "RL Policy Return %": null,
+          "Ensemble Return %": -0.3869757091486085,
+          "Probability Up %": 46.93307007233435,
+          "Probability Down %": 53.06692992766565,
+          "Directional Probability %": 53.06692992766565,
+          "Model Edge %": 3.0669299276656474,
+          "Signal Quality": "Weak Edge",
+          "Expected Error %": 4.810220604392766,
+          "Validation MAE %": 3.4316555676942917,
+          "Direction Hit Rate %": 46.479892457118936,
+          "Score": -0.004934606876797608,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend, High Volatility"
+        }
+      ],
+      "errors": [],
+      "timings": {
+        "total_seconds": 74.353,
+        "context_seconds": 5.056,
+        "symbols_attempted": 1,
+        "symbols_ranked": 1,
+        "symbols_cached": 0,
+        "symbols_failed": 0,
+        "symbol_timings": [
+          {
+            "symbol": "AMD",
+            "seconds": 69.296,
+            "status": "ok"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "timings": {
+    "total_seconds": 76.643,
+    "context_seconds": 4.64,
+    "symbols_attempted": 1,
+    "symbols_ranked": 1,
+    "symbols_cached": 0,
+    "symbols_failed": 0,
+    "symbol_timings": [
+      {
+        "symbol": "AMD",
+        "seconds": 71.999,
+        "status": "ok"
+      }
+    ]
+  }
+}
