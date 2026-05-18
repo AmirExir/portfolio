@@ -1,0 +1,15 @@
+Fresh market-moving headlines are limited in this article set, and several items are opinion, feature coverage, low-credibility aggregation, or not clearly tied to today’s market tape.
+
+**Facts**
+- **CNBC — 2026-05-17T13:52:06Z:** Long Island Rail Road service shutdown continued into a second day after unionized workers struck, affecting New York commuter transit.  
+- **CryptoSlate — 2026-05-17T13:30:35Z:** The Senate Banking Committee advanced the **Digital Asset Market Clarity Act** by a **15-9 vote**, signaling progress toward a more defined U.S. crypto regulatory framework.  
+- **Crypto Briefing — 2026-05-17T14:07:11Z:** U.S. Trade Representative Jamieson Greer said President Trump will receive options for action on **China overcapacity**, pointing to possible further U.S. trade measures.  
+- **CNBC — 2026-05-17T14:21:26Z:** CNBC reported continued investor focus on “**HALO**” stocks—businesses seen as harder for AI to disrupt—and noted a new ETF tied to that theme. This is a thematic market article rather than a discrete hard-news catalyst.  
+
+**Interpretation**
+- The most concrete potentially market-relevant fresh items here are:
+  - **U.S.-China trade policy risk** from possible action on Chinese overcapacity.
+  - **Crypto regulation** from the Senate committee’s advancement of the Clarity Act.
+  - A localized **transport/labor disruption** in the New York area from the LIRR strike.
+- There is **no strong fresh article in this set** on Fed policy, inflation data, major earnings, oil, or a clear broad-market macro catalyst explaining today’s overall tape.
+- The AI/HALO piece reflects **ongoing positioning and thematic interest**, not a definitive new market-moving development by itself.
