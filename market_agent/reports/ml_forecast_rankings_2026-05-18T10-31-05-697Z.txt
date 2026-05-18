@@ -1,0 +1,29 @@
+Generated: 2026-05-18 10:30 UTC
+Horizon: 30 trading days
+Universe: 75 symbols across stocks, crypto, and commodities
+
+Top Buy Signals
+GEV — Buy | Pattern: Uptrend | Forecast return: +11.02% | Probability up: 79.6% | Edge: 29.6% | Expected error: +/-12.86% | Selected model: Ensemble
+Highest-ranked buy in the current set. The signal quality is strong with the best probability and edge among listed buys. Risk note: expected error is slightly larger than the forecast return, so position sizing should account for forecast uncertainty.
+
+USO — Buy | Pattern: Uptrend | Forecast return: +13.04% | Probability up: 70.8% | Edge: 20.8% | Expected error: +/-20.42% | Selected model: Ensemble
+Largest forecast return among the actionable buys, but the expected error is materially higher than the forecast return. There is also model disagreement, with LSTM slightly negative while other models are positive. This raises uncertainty despite the positive ensemble call.
+
+GOOGL — Buy | Pattern: Uptrend | Forecast return: +8.44% | Probability up: 72.2% | Edge: 22.2% | Expected error: +/-13.89% | Selected model: Ensemble
+Solid positive edge with a favorable probability profile. Risk note: expected error exceeds forecast return. Additional conflict is present because XGBoost is near flat relative to stronger positive outputs from Ridge and LSTM, so conviction is moderate rather than uniform.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +8.07% | Probability up: 71.4% | Edge: 21.4% | Expected error: +/-12.82% | Selected model: Ensemble
+Constructive trend signal with good directional probability. Risk note: expected error is above the forecast return. Model spread is wide, with Neural Net much stronger than Ridge, XGBoost, and Transformer, indicating less agreement across methods.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+This is the only valid sell signal after applying the noise and actionability filters. It has the strongest downside probability and a clear downtrend pattern. Expected error is large, but still smaller than the magnitude of the forecast decline, which supports the bearish bias.
+
+Watchlist / Neutral
+WMT — Neutral / No Edge | Uptrend pattern and positive return forecast, but not actionable under the current signal rules.
+INTC — Neutral / No Edge | Large nominal upside forecast, but expected error is extremely high relative to return, reducing reliability.
+MSFT — Neutral / No Edge | Mild negative forecast but not a valid sell signal.
+BTC — Neutral / No Edge | Slight negative forecast within a range-bound pattern; not strong enough to treat as actionable.
+
+Summary
+Actionable long signals are concentrated in GEV, USO, GOOGL, and AMZN. Among these, GEV appears to have the cleanest overall profile, while USO has the highest upside forecast but also the highest uncertainty and some model conflict. On the short side, PEPE is the only strong bearish signal that passes the filters. Other negative forecasts are neutral and should not be treated as sell calls.
