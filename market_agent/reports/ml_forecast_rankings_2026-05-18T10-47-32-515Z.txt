@@ -1,0 +1,22 @@
+Generated: 2026-05-18 10:47 UTC
+Horizon: 30 trading days
+Universe: 11 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: LSTM
+Only signals with forecast magnitude of at least 2% are included.
+Sell: GEV | Forecast return: -2.83% | Pattern: Uptrend | Probability down: 73.4% | Edge: 23.4% | Expected error: +/-4.71%
+
+30 trading-day buy rankings
+Strong Buy: GOOGL | Forecast return: +15.67% | Pattern: Uptrend | Probability up: 86.9% | Edge: 36.9% | Expected error: +/-13.84%
+Buy: GEV | Forecast return: +10.27% | Pattern: Uptrend | Probability up: 75.2% | Edge: 25.2% | Expected error: +/-15.43%
+Buy: AMZN | Forecast return: +9.01% | Pattern: Uptrend | Probability up: 74.9% | Edge: 24.9% | Expected error: +/-13.72%
+Buy: QQQ | Forecast return: +7.04% | Pattern: Uptrend | Probability up: 80.6% | Edge: 30.6% | Expected error: +/-8.21%
+
+30 trading-day sell rankings
+Sell: PEPE | Forecast return: -17.61% | Pattern: Downtrend | Probability down: 78.9% | Edge: 28.9% | Expected error: +/-27.34%
+Sell: VOO | Forecast return: -4.59% | Pattern: Uptrend | Probability down: 79.4% | Edge: 29.4% | Expected error: +/-5.90%
+
+Notes
+GEV appears as a 1-day sell and a 30-day buy, indicating a short-term pullback within a longer-term positive forecast.
+QQQ appears as a 30-day buy, while its 1-day sell signal did not meet the 2% filter and is excluded from the short-horizon section.
