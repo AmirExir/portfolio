@@ -1,0 +1,13 @@
+Generated: 2026-05-18 22:08 UTC
+Horizon: 30 trading days
+Universe: 1 symbols
+
+1 trading-day section
+Sequence model used: both
+No qualifying Buy or Sell signals met the minimum 2% forecast-return threshold.
+
+30 trading-day rankings
+No qualifying Strong Buy, Buy, Strong Sell, or Sell signals met the minimum 2% forecast-return threshold.
+
+Notes
+AMD appeared in the source output, but only with Neutral / No Edge signals and forecast returns below 2%, so it is excluded from ranked recommendations.
