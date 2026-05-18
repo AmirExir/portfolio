@@ -1,0 +1,35 @@
+Below is a summary of only the fresh, potentially market-moving headlines from the provided JSON.  
+Current run time: **2026-05-18 05:05 ET** → lookback cutoff is roughly **2026-05-16 17:05 ET**. The usable set is still **fairly thin** and leans more thematic than tape-explanatory, so it may **not fully explain today’s market action**.
+
+## Facts
+- **Samsung labor risk / AI-memory supply**
+  - **Fortune — 2026-05-17T09:03:00Z:** Reported that a **45,000-person labor strike at Samsung’s memory chip plants** could disrupt supply of memory used across phones, servers, and data centers, with implications for the **AI boom** and HBM/memory supply chains.
+  - **IBTimes Australia — 2026-05-17T07:19:59Z:** Reported Samsung’s largest union **rejected the company’s offer** and plans to proceed with an **18-day strike starting May 21**.
+
+- **AI/semi sentiment via Nvidia**
+  - **IBTimes Australia — 2026-05-17T09:02:24Z:** Reported **Nvidia shares fell 4.4% Friday** amid investor concerns about a possible **AI spending slowdown** and valuation risk. The article frames it as a reassessment of AI demand expectations.
+
+- **Energy / geopolitical supply risk**
+  - **BusinessLine — 2026-05-17T08:02:34Z:** Citing **Moody’s**, reported that major oil importers including **India may seek bilateral/transit arrangements with Iran** and that a full return to **pre-war Strait of Hormuz traffic volumes is not expected by 2026**.
+  - **Times of India / ET — 2026-05-17T07:58:06Z:** Also cited **Moody’s** saying recovery in Hormuz shipping looks **distant**, implying continued uncertainty for energy transit.
+
+- **Fed / rates watch**
+  - **Fortune — 2026-05-17T08:00:00Z:** Reported that Wall Street is closely watching **incoming Fed chair Kevin Warsh**, highlighting investor focus on the future policy path and communications from Fed leadership.
+
+- **Bitcoin / crypto risk sentiment**
+  - **Cointelegraph — 2026-05-17T08:50:02Z:** Reported **Bitcoin fell below $79,000** amid **macro fears** and geopolitical uncertainty, while discussing whether fixed-income outflows could later support crypto demand.
+  - **newsBTC — 2026-05-17T08:00:40Z:** Reported Bitcoin trading near **$78,000** after failing to break above **$82,000**, underscoring a risk-sensitive setup in major crypto.
+
+## Interpretation
+- The strongest fresh equity-relevant theme is **AI supply-chain and valuation risk**:
+  - **Samsung strike headlines** matter because Samsung is a major **DRAM/HBM** supplier.
+  - **Nvidia weakness tied to AI-demand concerns** reinforces a broader market sensitivity around **AI capex expectations**.
+
+- The clearest macro/risk theme is **energy and geopolitics**:
+  - Moody’s commentary on **Hormuz not returning to normal traffic by 2026** suggests a persistent **oil supply/logistics risk backdrop**, which can matter for inflation expectations and global risk sentiment.
+
+- On rates, the provided set does **not** include a fresh CPI/PCE/jobs surprise or a concrete Fed policy move. The Fed item is more about **leadership/watchfulness** than a new policy catalyst.
+
+- In crypto, the usable headlines point to **macro-linked caution**, with Bitcoin trading below recent resistance and under pressure from broader uncertainty.
+
+- Overall, the fresh set suggests **AI/semi supply-and-demand concerns**, **Middle East energy risk**, and **macro caution in crypto**. But the article pool is **too thin to confidently explain the full tape** in stocks, Treasuries, or broader cross-asset moves today.
