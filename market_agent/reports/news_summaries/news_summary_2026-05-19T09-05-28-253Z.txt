@@ -1,0 +1,19 @@
+Fresh market-moving headlines are limited in this article set, and there is not enough here by itself to fully explain today’s tape.
+
+**Facts**
+- **Rates / risk sentiment:** Morgan Stanley strategist Michael Wilson warned equities are vulnerable if the **global bond selloff** continues, saying higher yields could threaten the AI-led equity backdrop. *(Financial Post/Bloomberg, 2026-05-18T08:55:48Z)*
+- **Energy / geopolitics:** A report citing the **New York Times** said Israel had built two military bases in western Iraq ahead of the war on Iran, adding to fresh Middle East geopolitical risk. *(Al Jazeera, 2026-05-18T08:57:48Z)*
+- **Oil / dollar / inflation narrative:** One market wrap said the **US dollar was steady while oil prices rose amid a bond selloff**, highlighting the combination of higher crude and higher yields as a potential inflation concern. *(Crypto Briefing, 2026-05-18T08:56:20Z)*
+- **Inflation-sensitive metals:** Silver futures coverage tied weaker silver prices to the **oil rally fueling inflation concerns** and a firmer US dollar. *(BusinessLine, 2026-05-18T08:48:35Z)*
+- **AI / China tech earnings:** **Baidu announced Q1 2026 results**, a potentially relevant headline for China internet and AI sentiment, though the supplied feed does not provide a concise market takeaway from the release itself. *(PRNewswire, 2026-05-18T09:00:00Z)*
+- **China tech earnings:** **iQIYI announced Q1 2026 financial results**. As with Baidu, the article is a release without a distilled market-moving summary in the feed. *(GlobeNewswire, 2026-05-18T09:00:00Z)*
+- **AI / semis watch:** Yahoo Finance published a fresh piece on **how Nvidia has historically performed after earnings**, reinforcing Nvidia’s centrality to near-term AI/semi focus, but it is analysis rather than a new company development. *(Yahoo Finance, 2026-05-18T09:00:00Z)*
+- **Crypto:** A report said **SpaceX could pursue an IPO at a $2T valuation and holds about $637M in Bitcoin**, though this appears speculative rather than confirmed corporate action. *(Crypto Briefing, 2026-05-18T08:58:11Z)*
+
+**Interpretation**
+- The clearest fresh macro thread in this set is **higher yields + firmer oil + geopolitical tension**, which can matter for stocks through inflation expectations and rate sensitivity.
+- The strongest directly market-relevant article is the **bond-selloff warning** from Morgan Stanley via Bloomberg/Financial Post.
+- There are **fresh earnings headlines in China tech** from Baidu and iQIYI, but the provided text does not surface enough detail to judge whether results were a positive or negative catalyst.
+- The **AI/semi** angle is present mostly through Nvidia-related positioning commentary, not fresh earnings or guidance.
+- **Crypto** coverage here is thin and mostly speculative; there is no solid fresh headline in this set on Bitcoin or major crypto policy/fund flows.
+- Bottom line: this is a **thin fresh-news set**, with the best explanation for cross-asset moves being **bond-market pressure, oil/geopolitical risk, and inflation sensitivity**, rather than a broad flood of new company-specific catalysts.
