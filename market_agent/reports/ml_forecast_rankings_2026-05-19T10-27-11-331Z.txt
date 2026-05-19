@@ -1,0 +1,38 @@
+Generated: 2026-05-19 10:26 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+SHIB — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +30.67% | Probability up: 83.7% | Edge: 33.7% | Expected error: +/-31.31% | Selected model: XGBoost
+Large upside forecast with strong directional probability, but expected error is roughly as large as the forecast return. Model disagreement is significant: Ridge is strongly negative while XGBoost is strongly positive, which raises forecast uncertainty.
+
+DELL — Buy | Pattern: Uptrend | Forecast return: +16.33% | Probability up: 79.5% | Edge: 29.5% | Expected error: +/-20.17% | Selected model: Neural Net
+Positive forecast with solid probability and edge. Risk is elevated because expected error exceeds forecast return. Model dispersion is notable, with Ridge and LSTM negative while Neural Net and Transformer are positive.
+
+GEV — Buy | Pattern: Uptrend | Forecast return: +9.17% | Probability up: 81.7% | Edge: 31.7% | Expected error: +/-10.20% | Selected model: Ridge
+Consistent bullish setup with strong probability and edge. Expected error is slightly above forecast return, so position risk should be treated as moderate despite broad model support.
+
+AMZN — Buy | Pattern: Uptrend | Forecast return: +8.78% | Probability up: 77.5% | Edge: 27.5% | Expected error: +/-11.76% | Selected model: Neural Net
+Constructive upside signal with decent model alignment from Neural Net and LSTM. Expected error is higher than the forecast return, which limits conviction.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+Strongest bearish signal in the set. The forecast is large, probability is extreme, and model agreement is broadly negative, making this the cleanest avoid/short candidate in the ranking.
+
+HYPE — Strong Sell | Pattern: Uptrend | Forecast return: -25.19% | Probability down: 93.7% | Edge: 43.7% | Expected error: +/-20.91% | Selected model: LSTM
+Large bearish forecast, but the pattern is still classified as Uptrend. Bearish model output against an uptrend condition implies elevated reversal and whipsaw risk. Several other models are mildly positive, so this is a conflict case.
+
+AVGO — Sell | Pattern: Uptrend | Forecast return: -14.27% | Probability down: 86.6% | Edge: 36.6% | Expected error: +/-14.93% | Selected model: Ridge
+Meaningful downside forecast with strong probability, but expected error is slightly larger than the forecast return. Model disagreement is substantial because XGBoost, Neural Net, and Transformer are positive while Ridge is strongly negative.
+
+QQQ — Sell | Pattern: Uptrend | Forecast return: -4.95% | Probability down: 76.6% | Edge: 26.6% | Expected error: +/-7.24% | Selected model: Ridge
+Actionable under the noise filter, but confidence is reduced by broad model disagreement. Other models point positive while Ridge points lower. Uptrend and near-60-day-high/overbought context suggest caution rather than aggressive bearish positioning.
+
+VOO — Sell | Pattern: Uptrend | Forecast return: -3.27% | Probability down: 72.0% | Edge: 22.0% | Expected error: +/-5.86% | Selected model: LSTM
+Negative forecast clears the noise filter, though conviction is limited by modest magnitude and expected error larger than forecast return. Overbought context supports caution, but this is weaker than the leading sell signals.
+
+C — Sell | Pattern: Uptrend | Forecast return: -6.27% | Probability down: 71.5% | Edge: 21.5% | Expected error: +/-12.09% | Selected model: Ridge
+Downside forecast is meaningful, but expected error is nearly double the forecast return. Pattern includes oversold, so bearish model output with oversold condition implies elevated reversal risk. Other models are mixed, including a strongly positive LSTM.
+
+Watchlist / Neutral
+WMT and DIA remain positive but are lower-conviction than the leading buys due to smaller forecast returns. They pass the noise filter, though they rank behind SHIB, DELL, GEV, and AMZN on expected edge.
