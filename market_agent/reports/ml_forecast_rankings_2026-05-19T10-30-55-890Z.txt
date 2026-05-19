@@ -1,0 +1,23 @@
+Generated: 2026-05-19 10:30 UTC
+Horizon: 30 trading days
+Universe: 75 symbols across stocks, crypto, and commodities
+
+Top Buy Signals
+GEV — Buy | Pattern: Uptrend | Forecast return: +9.63% | Probability up: 76.3% | Edge: 26.3% | Expected error: +/-13.01% | Selected model: Ensemble
+This is the strongest long signal in the ranked output after filtering for actionable model calls. The setup combines a positive return forecast with high directional confidence and a clear uptrend pattern. Risk remains material because expected error is larger than the forecast return, so position sizing should reflect uncertainty.
+
+ONDO — Buy | Pattern: High Volatility | Forecast return: +16.07% | Probability up: 58.5% | Edge: 8.5% | Expected error: +/-30.19% | Selected model: Ensemble
+The forecast return is large enough to pass the noise filter, but the confidence profile is weaker than GEV and the expected error is very high. Model disagreement is notable: Ridge is only slightly positive, Neural Net and LSTM are negative, while Transformer is strongly positive. This makes the signal less stable and increases reversal risk. High-volatility classification also suggests wider outcome dispersion.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+This is the clearest bearish signal in the set. The forecast is strongly negative, directional confidence is very high, and the pattern is a confirmed downtrend. Expected error is still significant, but it is smaller than the magnitude of the forecast return, which makes this one of the cleaner signals in the report.
+
+Watchlist / Neutral
+Several names showed sizable forecast returns but were not actionable because the model call remained Neutral / No Edge. AMZN, GOOGL, DELL, INTC, and USO had positive forecasts but did not qualify as buys under the signal rules. On the bearish side, NFLX, COMP, AVAX, AMD, and MSFT showed negative forecasts but did not qualify as sell signals. XLF was below the 2% absolute forecast threshold and is treated as noise.
+
+Risk notes
+Only signals with Buy or Strong Sell calls and absolute forecast return of at least 2% were treated as actionable.
+GEV and ONDO both carry expected error greater than forecast return, which reduces confidence in exact target sizing.
+ONDO has visible cross-model conflict, indicating unstable consensus.
+PEPE has the strongest directional alignment in the report, but crypto volatility still raises path risk.
