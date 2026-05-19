@@ -1,0 +1,19 @@
+**Fresh market-moving headlines only (last 36 hours)**
+
+### Facts
+- **Utilities / M&A:** **NPR** (**2026-05-18**) reported **NextEra Energy plans to acquire Dominion Energy**, a deal that would create the largest electricity producer in the U.S. The piece frames the merger around power affordability and utility scale.  
+- **Energy / Inflation sensitivity:** **OilPrice.com** (**2026-05-18**) said **higher oil prices have cost U.S. consumers $45 billion since the Iran war began**, citing supply disruption tied to the Strait of Hormuz and elevated Memorial Day gasoline prices.  
+- **Rates / Sovereign debt:** **Japan Today** (**2026-05-18**) reported **G7 finance ministers expressed mounting concern over public debt and bond-market volatility**, after a selloff linked in the article to inflation risks from the Iran war.  
+- **U.S. equities / rates + oil backdrop:** **The Straits Times** (**2026-05-18**) reported that the **Nasdaq and S&P 500 closed lower while the Dow rose**, with the article citing **surging Treasury yields and high oil prices** as fueling inflation concerns and weighing on tech.  
+- **AI / semis:** **NVIDIA blog** (**2026-05-18**) said **its first Vera CPUs were delivered to Anthropic, OpenAI, SpaceXAI, and Oracle Cloud Infrastructure**, marking a new NVIDIA CPU product entering top AI labs and cloud infrastructure.  
+- **Aerospace / industrials / trade:** **Crypto Briefing** (**2026-05-18**) reported President **Trump announced new U.S.-China agreements involving Boeing jets and agriculture**, including a claim that China would purchase **200 Boeing aircraft** and over **$10 billion** in agricultural goods; the article also noted analysts questioned how firm the deals are.  
+- **Crypto / corporate exposure:** **Activist Post** (**2026-05-18**) reported **Strategy (MSTR) posted a $12.54 billion Q1 loss** tied to the decline in bitcoin during Q1.  
+- **Crypto sentiment:** **Cointelegraph** (**2026-05-18**) reported **bitcoin fell back below $80,000**, while highlighting continued institutional buying and macro drivers including Treasury-market concerns.
+
+### Interpretation
+- The freshest usable set points to a **macro mix dominated by higher oil, inflation concern, and bond-market volatility**, which is relevant for **rates-sensitive equities and risk sentiment**.
+- **NVIDIA’s Vera CPU deliveries** are a fresh **AI/semi ecosystem headline**, though this is more strategic/product-cycle news than an immediate broad-market macro catalyst by itself.
+- **NextEra-Dominion** is the clearest fresh **single-stock/sector M&A headline** in utilities and power infrastructure.
+- The **Boeing/agriculture U.S.-China announcement** could matter for industrials and trade-sensitive names, but the sourcing here is weaker and the article itself flags uncertainty around deal firmness.
+- On **crypto**, the fresh headlines mainly point to **bitcoin volatility and corporate earnings exposure** rather than a clean new macro driver.
+- **Overall, the fresh article set is somewhat thin for fully explaining today’s tape**; the best-supported drivers in the supplied articles are **oil/inflation pressure, Treasury volatility, and selective AI/utilities headlines**.
