@@ -1,0 +1,17 @@
+Generated: 2026-05-19 10:58 UTC
+Horizon: 30 trading days
+Universe: 13 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No qualifying 1 trading-day Buy or Sell signals met the publication filter. All short-horizon signals were Neutral / No Edge and below the 2% absolute forecast threshold.
+
+30 trading-day rankings
+Buy signals
+GEV is the only qualifying long signal for the 30 trading-day horizon. The model call is Buy with a forecast return of +9.50%, probability up of 76.1%, model edge of 26.1%, and an Uptrend pattern.
+
+Sell signals
+PEPE is the only qualifying short signal for the 30 trading-day horizon. The model call is Strong Sell with a forecast return of -26.56%, probability down of 93.9%, model edge of 43.9%, and a Downtrend pattern.
+
+Notes
+No other symbols qualified for publication because they were Neutral / No Edge, despite some larger forecast magnitudes in the broader watchlist.
