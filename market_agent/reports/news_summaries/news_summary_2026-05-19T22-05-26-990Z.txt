@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited in this article set, and several items are opinion pieces, promo releases, lawsuits, or niche coverage that do not clearly explain today’s broader tape.
+
+**Facts**
+- **CNBC — 2026-05-18T22:01:21Z:** U.S. stocks were pressured by a continued sell-off in chip names tied to the AI trade, while traders also watched oil after President Trump’s cancellation of talks related to Iran.  
+- **OilPrice.com — 2026-05-18T22:00:00Z:** Higher oil prices tied to the Iran war and Strait of Hormuz disruption have lifted U.S. fuel costs, with the outlet citing a sizable hit to consumers and elevated Memorial Day gasoline prices.  
+- **Japan Today — 2026-05-18T21:48:03Z:** G7 finance ministers said they are increasingly concerned about rising public debt and bond-market volatility following a recent selloff linked to inflation fears from the Iran war.  
+- **Crypto Briefing — 2026-05-18T22:02:22Z:** Trump said no vessels are currently passing through the Strait of Hormuz amid U.S.-Iran tensions, underscoring ongoing geopolitical risk around global oil transit.  
+- **Crypto Briefing — 2026-05-18T21:47:01Z:** Trump announced new U.S.-China agreements involving Boeing aircraft and agricultural purchases; the article says China would buy 200 Boeing jets and more than $10 billion in farm goods, though it notes questions about how firm the commitments are.  
+- **Nvidia.com — 2026-05-18T21:48:17Z:** Nvidia said its first Vera CPUs were delivered to Anthropic, OpenAI, SpaceXAI, and Oracle Cloud Infrastructure, signaling continued product rollout tied to AI infrastructure demand.  
+- **GlobeNewswire — 2026-05-18T21:35:00Z:** Intuitive Machines announced two prime lunar reconnaissance contracts supporting NASA’s Artemis campaign and commercial missions.
+
+**Interpretation**
+- The clearest fresh macro driver in this set is **Middle East / Hormuz risk feeding into oil and inflation concerns**, which can matter for both **energy prices** and **rates sentiment**.  
+- The fresh equity-specific read is that **AI/semi weakness remained a focus**, based on CNBC’s note about pressure in chip names.  
+- The **G7 debt and bond-volatility concern** supports a rates backdrop where investors remain sensitive to inflation and sovereign borrowing stress.  
+- The **U.S.-China Boeing/agriculture item** could matter for Boeing and trade-sensitive names, but the article itself says the firmness of the deals is uncertain, so that should be treated cautiously.  
+- Nvidia’s Vera delivery update is **AI ecosystem-positive at the company/product level**, but it is more of a strategic product milestone than a definitive broad market driver on its own.  
+- Overall, the fresh set is **not especially deep**, and it does **not fully explain today’s tape by itself** beyond pointing to **chip weakness** and **oil/geopolitical inflation pressure**.
