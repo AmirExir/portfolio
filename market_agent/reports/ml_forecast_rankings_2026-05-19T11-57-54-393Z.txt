@@ -1,0 +1,21 @@
+Generated: 2026-05-19 11:57 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+RL policy: off
+
+1 trading-day signals
+Sequence model usage: both (LSTM and Transformer enabled)
+No actionable 1 trading-day Buy or Sell signals met the reporting filter. All short-term entries were Neutral / No Edge and forecast returns were below the 2% threshold.
+
+30 trading-day buy rankings
+1. GEV — Buy, forecast return +9.67%, probability up 76.4%, pattern Uptrend.
+2. GOOGL — Buy, forecast return +7.61%, probability up 69.9%, pattern Uptrend.
+3. ONDO — Buy, forecast return +16.64%, probability up 58.9%, pattern High Volatility.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell, forecast return -26.56%, probability down 93.9%, pattern Downtrend.
+
+Summary
+The 30-day output contains three qualifying long ideas and one qualifying short idea after excluding Neutral / No Edge signals and forecasts with absolute returns below 2%. The strongest long setup is GEV. The only qualifying short setup is PEPE.
