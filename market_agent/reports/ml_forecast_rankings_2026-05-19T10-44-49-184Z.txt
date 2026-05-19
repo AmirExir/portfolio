@@ -1,0 +1,22 @@
+Generated: 2026-05-19 10:44 UTC
+Horizon: 30 trading days
+Universe: 10 symbols | Stocks + crypto + commodities
+Primary model: LSTM
+Sequence model: lstm
+
+1 trading-day signals
+Sequence model used: LSTM
+No qualifying short-term Buy signals met the filter. The only qualifying short-term Sell signal was HYPE at -2.82%, but it remained Neutral / No Edge and is excluded from actionable rankings.
+
+30 trading-day Buy rankings
+GEV — Buy, forecast return +12.48%, probability up 79.0%, edge 29.0%, pattern Uptrend.
+AMZN — Buy, forecast return +8.45%, probability up 74.9%, edge 24.9%, pattern Uptrend.
+C — Buy, forecast return +8.08%, probability up 72.0%, edge 22.0%, pattern Uptrend.
+
+30 trading-day Sell rankings
+HYPE — Strong Sell, forecast return -25.51%, probability down 94.0%, edge 44.0%, pattern Uptrend.
+PEPE — Sell, forecast return -17.61%, probability down 78.9%, edge 28.9%, pattern Downtrend.
+VOO — Sell, forecast return -4.80%, probability down 80.6%, edge 30.6%, pattern Uptrend.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% were included. Neutral / No Edge names were excluded from the ranked lists.
