@@ -1,0 +1,28 @@
+Generated: 2026-05-20 10:46 UTC
+Horizon: 30 trading days
+Universe: 12 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: LSTM
+Only signals meeting the return and signal-strength filters are included.
+
+Buy candidates
+None.
+
+Sell candidates
+GEV — Sell — forecast return -2.80% — pattern: Uptrend — probability down 72.9% — expected error +/-4.77%.
+
+30 trading-day rankings
+Only Buy, Strong Buy, Sell, and Strong Sell signals with absolute forecast return of at least 2% are included.
+
+Buy side
+GOOGL — Buy — forecast return +10.72% — pattern: Uptrend — probability up 78.4% — expected error +/-13.85%.
+
+Sell side
+VOO — Strong Sell — forecast return -6.67% — pattern: Uptrend — probability down 88.8% — expected error +/-5.84%.
+HYPE — Sell — forecast return -19.46% — pattern: Uptrend — probability down 83.0% — expected error +/-25.41%.
+PEPE — Sell — forecast return -17.61% — pattern: Downtrend — probability down 78.9% — expected error +/-27.34%.
+AMZN — Sell — forecast return -7.70% — pattern: Uptrend — probability down 73.4% — expected error +/-13.65%.
+
+Summary
+The 30-day output shows one qualifying Buy signal, led by GOOGL, and four qualifying bearish signals, with VOO carrying the only Strong Sell label. The 1 trading-day section is limited, with GEV as the only qualifying short-horizon signal after filtering out Neutral / No Edge calls and moves below the 2% threshold.
