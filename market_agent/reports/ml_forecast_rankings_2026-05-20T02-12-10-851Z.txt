@@ -1,0 +1,29 @@
+Generated: 2026-05-20 02:11 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day section
+Sequence model setting: both (LSTM and Transformer enabled)
+No qualifying 1 trading-day Buy or Sell signals met the publication threshold. All reported short-horizon signals were Neutral / No Edge and below the 2% absolute forecast return filter.
+
+30 trading-day rankings
+Buy signals
+1. GEV — Buy — forecast return +8.60% — probability up 73.8% — pattern: Uptrend
+2. GOOGL — Buy — forecast return +7.19% — probability up 68.6% — pattern: Uptrend
+3. DELL — Buy — forecast return +12.02% — probability up 67.6% — pattern: Uptrend
+
+Sell signals
+1. PEPE — Strong Sell — forecast return -26.56% — probability down 93.9% — pattern: Downtrend
+
+Summary
+The published 30-day list contains three qualifying Buy signals and one qualifying Strong Sell signal after excluding Neutral / No Edge names and forecasts with absolute return below 2%.
+
+Short watchlist
+ENA — forecast return +13.76% — Neutral / No Edge — pattern: Oversold
+ONDO — forecast return +12.46% — Neutral / No Edge — pattern: High Volatility
+AVAX — forecast return -12.08% — Neutral / No Edge — pattern: Range / No Dominant Pattern
+INTC — forecast return +12.07% — Neutral / No Edge — pattern: Uptrend
+AMD — forecast return -9.52% — Neutral / No Edge — pattern: Uptrend
+USO — forecast return +8.55% — Neutral / No Edge — pattern: Uptrend
