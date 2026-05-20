@@ -1,0 +1,23 @@
+Generated: 2026-05-20 01:06 UTC
+Horizon: 30 trading days
+Universe: 12 symbols | Stocks + crypto + commodities
+Primary model: LSTM
+Sequence model: lstm
+
+1 trading-day signals
+Sequence model used: LSTM
+Only signals with actionable labels and forecast magnitude of at least 2% are included.
+Sell: GEV | forecast return -2.69% | model LSTM | probability down 72.0% | edge 22.0% | expected error +/-4.80% | pattern Uptrend
+
+30 trading-day buy rankings
+GOOGL | Buy | forecast return +12.30% | model LSTM | probability up 81.3% | edge 31.3% | expected error +/-13.93% | pattern Uptrend
+C | Buy | forecast return +9.07% | model LSTM | probability up 74.4% | edge 24.4% | expected error +/-14.16% | pattern Oversold
+QQQ | Buy | forecast return +5.53% | model LSTM | probability up 75.0% | edge 25.0% | expected error +/-8.31% | pattern Uptrend
+
+30 trading-day sell rankings
+PEPE | Sell | forecast return -17.61% | model LSTM | probability down 78.9% | edge 28.9% | expected error +/-27.34% | pattern Downtrend
+VOO | Strong Sell | forecast return -6.24% | model LSTM | probability down 87.2% | edge 37.2% | expected error +/-5.82% | pattern Uptrend
+
+Notes
+Neutral and No Edge signals were excluded from the ranked recommendations.
+Signals with absolute forecast return below 2% were excluded.
