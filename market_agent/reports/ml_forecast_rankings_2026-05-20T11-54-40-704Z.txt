@@ -1,0 +1,21 @@
+Generated: 2026-05-20 11:54 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+RL policy: off
+
+1 trading-day signals
+Sequence model usage: both (LSTM and Transformer)
+No actionable 1 trading-day buy or sell signals met the filtering threshold. All short-horizon signals were Neutral / No Edge and below the 2% absolute forecast-return cutoff.
+
+30 trading-day buy rankings
+1. DELL — Buy | Forecast return: +14.62% | Probability up: 71.4% | Edge: 21.4% | Pattern: Uptrend | Expected error: +/-23.23%
+2. ONDO — Buy | Forecast return: +15.54% | Probability up: 58.1% | Edge: 8.1% | Pattern: High Volatility | Expected error: +/-30.08%
+3. GEV — Buy | Forecast return: +8.57% | Probability up: 73.7% | Edge: 23.7% | Pattern: Uptrend | Expected error: +/-13.18%
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Pattern: Downtrend | Expected error: +/-17.76%
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with at least 2% absolute forecast return were included. Neutral / No Edge names were excluded from the ranked recommendations.
