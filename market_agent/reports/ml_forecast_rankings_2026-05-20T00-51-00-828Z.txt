@@ -1,0 +1,23 @@
+Generated: 2026-05-20 00:50 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV | Buy | Pattern: Uptrend | Forecast return: +8.57% | Probability up: 73.7% | Edge: 23.7% | Expected error: +/-13.20% | Selected model: Ensemble
+GEV ranks as the clearest long candidate in this run. The probability and edge are strong, and the ensemble aligns with a persistent uptrend pattern. Risk remains material because expected error exceeds the forecast return, so position sizing should reflect wide uncertainty.
+
+GOOGL | Buy | Pattern: Uptrend | Forecast return: +7.57% | Probability up: 69.3% | Edge: 19.3% | Expected error: +/-14.11% | Selected model: Ensemble
+GOOGL shows a positive directional setup with a solid probability advantage and an uptrend pattern. The main limitation is forecast precision: expected error is notably larger than the projected gain. Model dispersion is present because XGBoost is only mildly positive while LSTM and Transformer are more constructive, so conviction is moderate rather than uniform.
+
+DELL | Buy | Pattern: Uptrend | Forecast return: +13.03% | Probability up: 69.1% | Edge: 19.1% | Expected error: +/-23.54% | Selected model: Ensemble
+DELL has the highest forecast return among the actionable buy signals, but it also carries the highest instability of the group. Expected error is far above the projected return, and the underlying models disagree sharply: Ridge and LSTM are negative while XGBoost, Neural Net, and Transformer are strongly positive. This is a bullish setup with elevated model conflict and high volatility risk.
+
+Top Sell / Avoid Signals
+PEPE | Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+PEPE is the only actionable sell under the stated filter and signal rules. The forecast is strongly negative, directional confidence is very high, and all major models are aligned bearish. Even with substantial expected error, the negative return is large enough to remain meaningful. This is the clearest avoid / sell signal in the universe.
+
+Watchlist / Neutral
+Several names show notable forecast magnitude but are not actionable because the optimizer labeled them Neutral / No Edge. SLB, USO, ONDO, ENA, NFLX, AVAX, AMD, DOT, XLK, and MSFT should remain watchlist names only under this framework. In particular, AMD is notable because the forecast is negative despite an Uptrend pattern, which creates directional conflict and raises reversal risk. ONDO and ENA have large positive forecast returns, but expected error is extremely high, which limits reliability.
+
+Summary
+Actionable longs are limited to GEV, GOOGL, and DELL. Among these, GEV appears the cleanest on balance, GOOGL is positive but less precise, and DELL offers higher upside with the highest disagreement and risk. On the downside, PEPE is the only valid strong sell signal. No other sell entries meet both the signal classification and quality filter for action.
