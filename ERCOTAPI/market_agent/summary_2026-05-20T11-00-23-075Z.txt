@@ -1,0 +1,15 @@
+- AI-driven data center growth remains the dominant Texas power theme, with multiple reports pointing to rising large-load demand, tougher siting fights, and growing pressure on grid planning; for ERCOT, the key implication is more scrutiny on interconnection timing, transmission buildout, and who pays for reliability upgrades as hyperscale and crypto loads cluster in fast-growing areas. (Forbes; Futurity; Business Insider; Tom's Hardware UK)
+
+- Texas local resistance to new data centers is becoming a practical development risk, after reports that Hill County approved a one-year rural data center moratorium; even if legally challenged, it signals that load growth in ERCOT may increasingly face county-level delays over land use, water, and infrastructure impacts rather than just power availability. (Tom's Hardware UK; Slashdot; Yahoo Entertainment)
+
+- The AI/data-center boom is increasingly spilling into behind-the-meter and “bring your own power” models, with NRG highlighting dedicated supply solutions for hyperscalers; for ERCOT this points to more hybrid load proposals combining grid service, onsite generation, storage, and negotiated reliability arrangements outside the traditional retail load model. (Fortune)
+
+- Crypto miners continue to blur into flexible data-center infrastructure, with Canaan reporting expansion across 10 joint-mining projects and Soluna saying hosting revenue now exceeds mining revenue; in ERCOT, that reinforces the market value of interruptible or dispatchable large loads that can pivot between compute and power-market opportunities. (PRNewswire; Cointelegraph)
+
+- Broader utility and infrastructure markets are repositioning around AI load growth, highlighted by NextEra’s Dominion acquisition and continued investor focus on transmission/construction firms; while not ERCOT-specific, the takeaway for Texas is that capital is chasing utilities and contractors able to deliver generation, wires, and interconnection capacity fastest. (Fortune; Reuters/The Times of India; MarketBeat)
+
+- A reported Texas school tax-abatement push for a data-center power plant underscores how generation dedicated to large loads may increasingly seek special economic treatment; for ERCOT, that raises policy questions around subsidized onsite generation, cost allocation, emissions permitting, and whether dedicated supply helps or bypasses system-wide reliability planning. (Grist)
+
+- Competing narratives are intensifying over whether data centers raise retail electric bills, but regardless of cost causation, the ERCOT-relevant issue is system readiness: rapid large-load additions can still drive local upgrades, congestion, reserve needs, and planning uncertainty even if statewide rate effects remain disputed. (PRNewswire; Futurity)
+
+- Supply-chain constraints tied to AI infrastructure—including fiber shortages and evolving high-voltage data-center designs—could become indirect bottlenecks for Texas load additions, meaning ERCOT may see announced projects outpace actual energization as telecom, substation, and equipment lead times stretch. (Tom's Hardware UK; DigiTimes)
