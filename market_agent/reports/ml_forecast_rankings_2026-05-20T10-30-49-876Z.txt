@@ -1,0 +1,29 @@
+Generated: 2026-05-20 10:30 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+GEV — Buy | Pattern: Uptrend | Forecast return: +8.57% | Probability up: 73.7% | Edge: 23.7% | Expected error: +/-13.18% | Selected model: Ensemble
+Clear positive ranking with the strongest buy edge in the actionable list. Pattern and probability are supportive, but expected error is larger than the forecast return, so position sizing should account for forecast uncertainty.
+
+DELL — Buy | Pattern: Uptrend | Forecast return: +13.23% | Probability up: 69.2% | Edge: 19.2% | Expected error: +/-23.41% | Selected model: Ensemble
+High forecast return and strong edge, but risk is elevated because expected error materially exceeds the forecast return. Model dispersion is notable: Ridge is near flat, XGBoost moderately positive, Neural Net and Transformer strongly positive, while LSTM is negative. This indicates disagreement across models and a less stable signal despite the buy classification.
+
+SLB — Buy | Pattern: Uptrend | Forecast return: +6.87% | Probability up: 68.5% | Edge: 18.5% | Expected error: +/-13.56% | Selected model: Ensemble
+Solid buy signal with supportive trend structure and a relatively balanced probability profile. However, expected error remains larger than the forecast return, so the signal is actionable but not low-risk. XGBoost is nearly flat while other models are positive, which suggests moderate internal disagreement rather than a fully aligned bullish setup.
+
+ONDO — Buy | Pattern: High Volatility | Forecast return: +15.34% | Probability up: 58.2% | Edge: 8.2% | Expected error: +/-30.13% | Selected model: Ensemble
+Forecast return is high enough to pass the noise filter, but this is the weakest of the buy signals by edge and has the highest uncertainty. Expected error is roughly double the forecast return, and the model mix is conflicted: Ridge, Neural Net, and LSTM are negative, XGBoost is modestly positive, and Transformer is extremely positive. High-volatility pattern plus model disagreement implies elevated reversal and execution risk.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+This is the clearest negative signal in the ranking set. The probability profile is strongly bearish, the edge is the strongest on either side of the book, and all listed models are negative. Expected error is meaningful but still smaller than the forecast magnitude, which makes this a comparatively cleaner avoid/sell setup than the buy candidates.
+
+Watchlist / Neutral
+GOOGL — Neutral / No Edge despite a +6.95% forecast and uptrend pattern. Probability and edge are constructive, but the optimizer did not classify it as actionable.
+INTC — Neutral / No Edge with a +16.93% forecast, but expected error is extremely high at +/-40.77%, which reduces reliability.
+AMD — Neutral / No Edge with a -9.76% forecast, but expected error at +/-32.88% makes the bearish view too noisy for an actionable sell.
+NFLX — Neutral / No Edge with a -7.43% forecast and downtrend pattern, but not classified as a sell by the optimizer.
+
+Summary
+Actionable longs are concentrated in GEV, DELL, SLB, and ONDO, with GEV appearing the cleanest on edge and probability. DELL and ONDO offer higher forecast returns but show stronger model conflict and larger forecast uncertainty. On the downside, PEPE is the only valid sell signal meeting both classification and magnitude requirements. Most other negative forecasts remain neutral and should not be treated as sell calls.
