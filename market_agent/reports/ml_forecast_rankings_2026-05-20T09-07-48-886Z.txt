@@ -1,0 +1,12 @@
+Generated: 2026-05-20 09:07 UTC
+Horizon: 30 trading days
+Universe: 1 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both
+No qualifying buy or sell signals met the publication threshold. The only short-term candidate, META, carried a Neutral / No Edge call and a forecast return below the 2% filter, so it is excluded.
+
+30 trading-day signals
+No qualifying buy or sell signals met the publication threshold. META showed a -2.52% forecast return, but the signal was Neutral / No Edge, so it is excluded.
+
+Result: no publishable Strong Buy, Buy, Strong Sell, or Sell ideas from this run.
