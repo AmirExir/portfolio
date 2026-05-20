@@ -1,36 +1,36 @@
 {
   "paths": {
-    "json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-20T09-03-02Z.json",
-    "txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-20T09-03-02Z.txt",
+    "json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-20T09-07-43Z.json",
+    "txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-20T09-07-43Z.txt",
     "latest_json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.json",
     "latest_txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.txt",
     "cache": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_cache_5aeede6049c5b7e0.json"
   },
-  "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-20 09:03 UTC\nHorizon: 30 trading days | Primary: Ensemble\nPattern windows: 20/50 trading days\nSequence model: both\nRL policy: off\nUniverse: 1 symbols | Stocks + crypto + commodities\nCalculation time: 1m 11s total | context 5.2s | 1/1 ranked | 0 cached\nSlowest symbols: META: 1m 6s\n\nBest Picked Forecast\nMETA: Neutral / No Edge | Pattern: Oversold | Forecast Return: -1.56% | Selected model: Ensemble\n\nShort-Term Forecast Signals\n1 trading day | sequence model: both\nBuys: no positive forecast candidates.\nSells: META: -0.40% | Neutral / No Edge | model Ensemble | prob up 44.8% | edge 5.2% | err +/-3.00% | pattern Oversold\n\nStrongest Buy Forecasts\nNo positive forecast candidates.\n\nStrongest Sell Forecasts\nMETA: -1.56% | Neutral / No Edge | model Ensemble | prob up 46.0% | edge 4.0% | err +/-15.33% | pattern Oversold\n\nModel output only. Not financial advice.",
+  "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-20 09:07 UTC\nHorizon: 30 trading days | Primary: Ensemble\nPattern windows: 20/50 trading days\nSequence model: both\nRL policy: off\nUniverse: 1 symbols | Stocks + crypto + commodities\nCalculation time: 1m 13s total | context 4.5s | 1/1 ranked | 0 cached\nSlowest symbols: META: 1m 8s\n\nBest Picked Forecast\nMETA: Neutral / No Edge | Pattern: Oversold | Forecast Return: -2.52% | Selected model: Ensemble\n\nShort-Term Forecast Signals\n1 trading day | sequence model: both\nBuys: no positive forecast candidates.\nSells: META: -0.39% | Neutral / No Edge | model Ensemble | prob up 45.1% | edge 4.9% | err +/-2.99% | pattern Oversold\n\nStrongest Buy Forecasts\nNo positive forecast candidates.\n\nStrongest Sell Forecasts\nMETA: -2.52% | Neutral / No Edge | model Ensemble | prob up 43.8% | edge 6.2% | err +/-15.56% | pattern Oversold\n\nModel output only. Not financial advice.",
   "rows": [
     {
       "Symbol": "META",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
       "Last Price": 602.6099853515625,
-      "Forecast Price": 593.2356814217967,
-      "Forecast Return %": -1.5556170919234096,
-      "Ridge Return %": -2.064513733832414,
+      "Forecast Price": 587.427716021577,
+      "Forecast Return %": -2.519418811344204,
+      "Ridge Return %": -2.0645031312074167,
       "XGBoost Return %": -0.8204761659620653,
-      "Neural Net Return %": 0.32030229574455177,
-      "LSTM Return %": -6.6683586309643745,
-      "Transformer Return %": 0.5327537431205844,
+      "Neural Net Return %": 0.16194415048590197,
+      "LSTM Return %": -11.132490184087999,
+      "Transformer Return %": -0.2834766275355835,
       "RL Policy Return %": null,
-      "Ensemble Return %": -1.5556170919234096,
-      "Probability Up %": 46.00664626027845,
-      "Probability Down %": 53.99335373972155,
-      "Directional Probability %": 53.99335373972155,
-      "Model Edge %": 3.993353739721549,
+      "Ensemble Return %": -2.519418811344204,
+      "Probability Up %": 43.779816800484475,
+      "Probability Down %": 56.220183199515525,
+      "Directional Probability %": 56.220183199515525,
+      "Model Edge %": 6.220183199515525,
       "Signal Quality": "Weak Edge",
-      "Expected Error %": 15.328199804538194,
-      "Validation MAE %": 12.263777346498319,
-      "Direction Hit Rate %": 50.17884935613265,
-      "Score": -0.008105491069822685,
+      "Expected Error %": 15.563315332011525,
+      "Validation MAE %": 12.417012486991247,
+      "Direction Hit Rate %": 49.000931189761836,
+      "Score": -0.02013869953612399,
       "Primary Pattern": "Oversold",
       "All Patterns": "Oversold"
     }
@@ -46,32 +46,32 @@
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
           "Last Price": 602.6099853515625,
-          "Forecast Price": 600.1984729174669,
-          "Forecast Return %": -0.40017797459647786,
-          "Ridge Return %": -0.6318409774961891,
+          "Forecast Price": 600.261727029246,
+          "Forecast Return %": -0.3896812829855151,
+          "Ridge Return %": -0.6318418591285087,
           "XGBoost Return %": -0.04597386269256062,
-          "Neural Net Return %": -1.3747722906175464,
-          "LSTM Return %": -0.3199495310809756,
-          "Transformer Return %": 0.21392615984883798,
+          "Neural Net Return %": -1.3312792686429855,
+          "LSTM Return %": -0.6097817643914663,
+          "Transformer Return %": 0.41098454192916944,
           "RL Policy Return %": null,
-          "Ensemble Return %": -0.40017797459647786,
-          "Probability Up %": 44.84517459091481,
-          "Probability Down %": 55.15482540908519,
-          "Directional Probability %": 55.15482540908519,
-          "Model Edge %": 5.154825409085191,
+          "Ensemble Return %": -0.3896812829855151,
+          "Probability Up %": 45.09094270228829,
+          "Probability Down %": 54.90905729771171,
+          "Directional Probability %": 54.90905729771171,
+          "Model Edge %": 4.909057297711712,
           "Signal Quality": "Weak Edge",
-          "Expected Error %": 2.9953688683273096,
-          "Validation MAE %": 2.0945228461966243,
-          "Direction Hit Rate %": 53.82848136289871,
-          "Score": -0.01377357969776937,
+          "Expected Error %": 2.993878913829167,
+          "Validation MAE %": 2.101859342693848,
+          "Direction Hit Rate %": 53.339652849600505,
+          "Score": -0.012779192486278764,
           "Primary Pattern": "Oversold",
           "All Patterns": "Oversold"
         }
       ],
       "errors": [],
       "timings": {
-        "total_seconds": 70.56,
-        "context_seconds": 4.294,
+        "total_seconds": 73.46,
+        "context_seconds": 3.92,
         "symbols_attempted": 1,
         "symbols_ranked": 1,
         "symbols_cached": 0,
@@ -79,7 +79,7 @@
         "symbol_timings": [
           {
             "symbol": "META",
-            "seconds": 66.264,
+            "seconds": 69.538,
             "status": "ok"
           }
         ]
@@ -88,8 +88,8 @@
   ],
   "errors": [],
   "timings": {
-    "total_seconds": 70.822,
-    "context_seconds": 5.183,
+    "total_seconds": 72.567,
+    "context_seconds": 4.471,
     "symbols_attempted": 1,
     "symbols_ranked": 1,
     "symbols_cached": 0,
@@ -97,7 +97,7 @@
     "symbol_timings": [
       {
         "symbol": "META",
-        "seconds": 65.637,
+        "seconds": 68.094,
         "status": "ok"
       }
     ]
