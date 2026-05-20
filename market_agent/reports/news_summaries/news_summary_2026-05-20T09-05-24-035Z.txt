@@ -1,0 +1,16 @@
+Fresh market-moving headlines are limited in this set, and they only partially explain today’s tape.
+
+**Facts**
+- **CNBC (2026-05-19T08:59:06Z):** Foreign governments, led by **Japan and China**, reduced **U.S. Treasury holdings in March**; CNBC says the pullback reflected reserve management pressures tied to Middle East conflict fallout and currency weakness.
+- **CNBC (2026-05-19T08:53:36Z):** **Blackstone** plans to invest **$5 billion** in a new U.S. **AI infrastructure** venture with **Google**, using Google **TPU chips**. This is a notable read-through for AI data-center buildout and hyperscaler capex.
+- **Financial Post/Bloomberg (2026-05-19T08:52:04Z):** The **UK household energy price cap** is projected to **rise 13% this summer**, the biggest increase since 2023, due to higher wholesale gas and power prices linked to the **Iran war**.
+- **Crypto Briefing (2026-05-19T08:56:02Z):** President **Trump** said a planned **U.S. attack on Iran** was called off at the request of Gulf states. This is geopolitically relevant, but the source is crypto-focused and should be treated cautiously.
+- **CryptoSlate (2026-05-19T08:46:31Z):** **Bitcoin Depot** filed for **Chapter 11** and plans to wind down operations and sell assets, signaling stress in the U.S. **Bitcoin ATM** segment.
+- **CoinJournal (2026-05-19T08:50:40Z):** The **ECHO token** fell after an alleged **$76.7 million admin-key exploit** enabled unauthorized minting and borrowing. This is crypto-specific rather than broad market-moving.
+- **PRNewswire (2026-05-19T08:45:00Z):** **Hesai** said it is a strategic lidar partner and confirmed supplier for **Mercedes-Benz L3-enabled models**, relevant for autonomous-driving and EV supply-chain names, though it is a company press release.
+
+**Interpretation**
+- The clearest cross-asset macro signal here is **energy-linked inflation risk**: the UK energy-cap story and the Treasury-reserve/liquidity story both point to **geopolitics feeding into rates/inflation concerns**.
+- The strongest equity-sector headline is the **Blackstone-Google AI infrastructure deal**, which supports the ongoing **AI/data-center investment** theme and could matter for hyperscalers, chip ecosystems, and power/infrastructure suppliers.
+- The crypto headlines are **mostly idiosyncratic**: bankruptcy in Bitcoin ATMs and a token exploit do not, by themselves, explain broad risk sentiment.
+- There is **no fresh Fed, U.S. CPI/PCE, or major earnings headline** in this article set, so if markets are moving sharply today, this feed does **not fully explain it**.
