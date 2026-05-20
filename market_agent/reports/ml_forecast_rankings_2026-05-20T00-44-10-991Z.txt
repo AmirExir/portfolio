@@ -1,0 +1,47 @@
+Generated: 2026-05-20 00:43 UTC
+Horizon: 30 trading days
+Universe: 75 symbols across stocks, crypto, and commodities
+
+Top Buy Signals
+DELL — Strong Buy | Pattern: Uptrend | Forecast return: +24.24% | Probability up: 87.9% | Edge: 37.9% | Expected error: +/-20.38% | Selected model: Neural Net
+Highest-ranked long signal in the set. Return forecast and probability are both strong, with additional support from the Transformer model, although Ridge and LSTM disagree. Expected error is large but still below the forecast return, so the signal remains actionable with elevated variance.
+
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +11.11% | Probability up: 85.4% | Edge: 35.4% | Expected error: +/-10.54% | Selected model: Ridge
+Strong directional quality with relatively balanced risk versus forecast size. Other model outputs are also positive, which reduces disagreement risk compared with several other names. Expected error is close to the forecast return, so position sizing should remain controlled.
+
+GOOGL — Buy | Pattern: Uptrend | Forecast return: +11.72% | Probability up: 79.9% | Edge: 29.9% | Expected error: +/-14.11% | Selected model: LSTM
+Positive return and solid directional probability. Ridge and Transformer are also positive, but expected error exceeds forecast return, which weakens conviction. This is still a valid buy signal, but forecast uncertainty is material.
+
+ENA — Buy | Pattern: Oversold | Forecast return: +15.82% | Probability up: 78.2% | Edge: 28.2% | Expected error: +/-20.74% | Selected model: XGBoost
+Forecast is above the action threshold, but model disagreement is substantial: Neural Net and LSTM are negative while Transformer is sharply positive. Oversold pattern can support a rebound, but conflicting model output raises reversal and noise risk. Expected error is larger than forecast return.
+
+SHIB — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +22.03% | Probability up: 76.8% | Edge: 26.8% | Expected error: +/-31.17% | Selected model: XGBoost
+Forecast return is large, but confidence is reduced by very high expected error and major cross-model disagreement, including a strongly negative Ridge forecast. Range pattern also offers less trend confirmation than the higher-ranked buy names. Actionable only as a higher-risk signal.
+
+WMT — Buy | Pattern: Uptrend | Forecast return: +3.69% | Probability up: 71.6% | Edge: 21.6% | Expected error: +/-6.54% | Selected model: XGBoost
+Meets the minimum action threshold but is weaker than the leading buy names. Forecast return is modest and expected error is notably larger than the projected gain. Better viewed as a lower-conviction buy than a primary candidate.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+Strongest bearish signal in the ranking. All major model variants are negative, and the downtrend pattern aligns with the forecast. This is the cleanest sell/avoid setup in the universe.
+
+AVGO — Sell | Pattern: Uptrend | Forecast return: -14.41% | Probability down: 87.0% | Edge: 37.0% | Expected error: +/-14.81% | Selected model: Ridge
+Forecast is clearly negative, but the pattern remains Uptrend and XGBoost/Neural Net are positive. That creates a conflict: bearish model output inside an uptrend raises reversal risk. Expected error is slightly larger than forecast return.
+
+VOO — Sell | Pattern: Uptrend | Forecast return: -5.73% | Probability down: 84.1% | Edge: 34.1% | Expected error: +/-6.09% | Selected model: LSTM
+Negative signal with strong directional probability, but the move projected is moderate and expected error exceeds forecast return. Uptrend and near-60-day-high pattern suggest this is more of a cautionary avoid than a high-conviction short.
+
+QQQ — Sell | Pattern: Uptrend | Forecast return: -5.57% | Probability down: 79.5% | Edge: 29.5% | Expected error: +/-7.20% | Selected model: Ridge
+Actionable on the forecast threshold, though several other models are positive. Uptrend and overbought conditions can coexist with a pullback, but disagreement across models increases uncertainty. Expected error is larger than the forecast decline.
+
+AMD — Sell | Pattern: Uptrend | Forecast return: -16.23% | Probability down: 74.6% | Edge: 24.6% | Expected error: +/-30.66% | Selected model: Ridge
+Forecasted downside is meaningful, but error is very large relative to the signal. Other models are also negative, though not uniformly so. This supports an avoid stance more than a high-confidence short.
+
+C — Sell | Pattern: Uptrend | Forecast return: -6.27% | Probability down: 71.5% | Edge: 21.5% | Expected error: +/-12.09% | Selected model: Ridge
+Bearish output conflicts with an oversold and pullback-in-uptrend backdrop, which elevates reversal risk. LSTM is strongly positive, adding model disagreement. Error is materially larger than the projected downside.
+
+Watchlist / Neutral
+No neutral watchlist included because the provided actionable signals already show clearer rank separation, and weaker or noise-level forecasts were excluded under the 2% filter.
+
+Summary
+The strongest long setups are DELL and GEV, with GOOGL as a secondary buy. ENA, SHIB, and WMT qualify but carry higher uncertainty relative to forecast size. On the bearish side, PEPE stands out as the only clean, trend-aligned strong sell. The remaining sell signals are mostly tactical avoid candidates because several occur against an uptrend pattern or carry expected error greater than projected return.
