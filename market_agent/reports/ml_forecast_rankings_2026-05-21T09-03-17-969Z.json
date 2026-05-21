@@ -1,0 +1,105 @@
+{
+  "paths": {
+    "json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-21T09-03-09Z.json",
+    "txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-21T09-03-09Z.txt",
+    "latest_json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.json",
+    "latest_txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.txt",
+    "cache": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_cache_5aeede6049c5b7e0.json"
+  },
+  "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-21 09:03 UTC\nHorizon: 30 trading days | Primary: Ensemble\nPattern windows: 20/50 trading days\nSequence model: both\nRL policy: off\nUniverse: 1 symbols | Stocks + crypto + commodities\nCalculation time: 1m 10s total | context 5.2s | 1/1 ranked | 0 cached\nSlowest symbols: META: 1m 5s\n\nBest Picked Forecast\nMETA: Neutral / No Edge | Pattern: Range / No Dominant Pattern | Forecast Return: -1.48% | Selected model: Ensemble\n\nShort-Term Forecast Signals\n1 trading day | sequence model: both\nBuys: no positive forecast candidates.\nSells: META: -0.21% | Neutral / No Edge | model Ensemble | prob up 47.3% | edge 2.7% | err +/-2.99% | pattern Range / No Dominant Pattern\n\nStrongest Buy Forecasts\nNo positive forecast candidates.\n\nStrongest Sell Forecasts\nMETA: -1.48% | Neutral / No Edge | model Ensemble | prob up 46.2% | edge 3.8% | err +/-15.49% | pattern Range / No Dominant Pattern\n\nModel output only. Not financial advice.",
+  "rows": [
+    {
+      "Symbol": "META",
+      "Model Call": "Neutral / No Edge",
+      "Selected Model": "Ensemble",
+      "Last Price": 605.0599975585938,
+      "Forecast Price": 596.124199593137,
+      "Forecast Return %": -1.4768449412476192,
+      "Ridge Return %": -3.7537359243143555,
+      "XGBoost Return %": -0.06557456588158396,
+      "Neural Net Return %": 0.9542121040025904,
+      "LSTM Return %": -3.949802768470266,
+      "Transformer Return %": -1.3717373063310911,
+      "RL Policy Return %": null,
+      "Ensemble Return %": -1.4768449412476192,
+      "Probability Up %": 46.1971853620096,
+      "Probability Down %": 53.8028146379904,
+      "Directional Probability %": 53.8028146379904,
+      "Model Edge %": 3.8028146379904015,
+      "Signal Quality": "Weak Edge",
+      "Expected Error %": 15.487683420129486,
+      "Validation MAE %": 12.388285813152283,
+      "Direction Hit Rate %": 48.91268698066495,
+      "Score": -0.007252430732564092,
+      "Primary Pattern": "Range / No Dominant Pattern",
+      "All Patterns": "Range / No Dominant Pattern"
+    }
+  ],
+  "short_horizon_reports": [
+    {
+      "horizon_days": 1,
+      "sequence_model": "both",
+      "top_buys": [],
+      "top_sells": [
+        {
+          "Symbol": "META",
+          "Model Call": "Neutral / No Edge",
+          "Selected Model": "Ensemble",
+          "Last Price": 605.0599975585938,
+          "Forecast Price": 603.7638186294762,
+          "Forecast Return %": -0.21422320668160988,
+          "Ridge Return %": -0.49680796607863315,
+          "XGBoost Return %": 0.21307881786428043,
+          "Neural Net Return %": -1.0720767233553645,
+          "LSTM Return %": 0.1848356046316282,
+          "Transformer Return %": -0.017618813811979144,
+          "RL Policy Return %": null,
+          "Ensemble Return %": -0.21422320668160988,
+          "Probability Up %": 47.28315129193441,
+          "Probability Down %": 52.71684870806559,
+          "Directional Probability %": 52.71684870806559,
+          "Model Edge %": 2.7168487080655908,
+          "Signal Quality": "No Edge",
+          "Expected Error %": 2.9868651608309054,
+          "Validation MAE %": 2.09372723890798,
+          "Direction Hit Rate %": 52.63616960992525,
+          "Score": -0.0038971430645278406,
+          "Primary Pattern": "Range / No Dominant Pattern",
+          "All Patterns": "Range / No Dominant Pattern"
+        }
+      ],
+      "errors": [],
+      "timings": {
+        "total_seconds": 71.024,
+        "context_seconds": 5.124,
+        "symbols_attempted": 1,
+        "symbols_ranked": 1,
+        "symbols_cached": 0,
+        "symbols_failed": 0,
+        "symbol_timings": [
+          {
+            "symbol": "META",
+            "seconds": 65.898,
+            "status": "ok"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "timings": {
+    "total_seconds": 70.183,
+    "context_seconds": 5.191,
+    "symbols_attempted": 1,
+    "symbols_ranked": 1,
+    "symbols_cached": 0,
+    "symbols_failed": 0,
+    "symbol_timings": [
+      {
+        "symbol": "META",
+        "seconds": 64.991,
+        "status": "ok"
+      }
+    ]
+  }
+}
