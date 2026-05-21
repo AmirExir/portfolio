@@ -555,11 +555,6 @@
       <div class="slide"><img src="AELabDynamicSimResults.png" alt="Fault Simulation Results"></div>
       <div class="slide"><img src="DARKMODE_IDV_RUNNER.jpg" alt="Dynamic Contingency Runner and Autoplot"></div>
       <div class="slide"><img src="AELABDYNAMICPLOTS.png" alt="Dynamic Plots"></div>
-      <div class="slide"><img src="TARAINTERACTIVE4.jpg" alt="TARA TRLIM Visualization"></div>
-      <div class="slide"><img src="TARAINTERACTIVE2.jpg" alt="TARA TRLIM Visualization 2"></div>
-      <div class="slide"><img src="TARAINTERACTIVE3.jpg" alt="TARA TRLIM Visualization 3"></div>
-      <div class="slide"><img src="TARAINTERACTIVE.jpg" alt="TARA TRLIM Visualization 4"></div>
-      <div class="slide"><img src="TARACAVISUAL.png" alt="TARA CA ACCC Visualization"></div>
       <div class="slide"><img src="AELABDWGCON2XLS.jpg" alt="DWG CONT2XLS"></div>
       <div class="slide"><img src="AELABDWGCTGBUILDER.jpg" alt="DWG CTG"></div>
       <div class="slide"><img src="DARKMODE_CONTINGENCYGENERATOR.jpg" alt="Contingency Generator"></div>
@@ -618,13 +613,93 @@
   <li> Batch contingency analysis with thermal/voltage violation reporting</li>
   <li> Dynamic simulation file parsing (.outx) with channel summaries</li>
   <li> Dynamic simulation Contingency Builder</li>
-  <li> TARA Results Visualization</li>
+  <li> PSS®E Results Visualization</li>
   <li> Dynamic Events Runner and Autoplotter</li>
   <li> IDV generation from impedance + rating CSVs (line design automation)</li>
   <li> P3/P6 contingency builder for stress testing</li>
   <li> Transmission Project Info Tool (TPIT) for MOD/Planning workflows</li>
 </ul>
 
+
+<!-- AELab Gallery Carousel -->
+<div id="aelab-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
+  <style>
+    .aelab-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+    .aelab-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
+    .aelab-gallery .slide { min-width: 100%; box-sizing: border-box; padding: 14px; display:flex; justify-content:center; align-items:center; }
+    .aelab-gallery .slide img { max-width: 100%; height: auto; display:block; border-radius:8px; }
+    .aelab-gallery .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; display: flex; align-items:center; justify-content:center; cursor:pointer; border: none; font-size: 24px; }
+    .aelab-gallery .nav.left { left: 10px; }
+    .aelab-gallery .nav.right { right: 10px; }
+    .aelab-gallery .dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
+    .aelab-gallery .dot { width:10px; height:10px; border-radius:50%; background:#ddd; cursor:pointer; }
+    .aelab-gallery .dot.active { background:#00bfff; }
+    @media (min-width:700px){ .aelab-gallery .slide { padding:18px; } }
+  </style>
+
+  <div class="aelab-gallery" aria-label="AELab screenshots gallery">
+    <button class="nav left" aria-label="Previous slide">‹</button>
+    <div class="viewport" id="aelabGalleryViewport">
+
+      <div class="slide"><img src="TARAINTERACTIVE4.jpg" alt="TARA TRLIM Visualization"></div>
+      <div class="slide"><img src="TARAINTERACTIVE2.jpg" alt="TARA TRLIM Visualization 2"></div>
+      <div class="slide"><img src="TARAINTERACTIVE3.jpg" alt="TARA TRLIM Visualization 3"></div>
+      <div class="slide"><img src="TARAINTERACTIVE.jpg" alt="TARA TRLIM Visualization 4"></div>
+      <div class="slide"><img src="TARACAVISUAL.png" alt="TARA CA ACCC Visualization"></div>
+
+    </div>
+    <button class="nav right" aria-label="Next slide">›</button>
+  </div>
+
+  <div class="dots" id="aelabGalleryDots" style="margin-top:6px; display:flex; justify-content:center;"></div>
+
+  <script>
+    (function(){
+      const viewport = document.getElementById('aelabGalleryViewport');
+      const slides = viewport ? viewport.children : [];
+      const dotsContainer = document.getElementById('aelabGalleryDots');
+      let idx = 0;
+      const total = slides.length;
+      let autoplay = true;
+      let autoplayTimer = null;
+
+      function show(i){
+        idx = (i + total) % total;
+        const offset = -idx * 100;
+        viewport.style.transform = `translateX(${offset}%)`;
+        if(dotsContainer){ Array.from(dotsContainer.children).forEach((d, di) => d.classList.toggle('active', di===idx)); }
+      }
+
+      function next(){ show(idx+1); }
+      function prev(){ show(idx-1); }
+
+      if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
+
+      const left = document.querySelector('.aelab-gallery .nav.left');
+      const right = document.querySelector('.aelab-gallery .nav.right');
+      left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
+      right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
+
+      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+
+      function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
+      function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
+
+      show(0);
+      startAutoplay();
+    })();
+  </script>
+
+</div>
+
+<!-- Key Features List -->
+<a href="https://amirexirpe.com/#aelab-suite" target="_blank" rel="noopener noreferrer"><strong>AELab</strong></a>
+<h3 class="slide-up hover-scale" style="text-align: center; margin-top: 3rem;"> AELab Key Features</h3>
+<ul style="max-width: 800px; margin: 1rem auto 3rem auto; list-style-type: disc; padding-left: 1.5rem; font-size: 1rem;">
+
+  <li> TARA PowerGem Results Visualization</li>
+
+</ul>
 
 
 <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
