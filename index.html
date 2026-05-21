@@ -159,6 +159,19 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       margin-top: 1rem;
     }
+    .aelab-gallery .nav,
+    .fun-gallery .nav,
+    .market-gallery .nav {
+      z-index: 3;
+    }
+
+    .aelab-gallery:focus-visible,
+    .fun-gallery:focus-visible,
+    .market-gallery:focus-visible {
+      outline: 3px solid #00bfff;
+      outline-offset: 4px;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -485,18 +498,22 @@
         idx = (i + total) % total;
         const offset = -idx * 100;
         viewport.style.transform = `translateX(${offset}%)`;
-        if(dotsContainer){ Array.from(dotsContainer.children).forEach((d, di) => d.classList.toggle('active', di===idx)); }
       }
 
       function next(){ show(idx+1); }
       function prev(){ show(idx-1); }
 
-      const left = document.querySelector('.fun-gallery .nav.left');
-      const right = document.querySelector('.fun-gallery .nav.right');
+      const container = viewport.closest('.fun-gallery');
+      const left = container.querySelector('.nav.left');
+      const right = container.querySelector('.nav.right');
       left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
       right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
 
-      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+      container.tabIndex = 0;
+      container.addEventListener('keydown', (e)=>{
+        if(e.key==='ArrowLeft'){ e.preventDefault(); prev(); resetAutoplay(); }
+        if(e.key==='ArrowRight'){ e.preventDefault(); next(); resetAutoplay(); }
+      });
 
       function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
       function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
@@ -546,8 +563,8 @@
     <button class="nav left" aria-label="Previous slide">‹</button>
     <div class="viewport" id="aelabGalleryViewport">
       <div class="slide"><img src="aelabpro_accc.jpg" alt="ACCC Analysis"></div>
-      <div class="slide"><img src="ACCCTHERMALVIOLATIONSRESULTS.jpg" alt="ACCC Analysis Thermal Violatitons></div>
-      <div class="slide"><img src="VOLTAGE_VIOLATIONSRESULTS_excell.jpg" alt="ACCC Analysis Voltage Violations Export in Excel></div>
+      <div class="slide"><img src="ACCCTHERMALVIOLATIONSRESULTS.jpg" alt="ACCC Analysis Thermal Violations"></div>
+      <div class="slide"><img src="VOLTAGE_VIOLATIONSRESULTS_excell.jpg" alt="ACCC Analysis Voltage Violations Export in Excel"></div>
       <div class="slide"><img src="VOLTAGE_VIOLATIONSRESULTS.jpg" alt="ACCC Analysis Voltage Violations"></div>
       <div class="slide"><img src="VOLTAGE_DEVIATION_VIOLATIONS_Results.jpg" alt="ACCC Analysis Voltage Deviations Violations"></div>
       <div class="slide"><img src="Notconverged_Results.jpg" alt="ACCC Analysis NonConveged"></div>
@@ -589,12 +606,17 @@
 
       if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
 
-      const left = document.querySelector('.aelab-gallery .nav.left');
-      const right = document.querySelector('.aelab-gallery .nav.right');
+      const container = viewport.closest('.aelab-gallery');
+      const left = container.querySelector('.nav.left');
+      const right = container.querySelector('.nav.right');
       left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
       right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
 
-      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+      container.tabIndex = 0;
+      container.addEventListener('keydown', (e)=>{
+        if(e.key==='ArrowLeft'){ e.preventDefault(); prev(); resetAutoplay(); }
+        if(e.key==='ArrowRight'){ e.preventDefault(); next(); resetAutoplay(); }
+      });
 
       function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
       function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
@@ -620,23 +642,8 @@
   <li> Transmission Project Info Tool (TPIT) for MOD/Planning workflows</li>
 </ul>
 
-<div id="aelab-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
-  <style>
-    .aelab-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
-    .aelab-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
-    .aelab-gallery .slide { min-width: 100%; box-sizing: border-box; padding: 14px; display:flex; justify-content:center; align-items:center; }
-    .aelab-gallery .slide img { max-width: 100%; height: auto; display:block; border-radius:8px; }
-    .aelab-gallery .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; display: flex; align-items:center; justify-content:center; cursor:pointer; border: none; font-size: 24px; }
-    .aelab-gallery .nav.left { left: 10px; }
-    .aelab-gallery .nav.right { right: 10px; }
-    .aelab-gallery .dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
-    .aelab-gallery .dot { width:10px; height:10px; border-radius:50%; background:#ddd; cursor:pointer; }
-    .aelab-gallery .dot.active { background:#00bfff; }
-    @media (min-width:700px){ .aelab-gallery .slide { padding:18px; } }
-  </style>
-
-<!-- AELab Gallery Carousel -->
-<div id="aelab-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
+<!-- TARA Gallery Carousel -->
+<div id="tara-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
   <style>
     .aelab-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
     .aelab-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
@@ -653,7 +660,7 @@
 
   <div class="aelab-gallery" aria-label="AELab screenshots gallery">
     <button class="nav left" aria-label="Previous slide">‹</button>
-    <div class="viewport" id="aelabGalleryViewport">
+    <div class="viewport" id="taraGalleryViewport">
 
       <div class="slide"><img src="TARAINTERACTIVE4.jpg" alt="TARA TRLIM Visualization"></div>
       <div class="slide"><img src="TARAINTERACTIVE2.jpg" alt="TARA TRLIM Visualization 2"></div>
@@ -665,13 +672,13 @@
     <button class="nav right" aria-label="Next slide">›</button>
   </div>
 
-  <div class="dots" id="aelabGalleryDots" style="margin-top:6px; display:flex; justify-content:center;"></div>
+  <div class="dots" id="taraGalleryDots" style="margin-top:6px; display:flex; justify-content:center;"></div>
 
   <script>
     (function(){
-      const viewport = document.getElementById('aelabGalleryViewport');
+      const viewport = document.getElementById('taraGalleryViewport');
       const slides = viewport ? viewport.children : [];
-      const dotsContainer = document.getElementById('aelabGalleryDots');
+      const dotsContainer = document.getElementById('taraGalleryDots');
       let idx = 0;
       const total = slides.length;
       let autoplay = true;
@@ -689,12 +696,17 @@
 
       if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
 
-      const left = document.querySelector('.aelab-gallery .nav.left');
-      const right = document.querySelector('.aelab-gallery .nav.right');
+      const container = viewport.closest('.aelab-gallery');
+      const left = container.querySelector('.nav.left');
+      const right = container.querySelector('.nav.right');
       left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
       right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
 
-      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+      container.tabIndex = 0;
+      container.addEventListener('keydown', (e)=>{
+        if(e.key==='ArrowLeft'){ e.preventDefault(); prev(); resetAutoplay(); }
+        if(e.key==='ArrowRight'){ e.preventDefault(); next(); resetAutoplay(); }
+      });
 
       function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
       function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
@@ -1073,12 +1085,17 @@ This project combines real-time market data, AI-generated buy/sell recommendatio
 
       if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
 
-      const left = document.querySelector('.market-gallery .nav.left');
-      const right = document.querySelector('.market-gallery .nav.right');
+      const container = viewport.closest('.market-gallery');
+      const left = container.querySelector('.nav.left');
+      const right = container.querySelector('.nav.right');
       left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
       right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
 
-      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+      container.tabIndex = 0;
+      container.addEventListener('keydown', (e)=>{
+        if(e.key==='ArrowLeft'){ e.preventDefault(); prev(); resetAutoplay(); }
+        if(e.key==='ArrowRight'){ e.preventDefault(); next(); resetAutoplay(); }
+      });
 
       function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
       function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
@@ -1191,7 +1208,11 @@ This project combines real-time market data, AI-generated buy/sell recommendatio
       left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
       right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
 
-      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); });
+      container.tabIndex = 0;
+      container.addEventListener('keydown', (e)=>{
+        if(e.key==='ArrowLeft'){ e.preventDefault(); prev(); resetAutoplay(); }
+        if(e.key==='ArrowRight'){ e.preventDefault(); next(); resetAutoplay(); }
+      });
 
       function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
       function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
