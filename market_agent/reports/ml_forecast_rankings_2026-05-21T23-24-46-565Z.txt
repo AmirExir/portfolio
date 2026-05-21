@@ -1,0 +1,35 @@
+Generated: 2026-05-21 23:24 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+JNJ — Strong Buy | Pattern: Rebound From 60-Day Low | Forecast return: +10.56% | Probability up: 90.2% | Edge: 40.2% | Expected error: 8.09% | Selected model: Transformer. This is the clearest long signal in the set, with high directional confidence and forecast return exceeding expected error.
+
+GEV — Strong Buy | Pattern: Uptrend | Forecast return: +11.45% | Probability up: 84.3% | Edge: 34.3% | Expected error: 11.37% | Selected model: Ridge. Positive trend setup with forecast return only slightly above expected error, so conviction is acceptable but risk control matters.
+
+GOOGL — Buy | Pattern: Uptrend | Forecast return: +11.98% | Probability up: 81.0% | Edge: 31.0% | Expected error: 13.76% | Selected model: LSTM. Actionable positive edge, but expected error is larger than forecast return, which reduces reliability.
+
+ENA — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +17.15% | Probability up: 80.0% | Edge: 30.0% | Expected error: 20.73% | Selected model: XGBoost. Positive directional signal, though the range-type pattern and error larger than return increase uncertainty.
+
+USO — Buy | Pattern: Uptrend | Forecast return: +9.58% | Probability up: 70.4% | Edge: 20.4% | Expected error: 18.64% | Selected model: XGBoost. Trend-following long candidate, but wide expected error suggests position sizing discipline.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: 13.60% | Selected model: Ridge. This is the strongest bearish signal in the ranking, with broad model alignment and a clear downtrend pattern.
+
+VOO — Strong Sell | Pattern: Uptrend | Forecast return: -8.87% | Probability down: 94.2% | Edge: 44.2% | Expected error: 6.10% | Selected model: LSTM. Bearish model output despite an uptrend / near-60-day-high pattern suggests possible exhaustion, but trend conflict raises reversal risk.
+
+AVGO — Sell | Pattern: Uptrend | Forecast return: -12.66% | Probability down: 83.5% | Edge: 33.5% | Expected error: 14.87% | Selected model: Ridge. Forecast is bearish, but there is material model disagreement: Ridge is negative while XGBoost, Neural Net, and LSTM are positive. Bearish output against an uptrend backdrop implies elevated conflict risk.
+
+Watchlist / Neutral
+WMT — Buy signal remains above the noise filter at +3.46%, but forecast return is modest and expected error at 6.39% is larger than the move forecast. Not a high-conviction entry.
+
+GLD — Buy signal at +4.17%, but several alternative models are near flat or negative. Useful as a watchlist name rather than a top-ranked actionable long.
+
+Excluded from top actionable buys due to risk/conflict
+ONDO — Buy signal with large forecast return, but expected error exceeds forecast return and model dispersion is very wide, including a negative LSTM and very large positive Transformer output. High-volatility setup with low agreement.
+
+INTC — Buy signal with large upside forecast, but expected error is much larger than forecast return, making the setup noisy.
+
+Risk notes
+Signals where expected error exceeds forecast return carry lower reliability and should be treated cautiously.
+Conflicting model outputs are notable in AVGO, ONDO, GLD, and to a lesser extent VOO because pattern context and model direction are not fully aligned.
