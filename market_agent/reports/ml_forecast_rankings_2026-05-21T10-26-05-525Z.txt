@@ -1,0 +1,41 @@
+Generated: 2026-05-21 10:25 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+Top Buy Signals
+ENA — Strong Buy | Pattern: Range / No Dominant Pattern | Forecast return: +28.38% | Probability up: 90.7% | Edge: 40.7% | Expected error: +/-20.75% | Selected model: XGBoost
+Largest positive forecast in the ranked list and the strongest directional probability among buys. Risk remains material because expected error is large relative to the forecast, but the edge is still meaningful.
+
+DELL — Buy | Pattern: Uptrend | Forecast return: +13.56% | Probability up: 75.3% | Edge: 25.3% | Expected error: +/-20.42% | Selected model: Neural Net
+Positive upside forecast with decent edge, but expected error exceeds forecast return, so conviction is lower than the headline return suggests. There is also model disagreement, with LSTM slightly negative while Transformer is more bullish.
+
+GEV — Buy | Pattern: Uptrend | Forecast return: +10.41% | Probability up: 83.0% | Edge: 33.0% | Expected error: +/-10.94% | Selected model: Ridge
+Cleaner buy setup than DELL on probability and edge. Expected error is close to the forecast return, so position sizing should still account for forecast uncertainty.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -31.94% | Probability down: 99.9% | Edge: 49.9% | Expected error: +/-13.60% | Selected model: Ridge
+The clearest bearish signal in the list. Forecast magnitude, probability, and edge are all strong, and the primary pattern is already downtrend aligned with the model output.
+
+AVGO — Sell | Pattern: Uptrend | Forecast return: -12.73% | Probability down: 83.7% | Edge: 33.7% | Expected error: +/-14.84% | Selected model: Ridge
+Bearish forecast is meaningful, but there is notable model conflict: XGBoost, Neural Net, and Transformer are positive while Ridge is negative. Bearish model output against an uptrend raises reversal and false-break risk.
+
+VOO — Strong Sell | Pattern: Uptrend | Forecast return: -6.49% | Probability down: 87.3% | Edge: 37.3% | Expected error: +/-6.07% | Selected model: LSTM
+A valid bearish signal above the noise threshold, but the setup conflicts with the underlying uptrend pattern. Forecast and expected error are close, so this is more of an avoid/caution signal than a high-conviction short.
+
+C — Sell | Pattern: Uptrend | Forecast return: -8.36% | Probability down: 77.8% | Edge: 27.8% | Expected error: +/-12.09% | Selected model: Ridge
+Bearish output is actionable by the filter, but expected error is larger than the forecast return and non-Ridge models lean positive. Treat as mixed and lower conviction.
+
+HYPE — Sell | Pattern: Uptrend | Forecast return: -16.56% | Probability down: 78.0% | Edge: 28.0% | Expected error: +/-26.43% | Selected model: LSTM
+Forecast is materially negative, but expected error is substantially larger than the forecast return. Uptrend, near 60-day high, overbought, and volume spike create a conflicted setup with elevated reversal risk.
+
+AMD — Sell | Pattern: Uptrend | Forecast return: -16.24% | Probability down: 74.6% | Edge: 24.6% | Expected error: +/-30.71% | Selected model: Ridge
+Meaningful negative forecast, but expected error is very large and exceeds the forecast return by a wide margin. Model confidence is weaker here than the return number implies.
+
+XLK — Sell | Pattern: Uptrend | Forecast return: -5.47% | Probability down: 74.3% | Edge: 24.3% | Expected error: +/-9.01% | Selected model: Ridge
+Valid bearish signal under the rules, but the forecast is modest and the expected error is larger than the return. Uptrend and overbought context make this more of a cautionary avoid signal.
+
+Watchlist / Neutral
+WMT — Buy signal present at +4.23%, but it ranks below the stronger buy candidates. Useful as a secondary watchlist name rather than a top actionable idea.
+
+Overall view
+Buy side leadership is concentrated in ENA, with GEV and DELL as secondary candidates. Sell side is led clearly by PEPE. Several equity sell signals are counter-trend, with bearish model output appearing against uptrend conditions, so those names carry higher reversal risk and should be treated more as avoid candidates than uniform short setups.
