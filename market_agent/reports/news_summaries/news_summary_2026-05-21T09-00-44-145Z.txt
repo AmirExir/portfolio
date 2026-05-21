@@ -1,0 +1,26 @@
+**Fresh market-moving headlines are limited in this article set, and they do not fully explain today’s tape. The clearest fresh driver is Nvidia earnings ahead of the report, with a smaller read-through from inflation/rates and crypto-policy items.**
+
+## Facts
+- **Nvidia earnings are the main near-term focal point for AI/semi markets.** Business Insider reported that Nvidia is due to report fiscal Q1 results **after the close Wednesday**, with investors focused on updates around **AI competition, China, and broader demand/supply issues**.  
+  *Source: Business Insider, publishedAt **2026-05-20T09:00:02Z***
+
+- **A fresh rates/inflation signal came from Iceland’s central bank.** Financial Post/Bloomberg said Iceland **raised borrowing costs for a second time in two months** to address persistent price pressure.  
+  *Source: Financial Post (Bloomberg), publishedAt **2026-05-20T08:56:36Z***
+
+- **South Africa inflation accelerated, adding to rate-hike expectations there.** News24 reported **April inflation rose to 4.0%**, driven by higher fuel prices, with the article saying this **raises the likelihood of a rate hike next week**.  
+  *Source: News24, publishedAt **2026-05-20T08:47:43Z***
+
+- **Meta began a new round of job cuts.** The Next Web, citing Bloomberg, reported Meta started notifying employees of layoffs tied to a previously flagged **10% cut**.  
+  *Source: The Next Web, publishedAt **2026-05-20T08:43:23Z***
+
+- **A crypto-policy headline may matter for digital-asset sentiment, but the source is lower-tier.** Bitcoinfoundation.org reported President Trump signed an executive order on May 19 aimed at giving crypto companies access to the **Fed payment system**. This should be treated cautiously unless confirmed by a major wire or official release.  
+  *Source: Bitcoinfoundation.org, publishedAt **2026-05-20T08:44:27Z***
+
+## Interpretation
+- **Most relevant macro/equity setup:** Nvidia appears to be the only clearly fresh, major-cap catalyst in this set with obvious potential to move **AI/semi names, Nasdaq sentiment, and broader risk appetite**.
+- **Rates backdrop:** The inflation/rate stories here are **international** rather than Fed-specific, so they are more useful as a reminder that inflation pressure remains a live global issue than as a direct explanation for US trading.
+- **Tech labor/cost discipline:** Meta layoffs may reinforce the theme that large platforms are still balancing **AI investment** with **headcount efficiency**, but this headline alone is not enough to drive the whole tape.
+- **Crypto:** The executive-order item could matter for **Bitcoin, stablecoins, and crypto-linked equities** if independently verified, but based on the source quality here, it should not be treated as a confirmed market driver yet.
+
+## Bottom line
+The fresh article set is **thin**. Based on what’s here, **Nvidia earnings preview is the dominant market-moving headline**, while the other usable items mostly add background on **global inflation/rates**, **Big Tech cost actions**, and a **tentative crypto-policy development**.
