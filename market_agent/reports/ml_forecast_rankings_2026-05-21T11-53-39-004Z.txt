@@ -1,0 +1,19 @@
+Generated: 2026-05-21 11:53 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both
+No actionable 1 trading-day buy or sell signals met the publication filter. All short-horizon entries were Neutral / No Edge and forecast returns were below the 2% threshold.
+
+30 trading-day buy rankings
+1. GEV — Buy | forecast return +13.31% | probability up 81.8% | pattern: Uptrend
+2. ENA — Buy | forecast return +25.33% | probability up 77.2% | pattern: Range / No Dominant Pattern
+3. ONDO — Buy | forecast return +19.49% | probability up 64.1% | pattern: High Volatility
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell | forecast return -26.56% | probability down 93.9% | pattern: Downtrend
+2. NFLX — Sell | forecast return -10.55% | probability down 74.2% | pattern: Downtrend
+
+Summary
+Published rankings include only Buy, Strong Buy, Sell, and Strong Sell signals with absolute forecast return of at least 2%. Neutral / No Edge names were excluded from the main lists.
