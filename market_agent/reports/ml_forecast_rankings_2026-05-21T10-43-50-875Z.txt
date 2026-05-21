@@ -1,0 +1,28 @@
+Generated: 2026-05-21 10:43 UTC
+Horizon: 30 trading days
+Universe: 11 symbols | Stocks + crypto + commodities
+Primary model: LSTM
+Sequence model: LSTM
+
+1 trading-day signals
+Sequence model used: LSTM
+Buy candidates
+AMD: Buy, forecast return +5.23%, uptrend pattern, probability up 84.1%, edge 34.1%.
+
+Sell candidates
+HYPE: Sell, forecast return -6.17%, uptrend pattern, probability down 85.5%, edge 35.5%.
+
+30 trading-day rankings
+Top buy ideas
+GEV: Strong Buy, forecast return +17.20%, uptrend pattern, probability up 86.7%, edge 36.7%.
+
+Top sell ideas
+PEPE: Sell, forecast return -17.61%, downtrend pattern, probability down 78.9%, edge 28.9%.
+HYPE: Sell, forecast return -14.99%, uptrend pattern, probability down 75.7%, edge 25.7%.
+AMD: Sell, forecast return -17.90%, uptrend pattern, probability down 75.2%, edge 25.2%.
+VOO: Sell, forecast return -6.08%, uptrend pattern, probability down 85.6%, edge 35.6%.
+XLK: Sell, forecast return -4.94%, uptrend pattern, probability down 71.1%, edge 21.1%.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% are included.
+AMD shows a short-term buy signal but a negative 30 trading-day outlook, indicating horizon sensitivity.
