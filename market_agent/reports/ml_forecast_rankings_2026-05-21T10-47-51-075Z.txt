@@ -1,0 +1,19 @@
+Generated: 2026-05-21 10:47 UTC
+Horizon: 30 trading days
+Universe: 9 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both (LSTM and Transformer enabled)
+No actionable 1 trading-day Buy or Sell signals met the publication threshold. All short-horizon outputs were Neutral / No Edge and below the 2% absolute forecast return filter.
+
+30 trading-day Buy rankings
+1. GEV — Buy — forecast return +13.16% — probability up 81.7% — edge 31.7% — pattern: Uptrend
+2. ENA — Buy — forecast return +24.96% — probability up 76.9% — edge 26.9% — pattern: Range / No Dominant Pattern
+3. ONDO — Buy — forecast return +17.06% — probability up 65.7% — edge 15.7% — pattern: High Volatility
+
+30 trading-day Sell rankings
+1. PEPE — Strong Sell — forecast return -26.56% — probability down 93.9% — edge 43.9% — pattern: Downtrend
+2. NFLX — Sell — forecast return -10.29% — probability down 73.8% — edge 23.8% — pattern: Downtrend
+
+Summary
+The 30-day model output shows three qualifying long candidates and two qualifying short candidates after excluding Neutral / No Edge signals and any forecasts below a 2% absolute return threshold. GEV is the highest-conviction long among equities, while PEPE is the clearest short based on return magnitude and directional confidence.
