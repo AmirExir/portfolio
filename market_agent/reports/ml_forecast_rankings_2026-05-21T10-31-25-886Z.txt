@@ -1,0 +1,32 @@
+Generated: 2026-05-21 10:31 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+
+Top Buy Signals
+GEV — Buy | Pattern: Uptrend | Forecast return: +13.52% | Probability up: 82.1% | Edge: 32.1% | Expected error: +/-13.57% | Selected model: Ensemble
+Highest-confidence long signal in this run. Trend is constructive and probability support is strong. Risk note: expected error is roughly equal to forecast return, so position sizing should account for forecast dispersion.
+
+ENA — Buy | Pattern: Range / No Dominant Pattern | Forecast return: +24.32% | Probability up: 76.6% | Edge: 26.6% | Expected error: +/-35.84% | Selected model: Ensemble
+Large upside forecast, but uncertainty is higher than the projected return. Pattern is not directional, which reduces conviction despite the positive edge. Model conflict is present: LSTM is slightly negative while other models are positive, indicating elevated forecast instability.
+
+ONDO — Buy | Pattern: High Volatility | Forecast return: +17.40% | Probability up: 64.6% | Edge: 14.6% | Expected error: +/-30.70% | Selected model: Ensemble
+Positive expected return clears the noise filter, but this is a lower-conviction buy than GEV and ENA. Volatility is high and model disagreement is significant, with LSTM negative and Transformer strongly positive. Risk note: expected error materially exceeds forecast return.
+
+Top Sell / Avoid Signals
+PEPE — Strong Sell | Pattern: Downtrend | Forecast return: -26.56% | Probability down: 93.9% | Edge: 43.9% | Expected error: +/-17.76% | Selected model: Ensemble
+Strongest downside setup in the ranked universe. Broad model alignment is bearish and the primary pattern is a clear downtrend. Despite crypto volatility, the projected downside remains larger than expected error, making this the cleanest sell/avoid signal.
+
+NFLX — Sell | Pattern: Downtrend | Forecast return: -9.72% | Probability down: 72.6% | Edge: 22.6% | Expected error: +/-17.53% | Selected model: Ensemble
+Bearish directional setup with downtrend confirmation. However, expected error is larger than the forecast move, so conviction is moderate rather than high. Some reversal risk may emerge if the stock stabilizes after weakness, but current model output remains negative.
+
+Watchlist / Neutral
+DOGE, DELL, GOOGL, and AMD showed notable forecast magnitudes but were classified Neutral / No Edge, so they are not actionable under the filter rules.
+AMD and AVAX are worth monitoring only because downside forecasts are visible, but both remain below action threshold due to neutral classification and high error.
+MSFT, XLK, and VOO also screened negative but are Neutral / No Edge and should not be treated as sell signals.
+
+Summary
+Most credible long setup: GEV.
+Higher-upside but less stable long setups: ENA, ONDO.
+Most credible short/avoid setup: PEPE.
+Secondary sell signal with higher uncertainty: NFLX.
