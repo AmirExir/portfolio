@@ -1,0 +1,24 @@
+**Fresh market-moving headlines only**  
+*Window used: last 36 hours from 2026-05-21 05:05 ET*
+
+## Facts
+- **Nvidia earnings are the key near-term macro/AI market focus** — *Business Insider, 2026-05-20T09:00:02Z*: preview says Nvidia reports fiscal Q1 results after Wednesday’s close, with investors focused on AI competition, China exposure, and whether the AI trade still has room to run.
+
+- **Meta has reportedly begun broad layoffs** — *The Next Web, 2026-05-20T08:43:23Z*: citing Bloomberg, Meta started notifying employees of cuts tied to a reported **10% workforce reduction**, beginning in Singapore and extending to Europe and the U.S.
+
+- **Crypto policy headline: Trump signed an executive order aimed at giving crypto firms access to the Fed payment system** — *Bitcoinfoundation.org, 2026-05-20T08:44:27Z*: article says the order, signed May 19, is intended to further integrate digital assets into the U.S. financial system.  
+  - Note: this is from a niche crypto source, so it is less authoritative than a major wire or top-tier financial outlet.
+
+- **Inflation/rates signal from abroad: Iceland’s central bank raised rates again** — *Financial Post / Bloomberg, 2026-05-20T08:56:36Z*: Iceland delivered its **second rate hike in two months** to address persistent price pressure.
+
+- **Another inflation/rates signal from abroad: South Africa inflation accelerated** — *News24, 2026-05-20T08:47:43Z*: April inflation rose to **4.0%**, with the report saying this increases the likelihood of a rate hike next week.
+
+- **Energy/geopolitics: higher oil prices tied to the Iran conflict remain a live theme** — *The Times of India, 2026-05-20T08:45:30Z*: article says the Iran war-driven crude shock is raising India’s import burden and pushing faster adoption of ethanol and EVs.  
+  - This is more a policy/sector read-through than a direct global market datapoint.
+
+## Interpretation
+- The **strongest fresh market catalyst in this set is Nvidia earnings**, especially for AI/semis, Nasdaq leadership, and broader risk sentiment.
+- **Meta layoffs** reinforce the ongoing big-tech efficiency/AI-spending backdrop, but this headline alone does not explain broad index moves.
+- The **crypto executive-order item could matter for major crypto sentiment**, but the sourcing is not ideal, so it should be treated cautiously until confirmed by a higher-quality outlet.
+- The **inflation/rates headlines are mostly international** and suggest global central banks are still dealing with sticky price pressure, but they are **not direct Fed-moving U.S. catalysts**.
+- Overall, the fresh article set is **fairly thin for explaining today’s broader tape**; aside from Nvidia and some AI/tech-related items, there is **not much here on U.S. macro, Fed, Treasury yields, or major index drivers**.
