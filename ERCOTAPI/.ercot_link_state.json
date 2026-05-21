@@ -30,6 +30,8 @@
     "NOGRR|https://www.ercot.com/mktrules/issues/NOGRR281"
   ],
   "PGRR": [
+    "PGRR|https://www.ercot.com/mktrules/issues/PGRR147",
+    "PGRR|https://www.ercot.com/mktrules/issues/PGRR146",
     "PGRR|https://www.ercot.com/mktrules/issues/PGRR145",
     "PGRR|https://www.ercot.com/mktrules/issues/PGRR144",
     "PGRR|https://www.ercot.com/mktrules/issues/PGRR143",
@@ -52,6 +54,7 @@
     "RTP|https://www.ercot.com/committees/workshops"
   ],
   "SSWG": [
+    "SSWG|https://www.ercot.com/files/docs/2025/09/24/SSWG_Procedure_Manual_ROS_Approved_05072026.docx",
     "SSWG|https://www.ercot.com/files/docs/2025/09/24/SSWG-Procedure-Manual-ROS-Approved-20250911.docx",
     "SSWG|https://www.ercot.com/files/docs/2025/05/20/SSWG_Roster_08262025.xlsx",
     "SSWG|https://www.ercot.com/files/docs/2025/01/02/ERCOT_SSWG_Schedule_2026.docx",

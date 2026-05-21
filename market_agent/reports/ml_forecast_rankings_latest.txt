@@ -1,43 +1,25 @@
 ML Forecast Rankings
-Generated: 2026-05-20 11:54 UTC
+Generated: 2026-05-21 22:12 UTC
 Horizon: 30 trading days | Primary: Ensemble
 Pattern windows: 20/50 trading days
 Sequence model: both
 RL policy: off
-Universe: 75 symbols | Stocks + crypto + commodities
-Calculation time: 1h 25m 30s total | context 4.3s | 75/75 ranked | 0 cached
-Slowest symbols: UNI: 1m 37s, ADA: 1m 36s, COMP: 1m 36s, BNB: 1m 36s, XRP: 1m 36s
+Universe: 1 symbols | Stocks + crypto + commodities
+Calculation time: 1m 17s total | context 9.3s | 1/1 ranked | 0 cached
+Slowest symbols: META: 1m 8s
 
 Best Picked Forecast
-GEV: Buy | Pattern: Uptrend | Forecast Return: +8.57% | Selected model: Ensemble
+META: Neutral / No Edge | Pattern: Range / No Dominant Pattern | Forecast Return: -0.81% | Selected model: Ensemble
 
 Short-Term Forecast Signals
 1 trading day | sequence model: both
-Buys: KO: +0.36% | Neutral / No Edge | model Ensemble | prob up 59.5% | edge 9.5% | err +/-1.24% | pattern Uptrend ; SLB: +0.77% | Neutral / No Edge | model Ensemble | prob up 59.3% | edge 9.3% | err +/-2.82% | pattern Uptrend ; CVX: +0.47% | Neutral / No Edge | model Ensemble | prob up 58.9% | edge 8.9% | err +/-1.84% | pattern High Volatility
-Sells: MS: -0.58% | Neutral / No Edge | model Ensemble | prob up 41.1% | edge 8.9% | err +/-2.32% | pattern Uptrend ; PEPE: -1.32% | Neutral / No Edge | model Ensemble | prob up 40.7% | edge 9.3% | err +/-5.87% | pattern Downtrend ; VOO: -0.24% | Neutral / No Edge | model Ensemble | prob up 42.6% | edge 7.4% | err +/-1.26% | pattern Uptrend
+Buys: no positive forecast candidates.
+Sells: META: -0.07% | Neutral / No Edge | model Ensemble | prob up 48.8% | edge 1.2% | err +/-2.97% | pattern Range / No Dominant Pattern
 
 Strongest Buy Forecasts
-GEV: +8.57% | Buy | model Ensemble | prob up 73.7% | edge 23.7% | err +/-13.18% | pattern Uptrend
-DELL: +14.62% | Buy | model Ensemble | prob up 71.4% | edge 21.4% | err +/-23.23% | pattern Uptrend
-GOOGL: +6.57% | Neutral / No Edge | model Ensemble | prob up 67.2% | edge 17.2% | err +/-14.26% | pattern Uptrend
-SLB: +6.35% | Neutral / No Edge | model Ensemble | prob up 67.1% | edge 17.1% | err +/-13.75% | pattern Uptrend
-INTC: +16.80% | Neutral / No Edge | model Ensemble | prob up 64.6% | edge 14.6% | err +/-40.94% | pattern Uptrend
-USO: +7.21% | Neutral / No Edge | model Ensemble | prob up 62.8% | edge 12.8% | err +/-20.53% | pattern Uptrend
-WMT: +2.75% | Neutral / No Edge | model Ensemble | prob up 63.2% | edge 13.2% | err +/-8.57% | pattern Uptrend
-ONDO: +15.54% | Buy | model Ensemble | prob up 58.1% | edge 8.1% | err +/-30.08% | pattern High Volatility
-PG: +2.23% | Neutral / No Edge | model Ensemble | prob up 62.2% | edge 12.2% | err +/-7.23% | pattern Bullish MA Crossover
-JPM: +2.74% | Neutral / No Edge | model Ensemble | prob up 61.1% | edge 11.1% | err +/-9.53% | pattern Range / No Dominant Pattern
+No positive forecast candidates.
 
 Strongest Sell Forecasts
-PEPE: -26.56% | Strong Sell | model Ensemble | prob up 6.1% | edge 43.9% | err +/-17.76% | pattern Downtrend
-NFLX: -7.71% | Neutral / No Edge | model Ensemble | prob up 32.4% | edge 17.6% | err +/-17.40% | pattern Downtrend
-V: -2.73% | Neutral / No Edge | model Ensemble | prob up 33.8% | edge 16.2% | err +/-6.22% | pattern Near 60-Day High
-AVAX: -10.92% | Neutral / No Edge | model Ensemble | prob up 34.8% | edge 15.2% | err +/-30.04% | pattern Range / No Dominant Pattern
-AMD: -9.74% | Neutral / No Edge | model Ensemble | prob up 35.8% | edge 14.2% | err +/-33.19% | pattern Uptrend
-VOO: -2.00% | Neutral / No Edge | model Ensemble | prob up 37.8% | edge 12.2% | err +/-6.09% | pattern Uptrend
-DOT: -6.21% | Neutral / No Edge | model Ensemble | prob up 38.4% | edge 11.6% | err +/-23.47% | pattern Range / No Dominant Pattern
-MSFT: -2.81% | Neutral / No Edge | model Ensemble | prob up 39.6% | edge 10.4% | err +/-11.15% | pattern Range / No Dominant Pattern
-XLV: -1.29% | Neutral / No Edge | model Ensemble | prob up 39.8% | edge 10.2% | err +/-5.16% | pattern Rebound From 60-Day Low
-XLK: -2.33% | Neutral / No Edge | model Ensemble | prob up 40.0% | edge 10.0% | err +/-9.87% | pattern Uptrend
+META: -0.81% | Neutral / No Edge | model Ensemble | prob up 48.0% | edge 2.0% | err +/-15.58% | pattern Range / No Dominant Pattern
 
 Model output only. Not financial advice.
