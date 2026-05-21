@@ -1,0 +1,20 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Nvidia reported another record quarter but said revenue growth is expected to slow next quarter** — **TechCrunch**, **2026-05-20 22:03Z**. Article says Nvidia posted **$81.6 billion** in revenue for the quarter ended April 26 and flagged slower growth ahead.  
+- **SpaceX filed for an IPO** — **Fortune**, **2026-05-20 21:55Z**. The filing begins what the article describes as a major, closely watched offering and gives investors a first detailed look at the company’s finances.  
+- **SpaceX’s IPO filing disclosed a roughly $1.45 billion Bitcoin position** — **Decrypt**, **2026-05-20 21:59Z**.  
+- **Business Insider reported Anthropic is paying SpaceX $1.25 billion per month through May 2029 for compute capacity** — **Business Insider**, **2026-05-20 21:51Z**. If accurate, that is a notable AI-infrastructure revenue datapoint tied to the SpaceX filing.  
+- **The Federal Reserve is proposing “skinny master accounts” / limited payment accounts for fintech and crypto firms** — **Crypto Briefing**, **2026-05-20 21:51Z**. The article says the proposal would give non-banks limited direct access to Fed payment rails, without full bank privileges.  
+- **ECB June rate-hike expectations are being discussed, with July still possible** — **Crypto Briefing**, **2026-05-20 21:52Z**. This is a rates/liquidity headline, though it appears to be analysis-style coverage rather than a primary-source policy announcement.  
+- **OilPrice reported U.S. consumers are changing behavior as fuel costs rise, and referenced oil near $110** — **OilPrice.com**, **2026-05-20 22:00Z**. This is relevant to inflation/risk sentiment, though it is more feature-style than a hard new catalyst.  
+- **The Hill highlighted a sharp rise in grocery inflation and warnings that food prices could worsen** — **The Hill**, **2026-05-20 21:49Z**. This is inflation-related consumer coverage, not a new official CPI release.
+
+### Interpretation
+- **Most actionable fresh headline here is Nvidia.** It matters for AI/semis and broader index leadership because the setup is mixed: record results, but an explicit slowdown in growth guidance.  
+- **SpaceX IPO-related headlines matter for risk appetite, AI infrastructure, and crypto sentiment**, especially because the filing reportedly revealed both a large Bitcoin holding and major AI-compute revenue exposure. However, SpaceX is not itself a public equity yet, so the direct listed-market impact is more thematic than immediate.  
+- **Fed/ECB items point to liquidity and policy sensitivity**, but in this article set they are not strong enough primary-source macro catalysts on their own.  
+- **Inflation/energy headlines suggest ongoing consumer price pressure**, but they are mostly contextual rather than decisive new market drivers.  
+
+### Bottom line
+The fresh set is **fairly thin for explaining today’s tape**. The clearest market-moving news in these articles is **Nvidia’s earnings/growth outlook**, with **SpaceX IPO + Bitcoin/AI-compute disclosures** as secondary theme movers. The rest is mostly background on inflation, energy, and policy rather than definitive new catalysts.

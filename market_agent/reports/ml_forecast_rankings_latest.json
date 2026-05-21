@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "generated_at": "2026-05-21T22-12-10Z",
   "horizon_days": 30,
   "primary_model": "Ensemble",
@@ -11,6 +12,16 @@
     "META"
   ],
   "cache_key": "5aeede6049c5b7e0",
+=======
+  "paths": {
+    "json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-21T22-12-10Z.json",
+    "txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-05-21T22-12-10Z.txt",
+    "latest_json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.json",
+    "latest_txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.txt",
+    "cache": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_cache_5aeede6049c5b7e0.json"
+  },
+  "telegram_text": "ML Forecast Rankings\nGenerated: 2026-05-21 22:12 UTC\nHorizon: 30 trading days | Primary: Ensemble\nPattern windows: 20/50 trading days\nSequence model: both\nRL policy: off\nUniverse: 1 symbols | Stocks + crypto + commodities\nCalculation time: 1m 17s total | context 9.3s | 1/1 ranked | 0 cached\nSlowest symbols: META: 1m 8s\n\nBest Picked Forecast\nMETA: Neutral / No Edge | Pattern: Range / No Dominant Pattern | Forecast Return: -0.81% | Selected model: Ensemble\n\nShort-Term Forecast Signals\n1 trading day | sequence model: both\nBuys: no positive forecast candidates.\nSells: META: -0.07% | Neutral / No Edge | model Ensemble | prob up 48.8% | edge 1.2% | err +/-2.97% | pattern Range / No Dominant Pattern\n\nStrongest Buy Forecasts\nNo positive forecast candidates.\n\nStrongest Sell Forecasts\nMETA: -0.81% | Neutral / No Edge | model Ensemble | prob up 48.0% | edge 2.0% | err +/-15.58% | pattern Range / No Dominant Pattern\n\nModel output only. Not financial advice.",
+>>>>>>> 1990a38c8a55a79b8bc722af97274eec850691d0
   "rows": [
     {
       "Symbol": "META",
@@ -1471,7 +1482,12 @@
     {
       "horizon_days": 1,
       "sequence_model": "both",
+<<<<<<< HEAD
       "rows": [
+=======
+      "top_buys": [],
+      "top_sells": [
+>>>>>>> 1990a38c8a55a79b8bc722af97274eec850691d0
         {
           "Symbol": "META",
           "Model Call": "Neutral / No Edge",

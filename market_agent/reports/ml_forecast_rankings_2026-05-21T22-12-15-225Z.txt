@@ -1,0 +1,13 @@
+Generated: 2026-05-21 22:12 UTC
+Horizon: 30 trading days
+Universe: 1 symbols
+
+1 trading-day section
+Sequence model used: both
+No qualifying Buy, Strong Buy, Sell, or Strong Sell signals met the minimum 2% forecast-return filter.
+
+30 trading-day rankings
+No qualifying Buy, Strong Buy, Sell, or Strong Sell signals met the minimum 2% forecast-return filter.
+
+Notes
+The only ranked symbol was META, but its 1-day forecast return (-0.07%) and 30-day forecast return (-0.81%) were both below the 2% minimum absolute forecast-return threshold and were labeled Neutral / No Edge, so they were excluded.
