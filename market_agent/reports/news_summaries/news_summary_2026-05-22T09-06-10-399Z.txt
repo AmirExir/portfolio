@@ -1,0 +1,19 @@
+Fresh market-moving headlines only, based on articles published within the last 36 hours.
+
+**Facts**
+- **Nvidia earnings remain a key live market focus** — a fresh item referencing traders analyzing Nvidia earnings highlights that the company topped Q1 estimates and gave an upbeat outlook tied to strong AI-chip demand. *(Slashdot citing CNBC/Yahoo/Al Jazeera, publishedAt 2026-05-21T08:52:16Z)*  
+- **AMD announced a major Taiwan AI investment push** — AMD said it will commit **more than $10 billion** across Taiwan’s AI ecosystem, including silicon, packaging, and manufacturing partnerships tied to its Helios platform. *(The Next Web, 2026-05-21T08:53:18Z)*  
+- **Tesla launched its advanced driver-assistance system in China** after years of delays, expanding availability in its second-largest market. *(Crypto Briefing, 2026-05-21T09:02:32Z)*  
+- **Euro-zone business activity contracted at the fastest pace since 2023** — the article says the euro area’s private-sector activity shrank at the quickest rate in about 2.5 years, with energy-cost pressure tied to the Iran war cited as a concern. *(Financial Post/Bloomberg, 2026-05-21T08:50:46Z)*  
+- **UK flash PMI fell into contraction** — S&P Global’s May flash UK composite output index dropped to **48.5** from **52.6**, below the 50 expansion threshold and below consensus. *(Order-order.com, 2026-05-21T09:05:04Z)*  
+- **Geopolitical stress is being linked to higher sovereign borrowing costs** — one fresh report says the Middle East war is pushing up bond yields and raising budget risks for developed economies. *(Hurriyet Daily News, 2026-05-21T09:02:59Z)*  
+- **U.S. export-financing support for AI may expand** — the Export-Import Bank is expected to consider a framework to back exports of U.S.-made AI systems abroad. *(Nextgov, 2026-05-21T09:00:00Z)*  
+- **Crypto market infrastructure headline:** IG plans to expand crypto trading across Europe through Bitpanda after launching U.K. spot crypto trading earlier. *(CoinDesk, 2026-05-21T08:58:31Z)*  
+- **China ADR earnings headline:** Vipshop reported first-quarter 2026 financial results. *(PR Newswire, 2026-05-21T09:00:00Z)*  
+- **Another China-linked earnings headline:** BingEx announced first-quarter 2026 financial results. *(GlobeNewswire, 2026-05-21T09:00:00Z)*
+
+**Interpretation**
+- The freshest usable set is **dominated by AI/semi headlines and weak European macro data**, with geopolitics also in the mix through energy/yield concerns.
+- For U.S. equities, **Nvidia and AMD-related AI capex/supply-chain headlines** look like the clearest potential market movers in this batch.
+- For rates and risk sentiment, the fresh articles suggest a **growth-sensitive macro backdrop in Europe/UK** and continued attention to **war-related energy and bond-yield pressure**.
+- There is **not enough clean fresh reporting here to fully explain today’s broader tape** across all major U.S. indexes, rates, energy, and crypto.
