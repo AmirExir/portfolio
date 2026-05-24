@@ -1,0 +1,17 @@
+**Fresh market-moving headlines only (last 36 hours): the set is fairly thin and skewed toward geopolitics/crypto. It does not fully explain today’s broader equity tape on its own.**
+
+## Facts
+- **Crypto Briefing — 2026-05-23T08:41:06Z:** Reported **Bitcoin fell below $75,000** and said roughly **$945 million in leveraged liquidations** hit the crypto market as investors reacted to reports that **Trump was weighing Iran strikes**.
+- **Crypto Briefing — 2026-05-23T07:54:55Z:** Separately reported **Bitcoin fell below $75,000**, triggering about **$100 million in liquidations**.
+- **Crypto Briefing — 2026-05-23T08:18:04Z:** Reported **oil spiked above $105** following a **drone strike on the UAE’s Barakah nuclear facility** and Iran’s rejection of U.S. allegations tied to the incident.
+- **Financial Post / Bloomberg — 2026-05-23T08:46:15Z:** Reported ECB Governing Council member **Yannis Stournaras** said a **rate hike next month may be inevitable** to preserve the ECB’s credibility.
+- **The Times of India / Bloomberg — 2026-05-23T07:36:40Z:** Highlighted the market risk scenario of the **Strait of Hormuz not reopening**, underscoring the vulnerability of global oil flows.
+- **The Times of India / ANI — 2026-05-23T07:47:48Z** and **PTI — 2026-05-23T08:04:40Z:** Reported **India raised petrol and diesel prices for a third time** in recent days, reinforcing inflation/energy-cost pressure locally.
+- **BusinessLine / PTI — 2026-05-23T08:46:20Z:** Reported industry group **ASSOCHAM** said India is relatively well positioned on retail inflation and argued the **RBI should hold rates**.
+
+## Interpretation
+- The clearest fresh macro signal in this article set is **geopolitical energy risk**: reports around the UAE nuclear-facility strike and Hormuz disruption risk point to **oil-sensitive inflation and risk-sentiment concerns**.
+- The clearest fresh cross-asset move is in **crypto**, where the supplied articles explicitly describe **Bitcoin breaking below $75,000** and forced liquidations.
+- On **rates**, the only fresh central-bank headline with broad relevance is the **ECB hawkish comment** from Stournaras; there is **no comparable fresh Fed headline** in the provided set.
+- There is **little fresh, credible earnings or AI/semi market-moving news** here. The NVIDIA driver posts, opinion/features, and generic business coverage are not useful for explaining major market action.
+- Bottom line: based on these articles alone, today’s tape appears more plausibly linked to **Middle East geopolitical risk, oil/inflation concerns, and crypto stress** than to fresh earnings or Fed news.
