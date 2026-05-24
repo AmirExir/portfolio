@@ -1,0 +1,13 @@
+- Spearmint Energy secured roughly $450 million to build the 300 MW / 600 MWh Red Egret battery in Texas City, adding fast-response storage near Gulf Coast load and generation hubs; this should improve ramping flexibility, ancillary service capability, and peak reliability if it advances on schedule. (Power Technology)
+
+- Texas data-center load growth remains the dominant ERCOT planning issue, with national coverage highlighting uncertainty over whether the grid can serve large new AI loads at the pace developers want; the practical implication is more queue pressure, transmission upgrade needs, and tighter scrutiny of interconnection timing and deliverability. (NPR)
+
+- A cluster of reports on AI/data-center expansion in Texas reinforces three ERCOT angles: very large new power demand is seeking interconnection now; that can tighten reserve margins and accelerate demand for gas, storage, and transmission; and it raises governance/planning pressure around cost allocation, siting, and community impacts including water use. (NPR; Wood Mackenzie via GlobeNewswire; Insurance Journal)
+
+- Wood Mackenzie warns that rapid AI power procurement and colocation strategies face technical and regulatory limits, a relevant signal for ERCOT because headline load announcements may not translate into near-term energization without transmission, generation, and interconnection readiness. (GlobeNewswire)
+
+- Terra-Gen said its 125 MW Lockhart III Solar Project reached commercial operation in Texas, incrementally increasing ERCOT renewable capacity; while modest relative to statewide growth, new solar additions continue to support daytime energy supply and can increase the value of paired storage and congestion management. (PRNewswire)
+
+- New storage manufacturing and deployment signals continue to build around Texas: LiquidStack launched higher-capacity data-center cooling equipment from Carrollton and FPUSA announced conversion of 480 MWh of long-duration storage projects, underscoring that both thermal management and dispatchable storage are becoming more central to serving ERCOT’s large-load growth. (GlobeNewswire; GlobeNewswire)
+
+- Multiple SpaceX-related reports point to potential very large Texas power demand tied to AI, solar manufacturing, and gas turbines near the Austin/Bastrop area, but the details remain speculative and should be treated as early indicators rather than confirmed ERCOT load additions; if realized, they would have major implications for local transmission, fuel supply, and interconnection planning. (Crypto Briefing; Reuters via HuffPost/Times of India/CNA/Fortune/NBC News)

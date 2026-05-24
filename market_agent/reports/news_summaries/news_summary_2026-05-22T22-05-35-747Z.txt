@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited in this article set, and it does **not fully explain today’s broader tape**. Most items are niche, promotional, stale-adjacent, or not clearly market-moving.
+
+**Facts**
+- **Nvidia beat and outlook remained strong** — **CNA**, **2026-05-21T21:44:00Z**: article says Nvidia posted **record quarterly revenue of $81.6 billion**, beat analyst forecasts, and cited continued strong AI-chip demand.
+- **SEC opened public feedback on novel ETF handling** — **Crypto Briefing**, **2026-05-21T22:04:48Z**: SEC Chair Paul Atkins opened a public comment process on how the agency should handle new ETF structures, with **24 filings reportedly in limbo**.
+- **Harvard exited its ETH ETF stake** — **Cointelegraph**, **2026-05-21T22:02:48Z**: Harvard Management Company sold its full **$87 million** ETH ETF position after one quarter, based on its Q1 2026 filing.
+- **Biogen/Denali Parkinson’s study failed** — **GlobeNewswire**, **2026-05-21T22:00:00Z**: Biogen and Denali said the Phase 2b **LUMA** study of **BIIB122 (DNL151)** in early-stage Parkinson’s **missed primary and secondary endpoints**, and they will discontinue development in Parkinson’s.
+- **Peloton and Universal Technical Institute will join the S&P SmallCap 600** — **PRNewswire**, **2026-05-21T22:03:00Z**: S&P Dow Jones Indices said the changes become effective before the open on **May 27**.
+- **Oil supply-risk commentary remains in focus** — **OilPrice.com**, **2026-05-21T22:00:00Z**: article argues the oil market may not yet fully reflect supply disruption and suggests a delayed supply crunch risk.
+
+**Interpretation**
+- The clearest fresh macro/market driver here is **AI/semis**, with Nvidia’s results reinforcing the existing AI-capex theme.
+- On crypto, the fresh items point to **regulatory friction for ETF innovation** and some potentially negative sentiment around **ETH institutional positioning**, but neither item alone is enough to explain broad cross-asset action.
+- In biotech, the Biogen/Denali trial failure is a **stock-specific negative catalyst**.
+- Peloton’s index inclusion is a **technical/supportive company-specific event**, not a broad market driver.
+- The oil item is more **scenario analysis/commentary** than a hard new development, so it should be treated cautiously.
+
+If you want, I can next turn this into a **2-minute market brief ordered by asset class**.
