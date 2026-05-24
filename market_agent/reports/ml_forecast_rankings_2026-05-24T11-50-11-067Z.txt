@@ -1,0 +1,24 @@
+Generated: 2026-05-24 11:50 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+RL policy: off
+
+1 trading-day signals
+Sequence model used: both (LSTM and Transformer)
+No qualifying 1 trading-day Buy or Sell signals met the publication filter. All short-horizon signals were Neutral / No Edge or below the 2% absolute forecast return threshold.
+
+30 trading-day buy rankings
+GEV — Strong Buy. Forecast return +14.99%, probability up 86.6%, edge 36.6%, pattern Uptrend.
+ENA — Buy. Forecast return +27.90%, probability up 76.1%, edge 26.1%, pattern Oversold.
+ONDO — Buy. Forecast return +28.36%, probability up 72.8%, edge 22.8%, pattern High Volatility.
+GOOGL — Buy. Forecast return +9.76%, probability up 74.4%, edge 24.4%, pattern Uptrend.
+WMT — Buy. Forecast return +5.88%, probability up 74.2%, edge 24.2%, pattern Oversold.
+INTC — Buy. Forecast return +20.83%, probability up 68.0%, edge 18.0%, pattern Uptrend.
+
+30 trading-day sell rankings
+PEPE — Strong Sell. Forecast return -26.56%, probability down 93.9%, edge 43.9%, pattern Downtrend.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with at least 2% absolute forecast return are included. Neutral / No Edge names were excluded from the ranked lists.
