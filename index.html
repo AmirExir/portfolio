@@ -428,9 +428,22 @@
 
     .summary-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      grid-template-columns: minmax(220px, 0.72fr) minmax(320px, 1fr) minmax(280px, 0.82fr);
       gap: 28px;
       align-items: start;
+    }
+
+    .summary-proof-carousel {
+      align-self: stretch;
+      min-height: 360px;
+    }
+
+    .summary-proof-carousel .carousel-slide {
+      min-height: 360px;
+    }
+
+    .summary-proof-carousel img {
+      max-height: 420px;
     }
 
     .focus-list,
@@ -499,6 +512,40 @@
       width: 132px;
       max-height: 150px;
       object-fit: contain;
+    }
+
+    .certificate-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .certificate-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 190px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #ffffff, #f7faf9);
+      box-shadow: 0 10px 28px rgba(16, 32, 31, 0.07);
+    }
+
+    .certificate-card strong {
+      font-size: 1.04rem;
+      line-height: 1.25;
+    }
+
+    .certificate-card span {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .certificate-card .btn {
+      margin-top: auto;
+      align-self: flex-start;
     }
 
     .credential-card,
@@ -1066,6 +1113,17 @@
             <li>Machine learning applications for load forecasting, fault classification, power grid alarms, and market analytics.</li>
           </ul>
         </div>
+        <div class="media-carousel summary-proof-carousel" data-carousel aria-label="Professional proof photos and credentials">
+          <button class="carousel-control prev" type="button" data-prev aria-label="Previous professional proof image">&lsaquo;</button>
+          <div class="carousel-track">
+            <div class="carousel-slide"><img src="PE_1.png" alt="Texas Professional Engineer license display" loading="lazy" decoding="async" /></div>
+            <div class="carousel-slide"><img src="lamarmasters.png" alt="Lamar University master's diploma" loading="lazy" decoding="async" /></div>
+            <div class="carousel-slide"><img src="NERC.png" alt="NERC certification" loading="lazy" decoding="async" /></div>
+            <div class="carousel-slide"><img src="AmirinSubstation.jpeg" alt="Amir Exir at an electrical substation" loading="lazy" decoding="async" /></div>
+          </div>
+          <button class="carousel-control next" type="button" data-next aria-label="Next professional proof image">&rsaquo;</button>
+          <div class="carousel-dots" data-dots aria-label="Professional proof gallery pagination"></div>
+        </div>
       </div>
     </section>
 
@@ -1160,6 +1218,38 @@
           <a class="badge-link" href="https://account.ncees.org/rn/1871056-1359860-881551c" target="_blank" rel="noopener noreferrer">
             <img src="pe-badge.png" alt="NCEES PE Exam badge" loading="lazy" decoding="async" />
           </a>
+        </div>
+
+        <div class="certificate-grid" aria-label="Certificate downloads">
+          <article class="certificate-card">
+            <strong>Automating PSS/E Using Python</strong>
+            <span>Power systems automation certificate focused on scripting practical PSS/E engineering workflows.</span>
+            <a class="btn light" href="EXIR_PSSC_625_Certificate.pdf" download>Download Certificate</a>
+          </article>
+
+          <article class="certificate-card">
+            <strong>IBM AI Certificate</strong>
+            <span>Applied AI coursework covering machine learning foundations, Python, and data-driven development.</span>
+            <a class="btn light" href="Coursera BYBV066EFBS7.pdf" download>Download Certificate</a>
+          </article>
+
+          <article class="certificate-card">
+            <strong>Machine Learning Certificate</strong>
+            <span>Machine learning coursework supporting the forecasting, classification, and model evaluation work in this portfolio.</span>
+            <a class="btn light" href="Coursera DCHGTCGASDAH.pdf" download>Download Certificate</a>
+          </article>
+
+          <article class="certificate-card">
+            <strong>Deep Learning Badge</strong>
+            <span>UT Austin deep learning credential connected to the waypoint driving and neural network projects.</span>
+            <a class="btn light" href="Deep Learning - Canvas Badges.pdf" download>Download Badge</a>
+          </article>
+
+          <article class="certificate-card">
+            <strong>Ethics in AI Badge</strong>
+            <span>AI ethics credential supporting responsible use of assistants, forecasting tools, and decision-support systems.</span>
+            <a class="btn light" href="Ethics in AI - Canvas Badges.pdf" download>Download Badge</a>
+          </article>
         </div>
       </div>
     </section>
@@ -1390,7 +1480,15 @@
 
         <div class="project-grid">
           <article class="project-card featured">
-            <img src="output.png" alt="Power grid graph visualization" loading="lazy" decoding="async" />
+            <div class="media-carousel" data-carousel aria-label="GNN graph visualizer screenshots">
+              <button class="carousel-control prev" type="button" data-prev aria-label="Previous GNN screenshot">&lsaquo;</button>
+              <div class="carousel-track">
+                <div class="carousel-slide"><img src="GNN_Graph_Visualizer.png" alt="Power grid GNN graph visualizer" loading="lazy" decoding="async" /></div>
+                <div class="carousel-slide"><img src="GNN_Graph_Visualizer2.png" alt="Power grid GNN graph visualizer detail" loading="lazy" decoding="async" /></div>
+              </div>
+              <button class="carousel-control next" type="button" data-next aria-label="Next GNN screenshot">&rsaquo;</button>
+              <div class="carousel-dots" data-dots aria-label="GNN gallery pagination"></div>
+            </div>
             <div class="project-body">
               <h3>Power Grid GNN Predictor</h3>
               <p>Graph neural network system for simulated power grid scenarios that predicts voltage violations and thermal overloads across buses and transmission lines using GCN, GAT, GIN, and Graph Transformer architectures.</p>
@@ -1502,6 +1600,8 @@
               <div class="carousel-slide"><img src="Telegram Prediction Results on Demand.png" alt="Telegram prediction results" loading="lazy" decoding="async" /></div>
               <div class="carousel-slide"><img src="Multi Model predictions.jpg" alt="Multi-model predictions" loading="lazy" decoding="async" /></div>
               <div class="carousel-slide"><img src="predictions .jpg" alt="Prediction signal dashboard" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="Trend Classification.png" alt="Trend classification results" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="Trend classification 2.png" alt="Trend classification model comparison" loading="lazy" decoding="async" /></div>
               <div class="carousel-slide"><img src="Heatmap.png" alt="Market heatmap" loading="lazy" decoding="async" /></div>
             </div>
             <button class="carousel-control next" type="button" data-next aria-label="Next market agent screenshot">&rsaquo;</button>
