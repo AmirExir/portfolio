@@ -832,6 +832,14 @@
       margin-top: 18px;
     }
 
+    .copy-status {
+      min-height: 22px;
+      margin-top: 10px;
+      color: var(--brand-dark);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
     .site-footer {
       padding: 30px 0;
       background: #0b1918;
@@ -1632,12 +1640,23 @@
             <p class="section-kicker">Personal</p>
             <h2>A little context beyond the engineering work.</h2>
           </div>
-          <p>Selected personal media is kept compact so the professional portfolio remains focused while still showing the person behind the work.</p>
+          <p>I enjoy biking and paddleboarding around downtown Austin, and I make time for the live music culture that makes Austin, Texas, feel like home.</p>
         </div>
 
         <div class="personal-grid">
-          <div class="media-panel">
-            <img src="dj.jpg" alt="Amir Exir DJ setup" loading="lazy" decoding="async" />
+          <div class="media-carousel" data-carousel aria-label="Personal photos gallery">
+            <button class="carousel-control prev" type="button" data-prev aria-label="Previous personal photo">&lsaquo;</button>
+            <div class="carousel-track">
+              <div class="carousel-slide"><img src="dj.jpg" alt="Amir Exir DJ setup" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="paddle1.jpg" alt="Paddleboarding photo" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="paddle2.jpg" alt="Paddleboarding on the water" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="bike1.jpg" alt="Biking photo" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="bike2.jpg" alt="Bike ride photo" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="bike3.jpg" alt="Cycling outdoors" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="bike4.jpg" alt="Biking trail photo" loading="lazy" decoding="async" /></div>
+            </div>
+            <button class="carousel-control next" type="button" data-next aria-label="Next personal photo">&rsaquo;</button>
+            <div class="carousel-dots" data-dots aria-label="Personal photo gallery pagination"></div>
           </div>
           <div class="media-panel">
             <iframe class="music-frame" allow="autoplay *; encrypted-media *;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/us/playlist/favorite-songs/pl.u-xRUkYrJ5pG" title="Apple Music playlist"></iframe>
@@ -1654,9 +1673,12 @@
             <h2>Open to power systems, AI automation, and grid analytics conversations.</h2>
             <p>Best fit topics include transmission planning automation, ERCOT process tooling, EMS/operations support tools, RAG assistants for technical documentation, and applied ML for power system analysis.</p>
             <div class="contact-actions">
-              <a class="btn" href="mailto:contact@amirexirpe.com">Email Amir</a>
+              <a class="btn" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=contact@amirexirpe.com&amp;su=Portfolio%20Inquiry" target="_blank" rel="noopener noreferrer">Email Amir</a>
+              <a class="btn light" href="mailto:contact@amirexirpe.com">Open Mail App</a>
+              <button class="btn light" type="button" data-copy-email="contact@amirexirpe.com">Copy Email</button>
               <a class="btn light" href="Amir_EE_3.pdf" download>Download Resume</a>
             </div>
+            <div class="copy-status" id="copyEmailStatus" aria-live="polite"></div>
           </div>
 
           <div class="contact-card">
@@ -1789,6 +1811,20 @@
         match.classList.add('search-hit');
         match.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+    });
+
+    document.querySelectorAll('[data-copy-email]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const email = button.getAttribute('data-copy-email');
+        const status = document.getElementById('copyEmailStatus');
+
+        try {
+          await navigator.clipboard.writeText(email);
+          if (status) status.textContent = `${email} copied to clipboard.`;
+        } catch (error) {
+          if (status) status.textContent = email;
+        }
+      });
     });
   </script>
 </body>
