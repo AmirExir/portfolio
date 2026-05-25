@@ -33,7 +33,19 @@ The script also writes:
 - `market_agent/reports/ml_forecast_rankings_cache_*.json`
 - timestamped `.txt` and `.json` report files
 
-The Streamlit website reads the saved forecast cache first, so your existing **Stock Market** publish branch can upload the latest `market_agent/reports/ml_forecast_rankings_latest.json` or `ml_forecast_rankings_latest.txt` the same way it uploads `summary_*.txt`.
+The Streamlit website reads the saved forecast cache first. Generated files are ignored by normal source-control commits, so add a second **Execute Command** node after report generation to publish the generated outputs automatically:
+
+```bash
+cd /Users/amirexir/Documents/GitHub/portfolio && market_agent/commit_forecast_results.sh
+```
+
+That script publishes report outputs to the `generated-output` branch from a clean temporary checkout. It does not stage or push your normal portfolio edits. To use a different output branch, set:
+
+```bash
+GENERATED_OUTPUT_BRANCH=main
+```
+
+The recommended default is still `generated-output`, because it keeps scheduled data churn separate from normal app and portfolio commits.
 
 ## Add it to the existing workflow
 
@@ -87,7 +99,7 @@ return [
 ];
 ```
 
-Use the same GitHub upload/update logic already in your **Stock Market** branch, but with `path` set to:
+Use either the publisher script above or the same GitHub upload/update logic already in your **Stock Market** branch, but with `path` set to:
 
 ```text
 market_agent/reports/ml_forecast_rankings_latest.txt
