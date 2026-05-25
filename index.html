@@ -1,1326 +1,1579 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="canonical" href="https://amirexirpe.com" />
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Amir Exir Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="canonical" href="https://amirexirpe.com/" />
+  <title>Amir Exir, P.E. | Power Systems, AI Automation, ERCOT Tools</title>
+  <meta name="description" content="Portfolio of Amir Exir, P.E. and NERC Certified System Operator, focused on power system planning, operations, PSS/E automation, ERCOT AI assistants, and applied machine learning." />
+  <meta name="author" content="Amir Exir" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Amir Exir, P.E. | Power Systems and AI Automation" />
+  <meta property="og:description" content="Power systems engineer building production-minded AI tools for ERCOT workflows, PSS/E automation, grid analytics, and engineering decision support." />
+  <meta property="og:url" content="https://amirexirpe.com/" />
+  <meta property="og:image" content="https://amirexirpe.com/Control%20Room.jpeg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZ0G3DEKTX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-  
     gtag('config', 'G-YZ0G3DEKTX');
   </script>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Amir Exir",
+      "url": "https://amirexirpe.com/",
+      "image": "https://amirexirpe.com/Amir.jpeg",
+      "jobTitle": "Power Systems Engineer",
+      "email": "contact@amirexirpe.com",
+      "sameAs": [
+        "https://www.linkedin.com/in/amir-exir-m-eng-ee-p-e-ncso-6323b3153/",
+        "https://github.com/AmirExir"
+      ],
+      "knowsAbout": [
+        "Power system planning",
+        "ERCOT interconnection",
+        "PSS/E automation",
+        "Grid operations",
+        "Applied machine learning",
+        "AI engineering"
+      ]
+    }
+  </script>
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap');
-    
+    :root {
+      --ink: #10201f;
+      --muted: #5d6b68;
+      --line: #dce5e2;
+      --paper: #ffffff;
+      --wash: #f5f8f7;
+      --wash-strong: #e9f2ef;
+      --brand: #0f766e;
+      --brand-dark: #0b4f4a;
+      --accent: #b88a2f;
+      --shadow: 0 18px 48px rgba(16, 32, 31, 0.12);
+      --radius: 8px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      letter-spacing: 0;
+    }
+
     html {
       scroll-behavior: smooth;
     }
+
     body {
       margin: 0;
-      font-family: 'Open Sans', sans-serif;
-      /*background: #f4f4f4;*/
-      background: url('background.png') no-repeat center center fixed;
-      background-size: cover;
-      color: #111;
-      text-align: center;
+      color: var(--ink);
+      background: var(--wash);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    img,
+    video {
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: var(--brand-dark);
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    .media-carousel:focus-visible {
+      outline: 3px solid rgba(15, 118, 110, 0.35);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 16px;
+      top: -48px;
+      z-index: 1000;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: top 0.2s ease;
+    }
+
+    .skip-link:focus {
+      top: 16px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav-shell {
+      width: min(100% - 32px, var(--max));
+      min-height: 68px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand-link {
+      display: flex;
+      flex-direction: column;
+      color: var(--ink);
+      text-decoration: none;
+      line-height: 1.1;
+      min-width: 150px;
+    }
+
+    .brand-link strong {
+      font-size: 1rem;
+    }
+
+    .brand-link span {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .site-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: min(320px, 34vw);
+      min-width: 220px;
+    }
+
+    .site-search input {
+      width: 100%;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0 12px;
+      color: var(--ink);
+      background: var(--paper);
+      font: inherit;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 10px;
+      border-radius: var(--radius);
+      color: var(--ink);
+      font-size: 0.92rem;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      background: var(--wash-strong);
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      background: var(--brand);
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .btn:hover {
+      background: var(--brand-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.42);
+    }
+
+    .btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn.light {
+      background: var(--paper);
+      color: var(--brand-dark);
+      border-color: var(--line);
+    }
+
+    .btn.light:hover {
+      background: var(--wash-strong);
     }
 
     .hero {
       position: relative;
-      width: 100%;
-      height: 60vh;
-      background: url('Control Room.jpeg') no-repeat center center/cover;
+      min-height: 76svh;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(7, 25, 24, 0.88), rgba(7, 25, 24, 0.62), rgba(7, 25, 24, 0.22)),
+        url("Control Room.jpeg") center / cover no-repeat;
+      color: #ffffff;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 1;
+    .hero-inner {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+      padding: 72px 0 84px;
     }
 
-    .hero img,
-    .hero h1,
-    .hero p {
-      position: relative;
-      z-index: 2;
+    .hero-content {
+      max-width: 760px;
+    }
+
+    .profile-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 22px;
     }
 
     .profile-pic {
-      width: 140px;
-      height: 140px;
+      width: 104px;
+      height: 104px;
+      border: 3px solid rgba(255, 255, 255, 0.92);
       border-radius: 50%;
-      border: 4px solid white;
-      margin-bottom: 1rem;
+      object-fit: cover;
+      box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28);
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
     }
 
     h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
-      font-weight: 700;
-      margin: 0.3rem 0;
+      max-width: 900px;
+      margin-bottom: 18px;
+      font-size: 3.4rem;
+      line-height: 1.03;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      background: rgba(255, 255, 255, 0.80);
-      padding: 2rem;
-      border-radius: 10px;
-      margin-top: -40px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .hero-lede {
+      max-width: 760px;
+      margin-bottom: 28px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.18rem;
+    }
+
+    .hero-actions,
+    .card-actions,
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .proof-strip {
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .proof-grid {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--line);
+    }
+
+    .proof-item {
+      min-height: 112px;
+      padding: 22px;
+      background: var(--paper);
+    }
+
+    .proof-item strong {
+      display: block;
+      color: var(--brand-dark);
+      font-size: 1.08rem;
+      line-height: 1.3;
+    }
+
+    .proof-item span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    main section {
+      scroll-margin-top: 88px;
+    }
+
+    .section-band {
+      padding: 84px 0;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-band.alt {
+      background: var(--wash);
+    }
+
+    .section-inner {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+      gap: 40px;
+      align-items: start;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
     }
 
     h2 {
-      text-align: center;
-      margin-top: 2rem;
+      margin-bottom: 0;
+      font-size: 2rem;
+      line-height: 1.15;
     }
 
-    ul {
-      padding-left: 1.5rem;
-      text-align: left;
+    .section-heading p,
+    .summary-copy p {
+      color: var(--muted);
+      font-size: 1.03rem;
     }
 
-    .links a {
-      display: inline-block;
-      margin: 0.3rem;
-      padding: 0.5rem 1rem;
-      background: #007acc;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
+    .summary-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 28px;
+      align-items: start;
     }
 
-    .entry {
-      display: flex !important;
-      align-items: flex-start !important;
-      justify-content: center !important;
-      text-align: left;
-      gap: 1rem;
-      margin: 1.5rem 0;
-      flex-direction: row; /* This is key - ensures horizontal layout */
-    }
-    
-    .entry img {
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      flex-shrink: 0;
-    }
-    
-    .entry div {
-      max-width: 700px;
-    }
-
-    .gallery img {
-      width: 100%;
-      max-width: 600px;
-      margin: 1rem auto;
-      display: block;
-      border-radius: 10px;
-    }
-
-    .cert-image {
-      margin-top: 1rem;
-      max-width: 400px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .responsive-img {
-      width: 100%;
-      max-width: 500px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin-top: 1rem;
-    }
-    .img-standard {
-      max-width: 400px;
-      width: 90%;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .standard-cert {
-      max-width: 300px;
-      width: 90%;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin-top: 1rem;
-    }
-    .aelab-gallery .nav,
-    .fun-gallery .nav,
-    .market-gallery .nav {
-      z-index: 3;
-    }
-
-    .aelab-gallery:focus-visible,
-    .fun-gallery:focus-visible,
-    .market-gallery:focus-visible {
-      outline: 3px solid #00bfff;
-      outline-offset: 4px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .fade-in {
-      opacity: 0;
-      animation: fadeIn 1.5s ease-in-out forwards;
-    }
-
-    @keyframes slideUp {
-      from {
-        transform: translateY(20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .slide-up {
-      opacity: 0;
-      animation: slideUp 1.5s ease-in-out forwards;
-      animation-fill-mode: forwards;
-    }
-    .navbar {
-      position: sticky;
-      top: 0;
-      background-color: rgba(0, 0, 0, 0.85);
-      z-index: 999;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: flex-end; /* aligns content to the right */
-    }
-
-    .hamburger {
-      font-size: 28px;
-      cursor: pointer;
-      user-select: none;
-      color: white;
-      transition: transform 0.2s ease, color 0.2s ease; 
-    }
-    .hamburger:hover {
-      transform: scale(1.2);
-      color: #00bfff; /* Light blue glow */
-    }
-    .nav-links {
-      list-style: none;
+    .focus-list,
+    .credential-list,
+    .feature-list {
+      display: grid;
+      gap: 12px;
       margin: 0;
       padding: 0;
-      background: rgba(0, 0, 0, 0.85);
+      list-style: none;
+    }
+
+    .focus-list li,
+    .credential-list li,
+    .feature-list li {
+      position: relative;
+      padding-left: 24px;
+      color: var(--muted);
+    }
+
+    .focus-list li::before,
+    .credential-list li::before,
+    .feature-list li::before {
+      content: "";
       position: absolute;
+      left: 0;
+      top: 0.72em;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brand);
+    }
+
+    .credential-grid,
+    .project-grid,
+    .experience-grid,
+    .contact-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .credential-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .credential-card,
+    .project-card,
+    .experience-card,
+    .contact-card,
+    .media-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: 0 10px 28px rgba(16, 32, 31, 0.07);
+    }
+
+    .credential-card,
+    .experience-card,
+    .contact-card {
+      padding: 22px;
+    }
+
+    .credential-card img,
+    .experience-logo {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      margin-bottom: 14px;
+    }
+
+    .credential-card h3,
+    .experience-card h3,
+    .project-card h3,
+    .contact-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.12rem;
+      line-height: 1.25;
+    }
+
+    .credential-card p,
+    .experience-card p,
+    .project-card p,
+    .contact-card p {
+      color: var(--muted);
+    }
+
+    .experience-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .experience-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      min-height: 180px;
+    }
+
+    .experience-card .experience-logo {
+      margin: 0;
+    }
+
+    .meta {
+      margin-bottom: 12px;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: var(--radius);
+      background: var(--wash-strong);
+      color: var(--brand-dark);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .feature-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .feature-copy {
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .feature-copy p {
+      color: var(--muted);
+    }
+
+    .media-carousel,
+    .media-panel {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .media-carousel {
+      border-radius: var(--radius);
+      background: #0b1918;
+      box-shadow: var(--shadow);
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.45s ease;
+      will-change: transform;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      background: #0b1918;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      max-height: 620px;
+      object-fit: contain;
+      border-radius: var(--radius);
+      background: #ffffff;
+    }
+
+    .carousel-control {
+      position: absolute;
+      top: 50%;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--ink);
+      font-size: 1.6rem;
+      line-height: 1;
+      cursor: pointer;
+      transform: translateY(-50%);
+    }
+
+    .carousel-control.prev {
+      left: 12px;
+    }
+
+    .carousel-control.next {
+      right: 12px;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      left: 0;
       right: 0;
-      top: 40px;
-      display: none;
+      bottom: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .carousel-dot {
+      width: 9px;
+      height: 9px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.48);
+      cursor: pointer;
+    }
+
+    .carousel-dot[aria-current="true"] {
+      background: #ffffff;
+    }
+
+    .project-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .project-card {
+      display: flex;
       flex-direction: column;
-      border-radius: 8px;
+      min-height: 100%;
+      overflow: hidden;
     }
 
-    .nav-links li {
-      border-bottom: 1px solid #555;
+    .project-card img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-bottom: 1px solid var(--line);
+      background: var(--wash-strong);
     }
 
-    .nav-links li:last-child {
-      border-bottom: none;
+    .project-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 22px;
     }
 
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      padding: 10px 20px;
+    .project-body p {
+      flex: 1;
+    }
+
+    .project-card.featured {
+      grid-column: span 2;
+    }
+
+    .disclaimer {
+      margin-top: 28px;
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      background: var(--paper);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .personal-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .media-panel {
+      padding: 12px;
+    }
+
+    .media-panel img,
+    .media-panel video {
       display: block;
+      width: 100%;
+      border-radius: var(--radius);
     }
-    .nav-links a:hover {
-      background-color: #333;
+
+    .music-frame {
+      width: 100%;
+      min-height: 450px;
+      border: 0;
+      border-radius: var(--radius);
+      background: transparent;
     }
-    .hover-scale {
-      transition: transform 0.3s ease;
-  }
 
-  .hover-scale:hover {
-    transform: scale(1.05);
-  }
+    .contact-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: stretch;
+    }
 
-  .ercot-bot-button {
-  display: inline-block;
-  padding: 12px 24px;
-  background-color: #00bfff;
-  color: white;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
-  margin-top: 1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+    .contact-card {
+      min-height: 100%;
+    }
 
-.ercot-bot-button:hover {
-  background-color: #0099cc;
-  transform: translateY(-2px);
-}
+    .contact-links {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .site-footer {
+      padding: 30px 0;
+      background: #0b1918;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .footer-inner {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .site-footer a {
+      color: #ffffff;
+    }
+
+    .assistant-launch {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 40;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 16px;
+      border-radius: var(--radius);
+      background: var(--brand);
+      color: #ffffff;
+      box-shadow: var(--shadow);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .assistant-launch:hover {
+      background: var(--brand-dark);
+    }
+
+    .search-hit {
+      animation: searchPulse 1.6s ease;
+    }
+
+    @keyframes searchPulse {
+      0%, 100% { box-shadow: none; }
+      30% { box-shadow: 0 0 0 6px rgba(184, 138, 47, 0.22); }
+    }
+
+    @media (max-width: 1040px) {
+      .nav-links {
+        position: absolute;
+        top: 68px;
+        right: 16px;
+        display: none;
+        width: min(340px, calc(100vw - 32px));
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--paper);
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.is-open {
+        display: flex;
+      }
+
+      .nav-links a {
+        min-height: 44px;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 900px) {
+      h1 {
+        font-size: 2.55rem;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-inner {
+        padding: 58px 0 62px;
+      }
+
+      .proof-grid,
+      .credential-grid,
+      .experience-grid,
+      .project-grid,
+      .feature-layout,
+      .summary-layout,
+      .personal-grid,
+      .contact-grid,
+      .section-heading {
+        grid-template-columns: 1fr;
+      }
+
+      .project-card.featured {
+        grid-column: span 1;
+      }
+
+      .section-band {
+        padding: 64px 0;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .nav-shell {
+        min-height: 64px;
+      }
+
+      .site-search {
+        display: none;
+      }
+
+      .profile-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .profile-pic {
+        width: 88px;
+        height: 88px;
+      }
+
+      h1 {
+        font-size: 2.1rem;
+      }
+
+      h2 {
+        font-size: 1.62rem;
+      }
+
+      .hero-lede {
+        font-size: 1.04rem;
+      }
+
+      .proof-item {
+        min-height: auto;
+      }
+
+      .feature-copy,
+      .credential-card,
+      .experience-card,
+      .project-body,
+      .contact-card {
+        padding: 18px;
+      }
+
+      .experience-card {
+        grid-template-columns: 1fr;
+      }
+
+      .carousel-control {
+        width: 36px;
+        height: 36px;
+      }
+
+      .assistant-launch {
+        right: 14px;
+        bottom: 14px;
+        min-height: 44px;
+        padding: 0 12px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <nav class="navbar">
-    <div style="display: flex; align-items: center; gap: 1rem;">
-      <input type="text" id="searchInput" placeholder="Search..." 
-        style="padding: 6px 10px; border-radius: 5px; border: none; outline: none; font-size: 14px;">
-      <button onclick="searchSite()" 
-        style="padding: 6px 12px; border-radius: 5px; border: none; background-color: #00bfff; color: white; cursor: pointer;">Go</button>
-      <div class="hamburger" onclick="toggleMenu()">☰</div>
-    </div>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="#summary">Summary</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#certifications">Certs</a></li>
-      <li><a href="#download">Download Resume and Certs</a></li>
-      <li><a href="#aelab-suite">AELab</a></li>
-      <li><a href="#ERCOT AI RAG Bots">ERCOT AI RAG Bots</a></li>
-      <li><a href="#ml-dl-projects"> ML and DL Projects</a></li>
-      <li><a href="#market-agent">Stock Agent</a></li> 
-      <li><a href="#fun">Fun</a></li>
-      <li><a href="#music">Music</a></li>
-    </ul>
-  </nav>
-  <div class="hero">
-    <img src="Amir.jpeg" class="profile-pic fade-in" alt="Amir Exir"/>
-    <h1>Amir Exir, M.Eng EE, P.E., NCSO</h1>
-    <p>Power Systems Engineer | AI Researcher | Operation & Planning Expert | UT Austin AI Graduate Student</p>
-  </div>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  
-  <div class="container">
-    <h2 id="summary" class="slide-up hover-scale">Professional Summary</h2>
-    <p>Professional Engineer (P.E.) and NERC Certified Reliability Coordinator with several years in power systems across operation, planning,
-    and modeling at ERCOT and LCRA. Experienced in PSS/E, GE EMS SCADA/TSM/DTS, ABB MMS and Python. I hold a master of Engineering in Electrical and Computer Engineering and currently pursuing an M.S. in AI at UT Austin. AWS/IBM Certified.</p>
-    <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-    
-  <div class="section">
-     
-    <h2 id="education" class="slide-up hover-scale">Education</h2>
-    <div class="entry slide-up hover-scale">
-      <img src="UT.png" class="hover-scale"   alt="UT Logo">
-      <div>
-        <strong>University of Texas at Austin</strong><br />
-        M.S. in Artificial Intelligence (2024–Present), GPA 3.63
-      </div>
-    </div>
-    <div class="entry slide-up hover-scale">
-      <img src="Lamar.png" class="hover-scale"  alt="Lamar Logo">
-      <div>
-        <strong>Lamar University</strong><br />
-        M.Eng. in Electrical & Computer Engineering (2020), GPA 3.8
-      </div>
-    </div>
-    <div class="entry slide-up hover-scale">
-      <img src="Beheshti.png" class="hover-scale"  alt="Beheshti Logo">
-      <div>
-        <strong>Shahid Beheshti University </strong><br />
-        Bachelor of Science in Electrical & Computer Engineering (2017)
-      </div>
-    </div>
-  <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="Primary navigation">
+      <a class="brand-link" href="#top" aria-label="Amir Exir home">
+        <strong>Amir Exir, P.E.</strong>
+        <span>Power systems + AI automation</span>
+      </a>
 
-      <h2 id="experience" class="slide-up hover-scale">Experience</h2>
-      <div class="entry slide-up hover-scale">
-        <img src="pec_logo.png" class="hover-scale"  alt="PEC Logo"/>
+      <div class="nav-actions">
+        <form class="site-search" role="search" id="siteSearch">
+          <label class="sr-only" for="searchInput">Search portfolio</label>
+          <input id="searchInput" type="search" placeholder="Search projects..." autocomplete="off" />
+          <button class="btn light" type="submit">Search</button>
+        </form>
+
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Open navigation">&#9776;</button>
+
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#summary">Summary</a></li>
+          <li><a href="#credentials">Credentials</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#engineering-suite">AELab</a></li>
+          <li><a href="#ai-rag">AI Assistants</a></li>
+          <li><a href="#ml-projects">ML Projects</a></li>
+          <li><a href="#market-agent">Market Agent</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-label="Portfolio hero">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="profile-row">
+            <img src="Amir.jpeg" alt="Amir Exir" class="profile-pic" width="104" height="104" fetchpriority="high" />
+            <p class="eyebrow">Licensed P.E. | NERC Certified | UT Austin AI graduate student</p>
+          </div>
+          <h1>Power systems engineer building AI tools for grid planning, operations, and automation.</h1>
+          <p class="hero-lede">I combine utility-scale engineering experience with applied AI to build practical assistants, analytics dashboards, and PSS/E automation tools for high-stakes power system workflows.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#engineering-suite">View Engineering Tools</a>
+            <a class="btn secondary" href="Amir_EE_3.pdf" download>Download Resume</a>
+            <a class="btn secondary" href="#contact">Contact</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof-strip" aria-label="Career highlights">
+      <div class="proof-grid">
+        <div class="proof-item">
+          <strong>Transmission planning</strong>
+          <span>Modeling, interconnection, contingency, and project analysis experience.</span>
+        </div>
+        <div class="proof-item">
+          <strong>Grid operations</strong>
+          <span>ERCOT real-time operations, training, and reliability coordination background.</span>
+        </div>
+        <div class="proof-item">
+          <strong>Automation systems</strong>
+          <span>PSS/E, TARA PowerGEM, Python, Streamlit, n8n, and AI-assisted workflows.</span>
+        </div>
+        <div class="proof-item">
+          <strong>Applied AI</strong>
+          <span>RAG assistants, GNN grid models, forecasting, and fine-tuning projects.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-band" id="summary">
+      <div class="section-inner summary-layout">
         <div>
-          <strong>Transmission Planning Engineer 4 (PEC)</strong><br />
-          Jan 2026 – Present, Austin TX
+          <p class="section-kicker">Professional Summary</p>
+          <h2>Engineering judgment with hands-on AI execution.</h2>
+        </div>
+        <div class="summary-copy">
+          <p>Amir Exir is a Professional Engineer and NERC Certified System Operator with power system experience across ERCOT, LCRA, and PEC. His work sits at the intersection of transmission planning, grid operations, EMS advanced applications, interconnection support, and Python-based engineering automation.</p>
+          <p>His portfolio is built around practical systems: AI assistants trained on public ERCOT and PSS/E materials, grid dashboards, contingency analysis tooling, GNN-based alarm prediction, and workflow automation for engineers who need answers quickly and defensibly.</p>
+          <ul class="focus-list">
+            <li>PSS/E and TARA PowerGEM workflow automation for planning studies and reporting.</li>
+            <li>ERCOT documentation assistants for nodal protocols, planning guides, DWG/SSWG manuals, and resource integration.</li>
+            <li>Machine learning applications for load forecasting, fault classification, power grid alarms, and market analytics.</li>
+          </ul>
         </div>
       </div>
-      <div class="entry slide-up hover-scale">
-        <img src="LCRA.png" class="hover-scale"  alt="LCRA Logo"/>
-        <div>
-          <strong>Transmission Planning Engineer/EMS Advanced Application Operation Engineer (LCRA)</strong><br />
-          Aug 2022 – Jan 2026, Austin TX
+    </section>
+
+    <section class="section-band alt" id="credentials">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Credentials</p>
+            <h2>Licenses, education, and certificates.</h2>
+          </div>
+          <p>Focused credentials that support both sides of the portfolio: power engineering reliability work and modern AI systems development.</p>
+        </div>
+
+        <div class="credential-grid">
+          <article class="credential-card">
+            <img src="pe-badge.png" alt="NCEES PE Exam badge" loading="lazy" decoding="async" />
+            <h3>Professional Engineer</h3>
+            <p>Texas P.E. license with power systems and transmission planning focus.</p>
+            <a href="https://account.ncees.org/rn/1871056-1359860-881551c" target="_blank" rel="noopener noreferrer">Verify credential</a>
+          </article>
+
+          <article class="credential-card">
+            <img src="NERC.png" alt="NERC certification" loading="lazy" decoding="async" />
+            <h3>NERC Certified System Operator</h3>
+            <p>Reliability Coordinator certification and real-time grid operations background.</p>
+            <a href="#contact">Discuss grid operations experience</a>
+          </article>
+
+          <article class="credential-card">
+            <img src="UT.png" alt="University of Texas at Austin logo" loading="lazy" decoding="async" />
+            <h3>UT Austin M.S. in AI</h3>
+            <p>Graduate AI coursework in machine learning, optimization, deep learning, ethics, and applied systems.</p>
+            <a href="https://cns.badges.utexas.edu/079f4d14-2535-4cb6-b365-febf3bce2bc5" target="_blank" rel="noopener noreferrer">View AI badge</a>
+          </article>
+
+          <article class="credential-card">
+            <img src="Lamar.png" alt="Lamar University logo" loading="lazy" decoding="async" />
+            <h3>M.Eng. Electrical & Computer Engineering</h3>
+            <p>Lamar University, 2020. Graduate engineering foundation for power, computation, and automation work.</p>
+          </article>
+
+          <article class="credential-card">
+            <img src="aws-badge.png" alt="AWS Cloud Practitioner badge" loading="lazy" decoding="async" />
+            <h3>AWS Cloud Practitioner</h3>
+            <p>Cloud fundamentals for deployable AI tools, dashboards, and data workflows.</p>
+            <a href="https://www.credly.com/badges/c4af83f9-7011-447f-aba8-997f2629044c/public_url" target="_blank" rel="noopener noreferrer">View credential</a>
+          </article>
+
+          <article class="credential-card">
+            <h3>Downloads</h3>
+            <p>Resume, PSS/E automation certificate, IBM AI certificate, machine learning certificate, and AI course badges.</p>
+            <div class="card-actions">
+              <a class="btn light" href="Amir_EE_3.pdf" download>Resume</a>
+              <a class="btn light" href="EXIR_PSSC_625_Certificate.pdf" download>PSS/E Certificate</a>
+              <a class="btn light" href="Coursera BYBV066EFBS7.pdf" download>IBM AI</a>
+              <a class="btn light" href="Coursera DCHGTCGASDAH.pdf" download>ML</a>
+            </div>
+          </article>
         </div>
       </div>
-      <div class="entry slide-up hover-scale">
-        <img src="ERCOT.png" class="hover-scale"  alt="ERCOT Logo">
-        <div>
-          <strong>Resource Integration Engineer/Operation Training Instructor/Real Time Shift Engineer (ERCOT)</strong><br />
-          Oct 2019 – Aug 2022, Austin TX
+    </section>
+
+    <section class="section-band" id="experience">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Experience</p>
+            <h2>Power systems work across planning, operations, and training.</h2>
+          </div>
+          <p>The portfolio reflects work shaped by real utility and market operations environments, not generic AI demos.</p>
+        </div>
+
+        <div class="experience-grid">
+          <article class="experience-card">
+            <img class="experience-logo" src="pec_logo.png" alt="PEC logo" loading="lazy" decoding="async" />
+            <div>
+              <h3>Transmission Planning Engineer 4</h3>
+              <p class="meta">PEC | Jan 2026 - Present | Austin, TX</p>
+              <p>Transmission planning role focused on model-driven studies, project evaluation, reliability analysis, and engineering decision support.</p>
+            </div>
+          </article>
+
+          <article class="experience-card">
+            <img class="experience-logo" src="LCRA.png" alt="LCRA logo" loading="lazy" decoding="async" />
+            <div>
+              <h3>Transmission Planning / EMS Advanced Applications</h3>
+              <p class="meta">LCRA | Aug 2022 - Jan 2026 | Austin, TX</p>
+              <p>Worked across planning studies, EMS advanced applications, GE EMS SCADA/TSM/DTS workflows, modeling support, and engineering automation.</p>
+            </div>
+          </article>
+
+          <article class="experience-card">
+            <img class="experience-logo" src="ERCOT.png" alt="ERCOT logo" loading="lazy" decoding="async" />
+            <div>
+              <h3>Resource Integration / Operations Training / Real-Time Engineering</h3>
+              <p class="meta">ERCOT | Oct 2019 - Aug 2022 | Austin, TX</p>
+              <p>Supported ERCOT resource integration, operations training, real-time engineering, model requirements, and market/reliability procedures.</p>
+            </div>
+          </article>
+
+          <article class="experience-card">
+            <div>
+              <img class="experience-logo" src="CFID.png" alt="CFISD logo" loading="lazy" decoding="async" />
+              <img class="experience-logo" src="HISD.png" alt="HISD logo" loading="lazy" decoding="async" />
+            </div>
+            <div>
+              <h3>Associate / Substitute Teacher</h3>
+              <p class="meta">CFISD / HISD | 2018 - 2022 | Houston, TX</p>
+              <p>Teaching experience that strengthened communication, training delivery, and technical explanation for mixed audiences.</p>
+            </div>
+          </article>
         </div>
       </div>
-      <div class="entry slide-up hover-scale">
-        <div style="display: flex; gap: 0.5rem;">
-          <img src="CFID.png" class="hover-scale"  alt="CFISD Logo" style="width: 60px; height: 60px; object-fit: contain;" />
-          <img src="HISD.png" class="hover-scale"  alt="HISD Logo" style="width: 60px; height: 60px; object-fit: contain;" />
+    </section>
+
+    <section class="section-band alt" id="engineering-suite">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Flagship Tool</p>
+            <h2>AELab power system analysis suite.</h2>
+          </div>
+          <p>AELab is a Python GUI suite built to reduce repetitive study work around PSS/E and TARA PowerGEM: contingency analysis, dynamic simulation, model validation, results visualization, IDV generation, and transmission project reporting.</p>
         </div>
-        <div>
-          <strong>Associate/Substitute Teacher (CFISD / HISD)</strong><br />
-          2018 – 2022, Houston TX
+
+        <div class="feature-layout">
+          <div class="media-carousel" data-carousel aria-label="AELab screenshots">
+            <button class="carousel-control prev" type="button" data-prev aria-label="Previous AELab screenshot">&lsaquo;</button>
+            <div class="carousel-track">
+              <div class="carousel-slide"><img src="aelabpro_accc.jpg" alt="AELab ACCC analysis workspace" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="ACCCTHERMALVIOLATIONSRESULTS.jpg" alt="Thermal violation results" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="VOLTAGE_VIOLATIONSRESULTS_excell.jpg" alt="Voltage violation Excel export" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="AELABPRO_FAULT.jpg" alt="Fault simulation screen" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="AELabDynamicSimResults.png" alt="Dynamic simulation results" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="PSSEMODEL VALIDATION.png" alt="PSS/E model validation tool" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="TARAINTERACTIVE4.jpg" alt="TARA TRLIM visualization" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="TARACAVISUAL.png" alt="TARA contingency analysis visualization" loading="lazy" decoding="async" /></div>
+            </div>
+            <button class="carousel-control next" type="button" data-next aria-label="Next AELab screenshot">&rsaquo;</button>
+            <div class="carousel-dots" data-dots aria-label="AELab gallery pagination"></div>
+          </div>
+
+          <div class="feature-copy">
+            <h3>What it demonstrates</h3>
+            <ul class="feature-list">
+              <li>Batch contingency analysis with thermal, voltage, and voltage deviation reporting.</li>
+              <li>Dynamic simulation parsing, event runner support, channel summaries, and automated plotting.</li>
+              <li>PSS/E model validation by comparing cases across power flow, dynamic, and contingency outputs.</li>
+              <li>TARA PowerGEM TRLIM and contingency result visualization for upgrade and hosting-capacity review.</li>
+              <li>IDV generation from impedance and rating data for line design and model update automation.</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag">Python</span>
+              <span class="tag">PSS/E</span>
+              <span class="tag">TARA PowerGEM</span>
+              <span class="tag">GUI automation</span>
+              <span class="tag">Planning studies</span>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-   <div style="text-align: center;">
-    <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-    <h2 id="certifications"  class="slide-up hover-scale">  License and Certifications </h2>
+    <section class="section-band" id="ai-rag">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">AI Assistants</p>
+            <h2>RAG tools for ERCOT and PSS/E knowledge work.</h2>
+          </div>
+          <p>These assistants convert dense public technical documentation into searchable, conversational tools for engineers, developers, planners, and analysts. Outputs still require professional validation before operational or compliance use.</p>
+        </div>
 
-  <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0 auto 2rem auto;">
-    <li>PE License – Texas Board of Professional Engineers</li>
-    <li>NERC RC Certification</li>
-    <li>AWS: Cloud Practitioner</li>
-    <li>IBM: SQL, Python, ML, Visualization</li>
+        <div class="project-grid">
+          <article class="project-card featured">
+            <img src="background.png" alt="AI and power systems concept" loading="lazy" decoding="async" />
+            <div class="project-body">
+              <h3>ERCOT All-in-One AI Assistant</h3>
+              <p>Assistant over ERCOT nodal protocols, planning guides, interconnection handbook content, and DWG/SSWG manuals. Built for questions about submissions, modeling requirements, dynamic validation, and market rule navigation.</p>
+              <div class="card-actions">
+                <a class="btn" href="https://amirexir-por-chatbot-ercot-all-in-oneercot-assistant-app-ahgre0.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Assistant</a>
+              </div>
+              <div class="tag-row">
+                <span class="tag">ERCOT</span>
+                <span class="tag">RAG</span>
+                <span class="tag">Streamlit</span>
+                <span class="tag">Engineering QA</span>
+              </div>
+            </div>
+          </article>
 
-    <li>Coursera: python for data science, ML, AI</li>
-    <li>UT Canvas Badges: Machine Learning, Optimization, Deep Learning, Ethics in AI</li>
-  </ul>
+          <article class="project-card">
+            <div class="project-body">
+              <h3>ERCOT DWG & SSWG Assistant</h3>
+              <p>Answers questions from ERCOT Dynamic and Steady-State Working Group manuals, including flat-start case development, model validation, and compliance support.</p>
+              <div class="card-actions">
+                <a class="btn light" href="https://portfolio-m4bbup6umxumtfibeqkrrz.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Bot</a>
+              </div>
+            </div>
+          </article>
 
-<!-- Badge Flex Grid -->
-<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin: 2rem 0;">
-  <!-- Advances in Deep Learning -->
-  <a href="https://cns.badges.utexas.edu/079f4d14-2535-4cb6-b365-febf3bce2bc5" target="_blank" rel="noopener noreferrer">
-    <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/182097003"
-         alt="Advances in Deep Learning"
-         style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
-  </a>
+          <article class="project-card">
+            <div class="project-body">
+              <h3>ERCOT Planning Guide Assistant</h3>
+              <p>Searches ERCOT planning procedures and requirements for faster navigation of standards, revisions, and study expectations.</p>
+              <div class="card-actions">
+                <a class="btn light" href="https://portfolio-evxbz642ppnqfsen8txlic.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Bot</a>
+              </div>
+            </div>
+          </article>
 
-  <!-- Online Learning and Optimization -->
-  <a href="https://cns.badges.utexas.edu/f2ce5e5a-9e4e-45d6-bbd8-909c1a88ec91" target="_blank" rel="noopener noreferrer">
-    <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/182098137"
-         alt="Online Learning and Optimization"
-         style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
-  </a>
+          <article class="project-card">
+            <div class="project-body">
+              <h3>ERCOT Resource Integration Assistant</h3>
+              <p>Supports interconnection process questions around data submittals, timelines, responsibilities, and public documentation requirements.</p>
+              <div class="card-actions">
+                <a class="btn light" href="https://portfolio-ewyxjs3snfqvos8pq2ior9.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Bot</a>
+              </div>
+            </div>
+          </article>
 
-  <!-- AI in Healthcare -->
-  <a href="https://cns.badges.utexas.edu/b975a9c7-aa22-493f-818e-f2e79d2f32a6" target="_blank" rel="noopener noreferrer">
-    <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/173520027"
-         alt="AI in Healthcare"
-         style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
-  </a>
+          <article class="project-card">
+            <div class="project-body">
+              <h3>ERCOT Nodal Protocols Assistant</h3>
+              <p>Assistant for ERCOT protocol research across market rules, operating procedures, settlement topics, and technical requirements.</p>
+              <div class="card-actions">
+                <a class="btn light" href="https://portfolio-mkfjrirugw3bjzy6jfrjx4.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Bot</a>
+              </div>
+            </div>
+          </article>
 
-  <!-- Case Studies in Machine Learning -->
-  <a href="https://cns.badges.utexas.edu/b7832c3f-6f58-4488-9d95-abe26dafac6c" target="_blank" rel="noopener noreferrer">
-    <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/173595633"
-         alt="Case Studies in Machine Learning"
-         style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
-  </a>
+          <article class="project-card">
+            <div class="project-body">
+              <h3>PSS/E API Assistant</h3>
+              <p>Copilot-style assistant over curated PSS/E API materials and examples for contingency analysis, dynamics, load flow, and scripting workflows.</p>
+              <div class="card-actions">
+                <a class="btn light" href="https://portfolio-8yebxmxquvaavwwg5va3tp.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Bot</a>
+              </div>
+            </div>
+          </article>
 
-  <!-- Ethics in AI -->
-  <a href="https://badgr.com/public/assertions/pBoNV8TFRdOp1RtbfCKuCw" target="_blank" rel="noopener noreferrer">
-    <img src="https://badgr.com/public/assertions/pBoNV8TFRdOp1RtbfCKuCw/image"
-         alt="Ethics in AI Badge"
-         style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
-  </a>
+          <article class="project-card">
+            <div class="project-body">
+              <h3>PSS/E Multi-Agent Automation Bot</h3>
+              <p>Multi-agent scripting workflow combining task planning, retrieval, code generation, execution, and retry logic for more complex PSS/E automation tasks.</p>
+              <div class="card-actions">
+                <a class="btn light" href="https://portfolio-4co3lvfwtpzsl3ivbuhvou.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Bot</a>
+              </div>
+            </div>
+          </article>
+        </div>
 
-  <!-- Machine Learning -->
-  <a href="https://api.badgr.io/public/assertions/IVo0sP5kQ9e_mwFHkdsAhQ" target="_blank" rel="noopener noreferrer">
-    <img src="https://api.badgr.io/public/assertions/IVo0sP5kQ9e_mwFHkdsAhQ/image"
-         alt="Machine Learning Badge"
-         style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
-  </a>
-
-  <!-- Optimization -->
-  <a href="https://api.badgr.io/public/assertions/nuIf1he4S7OIX8dqXolz7w" target="_blank" rel="noopener noreferrer">
-    <img src="https://api.badgr.io/public/assertions/nuIf1he4S7OIX8dqXolz7w/image"
-         alt="Optimization Badge"
-         style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
-  </a>
-
-  <!-- Deep Learning -->
-  <a href="https://badgr.com/public/assertions/zORbeEfRT8qs7i-8eh58jw" target="_blank" rel="noopener noreferrer">
-    <img src="https://badgr.com/public/assertions/zORbeEfRT8qs7i-8eh58jw/image"
-         alt="Deep Learning Badge"
-         style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
-  </a>
-
-  <!-- AWS Cloud Practitioner -->
-  <a href="https://www.credly.com/badges/c4af83f9-7011-447f-aba8-997f2629044c/public_url"
-     target="_blank" rel="noopener noreferrer">
-    <img src="aws-badge.png"
-         alt="AWS Cloud Practitioner Badge"
-         style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
-  </a>
-
-  <!-- FE Exam Badge -->
-  <a href="https://www.credly.com/badges/7bc435dd-f524-4e8e-9e11-b10436ffc6f8"
-     target="_blank" rel="noopener noreferrer">
-    <img src="fe-badge.png"
-         alt="NCEES FE Exam Badge"
-         style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
-  </a>
-
-  <!-- PE Exam Badge -->
-  <a href="https://account.ncees.org/rn/1871056-1359860-881551c"
-     target="_blank" rel="noopener noreferrer">
-    <img src="pe-badge.png"
-         alt="NCEES PE Exam Badge"
-         style="width: 160px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
-  </a>
-</div>
-
-
-
-<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
-  <div class="fun-gallery" aria-label="License and Certificate">
-    <button class="nav left" aria-label="Previous slide">‹</button>
-      <div class="viewport" id="LicenseandCertificateViewreport">
-        <div class="slide"><img src="pe.png" alt="PE License"></div>
-        <div class="slide"><img src="Masters.png" alt="Masters"></div>
-        <div class="slide"><img src="NERC.png" alt="NERC Cert"></div>
-        <div class="slide"><img src="0084F2C3-6631-494C-B1BE-2E1948A72E9C.jpeg" alt="In Action"></div>
-        <div class="slide"><img src="background.png" alt="Ai In Power"></div>
+        <div class="disclaimer">
+          <strong>Professional-use note:</strong> These assistants use public documentation and semantic search to accelerate research. AI output can be incomplete or inaccurate, so users must validate against official documents before applying results in operational, regulatory, financial, or compliance settings.
+        </div>
       </div>
-      <button class="nav right" aria-label="Next slide">›</button>
-  </div>
+    </section>
 
-    <script>
-    (function(){
-      const viewport = document.getElementById('LicenseandCertificateViewreport');
-      const slides = viewport ? viewport.children : [];
-      let idx = 0;
-      const total = slides.length;
-      let autoplay = true;
-      let autoplayTimer = null;
+    <section class="section-band alt" id="ml-projects">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Applied ML</p>
+            <h2>Machine learning projects with grid and engineering context.</h2>
+          </div>
+          <p>These projects demonstrate modeling breadth: graph neural networks, fault classification, load forecasting, healthcare fine-tuning, and workflow assistants.</p>
+        </div>
 
-      function show(i){
-        idx = (i + total) % total;
-        const offset = -idx * 100;
-        viewport.style.transform = `translateX(${offset}%)`;
-      }
+        <div class="project-grid">
+          <article class="project-card featured">
+            <img src="output.png" alt="Power grid graph visualization" loading="lazy" decoding="async" />
+            <div class="project-body">
+              <h3>Power Grid GNN Predictor</h3>
+              <p>Graph neural network system for simulated power grid scenarios that predicts voltage violations and thermal overloads across buses and transmission lines using GCN, GAT, GIN, and Graph Transformer architectures.</p>
+              <div class="card-actions">
+                <a class="btn" href="https://ai-in-power-system-electrical-engineering-hw6ktvbujtbw5zygqxxj.streamlit.app/" target="_blank" rel="noopener noreferrer">Launch GNN App</a>
+                <a class="btn light" href="https://portfolio-kucwkosbrixdtcgkae7yvm.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Analyzer</a>
+              </div>
+              <div class="tag-row">
+                <span class="tag">PyTorch Geometric</span>
+                <span class="tag">Pandapower</span>
+                <span class="tag">Grid topology</span>
+                <span class="tag">Classification</span>
+              </div>
+            </div>
+          </article>
 
-      function next(){ show(idx+1); }
-      function prev(){ show(idx-1); }
+          <article class="project-card">
+            <img src="fault_classifier/confusion matrix.png" alt="Fault classifier confusion matrix" loading="lazy" decoding="async" />
+            <div class="project-body">
+              <h3>Power Fault Classifier</h3>
+              <p>Interactive classifier for fault type prediction using current and voltage measurements. Built with Scikit-learn and Streamlit for protection training and diagnostics exploration.</p>
+              <div class="card-actions">
+                <a class="btn light" href="https://portfolio-xmc8hpyiryrkj8acggxe6k.streamlit.app/" target="_blank" rel="noopener noreferrer">Launch App</a>
+                <a class="btn light" href="fault_classifier/detect_dataset.csv" download>Sample CSV</a>
+              </div>
+            </div>
+          </article>
 
-      const container = viewport.closest('.fun-gallery');
-      const left = container.querySelector('.nav.left');
-      const right = container.querySelector('.nav.right');
-      left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
-      right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
+          <article class="project-card">
+            <img src="AELabDynamicPlots.png" alt="Load forecasting and plotted results" loading="lazy" decoding="async" />
+            <div class="project-body">
+              <h3>Hourly Load Forecast App</h3>
+              <p>Forecasting app for hourly energy consumption in AEP/PJM regions using historical load data and interactive model exploration.</p>
+              <div class="card-actions">
+                <a class="btn light" href="https://portfolio-yq4typvbncex55yh5cfdmr.streamlit.app/" target="_blank" rel="noopener noreferrer">Launch App</a>
+              </div>
+            </div>
+          </article>
 
-      container.tabIndex = 0;
-      container.addEventListener('keydown', (e)=>{
-        if(e.key==='ArrowLeft'){ e.preventDefault(); prev(); resetAutoplay(); }
-        if(e.key==='ArrowRight'){ e.preventDefault(); next(); resetAutoplay(); }
-      });
+          <article class="project-card">
+            <div class="project-body">
+              <h3>TinyLlama Medical Q&A Fine-Tuning</h3>
+              <p>LoRA fine-tuning project using TinyLlama-1.1B-Chat and MedQuAD, with ROUGE-based evaluation and resource-aware training techniques.</p>
+              <div class="card-actions">
+                <a class="btn light" href="https://huggingface.co/amirexirr/tinyllama-medquad-lora" target="_blank" rel="noopener noreferrer">Hugging Face</a>
+                <a class="btn light" href="HighRiskFineTune.pdf" target="_blank" rel="noopener noreferrer">Report</a>
+              </div>
+            </div>
+          </article>
 
-      function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
-      function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
+          <article class="project-card">
+            <div class="project-body">
+              <h3>AI Interview Assistant</h3>
+              <p>Interview preparation assistant trained on resume content and STAR stories to simulate behavioral and technical interview practice.</p>
+              <div class="card-actions">
+                <a class="btn light" href="https://portfolio-rs4eamgdjpptbcpbeci6nu.streamlit.app/" target="_blank" rel="noopener noreferrer">Launch App</a>
+              </div>
+            </div>
+          </article>
 
-      show(0);
-      startAutoplay();
-    })();
-  </script>
+          <article class="project-card">
+            <div class="project-body">
+              <h3>ERCOT Load Dashboard</h3>
+              <p>Grid monitoring and forecasting dashboard for load, renewable generation, outages, ERCOT news, and regulatory update workflows.</p>
+              <div class="card-actions">
+                <a class="btn light" href="https://portfolio-w5bmjqktrj969skqfxavxm.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Dashboard</a>
+                <a class="btn light" href="https://t.me/ERCOTNEWS" target="_blank" rel="noopener noreferrer">Telegram</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-  <h2 id="download" class="slide-up hover-scale">Download My Resume & Certificates</h2>
-  <div class="links">
-    <a href="Amir_EE_3.pdf" download> Resume</a>
-    <a href ="EXIR_PSSC_625_Certificate.pdf" download> Automating PSS®E Using Python</a>
-    <a href="Coursera BYBV066EFBS7.pdf" download> IBM AI Certificate</a>
-    <a href="Coursera DCHGTCGASDAH.pdf" download> ML Certificate</a>
-    <a href="Deep Learning - Canvas Badges.pdf" download> Deep Learning</a>
-    <a href="Ethics in AI - Canvas Badges.pdf" download> Ethics in AI</a>
-  </div>
+    <section class="section-band" id="market-agent">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Automation Case Study</p>
+            <h2>Stock Market & Crypto AI Agent.</h2>
+          </div>
+          <p>A public demo of multi-source automation: market data, model comparison, AI summaries, Telegram-triggered runs, n8n workflows, calendar delivery, and Alpaca paper trading. It is a software and ML project, not financial advice.</p>
+        </div>
 
-  <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
+        <div class="feature-layout">
+          <div class="media-carousel" data-carousel aria-label="Market agent screenshots">
+            <button class="carousel-control prev" type="button" data-prev aria-label="Previous market agent screenshot">&lsaquo;</button>
+            <div class="carousel-track">
+              <div class="carousel-slide"><img src="n8n Workflow.png" alt="n8n market workflow" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="Telegram on demand News and Optimization Prediction request.png" alt="Telegram on-demand market request" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="Telegram Prediction Results on Demand.png" alt="Telegram prediction results" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="Multi Model predictions.jpg" alt="Multi-model predictions" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="Heatmap.png" alt="Market heatmap" loading="lazy" decoding="async" /></div>
+            </div>
+            <button class="carousel-control next" type="button" data-next aria-label="Next market agent screenshot">&rsaquo;</button>
+            <div class="carousel-dots" data-dots aria-label="Market gallery pagination"></div>
+          </div>
 
-<!--  AELab – Power System Analysis Suite -->
-<h2 id="aelab-suite" class="slide-up hover-scale" style="text-align: center;"> AELab – Power System Analysis Suite</h2>
-<p style="max-width: 800px; margin: 0 auto; text-align: center;">
-  AELab is a Python-based GUI that automates key PSS®E and TARA PowerGEM workflows for power system engineers, 
-  including contingency analysis, dynamic simulation, TARA Results Visualizer and Transmission Commissioning Plan reported,transmission project reporting, and IDV generation. 
-  Built using AI-assisted development and real-world experience at LCRA and ERCOT.
-</p>
+          <div class="feature-copy">
+            <h3>System scope</h3>
+            <ul class="feature-list">
+              <li>Live market data ingestion with paper trading integration through Alpaca.</li>
+              <li>Model comparison, validation, and ranking before publishing signals.</li>
+              <li>Telegram natural-language command routing for one-off and scheduled runs.</li>
+              <li>Automated summaries, file versioning, and delivery to Telegram and Google Calendar.</li>
+            </ul>
+            <div class="card-actions">
+              <a class="btn" href="https://amirexir-portfolio-market-agentmarket-agent-app-ls52gt.streamlit.app/" target="_blank" rel="noopener noreferrer">Launch Agent</a>
+              <a class="btn light" href="https://t.me/marketagentchannel" target="_blank" rel="noopener noreferrer">Telegram Updates</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- AELab Gallery Carousel -->
-<div id="aelab-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
-  <style>
-    .aelab-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
-    .aelab-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
-    .aelab-gallery .slide { min-width: 100%; box-sizing: border-box; padding: 14px; display:flex; justify-content:center; align-items:center; }
-    .aelab-gallery .slide img { max-width: 100%; height: auto; display:block; border-radius:8px; }
-    .aelab-gallery .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; display: flex; align-items:center; justify-content:center; cursor:pointer; border: none; font-size: 24px; }
-    .aelab-gallery .nav.left { left: 10px; }
-    .aelab-gallery .nav.right { right: 10px; }
-    .aelab-gallery .dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
-    .aelab-gallery .dot { width:10px; height:10px; border-radius:50%; background:#ddd; cursor:pointer; }
-    .aelab-gallery .dot.active { background:#00bfff; }
-    @media (min-width:700px){ .aelab-gallery .slide { padding:18px; } }
-  </style>
+    <section class="section-band alt" id="personal">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Personal</p>
+            <h2>A little context beyond the engineering work.</h2>
+          </div>
+          <p>Selected personal media is kept compact so the professional portfolio remains focused while still showing the person behind the work.</p>
+        </div>
 
-  <div class="aelab-gallery" aria-label="AELab screenshots gallery">
-    <button class="nav left" aria-label="Previous slide">‹</button>
-    <div class="viewport" id="aelabGalleryViewport">
-      <div class="slide"><img src="aelabpro_accc.jpg" alt="ACCC Analysis"></div>
-      <div class="slide"><img src="ACCCTHERMALVIOLATIONSRESULTS.jpg" alt="ACCC Analysis Thermal Violations"></div>
-      <div class="slide"><img src="VOLTAGE_VIOLATIONSRESULTS_excell.jpg" alt="ACCC Analysis Voltage Violations Export in Excel"></div>
-      <div class="slide"><img src="VOLTAGE_VIOLATIONSRESULTS.jpg" alt="ACCC Analysis Voltage Violations"></div>
-      <div class="slide"><img src="VOLTAGE_DEVIATION_VIOLATIONS_Results.jpg" alt="ACCC Analysis Voltage Deviations Violations"></div>
-      <div class="slide"><img src="Notconverged_Results.jpg" alt="ACCC Analysis NonConveged"></div>
-      <div class="slide"><img src="AELABPRO_FAULT.jpg" alt="Fault Simulation"></div>
-      <div class="slide"><img src="AELabDynamicSimResults.png" alt="Fault Simulation Results"></div>
-      <div class="slide"><img src="DARKMODE_IDV_RUNNER.jpg" alt="Dynamic Contingency Runner and Autoplot"></div>
-      <div class="slide"><img src="AELABDYNAMICPLOTS.png" alt="Dynamic Plots"></div>
-      <div class="slide"><img src="dynamic_Result_failorpass.png" alt="dynamic_Result_failorpass.png"></div>
-      <div class="slide"><img src="dynamic_Result_voltageviolation.png" alt="dynamic_Result_voltageviolation.png"></div>
-      <div class="slide"><img src="dynamic_Result_idvloadloss.png" alt="dynamic_Result_idvloadloss.png"></div>
-      <div class="slide"><img src="PSSEMODEL VALIDATION.png" alt="PSSEMODEL VALIDATION.png"></div>
-      <div class="slide"><img src="PSSEMODEL VALIDATION_RESULTS2.png" alt="PSSEMODEL VALIDATION_RESULTS2.png"></div>
-      <div class="slide"><img src="PSSEMODEL VALIDATION_RESULTS2.png" alt="PSSEMODEL VALIDATION_RESULTS2"></div>
-      <div class="slide"><img src="AELABDWGCON2XLS.jpg" alt="DWG CONT2XLS"></div>
-      <div class="slide"><img src="AELABDWGCTGBUILDER.jpg" alt="DWG CTG"></div>
-      <div class="slide"><img src="DARKMODE_CONTINGENCYGENERATOR.jpg" alt="Contingency Generator"></div>
-      <div class="slide"><img src="AELabDARKMODE.png" alt="Dark Mode"></div>
-      <div class="slide"><img src="DARKEMODEIDVGENERATOR.jpg" alt="IDV Generator"></div>
-      <div class="slide"><img src="TPIT.jpg" alt="TPIT Tool"></div>
+        <div class="personal-grid">
+          <div class="media-panel">
+            <img src="dj.jpg" alt="Amir Exir DJ setup" loading="lazy" decoding="async" />
+          </div>
+          <div class="media-panel">
+            <iframe class="music-frame" allow="autoplay *; encrypted-media *;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/us/playlist/favorite-songs/pl.u-xRUkYrJ5pG" title="Apple Music playlist"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-band" id="contact">
+      <div class="section-inner">
+        <div class="contact-grid">
+          <div class="contact-card">
+            <p class="section-kicker">Contact</p>
+            <h2>Open to power systems, AI automation, and grid analytics conversations.</h2>
+            <p>Best fit topics include transmission planning automation, ERCOT process tooling, EMS/operations support tools, RAG assistants for technical documentation, and applied ML for power system analysis.</p>
+            <div class="contact-actions">
+              <a class="btn" href="mailto:contact@amirexirpe.com">Email Amir</a>
+              <a class="btn light" href="Amir_EE_3.pdf" download>Download Resume</a>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <h3>Links</h3>
+            <div class="contact-links">
+              <a href="mailto:amir.exir@utexas.edu">amir.exir@utexas.edu</a>
+              <a href="mailto:eksir.monfared.amir@gmail.com">eksir.monfared.amir@gmail.com</a>
+              <a href="https://www.linkedin.com/in/amir-exir-m-eng-ee-p-e-ncso-6323b3153/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a href="https://github.com/AmirExir" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a href="https://portfolio-nvngbm55k5prquuhngg7el.streamlit.app/" target="_blank" rel="noopener noreferrer">Ask Amir's AI Assistant</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Amir Exir. All rights reserved.</span>
+      <span><a href="#top">Back to top</a></span>
     </div>
-    <button class="nav right" aria-label="Next slide">›</button>
-  </div>
+  </footer>
 
-  <div class="dots" id="aelabGalleryDots" style="margin-top:6px; display:flex; justify-content:center;"></div>
+  <a class="assistant-launch" href="https://portfolio-nvngbm55k5prquuhngg7el.streamlit.app/" target="_blank" rel="noopener noreferrer">Ask Amir AI</a>
 
   <script>
-    (function(){
-      const viewport = document.getElementById('aelabGalleryViewport');
-      const slides = viewport ? viewport.children : [];
-      const dotsContainer = document.getElementById('aelabGalleryDots');
-      let idx = 0;
-      const total = slides.length;
-      let autoplay = true;
-      let autoplayTimer = null;
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
 
-      function show(i){
-        idx = (i + total) % total;
-        const offset = -idx * 100;
-        viewport.style.transform = `translateX(${offset}%)`;
-        if(dotsContainer){ Array.from(dotsContainer.children).forEach((d, di) => d.classList.toggle('active', di===idx)); }
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('is-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.querySelectorAll('[data-carousel]').forEach((carousel) => {
+      const track = carousel.querySelector('.carousel-track');
+      const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+      const prev = carousel.querySelector('[data-prev]');
+      const next = carousel.querySelector('[data-next]');
+      const dots = carousel.querySelector('[data-dots]');
+      let index = 0;
+      let timer = null;
+
+      if (!track || slides.length === 0) return;
+
+      const update = (nextIndex) => {
+        index = (nextIndex + slides.length) % slides.length;
+        track.style.transform = `translateX(${-index * 100}%)`;
+        if (dots) {
+          Array.from(dots.children).forEach((dot, dotIndex) => {
+            dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false');
+          });
+        }
+      };
+
+      const stop = () => {
+        if (timer) window.clearInterval(timer);
+      };
+
+      const start = () => {
+        stop();
+        timer = window.setInterval(() => update(index + 1), 5200);
+      };
+
+      if (dots) {
+        slides.forEach((_, dotIndex) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'carousel-dot';
+          dot.setAttribute('aria-label', `Go to slide ${dotIndex + 1}`);
+          dot.setAttribute('aria-current', dotIndex === 0 ? 'true' : 'false');
+          dot.addEventListener('click', () => {
+            update(dotIndex);
+            start();
+          });
+          dots.appendChild(dot);
+        });
       }
 
-      function next(){ show(idx+1); }
-      function prev(){ show(idx-1); }
-
-      if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
-
-      const container = viewport.closest('.aelab-gallery');
-      const left = container.querySelector('.nav.left');
-      const right = container.querySelector('.nav.right');
-      left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
-      right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
-
-      container.tabIndex = 0;
-      container.addEventListener('keydown', (e)=>{
-        if(e.key==='ArrowLeft'){ e.preventDefault(); prev(); resetAutoplay(); }
-        if(e.key==='ArrowRight'){ e.preventDefault(); next(); resetAutoplay(); }
+      prev?.addEventListener('click', () => {
+        update(index - 1);
+        start();
       });
 
-      function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
-      function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
-
-      show(0);
-      startAutoplay();
-    })();
-  </script>
-
-</div>
-
-<!-- Key Features List -->
-<a href="https://amirexirpe.com/#aelab-suite" target="_blank" rel="noopener noreferrer"><strong>AELab</strong></a>
-<h3 class="slide-up hover-scale" style="text-align: center; margin-top: 3rem;"> AELab Key Features</h3>
-<ul style="max-width: 800px; margin: 1rem auto 3rem auto; list-style-type: disc; padding-left: 1.5rem; font-size: 1rem;">
-  <li> Batch contingency analysis with thermal/voltage violation reporting</li>
-  <li> Dynamic simulation file parsing (.outx) with channel summaries</li>
-  <li> Dynamic simulation Contingency Builder</li>
-  <li> PSS®E Results Visualization</li>
-  <li> Visualize the PSS®E Contingency Analysis results for Thermal, Voltage, Voltage deviations violations and compare several different cases results using plots and visualizationli>
-  <li> Visualize the PSS®E results to find the best potential Point of Interconnections, provide Load Comission Plan, amont of hosting capacity based on each upgrade n</li>
-  <li> Dynamic Simulator Events Runner and Autoplotter</li>
-  <li> PSS®E Model Validation Tool comparing two cases and summarizing the differences in terms of power flow, dynamic simulation, and contingency analysis results</li>
-  <li> DWG Contingency Builder and Excel Exporter</li>
-  <li> Contingency Builder for PSS®E and TARA PowerGEM</li>
-  <li> IDV generation from impedance + rating CSVs (line design automation)</li>
-  <li> P3/P6 contingency builder for stress testing</li>
-  <li> Transmission Project Info Tool (TPIT) for MOD/Planning workflows</li>
-</ul>
-
-
-<!-- TARA Gallery Carousel -->
-<div id="tara-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
-  <style>
-    .aelab-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
-    .aelab-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
-    .aelab-gallery .slide { min-width: 100%; box-sizing: border-box; padding: 14px; display:flex; justify-content:center; align-items:center; }
-    .aelab-gallery .slide img { max-width: 100%; height: auto; display:block; border-radius:8px; }
-    .aelab-gallery .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; display: flex; align-items:center; justify-content:center; cursor:pointer; border: none; font-size: 24px; }
-    .aelab-gallery .nav.left { left: 10px; }
-    .aelab-gallery .nav.right { right: 10px; }
-    .aelab-gallery .dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
-    .aelab-gallery .dot { width:10px; height:10px; border-radius:50%; background:#ddd; cursor:pointer; }
-    .aelab-gallery .dot.active { background:#00bfff; }
-    @media (min-width:700px){ .aelab-gallery .slide { padding:18px; } }
-  </style>
-
-  <div class="aelab-gallery" aria-label="AELab screenshots gallery">
-    <button class="nav left" aria-label="Previous slide">‹</button>
-    <div class="viewport" id="taraGalleryViewport">
-
-      <div class="slide"><img src="TARAINTERACTIVE4.jpg" alt="TARA TRLIM Visualization"></div>
-      <div class="slide"><img src="TARAINTERACTIVE2.jpg" alt="TARA TRLIM Visualization 2"></div>
-      <div class="slide"><img src="TARAINTERACTIVE3.jpg" alt="TARA TRLIM Visualization 3"></div>
-      <div class="slide"><img src="TARAINTERACTIVE.jpg" alt="TARA TRLIM Visualization 4"></div>
-      <div class="slide"><img src="TARACAVISUAL.png" alt="TARA CA ACCC Visualization"></div>
-
-    </div>
-    <button class="nav right" aria-label="Next slide">›</button>
-  </div>
-
-  <div class="dots" id="taraGalleryDots" style="margin-top:6px; display:flex; justify-content:center;"></div>
-
-  <script>
-    (function(){
-      const viewport = document.getElementById('taraGalleryViewport');
-      const slides = viewport ? viewport.children : [];
-      const dotsContainer = document.getElementById('taraGalleryDots');
-      let idx = 0;
-      const total = slides.length;
-      let autoplay = true;
-      let autoplayTimer = null;
-
-      function show(i){
-        idx = (i + total) % total;
-        const offset = -idx * 100;
-        viewport.style.transform = `translateX(${offset}%)`;
-        if(dotsContainer){ Array.from(dotsContainer.children).forEach((d, di) => d.classList.toggle('active', di===idx)); }
-      }
-
-      function next(){ show(idx+1); }
-      function prev(){ show(idx-1); }
-
-      if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
-
-      const container = viewport.closest('.aelab-gallery');
-      const left = container.querySelector('.nav.left');
-      const right = container.querySelector('.nav.right');
-      left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
-      right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
-
-      container.tabIndex = 0;
-      container.addEventListener('keydown', (e)=>{
-        if(e.key==='ArrowLeft'){ e.preventDefault(); prev(); resetAutoplay(); }
-        if(e.key==='ArrowRight'){ e.preventDefault(); next(); resetAutoplay(); }
+      next?.addEventListener('click', () => {
+        update(index + 1);
+        start();
       });
 
-      function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
-      function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
-
-      show(0);
-      startAutoplay();
-    })();
-  </script>
-
-</div>
-
-<!-- Key Features List -->
-<a href="https://amirexirpe.com/#aelab-suite" target="_blank" rel="noopener noreferrer"><strong>AELab</strong></a>
-<h3 class="slide-up hover-scale" style="text-align: center; margin-top: 3rem;"> AELab Key Features</h3>
-<ul style="max-width: 800px; margin: 1rem auto 3rem auto; list-style-type: disc; padding-left: 1.5rem; font-size: 1rem;">
-
-  <li> TARA PowerGem Results Visualization</li>
-  <li> Visualize the TARA PowerGem Contingency Analysis results for Thermal, Voltage, Voltage deviations violations and compare several different cases results using plots and visualizationli>
-  <li> Visualize the TARA PowerGem Trlim results, find the best potential Point of Interconnections, provide Load Comission Plan, amont of hosting capacity based on each upgrade n</li>
-  <li> TARA PowerGem TRLIM Visualization</li>
-  
-</ul>
-
-
-<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-    <h2 style="text-align: center; font-size: 2.2em; margin-top: 2rem;">
-      Amir Exir’s Interactive AI Projects
-    </h2>
-    <p style="text-align: center; color: #666; max-width: 700px; margin: 0 auto 2rem;">
-      Tools built to automate, simplify, and accelerate engineering workflows using AI, NLP, and power system knowledge.
-    </p> 
-
-
-    <!-- ERCOT All-in-One AI Assistant Section -->
-    
-    <h2 id="ERCOT AI RAG Bots" class="slide-up hover-scale">ERCOT All-in-One AI Assistant</h2>
-    <p>
-    An intelligent assistant trained on ERCOT’s Nodal Protocols, Planning Guides, Interconnection Handbook, and Working Group manuals (DWG & SSWG). Designed to help engineers, planners, and developers quickly navigate ERCOT’s technical standards—covering topics like PMCR/DCP submissions, Section 6.9 generator modeling, dynamic validation, and market rule compliance.
-    </p>
-    <a href="https://amirexir-por-chatbot-ercot-all-in-oneercot-assistant-app-ahgre0.streamlit.app/" target="_blank" class="ercot-bot-button">Ask the ERCOT AI Assistant</a>
-    <!-- ERCOT AI DWG & SSWG Assistant Section -->
-    <h2 id="ERCOT AI RAG Bot" id="Amir Exir's ERCOT DWG & SSWG-assistant" class="slide-up hover-scale">Amir Exir's ERCOT AI DWG & SSWG Assistant</h2>
-    <p>Built to answer questions from ERCOT’s Dynamic and Steady-State Working Group manuals. Supports queries about flat start case development, model validation, and NERC compliance.</p>
-    <a href="https://portfolio-m4bbup6umxumtfibeqkrrz.streamlit.app/" target="_blank" class="ercot-bot-button">Ask the ERCOT DWG & SSWG Bot</a>
-    <!-- ERCOT AI Planning Assistant Section -->
-    <h2 id="ERCOT AI RAG Bot" id="Amir Exir's ERCOT-assistant" class="slide-up hover-scale">Amir Exir's ERCOT AI Planning Guides Assistant</h2>
-    <p>Interact with the official ERCOT Planning Guide — get clear answers about planning procedures, updates, and compliance expectations.</p>
-    <a href="https://portfolio-evxbz642ppnqfsen8txlic.streamlit.app/" target="_blank" class="ercot-bot-button">Ask the ERCOT Planning Bot</a>
-    
-    <!-- ERCOT AI Recource Integration Assistant Section -->
-    <h2 id="Amir Exir's ERCOT-assistant" class="slide-up hover-scale">Amir Exir's ERCOT AI Resource Integration Assistant</h2>
-    <p>Designed to support engineers and developers with ERCOT’s interconnection process. Ask questions about data submittals, timelines, and requirements.!</p>
-    <a href="https://portfolio-ewyxjs3snfqvos8pq2ior9.streamlit.app/" target="_blank" class="ercot-bot-button">Ask the ERCOT Resource Integration Bot</a>
-    
-    <!-- ERCOT AI Protocols Assistant Section -->
-    <h2 id="Amir Exir's ERCOT-assistant" class="slide-up hover-scale">Amir Exir's ERCOT AI Nodal Protocals Assistant</h2>
-    <p>Helps you quickly search and understand ERCOT Protocols — from market rules to operating procedures.</p>
-    <a href="https://portfolio-mkfjrirugw3bjzy6jfrjx4.streamlit.app/" target="_blank" class="ercot-bot-button">Ask the ERCOT Nodal Protocals Bot</a>
-    
-    <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
-    <!-- ERCOT Load Dashboard Section -->
-    <h2 id="ercot-load-dashboard" class="slide-up hover-scale">ERCOT Load Dashboard</h2>
-    <p>
-    A real-time ERCOT grid monitoring and forecasting dashboard that visualizes system load, renewable generation, and outages. 
-    It integrates ERCOT’s Public API for live data access and includes a machine learning module for short-term load forecasting. 
-    Ideal for engineers and analysts to explore grid trends interactively.
-    </p>
-    <a href="https://portfolio-w5bmjqktrj969skqfxavxm.streamlit.app/" target="_blank" class="ercot-bot-button">
-      Launch the ERCOT Load Dashboard
-    </a>
-    <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
-    
-    <h2 id="ercot-news" class="slide-up hover-scale" style="margin-top:2.5rem;"> ERCOT News & Regulatory Updates</h2>
-    <p>
-      This platform combines:
-    </p>
-
-    <ul style="font-size: 0.95rem; color: #555; margin: 0 auto 1rem auto; text-align: left; display: inline-block;">
-      <li>ERCOT grid analytics for load, renewables, pricing, and outages</li>
-      <li>PGRR, NOGGR, NPRR updates</li>
-      <li>ML-based short-term load forecasting</li>
-      <li>Automated n8n pipeline for ERCOT news filtering and summarization</li>
-      <li>Real-time publishing to both the dashboard and Telegram</li>
-    </ul>
-
-    
-    <div style="margin-top: 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.6rem;">
-      <a href="https://portfolio-w5bmjqktrj969skqfxavxm.streamlit.app/"
-        target="_blank"
-        class="ercot-bot-button">
-        Open the ERCOT News & Regulatory Updates Dashboard
-      </a>
-
-      <a href="https://t.me/ERCOTNEWS"
-        target="_blank"
-        style="
-          display: inline-block;
-          background: #0088cc;
-          color: white;
-          padding: 10px 18px;
-          border-radius: 25px;
-          text-decoration: none;
-          font-weight: 600;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        ">
-        View ERCOT News and Regulatory Updates on Telegram
-      </a>
-    </div>
-
-   <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-    <!-- PSSE Automation Assistant bot Section -->
-    <h2 id="Amir Exir's PSS/E API-assistant" class="slide-up hover-scale">Amir Exir's PSS/E API Assistant</h2>
-    <p>An AI-powered Copilot-style tool that helps engineers automate common PSS®E workflows using Python. It leverages semantic search over curated technical materials and examples to generate scripts for contingency analysis, dynamic simulation, and model tuning.</p>
-    <a href="https://portfolio-8yebxmxquvaavwwg5va3tp.streamlit.app/" target="_blank" class="ercot-bot-button">Ask the PSS/E Automation Bot</a>
-
-    <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
-    <!-- PSSE Multi-Agent Automation Bot Section -->
-    <h2 id="Amir Exir's PSS/E API-assistant" class="slide-up hover-scale">Amir Exir's PSS/E Multi-Agent Automation Bot</h2>
-    <p>An advanced AI-driven multi-agent assistant for automating complex PSS®E tasks using Python. It combines task planning, retreival, execution & intelligent code generation Agents in an Agent loop, and retry mechanisms to produce validated scripts for workflows like contingency analysis, load flow, and GUI-based tools. Powered by semantic search over curated PSS/E API and real examples.</p>
-    <a href="https://portfolio-4co3lvfwtpzsl3ivbuhvou.streamlit.app/" target="_blank" class="ercot-bot-button">Try the PSS/E Multi Agent Automation Bot</a>
-
-    <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-    
-    <h2 id="ml-dl-projects" class="slide-up hover-scale">ML & DL projects</h2>
-    <!-- Fault Classifier App Section -->
-    <h2 id="fault-classifier" class="slide-up hover-scale"> Power Fault Classifier</h2>
-    <p>
-      An interactive AI tool that predicts power system fault types using current and voltage measurements 
-      (Ia, Ib, Ic, Va, Vb, Vc). Built using Scikit-learn, Streamlit, and real system data — ideal for field 
-      diagnostics and system protection training.
-    </p>
-    <a href="https://portfolio-xmc8hpyiryrkj8acggxe6k.streamlit.app/" 
-      target="_blank" class="ercot-bot-button">
-      Launch the Fault Classifier App
-    </a>
-    
-
-    <!--  Sample CSV Download -->
-    <p style="margin-top: 0.5rem;">
-       <a href="fault_classifier/detect_dataset.csv" download>Download Sample Test CSV</a>
-    </p>
-
-    <!--  Attribution -->
-    <p style="font-size: 0.9rem; color: #555;">
-       Test dataset adapted from 
-      <a href="https://www.kaggle.com/datasets/esathyaprakash/electrical-fault-detection-and-classification/data" target="_blank">
-        Electrical Fault Detection and Classification
-      </a> by eSathyaPrakash on Kaggle.
-    </p>
-
-    <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
-
-    <!-- Hourly Load Forecast App Section -->
-    <h2 id="forecast-app" class="slide-up hover-scale"> Hourly Load Forecast App (AEP / PJM)</h2>
-    <p>
-      A forecasting tool that predicts hourly energy consumption for AEP / PJM regions using historical 
-      data and machine learning models. Built in Streamlit for interactive exploration.
-    </p>
-    <a href="https://portfolio-yq4typvbncex55yh5cfdmr.streamlit.app/" 
-      target="_blank" class="ercot-bot-button">
-      Launch the Hourly Load Forecast App
-    </a>
-
-    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
-       Dataset source: 
-      <a href="https://www.kaggle.com/code/kakkarot/starter-hourly-energy-consumption-b71f2600-a/input" 
-        target="_blank">
-        Kaggle - PJM Hourly Energy Consumption
-      </a>
-    </p>
-<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
-
-      <!-- Power Grid GNN App Section -->
-      <h2 id="gnn-app" class="slide-up hover-scale"> Power Grid GNN analyzer</h2>
-
-      <p>
-        An advanced <strong>Graph Convolutional Network (GCN + Message Passing)</strong> 
-        that learns from simulated power grid scenarios to predict 
-        <strong>voltage</strong> and <strong>thermal alarms</strong> 
-        across buses and transmission lines. 
-        The model dynamically reconstructs grid topologies, trains on N-1/N-2 
-        contingency cases, and performs cross-validation to ensure high accuracy.
-        <br><br>
-        Built using <strong>PyTorch Geometric</strong>, 
-        <strong>Pandapower</strong>, 
-        <strong>Scikit-learn</strong>, 
-        and <strong>Streamlit</strong>.
-      </p>
-
-      <a href="https://portfolio-kucwkosbrixdtcgkae7yvm.streamlit.app/" 
-        target="_blank" class="ercot-bot-button">
-        Launch the Power Grid GNN App
-      </a>
-
-      <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #777;">
-        Tip: In the Streamlit app, you can toggle between 
-        <strong>Voltage Alarms</strong>, 
-        <strong>Thermal Alarms</strong>, 
-        or <strong>Combined</strong> prediction modes for end-to-end learning 
-        and real-time grid visualization.
-      </p>
-
-
-
-
-      
-      <h2 id="gnn-app" class="slide-up hover-scale">Power Grid GNN Predictor</h2>
-      <p>
-        An advanced <strong>Graph Neural Network (GNN)</strong> system that learns from simulated power grid scenarios 
-        to predict <strong>voltage violations</strong> and <strong>thermal overloads</strong> across buses and transmission lines. 
-        Features four state-of-the-art architectures: <strong>GCN</strong> (baseline), <strong>GAT</strong> (attention-based), 
-        <strong>GIN</strong> (isomorphism-aware), and <strong>Graph Transformer</strong> (achieving 94.53% voltage accuracy and 96.51% thermal accuracy).
-        The system trains on 200 N-1 contingency scenarios with complete topology reconstruction and real-time graph visualization.
-        Built using <strong>PyTorch Geometric</strong>, <strong>Pandapower</strong>, <strong>Scikit-learn</strong>, and <strong>Streamlit</strong>.
-      </p>
-
-      <a href="https://ai-in-power-system-electrical-engineering-hw6ktvbujtbw5zygqxxj.streamlit.app/" 
-        target="_blank" class="ercot-bot-button">
-        Launch the Power Grid GNN App
-      </a>
-      <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #777;">
-        Tip: In the Streamlit app, select between <strong>GCN</strong>, <strong>GAT</strong>, <strong>GIN</strong>, or <strong>Transformer</strong> architectures, 
-        toggle between <strong>Voltage</strong> or <strong>Thermal</strong> classification modes, and visualize interactive power grid topologies 
-        with real-time training metrics and class-balanced performance analysis.
-      </p>
-
-
-
-    <hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
-
-    <!-- Disclaimer -->
-    <div style="max-width: 800px; margin: 2rem auto; padding: 1rem; font-size: 0.9rem; color: #666; border-top: 1px solid #ccc;">
-      <strong> Disclaimer :</strong><br>
-      The AI assistants provided on this site are built using public technical documentation and semantic search 
-      to help users navigate ERCOT planning guides, interconnection procedures, and scripting tasks. However, 
-      all responses are generated by AI and may contain inaccuracies or omissions.<br><br>
-      Users are fully responsible for validating the information before applying it in operational, regulatory, 
-      or professional contexts. Amir Exir does not assume any responsibility for decisions, compliance outcomes, 
-      or damages resulting from use of these assistants.
-    </div>
-
-    <!-- TinyLlama Fine-Tuning Project Section -->
-<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-<h2 id="tinyllama-project" class="slide-up hover-scale"> TinyLlama Fine-Tuning for Medical Q&A</h2>
-<p style="max-width: 700px; margin: 0 auto;">
-  Fine-tuned <strong>TinyLlama-1.1B-Chat</strong> on the <a href="https://www.kaggle.com/datasets/thedevastator/comprehensive-medical-q-a-dataset" target="_blank">MedQuAD dataset</a> 
-  (16K medical Q&A pairs) using LoRA parameter-efficient fine-tuning. Achieved measurable improvements in 
-  <strong>ROUGE-1/2/L</strong> while keeping training feasible on limited compute (gradient checkpointing, 4-bit quantization, AdamW + warmup).  
-  Published model and reproducible workflow now available for the AI healthcare research community.
-</p>
-
-<!-- Buttons -->
-<div style="margin-top: 1rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-  <a href="https://huggingface.co/amirexirr/tinyllama-medquad-lora" 
-     target="_blank" rel="noopener noreferrer" 
-     class="ercot-bot-button"> View Model on Hugging Face</a>
-
-  <a href="HighRiskProjectW8_v4.pptx" 
-     target="_blank" rel="noopener noreferrer" 
-     class="ercot-bot-button"> View Slides</a>
-
-  <a href="HirghRiskFineTune.pdf" 
-     target="_blank" rel="noopener noreferrer" 
-     class="ercot-bot-button"> View Report (PDF)</a>
-</div>
-
-<p style="font-size: 0.9rem; color: #555; margin-top: 0.5rem;">
-   Project completed for <em>AI in Healthcare (AI W395T)</em> at UT Austin.  
-  <a href="https://docs.google.com/presentation/d/1RtvqKqsq-p4YONWkTvvEIL_89sBGBkx6/edit#slide=id.p1" target="_blank">View presentation online</a>.
-</p>
-
-<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
-<!-- Stock Market & Crypto AI Agent Section -->
-<h2 id="market-agent" class="slide-up hover-scale" style="margin-top:2.5rem;">  Stock Market & Crypto AI Agent</h2>
-<p>
-This project combines real-time market data, AI-generated buy/sell recommendations, automated daily updates, and Telegram-driven on-demand runs using Streamlit, n8n, and the Alpaca Paper Trading API. It compares multiple forecasting models, validates them against historical data, and now supports natural-language commands, RL policy runs, daily RL-style retraining/fine-tuning requests, and calendar delivery of market signals.
-</p>
-
-
-<!-- Market Agent App Section -->
-<a href="https://amirexir-portfolio-market-agentmarket-agent-app-ls52gt.streamlit.app/" 
-   target="_blank" class="ercot-bot-button">
-  Launch the Stock Market & Crypto AI Agent
-</a>
-
-<!-- Telegram Button -->
-<a href="https://t.me/marketagentchannel" 
-   target="_blank" 
-   style="
-     display: inline-block;
-     background: #0088cc;
-     color: white;
-     padding: 10px 18px;
-     border-radius: 25px;
-     text-decoration: none;
-     font-weight: 600;
-     transition: background 0.2s ease-in-out;
-     margin-top: 0.5rem;
-     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-   ">
-   View Daily Market Updates on Telegram
-</a>
-
-<div style="text-align: center; margin-top: 0.8rem;">
-  <p style="font-size: 0.9rem; color: #666; margin-bottom: 0.3rem;"> Features:</p>
-  <ul style="font-size: 0.9rem; color: #666; margin: 0 auto; text-align: left; display: inline-block;">
-    <li> Live market data and SMA crossover strategy</li>
-    <li> Paper trading integration via Alpaca API</li>
-    <li> Adjustable moving average parameters</li>
-    <li> Safe demo mode for public access</li>
-    <li> AI-generated daily market summaries (auto-updated from GitHub)</li>
-    <li> Multiple model comparison, validation, and ranking before publishing signals</li>
-    <li> Telegram natural-language control for one-off or scheduled market runs</li>
-    <li> RL policy support plus daily retrain/fine-tune command routing</li>
-    <li> Buy/sell recommendations sent back to Telegram and posted to Google Calendar</li>
-    <li> Telegram notifications for new AI summaries</li>
-    <li> Automated file versioning for each market update</li>
-  </ul>
-</div>
-
-<!-- Market Gallery Carousel -->
-<div id="market-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
-  <style>
-    .market-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
-    .market-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
-    .market-gallery .slide { min-width: 100%; box-sizing: border-box; padding: 14px; display:flex; justify-content:center; align-items:center; }
-    .market-gallery .slide img { max-width: 100%; height: auto; display:block; border-radius:8px; }
-    .market-gallery .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; display: flex; align-items:center; justify-content:center; cursor:pointer; border: none; font-size: 24px; }
-    .market-gallery .nav.left { left: 10px; }
-    .market-gallery .nav.right { right: 10px; }
-    .market-gallery .dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
-    .market-gallery .dot { width:10px; height:10px; border-radius:50%; background:#ddd; cursor:pointer; }
-    .market-gallery .dot.active { background:#00bfff; }
-    @media (min-width:700px){ .market-gallery .slide { padding:18px; } }
-  </style>
-
-  <div class="market-gallery" aria-label="Market screenshots gallery">
-    <button class="nav left" aria-label="Previous slide">‹</button>
-    <div class="viewport" id="marketGalleryViewport">
-      <div class="slide"><img src="n8n Workflow.png" alt="n8n workflow"></div>
-      <div class="slide"><img src="Telegram on demand News and Optimization Prediction request.png" alt="Telegram request"></div>
-      <div class="slide"><img src="Telegram Precition Results on Demand.png" alt="Telegram results"></div>
-      <div class="slide"><img src="Multi Model predictions.jpg" alt="Multi model predictions"></div>
-      <div class="slide"><img src="predictions .jpg" alt="Predictions"></div>
-      <div class="slide"><img src="Qick SMA corssover check.png" alt="SMA crossover"></div>
-      <div class="slide"><img src="Heatmap.png" alt="Crypto heatmap"></div>
-    </div>
-    <button class="nav right" aria-label="Next slide">›</button>
-  </div>
-
-  <div class="dots" id="marketGalleryDots" style="margin-top:6px; display:flex; justify-content:center;"></div>
-
-  <script>
-    (function(){
-      const viewport = document.getElementById('marketGalleryViewport');
-      const slides = viewport ? viewport.children : [];
-      const dotsContainer = document.getElementById('marketGalleryDots');
-      let idx = 0;
-      const total = slides.length;
-      let autoplay = true;
-      let autoplayTimer = null;
-
-      function show(i){
-        idx = (i + total) % total;
-        const offset = -idx * 100;
-        viewport.style.transform = `translateX(${offset}%)`;
-        if(dotsContainer){ Array.from(dotsContainer.children).forEach((d, di) => d.classList.toggle('active', di===idx)); }
-      }
-
-      function next(){ show(idx+1); }
-      function prev(){ show(idx-1); }
-
-      if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
-
-      const container = viewport.closest('.market-gallery');
-      const left = container.querySelector('.nav.left');
-      const right = container.querySelector('.nav.right');
-      left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
-      right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
-
-      container.tabIndex = 0;
-      container.addEventListener('keydown', (e)=>{
-        if(e.key==='ArrowLeft'){ e.preventDefault(); prev(); resetAutoplay(); }
-        if(e.key==='ArrowRight'){ e.preventDefault(); next(); resetAutoplay(); }
+      carousel.tabIndex = 0;
+      carousel.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          update(index - 1);
+          start();
+        }
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          update(index + 1);
+          start();
+        }
       });
 
-      function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
-      function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
+      carousel.addEventListener('mouseenter', stop);
+      carousel.addEventListener('mouseleave', start);
+      update(0);
+      start();
+    });
 
-      show(0);
-      startAutoplay();
-    })();
-  </script>
+    document.getElementById('siteSearch').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const input = document.getElementById('searchInput');
+      const query = input.value.trim().toLowerCase();
+      document.querySelectorAll('.search-hit').forEach((element) => element.classList.remove('search-hit'));
 
-</div>
+      if (!query) return;
 
-<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-<!-- Interview Assistant App Section -->
-<h2 id="interview-bot" class="slide-up hover-scale" style="margin-top:2.5rem;"> AI Interview Assistant</h2>
-<p>
-  An interactive interview preparation assistant trained on my professional background, 
-  resume, and STAR stories. Built with OpenAI’s GPT API and Streamlit to simulate realistic 
-  behavioral interview sessions.
-</p>
+      const searchable = Array.from(document.querySelectorAll('section, article, h1, h2, h3, p, li'));
+      const match = searchable.find((element) => element.innerText && element.innerText.toLowerCase().includes(query));
 
-<a href="https://portfolio-rs4eamgdjpptbcpbeci6nu.streamlit.app/" 
-   target="_blank" class="ercot-bot-button">
-  Launch the AI Interview Assistant
-</a>
-
-<p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
-   This tool helps me practice interview questions across Amazon’s Leadership Principles 
-  and technical problem-solving scenarios.
-</p>
-
-<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
-    <!-- TeslaFSDKiller Section -->
-    <hr style="border: none; height: 1px; background: #ddd; margin: 3rem 0;">
-    <h2 class="slide-up hover-scale">TeslaFSDKiller: Deep Learning Project</h2>
-    <p style="max-width: 1200px; margin: 0 auto;">
-      I trained a neural network to drive autonomously in SuperTuxKart using CNNs, Transformers, and MLPs. This project, inspired by my Deep Learning course at UT Austin, showcases waypoint prediction and dynamic driving through an open-source simulator.
-    </p>
-
-  <video controls style="width: 100%; max-width: 1200px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-top: 1rem;">
-    <source src="TeslaFSDKiller.mov" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div> <!-- CLOSE .section after GUI Demo -->
-
-
-<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-<!-- Fun Activity Section -->
-<div class="section">
-  <h2 id="fun" class="slide-up hover-scale"> Outside the Office – Paddleboarding & Biking Fun</h2>
-
-<!-- Fun Activity Gallery Carousel -->
-<div id="fun-gallery-carousel" style="max-width: 1100px; margin: 1.5rem auto 2rem auto;">
-  <style>
-    .fun-gallery { position: relative; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
-    .fun-gallery .viewport { display: flex; transition: transform 0.45s ease; will-change: transform; }
-    .fun-gallery .slide { min-width: 100%; box-sizing: border-box; padding: 14px; display:flex; justify-content:center; align-items:center; }
-    .fun-gallery .slide img { max-width: 100%; height: auto; display:block; border-radius:8px; }
-    .fun-gallery .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; display: flex; align-items:center; justify-content:center; cursor:pointer; border: none; font-size: 24px; }
-    .fun-gallery .nav.left { left: 10px; }
-    .fun-gallery .nav.right { right: 10px; }
-    .fun-gallery .dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
-    .fun-gallery .dot { width:10px; height:10px; border-radius:50%; background:#ddd; cursor:pointer; }
-    .fun-gallery .dot.active { background:#00bfff; }
-    @media (min-width:700px){ .fun-gallery .slide { padding:18px; } }
-  </style>
-
-  <div class="fun-gallery" aria-label="Fun activity photos gallery">
-    <button class="nav left" aria-label="Previous slide">‹</button>
-    <div class="viewport" id="funGalleryViewport">
-      <div class="slide"><img src="paddle1.jpg" alt="Paddleboarding 1"></div>
-      <div class="slide"><img src="paddle2.jpg" alt="Paddleboarding 2"></div>
-      <div class="slide"><img src="bike1.jpg" alt="Biking 1"></div>
-      <div class="slide"><img src="bike2.jpg" alt="Biking 2"></div>
-      <div class="slide"><img src="bike3.jpg" alt="Biking 3"></div>
-      <div class="slide"><img src="bike4.jpg" alt="Biking 4"></div>
-    </div>
-    <button class="nav right" aria-label="Next slide">›</button>
-  </div>
-
-  <div class="dots" id="funGalleryDots" style="margin-top:6px; display:flex; justify-content:center;"></div>
-
-  <script>
-    (function(){
-      const viewport = document.getElementById('funGalleryViewport');
-      const slides = viewport ? viewport.children : [];
-      const dotsContainer = document.getElementById('funGalleryDots');
-      let idx = 0;
-      const total = slides.length;
-      let autoplay = true;
-      let autoplayTimer = null;
-
-      function show(i){
-        idx = (i + total) % total;
-        const offset = -idx * 100;
-        viewport.style.transform = `translateX(${offset}%)`;
-        if(dotsContainer){ Array.from(dotsContainer.children).forEach((d, di) => d.classList.toggle('active', di===idx)); }
+      if (match) {
+        match.classList.add('search-hit');
+        match.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-
-      function next(){ show(idx+1); }
-      function prev(){ show(idx-1); }
-
-      if(dotsContainer){ for(let i=0;i<total;i++){ const dot = document.createElement('div'); dot.className='dot'+(i===0? ' active':''); dot.dataset.index=i; dot.addEventListener('click', ()=> show(i)); dotsContainer.appendChild(dot);} }
-
-
-      const container = viewport.closest('.fun-gallery');
-      const left = container.querySelector('.nav.left');
-      const right = container.querySelector('.nav.right');
-
-      left && left.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
-      right && right.addEventListener('click', ()=>{ next(); resetAutoplay(); });
-
-      container.tabIndex = 0;
-      container.addEventListener('keydown', (e)=>{
-        if(e.key==='ArrowLeft'){ e.preventDefault(); prev(); resetAutoplay(); }
-        if(e.key==='ArrowRight'){ e.preventDefault(); next(); resetAutoplay(); }
-      });
-
-      function startAutoplay(){ if(!autoplay) return; autoplayTimer = setInterval(next, 4500); }
-      function resetAutoplay(){ clearInterval(autoplayTimer); startAutoplay(); }
-
-      show(0);
-      startAutoplay();
-    })();
+    });
   </script>
-
-</div>
-
-<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
-<h2 class="slide-up hover-scale"> My Music Setup </h2>
-<div style="text-align: center;">
-  <img src="dj.jpg" alt="DJ Setup" style="width: 100%; max-width: 1200px; height: auto; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.2); display: block; margin: 0 auto;" />
-  <p>My personal DJ station setup</p>
-</div>
-
-<hr style="border: none; height: 2px; background: linear-gradient(to right, transparent, #00bfff, transparent); margin: 3rem 0;">
-
-
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const audio = document.getElementById('bg-music');
-    audio.volume = 0.5; // Set default volume to 50%
-  });
-</script>
-<script>
-  function toggleMenu() {
-    const nav = document.getElementById('nav-links');
-    nav.style.display = (nav.style.display === 'flex') ? 'none' : 'flex';
-  }
-
-  // Optional: Close menu after clicking a link
-  document.querySelectorAll('.nav-links a').forEach(link =>
-    link.addEventListener('click', () => {
-      document.getElementById('nav-links').style.display = 'none';
-    })
-  );
-</script>
-<div style="margin-top: 3rem;">
-  <h2 id="music" class="slide-up hover-scale"> My Apple Music Playlist</h2>
-  <iframe allow="autoplay *; encrypted-media *;" 
-          frameborder="0" 
-          height="450" 
-          style="width:100%;max-width:1200px;overflow:hidden;background:transparent;" 
-          sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
-          src="https://embed.music.apple.com/us/playlist/favorite-songs/pl.u-xRUkYrJ5pG">
-  </iframe>
-</div>
-
-<footer style="background: rgba(0,0,0,0.85); color: white; padding: 1.5rem 0; margin-top: 3rem;">
-  <p>
-    © 2025 Amir Exir |
-    <a href="mailto:amir.exir@utexas.edu" style="color:#00bfff;">UT Email</a> |
-    <a href="mailto:eksir.monfared.amir@gmail.com" style="color:#00bfff;">Gmail</a> |
-    <a href="https://www.linkedin.com/in/amir-exir-m-eng-ee-p-e-ncso-6323b3153/" target="_blank" style="color:#00bfff;">LinkedIn</a> |
-    <a href="https://github.com/AmirExir" target="_blank" style="color:#00bfff;">GitHub</a> |
-    <a href="mailto:contact@amirexirpe.com" style="color:#00bfff;">contact@amirexirpe.com</a>
-  </p>
-
-</footer>
-<script>
-  function searchSite() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const elements = document.querySelectorAll('h1, h2, h3, p, li, strong, div');
-
-    for (const el of elements) {
-      if (el.innerText.toLowerCase().includes(input)) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        el.style.backgroundColor = 'yellow';
-        setTimeout(() => { el.style.backgroundColor = ''; }, 1500);
-        break;
-      }
-    }
-  }
-</script>
-
-
-<!-- Floating Label -->
-<div id="chatbot-bubble" style="position: fixed; bottom: 30px; right: 100px; background-color: #00bfff; color: white; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: bold; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); z-index: 9999;">
-  Ask Amir’s Assistant
-</div>
-
-<!-- Floating Chat Button (Opens in New Tab) -->
-<a href="https://portfolio-nvngbm55k5prquuhngg7el.streamlit.app/" 
-   target="_blank" 
-   id="chatbot-launch"
-   title="Ask Amir's AI"
-   style="position: fixed; bottom: 30px; right: 30px; background-color: #00bfff; color: white; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 28px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 9999;">
-  🤖
-</a>
-
 </body>
 </html>
