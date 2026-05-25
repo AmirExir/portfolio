@@ -476,6 +476,31 @@
       grid-template-columns: repeat(3, 1fr);
     }
 
+    .badge-wall {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .badge-link {
+      display: flex;
+      min-height: 178px;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: 0 10px 28px rgba(16, 32, 31, 0.07);
+    }
+
+    .badge-link img {
+      width: 132px;
+      max-height: 150px;
+      object-fit: contain;
+    }
+
     .credential-card,
     .project-card,
     .experience-card,
@@ -613,16 +638,22 @@
     .carousel-control {
       position: absolute;
       top: 50%;
+      z-index: 3;
       width: 42px;
       height: 42px;
-      border: 0;
+      border: 1px solid rgba(255, 255, 255, 0.5);
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--ink);
+      background: rgba(11, 25, 24, 0.82);
+      color: #ffffff;
       font-size: 1.6rem;
       line-height: 1;
       cursor: pointer;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
       transform: translateY(-50%);
+    }
+
+    .carousel-control:hover {
+      background: var(--brand);
     }
 
     .carousel-control.prev {
@@ -667,12 +698,24 @@
       overflow: hidden;
     }
 
-    .project-card img {
+    .project-card img,
+    .project-card video {
       width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
       border-bottom: 1px solid var(--line);
       background: var(--wash-strong);
+    }
+
+    .project-card > .media-carousel {
+      border-radius: 0;
+      border-bottom: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .project-card > .media-carousel .carousel-slide {
+      aspect-ratio: 16 / 9;
+      padding: 8px;
     }
 
     .project-body {
@@ -1082,6 +1125,42 @@
             </div>
           </article>
         </div>
+
+        <div class="badge-wall" aria-label="Professional badge links">
+          <a class="badge-link" href="https://cns.badges.utexas.edu/079f4d14-2535-4cb6-b365-febf3bce2bc5" target="_blank" rel="noopener noreferrer">
+            <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/182097003" alt="Advances in Deep Learning badge" loading="lazy" decoding="async" />
+          </a>
+          <a class="badge-link" href="https://cns.badges.utexas.edu/f2ce5e5a-9e4e-45d6-bbd8-909c1a88ec91" target="_blank" rel="noopener noreferrer">
+            <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/182098137" alt="Online Learning and Optimization badge" loading="lazy" decoding="async" />
+          </a>
+          <a class="badge-link" href="https://cns.badges.utexas.edu/b975a9c7-aa22-493f-818e-f2e79d2f32a6" target="_blank" rel="noopener noreferrer">
+            <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/173520027" alt="AI in Healthcare badge" loading="lazy" decoding="async" />
+          </a>
+          <a class="badge-link" href="https://cns.badges.utexas.edu/b7832c3f-6f58-4488-9d95-abe26dafac6c" target="_blank" rel="noopener noreferrer">
+            <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/badge/173595633" alt="Case Studies in Machine Learning badge" loading="lazy" decoding="async" />
+          </a>
+          <a class="badge-link" href="https://badgr.com/public/assertions/pBoNV8TFRdOp1RtbfCKuCw" target="_blank" rel="noopener noreferrer">
+            <img src="https://badgr.com/public/assertions/pBoNV8TFRdOp1RtbfCKuCw/image" alt="Ethics in AI badge" loading="lazy" decoding="async" />
+          </a>
+          <a class="badge-link" href="https://api.badgr.io/public/assertions/IVo0sP5kQ9e_mwFHkdsAhQ" target="_blank" rel="noopener noreferrer">
+            <img src="https://api.badgr.io/public/assertions/IVo0sP5kQ9e_mwFHkdsAhQ/image" alt="Machine Learning badge" loading="lazy" decoding="async" />
+          </a>
+          <a class="badge-link" href="https://api.badgr.io/public/assertions/nuIf1he4S7OIX8dqXolz7w" target="_blank" rel="noopener noreferrer">
+            <img src="https://api.badgr.io/public/assertions/nuIf1he4S7OIX8dqXolz7w/image" alt="Optimization badge" loading="lazy" decoding="async" />
+          </a>
+          <a class="badge-link" href="https://badgr.com/public/assertions/zORbeEfRT8qs7i-8eh58jw" target="_blank" rel="noopener noreferrer">
+            <img src="https://badgr.com/public/assertions/zORbeEfRT8qs7i-8eh58jw/image" alt="Deep Learning badge" loading="lazy" decoding="async" />
+          </a>
+          <a class="badge-link" href="https://www.credly.com/badges/c4af83f9-7011-447f-aba8-997f2629044c/public_url" target="_blank" rel="noopener noreferrer">
+            <img src="aws-badge.png" alt="AWS Cloud Practitioner badge" loading="lazy" decoding="async" />
+          </a>
+          <a class="badge-link" href="https://www.credly.com/badges/7bc435dd-f524-4e8e-9e11-b10436ffc6f8" target="_blank" rel="noopener noreferrer">
+            <img src="fe-badge.png" alt="NCEES FE Exam badge" loading="lazy" decoding="async" />
+          </a>
+          <a class="badge-link" href="https://account.ncees.org/rn/1871056-1359860-881551c" target="_blank" rel="noopener noreferrer">
+            <img src="pe-badge.png" alt="NCEES PE Exam badge" loading="lazy" decoding="async" />
+          </a>
+        </div>
       </div>
     </section>
 
@@ -1155,11 +1234,29 @@
               <div class="carousel-slide"><img src="aelabpro_accc.jpg" alt="AELab ACCC analysis workspace" loading="lazy" decoding="async" /></div>
               <div class="carousel-slide"><img src="ACCCTHERMALVIOLATIONSRESULTS.jpg" alt="Thermal violation results" loading="lazy" decoding="async" /></div>
               <div class="carousel-slide"><img src="VOLTAGE_VIOLATIONSRESULTS_excell.jpg" alt="Voltage violation Excel export" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="VOLTAGE_VIOLATIONSRESULTS.jpg" alt="Voltage violation results" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="VOLTAGE_DEVIATION_VIOLATIONS_Results.jpg" alt="Voltage deviation violation results" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="Notconverged_Results.jpg" alt="Non-converged contingency results" loading="lazy" decoding="async" /></div>
               <div class="carousel-slide"><img src="AELABPRO_FAULT.jpg" alt="Fault simulation screen" loading="lazy" decoding="async" /></div>
-
+              <div class="carousel-slide"><img src="DARKMODE_IDV_RUNNER.jpg" alt="Dynamic contingency runner and autoplotter" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="AELabDynamicPlots.png" alt="Dynamic simulation plotted channels" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="dynamic_Result_failorpass.png" alt="Dynamic simulation pass/fail results" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="dynamic_Result_idvloadloss.png" alt="Dynamic simulation IDV load loss results" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="dynamic_Result_voltageviolation.png" alt="Dynamic simulation voltage violation results" loading="lazy" decoding="async" /></div>
               <div class="carousel-slide"><img src="PSSEMODEL VALIDATION.png" alt="PSS/E model validation tool" loading="lazy" decoding="async" /></div>
-              <div class="carousel-slide"><img src="TARAINTERACTIVE4.jpg" alt="TARA TRLIM visualization" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="PSSEMODEL VALIDATION_RESULTS.png" alt="PSS/E model validation results" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="PSSEMODEL VALIDATION_RESULTS2.png" alt="PSS/E model validation detailed results" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="AELABDWGCON2XLS.jpg" alt="DWG contingency to Excel tool" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="AELABDWGCTGBUILDER.jpg" alt="DWG contingency builder" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="DARKMODE_CONTINGENCYGENERATOR.jpg" alt="Dark mode contingency generator" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="AELabDARKMODE.png" alt="AELab dark mode workspace" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="DARKEMODEIDVGENERATOR.jpg" alt="Dark mode IDV generator" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="TPIT.jpg" alt="Transmission project information tool" loading="lazy" decoding="async" /></div>
               <div class="carousel-slide"><img src="TARACAVISUAL.png" alt="TARA contingency analysis visualization" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="TARAINTERACTIVE.jpg" alt="TARA interactive TRLIM visualization" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="TARAINTERACTIVE2.jpg" alt="TARA interactive TRLIM visualization detail" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="TARAINTERACTIVE3.jpg" alt="TARA interactive TRLIM visualization results" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="TARAINTERACTIVE4.jpg" alt="TARA TRLIM visualization" loading="lazy" decoding="async" /></div>
             </div>
             <button class="carousel-control next" type="button" data-next aria-label="Next AELab screenshot">&rsaquo;</button>
             <div class="carousel-dots" data-dots aria-label="AELab gallery pagination"></div>
@@ -1310,6 +1407,36 @@
             </div>
           </article>
 
+          <article class="project-card featured">
+            <div class="media-carousel" data-carousel aria-label="ERCOT load and forecast dashboard screenshots">
+              <button class="carousel-control prev" type="button" data-prev aria-label="Previous ERCOT dashboard screenshot">&lsaquo;</button>
+              <div class="carousel-track">
+                <div class="carousel-slide"><img src="ERCOT_LOAD_Dashboard_Forcast.png" alt="ERCOT load forecast dashboard" loading="lazy" decoding="async" /></div>
+                <div class="carousel-slide"><img src="ERCOT_LOAD_Dashbord_News_Telegram.png" alt="ERCOT dashboard news and Telegram workflow" loading="lazy" decoding="async" /></div>
+                <div class="carousel-slide"><img src="ERCOT_Load_Dashboard_News.png" alt="ERCOT dashboard news view" loading="lazy" decoding="async" /></div>
+                <div class="carousel-slide"><img src="ERCOT_LOAD_Dashboard_Real Time_Market_Pricing.png" alt="ERCOT real-time market pricing dashboard" loading="lazy" decoding="async" /></div>
+                <div class="carousel-slide"><img src="ERCOT_LOAD_Dashboard_RenewableEnergyGenerration.png" alt="ERCOT renewable energy generation dashboard" loading="lazy" decoding="async" /></div>
+                <div class="carousel-slide"><img src="ERCOT_LOAD_Dashboard_Resource_Outage_By_Fuel_Type.png" alt="ERCOT resource outage by fuel type dashboard" loading="lazy" decoding="async" /></div>
+              </div>
+              <button class="carousel-control next" type="button" data-next aria-label="Next ERCOT dashboard screenshot">&rsaquo;</button>
+              <div class="carousel-dots" data-dots aria-label="ERCOT dashboard gallery pagination"></div>
+            </div>
+            <div class="project-body">
+              <h3>ERCOT Load Forecast Dashboard</h3>
+              <p>Primary grid analytics project for ERCOT load forecasting, renewable generation, real-time market pricing, outage views, news monitoring, regulatory updates, and Telegram publishing.</p>
+              <div class="card-actions">
+                <a class="btn" href="https://portfolio-w5bmjqktrj969skqfxavxm.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Dashboard</a>
+                <a class="btn light" href="https://t.me/ERCOTNEWS" target="_blank" rel="noopener noreferrer">Telegram</a>
+              </div>
+              <div class="tag-row">
+                <span class="tag">ERCOT API</span>
+                <span class="tag">Load forecasting</span>
+                <span class="tag">Grid analytics</span>
+                <span class="tag">n8n</span>
+              </div>
+            </div>
+          </article>
+
           <article class="project-card">
             <img src="fault_classifier/confusion matrix.png" alt="Fault classifier confusion matrix" loading="lazy" decoding="async" />
             <div class="project-body">
@@ -1323,7 +1450,6 @@
           </article>
 
           <article class="project-card">
-            <img src="AELabDynamicPlots.png" alt="Load forecasting and plotted results" loading="lazy" decoding="async" />
             <div class="project-body">
               <h3>Hourly Load Forecast App</h3>
               <p>Forecasting app for hourly energy consumption in AEP/PJM regions using historical load data and interactive model exploration.</p>
@@ -1353,17 +1479,6 @@
               </div>
             </div>
           </article>
-
-          <article class="project-card">
-            <div class="project-body">
-              <h3>ERCOT Load Dashboard</h3>
-              <p>Grid monitoring and forecasting dashboard for load, renewable generation, outages, ERCOT news, and regulatory update workflows.</p>
-              <div class="card-actions">
-                <a class="btn light" href="https://portfolio-w5bmjqktrj969skqfxavxm.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Dashboard</a>
-                <a class="btn light" href="https://t.me/ERCOTNEWS" target="_blank" rel="noopener noreferrer">Telegram</a>
-              </div>
-            </div>
-          </article>
         </div>
       </div>
     </section>
@@ -1386,6 +1501,7 @@
               <div class="carousel-slide"><img src="Telegram on demand News and Optimization Prediction request.png" alt="Telegram on-demand market request" loading="lazy" decoding="async" /></div>
               <div class="carousel-slide"><img src="Telegram Prediction Results on Demand.png" alt="Telegram prediction results" loading="lazy" decoding="async" /></div>
               <div class="carousel-slide"><img src="Multi Model predictions.jpg" alt="Multi-model predictions" loading="lazy" decoding="async" /></div>
+              <div class="carousel-slide"><img src="predictions .jpg" alt="Prediction signal dashboard" loading="lazy" decoding="async" /></div>
               <div class="carousel-slide"><img src="Heatmap.png" alt="Market heatmap" loading="lazy" decoding="async" /></div>
             </div>
             <button class="carousel-control next" type="button" data-next aria-label="Next market agent screenshot">&rsaquo;</button>
