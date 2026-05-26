@@ -1,0 +1,23 @@
+Generated: 2026-05-25 11:49 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day section
+Sequence model usage: both (LSTM and Transformer enabled)
+No actionable 1 trading-day signals met the publication filter. All reported short-horizon names were Neutral / No Edge and below the 2% absolute forecast-return threshold, so no 1-day buy or sell rankings are included.
+
+30 trading-day buy rankings
+GEV remains the clearest long signal with a Strong Buy, supported by an uptrend pattern, 86.4% probability up, and a forecast return of 14.93%.
+ONDO qualifies as a Buy with the largest published upside forecast at 25.98%, though the pattern is high volatility and expected error is elevated.
+GOOGL is a Buy with an 8.56% forecast return and an uptrend pattern, offering a higher-probability large-cap long candidate.
+WMT is a Buy with a 5.73% forecast return and an oversold pattern, which may place it in the lower-volatility portion of the long list.
+
+30 trading-day sell rankings
+PEPE is the strongest downside signal with a Strong Sell, a downtrend pattern, 93.9% probability down, and a forecast return of -26.56%.
+HYPE is the only other qualifying short with a Sell signal and a forecast return of -17.02%, although expected error is high.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with at least 2% absolute forecast return were included.
+Neutral / No Edge names were excluded from rankings.
