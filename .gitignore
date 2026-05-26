@@ -2,15 +2,5 @@ newsapi_query_expanded.txt
 __pycache__/
 *.py[cod]
 .streamlit/secrets.toml
-
-# Scheduled/generated report outputs
 market_agent/reports/
-market_agent/**/*latest*.json
-market_agent/**/*summary*.txt
-market_agent/**/*forecast_rankings*.json
-market_agent/**/*forecast_rankings*.txt
-ERCOTAPI/*summary*.txt
-ERCOTAPI/**/*summary*.txt
-ERCOTAPI/**/*latest*.json
-
 n8n_market_telegram_calendar_combined.workflow.json

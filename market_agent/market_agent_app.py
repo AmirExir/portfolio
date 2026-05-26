@@ -63,25 +63,6 @@ def get_first_secret(names, default=None):
     return default
 
 
-def github_generated_refs() -> list[str]:
-    ref_text = get_first_secret(["GENERATED_OUTPUT_REF", "GITHUB_GENERATED_REF"], "generated-output")
-    refs: list[str] = []
-    for raw_ref in str(ref_text or "").replace(";", ",").split(","):
-        ref = raw_ref.strip()
-        if ref and ref not in refs:
-            refs.append(ref)
-    for fallback_ref in ("generated-output", "main"):
-        if fallback_ref not in refs:
-            refs.append(fallback_ref)
-    return refs
-
-
-def github_contents_urls(path: str) -> list[str]:
-    clean_path = path.strip("/")
-    base_url = f"https://api.github.com/repos/AmirExir/portfolio/contents/{clean_path}"
-    return [f"{base_url}?ref={ref}" for ref in github_generated_refs()]
-
-
 def _reports_dir() -> str:
     return os.path.join(os.path.dirname(__file__), "reports")
 
@@ -1448,28 +1429,30 @@ def fetch_latest_ml_report():
         except Exception:
             pass
 
+    contents_url = (
+        "https://api.github.com/repos/AmirExir/portfolio/contents/"
+        "market_agent/reports/ml_forecast_rankings_latest.txt"
+    )
     try:
-        for contents_url in github_contents_urls("market_agent/reports/ml_forecast_rankings_latest.txt"):
-            response = requests.get(
-                contents_url,
-                headers={
-                    "Accept": "application/vnd.github.v3+json",
-                    "User-Agent": "Streamlit-Market-Agent",
-                },
-                timeout=10,
-            )
-            if response.status_code == 404:
-                continue
-            response.raise_for_status()
-            download_url = response.json().get("download_url")
-            if not download_url:
-                continue
-            report_response = requests.get(download_url, timeout=10)
-            report_response.raise_for_status()
-            return report_response.text
+        response = requests.get(
+            contents_url,
+            headers={
+                "Accept": "application/vnd.github.v3+json",
+                "User-Agent": "Streamlit-Market-Agent",
+            },
+            timeout=10,
+        )
+        if response.status_code == 404:
+            return None
+        response.raise_for_status()
+        download_url = response.json().get("download_url")
+        if not download_url:
+            return None
+        report_response = requests.get(download_url, timeout=10)
+        report_response.raise_for_status()
+        return report_response.text
     except Exception:
         return None
-    return None
 
 
 @st.cache_data(ttl=300)
@@ -1486,41 +1469,41 @@ def fetch_latest_ml_payload() -> dict | None:
         except Exception:
             pass
 
+    contents_url = (
+        "https://api.github.com/repos/AmirExir/portfolio/contents/"
+        "market_agent/reports/ml_forecast_rankings_latest.json"
+    )
     try:
-        for contents_url in github_contents_urls("market_agent/reports/ml_forecast_rankings_latest.json"):
-            response = requests.get(
-                contents_url,
-                headers={
-                    "Accept": "application/vnd.github.v3+json",
-                    "User-Agent": "Streamlit-Market-Agent",
-                },
-                timeout=10,
-            )
-            if response.status_code == 404:
-                continue
-            response.raise_for_status()
-            download_url = response.json().get("download_url")
-            if not download_url:
-                continue
-            report_response = requests.get(download_url, timeout=10)
-            report_response.raise_for_status()
-            return report_response.json()
+        response = requests.get(
+            contents_url,
+            headers={
+                "Accept": "application/vnd.github.v3+json",
+                "User-Agent": "Streamlit-Market-Agent",
+            },
+            timeout=10,
+        )
+        if response.status_code == 404:
+            return None
+        response.raise_for_status()
+        download_url = response.json().get("download_url")
+        if not download_url:
+            return None
+        report_response = requests.get(download_url, timeout=10)
+        report_response.raise_for_status()
+        return report_response.json()
     except Exception:
         return None
-    return None
 
 
 # --- Fetch the latest summary from GitHub ---
 @st.cache_data(ttl=300)  # Cache for 5 minutes
 def fetch_latest_summary():
     """Fetch the latest summary file from GitHub with better error handling"""
-    contents_urls = []
-    for summary_path in (
-        f"market_agent/reports/{NEWS_SUMMARY_DIR}",
-        "market_agent/reports",
-        "market_agent",
-    ):
-        contents_urls.extend(github_contents_urls(summary_path))
+    contents_urls = [
+        f"https://api.github.com/repos/AmirExir/portfolio/contents/market_agent/reports/{NEWS_SUMMARY_DIR}",
+        "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent/reports",
+        "https://api.github.com/repos/AmirExir/portfolio/contents/market_agent",
+    ]
 
     try:
         # Add headers to avoid rate limiting

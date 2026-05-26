@@ -140,42 +140,10 @@ def fetch_ercot_data_cached(endpoint: str, params_str: str, bearer_token: str, s
     return api.get_public(endpoint, params=params, verbose=False, max_retries=3)
 
 
-def _first_setting(names, default=""):
-    for name in names:
-        try:
-            value = st.secrets.get(name, os.getenv(name, ""))
-        except Exception:
-            value = os.getenv(name, "")
-        if isinstance(value, str):
-            value = value.strip()
-        if value:
-            return value
-    return default
-
-
-def _github_content_refs():
-    ref_text = _first_setting(
-        ["ERCOT_NEWS_GENERATED_REF", "GENERATED_OUTPUT_REF", "GITHUB_GENERATED_REF"],
-        "generated-output",
-    )
-    refs = []
-    for raw_ref in str(ref_text or "").replace(";", ",").split(","):
-        ref = raw_ref.strip()
-        if ref and ref not in refs:
-            refs.append(ref)
-    for fallback_ref in ("generated-output", "main"):
-        if fallback_ref not in refs:
-            refs.append(fallback_ref)
-    return refs
-
-
 @st.cache_data(ttl=300, show_spinner=False)
-def fetch_news_file_index(path: str = "ERCOTAPI", branch: str = "main"):
+def fetch_news_file_index(path: str = "ERCOTAPI"):
     """Fetch file index from GitHub for n8n-generated news files (cached for 5 minutes)."""
-    contents_url = (
-        "https://api.github.com/repos/AmirExir/portfolio/contents/"
-        f"{path.strip('/')}?ref={branch}"
-    )
+    contents_url = f"https://api.github.com/repos/AmirExir/portfolio/contents/{path.strip('/')}"
     headers = {
         "Accept": "application/vnd.github.v3+json",
         "User-Agent": "Streamlit-ERCOT-Dashboard",
@@ -254,45 +222,42 @@ def get_latest_news_by_prefix(
     """Return the latest matching news item using GitHub first, then local fallback."""
     candidate_paths = [repo_path, f"{repo_path}/market_agent"]
 
-    for branch in _github_content_refs():
-        for candidate_path in candidate_paths:
-            try:
-                files = fetch_news_file_index(candidate_path, branch)
-            except Exception:
-                files = None
-
-            if not files:
-                continue
-
-            matches = [
-                f for f in files
-                if f.get("type") == "file"
-                and f.get("name", "").lower().endswith((".txt", ".md", ".json"))
-                and any(f.get("name", "").lower().startswith(p.lower()) for p in prefixes)
-            ]
-            if matches:
-                latest = sorted(matches, key=lambda x: x.get("name", ""), reverse=True)[0]
-                download_url = latest.get("download_url")
-                if download_url:
-                    try:
-                        r = requests.get(download_url, timeout=12)
-                        r.raise_for_status()
-                        return {
-                            "name": latest.get("name", ""),
-                            "content": _normalize_news_text(r.text.strip()),
-                        }
-                    except Exception:
-                        pass
-
-    # Fallback: search full repo tree (helps when n8n writes files outside ERCOTAPI/).
-    for branch in _github_content_refs():
+    for candidate_path in candidate_paths:
         try:
-            tree_items = fetch_news_repo_tree(branch)
+            files = fetch_news_file_index(candidate_path)
         except Exception:
-            tree_items = []
-        if not tree_items:
+            files = None
+
+        if not files:
             continue
 
+        matches = [
+            f for f in files
+            if f.get("type") == "file"
+            and f.get("name", "").lower().endswith((".txt", ".md", ".json"))
+            and any(f.get("name", "").lower().startswith(p.lower()) for p in prefixes)
+        ]
+        if matches:
+            latest = sorted(matches, key=lambda x: x.get("name", ""), reverse=True)[0]
+            download_url = latest.get("download_url")
+            if download_url:
+                try:
+                    r = requests.get(download_url, timeout=12)
+                    r.raise_for_status()
+                    return {
+                        "name": latest.get("name", ""),
+                        "content": _normalize_news_text(r.text.strip()),
+                    }
+                except Exception:
+                    pass
+
+    # Fallback: search full repo tree (helps when n8n writes files outside ERCOTAPI/).
+    try:
+        tree_items = fetch_news_repo_tree("main")
+    except Exception:
+        tree_items = []
+
+    if tree_items:
         tree_matches = []
         heuristic_matches = []
         for item in tree_items:
@@ -316,7 +281,7 @@ def get_latest_news_by_prefix(
         if tree_matches:
             latest_path = sorted(tree_matches, reverse=True)[0]
             raw_url = (
-                f"https://raw.githubusercontent.com/AmirExir/portfolio/{branch}/"
+                "https://raw.githubusercontent.com/AmirExir/portfolio/main/"
                 f"{latest_path}"
             )
             try:

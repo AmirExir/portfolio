@@ -72,29 +72,10 @@ CHAT_ID = first_env(
     ],
     DEFAULT_TELEGRAM_CHAT_ID,
 )
-GENERATED_OUTPUT_REF = first_env(
-    ["ERCOT_NEWS_GENERATED_REF", "GENERATED_OUTPUT_REF", "GITHUB_GENERATED_REF"],
-    "generated-output",
-)
 
 
-def github_content_refs() -> List[str]:
-    refs: List[str] = []
-    for raw_ref in str(GENERATED_OUTPUT_REF or "").replace(";", ",").split(","):
-        ref = raw_ref.strip()
-        if ref and ref not in refs:
-            refs.append(ref)
-    for fallback_ref in ("generated-output", "main"):
-        if fallback_ref not in refs:
-            refs.append(fallback_ref)
-    return refs
-
-
-def fetch_news_file_index(path: str = "ERCOTAPI", branch: str = "main"):
-    contents_url = (
-        "https://api.github.com/repos/AmirExir/portfolio/contents/"
-        f"{path.strip('/')}?ref={branch}"
-    )
+def fetch_news_file_index(path: str = "ERCOTAPI"):
+    contents_url = f"https://api.github.com/repos/AmirExir/portfolio/contents/{path.strip('/')}"
     headers = {
         "Accept": "application/vnd.github.v3+json",
         "User-Agent": "ERCOT-News-Workflow",
@@ -161,70 +142,68 @@ def read_latest_local_news(local_dir: Path, prefixes: List[str]) -> Optional[Dic
 def get_latest_news_by_prefix(prefixes: List[str], repo_path: str = "ERCOTAPI") -> Optional[Dict[str, str]]:
     candidate_paths = [repo_path, f"{repo_path}/market_agent"]
 
-    for branch in github_content_refs():
-        for candidate_path in candidate_paths:
-            try:
-                files = fetch_news_file_index(candidate_path, branch)
-            except Exception:
-                files = None
-
-            if not files:
-                continue
-
-            matches = [
-                file_info
-                for file_info in files
-                if file_info.get("type") == "file"
-                and file_info.get("name", "").lower().endswith((".txt", ".md", ".json"))
-                and any(file_info.get("name", "").lower().startswith(prefix.lower()) for prefix in prefixes)
-            ]
-            if not matches:
-                continue
-
-            latest = sorted(matches, key=lambda item: item.get("name", ""), reverse=True)[0]
-            download_url = latest.get("download_url")
-            if not download_url:
-                continue
-
-            try:
-                response = requests.get(download_url, timeout=12)
-                response.raise_for_status()
-                return {
-                    "name": latest.get("name", ""),
-                    "content": normalize_news_text(response.text.strip()),
-                }
-            except Exception:
-                pass
-
-    for branch in github_content_refs():
+    for candidate_path in candidate_paths:
         try:
-            tree_items = fetch_news_repo_tree(branch)
+            files = fetch_news_file_index(candidate_path)
         except Exception:
-            tree_items = []
+            files = None
 
-        tree_matches = []
-        for item in tree_items:
-            if item.get("type") != "blob":
-                continue
-            rel_path = item.get("path", "")
-            base_name = os.path.basename(rel_path).lower()
-            if not base_name.endswith((".txt", ".md", ".json")):
-                continue
-            if any(base_name.startswith(prefix.lower()) for prefix in prefixes):
-                tree_matches.append(rel_path)
+        if not files:
+            continue
 
-        if tree_matches:
-            latest_path = sorted(tree_matches, reverse=True)[0]
-            raw_url = f"https://raw.githubusercontent.com/AmirExir/portfolio/{branch}/{latest_path}"
-            try:
-                response = requests.get(raw_url, timeout=12)
-                response.raise_for_status()
-                return {
-                    "name": os.path.basename(latest_path),
-                    "content": normalize_news_text(response.text.strip()),
-                }
-            except Exception:
-                pass
+        matches = [
+            file_info
+            for file_info in files
+            if file_info.get("type") == "file"
+            and file_info.get("name", "").lower().endswith((".txt", ".md", ".json"))
+            and any(file_info.get("name", "").lower().startswith(prefix.lower()) for prefix in prefixes)
+        ]
+        if not matches:
+            continue
+
+        latest = sorted(matches, key=lambda item: item.get("name", ""), reverse=True)[0]
+        download_url = latest.get("download_url")
+        if not download_url:
+            continue
+
+        try:
+            response = requests.get(download_url, timeout=12)
+            response.raise_for_status()
+            return {
+                "name": latest.get("name", ""),
+                "content": normalize_news_text(response.text.strip()),
+            }
+        except Exception:
+            pass
+
+    try:
+        tree_items = fetch_news_repo_tree("main")
+    except Exception:
+        tree_items = []
+
+    tree_matches = []
+    for item in tree_items:
+        if item.get("type") != "blob":
+            continue
+        rel_path = item.get("path", "")
+        base_name = os.path.basename(rel_path).lower()
+        if not base_name.endswith((".txt", ".md", ".json")):
+            continue
+        if any(base_name.startswith(prefix.lower()) for prefix in prefixes):
+            tree_matches.append(rel_path)
+
+    if tree_matches:
+        latest_path = sorted(tree_matches, reverse=True)[0]
+        raw_url = f"https://raw.githubusercontent.com/AmirExir/portfolio/main/{latest_path}"
+        try:
+            response = requests.get(raw_url, timeout=12)
+            response.raise_for_status()
+            return {
+                "name": os.path.basename(latest_path),
+                "content": normalize_news_text(response.text.strip()),
+            }
+        except Exception:
+            pass
 
     return read_latest_local_news(Path(__file__).resolve().parent, prefixes)
 
