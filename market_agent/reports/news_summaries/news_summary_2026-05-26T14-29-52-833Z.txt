@@ -1,0 +1,19 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Oil / geopolitics:** **New York Post** reported that **oil prices dropped 5%** after President Trump said talks with Iran on reopening the **Strait of Hormuz** were moving in a “constructive direction,” while noting Hormuz remains a wildcard for traders. *(New York Post, published 2026-05-25T14:20:10Z)*
+
+- **European banks / AI-related risk oversight:** **The Irish Times** reported the **ECB summoned banks** to a Tuesday meeting to push them to fix **cybersecurity and IT-system flaws exposed by the latest AI models**, framing it as a financial-stability concern. *(The Irish Times, published 2026-05-25T14:23:30Z)*
+
+- **Crypto / Coinbase strategy:** **Cointelegraph** reported Coinbase CEO Brian Armstrong posted an **eight-point finance “wishlist”** that aligns with Coinbase’s expansion into **stocks, prediction markets, and stablecoin infrastructure**. *(Cointelegraph, published 2026-05-25T14:28:12Z)*
+
+- **Crypto / Ethereum positioning:** **Cointelegraph** reported an **Ethereum whale opened a leveraged ETH short worth more than $100 million**, while Vitalik Buterin said he intends to **“sell less ETH.”** *(Cointelegraph, published 2026-05-25T14:13:17Z)*
+
+### Interpretation
+- The **clearest cross-asset market-moving item** in this set is the **oil/Hormuz headline**, because it directly affects **energy prices, inflation expectations, and broad risk sentiment**.
+
+- The **ECB bank meeting** matters more for **European financials and AI-risk regulation** than for broad U.S. index direction, but it reinforces that AI is creating **operational and supervisory risks**, not just capex enthusiasm.
+
+- The **crypto items** are more **sector-specific** than macro. They may matter for **Coinbase, Ethereum-linked sentiment, and stablecoin infrastructure themes**, but they do **not by themselves explain broader equity-index or rates moves**.
+
+- **Fresh headline set is thin** for explaining today’s overall tape. There is **no strong fresh article here on Fed policy, U.S. inflation, major earnings, or broad index drivers**.

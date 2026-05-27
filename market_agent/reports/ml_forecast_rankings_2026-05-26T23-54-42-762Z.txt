@@ -1,0 +1,20 @@
+Generated: 2026-05-26 23:54 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both
+No actionable 1 trading-day Buy or Sell signals met the filter. All reported short-horizon calls were Neutral / No Edge and below the 2% absolute forecast return threshold.
+
+30 trading-day Buy rankings
+GEV — Buy | forecast return +10.89% | probability up 77.8% | pattern: Uptrend | selected model: Ensemble
+WMT — Buy | forecast return +6.13% | probability up 74.7% | pattern: Oversold | selected model: Ensemble
+ONDO — Buy | forecast return +26.68% | probability up 67.7% | pattern: High Volatility | selected model: Ensemble
+JNJ — Buy | forecast return +4.42% | probability up 68.0% | pattern: Rebound From 60-Day Low | selected model: Ensemble
+
+30 trading-day Sell rankings
+PEPE — Strong Sell | forecast return -26.56% | probability down 93.9% | pattern: Downtrend | selected model: Ensemble
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% are included.
+No additional qualifying Sell signals were present in the 30 trading-day output.
