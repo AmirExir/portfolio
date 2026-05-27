@@ -1,0 +1,19 @@
+Generated: 2026-05-27 11:49 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both (LSTM and Transformer enabled)
+No actionable 1 trading-day signals met the filter. All short-horizon entries were Neutral / No Edge and below the 2% absolute forecast-return threshold.
+
+30 trading-day buy rankings
+GEV is the highest-ranked long signal with a Buy call, forecast return of +12.37%, 80.6% probability up, and an Uptrend pattern.
+ONDO is a Buy with forecast return of +21.52%, 70.0% probability up, and a High Volatility pattern. Return potential is highest among the buy signals, but expected error is also elevated.
+WMT is a Buy with forecast return of +6.07%, 74.6% probability up, and an Oversold pattern.
+
+30 trading-day sell rankings
+PEPE is the strongest bearish signal with a Strong Sell call, forecast return of -26.56%, 93.9% probability down, and a Downtrend pattern.
+NFLX is a Sell with forecast return of -9.21%, 71.5% probability down, and a Downtrend pattern.
+
+Notes
+Only Buy, Strong Sell, and Sell signals with at least 2% absolute forecast return were included. Neutral / No Edge names were excluded from the ranked recommendations.
