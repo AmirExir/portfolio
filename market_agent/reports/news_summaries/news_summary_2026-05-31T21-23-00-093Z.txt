@@ -1,0 +1,17 @@
+Fresh market-moving headlines are thin in this article set, and there is little here that cleanly explains today’s broader tape.
+
+**Facts**
+- **Labor/Fed backdrop:** *Financial Post/Bloomberg* (published **2026-05-30T20:23:30Z**) says the upcoming U.S. May jobs report is expected to show **solid growth and a steady unemployment rate**. A firmer labor backdrop can matter for Fed-rate expectations.  
+- **AI/private-market readthrough:** *Gizmodo* (published **2026-05-30T21:11:25Z**) reports Anthropic said it raised **$65 billion** in Series H funding, valuing the company at **$965 billion**. While private-market and not directly tradable, it is relevant to AI sentiment.  
+- **AI infrastructure tie-in:** *StorageReview* (published **2026-05-30T19:49:31Z**) reports VAST Data detailed a partnership with **Mistral AI / Mistral Compute** tied to **NVIDIA GB300 NVL72** systems for European AI factories.  
+- **Energy/geopolitical risk:** *Crypto Briefing* (published **2026-05-30T20:18:42Z**) says Iran has reasserted control over the **Strait of Hormuz amid U.S. tensions**, a development that is relevant to oil-supply risk if corroborated by broader reporting.  
+- **Crypto policy:** *Cointelegraph* (published **2026-05-30T20:45:45Z**) reports Sen. Cynthia Lummis said the U.S. risks losing leadership in digital assets if the **CLARITY Act** does not pass.  
+- **Crypto policy opposition:** *Bitcoinist* (published **2026-05-30T21:00:14Z**) says prediction-market odds for the **Digital Asset Market Clarity Act** becoming law this year have slipped, and that JPMorgan CEO Jamie Dimon remains opposed.
+
+**Interpretation**
+- The most market-relevant macro item here is the **preview of next week’s U.S. jobs report**, which could influence **Treasury yields and Fed-cut expectations**.
+- The **Anthropic** and **NVIDIA-linked AI infrastructure** items support the view that **AI capital spending/private valuations** remain an active theme, but these are not the same as fresh public-company earnings or guidance.
+- The **Hormuz** item points to a possible **energy risk premium**, but this dataset does not include enough mainstream confirmation to treat it as a definitive market driver on its own.
+- The **crypto-regulation** headlines are relevant for **major crypto sentiment**, but they look more like **policy background** than immediate broad-market catalysts.
+
+If you want, I can also turn this into a **2-line premarket note** or a **sector-by-sector trader-style recap**.
