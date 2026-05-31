@@ -146,7 +146,7 @@ This repo also supports a news pipeline for:
 
 ### Workflow Pattern
 
-1. Have your n8n workflow write a news summary file into `ERCOTAPI/`.
+1. Have your n8n workflow write a news summary file into `ERCOTAPI/news_summaries/`.
 2. Use a filename prefix that matches the category:
    - `ercot_news_`
    - `datacenter_news_` or `data_center_news_`

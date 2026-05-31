@@ -682,8 +682,11 @@ def write_outputs(
         "top_sells": report["top_sells"],
     }
 
+    optimization_summary_dir = output_dir / "optimization_summaries"
+    optimization_summary_dir.mkdir(parents=True, exist_ok=True)
+
     json_path = output_dir / f"ml_forecast_rankings_{timestamp}.json"
-    txt_path = output_dir / f"ml_forecast_rankings_{timestamp}.txt"
+    txt_path = optimization_summary_dir / f"ml_forecast_rankings_{timestamp}.txt"
     latest_json_path = output_dir / "ml_forecast_rankings_latest.json"
     latest_txt_path = output_dir / "ml_forecast_rankings_latest.txt"
 

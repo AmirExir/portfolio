@@ -31,7 +31,8 @@ The script also writes:
 - `market_agent/reports/ml_forecast_rankings_latest.txt`
 - `market_agent/reports/ml_forecast_rankings_latest.json`
 - `market_agent/reports/ml_forecast_rankings_cache_*.json`
-- timestamped `.txt` and `.json` report files
+- timestamped `.json` report files
+- timestamped `.txt` recommendation summaries in `market_agent/reports/optimization_summaries/`
 
 The Streamlit website reads the saved forecast cache first, so your existing **Stock Market** publish branch can upload the latest `market_agent/reports/ml_forecast_rankings_latest.json` or `ml_forecast_rankings_latest.txt` the same way it uploads `summary_*.txt`.
 

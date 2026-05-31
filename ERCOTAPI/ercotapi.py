@@ -251,7 +251,7 @@ def get_latest_news_by_prefix(
                 except Exception:
                     pass
 
-    # Fallback: search full repo tree (helps when n8n writes files outside ERCOTAPI/).
+    # Fallback: search full repo tree for older or manually placed summary files.
     try:
         tree_items = fetch_news_repo_tree("main")
     except Exception:
@@ -516,7 +516,7 @@ def main():
         "pgrr_", "planning_guide_change_", "planning_guide_update_",
     ]
 
-    item = get_latest_news_by_prefix(all_news_prefixes, repo_path="ERCOTAPI")
+    item = get_latest_news_by_prefix(all_news_prefixes, repo_path="ERCOTAPI/news_summaries")
     if item:
         st.markdown("**ERCOT News**")
         st.caption(f"Latest: {item['name']}")
