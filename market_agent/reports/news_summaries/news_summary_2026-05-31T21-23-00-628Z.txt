@@ -1,0 +1,26 @@
+Fresh market-moving headlines are thin in this article set, and several items are opinion/speculation or non-market coverage. Here are only the fresher, potentially market-relevant headlines from the last 36 hours.
+
+**Facts**
+- **US labor market preview:** A Bloomberg/Financial Post item said the upcoming US May jobs report is expected to show **solid job growth and a steady unemployment rate**, framing next week’s labor data as a key macro event for rates/Fed expectations.  
+  *Source: Financial Post (Bloomberg), publishedAt: 2026-05-30T20:23:30Z*
+
+- **Crypto regulation / Washington:** Senator Cynthia Lummis said the US risks losing leadership in digital assets if the **CLARITY Act** does not pass, underscoring that crypto market structure legislation remains in focus.  
+  *Source: Cointelegraph, publishedAt: 2026-05-30T20:45:45Z*
+
+- **Crypto regulation / banking pushback:** A crypto-focused report said prediction-market odds of the **Digital Asset Market Clarity Act** becoming law this year slipped to 59% from 68%, and said **JPMorgan CEO Jamie Dimon** remains opposed.  
+  *Source: Bitcoinist, publishedAt: 2026-05-30T21:00:14Z*
+
+- **Energy/geopolitics:** A crypto-focused report said **Iran reasserted control over the Strait of Hormuz amid US tensions**, highlighting a potential oil-supply and shipping risk if independently confirmed by mainstream outlets.  
+  *Source: Crypto Briefing, publishedAt: 2026-05-30T20:18:42Z*
+
+- **AI/private-market valuation:** Gizmodo reported that **Anthropic raised Series H funding** and described the company as being valued above OpenAI, based on Anthropic’s blog post. This is private-market AI news rather than directly tradable public-equity news.  
+  *Source: Gizmodo, publishedAt: 2026-05-30T21:11:25Z*
+
+- **AI infrastructure / Nvidia ecosystem:** StorageReview reported that **VAST Data, Mistral Compute, and NVIDIA GB300 NVL72** are part of AI factory deployments in Europe.  
+  *Source: StorageReview, publishedAt: 2026-05-30T19:49:31Z*
+
+**Interpretation**
+- The clearest broadly market-relevant item here is the **preview of next week’s US jobs report**, which could shape **Treasury yield and Fed-cut expectations**.
+- The **crypto** headlines point to continued sensitivity around **US market-structure legislation**, but these are more sector-specific and partly from niche crypto outlets.
+- The **Hormuz** item could matter for **oil and risk sentiment**, but this set does **not** include enough high-confidence mainstream reporting to lean on it heavily.
+- There are **no strong fresh articles here on inflation data, Fed officials, major public-company earnings, or confirmed moves in equities/rates/crypto** that fully explain today’s tape.
