@@ -1,0 +1,15 @@
+Fresh market-moving headlines are thin in this article set, and there is little here that cleanly explains today’s broader tape.
+
+**Facts**
+- **Financial Post / Bloomberg (2026-05-30T20:23:30Z):** Previewed the upcoming U.S. jobs report as likely to show **solid job growth and a steady unemployment rate**. That is relevant for **Fed/rates expectations** because labor-market resilience can affect rate-cut timing.
+- **Crypto Briefing (2026-05-30T20:24:49Z):** Also framed the coming **May U.S. employment report** as expected to show **solid growth and steady unemployment**, underscoring focus on labor data for macro and rates-sensitive assets.
+- **Crypto Briefing (2026-05-30T20:18:42Z):** Reported **Iran reasserting control over the Strait of Hormuz amid U.S. tensions**, a headline relevant to **oil supply risk and energy markets** if tensions escalate.
+- **Cointelegraph (2026-05-30T20:45:45Z):** Said Senator **Cynthia Lummis** argued the U.S. risks losing leadership in digital assets if the **CLARITY Act** does not pass; relevant to **crypto regulation sentiment**.
+- **Bitcoinist (2026-05-30T21:00:14Z):** Reported **JPMorgan CEO Jamie Dimon** remained opposed to the **CLARITY** crypto market-structure bill, highlighting continuing resistance from major banks to crypto-regulatory changes.
+- **Gizmodo (2026-05-30T21:11:25Z):** Reported **Anthropic** said it raised a new funding round that valued the company at **$965 billion**, an AI-sector headline, though this is **private-market** rather than public-equity news.
+
+**Interpretation**
+- The clearest fresh macro theme is **attention shifting to next week’s U.S. jobs data**, which could matter for **Treasury yields and Fed expectations**.
+- The **Hormuz** headline is the main fresh **energy/geopolitical risk** item in the set, but the provided articles do not show an actual oil-price move.
+- On **crypto**, the fresh headlines point to an ongoing **regulatory tug-of-war** around CLARITY rather than a definitive policy breakthrough.
+- There are **no strong fresh earnings, CPI/inflation, Fed-official, or major public AI/semi company headlines** here that would convincingly explain a broad equity move on their own.
