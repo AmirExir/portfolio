@@ -1,0 +1,39 @@
+Below are only the **fresh** potentially market-moving headlines from the last 36 hours, filtered for relevance.
+
+## Facts
+- **The Times of India — 2026-06-01T22:02:13Z**
+  - Reported that **Alphabet** plans to raise up to **$80 billion** to expand AI infrastructure, and said **Berkshire Hathaway** would invest **$10 billion** as part of that fundraising.
+
+- **Japan Today — 2026-06-01T21:48:54Z**
+  - Reported that **Anthropic** confidentially filed for an **IPO**, highlighting ongoing capital demands across the AI sector.
+
+- **Japan Today — 2026-06-01T21:48:37Z**
+  - Reported that **Nvidia** launched a **Windows laptop chip** aimed at AI-capable consumer PCs, expanding its push beyond data-center AI.
+
+- **TechCrunch — 2026-06-01T21:36:32Z**
+  - Reported that **Nvidia** introduced its **RTX Spark** PC CPU/superchip and that systems from **Microsoft, Dell, and HP** are part of the AI-agent PC push.
+
+- **GlobeNewswire (Micron) — 2026-06-01T22:00:00Z**
+  - **Micron** said it is showcasing an end-to-end AI memory and storage portfolio at **Computex 2026**, with key products in **high-volume production**.
+
+- **PRNewswire (Flex) — 2026-06-01T22:00:00Z**
+  - **Flex** announced scalable power products for next-generation AI infrastructure, including support for **NVIDIA Vera Rubin NVL72** platforms and 800VDC architectures.
+
+- **GlobeNewswire (Talen Energy) — 2026-06-01T21:44:00Z**
+  - **Talen Energy** said it received the remaining regulatory approvals for its previously announced acquisition of the **Lawrenceburg, Waterford and Darby** assets.
+
+- **Japan Today — 2026-06-01T21:39:11Z**
+  - Reported that the **French Navy**, backed by the **UK**, intercepted a **sanctioned tanker from Russia**, a development relevant to oil supply/sanctions risk.
+
+- **Cointelegraph — 2026-06-01T21:40:00Z**
+  - Reported that debate on the U.S. **CLARITY Act** is set to continue this week as the **Senate** returns, keeping crypto market-structure regulation in focus.
+
+- **Cointelegraph — 2026-06-01T21:51:16Z**
+  - Reported that **Dogecoin** is being integrated into **Paxos’** brokerage and custody infrastructure, potentially broadening access through regulated channels.
+
+## Interpretation
+- The freshest actionable theme in this set is **AI capex and AI hardware breadth**: Alphabet fundraising, Anthropic’s IPO filing, Nvidia’s consumer-PC AI push, and Micron/Flex AI infrastructure updates all reinforce continued investor focus on the **AI buildout trade**.
+- **Power and electricity exposure** may stay relevant alongside AI infrastructure headlines, with Talen’s asset-acquisition clearances adding to the power-generation angle.
+- On **energy**, the Russia tanker interception is a geopolitical/sanctions item worth watching, but this article set does **not** by itself establish a clear oil-price move.
+- On **crypto**, the Senate’s return puts U.S. market-structure regulation back on the radar, while the Paxos/Dogecoin item is more token-specific than broad macro.
+- There are **no fresh Fed, Treasury-yield, CPI/PCE, payrolls, or major broad-index catalyst headlines** in this article set. If you’re trying to explain today’s broader tape, this feed is **thin on macro drivers**.
