@@ -1,0 +1,30 @@
+Generated: 2026-06-02 09:02 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary approach: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model used: both (LSTM and Transformer)
+Only one short-horizon signal met the filtering threshold of at least 2% absolute forecast return and a Buy/Sell class.
+Buy:
+GEV is the only qualifying 1-day long signal at +2.46%, with a Buy rating, 70.0% probability up, and an Oversold pattern.
+No 1-day sell signals met the filter.
+
+30 trading-day buy rankings
+GOOGL ranks as the top 30-day buy at +9.73% with a Buy rating, 74.1% probability up, and an Uptrend pattern.
+GEV follows at +9.21% with a Buy rating and an Oversold pattern.
+ONDO shows the largest forecast return among buys at +26.11%, rated Buy, though with a wide expected error and a range-bound pattern.
+AVGO is a Buy at +10.90% in an Uptrend.
+SLB is a Buy at +8.01% in an Uptrend.
+WMT is a Buy at +4.35% with an Oversold pattern.
+
+30 trading-day sell rankings
+PEPE is the clearest qualifying short signal at -26.56% with a Strong Sell rating, 93.9% probability down, and a Downtrend pattern.
+HYPE is the second qualifying short signal at -18.14% with a Sell rating.
+No other 30-day sell entries passed the required signal class filter.
+
+Summary
+Qualifying long exposure is concentrated in GOOGL, GEV, ONDO, AVGO, SLB, and WMT.
+Qualifying short exposure is concentrated in PEPE and HYPE.
+Neutral and sub-2% forecasts were excluded.
