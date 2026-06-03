@@ -1,0 +1,23 @@
+Generated: 2026-06-03 08:40 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model used: both (LSTM and Transformer enabled)
+No actionable 1 trading-day signals met the publication filter. All short-horizon entries were Neutral / No Edge, and no buy or sell signal cleared the 2% absolute forecast-return threshold.
+
+30 trading-day buy rankings
+GOOGL ranks as the clearest long candidate with a Buy signal, an 11.76% forecast return, 78.0% probability up, and an Uptrend pattern.
+SLB remains in the buy group with a 7.04% forecast return, 69.2% probability up, and an Uptrend pattern.
+WMT also qualifies as a Buy with a 4.45% forecast return and 70.2% probability up, although the prevailing pattern is Bearish MA Crossover rather than a clean uptrend.
+ONDO is included as a Buy with a 17.61% forecast return, but the pattern context is Range / No Dominant Pattern and the expected error is comparatively wide.
+
+30 trading-day sell rankings
+PEPE is the only qualifying sell-side name in the published list. It carries a Strong Sell signal with a -26.56% forecast return, 93.9% implied probability down, and a Downtrend pattern.
+
+Summary
+Published longs: GOOGL, SLB, WMT, ONDO
+Published shorts: PEPE
+Neutral / No Edge names were excluded from the rankings, even where forecast magnitude was large.
