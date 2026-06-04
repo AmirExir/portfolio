@@ -1,0 +1,15 @@
+- ERCOT’s large-load queue pressure remains the clearest theme: multiple reports and commentary point to accelerating AI/data-center buildout in Texas, with ERCOT already moving to screen which proposed loads are actually feasible for interconnection. That matters for transmission timing, deliverability, and whether speculative load requests are crowding out real projects. (Slashdot / ERCOT discussion)
+
+- The main operational risk is not just megawatts, but uncertainty: several articles highlight “secret” or opaque data-center development, reinforcing why ERCOT and TSPs need better load transparency, milestone enforcement, and phased interconnection rules to avoid overbuilding for projects that may never energize. (TheBrockovichReport.com; Columbia.edu)
+
+- Market impact is increasingly political: commentary across outlets argues that if large new loads push retail bills higher, public and regulatory resistance will intensify. For ERCOT, that raises the stakes for cost-allocation debates, large-load tariffs, and whether new transmission and generation upgrades are borne by hyperscalers or socialized to other customers. (Commercial Observer; Columbia.edu)
+
+- Community opposition to data centers is broadening from land use into power and water constraints, with several stories emphasizing water consumption and local backlash. In Texas, that can directly affect siting viability for thermal-backed campuses and indirectly shift ERCOT planning toward regions with stronger water access, transmission headroom, and lower community friction. (Wired; 9to5Google; The Atlantic)
+
+- A West Texas data-center project is being framed as proactively addressing local concerns, underscoring a possible template for ERCOT-era large loads: pair load growth with dedicated infrastructure, clearer community disclosures, and potentially on-site power or storage to reduce perceived grid cost shifts. (Forbes)
+
+- Texas continues adding utility-scale supply as load growth accelerates: Electrek reports another major solar project moving forward, which supports ERCOT summer energy adequacy and daytime reserve margins, though it also reinforces the need for complementary storage, flexible thermal capacity, and transmission to manage net-load ramps. (Electrek)
+
+- Storage and data-center infrastructure are converging: T1 Energy’s planned acquisition of KORE Power signals continued interest in pairing BESS with large flexible loads. For ERCOT, that trend could improve interconnection optionality, reduce peak system impacts, and support emerging models where data centers bring partial self-supply or grid services instead of pure coincident demand. (GlobeNewswire / T1 Energy)
+
+- Texas weather risk remains a core backdrop to all of this load growth. New coverage on rising heat, drought, and flash-flood extremes is a reminder that ERCOT’s planning challenge is simultaneous load expansion and climate-driven operational volatility, especially for coincident summer peaks, water-constrained generation, and storm-related transmission outages. (PRNewswire)
