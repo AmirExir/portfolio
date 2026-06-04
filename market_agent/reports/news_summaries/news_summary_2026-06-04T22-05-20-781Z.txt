@@ -1,0 +1,19 @@
+Fresh market-moving headlines are limited in this article set, and several items come from less reliable or non-core market sources. The clearest potentially tape-relevant themes are AI capex/semis, SpaceX’s mega-IPO, and Iran-related geopolitical risk. I do not see fresh, high-quality headlines here on Fed, inflation, or major earnings that clearly explain today’s broader tape.
+
+**Facts**
+- **SpaceX IPO filing points to a record-sized debut** — NBC News, **2026-06-03T21:47:38Z**: SpaceX said it intends to go public at a **$1.77 trillion valuation**.  
+- **SpaceX IPO could raise up to $75 billion** — PBS / AP, **2026-06-03T21:47:56Z**: AP reported SpaceX plans to raise **up to $75 billion**, which would make it the **largest IPO ever** if completed.  
+- **Fortune reports IPO terms** — Fortune, **2026-06-03T21:48:59Z**: SpaceX disclosed **555.6 million Class A shares at $135 apiece**, implying the same **$1.77 trillion valuation**.  
+- **Alphabet AI funding headline** — Crypto Briefing, **2026-06-03T22:02:10Z**: Report says Alphabet increased an AI funding target to **$84.75 billion** via a large equity offering.  
+- **Nvidia AI-PC product headline** — Crypto Briefing, **2026-06-03T22:02:47Z**: Report says Nvidia unveiled **“RTX Spark”**, aimed at bringing stronger local AI capability to Windows PCs.  
+- **Microsoft Build AI/product announcements** — 4sysops, **2026-06-03T21:54:11Z**: Summary article highlights new Microsoft Build 2026 AI-related product announcements, including smaller Windows-focused language models.  
+- **Iran conflict / economic toll headline** — Financial Post / Bloomberg, **2026-06-03T21:41:05Z**: Bloomberg reported the House voted to halt the US war with Iran, describing the conflict as imposing an **“escalating economic toll.”**  
+- **Oil/AI power demand theme** — OilPrice.com, **2026-06-03T22:00:00Z**: Commentary says AI-related electricity demand is increasing pressure on energy costs for big tech.  
+- **Bitcoin policy headline** — Cointelegraph, **2026-06-03T21:53:00Z**: Treasury Secretary Scott Bessent reportedly said the US is moving forward on a **strategic Bitcoin reserve** and digital-asset stockpile.  
+
+**Interpretation**
+- The **SpaceX IPO** is the strongest fresh headline here for risk sentiment: a giant, high-profile listing can affect appetite for growth/IPO/speculative assets and draw attention to private-market and space/defense valuations.
+- The **AI capex / AI hardware** cluster suggests the market still has fresh reasons to focus on **AI infrastructure, semis, and power demand**, though the sourcing here is mixed and not all items are from top-tier financial outlets.
+- The **Iran-related** headline is relevant for **energy and geopolitical risk sentiment**, but this set does not provide a direct fresh crude-price article or a clean market reaction headline.
+- The **Bitcoin reserve** item is fresh, but it comes from a crypto-native outlet; treat it as a **crypto-specific policy signal**, not a confirmed broad-market driver on its own.
+- There is **no strong fresh evidence in this set** on **Fed/rates, inflation, or major earnings** to explain broad index moves today.
