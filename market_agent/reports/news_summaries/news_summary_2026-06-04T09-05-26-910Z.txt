@@ -1,0 +1,33 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **U.S. trade/tariffs:** The U.S. is proposing **new tariffs of at least 10% on imports from 60 trading partners**, described as a major step to rebuild a protectionist tariff regime.  
+  *Source: The Irish Times, publishedAt 2026-06-03T08:58:32Z*
+
+- **AI/semis – Nvidia/Marvell:** Nvidia CEO Jensen Huang and Marvell CEO Matt Murphy highlighted the role of **connectivity in next-generation AI infrastructure**; the article says **Marvell shares had surged more than 30% after Nvidia-related announcements**, according to cited media reports.  
+  *Source: The Times of India, publishedAt 2026-06-03T08:45:06Z*
+
+- **AI infrastructure financing:** Goldman Sachs said **private infrastructure and real-estate capital should play a larger role in financing the AI-driven data-center buildout**, and it **raised its combined 2026-2030 global data-center capex forecast**.  
+  *Source: CNA, publishedAt 2026-06-03T08:44:45Z*
+
+- **AI/security supply chain:** Infineon announced integration of its **certified TPM security solution with Nvidia’s Jetson Thor platform**, tying into physical AI/edge AI hardware.  
+  *Source: PRNewswire, publishedAt 2026-06-03T09:05:00Z*
+
+- **India rates watch:** India’s **RBI monetary policy meeting** began, with a decision due June 5; the article says markets are watching the rate outlook amid **higher crude prices and rupee weakness**.  
+  *Source: The Times of India, publishedAt 2026-06-03T09:00:16Z*
+
+- **Crypto/Bitcoin:** Bitcoin-focused coverage said **BTC fell below $67,000** and whale transaction activity hit a **six-week high**.  
+  *Source: Bitcoinist, publishedAt 2026-06-03T09:00:00Z*
+
+- **Crypto/regulation/geopolitics:** U.S. authorities imposed **sanctions on four Iranian-linked crypto exchanges**, including Nobitex.  
+  *Source: Bitcoinfoundation.org, publishedAt 2026-06-03T08:48:11Z*
+
+- **Energy/geopolitics:** Commentary tied ongoing Iran conflict to concerns around the **Strait of Hormuz** and possible delayed economic fallout.  
+  *Source: The American Prospect, publishedAt 2026-06-03T09:00:00Z*
+
+### Interpretation
+- The clearest macro headline here is the **new U.S. tariff proposal**, which is directly relevant to global risk sentiment, inflation expectations, and multinational exposure.
+- The strongest sector theme is still **AI infrastructure**, with fresh headlines reinforcing demand around **networking/connectivity, data-center capex, and Nvidia-adjacent supply chains**.
+- On macro/rates, the fresh set is **thin for U.S. Fed/inflation**; there is **no strong fresh U.S. rates or CPI headline here** to explain today’s broader tape.
+- On crypto, the usable fresh headlines point to **Bitcoin volatility** and **Iran-linked sanctions**, but they do **not by themselves explain broader equity index moves**.
+- On energy, there is **geopolitical risk around Iran/Hormuz**, but in this article set the fresh reporting is more cautionary/contextual than a concrete new supply disruption update.

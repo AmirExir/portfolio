@@ -1,0 +1,16 @@
+Fresh market-moving headlines are limited in this article set, and several items are speculative, niche, or not directly useful for explaining today’s broader tape.
+
+**Facts**
+- **Energy / geopolitics:** The **Financial Post / Bloomberg** reported that the **EU is considering a temporary freeze on its Russian oil price cap** as the Middle East war continues, citing people familiar with the matter. **Published: 2026-05-31 08:22Z.**
+- **Crypto / risk:** **Cointelegraph** reported that **Cosmos-based Gravity Bridge halted operations after a reported $5.4 million exploit**, with on-chain analysts flagging unusual outflows. **Published: 2026-05-31 08:57Z.**
+- **AI / semis:** **Ghacks Technology News** reported that **Nvidia, Microsoft, and Arm teasers suggest Nvidia may unveil its first consumer CPU in over a decade at Computex 2026**. **Published: 2026-05-31 08:23Z.**  
+  - This appears to be **teaser/speculation**, not a confirmed launch announcement.
+- **AI infrastructure:** **Crypto Briefing** reported that **SoftBank pledged €75 billion for a large AI facility in France**. **Published: 2026-05-31 07:12Z.**  
+  - This is potentially relevant for AI infrastructure sentiment, though the source is not primary and the item is not clearly tied to listed equities in the provided set.
+- **China AI equity theme:** **Post Magazine / SCMP** reported that **AI firm MiniMax is preparing a mainland China listing after shares surged in Hong Kong**. **Published: 2026-05-31 08:15Z.**
+
+**Interpretation**
+- The most clearly market-relevant fresh headline here is the **EU weighing a freeze on the Russian oil price cap**, which could matter for **oil, inflation expectations, and broader risk sentiment** if confirmed or expanded on.
+- The **Gravity Bridge exploit** is relevant to **crypto-specific risk sentiment**, but it is **too narrow to explain broader equity or macro trading** by itself.
+- The **Nvidia CPU** and **SoftBank AI facility** items support the ongoing **AI/semi/infrastructure theme**, but in this set they are **more thematic than confirmed market-moving catalysts**.
+- There are **no fresh, high-confidence headlines here on Fed policy, US inflation, Treasury yields, major earnings, or broad index drivers**. So based on this article set alone, there is **not enough fresh macro news to firmly explain today’s overall tape**.

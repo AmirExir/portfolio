@@ -1,0 +1,20 @@
+Generated: 2026-06-04 12:22 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both
+No qualifying 1 trading-day Buy, Strong Buy, Sell, or Strong Sell signals met the filtering threshold. All reported short-horizon names were Neutral / No Edge or below the 2% absolute forecast-return cutoff.
+
+30 trading-day Buy rankings
+GOOGL — Buy, forecast return +9.33%, pattern Uptrend, probability up 72.2%, model edge 22.2%.
+ONDO — Buy, forecast return +24.12%, pattern High Volatility, probability up 68.5%, model edge 18.5%.
+SLB — Buy, forecast return +8.82%, pattern Uptrend, probability up 71.8%, model edge 21.8%.
+QQQ — Buy, forecast return +4.41%, pattern Uptrend, probability up 69.4%, model edge 19.4%.
+INTC — Buy, forecast return +21.98%, pattern Uptrend, probability up 69.5%, model edge 19.5%.
+
+30 trading-day Sell rankings
+PEPE — Strong Sell, forecast return -26.56%, pattern Downtrend, probability down 93.9%, model edge 43.9%.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% were included. Neutral / No Edge names were excluded from the ranked list.

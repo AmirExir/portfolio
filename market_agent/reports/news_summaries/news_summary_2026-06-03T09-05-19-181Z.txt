@@ -1,0 +1,18 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **Marvell/Nvidia AI-semiconductor:** **CNA** reported **2026-06-02 08:44Z** that **Marvell Technology** shares surged more than 24% in premarket after **Nvidia CEO Jensen Huang** called Marvell the next “trillion-dollar company” at Computex.  
+- **Nvidia/export-controls risk:** **Tom’s Hardware UK** reported **2026-06-02 09:00Z** that research citing public documents said Chinese military-linked institutions have continued acquiring **Nvidia AI chips** despite U.S. export controls.  
+- **Bitcoin/crypto risk sentiment:** **Cointelegraph** reported **2026-06-02 08:55Z** that **Bitcoin fell below $70,000** for the first time since mid-April and that the crypto market saw about **$800 million in liquidations** over 24 hours.  
+- **Crypto overhang:** **Bitcoinfoundation.org** reported **2026-06-02 08:42Z** that a **Mt. Gox wallet moved 10,306 BTC** (about **$731 million**), reviving attention on creditor repayment-related supply risk.  
+- **Stablecoin/payments theme:** **CoinDesk** reported **2026-06-02 09:00Z** that **MoneyGram launched MGUSD**, a U.S. dollar-backed stablecoin on **Stellar**, for use across its payments network.  
+- **Inflation/data policy:** **Bloomberg** reported **2026-06-02 08:48Z** that **India** is launching a **Producer Price Index** alongside its longstanding wholesale inflation gauge, expanding producer-level inflation tracking.  
+- **Rates/inflation/oil sensitivity:** **Reuters via Economic Times** reported **2026-06-02 08:47Z** that the **RBI** faces a difficult rate decision as **higher oil prices tied to the Iran conflict**, a weak rupee, and monsoon risks complicate the inflation-growth outlook.  
+- **Europe inflation datapoint:** **YLE News** reported **2026-06-02 08:43Z** that **Finland May CPI rose 3.0% y/y**, with prices up 0.7% m/m.
+
+## Interpretation
+- The **clearest fresh equity-moving item** in this set is the **AI/semi read-through from Nvidia to Marvell**. That is directly relevant for semiconductor sentiment.  
+- The **fresh crypto headlines** point to **risk pressure in digital assets**, with both liquidation-driven weakness and renewed **Mt. Gox supply concerns** in focus.  
+- On macro, the article set is **thin for U.S. stocks/Fed/today’s tape**. There is **no fresh major U.S. Fed, Treasury, CPI, payrolls, or broad index driver** in the provided articles.  
+- The macro signal available is mostly **non-U.S. and indirect**: India’s inflation/rates sensitivity to oil and Finland CPI. Useful for global inflation context, but **not enough by itself to explain U.S. market action today**.  
+- The **MoneyGram stablecoin** launch matters more as a **payments/crypto adoption theme** than as a clear broad market mover on its own.
