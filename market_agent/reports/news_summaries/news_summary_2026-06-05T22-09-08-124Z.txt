@@ -1,0 +1,15 @@
+Fresh market-moving headlines are limited, and the set is somewhat thin for fully explaining today’s tape.
+
+**Facts**
+- **CNBC, 2026-06-04T22:06:24Z:** U.S. equities were pressured Friday by a sell-off in key chip stocks and **rising Treasury yields after a much stronger-than-expected May jobs report**. The article specifically cites weakness in chip shares and higher yields as the immediate drivers.
+- **CNBC, 2026-06-04T21:43:57Z:** Sen. Elizabeth Warren invited **Nvidia CEO Jensen Huang** to testify before the Senate Banking Committee on June 11, with focus on **China AI chip sales, export controls, Trump policy, and data-center issues**.
+- **ABC News (AU), 2026-06-04T21:41:53Z:** **Oil prices fell nearly 3% overnight** as traders bet on improving Middle East peace prospects.
+- **CNA, 2026-06-04T21:53:00Z:** A market wrap said **oil and the dollar retreated** as traders weighed conflicting Middle East developments, while sentiment around AI was hurt by a **disappointing outlook from Broadcom**. It also noted markets were awaiting U.S. employment data at that time.
+- **PRNewswire, 2026-06-04T22:00:00Z:** **S&P Dow Jones Indices** published results of its consultation on the **treatment of mega-cap companies** in U.S. index methodology, a potentially relevant index-construction headline for passive/index-linked flows, though not an immediate macro driver from the text provided.
+
+**Interpretation**
+- The clearest fresh macro signal in this set is that **a stronger-than-expected U.S. jobs report pushed Treasury yields higher**, which can matter for both **Fed/rates expectations** and valuation-sensitive equities.
+- In equities, the freshest sector-specific pressure point is **AI/semis**, with CNBC explicitly pointing to **chip-stock selling**, while the CNA piece adds **Broadcom-related AI concern**.
+- In commodities/risk, the freshest cross-asset signal is **softer oil tied to perceived easing in Middle East risk**.
+- For Nvidia specifically, the Warren hearing invitation adds a **policy/regulatory overhang** around AI chips and China exposure, though it is more of a forward-looking scrutiny headline than a confirmed earnings/fundamental change today.
+- Beyond those points, the fresh article set is **not deep enough to fully explain all of today’s market action**.
