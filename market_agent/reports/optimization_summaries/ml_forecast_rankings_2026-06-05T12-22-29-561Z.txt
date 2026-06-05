@@ -1,0 +1,22 @@
+Generated: 2026-06-05 12:22 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both LSTM and Transformer
+No qualifying short-horizon Buy or Sell signals met the publication filter. All reported 1 trading-day signals were Neutral / No Edge and/or below the 2% absolute forecast return threshold.
+
+30 trading-day rankings
+Buy candidates
+KO — Buy, forecast return +3.85%, probability up 72.1%, edge 22.1%, pattern Oversold.
+ONDO — Buy, forecast return +24.91%, probability up 62.3%, edge 12.3%, pattern Uptrend.
+
+Sell candidates
+PEPE — Strong Sell, forecast return -26.56%, probability down 93.9%, edge 43.9%, pattern Downtrend.
+DAL — Sell, forecast return -7.94%, probability down 69.6%, edge 19.6%, pattern Uptrend.
+
+Editorial summary
+The 30 trading-day output contains two qualifying long ideas and two qualifying short ideas after excluding Neutral / No Edge calls and forecasts below 2% in absolute value. KO is the most moderate positive signal with lower expected error than ONDO. ONDO has the largest upside forecast among qualifying buys, but with substantially higher expected error. On the downside, PEPE is the strongest negative signal in the set, while DAL is the only additional qualifying sell.
+
+Short watchlist
+No short-horizon watchlist published under the current filter.
