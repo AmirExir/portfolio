@@ -1,0 +1,18 @@
+Generated: 2026-06-06 12:23 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both
+No qualifying 1 trading-day Buy or Sell signals met the reporting threshold. The available short-horizon names were Neutral / No Edge and forecast returns were below 2%, so no short-term actionable rankings are included.
+
+30 trading-day Buy rankings
+1. GEV — Buy, forecast return +15.07%, probability up 76.6%, pattern: Oversold.
+2. SLV — Buy, forecast return +10.91%, probability up 70.2%, pattern: Oversold.
+3. KO — Buy, forecast return +3.27%, probability up 70.5%, pattern: Uptrend.
+
+30 trading-day Sell rankings
+1. PEPE — Strong Sell, forecast return -22.72%, probability down 87.6%, pattern: Downtrend.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% are included. Neutral / No Edge names were excluded from the rankings.
