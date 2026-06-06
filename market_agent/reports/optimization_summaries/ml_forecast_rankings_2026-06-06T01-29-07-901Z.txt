@@ -1,0 +1,23 @@
+Generated: 2026-06-06 01:28 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model usage: both (LSTM and Transformer enabled)
+After applying the return filter of at least 2% in absolute value, there are no qualifying 1 trading-day Buy, Strong Buy, Sell, or Strong Sell signals. The reported short-horizon Sell calls in AAPL and C were below the 2% threshold, and the short-horizon Buy side was Neutral / No Edge.
+
+30 trading-day buy rankings
+GEV is the strongest long candidate with a Strong Buy signal, +18.10% forecast return, 80.9% probability up, and an oversold pattern.
+SLV qualifies as a Buy with a +11.32% forecast return, 69.9% probability up, also tied to an oversold pattern.
+WMT qualifies as a Buy with a +4.56% forecast return and 71.0% probability up, despite a bearish moving-average crossover pattern.
+
+30 trading-day sell rankings
+PEPE is the clearest short candidate with a Strong Sell signal, -26.56% forecast return, 93.9% probability down, and a downtrend pattern.
+XLK qualifies as a Sell with a -5.60% forecast return and 71.0% probability down, while the pattern is still classified as uptrend.
+VOO qualifies as a Sell with a -3.56% forecast return and 70.3% probability down.
+DIA qualifies as a Sell with a -2.85% forecast return and 68.2% probability down.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% were included. Neutral / No Edge names were excluded from the rankings.
