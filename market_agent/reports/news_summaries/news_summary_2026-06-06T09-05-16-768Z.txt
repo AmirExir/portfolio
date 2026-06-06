@@ -1,0 +1,16 @@
+Fresh market-moving headlines are thin in this article set, and there is not enough here to cleanly explain today’s broader tape.
+
+**Facts**
+- **NBC News | 2026-06-05T09:00:00Z** — Previewed the **May U.S. jobs report** due Friday, saying economists expect hiring to have remained steady despite pressure from inflation and higher energy prices tied to the Iran war backdrop.
+- **CoinDesk | 2026-06-05T08:53:30Z** — Reported that **U.S. spot bitcoin ETFs** saw **$3.05 million of net inflows on Wednesday**, ending a **13-session outflow streak** totaling about **$4.4 billion**; **spot ether ETFs** also ended a **17-day outflow streak** with **$19.3 million of inflows**, led by BlackRock’s ETHA.
+- **DigiTimes | 2026-06-05T08:51:19Z** — Reported **Foxconn posted record May revenue**, citing **AI rack demand** as a growth driver.
+- **The Next Web | 2026-06-05T08:49:08Z** — Reported **Nvidia CEO Jensen Huang**, during a Korea visit, highlighted **robotics/physical AI** as a major next growth area beyond memory-chip ties.
+- **Economic Times / Times of India | 2026-06-05T08:43:15Z** — Reported the **Reserve Bank of India kept rates unchanged** and maintained a **neutral stance**, in line with expectations, while adjusting growth and inflation forecasts.
+
+**Interpretation**
+- The most clearly market-relevant fresh items here are:
+  1. **U.S. macro event risk** around the upcoming **jobs report**, which matters for **Treasury yields, Fed expectations, and equity index sensitivity**.
+  2. Continued **AI infrastructure demand** signals via **Foxconn** and **Nvidia-related commentary**, which are relevant for **semi/AI supply-chain sentiment**.
+  3. A modest stabilization signal in **major crypto flows**, since both **bitcoin and ether ETFs** broke multi-session outflow streaks.
+- There is **no strong fresh article in this set** confirming a decisive move in **U.S. equities, Treasuries, oil, or the dollar** today.
+- Several other items are **promotional, niche, duplicate, or not broadly market-moving**, so they should not be used to infer wider market direction.
