@@ -151,11 +151,11 @@ primary_model = Best Validation
 include_rl_policy = false
 ```
 
-even if an upstream n8n model accidentally emits `primary_model = RL Policy` or `--include-rl-policy`.
+even though RL is otherwise enabled by default, and even if an upstream n8n model emits `primary_model = RL Policy` or `--include-rl-policy`.
 
 Use `--sequence-model both` for the slower overnight run that trains both LSTM and Transformer. You can also use `--sequence-model lstm` or `--sequence-model transformer` to run only one deep sequence model. If you want the report text and Telegram message to stay clean, omit `--show-timing`; timing details are still saved in the JSON file.
 
-The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, Neural Net, optional LSTM/Transformer, optional RL Policy, and Ensemble forecast comparison used in the Streamlit app.
+The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, Neural Net, optional LSTM/Transformer, default-on RL Policy, and Ensemble forecast comparison used in the Streamlit app.
 Model weights are persisted under `market_agent/reports/model_weights/`: Ridge updates saved sufficient statistics, XGBoost continues from its saved booster, LSTM/Transformer reload saved PyTorch weights and fine-tune on new labeled samples, and RL Policy updates a saved Q-table. Use `--force-retrain` when you want to ignore saved weights and rebuild from scratch.
 If you omit `--symbols`, the script uses the full default stock, ETF, commodity, crypto, and meme-crypto universe from the app.
 The text report and JSON rows include the recognized primary pattern, validation MAE, direction hit rate, and per-model returns for each ranked ticker, so the n8n summary and website table can describe the same pick.

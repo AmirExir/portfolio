@@ -1664,7 +1664,7 @@ one_day_sequence_model_choice = {
 }[one_day_sequence_model_label]
 include_rl_policy = st.sidebar.checkbox(
     "Include RL policy",
-    value=primary_model_choice == "RL Policy",
+    value=True,
     help="Adds a persisted tabular Q-learning buy/hold/sell policy to the model comparison.",
 )
 if primary_model_choice == "RL Policy":

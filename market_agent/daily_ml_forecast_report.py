@@ -298,7 +298,7 @@ def primary_model_from_args(args: argparse.Namespace) -> str:
 def include_rl_policy_from_args(args: argparse.Namespace) -> bool:
     if no_rl_policy_from_args(args):
         return False
-    return bool(getattr(args, "include_rl_policy", False) or primary_model_from_args(args) == "RL Policy")
+    return True
 
 
 def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[dict], dict]:
@@ -775,7 +775,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--pattern-long-window", type=int, default=50)
     parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer", "RL Policy"], default="Best Validation")
     parser.add_argument("--sequence-model", choices=["off", "lstm", "transformer", "both"], default="off")
-    parser.add_argument("--include-rl-policy", action="store_true")
+    parser.add_argument("--include-rl-policy", action="store_true", help="Include the warm-start RL policy. Enabled by default.")
     parser.add_argument("--no-rl-policy", action="store_true")
     parser.add_argument("--request-text", default="")
     parser.add_argument("--top-n", type=int, default=5)
