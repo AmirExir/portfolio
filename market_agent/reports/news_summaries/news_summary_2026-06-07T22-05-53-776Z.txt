@@ -1,0 +1,27 @@
+Fresh market-moving headlines are **thin** in this article set, and several items come from lower-reliability/secondary sources or are not broad market drivers. Here’s the clean summary of what looks potentially relevant from the last 36 hours.
+
+## Facts
+- **Fed / rates:** **Crypto Briefing** reported that **Cleveland Fed President Beth Hammack** said **rate hikes could still be on the table if inflation remains sticky**, with her focus on inflation still above the Fed’s 2% target. *(Crypto Briefing, publishedAt: 2026-06-06T21:24:48Z)*
+
+- **AI / private capital:** **Crypto Briefing** reported that **Anthropic secured $35 billion from Apollo and Blackstone** to support AI development. *(Crypto Briefing, publishedAt: 2026-06-06T21:41:44Z)*
+
+- **AI infrastructure / data centers:** **Crypto Briefing** reported that **Hut 8 priced $4.25 billion in notes** to fund a large **Texas AI data-center campus**, with the article describing a 352 MW facility and a major tenant lease. *(Crypto Briefing, publishedAt: 2026-06-06T21:24:05Z)*
+
+- **Equity market structure / SEC:** **Crypto Briefing** reported that the **SEC plans to vote next week on repealing the trade-through rule**, a notable potential change for U.S. equity market plumbing. *(Crypto Briefing, publishedAt: 2026-06-06T21:47:40Z)*
+
+- **Regulation / enforcement:** **Crypto Briefing** reported that the **U.S. Supreme Court backed the FCC and SEC in key rulings**, which the article says could strengthen federal regulatory enforcement. *(Crypto Briefing, publishedAt: 2026-06-06T21:49:03Z)*
+
+- **Crypto / wealth management:** **Crypto Briefing** reported that **Morgan Stanley** is enabling certain clients to **lend bitcoin in exchange for crypto ETP/ETF-style conversions** through a partnership with **Galaxy Digital**. *(Crypto Briefing, publishedAt: 2026-06-06T21:48:54Z)*
+
+- **Major crypto:** **24/7 Wall St.** reported that **Grayscale’s Ethereum Staking Mini ETF** was hit by Ether’s recent weakness, with the article citing an **11% single-session drop** and large losses over recent months. *(24/7 Wall St., publishedAt: 2026-06-06T22:00:53Z)*
+
+## Interpretation
+- The **clearest macro-relevant fresh headline** is the **Hammack/rate-hike** item, since any renewed discussion of further tightening can matter for **Treasury yields, growth stocks, and risk sentiment**.
+
+- The **AI funding/infrastructure** items reinforce that capital spending and financing around AI remain active, but they are **more thematic than tape-explaining** for major indexes unless confirmed by broader reporting.
+
+- The **SEC trade-through** and **Supreme Court enforcement** items could matter for **brokers, exchanges, market structure names, and regulated financial/crypto businesses**, but these are **policy/plumbing stories**, not clear immediate drivers of broad market direction from this dataset alone.
+
+- On **crypto**, the set points to **continued institutionalization efforts around bitcoin** and **ongoing pressure in Ethereum-linked products**, but there is **not enough here to confidently explain today’s broader market move**.
+
+- Overall: **the fresh article set is sparse and does not provide a strong, well-sourced explanation for today’s tape** across equities, rates, energy, and crypto.
