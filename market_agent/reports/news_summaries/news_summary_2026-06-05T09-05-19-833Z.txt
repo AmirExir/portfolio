@@ -1,0 +1,27 @@
+Here are the **fresh market-moving headlines** from the last 36 hours only, filtered for relevance.
+
+## Facts
+- **Broadcom AI results disappointed lofty expectations, weighing on chip sentiment** — **CNA**, **2026-06-04T08:51:24Z**  
+  Article says Broadcom shares were set to fall sharply after results and outlook around its custom AI chip business failed to impress investors, with the piece also noting pressure on chip peers.
+
+- **Goldman Sachs raised its 12-month target for the MSCI Emerging Markets index, citing AI-driven earnings growth** — **BusinessLine/Reuters**, **2026-06-04T08:36:38Z**  
+  The article says Goldman lifted its MSCI EM target to 2,000 from 1,850 and added that a quicker resolution of the Iran conflict could help some emerging-market currencies and bonds.
+
+- **Trump said Iran negotiations were progressing well and suggested more updates could come this weekend** — **Crypto Briefing**, **2026-06-04T08:58:50Z**  
+  The article frames this as potentially relevant for oil markets via the Strait of Hormuz and broader risk-sensitive assets.
+
+- **Israel and Lebanon agreed to a ceasefire contingent on Hezbollah withdrawal from south of the Litani River** — **Crypto Briefing**, **2026-06-04T08:35:39Z**  
+  The article says the deal could affect regional risk sentiment if it holds.
+
+- **Bank Indonesia stepped up intervention after the rupiah weakened to around 18,000 per U.S. dollar** — **Antara News**, **2026-06-04T08:57:55Z**  
+  This is a fresh EM FX stress headline with potential spillover into broader emerging-market sentiment.
+
+- **Quantinuum priced an upsized IPO at a reported $15.6 billion valuation** — **Crypto Briefing**, **2026-06-04T08:59:08Z**  
+  The piece says the Honeywell-backed quantum computing company raised $1.68 billion, signaling continued investor appetite for frontier-tech listings.
+
+## Interpretation
+- The **clearest fresh tape driver in this set is Broadcom**, because it directly ties to the AI/semi complex and explicitly describes disappointment versus elevated expectations.
+- The **next most relevant macro driver is geopolitics/energy**, with Iran-related headlines and the Israel-Lebanon ceasefire potentially influencing oil and risk sentiment.
+- **Goldman’s EM target hike** supports the idea that AI earnings remains an important medium-term equity theme, but it is more of a strategic call than an immediate tape explainer.
+- **EM FX stress in Indonesia** is notable for risk sentiment, though it looks more region-specific unless contagion broadens.
+- There are **no fresh, clearly relevant Fed, Treasury yield, or U.S. inflation headlines in this article set**, so if today’s tape is being driven by rates or macro data, this dataset does **not** explain that well.

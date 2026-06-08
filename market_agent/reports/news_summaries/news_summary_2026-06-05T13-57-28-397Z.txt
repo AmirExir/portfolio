@@ -1,0 +1,14 @@
+Fresh market-moving headlines are limited in this feed, and the set does **not fully explain today’s tape**. The clearest fresh driver is **Broadcom/AI-semis**, with a smaller fresh read-through on **energy/gas prices** and **crypto risk sentiment**.
+
+**Facts**
+- **Reuters via Times of India, 2026-06-04 13:52Z:** **Broadcom shares fell more than 14%** after results “fell short of lofty expectations” for its custom AI chip business; the report says the move was **dragging chip peers lower** and could erase about **$315 billion** in market value if sustained.
+- **Reuters via Times of India, 2026-06-04 13:33Z:** At the open, the **S&P 500 and Nasdaq dropped**, with the report explicitly attributing pressure to **Broadcom’s revenue miss denting chip stocks**.
+- **ABC News, 2026-06-04 13:33Z:** **Gas prices have been falling** in recent weeks, with the article attributing relief at the pump to a **drop in oil prices** despite ongoing Iran-war-related supply concerns.
+- **Crypto Briefing, 2026-06-04 13:39Z:** **Bitcoin was testing $62,000** amid **Middle East tensions** and broader market stress, according to the article.
+- **Crypto Briefing, 2026-06-04 13:36Z:** Arthur Hayes said he sold **HYPE** and **NEAR** ahead of a crowded IPO calendar; the article says **HYPE fell 8%** immediately after and **NEAR slid about 19%**.
+
+**Interpretation**
+- The freshest and most credible market-moving headline here is a **negative AI/semi read-through from Broadcom**, which appears to be the main identifiable driver for equity sentiment in this article set.
+- The **energy signal** is mixed but modestly supportive for inflation expectations at the consumer level: lower oil/gasoline prices could ease near-term inflation pressure, though this feed does not provide a fresh Fed/rates catalyst.
+- **Crypto headlines** point to a **risk-sensitive backdrop**, especially around geopolitics and positioning, but the crypto articles here are thinner and less definitive than the Broadcom story.
+- There are **no strong fresh articles in this feed on Fed policy, Treasury yields, CPI/PCE, or major macro data**, so any broader market narrative beyond semis would be under-supported by the supplied headlines.

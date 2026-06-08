@@ -1,0 +1,16 @@
+Fresh market-moving headlines are limited in this article set, and several items are promotional, lawsuit notices, or non-market political coverage. The clearest fresh drivers are in AI/semis, crypto, and broader risk sentiment.
+
+**Facts**
+- **BBC News, 2026-06-05T21:38:13Z:** Reported that **U.S. stocks slumped as fears over Big Tech shook Wall Street**, adding that investors rotated into traditionally defensive sectors like healthcare, utilities, and consumer staples.
+- **CNBC, 2026-06-05T21:36:23Z:** **Marvell Technology and Flex will join the S&P 500 on June 22**, replacing Pool and Campbell’s. CNBC said the move underscores the growing weight of technology in the index; Marvell was specifically tied to AI infrastructure demand.
+- **Business Insider, 2026-06-05T21:31:48Z:** Reported **Google agreed to pay SpaceX $920 million per month for compute capacity**, described as a major AI-related infrastructure deal ahead of SpaceX’s anticipated IPO.
+- **Crypto Briefing, 2026-06-05T21:45:09Z:** Reported **Bitcoin briefly fell below $60,000**, pressuring crypto-linked securities; it said Strategy’s preferred stock **STRC hit a record low intraday** before recovering part of the move.
+- **Crypto Briefing, 2026-06-05T21:33:07Z:** Reported **JPMorgan and Citi are part of a planned tokenized-deposit network launch next year**, an effort by major banks to compete with stablecoins while keeping deposits inside the regulated banking system.
+- **Crypto Briefing, 2026-06-05T21:56:20Z:** Reported **Trump announced a $700 million coal investment using wartime powers**, pointing to a policy push in U.S. energy and industrial strategy.
+
+**Interpretation**
+- The most tangible fresh equity-market item is **Marvell’s S&P 500 inclusion**, which is relevant for semiconductor/AI positioning and index-related flows.
+- The **Google-SpaceX compute deal** reinforces the theme that AI demand for large-scale compute remains intense, though this is more thematic than directly index-moving unless read through AI infrastructure beneficiaries.
+- On crypto/risk sentiment, the clearest fresh signal is **Bitcoin dipping below $60,000** and weakness in **crypto-linked instruments**, which supports a more cautious tone around speculative assets.
+- The **BBC headline** is the only supplied article that explicitly ties fresh market action to **Big Tech fears** and a move toward defensive sectors.
+- There is **little here on Fed, Treasury yields, inflation, or major earnings**, so this article set does **not fully explain today’s broader tape**.

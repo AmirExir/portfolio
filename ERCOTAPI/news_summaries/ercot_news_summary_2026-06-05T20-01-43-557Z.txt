@@ -1,0 +1,13 @@
+- Google announced the Meitner Energy Center in Gray and Roberts Counties, pairing a new Texas data center with new co-located generation; this is one of the clearest signals yet that hyperscale load growth in ERCOT is shifting toward dedicated supply and Panhandle siting rather than relying solely on existing grid capacity. (Blog.google)
+
+- Google also pledged $10 million for Texas water projects amid backlash over data-center impacts, reinforcing that large-load development in ERCOT is now facing a broader infrastructure permitting test that includes water, community acceptance, and local political risk alongside power interconnection. (Breitbart News; 9to5Google)
+
+- A cluster of Texas data-center and compute-related announcements points to sustained ERCOT large-load growth pressure: Google’s Panhandle build, Duos Edge AI’s Dumas facility activity, and CleanSpark’s multi-gigawatt commercialization push all suggest continued demand for transmission access, queue management, and load-serving clarity in high-growth zones. (Blog.google; GlobeNewswire; PRNewswire)
+
+- SpaceX reportedly secured a 35-year, 100% property tax abatement for a proposed $55 billion semiconductor facility in Grimes County, indicating another potentially very large industrial load in ERCOT; if advanced, projects of this scale can materially affect local transmission planning, substation needs, and long-lead generation and T&D investment. (Tom's Hardware UK)
+
+- Battery-storage supply chain activity remains relevant for ERCOT flexibility: B2U’s partnership to repurpose Waymo EV batteries for grid use in Texas and T1 Energy’s move into BESS infrastructure both support the view that second-life and new storage platforms are expanding the pool of fast-response resources that can help manage peak demand and volatile net load. (GlobeNewswire; Electrek; GlobeNewswire)
+
+- Broader national backlash against data centers over power prices, water use, and transparency is becoming an ERCOT-relevant planning issue; while some coverage is outside Texas, the takeaway for ERCOT is that large-load interconnection now increasingly requires visible cost allocation, community engagement, and evidence that reliability risks are being contained. (Commercial Observer; DW; Wired)
+
+- X-energy’s capital raise and first-quarter update keep advanced nuclear in the conversation for future large-load supply, but the nearer-term ERCOT implication is strategic rather than operational: policymakers and developers are still searching for firm, dispatchable options that can anchor hyperscale load growth beyond gas, renewables, and storage. (GlobeNewswire)

@@ -1,0 +1,21 @@
+Generated: 2026-06-05 01:40 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+RL policy: off
+
+1 trading-day signals
+Sequence model used: both (LSTM and Transformer)
+No qualifying 1 trading-day buy or sell signals met the publication filter. The only move above the 2% threshold was ONDO at -2.21%, but it was rated Neutral / No Edge, so it is excluded.
+
+30 trading-day buy rankings
+KO — Buy — forecast return +4.23% — probability up 74.1% — pattern: Oversold.
+WMT — Buy — forecast return +5.46% — probability up 74.0% — pattern: Bearish MA Crossover.
+
+30 trading-day sell rankings
+PEPE — Strong Sell — forecast return -26.56% — probability down 93.9% — pattern: Downtrend.
+XLK — Sell — forecast return -5.45% — probability down 70.6% — pattern: Uptrend.
+
+Editorial notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% are included. Neutral / No Edge names were excluded from rankings.

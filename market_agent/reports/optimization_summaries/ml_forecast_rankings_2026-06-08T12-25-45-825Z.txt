@@ -1,0 +1,22 @@
+Generated: 2026-06-08 12:25 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+RL policy: on
+
+1 trading-day signals
+Sequence model usage: both (LSTM and Transformer enabled)
+No actionable 1 trading-day signals met the publication filter. Reported short-horizon names were Neutral / No Edge and below the 2% absolute return threshold, so no buy or sell rankings are included for 1 trading day.
+
+30 trading-day buy rankings
+1. GEV — Buy — forecast return +15.32% — pattern: Oversold — probability up 76.8% — expected error +/-15.72%
+2. GLD — Buy — forecast return +4.28% — pattern: Oversold — probability up 71.1% — expected error +/-7.81%
+3. KO — Buy — forecast return +3.03% — pattern: Uptrend — probability up 69.3% — expected error +/-6.05%
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell — forecast return -22.73% — pattern: Downtrend — probability down 87.6% — expected error +/-20.12%
+2. VOO — Sell — forecast return -3.33% — pattern: Uptrend — probability down 68.4% — expected error +/-5.94%
+
+Short watchlist
+No additional watchlist names are included. Neutral / No Edge signals were excluded from the ranked recommendations.
