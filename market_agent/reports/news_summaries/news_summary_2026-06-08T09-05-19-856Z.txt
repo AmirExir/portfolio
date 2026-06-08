@@ -1,0 +1,17 @@
+Fresh market-moving headlines are limited and the feed is noisy/low-quality. Within the last 36 hours, the clearest usable items point to a rates-driven risk move, pressure on AI/semi stocks, weakness in Bitcoin, and an OPEC+ supply headline. Much of the tape explanation comes from secondary/crypto outlets rather than top-tier market wires, so confidence should be tempered.
+
+**Facts**
+- **Crypto Briefing, 2026-06-07T08:46:48Z** — Reported that **U.S. May jobs rose 172,000**, described as stronger than expected, which **fueled Fed rate-hike fears** and was linked in the article to **Bitcoin falling below $62K**.
+- **Crypto Briefing, 2026-06-07T08:24:33Z** — Reported the **Nasdaq 100 fell 5% intraday**, calling it the biggest daily loss of 2026, and said the move followed a **blowout jobs report**, **surging Treasury yields**, and particularly sharp weakness in **semiconductor names**.
+- **Crypto Briefing, 2026-06-07T08:00:04Z** — Said **AI-linked stocks** including **Nvidia, Broadcom, and Micron** were among the main decliners as **rate-hike fears** picked up after the jobs data; the same article tied that pressure to **Bitcoin dropping below $60K**.
+- **Crypto Briefing, 2026-06-07T07:14:19Z** — Reported **gold fell 3.6%** after the same U.S. jobs release, saying the market increased expectations for tighter Fed policy.
+- **Crypto Briefing, 2026-06-07T08:46:59Z** — Reported **U.S. consumer borrowing posted its biggest back-to-back gain since late 2022**, citing more than **$40 billion** in new debt across March and April and a **10.4% annualized increase in credit-card borrowing**.
+- **Crypto Briefing, 2026-06-07T07:16:53Z** — Citing Reuters, reported **OPEC+ is planning a fourth oil production quota increase**, framed against ongoing **Hormuz-related tensions**.
+- **The Next Web, 2026-06-07T08:36:49Z** — Reported **White House AI adviser Sriram Krishnan is stepping down** at the end of June.
+
+**Interpretation**
+- The freshest market-relevant narrative in this feed is **higher-for-longer / possible renewed Fed tightening fears** after a stronger U.S. labor report, with **Treasury yields** and **rate-sensitive growth/AI/semi stocks** at the center.
+- **Bitcoin** appears to be trading as a **high-beta risk asset** in this setup, moving alongside tech/risk sentiment rather than on a standalone crypto catalyst.
+- The **OPEC+ quota-hike** headline matters for **energy markets**, but this feed does not provide enough high-quality confirmation to infer a broader cross-asset impact today.
+- The **White House AI adviser departure** is notable for AI policy, but by itself does **not clearly explain broad market action**.
+- Overall: the fresh set suggests a **rates-driven risk repricing**, but the article quality is thin, so if this is meant to explain today’s tape, that explanation is **incomplete and should be treated cautiously**.
