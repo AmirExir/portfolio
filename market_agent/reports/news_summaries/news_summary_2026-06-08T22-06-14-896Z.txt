@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only (last 36 hours)**  
+*Window used: since 2026-06-07 10:06 ET / 2026-06-07 14:06 UTC.*
+
+## Facts
+- **Geopolitics / risk sentiment:** **CNBC** (published **2026-06-07T22:05:31Z**) reported that **Iran reportedly fired missiles at Israel**, jeopardizing a fragile ceasefire. CNBC framed this as a fresh source of market uncertainty heading into the new week.  
+- **AI / semis:** **Fortune/Bloomberg** (published **2026-06-07T21:38:26Z**) reported that **Nvidia CEO Jensen Huang said Nvidia’s new Vera CPU will use SK Hynix memory chips**, adding that the companies are preparing for a “very, very large” second half of the year and next year.  
+- **Crypto / ETF flows:** **Crypto Briefing** (published **2026-06-07T21:51:34Z**) reported that **BlackRock’s Bitcoin ETF saw a $214 million single-day outflow**, part of a broader **$326 million outflow day across U.S. spot Bitcoin ETFs**.  
+- **Crypto / geopolitics:** **Crypto Briefing** (published **2026-06-07T21:27:28Z**) reported that **Iran launched multiple drones toward the Strait of Hormuz and the U.S. shot down four**, saying the escalation rattled crypto markets.  
+- **Rates / macro backdrop:** **CNBC** (published **2026-06-07T22:05:31Z**) also said investors are looking ahead to **inflation data** and the **SpaceX IPO/public debut** later this week.  
+- **Rates sensitivity / prior-session context:** **Crypto Briefing** (published **2026-06-07T21:04:26Z**) said a **strong May jobs report** led traders to **reprice Fed rate-cut expectations**, weighing on tech shares and Bitcoin.  
+
+## Interpretation
+- The clearest **fresh market-moving catalyst** in this article set is the **renewed Middle East escalation**, especially anything tied to **Israel/Iran** and the **Strait of Hormuz**, because that can directly affect **oil, inflation expectations, rates, and broad risk sentiment**.
+- For **AI/semi names**, the Nvidia/SK Hynix item is a **positive demand/supply-chain read-through** for the memory and AI infrastructure complex.
+- For **crypto**, the most relevant fresh signals are **ETF outflows** plus **geopolitical stress**, which together suggest a weaker near-term backdrop for digital assets.
+- The set is **otherwise thin on hard new macro detail**: there is **no fresh CPI print, no new Fed decision, and no major earnings headline** in the provided articles. So if today’s tape is moving a lot, these headlines may **only partly explain it**.
