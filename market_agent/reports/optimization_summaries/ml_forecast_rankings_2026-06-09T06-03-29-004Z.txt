@@ -1,0 +1,23 @@
+Generated: 2026-06-09 06:03 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model setting: both (LSTM and Transformer enabled)
+No qualifying 1 trading-day Strong Buy, Buy, Strong Sell, or Sell signals met the return filter of 2% absolute forecast return. Short-horizon names with the largest downside move were neutral, led by ENA at -2.30%, so there is no actionable ranked short-term section under the stated filters.
+
+30 trading-day buy rankings
+1. GEV — Strong Buy — forecast return +17.88%, probability up 82.8%, pattern: Oversold. This is the strongest long-side signal in the report and the top selected forecast.
+2. KO — Buy — forecast return +3.90%, probability up 71.3%, pattern: Uptrend. This is the only additional qualifying long signal among the ranked buys.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell — forecast return -22.72%, probability down 87.6%, pattern: Downtrend. This is the strongest downside signal in the report.
+2. DAL — Sell — forecast return -7.60%, probability down 66.9%, pattern: Uptrend.
+3. VOO — Sell — forecast return -3.00%, probability down 68.0%, pattern: Uptrend.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell calls are included.
+Signals with absolute forecast return below 2% are excluded.
+Neutral / No Edge rows are not promoted into the rankings.
