@@ -1,0 +1,18 @@
+Here are the fresh market-moving headlines from the last 36 hours only.
+
+**Facts**
+- **CNBC, 2026-06-10T22:04:40Z:** U.S. stock futures fell Wednesday night after the U.S. launched additional attacks against Iran; the article says oil prices moved higher on the news.
+- **CNA, 2026-06-10T21:49:00Z:** Fresh Middle East strikes, a jump in U.S. inflation, and tech weakness were cited as weighing on global market sentiment.
+- **CNBC, 2026-06-10T21:52:56Z:** CNBC analysis said President Trump commented he was comfortable with **4.2% inflation**, a remark framed around implications for incoming Fed leadership and rate policy expectations.
+- **Forbes, 2026-06-10T21:56:06Z:** Oracle reported record revenue, but shares fell after guidance was described as disappointing; this is a notable fresh earnings-driven tech headline.
+- **Japan Today, 2026-06-10T21:43:35Z:** Bank of Japan Governor Kazuo Ueda was hospitalized and will miss the June 15–16 policy meeting; the article says the BOJ is widely expected to raise rates next week.
+- **CNBC, 2026-06-10T21:51:42Z:** Citigroup shares outperformed other banks and the broader market after President Trump praised Citi and CEO Jane Fraser in a social media post.
+- **Crypto Briefing, 2026-06-10T21:50:17Z:** U.S. military strikes on Iranian targets were highlighted as a potential source of volatility for crypto markets.
+- **ABC News (AU), 2026-06-10T21:55:34Z:** ASX was set to fall after weaker Wall Street trade, with Trump saying the U.S. military would attack Iran if no peace deal is reached.
+
+**Interpretation**
+- The clearest fresh macro drivers in this article set are **escalating Iran/Middle East risk**, **higher oil**, and **inflation/rates concerns**.
+- On the equity side, the most concrete single-name mover here is **Oracle**, where **guidance mattered more than record revenue**.
+- For central banks/rates, the fresh set points to **ongoing inflation sensitivity in the U.S.** and a separate **BOJ policy uncertainty/watchpoint** due to Ueda missing next week’s meeting.
+- The AI/semi read-through is **thin** in this dataset. Aside from a broad mention of tech weakness and a chip-related selloff in CNBC’s live-market framing, there are no strong fresh semiconductor-specific headlines here that fully explain today’s tape.
+- Crypto-specific fresh news is also **thin**; the main relevant input is geopolitical risk potentially increasing volatility.
