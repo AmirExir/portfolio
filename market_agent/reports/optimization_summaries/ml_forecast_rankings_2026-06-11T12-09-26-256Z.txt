@@ -1,0 +1,22 @@
+Generated: 2026-06-11 12:09 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+Primary approach: Ensemble
+Sequence model: both
+RL policy: on
+
+1 trading-day signals
+Sequence model used: both (LSTM and Transformer)
+No qualifying 1 trading-day buy or sell signals met the reporting threshold. The only directional buy listed was GEV at +1.94%, which is below the 2% minimum filter. Reported short-term sell-side names were Neutral / No Edge and are excluded.
+
+30 trading-day buy rankings
+1. GEV — Strong Buy — forecast return +18.33% — probability up 81.8% — pattern: Bearish MA Crossover.
+2. SLV — Buy — forecast return +11.94% — probability up 71.3% — pattern: Bearish MA Crossover.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell — forecast return -22.73% — probability down 87.6% — pattern: Downtrend.
+2. DAL — Sell — forecast return -8.18% — probability down 67.0% — pattern: Uptrend.
+3. BAC — Sell — forecast return -6.04% — probability down 70.6% — pattern: Near 60-Day High.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% are included. Neutral / No Edge names are excluded from the ranked lists.
