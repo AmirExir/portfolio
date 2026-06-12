@@ -1,0 +1,20 @@
+ML Forecast Rankings
+Generated: 2026-06-12 20:13 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both
+No actionable 1 trading-day Strong Buy, Buy, Strong Sell, or Sell signals met the return filter. The short-horizon output was dominated by Neutral / No Edge calls and forecast returns below 2%, so no 1-day ranked buys or sells are included.
+
+30 trading-day buy rankings
+INTC: Buy. Forecast return +24.40%, uptrend pattern, probability up 71.9%, edge 21.9%. This was also identified as the best smart policy pick.
+KO: Buy. Forecast return +4.02%, uptrend pattern, probability up 73.1%, edge 23.1%.
+WMT: Buy. Forecast return +4.21%, rebound from 60-day low pattern, probability up 69.1%, edge 19.1%.
+GEV: Buy. Forecast return +8.61%, bearish MA crossover pattern, probability up 68.1%, edge 18.1%.
+
+30 trading-day sell rankings
+PEPE: Strong Sell. Forecast return -22.73%, downtrend pattern, probability down 87.6%, edge 37.6%.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast returns of at least 2% were included. Neutral / No Edge names were excluded from the rankings.
