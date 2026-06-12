@@ -1,0 +1,19 @@
+**Fresh market-moving headlines are limited in this article set, and several items are from low-reliability or non-market sources. There is not enough here by itself to fully explain today’s tape.**
+
+## Facts
+- **SpaceX IPO set for Friday trading** — *Business Insider*, **2026-06-11T09:00:04Z**: SpaceX is described as ready to go public, with trading expected to begin Friday under ticker **SPCX**.  
+- **SpaceX IPO could be record-breaking** — *NPR*, **2026-06-11T09:00:00Z**: NPR says SpaceX is seeking a very large IPO and frames it as potentially one of the biggest public offerings on record.  
+- **Nvidia/AI infrastructure cost watch** — *Business Insider*, **2026-06-11T09:00:03Z**: Rising memory prices are highlighted as increasing AI system costs, with possible read-throughs for Nvidia customers and AI infrastructure spending.  
+- **Senate hearing on AI and financial stability** — *Forbes*, **2026-06-11T09:00:00Z**: The Senate Banking Committee is holding a hearing on AI, including discussion of risks tied to the AI boom and financial stability.  
+- **BlackRock moves toward an income-paying bitcoin ETF** — *CoinDesk*, **2026-06-11T08:59:29Z**: BlackRock filed another amendment for the **iShares Bitcoin Premium Income ETF**, which would generate income by selling call options on its spot bitcoin ETF exposure.  
+- **Crypto market-structure legislation faces another delay risk** — *Bitcoinist*, **2026-06-11T09:00:42Z**: The **CLARITY Act** reportedly hit a new roadblock in Senate talks over ethics language.  
+- **Binance licensing issue in the Philippines** — *Crypto Briefing*, **2026-06-11T08:55:18Z**: The Philippines central bank said Binance and its local partner do not hold required authorization.  
+- **Geopolitical/oil-route risk flagged in Red Sea** — *Crypto Briefing*, **2026-06-11T08:58:20Z** and **2026-06-11T09:00:32Z**: Articles say Houthis announced a partial Red Sea blockade threatening a key oil shipping route.  
+- **US-Iran tensions cited as a crypto-market risk** — *Crypto Briefing*, **2026-06-11T08:54:10Z**: The article says renewed US-Iran exchange of fire is undermining a ceasefire and rattling crypto markets.
+
+## Interpretation
+- The **clearest equity-relevant fresh theme** is the **SpaceX IPO**, which could matter for broader sentiment around mega-cap growth, AI-linked private/public valuations, and IPO risk appetite.  
+- The **AI/semi angle** in this set is more about **cost pressure** than demand: rising memory prices may complicate AI buildout economics even if they help parts of the supply chain.  
+- In crypto, the fresh headlines point to a **mixed regulatory and product backdrop**: BlackRock’s ETF progress is constructive for bitcoin market access, while CLARITY Act delays and Binance licensing issues are regulatory frictions.  
+- The **energy/geopolitical items** could matter for oil and risk sentiment, but in this set they come mainly from crypto-focused or opinion-like outlets rather than top-tier market wires, so they should be treated cautiously unless confirmed elsewhere.  
+- There are **no solid fresh articles here on Fed, Treasury yields, CPI/PCE, or major earnings**, so this dataset is thin for explaining moves in rates or broad index action today.
