@@ -1,0 +1,35 @@
+Here are the **fresh market-moving headlines** from the last 36 hours, filtered to what looks relevant to today’s tape.
+
+## Facts
+- **Reuters via The Times of India | 2026-06-08T08:48:02Z**  
+  Europe’s **STOXX 600 hit a two-week low** as **Middle East tensions** and a **global AI-stock selloff** weighed on sentiment. The report also said **crude oil jumped more than 4%** after weekend exchanges between **Israel and Iran**, with pressure on airline shares.
+
+- **Al Jazeera | 2026-06-08T08:49:41Z**  
+  Major **Asian stock markets fell sharply** amid renewed **Iran-Israel conflict** and **rising expectations of U.S. rate hikes**. The article said **South Korea’s main index plunged nearly 9%**, with declines also in **Japan, Taiwan, and Hong Kong**.
+
+- **Yahoo Finance | 2026-06-08T08:53:10Z**  
+  A live market update said **U.S. stock futures were mixed**, while **oil rose** after **Iran attacked Israel**, straining a fragile Middle East ceasefire. The same report said investors were also **repricing rate-hike bets** and looking ahead to **fresh inflation data**.
+
+- **Yahoo Finance | 2026-06-08T08:53:10Z**  
+  A later live update said **U.S. stocks moved higher in morning trading**, led by **tech/chip stocks rebounding**, while **Iran-Israel strikes** continued to pressure the geopolitical backdrop.  
+  Note: this is a live-blog style article, so it is less durable than a discrete reported story.
+
+- **RTÉ | 2026-06-08T09:01:07Z**  
+  **Nvidia announced deals in South Korea** with companies including **SK Hynix** and **Naver**, aimed at securing critical **memory-chip supply** and expanding its AI customer base.
+
+- **The Times of India / ANI | 2026-06-08T09:00:45Z**  
+  A Nuvama note said **inflation is a bigger risk than growth** for India this fiscal year, citing **monsoon uncertainty**, **food prices**, and **elevated crude** as pressures, especially for rural demand.
+
+- **Crypto Briefing | 2026-06-08T08:59:43Z**  
+  The report said U.S. Treasury Secretary **Scott Bessent is exploring use of seized Iranian funds** to help Gulf allies rebuild infrastructure damaged by Iranian military operations. This is more geopolitics than direct market news, but it is potentially relevant for **energy-risk sentiment**.
+
+## Interpretation
+- The freshest usable headlines point to **two main drivers**:
+  1. **Geopolitical risk from Iran-Israel**, which is feeding into **higher oil** and broader risk sensitivity.
+  2. **AI/chip volatility**, with reports of a broader AI-stock selloff but also a **specific Nvidia-positive headline** on South Korea partnerships.
+
+- There is also a **rates/inflation backdrop** in the news flow: reports reference **repricing of Fed/rate-hike expectations** and focus on **upcoming inflation data**, but there is **no fresh primary-source Fed headline** in this article set.
+
+- For **crypto**, the fresh set is **thin and lower quality**. The JPMorgan/Strategy Bitcoin item is from a crypto-native outlet and not enough on its own to confidently explain broader crypto price action today.
+
+- Overall, the article set is **somewhat thin and mixed for explaining today’s U.S. tape**. The clearest cross-asset explanation from the supplied headlines is **Middle East escalation lifting oil and pressuring risk sentiment**, while **semis/AI remain volatile with Nvidia-specific deal news offering a counterweight**.

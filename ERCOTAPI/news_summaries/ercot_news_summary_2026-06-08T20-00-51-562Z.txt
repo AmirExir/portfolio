@@ -1,0 +1,15 @@
+- ERCOT’s near-term reliability challenge is increasingly large-load interconnection: reports say some proposed Texas data center and crypto facilities failed voltage/reliability tests ahead of summer, signaling that not all queued megawatts can be connected without system upgrades or tighter operational limits. (Channel News Asia/Reuters)
+
+- Texas is seeing a new wave of very large load commitments that could reshape transmission and resource planning, including Hut 8’s financing for a 352 MW Nueces County AI/data center campus; projects of this size can materially affect local congestion, interconnection timing, and ancillary service needs. (PRNewswire; Crypto Briefing)
+
+- Google’s announced Meitner Energy Center in the Texas Panhandle points to a co-location model ERCOT will likely see more often: large data-center demand paired with over 1 GW of new renewable supply. That can reduce energy procurement risk, but it does not eliminate the need for deliverability, voltage support, and transmission planning. (Google Blog; Crypto Briefing)
+
+- Multiple stories point to Texas becoming the default landing zone for AI and compute growth because of power availability, land, and policy flexibility; for ERCOT, that means load forecasting uncertainty is shifting from gradual demand growth to lumpy, site-specific interconnection risk. (Business Insider; CryptoSlate)
+
+- Local opposition is rising even as Texas attracts new projects: reporting on Hood County data center clusters and SpaceX’s proposed Grimes County semiconductor campus shows that siting friction around noise, water, tax abatements, and land use could delay projects that otherwise appear viable in load forecasts. (Salon; Business Insider; Tom’s Hardware)
+
+- If these large Texas compute projects proceed, the key ERCOT implication is not just higher peak demand but faster need for substation, transmission, and reactive-power upgrades near load pockets, especially where projects are concentrated in rural or weak-grid areas. (Business Insider; Channel News Asia/Reuters; Google Blog)
+
+- National backlash against data center incentives and local bans in other states may indirectly strengthen Texas’s competitive position for new load, but that also increases the chance ERCOT must manage more speculative interconnection requests versus projects with real financing and construction readiness. (Crypto Briefing; Reason; Business Insider)
+
+- Emerging storage supply could modestly help flexibility: Waymo’s plan to repurpose retired EV batteries for grid storage in Texas suggests incremental distributed storage additions, though system significance will depend on project scale and location relative to ERCOT constraints. (The Independent; Gizmodo)
