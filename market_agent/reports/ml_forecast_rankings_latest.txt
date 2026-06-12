@@ -1,43 +1,44 @@
 ML Forecast Rankings
-Generated: 2026-06-11 12:09 UTC
+Generated: 2026-06-12 11:51 UTC
 Horizon: 30 trading days | Primary: Ensemble
 Pattern windows: 20/50 trading days
 Sequence model: both
 RL policy: on
+Smart policy: on | risk cap 10.0% target allocation
 Universe: 75 symbols | Stocks + crypto + commodities
-Calculation time: 1h 23m 13s total | context 4.7s | 75/75 ranked | 0 cached
-Slowest symbols: DOGE: 1m 35s, ZEC: 1m 35s, SHIB: 1m 35s, DOT: 1m 35s, UNI: 1m 34s
+Calculation time: 1h 22m 18s total | context 3.8s | 75/75 ranked | 0 cached
+Slowest symbols: SHIB: 1m 34s, DOT: 1m 34s, COMP: 1m 34s, DOGE: 1m 33s, ETH: 1m 33s
 
-Best Picked Forecast
-GEV: Strong Buy | Pattern: Bearish MA Crossover | Forecast Return: +18.33% | Selected model: Ensemble
+Best Smart Policy Pick
+KO: Strong Buy | Policy score: +2.09 | Pattern: Uptrend | Forecast Return: +3.13% | Selected model: Ensemble
 
 Short-Term Forecast Signals
 1 trading day | sequence model: both
-Buys: GEV: +1.94% | Buy | model Ensemble | prob up 68.3% | edge 18.3% | err +/-3.84% | pattern Bearish MA Crossover ; SLB: +0.92% | Neutral / No Edge | model Ensemble | prob up 60.7% | edge 10.7% | err +/-2.74% | pattern Uptrend ; EOG: +0.70% | Neutral / No Edge | model Ensemble | prob up 60.5% | edge 10.5% | err +/-2.25% | pattern Uptrend
-Sells: AAPL: -0.75% | Neutral / No Edge | model Ensemble | prob up 33.9% | edge 16.1% | err +/-1.58% | pattern Uptrend ; ENA: -2.15% | Neutral / No Edge | model Ensemble | prob up 39.1% | edge 10.9% | err +/-7.08% | pattern Downtrend ; GLD: -0.44% | Neutral / No Edge | model Ensemble | prob up 41.2% | edge 8.8% | err +/-1.70% | pattern Oversold
+Buys: KO: +0.53% | Neutral / No Edge | policy Strong Buy (+2.34, target 8.5%) | model Ensemble | prob up 64.5% | edge 14.5% | err +/-1.22% | pattern Uptrend ; LLY: +0.45% | Neutral / No Edge | policy Buy (+1.73, target 3.5%) | model Ensemble | prob up 55.9% | edge 5.9% | err +/-2.72% | pattern Uptrend ; LUV: +0.42% | Neutral / No Edge | policy Buy (+1.71, target 2.7%) | model Ensemble | prob up 54.3% | edge 4.3% | err +/-3.22% | pattern Uptrend
+Sells: ENA: -0.60% | Neutral / No Edge | policy Strong Sell / Avoid (-1.85, target 0.0%) | model Ensemble | prob up 45.5% | edge 4.5% | err +/-7.13% | pattern Downtrend ; UNI: -0.43% | Neutral / No Edge | policy Strong Sell / Avoid (-1.84, target 0.0%) | model Ensemble | prob up 47.0% | edge 3.0% | err +/-6.03% | pattern Downtrend ; AVAX: +0.24% | Neutral / No Edge | policy Strong Sell / Avoid (-1.80, target 0.0%) | model Ensemble | prob up 50.9% | edge 0.9% | err +/-5.68% | pattern Downtrend
 
-Strongest Buy Forecasts
-GEV: +18.33% | Strong Buy | model Ensemble | prob up 81.8% | edge 31.8% | err +/-16.10% | pattern Bearish MA Crossover
-SLV: +11.94% | Buy | model Ensemble | prob up 71.3% | edge 21.3% | err +/-19.14% | pattern Bearish MA Crossover
-GLD: +3.50% | Neutral / No Edge | model Ensemble | prob up 67.8% | edge 17.8% | err +/-7.82% | pattern Oversold
-WMT: +2.98% | Neutral / No Edge | model Ensemble | prob up 64.2% | edge 14.2% | err +/-8.24% | pattern Rebound From 60-Day Low
-XOM: +2.90% | Neutral / No Edge | model Ensemble | prob up 62.3% | edge 12.3% | err +/-9.55% | pattern Oversold
-KO: +1.98% | Neutral / No Edge | model Ensemble | prob up 61.0% | edge 11.0% | err +/-6.07% | pattern Uptrend
-DELL: +8.06% | Neutral / No Edge | model Ensemble | prob up 61.7% | edge 11.7% | err +/-27.55% | pattern Uptrend
-USO: +4.48% | Neutral / No Edge | model Ensemble | prob up 59.7% | edge 9.7% | err +/-18.86% | pattern Range / No Dominant Pattern
-INTC: +8.93% | Neutral / No Edge | model Ensemble | prob up 57.4% | edge 7.4% | err +/-38.34% | pattern Uptrend
-SLB: +2.75% | Neutral / No Edge | model Ensemble | prob up 58.1% | edge 8.1% | err +/-13.09% | pattern Uptrend
+Smart Policy Buy Forecasts
+KO: +3.13% | Buy | policy Strong Buy (+2.09, target 7.6%) | model Ensemble | prob up 68.1% | edge 18.1% | err +/-6.10% | pattern Uptrend
+LLY: -0.60% | Neutral / No Edge | policy Strong Buy (+2.05, target 4.1%) | model Ensemble | prob up 49.0% | edge 1.0% | err +/-14.34% | pattern Uptrend
+LUV: +1.99% | Neutral / No Edge | policy Strong Buy (+2.05, target 3.2%) | model Ensemble | prob up 55.4% | edge 5.4% | err +/-15.59% | pattern Uptrend
+C: +0.03% | Neutral / No Edge | policy Strong Buy (+2.03, target 5.0%) | model Ensemble | prob up 50.3% | edge 0.3% | err +/-12.52% | pattern Uptrend
+UAL: +4.19% | Neutral / No Edge | policy Strong Buy (+1.84, target 2.3%) | model Ensemble | prob up 58.3% | edge 8.3% | err +/-18.69% | pattern High Volatility
+GS: -0.18% | Neutral / No Edge | policy Buy (+1.65, target 3.8%) | model Ensemble | prob up 50.4% | edge 0.4% | err +/-12.48% | pattern Uptrend
+DELL: +9.82% | Neutral / No Edge | policy Buy (+1.65, target 1.7%) | model Ensemble | prob up 64.1% | edge 14.1% | err +/-28.68% | pattern Uptrend
+MS: +1.90% | Neutral / No Edge | policy Buy (+1.55, target 4.3%) | model Ensemble | prob up 56.3% | edge 6.3% | err +/-12.09% | pattern Uptrend
+RIOT: -9.63% | Neutral / No Edge | policy Buy (+1.54, target 1.6%) | model Ensemble | prob up 36.7% | edge 13.3% | err +/-36.67% | pattern Uptrend
+GEV: +17.56% | Strong Buy | policy Buy (+1.47, target 2.2%) | model Ensemble | prob up 81.7% | edge 31.7% | err +/-16.42% | pattern Bearish MA Crossover
 
-Strongest Sell Forecasts
-PEPE: -22.73% | Strong Sell | model Ensemble | prob up 12.4% | edge 37.6% | err +/-20.12% | pattern Downtrend
-BAC: -6.04% | Sell | model Ensemble | prob up 29.4% | edge 20.6% | err +/-10.47% | pattern Near 60-Day High
-DAL: -8.18% | Sell | model Ensemble | prob up 33.0% | edge 17.0% | err +/-14.87% | pattern Uptrend
-WFC: -5.12% | Neutral / No Edge | model Ensemble | prob up 31.9% | edge 18.1% | err +/-10.71% | pattern Overbought
-RIOT: -15.01% | Neutral / No Edge | model Ensemble | prob up 30.0% | edge 20.0% | err +/-36.50% | pattern Uptrend
-XLK: -3.84% | Neutral / No Edge | model Ensemble | prob up 35.7% | edge 14.3% | err +/-10.19% | pattern Uptrend
-VOO: -2.20% | Neutral / No Edge | model Ensemble | prob up 37.4% | edge 12.6% | err +/-5.83% | pattern Uptrend
-DOGE: -8.22% | Neutral / No Edge | model Ensemble | prob up 35.6% | edge 14.4% | err +/-25.43% | pattern Downtrend
-DIA: -1.70% | Neutral / No Edge | model Ensemble | prob up 39.7% | edge 10.3% | err +/-4.93% | pattern Uptrend
-XLF: -2.02% | Neutral / No Edge | model Ensemble | prob up 39.2% | edge 10.8% | err +/-6.35% | pattern Near 60-Day High
+Smart Policy Sell / Avoid Forecasts
+UNI: -9.74% | Neutral / No Edge | policy Strong Sell / Avoid (-2.76, target 0.0%) | model Ensemble | prob up 34.5% | edge 15.5% | err +/-27.65% | pattern Downtrend
+BTC: -6.50% | Neutral / No Edge | policy Strong Sell / Avoid (-2.66, target 0.0%) | model Ensemble | prob up 33.0% | edge 17.0% | err +/-15.37% | pattern Downtrend
+PEPE: -22.72% | Strong Sell | policy Strong Sell / Avoid (-2.62, target 0.0%) | model Ensemble | prob up 12.4% | edge 37.6% | err +/-20.12% | pattern Downtrend
+ADA: -8.95% | Neutral / No Edge | policy Strong Sell / Avoid (-2.48, target 0.0%) | model Ensemble | prob up 33.4% | edge 16.6% | err +/-24.94% | pattern Downtrend
+SHIB: -7.66% | Neutral / No Edge | policy Strong Sell / Avoid (-2.05, target 0.0%) | model Ensemble | prob up 41.4% | edge 8.6% | err +/-42.72% | pattern Downtrend
+ENA: -9.45% | Neutral / No Edge | policy Strong Sell / Avoid (-2.05, target 0.0%) | model Ensemble | prob up 40.1% | edge 9.9% | err +/-42.14% | pattern Downtrend
+DOT: -6.34% | Neutral / No Edge | policy Strong Sell / Avoid (-2.05, target 0.0%) | model Ensemble | prob up 38.7% | edge 11.3% | err +/-25.12% | pattern Downtrend
+ETH: -8.75% | Neutral / No Edge | policy Strong Sell / Avoid (-1.99, target 0.0%) | model Ensemble | prob up 34.9% | edge 15.1% | err +/-26.43% | pattern Downtrend
+MNT: -9.63% | Neutral / No Edge | policy Strong Sell / Avoid (-1.88, target 0.0%) | model Ensemble | prob up 35.2% | edge 14.8% | err +/-29.57% | pattern Downtrend
+PNUT: +8.12% | Neutral / No Edge | policy Strong Sell / Avoid (-1.87, target 0.0%) | model Ensemble | prob up 60.8% | edge 10.8% | err +/-36.87% | pattern Downtrend
 
 Model output only. Not financial advice.

@@ -19,6 +19,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from agent.data import get_ohlcv
 from agent.forecast import compare_forecast_models
+from agent.policy import smart_policy_report
+from agent.strategy import sma_crossover
 from forecast_cache import (
     build_cache_key,
     cache_payload_fresh,
@@ -196,15 +198,78 @@ def row_value(row: dict, *keys, default=None):
     return default
 
 
+def ranking_score(row: dict) -> float:
+    try:
+        score = float(row_value(row, "Policy Score", "Score", default=0.0))
+        return score if np.isfinite(score) else 0.0
+    except Exception:
+        return 0.0
+
+
+def is_policy_buy(row: dict) -> bool:
+    if row_value(row, "Smart Policy", default=None):
+        try:
+            target_pct = float(row_value(row, "Policy Target %", default=0.0) or 0.0)
+        except Exception:
+            target_pct = 0.0
+        return target_pct > 0.0 and ranking_score(row) > 0.0
+    return float(row_value(row, "Forecast Return %", default=0.0) or 0.0) > 0.0
+
+
+def is_policy_sell(row: dict) -> bool:
+    if row_value(row, "Smart Policy", default=None):
+        return ranking_score(row) < 0.0 or "Sell" in str(row_value(row, "Smart Policy", default=""))
+    return float(row_value(row, "Forecast Return %", default=0.0) or 0.0) < 0.0
+
+
+def build_smart_policy_for_snapshot(
+    df: pd.DataFrame,
+    model_results: dict,
+    selected_model: str,
+    args: argparse.Namespace,
+) -> dict:
+    selected_result = model_results.get(selected_model)
+    forecast_metrics = getattr(selected_result, "metrics", {}) if selected_result is not None else {}
+    try:
+        signal = sma_crossover(df, args.pattern_short_window, args.pattern_long_window)
+    except Exception:
+        signal = None
+    try:
+        return smart_policy_report(
+            df=df,
+            risk_fraction=float(getattr(args, "policy_risk_fraction", 0.10) or 0.10),
+            signal=signal,
+            forecast_metrics=forecast_metrics,
+            model_results=model_results,
+        )
+    except Exception as exc:
+        return {
+            "policy_call": "Policy Unavailable",
+            "policy_score": 0.0,
+            "policy_target_pct": 0.0,
+            "policy_reason": str(exc),
+        }
+
+
+def enrich_snapshot_with_smart_policy(snapshot: dict, df: pd.DataFrame, args: argparse.Namespace) -> dict:
+    model_results = model_results_from_snapshot(snapshot)
+    selected_model = select_model_name(model_results, preferred=primary_model_from_args(args))
+    if not selected_model:
+        return snapshot
+    enriched = dict(snapshot)
+    enriched["smart_policy"] = build_smart_policy_for_snapshot(df, model_results, selected_model, args)
+    return enriched
+
+
 def compact_short_horizon_reports(short_horizon_reports: list[dict]) -> list[dict]:
     compact_reports = []
     for short_report in short_horizon_reports or []:
         rows = short_report.get("rows") or []
-        sorted_rows = sorted(rows, key=lambda r: float(row_value(r, "Score", default=0.0)), reverse=True)
-        buys = [row for row in sorted_rows if float(row_value(row, "Forecast Return %", default=0.0)) > 0]
+        sorted_rows = sorted(rows, key=ranking_score, reverse=True)
+        buys = [row for row in sorted_rows if is_policy_buy(row)]
         sells = sorted(
-            [row for row in rows if float(row_value(row, "Forecast Return %", default=0.0)) < 0],
-            key=lambda r: float(row_value(r, "Score", default=0.0)),
+            [row for row in rows if is_policy_sell(row)],
+            key=ranking_score,
         )
         compact_reports.append(
             {
@@ -341,6 +406,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 cached_payload = load_json_payload(model_cache_path)
                 cached_snapshot = cached_payload.get("snapshot") or {}
                 if cached_snapshot and cache_payload_fresh(cached_payload, args.model_cache_max_age_days):
+                    cached_snapshot = enrich_snapshot_with_smart_policy(cached_snapshot, df, args)
                     snapshots.append(cached_snapshot)
                     patterns_by_symbol[symbol] = cached_payload.get("pattern_info") or {
                         "Primary Pattern": "Unavailable",
@@ -375,12 +441,12 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 include_rl=include_rl_policy,
             )
             close = clean_close(df)
-            snapshot = snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results)
-            snapshots.append(snapshot)
-
             primary_model = select_model_name(model_results, preferred=primary_model_from_args(args))
             if not primary_model:
                 raise ValueError("No usable model forecast.")
+            smart_policy = build_smart_policy_for_snapshot(df, model_results, primary_model, args)
+            snapshot = snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results, smart_policy=smart_policy)
+            snapshots.append(snapshot)
 
             save_json_payload(
                 model_cache_path,
@@ -466,15 +532,31 @@ def format_row(row: dict) -> str:
     edge = float(row_value(row, "model_edge_pct", "Model Edge %", default=0.0))
     expected_error = float(row_value(row, "expected_error_pct", "Expected Error %", default=0.0))
     primary_pattern = row_value(row, "Primary Pattern", "primary_pattern", default="Unavailable")
+    smart_policy = str(row_value(row, "Smart Policy", default="")).strip()
+    policy_score = ranking_score(row)
+    try:
+        policy_target = float(row_value(row, "Policy Target %", default=np.nan))
+    except Exception:
+        policy_target = np.nan
 
     parts = [
         f"{symbol}: {forecast_return:+.2f}%",
         model_call_text,
-        f"model {selected_model}",
-        f"prob up {probability_up:.1f}%",
-        f"edge {edge:.1f}%",
-        f"err +/-{expected_error:.2f}%",
     ]
+    if smart_policy:
+        policy_text = f"policy {smart_policy} ({policy_score:+.2f}"
+        if np.isfinite(policy_target):
+            policy_text += f", target {policy_target:.1f}%"
+        policy_text += ")"
+        parts.append(policy_text)
+    parts.extend(
+        [
+            f"model {selected_model}",
+            f"prob up {probability_up:.1f}%",
+            f"edge {edge:.1f}%",
+            f"err +/-{expected_error:.2f}%",
+        ]
+    )
     if primary_pattern and primary_pattern != "Unavailable":
         parts.append(f"pattern {primary_pattern}")
     return " | ".join(parts)
@@ -488,11 +570,11 @@ def build_market_report(
     short_horizon_reports: list[dict] | None = None,
 ) -> dict:
     generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    sorted_rows = sorted(rows, key=lambda r: float(row_value(r, "Score", default=0.0)), reverse=True)
-    sorted_buy = [row for row in sorted_rows if float(row_value(row, "Forecast Return %", default=0.0)) > 0]
+    sorted_rows = sorted(rows, key=ranking_score, reverse=True)
+    sorted_buy = [row for row in sorted_rows if is_policy_buy(row)]
     sorted_sell = sorted(
-        [row for row in rows if float(row_value(row, "Forecast Return %", default=0.0)) < 0],
-        key=lambda r: float(row_value(r, "Score", default=0.0)),
+        [row for row in rows if is_policy_sell(row)],
+        key=ranking_score,
     )
 
     top_buy_symbols = [str(row_value(row, "Symbol", default="")) for row in sorted_buy[: args.top_n] if row_value(row, "Symbol", default="")]
@@ -505,6 +587,7 @@ def build_market_report(
         f"Pattern windows: {args.pattern_short_window}/{args.pattern_long_window} trading days",
         f"Sequence model: {sequence_model_from_args(args)}",
         f"RL policy: {'off (disabled by request)' if no_rl_policy_from_args(args) else ('on' if include_rl_policy_from_args(args) else 'off')}",
+        f"Smart policy: on | risk cap {float(getattr(args, 'policy_risk_fraction', 0.10) or 0.10) * 100.0:.1f}% target allocation",
         f"Universe: {len(rows)} symbols | Stocks + crypto + commodities",
     ]
     if timings:
@@ -531,9 +614,10 @@ def build_market_report(
         best_row = sorted_buy[0] if sorted_buy else sorted_rows[0]
         lines.extend(
             [
-                "Best Picked Forecast",
+                "Best Smart Policy Pick",
                 (
-                    f"{row_value(best_row, 'Symbol', default='')}: {row_value(best_row, 'Model Call', default='')} | "
+                    f"{row_value(best_row, 'Symbol', default='')}: {row_value(best_row, 'Smart Policy', 'Model Call', default='')} | "
+                    f"Policy score: {float(row_value(best_row, 'Policy Score', 'Score', default=0.0)):+.2f} | "
                     f"Pattern: {row_value(best_row, 'Primary Pattern', default='Unavailable')} | "
                     f"Forecast Return: {float(row_value(best_row, 'Forecast Return %', default=0.0)):+.2f}% | "
                     f"Selected model: {row_value(best_row, 'Selected Model', default='')}"
@@ -550,13 +634,13 @@ def build_market_report(
             short_rows = short_report.get("rows") or []
             short_sorted = sorted(
                 short_rows,
-                key=lambda r: float(row_value(r, "Score", default=0.0)),
+                key=ranking_score,
                 reverse=True,
             )
-            short_buys = [row for row in short_sorted if float(row_value(row, "Forecast Return %", default=0.0)) > 0]
+            short_buys = [row for row in short_sorted if is_policy_buy(row)]
             short_sells = sorted(
-                [row for row in short_rows if float(row_value(row, "Forecast Return %", default=0.0)) < 0],
-                key=lambda r: float(row_value(r, "Score", default=0.0)),
+                [row for row in short_rows if is_policy_sell(row)],
+                key=ranking_score,
             )
             horizon_label = f"{horizon} trading day" + ("" if horizon == 1 else "s")
             lines.append(f"{horizon_label} | sequence model: {short_sequence_model}")
@@ -571,14 +655,14 @@ def build_market_report(
         lines.append("")
 
     lines.extend([
-        "Strongest Buy Forecasts",
+        "Smart Policy Buy Forecasts",
     ])
     if sorted_buy:
         lines.extend(format_row(row) for row in sorted_buy[: args.top_n])
     else:
         lines.append("No positive forecast candidates.")
 
-    lines.extend(["", "Strongest Sell Forecasts"])
+    lines.extend(["", "Smart Policy Sell / Avoid Forecasts"])
     if sorted_sell:
         lines.extend(format_row(row) for row in sorted_sell[: args.top_n])
     else:
@@ -651,6 +735,11 @@ def write_outputs(
         "include_rl_policy": include_rl_policy,
         "no_rl_policy": no_rl_policy_from_args(args),
         "short_sequence_model": short_sequence_model_from_args(args),
+        "smart_policy": {
+            "enabled": True,
+            "risk_fraction": float(args.policy_risk_fraction),
+            "description": "Forecast edge + ensemble + RL policy + trend + momentum + volatility-targeted allocation",
+        },
         "symbols": symbols,
         "cache_key": build_cache_key(
             symbols,
@@ -779,6 +868,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--no-rl-policy", action="store_true")
     parser.add_argument("--request-text", default="")
     parser.add_argument("--top-n", type=int, default=5)
+    parser.add_argument("--policy-risk-fraction", type=float, default=0.10)
     parser.add_argument("--output-dir", default=str(Path(__file__).resolve().parent / "reports"))
     parser.add_argument("--no-market-context", action="store_true")
     parser.add_argument("--no-optimize", action="store_true")
@@ -812,6 +902,10 @@ def main() -> int:
             "telegram_text": telegram_text,
             "rows": rows,
             "short_horizon_reports": compact_short_horizon_reports(short_horizon_reports),
+            "smart_policy": {
+                "enabled": True,
+                "risk_fraction": float(args.policy_risk_fraction),
+            },
             "errors": errors,
         }
         if args.show_timing:

@@ -32,6 +32,14 @@ def _json_safe(value):
     return value
 
 
+def _safe_float(value, default=np.nan) -> float:
+    try:
+        number = float(value)
+        return number if np.isfinite(number) else default
+    except Exception:
+        return default
+
+
 def signal_quality(confidence_pct: float) -> str:
     edge_pct = max(float(confidence_pct) - 50.0, 0.0)
     if edge_pct >= 15.0:
@@ -246,11 +254,17 @@ def select_model_name(model_results: dict[str, ForecastResult | dict], preferred
     return min(candidates, key=lambda item: _metric(item[1], "holdout_mae_pct", np.inf))[0]
 
 
-def snapshot_from_model_results(symbol: str, last_price: float, model_results: dict[str, ForecastResult]) -> dict:
+def snapshot_from_model_results(
+    symbol: str,
+    last_price: float,
+    model_results: dict[str, ForecastResult],
+    smart_policy: dict | None = None,
+) -> dict:
     return {
         "symbol": symbol,
         "last_price": float(last_price),
         "models": {name: forecast_result_to_dict(result) for name, result in model_results.items()},
+        "smart_policy": _json_safe(smart_policy or {}),
     }
 
 
@@ -274,6 +288,7 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
     edge = max(confidence - 50.0, 0.0)
     score = float(metrics.get("forecast_score", 0.0))
     forecast_price = float(forecast_rows["forecast_close"].iloc[-1])
+    smart_policy = snapshot.get("smart_policy") or {}
 
     def _return_for(model_name: str):
         model_payload = model_payloads.get(model_name)
@@ -304,6 +319,16 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
         "Validation MAE %": float(metrics.get("holdout_mae_pct", np.nan)),
         "Direction Hit Rate %": float(metrics.get("holdout_direction_accuracy", np.nan)),
         "Score": score,
+        "Smart Policy": smart_policy.get("policy_call", ""),
+        "Policy Score": _safe_float(smart_policy.get("policy_score")),
+        "Policy Target %": _safe_float(smart_policy.get("policy_target_pct")),
+        "Policy Reason": smart_policy.get("policy_reason", ""),
+        "Policy Forecast Score": _safe_float(smart_policy.get("forecast_component")),
+        "Policy Trend Score": _safe_float(smart_policy.get("trend_component")),
+        "Policy Momentum Score": _safe_float(smart_policy.get("momentum_component")),
+        "Policy RL Score": _safe_float(smart_policy.get("rl_component")),
+        "Policy RL Action": smart_policy.get("rl_action", ""),
+        "Policy Volatility %": _safe_float(smart_policy.get("annual_volatility_pct")),
     }
 
 

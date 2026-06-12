@@ -26,6 +26,7 @@ try:
     from agent.strategy import sma_crossover
     from agent.backtest import simple_vector_backtest
     from agent.broker import get_account, submit_order, cancel_open_orders
+    from agent.policy import smart_policy_decision, smart_policy_report
     from agent.risk import target_position_qty
     from forecast_cache import (
         cache_payload_fresh,
@@ -463,6 +464,98 @@ def maybe_execute_auto_trade_ml(
     return {"status": "executed", "entry": log_entry}
 
 
+def maybe_execute_auto_trade_smart(
+    symbol: str,
+    df: pd.DataFrame,
+    sig: pd.Series,
+    equity: float,
+    risk_fraction: float,
+    enabled: bool,
+    demo_mode: bool,
+    trade_summary: dict | None = None,
+    forecast_result=None,
+    model_results: dict | None = None,
+) -> dict:
+    if not enabled:
+        return {"status": "disabled"}
+
+    trade_summary = trade_summary or {}
+    if demo_mode:
+        current_qty = int(max(float(trade_summary.get("position_qty", 0.0) or 0.0), 0.0))
+    else:
+        current_qty = _alpaca_position_qty(symbol)
+
+    avg_entry_price = trade_summary.get("avg_buy_price")
+    forecast_metrics = getattr(forecast_result, "metrics", {}) if forecast_result is not None else {}
+    decision = smart_policy_decision(
+        df=df,
+        equity=equity,
+        risk_fraction=risk_fraction,
+        current_qty=current_qty,
+        avg_entry_price=avg_entry_price,
+        signal=sig,
+        forecast_metrics=forecast_metrics,
+        model_results=model_results,
+    )
+
+    if decision.action == "HOLD" or not decision.side or decision.qty <= 0:
+        return {
+            "status": "skipped",
+            "reason": decision.reason,
+            "decision": decision,
+        }
+
+    signal_ts = pd.to_datetime(df.index[-1]).strftime("%Y-%m-%d") if not df.empty else dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
+    action_key = f"smart:{signal_ts}:{decision.action}:{decision.qty}:{decision.target_qty}:{decision.score:.2f}"
+    state = _read_trade_state()
+    symbol_state = state.get(symbol, {})
+    if symbol_state.get("last_smart_action_key") == action_key:
+        return {"status": "skipped", "reason": "already executed smart policy action for this signal", "decision": decision}
+
+    if demo_mode:
+        order_result = {"demo": True, "symbol": symbol, "side": decision.side, "qty": decision.qty}
+    else:
+        order_result = submit_order(symbol, decision.qty, decision.side)
+
+    account_snapshot = {"equity": float(equity), "cash": None, "buying_power": None}
+    if not demo_mode:
+        live_snapshot = _fetch_live_account_snapshot()
+        if live_snapshot:
+            account_snapshot = live_snapshot
+
+    log_entry = {
+        "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "source": "auto_smart_policy",
+        "symbol": symbol,
+        "action": decision.action,
+        "side": decision.side,
+        "qty": int(decision.qty),
+        "price": round(float(decision.last_price), 4),
+        "notional": round(float(decision.qty) * float(decision.last_price), 2),
+        "risk_fraction": float(risk_fraction),
+        "policy_score": float(decision.score),
+        "policy_reason": decision.reason,
+        "target_qty": int(decision.target_qty),
+        "target_position_fraction": float(decision.target_position_fraction),
+        "demo_mode": bool(demo_mode),
+        "equity_after": account_snapshot.get("equity"),
+        "cash_after": account_snapshot.get("cash"),
+        "buying_power_after": account_snapshot.get("buying_power"),
+        "order_result": order_result,
+        "policy_diagnostics": decision.diagnostics,
+    }
+    _append_trade_log(log_entry)
+
+    state[symbol] = symbol_state if symbol_state else {}
+    state[symbol]["last_smart_action_key"] = action_key
+    state[symbol]["last_smart_action"] = decision.action
+    state[symbol]["last_smart_score"] = float(decision.score)
+    state[symbol]["last_smart_timestamp"] = log_entry["timestamp_utc"]
+    _write_trade_state(state)
+
+    return {"status": "executed", "entry": log_entry, "decision": decision}
+
+
 st.set_page_config(page_title="📈 Market Agent Dashboard", layout="wide")
 
 st.title("🤖 Amir Exir Stock Market & Crypto AI Agent")
@@ -824,6 +917,9 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
         "Horizon",
         "Sequence Model",
         "Symbol",
+        "Smart Policy",
+        "Policy Score",
+        "Policy Target %",
         "Model Call",
         "Primary Pattern",
         "Selected Model",
@@ -843,6 +939,11 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
         "Expected Error %",
         "Validation MAE %",
         "Direction Hit Rate %",
+        "Policy Trend Score",
+        "Policy Forecast Score",
+        "Policy Momentum Score",
+        "Policy RL Score",
+        "Policy Volatility %",
         "Score",
     ]
     display_columns = [column for column in display_columns if column in display_df.columns]
@@ -852,6 +953,8 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
             "Last Price": "${:,.2f}",
             "Forecast Price": "${:,.2f}",
             "Forecast Return %": "{:+.2f}%",
+            "Policy Score": "{:+.2f}",
+            "Policy Target %": "{:.1f}%",
             "Ridge Return %": "{:+.2f}%",
             "XGBoost Return %": "{:+.2f}%",
             "Neural Net Return %": "{:+.2f}%",
@@ -864,6 +967,11 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
             "Expected Error %": "{:.2f}%",
             "Validation MAE %": "{:.2f}%",
             "Direction Hit Rate %": "{:.1f}%",
+            "Policy Trend Score": "{:+.2f}",
+            "Policy Forecast Score": "{:+.2f}",
+            "Policy Momentum Score": "{:+.2f}",
+            "Policy RL Score": "{:+.2f}",
+            "Policy Volatility %": "{:.1f}%",
             "Score": "{:+.2f}",
         }
     ).hide(axis="index")
@@ -890,8 +998,7 @@ def scheduled_short_horizon_table(
         horizon_df = pd.DataFrame(rows)
         if horizon_df.empty:
             continue
-        if "Score" in horizon_df.columns:
-            horizon_df = horizon_df.sort_values("Score", ascending=False)
+        horizon_df = sort_by_policy_score(horizon_df, ascending=False)
         horizon_df = horizon_df.head(max_rows_per_horizon).copy()
         horizon_df.insert(0, "Horizon", horizon_label)
         horizon_df.insert(1, "Sequence Model", short_report.get("sequence_model") or "")
@@ -908,8 +1015,7 @@ def scheduled_one_day_fallback_symbols(payload: dict | None, limit: int = SCHEDU
     symbols: list[str] = []
 
     if not rows.empty and "Symbol" in rows.columns:
-        if "Score" in rows.columns:
-            rows = rows.sort_values("Score", ascending=False)
+        rows = sort_by_policy_score(rows, ascending=False)
         for symbol in rows["Symbol"].dropna().astype(str):
             if symbol and symbol not in symbols:
                 symbols.append(symbol)
@@ -950,6 +1056,72 @@ def model_results_table(model_results: dict) -> pd.DataFrame:
             }
         )
     return pd.DataFrame(rows)
+
+
+def policy_score_from_row(row: pd.Series | dict) -> float:
+    try:
+        if "Policy Score" in row and pd.notna(row["Policy Score"]):
+            return float(row["Policy Score"])
+        if "Score" in row and pd.notna(row["Score"]):
+            return float(row["Score"])
+    except Exception:
+        pass
+    return 0.0
+
+
+def sort_by_policy_score(frame: pd.DataFrame, ascending: bool = False) -> pd.DataFrame:
+    if frame.empty:
+        return frame
+    score_column = "Policy Score" if "Policy Score" in frame.columns else "Score"
+    if score_column not in frame.columns:
+        return frame
+    sortable = frame.copy()
+    sortable["_policy_sort"] = pd.to_numeric(sortable[score_column], errors="coerce").fillna(0.0)
+    return sortable.sort_values("_policy_sort", ascending=ascending).drop(columns=["_policy_sort"])
+
+
+def build_smart_policy_metadata(
+    df: pd.DataFrame,
+    model_results: dict,
+    primary_model: str,
+    risk_fraction: float = 0.10,
+) -> dict:
+    selected_result = model_results.get(primary_model)
+    forecast_metrics = getattr(selected_result, "metrics", {}) if selected_result is not None else {}
+    try:
+        signal = sma_crossover(df, 20, 50)
+    except Exception:
+        signal = None
+    try:
+        return smart_policy_report(
+            df=df,
+            risk_fraction=risk_fraction,
+            signal=signal,
+            forecast_metrics=forecast_metrics,
+            model_results=model_results,
+        )
+    except Exception as policy_error:
+        return {
+            "policy_call": "Policy Unavailable",
+            "policy_score": 0.0,
+            "policy_target_pct": 0.0,
+            "policy_reason": str(policy_error),
+        }
+
+
+def enrich_snapshot_with_smart_policy_for_app(
+    snapshot: dict,
+    df: pd.DataFrame,
+    primary_model_choice: str,
+    risk_fraction: float = 0.10,
+) -> dict:
+    model_results = _model_results_from_snapshot(snapshot)
+    primary_model = select_model_name(model_results, preferred=primary_model_choice)
+    if not primary_model:
+        return snapshot
+    enriched = dict(snapshot)
+    enriched["smart_policy"] = build_smart_policy_metadata(df, model_results, primary_model, risk_fraction)
+    return enriched
 
 
 def short_term_signal_row(horizon_days: int, model_results: dict, primary_model_choice: str) -> dict:
@@ -1013,12 +1185,21 @@ def best_ranked_symbol(ranking_table: pd.DataFrame, fallback: str = "AAPL") -> s
     if ranking_table.empty or "Symbol" not in ranking_table.columns:
         return fallback
 
-    positive_candidates = ranking_table[ranking_table.get("Forecast Return %", pd.Series(dtype=float)) > 0]
+    if "Policy Score" in ranking_table.columns:
+        default_targets = pd.Series(0.0, index=ranking_table.index)
+        policy_candidates = ranking_table[
+            pd.to_numeric(ranking_table.get("Policy Target %", default_targets), errors="coerce").fillna(0) > 0
+        ].copy()
+        if not policy_candidates.empty:
+            policy_candidates["_policy_sort"] = pd.to_numeric(policy_candidates["Policy Score"], errors="coerce").fillna(0)
+            return policy_candidates.sort_values("_policy_sort", ascending=False).iloc[0]["Symbol"]
+
+    positive_candidates = ranking_table[pd.to_numeric(ranking_table.get("Forecast Return %", pd.Series(dtype=float)), errors="coerce").fillna(0) > 0]
     if not positive_candidates.empty and "Score" in positive_candidates.columns:
-        return positive_candidates.sort_values("Score", ascending=False).iloc[0]["Symbol"]
+        return sort_by_policy_score(positive_candidates, ascending=False).iloc[0]["Symbol"]
 
     if "Score" in ranking_table.columns:
-        return ranking_table.sort_values("Score", ascending=False).iloc[0]["Symbol"]
+        return sort_by_policy_score(ranking_table, ascending=False).iloc[0]["Symbol"]
 
     return ranking_table.iloc[0]["Symbol"]
 
@@ -1236,7 +1417,9 @@ def cached_model_results(
     if isinstance(close, pd.DataFrame):
         close = close.iloc[:, 0]
     close = pd.to_numeric(close, errors="coerce").dropna()
-    snapshot = snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results)
+    primary_for_policy = select_model_name(model_results, preferred="Ensemble")
+    smart_policy = build_smart_policy_metadata(df, model_results, primary_for_policy) if primary_for_policy else {}
+    snapshot = snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results, smart_policy=smart_policy)
     payload = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "model_result_cache_version": 2,
@@ -1342,7 +1525,13 @@ def cached_forecast_rankings(
             )
             cached_payload = _load_model_result_cache(str(model_cache_path)) if cache_buster == 0 else {}
             if cached_payload:
-                ranking_snapshots.append(cached_payload["snapshot"])
+                ranking_snapshots.append(
+                    enrich_snapshot_with_smart_policy_for_app(
+                        cached_payload["snapshot"],
+                        ranking_df,
+                        primary_model_choice,
+                    )
+                )
                 model_cache_hits += 1
                 continue
 
@@ -1362,7 +1551,14 @@ def cached_forecast_rankings(
             if isinstance(ranking_close, pd.DataFrame):
                 ranking_close = ranking_close.iloc[:, 0]
             ranking_close = pd.to_numeric(ranking_close, errors="coerce").dropna()
-            snapshot = snapshot_from_model_results(ranking_symbol, float(ranking_close.iloc[-1]), ranking_results)
+            primary_for_policy = select_model_name(ranking_results, preferred=primary_model_choice)
+            smart_policy = build_smart_policy_metadata(ranking_df, ranking_results, primary_for_policy) if primary_for_policy else {}
+            snapshot = snapshot_from_model_results(
+                ranking_symbol,
+                float(ranking_close.iloc[-1]),
+                ranking_results,
+                smart_policy=smart_policy,
+            )
             ranking_snapshots.append(snapshot)
             _save_model_result_cache(
                 str(model_cache_path),
@@ -1606,7 +1802,7 @@ st.sidebar.header("🤖 Auto Paper Trading")
 auto_trade_enabled = st.sidebar.checkbox(
     "Enable automatic paper trades",
     value=False,
-    help="Places BUY/SELL orders when SMA crossover flips.",
+    help="Places BUY/SELL paper orders from the selected policy trigger.",
 )
 auto_trade_risk_fraction = st.sidebar.slider(
     "Auto-trade position size (% of equity)",
@@ -1619,9 +1815,9 @@ if auto_trade_enabled and demo_mode:
     st.sidebar.info("Auto trading enabled in demo mode: orders are simulated and still logged.")
 auto_trade_trigger = st.sidebar.selectbox(
     "Auto-trade trigger",
-    ["SMA Crossover", "ML Forecast", "Either"],
+    ["Smart Policy", "SMA Crossover", "ML Forecast", "Either"],
     index=0,
-    help="Choose whether to trigger auto-trades from SMA crossover, ML forecast direction, or either",
+    help="Choose whether to trigger auto-trades from the adaptive policy, SMA crossover, ML forecast direction, or either simple trigger",
 )
 
 st.sidebar.header("🔮 ML Forecast Settings")
@@ -1967,7 +2163,7 @@ with top_analysis_tab:
 
             rows_df = pd.DataFrame(latest_ml_payload.get("rows", []))
             if not rows_df.empty:
-                rows_sorted = rows_df.sort_values("Score", ascending=False)
+                rows_sorted = sort_by_policy_score(rows_df, ascending=False)
                 st.caption(f"{int(latest_ml_payload.get('horizon_days', 30))} trading-day scheduled ranking")
                 st.dataframe(format_ranking_table(rows_sorted.head(15)), use_container_width=True)
 
@@ -1993,8 +2189,7 @@ with top_analysis_tab:
                         f"Sequence model: {one_day_sequence_model_choice}."
                     )
                     fallback_df = pd.DataFrame(fallback_rows)
-                    if not fallback_df.empty and "Score" in fallback_df.columns:
-                        fallback_df = fallback_df.sort_values("Score", ascending=False)
+                    fallback_df = sort_by_policy_score(fallback_df, ascending=False)
                     if not fallback_df.empty and "Horizon" not in fallback_df.columns:
                         fallback_df.insert(0, "Horizon", "1D")
                     if not fallback_df.empty and "Sequence Model" not in fallback_df.columns:
@@ -2034,8 +2229,7 @@ with top_analysis_tab:
                             "errors": fallback_errors,
                         }
                         st.markdown("**1-Day Scheduled Rankings**")
-                        if not fallback_df.empty and "Score" in fallback_df.columns:
-                            fallback_df = fallback_df.sort_values("Score", ascending=False)
+                        fallback_df = sort_by_policy_score(fallback_df, ascending=False)
                         if not fallback_df.empty and "Horizon" not in fallback_df.columns:
                             fallback_df.insert(0, "Horizon", "1D")
                         if not fallback_df.empty and "Sequence Model" not in fallback_df.columns:
@@ -2257,27 +2451,34 @@ with top_analysis_tab:
                 st.warning(f"Could not compute forecast rankings: {ranking_error}")
 
         if not ranking_table.empty:
-            buy_candidates = ranking_table[ranking_table["Forecast Return %"] > 0]
-            sell_candidates = ranking_table[ranking_table["Forecast Return %"] < 0]
-            strongest_buy = buy_candidates.sort_values("Score", ascending=False).head(10)
-            strongest_sell = sell_candidates.sort_values("Score", ascending=True).head(10)
+            if "Policy Score" in ranking_table.columns:
+                policy_scores = pd.to_numeric(ranking_table["Policy Score"], errors="coerce").fillna(0.0)
+                default_targets = pd.Series(0.0, index=ranking_table.index)
+                policy_targets = pd.to_numeric(ranking_table.get("Policy Target %", default_targets), errors="coerce").fillna(0.0)
+                buy_candidates = ranking_table[(policy_targets > 0.0) & (policy_scores > 0.0)]
+                sell_candidates = ranking_table[policy_scores < 0.0]
+            else:
+                buy_candidates = ranking_table[ranking_table["Forecast Return %"] > 0]
+                sell_candidates = ranking_table[ranking_table["Forecast Return %"] < 0]
+            strongest_buy = sort_by_policy_score(buy_candidates, ascending=False).head(10)
+            strongest_sell = sort_by_policy_score(sell_candidates, ascending=True).head(10)
 
             buy_col, sell_col = st.columns(2)
             with buy_col:
-                st.markdown("**Strongest Buy Forecasts**")
+                st.markdown("**Smart Policy Buy Forecasts**")
                 if strongest_buy.empty:
-                    st.info("No positive forecast candidates.")
+                    st.info("No smart-policy buy candidates.")
                 else:
                     st.dataframe(format_ranking_table(strongest_buy), use_container_width=True)
             with sell_col:
-                st.markdown("**Strongest Sell Forecasts**")
+                st.markdown("**Smart Policy Sell / Avoid Forecasts**")
                 if strongest_sell.empty:
-                    st.info("No negative forecast candidates.")
+                    st.info("No smart-policy sell/avoid candidates.")
                 else:
                     st.dataframe(format_ranking_table(strongest_sell), use_container_width=True)
 
             with st.expander("All forecast ranking results"):
-                st.dataframe(format_ranking_table(ranking_table.sort_values("Score", ascending=False)), use_container_width=True)
+                st.dataframe(format_ranking_table(sort_by_policy_score(ranking_table, ascending=False)), use_container_width=True)
 
             if ranking_errors:
                 with st.expander("Symbols skipped during forecast ranking"):
@@ -2314,6 +2515,8 @@ try:
         st.subheader("📈 Actual Value, ML Based Forecast, and Crossover Strategy")
         forecast_change = 0.0
         ml_forecast_available = False
+        forecast_result = None
+        model_results = {}
         try:
             if forecast_work_paused:
                 raise RuntimeError("ML forecast calculations are paused from the sidebar.")
@@ -2822,7 +3025,20 @@ try:
 
         auto_trade_result = {"status": "disabled"}
         if auto_trade_enabled:
-            if auto_trade_trigger == "SMA Crossover":
+            if auto_trade_trigger == "Smart Policy":
+                auto_trade_result = maybe_execute_auto_trade_smart(
+                    symbol=symbol,
+                    df=df,
+                    sig=sig,
+                    equity=equity,
+                    risk_fraction=auto_trade_risk_fraction,
+                    enabled=True,
+                    demo_mode=demo_mode,
+                    trade_summary=trade_summary,
+                    forecast_result=forecast_result,
+                    model_results=model_results,
+                )
+            elif auto_trade_trigger == "SMA Crossover":
                 auto_trade_result = maybe_execute_auto_trade(
                     symbol=symbol,
                     sig=sig,
