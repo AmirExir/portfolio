@@ -1,0 +1,15 @@
+Fresh market-moving headlines only (last 36 hours):
+
+**Facts**
+- **SpaceX priced its IPO at $135/share, raising $75 billion at a $1.77 trillion valuation** — the biggest-ever U.S. IPO, according to **CNA/Reuters**, **2026-06-11T21:52:00Z** and **2026-06-11T21:52:39Z**. This is a major equity-capital-markets event with clear relevance for risk appetite, growth/AI-linked names, and IPO sentiment.
+- **U.S. initial jobless claims rose to 229,000 last week**, per **Japan Today/AP**, **2026-06-11T21:47:41Z**. The article says filings remain historically low despite a modest increase.
+- **The European Central Bank raised rates**, citing inflation pressure tied to the Iran war, per **Japan Today/AP**, **2026-06-11T21:47:47Z**. The same article says the Fed is due to decide next week.
+- **Reports of explosions near Iran’s Sirik Island and threats around a possible Hormuz closure** were reported by **Crypto Briefing**, **2026-06-11T21:43:01Z**. Separately, **Crypto Briefing**, **2026-06-11T21:49:00Z**, reported U.S. Central Command was investigating reports of strikes affecting a water facility in Iran. These items point to ongoing Middle East supply-risk headlines, though they come from a less-established financial-news source.
+- **Bitcoin was described as under pressure near $61,000, with a falling share of coins in profit**, according to **Bitcoinist**, **2026-06-11T22:00:49Z**. This is crypto-market specific and not independently confirmed by a major wire in the provided set.
+- **Texas Governor Greg Abbott sought new limits on data centers, including efficiency rules and repeal of certain tax incentives**, according to **Crypto Briefing**, **2026-06-11T21:41:16Z**. The article frames this as relevant to crypto mining and power-intensive digital infrastructure.
+
+**Interpretation**
+- The cleanest fresh macro/equity drivers in this set are **the record SpaceX IPO**, **ECB tightening**, and **U.S. jobless claims**.
+- The **Iran/Hormuz headlines** could matter for **oil, inflation expectations, and rates**, but the provided sourcing is thinner than ideal, so treat them as a potential risk backdrop rather than a fully confirmed market driver from this dataset alone.
+- The article set is **thin on fresh U.S. inflation, Fed, major earnings, and semiconductor-specific headlines**, so it does **not fully explain today’s tape** by itself.
+- Crypto coverage in the set is mixed quality; the only directly market-relevant crypto item is that **Bitcoin-specific stress remains in focus**, but the evidence here is limited.
