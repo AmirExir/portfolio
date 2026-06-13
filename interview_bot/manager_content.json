@@ -1,0 +1,299 @@
+[
+  {
+    "id": "manager-introduction",
+    "response_type": "direct",
+    "category": "Management Profile",
+    "question": "Please introduce yourself for this management position.",
+    "aliases": [
+      "Tell me about yourself for a manager role.",
+      "Walk me through your background as a leader."
+    ],
+    "answer": "I am a Professional Engineer and NERC Reliability Coordinator with about six years of experience across PEC, LCRA, and ERCOT in transmission planning, operations, modeling, and resource integration. I currently serve as a Transmission Engineer 4 and technical lead for three engineers at PEC, where I structure work, assign technical responsibilities, improve processes, and represent the organization in ERCOT working groups. Throughout my career, I have led high-stakes studies, trained engineers and system operators, and built automation tools that improved speed, consistency, and reliability. I am now looking to bring that combination of technical credibility, calm decision-making, and people development into a formal management role."
+  },
+  {
+    "id": "why-manager",
+    "response_type": "direct",
+    "category": "Management Motivation",
+    "question": "Why do you want to be a manager?",
+    "aliases": [
+      "Why are you interested in management?",
+      "Why do you want to move into people leadership?"
+    ],
+    "answer": "I want to be a manager because the work I find most meaningful combines responsibility, problem solving, and developing other people. In technical lead roles, I have enjoyed setting direction, assigning work based on strengths, removing obstacles, and helping engineers become more independent. A management role would let me do that at a larger scale while keeping the team aligned with reliability, customer, and business goals. I also value accountability: when a team owns an important outcome, I am comfortable making decisions, communicating risks early, and being responsible for the result."
+  },
+  {
+    "id": "manager-skills",
+    "response_type": "direct",
+    "category": "Management Fundamentals",
+    "question": "What are the most important skills and qualities of a good manager?",
+    "aliases": [
+      "What makes an effective manager?",
+      "Which management competencies matter most?"
+    ],
+    "answer": "An effective manager needs clear communication, active listening, sound judgment, organization, delegation, and accountability. The manager must understand the team's work well enough to set realistic priorities, but should not become a bottleneck by trying to do everything personally. Strong managers adapt their communication to the person and situation, coach people toward independence, address performance issues promptly and fairly, and make decisions that support both immediate delivery and long-term capability. In a reliability-focused environment, I would add risk awareness, calm decision-making, and the discipline to communicate issues early."
+  },
+  {
+    "id": "underperforming-team-member",
+    "response_type": "direct",
+    "category": "Performance Management",
+    "question": "How would you deal with an underperforming member of your team?",
+    "aliases": [
+      "How do you manage poor performance?",
+      "What would you do if an employee was not meeting expectations?"
+    ],
+    "answer": "I would address the issue early and privately. I would begin with specific examples of the performance gap, restate the expected standard, and ask questions to understand the cause rather than assume it is an attitude problem. The cause could be unclear priorities, missing training, workload, tools, or a personal issue. I would then agree on a written improvement plan with measurable outcomes, support, and review dates. I would give direct feedback during regular check-ins, recognize progress, and document decisions. If performance still did not improve after clear expectations and reasonable support, I would follow the organization's formal performance process consistently and fairly."
+  },
+  {
+    "id": "first-thirty-days",
+    "response_type": "direct",
+    "category": "Management Plan",
+    "question": "What would you do in your first 30 days as a manager?",
+    "aliases": [
+      "What is your 30-day plan?",
+      "What would your first 30, 60, and 90 days look like?"
+    ],
+    "answer": "In the first 30 days, I would focus on listening, understanding, and establishing operating discipline. I would align with my manager on the organization's goals, decision boundaries, and the outcomes expected from the team. I would meet each team member individually to understand responsibilities, strengths, development goals, workload, and obstacles. I would also map the team's stakeholders, active projects, deadlines, recurring processes, risks, and performance measures. I would avoid making major changes before understanding the system, but I would address urgent reliability or delivery risks immediately. By day 30, I would share a clear assessment, confirm team priorities, assign ownership, and identify a few practical improvements for the next 60 days."
+  },
+  {
+    "id": "leadership-versus-management",
+    "response_type": "direct",
+    "category": "Management Fundamentals",
+    "question": "What is the difference between leadership and management?",
+    "aliases": [
+      "How are leadership and management different?"
+    ],
+    "answer": "Leadership creates direction, trust, and commitment around a goal. Management turns that direction into reliable execution by organizing people, priorities, resources, risks, and measures. A person can manage a schedule without inspiring a team, or inspire people without building the process needed to deliver. Strong managers do both: they explain why the work matters, involve the right people, make decisions, establish accountability, and follow through until the result is achieved."
+  },
+  {
+    "id": "management-style",
+    "response_type": "direct",
+    "category": "Management Style",
+    "question": "How would you describe your management style?",
+    "aliases": [
+      "What is your leadership style?",
+      "How do you manage a technical team?"
+    ],
+    "answer": "My style is situational, structured, and developmental. I set clear outcomes, standards, decision rights, and deadlines, then give capable team members room to own the work. I use collaborative discussion when the team has time to evaluate options and I want the best technical input. I become more directive during urgent reliability events or when responsibilities are unclear. I also schedule regular check-ins, give specific feedback, and use assignments as development opportunities so people gain judgment and independence rather than depending on me for every decision."
+  },
+  {
+    "id": "delegation-approach",
+    "response_type": "direct",
+    "category": "Delegation",
+    "question": "How do you delegate responsibility for a project or assignment?",
+    "aliases": [
+      "How do you decide what to delegate?",
+      "How do you assign work across a team?"
+    ],
+    "answer": "I start by defining the required outcome, constraints, deadline, quality standard, and decisions the person can make independently. I assign work based on technical strengths, current capacity, and development goals rather than simply giving every critical task to the most experienced person. I confirm that the person understands the purpose and dependencies, then agree on checkpoints that match the risk of the work. I remain available to remove obstacles and review important assumptions, but I avoid taking the work back unless the risk requires it. The team member owns execution, and I remain accountable for the team's final result."
+  },
+  {
+    "id": "why-hire-manager",
+    "response_type": "direct",
+    "category": "Management Fit",
+    "question": "Why should we hire you as a manager?",
+    "aliases": [
+      "Why are you the right person for this management position?",
+      "What value would you bring as a manager?"
+    ],
+    "answer": "You should hire me because I combine hands-on technical credibility with demonstrated leadership in high-consequence environments. At ERCOT, LCRA, and PEC, I have made and supported reliability decisions, led technical work, trained engineers and operators, coordinated across departments and utilities, and improved workflows through automation. I know how to translate a complex goal into priorities, assign ownership, communicate risk, and maintain standards under pressure. I would bring a management approach centered on accountability, people development, measurable improvement, and reliable delivery."
+  },
+  {
+    "id": "why-this-job",
+    "response_type": "direct",
+    "category": "Role Motivation",
+    "question": "Why do you want this management job?",
+    "aliases": [
+      "Why do you want this job?",
+      "What interests you about this role?"
+    ],
+    "answer": "I want this role because it brings together the areas where I can add the most value: technical decision-making, team leadership, process improvement, and responsibility for important outcomes. My background has prepared me to understand the work, but I am especially interested in helping a team perform consistently, develop its people, and deliver against broader organizational goals. I would tailor this answer in the interview with specific details from the company's strategy, current projects, and culture to show why this organization is the right fit."
+  },
+  {
+    "id": "greatest-strengths",
+    "response_type": "direct",
+    "category": "Self Assessment",
+    "question": "What are your greatest strengths?",
+    "aliases": [
+      "What is one of your greatest strengths?",
+      "Which strengths would you bring to this role?"
+    ],
+    "answer": "My strongest qualities are ownership, structured problem solving, and the ability to simplify complex technical work. I stay calm when the stakes are high, gather the facts, and turn an unclear problem into a practical plan. I also look for repeatable improvements rather than solving the same issue manually each time; that is why I have built tools such as AELAB and standardized several planning and model-review workflows. As a leader, I pair those strengths with clear communication and coaching so the solution becomes a team capability rather than knowledge held by one person."
+  },
+  {
+    "id": "development-area",
+    "response_type": "direct",
+    "category": "Self Assessment",
+    "question": "What is your biggest weakness?",
+    "aliases": [
+      "What is one of your weaknesses?",
+      "What development area are you working on?"
+    ],
+    "answer": "Earlier in my career, I sometimes accepted too much work because I wanted to be helpful and maintain a high standard. I learned that overcommitting can reduce focus and prevent others from developing. I now evaluate priority, capacity, and risk before committing; communicate tradeoffs early; delegate appropriate work; and use clear checkpoints instead of trying to control every detail. That change has improved both my delivery and my ability to develop other people."
+  },
+  {
+    "id": "conflict-approach",
+    "response_type": "direct",
+    "category": "Conflict Management",
+    "question": "How do you handle conflict with coworkers or team members?",
+    "aliases": [
+      "How do you resolve disagreements on your team?",
+      "How would you handle conflict between employees?"
+    ],
+    "answer": "I address conflict directly, privately, and around facts rather than personalities. I first check my own assumptions and ask each person to explain the issue, the impact, and the outcome they are trying to achieve. I identify where the disagreement is about data, priorities, roles, or communication, then bring the discussion back to the shared goal and decision criteria. I document the agreed action and follow up. If I am wrong, I acknowledge it quickly and correct the process; if the behavior violates team standards, I address that clearly as a separate performance issue."
+  },
+  {
+    "id": "stress-pressure",
+    "response_type": "direct",
+    "category": "Execution",
+    "question": "How do you handle stress and pressure?",
+    "aliases": [
+      "How do you lead under pressure?",
+      "How do you stay effective during an urgent situation?"
+    ],
+    "answer": "I handle pressure by becoming more structured. I confirm the objective, separate urgent risks from lower-priority work, assign clear ownership, and establish a short communication rhythm so the team is working from the same information. I focus on facts and decision points rather than the emotion of the situation. During reliability events, I also document assumptions and actions so we can hand off work cleanly and learn afterward. My ERCOT control-room and winter-storm experience taught me that calm, concise communication is one of the most important leadership tools under pressure."
+  },
+  {
+    "id": "work-motivation",
+    "response_type": "direct",
+    "category": "Motivation",
+    "question": "What motivates you to perform well?",
+    "aliases": [
+      "What motivates you at work?",
+      "What keeps you engaged as a leader?"
+    ],
+    "answer": "I am motivated by meaningful responsibility, continuous improvement, and helping a capable team achieve something difficult. In power systems, the work has a direct connection to reliability and customers, so accuracy and follow-through matter. I also enjoy learning, simplifying inefficient processes, and seeing another engineer become more confident because of coaching or a well-designed assignment. Those motivations are a strong fit for management because the result is not only what I deliver personally, but what the team can deliver consistently."
+  },
+  {
+    "id": "feedback-approach",
+    "response_type": "direct",
+    "category": "Growth",
+    "question": "How do you handle feedback or criticism from your manager?",
+    "aliases": [
+      "How do you respond to constructive feedback?",
+      "Tell me how you use feedback to improve."
+    ],
+    "answer": "I treat specific feedback as useful operating data. I listen without becoming defensive, ask questions to understand the expected behavior or result, and summarize the change I will make. Then I apply it in the next relevant situation and follow up so the person can see whether the adjustment worked. I also distinguish between a one-time preference and a recurring development need. That approach has helped me improve prioritization, delegation, and communication as my responsibilities have grown."
+  },
+  {
+    "id": "five-year-plan",
+    "response_type": "direct",
+    "category": "Career Goals",
+    "question": "Where do you see yourself in five years?",
+    "aliases": [
+      "What are your long-term career goals?",
+      "How does this management role fit your career plan?"
+    ],
+    "answer": "In five years, I want to be a trusted manager with a record of developing strong engineers, improving team performance, and delivering reliable technical and business outcomes. I want to deepen my people-management judgment while continuing to build expertise in transmission planning, grid reliability, automation, and AI. I am looking for a long-term role where increasing responsibility follows demonstrated results and where I can eventually develop future technical leads and managers."
+  },
+  {
+    "id": "questions-for-interviewer",
+    "response_type": "direct",
+    "category": "Interview Close",
+    "question": "What questions would you ask at the end of a manager interview?",
+    "aliases": [
+      "Do you have any questions for us?",
+      "What should I ask the hiring manager?"
+    ],
+    "answer": "I would ask: What outcomes would define success for this manager in the first six and twelve months? What are the team's strongest capabilities and its most important development needs? Which stakeholder relationships or current projects will require the most attention? How much decision authority does this role have over priorities, staffing, and process changes? Finally, what do the strongest managers in this organization do differently from average performers?"
+  },
+  {
+    "id": "story-coaching-engineer",
+    "response_type": "story",
+    "principle": "Hire and Develop the Best",
+    "question": "Give an example of a time when you coached or mentored someone.",
+    "situation": "At LCRA, several experienced engineers left for new opportunities, creating knowledge gaps and increasing the workload on the remaining planning team. We hired an Associate Engineer with strong academic experience who needed support translating power-system theory into LCRA and ERCOT practices.",
+    "task": "I took responsibility for helping him become an independent contributor and build the technical judgment needed for larger assignments and future leadership.",
+    "action": "I shared my Professional Engineer exam materials, explained how theory connected to our planning studies, and guided him through LCRA procedures and ERCOT standards. I held regular one-on-one discussions, reviewed his technical reasoning rather than only correcting final answers, and gradually increased the complexity and independence of his assignments.",
+    "result": "Within a year, he passed the P.E. exam, earned his Professional Engineer license, and was promoted to Engineer. His independence and contribution increased, helping the team close an important skill gap and confirming the value of structured coaching."
+  },
+  {
+    "id": "story-leading-technical-team",
+    "response_type": "story",
+    "principle": "Hire and Develop the Best / Deliver Results",
+    "question": "Tell me about a time you led a team to achieve a challenging goal.",
+    "situation": "At LCRA, renewable generation and large-load interconnection requests increased sharply while a newly formed group of associate engineers was still learning complex transmission modeling and system analysis.",
+    "task": "I needed to maintain accurate current and future network models, identify overloads, recommend upgrades, meet study deadlines, and develop the junior engineers at the same time.",
+    "action": "I divided the work into clear study components, assigned tasks based on each engineer's strengths and development needs, and provided individual training and group workshops on steady-state and dynamic analysis in PSS/E. I reviewed assumptions and results at defined checkpoints and built a Python tool that flagged modeling inconsistencies and overloaded elements so the team could focus its effort on engineering judgment.",
+    "result": "The team completed the required studies on time, improved its technical confidence, and became more independent. The automation reduced issue-identification time by about 30%, and management recognized the team for maintaining study quality during rapid renewable and data-center growth."
+  },
+  {
+    "id": "story-delegation",
+    "response_type": "story",
+    "principle": "Delegation / Deliver Results",
+    "question": "Tell me about a time when you delegated responsibility for an important project.",
+    "situation": "At LCRA, the planning team had to complete several interconnection studies during a period of rapid growth, and junior engineers had different levels of experience with data preparation, PSS/E modeling, contingency review, and documentation.",
+    "task": "As the technical lead, I needed to distribute the work without sacrificing quality or turning myself into the approval bottleneck.",
+    "action": "I broke each study into outcomes and dependencies, then assigned components according to technical strengths, workload, and development goals. I gave each engineer clear acceptance criteria and decision boundaries, scheduled checkpoints around the highest-risk assumptions, and paired less-experienced engineers with stronger reviewers. I retained accountability for the integrated study while allowing team members to own their deliverables.",
+    "result": "The team completed the studies on schedule, review quality remained consistent, and junior engineers gained experience on increasingly complex work. The clearer ownership model also reduced rework and allowed me to focus on cross-study risks and stakeholder decisions."
+  },
+  {
+    "id": "story-motivating-team",
+    "response_type": "story",
+    "principle": "Earn Trust / Hire and Develop the Best / Deliver Results",
+    "question": "Tell me about a time when you motivated a team or promoted collaboration.",
+    "situation": "Our team was completing a critical load-forecast update under tight deadlines and heavy workloads. Pressure was lowering morale and beginning to affect communication and productivity.",
+    "task": "As the project lead, I needed to re-engage the team and deliver an accurate forecast on time.",
+    "action": "I held an open meeting to acknowledge the pressure and understand the obstacles. I divided the work into smaller deliverables, reassigned responsibilities based on strengths and interests, and introduced brief daily check-ins for decisions, progress, and peer support. I also recognized completed milestones so the team could see momentum rather than only the remaining workload.",
+    "result": "Collaboration and morale improved, and we completed the load-forecast update ahead of schedule with strong accuracy. The short coordination rhythm and clearer task ownership carried into later projects."
+  },
+  {
+    "id": "story-conflict-and-accountability",
+    "response_type": "story",
+    "principle": "Earn Trust",
+    "question": "Tell me about a conflict with a coworker and how you resolved it.",
+    "situation": "While reviewing a transmission-line rating submission at LCRA, I saw a mismatch between bus names and numbers in the rating calculator and the planning model. I rejected the rating, but the submitting engineer strongly maintained that his data was correct.",
+    "task": "I needed to protect model and rating accuracy while resolving the disagreement without damaging trust across departments.",
+    "action": "I set aside my initial conclusion and rechecked the data through the Planning Projects and PMO systems. I found that inconsistent in-service dates had left the planning model outdated after a tap bus was removed. I acknowledged that I had overlooked that timing issue, approved the correct rating, and added an in-service-date cross-check to the review workflow.",
+    "result": "Admitting the mistake and correcting the process restored trust with my coworker. The new validation step prevented similar errors and improved cooperation between the groups involved in rating reviews."
+  },
+  {
+    "id": "story-multiple-deadlines",
+    "response_type": "story",
+    "principle": "Deliver Results / Bias for Action",
+    "question": "How did you prioritize work when your team faced multiple deadlines?",
+    "situation": "At LCRA, multiple infrastructure and interconnection projects required data collection, PSS/E and MAGE model updates, diagrams, and ERCOT submissions. Missing a deadline could delay energization and create costly downstream impacts.",
+    "task": "I needed to coordinate the work across concurrent projects and ensure accurate, on-time submissions despite uncertain data and external dependencies.",
+    "action": "I ranked projects by ERCOT deadline, energization date, reliability risk, and dependency uncertainty. I started high-risk and third-party-dependent work first, broke each project into data, modeling, validation, and submission stages, and tracked the critical path in regular reviews. When priorities changed, I communicated the tradeoff and reassigned work rather than allowing every task to remain equally urgent.",
+    "result": "All ERCOT submissions were completed on time and without errors, preventing energization delays. The structured prioritization also made workload and risks more visible to the team."
+  },
+  {
+    "id": "story-developing-team-in-crisis",
+    "response_type": "story",
+    "principle": "Hire and Develop the Best / Ownership",
+    "question": "Tell me about a time when you had to build team capability during a difficult transition.",
+    "situation": "After the February 2021 Texas winter storm, several senior engineers left ERCOT's Control Room Operations team. The grid was still recovering, but reliable 24-hour coverage required experienced, well-prepared engineers.",
+    "task": "I was asked to step in temporarily as a Shift Engineer while also helping new engineers develop the judgment needed to fill the staffing gap permanently.",
+    "action": "I covered demanding shift schedules to maintain operations and used the experience to create Real-Time Assessment presentations and simulation-based training. I incorporated winter-storm lessons, system vulnerabilities, situational-awareness practices, and emergency procedures, then mentored new hires through realistic scenarios and debriefs.",
+    "result": "ERCOT maintained continuous coverage during the shortage, and the training materials became part of standard onboarding. New engineers were better prepared for later winter events and responded more quickly and consistently under stress."
+  },
+  {
+    "id": "story-mistake-and-learning",
+    "response_type": "story",
+    "principle": "Ownership / Learn and Be Curious",
+    "question": "Tell me about a mistake you made as a technical lead and what you learned.",
+    "situation": "During a dynamic-stability study for a generation interconnection project, I overlooked a generator model parameter, and the simulation results did not align with expected system behavior.",
+    "task": "I needed to identify the discrepancy, correct the study quickly, communicate the issue responsibly, and prevent the same failure mode from affecting future work.",
+    "action": "I reviewed the model inputs, found an incorrect governor setting, obtained the correct data from the generator owner, and reran the validation. I took ownership of the oversight and created a parameter-verification checklist and peer-review step for future study preparation.",
+    "result": "The corrected study passed ERCOT validation and was accepted. The checklist and peer review reduced similar modeling errors, and the experience strengthened how I build quality controls into delegated technical work."
+  },
+  {
+    "id": "story-process-improvement",
+    "response_type": "story",
+    "principle": "Invent and Simplify / Deliver Results",
+    "question": "Tell me about a time when you improved a process for your team.",
+    "situation": "At LCRA, engineers performed interconnection and contingency-analysis workflows through repeated PSS/E commands, spreadsheets, manual notes, and separate reporting steps. The process consumed engineering time and created avoidable consistency risks.",
+    "task": "I wanted to standardize and automate the repeatable work while preserving engineer review for the decisions that required judgment.",
+    "action": "I designed AELAB, a Python application that automated load-flow setup, contingency analysis, dynamic-analysis support, IDV and contingency generation, result organization, and reporting. I documented the workflow, tested it against known studies, incorporated user feedback, and trained colleagues to use the tool.",
+    "result": "The tool reduced manual study time by more than 50% in applicable workflows, improved consistency, and gave engineers more time for analysis. It also provided a reusable foundation for additional planning automation."
+  },
+  {
+    "id": "story-extreme-pressure",
+    "response_type": "story",
+    "principle": "Ownership / Bias for Action / Deliver Results",
+    "question": "Tell me about a time when you led or performed under extreme pressure.",
+    "situation": "During the February 2021 Texas winter storm, ERCOT faced unprecedented generation losses and more than 20,000 MW of load shed. System frequency reached approximately 59.3 Hz, placing the grid at risk of a cascading blackout.",
+    "task": "My role was to support control-room decisions with timely situational awareness, coordinate information from transmission and generation owners, and help determine the load-shed actions needed to stabilize the system.",
+    "action": "I gathered real-time unit status and restoration information, analyzed generation and load conditions from SCADA and telemetry, supported load-shed calculations, coordinated updates across organizations, and documented trips and restoration progress. I kept communication concise and fact-based despite incomplete information and rapidly changing conditions.",
+    "result": "The coordinated actions stabilized frequency and helped prevent a cascading statewide blackout. My event documentation supported post-event analysis, and the experience reinforced the importance of calm communication, clear roles, and disciplined decisions during a crisis."
+  }
+]

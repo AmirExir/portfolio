@@ -7,13 +7,24 @@ from openai import OpenAI
 from streamlit_mic_recorder import mic_recorder
 import faiss
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+from embedding_utils import (
+    EMBEDDING_MODEL,
+    chunk_texts,
+    chunks_digest,
+    create_embeddings,
+    load_valid_embeddings,
+    save_embedding_cache,
+)
+
+api_key = os.getenv("OPENAI_API_KEY", "").strip()
+client = OpenAI(api_key=api_key) if api_key else None
 base_path = os.path.dirname(__file__)
 st.set_page_config(page_title="InterviewBot")
 # -------------------------
 # Embeddings cache
 # -------------------------
 EMB_FILE = os.path.join(base_path, "embeddings.npy")
+EMB_META_FILE = os.path.join(base_path, "embeddings.meta.json")
 # -------------------------
 # Load chunks_cleaned.json
 # -------------------------
@@ -24,51 +35,100 @@ with open(os.path.join(base_path, "chunks_cleaned.json"), "r", encoding="utf-8")
     chunks = json.load(f)
 
 # Force rebuild button to clear cache
-if st.button(" Force Rebuild Embeddings"):
-    if os.path.exists(EMB_FILE):
-        os.remove(EMB_FILE)
-        st.success("Deleted embeddings.npy")
-    st.warning("Cache cleared! Please restart the app to rebuild embeddings.")
-    st.stop()
+if st.button("Force Rebuild Embeddings"):
+    for cache_file in (EMB_FILE, EMB_META_FILE):
+        if os.path.exists(cache_file):
+            os.remove(cache_file)
+    st.success("Embedding cache cleared. Rebuilding now.")
+    st.rerun()
 
-if not os.path.exists(EMB_FILE):
-    embeddings = []
-    for i, c in enumerate(chunks):
-        print(f"Embedding chunk {i+1}/{len(chunks)}: {c['text'][:100]}...")
-        emb = client.embeddings.create(
-            input=c["text"],
-            model="text-embedding-3-large"
-        ).data[0].embedding
-        embeddings.append(emb)
-    embeddings = np.array(embeddings, dtype="float32")
-    np.save(EMB_FILE, embeddings)
-else:
-    embeddings = np.load(EMB_FILE)
+embeddings, cache_status = load_valid_embeddings(
+    chunks,
+    EMB_FILE,
+    EMB_META_FILE,
+    model=EMBEDDING_MODEL,
+)
+
+if embeddings is None:
+    if client is None:
+        st.error(
+            f"The embedding cache must be rebuilt because {cache_status}. "
+            "Set OPENAI_API_KEY and run `python interview_bot/generate_embeddings.py`."
+        )
+        st.stop()
+
+    progress_bar = st.progress(0, text="Building interview embeddings...")
+
+    def update_embedding_progress(completed, total):
+        progress_bar.progress(
+            completed / total,
+            text=f"Building interview embeddings: {completed}/{total}",
+        )
+
+    with st.spinner(f"Rebuilding embeddings because {cache_status}..."):
+        embeddings = create_embeddings(
+            client,
+            chunk_texts(chunks),
+            model=EMBEDDING_MODEL,
+            progress=update_embedding_progress,
+        )
+        save_embedding_cache(
+            chunks,
+            embeddings,
+            EMB_FILE,
+            EMB_META_FILE,
+            model=EMBEDDING_MODEL,
+        )
+    progress_bar.empty()
+    st.success("Embedding cache rebuilt successfully.")
 
 # -------------------------
 # Build FAISS index (robust version)
 # -------------------------
-if "index" not in st.session_state:
+current_chunks_digest = chunks_digest(chunks)
+if (
+    "index" not in st.session_state
+    or st.session_state.get("index_chunks_digest") != current_chunks_digest
+):
     if embeddings is not None and len(embeddings) > 0:
-        # Normalize for cosine similarity (optional but better for semantic match)
+        embeddings = np.ascontiguousarray(embeddings.copy(), dtype="float32")
         faiss.normalize_L2(embeddings)
 
         index = faiss.IndexFlatIP(embeddings.shape[1])  # IP = cosine similarity
         index.add(embeddings)
         st.session_state["index"] = index
-        st.success(" FAISS index initialized successfully.")
+        st.session_state["index_chunks_digest"] = current_chunks_digest
+        st.success("FAISS index initialized successfully.")
     else:
-        st.error(" No embeddings found! Please rebuild embeddings.")
+        st.error("No embeddings found. Please rebuild embeddings.")
         st.stop()
 else:
     index = st.session_state["index"]
 
+if client is None:
+    st.error("OPENAI_API_KEY is not set. It is required for questions, answers, voice, and audio.")
+    st.stop()
+
 STORY_TAGS = ("Situation", "Task", "Action", "Result")
+CONTENT_TAGS = (
+    "Response Type",
+    "Principle",
+    "Category",
+    "Question",
+    "Aliases",
+    "Situation",
+    "Task",
+    "Action",
+    "Result",
+    "Reflection",
+    "Answer",
+)
+TAG_LOOKAHEAD = "|".join(re.escape(tag) for tag in CONTENT_TAGS)
 
 
 def extract_tag_value(text, tag):
     match = re.search(
-        rf"{tag}:\s*(.*?)(?=\s*\|\s*(?:Principle|Question|Situation|Task|Action|Result|Reflection):|$)",
+        rf"{re.escape(tag)}:\s*(.*?)(?=\s*\|\s*(?:{TAG_LOOKAHEAD}):|$)",
         text,
         flags=re.IGNORECASE | re.DOTALL,
     )
@@ -79,44 +139,73 @@ def is_star_story(text):
     return all(re.search(rf"{tag}:\s*", text, flags=re.IGNORECASE) for tag in STORY_TAGS)
 
 
-def story_identity(text):
-    # Use the situation as the story identity so duplicate LP variants do not
-    # show up as separate "next story" options.
-    situation = extract_tag_value(text, "Situation")
-    identity_source = situation if situation else text[:500]
+def detect_response_type(text, chunk=None):
+    if isinstance(chunk, dict) and chunk.get("response_type") in {"direct", "story"}:
+        return chunk["response_type"]
+    explicit_type = extract_tag_value(text, "Response Type").lower()
+    if explicit_type in {"direct", "story"}:
+        return explicit_type
+    if is_star_story(text):
+        return "story"
+    if extract_tag_value(text, "Answer"):
+        return "direct"
+    return "context"
+
+
+def content_identity(text, response_type):
+    # STAR aliases share a situation, while direct answers are unique by question.
+    if response_type == "story":
+        identity_source = extract_tag_value(text, "Situation") or text[:500]
+    elif response_type == "direct":
+        identity_source = extract_tag_value(text, "Question") or text[:500]
+    else:
+        identity_source = text[:500]
     return re.sub(r"\W+", " ", identity_source.lower()).strip()
 
 
-def build_story_candidate(score, idx, text):
+def build_candidate(score, idx, chunk):
+    text = chunk.get("text", "") if isinstance(chunk, dict) else str(chunk)
+    response_type = detect_response_type(text, chunk)
     return {
         "score": float(score),
         "index": int(idx),
         "text": text.strip(),
         "principle": extract_tag_value(text, "Principle") or "Unknown",
-        "question": extract_tag_value(text, "Question") or "Untitled story",
-        "is_story": is_star_story(text),
-        "story_key": story_identity(text),
+        "category": extract_tag_value(text, "Category") or "General",
+        "question": extract_tag_value(text, "Question") or "Untitled context",
+        "response_type": response_type,
+        "is_structured": response_type in {"direct", "story"},
+        "content_key": content_identity(text, response_type),
     }
 
 
-def coerce_story_candidate(candidate):
+def coerce_candidate(candidate):
     if isinstance(candidate, dict):
         return candidate
-    return build_story_candidate(0, -1, str(candidate))
+    return build_candidate(0, -1, str(candidate))
 
 
 def search(query, index, chunks, embeddings, k=5):
-    # Semantic retrieval with keyword-aware reranking. Return one structured
-    # candidate per underlying STAR story instead of a bag of raw chunks.
-    print(f"🔍 Semantic search for query: {query}")
+    # Semantic retrieval with keyword-aware reranking. Return one candidate per
+    # direct answer or underlying STAR story instead of a bag of raw chunks.
+    print(f"Semantic search for query: {query}")
 
     normalized_query = query.lower().strip()
     query_terms = [term for term in re.findall(r"[a-z0-9]+", normalized_query) if len(term) > 2]
+    behavioral_query = any(
+        phrase in normalized_query
+        for phrase in (
+            "tell me about a time",
+            "give me an example",
+            "describe a time",
+            "walk me through a time",
+        )
+    )
 
     # Create embedding for the query
     q_emb = client.embeddings.create(
         input=query,
-        model="text-embedding-3-large"
+        model=EMBEDDING_MODEL,
     ).data[0].embedding
 
     q_emb = np.array(q_emb, dtype="float32").reshape(1, -1)
@@ -131,12 +220,25 @@ def search(query, index, chunks, embeddings, k=5):
     reranked = []
     seen_indices = set()
     for score, idx in zip(D[0], I[0]):
-        text = chunks[idx]["text"]
+        chunk = chunks[idx]
+        text = chunk["text"]
         normalized_text = text.lower()
         keyword_hits = sum(1 for term in query_terms if term in normalized_text)
         exact_query_hit = 1 if normalized_query and normalized_query in normalized_text else 0
-        rerank_score = float(score) + (0.15 * keyword_hits) + (0.5 * exact_query_hit)
-        reranked.append(build_story_candidate(rerank_score, idx, text))
+        candidate = build_candidate(float(score), idx, chunk)
+        type_bonus = 0.0
+        if behavioral_query and candidate["response_type"] == "story":
+            type_bonus = 0.35
+        elif not behavioral_query and candidate["response_type"] == "direct":
+            type_bonus = 0.35
+        rerank_score = (
+            float(score)
+            + (0.15 * keyword_hits)
+            + (0.5 * exact_query_hit)
+            + type_bonus
+        )
+        candidate["score"] = rerank_score
+        reranked.append(candidate)
         seen_indices.add(idx)
 
     for idx, chunk in enumerate(chunks):
@@ -146,50 +248,60 @@ def search(query, index, chunks, embeddings, k=5):
         keyword_hits = sum(1 for term in query_terms if term in normalized_text)
         exact_query_hit = 1 if normalized_query and normalized_query in normalized_text else 0
         if keyword_hits or exact_query_hit:
-            rerank_score = (0.15 * keyword_hits) + (0.5 * exact_query_hit)
-            reranked.append(build_story_candidate(rerank_score, idx, chunk["text"]))
+            candidate = build_candidate(0, idx, chunk)
+            type_bonus = 0.0
+            if behavioral_query and candidate["response_type"] == "story":
+                type_bonus = 0.35
+            elif not behavioral_query and candidate["response_type"] == "direct":
+                type_bonus = 0.35
+            candidate["score"] = (
+                (0.15 * keyword_hits) + (0.5 * exact_query_hit) + type_bonus
+            )
+            reranked.append(candidate)
 
     reranked.sort(key=lambda item: item["score"], reverse=True)
 
     if not reranked:
         return []
 
-    unique_stories = []
-    seen_story_keys = set()
+    unique_candidates = []
+    seen_content_keys = set()
     for candidate in reranked:
-        if not candidate["is_story"]:
+        if not candidate["is_structured"]:
             continue
-        story_key = candidate["story_key"]
-        if story_key in seen_story_keys:
+        content_key = candidate["content_key"]
+        if content_key in seen_content_keys:
             continue
-        seen_story_keys.add(story_key)
-        unique_stories.append(candidate)
-        if len(unique_stories) == k:
+        seen_content_keys.add(content_key)
+        unique_candidates.append(candidate)
+        if len(unique_candidates) == k:
             break
 
-    # If the query is about resume/study context and no STAR story is found,
+    # If the query is about resume/study context and no structured answer is found,
     # still answer from a single best chunk rather than combining many chunks.
-    if not unique_stories:
+    if not unique_candidates:
         for candidate in reranked:
-            story_key = candidate["story_key"]
-            if story_key in seen_story_keys:
+            content_key = candidate["content_key"]
+            if content_key in seen_content_keys:
                 continue
-            seen_story_keys.add(story_key)
-            unique_stories.append(candidate)
-            if len(unique_stories) == k:
+            seen_content_keys.add(content_key)
+            unique_candidates.append(candidate)
+            if len(unique_candidates) == k:
                 break
 
-    print(f" Retrieved {len(unique_stories)} unique ranked stories from FAISS")
-    for i, candidate in enumerate(unique_stories):
+    print(f"Retrieved {len(unique_candidates)} unique ranked answers from FAISS")
+    for i, candidate in enumerate(unique_candidates):
         print(f"{i+1}. score={candidate['score']:.4f} | {candidate['text'][:120]}...")
 
-    return unique_stories
+    return unique_candidates
 
 
-def detect_principle_from_story(story):
-    if not story:
+def display_category(candidate):
+    if not candidate:
         return "Unknown"
-    return story.get("principle") or "Unknown"
+    if candidate.get("response_type") == "story":
+        return candidate.get("principle") or "Unknown"
+    return candidate.get("category") or "General"
 
 
 def build_unique_audio_path(prefix="answer", ext="mp3"):
@@ -213,7 +325,7 @@ def enforce_single_star_story(text):
         return text
 
     trimmed = text[:second_idx].rstrip()
-    return trimmed + "\n\nIf you'd like another example, click 'Give me another story.'"
+    return trimmed + "\n\nIf you'd like another example, click 'Give me another answer or story.'"
 
 
 # -------------------------
@@ -273,7 +385,7 @@ if prompt:
     st.chat_message("user").markdown(user_query)
     st.session_state.messages.append({"role": "user", "content": user_query})
 
-another_story = st.button("Give me another story")
+another_story = st.button("Give me another answer or story")
 
 query_to_answer = None
 selected_story = None
@@ -285,75 +397,96 @@ if user_query:
 
     if st.session_state.candidate_stories:
         query_to_answer = user_query
-        selected_story = coerce_story_candidate(st.session_state.candidate_stories[0])
+        selected_story = coerce_candidate(st.session_state.candidate_stories[0])
 elif another_story:
     if not st.session_state.candidate_stories:
-        st.warning("Ask a question first so I can find matching stories.")
+        st.warning("Ask a question first so I can find matching answers.")
     else:
         current_pos = st.session_state.candidate_story_pos
         if current_pos < len(st.session_state.candidate_stories) - 1:
             st.session_state.candidate_story_pos += 1
             query_to_answer = st.session_state.active_query
-            selected_story = coerce_story_candidate(
+            selected_story = coerce_candidate(
                 st.session_state.candidate_stories[st.session_state.candidate_story_pos]
             )
-            st.chat_message("user").markdown("Give me another story for the same question.")
+            st.chat_message("user").markdown("Give me another answer for the same question.")
             st.session_state.messages.append(
-                {"role": "user", "content": "Give me another story for the same question."}
+                {"role": "user", "content": "Give me another answer for the same question."}
             )
         else:
-            story_count = len(st.session_state.candidate_stories)
+            answer_count = len(st.session_state.candidate_stories)
             st.info(
-                f"You have reached story {story_count} for this question. "
-                f"Ask a new question to get a new top-{story_count} set."
+                f"You have reached answer {answer_count} for this question. "
+                f"Ask a new question to get a new top-{answer_count} set."
             )
 
 # Process assistant response
 if selected_story and query_to_answer:
-    selected_story = coerce_story_candidate(selected_story)
+    selected_story = coerce_candidate(selected_story)
     selected_context = selected_story["text"]
-    detected_principle = detect_principle_from_story(selected_story)
-    st.markdown(f"**Detected Principle:** {detected_principle}")
+    response_type = selected_story["response_type"]
+    detected_category = display_category(selected_story)
+    category_label = "Detected Principle" if response_type == "story" else "Answer Category"
+    st.markdown(f"**{category_label}:** {detected_category}")
     st.caption(
-        f"Story {st.session_state.candidate_story_pos + 1} of {len(st.session_state.candidate_stories)} for this question"
+        f"Answer {st.session_state.candidate_story_pos + 1} of {len(st.session_state.candidate_stories)} for this question"
     )
 
     #  Debugging: show retrieved chunks before calling GPT
     show_debug = st.checkbox("Show retrieved context (cosine search)")
     if show_debug:
         st.markdown(f"**Query:** `{query_to_answer}`")
-        st.markdown("**Selected story sent to GPT**")
+        st.markdown("**Selected context sent to GPT**")
         st.code(selected_context, language="markdown")
-        st.markdown(f"**Candidate story pool ({len(st.session_state.candidate_stories)} total, not sent together)**")
+        st.markdown(f"**Candidate answer pool ({len(st.session_state.candidate_stories)} total, not sent together)**")
         for i, story in enumerate(st.session_state.candidate_stories):
-            story = coerce_story_candidate(story)
+            story = coerce_candidate(story)
             marker = " - selected" if i == st.session_state.candidate_story_pos else ""
-            st.markdown(f"**Story {i+1}{marker}: {story['principle']}**")
+            label = story["principle"] if story["response_type"] == "story" else story["category"]
+            st.markdown(
+                f"**Answer {i+1}{marker}: {story['response_type']} / {label}**"
+            )
             st.code(story["text"][:300] + "...", language="markdown")
             if "waterloo" in story["text"].lower():
                 st.success(" Contains 'Waterloo'")
             st.write("---")
+
+    if response_type == "story":
+        answer_instructions = (
+            "Answer naturally in first person and organize the response into four short paragraphs "
+            "labeled Situation, Task, Action, and Result. Use only the single story inside "
+            "<selected_context>. Do not combine, borrow, or merge facts from another story or prior "
+            "answer. Do not provide a second example."
+        )
+    elif response_type == "direct":
+        answer_instructions = (
+            "Answer naturally in first person in two to four concise paragraphs. Do not force the "
+            "answer into STAR labels. Use the Question, Aliases, and Answer fields inside "
+            "<selected_context> as the source. Adapt the wording to the interviewer's exact question "
+            "without inventing company-specific facts, formal management experience, or results."
+        )
+    else:
+        answer_instructions = (
+            "Answer naturally in first person using only the facts inside <selected_context>. "
+            "Do not invent details that are not supported by the context."
+        )
 
     # GPT response block
     messages = [
         {"role": "system", "content": (
             "You are Amir Exir in an interview. Use the provided context to answer as best as possible. "
             "Even if the context is not structured, infer meaning from relevant sentences. "
-            "If there is any mention of the topic or related tools (like AELAB, automation, PSS/E, ERCOT), explain it in a STAR-like manner. "
             "Only say 'I don't have specific experience with that' if the topic is clearly unrelated. "
-            "Answer naturally in first person and organize into four short paragraphs labeled: Situation, Task, Action, and Result. "
-            "Use only the single story inside <selected_story> for this response. "
-            "Do not combine, borrow, or merge facts from any other story, prior answer, or candidate pool. "
-            "Do not provide a second example in the same response, even if the question asks for multiple examples. "
-            "If asked for more examples, provide only the best one now and wait for follow-up. "
-            "Prioritize transmission planning stories over operational stories slightly."
+            f"{answer_instructions} "
+            "Prioritize transmission planning examples over operational examples slightly when both are equally relevant."
         )},
         {"role": "user", "content": (
             f"Question: {query_to_answer}\n\n"
-            "Selected story context:\n"
-            "<selected_story>\n"
+            f"Selected response type: {response_type}\n"
+            "Selected context:\n"
+            "<selected_context>\n"
             f"{selected_context}\n"
-            "</selected_story>"
+            "</selected_context>"
         )}
     ]
 
@@ -365,13 +498,15 @@ if selected_story and query_to_answer:
             temperature=0.2
         )
 
-    bot_msg = enforce_single_star_story(response.choices[0].message.content)
+    bot_msg = response.choices[0].message.content
+    if response_type == "story":
+        bot_msg = enforce_single_star_story(bot_msg)
     st.markdown(f"**Question:** {query_to_answer}")
     st.chat_message("assistant").markdown(bot_msg)
     st.session_state.messages.append({"role": "assistant", "content": bot_msg})
 
     # Optional TTS — generate only when user requests it
-    make_audio = st.button("Make STAR audio")
+    make_audio = st.button("Make answer audio")
     if make_audio:
         with st.spinner("Generating audio..."):
             speech = client.audio.speech.create(
