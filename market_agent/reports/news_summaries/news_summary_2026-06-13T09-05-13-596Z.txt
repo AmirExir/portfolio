@@ -1,0 +1,16 @@
+Fresh market-moving headlines are limited in this feed, and several items look offbeat, promotional, or not clearly reliable enough to explain today’s broader tape.
+
+**Facts**
+- **CNA / Reuters — 2026-06-12T09:04:42Z:** U.S. bank regulators are **increasing scrutiny of AI use at financial companies**, asking lenders about data access, governance, controls, and risk management as AI adoption spreads. This is relevant for large banks, financial software, and AI compliance spending.
+- **CNBC — 2026-06-12T09:00:01Z:** SpaceX’s COO Gwynne Shotwell discussed the company’s **IPO** ahead of its debut, framing it as part of a longer-term growth story.  
+- **Wired — 2026-06-12T09:00:00Z:** SpaceX’s public listing is drawing attention to **Elon Musk’s concentrated control/ownership structure**.  
+- **IBTimes Australia — 2026-06-12T08:58:25Z:** SpaceX reportedly **priced its IPO at $135/share** for a Nasdaq debut, described as potentially the largest IPO in history.  
+- **Crypto Briefing — 2026-06-12T08:56:58Z:** A report citing ECB official Moulin said **oil prices near four-year highs are feeding into broader inflation pressures** in the euro area, complicating ECB policy.  
+- **IBTimes Australia — 2026-06-12T09:00:36Z:** U.S. prosecutors charged two men in an alleged **$389 million Bitcoin laundering scheme** tied to a crypto mixing service and dark-web activity.
+
+**Interpretation**
+- The **cleanest actionable headline** here is the Reuters/CNA item: tougher U.S. regulatory oversight of **AI in banking** could matter for bank operating risk, model governance, and enterprise AI vendors serving financials.
+- The **SpaceX IPO cluster** may matter for **risk appetite, equity issuance sentiment, and Musk-linked/space-adjacent names**, but it does **not directly explain broad index moves** from this article set alone.
+- The **oil/inflation** item, if accurate, is the most relevant macro signal for **rates and inflation expectations**, but in this feed it comes via **Crypto Briefing**, so it should be treated cautiously unless confirmed elsewhere.
+- The **Bitcoin laundering case** is more of a **regulatory/compliance headline for crypto** than a clear market-wide driver.
+- Overall, this feed is **thin on high-confidence macro catalysts** like Fed, CPI/PPI, Treasury, major earnings, or broad index-moving corporate news, so it **does not fully explain today’s tape** on its own.
