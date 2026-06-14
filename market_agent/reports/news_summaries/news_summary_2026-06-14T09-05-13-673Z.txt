@@ -1,0 +1,18 @@
+**Fresh market-moving headlines are thin in this article set, and several items are opinion pieces, aggregators, or non-market features. The clearest fresh drivers here are inflation/energy, Fed labeling, AI pricing pressure, crypto market structure, and a notable SpaceX IPO-related equity headline.**
+
+## Facts
+- **Slate Magazine, 2026-06-13T09:00:00Z:** A podcast summary says **inflation hit its highest rate in three years**, with **skyrocketing energy prices** cited as a driver.
+- **Crypto Briefing, 2026-06-13T08:41:34Z:** Germany’s Bundesbank chief **Joachim Nagel** said **prices may remain elevated even if the Iran war ends**, drawing parallels to the **2022 energy crisis**.
+- **Biztoc/CNBC, 2026-06-13T08:45:30Z:** The Federal Reserve website now lists **Kevin Warsh as “chairman”** rather than “chair,” a terminology change from the titles used for Janet Yellen and Jerome Powell.
+- **Crypto Briefing, 2026-06-13T08:24:09Z:** The article says **AI companies are engaged in a price war**, with enterprises mixing providers and **OpenAI considering token price cuts** to compete.
+- **CryptoSlate, 2026-06-13T08:25:39Z:** **CME’s 24/7 Bitcoin futures and options trading**, launched May 29, saw more than **7,200 contracts** trade over its first weekend, worth about **$500 million**, according to the article.
+- **Omaha World-Herald/Reuters pick-up, 2026-06-13T08:11:38Z:** **SpaceX shares jumped 19% in their Nasdaq debut**, pushing its valuation above **$2 trillion**, according to the article.
+- **Biztoc/Benzinga, 2026-06-13T08:15:01Z:** **Robinhood** said **record-breaking traffic** followed the SpaceX debut, causing temporary latency and intermittent issues for some users.
+- **Economic Times, 2026-06-13T08:28:45Z:** Indian equities gained sharply, with the report attributing moves to **hopes of a US-Iran peace deal**, **easing crude oil prices**, and improved global sentiment.
+
+## Interpretation
+- The most relevant macro signal in this batch is **persistent inflation risk tied to energy**, not a clean disinflation story.
+- For rates markets, Nagel’s comments and the inflation item both point to **continued sensitivity around central-bank easing expectations**.
+- In AI/semis, the freshest angle here is **pricing pressure and margin competition**, rather than a new demand or earnings catalyst.
+- In crypto, the CME item suggests **deeper institutional market plumbing for Bitcoin**, but this set does **not** provide enough fresh evidence to claim a directional move in major crypto today.
+- The SpaceX debut appears to be a **single-stock/event-driven equity story** and may matter for **risk appetite and retail platform activity**, but this article set is **too thin to fully explain today’s broader tape**.
