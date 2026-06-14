@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only, from the last 36 hours**
+
+### Facts
+- **SpaceX had a record public-market debut** — **CNN**, **2026-06-12T22:04:35Z**. CNN reported SpaceX’s IPO was a record debut, with shares rising nearly 20% on day one and the listing pushing Elon Musk’s net worth sharply higher.
+- **US equities were influenced by SpaceX’s debut and Iran deal hopes** — **The Straits Times**, **2026-06-12T21:59:20Z**. Citing Wall Street trading, it said stocks finished higher as SpaceX surged in its debut and investors held out hope for a peace deal between the US and Iran.
+- **A potential US-Iran deal was described as likely soon** — **Crypto Briefing**, **2026-06-12T21:50:01Z**. It reported a senior Trump administration official saw an **80%-85% chance** of a deal within days, framing it as relevant to oil and broader risk sentiment.
+- **AI cost pressure is intensifying across startups and large tech firms** — **Crypto Briefing**, **2026-06-12T21:51:22Z**. The report said companies are mixing models to manage rising inference costs, with OpenAI and Anthropic said to be considering price cuts.
+- **Google DeepMind published a new paper on AGI-to-ASI pathways** — **Crypto Briefing**, **2026-06-12T21:45:09Z**. The article said DeepMind released a 60-page roadmap on paths from AGI toward more advanced AI systems.
+- **Aave proposed adding Circle Wrapped Bitcoin as collateral** — **newsBTC**, **2026-06-12T22:01:04Z**. The proposal would add cirBTC to Aave V3 and V4 on Ethereum as a Bitcoin-backed collateral asset.
+
+### Interpretation
+- The **clearest fresh market driver in this set is SpaceX’s debut**, which appears to have mattered for broad sentiment and likely for related space/mega-cap growth narratives.
+- The **Iran headline is the main fresh macro/risk item** here; if taken seriously by markets, it could matter most for **oil and geopolitical risk premium**.
+- The **AI headlines are more thematic than immediate tape-drivers** in this set: they reinforce ongoing focus on AI economics and platform competition, but they are not clear same-day catalysts for listed semis or software from the supplied articles.
+- **Crypto flow is thin** in the fresh set. The Aave/cirBTC item is sector-specific and not enough by itself to explain broad moves in major crypto.
+- **There is little fresh coverage here on Fed, Treasury yields, inflation, or major earnings**, so this article set is **too thin to fully explain today’s tape** beyond SpaceX and Iran-related sentiment.
