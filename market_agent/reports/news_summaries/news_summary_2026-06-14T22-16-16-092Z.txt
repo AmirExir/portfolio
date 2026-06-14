@@ -1,0 +1,17 @@
+Fresh headline set is thin and noisy; most items are crypto opinion, duplicate aggregations, sports, or generic feature coverage. The clearest potentially market-moving fresh items are in energy, AI/export controls, passive-index/IPO flows, and a state probe of OpenAI.
+
+**Facts**
+- **Energy / geopolitics:** **Crypto Briefing** reported that **Iran outlined a 60-day oil sales framework and would keep the Strait of Hormuz open** under a tentative arrangement, which if accurate is directly relevant to crude supply risk and energy markets. *(Crypto Briefing, 2026-06-13T22:11:44Z)*
+- **AI / export controls:** **The Verge** reported that **Amazon security research and CEO Andy Jassy’s talks with the White House reportedly helped drive the export-control directive that led Anthropic to cut off access to Fable 5 and Mythos 5**. *(The Verge, 2026-06-13T21:39:26Z)*
+- **AI regulation / legal risk:** **Business Insider** reported that **a coalition of state attorneys general is investigating OpenAI**, with **New York AG Letitia James issuing a subpoena Friday** seeking documents tied to ChatGPT’s impact on children and vulnerable adults. *(Business Insider, 2026-06-13T21:32:17Z)*
+- **Mega-cap/private tech index flow angle:** **Fortune** reported that **Nasdaq changed its rules to allow some very large newly public companies into the Nasdaq-100 after just 15 trading days**, and highlighted **SpaceX’s debut and index-fund/401(k) implications**. *(Fortune, 2026-06-13T21:39:19Z)*
+- **Crypto flows:** **24/7 Wall St.** said **XRP spot ETFs have taken in money for six straight weeks through June 12, with cumulative inflows of $1.44 billion since launch**, while Bitcoin and Ethereum ETFs reportedly saw outflows. *(24/7 Wall St., 2026-06-13T22:16:03Z)*
+
+**Interpretation**
+- The **Iran/Strait of Hormuz** item is the most obvious cross-asset headline here because it could affect **oil, inflation expectations, and broad risk sentiment** if confirmed by more primary reporting.
+- The **Anthropic export-control** story matters for **AI and semiconductor sentiment** because it points to tighter policy risk around frontier-model distribution and cloud/AI platform competition.
+- The **state probe of OpenAI** adds to the regulatory overhang for generative AI, but this looks more like a **policy/legal risk headline** than an immediate broad market driver unless others in the sector are pulled in.
+- The **Nasdaq rule-change / SpaceX inclusion** angle could matter for **index flows and passive allocation mechanics**, especially for mega-cap tech exposure, though it is more structural than a same-day macro catalyst.
+- The **XRP ETF flow** item is relevant only to **major crypto positioning**; given the source and opinion-style framing, it should be treated cautiously.
+
+No strong fresh coverage in this dataset explains **equity indexes, rates/Fed, inflation, or major earnings** today.
