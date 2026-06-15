@@ -1,0 +1,19 @@
+Generated: 2026-06-15 12:29 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model used: both
+No qualifying 1 trading-day Strong Buy, Buy, Strong Sell, or Sell signals met the minimum 2% absolute forecast return filter. The short-horizon output was effectively off for actionable ranking purposes under the filter.
+
+30 trading-day buy rankings
+1. INTC — Strong Buy by policy, model call Buy, forecast return +23.05%, probability up 70.7%, pattern Uptrend. This was also identified as the best smart policy pick.
+2. GEV — Buy, forecast return +8.52%, probability up 68.3%, pattern Bearish MA Crossover.
+3. WMT — Buy, forecast return +4.24%, probability up 68.8%, pattern Rebound From 60-Day Low.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell, forecast return -22.73%, probability down 87.6%, pattern Downtrend.
+2. DIA — Sell, forecast return -3.05%, probability down 69.7%, pattern Uptrend.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with at least 2% absolute forecast return were included. Neutral / No Edge names were excluded from the rankings.
