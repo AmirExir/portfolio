@@ -1,0 +1,19 @@
+Generated: 2026-06-14 12:13 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both
+No qualifying 1 trading-day buy or sell signals met the publication filter. All short-horizon entries were Neutral / No Edge and below the 2% absolute forecast threshold.
+
+30 trading-day buy rankings
+1. INTC — Strong Buy/Bu y context from policy selection with a published Buy model call. Forecast return: +23.53%. Probability up: 70.9%. Pattern: Uptrend. This was also identified as the best smart policy pick.
+2. AVGO — Buy. Forecast return: +8.73%. Probability up: 69.9%. Pattern: High Volatility.
+3. GEV — Buy. Forecast return: +8.55%. Probability up: 68.4%. Pattern: Bearish MA Crossover.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell. Forecast return: -22.72%. Probability down: 87.6%. Pattern: Downtrend.
+2. DIA — Sell. Forecast return: -2.74%. Probability down: 68.4%. Pattern: Uptrend.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with at least 2% absolute forecast return were included. Neutral / No Edge names were excluded from rankings.
