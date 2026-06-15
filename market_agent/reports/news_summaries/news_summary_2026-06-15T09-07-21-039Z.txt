@@ -1,0 +1,20 @@
+Fresh market-moving headlines are **thin** in this article set, and there is **not enough high-quality fresh reporting here to fully explain today’s tape**.
+
+## Facts
+- **Energy / geopolitics:** **Fortune** reported that the **Iran war is boosting profits for U.S. oil producers and refiners**, with analysts warning that a **higher oil-price environment could last well into 2028** as global energy reserves are rebuilt. *(Fortune, 2026-06-14T09:00:00Z)*
+
+- **Labor / macro:** **Business Insider** reported that the **U.S. economy has added jobs for three straight months** and that **layoffs remain historically low**, even though many job seekers still report difficulty finding work. *(Business Insider, 2026-06-14T09:03:01Z)*
+
+- **China / AI-fintech:** **Crypto Briefing** reported that **Ant Group is testing an AI agent interface for Alipay** as it competes with WeChat for users. *(Crypto Briefing, 2026-06-14T08:15:45Z)*
+
+- **Crypto / tokenized equities:** **Gizmodo** reported that some crypto platforms marketed **tokenized access to SpaceX IPO shares**, but users were later told the tokens **would not be delivered**. *(Gizmodo, 2026-06-14T09:00:56Z)*
+
+## Interpretation
+- The clearest fresh macro-relevant item is **oil/geopolitical pressure**, which can matter for **energy stocks, inflation expectations, and rates** if sustained.
+- The labor story suggests a **still-resilient U.S. jobs backdrop**, but this article is more feature-style than immediate market catalyst.
+- The Ant Group item is relevant to the **AI/platform competition theme in China tech**, though it is not enough on its own to drive broad U.S. markets.
+- The crypto/SpaceX tokenization story is **niche** and more relevant to **crypto market structure/sentiment** than to major equity indexes.
+
+## Not enough evidence in this set
+- No fresh high-confidence headlines here on **Fed policy**, **CPI/PCE**, **Treasury moves**, **major earnings**, or **major semiconductor/AI bellwether results**.
+- So if markets are moving sharply today, **this article set does not provide a strong direct explanation** beyond the **oil/geopolitics** angle.
