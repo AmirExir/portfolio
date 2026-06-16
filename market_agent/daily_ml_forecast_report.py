@@ -36,7 +36,8 @@ from patterns import recognize_patterns
 
 
 DEFAULT_SYMBOLS = [
-    "AAPL", "MSFT", "NVDA", "AMD", "INTC", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "GEV", "SPCX",
+    "AAPL", "MSFT", "NVDA", "AMD", "INTC", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "GEV",
+    "MU", "WDC", "STX", "SNDK", "SPCX",
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP", "DELL",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
@@ -75,6 +76,7 @@ MARKET_CONTEXT_TICKERS = [
     "XLK", "XLF", "XLE", "XLV", "XLY",
     "TLT", "GLD", "SLV", "USO", "AVGO",
 ]
+SEQUENCE_MODEL_NAMES = {"LSTM", "Transformer"}
 
 
 def parse_symbols(symbols_text: str) -> list[str]:
@@ -207,6 +209,53 @@ def ranking_score(row: dict) -> float:
         return 0.0
 
 
+def forecast_return_pct(row: dict) -> float:
+    try:
+        value = float(row_value(row, "forecast_return_pct", "Forecast Return %", default=0.0) or 0.0)
+        return value if np.isfinite(value) else 0.0
+    except Exception:
+        return 0.0
+
+
+def min_signal_return_pct_from_args(args: argparse.Namespace) -> float:
+    try:
+        return max(0.0, float(getattr(args, "min_signal_return_pct", 2.0) or 0.0))
+    except Exception:
+        return 2.0
+
+
+def max_signal_rows_from_args(args: argparse.Namespace) -> int:
+    try:
+        max_signal_rows = max(0, int(getattr(args, "max_signal_rows", 0) or 0))
+        if max_signal_rows > 0:
+            return max_signal_rows
+        return max(0, int(getattr(args, "top_n", 0) or 0))
+    except Exception:
+        return 0
+
+
+def cap_signal_rows(rows: list[dict], args: argparse.Namespace) -> list[dict]:
+    max_rows = max_signal_rows_from_args(args)
+    return rows[:max_rows] if max_rows > 0 else rows
+
+
+def model_call_text(row: dict) -> str:
+    return str(row_value(row, "model_call", "Model Call", default="")).strip()
+
+
+def smart_policy_text(row: dict) -> str:
+    return str(row_value(row, "Smart Policy", default="")).strip()
+
+
+def has_buy_call(row: dict) -> bool:
+    return model_call_text(row) in {"Strong Buy", "Buy"} or smart_policy_text(row) in {"Strong Buy", "Buy"}
+
+
+def has_sell_call(row: dict) -> bool:
+    smart_policy = smart_policy_text(row)
+    return model_call_text(row) in {"Strong Sell", "Sell"} or "Sell" in smart_policy
+
+
 def is_policy_buy(row: dict) -> bool:
     if row_value(row, "Smart Policy", default=None):
         try:
@@ -221,6 +270,14 @@ def is_policy_sell(row: dict) -> bool:
     if row_value(row, "Smart Policy", default=None):
         return ranking_score(row) < 0.0 or "Sell" in str(row_value(row, "Smart Policy", default=""))
     return float(row_value(row, "Forecast Return %", default=0.0) or 0.0) < 0.0
+
+
+def is_threshold_buy(row: dict, args: argparse.Namespace) -> bool:
+    return forecast_return_pct(row) >= min_signal_return_pct_from_args(args) and has_buy_call(row)
+
+
+def is_threshold_sell(row: dict, args: argparse.Namespace) -> bool:
+    return forecast_return_pct(row) <= -min_signal_return_pct_from_args(args) and has_sell_call(row)
 
 
 def build_smart_policy_for_snapshot(
@@ -262,22 +319,25 @@ def enrich_snapshot_with_smart_policy(snapshot: dict, df: pd.DataFrame, args: ar
     return enriched
 
 
-def compact_short_horizon_reports(short_horizon_reports: list[dict]) -> list[dict]:
+def compact_short_horizon_reports(short_horizon_reports: list[dict], args: argparse.Namespace) -> list[dict]:
     compact_reports = []
     for short_report in short_horizon_reports or []:
         rows = short_report.get("rows") or []
         sorted_rows = sorted(rows, key=ranking_score, reverse=True)
-        buys = [row for row in sorted_rows if is_policy_buy(row)]
+        buys = cap_signal_rows([row for row in sorted_rows if is_threshold_buy(row, args)], args)
         sells = sorted(
-            [row for row in rows if is_policy_sell(row)],
+            [row for row in rows if is_threshold_sell(row, args)],
             key=ranking_score,
         )
+        sells = cap_signal_rows(sells, args)
         compact_reports.append(
             {
                 "horizon_days": short_report.get("horizon_days"),
                 "sequence_model": short_report.get("sequence_model"),
-                "top_buys": buys[:10],
-                "top_sells": sells[:10],
+                "top_buys": buys,
+                "top_sells": sells,
+                "signal_buys": buys,
+                "signal_sells": sells,
                 "errors": (short_report.get("errors") or [])[:10],
                 "timings": short_report.get("timings") or {},
             }
@@ -310,6 +370,73 @@ def save_json_payload(path: Path, payload: dict) -> None:
     path.write_text(json_dumps_strict(payload, indent=2))
 
 
+def model_payload_metric(model_payload: dict, metric_name: str, default=np.inf):
+    try:
+        value = (model_payload.get("metrics") or {}).get(metric_name, default)
+        value = float(value)
+        return value if np.isfinite(value) else default
+    except Exception:
+        return default
+
+
+def adaptive_sequence_symbols_from_reports(args: argparse.Namespace, output_dir: Path) -> list[str]:
+    override_symbols = parse_symbols(str(getattr(args, "adaptive_sequence_symbols", "") or ""))
+    if override_symbols:
+        return override_symbols
+
+    try:
+        report_limit = max(1, int(getattr(args, "adaptive_sequence_report_limit", 40) or 40))
+        min_wins = max(1, int(getattr(args, "adaptive_sequence_min_wins", 5) or 5))
+        min_share = max(0.0, float(getattr(args, "adaptive_sequence_min_share", 0.20) or 0.0))
+    except Exception:
+        report_limit = 40
+        min_wins = 5
+        min_share = 0.20
+
+    report_paths = sorted(
+        output_dir.glob("ml_forecast_rankings_20*.json"),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    sequence_wins: dict[str, int] = {}
+    valid_runs: dict[str, int] = {}
+    reports_read = 0
+
+    for report_path in report_paths:
+        payload = load_json_payload(report_path)
+        snapshots = payload.get("snapshots") or []
+        if not snapshots:
+            continue
+        reports_read += 1
+        for snapshot in snapshots:
+            symbol = str(snapshot.get("symbol") or "").upper()
+            model_payloads = snapshot.get("models") or {}
+            candidates = [
+                (model_payload_metric(model_payload, "holdout_mae_pct"), model_name)
+                for model_name, model_payload in model_payloads.items()
+            ]
+            candidates = [
+                (mae, model_name)
+                for mae, model_name in candidates
+                if np.isfinite(mae)
+            ]
+            if not symbol or not candidates:
+                continue
+            valid_runs[symbol] = valid_runs.get(symbol, 0) + 1
+            best_model = min(candidates, key=lambda item: item[0])[1]
+            if best_model in SEQUENCE_MODEL_NAMES:
+                sequence_wins[symbol] = sequence_wins.get(symbol, 0) + 1
+        if reports_read >= report_limit:
+            break
+
+    selected = []
+    for symbol, wins in sequence_wins.items():
+        runs = valid_runs.get(symbol, 0)
+        if runs and wins >= min_wins and wins / float(runs) >= min_share:
+            selected.append(symbol)
+    return sorted(selected)
+
+
 def model_results_from_snapshot(snapshot: dict) -> dict:
     return {
         model_name: forecast_result_from_dict(model_payload)
@@ -328,7 +455,7 @@ def sequence_model_from_args(args: argparse.Namespace) -> str:
 
 def short_sequence_model_from_args(args: argparse.Namespace) -> str:
     short_sequence_model = str(getattr(args, "short_sequence_model", "same") or "same").strip().lower()
-    if short_sequence_model in {"off", "lstm", "transformer", "both"}:
+    if short_sequence_model in {"off", "lstm", "transformer", "both", "adaptive"}:
         return short_sequence_model
     return sequence_model_from_args(args)
 
@@ -367,11 +494,63 @@ def include_rl_policy_from_args(args: argparse.Namespace) -> bool:
     return True
 
 
+def cli_flag_present(raw_args: list[str] | None, flag_name: str) -> bool:
+    return any(arg == flag_name or arg.startswith(f"{flag_name}=") for arg in raw_args or [])
+
+
+def apply_run_profile(args: argparse.Namespace, raw_args: list[str] | None = None) -> argparse.Namespace:
+    profile = str(getattr(args, "run_profile", "quality") or "quality").strip().lower()
+    if profile == "custom":
+        return args
+
+    if profile not in {"quick", "quality", "research"}:
+        profile = "quality"
+        args.run_profile = profile
+
+    if not cli_flag_present(raw_args, "--primary-model"):
+        args.primary_model = "Best Validation"
+
+    if profile == "quick":
+        if not cli_flag_present(raw_args, "--sequence-model"):
+            args.sequence_model = "off"
+        if not cli_flag_present(raw_args, "--short-horizons"):
+            args.short_horizons = ""
+        if not cli_flag_present(raw_args, "--short-sequence-model"):
+            args.short_sequence_model = "off"
+        args.no_optimize = True
+        return args
+
+    if profile == "quality":
+        if not cli_flag_present(raw_args, "--sequence-model"):
+            args.sequence_model = "adaptive"
+        if not cli_flag_present(raw_args, "--short-horizons"):
+            args.short_horizons = "1"
+        if not cli_flag_present(raw_args, "--short-sequence-model"):
+            args.short_sequence_model = sequence_model_from_args(args) if cli_flag_present(raw_args, "--sequence-model") else "adaptive"
+        return args
+
+    if profile == "research":
+        if not cli_flag_present(raw_args, "--sequence-model"):
+            args.sequence_model = "both"
+        if not cli_flag_present(raw_args, "--short-horizons"):
+            args.short_horizons = "1"
+        if not cli_flag_present(raw_args, "--short-sequence-model"):
+            args.short_sequence_model = sequence_model_from_args(args) if cli_flag_present(raw_args, "--sequence-model") else "both"
+        return args
+
+    return args
+
+
 def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[dict], dict]:
     symbols = parse_symbols(args.symbols)
-    sequence_model = sequence_model_from_args(args)
+    requested_sequence_model = sequence_model_from_args(args)
     include_rl_policy = include_rl_policy_from_args(args)
     output_dir = Path(args.output_dir)
+    adaptive_sequence_symbols = (
+        set(adaptive_sequence_symbols_from_reports(args, output_dir))
+        if requested_sequence_model == "adaptive"
+        else set()
+    )
     started_at = time.perf_counter()
     context_started_at = time.perf_counter()
     context_df = pd.DataFrame() if args.no_market_context else load_market_context(args.history_days)
@@ -385,6 +564,11 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
     for symbol in symbols:
         symbol_started_at = time.perf_counter()
         symbol_status = "ok"
+        symbol_sequence_model = (
+            "both"
+            if requested_sequence_model == "adaptive" and symbol.upper() in adaptive_sequence_symbols
+            else ("off" if requested_sequence_model == "adaptive" else requested_sequence_model)
+        )
         try:
             df = get_ohlcv(symbol, args.history_days)
             data_fingerprint = frame_fingerprint(df)
@@ -397,7 +581,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 args.ridge_alpha,
                 not args.no_optimize,
                 not args.no_market_context,
-                sequence_model,
+                symbol_sequence_model,
                 data_fingerprint,
                 context_fingerprint,
                 include_rl_policy,
@@ -436,7 +620,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 ridge_alpha=args.ridge_alpha,
                 optimize_model=not args.no_optimize,
                 context_df=context_df,
-                sequence_model=sequence_model,
+                sequence_model=symbol_sequence_model,
                 symbol=symbol,
                 force_retrain=args.force_retrain,
                 include_rl=include_rl_policy,
@@ -461,7 +645,8 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                     "ridge_alpha": args.ridge_alpha,
                     "optimize_model": not args.no_optimize,
                     "use_market_context": not args.no_market_context,
-                    "sequence_model": sequence_model,
+                    "sequence_model": symbol_sequence_model,
+                    "requested_sequence_model": requested_sequence_model,
                     "include_rl_policy": include_rl_policy,
                     "data_fingerprint": data_fingerprint,
                     "context_fingerprint": context_fingerprint,
@@ -478,6 +663,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                     "symbol": symbol,
                     "seconds": round(time.perf_counter() - symbol_started_at, 3),
                     "status": symbol_status,
+                    "sequence_model": symbol_sequence_model,
                 }
             )
 
@@ -500,6 +686,9 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
         "symbols_cached": sum(1 for item in symbol_timings if item["status"] == "cached"),
         "symbols_failed": sum(1 for item in symbol_timings if item["status"] not in {"ok", "cached"}),
         "symbol_timings": symbol_timings,
+        "requested_sequence_model": requested_sequence_model,
+        "adaptive_sequence_symbols": sorted(adaptive_sequence_symbols),
+        "run_profile": str(getattr(args, "run_profile", "custom") or "custom"),
     }
     return rows, errors, snapshots, timings
 
@@ -572,25 +761,37 @@ def build_market_report(
 ) -> dict:
     generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     sorted_rows = sorted(rows, key=ranking_score, reverse=True)
-    sorted_buy = [row for row in sorted_rows if is_policy_buy(row)]
-    sorted_sell = sorted(
-        [row for row in rows if is_policy_sell(row)],
-        key=ranking_score,
+    policy_buys = [row for row in sorted_rows if is_policy_buy(row)]
+    sorted_buy = cap_signal_rows([row for row in sorted_rows if is_threshold_buy(row, args)], args)
+    sorted_sell = cap_signal_rows(
+        sorted(
+            [row for row in rows if is_threshold_sell(row, args)],
+            key=ranking_score,
+        ),
+        args,
     )
+    threshold_text = f"{min_signal_return_pct_from_args(args):.2f}%"
+    max_rows = max_signal_rows_from_args(args)
+    cap_text = f"; capped at {max_rows} per side" if max_rows > 0 else ""
+    threshold_detail = f"absolute forecast return >= {threshold_text}; directional model or smart-policy call required{cap_text}"
 
-    top_buy_symbols = [str(row_value(row, "Symbol", default="")) for row in sorted_buy[: args.top_n] if row_value(row, "Symbol", default="")]
-    top_sell_symbols = [str(row_value(row, "Symbol", default="")) for row in sorted_sell[: args.top_n] if row_value(row, "Symbol", default="")]
+    top_buy_symbols = [str(row_value(row, "Symbol", default="")) for row in sorted_buy if row_value(row, "Symbol", default="")]
+    top_sell_symbols = [str(row_value(row, "Symbol", default="")) for row in sorted_sell if row_value(row, "Symbol", default="")]
 
     lines = [
         "ML Forecast Rankings",
         f"Generated: {generated_at}",
         f"Horizon: {args.horizon} trading days | Primary: {primary_model_from_args(args)}",
+        f"Run profile: {getattr(args, 'run_profile', 'custom')}",
         f"Pattern windows: {args.pattern_short_window}/{args.pattern_long_window} trading days",
         f"Sequence model: {sequence_model_from_args(args)}",
         f"RL policy: {'off (disabled by request)' if no_rl_policy_from_args(args) else ('on' if include_rl_policy_from_args(args) else 'off')}",
         f"Smart policy: on | risk cap {float(getattr(args, 'policy_risk_fraction', 0.10) or 0.10) * 100.0:.1f}% target allocation",
         f"Universe: {len(rows)} symbols | Stocks + crypto + commodities",
     ]
+    adaptive_symbols = (timings or {}).get("adaptive_sequence_symbols") or []
+    if adaptive_symbols:
+        lines.append("Adaptive sequence symbols: " + ", ".join(report_symbol(symbol) for symbol in adaptive_symbols))
     if timings:
         slowest = sorted(timings.get("symbol_timings", []), key=lambda item: item.get("seconds", 0.0), reverse=True)[:5]
         slowest_text = ", ".join(
@@ -612,7 +813,7 @@ def build_market_report(
     lines.append("")
 
     if sorted_rows:
-        best_row = sorted_buy[0] if sorted_buy else sorted_rows[0]
+        best_row = policy_buys[0] if policy_buys else sorted_rows[0]
         lines.extend(
             [
                 "Best Smart Policy Pick",
@@ -638,36 +839,40 @@ def build_market_report(
                 key=ranking_score,
                 reverse=True,
             )
-            short_buys = [row for row in short_sorted if is_policy_buy(row)]
-            short_sells = sorted(
-                [row for row in short_rows if is_policy_sell(row)],
-                key=ranking_score,
+            short_buys = cap_signal_rows([row for row in short_sorted if is_threshold_buy(row, args)], args)
+            short_sells = cap_signal_rows(
+                sorted(
+                    [row for row in short_rows if is_threshold_sell(row, args)],
+                    key=ranking_score,
+                ),
+                args,
             )
             horizon_label = f"{horizon} trading day" + ("" if horizon == 1 else "s")
-            lines.append(f"{horizon_label} | sequence model: {short_sequence_model}")
+            lines.append(f"{horizon_label} | sequence model: {short_sequence_model} | threshold: {threshold_detail}")
             if short_buys:
-                lines.append("Buys: " + " ; ".join(format_row(row) for row in short_buys[:3]))
+                lines.append("Buys: " + " ; ".join(format_row(row) for row in short_buys))
             else:
-                lines.append("Buys: no positive forecast candidates.")
+                lines.append("Buys: no signals met threshold.")
             if short_sells:
-                lines.append("Sells: " + " ; ".join(format_row(row) for row in short_sells[:3]))
+                lines.append("Sells: " + " ; ".join(format_row(row) for row in short_sells))
             else:
-                lines.append("Sells: no negative forecast candidates.")
+                lines.append("Sells: no signals met threshold.")
         lines.append("")
 
     lines.extend([
-        "Smart Policy Buy Forecasts",
+        "Threshold Buy Forecasts",
+        f"Threshold: {threshold_detail}",
     ])
     if sorted_buy:
-        lines.extend(format_row(row) for row in sorted_buy[: args.top_n])
+        lines.extend(format_row(row) for row in sorted_buy)
     else:
-        lines.append("No positive forecast candidates.")
+        lines.append("No buy signals met threshold.")
 
-    lines.extend(["", "Smart Policy Sell / Avoid Forecasts"])
+    lines.extend(["", "Threshold Sell / Avoid Forecasts", f"Threshold: {threshold_detail}"])
     if sorted_sell:
-        lines.extend(format_row(row) for row in sorted_sell[: args.top_n])
+        lines.extend(format_row(row) for row in sorted_sell)
     else:
-        lines.append("No negative forecast candidates.")
+        lines.append("No sell signals met threshold.")
 
     # Keep the report compact for LLMs; full details are available in JSON rows.
 
@@ -730,6 +935,7 @@ def write_outputs(
     payload = {
         "generated_at": timestamp,
         "horizon_days": args.horizon,
+        "run_profile": str(getattr(args, "run_profile", "custom") or "custom"),
         "primary_model": primary_model_from_args(args),
         "requested_primary_model": args.primary_model,
         "sequence_model": sequence_model,
@@ -740,6 +946,19 @@ def write_outputs(
             "enabled": True,
             "risk_fraction": float(args.policy_risk_fraction),
             "description": "Forecast edge + ensemble + RL policy + trend + momentum + volatility-targeted allocation",
+        },
+        "signal_threshold": {
+            "min_forecast_return_pct": min_signal_return_pct_from_args(args),
+            "max_rows_per_side": max_signal_rows_from_args(args),
+            "directional_call_required": True,
+        },
+        "model_selection": {
+            "run_profile": str(getattr(args, "run_profile", "custom") or "custom"),
+            "profile": "adaptive_sequence" if sequence_model == "adaptive" else "standard",
+            "requested_sequence_model": sequence_model,
+            "adaptive_sequence_symbols": timings.get("adaptive_sequence_symbols", []),
+            "adaptive_sequence_min_wins": int(getattr(args, "adaptive_sequence_min_wins", 5) or 5),
+            "adaptive_sequence_min_share": float(getattr(args, "adaptive_sequence_min_share", 0.20) or 0.20),
         },
         "symbols": symbols,
         "cache_key": build_cache_key(
@@ -849,26 +1068,79 @@ def send_telegram(text: str) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Generate daily ML forecast rankings for Telegram/n8n.")
+    parser.add_argument(
+        "--run-profile",
+        choices=["quick", "quality", "research", "custom"],
+        default=os.getenv("MARKET_AGENT_RUN_PROFILE", "quality"),
+        help=(
+            "quick = fast on-demand forecast; quality = scheduled prediction profile; "
+            "research = all deep models; custom = honor raw flags only."
+        ),
+    )
     parser.add_argument("--symbols", default=",".join(DEFAULT_SYMBOLS))
     parser.add_argument("--history-days", type=int, default=913)
     parser.add_argument("--horizon", type=int, default=30)
     parser.add_argument("--short-horizons", default="", help="Optional comma-separated extra horizons, such as 1.")
     parser.add_argument(
         "--short-sequence-model",
-        choices=["same", "off", "lstm", "transformer", "both"],
+        choices=["same", "off", "lstm", "transformer", "both", "adaptive"],
         default="same",
-        help="Sequence model for --short-horizons. Use both to enable LSTM and Transformer on the 1-day report.",
+        help="Sequence model for --short-horizons. Use adaptive to train sequence models only for symbols where prior reports favored them.",
     )
     parser.add_argument("--lookback", type=int, default=20)
     parser.add_argument("--ridge-alpha", type=float, default=10.0)
     parser.add_argument("--pattern-short-window", type=int, default=20)
     parser.add_argument("--pattern-long-window", type=int, default=50)
     parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer", "RL Policy"], default="Best Validation")
-    parser.add_argument("--sequence-model", choices=["off", "lstm", "transformer", "both"], default="off")
+    parser.add_argument(
+        "--sequence-model",
+        choices=["off", "lstm", "transformer", "both", "adaptive"],
+        default="off",
+    )
+    parser.add_argument(
+        "--adaptive-sequence-symbols",
+        default="",
+        help="Optional comma-separated symbols to receive sequence models when --sequence-model adaptive is used.",
+    )
+    parser.add_argument(
+        "--adaptive-sequence-report-limit",
+        type=int,
+        default=40,
+        help="How many recent report JSON files to scan for adaptive sequence-model selection.",
+    )
+    parser.add_argument(
+        "--adaptive-sequence-min-wins",
+        type=int,
+        default=5,
+        help="Minimum prior validation wins required before adaptive mode trains sequence models for a symbol.",
+    )
+    parser.add_argument(
+        "--adaptive-sequence-min-share",
+        type=float,
+        default=0.20,
+        help="Minimum share of prior validation wins required before adaptive mode trains sequence models for a symbol.",
+    )
     parser.add_argument("--include-rl-policy", action="store_true", help="Include the warm-start RL policy. Enabled by default.")
     parser.add_argument("--no-rl-policy", action="store_true")
     parser.add_argument("--request-text", default="")
-    parser.add_argument("--top-n", type=int, default=5)
+    parser.add_argument(
+        "--min-signal-return-pct",
+        type=float,
+        default=2.0,
+        help="Minimum absolute forecast return required for buy/sell signals in the text report.",
+    )
+    parser.add_argument(
+        "--max-signal-rows",
+        type=int,
+        default=0,
+        help="Optional cap per side for threshold buy/sell sections. Use 0 for no cap.",
+    )
+    parser.add_argument(
+        "--top-n",
+        type=int,
+        default=0,
+        help="Deprecated alias for --max-signal-rows when --max-signal-rows is unset.",
+    )
     parser.add_argument("--policy-risk-fraction", type=float, default=0.10)
     parser.add_argument("--output-dir", default=str(Path(__file__).resolve().parent / "reports"))
     parser.add_argument("--no-market-context", action="store_true")
@@ -882,7 +1154,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> int:
-    args = build_parser().parse_args()
+    raw_args = sys.argv[1:]
+    args = apply_run_profile(build_parser().parse_args(raw_args), raw_args)
     rows, errors, snapshots, timings = run_rankings(args)
     short_horizon_reports = run_short_horizon_reports(args)
     telegram_text = build_telegram_text(
@@ -902,7 +1175,19 @@ def main() -> int:
             "paths": paths,
             "telegram_text": telegram_text,
             "rows": rows,
-            "short_horizon_reports": compact_short_horizon_reports(short_horizon_reports),
+            "short_horizon_reports": compact_short_horizon_reports(short_horizon_reports, args),
+            "signal_threshold": {
+                "min_forecast_return_pct": min_signal_return_pct_from_args(args),
+                "max_rows_per_side": max_signal_rows_from_args(args),
+                "directional_call_required": True,
+            },
+            "model_selection": {
+                "run_profile": str(getattr(args, "run_profile", "custom") or "custom"),
+                "requested_sequence_model": sequence_model_from_args(args),
+                "adaptive_sequence_symbols": timings.get("adaptive_sequence_symbols", []),
+                "adaptive_sequence_min_wins": int(getattr(args, "adaptive_sequence_min_wins", 5) or 5),
+                "adaptive_sequence_min_share": float(getattr(args, "adaptive_sequence_min_share", 0.20) or 0.20),
+            },
             "smart_policy": {
                 "enabled": True,
                 "risk_fraction": float(args.policy_risk_fraction),

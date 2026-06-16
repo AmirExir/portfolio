@@ -16,7 +16,7 @@ The ML forecast step can run from the same Schedule Trigger as a parallel branch
 2. Add an **Execute Command** node named **ML Forecast Rankings**:
 
 ```bash
-cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py
+cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile research
 ```
 
 3. Connect the Execute Command node to your existing **Telegram Send Message** node.
@@ -69,7 +69,7 @@ Then set your Telegram message body to:
 For the forecast **Stock Market Code** node, if you are using `--json-only`, use this command:
 
 ```bash
-cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --json-only
+cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile research --json-only
 ```
 
 Then parse it in a Code node:
@@ -111,20 +111,24 @@ Then run:
 cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --send-telegram
 ```
 
-If you want the scheduled node to precompute the optimized model comparison for the app and the LLM, keep the default optimization run and just add `--send-telegram` when you want the script to deliver the forecast text directly.
+The scheduled workflow should use the full research profile by default when it runs overnight: `Best Validation`, RL policy enabled, XGBoost/Ridge/Ensemble available, and LSTM/Transformer trained across the universe. Use the quick profile for on-demand answers when speed matters, and the quality profile when you want a balanced scheduled run.
 
 ## Useful arguments
 
 ```bash
 --horizon 30
+--run-profile research
 --short-horizons 1
---short-sequence-model both
+--short-sequence-model adaptive
 --history-days 913
 --primary-model "Best Validation"
 --pattern-short-window 20
 --pattern-long-window 50
---sequence-model off
---top-n 5
+--sequence-model adaptive
+--adaptive-sequence-min-wins 5
+--adaptive-sequence-min-share 0.20
+--min-signal-return-pct 2
+--max-signal-rows 0
 --no-market-context
 --no-optimize
 --force-retrain
@@ -134,6 +138,34 @@ If you want the scheduled node to precompute the optimized model comparison for 
 --request-text "Run a full market optimization without RL"
 --show-timing
 --json-only
+```
+
+By default, the text report includes every buy/sell signal with a directional model or smart-policy call and an absolute forecast return of at least 2%. Use `--min-signal-return-pct` to adjust that threshold, and use `--max-signal-rows` only if you need to cap the report length.
+
+Recent saved report JSONs ranked the model families this way by validation error: RL Policy was strongest where available, followed by XGBoost, then Ridge/Ensemble. LSTM and Transformer were useful for a smaller set of symbols, so the normal overnight profile keeps them through `--sequence-model adaptive` instead of running them on every ticker.
+
+Recommended scheduled overnight full research profile:
+
+```bash
+--run-profile research
+```
+
+Balanced scheduled quality profile:
+
+```bash
+--run-profile quality
+```
+
+Quick answer profile:
+
+```bash
+--run-profile quick
+```
+
+Deep overnight profile:
+
+```bash
+--run-profile research
 ```
 
 ## On-demand command safety
@@ -153,7 +185,7 @@ include_rl_policy = false
 
 even though RL is otherwise enabled by default, and even if an upstream n8n model emits `primary_model = RL Policy` or `--include-rl-policy`.
 
-Use `--sequence-model both` for the slower overnight run that trains both LSTM and Transformer. You can also use `--sequence-model lstm` or `--sequence-model transformer` to run only one deep sequence model. If you want the report text and Telegram message to stay clean, omit `--show-timing`; timing details are still saved in the JSON file.
+Use `--run-profile research` for the normal overnight run if you are comfortable with the runtime. It selects `Best Validation`, keeps RL Policy/XGBoost/Ridge/Ensemble in the candidate set, and trains both LSTM and Transformer on every symbol. Use `--run-profile quality` for the balanced adaptive run, and `--run-profile quick` for on-demand answers. If you want the report text and Telegram message to stay clean, omit `--show-timing`; timing details are still saved in the JSON file.
 
 The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, Neural Net, optional LSTM/Transformer, default-on RL Policy, and Ensemble forecast comparison used in the Streamlit app.
 Model weights are persisted under `market_agent/reports/model_weights/`: Ridge updates saved sufficient statistics, XGBoost continues from its saved booster, LSTM/Transformer reload saved PyTorch weights and fine-tune on new labeled samples, and RL Policy updates a saved Q-table. Use `--force-retrain` when you want to ignore saved weights and rebuild from scratch.

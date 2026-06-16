@@ -566,13 +566,13 @@ SYMBOL_OPTIONS = [
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
     "SPY", "VOO", "QQQ", "IWM", "DIA", "GLD", "SLV", "USO", "TLT",
-    "XLK", "XLF", "XLE", "XLV", "XLY","SNDK",
+    "XLK", "XLF", "XLE", "XLV", "XLY", "SNDK",
     "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "ADA-USD", "BNB-USD", "AVAX-USD",
     "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FLOKI-USD", "PEPE-USD",
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 DEFAULT_FORECAST_SYMBOLS = [
-    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "MU", "WDC", "STX", "SPCX",
+    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "MU", "WDC", "STX", "SNDK", "SPCX",
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
@@ -585,6 +585,10 @@ DEFAULT_FORECAST_SYMBOLS = [
 SHORT_TERM_SIGNAL_HORIZONS = (1,)
 SCHEDULED_ONE_DAY_FALLBACK_LIMIT = 10
 SYMBOL_LABELS = {
+    "MU": "Micron (MU)",
+    "WDC": "Western Digital (WDC)",
+    "STX": "Seagate (STX)",
+    "SNDK": "SanDisk (SNDK)",
     "SPCX": "SPCX ETF (SPCX)",
     "AVGO": "Broadcom (AVGO)",
     "RIOT": "Riot Platforms (RIOT)",
