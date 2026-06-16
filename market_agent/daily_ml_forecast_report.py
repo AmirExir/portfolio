@@ -36,7 +36,7 @@ from patterns import recognize_patterns
 
 
 DEFAULT_SYMBOLS = [
-    "AAPL", "MSFT", "NVDA", "AMD", "INTC", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "GEV",
+    "AAPL", "MSFT", "NVDA", "AMD", "INTC", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "GEV", "SPCX",
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP", "DELL",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
@@ -47,6 +47,7 @@ DEFAULT_SYMBOLS = [
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 REPORT_SYMBOLS = {
+    "SPCX": "SPCX",
     "BTC-USD": "BTC",
     "ETH-USD": "ETH",
     "SOL-USD": "SOL",

@@ -561,7 +561,7 @@ st.set_page_config(page_title="📈 Market Agent Dashboard", layout="wide")
 st.title("🤖 Amir Exir Stock Market & Crypto AI Agent")
 
 SYMBOL_OPTIONS = [
-    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "STX",
+    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "STX", "SPCX",
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V", "MU", "WDC",
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
@@ -572,7 +572,7 @@ SYMBOL_OPTIONS = [
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 DEFAULT_FORECAST_SYMBOLS = [
-    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO","MU", "WDC", "STX",
+    "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "MU", "WDC", "STX", "SPCX",
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
@@ -585,6 +585,7 @@ DEFAULT_FORECAST_SYMBOLS = [
 SHORT_TERM_SIGNAL_HORIZONS = (1,)
 SCHEDULED_ONE_DAY_FALLBACK_LIMIT = 10
 SYMBOL_LABELS = {
+    "SPCX": "SPCX ETF (SPCX)",
     "AVGO": "Broadcom (AVGO)",
     "RIOT": "Riot Platforms (RIOT)",
     "ORCL": "Oracle (ORCL)",
@@ -2286,7 +2287,7 @@ with top_analysis_tab:
     tickers = [
         "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
         "UNH", "XOM", "V", "JNJ", "WMT", "PG", "KO", "HD", "BAC", "CVX",
-        "LLY", "PEP", "AVGO",'SNDK'
+        "LLY", "PEP", "AVGO", "SNDK", "SPCX"
     ]
 
     try:
