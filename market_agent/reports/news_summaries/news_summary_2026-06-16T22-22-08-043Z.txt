@@ -1,0 +1,14 @@
+Fresh market-moving headlines are limited in this article set, and most items are generic, promotional, or irrelevant. The clearest tape-relevant fresh theme is **energy/risk sentiment tied to a reported U.S.-Iran deal**, with a smaller crypto-policy angle.
+
+**Facts**
+- **CNBC (publishedAt: 2026-06-15T22:06:33Z):** Reported that the **Dow reached a fresh record during the regular session** and said the move was tied to a **potential peace deal between the U.S. and Iran**. CNBC also noted **Dow futures were little changed** Monday night.
+- **Biztoc citing WSJ (publishedAt: 2026-06-15T22:08:23Z):** Summarized that **oil prices fell, bonds rallied, and the Dow closed at a record** after **President Trump announced a deal to end the war with Iran**.
+- **Crypto Briefing (publishedAt: 2026-06-15T22:11:44Z):** Reported that **oil buyers were reassessing purchases after a U.S.-Iran framework deal sent crude prices tumbling**, with the article framing this around the **reopening of the Strait of Hormuz**.
+- **Crypto Briefing (publishedAt: 2026-06-15T22:09:33Z):** Reported that **South Korea elevated digital assets as a national policy priority**, including **lifting a nine-year corporate crypto ban** and setting the stage for **spot ETFs** and broader institutional participation.
+- **Cointelegraph (publishedAt: 2026-06-15T22:10:00Z):** Reported that **UFC event bonuses** at a White House event would be paid in **USD1 stablecoins**, the dollar-pegged token issued by the **Trump family crypto company**.
+
+**Interpretation**
+- The only well-supported fresh macro driver in this set is a **de-escalation / Iran-deal narrative**, which appears to be influencing **oil, bonds, and broad risk sentiment**.
+- If you are trying to explain today’s tape, this dataset points mainly to **lower crude / lower geopolitical risk** rather than to fresh Fed, inflation, earnings, or AI/semi news.
+- The crypto headlines here are more **policy and adoption** oriented than broad market-moving for BTC/ETH by themselves.
+- There is **no meaningful fresh coverage here on Fed/rates, inflation data, major earnings, or semiconductor/AI leaders**, so this article set is **too thin to fully explain the broader market beyond the Iran/oil theme**.
