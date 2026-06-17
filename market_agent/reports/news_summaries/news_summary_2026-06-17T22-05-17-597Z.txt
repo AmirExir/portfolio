@@ -1,0 +1,20 @@
+**Fresh market-moving headlines only.**  
+Window used: articles published within the last **36 hours** of the run time.
+
+## Facts
+- **Fed / rates:** **CNBC** (published **2026-06-16T22:01:08Z**) reported that Wednesday’s **FOMC decision** is the first under new Fed Chair **Kevin Warsh**, and said investors were becoming more uncertain about the policy path after several Fed officials suggested **a possible rate hike this year**. The same article explicitly said **Treasury yields surged**.  
+- **AI / semis / credit markets:** **Investors.com via Biztoc** (published **2026-06-16T22:02:13Z**) said **Nvidia** completed a **$25 billion bond offering**, highlighting that AI data centers and hardware suppliers are increasingly using debt markets to finance the AI infrastructure buildout.  
+- **Semis:** **Crypto Briefing** (published **2026-06-16T21:57:13Z**) reported **Intel** has started **risk production of its 18A-P process node**, framing it as an advanced chip-manufacturing milestone aimed at improving power efficiency and strengthening Intel Foundry’s competitiveness.  
+- **EVs / cost cuts:** **Transport Topics Online** (published **2026-06-16T21:47:57Z**) reported **Rivian** is cutting **hundreds of jobs**, described as **less than 2%** of its workforce, as part of cost reductions while launching new EVs.  
+- **Crypto / exchange regulation:** **Slashdot**, citing **Reuters** (published **2026-06-16T22:00:00Z**), reported **Binance** is expected to **lose permission to serve EU customers in July** after Greek regulators reportedly decided to reject its MiCA license application.  
+- **Crypto-linked securities:** **CoinDesk** (published **2026-06-16T21:54:49Z**) reported that **Strategy’s** bitcoin-backed preferred stock **STRC** remained well below par value, citing concerns about **dividend coverage**, competition from **Strive’s SATA**, and lower bitcoin prices.  
+- **Single-stock cybersecurity risk:** **Crypto Briefing** (published **2026-06-16T22:04:19Z**) reported a hacking group claimed a major cyberattack on **Novo Nordisk** and sought a **$25 million ransom**.  
+- **Risk sentiment / AI-theme products:** **CNA/Reuters** (published **2026-06-16T21:56:06Z**) reported U.S. asset managers filed for the first ETFs targeting the new AI-themed **“MANGOS”** basket, shortly after strong enthusiasm tied to **SpaceX’s** IPO.
+
+## Interpretation
+- The **clearest macro driver in the fresh set is Fed/rates uncertainty**, with CNBC explicitly tying higher Treasury yields to concern that policy may stay tighter or even include another hike.
+- The **AI buildout theme remains active**, but today’s fresh evidence is more about **financing and infrastructure**—Nvidia’s large bond deal and Intel’s node-production milestone—than about broad market performance.
+- **Crypto headlines are mixed to negative on the margin** in this set: Binance faces EU regulatory pressure, and Strategy’s preferred shares are under stress; those are more relevant for crypto-linked risk appetite than for broad equities.
+- **Rivian’s layoffs** are a company-specific cost-cutting item, potentially relevant for EV sentiment but not enough on their own to explain the broader tape.
+- **Novo Nordisk’s reported cyber incident** could matter for the stock specifically, but it does not appear to be a broad market driver from this article set.
+- If you’re trying to explain **today’s overall market tape**, the fresh article set is **fairly thin**, and the strongest supported explanation here is **rates/Fed uncertainty**, not a wider fundamental shift across all sectors.
