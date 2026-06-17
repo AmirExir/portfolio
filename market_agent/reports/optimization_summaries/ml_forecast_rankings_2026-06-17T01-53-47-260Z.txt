@@ -1,0 +1,20 @@
+Generated: 2026-06-17 01:53 UTC
+Horizon: 30 trading days
+Universe: 75 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model: both
+No qualifying 1 trading-day buy or sell signals met the publication filter. The available short-horizon names were Neutral / No Edge or below the 2% absolute forecast threshold.
+
+30 trading-day buy rankings
+GEV — Buy | Forecast return: +15.73% | Probability up: 79.28% | Pattern: Range / No Dominant Pattern
+AVGO — Buy | Forecast return: +11.52% | Probability up: 75.75% | Pattern: High Volatility
+UAL — Buy | Forecast return: +9.16% | Probability up: 68.89% | Pattern: Near 60-Day High
+SLB — Buy | Forecast return: +6.60% | Probability up: 69.49% | Pattern: Range / No Dominant Pattern
+KO — Buy | Forecast return: +3.06% | Probability up: 67.52% | Pattern: Uptrend
+
+30 trading-day sell rankings
+PEPE — Strong Sell | Forecast return: -22.72% | Probability down: 87.59% | Pattern: Downtrend
+
+Notes
+INTC was listed as the best smart policy pick, but the model call was Neutral / No Edge, so it is excluded from the ranked buy list under the publication rules.
