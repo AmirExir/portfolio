@@ -1,0 +1,28 @@
+Generated: 2026-06-17 12:33 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model: both
+Only signals with absolute forecast return of at least 2% and an actionable directional or policy call are included.
+
+Buy
+DELL — Buy. Forecast return +2.51%, probability up 70.7%, edge 20.7%, expected error +/-4.39%, pattern Uptrend. Smart policy: Strong Buy.
+
+Sell
+No 1 trading-day sell signals met the threshold.
+
+30 trading-day rankings
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% are included.
+
+Buys
+SNDK — Strong Buy policy with Buy model call. Forecast return +49.12%, probability up 79.3%, edge 29.3%, expected error +/-57.08%, pattern Uptrend. Also identified as the best smart policy pick.
+GEV — Buy. Forecast return +16.21%, probability up 80.0%, edge 30.0%, expected error +/-16.59%, pattern Range / No Dominant Pattern.
+AVGO — Buy. Forecast return +11.24%, probability up 75.5%, edge 25.5%, expected error +/-16.08%, pattern High Volatility.
+WMT — Buy. Forecast return +4.74%, probability up 69.3%, edge 19.3%, expected error +/-8.41%, pattern Rebound From 60-Day Low.
+
+Sells
+PEPE — Strong Sell. Forecast return -22.72%, probability down 87.6%, edge 37.6%, expected error +/-20.12%, pattern Downtrend.
+
+Excluded from rankings
+Neutral / No Edge names were not ranked as recommendations. Symbols below the 2% absolute forecast threshold were also excluded.
