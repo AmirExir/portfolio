@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited in this article set, and several items are generic, duplicate aggregations, or not directly tied to today’s tape.
+
+**Facts**
+- **Fed/rates:** **NBC News** (2026-06-17T09:00:00Z) says rising inflation and new Fed Chair **Kevin Warsh** are the focus of Wednesday’s Fed meeting, with the policy decision due that day.  
+- **Fed/rates:** **NPR** (2026-06-17T09:00:00Z) says Warsh will hold his first news conference as Fed chair and that the Fed is **expected to hold rates steady**.  
+- **Fed/rates:** **Times of India / Economic Times** (2026-06-17T08:44:58Z) says markets widely expect the Fed to leave rates unchanged in the **3.5%-3.75%** range at Warsh’s first FOMC meeting.  
+- **Energy/geopolitics:** **Al Jazeera English** (2026-06-17T08:57:25Z) reports several tankers carrying Iranian oil crossed the U.S. blockade line in the Strait of Hormuz ahead of more U.S.-Iran talks.  
+- **Energy/geopolitics:** **Financial Post / Bloomberg** (2026-06-17T08:50:40Z) reports the **UAE** is pursuing plans to cut its dependence on the Strait of Hormuz to “zero” as markets await fuller reopening after an interim U.S.-Iran peace deal.  
+- **Inflation/rates abroad:** **Financial Post / Bloomberg** (2026-06-17T08:50:52Z) reports **UK inflation held steady in May**, easing pressure on the Bank of England to raise rates.  
+- **AI/semis:** **The Next Web** (2026-06-17T08:48:30Z) reports **Intel** said its **18A-P** manufacturing process has entered **risk production**, a milestone meant to validate its foundry/manufacturing roadmap.  
+- **Crypto/regulation:** **Cointelegraph** (2026-06-17T09:02:48Z) reports **BitGo** launched a **MiCA-compliant** crypto-as-a-service platform in Europe as firms prepare for the EU’s July 1 licensing deadline and amid questions around **Binance** licensing.
+
+**Interpretation**
+- The clearest fresh macro driver here is the **Fed meeting and Warsh’s first press conference**; that is the most plausible rates/risk-sentiment catalyst in this set.
+- On energy, the Iran tanker and Hormuz-related headlines point to **supply-route normalization / de-escalation themes**, which could matter for oil-sensitive assets, but this set does not provide direct market pricing reaction.
+- Intel’s 18A-P update is a **semiconductor/AI-manufacturing** headline with potential single-stock and sector relevance.
+- Crypto news is present, but today’s set is more about **European regulation and market structure** than broad crypto price action.
+- Overall, the fresh headlines are **somewhat thin** and do not fully explain today’s broader equity tape on their own.
