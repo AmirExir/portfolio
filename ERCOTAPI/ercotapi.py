@@ -327,6 +327,333 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
+APP_BUILD = "2026-06-18 professional-dashboard-v2"
+ERCOT_BLUE = "#0b2f4f"
+ERCOT_CYAN = "#00a3c7"
+ERCOT_GREEN = "#1f9d55"
+ERCOT_ORANGE = "#f59e0b"
+ERCOT_RED = "#dc2626"
+CHART_TEMPLATE = "plotly_white"
+
+
+def inject_dashboard_css() -> None:
+    """Apply a polished Streamlit theme without changing global app behavior."""
+    st.markdown(
+        """
+        <style>
+        :root {
+            --ercot-blue: #0b2f4f;
+            --ercot-cyan: #00a3c7;
+            --ercot-green: #1f9d55;
+            --ercot-orange: #f59e0b;
+            --ercot-red: #dc2626;
+            --ercot-slate: #334155;
+            --ercot-muted: #64748b;
+            --ercot-panel: #ffffff;
+            --ercot-border: #e2e8f0;
+            --ercot-bg: #f8fafc;
+        }
+        .block-container {
+            padding-top: 1.25rem;
+            padding-bottom: 2.5rem;
+            max-width: 1420px;
+        }
+        [data-testid="stSidebar"] {
+            background: linear-gradient(180deg, #0b2f4f 0%, #123b63 100%);
+        }
+        [data-testid="stSidebar"] * {
+            color: #f8fafc;
+        }
+        [data-testid="stSidebar"] input,
+        [data-testid="stSidebar"] textarea,
+        [data-testid="stSidebar"] select {
+            color: #0f172a !important;
+        }
+        [data-testid="stSidebar"] .stButton > button {
+            border: 1px solid rgba(255,255,255,0.22);
+            background: rgba(255,255,255,0.10);
+            color: #ffffff;
+        }
+        .dashboard-hero {
+            padding: 1.35rem 1.45rem;
+            border-radius: 22px;
+            background:
+                radial-gradient(circle at top right, rgba(0,163,199,0.25), transparent 32%),
+                linear-gradient(135deg, #071f36 0%, #0b2f4f 48%, #123b63 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
+            margin-bottom: 1rem;
+        }
+        .dashboard-hero h1 {
+            margin: 0;
+            font-size: 2.35rem;
+            line-height: 1.05;
+            letter-spacing: -0.045em;
+        }
+        .dashboard-hero p {
+            margin: 0.55rem 0 0 0;
+            color: #dbeafe;
+            font-size: 1.02rem;
+            max-width: 860px;
+        }
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .hero-badge {
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 999px;
+            padding: 0.32rem 0.72rem;
+            background: rgba(255,255,255,0.10);
+            color: #f8fafc;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+        .section-title {
+            margin: 0.25rem 0 0.25rem 0;
+            color: var(--ercot-blue);
+            letter-spacing: -0.025em;
+        }
+        .section-subtitle {
+            margin-top: -0.2rem;
+            margin-bottom: 0.7rem;
+            color: var(--ercot-muted);
+            font-size: 0.95rem;
+        }
+        .metric-card {
+            border: 1px solid var(--ercot-border);
+            border-radius: 18px;
+            background: var(--ercot-panel);
+            padding: 1rem 1.05rem;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+            min-height: 112px;
+        }
+        .metric-label {
+            color: var(--ercot-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+        .metric-value {
+            color: #0f172a;
+            font-size: 1.75rem;
+            line-height: 1.15;
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            margin-top: 0.25rem;
+        }
+        .metric-note {
+            color: var(--ercot-muted);
+            font-size: 0.82rem;
+            margin-top: 0.35rem;
+        }
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0.25rem 0.68rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 1px solid rgba(15,23,42,0.08);
+        }
+        .status-ok { background: #ecfdf5; color: #047857; }
+        .status-warn { background: #fffbeb; color: #b45309; }
+        .status-error { background: #fef2f2; color: #b91c1c; }
+        .news-panel {
+            border: 1px solid var(--ercot-border);
+            border-radius: 20px;
+            background: var(--ercot-panel);
+            padding: 1rem 1.1rem;
+            box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+            margin-bottom: 1rem;
+        }
+        .small-muted {
+            color: var(--ercot-muted);
+            font-size: 0.82rem;
+        }
+        div[data-testid="stMetric"] {
+            background: #ffffff;
+            border: 1px solid var(--ercot-border);
+            border-radius: 16px;
+            padding: 0.85rem 0.95rem;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+        }
+        div[data-testid="stMetric"] label {
+            color: var(--ercot-muted) !important;
+        }
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 0.4rem;
+            border-bottom: 1px solid var(--ercot-border);
+        }
+        .stTabs [data-baseweb="tab"] {
+            border-radius: 999px;
+            padding: 0.5rem 0.85rem;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_hero() -> None:
+    st.markdown(
+        f"""
+        <div class="dashboard-hero">
+            <h1>ERCOT Grid Intelligence Dashboard</h1>
+            <p>
+                Real-time Texas grid analytics for load, renewable output, nodal pricing,
+                outage capacity, AI-generated news, and machine-learning load forecasting.
+            </p>
+            <div class="hero-badges">
+                <span class="hero-badge">Public Reports API</span>
+                <span class="hero-badge">5-minute smart cache</span>
+                <span class="hero-badge">ML load forecast</span>
+                <span class="hero-badge">n8n news pipeline</span>
+                <span class="hero-badge">Build {APP_BUILD}</span>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_section_header(title: str, subtitle: str = "") -> None:
+    st.markdown(f"<h2 class='section-title'>{title}</h2>", unsafe_allow_html=True)
+    if subtitle:
+        st.markdown(f"<div class='section-subtitle'>{subtitle}</div>", unsafe_allow_html=True)
+
+
+def render_metric_card(label: str, value: str, note: str = "", accent: str = ERCOT_BLUE) -> None:
+    st.markdown(
+        f"""
+        <div class="metric-card" style="border-top: 4px solid {accent};">
+            <div class="metric-label">{label}</div>
+            <div class="metric-value">{value}</div>
+            <div class="metric-note">{note}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_status_pill(label: str, status: str = "ok") -> None:
+    status_class = {
+        "ok": "status-ok",
+        "warn": "status-warn",
+        "error": "status-error",
+    }.get(status, "status-ok")
+    st.markdown(
+        f"<span class='status-pill {status_class}'>{label}</span>",
+        unsafe_allow_html=True,
+    )
+
+
+def format_mw(value: Any) -> str:
+    try:
+        if pd.isna(value):
+            return "N/A"
+        return f"{float(value):,.0f} MW"
+    except Exception:
+        return "N/A"
+
+
+def format_price(value: Any) -> str:
+    try:
+        if pd.isna(value):
+            return "N/A"
+        return f"${float(value):,.2f}/MWh"
+    except Exception:
+        return "N/A"
+
+
+def format_percent(value: Any) -> str:
+    try:
+        if pd.isna(value):
+            return "N/A"
+        return f"{float(value):.1f}%"
+    except Exception:
+        return "N/A"
+
+
+def map_ercot_fields(df: pd.DataFrame, payload: Dict[str, Any]) -> pd.DataFrame:
+    """Apply ERCOT `fields` metadata to API rows when rows arrive as positional arrays."""
+    if df.empty:
+        return df
+    fields = payload.get("fields") if isinstance(payload, dict) else None
+    if isinstance(fields, list):
+        column_mapping = {i: field.get("name", f"col_{i}") for i, field in enumerate(fields)}
+        df = df.rename(columns=column_mapping)
+    return df
+
+
+def dataframe_from_payload(payload: Dict[str, Any]) -> pd.DataFrame:
+    data = payload.get("data", []) if isinstance(payload, dict) else []
+    if not data:
+        return pd.DataFrame()
+    return map_ercot_fields(pd.DataFrame(data), payload)
+
+
+def find_column(df: pd.DataFrame, exact: Optional[list[str]] = None, contains: Optional[list[str]] = None) -> Optional[str]:
+    """Find a column by exact case-insensitive name first, then by required substring terms."""
+    if df.empty:
+        return None
+    exact = exact or []
+    contains = contains or []
+    normalized = {str(col).lower(): col for col in df.columns}
+    for name in exact:
+        if name.lower() in normalized:
+            return normalized[name.lower()]
+    for col in df.columns:
+        col_lower = str(col).lower()
+        if contains and all(term.lower() in col_lower for term in contains):
+            return col
+    return None
+
+
+def coerce_numeric(series: pd.Series) -> pd.Series:
+    return pd.to_numeric(series, errors="coerce")
+
+
+def latest_timestamp_label(df: pd.DataFrame) -> str:
+    if "timestamp" not in df.columns or df.empty:
+        return "Latest available interval"
+    value = pd.to_datetime(df["timestamp"], errors="coerce").dropna()
+    if value.empty:
+        return "Latest available interval"
+    return value.max().strftime("%b %d, %Y %H:%M")
+
+
+def apply_professional_layout(
+    fig: go.Figure,
+    title: str,
+    yaxis_title: str,
+    height: int = 470,
+    legend_y: float = 1.04,
+) -> go.Figure:
+    fig.update_layout(
+        title=dict(text=title, x=0.01, xanchor="left", font=dict(size=20, color=ERCOT_BLUE)),
+        template=CHART_TEMPLATE,
+        height=height,
+        hovermode="x unified",
+        margin=dict(l=35, r=25, t=70, b=45),
+        legend=dict(orientation="h", yanchor="bottom", y=legend_y, xanchor="right", x=1),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="#ffffff",
+        font=dict(color="#0f172a"),
+    )
+    fig.update_xaxes(title_text="Time", showgrid=True, gridcolor="#eef2f7")
+    fig.update_yaxes(title_text=yaxis_title, showgrid=True, gridcolor="#eef2f7", zerolinecolor="#cbd5e1")
+    return fig
+
+
+def render_dataframe(df: pd.DataFrame, height: int = 320) -> None:
+    st.dataframe(make_arrow_safe_dataframe(df), width="stretch", height=height)
+
+
 from sklearn.model_selection import train_test_split, RandomizedSearchCV, TimeSeriesSplit
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
@@ -490,22 +817,31 @@ def train_load_forecast_model(historical_data, tuning_mode: str = "auto", manual
 
 # --- Streamlit Dashboard ---
 def main():
-    st.set_page_config(page_title="Amir Exir's ERCOT Grid Analytics Dashboard", layout="wide")
-    st.title("⚡ ERCOT Grid Analytics & Forecasting Dashboard")
-    st.markdown("**Real-time grid monitoring, renewable generation tracking, and ML-powered load forecasting**")
-    st.caption("Build: 2026-04-05 news-unified-v1")
+    st.set_page_config(
+        page_title="ERCOT Grid Intelligence Dashboard",
+        page_icon="⚡",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
+    inject_dashboard_css()
+    render_hero()
 
-    # News ingestion panel (GitHub n8n output -> dashboard)
-    st.markdown("---")
-    news_col, refresh_col, telegram_col = st.columns([4, 1, 1.4])
-    with news_col:
-        st.subheader("📰 ERCOT News")
-    with refresh_col:
-        if st.button("Refresh", help="Reload cached news files"):
+    action_col_1, action_col_2, action_col_3, action_col_4 = st.columns([1.1, 1.1, 1.3, 5.5])
+    with action_col_1:
+        if st.button("Refresh data", help="Clear cached API/news data and reload the dashboard"):
             st.cache_data.clear()
             st.rerun()
-    with telegram_col:
-        st.link_button("Telegram", "https://t.me/ERCOTNEWS", help="Open ERCOT News channel")
+    with action_col_2:
+        st.link_button("Telegram", "https://t.me/ERCOTNEWS", help="Open the ERCOT News Telegram channel")
+    with action_col_3:
+        st.link_button("ERCOT API Market", "https://apimarket.ercot.com/", help="Open ERCOT API Market")
+    with action_col_4:
+        st.markdown(
+            f"<div class='small-muted' style='text-align:right; padding-top:0.55rem;'>"
+            f"Last dashboard render: {datetime.now().strftime('%b %d, %Y %H:%M:%S')} | Build {APP_BUILD}"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
 
     # Unified news prefixes (ERCOT + regulatory updates in one panel)
     all_news_prefixes = [
@@ -517,18 +853,28 @@ def main():
     ]
 
     item = get_latest_news_by_prefix(all_news_prefixes, repo_path="ERCOTAPI/news_summaries")
+    st.markdown("<div class='news-panel'>", unsafe_allow_html=True)
+    news_header_col, news_status_col = st.columns([5, 1.4])
+    with news_header_col:
+        render_section_header(
+            "ERCOT Intelligence Brief",
+            "Latest n8n-generated Texas grid, market-rule, interconnection, and large-load monitoring summary.",
+        )
+    with news_status_col:
+        render_status_pill("Live pipeline" if item else "Waiting for update", "ok" if item else "warn")
     if item:
-        st.markdown("**ERCOT News**")
-        st.caption(f"Latest: {item['name']}")
+        st.caption(f"Latest file: {item['name']}")
         st.markdown(item["content"])
     else:
-        st.info("Awaiting n8n workflow updates...")
+        st.info("Awaiting n8n workflow updates. The dashboard will display the newest summary when a file lands.")
+    st.markdown("</div>", unsafe_allow_html=True)
 
     # Sidebar for configuration
-    st.sidebar.header("⚙️ Configuration")
+    st.sidebar.title("Control Center")
+    st.sidebar.caption("Credentials, data window, model tuning, and diagnostics.")
     
     # Credentials section
-    st.sidebar.subheader(" API Credentials")
+    st.sidebar.subheader("API Credentials")
     
     # Check if credentials are in environment or Streamlit secrets
     # Check for non-empty values
@@ -539,13 +885,14 @@ def main():
     
     has_env_creds = bool(env_username and env_password and env_client_id and env_sub_key)
     has_secrets = False
+    credential_source = "Not configured"
     
     # Try Streamlit secrets (from .streamlit/secrets.toml or Streamlit Cloud secrets manager)
     if not has_env_creds:
         try:
             has_secrets = bool(st.secrets.get("ERCOT_USERNAME") and st.secrets.get("ERCOT_PASSWORD") and 
                              st.secrets.get("ERCOT_CLIENT_ID") and st.secrets.get("ERCOT_SUBSCRIPTION_KEY"))
-        except:
+        except Exception:
             pass
     
     # Check if user wants to save credentials to session state (for this session only)
@@ -554,20 +901,22 @@ def main():
     
     # Check session state for saved credentials
     if st.session_state.saved_credentials:
-        st.sidebar.success(" Using saved credentials (this session only)")
+        credential_source = "Session memory"
+        st.sidebar.success("Using saved credentials for this session")
         try:
             api = ErcotAPI(**st.session_state.saved_credentials)
         except Exception as e:
-            st.sidebar.error(f" Failed to authenticate")
+            st.sidebar.error("Failed to authenticate")
             st.error(f"**Authentication Error:** {str(e)}")
             st.session_state.saved_credentials = None
             api = None
     elif has_env_creds:
-        st.sidebar.success(" Using credentials from environment variables")
+        credential_source = "Environment variables"
+        st.sidebar.success("Using environment credentials")
         try:
             api = ErcotAPI()
         except Exception as e:
-            st.sidebar.error(f" Failed to authenticate with environment credentials")
+            st.sidebar.error("Failed to authenticate with environment credentials")
             st.error(f"""
             **Authentication Error:** {str(e)}
             
@@ -583,8 +932,9 @@ def main():
             """)
             api = None
     elif has_secrets:
-        st.sidebar.success("Using credentials from Streamlit secrets file")
-        st.sidebar.info("📁 Credentials stored in `.streamlit/secrets.toml` (not in code!)")
+        credential_source = "Streamlit secrets"
+        st.sidebar.success("Using Streamlit secrets")
+        st.sidebar.info("Credentials are loaded from `.streamlit/secrets.toml` or Streamlit Cloud secrets.")
         try:
             api = ErcotAPI(
                 username=st.secrets["ERCOT_USERNAME"],
@@ -601,7 +951,7 @@ def main():
             """)
             api = None
     else:
-        st.sidebar.warning(" No environment credentials found. Please enter manually:")
+        st.sidebar.warning("No persistent credentials found. Enter credentials manually:")
         
         with st.sidebar.expander("Enter ERCOT API Credentials", expanded=True):
             st.markdown("**Step 1: Get Subscription Key**")
@@ -620,7 +970,8 @@ def main():
             if username and password and client_id and subscription_key:
                 try:
                     api = ErcotAPI(username=username, password=password, client_id=client_id, subscription_key=subscription_key)
-                    st.sidebar.success(" Credentials accepted! Bearer token acquired.")
+                    credential_source = "Manual input"
+                    st.sidebar.success("Credentials accepted. Bearer token acquired.")
                     
                     # Ask if user wants to save for this session
                     save_creds = st.sidebar.checkbox(" Remember credentials for this session", value=False,
@@ -632,13 +983,14 @@ def main():
                             'client_id': client_id,
                             'subscription_key': subscription_key
                         }
-                        st.sidebar.success(" Credentials saved for this session!")
-                        st.sidebar.info(" Secure: Credentials only in browser memory, not saved to disk")
+                        credential_source = "Session memory"
+                        st.sidebar.success("Credentials saved for this session.")
+                        st.sidebar.info("Credentials are held in browser session memory only, not written to disk.")
                 except Exception as e:
-                    st.sidebar.error(f" Authentication failed: {e}")
+                    st.sidebar.error(f"Authentication failed: {e}")
                     api = None
             else:
-                st.sidebar.info(" Please enter all credentials above to continue")
+                st.sidebar.info("Please enter all credentials above to continue.")
                 api = None
     
     # Only show the rest of the app if API is initialized
@@ -688,10 +1040,15 @@ def main():
            - The Client ID is pre-filled (default value)
         """)
         return
+
+    st.sidebar.divider()
+    st.sidebar.subheader("Operations")
+    st.sidebar.markdown(f"**Credential source:** {credential_source}")
+    st.sidebar.markdown("**API cache:** 5 minutes")
     
     # Date range selector
     date_range = st.sidebar.slider(
-        "📅 Historical Days to Load (1-90, default 30)",
+        "Historical days to load",
         min_value=1,
         max_value=90,
         value=30,
@@ -699,13 +1056,13 @@ def main():
     )
     
     # Debug mode
-    debug_mode = st.sidebar.checkbox("🐞 Debug Mode", value=False, help="Show detailed API request/response info")
+    debug_mode = st.sidebar.checkbox("Debug mode", value=False, help="Show detailed API request/response info")
 
     # Load model tuning controls
     if "load_model_auto_tune" not in st.session_state:
         st.session_state.load_model_auto_tune = True
 
-    st.sidebar.subheader("🤖 Load Model Settings")
+    st.sidebar.subheader("Load Forecast Model")
     mode_col_1, mode_col_2 = st.sidebar.columns(2)
     with mode_col_1:
         if st.button("Auto-optimize"):
@@ -717,7 +1074,7 @@ def main():
     manual_load_params = {}
     if st.session_state.load_model_auto_tune:
         st.sidebar.success("Automatic tuning enabled")
-        st.sidebar.caption("The app will search for the best settings from the historical load data.")
+        st.sidebar.caption("Uses time-series cross validation to select model settings from the current data window.")
         tuning_mode = "auto"
     else:
         st.sidebar.info("Manual tuning enabled")
@@ -735,23 +1092,25 @@ def main():
             manual_load_params["min_samples_split"] = st.sidebar.slider("min_samples_split", 2, 20, 5, 1)
             manual_load_params["min_samples_leaf"] = st.sidebar.slider("min_samples_leaf", 1, 10, 1, 1)
     
-    # Cache info
-    st.sidebar.info("🧠 **Smart Caching Enabled**\n\nData cached for 5 minutes to prevent rate limits. Click 'Clear cache' in Settings menu to force refresh.")
+    st.sidebar.info("Smart caching is enabled to reduce ERCOT API rate-limit pressure. Use the top Refresh data button to clear cached API/news calls.")
     
     end_date = datetime.now()
     start_date = end_date - timedelta(days=date_range)
     
     # Dashboard sections
     tab1, tab2, tab3, tab4 = st.tabs([
-        "📈 Load Analysis & Forecast", 
-        "🌱 Renewable Generation", 
-        "💸 Real-Time Pricing",
-        "🛠️ Resource Outages"
+        "Load & Forecast", 
+        "Renewables", 
+        "Real-Time Pricing",
+        "Resource Outages"
     ])
     
     # TAB 1: LOAD ANALYSIS & FORECAST
     with tab1:
-        st.header("📊 System Load: Actual vs Forecast with ML Prediction")
+        render_section_header(
+            "System Load and Forecast",
+            "Actual ERCOT system load, available ERCOT forecast data, and a local machine-learning 24-hour forecast.",
+        )
         
         try:
             with st.spinner("📥 Fetching load data..."):
@@ -780,28 +1139,21 @@ def main():
                         api.bearer_token,
                         api.subscription_key
                     )
-                except:
+                except Exception:
                     forecast_data = {"data": []}
                 
                 if "data" in actual_load_data and len(actual_load_data["data"]) > 0:
-                    actual_df = pd.DataFrame(actual_load_data["data"])
-                    forecast_df = pd.DataFrame(forecast_data["data"]) if "data" in forecast_data else pd.DataFrame()
+                    actual_df = dataframe_from_payload(actual_load_data)
+                    forecast_df = dataframe_from_payload(forecast_data)
                     
                     # Debug: Show first few rows
                     if debug_mode:
                         st.write("**Load Data Sample:**")
-                        st.dataframe(make_arrow_safe_dataframe(actual_df.head()), width='stretch')
+                        render_dataframe(actual_df.head(), height=180)
                         st.write(f"Columns: {list(actual_df.columns)}")
                         if "fields" in actual_load_data:
                             st.write("**Fields metadata:**")
                             st.json(actual_load_data["fields"])
-                    
-                    # Map column indices to names using 'fields' metadata
-                    if "fields" in actual_load_data and isinstance(actual_load_data["fields"], list):
-                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(actual_load_data["fields"])}
-                        actual_df.rename(columns=column_mapping, inplace=True)
-                        if debug_mode:
-                            st.write("**Renamed Columns:**", list(actual_df.columns))
                     
                     # Parse timestamp: ERCOT uses operatingDay + hourEnding (hour 24 = midnight next day)
                     if 'operatingDay' in actual_df.columns and 'hourEnding' in actual_df.columns:
@@ -812,7 +1164,7 @@ def main():
                                 hour = int(hour_str) if hour_str.isdigit() else 0
                                 # ERCOT defines 24 as midnight next day
                                 return date + timedelta(days=1) if hour == 24 else date + timedelta(hours=hour)
-                            except:
+                            except Exception:
                                 return pd.NaT
 
                         actual_df['timestamp'] = actual_df.apply(parse_ercot_timestamp, axis=1)
@@ -840,22 +1192,30 @@ def main():
                         actual_df['timestamp'] = pd.to_datetime(actual_df['timestamp'], errors='coerce')
                         actual_df = actual_df.dropna(subset=['timestamp'])
                                                                 
-                    # Display metrics - use 'total' column for system-wide load
-                    col1, col2, col3 = st.columns(3)
-                    load_col = None
-                    for col in actual_df.columns:
-                        if isinstance(col, str) and col.lower() in ['total', 'ercot', 'system_wide', 'systemwide']:
-                            load_col = col
-                            break
+                    # Display metrics - use total/system-wide load when available.
+                    load_col = find_column(
+                        actual_df,
+                        exact=["total", "ercot", "system_wide", "systemwide", "systemTotal"],
+                        contains=["total"],
+                    )
                     
                     if load_col and not actual_df.empty:
-                        latest_load = actual_df[load_col].iloc[-1]
-                        avg_load = actual_df[load_col].mean()
-                        max_load = actual_df[load_col].max()
-                        
-                        col1.metric("⚡ Current System Load", f"{latest_load:,.0f} MW")
-                        col2.metric("📊 Average Load", f"{avg_load:,.0f} MW")
-                        col3.metric("🏔️ Peak Load", f"{max_load:,.0f} MW")
+                        load_series = coerce_numeric(actual_df[load_col])
+                        latest_load = load_series.iloc[-1]
+                        avg_load = load_series.mean()
+                        max_load = load_series.max()
+                        min_load = load_series.min()
+                        load_factor = (avg_load / max_load * 100) if max_load else np.nan
+
+                        col1, col2, col3, col4 = st.columns(4)
+                        with col1:
+                            render_metric_card("Current Load", format_mw(latest_load), latest_timestamp_label(actual_df), ERCOT_CYAN)
+                        with col2:
+                            render_metric_card("Average Load", format_mw(avg_load), f"{date_range}-day window", ERCOT_BLUE)
+                        with col3:
+                            render_metric_card("Peak Load", format_mw(max_load), "Observed in selected window", ERCOT_ORANGE)
+                        with col4:
+                            render_metric_card("Load Factor", format_percent(load_factor), f"Minimum {format_mw(min_load)}", ERCOT_GREEN)
                     
                     # Plot actual vs forecast
                     fig = make_subplots(specs=[[{"secondary_y": False}]])
@@ -868,41 +1228,50 @@ def main():
                                 y=actual_df[load_col],
                                 mode='lines',
                                 name='Actual Load',
-                                line=dict(color='blue', width=2)
+                                line=dict(color=ERCOT_BLUE, width=2.7),
+                                fill="tozeroy",
+                                fillcolor="rgba(11, 47, 79, 0.08)",
                             )
                         )
                     
                     if not forecast_df.empty:
                         # Parse timestamp for forecast data
-                        forecast_time_cols = [col for col in forecast_df.columns if 'time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower()]
+                        forecast_time_cols = [col for col in forecast_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
                         if forecast_time_cols:
                             forecast_df['timestamp'] = pd.to_datetime(forecast_df[forecast_time_cols[0]], errors='coerce')
                             forecast_df = forecast_df.dropna(subset=['timestamp'])
                             forecast_df = forecast_df.sort_values('timestamp')
                         
                         x_axis_forecast = forecast_df['timestamp'] if 'timestamp' in forecast_df.columns else forecast_df.index
+                        forecast_load_col = find_column(
+                            forecast_df,
+                            exact=["SystemTotal", "systemTotal", "total", "ercot"],
+                            contains=["system"],
+                        )
                         fig.add_trace(
                             go.Scatter(
                                 x=x_axis_forecast,
-                                y=forecast_df.get('SystemTotal', forecast_df.iloc[:, -1]),
+                                y=forecast_df[forecast_load_col] if forecast_load_col else forecast_df.iloc[:, -1],
                                 mode='lines',
                                 name='Forecast Load',
-                                line=dict(color='orange', width=2, dash='dash')
+                                line=dict(color=ERCOT_ORANGE, width=2.4, dash='dash')
                             )
                         )
                     
-                    fig.update_layout(
-                        title="ERCOT System Load: Actual vs Forecast",
-                        xaxis_title="Time",
-                        yaxis_title="Load (MW)",
-                        height=500,
-                        hovermode='x unified'
+                    fig = apply_professional_layout(
+                        fig,
+                        "ERCOT System Load: Actual vs Forecast",
+                        "Load (MW)",
+                        height=520,
                     )
                     
                     st.plotly_chart(fig, width='stretch')
                     
                     # ML Forecast Section
-                    st.subheader("🤖 Machine Learning Load Forecast (Next 24 Hours)")
+                    render_section_header(
+                        "Machine Learning Load Forecast",
+                        "Next 24-hour forecast trained on the selected historical load window.",
+                    )
                     
                     if load_col and not actual_df.empty:
                         # Prepare data for ML
@@ -927,60 +1296,59 @@ def main():
                                 X_train, X_test, y_train, y_test = split_data
                                 y_train_pred, y_test_pred = preds
 
-                                with st.expander("📐 Model Performance Metrics (Train/Test)", expanded=False):
-                                    st.markdown("**Training Set:**")
-                                    st.write(f"MAE: {metrics['train_mae']:.2f} | RMSE: {metrics['train_rmse']:.2f} | R²: {metrics['train_r2']:.3f}")
-                                    st.markdown("**Validation/Test Set:**")
-                                    st.write(f"MAE: {metrics['test_mae']:.2f} | RMSE: {metrics['test_rmse']:.2f} | R²: {metrics['test_r2']:.3f}")
+                                score_col_1, score_col_2, score_col_3, score_col_4 = st.columns(4)
+                                with score_col_1:
+                                    render_metric_card("Validation MAE", format_mw(metrics["test_mae"]), "Lower is better", ERCOT_CYAN)
+                                with score_col_2:
+                                    render_metric_card("Validation RMSE", format_mw(metrics["test_rmse"]), "Error volatility", ERCOT_ORANGE)
+                                with score_col_3:
+                                    render_metric_card("Validation R2", f"{metrics['test_r2']:.3f}", "Explained variance", ERCOT_GREEN)
+                                with score_col_4:
+                                    render_metric_card("Training MAE", format_mw(metrics["train_mae"]), "In-sample fit", ERCOT_BLUE)
 
                                 if metrics.get("best_params"):
-                                    with st.expander("🧠 Selected Settings", expanded=False):
+                                    with st.expander("Selected model settings", expanded=False):
                                         st.write(f"Mode: {'Automatic' if metrics.get('tuning_mode') == 'auto' else 'Manual'}")
                                         if metrics.get("cv_mae") is not None:
-                                            st.write(f"Cross-validated MAE: {metrics['cv_mae']:.2f}")
+                                            st.write(f"Cross-validated MAE: {format_mw(metrics['cv_mae'])}")
                                         st.json(metrics["best_params"])
 
-                                # Plot Training Fit vs Validation
                                 fig_diag = go.Figure()
-                                # Get time indices for train and test
                                 train_idx = y_train.index if hasattr(y_train, "index") else None
                                 test_idx = y_test.index if hasattr(y_test, "index") else None
-                                # Plot actual vs predicted for train
                                 fig_diag.add_trace(go.Scatter(
                                     x=train_idx,
                                     y=y_train,
                                     mode='lines',
                                     name='Train Actual',
-                                    line=dict(color='blue', width=2, dash='solid')
+                                    line=dict(color=ERCOT_BLUE, width=2, dash='solid')
                                 ))
                                 fig_diag.add_trace(go.Scatter(
                                     x=train_idx,
                                     y=y_train_pred,
                                     mode='lines',
                                     name='Train Predicted',
-                                    line=dict(color='blue', width=2, dash='dot')
+                                    line=dict(color=ERCOT_CYAN, width=2, dash='dot')
                                 ))
-                                # Plot actual vs predicted for test
                                 fig_diag.add_trace(go.Scatter(
                                     x=test_idx,
                                     y=y_test,
                                     mode='lines',
                                     name='Validation Actual',
-                                    line=dict(color='red', width=2, dash='solid')
+                                    line=dict(color=ERCOT_RED, width=2, dash='solid')
                                 ))
                                 fig_diag.add_trace(go.Scatter(
                                     x=test_idx,
                                     y=y_test_pred,
                                     mode='lines',
                                     name='Validation Predicted',
-                                    line=dict(color='red', width=2, dash='dot')
+                                    line=dict(color=ERCOT_ORANGE, width=2, dash='dot')
                                 ))
-                                fig_diag.update_layout(
-                                    title="Training Fit vs Validation (ML Model)",
-                                    xaxis_title="Time",
-                                    yaxis_title="Load (MW)",
-                                    height=400,
-                                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+                                fig_diag = apply_professional_layout(
+                                    fig_diag,
+                                    "Training Fit vs Validation",
+                                    "Load (MW)",
+                                    height=430,
                                 )
                                 st.plotly_chart(fig_diag, width='stretch')
 
@@ -1025,35 +1393,32 @@ def main():
                             
                             future_load = np.array(future_loads)
                             
-                            # Plot ML forecast
                             fig_ml = go.Figure()
-                            
                             fig_ml.add_trace(
                                 go.Scatter(
                                     x=future_hours,
                                     y=future_load,
                                     mode='lines+markers',
                                     name='ML Forecast',
-                                    line=dict(color='green', width=3)
+                                    line=dict(color=ERCOT_GREEN, width=3.2),
+                                    marker=dict(size=7, color=ERCOT_GREEN)
                                 )
                             )
                             
                             model_name = "XGBoost" if HAS_XGBOOST else "Random Forest"
-                            fig_ml.update_layout(
-                                title=f"{model_name} Load Forecast (Next 24 Hours)",
-                                xaxis_title="Time",
-                                yaxis_title="Predicted Load (MW)",
-                                height=400
+                            fig_ml = apply_professional_layout(
+                                fig_ml,
+                                f"{model_name} Load Forecast: Next 24 Hours",
+                                "Predicted Load (MW)",
+                                height=430,
                             )
-                            
                             st.plotly_chart(fig_ml, width='stretch')
                             
-                            # Show forecast table
                             forecast_table = pd.DataFrame({
-                                'Hour': [f"{h.hour}:00" for h in future_hours],
-                                'Predicted Load (MW)': [f"{load:,.0f}" for load in future_load]
+                                'Timestamp': [pd.Timestamp(h).strftime("%b %d %H:%M") for h in future_hours],
+                                'Predicted Load': [format_mw(load) for load in future_load]
                             })
-                            st.dataframe(make_arrow_safe_dataframe(forecast_table), width='stretch')
+                            render_dataframe(forecast_table, height=250)
                         else:
                             st.warning("⚠️ Not enough historical data to train ML model. Need at least 48 hours.")
                     
@@ -1065,15 +1430,18 @@ def main():
     
     # TAB 2: RENEWABLE GENERATION
     with tab2:
-        st.header("🌱 Renewable Energy Generation (Wind & Solar)")
+        render_section_header(
+            "Renewable Generation",
+            "Hourly wind and solar actuals versus available short-term forecast signals.",
+        )
         
         col1, col2 = st.columns(2)
         
         # Wind Generation
         with col1:
-            st.subheader("🌬️ Wind Power Production")
+            st.subheader("Wind Power")
             try:
-                with st.spinner("🌬️ Fetching wind data..."):
+                with st.spinner("Fetching wind data..."):
                     wind_params = {
                         "page": 1,
                         "size": 2000
@@ -1087,12 +1455,7 @@ def main():
                     )
                     
                     if "data" in wind_data and len(wind_data["data"]) > 0:
-                        wind_df = pd.DataFrame(wind_data["data"])
-                        
-                        # Map column indices to names using 'fields' metadata (if available)
-                        if "fields" in wind_data and isinstance(wind_data["fields"], list):
-                            column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(wind_data["fields"])}
-                            wind_df.rename(columns=column_mapping, inplace=True)
+                        wind_df = dataframe_from_payload(wind_data)
                         
                         # Parse timestamp
                         wind_time_cols = [col for col in wind_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
@@ -1103,7 +1466,7 @@ def main():
                         
                         if debug_mode:
                             st.write("**Wind Data Sample:**")
-                            st.dataframe(make_arrow_safe_dataframe(wind_df.head()), width='stretch')
+                            render_dataframe(wind_df.head(), height=180)
                             st.write(f"Columns: {list(wind_df.columns)}")
                         
                         fig_wind = go.Figure()
@@ -1111,11 +1474,7 @@ def main():
                         
                         # Add actual and forecast traces - API uses 'genSystemWide' not 'ACTUAL_SYSTEM_WIDE'
                         # Find actual column
-                        actual_col = None
-                        for col in wind_df.columns:
-                            if isinstance(col, str) and ('gensystemwide' in col.lower() or 'actual' in col.lower() and 'system' in col.lower()):
-                                actual_col = col
-                                break
+                        actual_col = find_column(wind_df, exact=["genSystemWide"], contains=["gen", "system"])
                         
                         if actual_col:
                             fig_wind.add_trace(
@@ -1124,16 +1483,14 @@ def main():
                                     y=wind_df[actual_col],
                                     mode='lines',
                                     name='Actual Wind',
-                                    line=dict(color='teal', width=2)
+                                    line=dict(color=ERCOT_CYAN, width=2.6),
+                                    fill="tozeroy",
+                                    fillcolor="rgba(0, 163, 199, 0.10)",
                                 )
                             )
                         
                         # Find forecast column
-                        forecast_col = None
-                        for col in wind_df.columns:
-                            if isinstance(col, str) and ('stwpf' in col.lower() and 'system' in col.lower()):
-                                forecast_col = col
-                                break
+                        forecast_col = find_column(wind_df, contains=["stwpf", "system"])
                         
                         if forecast_col:
                             fig_wind.add_trace(
@@ -1142,15 +1499,24 @@ def main():
                                     y=wind_df[forecast_col],
                                     mode='lines',
                                     name='Wind Forecast',
-                                    line=dict(color='lightblue', width=2, dash='dash')
+                                    line=dict(color=ERCOT_BLUE, width=2.3, dash='dash')
                                 )
                             )
-                        
-                        fig_wind.update_layout(
-                            title="Wind Generation (Actual vs Forecast)",
-                            xaxis_title="Time",
-                            yaxis_title="Generation (MW)",
-                            height=400
+
+                        if actual_col:
+                            latest_wind = coerce_numeric(wind_df[actual_col]).dropna()
+                            render_metric_card(
+                                "Latest Wind Output",
+                                format_mw(latest_wind.iloc[-1] if not latest_wind.empty else np.nan),
+                                latest_timestamp_label(wind_df),
+                                ERCOT_CYAN,
+                            )
+
+                        fig_wind = apply_professional_layout(
+                            fig_wind,
+                            "Wind Generation: Actual vs Forecast",
+                            "Generation (MW)",
+                            height=430,
                         )
                         
                         if len(fig_wind.data) > 0:
@@ -1164,9 +1530,9 @@ def main():
         
         # Solar Generation
         with col2:
-            st.subheader("☀️ Solar Power Production")
+            st.subheader("Solar Power")
             try:
-                with st.spinner("☀️ Fetching solar data..."):
+                with st.spinner("Fetching solar data..."):
                     solar_params = {
                         "page": 1,
                         "size": 2000
@@ -1179,12 +1545,7 @@ def main():
                     )
                     
                     if "data" in solar_data and len(solar_data["data"]) > 0:
-                        solar_df = pd.DataFrame(solar_data["data"])
-                        
-                        # Map column indices to names using 'fields' metadata (if available)
-                        if "fields" in solar_data and isinstance(solar_data["fields"], list):
-                            column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(solar_data["fields"])}
-                            solar_df.rename(columns=column_mapping, inplace=True)
+                        solar_df = dataframe_from_payload(solar_data)
                         
                         # Parse timestamp
                         solar_time_cols = [col for col in solar_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
@@ -1195,18 +1556,14 @@ def main():
                         
                         if debug_mode:
                             st.write("**Solar Data Sample:**")
-                            st.dataframe(make_arrow_safe_dataframe(solar_df.head()), width='stretch')
+                            render_dataframe(solar_df.head(), height=180)
                             st.write(f"Columns: {list(solar_df.columns)}")
                         
                         fig_solar = go.Figure()
                         x_axis_solar = solar_df['timestamp'] if 'timestamp' in solar_df.columns else solar_df.index
                         
                         # Find actual solar column - API uses 'genSystemWide'
-                        actual_solar_col = None
-                        for col in solar_df.columns:
-                            if isinstance(col, str) and ('gensystemwide' in col.lower() or 'actual' in col.lower() and 'system' in col.lower()):
-                                actual_solar_col = col
-                                break
+                        actual_solar_col = find_column(solar_df, exact=["genSystemWide"], contains=["gen", "system"])
                         
                         if actual_solar_col:
                             fig_solar.add_trace(
@@ -1215,16 +1572,14 @@ def main():
                                     y=solar_df[actual_solar_col],
                                     mode='lines',
                                     name='Actual Solar',
-                                    line=dict(color='gold', width=2)
+                                    line=dict(color=ERCOT_ORANGE, width=2.6),
+                                    fill="tozeroy",
+                                    fillcolor="rgba(245, 158, 11, 0.12)",
                                 )
                             )
                         
                         # Find solar forecast column
-                        forecast_solar_col = None
-                        for col in solar_df.columns:
-                            if isinstance(col, str) and ('stppf' in col.lower() and 'system' in col.lower()):
-                                forecast_solar_col = col
-                                break
+                        forecast_solar_col = find_column(solar_df, contains=["stppf", "system"])
                         
                         if forecast_solar_col:
                             fig_solar.add_trace(
@@ -1233,15 +1588,24 @@ def main():
                                     y=solar_df[forecast_solar_col],
                                     mode='lines',
                                     name='Solar Forecast',
-                                    line=dict(color='orange', width=2, dash='dash')
+                                    line=dict(color=ERCOT_RED, width=2.3, dash='dash')
                                 )
                             )
-                        
-                        fig_solar.update_layout(
-                            title="Solar Generation (Actual vs Forecast)",
-                            xaxis_title="Time",
-                            yaxis_title="Generation (MW)",
-                            height=400
+
+                        if actual_solar_col:
+                            latest_solar = coerce_numeric(solar_df[actual_solar_col]).dropna()
+                            render_metric_card(
+                                "Latest Solar Output",
+                                format_mw(latest_solar.iloc[-1] if not latest_solar.empty else np.nan),
+                                latest_timestamp_label(solar_df),
+                                ERCOT_ORANGE,
+                            )
+
+                        fig_solar = apply_professional_layout(
+                            fig_solar,
+                            "Solar Generation: Actual vs Forecast",
+                            "Generation (MW)",
+                            height=430,
                         )
                         
                         if len(fig_solar.data) > 0:
@@ -1255,10 +1619,13 @@ def main():
     
     # TAB 3: REAL-TIME PRICING
     with tab3:
-        st.header("💸 Real-Time Market Pricing (LMPs)")
+        render_section_header(
+            "Real-Time Market Pricing",
+            "Latest locational marginal prices for hubs, zones, and settlement points returned by ERCOT.",
+        )
         
         try:
-            with st.spinner("💹 Fetching pricing data..."):
+            with st.spinner("Fetching pricing data..."):
                 lmp_params = {
                     "page": 1,
                     "size": 1000
@@ -1271,43 +1638,75 @@ def main():
                 )
                 
                 if "data" in lmp_data and len(lmp_data["data"]) > 0:
-                    lmp_df = pd.DataFrame(lmp_data["data"])
+                    lmp_df = dataframe_from_payload(lmp_data)
                     
                     # Filter for major hubs
-                    if 'SettlementPoint' in lmp_df.columns:
-                        hubs = lmp_df[lmp_df['SettlementPointType'] == 'HU'] if 'SettlementPointType' in lmp_df.columns else lmp_df
+                    point_col = find_column(lmp_df, exact=["SettlementPoint", "settlementPoint"])
+                    type_col = find_column(lmp_df, exact=["SettlementPointType", "settlementPointType"])
+                    price_col = find_column(lmp_df, exact=["SettlementPointPrice", "settlementPointPrice"], contains=["price"])
+                    if point_col:
+                        hubs = lmp_df[lmp_df[type_col] == 'HU'] if type_col else lmp_df
                         
-                        if not hubs.empty and 'SettlementPointPrice' in hubs.columns:
+                        if not hubs.empty and price_col:
+                            hubs = hubs.copy()
+                            hubs[price_col] = coerce_numeric(hubs[price_col])
+                            hubs = hubs.dropna(subset=[price_col]).sort_values(price_col, ascending=False)
+                            price_series = hubs[price_col]
+                            price_col_1, price_col_2, price_col_3, price_col_4 = st.columns(4)
+                            with price_col_1:
+                                render_metric_card("Highest Hub Price", format_price(price_series.max()), "Visible hub set", ERCOT_RED)
+                            with price_col_2:
+                                render_metric_card("Average Hub Price", format_price(price_series.mean()), "Simple average", ERCOT_BLUE)
+                            with price_col_3:
+                                render_metric_card("Lowest Hub Price", format_price(price_series.min()), "Visible hub set", ERCOT_GREEN)
+                            with price_col_4:
+                                render_metric_card("Hub Count", f"{len(hubs):,}", "Returned by endpoint", ERCOT_CYAN)
+
                             fig_lmp = px.bar(
-                                hubs.head(10),
-                                x='SettlementPoint',
-                                y='SettlementPointPrice',
-                                title="Latest LMP Prices at Major Hubs",
-                                labels={'SettlementPointPrice': 'Price ($/MWh)', 'SettlementPoint': 'Hub'},
-                                color='SettlementPointPrice',
+                                hubs.head(15),
+                                x=point_col,
+                                y=price_col,
+                                labels={price_col: 'Price ($/MWh)', point_col: 'Settlement Point'},
+                                color=price_col,
                                 color_continuous_scale='RdYlGn_r'
                             )
                             
-                            fig_lmp.update_layout(height=500)
+                            fig_lmp.update_layout(
+                                title=dict(text="Latest LMP Prices at Major Hubs", x=0.01, xanchor="left", font=dict(size=20, color=ERCOT_BLUE)),
+                                template=CHART_TEMPLATE,
+                                height=520,
+                                margin=dict(l=35, r=25, t=70, b=70),
+                                coloraxis_showscale=False,
+                                paper_bgcolor="rgba(0,0,0,0)",
+                                plot_bgcolor="#ffffff",
+                            )
+                            fig_lmp.update_xaxes(title_text="Settlement Point", tickangle=-35, showgrid=False)
+                            fig_lmp.update_yaxes(title_text="Price ($/MWh)", showgrid=True, gridcolor="#eef2f7", zerolinecolor="#cbd5e1")
                             st.plotly_chart(fig_lmp, width='stretch')
                             
                             # Show data table
-                            st.dataframe(make_arrow_safe_dataframe(hubs[['SettlementPoint', 'SettlementPointPrice']].head(20)), width='stretch')
+                            table_cols = [point_col, price_col]
+                            if type_col:
+                                table_cols.insert(1, type_col)
+                            render_dataframe(hubs[table_cols].head(30), height=360)
                         else:
-                            st.info("ℹ️ Price data columns not found.")
+                            st.info("Price data columns were not found. Enable Debug Mode to inspect the ERCOT payload.")
                     else:
-                        st.dataframe(make_arrow_safe_dataframe(lmp_df.head(20)), width='stretch')
+                        render_dataframe(lmp_df.head(30), height=360)
                 else:
-                        st.warning("📭 No pricing data available.")
+                    st.warning("No pricing data available.")
         except Exception as e:
-                    st.error(f"❌ Error fetching pricing data: {e}")
+            st.error(f"Error fetching pricing data: {e}")
     
     # TAB 4: RESOURCE OUTAGES
     with tab4:
-        st.header("🛠️ Resource Outages by Fuel Type")
+        render_section_header(
+            "Resource Outages",
+            "Hourly unavailable capacity by category, with stacked trend view and summary statistics.",
+        )
         
         try:
-            with st.spinner("🚧 Fetching outage data..."):
+            with st.spinner("Fetching outage data..."):
                 outage_params = {
                     "page": 1,
                     "size": 2000
@@ -1320,12 +1719,7 @@ def main():
                 )
                 
                 if "data" in outage_data and len(outage_data["data"]) > 0:
-                    outage_df = pd.DataFrame(outage_data["data"])
-                    
-                    # Map column indices to names using 'fields' metadata (if available)
-                    if "fields" in outage_data and isinstance(outage_data["fields"], list):
-                        column_mapping = {i: field.get('name', f'col_{i}') for i, field in enumerate(outage_data["fields"])}
-                        outage_df.rename(columns=column_mapping, inplace=True)
+                    outage_df = dataframe_from_payload(outage_data)
                     
                     # Parse timestamp
                     outage_time_cols = [col for col in outage_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
@@ -1336,21 +1730,53 @@ def main():
                     
                     if debug_mode:
                         st.write("**Outage Data Sample:**")
-                        st.dataframe(make_arrow_safe_dataframe(outage_df.head()), width='stretch')
+                        render_dataframe(outage_df.head(), height=180)
                         st.write(f"Columns: {list(outage_df.columns)}")
                     
-                    # Create stacked area chart for outages
-                    numeric_cols = outage_df.select_dtypes(include=[np.number]).columns
+                    candidate_numeric_cols = [
+                        col for col in outage_df.columns
+                        if col != "timestamp" and pd.to_numeric(outage_df[col], errors="coerce").notna().any()
+                    ]
+                    numeric_cols = []
+                    for col in candidate_numeric_cols:
+                        outage_df[col] = coerce_numeric(outage_df[col])
+                        if outage_df[col].abs().sum(skipna=True) > 0:
+                            numeric_cols.append(col)
                     
-                    if len(numeric_cols) > 3:
+                    if len(numeric_cols) > 0:
+                        latest_row = outage_df.sort_values("timestamp").iloc[-1] if "timestamp" in outage_df.columns else outage_df.iloc[-1]
+                        latest_total = sum(float(latest_row[col]) for col in numeric_cols if pd.notna(latest_row[col]))
+                        avg_total = outage_df[numeric_cols].sum(axis=1).mean()
+                        peak_total = outage_df[numeric_cols].sum(axis=1).max()
+                        top_latest = sorted(
+                            [(col, float(latest_row[col])) for col in numeric_cols if pd.notna(latest_row[col])],
+                            key=lambda item: item[1],
+                            reverse=True,
+                        )[:1]
+                        top_label = top_latest[0][0] if top_latest else "N/A"
+
+                        out_col_1, out_col_2, out_col_3, out_col_4 = st.columns(4)
+                        with out_col_1:
+                            render_metric_card("Latest Outage Capacity", format_mw(latest_total), latest_timestamp_label(outage_df), ERCOT_RED)
+                        with out_col_2:
+                            render_metric_card("Average Outage Capacity", format_mw(avg_total), "Selected data returned", ERCOT_BLUE)
+                        with out_col_3:
+                            render_metric_card("Peak Outage Capacity", format_mw(peak_total), "Selected data returned", ERCOT_ORANGE)
+                        with out_col_4:
+                            render_metric_card("Top Current Category", str(top_label), "Largest latest value", ERCOT_CYAN)
+
                         fig_outage = go.Figure()
                         x_axis_outage = outage_df['timestamp'] if 'timestamp' in outage_df.columns else outage_df.index
+                        colors = [
+                            "rgba(220, 38, 38, 0.62)",
+                            "rgba(245, 158, 11, 0.62)",
+                            "rgba(0, 163, 199, 0.62)",
+                            "rgba(31, 157, 85, 0.62)",
+                            "rgba(11, 47, 79, 0.62)",
+                            "rgba(100, 116, 139, 0.62)",
+                        ]
                         
-                        # Define proper colors
-                        colors = ['rgba(255,99,132,0.6)', 'rgba(54,162,235,0.6)', 'rgba(255,206,86,0.6)', 
-                                  'rgba(75,192,192,0.6)', 'rgba(153,102,255,0.6)', 'rgba(255,159,64,0.6)']
-                        
-                        for idx, col in enumerate(numeric_cols[2:min(8, len(numeric_cols))]):  # Show first few MW columns
+                        for idx, col in enumerate(numeric_cols[:min(8, len(numeric_cols))]):
                             fig_outage.add_trace(
                                 go.Scatter(
                                     x=x_axis_outage,
@@ -1358,27 +1784,27 @@ def main():
                                     mode='lines',
                                     name=str(col),
                                     stackgroup='one',
+                                    line=dict(width=1.5),
                                     fillcolor=colors[idx % len(colors)]
                                 )
                             )
                         
-                        fig_outage.update_layout(
-                            title="Resource Outages by Category Over Time",
-                            xaxis_title="Time",
-                            yaxis_title="Outage Capacity (MW)",
-                            height=500,
-                            hovermode='x unified'
+                        fig_outage = apply_professional_layout(
+                            fig_outage,
+                            "Resource Outages by Category",
+                            "Outage Capacity (MW)",
+                            height=520,
                         )
-                        
                         st.plotly_chart(fig_outage, width='stretch')
+                    else:
+                        st.info("No numeric outage capacity columns were found in the returned payload.")
                     
-                    # Show summary statistics
-                    st.subheader("📊 Outage Summary Statistics")
-                    st.dataframe(make_arrow_safe_dataframe(outage_df.describe()), width='stretch')
+                    st.subheader("Outage Summary Statistics")
+                    render_dataframe(outage_df[numeric_cols].describe() if numeric_cols else outage_df.describe(), height=360)
                 else:
-                    st.warning("📭 No outage data available.")
+                    st.warning("No outage data available.")
         except Exception as e:
-            st.error(f"❌ Error fetching outage data: {e}")
+            st.error(f"Error fetching outage data: {e}")
 
 
 # Run the Streamlit dashboard
