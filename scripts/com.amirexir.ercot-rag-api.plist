@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.amirexir.ercot-rag-api</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>/Users/amirexir/Library/Application Support/com.amirexir.ercot-rag-api/start_ercot_rag_api.sh</string>
+  </array>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/amirexir/Documents/GitHub/portfolio/chatbot_ercot_all_in_one</string>
+
+  <key>StandardOutPath</key>
+  <string>/Users/amirexir/Documents/GitHub/portfolio/chatbot_ercot_all_in_one/logs/ercot_rag_api.out.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>/Users/amirexir/Documents/GitHub/portfolio/chatbot_ercot_all_in_one/logs/ercot_rag_api.err.log</string>
+</dict>
+</plist>

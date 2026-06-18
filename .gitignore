@@ -4,3 +4,4 @@ __pycache__/
 .streamlit/secrets.toml
 market_agent/reports/
 n8n_market_telegram_calendar_combined.workflow.json
+chatbot_ercot_all_in_one/logs/
