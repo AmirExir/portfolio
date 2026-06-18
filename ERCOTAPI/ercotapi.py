@@ -329,6 +329,7 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
 
 APP_BUILD = "2026-06-18 outage-pricing-fix-v5"
+ERCOT_API_MARKET_URL = "https://apimarket.ercot.com/"
 ERCOT_BLUE = "#0b2f4f"
 ERCOT_CYAN = "#00a3c7"
 ERCOT_GREEN = "#1f9d55"
@@ -1123,7 +1124,12 @@ def main():
     with action_col_2:
         st.link_button("Telegram", "https://t.me/ERCOTNEWS", help="Open the ERCOT News Telegram channel")
     with action_col_3:
-        st.link_button("ERCOT API Market", "https://apimarket.ercot.com/", help="Open ERCOT API Market")
+        st.link_button(
+            "API Credentials",
+            ERCOT_API_MARKET_URL,
+            help="Open ERCOT API Market to sign in, subscribe to the public API, and copy your subscription key.",
+        )
+        st.caption(f"[Direct link]({ERCOT_API_MARKET_URL})")
     with action_col_4:
         st.markdown(
             f"<div class='small-muted' style='text-align:right; padding-top:0.55rem;'>"
@@ -1212,7 +1218,7 @@ def main():
             **Common Issues:**
             1. **Wrong password** - Double-check your ERCOT_PASSWORD
             2. **Wrong username** - Should be your email address
-            3. **Expired credentials** - You may need to reset your password at https://apimarket.ercot.com/
+            3. **Expired credentials** - You may need to reset your password at {ERCOT_API_MARKET_URL}
             4. **Client ID mismatch** - Verify ERCOT_CLIENT_ID is correct
             
             **To fix:**
@@ -1244,7 +1250,7 @@ def main():
         
         with st.sidebar.expander("Enter ERCOT API Credentials", expanded=True):
             st.markdown("**Step 1: Get Subscription Key**")
-            st.markdown("1. Go to [ERCOT API Market](https://apimarket.ercot.com/)")
+            st.markdown(f"1. Go to [ERCOT API Market]({ERCOT_API_MARKET_URL})")
             st.markdown("2. Sign in and navigate to 'Products'")
             st.markdown("3. Subscribe to 'ERCOT Public API' (free tier)")
             st.markdown("4. Copy your **Subscription Key** from your profile")
@@ -1313,12 +1319,12 @@ def main():
             🔒 **These credentials are encrypted and never visible in your code or GitHub!**
             """)
         
-        st.info("""
+        st.info(f"""
         **How to get ERCOT API credentials:**
         
         **Important:** You need TWO things:
         1. **Subscription Key** (Primary requirement):
-           - Register at https://apimarket.ercot.com/
+           - Register at {ERCOT_API_MARKET_URL}
            - Sign in and click "Products" → "ERCOT Public API"
            - Click "Subscribe" (free tier available)
            - Go to "Profile" → "Subscriptions" to find your **Primary Key**
