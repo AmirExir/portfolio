@@ -328,7 +328,7 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-APP_BUILD = "2026-06-18 readability-fix-v3"
+APP_BUILD = "2026-06-18 outage-pricing-fix-v5"
 ERCOT_BLUE = "#0b2f4f"
 ERCOT_CYAN = "#00a3c7"
 ERCOT_GREEN = "#1f9d55"
@@ -385,6 +385,24 @@ def inject_dashboard_css() -> None:
             border: 1px solid rgba(255,255,255,0.22);
             background: rgba(255,255,255,0.10);
             color: #ffffff;
+        }
+        .stButton > button,
+        .stLinkButton > a {
+            background: #111827 !important;
+            color: #ffffff !important;
+            border: 1px solid #1f2937 !important;
+            border-radius: 10px !important;
+            font-weight: 750 !important;
+            min-height: 2.6rem;
+        }
+        .stButton > button *,
+        .stLinkButton > a * {
+            color: #ffffff !important;
+        }
+        .stButton > button:hover,
+        .stLinkButton > a:hover {
+            background: var(--ercot-blue) !important;
+            border-color: var(--ercot-cyan) !important;
         }
         .dashboard-hero {
             padding: 1.35rem 1.45rem;
@@ -649,6 +667,151 @@ def latest_timestamp_label(df: pd.DataFrame) -> str:
     if value.empty:
         return "Latest available interval"
     return value.max().strftime("%b %d, %Y %H:%M")
+
+
+def latest_non_null_reading(df: pd.DataFrame, value_col: Optional[str]) -> tuple[Optional[float], str]:
+    """Return the latest non-empty numeric reading and its own timestamp label."""
+    if df.empty or not value_col or value_col not in df.columns:
+        return None, "No available interval"
+
+    values = coerce_numeric(df[value_col])
+    valid_df = df.loc[values.notna()].copy()
+    if valid_df.empty:
+        return None, "No available interval"
+
+    valid_df[value_col] = coerce_numeric(valid_df[value_col])
+    if "timestamp" in valid_df.columns:
+        valid_df["timestamp"] = pd.to_datetime(valid_df["timestamp"], errors="coerce")
+        valid_df = valid_df.dropna(subset=["timestamp"]).sort_values("timestamp")
+        if valid_df.empty:
+            return None, "No available interval"
+        row = valid_df.iloc[-1]
+        return float(row[value_col]), row["timestamp"].strftime("%b %d, %Y %H:%M")
+
+    return float(valid_df[value_col].iloc[-1]), "Latest available interval"
+
+
+def has_numeric_values(df: pd.DataFrame, value_col: Optional[str]) -> bool:
+    return bool(
+        not df.empty
+        and value_col
+        and value_col in df.columns
+        and coerce_numeric(df[value_col]).notna().any()
+    )
+
+
+def humanize_ercot_column(col: Any) -> str:
+    raw = str(col)
+    raw = re.sub(r"^total", "", raw, flags=re.IGNORECASE)
+    raw = raw.replace("IRR", " IRR ")
+    raw = raw.replace("MW", " MW ")
+    label = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", raw).strip()
+    label = label.replace("MW Zone", "MW -")
+    label = label.replace("I R R", "IRR")
+    return " ".join(label.split())
+
+
+def is_capacity_column(col: Any) -> bool:
+    col_lower = str(col).lower()
+    if any(term in col_lower for term in ["timestamp", "date", "time", "hour", "flag", "interval", "posted"]):
+        return False
+    return "mw" in col_lower or "capacity" in col_lower or "cap" in col_lower
+
+
+def get_outage_capacity_columns(df: pd.DataFrame) -> list[str]:
+    cols = []
+    for col in df.columns:
+        if not is_capacity_column(col):
+            continue
+        numeric = coerce_numeric(df[col])
+        if numeric.notna().any() and numeric.abs().sum(skipna=True) > 0:
+            cols.append(col)
+    return cols
+
+
+def find_numeric_column_by_terms(df: pd.DataFrame, terms: list[str]) -> Optional[str]:
+    for col in df.columns:
+        col_lower = str(col).lower()
+        if all(term.lower() in col_lower for term in terms) and coerce_numeric(df[col]).notna().any():
+            return col
+    return None
+
+
+def find_price_column(df: pd.DataFrame) -> Optional[str]:
+    price_col = find_column(
+        df,
+        exact=[
+            "SettlementPointPrice",
+            "settlementPointPrice",
+            "LMP",
+            "lmp",
+            "Price",
+            "price",
+            "lmpPrice",
+            "LMPPrice",
+        ],
+    )
+    if price_col and coerce_numeric(df[price_col]).notna().any():
+        return price_col
+
+    for terms in (["settlement", "price"], ["lmp"], ["price"]):
+        price_col = find_numeric_column_by_terms(df, terms)
+        if price_col:
+            return price_col
+
+    numeric_candidates = []
+    for col in df.columns:
+        col_lower = str(col).lower()
+        if any(term in col_lower for term in ["date", "time", "hour", "flag", "type", "id"]):
+            continue
+        numeric = coerce_numeric(df[col])
+        if numeric.notna().any():
+            numeric_candidates.append(col)
+    return numeric_candidates[-1] if numeric_candidates else None
+
+
+def find_settlement_point_column(df: pd.DataFrame) -> Optional[str]:
+    point_col = find_column(
+        df,
+        exact=[
+            "SettlementPoint",
+            "settlementPoint",
+            "SettlementPointName",
+            "settlementPointName",
+            "Settlement Point",
+            "settlement_point",
+        ],
+    )
+    if point_col:
+        return point_col
+
+    candidates = []
+    for col in df.columns:
+        col_lower = str(col).lower()
+        if "settlement" in col_lower and "point" in col_lower and "type" not in col_lower and "price" not in col_lower:
+            candidates.append(col)
+    return candidates[0] if candidates else None
+
+
+def find_settlement_type_column(df: pd.DataFrame) -> Optional[str]:
+    type_col = find_column(
+        df,
+        exact=[
+            "SettlementPointType",
+            "settlementPointType",
+            "SettlementPointTypeCode",
+            "settlementPointTypeCode",
+            "Settlement Point Type",
+        ],
+    )
+    if type_col:
+        return type_col
+
+    for col in df.columns:
+        col_lower = str(col).lower()
+        if "settlement" in col_lower and "type" in col_lower:
+            return col
+    return None
 
 
 def add_ercot_timestamp(df: pd.DataFrame) -> pd.DataFrame:
@@ -954,7 +1117,7 @@ def main():
 
     action_col_1, action_col_2, action_col_3, action_col_4 = st.columns([1.1, 1.1, 1.3, 5.5])
     with action_col_1:
-        if st.button("Refresh data", help="Clear cached API/news data and reload the dashboard"):
+        if st.button("Refresh", help="Clear cached API/news data and reload the dashboard"):
             st.cache_data.clear()
             st.rerun()
     with action_col_2:
@@ -1601,7 +1764,7 @@ def main():
                         fig_wind = go.Figure()
                         x_axis_wind = wind_series['timestamp'] if 'timestamp' in wind_series.columns else wind_series.index
 
-                        if actual_col:
+                        if has_numeric_values(wind_series, actual_col):
                             fig_wind.add_trace(
                                 go.Scatter(
                                     x=x_axis_wind,
@@ -1614,7 +1777,7 @@ def main():
                                 )
                             )
                         
-                        if forecast_col:
+                        if has_numeric_values(wind_series, forecast_col):
                             fig_wind.add_trace(
                                 go.Scatter(
                                     x=x_axis_wind,
@@ -1625,14 +1788,17 @@ def main():
                                 )
                             )
 
-                        if actual_col:
-                            latest_wind = coerce_numeric(wind_series[actual_col]).dropna()
-                            render_metric_card(
-                                "Latest Wind Output",
-                                format_mw(latest_wind.iloc[-1] if not latest_wind.empty else np.nan),
-                                latest_timestamp_label(wind_series),
-                                ERCOT_CYAN,
-                            )
+                        wind_value, wind_note = latest_non_null_reading(wind_series, actual_col)
+                        wind_label = "Latest Wind Output"
+                        if wind_value is None:
+                            wind_value, wind_note = latest_non_null_reading(wind_series, forecast_col)
+                            wind_label = "Latest Wind Forecast"
+                        render_metric_card(
+                            wind_label,
+                            format_mw(wind_value) if wind_value is not None else "N/A",
+                            wind_note,
+                            ERCOT_CYAN,
+                        )
 
                         fig_wind = apply_professional_layout(
                             fig_wind,
@@ -1687,7 +1853,7 @@ def main():
                         fig_solar = go.Figure()
                         x_axis_solar = solar_series['timestamp'] if 'timestamp' in solar_series.columns else solar_series.index
 
-                        if actual_solar_col:
+                        if has_numeric_values(solar_series, actual_solar_col):
                             fig_solar.add_trace(
                                 go.Scatter(
                                     x=x_axis_solar,
@@ -1700,7 +1866,7 @@ def main():
                                 )
                             )
                         
-                        if forecast_solar_col:
+                        if has_numeric_values(solar_series, forecast_solar_col):
                             fig_solar.add_trace(
                                 go.Scatter(
                                     x=x_axis_solar,
@@ -1711,14 +1877,17 @@ def main():
                                 )
                             )
 
-                        if actual_solar_col:
-                            latest_solar = coerce_numeric(solar_series[actual_solar_col]).dropna()
-                            render_metric_card(
-                                "Latest Solar Output",
-                                format_mw(latest_solar.iloc[-1] if not latest_solar.empty else np.nan),
-                                latest_timestamp_label(solar_series),
-                                ERCOT_ORANGE,
-                            )
+                        solar_value, solar_note = latest_non_null_reading(solar_series, actual_solar_col)
+                        solar_label = "Latest Solar Output"
+                        if solar_value is None:
+                            solar_value, solar_note = latest_non_null_reading(solar_series, forecast_solar_col)
+                            solar_label = "Latest Solar Forecast"
+                        render_metric_card(
+                            solar_label,
+                            format_mw(solar_value) if solar_value is not None else "N/A",
+                            solar_note,
+                            ERCOT_ORANGE,
+                        )
 
                         fig_solar = apply_professional_layout(
                             fig_solar,
@@ -1760,74 +1929,82 @@ def main():
                 if "data" in lmp_data and len(lmp_data["data"]) > 0:
                     lmp_df = dataframe_from_payload(lmp_data)
                     
-                    # Filter for major hubs
-                    point_col = find_column(lmp_df, exact=["SettlementPoint", "settlementPoint"])
-                    type_col = find_column(lmp_df, exact=["SettlementPointType", "settlementPointType"])
-                    price_col = find_column(lmp_df, exact=["SettlementPointPrice", "settlementPointPrice"], contains=["price"])
+                    point_col = find_settlement_point_column(lmp_df)
+                    type_col = find_settlement_type_column(lmp_df)
+                    price_col = find_price_column(lmp_df)
                     if point_col:
-                        hubs = lmp_df[lmp_df[type_col] == 'HU'] if type_col else lmp_df
+                        hubs = lmp_df
+                        if type_col:
+                            type_values = hubs[type_col].astype(str).str.upper()
+                            hub_mask = type_values.eq("HU") | type_values.str.contains("HUB", na=False)
+                            if hub_mask.any():
+                                hubs = hubs[hub_mask]
                         
                         if not hubs.empty and price_col:
                             hubs = hubs.copy()
                             hubs[price_col] = coerce_numeric(hubs[price_col])
                             hubs = hubs.dropna(subset=[price_col]).sort_values(price_col, ascending=False)
-                            price_series = hubs[price_col]
-                            price_col_1, price_col_2, price_col_3, price_col_4 = st.columns(4)
-                            with price_col_1:
-                                render_metric_card("Highest Hub Price", format_price(price_series.max()), "Visible hub set", ERCOT_RED)
-                            with price_col_2:
-                                render_metric_card("Average Hub Price", format_price(price_series.mean()), "Simple average", ERCOT_BLUE)
-                            with price_col_3:
-                                render_metric_card("Lowest Hub Price", format_price(price_series.min()), "Visible hub set", ERCOT_GREEN)
-                            with price_col_4:
-                                render_metric_card("Hub Count", f"{len(hubs):,}", "Returned by endpoint", ERCOT_CYAN)
+                            if hubs.empty:
+                                st.info("Pricing rows were returned, but no numeric price values were available after parsing.")
+                                render_dataframe(lmp_df.head(30), height=360)
+                            else:
+                                price_series = hubs[price_col]
+                                price_col_1, price_col_2, price_col_3, price_col_4 = st.columns(4)
+                                with price_col_1:
+                                    render_metric_card("Highest Hub Price", format_price(price_series.max()), "Visible hub set", ERCOT_RED)
+                                with price_col_2:
+                                    render_metric_card("Average Hub Price", format_price(price_series.mean()), "Simple average", ERCOT_BLUE)
+                                with price_col_3:
+                                    render_metric_card("Lowest Hub Price", format_price(price_series.min()), "Visible hub set", ERCOT_GREEN)
+                                with price_col_4:
+                                    render_metric_card("Hub Count", f"{len(hubs):,}", "Returned by endpoint", ERCOT_CYAN)
 
-                            fig_lmp = px.bar(
-                                hubs.head(15),
-                                x=point_col,
-                                y=price_col,
-                                labels={price_col: 'Price ($/MWh)', point_col: 'Settlement Point'},
-                                color=price_col,
-                                color_continuous_scale='RdYlGn_r'
-                            )
-                            
-                            fig_lmp.update_layout(
-                                title=dict(text="Latest LMP Prices at Major Hubs", x=0.01, xanchor="left", font=dict(size=20, color=ERCOT_BLUE)),
-                                template=CHART_TEMPLATE,
-                                height=520,
-                                margin=dict(l=35, r=25, t=70, b=70),
-                                coloraxis_showscale=False,
-                                paper_bgcolor="#ffffff",
-                                plot_bgcolor="#ffffff",
-                                font=dict(color="#0f172a"),
-                            )
-                            fig_lmp.update_xaxes(
-                                title_text="Settlement Point",
-                                tickangle=-35,
-                                showgrid=False,
-                                tickfont=dict(color="#0f172a", size=12),
-                                title_font=dict(color="#0f172a", size=14),
-                                automargin=True,
-                            )
-                            fig_lmp.update_yaxes(
-                                title_text="Price ($/MWh)",
-                                showgrid=True,
-                                gridcolor="#eef2f7",
-                                zerolinecolor="#cbd5e1",
-                                tickfont=dict(color="#0f172a", size=12),
-                                title_font=dict(color="#0f172a", size=14),
-                                automargin=True,
-                            )
-                            render_chart(fig_lmp)
-                            
-                            # Show data table
-                            table_cols = [point_col, price_col]
-                            if type_col:
-                                table_cols.insert(1, type_col)
-                            render_dataframe(hubs[table_cols].head(30), height=360)
+                                fig_lmp = px.bar(
+                                    hubs.head(15),
+                                    x=point_col,
+                                    y=price_col,
+                                    labels={price_col: 'Price ($/MWh)', point_col: 'Settlement Point'},
+                                    color=price_col,
+                                    color_continuous_scale='RdYlGn_r'
+                                )
+                                
+                                fig_lmp.update_layout(
+                                    title=dict(text="Latest LMP Prices at Major Hubs", x=0.01, xanchor="left", font=dict(size=20, color=ERCOT_BLUE)),
+                                    template=CHART_TEMPLATE,
+                                    height=520,
+                                    margin=dict(l=35, r=25, t=70, b=70),
+                                    coloraxis_showscale=False,
+                                    paper_bgcolor="#ffffff",
+                                    plot_bgcolor="#ffffff",
+                                    font=dict(color="#0f172a"),
+                                )
+                                fig_lmp.update_xaxes(
+                                    title_text="Settlement Point",
+                                    tickangle=-35,
+                                    showgrid=False,
+                                    tickfont=dict(color="#0f172a", size=12),
+                                    title_font=dict(color="#0f172a", size=14),
+                                    automargin=True,
+                                )
+                                fig_lmp.update_yaxes(
+                                    title_text="Price ($/MWh)",
+                                    showgrid=True,
+                                    gridcolor="#eef2f7",
+                                    zerolinecolor="#cbd5e1",
+                                    tickfont=dict(color="#0f172a", size=12),
+                                    title_font=dict(color="#0f172a", size=14),
+                                    automargin=True,
+                                )
+                                render_chart(fig_lmp)
+                                
+                                table_cols = [point_col, price_col]
+                                if type_col:
+                                    table_cols.insert(1, type_col)
+                                render_dataframe(hubs[table_cols].head(30), height=360)
                         else:
-                            st.info("Price data columns were not found. Enable Debug Mode to inspect the ERCOT payload.")
+                            st.info("Pricing values were not found in the returned payload. Enable Debug Mode to inspect the ERCOT columns.")
                     else:
+                        st.info("Settlement point column was not found. Showing the returned pricing payload.")
                         render_dataframe(lmp_df.head(30), height=360)
                 else:
                     st.warning("No pricing data available.")
@@ -1855,45 +2032,37 @@ def main():
                 )
                 
                 if "data" in outage_data and len(outage_data["data"]) > 0:
-                    outage_df = dataframe_from_payload(outage_data)
-                    
-                    # Parse timestamp
-                    outage_time_cols = [col for col in outage_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
-                    if outage_time_cols:
-                        outage_df['timestamp'] = pd.to_datetime(outage_df[outage_time_cols[0]], errors='coerce')
-                        outage_df = outage_df.dropna(subset=['timestamp'])
-                        outage_df = outage_df.sort_values('timestamp')
+                    outage_df = add_ercot_timestamp(dataframe_from_payload(outage_data))
                     
                     if debug_mode:
                         st.write("**Outage Data Sample:**")
                         render_dataframe(outage_df.head(), height=180)
                         st.write(f"Columns: {list(outage_df.columns)}")
                     
-                    candidate_numeric_cols = [
-                        col for col in outage_df.columns
-                        if col != "timestamp" and pd.to_numeric(outage_df[col], errors="coerce").notna().any()
-                    ]
-                    numeric_cols = []
-                    for col in candidate_numeric_cols:
-                        outage_df[col] = coerce_numeric(outage_df[col])
-                        if outage_df[col].abs().sum(skipna=True) > 0:
-                            numeric_cols.append(col)
+                    numeric_cols = get_outage_capacity_columns(outage_df)
                     
                     if len(numeric_cols) > 0:
-                        latest_row = outage_df.sort_values("timestamp").iloc[-1] if "timestamp" in outage_df.columns else outage_df.iloc[-1]
+                        outage_series = compact_time_series(outage_df, numeric_cols)
+                        outage_chart_df = compact_time_series(outage_df, numeric_cols, max_days=3)
+                        
+                        if debug_mode:
+                            st.write("**Cleaned Outage Chart Series:**")
+                            render_dataframe(outage_chart_df.head(), height=180)
+                        
+                        latest_row = outage_series.sort_values("timestamp").iloc[-1] if "timestamp" in outage_series.columns else outage_series.iloc[-1]
                         latest_total = sum(float(latest_row[col]) for col in numeric_cols if pd.notna(latest_row[col]))
-                        avg_total = outage_df[numeric_cols].sum(axis=1).mean()
-                        peak_total = outage_df[numeric_cols].sum(axis=1).max()
+                        avg_total = outage_series[numeric_cols].sum(axis=1).mean()
+                        peak_total = outage_series[numeric_cols].sum(axis=1).max()
                         top_latest = sorted(
                             [(col, float(latest_row[col])) for col in numeric_cols if pd.notna(latest_row[col])],
                             key=lambda item: item[1],
                             reverse=True,
                         )[:1]
-                        top_label = top_latest[0][0] if top_latest else "N/A"
+                        top_label = humanize_ercot_column(top_latest[0][0]) if top_latest else "N/A"
 
                         out_col_1, out_col_2, out_col_3, out_col_4 = st.columns(4)
                         with out_col_1:
-                            render_metric_card("Latest Outage Capacity", format_mw(latest_total), latest_timestamp_label(outage_df), ERCOT_RED)
+                            render_metric_card("Latest Outage Capacity", format_mw(latest_total), latest_timestamp_label(outage_series), ERCOT_RED)
                         with out_col_2:
                             render_metric_card("Average Outage Capacity", format_mw(avg_total), "Selected data returned", ERCOT_BLUE)
                         with out_col_3:
@@ -1902,7 +2071,7 @@ def main():
                             render_metric_card("Top Current Category", str(top_label), "Largest latest value", ERCOT_CYAN)
 
                         fig_outage = go.Figure()
-                        x_axis_outage = outage_df['timestamp'] if 'timestamp' in outage_df.columns else outage_df.index
+                        x_axis_outage = outage_chart_df['timestamp'] if 'timestamp' in outage_chart_df.columns else outage_chart_df.index
                         colors = [
                             "rgba(220, 38, 38, 0.62)",
                             "rgba(245, 158, 11, 0.62)",
@@ -1916,9 +2085,9 @@ def main():
                             fig_outage.add_trace(
                                 go.Scatter(
                                     x=x_axis_outage,
-                                    y=outage_df[col],
+                                    y=outage_chart_df[col],
                                     mode='lines',
-                                    name=str(col),
+                                    name=humanize_ercot_column(col),
                                     stackgroup='one',
                                     line=dict(width=1.5),
                                     fillcolor=colors[idx % len(colors)]
@@ -1931,12 +2100,13 @@ def main():
                             "Outage Capacity (MW)",
                             height=520,
                         )
+                        st.caption("Chart view: latest 72 hours, capacity columns only. Non-capacity fields such as hourEnding are excluded.")
                         render_chart(fig_outage)
                     else:
                         st.info("No numeric outage capacity columns were found in the returned payload.")
                     
                     st.subheader("Outage Summary Statistics")
-                    render_dataframe(outage_df[numeric_cols].describe() if numeric_cols else outage_df.describe(), height=360)
+                    render_dataframe(outage_series[numeric_cols].describe() if numeric_cols else outage_df.describe(), height=360)
                 else:
                     st.warning("No outage data available.")
         except Exception as e:
