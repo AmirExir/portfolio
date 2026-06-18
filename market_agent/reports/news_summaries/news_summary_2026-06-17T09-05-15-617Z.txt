@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only, last 36 hours**
+
+### Facts
+- **Slashdot citing Honolulu Star-Advertiser/CNBC/WSJ — 2026-06-16 08:52Z:** Aggregated headline says the **Dow closed at a record high** and links the move to a **U.S.-Iran deal**; related linked headlines say **oil prices fell**, tanker operators remained cautious on resumed **Hormuz transit**, and U.S. futures were steady as markets stabilized.  
+- **The Times of India / AP — 2026-06-16 08:53Z:** **G7 leaders** opened summit talks with agenda focused on **Ukraine** and the **Middle East**, while also addressing the recent **U.S. agreement to end the conflict with Iran**.  
+- **Biztoc citing OilPrice.com/ZeroHedge — 2026-06-16 09:02Z:** Headline says **China’s return to the oil market could boost inflation**, arguing that reopening of the **Strait of Hormuz** may increase Chinese crude buying after a period of weak purchases.  
+- **The Next Web citing Financial Times — 2026-06-16 09:00Z:** **OpenAI spent $34 billion in 2025** and is preparing for what is described as one of the largest potential **IPOs** ever attempted. This is relevant to **AI valuation/risk appetite**, though it is not a direct public-market earnings report.  
+- **Crypto Briefing — 2026-06-16 08:56Z:** **Visa** integrated a payment system into **OpenAI’s ChatGPT** for AI shopping, with the article framing it as a push toward AI-agent commerce and possible stablecoin-related ambitions.  
+- **Gizmodo — 2026-06-16 09:00Z:** **Bitcoin mining difficulty** became about **10% easier** over the weekend as network hashpower declined; article says some miners are shifting focus toward **AI** infrastructure.
+
+### Interpretation
+- The **clearest fresh macro driver** in this article set is the reported **U.S.-Iran/Hormuz de-escalation**, which appears tied to **lower oil prices**, improved transport expectations, and broader **risk sentiment**.  
+- There is also a **second-order inflation angle**: if Hormuz reopens smoothly and **China increases crude purchases**, that could eventually complicate the current disinflation impulse from lower oil.  
+- On the **AI side**, the fresh items are more about **theme and capital intensity** than immediate listed-company fundamentals: OpenAI’s spending/IPO setup and Visa-ChatGPT payments underscore ongoing AI enthusiasm, but they do **not** by themselves explain the full market tape.  
+- **Crypto-related fresh news is thin** here. The Bitcoin mining item is sector-relevant but more operational than broad market-moving.  
+- **Bottom line:** the fresh set is **somewhat thin**, and aside from the **Iran/Hormuz/oil** headlines, it does **not fully explain today’s tape**.

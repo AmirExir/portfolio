@@ -1,0 +1,31 @@
+Generated: 2026-06-17 22:06 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both
+Only signals with Buy/Sell/Strong Buy/Strong Sell and absolute forecast return of at least 2% are included.
+
+Buy signals:
+SNDK: Buy with +4.61% forecast return, 69.3% probability up, and an uptrend pattern.
+WDC: Buy with +2.84% forecast return, 72.5% probability up, and an uptrend pattern.
+DELL: Buy with +2.25% forecast return, 69.2% probability up, and an uptrend pattern.
+
+Sell signals:
+No 1 trading-day sell signals met the threshold.
+
+30 trading-day rankings
+Best smart policy pick: INTC, rated Strong Buy by policy, with a +27.67% forecast return and uptrend pattern.
+
+Top buy signals:
+SNDK: Buy with +49.64% forecast return, 79.9% probability up, and an uptrend pattern.
+INTC: Buy with +27.67% forecast return, 75.0% probability up, and an uptrend pattern.
+WDC: Buy with +18.03% forecast return, 71.6% probability up, and an uptrend pattern.
+DELL: Buy with +15.55% forecast return, 69.7% probability up, and an uptrend pattern.
+GEV: Buy with +13.87% forecast return, 78.8% probability up, with a range / no dominant pattern.
+
+Top sell signals:
+PEPE: Strong Sell with -22.72% forecast return, 87.6% probability down, and a downtrend pattern.
+
+Additional notes:
+Signals labeled Neutral / No Edge were excluded from the ranked recommendations even when forecast returns exceeded the threshold. One symbol, SPCX, was skipped due to insufficient clean price history.
