@@ -1,0 +1,36 @@
+Market Intelligence Forecast Report
+Generated: 2026-06-18 12:25 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model used: both (LSTM and Transformer)
+Only model-confirmed signals with absolute forecast return of at least 2% are included.
+
+Buy candidates
+WDC: Buy, forecast return +2.61%, probability up 71.3%, reliability Moderate, pattern Uptrend.
+SNDK: Buy, forecast return +4.59%, probability up 69.2%, reliability Moderate, pattern Uptrend.
+DELL: Buy, forecast return +2.19%, probability up 68.7%, reliability Speculative, pattern Uptrend.
+
+Sell candidates
+No 1 trading-day sell signals met the threshold.
+
+30 trading-day signals
+Only model-confirmed signals with absolute forecast return of at least 2% are included.
+
+Buy candidates
+GEV: Strong Buy, forecast return +17.02%, probability up 82.5%, reliability High. This is the strongest confirmed long signal in the 30-day set.
+SNDK: Buy, forecast return +48.38%, probability up 79.8%, reliability High, pattern Uptrend. Forecast dispersion is wide, so upside is accompanied by elevated uncertainty.
+INTC: Buy, forecast return +26.63%, probability up 73.9%, reliability Moderate, pattern Uptrend. Also identified as the best smart policy pick.
+SLB: Buy, forecast return +6.79%, probability up 70.0%, reliability Moderate, pattern High Volatility.
+PNUT: Buy, forecast return +20.57%, probability up 69.5%, reliability Moderate, pattern Downtrend. This is a model-confirmed buy but it conflicts with the policy overlay, which marked it Sell/Avoid.
+
+Sell candidates
+PEPE: Strong Sell, forecast return -22.73%, probability up 12.4% and implied downside probability 87.6%, reliability High, pattern Downtrend. This is the only confirmed 30-day sell/avoid signal.
+
+Notes
+The confirmed 30-day list is narrow: 5 buys and 1 sell met the primary rule.
+Policy-watch names and Neutral/No Edge names were excluded from the ranked recommendations.
+SPCX was skipped due to insufficient clean price history.

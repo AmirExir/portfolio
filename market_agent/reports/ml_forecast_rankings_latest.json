@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "generated_at": "2026-06-18T12-25-50Z",
   "horizon_days": 30,
   "run_profile": "quality",
@@ -109,6 +110,16 @@
     "DOT-USD"
   ],
   "cache_key": "10990c17c7d96b38",
+=======
+  "paths": {
+    "json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_2026-06-18T12-25-50Z.json",
+    "txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/optimization_summaries/ml_forecast_rankings_2026-06-18T12-25-50Z.txt",
+    "latest_json": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.json",
+    "latest_txt": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_latest.txt",
+    "cache": "/Users/amirexir/Documents/GitHub/portfolio/market_agent/reports/ml_forecast_rankings_cache_10990c17c7d96b38.json"
+  },
+  "telegram_text": "Market Intelligence Forecast Report\nGenerated: 2026-06-18 12:25 UTC\nHorizon: 30 trading days | Primary: Ensemble\nRun profile: quality\nPattern windows: 20/50 trading days\nSequence model: both\nRL policy: on\nSmart policy: on | risk cap 10.0% target allocation\nUniverse: 79 symbols | Stocks + crypto + commodities\nPrimary signal rule: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; capped at 10 per side\nSignal counts: 5 model-confirmed buys, 1 model-confirmed sells/avoids, 10 policy buy watchlist, 10 policy sell/avoid watchlist\nReliability mix: High: 3, Moderate: 6, Speculative: 4, Low: 66\nCalculation time: 1h 27m 50s total | context 3.6s | 79/80 ranked | 0 cached\nSlowest symbols: COMP: 1m 37s, BNB: 1m 37s, SOL: 1m 36s, AVAX: 1m 36s, XRP: 1m 35s\n\nBest Smart Policy Pick\nINTC: Strong Buy | Policy score: +3.00 | Pattern: Uptrend | Forecast Return: +26.63% | Selected model: Ensemble\n\nShort-Term Forecast Signals\n1 trading day | sequence model: both | threshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; capped at 10 per side\nModel-confirmed buys: WDC: +2.61% | Buy | Model-Confirmed Buy | reliability Moderate | policy Strong Buy (+3.00, target 2.5%) | model Ensemble | prob up 71.3% | edge 21.3% | err +/-4.40% | pattern Uptrend ; SNDK: +4.59% | Buy | Model-Confirmed Buy | reliability Moderate | policy Strong Buy (+3.00, target 2.5%) | model Ensemble | prob up 69.2% | edge 19.2% | err +/-7.34% | pattern Uptrend ; DELL: +2.19% | Buy | Model-Confirmed Buy | reliability Speculative | policy Strong Buy (+3.00, target 2.5%) | model Ensemble | prob up 68.7% | edge 18.7% | err +/-4.37% | pattern Uptrend\nModel-confirmed sells/avoids: no signals met threshold.\n\nModel-Confirmed Buy Signals\nThreshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; capped at 10 per side\nINTC: +26.63% | Buy | Model-Confirmed Buy | reliability Moderate | policy Strong Buy (+3.00, target 2.5%) | model Ensemble | prob up 73.9% | edge 23.9% | err +/-38.26% | pattern Uptrend\nGEV: +17.02% | Strong Buy | Model-Confirmed Buy | reliability High | policy Strong Buy (+3.00, target 3.4%) | model Ensemble | prob up 82.5% | edge 32.5% | err +/-16.58% | pattern Range / No Dominant Pattern\nSNDK: +48.38% | Buy | Model-Confirmed Buy | reliability High | policy Strong Buy (+3.00, target 2.5%) | model Ensemble | prob up 79.8% | edge 29.8% | err +/-58.13% | pattern Uptrend\nSLB: +6.79% | Buy | Model-Confirmed Buy | reliability Moderate | policy Buy (+1.34, target 3.1%) | model Ensemble | prob up 70.0% | edge 20.0% | err +/-13.16% | pattern High Volatility\nPNUT: +20.57% | Buy | Model-Confirmed Buy | reliability Moderate | policy Sell / Avoid (-0.77, target 0.0%) | model Ensemble | prob up 69.5% | edge 19.5% | err +/-37.35% | pattern Downtrend\n\nModel-Confirmed Sell / Avoid Signals\nThreshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; capped at 10 per side\nPEPE: -22.73% | Strong Sell | Model-Confirmed Sell/Avoid | reliability High | policy Strong Sell / Avoid (-2.62, target 0.0%) | model Ensemble | prob up 12.4% | edge 37.6% | err +/-20.12% | pattern Downtrend\n\nSmart Policy Watchlist\nRule: smart-policy overlay only; model call did not qualify for the primary signal section; capped at 10 per side\nBuy watchlist:\nSTX: +15.68% | Neutral / No Edge | Policy Watch Buy | reliability Moderate | policy Strong Buy (+2.99, target 2.8%) | model Ensemble | prob up 67.5% | edge 17.5% | err +/-33.80% | pattern Uptrend\nLUV: +6.73% | Neutral / No Edge | Policy Watch Buy | reliability Speculative | policy Strong Buy (+2.93, target 3.9%) | model Ensemble | prob up 67.6% | edge 17.6% | err +/-15.46% | pattern Uptrend\nWDC: +13.06% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Strong Buy (+2.87, target 2.5%) | model Ensemble | prob up 66.3% | edge 16.3% | err +/-32.15% | pattern Uptrend\nMS: +4.73% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Strong Buy (+2.85, target 6.6%) | model Ensemble | prob up 65.9% | edge 15.9% | err +/-11.98% | pattern Uptrend\nUAL: +8.73% | Neutral / No Edge | Policy Watch Buy | reliability Moderate | policy Strong Buy (+2.83, target 3.1%) | model Ensemble | prob up 67.3% | edge 17.3% | err +/-18.08% | pattern High Volatility\nDELL: +9.30% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Strong Buy (+2.05, target 2.1%) | model Ensemble | prob up 63.3% | edge 13.3% | err +/-30.17% | pattern Uptrend\nMU: +16.04% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Strong Buy (+1.75, target 1.8%) | model Ensemble | prob up 61.5% | edge 11.5% | err +/-42.22% | pattern Uptrend\nLLY: +3.11% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Buy (+1.67, target 3.4%) | model Ensemble | prob up 59.1% | edge 9.1% | err +/-14.34% | pattern Uptrend\nAAPL: +4.12% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Buy (+1.37, target 4.5%) | model Ensemble | prob up 64.9% | edge 14.9% | err +/-11.14% | pattern Uptrend\nAVGO: +4.72% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Buy (+0.78, target 1.2%) | model Ensemble | prob up 60.6% | edge 10.6% | err +/-16.20% | pattern High Volatility\nSell / avoid watchlist:\nDOGE: -9.99% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Speculative | policy Strong Sell / Avoid (-2.82, target 0.0%) | model Ensemble | prob up 34.0% | edge 16.0% | err +/-26.34% | pattern Downtrend\nADA: -5.60% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-2.05, target 0.0%) | model Ensemble | prob up 39.8% | edge 10.2% | err +/-26.41% | pattern Downtrend\nMNT: -10.07% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.97, target 0.0%) | model Ensemble | prob up 35.0% | edge 15.0% | err +/-28.92% | pattern Downtrend\nSHIB: -7.19% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.94, target 0.0%) | model Ensemble | prob up 41.7% | edge 8.3% | err +/-43.79% | pattern Downtrend\nBTC: -2.27% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.83, target 0.0%) | model Ensemble | prob up 43.6% | edge 6.4% | err +/-15.69% | pattern Downtrend\nETH: -2.98% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.65, target 0.0%) | model Ensemble | prob up 44.8% | edge 5.2% | err +/-26.24% | pattern Downtrend\nSOL: -4.38% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.33, target 0.0%) | model Ensemble | prob up 43.1% | edge 6.9% | err +/-33.60% | pattern Downtrend\nZEC: -3.04% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.25, target 0.0%) | model Ensemble | prob up 47.0% | edge 3.0% | err +/-97.30% | pattern High Volatility\nAVAX: -7.23% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Sell / Avoid (-1.19, target 0.0%) | model Ensemble | prob up 38.4% | edge 11.6% | err +/-30.88% | pattern Downtrend\nUNI: -6.52% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Sell / Avoid (-1.10, target 0.0%) | model Ensemble | prob up 39.8% | edge 10.2% | err +/-28.10% | pattern Downtrend\n\nSkipped\nSPCX: Need at least 71 clean close prices for ML forecasting.\n\nModel output only. Not financial advice.",
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
   "rows": [
     {
       "Symbol": "AAPL",
@@ -122,7 +133,11 @@
       "Neural Net Return %": 9.602913004454276,
       "LSTM Return %": 5.842835058502756,
       "Transformer Return %": -3.7527730424792445,
+<<<<<<< HEAD
       "RL Policy Return %": -0.0,
+=======
+      "RL Policy Return %": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Ensemble Return %": 4.11542713214086,
       "Probability Up %": 64.92048127342406,
       "Probability Down %": 35.07951872657594,
@@ -176,9 +191,15 @@
       "Score": 0.010010922266123051,
       "Smart Policy": "Hold / Watch",
       "Policy Score": -0.09999999999999995,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.10; forecast +1.41% vs error 10.64%; trend -0.20; vol 32.8%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.10; forecast +1.41% vs error 10.64%; trend -0.20; vol 32.8%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.2,
       "Policy Momentum Score": -0.55,
       "Policy RL Score": 0.55,
@@ -217,9 +238,15 @@
       "Score": 0.03180063627624716,
       "Smart Policy": "Hold / Watch",
       "Policy Score": 0.6758804745943792,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score 0.68; forecast +3.89% vs error 18.33%; trend +0.20; vol 40.7%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score 0.68; forecast +3.89% vs error 18.33%; trend +0.20; vol 40.7%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.2,
       "Policy Momentum Score": -0.1741195254056209,
       "Policy RL Score": 0.55,
@@ -260,7 +287,11 @@
       "Policy Score": 0.9499999999999998,
       "Policy Target %": 1.0607142857142857,
       "Policy Reason": "hold score 0.95; forecast -4.16% vs error 35.20%; trend +0.85; vol 81.1%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.55,
       "Policy RL Score": -0.55,
@@ -340,7 +371,11 @@
       "Score": 0.1135748995897071,
       "Smart Policy": "Hold / Watch",
       "Policy Score": 0.4761834406352762,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
+=======
+      "Policy Target %": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Reason": "hold score 0.48; forecast +5.68% vs error 13.51%; trend +0.20; vol 36.7%",
       "Policy Forecast Score": 0.5678744979485355,
       "Policy Trend Score": 0.2,
@@ -381,9 +416,15 @@
       "Score": 0.03181775542067945,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.46750700280112023,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.47; forecast +2.20% vs error 11.86%; trend -0.45; vol 30.8%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.47; forecast +2.20% vs error 11.86%; trend -0.45; vol 30.8%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.45,
       "Policy Momentum Score": -0.46750700280112034,
       "Policy RL Score": 0.55,
@@ -422,9 +463,15 @@
       "Score": 0.048859893078158134,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.8511766408871191,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.85; forecast +3.67% vs error 15.17%; trend -0.85; vol 44.3%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.85; forecast +3.67% vs error 15.17%; trend -0.85; vol 44.3%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.3325965952514746,
       "Policy RL Score": 0.43141995436435543,
@@ -463,9 +510,15 @@
       "Score": -0.01025536211579038,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.33514094602701816,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.34; forecast -2.60% vs error 25.03%; trend -0.20; vol 44.4%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.34; forecast -2.60% vs error 25.03%; trend -0.20; vol 44.4%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.2,
       "Policy Momentum Score": 0.10435796257267466,
       "Policy RL Score": -0.33949890859969284,
@@ -506,7 +559,11 @@
       "Policy Score": 2.05,
       "Policy Target %": 2.082142857142857,
       "Policy Reason": "buy score 2.05; forecast -0.18% vs error 37.76%; trend +0.85; vol 81.7%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.55,
       "Policy RL Score": 0.55,
@@ -547,7 +604,11 @@
       "Policy Score": 0.7750111249953986,
       "Policy Target %": 1.2010534592941333,
       "Policy Reason": "hold score 0.78; forecast +4.72% vs error 16.20%; trend +0.20; vol 53.8%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.2,
       "Policy Momentum Score": -0.02100874673402381,
       "Policy RL Score": 0.4960198717294224,
@@ -585,7 +646,11 @@
       "Direction Hit Rate %": 82.22083257923107,
       "Score": 0.6670053447079615,
       "Smart Policy": "Strong Buy",
+<<<<<<< HEAD
       "Policy Score": 3.0,
+=======
+      "Policy Score": 3,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Target %": 3.413235838758989,
       "Policy Reason": "buy score 3.00; forecast +17.02% vs error 16.58%; trend +0.20; vol 52.7%",
       "Policy Forecast Score": 1.5,
@@ -749,7 +814,11 @@
       "Direction Hit Rate %": 78.6259245192076,
       "Score": 0.49625986115540105,
       "Smart Policy": "Strong Buy",
+<<<<<<< HEAD
       "Policy Score": 3.0,
+=======
+      "Policy Score": 3,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Target %": 2.5,
       "Policy Reason": "hold score 3.00; forecast +48.38% vs error 58.13%; trend +0.85; vol 97.1%",
       "Policy Forecast Score": 1.2484481333217377,
@@ -791,9 +860,15 @@
       "Score": -0.026337256345409066,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.7591835771021738,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.76; forecast -3.80% vs error 22.08%; trend -0.20; vol 66.7%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.76; forecast -3.80% vs error 22.08%; trend -0.20; vol 66.7%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.2,
       "Policy Momentum Score": -0.14296285713540896,
       "Policy RL Score": -0.5162207199667648,
@@ -832,9 +907,15 @@
       "Score": 0.0008374869556113784,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.9499999999999998,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.95; forecast +0.67% vs error 17.42%; trend -0.85; vol 32.1%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.95; forecast +0.67% vs error 17.42%; trend -0.85; vol 32.1%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.55,
       "Policy RL Score": 0.55,
@@ -875,7 +956,11 @@
       "Policy Score": 0.9594099898434977,
       "Policy Target %": 3.291493415573335,
       "Policy Reason": "buy score 0.96; forecast -2.06% vs error 8.54%; trend +0.85; vol 23.4%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.30000000000000004,
       "Policy RL Score": -0.29059001015650227,
@@ -916,7 +1001,11 @@
       "Policy Score": 0.8944560176544285,
       "Policy Target %": 3.422215638444851,
       "Policy Reason": "buy score 0.89; forecast -0.78% vs error 10.24%; trend +0.85; vol 21.2%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.30000000000000004,
       "Policy RL Score": -0.3555439823455714,
@@ -957,7 +1046,11 @@
       "Policy Score": 1.345673937943595,
       "Policy Target %": 3.674137787938377,
       "Policy Reason": "buy score 1.35; forecast -1.67% vs error 10.58%; trend +0.45; vol 28.0%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.45,
       "Policy Momentum Score": 0.5370599315287361,
       "Policy RL Score": 0.25861400641485865,
@@ -998,7 +1091,11 @@
       "Policy Score": 1.6709769476068437,
       "Policy Target %": 4.239292069489267,
       "Policy Reason": "buy score 1.67; forecast +1.01% vs error 12.30%; trend +0.85; vol 29.4%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.30000000000000004,
       "Policy RL Score": 0.42097694760684357,
@@ -1039,7 +1136,11 @@
       "Policy Score": 2.05,
       "Policy Target %": 4.642178682340939,
       "Policy Reason": "buy score 2.05; forecast +0.42% vs error 12.31%; trend +0.85; vol 32.3%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.55,
       "Policy RL Score": 0.55,
@@ -1121,7 +1222,11 @@
       "Policy Score": 1.1673972076276053,
       "Policy Target %": 3.5941039108980224,
       "Policy Reason": "buy score 1.17; forecast +0.86% vs error 6.27%; trend +0.65; vol 25.3%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.65,
       "Policy Momentum Score": 0.19858170327799055,
       "Policy RL Score": 0.21881550434961472,
@@ -1162,7 +1267,11 @@
       "Policy Score": 1.5166662944430742,
       "Policy Target %": 3.454410900529481,
       "Policy Reason": "buy score 1.52; forecast -3.53% vs error 18.85%; trend +0.85; vol 33.1%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.016666294443074173,
       "Policy RL Score": 0.55,
@@ -1180,7 +1289,11 @@
       "Symbol": "LLY",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< HEAD
       "Last Price": 1112.0,
+=======
+      "Last Price": 1112,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Forecast Price": 1146.5721210942254,
       "Forecast Return %": 3.1090036955238727,
       "Ridge Return %": 1.126082302176783,
@@ -1203,7 +1316,11 @@
       "Policy Score": 1.67128770249492,
       "Policy Target %": 3.4105704364924794,
       "Policy Reason": "buy score 1.67; forecast +3.11% vs error 14.34%; trend +0.85; vol 36.5%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.17128770249491984,
       "Policy RL Score": 0.55,
@@ -1244,7 +1361,11 @@
       "Policy Score": 1.4706830408970704,
       "Policy Target %": 6.121172714946342,
       "Policy Reason": "buy score 1.47; forecast +1.02% vs error 7.77%; trend +0.85; vol 18.2%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": -0.029316959102929835,
       "Policy RL Score": 0.55,
@@ -1283,7 +1404,11 @@
       "Score": 0.18827597611408697,
       "Smart Policy": "Hold / Watch",
       "Policy Score": 0.46625736401642637,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
+=======
+      "Policy Target %": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Reason": "hold score 0.47; forecast +3.94% vs error 8.08%; trend -0.45; vol 27.0%",
       "Policy Forecast Score": 0.7305591245505624,
       "Policy Trend Score": -0.45,
@@ -1324,9 +1449,15 @@
       "Score": -0.09352674868087536,
       "Smart Policy": "Hold / Watch",
       "Policy Score": 0.6120946818678358,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score 0.61; forecast -2.30% vs error 6.96%; trend +0.65; vol 21.9%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score 0.61; forecast -2.30% vs error 6.96%; trend +0.65; vol 21.9%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.65,
       "Policy Momentum Score": 0.41209468186783577,
       "Policy RL Score": -0.55,
@@ -1367,7 +1498,11 @@
       "Policy Score": 0.9058342544243175,
       "Policy Target %": 3.7208048897344788,
       "Policy Reason": "buy score 0.91; forecast +1.93% vs error 6.18%; trend +0.85; vol 19.7%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": -0.3214598332671785,
       "Policy RL Score": 0.27729408769149594,
@@ -1406,9 +1541,15 @@
       "Score": -0.0014894902382829463,
       "Smart Policy": "Hold / Watch",
       "Policy Score": 0.515388472007766,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score 0.52; forecast -0.46% vs error 9.21%; trend -0.20; vol 27.7%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score 0.52; forecast -0.46% vs error 9.21%; trend -0.20; vol 27.7%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.2,
       "Policy Momentum Score": 0.55,
       "Policy RL Score": 0.265388472007766,
@@ -1447,9 +1588,15 @@
       "Score": -0.015868592659184194,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.9774980118785789,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.98; forecast -1.22% vs error 8.25%; trend -0.65; vol 20.9%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.98; forecast -1.22% vs error 8.25%; trend -0.65; vol 20.9%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.65,
       "Policy Momentum Score": -0.4495829364638828,
       "Policy RL Score": 0.22208492458530377,
@@ -1490,7 +1637,11 @@
       "Policy Score": 2.05,
       "Policy Target %": 2.082142857142857,
       "Policy Reason": "hold score 2.05; forecast +9.30% vs error 30.17%; trend +0.85; vol 97.6%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.55,
       "Policy RL Score": 0.55,
@@ -1531,7 +1682,11 @@
       "Policy Score": 1.9835415316956087,
       "Policy Target %": 3.3915856920288596,
       "Policy Reason": "buy score 1.98; forecast -0.54% vs error 15.07%; trend +0.85; vol 42.9%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.55,
       "Policy RL Score": 0.4835415316956086,
@@ -1613,7 +1768,11 @@
       "Policy Score": 1.0445585495214325,
       "Policy Target %": 1.6076028185427713,
       "Policy Reason": "hold score 1.04; forecast -0.30% vs error 17.21%; trend +0.65; vol 51.4%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.65,
       "Policy Momentum Score": 0.55,
       "Policy RL Score": -0.2554414504785678,
@@ -1693,7 +1852,11 @@
       "Score": 0.10757708839734502,
       "Smart Policy": "Hold / Watch",
       "Policy Score": 0.12006201524084523,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
+=======
+      "Policy Target %": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Reason": "hold score 0.12; forecast +3.46% vs error 9.38%; trend -0.45; vol 32.1%",
       "Policy Forecast Score": 0.537885441986725,
       "Policy Trend Score": -0.45,
@@ -1734,9 +1897,15 @@
       "Score": 0.01820414477154793,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -1.3255471137457362,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.33; forecast +1.56% vs error 10.41%; trend -0.45; vol 27.1%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.33; forecast +1.56% vs error 10.41%; trend -0.45; vol 27.1%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.45,
       "Policy Momentum Score": -0.55,
       "Policy RL Score": -0.2255471137457362,
@@ -1775,9 +1944,15 @@
       "Score": 0.015094577222960063,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.673246040892886,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.67; forecast +1.60% vs error 11.82%; trend -0.45; vol 33.2%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.67; forecast +1.60% vs error 11.82%; trend -0.45; vol 33.2%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.45,
       "Policy Momentum Score": -0.55,
       "Policy RL Score": 0.426753959107114,
@@ -1816,9 +1991,15 @@
       "Score": 0.057667043686018535,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.6997584492758199,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.70; forecast +4.09% vs error 14.53%; trend -0.45; vol 39.4%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.70; forecast +4.09% vs error 14.53%; trend -0.45; vol 39.4%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.45,
       "Policy Momentum Score": -0.55,
       "Policy RL Score": 0.4002415507241801,
@@ -1898,9 +2079,15 @@
       "Score": 0.03692048904677299,
       "Smart Policy": "Hold / Watch",
       "Policy Score": 0.30000000000000004,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score 0.30; forecast +2.41% vs error 11.31%; trend +0.20; vol 30.9%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score 0.30; forecast +2.41% vs error 11.31%; trend +0.20; vol 30.9%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.2,
       "Policy Momentum Score": -0.55,
       "Policy RL Score": 0.55,
@@ -1941,7 +2128,11 @@
       "Policy Score": 1.703578065147443,
       "Policy Target %": 8.347264946913105,
       "Policy Reason": "buy score 1.70; forecast -0.27% vs error 5.87%; trend +0.85; vol 15.2%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.2276693645964515,
       "Policy RL Score": 0.5259087005509915,
@@ -1982,7 +2173,11 @@
       "Policy Score": 1.7070151938699574,
       "Policy Target %": 8.404763315544963,
       "Policy Reason": "buy score 1.71; forecast +1.71% vs error 5.85%; trend +0.85; vol 15.1%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.22994548947354346,
       "Policy RL Score": 0.5270697043964139,
@@ -2021,9 +2216,15 @@
       "Score": 0.010756071047370598,
       "Smart Policy": "Hold / Watch",
       "Policy Score": 0.749530166868107,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score 0.75; forecast +1.04% vs error 8.01%; trend +0.85; vol 23.0%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score 0.75; forecast +1.04% vs error 8.01%; trend +0.85; vol 23.0%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.34953016686810706,
       "Policy RL Score": -0.55,
@@ -2064,7 +2265,11 @@
       "Policy Score": 1.872527307936809,
       "Policy Target %": 6.536752041863562,
       "Policy Reason": "buy score 1.87; forecast +0.56% vs error 7.89%; trend +0.85; vol 21.1%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.5091575985863093,
       "Policy RL Score": 0.41336970935049977,
@@ -2105,7 +2310,11 @@
       "Policy Score": 1.832698015270521,
       "Policy Target %": 9.31567711756819,
       "Policy Reason": "buy score 1.83; forecast -1.06% vs error 4.87%; trend +0.85; vol 14.5%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.4259198379512806,
       "Policy RL Score": 0.4567781773192403,
@@ -2144,9 +2353,15 @@
       "Score": 0.06222770180728165,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -1.1135158087220929,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.11; forecast +2.35% vs error 7.82%; trend -0.65; vol 27.1%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.11; forecast +2.35% vs error 7.82%; trend -0.65; vol 27.1%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.65,
       "Policy Momentum Score": -0.07825022960491329,
       "Policy RL Score": -0.28526557911717954,
@@ -2185,9 +2400,15 @@
       "Score": 0.03661572958224425,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.35,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.35; forecast +4.08% vs error 19.38%; trend -0.65; vol 53.6%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.35; forecast +4.08% vs error 19.38%; trend -0.65; vol 53.6%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.65,
       "Policy Momentum Score": -0.14999999999999997,
       "Policy RL Score": 0.55,
@@ -2226,7 +2447,11 @@
       "Score": 0.15514111165027147,
       "Smart Policy": "Hold / Watch",
       "Policy Score": 0.325589860875218,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
+=======
+      "Policy Target %": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Reason": "hold score 0.33; forecast +8.01% vs error 18.53%; trend -0.45; vol 60.9%",
       "Policy Forecast Score": 0.6485850821297912,
       "Policy Trend Score": -0.45,
@@ -2267,9 +2492,15 @@
       "Score": -0.00024351182275674676,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.30708234601426787,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.31; forecast -0.10% vs error 4.63%; trend -0.20; vol 9.1%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.31; forecast -0.10% vs error 4.63%; trend -0.20; vol 9.1%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.2,
       "Policy Momentum Score": 0.36215881960744434,
       "Policy RL Score": -0.3692411656217122,
@@ -2295,7 +2526,11 @@
       "Neural Net Return %": 1.0336855438568577,
       "LSTM Return %": -1.8068190584766959,
       "Transformer Return %": -7.274939023401554,
+<<<<<<< HEAD
       "RL Policy Return %": -0.0,
+=======
+      "RL Policy Return %": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Ensemble Return %": -0.6387910294088197,
       "Probability Up %": 47.758294193696194,
       "Probability Down %": 52.241705806303806,
@@ -2310,7 +2545,11 @@
       "Policy Score": 1.3,
       "Policy Target %": 3.2255185210755273,
       "Policy Reason": "buy score 1.30; forecast -0.64% vs error 10.66%; trend +0.85; vol 30.9%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.55,
       "Policy RL Score": -0.2,
@@ -2351,7 +2590,11 @@
       "Policy Score": 0.8290985342463962,
       "Policy Target %": 4.671024942056411,
       "Policy Reason": "buy score 0.83; forecast -2.02% vs error 6.27%; trend +0.65; vol 14.6%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.65,
       "Policy Momentum Score": 0.4886497897288043,
       "Policy RL Score": -0.4095512554824081,
@@ -2390,9 +2633,15 @@
       "Score": 0.06524999176756408,
       "Smart Policy": "Hold / Watch",
       "Policy Score": 0.30000000000000004,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score 0.30; forecast +2.51% vs error 8.93%; trend +0.20; vol 26.1%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score 0.30; forecast +2.51% vs error 8.93%; trend +0.20; vol 26.1%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.2,
       "Policy Momentum Score": -0.55,
       "Policy RL Score": 0.55,
@@ -2433,7 +2682,11 @@
       "Policy Score": 0.984554845320115,
       "Policy Target %": 4.908728008496448,
       "Policy Reason": "buy score 0.98; forecast +0.09% vs error 4.91%; trend +0.65; vol 16.0%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.65,
       "Policy Momentum Score": -0.0016164459892823863,
       "Policy RL Score": 0.23617129130939726,
@@ -2472,10 +2725,17 @@
       "Score": -0.013104782580733765,
       "Smart Policy": "Hold / Watch",
       "Policy Score": 0.5710107988849502,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score 0.57; forecast -1.24% vs error 8.08%; trend +0.00; vol 21.2%",
       "Policy Forecast Score": 0.0,
       "Policy Trend Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score 0.57; forecast -1.24% vs error 8.08%; trend +0.00; vol 21.2%",
+      "Policy Forecast Score": 0,
+      "Policy Trend Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Momentum Score": 0.16685056410961593,
       "Policy RL Score": 0.30416023477533427,
       "Policy RL Action": "long",
@@ -2513,9 +2773,15 @@
       "Score": -0.018468028865105873,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -1.8263133700890555,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.83; forecast -2.27% vs error 15.69%; trend -0.85; vol 29.5%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.83; forecast -2.27% vs error 15.69%; trend -0.85; vol 29.5%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.4144135994614066,
       "Policy RL Score": -0.4618997706276489,
@@ -2554,9 +2820,15 @@
       "Score": -0.011835987039913506,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -1.6500000000000001,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.65; forecast -2.98% vs error 26.24%; trend -0.85; vol 39.9%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.65; forecast -2.98% vs error 26.24%; trend -0.85; vol 39.9%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.14999999999999997,
       "Policy RL Score": -0.55,
@@ -2595,9 +2867,15 @@
       "Score": -0.01797395475590646,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -1.3311653117130586,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.33; forecast -4.38% vs error 33.60%; trend -0.85; vol 42.9%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.33; forecast -4.38% vs error 33.60%; trend -0.85; vol 42.9%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.14999999999999997,
       "Policy RL Score": -0.23116531171305862,
@@ -2636,9 +2914,15 @@
       "Score": 0.008772261540994692,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.6227948483978093,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.62; forecast +2.74% vs error 26.65%; trend -0.85; vol 36.2%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.62; forecast +2.74% vs error 26.65%; trend -0.85; vol 36.2%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.2227948483978093,
       "Policy RL Score": 0.55,
@@ -2677,9 +2961,15 @@
       "Score": -0.04305296983424084,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -2.05,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -2.05; forecast -5.60% vs error 26.41%; trend -0.85; vol 52.2%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -2.05; forecast -5.60% vs error 26.41%; trend -0.85; vol 52.2%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.55,
       "Policy RL Score": -0.55,
@@ -2718,9 +3008,15 @@
       "Score": -0.007418136642864269,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -1.957720061596427,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.96; forecast -1.57% vs error 16.74%; trend -0.85; vol 38.1%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.96; forecast -1.57% vs error 16.74%; trend -0.85; vol 38.1%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.55,
       "Policy RL Score": -0.45772006159642703,
@@ -2759,9 +3055,15 @@
       "Score": -0.054269556714690054,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -1.1941294087396357,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.19; forecast -7.23% vs error 30.88%; trend -0.85; vol 42.3%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.19; forecast -7.23% vs error 30.88%; trend -0.85; vol 42.3%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.5436396006439762,
       "Policy RL Score": 0.2995101919043405,
@@ -2800,9 +3102,15 @@
       "Score": -0.010254547984881873,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -1.0267591667252034,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.03; forecast -4.33% vs error 44.05%; trend -0.45; vol 116.3%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.03; forecast -4.33% vs error 44.05%; trend -0.45; vol 116.3%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.45,
       "Policy Momentum Score": 0.07324083327479675,
       "Policy RL Score": -0.55,
@@ -2841,7 +3149,11 @@
       "Score": 0.21494113800762193,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.7740821167347056,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
+=======
+      "Policy Target %": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Reason": "hold score -0.77; forecast +20.57% vs error 37.35%; trend -0.85; vol 61.9%",
       "Policy Forecast Score": 0.8258890265447814,
       "Policy Trend Score": -0.85,
@@ -2882,7 +3194,11 @@
       "Score": -0.12166168136950625,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -2.817789577698353,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
+=======
+      "Policy Target %": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Reason": "hold score -2.82; forecast -9.99% vs error 26.34%; trend -0.85; vol 39.1%",
       "Policy Forecast Score": -0.5687330205172983,
       "Policy Trend Score": -0.85,
@@ -2902,8 +3218,13 @@
       "Symbol": "SHIB",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< HEAD
       "Last Price": 4.859999990003416e-06,
       "Forecast Price": 4.510569786110305e-06,
+=======
+      "Last Price": 0.000004859999990003416,
+      "Forecast Price": 0.000004510569786110305,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Forecast Return %": -7.1899219055938,
       "Ridge Return %": -26.868267450254606,
       "XGBoost Return %": -2.6331997935135583,
@@ -2923,9 +3244,15 @@
       "Score": -0.027304847544283757,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -1.9399998872226545,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.94; forecast -7.19% vs error 43.79%; trend -0.85; vol 77.8%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.94; forecast -7.19% vs error 43.79%; trend -0.85; vol 77.8%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.4399998872226544,
       "Policy RL Score": -0.55,
@@ -2943,8 +3270,13 @@
       "Symbol": "FLOKI",
       "Model Call": "Neutral / No Edge",
       "Selected Model": "Ensemble",
+<<<<<<< HEAD
       "Last Price": 2.5800000003073364e-05,
       "Forecast Price": 2.5420691781732244e-05,
+=======
+      "Last Price": 0.000025800000003073364,
+      "Forecast Price": 0.000025420691781732244,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Forecast Return %": -1.4701869042478075,
       "Ridge Return %": 2.378588325478137,
       "XGBoost Return %": -0.05097760638127974,
@@ -2964,9 +3296,15 @@
       "Score": -0.00042987506435828734,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -1.5817681209535577,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.58; forecast -1.47% vs error 69.09%; trend -0.85; vol 55.7%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.58; forecast -1.47% vs error 69.09%; trend -0.85; vol 55.7%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.14999999999999997,
       "Policy RL Score": -0.4817681209535576,
@@ -2984,15 +3322,24 @@
       "Symbol": "PEPE",
       "Model Call": "Strong Sell",
       "Selected Model": "Ensemble",
+<<<<<<< HEAD
       "Last Price": 6.000000212225132e-06,
       "Forecast Price": 4.636494481573939e-06,
+=======
+      "Last Price": 0.000006000000212225132,
+      "Forecast Price": 0.000004636494481573939,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Forecast Return %": -22.725094707047212,
       "Ridge Return %": -31.940476687856155,
       "XGBoost Return %": -35.24866034754006,
       "Neural Net Return %": -18.120172717233544,
       "LSTM Return %": -17.61201452009786,
       "Transformer Return %": -19.923811974262847,
+<<<<<<< HEAD
       "RL Policy Return %": -0.0,
+=======
+      "RL Policy Return %": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Ensemble Return %": -22.725094707047212,
       "Probability Up %": 12.408131170964667,
       "Probability Down %": 87.59186882903533,
@@ -3005,7 +3352,11 @@
       "Score": -0.8490041707841697,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -2.625,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
+=======
+      "Policy Target %": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Reason": "hold score -2.62; forecast -22.73% vs error 20.12%; trend -0.65; vol 104.7%",
       "Policy Forecast Score": -1.5,
       "Policy Trend Score": -0.65,
@@ -3046,9 +3397,15 @@
       "Score": -0.00031150277611593824,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.9806165834764397,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.98; forecast -0.32% vs error 32.89%; trend -0.45; vol 98.3%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.98; forecast -0.32% vs error 32.89%; trend -0.45; vol 98.3%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.45,
       "Policy Momentum Score": 0.1193834165235604,
       "Policy RL Score": -0.55,
@@ -3087,9 +3444,15 @@
       "Score": -0.0019020296110323852,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -1.25,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.25; forecast -3.04% vs error 97.30%; trend -0.45; vol 128.3%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.25; forecast -3.04% vs error 97.30%; trend -0.45; vol 128.3%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.45,
       "Policy Momentum Score": -0.14999999999999997,
       "Policy RL Score": -0.55,
@@ -3125,12 +3488,21 @@
       "Expected Error %": 25.264216330853714,
       "Validation MAE %": 15.4358833048775,
       "Direction Hit Rate %": 61.74548386282539,
+<<<<<<< HEAD
       "Score": 6.350009461071927e-06,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -1.0870505101472037,
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.09; forecast +1.78% vs error 25.26%; trend -0.85; vol 59.0%",
       "Policy Forecast Score": 0.0,
+=======
+      "Score": 0.000006350009461071927,
+      "Smart Policy": "Sell / Avoid",
+      "Policy Score": -1.0870505101472037,
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.09; forecast +1.78% vs error 25.26%; trend -0.85; vol 59.0%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": 0.10898703379607078,
       "Policy RL Score": -0.24603754394327432,
@@ -3171,7 +3543,11 @@
       "Policy Score": 1.1274553431230472,
       "Policy Target %": 1.2254942471856867,
       "Policy Reason": "hold score 1.13; forecast -7.32% vs error 31.53%; trend +0.85; vol 85.1%",
+<<<<<<< HEAD
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": 0.85,
       "Policy Momentum Score": 0.55,
       "Policy RL Score": -0.3725446568769527,
@@ -3210,9 +3586,15 @@
       "Score": -0.10474523788505638,
       "Smart Policy": "Strong Sell / Avoid",
       "Policy Score": -1.9725664439693171,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.97; forecast -10.07% vs error 28.92%; trend -0.85; vol 46.1%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.97; forecast -10.07% vs error 28.92%; trend -0.85; vol 46.1%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.55,
       "Policy RL Score": -0.47256644396931713,
@@ -3251,9 +3633,15 @@
       "Score": -0.04726052564351177,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -1.0967276641311896,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -1.10; forecast -6.52% vs error 28.10%; trend -0.85; vol 59.1%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -1.10; forecast -6.52% vs error 28.10%; trend -0.85; vol 59.1%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": 0.40327233586881045,
       "Policy RL Score": -0.55,
@@ -3292,9 +3680,15 @@
       "Score": -0.05521563515516495,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.95,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.95; forecast -10.28% vs error 41.81%; trend -0.85; vol 86.5%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.95; forecast -10.28% vs error 41.81%; trend -0.85; vol 86.5%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": 0.55,
       "Policy RL Score": -0.55,
@@ -3333,9 +3727,15 @@
       "Score": -0.011305117715511116,
       "Smart Policy": "Sell / Avoid",
       "Policy Score": -0.8424321241863205,
+<<<<<<< HEAD
       "Policy Target %": 0.0,
       "Policy Reason": "hold score -0.84; forecast -2.94% vs error 25.62%; trend -0.85; vol 42.2%",
       "Policy Forecast Score": 0.0,
+=======
+      "Policy Target %": 0,
+      "Policy Reason": "hold score -0.84; forecast -2.94% vs error 25.62%; trend -0.85; vol 42.2%",
+      "Policy Forecast Score": 0,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "Policy Trend Score": -0.85,
       "Policy Momentum Score": -0.36643852341986033,
       "Policy RL Score": 0.47400639923353977,
@@ -3350,6 +3750,7 @@
       "Risk Overlay": "Sell / Avoid"
     }
   ],
+<<<<<<< HEAD
   "snapshots": [
     {
       "symbol": "AAPL",
@@ -136072,6 +136473,8 @@
       }
     }
   ],
+=======
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
   "short_horizon_reports": [
     {
       "horizon_days": 1,
@@ -136081,6 +136484,7 @@
           "Symbol": "AAPL",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
+<<<<<<< HEAD
           "Last Price": 295.95001220703125,
           "Forecast Price": 297.9705737440065,
           "Forecast Return %": 0.6827374399842432,
@@ -136238,6 +136642,42 @@
           "Signal Tier": "Neutral / Monitor",
           "Reliability": "Low",
           "Qualified Model Signal": false,
+=======
+          "Last Price": 712.1300048828125,
+          "Forecast Price": 730.7256487132028,
+          "Forecast Return %": 2.6112709340832096,
+          "Ridge Return %": 2.734265141076441,
+          "XGBoost Return %": 1.5351642465992394,
+          "Neural Net Return %": 3.6881859300082795,
+          "LSTM Return %": 5.3190324332898244,
+          "Transformer Return %": 1.8610831320091183,
+          "RL Policy Return %": 1.3120267009081907,
+          "Ensemble Return %": 2.6112709340832096,
+          "Probability Up %": 71.28755311545727,
+          "Probability Down %": 28.71244688454273,
+          "Directional Probability %": 71.28755311545727,
+          "Model Edge %": 21.28755311545727,
+          "Signal Quality": "High Edge",
+          "Expected Error %": 4.3951019574109775,
+          "Validation MAE %": 3.340026738859853,
+          "Direction Hit Rate %": 53.91074492511179,
+          "Score": 0.252952351261908,
+          "Smart Policy": "Strong Buy",
+          "Policy Score": 3,
+          "Policy Target %": 2.5,
+          "Policy Reason": "buy score 3.00; forecast +2.61% vs error 4.40%; trend +0.85; vol 73.3%",
+          "Policy Forecast Score": 0.8911980743746264,
+          "Policy Trend Score": 0.85,
+          "Policy Momentum Score": 0.55,
+          "Policy RL Score": 0.34950903846113146,
+          "Policy RL Action": "long",
+          "Policy Volatility %": 73.2880273109702,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend, Near 60-Day High, Overbought, Volume Spike, High Volatility",
+          "Signal Tier": "Model-Confirmed Buy",
+          "Reliability": "Moderate",
+          "Qualified Model Signal": true,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
           "Policy Watchlist": false,
           "Risk Overlay": "Strong Buy"
         },
@@ -136245,6 +136685,7 @@
           "Symbol": "INTC",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
+<<<<<<< HEAD
           "Last Price": 121.0999984741211,
           "Forecast Price": 121.17708884632609,
           "Forecast Return %": 0.06365844192925897,
@@ -136696,6 +137137,8 @@
           "Symbol": "SNDK",
           "Model Call": "Buy",
           "Selected Model": "Ensemble",
+=======
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
           "Last Price": 1958.800048828125,
           "Forecast Price": 2048.743404985933,
           "Forecast Return %": 4.5917579087062945,
@@ -136716,7 +137159,11 @@
           "Direction Hit Rate %": 54.60063777605884,
           "Score": 0.23973802307222536,
           "Smart Policy": "Strong Buy",
+<<<<<<< HEAD
           "Policy Score": 3.0,
+=======
+          "Policy Score": 3,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
           "Policy Target %": 2.5,
           "Policy Reason": "hold score 3.00; forecast +4.59% vs error 7.34%; trend +0.85; vol 97.1%",
           "Policy Forecast Score": 0.9379923414306862,
@@ -136734,6 +137181,7 @@
           "Risk Overlay": "Strong Buy"
         },
         {
+<<<<<<< HEAD
           "Symbol": "ORCL",
           "Model Call": "Neutral / No Edge",
           "Selected Model": "Ensemble",
@@ -137431,6 +137879,8 @@
           "Risk Overlay": "Strong Sell / Avoid"
         },
         {
+=======
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
           "Symbol": "DELL",
           "Model Call": "Buy",
           "Selected Model": "Ensemble",
@@ -137454,7 +137904,11 @@
           "Direction Hit Rate %": 51.135715357496515,
           "Score": 0.18751015155902911,
           "Smart Policy": "Strong Buy",
+<<<<<<< HEAD
           "Policy Score": 3.0,
+=======
+          "Policy Score": 3,
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
           "Policy Target %": 2.5,
           "Policy Reason": "buy score 3.00; forecast +2.19% vs error 4.37%; trend +0.85; vol 97.6%",
           "Policy Forecast Score": 0.7514226527631491,
@@ -137470,6 +137924,7 @@
           "Qualified Model Signal": true,
           "Policy Watchlist": false,
           "Risk Overlay": "Strong Buy"
+<<<<<<< HEAD
         },
         {
           "Symbol": "DAL",
@@ -159783,6 +160238,140 @@
           }
         }
       ],
+=======
+        }
+      ],
+      "top_sells": [],
+      "signal_buys": [
+        {
+          "Symbol": "WDC",
+          "Model Call": "Buy",
+          "Selected Model": "Ensemble",
+          "Last Price": 712.1300048828125,
+          "Forecast Price": 730.7256487132028,
+          "Forecast Return %": 2.6112709340832096,
+          "Ridge Return %": 2.734265141076441,
+          "XGBoost Return %": 1.5351642465992394,
+          "Neural Net Return %": 3.6881859300082795,
+          "LSTM Return %": 5.3190324332898244,
+          "Transformer Return %": 1.8610831320091183,
+          "RL Policy Return %": 1.3120267009081907,
+          "Ensemble Return %": 2.6112709340832096,
+          "Probability Up %": 71.28755311545727,
+          "Probability Down %": 28.71244688454273,
+          "Directional Probability %": 71.28755311545727,
+          "Model Edge %": 21.28755311545727,
+          "Signal Quality": "High Edge",
+          "Expected Error %": 4.3951019574109775,
+          "Validation MAE %": 3.340026738859853,
+          "Direction Hit Rate %": 53.91074492511179,
+          "Score": 0.252952351261908,
+          "Smart Policy": "Strong Buy",
+          "Policy Score": 3,
+          "Policy Target %": 2.5,
+          "Policy Reason": "buy score 3.00; forecast +2.61% vs error 4.40%; trend +0.85; vol 73.3%",
+          "Policy Forecast Score": 0.8911980743746264,
+          "Policy Trend Score": 0.85,
+          "Policy Momentum Score": 0.55,
+          "Policy RL Score": 0.34950903846113146,
+          "Policy RL Action": "long",
+          "Policy Volatility %": 73.2880273109702,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend, Near 60-Day High, Overbought, Volume Spike, High Volatility",
+          "Signal Tier": "Model-Confirmed Buy",
+          "Reliability": "Moderate",
+          "Qualified Model Signal": true,
+          "Policy Watchlist": false,
+          "Risk Overlay": "Strong Buy"
+        },
+        {
+          "Symbol": "SNDK",
+          "Model Call": "Buy",
+          "Selected Model": "Ensemble",
+          "Last Price": 1958.800048828125,
+          "Forecast Price": 2048.743404985933,
+          "Forecast Return %": 4.5917579087062945,
+          "Ridge Return %": 2.484260942242086,
+          "XGBoost Return %": 1.6187072520080583,
+          "Neural Net Return %": 3.23975071051203,
+          "LSTM Return %": 11.939788592514404,
+          "Transformer Return %": 10.542011474232647,
+          "RL Policy Return %": 0.5556776264556281,
+          "Ensemble Return %": 4.5917579087062945,
+          "Probability Up %": 69.16897498650374,
+          "Probability Down %": 30.83102501349626,
+          "Directional Probability %": 69.16897498650374,
+          "Model Edge %": 19.16897498650374,
+          "Signal Quality": "High Edge",
+          "Expected Error %": 7.342956396162014,
+          "Validation MAE %": 5.894402079950769,
+          "Direction Hit Rate %": 54.60063777605884,
+          "Score": 0.23973802307222536,
+          "Smart Policy": "Strong Buy",
+          "Policy Score": 3,
+          "Policy Target %": 2.5,
+          "Policy Reason": "hold score 3.00; forecast +4.59% vs error 7.34%; trend +0.85; vol 97.1%",
+          "Policy Forecast Score": 0.9379923414306862,
+          "Policy Trend Score": 0.85,
+          "Policy Momentum Score": 0.55,
+          "Policy RL Score": 0.2549817621740437,
+          "Policy RL Action": "long",
+          "Policy Volatility %": 97.14414371536137,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend",
+          "Signal Tier": "Model-Confirmed Buy",
+          "Reliability": "Moderate",
+          "Qualified Model Signal": true,
+          "Policy Watchlist": false,
+          "Risk Overlay": "Strong Buy"
+        },
+        {
+          "Symbol": "DELL",
+          "Model Call": "Buy",
+          "Selected Model": "Ensemble",
+          "Last Price": 419.32000732421875,
+          "Forecast Price": 428.5071505821196,
+          "Forecast Return %": 2.1909622954855204,
+          "Ridge Return %": 1.1880403471571572,
+          "XGBoost Return %": 0.9054903593112552,
+          "Neural Net Return %": 4.180042845134198,
+          "LSTM Return %": 4.115616891367744,
+          "Transformer Return %": 0.6732041816970231,
+          "RL Policy Return %": 2.655428012758113,
+          "Ensemble Return %": 2.1909622954855204,
+          "Probability Up %": 68.71551425181744,
+          "Probability Down %": 31.28448574818256,
+          "Directional Probability %": 68.71551425181744,
+          "Model Edge %": 18.71551425181744,
+          "Signal Quality": "High Edge",
+          "Expected Error %": 4.373628384961902,
+          "Validation MAE %": 2.9924954180523566,
+          "Direction Hit Rate %": 51.135715357496515,
+          "Score": 0.18751015155902911,
+          "Smart Policy": "Strong Buy",
+          "Policy Score": 3,
+          "Policy Target %": 2.5,
+          "Policy Reason": "buy score 3.00; forecast +2.19% vs error 4.37%; trend +0.85; vol 97.6%",
+          "Policy Forecast Score": 0.7514226527631491,
+          "Policy Trend Score": 0.85,
+          "Policy Momentum Score": 0.55,
+          "Policy RL Score": 0.5048673231660332,
+          "Policy RL Action": "long",
+          "Policy Volatility %": 97.63120401571027,
+          "Primary Pattern": "Uptrend",
+          "All Patterns": "Uptrend, High Volatility",
+          "Signal Tier": "Model-Confirmed Buy",
+          "Reliability": "Speculative",
+          "Qualified Model Signal": true,
+          "Policy Watchlist": false,
+          "Risk Overlay": "Strong Buy"
+        }
+      ],
+      "signal_sells": [],
+      "errors": [
+        "SPCX: Need at least 42 clean close prices for ML forecasting."
+      ],
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
       "timings": {
         "total_seconds": 5379.402,
         "context_seconds": 3.655,
@@ -160278,6 +160867,78 @@
       }
     }
   ],
+<<<<<<< HEAD
+=======
+  "top_buys": [
+    "INTC",
+    "GEV",
+    "SNDK",
+    "SLB",
+    "PNUT"
+  ],
+  "top_sells": [
+    "PEPE"
+  ],
+  "policy_watch_buys": [
+    "STX",
+    "LUV",
+    "WDC",
+    "MS",
+    "UAL",
+    "DELL",
+    "MU",
+    "LLY",
+    "AAPL",
+    "AVGO"
+  ],
+  "policy_watch_sells": [
+    "DOGE",
+    "ADA",
+    "MNT",
+    "SHIB",
+    "BTC",
+    "ETH",
+    "SOL",
+    "ZEC",
+    "AVAX",
+    "UNI"
+  ],
+  "signal_summary": {
+    "model_confirmed_buys": 5,
+    "model_confirmed_sells": 1,
+    "policy_watch_buys": 10,
+    "policy_watch_sells": 10,
+    "reliability_counts": {
+      "Low": 66,
+      "Moderate": 6,
+      "Speculative": 4,
+      "High": 3
+    },
+    "tier_counts": {
+      "Policy Watch Buy": 10,
+      "Neutral / Monitor": 48,
+      "Model-Confirmed Buy": 5,
+      "Policy Watch Sell/Avoid": 15,
+      "Model-Confirmed Sell/Avoid": 1
+    }
+  },
+  "signal_threshold": {
+    "min_forecast_return_pct": 2,
+    "max_rows_per_side": 10,
+    "directional_call_required": true
+  },
+  "model_selection": {
+    "run_profile": "quality",
+    "requested_sequence_model": "both",
+    "adaptive_sequence_symbols": [],
+    "adaptive_sequence_min_wins": 5,
+    "adaptive_sequence_min_share": 0.2
+  },
+  "smart_policy": {
+    "enabled": true,
+    "risk_fraction": 0.1
+  },
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
   "errors": [
     "SPCX: Need at least 71 clean close prices for ML forecasting."
   ],
@@ -160773,6 +161434,7 @@
     "requested_sequence_model": "both",
     "adaptive_sequence_symbols": [],
     "run_profile": "quality"
+<<<<<<< HEAD
   },
   "model_cache": {
     "force_retrain": false,
@@ -160836,5 +161498,7 @@
       "Policy Watch Sell/Avoid": 15,
       "Model-Confirmed Sell/Avoid": 1
     }
+=======
+>>>>>>> f215d26e8278f9db1f5651b8aa763ace8abb6e1e
   }
 }
