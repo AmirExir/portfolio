@@ -10,6 +10,7 @@ import sys
 import requests
 import base64
 import json
+import glob
 
 import yfinance as yf
 import plotly.express as px
@@ -556,9 +557,281 @@ def maybe_execute_auto_trade_smart(
     return {"status": "executed", "entry": log_entry, "decision": decision}
 
 
-st.set_page_config(page_title="📈 Market Agent Dashboard", layout="wide")
+APP_BUILD = "2026-06-18 professional-market-ui-v1"
+MARKET_BLUE = "#0b2f4f"
+MARKET_CYAN = "#00a3c7"
+MARKET_GREEN = "#16a34a"
+MARKET_ORANGE = "#f59e0b"
+MARKET_RED = "#dc2626"
+PLOTLY_CONFIG = {"displayModeBar": False, "responsive": True}
+HEATMAP_MAX_SYMBOLS = 40
 
-st.title("🤖 Amir Exir Stock Market & Crypto AI Agent")
+
+def selected_non_crypto_symbols(symbols) -> tuple[str, ...]:
+    selected = []
+    seen = set()
+    for symbol in symbols or []:
+        symbol_text = str(symbol).strip().upper()
+        if not symbol_text or symbol_text.endswith("-USD") or symbol_text in seen:
+            continue
+        selected.append(symbol_text)
+        seen.add(symbol_text)
+        if len(selected) >= HEATMAP_MAX_SYMBOLS:
+            break
+    return tuple(selected)
+
+
+def count_non_crypto_symbols(symbols) -> int:
+    return len(
+        {
+            str(symbol).strip().upper()
+            for symbol in symbols or []
+            if str(symbol).strip() and not str(symbol).strip().upper().endswith("-USD")
+        }
+    )
+
+
+def inject_market_css() -> None:
+    st.markdown(
+        """
+        <style>
+        :root {
+            --market-blue: #0b2f4f;
+            --market-cyan: #00a3c7;
+            --market-green: #16a34a;
+            --market-orange: #f59e0b;
+            --market-red: #dc2626;
+            --market-slate: #334155;
+            --market-muted: #64748b;
+            --market-border: #e2e8f0;
+            --market-bg: #f6f8fb;
+            --market-panel: #ffffff;
+        }
+        .stApp,
+        [data-testid="stAppViewContainer"],
+        [data-testid="stAppViewContainer"] > .main {
+            background: var(--market-bg);
+            color: #0f172a;
+        }
+        [data-testid="stHeader"] {
+            background: rgba(246,248,251,0.92);
+            border-bottom: 1px solid rgba(226,232,240,0.75);
+        }
+        .block-container {
+            max-width: 1480px;
+            padding-top: 1.15rem;
+            padding-bottom: 2.5rem;
+        }
+        [data-testid="stSidebar"] {
+            background: linear-gradient(180deg, #071f36 0%, #0b2f4f 54%, #123b63 100%);
+            border-right: 1px solid rgba(255,255,255,0.10);
+        }
+        [data-testid="stSidebar"] * {
+            color: #f8fafc;
+        }
+        [data-testid="stSidebar"] input,
+        [data-testid="stSidebar"] textarea,
+        [data-testid="stSidebar"] select {
+            color: #0f172a !important;
+        }
+        .market-hero {
+            padding: 1.45rem 1.55rem;
+            border-radius: 24px;
+            background:
+                radial-gradient(circle at 85% 0%, rgba(0,163,199,0.26), transparent 30%),
+                linear-gradient(135deg, #061a2e 0%, #0b2f4f 54%, #123b63 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.20);
+            margin-bottom: 1rem;
+        }
+        .market-hero h1 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 2.45rem;
+            line-height: 1.05;
+            letter-spacing: -0.045em;
+        }
+        .market-hero p {
+            margin: 0.65rem 0 0 0;
+            color: #dbeafe;
+            max-width: 980px;
+            font-size: 1.02rem;
+        }
+        .market-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .market-badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.22);
+            background: rgba(255,255,255,0.10);
+            color: #f8fafc;
+            padding: 0.32rem 0.72rem;
+            font-weight: 750;
+            font-size: 0.82rem;
+        }
+        .section-title {
+            color: var(--market-blue);
+            margin: 0.25rem 0 0.2rem 0;
+            letter-spacing: -0.035em;
+        }
+        .section-subtitle {
+            color: var(--market-muted);
+            margin: 0 0 0.85rem 0;
+            font-size: 0.95rem;
+        }
+        div[data-testid="stMetric"] {
+            background: var(--market-panel);
+            border: 1px solid var(--market-border);
+            border-top: 4px solid var(--market-cyan);
+            border-radius: 18px;
+            padding: 0.9rem 1rem;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        }
+        div[data-testid="stMetric"] label {
+            color: var(--market-muted) !important;
+            text-transform: uppercase;
+            letter-spacing: 0.075em;
+            font-size: 0.72rem !important;
+            font-weight: 800;
+        }
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 0.45rem;
+            border-bottom: 1px solid var(--market-border);
+        }
+        .stTabs [data-baseweb="tab"] {
+            border-radius: 999px;
+            padding: 0.5rem 0.9rem;
+        }
+        .stTabs [data-baseweb="tab"] p {
+            color: var(--market-slate) !important;
+            font-weight: 750;
+        }
+        .stTabs [aria-selected="true"] {
+            background: #e0f2fe;
+        }
+        .stTabs [aria-selected="true"] p {
+            color: var(--market-blue) !important;
+            font-weight: 850;
+        }
+        .stButton > button,
+        .stLinkButton > a {
+            background: #111827 !important;
+            color: #ffffff !important;
+            border: 1px solid #1f2937 !important;
+            border-radius: 10px !important;
+            font-weight: 750 !important;
+            min-height: 2.5rem;
+        }
+        .stButton > button:hover,
+        .stLinkButton > a:hover {
+            background: var(--market-blue) !important;
+            border-color: var(--market-cyan) !important;
+        }
+        h1, h2, h3 {
+            color: #0f172a;
+            letter-spacing: -0.035em;
+        }
+        [data-testid="stDataFrame"] {
+            border: 1px solid var(--market-border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_market_hero() -> None:
+    st.markdown(
+        f"""
+        <div class="market-hero">
+            <h1>Market Intelligence Agent</h1>
+            <p>
+                Professional multi-asset dashboard for scheduled ML forecasts, risk-aware policy signals,
+                market heatmaps, paper-trading controls, and portfolio monitoring.
+            </p>
+            <div class="market-badges">
+                <span class="market-badge">Model-confirmed signals</span>
+                <span class="market-badge">Smart policy overlay</span>
+                <span class="market-badge">Stocks + ETFs + crypto</span>
+                <span class="market-badge">Paper trading controls</span>
+                <span class="market-badge">Build {APP_BUILD}</span>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_section_header(title: str, subtitle: str = "") -> None:
+    st.markdown(f"<h2 class='section-title'>{title}</h2>", unsafe_allow_html=True)
+    if subtitle:
+        st.markdown(f"<div class='section-subtitle'>{subtitle}</div>", unsafe_allow_html=True)
+
+
+def apply_market_chart_layout(
+    fig: go.Figure,
+    title: str | None = None,
+    height: int | None = None,
+    margin: dict | None = None,
+) -> go.Figure:
+    layout_kwargs = {
+        "template": "plotly_white",
+        "paper_bgcolor": "#ffffff",
+        "plot_bgcolor": "#ffffff",
+        "font": dict(color="#0f172a"),
+        "hovermode": "closest",
+        "margin": margin or dict(l=40, r=30, t=70 if title else 35, b=45),
+    }
+    if title:
+        layout_kwargs["title"] = dict(text=title, x=0.01, xanchor="left", font=dict(size=20, color=MARKET_BLUE))
+    if height:
+        layout_kwargs["height"] = height
+    fig.update_layout(**layout_kwargs)
+    cartesian_types = {
+        "bar",
+        "box",
+        "candlestick",
+        "heatmap",
+        "histogram",
+        "ohlc",
+        "scatter",
+        "scattergl",
+        "scatterpolar",
+        "violin",
+    }
+    if any(getattr(trace, "type", "") in cartesian_types for trace in fig.data):
+        fig.update_xaxes(showgrid=True, gridcolor="#eef2f7", linecolor="#cbd5e1", tickfont=dict(color="#0f172a"))
+        fig.update_yaxes(
+            showgrid=True,
+            gridcolor="#eef2f7",
+            zerolinecolor="#cbd5e1",
+            linecolor="#cbd5e1",
+            tickfont=dict(color="#0f172a"),
+        )
+    return fig
+
+
+def render_chart(fig: go.Figure) -> None:
+    st.plotly_chart(fig, use_container_width=True, config=PLOTLY_CONFIG)
+
+
+st.set_page_config(
+    page_title="Market Intelligence Agent",
+    page_icon="📈",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+inject_market_css()
+render_market_hero()
 
 SYMBOL_OPTIONS = [
     "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "STX", "SPCX",
@@ -925,6 +1198,8 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
         "Smart Policy",
         "Policy Score",
         "Policy Target %",
+        "Signal Tier",
+        "Reliability",
         "Model Call",
         "Primary Pattern",
         "Selected Model",
@@ -1299,13 +1574,15 @@ def build_quick_price_chart(df: pd.DataFrame, short_window: int, long_window: in
             hovertemplate="%{x}<br>Long MA: $%{y:,.2f}<extra></extra>",
         )
     )
-    fig.update_layout(
-        title=f"⚡ Quick Price View for {ticker_label(symbol)}",
-        xaxis_title="Date",
-        yaxis_title="Price",
-        margin=dict(l=10, r=10, t=40, b=10),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
+    fig = apply_market_chart_layout(
+        fig,
+        title=f"Quick Price View: {ticker_label(symbol)}",
+        height=460,
+        margin=dict(l=55, r=25, t=72, b=45),
     )
+    fig.update_xaxes(title_text="Date")
+    fig.update_yaxes(title_text="Price")
+    fig.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0))
     return fig
 
 
@@ -1616,6 +1893,37 @@ def report_generated_caption(report_text: str) -> str | None:
     return None
 
 
+def load_json_file_safely(path: str) -> dict | None:
+    try:
+        with open(path, "r") as handle:
+            text = handle.read()
+        if "<<<<<<<" in text or ">>>>>>>" in text or "=======" in text:
+            return None
+        payload = json.loads(text)
+        return payload if isinstance(payload, dict) else None
+    except Exception:
+        return None
+
+
+def newest_valid_local_ml_payload() -> dict | None:
+    reports_dir = os.path.join(os.path.dirname(__file__) if __file__ else ".", "reports")
+    latest_path = os.path.join(reports_dir, "ml_forecast_rankings_latest.json")
+    payload = load_json_file_safely(latest_path)
+    if payload:
+        return payload
+
+    candidates = sorted(
+        glob.glob(os.path.join(reports_dir, "ml_forecast_rankings_20*.json")),
+        key=lambda path: os.path.getmtime(path),
+        reverse=True,
+    )
+    for candidate in candidates:
+        payload = load_json_file_safely(candidate)
+        if payload and payload.get("rows"):
+            return payload
+    return None
+
+
 @st.cache_data(ttl=300)
 def fetch_latest_ml_report():
     local_path = os.path.join(
@@ -1658,17 +1966,9 @@ def fetch_latest_ml_report():
 
 @st.cache_data(ttl=300)
 def fetch_latest_ml_payload() -> dict | None:
-    local_path = os.path.join(
-        os.path.dirname(__file__) if __file__ else ".",
-        "reports",
-        "ml_forecast_rankings_latest.json",
-    )
-    if os.path.exists(local_path):
-        try:
-            with open(local_path, "r") as f:
-                return json.load(f)
-        except Exception:
-            pass
+    local_payload = newest_valid_local_ml_payload()
+    if local_payload:
+        return local_payload
 
     contents_url = (
         "https://api.github.com/repos/AmirExir/portfolio/contents/"
@@ -1948,7 +2248,10 @@ top_portfolio_tab, top_summary_tab, top_patterns_tab, top_analysis_tab = st.tabs
 ])
 
 with top_summary_tab:
-    st.markdown("📰 AI-Generated Market Summary")
+    render_section_header(
+        "AI-Generated Market Summary",
+        "Latest market-moving news summary produced by the automated research workflow.",
+    )
     if st.button("🔄 Refresh News", help="Fetch the latest news from GitHub"):
         st.cache_data.clear()
         st.rerun()
@@ -2039,7 +2342,10 @@ with top_summary_tab:
         st.info("The news summary will be available when GitHub API or local files are accessible.")
 
 with top_patterns_tab:
-    st.markdown("🧩 Most Common Patterns")
+    render_section_header(
+        "Most Common Patterns",
+        "Technical pattern concentration across the selected forecast universe.",
+    )
     if not selected_forecast_symbols:
         st.info("Select forecast ranking tickers to scan current patterns.")
     elif forecast_work_paused:
@@ -2106,11 +2412,14 @@ with top_patterns_tab:
                     },
                     title="Most Common Patterns Across Selected Tickers",
                 )
-                pattern_fig.update_layout(
-                    yaxis=dict(categoryorder="total ascending"),
-                    margin=dict(l=10, r=10, t=45, b=10),
+                pattern_fig.update_layout(yaxis=dict(categoryorder="total ascending"))
+                pattern_fig = apply_market_chart_layout(
+                    pattern_fig,
+                    title="Most Common Patterns Across Selected Tickers",
+                    height=470,
+                    margin=dict(l=45, r=25, t=72, b=45),
                 )
-                st.plotly_chart(pattern_fig, use_container_width=True)
+                render_chart(pattern_fig)
 
                 st.dataframe(
                     pattern_summary.style.format(
@@ -2161,10 +2470,24 @@ with top_analysis_tab:
         latest_ml_payload = fetch_latest_ml_payload()
         latest_ml_report = fetch_latest_ml_report()
         if latest_ml_payload and latest_ml_payload.get("rows"):
-            st.markdown("🧠 Scheduled ML Forecast Rankings")
+            render_section_header(
+                "Scheduled ML Forecast Rankings",
+                "Latest n8n-generated model-confirmed signals, smart-policy watchlists, and reliability metadata.",
+            )
             generated_at = latest_ml_payload.get("generated_at")
             if generated_at:
                 st.caption(f"📅 Generated: {generated_at}")
+            signal_summary = latest_ml_payload.get("signal_summary") or {}
+            if signal_summary:
+                summary_cols = st.columns(4)
+                with summary_cols[0]:
+                    st.metric("Model Buy Signals", int(signal_summary.get("model_confirmed_buys", 0) or 0))
+                with summary_cols[1]:
+                    st.metric("Model Sell/Avoid Signals", int(signal_summary.get("model_confirmed_sells", 0) or 0))
+                with summary_cols[2]:
+                    st.metric("Policy Buy Watchlist", int(signal_summary.get("policy_watch_buys", 0) or 0))
+                with summary_cols[3]:
+                    st.metric("Policy Sell/Avoid Watchlist", int(signal_summary.get("policy_watch_sells", 0) or 0))
 
             rows_df = pd.DataFrame(latest_ml_payload.get("rows", []))
             if not rows_df.empty:
@@ -2249,7 +2572,10 @@ with top_analysis_tab:
                 with st.expander("Full scheduled report text"):
                     st.info(latest_ml_report.strip())
         elif latest_ml_report:
-            st.markdown("🧠 Scheduled ML Forecast Rankings")
+            render_section_header(
+                "Scheduled ML Forecast Rankings",
+                "Latest scheduled report text from the automation pipeline.",
+            )
             report_caption = report_generated_caption(latest_ml_report)
             if report_caption:
                 st.caption(report_caption)
@@ -2262,14 +2588,15 @@ with top_analysis_tab:
     except Exception as e:
         st.caption(f"Scheduled ML forecast report unavailable: {e}")
 
-    st.markdown("---")
-
-    #  Real-Time S&P 500 Heatmap (Market Cap Weighted + Labels)
-    st.subheader("🧭 Real-Time S&P 500 Heatmap")
+    #  Selected non-crypto universe heatmap (market-cap weighted + labels)
+    render_section_header(
+        "Selected Universe Heatmap",
+        "Selected non-crypto forecast symbols by timeframe, sized by available market capitalization.",
+    )
 
     # Timeframe selector
     sp_tf = st.selectbox(
-        "📉 Stock change timeframe",
+        "📉 Stock / ETF change timeframe",
         ["1D", "7D", "1M", "3M", "1Y", "5Y"],
         index=0,
         key="stock_tf"
@@ -2286,39 +2613,51 @@ with top_analysis_tab:
     }
 
     lookback_days = sp_days_map[sp_tf]
-
-    # S&P 500 sample tickers
-    tickers = [
-        "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM",
-        "UNH", "XOM", "V", "JNJ", "WMT", "PG", "KO", "HD", "BAC", "CVX",
-        "LLY", "PEP", "AVGO", "SNDK", "SPCX"
-    ]
+    heatmap_symbols = selected_non_crypto_symbols(selected_forecast_symbols)
+    if heatmap_symbols:
+        non_crypto_count = count_non_crypto_symbols(selected_forecast_symbols)
+        heatmap_note = f"Showing {len(heatmap_symbols)} selected non-crypto symbols."
+        if non_crypto_count > len(heatmap_symbols):
+            heatmap_note = (
+                f"Showing first {len(heatmap_symbols)} of {non_crypto_count} selected non-crypto symbols "
+                "for dashboard responsiveness."
+            )
+        if len(selected_forecast_symbols or []) > non_crypto_count:
+            heatmap_note += " Crypto symbols are shown in the crypto heatmap below."
+        st.caption(heatmap_note)
 
     try:
-        df = load_stock_heatmap_data(tuple(tickers), lookback_days)
-        if df.empty:
-            st.info("No stock heatmap price data returned. Try refreshing or selecting a longer timeframe.")
+        if not heatmap_symbols:
+            st.info("Select at least one non-crypto forecast symbol in the sidebar to render this heatmap.")
         else:
-            fig = px.treemap(
-                df,
-                path=["Ticker"],
-                values="Market Cap",
-                color="Percent Change",
-                color_continuous_scale="RdYlGn",
-                hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-                title=f"📊 S&P 500 Change ({sp_tf}) – Sized by Market Cap"
-            )
+            df = load_stock_heatmap_data(heatmap_symbols, lookback_days)
+            if df.empty:
+                st.info("No selected-universe heatmap price data returned. Try refreshing or selecting a longer timeframe.")
+            else:
+                fig = px.treemap(
+                    df,
+                    path=["Ticker"],
+                    values="Market Cap",
+                    color="Percent Change",
+                    color_continuous_scale="RdYlGn",
+                    hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
+                    title=f"Selected Universe Change ({sp_tf}) - Sized by Market Cap"
+                )
 
-            fig.update_traces(text=df["Label"])
-            st.plotly_chart(fig, use_container_width=True)
+                fig.update_traces(text=df["Label"])
+                fig = apply_market_chart_layout(fig, title=f"Selected Universe Change ({sp_tf})", height=540)
+                render_chart(fig)
 
     except Exception as e:
-        st.error(f"Error generating heatmap: {e}")
-        st.info("Please try a different timeframe or check your network connection.")
+        st.error(f"Error generating selected-universe heatmap: {e}")
+        st.info("Please try a different timeframe or reduce the selected forecast universe.")
 
 
     # ETF / commodity watchlist requested for broader market context
-    st.subheader("🧾 ETF and Commodity Watchlist")
+    render_section_header(
+        "ETF and Commodity Watchlist",
+        "Broad market, rates, metals, and oil proxies for fast cross-asset context.",
+    )
 
     watchlist_tickers = ["SPY", "VOO", "GLD", "SLV", "USO"]
     watchlist_labels = {
@@ -2344,13 +2683,17 @@ with top_analysis_tab:
                 title=f"SPY, VOO, Gold, Silver, and Oil Change ({sp_tf})",
             )
             watch_fig.update_traces(text=watch_df["Display"])
-            st.plotly_chart(watch_fig, use_container_width=True)
+            watch_fig = apply_market_chart_layout(watch_fig, title=f"ETF and Commodity Change ({sp_tf})", height=430)
+            render_chart(watch_fig)
     except Exception as e:
         st.error(f"Error generating watchlist heatmap: {e}")
 
 
     # --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
-    st.subheader("🪙 Real-Time Crypto Heatmap")
+    render_section_header(
+        "Real-Time Crypto Heatmap",
+        "Major crypto assets by selected timeframe, sized by estimated market capitalization.",
+    )
 
     # Timeframe selector for crypto
     crypto_tf = st.selectbox(
@@ -2389,11 +2732,12 @@ with top_analysis_tab:
                 color="Percent Change",
                 color_continuous_scale="RdYlGn",
                 hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-                title=f"🪙 Crypto Change ({crypto_tf}) – Sized by Market Cap"
+                title=f"Crypto Change ({crypto_tf}) - Sized by Market Cap"
             )
 
             crypto_fig.update_traces(text=crypto_df["Label"])
-            st.plotly_chart(crypto_fig, use_container_width=True)
+            crypto_fig = apply_market_chart_layout(crypto_fig, title=f"Crypto Change ({crypto_tf})", height=540)
+            render_chart(crypto_fig)
 
     except Exception as e:
         st.error(f"Error generating crypto heatmap: {e}")
@@ -2407,20 +2751,22 @@ with top_analysis_tab:
         key="quick_symbol_select",
     )
 
-    st.subheader("⚡ Quick Price + SMA Crossover")
+    render_section_header(
+        "Quick Price + SMA Crossover",
+        "Fast single-symbol trend view using the active moving-average settings.",
+    )
     try:
         quick_df = load_ohlcv(quick_symbol, history_days)
-        st.plotly_chart(
-            build_quick_price_chart(quick_df, short_window, long_window, quick_symbol),
-            use_container_width=True,
-        )
+        render_chart(build_quick_price_chart(quick_df, short_window, long_window, quick_symbol))
     except Exception as quick_error:
         quick_df = None
         st.warning(f"Quick price chart unavailable: {quick_error}")
 
     if run_forecast_rankings:
-        st.markdown("---")
-        st.subheader("🔎 ML Based Forecast Rankings")
+        render_section_header(
+            "Live ML Forecast Rankings",
+            "On-demand ranking run for the selected forecast universe using the sidebar model settings.",
+        )
 
         if not selected_forecast_symbols:
             st.info("Select forecast ranking tickers in the sidebar to compute rankings.")
@@ -2489,7 +2835,7 @@ with top_analysis_tab:
                 with st.expander("Symbols skipped during forecast ranking"):
                     st.write("\n".join(ranking_errors))
 
-        st.markdown("---")
+        st.divider()
 
     # --- Symbol input (defaults to best stock from rankings) ---
     symbol = st.selectbox(
@@ -2517,7 +2863,10 @@ try:
     context_df = load_market_context(history_days) if use_market_context else pd.DataFrame()
     
     with analysis_tab:
-        st.subheader("📈 Actual Value, ML Based Forecast, and Crossover Strategy")
+        render_section_header(
+            "Actuals, ML Forecast, and Strategy Curve",
+            "Selected-symbol price history, model forecast, actual close, and crossover backtest equity curve.",
+        )
         forecast_change = 0.0
         ml_forecast_available = False
         forecast_result = None
@@ -2733,8 +3082,13 @@ try:
                     hovertemplate="%{x}<br>Crossover strategy equity: %{y:.4f}<extra></extra>",
                 )
             )
+            price_fig = apply_market_chart_layout(
+                price_fig,
+                title=f"{ticker_label(symbol)} Forecast, Actuals, and Strategy Curve",
+                height=560,
+                margin=dict(l=55, r=65, t=78, b=48),
+            )
             price_fig.update_layout(
-                xaxis_title="Date",
                 yaxis=dict(title="Actual / Forecast Price"),
                 yaxis2=dict(
                     title="Crossover Strategy Equity Curve",
@@ -2743,10 +3097,10 @@ try:
                     showgrid=False,
                 ),
                 hovermode="x unified",
-                margin=dict(l=10, r=10, t=30, b=10),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
             )
-            st.plotly_chart(price_fig, use_container_width=True)
+            price_fig.update_xaxes(title_text="Date")
+            render_chart(price_fig)
 
             metric_cols = st.columns(3)
             metric_cols[0].metric(
@@ -2911,7 +3265,10 @@ try:
             else:
                 st.warning(f"ML forecast unavailable: {forecast_error}")
 
-        st.subheader("🧾 Paper Trading Controls")
+        render_section_header(
+            "Paper Trading Controls",
+            "Manual and smart-policy paper-trading actions for the selected symbol.",
+        )
         trade_log_df = load_trade_log(limit=500)
         trade_summary = _trade_summary(trade_log_df, symbol, float(actual_close.iloc[-1]))
 
@@ -3023,9 +3380,9 @@ try:
                     except Exception as e:
                         st.error(f"Failed to sell: {e}")
 
-        st.markdown("---")
-        signal_emoji = "BUY" if sig.iloc[-1] == 1 else "FLAT"
-        st.write(f"**✨ Latest Signal:** {signal_emoji}")
+        st.divider()
+        signal_label = "BUY" if sig.iloc[-1] == 1 else "FLAT"
+        st.metric("Latest Strategy Signal", signal_label)
         st.caption(f"Last updated {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M UTC}")
 
         auto_trade_result = {"status": "disabled"}
@@ -3101,7 +3458,10 @@ try:
         elif auto_trade_enabled and auto_trade_result.get("status") == "skipped":
             st.caption(f"Auto-trade check: {auto_trade_result.get('reason', 'skipped')}")
 
-        st.subheader("📊 Trade Metrics")
+        render_section_header(
+            "Trade Metrics",
+            "Paper-trading execution totals and mark-to-market performance estimates.",
+        )
         metric_cols = st.columns(4)
         metric_cols[0].metric("Bought Shares", f"{trade_summary['buy_qty']:.0f}")
         metric_cols[1].metric("Sold Shares", f"{trade_summary['sell_qty']:.0f}")
@@ -3122,7 +3482,10 @@ try:
         )
 
     with money_tab:
-        st.subheader("💹 Money Chart")
+        render_section_header(
+            "Portfolio Balance Chart",
+            "Equity, cash, and profit/loss history from Alpaca or the local trade ledger.",
+        )
         trade_log_df = load_trade_log(limit=500)
         if not demo_mode:
             live_money_df = _fetch_alpaca_portfolio_history(period="1M", timeframe="1D")
@@ -3159,14 +3522,19 @@ try:
                         showgrid=False,
                     )
                 )
+            money_fig = apply_market_chart_layout(
+                money_fig,
+                title="Portfolio Equity History",
+                height=460,
+                margin=dict(l=55, r=65, t=72, b=45),
+            )
             money_fig.update_layout(
-                xaxis_title="Time",
-                yaxis_title="Equity ($)",
                 hovermode="x unified",
-                margin=dict(l=10, r=10, t=30, b=10),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
             )
-            st.plotly_chart(money_fig, use_container_width=True)
+            money_fig.update_xaxes(title_text="Time")
+            money_fig.update_yaxes(title_text="Equity ($)")
+            render_chart(money_fig)
         else:
             fallback_money_df = _money_history_from_trade_log(trade_log_df, equity, cash)
             fallback_fig = go.Figure()
@@ -3189,16 +3557,24 @@ try:
                         line=dict(color="#1f77b4", width=1.8),
                     )
                 )
+            fallback_fig = apply_market_chart_layout(
+                fallback_fig,
+                title="Portfolio Balance History",
+                height=460,
+                margin=dict(l=55, r=30, t=72, b=45),
+            )
             fallback_fig.update_layout(
-                xaxis_title="Time",
-                yaxis_title="Balance ($)",
                 hovermode="x unified",
-                margin=dict(l=10, r=10, t=30, b=10),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
             )
-            st.plotly_chart(fallback_fig, use_container_width=True)
+            fallback_fig.update_xaxes(title_text="Time")
+            fallback_fig.update_yaxes(title_text="Balance ($)")
+            render_chart(fallback_fig)
 
-        st.subheader("🧾 Recent Trade Log")
+        render_section_header(
+            "Recent Trade Log",
+            "Latest paper-trading actions, policy decisions, and account-state updates.",
+        )
         if trade_log_df.empty:
             st.info("No trades logged yet.")
         else:
@@ -3224,7 +3600,7 @@ except Exception as e:
     st.error(f" Error loading market data: {e}")
     st.info("Please check if the symbol is valid and try again.")
 
-st.markdown("---")
+st.divider()
 
 # Debug info (only show in sidebar if needed)
 if st.sidebar.checkbox("🐞 Show Debug Info", value=False):

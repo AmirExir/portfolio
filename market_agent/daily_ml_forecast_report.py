@@ -77,6 +77,10 @@ MARKET_CONTEXT_TICKERS = [
     "TLT", "GLD", "SLV", "USO", "AVGO",
 ]
 SEQUENCE_MODEL_NAMES = {"LSTM", "Transformer"}
+MODEL_BUY_CALLS = {"Strong Buy", "Buy"}
+MODEL_SELL_CALLS = {"Strong Sell", "Sell"}
+POLICY_BUY_CALLS = {"Strong Buy", "Buy"}
+POLICY_SELL_TERMS = ("Sell", "Avoid")
 
 
 def parse_symbols(symbols_text: str) -> list[str]:
@@ -248,12 +252,20 @@ def smart_policy_text(row: dict) -> str:
 
 
 def has_buy_call(row: dict) -> bool:
-    return model_call_text(row) in {"Strong Buy", "Buy"} or smart_policy_text(row) in {"Strong Buy", "Buy"}
+    return model_call_text(row) in MODEL_BUY_CALLS or smart_policy_text(row) in POLICY_BUY_CALLS
 
 
 def has_sell_call(row: dict) -> bool:
     smart_policy = smart_policy_text(row)
-    return model_call_text(row) in {"Strong Sell", "Sell"} or "Sell" in smart_policy
+    return model_call_text(row) in MODEL_SELL_CALLS or any(term in smart_policy for term in POLICY_SELL_TERMS)
+
+
+def has_model_buy_call(row: dict) -> bool:
+    return model_call_text(row) in MODEL_BUY_CALLS
+
+
+def has_model_sell_call(row: dict) -> bool:
+    return model_call_text(row) in MODEL_SELL_CALLS
 
 
 def is_policy_buy(row: dict) -> bool:
@@ -273,11 +285,76 @@ def is_policy_sell(row: dict) -> bool:
 
 
 def is_threshold_buy(row: dict, args: argparse.Namespace) -> bool:
-    return forecast_return_pct(row) >= min_signal_return_pct_from_args(args) and has_buy_call(row)
+    return forecast_return_pct(row) >= min_signal_return_pct_from_args(args) and has_model_buy_call(row)
 
 
 def is_threshold_sell(row: dict, args: argparse.Namespace) -> bool:
-    return forecast_return_pct(row) <= -min_signal_return_pct_from_args(args) and has_sell_call(row)
+    return forecast_return_pct(row) <= -min_signal_return_pct_from_args(args) and has_model_sell_call(row)
+
+
+def is_policy_watch_buy(row: dict, args: argparse.Namespace) -> bool:
+    if is_threshold_buy(row, args):
+        return False
+    if smart_policy_text(row) not in POLICY_BUY_CALLS:
+        return False
+    try:
+        target_pct = float(row_value(row, "Policy Target %", default=0.0) or 0.0)
+    except Exception:
+        target_pct = 0.0
+    return target_pct > 0.0 and ranking_score(row) > 0.0 and forecast_return_pct(row) >= min_signal_return_pct_from_args(args)
+
+
+def is_policy_watch_sell(row: dict, args: argparse.Namespace) -> bool:
+    if is_threshold_sell(row, args):
+        return False
+    policy = smart_policy_text(row)
+    if not any(term in policy for term in POLICY_SELL_TERMS):
+        return False
+    return ranking_score(row) < 0.0 and forecast_return_pct(row) <= -min_signal_return_pct_from_args(args)
+
+
+def reliability_grade(row: dict) -> str:
+    forecast_return = abs(forecast_return_pct(row))
+    expected_error = abs(float(row_value(row, "expected_error_pct", "Expected Error %", default=0.0) or 0.0))
+    edge = abs(float(row_value(row, "model_edge_pct", "Model Edge %", default=0.0) or 0.0))
+    hit_rate = float(row_value(row, "Direction Hit Rate %", default=np.nan))
+    validation_mae = abs(float(row_value(row, "Validation MAE %", default=np.nan)))
+    error_ratio = forecast_return / expected_error if expected_error > 0 else np.inf
+
+    if np.isfinite(validation_mae) and validation_mae > 0 and forecast_return < validation_mae * 0.5:
+        return "Low"
+    if np.isfinite(hit_rate) and hit_rate >= 56.0 and edge >= 15.0 and error_ratio >= 0.75:
+        return "High"
+    if (not np.isfinite(hit_rate) or hit_rate >= 52.0) and edge >= 8.0 and error_ratio >= 0.45:
+        return "Moderate"
+    if edge >= 3.0:
+        return "Speculative"
+    return "Low"
+
+
+def signal_tier(row: dict, args: argparse.Namespace) -> str:
+    if is_threshold_buy(row, args):
+        return "Model-Confirmed Buy"
+    if is_threshold_sell(row, args):
+        return "Model-Confirmed Sell/Avoid"
+    if is_policy_watch_buy(row, args):
+        return "Policy Watch Buy"
+    if is_policy_watch_sell(row, args):
+        return "Policy Watch Sell/Avoid"
+    return "Neutral / Monitor"
+
+
+def enrich_rows_with_signal_metadata(rows: list[dict], args: argparse.Namespace) -> list[dict]:
+    enriched = []
+    for row in rows:
+        item = dict(row)
+        item["Signal Tier"] = signal_tier(item, args)
+        item["Reliability"] = reliability_grade(item)
+        item["Qualified Model Signal"] = item["Signal Tier"].startswith("Model-Confirmed")
+        item["Policy Watchlist"] = item["Signal Tier"].startswith("Policy Watch")
+        item["Risk Overlay"] = smart_policy_text(item) or "Unavailable"
+        enriched.append(item)
+    return enriched
 
 
 def build_smart_policy_for_snapshot(
@@ -366,8 +443,15 @@ def load_json_payload(path: Path) -> dict:
 
 
 def save_json_payload(path: Path, payload: dict) -> None:
+    write_text_atomic(path, json_dumps_strict(payload, indent=2))
+
+
+def write_text_atomic(path: Path, text: str) -> None:
+    path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json_dumps_strict(payload, indent=2))
+    tmp_path = path.with_name(f".{path.name}.{os.getpid()}.{time.time_ns()}.tmp")
+    tmp_path.write_text(text)
+    tmp_path.replace(path)
 
 
 def model_payload_metric(model_payload: dict, metric_name: str, default=np.inf):
@@ -676,7 +760,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
             lambda symbol: patterns_by_symbol.get(symbol, {}).get("All Patterns", "")
         )
         rows_frame["Symbol"] = rows_frame["Symbol"].map(report_symbol)
-    rows = rows_frame.to_dict(orient="records")
+    rows = enrich_rows_with_signal_metadata(rows_frame.to_dict(orient="records"), args)
     errors.extend(row_errors)
     timings = {
         "total_seconds": round(time.perf_counter() - started_at, 3),
@@ -723,6 +807,8 @@ def format_row(row: dict) -> str:
     expected_error = float(row_value(row, "expected_error_pct", "Expected Error %", default=0.0))
     primary_pattern = row_value(row, "Primary Pattern", "primary_pattern", default="Unavailable")
     smart_policy = str(row_value(row, "Smart Policy", default="")).strip()
+    signal_tier_text = str(row_value(row, "Signal Tier", default="")).strip()
+    reliability = str(row_value(row, "Reliability", default="")).strip()
     policy_score = ranking_score(row)
     try:
         policy_target = float(row_value(row, "Policy Target %", default=np.nan))
@@ -733,6 +819,10 @@ def format_row(row: dict) -> str:
         f"{symbol}: {forecast_return:+.2f}%",
         model_call_text,
     ]
+    if signal_tier_text:
+        parts.append(signal_tier_text)
+    if reliability:
+        parts.append(f"reliability {reliability}")
     if smart_policy:
         policy_text = f"policy {smart_policy} ({policy_score:+.2f}"
         if np.isfinite(policy_target):
@@ -762,10 +852,18 @@ def build_market_report(
     generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     sorted_rows = sorted(rows, key=ranking_score, reverse=True)
     policy_buys = [row for row in sorted_rows if is_policy_buy(row)]
-    sorted_buy = cap_signal_rows([row for row in sorted_rows if is_threshold_buy(row, args)], args)
-    sorted_sell = cap_signal_rows(
+    model_buys = cap_signal_rows([row for row in sorted_rows if is_threshold_buy(row, args)], args)
+    model_sells = cap_signal_rows(
         sorted(
             [row for row in rows if is_threshold_sell(row, args)],
+            key=ranking_score,
+        ),
+        args,
+    )
+    watch_buys = cap_signal_rows([row for row in sorted_rows if is_policy_watch_buy(row, args)], args)
+    watch_sells = cap_signal_rows(
+        sorted(
+            [row for row in rows if is_policy_watch_sell(row, args)],
             key=ranking_score,
         ),
         args,
@@ -773,13 +871,19 @@ def build_market_report(
     threshold_text = f"{min_signal_return_pct_from_args(args):.2f}%"
     max_rows = max_signal_rows_from_args(args)
     cap_text = f"; capped at {max_rows} per side" if max_rows > 0 else ""
-    threshold_detail = f"absolute forecast return >= {threshold_text}; directional model or smart-policy call required{cap_text}"
+    threshold_detail = f"absolute forecast return >= {threshold_text}; model call must be Buy/Sell or Strong Buy/Strong Sell{cap_text}"
+    watchlist_detail = f"smart-policy overlay only; model call did not qualify for the primary signal section{cap_text}"
 
-    top_buy_symbols = [str(row_value(row, "Symbol", default="")) for row in sorted_buy if row_value(row, "Symbol", default="")]
-    top_sell_symbols = [str(row_value(row, "Symbol", default="")) for row in sorted_sell if row_value(row, "Symbol", default="")]
+    top_buy_symbols = [str(row_value(row, "Symbol", default="")) for row in model_buys if row_value(row, "Symbol", default="")]
+    top_sell_symbols = [str(row_value(row, "Symbol", default="")) for row in model_sells if row_value(row, "Symbol", default="")]
+    reliability_counts = {}
+    tier_counts = {}
+    for row in rows:
+        reliability_counts[str(row_value(row, "Reliability", default="Unknown"))] = reliability_counts.get(str(row_value(row, "Reliability", default="Unknown")), 0) + 1
+        tier_counts[str(row_value(row, "Signal Tier", default="Unknown"))] = tier_counts.get(str(row_value(row, "Signal Tier", default="Unknown")), 0) + 1
 
     lines = [
-        "ML Forecast Rankings",
+        "Market Intelligence Forecast Report",
         f"Generated: {generated_at}",
         f"Horizon: {args.horizon} trading days | Primary: {primary_model_from_args(args)}",
         f"Run profile: {getattr(args, 'run_profile', 'custom')}",
@@ -788,7 +892,24 @@ def build_market_report(
         f"RL policy: {'off (disabled by request)' if no_rl_policy_from_args(args) else ('on' if include_rl_policy_from_args(args) else 'off')}",
         f"Smart policy: on | risk cap {float(getattr(args, 'policy_risk_fraction', 0.10) or 0.10) * 100.0:.1f}% target allocation",
         f"Universe: {len(rows)} symbols | Stocks + crypto + commodities",
+        f"Primary signal rule: {threshold_detail}",
+        (
+            "Signal counts: "
+            f"{len(model_buys)} model-confirmed buys, "
+            f"{len(model_sells)} model-confirmed sells/avoids, "
+            f"{len(watch_buys)} policy buy watchlist, "
+            f"{len(watch_sells)} policy sell/avoid watchlist"
+        ),
     ]
+    if reliability_counts:
+        ordered_reliability = ["High", "Moderate", "Speculative", "Low", "Unknown"]
+        reliability_text = ", ".join(
+            f"{name}: {reliability_counts[name]}"
+            for name in ordered_reliability
+            if name in reliability_counts
+        )
+        if reliability_text:
+            lines.append(f"Reliability mix: {reliability_text}")
     adaptive_symbols = (timings or {}).get("adaptive_sequence_symbols") or []
     if adaptive_symbols:
         lines.append("Adaptive sequence symbols: " + ", ".join(report_symbol(symbol) for symbol in adaptive_symbols))
@@ -847,32 +968,56 @@ def build_market_report(
                 ),
                 args,
             )
+            short_watch_buys = cap_signal_rows([row for row in short_sorted if is_policy_watch_buy(row, args)], args)
+            short_watch_sells = cap_signal_rows(
+                sorted(
+                    [row for row in short_rows if is_policy_watch_sell(row, args)],
+                    key=ranking_score,
+                ),
+                args,
+            )
             horizon_label = f"{horizon} trading day" + ("" if horizon == 1 else "s")
             lines.append(f"{horizon_label} | sequence model: {short_sequence_model} | threshold: {threshold_detail}")
             if short_buys:
-                lines.append("Buys: " + " ; ".join(format_row(row) for row in short_buys))
+                lines.append("Model-confirmed buys: " + " ; ".join(format_row(row) for row in short_buys))
             else:
-                lines.append("Buys: no signals met threshold.")
+                lines.append("Model-confirmed buys: no signals met threshold.")
             if short_sells:
-                lines.append("Sells: " + " ; ".join(format_row(row) for row in short_sells))
+                lines.append("Model-confirmed sells/avoids: " + " ; ".join(format_row(row) for row in short_sells))
             else:
-                lines.append("Sells: no signals met threshold.")
+                lines.append("Model-confirmed sells/avoids: no signals met threshold.")
+            if short_watch_buys:
+                lines.append("Policy buy watchlist: " + " ; ".join(format_row(row) for row in short_watch_buys))
+            if short_watch_sells:
+                lines.append("Policy sell/avoid watchlist: " + " ; ".join(format_row(row) for row in short_watch_sells))
         lines.append("")
 
     lines.extend([
-        "Threshold Buy Forecasts",
+        "Model-Confirmed Buy Signals",
         f"Threshold: {threshold_detail}",
     ])
-    if sorted_buy:
-        lines.extend(format_row(row) for row in sorted_buy)
+    if model_buys:
+        lines.extend(format_row(row) for row in model_buys)
     else:
-        lines.append("No buy signals met threshold.")
+        lines.append("No model-confirmed buy signals met threshold.")
 
-    lines.extend(["", "Threshold Sell / Avoid Forecasts", f"Threshold: {threshold_detail}"])
-    if sorted_sell:
-        lines.extend(format_row(row) for row in sorted_sell)
+    lines.extend(["", "Model-Confirmed Sell / Avoid Signals", f"Threshold: {threshold_detail}"])
+    if model_sells:
+        lines.extend(format_row(row) for row in model_sells)
     else:
-        lines.append("No sell signals met threshold.")
+        lines.append("No model-confirmed sell/avoid signals met threshold.")
+
+    lines.extend(["", "Smart Policy Watchlist", f"Rule: {watchlist_detail}"])
+    if watch_buys:
+        lines.append("Buy watchlist:")
+        lines.extend(format_row(row) for row in watch_buys)
+    else:
+        lines.append("Buy watchlist: no policy-only buy setups met threshold.")
+    if watch_sells:
+        lines.append("Sell / avoid watchlist:")
+        lines.extend(format_row(row) for row in watch_sells)
+    else:
+        lines.append("Sell / avoid watchlist: no policy-only sell/avoid setups met threshold.")
 
     # Keep the report compact for LLMs; full details are available in JSON rows.
 
@@ -889,6 +1034,16 @@ def build_market_report(
         "telegram_recommendations": report_text,
         "top_buys": top_buy_symbols,
         "top_sells": top_sell_symbols,
+        "policy_watch_buys": [str(row_value(row, "Symbol", default="")) for row in watch_buys if row_value(row, "Symbol", default="")],
+        "policy_watch_sells": [str(row_value(row, "Symbol", default="")) for row in watch_sells if row_value(row, "Symbol", default="")],
+        "signal_summary": {
+            "model_confirmed_buys": len(model_buys),
+            "model_confirmed_sells": len(model_sells),
+            "policy_watch_buys": len(watch_buys),
+            "policy_watch_sells": len(watch_sells),
+            "reliability_counts": reliability_counts,
+            "tier_counts": tier_counts,
+        },
     }
 
 
@@ -989,6 +1144,9 @@ def write_outputs(
         "telegram_recommendations": report["telegram_recommendations"],
         "top_buys": report["top_buys"],
         "top_sells": report["top_sells"],
+        "policy_watch_buys": report["policy_watch_buys"],
+        "policy_watch_sells": report["policy_watch_sells"],
+        "signal_summary": report["signal_summary"],
     }
 
     optimization_summary_dir = output_dir / "optimization_summaries"
@@ -1000,11 +1158,11 @@ def write_outputs(
     latest_txt_path = output_dir / "ml_forecast_rankings_latest.txt"
 
     json_payload = json_dumps_strict(payload, indent=2)
-    json_path.write_text(json_payload)
-    latest_json_path.write_text(json_payload)
-    cache_path.write_text(json_payload)
-    txt_path.write_text(telegram_text)
-    latest_txt_path.write_text(telegram_text)
+    write_text_atomic(json_path, json_payload)
+    write_text_atomic(latest_json_path, json_payload)
+    write_text_atomic(cache_path, json_payload)
+    write_text_atomic(txt_path, telegram_text)
+    write_text_atomic(latest_txt_path, telegram_text)
 
     return {
         "json": str(json_path),
@@ -1171,11 +1329,17 @@ def main() -> int:
         send_telegram(telegram_text)
 
     if args.json_only:
+        report_summary = build_market_report(rows, errors, args, timings if args.show_timing else None, short_horizon_reports)
         output_payload = {
             "paths": paths,
             "telegram_text": telegram_text,
             "rows": rows,
             "short_horizon_reports": compact_short_horizon_reports(short_horizon_reports, args),
+            "top_buys": report_summary["top_buys"],
+            "top_sells": report_summary["top_sells"],
+            "policy_watch_buys": report_summary["policy_watch_buys"],
+            "policy_watch_sells": report_summary["policy_watch_sells"],
+            "signal_summary": report_summary["signal_summary"],
             "signal_threshold": {
                 "min_forecast_return_pct": min_signal_return_pct_from_args(args),
                 "max_rows_per_side": max_signal_rows_from_args(args),
