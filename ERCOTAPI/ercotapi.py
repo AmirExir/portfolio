@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import re
 from typing import Optional, Dict, Any
 import streamlit as st
 import pandas as pd
@@ -327,13 +328,14 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-APP_BUILD = "2026-06-18 professional-dashboard-v2"
+APP_BUILD = "2026-06-18 readability-fix-v3"
 ERCOT_BLUE = "#0b2f4f"
 ERCOT_CYAN = "#00a3c7"
 ERCOT_GREEN = "#1f9d55"
 ERCOT_ORANGE = "#f59e0b"
 ERCOT_RED = "#dc2626"
 CHART_TEMPLATE = "plotly_white"
+PLOTLY_CONFIG = {"displayModeBar": False, "responsive": True}
 
 
 def inject_dashboard_css() -> None:
@@ -352,6 +354,16 @@ def inject_dashboard_css() -> None:
             --ercot-panel: #ffffff;
             --ercot-border: #e2e8f0;
             --ercot-bg: #f8fafc;
+        }
+        .stApp,
+        [data-testid="stAppViewContainer"],
+        [data-testid="stAppViewContainer"] > .main {
+            background: var(--ercot-bg);
+            color: #0f172a;
+        }
+        [data-testid="stHeader"] {
+            background: rgba(248,250,252,0.92);
+            border-bottom: 1px solid rgba(226,232,240,0.72);
         }
         .block-container {
             padding-top: 1.25rem;
@@ -492,6 +504,18 @@ def inject_dashboard_css() -> None:
         .stTabs [data-baseweb="tab"] {
             border-radius: 999px;
             padding: 0.5rem 0.85rem;
+            color: #334155;
+        }
+        .stTabs [data-baseweb="tab"] p {
+            color: #334155 !important;
+            font-weight: 650;
+        }
+        .stTabs [aria-selected="true"] p {
+            color: var(--ercot-blue) !important;
+            font-weight: 800;
+        }
+        h1, h2, h3 {
+            color: #0f172a;
         }
         </style>
         """,
@@ -627,6 +651,87 @@ def latest_timestamp_label(df: pd.DataFrame) -> str:
     return value.max().strftime("%b %d, %Y %H:%M")
 
 
+def add_ercot_timestamp(df: pd.DataFrame) -> pd.DataFrame:
+    """Create a reliable timestamp from ERCOT date/hour fields when available."""
+    if df.empty:
+        return df
+
+    result = df.copy()
+    date_col = find_column(
+        result,
+        exact=["deliveryDate", "DeliveryDate", "operatingDay", "OperatingDay", "Delivery Date", "Operating Day"],
+    )
+    if date_col is None:
+        for col in result.columns:
+            col_lower = str(col).lower()
+            if ("delivery" in col_lower and "date" in col_lower) or ("operating" in col_lower and "day" in col_lower):
+                date_col = col
+                break
+    if date_col is None:
+        for col in result.columns:
+            col_lower = str(col).lower()
+            if "date" in col_lower and "post" not in col_lower and "create" not in col_lower:
+                date_col = col
+                break
+
+    hour_col = find_column(result, exact=["hourEnding", "HourEnding", "hour_ending", "Hour Ending"])
+    if hour_col is None:
+        for col in result.columns:
+            col_lower = str(col).lower()
+            if "hour" in col_lower and "end" in col_lower:
+                hour_col = col
+                break
+
+    if date_col is not None and hour_col is not None:
+        def parse_hour_ending(row: pd.Series) -> pd.Timestamp:
+            date_value = pd.to_datetime(row[date_col], errors="coerce")
+            if pd.isna(date_value):
+                return pd.NaT
+            match = re.search(r"\d{1,2}", str(row[hour_col]))
+            if not match:
+                return pd.NaT
+            hour = int(match.group(0))
+            base = date_value.normalize()
+            return base + timedelta(days=1) if hour >= 24 else base + timedelta(hours=hour)
+
+        result["timestamp"] = result.apply(parse_hour_ending, axis=1)
+    else:
+        candidate_cols = []
+        for col in result.columns:
+            col_lower = str(col).lower()
+            if "hour" in col_lower and "date" not in col_lower and "time" not in col_lower:
+                continue
+            if any(term in col_lower for term in ["timestamp", "datetime", "interval", "time", "date"]):
+                candidate_cols.append(col)
+        for col in candidate_cols:
+            parsed = pd.to_datetime(result[col], errors="coerce")
+            if parsed.notna().any():
+                result["timestamp"] = parsed
+                break
+
+    if "timestamp" in result.columns:
+        result = result.dropna(subset=["timestamp"]).sort_values("timestamp")
+    return result
+
+
+def compact_time_series(df: pd.DataFrame, value_cols: list[str], max_days: Optional[int] = None) -> pd.DataFrame:
+    """Deduplicate ERCOT interval rows into a readable one-row-per-timestamp series."""
+    value_cols = [col for col in value_cols if col and col in df.columns]
+    if df.empty or "timestamp" not in df.columns or not value_cols:
+        return df
+
+    result = df[["timestamp"] + value_cols].copy()
+    for col in value_cols:
+        result[col] = coerce_numeric(result[col])
+    result = result.dropna(subset=["timestamp"]).dropna(subset=value_cols, how="all")
+    result = result.groupby("timestamp", as_index=False)[value_cols].mean(numeric_only=True)
+
+    if max_days and not result.empty:
+        cutoff = result["timestamp"].max() - pd.Timedelta(days=max_days)
+        result = result[result["timestamp"] >= cutoff]
+    return result.sort_values("timestamp")
+
+
 def apply_professional_layout(
     fig: go.Figure,
     title: str,
@@ -639,15 +744,36 @@ def apply_professional_layout(
         template=CHART_TEMPLATE,
         height=height,
         hovermode="x unified",
-        margin=dict(l=35, r=25, t=70, b=45),
+        margin=dict(l=72, r=28, t=82, b=72),
         legend=dict(orientation="h", yanchor="bottom", y=legend_y, xanchor="right", x=1),
-        paper_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="#ffffff",
         plot_bgcolor="#ffffff",
         font=dict(color="#0f172a"),
     )
-    fig.update_xaxes(title_text="Time", showgrid=True, gridcolor="#eef2f7")
-    fig.update_yaxes(title_text=yaxis_title, showgrid=True, gridcolor="#eef2f7", zerolinecolor="#cbd5e1")
+    fig.update_xaxes(
+        title_text="Time",
+        showgrid=True,
+        gridcolor="#eef2f7",
+        linecolor="#cbd5e1",
+        tickfont=dict(color="#0f172a", size=12),
+        title_font=dict(color="#0f172a", size=14),
+        automargin=True,
+    )
+    fig.update_yaxes(
+        title_text=yaxis_title,
+        showgrid=True,
+        gridcolor="#eef2f7",
+        zerolinecolor="#cbd5e1",
+        linecolor="#cbd5e1",
+        tickfont=dict(color="#0f172a", size=12),
+        title_font=dict(color="#0f172a", size=14),
+        automargin=True,
+    )
     return fig
+
+
+def render_chart(fig: go.Figure) -> None:
+    st.plotly_chart(fig, width="stretch", config=PLOTLY_CONFIG)
 
 
 def render_dataframe(df: pd.DataFrame, height: int = 320) -> None:
@@ -1265,7 +1391,7 @@ def main():
                         height=520,
                     )
                     
-                    st.plotly_chart(fig, width='stretch')
+                    render_chart(fig)
                     
                     # ML Forecast Section
                     render_section_header(
@@ -1350,7 +1476,7 @@ def main():
                                     "Load (MW)",
                                     height=430,
                                 )
-                                st.plotly_chart(fig_diag, width='stretch')
+                                render_chart(fig_diag)
 
                             # Generate forecast for next 24 hours
                             last_timestamp = training_df.index[-1] if hasattr(training_df.index[-1], 'hour') else pd.Timestamp.now()
@@ -1412,7 +1538,7 @@ def main():
                                 "Predicted Load (MW)",
                                 height=430,
                             )
-                            st.plotly_chart(fig_ml, width='stretch')
+                            render_chart(fig_ml)
                             
                             forecast_table = pd.DataFrame({
                                 'Timestamp': [pd.Timestamp(h).strftime("%b %d %H:%M") for h in future_hours],
@@ -1457,30 +1583,29 @@ def main():
                     if "data" in wind_data and len(wind_data["data"]) > 0:
                         wind_df = dataframe_from_payload(wind_data)
                         
-                        # Parse timestamp
-                        wind_time_cols = [col for col in wind_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
-                        if wind_time_cols:
-                            wind_df['timestamp'] = pd.to_datetime(wind_df[wind_time_cols[0]], errors='coerce')
-                            wind_df = wind_df.dropna(subset=['timestamp'])
-                            wind_df = wind_df.sort_values('timestamp')
-                        
-                        if debug_mode:
-                            st.write("**Wind Data Sample:**")
-                            render_dataframe(wind_df.head(), height=180)
-                            st.write(f"Columns: {list(wind_df.columns)}")
-                        
-                        fig_wind = go.Figure()
-                        x_axis_wind = wind_df['timestamp'] if 'timestamp' in wind_df.columns else wind_df.index
+                        wind_df = add_ercot_timestamp(wind_df)
                         
                         # Add actual and forecast traces - API uses 'genSystemWide' not 'ACTUAL_SYSTEM_WIDE'
                         # Find actual column
                         actual_col = find_column(wind_df, exact=["genSystemWide"], contains=["gen", "system"])
+                        forecast_col = find_column(wind_df, contains=["stwpf", "system"])
+                        wind_series = compact_time_series(wind_df, [actual_col, forecast_col], max_days=3)
+
+                        if debug_mode:
+                            st.write("**Wind Data Sample:**")
+                            render_dataframe(wind_df.head(), height=180)
+                            st.write(f"Columns: {list(wind_df.columns)}")
+                            st.write("**Cleaned Wind Chart Series:**")
+                            render_dataframe(wind_series.head(), height=180)
                         
+                        fig_wind = go.Figure()
+                        x_axis_wind = wind_series['timestamp'] if 'timestamp' in wind_series.columns else wind_series.index
+
                         if actual_col:
                             fig_wind.add_trace(
                                 go.Scatter(
                                     x=x_axis_wind,
-                                    y=wind_df[actual_col],
+                                    y=wind_series[actual_col],
                                     mode='lines',
                                     name='Actual Wind',
                                     line=dict(color=ERCOT_CYAN, width=2.6),
@@ -1489,14 +1614,11 @@ def main():
                                 )
                             )
                         
-                        # Find forecast column
-                        forecast_col = find_column(wind_df, contains=["stwpf", "system"])
-                        
                         if forecast_col:
                             fig_wind.add_trace(
                                 go.Scatter(
                                     x=x_axis_wind,
-                                    y=wind_df[forecast_col],
+                                    y=wind_series[forecast_col],
                                     mode='lines',
                                     name='Wind Forecast',
                                     line=dict(color=ERCOT_BLUE, width=2.3, dash='dash')
@@ -1504,11 +1626,11 @@ def main():
                             )
 
                         if actual_col:
-                            latest_wind = coerce_numeric(wind_df[actual_col]).dropna()
+                            latest_wind = coerce_numeric(wind_series[actual_col]).dropna()
                             render_metric_card(
                                 "Latest Wind Output",
                                 format_mw(latest_wind.iloc[-1] if not latest_wind.empty else np.nan),
-                                latest_timestamp_label(wind_df),
+                                latest_timestamp_label(wind_series),
                                 ERCOT_CYAN,
                             )
 
@@ -1518,9 +1640,10 @@ def main():
                             "Generation (MW)",
                             height=430,
                         )
+                        st.caption("Chart view: latest 72 hours, grouped to one value per ERCOT interval.")
                         
                         if len(fig_wind.data) > 0:
-                            st.plotly_chart(fig_wind, width='stretch')
+                            render_chart(fig_wind)
                         else:
                             st.warning("⚠️ Wind data received but columns not found. Enable Debug Mode to see data structure.")
                     else:
@@ -1547,29 +1670,28 @@ def main():
                     if "data" in solar_data and len(solar_data["data"]) > 0:
                         solar_df = dataframe_from_payload(solar_data)
                         
-                        # Parse timestamp
-                        solar_time_cols = [col for col in solar_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
-                        if solar_time_cols:
-                            solar_df['timestamp'] = pd.to_datetime(solar_df[solar_time_cols[0]], errors='coerce')
-                            solar_df = solar_df.dropna(subset=['timestamp'])
-                            solar_df = solar_df.sort_values('timestamp')
+                        solar_df = add_ercot_timestamp(solar_df)
                         
+                        # Find actual solar column - API uses 'genSystemWide'
+                        actual_solar_col = find_column(solar_df, exact=["genSystemWide"], contains=["gen", "system"])
+                        forecast_solar_col = find_column(solar_df, contains=["stppf", "system"])
+                        solar_series = compact_time_series(solar_df, [actual_solar_col, forecast_solar_col], max_days=3)
+
                         if debug_mode:
                             st.write("**Solar Data Sample:**")
                             render_dataframe(solar_df.head(), height=180)
                             st.write(f"Columns: {list(solar_df.columns)}")
+                            st.write("**Cleaned Solar Chart Series:**")
+                            render_dataframe(solar_series.head(), height=180)
                         
                         fig_solar = go.Figure()
-                        x_axis_solar = solar_df['timestamp'] if 'timestamp' in solar_df.columns else solar_df.index
-                        
-                        # Find actual solar column - API uses 'genSystemWide'
-                        actual_solar_col = find_column(solar_df, exact=["genSystemWide"], contains=["gen", "system"])
-                        
+                        x_axis_solar = solar_series['timestamp'] if 'timestamp' in solar_series.columns else solar_series.index
+
                         if actual_solar_col:
                             fig_solar.add_trace(
                                 go.Scatter(
                                     x=x_axis_solar,
-                                    y=solar_df[actual_solar_col],
+                                    y=solar_series[actual_solar_col],
                                     mode='lines',
                                     name='Actual Solar',
                                     line=dict(color=ERCOT_ORANGE, width=2.6),
@@ -1578,14 +1700,11 @@ def main():
                                 )
                             )
                         
-                        # Find solar forecast column
-                        forecast_solar_col = find_column(solar_df, contains=["stppf", "system"])
-                        
                         if forecast_solar_col:
                             fig_solar.add_trace(
                                 go.Scatter(
                                     x=x_axis_solar,
-                                    y=solar_df[forecast_solar_col],
+                                    y=solar_series[forecast_solar_col],
                                     mode='lines',
                                     name='Solar Forecast',
                                     line=dict(color=ERCOT_RED, width=2.3, dash='dash')
@@ -1593,11 +1712,11 @@ def main():
                             )
 
                         if actual_solar_col:
-                            latest_solar = coerce_numeric(solar_df[actual_solar_col]).dropna()
+                            latest_solar = coerce_numeric(solar_series[actual_solar_col]).dropna()
                             render_metric_card(
                                 "Latest Solar Output",
                                 format_mw(latest_solar.iloc[-1] if not latest_solar.empty else np.nan),
-                                latest_timestamp_label(solar_df),
+                                latest_timestamp_label(solar_series),
                                 ERCOT_ORANGE,
                             )
 
@@ -1607,9 +1726,10 @@ def main():
                             "Generation (MW)",
                             height=430,
                         )
+                        st.caption("Chart view: latest 72 hours, grouped to one value per ERCOT interval.")
                         
                         if len(fig_solar.data) > 0:
-                            st.plotly_chart(fig_solar, width='stretch')
+                            render_chart(fig_solar)
                         else:
                             st.warning("⚠️ Solar data received but columns not found. Enable Debug Mode to see data structure.")
                     else:
@@ -1677,12 +1797,28 @@ def main():
                                 height=520,
                                 margin=dict(l=35, r=25, t=70, b=70),
                                 coloraxis_showscale=False,
-                                paper_bgcolor="rgba(0,0,0,0)",
+                                paper_bgcolor="#ffffff",
                                 plot_bgcolor="#ffffff",
+                                font=dict(color="#0f172a"),
                             )
-                            fig_lmp.update_xaxes(title_text="Settlement Point", tickangle=-35, showgrid=False)
-                            fig_lmp.update_yaxes(title_text="Price ($/MWh)", showgrid=True, gridcolor="#eef2f7", zerolinecolor="#cbd5e1")
-                            st.plotly_chart(fig_lmp, width='stretch')
+                            fig_lmp.update_xaxes(
+                                title_text="Settlement Point",
+                                tickangle=-35,
+                                showgrid=False,
+                                tickfont=dict(color="#0f172a", size=12),
+                                title_font=dict(color="#0f172a", size=14),
+                                automargin=True,
+                            )
+                            fig_lmp.update_yaxes(
+                                title_text="Price ($/MWh)",
+                                showgrid=True,
+                                gridcolor="#eef2f7",
+                                zerolinecolor="#cbd5e1",
+                                tickfont=dict(color="#0f172a", size=12),
+                                title_font=dict(color="#0f172a", size=14),
+                                automargin=True,
+                            )
+                            render_chart(fig_lmp)
                             
                             # Show data table
                             table_cols = [point_col, price_col]
@@ -1795,7 +1931,7 @@ def main():
                             "Outage Capacity (MW)",
                             height=520,
                         )
-                        st.plotly_chart(fig_outage, width='stretch')
+                        render_chart(fig_outage)
                     else:
                         st.info("No numeric outage capacity columns were found in the returned payload.")
                     
