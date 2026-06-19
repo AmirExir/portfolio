@@ -1,0 +1,18 @@
+**Fresh market-moving headlines only (last 36 hours): the set is fairly thin and noisy, so it only partly explains today’s tape.**
+
+## Facts
+- **Fed/rates:** **Crypto Briefing** (2026-06-18T21:53:52Z) said the **Federal Reserve held rates steady** and that **about half of FOMC participants see potential rate increases in 2026**, a hawkish signal tied to inflation concerns.  
+- **Fed leadership / hawkish tone:** **Crypto Briefing** (2026-06-18T21:47:43Z) reported that **Fed Chair Kevin Warsh’s first meeting held rates unchanged but signaled possible hikes ahead**.  
+- **Geopolitics / energy / rates:** **Crypto Briefing** (2026-06-18T21:46:20Z) cited an **interim U.S.-Iran deal** involving a **phased release of $6 billion in frozen Iranian funds**.  
+- **Rates / housing read-through:** **Japan Today** (2026-06-18T21:43:04Z) reported the **average 30-year U.S. mortgage rate fell to 6.47% from 6.52%**, saying it tracked lower Treasury yields after news of a deal to end the Iran war.  
+- **AI / hardware costs:** **TidBITS** (2026-06-18T21:47:50Z) said **Tim Cook confirmed Apple will raise prices due to higher memory and storage chip costs**.  
+- **Crypto / regulation:** **Cointelegraph** (2026-06-18T21:42:13Z) reported that **U.S. regulators proposed customer-ID requirements for stablecoin issuers**, similar to regulated banks.  
+- **Crypto / BTC risk sentiment:** **Cointelegraph** (2026-06-18T21:58:25Z) reported **Bitcoin weakening**, arguing high Treasury yields and a stronger dollar were weighing on crypto.  
+- **Brokerage / leverage conditions:** **Crypto Briefing** (2026-06-18T21:41:11Z) reported **Charles Schwab imposed new margin requirements for long-short strategies**, including tighter leverage and higher minimums.
+
+## Interpretation
+- The clearest **macro** fresh driver is a **more hawkish Fed message**: rates held, but the signaling around possible **2026 hikes** could matter for equities, yields, the dollar, and crypto.
+- The clearest **geopolitical/energy** fresh driver is the **Iran-related de-escalation headline**, which appears consistent with **easing energy-risk pressure** and **lower Treasury yields/mortgage rates** in the supplied coverage.
+- On **AI/semis**, the Apple pricing item points to **ongoing memory/storage cost pressure**, which may matter more for hardware margins and pricing than for broad indexes by itself.
+- On **crypto**, the fresh set points to a **less supportive backdrop** from **hawkish Fed expectations** and **tighter regulation for stablecoins**.
+- There is **not enough high-quality fresh reporting here to fully explain today’s broader equity tape**. Much of the JSON is irrelevant, duplicative, low-credibility aggregation, or non-market coverage.
