@@ -1,0 +1,27 @@
+Market Intelligence Forecast Report
+Generated: 2026-06-19 02:05 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+Primary signal filter: absolute forecast return >= 2% and model call must be Buy/Sell or Strong Buy/Strong Sell
+
+1 trading-day section
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2% threshold for the 1 trading-day horizon.
+Short watchlist only: SNDK and HYPE appeared on the policy buy watchlist, but both were Neutral / No Edge and therefore do not qualify as active signals.
+
+30 trading-day model-confirmed buy rankings
+1. GEV — Buy, forecast return +13.13%, reliability High, probability up 76.5%, pattern Range / No Dominant Pattern. This was the strongest quality-adjusted long setup in the ranked list.
+2. SNDK — Buy, forecast return +37.38%, reliability Moderate, probability up 75.1%, pattern Uptrend. Highest forecast return among confirmed buys, but with wide expected error.
+3. AAPL — Buy, forecast return +6.10%, reliability Moderate, probability up 71.4%, pattern Uptrend. Lower upside than several peers, but comparatively tighter error band.
+4. INTC — Buy, forecast return +21.06%, reliability Moderate, probability up 70.1%, pattern Uptrend. Also identified as the best smart policy pick.
+5. SLB — Buy, forecast return +6.73%, reliability Moderate, probability up 70.1%, pattern Oversold. Confirmed long signal with moderate upside and moderate error.
+6. STX — Buy, forecast return +17.79%, reliability Moderate, probability up 69.5%, pattern Uptrend. Strong directional forecast, though uncertainty remains elevated.
+7. PNUT — Buy, forecast return +21.45%, reliability Moderate, probability up 67.5%, pattern Downtrend. Model is positive, but this is the least aligned confirmed buy because the policy overlay is Sell/Avoid.
+
+30 trading-day model-confirmed sell rankings
+1. PEPE — Strong Sell, forecast return -22.72%, reliability High, probability down 87.6%, pattern Downtrend. This is the only confirmed sell/avoid signal and the clearest downside call in the report.
+
+Additional notes
+Only model-confirmed Strong Buy, Buy, Sell, and Strong Sell signals above the 2% threshold were included in the ranked sections.
+Neutral / No Edge names were excluded from the main rankings.
+SPCX was skipped due to insufficient clean price history.

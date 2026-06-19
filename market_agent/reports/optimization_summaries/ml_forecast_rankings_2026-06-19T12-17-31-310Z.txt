@@ -1,0 +1,26 @@
+Generated: 2026-06-19 12:17 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both
+No model-confirmed buy or sell signals met the 2.0% threshold for the 1 trading-day horizon.
+Short watchlist: SNDK appeared as a policy-only buy watch item, but it was Neutral / No Edge and does not qualify as a confirmed signal.
+
+30 trading-day buy rankings
+GEV: Buy, forecast +13.61%, reliability High. Highest-confidence long setup among confirmed buys, with strong upside probability and lower expected error than most peers.
+INTC: Buy, forecast +24.36%, reliability Moderate. Also the best smart policy pick in this run, supported by an uptrend pattern and strong policy alignment.
+STX: Buy, forecast +20.09%, reliability Moderate. Confirmed long signal with favorable probability profile and policy support.
+SNDK: Buy, forecast +39.87%, reliability Moderate. Largest forecast upside in the confirmed buy list, though expected error is also elevated.
+AAPL: Buy, forecast +6.04%, reliability Moderate. Smaller return forecast than the top names, but still above threshold with an established uptrend.
+WMT: Buy, forecast +4.95%, reliability Moderate. Confirmed buy, but weaker upside magnitude than the leading long ideas.
+PNUT: Buy, forecast +22.32%, reliability Moderate. Forecast is strong, but it conflicts with a Sell / Avoid policy stance and sits in a downtrend, making it less aligned than other confirmed buys.
+
+30 trading-day sell rankings
+PEPE: Strong Sell, forecast -22.73%, reliability High. Only confirmed sell signal that met the threshold. Downtrend, strong downside probability, and aligned policy avoid signal.
+
+Observations
+Confirmed signals were concentrated on the buy side, with seven qualifying buys and one qualifying sell.
+Among confirmed buys, GEV stands out on reliability, while INTC has the strongest policy endorsement.
+The sell side is narrow: PEPE is the only model-confirmed avoid candidate above threshold.
+Neutral / No Edge watchlist items were excluded from the ranked recommendations.

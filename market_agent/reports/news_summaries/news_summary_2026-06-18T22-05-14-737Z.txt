@@ -1,0 +1,23 @@
+Fresh market-moving headlines are limited in this article set, and several items are from low-quality, duplicate, or non-market sources. The clearest usable drivers are Fed/rates, Apple pricing tied to chip costs, AI export controls, and an apparent U.S.-Iran de-escalation item that could matter for energy/risk sentiment but comes from less authoritative sources here.
+
+**Facts**
+- **Fed/rates:** The Federal Reserve **held rates steady** at Chair Kevin Warsh’s first meeting, with inflation described as elevated.  
+  - **NPR**, **2026-06-17T21:49:48Z**
+- **Fed/rates:** A Reuters-syndicated summary says Warsh’s Fed **held rates steady** while **hinting at a rate hike this year** and that Warsh promised a broad Fed review.  
+  - **Biztoc citing Reuters/Investing.com**, **2026-06-17T21:59:27Z**
+- **Apple / semis / inflation pass-through:** Apple CEO Tim Cook said the company plans to **raise product prices** because of rising **memory and storage chip costs**.  
+  - **New York Post**, **2026-06-17T22:01:09Z**
+- **Apple / semis / inflation pass-through:** Another report says Apple plans to raise prices across devices due to a **supply crunch in memory and chip components**.  
+  - **DailyMail**, **2026-06-17T22:04:42Z**
+- **AI/semi policy:** The White House reportedly imposed **export controls on Anthropic’s most advanced AI models**, with the article saying the move disrupted access and rattled allies.  
+  - **Crypto Briefing**, **2026-06-17T22:04:15Z**
+- **Energy / geopolitics:** Multiple lower-authority reports say the **U.S. and Iran signed an MoU** to halt fighting and **reopen the Strait of Hormuz**.  
+  - **Crypto Briefing**, **2026-06-17T21:55:20Z**  
+  - **Foreign Policy** references the White House detailing Iran-deal terms, **2026-06-17T22:02:00Z**
+
+**Interpretation**
+- The most credible fresh macro signal in this set is **higher-for-longer Fed risk**: even with no hike now, the combination of steady rates, elevated inflation, and reporting of a possible hike later this year is the main rates-sensitive takeaway.
+- Apple’s planned price increases suggest **upstream AI/memory chip tightness is spilling into consumer electronics**, which matters for both **semiconductor supply/demand** narratives and **inflation pass-through** concerns.
+- The Anthropic export-control report, if confirmed more broadly, would be a potentially important **AI policy overhang** for advanced-model deployment and AI-linked equities.
+- The Iran/Strait of Hormuz items could matter for **oil and broader risk sentiment**, but in this dataset they are not backed by top-tier wire coverage, so they should be treated cautiously.
+- If you are trying to explain today’s tape from this article set alone, it is **thin**: the best-supported explanation here is **Fed/inflation sensitivity**, with Apple chip-cost pricing and possible AI-policy/geopolitical spillovers as secondary themes.
