@@ -1,0 +1,24 @@
+Market Intelligence Forecast Report
+Generated: 2026-06-20 12:35 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model used: both
+No model-confirmed Buy, Sell, Strong Buy, or Strong Sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day model-confirmed buy rankings
+1. GEV — Buy | forecast return +13.39% | reliability High | probability up 76.6% | pattern: Range / No Dominant Pattern. Highest-confidence long setup in the confirmed buy list based on reliability and probability, despite a moderate return forecast versus other names.
+2. SNDK — Buy | forecast return +36.42% | reliability Moderate | probability up 74.7% | pattern: Uptrend. Largest upside forecast among confirmed buys, but with high expected error.
+3. INTC — Buy | forecast return +25.55% | reliability Moderate | probability up 72.7% | pattern: Uptrend. Also identified as the best smart policy pick.
+4. WMT — Buy | forecast return +4.88% | reliability Moderate | probability up 71.4% | pattern: High Volatility. Smaller forecast return, but lower expected error than most confirmed buys.
+5. AAPL — Buy | forecast return +6.05% | reliability Moderate | probability up 71.3% | pattern: Uptrend. Balanced confirmed buy with comparatively tight error band.
+6. STX — Buy | forecast return +19.59% | reliability Moderate | probability up 71.0% | pattern: Uptrend.
+7. PNUT — Buy | forecast return +18.70% | reliability Moderate | probability up 64.7% | pattern: Downtrend. Forecast is positive, but the reported pattern and policy stance are not aligned with the buy signal.
+
+30 trading-day model-confirmed sell rankings
+1. PEPE — Strong Sell | forecast return -22.72% | reliability High | probability down 87.6% | pattern: Downtrend. Only confirmed sell/avoid signal meeting the primary rule.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2.00% were included.
+SPCX was skipped due to insufficient clean price history.
