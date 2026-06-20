@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Bank of England stress-test scenario highlights higher-rate and risk concerns** — *Financial Post/Bloomberg, 2026-06-19 08:46Z*: The BOE said its private-markets stress test will include a severe scenario featuring **7% interest rates**, a **35% drop in UK equities**, a **400 bp widening in leveraged-loan spreads**, and **AI-related disruptions**.
+- **China leadership again signals demand support focus** — *Crypto Briefing, 2026-06-19 08:45Z*: Xi Jinping urged China to **boost domestic demand** and pursue structural reforms as the economy faces ongoing challenges, with the property slump still described as a drag.
+- **Reliance/Jio outlines a bigger AI buildout** — *Moneycontrol, 2026-06-19 08:48Z*: Mukesh and Akash Ambani said Jio plans **120 MW of AI compute**, **22-language AI services**, and broader AI integration across products.
+- **Microsoft identified crypto-wallet malware spread via USB** — *CoinDesk, 2026-06-19 08:48Z*: Microsoft found malware that can **harvest wallet credentials/clipboard data** and redirect transfers, a fresh security headline relevant to crypto sentiment.
+- **Apple pricing pressure tied to memory costs remains in focus** — *GSMArena, 2026-06-19 08:46Z*: The report says Apple products, including future iPhone models, **could face price increases** due to a memory shortage and higher memory prices.  
+  - This is secondary reporting and more product/pricing oriented than a confirmed market catalyst.
+
+### Interpretation
+- The **clearest macro headline** in this set is the **BOE stress-test framework**, which reinforces that **rates, credit stress, and AI-related operational risks** remain live issues for investors.
+- The **China demand-support** headline matters for **global growth and commodity/risk sentiment**, but this article alone does **not** provide a concrete new stimulus measure.
+- The **Jio AI expansion** adds to the ongoing **AI infrastructure/capex theme**, though it is more relevant to India telecom/AI ecosystem exposure than to broad global indexes.
+- The **Microsoft crypto-malware** story is a **crypto-specific risk-sentiment** item, especially for wallet security and retail participation.
+- Overall, the fresh set is **thin** and does **not clearly explain today’s broader tape** on its own.
