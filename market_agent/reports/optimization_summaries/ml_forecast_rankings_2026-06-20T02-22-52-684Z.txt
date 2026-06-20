@@ -1,0 +1,22 @@
+Market Intelligence Forecast Report
+Generated: 2026-06-20 02:22 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed Buy, Strong Buy, Sell, or Strong Sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. GEV — Buy, forecast return +13.44%, reliability High. Highest-confidence long signal in the report, with strong upside probability and lower forecast error than most other buy names.
+2. SNDK — Buy, forecast return +39.88%, reliability Moderate. Largest projected upside among confirmed buys, but with high expected error.
+3. INTC — Buy, forecast return +25.57%, reliability Moderate. Also identified as the best smart policy pick; trend is up and policy alignment is favorable.
+4. STX — Buy, forecast return +20.60%, reliability Moderate. Similar profile to INTC with uptrend support and favorable probability skew.
+5. AAPL — Buy, forecast return +6.05%, reliability Moderate. Smaller projected return than other confirmed buys, but comparatively tighter expected error.
+6. PNUT — Buy, forecast return +19.25%, reliability Moderate. Model confirms upside, but pattern remains downtrend and policy stance is Sell/Avoid, making it less aligned than other buy candidates.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell, forecast return -22.72%, reliability High. Only confirmed sell/avoid signal meeting the primary rule, with strong downside probability and downtrend alignment.
+
+Notes
+Only Strong Buy, Buy, Sell, and Strong Sell model-confirmed signals with absolute forecast return of at least 2.00% were included. Neutral / No Edge watchlist names were excluded from the main rankings. SPCX was skipped due to insufficient clean price history.
