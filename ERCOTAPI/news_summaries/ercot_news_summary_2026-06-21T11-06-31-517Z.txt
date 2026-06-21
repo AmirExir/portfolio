@@ -1,0 +1,17 @@
+- ERCOT large-load growth remains the dominant theme: multiple reports say data centers now account for roughly 89% of ERCOT’s very large pending load requests, underscoring that queue management and deliverability screening are becoming central reliability and planning issues rather than just economic-development stories. (Crypto Briefing; Biztoc/The Block)
+
+- Meta’s reported AI compute deal with Crusoe covering a Childress, Texas data center points to continued hyperscaler interest in securing Texas power capacity at very large scale; for ERCOT, that likely means more pressure on transmission planning, substation capacity, and decisions on curtailment/flexibility requirements for new large loads. (Crypto Briefing; Reuters/Times of India; CNA)
+
+- Texas appears to be moving toward a structured “Batch Zero” or batch-processing framework for very large loads, which would matter because it could replace ad hoc treatment of data center and crypto requests with a more standardized process for studying timing, cost responsibility, and system impacts before energization. (Crypto Briefing)
+
+- The practical grid impact of the new large-load framework is threefold: 1) what happened — Texas regulators/ERCOT are formalizing how massive new loads enter the system; 2) operational impact — this should help screen speculative requests and align energization with real transmission and generation capability; 3) planning/governance implication — it signals ERCOT is shifting toward tighter oversight of load interconnection as a reliability function. (Crypto Briefing)
+
+- A proposed data center near Taylor, Texas highlights the local siting conflicts that can slow ERCOT load growth even when developers want rapid interconnection; community opposition and land-use disputes may increasingly become a non-grid bottleneck for large-load forecasts and transmission assumptions. (Newsweek via Biztoc)
+
+- National and local backlash against data center expansion is growing, with coverage emphasizing noise, pollution, water use, and electricity-bill concerns; for ERCOT, that raises the risk that politically acceptable large-load growth may depend more on behind-the-meter generation, flexibility commitments, or visible community benefits. (TechRadar; The Conversation)
+
+- FERC’s reported push for faster grid connections for large energy users is more directly relevant outside ERCOT’s jurisdictional structure, but it still raises the broader policy pressure on Texas to shorten timelines for major new loads without weakening reliability screens—especially as AI developers compare regional speed-to-power. (Crypto Briefing)
+
+- Emerging “bridge power” models—such as solar, batteries, modular generation, and flexible-load management for data centers—are gaining attention because they could let large ERCOT loads come online before full grid upgrades are complete, potentially reducing near-term queue pressure while creating new operational questions around dispatchability and backup fuel dependence. (Crypto Briefing; GlobeNewswire/OBM)
+
+- Several broader AI/data-center stories reinforce the same ERCOT takeaway: announced projects and capital commitments are multiplying faster than grid-ready infrastructure, so the real constraint is no longer demand interest but the pace of transmission buildout, interconnection study completion, and credible load-served planning. (The Register; Arizton via PRNewswire; Digital Realty)
