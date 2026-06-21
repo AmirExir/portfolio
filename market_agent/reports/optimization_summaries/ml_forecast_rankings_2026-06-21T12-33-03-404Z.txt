@@ -1,0 +1,24 @@
+Generated: 2026-06-21 12:32 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed Buy, Strong Buy, Sell, or Strong Sell signals met the 1 trading-day threshold. A short watchlist item appeared in SNDK under policy-only screening, but it was Neutral / No Edge and is excluded from ranked trade recommendations.
+
+30 trading-day buy rankings
+1. GEV — Buy | forecast return +13.21% | reliability High | probability up 76.2% | pattern Range / No Dominant Pattern
+2. SNDK — Buy | forecast return +37.05% | reliability Moderate | probability up 74.9% | pattern Uptrend
+3. WMT — Buy | forecast return +5.24% | reliability Moderate | probability up 72.9% | pattern High Volatility
+4. INTC — Buy | forecast return +25.16% | reliability Moderate | probability up 72.4% | pattern Uptrend
+5. STX — Buy | forecast return +20.09% | reliability Moderate | probability up 71.5% | pattern Uptrend
+6. AAPL — Buy | forecast return +6.05% | reliability Moderate | probability up 71.3% | pattern Uptrend
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell | forecast return -22.72% | reliability High | probability down 87.6% | pattern Downtrend
+
+Policy-only watchlist notes
+Buy-side watchlist names meeting the return filter but lacking model-confirmed Buy/Strong Buy calls included WDC, LUV, MS, KO, GS, DELL, UAL, NVDA, SLB, and MU. Sell/avoid watchlist names meeting the return filter but lacking model-confirmed Sell/Strong Sell calls included DOGE, ADA, AVAX, SHIB, MNT, DOT, ETH, ZEC, UNI, and COMP. These are not included in the ranked signal lists above because the primary rule requires model confirmation.
+
+Coverage note
+SPCX was skipped because there were not enough clean close prices for ML forecasting.
