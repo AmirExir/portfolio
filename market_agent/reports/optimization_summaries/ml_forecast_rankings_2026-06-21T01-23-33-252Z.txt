@@ -1,0 +1,24 @@
+Market Intelligence Forecast Report
+Generated: 2026-06-21 01:23 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model used: both
+No model-confirmed Buy, Strong Buy, Sell, or Strong Sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day ranked buys
+GEV — Buy | forecast return +13.35% | reliability High | probability up 76.5% | pattern Range / No Dominant Pattern
+SNDK — Buy | forecast return +36.38% | reliability Moderate | probability up 74.6% | pattern Uptrend
+INTC — Buy | forecast return +25.64% | reliability Moderate | probability up 72.8% | pattern Uptrend
+WMT — Buy | forecast return +4.89% | reliability Moderate | probability up 71.5% | pattern High Volatility
+STX — Buy | forecast return +20.06% | reliability Moderate | probability up 71.4% | pattern Uptrend
+AAPL — Buy | forecast return +6.05% | reliability Moderate | probability up 71.3% | pattern Uptrend
+
+30 trading-day ranked sells
+PEPE — Strong Sell | forecast return -22.72% | reliability High | probability up 12.4% | pattern Downtrend
+
+Additional notes
+Best smart policy pick: INTC | Strong Buy policy score +3.00 | model-confirmed Buy | forecast return +25.64%
+Excluded from primary rankings: Neutral / No Edge names and any signals below the 2.00% absolute forecast threshold.
+Data issue: SPCX was skipped due to insufficient clean close history.
