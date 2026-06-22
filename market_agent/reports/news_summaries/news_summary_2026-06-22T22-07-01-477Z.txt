@@ -1,0 +1,16 @@
+Fresh market-moving headlines only, from the last 36 hours. The set is somewhat thin and mostly points to macro/event risk rather than a clear, tape-explaining catalyst.
+
+**Facts**
+- **CNBC (2026-06-21T22:03:04Z):** U.S. equity futures were lower Sunday, with **oil rising**, as markets watched **Iran war/peace-talk developments** and awaited **inflation data closely watched by the Fed**.
+- **ABC News Australia (2026-06-21T21:46:39Z):** Previewed the **ASX set to slip** amid a **fragile Iran ceasefire**, citing ongoing market caution around Middle East developments.
+- **newsBTC (2026-06-21T21:08:45Z):** Reported **Bitcoin reclaimed $63,500**, with traders watching for a possible move toward $67,000.
+- **CryptoSlate (2026-06-21T22:05:13Z):** Said the next phase of **U.S. crypto perpetual futures regulation** is shifting into a formal agency comment process, with product definitions and oversight in focus.
+- **Crypto Briefing (2026-06-21T21:49:36Z):** Reported that at least **46 data centers are pursuing on-site natural gas generation totaling 56 GW**, highlighting AI/data-center-driven power demand and potential implications for gas infrastructure.
+- **Wccftech (2026-06-21T20:55:03Z):** Reported a Linux kernel patch referencing **NVIDIA “Blackwell-Next”**, suggesting ongoing work on next-gen GPU architecture.  
+- **Slashdot / Electrek pickup (2026-06-21T21:55:00Z):** Reported **Tesla** filed a trademark application for **“Megapod,”** described as modular AI/data-center hardware.
+
+**Interpretation**
+- The freshest actionable macro inputs here are **Middle East risk**, **firmer oil**, and the upcoming **inflation print/Fed sensitivity**.
+- For sectors, the article set gives a modest **AI power-demand / infrastructure** read-through via data centers and gas generation, plus speculative **AI hardware** angles around NVIDIA and Tesla.
+- In crypto, the freshest items point to **Bitcoin technical stabilization** and a potentially important **U.S. regulatory process** for perpetual futures.
+- There is **not enough high-quality fresh reporting here to confidently explain today’s full tape** beyond geopolitical caution, oil sensitivity, and inflation/Fed watchfulness.
