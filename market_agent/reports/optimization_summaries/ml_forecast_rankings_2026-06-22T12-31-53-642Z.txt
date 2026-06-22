@@ -1,0 +1,26 @@
+Generated: 2026-06-22 12:31 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model usage: both
+No model-confirmed buy or sell signals met the 1 trading-day threshold. A short watchlist candidate appeared in SNDK, but it remained Neutral / No Edge and is not included in the actionable rankings.
+
+30 trading-day model-confirmed buy rankings
+1. GEV — Buy, forecast return +13.37%, reliability High, probability up 76.6%, expected error +/-16.93%, pattern: Range / No Dominant Pattern.
+2. WMT — Buy, forecast return +5.63%, reliability Moderate, probability up 74.5%, expected error +/-8.11%, pattern: High Volatility.
+3. SNDK — Buy, forecast return +36.84%, reliability Moderate, probability up 74.8%, expected error +/-57.90%, pattern: Uptrend.
+4. AAPL — Buy, forecast return +6.05%, reliability Moderate, probability up 71.3%, expected error +/-10.59%, pattern: Uptrend.
+5. DELL — Buy, forecast return +16.37%, reliability Moderate, probability up 71.2%, expected error +/-30.44%, pattern: Uptrend.
+6. STX — Buy, forecast return +18.33%, reliability Moderate, probability up 70.1%, expected error +/-33.54%, pattern: Uptrend.
+
+30 trading-day model-confirmed sell rankings
+1. PEPE — Strong Sell, forecast return -22.72%, reliability High, probability down 87.6%, expected error +/-20.12%, pattern: Downtrend.
+
+Policy watchlist notes
+Best smart policy pick: INTC, forecast return +18.70%, policy Strong Buy, but model call remained Neutral / No Edge, so it is not part of the confirmed buy list.
+Other upside watchlist names with forecast magnitude above 2% but without qualifying model calls include LUV, WDC, MS, GS, KO, UAL, SLB, and MU.
+Other downside watchlist names with forecast magnitude above 2% but without qualifying model calls include DOGE, ADA, AVAX, DOT, MNT, ETH, SHIB, ZEC, ENA, and UNI.
+
+Data limitations
+SPCX was skipped due to insufficient clean price history.
