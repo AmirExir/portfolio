@@ -1,0 +1,14 @@
+Fresh market-moving headlines are thin in this article set, and several items are generic, low-credibility aggregation, or not clearly tied to today’s market tape.
+
+**Facts**
+- **Rates/Japan:** **News On Japan** (published **2026-06-21T08:55:02Z**) says the **Bank of Japan raised its policy rate to 1% on June 16**, the highest level in roughly 30 years, with higher borrowing costs expected to lift household debt burdens.
+- **Fed/rates communication:** **Hürriyet Daily News** (published **2026-06-21T08:54:52Z**) reports on concerns that a **“quieter” Federal Reserve** could contribute to **more volatile markets and higher rates**, focusing on Fed communication rather than a new policy action.
+- **Crypto ETF competition:** **CryptoSlate** (published **2026-06-21T09:10:09Z**) reports **Morgan Stanley filed amended registration statements** for proposed **Ethereum and Solana ETF trusts** with a **0.14% annual sponsor fee**, which the article says would be among the lowest in the category.
+- **Crypto adoption/Japan:** **Cointelegraph** (published **2026-06-21T08:54:41Z**) cites Nikkei saying a **Japanese corporate pension fund** plans to allocate about **1% of assets to crypto** in fiscal 2026.
+- **Geopolitics/energy risk:** **Crypto Briefing** (published **2026-06-21T08:38:56Z**) says the **U.S. and Iran are heading to Switzerland for nuclear and sanctions talks**, a development that could matter for **oil/sanctions risk**, though this source is less authoritative than major wires.
+
+**Interpretation**
+- The clearest macro item here is the **BOJ’s move to 1%**, which matters for global rates, yen funding dynamics, and broader risk assets.
+- The **Fed article** is more analytical than event-driven; it does **not** indicate a fresh Fed policy change by itself.
+- On crypto, the more market-relevant developments are **ETF fee competition** and **institutional allocation in Japan**, which are supportive for crypto market structure and adoption themes, especially for **ETH/SOL**.
+- There is **not enough fresh, high-confidence coverage here** to fully explain today’s moves in U.S. equities, Treasuries, AI/semis, or energy beyond noting **Japan rates** and possible **Iran/oil headline risk**.
