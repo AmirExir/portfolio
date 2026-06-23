@@ -1,0 +1,33 @@
+Generated: 2026-06-23 01:59 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both LSTM and Transformer.
+
+Buy:
+WDC is the only model-confirmed 1 trading-day buy that met the threshold, with a forecast return of +2.48%. The signal is supported by a Buy model call, Moderate reliability, roughly 70.0% probability up, and an Uptrend pattern.
+
+Sell:
+No 1 trading-day model-confirmed sell signals met the threshold.
+
+30 trading-day model-confirmed buys
+SNDK ranks first on forecast magnitude at +49.75%, with High reliability, 81.3% probability up, and an Uptrend pattern. Expected error is also high, so the signal has strong upside projection but wide uncertainty.
+
+INTC shows a +22.68% forecast return with Moderate reliability, 70.4% probability up, and an Uptrend pattern. It was also identified as the best smart policy pick.
+
+DELL carries a +18.12% forecast return with Moderate reliability, 71.8% probability up, and an Uptrend pattern.
+
+STX has a +17.56% forecast return with Moderate reliability, 70.0% probability up, and an Uptrend pattern.
+
+GEV shows a +8.78% forecast return with Moderate reliability, 69.3% probability up, and a Near 60-Day High pattern.
+
+WMT posts a +5.97% forecast return with Moderate reliability and the highest probability up among confirmed buys at 75.4%, though its pattern is Range / No Dominant Pattern.
+
+AAPL has a +5.31% forecast return with Moderate reliability, 71.9% probability up, and an Uptrend pattern.
+
+30 trading-day model-confirmed sells
+PEPE is the only model-confirmed sell meeting the threshold, with a -22.73% forecast return, Strong Sell call, High reliability, 87.6% probability down, and a Downtrend pattern.
+
+Notes
+Only model-confirmed Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% were included. Neutral and watchlist names were excluded from the main rankings.
