@@ -1,0 +1,17 @@
+Fresh market-moving headlines are limited in this article set, and several items are low-quality aggregations, press releases, or not directly useful for explaining today’s tape.
+
+**Facts**
+- **Fed / inflation:** Chicago Fed President Austan Goolsbee said the **labor market is stable** but **inflation is going the wrong way**. *(Biztoc citing Investing.com, published 2026-06-22T22:07:41Z)*  
+- **Indexes / AI-heavy tech:** CNBC’s live markets coverage said **tech giants tumbled in Monday trading**, dragging on the **S&P 500 and Nasdaq**, while **S&P 500 and Nasdaq 100 futures were near flat to slightly lower** Monday night. *(CNBC, 2026-06-22T22:05:10Z)*  
+- **Alphabet / AI talent:** A fresh market recap cited **Alphabet falling after reports that an AlphaFold co-creator exited**, raising **AI talent-retention concerns**. *(Biztoc citing Yahoo Finance, 2026-06-22T21:55:35Z)*  
+- **Nvidia / AI infrastructure:** An Axios-cited item said an **Nvidia executive argued water-use concerns around AI data centers could be largely addressed by next-generation infrastructure**. *(Biztoc citing Axios, 2026-06-22T21:54:23Z)*  
+- **Crypto / market structure risk:** A cybersecurity report said the **JaredFromSubway Ethereum MEV bot lost $15 million** after an attacker manipulated its opportunity-detection logic. *(BleepingComputer, 2026-06-22T21:52:18Z)*  
+- **Crypto / bridge exploit:** The **Secret Network / Axelar bridge was suspended** after a reported **$4.67 million infinite-mint exploit** affecting wrapped assets. *(Bitcoinist, 2026-06-22T21:45:38Z)*  
+- **Prediction-market crypto / reputational risk:** A report said **Polymarket allegedly paid influencers to post fake winning-bet videos** and used dummy websites to support the campaign. *(TechSpot citing Wall Street Journal reporting, 2026-06-22T21:46:00Z)*  
+
+**Interpretation**
+- The clearest macro signal in the fresh set is **Fed caution on inflation**, which matters for **rates-cut expectations**.
+- The most relevant single-stock/theme signal is **continued pressure around AI leadership/talent in megacap tech**, especially the **Alphabet** headline.
+- Nvidia’s data-center water headline is **theme-relevant for AI infrastructure**, but it reads more like a strategic/PR message than an immediate tape-driver.
+- Crypto headlines here skew toward **operational/security and reputational risk**, not broad price direction for **BTC/ETH**.
+- Overall, this is a **thin and noisy headline set** for explaining today’s market action; aside from **Goolsbee on inflation** and **AI/megacap tech-specific headlines**, there isn’t much clean fresh news here to fully explain the tape.
