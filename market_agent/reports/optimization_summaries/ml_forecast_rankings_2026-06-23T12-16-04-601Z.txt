@@ -1,0 +1,24 @@
+Market Intelligence Forecast Report
+Generated: 2026-06-23 12:15 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model used: both
+Only one model-confirmed short-horizon signal met the 2% threshold. WDC is the sole 1-day buy at +2.18%, with a Buy call, Moderate reliability, 67.7% probability up, and an Uptrend pattern. No 1-day sell signals met the threshold.
+
+30 trading-day buy rankings
+1. SNDK — Buy, forecast return +49.54%, High reliability, 81.4% probability up, Uptrend pattern. Highest projected return among qualified buys, though expected error is also elevated.
+2. INTC — Buy, forecast return +22.99%, Moderate reliability, 70.7% probability up, Uptrend pattern. Also the best smart policy pick in this run.
+3. DELL — Buy, forecast return +17.92%, Moderate reliability, 72.4% probability up, Uptrend pattern.
+4. GEV — Buy, forecast return +8.95%, Moderate reliability, 69.9% probability up, Near 60-Day High pattern.
+5. WMT — Buy, forecast return +5.69%, Moderate reliability, 74.5% probability up, Range / No Dominant Pattern. Lower projected return than some peers but comparatively lower expected error.
+6. AAPL — Buy, forecast return +4.98%, Moderate reliability, 71.1% probability up, Uptrend pattern.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell, forecast return -22.73%, High reliability, 12.4% probability up, Downtrend pattern. This is the only qualified model-confirmed sell/avoid signal at the 30-day horizon.
+
+Additional notes
+Signals shown are limited to Strong Buy, Buy, Strong Sell, and Sell with absolute forecast return of at least 2%. Neutral and watchlist names were excluded from the main rankings. One symbol, SPCX, could not be ranked due to insufficient clean price history.
