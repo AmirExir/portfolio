@@ -1,0 +1,9 @@
+- Chevron and Microsoft announced a 20-year deal for “Project Kilby,” a West Texas data center campus with roughly 2.5–2.7 GW of dedicated on-site gas-fired supply in Reeves/Pecos area, making it one of the clearest examples yet of hyperscale load seeking generation outside the traditional ERCOT supply path. (Chevron, CNBC, Bloomberg/Financial Post)
+
+- ERCOT market impact: a co-located self-supplied project of this scale could reduce immediate reliance on grid-served load growth, but it still raises major interconnection, transmission, gas deliverability, and operational coordination questions for West Texas—especially around backup service, outages, exports/imports, and any eventual participation in ERCOT markets. (Chevron, CNBC, The Times of India)
+
+- Planning and governance implication: this project reinforces that large-load development is outpacing conventional utility procurement and may pressure ERCOT/Texas policymakers to refine rules for behind-the-meter generation, large load interconnection studies, transmission cost allocation, and reliability oversight for multi-gigawatt data center campuses. (Chevron, Grist, Fortune)
+
+- OCI Energy closed about $130 million in tax equity financing for its Alamo City battery project near San Antonio, a concrete sign that storage projects in South Texas continue moving from queue to funded construction. (PRNewswire)
+
+- Grid impact from the Alamo City battery is likely strongest in flexibility and reliability rather than nameplate capacity alone: additional storage near San Antonio can help with evening ramps, ancillary services, local congestion management, and resilience during high-load periods in the South/Central Texas load pocket. (PRNewswire)
