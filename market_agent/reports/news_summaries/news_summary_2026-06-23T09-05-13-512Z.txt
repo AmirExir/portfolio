@@ -1,0 +1,15 @@
+Fresh market-moving headlines are thin in this article set, and they do not fully explain today’s broader tape.
+
+**Facts**
+- **The Punch — 2026-06-22T09:00:23Z:** Reported that **crude oil prices fell** on optimism around **US-Iran talks**, with mediators pointing to a “roadmap” toward a final agreement. This is the clearest fresh macro/risk headline in the set.
+- **ANI News — 2026-06-22T08:45:54Z:** Reported that **SK hynix briefly overtook Samsung Electronics in market value intraday** for the first time in nearly 26 years, citing the ongoing **AI-driven semiconductor boom**.
+- **Hurriyet Daily News — 2026-06-22T09:04:58Z:** Reported that **Turkey’s 12-month inflation expectations improved in June** for households and market participants, according to the central bank survey.
+- **Crypto Briefing — 2026-06-22T08:49:51Z:** Reported that the **Bank of England removed per-holder limits on sterling stablecoins** and instead set a **£40 billion issuance cap**.
+- **Crypto Briefing — 2026-06-22T09:01:17Z:** Reported on **ECB research** saying AI adoption has supported productivity and hiring in R&D-heavy areas while raising concerns about early-career job entry.
+
+**Interpretation**
+- The **oil/Iran** headline is the most plausible near-term market mover here, especially for **energy prices, inflation expectations, and general risk sentiment**.
+- The **SK hynix/Samsung** story reinforces the **AI-memory/semi leadership** theme and may matter for global chip sentiment, but it is more thematic than a direct broad-market catalyst by itself.
+- The **Turkey inflation expectations** item is likely **regional** rather than a major driver for US indexes, Treasuries, or Fed expectations.
+- The **BoE stablecoin** headline is relevant for **UK digital-asset regulation** and could matter at the margin for crypto infrastructure names, but it is not enough alone to explain broad equity or rates moves.
+- There are **no fresh major Fed, US inflation, major earnings, or large-cap US tech headlines** in this set, so if markets are moving materially today, this article batch likely **does not capture the main cause**.
