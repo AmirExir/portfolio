@@ -1,0 +1,17 @@
+Fresh market-moving headlines are fairly thin in this article set, and several items are secondary summaries or low-quality aggregations. The clearest fresh drivers here are Fed-rate repricing, Europe PMI/ECB-linked inflation-growth concerns, and a global tech/AI-semi risk-off tone.
+
+**Facts**
+- **CNBC, 2026-06-23 08:56Z:** “Tech rout intensifies as selloff grips global stocks.” CNBC says global stocks were pressured Tuesday, led by tech after a weak Wall Street tech session, with losses across Asia and Europe.
+- **Crypto Briefing, 2026-06-23 09:04Z:** “Asia shares, oil slip as markets adjust to Fed rate hike expectations.” The article says traders are pricing a more aggressive late-2026 Fed tightening path, weighing on risk assets globally.
+- **Biztoc citing Reuters, 2026-06-23 09:01Z:** “STOXX 600 hits over one-week low on Fed hike bets, tech selloff.” Reuters reports Europe’s STOXX 600 was pressured by rising Fed hike expectations and a tech selloff, with concern also around heavier corporate AI spending.
+- **The Irish Times, 2026-06-23 09:01Z:** Euro zone business activity “shrinks less than expected” in June. The report says euro-area activity remained in contraction but was better than feared, easing some concern over growth/inflation tradeoffs.
+- **Crypto Briefing, 2026-06-23 09:03Z:** Euro-area June flash composite PMI was reported at **49.5**, above forecasts and closer to neutral, signaling a milder contraction than expected.
+- **Crypto Briefing, 2026-06-23 09:02Z:** ECB warning that the Middle East crisis is squeezing euro-area growth and stoking inflation. The article says the ECB raised rates and cut its growth outlook as energy shocks complicate policy.
+- **NVIDIA, 2026-06-23 09:00Z:** NVIDIA said its technology powers **over 400 of the world’s 500 fastest supercomputers**, including 81% of the TOP500 and 90% of new systems added to the list. This is AI/semi-relevant but is a company-issued release, not an independent market report.
+
+**Interpretation**
+- The freshest cross-asset signal in this set is **higher-for-longer Fed repricing**, which is being linked directly to pressure on equities and especially tech.
+- **Tech/AI sentiment** appears to be a key driver of the tape in these articles, with weakness tied both to prior Wall Street tech losses and to concerns about AI-related spending.
+- In Europe, the macro message is **mixed rather than clearly negative**: PMI data was better than feared, but ECB commentary points to a tougher inflation/growth backdrop, partly via energy.
+- **Energy** is present more as an inflation/policy channel than as a standalone oil-price story in this set.
+- There is **no strong fresh earnings catalyst** in the provided articles, and **no meaningful fresh major-crypto market headline** beyond Crypto Briefing’s broader risk-asset framing.
