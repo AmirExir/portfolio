@@ -1,0 +1,11 @@
+- Microsoft and Chevron announced a 20-year arrangement to build a dedicated 2.67 GW natural-gas plant in West Texas for the “Project Kilby” data center campus, making it one of the clearest signals yet that very large ERCOT loads are moving toward paired generation rather than relying solely on existing grid capacity. (TechCrunch; Rigzone; TheStreet)
+
+- The grid impact is significant even if the project is partly islanded or directly contracted: a multi-gigawatt data center/generation buildout in West Texas will still affect fuel supply, transmission topology, interconnection queues, outage coordination, and local reliability planning in an area already central to ERCOT generation growth. (Rigzone; TechCrunch; TheStreet)
+
+- The planning implication is broader than one campus: this project reinforces ERCOT’s emerging model of co-located or dedicated supply for hyperscale load, which could reduce some system stress but also shift policy debates toward large-load interconnection standards, cost allocation, deliverability, and governance over behind-the-meter or quasi-islanded configurations. (TechCrunch; Rigzone; 24/7 Wall St.)
+
+- Dataprana said it secured 92 MW in the Houston metro for phased AI development beginning as early as 2026, adding to the pipeline of near-term large-load additions on the ERCOT system and highlighting how data center demand is spreading beyond West Texas into major load-pocket regions. (GlobeNewswire)
+
+- OCI Energy closed roughly $130 million in tax-equity financing for a San Antonio-area battery project, a concrete sign that storage additions continue advancing in ERCOT and should support peak reliability, ancillary service competition, and local operational flexibility as load growth accelerates. (PRNewswire)
+
+- Multiple reports and polling on Texas data center opposition suggest community resistance is becoming a real siting variable for large ERCOT load growth; while not an immediate operating issue, it could slow project timelines, complicate transmission and water-intensive development, and push more developers toward self-supplied or politically easier locations. (Insurance Journal; The Nation)
