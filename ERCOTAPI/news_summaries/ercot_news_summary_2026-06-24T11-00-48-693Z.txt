@@ -1,0 +1,15 @@
+- Microsoft and Chevron unveiled a 20-year agreement for “Project Kilby” in West Texas, pairing a roughly 2.7 GW AI/data-center campus with dedicated gas-fired supply rather than relying solely on ERCOT-delivered grid power; this is one of the clearest signs yet that hyperscale load in Texas is moving at utility-scale generation size. (Chevron, CNBC, TechCrunch)
+
+- Grid/market impact: a co-located 2.7 GW gas-backed configuration could reduce direct near-term strain on ERCOT energy supply versus a fully grid-served load, but it still has major implications for transmission interconnection, gas-electric coordination, outage scheduling, and local system strength in West Texas where large new load can reshape congestion and planning assumptions. (Chevron, CNBC, Reuters/CNA)
+
+- Planning/governance implication: the project reinforces that ERCOT’s large-load framework must increasingly assess behind-the-meter or dedicated-supply data centers not just by peak MW, but by how much they still depend on the grid for startup power, backup service, ancillary needs, and transmission access; it also signals more competition between data-center developers and traditional load for scarce interconnection capacity. (Chevron, TechCrunch, The Register)
+
+- Dataprana said it acquired 92 MW across two Houston-metro sites for phased AI development with energization potentially beginning in 2026, pointing to another near-term wave of ERCOT large-load additions, this time in a major urban load pocket rather than West Texas. (GlobeNewswire)
+
+- Houston-area AI load is operationally different from remote co-located projects: even at 92 MW, siting in the Houston metro likely means tighter dependence on existing T&D infrastructure, substation capacity, and local reliability margins, making this the kind of project that can accelerate distribution and transmission upgrade needs well before full regional reserve impacts show up in long-term forecasts. (GlobeNewswire)
+
+- OCI Energy closed about $130 million in tax equity financing for its San Antonio-area Alamo City battery project, a tangible sign that ERCOT storage buildout continues moving from queue to capitalized construction. (PRNewswire)
+
+- Battery financing matters for ERCOT because San Antonio-area storage can support peak reliability, ramping, and local congestion management in South/Central Texas, while also reflecting continued investor confidence in merchant or contracted storage despite evolving market design and volatility. (PRNewswire)
+
+- A Texas molten-salt reactor testing site was reported by Natural News; while details and regulatory pathway remain unclear, the item is notable as another indicator that advanced nuclear developers see Texas/ERCOT as a candidate market for firm power serving large industrial and data-center demand over the longer term. (Natural News)
