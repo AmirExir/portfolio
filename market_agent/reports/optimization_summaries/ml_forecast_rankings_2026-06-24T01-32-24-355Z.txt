@@ -1,0 +1,23 @@
+Generated: 2026-06-24 01:32 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model used: both
+No model-confirmed Buy, Sell, Strong Buy, or Strong Sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day rankings
+Buy candidates
+SNDK: Buy, forecast return +53.12%, probability up 80.9%, reliability High, pattern Uptrend. Highest-ranked long signal and also the best smart policy pick, though expected error is wide.
+AAPL: Buy, forecast return +6.20%, probability up 79.2%, reliability High, pattern Uptrend. Higher-confidence long setup with comparatively tighter expected error.
+GEV: Buy, forecast return +11.48%, probability up 72.7%, reliability Moderate, pattern High Volatility. Positive signal, but volatility profile raises uncertainty.
+LUV: Buy, forecast return +9.32%, probability up 70.6%, reliability Moderate, pattern Uptrend. Mid-range upside estimate with supportive trend conditions.
+DELL: Buy, forecast return +16.55%, probability up 71.0%, reliability Moderate, pattern Uptrend. Larger upside estimate, but expected error is also elevated.
+
+Sell / avoid candidates
+PEPE: Strong Sell, forecast return -22.73%, probability down 87.6%, reliability High, pattern Downtrend. Clear negative signal and the only model-confirmed sell meeting the threshold.
+
+Notes
+Only model-confirmed Strong Buy, Buy, Sell, and Strong Sell signals with absolute forecast return of at least 2.00% are included.
+No duplicate symbols were included.
+SPCX was skipped due to insufficient clean price history.
