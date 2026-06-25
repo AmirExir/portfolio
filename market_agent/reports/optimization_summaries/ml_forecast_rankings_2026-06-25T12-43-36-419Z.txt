@@ -1,0 +1,23 @@
+Generated: 2026-06-25 12:43 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed Buy, Sell, Strong Buy, or Strong Sell signals met the 2% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+AAPL remains the strongest higher-confidence long setup in the model-confirmed list, with a 6.72% forecast return, High reliability, 79.4% probability up, and an established uptrend pattern.
+GEV ranks next on forecast strength among confirmed buys at 12.98%, also with High reliability, though the pattern is classified as high volatility, which implies a wider outcome range.
+SNDK shows the largest upside forecast at 41.89% and is also the top smart policy pick, but the expected error band is very wide, so it screens as a higher-variance Buy rather than the most stable signal.
+WMT and KO are lower-volatility confirmed Buy candidates with Moderate reliability and forecast returns of 4.79% and 3.40%, respectively.
+SLB qualifies as a confirmed Buy at 6.65%, but the bearish moving-average crossover pattern makes it less aligned than the other buy names.
+
+30 trading-day sell rankings
+PEPE is the only model-confirmed sell candidate that met the threshold. It carries a -22.72% forecast return, Strong Sell classification, High reliability, and a downtrend pattern.
+
+Short watchlist
+Policy-only names were excluded from the main rankings because their model call did not qualify under the primary signal rule. On the buy side, DELL, INTC, and STX are the most notable watchlist names. On the sell/avoid side, ADA, DOGE, and ETH are the more visible watchlist names, but none should be treated as confirmed signals.
+
+Top buys: AAPL, GEV, SNDK, WMT, KO, SLB
+Top sells: PEPE
