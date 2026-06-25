@@ -1,0 +1,22 @@
+Fresh article set is very thin and does not fully explain today’s tape.
+
+**Facts**
+- **Federal Reserve / Banks**
+  - **Biztoc citing YouTube/CNBC, 2026-06-24 21:44Z:** The Fed released annual bank stress-test results; the headline says the biggest U.S. banks could absorb **more than $708 billion in losses** in a severe global recession while continuing to operate.  
+- **Indexes / Risk sentiment**
+  - **Biztoc citing ABC News, 2026-06-24 21:48Z:** U.S. stocks “**wavered to a mixed close**,” with the summary specifically saying losses in several tech giants, including **Microsoft**, weighed on the market.  
+- **AI / Semis**
+  - **Crypto Briefing, 2026-06-24 21:57Z:** **Qualcomm** reportedly secured **Meta** as its first Big Tech customer for data-center chips, targeting agentic-AI workloads. If accurate, that is a notable AI/semi headline because it points to Qualcomm pushing into the data-center AI market.  
+- **Crypto**
+  - **Biztoc citing The Block, 2026-06-24 22:04Z:** **Bitcoin miners** are facing a deeper margin squeeze, with the article saying an estimated **20% of miners are unprofitable** at current prices and that miner stress is showing up at the network level.  
+  - **CryptoSlate, 2026-06-24 22:00Z:** A highly watched leveraged **ETH** position on **Hyperliquid** has become a real-time stress point for traders, highlighting liquidation risk and growing sensitivity to whale positioning in crypto markets.  
+- **Earnings**
+  - **PRNewswire, 2026-06-24 22:00Z:** **Trip.com Group** reported unaudited **Q1 2026 financial results**. The supplied item does not include the key figures in the visible text, so there isn’t enough here to state whether results beat or missed.  
+- **Index membership**
+  - **PRNewswire, 2026-06-24 21:44Z:** **NETSTREIT** will join the **S&P SmallCap 600** before trading on **June 29**, replacing **ProAssurance** after ProAssurance’s acquisition.
+
+**Interpretation**
+- The clearest broad-market items in this feed are the **Fed stress-test release** and the **mixed-close index recap**; beyond that, the set is sparse on macro drivers like inflation, Treasury yields, or fresh Fed-policy details.
+- The most relevant sector-specific fresh headline is the reported **Qualcomm-Meta** data-center chip relationship, which could matter for **AI/semi competitive dynamics** if confirmed by primary sources.
+- In crypto, the stronger signal here is **industry stress among Bitcoin miners** and **leveraged ETH positioning risk**, rather than a clean spot-price catalyst for Bitcoin itself.
+- There is **not enough fresh, high-quality macro news in this article set** to confidently explain the full day’s market action.
