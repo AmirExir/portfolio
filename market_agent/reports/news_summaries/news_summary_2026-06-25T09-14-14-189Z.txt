@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only (last 36 hours): the set is fairly thin and mostly lacks direct macro headlines explaining today’s tape. The clearest fresh items are in AI/semis, China internet, and crypto.**
+
+## Facts
+- **DIGITIMES | 2026-06-24T09:11:42Z** — Reported **Qualcomm** is in talks to provide **custom chip-design services to ByteDance**, signaling a broader China AI-chip diversification trend beyond simply replacing Nvidia.
+- **Crypto Briefing | 2026-06-24T09:09:06Z** — Said South Korea’s new **2x single-stock leveraged ETFs** triggered about **$6 billion of mechanical selling** in **Samsung Electronics** and **SK Hynix** during a rebalancing event, highlighting forced-flow volatility in major semiconductor names.
+- **Reuters via The Times of India | 2026-06-24T09:03:31Z** — Reported **SK Hynix** became **South Korea’s most valuable company**, reflecting the payoff from its long investment in **HBM memory** tied to AI demand and Nvidia’s supply chain.
+- **CryptoSlate | 2026-06-24T09:00:47Z** — Reported the **Ethereum Foundation** cut about **20% of staff** and reduced its budget by roughly **40%**, despite record network usage.
+- **Gizmodo | 2026-06-24T09:00:02Z** — Reported **Strategy’s** bitcoin-accumulation model is facing a **“major stress test”** as funding that strategy becomes more expensive.
+- **GlobeNewswire | 2026-06-24T09:00:00Z** — **Bilibili** announced a new **$300 million share repurchase program**.
+
+## Interpretation
+- The most relevant equity signal here is still **AI/semi concentration and flow sensitivity**: SK Hynix remains a central AI-memory beneficiary, while the Korea ETF rebalancing story is a reminder that **forced technical flows can materially affect large semi names**.
+- The Qualcomm/ByteDance item suggests **incremental opportunity for custom AI silicon and design services**, especially where China customers are looking to diversify supply chains.
+- In crypto, the Ethereum Foundation layoffs and the Strategy stress-test article point more to **sector strain and funding discipline** than to a clean risk-on/risk-off read.
+- Bilibili’s buyback is a **company-specific support signal** for China internet/ADR investors, but by itself it does not explain broader market action.
+- **Bottom line:** this article set does **not** provide a strong fresh macro explanation for today’s broader tape in **indexes, Fed/rates, or inflation**.
