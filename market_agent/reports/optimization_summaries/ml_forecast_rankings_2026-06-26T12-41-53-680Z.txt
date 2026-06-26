@@ -1,0 +1,29 @@
+Generated: 2026-06-26 12:41 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model: both
+No model-confirmed buy or sell signals met the 2.00% absolute forecast-return threshold for the 1 trading-day horizon.
+
+30 trading-day buy signals
+AAPL is the strongest model-confirmed long signal. It carries a Strong Buy call with a +9.61% forecast return, high reliability, 84.2% probability up, and an oversold pattern, making it the highest-confidence buy in this run.
+SNDK is a model-confirmed Buy with the largest upside forecast at +35.13%, supported by a Strong Buy policy overlay and an uptrend pattern. However, the expected error is very wide, so the signal is higher variance than the forecast alone suggests.
+GEV is a model-confirmed Buy with a +12.23% forecast return and moderate reliability. The high-volatility pattern indicates upside potential but also a less stable path.
+KO is a model-confirmed Buy with a +4.44% forecast return, moderate reliability, 75.2% probability up, and one of the tighter error bands among the buy signals.
+WMT is a lower-conviction model-confirmed Buy with a +4.32% forecast return and moderate reliability, but it lacks the stronger policy confirmation seen in several other buy names.
+
+30 trading-day sell / avoid signals
+PEPE is the clearest model-confirmed short/avoid signal. It carries a Strong Sell call, a -22.73% forecast return, high reliability, and a downtrend pattern.
+ADA is a model-confirmed Sell with a -13.52% forecast return and moderate reliability, also aligned with a downtrend pattern.
+DIA is a weaker sell/avoid signal at -2.53%. It qualifies under the threshold but is less decisive than PEPE and ADA.
+
+Policy watchlist notes
+Several names appeared only in the smart-policy watchlist and not in the model-confirmed section. On the buy side, INTC, DELL, and STX had favorable policy overlays but did not qualify under the primary signal rule. On the sell/avoid side, AVAX, BTC, DOGE, and ORCL were policy negatives without model-confirmed sell calls.
+
+Ranking summary
+Preferred buys: AAPL, SNDK, GEV, KO, WMT.
+Preferred sells/avoids: PEPE, ADA, DIA.
+
+Data issue
+SPCX was skipped because there were not enough clean close prices for ML forecasting.
