@@ -1,0 +1,17 @@
+Fresh market-moving headlines are limited in this article set, and several items are low-quality, promotional, or not clearly tied to broad market action. Here’s the clean summary from the fresh, relevant items only.
+
+**Facts**
+- **U.S. labor market:** Initial jobless claims fell to **215,000** in the week ended June 20, down **12,000** from the prior week, according to a fresh labor-market report cited by **Japan Today** on **2026-06-25T21:48:52Z**.  
+- **Inflation/Fed:** A headline carried by **Biztoc** on **2026-06-25T21:45:27Z** said the Fed’s preferred inflation gauge **rose in May at the fastest pace in nearly three years**. However, this is an aggregator item with limited original detail in the supplied article text.  
+- **AI/semis:** **Micron Technology** was described by **Crypto Briefing** on **2026-06-25T21:43:54Z** as having posted quarterly results that drove a **$100 billion single-day market-cap increase**, with the piece highlighting pressure from rising memory costs on large tech customers.  
+- **AI policy / China risk:** **Anthropic** urged Congress to tighten AI export controls and accused **Alibaba** of a large-scale model “distillation” attack using roughly **25,000 fraudulent accounts**, according to **Crypto Briefing** on **2026-06-25T21:49:35Z**.  
+- **Big Tech AI talent:** **Alphabet** is facing AI researcher departures to rivals including **OpenAI** and **Anthropic**, according to **Crypto Briefing** on **2026-06-25T21:43:04Z**.  
+- **Crypto institutional demand:** **K33 Research** said rolling one-year **Bitcoin ETP flows turned negative for the first time since 2023**, with global Bitcoin ETP holdings seeing a record drawdown, per **newsBTC** on **2026-06-25T22:00:13Z**.  
+- **Crypto platform risk:** **Polymarket** users were hit by a hack tied to a third-party vendor compromise, with refunds promised, according to **Gizmodo** on **2026-06-25T21:54:48Z**.  
+- **Energy / geopolitical risk:** A report republished by **Free Republic** on **2026-06-25T21:37:58Z** said Iran’s IRGC attacked a Singapore-flagged vessel in the **Strait of Hormuz**. Because this is not a primary news source in the supplied set, it should be treated cautiously.
+
+**Interpretation**
+- The clearest macro inputs in this set are a **still-firm labor market** and a **potentially hotter inflation signal**, which would matter for **Fed/rates expectations** if confirmed by better primary-source reporting.
+- The most relevant single-stock/theme driver appears to be **Micron**, reinforcing the importance of **AI/memory/semi supply-chain** narratives.
+- On crypto, the fresh headlines skew toward **weaker institutional flow momentum** and **platform/security concerns**, which may weigh on sentiment.
+- This article set is **thin for explaining today’s broader tape**. It offers some macro and sector signals, but not enough high-confidence, primary-source breadth to fully explain index-level moves.
