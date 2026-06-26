@@ -1,0 +1,14 @@
+Fresh set is thin and mostly low-quality/generic. Only a few items look potentially market-relevant within the last 36 hours, and they do not fully explain today’s tape.
+
+**Facts**
+- **NBC News, 2026-06-25 09:00 UTC:** A closely watched **May inflation report** is due and could reinforce concerns about **higher interest rates**, even as **oil prices fall**. The piece frames inflation and Fed-rate expectations as the key macro focus.  
+- **NPR, 2026-06-25 09:00 UTC:** **Fertilizer prices have fallen** following a tentative **Iran peace deal** and the **reopening of the Strait of Hormuz**, pointing to easing pressure in an energy/shipping-sensitive input market.  
+- **Slashdot citing CNBC, 2026-06-25 08:52 UTC:** After the **Fed stress test**, **JPMorgan** unveiled a **$50 billion buyback** and **Goldman Sachs** raised its dividend.  
+- **Slashdot citing Yahoo Finance/CNBC, 2026-06-25 08:52 UTC:** **Micron earnings** and **Qualcomm** were cited as helping ease **AI-sector jitters**, with index futures coverage tying semiconductor news to broader sentiment.  
+- **Business Insider, 2026-06-25 09:00 UTC:** An IDC data point cited by BI says **Nvidia led the Q1 2026 data-center Ethernet switch market by revenue**, reinforcing Nvidia’s position beyond GPUs in AI infrastructure.  
+
+**Interpretation**
+- The clearest fresh macro driver in this set is **inflation/Fed sensitivity**; that is the most direct market-moving theme here.  
+- The **Hormuz reopening / tentative Iran peace** angle suggests a potential **easing in energy and supply-chain stress**, but the evidence provided here is narrow and mostly indirect via fertilizer.  
+- For equities, the fresh set points to **AI/semi sentiment** and **bank capital returns** as relevant supports, but the article quality is mixed and secondary.  
+- There is **not enough clean, high-confidence fresh reporting** in this dataset to make a strong call on broader index direction or fully explain today’s tape.
