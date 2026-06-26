@@ -1,0 +1,24 @@
+Generated: 2026-06-26 02:20 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model: both
+No model-confirmed buy or sell signals met the 2% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. SNDK — Buy, forecast return +46.43%, High reliability, Ensemble model, uptrend.
+2. INTC — Buy, forecast return +23.82%, Moderate reliability, Ensemble model, uptrend. Also listed as the best smart policy pick.
+3. DELL — Buy, forecast return +16.81%, Moderate reliability, Ensemble model, uptrend.
+4. GEV — Buy, forecast return +11.31%, Moderate reliability, Ensemble model, high volatility pattern.
+5. AAPL — Buy, forecast return +7.47%, High reliability, Ensemble model, oversold pattern.
+6. WMT — Buy, forecast return +4.41%, Moderate reliability, Ensemble model, range / no dominant pattern.
+7. KO — Buy, forecast return +3.41%, Moderate reliability, Ensemble model, uptrend.
+
+30 trading-day sell rankings
+1. PEPE — Sell, forecast return -16.36%, High reliability, Ensemble model, downtrend.
+
+Notes
+Only model-confirmed Buy, Strong Buy, Sell, and Strong Sell signals with absolute forecast return of at least 2% were included.
+No additional model-confirmed sell names qualified beyond PEPE.
+Policy watchlist names were excluded from the main rankings because their model calls were Neutral / No Edge.
