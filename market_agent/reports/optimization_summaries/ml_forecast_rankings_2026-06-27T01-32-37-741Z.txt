@@ -1,0 +1,34 @@
+Market Intelligence Forecast Report
+Generated: 2026-06-27 01:32 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2.00% absolute forecast threshold for the 1 trading-day horizon.
+
+30 trading-day model-confirmed buy signals
+SNDK: Buy with a forecast return of +42.07%. Policy overlay is Strong Buy. Pattern: Uptrend. Reliability: Moderate. This is the highest upside forecast in the confirmed buy list, but expected error is wide.
+GEV: Buy with a forecast return of +10.56%. Policy overlay is Strong Buy. Pattern: High Volatility. Reliability: Moderate.
+USO: Buy with a forecast return of +9.98%. Pattern: Oversold. Reliability: Moderate.
+SLV: Buy with a forecast return of +9.93%. Pattern: Oversold. Reliability: Moderate.
+LUV: Buy with a forecast return of +9.55%. Policy overlay is Strong Buy. Pattern: Uptrend. Reliability: Moderate.
+AAPL: Buy with a forecast return of +5.60%. Pattern: Oversold. Reliability: High. This is the highest-reliability confirmed buy in the report.
+WMT: Buy with a forecast return of +4.58%. Pattern: Range / No Dominant Pattern. Reliability: Moderate.
+KO: Buy with a forecast return of +3.30%. Policy overlay is Strong Buy. Pattern: Uptrend. Reliability: Moderate.
+
+30 trading-day model-confirmed sell signals
+PEPE: Strong Sell with a forecast return of -22.73%. Pattern: Downtrend. Reliability: High. This is the strongest confirmed downside signal in the report.
+BAC: Sell with a forecast return of -6.01%. Reliability: Moderate.
+
+Policy watchlist notes
+No neutral names are promoted into the main rankings. Short watchlist candidates on the buy side are INTC, STX, DELL, WDC, and MU. Short watchlist candidates on the sell/avoid side are ADA, DOGE, BTC, MNT, XLY, FLOKI, COMP, SHIB, ONDO, and ENA.
+
+Top buys summary
+AAPL, SNDK, GEV, LUV, WMT, KO, USO, and SLV are the only model-confirmed buy signals above the threshold.
+
+Top sells summary
+PEPE and BAC are the only model-confirmed sell signals above the threshold.
+
+Data issues
+SPCX was skipped due to insufficient clean price history for ML forecasting.
