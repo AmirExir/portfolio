@@ -1,0 +1,14 @@
+Fresh article set is thin and somewhat noisy; only a few items appear plausibly market-moving from mainstream or clearly relevant sources.
+
+**Facts**
+- **CNBC — 2026-06-27T21:34:59Z:** Nasdaq said **SpaceX will join the Nasdaq-100 via a fast-tracked process**, which CNBC says could create **significant passive/ETF buying demand** given index inclusion mechanics.
+- **Crypto Briefing — 2026-06-27T21:40:45Z:** Report said the **U.S. military conducted strikes on Iranian sites near the Strait of Hormuz** after a cargo-ship attack, targeting missile, drone, and radar installations.
+- **Crypto Briefing — 2026-06-27T21:50:01Z:** A separate report said **U.S. forces carried out additional strikes on Iranian sites** following an attack on a commercial ship in the Strait of Hormuz region.
+- **Crypto Briefing — 2026-06-27T21:49:56Z:** A UBS-cited report said **Chinese AI models are priced far below U.S. counterparts**, potentially pressuring AI pricing and enterprise model selection.
+- **Bitcoinist — 2026-06-27T21:35:00Z:** Report highlighted a **U.S. Dollar Index breakout** and framed that as a macro headwind for crypto risk appetite, though this is commentary rather than original market reporting.
+
+**Interpretation**
+- The clearest equity-specific fresh headline is **SpaceX joining the Nasdaq-100**, which is relevant for **Nasdaq-linked flows, passive buying, and broader mega-cap/growth sentiment**.
+- The **Strait of Hormuz / Iran** headlines matter most for **oil, energy, shipping risk, Treasury/risk sentiment, and geopolitical volatility**—but the source quality here is weaker than ideal, so treat with caution unless confirmed elsewhere.
+- The **Chinese AI pricing** report could matter for **AI/semi/software valuation narratives**, especially around margin pressure and competitive intensity, but it is not enough by itself to explain broad market action.
+- There are **no strong fresh articles here on Fed, inflation, major earnings, or broad index direction**, so this set likely does **not fully explain today’s tape**.
