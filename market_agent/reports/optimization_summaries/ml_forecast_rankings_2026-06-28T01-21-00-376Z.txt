@@ -1,0 +1,20 @@
+Generated: 2026-06-28 01:20 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model used: both
+No model-confirmed buy or sell signals met the 1 trading-day threshold of absolute forecast return at or above 2% with Buy/Sell or Strong Buy/Strong Sell calls.
+
+30 trading-day buy signals
+AAPL ranks as the highest-confidence long signal in the confirmed list, with a 6.20% forecast return, High reliability, an oversold pattern, and 79.6% probability up. It appears to be the most stable confirmed buy in this run.
+SNDK has the largest upside forecast at 41.45% and was also identified as the best smart policy pick. The signal is model-confirmed with Moderate reliability, but the expected error band is wide, so position sizing discipline matters.
+SLV is a confirmed buy with an 11.14% forecast return, Moderate reliability, and an oversold pattern. It is notable because the model confirms the move even though the policy overlay remains watch-only.
+GEV is a confirmed buy with a 9.40% forecast return, Moderate reliability, and a high-volatility pattern. The positive edge is meaningful, but volatility risk is elevated.
+STX is a confirmed buy with a 17.71% forecast return, Moderate reliability, and an uptrend pattern. The upside case is strong, though forecast uncertainty is still material.
+
+30 trading-day sell signals
+PEPE is the only model-confirmed sell/avoid signal. It carries a -22.72% forecast return, Strong Sell call, High reliability, and a downtrend pattern, making it the clearest avoid or short candidate in the report.
+
+Short watchlist notes
+There were no additional model-confirmed names beyond the symbols above. Policy-only watchlist names were not promoted because they remained Neutral / No Edge under the primary model-confirmation rule.
