@@ -1,0 +1,17 @@
+Fresh market-moving headlines are thin in this article set, and several items are opinion, aggregator rewrites, promotional crypto content, or non-market coverage. Here are the usable fresh items from the last 36 hours.
+
+**Facts**
+- **SpaceX to join the Nasdaq-100 on July 7** — *BusinessLine (Reuters), 2026-06-27T08:18:50Z*: Nasdaq confirmed SpaceX will be added to the Nasdaq-100, which the article says typically drives passive fund buying from index-tracking ETFs.
+- **Micron earnings remain a live AI/semi talking point** — *Biztoc citing Yahoo Finance, 2026-06-27T09:04:51Z*: the piece characterizes Micron’s latest earnings report as showing “explosive growth.” However, the item is an aggregator summary and provides limited primary detail in the supplied text.
+- **Bitcoin weakness highlighted** — *Slashdot citing CNBC interview context, 2026-06-27T08:00:00Z*: the article says Bitcoin closed Friday at **$59,948**, down **19% in June** and more than **50% below** its prior October record high, while featuring a bearish strategist interview.
+- **EU policymakers are looking at broader crypto regulation** — *Cointelegraph, 2026-06-27T08:21:04Z*: a European Parliament committee urged the European Commission to assess whether **DeFi, staking, crypto lending/borrowing, and NFTs** should face additional regulation under MiCA, while backing euro stablecoins.
+- **China advisers flag a ‘two-speed’ economy** — *Crypto Briefing, 2026-06-27T09:02:46Z*: government advisers reportedly called for fixes to an economy where high-tech/AI manufacturing is strong while household consumption remains weak.
+- **German auto sector faces more cuts** — *Financial Post (Bloomberg), 2026-06-27T08:20:16Z*: Germany’s carmakers, including Volkswagen, are facing another round of cost cuts; the article references prior plans to cut **50,000 jobs** at VW.
+- **Iran inflation accelerated** — *Biztoc, 2026-06-27T09:04:55Z*: annual inflation for the 12 months ending June was reported at **62%**, up **4.3 percentage points** from the prior month.
+
+**Interpretation**
+- The clearest fresh equity-market catalyst here is **SpaceX’s Nasdaq-100 inclusion**, which matters for **index flows** and for broader **AI/mega-cap/tech benchmark composition** themes.
+- **Micron** appears to remain relevant for the **AI memory and semiconductor** trade, but the supplied article is too thin to support stronger conclusions beyond “earnings are still a market topic.”
+- On **crypto/risk sentiment**, the usable fresh headlines lean toward **pressure and regulatory scrutiny**: Bitcoin weakness is explicit in the supplied article, and EU lawmakers’ push to examine DeFi/staking/NFT oversight adds a policy overhang.
+- The **China two-speed economy** headline may matter more for **macro growth sentiment** than for immediate tape action; it suggests policymakers still see a gap between AI-led industrial strength and softer consumer demand.
+- There is **little in this dataset on Fed, Treasury yields, or major U.S. inflation data**, so this article set does **not** fully explain today’s broader tape on its own.
