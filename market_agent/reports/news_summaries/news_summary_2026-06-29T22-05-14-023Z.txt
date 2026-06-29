@@ -1,0 +1,15 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **CNBC | 2026-06-28 22:03Z** — U.S. stock futures were described as slightly higher Sunday night as **renewed Middle East attacks and escalating U.S.-Iran tensions** raised the risk of a longer conflict. This is relevant for **risk sentiment and energy**.  
+- **Fortune/Bloomberg | 2026-06-28 21:26Z** — **Richmond Fed President Tom Barkin** said inflation is still **“too high”** but sees tentative signs of relief. That is directly relevant for **Fed/rates expectations**.  
+- **SamMobile | 2026-06-28 21:24Z** — The article says **Apple raised MacBook and iPad prices this week**, citing that it had previously absorbed cost increases and had reached a point where hikes were necessary. This is relevant to **consumer electronics pricing/inflation pass-through**, though it is not a primary market source.  
+- **Crypto Briefing | 2026-06-28 21:37Z** — Senate Majority Leader **John Thune** is reported to be preparing to advance **crypto legislation** to a full Senate vote after committee approval. Relevant for **major crypto/regulatory sentiment**.  
+- **PYMNTS/Bloomberg-cited | 2026-06-28 21:35Z** — **Strategy’s** valuation metric tied to its Bitcoin holdings reportedly fell below a key threshold, potentially affecting its ability to keep using equity valuation as a **Bitcoin accumulation/funding engine**. Relevant for **Bitcoin-related equity/crypto sentiment**.  
+- **CryptoSlate | 2026-06-28 21:15Z** — OpenAI’s use of the name **“Luna”** for a GPT-5.6 model tier reportedly triggered speculative trading in the legacy **LUNA** token. Relevant as a **crypto-specific speculative flow** item, not broad macro.  
+
+### Interpretation
+- The freshest actionable macro inputs in this set are **Middle East tension** and **Barkin’s inflation comments**. Those are the clearest potential drivers for **oil/risk sentiment** and **rates/Fed thinking**.
+- There is **not enough high-quality fresh coverage here to fully explain today’s broader tape** in equities, rates, or crypto.
+- The crypto headlines are mostly **regulatory or idiosyncratic**, not a clear explanation for broad risk markets.
+- Outside of Barkin, there is **little fresh Fed/inflation data** in the provided set, and there are **no major fresh earnings headlines** or strong AI/semi news from primary sources that clearly moves the broader market.
