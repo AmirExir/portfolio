@@ -1,0 +1,16 @@
+Fresh market-moving headlines are thin in this article set, and several items are commentary, low-credibility aggregation, or off-topic. The clearest potentially tape-relevant themes are Middle East / oil-shipping risk, AI memory-chip supply constraints, and crypto weakness.
+
+**Facts**
+- **Middle East / oil transit risk:** **BusinessLine** (2026-06-28 08:59Z) said investors this week are watching fresh military exchanges involving the **U.S. and Iran** and the impact on **crude oil prices**.  
+- **Strait of Hormuz shipping restrictions:** **Crypto Briefing** (2026-06-28 08:17Z) reported **Iran imposed strict navigation routes for foreign vessels** transiting the **Strait of Hormuz**.  
+- **Hormuz reopening pressure / possible crypto tolls:** **Crypto Briefing** (2026-06-28 08:35Z) reported **Iraq urged Iran to reopen the Strait of Hormuz**, and said Iran had proposed a **$1-per-barrel transit fee payable in Bitcoin or stablecoins**.  
+- **AI / memory supply chain:** **Fortune** (2026-06-28 09:00Z) reported a **memory-chip shortage (“RAM-ageddon”)** is pushing up **PC prices**, citing an unchanged **Apple MacBook Pro** rising from **$1,699 to $1,999** within the week.  
+- **Micron / Apple memory sourcing:** **Crypto Briefing** (2026-06-28 08:07Z) reported **Apple is lobbying Washington to buy memory chips from blacklisted Chinese supplier CXMT**, while saying this does not materially change **Micron’s** position in AI memory.  
+- **Crypto stress:** **Livemint** (2026-06-28 08:45Z) said **Bitcoin futures fell to $58,995 on Thursday**, described as the lowest since October 2024, with cited experts warning of possible further downside.  
+- **AI bubble concern:** **Hurriyet Daily News** (2026-06-28 08:21Z) said recent swings in tech stocks are reviving fears of an **AI bubble**, though the piece is broad feature coverage rather than a specific new event.  
+
+**Interpretation**
+- The most credible fresh macro driver here is **geopolitical risk around Iran / Strait of Hormuz**, which matters for **oil, inflation expectations, and broader risk sentiment**.
+- The **Fortune** memory-shortage story is the strongest fresh **AI/semi supply-chain** item in the set and may matter for **PC makers, memory names, and hardware margins**.
+- The crypto headlines suggest **pressure in major crypto**, but this set does **not** provide enough high-quality reporting to explain broader equity-index moves by itself.
+- There is **no solid fresh Fed, Treasury, CPI/PCE, or major earnings headline** in this dataset that clearly explains today’s tape.
