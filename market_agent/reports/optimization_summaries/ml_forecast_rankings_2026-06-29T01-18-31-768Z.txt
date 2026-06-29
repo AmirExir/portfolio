@@ -1,0 +1,25 @@
+Market Intelligence Forecast Report
+Generated: 2026-06-29 01:18 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2% threshold for the 1 trading-day horizon.
+
+30 trading-day buy signals
+SNDK leads the buy list with a 40.09% forecast return, Buy call, Moderate reliability, and an uptrend pattern. It was also the top smart policy pick.
+GEV shows a 10.41% forecast return with a Buy call, Moderate reliability, and a high-volatility pattern.
+LUV has a 9.14% forecast return with a Buy call, Moderate reliability, and an uptrend pattern.
+AAPL stands out on reliability with a High rating, a 5.64% forecast return, Buy call, and oversold pattern.
+WMT posts a 4.46% forecast return with a Buy call, Moderate reliability, in a range-bound pattern.
+SLV shows a 10.35% forecast return with a Buy call, Moderate reliability, and an oversold pattern.
+KO adds a 3.17% forecast return with a Buy call, Moderate reliability, and an uptrend pattern.
+
+30 trading-day sell signals
+PEPE is the clearest sell-side signal with a -22.73% forecast return, Strong Sell call, High reliability, and a downtrend pattern.
+BTC shows a -8.78% forecast return with a Sell call, Moderate reliability, and a downtrend pattern.
+BAC has a -5.75% forecast return with a Sell call, Moderate reliability, despite an uptrend pattern.
+
+Short watchlist
+No 1 trading-day watchlist candidates were provided. Policy-only watchlist names for 30 trading days were excluded from the ranked signals because their model calls did not qualify.
