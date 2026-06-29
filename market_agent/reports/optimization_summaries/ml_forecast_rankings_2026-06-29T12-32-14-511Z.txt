@@ -1,0 +1,24 @@
+Market Intelligence Forecast Report
+Generated: 2026-06-29 12:32 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed buy or sell signals met the absolute forecast return threshold of 2%.
+
+30 trading-day buy rankings
+1. AAPL — Buy, forecast return +5.64%, High reliability, Ensemble model, oversold pattern. Highest probability-adjusted long setup among confirmed buys with relatively contained expected error.
+2. SNDK — Buy, forecast return +42.69%, Moderate reliability, Ensemble model, uptrend pattern. Also the best smart policy pick, but expected error is materially higher than other confirmed buys.
+3. GEV — Buy, forecast return +10.37%, Moderate reliability, Ensemble model, high-volatility pattern. Stronger upside forecast than most confirmed buys, with higher uncertainty.
+4. WMT — Buy, forecast return +4.31%, Moderate reliability, Ensemble model, range/no dominant pattern. Confirmed buy, though policy overlay is only watch/hold.
+5. KO — Buy, forecast return +3.12%, Moderate reliability, Ensemble model, uptrend pattern. Lower forecast return, but comparatively tighter expected error.
+
+30 trading-day sell/avoid rankings
+1. PEPE — Strong Sell, forecast return -22.72%, High reliability, Ensemble model, downtrend pattern. Strongest confirmed downside signal in the report.
+2. BTC — Sell, forecast return -8.78%, Moderate reliability, Ensemble model, downtrend pattern. Lower downside forecast than ADA and UNI, but stronger score ranking in the optimizer output.
+3. ADA — Sell, forecast return -14.06%, Moderate reliability, Ensemble model, downtrend pattern. Confirmed avoid signal with broad expected error.
+4. UNI — Sell, forecast return -14.35%, Moderate reliability, Ensemble model, downtrend pattern. Similar profile to ADA with slightly weaker optimizer ranking.
+
+Additional notes
+Only Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% were included. Neutral and watchlist names were excluded from the main rankings.
