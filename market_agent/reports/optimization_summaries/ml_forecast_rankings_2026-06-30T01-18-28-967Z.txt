@@ -1,0 +1,23 @@
+Generated: 2026-06-30 01:18 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+SNDK ranks first on the long side with a Buy call and a forecast return of +39.18%. Policy overlay is Strong Buy, probability up is 76.3%, and the pattern is Uptrend. Reliability is Moderate, but expected error is wide.
+INTC ranks next with a Buy call and a forecast return of +19.63%. Policy overlay is Strong Buy with an Uptrend pattern and Moderate reliability.
+DELL follows with a Buy call and a forecast return of +15.66%. Policy overlay is Strong Buy, pattern is Uptrend, and reliability is Moderate.
+AAPL remains a qualifying long signal with a Buy call and a forecast return of +5.13%. It has the tightest expected error among the confirmed buys, with Moderate reliability and a High Volatility pattern.
+
+30 trading-day sell rankings
+PEPE is the strongest downside signal with a Strong Sell call and a forecast return of -22.73%. It is the only High reliability signal in the confirmed list and carries a Downtrend pattern.
+ADA is the next strongest sell with a forecast return of -14.98%, Moderate reliability, and a Downtrend pattern.
+DOGE also screens as a sell with a forecast return of -13.42%, Moderate reliability, and a Downtrend pattern.
+BAC qualifies as a sell at -5.48%, though its policy overlay is Hold/Watch rather than sell, which weakens confirmation relative to the other downside names.
+SPY rounds out the confirmed sells at -3.34%. It meets the rule threshold, but the pattern is listed as Uptrend, so this is a weaker directional alignment than the crypto downside signals.
+
+Notes
+Only model-confirmed Buy, Strong Buy, Sell, and Strong Sell signals with absolute forecast return of at least 2% were included. Neutral and watchlist names were excluded from the main rankings.
