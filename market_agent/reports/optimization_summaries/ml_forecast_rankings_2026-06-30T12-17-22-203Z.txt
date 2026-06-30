@@ -1,0 +1,24 @@
+Market Intelligence Forecast Report
+Generated: 2026-06-30 12:17 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. SNDK — Buy, forecast return +39.44%, Moderate reliability, Ensemble model, uptrend pattern. This is also the strongest smart policy pick in the run.
+2. USO — Buy, forecast return +9.65%, Moderate reliability, Ensemble model, oversold pattern.
+3. AAPL — Buy, forecast return +5.11%, Moderate reliability, Ensemble model, high-volatility pattern.
+4. WMT — Buy, forecast return +4.63%, Moderate reliability, Ensemble model, oversold pattern.
+
+30 trading-day sell/avoid rankings
+1. PEPE — Strong Sell, forecast return -22.72%, High reliability, Ensemble model, downtrend pattern.
+2. BTC — Sell, forecast return -9.39%, Moderate reliability, Ensemble model, downtrend pattern.
+3. BAC — Sell, forecast return -5.49%, Moderate reliability, Ensemble model, pattern currently labeled uptrend.
+4. QQQ — Sell, forecast return -4.12%, Moderate reliability, Ensemble model, pattern currently labeled uptrend.
+5. SPY — Sell, forecast return -3.73%, Moderate reliability, Ensemble model, pattern currently labeled uptrend.
+
+Notes
+Only model-confirmed Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2.00% are included. Neutral and watchlist names are excluded from the ranked recommendations. One symbol, SPCX, was skipped for insufficient clean price history.
