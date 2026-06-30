@@ -1,0 +1,16 @@
+Fresh headline set is fairly thin and noisy. The clearest market-relevant items in the last 36 hours point to AI/tech leadership, some crypto-specific developments, and a geopolitical backdrop tied to oil/risk sentiment. There is little here on Fed, rates, or inflation.
+
+**Facts**
+- **ABC News (AU), 2026-06-29T22:00:54Z:** Reported that Wall Street’s **tech and AI stocks rebounded** after last week’s sell-off; said the **S&P 500 rose 1.2%**, **Nasdaq 2.1%**, and the **Dow hit a record high**. Also noted a **rebound in oil prices ahead of the next round of U.S.-Iran peace talks**.
+- **Crypto Briefing, 2026-06-29T21:35:35Z:** Reported **Tesla** shares jumped after a **self-driving technology update**, framing autonomy as a major valuation driver.
+- **Crypto Briefing, 2026-06-29T22:03:11Z:** Reported **Strategy (MicroStrategy)** unveiled a new capital framework including **up to $1.25 billion in potential Bitcoin sales**, **$2 billion in buyback authorization**, and a **12% dividend**.
+- **Cointelegraph, 2026-06-29T21:57:57Z:** Reported **Bitcoin** was near an “important inflection point,” with price around **$60,300**, and said futures-market participation remained limited.
+- **Crypto Briefing, 2026-06-29T22:03:27Z:** Reported **Phantom** shifted new prediction-market infrastructure from **Kalshi** to **World**, with settlement on **Solana**.
+- **Biztoc / Yahoo summary, 2026-06-29T21:35:10Z:** Reported **Verizon** fell after being **removed from the Dow**, though this is a secondary aggregator summary rather than a primary report.
+
+**Interpretation**
+- The most actionable fresh theme is a **renewed bid for AI/tech-related equities**, supported by the ABC report and the Tesla-specific item.
+- **Energy/risk sentiment** may be influenced by the **oil rebound and U.S.-Iran talks** backdrop, but the article set does not provide enough detail to draw a broader market conclusion.
+- In **crypto**, the more notable equity-linked item is **Strategy’s capital framework**, which could affect both **MSTR** and sentiment around **Bitcoin treasury companies**.
+- There is **no meaningful fresh evidence here on Fed policy, Treasury yields, or inflation** driving today’s tape.
+- Overall, the fresh article set is **limited** and does **not fully explain broader market action** beyond AI/tech strength, some crypto developments, and geopolitics around oil.
