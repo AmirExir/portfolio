@@ -1,0 +1,24 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-01 01:20 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model: both (LSTM and Transformer)
+No model-confirmed buy or sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+AAPL ranks highest among model-confirmed buys. The signal is Strong Buy with a forecast return of +7.03%, high reliability, 80.6% probability up, and relatively tight expected error at +/-6.37%. Pattern: High Volatility.
+STX screens as a Buy with the largest forecast return on the buy side at +19.54%, supported by 73.6% probability up and an uptrend pattern, though with wide expected error at +/-33.11%.
+LUV is a Buy with a +10.00% forecast return, 70.8% probability up, moderate reliability, and an uptrend pattern.
+WMT is a Buy with a +5.75% forecast return, 74.5% probability up, moderate reliability, and an oversold pattern.
+
+30 trading-day sell rankings
+PEPE ranks as the strongest model-confirmed sell. The signal is Strong Sell with a forecast return of -22.72%, high reliability, 87.6% implied probability down, and a downtrend pattern.
+BTC is a Sell with a forecast return of -9.58%, moderate reliability, 73.7% implied probability down, and a downtrend pattern.
+
+Policy watchlist notes
+SNDK was identified as the best smart policy pick, but it is not included in the ranked buy list because the model call was Neutral / No Edge rather than a qualifying Buy or Strong Buy.
+
+Top buys: AAPL, STX, LUV, WMT
+Top sells: PEPE, BTC
