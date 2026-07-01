@@ -1,0 +1,17 @@
+Here are the **fresh market-moving headlines** from the last 36 hours that look most relevant.
+
+## Facts
+- **CNA, 2026-06-30 09:04Z** — The **yen broke above 162 per dollar to a 40-year low**, reinforcing expectations Tokyo may tolerate further weakness, with **165 seen as the next possible intervention line**.  
+- **Financial Post/Bloomberg, 2026-06-30 08:57Z** — **ECB Governing Council member Olaf Sleijpen** said the full extent of the **inflation shock from the Iran war** is still unclear and policymakers will respond as data arrive.  
+- **Digitimes, 2026-06-30 09:04Z** — **Lenovo warned elevated memory prices could become the new norm beyond 2030**, citing persistent supply-demand imbalances. The article says **Apple, Microsoft, and Nintendo have signaled product price increases** tied to higher memory costs.  
+- **Crypto Briefing, 2026-06-30 08:59Z** — **Taiwan widened a probe into Super Micro Computer AI servers** amid allegations of **Nvidia chip smuggling to China**, with coordinated raids reported at Super Micro-related sites.  
+- **CNA, 2026-06-30 08:56Z** — Asian market coverage noted **tech firms bounced back in Asia** following a rebound in Wall Street tech shares, while the **yen remained near a four-decade low**.  
+- **Crypto Briefing, 2026-06-30 09:02Z** — The **European Union cut tariff-free steel import quotas by 47%** and raised tariffs on excess volumes effective **July 1**, a potentially meaningful trade and industrial policy development.  
+- **Amazon/AWS, 2026-06-30 09:00Z** — **OpenAI GPT-5.4** and **NVIDIA Nemotron 3 Super 120B** were added to **AWS GovCloud’s Kiro** environment, another data point for enterprise/government AI deployment.  
+
+## Interpretation
+- The freshest cross-asset macro signal in this set is **FX/rates-related**: the **yen’s break to a 40-year low** could matter for global risk sentiment, Japan policy expectations, and broader dollar dynamics.
+- On inflation/rates, the most relevant fresh takeaway is that **ECB officials are not dismissing potential Iran-war inflation effects**, which may keep focus on **energy-linked inflation risk** rather than clean disinflation.
+- In AI/semis, the most market-sensitive fresh item is the **Taiwan/Super Micro/Nvidia supply-chain probe**, because it touches **China export-control and compliance risk** around AI hardware.
+- **Memory price inflation** is a fresh semiconductor and hardware cost story, with possible read-throughs for **device margins, pricing, and inflation in electronics**.
+- This article set is **somewhat thin for explaining today’s full tape**. It offers a few plausible drivers — **yen weakness, inflation uncertainty, AI hardware scrutiny, and memory cost pressure** — but not a broad or definitive explanation for overall market direction.
