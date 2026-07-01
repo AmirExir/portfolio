@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited in this feed, and several items are low-quality aggregations, press releases, or non-market coverage. Here’s the clean summary from the articles published within the last 36 hours.
+
+**Facts**
+- **Fed / rates:** *Biztoc* (2026-06-30T22:01:47Z) says **Cleveland Fed President Beth Hammack** warned that “insatiable” AI demand could add to inflation and that **rate hikes may be necessary**.  
+- **AI / semis / geopolitics:** *Breitbart News* (2026-06-30T21:58:55Z) reports **Taiwan authorities raided Super Micro offices** as part of an investigation into alleged **illegal exports of Nvidia AI chips to China**.  
+- **Space / M&A:** *Soldier Systems* (2026-06-30T22:00:00Z) reports **Rocket Lab will acquire Iridium**, combining launch, satellite manufacturing, and Iridium’s communications network in a major space-sector deal.  
+- **Crypto / regulation-litigation:** *Crypto Briefing* (2026-06-30T21:54:11Z) reports **Binance and Changpeng Zhao** were sued by about **1,700 UK investors** seeking **£150 million** over allegedly unapproved crypto derivatives.  
+- **Crypto / politics:** *Crypto Briefing* (2026-06-30T21:52:01Z) and a Yahoo-linked item (2026-06-30T22:02:16Z) report **Trump disclosed very large crypto-related income**, framing it as over **$1.2B-$1.4B+** depending on source presentation.  
+- **Crypto market structure:** *Bitcoinist* (2026-06-30T21:50:00Z) says **Dogecoin futures open interest** fell sharply while **Solana open interest** climbed, indicating divergence in speculative positioning.  
+- **Crypto / BTC technical framing:** *Cointelegraph* (2026-06-30T21:49:08Z) says **Bitcoin** is approaching a level some analysts view as a historically important **bear-market buy zone**, though this is analysis rather than hard news.  
+- **Media / antitrust-M&A:** *Crypto Briefing* (2026-06-30T21:48:38Z) reports **Getty Images abandoned its merger with Shutterstock** after UK regulatory scrutiny.
+
+**Interpretation**
+- The clearest macro-relevant fresh headline is the **Hammack** comment: if taken at face value, it is a **hawkish rates signal** tying AI capex demand to potential inflation pressure.  
+- The **Super Micro / Nvidia-chip-smuggling investigation** is the most relevant fresh **AI-semi risk headline**, with possible implications for export-control enforcement and AI hardware supply chains.  
+- **Rocket Lab–Iridium** is a notable sector-specific catalyst for **space and defense-adjacent equities**, but it is not broad macro.  
+- The crypto headlines point more to **regulatory, legal, and political overhangs** than to a clear read-through for major risk assets today.  
+- Overall, this article set is **thin for explaining the broader tape**. There is **not enough high-quality fresh reporting here** to confidently explain moves in major equity indexes, Treasury yields, oil, or bitcoin today beyond the isolated Fed and AI/export-control headlines.
