@@ -1,0 +1,34 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-01 12:21 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+Primary approach: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model used: both (LSTM and Transformer)
+No model-confirmed buy or sell signals met the 2.00% absolute forecast return threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+AAPL leads the buy side with a Strong Buy signal, a 7.04% forecast return, high reliability, and the highest upside probability in the confirmed long list at 80.6%. Despite a high-volatility pattern label, its expected error is relatively contained versus the rest of the buy group.
+
+STX ranks as a higher-return Buy candidate with an 18.46% forecast return and an uptrend pattern. The tradeoff is much wider expected error, so it screens as a higher-volatility opportunity than AAPL.
+
+LUV remains a confirmed Buy with a 9.09% forecast return, moderate reliability, and an uptrend pattern. Its probability and error profile place it behind AAPL on quality but still within the confirmed long group.
+
+WMT is a confirmed Buy with a 6.17% forecast return, moderate reliability, and an oversold pattern. It has a comparatively favorable error profile and the second-highest upside probability among the confirmed buys.
+
+30 trading-day sell rankings
+PEPE is the strongest negative signal with a Strong Sell call, a -22.73% forecast return, high reliability, and the widest downside edge in the confirmed sell group. It is the clearest avoid/short candidate in the report.
+
+BTC is a confirmed Sell with a -11.37% forecast return, moderate reliability, and a downtrend pattern. Its downside probability is materially skewed, supporting an avoid stance over the 30 trading-day horizon.
+
+ADA is a confirmed Sell with a -13.36% forecast return and moderate reliability. The forecast is directionally negative, but expected error is wider than BTC.
+
+DOT is also a confirmed Sell at -12.41% with moderate reliability and a downtrend pattern. Its probability profile is similar to ADA, keeping it in the confirmed avoid group.
+
+Policy watchlist note
+SNDK was the best smart policy pick, but it is not included in the ranked buys because the model call did not qualify for the primary confirmed-signal section. Other policy-only watchlist names are also excluded from the main rankings for the same reason.
+
+Data quality note
+SPCX was skipped due to insufficient clean price history for ML forecasting.
