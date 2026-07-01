@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 import time
 try:
     from xgboost import XGBRegressor
@@ -328,8 +329,9 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-APP_BUILD = "2026-06-18 outage-pricing-fix-v5"
+APP_BUILD = "2026-07-01 data-freshness-fix-v1"
 ERCOT_API_MARKET_URL = "https://apimarket.ercot.com/"
+ERCOT_TIMEZONE = ZoneInfo("America/Chicago")
 ERCOT_BLUE = "#0b2f4f"
 ERCOT_CYAN = "#00a3c7"
 ERCOT_GREEN = "#1f9d55"
@@ -664,13 +666,79 @@ def coerce_numeric(series: pd.Series) -> pd.Series:
 def latest_timestamp_label(df: pd.DataFrame) -> str:
     if "timestamp" not in df.columns or df.empty:
         return "Latest available interval"
-    value = pd.to_datetime(df["timestamp"], errors="coerce").dropna()
+    value = normalize_timestamps(df["timestamp"]).dropna()
     if value.empty:
         return "Latest available interval"
-    return value.max().strftime("%b %d, %Y %H:%M")
+    return format_timestamp_label(value.max())
 
 
-def latest_non_null_reading(df: pd.DataFrame, value_col: Optional[str]) -> tuple[Optional[float], str]:
+def ercot_now() -> pd.Timestamp:
+    """Current wall-clock time in ERCOT/Central time, returned timezone-naive for report comparisons."""
+    return pd.Timestamp.now(tz=ERCOT_TIMEZONE).tz_localize(None)
+
+
+def current_interval_cutoff(hours_ahead: int = 1) -> pd.Timestamp:
+    """Allow one hourly report interval ahead because ERCOT rows are often labeled by hour-ending."""
+    return ercot_now() + pd.Timedelta(hours=hours_ahead)
+
+
+def normalize_timestamps(values: Any) -> pd.Series:
+    parsed = pd.to_datetime(values, errors="coerce")
+    if isinstance(parsed, pd.Timestamp):
+        parsed = pd.Series([parsed])
+    try:
+        if parsed.dt.tz is not None:
+            parsed = parsed.dt.tz_convert(ERCOT_TIMEZONE).dt.tz_localize(None)
+    except AttributeError:
+        pass
+    return parsed
+
+
+def format_timestamp_label(value: Any) -> str:
+    timestamp = pd.to_datetime(value, errors="coerce")
+    if pd.isna(timestamp):
+        return "Latest available interval"
+    try:
+        if timestamp.tzinfo is not None:
+            timestamp = timestamp.tz_convert(ERCOT_TIMEZONE).tz_localize(None)
+    except AttributeError:
+        pass
+    return timestamp.strftime("%b %d, %Y %H:%M CT")
+
+
+def format_timedelta_short(delta: pd.Timedelta) -> str:
+    total_minutes = max(0, int(delta.total_seconds() // 60))
+    hours, minutes = divmod(total_minutes, 60)
+    days, hours = divmod(hours, 24)
+    if days:
+        return f"{days}d {hours}h"
+    if hours:
+        return f"{hours}h {minutes}m"
+    return f"{minutes}m"
+
+
+def interval_freshness_note(value: Any, prefix: str = "As of", stale_after_hours: float = 4.0) -> str:
+    timestamp = pd.to_datetime(value, errors="coerce")
+    if pd.isna(timestamp):
+        return "Latest available interval"
+    try:
+        if timestamp.tzinfo is not None:
+            timestamp = timestamp.tz_convert(ERCOT_TIMEZONE).tz_localize(None)
+    except AttributeError:
+        pass
+    age = ercot_now() - timestamp
+    if age > pd.Timedelta(hours=stale_after_hours):
+        return f"Posted through {format_timestamp_label(timestamp)} ({format_timedelta_short(age)} old)"
+    return f"{prefix} {format_timestamp_label(timestamp)}"
+
+
+def latest_non_null_reading(
+    df: pd.DataFrame,
+    value_col: Optional[str],
+    as_of: Optional[pd.Timestamp] = None,
+    note_prefix: str = "As of",
+    stale_after_hours: Optional[float] = None,
+) -> tuple[Optional[float], str]:
     """Return the latest non-empty numeric reading and its own timestamp label."""
     if df.empty or not value_col or value_col not in df.columns:
         return None, "No available interval"
@@ -682,14 +750,83 @@ def latest_non_null_reading(df: pd.DataFrame, value_col: Optional[str]) -> tuple
 
     valid_df[value_col] = coerce_numeric(valid_df[value_col])
     if "timestamp" in valid_df.columns:
-        valid_df["timestamp"] = pd.to_datetime(valid_df["timestamp"], errors="coerce")
+        valid_df["timestamp"] = normalize_timestamps(valid_df["timestamp"])
         valid_df = valid_df.dropna(subset=["timestamp"]).sort_values("timestamp")
+        if as_of is not None:
+            valid_df = valid_df[valid_df["timestamp"] <= as_of]
         if valid_df.empty:
             return None, "No available interval"
         row = valid_df.iloc[-1]
-        return float(row[value_col]), row["timestamp"].strftime("%b %d, %Y %H:%M")
+        if stale_after_hours is None:
+            note = f"{note_prefix} {format_timestamp_label(row['timestamp'])}"
+        else:
+            note = interval_freshness_note(row["timestamp"], prefix=note_prefix, stale_after_hours=stale_after_hours)
+        return float(row[value_col]), note
 
     return float(valid_df[value_col].iloc[-1]), "Latest available interval"
+
+
+def latest_row_at_or_before(
+    df: pd.DataFrame,
+    value_cols: list[str],
+    as_of: Optional[pd.Timestamp] = None,
+) -> Optional[pd.Series]:
+    """Return the latest row with any requested value populated, optionally capped by timestamp."""
+    value_cols = [col for col in value_cols if col and col in df.columns]
+    if df.empty or not value_cols:
+        return None
+
+    result = df.copy()
+    for col in value_cols:
+        result[col] = coerce_numeric(result[col])
+    result = result.dropna(subset=value_cols, how="all")
+
+    if "timestamp" in result.columns:
+        result["timestamp"] = normalize_timestamps(result["timestamp"])
+        result = result.dropna(subset=["timestamp"]).sort_values("timestamp")
+        if as_of is not None:
+            result = result[result["timestamp"] <= as_of]
+
+    if result.empty:
+        return None
+    return result.iloc[-1]
+
+
+def filter_time_window(
+    df: pd.DataFrame,
+    start: Optional[pd.Timestamp] = None,
+    end: Optional[pd.Timestamp] = None,
+) -> pd.DataFrame:
+    if df.empty or "timestamp" not in df.columns:
+        return df
+
+    result = df.copy()
+    result["timestamp"] = normalize_timestamps(result["timestamp"])
+    result = result.dropna(subset=["timestamp"])
+    if start is not None:
+        result = result[result["timestamp"] >= start]
+    if end is not None:
+        result = result[result["timestamp"] <= end]
+    return result.sort_values("timestamp")
+
+
+def time_window_around_now(df: pd.DataFrame, hours_back: int = 48, hours_forward: int = 72) -> pd.DataFrame:
+    now = ercot_now()
+    return filter_time_window(
+        df,
+        start=now - pd.Timedelta(hours=hours_back),
+        end=now + pd.Timedelta(hours=hours_forward),
+    )
+
+
+def rows_at_latest_timestamp(df: pd.DataFrame, as_of: Optional[pd.Timestamp] = None) -> pd.DataFrame:
+    if df.empty or "timestamp" not in df.columns:
+        return df
+    result = filter_time_window(df, end=as_of)
+    if result.empty:
+        return result
+    latest_ts = result["timestamp"].max()
+    return result[result["timestamp"] == latest_ts]
 
 
 def has_numeric_values(df: pd.DataFrame, value_col: Optional[str]) -> bool:
@@ -1450,19 +1587,11 @@ def main():
                             st.write("**Fields metadata:**")
                             st.json(actual_load_data["fields"])
                     
-                    # Parse timestamp: ERCOT uses operatingDay + hourEnding (hour 24 = midnight next day)
-                    if 'operatingDay' in actual_df.columns and 'hourEnding' in actual_df.columns:
-                        def parse_ercot_timestamp(row):
-                            try:
-                                date = pd.to_datetime(row['operatingDay'])
-                                hour_str = str(row['hourEnding']).strip().replace('.0', '')
-                                hour = int(hour_str) if hour_str.isdigit() else 0
-                                # ERCOT defines 24 as midnight next day
-                                return date + timedelta(days=1) if hour == 24 else date + timedelta(hours=hour)
-                            except Exception:
-                                return pd.NaT
+                    actual_df = add_ercot_timestamp(actual_df)
+                    forecast_df = add_ercot_timestamp(forecast_df)
 
-                        actual_df['timestamp'] = actual_df.apply(parse_ercot_timestamp, axis=1)
+                    # ERCOT uses operatingDay + hourEnding; resample after parsing one timestamp per hour.
+                    if 'timestamp' in actual_df.columns:
                         actual_df = (
                             actual_df.dropna(subset=['timestamp'])
                                     .sort_values('timestamp')
@@ -1484,7 +1613,7 @@ def main():
                             actual_df[non_numeric_cols] = actual_df[non_numeric_cols].ffill().bfill()
 
                         actual_df = actual_df.reset_index()
-                        actual_df['timestamp'] = pd.to_datetime(actual_df['timestamp'], errors='coerce')
+                        actual_df['timestamp'] = normalize_timestamps(actual_df['timestamp'])
                         actual_df = actual_df.dropna(subset=['timestamp'])
                                                                 
                     # Display metrics - use total/system-wide load when available.
@@ -1495,8 +1624,20 @@ def main():
                     )
                     
                     if load_col and not actual_df.empty:
-                        load_series = coerce_numeric(actual_df[load_col])
-                        latest_load = load_series.iloc[-1]
+                        load_series = coerce_numeric(actual_df[load_col]).dropna()
+                        latest_load, latest_load_note = latest_non_null_reading(
+                            actual_df,
+                            load_col,
+                            as_of=current_interval_cutoff(),
+                            note_prefix="As of",
+                            stale_after_hours=4,
+                        )
+                        if latest_load is None:
+                            latest_load, latest_load_note = latest_non_null_reading(
+                                actual_df,
+                                load_col,
+                                note_prefix="Latest returned",
+                            )
                         avg_load = load_series.mean()
                         max_load = load_series.max()
                         min_load = load_series.min()
@@ -1504,7 +1645,7 @@ def main():
 
                         col1, col2, col3, col4 = st.columns(4)
                         with col1:
-                            render_metric_card("Current Load", format_mw(latest_load), latest_timestamp_label(actual_df), ERCOT_CYAN)
+                            render_metric_card("Latest Actual Load", format_mw(latest_load), latest_load_note, ERCOT_CYAN)
                         with col2:
                             render_metric_card("Average Load", format_mw(avg_load), f"{date_range}-day window", ERCOT_BLUE)
                         with col3:
@@ -1530,13 +1671,6 @@ def main():
                         )
                     
                     if not forecast_df.empty:
-                        # Parse timestamp for forecast data
-                        forecast_time_cols = [col for col in forecast_df.columns if isinstance(col, str) and ('time' in col.lower() or 'date' in col.lower() or 'hour' in col.lower())]
-                        if forecast_time_cols:
-                            forecast_df['timestamp'] = pd.to_datetime(forecast_df[forecast_time_cols[0]], errors='coerce')
-                            forecast_df = forecast_df.dropna(subset=['timestamp'])
-                            forecast_df = forecast_df.sort_values('timestamp')
-                        
                         x_axis_forecast = forecast_df['timestamp'] if 'timestamp' in forecast_df.columns else forecast_df.index
                         forecast_load_col = find_column(
                             forecast_df,
@@ -1758,7 +1892,10 @@ def main():
                         # Find actual column
                         actual_col = find_column(wind_df, exact=["genSystemWide"], contains=["gen", "system"])
                         forecast_col = find_column(wind_df, contains=["stwpf", "system"])
-                        wind_series = compact_time_series(wind_df, [actual_col, forecast_col], max_days=3)
+                        wind_series_all = compact_time_series(wind_df, [actual_col, forecast_col])
+                        wind_series = time_window_around_now(wind_series_all, hours_back=48, hours_forward=72)
+                        if wind_series.empty:
+                            wind_series = wind_series_all
 
                         if debug_mode:
                             st.write("**Wind Data Sample:**")
@@ -1794,17 +1931,33 @@ def main():
                                 )
                             )
 
-                        wind_value, wind_note = latest_non_null_reading(wind_series, actual_col)
-                        wind_label = "Latest Wind Output"
-                        if wind_value is None:
-                            wind_value, wind_note = latest_non_null_reading(wind_series, forecast_col)
-                            wind_label = "Latest Wind Forecast"
-                        render_metric_card(
-                            wind_label,
-                            format_mw(wind_value) if wind_value is not None else "N/A",
-                            wind_note,
-                            ERCOT_CYAN,
+                        wind_value, wind_note = latest_non_null_reading(
+                            wind_series_all,
+                            actual_col,
+                            as_of=current_interval_cutoff(),
+                            note_prefix="As of",
+                            stale_after_hours=3,
                         )
+                        forecast_wind_value, forecast_wind_note = latest_non_null_reading(
+                            wind_series_all,
+                            forecast_col,
+                            note_prefix="Forecast through",
+                        )
+                        wind_metric_col_1, wind_metric_col_2 = st.columns(2)
+                        with wind_metric_col_1:
+                            render_metric_card(
+                                "Latest Wind Actual",
+                                format_mw(wind_value) if wind_value is not None else "N/A",
+                                wind_note,
+                                ERCOT_CYAN,
+                            )
+                        with wind_metric_col_2:
+                            render_metric_card(
+                                "Wind Forecast Horizon",
+                                format_mw(forecast_wind_value) if forecast_wind_value is not None else "N/A",
+                                forecast_wind_note,
+                                ERCOT_BLUE,
+                            )
 
                         fig_wind = apply_professional_layout(
                             fig_wind,
@@ -1812,7 +1965,7 @@ def main():
                             "Generation (MW)",
                             height=430,
                         )
-                        st.caption("Chart view: latest 72 hours, grouped to one value per ERCOT interval.")
+                        st.caption("Chart view: past 48 hours and next 72 forecast hours, grouped to one value per ERCOT interval.")
                         
                         if len(fig_wind.data) > 0:
                             render_chart(fig_wind)
@@ -1847,7 +2000,10 @@ def main():
                         # Find actual solar column - API uses 'genSystemWide'
                         actual_solar_col = find_column(solar_df, exact=["genSystemWide"], contains=["gen", "system"])
                         forecast_solar_col = find_column(solar_df, contains=["stppf", "system"])
-                        solar_series = compact_time_series(solar_df, [actual_solar_col, forecast_solar_col], max_days=3)
+                        solar_series_all = compact_time_series(solar_df, [actual_solar_col, forecast_solar_col])
+                        solar_series = time_window_around_now(solar_series_all, hours_back=48, hours_forward=72)
+                        if solar_series.empty:
+                            solar_series = solar_series_all
 
                         if debug_mode:
                             st.write("**Solar Data Sample:**")
@@ -1883,17 +2039,33 @@ def main():
                                 )
                             )
 
-                        solar_value, solar_note = latest_non_null_reading(solar_series, actual_solar_col)
-                        solar_label = "Latest Solar Output"
-                        if solar_value is None:
-                            solar_value, solar_note = latest_non_null_reading(solar_series, forecast_solar_col)
-                            solar_label = "Latest Solar Forecast"
-                        render_metric_card(
-                            solar_label,
-                            format_mw(solar_value) if solar_value is not None else "N/A",
-                            solar_note,
-                            ERCOT_ORANGE,
+                        solar_value, solar_note = latest_non_null_reading(
+                            solar_series_all,
+                            actual_solar_col,
+                            as_of=current_interval_cutoff(),
+                            note_prefix="As of",
+                            stale_after_hours=3,
                         )
+                        forecast_solar_value, forecast_solar_note = latest_non_null_reading(
+                            solar_series_all,
+                            forecast_solar_col,
+                            note_prefix="Forecast through",
+                        )
+                        solar_metric_col_1, solar_metric_col_2 = st.columns(2)
+                        with solar_metric_col_1:
+                            render_metric_card(
+                                "Latest Solar Actual",
+                                format_mw(solar_value) if solar_value is not None else "N/A",
+                                solar_note,
+                                ERCOT_ORANGE,
+                            )
+                        with solar_metric_col_2:
+                            render_metric_card(
+                                "Solar Forecast Horizon",
+                                format_mw(forecast_solar_value) if forecast_solar_value is not None else "N/A",
+                                forecast_solar_note,
+                                ERCOT_RED,
+                            )
 
                         fig_solar = apply_professional_layout(
                             fig_solar,
@@ -1901,7 +2073,7 @@ def main():
                             "Generation (MW)",
                             height=430,
                         )
-                        st.caption("Chart view: latest 72 hours, grouped to one value per ERCOT interval.")
+                        st.caption("Chart view: past 48 hours and next 72 forecast hours, grouped to one value per ERCOT interval.")
                         
                         if len(fig_solar.data) > 0:
                             render_chart(fig_solar)
@@ -1933,13 +2105,27 @@ def main():
                 )
                 
                 if "data" in lmp_data and len(lmp_data["data"]) > 0:
-                    lmp_df = dataframe_from_payload(lmp_data)
+                    lmp_df = add_ercot_timestamp(dataframe_from_payload(lmp_data))
+                    latest_lmp_df = rows_at_latest_timestamp(
+                        lmp_df,
+                        as_of=ercot_now() + pd.Timedelta(minutes=10),
+                    )
+                    if latest_lmp_df.empty:
+                        latest_lmp_df = lmp_df
+                    if "timestamp" in latest_lmp_df.columns and not latest_lmp_df.empty:
+                        lmp_interval_note = interval_freshness_note(
+                            latest_lmp_df["timestamp"].max(),
+                            prefix="SCED interval",
+                            stale_after_hours=1,
+                        )
+                    else:
+                        lmp_interval_note = "Latest returned interval"
                     
                     point_col = find_settlement_point_column(lmp_df)
                     type_col = find_settlement_type_column(lmp_df)
                     price_col = find_price_column(lmp_df)
                     if point_col:
-                        hubs = lmp_df
+                        hubs = latest_lmp_df
                         if type_col:
                             type_values = hubs[type_col].astype(str).str.upper()
                             hub_mask = type_values.eq("HU") | type_values.str.contains("HUB", na=False)
@@ -1957,13 +2143,13 @@ def main():
                                 price_series = hubs[price_col]
                                 price_col_1, price_col_2, price_col_3, price_col_4 = st.columns(4)
                                 with price_col_1:
-                                    render_metric_card("Highest Hub Price", format_price(price_series.max()), "Visible hub set", ERCOT_RED)
+                                    render_metric_card("Highest Hub Price", format_price(price_series.max()), lmp_interval_note, ERCOT_RED)
                                 with price_col_2:
-                                    render_metric_card("Average Hub Price", format_price(price_series.mean()), "Simple average", ERCOT_BLUE)
+                                    render_metric_card("Average Hub Price", format_price(price_series.mean()), "Simple hub average", ERCOT_BLUE)
                                 with price_col_3:
                                     render_metric_card("Lowest Hub Price", format_price(price_series.min()), "Visible hub set", ERCOT_GREEN)
                                 with price_col_4:
-                                    render_metric_card("Hub Count", f"{len(hubs):,}", "Returned by endpoint", ERCOT_CYAN)
+                                    render_metric_card("Hub Count", f"{len(hubs):,}", "Latest interval rows", ERCOT_CYAN)
 
                                 fig_lmp = px.bar(
                                     hubs.head(15),
@@ -2049,32 +2235,58 @@ def main():
                     
                     if len(numeric_cols) > 0:
                         outage_series = compact_time_series(outage_df, numeric_cols)
-                        outage_chart_df = compact_time_series(outage_df, numeric_cols, max_days=3)
+                        outage_chart_df = time_window_around_now(outage_series, hours_back=1, hours_forward=72)
+                        if outage_chart_df.empty:
+                            outage_chart_df = outage_series
                         
                         if debug_mode:
                             st.write("**Cleaned Outage Chart Series:**")
                             render_dataframe(outage_chart_df.head(), height=180)
                         
-                        latest_row = outage_series.sort_values("timestamp").iloc[-1] if "timestamp" in outage_series.columns else outage_series.iloc[-1]
-                        latest_total = sum(float(latest_row[col]) for col in numeric_cols if pd.notna(latest_row[col]))
-                        avg_total = outage_series[numeric_cols].sum(axis=1).mean()
-                        peak_total = outage_series[numeric_cols].sum(axis=1).max()
+                        current_row = latest_row_at_or_before(
+                            outage_series,
+                            numeric_cols,
+                            as_of=current_interval_cutoff(),
+                        )
+                        current_note_prefix = "Current interval"
+                        if current_row is None:
+                            current_row = latest_row_at_or_before(outage_series, numeric_cols)
+                            current_note_prefix = "Latest returned"
+
+                        horizon_row = latest_row_at_or_before(outage_series, numeric_cols)
+                        current_total = sum(float(current_row[col]) for col in numeric_cols if pd.notna(current_row[col])) if current_row is not None else np.nan
+                        horizon_total = sum(float(horizon_row[col]) for col in numeric_cols if pd.notna(horizon_row[col])) if horizon_row is not None else np.nan
+                        current_note = (
+                            f"{current_note_prefix} {format_timestamp_label(current_row['timestamp'])}"
+                            if current_row is not None and "timestamp" in current_row.index
+                            else "Latest available interval"
+                        )
+                        horizon_note = (
+                            f"Forecast through {format_timestamp_label(horizon_row['timestamp'])}"
+                            if horizon_row is not None and "timestamp" in horizon_row.index
+                            else latest_timestamp_label(outage_series)
+                        )
+
+                        avg_total = outage_chart_df[numeric_cols].sum(axis=1).mean()
+                        peak_total = outage_chart_df[numeric_cols].sum(axis=1).max()
                         top_latest = sorted(
-                            [(col, float(latest_row[col])) for col in numeric_cols if pd.notna(latest_row[col])],
+                            [(col, float(current_row[col])) for col in numeric_cols if current_row is not None and pd.notna(current_row[col])],
                             key=lambda item: item[1],
                             reverse=True,
                         )[:1]
                         top_label = humanize_ercot_column(top_latest[0][0]) if top_latest else "N/A"
 
-                        out_col_1, out_col_2, out_col_3, out_col_4 = st.columns(4)
+                        out_col_1, out_col_2, out_col_3, out_col_4, out_col_5 = st.columns(5)
                         with out_col_1:
-                            render_metric_card("Latest Outage Capacity", format_mw(latest_total), latest_timestamp_label(outage_series), ERCOT_RED)
+                            render_metric_card("Current Scheduled Outages", format_mw(current_total), current_note, ERCOT_RED)
                         with out_col_2:
-                            render_metric_card("Average Outage Capacity", format_mw(avg_total), "Selected data returned", ERCOT_BLUE)
+                            render_metric_card("Average Next 72h", format_mw(avg_total), "Outage Scheduler window", ERCOT_BLUE)
                         with out_col_3:
-                            render_metric_card("Peak Outage Capacity", format_mw(peak_total), "Selected data returned", ERCOT_ORANGE)
+                            render_metric_card("Peak Next 72h", format_mw(peak_total), "Outage Scheduler window", ERCOT_ORANGE)
                         with out_col_4:
-                            render_metric_card("Top Current Category", str(top_label), "Largest latest value", ERCOT_CYAN)
+                            render_metric_card("Forecast Horizon", format_mw(horizon_total), horizon_note, ERCOT_GREEN)
+                        with out_col_5:
+                            render_metric_card("Top Current Category", str(top_label), "Largest current value", ERCOT_CYAN)
 
                         fig_outage = go.Figure()
                         x_axis_outage = outage_chart_df['timestamp'] if 'timestamp' in outage_chart_df.columns else outage_chart_df.index
@@ -2106,13 +2318,16 @@ def main():
                             "Outage Capacity (MW)",
                             height=520,
                         )
-                        st.caption("Chart view: latest 72 hours, capacity columns only. Non-capacity fields such as hourEnding are excluded.")
+                        st.caption(
+                            "Chart view: current interval plus next 72 forecast hours from the Outage Scheduler. "
+                            "The report covers the next 168 hours; future dates are forecast horizons, not live actuals."
+                        )
                         render_chart(fig_outage)
                     else:
                         st.info("No numeric outage capacity columns were found in the returned payload.")
                     
                     st.subheader("Outage Summary Statistics")
-                    render_dataframe(outage_series[numeric_cols].describe() if numeric_cols else outage_df.describe(), height=360)
+                    render_dataframe(outage_chart_df[numeric_cols].describe() if numeric_cols else outage_df.describe(), height=360)
                 else:
                     st.warning("No outage data available.")
         except Exception as e:
