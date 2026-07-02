@@ -1,0 +1,26 @@
+**Fresh market-moving headlines are thin in this article set.** Most items are press releases, sports misposts, opinion pieces, or low-quality aggregations. The clearest usable macro headlines are Eurozone inflation and ECB-related commentary, plus a geopolitics/energy-risk item and a crypto-sanctions item.
+
+## Facts
+- **Eurozone June inflation cooled to 2.8% y/y from 3.2% in May**, according to a preliminary Eurostat report cited by **Biztoc**.  
+  *Source: Biztoc, publishedAt **2026-07-01T09:03:24Z***  
+
+- **Bundesbank President/ECB Governing Council member Joachim Nagel said the ECB remains flexible on rates and is open to hikes amid Middle East tensions**, according to **Crypto Briefing**.  
+  *Source: Crypto Briefing, publishedAt **2026-07-01T08:50:36Z***  
+
+- **Nagel also warned inflation remains too high amid energy-price shocks**, in a separate **Crypto Briefing** article.  
+  *Source: Crypto Briefing, publishedAt **2026-07-01T08:46:14Z***  
+
+- **Israel approved sanctions targeting about $8 million in crypto wallets linked to Iran’s IRGC**, according to **Crypto Briefing**.  
+  *Source: Crypto Briefing, publishedAt **2026-07-01T08:55:05Z***  
+
+- **Russia is facing fuel shortages tied to intensified Ukrainian drone attacks on refineries and fuel infrastructure**, according to **Crypto Briefing**.  
+  *Source: Crypto Briefing, publishedAt **2026-07-01T08:47:41Z***  
+
+- **Israeli Prime Minister Netanyahu said a third confrontation with Iran remains possible “if necessary,”** according to **Crypto Briefing**.  
+  *Source: Crypto Briefing, publishedAt **2026-07-01T08:45:51Z***  
+
+## Interpretation
+- The most credible fresh macro signal here is **cooler Eurozone inflation**, which matters for **European rates and ECB expectations**.
+- That said, the **Nagel comments complicate the inflation story**: even with softer headline CPI, ECB officials are still flagging **energy-driven upside risk** and keeping the door open to tighter policy.
+- The **Israel/Iran** and **Russia fuel-shortage** headlines point to **ongoing energy and geopolitical risk**, but this set does **not** provide enough direct evidence to explain the full day’s tape.
+- There are **no solid fresh earnings, major AI/semi, Fed, or U.S. equity-index-driving reports** in this dataset.
