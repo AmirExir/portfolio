@@ -1,0 +1,21 @@
+Generated: 2026-07-02 12:31 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model used: both (LSTM and Transformer)
+No model-confirmed buy or sell signals met the 2.0% threshold for the 1 trading-day horizon. A short-term policy sell/avoid watch item appeared in RIOT, but it was Neutral / No Edge and is not included as a ranked signal.
+
+30 trading-day ranked buy signals
+1. SNDK — Buy, forecast return +37.48%, Moderate reliability, uptrend pattern. Also the best smart policy pick.
+2. WDC — Buy, forecast return +21.71%, Moderate reliability, uptrend pattern.
+3. LUV — Buy, forecast return +11.38%, Moderate reliability, uptrend pattern.
+4. GEV — Buy, forecast return +10.84%, Moderate reliability, overbought pattern.
+5. WMT — Buy, forecast return +5.17%, Moderate reliability, oversold pattern.
+6. AAPL — Buy, forecast return +4.25%, High reliability, uptrend pattern.
+
+30 trading-day ranked sell signals
+1. PEPE — Strong Sell, forecast return -22.73%, High reliability, downtrend pattern.
+
+Editorial summary
+The 30-day model-confirmed list is concentrated: six qualifying buys and one qualifying sell passed the primary rule set. The buy side is led by SNDK and WDC on larger forecast returns, while AAPL stands out for higher reliability with a smaller expected move. PEPE is the only model-confirmed sell and carries both a large negative forecast and high reliability. Neutral and watchlist names were excluded from the ranked recommendations.
