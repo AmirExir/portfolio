@@ -1,0 +1,30 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-03 01:22 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed Buy, Strong Buy, Sell, or Strong Sell signals met the 2.00% absolute forecast threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. SNDK — Strong Buy | forecast return +60.49% | reliability High | probability up 80.7% | pattern Uptrend. Highest-conviction long signal in this run, though the forecast error band is wide.
+2. WDC — Buy | forecast return +28.56% | reliability High | probability up 80.2% | pattern Uptrend. Strong upside forecast with high reported reliability.
+3. STX — Buy | forecast return +17.90% | reliability Moderate | probability up 72.5% | pattern High Volatility. Positive signal, but volatility and error range are elevated.
+4. LUV — Buy | forecast return +10.82% | reliability Moderate | probability up 72.4% | pattern Uptrend. Balanced upside case with moderate reliability.
+5. SLV — Buy | forecast return +9.74% | reliability Moderate | probability up 65.8% | pattern Rebound From 60-Day Low. Tactical rebound setup rather than a broad trend leader.
+6. GEV — Buy | forecast return +8.81% | reliability Moderate | probability up 69.9% | pattern High Volatility. Positive forecast with higher path risk.
+7. AAPL — Buy | forecast return +3.65% | reliability Moderate | probability up 71.8% | pattern Uptrend. Smaller expected return than the other buy signals, but with a comparatively tighter error range.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell | forecast return -22.73% | reliability High | probability up 12.4% | pattern Downtrend. Only model-confirmed sell/avoid signal that met the threshold.
+
+Short watchlist from policy-only names
+Potential upside watchlist: MU.
+Potential downside watchlist: TSLA, ADA.
+These did not qualify as model-confirmed primary signals and should not be treated as ranked recommendations.
+
+Coverage note
+SPCX was skipped because there were not enough clean close prices for ML forecasting.
