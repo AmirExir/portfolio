@@ -1,0 +1,29 @@
+Generated: 2026-07-02 01:20 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model used: both (LSTM and Transformer)
+No model-confirmed Buy, Sell, Strong Buy, or Strong Sell signals met the 2.00% threshold for the 1 trading-day horizon. A short policy watch item appeared on the sell/avoid side for RIOT, but it was Neutral / No Edge and is therefore not included in the ranked signals.
+
+30 trading-day ranked signals
+Buy-side signals meeting the primary rule were concentrated in a small group of equities and one commodity ETF. SNDK had the largest forecast gain at +37.69%, but with very wide expected error, which limits confidence despite the positive direction. LUV, GEV, and WDC also screened as Buy signals with double-digit forecast returns, though all carried moderate reliability rather than high reliability.
+
+Among the higher-quality long signals, AAPL stands out for the combination of High reliability, an Uptrend pattern, and a comparatively low expected error versus the rest of the list. WMT and XOM also qualified as Buy signals, but their forecast returns were more modest at roughly 5% each.
+
+On the sell side, only PEPE met the model-confirmed threshold. It carried a Strong Sell call with High reliability, a Downtrend pattern, and a forecast return of -22.72%, making it the clearest negative signal in the report.
+
+Overall, the 30-day book is materially imbalanced toward buys, with 8 model-confirmed buys against 1 model-confirmed sell. Reliability across the full run remained mixed, with only 2 High-reliability names in the universe summary, so selectivity remains important.
+
+Top buy candidates
+AAPL: Buy | forecast +4.27% | High reliability | Uptrend
+LUV: Buy | forecast +11.47% | Moderate reliability | Uptrend
+GEV: Buy | forecast +11.48% | Moderate reliability | Overbought
+SNDK: Buy | forecast +37.69% | Moderate reliability | Uptrend
+WDC: Buy | forecast +17.86% | Moderate reliability | Uptrend
+SLV: Buy | forecast +11.19% | Moderate reliability | Rebound From 60-Day Low
+WMT: Buy | forecast +4.95% | Moderate reliability | Oversold
+XOM: Buy | forecast +4.96% | Moderate reliability | Oversold
+
+Top sell candidates
+PEPE: Strong Sell | forecast -22.72% | High reliability | Downtrend

@@ -1,0 +1,29 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-05 01:32 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+SNDK ranks first with a Strong Buy signal, a +60.95% forecast return, high reliability, and an uptrend pattern. It is also the strongest smart policy pick in the run.
+WDC follows with a Buy signal, a +27.33% forecast return, high reliability, and an uptrend pattern.
+STX is a Buy with a +17.80% forecast return, moderate reliability, and a high-volatility pattern.
+LUV is a Buy with a +10.45% forecast return, moderate reliability, and an uptrend pattern.
+GEV is a Buy with a +8.74% forecast return, moderate reliability, and a high-volatility pattern.
+AAPL is a Buy with a +3.67% forecast return, moderate reliability, and an uptrend pattern.
+
+30 trading-day sell/avoid rankings
+PEPE ranks as the primary sell/avoid signal with a Strong Sell call, a -22.72% forecast return, high reliability, and a downtrend pattern.
+XLY is the second sell signal with a -4.48% forecast return, moderate reliability, and a rebound-from-60-day-low pattern.
+
+Short watchlist
+No 1 trading-day watchlist candidates were provided.
+For the 30 trading-day horizon, policy-only watchlist names with forecast magnitude above 2% but without model confirmation include MU, AAL, INTC, MS, ORCA, DELL, GS on the buy side, and ETH, ORCL, MNT, ENA, TSLA, SHIB, ADA, AMZN, BNB, COMP on the sell/avoid side.
+
+Data note
+SPCX was skipped due to insufficient clean price history for ML forecasting.

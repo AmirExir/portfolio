@@ -1,0 +1,26 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-05 13:05 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+Primary signal filter: absolute forecast return >= 2.00% and model call must be Buy/Sell or Strong Buy/Strong Sell.
+
+1 trading-day section
+Sequence model used: both.
+No model-confirmed buy or sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. SNDK — Strong Buy. Highest forecast upside in the qualified set at +60.34%, with High reliability, 80.7% probability up, and an uptrend pattern. Expected error is wide at +/-57.09%, so conviction is directional but uncertainty is elevated.
+2. WDC — Buy. Forecast return +27.36%, High reliability, 79.8% probability up, and uptrend pattern. This is one of the stronger confirmed long signals in the report.
+3. STX — Buy. Forecast return +17.84% with Moderate reliability and 72.4% probability up. High volatility pattern suggests larger path risk than the uptrend names.
+4. LUV — Buy. Forecast return +9.77%, Moderate reliability, 70.6% probability up, and uptrend pattern. More moderate upside than the storage names but still model-confirmed.
+5. GEV — Buy. Forecast return +9.08%, Moderate reliability, 70.4% probability up, with a high volatility pattern.
+6. AAPL — Buy. Forecast return +3.67%, Moderate reliability, 71.9% probability up, and the tightest expected error among the confirmed buys at +/-5.01%.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell. Forecast return -22.73%, High reliability, downtrend pattern, and the strongest confirmed downside signal in the report.
+2. XLY — Sell. Forecast return -4.62%, Moderate reliability. The pattern is listed as rebound from 60-day low, so the sell call is weaker than PEPE and may be more sensitive to reversals.
+
+Short watchlist from policy overlay only
+Buy watchlist: MU, KO, AAL, INTC, GS, DELL.
+Sell/avoid watchlist: ADA, ORCL, SHIB, TSLA, COMP, ENA, ETH, AMZN, BNB, MNT.
+These watchlist names did not qualify for the primary model-confirmed signal section and should be treated separately from the ranked buys and sells.
