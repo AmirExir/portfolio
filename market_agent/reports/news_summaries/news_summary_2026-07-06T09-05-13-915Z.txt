@@ -1,0 +1,16 @@
+Fresh market-moving headlines are limited in this article set, and several items are from low-reliability aggregators or are not directly tied to broad markets. The clearest usable drivers here are AI/semis, crypto flows, and Middle East shipping/geopolitics.
+
+**Facts**
+- **Foxconn/Hon Hai sales beat tied to AI servers** — *Crypto Briefing*, **2026-07-05T08:26:59Z**: Hon Hai reported stronger-than-expected quarterly sales, with AI server demand described as having overtaken smartphones as its biggest revenue driver.
+- **Broadcom AI customer/deal update** — *Crypto Briefing*, **2026-07-05T08:35:03Z**: Broadcom reportedly signed deals with three hyperscalers, including a Google agreement extending to 2031, and has expanded its AI chip customer base.
+- **Binance outflows jump; ETH withdrawals hit 3-year high** — *Cointelegraph*, **2026-07-05T08:33:39Z**: Binance posted about **$1.23 billion** in weekly outflows, up from roughly **$400 million** the prior week, while Ethereum withdrawals hit a three-year high.
+- **Iran plans new Strait of Hormuz transit fees** — *Crypto Briefing*, **2026-07-05T08:18:45Z**: Iran’s envoy to China said Iran will impose new fees on vessels using the Strait of Hormuz, with preferential treatment for “friendly” countries.
+- **Qatar resumes maritime activity** — *Crypto Briefing*, **2026-07-05T08:18:55Z**: Qatar resumed all maritime activities as Gulf tensions reportedly eased.
+- **China-Taiwan tensions** — *Crypto Briefing*, **2026-07-05T08:26:58Z**: China expanded coast guard patrols around Taiwan.
+- **Israel-Lebanon tensions** — *Crypto Briefing*, **2026-07-05T08:14:56Z**: Israeli military shelling in southern Lebanon was reported amid ongoing regional tensions.
+
+**Interpretation**
+- The most market-relevant fresh theme is **continued AI infrastructure demand**, with Foxconn and Broadcom headlines reinforcing ongoing interest in AI hardware and custom silicon.
+- In crypto, the Binance/ETH flow data points to **meaningful exchange and on-chain positioning activity**, but the article set does not by itself establish a clear broad-crypto price direction.
+- For energy/risk sentiment, the Middle East headlines are **mixed**: Iran’s Hormuz fee plan could matter for shipping and oil-sensitive sentiment, while Qatar’s reopening suggests some offsetting easing.  
+- There is **no strong fresh Fed, inflation, Treasury, or major earnings catalyst** in this set explaining the broader tape today.
