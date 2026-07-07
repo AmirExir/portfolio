@@ -1,0 +1,27 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-07 01:37 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day model-confirmed buys
+SNDK ranks as the strongest buy in the report with a 46.70% forecast return, Buy call, High reliability, 74.6% probability up, and an Uptrend pattern. Expected error is wide at +/-55.12%, so conviction is supported by direction and probability more than precision.
+LUV is a model-confirmed Buy with an 11.84% forecast return, Moderate reliability, 74.3% probability up, and an Uptrend pattern. It is also identified as the best smart policy pick in the run.
+WDC is a model-confirmed Buy with a 22.42% forecast return, Moderate reliability, 71.7% probability up, and an Uptrend pattern.
+
+30 trading-day model-confirmed sells
+PEPE is the only model-confirmed sell signal. It carries a Strong Sell call with a -22.72% forecast return, High reliability, 12.4% probability up, and a Downtrend pattern.
+
+Short watchlist
+No 1 trading-day model-confirmed watchlist candidates qualified under the primary signal rule.
+
+Top buys
+1. SNDK
+2. LUV
+3. WDC
+
+Top sells
+1. PEPE
