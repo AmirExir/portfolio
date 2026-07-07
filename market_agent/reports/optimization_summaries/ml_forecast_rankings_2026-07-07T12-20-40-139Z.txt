@@ -1,0 +1,20 @@
+Generated: 2026-07-07 12:20 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed Buy, Sell, Strong Buy, or Strong Sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. SNDK — Buy — forecast return +47.10% — High reliability — Ensemble model — uptrend. Highest projected return in the confirmed buy list, but with a wide expected error band.
+2. WDC — Buy — forecast return +23.22% — Moderate reliability — Ensemble model — uptrend. Strong upside forecast with moderate reliability.
+3. LUV — Buy — forecast return +12.44% — High reliability — Ensemble model — uptrend. Best smart policy pick and one of the higher-confidence long signals.
+4. MS — Buy — forecast return +6.81% — Moderate reliability — Ensemble model — uptrend. Lower projected return than the other confirmed buys, but with the tightest expected error of the group.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell — forecast return -22.73% — High reliability — Ensemble model — downtrend. Only confirmed sell/avoid signal meeting the threshold.
+
+Notes
+Only model-confirmed Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2.00% were included.
+Neutral / No Edge names were excluded from the rankings.
