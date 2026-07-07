@@ -1,0 +1,28 @@
+Generated: 2026-07-06 12:57 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed buy or sell signals met the 1 trading-day threshold.
+
+30 trading-day buy rankings
+1. SNDK — Strong Buy. Forecast return +59.13%, uptrend pattern, high reliability. Also the best smart policy pick.
+2. WDC — Buy. Forecast return +27.42%, uptrend pattern, high reliability.
+3. STX — Buy. Forecast return +17.54%, high-volatility pattern, moderate reliability.
+4. LUV — Buy. Forecast return +10.11%, uptrend pattern, moderate reliability.
+5. GEV — Buy. Forecast return +9.08%, high-volatility pattern, moderate reliability.
+6. WMT — Buy. Forecast return +4.32%, oversold pattern, moderate reliability.
+7. AAPL — Buy. Forecast return +3.67%, uptrend pattern, moderate reliability.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell. Forecast return -22.72%, downtrend pattern, high reliability.
+2. ADA — Sell. Forecast return -16.02%, downtrend pattern, moderate reliability.
+3. AMZN — Sell. Forecast return -6.63%, high-volatility pattern, moderate reliability.
+4. XLY — Sell. Forecast return -4.74%, rebound from 60-day low pattern, moderate reliability.
+
+Short watchlist
+Buy watchlist: MU.
+Sell/avoid watchlist: UNI, SOL, SHIB, ORCL, TSLA, ENA, ETH, XRP, BNB, COMP.
+
+Excluded from rankings: Neutral / No Edge names and any signals below the 2% absolute forecast threshold. SPCX was skipped due to insufficient clean price history.
