@@ -329,8 +329,9 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-APP_BUILD = "2026-07-01 data-freshness-fix-v1"
+APP_BUILD = "2026-07-07 lovable-link-v1"
 ERCOT_API_MARKET_URL = "https://apimarket.ercot.com/"
+LOVABLE_ERCOT_DASHBOARD_URL = "https://ercot-news-watch.lovable.app/"
 ERCOT_TIMEZONE = ZoneInfo("America/Chicago")
 ERCOT_BLUE = "#0b2f4f"
 ERCOT_CYAN = "#00a3c7"
@@ -558,6 +559,7 @@ def render_hero() -> None:
                 <span class="hero-badge">5-minute smart cache</span>
                 <span class="hero-badge">ML load forecast</span>
                 <span class="hero-badge">n8n news pipeline</span>
+                <span class="hero-badge">Lovable version</span>
                 <span class="hero-badge">Build {APP_BUILD}</span>
             </div>
         </div>
@@ -1253,7 +1255,7 @@ def main():
     inject_dashboard_css()
     render_hero()
 
-    action_col_1, action_col_2, action_col_3, action_col_4 = st.columns([1.1, 1.1, 1.3, 5.5])
+    action_col_1, action_col_2, action_col_3, action_col_4, action_col_5 = st.columns([1.05, 1.1, 1.25, 1.45, 4.6])
     with action_col_1:
         if st.button("Refresh", help="Clear cached API/news data and reload the dashboard"):
             st.cache_data.clear()
@@ -1261,13 +1263,15 @@ def main():
     with action_col_2:
         st.link_button("Telegram", "https://t.me/ERCOTNEWS", help="Open the ERCOT News Telegram channel")
     with action_col_3:
+        st.link_button("Lovable App", LOVABLE_ERCOT_DASHBOARD_URL, help="Open the Lovable version of this ERCOT dashboard")
+    with action_col_4:
         st.link_button(
             "API Credentials",
             ERCOT_API_MARKET_URL,
             help="Open ERCOT API Market to sign in, subscribe to the public API, and copy your subscription key.",
         )
         st.caption(f"[Direct link]({ERCOT_API_MARKET_URL})")
-    with action_col_4:
+    with action_col_5:
         st.markdown(
             f"<div class='small-muted' style='text-align:right; padding-top:0.55rem;'>"
             f"Last dashboard render: {datetime.now().strftime('%b %d, %Y %H:%M:%S')} | Build {APP_BUILD}"
