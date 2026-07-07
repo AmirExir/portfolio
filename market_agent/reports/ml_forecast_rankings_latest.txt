@@ -1,5 +1,5 @@
 Market Intelligence Forecast Report
-Generated: 2026-07-05 13:05 UTC
+Generated: 2026-07-07 12:20 UTC
 Horizon: 30 trading days | Primary: Ensemble
 Run profile: quality
 Pattern windows: 20/50 trading days
@@ -8,13 +8,13 @@ RL policy: on
 Smart policy: on | risk cap 10.0% target allocation
 Universe: 79 symbols | Stocks + crypto + commodities
 Primary signal rule: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; capped at 10 per side
-Signal counts: 6 model-confirmed buys, 2 model-confirmed sells/avoids, 6 policy buy watchlist, 10 policy sell/avoid watchlist
-Reliability mix: High: 3, Moderate: 9, Speculative: 3, Low: 64
-Calculation time: 1h 26m 53s total | context 3.3s | 79/80 ranked | 0 cached
-Slowest symbols: AVAX: 1m 35s, ZEC: 1m 35s, BNB: 1m 34s, DOT: 1m 34s, DOGE: 1m 34s
+Signal counts: 4 model-confirmed buys, 1 model-confirmed sells/avoids, 7 policy buy watchlist, 10 policy sell/avoid watchlist
+Reliability mix: High: 3, Moderate: 6, Speculative: 8, Low: 62
+Calculation time: 1h 28m 4s total | context 3.8s | 79/80 ranked | 0 cached
+Slowest symbols: COMP: 1m 36s, DOT: 1m 36s, DOGE: 1m 36s, ADA: 1m 36s, BTC: 1m 35s
 
 Best Smart Policy Pick
-SNDK: Strong Buy | Policy score: +3.00 | Pattern: Uptrend | Forecast Return: +60.34% | Selected model: Ensemble
+LUV: Strong Buy | Policy score: +2.99 | Pattern: Uptrend | Forecast Return: +12.44% | Selected model: Ensemble
 
 Short-Term Forecast Signals
 1 trading day | sequence model: both | threshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; capped at 10 per side
@@ -23,38 +23,36 @@ Model-confirmed sells/avoids: no signals met threshold.
 
 Model-Confirmed Buy Signals
 Threshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; capped at 10 per side
-SNDK: +60.34% | Strong Buy | Model-Confirmed Buy | reliability High | policy Strong Buy (+3.00, target 2.5%) | model Ensemble | prob up 80.7% | edge 30.7% | err +/-57.09% | pattern Uptrend
-WDC: +27.36% | Buy | Model-Confirmed Buy | reliability High | policy Strong Buy (+2.68, target 2.5%) | model Ensemble | prob up 79.8% | edge 29.8% | err +/-31.95% | pattern Uptrend
-LUV: +9.77% | Buy | Model-Confirmed Buy | reliability Moderate | policy Strong Buy (+2.62, target 4.1%) | model Ensemble | prob up 70.6% | edge 20.6% | err +/-16.25% | pattern Uptrend
-GEV: +9.08% | Buy | Model-Confirmed Buy | reliability Moderate | policy Strong Buy (+2.27, target 2.9%) | model Ensemble | prob up 70.4% | edge 20.4% | err +/-17.12% | pattern High Volatility
-AAPL: +3.67% | Buy | Model-Confirmed Buy | reliability Moderate | policy Strong Buy (+2.21, target 5.7%) | model Ensemble | prob up 71.9% | edge 21.9% | err +/-5.01% | pattern Uptrend
-STX: +17.84% | Buy | Model-Confirmed Buy | reliability Moderate | policy Buy (+1.40, target 1.5%) | model Ensemble | prob up 72.4% | edge 22.4% | err +/-32.96% | pattern High Volatility
+LUV: +12.44% | Buy | Model-Confirmed Buy | reliability High | policy Strong Buy (+2.99, target 4.2%) | model Ensemble | prob up 75.3% | edge 25.3% | err +/-16.08% | pattern Uptrend
+MS: +6.81% | Buy | Model-Confirmed Buy | reliability Moderate | policy Strong Buy (+2.96, target 6.5%) | model Ensemble | prob up 71.3% | edge 21.3% | err +/-11.77% | pattern Uptrend
+SNDK: +47.10% | Buy | Model-Confirmed Buy | reliability High | policy Strong Buy (+2.24, target 2.3%) | model Ensemble | prob up 74.7% | edge 24.7% | err +/-55.13% | pattern Uptrend
+WDC: +23.22% | Buy | Model-Confirmed Buy | reliability Moderate | policy Strong Buy (+2.11, target 2.1%) | model Ensemble | prob up 72.7% | edge 22.7% | err +/-32.10% | pattern Uptrend
 
 Model-Confirmed Sell / Avoid Signals
 Threshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; capped at 10 per side
 PEPE: -22.73% | Strong Sell | Model-Confirmed Sell/Avoid | reliability High | policy Strong Sell / Avoid (-2.62, target 0.0%) | model Ensemble | prob up 12.4% | edge 37.6% | err +/-20.12% | pattern Downtrend
-XLY: -4.62% | Sell | Model-Confirmed Sell/Avoid | reliability Moderate | policy Strong Sell / Avoid (-1.33, target 0.0%) | model Ensemble | prob up 33.4% | edge 16.6% | err +/-7.72% | pattern Rebound From 60-Day Low
 
 Smart Policy Watchlist
 Rule: smart-policy overlay only; model call did not qualify for the primary signal section; capped at 10 per side
 Buy watchlist:
-KO: +2.14% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Strong Buy (+2.42, target 8.2%) | model Ensemble | prob up 62.1% | edge 12.1% | err +/-6.06% | pattern Uptrend
-AAL: +2.11% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Buy (+1.69, target 2.5%) | model Ensemble | prob up 53.8% | edge 3.8% | err +/-18.29% | pattern Uptrend
-MU: +15.75% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Buy (+1.65, target 1.7%) | model Ensemble | prob up 64.5% | edge 14.5% | err +/-44.00% | pattern Uptrend
-INTC: +6.83% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Buy (+1.31, target 1.4%) | model Ensemble | prob up 57.1% | edge 7.1% | err +/-38.29% | pattern Uptrend
-GS: +3.91% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Buy (+1.20, target 2.9%) | model Ensemble | prob up 62.5% | edge 12.5% | err +/-12.06% | pattern Uptrend
-DELL: +4.51% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Buy (+0.98, target 1.1%) | model Ensemble | prob up 56.4% | edge 6.4% | err +/-31.41% | pattern Uptrend
+GS: +5.68% | Neutral / No Edge | Policy Watch Buy | reliability Moderate | policy Strong Buy (+2.48, target 5.7%) | model Ensemble | prob up 67.2% | edge 17.2% | err +/-12.08% | pattern Uptrend
+INTC: +14.69% | Neutral / No Edge | Policy Watch Buy | reliability Speculative | policy Strong Buy (+2.02, target 2.1%) | model Ensemble | prob up 63.5% | edge 13.5% | err +/-38.22% | pattern Uptrend
+STX: +15.81% | Neutral / No Edge | Policy Watch Buy | reliability Moderate | policy Strong Buy (+1.96, target 2.0%) | model Ensemble | prob up 69.1% | edge 19.1% | err +/-32.86% | pattern Uptrend
+AAPL: +2.51% | Neutral / No Edge | Policy Watch Buy | reliability Moderate | policy Strong Buy (+1.77, target 4.7%) | model Ensemble | prob up 67.5% | edge 17.5% | err +/-5.09% | pattern Uptrend
+HYPE: +2.25% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Buy (+1.74, target 1.8%) | model Ensemble | prob up 52.3% | edge 2.3% | err +/-31.09% | pattern Uptrend
+GEV: +4.83% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Buy (+1.20, target 1.6%) | model Ensemble | prob up 61.9% | edge 11.9% | err +/-16.76% | pattern Near 60-Day High
+DELL: +4.47% | Neutral / No Edge | Policy Watch Buy | reliability Low | policy Buy (+0.83, target 0.9%) | model Ensemble | prob up 55.5% | edge 5.5% | err +/-31.94% | pattern Uptrend
 Sell / avoid watchlist:
-ORCL: -5.16% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-2.05, target 0.0%) | model Ensemble | prob up 39.2% | edge 10.8% | err +/-21.68% | pattern Downtrend
-ADA: -13.06% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Moderate | policy Strong Sell / Avoid (-2.03, target 0.0%) | model Ensemble | prob up 31.1% | edge 18.9% | err +/-27.70% | pattern Downtrend
-SHIB: -9.31% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.75, target 0.0%) | model Ensemble | prob up 39.8% | edge 10.2% | err +/-46.31% | pattern Downtrend
-MNT: -3.40% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.75, target 0.0%) | model Ensemble | prob up 44.6% | edge 5.4% | err +/-29.12% | pattern Downtrend
-TSLA: -7.63% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.65, target 0.0%) | model Ensemble | prob up 36.5% | edge 13.5% | err +/-25.00% | pattern Downtrend
-COMP: -5.74% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.65, target 0.0%) | model Ensemble | prob up 40.6% | edge 9.4% | err +/-26.05% | pattern Downtrend
-ENA: -5.04% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.65, target 0.0%) | model Ensemble | prob up 44.6% | edge 5.4% | err +/-44.86% | pattern Downtrend
-ETH: -7.68% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Sell / Avoid (-1.20, target 0.0%) | model Ensemble | prob up 38.4% | edge 11.6% | err +/-26.55% | pattern Downtrend
-AMZN: -3.72% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Sell / Avoid (-0.75, target 0.0%) | model Ensemble | prob up 36.7% | edge 13.3% | err +/-11.63% | pattern High Volatility
-BNB: -3.21% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Sell / Avoid (-0.74, target 0.0%) | model Ensemble | prob up 43.4% | edge 6.6% | err +/-16.99% | pattern Downtrend
+DOT: -10.54% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Speculative | policy Strong Sell / Avoid (-2.49, target 0.0%) | model Ensemble | prob up 33.7% | edge 16.3% | err +/-25.43% | pattern Downtrend
+ADA: -11.98% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Speculative | policy Strong Sell / Avoid (-1.81, target 0.0%) | model Ensemble | prob up 31.7% | edge 18.3% | err +/-28.33% | pattern Downtrend
+ENA: -3.67% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.76, target 0.0%) | model Ensemble | prob up 45.0% | edge 5.0% | err +/-46.24% | pattern Downtrend
+SHIB: -11.16% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.75, target 0.0%) | model Ensemble | prob up 38.0% | edge 12.0% | err +/-46.05% | pattern Downtrend
+ORCL: -4.71% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Strong Sell / Avoid (-1.71, target 0.0%) | model Ensemble | prob up 41.2% | edge 8.8% | err +/-21.95% | pattern Downtrend
+ETH: -8.13% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Sell / Avoid (-1.01, target 0.0%) | model Ensemble | prob up 37.3% | edge 12.7% | err +/-26.30% | pattern Downtrend
+AMZN: -3.26% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Sell / Avoid (-0.79, target 0.0%) | model Ensemble | prob up 39.5% | edge 10.5% | err +/-11.75% | pattern Rebound From 60-Day Low
+DOGE: -7.08% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Sell / Avoid (-0.67, target 0.0%) | model Ensemble | prob up 38.9% | edge 11.1% | err +/-27.00% | pattern Downtrend
+XRP: -5.59% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Sell / Avoid (-0.62, target 0.0%) | model Ensemble | prob up 39.4% | edge 10.6% | err +/-25.54% | pattern Downtrend
+BNB: -4.20% | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Low | policy Sell / Avoid (-0.58, target 0.0%) | model Ensemble | prob up 41.0% | edge 9.0% | err +/-16.80% | pattern Downtrend
 
 Skipped
 SPCX: Need at least 71 clean close prices for ML forecasting.
