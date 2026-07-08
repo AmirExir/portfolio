@@ -1,0 +1,19 @@
+Generated: 2026-07-08 12:47 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed Buy, Strong Buy, Sell, or Strong Sell signals met the 2.0% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. SNDK — Buy, forecast return +54.27%, reliability High, pattern High Volatility. Highest projected upside in the qualifying buy list, but with very high expected error, so signal quality should be treated as volatile despite the high-ranked setup.
+2. LUV — Buy, forecast return +11.10%, reliability Moderate, pattern Uptrend. Positive medium-horizon setup with above-threshold upside and a stronger probability profile than most names in the run.
+3. MS — Buy, forecast return +6.37%, reliability Moderate, pattern Uptrend. Also the best smart policy pick in the run, supported by a Strong Buy policy overlay and a moderate-confidence forecast.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell, forecast return -22.73%, reliability High, pattern Downtrend. Strongest qualifying downside signal in the universe with the clearest negative direction among confirmed sells.
+2. XLY — Sell, forecast return -4.39%, reliability Moderate, pattern Rebound From 60-Day Low. Weaker downside magnitude than PEPE, but still qualifies as a model-confirmed negative signal above the threshold.
+
+Additional notes
+Only model-confirmed Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2.0% were included. Neutral and No Edge names were excluded from the ranked recommendations.
