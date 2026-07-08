@@ -1,0 +1,11 @@
+- National reporting and EIA demand outlook both point to accelerating AI, crypto, and data-center power growth, reinforcing ERCOT’s large-load interconnection challenge and increasing pressure on capacity planning, transmission upgrades, and cost-allocation debates over who pays for new infrastructure. (InsideClimate News; Crypto Briefing)
+
+- A proposed Hood County AI data center site is being marketed as “power-ready” with up to 311 MW of phased buildout, another sign that ERCOT load growth is shifting from forecasts to site-specific execution in North/Central Texas and could tighten local transmission and deliverability conditions if projects advance. (GlobeNewswire)
+
+- Galaxy Digital says Phase I of its Helios campus in West Texas is complete with 133 MW of critical IT load delivered to CoreWeave, showing that former crypto sites in ERCOT are being converted into long-duration AI load; that raises the stakes for ERCOT on queue management, outage coordination, and ensuring these loads are modeled correctly in planning cases. (PRNewswire; Crypto Briefing)
+
+- Envirotech/Azio AI says it is pivoting toward AI data centers and “digital power infrastructure,” including mention of six MW of off-grid power deployed at a South Texas site; while small relative to ERCOT-scale demand, it highlights a growing pattern of developers using behind-the-meter or off-grid supply to accelerate projects ahead of full grid service. (GlobeNewswire; hackernoon.com)
+
+- Federal political support for fast-tracking fossil generation to serve AI demand could matter for ERCOT if it translates into quicker gas-fired additions in Texas, potentially improving resource adequacy but also complicating interconnection, gas-electric coordination, and emissions-related siting debates. (InsideClimate News)
+
+- Broader backlash against data centers over power, water, and local impacts is becoming a practical development risk, suggesting ERCOT load forecasts may remain highly uncertain project-by-project even as headline demand stays strong; planners should expect more attrition, delays, and disputes over network upgrade responsibility. (The Week; The New Republic; The Conversation)
