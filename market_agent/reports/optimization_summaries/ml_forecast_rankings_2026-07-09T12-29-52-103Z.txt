@@ -1,0 +1,21 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-09 12:29 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2.00% absolute forecast return threshold.
+
+30 trading-day buy signals
+SNDK: Buy, forecast return +52.36%, reliability High, pattern Uptrend, probability up 78.3%. Policy overlay is Strong Buy with 2.5% target allocation. This is also the best smart policy pick.
+LUV: Buy, forecast return +8.27%, reliability Moderate, pattern Uptrend, probability up 68.2%. Policy overlay is Strong Buy with 4.2% target allocation.
+
+30 trading-day sell signals
+PEPE: Strong Sell, forecast return -22.72%, reliability High, pattern Downtrend, probability up 12.4%. Policy overlay is Strong Sell/Avoid with 0.0% target allocation.
+ADA: Sell, forecast return -16.19%, reliability Moderate, pattern Downtrend, probability up 24.1%. Policy overlay is Strong Sell/Avoid with 0.0% target allocation.
+XLY: Sell, forecast return -3.90%, reliability Moderate, pattern High Volatility, probability up 33.7%. Policy overlay is Strong Sell/Avoid with 0.0% target allocation.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell model-confirmed signals with absolute forecast return of at least 2.00% are included.
+SPCX was skipped due to insufficient clean price history.

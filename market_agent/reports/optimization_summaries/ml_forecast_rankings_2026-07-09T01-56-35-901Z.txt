@@ -1,0 +1,24 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-09 01:56 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed Buy, Sell, Strong Buy, or Strong Sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. SNDK — Buy. Forecast return +52.29%, reliability High, uptrend pattern, probability up 78.3%, policy overlay Strong Buy.
+2. LUV — Buy. Forecast return +9.75%, reliability Moderate, uptrend pattern, probability up 71.1%, policy overlay Strong Buy.
+
+30 trading-day sell/avoid rankings
+1. PEPE — Strong Sell. Forecast return -22.73%, reliability High, downtrend pattern, probability up 12.4%, policy overlay Strong Sell/Avoid.
+2. XLY — Sell. Forecast return -4.23%, reliability Moderate, high-volatility pattern, probability up 32.6%, policy overlay Strong Sell/Avoid.
+
+Policy watchlist with forecast magnitude above 2% but without model confirmation
+Buy watchlist: MS, DELL, AAL, WDC, GS, HYPE.
+Sell/avoid watchlist: ADA, ETH, DOGE, MNT, ENA, DOT, ORCL, COMP, SHIB, AVAX.
+
+Top buy focus remains limited to SNDK and LUV because they are the only 30 trading-day model-confirmed buy signals above threshold. Top sell focus remains PEPE and XLY for the same reason on the downside.

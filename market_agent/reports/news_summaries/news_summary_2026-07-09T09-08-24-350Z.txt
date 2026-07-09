@@ -1,0 +1,15 @@
+Fresh market-moving headlines are limited in this feed, and several items are low-quality, duplicative, promotional, or not clearly tied to broad market pricing. Here’s the clean summary from articles published within the last 36 hours.
+
+**Facts**
+- **Nvidia valuation / AI-semis:** *Financial Post/Bloomberg* reported **Nvidia has lost roughly $1 trillion in market value in less than two months**, leaving the stock at its **cheapest valuation since before the AI boom**. *(Financial Post, publishedAt: 2026-07-08T09:00:36Z)*
+- **China AI chip push / semiconductor geopolitics:** *The Independent* reported **DeepSeek is building its own AI chip** in an effort to reduce reliance on U.S. technology. *(The Independent, publishedAt: 2026-07-08T09:05:40Z)*
+- **Amazon AI spending:** *Business Insider* reported internal documents show Amazon’s **“Moonraker” project** is pushing Alexa toward more **agentic AI capabilities** and comes with **high costs**. *(Business Insider, publishedAt: 2026-07-08T09:00:02Z)*
+- **Healthcare inflation / consumer costs:** *Reuters via Yahoo Finance* reported insurers selling ACA/Obamacare plans are seeking a **14% median premium increase** for next year. *(Yahoo Finance/Reuters, publishedAt: 2026-07-08T09:03:55Z)*
+- **Same healthcare cost theme:** *NBC News* also reported ACA premiums are likely headed for **another double-digit increase next year**, citing rising healthcare costs, inflation, and subsidy changes. *(NBC News, publishedAt: 2026-07-08T09:00:00Z)*
+- **Geopolitical energy risk:** *Economic Times / ANI* reported analysts warn a **prolonged U.S.-Iran standoff** could push **India’s crude basket above $75/bbl** and raise inflation risks. *(Economic Times, publishedAt: 2026-07-08T08:52:16Z)*
+
+**Interpretation**
+- The strongest usable market signals here are **AI/semi pressure centered on Nvidia**, plus **longer-term China chip self-sufficiency efforts**.
+- The **ACA premium increase** stories matter more for **inflation-sensitive sectors, healthcare insurers/providers, and consumer cost pressure** than for immediate index direction.
+- The **U.S.-Iran headline** is better read as a **potential energy/inflation risk factor** than proof of any current move in oil or equities, since this feed does not provide confirmed market price reactions.
+- There is **not enough fresh, high-quality macro coverage in this article set** to confidently explain today’s broader tape in **indexes, Treasury yields, Fed pricing, or crypto**.
