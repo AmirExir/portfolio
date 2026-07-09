@@ -1,0 +1,14 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **CNBC, 2026-07-07T22:04:03Z** — U.S. stock futures were reported sharply lower after President Trump said at the NATO summit that the ceasefire with Iran is “over,” pointing to renewed Middle East hostilities. CNBC also said oil added to the cautious tone after the U.S. began a “series of powerful strikes” against Iran on Tuesday evening.
+- **Crypto Briefing, 2026-07-07T21:55:27Z** — Reported explosions/strikes near Iran’s southern coast and the Strait of Hormuz, describing the area as a critical global shipping chokepoint, and said Bitcoin was sliding alongside the oil-market reaction.
+- **Decrypt, 2026-07-07T22:01:32Z** — Reported the SEC updated its agenda to indicate a long-promised crypto rule proposal could be released for public comment in July, including possible safe harbors and broader exemptions for some crypto activity.
+- **Crypto Briefing, 2026-07-07T21:53:55Z** — Reported Robinhood launched broader tokenized U.S. equity access internationally via blockchain infrastructure, potentially expanding tokenized stock trading outside the U.S.
+- **TechPowerUp, 2026-07-07T21:59:52Z** and **Slashdot, 2026-07-07T21:53:44Z** — Reported unannounced **Nvidia RTX 50 Super** GPUs appeared in online tools/listings, suggesting higher power specs than existing models. This is product-rumor flow, not a company announcement.
+
+### Interpretation
+- The clearest fresh macro driver in this article set is **geopolitical escalation involving Iran**, with potential spillovers to **oil, inflation expectations, rates, and broad risk sentiment**.
+- For crypto, the fresh flow is **mixed**: near-term risk sentiment appears pressured by the Middle East headlines, while the **SEC safe-harbor proposal** is a potentially supportive regulatory development.
+- For AI/semis, the Nvidia item is **speculation/routing-channel chatter**, not a confirmed corporate catalyst.
+- There is **little fresh high-quality coverage here on Fed policy, inflation data, Treasury yields, or major earnings**, so if those are driving today’s tape, this article set does **not** explain it well.

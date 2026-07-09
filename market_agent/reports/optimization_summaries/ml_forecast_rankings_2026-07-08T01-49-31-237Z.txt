@@ -1,0 +1,24 @@
+Generated: 2026-07-08 01:49 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+SNDK ranks first on forecast return at +54.17%, with a Buy call, High reliability, 79.0% probability up, and a high-volatility pattern. The projected move is large, but the expected error band is also wide at +/-55.58%, which keeps risk elevated.
+LUV shows a +10.93% Buy with Moderate reliability, 73.3% probability up, and an uptrend pattern. It was also the best smart policy pick, with policy indicating Strong Buy and a 4.2% target allocation.
+WDC carries a +16.45% Buy with Moderate reliability, 67.0% probability up, and a high-volatility pattern. The upside forecast is notable, though uncertainty remains high with a +/-32.10% error estimate.
+SLB posts a +8.49% Buy with Moderate reliability, 72.1% probability up, and a rebound-from-60-day-low pattern. Among the buy signals, it has one of the tighter error ranges at +/-13.67%.
+
+30 trading-day sell rankings
+PEPE is the clearest downside signal at -22.72% with a Strong Sell call, High reliability, 12.4% probability up, and a downtrend pattern. Policy also aligns as Strong Sell / Avoid.
+ADA shows a -14.63% Sell with Moderate reliability, 27.2% probability up, and a downtrend pattern. Policy also indicates Strong Sell / Avoid.
+AMZN records a -6.04% Sell with Moderate reliability, 34.1% probability up, and a range / no dominant pattern. This is weaker than the crypto sell signals but still met the model-confirmed threshold.
+
+Short watchlist
+No 1 trading-day watchlist candidates qualified because no model-confirmed short-horizon signals met the threshold.
+
+Notes
+Only Strong Buy, Buy, Strong Sell, and Sell model-confirmed signals with absolute forecast return of at least 2% were included. Neutral and no-edge names were excluded from the main rankings.
