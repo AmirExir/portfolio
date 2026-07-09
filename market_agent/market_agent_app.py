@@ -1905,6 +1905,17 @@ def load_json_file_safely(path: str) -> dict | None:
         return None
 
 
+def load_text_file_safely(path: str) -> str | None:
+    try:
+        with open(path, "r") as handle:
+            text = handle.read()
+        if "<<<<<<<" in text or ">>>>>>>" in text or "=======" in text:
+            return None
+        return text
+    except Exception:
+        return None
+
+
 def newest_valid_local_ml_payload() -> dict | None:
     reports_dir = os.path.join(os.path.dirname(__file__) if __file__ else ".", "reports")
     latest_path = os.path.join(reports_dir, "ml_forecast_rankings_latest.json")
@@ -1924,19 +1935,107 @@ def newest_valid_local_ml_payload() -> dict | None:
     return None
 
 
+def newest_valid_local_ml_report() -> str | None:
+    reports_dir = os.path.join(os.path.dirname(__file__) if __file__ else ".", "reports")
+    latest_path = os.path.join(reports_dir, "ml_forecast_rankings_latest.txt")
+    latest_text = load_text_file_safely(latest_path)
+    if latest_text:
+        return latest_text
+
+    summary_dir = os.path.join(reports_dir, "optimization_summaries")
+    candidates = sorted(
+        glob.glob(os.path.join(summary_dir, "ml_forecast_rankings_20*.txt")),
+        key=lambda path: os.path.getmtime(path),
+        reverse=True,
+    )
+    for candidate in candidates:
+        text = load_text_file_safely(candidate)
+        if text:
+            return text
+    return None
+
+
+def fetch_github_directory(path: str, branch: str | None = "generated-output") -> list[dict]:
+    contents_url = (
+        "https://api.github.com/repos/AmirExir/portfolio/contents/"
+        f"{path.strip('/')}"
+    )
+    if branch:
+        contents_url = f"{contents_url}?ref={branch}"
+    response = requests.get(
+        contents_url,
+        headers={
+            "Accept": "application/vnd.github.v3+json",
+            "User-Agent": "Streamlit-Market-Agent",
+        },
+        timeout=10,
+    )
+    if response.status_code == 404:
+        return []
+    response.raise_for_status()
+    files = response.json()
+    return files if isinstance(files, list) else []
+
+
+def fetch_text_from_download_url(download_url: str) -> str | None:
+    try:
+        response = requests.get(download_url, timeout=10)
+        response.raise_for_status()
+        text = response.text
+        if "<<<<<<<" in text or ">>>>>>>" in text or "=======" in text:
+            return None
+        return text
+    except Exception:
+        return None
+
+
+def fetch_json_from_download_url(download_url: str) -> dict | None:
+    text = fetch_text_from_download_url(download_url)
+    if not text:
+        return None
+    try:
+        payload = json.loads(text)
+        return payload if isinstance(payload, dict) else None
+    except Exception:
+        return None
+
+
+def newest_github_file(
+    directory: str,
+    prefix: str,
+    suffix: str,
+) -> dict | None:
+    for branch in ("generated-output", None):
+        try:
+            files = fetch_github_directory(directory, branch=branch)
+        except Exception:
+            continue
+        matches = [
+            item for item in files
+            if item.get("type") == "file"
+            and item.get("name", "").startswith(prefix)
+            and item.get("name", "").endswith(suffix)
+        ]
+        if matches:
+            return sorted(matches, key=lambda item: item.get("name", ""), reverse=True)[0]
+    return None
+
+
 @st.cache_data(ttl=300)
 def fetch_latest_ml_report():
-    local_path = os.path.join(
-        os.path.dirname(__file__) if __file__ else ".",
-        "reports",
-        "ml_forecast_rankings_latest.txt",
+    local_report = newest_valid_local_ml_report()
+    if local_report:
+        return local_report
+
+    newest_report = newest_github_file(
+        "market_agent/reports/optimization_summaries",
+        "ml_forecast_rankings_20",
+        ".txt",
     )
-    if os.path.exists(local_path):
-        try:
-            with open(local_path, "r") as f:
-                return f.read()
-        except Exception:
-            pass
+    if newest_report and newest_report.get("download_url"):
+        text = fetch_text_from_download_url(newest_report["download_url"])
+        if text:
+            return text
 
     contents_url = (
         "https://api.github.com/repos/AmirExir/portfolio/contents/"
@@ -1969,6 +2068,16 @@ def fetch_latest_ml_payload() -> dict | None:
     local_payload = newest_valid_local_ml_payload()
     if local_payload:
         return local_payload
+
+    newest_payload = newest_github_file(
+        "market_agent/reports",
+        "ml_forecast_rankings_20",
+        ".json",
+    )
+    if newest_payload and newest_payload.get("download_url"):
+        payload = fetch_json_from_download_url(newest_payload["download_url"])
+        if payload:
+            return payload
 
     contents_url = (
         "https://api.github.com/repos/AmirExir/portfolio/contents/"
@@ -2583,7 +2692,8 @@ with top_analysis_tab:
         else:
             st.caption(
                 "Scheduled ML forecast rankings will appear here after n8n writes "
-                "market_agent/reports/ml_forecast_rankings_latest.txt."
+                "timestamped files under market_agent/reports/ and "
+                "market_agent/reports/optimization_summaries/."
             )
     except Exception as e:
         st.caption(f"Scheduled ML forecast report unavailable: {e}")

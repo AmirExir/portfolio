@@ -2,6 +2,8 @@ newsapi_query_expanded.txt
 __pycache__/
 *.py[cod]
 .streamlit/secrets.toml
+# Generated market-agent outputs. The scheduled commit helper force-adds only
+# immutable timestamped report artifacts; mutable latest/cache files stay local.
 market_agent/reports/
 n8n_market_telegram_calendar_combined.workflow.json
 chatbot_ercot_all_in_one/logs/

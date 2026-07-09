@@ -28,13 +28,13 @@ cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/d
 
 The script also writes:
 
-- `market_agent/reports/ml_forecast_rankings_latest.txt`
-- `market_agent/reports/ml_forecast_rankings_latest.json`
-- `market_agent/reports/ml_forecast_rankings_cache_*.json`
-- timestamped `.json` report files
+- local-only `market_agent/reports/ml_forecast_rankings_latest.txt`
+- local-only `market_agent/reports/ml_forecast_rankings_latest.json`
+- local-only `market_agent/reports/ml_forecast_rankings_cache_*.json`
+- timestamped `.json` report files in `market_agent/reports/`
 - timestamped `.txt` recommendation summaries in `market_agent/reports/optimization_summaries/`
 
-The Streamlit website reads the saved forecast cache first, so your existing **Stock Market** publish branch can upload the latest `market_agent/reports/ml_forecast_rankings_latest.json` or `ml_forecast_rankings_latest.txt` the same way it uploads `summary_*.txt`.
+The Streamlit website reads the newest timestamped report first, so the scheduled workflow should publish timestamped files instead of overwriting `ml_forecast_rankings_latest.*`. The `latest.*` files are kept only as local convenience files because rewriting a tracked file on every scheduled run creates recurring Git conflicts.
 
 ## Add it to the existing workflow
 
@@ -79,10 +79,11 @@ const report = JSON.parse($json.stdout);
 return [
   {
     json: {
-      path: "market_agent/reports/ml_forecast_rankings_latest.txt",
+      path: report.paths.txt,
       content: report.telegram_text,
       contentBase64: Buffer.from(report.telegram_text, "utf8").toString("base64"),
-      jsonContent: JSON.stringify(report.rows, null, 2),
+      jsonPath: report.paths.json,
+      jsonContent: Buffer.from(JSON.stringify(report, null, 2), "utf8").toString("base64"),
     },
   },
 ];
@@ -91,7 +92,8 @@ return [
 Use the same GitHub upload/update logic already in your **Stock Market** branch, but with `path` set to:
 
 ```text
-market_agent/reports/ml_forecast_rankings_latest.txt
+market_agent/reports/optimization_summaries/ml_forecast_rankings_<timestamp>.txt
+market_agent/reports/ml_forecast_rankings_<timestamp>.json
 ```
 
 If the **Stock Market** node is a GitHub `PUT /contents` HTTP request, send `contentBase64` as the GitHub `content` value.
