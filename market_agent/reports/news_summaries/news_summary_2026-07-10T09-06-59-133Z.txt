@@ -1,0 +1,25 @@
+**Fresh market-moving headlines only**
+
+### Facts
+- **Energy / inflation risk:** **NPR** reported that **oil and gasoline prices are beginning to climb** after President Trump said the **ceasefire with Iran is over**, and noted this **could add upward pressure to inflation**. *(NPR, publishedAt: 2026-07-09T08:59:43Z)*
+
+- **AI/semi demand:** **Crypto Briefing** reported that **SK Hynix’s $28 billion U.S. share sale was oversubscribed about seven times**, with roughly **$196 billion of demand**, framing it as a major sign of investor appetite for **AI infrastructure and memory-chip exposure**. *(Crypto Briefing, publishedAt: 2026-07-09T09:06:30Z)*
+
+- **AI infrastructure expansion:** **Crypto Briefing** reported that **Cerebras plans 200MW of AI compute capacity in Europe by 2027**, with part of the buildout tied to **OpenAI workloads**. *(Crypto Briefing, publishedAt: 2026-07-09T08:46:01Z)*
+
+- **AI software productivity theme:** **The Next Web** cited **Nvidia CEO Jensen Huang** saying Nvidia engineers increasingly prefer **building AI agents rather than writing code directly**, reinforcing the ongoing AI-capex / AI-adoption narrative around large-cap tech. *(The Next Web, publishedAt: 2026-07-09T08:46:34Z)*
+
+- **Crypto / market structure:** **Cointelegraph** reported that **SWIFT launched a blockchain-based ledger** and said **17 major banks** including **HSBC, Citi, and BNP Paribas** will participate in a **tokenized deposit pilot** aimed at improving cross-border payments. *(Cointelegraph, publishedAt: 2026-07-09T08:51:48Z)*
+
+- **Crypto sentiment:** **Al Jazeera** reported that the **cryptocurrency market is slumping** and that **Bitcoin is falling**, while crypto use continues spreading into finance, sanctions, and politics. *(Al Jazeera, publishedAt: 2026-07-09T08:48:32Z)*
+
+- **Crypto liquidity / exchange flows:** **Crypto Briefing** reported that **Binance’s USDC holdings fell 22% to $4.6 billion**, implying about **$1 billion of stablecoin liquidity exited** over 30 days. *(Crypto Briefing, publishedAt: 2026-07-09T08:54:39Z)*
+
+### Interpretation
+- The **clearest fresh macro driver** in this set is **renewed Iran tension feeding into oil/gasoline and inflation risk**. That matters more broadly for **rates, Fed expectations, and risk sentiment** than most other items here.
+
+- The other notable live theme is **continued AI infrastructure enthusiasm**, especially the **SK Hynix demand signal**, which supports the idea that **capital is still aggressively chasing AI/semi exposure**.
+
+- The **crypto headlines are mixed**: institutional/payment infrastructure adoption continues via **SWIFT**, but **broad crypto price sentiment appears weak** and exchange stablecoin balances are shrinking.
+
+- **This article set is somewhat thin for explaining today’s full tape.** It offers a plausible macro explanation via **oil/Iran**, plus an **AI/semi demand** read-through, but it does **not** provide enough fresh reporting to fully explain moves in **equity indexes, Treasury yields, or Fed pricing** on its own.
