@@ -1,0 +1,20 @@
+**Fresh market-moving headlines only (last 36 hours)**
+
+**Facts**
+- **CNBC, 2026-07-09T22:03:18Z:** U.S. stock futures were little changed Thursday night; CNBC said Wall Street was coming off a winning day “following a jump in chipmakers and falling oil prices.” This is the only fresh broad-market tape item in the set.
+- **PRNewswire, 2026-07-09T21:47:00Z:** **Solaris Energy Infrastructure (SEI)** will join the **S&P SmallCap 600** before trading on **July 15**, replacing **Catalyst Pharmaceuticals (CPRX)**.
+- **Crypto Briefing, 2026-07-09T22:01:10Z:** Report says **Apple** made a **multi-year $30 billion chip deal with Broadcom**, relevant to AI/semi supply chains if accurate.
+- **PYMNTS, 2026-07-09T22:03:34Z:** Former Fed Chair **Ben Bernanke** joined **Anthropic’s Long-Term Benefit Trust**, an AI governance body.
+- **Biztoc/The Block, 2026-07-09T22:04:43Z:** **Bitwise** said bitcoin’s “floor is rising,” citing institutional dip-buying while some investors wait for regulatory clarity.
+
+**Interpretation**
+- The fresh set is **thin** for explaining today’s macro tape. There is **no fresh Fed, CPI/inflation, Treasury, payrolls, or major earnings headline** here.
+- The most market-relevant cross-asset signals in this batch are:
+  - a **chip/AI leadership** reference from CNBC,
+  - a possible **Apple-Broadcom** supply-chain commitment,
+  - and a **constructive bitcoin/institutional-demand** read from Bitwise.
+- The **SEI S&P SmallCap 600 inclusion** is likely the clearest single-stock catalyst in the set.
+- Bernanke joining Anthropic is notable for AI governance, but it is **not a direct Fed/rates headline**.
+
+**Excluded / not relied on**
+- Generic live-blog framing, opinion/newsletter pieces, geopolitics without clear market linkage, removed-content links, and most crypto/AI commentary pieces that were speculative or not clearly market-moving.
