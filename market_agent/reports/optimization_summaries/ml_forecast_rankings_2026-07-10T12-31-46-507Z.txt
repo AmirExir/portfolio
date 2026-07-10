@@ -1,0 +1,20 @@
+Generated: 2026-07-10 12:31 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both
+No model-confirmed 1 trading-day Buy, Strong Buy, Sell, or Strong Sell signals met the 2.00% absolute return threshold.
+
+30 trading-day buy rankings
+1. SNDK — Buy — forecast return +44.16% — High reliability. Best overall policy pick. Uptrend pattern, 78.2% probability up, but with very wide expected error, so position sizing discipline matters.
+2. LUV — Buy — forecast return +13.00% — High reliability. Uptrend pattern with 77.0% probability up and a more moderate error band than SNDK.
+3. MS — Buy — forecast return +6.57% — Moderate reliability. Uptrend pattern with 71.5% probability up and the tightest error band among the confirmed buys.
+
+30 trading-day sell/avoid rankings
+1. PEPE — Strong Sell — forecast return -22.72% — High reliability. Downtrend pattern with only 12.4% probability up and the strongest negative edge in the report.
+2. ADA — Sell — forecast return -14.52% — Moderate reliability. Downtrend pattern with 26.8% probability up and a clear avoid signal.
+3. UNI — Sell — forecast return -14.47% — Moderate reliability. Overbought pattern with 28.0% probability up, supporting a sell/avoid stance.
+
+Summary
+Confirmed long exposure is concentrated in SNDK, LUV, and MS. Confirmed downside or avoidance signals are concentrated in PEPE, ADA, and UNI. No actionable 1 trading-day signals were produced under the stated threshold.
