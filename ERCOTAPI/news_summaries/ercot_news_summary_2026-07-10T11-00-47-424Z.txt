@@ -1,0 +1,13 @@
+- Texas political scrutiny of AI data center siting is rising after Gov. Abbott called for blocking new facilities in rural neighborhoods, signaling that ERCOT large-load growth may face more local permitting friction even as interconnection demand remains strong. (Daily Signal)
+
+- The bigger ERCOT story remains large flexible and inflexible load growth: multiple reports highlight AI data centers as a major driver of U.S. power demand, reinforcing Texas planning pressure around load forecasting, substation capacity, transmission delivery, and queue management for hyperscale projects. (Forbes; Works in Progress; OilPrice.com; PRNewswire)
+
+- National policy and private capital are increasingly lining up behind behind-the-meter gas supply for data centers, with Trump backing fast-tracked private gas plants and Kodiak/Baker Hughes announcing a framework for up to 1.8 GW of gas generation; for ERCOT, that points to more co-located generation proposals, gas-electric coordination issues, and questions about how these loads interact with system planning and market signals. (Inside Climate News; Mother Jones; GlobeNewswire)
+
+- EIA-linked reporting says U.S. power demand is heading to record highs and gas capacity forecasts have been raised sharply through 2030; for ERCOT, that supports expectations of sustained thermal build interest alongside renewables and storage as the system absorbs data center, industrial, and crypto-related load growth. (Crypto Briefing)
+
+- Data center expansion outside Texas still matters for ERCOT because it shows the scale and operating model competitors are pursuing: Meta’s planned 1 GW Alberta campus appears tied to dedicated gas generation, underscoring that hyperscalers are increasingly willing to secure firm power directly when grid delivery timelines are uncertain. (The Next Web; Crypto Briefing)
+
+- Emerging constraints on the AI buildout are shifting from pure demand to execution risk—transmission bottlenecks, labor shortages, local opposition, wastewater/water impacts, and fiber infrastructure needs—which implies ERCOT may see more projects requesting phased energization, on-site generation, or alternative siting near existing high-capacity infrastructure. (Works in Progress; Insurance Journal; Breitbart; PRNewswire)
+
+- GPS spoofing coverage tied to University of Texas research is not ERCOT-specific news, but it is a useful reminder that timing and navigation signal integrity are grid-relevant cyber-physical risks, especially for synchronized operations, telecommunications, and field assets that depend on precise GPS-based timing. (Space Daily)
