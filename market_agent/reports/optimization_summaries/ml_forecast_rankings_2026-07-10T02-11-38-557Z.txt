@@ -1,0 +1,23 @@
+Generated: 2026-07-10 02:11 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model usage: both LSTM and Transformer
+No model-confirmed buy or sell signals met the absolute forecast return threshold of 2.00% for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+SNDK leads the buy side with a Buy signal, +44.47% forecast return, High reliability, 78.3% probability up, and an Uptrend pattern. Error bands are wide, so conviction is tempered by high uncertainty despite the strong expected return.
+LUV ranks next with a Buy signal, +12.87% forecast return, High reliability, 76.7% probability up, and an Uptrend pattern. Among the confirmed buys, it combines stronger reliability with a narrower error range than SNDK.
+MS remains a confirmed Buy with +7.16% forecast return, Moderate reliability, 72.6% probability up, and an Uptrend pattern. It appears less aggressive than SNDK and LUV but with a tighter expected error profile.
+
+30 trading-day sell rankings
+PEPE is the strongest negative signal with a Strong Sell call, -22.72% forecast return, High reliability, 12.4% probability up, and a Downtrend pattern. It is the clearest avoid on the board.
+ADA follows with a Sell signal, -15.74% forecast return, Moderate reliability, 24.7% probability up, and a Downtrend pattern. The return outlook is materially negative, though uncertainty remains elevated.
+AMZN is a confirmed Sell at -6.27% with Moderate reliability. The pattern is Range / No Dominant Pattern rather than a clean downtrend, making it a weaker negative than PEPE or ADA, but still below the model threshold for avoidance.
+
+Policy context
+The smart policy overlay also identified SNDK as the best policy pick with a Strong Buy policy score of +3.00 and a 2.5% target allocation cap.
+
+Observed watchlist themes
+Although neutral signals are excluded from the ranked list, the policy watchlist shows additional upside interest in semiconductors and airlines, and downside pressure across several crypto assets and selected growth exposures.
