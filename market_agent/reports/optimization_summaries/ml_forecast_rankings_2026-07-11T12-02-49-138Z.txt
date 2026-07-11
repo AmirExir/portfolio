@@ -1,0 +1,19 @@
+Generated: 2026-07-11 12:02 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed Buy, Sell, Strong Buy, or Strong Sell signals met the 2.00% threshold for the 1 trading-day horizon. A short-term watchlist item was present: SNDK appeared as a policy watch buy with a +2.51% forecast, but the model call was Neutral / No Edge, so it does not qualify as a confirmed signal.
+
+30 trading-day buy rankings
+SNDK is the highest-ranked confirmed buy. The model projects +54.72% with a Buy call, High reliability, and an uptrend pattern. It was also the best smart policy pick.
+LUV ranks second among confirmed buys with a +14.41% forecast, a Buy call, High reliability, and an uptrend pattern.
+GS ranks third among confirmed buys with a +6.02% forecast, a Buy call, Moderate reliability, and an uptrend pattern.
+
+30 trading-day sell rankings
+PEPE is the strongest confirmed sell/avoid signal. The model projects -22.72% with a Strong Sell call, High reliability, and a downtrend pattern.
+UNI ranks second on the sell side with a -14.97% forecast, a Sell call, Moderate reliability, and an overbought pattern.
+
+Notes
+Only model-confirmed Buy, Strong Buy, Sell, and Strong Sell signals with absolute forecast return of at least 2.00% were included. Neutral / No Edge watchlist names were excluded from the main rankings. One symbol, SPCX, was skipped due to insufficient clean price history.
