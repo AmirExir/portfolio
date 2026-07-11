@@ -1,0 +1,20 @@
+Fresh set is thin and noisy. After filtering for the last 36 hours and excluding generic/non-market items, the clearest market-moving themes in this batch are geopolitics/energy, AI-semiconductor equity relevance, and crypto regulation/sentiment. Several crypto-site articles are speculative or niche, so confidence is lower outside the main geopolitical and AI-chip items.
+
+**Facts**
+- **Crypto Briefing | 2026-07-10 22:04Z** — Iran reportedly told U.S. officials it regrets firing on commercial ships in the Strait of Hormuz and wants talks with the U.S. to continue. The article ties the episode to oil shipping risk and crypto-market sensitivity.  
+- **Crypto Briefing | 2026-07-10 21:55Z** — Shipping traffic through the Strait of Hormuz reportedly dropped sharply after U.S. strikes on Iran, with the article describing disruption at a critical oil chokepoint.  
+- **Crypto Briefing | 2026-07-10 21:43Z** — A bipartisan group of four U.S. senators said they reached a breakthrough with the administration on advancing secondary sanctions aimed at countries buying Russian energy.  
+- **CNA | 2026-07-10 22:01Z** — SK hynix began trading on Wall Street after a major U.S. listing, underscoring investor focus on AI-chip demand.  
+- **Financial Post / Bloomberg | 2026-07-10 22:02Z** — Holtec Nuclear filed for a U.S. IPO, with the filing framed around rising power demand from data centers.  
+- **HuffPost | 2026-07-10 21:40Z** — Apple sued OpenAI, alleging theft of trade secrets tied to hardware efforts for ChatGPT, signaling a potential escalation in AI-platform competition and legal risk.  
+- **Crypto Briefing | 2026-07-10 21:45Z** — Coinbase Vice Chair said the U.S. crypto-market-structure “Clarity Act” is near a Senate vote before the August recess, though the article notes enactment odds remain uncertain.  
+- **Crypto Briefing | 2026-07-10 21:25Z** — The article says Trump declared the Iran ceasefire over and warned of retaliation; it also says Bitcoin fell more than 3% in reaction.  
+- **Crypto Briefing | 2026-07-10 21:36Z** — Canada’s June unemployment rate was reported at 6.5%, with the article characterizing the labor market as stabilizing.
+
+**Interpretation**
+- The most credible market-relevant driver in this set is **Middle East energy-route risk**, especially anything affecting the Strait of Hormuz. That matters more for oil, inflation expectations, rates sensitivity, and broad risk sentiment than most of the other items here.
+- The **Russia sanctions** headline could also matter for energy markets if it gains traction, since secondary sanctions on buyers of Russian energy would raise supply-chain and pricing concerns.
+- On equities, the freshest high-level theme is continued **AI infrastructure demand**: SK hynix’s U.S. debut and Holtec’s IPO filing both reinforce the AI power-and-chips investment story.
+- The **Apple/OpenAI lawsuit** is potentially material for AI-related names, but this batch does not provide enough corroboration to judge immediate market impact.
+- For crypto, the set suggests **macro/geopolitical sensitivity remains high**, and possible U.S. legislative movement on market structure is a supportive policy headline, but much of the crypto coverage here is niche and should be treated cautiously.
+- There is **little in this article set on Fed, Treasury yields, U.S. inflation, or major earnings**, so if those are driving today’s tape, this batch does not explain it well.
