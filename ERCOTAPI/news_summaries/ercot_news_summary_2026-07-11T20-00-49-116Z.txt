@@ -1,0 +1,17 @@
+- Texas data-center buildout remains the dominant ERCOT demand story: multiple reports point to very large new projects in West Texas, Abilene, and Matagorda County, including 800 MW, 200–500 MW, and up to 2 GW concepts, reinforcing that large-load interconnection and deliverability—not just generation adequacy—are becoming primary planning constraints for ERCOT. (Insurance Journal; Crypto Briefing; PRNewswire; Cointelegraph)
+
+- MARA’s reported Texas site acquisition with access to up to 2 GW highlights how crypto developers are pivoting toward AI/HPC campuses and monetizing “powered land,” which could accelerate queue pressure on ERCOT substations, transmission upgrades, and studies of flexible large loads versus firm service expectations. (Cointelegraph; Crypto Briefing)
+
+- Galaxy Digital’s reported conversion of a former Bitcoin-mining campus into an 800 MW AI data-center complex suggests existing ERCOT-connected mining infrastructure may be repurposed into less-dispatchable, higher-load-factor demand, reducing a source of controllable load response that has helped system operations during tight conditions. (Crypto Briefing)
+
+- New West Texas data-center announcements—including a 200 MW campus expandable beyond 500 MW—signal continued migration of digital load to generation-rich but transmission-sensitive areas, raising the importance of ERCOT transmission planning, congestion management, and clarity on who bears network upgrade costs for remote large loads. (PRNewswire)
+
+- Coverage of Abilene-area development tied to major AI projects underscores a growing reliability and policy tension: behind-the-meter or on-site thermal generation can speed load energization, but it may shift local air-permitting, fuel-supply, and outage-risk questions outside traditional ERCOT resource planning frameworks while still affecting grid operations. (Insurance Journal; CleanTechnica)
+
+- Broader national reporting that large AI data centers are being delayed or blocked elsewhere suggests Texas/ERCOT remains comparatively attractive for speed-to-power, but that advantage could narrow if interconnection studies, transmission expansion, water/environmental constraints, or local opposition begin to slow project execution. (Associated Press; PRNewswire; The Real Deal)
+
+- Industry warnings about a looming “power crunch” for data centers align with ERCOT’s current trajectory: the constraint is increasingly the timing and location of deliverable power, not simply statewide installed capacity, implying more emphasis on phased load service, curtailment structures, and co-located generation/storage solutions. (PRNewswire; OilPrice.com)
+
+- Reports on data-center emissions growth and proposed easing of permitting for diesel-backed facilities matter for ERCOT because they could make fast-track backup generation more common at large-load sites, affecting outage behavior, net load shapes, and potential future policy disputes over environmental oversight versus reliability and economic development. (Fortune; Quartz; CleanTechnica)
+
+- Additional financing and strategic activity around Texas energy-tech and powered campuses—such as Lancium-related interest and energy M&A tied to AI power demand—suggest capital is flowing toward control of interconnection-ready sites and power supply portfolios, which could further intensify competition for ERCOT land, transmission access, and generation tie-ins. (Biztoc; PitchBook News & Analysis)
