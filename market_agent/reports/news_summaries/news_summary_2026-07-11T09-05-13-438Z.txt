@@ -1,0 +1,32 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **SK Hynix priced a record U.S. IPO at about $26.5 billion ahead of its Wall Street debut, highlighting ongoing investor appetite for AI-linked semiconductor exposure.**  
+  *Source: Biztoc / Al Jazeera, publishedAt 2026-07-10T08:55:00Z*  
+  *Also echoed by Slashdot / Al Jazeera, publishedAt 2026-07-10T08:53:02Z, but secondary/aggregated.*
+
+- **Reuters-cited coverage says investors are watching the start of earnings season, with major chip and U.S. bank results and upcoming U.S./China data seen as key near-term market catalysts.**  
+  *Source: Biztoc / Investing.com citing Reuters, publishedAt 2026-07-10T08:55:13Z*
+
+- **Reuters-cited coverage says the Bank of Japan may raise its fiscal 2026 growth forecast while staying alert to upside inflation risk.**  
+  *Source: Biztoc / Investing.com citing Reuters, publishedAt 2026-07-10T08:54:45Z*
+
+- **Reuters-headlined coverage indicates oil was heading for a weekly gain as Middle East supply risks persisted.**  
+  *Source: Slashdot / Reuters headline, publishedAt 2026-07-10T08:52:52Z*  
+  *(The supplied item is an aggregator stub, so detail is limited.)*
+
+- **A separate fresh headline says U.S. futures were mostly lower as Iran-related turmoil continued, including reports of new U.S. airstrikes and Iranian drone launches.**  
+  *Source: Biztoc / breakingthenews.net, publishedAt 2026-07-10T08:55:15Z*  
+  *(Aggregator and thinly sourced in the supplied JSON.)*
+
+- **Crypto-specific security/legal headlines:**
+  - **A lawsuit over ownership of dormant early-era Bitcoin wallets has narrowed after plaintiffs dropped 44 defendants.**  
+    *Source: CryptoSlate, publishedAt 2026-07-10T09:01:52Z*
+  - **Security researchers disclosed an “Ill Bloom” wallet-seed vulnerability that attackers are reportedly exploiting, with about $3.1 million drained.**  
+    *Source: The Hacker News, publishedAt 2026-07-10T09:00:05Z*
+
+## Interpretation
+- The **clearest fresh equity-market theme** in this set is **AI/semi demand**, via the oversized **SK Hynix U.S. listing**.
+- The **clearest macro/risk theme** is **Middle East geopolitical tension feeding into oil and broader risk sentiment**.
+- The **rates/central-bank angle** is **BOJ vigilance on inflation**, but this set does **not** include fresh Fed or U.S. inflation headlines.
+- The article set is **thin and partly aggregator-heavy**, so it **does not fully explain today’s tape on its own**.
