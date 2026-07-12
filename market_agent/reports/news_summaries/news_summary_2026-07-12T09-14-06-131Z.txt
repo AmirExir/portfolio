@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited in this article set, and several items are opinion pieces, low-credibility aggregations, or off-topic. There is not enough high-quality fresh news here to fully explain today’s broader tape.
+
+**Facts**
+- **U.S. inflation / Fed watch:** Goldman Sachs said AI could lift U.S. core inflation by about **50 bps by year-end**, a larger effect than in other countries, according to **Business Insider** citing Goldman research. **Source:** Business Insider, **2026-07-11T09:10:01Z**
+- **AI / semis:** **SK Hynix** debuted on Nasdaq after raising **$26.5 billion**, described by **Fortune** as the largest U.S. listing by a foreign company and the second-largest U.S. share sale overall. The article highlights SK Hynix’s position in **high-bandwidth memory**, a key AI hardware segment. **Source:** Fortune, **2026-07-11T09:00:00Z**
+- **Bitcoin / macro sensitivity:** **CryptoSlate** reported Bitcoin near **$64,100** and framed **July 14 U.S. CPI** as the next key macro test for crypto sentiment, with yields and ETF flows in focus. **Source:** CryptoSlate, **2026-07-11T09:13:45Z**
+- **Crypto financing:** **Crypto Briefing** reported that a planned **$1.5 billion Bitcoin treasury raise** was scrapped after the SPAC vehicle lost its premium, pointing to weaker financing conditions for crypto-linked capital raises. **Source:** Crypto Briefing, **2026-07-11T08:41:49Z**
+- **Energy / geopolitics:** **Crypto Briefing** reported the U.S. is demanding Iran surrender enriched nuclear material before any deal, and said the stance could have **oil-market implications** if negotiations affect supply expectations. **Source:** Crypto Briefing, **2026-07-11T08:38:24Z**
+
+**Interpretation**
+- The clearest fresh macro setup in this batch is **inflation sensitivity ahead of the July 14 CPI report**, with Bitcoin explicitly tied to that event and Goldman’s AI-inflation note reinforcing concern that price pressures may stay sticky.
+- The strongest equity-specific item is **SK Hynix’s major U.S. listing**, which supports the idea that **AI memory / semiconductor demand** remains an important market theme.
+- On crypto, the mix is **uneven**: Bitcoin is stabilizing ahead of CPI, but the canceled treasury/SPAC deal suggests **risk appetite for crypto-related financing is not uniformly strong**.
+- On energy, the Iran item is more of a **geopolitical watchpoint** than a confirmed market driver from this set.
+
+**Bottom line**
+- Fresh, credible market-moving news in this feed is **thin**.
+- The best-supported themes from the last 36 hours are: **CPI/Fed inflation risk, AI-memory leadership via SK Hynix, and macro-sensitive crypto positioning ahead of CPI.**
