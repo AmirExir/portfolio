@@ -1,0 +1,24 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-12 02:51 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+Primary model: Ensemble
+Sequence model: both
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed Buy, Sell, Strong Buy, or Strong Sell signals met the 2.00% absolute return threshold.
+
+30 trading-day buy signals
+SNDK is the strongest long signal in the report. The model projects +54.79% with a Buy call, High reliability, a 79.4% probability-up reading, and an uptrend pattern. The expected error band is wide, so conviction is directionally positive but uncertainty remains elevated.
+LUV ranks next on the buy side with a projected +14.38%, Buy call, High reliability, and an uptrend pattern. Probability-up is 78.4%, which places it among the more supported long signals in this run.
+GS carries a projected +6.05% with a Buy call, Moderate reliability, and an uptrend pattern. The signal is weaker than SNDK and LUV but still clears the model-confirmed threshold.
+XOM shows a projected +4.79% with a Buy call, Moderate reliability, and a rebound-from-60-day-low pattern. This is the most modest confirmed long in the list.
+
+30 trading-day sell signals
+PEPE is the clearest downside signal. The model assigns a Strong Sell call with a projected -22.73%, High reliability, and a downtrend pattern. Probability-up is only 12.4%, making it the most decisive avoid/short candidate in the report.
+UNI has a projected -14.30% with a Sell call, Moderate reliability, and an overbought pattern. The setup points to downside risk over the 30-day horizon.
+ADA has a projected -13.41% with a Sell call, Moderate reliability, and a downtrend pattern. The forecast is similar in strength to UNI, though both carry fairly wide expected error ranges.
+
+Short watchlist
+No 1 trading-day model-confirmed signals were produced. For short-term monitoring only, the report’s policy watchlists highlight upside interest in DELL, WDC, and STX, and downside watchlist pressure in NFLX, DOGE, and SHIB. These are not primary model-confirmed signals.
