@@ -1,0 +1,27 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-12 18:36 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model: both
+No model-confirmed buy or sell signals met the 2.00% threshold for the 1 trading-day horizon.
+There was one short watchlist name: SNDK appeared as a policy watch buy with a +2.55% forecast, but the model call was Neutral / No Edge, so it does not qualify as a confirmed signal.
+
+30 trading-day model-confirmed buy rankings
+1. SNDK — Strong Buy, forecast return +54.99%, reliability High, pattern Uptrend.
+2. LUV — Buy, forecast return +14.28%, reliability High, pattern Uptrend.
+3. XOM — Buy, forecast return +4.95%, reliability Moderate, pattern Rebound From 60-Day Low.
+
+30 trading-day model-confirmed sell rankings
+1. PEPE — Strong Sell, forecast return -22.73%, reliability High, pattern Downtrend.
+
+Observations
+The confirmed long side is concentrated in three names, with SNDK carrying the largest upside estimate but also very wide expected error. LUV combines a positive forecast with high reliability and an uptrend pattern. XOM is a smaller-magnitude buy tied to a rebound setup rather than a broad uptrend.
+The confirmed short side is limited to one name: PEPE, with a high-conviction negative signal and downtrend pattern.
+
+Best smart policy pick
+SNDK was also the best smart policy pick, aligned with the model-confirmed Strong Buy signal.
+
+Excluded from rankings
+Neutral / No Edge names on the policy watchlists were not included in the buy/sell rankings. Signals below the 2.00% absolute forecast threshold were also excluded.
