@@ -1,0 +1,23 @@
+Generated: 2026-07-13 17:05 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model: both
+No model-confirmed buy or sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. SNDK — Buy, forecast return +54.68%, reliability High, uptrend pattern, probability up 79.4%. This is also the strongest smart policy pick and carries a Strong Buy policy overlay.
+2. LUV — Buy, forecast return +14.51%, reliability High, uptrend pattern, probability up 78.6%. Policy overlay is Strong Buy.
+3. FLOKI — Buy, forecast return +43.24%, reliability Speculative, but with a downtrend pattern and very high expected error. The model confirms a buy, though confidence quality is weaker than the two equity names above.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell, forecast return -22.72%, reliability High, downtrend pattern, probability up 12.4%, with a Strong Sell / Avoid policy overlay.
+
+Short watchlist from policy overlay only
+Buy watchlist: WDC, MS, GS, DELL, XLV, STX, MU, GEV, DAL, LLY.
+Sell/avoid watchlist: ADA, DOT, NFLX, DOGE, ORCL, XRP, XLY, PNUT, BNB, AVAX.
+These names were policy-supported but did not qualify as model-confirmed primary signals.
+
+Notes
+Only signals with absolute forecast return of at least 2.00% and a Buy/Sell or Strong Buy/Strong Sell model call were included in the main rankings. Neutral and No Edge names were excluded from the main lists.
