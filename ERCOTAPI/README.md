@@ -6,6 +6,9 @@ A comprehensive Streamlit dashboard for monitoring ERCOT grid operations, featur
 - Renewable generation tracking (Wind & Solar)
 - Real-time LMP pricing
 - Resource outage monitoring
+- An interactive Grid Atlas for generation, substations, transmission corridors, data-center clusters, and price hubs
+
+The Grid Atlas ships with a clearly labeled prototype dataset. Price values are illustrative and approximate locations are not intended for operational use. Its data model is ready for later replacement with scheduled EIA-860, FERC/HIFLD, ERCOT GIS, and settlement-point feeds.
 
 ## 🔐 Setup Credentials (Choose One Method)
 

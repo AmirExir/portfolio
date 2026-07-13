@@ -329,7 +329,7 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-APP_BUILD = "2026-07-07 lovable-link-v1"
+APP_BUILD = "2026-07-13 grid-atlas-v1"
 ERCOT_API_MARKET_URL = "https://apimarket.ercot.com/"
 LOVABLE_ERCOT_DASHBOARD_URL = "https://ercot-news-watch.lovable.app/"
 ERCOT_TIMEZONE = ZoneInfo("America/Chicago")
@@ -1244,6 +1244,138 @@ def train_load_forecast_model(historical_data, tuning_mode: str = "auto", manual
     return model, scaler, df, (X_train, X_test, y_train, y_test), (y_train_pred, y_test_pred), metrics
 
 
+def ercot_atlas_assets() -> pd.DataFrame:
+    """Small, dependency-free atlas seed that can later be replaced by EIA/FERC feeds."""
+    records = [
+        ("South Texas Project", "Power plant", 28.795, -96.049, "Nuclear", "2,700 MW", "EIA-860 seed"),
+        ("Comanche Peak", "Power plant", 32.298, -97.785, "Nuclear", "2,300 MW", "EIA-860 seed"),
+        ("W. A. Parish", "Power plant", 29.477, -95.634, "Gas / coal", "3,600 MW", "EIA-860 seed"),
+        ("Roscoe Wind Farm", "Power plant", 32.445, -100.538, "Wind", "781 MW", "EIA-860 seed"),
+        ("Roadrunner Solar", "Power plant", 31.318, -102.117, "Solar", "497 MW", "EIA-860 seed"),
+        ("Houston 345-kV hub", "Substation", 29.760, -95.370, "345 kV", "Coastal load hub", "FERC/EIA seed"),
+        ("Dallas–Fort Worth hub", "Substation", 32.776, -96.797, "345 kV", "North load hub", "FERC/EIA seed"),
+        ("Austin hub", "Substation", 30.267, -97.743, "345 kV", "Central load hub", "FERC/EIA seed"),
+        ("San Antonio hub", "Substation", 29.424, -98.494, "345 kV", "South Central hub", "FERC/EIA seed"),
+        ("Odessa hub", "Substation", 31.845, -102.368, "345 kV", "West export hub", "FERC/EIA seed"),
+        ("Abilene hub", "Substation", 32.449, -99.733, "345 kV", "West Central hub", "FERC/EIA seed"),
+        ("DFW data-center cluster", "Data center", 32.940, -96.820, "Large load", "Cluster / approximate", "Public company reports"),
+        ("Austin data-center cluster", "Data center", 30.400, -97.710, "Large load", "Cluster / approximate", "Public company reports"),
+        ("San Antonio data-center cluster", "Data center", 29.530, -98.480, "Large load", "Cluster / approximate", "Public company reports"),
+        ("Houston Hub", "Price node", 29.720, -95.500, "Settlement hub", "$31.84/MWh", "Illustrative LMP"),
+        ("North Hub", "Price node", 32.550, -97.050, "Settlement hub", "$28.42/MWh", "Illustrative LMP"),
+        ("South Hub", "Price node", 28.950, -98.250, "Settlement hub", "$35.17/MWh", "Illustrative LMP"),
+        ("West Hub", "Price node", 31.650, -102.050, "Settlement hub", "$19.63/MWh", "Illustrative LMP"),
+    ]
+    return pd.DataFrame(records, columns=["name", "layer", "lat", "lon", "type", "detail", "source"])
+
+
+def render_grid_atlas() -> None:
+    """Render an InfraMap-inspired, ERCOT-focused infrastructure explorer."""
+    render_section_header(
+        "ERCOT Grid Atlas",
+        "Explore generation, high-voltage corridors, substations, large-load clusters, and price hubs in one spatial view.",
+    )
+
+    assets = ercot_atlas_assets()
+    colors = {
+        "Power plant": "#34d399",
+        "Substation": "#22d3ee",
+        "Data center": "#a78bfa",
+        "Price node": "#fbbf24",
+    }
+    symbols = {
+        "Power plant": "circle",
+        "Substation": "square",
+        "Data center": "diamond",
+        "Price node": "circle",
+    }
+
+    filter_col, search_col, display_col = st.columns([2.2, 1.5, 1])
+    with filter_col:
+        selected_layers = st.multiselect(
+            "Infrastructure layers",
+            options=list(colors),
+            default=list(colors),
+            help="Show or hide infrastructure categories on the atlas.",
+        )
+    with search_col:
+        asset_query = st.text_input("Find an asset", placeholder="Houston, wind, 345 kV…")
+    with display_col:
+        show_corridors = st.checkbox("Transmission corridors", value=True)
+
+    filtered = assets[assets["layer"].isin(selected_layers)].copy()
+    if asset_query.strip():
+        query = asset_query.strip().lower()
+        searchable = filtered[["name", "type", "detail"]].astype(str).agg(" ".join, axis=1).str.lower()
+        filtered = filtered[searchable.str.contains(query, regex=False)]
+
+    map_col, insight_col = st.columns([3.3, 1.15])
+    with map_col:
+        fig = go.Figure()
+        if show_corridors:
+            corridors = [
+                ("West export", [(31.845, -102.368), (32.449, -99.733), (32.776, -96.797)]),
+                ("Central spine", [(32.776, -96.797), (30.267, -97.743), (29.424, -98.494)]),
+                ("Coastal transfer", [(29.424, -98.494), (29.760, -95.370), (28.795, -96.049)]),
+            ]
+            for corridor_name, coordinates in corridors:
+                fig.add_trace(go.Scattermapbox(
+                    lat=[point[0] for point in coordinates],
+                    lon=[point[1] for point in coordinates],
+                    mode="lines",
+                    line={"width": 2.2, "color": "rgba(94, 234, 212, 0.48)"},
+                    name=corridor_name,
+                    legendgroup="Transmission",
+                    hovertemplate=f"<b>{corridor_name}</b><br>Conceptual 345-kV corridor<extra></extra>",
+                    showlegend=False,
+                ))
+
+        for layer_name, layer_color in colors.items():
+            layer_df = filtered[filtered["layer"] == layer_name]
+            if layer_df.empty:
+                continue
+            fig.add_trace(go.Scattermapbox(
+                lat=layer_df["lat"],
+                lon=layer_df["lon"],
+                mode="markers",
+                name=layer_name,
+                marker={"size": 12 if layer_name != "Substation" else 10, "color": layer_color, "symbol": symbols[layer_name]},
+                customdata=layer_df[["type", "detail", "source"]],
+                text=layer_df["name"],
+                hovertemplate="<b>%{text}</b><br>%{customdata[0]}<br>%{customdata[1]}<br><span style='color:#94a3b8'>%{customdata[2]}</span><extra></extra>",
+            ))
+
+        fig.update_layout(
+            height=650,
+            margin={"l": 0, "r": 0, "t": 8, "b": 0},
+            paper_bgcolor="#07111f",
+            mapbox={"style": "carto-darkmatter", "center": {"lat": 31.0, "lon": -99.25}, "zoom": 5.2},
+            legend={"orientation": "h", "yanchor": "bottom", "y": 0.01, "xanchor": "center", "x": 0.5, "bgcolor": "rgba(7,17,31,.82)", "font": {"color": "#e2e8f0"}},
+        )
+        st.plotly_chart(fig, width="stretch", config={"displaylogo": False, "scrollZoom": True})
+
+    with insight_col:
+        st.markdown("#### Atlas snapshot")
+        visible_counts = filtered["layer"].value_counts()
+        for layer_name, layer_color in colors.items():
+            render_metric_card(layer_name, f"{visible_counts.get(layer_name, 0):,}", "Visible assets", layer_color)
+
+        st.markdown("#### Inspect records")
+        if filtered.empty:
+            st.info("No assets match the current filters.")
+        else:
+            selected_asset = st.selectbox("Asset", filtered["name"].tolist(), label_visibility="collapsed")
+            record = filtered.loc[filtered["name"] == selected_asset].iloc[0]
+            st.markdown(f"**{record['name']}**  \n{record['layer']} · {record['type']}  \n{record['detail']}")
+            st.caption(f"Source/method: {record['source']}")
+
+    st.info(
+        "Prototype layer: locations and corridors are a compact demonstration dataset for the dashboard experience. "
+        "Price values are illustrative, data-center clusters are approximate, and the map is not suitable for operational decisions. "
+        "The data model is ready to be replaced with scheduled EIA-860, HIFLD/FERC, ERCOT GIS, and settlement-point feeds."
+    )
+
+
 # --- Streamlit Dashboard ---
 def main():
     st.set_page_config(
@@ -1534,12 +1666,16 @@ def main():
     start_date = end_date - timedelta(days=date_range)
     
     # Dashboard sections
-    tab1, tab2, tab3, tab4 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "Load & Forecast", 
         "Renewables", 
         "Real-Time Pricing",
-        "Resource Outages"
+        "Resource Outages",
+        "Grid Atlas",
     ])
+
+    with tab5:
+        render_grid_atlas()
     
     # TAB 1: LOAD ANALYSIS & FORECAST
     with tab1:
