@@ -1,0 +1,22 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-13 13:04 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model used: both
+No model-confirmed Buy, Sell, Strong Buy, or Strong Sell signals met the 2.0% threshold for the 1 trading-day horizon.
+
+30 trading-day rankings
+Buy candidates
+SNDK — Buy. Forecast return +54.58%, reliability High, pattern Uptrend, probability up 79.4%. This was also the best smart policy pick.
+LUV — Buy. Forecast return +14.07%, reliability High, pattern Uptrend, probability up 78.3%.
+FLOKI — Buy. Forecast return +36.76%, reliability Speculative, pattern Downtrend, probability up 57.1%. Model buy signal is present, but reliability is speculative and the policy overlay is Sell/Avoid.
+
+Sell/avoid candidates
+PEPE — Strong Sell. Forecast return -22.72%, reliability High, pattern Downtrend, probability up 12.4%.
+
+Editorial notes
+Only model-confirmed Buy/Sell and Strong Buy/Strong Sell signals with absolute forecast return of at least 2% are included.
+There were 3 qualifying buys and 1 qualifying sell/avoid signal.
+SPCX was skipped due to insufficient clean price history for ML forecasting.
