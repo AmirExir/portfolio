@@ -1,0 +1,22 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Middle East / energy risk:** Multiple **Crypto Briefing** reports on **July 12, 2026** said the **U.S. resumed strikes on Iran** and that the **IRGC fired at commercial shipping in the Strait of Hormuz**, with additional reports of **explosions in southern Iran, Bushehr, Qeshm Island, and Jask Port**.  
+  - Sources/dates: **Crypto Briefing, 2026-07-12 21:22Z; 21:26Z; 21:27Z; 21:30Z; 21:41Z; 21:48Z; 21:52Z**
+- **Lebanon/Israel escalation:** **Crypto Briefing** on **July 12, 2026** reported **massive explosions in southern Lebanon** tied to ongoing Israel-Lebanon conflict.  
+  - Source/date: **Crypto Briefing, 2026-07-12 22:04Z**
+- **Fed / rates watch:** **Crypto Briefing** on **July 12, 2026** reported that **Fed Chair Kevin Warsh is scheduled to testify July 14-15**, including discussion around a **potential rate hike** and CFPB scrutiny.  
+  - Source/date: **Crypto Briefing, 2026-07-12 22:02Z**
+- **AI competition:** **Crypto Briefing** on **July 12, 2026** reported **SpaceXAI’s Grok 4.5** was presented as outperforming a rival model, adding to the AI competition narrative.  
+  - Source/date: **Crypto Briefing, 2026-07-12 21:29Z**
+- **Crypto regulation/adoption:** **Crypto Briefing** on **July 12, 2026** reported that a prominent Pakistani Islamic scholar issued a **fatwa declaring crypto purchases impermissible under Sharia**.  
+  - Source/date: **Crypto Briefing, 2026-07-12 21:44Z**
+- **Japan corporate / strategic deal:** **Financial Post / Bloomberg** on **July 12, 2026** reported **Seven & i Holdings** is moving toward **selling a stake to SoftBank and PayPay**, signaling a shift away from a standalone strategy.  
+  - Source/date: **Financial Post (Bloomberg), 2026-07-12 21:25Z**
+
+### Interpretation
+- The **clearest fresh macro driver in this set is geopolitical risk around Iran and the Strait of Hormuz**, which is relevant for **oil, shipping, inflation expectations, and broader risk sentiment**.
+- The **Fed testimony headline matters for rates-sensitive assets**, but it is **forward-looking** rather than a new policy action.
+- The **AI item** supports the ongoing **AI/semiconductor competitive narrative**, though this set does **not** include fresh earnings, chip guidance, or major listed semi-company announcements.
+- The **crypto fatwa** is more of a **regional adoption/regulatory headline** than a clear global crypto-market mover by itself.
+- **Fresh article coverage is thin outside geopolitics**; there is **little here on CPI/inflation, major earnings, broad equity indexes, Treasuries, or major crypto price action**, so this dataset may **not fully explain today’s tape**.
