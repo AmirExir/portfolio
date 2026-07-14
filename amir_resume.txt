@@ -3,7 +3,7 @@ contact@amirexirpe.com - +1(346) 412- 9950 - amirexirpe.com – github.com/amire
 
 Professional Summary
 
-Professional Engineer (P.E.) & Reliability Coordinator with 6 years of experience in Power System in Operation, Planning, Resource Integration, Modeling, Steady State & Dynamic Analysis at ERCOT ISO & LCRA TDSP.
+Professional Engineer (P.E.) & Reliability Coordinator with 7 years of experience in Power System in Operation, Planning, Resource Integration, Modeling, Steady State & Dynamic Analysis at ERCOT ISO & LCRA TDSP.
 Master of Engineering from Lamar University Major in Power Electrical & Computer Engineering.
 Currently pursuing a Master of Science in Artificial Intelligence at University of Texas at Austin. AWS/IBM Certified.
 Proficient in PSS/E, GE EMS SCADA/TSM/DTS, ABB MMS, Streamlit, Embeddings, Python (Pandas, NumPy, Matplotlib, Scikit-learn, XGBoost, Pytorch, Tensorflow Keras ,OpenAI, N8N), ERCOT PUBLIC API, JavaScript, GitHub Pages.
