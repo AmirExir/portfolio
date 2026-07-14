@@ -1,0 +1,22 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-14 12:36 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model: both
+No model-confirmed buy or sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day model-confirmed buy rankings
+1. SNDK — Strong Buy. Forecast return +64.71%, probability up 83.7%, reliability High, pattern High Volatility. Highest upside forecast in the confirmed buy list, but with very large expected error.
+2. LUV — Buy. Forecast return +8.56%, probability up 69.6%, reliability Moderate, pattern Uptrend. Moderate-confidence long signal with trend support.
+3. HYPE — Buy. Forecast return +16.28%, probability up 68.6%, reliability Moderate, pattern Range / No Dominant Pattern. Positive return forecast, though pattern support is less directional than the other buy names.
+
+30 trading-day model-confirmed sell rankings
+1. PEPE — Strong Sell. Forecast return -22.73%, probability up 12.4%, reliability High, pattern Downtrend. Only confirmed sell/avoid signal and the clearest downside setup in the report.
+
+Summary
+Confirmed long signals are limited to three names, led by SNDK on forecast magnitude and LUV on cleaner trend structure. Confirmed short exposure is concentrated in PEPE. No 1 trading-day opportunities met the threshold, so the report is driven entirely by the 30 trading-day horizon.
+
+Excluded from rankings
+Neutral / No Edge and policy-only watchlist names were not included in the main rankings. SPCX was skipped for insufficient clean price history.
