@@ -1,0 +1,17 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **U.S. inflation / rates:** **CNBC** (**2026-07-13T22:02:19Z**) reported that **June inflation data came in weaker than expected**, with stock futures reacting as traders also weighed **rising oil prices** and incoming earnings.  
+- **Geopolitics / energy risk:** **Crypto Briefing** (**2026-07-13T22:03:17Z**) reported that **the U.S. is targeting Iran’s military near the Strait of Hormuz**, escalating tensions around a critical global oil chokepoint.  
+- **Semis / AI supply chain:** **Crypto Briefing** (**2026-07-13T22:04:47Z**) reported that **TSMC is building two new advanced packaging plants in Taiwan** to meet AI-chip demand, with stated annual output above **$9.35 billion**.  
+- **Semis / AI demand signal:** **Biztoc** citing 24/7 Wall St. (**2026-07-13T21:58:17Z**) said **TSMC posted 36% quarterly sales growth** and **June revenue rose 67.9% year over year**, framing it as relevant for **NVIDIA and AMD**.  
+- **Crypto regulation:** **Crypto Briefing** (**2026-07-13T22:04:56Z**) reported that the **SEC chair urged Senate action on the CLARITY Act**, arguing it would support U.S. leadership in **crypto and AI**.  
+- **Crypto regulation / politics:** **The Daily Hodl** (**2026-07-13T22:03:47Z**) reported that **President Trump is pushing senators to pass the Clarity Act**.  
+- **Bitcoin:** **Bitcoinist** (**2026-07-13T22:05:00Z**) framed **Bitcoin near $64,000** with potential selling pressure near **$65,000**; this is market commentary rather than hard news, but it is the only fresh major-crypto item in the set.  
+
+## Interpretation
+- The clearest **macro** item in this article set is the **softer-than-expected June inflation print**, which is the most directly relevant headline for **Treasuries, Fed expectations, and broad risk assets**.
+- The main **risk-sentiment / energy** driver is the **U.S.-Iran escalation near the Strait of Hormuz**, which can matter for **oil and inflation expectations**.
+- The main **AI/semi** theme is continued evidence of **strong AI infrastructure demand**, via **TSMC capacity expansion** and reported **strong sales/revenue growth**.
+- On **crypto**, the fresh flow is more about **regulatory/political process** around the **CLARITY Act** than about definitive policy change.
+- The fresh set is **somewhat thin and mixed**: it gives plausible drivers for **rates, oil, semis, and crypto**, but it does **not fully explain today’s tape** on its own.
