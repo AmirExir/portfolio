@@ -1,0 +1,7 @@
+- ERCOT posted new market-rule issue pages for NOGRR273 and PGRR140, indicating fresh Operating Guide and Protocol revision activity even though the scraped text is incomplete; these postings typically signal upcoming stakeholder review on operating practices and planning/process rules. (ERCOT NOGRR; ERCOT PGRR)
+
+- PGRR140 appears tied to NPRR1317 and references creation of a “Non-Settled Generat…” construct, suggesting a potential new generator classification or treatment in planning/protocol processes that could affect how generation projects are modeled, tracked, or transitioned into market participation. (ERCOT PGRR140)
+
+- Grid impact angle: if PGRR140 changes generator status handling, it could influence interconnection workflow visibility, planning-case assumptions, and reliability studies by clarifying how non-settled or not-yet-commercial generation is represented in ERCOT processes. (ERCOT PGRR140)
+
+- Governance/planning angle: NOGRR273 and PGRR140 together point to continued ERCOT stakeholder work on both operating guidance and planning rules, worth monitoring for implications to generator interconnection, large load coordination, study inputs, and market readiness requirements once full documents or meeting discussions become available. (ERCOT NOGRR273; ERCOT PGRR140)
