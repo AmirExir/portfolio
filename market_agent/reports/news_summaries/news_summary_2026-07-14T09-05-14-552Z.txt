@@ -1,0 +1,17 @@
+Fresh headline set is thin and mostly geopolitics-focused; there’s very little hard macro, earnings, or broad market reporting here to fully explain today’s tape.
+
+**Facts**
+- **Middle East / energy:** **OilPrice.com** (published **2026-07-13T09:00:00Z**) reported Iran warned continued U.S. interference around the Strait of Hormuz could cause further oil and gas disruptions.
+- **Middle East / shipping risk:** **Crypto Briefing** (published **2026-07-13T08:58:16Z**) reported the EU called for the immediate reopening of the Strait of Hormuz amid U.S.-Iran tensions.
+- **Middle East / escalation risk:** **Crypto Briefing** (published **2026-07-13T09:02:29Z**) reported Iran said the U.S.-Iran memorandum of understanding is “completely dead” and warned allies of military target status.
+- **Cross-asset risk tone:** **CNBC** (published **2026-07-13T08:54:45Z**) said Treasury yields were broadly flat, with the 10-year yield around **4.473%**, as investors weighed strain in the U.S.-Iran ceasefire and awaited core inflation data.
+- **Equities / Asia lead:** **WSLS/AP** (published **2026-07-13T08:57:12Z**) reported oil prices jumped after weekend Middle East attacks, while Asian shares slipped; the same article also said AI and chip shares were a drag on stock markets.
+- **Macro calendar / crypto sensitivity:** **CoinDesk** (published **2026-07-13T08:55:50Z**) said upcoming U.S. inflation data and second-quarter financial-sector earnings are key events for crypto markets this week.
+- **Crypto / payments adoption:** **Cointelegraph** (published **2026-07-13T08:58:51Z**) reported Lawson plans a yen stablecoin payment trial in Tokyo and Netstars launched a multi-stablecoin merchant service in Japan.
+
+**Interpretation**
+- The clearest fresh market-moving theme in this article set is **Middle East escalation and Strait of Hormuz disruption risk**, which matters most for **oil, inflation expectations, and general risk sentiment**.
+- On rates, the only solid fresh read is that **Treasury yields were muted/flat**, suggesting geopolitics had not yet produced a decisive bond-market move in the supplied coverage.
+- On equities, there is **limited direct U.S. market evidence** here; the best-supported takeaway is that **energy risk rose** and **AI/chip sentiment may be under some pressure** based on the AP/WSLS item.
+- For crypto, the actionable near-term theme is still **macro sensitivity to U.S. inflation and earnings**, with a secondary longer-term adoption headline from Japan stablecoin payments.
+- There are **no fresh earnings headlines** in this set, and **no fresh CPI/Fed outcome headline yet**—only anticipation of inflation data.
