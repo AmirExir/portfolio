@@ -1,0 +1,33 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-14 01:54 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day section
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2.00% threshold for the 1 trading-day horizon.
+Short watchlist: SNDK appeared as a policy buy watchlist name with a +3.16% forecast, but the model call was Neutral / No Edge, so it does not qualify as a confirmed short-horizon signal.
+
+30 trading-day model-confirmed buys
+SNDK: Strong Buy with a +64.85% forecast return. High reliability, strong upside probability, but forecast error is also very wide, so this reads as a high-variance opportunity rather than a stable projection.
+LUV: Buy with a +9.45% forecast return. Moderate reliability, favorable upside probability, and an uptrend pattern support it as the cleaner confirmed long signal.
+
+30 trading-day model-confirmed sells / avoids
+PEPE: Strong Sell with a -22.72% forecast return. High reliability and a downtrend pattern make this the clearest avoid or short-side signal in the report.
+AMZN: Sell with a -6.03% forecast return. Moderate reliability and weaker trend structure than PEPE, but it still qualifies as a confirmed negative signal.
+
+Policy-only watchlist with forecast magnitude above 2%
+Buy watchlist: DELL, MS, DAL, UAL, GEV, AAL, UNH, WDC, HYPE, GS.
+Sell / avoid watchlist: NFLX, ADA, ORCL, DOGE, COMP, DOT, SHIB, AVAX, XRP, OXY.
+These names did not qualify for the primary model-confirmed section because the model call was Neutral / No Edge, so they should be treated as secondary monitoring candidates rather than ranked signals.
+
+Best smart policy pick
+DELL was the top policy-selected name, with a Strong Buy policy score and a +11.67% forecast return, but it remains policy-only because the model call did not qualify.
+
+Top buy candidates from confirmed signals
+1. SNDK
+2. LUV
+
+Top sell candidates from confirmed signals
+1. PEPE
+2. AMZN
