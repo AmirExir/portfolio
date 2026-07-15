@@ -1,0 +1,24 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-15 12:42 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model: both
+No model-confirmed buy or sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. SNDK — Strong Buy | forecast return +63.16% | reliability High | uptrend pattern | highest-ranked long signal and also the best smart policy pick.
+2. STX — Buy | forecast return +21.18% | reliability Moderate | uptrend pattern.
+3. DELL — Buy | forecast return +19.52% | reliability Moderate | uptrend pattern.
+4. LUV — Buy | forecast return +10.19% | reliability Moderate | uptrend pattern.
+5. GEV — Buy | forecast return +9.51% | reliability Moderate | uptrend pattern.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell | forecast return -22.73% | reliability High | downtrend pattern | clearest avoid/short signal in the report.
+2. AMZN — Sell | forecast return -5.99% | reliability Moderate | range / no dominant pattern.
+
+Observations
+Buy signals are concentrated in uptrend names, with SNDK materially ahead of the rest on forecast return.
+Sell signals are limited in count; PEPE is the only high-reliability downside signal.
+No neutral or sub-threshold names are included in the main rankings.
