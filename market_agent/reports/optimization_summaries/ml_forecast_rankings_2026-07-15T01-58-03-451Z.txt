@@ -1,0 +1,21 @@
+Generated: 2026-07-15 01:57 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed buy or sell signals met the 1 trading-day threshold.
+
+30 trading-day buy signals
+SNDK ranks first with a Strong Buy signal, a +59.82% forecast return, High reliability, and an uptrend pattern. It is also the top smart policy pick.
+STX has a Buy signal with a +20.39% forecast return, Moderate reliability, and an uptrend pattern.
+DELL has a Buy signal with a +20.03% forecast return, Moderate reliability, and an uptrend pattern.
+
+30 trading-day sell/avoid signals
+PEPE ranks as the clearest sell/avoid candidate with a Strong Sell signal, a -22.72% forecast return, High reliability, and a downtrend pattern.
+ADA has a Sell signal with a -13.29% forecast return, Moderate reliability, and a downtrend pattern.
+
+Observations
+The actionable 30-day list is narrow, with 3 model-confirmed buys and 2 model-confirmed sells/avoids after applying the minimum 2% absolute forecast return filter.
+The strongest confirmed opportunities are concentrated in data storage and hardware on the long side, while the confirmed short signals are in crypto.
+Expected error bands are wide, especially for SNDK, so ranking strength should be weighed against forecast uncertainty.
