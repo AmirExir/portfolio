@@ -120,7 +120,6 @@ def _normalize_question(question: str) -> str:
 def _load_collection(collection: str) -> LoadedIndex:
     return load_index(
         collection,
-        allow_legacy=False,
         legacy_chunks_path=LEGACY_CHUNKS_PATH,
         legacy_embeddings_path=LEGACY_EMBEDDINGS_PATH,
         legacy_embedding_model="text-embedding-3-large",

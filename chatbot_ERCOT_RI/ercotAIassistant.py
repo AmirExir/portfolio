@@ -55,7 +55,6 @@ def load_resource_integration_index(cache_key: tuple[object, ...]):
     del cache_key
     return load_collection(
         "resource_integration",
-        allow_legacy=False,
         legacy_chunks_path=LEGACY_CHUNKS,
         legacy_embeddings_path=LEGACY_EMBEDDINGS,
         legacy_embedding_model="text-embedding-3-large",
@@ -86,7 +85,7 @@ valid_functions = extract_function_names(rag_index.chunks)
 
 with st.sidebar:
     st.caption(f"Loaded {len(rag_index.chunks)} Resource Integration chunks")
-    st.caption(f"Generation: {rag_index.generation_id}")
+    st.caption(f"Generation: {rag_index.generation_id or 'legacy fallback'}")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []

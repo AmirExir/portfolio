@@ -72,7 +72,6 @@ def load_ercot_index(cache_key: tuple[object, ...]):
     del cache_key
     return load_index(
         "general",
-        allow_legacy=False,
         legacy_chunks_path=LEGACY_CHUNKS,
         legacy_embeddings_path=LEGACY_EMBEDDINGS,
         legacy_embedding_model="text-embedding-3-large",
@@ -87,7 +86,9 @@ with st.spinner("Loading the ERCOT knowledge index..."):
 
 with st.sidebar:
     st.caption(f"Loaded {len(rag_index.chunks)} ERCOT chunks")
-    st.caption(f"Index: {rag_index.generation_id} ({rag_index.source})")
+    st.caption(
+        f"Index: {rag_index.generation_id or 'legacy fallback'} ({rag_index.source})"
+    )
     if st.button("Clear chat"):
         st.session_state.messages = []
         st.rerun()
