@@ -1,118 +1,110 @@
-import streamlit as st
+"""ERCOT Nodal Protocols assistant using the central protocols collection."""
+
+from __future__ import annotations
+
 import os
-import openai
-import json
-import glob
+import sys
+from pathlib import Path
+
+import streamlit as st
 from openai import OpenAI
-from sklearn.metrics.pairwise import cosine_similarity
-from typing import List
-import numpy as np
 
-# Set up OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-# Load or compute embeddings
-@st.cache_data(show_spinner=False)
-def load_ercot_chunks_and_embeddings():
-    from openai import OpenAI
-    embedding_model = "text-embedding-3-small"
-
-    chunks = []
-    embeddings = []
-
-    #st.write(" Available ERCOT protocol files:")
-    #st.write(sorted(glob.glob("chatbot_ercot_nodalprotocols/ercotnodals_part*.txt")))
-
-    for filepath in sorted(glob.glob("chatbot_ercot_nodalprotocols/ercotnodals_part*.txt")):
-        with open(filepath, "r", encoding="utf-8") as f:
-            text = f.read()
-            chunks.append({"filename": filepath, "text": text})
-    for chunk in chunks:
-        try:
-            response = client.embeddings.create(
-                model=embedding_model,
-                input=chunk["text"][:8192]
-            )
-            embeddings.append(response.data[0].embedding)
-        except Exception as e:
-            st.warning(f"Embedding failed for {chunk['filename']}: {e}")
-            print(f"ERROR for {chunk['filename']}: {e}")
-            embeddings.append(None)
-
-    # Clean up bad embeddings
-    valid_pairs = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
-
-    if not valid_pairs:
-        st.warning(" No embeddings succeeded. Check file contents or OpenAI key.")
-        raise ValueError("No valid embeddings were generated. Please check the input files.")
-
-    chunks, embeddings = zip(*valid_pairs)
-    embeddings = np.array(embeddings)
-    return list(chunks), embeddings
-
-# Embed the user query
-def embed_query(query: str) -> List[float]:
-    response = client.embeddings.create(
-        model="text-embedding-3-small",
-        input=query
+try:
+    from ERCOTAPI.rag_ingestion.retrieval import (
+        format_context,
+        format_source_list,
+        index_state,
+        load_collection,
+        retrieve_chunks,
     )
-    return response.data[0].embedding
+except ModuleNotFoundError as exc:
+    if exc.name != "ERCOTAPI":
+        raise
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from ERCOTAPI.rag_ingestion.retrieval import (
+        format_context,
+        format_source_list,
+        index_state,
+        load_collection,
+        retrieve_chunks,
+    )
 
-# Find best matching chunk
-def find_best_match(query: str, chunks, embeddings):
-    query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity(query_embedding.reshape(1, -1), embeddings).flatten()
-    best_idx = int(np.argmax(scores))
-    return chunks[best_idx]
 
-# Streamlit UI
+REPO_ROOT = Path(__file__).resolve().parents[1]
+LEGACY_CHUNKS = REPO_ROOT / "chatbot_ercot_all_in_one" / "ercot_chunks_cached.json"
+LEGACY_EMBEDDINGS = REPO_ROOT / "chatbot_ercot_all_in_one" / "ercot_embeddings.npy"
+
+
+def get_openai_client() -> OpenAI:
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not configured")
+    return OpenAI(api_key=api_key)
+
+
+def _legacy_state() -> tuple[int, int]:
+    return (
+        LEGACY_CHUNKS.stat().st_mtime_ns if LEGACY_CHUNKS.exists() else 0,
+        LEGACY_EMBEDDINGS.stat().st_mtime_ns if LEGACY_EMBEDDINGS.exists() else 0,
+    )
+
+
+@st.cache_resource(show_spinner=False, max_entries=1)
+def load_protocol_index(cache_key: tuple[object, ...]):
+    del cache_key
+    return load_collection(
+        "protocols",
+        legacy_chunks_path=LEGACY_CHUNKS,
+        legacy_embeddings_path=LEGACY_EMBEDDINGS,
+        legacy_embedding_model="text-embedding-3-large",
+    )
+
+
 st.set_page_config(page_title="Amir Exir's ERCOT protocols AI Assistant", page_icon="⚡")
 st.title("Ask Amir Exir's ERCOT Nodal protocols AI Assistant")
 
-# Load data and embeddings once
-with st.spinner("Loading nodal protocols and computing embeddings..."):
-    chunks, embeddings = load_ercot_chunks_and_embeddings()
+with st.spinner("Loading the Nodal Protocols index..."):
+    rag_index = load_protocol_index((*index_state(), *_legacy_state()))
 
-# Initialize chat
+with st.sidebar:
+    st.caption(f"Loaded {len(rag_index.chunks)} protocol chunks")
+    st.caption(f"Generation: {rag_index.generation_id or 'legacy fallback'}")
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Show past messages
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).markdown(msg["content"])
+for message in st.session_state.messages:
+    st.chat_message(message["role"]).markdown(message["content"])
 
-# Chat input
 if prompt := st.chat_input("Ask about ERCOT nodal protocols..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        best_chunk = find_best_match(prompt, chunks, embeddings)
-
+        try:
+            matches = retrieve_chunks(prompt, rag_index, top_k=5)
+        except Exception as exc:
+            st.error(f"Retrieval failed: {exc}")
+            st.stop()
+        context = format_context(matches, max_words=20000)
         system_prompt = {
             "role": "system",
             "content": f"""
-You are an expert assistant on ERCOT's planning guides.
-Only use the following documentation to answer the question:
+You are an expert assistant on ERCOT Nodal Protocols. Use only the cited
+documentation below. Stay factual, do not guess beyond it, and retain relevant
+citations in the answer.
 
 ---
-Filename: {best_chunk['filename']}
-
-{best_chunk['text']}
+{context}
 ---
-Stay factual. Do not guess beyond the information provided above.
-"""
+""",
         }
-
-        messages = [system_prompt] + st.session_state.messages
-
-        response = client.responses.create(
+        response = get_openai_client().responses.create(
             model="gpt-5.2",
-            reasoning={"effort": "xhigh"},  # justified here
-            input=messages,
-            max_output_tokens=10000
+            reasoning={"effort": "xhigh"},
+            input=[system_prompt] + st.session_state.messages,
+            max_output_tokens=10000,
         )
-
-        bot_msg = response.output_text
-        st.chat_message("assistant").markdown(bot_msg)
-        st.session_state.messages.append({"role": "assistant", "content": bot_msg})
+        bot_message = response.output_text.rstrip() + format_source_list(matches)
+        st.chat_message("assistant").markdown(bot_message)
+        st.session_state.messages.append({"role": "assistant", "content": bot_message})

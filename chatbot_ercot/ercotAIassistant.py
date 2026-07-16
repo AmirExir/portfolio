@@ -1,12 +1,39 @@
-import streamlit as st
-import os
-import json
-import numpy as np
-from openai import OpenAI
-from sklearn.metrics.pairwise import cosine_similarity
-from typing import List
+"""ERCOT Planning Guide assistant backed by the central planning collection."""
 
-# Optional: hide Streamlit Community Cloud footer/badges (UI hack; may vary by Streamlit version)
+from __future__ import annotations
+
+import os
+import sys
+from pathlib import Path
+
+import streamlit as st
+from openai import OpenAI
+
+try:
+    from ERCOTAPI.rag_ingestion.retrieval import (
+        format_context,
+        format_source_list,
+        index_state,
+        load_collection,
+        retrieve_chunks,
+    )
+except ModuleNotFoundError as exc:
+    if exc.name != "ERCOTAPI":
+        raise
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from ERCOTAPI.rag_ingestion.retrieval import (
+        format_context,
+        format_source_list,
+        index_state,
+        load_collection,
+        retrieve_chunks,
+    )
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+LEGACY_CHUNKS = REPO_ROOT / "chatbot_ercot_all_in_one" / "ercot_chunks_cached.json"
+LEGACY_EMBEDDINGS = REPO_ROOT / "chatbot_ercot_all_in_one" / "ercot_embeddings.npy"
+
 HIDE_STREAMLIT_UI = """
 <style>
     #MainMenu { visibility: hidden; }
@@ -15,237 +42,183 @@ HIDE_STREAMLIT_UI = """
     [data-testid="stFooter"] { display: none; }
     [data-testid="stHeader"] { display: none; }
     [data-testid="stToolbar"] { display: none; }
-    .viewerBadge_container__1QSob { display: none; }
-    .styles_viewerBadge__1yB5_ { display: none; }
 </style>
 """
 
-# Set up OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Load precomputed chunks and embeddings
-@st.cache_data(show_spinner=False)
-def load_ercot_chunks_and_embeddings(chunks_path: str, embeddings_path: str, chunks_mtime: float, embeddings_mtime: float):
-    if not os.path.exists(chunks_path) or not os.path.exists(embeddings_path):
-        raise FileNotFoundError("Embeddings or chunks file not found.")
+def get_openai_client() -> OpenAI:
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not configured")
+    return OpenAI(api_key=api_key)
 
-    with open(chunks_path, "r", encoding="utf-8") as f:
-        chunks = json.load(f)
-    embeddings = np.load(embeddings_path)
 
-    return chunks, embeddings
-
-# Embed the user query
-def embed_query(query: str) -> List[float]:
-    response = client.embeddings.create(
-        model="text-embedding-3-large",
-        input=query
+def _legacy_state() -> tuple[int, int]:
+    return (
+        LEGACY_CHUNKS.stat().st_mtime_ns if LEGACY_CHUNKS.exists() else 0,
+        LEGACY_EMBEDDINGS.stat().st_mtime_ns if LEGACY_EMBEDDINGS.exists() else 0,
     )
-    return response.data[0].embedding
-
-# Find best matching chunk
-def find_best_match(query: str, chunks, embeddings):
-    query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity(query_embedding, embeddings).flatten()
-    best_idx = int(np.argmax(scores))
-    return chunks[best_idx]
 
 
-def find_top_matches(query: str, chunks, embeddings, k: int = 5):
-    query_embedding = np.array(embed_query(query)).reshape(1, -1)
-    scores = cosine_similarity(query_embedding, embeddings).flatten()
-    k = max(1, min(k, len(scores)))
-    top_indices = np.argsort(scores)[-k:][::-1]
-    return [chunks[int(i)] for i in top_indices]
+@st.cache_resource(show_spinner=False, max_entries=1)
+def load_planning_index(cache_key: tuple[object, ...]):
+    del cache_key
+    return load_collection(
+        "planning",
+        legacy_chunks_path=LEGACY_CHUNKS,
+        legacy_embeddings_path=LEGACY_EMBEDDINGS,
+        legacy_embedding_model="text-embedding-3-large",
+    )
 
 
 def get_loaded_sources(chunks) -> list[str]:
-    sources = sorted({c.get("source", "") for c in chunks if isinstance(c, dict)})
-    return [s for s in sources if s]
+    sources = sorted(
+        {
+            str(chunk.get("source_path") or chunk.get("source") or "")
+            for chunk in chunks
+            if isinstance(chunk, dict)
+        }
+    )
+    return [source for source in sources if source]
 
 
 def is_meta_visibility_question(prompt: str) -> bool:
-    p = (prompt or "").strip().lower()
-    triggers = [
-        "can you see",
-        "which files",
-        "what files",
-        "planning guides do you have",
-        "what documents",
-    ]
-    return any(t in p for t in triggers)
+    lowered = (prompt or "").strip().lower()
+    return any(
+        trigger in lowered
+        for trigger in ("can you see", "which files", "what files", "planning guides do you have", "what documents")
+    )
 
 
 def is_last_read_question(prompt: str) -> bool:
-    p = (prompt or "").strip().lower()
-    triggers = [
-        "what is the last thing you can read",
-        "last thing you can read",
-        "last paragraph you can read",
-        "what are the last 3 words",
-        "what are the last three words",
-    ]
-    return any(t in p for t in triggers)
+    lowered = (prompt or "").strip().lower()
+    return any(
+        trigger in lowered
+        for trigger in (
+            "what is the last thing you can read",
+            "last thing you can read",
+            "last paragraph you can read",
+            "what are the last 3 words",
+            "what are the last three words",
+        )
+    )
 
 
 def _last_paragraph(text: str) -> str:
-    if not text:
-        return ""
-    parts = [p.strip() for p in text.replace("\r\n", "\n").split("\n\n") if p.strip()]
-    return parts[-1] if parts else text.strip()
+    parts = [part.strip() for part in (text or "").replace("\r\n", "\n").split("\n\n") if part.strip()]
+    return parts[-1] if parts else (text or "").strip()
 
 
-def _last_words(text: str, n: int) -> str:
+def _last_words(text: str, count: int) -> str:
     words = (text or "").split()
-    if not words:
-        return ""
-    return " ".join(words[-n:])
+    return " ".join(words[-count:]) if words else ""
 
 
 def build_last_read_answer(chunks, sources: list[str]) -> str:
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    lines: list[str] = [
-        "Here’s the last content I can read from each loaded part (deterministic, from the raw files when available):",
-        "",
-    ]
-
-    # Group chunks by source as a fallback if raw files are missing.
+    lines = ["Here’s the last indexed content I can read from each loaded source:", ""]
     chunks_by_source: dict[str, list[dict]] = {}
-    for c in chunks:
-        if isinstance(c, dict) and c.get("source"):
-            chunks_by_source.setdefault(c["source"], []).append(c)
+    for chunk in chunks:
+        source = str(chunk.get("source_path") or chunk.get("source") or "")
+        if source:
+            chunks_by_source.setdefault(source, []).append(chunk)
 
-    for src in sources:
-        raw_path = os.path.join(base_dir, src)
+    for source in sources:
+        source_path = Path(source)
+        if not source_path.is_absolute():
+            source_path = REPO_ROOT / source_path
         raw_text = ""
-        if os.path.exists(raw_path):
-            with open(raw_path, "r", encoding="utf-8") as f:
-                raw_text = f.read()
-        else:
-            # Fallback: last chunk by max chunk_index for that source
-            candidates = chunks_by_source.get(src, [])
+        if source_path.exists() and source_path.is_file():
+            try:
+                raw_text = source_path.read_text(encoding="utf-8")
+            except (OSError, UnicodeError):
+                raw_text = ""
+        if not raw_text:
+            candidates = chunks_by_source.get(source, [])
             if candidates:
-                last_chunk = max(candidates, key=lambda d: int(d.get("chunk_index", -1)))
-                raw_text = last_chunk.get("text", "")
+                last_chunk = max(candidates, key=lambda item: int(item.get("chunk_index", -1)))
+                raw_text = str(last_chunk.get("text", ""))
 
-        last_para = _last_paragraph(raw_text)
-        last_10 = _last_words(raw_text, 10)
-        lines.append(f"File: {src}")
-        if last_para:
-            lines.append(f"Last paragraph: {last_para}")
-        else:
-            lines.append("Last paragraph: (no content found)")
-        if last_10:
-            lines.append(f"Last 10 words: {last_10}")
-        else:
-            lines.append("Last 10 words: (no content found)")
-        lines.append("")
-
+        lines.extend(
+            (
+                f"File: {source}",
+                f"Last paragraph: {_last_paragraph(raw_text) or '(no content found)'}",
+                f"Last 10 words: {_last_words(raw_text, 10) or '(no content found)'}",
+                "",
+            )
+        )
     return "\n".join(lines).strip()
 
-# Streamlit UI
+
 st.set_page_config(page_title="Amir Exir's ERCOT Planning Guides AI Assistant", page_icon="⚡")
 st.markdown(HIDE_STREAMLIT_UI, unsafe_allow_html=True)
 st.title("Ask Amir Exir's ERCOT Planning Guides AI Assistant")
 
-# Load data and embeddings once
 with st.spinner("Loading planning guide embeddings..."):
-    chunks_path = "chatbot_ercot/ercot_planning_chunks.json"
-    embeddings_path = "chatbot_ercot/ercot_planning_embeddings.npy"
-    chunks_mtime = os.path.getmtime(chunks_path) if os.path.exists(chunks_path) else 0.0
-    embeddings_mtime = os.path.getmtime(embeddings_path) if os.path.exists(embeddings_path) else 0.0
-    chunks, embeddings = load_ercot_chunks_and_embeddings(chunks_path, embeddings_path, chunks_mtime, embeddings_mtime)
-
+    rag_index = load_planning_index((*index_state(), *_legacy_state()))
+chunks = rag_index.chunks
 sources = get_loaded_sources(chunks)
-with st.sidebar:
-    st.markdown("### Loaded planning guide parts")
-    if sources:
-        for s in sources:
-            st.markdown(f"- {s}")
-    else:
-        st.markdown("No sources found in chunks file.")
 
-# Initialize chat
+with st.sidebar:
+    st.markdown("### Loaded planning sources")
+    st.caption(f"Generation: {rag_index.generation_id or 'legacy fallback'}")
+    for source in sources:
+        st.markdown(f"- {source}")
+    if not sources:
+        st.markdown("No planning sources are available.")
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Show chat history
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).markdown(msg["content"])
+for message in st.session_state.messages:
+    st.chat_message(message["role"]).markdown(message["content"])
 
-# Chat input
 if prompt := st.chat_input("Ask about ERCOT planning guides..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # Handle visibility/meta questions without calling the LLM.
     if is_meta_visibility_question(prompt):
-        if sources:
-            meta_answer = (
-                "I can access the planning guide content that has been embedded and loaded into this app.\n\n"
-                "These files are currently loaded:\n"
-                + "\n".join([f"- {s}" for s in sources])
-            )
-        else:
-            meta_answer = "I can’t determine which planning guide files are loaded (no sources found in the chunks file)."
-
-        st.chat_message("assistant").markdown(meta_answer)
-        st.session_state.messages.append({"role": "assistant", "content": meta_answer})
+        answer = (
+            "These planning sources are currently indexed:\n\n"
+            + "\n".join(f"- {source}" for source in sources)
+            if sources
+            else "No planning sources are currently indexed."
+        )
+        st.chat_message("assistant").markdown(answer)
+        st.session_state.messages.append({"role": "assistant", "content": answer})
         st.stop()
 
-    # Handle "last thing you can read" questions deterministically.
     if is_last_read_question(prompt):
-        last_answer = build_last_read_answer(chunks, sources)
-        st.chat_message("assistant").markdown(last_answer)
-        st.session_state.messages.append({"role": "assistant", "content": last_answer})
+        answer = build_last_read_answer(chunks, sources)
+        st.chat_message("assistant").markdown(answer)
+        st.session_state.messages.append({"role": "assistant", "content": answer})
         st.stop()
 
     with st.spinner("Thinking..."):
-        top_chunks = find_top_matches(prompt, chunks, embeddings, k=5)
-
-        context_blocks = []
-        for c in top_chunks:
-            context_blocks.append(
-                f"Filename: {c.get('source', 'unknown')}\n\n{c.get('text', '')}"
-            )
-
-        context_text = "\n\n---\n\n".join(context_blocks)
-
+        try:
+            matches = retrieve_chunks(prompt, rag_index, top_k=5)
+        except Exception as exc:
+            st.error(f"Retrieval failed: {exc}")
+            st.stop()
+        context = format_context(matches, max_words=12000)
         system_prompt = {
             "role": "system",
             "content": f"""
-You are an expert assistant on ERCOT's planning guides.
-Only use the following documentation to answer the question:
+You are an expert assistant on ERCOT's Planning Guides. Answer only from the
+cited documentation below. Do not guess or use outside knowledge. If the answer
+is not explicitly present, respond exactly: "I couldn’t find that in the
+documentation." Preserve relevant citations in the answer.
 
 ---
-{context_text}
+{context}
 ---
-Instructions:
-- Stay factual and grounded strictly in the provided content.
-- Do NOT guess, assume, or rely on outside knowledge.
-- If the answer is not explicitly found in the document, respond exactly:
-  "I couldn’t find that in the documentation."
-
-Formatting requirements (MANDATORY):
-- Write in clear, well-spaced paragraphs.
-- Use a short introductory sentence before any list.
-- Use bullet points or numbered lists when presenting multiple items.
-- Do NOT combine headings and content into a single sentence.
-- Ensure readability suitable for a technical ERCOT planning audience.
-"""
+""",
         }
-
-        messages = [system_prompt] + st.session_state.messages
-
-        response = client.responses.create(
+        response = get_openai_client().responses.create(
             model="gpt-5.2",
             reasoning={"effort": "high"},
-            input=messages,
-            max_output_tokens=1000
+            input=[system_prompt] + st.session_state.messages,
+            max_output_tokens=1000,
         )
-
-        bot_msg = response.output_text
-        st.chat_message("assistant").markdown(bot_msg)
-        st.session_state.messages.append(
-            {"role": "assistant", "content": bot_msg}
-        )
+        bot_message = response.output_text.rstrip() + format_source_list(matches)
+        st.chat_message("assistant").markdown(bot_message)
+        st.session_state.messages.append({"role": "assistant", "content": bot_message})

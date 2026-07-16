@@ -156,7 +156,16 @@ This repo also supports a news pipeline for:
    - `nogrr_`
    - `pgrr_`
 3. The dashboard will automatically show the latest file for each category.
-4. The Telegram workflow script can send a digest when a new file appears.
+4. Run a path-scoped RAG update after the file is durable if the producer does
+   not already invoke it:
+   ```bash
+   python -m ERCOTAPI.rag_ingestion update --path ERCOTAPI/news_summaries
+   ```
+5. The Telegram workflow script can send a digest when a new file appears.
+
+Existing summaries in `ERCOTAPI/market_agent/` are also indexed as generated,
+lower-trust `news`/`market` content. Do not point ingestion at the whole
+`ERCOTAPI/` directory; use one of the explicitly configured generated roots.
 
 ### Telegram Secrets
 
@@ -182,7 +191,12 @@ ERCOT_NEWS_SEND_NO_UPDATES = "false"
 python ercot_news_workflow.py
 ```
 
-If you prefer n8n, call the script from a command node or reuse the same file naming convention when writing summaries to GitHub.
+If you prefer n8n, call the script from a command node or reuse the same file
+naming convention. Writing a summary only to GitHub's remote
+`generated-output` branch does not update a local RAG store: first sync or check
+out the file into a configured generated directory, then invoke the path-scoped
+update. Hosted chatbot deployments likewise need access to the published store
+through shared persistent storage or a deployment artifact.
 
 ## ERCOT Document Monitor
 
@@ -193,11 +207,19 @@ You can also monitor ERCOT committee and market-rule pages directly for newly po
 The watcher reads `ERCOTAPI/ercot_links` with one entry per line:
 
 ```txt
-NOGRR = https://www.ercot.com/mktrules/issues/nogrr
-PGRR = https://www.ercot.com/mktrules/issues/pgrr
+NPRR = https://www.ercot.com/mktrules/issues/reports/nprr
+NOGRR = https://www.ercot.com/mktrules/issues/reports/nogrr
+PGRR = https://www.ercot.com/mktrules/issues/reports/pgrr
+OBDRR = https://www.ercot.com/mktrules/issues/reports/obdrr
+SCR = https://www.ercot.com/mktrules/issues/reports/scr
+PROTOCOLS = https://www.ercot.com/mktrules/nprotocols/current
+PLANNING GUIDE = https://www.ercot.com/mktrules/guides/planning/current
+OPERATING GUIDE = https://www.ercot.com/mktrules/guides/noperating/current
+MARKET NOTICES = https://www.ercot.com/services/comm/mkt_notices/archives
+PUBLIC NOTICES = https://www.ercot.com/services/comm/mkt_notices/notices
 SSWG = https://www.ercot.com/committees/ros/sswg
 DWG = https://www.ercot.com/committees/ros/dwg
-RPG = http://ercot.com/committees/other/rpg
+RPG = https://www.ercot.com/committees/other/rpg
 RTP = https://www.ercot.com/mp/data-products/data-product-details?id=pg7-048-m
 LLWG = https://www.ercot.com/committees/tac/llwg
 RIWG = https://www.ercot.com/committees/other/riwg
@@ -232,12 +254,42 @@ If `ERCOT_LINK_SEND_TELEGRAM=true`, the script sends the Telegram message itself
 For n8n, the simplest pattern is:
 
 1. `Schedule Trigger`
-2. `Execute Command` running `python /path/to/ERCOTAPI/ercot_link_monitor.py`
+2. `Execute Command` running `/path/to/repo/scripts/run_ercot_link_monitor.sh`
 3. `Code` node: parse the JSON output and check `has_updates`
 4. `IF` node: only continue when `has_updates === true`
 5. `Telegram` node: send `telegram_text`
 
-The monitor keeps local state in `ERCOTAPI/.ercot_link_state.json`, so each link is only sent once unless the state file is deleted.
+For a relocated checkout, set `ERCOT_REPO_ROOT`; the launcher also accepts
+`ERCOT_MONITOR_PYTHON` and can read the OpenAI key from the macOS Keychain
+without placing it in the workflow JSON.
+
+The monitor keeps local URL state in `ERCOTAPI/.ercot_link_state.json`. It also
+archives official documents under `ERCOTAPI/NEWS/official/` using their SHA-256,
+writes provenance sidecars, follows issue-detail attachments, and invokes the
+central incremental RAG pipeline over the durable archive after each scan.
+Unchanged hashes reuse vectors; the complete archive scope also repairs prior
+errors and reconciles removals. Known URLs are rechecked so content replaced at
+the same URL is detected without duplicate chunks.
+
+To bound work on large report pages, the monitor considers the newest 100
+numeric revision candidates and rechecks at most 10 already-known candidates
+per source on each run. Override those defaults with
+`ERCOT_LINK_REPORT_WINDOW` and `ERCOT_LINK_MAX_KNOWN_RECHECKS_PER_SOURCE`;
+`ERCOT_LINK_MAX_ITEMS_PER_SOURCE` controls the unseen backlog processed per run.
+`ERCOT_LINK_MAX_UNSEEN_ATTEMPTS_PER_SOURCE` controls how far the monitor looks
+past failed links, and `ERCOT_LINK_MAX_RESPONSE_BYTES` caps each streamed
+archive response (50 MiB by default). Nested attachments rotate across parent
+pages and are capped at 20 attempts per source per run; override that bound with
+`ERCOT_LINK_MAX_NESTED_ITEMS_PER_SOURCE`.
+
+The active source list includes revision requests (NPRR, PGRR, NOGRR, OBDRR,
+and SCR), current Protocols, current Planning and Operating Guides, Market and
+Public Notices, and the existing ERCOT working-group sources.
+
+Set `ERCOT_RAG_AUTO_INGEST=false` to archive without running embeddings, or
+`ERCOT_OFFICIAL_DOCUMENT_DIR=/path/to/archive` to relocate the archive. See
+[RAG_INGESTION.md](RAG_INGESTION.md) for the manifest/index layout, routing,
+manual update/status/rebuild commands, and recovery procedure.
 
 ## License
 

@@ -1,8 +1,16 @@
-NOGRR = https://www.ercot.com/mktrules/issues/nogrr
-PGRR = https://www.ercot.com/mktrules/issues/pgrr
+NPRR = https://www.ercot.com/mktrules/issues/reports/nprr
+NOGRR = https://www.ercot.com/mktrules/issues/reports/nogrr
+PGRR = https://www.ercot.com/mktrules/issues/reports/pgrr
+OBDRR = https://www.ercot.com/mktrules/issues/reports/obdrr
+SCR = https://www.ercot.com/mktrules/issues/reports/scr
+PROTOCOLS = https://www.ercot.com/mktrules/nprotocols/current
+PLANNING GUIDE = https://www.ercot.com/mktrules/guides/planning/current
+OPERATING GUIDE = https://www.ercot.com/mktrules/guides/noperating/current
+MARKET NOTICES = https://www.ercot.com/services/comm/mkt_notices/archives
+PUBLIC NOTICES = https://www.ercot.com/services/comm/mkt_notices/notices
 SSWG = https://www.ercot.com/committees/ros/sswg
 DWG = https://www.ercot.com/committees/ros/dwg
-RPG = http://ercot.com/committees/other/rpg
+RPG = https://www.ercot.com/committees/other/rpg
 RTP = https://www.ercot.com/mp/data-products/data-product-details?id=pg7-048-m
 LLWG = https://www.ercot.com/committees/tac/llwg
 RIWG = https://www.ercot.com/committees/other/riwg

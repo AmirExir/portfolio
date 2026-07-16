@@ -11,6 +11,11 @@ build/
 develop-eggs/
 dist/
 downloads/
+.rag_store/
+.rag_index/
+NEWS/
+.ercot_link_state.json
+.ercot_news_state.json
 eggs/
 .eggs/
 lib/
@@ -25,6 +30,8 @@ wheels/
 
 # Streamlit
 .streamlit/secrets.toml
+.streamlit/secrets.toml.*
+.streamlit/*.save
 
 # Environment variables
 .env

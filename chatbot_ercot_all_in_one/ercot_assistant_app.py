@@ -1,194 +1,143 @@
-import streamlit as st
-import os
-import json
-import openai
-import re
-from openai import OpenAI
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
-import time
+"""Combined ERCOT Streamlit assistant using the central RAG collections."""
 
-# === Safe OpenAI wrapper ===
+from __future__ import annotations
+
+import os
+import sys
+import time
+from pathlib import Path
+
+import openai
+import streamlit as st
+from openai import OpenAI
+
+try:
+    from ERCOTAPI.rag_ingestion.retrieval import (
+        format_context,
+        format_source_list,
+        index_state,
+        load_index,
+        retrieve_chunks,
+    )
+except ModuleNotFoundError as exc:
+    if exc.name != "ERCOTAPI":
+        raise
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from ERCOTAPI.rag_ingestion.retrieval import (
+        format_context,
+        format_source_list,
+        index_state,
+        load_index,
+        retrieve_chunks,
+    )
+
+
+BASE_DIR = Path(__file__).resolve().parent
+LEGACY_CHUNKS = BASE_DIR / "ercot_chunks_cached.json"
+LEGACY_EMBEDDINGS = BASE_DIR / "ercot_embeddings.npy"
+
+
+def get_openai_client() -> OpenAI:
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not configured")
+    return OpenAI(api_key=api_key)
+
+
 def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
     retries = 0
     while retries < max_retries:
         try:
             return api_function(**kwargs)
         except openai.RateLimitError:
-            wait_time = backoff_factor ** retries
-            st.warning(f" Rate limit hit. Retrying in {wait_time} seconds...")
+            wait_time = backoff_factor**retries
+            st.warning(f"Rate limit hit. Retrying in {wait_time} seconds...")
             time.sleep(wait_time)
             retries += 1
-        except Exception as e:
-            st.error(f" API call failed: {e}")
+        except Exception as exc:
+            st.error(f"API call failed: {exc}")
             break
     return None
 
-# === Streamlit page config ===
+
+def _legacy_state() -> tuple[int, int]:
+    return (
+        LEGACY_CHUNKS.stat().st_mtime_ns if LEGACY_CHUNKS.exists() else 0,
+        LEGACY_EMBEDDINGS.stat().st_mtime_ns if LEGACY_EMBEDDINGS.exists() else 0,
+    )
+
+
+@st.cache_resource(show_spinner=False, max_entries=1)
+def load_ercot_index(cache_key: tuple[object, ...]):
+    del cache_key
+    return load_index(
+        "general",
+        legacy_chunks_path=LEGACY_CHUNKS,
+        legacy_embeddings_path=LEGACY_EMBEDDINGS,
+        legacy_embedding_model="text-embedding-3-large",
+    )
+
+
 st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
-st.title(" Ask Amir Exir's DWG, SSWG, Nodal Protocols, Planning Guides, Resource Integration ERCOT AI Assistant")
+st.title("Ask Amir Exir's DWG, SSWG, Nodal Protocols, Planning Guides, Resource Integration ERCOT AI Assistant")
 
-# === Load API key ===
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-# === Load ERCOT chunks and embeddings ===
-@st.cache_data(show_spinner=False)
-def load_ercot_chunks_and_embeddings(chunks_mtime, embeddings_mtime):
-    base_path = os.path.dirname(__file__)
-    cached_emb = os.path.join(base_path, "ercot_embeddings.npy")
-    cached_chunks = os.path.join(base_path, "ercot_chunks_cached.json")
-
-    if os.path.exists(cached_emb) and os.path.exists(cached_chunks):
-        with open(cached_chunks, "r", encoding="utf-8") as f:
-            chunks = json.load(f)
-        embeddings = np.load(cached_emb)
-        return list(chunks), embeddings
-    else:
-        st.error(" Missing cached ERCOT embeddings or chunks.")
-        raise FileNotFoundError("Missing ERCOT files.")
-
-base_path = os.path.dirname(__file__)
-json_path = os.path.join(base_path, "ercot_chunks_cached.json")
-npy_path = os.path.join(base_path, "ercot_embeddings.npy")
-chunks, embeddings = load_ercot_chunks_and_embeddings(
-    os.path.getmtime(json_path) if os.path.exists(json_path) else 0,
-    os.path.getmtime(npy_path) if os.path.exists(npy_path) else 0,
-)
-
-if len(chunks) != len(embeddings):
-    st.error(f"ERCOT cache mismatch: {len(chunks)} chunks vs {len(embeddings)} embeddings.")
-    st.stop()
+with st.spinner("Loading the ERCOT knowledge index..."):
+    rag_index = load_ercot_index((*index_state(), *_legacy_state()))
 
 with st.sidebar:
-    st.caption(f"Loaded {len(chunks)} ERCOT chunks")
+    st.caption(f"Loaded {len(rag_index.chunks)} ERCOT chunks")
+    st.caption(
+        f"Index: {rag_index.generation_id or 'legacy fallback'} ({rag_index.source})"
+    )
     if st.button("Clear chat"):
         st.session_state.messages = []
         st.rerun()
 
-# === Embed user query ===
-def embed_query(query: str):
-    response = safe_openai_call(
-        client.embeddings.create,
-        model="text-embedding-3-large",
-        input=query
-    )
-    return response.data[0].embedding if response else []
-
-def normalize_query(query: str) -> str:
-    return re.sub(r"\bplannig\b", "planning", query, flags=re.IGNORECASE)
-
-
-def query_terms(query: str) -> set[str]:
-    stop_words = {
-        "what", "where", "when", "why", "how", "the", "and", "for", "with", "from",
-        "that", "this", "ercot", "guide", "section", "does", "mean", "about",
-    }
-    return {
-        token
-        for token in re.findall(r"[a-z0-9]+(?:\.[0-9]+)*", query.lower())
-        if len(token) > 2 and token not in stop_words
-    }
-
-
-def lexical_score(query: str, chunk: dict) -> float:
-    text = chunk.get("text", "").lower()
-    query_lower = normalize_query(query).lower()
-    score = 0.0
-
-    terms = query_terms(query_lower)
-    if terms:
-        score += sum(1 for term in terms if term in text) / len(terms)
-
-    if "planning guide" in query_lower and "ercot planning guide" in text:
-        score += 1.0
-    if "section 9" in query_lower and re.search(r"(?m)^9\s+large load additions|section 9:\s+large load", text):
-        score += 1.4
-    if "large load" in text and "section 9" in query_lower:
-        score += 0.8
-    if "reserved" in text and "planning guide" in query_lower and "section 9" in query_lower:
-        score -= 1.0
-
-    return score
-
-
-# === Search top-k matching chunks ===
-def find_top_k_matches(query: str, chunks, embeddings, k=12):
-    query = normalize_query(query)
-    query_vec = embed_query(query)
-    if not query_vec:
-        st.error("Failed to embed query — try rephrasing your question.")
-        return []
-
-    query_embedding = np.array(query_vec).reshape(1, -1)
-
-    if query_embedding.shape[1] != embeddings.shape[1]:
-        st.error(f"Embedding dimension mismatch: {query_embedding.shape[1]} vs {embeddings.shape[1]}")
-        return []
-
-    scores = cosine_similarity(query_embedding, embeddings).flatten()
-    candidate_indices = scores.argsort()[-min(len(chunks), 100):][::-1]
-    ranked = []
-    for index in candidate_indices:
-        vector_score = float(scores[index])
-        ranked.append((vector_score + 0.15 * lexical_score(query, chunks[index]), index))
-    ranked.sort(reverse=True)
-    return [chunks[index] for _, index in ranked[:k]]
-
-# === Limit by token budget ===
-def limit_chunks_by_token_budget(chunks, max_input_tokens=100000):
-    total = 0
-    selected = []
-    for chunk in chunks:
-        token_count = len(chunk["text"].split())
-        if total + token_count > max_input_tokens:
-            break
-        selected.append(chunk)
-        total += token_count
-    return selected
-
-# === Streamlit chat state ===
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Show previous chat
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).markdown(msg["content"])
+for message in st.session_state.messages:
+    st.chat_message(message["role"]).markdown(message["content"])
 
-# === Chat input ===
-if prompt := st.chat_input("Ask a question about ERCOT DWG, SSWG,protocols, planning, or interconnection..."):
+if prompt := st.chat_input("Ask a question about ERCOT DWG, SSWG, protocols, planning, or interconnection..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=12)
-        trimmed_chunks = limit_chunks_by_token_budget(top_chunks)
-        combined_context = "\n\n---\n\n".join(chunk["text"] for chunk in trimmed_chunks)
+        try:
+            top_chunks = retrieve_chunks(prompt, rag_index, top_k=12)
+        except Exception as exc:
+            st.error(f"Retrieval failed: {exc}")
+            st.stop()
+        context = format_context(top_chunks, max_words=100000)
+        if not context:
+            st.error("No matching ERCOT documentation was found in the loaded index.")
+            st.stop()
 
         system_prompt = {
             "role": "system",
             "content": f"""
-        You are an ERCOT regulatory expert trained only on the following documents: ERCOT Nodal protocols, planning guides, interconnection handbook and QSA checklist, SSWG and DWG manuals and working group procedures.
+You are an ERCOT regulatory expert trained only on the supplied ERCOT documentation.
 
-        Answer the user's question **only using the text provided below**. 
-        - Do **not make up any information**.
-        - If the answer is **not explicitly stated**, say: "The documents do not contain that information."
-        - **Do not guess** or generate hypothetical information.
+Answer the user's question only using the cited context below. Do not make up
+information. If the answer is not explicitly stated, say: "The documents do
+not contain that information." Retain the supplied citations in your answer.
 
-        ---
-        {combined_context}
-        ---
-        """
+---
+{context}
+---
+""",
         }
-
-        messages = [system_prompt, {"role": "user", "content": prompt}]
-
-        response = client.responses.create(
+        client = get_openai_client()
+        response = safe_openai_call(
+            client.responses.create,
             model="gpt-5.2",
-            reasoning={"effort": "xhigh"},  # justified here
-            input=messages,
-            max_output_tokens=10000
+            reasoning={"effort": "xhigh"},
+            input=[system_prompt] + st.session_state.messages,
+            max_output_tokens=10000,
         )
 
-        bot_msg = response.output_text
-        st.chat_message("assistant").markdown(bot_msg)
-        st.session_state.messages.append({"role": "assistant", "content": bot_msg})
+    if response:
+        bot_message = response.output_text.rstrip() + format_source_list(top_chunks)
+        st.chat_message("assistant").markdown(bot_message)
+        st.session_state.messages.append({"role": "assistant", "content": bot_message})

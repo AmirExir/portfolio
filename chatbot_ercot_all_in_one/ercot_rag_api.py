@@ -1,229 +1,381 @@
-import json
+"""FastAPI endpoint backed by the atomic central ERCOT RAG index."""
+
+from __future__ import annotations
+
 import os
 import re
-from typing import List
+import sys
+import threading
+from pathlib import Path
+from typing import List, Literal
 
-import numpy as np
 from fastapi import FastAPI, HTTPException
-from openai import OpenAI
 from pydantic import BaseModel, Field
-from sklearn.metrics.pairwise import cosine_similarity
+
+try:
+    from ERCOTAPI.rag_ingestion.config import default_config
+    from ERCOTAPI.rag_ingestion.retrieval import (
+        LoadedIndex,
+        format_context,
+        index_state,
+        load_index,
+        retrieve_chunks,
+    )
+    from ERCOTAPI.rag_ingestion.store import load_manifest
+except ModuleNotFoundError as exc:  # Supports launching from this app directory.
+    if exc.name != "ERCOTAPI":
+        raise
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from ERCOTAPI.rag_ingestion.config import default_config
+    from ERCOTAPI.rag_ingestion.retrieval import (
+        LoadedIndex,
+        format_context,
+        index_state,
+        load_index,
+        retrieve_chunks,
+    )
+    from ERCOTAPI.rag_ingestion.store import load_manifest
 
 
-BASE_DIR = os.path.dirname(__file__)
-CHUNKS_PATH = os.path.join(BASE_DIR, "ercot_chunks_cached.json")
-EMBEDDINGS_PATH = os.path.join(BASE_DIR, "ercot_embeddings.npy")
+BASE_DIR = Path(__file__).resolve().parent
+LEGACY_CHUNKS_PATH = BASE_DIR / "ercot_chunks_cached.json"
+LEGACY_EMBEDDINGS_PATH = BASE_DIR / "ercot_embeddings.npy"
+CollectionName = Literal[
+    "general",
+    "planning",
+    "protocols",
+    "operations",
+    "resource_integration",
+    "dwg_sswg",
+    "market",
+    "news",
+]
+COLLECTION_NAMES = (
+    "general",
+    "planning",
+    "protocols",
+    "operations",
+    "resource_integration",
+    "dwg_sswg",
+    "market",
+    "news",
+)
 
 
 class RetrieveRequest(BaseModel):
     question: str = Field(..., min_length=2)
     top_k: int = Field(default=8, ge=1, le=30)
     max_context_tokens: int = Field(default=12000, ge=1000, le=100000)
+    collection: CollectionName = "general"
+    include_generated: bool = True
+    prefer_authoritative: bool = True
+
+
+class SourceRecord(BaseModel):
+    chunk_id: str
+    citation: str
+    title: str | None = None
+    source_path: str | None = None
+    source_authority: str | None = None
+    source_kind: str | None = None
+    is_generated: bool = False
+    original_url: str | None = None
+    url_aliases: List[str] = Field(default_factory=list)
+    score: float
 
 
 class RetrieveResponse(BaseModel):
     question: str
     context: str
     used_chunks: int
+    sources: List[SourceRecord] = Field(default_factory=list)
+    collection: str = "general"
+    generation: str | None = None
 
 
-app = FastAPI(title="ERCOT Retrieval API", version="1.0.0")
+app = FastAPI(title="ERCOT Retrieval API", version="2.0.0")
+
+INDEXES: dict[str, LoadedIndex] = {}
+DATA_STATE: tuple[object, ...] = ()
+LOAD_ERROR = ""
+INDEX_LOCK = threading.RLock()
 
 
-def _file_state() -> tuple[float, float]:
+def _legacy_state() -> tuple[int, int]:
     return (
-        os.path.getmtime(CHUNKS_PATH) if os.path.exists(CHUNKS_PATH) else 0,
-        os.path.getmtime(EMBEDDINGS_PATH) if os.path.exists(EMBEDDINGS_PATH) else 0,
+        LEGACY_CHUNKS_PATH.stat().st_mtime_ns if LEGACY_CHUNKS_PATH.exists() else 0,
+        LEGACY_EMBEDDINGS_PATH.stat().st_mtime_ns if LEGACY_EMBEDDINGS_PATH.exists() else 0,
     )
+
+
+def _file_state() -> tuple[object, ...]:
+    return (*index_state(), *_legacy_state())
 
 
 def _normalize_question(question: str) -> str:
     question = re.sub(r"\bplannig\b", "planning", question, flags=re.IGNORECASE)
-    question = re.sub(r"\bplaning\b", "planning", question, flags=re.IGNORECASE)
-    return question
+    return re.sub(r"\bplaning\b", "planning", question, flags=re.IGNORECASE)
 
 
-def _load_data() -> tuple[list, np.ndarray]:
-    if not os.path.exists(CHUNKS_PATH) or not os.path.exists(EMBEDDINGS_PATH):
-        raise RuntimeError("Missing ERCOT chunks or embeddings files.")
-
-    with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
-        chunks = json.load(f)
-
-    embeddings = np.load(EMBEDDINGS_PATH)
-    if len(chunks) != int(embeddings.shape[0]):
-        raise RuntimeError(f"Chunk/embedding mismatch: {len(chunks)} chunks vs {embeddings.shape[0]} embeddings.")
-    return chunks, embeddings
+def _load_collection(collection: str) -> LoadedIndex:
+    return load_index(
+        collection,
+        legacy_chunks_path=LEGACY_CHUNKS_PATH,
+        legacy_embeddings_path=LEGACY_EMBEDDINGS_PATH,
+        legacy_embedding_model="text-embedding-3-large",
+    )
 
 
-try:
-    CHUNKS, EMBEDDINGS = _load_data()
-except Exception as exc:
-    CHUNKS, EMBEDDINGS = [], np.array([])
-    LOAD_ERROR = str(exc)
-else:
-    LOAD_ERROR = ""
-DATA_STATE = _file_state()
+def _get_index(collection: str) -> LoadedIndex:
+    """Hot-reload only after a complete atomic CURRENT switch."""
 
-
-def _refresh_data_if_needed() -> None:
-    global CHUNKS, EMBEDDINGS, LOAD_ERROR, DATA_STATE
-
-    state = _file_state()
-    if state == DATA_STATE:
-        return
-
-    try:
-        CHUNKS, EMBEDDINGS = _load_data()
-    except Exception as exc:
-        LOAD_ERROR = str(exc)
-    else:
-        LOAD_ERROR = ""
+    global DATA_STATE, LOAD_ERROR, INDEXES
+    with INDEX_LOCK:
+        try:
+            state = _file_state()
+            if state == DATA_STATE and collection in INDEXES:
+                return INDEXES[collection]
+            loaded = _load_collection(collection)
+        except Exception as exc:
+            LOAD_ERROR = str(exc)
+            # A request can continue on the prior in-memory snapshot if a
+            # pointer or newly published generation is temporarily unreadable.
+            if collection in INDEXES:
+                return INDEXES[collection]
+            raise
+        if state != DATA_STATE:
+            INDEXES = {}
+        INDEXES[collection] = loaded
         DATA_STATE = state
+        LOAD_ERROR = ""
+        return loaded
 
 
-def _get_client() -> OpenAI:
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        raise RuntimeError("OPENAI_API_KEY is not set for retrieval embeddings.")
-    return OpenAI(api_key=api_key)
+def _without_generated(index: LoadedIndex) -> LoadedIndex:
+    rows = [position for position, chunk in enumerate(index.chunks) if not chunk.get("is_generated")]
+    return LoadedIndex(
+        chunks=[index.chunks[position] for position in rows],
+        embeddings=index.embeddings[rows],
+        embedding_model=index.embedding_model,
+        generation_id=index.generation_id,
+        source=index.source,
+        collections=index.collections,
+        state_token=index.state_token,
+    )
 
 
-def _embed_query(question: str) -> np.ndarray:
-    client = _get_client()
-    resp = client.embeddings.create(model="text-embedding-3-large", input=_normalize_question(question))
-    return np.array(resp.data[0].embedding).reshape(1, -1)
+def _source_record(chunk: dict) -> SourceRecord:
+    return SourceRecord(
+        chunk_id=str(chunk.get("chunk_id") or chunk.get("id") or ""),
+        citation=str(chunk.get("citation") or ""),
+        title=str(chunk.get("title")) if chunk.get("title") else None,
+        source_path=str(chunk.get("source_path") or chunk.get("source"))
+        if chunk.get("source_path") or chunk.get("source")
+        else None,
+        source_authority=str(chunk.get("source_authority"))
+        if chunk.get("source_authority")
+        else None,
+        source_kind=str(chunk.get("source_kind")) if chunk.get("source_kind") else None,
+        is_generated=bool(chunk.get("is_generated")),
+        original_url=str(chunk.get("original_url")) if chunk.get("original_url") else None,
+        url_aliases=[str(value) for value in (chunk.get("url_aliases") or []) if value],
+        score=float(chunk.get("retrieval_score", 0.0)),
+    )
 
 
-def _limit_chunks_by_word_budget(chunks: List[dict], max_context_tokens: int) -> List[dict]:
-    total = 0
-    selected = []
-    for chunk in chunks:
-        text = chunk.get("text", "")
-        word_count = len(text.split())
-        if total + word_count > max_context_tokens:
+def _limit_context(chunks: list[dict], max_words: int) -> list[dict]:
+    limited: list[dict] = []
+    remaining = max_words
+    for original in chunks:
+        if remaining <= 0:
             break
-        selected.append(chunk)
-        total += word_count
-    return selected
+        chunk = dict(original)
+        words = str(chunk.get("text", "")).split()
+        if len(words) > remaining:
+            chunk["text"] = " ".join(words[:remaining])
+            words = words[:remaining]
+        if words:
+            limited.append(chunk)
+            remaining -= len(words)
+    return limited
 
 
-def _build_context(chunks: List[dict]) -> str:
-    return "\n\n---\n\n".join(c.get("text", "") for c in chunks)
+def _manifest_collection_counts(generation_id: str) -> tuple[str, dict[str, int]]:
+    """Read collection readiness from manifest JSON without copying vectors."""
 
-
-def _query_terms(question: str) -> set[str]:
-    question = _normalize_question(question)
-    stop_words = {
-        "what", "where", "when", "why", "how", "the", "and", "for", "with", "from",
-        "that", "this", "ercot", "guide", "section", "does", "mean", "about",
-    }
-    return {
-        token
-        for token in re.findall(r"[a-z0-9]+(?:\.[0-9]+)*", question.lower())
-        if len(token) > 2 and token not in stop_words
-    }
-
-
-def _lexical_score(question: str, chunk: dict) -> float:
-    text = str(chunk.get("text", "")).lower()
-    if not text:
-        return 0.0
-
-    score = 0.0
-    terms = _query_terms(question)
-    if terms:
-        matched = sum(1 for term in terms if term in text)
-        score += matched / max(len(terms), 1)
-
-    question_lower = _normalize_question(question).lower()
-    phrase_boosts = {
-        "nodal operating guide": ["nodal operating guide", "operating guide"],
-        "operating guide": ["nodal operating guide", "operating guide", "operating guides"],
-        "planning guide": ["planning guide", "ercot planning guide"],
-        "nodal protocol": ["nodal protocol", "nodal protocols"],
-        "resource interconnection": ["resource interconnection", "resource interconnection handbook"],
-        "generator interconnection": ["generator interconnection", "generation interconnection", "generation interconnection process"],
-        "generation interconnection": ["generator interconnection", "generation interconnection", "generation interconnection process"],
-        "interconnection process": ["interconnection process", "generation interconnection process", "gim", "ginr"],
-        "full interconnection study": ["full interconnection study", "fis"],
-        "ginr": ["ginr", "generation interconnection or change request"],
-        "fis": ["fis", "full interconnection study"],
-    }
-    for query_phrase, text_phrases in phrase_boosts.items():
-        if query_phrase in question_lower and any(text_phrase in text for text_phrase in text_phrases):
-            score += 0.8
-
-    if "planning guide" in question_lower and "section 9" in question_lower:
-        if re.search(r"(?m)^9\s+large load additions|section 9:\s+large load", text):
-            score += 2.2
-        if "9.1\tintroduction" in text and "this section defines the requirements" in text:
-            score += 6.0
-        if "table of contents" in text:
-            score -= 2.0
-        if "large load" in text:
-            score += 0.8
-        if "reserved" in text and "ercot planning guide" in text:
-            score -= 1.5
-
-    section_matches = re.findall(r"(?:section\s*)?(\d+(?:\.\d+)*)", question_lower)
-    for section in section_matches:
-        if re.search(rf"(?<![\d.]){re.escape(section)}(?![\d.])", text):
-            score += 0.6
-
-    return score
-
-
-def _rank_chunks(question: str, scores: np.ndarray, top_k: int) -> List[dict]:
-    candidate_count = len(CHUNKS)
-    candidate_indices = scores.argsort()[-candidate_count:][::-1]
-    ranked = []
-    for index in candidate_indices:
-        vector_score = float(scores[index])
-        lexical_score = _lexical_score(question, CHUNKS[index])
-        ranked.append((vector_score + 0.12 * lexical_score, vector_score, lexical_score, index))
-    ranked.sort(key=lambda item: (-item[0], -item[1], -item[2], item[3]))
-    return [CHUNKS[index] for _, _, _, index in ranked[:top_k]]
+    loaded = load_manifest(default_config().index_dir, generation_id)
+    if loaded is None:
+        raise RuntimeError("No active central ERCOT RAG manifest")
+    generation_id, manifest = loaded
+    counts = {name: 0 for name in COLLECTION_NAMES}
+    content = manifest.get("content", {})
+    if not isinstance(content, dict):
+        raise RuntimeError("Active ERCOT RAG manifest has invalid content metadata")
+    for record in content.values():
+        if not isinstance(record, dict):
+            continue
+        chunk_count = len(record.get("chunk_ids", []))
+        for collection in record.get("collections", []):
+            name = str(collection)
+            if name in counts:
+                counts[name] += chunk_count
+    return generation_id, counts
 
 
 @app.get("/health")
 def health() -> dict:
-    _refresh_data_if_needed()
+    collection_status: dict[str, dict[str, object]] = {}
+    indexes: dict[str, LoadedIndex] = {}
+    try:
+        general = _get_index("general")
+    except Exception as exc:
+        general = None
+        collection_status["general"] = {
+            "ready": False,
+            "chunks_loaded": 0,
+            "index_source": None,
+            "generation": None,
+            "error": str(exc),
+        }
+
+    # A central manifest already records chunk IDs and collection routing. Read
+    # that small JSON once instead of loading/copying the full embedding matrix
+    # eight times merely to answer a health probe. Legacy fallback is small and
+    # retains its explicit per-source filtering below.
+    if general is not None and general.source == "central":
+        try:
+            if not general.generation_id:
+                raise RuntimeError("Central ERCOT index is missing its generation ID")
+            generation_id, counts = _manifest_collection_counts(general.generation_id)
+            for collection in COLLECTION_NAMES:
+                count = counts.get(collection, 0)
+                collection_status[collection] = {
+                    "ready": count > 0,
+                    "chunks_loaded": count,
+                    "index_source": "central",
+                    "generation": generation_id,
+                    "error": None,
+                }
+            indexes["general"] = general
+        except Exception as exc:
+            collection_status = {
+                collection: {
+                    "ready": collection == "general" and general.ready,
+                    "chunks_loaded": len(general.chunks) if collection == "general" else 0,
+                    "index_source": "central" if collection == "general" else None,
+                    "generation": general.generation_id if collection == "general" else None,
+                    "error": None if collection == "general" else str(exc),
+                }
+                for collection in COLLECTION_NAMES
+            }
+            indexes["general"] = general
+    else:
+        collections_to_load = COLLECTION_NAMES if general is not None else COLLECTION_NAMES[1:]
+        if general is not None:
+            indexes["general"] = general
+            collection_status["general"] = {
+                "ready": general.ready,
+                "chunks_loaded": len(general.chunks),
+                "index_source": general.source,
+                "generation": general.generation_id,
+                "error": None,
+            }
+        for collection in collections_to_load:
+            if collection == "general" and general is not None:
+                continue
+            try:
+                loaded = _get_index(collection)
+                indexes[collection] = loaded
+                collection_status[collection] = {
+                    "ready": loaded.ready,
+                    "chunks_loaded": len(loaded.chunks),
+                    "index_source": loaded.source,
+                    "generation": loaded.generation_id,
+                    "error": None,
+                }
+            except Exception as exc:
+                collection_status[collection] = {
+                    "ready": False,
+                    "chunks_loaded": 0,
+                    "index_source": None,
+                    "generation": None,
+                    "error": str(exc),
+                }
+    index = indexes.get("general")
+    general_error = str(collection_status["general"].get("error") or "")
+    unavailable = [
+        name for name, status in collection_status.items() if not status["ready"]
+    ]
     return {
-        "ok": LOAD_ERROR == "",
-        "chunks_loaded": len(CHUNKS),
-        "embeddings_loaded": int(EMBEDDINGS.shape[0]) if EMBEDDINGS.size else 0,
-        "embedding_dim": int(EMBEDDINGS.shape[1]) if EMBEDDINGS.size else 0,
+        # Preserve the original general-corpus health meaning for existing
+        # consumers while exposing complete readiness for every advertised
+        # collection. A clean legacy-only checkout is therefore explicit
+        # about collections that require the central generation.
+        "ok": index is not None and index.ready and not general_error,
+        "degraded": bool(unavailable),
+        "all_collections_ready": not unavailable,
+        "unavailable_collections": unavailable,
+        "collections": collection_status,
+        "chunks_loaded": len(index.chunks) if index else 0,
+        "embeddings_loaded": int(index.embeddings.shape[0]) if index else 0,
+        "embedding_dim": int(index.embeddings.shape[1]) if index and index.embeddings.ndim == 2 else 0,
         "data_state": DATA_STATE,
-        "error": LOAD_ERROR,
+        "generation": index.generation_id if index else None,
+        "index_source": index.source if index else None,
+        "error": general_error,
     }
 
 
 @app.post("/retrieve", response_model=RetrieveResponse)
 def retrieve(payload: RetrieveRequest) -> RetrieveResponse:
     try:
-        _refresh_data_if_needed()
-        if LOAD_ERROR:
-            raise RuntimeError(LOAD_ERROR)
-        if EMBEDDINGS.size == 0:
-            raise RuntimeError("Embeddings are empty.")
-
-        query_vec = _embed_query(payload.question)
-        if query_vec.shape[1] != EMBEDDINGS.shape[1]:
-            raise RuntimeError(
-                f"Embedding dimension mismatch: {query_vec.shape[1]} vs {EMBEDDINGS.shape[1]}"
+        index = _get_index(payload.collection)
+        if not payload.include_generated:
+            index = _without_generated(index)
+        if not index.ready:
+            raise HTTPException(
+                status_code=503,
+                detail=(
+                    f"Collection {payload.collection!r} is not ready; run the central "
+                    "ERCOT RAG ingestion update or rebuild command"
+                ),
             )
 
-        scores = cosine_similarity(query_vec, EMBEDDINGS).flatten()
-        top_chunks = _rank_chunks(payload.question, scores, payload.top_k)
-
-        limited = _limit_chunks_by_word_budget(top_chunks, payload.max_context_tokens)
-        context = _build_context(limited)
-
+        # Query embedding is the first OpenAI operation and occurs only here,
+        # never while importing or starting the API.
+        candidate_limit = (
+            len(index.chunks)
+            if not payload.prefer_authoritative
+            else min(len(index.chunks), max(payload.top_k, payload.top_k * 3))
+        )
+        candidates = retrieve_chunks(
+            _normalize_question(payload.question),
+            index,
+            top_k=candidate_limit,
+        )
+        if not payload.prefer_authoritative:
+            candidates.sort(key=lambda chunk: float(chunk.get("vector_score", 0.0)), reverse=True)
+            for chunk in candidates:
+                chunk["retrieval_score"] = float(chunk.get("vector_score", 0.0))
+        selected = _limit_context(candidates[: payload.top_k], payload.max_context_tokens)
+        context = format_context(selected)
         return RetrieveResponse(
             question=payload.question,
             context=context,
-            used_chunks=len(limited),
+            used_chunks=len(selected),
+            sources=[_source_record(chunk) for chunk in selected],
+            collection=payload.collection,
+            generation=index.generation_id,
         )
+    except HTTPException:
+        raise
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+# Load the disk snapshot for backward-compatible health metrics. This performs
+# no network request and never embeds source documents.
+try:
+    _get_index("general")
+except Exception as exc:  # The health endpoint reports startup data problems.
+    LOAD_ERROR = str(exc)
