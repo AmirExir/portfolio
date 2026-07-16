@@ -202,6 +202,11 @@ out the file into a configured generated directory, then invoke the path-scoped
 update. Hosted chatbot deployments likewise need access to the published store
 through shared persistent storage or a deployment artifact.
 
+For Telegram QA calls into the retriever API, set `ERCOT_RETRIEVER_API_URL` in
+your n8n environment. The local launcher now also accepts `ERCOT_RAG_API_HOST`
+and `ERCOT_RAG_API_PORT` so the API can bind to `0.0.0.0` when n8n runs in a
+container or on a different host.
+
 ## ERCOT Document Monitor
 
 You can also monitor ERCOT committee and market-rule pages directly for newly posted files or meeting-detail links.

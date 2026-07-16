@@ -19,6 +19,8 @@ ACCOUNT="${USER:-$(/usr/bin/id -un)}"
 export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin"
 export PYTHONPATH="$ERCOT_REPO_ROOT:$APP_DIR${PYTHONPATH:+:$PYTHONPATH}"
 export ERCOT_RAG_STORE="${ERCOT_RAG_STORE:-$ERCOT_REPO_ROOT/ERCOTAPI/.rag_store}"
+API_HOST="${ERCOT_RAG_API_HOST:-0.0.0.0}"
+API_PORT="${ERCOT_RAG_API_PORT:-8000}"
 
 if [[ ! -x "$PYTHON" ]]; then
   echo "ERCOT RAG Python is not executable: $PYTHON" >&2
@@ -45,4 +47,4 @@ if [[ -z "${OPENAI_API_KEY:-}" ]]; then
   exit 78
 fi
 
-exec "$PYTHON" -m uvicorn ercot_rag_api:app --host 127.0.0.1 --port 8000
+exec "$PYTHON" -m uvicorn ercot_rag_api:app --host "$API_HOST" --port "$API_PORT"
