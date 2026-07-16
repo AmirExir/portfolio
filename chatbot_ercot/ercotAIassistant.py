@@ -65,6 +65,7 @@ def load_planning_index(cache_key: tuple[object, ...]):
     del cache_key
     return load_collection(
         "planning",
+        allow_legacy=False,
         legacy_chunks_path=LEGACY_CHUNKS,
         legacy_embeddings_path=LEGACY_EMBEDDINGS,
         legacy_embedding_model="text-embedding-3-large",
@@ -160,7 +161,7 @@ sources = get_loaded_sources(chunks)
 
 with st.sidebar:
     st.markdown("### Loaded planning sources")
-    st.caption(f"Generation: {rag_index.generation_id or 'legacy fallback'}")
+    st.caption(f"Generation: {rag_index.generation_id}")
     for source in sources:
         st.markdown(f"- {source}")
     if not sources:

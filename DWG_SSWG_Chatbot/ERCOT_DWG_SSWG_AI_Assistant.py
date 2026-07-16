@@ -55,6 +55,7 @@ def load_dwg_sswg_index(cache_key: tuple[object, ...]):
     del cache_key
     return load_collection(
         "dwg_sswg",
+        allow_legacy=False,
         legacy_chunks_path=LEGACY_CHUNKS,
         legacy_embeddings_path=LEGACY_EMBEDDINGS,
         legacy_embedding_model="text-embedding-3-large",
@@ -85,7 +86,7 @@ valid_functions = extract_function_names(rag_index.chunks)
 
 with st.sidebar:
     st.caption(f"Loaded {len(rag_index.chunks)} DWG/SSWG chunks")
-    st.caption(f"Generation: {rag_index.generation_id or 'legacy fallback'}")
+    st.caption(f"Generation: {rag_index.generation_id}")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
