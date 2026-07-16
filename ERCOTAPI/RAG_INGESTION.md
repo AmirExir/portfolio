@@ -83,6 +83,9 @@ The default source roots are:
 
 - `chatbot_ercot_all_in_one/ercot_sources/` — canonical checked-in manuals.
 - `ERCOTAPI/NEWS/official/` — downloaded authoritative ERCOT material.
+- `chatbot_ercot/` — planning guide source texts.
+- `chatbot_ercot_nodalprotocols/` — nodal protocol source texts.
+- `DWG_SSWG_Chatbot/` — DWG/SSWG manual source texts.
 - Generated news and market-agent summaries are excluded from the shared RAG
   store.
 

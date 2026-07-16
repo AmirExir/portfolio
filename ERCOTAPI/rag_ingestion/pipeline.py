@@ -314,6 +314,12 @@ class IngestionPipeline:
                 continue
             except OSError:
                 continue
+            if any(part == "dwg_sswg_chunks" for part in relative_parts):
+                continue
+            if candidate.name == "placeholder.txt":
+                continue
+            if candidate.name.startswith("chunk") and candidate.suffix.lower() == ".txt":
+                continue
             if any(part.startswith(".") or part == "__pycache__" for part in relative_parts):
                 continue
             if candidate.name in self.config.ignored_names or candidate.name.endswith(SIDECAR_SUFFIX):

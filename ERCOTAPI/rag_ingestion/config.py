@@ -123,6 +123,30 @@ def default_config(
             default_source_kind="Official Document",
             default_collections=(Collection.GENERAL.value,),
         ),
+        SourceRoot(
+            name="planning_guides",
+            path=root / "chatbot_ercot",
+            source_authority="ERCOT",
+            is_generated=False,
+            default_source_kind="Planning Guide",
+            default_collections=(Collection.GENERAL.value, Collection.PLANNING.value),
+        ),
+        SourceRoot(
+            name="nodal_protocols",
+            path=root / "chatbot_ercot_nodalprotocols",
+            source_authority="ERCOT",
+            is_generated=False,
+            default_source_kind="Protocol",
+            default_collections=(Collection.GENERAL.value, Collection.PROTOCOLS.value),
+        ),
+        SourceRoot(
+            name="dwg_sswg_manuals",
+            path=root / "DWG_SSWG_Chatbot",
+            source_authority="ERCOT",
+            is_generated=False,
+            default_source_kind="DWG SSWG Manual",
+            default_collections=(Collection.GENERAL.value, Collection.DWG_SSWG.value),
+        ),
     )
 
     return IngestionConfig(

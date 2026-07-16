@@ -129,10 +129,16 @@ class ClassificationTests(unittest.TestCase):
         )
         root_names = {root.name for root in config.source_roots}
 
-        self.assertEqual(root_names, {"authoritative_static", "official_downloads"})
-        self.assertNotIn("generated_market_agent", root_names)
-        self.assertNotIn("generated_news", root_names)
-        self.assertNotIn("generated_news_downloads", root_names)
+        self.assertEqual(
+            root_names,
+            {
+                "authoritative_static",
+                "official_downloads",
+                "planning_guides",
+                "nodal_protocols",
+                "dwg_sswg_manuals",
+            },
+        )
 
     def test_sidecar_metadata_takes_precedence_over_filename_fallback(self) -> None:
         metadata = classify_document(
