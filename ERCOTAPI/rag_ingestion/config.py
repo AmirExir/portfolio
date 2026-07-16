@@ -123,30 +123,6 @@ def default_config(
             default_source_kind="Official Document",
             default_collections=(Collection.GENERAL.value,),
         ),
-        SourceRoot(
-            name="generated_news",
-            path=root / "ERCOTAPI" / "news_summaries",
-            source_authority="Generated",
-            is_generated=True,
-            default_source_kind="News Summary",
-            default_collections=(Collection.NEWS.value, Collection.MARKET.value),
-        ),
-        SourceRoot(
-            name="generated_news_downloads",
-            path=root / "ERCOTAPI" / "NEWS" / "generated",
-            source_authority="Generated",
-            is_generated=True,
-            default_source_kind="News Summary",
-            default_collections=(Collection.NEWS.value, Collection.MARKET.value),
-        ),
-        SourceRoot(
-            name="generated_market_agent",
-            path=root / "ERCOTAPI" / "market_agent",
-            source_authority="Generated",
-            is_generated=True,
-            default_source_kind="Market Summary",
-            default_collections=(Collection.NEWS.value, Collection.MARKET.value),
-        ),
     )
 
     return IngestionConfig(

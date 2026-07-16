@@ -2,7 +2,7 @@
 
 The ERCOT retrieval indexes now use one centralized ingestion pipeline. It keeps
 official ERCOT source material separate from generated summaries, embeds only
-new content, and publishes complete index generations atomically.
+new official content, and publishes complete index generations atomically.
 
 ## Data flow
 
@@ -38,16 +38,15 @@ service/account with `ERCOT_OPENAI_KEYCHAIN_SERVICE` and
 `ERCOT_OPENAI_KEYCHAIN_ACCOUNT`. Workflow credentials remain outside version
 control.
 
-Generated summaries follow the same store rules but are not downloaded by the
-official-document monitor. A producer must write or sync each summary into one
-of the configured generated roots below, then run `update` for that path. A
-GitHub branch is not a shared filesystem: the existing n8n flow that publishes
-`ercot_news_summary_*.txt` to the remote `generated-output` branch does not make
-those files visible to a locally running ingester. Sync or check out those files
-into a watched directory before invoking the update command. Likewise, hosted
-chatbots need the published generation store on shared persistent storage (or a
-deployment artifact); another machine's local `.rag_store` is not visible to
-them automatically.
+Generated news summaries do not feed the shared RAG store. They can still be
+published for other workflows, but they are intentionally excluded from bot
+reindexing so they do not change retrieval results. A GitHub branch is not a
+shared filesystem: the existing n8n flow that publishes `ercot_news_summary_*.txt`
+to the remote `generated-output` branch does not make those files visible to a
+locally running ingester, and the central RAG configuration no longer watches
+that content at all. Likewise, hosted chatbots need the published generation
+store on shared persistent storage (or a deployment artifact); another machine's
+local `.rag_store` is not visible to them automatically.
 
 The monitor archives official bytes beneath:
 
@@ -84,10 +83,8 @@ The default source roots are:
 
 - `chatbot_ercot_all_in_one/ercot_sources/` — canonical checked-in manuals.
 - `ERCOTAPI/NEWS/official/` — downloaded authoritative ERCOT material.
-- `ERCOTAPI/news_summaries/` and `ERCOTAPI/NEWS/generated/` — generated,
-  lower-trust summaries.
-- `ERCOTAPI/market_agent/` — existing generated market-agent summaries,
-  classified as lower-trust `news`/`market` material.
+- Generated news and market-agent summaries are excluded from the shared RAG
+  store.
 
 The older per-chatbot split files and experimental FAISS/copy scripts remain
 legacy artifacts; active chatbot entry points now read the central store (or

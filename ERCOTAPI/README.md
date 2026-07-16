@@ -163,6 +163,10 @@ This repo also supports a news pipeline for:
    ```
 5. The Telegram workflow script can send a digest when a new file appears.
 
+These generated news summaries are intentionally excluded from the shared RAG
+store, so they do not change bot retrieval unless you index them in a separate
+workflow.
+
 Existing summaries in `ERCOTAPI/market_agent/` are also indexed as generated,
 lower-trust `news`/`market` content. Do not point ingestion at the whole
 `ERCOTAPI/` directory; use one of the explicitly configured generated roots.

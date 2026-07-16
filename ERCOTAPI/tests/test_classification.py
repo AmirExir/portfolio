@@ -127,25 +127,12 @@ class ClassificationTests(unittest.TestCase):
             repo_root=self.repo_root,
             index_dir=self.repo_root / ".rag_store",
         )
-        market_agent = next(
-            root for root in config.source_roots if root.name == "generated_market_agent"
-        )
+        root_names = {root.name for root in config.source_roots}
 
-        self.assertEqual(
-            market_agent.path,
-            (self.repo_root / "ERCOTAPI" / "market_agent").resolve(),
-        )
-        self.assertEqual(market_agent.source_authority, "Generated")
-        self.assertTrue(market_agent.is_generated)
-
-        metadata = classify_document(
-            market_agent.path / "summary_2026-07-16.txt",
-            market_agent,
-            self.repo_root,
-        )
-        self.assertEqual(metadata["source_kind"], "Market Summary")
-        self.assertEqual(set(metadata["collections"]), {"market", "news"})
-        self.assertNotIn("general", metadata["collections"])
+        self.assertEqual(root_names, {"authoritative_static", "official_downloads"})
+        self.assertNotIn("generated_market_agent", root_names)
+        self.assertNotIn("generated_news", root_names)
+        self.assertNotIn("generated_news_downloads", root_names)
 
     def test_sidecar_metadata_takes_precedence_over_filename_fallback(self) -> None:
         metadata = classify_document(
