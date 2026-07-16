@@ -1,0 +1,15 @@
+- CleanSpark’s planned Texas AI/data-center expansion is the clearest ERCOT-relevant development: the company signed a long-term 175 MW lease tied to a Texas project, but key construction financing is still not secured, so the load growth signal is material while execution risk remains high. (CryptoSlate; Yahoo Finance; Crypto Briefing)
+
+- If built, a 175 MW AI campus would add large, concentrated demand to the ERCOT queue at a scale comparable to major industrial load, reinforcing pressure on interconnection studies, deliverability, local transmission upgrades, and scrutiny of whether proposed large loads can actually materialize on schedule. (CryptoSlate; Environmental Defense Fund; Bitcoinist)
+
+- The broader implication is governance and planning: Texas is increasingly attracting AI and crypto-linked load as other states tighten policy, but ERCOT and Texas regulators will need stronger processes for screening speculative projects, sequencing large-load interconnections, and aligning data-center growth with generation, transmission, and reliability needs. (CNET; Reuters/BusinessLine on New York moratorium; Environmental Defense Fund; Bitcoinist)
+
+- Lockhart Solar PV IV reached commercial operation, adding 80 MW and bringing the full Lockhart solar-plus-storage complex to 365 MW solar and 173.7 MW battery storage, a concrete boost to ERCOT renewable energy and flexible capacity in Central Texas. (PRNewswire)
+
+- The completed Lockhart complex improves ERCOT’s operational stack by pairing additional daytime solar output with sizable battery capability, which can help with ramping, ancillary support, and shifting some renewable energy into tighter evening hours, though not as a substitute for firm thermal capacity. (PRNewswire)
+
+- New York’s one-year moratorium on large new data centers could redirect more AI and crypto development toward Texas, increasing ERCOT exposure to hyperscale load growth and making Texas policy on large-load interconnection, curtailment expectations, and cost allocation even more consequential. (CNET; Reuters/BusinessLine; OilPrice; Crypto Briefing)
+
+- Mitsubishi’s $7.5 billion acquisition of Aethon deepens investment in U.S. natural gas production, a relevant signal for ERCOT because stronger upstream gas positioning can support the fuel base behind Texas thermal generation even as AI-driven power demand expectations rise. (Fortune; Crypto Briefing)
+
+- Heat, extreme-weather, and outage coverage remains a backdrop rather than a specific ERCOT event, but it reinforces the planning case for weatherization, transmission resilience, storage, and dispatchable capacity as Texas faces sharper load swings and more frequent stress conditions. (PRNewswire on climate risk; Electrek)

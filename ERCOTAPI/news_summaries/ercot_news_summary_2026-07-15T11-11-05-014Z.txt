@@ -1,0 +1,13 @@
+- Galaxy Digital’s West Texas Helios campus remains a notable ERCOT large-load story as the company adds senior enterprise leadership while scaling AI data center infrastructure; this reinforces that crypto-to-AI load conversions in West Texas are continuing and could materially increase transmission, interconnection, and operational planning needs in ERCOT’s western footprint (Crypto Briefing/PRNewswire)
+
+- A broader policy and public-backlash theme is building around data centers, including a reported New York moratorium, Texas activism, and national scrutiny of customer bill impacts; for ERCOT, that raises the odds of tougher governance debates over who pays for grid upgrades, how flexible large loads are treated, and whether self-supplied generation or behind-the-meter models gain traction (Crypto Briefing/Fortune/Floodlight)
+
+- Growing national concern that data-center demand is driving up power-system costs and exposing peak-demand cost allocation issues is directly relevant to ERCOT, where similar questions could intensify around transmission cost recovery, ancillary service needs, and rate design as AI and crypto loads queue for service (Fortune)
+
+- Reports that federal policymakers want AI developers to secure their own energy, combined with interest in power-platform developers tied to Texas campuses, point to a potential ERCOT shift toward co-located generation, hybrid power arrangements, and more complex interconnection structures for very large loads (Crypto Briefing)
+
+- Rare-earth and magnet supply-chain announcements are not ERCOT market news, but they matter indirectly for Texas grid buildout because domestic dysprosium/NdPr and recycled magnet capacity can reduce procurement risk for wind generators, motors, and some grid-related equipment over time (GlobeNewswire/Yahoo Entertainment)
+
+- National reporting that natural-gas generation costs are at multi-year highs is an ERCOT-relevant warning for thermal fleet economics and future capacity additions: if large-load growth accelerates while gas-fired build costs stay elevated, reserve margins and reliability planning may lean even more heavily on transmission, storage, demand flexibility, and interconnection timing (IBTimes)
+
+- Continued U.S. renewable-growth coverage despite policy uncertainty supports the view that ERCOT’s core planning challenge remains integration, not just buildout—moving more wind, solar, and storage through interconnection, congestion management, and transmission expansion while simultaneously serving fast-rising large loads (Resilience)
