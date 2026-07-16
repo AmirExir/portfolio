@@ -118,25 +118,13 @@ def _normalize_question(question: str) -> str:
 
 
 def _load_collection(collection: str) -> LoadedIndex:
-    try:
-        return load_index(
-            collection,
-            allow_legacy=False,
-            legacy_chunks_path=LEGACY_CHUNKS_PATH,
-            legacy_embeddings_path=LEGACY_EMBEDDINGS_PATH,
-            legacy_embedding_model="text-embedding-3-large",
-        )
-    except FileNotFoundError:
-        from ERCOTAPI.rag_ingestion.pipeline import IngestionPipeline
-
-        IngestionPipeline().update()
-        return load_index(
-            collection,
-            allow_legacy=False,
-            legacy_chunks_path=LEGACY_CHUNKS_PATH,
-            legacy_embeddings_path=LEGACY_EMBEDDINGS_PATH,
-            legacy_embedding_model="text-embedding-3-large",
-        )
+    return load_index(
+        collection,
+        allow_legacy=False,
+        legacy_chunks_path=LEGACY_CHUNKS_PATH,
+        legacy_embeddings_path=LEGACY_EMBEDDINGS_PATH,
+        legacy_embedding_model="text-embedding-3-large",
+    )
 
 
 def _get_index(collection: str) -> LoadedIndex:
