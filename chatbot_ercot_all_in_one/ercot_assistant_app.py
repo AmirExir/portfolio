@@ -67,16 +67,32 @@ def _legacy_state() -> tuple[int, int]:
     )
 
 
+def _bootstrap_central_index() -> None:
+    from ERCOTAPI.rag_ingestion.pipeline import IngestionPipeline
+
+    IngestionPipeline().update()
+
+
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_ercot_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_index(
-        "general",
-        allow_legacy=False,
-        legacy_chunks_path=LEGACY_CHUNKS,
-        legacy_embeddings_path=LEGACY_EMBEDDINGS,
-        legacy_embedding_model="text-embedding-3-large",
-    )
+    try:
+        return load_index(
+            "general",
+            allow_legacy=False,
+            legacy_chunks_path=LEGACY_CHUNKS,
+            legacy_embeddings_path=LEGACY_EMBEDDINGS,
+            legacy_embedding_model="text-embedding-3-large",
+        )
+    except FileNotFoundError:
+        _bootstrap_central_index()
+        return load_index(
+            "general",
+            allow_legacy=False,
+            legacy_chunks_path=LEGACY_CHUNKS,
+            legacy_embeddings_path=LEGACY_EMBEDDINGS,
+            legacy_embedding_model="text-embedding-3-large",
+        )
 
 
 st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
