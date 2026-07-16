@@ -1,0 +1,22 @@
+Generated: 2026-07-16 12:38 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. SNDK — Strong Buy. Forecast return +73.54%, high reliability, probability up 86.7%. Pattern: high volatility. Largest upside forecast in the qualified list, but with wide expected error.
+2. STX — Buy. Forecast return +22.21%, moderate reliability, probability up 74.4%. Pattern: range / no dominant pattern.
+3. WDC — Buy. Forecast return +20.72%, moderate reliability, probability up 72.2%. Pattern: high volatility.
+4. HYPE — Buy. Forecast return +16.89%, moderate reliability, probability up 70.5%. Pattern: uptrend.
+5. GEV — Buy. Forecast return +10.50%, moderate reliability, probability up 73.6%. Pattern: uptrend. Also listed as the best smart policy pick.
+6. XLE — Buy. Forecast return +4.88%, moderate reliability. Pattern: rebound from 60-day low.
+7. WMT — Buy. Forecast return +4.35%, moderate reliability. Pattern: range / no dominant pattern.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell. Forecast return -22.72%, high reliability, probability down 87.6%. Pattern: downtrend.
+
+Notes
+Only model-confirmed Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2% were included. Neutral and watchlist names were excluded from the rankings.
