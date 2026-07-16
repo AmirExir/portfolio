@@ -1,0 +1,9 @@
+- Texas large-load policy remains a live issue: coverage says new ERCOT grid rules are creating an added infrastructure hurdle for bitcoin miners, reinforcing that flexible but power-intensive loads face tighter interconnection, study, and operational expectations before connecting at scale. That points to longer development timelines and more scrutiny of load flexibility claims in constrained areas. (Bitcoinist)
+
+- New York’s one-year moratorium on large hyperscale data centers could redirect more AI and crypto load interest toward Texas and ERCOT, increasing pressure on transmission planning, generator additions, and large-load interconnection processes if developers view Texas as the most permissive alternative. (Reuters/BusinessLine; CNET)
+
+- Lockhart Solar PV IV reached commercial operation, adding 80 MW and bringing the broader Lockhart solar-plus-storage complex to about 365 MW solar and 173.7 MW storage. For ERCOT, that is a concrete incremental capacity addition that improves local energy availability and adds battery flexibility for ramping and peak support. (PRNewswire)
+
+- Mitsubishi’s $7.5 billion Aethon acquisition deepens the tie between Texas gas supply and rising AI/data-center power demand. For ERCOT, the practical takeaway is stronger long-term support for gas-fired generation economics and fuel availability assumptions as large loads expand, even if the deal itself is upstream rather than a grid filing. (Fortune)
+
+- Texas is increasingly being framed as the next major U.S. data-center growth market, with multiple reports highlighting AI infrastructure expansion and power demand risk. The grid implication is not just higher peak load, but a need for faster siting coordination, substation and transmission upgrades, and clearer rules for dispatchable backup, curtailment, and load participation in reliability programs. (Environmental Defense Fund; Reuters/BusinessLine)
