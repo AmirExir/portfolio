@@ -1,0 +1,27 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-17 01:33 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+
+1 trading-day signals
+Sequence model used: both
+No model-confirmed Buy, Strong Buy, Sell, or Strong Sell signals met the 2.00% threshold for the 1 trading-day horizon.
+
+30 trading-day buy rankings
+1. SNDK — Strong Buy. Forecast return +75.88%, high reliability, oversold pattern, 86.8% probability up. This is the strongest confirmed long signal in the report and also the best smart policy pick.
+2. WDC — Buy. Forecast return +25.05%, high reliability, oversold pattern, 77.9% probability up. Confirmed upside signal with stronger reliability than most names in the run.
+3. STX — Buy. Forecast return +20.05%, moderate reliability, oversold pattern, 74.6% probability up. Positive 30-day setup, though with more model error than the top two.
+4. HYPE — Buy. Forecast return +17.17%, moderate reliability, range-bound pattern, 71.4% probability up. Confirmed buy, but with less pattern support than the storage names.
+5. FLOKI — Buy. Forecast return +63.03%, speculative reliability, downtrend pattern, 60.3% probability up. Included because it qualifies on the primary model rule, but confidence is materially lower and the policy overlay is negative.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell. Forecast return -22.73%, high reliability, downtrend pattern, 12.4% probability up. This is the only model-confirmed sell/avoid signal meeting the threshold and is the clearest downside call in the report.
+
+Observations
+The confirmed long side is concentrated in storage-related equities, led by SNDK, WDC, and STX, all with oversold patterns.
+The confirmed short side is limited to PEPE.
+No other symbols met the model-confirmed threshold with Buy/Sell or Strong Buy/Strong Sell calls.
+
+Excluded from rankings
+Neutral / No Edge watchlist names were not ranked here.
+SPCX was skipped due to insufficient clean price history for ML forecasting.
