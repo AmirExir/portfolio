@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-import os
 import re
 import sys
 import threading
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import List, Literal
 
@@ -18,9 +19,9 @@ try:
         LoadedIndex,
         format_context,
         index_state,
-        load_index,
         retrieve_chunks,
     )
+    from ERCOTAPI.rag_ingestion.startup import load_startup_index
     from ERCOTAPI.rag_ingestion.store import load_manifest
 except ModuleNotFoundError as exc:  # Supports launching from this app directory.
     if exc.name != "ERCOTAPI":
@@ -31,15 +32,12 @@ except ModuleNotFoundError as exc:  # Supports launching from this app directory
         LoadedIndex,
         format_context,
         index_state,
-        load_index,
         retrieve_chunks,
     )
+    from ERCOTAPI.rag_ingestion.startup import load_startup_index
     from ERCOTAPI.rag_ingestion.store import load_manifest
 
 
-BASE_DIR = Path(__file__).resolve().parent
-LEGACY_CHUNKS_PATH = BASE_DIR / "ercot_chunks_cached.json"
-LEGACY_EMBEDDINGS_PATH = BASE_DIR / "ercot_embeddings.npy"
 CollectionName = Literal[
     "general",
     "planning",
@@ -78,6 +76,10 @@ class SourceRecord(BaseModel):
     source_path: str | None = None
     source_authority: str | None = None
     source_kind: str | None = None
+    document_status: str | None = None
+    effective_date: str | None = None
+    published_date: str | None = None
+    revision: str | None = None
     is_generated: bool = False
     original_url: str | None = None
     url_aliases: List[str] = Field(default_factory=list)
@@ -93,7 +95,19 @@ class RetrieveResponse(BaseModel):
     generation: str | None = None
 
 
-app = FastAPI(title="ERCOT Retrieval API", version="2.0.0")
+@asynccontextmanager
+async def _lifespan(_: FastAPI) -> AsyncIterator[None]:
+    """Warm or bootstrap the central index when an ASGI server starts."""
+
+    global LOAD_ERROR
+    try:
+        _get_index("general")
+    except Exception as exc:  # Health reports a deployment or ingestion failure.
+        LOAD_ERROR = str(exc)
+    yield
+
+
+app = FastAPI(title="ERCOT Retrieval API", version="2.0.0", lifespan=_lifespan)
 
 INDEXES: dict[str, LoadedIndex] = {}
 DATA_STATE: tuple[object, ...] = ()
@@ -101,15 +115,8 @@ LOAD_ERROR = ""
 INDEX_LOCK = threading.RLock()
 
 
-def _legacy_state() -> tuple[int, int]:
-    return (
-        LEGACY_CHUNKS_PATH.stat().st_mtime_ns if LEGACY_CHUNKS_PATH.exists() else 0,
-        LEGACY_EMBEDDINGS_PATH.stat().st_mtime_ns if LEGACY_EMBEDDINGS_PATH.exists() else 0,
-    )
-
-
 def _file_state() -> tuple[object, ...]:
-    return (*index_state(), *_legacy_state())
+    return index_state()
 
 
 def _normalize_question(question: str) -> str:
@@ -118,12 +125,7 @@ def _normalize_question(question: str) -> str:
 
 
 def _load_collection(collection: str) -> LoadedIndex:
-    return load_index(
-        collection,
-        legacy_chunks_path=LEGACY_CHUNKS_PATH,
-        legacy_embeddings_path=LEGACY_EMBEDDINGS_PATH,
-        legacy_embedding_model="text-embedding-3-large",
-    )
+    return load_startup_index(collection)
 
 
 def _get_index(collection: str) -> LoadedIndex:
@@ -138,11 +140,14 @@ def _get_index(collection: str) -> LoadedIndex:
             loaded = _load_collection(collection)
         except Exception as exc:
             LOAD_ERROR = str(exc)
-            # A request can continue on the prior in-memory snapshot if a
-            # pointer or newly published generation is temporarily unreadable.
-            if collection in INDEXES:
-                return INDEXES[collection]
             raise
+        state = _file_state()
+        if loaded.generation_id != state[0]:
+            LOAD_ERROR = (
+                "Central ERCOT generation changed while it was loading; "
+                "retry the request against the new CURRENT generation"
+            )
+            raise RuntimeError(LOAD_ERROR)
         if state != DATA_STATE:
             INDEXES = {}
         INDEXES[collection] = loaded
@@ -176,6 +181,12 @@ def _source_record(chunk: dict) -> SourceRecord:
         if chunk.get("source_authority")
         else None,
         source_kind=str(chunk.get("source_kind")) if chunk.get("source_kind") else None,
+        document_status=str(chunk.get("document_status"))
+        if chunk.get("document_status")
+        else None,
+        effective_date=str(chunk.get("effective_date")) if chunk.get("effective_date") else None,
+        published_date=str(chunk.get("published_date")) if chunk.get("published_date") else None,
+        revision=str(chunk.get("revision")) if chunk.get("revision") else None,
         is_generated=bool(chunk.get("is_generated")),
         original_url=str(chunk.get("original_url")) if chunk.get("original_url") else None,
         url_aliases=[str(value) for value in (chunk.get("url_aliases") or []) if value],
@@ -225,83 +236,37 @@ def _manifest_collection_counts(generation_id: str) -> tuple[str, dict[str, int]
 @app.get("/health")
 def health() -> dict:
     collection_status: dict[str, dict[str, object]] = {}
-    indexes: dict[str, LoadedIndex] = {}
+    index: LoadedIndex | None = None
     try:
         general = _get_index("general")
-    except Exception as exc:
-        general = None
-        collection_status["general"] = {
-            "ready": False,
-            "chunks_loaded": 0,
-            "index_source": None,
-            "generation": None,
-            "error": str(exc),
-        }
-
-    # A central manifest already records chunk IDs and collection routing. Read
-    # that small JSON once instead of loading/copying the full embedding matrix
-    # eight times merely to answer a health probe. Legacy fallback is small and
-    # retains its explicit per-source filtering below.
-    if general is not None and general.source == "central":
-        try:
-            if not general.generation_id:
-                raise RuntimeError("Central ERCOT index is missing its generation ID")
-            generation_id, counts = _manifest_collection_counts(general.generation_id)
-            for collection in COLLECTION_NAMES:
-                count = counts.get(collection, 0)
-                collection_status[collection] = {
-                    "ready": count > 0,
-                    "chunks_loaded": count,
-                    "index_source": "central",
-                    "generation": generation_id,
-                    "error": None,
-                }
-            indexes["general"] = general
-        except Exception as exc:
-            collection_status = {
-                collection: {
-                    "ready": collection == "general" and general.ready,
-                    "chunks_loaded": len(general.chunks) if collection == "general" else 0,
-                    "index_source": "central" if collection == "general" else None,
-                    "generation": general.generation_id if collection == "general" else None,
-                    "error": None if collection == "general" else str(exc),
-                }
-                for collection in COLLECTION_NAMES
-            }
-            indexes["general"] = general
-    else:
-        collections_to_load = COLLECTION_NAMES if general is not None else COLLECTION_NAMES[1:]
-        if general is not None:
-            indexes["general"] = general
-            collection_status["general"] = {
-                "ready": general.ready,
-                "chunks_loaded": len(general.chunks),
-                "index_source": general.source,
-                "generation": general.generation_id,
+        if general.source != "central" or not general.generation_id:
+            raise RuntimeError("ERCOT retrieval API requires a central generation")
+        generation_id, counts = _manifest_collection_counts(general.generation_id)
+        for collection in COLLECTION_NAMES:
+            count = counts.get(collection, 0)
+            collection_status[collection] = {
+                "ready": count > 0,
+                "chunks_loaded": count,
+                "index_source": "central",
+                "generation": generation_id,
                 "error": None,
             }
-        for collection in collections_to_load:
-            if collection == "general" and general is not None:
-                continue
-            try:
-                loaded = _get_index(collection)
-                indexes[collection] = loaded
-                collection_status[collection] = {
-                    "ready": loaded.ready,
-                    "chunks_loaded": len(loaded.chunks),
-                    "index_source": loaded.source,
-                    "generation": loaded.generation_id,
-                    "error": None,
-                }
-            except Exception as exc:
-                collection_status[collection] = {
-                    "ready": False,
-                    "chunks_loaded": 0,
-                    "index_source": None,
-                    "generation": None,
-                    "error": str(exc),
-                }
-    index = indexes.get("general")
+        index = general
+    except Exception as exc:
+        collection_status = {
+            collection: {
+                "ready": False,
+                "chunks_loaded": 0,
+                "index_source": None,
+                "generation": None,
+                "error": str(exc),
+            }
+            for collection in COLLECTION_NAMES
+        }
+
+    # A central manifest records chunk IDs and collection routing. Reading that
+    # small JSON avoids loading/copying eight full embedding matrices merely to
+    # answer a health probe.
     general_error = str(collection_status["general"].get("error") or "")
     unavailable = [
         name for name, status in collection_status.items() if not status["ready"]
@@ -309,8 +274,7 @@ def health() -> dict:
     return {
         # Preserve the original general-corpus health meaning for existing
         # consumers while exposing complete readiness for every advertised
-        # collection. A clean legacy-only checkout is therefore explicit
-        # about collections that require the central generation.
+        # collection.
         "ok": index is not None and index.ready and not general_error,
         "degraded": bool(unavailable),
         "all_collections_ready": not unavailable,
@@ -341,8 +305,8 @@ def retrieve(payload: RetrieveRequest) -> RetrieveResponse:
                 ),
             )
 
-        # Query embedding is the first OpenAI operation and occurs only here,
-        # never while importing or starting the API.
+        # Query embedding occurs only for retrieval. A missing/stale central
+        # generation may separately embed changed source documents at startup.
         candidate_limit = (
             len(index.chunks)
             if not payload.prefer_authoritative
@@ -371,11 +335,3 @@ def retrieve(payload: RetrieveRequest) -> RetrieveResponse:
         raise
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
-
-
-# Load the disk snapshot for backward-compatible health metrics. This performs
-# no network request and never embeds source documents.
-try:
-    _get_index("general")
-except Exception as exc:  # The health endpoint reports startup data problems.
-    LOAD_ERROR = str(exc)

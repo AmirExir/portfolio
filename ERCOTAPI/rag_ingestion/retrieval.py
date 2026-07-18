@@ -158,13 +158,13 @@ def load_index(
     *,
     config: IngestionConfig | None = None,
     index_dir: Path | None = None,
-    allow_legacy: bool = True,
+    allow_legacy: bool = False,
     legacy_chunks_path: Path | None = None,
     legacy_embeddings_path: Path | None = None,
     legacy_source_names: Iterable[str] | None = None,
     legacy_embedding_model: str = "text-embedding-3-large",
 ) -> LoadedIndex:
-    """Load an active central collection, with an explicit read-only legacy fallback."""
+    """Load a central collection; legacy JSON/NPY loading requires explicit opt-in."""
 
     selected = config or default_config(index_dir=index_dir)
     requested = _normalize_collections(collections)
@@ -336,6 +336,27 @@ _DOMAIN_ROUTES: tuple[tuple[tuple[str, ...], tuple[str, ...]], ...] = (
 )
 
 
+_CURRENT_UPLOAD_DOMAINS = {
+    "planning_guide_uploads": "planning",
+    "nodal_protocol_uploads": "protocols",
+    "dwg_sswg_uploads": "dwg",
+}
+_HISTORICAL_ROOT_DOMAINS = {
+    "planning_guides": "planning",
+    "nodal_protocols": "protocols",
+}
+_HISTORICAL_CANONICAL_DOMAINS = {
+    "DWG": "dwg",
+    "PLANNING GUIDE": "planning",
+    "PROTOCOL": "protocols",
+}
+_COMBINED_DWG_SSWG_FILENAME = "dwg_sswg_manuals.txt"
+_DWG_MANUAL_HEADING_RE = re.compile(
+    r"\bdynamics\s+working\s+group\s+procedure\s+manual\b",
+    re.IGNORECASE,
+)
+
+
 def _normalize_query(question: str) -> str:
     normalized = question.lower()
     normalized = re.sub(r"\b(?:plannig|planing)\b", "planning", normalized)
@@ -351,6 +372,117 @@ def _query_terms(question: str) -> set[str]:
         for token in re.findall(r"[a-z0-9]+(?:\.[0-9]+)*", _normalize_query(question))
         if len(token) > 2 and token not in _QUERY_STOP_WORDS
     }
+
+
+def _requests_historical_material(question: str) -> bool:
+    normalized = _normalize_query(question)
+    years = {int(value) for value in re.findall(r"\b(?:19|20)\d{2}\b", normalized)}
+    if any(year < datetime.now().year for year in years):
+        return True
+    return bool(
+        re.search(
+            r"\b(?:former|formerly|historical|history|old|older|previous|prior|superseded)\b"
+            r"|\brevision\s+\d{1,3}[a-z]?\b",
+            normalized,
+        )
+    )
+
+
+def _combined_manual_key(chunk: Mapping[str, Any]) -> str | None:
+    category = str(chunk.get("source_category") or "")
+    if category not in {"authoritative_static", "dwg_sswg_manuals"}:
+        return None
+    source_path = str(chunk.get("source_path") or chunk.get("source") or "")
+    filename = source_path.replace("\\", "/").rsplit("/", 1)[-1].lower()
+    if filename != _COMBINED_DWG_SSWG_FILENAME:
+        return None
+    return str(chunk.get("content_hash") or source_path)
+
+
+def _chunk_index(chunk: Mapping[str, Any]) -> int:
+    try:
+        return int(chunk.get("chunk_index") or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def _combined_dwg_starts(
+    chunks: Sequence[Mapping[str, Any]],
+    rows: Sequence[int],
+) -> dict[str, int]:
+    """Locate the DWG boundary inside the historical combined SSWG/DWG file."""
+
+    starts: dict[str, int] = {}
+    for row in rows:
+        chunk = chunks[row]
+        key = _combined_manual_key(chunk)
+        if key is None or not _DWG_MANUAL_HEADING_RE.search(str(chunk.get("text") or "")):
+            continue
+        index = _chunk_index(chunk)
+        starts[key] = min(index, starts.get(key, index))
+    return starts
+
+
+def _historical_domain(
+    chunk: Mapping[str, Any],
+    combined_dwg_starts: Mapping[str, int],
+) -> str | None:
+    if _is_combined_historical_dwg(chunk, combined_dwg_starts):
+        return "dwg"
+    category = str(chunk.get("source_category") or "")
+    if category in _HISTORICAL_ROOT_DOMAINS:
+        return _HISTORICAL_ROOT_DOMAINS[category]
+    kind = str(chunk.get("source_kind") or "").upper()
+    if category == "dwg_sswg_manuals":
+        return "dwg" if kind == "DWG" else None
+    if category != "authoritative_static":
+        return None
+    return _HISTORICAL_CANONICAL_DOMAINS.get(kind)
+
+
+def _is_combined_historical_dwg(
+    chunk: Mapping[str, Any],
+    combined_dwg_starts: Mapping[str, int],
+) -> bool:
+    combined_key = _combined_manual_key(chunk)
+    if combined_key is not None and combined_key in combined_dwg_starts:
+        return _chunk_index(chunk) >= combined_dwg_starts[combined_key]
+    return False
+
+
+def _prefer_current_rows(
+    question: str,
+    chunks: Sequence[Mapping[str, Any]],
+    rows: Sequence[int],
+) -> list[int]:
+    """Hide superseded static corpora when a current domain bundle is present.
+
+    Historical chunks remain in the central generation and become eligible
+    when the question names a prior year or explicitly asks for prior/history
+    text. The historical combined SSWG/DWG file is filtered at its internal
+    DWG heading so its distinct SSWG section remains available.
+    """
+
+    if _requests_historical_material(question):
+        return list(rows)
+    combined_dwg_starts = _combined_dwg_starts(chunks, rows)
+    current_domains = {
+        _CURRENT_UPLOAD_DOMAINS[category]
+        for row in rows
+        if (category := str(chunks[row].get("source_category") or ""))
+        in _CURRENT_UPLOAD_DOMAINS
+    }
+    if not current_domains and not combined_dwg_starts:
+        return list(rows)
+    return [
+        row
+        for row in rows
+        if not _is_combined_historical_dwg(chunks[row], combined_dwg_starts)
+        and (
+            (domain := _historical_domain(chunks[row], combined_dwg_starts)) is None
+            or domain not in current_domains
+        )
+    ]
 
 
 def _contains_token(haystack: str, token: str) -> bool:
@@ -421,7 +553,13 @@ def _ranking_score(question: str, vector_score: float, chunk: Mapping[str, Any])
     if status in {"withdrawn", "rejected"}:
         status_boost -= 0.015
     stale_penalty = -0.05 if chunk.get("stale") else 0.0
-    return vector_score + authority_boost + status_boost + stale_penalty + _lexical_boost(question, chunk)
+    return (
+        vector_score
+        + authority_boost
+        + status_boost
+        + stale_penalty
+        + _lexical_boost(question, chunk)
+    )
 
 
 def _version_rank(chunk: Mapping[str, Any]) -> tuple[int, int]:
@@ -465,6 +603,7 @@ def retrieve_chunks(
         raise ValueError("top_k must be at least 1")
     requested = _normalize_collections(collections)
     rows = _filter_rows(index.chunks, requested) if requested else list(range(len(index.chunks)))
+    rows = _prefer_current_rows(question, index.chunks, rows)
     if not rows:
         return []
     np = _require_numpy()
@@ -507,7 +646,7 @@ retrieve = retrieve_chunks
 
 
 def format_citation(chunk: Mapping[str, Any]) -> str:
-    """Format a compact citation with trust, kind, path, and original URL."""
+    """Format a compact citation with trust, version, path, and original URL."""
 
     authority = str(chunk.get("source_authority") or "Unknown source")
     kind = str(chunk.get("source_kind") or "Document")
@@ -520,6 +659,15 @@ def format_citation(chunk: Mapping[str, Any]) -> str:
         parts.append("STALE INDEXED COPY")
     if number:
         parts.append(number)
+    for label, field in (
+        ("Status", "document_status"),
+        ("Effective", "effective_date"),
+        ("Published", "published_date"),
+        ("Revision", "revision"),
+    ):
+        value = str(chunk.get(field) or "").strip()
+        if value:
+            parts.append(f"{label} {value}")
     parts.extend((title, path, f"chunk {chunk_number}"))
     original_url = str(chunk.get("original_url") or "").strip()
     if original_url:

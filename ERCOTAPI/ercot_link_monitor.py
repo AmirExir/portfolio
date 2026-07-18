@@ -23,6 +23,8 @@ Optional environment variables:
     ERCOT_LINK_MAX_STATE_ITEMS_PER_SOURCE=2000
     ERCOT_LINK_MAX_RESPONSE_BYTES=52428800
     ERCOT_LINK_MAX_SUMMARY_CHARS=1200
+    ERCOT_LINK_MAX_OUTPUT_ITEMS=40
+    ERCOT_LINK_MAX_TELEGRAM_CHARS=3900
     ERCOT_LINK_TELEGRAM_BOT_TOKEN=...
     ERCOT_LINK_TELEGRAM_CHAT_ID=@ERCOTNEWS
     ERCOT_LINK_SEND_TELEGRAM=true
@@ -80,6 +82,8 @@ REPORT_CANDIDATE_WINDOW = int(os.getenv("ERCOT_LINK_REPORT_WINDOW", "100"))
 MAX_STATE_ITEMS_PER_SOURCE = int(os.getenv("ERCOT_LINK_MAX_STATE_ITEMS_PER_SOURCE", "2000"))
 MAX_RESPONSE_BYTES = int(os.getenv("ERCOT_LINK_MAX_RESPONSE_BYTES", str(50 * 1024 * 1024)))
 MAX_SUMMARY_CHARS = int(os.getenv("ERCOT_LINK_MAX_SUMMARY_CHARS", "1200"))
+MAX_OUTPUT_ITEMS = int(os.getenv("ERCOT_LINK_MAX_OUTPUT_ITEMS", "40"))
+MAX_TELEGRAM_CHARS = int(os.getenv("ERCOT_LINK_MAX_TELEGRAM_CHARS", "3900"))
 SEND_TELEGRAM = os.getenv("ERCOT_LINK_SEND_TELEGRAM", "false").lower() in {"1", "true", "yes"}
 SEND_NO_UPDATES = os.getenv("ERCOT_LINK_SEND_NO_UPDATES", "false").lower() in {"1", "true", "yes"}
 DEFAULT_TELEGRAM_CHAT_ID = "@ERCOTNEWS"
@@ -2230,9 +2234,30 @@ def scan_sources(
     return changes, new_state
 
 
-def format_telegram_message(changes: Sequence[Dict[str, Any]]) -> str:
+def _reported_changes(
+    changes: Sequence[Dict[str, Any]],
+) -> Tuple[List[Dict[str, Any]], int]:
+    """Bound command output while keeping successful updates ahead of scan errors."""
+
+    limit = max(0, MAX_OUTPUT_ITEMS)
+    ordered = [
+        *[item for item in changes if item.get("status") in {"new", "updated"}],
+        *[item for item in changes if item.get("status") not in {"new", "updated"}],
+    ]
+    reported = ordered[:limit]
+    return reported, max(0, len(ordered) - len(reported))
+
+
+def format_telegram_message(
+    changes: Sequence[Dict[str, Any]],
+    *,
+    omitted_count: int = 0,
+) -> str:
     if not changes:
-        return "ERCOT monitor: no new items found."
+        message = "ERCOT monitor: no new items found."
+        if omitted_count:
+            message = f"ERCOT monitor: {omitted_count} additional items omitted from this digest."
+        return message[: max(0, MAX_TELEGRAM_CHARS)]
 
     lines = ["<b>ERCOT Monitor</b>", ""]
     for item in changes:
@@ -2257,7 +2282,22 @@ def format_telegram_message(changes: Sequence[Dict[str, Any]]) -> str:
             lines.append(summary[:3500])
         lines.append("")
 
-    return "\n".join(lines).strip()
+    if omitted_count:
+        lines.extend(
+            [
+                f"{omitted_count} additional item(s) were archived and processed but omitted from this digest.",
+                "",
+            ]
+        )
+
+    message = "\n".join(lines).strip()
+    limit = max(0, MAX_TELEGRAM_CHARS)
+    if len(message) <= limit:
+        return message
+    suffix = "\n\n… digest truncated; all detected documents were still archived and processed."
+    if limit <= len(suffix):
+        return suffix[:limit]
+    return f"{message[: limit - len(suffix)].rstrip()}{suffix}"
 
 
 def send_telegram_message(text: str) -> None:
@@ -2383,6 +2423,7 @@ def main() -> None:
         archive_root,
         enabled=rag_auto_ingest,
     )
+    reported_changes, omitted_change_count = _reported_changes(changes)
 
     telegram_sent = False
     payload = {
@@ -2393,8 +2434,14 @@ def main() -> None:
         "has_updates": any(
             item.get("status") in {"new", "updated"} for item in changes
         ),
-        "changes": changes,
-        "telegram_text": format_telegram_message(changes),
+        "changes": reported_changes,
+        "reported_changes": len(reported_changes),
+        "omitted_changes": omitted_change_count,
+        "total_changes": len(changes),
+        "telegram_text": format_telegram_message(
+            reported_changes,
+            omitted_count=omitted_change_count,
+        ),
         "telegram_chat_id": TELEGRAM_CHAT_ID,
         "telegram_send_enabled": SEND_TELEGRAM,
         "telegram_send_no_updates": SEND_NO_UPDATES,

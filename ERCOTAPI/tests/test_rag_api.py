@@ -10,15 +10,21 @@ from fastapi import HTTPException
 
 from chatbot_ercot_all_in_one import ercot_rag_api as api
 from ERCOTAPI.rag_ingestion.retrieval import LoadedIndex
+from ERCOTAPI.rag_ingestion.startup import CentralIndexUnavailable
 
 
-def _index(chunks: list[dict], *, source: str = "central") -> LoadedIndex:
+def _index(
+    chunks: list[dict],
+    *,
+    source: str = "central",
+    generation: str = "test-generation",
+) -> LoadedIndex:
     vectors = np.asarray([[1.0, 0.0] for _ in chunks], dtype="float32")
     return LoadedIndex(
         chunks=chunks,
         embeddings=vectors,
         embedding_model="test-model",
-        generation_id="test-generation" if source == "central" else None,
+        generation_id=generation if source == "central" else None,
         source=source,
         collections=(),
         state_token=("test-generation", 1),
@@ -42,22 +48,79 @@ def _chunk(identifier: str, text: str, vector_score: float) -> dict:
 
 
 class RagApiTests(unittest.TestCase):
-    def test_health_exposes_collection_readiness_without_breaking_general_ok(self) -> None:
-        general = _index([_chunk("general", "ready", 1.0)], source="legacy")
-        empty = _index([], source="legacy")
-
-        with mock.patch.object(
-            api,
-            "_get_index",
-            side_effect=lambda collection: general if collection == "general" else empty,
-        ):
+    def test_health_reports_central_startup_failure_without_legacy_degradation(self) -> None:
+        with mock.patch.object(api, "_get_index", side_effect=RuntimeError("central missing")):
             result = api.health()
 
-        self.assertTrue(result["ok"])
+        self.assertFalse(result["ok"])
         self.assertTrue(result["degraded"])
         self.assertFalse(result["all_collections_ready"])
         self.assertFalse(result["collections"]["operations"]["ready"])
+        self.assertIsNone(result["index_source"])
+        self.assertIn("central missing", result["error"])
         self.assertIn("market", result["unavailable_collections"])
+
+    def test_collection_loader_uses_central_only_startup_path(self) -> None:
+        central = _index([_chunk("general", "ready", 1.0)], source="central")
+
+        with mock.patch.object(api, "load_startup_index", return_value=central) as load:
+            result = api._load_collection("general")
+
+        self.assertIs(result, central)
+        load.assert_called_once_with("general")
+
+    def test_failed_generation_reload_never_serves_cached_old_snapshot(self) -> None:
+        prior_indexes = api.INDEXES
+        prior_state = api.DATA_STATE
+        prior_error = api.LOAD_ERROR
+        self.addCleanup(setattr, api, "INDEXES", prior_indexes)
+        self.addCleanup(setattr, api, "DATA_STATE", prior_state)
+        self.addCleanup(setattr, api, "LOAD_ERROR", prior_error)
+        api.INDEXES = {"general": _index([_chunk("old", "old text", 1.0)])}
+        api.DATA_STATE = ("old-generation", 1)
+        api.LOAD_ERROR = ""
+
+        with (
+            mock.patch.object(api, "_file_state", return_value=("new-generation", 2)),
+            mock.patch.object(
+                api,
+                "_load_collection",
+                side_effect=CentralIndexUnavailable("new generation rejected"),
+            ),
+        ):
+            with self.assertRaisesRegex(CentralIndexUnavailable, "rejected"):
+                api._get_index("general")
+
+        self.assertIn("new generation rejected", api.LOAD_ERROR)
+
+    def test_state_switch_during_load_is_retried_not_cached_under_new_state(self) -> None:
+        prior_indexes = api.INDEXES
+        prior_state = api.DATA_STATE
+        prior_error = api.LOAD_ERROR
+        self.addCleanup(setattr, api, "INDEXES", prior_indexes)
+        self.addCleanup(setattr, api, "DATA_STATE", prior_state)
+        self.addCleanup(setattr, api, "LOAD_ERROR", prior_error)
+        api.INDEXES = {}
+        api.DATA_STATE = ()
+        api.LOAD_ERROR = ""
+        generation_a = _index(
+            [_chunk("generation-a", "generation A", 1.0)],
+            generation="generation-a",
+        )
+
+        with (
+            mock.patch.object(
+                api,
+                "_file_state",
+                side_effect=[("generation-a", 1), ("generation-b", 2)],
+            ),
+            mock.patch.object(api, "_load_collection", return_value=generation_a),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "changed while it was loading"):
+                api._get_index("general")
+
+        self.assertEqual(api.INDEXES, {})
+        self.assertIn("retry", api.LOAD_ERROR)
 
     def test_central_health_uses_manifest_counts_without_loading_every_matrix(self) -> None:
         general = _index([_chunk("general", "ready", 1.0)], source="central")
@@ -131,6 +194,22 @@ class RagApiTests(unittest.TestCase):
         self.assertEqual(result.used_chunks, 1)
         self.assertEqual([source.chunk_id for source in result.sources], ["first"])
         self.assertNotIn("second", result.context)
+
+    def test_source_record_exposes_document_version_metadata(self) -> None:
+        chunk = {
+            **_chunk("versioned", "versioned text", 0.9),
+            "document_status": "Approved",
+            "effective_date": "2026-07-16",
+            "published_date": "2026-07-09",
+            "revision": "25",
+        }
+
+        source = api._source_record(chunk)
+
+        self.assertEqual(source.document_status, "Approved")
+        self.assertEqual(source.effective_date, "2026-07-16")
+        self.assertEqual(source.published_date, "2026-07-09")
+        self.assertEqual(source.revision, "25")
 
 
 if __name__ == "__main__":

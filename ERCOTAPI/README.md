@@ -156,20 +156,11 @@ This repo also supports a news pipeline for:
    - `nogrr_`
    - `pgrr_`
 3. The dashboard will automatically show the latest file for each category.
-4. Run a path-scoped RAG update after the file is durable if the producer does
-   not already invoke it:
-   ```bash
-   python -m ERCOTAPI.rag_ingestion update --path ERCOTAPI/news_summaries
-   ```
-5. The Telegram workflow script can send a digest when a new file appears.
+4. The Telegram workflow script can send a digest when a new file appears.
 
-These generated news summaries are intentionally excluded from the shared RAG
-store, so they do not change bot retrieval unless you index them in a separate
-workflow.
-
-Existing summaries in `ERCOTAPI/market_agent/` are also indexed as generated,
-lower-trust `news`/`market` content. Do not point ingestion at the whole
-`ERCOTAPI/` directory; use one of the explicitly configured generated roots.
+These generated news summaries and `ERCOTAPI/market_agent/` outputs are
+intentionally excluded from the shared RAG store, so they do not change chatbot
+retrieval. Do not point official ingestion at the whole `ERCOTAPI/` directory.
 
 ### Telegram Secrets
 
@@ -196,11 +187,8 @@ python ercot_news_workflow.py
 ```
 
 If you prefer n8n, call the script from a command node or reuse the same file
-naming convention. Writing a summary only to GitHub's remote
-`generated-output` branch does not update a local RAG store: first sync or check
-out the file into a configured generated directory, then invoke the path-scoped
-update. Hosted chatbot deployments likewise need access to the published store
-through shared persistent storage or a deployment artifact.
+naming convention. Writing a summary to GitHub's remote `generated-output`
+branch does not update the official RAG corpus.
 
 For Telegram QA calls into the retriever API, set `ERCOT_RETRIEVER_API_URL` in
 your n8n environment. The local launcher now also accepts `ERCOT_RAG_API_HOST`
@@ -239,7 +227,7 @@ BOARD OF DIRECTORS = https://www.ercot.com/committees/board
 ### Run the Monitor
 
 ```bash
-python ercot_link_monitor.py
+scripts/run_ercot_link_monitor.sh
 ```
 
 It prints a JSON payload with:

@@ -13,9 +13,12 @@ try:
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
-        index_state,
-        load_collection,
         retrieve_chunks,
+    )
+    from ERCOTAPI.rag_ingestion.startup import (
+        CentralIndexUnavailable,
+        load_startup_index,
+        startup_index_state,
     )
 except ModuleNotFoundError as exc:
     if exc.name != "ERCOTAPI":
@@ -24,15 +27,16 @@ except ModuleNotFoundError as exc:
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
-        index_state,
-        load_collection,
         retrieve_chunks,
+    )
+    from ERCOTAPI.rag_ingestion.startup import (
+        CentralIndexUnavailable,
+        load_startup_index,
+        startup_index_state,
     )
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-LEGACY_CHUNKS = REPO_ROOT / "chatbot_ercot_all_in_one" / "ercot_chunks_cached.json"
-LEGACY_EMBEDDINGS = REPO_ROOT / "chatbot_ercot_all_in_one" / "ercot_embeddings.npy"
 
 HIDE_STREAMLIT_UI = """
 <style>
@@ -53,22 +57,10 @@ def get_openai_client() -> OpenAI:
     return OpenAI(api_key=api_key)
 
 
-def _legacy_state() -> tuple[int, int]:
-    return (
-        LEGACY_CHUNKS.stat().st_mtime_ns if LEGACY_CHUNKS.exists() else 0,
-        LEGACY_EMBEDDINGS.stat().st_mtime_ns if LEGACY_EMBEDDINGS.exists() else 0,
-    )
-
-
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_planning_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_collection(
-        "planning",
-        legacy_chunks_path=LEGACY_CHUNKS,
-        legacy_embeddings_path=LEGACY_EMBEDDINGS,
-        legacy_embedding_model="text-embedding-3-large",
-    )
+    return load_startup_index("planning")
 
 
 def get_loaded_sources(chunks) -> list[str]:
@@ -153,14 +145,18 @@ st.set_page_config(page_title="Amir Exir's ERCOT Planning Guides AI Assistant", 
 st.markdown(HIDE_STREAMLIT_UI, unsafe_allow_html=True)
 st.title("Ask Amir Exir's ERCOT Planning Guides AI Assistant")
 
-with st.spinner("Loading planning guide embeddings..."):
-    rag_index = load_planning_index((*index_state(), *_legacy_state()))
+with st.spinner("Loading or bootstrapping the central Planning Guide index..."):
+    try:
+        rag_index = load_planning_index(startup_index_state())
+    except CentralIndexUnavailable as exc:
+        st.error(str(exc))
+        st.stop()
 chunks = rag_index.chunks
 sources = get_loaded_sources(chunks)
 
 with st.sidebar:
     st.markdown("### Loaded planning sources")
-    st.caption(f"Generation: {rag_index.generation_id or 'legacy fallback'}")
+    st.caption(f"Central generation: {rag_index.generation_id}")
     for source in sources:
         st.markdown(f"- {source}")
     if not sources:

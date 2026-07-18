@@ -15,9 +15,12 @@ try:
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
-        index_state,
-        load_index,
         retrieve_chunks,
+    )
+    from ERCOTAPI.rag_ingestion.startup import (
+        CentralIndexUnavailable,
+        load_startup_index,
+        startup_index_state,
     )
 except ModuleNotFoundError as exc:
     if exc.name != "ERCOTAPI":
@@ -26,15 +29,13 @@ except ModuleNotFoundError as exc:
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
-        index_state,
-        load_index,
         retrieve_chunks,
     )
-
-
-BASE_DIR = Path(__file__).resolve().parent
-LEGACY_CHUNKS = BASE_DIR / "ercot_chunks_cached.json"
-LEGACY_EMBEDDINGS = BASE_DIR / "ercot_embeddings.npy"
+    from ERCOTAPI.rag_ingestion.startup import (
+        CentralIndexUnavailable,
+        load_startup_index,
+        startup_index_state,
+    )
 
 
 def get_openai_client() -> OpenAI:
@@ -60,35 +61,25 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
     return None
 
 
-def _legacy_state() -> tuple[int, int]:
-    return (
-        LEGACY_CHUNKS.stat().st_mtime_ns if LEGACY_CHUNKS.exists() else 0,
-        LEGACY_EMBEDDINGS.stat().st_mtime_ns if LEGACY_EMBEDDINGS.exists() else 0,
-    )
-
-
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_ercot_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_index(
-        "general",
-        legacy_chunks_path=LEGACY_CHUNKS,
-        legacy_embeddings_path=LEGACY_EMBEDDINGS,
-        legacy_embedding_model="text-embedding-3-large",
-    )
+    return load_startup_index("general")
 
 
 st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
 st.title("Ask Amir Exir's DWG, SSWG, Nodal Protocols, Planning Guides, Resource Integration ERCOT AI Assistant")
 
 with st.spinner("Loading the ERCOT knowledge index..."):
-    rag_index = load_ercot_index((*index_state(), *_legacy_state()))
+    try:
+        rag_index = load_ercot_index(startup_index_state())
+    except CentralIndexUnavailable as exc:
+        st.error(str(exc))
+        st.stop()
 
 with st.sidebar:
     st.caption(f"Loaded {len(rag_index.chunks)} ERCOT chunks")
-    st.caption(
-        f"Index: {rag_index.generation_id or 'legacy fallback'} ({rag_index.source})"
-    )
+    st.caption(f"Central generation: {rag_index.generation_id}")
     if st.button("Clear chat"):
         st.session_state.messages = []
         st.rerun()

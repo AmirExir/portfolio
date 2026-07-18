@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -47,6 +48,9 @@ class RetrievalTests(unittest.TestCase):
             "source_kind": "NPRR",
             "document_number": "NPRR1234",
             "document_status": "Approved",
+            "effective_date": "2026-07-01",
+            "published_date": "2026-06-15",
+            "revision": "2",
             "is_generated": False,
             "collections": ["general", "protocols"],
             "original_url": "https://www.ercot.com/files/NPRR1234",
@@ -89,6 +93,10 @@ class RetrievalTests(unittest.TestCase):
             "ERCOT",
             "NPRR",
             "NPRR1234",
+            "Status Approved",
+            "Effective 2026-07-01",
+            "Published 2026-06-15",
+            "Revision 2",
             "ERCOTAPI/NEWS/official/NPRR1234.txt",
             "chunk 1",
             "https://www.ercot.com/files/NPRR1234",
@@ -134,6 +142,229 @@ class RetrievalTests(unittest.TestCase):
 
         self.assertEqual([item["chunk_id"] for item in results], ["zzz-newer", "aaa-older"])
 
+    def test_current_upload_bundle_outranks_equal_historical_static_text(self) -> None:
+        index = self.make_index()
+        historical = {
+            **index.chunks[1],
+            "chunk_id": "aaa-historical",
+            "source_category": "nodal_protocols",
+            "source_path": "chatbot_ercot_nodalprotocols/ercotnodals_part1.txt",
+        }
+        current = {
+            **index.chunks[1],
+            "chunk_id": "zzz-current",
+            "source_category": "nodal_protocol_uploads",
+            "source_path": "ERCOTAPI/sources/official/nodal_protocols/01-020126_Nodal.docx",
+        }
+        versioned = LoadedIndex(
+            chunks=[historical, current],
+            embeddings=np.asarray([[1.0, 0.0], [0.95, 0.31225]], dtype="float32"),
+            embedding_model="test-model",
+            generation_id="test-generation",
+            source="central",
+            collections=(),
+            state_token=("test-generation", 1),
+        )
+
+        results = retrieve_chunks(
+            "capacity requirement",
+            versioned,
+            top_k=2,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+
+        self.assertEqual(
+            [item["chunk_id"] for item in results],
+            ["zzz-current"],
+        )
+
+        historical_results = retrieve_chunks(
+            "What did the 2023 Nodal Protocol require for capacity?",
+            versioned,
+            top_k=2,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+        self.assertEqual(
+            [item["chunk_id"] for item in historical_results],
+            ["aaa-historical", "zzz-current"],
+        )
+
+        current_year_results = retrieve_chunks(
+            f"What does the {datetime.now().year} Nodal Protocol require for capacity?",
+            versioned,
+            top_k=2,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+        self.assertEqual(
+            [item["chunk_id"] for item in current_year_results],
+            ["zzz-current"],
+        )
+
+        current_as_of_results = retrieve_chunks(
+            f"As of July {datetime.now().year}, what does the current Nodal Protocol require?",
+            versioned,
+            top_k=2,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+        self.assertEqual(
+            [item["chunk_id"] for item in current_as_of_results],
+            ["zzz-current"],
+        )
+
+    def test_current_dwg_upload_does_not_suppress_the_distinct_sswg_manual(self) -> None:
+        common = {
+            "source_authority": "ERCOT",
+            "is_generated": False,
+            "collections": ["general", "dwg_sswg"],
+            "chunk_index": 0,
+        }
+        sswg = {
+            **common,
+            "chunk_id": "sswg-manual",
+            "source_category": "authoritative_static",
+            "source_kind": "SSWG",
+            "source_path": "chatbot_ercot_all_in_one/ercot_sources/DWG_SSWG_Manuals.txt",
+            "title": "SSWG Procedure Manual",
+            "text": "SSWG steady-state case building requirement.",
+        }
+        dwg = {
+            **common,
+            "chunk_id": "dwg-manual",
+            "source_category": "dwg_sswg_uploads",
+            "source_kind": "DWG",
+            "source_path": "ERCOTAPI/sources/official/dwg_sswg/current.docx",
+            "title": "DWG Procedure Manual",
+            "text": "DWG dynamics model requirement.",
+        }
+        index = LoadedIndex(
+            chunks=[sswg, dwg],
+            embeddings=np.asarray([[1.0, 0.0], [0.0, 1.0]], dtype="float32"),
+            embedding_model="test-model",
+            generation_id="test-generation",
+            source="central",
+            collections=("dwg_sswg",),
+            state_token=("test-generation", 1),
+        )
+
+        results = retrieve_chunks(
+            "What does the SSWG manual require for case building?",
+            index,
+            top_k=2,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+
+        self.assertEqual(
+            [item["chunk_id"] for item in results],
+            ["sswg-manual", "dwg-manual"],
+        )
+
+    def test_current_dwg_upload_suppresses_only_dwg_half_of_combined_manual(self) -> None:
+        common = {
+            "source_authority": "ERCOT",
+            "source_category": "authoritative_static",
+            "source_kind": "SSWG",
+            "source_path": "chatbot_ercot_all_in_one/ercot_sources/DWG_SSWG_Manuals.txt",
+            "content_hash": "combined-manual-hash",
+            "is_generated": False,
+            "collections": ["general", "dwg_sswg"],
+        }
+        chunks = [
+            {
+                **common,
+                "chunk_id": "sswg-section",
+                "chunk_index": 0,
+                "title": "SSWG Procedure Manual",
+                "text": "SSWG steady-state case building requirement.",
+            },
+            {
+                **common,
+                "chunk_id": "old-dwg-heading",
+                "chunk_index": 1,
+                "title": "Combined procedure manuals",
+                "text": "Dynamics Working Group\nProcedure Manual\nRevision 23",
+            },
+            {
+                **common,
+                "chunk_id": "old-dwg-continuation",
+                "chunk_index": 2,
+                "title": "Combined procedure manuals",
+                "text": "Dynamic model quality test guideline requirements.",
+            },
+            {
+                **common,
+                "chunk_id": "current-dwg",
+                "chunk_index": 0,
+                "source_category": "dwg_sswg_uploads",
+                "source_kind": "DWG",
+                "source_path": "ERCOTAPI/sources/official/dwg_sswg/current.docx",
+                "content_hash": "current-manual-hash",
+                "title": "DWG Procedure Manual Revision 25",
+                "text": "Current dynamic model requirement.",
+            },
+        ]
+        index = LoadedIndex(
+            chunks=chunks,
+            embeddings=np.asarray([[1.0, 0.0]] * len(chunks), dtype="float32"),
+            embedding_model="test-model",
+            generation_id="test-generation",
+            source="central",
+            collections=("dwg_sswg",),
+            state_token=("test-generation", 1),
+        )
+
+        current_results = retrieve_chunks(
+            "What does the DWG manual require?",
+            index,
+            top_k=4,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+        self.assertEqual(
+            {item["chunk_id"] for item in current_results},
+            {"sswg-section", "current-dwg"},
+        )
+
+        collection_filtered_index = LoadedIndex(
+            chunks=chunks[:3],
+            embeddings=np.asarray([[1.0, 0.0]] * 3, dtype="float32"),
+            embedding_model="test-model",
+            generation_id="test-generation",
+            source="central",
+            collections=("planning",),
+            state_token=("test-generation", 1),
+        )
+        collection_filtered_results = retrieve_chunks(
+            "What does the current SSWG manual require?",
+            collection_filtered_index,
+            top_k=3,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+        self.assertEqual(
+            [item["chunk_id"] for item in collection_filtered_results],
+            ["sswg-section"],
+        )
+
+        historical_results = retrieve_chunks(
+            "What did the 2025 DWG manual require?",
+            index,
+            top_k=4,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+        self.assertEqual(
+            {item["chunk_id"] for item in historical_results},
+            {item["chunk_id"] for item in chunks},
+        )
+
+        revision_results = retrieve_chunks(
+            "What did DWG Procedure Manual Revision 23 require?",
+            index,
+            top_k=4,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+        self.assertEqual(
+            {item["chunk_id"] for item in revision_results},
+            {item["chunk_id"] for item in chunks},
+        )
+
     def test_legacy_fallback_never_labels_protocol_text_as_operations(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -152,19 +383,29 @@ class RetrievalTests(unittest.TestCase):
             )
             np.save(embeddings_path, np.asarray([[1.0, 0.0]], dtype="float32"))
 
+            central_only = load_index(
+                "protocols",
+                index_dir=root / "missing-store",
+                legacy_chunks_path=chunks_path,
+                legacy_embeddings_path=embeddings_path,
+            )
             protocols = load_index(
                 "protocols",
                 index_dir=root / "missing-store",
+                allow_legacy=True,
                 legacy_chunks_path=chunks_path,
                 legacy_embeddings_path=embeddings_path,
             )
             operations = load_index(
                 "operations",
                 index_dir=root / "missing-store",
+                allow_legacy=True,
                 legacy_chunks_path=chunks_path,
                 legacy_embeddings_path=embeddings_path,
             )
 
+        self.assertEqual(central_only.source, "missing")
+        self.assertEqual(central_only.chunks, [])
         self.assertEqual(len(protocols.chunks), 1)
         self.assertTrue(protocols.ready)
         self.assertEqual(operations.chunks, [])

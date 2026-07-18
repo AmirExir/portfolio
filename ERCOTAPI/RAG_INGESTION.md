@@ -44,9 +44,12 @@ reindexing so they do not change retrieval results. A GitHub branch is not a
 shared filesystem: the existing n8n flow that publishes `ercot_news_summary_*.txt`
 to the remote `generated-output` branch does not make those files visible to a
 locally running ingester, and the central RAG configuration no longer watches
-that content at all. Likewise, hosted chatbots need the published generation
-store on shared persistent storage (or a deployment artifact); another machine's
-local `.rag_store` is not visible to them automatically.
+that content at all. Hosted chatbots first look for a published generation
+store. If it is absent, the active applications build one central generation
+from the bounded checked-in source bundle. A shared persistent store or
+deployment artifact is still required for a hosted process to see the monitor's
+downloaded archive; another machine's local `.rag_store` is not visible
+automatically.
 
 The monitor archives official bytes beneath:
 
@@ -83,16 +86,23 @@ The default source roots are:
 
 - `chatbot_ercot_all_in_one/ercot_sources/` — canonical checked-in manuals.
 - `ERCOTAPI/NEWS/official/` — downloaded authoritative ERCOT material.
-- `chatbot_ercot/` — planning guide source texts.
-- `chatbot_ercot_nodalprotocols/` — nodal protocol source texts.
-- `DWG_SSWG_Chatbot/` — DWG/SSWG manual source texts.
+- `ERCOTAPI/sources/official/planning_guides/` — versioned Planning Guides.
+- `ERCOTAPI/sources/official/nodal_protocols/` — versioned Nodal Protocols.
+- `ERCOTAPI/sources/official/dwg_sswg/` — current DWG manual.
+- `ERCOTAPI/sources/official/market/` — current market documents.
 - Generated news and market-agent summaries are excluded from the shared RAG
   store.
 
 The older per-chatbot split files and experimental FAISS/copy scripts remain
-legacy artifacts; active chatbot entry points now read the central store (or
-the checked-in all-in-one JSON/NumPy fallback). Update the canonical static
-manuals directory instead of maintaining separate chatbot indexes.
+legacy artifacts. Active chatbot entry points require the central store and
+never serve the checked-in JSON/NumPy cache directly. That cache is available
+only as a validated vector-reuse input while constructing the first central
+generation. Put new official guide/manual files in the explicit
+`ERCOTAPI/sources/official/` directories instead of maintaining separate
+chatbot indexes. The older split files under `chatbot_ercot/`,
+`chatbot_ercot_nodalprotocols/`, and `DWG_SSWG_Chatbot/` are no longer ingestion
+roots; already indexed copies remain historical data rather than current
+retrieval defaults.
 
 ## Store and manifest
 
@@ -168,11 +178,20 @@ collections:
 Normal regulatory chatbots do not load generated summaries. Retrieval adds an
 authority boost for official ERCOT material, demotes generated text, and emits
 a citation containing authority, document kind/number, title, repository path,
-chunk number, and original URL when known.
+chunk number, and original URL when known. When the explicit current upload
+bundle is present, normal questions exclude superseded checked-in
+Planning/Protocol/DWG rows deterministically. Questions that name a prior year
+or ask for historical/previous material opt those rows back in. Effective
+dates and revisions break otherwise equal relevance ties between eligible
+versions, and citations expose effective/publication dates, status, and
+revision when known. The combined canonical SSWG/DWG file retains its SSWG
+section, while its known superseded DWG section is hidden unless the question
+explicitly requests historical material.
 
 To add a source kind, update the rules in `rag_ingestion/classify.py`. To add a
 chatbot, add a stable collection in `rag_ingestion/config.py`, route the source
-kinds to it, and call `load_index("collection_name")` from the application.
+kinds to it, and call `load_startup_index("collection_name")` from the active
+application so deployment cannot silently fall back to stale vectors.
 
 ## Supported documents
 
@@ -186,6 +205,8 @@ kinds to it, and call `load_index("collection_name")` from the application.
 Malformed files record an error without stopping healthy documents. Legacy
 DOC/XLS, PowerPoint, ZIP bundles, encrypted files, and other binaries are
 archived when discovered but skipped by ingestion until a safe loader is added.
+The checked-in legacy Word guide files include portable DOCX counterparts, so
+deployments do not need macOS `textutil`, LibreOffice, or licensed software.
 
 ## Commands
 
@@ -207,10 +228,6 @@ python -m ERCOTAPI.rag_ingestion update --changed-only
 # Limit repair/update to a configured source path.
 python -m ERCOTAPI.rag_ingestion update \
   --path ERCOTAPI/NEWS/official
-
-# Index generated summaries after their producer writes or syncs them locally.
-python -m ERCOTAPI.rag_ingestion update \
-  --path ERCOTAPI/market_agent
 
 # Inspect the active generation and per-file errors.
 python -m ERCOTAPI.rag_ingestion status
@@ -241,5 +258,27 @@ manifest or repository.
    a complete repair is required. The old `CURRENT` remains active until the
    replacement validates.
 
-Chatbot startup only loads an active generation (or the legacy read-only
-fallback). It never scans, parses, or embeds source documents.
+## Application startup
+
+Each active Streamlit/FastAPI process performs one bounded incremental refresh
+of checked-in authoritative roots. Unchanged hashes reuse vectors. If `CURRENT`
+is absent, the same path bootstraps a central generation; it excludes the large
+download archive and all generated summaries so normal UI startup remains
+bounded. The API does this in its ASGI lifespan, not during module import.
+
+Startup refuses partial or legacy retrieval when a checked-in source fails. The
+same applies when a configured checked-in source directory is missing or has no
+retrievable document record, preventing a partial deployment from serving only
+the older canonical corpus. The error is visible in the Streamlit UI or API
+health response, and the next process start retries it. Configure:
+
+- `ERCOT_RAG_BOOTSTRAP_ON_MISSING=false` to require a pre-provisioned store.
+- `ERCOT_RAG_STARTUP_REFRESH=false` to trust an existing complete generation
+  without scanning checked-in sources at process start.
+- `ERCOT_RAG_STORE=/persistent/path` to share a generation store between the
+  monitor and hosted applications.
+
+An ephemeral deployment without a shared store may rebuild the checked-in
+bundle on each cold container. It will not contain documents downloaded by a
+different machine. For the complete live archive, mount/publish the same store
+used by the monitor or ship a validated generation artifact.

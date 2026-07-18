@@ -1371,6 +1371,63 @@ class LinkMonitorTests(unittest.TestCase):
         official = next(root for root in selected.source_roots if root.name == "official_downloads")
         self.assertEqual(official.path, self.archive_root)
 
+    def test_main_bounds_command_output_without_skipping_archive_ingestion(self) -> None:
+        self.archive_root.mkdir(parents=True)
+        changes = [
+            {
+                "status": "new",
+                "downloaded_path": str(self.archive_root / f"document-{index}.txt"),
+                "source": "NPRR",
+                "title": f"NPRR {index}",
+                "url": f"https://www.ercot.com/document-{index}",
+                "summary": "x" * 1200,
+            }
+            for index in range(45)
+        ]
+        changes.extend(
+            {
+                "status": "error",
+                "downloaded_path": None,
+                "source": "PGRR",
+                "title": f"PGRR {index}",
+                "url": f"https://www.ercot.com/error-{index}",
+                "summary": "failed",
+            }
+            for index in range(5)
+        )
+        output = io.StringIO()
+
+        with (
+            mock.patch.object(monitor, "load_links", return_value=[]),
+            mock.patch.object(monitor, "load_state", return_value={}),
+            mock.patch.object(monitor, "scan_sources", return_value=(changes, {})),
+            mock.patch.object(monitor, "save_state"),
+            mock.patch.object(monitor, "official_document_dir", return_value=self.archive_root),
+            mock.patch.object(monitor, "env_flag", return_value=True),
+            mock.patch.object(
+                monitor,
+                "invoke_incremental_ingestion",
+                return_value={"status": "completed"},
+            ) as invoke,
+            mock.patch.object(monitor, "SEND_TELEGRAM", False),
+            mock.patch.object(monitor, "MAX_OUTPUT_ITEMS", 40),
+            mock.patch.object(monitor, "MAX_TELEGRAM_CHARS", 3900),
+            redirect_stdout(output),
+        ):
+            monitor.main()
+
+        payload = json.loads(output.getvalue())
+        invoke.assert_called_once_with([self.archive_root], self.archive_root, enabled=True)
+        self.assertEqual(payload["new_items"], 45)
+        self.assertEqual(payload["downloaded_items"], 45)
+        self.assertEqual(payload["total_changes"], 50)
+        self.assertEqual(payload["reported_changes"], 40)
+        self.assertEqual(payload["omitted_changes"], 10)
+        self.assertEqual(len(payload["changes"]), 40)
+        self.assertTrue(all(item["status"] == "new" for item in payload["changes"]))
+        self.assertLessEqual(len(payload["telegram_text"]), 3900)
+        self.assertLess(len(output.getvalue().encode("utf-8")), 200_000)
+
     def test_main_reconciles_full_archive_even_when_new_downloads_are_continuous(self) -> None:
         downloaded = self.archive_root / "nprr" / "2026" / "hash.txt"
         updated = self.archive_root / "nprr" / "2026" / "updated-hash.txt"
