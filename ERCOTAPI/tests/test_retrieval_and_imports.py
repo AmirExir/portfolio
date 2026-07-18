@@ -109,6 +109,25 @@ class RetrievalTests(unittest.TestCase):
         self.assertEqual(footer.count("- [ERCOT"), 1)
         self.assertIn("[open ERCOT source](<https://www.ercot.com/files/NPRR1234>)", footer)
 
+    def test_source_footer_lists_each_document_once_across_multiple_chunks(self) -> None:
+        first = {
+            **self.make_index().chunks[1],
+            "chunk_id": "official-chunk-1",
+            "chunk_index": 0,
+            "document_id": "official-document",
+        }
+        second = {
+            **first,
+            "chunk_id": "official-chunk-2",
+            "chunk_index": 1,
+        }
+
+        footer = format_source_list([first, second])
+
+        self.assertEqual(footer.count("- [ERCOT"), 1)
+        self.assertIn("chunk 1", footer)
+        self.assertNotIn("chunk 2", footer)
+
     def test_newer_effective_revision_wins_an_equal_relevance_tie(self) -> None:
         index = self.make_index()
         older = {

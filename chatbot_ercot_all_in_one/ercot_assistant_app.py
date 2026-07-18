@@ -112,7 +112,21 @@ You are an ERCOT regulatory expert trained only on the supplied ERCOT documentat
 
 Answer the user's question only using the cited context below. Do not make up
 information. If the answer is not explicitly stated, say: "The documents do
-not contain that information." Retain the supplied citations in your answer.
+not contain that information."
+
+Lead with the direct answer, then explain it in practical, plain language. For
+a broad question about an entire guide or section, do not stop at its title or
+table of contents. Explain the section's purpose and scope, its main process or
+requirements, the responsibilities of the affected entities, important timing
+or decision points, and the practical takeaway whenever those details appear in
+the context. Use short paragraphs and bullets when they make the explanation
+easier to follow.
+
+Cite the specific supplied chunks that support important statements, but do not
+use citations as a substitute for the explanation. Prefer the current effective
+document unless the user clearly asks for historical material. Do not create a
+separate "Retrieved sources" section; the application adds a compact source
+list after the answer.
 
 ---
 {context}
@@ -129,6 +143,9 @@ not contain that information." Retain the supplied citations in your answer.
         )
 
     if response:
-        bot_message = response.output_text.rstrip() + format_source_list(top_chunks)
+        bot_message = response.output_text.rstrip() + format_source_list(
+            top_chunks,
+            max_sources=4,
+        )
         st.chat_message("assistant").markdown(bot_message)
         st.session_state.messages.append({"role": "assistant", "content": bot_message})

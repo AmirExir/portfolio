@@ -807,7 +807,7 @@ def format_source_list(
     if max_sources < 1:
         return ""
     lines: list[str] = []
-    seen: set[tuple[str, tuple[str, ...]]] = set()
+    seen: set[str] = set()
     for chunk in chunks:
         citation = str(chunk.get("citation") or format_citation(chunk))
         original_url = str(chunk.get("original_url") or "").strip()
@@ -821,7 +821,13 @@ def format_source_list(
                 if re.fullmatch(r"https?://[^\s]+", value)
             )
         )
-        identity = (citation, source_urls)
+        identity = str(
+            chunk.get("document_id")
+            or chunk.get("content_hash")
+            or chunk.get("source_path")
+            or chunk.get("source")
+            or citation
+        )
         if identity in seen:
             continue
         seen.add(identity)
