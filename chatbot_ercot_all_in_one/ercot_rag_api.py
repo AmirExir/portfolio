@@ -58,6 +58,7 @@ COLLECTION_NAMES = (
     "market",
     "news",
 )
+REQUIRED_COLLECTION_NAMES = tuple(name for name in COLLECTION_NAMES if name != "news")
 
 
 class RetrieveRequest(BaseModel):
@@ -269,7 +270,14 @@ def health() -> dict:
     # answer a health probe.
     general_error = str(collection_status["general"].get("error") or "")
     unavailable = [
-        name for name, status in collection_status.items() if not status["ready"]
+        name
+        for name in REQUIRED_COLLECTION_NAMES
+        if not collection_status[name]["ready"]
+    ]
+    optional_unavailable = [
+        name
+        for name in COLLECTION_NAMES
+        if name not in REQUIRED_COLLECTION_NAMES and not collection_status[name]["ready"]
     ]
     return {
         # Preserve the original general-corpus health meaning for existing
@@ -279,6 +287,7 @@ def health() -> dict:
         "degraded": bool(unavailable),
         "all_collections_ready": not unavailable,
         "unavailable_collections": unavailable,
+        "optional_unavailable_collections": optional_unavailable,
         "collections": collection_status,
         "chunks_loaded": len(index.chunks) if index else 0,
         "embeddings_loaded": int(index.embeddings.shape[0]) if index else 0,

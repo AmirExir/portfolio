@@ -47,7 +47,7 @@ def get_openai_client() -> OpenAI:
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_resource_integration_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("resource_integration")
+    return load_startup_index("resource_integration", refresh=False)
 
 
 def extract_function_names(chunks) -> set[str]:

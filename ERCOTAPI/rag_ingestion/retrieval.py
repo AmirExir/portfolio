@@ -341,6 +341,11 @@ _CURRENT_UPLOAD_DOMAINS = {
     "nodal_protocol_uploads": "protocols",
     "dwg_sswg_uploads": "dwg",
 }
+_CURRENT_UPLOAD_PATH_DOMAINS = {
+    "ERCOTAPI/sources/official/planning_guides/": "planning",
+    "ERCOTAPI/sources/official/nodal_protocols/": "protocols",
+    "ERCOTAPI/sources/official/dwg_sswg/": "dwg",
+}
 _HISTORICAL_ROOT_DOMAINS = {
     "planning_guides": "planning",
     "nodal_protocols": "protocols",
@@ -423,10 +428,34 @@ def _combined_dwg_starts(
     return starts
 
 
+def _chunk_paths(chunk: Mapping[str, Any]) -> tuple[str, ...]:
+    values = [
+        str(chunk.get("source_path") or chunk.get("source") or ""),
+        *(str(value) for value in (chunk.get("aliases") or []) if value),
+    ]
+    return tuple(dict.fromkeys(value.replace("\\", "/") for value in values if value))
+
+
+def _current_upload_domain(chunk: Mapping[str, Any]) -> str | None:
+    category = str(chunk.get("source_category") or "")
+    if category in _CURRENT_UPLOAD_DOMAINS:
+        return _CURRENT_UPLOAD_DOMAINS[category]
+    for path in _chunk_paths(chunk):
+        for marker, domain in _CURRENT_UPLOAD_PATH_DOMAINS.items():
+            if marker in path:
+                return domain
+    return None
+
+
 def _historical_domain(
     chunk: Mapping[str, Any],
     combined_dwg_starts: Mapping[str, int],
 ) -> str | None:
+    # Content-addressed monitor files can be byte-identical to a checked-in
+    # current upload.  Their alias list preserves that current path, so do not
+    # demote the canonical archived copy as historical.
+    if _current_upload_domain(chunk) is not None:
+        return None
     if _is_combined_historical_dwg(chunk, combined_dwg_starts):
         return "dwg"
     category = str(chunk.get("source_category") or "")
@@ -435,7 +464,13 @@ def _historical_domain(
     kind = str(chunk.get("source_kind") or "").upper()
     if category == "dwg_sswg_manuals":
         return "dwg" if kind == "DWG" else None
-    if category != "authoritative_static":
+    # The monitor archive can contain complete historical copies of the
+    # Planning Guide, Nodal Protocols, and DWG manual alongside notices and
+    # revision requests.  When a checked-in current bundle exists, treat only
+    # those complete manual copies like the canonical static history.  Other
+    # official downloads (NPRRs, PGRRs, notices, committee files, and so on)
+    # remain eligible for ordinary current retrieval.
+    if category not in {"authoritative_static", "official_downloads"}:
         return None
     return _HISTORICAL_CANONICAL_DOMAINS.get(kind)
 
@@ -467,10 +502,7 @@ def _prefer_current_rows(
         return list(rows)
     combined_dwg_starts = _combined_dwg_starts(chunks, rows)
     current_domains = {
-        _CURRENT_UPLOAD_DOMAINS[category]
-        for row in rows
-        if (category := str(chunks[row].get("source_category") or ""))
-        in _CURRENT_UPLOAD_DOMAINS
+        domain for row in rows if (domain := _current_upload_domain(chunks[row])) is not None
     }
     if not current_domains and not combined_dwg_starts:
         return list(rows)
@@ -482,6 +514,66 @@ def _prefer_current_rows(
             (domain := _historical_domain(chunks[row], combined_dwg_starts)) is None
             or domain not in current_domains
         )
+    ]
+
+
+def _requested_section_spec(question: str) -> tuple[str, re.Pattern[str]] | None:
+    normalized = _normalize_query(question)
+    if "planning guide" in normalized:
+        domain = "planning"
+    elif "nodal protocol" in normalized:
+        domain = "protocols"
+    else:
+        return None
+    match = re.search(r"\bsection\s*(\d+)(?:\.\d+)?([a-z]?)\b", normalized)
+    if match is None:
+        return None
+    requested = f"{int(match.group(1))}{match.group(2)}"
+    return domain, re.compile(
+        rf"^0*{re.escape(requested)}(?:[a-z])?(?:[-_.\s]|$)",
+        re.IGNORECASE,
+    )
+
+
+def _matches_requested_section(
+    chunk: Mapping[str, Any],
+    spec: tuple[str, re.Pattern[str]],
+) -> bool:
+    domain, prefix = spec
+    return _current_upload_domain(chunk) == domain and any(
+        prefix.search(Path(path).name) for path in _chunk_paths(chunk)
+    )
+
+
+def _prefer_requested_section_bundle(
+    question: str,
+    chunks: Sequence[Mapping[str, Any]],
+    rows: Sequence[int],
+) -> list[int]:
+    """Limit a split current manual to the explicitly requested section file.
+
+    Every split Planning Guide and Nodal Protocol file contains a table of
+    contents, so vector and lexical matching alone can rank Section 1 above a
+    request for Section 9.  Keep non-manual material (for example PGRRs and
+    notices), but discard sibling files from the same current manual bundle
+    when the requested section file is present.
+    """
+
+    spec = _requested_section_spec(question)
+    if spec is None:
+        return list(rows)
+    domain, _ = spec
+    matching = {
+        row
+        for row in rows
+        if _matches_requested_section(chunks[row], spec)
+    }
+    if not matching:
+        return list(rows)
+    return [
+        row
+        for row in rows
+        if _current_upload_domain(chunks[row]) != domain or row in matching
     ]
 
 
@@ -604,18 +696,24 @@ def retrieve_chunks(
     requested = _normalize_collections(collections)
     rows = _filter_rows(index.chunks, requested) if requested else list(range(len(index.chunks)))
     rows = _prefer_current_rows(question, index.chunks, rows)
+    rows = _prefer_requested_section_bundle(question, index.chunks, rows)
     if not rows:
         return []
     np = _require_numpy()
     matrix = np.asarray(index.embeddings[rows], dtype="float32")
     query = _query_vector(question, index.embedding_model, query_embedder, client)
     scores = _cosine_scores(query, matrix)
-    ranked: list[tuple[float, float, int, int, int]] = []
+    section_spec = _requested_section_spec(question)
+    ranked: list[tuple[int, float, float, int, int, int]] = []
     for local_index, source_index in enumerate(rows):
         vector_score = float(scores[local_index])
         date_rank, revision_rank = _version_rank(index.chunks[source_index])
         ranked.append(
             (
+                int(
+                    section_spec is not None
+                    and _matches_requested_section(index.chunks[source_index], section_spec)
+                ),
                 _ranking_score(question, vector_score, index.chunks[source_index]),
                 vector_score,
                 date_rank,
@@ -629,11 +727,12 @@ def retrieve_chunks(
             -item[1],
             -item[2],
             -item[3],
-            str(index.chunks[item[4]].get("chunk_id", "")),
+            -item[4],
+            str(index.chunks[item[5]].get("chunk_id", "")),
         )
     )
     results: list[dict[str, Any]] = []
-    for score, vector_score, _, _, source_index in ranked[: min(top_k, len(ranked))]:
+    for _, score, vector_score, _, _, source_index in ranked[: min(top_k, len(ranked))]:
         chunk = dict(index.chunks[source_index])
         chunk["retrieval_score"] = score
         chunk["vector_score"] = vector_score

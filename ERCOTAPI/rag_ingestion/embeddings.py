@@ -41,7 +41,12 @@ class OpenAIEmbedder:
             from openai import OpenAI  # type: ignore
         except ImportError as exc:
             raise RuntimeError("OpenAI embedding requires the `openai` package") from exc
-        self._client = OpenAI(api_key=api_key)
+        # A cold central build can legitimately cross the embeddings TPM
+        # window even though the account has quota.  Let the SDK honor the
+        # server's retry delay instead of turning a temporary rate limit into
+        # a partial generation.
+        max_retries = max(2, int(os.getenv("ERCOT_RAG_OPENAI_MAX_RETRIES", "10")))
+        self._client = OpenAI(api_key=api_key, max_retries=max_retries)
         return self._client
 
     def embed_texts(self, texts: Sequence[str]) -> Any:
@@ -76,4 +81,3 @@ class OpenAIEmbedder:
 def provider_model(provider: EmbeddingProvider, fallback: str) -> str:
     value = str(getattr(provider, "model", "") or "").strip()
     return value or fallback
-

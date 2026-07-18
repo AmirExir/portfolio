@@ -211,6 +211,116 @@ class RetrievalTests(unittest.TestCase):
             ["zzz-current"],
         )
 
+    def test_current_upload_hides_archived_full_manual_but_not_revision_request(self) -> None:
+        common = {
+            "source_authority": "ERCOT",
+            "is_generated": False,
+            "collections": ["general", "planning"],
+            "chunk_index": 0,
+        }
+        archived_manual = {
+            **common,
+            "chunk_id": "archived-2023-guide",
+            "source_category": "official_downloads",
+            "source_kind": "Planning Guide",
+            "source_path": "ERCOTAPI/NEWS/official/planning-guide/2023/guide.pdf",
+            "title": "June 2023 Planning Guide",
+            "text": "Section 9 is reserved.",
+        }
+        revision_request = {
+            **common,
+            "chunk_id": "current-pgrr",
+            "source_category": "official_downloads",
+            "source_kind": "PGRR",
+            "source_path": "ERCOTAPI/NEWS/official/pgrr/2026/PGRR143.docx",
+            "title": "PGRR143",
+            "text": "Current Planning Guide revision request details.",
+        }
+        current_manual = {
+            **common,
+            "chunk_id": "current-section-9",
+            "source_category": "planning_guide_uploads",
+            "source_kind": "Planning Guide",
+            "source_path": "ERCOTAPI/sources/official/planning_guides/09-071126.docx",
+            "title": "Current Planning Guide Section 9",
+            "text": "Section 9 covers Large Load additions.",
+        }
+        index = LoadedIndex(
+            chunks=[archived_manual, revision_request, current_manual],
+            embeddings=np.asarray([[1.0, 0.0]] * 3, dtype="float32"),
+            embedding_model="test-model",
+            generation_id="test-generation",
+            source="central",
+            collections=(),
+            state_token=("test-generation", 1),
+        )
+
+        current_results = retrieve_chunks(
+            "What is Planning Guide Section 9?",
+            index,
+            top_k=3,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+        self.assertEqual(
+            {item["chunk_id"] for item in current_results},
+            {"current-pgrr", "current-section-9"},
+        )
+        self.assertEqual(current_results[0]["chunk_id"], "current-section-9")
+
+        historical_results = retrieve_chunks(
+            "What did the 2023 Planning Guide say about Section 9?",
+            index,
+            top_k=3,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+        self.assertEqual(
+            {item["chunk_id"] for item in historical_results},
+            {"archived-2023-guide", "current-pgrr", "current-section-9"},
+        )
+
+    def test_explicit_planning_section_routes_to_matching_current_split_file(self) -> None:
+        common = {
+            "source_authority": "ERCOT",
+            "source_kind": "Planning Guide",
+            "source_category": "planning_guide_uploads",
+            "is_generated": False,
+            "collections": ["general", "planning"],
+            "chunk_index": 0,
+        }
+        section_one = {
+            **common,
+            "chunk_id": "section-one-toc",
+            "source_path": "ERCOTAPI/sources/official/planning_guides/01-020126.docx",
+            "title": "Planning Guide Section 1",
+            "text": "Table of contents lists Section 9 Large Load additions.",
+        }
+        section_nine = {
+            **common,
+            "chunk_id": "section-nine-current",
+            "source_category": "official_downloads",
+            "source_path": "ERCOTAPI/NEWS/official/planning-guide/2026/content-hash.docx",
+            "aliases": ["ERCOTAPI/sources/official/planning_guides/09-071126.docx"],
+            "title": "Planning Guide Section 9",
+            "text": "Current Section 9 governs Large Load additions.",
+        }
+        index = LoadedIndex(
+            chunks=[section_one, section_nine],
+            embeddings=np.asarray([[1.0, 0.0], [0.9, 0.43589]], dtype="float32"),
+            embedding_model="test-model",
+            generation_id="test-generation",
+            source="central",
+            collections=(),
+            state_token=("test-generation", 1),
+        )
+
+        results = retrieve_chunks(
+            "What is ERCOT Planning Guide Section 9?",
+            index,
+            top_k=2,
+            query_embedder=lambda _question: [1.0, 0.0],
+        )
+        self.assertEqual([item["chunk_id"] for item in results], ["section-nine-current"])
+
     def test_current_dwg_upload_does_not_suppress_the_distinct_sswg_manual(self) -> None:
         common = {
             "source_authority": "ERCOT",

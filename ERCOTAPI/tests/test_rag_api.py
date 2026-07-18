@@ -142,6 +142,27 @@ class RagApiTests(unittest.TestCase):
         self.assertEqual(result["collections"]["protocols"]["chunks_loaded"], 2)
         self.assertTrue(result["collections"]["market"]["ready"])
 
+    def test_empty_news_collection_is_optional_in_health(self) -> None:
+        general = _index([_chunk("general", "ready", 1.0)], source="central")
+        counts = {name: 1 for name in api.REQUIRED_COLLECTION_NAMES}
+        counts["news"] = 0
+
+        with (
+            mock.patch.object(api, "_get_index", return_value=general),
+            mock.patch.object(
+                api,
+                "_manifest_collection_counts",
+                return_value=("test-generation", counts),
+            ),
+        ):
+            result = api.health()
+
+        self.assertTrue(result["ok"])
+        self.assertFalse(result["degraded"])
+        self.assertTrue(result["all_collections_ready"])
+        self.assertEqual(result["unavailable_collections"], [])
+        self.assertEqual(result["optional_unavailable_collections"], ["news"])
+
     def test_unready_collection_returns_service_unavailable(self) -> None:
         with mock.patch.object(api, "_get_index", return_value=_index([])):
             with self.assertRaises(HTTPException) as raised:
