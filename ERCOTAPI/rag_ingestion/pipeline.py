@@ -16,7 +16,12 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
 from .chunking import build_chunks, chunk_id, document_id, normalize_text
-from .classify import authority_rank, classify_document, load_sidecar
+from .classify import (
+    authority_rank,
+    classify_document,
+    enrich_metadata_from_text,
+    load_sidecar,
+)
 from .config import (
     SIDECAR_SUFFIX,
     SUPPORTED_EXTENSIONS,
@@ -928,6 +933,9 @@ class IngestionPipeline:
                 continue
             try:
                 text = load_document(path, max_file_bytes=self.config.max_file_bytes)
+                for record in records:
+                    record.update(enrich_metadata_from_text(record, text))
+                representative = min(records, key=_canonical_record_key)
                 chunks = build_chunks(
                     text,
                     content_hash=content_hash,
@@ -994,7 +1002,7 @@ class IngestionPipeline:
                 successful[content_hash].append(record)
                 retained[content_hash].append(record)
             elif record.get("status") == "error":
-                indexed_hash = str(record.get("indexed_sha256", ""))
+                indexed_hash = str(record.get("indexed_sha256") or "")
                 if not indexed_hash and content_hash in payloads:
                     # A rename can lose path-local history before metadata
                     # parsing fails. Exact content identity is sufficient to
@@ -1239,14 +1247,18 @@ class IngestionPipeline:
                 base_dimension=base_dimension,
                 base_model=(
                     None
-                    if _fresh_rebuild
+                    if _fresh_rebuild or not base.generation_id
                     else str(base.manifest.get("embedding_model") or "") or None
                 ),
                 base_chunk_size=(
-                    None if _fresh_rebuild else base.manifest.get("chunk_size")
+                    None
+                    if _fresh_rebuild or not base.generation_id
+                    else base.manifest.get("chunk_size")
                 ),
                 base_chunk_overlap=(
-                    None if _fresh_rebuild else base.manifest.get("chunk_overlap")
+                    None
+                    if _fresh_rebuild or not base.generation_id
+                    else base.manifest.get("chunk_overlap")
                 ),
             )
             if _fresh_rebuild and base.generation_id:

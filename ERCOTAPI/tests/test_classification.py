@@ -7,7 +7,11 @@ import unittest
 from pathlib import Path
 
 from ERCOTAPI.rag_ingestion.chunking import build_chunks, sha256_bytes
-from ERCOTAPI.rag_ingestion.classify import authority_rank, classify_document
+from ERCOTAPI.rag_ingestion.classify import (
+    authority_rank,
+    classify_document,
+    enrich_metadata_from_text,
+)
 from ERCOTAPI.rag_ingestion.config import SourceRoot, default_config
 
 
@@ -122,7 +126,7 @@ class ClassificationTests(unittest.TestCase):
         self.assertEqual(set(generated_revision["collections"]), {"market", "news"})
         self.assertNotIn("protocols", generated_revision["collections"])
 
-    def test_default_market_agent_root_is_generated_and_market_only(self) -> None:
+    def test_default_roots_exclude_generated_content_and_old_split_corpora(self) -> None:
         config = default_config(
             repo_root=self.repo_root,
             index_dir=self.repo_root / ".rag_store",
@@ -134,11 +138,67 @@ class ClassificationTests(unittest.TestCase):
             {
                 "authoritative_static",
                 "official_downloads",
-                "planning_guides",
-                "nodal_protocols",
-                "dwg_sswg_manuals",
+                "planning_guide_uploads",
+                "nodal_protocol_uploads",
+                "dwg_sswg_uploads",
+                "market_document_uploads",
             },
         )
+        self.assertIn("requirements.txt", config.ignored_names)
+
+    def test_uploaded_official_roots_route_to_explicit_collections(self) -> None:
+        config = default_config(
+            repo_root=self.repo_root,
+            index_dir=self.repo_root / ".rag_store",
+        )
+        cases = (
+            ("planning_guide_uploads", "02-060126.docx", "Planning Guide", "planning"),
+            ("nodal_protocol_uploads", "01-020126_Nodal.docx", "Protocol", "protocols"),
+            ("dwg_sswg_uploads", "DWG-Procedure-Manual.docx", "DWG", "dwg_sswg"),
+            ("market_document_uploads", "ERCOT-Fee-Schedule.docx", "Fee Schedule", "market"),
+        )
+        for root_name, filename, expected_kind, expected_collection in cases:
+            with self.subTest(root=root_name):
+                source_root = next(root for root in config.source_roots if root.name == root_name)
+                metadata = classify_document(
+                    source_root.path / filename,
+                    source_root,
+                    self.repo_root,
+                )
+                self.assertEqual(metadata["source_kind"], expected_kind)
+                self.assertIn("general", metadata["collections"])
+                self.assertIn(expected_collection, metadata["collections"])
+
+    def test_extracted_guide_heading_adds_version_metadata_without_overrides(self) -> None:
+        metadata = {
+            "filename": "03-071126_Nodal.docx",
+            "title": "03 071126 Nodal",
+            "source_kind": "Protocol",
+            "effective_date": None,
+            "published_date": None,
+            "document_status": None,
+            "revision": None,
+        }
+        enriched = enrich_metadata_from_text(
+            metadata,
+            "ERCOT Nodal Protocols\n\nSection 3: Management\n\nJuly 11, 2026\n",
+        )
+
+        self.assertEqual(enriched["title"], "ERCOT Nodal Protocols — Section 3: Management")
+        self.assertEqual(enriched["effective_date"], "2026-07-11")
+
+        approved = enrich_metadata_from_text(
+            {
+                **metadata,
+                "filename": "DWG-Procedure-Manual.docx",
+                "title": "DWG Procedure Manual",
+                "source_kind": "DWG",
+            },
+            "Dynamics Working Group\nProcedure Manual\nRevision 25\nROS Approved: July 9, 2026",
+        )
+        self.assertEqual(approved["published_date"], "2026-07-09")
+        self.assertEqual(approved["document_status"], "Approved")
+        self.assertEqual(approved["revision"], "25")
 
     def test_sidecar_metadata_takes_precedence_over_filename_fallback(self) -> None:
         metadata = classify_document(

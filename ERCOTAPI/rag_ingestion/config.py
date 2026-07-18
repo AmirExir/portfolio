@@ -57,7 +57,7 @@ class IngestionConfig:
     legacy_chunk_size: int = 7_600
     legacy_chunk_overlap: int = 400
     ignored_names: frozenset[str] = field(
-        default_factory=lambda: frozenset({".DS_Store", "Thumbs.db"})
+        default_factory=lambda: frozenset({".DS_Store", "Thumbs.db", "requirements.txt"})
     )
 
     def with_source_roots(self, roots: Iterable[SourceRoot]) -> "IngestionConfig":
@@ -124,28 +124,36 @@ def default_config(
             default_collections=(Collection.GENERAL.value,),
         ),
         SourceRoot(
-            name="planning_guides",
-            path=root / "chatbot_ercot",
+            name="planning_guide_uploads",
+            path=root / "ERCOTAPI" / "sources" / "official" / "planning_guides",
             source_authority="ERCOT",
             is_generated=False,
             default_source_kind="Planning Guide",
             default_collections=(Collection.GENERAL.value, Collection.PLANNING.value),
         ),
         SourceRoot(
-            name="nodal_protocols",
-            path=root / "chatbot_ercot_nodalprotocols",
+            name="nodal_protocol_uploads",
+            path=root / "ERCOTAPI" / "sources" / "official" / "nodal_protocols",
             source_authority="ERCOT",
             is_generated=False,
             default_source_kind="Protocol",
             default_collections=(Collection.GENERAL.value, Collection.PROTOCOLS.value),
         ),
         SourceRoot(
-            name="dwg_sswg_manuals",
-            path=root / "DWG_SSWG_Chatbot",
+            name="dwg_sswg_uploads",
+            path=root / "ERCOTAPI" / "sources" / "official" / "dwg_sswg",
             source_authority="ERCOT",
             is_generated=False,
-            default_source_kind="DWG SSWG Manual",
+            default_source_kind="DWG",
             default_collections=(Collection.GENERAL.value, Collection.DWG_SSWG.value),
+        ),
+        SourceRoot(
+            name="market_document_uploads",
+            path=root / "ERCOTAPI" / "sources" / "official" / "market",
+            source_authority="ERCOT",
+            is_generated=False,
+            default_source_kind="ERCOT Report",
+            default_collections=(Collection.GENERAL.value, Collection.MARKET.value),
         ),
     )
 

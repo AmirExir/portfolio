@@ -6,9 +6,11 @@ import json
 import os
 import tempfile
 import unittest
+import zipfile
 from dataclasses import replace
 from pathlib import Path
 from unittest import mock
+from xml.sax.saxutils import escape
 
 import numpy as np
 
@@ -69,6 +71,22 @@ class PipelineTestCase(unittest.TestCase):
 
     def relative(self, path: Path) -> str:
         return path.relative_to(self.repo_root).as_posix()
+
+    def write_docx(self, relative: str, paragraphs: list[str]) -> Path:
+        path = self.official_root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        body = "".join(
+            f"<w:p><w:r><w:t>{escape(paragraph)}</w:t></w:r></w:p>"
+            for paragraph in paragraphs
+        )
+        document_xml = (
+            '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+            '<w:document xmlns:w="http://schemas.openxmlformats.org/'
+            f'wordprocessingml/2006/main"><w:body>{body}</w:body></w:document>'
+        )
+        with zipfile.ZipFile(path, "w") as archive:
+            archive.writestr("word/document.xml", document_xml)
+        return path
 
     def active(self):
         generation = load_generation(self.index_dir)
@@ -189,6 +207,31 @@ class PipelineTestCase(unittest.TestCase):
         self.assertEqual(generation.chunks[0]["url_aliases"], record["url_aliases"])
         self.assertEqual(generation.chunks[0]["provenance"], record["provenance"])
 
+    def test_docx_heading_metadata_reaches_manifest_and_retrieval_chunk(self) -> None:
+        document = self.write_docx(
+            "planning_guide_02-060126.docx",
+            [
+                "ERCOT Planning Guide",
+                "Section 2: Definitions and Acronyms",
+                "June 1, 2026",
+                "Current authoritative planning definitions.",
+            ],
+        )
+
+        result = self.pipeline.update()
+
+        self.assertEqual(result["errors"], 0)
+        generation = self.active()
+        record = generation.manifest["documents"][self.relative(document)]
+        self.assertEqual(
+            record["title"],
+            "ERCOT Planning Guide — Section 2: Definitions and Acronyms",
+        )
+        self.assertEqual(record["effective_date"], "2026-06-01")
+        self.assertIn("planning", record["collections"])
+        self.assertEqual(generation.chunks[0]["effective_date"], "2026-06-01")
+        self.assertEqual(generation.chunks[0]["title"], record["title"])
+
     def test_incomplete_stale_legacy_cache_is_rejected_and_current_source_is_embedded(self) -> None:
         pipeline, embedder, document = self.legacy_pipeline(
             source_text="Cached ERCOT requirement. Current authoritative amendment.",
@@ -248,6 +291,19 @@ class PipelineTestCase(unittest.TestCase):
         self.assertEqual(second["generation"], first_generation)
         self.assertEqual(self.embedder.embedded_text_count, first_call_count)
         self.assertEqual(current_generation_id(self.index_dir), first_generation)
+
+    def test_empty_store_accepts_an_injected_provider_model(self) -> None:
+        self.write("NPRR610.txt", "NPRR 610 protocol requirement.")
+        self.write("PGRR610.txt", "PGRR 610 planning requirement.")
+        configured = replace(self.config, embedding_model="configured-production-model")
+        embedder = FakeEmbedder()
+
+        result = IngestionPipeline(configured, embedder=embedder).update()
+
+        self.assertEqual(result["embedded_chunks"], 2)
+        generation = self.active()
+        self.assertEqual(generation.manifest["embedding_model"], embedder.model)
+        self.assertEqual(generation.embeddings.shape, (2, embedder.dimension))
 
     def test_modified_same_size_and_mtime_is_reembedded_without_old_chunks(self) -> None:
         document = self.write("notices/market_notice.txt", "Alpha requirement v1.")
@@ -353,6 +409,32 @@ class PipelineTestCase(unittest.TestCase):
         )
         self.assertIn("protocols", generation.chunks[0]["collections"])
 
+    def test_metadata_rich_duplicate_becomes_canonical_regardless_of_path_order(self) -> None:
+        generic = self.write("a/document.txt", "Exact shared ERCOT requirement body.")
+        specific = self.write("z/document.txt", "Exact shared ERCOT requirement body.")
+        specific.with_name(f"{specific.name}.metadata.json").write_text(
+            json.dumps(
+                {
+                    "title": "NPRR 2048 Approved Requirement",
+                    "source_kind": "NPRR",
+                    "document_number": "NPRR2048",
+                    "document_status": "Approved",
+                    "effective_date": "2026-07-01",
+                    "original_url": "https://www.ercot.com/NPRR2048",
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        self.pipeline.update()
+
+        generation = self.active()
+        records = generation.manifest["documents"]
+        self.assertEqual(records[self.relative(specific)]["status"], "ingested")
+        self.assertEqual(records[self.relative(generic)]["status"], "duplicate")
+        self.assertEqual(generation.chunks[0]["source_path"], self.relative(specific))
+        self.assertEqual(generation.chunks[0]["document_number"], "NPRR2048")
+
     def test_deleted_document_is_removed_atomically_and_prior_generation_survives(self) -> None:
         document = self.write("NOGRR321.txt", "NOGRR 321 operating guide requirement.")
         first = self.pipeline.update()
@@ -417,6 +499,35 @@ class PipelineTestCase(unittest.TestCase):
         self.assertEqual(
             generation.manifest["documents"][self.relative(new_path)]["status"], "ingested"
         )
+
+    def test_renamed_document_with_bad_sidecar_retains_prior_payload_as_stale(self) -> None:
+        old_path = self.write("old/PGRR766.txt", "PGRR 766 rename-safe planning text.")
+        self.pipeline.update()
+        before = self.active()
+        old_chunk_ids = [chunk["chunk_id"] for chunk in before.chunks]
+        old_vectors = before.embeddings.copy()
+        embedded_before = self.embedder.embedded_text_count
+        new_path = self.official_root / "new" / old_path.name
+        new_path.parent.mkdir(parents=True)
+        old_path.rename(new_path)
+        new_path.with_name(f"{new_path.name}.metadata.json").write_text(
+            "{invalid JSON",
+            encoding="utf-8",
+        )
+
+        result = self.pipeline.update()
+
+        generation = self.active()
+        record = generation.manifest["documents"][self.relative(new_path)]
+        self.assertEqual(result["errors"], 1)
+        self.assertEqual(result["embedded_chunks"], 0)
+        self.assertEqual(self.embedder.embedded_text_count, embedded_before)
+        self.assertEqual(record["status"], "error")
+        self.assertTrue(record["stale"])
+        self.assertIn("Invalid metadata sidecar", record["error"])
+        self.assertEqual([chunk["chunk_id"] for chunk in generation.chunks], old_chunk_ids)
+        self.assertTrue(generation.chunks[0]["stale"])
+        np.testing.assert_array_equal(generation.embeddings, old_vectors)
 
     def test_malformed_document_records_error_while_valid_document_ingests(self) -> None:
         malformed = self.write("broken/NPRR999.docx", b"this is not a ZIP archive")

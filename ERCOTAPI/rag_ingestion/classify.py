@@ -13,6 +13,11 @@ from .config import Collection, SIDECAR_SUFFIX, SourceRoot
 
 DOCUMENT_NUMBER_RE = re.compile(r"\b(NPRR|PGRR|NOGRR|OBDRR|SCR|RRGRR|VCMRR)\s*[-_ ]?\s*(\d{2,5})\b", re.IGNORECASE)
 ISO_DATE_RE = re.compile(r"\b(20\d{2})[-_/](0[1-9]|1[0-2])[-_/]([0-2]\d|3[01])\b")
+MONTH_DATE_RE = re.compile(
+    r"\b(January|February|March|April|May|June|July|August|September|October|November|December)"
+    r"\s+([0-3]?\d),\s+(20\d{2})\b",
+    re.IGNORECASE,
+)
 
 
 def sidecar_path(path: Path) -> Path:
@@ -72,13 +77,14 @@ def _detect_kind(searchable: str, default: str) -> tuple[str, str | None]:
 
     lowered = searchable.lower()
     rules = (
-        (("nodal protocol", "protocols", "ercotnodals"), "Protocol"),
+        (("nodal protocol", "protocols", "ercotnodals", "_nodal"), "Protocol"),
         (("planning guide", "planning_guid", "ercotaiassistant"), "Planning Guide"),
         (("operating guide", "operating_guid"), "Operating Guide"),
         (("resource integration", "interconnection handbook", "ercotrihandbook", "qsa"), "Resource Integration"),
         (("steady state working group", "sswg"), "SSWG"),
         (("dynamics working group", "dwg"), "DWG"),
         (("market notice", "market_notice"), "Market Notice"),
+        (("fee schedule",), "Fee Schedule"),
         (("report",), "ERCOT Report"),
     )
     for needles, kind in rules:
@@ -121,6 +127,7 @@ def _collections_for(kind: str, root: SourceRoot, searchable: str) -> list[str]:
         "PUBLIC NOTICE",
         "PUBLIC NOTICES",
         "ERCOT REPORT",
+        "FEE SCHEDULE",
     }:
         collections.add(Collection.MARKET.value)
 
@@ -168,6 +175,85 @@ def _effective_date(searchable: str, sidecar: Mapping[str, Any]) -> str | None:
         return explicit
     match = ISO_DATE_RE.search(searchable)
     return "-".join(match.groups()) if match else None
+
+
+def _month_date_to_iso(value: str) -> str | None:
+    try:
+        return datetime.strptime(value, "%B %d, %Y").date().isoformat()
+    except ValueError:
+        return None
+
+
+def enrich_metadata_from_text(
+    metadata: Mapping[str, Any],
+    text: str,
+) -> dict[str, Any]:
+    """Fill identifiable version metadata from safely extracted document text.
+
+    Downloader sidecars and explicit metadata retain precedence. This primarily
+    covers checked-in DOCX guide sections whose filenames carry only section
+    numbers while the authoritative heading contains the title and date.
+    """
+
+    enriched = dict(metadata)
+    preview = text[:20_000]
+    searchable = _clean(preview)
+    lines = [_clean(line) for line in preview.splitlines() if _clean(line)]
+
+    filename = str(enriched.get("filename") or "")
+    fallback_title = Path(filename).stem.replace("_", " ").replace("-", " ")
+    if lines and _clean(enriched.get("title")) == _clean(fallback_title):
+        first = lines[0]
+        second = lines[1] if len(lines) > 1 else ""
+        third = lines[2] if len(lines) > 2 else ""
+        if first.lower() in {"ercot nodal protocols", "ercot planning guide"}:
+            title_parts = [first]
+            if second.lower().startswith("section"):
+                title_parts.append(second)
+                if third.lower().startswith(("attachment", "form")):
+                    title_parts.append(third)
+            enriched["title"] = " — ".join(title_parts)
+        elif "dynamics working group" in first.lower():
+            enriched["title"] = f"{first} — {second}" if second else first
+        elif first.lower().startswith("ercot fee schedule"):
+            enriched["title"] = first
+
+    approved_match = re.search(
+        rf"\b(?:ROS|Board)\s+Approved\s*:\s*({MONTH_DATE_RE.pattern})",
+        searchable,
+        re.IGNORECASE,
+    )
+    effective_match = re.search(
+        rf"\bEffective\s+({MONTH_DATE_RE.pattern})",
+        searchable,
+        re.IGNORECASE,
+    )
+    date_matches = list(MONTH_DATE_RE.finditer(searchable))
+
+    if not enriched.get("effective_date"):
+        date_value: str | None = None
+        if effective_match:
+            date_value = effective_match.group(1)
+        elif str(enriched.get("source_kind") or "").upper() in {
+            "PROTOCOL",
+            "PLANNING GUIDE",
+        } and date_matches:
+            date_value = date_matches[0].group(0)
+        if date_value:
+            enriched["effective_date"] = _month_date_to_iso(date_value)
+
+    if approved_match:
+        approved_date = _month_date_to_iso(approved_match.group(1))
+        if approved_date and not enriched.get("published_date"):
+            enriched["published_date"] = approved_date
+        if not enriched.get("document_status"):
+            enriched["document_status"] = "Approved"
+
+    if not enriched.get("revision"):
+        revision_match = re.search(r"\bRevision\s+(\d+[A-Za-z]?)\b", searchable, re.IGNORECASE)
+        if revision_match:
+            enriched["revision"] = revision_match.group(1)
+    return enriched
 
 
 def classify_document(
