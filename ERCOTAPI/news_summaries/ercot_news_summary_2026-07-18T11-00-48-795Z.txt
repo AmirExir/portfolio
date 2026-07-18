@@ -1,0 +1,15 @@
+- Texas media coverage is increasingly tying West Texas and Abilene-area AI/data center growth to local power-system strain, reinforcing ERCOT’s need to screen large-load interconnection requests for deliverability, transmission upgrade timing, and realistic in-service assumptions rather than headline MW alone. (Columbia Journalism Review)
+
+- New York’s statewide pause on new hyperscale data centers could redirect more AI and compute projects toward Texas, which would increase pressure on ERCOT load forecasting, transmission planning, and large-load interconnection queues—especially where developers seek rapid energization without matching network upgrades. (Business Insider/Crypto Briefing/TechRadar)
+
+- Broad reporting on record U.S. electricity demand from the AI boom underscores the same core ERCOT issue: large loads are becoming a structural planning driver, with implications for reserve margins, ancillary service needs, and the pace of new generation and T&D buildout. (OilPrice/Yahoo Finance)
+
+- Coverage of rising data-center water consumption adds a second constraint beyond MW demand: in Texas, project viability may increasingly hinge on both grid access and local cooling-water availability, affecting siting, technology choices, and the likelihood that nominal ERCOT load requests actually materialize. (Activist Post)
+
+- IEEE reporting on 800 VDC data center designs points to a potential load-shape and power-quality shift for ERCOT: hyperscale facilities may seek higher-density, more power-electronics-heavy connections that can change ramping behavior, voltage support needs, and expectations for behind-the-meter flexibility. (IEEE Spectrum)
+
+- Tailwater Capital’s FID on the Pickton gas storage hub in Northeast Texas is relevant for ERCOT reliability because added intrastate gas storage can improve fuel resilience for gas-fired generation during peak demand and stressed pipeline conditions, even though power-sector benefits depend on downstream transport and plant-specific fuel arrangements. (PR Newswire)
+
+- Reports of Texas flooding are a reminder that weather risk is not just a load story: flood events can disrupt transmission access, substation operations, fuel logistics, and outage restoration, particularly if heavy rain intersects with coastal or river-basin infrastructure serving major ERCOT load pockets. (Financial Post/Bloomberg)
+
+- Commentary on eminent-domain and transmission rights for data-center-serving infrastructure highlights a growing governance risk for ERCOT and Texas utilities: even when load growth is strong, siting conflicts and permitting friction can delay the network expansions needed to serve large new loads reliably. (The Conversation)
