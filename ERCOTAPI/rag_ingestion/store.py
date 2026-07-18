@@ -73,6 +73,12 @@ def current_generation_id(index_dir: Path) -> str | None:
         raise RuntimeError(f"Unable to read ERCOT RAG CURRENT pointer: {exc}") from exc
     if not value or value in {".", ".."} or Path(value).name != value:
         raise RuntimeError("ERCOT RAG CURRENT pointer contains an invalid generation ID")
+    # A generated store can be intentionally omitted from a deployment while
+    # the small tracked CURRENT file remains in the checkout. Treat that
+    # dangling pointer exactly like an absent store so startup can bootstrap a
+    # fresh central generation from the checked-in ERCOT documents.
+    if not (index_dir / GENERATIONS_DIR / value).is_dir():
+        return None
     return value
 
 

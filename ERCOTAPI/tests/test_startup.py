@@ -117,6 +117,29 @@ class StartupTests(unittest.TestCase):
         self.assertEqual(embedder.embedded_text_count, 1)
         self.assertIn("Current planning requirement", loaded.chunks[0]["text"])
 
+    def test_dangling_current_pointer_bootstraps_a_central_generation(self) -> None:
+        self.write_checked("planning_guide.txt", "Current deployment planning requirement.")
+        self.index_dir.mkdir(parents=True)
+        (self.index_dir / "CURRENT").write_text(
+            "generation-not-shipped\n",
+            encoding="utf-8",
+        )
+        embedder = FakeEmbedder()
+
+        self.assertEqual(startup_index_state(self.config)[0], None)
+        loaded = load_startup_index(
+            "planning",
+            config=self.config,
+            embedder=embedder,
+            refresh=False,
+        )
+
+        self.assertEqual(loaded.source, "central")
+        self.assertTrue(loaded.ready)
+        self.assertNotEqual(loaded.generation_id, "generation-not-shipped")
+        self.assertEqual(current_generation_id(self.index_dir), loaded.generation_id)
+        self.assertEqual(embedder.embedded_text_count, 1)
+
     def test_disabled_bootstrap_never_returns_a_legacy_cache(self) -> None:
         self.write_checked("planning_guide.txt", "Current checked-in requirement.")
         self.write_legacy_cache()
