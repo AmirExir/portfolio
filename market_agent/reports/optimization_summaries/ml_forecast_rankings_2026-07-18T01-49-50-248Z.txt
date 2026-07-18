@@ -1,0 +1,25 @@
+Market Intelligence Forecast Report
+Generated: 2026-07-18 01:49 UTC
+Horizon: 30 trading days
+Universe: 79 symbols | Stocks + crypto + commodities
+Primary approach: Ensemble
+Sequence model: both
+
+1 trading-day section
+Sequence model used: both
+No model-confirmed buy or sell signals met the 2.00% absolute forecast return threshold.
+
+30 trading-day buy rankings
+1. SNDK — Strong Buy | forecast return +81.77% | reliability High | probability up 87.6% | pattern Oversold. Highest upside forecast in the qualified buy list, though expected error is wide.
+2. WDC — Buy | forecast return +23.87% | reliability Moderate | probability up 76.8% | pattern High Volatility. Strong qualified long signal with elevated volatility.
+3. INTC — Buy | forecast return +20.36% | reliability Moderate | probability up 67.3% | pattern Oversold. Qualified buy signal, but with a wider expected error band.
+4. STX — Buy | forecast return +18.73% | reliability Moderate | probability up 73.4% | pattern High Volatility. Positive forecast with good directional probability, but volatility remains notable.
+5. GEV — Buy | forecast return +10.43% | reliability Moderate | probability up 70.8% | pattern Uptrend. Also the best smart policy pick, with policy rated Strong Buy.
+
+30 trading-day sell rankings
+1. PEPE — Strong Sell | forecast return -22.72% | reliability High | probability down 87.6% | pattern Downtrend. Only qualified model-confirmed sell/avoid signal.
+
+Notes
+Only model-confirmed Strong Buy, Buy, Strong Sell, and Sell signals with absolute forecast return of at least 2.00% were included.
+Neutral and No Edge names were excluded from the rankings.
+One symbol was skipped: SPCX, due to insufficient clean price history for ML forecasting.
