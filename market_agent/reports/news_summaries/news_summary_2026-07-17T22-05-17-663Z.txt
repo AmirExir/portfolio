@@ -1,0 +1,17 @@
+Fresh market-moving headlines are fairly thin here, and several items are promo/aggregation pieces or not clearly relevant to today’s broader tape. The clearest fresh drivers in this set are AI/semi weakness, Netflix post-earnings concerns, a notable TSMC investment/profit headline, and a crypto funding/regulatory angle.
+
+**Facts**
+- **CNBC, 2026-07-16T22:02:57Z:** U.S. stock futures were lower, with **Nasdaq-100 futures down sharply**, as “mounting jitters over artificial intelligence spending” weighed on sentiment and dragged global tech stocks lower. CNBC also said the move followed a prior decline in chipmakers and noted the U.S. “continued to strike Iran overnight.”
+- **Digital Journal/AFP, 2026-07-16T21:45:09Z:** **Netflix shares fell after earnings** despite reporting **$3.4 billion in net profit** for April-June, up more than 9% y/y, because results “underwhelmed investors” amid concerns about slowing engagement.
+- **Business Insider, 2026-07-16T21:43:11Z:** Wall Street is focused on **Netflix engagement trends**, and Netflix is reportedly planning to provide less viewer data going forward.
+- **Slashdot, 2026-07-16T22:00:00Z:** **TSMC** said it will invest an **additional $100 billion in Arizona** after reporting a **record 77.4% y/y jump in Q2 profit**; the expansion would bring total U.S. investment to **$265 billion** and includes new fabs for **2-nanometer production** and advanced packaging.
+- **PYMNTS, 2026-07-16T22:02:24Z:** **Crypto.com** announced a **$400 million strategic investment from Citadel Securities**, its first institutional funding round, at a reported **$20 billion valuation**.
+- **Crypto Briefing, 2026-07-16T21:43:08Z:** President **Trump and senators met** to address a deadlock over the **Digital Asset Market CLARITY Act** ahead of the August recess, pointing to an active U.S. crypto-regulatory agenda.
+- **BBC News, 2026-07-16T22:01:19Z:** **Trump Media** is launching a paid, fast-access feed of Truth Social posts for Wall Street firms, potentially relevant to event-driven trading if politically sensitive posts are included.
+
+**Interpretation**
+- The strongest fresh macro/tape signal in this set is **renewed pressure on AI/semi sentiment**, explicitly cited by CNBC as hitting Nasdaq-100 futures and global tech stocks.
+- **Netflix** looks like a fresh single-name/headline risk for mega-cap communication services and growth sentiment: profits rose, but investors appear more focused on **engagement and quality of growth**.
+- **TSMC’s profit surge and expanded Arizona buildout** reinforces that AI-related semiconductor demand and U.S. onshoring remain major themes, even as near-term sentiment around AI spending appears shakier.
+- On crypto, the combination of **Citadel’s investment in Crypto.com** and movement on the **CLARITY Act** suggests continued institutionalization/regulatory focus, but this set does **not** provide enough evidence to generalize about major coin price action today.
+- Beyond that, this article set does **not fully explain today’s broader tape**: there is little fresh coverage here on **Fed, rates, inflation, or energy** beyond a brief geopolitical mention from CNBC.
