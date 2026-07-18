@@ -46,7 +46,7 @@ def get_openai_client() -> OpenAI:
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_protocol_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("protocols", refresh=False)
+    return load_startup_index("protocols")
 
 
 st.set_page_config(page_title="Amir Exir's ERCOT protocols AI Assistant", page_icon="⚡")

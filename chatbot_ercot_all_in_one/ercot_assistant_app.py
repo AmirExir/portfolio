@@ -64,7 +64,7 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_ercot_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("general", refresh=False)
+    return load_startup_index("general")
 
 
 st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")

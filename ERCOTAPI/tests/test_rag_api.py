@@ -67,7 +67,7 @@ class RagApiTests(unittest.TestCase):
             result = api._load_collection("general")
 
         self.assertIs(result, central)
-        load.assert_called_once_with("general", refresh=False)
+        load.assert_called_once_with("general")
 
     def test_failed_generation_reload_never_serves_cached_old_snapshot(self) -> None:
         prior_indexes = api.INDEXES

@@ -47,7 +47,7 @@ def get_openai_client() -> OpenAI:
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_dwg_sswg_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("dwg_sswg", refresh=False)
+    return load_startup_index("dwg_sswg")
 
 
 def extract_function_names(chunks) -> set[str]:

@@ -260,11 +260,13 @@ manifest or repository.
 
 ## Application startup
 
-Active Streamlit/FastAPI processes load the saved central generation without
-running an ingestion scan. If `CURRENT` is absent, the same path bootstraps a
-central generation from the bounded checked-in roots; it excludes the large
-download archive and all generated summaries. The scheduled monitor owns
-normal incremental refreshes when new documents arrive. The API loads or
+Active Streamlit/FastAPI processes load the saved central generation and run
+one bounded incremental check of the checked-in ERCOT source roots when the
+process starts. Unchanged chunks reuse their saved vectors; only new or changed
+documents are embedded. If `CURRENT` is absent, the same path bootstraps a
+central generation from those checked-in roots. It excludes the large download
+archive and all generated summaries. The scheduled monitor owns normal
+incremental refreshes when downloaded documents arrive. The API checks or
 bootstraps in its ASGI lifespan, not during module import.
 
 Startup refuses partial or legacy retrieval when a checked-in source fails. The

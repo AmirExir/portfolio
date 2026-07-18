@@ -60,7 +60,7 @@ def get_openai_client() -> OpenAI:
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_planning_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("planning", refresh=False)
+    return load_startup_index("planning")
 
 
 def get_loaded_sources(chunks) -> list[str]:
