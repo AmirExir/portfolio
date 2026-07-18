@@ -260,11 +260,12 @@ manifest or repository.
 
 ## Application startup
 
-Each active Streamlit/FastAPI process performs one bounded incremental refresh
-of checked-in authoritative roots. Unchanged hashes reuse vectors. If `CURRENT`
-is absent, the same path bootstraps a central generation; it excludes the large
-download archive and all generated summaries so normal UI startup remains
-bounded. The API does this in its ASGI lifespan, not during module import.
+Active Streamlit/FastAPI processes load the saved central generation without
+running an ingestion scan. If `CURRENT` is absent, the same path bootstraps a
+central generation from the bounded checked-in roots; it excludes the large
+download archive and all generated summaries. The scheduled monitor owns
+normal incremental refreshes when new documents arrive. The API loads or
+bootstraps in its ASGI lifespan, not during module import.
 
 Startup refuses partial or legacy retrieval when a checked-in source fails. The
 same applies when a configured checked-in source directory is missing or has no

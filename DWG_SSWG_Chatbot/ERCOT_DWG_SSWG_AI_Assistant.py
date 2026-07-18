@@ -47,7 +47,7 @@ def get_openai_client() -> OpenAI:
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_dwg_sswg_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("dwg_sswg")
+    return load_startup_index("dwg_sswg", refresh=False)
 
 
 def extract_function_names(chunks) -> set[str]:
@@ -68,7 +68,7 @@ def find_invalid_functions(response_text: str, valid_functions: set[str]) -> lis
 st.set_page_config(page_title="Amir Exir's DWG/SSWG AI Assistant", page_icon="⚡")
 st.title("Ask Amir Exir's DWG/SSWG AI Assistant")
 
-with st.spinner("Loading or bootstrapping the central DWG/SSWG index..."):
+with st.spinner("Loading the saved central DWG/SSWG index..."):
     try:
         rag_index = load_dwg_sswg_index(startup_index_state())
     except CentralIndexUnavailable as exc:

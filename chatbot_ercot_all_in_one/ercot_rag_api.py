@@ -125,7 +125,7 @@ def _normalize_question(question: str) -> str:
 
 
 def _load_collection(collection: str) -> LoadedIndex:
-    return load_startup_index(collection)
+    return load_startup_index(collection, refresh=False)
 
 
 def _get_index(collection: str) -> LoadedIndex:

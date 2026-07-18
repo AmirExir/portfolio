@@ -60,7 +60,7 @@ def get_openai_client() -> OpenAI:
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_planning_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("planning")
+    return load_startup_index("planning", refresh=False)
 
 
 def get_loaded_sources(chunks) -> list[str]:
@@ -145,7 +145,7 @@ st.set_page_config(page_title="Amir Exir's ERCOT Planning Guides AI Assistant", 
 st.markdown(HIDE_STREAMLIT_UI, unsafe_allow_html=True)
 st.title("Ask Amir Exir's ERCOT Planning Guides AI Assistant")
 
-with st.spinner("Loading or bootstrapping the central Planning Guide index..."):
+with st.spinner("Loading the saved central Planning Guide index..."):
     try:
         rag_index = load_planning_index(startup_index_state())
     except CentralIndexUnavailable as exc:

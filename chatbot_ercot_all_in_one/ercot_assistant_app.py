@@ -64,13 +64,13 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_ercot_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("general")
+    return load_startup_index("general", refresh=False)
 
 
 st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
 st.title("Ask Amir Exir's DWG, SSWG, Nodal Protocols, Planning Guides, Resource Integration ERCOT AI Assistant")
 
-with st.spinner("Loading the ERCOT knowledge index..."):
+with st.spinner("Loading the saved ERCOT knowledge index..."):
     try:
         rag_index = load_ercot_index(startup_index_state())
     except CentralIndexUnavailable as exc:

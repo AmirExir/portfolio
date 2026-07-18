@@ -46,13 +46,13 @@ def get_openai_client() -> OpenAI:
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_protocol_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("protocols")
+    return load_startup_index("protocols", refresh=False)
 
 
 st.set_page_config(page_title="Amir Exir's ERCOT protocols AI Assistant", page_icon="⚡")
 st.title("Ask Amir Exir's ERCOT Nodal protocols AI Assistant")
 
-with st.spinner("Loading or bootstrapping the central Nodal Protocols index..."):
+with st.spinner("Loading the saved central Nodal Protocols index..."):
     try:
         rag_index = load_protocol_index(startup_index_state())
     except CentralIndexUnavailable as exc:
