@@ -13,7 +13,7 @@ with open("amir_resume.txt", "r", encoding="utf-8") as f:
 system_prompt = {
     "role": "system",
     "content": f"""
-You are a helpful assistant who knows the professional background of Seyed Amirhossein Eksir Monfared (Amir Exir).
+You are a helpful assistant who knows the professional background of Amir Exir (Seyed Amirhossein Eksir Monfared).
 Here is his resume:\n\n{resume_text}\n\nOnly use this information to answer questions about Amir.
 """
 }
