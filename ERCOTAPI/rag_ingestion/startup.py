@@ -163,21 +163,20 @@ def ensure_central_generation(
     """Ensure checked-in authoritative sources have a complete central generation.
 
     This function is called explicitly by application startup code, never at
-    module import. By default each process performs one bounded incremental
-    refresh of checked-in sources and bootstraps when ``CURRENT`` is absent.
-    Set ``ERCOT_RAG_STARTUP_REFRESH=false`` to skip that refresh when a complete
-    generation already exists, or
-    ``ERCOT_RAG_BOOTSTRAP_ON_MISSING=false`` to require a pre-provisioned store.
+    module import. Retrieval applications are read-only by default: they trust
+    a complete saved generation and fail closed when it is absent. Explicit
+    ingestion jobs may opt into refresh/bootstrap with environment flags or
+    function arguments.
     """
 
     selected = config or default_config()
     should_bootstrap = (
-        _env_flag("ERCOT_RAG_BOOTSTRAP_ON_MISSING", True)
+        _env_flag("ERCOT_RAG_BOOTSTRAP_ON_MISSING", False)
         if bootstrap_on_missing is None
         else bootstrap_on_missing
     )
     should_refresh = (
-        _env_flag("ERCOT_RAG_STARTUP_REFRESH", True) if refresh is None else refresh
+        _env_flag("ERCOT_RAG_STARTUP_REFRESH", False) if refresh is None else refresh
     )
     force_refresh = refresh is True
     index_key = selected.index_dir.resolve(strict=False)

@@ -108,6 +108,7 @@ class StartupTests(unittest.TestCase):
             "planning",
             config=self.config,
             embedder=embedder,
+            bootstrap_on_missing=True,
             refresh=False,
         )
 
@@ -131,6 +132,7 @@ class StartupTests(unittest.TestCase):
             "planning",
             config=self.config,
             embedder=embedder,
+            bootstrap_on_missing=True,
             refresh=False,
         )
 
@@ -186,6 +188,7 @@ class StartupTests(unittest.TestCase):
             "general",
             config=self.config,
             embedder=FakeEmbedder(),
+            bootstrap_on_missing=True,
             refresh=False,
         )
         self.assertTrue(initial.ready)
@@ -233,6 +236,7 @@ class StartupTests(unittest.TestCase):
                 "protocols",
                 config=config,
                 embedder=FakeEmbedder(),
+                bootstrap_on_missing=True,
                 refresh=False,
             )
 
@@ -244,6 +248,7 @@ class StartupTests(unittest.TestCase):
             "protocols",
             config=config,
             embedder=FakeEmbedder(),
+            bootstrap_on_missing=True,
             refresh=False,
         )
 
@@ -257,26 +262,28 @@ class StartupTests(unittest.TestCase):
         with self.assertRaisesRegex(CentralIndexUnavailable, "index state"):
             startup_index_state(self.config)
 
-    def test_process_restart_refreshes_changed_checked_in_sources(self) -> None:
+    def test_process_restart_loads_saved_generation_without_embedding(self) -> None:
         document = self.write_checked("planning_guide.txt", "Planning version one.")
         first = load_startup_index(
             "general",
             config=self.config,
             embedder=FakeEmbedder(),
+            bootstrap_on_missing=True,
         )
         document.write_text("Planning version two for 2026.", encoding="utf-8")
         self.forget_process_validation()
         embedder = FakeEmbedder()
 
+        embedder = FakeEmbedder()
         second = load_startup_index(
             "general",
             config=self.config,
             embedder=embedder,
         )
 
-        self.assertNotEqual(second.generation_id, first.generation_id)
-        self.assertEqual(embedder.embedded_text_count, 1)
-        self.assertIn("version two", second.chunks[0]["text"])
+        self.assertEqual(second.generation_id, first.generation_id)
+        self.assertEqual(embedder.calls, [])
+        self.assertIn("version one", second.chunks[0]["text"])
 
     def test_explicit_refresh_rechecks_an_already_validated_generation(self) -> None:
         document = self.write_checked("planning_guide.txt", "Planning version one.")
@@ -284,6 +291,7 @@ class StartupTests(unittest.TestCase):
             "general",
             config=self.config,
             embedder=FakeEmbedder(),
+            bootstrap_on_missing=True,
         )
         document.write_text("Planning version two.", encoding="utf-8")
 
@@ -308,6 +316,7 @@ class StartupTests(unittest.TestCase):
             "general",
             config=self.config,
             embedder=embedder,
+            bootstrap_on_missing=True,
             refresh=False,
         )
 
@@ -331,6 +340,7 @@ class StartupTests(unittest.TestCase):
             "general",
             config=self.config,
             embedder=embedder,
+            bootstrap_on_missing=True,
             refresh=False,
         )
 
@@ -354,6 +364,7 @@ class StartupTests(unittest.TestCase):
                 "general",
                 config=self.config,
                 embedder=failing,
+                bootstrap_on_missing=True,
                 refresh=False,
             )
 
@@ -366,6 +377,7 @@ class StartupTests(unittest.TestCase):
             "general",
             config=self.config,
             embedder=FakeEmbedder(),
+            bootstrap_on_missing=True,
             refresh=False,
         )
 

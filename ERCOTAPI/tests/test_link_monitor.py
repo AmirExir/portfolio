@@ -1135,7 +1135,8 @@ class LinkMonitorTests(unittest.TestCase):
         ):
             monitor.main()
 
-        invoke.assert_called_once_with([main_root], main_root, enabled=True)
+        # Public notices remain archived for reporting but are never embedded.
+        invoke.assert_called_once_with([], main_root, enabled=True)
         payload = json.loads(output.getvalue())
         self.assertEqual(payload["downloaded_items"], 1)
         self.assertEqual(Path(payload["downloaded_paths"][0]).suffix, ".html")
@@ -1371,12 +1372,27 @@ class LinkMonitorTests(unittest.TestCase):
         official = next(root for root in selected.source_roots if root.name == "official_downloads")
         self.assertEqual(official.path, self.archive_root)
 
+    def test_auto_ingest_selects_only_new_2026_technical_documents(self) -> None:
+        candidates = [
+            self.archive_root / "nprr" / "2026" / "new.pdf",
+            self.archive_root / "dwg" / "2027" / "future.docx",
+            self.archive_root / "nprr" / "2025" / "old.pdf",
+            self.archive_root / "market-notices" / "2026" / "notice.html",
+            self.archive_root / "public-notices" / "2026" / "notice.html",
+            self.archive_root / "sswg" / "2026" / "source.pdf.metadata.json",
+            self.archive_root / "sswg" / "2026" / "unsupported.zip",
+        ]
+
+        selected = monitor.auto_ingest_paths(candidates, self.archive_root)
+
+        self.assertEqual(selected, candidates[:2])
+
     def test_main_bounds_command_output_without_skipping_archive_ingestion(self) -> None:
         self.archive_root.mkdir(parents=True)
         changes = [
             {
                 "status": "new",
-                "downloaded_path": str(self.archive_root / f"document-{index}.txt"),
+                "downloaded_path": str(self.archive_root / "nprr" / "2026" / f"document-{index}.txt"),
                 "source": "NPRR",
                 "title": f"NPRR {index}",
                 "url": f"https://www.ercot.com/document-{index}",
@@ -1412,12 +1428,17 @@ class LinkMonitorTests(unittest.TestCase):
             mock.patch.object(monitor, "SEND_TELEGRAM", False),
             mock.patch.object(monitor, "MAX_OUTPUT_ITEMS", 40),
             mock.patch.object(monitor, "MAX_TELEGRAM_CHARS", 3900),
+            mock.patch.object(monitor, "MAX_AUTO_INGEST_FILES", 100),
             redirect_stdout(output),
         ):
             monitor.main()
 
         payload = json.loads(output.getvalue())
-        invoke.assert_called_once_with([self.archive_root], self.archive_root, enabled=True)
+        invoke.assert_called_once_with(
+            [self.archive_root / "nprr" / "2026" / f"document-{index}.txt" for index in range(45)],
+            self.archive_root,
+            enabled=True,
+        )
         self.assertEqual(payload["new_items"], 45)
         self.assertEqual(payload["downloaded_items"], 45)
         self.assertEqual(payload["total_changes"], 50)
@@ -1428,7 +1449,7 @@ class LinkMonitorTests(unittest.TestCase):
         self.assertLessEqual(len(payload["telegram_text"]), 3900)
         self.assertLess(len(output.getvalue().encode("utf-8")), 200_000)
 
-    def test_main_reconciles_full_archive_even_when_new_downloads_are_continuous(self) -> None:
+    def test_main_ingests_only_new_downloads(self) -> None:
         downloaded = self.archive_root / "nprr" / "2026" / "hash.txt"
         updated = self.archive_root / "nprr" / "2026" / "updated-hash.txt"
         self.archive_root.mkdir(parents=True)
@@ -1465,14 +1486,14 @@ class LinkMonitorTests(unittest.TestCase):
         ):
             monitor.main()
 
-        invoke.assert_called_once_with([self.archive_root], self.archive_root, enabled=True)
+        invoke.assert_called_once_with([downloaded, updated], self.archive_root, enabled=True)
         save_state.assert_called_once()
         payload = json.loads(output.getvalue())
         self.assertEqual(payload["downloaded_items"], 2)
         self.assertEqual(payload["downloaded_paths"], [str(downloaded), str(updated)])
         self.assertEqual(payload["ingestion"]["status"], "completed")
 
-    def test_main_scans_existing_archive_when_there_are_no_new_downloads(self) -> None:
+    def test_main_does_not_rescan_archive_when_there_are_no_new_downloads(self) -> None:
         self.archive_root.mkdir(parents=True)
         ingestion_result = {
             "enabled": True,
@@ -1500,7 +1521,7 @@ class LinkMonitorTests(unittest.TestCase):
         ):
             monitor.main()
 
-        invoke.assert_called_once_with([self.archive_root], self.archive_root, enabled=True)
+        invoke.assert_called_once_with([], self.archive_root, enabled=True)
         payload = json.loads(output.getvalue())
         self.assertEqual(payload["downloaded_items"], 0)
         self.assertEqual(payload["downloaded_paths"], [])

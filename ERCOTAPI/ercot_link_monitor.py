@@ -84,9 +84,13 @@ MAX_RESPONSE_BYTES = int(os.getenv("ERCOT_LINK_MAX_RESPONSE_BYTES", str(50 * 102
 MAX_SUMMARY_CHARS = int(os.getenv("ERCOT_LINK_MAX_SUMMARY_CHARS", "1200"))
 MAX_OUTPUT_ITEMS = int(os.getenv("ERCOT_LINK_MAX_OUTPUT_ITEMS", "40"))
 MAX_TELEGRAM_CHARS = int(os.getenv("ERCOT_LINK_MAX_TELEGRAM_CHARS", "3900"))
+MAX_AUTO_INGEST_FILES = int(os.getenv("ERCOT_RAG_MAX_AUTO_INGEST_FILES", "25"))
 SEND_TELEGRAM = os.getenv("ERCOT_LINK_SEND_TELEGRAM", "false").lower() in {"1", "true", "yes"}
 SEND_NO_UPDATES = os.getenv("ERCOT_LINK_SEND_NO_UPDATES", "false").lower() in {"1", "true", "yes"}
 DEFAULT_TELEGRAM_CHAT_ID = "@ERCOTNEWS"
+AUTO_INGEST_MIN_YEAR = 2026
+AUTO_INGEST_EXCLUDED_SOURCES = frozenset({"market-notices", "public-notices"})
+AUTO_INGEST_EXTENSIONS = frozenset({".pdf", ".txt", ".html", ".htm", ".docx", ".csv", ".xlsx"})
 USER_AGENT = "ERCOT-Link-Monitor/1.0 (+https://github.com/AmirExir/portfolio)"
 STATE_HASH_SEPARATOR = "|sha256="
 STATE_CURSOR_PREFIX = "__ercot_monitor_cursor__|"
@@ -2394,6 +2398,36 @@ def invoke_incremental_ingestion(
     return result
 
 
+def auto_ingest_paths(downloaded_paths: Sequence[Path], archive_root: Path) -> List[Path]:
+    """Select only newly downloaded 2026+ technical documents for RAG ingestion.
+
+    The monitor may archive older documents and notices for provenance, but
+    retrieval consumers must not pay to embed historical backfills or news.
+    Existing indexed content is intentionally left untouched.
+    """
+
+    selected: List[Path] = []
+    root = archive_root.resolve(strict=False)
+    for path in downloaded_paths:
+        try:
+            relative = path.resolve(strict=False).relative_to(root)
+        except ValueError:
+            continue
+        parts = relative.parts
+        if len(parts) < 3 or parts[0].lower() in AUTO_INGEST_EXCLUDED_SOURCES:
+            continue
+        try:
+            year = int(parts[1])
+        except ValueError:
+            continue
+        if year < AUTO_INGEST_MIN_YEAR or path.name.endswith(".metadata.json"):
+            continue
+        if path.suffix.lower() not in AUTO_INGEST_EXTENSIONS:
+            continue
+        selected.append(path)
+    return list(dict.fromkeys(selected))
+
+
 def main() -> None:
     links_file = Path(os.getenv("ERCOT_LINKS_FILE", str(DEFAULT_LINKS_FILE)))
     state_file = Path(os.getenv("ERCOT_LINK_STATE_FILE", str(DEFAULT_STATE_FILE)))
@@ -2413,16 +2447,25 @@ def main() -> None:
             if item.get("status") in {"new", "updated"} and item.get("downloaded_path")
         )
     ]
-    # Reconcile the complete durable archive on every successful monitor run.
-    # Passing only today's downloads can otherwise leave an older parse error,
-    # repaired sidecar, or externally removed file stale forever while new
-    # downloads keep arriving continuously.
-    ingestion_paths = [archive_root] if archive_root.exists() else downloaded_paths
-    ingestion = invoke_incremental_ingestion(
-        ingestion_paths,
-        archive_root,
-        enabled=rag_auto_ingest,
-    )
+    ingestion_paths = auto_ingest_paths(downloaded_paths, archive_root)
+    if len(ingestion_paths) > MAX_AUTO_INGEST_FILES:
+        ingestion = {
+            "enabled": rag_auto_ingest,
+            "attempted": False,
+            "status": "blocked_large_batch",
+            "summary": None,
+            "error": (
+                f"Refusing to auto-embed {len(ingestion_paths)} new technical files; "
+                f"the safety limit is {MAX_AUTO_INGEST_FILES}. Review and ingest the batch "
+                "explicitly or raise ERCOT_RAG_MAX_AUTO_INGEST_FILES."
+            ),
+        }
+    else:
+        ingestion = invoke_incremental_ingestion(
+            ingestion_paths,
+            archive_root,
+            enabled=rag_auto_ingest,
+        )
     reported_changes, omitted_change_count = _reported_changes(changes)
 
     telegram_sent = False
