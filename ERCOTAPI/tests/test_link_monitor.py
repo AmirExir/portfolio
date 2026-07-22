@@ -535,8 +535,8 @@ class LinkMonitorTests(unittest.TestCase):
 
     def test_same_hash_alias_across_publication_years_reuses_one_archive_object(self) -> None:
         content = b"identical cross-year official bytes"
-        first_url = "https://www.ercot.com/files/NPRR1234-2025.txt"
-        second_url = "https://www.ercot.com/files/NPRR1234-2026.txt"
+        first_url = "https://www.ercot.com/files/NPRR1234-2026.txt"
+        second_url = "https://www.ercot.com/files/NPRR1234-2027.txt"
         session = FakeSession(
             {
                 first_url: FakeResponse(
@@ -552,9 +552,9 @@ class LinkMonitorTests(unittest.TestCase):
             }
         )
         first = self.item(url=first_url)
-        first.published_hint = "2025-12-31"
+        first.published_hint = "2026-12-31"
         second = self.item(url=second_url)
-        second.published_hint = "2026-01-01"
+        second.published_hint = "2027-01-01"
 
         archived_first = monitor.archive_item(session, first, self.archive_root)
         archived_second = monitor.archive_item(session, second, self.archive_root)
@@ -596,11 +596,11 @@ class LinkMonitorTests(unittest.TestCase):
         )
         pending = self.item(url=pending_url)
         pending.state_tag = "pending"
-        pending.published_hint = "2025-01-01"
+        pending.published_hint = "2026-01-01"
         approved = self.item(url=approved_url)
         approved.state_tag = "approved"
-        approved.published_hint = "2026-01-01"
-        approved.effective_date = "2026-02-01"
+        approved.published_hint = "2027-01-01"
+        approved.effective_date = "2027-02-01"
 
         monitor.archive_item(session, pending, self.archive_root)
         archived = monitor.archive_item(session, approved, self.archive_root)
@@ -608,16 +608,16 @@ class LinkMonitorTests(unittest.TestCase):
 
         self.assertEqual(metadata["original_url"], pending_url)
         self.assertEqual(metadata["document_status"], "Approved")
-        self.assertEqual(metadata["published_date"], "2026-01-01")
-        self.assertEqual(metadata["effective_date"], "2026-02-01")
+        self.assertEqual(metadata["published_date"], "2027-01-01")
+        self.assertEqual(metadata["effective_date"], "2027-02-01")
 
         withdrawn = self.item(url=withdrawn_url)
         withdrawn.state_tag = "withdrawn"
-        withdrawn.published_hint = "2027-01-01"
+        withdrawn.published_hint = "2028-01-01"
         archived = monitor.archive_item(session, withdrawn, self.archive_root)
         metadata = json.loads(archived.metadata_path.read_text(encoding="utf-8"))
         self.assertEqual(metadata["document_status"], "Withdrawn")
-        self.assertEqual(metadata["published_date"], "2027-01-01")
+        self.assertEqual(metadata["published_date"], "2028-01-01")
 
     def test_validated_alias_promotes_ambiguous_bin_to_ingestible_extension(self) -> None:
         content = b"synthetic PDF bytes"
@@ -1386,6 +1386,36 @@ class LinkMonitorTests(unittest.TestCase):
         selected = monitor.auto_ingest_paths(candidates, self.archive_root)
 
         self.assertEqual(selected, candidates[:2])
+
+    def test_historical_archive_candidates_are_rejected_before_download(self) -> None:
+        old_url = monitor.DiscoveredItem(
+            source_label="NPRR",
+            source_url="source",
+            title="NPRR439",
+            url="https://www.ercot.com/files/docs/2012/07/01/NPRR439.doc",
+            published_hint="",
+            item_type="doc",
+        )
+        old_hint = monitor.DiscoveredItem(
+            source_label="DWG",
+            source_url="source",
+            title="Old procedure",
+            url="https://www.ercot.com/download?id=old",
+            published_hint="2025-12-31",
+            item_type="pdf",
+        )
+        current = monitor.DiscoveredItem(
+            source_label="SSWG",
+            source_url="source",
+            title="Current procedure",
+            url="https://www.ercot.com/download?id=current",
+            published_hint="2026-07-21",
+            item_type="pdf",
+        )
+
+        self.assertFalse(monitor.is_current_archive_candidate(old_url))
+        self.assertFalse(monitor.is_current_archive_candidate(old_hint))
+        self.assertTrue(monitor.is_current_archive_candidate(current))
 
     def test_main_bounds_command_output_without_skipping_archive_ingestion(self) -> None:
         self.archive_root.mkdir(parents=True)

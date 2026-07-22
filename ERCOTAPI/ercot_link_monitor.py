@@ -89,6 +89,7 @@ SEND_TELEGRAM = os.getenv("ERCOT_LINK_SEND_TELEGRAM", "false").lower() in {"1", 
 SEND_NO_UPDATES = os.getenv("ERCOT_LINK_SEND_NO_UPDATES", "false").lower() in {"1", "true", "yes"}
 DEFAULT_TELEGRAM_CHAT_ID = "@ERCOTNEWS"
 AUTO_INGEST_MIN_YEAR = 2026
+MIN_ARCHIVE_YEAR = int(os.getenv("ERCOT_LINK_MIN_ARCHIVE_YEAR", "2026"))
 AUTO_INGEST_EXCLUDED_SOURCES = frozenset({"market-notices", "public-notices"})
 AUTO_INGEST_EXTENSIONS = frozenset({".pdf", ".txt", ".html", ".htm", ".docx", ".csv", ".xlsx"})
 USER_AGENT = "ERCOT-Link-Monitor/1.0 (+https://github.com/AmirExir/portfolio)"
@@ -225,6 +226,10 @@ class ArchivedItem:
     content_type: str
     final_url: str
     archive_status: str
+
+
+class HistoricalItemSkipped(Exception):
+    """An explicitly pre-2026 item was seen but intentionally not archived."""
 
 
 def load_links(path: Path) -> List[SourceLink]:
@@ -516,7 +521,14 @@ def _response_extension(item: DiscoveredItem, response: requests.Response) -> st
 
 
 def _archive_year(item: DiscoveredItem, response: requests.Response) -> str:
-    hints = " ".join((item.published_hint, response.headers.get("Last-Modified", "")))
+    hints = " ".join(
+        (
+            item.published_hint,
+            response.headers.get("Last-Modified", ""),
+            str(getattr(response, "url", "") or ""),
+            item.url,
+        )
+    )
     match = re.search(r"\b(20\d{2})\b", hints)
     return match.group(1) if match else str(datetime.now(timezone.utc).year)
 
@@ -770,11 +782,16 @@ def archive_content(
 
     if not content:
         raise ValueError("Downloaded item was empty")
+    archive_year = int(_archive_year(item, response))
+    if archive_year < MIN_ARCHIVE_YEAR:
+        raise HistoricalItemSkipped(
+            f"Skipping {archive_year} item; archive policy starts at {MIN_ARCHIVE_YEAR}"
+        )
 
     content_hash = hashlib.sha256(content).hexdigest()
     extension = _response_extension(item, response)
     source_root = archive_root / safe_path_component(item.source_label)
-    source_directory = source_root / _archive_year(item, response)
+    source_directory = source_root / str(archive_year)
     existing_destinations = (
         sorted(
             (
@@ -1341,6 +1358,17 @@ def rank_items(items: Sequence[DiscoveredItem]) -> List[DiscoveredItem]:
     # State comparison must see the full candidate set. Truncating here made
     # lower-ranked documents permanently invisible on every later run.
     return sorted(items, key=score, reverse=True)
+
+
+def is_current_archive_candidate(item: DiscoveredItem) -> bool:
+    """Reject explicitly dated historical links before downloading their bytes."""
+
+    for value in (item.url, item.published_hint, item.title):
+        years = [int(year) for year in re.findall(r"\b(20\d{2})\b", value or "")]
+        if years:
+            return max(years) >= MIN_ARCHIVE_YEAR
+    parsed = _parsed_date(item.published_hint)
+    return parsed is None or parsed.year >= MIN_ARCHIVE_YEAR
 
 
 def summarize_text(text: str, max_chars: int = MAX_SUMMARY_CHARS) -> str:
@@ -2004,12 +2032,15 @@ def scan_sources(
         known_candidates_all = [
             item
             for item in known_rotation
-            if _url_was_seen(recent_entries, item) or item.url in archive_hashes
+            if is_current_archive_candidate(item)
+            and (_url_was_seen(recent_entries, item) or item.url in archive_hashes)
         ]
         unseen_candidates = [
             item
             for item in unseen_rotation
-            if not _url_was_seen(recent_entries, item) and item.url not in archive_hashes
+            if is_current_archive_candidate(item)
+            and not _url_was_seen(recent_entries, item)
+            and item.url not in archive_hashes
         ]
         known_candidates = known_candidates_all[
             : max(0, MAX_KNOWN_RECHECKS_PER_SOURCE)
@@ -2108,6 +2139,17 @@ def scan_sources(
                 else:
                     archived = archive_cached_observation(cached, item)
                     archive_cache[cache_key] = archived
+            except HistoricalItemSkipped:
+                # Remember the URL so historical backfill candidates do not
+                # consume download slots on every later scheduled run.
+                recent_entries = _promote_state_entry(
+                    recent_entries,
+                    item,
+                    "historical-skipped",
+                )
+                if counts_as_unseen:
+                    successful_unseen += 1
+                continue
             except Exception as exc:
                 changes.append(
                     {
@@ -2150,6 +2192,7 @@ def scan_sources(
                         candidate.published_hint = item.published_hint
                     if not candidate.effective_date:
                         candidate.effective_date = item.effective_date
+                nested = [candidate for candidate in nested if is_current_archive_candidate(candidate)]
                 nested_groups.append((item, nested))
 
             # State advances only after both official bytes and provenance are
