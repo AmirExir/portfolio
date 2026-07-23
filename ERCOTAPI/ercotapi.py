@@ -22,9 +22,9 @@ except ImportError:
 from sklearn.preprocessing import StandardScaler
 
 try:
-    from ERCOTAPI.latest_updates import load_latest_updates
+    from ERCOTAPI.latest_updates import load_latest_updates, revision_request_identity
 except ImportError:
-    from latest_updates import load_latest_updates
+    from latest_updates import load_latest_updates, revision_request_identity
 
 
 LATEST_UPDATES_PATH = Path(__file__).with_name("latest_ercot_updates.json")
@@ -591,6 +591,32 @@ def inject_dashboard_css() -> None:
             color: var(--ercot-muted);
             font-size: 0.82rem;
         }
+        [data-testid="stTextInput"] [data-baseweb="input"],
+        [data-testid="stTextInput"] [data-baseweb="base-input"],
+        [data-testid="stTextInput"] input {
+            background: #ffffff !important;
+            color: #172033 !important;
+            -webkit-text-fill-color: #172033 !important;
+            border-color: #8aa5b8 !important;
+            caret-color: #172033 !important;
+        }
+        [data-testid="stTextInput"] input::placeholder {
+            color: #64748b !important;
+            -webkit-text-fill-color: #64748b !important;
+            opacity: 1 !important;
+        }
+        [data-testid="stTextInput"] [data-baseweb="input"]:focus-within {
+            border-color: var(--ercot-focus) !important;
+            box-shadow: 0 0 0 2px rgba(8, 145, 178, 0.18) !important;
+        }
+        [data-testid="stCheckbox"] label,
+        [data-testid="stCheckbox"] label *,
+        [data-testid="stCheckbox"] label p,
+        [data-testid="stCheckbox"] label span {
+            color: #172033 !important;
+            -webkit-text-fill-color: #172033 !important;
+            opacity: 1 !important;
+        }
         div[data-testid="stMetric"] {
             background: #ffffff;
             border: 1px solid var(--ercot-border);
@@ -601,7 +627,9 @@ def inject_dashboard_css() -> None:
         div[data-testid="stMetric"] label {
             color: var(--ercot-muted) !important;
         }
-        .stTabs [data-baseweb="tab-list"] {
+        .stTabs [data-baseweb="tab-list"],
+        .stTabs [role="tablist"],
+        [data-testid="stTabs"] [role="tablist"] {
             display: flex !important;
             flex-wrap: wrap !important;
             gap: 0.5rem !important;
@@ -610,42 +638,57 @@ def inject_dashboard_css() -> None:
             padding: 0.2rem 0 0.65rem !important;
             border-bottom: 1px solid var(--ercot-border) !important;
         }
-        .stTabs [data-baseweb="tab"] {
+        .stTabs [data-baseweb="tab"],
+        .stTabs button[role="tab"],
+        [data-testid="stTabs"] button[role="tab"] {
             flex: 0 0 auto !important;
             min-height: 2.45rem !important;
-            border: 1px solid #cbd5e1 !important;
+            border: 1px solid #8aa5b8 !important;
             border-radius: 999px !important;
-            padding: 0.48rem 0.88rem !important;
-            background: #ffffff !important;
+            padding: 0.48rem 0.9rem !important;
+            background: #eaf4f8 !important;
             color: var(--ercot-blue) !important;
+            -webkit-text-fill-color: var(--ercot-blue) !important;
+            opacity: 1 !important;
             box-shadow: 0 2px 7px rgba(15, 23, 42, 0.05) !important;
             transition:
                 background-color 140ms ease,
                 border-color 140ms ease,
                 box-shadow 140ms ease !important;
         }
-        .stTabs [data-baseweb="tab"] p,
-        .stTabs [data-baseweb="tab"] span {
-            color: var(--ercot-blue) !important;
-            -webkit-text-fill-color: var(--ercot-blue) !important;
+        .stTabs [data-baseweb="tab"] *,
+        .stTabs button[role="tab"] *,
+        [data-testid="stTabs"] button[role="tab"] * {
+            color: inherit !important;
+            -webkit-text-fill-color: inherit !important;
+            opacity: 1 !important;
             font-weight: 700 !important;
         }
-        .stTabs [data-baseweb="tab"]:hover {
-            background: var(--ercot-soft-blue) !important;
+        .stTabs [data-baseweb="tab"]:hover,
+        .stTabs button[role="tab"]:hover,
+        [data-testid="stTabs"] button[role="tab"]:hover {
+            background: #d7edf4 !important;
             border-color: var(--ercot-accent) !important;
+            color: #073b55 !important;
+            -webkit-text-fill-color: #073b55 !important;
             box-shadow: 0 5px 13px rgba(11, 47, 79, 0.10) !important;
         }
-        .stTabs [data-baseweb="tab"]:focus-visible {
+        .stTabs [data-baseweb="tab"]:focus-visible,
+        .stTabs button[role="tab"]:focus-visible,
+        [data-testid="stTabs"] button[role="tab"]:focus-visible {
             outline: 3px solid rgba(8, 145, 178, 0.30) !important;
             outline-offset: 2px !important;
         }
-        .stTabs [aria-selected="true"] {
+        .stTabs [aria-selected="true"],
+        [data-testid="stTabs"] button[aria-selected="true"] {
             background: var(--ercot-blue) !important;
             border-color: var(--ercot-blue) !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
             box-shadow: 0 6px 15px rgba(11, 47, 79, 0.18) !important;
         }
-        .stTabs [aria-selected="true"] p,
-        .stTabs [aria-selected="true"] span {
+        .stTabs [aria-selected="true"] *,
+        [data-testid="stTabs"] button[aria-selected="true"] * {
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
             font-weight: 800 !important;
@@ -654,24 +697,36 @@ def inject_dashboard_css() -> None:
         .stTabs [data-baseweb="tab-border"] {
             display: none !important;
         }
-        .st-key-ercot_document_category_filter {
+        .st-key-ercot_document_category_filter,
+        [class*="st-key-ercot_document_category_filter"],
+        [class*="st-key-ercot_revision_family_filter"],
+        [class*="st-key-ercot_dashboard_view"] {
             margin: 0.25rem 0 0.9rem;
         }
         .st-key-ercot_document_category_filter [role="radiogroup"],
-        .st-key-ercot_document_category_filter [data-baseweb="button-group"] {
+        .st-key-ercot_document_category_filter [data-baseweb="button-group"],
+        [class*="st-key-ercot_document_category_filter"] [role="radiogroup"],
+        [class*="st-key-ercot_revision_family_filter"] [role="radiogroup"],
+        [class*="st-key-ercot_dashboard_view"] [role="radiogroup"],
+        [class*="st-key-ercot_document_category_filter"] [data-baseweb="button-group"],
+        [class*="st-key-ercot_revision_family_filter"] [data-baseweb="button-group"],
+        [class*="st-key-ercot_dashboard_view"] [data-baseweb="button-group"] {
             display: flex !important;
             flex-wrap: wrap !important;
             gap: 0.5rem !important;
             overflow: visible !important;
         }
-        .st-key-ercot_document_category_filter button {
+        .st-key-ercot_document_category_filter button,
+        [class*="st-key-ercot_document_category_filter"] button,
+        [class*="st-key-ercot_revision_family_filter"] button,
+        [class*="st-key-ercot_dashboard_view"] button {
             flex: 0 0 auto !important;
             width: auto !important;
             min-height: 2.35rem !important;
             padding: 0.44rem 0.82rem !important;
-            border: 1px solid #cbd5e1 !important;
+            border: 1px solid #8aa5b8 !important;
             border-radius: 999px !important;
-            background: #ffffff !important;
+            background: #eaf4f8 !important;
             color: var(--ercot-blue) !important;
             -webkit-text-fill-color: var(--ercot-blue) !important;
             font-weight: 750 !important;
@@ -680,19 +735,40 @@ def inject_dashboard_css() -> None:
         }
         .st-key-ercot_document_category_filter button *,
         .st-key-ercot_document_category_filter button p,
-        .st-key-ercot_document_category_filter button span {
+        .st-key-ercot_document_category_filter button span,
+        [class*="st-key-ercot_document_category_filter"] button *,
+        [class*="st-key-ercot_revision_family_filter"] button *,
+        [class*="st-key-ercot_dashboard_view"] button * {
             color: inherit !important;
             -webkit-text-fill-color: inherit !important;
             opacity: 1 !important;
         }
-        .st-key-ercot_document_category_filter button:hover {
-            background: var(--ercot-soft-blue) !important;
+        .st-key-ercot_document_category_filter button:hover,
+        [class*="st-key-ercot_document_category_filter"] button:hover,
+        [class*="st-key-ercot_revision_family_filter"] button:hover,
+        [class*="st-key-ercot_dashboard_view"] button:hover {
+            background: #d7edf4 !important;
             border-color: var(--ercot-accent) !important;
             color: #073b55 !important;
             -webkit-text-fill-color: #073b55 !important;
         }
         .st-key-ercot_document_category_filter button[kind="pillsActive"],
-        .st-key-ercot_document_category_filter button[data-testid="stBaseButton-pillsActive"] {
+        .st-key-ercot_document_category_filter button[data-testid="stBaseButton-pillsActive"],
+        [class*="st-key-ercot_document_category_filter"] button[aria-pressed="true"],
+        [class*="st-key-ercot_revision_family_filter"] button[aria-pressed="true"],
+        [class*="st-key-ercot_dashboard_view"] button[aria-pressed="true"],
+        [class*="st-key-ercot_document_category_filter"] button[aria-selected="true"],
+        [class*="st-key-ercot_revision_family_filter"] button[aria-selected="true"],
+        [class*="st-key-ercot_dashboard_view"] button[aria-selected="true"],
+        [class*="st-key-ercot_document_category_filter"] button[data-active="true"],
+        [class*="st-key-ercot_revision_family_filter"] button[data-active="true"],
+        [class*="st-key-ercot_dashboard_view"] button[data-active="true"],
+        [class*="st-key-ercot_document_category_filter"] button[data-testid$="-pillsActive"],
+        [class*="st-key-ercot_revision_family_filter"] button[data-testid$="-pillsActive"],
+        [class*="st-key-ercot_dashboard_view"] button[data-testid$="-pillsActive"],
+        [class*="st-key-ercot_document_category_filter"] button[kind$="Active"],
+        [class*="st-key-ercot_revision_family_filter"] button[kind$="Active"],
+        [class*="st-key-ercot_dashboard_view"] button[kind$="Active"] {
             background: var(--ercot-blue) !important;
             border-color: var(--ercot-blue) !important;
             color: #ffffff !important;
@@ -700,11 +776,23 @@ def inject_dashboard_css() -> None:
             box-shadow: 0 6px 15px rgba(11, 47, 79, 0.18) !important;
         }
         .st-key-ercot_document_category_filter button[kind="pillsActive"] *,
-        .st-key-ercot_document_category_filter button[data-testid="stBaseButton-pillsActive"] * {
+        .st-key-ercot_document_category_filter button[data-testid="stBaseButton-pillsActive"] *,
+        [class*="st-key-ercot_document_category_filter"] button[aria-pressed="true"] *,
+        [class*="st-key-ercot_revision_family_filter"] button[aria-pressed="true"] *,
+        [class*="st-key-ercot_dashboard_view"] button[aria-pressed="true"] *,
+        [class*="st-key-ercot_document_category_filter"] button[aria-selected="true"] *,
+        [class*="st-key-ercot_revision_family_filter"] button[aria-selected="true"] *,
+        [class*="st-key-ercot_dashboard_view"] button[aria-selected="true"] *,
+        [class*="st-key-ercot_document_category_filter"] button[data-testid$="-pillsActive"] *,
+        [class*="st-key-ercot_revision_family_filter"] button[data-testid$="-pillsActive"] *,
+        [class*="st-key-ercot_dashboard_view"] button[data-testid$="-pillsActive"] * {
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
         }
-        .st-key-ercot_document_category_filter button:focus-visible {
+        .st-key-ercot_document_category_filter button:focus-visible,
+        [class*="st-key-ercot_document_category_filter"] button:focus-visible,
+        [class*="st-key-ercot_revision_family_filter"] button:focus-visible,
+        [class*="st-key-ercot_dashboard_view"] button:focus-visible {
             outline: 3px solid rgba(8, 145, 178, 0.30) !important;
             outline-offset: 2px !important;
         }
@@ -847,17 +935,15 @@ def render_status_pill(label: str, status: str = "ok") -> None:
 def categorize_ercot_update(item: Dict[str, Any]) -> str:
     """Group technical updates for scanning without changing RAG contents."""
     source = str(item.get("source") or "").upper()
-    number = str(item.get("document_number") or "").upper()
     title = str(item.get("title") or "").upper()
-    combined = f"{source} {number} {title}"
-    if any(
-        code in combined
-        for code in (
-            "NPRR", "PGRR", "NOGRR", "OBDRR", "RRGRR", "VCMRR", "COPMGRR",
-            "LPGRR", "RMGRR", "SMOGRR", "CMGRR", "SCR",
-        )
-    ):
+    revision = revision_request_identity(
+        str(item.get("document_number") or ""),
+        str(item.get("title") or ""),
+        str(item.get("url") or ""),
+    )
+    if revision:
         return "Revision Requests (xRRs)"
+    combined = f"{source} {title}"
     if any(term in combined for term in ("PROTOCOL", "PLANNING GUIDE", "OPERATING GUIDE", "OTHER BINDING DOCUMENT")):
         return "Protocols, Guides & OBDs"
     if source in {"DWG", "SSWG", "RIWG", "LLWG", "RPG", "TAC", "BOARD OF DIRECTORS"}:
@@ -865,76 +951,285 @@ def categorize_ercot_update(item: Dict[str, Any]) -> str:
     return "Other Technical Documents"
 
 
+XRR_FAMILY_ORDER = (
+    "NPRR", "PGRR", "NOGRR", "OBDRR", "RRGRR", "VCMRR", "COPMGRR",
+    "LPGRR", "RMGRR", "SMOGRR", "CMGRR", "SCR",
+)
+
+
+def _ercot_update_date(item: Dict[str, Any]) -> datetime:
+    for value in (item.get("published_date"), item.get("downloaded_at")):
+        candidate = str(value or "").strip()
+        if not candidate:
+            continue
+        for pattern in (
+            "%Y-%m-%dT%H:%M:%S%z",
+            "%Y-%m-%dT%H:%M:%SZ",
+            "%Y-%m-%d",
+            "%B %d, %Y",
+            "%b %d, %Y",
+        ):
+            try:
+                return datetime.strptime(candidate, pattern).replace(tzinfo=None)
+            except ValueError:
+                continue
+    return datetime.min
+
+
+def _render_update_item(item: Dict[str, Any]) -> None:
+    title = str(item.get("title") or item.get("document_number") or "ERCOT document")
+    number = str(item.get("document_number") or "").strip()
+    label = f"{number} — {title}" if number and number.casefold() not in title.casefold() else title
+    with st.expander(label):
+        st.write(item.get("explanation") or "New ERCOT technical material.")
+        metadata = " · ".join(
+            value for value in (
+                str(item.get("source") or "").strip(),
+                str(item.get("published_date") or "").strip(),
+                str(item.get("status") or "").strip(),
+            ) if value
+        )
+        if metadata:
+            st.caption(metadata)
+        if item.get("url"):
+            st.link_button("Open ERCOT source", str(item["url"]))
+
+
+def _render_update_collection(
+    items: list[Dict[str, Any]],
+    *,
+    empty_message: str,
+    key: str,
+    initial_limit: int = 20,
+) -> None:
+    if not items:
+        st.info(empty_message)
+        return
+    ordered = sorted(items, key=_ercot_update_date, reverse=True)
+    show_all = len(ordered) <= initial_limit or st.toggle(
+        f"Show all {len(ordered)} documents",
+        value=False,
+        key=f"{key}_show_all",
+    )
+    visible = ordered if show_all else ordered[:initial_limit]
+    if not show_all:
+        st.caption(f"Showing the {len(visible)} newest documents.")
+    for item in visible:
+        _render_update_item(item)
+
+
+def _revision_groups(
+    items: list[Dict[str, Any]],
+) -> dict[str, dict[str, list[Dict[str, Any]]]]:
+    grouped: dict[str, dict[str, list[Dict[str, Any]]]] = {}
+    for item in items:
+        revision = revision_request_identity(
+            str(item.get("document_number") or ""),
+            str(item.get("title") or ""),
+            str(item.get("url") or ""),
+        )
+        if not revision:
+            continue
+        revision_id, family = revision
+        grouped.setdefault(family, {}).setdefault(revision_id, []).append(item)
+    return grouped
+
+
+def _revision_issue_number(revision_id: str) -> int:
+    match = re.search(r"(\d+)$", revision_id)
+    return int(match.group(1)) if match else -1
+
+
+def _revision_issue_summary(revision_id: str, materials: list[Dict[str, Any]]) -> str:
+    proposal = next(
+        (
+            item for item in materials
+            if re.search(
+                rf"\b\d+{re.escape(revision_id.rstrip('0123456789'))}-01\b",
+                str(item.get("title") or ""),
+                re.IGNORECASE,
+            )
+        ),
+        None,
+    )
+    if proposal is None:
+        return ""
+    title = str(proposal.get("title") or "").strip()
+    title = re.sub(
+        r"^\s*\d+(?:NPRR|PGRR|NOGRR|OBDRR|RRGRR|VCMRR|COPMGRR|LPGRR|"
+        r"RMGRR|SMOGRR|CMGRR|SCR)-\d+\s*",
+        "",
+        title,
+        flags=re.IGNORECASE,
+    )
+    title = re.sub(r"\s+\d{6}\s*$", "", title).strip(" —-")
+    return title
+
+
+def _render_revision_requests(items: list[Dict[str, Any]]) -> None:
+    grouped = _revision_groups(items)
+    families = [family for family in XRR_FAMILY_ORDER if grouped.get(family)]
+    issue_count = sum(len(grouped[family]) for family in families)
+    material_count = sum(
+        len(materials)
+        for family in families
+        for materials in grouped[family].values()
+    )
+    if not families:
+        st.info("No new revision-request issues are available.")
+        return
+
+    st.caption(
+        f"{issue_count} unique revision requests across {material_count} proposal, comment, "
+        "impact-analysis, ballot, committee, and approval materials."
+    )
+    family_labels = {
+        f"{family} ({len(grouped[family])})": family
+        for family in families
+    }
+    selected_label = st.pills(
+        "Revision-request family",
+        list(family_labels),
+        default=next(iter(family_labels)),
+        selection_mode="single",
+        label_visibility="collapsed",
+        key="ercot_revision_family_filter",
+    )
+    selected_family = family_labels.get(selected_label or "", families[0])
+    search_col, limit_col = st.columns([3, 1])
+    with search_col:
+        search = st.text_input(
+            "Search this xRR family",
+            placeholder=f"Search {selected_family} number or title",
+            key=f"ercot_xrr_search_{selected_family}",
+        ).strip().casefold()
+    with limit_col:
+        show_all = st.toggle(
+            "Show all issues",
+            value=False,
+            key=f"ercot_xrr_show_all_{selected_family}",
+        )
+
+    issues = list(grouped[selected_family].items())
+    issues.sort(
+        key=lambda pair: (
+            max((_ercot_update_date(item) for item in pair[1]), default=datetime.min),
+            _revision_issue_number(pair[0]),
+        ),
+        reverse=True,
+    )
+    if search:
+        issues = [
+            pair for pair in issues
+            if search in pair[0].casefold()
+            or any(search in str(item.get("title") or "").casefold() for item in pair[1])
+        ]
+    visible = issues if show_all else issues[:12]
+    if not visible:
+        st.info(f"No {selected_family} issues match that search.")
+        return
+    if not show_all and len(issues) > len(visible):
+        st.caption(f"Showing the 12 newest of {len(issues)} {selected_family} issues.")
+
+    for revision_id, materials in visible:
+        ordered_materials = sorted(materials, key=_ercot_update_date, reverse=True)
+        summary = _revision_issue_summary(revision_id, materials)
+        latest_date = str(ordered_materials[0].get("published_date") or "").strip()
+        detail_parts = [f"{len(materials)} material{'s' if len(materials) != 1 else ''}"]
+        if latest_date:
+            detail_parts.append(f"latest {latest_date}")
+        label = revision_id
+        if summary:
+            label += f" — {summary}"
+        label += f" · {' · '.join(detail_parts)}"
+        with st.expander(label):
+            preferred = next(
+                (item for item in materials if _revision_issue_summary(revision_id, [item])),
+                ordered_materials[0],
+            )
+            st.write(preferred.get("explanation") or "New ERCOT revision-request material.")
+            for artifact in ordered_materials:
+                artifact_title = str(
+                    artifact.get("title") or artifact.get("document_number") or revision_id
+                )
+                artifact_meta = " · ".join(
+                    value for value in (
+                        str(artifact.get("source") or "").strip(),
+                        str(artifact.get("published_date") or "").strip(),
+                        str(artifact.get("status") or "").strip(),
+                    ) if value
+                )
+                artifact_text, artifact_action = st.columns([5, 1])
+                with artifact_text:
+                    st.markdown(f"**{artifact_title}**")
+                    if artifact_meta:
+                        st.caption(artifact_meta)
+                with artifact_action:
+                    if artifact.get("url"):
+                        st.link_button(
+                            "Open",
+                            str(artifact["url"]),
+                            use_container_width=True,
+                        )
+
+
 def render_latest_ercot_documents() -> None:
     """Show the saved technical-update feed and keep live notices outside the RAG."""
     payload = load_latest_updates(LATEST_UPDATES_PATH)
     items = payload.get("items", []) if isinstance(payload, dict) else []
+    categories = [
+        "Revision Requests (xRRs)",
+        "Protocols, Guides & OBDs",
+        "Groups & Governance",
+        "Other Technical Documents",
+    ]
+    grouped = {category: [] for category in categories}
+    for item in items:
+        grouped[categorize_ercot_update(item)].append(item)
+    revisions = _revision_groups(grouped["Revision Requests (xRRs)"])
+    unique_revision_count = sum(len(issues) for issues in revisions.values())
     render_section_header(
         "Latest ERCOT Documents and Explanations",
-        "New 2026+ technical documents are categorized below. These documents support the engineering assistant; operational and public notices do not.",
+        "New 2026+ technical documents are organized by document family and revision-request issue. "
+        "Operational and public notices remain separate from the engineering RAG.",
     )
-    document_tab, operations_tab, notices_tab = st.tabs(
-        ["Technical documents", "Operational messages", "Public & market notices"]
+    (
+        revision_tab,
+        governing_tab,
+        groups_tab,
+        other_tab,
+        operations_tab,
+        notices_tab,
+    ) = st.tabs(
+        [
+            f"Revision Requests ({unique_revision_count})",
+            f"Protocols, Guides & OBDs ({len(grouped['Protocols, Guides & OBDs'])})",
+            f"Groups & Governance ({len(grouped['Groups & Governance'])})",
+            f"Other Technical ({len(grouped['Other Technical Documents'])})",
+            "Operational messages",
+            "Public & market notices",
+        ]
     )
-    with document_tab:
-        if not items:
-            st.info("No published technical-document updates are available yet.")
-        else:
-            categories = [
-                "Revision Requests (xRRs)",
-                "Protocols, Guides & OBDs",
-                "Groups & Governance",
-                "Other Technical Documents",
-            ]
-            grouped = {category: [] for category in categories}
-            for item in items:
-                grouped[categorize_ercot_update(item)].append(item)
-            category_labels = {
-                f"{category} ({len(grouped[category])})": category
-                for category in categories
-            }
-            selected_label = st.pills(
-                "Filter technical documents",
-                ["All", *category_labels],
-                default="All",
-                selection_mode="single",
-                label_visibility="collapsed",
-                key="ercot_document_category_filter",
-            )
-            selected_categories = (
-                categories
-                if not selected_label or selected_label == "All"
-                else [category_labels[selected_label]]
-            )
-            visible_categories = [
-                category
-                for category in selected_categories
-                if grouped[category] or len(selected_categories) == 1
-            ]
-            for category_index, category in enumerate(visible_categories):
-                st.markdown(f"#### {category} ({len(grouped[category])})")
-                if not grouped[category]:
-                    st.caption("No new documents in this category.")
-                    continue
-                for item in grouped[category]:
-                    title = str(item.get("title") or item.get("document_number") or "ERCOT document")
-                    number = str(item.get("document_number") or "").strip()
-                    label = f"{number} — {title}" if number and number.lower() not in title.lower() else title
-                    with st.expander(label):
-                        st.write(item.get("explanation") or "New ERCOT technical material.")
-                        metadata = " · ".join(
-                            value for value in (
-                                str(item.get("source") or "").strip(),
-                                str(item.get("published_date") or "").strip(),
-                                str(item.get("status") or "").strip(),
-                            ) if value
-                        )
-                        if metadata:
-                            st.caption(metadata)
-                        if item.get("url"):
-                            st.link_button("Open ERCOT source", str(item["url"]))
-                if category_index < len(visible_categories) - 1:
-                    st.divider()
+    with revision_tab:
+        _render_revision_requests(grouped["Revision Requests (xRRs)"])
+    with governing_tab:
+        _render_update_collection(
+            grouped["Protocols, Guides & OBDs"],
+            empty_message="No new Protocol, Guide, or Other Binding Document updates.",
+            key="ercot_governing_updates",
+        )
+    with groups_tab:
+        _render_update_collection(
+            grouped["Groups & Governance"],
+            empty_message="No new working-group or governance documents.",
+            key="ercot_group_updates",
+        )
+    with other_tab:
+        _render_update_collection(
+            grouped["Other Technical Documents"],
+            empty_message="No other new technical documents.",
+            key="ercot_other_updates",
+        )
     with operations_tab:
         st.info(
             "Operational messages are time-sensitive grid communications. They are intentionally separate from the engineering RAG and are not embedded."
@@ -1766,6 +2061,23 @@ def main():
         f"</div>",
         unsafe_allow_html=True,
     )
+    requested_view = str(st.query_params.get("view", "")).strip().casefold()
+    default_view = (
+        "ERCOT Documents & Changes"
+        if requested_view in {"documents", "changes", "ercot-documents"}
+        else "Grid Operations & Analytics"
+    )
+    dashboard_view = st.pills(
+        "Dashboard view",
+        ["Grid Operations & Analytics", "ERCOT Documents & Changes"],
+        default=default_view,
+        selection_mode="single",
+        label_visibility="collapsed",
+        key="ercot_dashboard_view",
+    )
+    if dashboard_view == "ERCOT Documents & Changes":
+        render_latest_ercot_documents()
+        return
 
     # Unified news prefixes (ERCOT + regulatory updates in one panel)
     all_news_prefixes = [
@@ -1792,8 +2104,6 @@ def main():
     else:
         st.info("Awaiting n8n workflow updates. The dashboard will display the newest summary when a file lands.")
     st.markdown("</div>", unsafe_allow_html=True)
-
-    render_latest_ercot_documents()
 
     # Sidebar for configuration
     st.sidebar.title("Control Center")

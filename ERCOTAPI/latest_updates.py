@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -28,18 +29,67 @@ REVISION_REQUEST_NAMES = {
     "CMGRR": "Competitive Metering Guide Revision Request",
     "SCR": "System Change Request",
 }
+REVISION_REQUEST_FAMILIES = tuple(REVISION_REQUEST_NAMES)
+_REVISION_FAMILY_PATTERN = "|".join(
+    sorted(REVISION_REQUEST_FAMILIES, key=len, reverse=True)
+)
+_ISSUE_URL_RE = re.compile(
+    rf"/mktrules/issues/(?P<family>{_REVISION_FAMILY_PATTERN})"
+    r"[-_ ]?(?P<number>\d{1,6})\b",
+    re.IGNORECASE,
+)
+_REVERSE_REVISION_RE = re.compile(
+    rf"\b(?P<number>\d{{1,6}})(?P<family>{_REVISION_FAMILY_PATTERN})"
+    r"(?=[-_\s.]|$)",
+    re.IGNORECASE,
+)
+_FORWARD_REVISION_RE = re.compile(
+    rf"\b(?P<family>{_REVISION_FAMILY_PATTERN})[-_ ]?(?P<number>\d{{1,6}})\b",
+    re.IGNORECASE,
+)
+EXCLUDED_NAVIGATION_TITLES = {
+    "hide emil information show emil information",
+    "mis log in",
+    "nodal protocol revision requests",
+    "nprr submission process",
+    "protocol interpretation request submission process",
+    "protocol library - nodal",
+    "workshops",
+}
 
 
-def _explanation(source: str, title: str, document_number: str) -> str:
+def revision_request_identity(
+    document_number: str = "",
+    title: str = "",
+    url: str = "",
+) -> tuple[str, str] | None:
+    """Return ``(revision_id, family)`` without confusing attachment numbers."""
+
+    issue_match = _ISSUE_URL_RE.search(url)
+    if issue_match:
+        family = issue_match.group("family").upper()
+        return f"{family}{issue_match.group('number')}", family
+
+    for candidate in (document_number, title, url):
+        reverse_match = _REVERSE_REVISION_RE.search(candidate)
+        if reverse_match:
+            family = reverse_match.group("family").upper()
+            return f"{family}{reverse_match.group('number')}", family
+        forward_match = _FORWARD_REVISION_RE.search(candidate)
+        if forward_match:
+            family = forward_match.group("family").upper()
+            return f"{family}{forward_match.group('number')}", family
+    return None
+
+
+def _explanation(source: str, title: str, document_number: str, url: str = "") -> str:
     source_upper = source.upper()
-    prefix = next(
-        (name for name in REVISION_REQUEST_NAMES if source_upper == name or document_number.upper().startswith(name)),
-        "",
-    )
-    if prefix:
+    revision = revision_request_identity(document_number, title, url)
+    if revision:
+        revision_id, prefix = revision
         return (
             f"New {REVISION_REQUEST_NAMES[prefix]} material. It may change or clarify ERCOT "
-            f"requirements; search the assistant for {document_number or title} to review details."
+            f"requirements; search the assistant for {revision_id} to review details."
         )
     if source_upper in {"DWG", "SSWG"}:
         return "New working-group material relevant to dynamic or steady-state modeling and study procedures."
@@ -72,14 +122,19 @@ def build_latest_updates(
         if any(fragment in original_url.lower() for fragment in EXCLUDED_URL_FRAGMENTS):
             continue
         published = str(metadata.get("published_date") or metadata.get("published_hint") or "")
-        years = [int(value) for value in __import__("re").findall(r"\b(20\d{2})\b", published)]
-        if years and max(years) < minimum_year:
+        published_years = [int(value) for value in re.findall(r"\b(20\d{2})\b", published)]
+        path_years = [int(value) for value in re.findall(r"\b(20\d{2})\b", path.as_posix())]
+        years = published_years or path_years
+        if not years or max(years) < minimum_year:
             continue
         content_hash = str(metadata.get("content_sha256") or "")
         if not content_hash:
             content_hash = hashlib.sha256(path.read_bytes()).hexdigest()
         title = str(metadata.get("title") or path.name).strip()
+        if title.casefold() in EXCLUDED_NAVIGATION_TITLES:
+            continue
         number = str(metadata.get("document_number") or "").strip()
+        revision = revision_request_identity(number, title, original_url)
         record = unique.setdefault(
             content_hash,
             {
@@ -92,6 +147,8 @@ def build_latest_updates(
                 "status": str(metadata.get("document_status") or ""),
                 "url": original_url,
                 "sources": [],
+                "revision_id": revision[0] if revision else "",
+                "revision_family": revision[1] if revision else "",
             },
         )
         if source and source not in record["sources"]:
@@ -101,7 +158,7 @@ def build_latest_updates(
     for item in items:
         item["sources"].sort()
         item["explanation"] = _explanation(
-            item["source"], item["title"], item["document_number"]
+            item["source"], item["title"], item["document_number"], item["url"]
         )
     items.sort(
         key=lambda item: (item["downloaded_at"], item["published_date"], item["title"]),

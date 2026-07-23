@@ -88,6 +88,26 @@ def repository_root() -> Path:
     return Path(__file__).resolve().parents[2]
 
 
+def _has_complete_generation(store: Path) -> bool:
+    """Return whether a local or packaged store has a readable generation layout."""
+
+    pointer = store / "CURRENT"
+    try:
+        generation_id = pointer.read_text(encoding="utf-8").strip()
+    except OSError:
+        return False
+    if not generation_id or Path(generation_id).name != generation_id:
+        return False
+    generation = store / "generations" / generation_id
+    has_chunks = (generation / "chunks.json").is_file() or (
+        generation / "chunks.json.gz"
+    ).is_file()
+    has_embeddings = (generation / "embeddings.npy").is_file() or (
+        generation / "embeddings.npy.gz"
+    ).is_file()
+    return (generation / "manifest.json").is_file() and has_chunks and has_embeddings
+
+
 def default_config(
     *,
     repo_root: Path | None = None,
@@ -100,11 +120,18 @@ def default_config(
         os.getenv("ERCOT_RAG_STORE", "").strip()
         or os.getenv("ERCOT_RAG_INDEX_DIR", "").strip()
     )
-    destination = index_dir or (
-        Path(configured_index).expanduser()
-        if configured_index
-        else root / "ERCOTAPI" / ".rag_store"
-    )
+    local_store = root / "ERCOTAPI" / ".rag_store"
+    packaged_store = root / "ERCOTAPI" / "deployment_rag_store"
+    if index_dir is not None:
+        destination = index_dir
+    elif configured_index:
+        destination = Path(configured_index).expanduser()
+    elif _has_complete_generation(local_store):
+        destination = local_store
+    elif _has_complete_generation(packaged_store):
+        destination = packaged_store
+    else:
+        destination = local_store
 
     sources = (
         SourceRoot(

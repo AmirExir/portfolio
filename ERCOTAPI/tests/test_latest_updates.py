@@ -7,10 +7,27 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from ERCOTAPI.latest_updates import build_latest_updates
+from ERCOTAPI.latest_updates import build_latest_updates, revision_request_identity
 
 
 class LatestUpdatesTests(unittest.TestCase):
+    def test_revision_identity_handles_forward_reverse_and_issue_urls(self) -> None:
+        self.assertEqual(
+            revision_request_identity(title="145PGRR-72 PRS Report"),
+            ("PGRR145", "PGRR"),
+        )
+        self.assertEqual(
+            revision_request_identity(title="055OBDRR-08 Board Report"),
+            ("OBDRR055", "OBDRR"),
+        )
+        self.assertEqual(
+            revision_request_identity(
+                url="https://www.ercot.com/mktrules/issues/NPRR1343"
+            ),
+            ("NPRR1343", "NPRR"),
+        )
+        self.assertIsNone(revision_request_identity(title="NPRR Submission Process"))
+
     def test_feed_deduplicates_content_and_explains_revision_requests(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -81,6 +98,28 @@ class LatestUpdatesTests(unittest.TestCase):
                         "title": "Operational messages",
                         "published_date": "2026-07-22",
                         "original_url": "https://www.ercot.com/services/comm/mkt_notices/opsmessages",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            payload = build_latest_updates([path], output_path=root / "feed.json")
+
+            self.assertEqual(payload["count"], 0)
+
+    def test_feed_excludes_navigation_pages_even_under_xrr_source(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            path = root / "pgrr" / "2026" / "workshops.html"
+            path.parent.mkdir(parents=True)
+            path.write_text("navigation", encoding="utf-8")
+            path.with_name(f"{path.name}.metadata.json").write_text(
+                json.dumps(
+                    {
+                        "content_sha256": "navigation-hash",
+                        "source_label": "PGRR",
+                        "title": "Workshops",
+                        "published_date": "2026-07-22",
                     }
                 ),
                 encoding="utf-8",

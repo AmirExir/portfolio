@@ -6,6 +6,7 @@ import json
 import os
 import shutil
 import tempfile
+import gzip
 from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
@@ -18,6 +19,8 @@ GENERATIONS_DIR = "generations"
 MANIFEST_FILE = "manifest.json"
 CHUNKS_FILE = "chunks.json"
 EMBEDDINGS_FILE = "embeddings.npy"
+COMPRESSED_CHUNKS_FILE = "chunks.json.gz"
+COMPRESSED_EMBEDDINGS_FILE = "embeddings.npy.gz"
 
 
 @dataclass
@@ -125,9 +128,19 @@ def load_generation(index_dir: Path, generation_id: str | None = None) -> Genera
     path = index_dir / GENERATIONS_DIR / selected
     try:
         manifest = read_json(path / MANIFEST_FILE)
-        chunks = read_json(path / CHUNKS_FILE)
+        chunks_path = path / CHUNKS_FILE
+        if chunks_path.is_file():
+            chunks = read_json(chunks_path)
+        else:
+            with gzip.open(path / COMPRESSED_CHUNKS_FILE, "rt", encoding="utf-8") as handle:
+                chunks = json.load(handle)
         np = _require_numpy()
-        embeddings = np.load(path / EMBEDDINGS_FILE, allow_pickle=False)
+        embeddings_path = path / EMBEDDINGS_FILE
+        if embeddings_path.is_file():
+            embeddings = np.load(embeddings_path, allow_pickle=False)
+        else:
+            with gzip.open(path / COMPRESSED_EMBEDDINGS_FILE, "rb") as handle:
+                embeddings = np.load(handle, allow_pickle=False)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         raise RuntimeError(f"Unable to load ERCOT RAG generation {selected}: {exc}") from exc
     if not isinstance(manifest, dict) or not isinstance(chunks, list):
@@ -207,8 +220,14 @@ def prune_generations(index_dir: Path, *, keep: int) -> list[str]:
             if candidate.is_dir()
             and not candidate.name.startswith(".")
             and (candidate / MANIFEST_FILE).is_file()
-            and (candidate / CHUNKS_FILE).is_file()
-            and (candidate / EMBEDDINGS_FILE).is_file()
+            and (
+                (candidate / CHUNKS_FILE).is_file()
+                or (candidate / COMPRESSED_CHUNKS_FILE).is_file()
+            )
+            and (
+                (candidate / EMBEDDINGS_FILE).is_file()
+                or (candidate / COMPRESSED_EMBEDDINGS_FILE).is_file()
+            )
         ),
         key=lambda candidate: candidate.name,
         reverse=True,

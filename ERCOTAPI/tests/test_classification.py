@@ -156,6 +156,18 @@ class ClassificationTests(unittest.TestCase):
         )
         self.assertIn("requirements.txt", config.ignored_names)
 
+    def test_default_config_uses_packaged_store_when_local_store_is_absent(self) -> None:
+        packaged = self.repo_root / "ERCOTAPI" / "deployment_rag_store"
+        generation = packaged / "generations" / "packaged"
+        generation.mkdir(parents=True)
+        (packaged / "CURRENT").write_text("packaged\n", encoding="utf-8")
+        for filename in ("manifest.json", "chunks.json.gz", "embeddings.npy.gz"):
+            (generation / filename).write_bytes(b"saved")
+
+        config = default_config(repo_root=self.repo_root)
+
+        self.assertEqual(config.index_dir, packaged.resolve())
+
     def test_uploaded_official_roots_route_to_explicit_collections(self) -> None:
         config = default_config(
             repo_root=self.repo_root,

@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-23T00:04:37.348932+00:00",
   "minimum_year": 2026,
-  "count": 192,
+  "count": 141,
   "items": [
     {
       "content_sha256": "705a7dec169e84cdff32f89266c3cd4220f342edd64e65741a5b972f2362a06c",
@@ -15,7 +15,9 @@
       "sources": [
         "BOARD OF DIRECTORS"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1296 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1296 to review details.",
+      "revision_id": "NPRR1296",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "a840856ca24755d55c98065563da266a8e122e9be344fbd2795adbbd0b8c0ea9",
@@ -29,77 +31,9 @@
       "sources": [
         "BOARD OF DIRECTORS"
       ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "8e4c1704601cf9fe90244c9b1151c9ef3ccc6056bbc2552346a3913e2d39fec8",
-      "title": "Nodal Protocol Revision Requests",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:01:45Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "f4ae0b49ad023ec912ec6bd796695f47e6d947886a9eb02e2beb43617bb8ea14",
-      "title": "NPRR Submission Process",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:01:45Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr_process",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "da0a4938fb4b4795266a5bbb0e8e63b97d6107cfb7295910eb6b6d50aa4a5ebd",
-      "title": "Protocol Library - Nodal",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:01:44Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/library",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "83c47981d6771409ebb46b013f7fe257a94c18c20c572e40b77fd70506b7c33c",
-      "title": "Protocol Interpretation Request Submission Process",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:01:44Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "dd56d86f507f0fe1bb43f5cde4d0a0aa077fc8c6ce9d50781085d40b78703559",
-      "title": "Workshops",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:01:43Z",
-      "status": "",
-      "url": "https://www.ercot.com/committees/workshops",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
+      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "a8346559f20309d92cb66de6a1852e85cfc807d3e99254b4641fbea8c9942290",
@@ -113,7 +47,9 @@
       "sources": [
         "TAC"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1310 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1310 to review details.",
+      "revision_id": "NPRR1310",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "6a01a07b1de206fea71ba5c2bffb08705bf97f685ce33ca5aaa0f30d9b40b53d",
@@ -127,7 +63,9 @@
       "sources": [
         "TAC"
       ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
+      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "2dd1135c391d474cb2edda279e26043e96b767a753903fd43ecd2d19b00a7fd3",
@@ -141,7 +79,9 @@
       "sources": [
         "TAC"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1312 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1312 to review details.",
+      "revision_id": "NPRR1312",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "e3f5974fe1314fb5d9bdee77fded1b8644de7eeb8035a821ef332a80f1cc09aa",
@@ -155,7 +95,9 @@
       "sources": [
         "TAC"
       ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
+      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "bbc77e5860186329b7ec23a175c2675dbb147a3921244a4de9c13d122735d9c8",
@@ -169,7 +111,9 @@
       "sources": [
         "TAC"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1315 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1315 to review details.",
+      "revision_id": "NPRR1315",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "5f0dde11bcf1ba199a7c1cdcc59146092e6e9cecbf68a203b2e25a419f042150",
@@ -183,7 +127,9 @@
       "sources": [
         "RTP"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1306 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1306 to review details.",
+      "revision_id": "NPRR1306",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "35ddf0bf72af36594408d0c2beff1e4b2169a9eacd72915072a82906c50d1575",
@@ -197,7 +143,9 @@
       "sources": [
         "RTP"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1302 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1302 to review details.",
+      "revision_id": "NPRR1302",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "739dc8dc295fbd5190f91b18fd91e5f2705d2c4fae7b062336edbee66ded09ed",
@@ -211,21 +159,9 @@
       "sources": [
         "RTP"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1307 to review details."
-    },
-    {
-      "content_sha256": "40ee5b1f6d4e1a60cccb8607cd4ebde8f419c1a217fafcf9c04deeb495c14e55",
-      "title": "Hide EMIL Information Show EMIL Information",
-      "document_number": "",
-      "source": "RTP",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:01:19Z",
-      "status": "",
-      "url": "https://www.ercot.com/mp/data-products/data-product-details?id=pg7-048-m#collapseDetails",
-      "sources": [
-        "RTP"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1307 to review details.",
+      "revision_id": "NPRR1307",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "7647a5fcd10a9db04cc38185fd290ebec83592acccc0232ebfd769d17c7a1d46",
@@ -239,7 +175,9 @@
       "sources": [
         "DWG"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1309 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1309 to review details.",
+      "revision_id": "NPRR1309",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "f861a9603f9b6fc8e54fceb1d1fce2eccc1a2e79a309b6a09d0b92646c84a04d",
@@ -253,7 +191,9 @@
       "sources": [
         "SSWG"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1286 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1286 to review details.",
+      "revision_id": "NPRR1286",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "1372b27388b00af5a7319d1740cb2b8496d9d6526d1676218e485bcef7f298a8",
@@ -267,7 +207,9 @@
       "sources": [
         "SSWG"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1292 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1292 to review details.",
+      "revision_id": "NPRR1292",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "bcadcad64e8c14f20a75210e428de50c997bf9e296e7e8ede4bfe63ab279c8a4",
@@ -281,7 +223,9 @@
       "sources": [
         "SSWG"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1295 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1295 to review details.",
+      "revision_id": "NPRR1295",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "3f7a6f6e8f0e04d32a5d4fbae6da27463b734f64e5952343e8b1687d2aa14487",
@@ -295,7 +239,9 @@
       "sources": [
         "OPERATING GUIDE"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1334 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1334 to review details.",
+      "revision_id": "NPRR1334",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "6c33bbb92fff65b30098e373fe9f87e9de05ed337c721c8f69772a9a30ae9fe2",
@@ -309,7 +255,9 @@
       "sources": [
         "OPERATING GUIDE"
       ],
-      "explanation": "New operating guide material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New operating guide material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "545058dcd9e35a555f05957361860e163e571d58a0c94cc923de7292d9b742cd",
@@ -323,7 +271,9 @@
       "sources": [
         "OPERATING GUIDE"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1335 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1335 to review details.",
+      "revision_id": "NPRR1335",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "05c93bc5c5c82ea79bbe6767c0520f28a1d32362c9509d6742cf75ee724ef78c",
@@ -337,7 +287,9 @@
       "sources": [
         "PLANNING GUIDE"
       ],
-      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "4ec2b893169057d0b8c1c8095b1f980149e4becb5c73187f84f6378e37f85876",
@@ -351,7 +303,9 @@
       "sources": [
         "PLANNING GUIDE"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1320 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1320 to review details.",
+      "revision_id": "NPRR1320",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "56594eadcbceb975e6cf111e6aaac6b9c5341e4122c6c03e8534349f39faa76a",
@@ -365,7 +319,9 @@
       "sources": [
         "PLANNING GUIDE"
       ],
-      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "9c3ff840d4c0e263fad06f08508bfe25cff40609e86420ce3684a1d1a9ab82b8",
@@ -379,7 +335,9 @@
       "sources": [
         "PLANNING GUIDE"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1322 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1322 to review details.",
+      "revision_id": "NPRR1322",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "266be83864f45d0423449e6b9af3d98aaf3e20f06dcd543fdc4539921407fc48",
@@ -393,7 +351,9 @@
       "sources": [
         "PLANNING GUIDE"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1324 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1324 to review details.",
+      "revision_id": "NPRR1324",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "e1c5ec659c72e7f2bf2e5594736b41f04dea77643b8a0f429d61e455195f3669",
@@ -407,63 +367,9 @@
       "sources": [
         "PLANNING GUIDE"
       ],
-      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "e7ee62da152d42c72a91e697887ca8e033bacccf0572c6c89a966c1c7e7c5e63",
-      "title": "Nodal Protocol Revision Requests",
-      "document_number": "",
-      "source": "PLANNING GUIDE",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:00:52Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr",
-      "sources": [
-        "PLANNING GUIDE"
-      ],
-      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "f841d82b82f6260e3639524c6e1fec9a0fcb1505cfb83e39281d4148b68ca80e",
-      "title": "Workshops",
-      "document_number": "",
-      "source": "PLANNING GUIDE",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:00:51Z",
-      "status": "",
-      "url": "https://www.ercot.com/committees/workshops",
-      "sources": [
-        "PLANNING GUIDE"
-      ],
-      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "33ac36b80bd88d7b2858c6c9a1201a836874c0113d5a661a1f143d745c8d130a",
-      "title": "Protocol Library - Nodal",
-      "document_number": "",
-      "source": "PLANNING GUIDE",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:00:51Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/library",
-      "sources": [
-        "PLANNING GUIDE"
-      ],
-      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "9c72769f3e4e408dd597b71b73808f5a60821a8bc3b44ef40a2510d53923549c",
-      "title": "Protocol Interpretation Request Submission Process",
-      "document_number": "",
-      "source": "PLANNING GUIDE",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:00:51Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "PLANNING GUIDE"
-      ],
-      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "677555de156bc7cb0df7d00bd020db6d75892e44a432ce64ef0dbbf625545103",
@@ -477,7 +383,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1338 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1338 to review details.",
+      "revision_id": "NPRR1338",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "d2766842fd25034fc347a31dc9dd3d89fff5ef5c25dfdbc6cfb4a24cdc85021e",
@@ -491,63 +399,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1337 to review details."
-    },
-    {
-      "content_sha256": "3383893057641d54ff66d92a2a85796030f14b9e09839380a36be2b106de86db",
-      "title": "Workshops",
-      "document_number": "",
-      "source": "PROTOCOLS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:00:49Z",
-      "status": "",
-      "url": "https://www.ercot.com/committees/workshops",
-      "sources": [
-        "PROTOCOLS"
-      ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "19e839be13f957692ca4f3e8cea5572b1967bac709f5e13474eebccc2ca4d14c",
-      "title": "Protocol Library - Nodal",
-      "document_number": "",
-      "source": "PROTOCOLS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:00:49Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/library",
-      "sources": [
-        "PROTOCOLS"
-      ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "2252501ac9a0640618c0d9d17d89d105b73cc4812adbf0a12b51036d2d83e0a7",
-      "title": "Protocol Interpretation Request Submission Process",
-      "document_number": "",
-      "source": "PROTOCOLS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:00:49Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "PROTOCOLS"
-      ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "12e9f292baa7c80bae358fec8a45ef7e7ed506da3cf8d29ea8eaa45d9e9b0485",
-      "title": "Nodal Protocol Revision Requests",
-      "document_number": "",
-      "source": "PROTOCOLS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:00:49Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr",
-      "sources": [
-        "PROTOCOLS"
-      ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1337 to review details.",
+      "revision_id": "NPRR1337",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "e95b6415940b3a071b275d0380a84365dcbbca03e04dac06510ecb5bcd111278",
@@ -561,21 +415,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1339 to review details."
-    },
-    {
-      "content_sha256": "3f93f66040382f13d6c6aac6f4abcdde86cf73f87b9e8ae12213cf7af31df9bd",
-      "title": "NPRR Submission Process",
-      "document_number": "",
-      "source": "PROTOCOLS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:00:49Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr_process",
-      "sources": [
-        "PROTOCOLS"
-      ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1339 to review details.",
+      "revision_id": "NPRR1339",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "7f55e12b93a8b1c4e3b07b17ec4e3a65be6d18ec519672f2520efe277e5d9cfe",
@@ -589,49 +431,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "399fa0bd5ce233dfc0a2883ee74594d902264f0fcc19e5ac1c137235a478abc4",
-      "title": "Workshops",
-      "document_number": "",
-      "source": "OBDRR",
-      "published_date": "2026-06-01",
-      "downloaded_at": "2026-07-22T20:00:48Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/committees/workshops",
-      "sources": [
-        "OBDRR"
-      ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Workshops to review details."
-    },
-    {
-      "content_sha256": "b66d7844848461338804ee55ad8d8ddc774854a3b4b78c6c461e0ec7a0db4b43",
-      "title": "Protocol Library - Nodal",
-      "document_number": "",
-      "source": "OBDRR",
-      "published_date": "2026-06-01",
-      "downloaded_at": "2026-07-22T20:00:47Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/mktrules/nprotocols/library",
-      "sources": [
-        "OBDRR"
-      ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Protocol Library - Nodal to review details."
-    },
-    {
-      "content_sha256": "ec468eb3efcb31d4e6889691513bdab97c8cb318a6d83db666d63c6a7dc9a7bd",
-      "title": "Protocol Interpretation Request Submission Process",
-      "document_number": "",
-      "source": "OBDRR",
-      "published_date": "2026-06-01",
-      "downloaded_at": "2026-07-22T20:00:47Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "OBDRR"
-      ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Protocol Interpretation Request Submission Process to review details."
+      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "1d7727d51c9f200dcc98b2bc27cdaebbe561d77b2b029726ebfa820a4181b57b",
@@ -645,35 +447,9 @@
       "sources": [
         "OBDRR"
       ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for OBDRR055 to review details."
-    },
-    {
-      "content_sha256": "f9fa9607d0c4219f5bf376e97993b017bbc3e1fdacf01424c142c04f64d87857",
-      "title": "Nodal Protocol Revision Requests",
-      "document_number": "",
-      "source": "OBDRR",
-      "published_date": "2026-06-01",
-      "downloaded_at": "2026-07-22T20:00:47Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr",
-      "sources": [
-        "OBDRR"
-      ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Nodal Protocol Revision Requests to review details."
-    },
-    {
-      "content_sha256": "b555c655dc481b1889c4f3f3decee95ddaaec3e3cefddcfaae92a6a0c5585f6f",
-      "title": "NPRR Submission Process",
-      "document_number": "",
-      "source": "OBDRR",
-      "published_date": "2026-06-01",
-      "downloaded_at": "2026-07-22T20:00:47Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr_process",
-      "sources": [
-        "OBDRR"
-      ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR Submission Process to review details."
+      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for OBDRR055 to review details.",
+      "revision_id": "OBDRR055",
+      "revision_family": "OBDRR"
     },
     {
       "content_sha256": "ea960810f30f00423e5cacba99e4da5aec36e8741913f5d03e2ddec48760cc79",
@@ -687,7 +463,9 @@
       "sources": [
         "OBDRR"
       ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Current Protocols - Nodal to review details."
+      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "2d3e29117b8173f647579c44452d2817eeb60b2c8453da03837f4279c2fffd7c",
@@ -701,7 +479,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 145PGRR-72 Eolic II Comments 050426 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR145 to review details.",
+      "revision_id": "PGRR145",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "5160dd95216a4ae96fda3acfc6c2c6e2be4c1c5ee8a23cc590f5b5cf6efd5b41",
@@ -715,7 +495,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 146PGRR-01 Rename Quarterly Stability Assessment and Modify the Assessment Schedule 052026 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR146 to review details.",
+      "revision_id": "PGRR146",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "7ebb0397197701b7da541d125f7d253b092803ef835bb729d4f708bd99f9ffc0",
@@ -729,63 +511,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 146PGRR-06 Southern Power Comments 061526 to review details."
-    },
-    {
-      "content_sha256": "2691e150a34e7df3debf942e0ae1c224e8e7464835f6614a600b2131a194a0a1",
-      "title": "Protocol Interpretation Request Submission Process",
-      "document_number": "",
-      "source": "PGRR",
-      "published_date": "April 1, 2026",
-      "downloaded_at": "2026-07-22T20:00:46Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "PGRR"
-      ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Protocol Interpretation Request Submission Process to review details."
-    },
-    {
-      "content_sha256": "026f26825c8b586b9028ada2d50aa8274b57628c2d555287a0370171393941dd",
-      "title": "Protocol Library - Nodal",
-      "document_number": "",
-      "source": "PGRR",
-      "published_date": "2026-05-20",
-      "downloaded_at": "2026-07-22T20:00:46Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/nprotocols/library",
-      "sources": [
-        "PGRR"
-      ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Protocol Library - Nodal to review details."
-    },
-    {
-      "content_sha256": "a642a62e603f71e5b75c5f77024ddeed8e213e584f8d57f3c602cd677d6a56d7",
-      "title": "Nodal Protocol Revision Requests",
-      "document_number": "",
-      "source": "PGRR",
-      "published_date": "2026-02-17",
-      "downloaded_at": "2026-07-22T20:00:46Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr",
-      "sources": [
-        "PGRR"
-      ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Nodal Protocol Revision Requests to review details."
-    },
-    {
-      "content_sha256": "7ff3e289f214241f0dcde4b800dcf0523ea8ee22d3db5548ac97221b0353c912",
-      "title": "NPRR Submission Process",
-      "document_number": "",
-      "source": "PGRR",
-      "published_date": "2026-02-17",
-      "downloaded_at": "2026-07-22T20:00:46Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr_process",
-      "sources": [
-        "PGRR"
-      ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR Submission Process to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR146 to review details.",
+      "revision_id": "PGRR146",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "6799915a7c3ed15571081cc6e2adf78a6704edf4b0fed81c0bc8404b740d3d19",
@@ -799,7 +527,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 145PGRR-74 Cholla Comments 050526 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR145 to review details.",
+      "revision_id": "PGRR145",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "932a6c35a42339580df7d06d36dc0eb92529811f2d5af8e510d8a99057f4a52f",
@@ -813,7 +543,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 145PGRR-73 AEPSC Comments 050526 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR145 to review details.",
+      "revision_id": "PGRR145",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "20e8cb2c79074f566d64790df6c7a21eef3f3cf0bddb0ac3ff2dad05218c5f25",
@@ -827,7 +559,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 146PGRR-02 Impact Analysis 052026 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR146 to review details.",
+      "revision_id": "PGRR146",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "3d1da1060c681a49b23652816377e3f60b3506b5372719de3162626349e4c5d8",
@@ -841,7 +575,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 146PGRR-04 ROS Report 060426 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR146 to review details.",
+      "revision_id": "PGRR146",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "692f5e35ba61cdbadd928e8181fa637b7ed795f12d024438aebe802dbf586daf",
@@ -855,7 +591,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 147PGRR-04 LCRA Comments 071526 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR147 to review details.",
+      "revision_id": "PGRR147",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "4111cec3df9e9b7b859d793091490a0e55039af6ee29a5284da1a384d65a08d8",
@@ -869,21 +607,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR121 to review details."
-    },
-    {
-      "content_sha256": "8bc00a10558f9a4e575d8175b440724c43a226e4eb4e2f7b4d90e943afaf3dfb",
-      "title": "Workshops",
-      "document_number": "",
-      "source": "PGRR",
-      "published_date": "2026-05-20",
-      "downloaded_at": "2026-07-22T20:00:45Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/committees/workshops",
-      "sources": [
-        "PGRR"
-      ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Workshops to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR121 to review details.",
+      "revision_id": "PGRR121",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "1eebb819e0bb0e0c0be53cfec93633c84380be5dd93b92000ee308a2a0fbe4d7",
@@ -897,7 +623,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR144 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR144 to review details.",
+      "revision_id": "PGRR144",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "554f8da3ee3258cdfadebc53bd23ec9acb882a4444bea3258a63f9b6f70e2abb",
@@ -911,7 +639,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR143 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR143 to review details.",
+      "revision_id": "PGRR143",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "ed594c3bd81473d3f6c5e602750be37b8361081a023e9a06752e57a654703e1b",
@@ -925,7 +655,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 286NOGRR-09 Impact Analysis 061626 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR286 to review details.",
+      "revision_id": "NOGRR286",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "804c3ea552bcaa34d5823ef42cf739c1dd4475b50bbdd95bc49a54f686abfb98",
@@ -939,7 +671,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR145 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR145 to review details.",
+      "revision_id": "PGRR145",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "20647a8f7c1c307b693cadd55fbc5dd2a581aae83fcaa81115949b85b0a708e6",
@@ -953,7 +687,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR147 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR147 to review details.",
+      "revision_id": "PGRR147",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "b0b8cfd86c212dd48aa8687c4c92b1cdd7c5b3b788cca29fa242849932f5b87e",
@@ -967,7 +703,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR146 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR146 to review details.",
+      "revision_id": "PGRR146",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "0731ae86d1ae99edb01bbd122b50845b79bfc2a2223fc37a77001108545e331f",
@@ -981,7 +719,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 286NOGRR-01 Addition of 765-kV Operating Limits 031626 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR286 to review details.",
+      "revision_id": "NOGRR286",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "bb9731500d6ca8b51f1aa2a8f3855bf140b00ce74eb9d52c6dcdab0195b8f760",
@@ -995,7 +735,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 286NOGRR-11 ROS Report 070926 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR286 to review details.",
+      "revision_id": "NOGRR286",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "366755bfdaf7bbc8090ef4d6a7dbd94d902fe84302f42a2fbfc61744d9fdb3cd",
@@ -1009,35 +751,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 286NOGRR-03 ROS Report 040226 to review details."
-    },
-    {
-      "content_sha256": "b885f3a11306a1b8088a52d1f9f18a5e3373c3b013e103b1718a73322e3fa74c",
-      "title": "Nodal Protocol Revision Requests",
-      "document_number": "",
-      "source": "NOGRR",
-      "published_date": "2026-07-21",
-      "downloaded_at": "2026-07-22T20:00:43Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr",
-      "sources": [
-        "NOGRR"
-      ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Nodal Protocol Revision Requests to review details."
-    },
-    {
-      "content_sha256": "659892118a2116d0d6de125f855236e3963a3d0739e10638e40096577fc7f63b",
-      "title": "NPRR Submission Process",
-      "document_number": "",
-      "source": "NOGRR",
-      "published_date": "2026-07-21",
-      "downloaded_at": "2026-07-22T20:00:43Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr_process",
-      "sources": [
-        "NOGRR"
-      ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR Submission Process to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR286 to review details.",
+      "revision_id": "NOGRR286",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "9789b05bbb51e70e8eaf7047aa034633523c935d4de41650bed724820c696c17",
@@ -1051,49 +767,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Current Protocols - Nodal to review details."
-    },
-    {
-      "content_sha256": "bfef203c9651ce40aff9f70512a1c8712349459de39985f9f298fe2a133ca005",
-      "title": "Workshops",
-      "document_number": "",
-      "source": "NOGRR",
-      "published_date": "2026-04-22",
-      "downloaded_at": "2026-07-22T20:00:43Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/committees/workshops",
-      "sources": [
-        "NOGRR"
-      ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Workshops to review details."
-    },
-    {
-      "content_sha256": "efa4e5fb137f28c59f85b149c1bb76b03498bc12ec0c3070cb0c78d917634b5a",
-      "title": "Protocol Library - Nodal",
-      "document_number": "",
-      "source": "NOGRR",
-      "published_date": "2026-02-01",
-      "downloaded_at": "2026-07-22T20:00:43Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/mktrules/nprotocols/library",
-      "sources": [
-        "NOGRR"
-      ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Protocol Library - Nodal to review details."
-    },
-    {
-      "content_sha256": "3a2b3afb463128a7a24a9b0ec4ac4375c926f1fb244c381337169115002b9894",
-      "title": "Protocol Interpretation Request Submission Process",
-      "document_number": "",
-      "source": "NOGRR",
-      "published_date": "2026-02-01",
-      "downloaded_at": "2026-07-22T20:00:43Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "NOGRR"
-      ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Protocol Interpretation Request Submission Process to review details."
+      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "ec1cb36d9f7ed7339181f27d409d894ffa2c1b02e404d27b409ee3ca25519112",
@@ -1107,7 +783,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 287NOGRR-01 Load Shed Provisions to Identify and Minimize Overlap of Essential Loads 042226 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR287 to review details.",
+      "revision_id": "NOGRR287",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "756d403e84261bcb8d55be1027b8e01a247a5562e7a4789321bce5b1b266bbd8",
@@ -1121,7 +799,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR289 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR289 to review details.",
+      "revision_id": "NOGRR289",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "84fc5aa2906f9e4bb91031ac5f5ac4338648f137c201cca350dfa560468e3758",
@@ -1135,7 +815,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR288 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR288 to review details.",
+      "revision_id": "NOGRR288",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "2924100cd8ec6d68dbcd10f280d559c8b45f1cbaa10753d7069e84df09db33f9",
@@ -1149,7 +831,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR287 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR287 to review details.",
+      "revision_id": "NOGRR287",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "1894b69dd2a8f7a72e517ab49a942e587644fc5f22582bb4b5bb10c902ca4679",
@@ -1163,7 +847,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR286 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR286 to review details.",
+      "revision_id": "NOGRR286",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "18d3f2e1d61b4769ec4992ddd79a9409aa7cf19dc5b8c59f980b2ea43ccf1cc4",
@@ -1177,35 +863,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR285 to review details."
-    },
-    {
-      "content_sha256": "5b8a12d2426f49cd1d8a19bf134eadf0508dc69f0e17b64f588dbef717eeea59",
-      "title": "Protocol Library - Nodal",
-      "document_number": "",
-      "source": "NPRR",
-      "published_date": "2026-06-23",
-      "downloaded_at": "2026-07-22T20:00:41Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/nprotocols/library",
-      "sources": [
-        "NPRR"
-      ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Protocol Library - Nodal to review details."
-    },
-    {
-      "content_sha256": "ff3f6546b9c34360cb6f8002242beaf150f3b1e5867ba3dcc8aa9a564237b913",
-      "title": "NPRR Submission Process",
-      "document_number": "",
-      "source": "NPRR",
-      "published_date": "2026-06-30",
-      "downloaded_at": "2026-07-22T20:00:40Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr_process",
-      "sources": [
-        "NPRR"
-      ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR Submission Process to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR285 to review details.",
+      "revision_id": "NOGRR285",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "438363e7acacbea315d331a49e255ed0c7b45108f215046313856a66ee034595",
@@ -1219,49 +879,9 @@
       "sources": [
         "NPRR"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Current Protocols - Nodal to review details."
-    },
-    {
-      "content_sha256": "6810f8350630482253cae85dece0b5508b7907f56097f094cea4a686ad28b859",
-      "title": "Workshops",
-      "document_number": "",
-      "source": "NPRR",
-      "published_date": "2026-06-23",
-      "downloaded_at": "2026-07-22T20:00:40Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/committees/workshops",
-      "sources": [
-        "NPRR"
-      ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Workshops to review details."
-    },
-    {
-      "content_sha256": "9e08b186fe38d4ea5c66336b3f9c2979f50cd465fa9f1e3f210345db677cbfc7",
-      "title": "Protocol Interpretation Request Submission Process",
-      "document_number": "",
-      "source": "NPRR",
-      "published_date": "2026-05-29",
-      "downloaded_at": "2026-07-22T20:00:40Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "NPRR"
-      ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Protocol Interpretation Request Submission Process to review details."
-    },
-    {
-      "content_sha256": "cf5990087e4d1293b0ed287d71865220407aa95cca876ddf040742d528782b39",
-      "title": "Nodal Protocol Revision Requests",
-      "document_number": "",
-      "source": "NPRR",
-      "published_date": "2026-06-30",
-      "downloaded_at": "2026-07-22T20:00:39Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr",
-      "sources": [
-        "NPRR"
-      ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Nodal Protocol Revision Requests to review details."
+      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "6b1b5491a7e0b56fffdadaa3e669d341ca71144965f4c32d4297ebc776f8a75d",
@@ -1275,7 +895,9 @@
       "sources": [
         "NPRR"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 1343NPRR-04 PRS Report 071526 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1343 to review details.",
+      "revision_id": "NPRR1343",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "d99fa456389d3f4d9e5997736a78e52af363652e030e248fff4fd98455603484",
@@ -1289,7 +911,9 @@
       "sources": [
         "NPRR"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1341 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1341 to review details.",
+      "revision_id": "NPRR1341",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "7301f03a8e4ca9348333e6e36d181af0ad5b2a14f08b854b07aeb59a416253c3",
@@ -1303,7 +927,9 @@
       "sources": [
         "NPRR"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1340 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1340 to review details.",
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "2cca8fc9e1b052b810db2d435e3aff2482a81900e2bf8909a179f2663cadec7f",
@@ -1317,7 +943,9 @@
       "sources": [
         "NPRR"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1339 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1339 to review details.",
+      "revision_id": "NPRR1339",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "891bf8811c3d8e558542f21011cffc0ce151789f05e6536af8e9f439022f38b5",
@@ -1331,7 +959,9 @@
       "sources": [
         "NPRR"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1343 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1343 to review details.",
+      "revision_id": "NPRR1343",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "1dacd4065a91dfc76040bd64b2f7137eed54c76f716ff5318075d106034a14b9",
@@ -1345,7 +975,9 @@
       "sources": [
         "NPRR"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1342 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1342 to review details.",
+      "revision_id": "NPRR1342",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "0523f364cc1bd128c77c89d34ea1b21e58c1edf94d8e195170051a2b3f4e1d93",
@@ -1359,7 +991,9 @@
       "sources": [
         "BOARD OF DIRECTORS"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1301 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1301 to review details.",
+      "revision_id": "NPRR1301",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "bb3ca843e1b6341b9695ddb33930f1285cc008e5bd3eabb07ac71d0685618e73",
@@ -1373,7 +1007,9 @@
       "sources": [
         "BOARD OF DIRECTORS"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1302 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1302 to review details.",
+      "revision_id": "NPRR1302",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "e25e53b29e185ba049287af229e0eddeb84165570d22068a0778342ebdf45ee4",
@@ -1387,7 +1023,9 @@
       "sources": [
         "BOARD OF DIRECTORS"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1306 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1306 to review details.",
+      "revision_id": "NPRR1306",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "d6d0e7a910d91595b8edc64faf1ada2d6215dfa680f74a5327bd2bceed8ef59e",
@@ -1401,77 +1039,9 @@
       "sources": [
         "BOARD OF DIRECTORS"
       ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "d9c10f91f9deaaf8e73fe12ec53b26ffbb6b46ab33f0a81f74b4e218ade5fd3c",
-      "title": "Workshops",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:51:10Z",
-      "status": "",
-      "url": "https://www.ercot.com/committees/workshops",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "96dd04633c2e13a83728ba0d45ac5ba8ac169b24f3a130e651f37694d2052e69",
-      "title": "Protocol Library - Nodal",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:51:10Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/library",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "4a6267c2f5e681105360a8a5a82e974565315171dc53e5f81e9ddd2e29bc2c5b",
-      "title": "Protocol Interpretation Request Submission Process",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:51:10Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "c9f53e6af9aaf2ace4f2e43d604052bc3fd0d2a9bc6dcedba6219a4755963107",
-      "title": "Nodal Protocol Revision Requests",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:51:10Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "9777fb9f20b8eccc4d0a72c4b5c5adf50bbacad2e7588401579fa1b7acfdc079",
-      "title": "NPRR Submission Process",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:51:10Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr_process",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
+      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "92d1f56098c47ae6b3e556aa8c1cb0684ba2169c8190f61776b5ecab9a7dccac",
@@ -1485,7 +1055,9 @@
       "sources": [
         "TAC"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1316 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1316 to review details.",
+      "revision_id": "NPRR1316",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "044e8cdc6fa5b7fdef638cd295f61282ede84ba6ca3a7bab3a7abb6afdd56021",
@@ -1499,7 +1071,9 @@
       "sources": [
         "TAC"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1318 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1318 to review details.",
+      "revision_id": "NPRR1318",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "6c1b88c0945d4c60b44762ba3b921a77d9e84c6977177f617be31e8e4aebc727",
@@ -1513,7 +1087,9 @@
       "sources": [
         "TAC"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1317 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1317 to review details.",
+      "revision_id": "NPRR1317",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "0b50d7f59410e8faa75ad1acc8858c106932e3c8f84c4405dd5ad28230771e39",
@@ -1527,7 +1103,9 @@
       "sources": [
         "TAC"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1319 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1319 to review details.",
+      "revision_id": "NPRR1319",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "4ad70928310df1928d7a8a7e6b9610b6fc939d0dba91f78afdb05eae0a188631",
@@ -1541,49 +1119,9 @@
       "sources": [
         "RIWG"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1302 to review details."
-    },
-    {
-      "content_sha256": "98a82b437eedf37b25518e07ed11f7c1d43114848501b4f4b481f51858d18fd9",
-      "title": "Workshops",
-      "document_number": "",
-      "source": "RIWG",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:48:53Z",
-      "status": "",
-      "url": "https://www.ercot.com/committees/workshops",
-      "sources": [
-        "RIWG"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "1fbe32a1582ff752c29d0c8a669aa72d2100ef83db4531bda42c568e06b9a0ec",
-      "title": "Nodal Protocol Revision Requests",
-      "document_number": "",
-      "source": "RIWG",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:48:52Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr",
-      "sources": [
-        "RIWG"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "80090942e10c8833f8b89ee7b70b4c48522656c0df565a1a49658d47940ff4a9",
-      "title": "NPRR Submission Process",
-      "document_number": "",
-      "source": "RIWG",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:48:52Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr_process",
-      "sources": [
-        "RIWG"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1302 to review details.",
+      "revision_id": "NPRR1302",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "24e56e53d21c1c5fb2c47139048b0e60cdcd786ef7de5d2982ffce6eb45b2db3",
@@ -1597,35 +1135,9 @@
       "sources": [
         "RIWG"
       ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "3881faa2dfa14fe0ddcb801774bc8906bf1d4ae253f6ea69447f5d8d752642ac",
-      "title": "Protocol Library - Nodal",
-      "document_number": "",
-      "source": "RIWG",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:48:50Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/library",
-      "sources": [
-        "RIWG"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "bb738b6c616074482b45c44b08645f77c75f58b0e2d1463da637ebcbd1eccac5",
-      "title": "Protocol Interpretation Request Submission Process",
-      "document_number": "",
-      "source": "RIWG",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:48:50Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "RIWG"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
+      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "752c809398e7f165bfd9a074f9efee5635ecfcbdde0bc8c4987c3daf7ddcf5e9",
@@ -1639,7 +1151,9 @@
       "sources": [
         "RTP"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1308 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1308 to review details.",
+      "revision_id": "NPRR1308",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "a6d834f49bc71cdf3d41ca7c36541893f4938d70823db06c93ceaa51670f1605",
@@ -1653,21 +1167,9 @@
       "sources": [
         "RTP"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1309 to review details."
-    },
-    {
-      "content_sha256": "7866dbd60ff656168f269eab3027ed6fea3c48febacdee70575905caca1093bd",
-      "title": "MIS LOG IN",
-      "document_number": "",
-      "source": "RTP",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:31:05Z",
-      "status": "",
-      "url": "https://www.ercot.com/mp/data-products/data-product-details?id=pg7-048-m",
-      "sources": [
-        "RTP"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1309 to review details.",
+      "revision_id": "NPRR1309",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "122bf5f0d0d7d9eb0d2cd1f465f3ec431c4d85d2fddbfe5b80c55320e7feea75",
@@ -1681,7 +1183,9 @@
       "sources": [
         "DWG"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1315 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1315 to review details.",
+      "revision_id": "NPRR1315",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "ee01d1068db84c8afb98b7b7f0349ae36242ed9856896814a2622d4669f84e0f",
@@ -1695,7 +1199,9 @@
       "sources": [
         "DWG"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1312 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1312 to review details.",
+      "revision_id": "NPRR1312",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "9e5ad118e7ffc66e34d8e6cf29e04a4a2cd06472c795b3b3c8f8d07a4ed792d6",
@@ -1709,7 +1215,9 @@
       "sources": [
         "DWG"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1316 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1316 to review details.",
+      "revision_id": "NPRR1316",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "f68de07566235e9e60b4a7872c44f273da43111828846e18dbb878306d7aa725",
@@ -1723,7 +1231,9 @@
       "sources": [
         "SSWG"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1296 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1296 to review details.",
+      "revision_id": "NPRR1296",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "4cd0f7040f99d49a805937c80e02c08bcf1fea70e1017e76a24ffbb4c10bb5df",
@@ -1737,7 +1247,9 @@
       "sources": [
         "SSWG"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1301 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1301 to review details.",
+      "revision_id": "NPRR1301",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "cc5ce9296ac71f830a936618fe390290ed818eff91a3d38a0a1a19051811e13c",
@@ -1751,7 +1263,9 @@
       "sources": [
         "SSWG"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1302 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1302 to review details.",
+      "revision_id": "NPRR1302",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "9fcf5a7b5e88d442cc9b19af87fb054b4d617b41f8e8416c5e1b585e73f39896",
@@ -1765,7 +1279,9 @@
       "sources": [
         "OPERATING GUIDE"
       ],
-      "explanation": "New operating guide material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New operating guide material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "c6b2227352da1187264096ef52d61d1a8a52424b0f8cd43ab221c61caf77f157",
@@ -1779,7 +1295,9 @@
       "sources": [
         "OPERATING GUIDE"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1336 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1336 to review details.",
+      "revision_id": "NPRR1336",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "dc7c149c0f3d6c57e32dd10ab28aebbc5ba7073027a9e13e1132a80a11cf4dd9",
@@ -1793,7 +1311,9 @@
       "sources": [
         "OPERATING GUIDE"
       ],
-      "explanation": "New operating guide material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New operating guide material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "687b73a7f8f8b4e11cd852ef500393676465a228b0dd02f491299eff918b5afd",
@@ -1807,7 +1327,9 @@
       "sources": [
         "OPERATING GUIDE"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1338 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1338 to review details.",
+      "revision_id": "NPRR1338",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "2e153a81dd2319519d6c4fac2c5bd559801a712ce1fba5fab4161f0d7b064911",
@@ -1821,7 +1343,9 @@
       "sources": [
         "OPERATING GUIDE"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1337 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1337 to review details.",
+      "revision_id": "NPRR1337",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "07989ad51377ce210c780b48c4e7e0871666c756aa43f44bf279a3a0f5bddf31",
@@ -1835,7 +1359,9 @@
       "sources": [
         "PLANNING GUIDE"
       ],
-      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "276abbe9d64f7148dd0c1d86b225147d46b5ea5e8d290636fb00037596617286",
@@ -1849,7 +1375,9 @@
       "sources": [
         "PLANNING GUIDE"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1326 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1326 to review details.",
+      "revision_id": "NPRR1326",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "56398a1786c2b11b82f83786d8c1735dee0d17427d8c1f601ee908e59385b355",
@@ -1863,7 +1391,9 @@
       "sources": [
         "PLANNING GUIDE"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1327 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1327 to review details.",
+      "revision_id": "NPRR1327",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "ef67a90b98fd72e45019613cddd2d971ee47e9ba59c02d9bf9f22e21912a7fd8",
@@ -1877,7 +1407,9 @@
       "sources": [
         "PLANNING GUIDE"
       ],
-      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "9f1979a4efcf38012cde384d403176c47f119bd3433bc213ad0068362f00e409",
@@ -1891,7 +1423,9 @@
       "sources": [
         "PLANNING GUIDE"
       ],
-      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "2e40106468b019588427957fb7e1e90ec4c5022ba527080ca0d7f6d135af7bfc",
@@ -1905,7 +1439,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "cc38d3550bf94d4246bf52a36f625437392efd5b845e733e6599d94765169abe",
@@ -1919,7 +1455,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1340 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1340 to review details.",
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "8f054b50942a6cd75a7569c2c6e6d0a30defeee004d2db9ee19ab04c911ae7d9",
@@ -1933,7 +1471,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "19fa0de2193c5c744d272dde4d6ffd63fdf21abcc2b93151e640cc652ff61254",
@@ -1947,7 +1487,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1342 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1342 to review details.",
+      "revision_id": "NPRR1342",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "ea2298d5a3595e9026bba829e71a29e67646b456743730319364a5bb129fbef1",
@@ -1961,7 +1503,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1341 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1341 to review details.",
+      "revision_id": "NPRR1341",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "b438f7644f5396cce2ff0eedc0920f85af3ebcef84d09459ea3d1a76f64bb9e4",
@@ -1975,7 +1519,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "2a25b7aecb4205a012791a9a4f61cf842186a1376f083983af89fc9b2d5c05c2",
@@ -1989,7 +1535,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1343 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1343 to review details.",
+      "revision_id": "NPRR1343",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "35edbbb9301ec760217bb7a2b3fa5a8deb00ba070ca4367eeef20a1350a096e7",
@@ -2003,63 +1551,9 @@
       "sources": [
         "PROTOCOLS"
       ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "0cd063dde242ad8019386c6b5cdde999eb016617391081abaaba58d51e13d823",
-      "title": "Workshops",
-      "document_number": "",
-      "source": "PROTOCOLS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:30:28Z",
-      "status": "",
-      "url": "https://www.ercot.com/committees/workshops",
-      "sources": [
-        "PROTOCOLS"
-      ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "9b6a4900e2b6a62da03e842d682aac9093b63baae94369382fd0b7671657f2eb",
-      "title": "Protocol Library - Nodal",
-      "document_number": "",
-      "source": "PROTOCOLS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:30:28Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/library",
-      "sources": [
-        "PROTOCOLS"
-      ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "b506b50c5035c67de543806c2fced150597bc36c05eb55d5bfab76fbf396e143",
-      "title": "Protocol Interpretation Request Submission Process",
-      "document_number": "",
-      "source": "PROTOCOLS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:30:28Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "PROTOCOLS"
-      ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "8e2077c6485bd6ccc06af39cccec4784240a5ab87747018ebc5749d9ed398084",
-      "title": "Nodal Protocol Revision Requests",
-      "document_number": "",
-      "source": "PROTOCOLS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:30:28Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr",
-      "sources": [
-        "PROTOCOLS"
-      ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
+      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "ad07a779bf8aae5201c38c98b6bf6c7f7250f20d9d1af09a3a50efa9387bfa00",
@@ -2073,7 +1567,9 @@
       "sources": [
         "OBDRR"
       ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 055OBDRR-08 Board Report 042126 to review details."
+      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for OBDRR055 to review details.",
+      "revision_id": "OBDRR055",
+      "revision_family": "OBDRR"
     },
     {
       "content_sha256": "9484a1ca1457dfa7bdb1a19c91d5e147aa1f377264b07e2f26b5b218798fa2da",
@@ -2087,7 +1583,9 @@
       "sources": [
         "OBDRR"
       ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 055OBDRR-07 TAC Report 032526 to review details."
+      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for OBDRR055 to review details.",
+      "revision_id": "OBDRR055",
+      "revision_family": "OBDRR"
     },
     {
       "content_sha256": "906ec7415dde79dc598c545d3e61059925bde08b40653ce6b7a14cadcb422aad",
@@ -2101,7 +1599,9 @@
       "sources": [
         "OBDRR"
       ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 055OBDRR-05 ERCOT Comments 031126 to review details."
+      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for OBDRR055 to review details.",
+      "revision_id": "OBDRR055",
+      "revision_family": "OBDRR"
     },
     {
       "content_sha256": "ebf05b4b91434fb264fed8f9aa490dcca711c518a56b65e15afac0d94d5b2ab2",
@@ -2115,7 +1615,9 @@
       "sources": [
         "OBDRR"
       ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 055OBDRR-04 TAC Report 022526 to review details."
+      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for OBDRR055 to review details.",
+      "revision_id": "OBDRR055",
+      "revision_family": "OBDRR"
     },
     {
       "content_sha256": "b45b24fdae8ee78bf7d8da5ec23dfbc856aad3eba512c11394ef786ea8ffe797",
@@ -2129,7 +1631,9 @@
       "sources": [
         "OBDRR"
       ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 055OBDRR-02 Impact Analysis 021726 to review details."
+      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for OBDRR055 to review details.",
+      "revision_id": "OBDRR055",
+      "revision_family": "OBDRR"
     },
     {
       "content_sha256": "404b6543b18afff79b40a5d171c62f5a4261a20fbdda55c835b4a307decd11a7",
@@ -2143,7 +1647,9 @@
       "sources": [
         "OBDRR"
       ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 055OBDRR-01 Revisions to Non Spinning Reserve Deployment and Recall Procedure for RTCB 021726 to review details."
+      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for OBDRR055 to review details.",
+      "revision_id": "OBDRR055",
+      "revision_family": "OBDRR"
     },
     {
       "content_sha256": "ed75d4613e13af4c15de5a5f22b542e92f23b3ba1d7b9da6c725af512bb14974",
@@ -2157,7 +1663,9 @@
       "sources": [
         "OBDRR"
       ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 055OBDRR-09 PUCT Report 052926 to review details."
+      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for OBDRR055 to review details.",
+      "revision_id": "OBDRR055",
+      "revision_family": "OBDRR"
     },
     {
       "content_sha256": "9d660d21fcd1495abae885fe1aaccfe31c1c9d21f6d2dd2e30f1964b847b5877",
@@ -2171,7 +1679,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 145PGRR-75 LCRA Comments 050626 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR145 to review details.",
+      "revision_id": "PGRR145",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "3cf5e38a3379735a086bfe5c7777cecbf6ae2ab72976877f956842ace11a640f",
@@ -2185,7 +1695,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 147PGRR-01 Allowable Non-Consequential Load Loss Alignment 052026 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR147 to review details.",
+      "revision_id": "PGRR147",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "ba12ffd26218fb32f9f63310edbabdf3de83435756b0cb5b3546cca778ac74be",
@@ -2199,7 +1711,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 139PGRR-08 TAC Report 022526 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR139 to review details.",
+      "revision_id": "PGRR139",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "b5bd1c614e33c17a0f0a8805b2a5093d04fb24f42797413efe9f482d4570d682",
@@ -2213,7 +1727,9 @@
       "sources": [
         "OBDRR"
       ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for OBDRR055 to review details."
+      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for OBDRR055 to review details.",
+      "revision_id": "OBDRR055",
+      "revision_family": "OBDRR"
     },
     {
       "content_sha256": "ef8fa71f2d787f524b695be44329311d84ab5ff67c87c89ff1dc9bf137d00ca4",
@@ -2227,7 +1743,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 145PGRR-76 TEBA Comments 050626 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR145 to review details.",
+      "revision_id": "PGRR145",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "e015153298d36d9bf0736a0b6e537828557c344388b10b8b9f8d6e1cf812e325",
@@ -2241,7 +1759,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 139PGRR-09 Board Report 042126 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR139 to review details.",
+      "revision_id": "PGRR139",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "323c9e58cacc3f7de0873fac7d643559a41270ba50c25ce4ae60836fce565415",
@@ -2255,7 +1775,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 147PGRR-03 ROS Report 060426 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR147 to review details.",
+      "revision_id": "PGRR147",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "47076dc903f0dbb54f4846a372056a0e45a7d1bf79a1f05386d570ffe639cba9",
@@ -2269,7 +1791,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 132PGRR-19 PUCT Report 032626 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR132 to review details.",
+      "revision_id": "PGRR132",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "25f41d2ba343a124d9c3d535b78caa3c864f3340aa1bb05aec2644ce4f1151ec",
@@ -2283,7 +1807,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR139 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR139 to review details.",
+      "revision_id": "PGRR139",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "81759e45174526283e888210bdf7184b65b000a624ae4f6aa50f8d6d8fe35453",
@@ -2297,7 +1823,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR137 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR137 to review details.",
+      "revision_id": "PGRR137",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "933c35dac3bfed8bc98a82c1d304e8e2fe580c32d8dd9998aedadc21cbdb972d",
@@ -2311,7 +1839,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR145 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR145 to review details.",
+      "revision_id": "PGRR145",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "8994ea44b92e507b9ab11dd4a9d84801e0ed8725e647e7e2cbad1c78d45431f1",
@@ -2325,7 +1855,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR147 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR147 to review details.",
+      "revision_id": "PGRR147",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "06499243a5c11bf8f6cecfd79b3e0c7c778c3f66092ef9233e1a588646627d05",
@@ -2339,7 +1871,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR146 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR146 to review details.",
+      "revision_id": "PGRR146",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "d562f8ad2338fe8a2f04b812cd3899bf3ab78b523e8c7be8eca1459b520fceba",
@@ -2353,7 +1887,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR132 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR132 to review details.",
+      "revision_id": "PGRR132",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "8913d6197ce33f290327d1fc6ce81ffdce77122535ef5a9eb8858bbf8ca56cb4",
@@ -2367,7 +1903,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR144 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR144 to review details.",
+      "revision_id": "PGRR144",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "53c59132025b02e6a7fe521cc1f0d308599e89305cc197d058d661d2c8cbaac7",
@@ -2381,7 +1919,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR143 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR143 to review details.",
+      "revision_id": "PGRR143",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "f4b823235ddb2f638ddd6b5574abac8ded538b1b26f44706e67da297b665b221",
@@ -2395,7 +1935,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR131 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR131 to review details.",
+      "revision_id": "PGRR131",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "9c4affa3784959ffbc6808cec8376efb83d812fcf778a840aed580390a6af8f7",
@@ -2409,7 +1951,9 @@
       "sources": [
         "PGRR"
       ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR142 to review details."
+      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR142 to review details.",
+      "revision_id": "PGRR142",
+      "revision_family": "PGRR"
     },
     {
       "content_sha256": "d291dbcc063bcb6379456bab068893f807f43a7b6737cc9af482b6f8e1829fb2",
@@ -2423,7 +1967,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 282NOGRR-29 TAC Report 042926 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR282 to review details.",
+      "revision_id": "NOGRR282",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "026425f5f1c18831bef85dfd37b78d5c3c9036cde9049fb313371882bd95eeda",
@@ -2437,7 +1983,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 282NOGRR-33 Board Report 060226 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR282 to review details.",
+      "revision_id": "NOGRR282",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "bd2e14b798f0c104db22e83d60fb5a2ccd7b1e44d1db04530bc289bb6476f73b",
@@ -2451,7 +1999,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 287NOGRR-05 ERCOT Comments 060126 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR287 to review details.",
+      "revision_id": "NOGRR287",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "94e05769cb66b88e9073f211edd0851d42fa93ea83570d52cd40dc767f36b352",
@@ -2465,7 +2015,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 286NOGRR-05 ROS Report 050726 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR286 to review details.",
+      "revision_id": "NOGRR286",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "2bf0561e767ee9a97e1ff650f5a99ffa0fa9951157155645ffd72d5f7b668bc4",
@@ -2479,7 +2031,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 286NOGRR-08 ROS Report 060426 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR286 to review details.",
+      "revision_id": "NOGRR286",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "55b5693a3294b494cf18c11908e736bc814f87a6e657909d35c932b42e686014",
@@ -2493,7 +2047,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 287NOGRR-02 Impact Analysis 042226 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR287 to review details.",
+      "revision_id": "NOGRR287",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "6d1eedd43d177d6cdfd1d6475c730ef61bd95f47ee8073809789a25cd7871085",
@@ -2507,7 +2063,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 287NOGRR-07 ROS Report 060426 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR287 to review details.",
+      "revision_id": "NOGRR287",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "785ccbf14348601da99f88a901e6c2abc6ceb86d3f0aedaec1c28637dae92241",
@@ -2521,7 +2079,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR279 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR279 to review details.",
+      "revision_id": "NOGRR279",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "de9fb5ec3615d043aae058c7238b29024b2f0adc37103f5ca3953a4b48806f31",
@@ -2535,7 +2095,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR282 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR282 to review details.",
+      "revision_id": "NOGRR282",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "f90c8a2d24241db42e448140a96e9910271b14ac7599a35829d9941f4121764c",
@@ -2549,7 +2111,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR288 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR288 to review details.",
+      "revision_id": "NOGRR288",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "5eb5b8e2b7a468d9c9cb12f7ddc43de54e470665eb241423dcecb3f06a7393df",
@@ -2563,7 +2127,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR287 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR287 to review details.",
+      "revision_id": "NOGRR287",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "b7c9d2bec31fd553fc210a9d81135552a5d6eb9f7b673730571e8b4d59afe6fe",
@@ -2577,7 +2143,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR286 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR286 to review details.",
+      "revision_id": "NOGRR286",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "d66438d6a23d40db96e0101b8158be0b33b3d933bc1152b84e506d65d85a72ec",
@@ -2591,21 +2159,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Current Protocols - Nodal to review details."
-    },
-    {
-      "content_sha256": "875e8fb1d05a0bfffd17e823830d23fda243ae42594ce141b273577a21a45250",
-      "title": "NPRR Submission Process",
-      "document_number": "",
-      "source": "NOGRR",
-      "published_date": "2026-02-01",
-      "downloaded_at": "2026-07-22T11:30:22Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/mktrules/nprotocols/nprr_process",
-      "sources": [
-        "NOGRR"
-      ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR Submission Process to review details."
+      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant.",
+      "revision_id": "",
+      "revision_family": ""
     },
     {
       "content_sha256": "e1fb3455fb340d960f4498d9dc10f3aa24fb023a50dae6ad549924de0e2225c4",
@@ -2619,7 +2175,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR285 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR285 to review details.",
+      "revision_id": "NOGRR285",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "d15c2e5b913cc0e926dec89fd2b87e6500ae62a5177bfb9f90ddab2594d7167a",
@@ -2633,7 +2191,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR280 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR280 to review details.",
+      "revision_id": "NOGRR280",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "be8b863e7ebfdb1e7b2074ae0d82e27ef1e6b72a130c26d215f0ba0c428357ac",
@@ -2647,7 +2207,9 @@
       "sources": [
         "NOGRR"
       ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR289 to review details."
+      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NOGRR289 to review details.",
+      "revision_id": "NOGRR289",
+      "revision_family": "NOGRR"
     },
     {
       "content_sha256": "4e928c0297d71f203200d5370ea61049d3cea6b534224908b24bfa8c52dbfdba",
@@ -2661,7 +2223,9 @@
       "sources": [
         "NPRR"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 1341NPRR-06 PRS Report 071526 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1341 to review details.",
+      "revision_id": "NPRR1341",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "d2f28a435369cfff00f9f29d6b016659c3bd52946973835322fafcefb9377fbf",
@@ -2675,7 +2239,9 @@
       "sources": [
         "NPRR"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1343 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1343 to review details.",
+      "revision_id": "NPRR1343",
+      "revision_family": "NPRR"
     },
     {
       "content_sha256": "da87f6eac87620e24fbbc719d21a28b6c7e9d842ee6e00cb304edf44d8fe59d7",
@@ -2689,7 +2255,9 @@
       "sources": [
         "NPRR"
       ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1339 to review details."
+      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for NPRR1339 to review details.",
+      "revision_id": "NPRR1339",
+      "revision_family": "NPRR"
     }
   ]
 }

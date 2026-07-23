@@ -112,6 +112,14 @@ The default persistent store is `ERCOTAPI/.rag_store/`. Override it with
 `ERCOT_RAG_STORE` (or the compatibility name `ERCOT_RAG_INDEX_DIR`). The store
 is local generated state and is ignored by Git.
 
+Read-only Git deployments also include
+`ERCOTAPI/deployment_rag_store/`, a losslessly compressed, validated snapshot
+of the governing-document baseline plus the newly embedded 2026+ technical
+batch. `default_config()` selects that snapshot only when no complete local or
+explicitly configured store exists. Loading it decompresses saved JSON/NumPy
+data in memory; it does not call the embeddings API. Operational messages,
+public notices, market notices, and crawler navigation pages are excluded.
+
 ```text
 ERCOTAPI/.rag_store/
   CURRENT
@@ -316,6 +324,9 @@ health response, and the next process start retries it. Configure:
   monitor and hosted applications.
 
 An ephemeral deployment without a shared store may rebuild the checked-in
-bundle on each cold container. It will not contain documents downloaded by a
-different machine. For the complete live archive, mount/publish the same store
-used by the monitor or ship a validated generation artifact.
+bundle on each cold container only when bootstrap is explicitly enabled. The
+packaged deployment snapshot prevents that rebuild for the current hosted
+apps. For documents newer than the packaged snapshot, publish a new validated
+snapshot from the monitor's already-saved vectors or mount the same persistent
+store used by the monitor; never enable repeated cold-start embedding as a
+substitute for publishing the saved generation.
