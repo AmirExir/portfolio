@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import gzip
 import os
+import shutil
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -61,6 +64,48 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
     return None
 
 
+def materialize_packaged_index() -> Path:
+    """Losslessly unpack the saved snapshot for stale hosted loader processes."""
+
+    pointer = PACKAGED_INDEX_DIR / "CURRENT"
+    try:
+        generation_id = pointer.read_text(encoding="utf-8").strip()
+    except OSError as exc:
+        raise CentralIndexUnavailable(
+            f"Unable to read packaged ERCOT generation pointer: {exc}"
+        ) from exc
+    if not generation_id or Path(generation_id).name != generation_id:
+        raise CentralIndexUnavailable("Packaged ERCOT generation pointer is invalid")
+
+    source = PACKAGED_INDEX_DIR / "generations" / generation_id
+    destination_root = Path(tempfile.mkdtemp(prefix="ercot-packaged-index-"))
+    destination = destination_root / "generations" / generation_id
+    destination.mkdir(parents=True)
+    try:
+        shutil.copy2(source / "manifest.json", destination / "manifest.json")
+        for raw_name in ("chunks.json", "embeddings.npy"):
+            raw_source = source / raw_name
+            compressed_source = source / f"{raw_name}.gz"
+            raw_destination = destination / raw_name
+            if raw_source.is_file():
+                shutil.copy2(raw_source, raw_destination)
+            else:
+                with gzip.open(compressed_source, "rb") as input_handle:
+                    with raw_destination.open("wb") as output_handle:
+                        shutil.copyfileobj(input_handle, output_handle)
+            if not raw_destination.is_file() or raw_destination.stat().st_size < 1:
+                raise OSError(f"Packaged ERCOT payload {raw_name} is empty")
+        (destination_root / "CURRENT").write_text(
+            generation_id + "\n",
+            encoding="utf-8",
+        )
+    except (OSError, EOFError, gzip.BadGzipFile) as exc:
+        raise CentralIndexUnavailable(
+            f"Unable to unpack the packaged ERCOT index: {exc}"
+        ) from exc
+    return destination_root
+
+
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_ercot_index(cache_key: tuple[object, ...]):
     del cache_key
@@ -75,7 +120,8 @@ def load_ercot_index(cache_key: tuple[object, ...]):
         # ephemeral directory. The checked-in deployment snapshot is complete,
         # read-only, and already embedded, so it is a safe availability
         # fallback that cannot trigger document embedding.
-        packaged_config = default_config(index_dir=PACKAGED_INDEX_DIR)
+        materialized_index = materialize_packaged_index()
+        packaged_config = default_config(index_dir=materialized_index)
         try:
             return load_startup_index(
                 "general",
