@@ -730,6 +730,51 @@ def normalize_boundaries(
     return boundaries
 
 
+def _web_mercator_to_wgs84(x: float, y: float) -> list[float]:
+    radius = 6_378_137.0
+    longitude = math.degrees(float(x) / radius)
+    latitude = math.degrees(
+        2 * math.atan(math.exp(float(y) / radius)) - math.pi / 2
+    )
+    return [round(longitude, 5), round(latitude, 5)]
+
+
+def load_market_boundaries(path: Path) -> list[dict[str, Any]]:
+    """Load the original HIFLD shapefile or an already-converted GeoJSON file."""
+
+    if path.suffix.casefold() != ".shp":
+        return normalize_boundaries(
+            _load_feature_collection(path),
+            kind="market",
+        )
+    features: list[dict[str, Any]] = []
+    for geometry, attributes in _shapefile_records(path):
+        polygons = []
+        for raw_part in geometry.get("parts", []):
+            ring = [
+                _web_mercator_to_wgs84(float(point[0]), float(point[1]))
+                for point in raw_part
+                if len(point) >= 2
+            ]
+            if len(ring) < 4:
+                continue
+            if ring[0] != ring[-1]:
+                ring.append(list(ring[0]))
+            polygons.append([ring])
+        if polygons:
+            features.append(
+                {
+                    "type": "Feature",
+                    "properties": dict(attributes),
+                    "geometry": {
+                        "type": "MultiPolygon",
+                        "coordinates": polygons,
+                    },
+                }
+            )
+    return normalize_boundaries(features, kind="market")
+
+
 def _signed_ring_area(ring: Sequence[Sequence[float]]) -> float:
     return sum(
         float(ring[index][0]) * float(ring[index + 1][1])
@@ -1014,6 +1059,47 @@ def simplify_path(path: Sequence[Sequence[float]], tolerance: float) -> list[lis
     return [list(path[index]) for index in sorted(keep)]
 
 
+def simplify_ring(
+    ring: Sequence[Sequence[float]],
+    tolerance: float,
+) -> list[list[float]]:
+    """Simplify a closed polygon ring without collapsing its shared endpoint."""
+
+    if len(ring) < 4:
+        return [list(point) for point in ring]
+    open_ring = list(ring[:-1] if ring[0] == ring[-1] else ring)
+    if len(open_ring) < 3 or tolerance <= 0:
+        result = [list(point) for point in open_ring]
+    else:
+        anchor = open_ring[0]
+        split_index = max(
+            range(1, len(open_ring)),
+            key=lambda index: math.hypot(
+                float(open_ring[index][0]) - float(anchor[0]),
+                float(open_ring[index][1]) - float(anchor[1]),
+            ),
+        )
+        first_arc = simplify_path(open_ring[: split_index + 1], tolerance)
+        second_arc = simplify_path(
+            [*open_ring[split_index:], open_ring[0]],
+            tolerance,
+        )
+        result = [*first_arc[:-1], *second_arc[:-1]]
+    if len(result) < 3:
+        bounds = _bounds_from_points(open_ring)
+        if bounds is None:
+            return []
+        west, south, east, north = bounds
+        result = [
+            [west, south],
+            [east, south],
+            [east, north],
+            [west, north],
+        ]
+    result.append(list(result[0]))
+    return result
+
+
 def _simplify_line_record(record: Mapping[str, Any], tolerance: float) -> dict[str, Any]:
     simplified = dict(record)
     simplified["paths"] = [
@@ -1031,14 +1117,10 @@ def _simplify_boundary(boundary: Mapping[str, Any], tolerance: float) -> dict[st
     simplified = dict(boundary)
     polygons = []
     for polygon in boundary.get("polygons", []):
-        outer = simplify_path(polygon.get("outer", []), tolerance)
-        if outer and outer[0] != outer[-1]:
-            outer.append(list(outer[0]))
+        outer = simplify_ring(polygon.get("outer", []), tolerance)
         holes = []
         for raw_hole in polygon.get("holes", []):
-            hole = simplify_path(raw_hole, tolerance)
-            if hole and hole[0] != hole[-1]:
-                hole.append(list(hole[0]))
+            hole = simplify_ring(raw_hole, tolerance)
             if len(hole) >= 4:
                 holes.append(hole)
         if len(outer) >= 4:
@@ -1199,10 +1281,7 @@ def build_packaged_atlas(
         _load_feature_collection(us_substations_path)
     )
     us_plants = normalize_us_plants(_load_feature_collection(us_plants_path))
-    market_boundaries = normalize_boundaries(
-        _load_feature_collection(market_boundaries_path),
-        kind="market",
-    )
+    market_boundaries = load_market_boundaries(market_boundaries_path)
     market_boundaries = [
         _simplify_boundary(boundary, 0.018)
         for boundary in market_boundaries
