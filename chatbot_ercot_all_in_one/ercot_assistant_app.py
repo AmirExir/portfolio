@@ -12,6 +12,7 @@ import streamlit as st
 from openai import OpenAI
 
 try:
+    from ERCOTAPI.latest_updates import load_latest_updates
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
@@ -26,6 +27,7 @@ except ModuleNotFoundError as exc:
     if exc.name != "ERCOTAPI":
         raise
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from ERCOTAPI.latest_updates import load_latest_updates
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
@@ -68,7 +70,12 @@ def load_ercot_index(cache_key: tuple[object, ...]):
 
 
 st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
-st.title("Ask Amir Exir's DWG, SSWG, Nodal Protocols, Planning Guides, Resource Integration ERCOT AI Assistant")
+st.title("Ask Amir Exir's ERCOT Engineering & Revision Request AI Assistant")
+st.caption(
+    "Covers Nodal Protocols, Planning and Operating Guides, Resource Integration, "
+    "DWG/SSWG procedures, OBDRRs, and ERCOT revision requests including NPRR, PGRR, "
+    "NOGRR, OBDRR, RRGRR, VCMRR, and SCR materials."
+)
 
 with st.spinner("Loading the saved ERCOT knowledge index..."):
     try:
@@ -84,13 +91,26 @@ with st.sidebar:
         st.session_state.messages = []
         st.rerun()
 
+updates = load_latest_updates(
+    Path(__file__).resolve().parents[1] / "ERCOTAPI" / "latest_ercot_updates.json"
+)
+with st.expander(f"New ERCOT documents ({updates.get('count', 0)})", expanded=False):
+    st.caption("New 2026+ technical documents recently added to the searchable ERCOT index.")
+    for item in list(updates.get("items") or [])[:50]:
+        label = item.get("document_number") or item.get("title") or "ERCOT document"
+        sources = ", ".join(item.get("sources") or [item.get("source", "ERCOT")])
+        st.markdown(f"**{label}** — {sources}")
+        st.write(item.get("explanation", "New ERCOT technical material."))
+        if item.get("url"):
+            st.link_button("Open ERCOT source", item["url"])
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 for message in st.session_state.messages:
     st.chat_message(message["role"]).markdown(message["content"])
 
-if prompt := st.chat_input("Ask a question about ERCOT DWG, SSWG, protocols, planning, or interconnection..."):
+if prompt := st.chat_input("Ask about ERCOT guides, xRRs, OBDRRs, studies, or interconnections..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 

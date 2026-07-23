@@ -1117,7 +1117,7 @@
           <p>His portfolio is built around practical systems: AI assistants trained on public ERCOT and PSS/E materials, grid dashboards, contingency analysis tooling, GNN-based alarm prediction, and workflow automation for engineers who need answers quickly and defensibly.</p>
           <ul class="focus-list">
             <li>PSS/E and TARA PowerGEM workflow automation for planning studies and reporting.</li>
-            <li>ERCOT documentation assistants for nodal protocols, planning guides, DWG/SSWG manuals, and resource integration.</li>
+            <li>ERCOT documentation assistants for Nodal Protocols, Planning and Operating Guides, DWG/SSWG manuals, Resource Integration, OBDRRs, and all major xRR revision-request families.</li>
             <li>Machine learning applications for load forecasting, fault classification, power grid alarms, and market analytics.</li>
           </ul>
         </div>
@@ -1398,7 +1398,12 @@
             <img src="background.png" alt="AI and power systems concept" loading="lazy" decoding="async" />
             <div class="project-body">
               <h3>ERCOT All-in-One AI Assistant</h3>
-              <p>Assistant over ERCOT nodal protocols, planning guides, interconnection handbook content, and DWG/SSWG manuals. Built for questions about submissions, modeling requirements, dynamic validation, and market rule navigation.</p>
+              <p>Assistant over ERCOT Nodal Protocols, Planning and Operating Guides, Resource Integration, DWG/SSWG procedures, OBDRRs, and revision-request families including NPRR, PGRR, NOGRR, OBDRR, RRGRR, VCMRR, and SCR. Built for cited questions about requirements, studies, modeling, interconnection, and market-rule changes.</p>
+              <details class="ercot-updates">
+                <summary>Latest ERCOT documents and explanations</summary>
+                <p id="ercotUpdatesStatus">Loading the latest 2026+ technical additions…</p>
+                <ul id="ercotUpdatesList"></ul>
+              </details>
               <div class="card-actions">
                 <a class="btn" href="https://amirexir-por-chatbot-ercot-all-in-oneercot-assistant-app-ahgre0.streamlit.app/" target="_blank" rel="noopener noreferrer">Open Assistant</a>
               </div>
@@ -1830,6 +1835,40 @@
         }
       });
     });
+
+    fetch('ERCOTAPI/latest_ercot_updates.json')
+      .then((response) => {
+        if (!response.ok) throw new Error('Update feed unavailable');
+        return response.json();
+      })
+      .then((feed) => {
+        const status = document.getElementById('ercotUpdatesStatus');
+        const list = document.getElementById('ercotUpdatesList');
+        if (!status || !list) return;
+        const items = Array.isArray(feed.items) ? feed.items.slice(0, 12) : [];
+        status.textContent = items.length
+          ? `${feed.count} new technical documents are searchable. Showing the latest ${items.length}.`
+          : 'No new technical documents are currently listed.';
+        items.forEach((item) => {
+          const entry = document.createElement('li');
+          const label = item.document_number || item.title || 'ERCOT document';
+          const source = Array.isArray(item.sources) ? item.sources.join(', ') : item.source || 'ERCOT';
+          const heading = item.url ? document.createElement('a') : document.createElement('strong');
+          heading.textContent = `${label} — ${source}`;
+          if (item.url) {
+            heading.href = item.url;
+            heading.target = '_blank';
+            heading.rel = 'noopener noreferrer';
+          }
+          entry.appendChild(heading);
+          entry.appendChild(document.createTextNode(`: ${item.explanation || 'New ERCOT technical material.'}`));
+          list.appendChild(entry);
+        });
+      })
+      .catch(() => {
+        const status = document.getElementById('ercotUpdatesStatus');
+        if (status) status.textContent = 'The latest-document feed is temporarily unavailable.';
+      });
   </script>
 </body>
 </html>

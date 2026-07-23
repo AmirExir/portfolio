@@ -2471,6 +2471,29 @@ def auto_ingest_paths(downloaded_paths: Sequence[Path], archive_root: Path) -> L
     return list(dict.fromkeys(selected))
 
 
+def publish_latest_updates(paths: Sequence[Path]) -> Optional[Dict[str, Any]]:
+    """Refresh the website/Streamlit feed after a successful indexed batch."""
+
+    if not paths:
+        return None
+    try:
+        try:
+            from ERCOTAPI.latest_updates import build_latest_updates
+        except ModuleNotFoundError:
+            from latest_updates import build_latest_updates  # type: ignore
+
+        output = Path(__file__).with_name("latest_ercot_updates.json")
+        candidate = output.with_name(f".{output.name}.tmp")
+        payload = build_latest_updates(paths, output_path=candidate)
+        if payload.get("count"):
+            candidate.replace(output)
+        else:
+            candidate.unlink(missing_ok=True)
+        return payload
+    except Exception as exc:
+        return {"error": f"{type(exc).__name__}: {exc}"}
+
+
 def main() -> None:
     links_file = Path(os.getenv("ERCOT_LINKS_FILE", str(DEFAULT_LINKS_FILE)))
     state_file = Path(os.getenv("ERCOT_LINK_STATE_FILE", str(DEFAULT_STATE_FILE)))
@@ -2509,6 +2532,12 @@ def main() -> None:
             archive_root,
             enabled=rag_auto_ingest,
         )
+    latest_updates = (
+        publish_latest_updates(ingestion_paths)
+        if ingestion.get("status") == "completed"
+        and bool((ingestion.get("summary") or {}).get("changed"))
+        else None
+    )
     reported_changes, omitted_change_count = _reported_changes(changes)
 
     telegram_sent = False
@@ -2538,6 +2567,7 @@ def main() -> None:
         "downloaded_paths": [str(path) for path in downloaded_paths],
         "rag_auto_ingest": rag_auto_ingest,
         "ingestion": ingestion,
+        "latest_updates": latest_updates,
     }
 
     if SEND_TELEGRAM and (payload["has_updates"] or SEND_NO_UPDATES):
