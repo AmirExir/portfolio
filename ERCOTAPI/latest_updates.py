@@ -21,6 +21,11 @@ REVISION_REQUEST_NAMES = {
     "OBDRR": "Other Binding Document Revision Request",
     "RRGRR": "Resource Registration Glossary Revision Request",
     "VCMRR": "Verifiable Cost Manual Revision Request",
+    "COPMGRR": "Commercial Operations Market Guide Revision Request",
+    "LPGRR": "Load Profiling Guide Revision Request",
+    "RMGRR": "Retail Market Guide Revision Request",
+    "SMOGRR": "Settlement Metering Operating Guide Revision Request",
+    "CMGRR": "Competitive Metering Guide Revision Request",
     "SCR": "System Change Request",
 }
 

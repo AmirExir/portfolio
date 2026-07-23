@@ -60,6 +60,16 @@ class ClassificationTests(unittest.TestCase):
                 "VCMRR444",
                 {"general"},
             ),
+            (
+                "COPMGRR053_approved.txt",
+                "Commercial Operations Market Guide Revision Request",
+                "COPMGRR053",
+                {"general", "market"},
+            ),
+            ("LPGRR076_pending.txt", "Load Profiling Guide Revision Request", "LPGRR076", {"general", "market"}),
+            ("RMGRR186_pending.txt", "Retail Market Guide Revision Request", "RMGRR186", {"general", "market"}),
+            ("SMOGRR031_pending.txt", "Settlement Metering Operating Guide Revision Request", "SMOGRR031", {"general", "market"}),
+            ("CMGRR010_approved.txt", "Competitive Metering Guide Revision Request", "CMGRR010", {"general", "market"}),
             ("ercot_nodal_protocols.txt", "Protocol", None, {"general", "protocols"}),
             ("planning_guide_2026.txt", "Planning Guide", None, {"general", "planning"}),
             ("nodal_operating_guide.txt", "Operating Guide", None, {"general", "operations"}),
@@ -266,6 +276,20 @@ class ClassificationTests(unittest.TestCase):
         self.assertEqual(metadata["source_kind"], "TAC")
         self.assertEqual(metadata["document_number"], "NPRR1234")
         self.assertTrue({"general", "protocols", "market"}.issubset(metadata["collections"]))
+
+    def test_reverse_xrr_attachment_name_gets_family_document_number(self) -> None:
+        metadata = classify_document(
+            self.official_path / "145PGRR-73-AEPSC-Comments.docx",
+            self.official,
+            self.repo_root,
+            sidecar={
+                "source_kind": "PGRR",
+                "source_page_url": "https://www.ercot.com/mktrules/issues/PGRR145",
+            },
+        )
+
+        self.assertEqual(metadata["document_number"], "PGRR145")
+        self.assertIn("planning", metadata["collections"])
 
     def test_official_source_aliases_route_generic_hash_named_documents(self) -> None:
         cases = (

@@ -15,14 +15,16 @@ try:
     from ERCOTAPI.latest_updates import load_latest_updates
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
+        format_change_reports,
         format_source_list,
-        retrieve_chunks,
+        retrieve_requirement_evidence,
     )
     from ERCOTAPI.rag_ingestion.startup import (
         CentralIndexUnavailable,
         load_startup_index,
         startup_index_state,
     )
+    from ERCOTAPI.rag_ingestion.requirements import validate_answer_citations
 except ModuleNotFoundError as exc:
     if exc.name != "ERCOTAPI":
         raise
@@ -30,14 +32,16 @@ except ModuleNotFoundError as exc:
     from ERCOTAPI.latest_updates import load_latest_updates
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
+        format_change_reports,
         format_source_list,
-        retrieve_chunks,
+        retrieve_requirement_evidence,
     )
     from ERCOTAPI.rag_ingestion.startup import (
         CentralIndexUnavailable,
         load_startup_index,
         startup_index_state,
     )
+    from ERCOTAPI.rag_ingestion.requirements import validate_answer_citations
 
 
 def get_openai_client() -> OpenAI:
@@ -74,7 +78,11 @@ st.title("Ask Amir Exir's ERCOT Engineering & Revision Request AI Assistant")
 st.caption(
     "Covers Nodal Protocols, Planning and Operating Guides, Resource Integration, "
     "DWG/SSWG procedures, OBDRRs, and ERCOT revision requests including NPRR, PGRR, "
-    "NOGRR, OBDRR, RRGRR, VCMRR, and SCR materials."
+    "NOGRR, OBDRR, RRGRR, VCMRR, COPMGRR, LPGRR, RMGRR, SMOGRR, CMGRR, and SCR materials."
+)
+st.caption(
+    "Answers separate current governing text from procedures and proposed changes, resolve status as of the question date, "
+    "and use section/page evidence IDs with direct ERCOT source links."
 )
 
 with st.spinner("Loading the saved ERCOT knowledge index..."):
@@ -90,6 +98,11 @@ with st.sidebar:
     if st.button("Clear chat"):
         st.session_state.messages = []
         st.rerun()
+    with st.expander("Evidence policy"):
+        st.write(
+            "Current Protocol/Guide/OBD text can be governing evidence. xRRs, ballots, and committee records are shown as "
+            "change evidence until incorporated text establishes the effective requirement. Operational notices are excluded."
+        )
 
 updates = load_latest_updates(
     Path(__file__).resolve().parents[1] / "ERCOTAPI" / "latest_ercot_updates.json"
@@ -116,11 +129,15 @@ if prompt := st.chat_input("Ask about ERCOT guides, xRRs, OBDRRs, studies, or in
 
     with st.spinner("Thinking..."):
         try:
-            top_chunks = retrieve_chunks(prompt, rag_index, top_k=12)
+            evidence_bundle = retrieve_requirement_evidence(prompt, rag_index, top_k=14)
+            top_chunks = evidence_bundle["chunks"]
         except Exception as exc:
             st.error(f"Retrieval failed: {exc}")
             st.stop()
         context = format_context(top_chunks, max_words=100000)
+        change_context = format_change_reports(evidence_bundle.get("change_reports") or [])
+        if change_context:
+            context += "\n\n=== SECTION-LEVEL CHANGE REPORTS ===\n\n" + change_context
         if not context:
             st.error("No matching ERCOT documentation was found in the loaded index.")
             st.stop()
@@ -142,11 +159,16 @@ or decision points, and the practical takeaway whenever those details appear in
 the context. Use short paragraphs and bullets when they make the explanation
 easier to follow.
 
-Cite the specific supplied chunks that support important statements, but do not
-use citations as a substitute for the explanation. Prefer the current effective
-document unless the user clearly asks for historical material. Do not create a
-separate "Retrieved sources" section; the application adds a compact source
-list after the answer.
+Cite every material statement with the supplied evidence ID, such as [E1]. Do
+not use citations as a substitute for the explanation. Do not describe a
+revision request, ballot, committee record, approval, or redline as an effective
+requirement unless the supplied evidence also identifies incorporated governing
+text. Distinguish binding/current text, related engineering procedures, pending
+changes, historical material, and uncertainty. Do not create a separate
+"Retrieved sources" section; the application adds the verified source list.
+
+Answer contract for this question:
+{evidence_bundle['answer_contract']}
 
 ---
 {context}
@@ -163,9 +185,22 @@ list after the answer.
         )
 
     if response:
-        bot_message = response.output_text.rstrip() + format_source_list(
-            top_chunks,
-            max_sources=4,
+        answer_text = response.output_text.rstrip()
+        citation_audit = validate_answer_citations(answer_text, top_chunks)
+        if not citation_audit["passed"]:
+            answer_text += (
+                "\n\n_Citation audit warning: the answer omitted required evidence IDs or "
+                "used an ID that was not retrieved. Verify the source list before relying on it._"
+            )
+        cited_ids = set(citation_audit["cited_evidence_ids"])
+        cited_chunks = [
+            chunk for chunk in top_chunks
+            if str(chunk.get("evidence_id") or "") in cited_ids
+        ]
+        footer_chunks = cited_chunks or top_chunks[:4]
+        bot_message = answer_text + format_source_list(
+            footer_chunks,
+            max_sources=len(footer_chunks),
         )
         st.chat_message("assistant").markdown(bot_message)
         st.session_state.messages.append({"role": "assistant", "content": bot_message})

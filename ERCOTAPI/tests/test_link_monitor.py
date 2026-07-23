@@ -44,6 +44,36 @@ class FakeResponse:
         self.closed = True
 
 
+class LifecycleHistoryTests(unittest.TestCase):
+    def test_status_history_preserves_pending_to_approved_transition(self) -> None:
+        identity = {
+            "source_label": "PGRR",
+            "source_page_url": "https://www.ercot.com/mktrules/issues/reports/pgrr",
+            "original_url": "https://www.ercot.com/mktrules/issues/PGRR147",
+            "document_number": "PGRR147",
+            "published_date": "2026-05-20",
+        }
+        pending = {**identity, "document_status": "Pending", "effective_date": None}
+        approved = {**identity, "document_status": "Approved", "effective_date": "2026-08-01"}
+        existing = {
+            "downloaded_at": "2026-05-20T10:00:00Z",
+            "provenance": [pending],
+            "status_history": [],
+        }
+
+        first = monitor._merge_status_history(existing, pending)
+        second = monitor._merge_status_history(
+            {**existing, "status_history": first},
+            approved,
+        )
+
+        self.assertEqual(
+            [event["document_status"] for event in second],
+            ["Pending", "Approved"],
+        )
+        self.assertEqual(second[-1]["effective_date"], "2026-08-01")
+
+
 class FakeSession:
     def __init__(self, responses: dict[str, FakeResponse]) -> None:
         self.responses = responses
@@ -74,7 +104,10 @@ class LinkMonitorTests(unittest.TestCase):
 
     def test_all_configured_revision_request_detail_links_are_discovered(self) -> None:
         source_url = "https://www.ercot.com/mktrules/issues/nprr"
-        for prefix in ("NPRR", "PGRR", "NOGRR", "OBDRR", "SCR", "RRGRR", "VCMRR"):
+        for prefix in (
+            "NPRR", "PGRR", "NOGRR", "OBDRR", "SCR", "RRGRR", "VCMRR",
+            "COPMGRR", "LPGRR", "RMGRR", "SMOGRR", "CMGRR",
+        ):
             with self.subTest(prefix=prefix):
                 self.assertTrue(
                     monitor.is_interesting_link(
@@ -267,6 +300,37 @@ class LinkMonitorTests(unittest.TestCase):
         self.assertEqual(metadata["document_status"], "Pending")
         self.assertEqual(metadata["published_date"], "2026-07-01")
         self.assertEqual(metadata["effective_date"], "2026-08-01")
+
+    def test_adjacent_guide_cards_keep_their_own_dates(self) -> None:
+        source_url = "https://www.ercot.com/mktrules/guides/planning/current"
+        html = (
+            '<div class="document-card">'
+            '<a href="/files/08-080125.docx">Section 8</a>'
+            '<span>Aug 1, 2025</span>'
+            '</div>'
+            '<div class="document-card">'
+            '<a href="/files/09-071126.docx">Section 9</a>'
+            '<span>Jul 11, 2026</span>'
+            '</div>'
+        )
+
+        candidates = monitor.extract_anchor_candidates("PLANNING GUIDE", source_url, html)
+        by_title = {candidate.title: candidate for candidate in candidates}
+
+        self.assertEqual(by_title["Section 8"].published_hint, "Aug 1, 2025")
+        self.assertEqual(by_title["Section 9"].published_hint, "Jul 11, 2026")
+
+    def test_current_guide_page_does_not_follow_navigation_pages(self) -> None:
+        source_url = "https://www.ercot.com/mktrules/guides/planning/current"
+        html = (
+            '<a href="/mktrules/nprotocols/library">Protocol Library - Nodal</a>'
+            '<a href="/services/comm/mkt_notices/opsmessages">Operations Messages</a>'
+            '<a href="/files/July-1-2026-Planning-Guide.pdf">Combined Guide</a>'
+        )
+
+        candidates = monitor.extract_anchor_candidates("PLANNING GUIDE", source_url, html)
+
+        self.assertEqual([candidate.title for candidate in candidates], ["Combined Guide"])
 
     def test_issue_detail_page_archives_key_document_attachments(self) -> None:
         source_url = "https://www.ercot.com/mktrules/issues/nprr"

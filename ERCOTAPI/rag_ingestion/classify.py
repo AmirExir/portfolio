@@ -11,7 +11,16 @@ from typing import Any, Mapping
 from .config import Collection, SIDECAR_SUFFIX, SourceRoot
 
 
-DOCUMENT_NUMBER_RE = re.compile(r"\b(NPRR|PGRR|NOGRR|OBDRR|SCR|RRGRR|VCMRR)\s*[-_ ]?\s*(\d{2,5})\b", re.IGNORECASE)
+DOCUMENT_NUMBER_RE = re.compile(
+    r"\b(NPRR|PGRR|NOGRR|OBDRR|SCR|RRGRR|VCMRR|COPMGRR|LPGRR|RMGRR|SMOGRR|CMGRR)"
+    r"\s*[-_ ]?\s*(\d{2,5})\b",
+    re.IGNORECASE,
+)
+REVERSE_DOCUMENT_NUMBER_RE = re.compile(
+    r"\b(\d{2,5})(NPRR|PGRR|NOGRR|OBDRR|SCR|RRGRR|VCMRR|COPMGRR|LPGRR|"
+    r"RMGRR|SMOGRR|CMGRR)\b",
+    re.IGNORECASE,
+)
 ISO_DATE_RE = re.compile(r"\b(20\d{2})[-_/](0[1-9]|1[0-2])[-_/]([0-2]\d|3[01])\b")
 MONTH_DATE_RE = re.compile(
     r"\b(January|February|March|April|May|June|July|August|September|October|November|December)"
@@ -59,11 +68,21 @@ def _provenance_list(value: Any) -> list[dict[str, Any]]:
     return [dict(item) for item in value if isinstance(item, dict)]
 
 
+def _document_number_parts(searchable: str) -> tuple[str, str] | None:
+    match = DOCUMENT_NUMBER_RE.search(searchable)
+    if match:
+        return match.group(1).upper(), match.group(2)
+    reverse = REVERSE_DOCUMENT_NUMBER_RE.search(searchable)
+    if reverse:
+        return reverse.group(2).upper(), reverse.group(1)
+    return None
+
+
 def _detect_kind(searchable: str, default: str) -> tuple[str, str | None]:
-    number_match = DOCUMENT_NUMBER_RE.search(searchable)
-    if number_match:
-        prefix = number_match.group(1).upper()
-        number = f"{prefix}{number_match.group(2)}"
+    number_parts = _document_number_parts(searchable)
+    if number_parts:
+        prefix, sequence = number_parts
+        number = f"{prefix}{sequence}"
         names = {
             "NPRR": "NPRR",
             "PGRR": "PGRR",
@@ -72,6 +91,11 @@ def _detect_kind(searchable: str, default: str) -> tuple[str, str | None]:
             "SCR": "System Change Request",
             "RRGRR": "Resource Registration Glossary Revision Request",
             "VCMRR": "Verifiable Cost Manual Revision Request",
+            "COPMGRR": "Commercial Operations Market Guide Revision Request",
+            "LPGRR": "Load Profiling Guide Revision Request",
+            "RMGRR": "Retail Market Guide Revision Request",
+            "SMOGRR": "Settlement Metering Operating Guide Revision Request",
+            "CMGRR": "Competitive Metering Guide Revision Request",
         }
         return names[prefix], number
 
@@ -122,6 +146,18 @@ def _collections_for(kind: str, root: SourceRoot, searchable: str) -> list[str]:
         if kind_upper == "SSWG":
             collections.add(Collection.PLANNING.value)
     elif kind_upper in {
+        "COPMGRR",
+        "LPGRR",
+        "RMGRR",
+        "SMOGRR",
+        "CMGRR",
+        "RESOURCE REGISTRATION GLOSSARY REVISION REQUEST",
+        "VERIFIABLE COST MANUAL REVISION REQUEST",
+        "COMMERCIAL OPERATIONS MARKET GUIDE REVISION REQUEST",
+        "LOAD PROFILING GUIDE REVISION REQUEST",
+        "RETAIL MARKET GUIDE REVISION REQUEST",
+        "SETTLEMENT METERING OPERATING GUIDE REVISION REQUEST",
+        "COMPETITIVE METERING GUIDE REVISION REQUEST",
         "MARKET NOTICE",
         "MARKET NOTICES",
         "PUBLIC NOTICE",
@@ -135,8 +171,8 @@ def _collections_for(kind: str, root: SourceRoot, searchable: str) -> list[str]:
     # their downloader sidecar legitimately keeps a generic source label such
     # as TAC or RPG. Route from the normalized revision identifier as well as
     # source_kind so those official documents reach their domain chatbot.
-    number_match = DOCUMENT_NUMBER_RE.search(searchable)
-    number_prefix = number_match.group(1).upper() if number_match else ""
+    number_parts = _document_number_parts(searchable)
+    number_prefix = number_parts[0] if number_parts else ""
     if number_prefix == "NPRR":
         collections.update({Collection.PROTOCOLS.value, Collection.MARKET.value})
     elif number_prefix == "PGRR":
@@ -147,6 +183,8 @@ def _collections_for(kind: str, root: SourceRoot, searchable: str) -> list[str]:
         collections.update({Collection.PROTOCOLS.value, Collection.OPERATIONS.value})
     elif number_prefix == "SCR":
         collections.add(Collection.OPERATIONS.value)
+    elif number_prefix in {"RRGRR", "VCMRR", "COPMGRR", "LPGRR", "RMGRR", "SMOGRR", "CMGRR"}:
+        collections.add(Collection.MARKET.value)
 
     lowered = searchable.lower()
     if "dwg" in lowered or "sswg" in lowered:
@@ -280,6 +318,9 @@ def classify_document(
             source_label,
             _clean(supplied.get("source_kind")),
             supplied_number,
+            _clean(supplied.get("original_url") or supplied.get("url")),
+            _clean(supplied.get("source_page_url")),
+            " ".join(_string_list(supplied.get("source_page_urls"))),
         )
     )
     detected_kind, detected_number = _detect_kind(searchable, source_root.default_source_kind)

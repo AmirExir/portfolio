@@ -361,7 +361,12 @@ def inject_dashboard_css() -> None:
         <style>
         :root {
             --ercot-blue: #0b2f4f;
+            --ercot-blue-hover: #123f67;
             --ercot-cyan: #00a3c7;
+            --ercot-accent: #0b5e75;
+            --ercot-accent-hover: #06485c;
+            --ercot-soft-blue: #eaf4f8;
+            --ercot-focus: #0891b2;
             --ercot-green: #1f9d55;
             --ercot-orange: #f59e0b;
             --ercot-red: #dc2626;
@@ -403,25 +408,87 @@ def inject_dashboard_css() -> None:
             color: #ffffff;
         }
         .stButton > button,
-        .stLinkButton > a {
-            background: #111827 !important;
+        .stLinkButton > a,
+        a[data-testid^="stBaseLinkButton-"] {
+            background: var(--ercot-blue) !important;
             color: #ffffff !important;
-            border: 1px solid #1f2937 !important;
+            -webkit-text-fill-color: #ffffff !important;
+            border: 1px solid var(--ercot-blue) !important;
             border-radius: 10px !important;
             font-weight: 750 !important;
             min-height: 2.6rem;
             width: 100% !important;
             white-space: nowrap !important;
             overflow: visible !important;
+            opacity: 1 !important;
+            box-shadow: 0 5px 14px rgba(11, 47, 79, 0.14) !important;
+            transition:
+                background-color 150ms ease,
+                border-color 150ms ease,
+                box-shadow 150ms ease,
+                transform 150ms ease !important;
         }
         .stButton > button *,
-        .stLinkButton > a * {
+        .stLinkButton > a *,
+        a[data-testid^="stBaseLinkButton-"] * {
             color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            opacity: 1 !important;
         }
         .stButton > button:hover,
-        .stLinkButton > a:hover {
-            background: var(--ercot-blue) !important;
-            border-color: var(--ercot-cyan) !important;
+        .stLinkButton > a:hover,
+        a[data-testid^="stBaseLinkButton-"]:hover {
+            background: var(--ercot-blue-hover) !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            border-color: var(--ercot-focus) !important;
+            box-shadow: 0 8px 20px rgba(11, 47, 79, 0.24) !important;
+            transform: translateY(-1px);
+        }
+        .stLinkButton > a:visited,
+        a[data-testid^="stBaseLinkButton-"]:visited {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        .stButton > button:focus-visible,
+        .stLinkButton > a:focus-visible,
+        a[data-testid^="stBaseLinkButton-"]:focus-visible {
+            outline: 3px solid rgba(8, 145, 178, 0.34) !important;
+            outline-offset: 2px !important;
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px var(--ercot-focus) !important;
+        }
+        .stButton > button:active,
+        .stLinkButton > a:active,
+        a[data-testid^="stBaseLinkButton-"]:active {
+            background: #082a46 !important;
+            transform: translateY(0);
+            box-shadow: 0 3px 8px rgba(11, 47, 79, 0.18) !important;
+        }
+        .stButton > button:disabled {
+            background: #e2e8f0 !important;
+            border-color: #cbd5e1 !important;
+            color: #475569 !important;
+            -webkit-text-fill-color: #475569 !important;
+            box-shadow: none !important;
+            cursor: not-allowed !important;
+        }
+        .stButton > button:disabled * {
+            color: #475569 !important;
+            -webkit-text-fill-color: #475569 !important;
+        }
+        button[data-testid="stBaseButton-primary"],
+        .stButton > button[kind="primary"] {
+            background: var(--ercot-accent) !important;
+            border-color: var(--ercot-accent) !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        button[data-testid="stBaseButton-primary"]:hover,
+        .stButton > button[kind="primary"]:hover {
+            background: var(--ercot-accent-hover) !important;
+            border-color: #22d3ee !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
         }
         .dashboard-hero {
             padding: 1.35rem 1.45rem;
@@ -535,21 +602,184 @@ def inject_dashboard_css() -> None:
             color: var(--ercot-muted) !important;
         }
         .stTabs [data-baseweb="tab-list"] {
-            gap: 0.4rem;
-            border-bottom: 1px solid var(--ercot-border);
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 0.5rem !important;
+            height: auto !important;
+            overflow: visible !important;
+            padding: 0.2rem 0 0.65rem !important;
+            border-bottom: 1px solid var(--ercot-border) !important;
         }
         .stTabs [data-baseweb="tab"] {
-            border-radius: 999px;
-            padding: 0.5rem 0.85rem;
-            color: #334155;
-        }
-        .stTabs [data-baseweb="tab"] p {
-            color: #334155 !important;
-            font-weight: 650;
-        }
-        .stTabs [aria-selected="true"] p {
+            flex: 0 0 auto !important;
+            min-height: 2.45rem !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 999px !important;
+            padding: 0.48rem 0.88rem !important;
+            background: #ffffff !important;
             color: var(--ercot-blue) !important;
-            font-weight: 800;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.05) !important;
+            transition:
+                background-color 140ms ease,
+                border-color 140ms ease,
+                box-shadow 140ms ease !important;
+        }
+        .stTabs [data-baseweb="tab"] p,
+        .stTabs [data-baseweb="tab"] span {
+            color: var(--ercot-blue) !important;
+            -webkit-text-fill-color: var(--ercot-blue) !important;
+            font-weight: 700 !important;
+        }
+        .stTabs [data-baseweb="tab"]:hover {
+            background: var(--ercot-soft-blue) !important;
+            border-color: var(--ercot-accent) !important;
+            box-shadow: 0 5px 13px rgba(11, 47, 79, 0.10) !important;
+        }
+        .stTabs [data-baseweb="tab"]:focus-visible {
+            outline: 3px solid rgba(8, 145, 178, 0.30) !important;
+            outline-offset: 2px !important;
+        }
+        .stTabs [aria-selected="true"] {
+            background: var(--ercot-blue) !important;
+            border-color: var(--ercot-blue) !important;
+            box-shadow: 0 6px 15px rgba(11, 47, 79, 0.18) !important;
+        }
+        .stTabs [aria-selected="true"] p,
+        .stTabs [aria-selected="true"] span {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            font-weight: 800 !important;
+        }
+        .stTabs [data-baseweb="tab-highlight"],
+        .stTabs [data-baseweb="tab-border"] {
+            display: none !important;
+        }
+        .st-key-ercot_document_category_filter {
+            margin: 0.25rem 0 0.9rem;
+        }
+        .st-key-ercot_document_category_filter [role="radiogroup"],
+        .st-key-ercot_document_category_filter [data-baseweb="button-group"] {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 0.5rem !important;
+            overflow: visible !important;
+        }
+        .st-key-ercot_document_category_filter button {
+            flex: 0 0 auto !important;
+            width: auto !important;
+            min-height: 2.35rem !important;
+            padding: 0.44rem 0.82rem !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 999px !important;
+            background: #ffffff !important;
+            color: var(--ercot-blue) !important;
+            -webkit-text-fill-color: var(--ercot-blue) !important;
+            font-weight: 750 !important;
+            opacity: 1 !important;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, 0.05) !important;
+        }
+        .st-key-ercot_document_category_filter button *,
+        .st-key-ercot_document_category_filter button p,
+        .st-key-ercot_document_category_filter button span {
+            color: inherit !important;
+            -webkit-text-fill-color: inherit !important;
+            opacity: 1 !important;
+        }
+        .st-key-ercot_document_category_filter button:hover {
+            background: var(--ercot-soft-blue) !important;
+            border-color: var(--ercot-accent) !important;
+            color: #073b55 !important;
+            -webkit-text-fill-color: #073b55 !important;
+        }
+        .st-key-ercot_document_category_filter button[kind="pillsActive"],
+        .st-key-ercot_document_category_filter button[data-testid="stBaseButton-pillsActive"] {
+            background: var(--ercot-blue) !important;
+            border-color: var(--ercot-blue) !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            box-shadow: 0 6px 15px rgba(11, 47, 79, 0.18) !important;
+        }
+        .st-key-ercot_document_category_filter button[kind="pillsActive"] *,
+        .st-key-ercot_document_category_filter button[data-testid="stBaseButton-pillsActive"] * {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        .st-key-ercot_document_category_filter button:focus-visible {
+            outline: 3px solid rgba(8, 145, 178, 0.30) !important;
+            outline-offset: 2px !important;
+        }
+        [data-testid="stExpander"] details {
+            overflow: hidden;
+            border: 1px solid #d7e1ea !important;
+            border-radius: 12px !important;
+            background: #ffffff !important;
+            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.045);
+        }
+        [data-testid="stExpander"] summary {
+            min-height: 2.8rem;
+            background: #ffffff !important;
+            color: #172033 !important;
+            -webkit-text-fill-color: #172033 !important;
+            transition: background-color 140ms ease, color 140ms ease;
+        }
+        [data-testid="stExpander"] summary *,
+        [data-testid="stExpander"] summary p,
+        [data-testid="stExpander"] summary span {
+            color: #172033 !important;
+            -webkit-text-fill-color: #172033 !important;
+            opacity: 1 !important;
+            font-weight: 650 !important;
+        }
+        [data-testid="stExpander"] summary:hover {
+            background: var(--ercot-soft-blue) !important;
+            color: var(--ercot-blue) !important;
+            -webkit-text-fill-color: var(--ercot-blue) !important;
+        }
+        [data-testid="stExpander"] summary:hover * {
+            color: var(--ercot-blue) !important;
+            -webkit-text-fill-color: var(--ercot-blue) !important;
+        }
+        [data-testid="stExpander"] summary:focus-visible {
+            outline: 3px solid rgba(8, 145, 178, 0.30) !important;
+            outline-offset: -3px !important;
+        }
+        [data-testid="stSidebar"] [data-testid="stExpander"] details {
+            border-color: rgba(255,255,255,0.24) !important;
+            background: #f8fafc !important;
+        }
+        [data-testid="stSidebar"] [data-testid="stExpander"] summary,
+        [data-testid="stSidebar"] [data-testid="stExpander"] summary *,
+        [data-testid="stSidebar"] [data-testid="stExpanderDetails"],
+        [data-testid="stSidebar"] [data-testid="stExpanderDetails"] * {
+            color: #172033 !important;
+            -webkit-text-fill-color: #172033 !important;
+            opacity: 1 !important;
+        }
+        [data-testid="stSidebar"] [data-testid="stExpander"] summary:hover,
+        [data-testid="stSidebar"] [data-testid="stExpander"] summary:hover * {
+            background: #eaf4f8 !important;
+            color: var(--ercot-blue) !important;
+            -webkit-text-fill-color: var(--ercot-blue) !important;
+        }
+        [data-testid="stSidebar"] [data-baseweb="input"],
+        [data-testid="stSidebar"] [data-baseweb="base-input"],
+        [data-testid="stSidebar"] input,
+        [data-testid="stSidebar"] textarea,
+        [data-testid="stSidebar"] select {
+            background: #ffffff !important;
+            color: #172033 !important;
+            -webkit-text-fill-color: #172033 !important;
+            caret-color: #172033 !important;
+        }
+        [data-testid="stSidebar"] [data-baseweb="input"] *,
+        [data-testid="stSidebar"] [data-baseweb="base-input"] * {
+            color: #172033 !important;
+            -webkit-text-fill-color: #172033 !important;
+        }
+        [data-testid="stSidebar"] [data-testid="stExpanderDetails"] a {
+            color: #0369a1 !important;
+            -webkit-text-fill-color: #0369a1 !important;
+            text-decoration-color: #0369a1 !important;
         }
         h1, h2, h3 {
             color: #0f172a;
@@ -620,7 +850,13 @@ def categorize_ercot_update(item: Dict[str, Any]) -> str:
     number = str(item.get("document_number") or "").upper()
     title = str(item.get("title") or "").upper()
     combined = f"{source} {number} {title}"
-    if any(code in combined for code in ("NPRR", "PGRR", "NOGRR", "OBDRR", "RRGRR", "VCMRR", "SCR")):
+    if any(
+        code in combined
+        for code in (
+            "NPRR", "PGRR", "NOGRR", "OBDRR", "RRGRR", "VCMRR", "COPMGRR",
+            "LPGRR", "RMGRR", "SMOGRR", "CMGRR", "SCR",
+        )
+    ):
         return "Revision Requests (xRRs)"
     if any(term in combined for term in ("PROTOCOL", "PLANNING GUIDE", "OPERATING GUIDE", "OTHER BINDING DOCUMENT")):
         return "Protocols, Guides & OBDs"
@@ -653,31 +889,52 @@ def render_latest_ercot_documents() -> None:
             grouped = {category: [] for category in categories}
             for item in items:
                 grouped[categorize_ercot_update(item)].append(item)
-            category_tabs = st.tabs(
-                [f"{category} ({len(grouped[category])})" for category in categories]
+            category_labels = {
+                f"{category} ({len(grouped[category])})": category
+                for category in categories
+            }
+            selected_label = st.pills(
+                "Filter technical documents",
+                ["All", *category_labels],
+                default="All",
+                selection_mode="single",
+                label_visibility="collapsed",
+                key="ercot_document_category_filter",
             )
-            for category_tab, category in zip(category_tabs, categories):
-                with category_tab:
-                    if not grouped[category]:
-                        st.caption("No new documents in this category.")
-                        continue
-                    for item in grouped[category]:
-                        title = str(item.get("title") or item.get("document_number") or "ERCOT document")
-                        number = str(item.get("document_number") or "").strip()
-                        label = f"{number} — {title}" if number and number.lower() not in title.lower() else title
-                        with st.expander(label):
-                            st.write(item.get("explanation") or "New ERCOT technical material.")
-                            metadata = " · ".join(
-                                value for value in (
-                                    str(item.get("source") or "").strip(),
-                                    str(item.get("published_date") or "").strip(),
-                                    str(item.get("status") or "").strip(),
-                                ) if value
-                            )
-                            if metadata:
-                                st.caption(metadata)
-                            if item.get("url"):
-                                st.link_button("Open ERCOT source", str(item["url"]))
+            selected_categories = (
+                categories
+                if not selected_label or selected_label == "All"
+                else [category_labels[selected_label]]
+            )
+            visible_categories = [
+                category
+                for category in selected_categories
+                if grouped[category] or len(selected_categories) == 1
+            ]
+            for category_index, category in enumerate(visible_categories):
+                st.markdown(f"#### {category} ({len(grouped[category])})")
+                if not grouped[category]:
+                    st.caption("No new documents in this category.")
+                    continue
+                for item in grouped[category]:
+                    title = str(item.get("title") or item.get("document_number") or "ERCOT document")
+                    number = str(item.get("document_number") or "").strip()
+                    label = f"{number} — {title}" if number and number.lower() not in title.lower() else title
+                    with st.expander(label):
+                        st.write(item.get("explanation") or "New ERCOT technical material.")
+                        metadata = " · ".join(
+                            value for value in (
+                                str(item.get("source") or "").strip(),
+                                str(item.get("published_date") or "").strip(),
+                                str(item.get("status") or "").strip(),
+                            ) if value
+                        )
+                        if metadata:
+                            st.caption(metadata)
+                        if item.get("url"):
+                            st.link_button("Open ERCOT source", str(item["url"]))
+                if category_index < len(visible_categories) - 1:
+                    st.divider()
     with operations_tab:
         st.info(
             "Operational messages are time-sensitive grid communications. They are intentionally separate from the engineering RAG and are not embedded."
@@ -1484,7 +1741,12 @@ def main():
 
     action_col_1, action_col_2, action_col_3, action_col_4 = st.columns(4)
     with action_col_1:
-        if st.button("Refresh data", help="Clear cached API/news data and reload the dashboard", use_container_width=True):
+        if st.button(
+            "Refresh data",
+            help="Clear cached API/news data and reload the dashboard",
+            type="primary",
+            use_container_width=True,
+        ):
             st.cache_data.clear()
             st.rerun()
     with action_col_2:

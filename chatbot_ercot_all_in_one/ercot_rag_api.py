@@ -8,7 +8,7 @@ import threading
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import List, Literal
+from typing import Any, Dict, List, Literal
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
@@ -18,7 +18,10 @@ try:
     from ERCOTAPI.rag_ingestion.retrieval import (
         LoadedIndex,
         format_context,
+        format_change_reports,
+        format_source_list,
         index_state,
+        retrieve_requirement_evidence,
         retrieve_chunks,
     )
     from ERCOTAPI.rag_ingestion.startup import load_startup_index
@@ -31,7 +34,10 @@ except ModuleNotFoundError as exc:  # Supports launching from this app directory
     from ERCOTAPI.rag_ingestion.retrieval import (
         LoadedIndex,
         format_context,
+        format_change_reports,
+        format_source_list,
         index_state,
+        retrieve_requirement_evidence,
         retrieve_chunks,
     )
     from ERCOTAPI.rag_ingestion.startup import load_startup_index
@@ -68,6 +74,7 @@ class RetrieveRequest(BaseModel):
     collection: CollectionName = "general"
     include_generated: bool = True
     prefer_authoritative: bool = True
+    as_of: str | None = Field(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$")
 
 
 class SourceRecord(BaseModel):
@@ -77,10 +84,25 @@ class SourceRecord(BaseModel):
     source_path: str | None = None
     source_authority: str | None = None
     source_kind: str | None = None
+    document_number: str | None = None
     document_status: str | None = None
     effective_date: str | None = None
     published_date: str | None = None
     revision: str | None = None
+    authority_class: str | None = None
+    effective_state: str | None = None
+    effectiveness_label: str | None = None
+    effectiveness_basis: str | None = None
+    resolved_effective_date: str | None = None
+    effective_date_inferred: bool = False
+    evidence_role: str | None = None
+    is_governing: bool = False
+    logical_document_id: str | None = None
+    evidence_id: str | None = None
+    section_number: str | None = None
+    section_title: str | None = None
+    page_start: int | None = None
+    page_end: int | None = None
     is_generated: bool = False
     original_url: str | None = None
     url_aliases: List[str] = Field(default_factory=list)
@@ -94,6 +116,11 @@ class RetrieveResponse(BaseModel):
     sources: List[SourceRecord] = Field(default_factory=list)
     collection: str = "general"
     generation: str | None = None
+    analysis: Dict[str, Any] = Field(default_factory=dict)
+    evidence: Dict[str, List[str]] = Field(default_factory=dict)
+    answer_contract: str = ""
+    source_footer: str = ""
+    change_reports: List[Dict[str, Any]] = Field(default_factory=list)
 
 
 @asynccontextmanager
@@ -182,12 +209,47 @@ def _source_record(chunk: dict) -> SourceRecord:
         if chunk.get("source_authority")
         else None,
         source_kind=str(chunk.get("source_kind")) if chunk.get("source_kind") else None,
+        document_number=str(chunk.get("document_number"))
+        if chunk.get("document_number")
+        else None,
         document_status=str(chunk.get("document_status"))
         if chunk.get("document_status")
         else None,
         effective_date=str(chunk.get("effective_date")) if chunk.get("effective_date") else None,
         published_date=str(chunk.get("published_date")) if chunk.get("published_date") else None,
         revision=str(chunk.get("revision")) if chunk.get("revision") else None,
+        authority_class=str(chunk.get("authority_class"))
+        if chunk.get("authority_class")
+        else None,
+        effective_state=str(chunk.get("effective_state"))
+        if chunk.get("effective_state")
+        else None,
+        effectiveness_label=str(chunk.get("effectiveness_label"))
+        if chunk.get("effectiveness_label")
+        else None,
+        effectiveness_basis=str(chunk.get("effectiveness_basis"))
+        if chunk.get("effectiveness_basis")
+        else None,
+        resolved_effective_date=str(chunk.get("resolved_effective_date"))
+        if chunk.get("resolved_effective_date")
+        else None,
+        effective_date_inferred=bool(chunk.get("effective_date_inferred")),
+        evidence_role=str(chunk.get("evidence_role"))
+        if chunk.get("evidence_role")
+        else None,
+        is_governing=bool(chunk.get("is_governing")),
+        logical_document_id=str(chunk.get("logical_document_id"))
+        if chunk.get("logical_document_id")
+        else None,
+        evidence_id=str(chunk.get("evidence_id")) if chunk.get("evidence_id") else None,
+        section_number=str(chunk.get("section_number"))
+        if chunk.get("section_number")
+        else None,
+        section_title=str(chunk.get("section_title"))
+        if chunk.get("section_title")
+        else None,
+        page_start=int(chunk["page_start"]) if chunk.get("page_start") is not None else None,
+        page_end=int(chunk["page_end"]) if chunk.get("page_end") is not None else None,
         is_generated=bool(chunk.get("is_generated")),
         original_url=str(chunk.get("original_url")) if chunk.get("original_url") else None,
         url_aliases=[str(value) for value in (chunk.get("url_aliases") or []) if value],
@@ -314,24 +376,48 @@ def retrieve(payload: RetrieveRequest) -> RetrieveResponse:
                 ),
             )
 
-        # Query embedding occurs only for retrieval. A missing/stale central
-        # generation may separately embed changed source documents at startup.
+        normalized_question = _normalize_question(payload.question)
         candidate_limit = (
             len(index.chunks)
             if not payload.prefer_authoritative
-            else min(len(index.chunks), max(payload.top_k, payload.top_k * 3))
+            else min(len(index.chunks), max(payload.top_k, payload.top_k * 5))
         )
         candidates = retrieve_chunks(
-            _normalize_question(payload.question),
+            normalized_question,
             index,
             top_k=candidate_limit,
+            as_of=payload.as_of,
         )
-        if not payload.prefer_authoritative:
+        if payload.prefer_authoritative:
+            bundle = retrieve_requirement_evidence(
+                normalized_question,
+                index,
+                top_k=payload.top_k,
+                as_of=payload.as_of,
+                candidate_chunks=candidates,
+            )
+            candidates = bundle["chunks"]
+        else:
             candidates.sort(key=lambda chunk: float(chunk.get("vector_score", 0.0)), reverse=True)
             for chunk in candidates:
                 chunk["retrieval_score"] = float(chunk.get("vector_score", 0.0))
-        selected = _limit_context(candidates[: payload.top_k], payload.max_context_tokens)
+            bundle = {
+                "analysis": {},
+                "evidence": {},
+                "answer_contract": "",
+                "change_reports": [],
+            }
+        # The public field retains its old name for workflow compatibility, but
+        # the implementation now converts the token budget to a conservative
+        # word budget instead of treating tokens as words.
+        selected = _limit_context(
+            candidates[: payload.top_k],
+            max(1, int(payload.max_context_tokens * 0.72)),
+        )
         context = format_context(selected)
+        change_context = format_change_reports(bundle.get("change_reports") or [])
+        if change_context:
+            context += "\n\n=== SECTION-LEVEL CHANGE REPORTS ===\n\n" + change_context
         return RetrieveResponse(
             question=payload.question,
             context=context,
@@ -339,6 +425,11 @@ def retrieve(payload: RetrieveRequest) -> RetrieveResponse:
             sources=[_source_record(chunk) for chunk in selected],
             collection=payload.collection,
             generation=index.generation_id,
+            analysis=bundle["analysis"],
+            evidence=bundle["evidence"],
+            answer_contract=bundle["answer_contract"],
+            source_footer=format_source_list(selected, max_sources=8),
+            change_reports=bundle.get("change_reports") or [],
         )
     except HTTPException:
         raise

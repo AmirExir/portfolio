@@ -115,3 +115,22 @@ or a separate temporary state/archive for replay experiments.
 Keep Telegram/OpenAI credentials in n8n credentials, environment variables, or
 the macOS Keychain—not in workflow JSON or the repository. See
 `ERCOTAPI/RAG_INGESTION.md` for store recovery and manual ingestion commands.
+
+## ERCOT question-answering contract
+
+The Telegram QA branch calls `POST /retrieve`. Pass both `answer_contract` and
+`context` into its model system message. The contract separates current
+governing requirements from procedures, xRR change records, future-effective
+text, and withdrawn or rejected material. Require the exact evidence IDs
+(`[E1]`, `[E2]`, and so on), then append the API's `source_footer` to the answer.
+
+For “what changed?” questions the response also contains `change_reports`.
+Automatic redlines compare real document artifacts in the same URL-verified
+family and honor a requested section prefix. The service does not compare two
+stakeholder xRR comments as if they were successive governing versions.
+Each source exposes `is_governing`, `effective_state`, `evidence_role`,
+`resolved_effective_date`, whether that date was inferred from a controlled
+edition, `section_number`, and reliable PDF page ranges when present. The local workflow
+file is intentionally ignored because it contains deployment-specific node and
+credential identifiers, so apply the same contract when importing the workflow
+on another n8n host.

@@ -65,7 +65,9 @@ without oscillating between sources. Both the archive and sidecar are written
 atomically. A URL is marked seen only after the durable archive succeeds. Known
 URLs are still checked so a publisher replacing content at the same URL creates
 a new content-addressed file. HTML issue pages are inspected one level deeper
-for key attachments. To
+for key attachments. Current Protocol, Planning Guide, and Operating Guide
+pages accept direct document links only, so site-navigation links cannot
+recursively pull unrelated ERCOT libraries, notices, or webpages. To
 avoid a first-run bulk download, unseen top-level links are limited to five per
 source per run by default and the remaining backlog drains on later runs;
 configure `ERCOT_LINK_MAX_ITEMS_PER_SOURCE` to change that limit. All-revision
@@ -166,6 +168,7 @@ collections:
 | PGRR / Planning Guide | `general`, `planning` |
 | NOGRR / Operating Guide | `general`, `operations` |
 | OBDRR | `general`, `protocols`, `operations` |
+| RRGRR / VCMRR / COPMGRR / LPGRR / RMGRR / SMOGRR / CMGRR | `general`, `market` |
 | SCR | `general`, `operations` |
 | Market Notice / report | `general`, `market` |
 | Resource Integration / interconnection | `general`, `resource_integration` |
@@ -187,6 +190,38 @@ versions, and citations expose effective/publication dates, status, and
 revision when known. The combined canonical SSWG/DWG file retains its SSWG
 section, while its known superseded DWG section is hidden unless the question
 explicitly requests historical material.
+
+## Requirement and change intelligence
+
+The active all-in-one assistant and `/retrieve` API use a deterministic evidence
+layer before an answer model sees any text. It:
+
+- excludes operational, public, and market notices even when an older saved
+  generation still contains them;
+- classifies each source as governing text, engineering procedure/criteria,
+  revision request, governance record, supporting material, or generated text;
+- resolves lifecycle state as of the date in the question (or today's date),
+  including future-effective, proposed/pending, withdrawn/rejected, approved but
+  not proven effective, and controlled-current governing copies;
+- retrieves one broad semantic/lexical candidate set, then deliberately
+  diversifies it across governing documents, related procedures, and xRR change
+  records without making another embedding request;
+- assigns stable evidence IDs and section/page locators when the source format
+  supports them; PDF pages come only from explicit loader markers and page
+  numbers are never invented for DOCX text;
+- reconstructs relevant PDF/DOC/DOCX editions for “what changed” questions,
+  verifies the family from the artifact URL, limits a named Section 9 request
+  to 9 and 9.x, and reports added, modified, removed, and unchanged numbered
+  sections. Separate xRR comments and ballots remain lifecycle evidence and
+  are never auto-diffed as if they were sequential governing versions; and
+- supplies one shared answer contract to Streamlit and Telegram requiring inline
+  evidence IDs and preventing an approved or pending xRR from being presented as
+  incorporated governing language.
+
+The change comparison, lifecycle classification, source footer, and citation
+audit are local deterministic operations. They do not create document or query
+embeddings. Normal questions still use one query embedding and one answer-model
+request; saved document vectors remain unchanged.
 
 To add a source kind, update the rules in `rag_ingestion/classify.py`. To add a
 chatbot, add a stable collection in `rag_ingestion/config.py`, route the source
@@ -260,14 +295,13 @@ manifest or repository.
 
 ## Application startup
 
-Active Streamlit/FastAPI processes load the saved central generation and run
-one bounded incremental check of the checked-in ERCOT source roots when the
-process starts. Unchanged chunks reuse their saved vectors; only new or changed
-documents are embedded. If `CURRENT` is absent, the same path bootstraps a
-central generation from those checked-in roots. It excludes the large download
-archive and all generated summaries. The scheduled monitor owns normal
-incremental refreshes when downloaded documents arrive. The API checks or
-bootstraps in its ASGI lifespan, not during module import.
+Active Streamlit/FastAPI processes load the saved central generation read-only by
+default. They do not scan source roots or calculate document embeddings merely
+because the app starts or a user asks a question. The scheduled monitor owns
+normal incremental refreshes when new 2026+ technical documents arrive. Startup
+refresh/bootstrap can be enabled explicitly for a controlled deployment, but it
+is disabled by default. The API performs its saved-index check in the ASGI
+lifespan, not during module import.
 
 Startup refuses partial or legacy retrieval when a checked-in source fails. The
 same applies when a configured checked-in source directory is missing or has no

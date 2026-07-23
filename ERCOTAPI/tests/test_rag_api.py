@@ -223,6 +223,21 @@ class RagApiTests(unittest.TestCase):
             "effective_date": "2026-07-16",
             "published_date": "2026-07-09",
             "revision": "25",
+            "document_number": "PGRR147",
+            "authority_class": "revision_request",
+            "effective_state": "approved_not_effective",
+            "effectiveness_label": "Not effective as of 2026-07-22",
+            "effectiveness_basis": "Future effective date.",
+            "resolved_effective_date": "2026-07-16",
+            "effective_date_inferred": True,
+            "evidence_role": "related_change_record",
+            "is_governing": False,
+            "logical_document_id": "revision-request:pgrr147",
+            "evidence_id": "E2",
+            "section_number": "3.15",
+            "section_title": "Reactive Power Capability",
+            "page_start": 12,
+            "page_end": 13,
         }
 
         source = api._source_record(chunk)
@@ -231,6 +246,18 @@ class RagApiTests(unittest.TestCase):
         self.assertEqual(source.effective_date, "2026-07-16")
         self.assertEqual(source.published_date, "2026-07-09")
         self.assertEqual(source.revision, "25")
+        self.assertEqual(source.document_number, "PGRR147")
+        self.assertEqual(source.authority_class, "revision_request")
+        self.assertEqual(source.effective_state, "approved_not_effective")
+        self.assertEqual(source.resolved_effective_date, "2026-07-16")
+        self.assertTrue(source.effective_date_inferred)
+        self.assertEqual(source.evidence_role, "related_change_record")
+        self.assertFalse(source.is_governing)
+        self.assertEqual(source.logical_document_id, "revision-request:pgrr147")
+        self.assertEqual(source.evidence_id, "E2")
+        self.assertEqual(source.section_number, "3.15")
+        self.assertEqual(source.section_title, "Reactive Power Capability")
+        self.assertEqual((source.page_start, source.page_end), (12, 13))
 
 
 if __name__ == "__main__":

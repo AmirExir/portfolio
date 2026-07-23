@@ -5,13 +5,23 @@ from __future__ import annotations
 import json
 import os
 import re
-from datetime import datetime
+from datetime import date, datetime
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping, Sequence
 
 from .classify import authority_rank
+from .change_tracking import compare_document_versions, logical_document_key
 from .config import Collection, IngestionConfig, default_config
+from .requirements import (
+    analyze_question,
+    annotate_evidence,
+    answer_contract,
+    diversify_evidence,
+    evidence_summary,
+    is_notice,
+    lifecycle_metadata,
+)
 from .store import generation_state, load_generation
 
 
@@ -386,7 +396,8 @@ def _requests_historical_material(question: str) -> bool:
         return True
     return bool(
         re.search(
-            r"\b(?:former|formerly|historical|history|old|older|previous|prior|superseded)\b"
+            r"\b(?:change|changed|changes|compare|comparison|difference|former|formerly|"
+            r"historical|history|old|older|previous|prior|redline|superseded)\b"
             r"|\brevision\s+\d{1,3}[a-z]?\b",
             normalized,
         )
@@ -595,8 +606,39 @@ def _contains_phrase(haystack: str, phrase: str) -> bool:
     )
 
 
-def _lexical_boost(question: str, chunk: Mapping[str, Any]) -> float:
-    normalized_question = _normalize_query(question)
+@dataclass(frozen=True)
+class _LexicalQueryProfile:
+    normalized_question: str
+    terms: frozenset[str]
+    route_document_phrases: tuple[tuple[str, ...], ...]
+    section_references: frozenset[str]
+
+
+def _lexical_query_profile(question: str) -> _LexicalQueryProfile:
+    normalized = _normalize_query(question)
+    routes = tuple(
+        document_phrases
+        for query_phrases, document_phrases in _DOMAIN_ROUTES
+        if any(_contains_phrase(normalized, phrase) for phrase in query_phrases)
+    )
+    sections = frozenset(
+        re.findall(r"(?:\bsection\s*|§\s*)(\d+(?:\.\d+)*)", normalized)
+    )
+    return _LexicalQueryProfile(
+        normalized_question=normalized,
+        terms=frozenset(_query_terms(normalized)),
+        route_document_phrases=routes,
+        section_references=sections,
+    )
+
+
+def _lexical_boost(
+    question: str,
+    chunk: Mapping[str, Any],
+    *,
+    profile: _LexicalQueryProfile | None = None,
+) -> float:
+    query_profile = profile or _lexical_query_profile(question)
     haystack = _normalize_query(
         " ".join(
             str(chunk.get(key, ""))
@@ -610,26 +652,22 @@ def _lexical_boost(question: str, chunk: Mapping[str, Any]) -> float:
             )
         )
     ).lower()
+    haystack_terms = set(re.findall(r"[a-z0-9]+(?:\.[0-9]+)*", haystack))
 
-    terms = _query_terms(normalized_question)
     term_boost = 0.0
-    if terms:
-        matched = sum(1 for term in terms if _contains_token(haystack, term))
-        term_boost = 0.02 * matched / len(terms)
+    if query_profile.terms:
+        matched = len(query_profile.terms.intersection(haystack_terms))
+        term_boost = 0.02 * matched / len(query_profile.terms)
 
     route_matches = sum(
         1
-        for query_phrases, document_phrases in _DOMAIN_ROUTES
-        if any(_contains_phrase(normalized_question, phrase) for phrase in query_phrases)
-        and any(_contains_phrase(haystack, phrase) for phrase in document_phrases)
+        for document_phrases in query_profile.route_document_phrases
+        if any(phrase in haystack for phrase in document_phrases)
     )
     route_boost = min(0.036, 0.018 * route_matches)
 
-    section_references = set(
-        re.findall(r"(?:\bsection\s*|§\s*)(\d+(?:\.\d+)*)", normalized_question)
-    )
     section_matches = sum(
-        1 for section in section_references if _contains_token(haystack, section)
+        1 for section in query_profile.section_references if section in haystack_terms
     )
     section_boost = min(0.036, 0.03 * section_matches)
 
@@ -637,29 +675,50 @@ def _lexical_boost(question: str, chunk: Mapping[str, Any]) -> float:
     return min(0.07, term_boost + route_boost + section_boost)
 
 
-def _ranking_score(question: str, vector_score: float, chunk: Mapping[str, Any]) -> float:
+def _ranking_score(
+    question: str,
+    vector_score: float,
+    chunk: Mapping[str, Any],
+    *,
+    as_of: date | datetime | str | None = None,
+    question_analysis: Any | None = None,
+    lexical_profile: _LexicalQueryProfile | None = None,
+) -> float:
     trust = authority_rank(chunk)
     authority_boost = 0.04 if trust == 2 else (-0.04 if trust == 0 else 0.0)
-    status = str(chunk.get("document_status", "")).lower()
-    status_boost = 0.01 if status in {"approved", "effective", "clean"} else 0.0
-    if status in {"withdrawn", "rejected"}:
-        status_boost -= 0.015
+    state = lifecycle_metadata(chunk, as_of=as_of)["effective_state"]
+    status_boost = {
+        "effective": 0.035,
+        "approved_procedure": 0.015,
+        "implemented_change_record": 0.005,
+        "effectiveness_unknown": -0.005,
+        "effective_edition_currentness_unverified": -0.01,
+        "approved_effectiveness_unverified": -0.02,
+        "approved_not_effective": -0.055,
+        "proposed_or_pending": -0.06,
+        "not_effective": -0.10,
+    }.get(str(state), 0.0)
+    analysis = question_analysis or analyze_question(question, as_of=as_of)
+    if analysis.asks_for_changes or analysis.asks_for_history or analysis.asks_for_status:
+        status_boost = max(status_boost, -0.015)
     stale_penalty = -0.05 if chunk.get("stale") else 0.0
     return (
         vector_score
         + authority_boost
         + status_boost
         + stale_penalty
-        + _lexical_boost(question, chunk)
+        + _lexical_boost(question, chunk, profile=lexical_profile)
     )
 
 
-def _version_rank(chunk: Mapping[str, Any]) -> tuple[int, int]:
+def _version_rank(chunk: Mapping[str, Any]) -> tuple[int, int, int]:
     """Prefer newer effective dates/revisions after relevance and trust tie."""
 
+    current_rank = int(_current_upload_domain(chunk) is not None)
     date_rank = 0
+    lifecycle = lifecycle_metadata(chunk)
     for value in (
-        chunk.get("effective_date"),
+        lifecycle.get("resolved_effective_date"),
         chunk.get("published_date"),
         chunk.get("downloaded_at"),
     ):
@@ -675,7 +734,7 @@ def _version_rank(chunk: Mapping[str, Any]) -> tuple[int, int]:
             break
     revision_values = re.findall(r"\d+", str(chunk.get("revision") or ""))
     revision_rank = int(revision_values[-1]) if revision_values else 0
-    return date_rank, revision_rank
+    return current_rank, date_rank, revision_rank
 
 
 def retrieve_chunks(
@@ -686,6 +745,7 @@ def retrieve_chunks(
     collections: str | Iterable[str] | None = None,
     query_embedder: Callable[[str], Any] | Any | None = None,
     client: Any | None = None,
+    as_of: date | datetime | str | None = None,
 ) -> list[dict[str, Any]]:
     """Retrieve chunks, prioritizing authoritative ERCOT sources over summaries."""
 
@@ -695,6 +755,7 @@ def retrieve_chunks(
         raise ValueError("top_k must be at least 1")
     requested = _normalize_collections(collections)
     rows = _filter_rows(index.chunks, requested) if requested else list(range(len(index.chunks)))
+    rows = [row for row in rows if not is_notice(index.chunks[row])]
     rows = _prefer_current_rows(question, index.chunks, rows)
     rows = _prefer_requested_section_bundle(question, index.chunks, rows)
     if not rows:
@@ -704,18 +765,57 @@ def retrieve_chunks(
     query = _query_vector(question, index.embedding_model, query_embedder, client)
     scores = _cosine_scores(query, matrix)
     section_spec = _requested_section_spec(question)
-    ranked: list[tuple[int, float, float, int, int, int]] = []
-    for local_index, source_index in enumerate(rows):
+    question_analysis = analyze_question(question, as_of=as_of)
+    lexical_profile = _lexical_query_profile(question)
+    pool_limit = min(len(rows), max(top_k * 20, 300))
+    if pool_limit < len(rows):
+        local_candidates = set(
+            int(value)
+            for value in np.argpartition(scores, -pool_limit)[-pool_limit:]
+        )
+        # Exact identifiers and metadata matches are cheap safeguards against a
+        # semantic miss. Full chunk-text lexical scoring is reserved for the
+        # bounded candidate pool, which keeps large saved indexes responsive.
+        for local_index, source_index in enumerate(rows):
+            chunk = index.chunks[source_index]
+            document_number = str(chunk.get("document_number") or "").upper()
+            if document_number and document_number in question_analysis.requested_documents:
+                local_candidates.add(local_index)
+                continue
+            metadata_text = " ".join(
+                str(chunk.get(field) or "").lower()
+                for field in ("title", "source_kind", "filename", "source_path")
+            )
+            if lexical_profile.terms and len(
+                lexical_profile.terms.intersection(
+                    re.findall(r"[a-z0-9]+(?:\.[0-9]+)*", metadata_text)
+                )
+            ) >= min(2, len(lexical_profile.terms)):
+                local_candidates.add(local_index)
+        candidate_indices = sorted(local_candidates)
+    else:
+        candidate_indices = list(range(len(rows)))
+    ranked: list[tuple[int, float, float, int, int, int, int]] = []
+    for local_index in candidate_indices:
+        source_index = rows[local_index]
         vector_score = float(scores[local_index])
-        date_rank, revision_rank = _version_rank(index.chunks[source_index])
+        current_rank, date_rank, revision_rank = _version_rank(index.chunks[source_index])
         ranked.append(
             (
                 int(
                     section_spec is not None
                     and _matches_requested_section(index.chunks[source_index], section_spec)
                 ),
-                _ranking_score(question, vector_score, index.chunks[source_index]),
+                _ranking_score(
+                    question,
+                    vector_score,
+                    index.chunks[source_index],
+                    as_of=as_of,
+                    question_analysis=question_analysis,
+                    lexical_profile=lexical_profile,
+                ),
                 vector_score,
+                current_rank,
                 date_rank,
                 revision_rank,
                 source_index,
@@ -728,12 +828,17 @@ def retrieve_chunks(
             -item[2],
             -item[3],
             -item[4],
-            str(index.chunks[item[5]].get("chunk_id", "")),
+            -item[5],
+            str(index.chunks[item[6]].get("chunk_id", "")),
         )
     )
     results: list[dict[str, Any]] = []
-    for _, score, vector_score, _, _, source_index in ranked[: min(top_k, len(ranked))]:
-        chunk = dict(index.chunks[source_index])
+    for _, score, vector_score, _, _, _, source_index in ranked[: min(top_k, len(ranked))]:
+        chunk = annotate_evidence(
+            index.chunks[source_index],
+            as_of=question_analysis.as_of,
+            requested_sections=question_analysis.requested_sections,
+        )
         chunk["retrieval_score"] = score
         chunk["vector_score"] = vector_score
         chunk["citation"] = format_citation(chunk)
@@ -742,6 +847,265 @@ def retrieve_chunks(
 
 
 retrieve = retrieve_chunks
+
+
+def retrieve_requirement_evidence(
+    question: str,
+    index: LoadedIndex,
+    *,
+    top_k: int = 12,
+    collections: str | Iterable[str] | None = None,
+    query_embedder: Callable[[str], Any] | Any | None = None,
+    client: Any | None = None,
+    as_of: date | datetime | str | None = None,
+    candidate_chunks: Sequence[Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Retrieve and organize rules, criteria, and related ERCOT change records."""
+
+    analysis = analyze_question(question, as_of=as_of)
+    candidates = list(candidate_chunks) if candidate_chunks is not None else retrieve_chunks(
+        question,
+        index,
+        top_k=min(len(index.chunks), max(top_k * 5, 40)),
+        collections=collections,
+        query_embedder=query_embedder,
+        client=client,
+        as_of=analysis.as_of,
+    )
+    selected = diversify_evidence(
+        question,
+        candidates,
+        top_k=top_k,
+        as_of=analysis.as_of,
+    )
+    change_reports = (
+        _build_change_reports(
+            index,
+            candidates,
+            as_of=analysis.as_of,
+            requested_sections=analysis.requested_sections,
+        )
+        if analysis.asks_for_changes
+        else []
+    )
+    return {
+        "analysis": analysis.to_dict(),
+        "chunks": selected,
+        "evidence": evidence_summary(selected),
+        "answer_contract": answer_contract(analysis),
+        "change_reports": change_reports,
+    }
+
+
+def _join_document_chunks(chunks: Sequence[Mapping[str, Any]]) -> str:
+    ordered = sorted(
+        chunks,
+        key=lambda chunk: (
+            int(chunk.get("chunk_index") or 0),
+            str(chunk.get("chunk_id") or ""),
+        ),
+    )
+    combined = ""
+    for chunk in ordered:
+        text = str(chunk.get("text") or "").strip()
+        if not text:
+            continue
+        if not combined:
+            combined = text
+            continue
+        overlap = 0
+        maximum = min(2_000, len(combined), len(text))
+        for size in range(maximum, 39, -1):
+            if combined[-size:] == text[:size]:
+                overlap = size
+                break
+        combined += "\n" + text[overlap:].lstrip()
+    return combined
+
+
+def _change_comparable_artifact(chunk: Mapping[str, Any]) -> bool:
+    """Limit automatic redlines to documents, not mislabeled crawler pages."""
+
+    values = [
+        str(chunk.get("source_path") or chunk.get("source") or ""),
+        str(chunk.get("original_url") or ""),
+        str(chunk.get("final_url") or ""),
+        *(str(value) for value in (chunk.get("aliases") or []) if value),
+        *(str(value) for value in (chunk.get("url_aliases") or []) if value),
+    ]
+    return any(
+        re.search(r"\.(?:pdf|docx?)\b", value, re.IGNORECASE)
+        for value in values
+    )
+
+
+def _build_change_reports(
+    index: LoadedIndex,
+    candidates: Sequence[Mapping[str, Any]],
+    *,
+    as_of: date | datetime | str | None = None,
+    requested_sections: Sequence[str] = (),
+    max_reports: int = 3,
+) -> list[dict[str, Any]]:
+    """Compare the two newest retrievable versions of relevant logical documents."""
+
+    candidate_keys = [logical_document_key(chunk) for chunk in candidates]
+    ordered_keys = list(
+        dict.fromkeys(
+            key
+            for key in candidate_keys
+            if key
+            and key != "unknown"
+            # An xRR's comments, ballots, and committee reports are related
+            # lifecycle artifacts, not sequential versions of one document.
+            and not key.startswith("revision-request:")
+        )
+    )
+    target_keys = set(ordered_keys[:12])
+    grouped: dict[str, dict[str, list[Mapping[str, Any]]]] = {
+        key: {} for key in ordered_keys[:12]
+    }
+    for chunk in index.chunks:
+        if is_notice(chunk) or not _change_comparable_artifact(chunk):
+            continue
+        key = logical_document_key(chunk)
+        if key not in target_keys:
+            continue
+        identity = str(
+            chunk.get("document_id")
+            or chunk.get("content_hash")
+            or chunk.get("source_path")
+            or ""
+        )
+        if identity:
+            grouped[key].setdefault(identity, []).append(chunk)
+    reports: list[dict[str, Any]] = []
+    for key in ordered_keys[:12]:
+        by_document = grouped.get(key, {})
+        if len(by_document) < 2:
+            continue
+        versions = sorted(
+            by_document.items(),
+            key=lambda item: (
+                _version_rank(item[1][0]),
+                item[0],
+            ),
+            reverse=True,
+        )
+        (new_id, new_chunks), (old_id, old_chunks) = versions[:2]
+        old_metadata = annotate_evidence(old_chunks[0], as_of=as_of)
+        new_metadata = annotate_evidence(new_chunks[0], as_of=as_of)
+        report = compare_document_versions(
+            _join_document_chunks(old_chunks),
+            _join_document_chunks(new_chunks),
+            old_metadata,
+            new_metadata,
+        ).to_dict()
+        all_changes = list(report.get("changes") or [])
+        if requested_sections:
+            relevant_changes = [
+                change
+                for change in all_changes
+                if any(
+                    str(change.get("section_number") or "") == requested
+                    or str(change.get("section_number") or "").startswith(f"{requested}.")
+                    for requested in requested_sections
+                )
+            ]
+            if not relevant_changes:
+                continue
+            report["all_counts"] = report.get("counts") or {}
+            report["counts"] = {
+                status: sum(change.get("status") == status for change in relevant_changes)
+                for status in ("added", "modified", "removed", "unchanged")
+            }
+        else:
+            relevant_changes = all_changes
+        compact_changes: list[dict[str, Any]] = []
+        for change in relevant_changes:
+            if change.get("status") == "unchanged":
+                continue
+            compact = {
+                "section_number": change.get("section_number"),
+                "status": change.get("status"),
+                "old_citation": change.get("old_citation"),
+                "new_citation": change.get("new_citation"),
+            }
+            for side in ("old_section", "new_section"):
+                section = change.get(side)
+                if not isinstance(section, dict):
+                    compact[side] = None
+                    continue
+                compact[side] = {
+                    "number": section.get("number"),
+                    "title": section.get("title"),
+                    "page_start": section.get("page_start"),
+                    "page_end": section.get("page_end"),
+                    "text_excerpt": str(section.get("text") or "")[:800],
+                }
+            compact_changes.append(compact)
+        report["changes"] = compact_changes[:100]
+        report.update(
+            {
+                "old_document_id": old_id,
+                "new_document_id": new_id,
+                "old_effectiveness": old_metadata.get("effectiveness_label"),
+                "new_effectiveness": new_metadata.get("effectiveness_label"),
+            }
+        )
+        reports.append(report)
+        if len(reports) >= max_reports:
+            break
+    return reports
+
+
+def format_change_reports(reports: Sequence[Mapping[str, Any]]) -> str:
+    """Format compact deterministic change evidence for the answer model."""
+
+    blocks: list[str] = []
+    for report in reports:
+        counts = report.get("counts") or {}
+        lines = [
+            f"Logical document: {report.get('logical_key', 'unknown')}",
+            f"Old effectiveness: {report.get('old_effectiveness') or 'not established'}",
+            f"New effectiveness: {report.get('new_effectiveness') or 'not established'}",
+            "Counts: "
+            + ", ".join(
+                f"{status}={int(counts.get(status, 0))}"
+                for status in ("added", "modified", "removed", "unchanged")
+            ),
+        ]
+        changed = [
+            change
+            for change in (report.get("changes") or [])
+            if change.get("status") != "unchanged"
+        ]
+        for change in changed[:40]:
+            citations = " -> ".join(
+                value
+                for value in (
+                    str(change.get("old_citation") or ""),
+                    str(change.get("new_citation") or ""),
+                )
+                if value
+            )
+            lines.append(
+                f"- {change.get('status')}: Section {change.get('section_number')}"
+                + (f" ({citations})" if citations else "")
+            )
+            old_section = change.get("old_section") or {}
+            new_section = change.get("new_section") or {}
+            old_excerpt = str(old_section.get("text_excerpt") or "").strip()
+            new_excerpt = str(new_section.get("text_excerpt") or "").strip()
+            if old_excerpt:
+                lines.append(f"  Prior text excerpt: {old_excerpt}")
+            if new_excerpt:
+                lines.append(f"  New text excerpt: {new_excerpt}")
+        blocks.append("\n".join(lines))
+    formatted = "\n\n---\n\n".join(blocks)
+    if len(formatted) > 20_000:
+        return formatted[:20_000].rstrip() + "\n[change report truncated]"
+    return formatted
 
 
 def format_citation(chunk: Mapping[str, Any]) -> str:
@@ -767,6 +1131,22 @@ def format_citation(chunk: Mapping[str, Any]) -> str:
         value = str(chunk.get(field) or "").strip()
         if value:
             parts.append(f"{label} {value}")
+    section_number = str(
+        chunk.get("section_number") or chunk.get("section") or ""
+    ).strip()
+    section_title = str(chunk.get("section_title") or "").strip()
+    if section_number:
+        location = f"Section {section_number}"
+        if section_title:
+            location += f" {section_title}"
+        parts.append(location)
+    page_start = chunk.get("page_start")
+    page_end = chunk.get("page_end")
+    if page_start not in (None, ""):
+        if page_end not in (None, "", page_start, str(page_start)):
+            parts.append(f"pages {page_start}-{page_end}")
+        else:
+            parts.append(f"page {page_start}")
     parts.extend((title, path, f"chunk {chunk_number}"))
     original_url = str(chunk.get("original_url") or "").strip()
     if original_url:
@@ -783,7 +1163,7 @@ def format_context(
 
     blocks: list[str] = []
     used_words = 0
-    for chunk in chunks:
+    for position, chunk in enumerate(chunks, start=1):
         text = str(chunk.get("text", "")).strip()
         words = text.split()
         if max_words is not None and used_words + len(words) > max_words:
@@ -792,7 +1172,17 @@ def format_context(
                 break
             text = " ".join(words[:remaining])
             words = words[:remaining]
-        blocks.append(f"Citation: {format_citation(chunk)}\n\n{text}")
+        evidence_id = str(chunk.get("evidence_id") or f"E{position}")
+        lifecycle = str(chunk.get("effectiveness_label") or "Effectiveness not established")
+        role = str(chunk.get("evidence_role") or "supporting_evidence")
+        basis = str(chunk.get("effectiveness_basis") or "")
+        blocks.append(
+            f"Evidence [{evidence_id}]\n"
+            f"Citation: {format_citation(chunk)}\n"
+            f"Evidence role: {role}\n"
+            f"Effectiveness: {lifecycle}\n"
+            f"Effectiveness basis: {basis}\n\n{text}"
+        )
         used_words += len(words)
     return "\n\n---\n\n".join(blocks)
 
@@ -831,7 +1221,9 @@ def format_source_list(
         if identity in seen:
             continue
         seen.add(identity)
-        line = f"- {citation}"
+        evidence_id = str(chunk.get("evidence_id") or "").strip()
+        prefix = f"**[{evidence_id}]** " if evidence_id else ""
+        line = f"- {prefix}{citation}"
         for index, source_url in enumerate(source_urls[:3]):
             label = "open ERCOT source" if index == 0 else f"alternate source {index + 1}"
             line += f" — [{label}](<{source_url}>)"

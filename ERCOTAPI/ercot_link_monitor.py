@@ -543,11 +543,20 @@ def _repository_path(path: Path) -> str:
 
 def _document_identity(item: DiscoveredItem) -> Optional[str]:
     match = re.search(
-        r"\b(NPRR|PGRR|NOGRR|OBDRR|SCR|RRGRR|VCMRR)\s*[-_ ]?\s*(\d{1,6})\b",
+        r"\b(NPRR|PGRR|NOGRR|OBDRR|SCR|RRGRR|VCMRR|COPMGRR|LPGRR|RMGRR|SMOGRR|CMGRR)"
+        r"\s*[-_ ]?\s*(\d{1,6})\b",
+        f"{item.title} {item.context} {item.source_url} {item.url}",
+        re.IGNORECASE,
+    )
+    if match:
+        return f"{match.group(1).upper()}{match.group(2)}"
+    reverse = re.search(
+        r"\b(\d{1,6})(NPRR|PGRR|NOGRR|OBDRR|SCR|RRGRR|VCMRR|COPMGRR|LPGRR|"
+        r"RMGRR|SMOGRR|CMGRR)\b",
         f"{item.title} {item.context}",
         re.IGNORECASE,
     )
-    return f"{match.group(1).upper()}{match.group(2)}" if match else None
+    return f"{reverse.group(2).upper()}{reverse.group(1)}" if reverse else None
 
 
 def _provenance_observation(
@@ -639,6 +648,84 @@ def _merge_provenance(
     return sorted(by_identity.values(), key=_observation_sort_key)
 
 
+def _merge_status_history(
+    existing_metadata: Dict[str, Any],
+    observation: Dict[str, Any],
+) -> List[Dict[str, Any]]:
+    """Preserve lifecycle transitions without making current provenance ambiguous."""
+
+    raw_history = existing_metadata.get("status_history")
+    history = [
+        dict(value)
+        for value in raw_history
+        if isinstance(value, dict)
+    ] if isinstance(raw_history, list) else []
+    raw_provenance = existing_metadata.get("provenance")
+    provenance = (
+        [dict(value) for value in raw_provenance if isinstance(value, dict)]
+        if isinstance(raw_provenance, list)
+        else _legacy_provenance(existing_metadata)
+    )
+    prior = next(
+        (
+            value
+            for value in provenance
+            if _observation_identity(value) == _observation_identity(observation)
+        ),
+        None,
+    )
+    observed_at = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+
+    def event(value: Dict[str, Any], fallback_time: str) -> Dict[str, Any] | None:
+        status = str(value.get("document_status") or "").strip()
+        if not status:
+            return None
+        return {
+            "source_label": value.get("source_label"),
+            "source_page_url": value.get("source_page_url"),
+            "original_url": value.get("original_url"),
+            "document_number": value.get("document_number"),
+            "document_status": status,
+            "published_date": value.get("published_date") or value.get("published_hint"),
+            "effective_date": value.get("effective_date"),
+            "observed_at": fallback_time,
+        }
+
+    additions = []
+    if prior is not None:
+        prior_event = event(
+            prior,
+            str(existing_metadata.get("downloaded_at") or observed_at),
+        )
+        if prior_event:
+            additions.append(prior_event)
+    current_event = event(observation, observed_at)
+    if current_event:
+        additions.append(current_event)
+
+    def identity(value: Dict[str, Any]) -> Tuple[str, ...]:
+        return tuple(
+            str(value.get(field) or "")
+            for field in (
+                "source_label",
+                "source_page_url",
+                "original_url",
+                "document_number",
+                "document_status",
+                "published_date",
+                "effective_date",
+            )
+        )
+
+    by_identity = {identity(value): value for value in history}
+    for value in additions:
+        by_identity.setdefault(identity(value), value)
+    return sorted(
+        by_identity.values(),
+        key=lambda value: (str(value.get("observed_at") or ""), identity(value)),
+    )
+
+
 def _newest_provenance_date(
     provenance: Sequence[Dict[str, Any]],
     *fields: str,
@@ -698,10 +785,9 @@ def _archive_metadata(
     size: int,
     existing_metadata: Dict[str, Any],
 ) -> Dict[str, Any]:
-    provenance = _merge_provenance(
-        existing_metadata,
-        _provenance_observation(item, final_url, content_type),
-    )
+    observation = _provenance_observation(item, final_url, content_type)
+    status_history = _merge_status_history(existing_metadata, observation)
+    provenance = _merge_provenance(existing_metadata, observation)
     canonical = min(provenance, key=_observation_sort_key)
     downloaded_at = str(existing_metadata.get("downloaded_at") or "") or datetime.now(
         timezone.utc
@@ -742,6 +828,7 @@ def _archive_metadata(
         "final_url": canonical.get("final_url"),
         "url_aliases": url_aliases,
         "provenance": provenance,
+        "status_history": status_history,
         "title": canonical.get("title"),
         "document_number": canonical.get("document_number"),
         "document_status": _aggregate_document_status(provenance),
@@ -1148,12 +1235,14 @@ def is_interesting_link(source_url: str, candidate_url: str, text: str) -> bool:
     if "/committees/" in path and re.search(r"\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b", text_l):
         return True
     if "/mktrules/issues/" in path and re.search(
-        r"\b(?:nprr|pgrr|nogrr|obdrr|scr|rrgrr|vcmrr)\s*[-_ ]?\s*\d+\b",
+        r"\b(?:nprr|pgrr|nogrr|obdrr|scr|rrgrr|vcmrr|copmgrr|lpgrr|rmgrr|smogrr|cmgrr)"
+        r"\s*[-_ ]?\s*\d+\b",
         text_l,
     ):
         return True
     if re.fullmatch(
-        r"/mktrules/issues/reports/(?:nprr|pgrr|nogrr|obdrr|scr)"
+        r"/mktrules/issues/reports/(?:nprr|pgrr|nogrr|obdrr|scr|rrgrr|vcmrr|"
+        r"copmgrr|lpgrr|rmgrr|smogrr|cmgrr)"
         r"(?:/(?:pending|approved|withdrawn|rejected))?/?",
         path,
     ):
@@ -1185,7 +1274,11 @@ def extract_anchor_candidates(source_label: str, source_url: str, html_text: str
         text = clean_text(re.sub(r"<[^>]+>", " ", anchor_html))
         absolute_url = urljoin(source_url, href)
 
-        if not text or not is_interesting_link(source_url, absolute_url, text):
+        if (
+            not text
+            or not is_interesting_link(source_url, absolute_url, text)
+            or not _candidate_within_source_scope(source_url, absolute_url)
+        ):
             continue
 
         key = absolute_url
@@ -1205,11 +1298,18 @@ def extract_anchor_candidates(source_label: str, source_url: str, html_text: str
             context_end = min(len(html_text), match.end() + 600)
             row_html = ""
         context = clean_text(re.sub(r"<[^>]+>", " ", html_text[context_start:context_end]))
-        published_hint = extract_published_hint(context)
+        published_hint = _anchor_published_hint(
+            html_text,
+            match.start(),
+            match.end(),
+            context_start,
+            context_end,
+        )
         effective_date = ""
         state_tag = ""
         if re.fullmatch(
-            r"/mktrules/issues/reports/(?:nprr|pgrr|nogrr|obdrr|scr)/?",
+            r"/mktrules/issues/reports/(?:nprr|pgrr|nogrr|obdrr|scr|rrgrr|vcmrr|"
+            r"copmgrr|lpgrr|rmgrr|smogrr|cmgrr)/?",
             urlparse(source_url).path.lower(),
         ):
             state_tag, published_hint, effective_date = _report_row_lifecycle(
@@ -1231,6 +1331,54 @@ def extract_anchor_candidates(source_label: str, source_url: str, html_text: str
         )
 
     return rank_items(results)
+
+
+def _candidate_within_source_scope(source_url: str, candidate_url: str) -> bool:
+    """Prevent current-guide pages from recursively crawling ERCOT navigation."""
+
+    source_path = urlparse(source_url).path.lower().rstrip("/")
+    if source_path in {
+        "/mktrules/nprotocols/current",
+        "/mktrules/guides/planning/current",
+        "/mktrules/guides/noperating/current",
+    }:
+        return path_extension(candidate_url) in DOCUMENT_EXTENSIONS
+    return True
+
+
+def _anchor_published_hint(
+    html_text: str,
+    anchor_start: int,
+    anchor_end: int,
+    context_start: int,
+    context_end: int,
+) -> str:
+    """Associate a date with its anchor instead of the preceding document card.
+
+    ERCOT's guide pages commonly render repeated ``link, date`` cards.  A wide
+    symmetric context window therefore contains the preceding card's date
+    first.  Bound the preferred segment at adjacent anchors and choose the
+    target anchor's following date; pages that render ``date, link`` fall back
+    to the nearest preceding date.
+    """
+
+    lowered = html_text.lower()
+    next_anchor = lowered.find("<a", anchor_end, context_end)
+    after_end = next_anchor if next_anchor >= 0 else context_end
+    after_text = clean_text(re.sub(r"<[^>]+>", " ", html_text[anchor_end:after_end]))
+    after_hints = _date_hints(after_text)
+    if after_hints:
+        return after_hints[0]
+
+    previous_anchor_end = lowered.rfind("</a>", context_start, anchor_start)
+    before_start = previous_anchor_end + 4 if previous_anchor_end >= 0 else context_start
+    before_text = clean_text(re.sub(r"<[^>]+>", " ", html_text[before_start:anchor_start]))
+    before_hints = _date_hints(before_text)
+    if before_hints:
+        return before_hints[-1]
+
+    context = clean_text(re.sub(r"<[^>]+>", " ", html_text[context_start:context_end]))
+    return extract_published_hint(context)
 
 
 def extract_context_window(html_text: str, anchor_text: str, radius: int = 220) -> str:
@@ -1344,7 +1492,8 @@ def rank_items(items: Sequence[DiscoveredItem]) -> List[DiscoveredItem]:
         if item.item_type in {"pdf", "docx", "xlsx", "csv"}:
             priority += 2
         number_match = re.search(
-            r"\b(?:nprr|pgrr|nogrr|obdrr|scr|rrgrr|vcmrr)\s*[-_ ]?\s*\d+\b",
+            r"\b(?:nprr|pgrr|nogrr|obdrr|scr|rrgrr|vcmrr|copmgrr|lpgrr|rmgrr|smogrr|cmgrr)"
+            r"\s*[-_ ]?\s*\d+\b",
             title_l,
         )
         if number_match:
@@ -1973,7 +2122,8 @@ def scan_sources(
             all_candidates = extract_anchor_candidates(source.label, source.url, source_text)
             is_report_source = bool(
                 re.fullmatch(
-                r"/mktrules/issues/reports/(?:nprr|pgrr|nogrr|obdrr|scr)/?",
+                    r"/mktrules/issues/reports/(?:nprr|pgrr|nogrr|obdrr|scr|rrgrr|vcmrr|"
+                    r"copmgrr|lpgrr|rmgrr|smogrr|cmgrr)/?",
                 urlparse(source.url).path.lower(),
                 )
             )
