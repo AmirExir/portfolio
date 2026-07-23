@@ -64,7 +64,7 @@ Documentation context:
     # ---------------------------
     response = client.responses.create(
         model=model,
-        reasoning={"effort": "xhigh"},  # executor deserves xhigh
+        reasoning={"effort": "high"},
         input=messages,
         max_output_tokens=max_out,
     )
@@ -99,7 +99,7 @@ Do NOT introduce new API names.
 
     correction_response = client.responses.create(
         model=model,
-        reasoning={"effort": "xhigh"},
+        reasoning={"effort": "high"},
         input=correction_messages,
         max_output_tokens=max_out,
     )

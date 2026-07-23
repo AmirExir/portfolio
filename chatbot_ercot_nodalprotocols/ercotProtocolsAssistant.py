@@ -94,7 +94,7 @@ citations in the answer.
         }
         response = get_openai_client().responses.create(
             model="gpt-5.2",
-            reasoning={"effort": "xhigh"},
+            reasoning={"effort": "none"},
             input=[system_prompt] + st.session_state.messages,
             max_output_tokens=10000,
         )
