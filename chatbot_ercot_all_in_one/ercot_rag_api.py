@@ -13,35 +13,24 @@ from typing import Any, Dict, List, Literal
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-try:
-    from ERCOTAPI.rag_ingestion.config import default_config
-    from ERCOTAPI.rag_ingestion.retrieval import (
-        LoadedIndex,
-        format_context,
-        format_change_reports,
-        format_source_list,
-        index_state,
-        retrieve_requirement_evidence,
-        retrieve_chunks,
-    )
-    from ERCOTAPI.rag_ingestion.startup import load_startup_index
-    from ERCOTAPI.rag_ingestion.store import load_manifest
-except ModuleNotFoundError as exc:  # Supports launching from this app directory.
-    if exc.name != "ERCOTAPI":
-        raise
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    from ERCOTAPI.rag_ingestion.config import default_config
-    from ERCOTAPI.rag_ingestion.retrieval import (
-        LoadedIndex,
-        format_context,
-        format_change_reports,
-        format_source_list,
-        index_state,
-        retrieve_requirement_evidence,
-        retrieve_chunks,
-    )
-    from ERCOTAPI.rag_ingestion.startup import load_startup_index
-    from ERCOTAPI.rag_ingestion.store import load_manifest
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+repository_root_text = str(REPOSITORY_ROOT)
+if repository_root_text in sys.path:
+    sys.path.remove(repository_root_text)
+sys.path.insert(0, repository_root_text)
+
+from ERCOTAPI.rag_ingestion.config import default_config
+from ERCOTAPI.rag_ingestion.retrieval import (
+    LoadedIndex,
+    format_context,
+    format_change_reports,
+    format_source_list,
+    index_state,
+    retrieve_requirement_evidence,
+    retrieve_chunks,
+)
+from ERCOTAPI.rag_ingestion.startup import load_startup_index
+from ERCOTAPI.rag_ingestion.store import load_manifest
 
 
 CollectionName = Literal[

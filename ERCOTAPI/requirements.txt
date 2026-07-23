@@ -1,7 +1,7 @@
-streamlit
+streamlit>=1.40,<2
 requests
 pandas
-numpy
+numpy>=1.26,<3
 matplotlib
 plotly
 scikit-learn

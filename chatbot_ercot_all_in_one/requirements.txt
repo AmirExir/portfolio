@@ -1,8 +1,9 @@
-streamlit
+streamlit>=1.40,<2
 langchain
 langchain-community
 openai
 tiktoken
-scikit-learn
+numpy>=1.26,<3
+scikit-learn>=1.4,<2
 fastapi
 uvicorn

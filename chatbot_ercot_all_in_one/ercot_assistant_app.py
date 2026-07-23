@@ -11,37 +11,28 @@ import openai
 import streamlit as st
 from openai import OpenAI
 
-try:
-    from ERCOTAPI.latest_updates import load_latest_updates
-    from ERCOTAPI.rag_ingestion.retrieval import (
-        format_context,
-        format_change_reports,
-        format_source_list,
-        retrieve_requirement_evidence,
-    )
-    from ERCOTAPI.rag_ingestion.startup import (
-        CentralIndexUnavailable,
-        load_startup_index,
-        startup_index_state,
-    )
-    from ERCOTAPI.rag_ingestion.requirements import validate_answer_citations
-except ModuleNotFoundError as exc:
-    if exc.name != "ERCOTAPI":
-        raise
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    from ERCOTAPI.latest_updates import load_latest_updates
-    from ERCOTAPI.rag_ingestion.retrieval import (
-        format_context,
-        format_change_reports,
-        format_source_list,
-        retrieve_requirement_evidence,
-    )
-    from ERCOTAPI.rag_ingestion.startup import (
-        CentralIndexUnavailable,
-        load_startup_index,
-        startup_index_state,
-    )
-    from ERCOTAPI.rag_ingestion.requirements import validate_answer_citations
+# Streamlit Cloud can launch the script with the app directory, rather than the
+# repository root, at the front of sys.path. Resolve the checked-in ERCOTAPI
+# package deterministically before importing any of its submodules.
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+repository_root_text = str(REPOSITORY_ROOT)
+if repository_root_text in sys.path:
+    sys.path.remove(repository_root_text)
+sys.path.insert(0, repository_root_text)
+
+from ERCOTAPI.latest_updates import load_latest_updates
+from ERCOTAPI.rag_ingestion.retrieval import (
+    format_context,
+    format_change_reports,
+    format_source_list,
+    retrieve_requirement_evidence,
+)
+from ERCOTAPI.rag_ingestion.startup import (
+    CentralIndexUnavailable,
+    load_startup_index,
+    startup_index_state,
+)
+from ERCOTAPI.rag_ingestion.requirements import validate_answer_citations
 
 
 def get_openai_client() -> OpenAI:
@@ -74,6 +65,71 @@ def load_ercot_index(cache_key: tuple[object, ...]):
 
 
 st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
+st.markdown(
+    """
+    <style>
+    :root {
+        --ercot-blue: #0b2f4f;
+        --ercot-blue-hover: #123f67;
+        --ercot-teal: #0b5e75;
+        --ercot-focus: #0891b2;
+        --ercot-soft: #eaf4f8;
+    }
+    .stButton > button,
+    .stLinkButton > a,
+    a[data-testid^="stBaseLinkButton-"] {
+        background: var(--ercot-blue) !important;
+        border: 1px solid var(--ercot-blue) !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        border-radius: 10px !important;
+        font-weight: 700 !important;
+        opacity: 1 !important;
+        box-shadow: 0 4px 12px rgba(11, 47, 79, 0.16) !important;
+        transition: background-color 150ms ease, border-color 150ms ease,
+                    box-shadow 150ms ease, transform 150ms ease !important;
+    }
+    .stButton > button *,
+    .stLinkButton > a *,
+    a[data-testid^="stBaseLinkButton-"] * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+    }
+    .stButton > button:hover,
+    .stLinkButton > a:hover,
+    a[data-testid^="stBaseLinkButton-"]:hover {
+        background: var(--ercot-blue-hover) !important;
+        border-color: var(--ercot-focus) !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        box-shadow: 0 7px 18px rgba(11, 47, 79, 0.24) !important;
+        transform: translateY(-1px);
+    }
+    .stButton > button:focus-visible,
+    .stLinkButton > a:focus-visible,
+    a[data-testid^="stBaseLinkButton-"]:focus-visible {
+        outline: 3px solid rgba(8, 145, 178, 0.35) !important;
+        outline-offset: 2px !important;
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px var(--ercot-focus) !important;
+    }
+    .stButton > button:active,
+    .stLinkButton > a:active,
+    a[data-testid^="stBaseLinkButton-"]:active {
+        background: #082a46 !important;
+        transform: translateY(0);
+    }
+    .stButton > button:disabled {
+        background: #e2e8f0 !important;
+        border-color: #cbd5e1 !important;
+        color: #475569 !important;
+        -webkit-text-fill-color: #475569 !important;
+        box-shadow: none !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 st.title("Ask Amir Exir's ERCOT Engineering & Revision Request AI Assistant")
 st.caption(
     "Covers Nodal Protocols, Planning and Operating Guides, Resource Integration, "
