@@ -54,6 +54,20 @@ class GridAtlasAppTests(unittest.TestCase):
                 for caption in app.caption
             )
         )
+        unknown_voltage = next(
+            checkbox
+            for checkbox in app.checkbox
+            if checkbox.label == "Include unknown voltage"
+        )
+        self.assertTrue(unknown_voltage.value)
+        self.assertEqual(
+            [(metric.label, metric.value) for metric in app.metric],
+            [
+                ("Transmission lines", "3,677"),
+                ("Power plants", "776"),
+                ("Substations / transformers", "3,106"),
+            ],
+        )
 
     def test_overview_filter_lists_all_market_filters_and_uses_local_shard(self):
         app = self._run_region("all")

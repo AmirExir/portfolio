@@ -779,7 +779,7 @@
       currentCollections = collections;
       elements.minimumVoltage.value = String(region.default_minimum_voltage ?? 0);
       elements.minimumPlantMw.value = '0';
-      elements.includeUnknownVoltage.checked = Boolean(region.include_unknown_voltage);
+      elements.includeUnknownVoltage.checked = region.include_unknown_voltage !== false;
       addAtlasData(collections, region);
       fitRegion(region);
       await waitForMapIdle();

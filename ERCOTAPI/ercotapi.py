@@ -3088,7 +3088,7 @@ def render_north_american_grid_atlas() -> None:
     with unknown_col:
         include_unknown_voltage = st.checkbox(
             "Include unknown voltage",
-            value=bool(region.get("include_unknown_voltage")),
+            value=bool(region.get("include_unknown_voltage", True)),
             key=f"grid_atlas_unknown_voltage_{region_id}",
             help=(
                 "Canadian CanVec lines have no voltage attribute. Missing HIFLD sentinel "

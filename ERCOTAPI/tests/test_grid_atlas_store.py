@@ -170,6 +170,12 @@ class GridAtlasStoreTests(unittest.TestCase):
     def test_shipped_atlas_has_all_market_and_country_shards(self):
         manifest = load_grid_atlas_manifest(PACKAGED_ATLAS_MANIFEST)
         self.assertEqual(manifest["default_region"], "ercot")
+        self.assertTrue(
+            all(
+                region["include_unknown_voltage"]
+                for region in grid_atlas_regions(manifest)
+            )
+        )
         region_ids = {
             region["id"]
             for region in grid_atlas_regions(manifest)

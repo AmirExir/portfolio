@@ -1490,7 +1490,7 @@ def build_packaged_atlas(
                 boundaries=[boundary_by_id[market_id]],
                 generated_at=generated_at,
                 default_minimum_voltage=138,
-                include_unknown_voltage=False,
+                include_unknown_voltage=True,
                 detail=(
                     "Approximate public ISO/RTO footprint; asset location does not prove "
                     "membership, ownership, or electrical connectivity."
