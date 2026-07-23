@@ -588,24 +588,71 @@ def diversify_evidence(
         per_document[document] = per_document.get(document, 0) + 1
         return True
 
-    # First pass: one best item from each relevant document in each evidence lane.
-    for roles in lane_order:
-        seen_documents: set[str] = set()
-        lane = [chunk for chunk in relevant if chunk.get("evidence_role") in roles]
-        lane.sort(key=lambda chunk: float(chunk.get("retrieval_score", 0.0)), reverse=True)
-        for chunk in lane:
-            document = document_identity(chunk)
-            if document in seen_documents:
-                continue
-            seen_documents.add(document)
-            add(chunk)
-            if len(selected) >= top_k:
-                break
+    # Retrieval can mark a small set of deterministic process anchors when a
+    # broad question spans multiple stages. Keep those anchors together before
+    # ordinary document diversity introduces tangential one-off documents.
+    anchored = [chunk for chunk in relevant if chunk.get("retrieval_anchor")]
+    anchored.sort(
+        key=lambda chunk: float(chunk.get("retrieval_score", 0.0)),
+        reverse=True,
+    )
+    for chunk in anchored:
         if len(selected) >= top_k:
             break
+        add(chunk)
+
+    # Build score-ordered lanes once. Selecting one lane at a time would let a
+    # large set of governing documents consume ``top_k`` before any procedure
+    # or change evidence is considered.
+    lanes: list[dict[str, Any]] = []
+    for roles in lane_order:
+        lane = [chunk for chunk in relevant if chunk.get("evidence_role") in roles]
+        lane.sort(key=lambda chunk: float(chunk.get("retrieval_score", 0.0)), reverse=True)
+        lanes.append(
+            {
+                "chunks": lane,
+                "cursor": 0,
+                "seen_documents": set(),
+            }
+        )
+
+    def add_next_document(lane: dict[str, Any]) -> bool:
+        chunks = lane["chunks"]
+        while lane["cursor"] < len(chunks):
+            chunk = chunks[lane["cursor"]]
+            lane["cursor"] += 1
+            document = document_identity(chunk)
+            if document in lane["seen_documents"]:
+                continue
+            lane["seen_documents"].add(document)
+            if add(chunk):
+                return True
+        return False
+
+    # Coverage pass: reserve room for the strongest item from each non-empty
+    # evidence lane, in the question-dependent authority order above.
+    for lane in lanes:
+        if len(selected) >= top_k:
+            break
+        add_next_document(lane)
+
+    # Diversity pass: visit lanes fairly while adding one chunk per document.
+    # This retains document coverage without starving lower-priority lanes.
+    made_progress = True
+    while len(selected) < top_k and made_progress:
+        made_progress = False
+        for lane in lanes:
+            if len(selected) >= top_k:
+                break
+            if add_next_document(lane):
+                made_progress = True
 
     # Second pass: add the strongest continuation chunks while retaining a cap.
-    for chunk in relevant:
+    for chunk in sorted(
+        relevant,
+        key=lambda item: float(item.get("retrieval_score", 0.0)),
+        reverse=True,
+    ):
         if len(selected) >= top_k:
             break
         add(chunk)

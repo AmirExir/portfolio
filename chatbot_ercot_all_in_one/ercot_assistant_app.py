@@ -31,6 +31,10 @@ from ERCOTAPI.rag_ingestion.retrieval import (
     format_source_list,
     retrieve_requirement_evidence,
 )
+from ERCOTAPI.rag_ingestion.response_handling import (
+    assess_response,
+    compact_chat_messages,
+)
 from ERCOTAPI.rag_ingestion.startup import (
     CentralIndexUnavailable,
     load_startup_index,
@@ -62,6 +66,59 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
             st.error(f"API call failed: {exc}")
             break
     return None
+
+
+def build_answer_context(
+    chunks,
+    change_reports,
+    *,
+    max_words: int,
+) -> str:
+    """Keep model input bounded while retaining the highest-ranked evidence."""
+
+    context = format_context(chunks, max_words=max_words)
+    change_context = format_change_reports(change_reports)
+    if change_context:
+        context += "\n\n=== SECTION-LEVEL CHANGE REPORTS ===\n\n" + change_context
+    return context
+
+
+def build_system_prompt(evidence_bundle, context: str) -> dict[str, str]:
+    """Build the shared grounded-answer prompt for initial and retry calls."""
+
+    return {
+        "role": "system",
+        "content": f"""
+You are an ERCOT regulatory expert trained only on the supplied ERCOT documentation.
+
+Answer the user's question only using the cited context below. Do not make up
+information. If the answer is not explicitly stated, say: "The documents do
+not contain that information."
+
+Lead with the direct answer, then explain it in practical, plain language. For
+a broad question about an entire guide or section, do not stop at its title or
+table of contents. Explain the section's purpose and scope, its main process or
+requirements, the responsibilities of the affected entities, important timing
+or decision points, and the practical takeaway whenever those details appear in
+the context. Use short paragraphs and bullets when they make the explanation
+easier to follow.
+
+Cite every material statement with the supplied evidence ID, such as [E1]. Do
+not use citations as a substitute for the explanation. Do not describe a
+revision request, ballot, committee record, approval, or redline as an effective
+requirement unless the supplied evidence also identifies incorporated governing
+text. Distinguish binding/current text, related engineering procedures, pending
+changes, historical material, and uncertainty. Do not create a separate
+"Retrieved sources" section; the application adds the verified source list.
+
+Answer contract for this question:
+{evidence_bundle['answer_contract']}
+
+---
+{context}
+---
+""",
+    }
 
 
 def materialize_packaged_index() -> Path:
@@ -297,58 +354,69 @@ if prompt:
         except Exception as exc:
             st.error(f"Retrieval failed: {exc}")
             st.stop()
-        context = format_context(top_chunks, max_words=100000)
-        change_context = format_change_reports(evidence_bundle.get("change_reports") or [])
-        if change_context:
-            context += "\n\n=== SECTION-LEVEL CHANGE REPORTS ===\n\n" + change_context
+        change_reports = evidence_bundle.get("change_reports") or []
+        context = build_answer_context(
+            top_chunks,
+            change_reports,
+            max_words=18_000,
+        )
         if not context:
             st.error("No matching ERCOT documentation was found in the loaded index.")
             st.stop()
 
-        system_prompt = {
-            "role": "system",
-            "content": f"""
-You are an ERCOT regulatory expert trained only on the supplied ERCOT documentation.
-
-Answer the user's question only using the cited context below. Do not make up
-information. If the answer is not explicitly stated, say: "The documents do
-not contain that information."
-
-Lead with the direct answer, then explain it in practical, plain language. For
-a broad question about an entire guide or section, do not stop at its title or
-table of contents. Explain the section's purpose and scope, its main process or
-requirements, the responsibilities of the affected entities, important timing
-or decision points, and the practical takeaway whenever those details appear in
-the context. Use short paragraphs and bullets when they make the explanation
-easier to follow.
-
-Cite every material statement with the supplied evidence ID, such as [E1]. Do
-not use citations as a substitute for the explanation. Do not describe a
-revision request, ballot, committee record, approval, or redline as an effective
-requirement unless the supplied evidence also identifies incorporated governing
-text. Distinguish binding/current text, related engineering procedures, pending
-changes, historical material, and uncertainty. Do not create a separate
-"Retrieved sources" section; the application adds the verified source list.
-
-Answer contract for this question:
-{evidence_bundle['answer_contract']}
-
----
-{context}
----
-""",
-        }
+        system_prompt = build_system_prompt(evidence_bundle, context)
+        conversation_messages = compact_chat_messages(
+            st.session_state.messages,
+            max_messages=6,
+            max_characters_per_message=6_000,
+        )
+        analysis = evidence_bundle.get("analysis") or {}
+        reasoning_effort = (
+            "low"
+            if analysis.get("intent") == "change_comparison"
+            else "none"
+        )
         client = get_openai_client()
         response = safe_openai_call(
             client.responses.create,
             model="gpt-5.2",
-            reasoning={"effort": "xhigh"},
-            input=[system_prompt] + st.session_state.messages,
-            max_output_tokens=10000,
+            reasoning={"effort": reasoning_effort},
+            text={"verbosity": "medium"},
+            input=[system_prompt] + conversation_messages,
+            max_output_tokens=8_000,
         )
+        response_assessment = assess_response(response) if response is not None else None
+        if response_assessment is not None and response_assessment.retryable:
+            retry_context = build_answer_context(
+                top_chunks[:8],
+                change_reports,
+                max_words=7_000,
+            )
+            retry_response = safe_openai_call(
+                client.responses.create,
+                model="gpt-5.2",
+                reasoning={"effort": "none"},
+                text={"verbosity": "medium"},
+                input=[
+                    build_system_prompt(evidence_bundle, retry_context),
+                    *conversation_messages,
+                ],
+                max_output_tokens=8_000,
+            )
+            if retry_response is not None:
+                response_assessment = assess_response(retry_response)
 
-    if response:
-        answer_text = response.output_text.rstrip()
+    if response_assessment is None:
+        st.error(
+            "Answer generation did not return a usable response. Please retry the question."
+        )
+    elif not response_assessment.usable:
+        st.error(
+            "Answer generation did not complete, so no source-only result was shown. "
+            f"Details: {response_assessment.diagnostic}. Please retry the question."
+        )
+    else:
+        answer_text = response_assessment.text
         citation_audit = validate_answer_citations(answer_text, top_chunks)
         if not citation_audit["passed"]:
             answer_text += (

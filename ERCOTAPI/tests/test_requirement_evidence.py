@@ -10,6 +10,7 @@ from ERCOTAPI.rag_ingestion.requirements import (
     analyze_question,
     annotate_evidence,
     authority_class,
+    diversify_evidence,
     lifecycle_metadata,
     validate_answer_citations,
 )
@@ -197,6 +198,279 @@ class LifecycleTests(unittest.TestCase):
 
 
 class RequirementEvidenceTests(unittest.TestCase):
+    def test_many_governing_documents_do_not_starve_procedure_evidence(self) -> None:
+        governing = [
+            chunk(
+                f"guide-{number}",
+                source_kind="Planning Guide",
+                source_category="planning_guide_uploads",
+                effective_date="2026-01-01",
+                retrieval_score=1.0 - (number * 0.01),
+            )
+            for number in range(8)
+        ]
+        procedure = chunk(
+            "resource-integration-handbook",
+            source_kind="Resource Integration Handbook",
+            retrieval_score=0.91,
+        )
+
+        selected = diversify_evidence(
+            "What is the ERCOT generator interconnection process?",
+            [*governing, procedure],
+            top_k=4,
+            as_of="2026-07-22",
+        )
+
+        self.assertEqual(len(selected), 4)
+        self.assertIn(
+            "procedure_or_engineering_criteria",
+            {item["evidence_role"] for item in selected},
+        )
+        self.assertIn(
+            "resource-integration-handbook",
+            {item["chunk_id"] for item in selected},
+        )
+
+    def test_generic_interconnection_process_gets_generator_load_and_handbook_anchors(self) -> None:
+        common_guide = {
+            "source_kind": "Planning Guide",
+            "source_category": "planning_guide_uploads",
+            "effective_date": "2026-07-11",
+            "collections": ["general", "planning"],
+        }
+        records = [
+            chunk(
+                "generation-initiation",
+                **common_guide,
+                document_id="planning-guide-section-5",
+                source_path="ERCOTAPI/sources/official/planning_guides/05-071126.docx",
+                chunk_index=1,
+                text=(
+                    "Any Entity subject to Section 5.2.1 must initiate a Generator "
+                    "Interconnection or Modification by submitting a completed request in RIOO."
+                ),
+            ),
+            chunk(
+                "generation-studies",
+                **common_guide,
+                document_id="planning-guide-section-5",
+                source_path="ERCOTAPI/sources/official/planning_guides/05-071126.docx",
+                chunk_index=5,
+                text=(
+                    "The provisions in this Section establish the procedures for conducting "
+                    "the Security Screening Study and Full Interconnection Study."
+                ),
+            ),
+            chunk(
+                "generation-commissioning",
+                **common_guide,
+                document_id="planning-guide-section-5",
+                source_path="ERCOTAPI/sources/official/planning_guides/05-071126.docx",
+                chunk_index=11,
+                text=(
+                    "5.5Generator Commissioning and Continuing Operations "
+                    "(1)For each interconnecting Generation Resource, conditions apply."
+                ),
+            ),
+            chunk(
+                "resource-handbook",
+                source_kind="Resource Integration",
+                source_path="chatbot_ercot_all_in_one/ercot_sources/ercotRIhandbook.txt",
+                filename="ercotRIhandbook.txt",
+                document_id="resource-interconnection-handbook",
+                collections=["general", "resource_integration"],
+                text=(
+                    "The resource interconnection process has been divided into the following "
+                    "three stages for interactions among the developer, ERCOT, and TSPs."
+                ),
+            ),
+            chunk(
+                "load-introduction",
+                **common_guide,
+                document_id="planning-guide-section-9",
+                source_path="ERCOTAPI/sources/official/planning_guides/09-071126.docx",
+                chunk_index=0,
+                text=(
+                    "Section 9 defines the requirements and processes used to facilitate new "
+                    "or modified Large Load interconnections with the ERCOT System."
+                ),
+            ),
+            chunk(
+                "load-batch-zero",
+                **common_guide,
+                document_id="planning-guide-section-9",
+                source_path="ERCOTAPI/sources/official/planning_guides/09-071126.docx",
+                chunk_index=8,
+                text=(
+                    "9.3.1Batch Zero Process Overview and Timelines "
+                    "(1)The Batch Zero Interconnection Study is system-wide."
+                ),
+            ),
+            chunk(
+                "load-refinement",
+                **common_guide,
+                document_id="planning-guide-section-9",
+                source_path="ERCOTAPI/sources/official/planning_guides/09-071126.docx",
+                chunk_index=11,
+                text=(
+                    "9.5Batch Zero Study Refinement and Delivery of Transmission Plan "
+                    "(1)ERCOT updates the Batch Zero Interconnection Study."
+                ),
+            ),
+            chunk(
+                "unrelated-planning",
+                **common_guide,
+                source_path="ERCOTAPI/sources/official/planning_guides/03-071126.docx",
+                retrieval_score=0.5,
+                text="Section 3 addresses Regional Planning Group project review.",
+            ),
+        ]
+        bundle = retrieve_requirement_evidence(
+            "What is the interconnection process in ERCOT?",
+            index(records),
+            top_k=7,
+            candidate_chunks=[records[-1]],
+            as_of="2026-07-23",
+        )
+
+        selected = {item["chunk_id"]: item for item in bundle["chunks"]}
+        self.assertEqual(
+            set(selected),
+            {
+                "generation-initiation",
+                "generation-studies",
+                "generation-commissioning",
+                "resource-handbook",
+                "load-introduction",
+                "load-batch-zero",
+                "load-refinement",
+            },
+        )
+        self.assertEqual(selected["generation-initiation"]["section_number"], "5.2.2")
+        self.assertEqual(selected["generation-studies"]["section_number"], "5.3")
+        self.assertEqual(selected["generation-commissioning"]["section_number"], "5.5")
+        self.assertEqual(selected["load-introduction"]["section_number"], "9.1")
+        self.assertEqual(selected["load-batch-zero"]["section_number"], "9.3.1")
+        self.assertEqual(selected["load-refinement"]["section_number"], "9.5")
+
+    def test_specific_interconnection_requirement_does_not_force_process_anchors(self) -> None:
+        common = {
+            "source_kind": "Planning Guide",
+            "source_category": "planning_guide_uploads",
+            "source_path": "ERCOTAPI/sources/official/planning_guides/05-071126.docx",
+            "effective_date": "2026-07-11",
+            "document_id": "planning-guide-section-5",
+            "collections": ["general", "planning"],
+        }
+        anchors = [
+            chunk(
+                "generation-initiation",
+                **common,
+                chunk_index=1,
+                text="Entities must initiate a Generator Interconnection or Modification.",
+            ),
+            chunk(
+                "generation-studies",
+                **common,
+                chunk_index=5,
+                text=(
+                    "The provisions in this Section establish the procedures for conducting "
+                    "the Security Screening Study and Full Interconnection Study."
+                ),
+            ),
+            chunk(
+                "generation-commissioning",
+                **common,
+                chunk_index=11,
+                text=(
+                    "5.5Generator Commissioning and Continuing Operations "
+                    "(1)For each interconnecting Generation Resource, conditions apply."
+                ),
+            ),
+        ]
+        cases = (
+            (
+                "What reactive capability is required for a new generator interconnection?",
+                chunk(
+                    "reactive-requirement",
+                    **common,
+                    chunk_index=9,
+                    retrieval_score=1.0,
+                    text="The reactive capability requirement applies at the POI.",
+                ),
+            ),
+            (
+                "What equipment is required at an ERCOT generator interconnection?",
+                chunk(
+                    "equipment-requirement",
+                    **common,
+                    chunk_index=4,
+                    retrieval_score=1.0,
+                    text="Section 5.2.11 specifies required interconnection equipment.",
+                ),
+            ),
+        )
+        for question, specific in cases:
+            with self.subTest(question=question):
+                bundle = retrieve_requirement_evidence(
+                    question,
+                    index([*anchors, specific]),
+                    top_k=3,
+                    candidate_chunks=[specific],
+                    as_of="2026-07-23",
+                )
+                self.assertEqual(
+                    [item["chunk_id"] for item in bundle["chunks"]],
+                    [specific["chunk_id"]],
+                )
+                self.assertFalse(bundle["chunks"][0].get("retrieval_anchor"))
+
+    def test_interconnection_anchors_do_not_inject_a_future_guide_for_as_of_date(self) -> None:
+        current = chunk(
+            "future-current-guide",
+            source_kind="Planning Guide",
+            source_category="planning_guide_uploads",
+            source_path="ERCOTAPI/sources/official/planning_guides/05-071126.docx",
+            effective_date="2026-07-11",
+            chunk_index=1,
+            text=(
+                "An Entity must initiate a Generator Interconnection or Modification "
+                "by submitting the current request."
+            ),
+        )
+        historical = chunk(
+            "historical-process",
+            source_kind="Planning Guide",
+            source_category="official_downloads",
+            source_path="ERCOTAPI/NEWS/official/planning-guide/2025/section-5.pdf",
+            effective_date="2025-01-01",
+            retrieval_score=1.0,
+            text="The 2025 generator interconnection process applied.",
+        )
+        undated_handbook = chunk(
+            "current-undated-handbook",
+            source_kind="Resource Integration",
+            source_path="chatbot_ercot_all_in_one/ercot_sources/ercotRIhandbook.txt",
+            filename="ercotRIhandbook.txt",
+            text=(
+                "The current process has been divided into the following three stages."
+            ),
+        )
+
+        bundle = retrieve_requirement_evidence(
+            "What is the ERCOT generator interconnection process?",
+            index([current, historical, undated_handbook]),
+            top_k=3,
+            candidate_chunks=[historical],
+            as_of="2025-07-01",
+        )
+
+        self.assertEqual(
+            [item["chunk_id"] for item in bundle["chunks"]],
+            ["historical-process"],
+        )
+
     def test_citation_audit_rejects_invented_evidence_ids(self) -> None:
         records = [{"evidence_id": "E1"}, {"evidence_id": "E2"}]
 

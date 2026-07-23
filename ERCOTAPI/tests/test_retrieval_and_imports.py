@@ -666,6 +666,67 @@ class RetrievalTests(unittest.TestCase):
                     results[1]["retrieval_score"],
                 )
 
+    def test_generic_interconnection_query_expands_both_ercot_process_tracks(self) -> None:
+        embedded_queries: list[str] = []
+
+        retrieve_chunks(
+            "What is the interconnection process in ERCOT?",
+            self.make_index(),
+            top_k=2,
+            query_embedder=lambda query: embedded_queries.append(query) or [1.0, 0.0],
+        )
+
+        self.assertEqual(len(embedded_queries), 1)
+        expanded = embedded_queries[0]
+        self.assertIn("Generator Interconnection or Modification", expanded)
+        self.assertIn("Planning Guide Section 5", expanded)
+        self.assertIn("Large Load Interconnection or Modification", expanded)
+        self.assertIn("Planning Guide Section 9", expanded)
+        self.assertIn("Resource Interconnection Handbook", expanded)
+
+    def test_generator_specific_interconnection_query_does_not_add_large_load_track(self) -> None:
+        embedded_queries: list[str] = []
+
+        retrieve_chunks(
+            "Explain ERCOT generator interconnection.",
+            self.make_index(),
+            top_k=2,
+            query_embedder=lambda query: embedded_queries.append(query) or [1.0, 0.0],
+        )
+
+        expanded = embedded_queries[0]
+        self.assertIn("Generator Interconnection or Modification", expanded)
+        self.assertNotIn("Large Load Interconnection or Modification", expanded)
+
+    def test_non_interconnection_generator_question_is_not_process_expanded(self) -> None:
+        embedded_queries: list[str] = []
+        question = "What reactive capability must a generator provide?"
+
+        retrieve_chunks(
+            question,
+            self.make_index(),
+            top_k=2,
+            query_embedder=lambda query: embedded_queries.append(query) or [1.0, 0.0],
+        )
+
+        self.assertEqual(embedded_queries, [question])
+
+    def test_specific_interconnection_requirement_is_not_process_expanded(self) -> None:
+        for question in (
+            "What reactive capability is required for a new generator interconnection?",
+            "What equipment is required at an ERCOT generator interconnection?",
+        ):
+            with self.subTest(question=question):
+                embedded_queries: list[str] = []
+                retrieve_chunks(
+                    question,
+                    self.make_index(),
+                    top_k=2,
+                    query_embedder=lambda query: embedded_queries.append(query)
+                    or [1.0, 0.0],
+                )
+                self.assertEqual(embedded_queries, [question])
+
     def test_lexical_routing_does_not_override_a_clear_vector_lead(self) -> None:
         common = {
             "title": "ERCOT reference",

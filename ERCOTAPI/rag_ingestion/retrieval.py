@@ -324,15 +324,27 @@ _DOMAIN_ROUTES: tuple[tuple[tuple[str, ...], tuple[str, ...]], ...] = (
             "generator interconnection",
             "generation interconnection",
             "resource interconnection",
-            "interconnection process",
         ),
         (
             "generator interconnection",
             "generation interconnection",
             "resource interconnection",
             "resource interconnection handbook",
+            "ercotrihandbook",
             "generation interconnection process",
             "ginr",
+        ),
+    ),
+    (
+        ("interconnection process", "interconnect in ercot"),
+        (
+            "generator interconnection",
+            "resource interconnection handbook",
+            "ercotrihandbook",
+            "large load interconnection",
+            "batch zero",
+            "planning guide section 5",
+            "planning guide section 9",
         ),
     ),
     (
@@ -377,6 +389,147 @@ def _normalize_query(question: str) -> str:
     normalized = re.sub(r"\b(?:plannig|planing)\b", "planning", normalized)
     normalized = re.sub(r"[-_/]+", " ", normalized)
     return re.sub(r"\s+", " ", normalized).strip()
+
+
+_GENERATION_INTERCONNECTION_TERMS = (
+    "generator",
+    "generation",
+    "resource interconnection",
+    "solar",
+    "wind",
+    "bess",
+    "energy storage resource",
+    "esr",
+    "ginr",
+    "gim",
+    "full interconnection study",
+    "fis",
+)
+_LOAD_INTERCONNECTION_TERMS = (
+    "large load",
+    "load interconnection",
+    "data center",
+    "ille",
+    "batch zero",
+)
+_INTERCONNECTION_PROCESS_ALIASES = (
+    "ginr",
+    "gim",
+    "full interconnection study",
+    "fis",
+    "batch zero",
+)
+_INTERCONNECTION_SPECIFIC_TOPICS = (
+    "agreement",
+    "breaker",
+    "capability",
+    "commissioning",
+    "contingency",
+    "cost",
+    "deadline",
+    "dynamic",
+    "energization",
+    "equipment",
+    "fault",
+    "fee",
+    "model",
+    "ownership",
+    "point of interconnection",
+    "poi",
+    "protection",
+    "pscad",
+    "psse",
+    "reactive",
+    "relay",
+    "responsibility",
+    "ride through",
+    "security screening",
+    "sgia",
+    "short circuit",
+    "site control",
+    "stability",
+    "steady state",
+    "study requirement",
+    "synchronization",
+    "var",
+    "voltage",
+)
+_GENERATION_INTERCONNECTION_EXPANSION = (
+    "Generator Interconnection or Modification GIM Planning Guide Section 5 "
+    "applicability initiation RIOO Security Screening Study Full Interconnection "
+    "Study FIS scoping steady state short circuit stability facilities SGIA "
+    "registration modeling energization synchronization commissioning Resource "
+    "Interconnection Handbook"
+)
+_LOAD_INTERCONNECTION_EXPANSION = (
+    "Large Load Interconnection or Modification Planning Guide Section 9 "
+    "applicability submission Batch Zero Interconnection Study allocation "
+    "refinement transmission plan Load Commissioning Plan initial energization"
+)
+
+
+def _interconnection_facets(question: str) -> tuple[str, ...]:
+    """Resolve generator/load tracks for an interconnection-process question."""
+
+    normalized = _normalize_query(question)
+    generation = any(
+        _contains_phrase(normalized, term) for term in _GENERATION_INTERCONNECTION_TERMS
+    )
+    load = any(_contains_phrase(normalized, term) for term in _LOAD_INTERCONNECTION_TERMS)
+    process_alias = any(
+        _contains_phrase(normalized, term) for term in _INTERCONNECTION_PROCESS_ALIASES
+    )
+    if "interconnect" not in normalized and not process_alias:
+        return ()
+    # An unqualified ERCOT interconnection question is ambiguous. Retrieve both
+    # governing tracks so the answer can distinguish generation from Large Load.
+    if not generation and not load:
+        return ("generation", "load")
+    facets: list[str] = []
+    if generation:
+        facets.append("generation")
+    if load:
+        facets.append("load")
+    return tuple(facets)
+
+
+def _expanded_retrieval_query(question: str) -> str:
+    """Add official ERCOT process language without changing the user's intent."""
+
+    if not _is_broad_interconnection_process_question(question):
+        return question.strip()
+    facets = _interconnection_facets(question)
+    expansions: list[str] = [question.strip()]
+    if "generation" in facets:
+        expansions.append(_GENERATION_INTERCONNECTION_EXPANSION)
+    if "load" in facets:
+        expansions.append(_LOAD_INTERCONNECTION_EXPANSION)
+    return "\n".join(expansions)
+
+
+def _is_broad_interconnection_process_question(question: str) -> bool:
+    """Return true only when the user asks for an end-to-end process overview."""
+
+    facets = _interconnection_facets(question)
+    if not facets or _requests_historical_material(question):
+        return False
+    normalized = _normalize_query(question)
+    if any(
+        _contains_phrase(normalized, term)
+        for term in _INTERCONNECTION_SPECIFIC_TOPICS
+    ):
+        return False
+    return bool(
+        re.search(
+            r"\b(?:process|procedures?|steps?|stages?|timeline|overview|workflow)\b",
+            normalized,
+        )
+        or (
+            normalized.startswith(("explain ", "describe "))
+            and "interconnect" in normalized
+        )
+        or re.search(r"\bhow\b.*\binterconnect", normalized)
+    )
 
 
 def _query_terms(question: str) -> set[str]:
@@ -762,7 +915,12 @@ def retrieve_chunks(
         return []
     np = _require_numpy()
     matrix = np.asarray(index.embeddings[rows], dtype="float32")
-    query = _query_vector(question, index.embedding_model, query_embedder, client)
+    query = _query_vector(
+        _expanded_retrieval_query(question),
+        index.embedding_model,
+        query_embedder,
+        client,
+    )
     scores = _cosine_scores(query, matrix)
     section_spec = _requested_section_spec(question)
     question_analysis = analyze_question(question, as_of=as_of)
@@ -782,10 +940,20 @@ def retrieve_chunks(
             if document_number and document_number in question_analysis.requested_documents:
                 local_candidates.add(local_index)
                 continue
-            metadata_text = " ".join(
-                str(chunk.get(field) or "").lower()
-                for field in ("title", "source_kind", "filename", "source_path")
+            metadata_text = _normalize_query(
+                " ".join(
+                    str(chunk.get(field) or "")
+                    for field in ("title", "source_kind", "filename", "source_path")
+                )
             )
+            route_metadata_match = any(
+                phrase in metadata_text
+                for document_phrases in lexical_profile.route_document_phrases
+                for phrase in document_phrases
+            )
+            if route_metadata_match:
+                local_candidates.add(local_index)
+                continue
             if lexical_profile.terms and len(
                 lexical_profile.terms.intersection(
                     re.findall(r"[a-z0-9]+(?:\.[0-9]+)*", metadata_text)
@@ -849,6 +1017,204 @@ def retrieve_chunks(
 retrieve = retrieve_chunks
 
 
+def _planning_section_path(chunk: Mapping[str, Any], section: int) -> bool:
+    if _current_upload_domain(chunk) != "planning":
+        return False
+    prefix = re.compile(rf"^0*{section}(?:[-_.\s]|$)", re.IGNORECASE)
+    return any(prefix.search(Path(path).name) for path in _chunk_paths(chunk))
+
+
+def _interconnection_anchor(
+    chunk: Mapping[str, Any],
+    facets: Sequence[str],
+) -> tuple[str, str, str, int] | None:
+    """Identify a process-stage anchor in the controlled ERCOT corpus."""
+
+    generation_guide = (
+        "generation" in facets and _planning_section_path(chunk, 5)
+    )
+    load_guide = "load" in facets and _planning_section_path(chunk, 9)
+    path_names = {
+        Path(path).name.lower() for path in _chunk_paths(chunk)
+    }
+    resource_handbook = (
+        "generation" in facets and "ercotrihandbook.txt" in path_names
+    )
+    if not generation_guide and not load_guide and not resource_handbook:
+        return None
+
+    text = " ".join(str(chunk.get("text") or "").split()).lower()
+    if generation_guide:
+        if "must initiate a generator interconnection or modification" in text:
+            return (
+                "generation-initiation",
+                "5.2.2",
+                "Initiating a Generator Interconnection or Modification",
+                text.index("must initiate a generator interconnection or modification"),
+            )
+        if (
+            "the provisions in this section establish the procedures for conducting "
+            "the security screening study and full interconnection" in text
+        ):
+            return (
+                "generation-studies",
+                "5.3",
+                "Interconnection Study Procedures for Large Generators",
+                text.index(
+                    "the provisions in this section establish the procedures for conducting "
+                    "the security screening study and full interconnection"
+                ),
+            )
+        commissioning = (
+            "5.5generator commissioning and continuing operations "
+            "(1)for each interconnecting"
+        )
+        if commissioning in text:
+            return (
+                "generation-commissioning",
+                "5.5",
+                "Generator Commissioning and Continuing Operations",
+                text.index(commissioning),
+            )
+
+    if (
+        resource_handbook
+        and "divided into the following three stages" in text
+    ):
+        return (
+            "generation-handbook",
+            "",
+            "Resource Interconnection Handbook — three-stage process",
+            text.index("divided into the following three stages"),
+        )
+
+    if load_guide:
+        introduction = "defines the requirements and processes used to facilitate new or modified large load"
+        if introduction in text:
+            return (
+                "load-introduction",
+                "9.1",
+                "Large Load Interconnection or Modification — Introduction",
+                text.index(introduction),
+            )
+        overview = "9.3.1batch zero process overview and timelines"
+        if overview in text:
+            return (
+                "load-batch-zero",
+                "9.3.1",
+                "Batch Zero Process Overview and Timelines",
+                text.index(overview),
+            )
+        refinement = "9.5batch zero study refinement and delivery of transmission plan"
+        if refinement in text:
+            return (
+                "load-refinement",
+                "9.5",
+                "Batch Zero Study Refinement and Delivery of Transmission Plan",
+                text.index(refinement),
+            )
+    return None
+
+
+def _augment_interconnection_candidates(
+    question: str,
+    index: LoadedIndex,
+    candidates: Sequence[Mapping[str, Any]],
+    *,
+    collections: str | Iterable[str] | None = None,
+    as_of: date | datetime | str | None = None,
+) -> list[dict[str, Any]]:
+    """Guarantee broad process questions contain each governing process stage."""
+
+    if not _is_broad_interconnection_process_question(question):
+        return [dict(chunk) for chunk in candidates]
+    facets = _interconnection_facets(question)
+    requested = set(_normalize_collections(collections))
+    selected_as_of = analyze_question(question, as_of=as_of).as_of
+    best_by_anchor: dict[
+        str,
+        tuple[tuple[int, int, int], int, Mapping[str, Any], str, str],
+    ] = {}
+    for chunk in index.chunks:
+        if is_notice(chunk):
+            continue
+        if (
+            _current_upload_domain(chunk) == "planning"
+            and lifecycle_metadata(chunk, as_of=as_of)["effective_state"] != "effective"
+        ):
+            continue
+        if requested and not requested.intersection(
+            str(value) for value in chunk.get("collections", [])
+        ):
+            continue
+        match = _interconnection_anchor(chunk, facets)
+        if match is None:
+            continue
+        anchor_id, section_number, section_title, marker_position = match
+        if (
+            anchor_id == "generation-handbook"
+            and selected_as_of != date.today().isoformat()
+        ):
+            # The saved Handbook has no reliable effective-date metadata. Do
+            # not force the current snapshot into a historical/future answer.
+            continue
+        candidate = (
+            _version_rank(chunk),
+            -marker_position,
+            chunk,
+            section_number,
+            section_title,
+        )
+        previous = best_by_anchor.get(anchor_id)
+        if previous is None or candidate[:2] > previous[:2]:
+            best_by_anchor[anchor_id] = candidate
+
+    augmented = [dict(chunk) for chunk in candidates]
+    positions = {
+        str(chunk.get("chunk_id") or chunk.get("id") or ""): position
+        for position, chunk in enumerate(augmented)
+    }
+    top_score = max(
+        (float(chunk.get("retrieval_score", 0.0)) for chunk in augmented),
+        default=0.0,
+    )
+    anchor_order = (
+        "generation-initiation",
+        "generation-studies",
+        "generation-commissioning",
+        "generation-handbook",
+        "load-introduction",
+        "load-batch-zero",
+        "load-refinement",
+    )
+    for offset, anchor_id in enumerate(anchor_order):
+        match = best_by_anchor.get(anchor_id)
+        if match is None:
+            continue
+        _, _, raw_chunk, section_number, section_title = match
+        chunk_id = str(raw_chunk.get("chunk_id") or raw_chunk.get("id") or "")
+        if chunk_id in positions:
+            anchor_chunk = augmented[positions[chunk_id]]
+        else:
+            anchor_chunk = dict(raw_chunk)
+            positions[chunk_id] = len(augmented)
+            augmented.append(anchor_chunk)
+        # Keep deterministic process anchors inside the relevance window while
+        # retaining the original vector score for diagnostics.
+        anchor_chunk["retrieval_score"] = max(
+            float(anchor_chunk.get("retrieval_score", 0.0)),
+            top_score + 0.04 - offset * 0.003,
+        )
+        if section_number:
+            anchor_chunk["section_number"] = section_number
+        if section_title:
+            anchor_chunk["section_title"] = section_title
+        anchor_chunk["citation"] = format_citation(anchor_chunk)
+        anchor_chunk["retrieval_anchor"] = anchor_id
+        anchor_chunk["retrieval_anchor_as_of"] = str(as_of or "")
+    return augmented
+
+
 def retrieve_requirement_evidence(
     question: str,
     index: LoadedIndex,
@@ -863,13 +1229,24 @@ def retrieve_requirement_evidence(
     """Retrieve and organize rules, criteria, and related ERCOT change records."""
 
     analysis = analyze_question(question, as_of=as_of)
-    candidates = list(candidate_chunks) if candidate_chunks is not None else retrieve_chunks(
+    candidates = (
+        list(candidate_chunks)
+        if candidate_chunks is not None
+        else retrieve_chunks(
+            question,
+            index,
+            top_k=min(len(index.chunks), max(top_k * 5, 40)),
+            collections=collections,
+            query_embedder=query_embedder,
+            client=client,
+            as_of=analysis.as_of,
+        )
+    )
+    candidates = _augment_interconnection_candidates(
         question,
         index,
-        top_k=min(len(index.chunks), max(top_k * 5, 40)),
+        candidates,
         collections=collections,
-        query_embedder=query_embedder,
-        client=client,
         as_of=analysis.as_of,
     )
     selected = diversify_evidence(
@@ -878,6 +1255,11 @@ def retrieve_requirement_evidence(
         top_k=top_k,
         as_of=analysis.as_of,
     )
+    # Diversification annotates lifecycle and section metadata. Rebuild every
+    # citation afterward so inferred effective dates and anchor locations are
+    # reflected in the model context and displayed source list.
+    for chunk in selected:
+        chunk["citation"] = format_citation(chunk)
     change_reports = (
         _build_change_reports(
             index,
