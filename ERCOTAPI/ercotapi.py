@@ -32,6 +32,13 @@ try:
         load_packaged_texas_grid,
         load_public_texas_grid,
     )
+    from ERCOTAPI.grid_atlas_store import (
+        GridAtlasStoreError,
+        grid_atlas_region,
+        grid_atlas_regions,
+        load_grid_atlas_manifest,
+        load_packaged_grid_region,
+    )
 except ImportError:
     from latest_updates import load_latest_updates, revision_request_identity
     from grid_atlas import (
@@ -41,6 +48,13 @@ except ImportError:
         grid_atlas_change_summary,
         load_packaged_texas_grid,
         load_public_texas_grid,
+    )
+    from grid_atlas_store import (
+        GridAtlasStoreError,
+        grid_atlas_region,
+        grid_atlas_regions,
+        load_grid_atlas_manifest,
+        load_packaged_grid_region,
     )
 
 
@@ -215,6 +229,20 @@ def load_packaged_grid_atlas_cached() -> Dict[str, Any]:
     return load_packaged_texas_grid()
 
 
+@st.cache_resource(show_spinner=False)
+def load_grid_atlas_manifest_cached() -> Dict[str, Any]:
+    """Load the tiny checked-in U.S.–Canada Atlas manifest once per process."""
+
+    return load_grid_atlas_manifest()
+
+
+@st.cache_resource(max_entries=2, show_spinner=False)
+def load_packaged_grid_region_cached(region_id: str) -> Dict[str, Any]:
+    """Open only the selected local Atlas shard; no source or AI request."""
+
+    return load_packaged_grid_region(region_id)
+
+
 @st.cache_data(ttl=3600, show_spinner=False)
 def fetch_live_grid_atlas_cached() -> tuple[Dict[str, Any], Dict[str, Any]]:
     """Fetch and validate public ArcGIS layers after an explicit user action."""
@@ -379,7 +407,7 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-APP_BUILD = "2026-07-23 atlas-source-check-v4"
+APP_BUILD = "2026-07-23 us-canada-grid-atlas-v5"
 ERCOT_API_MARKET_URL = "https://apimarket.ercot.com/"
 LOVABLE_ERCOT_DASHBOARD_URL = "https://ercot-news-watch.lovable.app/"
 ERCOT_TIMEZONE = ZoneInfo("America/Chicago")
@@ -738,7 +766,8 @@ def inject_dashboard_css() -> None:
         .st-key-ercot_document_category_filter,
         [class*="st-key-ercot_document_category_filter"],
         [class*="st-key-ercot_revision_family_filter"],
-        [class*="st-key-ercot_dashboard_view"] {
+        [class*="st-key-ercot_dashboard_view"],
+        [class*="st-key-north_american_grid_atlas_region"] {
             margin: 0.25rem 0 0.9rem;
         }
         .st-key-ercot_document_category_filter [role="radiogroup"],
@@ -746,9 +775,11 @@ def inject_dashboard_css() -> None:
         [class*="st-key-ercot_document_category_filter"] [role="radiogroup"],
         [class*="st-key-ercot_revision_family_filter"] [role="radiogroup"],
         [class*="st-key-ercot_dashboard_view"] [role="radiogroup"],
+        [class*="st-key-north_american_grid_atlas_region"] [role="radiogroup"],
         [class*="st-key-ercot_document_category_filter"] [data-baseweb="button-group"],
         [class*="st-key-ercot_revision_family_filter"] [data-baseweb="button-group"],
-        [class*="st-key-ercot_dashboard_view"] [data-baseweb="button-group"] {
+        [class*="st-key-ercot_dashboard_view"] [data-baseweb="button-group"],
+        [class*="st-key-north_american_grid_atlas_region"] [data-baseweb="button-group"] {
             display: flex !important;
             flex-wrap: wrap !important;
             gap: 0.5rem !important;
@@ -757,7 +788,8 @@ def inject_dashboard_css() -> None:
         .st-key-ercot_document_category_filter button,
         [class*="st-key-ercot_document_category_filter"] button,
         [class*="st-key-ercot_revision_family_filter"] button,
-        [class*="st-key-ercot_dashboard_view"] button {
+        [class*="st-key-ercot_dashboard_view"] button,
+        [class*="st-key-north_american_grid_atlas_region"] button {
             flex: 0 0 auto !important;
             width: auto !important;
             min-height: 2.35rem !important;
@@ -776,7 +808,8 @@ def inject_dashboard_css() -> None:
         .st-key-ercot_document_category_filter button span,
         [class*="st-key-ercot_document_category_filter"] button *,
         [class*="st-key-ercot_revision_family_filter"] button *,
-        [class*="st-key-ercot_dashboard_view"] button * {
+        [class*="st-key-ercot_dashboard_view"] button *,
+        [class*="st-key-north_american_grid_atlas_region"] button * {
             color: inherit !important;
             -webkit-text-fill-color: inherit !important;
             opacity: 1 !important;
@@ -784,7 +817,8 @@ def inject_dashboard_css() -> None:
         .st-key-ercot_document_category_filter button:hover,
         [class*="st-key-ercot_document_category_filter"] button:hover,
         [class*="st-key-ercot_revision_family_filter"] button:hover,
-        [class*="st-key-ercot_dashboard_view"] button:hover {
+        [class*="st-key-ercot_dashboard_view"] button:hover,
+        [class*="st-key-north_american_grid_atlas_region"] button:hover {
             background: #d7edf4 !important;
             border-color: var(--ercot-accent) !important;
             color: #073b55 !important;
@@ -795,18 +829,23 @@ def inject_dashboard_css() -> None:
         [class*="st-key-ercot_document_category_filter"] button[aria-pressed="true"],
         [class*="st-key-ercot_revision_family_filter"] button[aria-pressed="true"],
         [class*="st-key-ercot_dashboard_view"] button[aria-pressed="true"],
+        [class*="st-key-north_american_grid_atlas_region"] button[aria-pressed="true"],
         [class*="st-key-ercot_document_category_filter"] button[aria-selected="true"],
         [class*="st-key-ercot_revision_family_filter"] button[aria-selected="true"],
         [class*="st-key-ercot_dashboard_view"] button[aria-selected="true"],
+        [class*="st-key-north_american_grid_atlas_region"] button[aria-selected="true"],
         [class*="st-key-ercot_document_category_filter"] button[data-active="true"],
         [class*="st-key-ercot_revision_family_filter"] button[data-active="true"],
         [class*="st-key-ercot_dashboard_view"] button[data-active="true"],
+        [class*="st-key-north_american_grid_atlas_region"] button[data-active="true"],
         [class*="st-key-ercot_document_category_filter"] button[data-testid$="-pillsActive"],
         [class*="st-key-ercot_revision_family_filter"] button[data-testid$="-pillsActive"],
         [class*="st-key-ercot_dashboard_view"] button[data-testid$="-pillsActive"],
+        [class*="st-key-north_american_grid_atlas_region"] button[data-testid$="-pillsActive"],
         [class*="st-key-ercot_document_category_filter"] button[kind$="Active"],
         [class*="st-key-ercot_revision_family_filter"] button[kind$="Active"],
-        [class*="st-key-ercot_dashboard_view"] button[kind$="Active"] {
+        [class*="st-key-ercot_dashboard_view"] button[kind$="Active"],
+        [class*="st-key-north_american_grid_atlas_region"] button[kind$="Active"] {
             background: var(--ercot-blue) !important;
             border-color: var(--ercot-blue) !important;
             color: #ffffff !important;
@@ -818,19 +857,23 @@ def inject_dashboard_css() -> None:
         [class*="st-key-ercot_document_category_filter"] button[aria-pressed="true"] *,
         [class*="st-key-ercot_revision_family_filter"] button[aria-pressed="true"] *,
         [class*="st-key-ercot_dashboard_view"] button[aria-pressed="true"] *,
+        [class*="st-key-north_american_grid_atlas_region"] button[aria-pressed="true"] *,
         [class*="st-key-ercot_document_category_filter"] button[aria-selected="true"] *,
         [class*="st-key-ercot_revision_family_filter"] button[aria-selected="true"] *,
         [class*="st-key-ercot_dashboard_view"] button[aria-selected="true"] *,
+        [class*="st-key-north_american_grid_atlas_region"] button[aria-selected="true"] *,
         [class*="st-key-ercot_document_category_filter"] button[data-testid$="-pillsActive"] *,
         [class*="st-key-ercot_revision_family_filter"] button[data-testid$="-pillsActive"] *,
-        [class*="st-key-ercot_dashboard_view"] button[data-testid$="-pillsActive"] * {
+        [class*="st-key-ercot_dashboard_view"] button[data-testid$="-pillsActive"] *,
+        [class*="st-key-north_american_grid_atlas_region"] button[data-testid$="-pillsActive"] * {
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
         }
         .st-key-ercot_document_category_filter button:focus-visible,
         [class*="st-key-ercot_document_category_filter"] button:focus-visible,
         [class*="st-key-ercot_revision_family_filter"] button:focus-visible,
-        [class*="st-key-ercot_dashboard_view"] button:focus-visible {
+        [class*="st-key-ercot_dashboard_view"] button:focus-visible,
+        [class*="st-key-north_american_grid_atlas_region"] button:focus-visible {
             outline: 3px solid rgba(8, 145, 178, 0.30) !important;
             outline-offset: 2px !important;
         }
@@ -2241,7 +2284,14 @@ def _atlas_public_assets(payload: Dict[str, Any]) -> pd.DataFrame:
             else "Capacity unavailable"
         )
         location = ", ".join(
-            value for value in (plant.get("city"), plant.get("county")) if value
+            value
+            for value in (
+                plant.get("city"),
+                plant.get("county"),
+                plant.get("province"),
+                plant.get("state"),
+            )
+            if value
         )
         records.append(
             {
@@ -2261,7 +2311,8 @@ def _atlas_public_assets(payload: Dict[str, Any]) -> pd.DataFrame:
                 "voltage": np.nan,
                 "capacity_mw": capacity,
                 "period": plant.get("period") or "",
-                "source_url": POWER_PLANT_SOURCE_URL,
+                "source_url": plant.get("source_url") or POWER_PLANT_SOURCE_URL,
+                "country": plant.get("country") or "US",
             }
         )
     for substation in payload.get("substations", []):
@@ -2273,7 +2324,13 @@ def _atlas_public_assets(payload: Dict[str, Any]) -> pd.DataFrame:
         )
         location = ", ".join(
             value
-            for value in (substation.get("city"), substation.get("county")) if value
+            for value in (
+                substation.get("city"),
+                substation.get("county"),
+                substation.get("province"),
+                substation.get("state"),
+            )
+            if value
         )
         records.append(
             {
@@ -2291,7 +2348,8 @@ def _atlas_public_assets(payload: Dict[str, Any]) -> pd.DataFrame:
                 "voltage": voltage,
                 "capacity_mw": np.nan,
                 "period": substation.get("source_date") or "",
-                "source_url": SUBSTATION_SOURCE_URL,
+                "source_url": substation.get("source_url") or SUBSTATION_SOURCE_URL,
+                "country": substation.get("country") or "US",
             }
         )
     if not records:
@@ -2860,6 +2918,586 @@ def render_grid_atlas() -> None:
     )
 
 
+def render_north_american_grid_atlas() -> None:
+    """Render one selected packaged U.S.–Canada Atlas shard."""
+
+    render_section_header(
+        "NERC U.S. & Canada Grid Atlas",
+        "Explore public reference infrastructure across the United States and Canada, "
+        "then filter to an approximate ISO/RTO footprint without downloading GIS data.",
+    )
+
+    try:
+        manifest = load_grid_atlas_manifest_cached()
+        region_definitions = grid_atlas_regions(manifest)
+    except GridAtlasStoreError as exc:
+        st.error(str(exc))
+        return
+
+    labels = [str(region["label"]) for region in region_definitions]
+    id_by_label = {
+        str(region["label"]): str(region["id"])
+        for region in region_definitions
+    }
+    region_ids = set(id_by_label.values())
+    requested_region = str(st.query_params.get("grid_region") or "")
+    if requested_region not in region_ids:
+        requested_region = str(manifest.get("default_region") or "all")
+    default_label = next(
+        (
+            label
+            for label, region_id in id_by_label.items()
+            if region_id == requested_region
+        ),
+        labels[0],
+    )
+    selected_label = st.pills(
+        "Grid area",
+        labels,
+        default=default_label,
+        selection_mode="single",
+        key="north_american_grid_atlas_region",
+        help=(
+            "All choices open checked-in compressed data. ISO/RTO footprints are "
+            "approximate reference boundaries, not proof of asset membership."
+        ),
+    )
+    if selected_label not in id_by_label:
+        selected_label = default_label
+    region_id = id_by_label[selected_label]
+    st.query_params["grid_region"] = region_id
+    region = grid_atlas_region(manifest, region_id)
+
+    try:
+        with st.spinner(f"Opening packaged {selected_label} infrastructure…"):
+            payload = load_packaged_grid_region_cached(region_id)
+    except GridAtlasStoreError as exc:
+        st.error(str(exc))
+        return
+
+    generated_at = str(manifest.get("generated_at") or "not supplied")
+    try:
+        generated_at = (
+            datetime.fromisoformat(generated_at.replace("Z", "+00:00"))
+            .astimezone(ERCOT_TIMEZONE)
+            .strftime("%b %d, %Y %H:%M %Z")
+        )
+    except ValueError:
+        pass
+    artifact_megabytes = float(region.get("gzip_bytes") or 0) / 1_048_576
+    st.caption(
+        f"{region['label']} loaded from a {artifact_megabytes:.1f} MB packaged shard · "
+        f"Atlas built {generated_at} · no bulk source, OpenAI, or embedding request."
+    )
+    st.info(str(region.get("detail") or manifest.get("disclaimer") or ""))
+
+    public_assets = _atlas_public_assets(payload)
+    if region_id == "ercot":
+        context_assets = ercot_atlas_assets()
+    else:
+        context_assets = pd.DataFrame(columns=ercot_atlas_assets().columns)
+    asset_frames = [public_assets]
+    if not context_assets.empty:
+        asset_frames.append(context_assets)
+    assets = pd.concat(asset_frames, ignore_index=True, sort=False)
+    for column, default in (
+        ("name", ""),
+        ("layer", ""),
+        ("lat", np.nan),
+        ("lon", np.nan),
+        ("type", ""),
+        ("detail", ""),
+        ("source", ""),
+        ("city", ""),
+        ("status", ""),
+        ("voltage", np.nan),
+        ("capacity_mw", np.nan),
+        ("period", ""),
+        ("source_url", ""),
+        ("country", ""),
+    ):
+        if column not in assets:
+            assets[column] = default
+
+    transmission_lines = list(payload.get("transmission_lines") or [])
+    boundaries = list(payload.get("boundaries") or [])
+    colors = {
+        "Power plant": "#34d399",
+        "Substation": "#22d3ee",
+    }
+    if region_id == "ercot":
+        colors.update(
+            {
+                "Data-center context": "#c084fc",
+                "Price-hub context": "#fbbf24",
+            }
+        )
+    symbols = {
+        "Power plant": "circle",
+        "Substation": "square",
+        "Data-center context": "diamond",
+        "Price-hub context": "circle",
+    }
+
+    filter_col, search_col, line_col, boundary_col = st.columns([2.1, 1.6, 1, 1])
+    with filter_col:
+        selected_layers = st.multiselect(
+            "Infrastructure layers",
+            options=list(colors),
+            default=list(colors),
+            key=f"grid_atlas_layers_{region_id}",
+            help="Public facilities and contextual ERCOT-only overlays remain distinct.",
+        )
+    with search_col:
+        asset_query = st.text_input(
+            "Find an asset",
+            placeholder="Houston, wind, 345 kV, station…",
+            key=f"grid_atlas_search_{region_id}",
+        )
+    with line_col:
+        show_transmission = st.checkbox(
+            "Transmission lines",
+            value=True,
+            key=f"grid_atlas_lines_{region_id}",
+            disabled=not bool(transmission_lines),
+        )
+    with boundary_col:
+        show_boundaries = st.checkbox(
+            "Region boundaries",
+            value=True,
+            key=f"grid_atlas_boundaries_{region_id}",
+            disabled=not bool(boundaries),
+        )
+
+    voltage_options = [0, 69, 100, 138, 230, 345, 500, 765]
+    default_voltage = int(region.get("default_minimum_voltage") or 0)
+    default_voltage_index = (
+        voltage_options.index(default_voltage)
+        if default_voltage in voltage_options
+        else 0
+    )
+    voltage_col, unknown_col, capacity_col, fuel_col = st.columns([1.2, 1.3, 1.2, 1.8])
+    with voltage_col:
+        minimum_voltage = st.selectbox(
+            "Minimum voltage",
+            voltage_options,
+            index=default_voltage_index,
+            format_func=lambda value: "No minimum" if value == 0 else f"{value} kV",
+            key=f"grid_atlas_minimum_voltage_{region_id}",
+        )
+    with unknown_col:
+        include_unknown_voltage = st.checkbox(
+            "Include unknown voltage",
+            value=bool(region.get("include_unknown_voltage")),
+            key=f"grid_atlas_unknown_voltage_{region_id}",
+            help=(
+                "Canadian CanVec lines have no voltage attribute. Missing HIFLD sentinel "
+                "values are also treated as unknown, never as negative kV."
+            ),
+        )
+    with capacity_col:
+        minimum_capacity = st.number_input(
+            "Minimum plant MW",
+            min_value=0,
+            max_value=5_000,
+            value=0,
+            step=25,
+            key=f"grid_atlas_capacity_{region_id}",
+        )
+    available_fuels = sorted(
+        {
+            str(value)
+            for value in public_assets.loc[
+                public_assets.get("layer", pd.Series(dtype=str)) == "Power plant",
+                "type",
+            ].dropna()
+        }
+    )
+    with fuel_col:
+        selected_fuel = st.selectbox(
+            "Plant fuel",
+            ["All fuels", *available_fuels],
+            key=f"grid_atlas_fuel_{region_id}",
+        )
+
+    filtered = assets[assets["layer"].isin(selected_layers)].copy()
+    if "Substation" in selected_layers:
+        is_substation = filtered["layer"] == "Substation"
+        known_voltage = pd.to_numeric(filtered["voltage"], errors="coerce")
+        substation_allowed = known_voltage.ge(float(minimum_voltage))
+        if include_unknown_voltage:
+            substation_allowed = substation_allowed | known_voltage.isna()
+        filtered = filtered[~is_substation | substation_allowed]
+    is_plant = filtered["layer"] == "Power plant"
+    plant_capacity = pd.to_numeric(filtered["capacity_mw"], errors="coerce")
+    filtered = filtered[
+        ~is_plant | plant_capacity.fillna(0).ge(float(minimum_capacity))
+    ]
+    if selected_fuel != "All fuels":
+        filtered = filtered[
+            (filtered["layer"] != "Power plant") | (filtered["type"] == selected_fuel)
+        ]
+
+    visible_lines = []
+    for line in transmission_lines:
+        voltage = line.get("voltage")
+        if voltage is None:
+            if not include_unknown_voltage:
+                continue
+        elif float(voltage) < float(minimum_voltage):
+            continue
+        visible_lines.append(line)
+
+    if asset_query.strip():
+        query = asset_query.strip().lower()
+        search_columns = ["name", "type", "detail", "source", "city", "status"]
+        searchable = (
+            filtered[search_columns]
+            .fillna("")
+            .astype(str)
+            .agg(" ".join, axis=1)
+            .str.lower()
+        )
+        filtered = filtered[searchable.str.contains(query, regex=False)]
+        visible_lines = [
+            line
+            for line in visible_lines
+            if query
+            in " ".join(
+                str(line.get(field) or "")
+                for field in (
+                    "name",
+                    "id",
+                    "owner",
+                    "status",
+                    "voltage",
+                    "voltage_class",
+                    "substation_1",
+                    "substation_2",
+                    "country",
+                )
+            ).lower()
+        ]
+
+    metric_columns = st.columns(3)
+    metric_values = (
+        ("Transmission lines", len(visible_lines), len(transmission_lines)),
+        (
+            "Power plants",
+            int((filtered["layer"] == "Power plant").sum()),
+            len(payload.get("power_plants") or []),
+        ),
+        (
+            "Substations / transformers",
+            int((filtered["layer"] == "Substation").sum()),
+            len(payload.get("substations") or []),
+        ),
+    )
+    for column, (label, visible_count, total_count) in zip(metric_columns, metric_values):
+        with column:
+            st.metric(
+                label,
+                f"{visible_count:,}",
+                help=f"{total_count:,} records loaded in this packaged shard",
+            )
+    st.caption(
+        "Packaged shard totals before display filters — "
+        f"{len(transmission_lines):,} lines · "
+        f"{len(payload.get('power_plants') or []):,} plants · "
+        f"{len(payload.get('substations') or []):,} substations/transformers."
+    )
+
+    map_col, insight_col = st.columns([3.3, 1.15])
+    with map_col:
+        fig = go.Figure()
+        if show_boundaries:
+            boundary_styles = {
+                "market": (
+                    "#fbbf24",
+                    "Approximate ISO/RTO footprint",
+                ),
+                "nerc": (
+                    "#c084fc",
+                    "Approximate U.S. NERC reference region",
+                ),
+            }
+            for boundary_kind, (boundary_color, trace_name) in boundary_styles.items():
+                kind_boundaries = [
+                    boundary
+                    for boundary in boundaries
+                    if boundary.get("kind") == boundary_kind
+                ]
+                if not kind_boundaries:
+                    continue
+                latitudes: list[Any] = []
+                longitudes: list[Any] = []
+                hover_text: list[Any] = []
+                for boundary in kind_boundaries:
+                    label = str(boundary.get("label") or "Region")
+                    for polygon in boundary.get("polygons", []):
+                        for ring in [
+                            polygon.get("outer", []),
+                            *polygon.get("holes", []),
+                        ]:
+                            longitudes.extend(point[0] for point in ring)
+                            latitudes.extend(point[1] for point in ring)
+                            hover_text.extend([label] * len(ring))
+                            longitudes.append(None)
+                            latitudes.append(None)
+                            hover_text.append(None)
+                fig.add_trace(
+                    go.Scattermap(
+                        lat=latitudes,
+                        lon=longitudes,
+                        mode="lines",
+                        line={"width": 1.8, "color": boundary_color},
+                        name=trace_name,
+                        text=hover_text,
+                        hovertemplate="%{text}<extra></extra>",
+                    )
+                )
+
+        line_colors = {
+            "500–765 kV": "#ef4444",
+            "345–499 kV": "#f97316",
+            "230–344 kV": "#f59e0b",
+            "138–229 kV": "#8b5cf6",
+            "69–137 kV": "#3b82f6",
+            "Below 69 kV": "#64748b",
+            "Unknown voltage": "#94a3b8",
+        }
+        if show_transmission:
+            for voltage_band, line_color in line_colors.items():
+                band_lines = [
+                    line
+                    for line in visible_lines
+                    if _atlas_voltage_band(line.get("voltage")) == voltage_band
+                ]
+                if not band_lines:
+                    continue
+                latitudes = []
+                longitudes = []
+                hover_text = []
+                for line in band_lines:
+                    voltage = line.get("voltage")
+                    detail = " · ".join(
+                        value
+                        for value in (
+                            line.get("name"),
+                            (
+                                f"{float(voltage):,.0f} kV"
+                                if voltage is not None
+                                else "Voltage unknown"
+                            ),
+                            line.get("owner"),
+                            line.get("status"),
+                            line.get("country"),
+                        )
+                        if value
+                    )
+                    for path in line.get("paths", []):
+                        longitudes.extend(point[0] for point in path)
+                        latitudes.extend(point[1] for point in path)
+                        hover_text.extend([detail] * len(path))
+                        longitudes.append(None)
+                        latitudes.append(None)
+                        hover_text.append(None)
+                fig.add_trace(
+                    go.Scattermap(
+                        lat=latitudes,
+                        lon=longitudes,
+                        mode="lines",
+                        line={
+                            "width": (
+                                2.1
+                                if voltage_band in {"500–765 kV", "345–499 kV"}
+                                else 1.2
+                            ),
+                            "color": line_color,
+                        },
+                        name=f"Lines · {voltage_band}",
+                        legendgroup="Transmission",
+                        text=hover_text,
+                        hovertemplate="%{text}<extra></extra>",
+                    )
+                )
+
+        plant_colors = {
+            "Solar": "#fbbf24",
+            "Wind": "#22d3ee",
+            "Natural gas": "#fb923c",
+            "Coal": "#64748b",
+            "Nuclear": "#a78bfa",
+            "Battery": "#34d399",
+            "Hydro": "#60a5fa",
+            "Biomass": "#84cc16",
+            "Petroleum": "#f43f5e",
+            "Other / unknown": "#cbd5e1",
+        }
+        for layer_name, layer_color in colors.items():
+            layer_df = filtered[filtered["layer"] == layer_name]
+            if layer_df.empty:
+                continue
+            groups = (
+                layer_df.groupby("type", dropna=False)
+                if layer_name == "Power plant"
+                else [(layer_name, layer_df)]
+            )
+            for group_name, group_df in groups:
+                if layer_name == "Power plant":
+                    marker_sizes = (
+                        pd.to_numeric(group_df["capacity_mw"], errors="coerce")
+                        .fillna(0)
+                        .clip(lower=0)
+                        .map(lambda value: min(18, 6 + np.sqrt(value) / 5))
+                    )
+                    marker_color = plant_colors.get(str(group_name), layer_color)
+                    trace_name = f"Plant · {group_name}"
+                elif layer_name == "Substation":
+                    marker_sizes = (
+                        pd.to_numeric(group_df["voltage"], errors="coerce")
+                        .fillna(69)
+                        .clip(lower=0)
+                        .map(lambda value: min(10, 4 + value / 120))
+                    )
+                    marker_color = layer_color
+                    trace_name = layer_name
+                else:
+                    marker_sizes = 11
+                    marker_color = layer_color
+                    trace_name = layer_name
+                fig.add_trace(
+                    go.Scattermap(
+                        lat=group_df["lat"],
+                        lon=group_df["lon"],
+                        mode="markers",
+                        name=trace_name,
+                        marker={
+                            "size": marker_sizes,
+                            "color": marker_color,
+                            "symbol": symbols[layer_name],
+                            "opacity": 0.84,
+                        },
+                        customdata=group_df[["type", "detail", "source"]],
+                        text=group_df["name"],
+                        hovertemplate=(
+                            "<b>%{text}</b><br>%{customdata[0]}<br>%{customdata[1]}"
+                            "<br><span style='color:#cbd5e1'>%{customdata[2]}</span>"
+                            "<extra></extra>"
+                        ),
+                    )
+                )
+
+        map_center = region.get("center") or {"lat": 46.0, "lon": -101.0}
+        fig.update_layout(
+            height=700,
+            margin={"l": 0, "r": 0, "t": 8, "b": 0},
+            paper_bgcolor="#07111f",
+            map={
+                "style": "carto-darkmatter",
+                "center": {
+                    "lat": float(map_center.get("lat") or 46.0),
+                    "lon": float(map_center.get("lon") or -101.0),
+                },
+                "zoom": float(region.get("zoom") or 2.0),
+            },
+            legend={
+                "orientation": "h",
+                "yanchor": "bottom",
+                "y": 0.01,
+                "xanchor": "center",
+                "x": 0.5,
+                "bgcolor": "rgba(7,17,31,.86)",
+                "font": {"color": "#e2e8f0", "size": 10},
+            },
+        )
+        st.plotly_chart(
+            fig,
+            width="stretch",
+            config={"displaylogo": False, "scrollZoom": True},
+        )
+
+    with insight_col:
+        st.markdown("#### Inspect a facility")
+        if filtered.empty:
+            st.info("No assets match the current filters.")
+        else:
+            inspector_records = filtered.sort_values("name").head(250)
+            if len(filtered) > len(inspector_records):
+                st.caption(
+                    f"Showing 250 of {len(filtered):,} matching facilities. "
+                    "Use Find an asset to narrow the list."
+                )
+            record_options = inspector_records.index.tolist()
+            selected_index = st.selectbox(
+                "Asset",
+                record_options,
+                format_func=lambda index: (
+                    f"{inspector_records.loc[index, 'name']} · "
+                    f"{inspector_records.loc[index, 'layer']}"
+                ),
+                label_visibility="collapsed",
+                key=f"grid_atlas_inspector_{region_id}",
+            )
+            record = inspector_records.loc[selected_index]
+            st.markdown(
+                f"**{record['name']}**  \n"
+                f"{record['layer']} · {record['type']}  \n"
+                f"{record['detail']}"
+            )
+            if record.get("period"):
+                st.caption(f"Source/reporting period: {record['period']}")
+            st.caption(f"Source/method: {record['source']}")
+            if record.get("source_url"):
+                st.link_button(
+                    "Open source layer",
+                    str(record["source_url"]),
+                    use_container_width=True,
+                )
+
+        if region_id == "ercot":
+            st.markdown("#### Ask the ERCOT assistant")
+            st.caption(
+                "Use the assistant for ERCOT requirements, guides, procedures, and xRR "
+                "changes. Public map geometry is not engineering evidence."
+            )
+            st.link_button(
+                "Ask about ERCOT planning",
+                ercot_assistant_question_url(
+                    "What ERCOT planning requirements apply to the facilities or voltage "
+                    "level I am reviewing?"
+                ),
+                use_container_width=True,
+            )
+
+    source_links = [
+        ("U.S. transmission", manifest["sources"]["us_transmission_lines"]),
+        ("U.S. substations", manifest["sources"]["us_substations"]),
+        ("U.S. power plants", manifest["sources"]["us_power_plants"]),
+        (
+            "Canada lines & transformers",
+            manifest["sources"]["canada_lines_and_transformers"],
+        ),
+        ("Canada power plants", manifest["sources"]["canada_power_plants"]),
+        ("ISO/RTO boundaries", manifest["sources"]["iso_rto_boundaries"]),
+    ]
+    for row_start in range(0, len(source_links), 3):
+        source_columns = st.columns(3)
+        for column, (label, url) in zip(
+            source_columns,
+            source_links[row_start : row_start + 3],
+        ):
+            with column:
+                st.link_button(label, url, use_container_width=True)
+
+    st.warning(
+        str(manifest.get("disclaimer") or "")
+        + " Canadian CanVec line/transformer attributes extend through 2015 and omit "
+        "voltage, owner, and electrical connectivity; NACEI plant data are an August "
+        "2017 reference. Displayed NERC regional polygons cover the contiguous U.S. only."
+    )
+
+
 # --- Streamlit Dashboard ---
 def main():
     st.set_page_config(
@@ -2876,14 +3514,12 @@ def main():
         if st.button(
             "Refresh data",
             help=(
-                "Clear cached dashboard data and any session-only Atlas refresh. "
-                "The Atlas will not contact its sources until you click its update button."
+                "Clear cached API/news data and rerun the dashboard. Grid Atlas region "
+                "files remain packaged locally and do not trigger a bulk source download."
             ),
             type="primary",
             use_container_width=True,
         ):
-            st.session_state.pop("ercot_atlas_live_override", None)
-            st.session_state.pop("ercot_atlas_source_status", None)
             st.cache_data.clear()
             st.rerun()
     with action_col_2:
@@ -2939,7 +3575,7 @@ def main():
         render_latest_ercot_documents()
         return
     if dashboard_view == "Grid Atlas":
-        render_grid_atlas()
+        render_north_american_grid_atlas()
         return
 
     # Unified news prefixes (ERCOT + regulatory updates in one panel)

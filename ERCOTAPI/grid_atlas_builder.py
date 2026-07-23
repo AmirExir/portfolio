@@ -218,7 +218,7 @@ def normalize_us_lines(features: Iterable[Mapping[str, Any]]) -> list[dict[str, 
         source_id = _text(_property(properties, "ID"))
         substation_1 = _text(_property(properties, "SUB_1"))
         substation_2 = _text(_property(properties, "SUB_2"))
-        stable_id = source_id or _text(object_id)
+        stable_id = _text(object_id) or source_id
         if not stable_id:
             stable_id = hashlib.sha1(
                 json.dumps(paths, separators=(",", ":")).encode("utf-8")
@@ -264,7 +264,7 @@ def normalize_us_substations(
         longitude, latitude = coordinate
         object_id = _property(properties, "OBJECTID_1", "OBJECTID", "FID")
         source_id = _text(_property(properties, "ID"))
-        stable_id = source_id or _text(object_id) or f"{longitude:.5f},{latitude:.5f}"
+        stable_id = _text(object_id) or source_id or f"{longitude:.5f},{latitude:.5f}"
         records.append(
             {
                 "asset_id": f"hifld-substation:{stable_id}",
@@ -920,7 +920,6 @@ def tag_market_membership(
 
     try:
         import numpy as np
-        from matplotlib.path import Path as MatplotlibPath
     except ImportError:
         for record in substations:
             record["markets"] = [
@@ -950,39 +949,90 @@ def tag_market_membership(
             ]
         return
 
-    def boundary_mask(
+    def make_boundary_masker(
         coordinates: "np.ndarray[Any, Any]",
-        boundary: Mapping[str, Any],
-    ) -> "np.ndarray[Any, Any]":
-        mask = np.zeros(len(coordinates), dtype=bool)
-        if not len(coordinates):
+    ) -> Any:
+        x_order = np.argsort(coordinates[:, 0]) if len(coordinates) else np.asarray([], dtype=int)
+        y_order = np.argsort(coordinates[:, 1]) if len(coordinates) else np.asarray([], dtype=int)
+        sorted_x = coordinates[x_order, 0] if len(coordinates) else np.asarray([])
+        sorted_y = coordinates[y_order, 1] if len(coordinates) else np.asarray([])
+
+        def bbox_candidates(
+            west: float,
+            south: float,
+            east: float,
+            north: float,
+        ) -> "np.ndarray[Any, Any]":
+            x_start = int(np.searchsorted(sorted_x, west, side="left"))
+            x_end = int(np.searchsorted(sorted_x, east, side="right"))
+            y_start = int(np.searchsorted(sorted_y, south, side="left"))
+            y_end = int(np.searchsorted(sorted_y, north, side="right"))
+            x_candidates = x_order[x_start:x_end]
+            y_candidates = y_order[y_start:y_end]
+            if len(x_candidates) <= len(y_candidates):
+                candidates = x_candidates
+                return candidates[
+                    (coordinates[candidates, 1] >= south)
+                    & (coordinates[candidates, 1] <= north)
+                ]
+            candidates = y_candidates
+            return candidates[
+                (coordinates[candidates, 0] >= west)
+                & (coordinates[candidates, 0] <= east)
+            ]
+
+        def ring_mask(
+            candidate_coordinates: "np.ndarray[Any, Any]",
+            ring: Sequence[Sequence[float]],
+        ) -> "np.ndarray[Any, Any]":
+            contained = np.zeros(len(candidate_coordinates), dtype=bool)
+            if len(ring) < 4 or not len(candidate_coordinates):
+                return contained
+            xs = candidate_coordinates[:, 0]
+            ys = candidate_coordinates[:, 1]
+            previous = ring[-1]
+            for current in ring:
+                x1, y1 = float(previous[0]), float(previous[1])
+                x2, y2 = float(current[0]), float(current[1])
+                crosses = (y1 > ys) != (y2 > ys)
+                if y2 != y1:
+                    intersection = (x2 - x1) * (ys - y1) / (y2 - y1) + x1
+                    contained ^= crosses & (xs < intersection)
+                previous = current
+            return contained
+
+        def boundary_mask(
+            boundary: Mapping[str, Any],
+        ) -> "np.ndarray[Any, Any]":
+            mask = np.zeros(len(coordinates), dtype=bool)
+            for polygon in boundary.get("polygons", []):
+                outer = np.asarray(polygon.get("outer", []), dtype=float)
+                if len(outer) < 4:
+                    continue
+                west, south = np.min(outer, axis=0)
+                east, north = np.max(outer, axis=0)
+                candidates = bbox_candidates(west, south, east, north)
+                if not len(candidates):
+                    continue
+                polygon_mask = ring_mask(coordinates[candidates], outer)
+                for raw_hole in polygon.get("holes", []):
+                    hole = np.asarray(raw_hole, dtype=float)
+                    if len(hole) >= 4:
+                        polygon_mask &= ~ring_mask(coordinates[candidates], hole)
+                mask[candidates] |= polygon_mask
             return mask
-        for polygon in boundary.get("polygons", []):
-            outer = np.asarray(polygon.get("outer", []), dtype=float)
-            if len(outer) < 4:
-                continue
-            polygon_mask = MatplotlibPath(outer).contains_points(
-                coordinates,
-                radius=1e-10,
-            )
-            for raw_hole in polygon.get("holes", []):
-                hole = np.asarray(raw_hole, dtype=float)
-                if len(hole) >= 4:
-                    polygon_mask &= ~MatplotlibPath(hole).contains_points(
-                        coordinates,
-                        radius=1e-10,
-                    )
-            mask |= polygon_mask
-        return mask
+
+        return boundary_mask
 
     point_records = [*substations, *plants]
     point_coordinates = np.asarray(
         [[record["lon"], record["lat"]] for record in point_records],
         dtype=float,
     )
+    point_boundary_mask = make_boundary_masker(point_coordinates)
     point_membership = [set() for _ in point_records]
     for boundary in market_boundaries:
-        for index in np.flatnonzero(boundary_mask(point_coordinates, boundary)):
+        for index in np.flatnonzero(point_boundary_mask(boundary)):
             point_membership[int(index)].add(str(boundary["id"]))
     for record, memberships in zip(point_records, point_membership):
         record["markets"] = [
@@ -1007,9 +1057,10 @@ def tag_market_membership(
                     representative_line_indexes.append(line_index)
     line_membership = [set() for _ in lines]
     line_coordinates = np.asarray(representative_points, dtype=float)
+    line_boundary_mask = make_boundary_masker(line_coordinates)
     for boundary in market_boundaries:
         matched_points = np.flatnonzero(
-            boundary_mask(line_coordinates, boundary)
+            line_boundary_mask(boundary)
         )
         for point_index in matched_points:
             line_membership[representative_line_indexes[int(point_index)]].add(
@@ -1201,6 +1252,14 @@ def _write_gzip_json(path: Path, payload: Mapping[str, Any]) -> tuple[str, int]:
     return hashlib.sha256(compressed).hexdigest(), len(compressed)
 
 
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1_048_576), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def _build_region(
     *,
     region_id: str,
@@ -1276,11 +1335,33 @@ def build_packaged_atlas(
     """Normalize approved sources and atomically replace the packaged store."""
 
     generated_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-    us_lines = normalize_us_lines(_load_feature_collection(us_lines_path))
-    us_substations = normalize_us_substations(
-        _load_feature_collection(us_substations_path)
-    )
-    us_plants = normalize_us_plants(_load_feature_collection(us_plants_path))
+    raw_us_lines = _load_feature_collection(us_lines_path)
+    raw_us_substations = _load_feature_collection(us_substations_path)
+    raw_us_plants = _load_feature_collection(us_plants_path)
+    us_lines = normalize_us_lines(raw_us_lines)
+    us_substations = normalize_us_substations(raw_us_substations)
+    us_plants = normalize_us_plants(raw_us_plants)
+    normalized_us_counts = {
+        "lines": len(us_lines),
+        "substations": len(us_substations),
+        "plants": len(us_plants),
+    }
+    raw_us_counts = {
+        "lines": len(raw_us_lines),
+        "substations": len(raw_us_substations),
+        "plants": len(raw_us_plants),
+    }
+    if normalized_us_counts != raw_us_counts:
+        differences = [
+            f"{name}: {normalized_us_counts[name]:,} normalized of "
+            f"{raw_us_counts[name]:,} source records"
+            for name in raw_us_counts
+            if normalized_us_counts[name] != raw_us_counts[name]
+        ]
+        raise GridAtlasBuildError(
+            "Refusing to package dropped U.S. source records: "
+            + "; ".join(differences)
+        )
     market_boundaries = load_market_boundaries(market_boundaries_path)
     market_boundaries = [
         _simplify_boundary(boundary, 0.018)
@@ -1443,6 +1524,7 @@ def build_packaged_atlas(
     staging = Path(
         tempfile.mkdtemp(prefix=f".{output_dir.name}-", dir=output_parent)
     )
+    backup = output_dir.with_name(f".{output_dir.name}.previous")
     try:
         region_metadata: list[dict[str, Any]] = []
         for payload, metadata in build_specs:
@@ -1487,6 +1569,69 @@ def build_packaged_atlas(
                 ),
             },
             "source_counts": actual_source_counts,
+            "source_artifacts": {
+                "us_transmission_lines": {
+                    "sha256": _file_sha256(us_lines_path),
+                    "records": len(raw_us_lines),
+                    "source_data_last_edit": "2022-09-20",
+                    "download_scope": "Complete U.S. public feature layer",
+                },
+                "us_substations": {
+                    "sha256": _file_sha256(us_substations_path),
+                    "records": len(raw_us_substations),
+                    "source_item_modified": "2021-02-25",
+                    "download_scope": "Complete U.S. public feature layer",
+                },
+                "us_power_plants": {
+                    "sha256": _file_sha256(us_plants_path),
+                    "records": len(raw_us_plants),
+                    "reporting_period": "2025-02",
+                    "download_scope": "Complete U.S. public feature layer",
+                },
+                "canvec_power_lines": {
+                    "sha256": _file_sha256(canvec_dir / "power_line_1.shp"),
+                    "records": len(canada_lines),
+                    "source_dates_through": "2015-09",
+                },
+                "canvec_transformer_stations": {
+                    "point_sha256": _file_sha256(
+                        canvec_dir / "transformer_station_0.shp"
+                    ),
+                    "polygon_sha256": _file_sha256(
+                        canvec_dir / "transformer_station_2.shp"
+                    ),
+                    "records": len(canada_substations),
+                    "source_dates_through": "2015",
+                },
+                "canada_power_plants": {
+                    "sha256": [
+                        _file_sha256(path)
+                        for path in canada_plant_paths
+                    ],
+                    "source_records": sum(
+                        len(_load_feature_collection(path))
+                        for path in canada_plant_paths
+                    ),
+                    "deduplicated_records": len(canada_plants),
+                    "reference_period": "2017-08",
+                },
+                "iso_rto_boundaries": {
+                    "sha256": _file_sha256(market_boundaries_path),
+                    "features": len(market_boundaries),
+                    "feature_source_date": "2017-08-28",
+                    "validation_date": "2018-06-04",
+                },
+                "nerc_reference_boundaries": {
+                    "sha256": (
+                        _file_sha256(nerc_boundaries_path)
+                        if nerc_boundaries_path
+                        else ""
+                    ),
+                    "features": len(nerc_boundaries),
+                    "coverage": "Contiguous United States only",
+                    "layer_data_edit": "2022-07-12",
+                },
+            },
             "disclaimer": (
                 "Public reference infrastructure and approximate regional footprints; "
                 "not a NERC, ISO/RTO, ERCOT, planning, operating, or real-time topology model."
@@ -1496,7 +1641,6 @@ def build_packaged_atlas(
             json.dumps(manifest, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
         )
-        backup = output_dir.with_name(f".{output_dir.name}.previous")
         if backup.exists():
             shutil.rmtree(backup)
         if output_dir.exists():
@@ -1507,6 +1651,8 @@ def build_packaged_atlas(
         return manifest
     except Exception:
         shutil.rmtree(staging, ignore_errors=True)
+        if backup.exists() and not output_dir.exists():
+            backup.replace(output_dir)
         raise
 
 

@@ -17,7 +17,9 @@ from ERCOTAPI.grid_atlas_builder import (
 )
 from ERCOTAPI.grid_atlas_store import (
     ATLAS_SCHEMA_VERSION,
+    PACKAGED_ATLAS_MANIFEST,
     GridAtlasStoreError,
+    grid_atlas_regions,
     load_grid_atlas_manifest,
     load_packaged_grid_region,
 )
@@ -164,6 +166,61 @@ class GridAtlasStoreTests(unittest.TestCase):
         self.assertEqual(len(plants), 1)
         self.assertEqual(plants[0]["capacity_mw"], 250)
         self.assertEqual(plants[0]["period"], "2017-08")
+
+    def test_shipped_atlas_has_all_market_and_country_shards(self):
+        manifest = load_grid_atlas_manifest(PACKAGED_ATLAS_MANIFEST)
+        region_ids = {
+            region["id"]
+            for region in grid_atlas_regions(manifest)
+        }
+
+        self.assertEqual(
+            region_ids,
+            {
+                "all",
+                "ercot",
+                "miso",
+                "pjm",
+                "caiso",
+                "spp",
+                "nyiso",
+                "iso-ne",
+                "canada",
+            },
+        )
+        self.assertEqual(
+            manifest["source_counts"],
+            {
+                "us_lines": 74_553,
+                "us_substations": 75_328,
+                "us_plants": 13_446,
+                "canada_lines": 13_009,
+                "canada_substations": 4_538,
+                "canada_plants": 1_125,
+            },
+        )
+
+    def test_shipped_regions_validate_and_stay_within_render_budgets(self):
+        manifest = load_grid_atlas_manifest(PACKAGED_ATLAS_MANIFEST)
+
+        for region in grid_atlas_regions(manifest):
+            with self.subTest(region=region["id"]):
+                payload = load_packaged_grid_region(
+                    region["id"],
+                    PACKAGED_ATLAS_MANIFEST,
+                )
+                self.assertLess(region["gzip_bytes"], 2_500_000)
+                self.assertLess(region["line_vertices"], 60_000)
+                self.assertTrue(payload["transmission_lines"])
+                self.assertTrue(payload["substations"])
+                self.assertTrue(payload["power_plants"])
+                self.assertFalse(
+                    any(
+                        record.get("voltage") is not None
+                        and float(record["voltage"]) < 0
+                        for record in payload["transmission_lines"]
+                    )
+                )
 
 
 if __name__ == "__main__":

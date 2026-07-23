@@ -1,0 +1,365 @@
+{
+  "default_region": "all",
+  "disclaimer": "Public reference infrastructure and approximate regional footprints; not a NERC, ISO/RTO, ERCOT, planning, operating, or real-time topology model.",
+  "generated_at": "2026-07-23T20:42:47+00:00",
+  "regions": [
+    {
+      "artifact": "regions/all.json.gz",
+      "bounds": [
+        -158.1288,
+        17.9471,
+        -52.6807,
+        82.5248
+      ],
+      "center": {
+        "lat": 50.236,
+        "lon": -105.4048
+      },
+      "countries": [
+        "US",
+        "CA"
+      ],
+      "counts": {
+        "power_plants": 2785,
+        "substations": 11230,
+        "transmission_lines": 22202
+      },
+      "default_minimum_voltage": 230,
+      "detail": "Performance-safe overview: U.S. lines/substations at 230 kV and above, plants at 100 MW and above, plus Canada\u2019s CanVec reference lines and transformer stations.",
+      "gzip_bytes": 2152061,
+      "id": "all",
+      "include_unknown_voltage": true,
+      "kind": "overview",
+      "label": "All U.S. & Canada",
+      "line_vertices": 50230,
+      "sha256": "a539af58647b9fe4dd368de1ddee95e19b35ca101fb1931148368bd62418b04c",
+      "zoom": 1.77
+    },
+    {
+      "artifact": "regions/ercot.json.gz",
+      "bounds": [
+        -104.2406,
+        25.8381,
+        -93.7946,
+        36.0578
+      ],
+      "center": {
+        "lat": 30.9479,
+        "lon": -99.0176
+      },
+      "countries": [
+        "US"
+      ],
+      "counts": {
+        "power_plants": 776,
+        "substations": 3877,
+        "transmission_lines": 4544
+      },
+      "default_minimum_voltage": 138,
+      "detail": "Approximate public ISO/RTO footprint; asset location does not prove membership, ownership, or electrical connectivity.",
+      "gzip_bytes": 436368,
+      "id": "ercot",
+      "include_unknown_voltage": false,
+      "kind": "iso-rto",
+      "label": "ERCOT",
+      "line_vertices": 12354,
+      "sha256": "5cfd23e88ffc4919192d7ed251e51fa44af8e4fbc315542fbe1881dbeaa01634",
+      "zoom": 4.46
+    },
+    {
+      "artifact": "regions/miso.json.gz",
+      "bounds": [
+        -107.9468,
+        28.9287,
+        -82.4131,
+        49.3843
+      ],
+      "center": {
+        "lat": 39.1565,
+        "lon": -95.1799
+      },
+      "countries": [
+        "US"
+      ],
+      "counts": {
+        "power_plants": 2607,
+        "substations": 17944,
+        "transmission_lines": 15162
+      },
+      "default_minimum_voltage": 138,
+      "detail": "Approximate public ISO/RTO footprint; asset location does not prove membership, ownership, or electrical connectivity.",
+      "gzip_bytes": 1801461,
+      "id": "miso",
+      "include_unknown_voltage": false,
+      "kind": "iso-rto",
+      "label": "MISO",
+      "line_vertices": 39280,
+      "sha256": "05d2703de07f8b9b6fc5c0e58a63adf242ebf0ec1bd2741afe6ce451b02d198d",
+      "zoom": 3.46
+    },
+    {
+      "artifact": "regions/pjm.json.gz",
+      "bounds": [
+        -90.5276,
+        34.7482,
+        -73.5076,
+        43.0087
+      ],
+      "center": {
+        "lat": 38.8785,
+        "lon": -82.0176
+      },
+      "countries": [
+        "US"
+      ],
+      "counts": {
+        "power_plants": 1936,
+        "substations": 10974,
+        "transmission_lines": 10694
+      },
+      "default_minimum_voltage": 138,
+      "detail": "Approximate public ISO/RTO footprint; asset location does not prove membership, ownership, or electrical connectivity.",
+      "gzip_bytes": 1240677,
+      "id": "pjm",
+      "include_unknown_voltage": false,
+      "kind": "iso-rto",
+      "label": "PJM",
+      "line_vertices": 26931,
+      "sha256": "d9095a645ab6f1d668b5da8ed14cafcdec33d39d14e51b07f6a11e8f08f4afd7",
+      "zoom": 4.4
+    },
+    {
+      "artifact": "regions/caiso.json.gz",
+      "bounds": [
+        -124.4097,
+        32.5342,
+        -113.0343,
+        45.5946
+      ],
+      "center": {
+        "lat": 39.0644,
+        "lon": -118.722
+      },
+      "countries": [
+        "US"
+      ],
+      "counts": {
+        "power_plants": 1624,
+        "substations": 3841,
+        "transmission_lines": 4383
+      },
+      "default_minimum_voltage": 138,
+      "detail": "Approximate public ISO/RTO footprint; asset location does not prove membership, ownership, or electrical connectivity.",
+      "gzip_bytes": 505545,
+      "id": "caiso",
+      "include_unknown_voltage": false,
+      "kind": "iso-rto",
+      "label": "CAISO",
+      "line_vertices": 12383,
+      "sha256": "9bd5925be9d452a052ca98230bfe6256f679886c4237f8234a22576d32d2c010",
+      "zoom": 4.11
+    },
+    {
+      "artifact": "regions/spp.json.gz",
+      "bounds": [
+        -107.828,
+        30.2667,
+        -89.9682,
+        49.0
+      ],
+      "center": {
+        "lat": 39.6334,
+        "lon": -98.8981
+      },
+      "countries": [
+        "US"
+      ],
+      "counts": {
+        "power_plants": 987,
+        "substations": 9744,
+        "transmission_lines": 8296
+      },
+      "default_minimum_voltage": 138,
+      "detail": "Approximate public ISO/RTO footprint; asset location does not prove membership, ownership, or electrical connectivity.",
+      "gzip_bytes": 900634,
+      "id": "spp",
+      "include_unknown_voltage": false,
+      "kind": "iso-rto",
+      "label": "SPP",
+      "line_vertices": 22328,
+      "sha256": "50cf35923ffa7252e759d2af798879dfdbe020f43babc7e7fa9608d03ab4128b",
+      "zoom": 3.59
+    },
+    {
+      "artifact": "regions/nyiso.json.gz",
+      "bounds": [
+        -79.8358,
+        40.4742,
+        -71.8564,
+        45.011
+      ],
+      "center": {
+        "lat": 42.7426,
+        "lon": -75.8461
+      },
+      "countries": [
+        "US"
+      ],
+      "counts": {
+        "power_plants": 1005,
+        "substations": 2768,
+        "transmission_lines": 3786
+      },
+      "default_minimum_voltage": 138,
+      "detail": "Approximate public ISO/RTO footprint; asset location does not prove membership, ownership, or electrical connectivity.",
+      "gzip_bytes": 367842,
+      "id": "nyiso",
+      "include_unknown_voltage": false,
+      "kind": "iso-rto",
+      "label": "NYISO",
+      "line_vertices": 9045,
+      "sha256": "0fca3796aefcbd84a8816153cdd2ffb6e7cf876af3cc3476fcc9b74c03b95836",
+      "zoom": 5.5
+    },
+    {
+      "artifact": "regions/iso-ne.json.gz",
+      "bounds": [
+        -73.9983,
+        40.6097,
+        -66.9501,
+        47.459
+      ],
+      "center": {
+        "lat": 44.0344,
+        "lon": -70.4742
+      },
+      "countries": [
+        "US"
+      ],
+      "counts": {
+        "power_plants": 1372,
+        "substations": 2030,
+        "transmission_lines": 2130
+      },
+      "default_minimum_voltage": 138,
+      "detail": "Approximate public ISO/RTO footprint; asset location does not prove membership, ownership, or electrical connectivity.",
+      "gzip_bytes": 296668,
+      "id": "iso-ne",
+      "include_unknown_voltage": false,
+      "kind": "iso-rto",
+      "label": "ISO-NE",
+      "line_vertices": 5316,
+      "sha256": "d670cd5a455bae1d077131e5ddffebf12e68ff0a0480a8f32ddad1f1339265b7",
+      "zoom": 5.04
+    },
+    {
+      "artifact": "regions/canada.json.gz",
+      "bounds": [
+        -140.0022,
+        41.7573,
+        -52.6807,
+        82.5248
+      ],
+      "center": {
+        "lat": 62.141,
+        "lon": -96.3414
+      },
+      "countries": [
+        "CA"
+      ],
+      "counts": {
+        "power_plants": 1125,
+        "substations": 4538,
+        "transmission_lines": 13009
+      },
+      "default_minimum_voltage": 0,
+      "detail": "NRCan public cartographic reference. CanVec line and transformer source dates extend through 2015 and do not include voltage, owner, or topology.",
+      "gzip_bytes": 948134,
+      "id": "canada",
+      "include_unknown_voltage": true,
+      "kind": "country",
+      "label": "Canada",
+      "line_vertices": 27781,
+      "sha256": "7c075a1b9becd0b738b07e6d3b9050ee74c233e33fa827ebfb6f08a77fcbf028",
+      "zoom": 2.04
+    }
+  ],
+  "schema_version": 1,
+  "scope": "United States and Canada",
+  "source_artifacts": {
+    "canada_power_plants": {
+      "deduplicated_records": 1125,
+      "reference_period": "2017-08",
+      "sha256": [
+        "90ad843aa5e160d95c1550c5fadd769d6058d1ef977da1d674f64208beccda21",
+        "f9b6bc8d28b1f619a29b1acfdfbe4dbcb18a42333f7063369ec1351bdd18ebc3"
+      ],
+      "source_records": 1296
+    },
+    "canvec_power_lines": {
+      "records": 13009,
+      "sha256": "8a0193cd21888120f13dda43e5a1ab0c35ded5edb096605d75f4a62d2a46887c",
+      "source_dates_through": "2015-09"
+    },
+    "canvec_transformer_stations": {
+      "point_sha256": "098b84530349dc0a1f4154f9f1f64a5b4d5891b82b4c174530e5591acad3f843",
+      "polygon_sha256": "2cda8eb1418dc3778325983abc756df0fe0c42c92896abb1f16789338bbe78f0",
+      "records": 4538,
+      "source_dates_through": "2015"
+    },
+    "iso_rto_boundaries": {
+      "feature_source_date": "2017-08-28",
+      "features": 7,
+      "sha256": "7dc5f94cebb4e74f613f7dfeb6969a89ed33a1cae18b08feaadc7641c58c40bd",
+      "validation_date": "2018-06-04"
+    },
+    "nerc_reference_boundaries": {
+      "coverage": "Contiguous United States only",
+      "features": 8,
+      "layer_data_edit": "2022-07-12",
+      "sha256": "cc9c89d3d4d63d5d573fc3d7850ff9ee52c54076d5faf42df912cf0da259f51d"
+    },
+    "us_power_plants": {
+      "download_scope": "Complete U.S. public feature layer",
+      "records": 13446,
+      "reporting_period": "2025-02",
+      "sha256": "b7cd906a64b5658665708155f7fb7323dd2ae8c3cd2c6a20a8d09b2d634ef748"
+    },
+    "us_substations": {
+      "download_scope": "Complete U.S. public feature layer",
+      "records": 75328,
+      "sha256": "5f6d037f8e109004fcde181ae58672c8deac433bfff66dd251517bb515789c2b",
+      "source_item_modified": "2021-02-25"
+    },
+    "us_transmission_lines": {
+      "download_scope": "Complete U.S. public feature layer",
+      "records": 74553,
+      "sha256": "841c9683b2090b51bbc439f4976d0e7b267448042f25bd3870274ca67854cc7c",
+      "source_data_last_edit": "2022-09-20"
+    }
+  },
+  "source_counts": {
+    "canada_lines": 13009,
+    "canada_plants": 1125,
+    "canada_substations": 4538,
+    "us_lines": 74553,
+    "us_plants": 13446,
+    "us_substations": 75328
+  },
+  "source_notes": {
+    "canada_infrastructure": "CanVec cartographic line/transformer dates extend through 2015; NACEI plant reference period is August 2017.",
+    "iso_rto_boundaries": "Approximate historical public footprint snapshot with feature source date August 28, 2017.",
+    "nerc_boundaries": "Approximate contiguous-U.S. reference polygons only; Canadian NERC regional boundaries are not included.",
+    "us_infrastructure": "HIFLD/EIA public reference layers; source dates are carried on individual records."
+  },
+  "sources": {
+    "canada_lines_and_transformers": "https://open.canada.ca/data/en/dataset/92dbea79-f644-4a62-b25e-8eb993ca0264",
+    "canada_power_plants": "https://geoappext.nrcan.gc.ca/arcgis/rest/services/NACEI/energy_infrastructure_of_north_america_en/MapServer",
+    "iso_rto_boundaries": "https://catalog.data.gov/dataset/independent-system-operators",
+    "nerc_reference": "https://nerc.com/AboutNERC/keyplayers/Pages/default.aspx",
+    "us_power_plants": "https://services2.arcgis.com/FiaPA4ga0iQKduv3/ArcGIS/rest/services/Power_Plants_in_the_US/FeatureServer/0",
+    "us_substations": "https://services5.arcgis.com/HDRa0B57OVrv2E1q/ArcGIS/rest/services/Electric_Substations/FeatureServer/0",
+    "us_transmission_lines": "https://services2.arcgis.com/LYMgRMwHfrWWEg3s/arcgis/rest/services/HIFLD_US_Electric_Power_Transmission_Lines/FeatureServer/0"
+  },
+  "title": "NERC U.S. & Canada Public Grid Atlas"
+}
