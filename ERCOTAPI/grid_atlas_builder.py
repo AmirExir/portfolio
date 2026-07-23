@@ -1539,7 +1539,7 @@ def build_packaged_atlas(
             "generated_at": generated_at,
             "title": "NERC U.S. & Canada Public Grid Atlas",
             "scope": "United States and Canada",
-            "default_region": "all",
+            "default_region": "ercot",
             "regions": region_metadata,
             "sources": {
                 "us_transmission_lines": HIFLD_TRANSMISSION_URL,

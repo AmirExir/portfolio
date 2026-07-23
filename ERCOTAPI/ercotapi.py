@@ -2942,7 +2942,7 @@ def render_north_american_grid_atlas() -> None:
     region_ids = set(id_by_label.values())
     requested_region = str(st.query_params.get("grid_region") or "")
     if requested_region not in region_ids:
-        requested_region = str(manifest.get("default_region") or "all")
+        requested_region = str(manifest.get("default_region") or "ercot")
     default_label = next(
         (
             label

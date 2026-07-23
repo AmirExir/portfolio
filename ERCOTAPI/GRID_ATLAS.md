@@ -3,7 +3,14 @@
 The dashboard Grid Atlas is an offline-built public reference map. Streamlit
 loads only checked-in gzip shards from `grid_atlas_data/`; opening the page or
 changing regions does not bulk-download ArcGIS data, call OpenAI, or create
-embeddings.
+embeddings. The Atlas opens on ERCOT by default; the U.S.–Canada overview and
+every other packaged regional filter remain available from the Grid area
+selector.
+
+The same saved shards power `grid-atlas.html`, the native interactive map
+embedded on amirexirpe.com. That page lazy-loads ERCOT first and fetches a
+different compressed shard only after the visitor selects another grid area;
+it does not start Streamlit or preload every region.
 
 ## Packaged coverage
 

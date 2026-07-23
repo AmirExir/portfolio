@@ -170,6 +170,7 @@
       align-items: center;
       gap: 10px;
       flex: 1;
+      min-width: 0;
       justify-content: flex-end;
     }
 
@@ -791,6 +792,80 @@
       font-size: 0.95rem;
     }
 
+    .atlas-band {
+      background:
+        radial-gradient(circle at 92% 8%, rgba(15, 118, 110, 0.12), transparent 28rem),
+        var(--paper);
+    }
+
+    .atlas-embed-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.34fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .atlas-frame-shell,
+    .atlas-copy-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: 0 14px 38px rgba(16, 32, 31, 0.1);
+    }
+
+    .atlas-frame-shell {
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .atlas-frame {
+      display: block;
+      width: 100%;
+      height: 680px;
+      border: 0;
+      background: #07111f;
+    }
+
+    .atlas-copy-card {
+      padding: 24px;
+    }
+
+    .atlas-copy-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .atlas-copy-card p {
+      color: var(--muted);
+    }
+
+    .atlas-facts {
+      display: grid;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .atlas-fact {
+      padding: 12px 14px;
+      border-left: 3px solid var(--brand);
+      background: var(--wash);
+    }
+
+    .atlas-fact strong,
+    .atlas-fact span {
+      display: block;
+    }
+
+    .atlas-fact span {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .atlas-note {
+      margin: 18px 0 0;
+      font-size: 0.86rem;
+    }
+
     .personal-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -890,7 +965,13 @@
       30% { box-shadow: 0 0 0 6px rgba(184, 138, 47, 0.22); }
     }
 
-    @media (max-width: 1040px) {
+    @media (max-width: 1500px) {
+      .site-search {
+        display: none;
+      }
+    }
+
+    @media (max-width: 1100px) {
       .nav-links {
         position: absolute;
         top: 68px;
@@ -939,6 +1020,7 @@
       .experience-grid,
       .project-grid,
       .feature-layout,
+      .atlas-embed-layout,
       .summary-layout,
       .personal-grid,
       .contact-grid,
@@ -991,6 +1073,7 @@
       }
 
       .feature-copy,
+      .atlas-copy-card,
       .credential-card,
       .experience-card,
       .project-body,
@@ -1013,6 +1096,10 @@
         min-height: 44px;
         padding: 0 12px;
         font-size: 0.9rem;
+      }
+
+      .atlas-frame {
+        height: 740px;
       }
     }
 
@@ -1057,6 +1144,7 @@
           <li><a href="#credentials">Credentials</a></li>
           <li><a href="#experience">Experience</a></li>
           <li><a href="#engineering-suite">AELab</a></li>
+          <li><a href="#grid-atlas">Grid Atlas</a></li>
           <li><a href="#ai-rag">AI Assistants</a></li>
           <li><a href="#ml-projects">ML Projects</a></li>
           <li><a href="#market-agent">Market Agent</a></li>
@@ -1078,6 +1166,7 @@
           <p class="hero-lede">I combine utility-scale engineering experience with applied AI to build practical assistants, analytics dashboards, and PSS/E automation tools for high-stakes power system workflows.</p>
           <div class="hero-actions">
             <a class="btn" href="#engineering-suite">View Engineering Tools</a>
+            <a class="btn secondary" href="#grid-atlas">Explore Grid Atlas</a>
             <a class="btn secondary" href="Amir_EE_CV.pdf" download>Download Resume</a>
             <a class="btn secondary" href="#contact">Contact</a>
           </div>
@@ -1379,6 +1468,56 @@
               <span class="tag">Planning studies</span>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-band atlas-band" id="grid-atlas">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Interactive Grid Map</p>
+            <h2>Explore the ERCOT grid, then switch across the U.S. and Canada.</h2>
+          </div>
+          <p>Pan, zoom, search facilities, and filter public transmission lines, substations, and power plants by region. ERCOT opens by default; MISO, PJM, CAISO, SPP, NYISO, ISO-NE, Canada, and an all-region overview remain available.</p>
+        </div>
+
+        <div class="atlas-embed-layout">
+          <div class="atlas-frame-shell">
+            <iframe
+              class="atlas-frame"
+              src="grid-atlas.html?region=ercot&amp;embed=1"
+              title="Interactive U.S. and Canada Grid Atlas, defaulted to ERCOT"
+              loading="lazy"
+              allowfullscreen
+            >
+              <a href="grid-atlas.html?region=ercot">Open the interactive Grid Atlas</a>
+            </iframe>
+          </div>
+
+          <aside class="atlas-copy-card" aria-label="Grid Atlas overview">
+            <h3>A faster way to orient a grid question</h3>
+            <p>The map is native to this site, so it opens without starting the Streamlit dashboard. Only the selected regional data shard is loaded.</p>
+            <div class="atlas-facts">
+              <div class="atlas-fact">
+                <strong>ERCOT first</strong>
+                <span>Texas is the default view on this page and in the dashboard.</span>
+              </div>
+              <div class="atlas-fact">
+                <strong>Other grids stay available</strong>
+                <span>Switch regions without downloading every U.S. and Canadian record.</span>
+              </div>
+              <div class="atlas-fact">
+                <strong>Public reference data</strong>
+                <span>Use it for exploration, not as an operating or planning network model.</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn" href="grid-atlas.html?region=ercot" target="_blank" rel="noopener noreferrer">Open Full-Screen Atlas</a>
+              <a class="btn light" href="https://portfolio-w5bmjqktrj969skqfxavxm.streamlit.app/?view=atlas&amp;grid_region=ercot" target="_blank" rel="noopener noreferrer">Open ERCOT Dashboard</a>
+            </div>
+            <p class="atlas-note">Approximate public infrastructure and regional footprints are not proof of ownership, membership, connectivity, ratings, or real-time system status.</p>
+          </aside>
         </div>
       </div>
     </section>
