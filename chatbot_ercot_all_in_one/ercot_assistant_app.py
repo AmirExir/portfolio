@@ -271,7 +271,22 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     st.chat_message(message["role"]).markdown(message["content"])
 
-if prompt := st.chat_input("Ask about ERCOT guides, xRRs, OBDRRs, studies, or interconnections..."):
+suggested_question = str(st.query_params.get("question", "")).strip()[:800]
+suggested_prompt = None
+if suggested_question:
+    st.info(f"Suggested dashboard question: **{suggested_question}**")
+    if st.button(
+        "Ask this question",
+        type="primary",
+        help="This explicit click submits the question; opening the link alone does not use the model.",
+    ):
+        suggested_prompt = suggested_question
+
+chat_prompt = st.chat_input(
+    "Ask about ERCOT guides, xRRs, OBDRRs, studies, or interconnections..."
+)
+prompt = suggested_prompt or chat_prompt
+if prompt:
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 

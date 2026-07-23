@@ -4,6 +4,7 @@ import json
 import re
 from pathlib import Path
 from typing import Optional, Dict, Any
+from urllib.parse import quote_plus
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -23,14 +24,30 @@ from sklearn.preprocessing import StandardScaler
 
 try:
     from ERCOTAPI.latest_updates import load_latest_updates, revision_request_identity
+    from ERCOTAPI.grid_atlas import (
+        POWER_PLANT_SOURCE_URL,
+        SUBSTATION_SOURCE_URL,
+        TRANSMISSION_SOURCE_URL,
+        load_public_texas_grid,
+    )
 except ImportError:
     from latest_updates import load_latest_updates, revision_request_identity
+    from grid_atlas import (
+        POWER_PLANT_SOURCE_URL,
+        SUBSTATION_SOURCE_URL,
+        TRANSMISSION_SOURCE_URL,
+        load_public_texas_grid,
+    )
 
 
 LATEST_UPDATES_PATH = Path(__file__).with_name("latest_ercot_updates.json")
 OPERATIONS_MESSAGES_URL = "https://www.ercot.com/services/comm/mkt_notices/opsmessages"
 PUBLIC_NOTICES_URL = "https://www.ercot.com/services/comm/mkt_notices/notices"
 MARKET_NOTICES_URL = "https://www.ercot.com/services/comm/mkt_notices/archives"
+ERCOT_ASSISTANT_URL = (
+    "https://amirexir-por-chatbot-ercot-all-in-oneercot-assistant-app-ahgre0."
+    "streamlit.app/"
+)
 
 
 class ErcotAPI:
@@ -187,6 +204,13 @@ def fetch_news_repo_tree(branch: str = "main"):
     return tree if isinstance(tree, list) else []
 
 
+@st.cache_data(ttl=43_200, show_spinner=False)
+def fetch_public_grid_atlas_cached() -> Dict[str, Any]:
+    """Cache public reference geometry for 12 hours; never send it to the RAG."""
+
+    return load_public_texas_grid()
+
+
 def _normalize_news_text(raw_text: str) -> str:
     """Parse text payloads that may be plain text or JSON from n8n outputs."""
     try:
@@ -341,7 +365,7 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-APP_BUILD = "2026-07-13 grid-atlas-v1"
+APP_BUILD = "2026-07-23 xrr-explanations-grid-atlas-v2"
 ERCOT_API_MARKET_URL = "https://apimarket.ercot.com/"
 LOVABLE_ERCOT_DASHBOARD_URL = "https://ercot-news-watch.lovable.app/"
 ERCOT_TIMEZONE = ZoneInfo("America/Chicago")
@@ -957,6 +981,12 @@ XRR_FAMILY_ORDER = (
 )
 
 
+def ercot_assistant_question_url(question: str) -> str:
+    """Create a no-auto-submit assistant link with a review question."""
+
+    return f"{ERCOT_ASSISTANT_URL}?question={quote_plus(question)}"
+
+
 def _ercot_update_date(item: Dict[str, Any]) -> datetime:
     for value in (item.get("published_date"), item.get("downloaded_at")):
         candidate = str(value or "").strip()
@@ -1066,7 +1096,97 @@ def _revision_issue_summary(revision_id: str, materials: list[Dict[str, Any]]) -
     return title
 
 
-def _render_revision_requests(items: list[Dict[str, Any]]) -> None:
+def _revision_practical_impact(details: Dict[str, Any]) -> str:
+    """Give a conservative engineering/market synthesis without an AI request."""
+
+    combined = " ".join(
+        str(details.get(field) or "")
+        for field in ("issue_title", "official_description", "reason")
+    ).casefold()
+    if "load shed" in combined or "essential load" in combined:
+        return (
+            "This can affect how emergency curtailment is prepared and executed, including "
+            "coordination intended to avoid concentrating interruptions on essential loads."
+        )
+    if any(term in combined for term in ("765-kv", "voltage limit", "reactive power")):
+        return (
+            "This affects the operating voltage envelope and the procedures used to keep "
+            "high-voltage equipment within reliable limits."
+        )
+    if "stability" in combined:
+        return (
+            "This can change stability-study timing, inputs, or review milestones for planned "
+            "generation and Large Loads, so project teams may need to adjust study schedules "
+            "and model-readiness dates."
+        )
+    if "non-consequential load loss" in combined:
+        return (
+            "This can change which post-contingency load loss is acceptable in planning "
+            "studies and therefore can influence whether a case passes criteria or requires "
+            "a mitigation project."
+        )
+    if any(term in combined for term in ("large load", "interconnection", "generator")):
+        return (
+            "This can affect interconnection study assumptions, submitted models, project "
+            "milestones, or how planned generation and Large Loads are represented in ERCOT "
+            "planning cases."
+        )
+    if any(term in combined for term in ("reserve", "ancillary service", "drss")):
+        return (
+            "This can affect resource qualification, reserve deployment, operator actions, "
+            "and how reliability services participate in real-time operations."
+        )
+    if any(term in combined for term in ("real-time co-optimization", "rtcb")):
+        return (
+            "This can affect co-optimized dispatch, Ancillary Service treatment, operating "
+            "instructions, and the related settlement implementation."
+        )
+    if any(term in combined for term in ("ptp", "bid fee", "day-ahead market", "dam")):
+        return (
+            "This can change Day-Ahead Market bidding incentives, participant charges, or "
+            "congestion-hedging behavior."
+        )
+    if any(term in combined for term in ("mitigated offer", "contract for capacity")):
+        return (
+            "This can change offer mitigation or pricing treatment for contracted capacity, "
+            "with implications for market-power controls and participant offers."
+        )
+    if any(term in combined for term in ("model", "telemetry", "data requirement")):
+        return (
+            "This can affect the completeness and timing of data used for planning studies "
+            "or real-time visibility, and therefore the quality of resulting engineering "
+            "decisions."
+        )
+    family = str(details.get("revision_family") or "")
+    family_impacts = {
+        "PGRR": (
+            "If incorporated, this would change an ERCOT planning process or criterion and "
+            "may affect study scope, case assumptions, schedules, or project conclusions."
+        ),
+        "NOGRR": (
+            "If incorporated, this would change an ERCOT operating-guide process and may "
+            "affect operator actions, reliability coordination, or participant procedures."
+        ),
+        "NPRR": (
+            "If incorporated, this would change a Nodal Protocol rule and may affect market "
+            "participant obligations, dispatch, qualification, bidding, or settlement."
+        ),
+        "OBDRR": (
+            "If incorporated into the controlling Other Binding Document, this would change "
+            "the referenced implementation procedure or operational requirement."
+        ),
+    }
+    return family_impacts.get(
+        family,
+        "This revision may change the process or requirement identified in the affected sections.",
+    )
+
+
+def _render_revision_requests(
+    items: list[Dict[str, Any]],
+    revision_issues: Dict[str, Dict[str, Any]] | None = None,
+) -> None:
+    revision_issues = revision_issues or {}
     grouped = _revision_groups(items)
     families = [family for family in XRR_FAMILY_ORDER if grouped.get(family)]
     issue_count = sum(len(grouped[family]) for family in families)
@@ -1133,7 +1253,10 @@ def _render_revision_requests(items: list[Dict[str, Any]]) -> None:
 
     for revision_id, materials in visible:
         ordered_materials = sorted(materials, key=_ercot_update_date, reverse=True)
-        summary = _revision_issue_summary(revision_id, materials)
+        details = dict(revision_issues.get(revision_id) or {})
+        summary = str(details.get("issue_title") or "").strip()
+        if not summary:
+            summary = _revision_issue_summary(revision_id, materials)
         latest_date = str(ordered_materials[0].get("published_date") or "").strip()
         detail_parts = [f"{len(materials)} material{'s' if len(materials) != 1 else ''}"]
         if latest_date:
@@ -1147,7 +1270,77 @@ def _render_revision_requests(items: list[Dict[str, Any]]) -> None:
                 (item for item in materials if _revision_issue_summary(revision_id, [item])),
                 ordered_materials[0],
             )
-            st.write(preferred.get("explanation") or "New ERCOT revision-request material.")
+            official_description = str(
+                details.get("official_description")
+                or preferred.get("explanation")
+                or "ERCOT has not supplied a description in the saved issue record."
+            )
+            st.markdown("**What ERCOT says this revision does**")
+            st.write(official_description)
+
+            effectiveness_note = str(details.get("effectiveness_note") or "").strip()
+            if effectiveness_note:
+                if details.get("effective_state") == "pending_proposal":
+                    st.warning(effectiveness_note)
+                else:
+                    st.info(effectiveness_note)
+
+            metadata_columns = st.columns(3)
+            metadata_values = (
+                ("Status", details.get("status") or preferred.get("status") or "Unknown"),
+                ("Affected sections", details.get("affected_sections") or "Not listed"),
+                ("Sponsor", details.get("sponsor") or "Not listed"),
+            )
+            for column, (metadata_label, metadata_value) in zip(
+                metadata_columns,
+                metadata_values,
+            ):
+                with column:
+                    st.caption(metadata_label)
+                    st.markdown(f"**{metadata_value}**")
+
+            latest_action = details.get("latest_action")
+            if isinstance(latest_action, dict) and latest_action:
+                action_text = " · ".join(
+                    value
+                    for value in (
+                        str(latest_action.get("date") or "").strip(),
+                        str(latest_action.get("governing_body") or "").strip(),
+                        str(latest_action.get("action") or "").strip(),
+                        str(latest_action.get("next_step") or "").strip(),
+                    )
+                    if value
+                )
+                if action_text:
+                    st.markdown("**Latest recorded action**")
+                    st.write(action_text)
+
+            st.markdown("**Practical impact (dashboard synthesis)**")
+            st.write(_revision_practical_impact(details or {
+                "revision_family": revision_id.rstrip("0123456789"),
+                "official_description": official_description,
+                "issue_title": summary,
+            }))
+
+            issue_url = str(details.get("issue_url") or "").strip()
+            action_columns = st.columns(2)
+            with action_columns[0]:
+                st.link_button(
+                    "Open official ERCOT issue",
+                    issue_url or str(preferred.get("url") or ""),
+                    use_container_width=True,
+                )
+            with action_columns[1]:
+                st.link_button(
+                    f"Ask assistant about {revision_id}",
+                    ercot_assistant_question_url(
+                        f"Explain {revision_id}, its current status, affected sections, "
+                        "engineering or market impact, and whether it is governing yet."
+                    ),
+                    use_container_width=True,
+                )
+
+            st.markdown(f"**Source materials ({len(ordered_materials)})**")
             for artifact in ordered_materials:
                 artifact_title = str(
                     artifact.get("title") or artifact.get("document_number") or revision_id
@@ -1177,6 +1370,16 @@ def render_latest_ercot_documents() -> None:
     """Show the saved technical-update feed and keep live notices outside the RAG."""
     payload = load_latest_updates(LATEST_UPDATES_PATH)
     items = payload.get("items", []) if isinstance(payload, dict) else []
+    revision_issues = (
+        {
+            str(revision_id): dict(details)
+            for revision_id, details in payload.get("revision_issues", {}).items()
+            if isinstance(details, dict)
+        }
+        if isinstance(payload, dict)
+        and isinstance(payload.get("revision_issues"), dict)
+        else {}
+    )
     categories = [
         "Revision Requests (xRRs)",
         "Protocols, Guides & OBDs",
@@ -1211,7 +1414,10 @@ def render_latest_ercot_documents() -> None:
         ]
     )
     with revision_tab:
-        _render_revision_requests(grouped["Revision Requests (xRRs)"])
+        _render_revision_requests(
+            grouped["Revision Requests (xRRs)"],
+            revision_issues,
+        )
     with governing_tab:
         _render_update_collection(
             grouped["Protocols, Guides & OBDs"],
@@ -1892,134 +2098,658 @@ def train_load_forecast_model(historical_data, tuning_mode: str = "auto", manual
 
 
 def ercot_atlas_assets() -> pd.DataFrame:
-    """Small, dependency-free atlas seed that can later be replaced by EIA/FERC feeds."""
+    """Small contextual overlays kept separate from public infrastructure data."""
+
     records = [
-        ("South Texas Project", "Power plant", 28.795, -96.049, "Nuclear", "2,700 MW", "EIA-860 seed"),
-        ("Comanche Peak", "Power plant", 32.298, -97.785, "Nuclear", "2,300 MW", "EIA-860 seed"),
-        ("W. A. Parish", "Power plant", 29.477, -95.634, "Gas / coal", "3,600 MW", "EIA-860 seed"),
-        ("Roscoe Wind Farm", "Power plant", 32.445, -100.538, "Wind", "781 MW", "EIA-860 seed"),
-        ("Roadrunner Solar", "Power plant", 31.318, -102.117, "Solar", "497 MW", "EIA-860 seed"),
-        ("Houston 345-kV hub", "Substation", 29.760, -95.370, "345 kV", "Coastal load hub", "FERC/EIA seed"),
-        ("Dallas–Fort Worth hub", "Substation", 32.776, -96.797, "345 kV", "North load hub", "FERC/EIA seed"),
-        ("Austin hub", "Substation", 30.267, -97.743, "345 kV", "Central load hub", "FERC/EIA seed"),
-        ("San Antonio hub", "Substation", 29.424, -98.494, "345 kV", "South Central hub", "FERC/EIA seed"),
-        ("Odessa hub", "Substation", 31.845, -102.368, "345 kV", "West export hub", "FERC/EIA seed"),
-        ("Abilene hub", "Substation", 32.449, -99.733, "345 kV", "West Central hub", "FERC/EIA seed"),
-        ("DFW data-center cluster", "Data center", 32.940, -96.820, "Large load", "Cluster / approximate", "Public company reports"),
-        ("Austin data-center cluster", "Data center", 30.400, -97.710, "Large load", "Cluster / approximate", "Public company reports"),
-        ("San Antonio data-center cluster", "Data center", 29.530, -98.480, "Large load", "Cluster / approximate", "Public company reports"),
-        ("Houston Hub", "Price node", 29.720, -95.500, "Settlement hub", "$31.84/MWh", "Illustrative LMP"),
-        ("North Hub", "Price node", 32.550, -97.050, "Settlement hub", "$28.42/MWh", "Illustrative LMP"),
-        ("South Hub", "Price node", 28.950, -98.250, "Settlement hub", "$35.17/MWh", "Illustrative LMP"),
-        ("West Hub", "Price node", 31.650, -102.050, "Settlement hub", "$19.63/MWh", "Illustrative LMP"),
+        (
+            "DFW data-center cluster",
+            "Data-center context",
+            32.940,
+            -96.820,
+            "Large-load cluster",
+            "Approximate regional context",
+            "Public company reports",
+        ),
+        (
+            "Austin data-center cluster",
+            "Data-center context",
+            30.400,
+            -97.710,
+            "Large-load cluster",
+            "Approximate regional context",
+            "Public company reports",
+        ),
+        (
+            "San Antonio data-center cluster",
+            "Data-center context",
+            29.530,
+            -98.480,
+            "Large-load cluster",
+            "Approximate regional context",
+            "Public company reports",
+        ),
+        (
+            "Houston Hub",
+            "Price-hub context",
+            29.720,
+            -95.500,
+            "Settlement hub",
+            "Location only; no live price",
+            "Illustrative location",
+        ),
+        (
+            "North Hub",
+            "Price-hub context",
+            32.550,
+            -97.050,
+            "Settlement hub",
+            "Location only; no live price",
+            "Illustrative location",
+        ),
+        (
+            "South Hub",
+            "Price-hub context",
+            28.950,
+            -98.250,
+            "Settlement hub",
+            "Location only; no live price",
+            "Illustrative location",
+        ),
+        (
+            "West Hub",
+            "Price-hub context",
+            31.650,
+            -102.050,
+            "Settlement hub",
+            "Location only; no live price",
+            "Illustrative location",
+        ),
     ]
-    return pd.DataFrame(records, columns=["name", "layer", "lat", "lon", "type", "detail", "source"])
+    frame = pd.DataFrame(
+        records,
+        columns=["name", "layer", "lat", "lon", "type", "detail", "source"],
+    )
+    frame["city"] = ""
+    frame["status"] = ""
+    frame["voltage"] = np.nan
+    frame["capacity_mw"] = np.nan
+    frame["period"] = ""
+    frame["source_url"] = ""
+    return frame
+
+
+def _atlas_voltage_band(value: Any) -> str:
+    try:
+        voltage = float(value)
+    except (TypeError, ValueError):
+        return "Unknown voltage"
+    if not np.isfinite(voltage) or voltage <= 0:
+        return "Unknown voltage"
+    if voltage >= 500:
+        return "500–765 kV"
+    if voltage >= 345:
+        return "345–499 kV"
+    if voltage >= 230:
+        return "230–344 kV"
+    if voltage >= 138:
+        return "138–229 kV"
+    if voltage >= 69:
+        return "69–137 kV"
+    return "Below 69 kV"
+
+
+def _atlas_fuel_group(value: Any) -> str:
+    fuel = str(value or "").strip().casefold()
+    for term, label in (
+        ("solar", "Solar"),
+        ("wind", "Wind"),
+        ("natural gas", "Natural gas"),
+        ("gas", "Natural gas"),
+        ("coal", "Coal"),
+        ("nuclear", "Nuclear"),
+        ("batter", "Battery"),
+        ("hydro", "Hydro"),
+        ("biomass", "Biomass"),
+        ("petroleum", "Petroleum"),
+    ):
+        if term in fuel:
+            return label
+    return "Other / unknown"
+
+
+def _atlas_public_assets(payload: Dict[str, Any]) -> pd.DataFrame:
+    records: list[Dict[str, Any]] = []
+    for plant in payload.get("power_plants", []):
+        capacity = plant.get("capacity_mw")
+        capacity_text = (
+            f"{float(capacity):,.1f} MW installed"
+            if capacity is not None
+            else "Capacity unavailable"
+        )
+        location = ", ".join(
+            value for value in (plant.get("city"), plant.get("county")) if value
+        )
+        records.append(
+            {
+                "name": plant.get("name") or "Unnamed power plant",
+                "layer": "Power plant",
+                "lat": plant.get("lat"),
+                "lon": plant.get("lon"),
+                "type": _atlas_fuel_group(plant.get("fuel")),
+                "detail": " · ".join(
+                    value
+                    for value in (capacity_text, plant.get("technology"), location)
+                    if value
+                ),
+                "source": plant.get("source") or "U.S. EIA public power-plant layer",
+                "city": plant.get("city") or "",
+                "status": "",
+                "voltage": np.nan,
+                "capacity_mw": capacity,
+                "period": plant.get("period") or "",
+                "source_url": POWER_PLANT_SOURCE_URL,
+            }
+        )
+    for substation in payload.get("substations", []):
+        voltage = substation.get("max_voltage")
+        voltage_text = (
+            f"{float(voltage):,.0f} kV maximum"
+            if voltage is not None
+            else "Voltage unavailable"
+        )
+        location = ", ".join(
+            value
+            for value in (substation.get("city"), substation.get("county")) if value
+        )
+        records.append(
+            {
+                "name": substation.get("name") or "Unnamed substation",
+                "layer": "Substation",
+                "lat": substation.get("lat"),
+                "lon": substation.get("lon"),
+                "type": _atlas_voltage_band(voltage),
+                "detail": " · ".join(
+                    value for value in (voltage_text, location) if value
+                ),
+                "source": substation.get("source") or "Public ArcGIS substation layer",
+                "city": substation.get("city") or "",
+                "status": substation.get("status") or "",
+                "voltage": voltage,
+                "capacity_mw": np.nan,
+                "period": substation.get("source_date") or "",
+                "source_url": SUBSTATION_SOURCE_URL,
+            }
+        )
+    if not records:
+        return pd.DataFrame(columns=ercot_atlas_assets().columns)
+    return pd.DataFrame.from_records(records)
 
 
 def render_grid_atlas() -> None:
-    """Render an InfraMap-inspired, ERCOT-focused infrastructure explorer."""
+    """Render cached public Texas grid context without involving the RAG."""
+
     render_section_header(
         "ERCOT Grid Atlas",
-        "Explore generation, high-voltage corridors, substations, large-load clusters, and price hubs in one spatial view.",
+        "Explore public Texas generation, transmission, substations, approximate large-load "
+        "context, and price-hub locations in one spatial view.",
     )
 
-    assets = ercot_atlas_assets()
+    if "ercot_atlas_live_enabled" not in st.session_state:
+        st.session_state.ercot_atlas_live_enabled = False
+    load_col, status_col = st.columns([2.2, 5])
+    with load_col:
+        if st.button(
+            "Load public Texas grid",
+            type="primary",
+            use_container_width=True,
+            help=(
+                "Fetch the three public ArcGIS layers. Results are cached for 12 hours "
+                "and are never embedded or sent to OpenAI."
+            ),
+            key="ercot_atlas_load_public",
+        ):
+            st.session_state.ercot_atlas_live_enabled = True
+    with status_col:
+        if st.session_state.ercot_atlas_live_enabled:
+            st.caption(
+                "Public layers enabled · 12-hour server cache · separate from the "
+                "engineering assistant and document embeddings"
+            )
+        else:
+            st.caption(
+                "Load on demand so thousands of map records do not slow every dashboard visit."
+            )
+
+    payload: Dict[str, Any] = {
+        "transmission_lines": [],
+        "substations": [],
+        "power_plants": [],
+        "errors": {},
+    }
+    if st.session_state.ercot_atlas_live_enabled:
+        with st.spinner("Loading cached public Texas infrastructure…"):
+            payload = fetch_public_grid_atlas_cached()
+        errors = payload.get("errors") or {}
+        if errors:
+            unavailable = ", ".join(key.replace("_", " ") for key in errors)
+            st.warning(
+                f"Some public layers are temporarily unavailable: {unavailable}. "
+                "Available layers remain usable."
+            )
+        latest_line_source = max(
+            (
+                str(record.get("source_date") or "")
+                for record in payload.get("transmission_lines", [])
+                if record.get("source_date")
+            ),
+            default="not supplied",
+        )
+        latest_substation_source = max(
+            (
+                str(record.get("source_date") or "")
+                for record in payload.get("substations", [])
+                if record.get("source_date")
+            ),
+            default="not supplied",
+        )
+        latest_plant_period = max(
+            (
+                str(record.get("period") or "")
+                for record in payload.get("power_plants", [])
+                if record.get("period")
+            ),
+            default="not supplied",
+        )
+        st.caption(
+            "Source/reporting dates — transmission: "
+            f"{latest_line_source} · substations: {latest_substation_source} · "
+            f"plants: {latest_plant_period}. Dashboard retrieval time is not the same as "
+            "the source data date."
+        )
+    else:
+        st.info(
+            "Select **Load public Texas grid** to add the public transmission-line, "
+            "substation, and EIA power-plant layers."
+        )
+
+    public_assets = _atlas_public_assets(payload)
+    context_assets = ercot_atlas_assets()
+    assets = pd.DataFrame.from_records(
+        [
+            *public_assets.to_dict(orient="records"),
+            *context_assets.to_dict(orient="records"),
+        ],
+        columns=context_assets.columns,
+    )
+    transmission_lines = list(payload.get("transmission_lines") or [])
     colors = {
         "Power plant": "#34d399",
         "Substation": "#22d3ee",
-        "Data center": "#a78bfa",
-        "Price node": "#fbbf24",
+        "Data-center context": "#c084fc",
+        "Price-hub context": "#fbbf24",
     }
     symbols = {
         "Power plant": "circle",
         "Substation": "square",
-        "Data center": "diamond",
-        "Price node": "circle",
+        "Data-center context": "diamond",
+        "Price-hub context": "circle",
     }
 
-    filter_col, search_col, display_col = st.columns([2.2, 1.5, 1])
+    filter_col, search_col, display_col = st.columns([2.2, 1.6, 1])
     with filter_col:
         selected_layers = st.multiselect(
             "Infrastructure layers",
             options=list(colors),
             default=list(colors),
-            help="Show or hide infrastructure categories on the atlas.",
+            help="Public facilities and contextual overlays remain visibly distinct.",
         )
     with search_col:
-        asset_query = st.text_input("Find an asset", placeholder="Houston, wind, 345 kV…")
+        asset_query = st.text_input(
+            "Find an asset",
+            placeholder="Houston, wind, Oncor, 345 kV…",
+            key="ercot_atlas_asset_search",
+        )
     with display_col:
-        show_corridors = st.checkbox("Transmission corridors", value=True)
+        show_transmission = st.checkbox(
+            "Transmission lines",
+            value=True,
+            disabled=not bool(transmission_lines),
+        )
+
+    voltage_col, unknown_col, capacity_col, fuel_col = st.columns([1.2, 1.2, 1.2, 1.8])
+    with voltage_col:
+        minimum_voltage = st.selectbox(
+            "Minimum voltage",
+            [0, 69, 100, 138, 230, 345, 500, 765],
+            index=3,
+            format_func=lambda value: "No minimum" if value == 0 else f"{value} kV",
+            key="ercot_atlas_minimum_voltage",
+        )
+    with unknown_col:
+        include_unknown_voltage = st.checkbox(
+            "Include unknown voltage",
+            value=False,
+            help="Missing HIFLD values such as -999999 are treated as unknown, not as kV.",
+        )
+    with capacity_col:
+        minimum_capacity = st.number_input(
+            "Minimum plant MW",
+            min_value=0,
+            max_value=5_000,
+            value=0,
+            step=25,
+        )
+    available_fuels = sorted(
+        {
+            str(value)
+            for value in public_assets.loc[
+                public_assets.get("layer", pd.Series(dtype=str)) == "Power plant",
+                "type",
+            ].dropna()
+        }
+    )
+    with fuel_col:
+        selected_fuel = st.selectbox(
+            "Plant fuel",
+            ["All fuels", *available_fuels],
+            key="ercot_atlas_fuel",
+        )
 
     filtered = assets[assets["layer"].isin(selected_layers)].copy()
+    if "Substation" in selected_layers:
+        is_substation = filtered["layer"] == "Substation"
+        known_voltage = pd.to_numeric(filtered["voltage"], errors="coerce")
+        substation_allowed = known_voltage.ge(float(minimum_voltage))
+        if include_unknown_voltage:
+            substation_allowed = substation_allowed | known_voltage.isna()
+        filtered = filtered[~is_substation | substation_allowed]
+    is_plant = filtered["layer"] == "Power plant"
+    plant_capacity = pd.to_numeric(filtered["capacity_mw"], errors="coerce")
+    filtered = filtered[
+        ~is_plant
+        | plant_capacity.fillna(0).ge(float(minimum_capacity))
+    ]
+    if selected_fuel != "All fuels":
+        filtered = filtered[
+            (filtered["layer"] != "Power plant") | (filtered["type"] == selected_fuel)
+        ]
+
+    visible_lines = []
+    for line in transmission_lines:
+        voltage = line.get("voltage")
+        if voltage is None:
+            if not include_unknown_voltage:
+                continue
+        elif float(voltage) < float(minimum_voltage):
+            continue
+        visible_lines.append(line)
+
     if asset_query.strip():
         query = asset_query.strip().lower()
-        searchable = filtered[["name", "type", "detail"]].astype(str).agg(" ".join, axis=1).str.lower()
+        searchable = (
+            filtered[["name", "type", "detail", "source", "city", "status"]]
+            .astype(str)
+            .agg(" ".join, axis=1)
+            .str.lower()
+        )
         filtered = filtered[searchable.str.contains(query, regex=False)]
+        visible_lines = [
+            line
+            for line in visible_lines
+            if query
+            in " ".join(
+                str(line.get(field) or "")
+                for field in (
+                    "name",
+                    "id",
+                    "owner",
+                    "status",
+                    "voltage",
+                    "voltage_class",
+                    "substation_1",
+                    "substation_2",
+                )
+            ).lower()
+        ]
+
+    metric_columns = st.columns(5)
+    metric_values = (
+        ("Transmission", len(visible_lines), len(transmission_lines)),
+        (
+            "Power plants",
+            int((filtered["layer"] == "Power plant").sum()),
+            len(payload.get("power_plants") or []),
+        ),
+        (
+            "Substations",
+            int((filtered["layer"] == "Substation").sum()),
+            len(payload.get("substations") or []),
+        ),
+        (
+            "Data centers",
+            int((filtered["layer"] == "Data-center context").sum()),
+            3,
+        ),
+        (
+            "Price hubs",
+            int((filtered["layer"] == "Price-hub context").sum()),
+            4,
+        ),
+    )
+    for column, (label, visible_count, total_count) in zip(metric_columns, metric_values):
+        with column:
+            st.metric(label, f"{visible_count:,}", help=f"{total_count:,} loaded before filters")
 
     map_col, insight_col = st.columns([3.3, 1.15])
     with map_col:
         fig = go.Figure()
-        if show_corridors:
-            corridors = [
-                ("West export", [(31.845, -102.368), (32.449, -99.733), (32.776, -96.797)]),
-                ("Central spine", [(32.776, -96.797), (30.267, -97.743), (29.424, -98.494)]),
-                ("Coastal transfer", [(29.424, -98.494), (29.760, -95.370), (28.795, -96.049)]),
-            ]
-            for corridor_name, coordinates in corridors:
+        line_colors = {
+            "500–765 kV": "#ef4444",
+            "345–499 kV": "#f97316",
+            "230–344 kV": "#f59e0b",
+            "138–229 kV": "#8b5cf6",
+            "69–137 kV": "#3b82f6",
+            "Below 69 kV": "#64748b",
+            "Unknown voltage": "#94a3b8",
+        }
+        if show_transmission:
+            for voltage_band, line_color in line_colors.items():
+                band_lines = [
+                    line
+                    for line in visible_lines
+                    if _atlas_voltage_band(line.get("voltage")) == voltage_band
+                ]
+                if not band_lines:
+                    continue
+                latitudes: list[Any] = []
+                longitudes: list[Any] = []
+                hover_text: list[Any] = []
+                for line in band_lines:
+                    voltage = line.get("voltage")
+                    detail = " · ".join(
+                        value
+                        for value in (
+                            line.get("name"),
+                            f"{float(voltage):,.0f} kV" if voltage is not None else "Voltage unknown",
+                            line.get("owner"),
+                            line.get("status"),
+                        )
+                        if value
+                    )
+                    for path in line.get("paths", []):
+                        longitudes.extend(point[0] for point in path)
+                        latitudes.extend(point[1] for point in path)
+                        hover_text.extend([detail] * len(path))
+                        longitudes.append(None)
+                        latitudes.append(None)
+                        hover_text.append(None)
                 fig.add_trace(go.Scattermapbox(
-                    lat=[point[0] for point in coordinates],
-                    lon=[point[1] for point in coordinates],
+                    lat=latitudes,
+                    lon=longitudes,
                     mode="lines",
-                    line={"width": 2.2, "color": "rgba(94, 234, 212, 0.48)"},
-                    name=corridor_name,
+                    line={
+                        "width": 2.1 if voltage_band in {"500–765 kV", "345–499 kV"} else 1.3,
+                        "color": line_color,
+                    },
+                    name=f"Lines · {voltage_band}",
                     legendgroup="Transmission",
-                    hovertemplate=f"<b>{corridor_name}</b><br>Conceptual 345-kV corridor<extra></extra>",
-                    showlegend=False,
+                    text=hover_text,
+                    hovertemplate="%{text}<extra></extra>",
+                    showlegend=True,
                 ))
 
         for layer_name, layer_color in colors.items():
             layer_df = filtered[filtered["layer"] == layer_name]
             if layer_df.empty:
                 continue
-            fig.add_trace(go.Scattermapbox(
-                lat=layer_df["lat"],
-                lon=layer_df["lon"],
-                mode="markers",
-                name=layer_name,
-                marker={"size": 12 if layer_name != "Substation" else 10, "color": layer_color, "symbol": symbols[layer_name]},
-                customdata=layer_df[["type", "detail", "source"]],
-                text=layer_df["name"],
-                hovertemplate="<b>%{text}</b><br>%{customdata[0]}<br>%{customdata[1]}<br><span style='color:#94a3b8'>%{customdata[2]}</span><extra></extra>",
-            ))
+            groups = (
+                layer_df.groupby("type", dropna=False)
+                if layer_name == "Power plant"
+                else [(layer_name, layer_df)]
+            )
+            plant_colors = {
+                "Solar": "#fbbf24",
+                "Wind": "#22d3ee",
+                "Natural gas": "#fb923c",
+                "Coal": "#64748b",
+                "Nuclear": "#a78bfa",
+                "Battery": "#34d399",
+                "Hydro": "#60a5fa",
+                "Biomass": "#84cc16",
+                "Petroleum": "#f43f5e",
+                "Other / unknown": "#cbd5e1",
+            }
+            for group_name, group_df in groups:
+                if layer_name == "Power plant":
+                    marker_sizes = (
+                        pd.to_numeric(group_df["capacity_mw"], errors="coerce")
+                        .fillna(0)
+                        .clip(lower=0)
+                        .map(lambda value: min(18, 6 + np.sqrt(value) / 5))
+                    )
+                    marker_color = plant_colors.get(str(group_name), layer_color)
+                    trace_name = f"Plant · {group_name}"
+                elif layer_name == "Substation":
+                    marker_sizes = (
+                        pd.to_numeric(group_df["voltage"], errors="coerce")
+                        .fillna(69)
+                        .clip(lower=0)
+                        .map(lambda value: min(10, 4 + value / 120))
+                    )
+                    marker_color = layer_color
+                    trace_name = layer_name
+                else:
+                    marker_sizes = 11
+                    marker_color = layer_color
+                    trace_name = layer_name
+                fig.add_trace(go.Scattermapbox(
+                    lat=group_df["lat"],
+                    lon=group_df["lon"],
+                    mode="markers",
+                    name=trace_name,
+                    marker={
+                        "size": marker_sizes,
+                        "color": marker_color,
+                        "symbol": symbols[layer_name],
+                        "opacity": 0.84,
+                    },
+                    customdata=group_df[["type", "detail", "source"]],
+                    text=group_df["name"],
+                    hovertemplate=(
+                        "<b>%{text}</b><br>%{customdata[0]}<br>%{customdata[1]}"
+                        "<br><span style='color:#cbd5e1'>%{customdata[2]}</span>"
+                        "<extra></extra>"
+                    ),
+                ))
 
         fig.update_layout(
-            height=650,
+            height=690,
             margin={"l": 0, "r": 0, "t": 8, "b": 0},
             paper_bgcolor="#07111f",
-            mapbox={"style": "carto-darkmatter", "center": {"lat": 31.0, "lon": -99.25}, "zoom": 5.2},
-            legend={"orientation": "h", "yanchor": "bottom", "y": 0.01, "xanchor": "center", "x": 0.5, "bgcolor": "rgba(7,17,31,.82)", "font": {"color": "#e2e8f0"}},
+            mapbox={
+                "style": "carto-darkmatter",
+                "center": {"lat": 31.0, "lon": -99.25},
+                "zoom": 5.2,
+            },
+            legend={
+                "orientation": "h",
+                "yanchor": "bottom",
+                "y": 0.01,
+                "xanchor": "center",
+                "x": 0.5,
+                "bgcolor": "rgba(7,17,31,.86)",
+                "font": {"color": "#e2e8f0", "size": 10},
+            },
         )
         st.plotly_chart(fig, width="stretch", config={"displaylogo": False, "scrollZoom": True})
 
     with insight_col:
-        st.markdown("#### Atlas snapshot")
-        visible_counts = filtered["layer"].value_counts()
-        for layer_name, layer_color in colors.items():
-            render_metric_card(layer_name, f"{visible_counts.get(layer_name, 0):,}", "Visible assets", layer_color)
-
-        st.markdown("#### Inspect records")
+        st.markdown("#### Inspect a facility")
         if filtered.empty:
             st.info("No assets match the current filters.")
         else:
-            selected_asset = st.selectbox("Asset", filtered["name"].tolist(), label_visibility="collapsed")
-            record = filtered.loc[filtered["name"] == selected_asset].iloc[0]
-            st.markdown(f"**{record['name']}**  \n{record['layer']} · {record['type']}  \n{record['detail']}")
+            record_options = filtered.index.tolist()
+            selected_index = st.selectbox(
+                "Asset",
+                record_options,
+                format_func=lambda index: (
+                    f"{filtered.loc[index, 'name']} · {filtered.loc[index, 'layer']}"
+                ),
+                label_visibility="collapsed",
+            )
+            record = filtered.loc[selected_index]
+            st.markdown(
+                f"**{record['name']}**  \n"
+                f"{record['layer']} · {record['type']}  \n"
+                f"{record['detail']}"
+            )
+            if record.get("period"):
+                st.caption(f"Source/reporting period: {record['period']}")
             st.caption(f"Source/method: {record['source']}")
+            if record.get("source_url"):
+                st.link_button(
+                    "Open source layer",
+                    str(record["source_url"]),
+                    use_container_width=True,
+                )
 
-    st.info(
-        "Prototype layer: locations and corridors are a compact demonstration dataset for the dashboard experience. "
-        "Price values are illustrative, data-center clusters are approximate, and the map is not suitable for operational decisions. "
-        "The data model is ready to be replaced with scheduled EIA-860, HIFLD/FERC, ERCOT GIS, and settlement-point feeds."
+        st.markdown("#### Ask the engineering assistant")
+        st.caption(
+            "Use the assistant for requirements, guides, procedures, and xRR changes. "
+            "The public map itself is not embedded."
+        )
+        st.link_button(
+            "Ask about ERCOT planning",
+            ercot_assistant_question_url(
+                "What ERCOT planning requirements apply to the facilities or voltage level I am reviewing?"
+            ),
+            use_container_width=True,
+        )
+
+    source_col_1, source_col_2, source_col_3 = st.columns(3)
+    with source_col_1:
+        st.link_button(
+            "Transmission source",
+            TRANSMISSION_SOURCE_URL,
+            use_container_width=True,
+        )
+    with source_col_2:
+        st.link_button(
+            "Substation source",
+            SUBSTATION_SOURCE_URL,
+            use_container_width=True,
+        )
+    with source_col_3:
+        st.link_button(
+            "Power-plant source",
+            POWER_PLANT_SOURCE_URL,
+            use_container_width=True,
+        )
+    st.warning(
+        "Reference infrastructure only—not an ERCOT planning model, operating model, "
+        "or real-time topology. HIFLD geometry is approximate; the plant and substation "
+        "layers cover Texas, not only the ERCOT footprint. Data-center points and price-hub "
+        "locations are contextual, and no illustrative price is shown."
     )
 
 
@@ -2034,7 +2764,7 @@ def main():
     inject_dashboard_css()
     render_hero()
 
-    action_col_1, action_col_2, action_col_3, action_col_4 = st.columns(4)
+    action_col_1, action_col_2, action_col_3, action_col_4, action_col_5 = st.columns(5)
     with action_col_1:
         if st.button(
             "Refresh data",
@@ -2045,10 +2775,27 @@ def main():
             st.cache_data.clear()
             st.rerun()
     with action_col_2:
-        st.link_button("Telegram", "https://t.me/ERCOTNEWS", help="Open the ERCOT News Telegram channel", use_container_width=True)
+        st.link_button(
+            "ERCOT Assistant",
+            ERCOT_ASSISTANT_URL,
+            help="Ask cited questions about ERCOT guides, procedures, and revision requests.",
+            use_container_width=True,
+        )
     with action_col_3:
-        st.link_button("Lovable App", LOVABLE_ERCOT_DASHBOARD_URL, help="Open the Lovable version of this ERCOT dashboard", use_container_width=True)
+        st.link_button(
+            "Telegram",
+            "https://t.me/ERCOTNEWS",
+            help="Open the ERCOT News Telegram channel",
+            use_container_width=True,
+        )
     with action_col_4:
+        st.link_button(
+            "Lovable App",
+            LOVABLE_ERCOT_DASHBOARD_URL,
+            help="Open the Lovable version of this ERCOT dashboard",
+            use_container_width=True,
+        )
+    with action_col_5:
         st.link_button(
             "API Credentials",
             ERCOT_API_MARKET_URL,
