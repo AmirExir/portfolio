@@ -176,6 +176,12 @@ class GridAtlasStoreTests(unittest.TestCase):
                 for region in grid_atlas_regions(manifest)
             )
         )
+        self.assertTrue(
+            all(
+                region["default_minimum_voltage"] == 0
+                for region in grid_atlas_regions(manifest)
+            )
+        )
         region_ids = {
             region["id"]
             for region in grid_atlas_regions(manifest)

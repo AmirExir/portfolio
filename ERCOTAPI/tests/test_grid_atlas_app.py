@@ -60,12 +60,18 @@ class GridAtlasAppTests(unittest.TestCase):
             if checkbox.label == "Include unknown voltage"
         )
         self.assertTrue(unknown_voltage.value)
+        minimum_voltage = next(
+            selectbox
+            for selectbox in app.selectbox
+            if selectbox.label == "Minimum voltage"
+        )
+        self.assertEqual(minimum_voltage.value, 0)
         self.assertEqual(
             [(metric.label, metric.value) for metric in app.metric],
             [
-                ("Transmission lines", "3,677"),
+                ("Transmission lines", "4,544"),
                 ("Power plants", "776"),
-                ("Substations / transformers", "3,106"),
+                ("Substations / transformers", "3,877"),
             ],
         )
 
@@ -100,6 +106,12 @@ class GridAtlasAppTests(unittest.TestCase):
                 ("Substations / transformers", "11,230"),
             ],
         )
+        minimum_voltage = next(
+            selectbox
+            for selectbox in app.selectbox
+            if selectbox.label == "Minimum voltage"
+        )
+        self.assertEqual(minimum_voltage.value, 0)
         self.assertTrue(
             any(
                 "no bulk source, OpenAI, or embedding request" in caption.value

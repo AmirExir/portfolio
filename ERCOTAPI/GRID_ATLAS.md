@@ -5,8 +5,9 @@ loads only checked-in gzip shards from `grid_atlas_data/`; opening the page or
 changing regions does not bulk-download ArcGIS data, call OpenAI, or create
 embeddings. The Atlas opens on ERCOT by default; the U.S.–Canada overview and
 every other packaged regional filter remain available from the Grid area
-selector. Records with an unknown voltage are visible by default in every
-region and can still be hidden with the Unknown kV control.
+selector. Every region opens with no additional minimum-voltage filter and
+records with an unknown voltage visible. Visitors can still apply a minimum or
+hide unknown-voltage records with the map controls.
 
 The same saved shards power `grid-atlas.html`, the native interactive map
 embedded on amirexirpe.com. That page lazy-loads ERCOT first and fetches a

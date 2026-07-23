@@ -1455,7 +1455,7 @@ def build_packaged_atlas(
             plants=overview_plants,
             boundaries=[*nerc_boundaries, *market_boundaries],
             generated_at=generated_at,
-            default_minimum_voltage=230,
+            default_minimum_voltage=0,
             include_unknown_voltage=True,
             detail=(
                 "Performance-safe overview: U.S. lines/substations at 230 kV and above, "
@@ -1489,7 +1489,7 @@ def build_packaged_atlas(
                 ),
                 boundaries=[boundary_by_id[market_id]],
                 generated_at=generated_at,
-                default_minimum_voltage=138,
+                default_minimum_voltage=0,
                 include_unknown_voltage=True,
                 detail=(
                     "Approximate public ISO/RTO footprint; asset location does not prove "
