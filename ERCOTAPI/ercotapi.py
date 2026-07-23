@@ -28,7 +28,9 @@ try:
         POWER_PLANT_SOURCE_URL,
         SUBSTATION_SOURCE_URL,
         TRANSMISSION_SOURCE_URL,
+        grid_atlas_change_summary,
         load_packaged_texas_grid,
+        load_public_texas_grid,
     )
 except ImportError:
     from latest_updates import load_latest_updates, revision_request_identity
@@ -36,7 +38,9 @@ except ImportError:
         POWER_PLANT_SOURCE_URL,
         SUBSTATION_SOURCE_URL,
         TRANSMISSION_SOURCE_URL,
+        grid_atlas_change_summary,
         load_packaged_texas_grid,
+        load_public_texas_grid,
     )
 
 
@@ -211,6 +215,16 @@ def load_packaged_grid_atlas_cached() -> Dict[str, Any]:
     return load_packaged_texas_grid()
 
 
+@st.cache_data(ttl=3600, show_spinner=False)
+def fetch_live_grid_atlas_cached() -> tuple[Dict[str, Any], Dict[str, Any]]:
+    """Fetch and validate public ArcGIS layers after an explicit user action."""
+
+    packaged_payload = load_packaged_texas_grid()
+    payload = load_public_texas_grid()
+    comparison = grid_atlas_change_summary(packaged_payload, payload)
+    return payload, comparison
+
+
 def _normalize_news_text(raw_text: str) -> str:
     """Parse text payloads that may be plain text or JSON from n8n outputs."""
     try:
@@ -365,7 +379,7 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-APP_BUILD = "2026-07-23 packaged-texas-grid-atlas-v3"
+APP_BUILD = "2026-07-23 atlas-source-check-v4"
 ERCOT_API_MARKET_URL = "https://apimarket.ercot.com/"
 LOVABLE_ERCOT_DASHBOARD_URL = "https://ercot-news-watch.lovable.app/"
 ERCOT_TIMEZONE = ZoneInfo("America/Chicago")
@@ -2286,7 +2300,7 @@ def _atlas_public_assets(payload: Dict[str, Any]) -> pd.DataFrame:
 
 
 def render_grid_atlas() -> None:
-    """Render the packaged public Texas grid context without network requests."""
+    """Render the packaged Texas grid, with an optional explicit source check."""
 
     render_section_header(
         "ERCOT Grid Atlas",
@@ -2296,15 +2310,121 @@ def render_grid_atlas() -> None:
 
     try:
         with st.spinner("Opening the packaged Texas infrastructure snapshot…"):
-            payload = load_packaged_grid_atlas_cached()
+            packaged_payload = load_packaged_grid_atlas_cached()
     except RuntimeError as exc:
         st.error(str(exc))
-        payload = {
+        packaged_payload = {
             "transmission_lines": [],
             "substations": [],
             "power_plants": [],
             "errors": {"packaged_snapshot": str(exc)},
         }
+
+    check_col, restore_col, explanation_col = st.columns([1.45, 1.25, 3.3])
+    with check_col:
+        check_for_updates = st.button(
+            "Check source for updates",
+            key="ercot_atlas_check_sources",
+            type="primary",
+            use_container_width=True,
+            help=(
+                "On click, compare the bundled snapshot with the three free public ArcGIS "
+                "layers. This does not call OpenAI, create embeddings, or run automatically."
+            ),
+        )
+    live_override = st.session_state.get("ercot_atlas_live_override")
+    with restore_col:
+        use_packaged_snapshot = False
+        if isinstance(live_override, dict):
+            use_packaged_snapshot = st.button(
+                "Use packaged snapshot",
+                key="ercot_atlas_restore_packaged",
+                use_container_width=True,
+                help="Discard the session-only source check and return to the uploaded snapshot.",
+            )
+    with explanation_col:
+        st.caption(
+            "The uploaded snapshot opens immediately. A source check is optional, cached for "
+            "one hour, and changes only this browser session."
+        )
+
+    if use_packaged_snapshot:
+        st.session_state.pop("ercot_atlas_live_override", None)
+        st.session_state["ercot_atlas_source_status"] = {
+            "level": "info",
+            "message": "Using the packaged Texas grid snapshot again.",
+        }
+        live_override = None
+
+    if check_for_updates:
+        try:
+            with st.spinner("Checking the three public ArcGIS layers for changes…"):
+                candidate_payload, comparison = fetch_live_grid_atlas_cached()
+            if comparison["changed"]:
+                layer_names = {
+                    "transmission_lines": "transmission lines",
+                    "substations": "substations",
+                    "power_plants": "power plants",
+                }
+                details = []
+                for collection in comparison["changed_collections"]:
+                    counts = comparison["counts"][collection]
+                    delta = counts["delta"]
+                    if delta:
+                        details.append(
+                            f"{layer_names[collection]} {delta:+,} records "
+                            f"({counts['source']:,} at source)"
+                        )
+                    else:
+                        details.append(
+                            f"{layer_names[collection]} content or geometry changed "
+                            f"({counts['source']:,} records)"
+                        )
+                st.session_state["ercot_atlas_live_override"] = candidate_payload
+                st.session_state["ercot_atlas_source_status"] = {
+                    "level": "success",
+                    "message": (
+                        "New public-source content detected: "
+                        + "; ".join(details)
+                        + ". Showing the refreshed records for this browser session. "
+                        "The uploaded snapshot remains unchanged until the next deployment."
+                    ),
+                }
+                live_override = candidate_payload
+            else:
+                st.session_state.pop("ercot_atlas_live_override", None)
+                st.session_state["ercot_atlas_source_status"] = {
+                    "level": "success",
+                    "message": (
+                        "No source changes found. The packaged snapshot already matches all "
+                        "three public ArcGIS layers."
+                    ),
+                }
+                live_override = None
+        except (RuntimeError, requests.RequestException) as exc:
+            st.session_state.pop("ercot_atlas_live_override", None)
+            live_override = None
+            st.session_state["ercot_atlas_source_status"] = {
+                "level": "warning",
+                "message": (
+                    "The source check was incomplete, so the map returned to the packaged "
+                    "snapshot: "
+                    f"{exc}"
+                ),
+            }
+
+    source_status = st.session_state.get("ercot_atlas_source_status")
+    if isinstance(source_status, dict):
+        status_message = str(source_status.get("message") or "")
+        if source_status.get("level") == "success":
+            st.success(status_message)
+        elif source_status.get("level") == "warning":
+            st.warning(status_message)
+        else:
+            st.info(status_message)
+
+    payload = live_override if isinstance(live_override, dict) else packaged_payload
+    using_live_source_check = isinstance(live_override, dict)
 
     if not payload.get("errors"):
         latest_line_source = max(
@@ -2331,7 +2451,10 @@ def render_grid_atlas() -> None:
             ),
             default="not supplied",
         )
-        snapshot_time = str(payload.get("generated_at") or "not supplied")
+        snapshot_time = str(
+            payload.get("fetched_at" if using_live_source_check else "generated_at")
+            or "not supplied"
+        )
         try:
             snapshot_time = (
                 datetime.fromisoformat(snapshot_time.replace("Z", "+00:00"))
@@ -2340,8 +2463,11 @@ def render_grid_atlas() -> None:
             )
         except ValueError:
             pass
+        source_label = (
+            "Session source check" if using_live_source_check else "Packaged snapshot"
+        )
         st.caption(
-            f"Packaged snapshot: {snapshot_time} · no live download required. "
+            f"{source_label}: {snapshot_time}. "
             "Source/reporting dates — transmission: "
             f"{latest_line_source} · substations: {latest_substation_source} · "
             f"plants: {latest_plant_period}. Dashboard retrieval time is not the same as "
@@ -2749,10 +2875,15 @@ def main():
     with action_col_1:
         if st.button(
             "Refresh data",
-            help="Clear cached API/news data and reload the dashboard",
+            help=(
+                "Clear cached dashboard data and any session-only Atlas refresh. "
+                "The Atlas will not contact its sources until you click its update button."
+            ),
             type="primary",
             use_container_width=True,
         ):
+            st.session_state.pop("ercot_atlas_live_override", None)
+            st.session_state.pop("ercot_atlas_source_status", None)
             st.cache_data.clear()
             st.rerun()
     with action_col_2:

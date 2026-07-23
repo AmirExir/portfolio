@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import hashlib
 import json
 import math
 import re
@@ -42,7 +43,7 @@ SUBSTATION_SOURCE_URL = SUBSTATION_QUERY_URL.removesuffix("/query")
 POWER_PLANT_SOURCE_URL = POWER_PLANT_QUERY_URL.removesuffix("/query")
 
 PAGE_SIZE = 1_000
-REQUEST_TIMEOUT = (6, 45)
+REQUEST_TIMEOUT = (3, 6)
 MISSING_NUMERIC_SENTINEL = -999_000
 SNAPSHOT_SCHEMA_VERSION = 1
 PACKAGED_SNAPSHOT_PATH = Path(__file__).with_name("grid_atlas_snapshot.json.gz")
@@ -51,6 +52,13 @@ MINIMUM_SNAPSHOT_COUNTS = {
     "transmission_lines": 5_000,
     "substations": 4_000,
     "power_plants": 800,
+}
+MINIMUM_SOURCE_COUNT_RATIO = 0.95
+MINIMUM_STABLE_ID_OVERLAP = 0.90
+STABLE_ID_FIELDS = {
+    "transmission_lines": ("id", "object_id"),
+    "substations": ("id", "object_id"),
+    "power_plants": ("plant_code", "object_id"),
 }
 
 
@@ -102,7 +110,7 @@ def _request_json(
     method: str = "GET",
     params: dict[str, Any] | None = None,
     data: dict[str, Any] | None = None,
-    attempts: int = 3,
+    attempts: int = 2,
 ) -> dict[str, Any]:
     last_error: Exception | None = None
     for attempt in range(attempts):
@@ -468,7 +476,135 @@ def validate_grid_atlas_snapshot(
     errors = payload.get("errors")
     if errors not in ({}, None):
         raise RuntimeError("Packaged Grid Atlas snapshot contains source errors")
+    record_counts = payload.get("record_counts")
+    if record_counts is not None:
+        if not isinstance(record_counts, dict):
+            raise RuntimeError("Packaged Grid Atlas record counts are invalid")
+        for collection in SNAPSHOT_COLLECTIONS:
+            if record_counts.get(collection) != len(payload[collection]):
+                raise RuntimeError(
+                    f"Packaged Grid Atlas count does not match {collection}"
+                )
+    content_hash = str(payload.get("content_sha256") or "")
+    if content_hash and content_hash != grid_atlas_content_hash(payload):
+        raise RuntimeError("Packaged Grid Atlas snapshot content hash does not match")
     return payload
+
+
+def _collection_content_hash(records: list[Any]) -> str:
+    """Hash a collection without treating source record order as content."""
+
+    serialized_records = sorted(
+        json.dumps(
+            record,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        ).encode("utf-8")
+        for record in records
+    )
+    digest = hashlib.sha256()
+    for record in serialized_records:
+        digest.update(len(record).to_bytes(8, byteorder="big"))
+        digest.update(record)
+    return digest.hexdigest()
+
+
+def grid_atlas_content_hash(payload: Mapping[str, Any]) -> str:
+    """Hash only map records so timestamps and collection order imply no update."""
+
+    collection_hashes: dict[str, str] = {}
+    for collection in SNAPSHOT_COLLECTIONS:
+        records = payload.get(collection)
+        if not isinstance(records, list):
+            raise RuntimeError(f"Grid Atlas payload is missing {collection}")
+        collection_hashes[collection] = _collection_content_hash(records)
+    encoded = json.dumps(
+        collection_hashes,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _stable_record_ids(collection: str, records: list[Any]) -> set[str]:
+    """Return the first sufficiently populated stable identifier set."""
+
+    minimum_population = math.ceil(len(records) * 0.80)
+    for field in STABLE_ID_FIELDS[collection]:
+        identifiers = {
+            str(record.get(field)).strip()
+            for record in records
+            if isinstance(record, dict)
+            and record.get(field) not in (None, "")
+        }
+        if len(identifiers) >= minimum_population:
+            return identifiers
+    return set()
+
+
+def grid_atlas_change_summary(
+    packaged: Mapping[str, Any],
+    candidate: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Compare a live refresh to the uploaded snapshot without using AI."""
+
+    errors = candidate.get("errors") or {}
+    if errors:
+        raise RuntimeError(
+            "Unable to compare an incomplete source refresh: "
+            + ", ".join(sorted(str(layer) for layer in errors))
+        )
+    counts: dict[str, dict[str, int]] = {}
+    changed_collections: list[str] = []
+    for collection in SNAPSHOT_COLLECTIONS:
+        packaged_records = packaged.get(collection)
+        candidate_records = candidate.get(collection)
+        if not isinstance(packaged_records, list) or not isinstance(candidate_records, list):
+            raise RuntimeError(f"Grid Atlas comparison is missing {collection}")
+        minimum = max(
+            MINIMUM_SNAPSHOT_COUNTS[collection],
+            math.ceil(len(packaged_records) * MINIMUM_SOURCE_COUNT_RATIO),
+        )
+        if len(candidate_records) < minimum:
+            raise RuntimeError(
+                f"Source refresh returned only {len(candidate_records):,} "
+                f"{collection.replace('_', ' ')}; expected at least {minimum:,}"
+            )
+        packaged_ids = _stable_record_ids(collection, packaged_records)
+        candidate_ids = _stable_record_ids(collection, candidate_records)
+        if packaged_ids and not candidate_ids:
+            raise RuntimeError(
+                f"Source refresh did not return enough stable "
+                f"{collection.replace('_', ' ')} identifiers"
+            )
+        comparable_ids = min(len(packaged_ids), len(candidate_ids))
+        if comparable_ids:
+            overlap = len(packaged_ids & candidate_ids) / comparable_ids
+            if overlap < MINIMUM_STABLE_ID_OVERLAP:
+                raise RuntimeError(
+                    f"Source refresh matched only {overlap:.0%} of stable "
+                    f"{collection.replace('_', ' ')} identifiers; expected at least "
+                    f"{MINIMUM_STABLE_ID_OVERLAP:.0%}"
+                )
+        counts[collection] = {
+            "packaged": len(packaged_records),
+            "source": len(candidate_records),
+            "delta": len(candidate_records) - len(packaged_records),
+        }
+        packaged_hash = _collection_content_hash(packaged_records)
+        candidate_hash = _collection_content_hash(candidate_records)
+        if packaged_hash != candidate_hash:
+            changed_collections.append(collection)
+    packaged_hash = grid_atlas_content_hash(packaged)
+    source_hash = grid_atlas_content_hash(candidate)
+    return {
+        "changed": packaged_hash != source_hash,
+        "changed_collections": changed_collections,
+        "counts": counts,
+        "packaged_hash": packaged_hash,
+        "source_hash": source_hash,
+    }
 
 
 def load_packaged_texas_grid(
@@ -513,6 +649,11 @@ def write_grid_atlas_snapshot(
         "power_plants": list(payload.get("power_plants") or []),
         "errors": {},
     }
+    snapshot["record_counts"] = {
+        collection: len(snapshot[collection])
+        for collection in SNAPSHOT_COLLECTIONS
+    }
+    snapshot["content_sha256"] = grid_atlas_content_hash(snapshot)
     validate_grid_atlas_snapshot(snapshot, minimum_counts=minimum_counts)
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary_path = path.with_name(f".{path.name}.tmp")

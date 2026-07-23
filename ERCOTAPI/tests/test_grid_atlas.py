@@ -12,6 +12,8 @@ from ERCOTAPI.grid_atlas import (
     clean_number,
     fetch_power_plants,
     fetch_substations,
+    grid_atlas_change_summary,
+    grid_atlas_content_hash,
     load_packaged_texas_grid,
     load_public_texas_grid,
     validate_grid_atlas_snapshot,
@@ -210,6 +212,10 @@ class GridAtlasTests(unittest.TestCase):
         self.assertEqual(len(payload["transmission_lines"]), 5_567)
         self.assertEqual(len(payload["substations"]), 4_939)
         self.assertEqual(len(payload["power_plants"]), 921)
+        self.assertEqual(
+            payload["content_sha256"],
+            grid_atlas_content_hash(payload),
+        )
         self.assertFalse(payload["errors"])
         self.assertFalse(
             any(
@@ -218,6 +224,62 @@ class GridAtlasTests(unittest.TestCase):
                 for record in payload["substations"]
             )
         )
+
+    def test_source_update_comparison_ignores_check_time_but_detects_content(self):
+        packaged = load_packaged_texas_grid(PACKAGED_SNAPSHOT_PATH)
+        same_records = dict(packaged)
+        same_records["fetched_at"] = "2099-01-01T00:00:00+00:00"
+        same_records["power_plants"] = list(
+            reversed(packaged["power_plants"])
+        )
+
+        unchanged = grid_atlas_change_summary(packaged, same_records)
+
+        self.assertFalse(unchanged["changed"])
+
+        changed_records = dict(same_records)
+        changed_plant = dict(packaged["power_plants"][0])
+        changed_plant["name"] = f"{changed_plant['name']} updated"
+        changed_records["power_plants"] = [
+            changed_plant,
+            *packaged["power_plants"][1:],
+        ]
+
+        changed = grid_atlas_change_summary(packaged, changed_records)
+
+        self.assertTrue(changed["changed"])
+        self.assertEqual(changed["changed_collections"], ["power_plants"])
+        self.assertEqual(changed["counts"]["power_plants"]["delta"], 0)
+
+    def test_source_update_comparison_rejects_moderate_count_collapse(self):
+        packaged = load_packaged_texas_grid(PACKAGED_SNAPSHOT_PATH)
+        incomplete = dict(packaged)
+        incomplete["transmission_lines"] = packaged["transmission_lines"][:5_000]
+
+        with self.assertRaisesRegex(RuntimeError, "expected at least 5,"):
+            grid_atlas_change_summary(packaged, incomplete)
+
+    def test_source_update_comparison_rejects_unrelated_identifiers(self):
+        packaged = load_packaged_texas_grid(PACKAGED_SNAPSHOT_PATH)
+        unrelated = dict(packaged)
+        unrelated["power_plants"] = [
+            {**record, "plant_code": f"new-{index}", "object_id": f"new-{index}"}
+            for index, record in enumerate(packaged["power_plants"])
+        ]
+
+        with self.assertRaisesRegex(RuntimeError, "stable power plants identifiers"):
+            grid_atlas_change_summary(packaged, unrelated)
+
+    def test_source_update_comparison_requires_identifier_coverage(self):
+        packaged = load_packaged_texas_grid(PACKAGED_SNAPSHOT_PATH)
+        unidentified = dict(packaged)
+        unidentified["power_plants"] = [
+            {**record, "plant_code": None, "object_id": None}
+            for record in packaged["power_plants"]
+        ]
+
+        with self.assertRaisesRegex(RuntimeError, "enough stable power plants"):
+            grid_atlas_change_summary(packaged, unidentified)
 
 
 if __name__ == "__main__":
