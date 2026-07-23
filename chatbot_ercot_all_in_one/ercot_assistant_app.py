@@ -21,6 +21,7 @@ if repository_root_text in sys.path:
 sys.path.insert(0, repository_root_text)
 
 from ERCOTAPI.latest_updates import load_latest_updates
+from ERCOTAPI.rag_ingestion.config import default_config
 from ERCOTAPI.rag_ingestion.retrieval import (
     format_context,
     format_change_reports,
@@ -33,6 +34,8 @@ from ERCOTAPI.rag_ingestion.startup import (
     startup_index_state,
 )
 from ERCOTAPI.rag_ingestion.requirements import validate_answer_citations
+
+PACKAGED_INDEX_DIR = REPOSITORY_ROOT / "ERCOTAPI" / "deployment_rag_store"
 
 
 def get_openai_client() -> OpenAI:
@@ -61,7 +64,44 @@ def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_ercot_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("general")
+    try:
+        return load_startup_index(
+            "general",
+            bootstrap_on_missing=False,
+            refresh=False,
+        )
+    except CentralIndexUnavailable as configured_error:
+        # An old Streamlit secret may still point ERCOT_RAG_STORE at an empty
+        # ephemeral directory. The checked-in deployment snapshot is complete,
+        # read-only, and already embedded, so it is a safe availability
+        # fallback that cannot trigger document embedding.
+        packaged_config = default_config(index_dir=PACKAGED_INDEX_DIR)
+        try:
+            return load_startup_index(
+                "general",
+                config=packaged_config,
+                bootstrap_on_missing=False,
+                refresh=False,
+            )
+        except CentralIndexUnavailable as packaged_error:
+            raise CentralIndexUnavailable(
+                f"{configured_error} Packaged saved-index fallback also failed: "
+                f"{packaged_error}"
+            ) from packaged_error
+
+
+def ercot_index_cache_key() -> tuple[object, ...]:
+    """Track both the configured store and immutable packaged fallback."""
+
+    packaged_config = default_config(index_dir=PACKAGED_INDEX_DIR)
+    try:
+        configured_state: object = startup_index_state()
+    except CentralIndexUnavailable as exc:
+        configured_state = ("unavailable", str(exc))
+    return (
+        configured_state,
+        startup_index_state(packaged_config),
+    )
 
 
 st.set_page_config(page_title="ERCOT Assistant", page_icon="⚡")
@@ -143,14 +183,20 @@ st.caption(
 
 with st.spinner("Loading the saved ERCOT knowledge index..."):
     try:
-        rag_index = load_ercot_index(startup_index_state())
+        rag_index = load_ercot_index(ercot_index_cache_key())
     except CentralIndexUnavailable as exc:
         st.error(str(exc))
         st.stop()
 
 with st.sidebar:
     st.caption(f"Loaded {len(rag_index.chunks)} ERCOT chunks")
-    st.caption(f"Central generation: {rag_index.generation_id}")
+    index_label = (
+        "Packaged saved snapshot"
+        if str(rag_index.generation_id or "").startswith("deployment-")
+        else "Persistent central store"
+    )
+    st.caption(f"Index source: {index_label}")
+    st.caption(f"Generation: {rag_index.generation_id}")
     if st.button("Clear chat"):
         st.session_state.messages = []
         st.rerun()

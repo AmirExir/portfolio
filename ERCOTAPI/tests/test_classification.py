@@ -5,6 +5,7 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from ERCOTAPI.rag_ingestion.chunking import build_chunks, sha256_bytes
 from ERCOTAPI.rag_ingestion.classify import (
@@ -167,6 +168,19 @@ class ClassificationTests(unittest.TestCase):
         config = default_config(repo_root=self.repo_root)
 
         self.assertEqual(config.index_dir, packaged.resolve())
+
+    def test_relative_configured_store_resolves_from_repository_root(self) -> None:
+        with mock.patch.dict(
+            "os.environ",
+            {"ERCOT_RAG_STORE": "mounted/saved-index"},
+            clear=False,
+        ):
+            config = default_config(repo_root=self.repo_root)
+
+        self.assertEqual(
+            config.index_dir,
+            (self.repo_root / "mounted" / "saved-index").resolve(),
+        )
 
     def test_uploaded_official_roots_route_to_explicit_collections(self) -> None:
         config = default_config(

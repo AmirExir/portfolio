@@ -125,7 +125,12 @@ def default_config(
     if index_dir is not None:
         destination = index_dir
     elif configured_index:
-        destination = Path(configured_index).expanduser()
+        configured_path = Path(configured_index).expanduser()
+        destination = (
+            configured_path
+            if configured_path.is_absolute()
+            else root / configured_path
+        )
     elif _has_complete_generation(local_store):
         destination = local_store
     elif _has_complete_generation(packaged_store):
