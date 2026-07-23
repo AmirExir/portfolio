@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-23T00:04:37.348932+00:00",
   "minimum_year": 2026,
-  "count": 202,
+  "count": 192,
   "items": [
     {
       "content_sha256": "705a7dec169e84cdff32f89266c3cd4220f342edd64e65741a5b972f2362a06c",
@@ -82,20 +82,6 @@
       "downloaded_at": "2026-07-22T20:01:44Z",
       "status": "",
       "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "9ca3b1a4d9f6bb71f80b8e4c23d6d186d0249a2929f4c852e21be846a994b5b6",
-      "title": "Operations Messages",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:01:44Z",
-      "status": "",
-      "url": "https://www.ercot.com/services/comm/mkt_notices/opsmessages",
       "sources": [
         "BOARD OF DIRECTORS"
       ],
@@ -424,20 +410,6 @@
       "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
     },
     {
-      "content_sha256": "158e7ee6001d93062eeca6dae1bcaffa29d8dc70dbd66f4f3a00654fa1831790",
-      "title": "Operations Messages",
-      "document_number": "",
-      "source": "PLANNING GUIDE",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:00:52Z",
-      "status": "",
-      "url": "https://www.ercot.com/services/comm/mkt_notices/opsmessages",
-      "sources": [
-        "PLANNING GUIDE"
-      ],
-      "explanation": "New planning guide material that may update an ERCOT requirement or implementation detail."
-    },
-    {
       "content_sha256": "e7ee62da152d42c72a91e697887ca8e033bacccf0572c6c89a966c1c7e7c5e63",
       "title": "Nodal Protocol Revision Requests",
       "document_number": "",
@@ -564,20 +536,6 @@
       "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
     },
     {
-      "content_sha256": "1d0fdee739c5671f4e3d8c511f0bc66ce61f7af82a59803989f51df803c5c1fe",
-      "title": "Operations Messages",
-      "document_number": "",
-      "source": "PROTOCOLS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T20:00:49Z",
-      "status": "",
-      "url": "https://www.ercot.com/services/comm/mkt_notices/opsmessages",
-      "sources": [
-        "PROTOCOLS"
-      ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
-    },
-    {
       "content_sha256": "12e9f292baa7c80bae358fec8a45ef7e7ed506da3cf8d29ea8eaa45d9e9b0485",
       "title": "Nodal Protocol Revision Requests",
       "document_number": "",
@@ -674,20 +632,6 @@
         "OBDRR"
       ],
       "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Protocol Interpretation Request Submission Process to review details."
-    },
-    {
-      "content_sha256": "20a40b10e056309a100afe110157a919b39b66620f39d7de27b8cfa2697f1342",
-      "title": "Operations Messages",
-      "document_number": "",
-      "source": "OBDRR",
-      "published_date": "2026-06-01",
-      "downloaded_at": "2026-07-22T20:00:47Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/services/comm/mkt_notices/opsmessages",
-      "sources": [
-        "OBDRR"
-      ],
-      "explanation": "New Other Binding Document Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Operations Messages to review details."
     },
     {
       "content_sha256": "1d7727d51c9f200dcc98b2bc27cdaebbe561d77b2b029726ebfa820a4181b57b",
@@ -970,20 +914,6 @@
       "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for PGRR143 to review details."
     },
     {
-      "content_sha256": "5be94d5ff143e96ab3e00efebf17a6c4d355c6e890f1cf94cd753145dba3dd32",
-      "title": "Operations Messages",
-      "document_number": "",
-      "source": "PGRR",
-      "published_date": "2026-02-17",
-      "downloaded_at": "2026-07-22T20:00:45Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/services/comm/mkt_notices/opsmessages",
-      "sources": [
-        "PGRR"
-      ],
-      "explanation": "New Planning Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Operations Messages to review details."
-    },
-    {
       "content_sha256": "ed594c3bd81473d3f6c5e602750be37b8361081a023e9a06752e57a654703e1b",
       "title": "286NOGRR-09 Impact Analysis 061626",
       "document_number": "",
@@ -1180,20 +1110,6 @@
       "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for 287NOGRR-01 Load Shed Provisions to Identify and Minimize Overlap of Essential Loads 042226 to review details."
     },
     {
-      "content_sha256": "c92681d5e188ae70d883d7aaf6d37fe52278808ca8d7bca0384893e8374ce83a",
-      "title": "Operations Messages",
-      "document_number": "",
-      "source": "NOGRR",
-      "published_date": "2026-07-21",
-      "downloaded_at": "2026-07-22T20:00:42Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/services/comm/mkt_notices/opsmessages",
-      "sources": [
-        "NOGRR"
-      ],
-      "explanation": "New Nodal Operating Guide Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Operations Messages to review details."
-    },
-    {
       "content_sha256": "756d403e84261bcb8d55be1027b8e01a247a5562e7a4789321bce5b1b266bbd8",
       "title": "NOGRR289",
       "document_number": "NOGRR289",
@@ -1332,20 +1248,6 @@
         "NPRR"
       ],
       "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Protocol Interpretation Request Submission Process to review details."
-    },
-    {
-      "content_sha256": "ab91a340c982112f484eeb2c992af95c1b6301fe9cce5622683c8022bc184e2c",
-      "title": "Operations Messages",
-      "document_number": "",
-      "source": "NPRR",
-      "published_date": "2026-05-29",
-      "downloaded_at": "2026-07-22T20:00:40Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/services/comm/mkt_notices/opsmessages",
-      "sources": [
-        "NPRR"
-      ],
-      "explanation": "New Nodal Protocol Revision Request material. It may change or clarify ERCOT requirements; search the assistant for Operations Messages to review details."
     },
     {
       "content_sha256": "cf5990087e4d1293b0ed287d71865220407aa95cca876ddf040742d528782b39",
@@ -1544,20 +1446,6 @@
       "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
     },
     {
-      "content_sha256": "f2ceedbf5543e038826b809fcf36274484210259188b4f9e3ef4071a7cdccfc3",
-      "title": "Operations Messages",
-      "document_number": "",
-      "source": "BOARD OF DIRECTORS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:51:10Z",
-      "status": "",
-      "url": "https://www.ercot.com/services/comm/mkt_notices/opsmessages",
-      "sources": [
-        "BOARD OF DIRECTORS"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
       "content_sha256": "c9f53e6af9aaf2ace4f2e43d604052bc3fd0d2a9bc6dcedba6219a4755963107",
       "title": "Nodal Protocol Revision Requests",
       "document_number": "",
@@ -1706,20 +1594,6 @@
       "downloaded_at": "2026-07-22T11:48:52Z",
       "status": "",
       "url": "https://www.ercot.com/mktrules/nprotocols/current",
-      "sources": [
-        "RIWG"
-      ],
-      "explanation": "New ERCOT technical material now available for cited search and explanation in the assistant."
-    },
-    {
-      "content_sha256": "c938f1aa7c8dba4986d184417f59c2753bedafd401496ecd21c9cffc890e112e",
-      "title": "Operations Messages",
-      "document_number": "",
-      "source": "RIWG",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:48:51Z",
-      "status": "",
-      "url": "https://www.ercot.com/services/comm/mkt_notices/opsmessages",
       "sources": [
         "RIWG"
       ],
@@ -2168,20 +2042,6 @@
       "downloaded_at": "2026-07-22T11:30:28Z",
       "status": "",
       "url": "https://www.ercot.com/mktrules/nprotocols/pir_process",
-      "sources": [
-        "PROTOCOLS"
-      ],
-      "explanation": "New protocols material that may update an ERCOT requirement or implementation detail."
-    },
-    {
-      "content_sha256": "c5d27aede9f1adb6083d601b18aa460bf97afd9c76ec2389a92c46e2ec1762d2",
-      "title": "Operations Messages",
-      "document_number": "",
-      "source": "PROTOCOLS",
-      "published_date": "",
-      "downloaded_at": "2026-07-22T11:30:28Z",
-      "status": "",
-      "url": "https://www.ercot.com/services/comm/mkt_notices/opsmessages",
       "sources": [
         "PROTOCOLS"
       ],

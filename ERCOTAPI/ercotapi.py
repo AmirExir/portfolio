@@ -2,6 +2,7 @@ import os
 import requests
 import json
 import re
+from pathlib import Path
 from typing import Optional, Dict, Any
 import streamlit as st
 import pandas as pd
@@ -19,6 +20,17 @@ except ImportError:
     from sklearn.ensemble import RandomForestRegressor
     HAS_XGBOOST = False
 from sklearn.preprocessing import StandardScaler
+
+try:
+    from ERCOTAPI.latest_updates import load_latest_updates
+except ImportError:
+    from latest_updates import load_latest_updates
+
+
+LATEST_UPDATES_PATH = Path(__file__).with_name("latest_ercot_updates.json")
+OPERATIONS_MESSAGES_URL = "https://www.ercot.com/services/comm/mkt_notices/opsmessages"
+PUBLIC_NOTICES_URL = "https://www.ercot.com/services/comm/mkt_notices/notices"
+MARKET_NOTICES_URL = "https://www.ercot.com/services/comm/mkt_notices/archives"
 
 
 class ErcotAPI:
@@ -398,6 +410,9 @@ def inject_dashboard_css() -> None:
             border-radius: 10px !important;
             font-weight: 750 !important;
             min-height: 2.6rem;
+            width: 100% !important;
+            white-space: nowrap !important;
+            overflow: visible !important;
         }
         .stButton > button *,
         .stLinkButton > a * {
@@ -597,6 +612,86 @@ def render_status_pill(label: str, status: str = "ok") -> None:
         f"<span class='status-pill {status_class}'>{label}</span>",
         unsafe_allow_html=True,
     )
+
+
+def categorize_ercot_update(item: Dict[str, Any]) -> str:
+    """Group technical updates for scanning without changing RAG contents."""
+    source = str(item.get("source") or "").upper()
+    number = str(item.get("document_number") or "").upper()
+    title = str(item.get("title") or "").upper()
+    combined = f"{source} {number} {title}"
+    if any(code in combined for code in ("NPRR", "PGRR", "NOGRR", "OBDRR", "RRGRR", "VCMRR", "SCR")):
+        return "Revision Requests (xRRs)"
+    if any(term in combined for term in ("PROTOCOL", "PLANNING GUIDE", "OPERATING GUIDE", "OTHER BINDING DOCUMENT")):
+        return "Protocols, Guides & OBDs"
+    if source in {"DWG", "SSWG", "RIWG", "LLWG", "RPG", "TAC", "BOARD OF DIRECTORS"}:
+        return "Groups & Governance"
+    return "Other Technical Documents"
+
+
+def render_latest_ercot_documents() -> None:
+    """Show the saved technical-update feed and keep live notices outside the RAG."""
+    payload = load_latest_updates(LATEST_UPDATES_PATH)
+    items = payload.get("items", []) if isinstance(payload, dict) else []
+    render_section_header(
+        "Latest ERCOT Documents and Explanations",
+        "New 2026+ technical documents are categorized below. These documents support the engineering assistant; operational and public notices do not.",
+    )
+    document_tab, operations_tab, notices_tab = st.tabs(
+        ["Technical documents", "Operational messages", "Public & market notices"]
+    )
+    with document_tab:
+        if not items:
+            st.info("No published technical-document updates are available yet.")
+        else:
+            categories = [
+                "Revision Requests (xRRs)",
+                "Protocols, Guides & OBDs",
+                "Groups & Governance",
+                "Other Technical Documents",
+            ]
+            grouped = {category: [] for category in categories}
+            for item in items:
+                grouped[categorize_ercot_update(item)].append(item)
+            category_tabs = st.tabs(
+                [f"{category} ({len(grouped[category])})" for category in categories]
+            )
+            for category_tab, category in zip(category_tabs, categories):
+                with category_tab:
+                    if not grouped[category]:
+                        st.caption("No new documents in this category.")
+                        continue
+                    for item in grouped[category]:
+                        title = str(item.get("title") or item.get("document_number") or "ERCOT document")
+                        number = str(item.get("document_number") or "").strip()
+                        label = f"{number} — {title}" if number and number.lower() not in title.lower() else title
+                        with st.expander(label):
+                            st.write(item.get("explanation") or "New ERCOT technical material.")
+                            metadata = " · ".join(
+                                value for value in (
+                                    str(item.get("source") or "").strip(),
+                                    str(item.get("published_date") or "").strip(),
+                                    str(item.get("status") or "").strip(),
+                                ) if value
+                            )
+                            if metadata:
+                                st.caption(metadata)
+                            if item.get("url"):
+                                st.link_button("Open ERCOT source", str(item["url"]))
+    with operations_tab:
+        st.info(
+            "Operational messages are time-sensitive grid communications. They are intentionally separate from the engineering RAG and are not embedded."
+        )
+        st.link_button("View live ERCOT operational messages", OPERATIONS_MESSAGES_URL)
+    with notices_tab:
+        st.info(
+            "Public and market notices are displayed as live ERCOT sources, not downloaded into or embedded by the engineering RAG."
+        )
+        notice_col, market_col = st.columns(2)
+        with notice_col:
+            st.link_button("View public notices", PUBLIC_NOTICES_URL, use_container_width=True)
+        with market_col:
+            st.link_button("View market-notice archive", MARKET_NOTICES_URL, use_container_width=True)
 
 
 def format_mw(value: Any) -> str:
@@ -1387,29 +1482,28 @@ def main():
     inject_dashboard_css()
     render_hero()
 
-    action_col_1, action_col_2, action_col_3, action_col_4, action_col_5 = st.columns([1.05, 1.1, 1.25, 1.45, 4.6])
+    action_col_1, action_col_2, action_col_3, action_col_4 = st.columns(4)
     with action_col_1:
-        if st.button("Refresh", help="Clear cached API/news data and reload the dashboard"):
+        if st.button("Refresh data", help="Clear cached API/news data and reload the dashboard", use_container_width=True):
             st.cache_data.clear()
             st.rerun()
     with action_col_2:
-        st.link_button("Telegram", "https://t.me/ERCOTNEWS", help="Open the ERCOT News Telegram channel")
+        st.link_button("Telegram", "https://t.me/ERCOTNEWS", help="Open the ERCOT News Telegram channel", use_container_width=True)
     with action_col_3:
-        st.link_button("Lovable App", LOVABLE_ERCOT_DASHBOARD_URL, help="Open the Lovable version of this ERCOT dashboard")
+        st.link_button("Lovable App", LOVABLE_ERCOT_DASHBOARD_URL, help="Open the Lovable version of this ERCOT dashboard", use_container_width=True)
     with action_col_4:
         st.link_button(
             "API Credentials",
             ERCOT_API_MARKET_URL,
             help="Open ERCOT API Market to sign in, subscribe to the public API, and copy your subscription key.",
+            use_container_width=True,
         )
-        st.caption(f"[Direct link]({ERCOT_API_MARKET_URL})")
-    with action_col_5:
-        st.markdown(
-            f"<div class='small-muted' style='text-align:right; padding-top:0.55rem;'>"
-            f"Last dashboard render: {datetime.now().strftime('%b %d, %Y %H:%M:%S')} | Build {APP_BUILD}"
-            f"</div>",
-            unsafe_allow_html=True,
-        )
+    st.markdown(
+        f"<div class='small-muted' style='text-align:right; padding-top:0.25rem;'>"
+        f"Last dashboard render: {datetime.now().strftime('%b %d, %Y %H:%M:%S')} | Build {APP_BUILD}"
+        f"</div>",
+        unsafe_allow_html=True,
+    )
 
     # Unified news prefixes (ERCOT + regulatory updates in one panel)
     all_news_prefixes = [
@@ -1436,6 +1530,8 @@ def main():
     else:
         st.info("Awaiting n8n workflow updates. The dashboard will display the newest summary when a file lands.")
     st.markdown("</div>", unsafe_allow_html=True)
+
+    render_latest_ercot_documents()
 
     # Sidebar for configuration
     st.sidebar.title("Control Center")

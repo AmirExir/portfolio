@@ -10,6 +10,10 @@ from typing import Any, Iterable
 
 
 EXCLUDED_SOURCES = {"MARKET NOTICES", "PUBLIC NOTICES"}
+EXCLUDED_URL_FRAGMENTS = (
+    "/services/comm/mkt_notices/",
+    "/marketnotice/",
+)
 REVISION_REQUEST_NAMES = {
     "NPRR": "Nodal Protocol Revision Request",
     "PGRR": "Planning Guide Revision Request",
@@ -59,6 +63,9 @@ def build_latest_updates(
         source = str(metadata.get("source_label") or path.parent.parent.name).strip()
         if source.upper() in EXCLUDED_SOURCES:
             continue
+        original_url = str(metadata.get("original_url") or metadata.get("final_url") or "")
+        if any(fragment in original_url.lower() for fragment in EXCLUDED_URL_FRAGMENTS):
+            continue
         published = str(metadata.get("published_date") or metadata.get("published_hint") or "")
         years = [int(value) for value in __import__("re").findall(r"\b(20\d{2})\b", published)]
         if years and max(years) < minimum_year:
@@ -78,7 +85,7 @@ def build_latest_updates(
                 "published_date": published,
                 "downloaded_at": str(metadata.get("downloaded_at") or ""),
                 "status": str(metadata.get("document_status") or ""),
-                "url": str(metadata.get("original_url") or metadata.get("final_url") or ""),
+                "url": original_url,
                 "sources": [],
             },
         )
