@@ -28,7 +28,7 @@ try:
         POWER_PLANT_SOURCE_URL,
         SUBSTATION_SOURCE_URL,
         TRANSMISSION_SOURCE_URL,
-        load_public_texas_grid,
+        load_packaged_texas_grid,
     )
 except ImportError:
     from latest_updates import load_latest_updates, revision_request_identity
@@ -36,7 +36,7 @@ except ImportError:
         POWER_PLANT_SOURCE_URL,
         SUBSTATION_SOURCE_URL,
         TRANSMISSION_SOURCE_URL,
-        load_public_texas_grid,
+        load_packaged_texas_grid,
     )
 
 
@@ -204,11 +204,11 @@ def fetch_news_repo_tree(branch: str = "main"):
     return tree if isinstance(tree, list) else []
 
 
-@st.cache_data(ttl=43_200, show_spinner=False)
-def fetch_public_grid_atlas_cached() -> Dict[str, Any]:
-    """Cache public reference geometry for 12 hours; never send it to the RAG."""
+@st.cache_data(show_spinner=False)
+def load_packaged_grid_atlas_cached() -> Dict[str, Any]:
+    """Open the checked-in reference snapshot; never call ArcGIS or the RAG."""
 
-    return load_public_texas_grid()
+    return load_packaged_texas_grid()
 
 
 def _normalize_news_text(raw_text: str) -> str:
@@ -365,7 +365,7 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-APP_BUILD = "2026-07-23 xrr-explanations-grid-atlas-v2"
+APP_BUILD = "2026-07-23 packaged-texas-grid-atlas-v3"
 ERCOT_API_MARKET_URL = "https://apimarket.ercot.com/"
 LOVABLE_ERCOT_DASHBOARD_URL = "https://ercot-news-watch.lovable.app/"
 ERCOT_TIMEZONE = ZoneInfo("America/Chicago")
@@ -2286,7 +2286,7 @@ def _atlas_public_assets(payload: Dict[str, Any]) -> pd.DataFrame:
 
 
 def render_grid_atlas() -> None:
-    """Render cached public Texas grid context without involving the RAG."""
+    """Render the packaged public Texas grid context without network requests."""
 
     render_section_header(
         "ERCOT Grid Atlas",
@@ -2294,48 +2294,19 @@ def render_grid_atlas() -> None:
         "context, and price-hub locations in one spatial view.",
     )
 
-    if "ercot_atlas_live_enabled" not in st.session_state:
-        st.session_state.ercot_atlas_live_enabled = False
-    load_col, status_col = st.columns([2.2, 5])
-    with load_col:
-        if st.button(
-            "Load public Texas grid",
-            type="primary",
-            use_container_width=True,
-            help=(
-                "Fetch the three public ArcGIS layers. Results are cached for 12 hours "
-                "and are never embedded or sent to OpenAI."
-            ),
-            key="ercot_atlas_load_public",
-        ):
-            st.session_state.ercot_atlas_live_enabled = True
-    with status_col:
-        if st.session_state.ercot_atlas_live_enabled:
-            st.caption(
-                "Public layers enabled · 12-hour server cache · separate from the "
-                "engineering assistant and document embeddings"
-            )
-        else:
-            st.caption(
-                "Load on demand so thousands of map records do not slow every dashboard visit."
-            )
+    try:
+        with st.spinner("Opening the packaged Texas infrastructure snapshot…"):
+            payload = load_packaged_grid_atlas_cached()
+    except RuntimeError as exc:
+        st.error(str(exc))
+        payload = {
+            "transmission_lines": [],
+            "substations": [],
+            "power_plants": [],
+            "errors": {"packaged_snapshot": str(exc)},
+        }
 
-    payload: Dict[str, Any] = {
-        "transmission_lines": [],
-        "substations": [],
-        "power_plants": [],
-        "errors": {},
-    }
-    if st.session_state.ercot_atlas_live_enabled:
-        with st.spinner("Loading cached public Texas infrastructure…"):
-            payload = fetch_public_grid_atlas_cached()
-        errors = payload.get("errors") or {}
-        if errors:
-            unavailable = ", ".join(key.replace("_", " ") for key in errors)
-            st.warning(
-                f"Some public layers are temporarily unavailable: {unavailable}. "
-                "Available layers remain usable."
-            )
+    if not payload.get("errors"):
         latest_line_source = max(
             (
                 str(record.get("source_date") or "")
@@ -2360,16 +2331,26 @@ def render_grid_atlas() -> None:
             ),
             default="not supplied",
         )
+        snapshot_time = str(payload.get("generated_at") or "not supplied")
+        try:
+            snapshot_time = (
+                datetime.fromisoformat(snapshot_time.replace("Z", "+00:00"))
+                .astimezone(ERCOT_TIMEZONE)
+                .strftime("%b %d, %Y %H:%M %Z")
+            )
+        except ValueError:
+            pass
         st.caption(
+            f"Packaged snapshot: {snapshot_time} · no live download required. "
             "Source/reporting dates — transmission: "
             f"{latest_line_source} · substations: {latest_substation_source} · "
             f"plants: {latest_plant_period}. Dashboard retrieval time is not the same as "
             "the source data date."
         )
     else:
-        st.info(
-            "Select **Load public Texas grid** to add the public transmission-line, "
-            "substation, and EIA power-plant layers."
+        st.warning(
+            "The packaged Texas snapshot is unavailable. Source links remain below, "
+            "but the dashboard will not make an automatic live ArcGIS request."
         )
 
     public_assets = _atlas_public_assets(payload)
@@ -2421,14 +2402,14 @@ def render_grid_atlas() -> None:
         minimum_voltage = st.selectbox(
             "Minimum voltage",
             [0, 69, 100, 138, 230, 345, 500, 765],
-            index=3,
+            index=0,
             format_func=lambda value: "No minimum" if value == 0 else f"{value} kV",
             key="ercot_atlas_minimum_voltage",
         )
     with unknown_col:
         include_unknown_voltage = st.checkbox(
             "Include unknown voltage",
-            value=False,
+            value=True,
             help="Missing HIFLD values such as -999999 are treated as unknown, not as kV.",
         )
     with capacity_col:
@@ -2583,7 +2564,7 @@ def render_grid_atlas() -> None:
                         longitudes.append(None)
                         latitudes.append(None)
                         hover_text.append(None)
-                fig.add_trace(go.Scattermapbox(
+                fig.add_trace(go.Scattermap(
                     lat=latitudes,
                     lon=longitudes,
                     mode="lines",
@@ -2642,7 +2623,7 @@ def render_grid_atlas() -> None:
                     marker_sizes = 11
                     marker_color = layer_color
                     trace_name = layer_name
-                fig.add_trace(go.Scattermapbox(
+                fig.add_trace(go.Scattermap(
                     lat=group_df["lat"],
                     lon=group_df["lon"],
                     mode="markers",
@@ -2666,7 +2647,7 @@ def render_grid_atlas() -> None:
             height=690,
             margin={"l": 0, "r": 0, "t": 8, "b": 0},
             paper_bgcolor="#07111f",
-            mapbox={
+            map={
                 "style": "carto-darkmatter",
                 "center": {"lat": 31.0, "lon": -99.25},
                 "zoom": 5.2,
@@ -2809,14 +2790,15 @@ def main():
         unsafe_allow_html=True,
     )
     requested_view = str(st.query_params.get("view", "")).strip().casefold()
-    default_view = (
-        "ERCOT Documents & Changes"
-        if requested_view in {"documents", "changes", "ercot-documents"}
-        else "Grid Operations & Analytics"
-    )
+    if requested_view in {"documents", "changes", "ercot-documents"}:
+        default_view = "ERCOT Documents & Changes"
+    elif requested_view in {"atlas", "grid-atlas", "texas-grid"}:
+        default_view = "Grid Atlas"
+    else:
+        default_view = "Grid Operations & Analytics"
     dashboard_view = st.pills(
         "Dashboard view",
-        ["Grid Operations & Analytics", "ERCOT Documents & Changes"],
+        ["Grid Operations & Analytics", "Grid Atlas", "ERCOT Documents & Changes"],
         default=default_view,
         selection_mode="single",
         label_visibility="collapsed",
@@ -2824,6 +2806,9 @@ def main():
     )
     if dashboard_view == "ERCOT Documents & Changes":
         render_latest_ercot_documents()
+        return
+    if dashboard_view == "Grid Atlas":
+        render_grid_atlas()
         return
 
     # Unified news prefixes (ERCOT + regulatory updates in one panel)
@@ -3081,16 +3066,12 @@ def main():
     start_date = end_date - timedelta(days=date_range)
     
     # Dashboard sections
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    tab1, tab2, tab3, tab4 = st.tabs([
         "Load & Forecast", 
         "Renewables", 
         "Real-Time Pricing",
         "Resource Outages",
-        "Grid Atlas",
     ])
-
-    with tab5:
-        render_grid_atlas()
     
     # TAB 1: LOAD ANALYSIS & FORECAST
     with tab1:

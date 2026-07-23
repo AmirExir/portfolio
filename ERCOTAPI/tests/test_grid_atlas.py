@@ -2,14 +2,20 @@
 
 from __future__ import annotations
 
+import tempfile
 import unittest
+from pathlib import Path
 
 from ERCOTAPI.grid_atlas import (
+    PACKAGED_SNAPSHOT_PATH,
     _feature_pages,
     clean_number,
     fetch_power_plants,
     fetch_substations,
+    load_packaged_texas_grid,
     load_public_texas_grid,
+    validate_grid_atlas_snapshot,
+    write_grid_atlas_snapshot,
 )
 
 
@@ -141,6 +147,77 @@ class GridAtlasTests(unittest.TestCase):
         self.assertIn("transmission_lines", payload["errors"])
         self.assertEqual(payload["substations"], [])
         self.assertEqual(payload["power_plants"], [])
+
+    def test_snapshot_round_trip_never_needs_a_network_session(self):
+        live_payload = {
+            "fetched_at": "2026-07-23T12:00:00+00:00",
+            "transmission_lines": [{"id": "1", "paths": [[[-99, 31], [-98, 32]]]}],
+            "substations": [{"name": "A", "lat": 31, "lon": -99}],
+            "power_plants": [{"name": "Plant", "lat": 31, "lon": -99}],
+            "errors": {},
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "atlas.json.gz"
+            minimum_counts = {
+                "transmission_lines": 1,
+                "substations": 1,
+                "power_plants": 1,
+            }
+
+            snapshot = write_grid_atlas_snapshot(
+                live_payload,
+                path,
+                minimum_counts=minimum_counts,
+            )
+            loaded = load_packaged_texas_grid(
+                path,
+                minimum_counts=minimum_counts,
+            )
+
+        self.assertEqual(loaded, snapshot)
+        self.assertEqual(loaded["generated_at"], live_payload["fetched_at"])
+
+    def test_snapshot_validation_rejects_partial_payload(self):
+        with self.assertRaisesRegex(RuntimeError, "missing substations"):
+            validate_grid_atlas_snapshot(
+                {
+                    "snapshot_schema_version": 1,
+                    "transmission_lines": [],
+                    "power_plants": [],
+                    "errors": {},
+                }
+            )
+
+    def test_snapshot_writer_rejects_collapsed_source_counts(self):
+        payload = {
+            "fetched_at": "2026-07-23T12:00:00+00:00",
+            "transmission_lines": [],
+            "substations": [],
+            "power_plants": [],
+            "errors": {},
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "atlas.json.gz"
+
+            with self.assertRaisesRegex(RuntimeError, "expected at least"):
+                write_grid_atlas_snapshot(payload, path)
+
+            self.assertFalse(path.exists())
+
+    def test_shipped_snapshot_has_all_validated_texas_layers(self):
+        payload = load_packaged_texas_grid(PACKAGED_SNAPSHOT_PATH)
+
+        self.assertEqual(len(payload["transmission_lines"]), 5_567)
+        self.assertEqual(len(payload["substations"]), 4_939)
+        self.assertEqual(len(payload["power_plants"]), 921)
+        self.assertFalse(payload["errors"])
+        self.assertFalse(
+            any(
+                record.get("max_voltage") is not None
+                and record["max_voltage"] < 0
+                for record in payload["substations"]
+            )
+        )
 
 
 if __name__ == "__main__":

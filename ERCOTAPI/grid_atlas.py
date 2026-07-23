@@ -7,12 +7,15 @@ planning model or real-time topology.
 
 from __future__ import annotations
 
+import argparse
+import gzip
 import json
 import math
 import re
 import time
 from datetime import datetime, timezone
-from typing import Any, Iterable
+from pathlib import Path
+from typing import Any, Iterable, Mapping
 
 import requests
 
@@ -41,6 +44,14 @@ POWER_PLANT_SOURCE_URL = POWER_PLANT_QUERY_URL.removesuffix("/query")
 PAGE_SIZE = 1_000
 REQUEST_TIMEOUT = (6, 45)
 MISSING_NUMERIC_SENTINEL = -999_000
+SNAPSHOT_SCHEMA_VERSION = 1
+PACKAGED_SNAPSHOT_PATH = Path(__file__).with_name("grid_atlas_snapshot.json.gz")
+SNAPSHOT_COLLECTIONS = ("transmission_lines", "substations", "power_plants")
+MINIMUM_SNAPSHOT_COUNTS = {
+    "transmission_lines": 5_000,
+    "substations": 4_000,
+    "power_plants": 800,
+}
 
 
 def _clean_text(value: Any) -> str:
@@ -431,3 +442,129 @@ def load_public_texas_grid(
         if owned_session:
             active_session.close()
     return payload
+
+
+def validate_grid_atlas_snapshot(
+    payload: Any,
+    *,
+    minimum_counts: Mapping[str, int] = MINIMUM_SNAPSHOT_COUNTS,
+) -> dict[str, Any]:
+    """Validate the packaged atlas artifact before the dashboard trusts it."""
+
+    if not isinstance(payload, dict):
+        raise RuntimeError("Packaged Grid Atlas snapshot is not a JSON object")
+    if payload.get("snapshot_schema_version") != SNAPSHOT_SCHEMA_VERSION:
+        raise RuntimeError("Packaged Grid Atlas snapshot schema is unsupported")
+    for collection in SNAPSHOT_COLLECTIONS:
+        if not isinstance(payload.get(collection), list):
+            raise RuntimeError(f"Packaged Grid Atlas snapshot is missing {collection}")
+    for collection in SNAPSHOT_COLLECTIONS:
+        minimum = int(minimum_counts.get(collection, 0))
+        if len(payload[collection]) < minimum:
+            raise RuntimeError(
+                f"Packaged Grid Atlas snapshot has only {len(payload[collection]):,} "
+                f"{collection.replace('_', ' ')}; expected at least {minimum:,}"
+            )
+    errors = payload.get("errors")
+    if errors not in ({}, None):
+        raise RuntimeError("Packaged Grid Atlas snapshot contains source errors")
+    return payload
+
+
+def load_packaged_texas_grid(
+    path: Path = PACKAGED_SNAPSHOT_PATH,
+    *,
+    minimum_counts: Mapping[str, int] = MINIMUM_SNAPSHOT_COUNTS,
+) -> dict[str, Any]:
+    """Load the checked-in snapshot without any network or paid API request."""
+
+    try:
+        with gzip.open(path, "rt", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (OSError, EOFError, gzip.BadGzipFile, json.JSONDecodeError) as exc:
+        raise RuntimeError(f"Unable to load packaged Grid Atlas snapshot: {exc}") from exc
+    return validate_grid_atlas_snapshot(payload, minimum_counts=minimum_counts)
+
+
+def write_grid_atlas_snapshot(
+    payload: dict[str, Any],
+    path: Path = PACKAGED_SNAPSHOT_PATH,
+    *,
+    minimum_counts: Mapping[str, int] = MINIMUM_SNAPSHOT_COUNTS,
+) -> dict[str, Any]:
+    """Write a deterministic compressed snapshot after a successful live refresh."""
+
+    source_errors = payload.get("errors") or {}
+    if source_errors:
+        raise RuntimeError(
+            "Refusing to package an incomplete Grid Atlas snapshot: "
+            + ", ".join(sorted(source_errors))
+        )
+    snapshot = {
+        "snapshot_schema_version": SNAPSHOT_SCHEMA_VERSION,
+        "generated_at": str(payload.get("fetched_at") or datetime.now(timezone.utc).isoformat()),
+        "source_urls": {
+            "transmission_lines": TRANSMISSION_SOURCE_URL,
+            "substations": SUBSTATION_SOURCE_URL,
+            "power_plants": POWER_PLANT_SOURCE_URL,
+        },
+        "transmission_lines": list(payload.get("transmission_lines") or []),
+        "substations": list(payload.get("substations") or []),
+        "power_plants": list(payload.get("power_plants") or []),
+        "errors": {},
+    }
+    validate_grid_atlas_snapshot(snapshot, minimum_counts=minimum_counts)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path = path.with_name(f".{path.name}.tmp")
+    with temporary_path.open("wb") as raw_handle:
+        with gzip.GzipFile(
+            filename="",
+            mode="wb",
+            fileobj=raw_handle,
+            mtime=0,
+        ) as compressed_handle:
+            compressed_handle.write(
+                (
+                    json.dumps(
+                        snapshot,
+                        ensure_ascii=False,
+                        separators=(",", ":"),
+                        sort_keys=True,
+                    )
+                    + "\n"
+                ).encode("utf-8")
+            )
+    temporary_path.replace(path)
+    return snapshot
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Build the checked-in public Texas Grid Atlas snapshot."
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=PACKAGED_SNAPSHOT_PATH,
+    )
+    args = parser.parse_args()
+    snapshot = write_grid_atlas_snapshot(
+        load_public_texas_grid(),
+        args.output,
+    )
+    print(
+        json.dumps(
+            {
+                "output": str(args.output),
+                "generated_at": snapshot["generated_at"],
+                "counts": {
+                    collection: len(snapshot[collection])
+                    for collection in SNAPSHOT_COLLECTIONS
+                },
+            }
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()
