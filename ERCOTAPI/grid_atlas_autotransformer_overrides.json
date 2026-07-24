@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "asset_id": "hifld-substation:64530",
+      "name": "Forney SW",
+      "autotransformer_voltages": [345, 138],
+      "status": "existing",
+      "source": "ERCOT Independent Review of Oncor Forney 345/138-kV Switch Rebuild Project",
+      "source_url": "https://www.ercot.com/files/docs/2025/01/27/9-3-2-oncor-forney-345-138-kv-switch-rebuild-project.pdf",
+      "source_date": "2025-01-27"
+    },
+    {
+      "asset_id": "hifld-substation:68648",
+      "name": "Temple Pecan Creek",
+      "autotransformer_voltages": [345, 138],
+      "status": "existing",
+      "source": "ERCOT Oncor Temple Area Project status update",
+      "source_url": "https://www.ercot.com/files/docs/2024/05/10/EIR%20Oncor%20-%20Temple%20Area%20Projct%20-%20Status%20Update%20-%20RPG%20May%202024.pdf",
+      "source_date": "2024-05-10"
+    },
+    {
+      "asset_id": "hifld-substation:70969",
+      "name": "Temple SW",
+      "autotransformer_voltages": [345, 138],
+      "status": "existing",
+      "source": "ERCOT Oncor Temple Area Project status update",
+      "source_url": "https://www.ercot.com/files/docs/2024/05/10/EIR%20Oncor%20-%20Temple%20Area%20Projct%20-%20Status%20Update%20-%20RPG%20May%202024.pdf",
+      "source_date": "2024-05-10"
+    },
+    {
+      "asset_id": "hifld-substation:71382",
+      "name": "Wilmer",
+      "autotransformer_voltages": [138, 69],
+      "status": "existing; relocation approved",
+      "source": "ERCOT Oncor Wilmer 345/138-kV Switch Project",
+      "source_url": "https://www.ercot.com/files/docs/2025/01/27/9-3-4-oncor-wilmer-345-138-kv-switch-project.pdf",
+      "source_date": "2025-01-27"
+    }
+  ]
+}

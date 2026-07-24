@@ -97,6 +97,17 @@ The builder:
 7. writes deterministic gzip files into a staging directory; and
 8. replaces the last good package only after every shard succeeds.
 
+Apply the separately reviewed ERCOT autotransformer overrides after a full
+source rebuild:
+
+```bash
+python -m ERCOTAPI.apply_grid_atlas_overrides
+```
+
+This step accepts only explicit facility references from ERCOT public planning
+documents. It updates matching packaged substation records and regenerates
+every affected shard checksum; it does not infer equipment from voltage levels.
+
 Run the Atlas tests before deployment:
 
 ```bash

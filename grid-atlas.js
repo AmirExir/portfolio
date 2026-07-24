@@ -8,6 +8,7 @@
     'atlas-boundary-line',
     'atlas-lines-layer',
     'atlas-substations-layer',
+    'atlas-autotransformers-layer',
     'atlas-plants-layer',
     'atlas-highlight-line',
     'atlas-highlight-point',
@@ -26,6 +27,7 @@
     minimumPlantMw: document.getElementById('minimumPlantMw'),
     showLines: document.getElementById('showLines'),
     showSubstations: document.getElementById('showSubstations'),
+    showAutotransformers: document.getElementById('showAutotransformers'),
     showPlants: document.getElementById('showPlants'),
     showBoundaries: document.getElementById('showBoundaries'),
     includeUnknownVoltage: document.getElementById('includeUnknownVoltage'),
@@ -459,15 +461,30 @@
           230, 3.2,
           765, 5.2,
         ],
-        'circle-color': [
-          'case',
-          ['==', ['get', 'autotransformer'], true],
-          '#f472b6',
-          '#f8fafc',
-        ],
+        'circle-color': '#f8fafc',
         'circle-opacity': 0.96,
         'circle-stroke-color': '#020617',
         'circle-stroke-width': 1.6,
+      },
+    });
+    map.addLayer({
+      id: 'atlas-autotransformers-layer',
+      type: 'circle',
+      source: 'atlas-substations',
+      minzoom: region.id === 'all' ? 3 : 1.8,
+      paint: {
+        'circle-radius': [
+          'interpolate',
+          ['linear'],
+          ['coalesce', ['get', 'voltage'], 69],
+          69, 3.2,
+          230, 4.2,
+          765, 6.2,
+        ],
+        'circle-color': '#f472b6',
+        'circle-opacity': 0.98,
+        'circle-stroke-color': '#020617',
+        'circle-stroke-width': 1.8,
       },
     });
     map.addLayer({
@@ -546,7 +563,12 @@
     };
     return {
       lines: currentCollections.lines.features.filter(allowedVoltage).length,
-      substations: currentCollections.substations.features.filter(allowedVoltage).length,
+      substations: currentCollections.substations.features.filter(
+        (feature) => !feature.properties.autotransformer && allowedVoltage(feature),
+      ).length,
+      autotransformers: currentCollections.substations.features.filter(
+        (feature) => feature.properties.autotransformer && allowedVoltage(feature),
+      ).length,
       plants: currentCollections.plants.features.filter((feature) => {
         const capacity = finiteNumber(feature.properties.capacity_mw);
         return (capacity ?? 0) >= minimumPlantMw;
@@ -559,6 +581,10 @@
     const values = [
       ['Lines', elements.showLines.checked ? counts.lines : 0],
       ['Substations', elements.showSubstations.checked ? counts.substations : 0],
+      [
+        'Autotransformers',
+        elements.showAutotransformers.checked ? counts.autotransformers : 0,
+      ],
       ['Plants', elements.showPlants.checked ? counts.plants : 0],
     ];
     elements.metrics.replaceChildren();
@@ -574,7 +600,16 @@
     const gridVoltageFilter = voltageFilter();
     const minimumPlantMw = Number(elements.minimumPlantMw.value) || 0;
     map.setFilter('atlas-lines-layer', gridVoltageFilter);
-    map.setFilter('atlas-substations-layer', gridVoltageFilter);
+    map.setFilter('atlas-substations-layer', [
+      'all',
+      gridVoltageFilter,
+      ['!', ['==', ['get', 'autotransformer'], true]],
+    ]);
+    map.setFilter('atlas-autotransformers-layer', [
+      'all',
+      gridVoltageFilter,
+      ['==', ['get', 'autotransformer'], true],
+    ]);
     map.setFilter('atlas-plants-layer', [
       '>=',
       ['coalesce', ['to-number', ['get', 'capacity_mw']], 0],
@@ -582,6 +617,10 @@
     ]);
     setLayerVisibility('atlas-lines-layer', elements.showLines.checked);
     setLayerVisibility('atlas-substations-layer', elements.showSubstations.checked);
+    setLayerVisibility(
+      'atlas-autotransformers-layer',
+      elements.showAutotransformers.checked,
+    );
     setLayerVisibility('atlas-plants-layer', elements.showPlants.checked);
     setLayerVisibility('atlas-boundary-fill', elements.showBoundaries.checked);
     setLayerVisibility('atlas-boundary-line', elements.showBoundaries.checked);
@@ -660,7 +699,12 @@
   }
 
   function interactiveLayers() {
-    return ['atlas-plants-layer', 'atlas-substations-layer', 'atlas-lines-layer']
+    return [
+      'atlas-plants-layer',
+      'atlas-autotransformers-layer',
+      'atlas-substations-layer',
+      'atlas-lines-layer',
+    ]
       .filter((id) => map.getLayer(id));
   }
 
@@ -829,6 +873,14 @@
       elements.minimumVoltage.value = '0';
       elements.minimumPlantMw.value = '0';
       elements.includeUnknownVoltage.checked = true;
+      elements.showAutotransformers.checked = true;
+      const autotransformerCount = collections.substations.features.filter(
+        (feature) => feature.properties.autotransformer,
+      ).length;
+      elements.showAutotransformers.disabled = autotransformerCount === 0;
+      elements.showAutotransformers.title = autotransformerCount
+        ? `${NUMBER_FORMAT.format(autotransformerCount)} explicit autotransformer records`
+        : 'No explicit autotransformers are packaged in this region yet';
       addAtlasData(collections, region);
       fitRegion(region);
       await waitForMapIdle();
@@ -900,6 +952,7 @@
     elements.minimumPlantMw,
     elements.showLines,
     elements.showSubstations,
+    elements.showAutotransformers,
     elements.showPlants,
     elements.showBoundaries,
     elements.includeUnknownVoltage,

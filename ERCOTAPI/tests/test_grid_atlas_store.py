@@ -403,6 +403,25 @@ class GridAtlasStoreTests(unittest.TestCase):
                     )
                 )
 
+    def test_shipped_ercot_region_has_confirmed_autotransformers(self):
+        payload = load_packaged_grid_region(
+            "ercot",
+            PACKAGED_ATLAS_MANIFEST,
+        )
+        autotransformers = [
+            record
+            for record in payload["substations"]
+            if record.get("autotransformer")
+        ]
+
+        self.assertEqual(len(autotransformers), 4)
+        self.assertTrue(
+            all(
+                record["autotransformer_match_status"] == "ERCOT-confirmed"
+                for record in autotransformers
+            )
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

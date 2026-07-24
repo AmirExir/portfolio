@@ -26,13 +26,13 @@
       },
       "default_minimum_voltage": 0,
       "detail": "Performance-safe overview: U.S. lines/substations at 230 kV and above, plants at 100 MW and above, plus Canada\u2019s CanVec reference lines and transformer stations.",
-      "gzip_bytes": 2152061,
+      "gzip_bytes": 2152805,
       "id": "all",
       "include_unknown_voltage": true,
       "kind": "overview",
       "label": "All U.S. & Canada",
       "line_vertices": 50230,
-      "sha256": "a539af58647b9fe4dd368de1ddee95e19b35ca101fb1931148368bd62418b04c",
+      "sha256": "0081cd53cdaceae77af0c2cc7837b62f8b2f7663d6ad0331ef3ffa70fb484073",
       "zoom": 1.77
     },
     {
@@ -57,13 +57,13 @@
       },
       "default_minimum_voltage": 0,
       "detail": "Approximate public ISO/RTO footprint; asset location does not prove membership, ownership, or electrical connectivity.",
-      "gzip_bytes": 436368,
+      "gzip_bytes": 437298,
       "id": "ercot",
       "include_unknown_voltage": true,
       "kind": "iso-rto",
       "label": "ERCOT",
       "line_vertices": 12354,
-      "sha256": "5cfd23e88ffc4919192d7ed251e51fa44af8e4fbc315542fbe1881dbeaa01634",
+      "sha256": "49c113a2b00fed9dd8cceaa0e6ddedbe4dceb3c0abd923f3ff6834701879beeb",
       "zoom": 4.46
     },
     {
@@ -307,6 +307,11 @@
       "records": 4538,
       "source_dates_through": "2015"
     },
+    "ercot_autotransformer_overrides": {
+      "policy": "explicit ERCOT references only",
+      "records": 4,
+      "sha256": "dee3d6f6408547b4518941d9e322a2b0ebcd6b38abb714fdd5c7d52f364c221b"
+    },
     "iso_rto_boundaries": {
       "feature_source_date": "2017-08-28",
       "features": 7,
@@ -355,6 +360,7 @@
   "sources": {
     "canada_lines_and_transformers": "https://open.canada.ca/data/en/dataset/92dbea79-f644-4a62-b25e-8eb993ca0264",
     "canada_power_plants": "https://geoappext.nrcan.gc.ca/arcgis/rest/services/NACEI/energy_infrastructure_of_north_america_en/MapServer",
+    "ercot_autotransformer_overrides": "ERCOT public planning documents",
     "iso_rto_boundaries": "https://catalog.data.gov/dataset/independent-system-operators",
     "nerc_reference": "https://nerc.com/AboutNERC/keyplayers/Pages/default.aspx",
     "us_power_plants": "https://services2.arcgis.com/FiaPA4ga0iQKduv3/ArcGIS/rest/services/Power_Plants_in_the_US/FeatureServer/0",
