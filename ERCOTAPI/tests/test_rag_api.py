@@ -60,14 +60,28 @@ class RagApiTests(unittest.TestCase):
         self.assertIn("central missing", result["error"])
         self.assertIn("market", result["unavailable_collections"])
 
-    def test_collection_loader_uses_central_only_startup_path(self) -> None:
+    def test_collection_loader_reads_saved_central_index_without_startup_ingestion(self) -> None:
         central = _index([_chunk("general", "ready", 1.0)], source="central")
 
-        with mock.patch.object(api, "load_startup_index", return_value=central) as load:
+        with (
+            mock.patch.object(api, "default_config", return_value=object()) as config,
+            mock.patch.object(api, "load_index", return_value=central) as load,
+        ):
             result = api._load_collection("general")
 
         self.assertIs(result, central)
-        load.assert_called_once_with("general")
+        config.assert_called_once_with()
+        load.assert_called_once_with("general", config=config.return_value, allow_legacy=False)
+
+    def test_collection_loader_rejects_legacy_index(self) -> None:
+        legacy = _index([_chunk("general", "ready", 1.0)], source="legacy")
+
+        with (
+            mock.patch.object(api, "default_config", return_value=object()),
+            mock.patch.object(api, "load_index", return_value=legacy),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "offline ingestion job"):
+                api._load_collection("general")
 
     def test_failed_generation_reload_never_serves_cached_old_snapshot(self) -> None:
         prior_indexes = api.INDEXES

@@ -26,10 +26,10 @@ from ERCOTAPI.rag_ingestion.retrieval import (
     format_change_reports,
     format_source_list,
     index_state,
+    load_index,
     retrieve_requirement_evidence,
     retrieve_chunks,
 )
-from ERCOTAPI.rag_ingestion.startup import load_startup_index
 from ERCOTAPI.rag_ingestion.store import load_manifest
 
 
@@ -114,7 +114,7 @@ class RetrieveResponse(BaseModel):
 
 @asynccontextmanager
 async def _lifespan(_: FastAPI) -> AsyncIterator[None]:
-    """Warm or bootstrap the central index when an ASGI server starts."""
+    """Warm the saved central index without running ingestion at API startup."""
 
     global LOAD_ERROR
     try:
@@ -142,7 +142,13 @@ def _normalize_question(question: str) -> str:
 
 
 def _load_collection(collection: str) -> LoadedIndex:
-    return load_startup_index(collection)
+    loaded = load_index(collection, config=default_config(), allow_legacy=False)
+    if loaded.source != "central" or not loaded.ready or not loaded.generation_id:
+        raise RuntimeError(
+            f"Saved central ERCOT collection {collection!r} is unavailable; "
+            "run the offline ingestion job before starting the retrieval API"
+        )
+    return loaded
 
 
 def _get_index(collection: str) -> LoadedIndex:
