@@ -292,6 +292,49 @@ class GridAtlasStoreTests(unittest.TestCase):
         self.assertEqual(substation["max_voltage"], 138)
         self.assertEqual(substation["voltage_match_status"], "OSM-suggested")
 
+    def test_osm_autotransformer_is_attached_only_when_explicitly_tagged(self):
+        features = [
+            {
+                "type": "Feature",
+                "properties": {
+                    "@id": "node/auto-1",
+                    "power": "transformer",
+                    "transformer": "auto",
+                    "voltage": "345000;138000",
+                    "operator": "Example Grid",
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [-100.0001, 30],
+                },
+            }
+        ]
+        _, osm_substations = normalize_osm_power(
+            features, retrieved_at="2026-07-23"
+        )
+        substation = {
+            "asset_id": "government:substation",
+            "max_voltage": 345,
+            "owner": "",
+            "operator": "",
+            "lon": -100,
+            "lat": 30,
+        }
+
+        stats = enrich_unknown_voltage_from_osm(
+            [], [substation], [], osm_substations
+        )
+
+        self.assertEqual(stats["autotransformer_matches"], 1)
+        self.assertTrue(substation["autotransformer"])
+        self.assertEqual(
+            substation["autotransformer_match_status"], "OSM-suggested"
+        )
+        self.assertEqual(
+            substation["autotransformer_voltages"], [345.0, 138.0]
+        )
+        self.assertEqual(substation["max_voltage"], 345)
+
     def test_shipped_atlas_has_all_market_and_country_shards(self):
         manifest = load_grid_atlas_manifest(PACKAGED_ATLAS_MANIFEST)
         self.assertEqual(manifest["default_region"], "ercot")

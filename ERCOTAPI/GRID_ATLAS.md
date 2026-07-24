@@ -53,6 +53,9 @@ geometry or an authoritative network model:
 - known government-source voltage is never overwritten;
 - missing owner, operator, circuit, cable, and line-reference fields may be
   supplemented after the same conservative match;
+- autotransformers are shown only when OSM explicitly tags
+  `power=transformer` with `transformer=auto`; multi-voltage substations are
+  never assumed to contain autotransformers;
 - line matches require close, bidirectional geometric overlap;
 - conflicting near-equal matches remain unknown;
 - nearby substation matches must be unambiguous; and

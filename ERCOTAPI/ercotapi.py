@@ -2356,7 +2356,11 @@ def _atlas_public_assets(payload: Dict[str, Any]) -> pd.DataFrame:
         records.append(
             {
                 "name": substation.get("name") or "Unnamed substation",
-                "layer": "Substation",
+                "layer": (
+                    "Autotransformer"
+                    if substation.get("autotransformer")
+                    else "Substation"
+                ),
                 "lat": substation.get("lat"),
                 "lon": substation.get("lon"),
                 "type": _atlas_voltage_band(voltage),
@@ -2579,12 +2583,14 @@ def render_grid_atlas() -> None:
     colors = {
         "Power plant": "#fde047",
         "Substation": "#f8fafc",
+        "Autotransformer": "#f472b6",
         "Data-center context": "#c084fc",
         "Price-hub context": "#fbbf24",
     }
     symbols = {
         "Power plant": "circle",
         "Substation": "square",
+        "Autotransformer": "diamond",
         "Data-center context": "diamond",
         "Price-hub context": "circle",
     }
@@ -2651,8 +2657,8 @@ def render_grid_atlas() -> None:
         )
 
     filtered = assets[assets["layer"].isin(selected_layers)].copy()
-    if "Substation" in selected_layers:
-        is_substation = filtered["layer"] == "Substation"
+    if {"Substation", "Autotransformer"} & set(selected_layers):
+        is_substation = filtered["layer"].isin(["Substation", "Autotransformer"])
         known_voltage = pd.to_numeric(filtered["voltage"], errors="coerce")
         substation_allowed = known_voltage.ge(float(minimum_voltage))
         if include_unknown_voltage:
@@ -2717,7 +2723,7 @@ def render_grid_atlas() -> None:
         ),
         (
             "Substations",
-            int((filtered["layer"] == "Substation").sum()),
+            int(filtered["layer"].isin(["Substation", "Autotransformer"]).sum()),
             len(payload.get("substations") or []),
         ),
         (
@@ -2813,7 +2819,7 @@ def render_grid_atlas() -> None:
                     )
                     marker_color = layer_color
                     trace_name = f"Plant · {group_name}"
-                elif layer_name == "Substation":
+                elif layer_name in {"Substation", "Autotransformer"}:
                     marker_sizes = (
                         pd.to_numeric(group_df["voltage"], errors="coerce")
                         .fillna(69)
@@ -3043,6 +3049,7 @@ def render_north_american_grid_atlas() -> None:
     colors = {
         "Power plant": "#fde047",
         "Substation": "#f8fafc",
+        "Autotransformer": "#f472b6",
     }
     if region_id == "ercot":
         colors.update(
@@ -3054,6 +3061,7 @@ def render_north_american_grid_atlas() -> None:
     symbols = {
         "Power plant": "circle",
         "Substation": "square",
+        "Autotransformer": "diamond",
         "Data-center context": "diamond",
         "Price-hub context": "circle",
     }
@@ -3140,8 +3148,8 @@ def render_north_american_grid_atlas() -> None:
         )
 
     filtered = assets[assets["layer"].isin(selected_layers)].copy()
-    if "Substation" in selected_layers:
-        is_substation = filtered["layer"] == "Substation"
+    if {"Substation", "Autotransformer"} & set(selected_layers):
+        is_substation = filtered["layer"].isin(["Substation", "Autotransformer"])
         known_voltage = pd.to_numeric(filtered["voltage"], errors="coerce")
         substation_allowed = known_voltage.ge(float(minimum_voltage))
         if include_unknown_voltage:
@@ -3208,7 +3216,7 @@ def render_north_american_grid_atlas() -> None:
         ),
         (
             "Substations / transformers",
-            int((filtered["layer"] == "Substation").sum()),
+            int(filtered["layer"].isin(["Substation", "Autotransformer"]).sum()),
             len(payload.get("substations") or []),
         ),
     )
@@ -3378,7 +3386,7 @@ def render_north_american_grid_atlas() -> None:
                     )
                     marker_color = layer_color
                     trace_name = f"Plant · {group_name}"
-                elif layer_name == "Substation":
+                elif layer_name in {"Substation", "Autotransformer"}:
                     marker_sizes = (
                         pd.to_numeric(group_df["voltage"], errors="coerce")
                         .fillna(69)

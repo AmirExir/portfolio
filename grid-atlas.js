@@ -242,9 +242,10 @@
     const voltage = finiteNumber(record.max_voltage ?? record.voltage);
     const properties = {
       feature_id: firstUseful([record.asset_id, record.id], `substation-${index}`),
-      asset_type: 'Substation',
+      asset_type: record.autotransformer === true ? 'Autotransformer' : 'Substation',
       name: firstUseful([record.name], 'Unnamed substation'),
       category: firstUseful([record.type], 'Substation'),
+      autotransformer: record.autotransformer === true,
       status: firstUseful([record.status]),
       owner: firstUseful([record.owner]),
       operator: firstUseful([record.operator]),
@@ -458,7 +459,12 @@
           230, 3.2,
           765, 5.2,
         ],
-        'circle-color': '#f8fafc',
+        'circle-color': [
+          'case',
+          ['==', ['get', 'autotransformer'], true],
+          '#f472b6',
+          '#f8fafc',
+        ],
         'circle-opacity': 0.96,
         'circle-stroke-color': '#020617',
         'circle-stroke-width': 1.6,

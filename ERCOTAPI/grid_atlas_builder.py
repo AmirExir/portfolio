@@ -414,6 +414,7 @@ def normalize_osm_power(
             "cables": _text(_property(properties, "cables")),
             "reference": _text(_property(properties, "ref")),
             "retrieved_at": retrieved_at,
+            "osm_kind": "facility",
         }
         geometry = _geometry(feature)
         if power in {"line", "minor_line", "cable"}:
@@ -425,6 +426,21 @@ def normalize_osm_power(
             if coordinate is not None:
                 substations.append(
                     {**common, "lon": coordinate[0], "lat": coordinate[1]}
+                )
+        elif (
+            power == "transformer"
+            and _text(_property(properties, "transformer")).casefold()
+            in {"auto", "autotransformer"}
+        ):
+            coordinate = _point(geometry, properties) or _polygon_center(geometry)
+            if coordinate is not None:
+                substations.append(
+                    {
+                        **common,
+                        "osm_kind": "autotransformer",
+                        "lon": coordinate[0],
+                        "lat": coordinate[1],
+                    }
                 )
     return lines, substations
 
@@ -587,6 +603,7 @@ def enrich_unknown_voltage_from_osm(
         "substation_matches": 0,
         "substation_ambiguous": 0,
         "substation_metadata_matches": 0,
+        "autotransformer_matches": 0,
     }
     cell_size = 0.1
     line_cells: dict[tuple[int, int], set[int]] = {}
@@ -709,15 +726,9 @@ def enrich_unknown_voltage_from_osm(
         stats["line_metadata_matches"] += int(filled_metadata)
 
     for record in substations:
-        if (
-            record.get("max_voltage") is not None
-            and record.get("owner")
-            and record.get("operator")
-        ):
-            continue
         cell_x = math.floor(float(record["lon"]) / cell_size)
         cell_y = math.floor(float(record["lat"]) / cell_size)
-        candidate_indexes = set()
+        candidate_indexes: set[int] = set()
         for offset_x in (-1, 0, 1):
             for offset_y in (-1, 0, 1):
                 candidate_indexes.update(
@@ -725,6 +736,74 @@ def enrich_unknown_voltage_from_osm(
                         (cell_x + offset_x, cell_y + offset_y), ()
                     )
                 )
+        auto_candidates = sorted(
+            (
+                (
+                    _distance_meters(
+                        [record["lon"], record["lat"]],
+                        [osm["lon"], osm["lat"]],
+                    ),
+                    osm,
+                )
+                for osm in (
+                    osm_substations[index] for index in candidate_indexes
+                )
+                if osm.get("osm_kind") == "autotransformer"
+            ),
+            key=lambda item: item[0],
+        )
+        auto_candidates = [
+            item for item in auto_candidates if item[0] <= 750
+        ]
+        known_voltage = _number(record.get("max_voltage"))
+        if known_voltage is not None:
+            compatible = [
+                item
+                for item in auto_candidates
+                if any(
+                    math.isclose(known_voltage, voltage, abs_tol=0.1)
+                    for voltage in item[1].get("osm_voltages", [])
+                )
+            ]
+            auto_candidates = compatible or auto_candidates
+        if auto_candidates:
+            nearest_distance = auto_candidates[0][0]
+            nearby = [
+                osm
+                for distance, osm in auto_candidates
+                if distance - nearest_distance <= 150
+            ]
+            record["autotransformer"] = True
+            record["autotransformer_source"] = "OpenStreetMap"
+            record["autotransformer_source_url"] = OPENSTREETMAP_URL
+            record["autotransformer_retrieved_at"] = nearby[0]["retrieved_at"]
+            record["autotransformer_match_status"] = "OSM-suggested"
+            record["autotransformer_match_confidence"] = round(
+                max(0.82, 1 - nearest_distance / 750), 3
+            )
+            record["autotransformer_osm_ids"] = sorted(
+                {
+                    str(osm.get("osm_asset_id") or "")
+                    for osm in nearby
+                    if osm.get("osm_asset_id")
+                }
+            )
+            record["autotransformer_voltages"] = sorted(
+                {
+                    voltage
+                    for osm in nearby
+                    for voltage in osm.get("osm_voltages", [])
+                },
+                reverse=True,
+            )
+            stats["autotransformer_matches"] += 1
+
+        if (
+            record.get("max_voltage") is not None
+            and record.get("owner")
+            and record.get("operator")
+        ):
+            continue
         candidates = sorted(
             (
                 (
@@ -737,6 +816,7 @@ def enrich_unknown_voltage_from_osm(
                 for osm in (
                     osm_substations[index] for index in candidate_indexes
                 )
+                if osm.get("osm_kind") != "autotransformer"
             ),
             key=lambda item: item[0],
         )
