@@ -85,4 +85,6 @@ def compact_messages(messages: list[dict], max_recent_messages: int = 6) -> list
         if message.get("role") in {"user", "assistant"}
         and str(message.get("content", "")).strip()
     ][-max_recent_messages:]
+    if recent and recent[0].get("role") == "assistant":
+        recent = recent[1:]
     return ([system_message] if system_message else []) + recent

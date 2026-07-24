@@ -8,6 +8,7 @@ from embedding_utils import (
     chunk_texts,
     chunks_digest,
     create_embeddings,
+    load_valid_embeddings,
     save_embedding_cache,
 )
 
@@ -27,6 +28,11 @@ def main():
         action="store_true",
         help="Validate chunks and print the content digest without calling OpenAI.",
     )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Rebuild even when the content-validated saved cache is already current.",
+    )
     parser.add_argument("--batch-size", type=int, default=64)
     args = parser.parse_args()
 
@@ -43,6 +49,21 @@ def main():
         print("Dry run complete; no API calls or files written.")
         return
 
+    cached_embeddings, cache_status = load_valid_embeddings(
+        chunks,
+        EMBEDDING_FILE,
+        METADATA_FILE,
+        model=EMBEDDING_MODEL,
+    )
+    if cached_embeddings is not None and not args.force:
+        print(
+            f"Saved embedding cache is already current with "
+            f"{cached_embeddings.shape[0]} vectors; no API call was made."
+        )
+        print("Use --force only when an intentional full rebuild is required.")
+        return
+
+    print(f"Embedding generation is required because {cache_status}.")
     api_key = os.getenv("OPENAI_API_KEY", "").strip()
     if not api_key:
         raise SystemExit(

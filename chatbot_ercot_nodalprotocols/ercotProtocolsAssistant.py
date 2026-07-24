@@ -105,6 +105,9 @@ if prompt := st.chat_input("Ask about ERCOT nodal protocols..."):
         except Exception as exc:
             st.error(f"Retrieval failed: {exc}")
             st.stop()
+        if not matches:
+            st.error("No matching Nodal Protocol documentation was found.")
+            st.stop()
         context = format_context(matches, max_words=14_000)
         conversation_messages = compact_chat_messages(
             st.session_state.messages,

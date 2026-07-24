@@ -122,6 +122,9 @@ if prompt := st.chat_input("Ask about ERCOT Resource Integration or the QSA proc
         except Exception as exc:
             st.error(f"Retrieval failed: {exc}")
             st.stop()
+        if not matches:
+            st.error("No matching Resource Integration documentation was found.")
+            st.stop()
         context = format_context(matches, max_words=20_000)
         conversation_messages = compact_chat_messages(
             st.session_state.messages,

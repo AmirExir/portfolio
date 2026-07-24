@@ -4,7 +4,7 @@ from streamlit_mic_recorder import mic_recorder
 import os
 import io
 
-from response_utils import assess_response, compact_messages
+from chatbot_response_utils import assess_response, compact_messages
 
 
 api_key = os.getenv("OPENAI_API_KEY", "").strip()

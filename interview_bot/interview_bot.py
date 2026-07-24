@@ -12,7 +12,7 @@ from embedding_utils import (
     chunks_digest,
     load_valid_embeddings,
 )
-from response_utils import assess_chat_completion
+from interview_response_utils import assess_chat_completion
 
 api_key = os.getenv("OPENAI_API_KEY", "").strip()
 client = OpenAI(api_key=api_key) if api_key else None

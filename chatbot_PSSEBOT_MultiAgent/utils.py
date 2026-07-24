@@ -47,9 +47,15 @@ def embed_query(query: str, model="text-embedding-3-large"):
 # Similarity Search
 # ---------------------------
 
-def find_top_k_chunks(query, chunks, embeddings, k=10):
+def find_top_k_chunks(query, chunks, embeddings, k=10, query_cache=None):
     """Return top-k most relevant chunks based on cosine similarity."""
-    query_vec = embed_query(query)
+    query_vec = None
+    if query_cache is not None:
+        query_vec = query_cache.get(query)
+    if query_vec is None:
+        query_vec = embed_query(query)
+        if query_cache is not None and query_vec is not None:
+            query_cache[query] = query_vec
     if query_vec is None:
         return []
 

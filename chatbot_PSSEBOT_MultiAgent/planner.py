@@ -2,14 +2,16 @@ from openai import OpenAI
 import os
 from utils import count_tokens  # <-- reuse shared tokenizer
 
+from psse_assistant_common import request_visible_answer
+
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def plan_tasks(
     user_query,
     reference_chunks,
     model="gpt-5.2",
-    token_limit=120000,
-    max_response_tokens=12000
+    token_limit=32_000,
+    max_response_tokens=3_000,
 ):
     # ---------------------------
     # SYSTEM PROMPT
@@ -23,6 +25,7 @@ Strict Rules:
 - DO NOT include unrelated areas like GIC, harmonics, dynamics, unless the user explicitly asks.
 - Use only functions that appear in the documentation context. No made-up methods.
 - Keep task steps clean and short. Use plain English action verbs.
+- Return only a numbered list with at most 12 executable tasks.
 """.strip()
 
     # ---------------------------
@@ -60,15 +63,27 @@ Strict Rules:
         f"context={used_tokens}, total={total_input_tokens}"
     )
 
-    try:
-        response = client.responses.create(
-            model=model,
-            reasoning={"effort": "high"},  # correct for planning
-            input=messages,
-            max_output_tokens=max_response_tokens,
-        )
-
-        return response.output_text
-
-    except Exception as e:
-        return f"[Planner Error] {str(e)}"
+    retry_chunks = selected_chunks[: max(1, len(selected_chunks) // 2)]
+    retry_context = "\n\n---\n\n".join(chunk["text"] for chunk in retry_chunks)
+    retry_messages = [
+        {
+            "role": "system",
+            "content": f"{preamble}\n\nDocumentation context:\n---\n{retry_context}\n---",
+        },
+        {"role": "user", "content": user_query},
+    ]
+    primary_request = {
+        "model": model,
+        "reasoning": {"effort": "none"},
+        "text": {"verbosity": "low"},
+        "input": messages,
+        "max_output_tokens": max_response_tokens,
+    }
+    generation = request_visible_answer(
+        client.responses.create,
+        primary_request,
+        retry_request={**primary_request, "input": retry_messages},
+    )
+    if generation.usable:
+        return generation.text
+    return f"[Planner Error] {generation.diagnostic}"

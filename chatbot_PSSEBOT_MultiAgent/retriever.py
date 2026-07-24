@@ -4,8 +4,8 @@ import json
 import numpy as np
 import streamlit as st
 
+from psse_assistant_common import validate_saved_index
 from utils import (
-    embed_query,
     find_top_k_chunks,
     limit_chunks_by_token_budget,
 )
@@ -14,7 +14,7 @@ from utils import (
 # Load chunks + embeddings
 # ---------------------------
 
-@st.cache_data(show_spinner=False)
+@st.cache_resource(show_spinner=False)
 def load_chunks_and_embeddings(
     json_file="input_chunks.json",
     embedding_model="text-embedding-3-large"
@@ -22,57 +22,62 @@ def load_chunks_and_embeddings(
     base_dir = os.path.dirname(os.path.abspath(__file__))
     json_path = os.path.join(base_dir, json_file)
 
-    if not os.path.isfile(json_path):
-        raise FileNotFoundError(f"File not found: {json_path}")
-
     cached_emb = os.path.join(base_dir, "psse_embeddings.npy")
     cached_chunks = os.path.join(base_dir, "psse_chunks_cached.json")
 
-    # ---- Load cached ----
-    if os.path.exists(cached_emb) and os.path.exists(cached_chunks):
-        with open(cached_chunks, "r", encoding="utf-8") as f:
-            chunks = json.load(f)
-        embeddings = np.load(cached_emb)
-        return chunks, embeddings
+    missing = [
+        os.path.basename(path)
+        for path in (cached_emb, cached_chunks)
+        if not os.path.isfile(path)
+    ]
+    if missing:
+        raise RuntimeError(
+            "Saved PSS/E RAG artifacts are missing: "
+            f"{', '.join(missing)}. Runtime corpus embedding is disabled to "
+            "prevent surprise API charges; build and deploy the index offline."
+        )
 
-    # ---- Compute embeddings ----
-    from openai import OpenAI
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    with open(cached_chunks, "r", encoding="utf-8") as f:
+        chunks = list(json.load(f))
+    embeddings = np.load(cached_emb)
+    expected_dimension = 3072 if embedding_model == "text-embedding-3-large" else None
+    validate_saved_index(
+        chunks,
+        embeddings,
+        expected_dimension=expected_dimension,
+    )
 
-    with open(json_path, "r", encoding="utf-8") as f:
-        chunks = json.load(f)
-
-    embeddings = []
-    valid_chunks = []
-
-    for chunk in chunks:
-        try:
-            resp = client.embeddings.create(
-                model=embedding_model,
-                input=chunk["text"][:8192]
+    # When a source chunk file is deployed, reject a stale cache rather than
+    # silently answering from embeddings built for different text.
+    if os.path.isfile(json_path):
+        with open(json_path, "r", encoding="utf-8") as f:
+            source_chunks = list(json.load(f))
+        if source_chunks != chunks:
+            raise RuntimeError(
+                "The saved PSS/E chunks do not match the source chunk file. "
+                "Rebuild the saved index offline before deploying it."
             )
-            embeddings.append(resp.data[0].embedding)
-            valid_chunks.append(chunk)
-        except Exception as e:
-            print(f"[Embedding failed] {e}")
 
-    if not embeddings:
-        raise ValueError("No valid embeddings generated")
-
-    embeddings = np.array(embeddings)
-
-    # ---- Cache results ----
-    np.save(cached_emb, embeddings)
-    with open(cached_chunks, "w", encoding="utf-8") as f:
-        json.dump(valid_chunks, f, indent=2)
-
-    return valid_chunks, embeddings
+    return chunks, embeddings
 
 
 # ---------------------------
 # Retrieval helpers
 # ---------------------------
 
-def find_relevant_chunks(query, chunks, embeddings, k=10, max_tokens=30000):
-    top_chunks = find_top_k_chunks(query, chunks, embeddings, k=k)
+def find_relevant_chunks(
+    query,
+    chunks,
+    embeddings,
+    k=10,
+    max_tokens=12_000,
+    query_cache=None,
+):
+    top_chunks = find_top_k_chunks(
+        query,
+        chunks,
+        embeddings,
+        k=k,
+        query_cache=query_cache,
+    )
     return limit_chunks_by_token_budget(top_chunks, max_tokens=max_tokens)

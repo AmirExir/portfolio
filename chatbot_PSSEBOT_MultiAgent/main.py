@@ -1,27 +1,4 @@
-# 4. main.py (streamlit app)
-import streamlit as st
-from planner import plan_tasks
-from retriever import load_chunks_and_embeddings, find_relevant_chunks
-from executor import extract_valid_funcs, run_executor
+"""Compatibility Streamlit entrypoint for the maintained multi-agent app."""
 
-st.title(" Amir Exir's PSS/E Agent Loop")
-prompt = st.chat_input("Ask a PSSE task...")
-
-if prompt:
-    st.chat_message("user").markdown(prompt)
-    raw_tasks = plan_tasks(prompt)
-    st.write("Planned tasks:", raw_tasks)
-
-    task_list = [
-        t.strip("- ").strip()
-        for t in raw_tasks.split("\n")
-        if t.strip()
-    ]
-
-    for task in task_list:
-        st.markdown(f" Executing: `{task}`")
-        top_chunks = find_relevant_chunks(task, chunks, embeddings)
-        context = "\n---\n".join(c["text"] for c in top_chunks)
-        result = run_executor(task, context, valid_funcs)
-        st.markdown(result)
-        all_results.append(result)
+# Importing the maintained entrypoint renders the Streamlit application.
+import psse_multi_agent  # noqa: F401,E402

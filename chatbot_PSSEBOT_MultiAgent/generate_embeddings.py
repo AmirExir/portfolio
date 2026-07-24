@@ -1,10 +1,11 @@
 from retriever import load_chunks_and_embeddings
-import numpy as np
 
-# Load and embed
+# This command validates the deployed saved index. Corpus embedding is an
+# explicit offline maintenance operation and is never triggered by app startup.
 chunks, embeddings = load_chunks_and_embeddings("input_chunks.json")
 
-# Save embeddings only
-np.save("psse_embeddings.npy", embeddings)
-
-print(" Embeddings saved to psse_embeddings.npy (input_chunks.json left untouched)")
+print(
+    "Saved PSS/E index validated: "
+    f"{len(chunks)} chunks, {embeddings.shape[1]} dimensions. "
+    "No embedding API requests were made."
+)

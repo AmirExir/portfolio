@@ -1,6 +1,6 @@
 import unittest
 
-from response_utils import assess_chat_completion
+from interview_response_utils import assess_chat_completion
 
 
 class ChatCompletionResponseTests(unittest.TestCase):

@@ -1,6 +1,6 @@
 import unittest
 
-from response_utils import assess_response, compact_messages
+from chatbot_response_utils import assess_response, compact_messages
 
 
 class ResponseUtilsTests(unittest.TestCase):
@@ -55,6 +55,18 @@ class ResponseUtilsTests(unittest.TestCase):
             "question 0",
             [message["content"] for message in compacted],
         )
+
+    def test_compaction_does_not_start_recent_context_with_an_answer(self):
+        messages = [{"role": "system", "content": "resume"}]
+        for index in range(4):
+            messages.append({"role": "user", "content": f"question {index}"})
+            messages.append({"role": "assistant", "content": f"answer {index}"})
+        messages.append({"role": "user", "content": "current question"})
+
+        compacted = compact_messages(messages, max_recent_messages=4)
+
+        self.assertEqual(compacted[1]["role"], "user")
+        self.assertEqual(compacted[-1]["content"], "current question")
 
 
 if __name__ == "__main__":
