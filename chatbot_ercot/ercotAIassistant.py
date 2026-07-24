@@ -13,12 +13,13 @@ try:
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
+        index_state,
+        load_index,
         retrieve_chunks,
     )
-    from ERCOTAPI.rag_ingestion.startup import (
-        CentralIndexUnavailable,
-        load_startup_index,
-        startup_index_state,
+    from ERCOTAPI.rag_ingestion.response_handling import (
+        assess_response,
+        compact_chat_messages,
     )
 except ModuleNotFoundError as exc:
     if exc.name != "ERCOTAPI":
@@ -27,12 +28,13 @@ except ModuleNotFoundError as exc:
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
+        index_state,
+        load_index,
         retrieve_chunks,
     )
-    from ERCOTAPI.rag_ingestion.startup import (
-        CentralIndexUnavailable,
-        load_startup_index,
-        startup_index_state,
+    from ERCOTAPI.rag_ingestion.response_handling import (
+        assess_response,
+        compact_chat_messages,
     )
 
 
@@ -60,7 +62,30 @@ def get_openai_client() -> OpenAI:
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_planning_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("planning")
+    index = load_index("planning", allow_legacy=False)
+    if index.source != "central" or not index.ready:
+        raise RuntimeError(
+            "No saved central Planning Guide index is available. "
+            "Run the separate ingestion job before starting this assistant."
+        )
+    return index
+
+
+def build_system_prompt(context: str) -> dict[str, str]:
+    return {
+        "role": "system",
+        "content": f"""
+You are an expert assistant on ERCOT's Planning Guides. Answer only from the
+cited documentation below. Do not guess or use outside knowledge. If the answer
+is not explicitly present, respond exactly: "I couldn’t find that in the
+documentation." Preserve relevant citations in the answer. Do not create a
+separate source list; the application adds the retrieved sources.
+
+---
+{context}
+---
+""",
+    }
 
 
 def get_loaded_sources(chunks) -> list[str]:
@@ -147,8 +172,8 @@ st.title("Ask Amir Exir's ERCOT Planning Guides AI Assistant")
 
 with st.spinner("Loading the saved central Planning Guide index..."):
     try:
-        rag_index = load_planning_index(startup_index_state())
-    except CentralIndexUnavailable as exc:
+        rag_index = load_planning_index(index_state())
+    except Exception as exc:
         st.error(str(exc))
         st.stop()
 chunks = rag_index.chunks
@@ -157,6 +182,7 @@ sources = get_loaded_sources(chunks)
 with st.sidebar:
     st.markdown("### Loaded planning sources")
     st.caption(f"Central generation: {rag_index.generation_id}")
+    st.caption("Read-only saved index; questions never rebuild document embeddings.")
     for source in sources:
         st.markdown(f"- {source}")
     if not sources:
@@ -195,26 +221,46 @@ if prompt := st.chat_input("Ask about ERCOT planning guides..."):
         except Exception as exc:
             st.error(f"Retrieval failed: {exc}")
             st.stop()
-        context = format_context(matches, max_words=12000)
-        system_prompt = {
-            "role": "system",
-            "content": f"""
-You are an expert assistant on ERCOT's Planning Guides. Answer only from the
-cited documentation below. Do not guess or use outside knowledge. If the answer
-is not explicitly present, respond exactly: "I couldn’t find that in the
-documentation." Preserve relevant citations in the answer.
-
----
-{context}
----
-""",
-        }
-        response = get_openai_client().responses.create(
-            model="gpt-5.2",
-            reasoning={"effort": "high"},
-            input=[system_prompt] + st.session_state.messages,
-            max_output_tokens=1000,
+        context = format_context(matches, max_words=10_000)
+        conversation_messages = compact_chat_messages(
+            st.session_state.messages,
+            max_messages=6,
+            max_characters_per_message=6_000,
         )
-        bot_message = response.output_text.rstrip() + format_source_list(matches)
+        client = get_openai_client()
+        try:
+            response = client.responses.create(
+                model="gpt-5.2",
+                reasoning={"effort": "none"},
+                text={"verbosity": "medium"},
+                input=[build_system_prompt(context)] + conversation_messages,
+                max_output_tokens=6_000,
+            )
+            response_assessment = assess_response(response)
+            if response_assessment.retryable:
+                retry_context = format_context(matches[:3], max_words=4_000)
+                retry_response = client.responses.create(
+                    model="gpt-5.2",
+                    reasoning={"effort": "none"},
+                    text={"verbosity": "medium"},
+                    input=[
+                        build_system_prompt(retry_context),
+                        *conversation_messages,
+                    ],
+                    max_output_tokens=6_000,
+                )
+                response_assessment = assess_response(retry_response)
+        except Exception as exc:
+            st.error(f"Answer generation failed: {exc}")
+            st.stop()
+
+        if not response_assessment.usable:
+            st.error(
+                "Answer generation did not complete, so no source-only result was shown. "
+                f"Details: {response_assessment.diagnostic}. Please retry the question."
+            )
+            st.stop()
+
+        bot_message = response_assessment.text + format_source_list(matches)
         st.chat_message("assistant").markdown(bot_message)
         st.session_state.messages.append({"role": "assistant", "content": bot_message})

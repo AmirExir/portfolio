@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const MANIFEST_URL = 'ERCOTAPI/grid_atlas_data/manifest.json';
+  const MANIFEST_URL = 'ERCOTAPI/grid_atlas_data/manifest.json?v=20260723-voltage-defaults';
   const SOURCE_IDS = ['atlas-boundaries', 'atlas-lines', 'atlas-substations', 'atlas-plants', 'atlas-highlight'];
   const LAYER_IDS = [
     'atlas-boundary-fill',
@@ -777,9 +777,11 @@
       if (requestSequence !== regionRequestSequence) return;
       currentRegion = region;
       currentCollections = collections;
-      elements.minimumVoltage.value = String(region.default_minimum_voltage ?? 0);
+      // Every grid opens unfiltered, including records whose voltage is unknown.
+      // Keep this UI default independent of older cached manifest preferences.
+      elements.minimumVoltage.value = '0';
       elements.minimumPlantMw.value = '0';
-      elements.includeUnknownVoltage.checked = region.include_unknown_voltage !== false;
+      elements.includeUnknownVoltage.checked = true;
       addAtlasData(collections, region);
       fitRegion(region);
       await waitForMapIdle();
@@ -861,7 +863,7 @@
     try {
       setLoading('Opening the saved Atlas manifest…', 'No live GIS request is running.');
       const [manifestResponse] = await Promise.all([
-        fetch(MANIFEST_URL, { cache: 'force-cache' }),
+        fetch(MANIFEST_URL, { cache: 'no-store' }),
         mapReady,
       ]);
       if (!manifestResponse.ok) {

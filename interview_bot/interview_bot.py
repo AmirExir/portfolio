@@ -9,12 +9,10 @@ import faiss
 
 from embedding_utils import (
     EMBEDDING_MODEL,
-    chunk_texts,
     chunks_digest,
-    create_embeddings,
     load_valid_embeddings,
-    save_embedding_cache,
 )
+from response_utils import assess_chat_completion
 
 api_key = os.getenv("OPENAI_API_KEY", "").strip()
 client = OpenAI(api_key=api_key) if api_key else None
@@ -34,12 +32,8 @@ os.makedirs(AUDIO_DIR, exist_ok=True)
 with open(os.path.join(base_path, "chunks_cleaned.json"), "r", encoding="utf-8") as f:
     chunks = json.load(f)
 
-# Force rebuild button to clear cache
-if st.button("Force Rebuild Embeddings"):
-    for cache_file in (EMB_FILE, EMB_META_FILE):
-        if os.path.exists(cache_file):
-            os.remove(cache_file)
-    st.success("Embedding cache cleared. Rebuilding now.")
+# Recheck files without deleting or rebuilding the corpus in the live app.
+if st.button("Reload saved embeddings"):
     st.rerun()
 
 embeddings, cache_status = load_valid_embeddings(
@@ -50,37 +44,13 @@ embeddings, cache_status = load_valid_embeddings(
 )
 
 if embeddings is None:
-    if client is None:
-        st.error(
-            f"The embedding cache must be rebuilt because {cache_status}. "
-            "Set OPENAI_API_KEY and run `python interview_bot/generate_embeddings.py`."
-        )
-        st.stop()
-
-    progress_bar = st.progress(0, text="Building interview embeddings...")
-
-    def update_embedding_progress(completed, total):
-        progress_bar.progress(
-            completed / total,
-            text=f"Building interview embeddings: {completed}/{total}",
-        )
-
-    with st.spinner(f"Rebuilding embeddings because {cache_status}..."):
-        embeddings = create_embeddings(
-            client,
-            chunk_texts(chunks),
-            model=EMBEDDING_MODEL,
-            progress=update_embedding_progress,
-        )
-        save_embedding_cache(
-            chunks,
-            embeddings,
-            EMB_FILE,
-            EMB_META_FILE,
-            model=EMBEDDING_MODEL,
-        )
-    progress_bar.empty()
-    st.success("Embedding cache rebuilt successfully.")
+    st.error(
+        f"The saved interview embedding cache cannot be loaded because {cache_status}. "
+        "The live app will not rebuild the full corpus. Run "
+        "`python interview_bot/generate_embeddings.py` during deployment, "
+        "then click **Reload saved embeddings**."
+    )
+    st.stop()
 
 # -------------------------
 # Build FAISS index (robust version)
@@ -361,7 +331,8 @@ st.markdown(
 audio = mic_recorder(
     start_prompt=" Start Recording (Tap Once)",
     stop_prompt=" Stop Recording",
-    use_container_width=True
+    use_container_width=True,
+    just_once=True,
 )
 
 user_query = None
@@ -491,31 +462,54 @@ if selected_story and query_to_answer:
     ]
 
     with st.spinner("Answering..."):
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=messages,
-            max_tokens=2048,
-            temperature=0.2
-        )
-
-    bot_msg = response.choices[0].message.content
-    if response_type == "story":
-        bot_msg = enforce_single_star_story(bot_msg)
-    st.markdown(f"**Question:** {query_to_answer}")
-    st.chat_message("assistant").markdown(bot_msg)
-    st.session_state.messages.append({"role": "assistant", "content": bot_msg})
-
-    # Optional TTS — generate only when user requests it
-    make_audio = st.button("Make answer audio")
-    if make_audio:
-        with st.spinner("Generating audio..."):
-            speech = client.audio.speech.create(
-                model="gpt-4o-mini-tts",
-                voice="alloy",
-                input=bot_msg
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4o",
+                messages=messages,
+                max_tokens=2048,
+                temperature=0.2,
             )
-            audio_out = build_unique_audio_path(prefix="answer", ext="mp3")
-            with open(audio_out, "wb") as f:
-                f.write(speech.content)
-        st.audio(audio_out, format="audio/mp3")
-        st.caption(f"Saved audio file: {os.path.basename(audio_out)}")
+            assessment = assess_chat_completion(response)
+
+            # A second generation is used only when the first one is blank or
+            # truncated. The same single retrieved context remains authoritative.
+            if assessment.retryable:
+                response = client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=messages,
+                    max_tokens=3072,
+                    temperature=0.2,
+                )
+                assessment = assess_chat_completion(response)
+        except Exception:
+            assessment = None
+
+    if assessment is None:
+        st.error("The answer request failed. Please retry in a moment.")
+    elif not assessment.usable:
+        st.error(
+            f"No interview answer was returned because {assessment.diagnostic}. "
+            "No blank answer was added to the conversation."
+        )
+    else:
+        bot_msg = assessment.text
+        if response_type == "story":
+            bot_msg = enforce_single_star_story(bot_msg)
+        st.markdown(f"**Question:** {query_to_answer}")
+        st.chat_message("assistant").markdown(bot_msg)
+        st.session_state.messages.append({"role": "assistant", "content": bot_msg})
+
+        # Optional TTS — generate only when user requests it
+        make_audio = st.button("Make answer audio")
+        if make_audio:
+            with st.spinner("Generating audio..."):
+                speech = client.audio.speech.create(
+                    model="gpt-4o-mini-tts",
+                    voice="alloy",
+                    input=bot_msg,
+                )
+                audio_out = build_unique_audio_path(prefix="answer", ext="mp3")
+                with open(audio_out, "wb") as f:
+                    f.write(speech.content)
+            st.audio(audio_out, format="audio/mp3")
+            st.caption(f"Saved audio file: {os.path.basename(audio_out)}")

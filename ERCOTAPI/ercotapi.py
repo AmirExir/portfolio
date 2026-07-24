@@ -2588,12 +2588,13 @@ def render_grid_atlas() -> None:
             [0, 69, 100, 138, 230, 345, 500, 765],
             index=0,
             format_func=lambda value: "No minimum" if value == 0 else f"{value} kV",
-            key="ercot_atlas_minimum_voltage",
+            key="ercot_atlas_minimum_voltage_v2",
         )
     with unknown_col:
         include_unknown_voltage = st.checkbox(
             "Include unknown voltage",
             value=True,
+            key="ercot_atlas_unknown_voltage_v2",
             help="Missing HIFLD values such as -999999 are treated as unknown, not as kV.",
         )
     with capacity_col:
@@ -3083,13 +3084,13 @@ def render_north_american_grid_atlas() -> None:
             voltage_options,
             index=default_voltage_index,
             format_func=lambda value: "No minimum" if value == 0 else f"{value} kV",
-            key=f"grid_atlas_minimum_voltage_{region_id}",
+            key=f"grid_atlas_minimum_voltage_v2_{region_id}",
         )
     with unknown_col:
         include_unknown_voltage = st.checkbox(
             "Include unknown voltage",
             value=bool(region.get("include_unknown_voltage", True)),
-            key=f"grid_atlas_unknown_voltage_{region_id}",
+            key=f"grid_atlas_unknown_voltage_v2_{region_id}",
             help=(
                 "Canadian CanVec lines have no voltage attribute. Missing HIFLD sentinel "
                 "values are also treated as unknown, never as negative kV."

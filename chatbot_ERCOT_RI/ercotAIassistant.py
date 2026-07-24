@@ -14,12 +14,13 @@ try:
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
+        index_state,
+        load_index,
         retrieve_chunks,
     )
-    from ERCOTAPI.rag_ingestion.startup import (
-        CentralIndexUnavailable,
-        load_startup_index,
-        startup_index_state,
+    from ERCOTAPI.rag_ingestion.response_handling import (
+        assess_response,
+        compact_chat_messages,
     )
 except ModuleNotFoundError as exc:
     if exc.name != "ERCOTAPI":
@@ -28,12 +29,13 @@ except ModuleNotFoundError as exc:
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
+        index_state,
+        load_index,
         retrieve_chunks,
     )
-    from ERCOTAPI.rag_ingestion.startup import (
-        CentralIndexUnavailable,
-        load_startup_index,
-        startup_index_state,
+    from ERCOTAPI.rag_ingestion.response_handling import (
+        assess_response,
+        compact_chat_messages,
     )
 
 
@@ -47,7 +49,30 @@ def get_openai_client() -> OpenAI:
 @st.cache_resource(show_spinner=False, max_entries=1)
 def load_resource_integration_index(cache_key: tuple[object, ...]):
     del cache_key
-    return load_startup_index("resource_integration", refresh=False)
+    index = load_index("resource_integration", allow_legacy=False)
+    if index.source != "central" or not index.ready:
+        raise RuntimeError(
+            "No saved central Resource Integration index is available. "
+            "Run the separate ingestion job before starting this assistant."
+        )
+    return index
+
+
+def build_system_prompt(context: str) -> dict[str, str]:
+    return {
+        "role": "system",
+        "content": f"""
+You are an advanced ERCOT Resource Integration expert. Use only the cited
+handbook and official ERCOT context below. Avoid made-up explanations and retain
+the citations supporting your answer. If the documentation does not support an
+answer, say so directly. Do not create a separate source list; the application
+adds the retrieved sources.
+
+---
+{context}
+---
+""",
+    }
 
 
 def extract_function_names(chunks) -> set[str]:
@@ -70,8 +95,8 @@ st.title("Ask Amir Exir's Resource Integration AI Assistant")
 
 with st.spinner("Loading the saved central Resource Integration index..."):
     try:
-        rag_index = load_resource_integration_index(startup_index_state())
-    except CentralIndexUnavailable as exc:
+        rag_index = load_resource_integration_index(index_state())
+    except Exception as exc:
         st.error(str(exc))
         st.stop()
 valid_functions = extract_function_names(rag_index.chunks)
@@ -79,6 +104,7 @@ valid_functions = extract_function_names(rag_index.chunks)
 with st.sidebar:
     st.caption(f"Loaded {len(rag_index.chunks)} Resource Integration chunks")
     st.caption(f"Central generation: {rag_index.generation_id}")
+    st.caption("Read-only saved index; questions never rebuild document embeddings.")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -92,30 +118,51 @@ if prompt := st.chat_input("Ask about ERCOT Resource Integration or the QSA proc
 
     with st.spinner("Thinking..."):
         try:
-            matches = retrieve_chunks(prompt, rag_index, top_k=50)
+            matches = retrieve_chunks(prompt, rag_index, top_k=16)
         except Exception as exc:
             st.error(f"Retrieval failed: {exc}")
             st.stop()
-        context = format_context(matches, max_words=100000)
-        system_prompt = {
-            "role": "system",
-            "content": f"""
-You are an advanced ERCOT Resource Integration expert. Use only the cited
-handbook and official ERCOT context below. Avoid made-up explanations and retain
-the citations supporting your answer.
-
----
-{context}
----
-""",
-        }
-        response = get_openai_client().responses.create(
-            model="gpt-5.2",
-            reasoning={"effort": "none"},
-            input=[system_prompt] + st.session_state.messages,
-            max_output_tokens=10000,
+        context = format_context(matches, max_words=20_000)
+        conversation_messages = compact_chat_messages(
+            st.session_state.messages,
+            max_messages=6,
+            max_characters_per_message=6_000,
         )
-        bot_message = response.output_text
+        client = get_openai_client()
+        try:
+            response = client.responses.create(
+                model="gpt-5.2",
+                reasoning={"effort": "none"},
+                text={"verbosity": "medium"},
+                input=[build_system_prompt(context)] + conversation_messages,
+                max_output_tokens=6_000,
+            )
+            response_assessment = assess_response(response)
+            if response_assessment.retryable:
+                retry_context = format_context(matches[:6], max_words=6_000)
+                retry_response = client.responses.create(
+                    model="gpt-5.2",
+                    reasoning={"effort": "none"},
+                    text={"verbosity": "medium"},
+                    input=[
+                        build_system_prompt(retry_context),
+                        *conversation_messages,
+                    ],
+                    max_output_tokens=6_000,
+                )
+                response_assessment = assess_response(retry_response)
+        except Exception as exc:
+            st.error(f"Answer generation failed: {exc}")
+            st.stop()
+
+        if not response_assessment.usable:
+            st.error(
+                "Answer generation did not complete, so no source-only result was shown. "
+                f"Details: {response_assessment.diagnostic}. Please retry the question."
+            )
+            st.stop()
+
+        bot_message = response_assessment.text
         invalid_functions = find_invalid_functions(bot_message, valid_functions)
         if invalid_functions:
             warning = ", ".join(sorted(set(invalid_functions)))
