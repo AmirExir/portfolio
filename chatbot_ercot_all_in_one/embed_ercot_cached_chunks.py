@@ -11,6 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent
 CHUNKS_PATH = BASE_DIR / "ercot_chunks_cached.json"
 EMBEDDINGS_PATH = BASE_DIR / "ercot_embeddings.npy"
 EMBEDDING_MODEL = "text-embedding-3-large"
+EMBEDDING_DIMENSION = 3072
 
 
 def load_chunks() -> list[dict]:
@@ -40,9 +41,25 @@ def require_api_key() -> str:
     return api_key
 
 
+def saved_embeddings_are_current(chunk_count: int) -> bool:
+    try:
+        embeddings = np.load(EMBEDDINGS_PATH, mmap_mode="r", allow_pickle=False)
+    except (OSError, ValueError):
+        return False
+    return embeddings.ndim == 2 and embeddings.shape == (
+        chunk_count,
+        EMBEDDING_DIMENSION,
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Embed the existing ERCOT cached JSON chunks.")
     parser.add_argument("--batch-size", type=int, default=64)
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Acknowledge the paid full-corpus OpenAI embedding rebuild.",
+    )
     args = parser.parse_args()
 
     chunks = load_chunks()
@@ -51,6 +68,14 @@ def main() -> int:
 
     print(f"Loaded {len(chunks)} chunks from {CHUNKS_PATH}")
     print(f"Max chunk length: {max_len} characters")
+    if saved_embeddings_are_current(len(chunks)) and not args.force:
+        print("Saved embeddings are current; no API calls were made.")
+        return 0
+    if not args.force:
+        print("Saved embeddings are missing or stale; rerun with --force to rebuild offline.")
+        return 2
+    if args.batch_size < 1:
+        raise SystemExit("--batch-size must be at least 1")
 
     client = OpenAI(api_key=require_api_key())
     embeddings = []
