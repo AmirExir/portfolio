@@ -458,10 +458,10 @@
           230, 3.2,
           765, 5.2,
         ],
-        'circle-color': '#22d3ee',
-        'circle-opacity': 0.82,
-        'circle-stroke-color': '#e6fffb',
-        'circle-stroke-width': 0.45,
+        'circle-color': '#f8fafc',
+        'circle-opacity': 0.96,
+        'circle-stroke-color': '#020617',
+        'circle-stroke-width': 1.6,
       },
     });
     map.addLayer({
@@ -477,10 +477,10 @@
           500, 5.4,
           2000, 8.5,
         ],
-        'circle-color': '#34d399',
-        'circle-opacity': 0.86,
-        'circle-stroke-color': '#eafff7',
-        'circle-stroke-width': 0.6,
+        'circle-color': '#fde047',
+        'circle-opacity': 0.96,
+        'circle-stroke-color': '#020617',
+        'circle-stroke-width': 1.8,
       },
     });
     map.addLayer({

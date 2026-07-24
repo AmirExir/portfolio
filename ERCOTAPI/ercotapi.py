@@ -2577,8 +2577,8 @@ def render_grid_atlas() -> None:
     )
     transmission_lines = list(payload.get("transmission_lines") or [])
     colors = {
-        "Power plant": "#34d399",
-        "Substation": "#22d3ee",
+        "Power plant": "#fde047",
+        "Substation": "#f8fafc",
         "Data-center context": "#c084fc",
         "Price-hub context": "#fbbf24",
     }
@@ -2803,18 +2803,6 @@ def render_grid_atlas() -> None:
                 if layer_name == "Power plant"
                 else [(layer_name, layer_df)]
             )
-            plant_colors = {
-                "Solar": "#fbbf24",
-                "Wind": "#22d3ee",
-                "Natural gas": "#fb923c",
-                "Coal": "#64748b",
-                "Nuclear": "#a78bfa",
-                "Battery": "#34d399",
-                "Hydro": "#60a5fa",
-                "Biomass": "#84cc16",
-                "Petroleum": "#f43f5e",
-                "Other / unknown": "#cbd5e1",
-            }
             for group_name, group_df in groups:
                 if layer_name == "Power plant":
                     marker_sizes = (
@@ -2823,7 +2811,7 @@ def render_grid_atlas() -> None:
                         .clip(lower=0)
                         .map(lambda value: min(18, 6 + np.sqrt(value) / 5))
                     )
-                    marker_color = plant_colors.get(str(group_name), layer_color)
+                    marker_color = layer_color
                     trace_name = f"Plant · {group_name}"
                 elif layer_name == "Substation":
                     marker_sizes = (
@@ -3053,8 +3041,8 @@ def render_north_american_grid_atlas() -> None:
     transmission_lines = list(payload.get("transmission_lines") or [])
     boundaries = list(payload.get("boundaries") or [])
     colors = {
-        "Power plant": "#34d399",
-        "Substation": "#22d3ee",
+        "Power plant": "#fde047",
+        "Substation": "#f8fafc",
     }
     if region_id == "ercot":
         colors.update(
@@ -3371,18 +3359,6 @@ def render_north_american_grid_atlas() -> None:
                     )
                 )
 
-        plant_colors = {
-            "Solar": "#fbbf24",
-            "Wind": "#22d3ee",
-            "Natural gas": "#fb923c",
-            "Coal": "#64748b",
-            "Nuclear": "#a78bfa",
-            "Battery": "#34d399",
-            "Hydro": "#60a5fa",
-            "Biomass": "#84cc16",
-            "Petroleum": "#f43f5e",
-            "Other / unknown": "#cbd5e1",
-        }
         for layer_name, layer_color in colors.items():
             layer_df = filtered[filtered["layer"] == layer_name]
             if layer_df.empty:
@@ -3400,7 +3376,7 @@ def render_north_american_grid_atlas() -> None:
                         .clip(lower=0)
                         .map(lambda value: min(18, 6 + np.sqrt(value) / 5))
                     )
-                    marker_color = plant_colors.get(str(group_name), layer_color)
+                    marker_color = layer_color
                     trace_name = f"Plant · {group_name}"
                 elif layer_name == "Substation":
                     marker_sizes = (
