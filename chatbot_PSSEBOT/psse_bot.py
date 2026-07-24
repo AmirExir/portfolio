@@ -60,8 +60,10 @@ def embed_query(query: str) -> List[float]:
             model="text-embedding-3-large",
             input=query,
         )
-    except Exception:
-        return []
+    except Exception as exc:
+        raise RuntimeError(
+            f"query embedding request failed ({type(exc).__name__})"
+        ) from exc
     return resp.data[0].embedding
 
 def find_top_k_matches(query: str, chunks, embeddings, k=10):
@@ -148,18 +150,23 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.spinner("Thinking..."):
-        top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=10)
+        retrieval_error = ""
+        try:
+            top_chunks = find_top_k_matches(prompt, chunks, embeddings, k=10)
+        except Exception as exc:
+            top_chunks = []
+            retrieval_error = f"{type(exc).__name__}: {exc}"
         trimmed = limit_chunks_by_token_budget(top_chunks, max_words=12_000)
         context = format_reference_context(trimmed)
-        conversation = compact_chat_messages(
-            st.session_state.messages,
-            max_messages=6,
-            max_characters_per_message=4_000,
-        )
 
-        if not context:
+        if retrieval_error or not context:
             generation = None
         else:
+            conversation = compact_chat_messages(
+                st.session_state.messages,
+                max_messages=6,
+                max_characters_per_message=4_000,
+            )
             primary_request = {
                 "model": "gpt-5.2",
                 "reasoning": {"effort": "none"},
@@ -184,7 +191,9 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
                 retry_request=retry_request,
             )
 
-    if not context:
+    if retrieval_error:
+        st.error(f"PSS/E retrieval did not complete: {retrieval_error}.")
+    elif not context:
         st.error("No matching PSS/E documentation was found in the saved index.")
     elif generation is None or not generation.usable:
         diagnostic = (

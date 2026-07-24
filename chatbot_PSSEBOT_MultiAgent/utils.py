@@ -53,7 +53,10 @@ def embed_text(text: str, model="text-embedding-3-large"):
 
 def embed_query(query: str, model="text-embedding-3-large"):
     """Embed a user query."""
-    return embed_text(query, model=model)
+    vector = embed_text(query, model=model)
+    if vector is None:
+        raise RuntimeError("the query embedding request did not complete")
+    return vector
 
 # ---------------------------
 # Similarity Search

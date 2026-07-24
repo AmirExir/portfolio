@@ -39,19 +39,27 @@ if prompt:
 
     # Step 1: Plan
     with st.spinner(" Planning tasks..."):
-        planning_chunks = find_relevant_chunks(
-            prompt,
-            chunks,
-            embeddings,
-            k=10,
-            max_tokens=12_000,
-            query_cache=query_cache,
-        )
-        raw_tasks = (
-            plan_tasks(prompt, planning_chunks)
-            if planning_chunks
-            else "[Planner Error] no matching PSS/E documentation was retrieved"
-        )
+        try:
+            planning_chunks = find_relevant_chunks(
+                prompt,
+                chunks,
+                embeddings,
+                k=10,
+                max_tokens=12_000,
+                query_cache=query_cache,
+            )
+            planning_error = ""
+        except Exception as exc:
+            planning_chunks = []
+            planning_error = f"{type(exc).__name__}: {exc}"
+        if planning_error:
+            raw_tasks = f"[Planner Error] retrieval failed ({planning_error})"
+        elif not planning_chunks:
+            raw_tasks = (
+                "[Planner Error] no matching PSS/E documentation was retrieved"
+            )
+        else:
+            raw_tasks = plan_tasks(prompt, planning_chunks)
         task_list = parse_planner_tasks(raw_tasks, max_tasks=MAX_TASKS)
 
     with st.expander("Planned tasks", expanded=False):
@@ -75,15 +83,22 @@ if prompt:
 
         st.markdown(f"Executing task {task_number} of {len(task_list)}: `{task}`")
 
-        relevant_chunks = find_relevant_chunks(
-            task,
-            chunks,
-            embeddings,
-            k=10,
-            max_tokens=12_000,
-            query_cache=query_cache,
-        )
-        if not relevant_chunks:
+        try:
+            relevant_chunks = find_relevant_chunks(
+                task,
+                chunks,
+                embeddings,
+                k=10,
+                max_tokens=12_000,
+                query_cache=query_cache,
+            )
+            task_retrieval_error = ""
+        except Exception as exc:
+            relevant_chunks = []
+            task_retrieval_error = f"{type(exc).__name__}: {exc}"
+        if task_retrieval_error:
+            result = f"[Executor Error] retrieval failed ({task_retrieval_error})"
+        elif not relevant_chunks:
             result = (
                 "[Executor Error] no matching documentation was retrieved for "
                 f"this task: {task}"
