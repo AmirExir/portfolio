@@ -3,7 +3,7 @@ import re
 from planner import plan_tasks
 from retriever import load_chunks_and_embeddings, find_relevant_chunks
 from executor import extract_valid_funcs, run_executor
-from psse_assistant_common import parse_planner_tasks
+from utils import parse_planner_tasks
 
 st.set_page_config(page_title="Amir Exir's PSS/E Agent Loop")
 st.title("Amir Exir's PSS/E Automation Agent")

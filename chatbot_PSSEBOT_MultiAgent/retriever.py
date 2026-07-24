@@ -4,10 +4,10 @@ import json
 import numpy as np
 import streamlit as st
 
-from psse_assistant_common import validate_saved_index
 from utils import (
     find_top_k_chunks,
     limit_chunks_by_token_budget,
+    validate_saved_index,
 )
 
 # ---------------------------

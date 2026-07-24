@@ -2,10 +2,16 @@ import streamlit as st
 import os
 import json
 import re
+import sys
+from pathlib import Path
 import numpy as np
 from typing import List
 from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
+
+_REPOSITORY_ROOT = str(Path(__file__).resolve().parents[1])
+if _REPOSITORY_ROOT not in sys.path:
+    sys.path.insert(0, _REPOSITORY_ROOT)
 
 from psse_assistant_common import (
     compact_chat_messages,
@@ -21,7 +27,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # ---------------------------
 # Load / cache embeddings
 # ---------------------------
-@st.cache_data(show_spinner=False)
+@st.cache_resource(show_spinner=False)
 def load_psse_chunks_and_embeddings():
     base_path = os.path.dirname(__file__)
     cached_emb = os.path.join(base_path, "psse_embeddings.npy")

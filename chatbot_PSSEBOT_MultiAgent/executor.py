@@ -2,9 +2,7 @@
 import re
 import os
 from openai import OpenAI
-from utils import count_tokens
-
-from psse_assistant_common import request_visible_answer
+from utils import count_tokens, request_visible_answer
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 

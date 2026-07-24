@@ -1,10 +1,22 @@
 # utils.py
 import re
 import os
+import sys
+from pathlib import Path
 import numpy as np
 import tiktoken
 from openai import OpenAI
 from sklearn.metrics.pairwise import cosine_similarity
+
+_REPOSITORY_ROOT = str(Path(__file__).resolve().parents[1])
+if _REPOSITORY_ROOT not in sys.path:
+    sys.path.insert(0, _REPOSITORY_ROOT)
+
+from psse_assistant_common import (  # noqa: E402
+    parse_planner_tasks,
+    request_visible_answer,
+    validate_saved_index,
+)
 
 # ---------------------------
 # OpenAI client

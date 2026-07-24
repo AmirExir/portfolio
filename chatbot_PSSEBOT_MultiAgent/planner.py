@@ -1,8 +1,6 @@
 from openai import OpenAI
 import os
-from utils import count_tokens  # <-- reuse shared tokenizer
-
-from psse_assistant_common import request_visible_answer
+from utils import count_tokens, request_visible_answer
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
