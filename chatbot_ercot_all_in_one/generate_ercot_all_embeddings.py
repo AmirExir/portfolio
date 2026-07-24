@@ -1,33 +1,37 @@
+"""Offline generator for the inactive legacy all-in-one ERCOT cache.
+
+The deployed assistants use the versioned central index.  This script is kept
+to reproduce the historical cache, and requires ``--force`` before it can make
+paid full-corpus embedding requests.
+"""
+
+from __future__ import annotations
+
 import argparse
 import json
-import numpy as np
 import os
-import time
 import re
+import time
 from pathlib import Path
-from openai import OpenAI
 
-# === Setup ===
-base_dir = Path(__file__).resolve().parent
-source_dir = base_dir / "ercot_sources"
-chunk_output_file = base_dir / "ercot_chunks_cached.json"
-embedding_output_file = base_dir / "ercot_embeddings.npy"
-chunk_size = 7600  # character-based, kept below the per-call truncation guard
-chunk_overlap = 400
-embedding_model = "text-embedding-3-large"
+import numpy as np
 
-parser = argparse.ArgumentParser(description="Regenerate ERCOT RAG chunks and OpenAI embeddings.")
-parser.add_argument("--dry-run", action="store_true", help="Validate chunking without calling OpenAI or writing files.")
-args = parser.parse_args()
 
-# === Step 1: Load and paragraph-aware chunk all ERCOT .txt files ===
-chunks = []
+BASE_DIR = Path(__file__).resolve().parent
+SOURCE_DIR = BASE_DIR / "ercot_sources"
+CHUNK_OUTPUT_FILE = BASE_DIR / "ercot_chunks_cached.json"
+EMBEDDING_OUTPUT_FILE = BASE_DIR / "ercot_embeddings.npy"
+CHUNK_SIZE = 7_600
+CHUNK_OVERLAP = 400
+EMBEDDING_MODEL = "text-embedding-3-large"
+EMBEDDING_DIMENSION = 3072
 
-def split_long_paragraph(text, max_size):
+
+def split_long_paragraph(text: str, max_size: int) -> list[str]:
     if len(text) <= max_size:
         return [text]
 
-    parts = []
+    parts: list[str] = []
     start = 0
     while start < len(text):
         end = min(len(text), start + max_size)
@@ -45,130 +49,168 @@ def split_long_paragraph(text, max_size):
         start = end
     return parts
 
-def chunk_paragraphs(text, chunk_size, overlap):
-    paragraphs = re.split(r"\n\s*\n", text)  # split on empty lines
+
+def chunk_paragraphs(text: str, chunk_size: int, overlap: int) -> list[str]:
     current_chunk = ""
-    result_chunks = []
-    for para in paragraphs:
-        para = para.strip()
-        if not para:
+    result_chunks: list[str] = []
+    for paragraph in re.split(r"\n\s*\n", text):
+        paragraph = paragraph.strip()
+        if not paragraph:
             continue
-        for piece in split_long_paragraph(para, chunk_size):
+        for piece in split_long_paragraph(paragraph, chunk_size):
             if len(current_chunk) + len(piece) + 2 <= chunk_size:
                 current_chunk += piece + "\n\n"
             else:
                 if current_chunk.strip():
                     result_chunks.append(current_chunk.strip())
                 current_chunk = piece + "\n\n"
-    if current_chunk:
+    if current_chunk.strip():
         result_chunks.append(current_chunk.strip())
-    
-    # Add overlap
+
     final_chunks = []
-    for i, chunk in enumerate(result_chunks):
-        overlap_text = result_chunks[i - 1][-overlap:] if i > 0 else ""
-        combined = (overlap_text + "\n" + chunk).strip()
-        final_chunks.append(combined)
+    for index, chunk in enumerate(result_chunks):
+        overlap_text = result_chunks[index - 1][-overlap:] if index > 0 else ""
+        final_chunks.append((overlap_text + "\n" + chunk).strip())
     return final_chunks
 
-source_files = sorted(source_dir.glob("*.txt"))
-for filepath in source_files:
-    with open(filepath, "r", encoding="utf-8") as f:
-        text = f.read()
-        chunk_texts = chunk_paragraphs(text, chunk_size, chunk_overlap)
-        for idx, chunk_text in enumerate(chunk_texts):
-            chunks.append({
-                "text": chunk_text,
-                "source": filepath.name,
-                "chunk_index": idx
-            })
 
-print(f" Loaded and chunked {len(chunks)} chunks from {len(source_files)} files.")
-max_chunk_len = max((len(chunk["text"]) for chunk in chunks), default=0)
-oversized_chunks = [
-    (idx, chunk["source"], chunk["chunk_index"], len(chunk["text"]))
-    for idx, chunk in enumerate(chunks)
-    if len(chunk["text"]) > 8192
-]
-section_9_chunks = [
-    idx
-    for idx, chunk in enumerate(chunks)
-    if chunk["source"] == "ercotaiassistant.txt"
-    and "LARGE LOAD ADDITIONS AT NEW OR MODIFICATION" in chunk["text"]
-]
+def build_chunks() -> tuple[list[dict], int]:
+    chunks: list[dict] = []
+    source_files = sorted(SOURCE_DIR.glob("*.txt"))
+    for filepath in source_files:
+        text = filepath.read_text(encoding="utf-8")
+        for index, chunk_text in enumerate(
+            chunk_paragraphs(text, CHUNK_SIZE, CHUNK_OVERLAP)
+        ):
+            chunks.append(
+                {
+                    "text": chunk_text,
+                    "source": filepath.name,
+                    "chunk_index": index,
+                }
+            )
+    return chunks, len(source_files)
 
-print(f" Max chunk length: {max_chunk_len} characters")
-print(f" ERCOT Planning Guide Section 9 chunks: {section_9_chunks}")
 
-if oversized_chunks:
-    preview = ", ".join(str(item) for item in oversized_chunks[:5])
-    raise RuntimeError(f"Found chunks over 8192 characters after splitting: {preview}")
+def validate_chunks(chunks: list[dict]) -> None:
+    oversized = [
+        (index, chunk["source"], chunk["chunk_index"], len(chunk["text"]))
+        for index, chunk in enumerate(chunks)
+        if len(chunk["text"]) > 8_192
+    ]
+    if oversized:
+        preview = ", ".join(str(item) for item in oversized[:5])
+        raise RuntimeError(f"Found chunks over 8192 characters after splitting: {preview}")
 
-if args.dry_run:
-    print(" Dry run complete. No files were written.")
-    raise SystemExit(0)
 
-# === Step 2: Initialize OpenAI ===
-api_key = os.getenv("OPENAI_API_KEY", "").strip()
-if not api_key or api_key in {"your-key", "your-key-here"}:
-    raise SystemExit(
-        "OPENAI_API_KEY is missing or still set to a placeholder. "
-        "Export your real key before running this script."
+def saved_cache_is_current(chunks: list[dict]) -> bool:
+    try:
+        saved_chunks = json.loads(CHUNK_OUTPUT_FILE.read_text(encoding="utf-8"))
+        embeddings = np.load(
+            EMBEDDING_OUTPUT_FILE,
+            mmap_mode="r",
+            allow_pickle=False,
+        )
+    except (OSError, ValueError, json.JSONDecodeError):
+        return False
+    return (
+        saved_chunks == chunks
+        and embeddings.ndim == 2
+        and embeddings.shape == (len(chunks), EMBEDDING_DIMENSION)
     )
 
-client = OpenAI(api_key=api_key)
 
-def safe_openai_call(api_function, max_retries=5, backoff_factor=2, **kwargs):
-    retries = 0
-    while retries < max_retries:
+def require_api_key() -> str:
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key or api_key in {"your-key", "your-key-here"}:
+        raise SystemExit("OPENAI_API_KEY is required only for an explicit --force rebuild.")
+    return api_key
+
+
+def create_embedding(client, text: str, max_retries: int = 5) -> list[float]:
+    for attempt in range(max_retries):
         try:
-            return api_function(**kwargs)
-        except Exception as e:
-            if getattr(e, "status_code", None) in {401, 403}:
+            response = client.embeddings.create(model=EMBEDDING_MODEL, input=text)
+            if not response.data:
+                raise RuntimeError("OpenAI returned no embedding data")
+            return response.data[0].embedding
+        except Exception as exc:
+            if getattr(exc, "status_code", None) in {401, 403}:
+                raise RuntimeError("OpenAI authentication failed; not retrying.") from None
+            if attempt + 1 == max_retries:
                 raise RuntimeError(
-                    "OpenAI authentication failed. Check OPENAI_API_KEY; not retrying."
-                ) from None
-            wait_time = backoff_factor ** retries
-            print(f" Error: {e} — Retrying in {wait_time} seconds...")
+                    f"Embedding failed after {max_retries} attempts: {type(exc).__name__}"
+                ) from exc
+            wait_time = 2**attempt
+            print(f"Embedding request failed; retrying in {wait_time} seconds.")
             time.sleep(wait_time)
-            retries += 1
-    return None
+    raise AssertionError("unreachable")
 
-# === Step 3: Compute embeddings ===
-embeddings = []
-for i, chunk in enumerate(chunks):
-    text = chunk["text"]
-    print(f" Processing chunk {i+1}/{len(chunks)}")
-    response = safe_openai_call(
-        client.embeddings.create,
-        model=embedding_model,
-        input=text
+
+def write_cache(chunks: list[dict], embeddings: list[list[float]]) -> None:
+    if len(chunks) != len(embeddings):
+        raise RuntimeError(
+            f"Refusing a misaligned cache: {len(chunks)} chunks, {len(embeddings)} vectors"
+        )
+    chunk_tmp = CHUNK_OUTPUT_FILE.with_suffix(".json.tmp")
+    embedding_tmp = EMBEDDING_OUTPUT_FILE.with_suffix(".npy.tmp")
+    chunk_tmp.write_text(json.dumps(chunks, indent=2), encoding="utf-8")
+    with embedding_tmp.open("wb") as handle:
+        np.save(handle, np.asarray(embeddings, dtype=np.float32))
+    chunk_tmp.replace(CHUNK_OUTPUT_FILE)
+    embedding_tmp.replace(EMBEDDING_OUTPUT_FILE)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        description="Validate or explicitly regenerate the legacy ERCOT RAG cache."
     )
-    if response and response.data:
-        embeddings.append(response.data[0].embedding)
-        print(f" Chunk {i+1} embedded")
-    else:
-        print(f" Skipped chunk {i+1} due to error")
-        embeddings.append(None)
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Validate chunking without calling OpenAI or writing files.",
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Acknowledge the paid full-corpus OpenAI embedding rebuild.",
+    )
+    args = parser.parse_args(argv)
 
-# === Step 4: Filter out failed ===
-valid_data = [(c, e) for c, e in zip(chunks, embeddings) if e is not None]
-if not valid_data:
-    raise RuntimeError("No valid embeddings generated.")
-final_chunks, final_embeddings = zip(*valid_data)
+    chunks, source_count = build_chunks()
+    validate_chunks(chunks)
+    max_chunk_len = max((len(chunk["text"]) for chunk in chunks), default=0)
+    section_9_chunks = [
+        index
+        for index, chunk in enumerate(chunks)
+        if chunk["source"] == "ercotaiassistant.txt"
+        and "LARGE LOAD ADDITIONS AT NEW OR MODIFICATION" in chunk["text"]
+    ]
+    print(f"Loaded and chunked {len(chunks)} chunks from {source_count} files.")
+    print(f"Max chunk length: {max_chunk_len} characters")
+    print(f"ERCOT Planning Guide Section 9 chunks: {section_9_chunks}")
 
-# === Step 5: Save ===
-tmp_chunk_output_file = chunk_output_file.with_suffix(".json.tmp")
-tmp_embedding_output_file = embedding_output_file.with_suffix(".npy.tmp")
+    if args.dry_run:
+        print("Dry run complete. No files were written and no API calls were made.")
+        return 0
+    if saved_cache_is_current(chunks) and not args.force:
+        print("Saved legacy cache is current; no API calls were made.")
+        return 0
+    if not args.force:
+        print("Saved legacy cache is missing or stale; rerun with --force to rebuild offline.")
+        return 2
 
-with open(tmp_chunk_output_file, "w", encoding="utf-8") as f:
-    json.dump(final_chunks, f, indent=2)
-with open(tmp_embedding_output_file, "wb") as f:
-    np.save(f, np.array(final_embeddings))
+    from openai import OpenAI
 
-tmp_chunk_output_file.replace(chunk_output_file)
-tmp_embedding_output_file.replace(embedding_output_file)
+    client = OpenAI(api_key=require_api_key())
+    embeddings = []
+    for index, chunk in enumerate(chunks, 1):
+        print(f"Embedding chunk {index}/{len(chunks)}")
+        embeddings.append(create_embedding(client, chunk["text"]))
+    write_cache(chunks, embeddings)
+    print(f"Saved {len(embeddings)} aligned embeddings to {EMBEDDING_OUTPUT_FILE}.")
+    return 0
 
-print(f"\n Saved {len(final_chunks)} valid chunks to:")
-print(f"   → {chunk_output_file}")
-print(f"   → {embedding_output_file}")
+
+if __name__ == "__main__":
+    raise SystemExit(main())
