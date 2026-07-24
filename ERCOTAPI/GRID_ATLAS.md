@@ -44,6 +44,26 @@ Every source URL, normalized count, input checksum, reporting date, regional
 artifact checksum, compressed size, and record count is recorded in
 `grid_atlas_data/manifest.json`.
 
+### Optional OpenStreetMap enrichment
+
+A verified OpenStreetMap GeoJSON extract can supplement missing line and
+substation voltage. This is a secondary enrichment source, not replacement
+geometry or an authoritative network model:
+
+- known government-source voltage is never overwritten;
+- missing owner, operator, circuit, cable, and line-reference fields may be
+  supplemented after the same conservative match;
+- line matches require close, bidirectional geometric overlap;
+- conflicting near-equal matches remain unknown;
+- nearby substation matches must be unambiguous; and
+- every accepted value is labeled `OSM-suggested` and records
+  `voltage_source`, `voltage_source_url`, `voltage_match_confidence`,
+  `voltage_retrieved_at`, `osm_asset_id`, and all parsed `osm_voltages`.
+
+The optional extract must use standard OSM `power` and `voltage` tags and must
+be captured during the offline refresh. The visitor-facing applications never
+query Overpass or OpenStreetMap.
+
 ## Offline refresh
 
 Download and independently verify complete source extracts first. Then run:
@@ -58,6 +78,8 @@ python -m ERCOTAPI.grid_atlas_builder \
   --canvec-dir /path/to/canvec_50K_CA_Res_MGT \
   --canada-plants /path/to/nacei_canada_power_plants_100mw.geojson \
   --canada-plants /path/to/nacei_canada_renewable_plants_1mw.geojson \
+  --osm-power /path/to/verified_osm_power_extract.geojson \
+  --osm-retrieved-at 2026-07-23 \
   --output ERCOTAPI/grid_atlas_data
 ```
 
@@ -67,9 +89,10 @@ The builder:
 2. removes HIFLD missing-value sentinels;
 3. deduplicates overlapping Canadian plant layers;
 4. tags U.S. assets against the original HIFLD ISO/RTO shapefile;
-5. simplifies display geometry and creates one shard per filter;
-6. writes deterministic gzip files into a staging directory; and
-7. replaces the last good package only after every shard succeeds.
+5. optionally enriches only unknown voltage from conservative OSM matches;
+6. simplifies display geometry and creates one shard per filter;
+7. writes deterministic gzip files into a staging directory; and
+8. replaces the last good package only after every shard succeeds.
 
 Run the Atlas tests before deployment:
 

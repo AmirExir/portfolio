@@ -2322,6 +2322,27 @@ def _atlas_public_assets(payload: Dict[str, Any]) -> pd.DataFrame:
             if voltage is not None
             else "Voltage unavailable"
         )
+        voltage_provenance = (
+            " · ".join(
+                value
+                for value in (
+                    str(substation.get("voltage_match_status") or ""),
+                    (
+                        f"{float(substation['voltage_match_confidence']):.0%} confidence"
+                        if substation.get("voltage_match_confidence") is not None
+                        else ""
+                    ),
+                    (
+                        f"retrieved {substation['voltage_retrieved_at']}"
+                        if substation.get("voltage_retrieved_at")
+                        else ""
+                    ),
+                )
+                if value
+            )
+            if substation.get("voltage_source")
+            else ""
+        )
         location = ", ".join(
             value
             for value in (
@@ -2340,7 +2361,15 @@ def _atlas_public_assets(payload: Dict[str, Any]) -> pd.DataFrame:
                 "lon": substation.get("lon"),
                 "type": _atlas_voltage_band(voltage),
                 "detail": " · ".join(
-                    value for value in (voltage_text, location) if value
+                    value
+                    for value in (
+                        voltage_text,
+                        substation.get("owner"),
+                        substation.get("operator"),
+                        voltage_provenance,
+                        location,
+                    )
+                    if value
                 ),
                 "source": substation.get("source") or "Public ArcGIS substation layer",
                 "city": substation.get("city") or "",
@@ -2710,11 +2739,11 @@ def render_grid_atlas() -> None:
     with map_col:
         fig = go.Figure()
         line_colors = {
-            "500–765 kV": "#ef4444",
-            "345–499 kV": "#f97316",
-            "230–344 kV": "#f59e0b",
-            "138–229 kV": "#8b5cf6",
-            "69–137 kV": "#3b82f6",
+            "500–765 kV": "#f97316",
+            "345–499 kV": "#22c55e",
+            "230–344 kV": "#a855f7",
+            "138–229 kV": "#0ea5e9",
+            "69–137 kV": "#ef4444",
             "Below 69 kV": "#64748b",
             "Unknown voltage": "#94a3b8",
         }
@@ -2738,6 +2767,7 @@ def render_grid_atlas() -> None:
                             line.get("name"),
                             f"{float(voltage):,.0f} kV" if voltage is not None else "Voltage unknown",
                             line.get("owner"),
+                            line.get("operator"),
                             line.get("status"),
                         )
                         if value
@@ -3259,11 +3289,11 @@ def render_north_american_grid_atlas() -> None:
                 )
 
         line_colors = {
-            "500–765 kV": "#ef4444",
-            "345–499 kV": "#f97316",
-            "230–344 kV": "#f59e0b",
-            "138–229 kV": "#8b5cf6",
-            "69–137 kV": "#3b82f6",
+            "500–765 kV": "#f97316",
+            "345–499 kV": "#22c55e",
+            "230–344 kV": "#a855f7",
+            "138–229 kV": "#0ea5e9",
+            "69–137 kV": "#ef4444",
             "Below 69 kV": "#64748b",
             "Unknown voltage": "#94a3b8",
         }
@@ -3291,8 +3321,26 @@ def render_north_american_grid_atlas() -> None:
                                 else "Voltage unknown"
                             ),
                             line.get("owner"),
+                            line.get("operator"),
                             line.get("status"),
                             line.get("country"),
+                            (
+                                " · ".join(
+                                    value
+                                    for value in (
+                                        str(line.get("voltage_match_status") or ""),
+                                        (
+                                            f"{float(line['voltage_match_confidence']):.0%} confidence"
+                                            if line.get("voltage_match_confidence")
+                                            is not None
+                                            else ""
+                                        ),
+                                    )
+                                    if value
+                                )
+                                if line.get("voltage_source")
+                                else ""
+                            ),
                         )
                         if value
                     )

@@ -11,8 +11,10 @@ from pathlib import Path
 
 from ERCOTAPI.grid_atlas_builder import (
     _point_in_boundary,
+    enrich_unknown_voltage_from_osm,
     normalize_boundaries,
     normalize_canada_plants,
+    normalize_osm_power,
     simplify_path,
 )
 from ERCOTAPI.grid_atlas_store import (
@@ -166,6 +168,129 @@ class GridAtlasStoreTests(unittest.TestCase):
         self.assertEqual(len(plants), 1)
         self.assertEqual(plants[0]["capacity_mw"], 250)
         self.assertEqual(plants[0]["period"], "2017-08")
+
+    def test_osm_normalization_parses_voltage_and_provenance_fields(self):
+        features = [
+            {
+                "type": "Feature",
+                "properties": {
+                    "@id": "way/42",
+                    "power": "line",
+                    "voltage": "345000;138000",
+                    "operator": "Example Grid",
+                    "circuits": "2",
+                },
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": [[-100, 30], [-99.99, 30]],
+                },
+            }
+        ]
+
+        lines, substations = normalize_osm_power(
+            features, retrieved_at="2026-07-23"
+        )
+
+        self.assertEqual(substations, [])
+        self.assertEqual(lines[0]["osm_voltages"], [345.0, 138.0])
+        self.assertEqual(lines[0]["osm_asset_id"], "way/42")
+        self.assertEqual(lines[0]["retrieved_at"], "2026-07-23")
+
+    def test_osm_enrichment_fills_unknown_without_replacing_known_voltage(self):
+        unknown = {
+            "asset_id": "government:unknown",
+            "voltage": None,
+            "owner": "",
+            "paths": [[[-100, 30], [-99.99, 30]]],
+        }
+        known = {
+            "asset_id": "government:known",
+            "voltage": 230,
+            "paths": [[[-100, 30], [-99.99, 30]]],
+        }
+        osm = {
+            "osm_asset_id": "way/42",
+            "osm_voltages": [345.0],
+            "operator": "Example Grid",
+            "owner": "",
+            "circuits": "2",
+            "cables": "6",
+            "reference": "A-1",
+            "retrieved_at": "2026-07-23",
+            "paths": [[[-100, 30], [-99.99, 30]]],
+        }
+
+        stats = enrich_unknown_voltage_from_osm(
+            [unknown, known], [], [osm], []
+        )
+
+        self.assertEqual(stats["line_matches"], 1)
+        self.assertEqual(unknown["voltage"], 345)
+        self.assertEqual(unknown["voltage_source"], "OpenStreetMap")
+        self.assertEqual(unknown["voltage_match_status"], "OSM-suggested")
+        self.assertEqual(unknown["voltage_retrieved_at"], "2026-07-23")
+        self.assertEqual(unknown["operator"], "Example Grid")
+        self.assertEqual(known["voltage"], 230)
+        self.assertEqual(known["operator"], "Example Grid")
+        self.assertNotIn("voltage_source", known)
+
+    def test_osm_enrichment_rejects_ambiguous_voltage_matches(self):
+        line = {
+            "asset_id": "government:unknown",
+            "voltage": None,
+            "paths": [[[-100, 30], [-99.99, 30]]],
+        }
+        common = {
+            "operator": "",
+            "owner": "",
+            "circuits": "",
+            "cables": "",
+            "reference": "",
+            "retrieved_at": "2026-07-23",
+            "paths": [[[-100, 30], [-99.99, 30]]],
+        }
+
+        stats = enrich_unknown_voltage_from_osm(
+            [line],
+            [],
+            [
+                {**common, "osm_asset_id": "way/1", "osm_voltages": [138.0]},
+                {**common, "osm_asset_id": "way/2", "osm_voltages": [230.0]},
+            ],
+            [],
+        )
+
+        self.assertEqual(stats["line_ambiguous"], 1)
+        self.assertIsNone(line["voltage"])
+        self.assertNotIn("voltage_source", line)
+
+    def test_osm_enrichment_matches_nearby_unknown_substation(self):
+        substation = {
+            "asset_id": "government:substation",
+            "max_voltage": None,
+            "lon": -100,
+            "lat": 30,
+        }
+        osm = {
+            "osm_asset_id": "node/7",
+            "osm_voltages": [138.0, 69.0],
+            "operator": "",
+            "owner": "",
+            "circuits": "",
+            "cables": "",
+            "reference": "",
+            "retrieved_at": "2026-07-23",
+            "lon": -100.0001,
+            "lat": 30,
+        }
+
+        stats = enrich_unknown_voltage_from_osm(
+            [], [substation], [], [osm]
+        )
+
+        self.assertEqual(stats["substation_matches"], 1)
+        self.assertEqual(substation["max_voltage"], 138)
+        self.assertEqual(substation["voltage_match_status"], "OSM-suggested")
 
     def test_shipped_atlas_has_all_market_and_country_shards(self):
         manifest = load_grid_atlas_manifest(PACKAGED_ATLAS_MANIFEST)

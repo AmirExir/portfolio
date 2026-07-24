@@ -46,6 +46,7 @@ ISO_RTO_SOURCE_URL = (
     "https://catalog.data.gov/dataset/independent-system-operators"
 )
 NERC_REFERENCE_URL = "https://nerc.com/AboutNERC/keyplayers/Pages/default.aspx"
+OPENSTREETMAP_URL = "https://www.openstreetmap.org/"
 
 MARKET_ALIASES = {
     "CALIFORNIA INDEPENDENT SYSTEM OPERATOR": ("caiso", "CAISO"),
@@ -344,6 +345,434 @@ def _deduplicate(records: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
             raise GridAtlasBuildError("Normalized Grid Atlas record has no asset id")
         by_id[asset_id] = record
     return [by_id[asset_id] for asset_id in sorted(by_id)]
+
+
+def _osm_voltages(value: Any) -> list[float]:
+    """Parse OSM's semicolon-delimited, volts-based voltage tag into kV."""
+
+    voltages: set[float] = set()
+    for item in str(value or "").replace(",", ";").split(";"):
+        number = _number(item.strip())
+        if number is None or number < 1_000:
+            continue
+        kilovolts = number / 1_000
+        if 1 <= kilovolts <= 1_500:
+            voltages.add(round(kilovolts, 3))
+    return sorted(voltages, reverse=True)
+
+
+def _polygon_center(geometry: Mapping[str, Any]) -> tuple[float, float] | None:
+    coordinates = geometry.get("coordinates")
+    geometry_type = _text(geometry.get("type"))
+    if geometry_type == "Polygon":
+        rings = coordinates
+    elif geometry_type == "MultiPolygon":
+        rings = (coordinates or [None])[0]
+    else:
+        return None
+    outer = (rings or [None])[0] or []
+    points = [
+        (float(point[0]), float(point[1]))
+        for point in outer
+        if isinstance(point, Sequence)
+        and len(point) >= 2
+        and _number(point[0]) is not None
+        and _number(point[1]) is not None
+    ]
+    if not points:
+        return None
+    return (
+        sum(point[0] for point in points) / len(points),
+        sum(point[1] for point in points) / len(points),
+    )
+
+
+def normalize_osm_power(
+    features: Iterable[Mapping[str, Any]],
+    *,
+    retrieved_at: str,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Normalize a verified OSM GeoJSON extract without treating it as authoritative."""
+
+    lines: list[dict[str, Any]] = []
+    substations: list[dict[str, Any]] = []
+    for feature in features:
+        properties = _properties(feature)
+        power = _text(_property(properties, "power"))
+        voltages = _osm_voltages(_property(properties, "voltage"))
+        if not voltages:
+            continue
+        osm_id = _text(
+            _property(properties, "@id", "id", "osm_id", "osm_way_id")
+        )
+        common = {
+            "osm_asset_id": osm_id,
+            "osm_voltages": voltages,
+            "operator": _text(_property(properties, "operator")),
+            "owner": _text(_property(properties, "owner")),
+            "circuits": _text(_property(properties, "circuits")),
+            "cables": _text(_property(properties, "cables")),
+            "reference": _text(_property(properties, "ref")),
+            "retrieved_at": retrieved_at,
+        }
+        geometry = _geometry(feature)
+        if power in {"line", "minor_line", "cable"}:
+            paths = _line_paths(geometry)
+            if paths:
+                lines.append({**common, "paths": paths})
+        elif power in {"substation", "station"}:
+            coordinate = _point(geometry, properties) or _polygon_center(geometry)
+            if coordinate is not None:
+                substations.append(
+                    {**common, "lon": coordinate[0], "lat": coordinate[1]}
+                )
+    return lines, substations
+
+
+def _distance_meters(
+    first: Sequence[float],
+    second: Sequence[float],
+) -> float:
+    latitude = math.radians((float(first[1]) + float(second[1])) / 2)
+    dx = (float(first[0]) - float(second[0])) * 111_320 * math.cos(latitude)
+    dy = (float(first[1]) - float(second[1])) * 110_540
+    return math.hypot(dx, dy)
+
+
+def _point_segment_distance_meters(
+    point: Sequence[float],
+    start: Sequence[float],
+    end: Sequence[float],
+) -> float:
+    latitude = math.radians(float(point[1]))
+    scale_x = 111_320 * math.cos(latitude)
+    scale_y = 110_540
+    px, py = 0.0, 0.0
+    ax = (float(start[0]) - float(point[0])) * scale_x
+    ay = (float(start[1]) - float(point[1])) * scale_y
+    bx = (float(end[0]) - float(point[0])) * scale_x
+    by = (float(end[1]) - float(point[1])) * scale_y
+    dx, dy = bx - ax, by - ay
+    denominator = dx * dx + dy * dy
+    if denominator:
+        position = max(0.0, min(1.0, -(ax * dx + ay * dy) / denominator))
+        ax += position * dx
+        ay += position * dy
+    return math.hypot(ax - px, ay - py)
+
+
+def _sample_paths(
+    paths: Iterable[Sequence[Sequence[float]]],
+    *,
+    spacing_meters: float = 400,
+    limit: int = 500,
+) -> list[list[float]]:
+    samples: list[list[float]] = []
+    for path in paths:
+        if len(path) < 2:
+            continue
+        for start, end in zip(path, path[1:]):
+            distance = _distance_meters(start, end)
+            steps = max(1, int(math.ceil(distance / spacing_meters)))
+            for step in range(steps):
+                fraction = step / steps
+                samples.append(
+                    [
+                        float(start[0]) + (float(end[0]) - float(start[0])) * fraction,
+                        float(start[1]) + (float(end[1]) - float(start[1])) * fraction,
+                    ]
+                )
+                if len(samples) >= limit:
+                    return samples
+        samples.append([float(path[-1][0]), float(path[-1][1])])
+        if len(samples) >= limit:
+            return samples
+    return samples
+
+
+def _coverage(
+    samples: Sequence[Sequence[float]],
+    paths: Sequence[Sequence[Sequence[float]]],
+    tolerance_meters: float,
+) -> tuple[float, float]:
+    if not samples:
+        return 0.0, float("inf")
+    distances = [
+        min(
+            _point_segment_distance_meters(point, start, end)
+            for path in paths
+            for start, end in zip(path, path[1:])
+        )
+        for point in samples
+    ]
+    return (
+        sum(distance <= tolerance_meters for distance in distances) / len(distances),
+        sum(distances) / len(distances),
+    )
+
+
+def _line_match_score(
+    primary_paths: Sequence[Sequence[Sequence[float]]],
+    osm_paths: Sequence[Sequence[Sequence[float]]],
+    *,
+    tolerance_meters: float,
+) -> float:
+    primary_samples = _sample_paths(primary_paths)
+    osm_samples = _sample_paths(osm_paths)
+    primary_coverage, primary_distance = _coverage(
+        primary_samples, osm_paths, tolerance_meters
+    )
+    osm_coverage, osm_distance = _coverage(
+        osm_samples, primary_paths, tolerance_meters
+    )
+    if primary_coverage < 0.8 or osm_coverage < 0.7:
+        return 0.0
+    proximity = max(
+        0.0,
+        1 - ((primary_distance + osm_distance) / 2) / tolerance_meters,
+    )
+    return 0.45 * primary_coverage + 0.35 * osm_coverage + 0.2 * proximity
+
+
+def _apply_osm_fields(
+    record: dict[str, Any],
+    osm: Mapping[str, Any],
+    *,
+    voltage_field: str,
+    score: float,
+) -> tuple[bool, bool]:
+    filled_voltage = record.get(voltage_field) is None
+    if filled_voltage:
+        record[voltage_field] = max(osm["osm_voltages"])
+        record["voltage_source"] = "OpenStreetMap"
+        record["voltage_source_url"] = OPENSTREETMAP_URL
+        record["voltage_retrieved_at"] = osm["retrieved_at"]
+        record["voltage_match_confidence"] = round(score, 3)
+        record["voltage_match_status"] = "OSM-suggested"
+    record["osm_metadata_source"] = "OpenStreetMap"
+    record["osm_metadata_source_url"] = OPENSTREETMAP_URL
+    record["osm_metadata_retrieved_at"] = osm["retrieved_at"]
+    record["osm_match_confidence"] = round(score, 3)
+    record["osm_voltages"] = list(osm["osm_voltages"])
+    record["osm_asset_id"] = osm.get("osm_asset_id", "")
+    filled_metadata = False
+    for target, source in (
+        ("owner", "owner"),
+        ("operator", "operator"),
+        ("circuits", "circuits"),
+        ("cables", "cables"),
+        ("line_reference", "reference"),
+    ):
+        if not record.get(target) and osm.get(source):
+            record[target] = osm[source]
+            filled_metadata = True
+    return filled_voltage, filled_metadata
+
+
+def enrich_unknown_voltage_from_osm(
+    lines: list[dict[str, Any]],
+    substations: list[dict[str, Any]],
+    osm_lines: Sequence[Mapping[str, Any]],
+    osm_substations: Sequence[Mapping[str, Any]],
+    *,
+    line_tolerance_meters: float = 250,
+    substation_tolerance_meters: float = 200,
+) -> dict[str, int]:
+    """Fill only unknown voltage values using conservative, unambiguous OSM matches."""
+
+    stats = {
+        "line_matches": 0,
+        "line_ambiguous": 0,
+        "line_metadata_matches": 0,
+        "substation_matches": 0,
+        "substation_ambiguous": 0,
+        "substation_metadata_matches": 0,
+    }
+    cell_size = 0.1
+    line_cells: dict[tuple[int, int], set[int]] = {}
+    for index, osm in enumerate(osm_lines):
+        for longitude, latitude in _sample_paths(
+            osm.get("paths", []), spacing_meters=2_000, limit=250
+        ):
+            cell = (
+                math.floor(longitude / cell_size),
+                math.floor(latitude / cell_size),
+            )
+            line_cells.setdefault(cell, set()).add(index)
+    substation_cells: dict[tuple[int, int], set[int]] = {}
+    for index, osm in enumerate(osm_substations):
+        cell = (
+            math.floor(float(osm["lon"]) / cell_size),
+            math.floor(float(osm["lat"]) / cell_size),
+        )
+        substation_cells.setdefault(cell, set()).add(index)
+
+    for record in lines:
+        if (
+            record.get("voltage") is not None
+            and record.get("owner")
+            and record.get("operator")
+            and record.get("circuits")
+            and record.get("cables")
+            and record.get("line_reference")
+        ):
+            continue
+        candidate_indexes: set[int] = set()
+        for longitude, latitude in _sample_paths(
+            record.get("paths", []), spacing_meters=2_000, limit=250
+        ):
+            cell_x = math.floor(longitude / cell_size)
+            cell_y = math.floor(latitude / cell_size)
+            for offset_x in (-1, 0, 1):
+                for offset_y in (-1, 0, 1):
+                    candidate_indexes.update(
+                        line_cells.get(
+                            (cell_x + offset_x, cell_y + offset_y), ()
+                        )
+                    )
+        grouped: dict[tuple[float, ...], list[Mapping[str, Any]]] = {}
+        for osm in (osm_lines[index] for index in candidate_indexes):
+            grouped.setdefault(tuple(osm.get("osm_voltages", [])), []).append(osm)
+        scored: list[tuple[float, Mapping[str, Any]]] = []
+        for voltages, candidates in grouped.items():
+            combined_paths = [
+                path
+                for candidate in candidates
+                for path in candidate.get("paths", [])
+            ]
+            common_fields: dict[str, Any] = {}
+            for field in (
+                "operator",
+                "owner",
+                "circuits",
+                "cables",
+                "reference",
+                "retrieved_at",
+            ):
+                values = {
+                    str(candidate.get(field) or "")
+                    for candidate in candidates
+                    if candidate.get(field)
+                }
+                common_fields[field] = values.pop() if len(values) == 1 else ""
+            combined = {
+                **common_fields,
+                "osm_asset_id": ",".join(
+                    sorted(
+                        str(candidate.get("osm_asset_id") or "")
+                        for candidate in candidates
+                        if candidate.get("osm_asset_id")
+                    )
+                ),
+                "osm_voltages": list(voltages),
+                "paths": combined_paths,
+            }
+            scored.append(
+                (
+                    _line_match_score(
+                        record.get("paths", []),
+                        combined_paths,
+                        tolerance_meters=line_tolerance_meters,
+                    ),
+                    combined,
+                )
+            )
+        scored.sort(key=lambda item: item[0], reverse=True)
+        scored = [item for item in scored if item[0] >= 0.82]
+        known_voltage = _number(record.get("voltage"))
+        if known_voltage is not None:
+            compatible = [
+                item
+                for item in scored
+                if any(
+                    math.isclose(known_voltage, voltage, abs_tol=0.1)
+                    for voltage in item[1].get("osm_voltages", [])
+                )
+            ]
+            scored = compatible or scored
+        if not scored:
+            continue
+        best_score, best = scored[0]
+        competing = [
+            candidate
+            for score, candidate in scored[1:]
+            if best_score - score < 0.08
+            and candidate.get("osm_voltages") != best.get("osm_voltages")
+        ]
+        if competing:
+            stats["line_ambiguous"] += 1
+            continue
+        filled_voltage, filled_metadata = _apply_osm_fields(
+            record, best, voltage_field="voltage", score=best_score
+        )
+        stats["line_matches"] += int(filled_voltage)
+        stats["line_metadata_matches"] += int(filled_metadata)
+
+    for record in substations:
+        if (
+            record.get("max_voltage") is not None
+            and record.get("owner")
+            and record.get("operator")
+        ):
+            continue
+        cell_x = math.floor(float(record["lon"]) / cell_size)
+        cell_y = math.floor(float(record["lat"]) / cell_size)
+        candidate_indexes = set()
+        for offset_x in (-1, 0, 1):
+            for offset_y in (-1, 0, 1):
+                candidate_indexes.update(
+                    substation_cells.get(
+                        (cell_x + offset_x, cell_y + offset_y), ()
+                    )
+                )
+        candidates = sorted(
+            (
+                (
+                    _distance_meters(
+                        [record["lon"], record["lat"]],
+                        [osm["lon"], osm["lat"]],
+                    ),
+                    osm,
+                )
+                for osm in (
+                    osm_substations[index] for index in candidate_indexes
+                )
+            ),
+            key=lambda item: item[0],
+        )
+        candidates = [
+            item for item in candidates if item[0] <= substation_tolerance_meters
+        ]
+        known_voltage = _number(record.get("max_voltage"))
+        if known_voltage is not None:
+            compatible = [
+                item
+                for item in candidates
+                if any(
+                    math.isclose(known_voltage, voltage, abs_tol=0.1)
+                    for voltage in item[1].get("osm_voltages", [])
+                )
+            ]
+            candidates = compatible or candidates
+        if not candidates:
+            continue
+        distance, best = candidates[0]
+        competing = [
+            candidate
+            for other_distance, candidate in candidates[1:]
+            if other_distance - distance < 75
+            and candidate.get("osm_voltages") != best.get("osm_voltages")
+        ]
+        if competing:
+            stats["substation_ambiguous"] += 1
+            continue
+        score = max(0.82, 1 - distance / substation_tolerance_meters)
+        filled_voltage, filled_metadata = _apply_osm_fields(
+            record, best, voltage_field="max_voltage", score=score
+        )
+        stats["substation_matches"] += int(filled_voltage)
+        stats["substation_metadata_matches"] += int(filled_metadata)
+    return stats
 
 
 def _read_dbf(path: Path) -> list[dict[str, Any]]:
@@ -1331,6 +1760,8 @@ def build_packaged_atlas(
     canada_plant_paths: Sequence[Path],
     output_dir: Path,
     nerc_boundaries_path: Path | None = None,
+    osm_power_path: Path | None = None,
+    osm_retrieved_at: str = "",
 ) -> dict[str, Any]:
     """Normalize approved sources and atomically replace the packaged store."""
 
@@ -1384,6 +1815,26 @@ def build_packaged_atlas(
         _load_feature_collection(path)
         for path in canada_plant_paths
     )
+    osm_stats: dict[str, int] | None = None
+    raw_osm_power: list[dict[str, Any]] = []
+    osm_lines: list[dict[str, Any]] = []
+    osm_substations: list[dict[str, Any]] = []
+    if osm_power_path:
+        if not osm_retrieved_at:
+            raise GridAtlasBuildError(
+                "OSM enrichment requires an explicit retrieval date"
+            )
+        raw_osm_power = _load_feature_collection(osm_power_path)
+        osm_lines, osm_substations = normalize_osm_power(
+            raw_osm_power,
+            retrieved_at=osm_retrieved_at,
+        )
+        osm_stats = enrich_unknown_voltage_from_osm(
+            [*us_lines, *canada_lines],
+            [*us_substations, *canada_substations],
+            osm_lines,
+            osm_substations,
+        )
     minimum_source_counts = {
         "us_lines": 70_000,
         "us_substations": 70_000,
@@ -1549,6 +2000,11 @@ def build_packaged_atlas(
                 "canada_power_plants": NACEI_MAP_URL,
                 "iso_rto_boundaries": ISO_RTO_SOURCE_URL,
                 "nerc_reference": NERC_REFERENCE_URL,
+                **(
+                    {"osm_secondary_enrichment": OPENSTREETMAP_URL}
+                    if osm_power_path
+                    else {}
+                ),
             },
             "source_notes": {
                 "us_infrastructure": (
@@ -1566,6 +2022,17 @@ def build_packaged_atlas(
                 "nerc_boundaries": (
                     "Approximate contiguous-U.S. reference polygons only; Canadian NERC "
                     "regional boundaries are not included."
+                ),
+                **(
+                    {
+                        "osm_secondary_enrichment": (
+                            "OSM may fill only missing voltage through conservative spatial "
+                            "matching. Suggested values retain government geometry and carry "
+                            "source, confidence, and retrieval-date fields."
+                        )
+                    }
+                    if osm_power_path
+                    else {}
                 ),
             },
             "source_counts": actual_source_counts,
@@ -1631,6 +2098,23 @@ def build_packaged_atlas(
                     "coverage": "Contiguous United States only",
                     "layer_data_edit": "2022-07-12",
                 },
+                **(
+                    {
+                        "osm_secondary_enrichment": {
+                            "sha256": _file_sha256(osm_power_path),
+                            "source_features": len(raw_osm_power),
+                            "normalized_lines_with_voltage": len(osm_lines),
+                            "normalized_substations_with_voltage": len(
+                                osm_substations
+                            ),
+                            "retrieved_at": osm_retrieved_at,
+                            "matches": osm_stats,
+                            "policy": "fill-unknown-only",
+                        }
+                    }
+                    if osm_power_path and osm_stats is not None
+                    else {}
+                ),
             },
             "disclaimer": (
                 "Public reference infrastructure and approximate regional footprints; "
@@ -1665,6 +2149,16 @@ def main() -> None:
     parser.add_argument("--us-plants", type=Path, required=True)
     parser.add_argument("--market-boundaries", type=Path, required=True)
     parser.add_argument("--nerc-boundaries", type=Path)
+    parser.add_argument(
+        "--osm-power",
+        type=Path,
+        help="Optional verified OSM GeoJSON extract used only to enrich unknown voltage",
+    )
+    parser.add_argument(
+        "--osm-retrieved-at",
+        default="",
+        help="Required ISO date for an --osm-power extract, for example 2026-07-23",
+    )
     parser.add_argument("--canvec-dir", type=Path, required=True)
     parser.add_argument("--canada-plants", type=Path, action="append", required=True)
     parser.add_argument(
@@ -1682,6 +2176,8 @@ def main() -> None:
         canvec_dir=args.canvec_dir,
         canada_plant_paths=args.canada_plants,
         output_dir=args.output,
+        osm_power_path=args.osm_power,
+        osm_retrieved_at=args.osm_retrieved_at,
     )
     print(
         json.dumps(

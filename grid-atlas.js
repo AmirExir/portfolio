@@ -161,7 +161,8 @@
     if (voltage >= 345) return '345–499 kV';
     if (voltage >= 230) return '230–344 kV';
     if (voltage >= 138) return '138–229 kV';
-    return 'Below 138 kV';
+    if (voltage >= 69) return '69–137 kV';
+    return 'Below 69 kV';
   }
 
   function normalizedPaths(paths) {
@@ -197,9 +198,15 @@
       name: firstUseful([record.name], 'Unnamed transmission line'),
       band: voltageBand(voltage),
       owner: firstUseful([record.owner]),
+      operator: firstUseful([record.operator]),
       status: firstUseful([record.status]),
       source: sourceLabel(record),
       source_url: firstUseful([record.source_url]),
+      voltage_source: firstUseful([record.voltage_source]),
+      voltage_source_url: firstUseful([record.voltage_source_url]),
+      voltage_match_status: firstUseful([record.voltage_match_status]),
+      voltage_match_confidence: finiteNumber(record.voltage_match_confidence),
+      voltage_retrieved_at: firstUseful([record.voltage_retrieved_at]),
       country: firstUseful([record.country]),
     };
     if (voltage !== null) properties.voltage = voltage;
@@ -217,6 +224,7 @@
         text: [
           properties.name,
           properties.owner,
+          properties.operator,
           properties.status,
           properties.country,
           voltage === null ? 'unknown voltage' : `${voltage} kv`,
@@ -238,9 +246,16 @@
       name: firstUseful([record.name], 'Unnamed substation'),
       category: firstUseful([record.type], 'Substation'),
       status: firstUseful([record.status]),
+      owner: firstUseful([record.owner]),
+      operator: firstUseful([record.operator]),
       place: [record.city, record.county, record.state].filter(Boolean).join(', '),
       source: sourceLabel(record),
       source_url: firstUseful([record.source_url]),
+      voltage_source: firstUseful([record.voltage_source]),
+      voltage_source_url: firstUseful([record.voltage_source_url]),
+      voltage_match_status: firstUseful([record.voltage_match_status]),
+      voltage_match_confidence: finiteNumber(record.voltage_match_confidence),
+      voltage_retrieved_at: firstUseful([record.voltage_retrieved_at]),
       country: firstUseful([record.country]),
     };
     if (voltage !== null) properties.voltage = voltage;
@@ -254,6 +269,8 @@
           properties.name,
           properties.category,
           properties.status,
+          properties.owner,
+          properties.operator,
           properties.place,
           properties.country,
           voltage === null ? 'unknown voltage' : `${voltage} kv`,
@@ -408,11 +425,12 @@
         'line-color': [
           'match',
           ['get', 'band'],
-          '500–765 kV', '#ef5350',
-          '345–499 kV', '#ff8a3d',
-          '230–344 kV', '#f5b942',
-          '138–229 kV', '#a78bfa',
-          'Below 138 kV', '#60a5fa',
+          '500–765 kV', '#f97316',
+          '345–499 kV', '#22c55e',
+          '230–344 kV', '#a855f7',
+          '138–229 kV', '#0ea5e9',
+          '69–137 kV', '#ef4444',
+          'Below 69 kV', '#64748b',
           '#94a3b8',
         ],
         'line-width': [
@@ -588,9 +606,24 @@
     );
     if (properties.category) details.push(popupLine('Category', properties.category));
     if (properties.owner) details.push(popupLine('Owner', properties.owner));
+    if (properties.operator) details.push(popupLine('Operator', properties.operator));
     if (properties.status) details.push(popupLine('Status', properties.status));
     if (properties.place) details.push(popupLine('Location', properties.place));
     if (properties.source) details.push(popupLine('Source', properties.source));
+    if (properties.voltage_source) {
+      const confidence = properties.voltage_match_confidence === null
+        ? ''
+        : ` · ${Math.round(Number(properties.voltage_match_confidence) * 100)}% confidence`;
+      const status = properties.voltage_match_status
+        ? ` (${properties.voltage_match_status}${confidence})`
+        : confidence;
+      details.push(popupLine(
+        'Voltage source',
+        `${properties.voltage_source}${status}${
+          properties.voltage_retrieved_at ? ` · retrieved ${properties.voltage_retrieved_at}` : ''
+        }`,
+      ));
+    }
     details.filter(Boolean).forEach((detail) => wrapper.appendChild(detail));
 
     if (properties.source_url) {
@@ -600,6 +633,14 @@
       sourceLink.rel = 'noopener noreferrer';
       sourceLink.textContent = 'Open public source';
       wrapper.appendChild(sourceLink);
+    }
+    if (properties.voltage_source_url) {
+      const voltageSourceLink = document.createElement('a');
+      voltageSourceLink.href = properties.voltage_source_url;
+      voltageSourceLink.target = '_blank';
+      voltageSourceLink.rel = 'noopener noreferrer';
+      voltageSourceLink.textContent = 'Open voltage source';
+      wrapper.appendChild(voltageSourceLink);
     }
     return wrapper;
   }
