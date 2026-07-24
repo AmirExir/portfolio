@@ -1,43 +1,17 @@
-import os
-import pickle
-from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import OpenAIEmbeddings
-from openai import OpenAI
+"""Legacy alias for the explicit, import-safe FAISS developer probe."""
 
-# Set OpenAI API key from environment
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+from __future__ import annotations
 
-# Set the path to the FAISS index directory
-INDEX_DIR = "ercot_combined_index"
-PKL_METADATA_PATH = os.path.join(INDEX_DIR, "index.pkl")
+import runpy
+from pathlib import Path
 
-# Load metadata stored with the FAISS index
-with open(PKL_METADATA_PATH, "rb") as f:
-    stored_data = pickle.load(f)
 
-# Load the embedding model
-embedding_model = OpenAIEmbeddings(
-    model="text-embedding-ada-002",
-    openai_api_key=os.getenv("OPENAI_API_KEY")
-)
+def main() -> None:
+    runpy.run_path(
+        str(Path(__file__).with_name("test_faiss_query.py")),
+        run_name="__main__",
+    )
 
-# Load the FAISS index with embedded chunks and allow pickle deserialization
-faiss_index = FAISS.load_local(
-    INDEX_DIR,
-    embeddings=embedding_model,
-    index_name="index",
-    allow_dangerous_deserialization=True
-)
 
-# Prompt user for a query
-query = input(" Enter your ERCOT question: ")
-
-# Search the index (top 5 matches)
-results = faiss_index.similarity_search(query, k=5)
-
-# Display results
-print("\n🔎 Top 5 results:\n" + "="*60)
-for i, doc in enumerate(results, 1):
-    print(f"\n[{i}] 📄 Source: {doc.metadata.get('source', 'unknown')} |  Chunk ID: {doc.metadata.get('chunk_id', 'N/A')}")
-    print(doc.page_content[:1000])  # Print up to 1000 characters
-    print("-"*60)
+if __name__ == "__main__":
+    main()

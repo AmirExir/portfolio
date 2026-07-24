@@ -1,22 +1,22 @@
-import json
-import numpy as np
-from sentence_transformers import SentenceTransformer
+"""Compatibility entrypoint for the guarded legacy ERCOT cache generator.
 
-# === Step 1: Load from chunks.json and write to ercot_chunks_cached.json ===
-with open("chunks.json", "r") as f:
-    chunks = json.load(f)
+The historical implementation silently overwrote 3072-dimensional OpenAI
+vectors with incompatible 384-dimensional local vectors.  Delegate to the
+validated generator instead; it is read-only unless ``--force`` is supplied.
+"""
 
-with open("ercot_chunks_cached.json", "w") as f:
-    json.dump(chunks, f)
+from __future__ import annotations
 
-print(" Step 1: ercot_chunks_cached.json created.")
+import runpy
+from pathlib import Path
 
-# === Step 2: Generate Embeddings ===
-model = SentenceTransformer("all-MiniLM-L6-v2")
-texts = [chunk["content"] for chunk in chunks]
-embeddings = model.encode(texts, show_progress_bar=True)
 
-# === Step 3: Save embeddings to .npy file ===
-np.save("ercot_embeddings.npy", embeddings)
-print(f" Step 2: Total embeddings created: {len(embeddings)}")
-print(" Step 3: Embeddings saved to ercot_embeddings.npy")    
+def main() -> None:
+    runpy.run_path(
+        str(Path(__file__).with_name("generate_ercot_all_embeddings.py")),
+        run_name="__main__",
+    )
+
+
+if __name__ == "__main__":
+    main()
