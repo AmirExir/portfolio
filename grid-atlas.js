@@ -853,6 +853,9 @@
 
     try {
       const artifactUrl = new URL(region.artifact, new URL(MANIFEST_URL, window.location.href));
+      if (region.sha256) {
+        artifactUrl.searchParams.set('v', String(region.sha256).slice(0, 16));
+      }
       const response = await fetch(artifactUrl, {
         signal: activeRequest.signal,
         cache: 'force-cache',

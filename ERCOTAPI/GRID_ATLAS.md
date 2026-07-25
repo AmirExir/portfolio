@@ -54,8 +54,10 @@ geometry or an authoritative network model:
 - missing owner, operator, circuit, cable, and line-reference fields may be
   supplemented after the same conservative match;
 - autotransformers are shown only when OSM explicitly tags
-  `power=transformer` with `transformer=auto`; multi-voltage substations are
-  never assumed to contain autotransformers;
+  `power=transformer` with the current `windings:auto=yes` schema or the
+  deprecated `transformer=auto` form; interface voltages are read from
+  `voltage:primary`, `voltage:secondary`, and related tags, while multi-voltage
+  substations are never assumed to contain autotransformers;
 - line matches require close, bidirectional geometric overlap;
 - conflicting near-equal matches remain unknown;
 - nearby substation matches must be unambiguous; and

@@ -26,13 +26,13 @@
       },
       "default_minimum_voltage": 0,
       "detail": "Performance-safe overview: U.S. lines/substations at 230 kV and above, plants at 100 MW and above, plus Canada\u2019s CanVec reference lines and transformer stations.",
-      "gzip_bytes": 2152805,
+      "gzip_bytes": 2159992,
       "id": "all",
       "include_unknown_voltage": true,
       "kind": "overview",
       "label": "All U.S. & Canada",
       "line_vertices": 50230,
-      "sha256": "0081cd53cdaceae77af0c2cc7837b62f8b2f7663d6ad0331ef3ffa70fb484073",
+      "sha256": "4ba5011abdbee25d3f06cfdbb79776e83d0c8ad5abac0aad9a392f2f4d56f4de",
       "zoom": 1.77
     },
     {
@@ -88,13 +88,13 @@
       },
       "default_minimum_voltage": 0,
       "detail": "Approximate public ISO/RTO footprint; asset location does not prove membership, ownership, or electrical connectivity.",
-      "gzip_bytes": 1801461,
+      "gzip_bytes": 1802784,
       "id": "miso",
       "include_unknown_voltage": true,
       "kind": "iso-rto",
       "label": "MISO",
       "line_vertices": 39280,
-      "sha256": "05d2703de07f8b9b6fc5c0e58a63adf242ebf0ec1bd2741afe6ce451b02d198d",
+      "sha256": "c0bc0c1b543d01c6d0669a9c73d82db3a227246be08085f2e59202f9c34f20e9",
       "zoom": 3.46
     },
     {
@@ -181,13 +181,13 @@
       },
       "default_minimum_voltage": 0,
       "detail": "Approximate public ISO/RTO footprint; asset location does not prove membership, ownership, or electrical connectivity.",
-      "gzip_bytes": 900634,
+      "gzip_bytes": 900799,
       "id": "spp",
       "include_unknown_voltage": true,
       "kind": "iso-rto",
       "label": "SPP",
       "line_vertices": 22328,
-      "sha256": "50cf35923ffa7252e759d2af798879dfdbe020f43babc7e7fa9608d03ab4128b",
+      "sha256": "526ef931ac2a1fdb9a9f9d7453317a695d83d1358fb6d5f826ad9e0211d8ec66",
       "zoom": 3.59
     },
     {
@@ -243,13 +243,13 @@
       },
       "default_minimum_voltage": 0,
       "detail": "Approximate public ISO/RTO footprint; asset location does not prove membership, ownership, or electrical connectivity.",
-      "gzip_bytes": 296668,
+      "gzip_bytes": 298777,
       "id": "iso-ne",
       "include_unknown_voltage": true,
       "kind": "iso-rto",
       "label": "ISO-NE",
       "line_vertices": 5316,
-      "sha256": "d670cd5a455bae1d077131e5ddffebf12e68ff0a0480a8f32ddad1f1339265b7",
+      "sha256": "ff6c9dcacba4b1b2c4b00d381b9c17b8da5a77c1d1f6b54f936e388512f3f6a0",
       "zoom": 5.04
     },
     {
@@ -274,13 +274,13 @@
       },
       "default_minimum_voltage": 0,
       "detail": "NRCan public cartographic reference. CanVec line and transformer source dates extend through 2015 and do not include voltage, owner, or topology.",
-      "gzip_bytes": 948134,
+      "gzip_bytes": 951384,
       "id": "canada",
       "include_unknown_voltage": true,
       "kind": "country",
       "label": "Canada",
       "line_vertices": 27781,
-      "sha256": "7c075a1b9becd0b738b07e6d3b9050ee74c233e33fa827ebfb6f08a77fcbf028",
+      "sha256": "f7ebedf3497b7db4d7090935bb1c9eb45bf2773d1c922d472c67f82d75f80458",
       "zoom": 2.04
     }
   ],
@@ -324,6 +324,18 @@
       "layer_data_edit": "2022-07-12",
       "sha256": "cc9c89d3d4d63d5d573fc3d7850ff9ee52c54076d5faf42df912cf0da259f51d"
     },
+    "osm_autotransformers": {
+      "matched_osm_records": 172,
+      "normalized_records": 317,
+      "policy": "explicit autotransformer tags only",
+      "retrieved_at": "2026-07-25T01:32:06Z",
+      "schemas": [
+        "power=transformer + windings:auto=yes",
+        "power=transformer + transformer=auto (deprecated)"
+      ],
+      "sha256": "1789815d879461ddecd1cdce9010c2b8449b8fe6c6d0a578cdbb4ca105b5611c",
+      "source_records": 317
+    },
     "us_power_plants": {
       "download_scope": "Complete U.S. public feature layer",
       "records": 13446,
@@ -363,6 +375,7 @@
     "ercot_autotransformer_overrides": "ERCOT public planning documents",
     "iso_rto_boundaries": "https://catalog.data.gov/dataset/independent-system-operators",
     "nerc_reference": "https://nerc.com/AboutNERC/keyplayers/Pages/default.aspx",
+    "osm_autotransformers": "https://wiki.openstreetmap.org/wiki/Tag:power%3Dtransformer",
     "us_power_plants": "https://services2.arcgis.com/FiaPA4ga0iQKduv3/ArcGIS/rest/services/Power_Plants_in_the_US/FeatureServer/0",
     "us_substations": "https://services5.arcgis.com/HDRa0B57OVrv2E1q/ArcGIS/rest/services/Electric_Substations/FeatureServer/0",
     "us_transmission_lines": "https://services2.arcgis.com/LYMgRMwHfrWWEg3s/arcgis/rest/services/HIFLD_US_Electric_Power_Transmission_Lines/FeatureServer/0"

@@ -1,0 +1,5760 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-07-25T01:32:06Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 146755345,
+  "lat": 35.3067500,
+  "lon": -95.3559818,
+  "tags": {
+    "devices": "1",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1057909926,
+  "lat": 33.3901663,
+  "lon": -112.8615230,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "2000 MVA",
+    "transformer": "generator",
+    "voltage:primary": "24000",
+    "voltage:secondary": "500000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1057910283,
+  "lat": 33.3879801,
+  "lon": -112.8642160,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "2000 MVA",
+    "transformer": "generator",
+    "voltage:primary": "24000",
+    "voltage:secondary": "500000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1057910499,
+  "lat": 33.3851380,
+  "lon": -112.8658720,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "2000 MVA",
+    "transformer": "generator",
+    "voltage:primary": "24000",
+    "voltage:secondary": "500000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1799465047,
+  "lat": 47.3637081,
+  "lon": -92.6907044,
+  "tags": {
+    "devices": "3",
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "672 MVA",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1799465054,
+  "lat": 47.3642487,
+  "lon": -92.6906852,
+  "tags": {
+    "devices": "3",
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "672 MVA",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1871499960,
+  "lat": 46.7717965,
+  "lon": -92.2943799,
+  "tags": {
+    "devices": "4",
+    "frequency": "60",
+    "location": "outdoor",
+    "owner": "American Transmission Company",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "800 MVA",
+    "ref": "9TR",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "230000",
+    "voltage:tertiary": "24900",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1945663690,
+  "lat": 47.2293288,
+  "lon": -93.3130625,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "373 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1945663715,
+  "lat": 47.2300804,
+  "lon": -93.3130906,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "373 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1945710861,
+  "lat": 46.3320262,
+  "lon": -94.0756850,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Minnesota Power",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "187 MVA",
+    "ref": "1",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1947878649,
+  "lat": 45.3306624,
+  "lon": -93.8454166,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "336 MVA",
+    "ref": "No. 10",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "voltage:tertiary": "13800",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1947878696,
+  "lat": 45.3316727,
+  "lon": -93.8456182,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "336 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "230000",
+    "voltage:tertiary": "13800",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2500850812,
+  "lat": 47.4680275,
+  "lon": -122.1915490,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2500850915,
+  "lat": 47.4683270,
+  "lon": -122.1915580,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3763105197,
+  "lat": 26.6260447,
+  "lon": -81.7688507,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3763105200,
+  "lat": 26.6261700,
+  "lon": -81.7688474,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3782189910,
+  "lat": 26.6041820,
+  "lon": -81.8481578,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3782189927,
+  "lat": 26.6042764,
+  "lon": -81.8481580,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3782190018,
+  "lat": 26.6224042,
+  "lon": -81.8483350,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "30 MVA",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3785748398,
+  "lat": 26.4936058,
+  "lon": -81.8287969,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3785748399,
+  "lat": 26.4936074,
+  "lon": -81.8286481,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3785748454,
+  "lat": 26.4953864,
+  "lon": -81.8296260,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3785748455,
+  "lat": 26.4953994,
+  "lon": -81.8289668,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792081759,
+  "lat": 26.3553881,
+  "lon": -81.7554591,
+  "tags": {
+    "frequency": "60",
+    "location": "138000",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792081798,
+  "lat": 26.3561451,
+  "lon": -81.7562385,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792081977,
+  "lat": 26.6981645,
+  "lon": -81.9167199,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792081978,
+  "lat": 26.6981695,
+  "lon": -81.9169350,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792081979,
+  "lat": 26.6981761,
+  "lon": -81.9171444,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765267,
+  "lat": 26.4636144,
+  "lon": -82.1490337,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765272,
+  "lat": 26.4636508,
+  "lon": -82.1490700,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765276,
+  "lat": 26.4636879,
+  "lon": -82.1491047,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765282,
+  "lat": 26.4637369,
+  "lon": -82.1491542,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765287,
+  "lat": 26.4637892,
+  "lon": -82.1492083,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765293,
+  "lat": 26.4638254,
+  "lon": -82.1492462,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765299,
+  "lat": 26.4638579,
+  "lon": -82.1492819,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765861,
+  "lat": 26.5632085,
+  "lon": -82.0933829,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765919,
+  "lat": 26.5633295,
+  "lon": -82.0933917,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765922,
+  "lat": 26.5633431,
+  "lon": -82.0166793,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765933,
+  "lat": 26.5633736,
+  "lon": -82.0933924,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792765953,
+  "lat": 26.5634232,
+  "lon": -82.0933944,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792766094,
+  "lat": 26.5641972,
+  "lon": -81.9555836,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792766095,
+  "lat": 26.5641988,
+  "lon": -81.9557244,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792766271,
+  "lat": 26.5769439,
+  "lon": -81.9749158,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792766283,
+  "lat": 26.5771319,
+  "lon": -81.9749179,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792766460,
+  "lat": 26.5911493,
+  "lon": -82.0143654,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792766478,
+  "lat": 26.5915030,
+  "lon": -82.0143654,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792766550,
+  "lat": 26.6060502,
+  "lon": -81.9346444,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792767028,
+  "lat": 26.6374971,
+  "lon": -81.9446263,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792767050,
+  "lat": 26.6377512,
+  "lon": -81.9444689,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792767226,
+  "lat": 26.6540904,
+  "lon": -81.9233386,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792767233,
+  "lat": 26.6542351,
+  "lon": -81.9235379,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3792767641,
+  "lat": 26.6686430,
+  "lon": -81.8897583,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3837304740,
+  "lat": 26.9282809,
+  "lon": -82.2240323,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3837325975,
+  "lat": 26.9342688,
+  "lon": -82.0469181,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3837332883,
+  "lat": 26.9343866,
+  "lon": -82.0469999,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3837425811,
+  "lat": 26.9122491,
+  "lon": -82.0385572,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3838063787,
+  "lat": 29.6673188,
+  "lon": -82.4727379,
+  "tags": {
+    "frequency": "60",
+    "location": "platform",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3854417661,
+  "lat": 42.3926689,
+  "lon": -71.0674144,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3855410660,
+  "lat": 42.3914099,
+  "lon": -71.1428650,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3856528877,
+  "lat": 42.6234428,
+  "lon": -71.2464177,
+  "tags": {
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "voltage:tertiary": "13800",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3856529176,
+  "lat": 42.6233791,
+  "lon": -71.2459569,
+  "tags": {
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "voltage:tertiary": "13800",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3857423562,
+  "lat": 42.4624262,
+  "lon": -71.1535487,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "1",
+    "power": "transformer",
+    "rating": "150 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3857423563,
+  "lat": 42.4625269,
+  "lon": -71.1535502,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "1",
+    "power": "transformer",
+    "rating": "150 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3857423661,
+  "lat": 42.4623013,
+  "lon": -71.1535459,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "1",
+    "power": "transformer",
+    "rating": "150 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3862325188,
+  "lat": 42.3915534,
+  "lon": -71.1437027,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3862555384,
+  "lat": 41.9727553,
+  "lon": -71.0168356,
+  "tags": {
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3862555571,
+  "lat": 41.9721905,
+  "lon": -71.0161335,
+  "tags": {
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864435908,
+  "lat": 26.1404576,
+  "lon": -81.7431170,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864435909,
+  "lat": 26.1404594,
+  "lon": -81.7429546,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864435910,
+  "lat": 26.1404618,
+  "lon": -81.7428690,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864436514,
+  "lat": 26.1756965,
+  "lon": -81.7528137,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864436517,
+  "lat": 26.1757276,
+  "lon": -81.7532994,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864436557,
+  "lat": 26.1762012,
+  "lon": -81.7518252,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864436558,
+  "lat": 26.1762033,
+  "lon": -81.7516826,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864436727,
+  "lat": 26.2025722,
+  "lon": -81.6881664,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864436728,
+  "lat": 26.2025746,
+  "lon": -81.6880311,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864436729,
+  "lat": 26.2025758,
+  "lon": -81.6878958,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864436977,
+  "lat": 26.2436358,
+  "lon": -81.7870724,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864436987,
+  "lat": 26.2437983,
+  "lon": -81.7870733,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864436996,
+  "lat": 26.2438845,
+  "lon": -81.7870752,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864438316,
+  "lat": 26.4422740,
+  "lon": -81.8339573,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864438325,
+  "lat": 26.4423696,
+  "lon": -81.8339544,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864438332,
+  "lat": 26.4425352,
+  "lon": -81.8339703,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864438369,
+  "lat": 26.4503351,
+  "lon": -81.7543524,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3864438370,
+  "lat": 26.4503351,
+  "lon": -81.7544834,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3865819197,
+  "lat": 25.9266988,
+  "lon": -81.7130037,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3865819198,
+  "lat": 25.9267013,
+  "lon": -81.7127048,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3865819250,
+  "lat": 25.9595525,
+  "lon": -81.7235785,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3865825754,
+  "lat": 26.0368436,
+  "lon": -81.7011909,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "operator:wikipedia": "en:Florida Power & Light",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "60 MVA",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3865825755,
+  "lat": 26.0368443,
+  "lon": -81.7012979,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "operator:wikipedia": "en:Florida Power & Light",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "60 MVA",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3865826993,
+  "lat": 26.1130568,
+  "lon": -81.6822019,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "110 MVA",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3865826994,
+  "lat": 26.1130586,
+  "lon": -81.6823155,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "110 MVA",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3865828735,
+  "lat": 26.6993550,
+  "lon": -81.7804113,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "1120 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3865828739,
+  "lat": 26.6994561,
+  "lon": -81.7801468,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "1120 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3866133622,
+  "lat": 26.1978954,
+  "lon": -81.7927400,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "112 MVA",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3866133629,
+  "lat": 26.1979867,
+  "lon": -81.7927400,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "112 MVA",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3866136830,
+  "lat": 26.3778430,
+  "lon": -81.8055285,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3866136835,
+  "lat": 26.3779322,
+  "lon": -81.8055873,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3866198104,
+  "lat": 26.5566428,
+  "lon": -81.6011512,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3866198105,
+  "lat": 26.5566477,
+  "lon": -81.6007985,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3869074861,
+  "lat": 26.6379306,
+  "lon": -82.0233431,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3869074866,
+  "lat": 26.6379732,
+  "lon": -82.0230407,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3869074917,
+  "lat": 26.6389645,
+  "lon": -82.0230333,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3869074937,
+  "lat": 26.6394013,
+  "lon": -82.0230312,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3869075058,
+  "lat": 26.6398471,
+  "lon": -82.0230323,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3869075117,
+  "lat": 26.6974737,
+  "lon": -81.9241897,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3869075122,
+  "lat": 26.6975135,
+  "lon": -81.9245144,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3869075149,
+  "lat": 26.7117794,
+  "lon": -81.7838842,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3869128567,
+  "lat": 26.2320947,
+  "lon": -81.6865286,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3869128586,
+  "lat": 26.2741931,
+  "lon": -81.6199912,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3869128591,
+  "lat": 26.2743093,
+  "lon": -81.6199966,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3870307394,
+  "lat": 26.9531816,
+  "lon": -81.9772811,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3870307686,
+  "lat": 26.9538328,
+  "lon": -81.9776170,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "112 MVA",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3870307692,
+  "lat": 26.9538770,
+  "lon": -81.9772801,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3870307718,
+  "lat": 26.9552646,
+  "lon": -81.9779010,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "22 MVA",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3870307727,
+  "lat": 26.9553560,
+  "lon": -81.9779022,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "22 MVA",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3882641306,
+  "lat": 26.5103826,
+  "lon": -81.9013685,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "55 MVA",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3882641315,
+  "lat": 26.5104538,
+  "lon": -81.9014467,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "55 MVA",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3886139594,
+  "lat": 27.3580356,
+  "lon": -82.4836609,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3886139616,
+  "lat": 27.3583148,
+  "lon": -82.4836522,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3886259355,
+  "lat": 27.0164040,
+  "lon": -82.1381042,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "224 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3886264044,
+  "lat": 27.1357767,
+  "lon": -82.3730946,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3886264047,
+  "lat": 27.1357814,
+  "lon": -82.3738521,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3971705856,
+  "lat": 26.7099727,
+  "lon": -80.3764943,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3971705975,
+  "lat": 26.6497550,
+  "lon": -80.7130583,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3971722709,
+  "lat": 26.7102461,
+  "lon": -80.3764916,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4136640441,
+  "lat": 29.6599428,
+  "lon": -82.4283345,
+  "tags": {
+    "frequency": "60",
+    "location": "platform",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4136640447,
+  "lat": 29.6601022,
+  "lon": -82.4714007,
+  "tags": {
+    "frequency": "60",
+    "location": "platform",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4145515023,
+  "lat": 29.6388203,
+  "lon": -82.4721672,
+  "tags": {
+    "frequency": "60",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4145515226,
+  "lat": 29.6583055,
+  "lon": -82.4719915,
+  "tags": {
+    "frequency": "60",
+    "location": "platform",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4203562980,
+  "lat": 27.5807330,
+  "lon": -81.4934844,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Duke Energy",
+    "operator:wikidata": "Q1264404",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4203562981,
+  "lat": 27.5807329,
+  "lon": -81.4929094,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Duke Energy",
+    "operator:wikidata": "Q1264404",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4274863480,
+  "lat": 26.6133546,
+  "lon": -81.6634211,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "69000",
+    "voltage:secondary": "24000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4274863481,
+  "lat": 26.6133558,
+  "lon": -81.6633572,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "69000",
+    "voltage:secondary": "24000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4274863482,
+  "lat": 26.6133598,
+  "lon": -81.6635587,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4274863485,
+  "lat": 26.6133927,
+  "lon": -81.6635586,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4274863497,
+  "lat": 26.6134587,
+  "lon": -81.6635677,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4274863501,
+  "lat": 26.6134920,
+  "lon": -81.6635683,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4274863502,
+  "lat": 26.6135108,
+  "lon": -81.6633575,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "69000",
+    "voltage:secondary": "24000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4274863503,
+  "lat": 26.6135116,
+  "lon": -81.6634214,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "69000",
+    "voltage:secondary": "24000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4797651563,
+  "lat": 33.3850622,
+  "lon": -112.8618120,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "note": "Reactor Startup Transformer",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "500000",
+    "voltage:secondary": "13800",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4797651565,
+  "lat": 33.3859340,
+  "lon": -112.8610230,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "note": "Reactor Startup Transformer",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "500000",
+    "voltage:secondary": "13800",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4797651571,
+  "lat": 33.3865762,
+  "lon": -112.8604450,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "note": "Reactor Startup Transformer",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "500000",
+    "voltage:secondary": "13800",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798009238,
+  "lat": 33.7051208,
+  "lon": -112.3179850,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "115000",
+    "voltage:secondary": "13800",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798009514,
+  "lat": 33.7067577,
+  "lon": -112.3177570,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798009515,
+  "lat": 33.7070243,
+  "lon": -112.3177570,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010347,
+  "lat": 33.7050170,
+  "lon": -112.3223210,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "500000",
+    "voltage:secondary": "345000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010351,
+  "lat": 33.7050097,
+  "lon": -112.3225540,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "500000",
+    "voltage:secondary": "345000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010357,
+  "lat": 33.7050053,
+  "lon": -112.3227970,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "500000",
+    "voltage:secondary": "345000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010362,
+  "lat": 33.7050025,
+  "lon": -112.3230450,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "500000",
+    "voltage:secondary": "345000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010368,
+  "lat": 33.7068874,
+  "lon": -112.3212780,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010371,
+  "lat": 33.7068941,
+  "lon": -112.3209020,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010374,
+  "lat": 33.7068885,
+  "lon": -112.3217940,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010375,
+  "lat": 33.7068885,
+  "lon": -112.3221640,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010376,
+  "lat": 33.7068740,
+  "lon": -112.3229090,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010377,
+  "lat": 33.7068718,
+  "lon": -112.3232920,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010382,
+  "lat": 33.7068851,
+  "lon": -112.3211110,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010386,
+  "lat": 33.7068896,
+  "lon": -112.3219760,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4798010391,
+  "lat": 33.7068729,
+  "lon": -112.3230890,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Arizona Public Service",
+    "operator:wikidata": "Q1242804",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4824116564,
+  "lat": 26.8067022,
+  "lon": -81.7574563,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4824116567,
+  "lat": 26.8067050,
+  "lon": -81.7575897,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4824119564,
+  "lat": 26.6427570,
+  "lon": -81.7666065,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4825802621,
+  "lat": 26.7524374,
+  "lon": -81.9183975,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5483561758,
+  "lat": 44.8629448,
+  "lon": -93.4349994,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Xcel Energy",
+    "operator:wikidata": "Q1486956",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "448 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "voltage:tertiary": "34500",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5796146666,
+  "lat": 46.8312487,
+  "lon": -71.2646966,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "560 MVA",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5847777765,
+  "lat": 49.8274584,
+  "lon": -112.7347362,
+  "tags": {
+    "operator": "AltaLink",
+    "power": "transformer",
+    "transformer": "auto",
+    "voltage:primary": "230000",
+    "voltage:secondary": "240000"
+  }
+},
+{
+  "type": "node",
+  "id": 8526168934,
+  "lat": 42.1285147,
+  "lon": -71.9966990,
+  "tags": {
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "448 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8706733787,
+  "lat": 46.5404233,
+  "lon": -72.4342132,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto"
+  }
+},
+{
+  "type": "node",
+  "id": 8706733788,
+  "lat": 46.5405054,
+  "lon": -72.4341005,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto"
+  }
+},
+{
+  "type": "node",
+  "id": 8706943852,
+  "lat": 46.3641374,
+  "lon": -72.3720261,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto"
+  }
+},
+{
+  "type": "node",
+  "id": 8706943853,
+  "lat": 46.3639708,
+  "lon": -72.3724338,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto"
+  }
+},
+{
+  "type": "node",
+  "id": 8707751103,
+  "lat": 46.4775059,
+  "lon": -72.6409525,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto"
+  }
+},
+{
+  "type": "node",
+  "id": 8707751107,
+  "lat": 46.4771457,
+  "lon": -72.6414916,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456671,
+  "lat": 46.5357462,
+  "lon": -72.7671853,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456673,
+  "lat": 46.5358523,
+  "lon": -72.7671276,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456675,
+  "lat": 46.5359722,
+  "lon": -72.7670579,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456774,
+  "lat": 46.5656737,
+  "lon": -72.7291100,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456775,
+  "lat": 46.5656208,
+  "lon": -72.7291877,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456777,
+  "lat": 46.5655206,
+  "lon": -72.7289034,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456779,
+  "lat": 46.5654146,
+  "lon": -72.7287532,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456781,
+  "lat": 46.5654681,
+  "lon": -72.7289799,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456783,
+  "lat": 46.5653574,
+  "lon": -72.7288270,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456894,
+  "lat": 46.5729859,
+  "lon": -72.7153730,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456920,
+  "lat": 46.5730836,
+  "lon": -72.7152202,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456962,
+  "lat": 46.5733086,
+  "lon": -72.7148902,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8710456967,
+  "lat": 46.5734100,
+  "lon": -72.7147427,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8816484981,
+  "lat": 34.8206236,
+  "lon": -76.7415553,
+  "tags": {
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9196957832,
+  "lat": 43.8950626,
+  "lon": -123.2398450,
+  "tags": {
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9196957881,
+  "lat": 43.8524422,
+  "lon": -123.2448240,
+  "tags": {
+    "operator": "Lane Electric",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258490219,
+  "lat": 34.3847075,
+  "lon": -118.5959200,
+  "tags": {
+    "devices": "1",
+    "location": "sidewalk",
+    "operator": "Southern California Edison",
+    "operator:short": "SCE",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "ref": "P5479039",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546429,
+  "lat": 34.3847798,
+  "lon": -118.5971200,
+  "tags": {
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:short": "SCE",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "ref": "P5479038",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546432,
+  "lat": 34.3831334,
+  "lon": -118.5948020,
+  "tags": {
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:short": "SCE",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "ref": "P5479043",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546433,
+  "lat": 34.3841686,
+  "lon": -118.5949900,
+  "tags": {
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:short": "SCE",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "ref": "P5479042",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546434,
+  "lat": 34.3836053,
+  "lon": -118.5939170,
+  "tags": {
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:short": "SCE",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546435,
+  "lat": 34.3845870,
+  "lon": -118.5998340,
+  "tags": {
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:short": "SCE",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546437,
+  "lat": 34.3855857,
+  "lon": -118.5975300,
+  "tags": {
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:short": "SCE",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546438,
+  "lat": 34.3863571,
+  "lon": -118.5978970,
+  "tags": {
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:short": "SCE",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546439,
+  "lat": 34.3868535,
+  "lon": -118.5984080,
+  "tags": {
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:short": "SCE",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546440,
+  "lat": 34.3884257,
+  "lon": -118.6004100,
+  "tags": {
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:short": "SCE",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546441,
+  "lat": 34.3870784,
+  "lon": -118.5994510,
+  "tags": {
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:short": "SCE",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546442,
+  "lat": 34.3896510,
+  "lon": -118.6017230,
+  "tags": {
+    "devices": "2",
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9258546443,
+  "lat": 34.3913240,
+  "lon": -118.6037730,
+  "tags": {
+    "devices": "1",
+    "location": "partially_underground",
+    "operator": "Southern California Edison",
+    "operator:wikidata": "Q1706317",
+    "operator:wikipedia": "en:Southern California Edison",
+    "power": "transformer",
+    "ref": "P5473273",
+    "transformer": "yes",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9366149903,
+  "lat": 46.2089904,
+  "lon": -70.7700656,
+  "tags": {
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9366270435,
+  "lat": 46.2244701,
+  "lon": -70.7961913,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "400 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "120000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:configuration": "delta"
+  }
+},
+{
+  "type": "node",
+  "id": 9366270458,
+  "lat": 46.2246558,
+  "lon": -70.7951467,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "400 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "120000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:configuration": "delta"
+  }
+},
+{
+  "type": "node",
+  "id": 9366360369,
+  "lat": 46.4434557,
+  "lon": -70.9954624,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "43 MVA",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9366360370,
+  "lat": 46.4435759,
+  "lon": -70.9952833,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "43 MVA",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9366360371,
+  "lat": 46.4436883,
+  "lon": -70.9950858,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "43 MVA",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9366447293,
+  "lat": 46.2088695,
+  "lon": -70.7698953,
+  "tags": {
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9386100823,
+  "lat": 46.7828772,
+  "lon": -71.3234012,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "25000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9386100824,
+  "lat": 46.7829433,
+  "lon": -71.3232703,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "25000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9386100825,
+  "lat": 46.7830518,
+  "lon": -71.3231027,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "25000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9386100826,
+  "lat": 46.7831383,
+  "lon": -71.3229695,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "25000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9386100827,
+  "lat": 46.7832468,
+  "lon": -71.3228087,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "25000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9397435354,
+  "lat": 46.7523465,
+  "lon": -71.4636225,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9397435355,
+  "lat": 46.7520492,
+  "lon": -71.4631631,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9397435356,
+  "lat": 46.7516160,
+  "lon": -71.4625256,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9397614083,
+  "lat": 46.7059513,
+  "lon": -71.1895468,
+  "tags": {
+    "devices": "3",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "735000",
+    "voltage:secondary": "315000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9397614084,
+  "lat": 46.7056562,
+  "lon": -71.1890706,
+  "tags": {
+    "devices": "3",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "735000",
+    "voltage:secondary": "315000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9397614085,
+  "lat": 46.7053610,
+  "lon": -71.1885944,
+  "tags": {
+    "devices": "3",
+    "location": "outdoor",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "735000",
+    "voltage:secondary": "315000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9508258855,
+  "lat": 45.4122473,
+  "lon": -72.0022818,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "220000",
+    "voltage:secondary": "120000",
+    "windings:auto": "yes",
+    "windings:configuration": "delta"
+  }
+},
+{
+  "type": "node",
+  "id": 9508258867,
+  "lat": 45.4130910,
+  "lon": -72.0020291,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "auto",
+    "voltage:primary": "220000",
+    "voltage:secondary": "120000"
+  }
+},
+{
+  "type": "node",
+  "id": 9508258873,
+  "lat": 45.4126688,
+  "lon": -72.0020265,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "auto",
+    "voltage:primary": "220000",
+    "voltage:secondary": "120000"
+  }
+},
+{
+  "type": "node",
+  "id": 9591475964,
+  "lat": 42.3777325,
+  "lon": -71.2627828,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9592879749,
+  "lat": 41.8606380,
+  "lon": -71.4062599,
+  "tags": {
+    "location": "outdoor",
+    "power": "transformer",
+    "rating": "10 MVA",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9622779015,
+  "lat": 45.9729322,
+  "lon": -73.1561500,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto",
+    "voltage:primary": "735000",
+    "voltage:secondary": "230000"
+  }
+},
+{
+  "type": "node",
+  "id": 9622779016,
+  "lat": 45.9727972,
+  "lon": -73.1561642,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto",
+    "voltage:primary": "735000",
+    "voltage:secondary": "230000"
+  }
+},
+{
+  "type": "node",
+  "id": 9622792117,
+  "lat": 45.9726774,
+  "lon": -73.1561768,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto",
+    "voltage:primary": "735000",
+    "voltage:secondary": "230000"
+  }
+},
+{
+  "type": "node",
+  "id": 9622792118,
+  "lat": 45.9724974,
+  "lon": -73.1561957,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto",
+    "voltage:primary": "735000",
+    "voltage:secondary": "230000"
+  }
+},
+{
+  "type": "node",
+  "id": 9622792119,
+  "lat": 45.9723781,
+  "lon": -73.1562083,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto",
+    "voltage:primary": "735000",
+    "voltage:secondary": "230000"
+  }
+},
+{
+  "type": "node",
+  "id": 9622792120,
+  "lat": 45.9722474,
+  "lon": -73.1562241,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "power": "transformer",
+    "transformer": "auto",
+    "voltage:primary": "735000",
+    "voltage:secondary": "230000"
+  }
+},
+{
+  "type": "node",
+  "id": 9632314984,
+  "lat": 43.6693226,
+  "lon": -79.4508590,
+  "tags": {
+    "frequency": "60",
+    "operator": "Toronto Hydro",
+    "operator:wikidata": "Q7826411",
+    "operator:wikipedia": "en:Toronto Hydro",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "115000",
+    "voltage:secondary": "13800",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9632314985,
+  "lat": 43.6691230,
+  "lon": -79.4507912,
+  "tags": {
+    "frequency": "60",
+    "operator": "Toronto Hydro",
+    "operator:wikidata": "Q7826411",
+    "operator:wikipedia": "en:Toronto Hydro",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "115000",
+    "voltage:secondary": "13800",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9632314999,
+  "lat": 43.6700070,
+  "lon": -79.4512150,
+  "tags": {
+    "frequency": "60",
+    "operator": "Toronto Hydro",
+    "operator:wikidata": "Q7826411",
+    "operator:wikipedia": "en:Toronto Hydro",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "115000",
+    "voltage:secondary": "13800",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9633510006,
+  "lat": 46.6991127,
+  "lon": -71.2975235,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "120000",
+    "voltage:tertiary": "69000",
+    "windings": "3",
+    "windings:auto": "yes",
+    "windings:configuration": "delta"
+  }
+},
+{
+  "type": "node",
+  "id": 9633510007,
+  "lat": 46.6994824,
+  "lon": -71.2966375,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "400 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "120000",
+    "voltage:tertiary": "12500",
+    "windings": "3",
+    "windings:auto": "yes",
+    "windings:configuration": "delta"
+  }
+},
+{
+  "type": "node",
+  "id": 9650347746,
+  "lat": 46.3142216,
+  "lon": -70.8670096,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9650347747,
+  "lat": 46.3141442,
+  "lon": -70.8669220,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9655041475,
+  "lat": 46.2360624,
+  "lon": -71.0422145,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9655041476,
+  "lat": 46.2359780,
+  "lon": -71.0421111,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9655041501,
+  "lat": 46.2394663,
+  "lon": -71.0411094,
+  "tags": {
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "generator",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9656140288,
+  "lat": 46.8565684,
+  "lon": -71.3134936,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9656140289,
+  "lat": 46.8555276,
+  "lon": -71.3125454,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9656140471,
+  "lat": 46.8607370,
+  "lon": -71.3168175,
+  "tags": {
+    "devices": "3",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "735000",
+    "voltage:secondary": "315000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9656140473,
+  "lat": 46.8605090,
+  "lon": -71.3173528,
+  "tags": {
+    "devices": "3",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "735000",
+    "voltage:secondary": "315000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9656140510,
+  "lat": 46.8627780,
+  "lon": -71.3182431,
+  "tags": {
+    "devices": "3",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "1",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "735000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9669029722,
+  "lat": 45.9656440,
+  "lon": -70.9306871,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9669029723,
+  "lat": 45.9656851,
+  "lon": -70.9305342,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9669353732,
+  "lat": 46.8351898,
+  "lon": -71.3599514,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9669353733,
+  "lat": 46.8353039,
+  "lon": -71.3597798,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9669353734,
+  "lat": 46.8354070,
+  "lon": -71.3596249,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9669353735,
+  "lat": 46.8354995,
+  "lon": -71.3594858,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9686442709,
+  "lat": 45.9479774,
+  "lon": -70.6583274,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9686442710,
+  "lat": 45.9478849,
+  "lon": -70.6582754,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9686916677,
+  "lat": 46.1474694,
+  "lon": -70.6730143,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9686916678,
+  "lat": 46.1473680,
+  "lon": -70.6731737,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9686916679,
+  "lat": 46.1472539,
+  "lon": -70.6733358,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9686916680,
+  "lat": 46.1471489,
+  "lon": -70.6734796,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "120000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9690980845,
+  "lat": 46.8284202,
+  "lon": -71.6049143,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "66 MVA",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9690980846,
+  "lat": 46.8281765,
+  "lon": -71.6045691,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "66 MVA",
+    "transformer": "main",
+    "voltage:primary": "315000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:primary:configuration": "delta",
+    "windings:secondary:configuration": "star"
+  }
+},
+{
+  "type": "node",
+  "id": 9701879319,
+  "lat": 46.6994657,
+  "lon": -71.2945228,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:configuration": "delta"
+  }
+},
+{
+  "type": "node",
+  "id": 9701879320,
+  "lat": 46.6995393,
+  "lon": -71.2942907,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:configuration": "delta"
+  }
+},
+{
+  "type": "node",
+  "id": 9727881748,
+  "lat": 46.0750278,
+  "lon": -71.3425167,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "350 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "120000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:configuration": "delta"
+  }
+},
+{
+  "type": "node",
+  "id": 9727881749,
+  "lat": 46.0750990,
+  "lon": -71.3422648,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "60 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:configuration": "delta"
+  }
+},
+{
+  "type": "node",
+  "id": 9727881750,
+  "lat": 46.0751686,
+  "lon": -71.3420188,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "60 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:configuration": "delta"
+  }
+},
+{
+  "type": "node",
+  "id": 9727881751,
+  "lat": 46.0752322,
+  "lon": -71.3417941,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "60 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings": "2",
+    "windings:auto": "yes",
+    "windings:configuration": "delta"
+  }
+},
+{
+  "type": "node",
+  "id": 9728368421,
+  "lat": 46.1158705,
+  "lon": -71.2912151,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9728368422,
+  "lat": 46.1156158,
+  "lon": -71.2909374,
+  "tags": {
+    "frequency": "60",
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "25000",
+    "windings": "2",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9871066858,
+  "lat": 45.4126688,
+  "lon": -72.0020265,
+  "tags": {
+    "operator": "Hydro-Québec",
+    "operator:wikidata": "Q167840",
+    "operator:wikipedia": "fr:Hydro-Québec",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "auto",
+    "voltage:primary": "220000",
+    "voltage:secondary": "120000"
+  }
+},
+{
+  "type": "node",
+  "id": 10128981499,
+  "lat": 47.4697369,
+  "lon": -122.1889660,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10128981500,
+  "lat": 47.4695946,
+  "lon": -122.1888160,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10128981501,
+  "lat": 47.4696675,
+  "lon": -122.1888850,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10128981533,
+  "lat": 47.4695707,
+  "lon": -122.1869490,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10128981544,
+  "lat": 47.4697860,
+  "lon": -122.1872000,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10128981554,
+  "lat": 47.4689654,
+  "lon": -122.1859410,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "345000",
+    "voltage:secondary": "240000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10128981752,
+  "lat": 47.4696731,
+  "lon": -122.1870900,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "500000",
+    "voltage:secondary": "230000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10733950021,
+  "lat": 41.6826502,
+  "lon": -71.4795947,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "269 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "voltage:tertiary": "23000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10754882140,
+  "lat": 42.8313307,
+  "lon": -71.4830963,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10782729937,
+  "lat": 42.7439766,
+  "lon": -71.1143594,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "600 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10782729940,
+  "lat": 42.7437960,
+  "lon": -71.1143460,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "600 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10782761898,
+  "lat": 42.7445550,
+  "lon": -71.1141688,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "600 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10782761900,
+  "lat": 42.7447195,
+  "lon": -71.1141015,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "600 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10782777239,
+  "lat": 42.8330557,
+  "lon": -70.9718374,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "269 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10783288777,
+  "lat": 42.5615553,
+  "lon": -71.0048374,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "55 MVA",
+    "transformer": "main",
+    "voltage:primary": "115000",
+    "voltage:secondary": "23000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10783288779,
+  "lat": 42.5614059,
+  "lon": -71.0047293,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "55 MVA",
+    "transformer": "main",
+    "voltage:primary": "115000",
+    "voltage:secondary": "23000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10783363907,
+  "lat": 42.3934452,
+  "lon": -71.0676251,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10783498802,
+  "lat": 42.4630801,
+  "lon": -71.1536759,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "448 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10785222968,
+  "lat": 42.3393588,
+  "lon": -71.0394140,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "550 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10785222973,
+  "lat": 42.3398154,
+  "lon": -71.0390381,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "550 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10786035074,
+  "lat": 42.4454449,
+  "lon": -71.2667771,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10791381299,
+  "lat": 41.7688727,
+  "lon": -70.5114083,
+  "tags": {
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10791381300,
+  "lat": 41.7689527,
+  "lon": -70.5098074,
+  "tags": {
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10791394507,
+  "lat": 41.7696719,
+  "lon": -70.5116318,
+  "tags": {
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10803151596,
+  "lat": 41.8977535,
+  "lon": -70.7890095,
+  "tags": {
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10806570763,
+  "lat": 41.5462153,
+  "lon": -71.2812604,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "100 MVA",
+    "transformer": "main",
+    "voltage:primary": "115000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10809802639,
+  "lat": 41.6836972,
+  "lon": -71.4796117,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "330 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "voltage:tertiary": "23000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10809802645,
+  "lat": 41.6830050,
+  "lon": -71.4795996,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "269 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "voltage:tertiary": "23000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11009401358,
+  "lat": 41.3234045,
+  "lon": -71.9984248,
+  "tags": {
+    "addr:city": "Groton",
+    "addr:housenumber": "840",
+    "addr:postcode": "06340",
+    "addr:state": "CT",
+    "addr:street": "Groton Long Point Road",
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "manufacturer": "Siemens",
+    "not:operator:wikidata": "Q23239",
+    "operator": "Amtrak",
+    "power": "transformer",
+    "rating": "10 MVA",
+    "transformer": "auxiliary",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11175818313,
+  "lat": 44.4565592,
+  "lon": -71.1849115,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Great Lakes Hydro America",
+    "power": "transformer",
+    "rating": "3750 kVA",
+    "transformer": "generator",
+    "voltage:primary": "11000",
+    "voltage:secondary": "22000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11215356148,
+  "lat": 36.0481791,
+  "lon": -86.8592494,
+  "tags": {
+    "phases": "3",
+    "power": "transformer",
+    "rating": "224 MVA",
+    "transformer": "main",
+    "voltage:primary": "161000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11461428975,
+  "lat": 44.8874376,
+  "lon": -93.0122992,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Xcel Energy",
+    "operator:wikidata": "Q1486956",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "448 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "voltage:tertiary": "34500",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11461439962,
+  "lat": 45.0306337,
+  "lon": -92.7805716,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Xcel Energy",
+    "operator:wikidata": "Q1486956",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "448 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "voltage:tertiary": "34500",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12228448881,
+  "lat": 26.3561336,
+  "lon": -81.7554443,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12242305044,
+  "lat": 27.0169866,
+  "lon": -82.1382906,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "224 MVA",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "138000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12324166729,
+  "lat": 46.7511912,
+  "lon": -92.1997054,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Minnesota Power",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "187 MVA",
+    "ref": "1",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings": "3",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12347487391,
+  "lat": 46.7730613,
+  "lon": -92.2933078,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Minnesota Power",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "378 MVA",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12347487392,
+  "lat": 46.7738136,
+  "lon": -92.2935589,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Minnesota Power",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "378 MVA",
+    "voltage:primary": "230000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12461094894,
+  "lat": 25.9596293,
+  "lon": -81.7234299,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "yes",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12461094895,
+  "lat": 26.1761865,
+  "lon": -81.7519815,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12461094896,
+  "lat": 26.3553703,
+  "lon": -81.7556017,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12461648063,
+  "lat": 26.7101034,
+  "lon": -80.3764868,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12461648064,
+  "lat": 26.4936047,
+  "lon": -81.8289328,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "230000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12461734476,
+  "lat": 26.7117975,
+  "lon": -81.7841225,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12461734477,
+  "lat": 26.9122483,
+  "lon": -82.0384413,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Lee County Electric Cooperative",
+    "operator:short": "LCEC",
+    "operator:wikidata": "Q115691632",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12461734478,
+  "lat": 26.9282784,
+  "lon": -82.2241347,
+  "tags": {
+    "devices": "1",
+    "frequency": "60",
+    "location": "outdoor",
+    "operator": "Florida Power & Light",
+    "operator:wikidata": "Q1430055",
+    "phases": "3",
+    "power": "transformer",
+    "transformer": "main",
+    "voltage:primary": "138000",
+    "voltage:secondary": "69000",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13649772385,
+  "lat": 36.0697070,
+  "lon": -86.9834321,
+  "tags": {
+    "devices": "4",
+    "power": "transformer",
+    "windings:auto": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13991077217,
+  "lat": 42.2736260,
+  "lon": -71.1204172,
+  "tags": {
+    "frequency": "60",
+    "location": "outdoor",
+    "phases": "3",
+    "power": "transformer",
+    "rating": "550 MVA",
+    "transformer": "main",
+    "voltage:primary": "345000",
+    "voltage:secondary": "115000",
+    "windings:auto": "yes"
+  }
+}
+
+  ]
+}

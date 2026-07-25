@@ -399,8 +399,36 @@ def normalize_osm_power(
     for feature in features:
         properties = _properties(feature)
         power = _text(_property(properties, "power"))
-        voltages = _osm_voltages(_property(properties, "voltage"))
-        if not voltages:
+        transformer_role = _text(
+            _property(properties, "transformer")
+        ).casefold()
+        is_autotransformer = power == "transformer" and (
+            _text(_property(properties, "windings:auto")).casefold()
+            in {"yes", "true", "1"}
+            or transformer_role in {"auto", "autotransformer"}
+        )
+        if power == "transformer":
+            voltages = sorted(
+                {
+                    voltage
+                    for field in (
+                        "voltage:primary",
+                        "voltage:secondary",
+                        "voltage:tertiary",
+                        "voltage:quaternary",
+                        "voltage-high",
+                        "voltage-low",
+                        "voltage",
+                    )
+                    for voltage in _osm_voltages(
+                        _property(properties, field)
+                    )
+                },
+                reverse=True,
+            )
+        else:
+            voltages = _osm_voltages(_property(properties, "voltage"))
+        if not voltages and not is_autotransformer:
             continue
         osm_id = _text(
             _property(properties, "@id", "id", "osm_id", "osm_way_id")
@@ -427,11 +455,7 @@ def normalize_osm_power(
                 substations.append(
                     {**common, "lon": coordinate[0], "lat": coordinate[1]}
                 )
-        elif (
-            power == "transformer"
-            and _text(_property(properties, "transformer")).casefold()
-            in {"auto", "autotransformer"}
-        ):
+        elif is_autotransformer:
             coordinate = _point(geometry, properties) or _polygon_center(geometry)
             if coordinate is not None:
                 substations.append(

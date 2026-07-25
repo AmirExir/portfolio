@@ -299,8 +299,10 @@ class GridAtlasStoreTests(unittest.TestCase):
                 "properties": {
                     "@id": "node/auto-1",
                     "power": "transformer",
-                    "transformer": "auto",
-                    "voltage": "345000;138000",
+                    "transformer": "main",
+                    "windings:auto": "yes",
+                    "voltage:primary": "345000",
+                    "voltage:secondary": "138000",
                     "operator": "Example Grid",
                 },
                 "geometry": {
@@ -334,6 +336,32 @@ class GridAtlasStoreTests(unittest.TestCase):
             substation["autotransformer_voltages"], [345.0, 138.0]
         )
         self.assertEqual(substation["max_voltage"], 345)
+
+    def test_osm_legacy_autotransformer_without_voltage_is_retained(self):
+        features = [
+            {
+                "type": "Feature",
+                "properties": {
+                    "@id": "node/legacy-auto",
+                    "power": "transformer",
+                    "transformer": "auto",
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [-100, 30],
+                },
+            }
+        ]
+
+        _, osm_substations = normalize_osm_power(
+            features, retrieved_at="2026-07-24"
+        )
+
+        self.assertEqual(len(osm_substations), 1)
+        self.assertEqual(
+            osm_substations[0]["osm_kind"], "autotransformer"
+        )
+        self.assertEqual(osm_substations[0]["osm_voltages"], [])
 
     def test_shipped_atlas_has_all_market_and_country_shards(self):
         manifest = load_grid_atlas_manifest(PACKAGED_ATLAS_MANIFEST)
@@ -420,6 +448,18 @@ class GridAtlasStoreTests(unittest.TestCase):
                 record["autotransformer_match_status"] == "ERCOT-confirmed"
                 for record in autotransformers
             )
+        )
+
+    def test_shipped_manifest_tracks_current_osm_autotransformer_extract(self):
+        manifest = load_grid_atlas_manifest(PACKAGED_ATLAS_MANIFEST)
+        artifact = manifest["source_artifacts"]["osm_autotransformers"]
+
+        self.assertEqual(artifact["source_records"], 317)
+        self.assertEqual(artifact["normalized_records"], 317)
+        self.assertGreaterEqual(artifact["matched_osm_records"], 172)
+        self.assertIn(
+            "power=transformer + windings:auto=yes",
+            artifact["schemas"],
         )
 
 
