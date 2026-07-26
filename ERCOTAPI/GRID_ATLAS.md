@@ -69,6 +69,13 @@ The optional extract must use standard OSM `power` and `voltage` tags and must
 be captured during the offline refresh. The visitor-facing applications never
 query Overpass or OpenStreetMap.
 
+The checked-in North American autotransformer extract currently contains 317
+explicitly tagged OSM records: 301 using `windings:auto=yes` and 16 using the
+deprecated `transformer=auto` form. Of those, 172 can be conservatively matched
+to packaged government-source substation geometry. Unmatched OSM records are
+retained in the reviewed source artifact but are not displayed as guessed
+facilities.
+
 ## Offline refresh
 
 Download and independently verify complete source extracts first. Then run:
