@@ -1157,6 +1157,35 @@ def summary_timestamp_caption(filename: str) -> str | None:
         return None
 
 
+def summary_age_hours(filename: str, now: dt.datetime | None = None) -> float | None:
+    timestamp = _summary_timestamp(filename)
+    try:
+        published_at = dt.datetime.strptime(timestamp, "%Y-%m-%dT%H-%M-%S-%fZ").replace(
+            tzinfo=dt.timezone.utc
+        )
+    except (TypeError, ValueError):
+        return None
+
+    current_time = now or dt.datetime.now(dt.timezone.utc)
+    if current_time.tzinfo is None:
+        current_time = current_time.replace(tzinfo=dt.timezone.utc)
+    return max((current_time.astimezone(dt.timezone.utc) - published_at).total_seconds() / 3600, 0.0)
+
+
+def render_summary_timestamp(filename: str) -> None:
+    caption = summary_timestamp_caption(filename)
+    if caption:
+        st.caption(caption)
+
+    age_hours = summary_age_hours(filename)
+    if age_hours is not None and age_hours > 36:
+        age_days = age_hours / 24
+        st.warning(
+            f"This published summary is {age_days:.1f} days old. "
+            "The automated research workflow may not have published a newer report yet."
+        )
+
+
 def signal_quality(confidence_pct: float) -> str:
     edge_pct = max(float(confidence_pct) - 50.0, 0.0)
     if edge_pct >= 15.0:
@@ -2361,7 +2390,7 @@ with top_summary_tab:
         "AI-Generated Market Summary",
         "Latest market-moving news summary produced by the automated research workflow.",
     )
-    if st.button("🔄 Refresh News", help="Fetch the latest news from GitHub"):
+    if st.button("🔄 Reload Published News", help="Reload the latest summary published to GitHub"):
         st.cache_data.clear()
         st.rerun()
 
@@ -2394,9 +2423,7 @@ with top_summary_tab:
                     with open(latest_local_path, "r") as f:
                         summary_text = f.read()
 
-                    caption = summary_timestamp_caption(latest_local_file)
-                    if caption:
-                        st.caption(caption)
+                    render_summary_timestamp(latest_local_file)
 
                     st.info(summary_text.strip())
                 else:
@@ -2420,9 +2447,7 @@ with top_summary_tab:
 
                 # Extract timestamp from filename (format: summary_2026-05-01T11-00-28-733Z.txt)
                 filename = latest_file.get("name", "")
-                caption = summary_timestamp_caption(filename)
-                if caption:
-                    st.caption(caption)
+                render_summary_timestamp(filename)
 
                 download_url = latest_file.get("download_url")
 
