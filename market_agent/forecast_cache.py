@@ -14,8 +14,9 @@ except ImportError:  # pragma: no cover - package import path
     from .agent.forecast import ForecastResult
 
 
-CACHE_VERSION = 4
-MODEL_RESULT_CACHE_VERSION = 2
+CACHE_VERSION = 5
+MODEL_RESULT_CACHE_VERSION = 3
+SHADOW_MODEL_NAMES = frozenset({"RL Policy"})
 
 
 def _json_safe(value):
@@ -232,21 +233,39 @@ def forecast_result_from_dict(payload: dict) -> ForecastResult:
 
 
 def select_model_name(model_results: dict[str, ForecastResult | dict], preferred: str = "Ensemble") -> str:
+    """Select a live-eligible forecasting model.
+
+    Shadow/research policies remain in snapshots for evaluation, but they can
+    never become the champion model, even when explicitly requested or when
+    their diagnostic metric appears better than a forecasting model.
+    """
     preferred = (preferred or "").strip()
+    if preferred in SHADOW_MODEL_NAMES:
+        preferred = "Best Validation"
+
     if preferred == "Best Validation":
         candidates = [
             (name, result)
             for name, result in model_results.items()
-            if _has_forecast(result)
+            if _has_forecast(result) and _is_live_eligible(name, result)
         ]
         if not candidates:
             return ""
         return min(candidates, key=lambda item: _metric(item[1], "holdout_mae_pct", np.inf))[0]
 
-    if preferred and preferred in model_results and _has_forecast(model_results[preferred]):
+    if (
+        preferred
+        and preferred in model_results
+        and _has_forecast(model_results[preferred])
+        and _is_live_eligible(preferred, model_results[preferred])
+    ):
         return preferred
 
-    candidates = [(name, result) for name, result in model_results.items() if _has_forecast(result)]
+    candidates = [
+        (name, result)
+        for name, result in model_results.items()
+        if _has_forecast(result) and _is_live_eligible(name, result)
+    ]
     if not candidates:
         return ""
     if preferred and preferred in model_results:
@@ -309,6 +328,17 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
         "LSTM Return %": _return_for("LSTM"),
         "Transformer Return %": _return_for("Transformer"),
         "RL Policy Return %": _return_for("RL Policy"),
+        "RL Mode": "Shadow" if "RL Policy" in model_payloads else "Off",
+        "RL Shadow Action": _shadow_metric(model_payloads, "rl_action", "hold"),
+        "RL Shadow Target %": _safe_float(
+            _shadow_metric(model_payloads, "rl_target_weight", 0.0),
+            0.0,
+        )
+        * 100.0,
+        "RL Shadow Visits": _safe_float(
+            _shadow_metric(model_payloads, "rl_state_visits", 0.0),
+            0.0,
+        ),
         "Ensemble Return %": _return_for("Ensemble"),
         "Probability Up %": probability_up,
         "Probability Down %": 100.0 - probability_up,
@@ -318,6 +348,11 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
         "Expected Error %": expected_error,
         "Validation MAE %": float(metrics.get("holdout_mae_pct", np.nan)),
         "Direction Hit Rate %": float(metrics.get("holdout_direction_accuracy", np.nan)),
+        "Validation Samples": _safe_float(metrics.get("holdout_samples"), 0.0),
+        "Validation Is OOS": bool(metrics.get("validation_is_oos", False)),
+        "Calibration Error %": _safe_float(metrics.get("calibration_error_pct")),
+        "Brier Score": _safe_float(metrics.get("brier_score")),
+        "Forecast Outlier": bool(metrics.get("forecast_outlier", False)),
         "Score": score,
         "Smart Policy": smart_policy.get("policy_call", ""),
         "Policy Score": _safe_float(smart_policy.get("policy_score")),
@@ -326,8 +361,12 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
         "Policy Forecast Score": _safe_float(smart_policy.get("forecast_component")),
         "Policy Trend Score": _safe_float(smart_policy.get("trend_component")),
         "Policy Momentum Score": _safe_float(smart_policy.get("momentum_component")),
-        "Policy RL Score": _safe_float(smart_policy.get("rl_component")),
-        "Policy RL Action": smart_policy.get("rl_action", ""),
+        "Policy Allocation Eligible": bool(smart_policy.get("allocation_eligible", False)),
+        "Policy Allocation Blockers": list(smart_policy.get("allocation_blockers", [])),
+        "Policy Lower Bound %": _safe_float(smart_policy.get("lower_confidence_bound_pct")),
+        "Policy Agreeing Models": _safe_float(smart_policy.get("agreeing_models"), 0.0),
+        "Policy RL Score": 0.0,
+        "Policy RL Action": "",
         "Policy Volatility %": _safe_float(smart_policy.get("annual_volatility_pct")),
     }
 
@@ -353,3 +392,15 @@ def _metric(result: ForecastResult | dict, metric_name: str, default=np.inf):
     if isinstance(result, ForecastResult):
         return result.metrics.get(metric_name, default)
     return (result.get("metrics") or {}).get(metric_name, default)
+
+
+def _is_live_eligible(name: str, result: ForecastResult | dict) -> bool:
+    if name in SHADOW_MODEL_NAMES:
+        return False
+    metrics = result.metrics if isinstance(result, ForecastResult) else (result.get("metrics") or {})
+    return not bool(metrics.get("shadow_mode")) and metrics.get("live_eligible", True) is not False
+
+
+def _shadow_metric(model_payloads: dict, metric_name: str, default):
+    payload = model_payloads.get("RL Policy") or {}
+    return (payload.get("metrics") or {}).get(metric_name, default)

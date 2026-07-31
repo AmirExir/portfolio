@@ -20,8 +20,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from agent.data import get_ohlcv
 from agent.forecast import compare_forecast_models
 from agent.policy import smart_policy_report
+from agent.portfolio import PortfolioConstraints, allocate_target_weights
 from agent.strategy import sma_crossover
 from forecast_cache import (
+    MODEL_RESULT_CACHE_VERSION,
     build_cache_key,
     cache_payload_fresh,
     forecast_result_from_dict,
@@ -81,6 +83,31 @@ MODEL_BUY_CALLS = {"Strong Buy", "Buy"}
 MODEL_SELL_CALLS = {"Strong Sell", "Sell"}
 POLICY_BUY_CALLS = {"Strong Buy", "Buy"}
 POLICY_SELL_TERMS = ("Sell", "Avoid")
+
+SYMBOL_SECTORS = {
+    **{symbol: "Technology" for symbol in ("AAPL", "MSFT", "NVDA", "AMD", "INTC", "AVGO", "MU", "WDC", "STX", "SNDK", "ORCL", "DELL")},
+    **{symbol: "Communication Services" for symbol in ("GOOGL", "META", "NFLX")},
+    **{symbol: "Consumer Discretionary" for symbol in ("AMZN", "TSLA", "HD")},
+    **{symbol: "Financials" for symbol in ("JPM", "BAC", "WFC", "C", "GS", "MS", "V")},
+    **{symbol: "Health Care" for symbol in ("UNH", "LLY", "JNJ")},
+    **{symbol: "Consumer Staples" for symbol in ("WMT", "PG", "KO", "PEP")},
+    **{symbol: "Industrials" for symbol in ("GEV", "DAL", "UAL", "AAL", "LUV", "SPCX")},
+    **{symbol: "Energy" for symbol in ("XOM", "CVX", "COP", "OXY", "SLB", "EOG")},
+    **{symbol: "Broad Market ETF" for symbol in ("SPY", "VOO", "QQQ", "IWM", "DIA")},
+    **{symbol: "Sector ETF" for symbol in ("XLK", "XLF", "XLE", "XLV", "XLY")},
+    **{symbol: "Macro ETF" for symbol in ("GLD", "SLV", "USO", "TLT")},
+    **{REPORT_SYMBOLS.get(symbol, symbol): "Crypto" for symbol in DEFAULT_SYMBOLS if symbol.endswith("-USD")},
+}
+
+SYMBOL_CLUSTERS = {
+    **{symbol: "AI Mega Cap" for symbol in ("MSFT", "NVDA", "AMD", "AVGO", "GOOGL", "AMZN", "META", "ORCL", "DELL", "XLK", "QQQ")},
+    **{symbol: "Memory and Storage" for symbol in ("MU", "WDC", "STX", "SNDK")},
+    **{symbol: "Banks" for symbol in ("JPM", "BAC", "WFC", "C", "GS", "MS")},
+    **{symbol: "Airlines" for symbol in ("DAL", "UAL", "AAL", "LUV")},
+    **{symbol: "Energy Complex" for symbol in ("XOM", "CVX", "COP", "OXY", "SLB", "EOG", "XLE", "USO")},
+    **{symbol: "Broad Index" for symbol in ("SPY", "VOO", "IWM", "DIA")},
+    **{REPORT_SYMBOLS.get(symbol, symbol): "Crypto" for symbol in DEFAULT_SYMBOLS if symbol.endswith("-USD")},
+}
 
 
 def parse_symbols(symbols_text: str) -> list[str]:
@@ -285,10 +312,14 @@ def is_policy_sell(row: dict) -> bool:
 
 
 def is_threshold_buy(row: dict, args: argparse.Namespace) -> bool:
+    if str(row_value(row, "Reliability", default="")).strip() == "Low":
+        return False
     return forecast_return_pct(row) >= min_signal_return_pct_from_args(args) and has_model_buy_call(row)
 
 
 def is_threshold_sell(row: dict, args: argparse.Namespace) -> bool:
+    if str(row_value(row, "Reliability", default="")).strip() == "Low":
+        return False
     return forecast_return_pct(row) <= -min_signal_return_pct_from_args(args) and has_model_sell_call(row)
 
 
@@ -314,6 +345,13 @@ def is_policy_watch_sell(row: dict, args: argparse.Namespace) -> bool:
 
 
 def reliability_grade(row: dict) -> str:
+    if str(row_value(row, "selected_model", "Selected Model", default="")).strip() == "RL Policy":
+        return "Low"
+    if bool(row_value(row, "forecast_outlier", "Forecast Outlier", default=False)):
+        return "Low"
+    if row_value(row, "validation_is_oos", "Validation Is OOS", default=True) is False:
+        return "Low"
+
     forecast_return = abs(forecast_return_pct(row))
     expected_error = abs(float(row_value(row, "expected_error_pct", "Expected Error %", default=0.0) or 0.0))
     edge = abs(float(row_value(row, "model_edge_pct", "Model Edge %", default=0.0) or 0.0))
@@ -348,13 +386,140 @@ def enrich_rows_with_signal_metadata(rows: list[dict], args: argparse.Namespace)
     enriched = []
     for row in rows:
         item = dict(row)
-        item["Signal Tier"] = signal_tier(item, args)
         item["Reliability"] = reliability_grade(item)
+        if item["Reliability"] == "Low":
+            prior_target = float(row_value(item, "Policy Target %", default=0.0) or 0.0)
+            item["Policy Target %"] = 0.0
+            if smart_policy_text(item) in POLICY_BUY_CALLS:
+                item["Smart Policy"] = "Hold / Watch"
+            if prior_target > 0.0:
+                prior_reason = str(row_value(item, "Policy Reason", default="") or "").strip()
+                item["Policy Reason"] = (
+                    "allocation blocked: Low reliability"
+                    + (f"; {prior_reason}" if prior_reason else "")
+                )
+        item["Signal Tier"] = signal_tier(item, args)
         item["Qualified Model Signal"] = item["Signal Tier"].startswith("Model-Confirmed")
         item["Policy Watchlist"] = item["Signal Tier"].startswith("Policy Watch")
         item["Risk Overlay"] = smart_policy_text(item) or "Unavailable"
         enriched.append(item)
     return enriched
+
+
+def apply_portfolio_constraints(
+    rows: list[dict],
+    close_history: dict[str, pd.Series],
+    args: argparse.Namespace,
+) -> tuple[list[dict], dict]:
+    """Normalize independent symbol targets into one constrained portfolio."""
+    proposed = {
+        str(row_value(row, "Symbol", default="")).upper(): max(
+            float(row_value(row, "Policy Target %", default=0.0) or 0.0) / 100.0,
+            0.0,
+        )
+        for row in rows
+        if str(row_value(row, "Symbol", default="")).strip()
+    }
+    constraints = PortfolioConstraints(
+        cash_reserve=float(getattr(args, "portfolio_cash_reserve_pct", 15.0)) / 100.0,
+        max_name_weight=float(getattr(args, "portfolio_max_name_pct", 5.0)) / 100.0,
+        max_sector_weight=float(getattr(args, "portfolio_max_sector_pct", 20.0)) / 100.0,
+        max_cluster_weight=float(getattr(args, "portfolio_max_cluster_pct", 15.0)) / 100.0,
+        max_annual_volatility=float(getattr(args, "portfolio_max_volatility_pct", 15.0)) / 100.0,
+        max_turnover=float(getattr(args, "portfolio_max_turnover_pct", 20.0)) / 100.0,
+        drawdown_circuit_breaker=float(getattr(args, "portfolio_drawdown_breaker_pct", 10.0)) / 100.0,
+    )
+    active_proposed = {symbol: weight for symbol, weight in proposed.items() if weight > 0.0}
+    selected_symbols = list(active_proposed)
+    covariance = _annual_covariance(close_history, selected_symbols)
+    current_drawdown = -abs(float(getattr(args, "portfolio_drawdown_pct", 0.0))) / 100.0
+    sectors = {symbol: SYMBOL_SECTORS[symbol] for symbol in selected_symbols if symbol in SYMBOL_SECTORS}
+    clusters = {symbol: SYMBOL_CLUSTERS[symbol] for symbol in selected_symbols if symbol in SYMBOL_CLUSTERS}
+
+    try:
+        allocation = allocate_target_weights(
+            active_proposed,
+            sectors=sectors,
+            correlation_clusters=clusters,
+            annual_covariance=covariance,
+            current_drawdown=current_drawdown,
+            constraints=constraints,
+        )
+    except ValueError as exc:
+        logging.warning("Portfolio covariance unavailable; applying non-volatility constraints: %s", exc)
+        allocation = allocate_target_weights(
+            active_proposed,
+            sectors=sectors,
+            correlation_clusters=clusters,
+            annual_covariance=None,
+            current_drawdown=current_drawdown,
+            constraints=constraints,
+        )
+
+    binding_text = ", ".join(allocation.binding_constraints)
+    normalized_rows = []
+    for row in rows:
+        item = dict(row)
+        symbol = str(row_value(item, "Symbol", default="")).upper()
+        proposed_pct = max(float(row_value(item, "Policy Target %", default=0.0) or 0.0), 0.0)
+        final_pct = float(allocation.target_weights.get(symbol, 0.0) * 100.0)
+        item["Pre-Portfolio Target %"] = proposed_pct
+        item["Policy Target %"] = final_pct
+        item["Portfolio Gross %"] = allocation.gross_exposure * 100.0
+        item["Portfolio Cash %"] = allocation.cash_weight * 100.0
+        item["Portfolio Binding Constraints"] = binding_text
+        item["Portfolio Allocation Blocked"] = bool(proposed_pct > 0.0 and final_pct <= 0.0)
+        if final_pct < proposed_pct - 1e-9:
+            reason = str(row_value(item, "Policy Reason", default="") or "").strip()
+            suffix = f"portfolio constrained to {final_pct:.2f}%"
+            item["Policy Reason"] = f"{reason}; {suffix}" if reason else suffix
+        if proposed_pct > 0.0 and final_pct <= 0.0 and smart_policy_text(item) in POLICY_BUY_CALLS:
+            item["Smart Policy"] = "Hold / Watch"
+        item["Risk Overlay"] = smart_policy_text(item) or "Unavailable"
+        normalized_rows.append(item)
+
+    diagnostics = {
+        "gross_exposure_pct": allocation.gross_exposure * 100.0,
+        "cash_weight_pct": allocation.cash_weight * 100.0,
+        "turnover_pct": allocation.turnover * 100.0,
+        "annualized_volatility_pct": (
+            allocation.annualized_volatility * 100.0
+            if allocation.annualized_volatility is not None
+            else None
+        ),
+        "sector_exposures_pct": {
+            key: value * 100.0 for key, value in allocation.sector_exposures.items()
+        },
+        "cluster_exposures_pct": {
+            key: value * 100.0 for key, value in allocation.cluster_exposures.items()
+        },
+        "binding_constraints": list(allocation.binding_constraints),
+        "warnings": list(allocation.warnings),
+        "circuit_breaker_triggered": allocation.circuit_breaker_triggered,
+    }
+    return normalized_rows, diagnostics
+
+
+def _annual_covariance(
+    close_history: dict[str, pd.Series],
+    symbols: list[str],
+) -> pd.DataFrame | None:
+    available = {
+        symbol: pd.to_numeric(close_history[symbol], errors="coerce")
+        for symbol in symbols
+        if symbol in close_history and len(close_history[symbol]) > 1
+    }
+    if not available or set(available) != set(symbols):
+        return None
+    prices = pd.concat(available, axis=1).sort_index()
+    returns = prices.pct_change(fill_method=None).replace([np.inf, -np.inf], np.nan)
+    returns = returns.dropna(how="any").tail(252)
+    if len(returns) < 30:
+        return None
+    covariance = returns.cov() * 252.0
+    covariance = (covariance + covariance.T) / 2.0
+    covariance += np.eye(len(covariance)) * 1e-12
+    return covariance
 
 
 def build_smart_policy_for_snapshot(
@@ -567,7 +732,7 @@ def no_rl_policy_from_args(args: argparse.Namespace) -> bool:
 
 def primary_model_from_args(args: argparse.Namespace) -> str:
     primary = str(getattr(args, "primary_model", "") or "Best Validation").strip()
-    if no_rl_policy_from_args(args) and primary == "RL Policy":
+    if primary == "RL Policy":
         return "Best Validation"
     return primary
 
@@ -642,6 +807,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
     context_seconds = time.perf_counter() - context_started_at
     snapshots = []
     patterns_by_symbol = {}
+    portfolio_closes: dict[str, pd.Series] = {}
     errors = []
     symbol_timings = []
 
@@ -655,6 +821,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
         )
         try:
             df = get_ohlcv(symbol, args.history_days)
+            portfolio_closes[report_symbol(symbol)] = clean_close(df)
             data_fingerprint = frame_fingerprint(df)
             model_cache_path = model_result_cache_path(
                 output_dir,
@@ -720,7 +887,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
             save_json_payload(
                 model_cache_path,
                 {
-                    "model_result_cache_version": 2,
+                    "model_result_cache_version": MODEL_RESULT_CACHE_VERSION,
                     "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
                     "symbol": symbol,
                     "history_days": args.history_days,
@@ -761,6 +928,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
         )
         rows_frame["Symbol"] = rows_frame["Symbol"].map(report_symbol)
     rows = enrich_rows_with_signal_metadata(rows_frame.to_dict(orient="records"), args)
+    rows, portfolio_diagnostics = apply_portfolio_constraints(rows, portfolio_closes, args)
     errors.extend(row_errors)
     timings = {
         "total_seconds": round(time.perf_counter() - started_at, 3),
@@ -773,6 +941,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
         "requested_sequence_model": requested_sequence_model,
         "adaptive_sequence_symbols": sorted(adaptive_sequence_symbols),
         "run_profile": str(getattr(args, "run_profile", "custom") or "custom"),
+        "portfolio": portfolio_diagnostics,
     }
     return rows, errors, snapshots, timings
 
@@ -889,8 +1058,16 @@ def build_market_report(
         f"Run profile: {getattr(args, 'run_profile', 'custom')}",
         f"Pattern windows: {args.pattern_short_window}/{args.pattern_long_window} trading days",
         f"Sequence model: {sequence_model_from_args(args)}",
-        f"RL policy: {'off (disabled by request)' if no_rl_policy_from_args(args) else ('on' if include_rl_policy_from_args(args) else 'off')}",
-        f"Smart policy: on | risk cap {float(getattr(args, 'policy_risk_fraction', 0.10) or 0.10) * 100.0:.1f}% target allocation",
+        (
+            "RL policy: off"
+            if no_rl_policy_from_args(args)
+            else "RL policy: shadow diagnostics only (excluded from selection, scoring, reliability, and orders)"
+        ),
+        (
+            "Smart policy: on | "
+            f"per-name cap {float(getattr(args, 'portfolio_max_name_pct', 5.0)):.1f}% | "
+            f"cash reserve {float(getattr(args, 'portfolio_cash_reserve_pct', 15.0)):.1f}%"
+        ),
         f"Universe: {len(rows)} symbols | Stocks + crypto + commodities",
         f"Primary signal rule: {threshold_detail}",
         (
@@ -910,6 +1087,14 @@ def build_market_report(
         )
         if reliability_text:
             lines.append(f"Reliability mix: {reliability_text}")
+    if rows:
+        portfolio_gross = float(row_value(rows[0], "Portfolio Gross %", default=0.0) or 0.0)
+        portfolio_cash = float(row_value(rows[0], "Portfolio Cash %", default=100.0) or 100.0)
+        binding = str(row_value(rows[0], "Portfolio Binding Constraints", default="") or "").strip()
+        portfolio_line = f"Portfolio targets: gross {portfolio_gross:.1f}% | cash {portfolio_cash:.1f}%"
+        if binding:
+            portfolio_line += f" | binding {binding}"
+        lines.append(portfolio_line)
     adaptive_symbols = (timings or {}).get("adaptive_sequence_symbols") or []
     if adaptive_symbols:
         lines.append("Adaptive sequence symbols: " + ", ".join(report_symbol(symbol) for symbol in adaptive_symbols))
@@ -1095,13 +1280,15 @@ def write_outputs(
         "requested_primary_model": args.primary_model,
         "sequence_model": sequence_model,
         "include_rl_policy": include_rl_policy,
+        "rl_mode": "off" if no_rl_policy_from_args(args) else "shadow",
         "no_rl_policy": no_rl_policy_from_args(args),
         "short_sequence_model": short_sequence_model_from_args(args),
         "smart_policy": {
             "enabled": True,
             "risk_fraction": float(args.policy_risk_fraction),
-            "description": "Forecast edge + ensemble + RL policy + trend + momentum + volatility-targeted allocation",
+            "description": "One selected non-RL forecast + trend + momentum with uncertainty gates and portfolio constraints",
         },
+        "portfolio": timings.get("portfolio", {}),
         "signal_threshold": {
             "min_forecast_return_pct": min_signal_return_pct_from_args(args),
             "max_rows_per_side": max_signal_rows_from_args(args),
@@ -1278,7 +1465,11 @@ def build_parser() -> argparse.ArgumentParser:
         default=0.20,
         help="Minimum share of prior validation wins required before adaptive mode trains sequence models for a symbol.",
     )
-    parser.add_argument("--include-rl-policy", action="store_true", help="Include the warm-start RL policy. Enabled by default.")
+    parser.add_argument(
+        "--include-rl-policy",
+        action="store_true",
+        help="Generate RL shadow diagnostics. RL is excluded from selections, scores, reliability, and orders.",
+    )
     parser.add_argument("--no-rl-policy", action="store_true")
     parser.add_argument("--request-text", default="")
     parser.add_argument(
@@ -1300,6 +1491,19 @@ def build_parser() -> argparse.ArgumentParser:
         help="Deprecated alias for --max-signal-rows when --max-signal-rows is unset.",
     )
     parser.add_argument("--policy-risk-fraction", type=float, default=0.10)
+    parser.add_argument("--portfolio-cash-reserve-pct", type=float, default=15.0)
+    parser.add_argument("--portfolio-max-name-pct", type=float, default=5.0)
+    parser.add_argument("--portfolio-max-sector-pct", type=float, default=20.0)
+    parser.add_argument("--portfolio-max-cluster-pct", type=float, default=15.0)
+    parser.add_argument("--portfolio-max-volatility-pct", type=float, default=15.0)
+    parser.add_argument("--portfolio-max-turnover-pct", type=float, default=20.0)
+    parser.add_argument(
+        "--portfolio-drawdown-pct",
+        type=float,
+        default=0.0,
+        help="Current portfolio drawdown magnitude in percent; reaching the breaker moves targets to cash.",
+    )
+    parser.add_argument("--portfolio-drawdown-breaker-pct", type=float, default=10.0)
     parser.add_argument("--output-dir", default=str(Path(__file__).resolve().parent / "reports"))
     parser.add_argument("--no-market-context", action="store_true")
     parser.add_argument("--no-optimize", action="store_true")

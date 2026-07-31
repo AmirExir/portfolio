@@ -20,9 +20,16 @@ class SmartPolicyConfig:
     sell_score_threshold: float = -0.20
     rebalance_threshold_frac: float = 0.02
     target_volatility_pct: float = 18.0
-    max_position_fraction: float = 0.25
+    max_position_fraction: float = 0.05
     stop_loss_pct: float = 0.08
     trade_cost_bps: float = 5.0
+    confidence_bound_scale: float = 1.0
+    min_validation_samples: int = 8
+    min_direction_accuracy_pct: float = 50.0
+    max_calibration_error_pct: float = 20.0
+    min_model_agreement: int = 2
+    require_oos_validation: bool = True
+    risk_budget_actions: tuple[float, ...] = (0.0, 0.25, 0.50, 1.0)
 
 
 @dataclass(frozen=True)
@@ -61,9 +68,10 @@ def smart_policy_report(
         config=config,
     )
     score = float(decision.score)
-    if score >= 1.75:
+    has_target = decision.target_position_fraction > 0.0
+    if has_target and score >= 1.75:
         policy_call = "Strong Buy"
-    elif score >= config.buy_score_threshold:
+    elif has_target and score >= config.buy_score_threshold:
         policy_call = "Buy"
     elif score <= -1.25:
         policy_call = "Strong Sell / Avoid"
@@ -88,6 +96,11 @@ def smart_policy_report(
         "momentum_component": float(momentum_diag.get("component", 0.0)),
         "rl_component": float(rl_diag.get("component", 0.0)),
         "rl_action": rl_diag.get("action", ""),
+        "rl_mode": "shadow",
+        "allocation_eligible": bool(diagnostics.get("allocation_eligible", False)),
+        "allocation_blockers": list(diagnostics.get("allocation_blockers", [])),
+        "lower_confidence_bound_pct": float(diagnostics.get("lower_confidence_bound_pct", 0.0)),
+        "agreeing_models": int(diagnostics.get("agreeing_models", 0)),
         "annual_volatility_pct": float(diagnostics.get("annual_volatility_pct", 0.0)),
     }
 
@@ -104,10 +117,11 @@ def smart_policy_decision(
     config: SmartPolicyConfig | None = None,
 ) -> SmartPolicyDecision:
     """
-    Combine forecast edge, trend, tabular RL, volatility, and position state.
+    Combine one selected forecast with independent trend and momentum evidence.
 
     This is deliberately long-only because the existing broker layer submits buy
-    and sell orders, but does not manage borrow, margin, or short exposure.
+    and sell orders, but does not manage borrow, margin, or short exposure. RL
+    diagnostics are retained in shadow mode and never affect this score.
     """
     config = config or SmartPolicyConfig()
     close = _clean_close(df)
@@ -138,35 +152,30 @@ def smart_policy_decision(
             )
 
     primary_metrics = dict(forecast_metrics or {})
-    ensemble_metrics = _result_metrics(model_results, "Ensemble")
     rl_metrics = _result_metrics(model_results, "RL Policy")
 
     forecast_component, forecast_diag = _forecast_component(primary_metrics, config)
-    ensemble_component, ensemble_diag = _forecast_component(ensemble_metrics, config)
     trend_component, trend_diag = _trend_component(close, config)
     momentum_component, momentum_diag = _momentum_component(close)
     rl_component, rl_diag = _rl_component(rl_metrics)
-    signal_component = _signal_component(signal)
 
-    score = (
-        forecast_component
-        + 0.35 * ensemble_component
-        + trend_component
-        + momentum_component
-        + rl_component
-        + signal_component
-    )
+    score = forecast_component + trend_component + momentum_component
     score = float(np.clip(score, -3.0, 3.0))
+    allocation_eligible, allocation_diag = _allocation_eligibility(
+        primary_metrics,
+        model_results,
+        config,
+    )
 
     annual_vol_pct = _annualized_volatility_pct(close)
     current_fraction = current_qty * last_price / equity
     max_fraction = min(max(risk_fraction, 0.0), config.max_position_fraction)
     target_fraction = 0.0
 
-    if score >= config.buy_score_threshold and max_fraction > 0.0:
+    if allocation_eligible and score >= config.buy_score_threshold and max_fraction > 0.0:
         target_fraction = _target_fraction(score, annual_vol_pct, max_fraction, config)
     elif current_qty > 0 and score > config.sell_score_threshold:
-        target_fraction = min(current_fraction, max_fraction)
+        target_fraction = min(current_fraction, max_fraction) if allocation_eligible else 0.0
 
     target_qty = int((equity * target_fraction) // last_price)
     target_qty = max(target_qty, 0)
@@ -178,11 +187,12 @@ def smart_policy_decision(
         "target_position_fraction": target_fraction,
         "annual_volatility_pct": annual_vol_pct,
         "forecast": forecast_diag,
-        "ensemble": ensemble_diag,
         "trend": trend_diag,
         "momentum": momentum_diag,
         "rl": rl_diag,
-        "signal_component": signal_component,
+        "signal_component": 0.0,
+        "allocation_eligible": allocation_eligible,
+        **allocation_diag,
     }
 
     min_rebalance_qty = 1
@@ -278,6 +288,11 @@ def _forecast_component(metrics: dict[str, Any], config: SmartPolicyConfig) -> t
     edge = max(confidence - 50.0, 0.0)
     cost_hurdle = config.trade_cost_bps / 100.0
     required_move = max(expected_error * config.min_forecast_error_ratio, cost_hurdle)
+    lower_confidence_bound = (
+        forecast_return
+        - config.confidence_bound_scale * expected_error
+        - cost_hurdle
+    )
 
     if edge < config.min_model_edge_pct or abs(forecast_return) < required_move:
         component = 0.0
@@ -293,6 +308,7 @@ def _forecast_component(metrics: dict[str, Any], config: SmartPolicyConfig) -> t
         "confidence_pct": confidence,
         "edge_pct": edge,
         "required_move_pct": required_move,
+        "lower_confidence_bound_pct": lower_confidence_bound,
     }
 
 
@@ -354,31 +370,29 @@ def _momentum_component(close: pd.Series) -> tuple[float, dict[str, float]]:
 
 
 def _rl_component(metrics: dict[str, Any]) -> tuple[float, dict[str, Any]]:
-    action = str(metrics.get("rl_action", "")).lower()
+    action = str(metrics.get("rl_action", "hold") or "hold").lower()
     q_short = _safe_float(metrics.get("rl_q_short"), 0.0)
     q_hold = _safe_float(metrics.get("rl_q_hold"), 0.0)
     q_long = _safe_float(metrics.get("rl_q_long"), 0.0)
+    visits = max(int(_safe_float(metrics.get("rl_state_visits"), 0.0)), 0)
 
     if action not in {"short", "hold", "long"}:
-        return 0.0, {"component": 0.0, "action": ""}
+        action = "hold"
 
     q_values = np.asarray([q_short, q_hold, q_long], dtype=float)
     q_gap = float(np.max(q_values) - np.partition(q_values, -2)[-2]) if q_values.size >= 2 else 0.0
-    scale = min(max(abs(q_gap) / 0.03, 0.0), 1.0)
-    if action == "long":
-        component = 0.20 + 0.35 * scale
-    elif action == "short":
-        component = -0.20 - 0.35 * scale
-    else:
-        component = 0.0
+    if np.allclose(q_values, q_values[0]) or q_gap <= 0.0:
+        action = "hold"
 
-    return float(component), {
-        "component": float(component),
+    return 0.0, {
+        "component": 0.0,
         "action": action,
         "q_short": q_short,
         "q_hold": q_hold,
         "q_long": q_long,
         "q_gap": q_gap,
+        "state_visits": visits,
+        "shadow_mode": True,
     }
 
 
@@ -427,8 +441,94 @@ def _target_fraction(
     vol_scale = 1.0
     if annual_vol_pct > 0.0:
         vol_scale = np.clip(config.target_volatility_pct / annual_vol_pct, 0.25, 1.25)
-    fraction = max_fraction * (0.35 + 0.65 * score_strength) * vol_scale
-    return float(np.clip(fraction, 0.0, max_fraction))
+    raw_budget_fraction = float(np.clip((0.35 + 0.65 * score_strength) * vol_scale, 0.0, 1.0))
+    actions = sorted(
+        {
+            float(np.clip(action, 0.0, 1.0))
+            for action in config.risk_budget_actions
+        }
+    )
+    eligible_actions = [action for action in actions if action <= raw_budget_fraction + 1e-12]
+    selected_action = max(eligible_actions, default=0.0)
+    return float(np.clip(max_fraction * selected_action, 0.0, max_fraction))
+
+
+def _allocation_eligibility(
+    metrics: dict[str, Any],
+    model_results: dict[str, Any] | None,
+    config: SmartPolicyConfig,
+) -> tuple[bool, dict[str, Any]]:
+    """Return whether a new long allocation clears every uncertainty gate."""
+    blockers: list[str] = []
+    forecast_return = _safe_float(metrics.get("forecast_change_pct"), 0.0)
+    expected_error = max(_safe_float(metrics.get("expected_error_pct"), 0.0), 0.25)
+    cost_pct = config.trade_cost_bps / 100.0
+    lower_bound = forecast_return - config.confidence_bound_scale * expected_error - cost_pct
+    reliability = str(metrics.get("reliability", "") or "").strip().lower()
+    validation_samples = int(max(_safe_float(metrics.get("holdout_samples"), 0.0), 0.0))
+    direction_accuracy = _safe_float(metrics.get("holdout_direction_accuracy"), np.nan)
+    calibration_error = _safe_float(metrics.get("calibration_error_pct"), np.nan)
+
+    if reliability == "low":
+        blockers.append("low_reliability")
+    if forecast_return <= 0.0:
+        blockers.append("non_positive_forecast")
+    if lower_bound <= 0.0:
+        blockers.append("non_positive_oos_lower_bound")
+    if bool(metrics.get("forecast_outlier", False)):
+        blockers.append("extreme_forecast")
+    if config.require_oos_validation and metrics.get("validation_is_oos") is not True:
+        blockers.append("missing_oos_validation")
+    if validation_samples < config.min_validation_samples:
+        blockers.append("insufficient_validation_samples")
+    if not np.isfinite(direction_accuracy) or direction_accuracy < config.min_direction_accuracy_pct:
+        blockers.append("weak_direction_calibration")
+    if not np.isfinite(calibration_error) or calibration_error > config.max_calibration_error_pct:
+        blockers.append("poor_probability_calibration")
+
+    agreeing_models, eligible_models = _model_agreement(metrics, model_results)
+    if agreeing_models < config.min_model_agreement:
+        blockers.append("insufficient_model_agreement")
+
+    return not blockers, {
+        "allocation_blockers": blockers,
+        "lower_confidence_bound_pct": float(lower_bound),
+        "agreeing_models": int(agreeing_models),
+        "eligible_models": int(eligible_models),
+        "validation_samples": int(validation_samples),
+        "calibration_error_pct": float(calibration_error) if np.isfinite(calibration_error) else np.nan,
+    }
+
+
+def _model_agreement(
+    primary_metrics: dict[str, Any],
+    model_results: dict[str, Any] | None,
+) -> tuple[int, int]:
+    if not model_results:
+        return 0, 0
+
+    primary_horizon = int(_safe_float(primary_metrics.get("horizon_days"), 0.0))
+    primary_direction = np.sign(_safe_float(primary_metrics.get("forecast_change_pct"), 0.0))
+    agreeing = 0
+    eligible = 0
+    for name, result in model_results.items():
+        if name in {"RL Policy", "Ensemble"}:
+            continue
+        model_metrics = getattr(result, "metrics", None)
+        if not isinstance(model_metrics, dict):
+            continue
+        if model_metrics.get("shadow_mode") or model_metrics.get("live_eligible", True) is False:
+            continue
+        model_horizon = int(_safe_float(model_metrics.get("horizon_days"), primary_horizon))
+        if primary_horizon and model_horizon != primary_horizon:
+            continue
+        model_return = _safe_float(model_metrics.get("forecast_change_pct"), 0.0)
+        if model_return == 0.0:
+            continue
+        eligible += 1
+        if primary_direction != 0.0 and np.sign(model_return) == primary_direction:
+            agreeing += 1
+    return agreeing, eligible
 
 
 def _decision_reason(
