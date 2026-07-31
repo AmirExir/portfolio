@@ -24,6 +24,11 @@ from sklearn.preprocessing import StandardScaler
 
 try:
     from ERCOTAPI.latest_updates import load_latest_updates, revision_request_identity
+    from ERCOTAPI.news_pipeline import (
+        assess_news_brief,
+        format_brief_age,
+        news_item_sort_key,
+    )
     from ERCOTAPI.grid_atlas import (
         POWER_PLANT_SOURCE_URL,
         SUBSTATION_SOURCE_URL,
@@ -41,6 +46,11 @@ try:
     )
 except ImportError:
     from latest_updates import load_latest_updates, revision_request_identity
+    from news_pipeline import (
+        assess_news_brief,
+        format_brief_age,
+        news_item_sort_key,
+    )
     from grid_atlas import (
         POWER_PLANT_SOURCE_URL,
         SUBSTATION_SOURCE_URL,
@@ -284,7 +294,7 @@ def _read_latest_local_news(local_dir: str, prefixes) -> Optional[Dict[str, str]
     if not candidates:
         return None
 
-    latest_name = sorted(candidates, reverse=True)[0]
+    latest_name = max(candidates, key=news_item_sort_key)
     latest_path = os.path.join(local_dir, latest_name)
     try:
         with open(latest_path, "r", encoding="utf-8") as f:
@@ -318,7 +328,10 @@ def get_latest_news_by_prefix(
             and any(f.get("name", "").lower().startswith(p.lower()) for p in prefixes)
         ]
         if matches:
-            latest = sorted(matches, key=lambda x: x.get("name", ""), reverse=True)[0]
+            latest = max(
+                matches,
+                key=lambda item: news_item_sort_key(item.get("name", "")),
+            )
             download_url = latest.get("download_url")
             if download_url:
                 try:
@@ -359,7 +372,7 @@ def get_latest_news_by_prefix(
             tree_matches = heuristic_matches
 
         if tree_matches:
-            latest_path = sorted(tree_matches, reverse=True)[0]
+            latest_path = max(tree_matches, key=news_item_sort_key)
             raw_url = (
                 "https://raw.githubusercontent.com/AmirExir/portfolio/main/"
                 f"{latest_path}"
@@ -3621,6 +3634,7 @@ def main():
     ]
 
     item = get_latest_news_by_prefix(all_news_prefixes, repo_path="ERCOTAPI/news_summaries")
+    brief_state = assess_news_brief(item["name"]) if item else None
     st.markdown("<div class='news-panel'>", unsafe_allow_html=True)
     news_header_col, news_status_col = st.columns([5, 1.4])
     with news_header_col:
@@ -3629,9 +3643,24 @@ def main():
             "Latest n8n-generated Texas grid, market-rule, interconnection, and large-load monitoring summary.",
         )
     with news_status_col:
-        render_status_pill("Live pipeline" if item else "Waiting for update", "ok" if item else "warn")
+        render_status_pill(
+            brief_state.label if brief_state else "Waiting for update",
+            brief_state.status if brief_state else "warn",
+        )
     if item:
-        st.caption(f"Latest file: {item['name']}")
+        caption = f"Latest file: {item['name']}"
+        if brief_state and brief_state.published_at:
+            published_ct = brief_state.published_at.astimezone(ZoneInfo("America/Chicago"))
+            caption += (
+                f" · Published {published_ct:%b %d, %Y %H:%M} CT"
+                f" · {format_brief_age(brief_state.age_hours)}"
+            )
+        st.caption(caption)
+        if brief_state and not brief_state.is_fresh:
+            st.warning(
+                "The n8n publisher has not delivered a fresh ERCOT brief. "
+                "Refresh data reloads published files, but it does not run the workflow."
+            )
         st.markdown(item["content"])
     else:
         st.info("Awaiting n8n workflow updates. The dashboard will display the newest summary when a file lands.")

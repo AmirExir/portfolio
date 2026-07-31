@@ -1,0 +1,29 @@
+- ERCOT posted a cluster of market-rule changes centered on reliability products, load participation, and market design. The biggest operational themes are tighter treatment of emergency demand response, accommodation of batteries and controllable loads in dispatch and settlement constructs, and new rules intended to reduce inefficiencies in day-ahead and long-term transmission-rights auctions. Together, these changes point to continued market redesign around flexibility, scarcity readiness, and implementation of recent reforms. (ERCOT NPRR postings)
+
+- NPRR1337 would enhance Emergency Response Service by adding an alternate baseline qualification path and revising availability and performance measurement. This could broaden or better calibrate ERS participation, improve confidence that load-side emergency resources perform during tight conditions, and strengthen measurable demand-side reliability as ERCOT relies more heavily on flexible loads. (NPRR1337; 1337NPRR-01; 1337NPRR-06)
+
+- NPRR1335 aligns ERCOT Protocols with the PUCT's Phase 3 Firm Fuel Supply Service rule, extending the post-Winter Storm Uri fuel-security framework into market rules. The change could improve thermal-fleet readiness during extreme conditions and further codify fuel-assurance and compliance expectations for reliability-critical generation. (NPRR1335; 1335NPRR-01)
+
+- NPRR1333 proposes a one-time incentive program for inverter-based resources to provide advanced grid support even when it is not otherwise required. The proposal targets voltage and frequency support from the growing renewable and storage fleet without waiting solely for interconnection mandates. PRS materials show the item was tabled on June 10, so stakeholder debate remains active. (NPRR1333; 1333NPRR-02; 1333NPRR-04)
+
+- Large computational load policy continues to tighten. NOGRR282 would establish frequency and voltage ride-through requirements for LCLs, while NOGRR289 would allow certain LCL cooling loads up to 365 days after in-service to comply. ERCOT is formalizing grid-performance obligations for data-center-style loads while creating a limited compliance runway, moving LCL interconnection beyond capacity questions toward dynamic-performance governance. (NOGRR282; NOGRR289)
+
+- NOGRR288 would add Energy Storage Resource participation to Dispatchable Reliability Reserve Service. The operational effect would be a wider pool of fast, dispatchable reserves and another step toward treating storage as core reliability infrastructure rather than an edge-case resource. (NOGRR288)
+
+- NPRR1339 is a protocol cleanup tied to Real-Time Co-optimization plus Batteries implementation, while NPRR1336 cleans up nodal dispatch and energy-settlement language for Controllable Load Resources. Both revisions matter because implementation clarity reduces dispatch and settlement ambiguity as batteries and flexible demand become more central to ERCOT operations. (NPRR1339; NPRR1336; 1336NPRR-02)
+
+- NPRR1338 would restructure Long-Term Auction Sequence auctions from three time-of-use optimizations to six monthly optimizations. More granular monthly results could better reflect seasonal congestion and hedging needs as load growth and generation shifts make congestion patterns more volatile. A new PRS ballot indicates the item is progressing procedurally. (NPRR1338; 1338NPRR-01; 1338NPRR-03)
+
+- NPRR1343 proposes a bid fee for inefficient hourly Point-to-Point Obligation bids in the Day-Ahead Market. If adopted, the fee could reduce low-value bid volume and produce cleaner congestion hedging, signaling greater use of fee design to improve market quality. (NPRR1343)
+
+- NPRR1342 would establish mitigated offer caps for Contract for Capacity resources procured through ERCOT authority provisions. Clear mitigation rules are important for avoiding price distortions while ensuring sufficient supply is available during system stress. (NPRR1342)
+
+- NPRR1334 expands cybersecurity incident notification requirements, including incidents involving Market Participant vendors and covered systems. Faster visibility into cyber events should improve operational awareness and incident coordination across critical grid and market infrastructure. (NPRR1334; 1334NPRR-01)
+
+- NOGRR287 would update load-shed provisions so Transmission Operators and Transmission and Distribution Service Providers better identify and minimize overlap of essential loads. Better feeder segmentation could make emergency load shed more precise and reduce unnecessary harm to critical services. (NOGRR287)
+
+- NOGRR286 adds operational voltage limits for 765-kV equipment. This is a notable signal that ERCOT is establishing the operating-rule foundation required for extra-high-voltage transmission expansion intended to serve rapid load growth and remote generation. (NOGRR286)
+
+- NOGRR279 extends the deadline for installing high-resolution recording equipment to January 1, 2029. The near-term effect is a slower monitoring-hardware rollout, but ERCOT still expects more granular disturbance and performance data for a grid with growing inverter-based generation and large-load participation. (NOGRR279)
+
+- NPRR1331 on unannounced generation-capacity testing advanced from being tabled in June to Recommended Approval at PRS on July 15. Aligning combined-cycle testing timeframes with observed performance should improve capacity-verification credibility without over-penalizing unit-configuration limits. (NPRR1331; 1331NPRR-03; 1331NPRR-05)

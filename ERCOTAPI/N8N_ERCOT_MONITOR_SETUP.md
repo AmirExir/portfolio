@@ -116,6 +116,39 @@ Keep Telegram/OpenAI credentials in n8n credentials, environment variables, or
 the macOS Keychain—not in workflow JSON or the repository. See
 `ERCOTAPI/RAG_INGESTION.md` for store recovery and manual ingestion commands.
 
+## Dashboard intelligence-brief publication contract
+
+The dashboard reads generated briefs from
+`ERCOTAPI/news_summaries/` on the repository's `main` branch. The n8n news
+branch must retain this complete edge:
+
+```text
+ERCOT News API -> Build ERCOT News Digest -> Message Model For ERCOT
+  -> Build ERCOT GitHub Payload -> Save ERCOT To GitHub
+```
+
+`Save ERCOT To GitHub` must write
+`ERCOTAPI/news_summaries/ercot_news_summary_<UTC timestamp>.txt` to `main`.
+Publishing to another branch or to the `ERCOTAPI/` root will not update the
+dashboard panel.
+
+The dashboard treats a brief older than 36 hours as stale. Its **Refresh data**
+button only clears the five-minute read cache; it does not execute n8n.
+
+For the local SQLite installation, stop n8n and run the checked repair before
+restarting it:
+
+```bash
+python3 scripts/repair_n8n_ercot_publication.py \
+  --database /path/to/.n8n/database.sqlite \
+  --backup /safe/path/database.sqlite.before-ercot-publisher-repair
+```
+
+The repair preserves unrelated nodes and credentials, restores the missing
+model-to-publisher edge, and aligns the GitHub branch and directory with the
+dashboard consumer. It refuses to modify the database while port 5678 is
+accepting connections and always requires a new backup path.
+
 ## ERCOT question-answering contract
 
 The Telegram QA branch calls `POST /retrieve`. Pass both `answer_contract` and
