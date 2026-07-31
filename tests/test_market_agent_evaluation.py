@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 from datetime import date, timedelta
 import unittest
 
@@ -19,6 +20,8 @@ from market_agent.agent.evaluation import (
     evaluate_forecasts,
     evaluate_policy_returns,
     evaluate_promotion_gates,
+    policy_performance_from_periods,
+    promotion_evaluation_id,
     run_frozen_walk_forward,
 )
 
@@ -122,8 +125,8 @@ class PurgedWalkForwardTests(unittest.TestCase):
                 list(features.columns),
                 ["as_of_session", "symbol", "feature"],
             )
-            return pd.DataFrame(
-                {"predicted_return": [model["mean"]] * len(features)}
+            return features[["as_of_session", "symbol"]].assign(
+                predicted_return=[model["mean"]] * len(features)
             )
 
         run = run_frozen_walk_forward(
@@ -132,11 +135,12 @@ class PurgedWalkForwardTests(unittest.TestCase):
             feature_columns=["feature"],
             fit_policy=fit_policy,
             predict_policy=predict_policy,
-            evaluation_as_of_session=sessions[-1],
+            evaluation_as_of_session=sessions[17],
         )
 
         self.assertEqual(fit_calls, [fold.fold_id for fold in run.folds])
         self.assertEqual(prediction_calls, fit_calls)
+        self.assertEqual(run.skipped_immature_fold_ids, (2,))
         self.assertEqual(
             sorted(run.predictions["policy_version"].unique()),
             [f"frozen-{fold.fold_id}" for fold in run.folds],
@@ -144,9 +148,67 @@ class PurgedWalkForwardTests(unittest.TestCase):
         self.assertTrue(
             (
                 run.predictions["target_session"]
-                <= sessions[-1]
+                <= sessions[17]
             ).all()
         )
+
+    def test_predictor_is_keyed_and_cannot_mutate_fitted_state(self) -> None:
+        sessions = _business_dates(16)
+        rows = [
+            {
+                "as_of_session": sessions[index],
+                "target_session": sessions[index + 1],
+                "horizon_sessions": 1,
+                "symbol": "TEST",
+                "feature": float(index),
+                "realized_return": 0.0,
+                "benchmark_return": 0.0,
+            }
+            for index in range(len(sessions) - 1)
+        ]
+        frame = pd.DataFrame(rows)
+        config = WalkForwardConfig(1, 5, 2)
+
+        def keyed_predict(model, features: pd.DataFrame, fold):
+            return (
+                features[["as_of_session", "symbol", "feature"]]
+                .iloc[::-1]
+                .rename(columns={"feature": "predicted_return"})
+            )
+
+        keyed = run_frozen_walk_forward(
+            frame,
+            config,
+            feature_columns=["feature"],
+            fit_policy=lambda *_: FittedPolicy({"fixed": True}, "v1"),
+            predict_policy=keyed_predict,
+            evaluation_as_of_session=sessions[-1],
+        )
+        expected = {
+            row["as_of_session"]: row["feature"]
+            for row in rows
+        }
+        for _, row in keyed.predictions.iterrows():
+            self.assertEqual(
+                row["predicted_return"],
+                expected[row["as_of_session"]],
+            )
+
+        def mutating_predict(model, features: pd.DataFrame, fold):
+            model["updates"] = model.get("updates", 0) + 1
+            return features[["as_of_session", "symbol"]].assign(
+                predicted_return=0.0
+            )
+
+        with self.assertRaisesRegex(DataLeakageError, "mutated"):
+            run_frozen_walk_forward(
+                frame,
+                config,
+                feature_columns=["feature"],
+                fit_policy=lambda *_: FittedPolicy({}, "mutable-v1"),
+                predict_policy=mutating_predict,
+                evaluation_as_of_session=sessions[-1],
+            )
 
     def test_mixed_horizons_and_outcome_features_are_rejected(self) -> None:
         sessions = _business_dates(12)
@@ -265,18 +327,23 @@ class EvaluationMetricTests(unittest.TestCase):
     def test_promotion_requires_every_gate(self) -> None:
         sessions = _business_dates(80)
 
-        def performance(pattern: list[float], cost_bps: float):
+        def performance(
+            pattern: list[float],
+            cost_bps: float,
+            selected_sessions: list[date] | None = None,
+        ):
+            evaluation_sessions = selected_sessions or sessions
             returns = [
                 pattern[index % len(pattern)]
-                for index in range(len(sessions))
+                for index in range(len(evaluation_sessions))
             ]
             frame = pd.DataFrame(
                 {
-                    "session": sessions,
-                    "symbol": ["TEST"] * len(sessions),
-                    "target_weight": [1.0] * len(sessions),
+                    "session": evaluation_sessions,
+                    "symbol": ["TEST"] * len(evaluation_sessions),
+                    "target_weight": [1.0] * len(evaluation_sessions),
                     "asset_return": returns,
-                    "benchmark_return": [0.0] * len(sessions),
+                    "benchmark_return": [0.0] * len(evaluation_sessions),
                 }
             )
             return evaluate_policy_returns(
@@ -290,14 +357,34 @@ class EvaluationMetricTests(unittest.TestCase):
         baseline = performance(baseline_pattern, 5.0)
         candidate_stress = performance(candidate_pattern, 10.0)
         baseline_stress = performance(baseline_pattern, 10.0)
-        folds = tuple(
-            FoldPerformance(
-                fold_id=index,
-                candidate=candidate,
-                baseline=baseline,
+        folds = []
+        for index in range(10):
+            fold_sessions = sessions[index * 8 : (index + 1) * 8]
+            session_set = set(fold_sessions)
+            folds.append(
+                FoldPerformance(
+                    fold_id=index,
+                    candidate=policy_performance_from_periods(
+                        [
+                            period
+                            for period in candidate.periods
+                            if period.session in session_set
+                        ],
+                        transaction_cost_bps=5.0,
+                    ),
+                    baseline=policy_performance_from_periods(
+                        [
+                            period
+                            for period in baseline.periods
+                            if period.session in session_set
+                        ],
+                        transaction_cost_bps=5.0,
+                    ),
+                    horizon_sessions=2,
+                    candidate_policy_version="rl-shadow-v2",
+                    baseline_policy_version="ridge-v1",
+                )
             )
-            for index in range(10)
-        )
         forecast_metrics = evaluate_forecasts(
             [
                 ForecastObservation(
@@ -315,14 +402,57 @@ class EvaluationMetricTests(unittest.TestCase):
             ],
             horizon_sessions=2,
         )
+        fixed_ensemble = performance(
+            [0.0015, -0.0020, 0.0005, -0.0015],
+            5.0,
+        )
+        baseline_candidates = {
+            "ridge": baseline,
+            "fixed-ensemble": fixed_ensemble,
+        }
+        baseline_candidate_versions = {
+            "ridge": "ridge-v1",
+            "fixed-ensemble": "fixed-ensemble-v1",
+        }
+        prediction_ids = tuple(f"p-{index}" for index in range(60))
+        ledger_head_hash = "a" * 64
+        evaluation_id = promotion_evaluation_id(
+            horizon_sessions=2,
+            candidate_policy_version="rl-shadow-v2",
+            baseline_policy_version="ridge-v1",
+            baseline_name="ridge",
+            candidate=candidate,
+            baseline=baseline,
+            candidate_doubled_cost=candidate_stress,
+            baseline_doubled_cost=baseline_stress,
+            folds=tuple(folds),
+            baseline_candidates=baseline_candidates,
+            baseline_candidate_versions=baseline_candidate_versions,
+            candidate_forecast_metrics=forecast_metrics,
+            candidate_forecast_prediction_ids=prediction_ids,
+            candidate_model_name="RL Policy",
+            forecast_as_of_session=sessions[-1],
+            ledger_head_hash=ledger_head_hash,
+        )
         evidence = PromotionEvidence(
             shadow_sessions=80,
             candidate=candidate,
             baseline=baseline,
             candidate_doubled_cost=candidate_stress,
             baseline_doubled_cost=baseline_stress,
-            folds=folds,
+            folds=tuple(folds),
             candidate_forecast_metrics=forecast_metrics,
+            horizon_sessions=2,
+            evaluation_id=evaluation_id,
+            candidate_policy_version="rl-shadow-v2",
+            baseline_policy_version="ridge-v1",
+            baseline_name="ridge",
+            baseline_candidates=baseline_candidates,
+            baseline_candidate_versions=baseline_candidate_versions,
+            candidate_forecast_prediction_ids=prediction_ids,
+            candidate_model_name="RL Policy",
+            forecast_as_of_session=sessions[-1],
+            ledger_head_hash=ledger_head_hash,
         )
 
         decision = evaluate_promotion_gates(
@@ -335,23 +465,31 @@ class EvaluationMetricTests(unittest.TestCase):
             ),
         )
 
-        self.assertTrue(
-            decision.promoted,
+        self.assertFalse(decision.promoted)
+        self.assertIn(
+            "ledger_backed_forecast_provenance",
             [check.name for check in decision.failed_checks],
         )
 
-        insufficient_shadow = PromotionEvidence(
-            **{
-                **evidence.__dict__,
-                "shadow_sessions": 59,
-            }
+        failed = evaluate_promotion_gates(
+            evidence,
+            PromotionGateConfig(minimum_shadow_sessions=81),
         )
-        failed = evaluate_promotion_gates(insufficient_shadow)
         self.assertFalse(failed.promoted)
         self.assertIn(
             "shadow_sessions",
             [check.name for check in failed.failed_checks],
         )
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "immutable period path",
+        ):
+            replace(
+                candidate_stress,
+                cumulative_net_return=999.0,
+                sharpe=999.0,
+            )
 
 
 if __name__ == "__main__":

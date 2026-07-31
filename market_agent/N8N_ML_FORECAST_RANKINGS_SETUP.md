@@ -113,7 +113,18 @@ Then run:
 cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --send-telegram
 ```
 
-The scheduled workflow should use the full research profile by default when it runs overnight: `Best Validation`, RL policy enabled, XGBoost/Ridge/Ensemble available, and LSTM/Transformer trained across the universe. Use the quick profile for on-demand answers when speed matters, and the quality profile when you want a balanced scheduled run.
+The scheduled workflow should use the full research profile by default when it
+runs overnight. `Best Validation` is now a pre-registered live champion order:
+the fixed non-RL ensemble first, then Ridge if the ensemble is unavailable.
+XGBoost and sequence models remain research comparisons. RL may be enabled only
+for shadow diagnostics; it is excluded from champion selection, ensemble
+weights, reliability, published allocations, and orders.
+
+The forecast horizon is point-to-point. A positive 30-session forecast does
+not claim that price should rise immediately or monotonically. The append-only
+outcome ledger records maximum adverse and favorable excursion so a forecast
+that first falls sharply and later recovers is evaluated as that full path, not
+just by its final sign.
 
 ## Useful arguments
 
@@ -137,6 +148,8 @@ The scheduled workflow should use the full research profile by default when it r
 --model-cache-max-age-days 7
 --include-rl-policy
 --no-rl-policy
+--portfolio-current-weights-json '{"SPY": 0.04, "MU": 0.03}'
+--earnings-payload-dir /path/to/verified/earnings_payloads
 --request-text "Run a full market optimization without RL"
 --show-timing
 --json-only
@@ -144,7 +157,45 @@ The scheduled workflow should use the full research profile by default when it r
 
 By default, the text report includes every buy/sell signal with a directional model or smart-policy call and an absolute forecast return of at least 2%. Use `--min-signal-return-pct` to adjust that threshold, and use `--max-signal-rows` only if you need to cap the report length.
 
-Recent saved report JSONs ranked the model families this way by validation error: RL Policy was strongest where available, followed by XGBoost, then Ridge/Ensemble. LSTM and Transformer were useful for a smaller set of symbols, so the normal overnight profile keeps them through `--sequence-model adaptive` instead of running them on every ticker.
+Do not rank RL against price forecasters by forecast MAE. RL is a target-weight
+policy and has a different objective. The normal overnight profile retains
+XGBoost and adaptive sequence models for research comparison, while the fixed
+ensemble/Ridge champion remains the live forecasting baseline.
+
+Positive allocation targets fail closed unless the workflow supplies verified
+current executed weights through `--portfolio-current-weights-json` and enough
+price history exists to build the full covariance matrix. A previous
+recommendation file is not broker state and cannot authorize a new allocation.
+Fetch current weights from the broker immediately before this command; never
+hard-code them in the workflow.
+
+Earnings results are interpreted on every run and appear in the Telegram text.
+For near-immediate alerts during an earnings window, trigger a lightweight or
+quick-profile run every five minutes and retain n8n deduplication by the
+reported event timestamp. A scheduled/imprecise provider timestamp is
+display-only and cannot affect allocation; policy use requires a verified
+publication time, comparable actual/estimate data, and the event's effective
+trading session.
+
+For richer results, have the earnings workflow write one canonical
+`SYMBOL.json` file per company into `--earnings-payload-dir`. The payload may
+contain EPS, revenue, and guidance:
+
+```json
+{
+  "symbol": "MU",
+  "reported_at": "2026-07-29T16:05:00-04:00",
+  "timestamp_quality": "provider_reported",
+  "eps": {"actual": 1.10, "estimate": 1.00},
+  "revenue": {"actual": 9000000000, "estimate": 8700000000},
+  "guidance": {"direction": "raised"},
+  "source": "verified-provider"
+}
+```
+
+The interpreter rejects a mismatched symbol, future publication, stale event,
+missing comparable values, or a release that is not yet effective for the
+decision session.
 
 Recommended scheduled overnight full research profile:
 

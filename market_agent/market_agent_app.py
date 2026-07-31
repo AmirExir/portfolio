@@ -11,6 +11,8 @@ import requests
 import base64
 import json
 import glob
+import hashlib
+from zoneinfo import ZoneInfo
 
 import yfinance as yf
 import plotly.express as px
@@ -23,13 +25,37 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # Try to import agent modules, with fallback handling
 try:
     from agent.data import get_ohlcv
+    from agent.earnings import (
+        fetch_yfinance_earnings_payload,
+        interpret_earnings_payload,
+        load_earnings_payload_file,
+        us_equity_trading_sessions,
+    )
     from agent.forecast import backtest_forecasts, compare_forecast_models, forecast_close_prices
     from agent.strategy import sma_crossover
     from agent.backtest import simple_vector_backtest
-    from agent.broker import get_account, submit_order, cancel_open_orders
+    from agent.broker import (
+        BrokerError,
+        BrokerPortfolioSnapshot,
+        LiquidationError,
+        cancel_open_orders,
+        close_all_positions,
+        get_account,
+        get_latest_quote,
+        get_portfolio_snapshot,
+        get_positions,
+        size_capped_buy_notional,
+        submit_order,
+    )
     from agent.policy import smart_policy_decision, smart_policy_report
+    from agent.portfolio import (
+        PortfolioConstraints,
+        allocate_target_weights,
+        constrain_incremental_target,
+    )
     from agent.risk import target_position_qty
     from forecast_cache import (
+        MODEL_RESULT_CACHE_VERSION,
         cache_payload_fresh,
         forecast_cache_path,
         forecast_result_from_dict,
@@ -128,26 +154,182 @@ def load_trade_log(limit: int = 300) -> pd.DataFrame:
     return df.head(limit)
 
 
-def _alpaca_position_qty(symbol: str) -> int:
-    key = get_secret("ALPACA_KEY")
-    secret = get_secret("ALPACA_SECRET")
-    endpoint = get_secret("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets").rstrip("/")
-    if not key or not secret:
-        return 0
-
-    url = f"{endpoint}/v2/positions/{symbol}"
-    headers = {
-        "APCA-API-KEY-ID": key,
-        "APCA-API-SECRET-KEY": secret,
-    }
+def _alpaca_position_qty(symbol: str) -> float:
+    """Return the exact broker quantity; never truncate fractional shares."""
     try:
-        response = requests.get(url, headers=headers, timeout=10)
-        if response.status_code == 200:
-            payload = response.json()
-            return int(float(payload.get("qty", 0)))
-        return 0
-    except Exception:
-        return 0
+        position = get_positions().get(str(symbol).strip().upper())
+        return float(position.qty) if position is not None else 0.0
+    except BrokerError:
+        return 0.0
+
+
+def _fetch_alpaca_positions(
+    equity: float,
+) -> tuple[dict[str, float], dict[str, float], str | None]:
+    """Compatibility wrapper returning risk-reserved weights and exact qty."""
+    if equity <= 0.0:
+        return {}, {}, "Alpaca positions or equity are unavailable"
+    try:
+        snapshot = get_portfolio_snapshot(float(equity))
+        quantities = {
+            symbol: float(position.qty)
+            for symbol, position in snapshot.positions.items()
+        }
+        return dict(snapshot.risk_weights), quantities, None
+    except Exception as exc:
+        return {}, {}, (
+            f"could not verify broker positions ({type(exc).__name__})"
+        )
+
+
+def _fetch_alpaca_execution_snapshot(
+    equity: float,
+) -> tuple[BrokerPortfolioSnapshot | None, str | None]:
+    """Fetch positions, entry prices, and pending-buy risk as one snapshot."""
+    if equity <= 0.0:
+        return None, "Alpaca positions or equity are unavailable"
+    try:
+        return get_portfolio_snapshot(float(equity)), None
+    except Exception as exc:
+        return None, (
+            f"could not verify broker positions and open orders "
+            f"({type(exc).__name__})"
+        )
+
+
+def _fetch_alpaca_position_weights(
+    equity: float,
+) -> tuple[dict[str, float], str | None]:
+    weights, _quantities, error = _fetch_alpaca_positions(equity)
+    return weights, error
+
+
+def _current_portfolio_drawdown() -> float | None:
+    history = _fetch_alpaca_portfolio_history(period="3M", timeframe="1D")
+    if history.empty or "equity" not in history.columns:
+        return None
+    values = pd.to_numeric(history["equity"], errors="coerce").dropna()
+    if values.empty or float(values.max()) <= 0.0:
+        return None
+    return min(float(values.iloc[-1] / values.cummax().iloc[-1] - 1.0), 0.0)
+
+
+def _position_covariance(
+    symbols: set[str],
+    selected_symbol: str,
+    selected_df: pd.DataFrame,
+) -> pd.DataFrame | None:
+    returns = {}
+    for candidate in sorted(symbols):
+        try:
+            frame = (
+                selected_df
+                if candidate == selected_symbol
+                else get_ohlcv(candidate, 365)
+            )
+            close = frame["close"]
+            if isinstance(close, pd.DataFrame):
+                close = close.iloc[:, 0]
+            daily = (
+                pd.to_numeric(close, errors="coerce")
+                .dropna()
+                .sort_index()
+                .pct_change()
+                .replace([np.inf, -np.inf], np.nan)
+                .dropna()
+            )
+            if len(daily) < 60:
+                return None
+            returns[candidate] = daily.rename(candidate)
+        except Exception:
+            return None
+    aligned = pd.concat(returns.values(), axis=1).dropna(how="any").tail(252)
+    if len(aligned) < 60:
+        return None
+    return aligned.cov() * 252.0
+
+
+def constrain_auto_order_target(
+    *,
+    symbol: str,
+    desired_target: float,
+    current_weights: dict[str, float],
+    current_drawdown: float,
+    price_history: pd.DataFrame,
+    require_covariance: bool,
+) -> tuple[float, dict, str | None]:
+    """Return a broker-position-aware target for one risk-increasing order."""
+    normalized = str(symbol).strip().upper()
+    constraints = PortfolioConstraints(
+        gross_limit=1.0,
+        cash_reserve=0.15,
+        max_name_weight=0.05,
+        max_sector_weight=0.20,
+        max_cluster_weight=0.15,
+        max_annual_volatility=0.15,
+        max_turnover=0.20,
+        drawdown_circuit_breaker=0.10,
+    )
+    if normalized not in PORTFOLIO_SECTORS or normalized not in PORTFOLIO_CLUSTERS:
+        return 0.0, {}, "symbol lacks a verified sector or correlation-cluster mapping"
+    unknown_holdings = sorted(
+        holding
+        for holding, weight in current_weights.items()
+        if weight > 0.0
+        and (
+            holding not in PORTFOLIO_SECTORS
+            or holding not in PORTFOLIO_CLUSTERS
+        )
+    )
+    if unknown_holdings:
+        return 0.0, {}, (
+            "cannot verify portfolio classifications for "
+            + ", ".join(unknown_holdings)
+        )
+    if current_drawdown <= -constraints.drawdown_circuit_breaker:
+        return 0.0, {"circuit_breaker_triggered": True}, "drawdown circuit breaker is active"
+
+    current = {
+        str(name).upper(): max(float(weight), 0.0)
+        for name, weight in current_weights.items()
+        if float(weight) > 0.0
+    }
+    symbols = set(current) | {normalized}
+    covariance = _position_covariance(symbols, normalized, price_history)
+    if covariance is None and require_covariance:
+        return 0.0, {}, "portfolio covariance could not be verified"
+    try:
+        authorization = constrain_incremental_target(
+            normalized,
+            desired_target,
+            current_weights=current,
+            sectors={name: PORTFOLIO_SECTORS[name] for name in symbols},
+            correlation_clusters={
+                name: PORTFOLIO_CLUSTERS[name] for name in symbols
+            },
+            annual_covariance=covariance,
+            current_drawdown=current_drawdown,
+            constraints=constraints,
+        )
+    except ValueError as exc:
+        return 0.0, {}, str(exc)
+
+    diagnostics = {
+        "current_target": authorization.current_target,
+        "desired_target": authorization.desired_target,
+        "allowed_target": authorization.allowed_target,
+        "gross_before": authorization.gross_before,
+        "portfolio_gross_target": authorization.gross_after,
+        "portfolio_cash_target": float(
+            max(1.0 - authorization.gross_after, 0.0)
+        ),
+        "annualized_volatility": authorization.annualized_volatility,
+        "binding_constraints": list(
+            authorization.allocation.binding_constraints
+        ),
+        "warnings": list(authorization.allocation.warnings),
+    }
+    return authorization.allowed_target, diagnostics, None
 
 
 def _fetch_live_account_snapshot() -> dict:
@@ -304,6 +486,17 @@ def maybe_execute_auto_trade(
 ) -> dict:
     if not enabled:
         return {"status": "disabled"}
+    return {
+        "status": "skipped",
+        "reason": (
+            "standalone SMA auto trading is retired; only the calibrated "
+            "Smart Policy may submit automatic orders"
+        ),
+    }
+
+    # Retained below temporarily for historical log compatibility. This path
+    # is intentionally unreachable so an old UI caller cannot bypass policy
+    # uncertainty and portfolio gates.
     if len(sig.dropna()) < 2:
         return {"status": "skipped", "reason": "not enough signal history"}
 
@@ -392,7 +585,17 @@ def maybe_execute_auto_trade_ml(
     """
     if not enabled:
         return {"status": "disabled"}
+    return {
+        "status": "skipped",
+        "reason": (
+            "raw ML-direction auto trading is retired; only the calibrated "
+            "Smart Policy may submit automatic orders"
+        ),
+    }
 
+    # Retained below temporarily for historical log compatibility. This path
+    # is intentionally unreachable so an old UI caller cannot bypass policy
+    # uncertainty and portfolio gates.
     state = _read_trade_state()
     signal_ts = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
     direction = 1 if float(forecast_change_pct) > 0 else 0
@@ -465,6 +668,148 @@ def maybe_execute_auto_trade_ml(
     return {"status": "executed", "entry": log_entry}
 
 
+def _execute_drawdown_liquidation(current_drawdown: float) -> dict:
+    """Submit and log portfolio-wide broker closes for the circuit breaker."""
+    try:
+        liquidation = close_all_positions()
+    except LiquidationError as exc:
+        accepted_orders = tuple(
+            order
+            for order in exc.accepted_orders
+            if order.get("broker_accepted") is True
+        )
+        if not accepted_orders:
+            return {
+                "status": "skipped",
+                "reason": (
+                    "drawdown circuit breaker could not obtain an accepted "
+                    "close order for any broker position"
+                ),
+            }
+        accepted_symbols = tuple(
+            sorted({str(order["symbol"]) for order in accepted_orders})
+        )
+        partial_entry = {
+            "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime(
+                "%Y-%m-%d %H:%M:%S UTC"
+            ),
+            "source": "auto_smart_policy_drawdown_circuit_breaker",
+            "symbol": "PORTFOLIO",
+            "action": "PARTIAL_LIQUIDATION",
+            "side": "close",
+            "qty": float(
+                sum(
+                    abs(exc.positions[symbol].qty)
+                    for symbol in accepted_symbols
+                )
+            ),
+            "price": None,
+            "notional": float(
+                sum(
+                    abs(exc.positions[symbol].market_value)
+                    for symbol in accepted_symbols
+                )
+            ),
+            "demo_mode": False,
+            "portfolio_drawdown": float(current_drawdown),
+            "position_symbols": list(accepted_symbols),
+            "failed_position_symbols": sorted(exc.failures),
+            "order_result": list(accepted_orders),
+            "cancellation_result": dict(exc.cancellations),
+        }
+        _append_trade_log(partial_entry)
+        state = _read_trade_state()
+        state["_portfolio_drawdown_circuit_breaker"] = {
+            "status": "partial",
+            "last_timestamp": partial_entry["timestamp_utc"],
+            "drawdown": float(current_drawdown),
+            "position_symbols": list(accepted_symbols),
+            "failed_position_symbols": sorted(exc.failures),
+            "accepted_order_ids": [
+                order["id"] for order in accepted_orders
+            ],
+        }
+        _write_trade_state(state)
+        return {
+            "status": "partial",
+            "reason": (
+                "drawdown circuit breaker accepted "
+                f"{len(accepted_orders)} close order(s), but failed for "
+                f"{', '.join(sorted(exc.failures))}"
+            ),
+            "entry": partial_entry,
+        }
+    except Exception as exc:
+        return {
+            "status": "skipped",
+            "reason": (
+                "portfolio drawdown liquidation was not fully accepted "
+                f"({type(exc).__name__})"
+            ),
+        }
+    if (
+        not liquidation.position_symbols
+        or len(liquidation.accepted_orders)
+        != len(liquidation.position_symbols)
+    ):
+        return {
+            "status": "skipped",
+            "reason": (
+                "drawdown circuit breaker is active; no verified broker "
+                "positions required liquidation"
+            ),
+        }
+    if not all(
+        order.get("broker_accepted") is True
+        for order in liquidation.accepted_orders
+    ):
+        return {
+            "status": "skipped",
+            "reason": "one or more portfolio liquidation orders were not accepted",
+        }
+    liquidation_entry = {
+        "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime(
+            "%Y-%m-%d %H:%M:%S UTC"
+        ),
+        "source": "auto_smart_policy_drawdown_circuit_breaker",
+        "symbol": "PORTFOLIO",
+        "action": "LIQUIDATE_ALL",
+        "side": "close",
+        "qty": float(
+            sum(abs(position.qty) for position in liquidation.positions.values())
+        ),
+        "price": None,
+        "notional": float(
+            sum(
+                abs(position.market_value)
+                for position in liquidation.positions.values()
+            )
+        ),
+        "demo_mode": False,
+        "portfolio_drawdown": float(current_drawdown),
+        "position_symbols": list(liquidation.position_symbols),
+        "order_result": list(liquidation.accepted_orders),
+        "cancellation_result": dict(liquidation.cancellations),
+    }
+    _append_trade_log(liquidation_entry)
+    state = _read_trade_state()
+    state["_portfolio_drawdown_circuit_breaker"] = {
+        "status": "complete",
+        "last_timestamp": liquidation_entry["timestamp_utc"],
+        "drawdown": float(current_drawdown),
+        "position_symbols": list(liquidation.position_symbols),
+        "accepted_order_ids": [
+            order["id"] for order in liquidation.accepted_orders
+        ],
+    }
+    _write_trade_state(state)
+    return {
+        "status": "executed",
+        "entry": liquidation_entry,
+        "liquidation": liquidation,
+    }
+
+
 def maybe_execute_auto_trade_smart(
     symbol: str,
     df: pd.DataFrame,
@@ -476,18 +821,78 @@ def maybe_execute_auto_trade_smart(
     trade_summary: dict | None = None,
     forecast_result=None,
     model_results: dict | None = None,
+    earnings_context: dict | None = None,
 ) -> dict:
     if not enabled:
         return {"status": "disabled"}
 
+    normalized_symbol = str(symbol).strip().upper()
     trade_summary = trade_summary or {}
+    broker_snapshot: BrokerPortfolioSnapshot | None = None
     if demo_mode:
         current_qty = int(max(float(trade_summary.get("position_qty", 0.0) or 0.0), 0.0))
+        latest_close = _latest_value(_clean_series(df, "close"))
+        current_weights = {
+            normalized_symbol: current_qty
+            * latest_close
+            / float(equity)
+        }
+        current_drawdown = 0.0
+        position_error = None
+        drawdown_error = None
+        avg_entry_price = trade_summary.get("avg_buy_price")
     else:
-        current_qty = _alpaca_position_qty(symbol)
+        try:
+            verified_account = get_account()
+            verified_equity = float(verified_account.get("equity", 0.0))
+            if not np.isfinite(verified_equity) or verified_equity <= 0.0:
+                raise ValueError("broker equity is not positive")
+            equity = verified_equity
+        except Exception as exc:
+            return {
+                "status": "skipped",
+                "reason": (
+                    "broker account equity could not be verified "
+                    f"({type(exc).__name__})"
+                ),
+            }
+        current_drawdown_value = _current_portfolio_drawdown()
+        if current_drawdown_value is None:
+            current_drawdown = 0.0
+            drawdown_error = "portfolio drawdown could not be verified"
+        else:
+            current_drawdown = current_drawdown_value
+            drawdown_error = None
+        if current_drawdown <= -0.10:
+            # Do not depend on quote/open-buy valuation before a safety exit.
+            return _execute_drawdown_liquidation(current_drawdown)
+        broker_snapshot, position_error = _fetch_alpaca_execution_snapshot(
+            float(equity)
+        )
+        if position_error or broker_snapshot is None:
+            return {
+                "status": "skipped",
+                "reason": position_error or "broker snapshot is unavailable",
+            }
+        current_weights = dict(broker_snapshot.risk_weights)
+        broker_position = broker_snapshot.positions.get(normalized_symbol)
+        current_qty = (
+            max(float(broker_position.qty), 0.0)
+            if broker_position is not None
+            else 0.0
+        )
+        avg_entry_price = (
+            float(broker_position.avg_entry_price)
+            if broker_position is not None
+            else None
+        )
 
-    avg_entry_price = trade_summary.get("avg_buy_price")
-    forecast_metrics = getattr(forecast_result, "metrics", {}) if forecast_result is not None else {}
+    forecast_metrics = dict(
+        getattr(forecast_result, "metrics", {})
+        if forecast_result is not None
+        else {}
+    )
+    forecast_metrics.update(earnings_policy_metrics(earnings_context))
     decision = smart_policy_decision(
         df=df,
         equity=equity,
@@ -506,17 +911,160 @@ def maybe_execute_auto_trade_smart(
             "decision": decision,
         }
 
+    order_qty = float(decision.qty)
+    order_notional: float | None = None
+    execution_price = float(decision.last_price)
+    portfolio_diagnostics: dict = {}
+    portfolio_target_fraction = float(decision.target_position_fraction)
+    if decision.side == "buy":
+        if position_error or drawdown_error:
+            return {
+                "status": "skipped",
+                "reason": position_error or drawdown_error,
+                "decision": decision,
+            }
+        (
+            portfolio_target_fraction,
+            portfolio_diagnostics,
+            portfolio_error,
+        ) = constrain_auto_order_target(
+            symbol=symbol,
+            desired_target=decision.target_position_fraction,
+            current_weights=current_weights,
+            current_drawdown=current_drawdown,
+            price_history=df,
+            require_covariance=not demo_mode,
+        )
+        if portfolio_error:
+            return {
+                "status": "skipped",
+                "reason": portfolio_error,
+                "decision": decision,
+            }
+        if demo_mode:
+            constrained_target_qty = int(
+                (float(equity) * portfolio_target_fraction)
+                // float(decision.last_price)
+            )
+            order_qty = float(
+                min(
+                    int(decision.qty),
+                    max(constrained_target_qty - int(current_qty), 0),
+                )
+            )
+        else:
+            try:
+                quote = get_latest_quote(normalized_symbol)
+                sizing = size_capped_buy_notional(
+                    equity=float(equity),
+                    allowed_target_weight=portfolio_target_fraction,
+                    reserved_symbol_weight=float(
+                        current_weights.get(normalized_symbol, 0.0)
+                    ),
+                    quote=quote,
+                    requested_qty=float(decision.qty),
+                )
+            except Exception as exc:
+                return {
+                    "status": "skipped",
+                    "reason": (
+                        "current broker ask could not be verified "
+                        f"({type(exc).__name__})"
+                    ),
+                    "decision": decision,
+                }
+            order_notional = float(sizing.notional)
+            order_qty = float(sizing.estimated_qty)
+            execution_price = float(sizing.conservative_ask)
+            portfolio_diagnostics.update(
+                {
+                    "verified_ask": float(quote.ask_price),
+                    "quote_timestamp": quote.timestamp.isoformat(),
+                    "conservative_ask": float(sizing.conservative_ask),
+                    "available_target_notional": float(
+                        sizing.available_target_notional
+                    ),
+                    "submitted_notional": order_notional,
+                    "pending_buy_weight_reserved": float(
+                        broker_snapshot.pending_buy_weights.get(
+                            normalized_symbol,
+                            0.0,
+                        )
+                        if broker_snapshot is not None
+                        else 0.0
+                    ),
+                }
+            )
+        if order_qty <= 0.0 or (
+            not demo_mode and (order_notional is None or order_notional < 1.0)
+        ):
+            return {
+                "status": "skipped",
+                "reason": "portfolio constraints allow no additional exposure",
+                "decision": decision,
+                "portfolio_diagnostics": portfolio_diagnostics,
+            }
+    elif not demo_mode:
+        # A zero-target sale must include any fractional remainder recorded by
+        # the broker instead of truncating to the policy's integer quantity.
+        order_qty = (
+            float(current_qty)
+            if decision.target_position_fraction <= 0.0
+            else min(float(decision.qty), float(current_qty))
+        )
+        if order_qty <= 0.0:
+            return {
+                "status": "skipped",
+                "reason": "broker reports no position available to sell",
+                "decision": decision,
+            }
+
     signal_ts = pd.to_datetime(df.index[-1]).strftime("%Y-%m-%d") if not df.empty else dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
-    action_key = f"smart:{signal_ts}:{decision.action}:{decision.qty}:{decision.target_qty}:{decision.score:.2f}"
+    action_size = (
+        f"${order_notional:.2f}"
+        if order_notional is not None
+        else f"{order_qty:.9f}"
+    )
+    action_key = f"smart:{signal_ts}:{decision.action}:{action_size}:{decision.target_qty}:{decision.score:.2f}"
     state = _read_trade_state()
-    symbol_state = state.get(symbol, {})
+    symbol_state = state.get(normalized_symbol, {})
     if symbol_state.get("last_smart_action_key") == action_key:
         return {"status": "skipped", "reason": "already executed smart policy action for this signal", "decision": decision}
 
     if demo_mode:
-        order_result = {"demo": True, "symbol": symbol, "side": decision.side, "qty": decision.qty}
+        order_qty = int(order_qty)
+        order_result = {"demo": True, "symbol": normalized_symbol, "side": decision.side, "qty": order_qty}
     else:
-        order_result = submit_order(symbol, decision.qty, decision.side)
+        try:
+            if order_notional is not None:
+                order_result = submit_order(
+                    normalized_symbol,
+                    side=decision.side,
+                    notional=order_notional,
+                )
+            else:
+                order_result = submit_order(
+                    normalized_symbol,
+                    qty=order_qty,
+                    side=decision.side,
+                )
+        except Exception as exc:
+            return {
+                "status": "skipped",
+                "reason": (
+                    "broker did not accept the order "
+                    f"({type(exc).__name__})"
+                ),
+                "decision": decision,
+                "portfolio_diagnostics": portfolio_diagnostics,
+            }
+        if order_result.get("broker_accepted") is not True:
+            return {
+                "status": "skipped",
+                "reason": "broker response did not confirm an accepted order",
+                "decision": decision,
+                "portfolio_diagnostics": portfolio_diagnostics,
+            }
 
     account_snapshot = {"equity": float(equity), "cash": None, "buying_power": None}
     if not demo_mode:
@@ -527,31 +1075,37 @@ def maybe_execute_auto_trade_smart(
     log_entry = {
         "timestamp_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
         "source": "auto_smart_policy",
-        "symbol": symbol,
+        "symbol": normalized_symbol,
         "action": decision.action,
         "side": decision.side,
-        "qty": int(decision.qty),
-        "price": round(float(decision.last_price), 4),
-        "notional": round(float(decision.qty) * float(decision.last_price), 2),
+        "qty": float(order_qty),
+        "price": round(float(execution_price), 4),
+        "notional": (
+            float(order_notional)
+            if order_notional is not None
+            else round(float(order_qty) * float(execution_price), 2)
+        ),
         "risk_fraction": float(risk_fraction),
         "policy_score": float(decision.score),
         "policy_reason": decision.reason,
         "target_qty": int(decision.target_qty),
         "target_position_fraction": float(decision.target_position_fraction),
+        "portfolio_target_position_fraction": float(portfolio_target_fraction),
         "demo_mode": bool(demo_mode),
         "equity_after": account_snapshot.get("equity"),
         "cash_after": account_snapshot.get("cash"),
         "buying_power_after": account_snapshot.get("buying_power"),
         "order_result": order_result,
         "policy_diagnostics": decision.diagnostics,
+        "portfolio_diagnostics": portfolio_diagnostics,
     }
     _append_trade_log(log_entry)
 
-    state[symbol] = symbol_state if symbol_state else {}
-    state[symbol]["last_smart_action_key"] = action_key
-    state[symbol]["last_smart_action"] = decision.action
-    state[symbol]["last_smart_score"] = float(decision.score)
-    state[symbol]["last_smart_timestamp"] = log_entry["timestamp_utc"]
+    state[normalized_symbol] = symbol_state if symbol_state else {}
+    state[normalized_symbol]["last_smart_action_key"] = action_key
+    state[normalized_symbol]["last_smart_action"] = decision.action
+    state[normalized_symbol]["last_smart_score"] = float(decision.score)
+    state[normalized_symbol]["last_smart_timestamp"] = log_entry["timestamp_utc"]
     _write_trade_state(state)
 
     return {"status": "executed", "entry": log_entry, "decision": decision}
@@ -855,6 +1409,41 @@ DEFAULT_FORECAST_SYMBOLS = [
     "ORCA-USD", "PNUT-USD", "DOGE-USD", "SHIB-USD", "FLOKI-USD", "PEPE-USD",
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
+PORTFOLIO_SECTORS = {
+    **{symbol: "Technology" for symbol in ("AAPL", "MSFT", "NVDA", "AMD", "INTC", "AVGO", "MU", "WDC", "STX", "SNDK", "ORCL", "DELL")},
+    **{symbol: "Crypto Infrastructure" for symbol in ("RIOT",)},
+    **{symbol: "Communication Services" for symbol in ("GOOGL", "META", "NFLX")},
+    **{symbol: "Consumer Discretionary" for symbol in ("AMZN", "TSLA", "HD")},
+    **{symbol: "Financials" for symbol in ("JPM", "BAC", "WFC", "C", "GS", "MS", "V")},
+    **{symbol: "Health Care" for symbol in ("UNH", "LLY", "JNJ")},
+    **{symbol: "Consumer Staples" for symbol in ("WMT", "PG", "KO", "PEP")},
+    **{symbol: "Industrials" for symbol in ("GEV", "DAL", "UAL", "AAL", "LUV", "SPCX")},
+    **{symbol: "Energy" for symbol in ("XOM", "CVX", "COP", "OXY", "SLB", "EOG")},
+    **{symbol: "Broad Market ETF" for symbol in ("SPY", "VOO", "QQQ", "IWM", "DIA")},
+    **{symbol: "Sector ETF" for symbol in ("XLK", "XLF", "XLE", "XLV", "XLY")},
+    **{symbol: "Macro ETF" for symbol in ("GLD", "SLV", "USO", "TLT")},
+    **{symbol: "Crypto" for symbol in DEFAULT_FORECAST_SYMBOLS if symbol.endswith("-USD")},
+}
+PORTFOLIO_CLUSTERS = {
+    **{symbol: "AI Mega Cap" for symbol in ("AAPL", "MSFT", "NVDA", "AMD", "AVGO", "GOOGL", "AMZN", "META", "ORCL", "DELL", "XLK", "QQQ")},
+    **{symbol: "Legacy Semiconductors" for symbol in ("INTC",)},
+    **{symbol: "Memory and Storage" for symbol in ("MU", "WDC", "STX", "SNDK")},
+    **{symbol: "Banks" for symbol in ("JPM", "BAC", "WFC", "C", "GS", "MS")},
+    **{symbol: "Payments" for symbol in ("V",)},
+    **{symbol: "High Beta Growth" for symbol in ("TSLA", "RIOT")},
+    **{symbol: "Streaming Media" for symbol in ("NFLX",)},
+    **{symbol: "Health Care" for symbol in ("UNH", "LLY", "JNJ", "XLV")},
+    **{symbol: "Defensive Consumer" for symbol in ("WMT", "PG", "KO", "PEP")},
+    **{symbol: "Consumer Cyclicals" for symbol in ("HD", "XLY")},
+    **{symbol: "Airlines" for symbol in ("DAL", "UAL", "AAL", "LUV")},
+    **{symbol: "Industrial Growth" for symbol in ("GEV", "SPCX")},
+    **{symbol: "Energy Complex" for symbol in ("XOM", "CVX", "COP", "OXY", "SLB", "EOG", "XLE", "USO")},
+    **{symbol: "Broad Index" for symbol in ("SPY", "VOO", "IWM", "DIA")},
+    **{symbol: "Financial Sector ETF" for symbol in ("XLF",)},
+    **{symbol: "Precious Metals" for symbol in ("GLD", "SLV")},
+    **{symbol: "Rates" for symbol in ("TLT",)},
+    **{symbol: "Crypto" for symbol in DEFAULT_FORECAST_SYMBOLS if symbol.endswith("-USD")},
+}
 SHORT_TERM_SIGNAL_HORIZONS = (1,)
 SCHEDULED_ONE_DAY_FALLBACK_LIMIT = 10
 SYMBOL_LABELS = {
@@ -1038,6 +1627,169 @@ def _load_market_context_data(history_days: int) -> pd.DataFrame:
 
     close = close.rename(columns={ticker: f"context_{ticker}" for ticker in close.columns})
     return close.dropna(how="all").ffill()
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def load_latest_earnings_interpretation(
+    symbol: str,
+    observed_sessions: tuple[str, ...] = (),
+) -> dict:
+    """Fetch and interpret the latest already-published earnings result."""
+    normalized = str(symbol).strip().upper()
+    if not normalized or normalized.endswith("-USD"):
+        return {"available": False, "error_code": "not_an_equity"}
+    as_of = dt.datetime.now(dt.timezone.utc)
+    external = load_earnings_payload_file(
+        normalized,
+        get_secret(
+            "MARKET_AGENT_EARNINGS_PAYLOAD_DIR",
+            os.getenv("MARKET_AGENT_EARNINGS_PAYLOAD_DIR", ""),
+        ),
+    )
+    if external.available:
+        fetched = external
+    elif external.error_code in {
+        "external_earnings_payload_not_configured",
+        "external_earnings_payload_missing",
+    }:
+        fetched = fetch_yfinance_earnings_payload(
+            normalized,
+            as_of=as_of,
+        )
+    else:
+        return {
+            "available": False,
+            "event_flag": 0,
+            "event_score": 0.0,
+            "confidence": 0.0,
+            "policy_eligible": False,
+            "error_code": (
+                external.error_code
+                or "external_earnings_payload_invalid"
+            ),
+        }
+    if not fetched.available or not fetched.payload:
+        return {
+            "available": False,
+            "event_flag": 0,
+            "event_score": 0.0,
+            "confidence": 0.0,
+            "policy_eligible": False,
+            "error_code": fetched.error_code or "earnings_unavailable",
+        }
+    sessions = us_equity_trading_sessions(
+        as_of=as_of,
+        observed_sessions=observed_sessions,
+    )
+    interpretation = interpret_earnings_payload(
+        fetched.payload,
+        as_of=as_of,
+        trading_sessions=sessions,
+    )
+    local_now = as_of.astimezone(ZoneInfo("America/New_York"))
+    session_dates = tuple(sorted(sessions))
+    if (
+        local_now.date() in session_dates
+        and local_now.time() < dt.time(16, 0)
+    ):
+        current_session = local_now.date()
+    else:
+        current_session = next(
+            session for session in session_dates
+            if session > local_now.date()
+        )
+    policy_signal = interpret_earnings_payload(
+        fetched.payload,
+        as_of=as_of,
+        decision_session=current_session,
+        trading_sessions=sessions,
+    )
+    quality_flags = list(
+        dict.fromkeys(
+            [
+                *interpretation.data_quality_flags,
+                *policy_signal.data_quality_flags,
+            ]
+        )
+    )
+    return {
+        "available": True,
+        "symbol": interpretation.symbol,
+        # These fields alone enter the live policy. A same-session event that
+        # is next-session-effective remains visible below but is zeroed here.
+        "event_flag": int(policy_signal.event_flag),
+        "event_score": float(policy_signal.event_score),
+        "confidence": float(policy_signal.confidence),
+        "policy_eligible": bool(policy_signal.policy_eligible),
+        "policy_decision_session": current_session.isoformat(),
+        # Immediate human-readable interpretation is kept separate from the
+        # execution-safe policy context.
+        "interpretation_event_flag": int(interpretation.event_flag),
+        "interpretation_event_score": float(interpretation.event_score),
+        "interpretation_confidence": float(interpretation.confidence),
+        "summary": interpretation.summary,
+        "outcome": interpretation.outcome,
+        "reported_at": (
+            interpretation.reported_at.isoformat()
+            if interpretation.reported_at
+            else ""
+        ),
+        "effective_session": (
+            interpretation.effective_session.isoformat()
+            if interpretation.effective_session
+            else ""
+        ),
+        "age_sessions": interpretation.age_sessions,
+        "is_stale": bool(interpretation.is_stale),
+        "blockers": list(policy_signal.blockers),
+        "data_quality_flags": quality_flags,
+        "calendar_source": "observed_sessions_plus_us_equity_rules",
+        "eps_surprise_pct": interpretation.eps_surprise_pct,
+        "revenue_surprise_pct": interpretation.revenue_surprise_pct,
+        "guidance_surprise_pct": interpretation.guidance_surprise_pct,
+    }
+
+
+def earnings_policy_metrics(earnings_context: dict | None) -> dict:
+    context = earnings_context or {}
+    if not context.get("available"):
+        return {
+            "earnings_event_flag": False,
+            "earnings_event_score": 0.0,
+            "earnings_confidence": 0.0,
+            "earnings_policy_eligible": False,
+            "earnings_calendar_source": str(
+                context.get("calendar_source", "") or ""
+            ),
+            "earnings_error_code": str(
+                context.get("error_code", "earnings_unavailable") or ""
+            ),
+        }
+    return {
+        "earnings_event_flag": bool(context.get("event_flag", 0)),
+        "earnings_event_score": float(context.get("event_score", 0.0) or 0.0),
+        "earnings_confidence": float(context.get("confidence", 0.0) or 0.0),
+        "earnings_summary": str(context.get("summary", "") or ""),
+        "earnings_outcome": str(context.get("outcome", "") or ""),
+        "earnings_effective_session": str(
+            context.get("effective_session", "") or ""
+        ),
+        "earnings_reported_at": str(
+            context.get("reported_at", "") or ""
+        ),
+        "earnings_is_stale": bool(context.get("is_stale", False)),
+        "earnings_policy_eligible": bool(
+            context.get("policy_eligible", False)
+        ),
+        "earnings_blockers": list(context.get("blockers", []) or []),
+        "earnings_data_quality_flags": list(
+            context.get("data_quality_flags", []) or []
+        ),
+        "earnings_calendar_source": str(
+            context.get("calendar_source", "") or ""
+        ),
+        "earnings_error_code": str(context.get("error_code", "") or ""),
+    }
 
 
 @st.cache_data(ttl=900, show_spinner=False)
@@ -1227,6 +1979,10 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
         "Smart Policy",
         "Policy Score",
         "Policy Target %",
+        "Unconstrained Policy Target %",
+        "Portfolio Gross %",
+        "Portfolio Cash %",
+        "Portfolio Binding Constraints",
         "Signal Tier",
         "Reliability",
         "Model Call",
@@ -1251,7 +2007,24 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
         "Policy Trend Score",
         "Policy Forecast Score",
         "Policy Momentum Score",
-        "Policy RL Score",
+        "Policy Earnings Score",
+        "Earnings Event",
+        "Earnings Score",
+        "Earnings Confidence %",
+        "Earnings Summary",
+        "Earnings Reported At",
+        "Earnings Effective Session",
+        "Earnings Policy Eligible",
+        "Earnings Stale",
+        "Earnings Blockers",
+        "Earnings Data Quality",
+        "Earnings Calendar Source",
+        "Earnings Error",
+        "RL Mode",
+        "RL Policy Return %",
+        "RL Shadow Action",
+        "RL Shadow Target %",
+        "RL Shadow Visits",
         "Policy Volatility %",
         "Score",
     ]
@@ -1264,6 +2037,9 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
             "Forecast Return %": "{:+.2f}%",
             "Policy Score": "{:+.2f}",
             "Policy Target %": "{:.1f}%",
+            "Unconstrained Policy Target %": "{:.1f}%",
+            "Portfolio Gross %": "{:.1f}%",
+            "Portfolio Cash %": "{:.1f}%",
             "Ridge Return %": "{:+.2f}%",
             "XGBoost Return %": "{:+.2f}%",
             "Neural Net Return %": "{:+.2f}%",
@@ -1279,7 +2055,12 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
             "Policy Trend Score": "{:+.2f}",
             "Policy Forecast Score": "{:+.2f}",
             "Policy Momentum Score": "{:+.2f}",
-            "Policy RL Score": "{:+.2f}",
+            "Policy Earnings Score": "{:+.2f}",
+            "Earnings Score": "{:+.2f}",
+            "Earnings Confidence %": "{:.1f}%",
+            "RL Policy Return %": "{:+.2f}%",
+            "RL Shadow Target %": "{:.1f}%",
+            "RL Shadow Visits": "{:.0f}",
             "Policy Volatility %": "{:.1f}%",
             "Score": "{:+.2f}",
         }
@@ -1352,6 +2133,7 @@ def model_results_table(model_results: dict) -> pd.DataFrame:
         rows.append(
             {
                 "Model": name,
+                "Mode": "Shadow only" if result.metrics.get("shadow_mode") else "Live eligible",
                 "Status": "OK",
                 "Forecast Price": float(result.forecast["forecast_close"].iloc[-1]),
                 "Forecast Return %": result.metrics.get("forecast_change_pct", 0.0),
@@ -1361,6 +2143,8 @@ def model_results_table(model_results: dict) -> pd.DataFrame:
                 "Expected Error %": result.metrics.get("expected_error_pct", 0.0),
                 "Validation MAE %": result.metrics.get("holdout_mae_pct", np.nan),
                 "Validation Direction %": result.metrics.get("holdout_direction_accuracy", np.nan),
+                "Validation Samples": result.metrics.get("holdout_samples", np.nan),
+                "Purged OOS": result.metrics.get("validation_is_oos", False),
                 "Score": result.metrics.get("forecast_score", np.nan),
             }
         )
@@ -1393,10 +2177,16 @@ def build_smart_policy_metadata(
     df: pd.DataFrame,
     model_results: dict,
     primary_model: str,
-    risk_fraction: float = 0.10,
+    risk_fraction: float = 0.05,
+    earnings_context: dict | None = None,
 ) -> dict:
     selected_result = model_results.get(primary_model)
-    forecast_metrics = getattr(selected_result, "metrics", {}) if selected_result is not None else {}
+    forecast_metrics = dict(
+        getattr(selected_result, "metrics", {})
+        if selected_result is not None
+        else {}
+    )
+    forecast_metrics.update(earnings_policy_metrics(earnings_context))
     try:
         signal = sma_crossover(df, 20, 50)
     except Exception:
@@ -1422,14 +2212,21 @@ def enrich_snapshot_with_smart_policy_for_app(
     snapshot: dict,
     df: pd.DataFrame,
     primary_model_choice: str,
-    risk_fraction: float = 0.10,
+    risk_fraction: float = 0.05,
+    earnings_context: dict | None = None,
 ) -> dict:
     model_results = _model_results_from_snapshot(snapshot)
     primary_model = select_model_name(model_results, preferred=primary_model_choice)
     if not primary_model:
         return snapshot
     enriched = dict(snapshot)
-    enriched["smart_policy"] = build_smart_policy_metadata(df, model_results, primary_model, risk_fraction)
+    enriched["smart_policy"] = build_smart_policy_metadata(
+        df,
+        model_results,
+        primary_model,
+        risk_fraction,
+        earnings_context=earnings_context,
+    )
     return enriched
 
 
@@ -1471,17 +2268,11 @@ def short_term_signal_row(horizon_days: int, model_results: dict, primary_model_
 
 
 def best_model_name(model_results: dict, preferred: str = "Ensemble") -> str:
-    if preferred in model_results and not model_results[preferred].forecast.empty:
-        return preferred
-
-    candidates = [
-        (name, result)
-        for name, result in model_results.items()
-        if result.forecast is not None and not result.forecast.empty
-    ]
-    if not candidates:
-        return ""
-    return min(candidates, key=lambda item: item[1].metrics.get("holdout_mae_pct", np.inf))[0]
+    """Choose a live-eligible forecast; shadow policies can never be primary."""
+    return select_model_name(
+        model_results,
+        preferred=preferred or "Best Validation",
+    )
 
 
 def result_metric(model_results: dict, model_name: str, metric_name: str, default=np.nan):
@@ -1511,6 +2302,93 @@ def best_ranked_symbol(ranking_table: pd.DataFrame, fallback: str = "AAPL") -> s
         return sort_by_policy_score(ranking_table, ascending=False).iloc[0]["Symbol"]
 
     return ranking_table.iloc[0]["Symbol"]
+
+
+def constrain_ranking_portfolio(
+    ranking_table: pd.DataFrame,
+    close_history: dict[str, pd.Series],
+) -> tuple[pd.DataFrame, list[str]]:
+    """Apply one portfolio-wide risk budget to independently scored symbols."""
+    if ranking_table.empty or "Symbol" not in ranking_table.columns:
+        return ranking_table, []
+
+    constrained = ranking_table.copy()
+    symbols = constrained["Symbol"].astype(str).str.strip().str.upper()
+    targets = pd.to_numeric(
+        constrained.get("Policy Target %", pd.Series(0.0, index=constrained.index)),
+        errors="coerce",
+    ).fillna(0.0)
+    proposed = {
+        symbol: max(float(target), 0.0) / 100.0
+        for symbol, target in zip(symbols, targets)
+        if symbol and float(target) > 0.0
+    }
+    constrained["Unconstrained Policy Target %"] = targets
+    if not proposed:
+        constrained["Portfolio Gross %"] = 0.0
+        constrained["Portfolio Cash %"] = 100.0
+        constrained["Portfolio Binding Constraints"] = ""
+        return constrained, []
+
+    covariance = None
+    return_series = {}
+    for symbol in proposed:
+        close = close_history.get(symbol)
+        if close is None:
+            continue
+        clean = pd.to_numeric(close, errors="coerce").dropna().sort_index()
+        daily = clean.pct_change().replace([np.inf, -np.inf], np.nan).dropna()
+        if len(daily) >= 20:
+            return_series[symbol] = daily.rename(symbol)
+    if len(return_series) == len(proposed):
+        aligned = pd.concat(return_series.values(), axis=1).dropna(how="any").tail(252)
+        if len(aligned) >= 20:
+            covariance = aligned.cov() * 252.0
+
+    sectors = {symbol: PORTFOLIO_SECTORS[symbol] for symbol in proposed if symbol in PORTFOLIO_SECTORS}
+    clusters = {symbol: PORTFOLIO_CLUSTERS[symbol] for symbol in proposed if symbol in PORTFOLIO_CLUSTERS}
+    constraints = PortfolioConstraints(
+        gross_limit=1.0,
+        cash_reserve=0.15,
+        max_name_weight=0.05,
+        max_sector_weight=0.20,
+        max_cluster_weight=0.15,
+        max_annual_volatility=0.15,
+        max_turnover=0.20,
+        drawdown_circuit_breaker=0.10,
+    )
+    try:
+        allocation = allocate_target_weights(
+            proposed,
+            sectors=sectors,
+            correlation_clusters=clusters,
+            annual_covariance=covariance,
+            current_drawdown=0.0,
+            constraints=constraints,
+        )
+    except ValueError as covariance_error:
+        allocation = allocate_target_weights(
+            proposed,
+            sectors=sectors,
+            correlation_clusters=clusters,
+            annual_covariance=None,
+            current_drawdown=0.0,
+            constraints=constraints,
+        )
+        warnings = [f"Portfolio covariance was unavailable: {covariance_error}"]
+    else:
+        warnings = []
+
+    final_targets = allocation.target_weights
+    constrained["Policy Target %"] = [
+        float(final_targets.get(symbol, 0.0) * 100.0)
+        for symbol in symbols
+    ]
+    constrained["Portfolio Gross %"] = allocation.gross_exposure * 100.0
+    constrained["Portfolio Cash %"] = allocation.cash_weight * 100.0
+    constrained["Portfolio Binding Constraints"] = ", ".join(allocation.binding_constraints)
+    warnings.extend(allocation.warnings)
+    return constrained, list(dict.fromkeys(warnings))
 
 
 def _clean_series(frame: pd.DataFrame, column: str) -> pd.Series:
@@ -1671,6 +2549,7 @@ def cached_model_results(
     include_rl_policy: bool,
     ranking_symbols: tuple[str, ...] | None = None,
     cache_buster: int = 0,
+    earnings_context_json: str = "",
 ) -> dict:
     ranking_symbols = ranking_symbols or tuple()
     cache_path = forecast_cache_path(
@@ -1686,9 +2565,32 @@ def cached_model_results(
         include_rl_policy,
     )
     df = get_ohlcv(symbol, history_days)
+    try:
+        earnings_context = (
+            json.loads(earnings_context_json)
+            if earnings_context_json
+            else {}
+        )
+    except json.JSONDecodeError:
+        earnings_context = {}
     context_df = _load_market_context_data(history_days) if use_market_context else pd.DataFrame()
     data_fingerprint = frame_fingerprint(df)
     context_fingerprint = frame_fingerprint(context_df) if use_market_context else None
+    if earnings_context:
+        event_hash = hashlib.sha256(
+            json.dumps(
+                earnings_context,
+                sort_keys=True,
+                default=str,
+            ).encode("utf-8")
+        ).hexdigest()[:16]
+        context_fingerprint = {
+            "market": context_fingerprint,
+            "earnings_event_hash": event_hash,
+            "earnings_effective_session": earnings_context.get(
+                "effective_session"
+            ),
+        }
     model_cache_path = model_result_cache_path(
         _forecast_reports_dir(),
         symbol,
@@ -1722,6 +2624,7 @@ def cached_model_results(
         symbol=symbol,
         force_retrain=cache_buster != 0,
         include_rl=include_rl_policy,
+        earnings_context=earnings_policy_metrics(earnings_context),
     )
 
     close = df["close"]
@@ -1729,11 +2632,27 @@ def cached_model_results(
         close = close.iloc[:, 0]
     close = pd.to_numeric(close, errors="coerce").dropna()
     primary_for_policy = select_model_name(model_results, preferred="Ensemble")
-    smart_policy = build_smart_policy_metadata(df, model_results, primary_for_policy) if primary_for_policy else {}
-    snapshot = snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results, smart_policy=smart_policy)
+    smart_policy = (
+        build_smart_policy_metadata(
+            df,
+            model_results,
+            primary_for_policy,
+            earnings_context=earnings_context,
+        )
+        if primary_for_policy
+        else {}
+    )
+    snapshot = snapshot_from_model_results(
+        symbol,
+        float(close.iloc[-1]),
+        model_results,
+        smart_policy=smart_policy,
+        as_of_session=close.index[-1],
+        data_cutoff_utc=dt.datetime.now(dt.timezone.utc),
+    )
     payload = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "model_result_cache_version": 2,
+        "model_result_cache_version": MODEL_RESULT_CACHE_VERSION,
         "symbols": [symbol],
         "history_days": history_days,
         "horizon_days": forecast_horizon,
@@ -1815,11 +2734,45 @@ def cached_forecast_rankings(
     ranking_snapshots = []
     ranking_errors: list[str] = []
     model_cache_hits = 0
+    ranking_close_history: dict[str, pd.Series] = {}
 
     for ranking_symbol in ranking_symbols:
         try:
             ranking_df = get_ohlcv(ranking_symbol, history_days)
+            ranking_close = ranking_df["close"]
+            if isinstance(ranking_close, pd.DataFrame):
+                ranking_close = ranking_close.iloc[:, 0]
+            ranking_close = pd.to_numeric(ranking_close, errors="coerce").dropna()
+            ranking_close_history[str(ranking_symbol).upper()] = ranking_close
+            observed_sessions = tuple(
+                sorted(
+                    {
+                        pd.Timestamp(value).date().isoformat()
+                        for value in ranking_df.index
+                    }
+                )
+            )
+            earnings_context = load_latest_earnings_interpretation(
+                ranking_symbol,
+                observed_sessions,
+            )
             data_fingerprint = frame_fingerprint(ranking_df)
+            symbol_context_fingerprint = context_fingerprint
+            if earnings_context:
+                event_hash = hashlib.sha256(
+                    json.dumps(
+                        earnings_context,
+                        sort_keys=True,
+                        default=str,
+                    ).encode("utf-8")
+                ).hexdigest()[:16]
+                symbol_context_fingerprint = {
+                    "market": context_fingerprint,
+                    "earnings_event_hash": event_hash,
+                    "earnings_effective_session": earnings_context.get(
+                        "effective_session"
+                    ),
+                }
             model_cache_path = model_result_cache_path(
                 _forecast_reports_dir(),
                 ranking_symbol,
@@ -1831,7 +2784,7 @@ def cached_forecast_rankings(
                 use_market_context,
                 sequence_model_choice,
                 data_fingerprint,
-                context_fingerprint,
+                symbol_context_fingerprint,
                 include_rl_policy,
             )
             cached_payload = _load_model_result_cache(str(model_cache_path)) if cache_buster == 0 else {}
@@ -1841,6 +2794,7 @@ def cached_forecast_rankings(
                         cached_payload["snapshot"],
                         ranking_df,
                         primary_model_choice,
+                        earnings_context=earnings_context,
                     )
                 )
                 model_cache_hits += 1
@@ -1857,25 +2811,35 @@ def cached_forecast_rankings(
                 symbol=ranking_symbol,
                 force_retrain=cache_buster != 0,
                 include_rl=include_rl_policy,
+                earnings_context=earnings_policy_metrics(
+                    earnings_context
+                ),
             )
-            ranking_close = ranking_df["close"]
-            if isinstance(ranking_close, pd.DataFrame):
-                ranking_close = ranking_close.iloc[:, 0]
-            ranking_close = pd.to_numeric(ranking_close, errors="coerce").dropna()
             primary_for_policy = select_model_name(ranking_results, preferred=primary_model_choice)
-            smart_policy = build_smart_policy_metadata(ranking_df, ranking_results, primary_for_policy) if primary_for_policy else {}
+            smart_policy = (
+                build_smart_policy_metadata(
+                    ranking_df,
+                    ranking_results,
+                    primary_for_policy,
+                    earnings_context=earnings_context,
+                )
+                if primary_for_policy
+                else {}
+            )
             snapshot = snapshot_from_model_results(
                 ranking_symbol,
                 float(ranking_close.iloc[-1]),
                 ranking_results,
                 smart_policy=smart_policy,
+                as_of_session=ranking_close.index[-1],
+                data_cutoff_utc=dt.datetime.now(dt.timezone.utc),
             )
             ranking_snapshots.append(snapshot)
             _save_model_result_cache(
                 str(model_cache_path),
                 {
                     "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-                    "model_result_cache_version": 2,
+                    "model_result_cache_version": MODEL_RESULT_CACHE_VERSION,
                     "symbol": ranking_symbol,
                     "history_days": history_days,
                     "horizon_days": forecast_horizon,
@@ -1886,7 +2850,8 @@ def cached_forecast_rankings(
                     "sequence_model": sequence_model_choice,
                     "include_rl_policy": include_rl_policy,
                     "data_fingerprint": data_fingerprint,
-                    "context_fingerprint": context_fingerprint,
+                    "context_fingerprint": symbol_context_fingerprint,
+                    "earnings_context": earnings_context,
                     "snapshot": snapshot,
                 },
             )
@@ -1912,6 +2877,11 @@ def cached_forecast_rankings(
     ranking_table, ranking_errors_from_snapshots = snapshots_to_ranking_frame(ranking_snapshots, primary_model_choice)
     if ranking_errors_from_snapshots:
         ranking_errors.extend(ranking_errors_from_snapshots)
+    ranking_table, portfolio_warnings = constrain_ranking_portfolio(
+        ranking_table,
+        ranking_close_history,
+    )
+    ranking_errors.extend(f"Portfolio: {warning}" for warning in portfolio_warnings)
     return ranking_table, ranking_errors
 
 
@@ -2249,18 +3219,17 @@ auto_trade_enabled = st.sidebar.checkbox(
 )
 auto_trade_risk_fraction = st.sidebar.slider(
     "Auto-trade position size (% of equity)",
-    min_value=0.01,
-    max_value=0.50,
-    value=0.10,
+    min_value=0.03,
+    max_value=0.05,
+    value=0.05,
     step=0.01,
 )
 if auto_trade_enabled and demo_mode:
     st.sidebar.info("Auto trading enabled in demo mode: orders are simulated and still logged.")
-auto_trade_trigger = st.sidebar.selectbox(
-    "Auto-trade trigger",
-    ["Smart Policy", "SMA Crossover", "ML Forecast", "Either"],
-    index=0,
-    help="Choose whether to trigger auto-trades from the adaptive policy, SMA crossover, ML forecast direction, or either simple trigger",
+auto_trade_trigger = "Smart Policy"
+st.sidebar.caption(
+    "Automatic orders use only the calibrated Smart Policy. Standalone SMA, "
+    "raw ML direction, and RL-shadow outputs cannot submit orders."
 )
 
 st.sidebar.header("🔮 ML Forecast Settings")
@@ -2279,7 +3248,7 @@ optimize_forecast_model = st.sidebar.checkbox("Optimize ML model", value=True)
 use_market_context = st.sidebar.checkbox("Use market context features", value=True)
 primary_model_choice = st.sidebar.selectbox(
     "Primary forecast model",
-    ["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer", "RL Policy"],
+    ["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer"],
     index=1,
 )
 sequence_model_label = st.sidebar.selectbox("Deep sequence model", ["Off", "LSTM", "Transformer", "Both"], index=0)
@@ -2302,12 +3271,13 @@ one_day_sequence_model_choice = {
     "Same as 30-day": sequence_model_choice,
 }[one_day_sequence_model_label]
 include_rl_policy = st.sidebar.checkbox(
-    "Include RL policy",
+    "Generate RL shadow diagnostics",
     value=True,
-    help="Adds a persisted tabular Q-learning buy/hold/sell policy to the model comparison.",
+    help=(
+        "Evaluates the policy for research only. RL is excluded from primary-model "
+        "selection, ensembles, reliability grades, target weights, and orders."
+    ),
 )
-if primary_model_choice == "RL Policy":
-    include_rl_policy = True
 forecast_alpha = st.sidebar.number_input(
     "Ridge regularization",
     min_value=0.1,
@@ -2996,12 +3966,69 @@ try:
         actual_close = actual_close.iloc[:, 0]
     actual_close = pd.to_numeric(actual_close, errors="coerce").dropna()
     context_df = load_market_context(history_days) if use_market_context else pd.DataFrame()
+    earnings_observed_sessions = tuple(
+        sorted(
+            {
+                pd.Timestamp(value).date().isoformat()
+                for value in df.index
+            }
+        )
+    )
+    earnings_context = load_latest_earnings_interpretation(
+        symbol,
+        earnings_observed_sessions,
+    )
     
     with analysis_tab:
         render_section_header(
             "Actuals, ML Forecast, and Strategy Curve",
             "Selected-symbol price history, model forecast, actual close, and crossover backtest equity curve.",
         )
+        if earnings_context.get("available"):
+            score = float(
+                earnings_context.get(
+                    "interpretation_event_score",
+                    earnings_context.get("event_score", 0.0),
+                )
+                or 0.0
+            )
+            confidence_value = float(
+                earnings_context.get(
+                    "interpretation_confidence",
+                    earnings_context.get("confidence", 0.0),
+                )
+                or 0.0
+            )
+            st.markdown("**Latest Earnings Interpretation**")
+            st.write(earnings_context.get("summary", ""))
+            st.caption(
+                f"Outcome: {earnings_context.get('outcome', 'unavailable')} · "
+                f"event score {score:+.2f} · confidence {confidence_value:.0%} · "
+                f"effective session {earnings_context.get('effective_session') or 'unknown'}. "
+                f"Execution decision session "
+                f"{earnings_context.get('policy_decision_session') or 'unknown'}. "
+                "The interpretation is immediate; the execution policy uses it "
+                "only once it is session-effective and otherwise zeros it."
+            )
+            if earnings_context.get("blockers"):
+                st.warning(
+                    "Earnings policy blockers: "
+                    + ", ".join(earnings_context["blockers"])
+                )
+            if earnings_context.get("data_quality_flags"):
+                st.caption(
+                    "Earnings data-quality flags: "
+                    + ", ".join(earnings_context["data_quality_flags"])
+                )
+        elif earnings_context.get("error_code") not in {
+            "not_an_equity",
+            "no_earnings_data",
+            "no_reported_earnings_as_of",
+        }:
+            st.caption(
+                "Latest earnings interpretation unavailable: "
+                f"{earnings_context.get('error_code', 'unknown provider error')}."
+            )
         forecast_change = 0.0
         ml_forecast_available = False
         forecast_result = None
@@ -3023,6 +4050,11 @@ try:
                 include_rl_policy,
                 tuple(selected_forecast_symbols),
                 st.session_state["symbol_refresh_nonce"],
+                earnings_context_json=json.dumps(
+                    earnings_context,
+                    sort_keys=True,
+                    default=str,
+                ),
             )
             if primary_model_choice == "Best Validation":
                 primary_model = best_model_name(model_results, preferred="")
@@ -3289,6 +4321,11 @@ try:
                             include_rl_policy,
                             tuple(selected_forecast_symbols),
                             st.session_state["symbol_refresh_nonce"],
+                            earnings_context_json=json.dumps(
+                                earnings_context,
+                                sort_keys=True,
+                                default=str,
+                            ),
                         )
                     short_signal_rows.append(
                         short_term_signal_row(int(short_horizon), short_model_results, primary_model_choice)
@@ -3534,62 +4571,28 @@ try:
                     trade_summary=trade_summary,
                     forecast_result=forecast_result,
                     model_results=model_results,
+                    earnings_context=earnings_context,
                 )
-            elif auto_trade_trigger == "SMA Crossover":
-                auto_trade_result = maybe_execute_auto_trade(
-                    symbol=symbol,
-                    sig=sig,
-                    close_prices=actual_close,
-                    equity=equity,
-                    risk_fraction=auto_trade_risk_fraction,
-                    enabled=True,
-                    demo_mode=demo_mode,
-                )
-            elif auto_trade_trigger == "ML Forecast":
-                if ml_forecast_available:
-                    auto_trade_result = maybe_execute_auto_trade_ml(
-                        symbol=symbol,
-                        forecast_change_pct=forecast_change,
-                        equity=equity,
-                        risk_fraction=auto_trade_risk_fraction,
-                        enabled=True,
-                        demo_mode=demo_mode,
-                    )
-                else:
-                    auto_trade_result = {"status": "skipped", "reason": "ML forecast is disabled or unavailable"}
-            else:  # Either
-                # Try SMA first, then ML; both functions have their own duplicate protection
-                auto_trade_result = maybe_execute_auto_trade(
-                    symbol=symbol,
-                    sig=sig,
-                    close_prices=actual_close,
-                    equity=equity,
-                    risk_fraction=auto_trade_risk_fraction,
-                    enabled=True,
-                    demo_mode=demo_mode,
-                )
-                if auto_trade_result.get("status") != "executed" and ml_forecast_available:
-                    auto_trade_result = maybe_execute_auto_trade_ml(
-                        symbol=symbol,
-                        forecast_change_pct=forecast_change,
-                        equity=equity,
-                        risk_fraction=auto_trade_risk_fraction,
-                        enabled=True,
-                        demo_mode=demo_mode,
-                    )
-                elif auto_trade_result.get("status") != "executed":
-                    auto_trade_result = {
-                        "status": "skipped",
-                        "reason": "SMA did not trigger and ML forecast is disabled or unavailable",
-                    }
         if auto_trade_result.get("status") == "executed":
             entry = auto_trade_result["entry"]
             mode_label = "Demo" if entry.get("demo_mode") else "Live"
-            st.success(
-                f"{mode_label} auto-trade executed: {entry.get('action')} {entry.get('qty')} shares of {entry.get('symbol')} (${entry.get('qty') * entry.get('price', 0):,.2f})"
-            )
+            if entry.get("action") == "LIQUIDATE_ALL":
+                st.success(
+                    f"{mode_label} drawdown circuit breaker accepted close "
+                    f"orders for {len(entry.get('position_symbols', []))} "
+                    "broker positions."
+                )
+            else:
+                st.success(
+                    f"{mode_label} auto-trade accepted: "
+                    f"{entry.get('action')} {float(entry.get('qty', 0.0)):.6f} "
+                    f"estimated shares of {entry.get('symbol')} "
+                    f"(${float(entry.get('notional', 0.0)):,.2f} notional)"
+                )
             st.session_state["skip_heavy_once"] = True
             st.rerun()
+        elif auto_trade_enabled and auto_trade_result.get("status") == "partial":
+            st.error(auto_trade_result.get("reason", "Portfolio liquidation was partial."))
         elif auto_trade_enabled and auto_trade_result.get("status") == "skipped":
             st.caption(f"Auto-trade check: {auto_trade_result.get('reason', 'skipped')}")
 

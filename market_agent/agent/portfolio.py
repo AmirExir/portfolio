@@ -115,6 +115,19 @@ class PortfolioAllocation:
     warnings: tuple[str, ...] = field(default_factory=tuple)
 
 
+@dataclass(frozen=True)
+class IncrementalTargetAuthorization:
+    """A single-symbol target checked against unchanged existing holdings."""
+
+    allowed_target: float
+    current_target: float
+    desired_target: float
+    gross_before: float
+    gross_after: float
+    annualized_volatility: float | None
+    allocation: PortfolioAllocation
+
+
 def allocate_target_weights(
     proposed_weights: Mapping[str, float],
     *,
@@ -266,6 +279,129 @@ def allocate_target_weights(
         turnover_cap_overridden=turnover_cap_overridden,
         binding_constraints=tuple(dict.fromkeys(binding)),
         warnings=tuple(dict.fromkeys(warnings)),
+    )
+
+
+def constrain_incremental_target(
+    symbol: str,
+    desired_target: float,
+    *,
+    current_weights: Mapping[str, float],
+    sectors: Mapping[str, str],
+    correlation_clusters: Mapping[str, str],
+    annual_covariance: pd.DataFrame | None,
+    current_drawdown: float = 0.0,
+    constraints: PortfolioConstraints | None = None,
+) -> IncrementalTargetAuthorization:
+    """Authorize one risk-increasing target without assuming other sales occur."""
+    config = constraints or PortfolioConstraints()
+    normalized_symbol = _normalize_symbol(symbol)
+    current = _normalize_weights(current_weights, "current_weights")
+    if normalized_symbol not in sectors:
+        raise ValueError(f"missing sector classification for {normalized_symbol}")
+    if normalized_symbol not in correlation_clusters:
+        raise ValueError(
+            f"missing correlation cluster classification for {normalized_symbol}"
+        )
+    unknown = sorted(
+        name
+        for name in current
+        if name not in sectors or name not in correlation_clusters
+    )
+    if unknown:
+        raise ValueError(
+            "missing portfolio classifications for: " + ", ".join(unknown)
+        )
+
+    desired = min(
+        max(_finite_float(desired_target, "desired_target"), 0.0),
+        config.max_name_weight,
+    )
+    current_target = current.get(normalized_symbol, 0.0)
+    if current_drawdown <= -abs(config.drawdown_circuit_breaker):
+        desired = 0.0
+
+    other_gross = sum(
+        weight for name, weight in current.items() if name != normalized_symbol
+    )
+    allowed = min(desired, max(config.investable_limit - other_gross, 0.0))
+    sector = str(sectors[normalized_symbol])
+    other_sector = sum(
+        weight
+        for name, weight in current.items()
+        if name != normalized_symbol and str(sectors[name]) == sector
+    )
+    allowed = min(allowed, max(config.max_sector_weight - other_sector, 0.0))
+    cluster = str(correlation_clusters[normalized_symbol])
+    other_cluster = sum(
+        weight
+        for name, weight in current.items()
+        if name != normalized_symbol
+        and str(correlation_clusters[name]) == cluster
+    )
+    allowed = min(
+        allowed,
+        max(config.max_cluster_weight - other_cluster, 0.0),
+    )
+    if config.max_turnover is not None:
+        allowed = min(allowed, current_target + config.max_turnover)
+
+    proposal = dict(current)
+    proposal[normalized_symbol] = allowed
+    allocation = allocate_target_weights(
+        proposal,
+        sectors=sectors,
+        correlation_clusters=correlation_clusters,
+        current_weights=current,
+        annual_covariance=annual_covariance,
+        current_drawdown=current_drawdown,
+        constraints=config,
+    )
+    allowed = min(allowed, allocation.target_weights.get(normalized_symbol, 0.0))
+
+    covariance = _validate_covariance(
+        annual_covariance,
+        tuple(sorted(set(current) | {normalized_symbol})),
+    )
+    volatility = None
+    if covariance is not None:
+        other = dict(current)
+        other.pop(normalized_symbol, None)
+
+        def candidate_volatility(candidate: float) -> float:
+            weights = dict(other)
+            weights[normalized_symbol] = candidate
+            value = _portfolio_volatility(weights, covariance)
+            return float(value or 0.0)
+
+        if (
+            config.max_annual_volatility is not None
+            and allowed > current_target
+            and candidate_volatility(allowed)
+            > config.max_annual_volatility + _TOLERANCE
+        ):
+            low = current_target
+            high = allowed
+            if candidate_volatility(low) > config.max_annual_volatility:
+                allowed = current_target
+            else:
+                for _ in range(48):
+                    midpoint = (low + high) / 2.0
+                    if candidate_volatility(midpoint) <= config.max_annual_volatility:
+                        low = midpoint
+                    else:
+                        high = midpoint
+                allowed = low
+        volatility = candidate_volatility(allowed)
+
+    return IncrementalTargetAuthorization(
+        allowed_target=float(max(allowed, 0.0)),
+        current_target=float(current_target),
+        desired_target=float(desired),
+        gross_before=float(sum(current.values())),
+        gross_after=float(other_gross + max(allowed, 0.0)),
+        annualized_volatility=volatility,
+        allocation=allocation,
     )
 
 

@@ -15,18 +15,25 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
+from datetime import date, datetime, time, timezone
 import hashlib
 import json
 import math
+from numbers import Integral
 import os
 from pathlib import Path
 from typing import Any, Iterator, Mapping, TextIO
 from uuid import uuid4
+from zoneinfo import ZoneInfo
+
+from .earnings import us_equity_trading_sessions
 
 
 UTC = timezone.utc
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
+DEFAULT_EXCHANGE_TIMEZONE = ZoneInfo("America/New_York")
+DEFAULT_SESSION_CLOSE_HOUR = 16
+DEFAULT_SESSION_OPEN = time(9, 30)
 
 
 class LedgerError(RuntimeError):
@@ -47,6 +54,76 @@ class UnknownPredictionError(LedgerError):
 
 class ImmatureOutcomeError(LedgerError):
     """Raised when an outcome is recorded before its target session."""
+
+
+def _default_target_maturity_utc(target_session: date) -> datetime:
+    """Return regular US equity close for a target session."""
+    local_close = datetime(
+        target_session.year,
+        target_session.month,
+        target_session.day,
+        DEFAULT_SESSION_CLOSE_HOUR,
+        0,
+        tzinfo=DEFAULT_EXCHANGE_TIMEZONE,
+    )
+    return local_close.astimezone(UTC)
+
+
+def session_close_utc(session: date | str) -> datetime:
+    """Return the regular US-equity close timestamp for a session."""
+    return _default_target_maturity_utc(
+        _as_date(session, "session")
+    )
+
+
+def _next_session_open_utc(as_of_session: date) -> datetime:
+    calendar = us_equity_trading_sessions(
+        as_of=datetime(
+            as_of_session.year,
+            as_of_session.month,
+            as_of_session.day,
+            12,
+            tzinfo=DEFAULT_EXCHANGE_TIMEZONE,
+        ),
+        observed_sessions=(as_of_session,),
+        future_session_count=2,
+    )
+    next_session = next(
+        session for session in calendar if session > as_of_session
+    )
+    return datetime(
+        next_session.year,
+        next_session.month,
+        next_session.day,
+        DEFAULT_SESSION_OPEN.hour,
+        DEFAULT_SESSION_OPEN.minute,
+        tzinfo=DEFAULT_EXCHANGE_TIMEZONE,
+    ).astimezone(UTC)
+
+
+def _expected_target_session(
+    as_of_session: date,
+    horizon_sessions: int,
+) -> date:
+    calendar = us_equity_trading_sessions(
+        as_of=datetime(
+            as_of_session.year,
+            as_of_session.month,
+            as_of_session.day,
+            12,
+            tzinfo=DEFAULT_EXCHANGE_TIMEZONE,
+        ),
+        observed_sessions=None,
+        future_session_count=horizon_sessions + 1,
+    )
+    if as_of_session not in calendar:
+        raise ValueError(
+            "as_of_session must be a regular US-equity trading session."
+        )
+    future = [
+        session for session in calendar if session > as_of_session
+    ]
+    return future[horizon_sessions - 1]
 
 
 def _as_date(value: date | str, field_name: str) -> date:
@@ -118,8 +195,8 @@ def _json_safe_mapping(
 class PredictionRecord:
     """A forecast and policy decision exactly as known at decision time.
 
-    Returns are decimal fractions (``0.05`` means five percent).  ``target_weight``
-    is long-only and expressed as a fraction of the policy's risk budget.
+    Returns and ``target_weight`` are decimal fractions of portfolio equity
+    (``0.05`` means five percent). ``target_weight`` is long-only.
     """
 
     prediction_id: str
@@ -133,6 +210,8 @@ class PredictionRecord:
     model_version: str
     forecast_return: float
     target_weight: float
+    return_start_session: date | None = None
+    target_maturity_utc: datetime | None = None
     benchmark_symbol: str = "SPY"
     policy_version: str | None = None
     probability_positive: float | None = None
@@ -165,6 +244,25 @@ class PredictionRecord:
             "target_session",
             _as_date(self.target_session, "target_session"),
         )
+        return_start_session = (
+            _as_date(
+                self.return_start_session,
+                "return_start_session",
+            )
+            if self.return_start_session is not None
+            else self.as_of_session
+        )
+        object.__setattr__(
+            self,
+            "return_start_session",
+            return_start_session,
+        )
+        maturity = (
+            _as_utc_datetime(self.target_maturity_utc, "target_maturity_utc")
+            if self.target_maturity_utc is not None
+            else _default_target_maturity_utc(self.target_session)
+        )
+        object.__setattr__(self, "target_maturity_utc", maturity)
         object.__setattr__(self, "symbol", _nonempty(self.symbol, "symbol").upper())
         object.__setattr__(
             self, "model_name", _nonempty(self.model_name, "model_name")
@@ -222,12 +320,56 @@ class PredictionRecord:
             raise ValueError(
                 f"Unsupported prediction schema version {self.schema_version}."
             )
+        if isinstance(self.horizon_sessions, bool) or not isinstance(
+            self.horizon_sessions, Integral
+        ):
+            raise ValueError("horizon_sessions must be an integer.")
         if self.horizon_sessions <= 0:
             raise ValueError("horizon_sessions must be positive.")
+        object.__setattr__(
+            self,
+            "horizon_sessions",
+            int(self.horizon_sessions),
+        )
         if self.target_session <= self.as_of_session:
             raise ValueError("target_session must be after as_of_session.")
+        if self.return_start_session < self.as_of_session:
+            raise ValueError(
+                "return_start_session cannot precede as_of_session."
+            )
+        if self.return_start_session >= self.target_session:
+            raise ValueError(
+                "return_start_session must precede target_session."
+            )
+        expected_target = _expected_target_session(
+            self.return_start_session,
+            self.horizon_sessions,
+        )
+        if self.target_session != expected_target:
+            raise ValueError(
+                "target_session must be exactly horizon_sessions US-equity "
+                "sessions after return_start_session; "
+                f"expected {expected_target}."
+            )
         if self.data_cutoff_utc > self.created_at_utc:
             raise ValueError("data_cutoff_utc cannot be after created_at_utc.")
+        publication_deadline = _next_session_open_utc(
+            self.as_of_session
+        )
+        if self.created_at_utc > publication_deadline:
+            raise ValueError(
+                "created_at_utc is after the next-session open; historical "
+                "predictions cannot be backfilled after returns begin."
+            )
+        if self.data_cutoff_utc > publication_deadline:
+            raise ValueError(
+                "data_cutoff_utc is after the point-in-time decision deadline."
+            )
+        if self.created_at_utc >= self.target_maturity_utc:
+            raise ValueError(
+                "created_at_utc must be before target_maturity_utc; "
+                "matured predictions cannot be backfilled."
+            )
         if not 0.0 <= self.target_weight <= 1.0:
             raise ValueError("target_weight must be between 0 and 1.")
         if (
@@ -287,7 +429,11 @@ class PredictionRecord:
             "created_at_utc": _iso_utc(self.created_at_utc),
             "data_cutoff_utc": _iso_utc(self.data_cutoff_utc),
             "as_of_session": self.as_of_session.isoformat(),
+            "return_start_session": (
+                self.return_start_session.isoformat()
+            ),
             "target_session": self.target_session.isoformat(),
+            "target_maturity_utc": _iso_utc(self.target_maturity_utc),
             "symbol": self.symbol,
             "horizon_sessions": self.horizon_sessions,
             "model_name": self.model_name,
@@ -325,6 +471,7 @@ class OutcomeRecord:
     target_session: date
     realized_return: float
     benchmark_return: float
+    target_maturity_utc: datetime | None = None
     transaction_cost_return: float = 0.0
     entry_price: float | None = None
     exit_price: float | None = None
@@ -352,6 +499,12 @@ class OutcomeRecord:
             "target_session",
             _as_date(self.target_session, "target_session"),
         )
+        maturity = (
+            _as_utc_datetime(self.target_maturity_utc, "target_maturity_utc")
+            if self.target_maturity_utc is not None
+            else _default_target_maturity_utc(self.target_session)
+        )
+        object.__setattr__(self, "target_maturity_utc", maturity)
         for field_name in (
             "realized_return",
             "benchmark_return",
@@ -380,9 +533,9 @@ class OutcomeRecord:
             raise ValueError(
                 f"Unsupported outcome schema version {self.schema_version}."
             )
-        if self.recorded_at_utc.date() < self.target_session:
+        if self.recorded_at_utc < self.target_maturity_utc:
             raise ImmatureOutcomeError(
-                "recorded_at_utc cannot be before target_session."
+                "recorded_at_utc cannot be before target-session maturity."
             )
         if self.transaction_cost_return < 0.0:
             raise ValueError("transaction_cost_return cannot be negative.")
@@ -444,6 +597,7 @@ class OutcomeRecord:
             "prediction_id": self.prediction_id,
             "recorded_at_utc": _iso_utc(self.recorded_at_utc),
             "target_session": self.target_session.isoformat(),
+            "target_maturity_utc": _iso_utc(self.target_maturity_utc),
             "realized_return": self.realized_return,
             "benchmark_return": self.benchmark_return,
             "transaction_cost_return": self.transaction_cost_return,
@@ -695,7 +849,11 @@ class PredictionLedger:
                         raise ValueError(
                             "Outcome target_session does not match its prediction."
                         )
-                    if record.recorded_at_utc.date() < prediction.target_session:
+                    if record.target_maturity_utc != prediction.target_maturity_utc:
+                        raise ValueError(
+                            "Outcome target_maturity_utc does not match its prediction."
+                        )
+                    if record.recorded_at_utc < prediction.target_maturity_utc:
                         raise ImmatureOutcomeError(
                             "Outcome cannot be appended before target maturity."
                         )

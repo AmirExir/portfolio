@@ -27,8 +27,12 @@ class SmartPolicyConfig:
     min_validation_samples: int = 8
     min_direction_accuracy_pct: float = 50.0
     max_calibration_error_pct: float = 20.0
+    max_brier_score: float = 0.30
     min_model_agreement: int = 2
     require_oos_validation: bool = True
+    minimum_earnings_confidence: float = 0.25
+    adverse_earnings_block_threshold: float = -0.35
+    maximum_earnings_component: float = 0.50
     risk_budget_actions: tuple[float, ...] = (0.0, 0.25, 0.50, 1.0)
 
 
@@ -47,7 +51,7 @@ class SmartPolicyDecision:
 
 def smart_policy_report(
     df: pd.DataFrame,
-    risk_fraction: float = 0.10,
+    risk_fraction: float = 0.05,
     signal: pd.Series | None = None,
     forecast_metrics: dict[str, Any] | None = None,
     model_results: dict[str, Any] | None = None,
@@ -84,6 +88,7 @@ def smart_policy_report(
     forecast_diag = diagnostics.get("forecast", {}) or {}
     trend_diag = diagnostics.get("trend", {}) or {}
     momentum_diag = diagnostics.get("momentum", {}) or {}
+    earnings_diag = diagnostics.get("earnings", {}) or {}
     rl_diag = diagnostics.get("rl", {}) or {}
 
     return {
@@ -94,6 +99,29 @@ def smart_policy_report(
         "forecast_component": float(forecast_diag.get("component", 0.0)),
         "trend_component": float(trend_diag.get("component", 0.0)),
         "momentum_component": float(momentum_diag.get("component", 0.0)),
+        "earnings_component": float(earnings_diag.get("component", 0.0)),
+        "earnings_event_flag": bool(earnings_diag.get("event_flag", False)),
+        "earnings_event_score": float(earnings_diag.get("event_score", 0.0)),
+        "earnings_confidence": float(earnings_diag.get("confidence", 0.0)),
+        "earnings_summary": str(earnings_diag.get("summary", "") or ""),
+        "earnings_reported_at": str(earnings_diag.get("reported_at", "") or ""),
+        "earnings_effective_session": str(
+            earnings_diag.get("effective_session", "") or ""
+        ),
+        "earnings_is_stale": bool(earnings_diag.get("is_stale", False)),
+        "earnings_policy_eligible": bool(
+            earnings_diag.get("policy_eligible", False)
+        ),
+        "earnings_blockers": list(earnings_diag.get("blockers", []) or []),
+        "earnings_data_quality_flags": list(
+            earnings_diag.get("data_quality_flags", []) or []
+        ),
+        "earnings_calendar_source": str(
+            earnings_diag.get("calendar_source", "") or ""
+        ),
+        "earnings_error_code": str(
+            earnings_diag.get("error_code", "") or ""
+        ),
         "rl_component": float(rl_diag.get("component", 0.0)),
         "rl_action": rl_diag.get("action", ""),
         "rl_mode": "shadow",
@@ -157,9 +185,15 @@ def smart_policy_decision(
     forecast_component, forecast_diag = _forecast_component(primary_metrics, config)
     trend_component, trend_diag = _trend_component(close, config)
     momentum_component, momentum_diag = _momentum_component(close)
+    earnings_component, earnings_diag = _earnings_component(primary_metrics, config)
     rl_component, rl_diag = _rl_component(rl_metrics)
 
-    score = forecast_component + trend_component + momentum_component
+    score = (
+        forecast_component
+        + trend_component
+        + momentum_component
+        + earnings_component
+    )
     score = float(np.clip(score, -3.0, 3.0))
     allocation_eligible, allocation_diag = _allocation_eligibility(
         primary_metrics,
@@ -189,6 +223,7 @@ def smart_policy_decision(
         "forecast": forecast_diag,
         "trend": trend_diag,
         "momentum": momentum_diag,
+        "earnings": earnings_diag,
         "rl": rl_diag,
         "signal_component": 0.0,
         "allocation_eligible": allocation_eligible,
@@ -210,7 +245,14 @@ def smart_policy_decision(
             target_position_fraction=target_fraction,
             score=score,
             last_price=last_price,
-            reason=_decision_reason("buy", score, forecast_diag, trend_diag, annual_vol_pct),
+            reason=_decision_reason(
+                "buy",
+                score,
+                forecast_diag,
+                trend_diag,
+                earnings_diag,
+                annual_vol_pct,
+            ),
             diagnostics=diagnostics,
         )
 
@@ -224,7 +266,14 @@ def smart_policy_decision(
             target_position_fraction=target_fraction,
             score=score,
             last_price=last_price,
-            reason=_decision_reason("sell", score, forecast_diag, trend_diag, annual_vol_pct),
+            reason=_decision_reason(
+                "sell",
+                score,
+                forecast_diag,
+                trend_diag,
+                earnings_diag,
+                annual_vol_pct,
+            ),
             diagnostics=diagnostics,
         )
 
@@ -236,7 +285,14 @@ def smart_policy_decision(
         target_position_fraction=target_fraction,
         score=score,
         last_price=last_price,
-        reason=_decision_reason("hold", score, forecast_diag, trend_diag, annual_vol_pct),
+        reason=_decision_reason(
+            "hold",
+            score,
+            forecast_diag,
+            trend_diag,
+            earnings_diag,
+            annual_vol_pct,
+        ),
         diagnostics=diagnostics,
     )
 
@@ -369,6 +425,85 @@ def _momentum_component(close: pd.Series) -> tuple[float, dict[str, float]]:
     }
 
 
+def _earnings_component(
+    metrics: dict[str, Any],
+    config: SmartPolicyConfig,
+) -> tuple[float, dict[str, Any]]:
+    """Use one fresh point-in-time earnings interpretation exactly once."""
+    event_flag = bool(
+        metrics.get("earnings_event_flag", metrics.get("event_flag", False))
+    )
+    event_score = float(
+        np.clip(
+            _safe_float(
+                metrics.get("earnings_event_score", metrics.get("event_score")),
+                0.0,
+            ),
+            -1.0,
+            1.0,
+        )
+    )
+    confidence = float(
+        np.clip(
+            _safe_float(
+                metrics.get(
+                    "earnings_confidence",
+                    metrics.get(
+                        "event_confidence",
+                        metrics.get("confidence"),
+                    ),
+                ),
+                0.0,
+            ),
+            0.0,
+            1.0,
+        )
+    )
+    eligible = (
+        event_flag
+        and confidence >= config.minimum_earnings_confidence
+        and metrics.get("earnings_policy_eligible", False) is True
+    )
+    component = (
+        float(
+            np.clip(
+                event_score * confidence,
+                -config.maximum_earnings_component,
+                config.maximum_earnings_component,
+            )
+        )
+        if eligible
+        else 0.0
+    )
+    return component, {
+        "component": component,
+        "event_flag": event_flag,
+        "event_score": event_score,
+        "confidence": confidence,
+        "eligible": eligible,
+        "outcome": str(metrics.get("earnings_outcome", "") or ""),
+        "summary": str(metrics.get("earnings_summary", "") or ""),
+        "effective_session": str(
+            metrics.get("earnings_effective_session", "") or ""
+        ),
+        "reported_at": str(
+            metrics.get("earnings_reported_at", "") or ""
+        ),
+        "is_stale": bool(metrics.get("earnings_is_stale", False)),
+        "policy_eligible": bool(
+            metrics.get("earnings_policy_eligible", False)
+        ),
+        "blockers": list(metrics.get("earnings_blockers", []) or []),
+        "data_quality_flags": list(
+            metrics.get("earnings_data_quality_flags", []) or []
+        ),
+        "calendar_source": str(
+            metrics.get("earnings_calendar_source", "") or ""
+        ),
+        "error_code": str(metrics.get("earnings_error_code", "") or ""),
+    }
+
+
 def _rl_component(metrics: dict[str, Any]) -> tuple[float, dict[str, Any]]:
     action = str(metrics.get("rl_action", "hold") or "hold").lower()
     q_short = _safe_float(metrics.get("rl_q_short"), 0.0)
@@ -465,11 +600,35 @@ def _allocation_eligibility(
     cost_pct = config.trade_cost_bps / 100.0
     lower_bound = forecast_return - config.confidence_bound_scale * expected_error - cost_pct
     reliability = str(metrics.get("reliability", "") or "").strip().lower()
+    confidence = _safe_float(metrics.get("confidence_pct"), 50.0)
+    model_edge = max(confidence - 50.0, 0.0)
+    holdout_mae = _safe_float(metrics.get("holdout_mae_pct"), np.nan)
     validation_samples = int(max(_safe_float(metrics.get("holdout_samples"), 0.0), 0.0))
     direction_accuracy = _safe_float(metrics.get("holdout_direction_accuracy"), np.nan)
     calibration_error = _safe_float(metrics.get("calibration_error_pct"), np.nan)
+    brier_score = _safe_float(metrics.get("brier_score"), np.nan)
+    earnings_flag = bool(
+        metrics.get("earnings_event_flag", metrics.get("event_flag", False))
+    )
+    earnings_score = _safe_float(
+        metrics.get("earnings_event_score", metrics.get("event_score")),
+        0.0,
+    )
+    earnings_confidence = _safe_float(
+        metrics.get("earnings_confidence", metrics.get("event_confidence")),
+        0.0,
+    )
 
-    if reliability == "low":
+    derived_low_reliability = (
+        reliability == "low"
+        or model_edge < config.min_model_edge_pct
+        or (
+            np.isfinite(holdout_mae)
+            and holdout_mae > 0.0
+            and abs(forecast_return) < 0.5 * holdout_mae
+        )
+    )
+    if derived_low_reliability:
         blockers.append("low_reliability")
     if forecast_return <= 0.0:
         blockers.append("non_positive_forecast")
@@ -485,8 +644,20 @@ def _allocation_eligibility(
         blockers.append("weak_direction_calibration")
     if not np.isfinite(calibration_error) or calibration_error > config.max_calibration_error_pct:
         blockers.append("poor_probability_calibration")
+    if not np.isfinite(brier_score) or brier_score > config.max_brier_score:
+        blockers.append("poor_brier_score")
+    if (
+        earnings_flag
+        and earnings_confidence >= config.minimum_earnings_confidence
+        and earnings_score <= config.adverse_earnings_block_threshold
+    ):
+        blockers.append("adverse_earnings_event")
 
-    agreeing_models, eligible_models = _model_agreement(metrics, model_results)
+    agreeing_models, eligible_models = _model_agreement(
+        metrics,
+        model_results,
+        config,
+    )
     if agreeing_models < config.min_model_agreement:
         blockers.append("insufficient_model_agreement")
 
@@ -497,12 +668,14 @@ def _allocation_eligibility(
         "eligible_models": int(eligible_models),
         "validation_samples": int(validation_samples),
         "calibration_error_pct": float(calibration_error) if np.isfinite(calibration_error) else np.nan,
+        "brier_score": float(brier_score) if np.isfinite(brier_score) else np.nan,
     }
 
 
 def _model_agreement(
     primary_metrics: dict[str, Any],
     model_results: dict[str, Any] | None,
+    config: SmartPolicyConfig,
 ) -> tuple[int, int]:
     if not model_results:
         return 0, 0
@@ -519,8 +692,26 @@ def _model_agreement(
             continue
         if model_metrics.get("shadow_mode") or model_metrics.get("live_eligible", True) is False:
             continue
-        model_horizon = int(_safe_float(model_metrics.get("horizon_days"), primary_horizon))
-        if primary_horizon and model_horizon != primary_horizon:
+        if model_metrics.get("validation_is_oos") is not True:
+            continue
+        if int(_safe_float(model_metrics.get("holdout_samples"), 0.0)) < config.min_validation_samples:
+            continue
+        model_calibration = _safe_float(
+            model_metrics.get("calibration_error_pct"),
+            np.nan,
+        )
+        model_brier = _safe_float(model_metrics.get("brier_score"), np.nan)
+        if (
+            not np.isfinite(model_calibration)
+            or model_calibration > config.max_calibration_error_pct
+            or not np.isfinite(model_brier)
+            or model_brier > config.max_brier_score
+        ):
+            continue
+        if model_metrics.get("horizon_days") is None:
+            continue
+        model_horizon = int(_safe_float(model_metrics.get("horizon_days"), 0.0))
+        if not primary_horizon or model_horizon != primary_horizon:
             continue
         model_return = _safe_float(model_metrics.get("forecast_change_pct"), 0.0)
         if model_return == 0.0:
@@ -536,12 +727,20 @@ def _decision_reason(
     score: float,
     forecast_diag: dict[str, float],
     trend_diag: dict[str, float],
+    earnings_diag: dict[str, Any],
     annual_vol_pct: float,
 ) -> str:
+    earnings_text = ""
+    if earnings_diag.get("event_flag"):
+        earnings_text = (
+            f"; earnings {earnings_diag.get('event_score', 0.0):+.2f}"
+            f" @ {earnings_diag.get('confidence', 0.0):.0%}"
+        )
     return (
         f"{action} score {score:.2f}; "
         f"forecast {forecast_diag.get('forecast_return_pct', 0.0):+.2f}% "
         f"vs error {forecast_diag.get('expected_error_pct', 0.0):.2f}%; "
         f"trend {trend_diag.get('component', 0.0):+.2f}; "
         f"vol {annual_vol_pct:.1f}%"
+        f"{earnings_text}"
     )

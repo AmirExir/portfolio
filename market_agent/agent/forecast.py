@@ -4,10 +4,19 @@ from math import erf, sqrt
 import os
 from pathlib import Path
 import pickle
+from typing import Mapping
 import warnings
 
 import numpy as np
 import pandas as pd
+
+from .earnings import us_equity_trading_sessions
+from .policy_features import build_shadow_policy_data
+from .shadow_policy import (
+    PolicyPosition,
+    ShadowPolicyConfig,
+    ShadowTargetWeightPolicy,
+)
 
 try:
     from xgboost import XGBRegressor
@@ -295,6 +304,10 @@ def compare_forecast_models(
     force_retrain: bool = False,
     model_artifact_dir: str | Path | None = None,
     include_rl: bool = False,
+    earnings_context: Mapping[str, object] | None = None,
+    portfolio_returns: pd.Series | None = None,
+    policy_position: PolicyPosition | None = None,
+    position_state_verified: bool = False,
 ) -> dict[str, ForecastResult]:
     """Run baseline models plus an optional LSTM/Transformer sequence model."""
     results = {}
@@ -370,12 +383,44 @@ def compare_forecast_models(
         except Exception as exc:
             results[display_name] = _unavailable_result(f"{display_name.lower()} unavailable", exc)
 
+    available_components = {
+        name: result
+        for name, result in results.items()
+        if (
+            result.forecast is not None
+            and not result.forecast.empty
+            and not bool(result.metrics.get("shadow_mode"))
+            and result.metrics.get("live_eligible", True) is not False
+        )
+    }
+    if available_components:
+        results["Ensemble"] = _ensemble_result(available_components)
+
     if include_rl:
         try:
+            context_name, context_result = _fixed_non_rl_policy_context(results)
+            (
+                forecast_context_frame,
+                latest_forecast_context,
+                forecast_context_metadata,
+            ) = _build_policy_forecast_context(
+                close=_clean_close(df),
+                source_name=context_name,
+                result=context_result,
+                components=available_components,
+            )
             results["RL Policy"] = reinforcement_policy_forecast(
                 df,
                 horizon_days=horizon_days,
                 lookback_window=lookback_window,
+                context_df=context_df,
+                earnings_context=earnings_context,
+                portfolio_returns=portfolio_returns,
+                policy_position=policy_position,
+                position_state_verified=position_state_verified,
+                forecast_context_df=forecast_context_frame,
+                latest_forecast_context=latest_forecast_context,
+                forecast_context_metadata=forecast_context_metadata,
                 symbol=symbol,
                 warm_start=warm_start,
                 force_retrain=force_retrain,
@@ -384,19 +429,6 @@ def compare_forecast_models(
         except Exception as exc:
             results["RL Policy"] = _unavailable_result("rl policy unavailable", exc)
 
-    available_components = {
-        name: result
-        for name, result in results.items()
-        if (
-            name != "RL Policy"
-            and result.forecast is not None
-            and not result.forecast.empty
-            and not bool(result.metrics.get("shadow_mode"))
-        )
-    }
-    if available_components:
-        results["Ensemble"] = _ensemble_result(available_components)
-
     return results
 
 
@@ -404,122 +436,291 @@ def reinforcement_policy_forecast(
     df: pd.DataFrame,
     horizon_days: int = 30,
     lookback_window: int = 20,
+    context_df: pd.DataFrame | None = None,
+    earnings_context: Mapping[str, object] | None = None,
+    portfolio_returns: pd.Series | None = None,
+    policy_position: PolicyPosition | None = None,
+    position_state_verified: bool = False,
+    forecast_context_df: pd.DataFrame | None = None,
+    latest_forecast_context: Mapping[str, object] | None = None,
+    forecast_context_metadata: Mapping[str, object] | None = None,
     symbol: str | None = None,
     warm_start: bool = True,
     force_retrain: bool = False,
     artifact_dir: str | Path | None = None,
 ) -> ForecastResult:
+    """Evaluate the execution-aligned target-weight policy in shadow mode.
+
+    The returned flat price path exists only for snapshot compatibility. The
+    actionable research output is ``rl_target_weight``; this result is marked
+    non-live and cannot enter model selection, ensembles, reliability, or
+    orders.
+    """
     close = _clean_close(df)
     horizon_days = max(1, int(horizon_days))
-    lookback_window = max(5, int(lookback_window))
-    log_returns = np.diff(np.log(close.to_numpy(dtype=float)))
-    states, targets = _rl_training_data(log_returns, lookback_window, horizon_days)
-    if len(targets) < 35:
-        raise ValueError("Not enough training samples for RL policy forecasting.")
-
-    artifact_path = None
-    artifact = {}
-    if warm_start and symbol:
-        artifact_path = _model_weight_artifact_path(
-            symbol=symbol,
-            model_type="rl_policy",
+    if (forecast_context_df is None) != (latest_forecast_context is None):
+        raise ValueError(
+            "forecast_context_df and latest_forecast_context must be supplied together"
+        )
+    if forecast_context_df is None:
+        fixed_result = forecast_close_prices(
+            df,
             horizon_days=horizon_days,
             lookback_window=lookback_window,
-            alpha=0.0,
-            optimize_model=False,
-            x_shape=states.shape,
-            artifact_dir=artifact_dir,
+            ridge_alpha=10.0,
+            optimize_model=True,
+            model_type="ridge",
+            context_df=context_df,
+            symbol=symbol,
+            warm_start=warm_start,
+            force_retrain=force_retrain,
+            model_artifact_dir=artifact_dir,
         )
-        if not force_retrain:
-            artifact = _load_model_weight_artifact(artifact_path)
+        (
+            forecast_context_df,
+            latest_forecast_context,
+            generated_metadata,
+        ) = _build_policy_forecast_context(
+            close=close,
+            source_name="Ridge",
+            result=fixed_result,
+            components={"Ridge": fixed_result},
+        )
+        forecast_context_metadata = generated_metadata
+    context_metadata = dict(forecast_context_metadata or {})
+    declared_context_horizon = context_metadata.get("horizon_sessions")
+    if (
+        declared_context_horizon is not None
+        and int(declared_context_horizon) != horizon_days
+    ):
+        raise ValueError(
+            "forecast context horizon does not match the policy horizon"
+        )
+    context_source = str(
+        context_metadata.get("source_model", "externally_supplied_non_rl")
+    )
+    context_version = str(
+        context_metadata.get(
+            "context_version",
+            f"fixed-non-rl-oos-v1-h{horizon_days}",
+        )
+    )
+    data = build_shadow_policy_data(
+        df,
+        context_df=context_df,
+        horizon_days=horizon_days,
+        symbol=symbol,
+        latest_event_context=earnings_context,
+        portfolio_returns=portfolio_returns,
+        forecast_context_df=forecast_context_df,
+        latest_forecast_context=latest_forecast_context,
+        forecast_context_source=context_source,
+        forecast_context_version=context_version,
+    )
+    policy_frame = data.training_frame
+    purge_sessions = max(30, horizon_days)
+    holdout_size = min(
+        max(15, int(len(policy_frame) * 0.20)),
+        len(policy_frame) - purge_sessions - 30,
+    )
+    if holdout_size < 10:
+        raise ValueError("Not enough matured observations for purged RL shadow evaluation.")
+    test_start_pos = len(policy_frame) - holdout_size
+    train_end_pos = test_start_pos - purge_sessions - 1
+    if train_end_pos < 29:
+        raise ValueError("Not enough pre-purge observations for RL shadow training.")
 
-    q_table = {}
-    previous_samples = 0
-    mode = "full_fit"
-    if artifact and _artifact_training_prefix_matches(artifact, states, targets):
-        q_table = {
-            key: np.asarray(value, dtype=float)
-            for key, value in (artifact.get("q_table") or {}).items()
-        }
-        previous_samples = int(artifact.get("training_samples", 0) or 0)
-        mode = "incremental_q_update" if len(targets) > previous_samples else "reused_artifact"
-
-    start_index = previous_samples if q_table and previous_samples < len(targets) else 0 if not q_table else len(targets)
-    if start_index < len(targets):
-        _update_rl_q_table(q_table, states, targets, start_index=start_index)
-
-    latest_state = _rl_state_from_window(log_returns[-lookback_window:])
-    latest_state_key = _rl_state_key(latest_state)
-    q_values = q_table.get(latest_state_key)
-    if q_values is None:
-        q_values = np.zeros(3, dtype=float)
-        action_index = 1
-    elif np.allclose(q_values, q_values[0]):
-        action_index = 1
+    policy = ShadowTargetWeightPolicy(
+        ShadowPolicyConfig(
+            risk_budget_fraction=0.05,
+            minimum_purge_sessions=purge_sessions,
+            random_seed=1729 + horizon_days,
+        )
+    )
+    evaluation = policy.fit_purged_holdout(
+        policy_frame,
+        train_end=policy_frame.index[train_end_pos],
+        test_start=policy_frame.index[test_start_pos],
+        purge_sessions=purge_sessions,
+    )
+    external_position_verified = bool(
+        position_state_verified and policy_position is not None
+    )
+    if external_position_verified:
+        decision_position = policy_position
+        position_state_source = "verified_external"
+        position_state_as_of = str(data.as_of)
     else:
-        action_index = int(np.argmax(q_values))
-    action_name = ["short", "hold", "long"][action_index]
-    if action_index == 2:
-        raw_horizon_return = float(q_values[2])
-    elif action_index == 0:
-        raw_horizon_return = float(-q_values[0])
+        (
+            decision_position,
+            position_state_source,
+            position_state_as_of,
+        ) = _position_from_shadow_evaluation(evaluation)
+    decision = policy.decide(
+        data.latest_context,
+        position=decision_position,
+    )
+    q_values = np.asarray(decision.q_values, dtype=float)
+    action_name = "hold" if decision.action_fraction <= 0.0 else "long"
+    active = evaluation.decisions["active_return"]
+    nonzero = evaluation.decisions["target_exposure"] > 0.0
+    if nonzero.any():
+        direction_accuracy = float((active.loc[nonzero] > 0.0).mean() * 100.0)
     else:
-        raw_horizon_return = 0.0
-    horizon_return = _clip_horizon_return(raw_horizon_return, targets)
-
-    predicted_targets = np.asarray([_rl_forecast_for_state(q_table, state) for state in states], dtype=float)
-    errors_pct = (np.expm1(predicted_targets) - np.expm1(targets)) * 100.0
-    holdout_size = min(max(8, int(len(targets) * 0.25)), len(targets) - 20)
-    holdout_errors = errors_pct[-holdout_size:] if holdout_size > 0 else errors_pct
-    holdout_predicted = predicted_targets[-holdout_size:] if holdout_size > 0 else predicted_targets
-    holdout_actual = targets[-holdout_size:] if holdout_size > 0 else targets
-    residual_std = float(np.std(targets - predicted_targets, ddof=1)) if len(targets) > 1 else 1e-6
-    residual_std = max(residual_std, 1e-6)
+        direction_accuracy = 50.0
+    matured_daily = pd.to_numeric(
+        policy_frame["forward_asset_return"],
+        errors="coerce",
+    ).dropna()
+    residual_std = max(
+        float(np.log1p(matured_daily.clip(lower=-0.999999)).std(ddof=1))
+        * np.sqrt(horizon_days),
+        1e-6,
+    )
+    policy_execution_values = _future_index(close.index, 2)
+    policy_start_value = policy_execution_values[0]
+    policy_target_value = policy_execution_values[1]
+    if isinstance(policy_start_value, (pd.Timestamp, np.datetime64)):
+        policy_execution_start = str(
+            pd.Timestamp(policy_start_value).date()
+        )
+    else:
+        policy_execution_start = str(policy_start_value)
+    if isinstance(policy_target_value, (pd.Timestamp, np.datetime64)):
+        policy_execution_target = str(
+            pd.Timestamp(policy_target_value).date()
+        )
+    else:
+        policy_execution_target = str(policy_target_value)
 
     metrics = {
-        "holdout_direction_accuracy": float((np.sign(holdout_predicted) == np.sign(holdout_actual)).mean() * 100.0),
-        "holdout_mae_pct": float(np.abs(holdout_errors).mean()),
-        "holdout_rmse_pct": float(np.sqrt(np.square(holdout_errors).mean())),
-        "holdout_bias_pct": float(holdout_errors.mean()),
-        "holdout_samples": int(len(holdout_actual)),
-        "selected_lookback_window": int(lookback_window),
+        "holdout_direction_accuracy": direction_accuracy,
+        "holdout_mae_pct": np.nan,
+        "holdout_rmse_pct": np.nan,
+        "holdout_bias_pct": np.nan,
+        "holdout_samples": int(len(evaluation.decisions)),
+        "selected_lookback_window": int(max(5, lookback_window)),
         "selected_ridge_alpha": 0.0,
-        "training_samples": int(len(targets)),
-        "model_training_mode": mode,
-        "warm_start_used": bool(q_table and previous_samples > 0),
-        "new_labeled_samples": int(max(len(targets) - previous_samples, 0)) if previous_samples else int(len(targets)),
+        "training_samples": int(train_end_pos + 1),
+        "model_training_mode": "purged_frozen_shadow_fit",
+        "warm_start_used": False,
+        "new_labeled_samples": int(train_end_pos + 1),
         "rl_action": action_name,
-        "rl_q_short": float(q_values[0]),
-        "rl_q_hold": float(q_values[1]),
-        "rl_q_long": float(q_values[2]),
-        "rl_target_weight": 1.0 if action_name == "long" else 0.0,
-        "rl_state_visits": int((artifact.get("rl_counts") or {}).get(latest_state_key, 0)),
+        "rl_action_label": f"{decision.action_fraction * 100.0:.0f}% risk budget",
+        "rl_action_fraction": float(decision.action_fraction),
+        "rl_q_short": 0.0,
+        "rl_q_hold": float(q_values[0]),
+        "rl_q_long": float(np.max(q_values[1:])),
+        "rl_q_values": [float(value) for value in q_values],
+        "rl_target_weight": float(decision.target_exposure),
+        "rl_state_visits": int(decision.state_visits),
+        "rl_action_visits": int(decision.action_visits),
+        "rl_abstained": bool(decision.abstained),
+        "rl_abstention_reason": decision.reason if decision.abstained else "",
+        "rl_position_state_verified": external_position_verified,
+        "rl_position_state_source": position_state_source,
+        "rl_position_state_as_of": position_state_as_of,
+        "rl_position_state_auditable": True,
+        "rl_live_allocation_enabled": False,
+        "rl_position_exposure": float(decision_position.exposure),
+        "rl_position_entry_drawdown": float(
+            decision_position.entry_drawdown
+        ),
+        "rl_position_holding_period": int(
+            decision_position.holding_period
+        ),
+        "rl_position_previous_action_fraction": float(
+            decision_position.previous_action_fraction
+        ),
+        "rl_oos_cumulative_reward": float(evaluation.cumulative_reward),
+        "rl_oos_net_return_pct": float(evaluation.cumulative_net_return * 100.0),
+        "rl_oos_max_drawdown_pct": float(evaluation.max_drawdown * 100.0),
+        "rl_oos_turnover": float(evaluation.turnover),
+        "rl_oos_invested_fraction": float(evaluation.invested_fraction),
         "horizon_days": int(horizon_days),
+        "policy_version": f"rl-shadow-contextual-v3-h{horizon_days}",
+        "model_version": (
+            f"execution-aligned-contextual-shadow-v3-h{horizon_days}"
+        ),
+        "forecast_context_horizon_sessions": int(horizon_days),
+        "policy_execution_horizon_sessions": 1,
+        "policy_decision_refresh_sessions": 1,
+        "policy_execution_start_session": policy_execution_start,
+        "policy_execution_target_session": policy_execution_target,
+        "policy_feature_set_version": (
+            f"shadow-market-position-event-forecast-v3-h{horizon_days}"
+        ),
         "shadow_mode": True,
         "live_eligible": False,
         "reliability_eligible": False,
-        "validation_is_oos": False,
-        "validation_warning": "Legacy RL diagnostics are shadow-only and are not eligible for model selection.",
+        "validation_is_oos": True,
+        "validation_scheme": "purged_frozen_holdout",
+        "purge_sessions": int(evaluation.purge_sessions or purge_sessions),
+        "validation_train_end": str(evaluation.training_end),
+        "validation_test_start": str(evaluation.evaluation_start),
+        "policy_as_of": str(data.as_of),
+        "execution_lag_sessions": int(data.execution_lag_sessions),
+        "reward_window": "close_t_plus_1_to_close_t_plus_2",
+        "benchmark_source": data.benchmark_source,
+        "sector_proxy": data.sector_proxy,
+        "portfolio_correlation_source": data.correlation_source,
+        "forecast_context_source": data.forecast_context_source,
+        "forecast_context_version": data.forecast_context_version,
+        "forecast_context_samples": int(data.forecast_context_samples),
+        "forecast_context_validation_scheme": str(
+            context_metadata.get("validation_scheme", "")
+        ),
+        "forecast_context_component_models": list(
+            context_metadata.get("component_models", [])
+        ),
+        "forecast_context_actual_outcomes_used": False,
+        "forecast_context_return": float(
+            data.latest_context["forecast_return"]
+        ),
+        "forecast_context_probability_up": float(
+            data.latest_context["forecast_probability_up"]
+        ),
+        "forecast_context_lower_bound": float(
+            data.latest_context["forecast_lower_bound"]
+        ),
+        "forecast_context_model_agreement": float(
+            data.latest_context["forecast_model_agreement"]
+        ),
+        "forecast_context_uncertainty": float(
+            data.latest_context["forecast_uncertainty"]
+        ),
+        "earnings_event_fingerprint": (
+            str(
+                earnings_context.get(
+                    "earnings_effective_session",
+                    earnings_context.get("effective_session", ""),
+                )
+            )
+            + "|"
+            + str(
+                earnings_context.get(
+                    "earnings_reported_at",
+                    earnings_context.get("reported_at", ""),
+                )
+            )
+            if earnings_context
+            else ""
+        ),
+        "promotion_status": "shadow_only",
+        "validation_warning": (
+            "RL is a target-weight policy, not a price forecaster. Its flat "
+            "compatibility path is excluded from every live decision."
+        ),
     }
     result = _forecast_from_horizon_return(
         close=close,
         horizon_days=horizon_days,
-        horizon_return=horizon_return,
-        raw_horizon_return=raw_horizon_return,
+        horizon_return=0.0,
+        raw_horizon_return=0.0,
         residual_std=residual_std,
         metrics=metrics,
-        model_name="warm-start tabular Q-learning trading policy",
+        model_name="execution-aligned target-weight RL policy (shadow only)",
     )
-
-    if artifact_path is not None:
-        model = {
-            "kind": "rl_policy",
-            "q_table": {key: value.tolist() for key, value in q_table.items()},
-            "residual_std": residual_std,
-            "training_metadata": result.metrics,
-        }
-        _save_model_weight_artifact(artifact_path, model, states, targets, symbol or "", "rl_policy")
-        result.metrics["model_artifact_path"] = str(artifact_path)
     return result
 
 
@@ -529,6 +730,250 @@ def _unavailable_result(model_name: str, error: Exception | str) -> ForecastResu
         metrics={"error": str(error), "forecast_score": np.nan},
         model_name=model_name,
     )
+
+
+def _fixed_non_rl_policy_context(
+    results: Mapping[str, ForecastResult],
+) -> tuple[str, ForecastResult]:
+    """Choose the fixed non-RL champion used once as policy context."""
+    for preferred in ("Ensemble", "Ridge"):
+        result = results.get(preferred)
+        if result is not None and _has_oos_policy_context(result):
+            return preferred, result
+    for name, result in results.items():
+        if name != "RL Policy" and _has_oos_policy_context(result):
+            return name, result
+    raise ValueError(
+        "No fixed non-RL model has point-in-time OOS predictions for policy context."
+    )
+
+
+def _has_oos_policy_context(result: ForecastResult) -> bool:
+    return bool(
+        result.forecast is not None
+        and not result.forecast.empty
+        and result.metrics.get("live_eligible", True) is not False
+        and not result.metrics.get("shadow_mode", False)
+        and result.metrics.get("validation_is_oos", False)
+        and len(result.metrics.get("holdout_predicted_return_pct") or []) > 0
+        and len(result.metrics.get("holdout_probability_up") or []) > 0
+    )
+
+
+def _build_policy_forecast_context(
+    *,
+    close: pd.Series,
+    source_name: str,
+    result: ForecastResult,
+    components: Mapping[str, ForecastResult],
+) -> tuple[pd.DataFrame, dict[str, float], dict[str, object]]:
+    """Create timestamped OOS and current forecast state without outcomes.
+
+    Only prediction-time arrays are read. ``holdout_actual_return_pct`` is
+    intentionally ignored so realized target returns cannot enter the state.
+    """
+    if not result.metrics.get("validation_is_oos", False):
+        raise ValueError("policy forecast context requires OOS validation")
+
+    metrics = result.metrics
+    predicted_pct = _finite_metric_array(
+        metrics,
+        "holdout_predicted_return_pct",
+    )
+    probability_up = _finite_metric_array(metrics, "holdout_probability_up")
+    expected_error_raw = metrics.get("holdout_expected_error_pct")
+    if expected_error_raw is None:
+        expected_error_pct = np.full(
+            len(predicted_pct),
+            max(float(metrics.get("expected_error_pct", 0.0) or 0.0), 0.0),
+            dtype=float,
+        )
+    else:
+        expected_error_pct = _finite_metric_array(
+            metrics,
+            "holdout_expected_error_pct",
+        )
+    agreement_raw = metrics.get("holdout_model_agreement")
+    if agreement_raw is None:
+        model_agreement = np.ones(len(predicted_pct), dtype=float)
+    else:
+        model_agreement = _finite_metric_array(
+            metrics,
+            "holdout_model_agreement",
+        )
+
+    declared_samples = int(metrics.get("holdout_samples", 0) or 0)
+    lengths = [
+        len(predicted_pct),
+        len(probability_up),
+        len(expected_error_pct),
+        len(model_agreement),
+    ]
+    if declared_samples > 0:
+        lengths.append(declared_samples)
+    sample_count = min(lengths)
+    if sample_count <= 0:
+        raise ValueError("policy forecast context has no OOS samples")
+
+    predicted_pct = predicted_pct[-sample_count:]
+    probability_up = probability_up[-sample_count:]
+    expected_error_pct = expected_error_pct[-sample_count:]
+    model_agreement = model_agreement[-sample_count:]
+    if ((probability_up < 0.0) | (probability_up > 1.0)).any():
+        raise ValueError("holdout_probability_up must be between 0 and 1")
+    if (expected_error_pct < 0.0).any():
+        raise ValueError("holdout_expected_error_pct cannot be negative")
+    if ((model_agreement < 0.0) | (model_agreement > 1.0)).any():
+        raise ValueError("holdout_model_agreement must be between 0 and 1")
+
+    horizon = max(int(metrics.get("horizon_days", 1) or 1), 1)
+    end_position = len(close) - horizon
+    start_position = end_position - sample_count
+    if start_position < 0 or end_position <= start_position:
+        raise ValueError(
+            "OOS forecast samples cannot be aligned to available price dates"
+        )
+    context_index = close.index[start_position:end_position]
+    forecast_return = predicted_pct / 100.0
+    uncertainty = expected_error_pct / 100.0
+    context_frame = pd.DataFrame(
+        {
+            "forecast_return": forecast_return,
+            "forecast_probability_up": probability_up,
+            "forecast_lower_bound": (
+                forecast_return - 1.645 * uncertainty
+            ),
+            "forecast_model_agreement": model_agreement,
+            "forecast_uncertainty": uncertainty,
+        },
+        index=context_index,
+    )
+
+    latest_return_pct = _finite_metric_value(metrics, "forecast_change_pct")
+    latest_probability_pct = _finite_metric_value(
+        metrics,
+        "probability_up_pct",
+    )
+    latest_error_pct = max(
+        _finite_metric_value(metrics, "expected_error_pct"),
+        0.0,
+    )
+    latest_return = latest_return_pct / 100.0
+    latest_uncertainty = latest_error_pct / 100.0
+    component_names = [
+        name
+        for name, component in components.items()
+        if (
+            name != "RL Policy"
+            and component.forecast is not None
+            and not component.forecast.empty
+            and component.metrics.get("live_eligible", True) is not False
+            and not component.metrics.get("shadow_mode", False)
+            and component.metrics.get("validation_is_oos", False)
+            and int(component.metrics.get("horizon_days", horizon) or horizon)
+            == horizon
+        )
+    ]
+    latest_agreement = _latest_model_agreement(
+        latest_return_pct,
+        [components[name] for name in component_names],
+    )
+    latest_context = {
+        "forecast_return": float(latest_return),
+        "forecast_probability_up": float(
+            np.clip(latest_probability_pct / 100.0, 0.0, 1.0)
+        ),
+        "forecast_lower_bound": float(
+            latest_return - 1.645 * latest_uncertainty
+        ),
+        "forecast_model_agreement": float(latest_agreement),
+        "forecast_uncertainty": float(latest_uncertainty),
+    }
+
+    context_version = f"fixed-non-rl-oos-v1-h{horizon}"
+    fingerprint_payload = "|".join(
+        (
+            str(source_name),
+            context_version,
+            str(context_index[0]),
+            str(context_index[-1]),
+            str(sample_count),
+            ",".join(component_names),
+        )
+    )
+    metadata: dict[str, object] = {
+        "source_model": str(source_name),
+        "context_version": context_version,
+        "context_fingerprint": hashlib.sha256(
+            fingerprint_payload.encode("utf-8")
+        ).hexdigest()[:16],
+        "validation_scheme": str(metrics.get("validation_scheme", "")),
+        "horizon_sessions": int(horizon),
+        "sample_count": int(sample_count),
+        "sample_start": str(context_index[0]),
+        "sample_end": str(context_index[-1]),
+        "component_models": component_names,
+        "actual_outcomes_used": False,
+    }
+    return context_frame, latest_context, metadata
+
+
+def _finite_metric_array(metrics: Mapping[str, object], key: str) -> np.ndarray:
+    raw = metrics.get(key)
+    if raw is None:
+        raise ValueError(f"{key} is required for policy forecast context")
+    try:
+        values = np.asarray(raw, dtype=float).reshape(-1)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{key} must be a numeric array") from exc
+    if values.size == 0 or not np.isfinite(values).all():
+        raise ValueError(f"{key} must contain finite values")
+    return values
+
+
+def _finite_metric_value(metrics: Mapping[str, object], key: str) -> float:
+    try:
+        value = float(metrics.get(key))
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{key} must be numeric") from exc
+    if not np.isfinite(value):
+        raise ValueError(f"{key} must be finite")
+    return value
+
+
+def _latest_model_agreement(
+    selected_return_pct: float,
+    components: list[ForecastResult],
+) -> float:
+    signs: list[float] = []
+    for component in components:
+        try:
+            value = float(component.metrics.get("forecast_change_pct"))
+        except (TypeError, ValueError):
+            continue
+        if np.isfinite(value):
+            signs.append(float(np.sign(value)))
+    if not signs:
+        return 1.0
+    selected_sign = float(np.sign(selected_return_pct))
+    return float(np.mean(np.asarray(signs, dtype=float) == selected_sign))
+
+
+def _position_from_shadow_evaluation(
+    evaluation: object,
+) -> tuple[PolicyPosition, str, str]:
+    """Continue the frozen OOS paper episode for the next shadow decision."""
+    decisions = getattr(evaluation, "decisions", None)
+    if not isinstance(decisions, pd.DataFrame) or decisions.empty:
+        return PolicyPosition(), "flat_shadow_initialization", ""
+    last = decisions.iloc[-1]
+    position = PolicyPosition(
+        exposure=float(last["target_exposure"]),
+        entry_drawdown=float(last["entry_drawdown"]),
+        holding_period=int(last["holding_period"]),
+        previous_action_fraction=float(last["action_fraction"]),
+    )
+    return position, "frozen_oos_shadow_tail", str(decisions.index[-1])
 
 
 def _ensemble_result(components: dict[str, ForecastResult]) -> ForecastResult:
@@ -546,13 +991,10 @@ def _ensemble_result(components: dict[str, ForecastResult]) -> ForecastResult:
     if not usable:
         return _unavailable_result("ensemble unavailable", "No component forecasts available.")
 
-    raw_weights = {}
-    for name, result in usable.items():
-        mae = result.metrics.get("holdout_mae_pct") or result.metrics.get("expected_error_pct") or 25.0
-        raw_weights[name] = 1.0 / max(float(mae), 0.25)
-
-    weight_sum = sum(raw_weights.values())
-    weights = {name: value / weight_sum for name, value in raw_weights.items()}
+    # Fixed weights avoid fitting an ensemble on the same outer observations
+    # later reported as OOS. Learned weights belong inside a nested fold.
+    equal_weight = 1.0 / len(usable)
+    weights = {name: equal_weight for name in usable}
     first = next(iter(usable.values())).forecast.copy()
     forecast = pd.DataFrame(index=first.index)
 
@@ -566,24 +1008,123 @@ def _ensemble_result(components: dict[str, ForecastResult]) -> ForecastResult:
     confidence = max(probability_up, 100.0 - probability_up)
     expected_error = sum(weights[name] * result.metrics.get("expected_error_pct", 0.0) for name, result in usable.items())
     forecast_change = sum(weights[name] * result.metrics.get("forecast_change_pct", 0.0) for name, result in usable.items())
-    holdout_mae = sum(weights[name] * result.metrics.get("holdout_mae_pct", expected_error) for name, result in usable.items())
-    holdout_rmse = sum(weights[name] * result.metrics.get("holdout_rmse_pct", expected_error) for name, result in usable.items())
-    direction_accuracy = sum(
-        weights[name] * result.metrics.get("holdout_direction_accuracy", 50.0)
-        for name, result in usable.items()
-    )
-    calibration_error = sum(
-        weights[name] * result.metrics.get("calibration_error_pct", 100.0)
-        for name, result in usable.items()
-    )
-    brier_score = sum(
-        weights[name] * result.metrics.get("brier_score", 1.0)
-        for name, result in usable.items()
-    )
     holdout_samples = min(
-        int(result.metrics.get("holdout_samples", 0) or 0)
+        len(result.metrics.get("holdout_predicted_return_pct") or [])
         for result in usable.values()
     )
+    validation_is_oos = all(
+        result.metrics.get("validation_is_oos", False)
+        for result in usable.values()
+    )
+    holdout_mae = np.nan
+    holdout_rmse = np.nan
+    holdout_bias = np.nan
+    direction_accuracy = np.nan
+    calibration_error = np.nan
+    brier_score = np.nan
+    holdout_predicted_pct: list[float] = []
+    holdout_actual_pct: list[float] = []
+    holdout_probability_up: list[float] = []
+    holdout_expected_error_pct: list[float] = []
+    holdout_model_agreement: list[float] = []
+    if holdout_samples > 0:
+        predicted_arrays = {
+            name: np.asarray(
+                result.metrics["holdout_predicted_return_pct"][-holdout_samples:],
+                dtype=float,
+            )
+            for name, result in usable.items()
+        }
+        actual_arrays = [
+            np.asarray(
+                result.metrics["holdout_actual_return_pct"][-holdout_samples:],
+                dtype=float,
+            )
+            for result in usable.values()
+        ]
+        probability_arrays = {
+            name: np.asarray(
+                result.metrics["holdout_probability_up"][-holdout_samples:],
+                dtype=float,
+            )
+            for name, result in usable.items()
+        }
+        expected_error_arrays = {}
+        for name, result in usable.items():
+            raw = result.metrics.get("holdout_expected_error_pct")
+            if raw is None or len(raw) < holdout_samples:
+                expected_error_arrays[name] = np.full(
+                    holdout_samples,
+                    max(
+                        float(
+                            result.metrics.get("expected_error_pct", 0.0)
+                            or 0.0
+                        ),
+                        0.0,
+                    ),
+                    dtype=float,
+                )
+            else:
+                expected_error_arrays[name] = np.asarray(
+                    raw[-holdout_samples:],
+                    dtype=float,
+                )
+        aligned_actuals = all(
+            np.allclose(actual_arrays[0], actual, rtol=1e-10, atol=1e-10)
+            for actual in actual_arrays[1:]
+        )
+        if aligned_actuals:
+            ensemble_predicted = sum(
+                weights[name] * predicted
+                for name, predicted in predicted_arrays.items()
+            )
+            ensemble_probability = sum(
+                weights[name] * probability
+                for name, probability in probability_arrays.items()
+            )
+            ensemble_expected_error = sum(
+                weights[name] * errors
+                for name, errors in expected_error_arrays.items()
+            )
+            component_signs = np.vstack(
+                [
+                    np.sign(predicted)
+                    for predicted in predicted_arrays.values()
+                ]
+            )
+            ensemble_agreement = np.mean(
+                component_signs
+                == np.sign(ensemble_predicted)[np.newaxis, :],
+                axis=0,
+            )
+            actual = actual_arrays[0]
+            errors = ensemble_predicted - actual
+            actual_up = (actual > 0.0).astype(float)
+            holdout_mae = float(np.abs(errors).mean())
+            holdout_rmse = float(np.sqrt(np.square(errors).mean()))
+            holdout_bias = float(errors.mean())
+            direction_accuracy = float(
+                (np.sign(ensemble_predicted) == np.sign(actual)).mean() * 100.0
+            )
+            brier_score = float(
+                np.square(ensemble_probability - actual_up).mean()
+            )
+            calibration_error = _expected_calibration_error_pct(
+                ensemble_probability,
+                actual_up,
+            )
+            holdout_predicted_pct = ensemble_predicted.tolist()
+            holdout_actual_pct = actual.tolist()
+            holdout_probability_up = ensemble_probability.tolist()
+            holdout_expected_error_pct = (
+                ensemble_expected_error.tolist()
+            )
+            holdout_model_agreement = ensemble_agreement.tolist()
+        else:
+            validation_is_oos = False
+            holdout_samples = 0
+    else:
+        validation_is_oos = False
 
     metrics = {
         "forecast_change_pct": float(forecast_change),
@@ -594,21 +1135,27 @@ def _ensemble_result(components: dict[str, ForecastResult]) -> ForecastResult:
         "forecast_score": _forecast_score(forecast_change, expected_error, confidence),
         "holdout_mae_pct": float(holdout_mae),
         "holdout_rmse_pct": float(holdout_rmse),
+        "holdout_bias_pct": float(holdout_bias),
         "holdout_direction_accuracy": float(direction_accuracy),
         "holdout_samples": int(holdout_samples),
         "calibration_error_pct": float(calibration_error),
         "brier_score": float(brier_score),
+        "holdout_predicted_return_pct": holdout_predicted_pct,
+        "holdout_actual_return_pct": holdout_actual_pct,
+        "holdout_probability_up": holdout_probability_up,
+        "holdout_expected_error_pct": holdout_expected_error_pct,
+        "holdout_model_agreement": holdout_model_agreement,
         "forecast_outlier": any(
             bool(result.metrics.get("forecast_outlier", False))
             for result in usable.values()
         ),
         "component_weights": {name: round(weight, 3) for name, weight in weights.items()},
+        "ensemble_weighting": "fixed_equal_non_rl",
         "shadow_components_excluded": sorted(set(components) - set(usable)),
         "live_eligible": True,
         "shadow_mode": False,
-        "validation_is_oos": all(
-            result.metrics.get("validation_is_oos", False) for result in usable.values()
-        ),
+        "validation_is_oos": bool(validation_is_oos),
+        "validation_scheme": "fixed_ensemble_on_nested_outer_holdout",
         "horizon_days": int(
             next(
                 (
@@ -1632,6 +2179,15 @@ def _select_direct_model(
             cast=float,
         )
 
+    # Candidate choice uses an earlier, purged validation block. The final
+    # tail remains untouched until one candidate has been selected.
+    approximate_samples = max(
+        len(log_returns) - horizon_days - max(window_candidates, default=requested_lookback),
+        0,
+    )
+    outer_test_size = max(8, int(approximate_samples * 0.20))
+    reserved_outer_tail = outer_test_size + max(int(horizon_days), 1)
+
     for window in window_candidates:
         for alpha in alpha_candidates:
             metrics = _direct_holdout_metrics(
@@ -1641,6 +2197,8 @@ def _select_direct_model(
                 alpha,
                 model_type,
                 extra_feature_arrays,
+                reserve_tail=reserved_outer_tail,
+                validation_scheme="purged_inner_selection",
             )
             if metrics:
                 candidates.append(
@@ -1666,7 +2224,7 @@ def _select_direct_model(
             "metrics": fallback_metrics,
         }
 
-    return min(
+    selected = min(
         candidates,
         key=lambda item: (
             item["metrics"].get("holdout_mae_pct", np.inf),
@@ -1674,6 +2232,52 @@ def _select_direct_model(
             -item["metrics"].get("holdout_direction_accuracy", 0.0),
         ),
     )
+    outer_metrics = _direct_holdout_metrics(
+        log_returns,
+        selected["lookback_window"],
+        horizon_days,
+        selected["ridge_alpha"],
+        model_type,
+        extra_feature_arrays,
+        reserve_tail=0,
+        fixed_holdout_size=outer_test_size,
+        validation_scheme="nested_purged_outer_holdout",
+    )
+    if not outer_metrics:
+        outer_metrics = dict(selected["metrics"])
+        outer_metrics["validation_is_oos"] = False
+        outer_metrics["validation_warning"] = (
+            "No untouched outer holdout was available after model selection."
+        )
+    outer_metrics["hyperparameter_selection_is_nested"] = bool(
+        outer_metrics.get("validation_is_oos")
+    )
+    outer_metrics["selection_validation_mae_pct"] = float(
+        selected["metrics"].get("holdout_mae_pct", np.nan)
+    )
+    outer_metrics["selection_validation_samples"] = int(
+        selected["metrics"].get("holdout_samples", 0)
+    )
+    outer_metrics[
+        "selection_validation_test_end_sample_exclusive"
+    ] = int(
+        selected["metrics"].get(
+            "validation_test_end_sample_exclusive",
+            0,
+        )
+    )
+    outer_metrics["selection_reserved_outer_test_samples"] = int(
+        outer_test_size
+    )
+    outer_metrics["selection_purge_before_outer"] = max(
+        int(horizon_days),
+        1,
+    )
+    return {
+        "lookback_window": selected["lookback_window"],
+        "ridge_alpha": selected["ridge_alpha"],
+        "metrics": outer_metrics,
+    }
 
 
 def _direct_holdout_metrics(
@@ -1683,16 +2287,28 @@ def _direct_holdout_metrics(
     alpha: float,
     model_type: str = "ridge",
     extra_feature_arrays: list[np.ndarray] | None = None,
+    reserve_tail: int = 0,
+    fixed_holdout_size: int | None = None,
+    validation_scheme: str = "purged_final_holdout",
 ) -> dict:
     x, y = _training_data_for_model(log_returns, lookback_window, horizon_days, model_type, extra_feature_arrays)
     if len(y) < 35:
         return {}
 
-    holdout_size = min(max(8, int(len(y) * 0.25)), len(y) - 20)
+    reserve_tail = max(int(reserve_tail), 0)
+    usable_end = len(y) - reserve_tail
+    if usable_end < 35:
+        return {}
+
+    if fixed_holdout_size is None:
+        requested_holdout = max(8, int(usable_end * 0.25))
+    else:
+        requested_holdout = max(int(fixed_holdout_size), 0)
+    holdout_size = min(requested_holdout, usable_end - 20)
     if holdout_size < 8:
         return {}
 
-    test_start = len(y) - holdout_size
+    test_start = usable_end - holdout_size
     purge_sessions = max(int(horizon_days), 1)
     train_end = test_start - purge_sessions
     if train_end < 20:
@@ -1700,10 +2316,13 @@ def _direct_holdout_metrics(
 
     model = _fit_model(x[:train_end], y[:train_end], alpha, model_type)
     predicted = np.asarray(
-        [_clip_horizon_return(value, y[:train_end]) for value in _predict_matrix(x[test_start:], model)],
+        [
+            _clip_horizon_return(value, y[:train_end])
+            for value in _predict_matrix(x[test_start:usable_end], model)
+        ],
         dtype=float,
     )
-    actual = y[test_start:]
+    actual = y[test_start:usable_end]
 
     predicted_pct = np.expm1(predicted) * 100.0
     actual_pct = np.expm1(actual) * 100.0
@@ -1712,6 +2331,7 @@ def _direct_holdout_metrics(
     residual_std = max(float(model.get("residual_std", 0.0) or 0.0), 1e-6)
     probability_up = np.asarray([_normal_cdf(float(value) / residual_std) for value in predicted])
     actual_up = (actual > 0.0).astype(float)
+    expected_error_pct = float(np.expm1(residual_std) * 100.0)
 
     return {
         "holdout_direction_accuracy": directional_accuracy,
@@ -1720,12 +2340,26 @@ def _direct_holdout_metrics(
         "holdout_bias_pct": float(errors.mean()),
         "holdout_samples": int(len(actual)),
         "validation_is_oos": True,
-        "validation_scheme": "purged_final_holdout",
+        "validation_scheme": str(validation_scheme),
         "purge_sessions": purge_sessions,
         "validation_train_samples": int(train_end),
         "validation_test_samples": int(len(actual)),
+        "validation_test_start_sample": int(test_start),
+        "validation_test_end_sample_exclusive": int(usable_end),
+        "validation_reserved_tail_samples": int(reserve_tail),
         "brier_score": float(np.square(probability_up - actual_up).mean()),
-        "calibration_error_pct": float(abs(probability_up.mean() - actual_up.mean()) * 100.0),
+        "calibration_error_pct": _expected_calibration_error_pct(
+            probability_up,
+            actual_up,
+        ),
+        "holdout_predicted_return_pct": predicted_pct.tolist(),
+        "holdout_actual_return_pct": actual_pct.tolist(),
+        "holdout_probability_up": probability_up.tolist(),
+        "holdout_expected_error_pct": [
+            expected_error_pct
+            for _ in range(len(actual))
+        ],
+        "holdout_model_agreement": [1.0 for _ in range(len(actual))],
     }
 
 
@@ -1908,6 +2542,37 @@ def _normal_cdf(value: float) -> float:
     return 0.5 * (1.0 + erf(value / sqrt(2.0)))
 
 
+def _expected_calibration_error_pct(
+    probabilities: np.ndarray,
+    outcomes: np.ndarray,
+    bins: int = 10,
+) -> float:
+    """Return weighted binary expected calibration error in percentage points."""
+    probability = np.asarray(probabilities, dtype=float)
+    actual = np.asarray(outcomes, dtype=float)
+    valid = (
+        np.isfinite(probability)
+        & np.isfinite(actual)
+        & (probability >= 0.0)
+        & (probability <= 1.0)
+    )
+    probability = probability[valid]
+    actual = actual[valid]
+    if probability.size == 0:
+        return np.nan
+    edges = np.linspace(0.0, 1.0, max(int(bins), 2) + 1)
+    bin_ids = np.clip(np.digitize(probability, edges[1:-1], right=False), 0, len(edges) - 2)
+    error = 0.0
+    for bin_id in range(len(edges) - 1):
+        mask = bin_ids == bin_id
+        if not mask.any():
+            continue
+        error += float(mask.mean()) * abs(
+            float(probability[mask].mean()) - float(actual[mask].mean())
+        )
+    return float(error * 100.0)
+
+
 def _forecast_score(forecast_change_pct: float, expected_error_pct: float, confidence_pct: float) -> float:
     error_floor = max(abs(expected_error_pct), 0.25)
     edge_weight = max(float(confidence_pct) - 50.0, 0.0) / 50.0
@@ -1923,7 +2588,20 @@ def _future_index(index: pd.Index, horizon_days: int) -> pd.Index:
             start = last_value + pd.Timedelta(days=1)
             return pd.date_range(start=start, periods=horizon_days, freq="D")
 
-        start = last_value + pd.tseries.offsets.BDay(1)
-        return pd.bdate_range(start=start, periods=horizon_days)
+        sessions = us_equity_trading_sessions(
+            as_of=(
+                pd.Timestamp(last_value.date(), tz="UTC")
+                + pd.Timedelta(hours=12)
+            ).to_pydatetime(),
+            observed_sessions=tuple(
+                timestamp.date() for timestamp in datetime_index
+            ),
+            future_session_count=horizon_days + 1,
+        )
+        future = [
+            session for session in sessions
+            if session > last_value.date()
+        ][:horizon_days]
+        return pd.DatetimeIndex(future)
 
     return pd.RangeIndex(start=len(index), stop=len(index) + horizon_days)

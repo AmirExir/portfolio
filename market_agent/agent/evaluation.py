@@ -14,16 +14,28 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
+import hashlib
+import json
 import math
+from numbers import Integral
+import pickle
 from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
 import pandas as pd
 
-from .ledger import CompletedPrediction, PredictionLedger
+from .ledger import (
+    CompletedPrediction,
+    LedgerEntry,
+    LedgerError,
+    OutcomeRecord,
+    PredictionLedger,
+    PredictionRecord,
+)
 
 
 UTC = timezone.utc
+REQUIRED_NON_RL_BASELINES = frozenset({"ridge", "fixed-ensemble"})
 
 
 class EvaluationError(RuntimeError):
@@ -39,6 +51,8 @@ class MixedHorizonError(EvaluationError):
 
 
 def _as_date(value: date | datetime | str, field_name: str) -> date:
+    if pd.isna(value):
+        raise ValueError(f"{field_name} must not be missing.")
     if isinstance(value, datetime):
         return value.date()
     if isinstance(value, date):
@@ -53,6 +67,15 @@ def _finite(value: Any, field_name: str) -> float:
     converted = float(value)
     if not math.isfinite(converted):
         raise ValueError(f"{field_name} must be finite.")
+    return converted
+
+
+def _positive_integer(value: Any, field_name: str) -> int:
+    if isinstance(value, bool) or not isinstance(value, Integral):
+        raise ValueError(f"{field_name} must be an integer.")
+    converted = int(value)
+    if converted <= 0:
+        raise ValueError(f"{field_name} must be positive.")
     return converted
 
 
@@ -74,12 +97,16 @@ class WalkForwardConfig:
     maximum_training_sessions: int | None = None
 
     def __post_init__(self) -> None:
-        if self.horizon_sessions <= 0:
-            raise ValueError("horizon_sessions must be positive.")
-        if self.minimum_training_sessions <= 0:
-            raise ValueError("minimum_training_sessions must be positive.")
-        if self.test_sessions <= 0:
-            raise ValueError("test_sessions must be positive.")
+        for field_name in (
+            "horizon_sessions",
+            "minimum_training_sessions",
+            "test_sessions",
+        ):
+            object.__setattr__(
+                self,
+                field_name,
+                _positive_integer(getattr(self, field_name), field_name),
+            )
 
         purge = (
             self.horizon_sessions
@@ -91,6 +118,8 @@ class WalkForwardConfig:
             if self.embargo_sessions is None
             else self.embargo_sessions
         )
+        purge = _positive_integer(purge, "purge_sessions")
+        embargo = _positive_integer(embargo, "embargo_sessions")
         if purge < self.horizon_sessions:
             raise ValueError(
                 "purge_sessions must be at least horizon_sessions."
@@ -101,7 +130,11 @@ class WalkForwardConfig:
             )
         if (
             self.maximum_training_sessions is not None
-            and self.maximum_training_sessions < self.minimum_training_sessions
+            and _positive_integer(
+                self.maximum_training_sessions,
+                "maximum_training_sessions",
+            )
+            < self.minimum_training_sessions
         ):
             raise ValueError(
                 "maximum_training_sessions cannot be smaller than "
@@ -109,6 +142,12 @@ class WalkForwardConfig:
             )
         object.__setattr__(self, "purge_sessions", int(purge))
         object.__setattr__(self, "embargo_sessions", int(embargo))
+        if self.maximum_training_sessions is not None:
+            object.__setattr__(
+                self,
+                "maximum_training_sessions",
+                int(self.maximum_training_sessions),
+            )
 
 
 @dataclass(frozen=True)
@@ -363,11 +402,17 @@ def run_frozen_walk_forward(
             *feature_columns,
         ]
         predictor_frame = test_rows[predictor_columns].copy()
+        model_state_before = _model_state_fingerprint(fitted.model)
         predicted = predict_policy(
             fitted.model,
             predictor_frame.copy(),
             fold,
         )
+        model_state_after = _model_state_fingerprint(fitted.model)
+        if model_state_after != model_state_before:
+            raise DataLeakageError(
+                f"Fold {fold.fold_id} predictor mutated the fitted policy."
+            )
         if not isinstance(predicted, pd.DataFrame):
             raise TypeError("predict_policy must return a pandas DataFrame.")
         if len(predicted) != len(test_rows):
@@ -375,7 +420,38 @@ def run_frozen_walk_forward(
                 f"Fold {fold.fold_id} returned {len(predicted)} predictions "
                 f"for {len(test_rows)} test rows."
             )
-        reserved_outputs = set(predicted.columns).intersection(
+        prediction_keys = [session_column, symbol_column]
+        missing_prediction_keys = sorted(set(prediction_keys) - set(predicted.columns))
+        if missing_prediction_keys:
+            raise ValueError(
+                "Prediction output must include identity keys: "
+                f"{missing_prediction_keys}"
+            )
+        predicted = predicted.copy()
+        predicted[session_column] = predicted[session_column].map(
+            lambda value: _as_date(value, session_column)
+        )
+        predicted[symbol_column] = predicted[symbol_column].astype(str).str.upper()
+        if predicted.duplicated(prediction_keys, keep=False).any():
+            raise ValueError(
+                f"Fold {fold.fold_id} returned duplicate prediction identity keys."
+            )
+        expected_keys = test_rows[prediction_keys].copy()
+        expected_keys[symbol_column] = expected_keys[symbol_column].astype(str).str.upper()
+        key_check = expected_keys.merge(
+            predicted[prediction_keys],
+            on=prediction_keys,
+            how="outer",
+            indicator=True,
+        )
+        if not key_check["_merge"].eq("both").all():
+            raise ValueError(
+                f"Fold {fold.fold_id} prediction identity keys do not match test rows."
+            )
+
+        reserved_outputs = (
+            set(predicted.columns) - set(prediction_keys)
+        ).intersection(
             {*data.columns, "fold_id", "policy_version"}
         )
         if reserved_outputs:
@@ -386,10 +462,22 @@ def run_frozen_walk_forward(
 
         fold_output = test_rows[
             [*identity_columns, *outcome_columns]
-        ].reset_index(drop=True)
-        fold_output = pd.concat(
-            [fold_output, predicted.reset_index(drop=True)],
-            axis=1,
+        ].copy()
+        fold_output[symbol_column] = fold_output[symbol_column].astype(str).str.upper()
+        prediction_values = predicted.drop(
+            columns=[
+                column
+                for column in identity_columns
+                if column in predicted.columns and column not in prediction_keys
+            ],
+            errors="ignore",
+        )
+        fold_output = fold_output.merge(
+            prediction_values,
+            on=prediction_keys,
+            how="left",
+            validate="one_to_one",
+            sort=False,
         )
         fold_output["fold_id"] = fold.fold_id
         fold_output["policy_version"] = fitted.version
@@ -411,6 +499,25 @@ def run_frozen_walk_forward(
         policy_versions=policy_versions,
         policy_metadata=policy_metadata,
     )
+
+
+def _model_state_fingerprint(model: Any) -> str:
+    """Fingerprint model state before and after inference.
+
+    Pickle covers ordinary estimators and containers. A deterministic fallback
+    based on the object's public state keeps the frozen-policy contract useful
+    for lightweight custom test models.
+    """
+    try:
+        payload = pickle.dumps(model, protocol=pickle.HIGHEST_PROTOCOL)
+    except Exception:
+        try:
+            payload = repr(vars(model)).encode("utf-8")
+        except Exception as exc:
+            raise TypeError(
+                "Fitted policy must expose fingerprintable immutable state."
+            ) from exc
+    return hashlib.sha256(payload).hexdigest()
 
 
 @dataclass(frozen=True)
@@ -458,8 +565,11 @@ class ForecastObservation:
                 object.__setattr__(
                     self, field_name, _finite(value, field_name)
                 )
-        if self.horizon_sessions <= 0:
-            raise ValueError("horizon_sessions must be positive.")
+        object.__setattr__(
+            self,
+            "horizon_sessions",
+            _positive_integer(self.horizon_sessions, "horizon_sessions"),
+        )
         if self.target_session <= self.as_of_session:
             raise ValueError("target_session must be after as_of_session.")
         if (
@@ -500,12 +610,73 @@ def forecast_observations_from_ledger(
     *,
     as_of_session: date | datetime | str,
     horizon_sessions: int,
+    candidate_model_name: str,
+    candidate_policy_version: str,
 ) -> tuple[ForecastObservation, ...]:
-    """Create evaluation observations from completed, matured ledger events."""
+    """Return one candidate's matured observations from a verified ledger.
 
-    completed = ledger.completed_predictions(
-        _as_date(as_of_session, "as_of_session"),
+    Model name and policy version are exact filters.  In particular, a missing
+    ``policy_version`` never falls back to ``model_version`` for promotion
+    evidence.
+    """
+
+    entries = ledger.read_entries()
+    return _forecast_observations_from_entries(
+        entries,
+        as_of_session=_as_date(as_of_session, "as_of_session"),
         horizon_sessions=horizon_sessions,
+        candidate_model_name=candidate_model_name,
+        candidate_policy_version=candidate_policy_version,
+    )
+
+
+def _forecast_observations_from_entries(
+    entries: Sequence[LedgerEntry],
+    *,
+    as_of_session: date,
+    horizon_sessions: int,
+    candidate_model_name: str,
+    candidate_policy_version: str,
+) -> tuple[ForecastObservation, ...]:
+    horizon = _positive_integer(horizon_sessions, "horizon_sessions")
+    model_name = str(candidate_model_name).strip()
+    policy_version = str(candidate_policy_version).strip()
+    if not model_name:
+        raise ValueError("candidate_model_name must not be empty.")
+    if not policy_version:
+        raise ValueError("candidate_policy_version must not be empty.")
+
+    predictions: dict[str, PredictionRecord] = {}
+    outcomes: dict[str, OutcomeRecord] = {}
+    for entry in entries:
+        if isinstance(entry.record, PredictionRecord):
+            predictions[entry.record.prediction_id] = entry.record
+        elif isinstance(entry.record, OutcomeRecord):
+            outcomes[entry.record.prediction_id] = entry.record
+
+    completed: list[CompletedPrediction] = []
+    for prediction in predictions.values():
+        if prediction.horizon_sessions != horizon:
+            continue
+        if prediction.model_name != model_name:
+            continue
+        if prediction.policy_version != policy_version:
+            continue
+        if prediction.target_session > as_of_session:
+            continue
+        outcome = outcomes.get(prediction.prediction_id)
+        if outcome is None:
+            continue
+        completed.append(
+            CompletedPrediction(prediction=prediction, outcome=outcome)
+        )
+
+    completed.sort(
+        key=lambda item: (
+            item.prediction.as_of_session,
+            item.prediction.symbol,
+            item.prediction.prediction_id,
+        )
     )
     return tuple(_observation_from_completed(item) for item in completed)
 
@@ -538,8 +709,11 @@ def evaluate_forecasts(
 ) -> ForecastMetrics:
     """Evaluate only matured predictions from one explicitly selected horizon."""
 
-    if calibration_bins <= 0:
-        raise ValueError("calibration_bins must be positive.")
+    horizon_sessions = _positive_integer(
+        horizon_sessions,
+        "horizon_sessions",
+    )
+    calibration_bins = _positive_integer(calibration_bins, "calibration_bins")
     if not observations:
         raise ValueError("At least one matured forecast is required.")
     horizons = {item.horizon_sessions for item in observations}
@@ -698,6 +872,160 @@ class PolicyPerformance:
     total_transaction_cost: float
     average_gross_exposure: float
     transaction_cost_bps: float
+    periods_per_year: int = 252
+    cvar_confidence: float = 0.95
+
+    def __post_init__(self) -> None:
+        """Reject aggregates that were not derived from the period path."""
+        periods = tuple(self.periods)
+        object.__setattr__(self, "periods", periods)
+        if not periods:
+            raise ValueError("PolicyPerformance requires at least one period.")
+        if self.session_count != len(periods):
+            raise ValueError("session_count must equal the number of periods.")
+        sessions = tuple(period.session for period in periods)
+        if sessions != tuple(sorted(sessions)) or len(sessions) != len(set(sessions)):
+            raise ValueError("Policy performance sessions must be unique and ordered.")
+        periods_per_year = _positive_integer(
+            self.periods_per_year,
+            "periods_per_year",
+        )
+        object.__setattr__(self, "periods_per_year", periods_per_year)
+        if not 0.0 < float(self.cvar_confidence) < 1.0:
+            raise ValueError("cvar_confidence must be between 0 and 1.")
+        cost_bps = float(self.transaction_cost_bps)
+        if not np.isfinite(cost_bps) or cost_bps < 0.0:
+            raise ValueError("transaction_cost_bps must be finite and nonnegative.")
+
+        for period in periods:
+            values = (
+                period.gross_return,
+                period.benchmark_component,
+                period.gross_excess_return,
+                period.transaction_cost,
+                period.net_return,
+                period.net_excess_return,
+                period.gross_exposure,
+                period.turnover,
+            )
+            if not all(np.isfinite(float(value)) for value in values):
+                raise ValueError("Policy period fields must be finite.")
+            if period.gross_exposure < 0.0 or period.turnover < 0.0:
+                raise ValueError("Exposure and turnover cannot be negative.")
+            if period.transaction_cost < 0.0:
+                raise ValueError("Transaction cost cannot be negative.")
+            expected_cost = period.turnover * cost_bps / 10_000.0
+            if not np.isclose(
+                period.transaction_cost,
+                expected_cost,
+                rtol=0.0,
+                atol=1e-12,
+            ):
+                raise ValueError(
+                    "Period transaction cost does not match turnover and cost bps."
+                )
+            expected_excess = (
+                period.gross_return - period.benchmark_component
+            )
+            if not np.isclose(
+                period.gross_excess_return,
+                expected_excess,
+                rtol=0.0,
+                atol=1e-12,
+            ):
+                raise ValueError("Period gross excess return is inconsistent.")
+            if not np.isclose(
+                period.net_return,
+                period.gross_return - period.transaction_cost,
+                rtol=0.0,
+                atol=1e-12,
+            ):
+                raise ValueError("Period net return is inconsistent.")
+            if not np.isclose(
+                period.net_excess_return,
+                period.gross_excess_return - period.transaction_cost,
+                rtol=0.0,
+                atol=1e-12,
+            ):
+                raise ValueError("Period net excess return is inconsistent.")
+
+        net_returns = np.asarray(
+            [period.net_return for period in periods],
+            dtype=float,
+        )
+        excess_returns = np.asarray(
+            [period.net_excess_return for period in periods],
+            dtype=float,
+        )
+        if np.any(net_returns <= -1.0):
+            raise ValueError("A period net return cannot be <= -100%.")
+        expected = {
+            "cumulative_net_return": float(
+                np.prod(1.0 + net_returns) - 1.0
+            ),
+            "cumulative_net_excess_return": float(
+                np.prod(1.0 + excess_returns) - 1.0
+            ),
+            "annualized_volatility": _annualized_volatility(
+                net_returns,
+                periods_per_year,
+            ),
+            "max_drawdown": _maximum_drawdown(net_returns),
+            "cvar": _conditional_value_at_risk(
+                net_returns,
+                float(self.cvar_confidence),
+            ),
+            "total_turnover": float(
+                sum(period.turnover for period in periods)
+            ),
+            "total_transaction_cost": float(
+                sum(period.transaction_cost for period in periods)
+            ),
+            "average_gross_exposure": float(
+                np.mean([period.gross_exposure for period in periods])
+            ),
+        }
+        expected["annualized_net_return"] = float(
+            (1.0 + expected["cumulative_net_return"])
+            ** (periods_per_year / len(periods))
+            - 1.0
+        )
+        optional_expected = {
+            "sharpe": _annualized_sharpe(
+                net_returns,
+                periods_per_year,
+            ),
+            "excess_sharpe": _annualized_sharpe(
+                excess_returns,
+                periods_per_year,
+            ),
+        }
+        for field_name, expected_value in expected.items():
+            if not np.isclose(
+                float(getattr(self, field_name)),
+                expected_value,
+                rtol=1e-10,
+                atol=1e-12,
+            ):
+                raise ValueError(
+                    f"{field_name} does not match the immutable period path."
+                )
+        for field_name, expected_value in optional_expected.items():
+            actual_value = getattr(self, field_name)
+            if expected_value is None:
+                if actual_value is not None:
+                    raise ValueError(
+                        f"{field_name} must be None for this period path."
+                    )
+            elif actual_value is None or not np.isclose(
+                float(actual_value),
+                expected_value,
+                rtol=1e-10,
+                atol=1e-12,
+            ):
+                raise ValueError(
+                    f"{field_name} does not match the immutable period path."
+                )
 
 
 def evaluate_policy_returns(
@@ -719,6 +1047,8 @@ def evaluate_policy_returns(
     Each input return must cover one non-overlapping execution period (normally
     one trading session).  Horizon-label returns must not be supplied here
     because overlapping 30-session labels would overstate the sample size.
+    The supplied target weight must have been executable before the associated
+    return period; close-generated decisions therefore need a one-session shift.
     Missing symbols on a later included session are interpreted as zero target
     weight and therefore incur exit turnover.
     """
@@ -737,8 +1067,7 @@ def evaluate_policy_returns(
         raise ValueError("At least one policy return observation is required.")
     if transaction_cost_bps < 0.0:
         raise ValueError("transaction_cost_bps cannot be negative.")
-    if periods_per_year <= 0:
-        raise ValueError("periods_per_year must be positive.")
+    periods_per_year = _positive_integer(periods_per_year, "periods_per_year")
     if not 0.0 < cvar_confidence < 1.0:
         raise ValueError("cvar_confidence must be between 0 and 1.")
     if maximum_gross_exposure <= 0.0:
@@ -853,46 +1182,81 @@ def evaluate_policy_returns(
             turnover=final.turnover + liquidation_turnover,
         )
 
-    net_returns = np.asarray([period.net_return for period in periods])
+    return policy_performance_from_periods(
+        periods,
+        transaction_cost_bps=transaction_cost_bps,
+        periods_per_year=periods_per_year,
+        cvar_confidence=cvar_confidence,
+    )
+
+
+def policy_performance_from_periods(
+    periods: Sequence[PolicyPeriod],
+    *,
+    transaction_cost_bps: float,
+    periods_per_year: int = 252,
+    cvar_confidence: float = 0.95,
+) -> PolicyPerformance:
+    """Recompute performance for an exact immutable period-path slice."""
+    period_path = tuple(periods)
+    if not period_path:
+        raise ValueError("At least one policy period is required.")
+    periods_per_year = _positive_integer(
+        periods_per_year,
+        "periods_per_year",
+    )
+    net_returns = np.asarray(
+        [period.net_return for period in period_path],
+        dtype=float,
+    )
     excess_returns = np.asarray(
-        [period.net_excess_return for period in periods]
+        [period.net_excess_return for period in period_path],
+        dtype=float,
     )
     if np.any(net_returns <= -1.0):
-        raise ValueError("A period net return cannot be less than or equal to -100%.")
-
+        raise ValueError(
+            "A period net return cannot be less than or equal to -100%."
+        )
     cumulative_net = float(np.prod(1.0 + net_returns) - 1.0)
     cumulative_excess = float(np.prod(1.0 + excess_returns) - 1.0)
-    annualized_net = float(
-        (1.0 + cumulative_net) ** (periods_per_year / len(periods)) - 1.0
-    )
-    annualized_volatility = _annualized_volatility(
-        net_returns,
-        periods_per_year,
-    )
-    sharpe = _annualized_sharpe(net_returns, periods_per_year)
-    excess_sharpe = _annualized_sharpe(excess_returns, periods_per_year)
-    max_drawdown = _maximum_drawdown(net_returns)
-    cvar = _conditional_value_at_risk(net_returns, cvar_confidence)
-
     return PolicyPerformance(
-        periods=tuple(periods),
-        session_count=len(periods),
+        periods=period_path,
+        session_count=len(period_path),
         cumulative_net_return=cumulative_net,
         cumulative_net_excess_return=cumulative_excess,
-        annualized_net_return=annualized_net,
-        annualized_volatility=annualized_volatility,
-        sharpe=sharpe,
-        excess_sharpe=excess_sharpe,
-        max_drawdown=max_drawdown,
-        cvar=cvar,
-        total_turnover=float(sum(period.turnover for period in periods)),
+        annualized_net_return=float(
+            (1.0 + cumulative_net)
+            ** (periods_per_year / len(period_path))
+            - 1.0
+        ),
+        annualized_volatility=_annualized_volatility(
+            net_returns,
+            periods_per_year,
+        ),
+        sharpe=_annualized_sharpe(net_returns, periods_per_year),
+        excess_sharpe=_annualized_sharpe(
+            excess_returns,
+            periods_per_year,
+        ),
+        max_drawdown=_maximum_drawdown(net_returns),
+        cvar=_conditional_value_at_risk(
+            net_returns,
+            cvar_confidence,
+        ),
+        total_turnover=float(
+            sum(period.turnover for period in period_path)
+        ),
         total_transaction_cost=float(
-            sum(period.transaction_cost for period in periods)
+            sum(period.transaction_cost for period in period_path)
         ),
         average_gross_exposure=float(
-            np.mean([period.gross_exposure for period in periods])
+            np.mean(
+                [period.gross_exposure for period in period_path]
+            )
         ),
         transaction_cost_bps=float(transaction_cost_bps),
+        periods_per_year=int(periods_per_year),
+        cvar_confidence=float(cvar_confidence),
     )
 
 
@@ -943,6 +1307,24 @@ class FoldPerformance:
     fold_id: int
     candidate: PolicyPerformance
     baseline: PolicyPerformance
+    horizon_sessions: int
+    candidate_policy_version: str
+    baseline_policy_version: str
+
+    def __post_init__(self) -> None:
+        object.__setattr__(
+            self,
+            "horizon_sessions",
+            _positive_integer(self.horizon_sessions, "horizon_sessions"),
+        )
+        if not str(self.candidate_policy_version).strip():
+            raise ValueError("candidate_policy_version must not be empty.")
+        if not str(self.baseline_policy_version).strip():
+            raise ValueError("baseline_policy_version must not be empty.")
+        if _performance_sessions(self.candidate) != _performance_sessions(self.baseline):
+            raise ValueError(
+                "Candidate and baseline fold performance must use identical sessions."
+            )
 
 
 @dataclass(frozen=True)
@@ -959,8 +1341,14 @@ class PromotionGateConfig:
     cvar_tolerance: float = 0.0
 
     def __post_init__(self) -> None:
-        if self.minimum_shadow_sessions <= 0:
-            raise ValueError("minimum_shadow_sessions must be positive.")
+        object.__setattr__(
+            self,
+            "minimum_shadow_sessions",
+            _positive_integer(
+                self.minimum_shadow_sessions,
+                "minimum_shadow_sessions",
+            ),
+        )
         if self.minimum_sharpe_improvement < 0.0:
             raise ValueError("minimum_sharpe_improvement cannot be negative.")
         if not 0.0 <= self.minimum_positive_fold_fraction <= 1.0:
@@ -973,8 +1361,14 @@ class PromotionGateConfig:
             )
         if not 0.0 <= self.maximum_brier_score <= 1.0:
             raise ValueError("maximum_brier_score must be between 0 and 1.")
-        if self.minimum_probability_samples <= 0:
-            raise ValueError("minimum_probability_samples must be positive.")
+        object.__setattr__(
+            self,
+            "minimum_probability_samples",
+            _positive_integer(
+                self.minimum_probability_samples,
+                "minimum_probability_samples",
+            ),
+        )
         if self.drawdown_tolerance < 0.0 or self.cvar_tolerance < 0.0:
             raise ValueError("Risk tolerances cannot be negative.")
 
@@ -990,6 +1384,363 @@ class PromotionEvidence:
     baseline_doubled_cost: PolicyPerformance
     folds: tuple[FoldPerformance, ...]
     candidate_forecast_metrics: ForecastMetrics
+    horizon_sessions: int
+    evaluation_id: str
+    candidate_policy_version: str
+    baseline_policy_version: str
+    baseline_name: str
+    baseline_candidates: Mapping[str, PolicyPerformance]
+    baseline_candidate_versions: Mapping[str, str]
+    candidate_forecast_prediction_ids: tuple[str, ...]
+    candidate_model_name: str
+    forecast_as_of_session: date
+    ledger_head_hash: str
+
+    def __post_init__(self) -> None:
+        if isinstance(self.shadow_sessions, bool) or not isinstance(
+            self.shadow_sessions, Integral
+        ):
+            raise ValueError("shadow_sessions must be an integer.")
+        if self.shadow_sessions < 0:
+            raise ValueError("shadow_sessions cannot be negative.")
+        object.__setattr__(
+            self,
+            "horizon_sessions",
+            _positive_integer(self.horizon_sessions, "horizon_sessions"),
+        )
+        for field_name in (
+            "evaluation_id",
+            "candidate_model_name",
+            "candidate_policy_version",
+            "baseline_policy_version",
+            "baseline_name",
+            "ledger_head_hash",
+        ):
+            if not str(getattr(self, field_name)).strip():
+                raise ValueError(f"{field_name} must not be empty.")
+        object.__setattr__(
+            self,
+            "candidate_model_name",
+            str(self.candidate_model_name).strip(),
+        )
+        object.__setattr__(
+            self,
+            "forecast_as_of_session",
+            _as_date(
+                self.forecast_as_of_session,
+                "forecast_as_of_session",
+            ),
+        )
+        ledger_head_hash = str(self.ledger_head_hash).strip().lower()
+        if len(ledger_head_hash) != 64 or any(
+            character not in "0123456789abcdef"
+            for character in ledger_head_hash
+        ):
+            raise ValueError("ledger_head_hash must be a SHA-256 hex digest.")
+        object.__setattr__(self, "ledger_head_hash", ledger_head_hash)
+        prediction_ids = tuple(
+            str(prediction_id).strip()
+            for prediction_id in self.candidate_forecast_prediction_ids
+        )
+        if (
+            not all(prediction_ids)
+            or len(prediction_ids) != len(set(prediction_ids))
+        ):
+            raise ValueError(
+                "candidate_forecast_prediction_ids must be nonempty and unique."
+            )
+        if len(prediction_ids) != self.candidate_forecast_metrics.sample_count:
+            raise ValueError(
+                "candidate_forecast_prediction_ids must match the forecast sample count."
+            )
+        object.__setattr__(
+            self,
+            "candidate_forecast_prediction_ids",
+            prediction_ids,
+        )
+        if self.shadow_sessions != self.candidate.session_count:
+            raise ValueError(
+                "shadow_sessions must equal the candidate evaluation session count."
+            )
+        full_sessions = _performance_sessions(self.candidate)
+        for label, performance in (
+            ("baseline", self.baseline),
+            ("candidate_doubled_cost", self.candidate_doubled_cost),
+            ("baseline_doubled_cost", self.baseline_doubled_cost),
+        ):
+            if _performance_sessions(performance) != full_sessions:
+                raise ValueError(
+                    f"{label} must use the same sessions as the candidate."
+                )
+        if not _is_doubled_cost_replay(
+            self.candidate,
+            self.candidate_doubled_cost,
+        ):
+            raise ValueError(
+                "candidate_doubled_cost must replay the candidate path at exactly 2x costs."
+            )
+        if not _is_doubled_cost_replay(
+            self.baseline,
+            self.baseline_doubled_cost,
+        ):
+            raise ValueError(
+                "baseline_doubled_cost must replay the baseline path at exactly 2x costs."
+            )
+        if self.candidate_forecast_metrics.horizon_sessions != self.horizon_sessions:
+            raise MixedHorizonError(
+                "Candidate forecast metrics do not match promotion horizon."
+            )
+        baselines = dict(self.baseline_candidates)
+        baseline_versions = {
+            str(name): str(version).strip()
+            for name, version in dict(
+                self.baseline_candidate_versions
+            ).items()
+        }
+        if set(baseline_versions) != set(baselines):
+            raise ValueError(
+                "baseline_candidate_versions must exactly match baseline_candidates."
+            )
+        if not all(baseline_versions.values()):
+            raise ValueError("Baseline candidate versions must not be empty.")
+        if self.baseline_name not in baselines:
+            raise ValueError(
+                "baseline_candidates must include baseline_name."
+            )
+        if baselines[self.baseline_name] != self.baseline:
+            raise ValueError(
+                "baseline_candidates entry does not match baseline performance."
+            )
+        if baseline_versions[self.baseline_name] != self.baseline_policy_version:
+            raise ValueError(
+                "Selected baseline candidate version does not match baseline_policy_version."
+            )
+        normalized_baselines = {
+            _normalized_baseline_name(name) for name in baselines
+        }
+        missing_baselines = sorted(
+            REQUIRED_NON_RL_BASELINES - normalized_baselines
+        )
+        if missing_baselines:
+            raise ValueError(
+                "baseline_candidates must include the registered non-RL baselines: "
+                + ", ".join(missing_baselines)
+            )
+        ordinary_cost_bps = float(self.candidate.transaction_cost_bps)
+        for name, performance in baselines.items():
+            if _performance_sessions(performance) != full_sessions:
+                raise ValueError(
+                    f"Baseline candidate {name!r} must use the candidate sessions."
+                )
+            if not np.isclose(
+                performance.transaction_cost_bps,
+                ordinary_cost_bps,
+                rtol=0.0,
+                atol=1e-12,
+            ):
+                raise ValueError(
+                    f"Baseline candidate {name!r} must use the candidate cost assumption."
+                )
+        strongest_name = max(
+            baselines,
+            key=lambda name: _baseline_score(baselines[name]),
+        )
+        if strongest_name != self.baseline_name:
+            raise ValueError(
+                "baseline must be the strongest registered non-RL baseline."
+            )
+        if _looks_like_rl(self.baseline_name) or _looks_like_rl(
+            self.baseline_policy_version
+        ):
+            raise ValueError("Promotion baseline must be non-RL.")
+        rl_named_baselines = sorted(
+            name
+            for name in baselines
+            if _looks_like_rl(name)
+            or _looks_like_rl(baseline_versions.get(name, ""))
+        )
+        if rl_named_baselines:
+            raise ValueError(
+                "baseline_candidates must contain only non-RL baselines: "
+                + ", ".join(rl_named_baselines)
+            )
+        fold_ids = [fold.fold_id for fold in self.folds]
+        if len(fold_ids) != len(set(fold_ids)):
+            raise ValueError("Promotion fold identifiers must be unique.")
+        fold_sessions: list[date] = []
+        candidate_periods = {
+            period.session: period for period in self.candidate.periods
+        }
+        baseline_periods = {
+            period.session: period for period in self.baseline.periods
+        }
+        for fold in self.folds:
+            if fold.horizon_sessions != self.horizon_sessions:
+                raise MixedHorizonError(
+                    "Promotion fold horizon does not match evidence horizon."
+                )
+            if fold.candidate_policy_version != self.candidate_policy_version:
+                raise ValueError("Candidate fold policy version mismatch.")
+            if fold.baseline_policy_version != self.baseline_policy_version:
+                raise ValueError("Baseline fold policy version mismatch.")
+            if not np.isclose(
+                fold.candidate.transaction_cost_bps,
+                ordinary_cost_bps,
+                rtol=0.0,
+                atol=1e-12,
+            ) or not np.isclose(
+                fold.baseline.transaction_cost_bps,
+                ordinary_cost_bps,
+                rtol=0.0,
+                atol=1e-12,
+            ):
+                raise ValueError(
+                    "Promotion folds must use the ordinary candidate cost assumption."
+                )
+            sessions = _performance_sessions(fold.candidate)
+            expected_candidate = tuple(
+                candidate_periods.get(session) for session in sessions
+            )
+            expected_baseline = tuple(
+                baseline_periods.get(session) for session in sessions
+            )
+            if (
+                None in expected_candidate
+                or fold.candidate.periods != expected_candidate
+            ):
+                raise ValueError(
+                    "Candidate fold path must exactly match its full evaluation slice."
+                )
+            if (
+                None in expected_baseline
+                or fold.baseline.periods != expected_baseline
+            ):
+                raise ValueError(
+                    "Baseline fold path must exactly match its full evaluation slice."
+                )
+            fold_sessions.extend(sessions)
+        if len(fold_sessions) != len(set(fold_sessions)):
+            raise ValueError("Promotion fold sessions must not overlap.")
+        if tuple(sorted(fold_sessions)) != tuple(sorted(full_sessions)):
+            raise ValueError(
+                "Promotion folds must exactly partition the full evaluation sessions."
+            )
+        expected_evaluation_id = promotion_evaluation_id(
+            horizon_sessions=self.horizon_sessions,
+            candidate_policy_version=self.candidate_policy_version,
+            baseline_policy_version=self.baseline_policy_version,
+            baseline_name=self.baseline_name,
+            candidate=self.candidate,
+            baseline=self.baseline,
+            candidate_doubled_cost=self.candidate_doubled_cost,
+            baseline_doubled_cost=self.baseline_doubled_cost,
+            folds=self.folds,
+            baseline_candidates=baselines,
+            baseline_candidate_versions=baseline_versions,
+            candidate_forecast_metrics=self.candidate_forecast_metrics,
+            candidate_forecast_prediction_ids=prediction_ids,
+            candidate_model_name=self.candidate_model_name,
+            forecast_as_of_session=self.forecast_as_of_session,
+            ledger_head_hash=ledger_head_hash,
+        )
+        if self.evaluation_id != expected_evaluation_id:
+            raise ValueError(
+                "evaluation_id does not match the immutable promotion evidence."
+            )
+
+
+def build_ledger_backed_promotion_evidence(
+    ledger: PredictionLedger,
+    *,
+    forecast_as_of_session: date | datetime | str,
+    horizon_sessions: int,
+    candidate_model_name: str,
+    candidate_policy_version: str,
+    candidate: PolicyPerformance,
+    baseline: PolicyPerformance,
+    candidate_doubled_cost: PolicyPerformance,
+    baseline_doubled_cost: PolicyPerformance,
+    folds: Sequence[FoldPerformance],
+    baseline_policy_version: str,
+    baseline_name: str,
+    baseline_candidates: Mapping[str, PolicyPerformance],
+    baseline_candidate_versions: Mapping[str, str],
+) -> PromotionEvidence:
+    """Build promotion evidence from one verified ledger snapshot.
+
+    Forecast metrics, prediction identifiers, and the snapshot head hash are
+    derived internally.  Every candidate portfolio session must have at least
+    one matching matured forecast in the selected model/policy/horizon slice.
+    """
+
+    cutoff = _as_date(
+        forecast_as_of_session,
+        "forecast_as_of_session",
+    )
+    entries = ledger.read_entries()
+    if not entries:
+        raise ValueError("Cannot build promotion evidence from an empty ledger.")
+    observations = _forecast_observations_from_entries(
+        entries,
+        as_of_session=cutoff,
+        horizon_sessions=horizon_sessions,
+        candidate_model_name=candidate_model_name,
+        candidate_policy_version=candidate_policy_version,
+    )
+    if not observations:
+        raise ValueError(
+            "No matured ledger forecasts match the candidate model, "
+            "policy version, and horizon."
+        )
+    _require_matching_forecast_sessions(observations, candidate)
+
+    forecast_metrics = evaluate_forecasts(
+        observations,
+        horizon_sessions=horizon_sessions,
+    )
+    prediction_ids = tuple(
+        observation.prediction_id for observation in observations
+    )
+    ledger_head_hash = entries[-1].record_hash
+    folds_tuple = tuple(folds)
+    evaluation_id = promotion_evaluation_id(
+        horizon_sessions=horizon_sessions,
+        candidate_policy_version=candidate_policy_version,
+        baseline_policy_version=baseline_policy_version,
+        baseline_name=baseline_name,
+        candidate=candidate,
+        baseline=baseline,
+        candidate_doubled_cost=candidate_doubled_cost,
+        baseline_doubled_cost=baseline_doubled_cost,
+        folds=folds_tuple,
+        baseline_candidates=baseline_candidates,
+        baseline_candidate_versions=baseline_candidate_versions,
+        candidate_forecast_metrics=forecast_metrics,
+        candidate_forecast_prediction_ids=prediction_ids,
+        candidate_model_name=candidate_model_name,
+        forecast_as_of_session=cutoff,
+        ledger_head_hash=ledger_head_hash,
+    )
+    return PromotionEvidence(
+        shadow_sessions=candidate.session_count,
+        candidate=candidate,
+        baseline=baseline,
+        candidate_doubled_cost=candidate_doubled_cost,
+        baseline_doubled_cost=baseline_doubled_cost,
+        folds=folds_tuple,
+        candidate_forecast_metrics=forecast_metrics,
+        horizon_sessions=horizon_sessions,
+        evaluation_id=evaluation_id,
+        candidate_model_name=candidate_model_name,
+        candidate_policy_version=candidate_policy_version,
+        baseline_policy_version=baseline_policy_version,
+        baseline_name=baseline_name,
+        baseline_candidates=baseline_candidates,
+        baseline_candidate_versions=baseline_candidate_versions,
+        candidate_forecast_prediction_ids=prediction_ids,
+        forecast_as_of_session=cutoff,
+        ledger_head_hash=ledger_head_hash,
+    )
 
 
 @dataclass(frozen=True)
@@ -1017,8 +1768,15 @@ class PromotionDecision:
 def evaluate_promotion_gates(
     evidence: PromotionEvidence,
     config: PromotionGateConfig | None = None,
+    *,
+    ledger: PredictionLedger | None = None,
 ) -> PromotionDecision:
-    """Apply conservative, all-or-nothing shadow-policy promotion gates."""
+    """Apply conservative, all-or-nothing shadow-policy promotion gates.
+
+    A matching :class:`PredictionLedger` is mandatory for promotion.  Omitting
+    it, passing a different ledger, or passing a ledger that cannot reproduce
+    the candidate prediction IDs and metrics fails closed.
+    """
 
     thresholds = config or PromotionGateConfig()
     sharpe_improvement = _difference_or_none(
@@ -1040,17 +1798,75 @@ def evaluate_promotion_gates(
     )
     metrics = evidence.candidate_forecast_metrics
 
+    provenance_matches = evidence.evaluation_id == promotion_evaluation_id(
+        horizon_sessions=evidence.horizon_sessions,
+        candidate_policy_version=evidence.candidate_policy_version,
+        baseline_policy_version=evidence.baseline_policy_version,
+        baseline_name=evidence.baseline_name,
+        candidate=evidence.candidate,
+        baseline=evidence.baseline,
+        candidate_doubled_cost=evidence.candidate_doubled_cost,
+        baseline_doubled_cost=evidence.baseline_doubled_cost,
+        folds=evidence.folds,
+        baseline_candidates=evidence.baseline_candidates,
+        baseline_candidate_versions=evidence.baseline_candidate_versions,
+        candidate_forecast_metrics=evidence.candidate_forecast_metrics,
+        candidate_forecast_prediction_ids=(
+            evidence.candidate_forecast_prediction_ids
+        ),
+        candidate_model_name=evidence.candidate_model_name,
+        forecast_as_of_session=evidence.forecast_as_of_session,
+        ledger_head_hash=evidence.ledger_head_hash,
+    )
+    ledger_provenance_matches = _ledger_provenance_matches(
+        evidence,
+        ledger,
+    )
+    doubled_cost_matches = _is_doubled_cost_replay(
+        evidence.candidate,
+        evidence.candidate_doubled_cost,
+    ) and _is_doubled_cost_replay(
+        evidence.baseline,
+        evidence.baseline_doubled_cost,
+    )
+    strongest_baseline = max(
+        evidence.baseline_candidates,
+        key=lambda name: _baseline_score(
+            evidence.baseline_candidates[name]
+        ),
+    )
+
     checks = (
         GateCheck(
-            name="doubled_cost_assumption",
-            passed=(
-                evidence.candidate.transaction_cost_bps > 0.0
-                and evidence.baseline.transaction_cost_bps > 0.0
-                and evidence.candidate_doubled_cost.transaction_cost_bps
-                >= 2.0 * evidence.candidate.transaction_cost_bps
-                and evidence.baseline_doubled_cost.transaction_cost_bps
-                >= 2.0 * evidence.baseline.transaction_cost_bps
+            name="ledger_backed_forecast_provenance",
+            passed=ledger_provenance_matches,
+            observed=len(evidence.candidate_forecast_prediction_ids),
+            required=(
+                "verified ledger snapshot, exact candidate IDs, and "
+                "recomputed forecast metrics"
             ),
+        ),
+        GateCheck(
+            name="matched_evaluation_provenance",
+            passed=provenance_matches,
+            observed=len(_performance_sessions(evidence.candidate)),
+            required=(
+                f"evaluation={evidence.evaluation_id}; horizon="
+                f"{evidence.horizon_sessions}; matched sessions and versions"
+            ),
+        ),
+        GateCheck(
+            name="strongest_non_rl_baseline",
+            passed=(
+                strongest_baseline == evidence.baseline_name
+                and not _looks_like_rl(evidence.baseline_name)
+            ),
+            observed=len(evidence.baseline_candidates),
+            required=f"champion={evidence.baseline_name}",
+        ),
+        GateCheck(
+            name="doubled_cost_assumption",
+            passed=doubled_cost_matches,
             observed=min(
                 _cost_multiple(
                     evidence.candidate_doubled_cost.transaction_cost_bps,
@@ -1152,3 +1968,259 @@ def _cost_multiple(stressed_bps: float, ordinary_bps: float) -> float:
     if ordinary_bps <= 0.0:
         return 0.0
     return stressed_bps / ordinary_bps
+
+
+def _performance_sessions(performance: PolicyPerformance) -> tuple[date, ...]:
+    return tuple(period.session for period in performance.periods)
+
+
+def _require_matching_forecast_sessions(
+    observations: Sequence[ForecastObservation],
+    candidate: PolicyPerformance,
+) -> None:
+    forecast_sessions = tuple(
+        sorted({observation.as_of_session for observation in observations})
+    )
+    candidate_sessions = _performance_sessions(candidate)
+    if forecast_sessions != candidate_sessions:
+        raise ValueError(
+            "Matured candidate forecast sessions must exactly match the "
+            "candidate policy evaluation sessions."
+        )
+
+
+def _ledger_entries_through_head(
+    ledger: PredictionLedger,
+    ledger_head_hash: str,
+) -> tuple[LedgerEntry, ...]:
+    entries = ledger.read_entries()
+    for index, entry in enumerate(entries):
+        if entry.record_hash == ledger_head_hash:
+            return entries[: index + 1]
+    raise ValueError(
+        "ledger_head_hash is not present in the verified ledger chain."
+    )
+
+
+def _ledger_provenance_matches(
+    evidence: PromotionEvidence,
+    ledger: PredictionLedger | None,
+) -> bool:
+    if ledger is None:
+        return False
+    try:
+        entries = _ledger_entries_through_head(
+            ledger,
+            evidence.ledger_head_hash,
+        )
+        observations = _forecast_observations_from_entries(
+            entries,
+            as_of_session=evidence.forecast_as_of_session,
+            horizon_sessions=evidence.horizon_sessions,
+            candidate_model_name=evidence.candidate_model_name,
+            candidate_policy_version=evidence.candidate_policy_version,
+        )
+        _require_matching_forecast_sessions(
+            observations,
+            evidence.candidate,
+        )
+        prediction_ids = tuple(
+            observation.prediction_id for observation in observations
+        )
+        if prediction_ids != evidence.candidate_forecast_prediction_ids:
+            return False
+        derived_metrics = evaluate_forecasts(
+            observations,
+            horizon_sessions=evidence.horizon_sessions,
+        )
+        return derived_metrics == evidence.candidate_forecast_metrics
+    except (
+        EvaluationError,
+        LedgerError,
+        OSError,
+        TypeError,
+        ValueError,
+    ):
+        return False
+
+
+def _baseline_score(performance: PolicyPerformance) -> tuple[float, float]:
+    sharpe = performance.sharpe
+    return (
+        float(sharpe) if sharpe is not None and np.isfinite(sharpe) else -np.inf,
+        float(performance.cumulative_net_return),
+    )
+
+
+def promotion_evaluation_id(
+    *,
+    horizon_sessions: int,
+    candidate_policy_version: str,
+    baseline_policy_version: str,
+    baseline_name: str,
+    candidate: PolicyPerformance,
+    baseline: PolicyPerformance,
+    candidate_doubled_cost: PolicyPerformance,
+    baseline_doubled_cost: PolicyPerformance,
+    folds: Sequence[FoldPerformance],
+    baseline_candidates: Mapping[str, PolicyPerformance],
+    baseline_candidate_versions: Mapping[str, str],
+    candidate_forecast_metrics: ForecastMetrics,
+    candidate_forecast_prediction_ids: Sequence[str],
+    candidate_model_name: str,
+    forecast_as_of_session: date | datetime | str,
+    ledger_head_hash: str,
+) -> str:
+    """Hash the complete immutable evidence path into an evaluation identity."""
+    payload = {
+        "horizon_sessions": int(horizon_sessions),
+        "candidate_policy_version": str(candidate_policy_version),
+        "baseline_policy_version": str(baseline_policy_version),
+        "baseline_name": str(baseline_name),
+        "candidate": _performance_manifest(candidate),
+        "baseline": _performance_manifest(baseline),
+        "candidate_doubled_cost": _performance_manifest(
+            candidate_doubled_cost
+        ),
+        "baseline_doubled_cost": _performance_manifest(
+            baseline_doubled_cost
+        ),
+        "folds": [
+            {
+                "fold_id": int(fold.fold_id),
+                "horizon_sessions": int(fold.horizon_sessions),
+                "candidate_policy_version": fold.candidate_policy_version,
+                "baseline_policy_version": fold.baseline_policy_version,
+                "candidate": _performance_manifest(fold.candidate),
+                "baseline": _performance_manifest(fold.baseline),
+            }
+            for fold in folds
+        ],
+        "baseline_candidates": {
+            str(name): _performance_manifest(performance)
+            for name, performance in sorted(
+                baseline_candidates.items(),
+                key=lambda item: str(item[0]),
+            )
+        },
+        "baseline_candidate_versions": {
+            str(name): str(version)
+            for name, version in sorted(
+                baseline_candidate_versions.items(),
+                key=lambda item: str(item[0]),
+            )
+        },
+        "candidate_forecast_metrics": _forecast_metrics_manifest(
+            candidate_forecast_metrics
+        ),
+        "candidate_forecast_prediction_ids": [
+            str(prediction_id)
+            for prediction_id in candidate_forecast_prediction_ids
+        ],
+        "candidate_model_name": str(candidate_model_name),
+        "forecast_as_of_session": _as_date(
+            forecast_as_of_session,
+            "forecast_as_of_session",
+        ).isoformat(),
+        "ledger_head_hash": str(ledger_head_hash),
+    }
+    raw = json.dumps(
+        payload,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return "evaluation-" + hashlib.sha256(raw).hexdigest()[:32]
+
+
+def _forecast_metrics_manifest(
+    metrics: ForecastMetrics,
+) -> dict[str, object]:
+    return {
+        field_name: getattr(metrics, field_name)
+        for field_name in ForecastMetrics.__dataclass_fields__
+    }
+
+
+def _performance_manifest(
+    performance: PolicyPerformance,
+) -> dict[str, object]:
+    return {
+        "transaction_cost_bps": float(performance.transaction_cost_bps),
+        "periods_per_year": int(performance.periods_per_year),
+        "cvar_confidence": float(performance.cvar_confidence),
+        "periods": [
+            {
+                "session": period.session.isoformat(),
+                "gross_return": float(period.gross_return),
+                "benchmark_component": float(period.benchmark_component),
+                "gross_excess_return": float(period.gross_excess_return),
+                "transaction_cost": float(period.transaction_cost),
+                "net_return": float(period.net_return),
+                "net_excess_return": float(period.net_excess_return),
+                "gross_exposure": float(period.gross_exposure),
+                "turnover": float(period.turnover),
+            }
+            for period in performance.periods
+        ],
+    }
+
+
+def _looks_like_rl(value: object) -> bool:
+    normalized = str(value).strip().lower().replace("_", "-")
+    return (
+        normalized == "rl"
+        or normalized.startswith("rl-")
+        or "reinforcement" in normalized
+    )
+
+
+def _normalized_baseline_name(value: object) -> str:
+    normalized = str(value).strip().lower().replace("_", "-")
+    aliases = {
+        "ensemble": "fixed-ensemble",
+        "fixed-ensemble-baseline": "fixed-ensemble",
+        "ridge-regression": "ridge",
+    }
+    return aliases.get(normalized, normalized)
+
+
+def _is_doubled_cost_replay(
+    ordinary: PolicyPerformance,
+    stressed: PolicyPerformance,
+) -> bool:
+    if ordinary.transaction_cost_bps <= 0.0:
+        return False
+    if not np.isclose(
+        stressed.transaction_cost_bps,
+        2.0 * ordinary.transaction_cost_bps,
+        rtol=0.0,
+        atol=1e-12,
+    ):
+        return False
+    if len(ordinary.periods) != len(stressed.periods):
+        return False
+    for base_period, stress_period in zip(ordinary.periods, stressed.periods):
+        if base_period.session != stress_period.session:
+            return False
+        for field_name in (
+            "gross_return",
+            "benchmark_component",
+            "gross_excess_return",
+            "gross_exposure",
+            "turnover",
+        ):
+            if not np.isclose(
+                getattr(base_period, field_name),
+                getattr(stress_period, field_name),
+                rtol=0.0,
+                atol=1e-12,
+            ):
+                return False
+        if not np.isclose(
+            stress_period.transaction_cost,
+            2.0 * base_period.transaction_cost,
+            rtol=0.0,
+            atol=1e-12,
+        ):
+            return False
+    return True

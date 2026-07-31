@@ -8,6 +8,7 @@ import pandas as pd
 from market_agent.agent.portfolio import (
     PortfolioConstraints,
     allocate_target_weights,
+    constrain_incremental_target,
 )
 
 
@@ -213,6 +214,88 @@ class PortfolioAllocationTests(unittest.TestCase):
         self.assertEqual(result.cash_weight, 1.0)
         self.assertEqual(result.annualized_volatility, 0.0)
         self.assertEqual(result.warnings, ())
+
+    def test_incremental_target_respects_unchanged_portfolio_capacity(self) -> None:
+        current = {
+            **{f"T{i:02d}": 0.05 for i in range(16)},
+            "SNDK": 0.01,
+        }
+        sectors = {
+            **{f"T{i:02d}": f"Sector{i // 4}" for i in range(16)},
+            "SNDK": "Storage",
+        }
+        clusters = {
+            **{f"T{i:02d}": f"Cluster{i // 3}" for i in range(16)},
+            "SNDK": "Memory",
+        }
+
+        result = constrain_incremental_target(
+            "SNDK",
+            0.05,
+            current_weights=current,
+            sectors=sectors,
+            correlation_clusters=clusters,
+            annual_covariance=None,
+            constraints=PortfolioConstraints(
+                max_annual_volatility=None,
+                max_turnover=0.20,
+            ),
+        )
+
+        self.assertAlmostEqual(result.gross_before, 0.81)
+        self.assertAlmostEqual(result.allowed_target, 0.05)
+        self.assertAlmostEqual(result.gross_after, 0.85)
+        self.assertGreaterEqual(1.0 - result.gross_after, 0.15 - 1e-12)
+
+    def test_incremental_target_cannot_assume_other_sector_sales(self) -> None:
+        result = constrain_incremental_target(
+            "SNDK",
+            0.05,
+            current_weights={"MU": 0.15},
+            sectors={"SNDK": "Semiconductors", "MU": "Semiconductors"},
+            correlation_clusters={"SNDK": "Memory", "MU": "Memory"},
+            annual_covariance=None,
+            constraints=PortfolioConstraints(
+                max_annual_volatility=None,
+                max_turnover=None,
+            ),
+        )
+
+        self.assertEqual(result.allowed_target, 0.0)
+        self.assertAlmostEqual(result.gross_after, 0.15)
+
+    def test_incremental_target_respects_volatility_and_drawdown(self) -> None:
+        covariance = pd.DataFrame(
+            [[1.0]],
+            index=["SNDK"],
+            columns=["SNDK"],
+        )
+        constrained = constrain_incremental_target(
+            "SNDK",
+            0.05,
+            current_weights={},
+            sectors={"SNDK": "Semiconductors"},
+            correlation_clusters={"SNDK": "Memory"},
+            annual_covariance=covariance,
+            constraints=PortfolioConstraints(
+                max_annual_volatility=0.01,
+                max_turnover=None,
+            ),
+        )
+        stopped = constrain_incremental_target(
+            "SNDK",
+            0.05,
+            current_weights={},
+            sectors={"SNDK": "Semiconductors"},
+            correlation_clusters={"SNDK": "Memory"},
+            annual_covariance=covariance,
+            current_drawdown=-0.10,
+            constraints=PortfolioConstraints(max_turnover=None),
+        )
+
+        self.assertAlmostEqual(constrained.allowed_target, 0.01)
+        self.assertAlmostEqual(constrained.annualized_volatility or 0.0, 0.01)
+        self.assertEqual(stopped.allowed_target, 0.0)
 
 
 if __name__ == "__main__":

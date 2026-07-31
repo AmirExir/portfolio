@@ -115,7 +115,7 @@ class PredictionLedgerTests(unittest.TestCase):
         long = _prediction(
             "pred-30",
             horizon_sessions=30,
-            target_session=date(2026, 2, 13),
+            target_session=date(2026, 2, 17),
         )
         self.ledger.append_prediction(short)
         self.ledger.append_prediction(long)
@@ -179,7 +179,70 @@ class PredictionLedgerTests(unittest.TestCase):
                 }
             )
 
+    def test_prediction_cannot_be_backfilled_after_returns_begin(self) -> None:
+        with self.assertRaisesRegex(ValueError, "next-session open"):
+            PredictionRecord(
+                **{
+                    **_prediction().__dict__,
+                    "prediction_id": "late-prediction",
+                    "created_at_utc": datetime(2026, 1, 6, 22, tzinfo=UTC),
+                    "data_cutoff_utc": datetime(2026, 1, 6, 21, tzinfo=UTC),
+                }
+            )
+
+    def test_horizon_must_match_exact_exchange_session_target(self) -> None:
+        with self.assertRaisesRegex(
+            ValueError,
+            "exactly horizon_sessions",
+        ):
+            PredictionRecord(
+                **{
+                    **_prediction().__dict__,
+                    "prediction_id": "wrong-horizon",
+                    "horizon_sessions": 30,
+                    "target_session": date(2026, 1, 6),
+                }
+            )
+
+    def test_partial_outcome_backfill_is_rejected_before_target_maturity(
+        self,
+    ) -> None:
+        with self.assertRaisesRegex(ValueError, "next-session open"):
+            PredictionRecord(
+                **{
+                    **_prediction(
+                        "partial-backfill",
+                        horizon_sessions=30,
+                        target_session=date(2026, 2, 17),
+                    ).__dict__,
+                    "created_at_utc": datetime(
+                        2026,
+                        2,
+                        1,
+                        18,
+                        tzinfo=UTC,
+                    ),
+                    "data_cutoff_utc": datetime(
+                        2026,
+                        2,
+                        1,
+                        17,
+                        tzinfo=UTC,
+                    ),
+                }
+            )
+
+    def test_outcome_is_not_mature_at_start_of_target_utc_date(self) -> None:
+        with self.assertRaisesRegex(ImmatureOutcomeError, "maturity"):
+            OutcomeRecord(
+                outcome_id="pre-close",
+                prediction_id="pred-1",
+                recorded_at_utc=datetime(2026, 1, 6, 0, 1, tzinfo=UTC),
+                target_session=date(2026, 1, 6),
+                realized_return=0.01,
+                benchmark_return=0.0,
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
-

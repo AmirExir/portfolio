@@ -2,6 +2,7 @@
 import argparse
 import contextlib
 import datetime as dt
+import hashlib
 import io
 import json
 import logging
@@ -18,7 +19,22 @@ import yfinance as yf
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from agent.data import get_ohlcv
+from agent.earnings import (
+    fetch_yfinance_earnings_payload,
+    interpret_earnings_payload,
+    load_earnings_payload_file,
+    us_equity_trading_sessions,
+)
 from agent.forecast import compare_forecast_models
+from agent.evaluation import ForecastObservation, evaluate_forecasts
+from agent.ledger import (
+    DuplicateLedgerRecordError,
+    OutcomeRecord,
+    PredictionLedger,
+    PredictionRecord,
+    session_close_utc,
+)
+from agent.outcomes import append_matured_outcomes
 from agent.policy import smart_policy_report
 from agent.portfolio import PortfolioConstraints, allocate_target_weights
 from agent.strategy import sma_crossover
@@ -86,6 +102,7 @@ POLICY_SELL_TERMS = ("Sell", "Avoid")
 
 SYMBOL_SECTORS = {
     **{symbol: "Technology" for symbol in ("AAPL", "MSFT", "NVDA", "AMD", "INTC", "AVGO", "MU", "WDC", "STX", "SNDK", "ORCL", "DELL")},
+    **{symbol: "Crypto Infrastructure" for symbol in ("RIOT",)},
     **{symbol: "Communication Services" for symbol in ("GOOGL", "META", "NFLX")},
     **{symbol: "Consumer Discretionary" for symbol in ("AMZN", "TSLA", "HD")},
     **{symbol: "Financials" for symbol in ("JPM", "BAC", "WFC", "C", "GS", "MS", "V")},
@@ -100,12 +117,23 @@ SYMBOL_SECTORS = {
 }
 
 SYMBOL_CLUSTERS = {
-    **{symbol: "AI Mega Cap" for symbol in ("MSFT", "NVDA", "AMD", "AVGO", "GOOGL", "AMZN", "META", "ORCL", "DELL", "XLK", "QQQ")},
+    **{symbol: "AI Mega Cap" for symbol in ("AAPL", "MSFT", "NVDA", "AMD", "AVGO", "GOOGL", "AMZN", "META", "ORCL", "DELL", "XLK", "QQQ")},
+    **{symbol: "Legacy Semiconductors" for symbol in ("INTC",)},
     **{symbol: "Memory and Storage" for symbol in ("MU", "WDC", "STX", "SNDK")},
     **{symbol: "Banks" for symbol in ("JPM", "BAC", "WFC", "C", "GS", "MS")},
+    **{symbol: "Payments" for symbol in ("V",)},
+    **{symbol: "High Beta Growth" for symbol in ("TSLA", "RIOT")},
+    **{symbol: "Streaming Media" for symbol in ("NFLX",)},
+    **{symbol: "Health Care" for symbol in ("UNH", "LLY", "JNJ", "XLV")},
+    **{symbol: "Defensive Consumer" for symbol in ("WMT", "PG", "KO", "PEP")},
+    **{symbol: "Consumer Cyclicals" for symbol in ("HD", "XLY")},
     **{symbol: "Airlines" for symbol in ("DAL", "UAL", "AAL", "LUV")},
+    **{symbol: "Industrial Growth" for symbol in ("GEV", "SPCX")},
     **{symbol: "Energy Complex" for symbol in ("XOM", "CVX", "COP", "OXY", "SLB", "EOG", "XLE", "USO")},
     **{symbol: "Broad Index" for symbol in ("SPY", "VOO", "IWM", "DIA")},
+    **{symbol: "Financial Sector ETF" for symbol in ("XLF",)},
+    **{symbol: "Precious Metals" for symbol in ("GLD", "SLV")},
+    **{symbol: "Rates" for symbol in ("TLT",)},
     **{REPORT_SYMBOLS.get(symbol, symbol): "Crypto" for symbol in DEFAULT_SYMBOLS if symbol.endswith("-USD")},
 }
 
@@ -314,7 +342,23 @@ def is_policy_sell(row: dict) -> bool:
 def is_threshold_buy(row: dict, args: argparse.Namespace) -> bool:
     if str(row_value(row, "Reliability", default="")).strip() == "Low":
         return False
-    return forecast_return_pct(row) >= min_signal_return_pct_from_args(args) and has_model_buy_call(row)
+    if row_value(
+        row,
+        "Policy Allocation Eligible",
+        default=False,
+    ) is not True:
+        return False
+    try:
+        target_pct = float(
+            row_value(row, "Policy Target %", default=0.0) or 0.0
+        )
+    except (TypeError, ValueError):
+        return False
+    return (
+        target_pct > 0.0
+        and forecast_return_pct(row) >= min_signal_return_pct_from_args(args)
+        and has_model_buy_call(row)
+    )
 
 
 def is_threshold_sell(row: dict, args: argparse.Namespace) -> bool:
@@ -430,17 +474,30 @@ def apply_portfolio_constraints(
         drawdown_circuit_breaker=float(getattr(args, "portfolio_drawdown_breaker_pct", 10.0)) / 100.0,
     )
     active_proposed = {symbol: weight for symbol, weight in proposed.items() if weight > 0.0}
-    selected_symbols = list(active_proposed)
+    current_weights, current_weight_source = current_portfolio_weights(args)
+    portfolio_state_verified = current_weight_source == "explicit_cli"
+    selected_symbols = sorted(set(active_proposed) | set(current_weights))
     covariance = _annual_covariance(close_history, selected_symbols)
+    covariance_verified = covariance is not None or not active_proposed
     current_drawdown = -abs(float(getattr(args, "portfolio_drawdown_pct", 0.0))) / 100.0
     sectors = {symbol: SYMBOL_SECTORS[symbol] for symbol in selected_symbols if symbol in SYMBOL_SECTORS}
     clusters = {symbol: SYMBOL_CLUSTERS[symbol] for symbol in selected_symbols if symbol in SYMBOL_CLUSTERS}
+    missing_sector_symbols = sorted(
+        set(selected_symbols) - set(sectors)
+    )
+    missing_cluster_symbols = sorted(
+        set(selected_symbols) - set(clusters)
+    )
+    classification_verified = not (
+        missing_sector_symbols or missing_cluster_symbols
+    )
 
     try:
         allocation = allocate_target_weights(
             active_proposed,
             sectors=sectors,
             correlation_clusters=clusters,
+            current_weights=current_weights,
             annual_covariance=covariance,
             current_drawdown=current_drawdown,
             constraints=constraints,
@@ -451,40 +508,105 @@ def apply_portfolio_constraints(
             active_proposed,
             sectors=sectors,
             correlation_clusters=clusters,
+            current_weights=current_weights,
             annual_covariance=None,
             current_drawdown=current_drawdown,
             constraints=constraints,
         )
 
-    binding_text = ", ".join(allocation.binding_constraints)
+    allocation_eligible = bool(
+        portfolio_state_verified
+        and classification_verified
+        and (
+            covariance_verified
+            or allocation.circuit_breaker_triggered
+        )
+    )
+    authorization_blockers: list[str] = []
+    if not portfolio_state_verified:
+        authorization_blockers.append(
+            "current broker/executed weights were not verified"
+        )
+    if not covariance_verified and not allocation.circuit_breaker_triggered:
+        authorization_blockers.append(
+            "portfolio covariance was unavailable"
+        )
+    if not classification_verified:
+        authorization_blockers.append(
+            "sector/correlation classification was unavailable for "
+            + ", ".join(
+                sorted(
+                    set(missing_sector_symbols)
+                    | set(missing_cluster_symbols)
+                )
+            )
+        )
+    binding_constraints = list(allocation.binding_constraints)
+    if not portfolio_state_verified:
+        binding_constraints.append("unverified_portfolio_state")
+    if not covariance_verified and not allocation.circuit_breaker_triggered:
+        binding_constraints.append("covariance_unavailable")
+    if not classification_verified:
+        binding_constraints.append("classification_unavailable")
+    binding_text = ", ".join(dict.fromkeys(binding_constraints))
+    authorized_targets = (
+        dict(allocation.target_weights)
+        if allocation_eligible
+        else {symbol: 0.0 for symbol in selected_symbols}
+    )
+    authorized_gross = (
+        allocation.gross_exposure if allocation_eligible else 0.0
+    )
+    authorized_cash = 1.0 - authorized_gross
+    authorized_turnover = allocation.turnover if allocation_eligible else 0.0
+    authorized_volatility = (
+        allocation.annualized_volatility if allocation_eligible else None
+    )
     normalized_rows = []
     for row in rows:
         item = dict(row)
         symbol = str(row_value(item, "Symbol", default="")).upper()
         proposed_pct = max(float(row_value(item, "Policy Target %", default=0.0) or 0.0), 0.0)
-        final_pct = float(allocation.target_weights.get(symbol, 0.0) * 100.0)
+        final_pct = float(authorized_targets.get(symbol, 0.0) * 100.0)
         item["Pre-Portfolio Target %"] = proposed_pct
         item["Policy Target %"] = final_pct
-        item["Portfolio Gross %"] = allocation.gross_exposure * 100.0
-        item["Portfolio Cash %"] = allocation.cash_weight * 100.0
+        item["Portfolio Gross %"] = authorized_gross * 100.0
+        item["Portfolio Cash %"] = authorized_cash * 100.0
         item["Portfolio Binding Constraints"] = binding_text
+        item["Portfolio State Verified"] = portfolio_state_verified
+        item["Portfolio Covariance Verified"] = covariance_verified
+        item["Portfolio Classification Verified"] = (
+            classification_verified
+        )
+        item["Policy Allocation Eligible"] = allocation_eligible
         item["Portfolio Allocation Blocked"] = bool(proposed_pct > 0.0 and final_pct <= 0.0)
         if final_pct < proposed_pct - 1e-9:
             reason = str(row_value(item, "Policy Reason", default="") or "").strip()
-            suffix = f"portfolio constrained to {final_pct:.2f}%"
+            suffix = (
+                "allocation blocked: " + "; ".join(authorization_blockers)
+                if not allocation_eligible
+                else f"portfolio constrained to {final_pct:.2f}%"
+            )
             item["Policy Reason"] = f"{reason}; {suffix}" if reason else suffix
         if proposed_pct > 0.0 and final_pct <= 0.0 and smart_policy_text(item) in POLICY_BUY_CALLS:
             item["Smart Policy"] = "Hold / Watch"
         item["Risk Overlay"] = smart_policy_text(item) or "Unavailable"
+        item["Signal Tier"] = signal_tier(item, args)
+        item["Qualified Model Signal"] = item["Signal Tier"].startswith(
+            "Model-Confirmed"
+        )
+        item["Policy Watchlist"] = item["Signal Tier"].startswith(
+            "Policy Watch"
+        )
         normalized_rows.append(item)
 
     diagnostics = {
-        "gross_exposure_pct": allocation.gross_exposure * 100.0,
-        "cash_weight_pct": allocation.cash_weight * 100.0,
-        "turnover_pct": allocation.turnover * 100.0,
+        "gross_exposure_pct": authorized_gross * 100.0,
+        "cash_weight_pct": authorized_cash * 100.0,
+        "turnover_pct": authorized_turnover * 100.0,
         "annualized_volatility_pct": (
-            allocation.annualized_volatility * 100.0
-            if allocation.annualized_volatility is not None
+            authorized_volatility * 100.0
+            if authorized_volatility is not None
             else None
         ),
         "sector_exposures_pct": {
@@ -493,11 +615,52 @@ def apply_portfolio_constraints(
         "cluster_exposures_pct": {
             key: value * 100.0 for key, value in allocation.cluster_exposures.items()
         },
-        "binding_constraints": list(allocation.binding_constraints),
-        "warnings": list(allocation.warnings),
+        "binding_constraints": list(dict.fromkeys(binding_constraints)),
+        "warnings": list(allocation.warnings) + authorization_blockers,
         "circuit_breaker_triggered": allocation.circuit_breaker_triggered,
+        "target_weights": authorized_targets,
+        "indicative_target_weights": allocation.target_weights,
+        "current_weight_source": current_weight_source,
+        "portfolio_state_verified": portfolio_state_verified,
+        "covariance_verified": covariance_verified,
+        "classification_verified": classification_verified,
+        "missing_sector_symbols": missing_sector_symbols,
+        "missing_cluster_symbols": missing_cluster_symbols,
+        "allocation_eligible": allocation_eligible,
     }
     return normalized_rows, diagnostics
+
+
+def current_portfolio_weights(
+    args: argparse.Namespace,
+) -> tuple[dict[str, float], str]:
+    explicit = str(
+        getattr(args, "portfolio_current_weights_json", "") or ""
+    ).strip()
+    if explicit:
+        try:
+            payload = json.loads(explicit)
+            weights = {
+                str(symbol).strip().upper(): float(weight)
+                for symbol, weight in dict(payload).items()
+                if float(weight) >= 0.0
+            }
+            return weights, "explicit_cli"
+        except (TypeError, ValueError, json.JSONDecodeError):
+            logging.warning("Ignoring invalid --portfolio-current-weights-json")
+
+    state_path = Path(args.output_dir) / "policy_portfolio_state.json"
+    payload = load_json_payload(state_path)
+    weights_payload = payload.get("target_weights") or {}
+    try:
+        weights = {
+            str(symbol).strip().upper(): float(weight)
+            for symbol, weight in dict(weights_payload).items()
+            if float(weight) >= 0.0
+        }
+    except (TypeError, ValueError):
+        weights = {}
+    return weights, "previous_recommended_targets" if weights else "assumed_cash_first_run"
 
 
 def _annual_covariance(
@@ -527,9 +690,15 @@ def build_smart_policy_for_snapshot(
     model_results: dict,
     selected_model: str,
     args: argparse.Namespace,
+    earnings_context: dict | None = None,
 ) -> dict:
     selected_result = model_results.get(selected_model)
-    forecast_metrics = getattr(selected_result, "metrics", {}) if selected_result is not None else {}
+    forecast_metrics = dict(
+        getattr(selected_result, "metrics", {})
+        if selected_result is not None
+        else {}
+    )
+    forecast_metrics.update(earnings_context or {})
     try:
         signal = sma_crossover(df, args.pattern_short_window, args.pattern_long_window)
     except Exception:
@@ -537,7 +706,9 @@ def build_smart_policy_for_snapshot(
     try:
         return smart_policy_report(
             df=df,
-            risk_fraction=float(getattr(args, "policy_risk_fraction", 0.10) or 0.10),
+            risk_fraction=float(
+                getattr(args, "policy_risk_fraction", 0.05) or 0.05
+            ),
             signal=signal,
             forecast_metrics=forecast_metrics,
             model_results=model_results,
@@ -551,13 +722,24 @@ def build_smart_policy_for_snapshot(
         }
 
 
-def enrich_snapshot_with_smart_policy(snapshot: dict, df: pd.DataFrame, args: argparse.Namespace) -> dict:
+def enrich_snapshot_with_smart_policy(
+    snapshot: dict,
+    df: pd.DataFrame,
+    args: argparse.Namespace,
+    earnings_context: dict | None = None,
+) -> dict:
     model_results = model_results_from_snapshot(snapshot)
     selected_model = select_model_name(model_results, preferred=primary_model_from_args(args))
     if not selected_model:
         return snapshot
     enriched = dict(snapshot)
-    enriched["smart_policy"] = build_smart_policy_for_snapshot(df, model_results, selected_model, args)
+    enriched["smart_policy"] = build_smart_policy_for_snapshot(
+        df,
+        model_results,
+        selected_model,
+        args,
+        earnings_context=earnings_context,
+    )
     return enriched
 
 
@@ -740,7 +922,110 @@ def primary_model_from_args(args: argparse.Namespace) -> str:
 def include_rl_policy_from_args(args: argparse.Namespace) -> bool:
     if no_rl_policy_from_args(args):
         return False
-    return True
+    return bool(getattr(args, "include_rl_policy", True))
+
+
+def earnings_context_for_symbol(
+    symbol: str,
+    args: argparse.Namespace,
+    *,
+    observed_sessions: tuple[dt.date, ...] = (),
+) -> dict:
+    if getattr(args, "no_earnings_context", False) or str(symbol).endswith("-USD"):
+        return {}
+    as_of = dt.datetime.now(dt.timezone.utc)
+    external_payload, external_error = _load_external_earnings_payload(
+        symbol,
+        args,
+    )
+    if external_error:
+        return {
+            "earnings_available": False,
+            "earnings_event_flag": False,
+            "earnings_event_score": 0.0,
+            "earnings_confidence": 0.0,
+            "earnings_policy_eligible": False,
+            "earnings_error_code": external_error,
+            "earnings_calendar_source": (
+                "observed_sessions_plus_us_equity_rules"
+            ),
+        }
+    if external_payload is None:
+        fetched = fetch_yfinance_earnings_payload(symbol, as_of=as_of)
+        payload = fetched.payload if fetched.available else None
+        fetch_error = fetched.error_code
+    else:
+        payload = external_payload
+        fetch_error = None
+    if not payload:
+        return {
+            "earnings_available": False,
+            "earnings_event_flag": False,
+            "earnings_event_score": 0.0,
+            "earnings_confidence": 0.0,
+            "earnings_policy_eligible": False,
+            "earnings_error_code": (
+                fetch_error or "earnings_unavailable"
+            ),
+            "earnings_calendar_source": (
+                "observed_sessions_plus_us_equity_rules"
+            ),
+        }
+    sessions = us_equity_trading_sessions(
+        as_of=as_of,
+        observed_sessions=observed_sessions,
+    )
+    signal = interpret_earnings_payload(
+        payload,
+        as_of=as_of,
+        trading_sessions=sessions,
+    )
+    return {
+        "earnings_available": True,
+        "earnings_event_flag": bool(signal.event_flag),
+        "earnings_event_score": float(signal.event_score),
+        "earnings_confidence": float(signal.confidence),
+        "earnings_summary": signal.summary,
+        "earnings_outcome": signal.outcome,
+        "earnings_effective_session": (
+            signal.effective_session.isoformat()
+            if signal.effective_session
+            else ""
+        ),
+        "earnings_reported_at": (
+            signal.reported_at.isoformat()
+            if signal.reported_at
+            else ""
+        ),
+        "earnings_policy_eligible": bool(signal.policy_eligible),
+        "earnings_age_sessions": signal.age_sessions,
+        "earnings_is_stale": bool(signal.is_stale),
+        "earnings_blockers": list(signal.blockers),
+        "earnings_data_quality_flags": list(signal.data_quality_flags),
+        "earnings_calendar_source": (
+            "observed_sessions_plus_us_equity_rules"
+        ),
+        "earnings_error_code": "",
+    }
+
+
+def _load_external_earnings_payload(
+    symbol: str,
+    args: argparse.Namespace,
+) -> tuple[dict | None, str | None]:
+    """Load a verified provider payload when the workflow supplied one."""
+    result = load_earnings_payload_file(
+        symbol,
+        getattr(args, "earnings_payload_dir", ""),
+    )
+    if result.available and result.payload:
+        return dict(result.payload), None
+    if result.error_code in {
+        "external_earnings_payload_not_configured",
+        "external_earnings_payload_missing",
+    }:
+        return None, None
+    return None, result.error_code or "external_earnings_payload_invalid"
 
 
 def cli_flag_present(raw_args: list[str] | None, flag_name: str) -> bool:
@@ -821,8 +1106,32 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
         )
         try:
             df = get_ohlcv(symbol, args.history_days)
+            observed_sessions = tuple(
+                pd.Timestamp(value).date() for value in df.index
+            )
+            earnings_context = earnings_context_for_symbol(
+                symbol,
+                args,
+                observed_sessions=observed_sessions,
+            )
             portfolio_closes[report_symbol(symbol)] = clean_close(df)
             data_fingerprint = frame_fingerprint(df)
+            symbol_context_fingerprint = context_fingerprint
+            if earnings_context:
+                event_hash = hashlib.sha256(
+                    json.dumps(
+                        earnings_context,
+                        sort_keys=True,
+                        default=_json_default,
+                    ).encode("utf-8")
+                ).hexdigest()[:16]
+                symbol_context_fingerprint = {
+                    "market": context_fingerprint,
+                    "earnings_event_hash": event_hash,
+                    "earnings_effective_session": earnings_context.get(
+                        "earnings_effective_session"
+                    ),
+                }
             model_cache_path = model_result_cache_path(
                 output_dir,
                 symbol,
@@ -834,7 +1143,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 not args.no_market_context,
                 symbol_sequence_model,
                 data_fingerprint,
-                context_fingerprint,
+                symbol_context_fingerprint,
                 include_rl_policy,
             )
 
@@ -842,7 +1151,12 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 cached_payload = load_json_payload(model_cache_path)
                 cached_snapshot = cached_payload.get("snapshot") or {}
                 if cached_snapshot and cache_payload_fresh(cached_payload, args.model_cache_max_age_days):
-                    cached_snapshot = enrich_snapshot_with_smart_policy(cached_snapshot, df, args)
+                    cached_snapshot = enrich_snapshot_with_smart_policy(
+                        cached_snapshot,
+                        df,
+                        args,
+                        earnings_context=earnings_context,
+                    )
                     snapshots.append(cached_snapshot)
                     patterns_by_symbol[symbol] = cached_payload.get("pattern_info") or {
                         "Primary Pattern": "Unavailable",
@@ -875,13 +1189,29 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 symbol=symbol,
                 force_retrain=args.force_retrain,
                 include_rl=include_rl_policy,
+                earnings_context=earnings_context,
             )
             close = clean_close(df)
             primary_model = select_model_name(model_results, preferred=primary_model_from_args(args))
             if not primary_model:
                 raise ValueError("No usable model forecast.")
-            smart_policy = build_smart_policy_for_snapshot(df, model_results, primary_model, args)
-            snapshot = snapshot_from_model_results(symbol, float(close.iloc[-1]), model_results, smart_policy=smart_policy)
+            smart_policy = build_smart_policy_for_snapshot(
+                df,
+                model_results,
+                primary_model,
+                args,
+                earnings_context=earnings_context,
+            )
+            snapshot = snapshot_from_model_results(
+                symbol,
+                float(close.iloc[-1]),
+                model_results,
+                smart_policy=smart_policy,
+                as_of_session=close.index[-1],
+                data_cutoff_utc=session_close_utc(
+                    pd.Timestamp(close.index[-1]).date()
+                ),
+            )
             snapshots.append(snapshot)
 
             save_json_payload(
@@ -900,7 +1230,8 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                     "requested_sequence_model": requested_sequence_model,
                     "include_rl_policy": include_rl_policy,
                     "data_fingerprint": data_fingerprint,
-                    "context_fingerprint": context_fingerprint,
+                    "context_fingerprint": symbol_context_fingerprint,
+                    "earnings_context": earnings_context,
                     "pattern_info": pattern_info,
                     "snapshot": snapshot,
                 },
@@ -978,6 +1309,10 @@ def format_row(row: dict) -> str:
     smart_policy = str(row_value(row, "Smart Policy", default="")).strip()
     signal_tier_text = str(row_value(row, "Signal Tier", default="")).strip()
     reliability = str(row_value(row, "Reliability", default="")).strip()
+    target_session = str(
+        row_value(row, "Target Session", default="")
+        or ""
+    ).strip()
     policy_score = ranking_score(row)
     try:
         policy_target = float(row_value(row, "Policy Target %", default=np.nan))
@@ -985,7 +1320,11 @@ def format_row(row: dict) -> str:
         policy_target = np.nan
 
     parts = [
-        f"{symbol}: {forecast_return:+.2f}%",
+        (
+            f"{symbol}: {forecast_return:+.2f}% through {target_session}"
+            if target_session
+            else f"{symbol}: {forecast_return:+.2f}%"
+        ),
         model_call_text,
     ]
     if signal_tier_text:
@@ -1008,6 +1347,25 @@ def format_row(row: dict) -> str:
     )
     if primary_pattern and primary_pattern != "Unavailable":
         parts.append(f"pattern {primary_pattern}")
+    if bool(row_value(row, "Earnings Event", default=False)):
+        earnings_score = float(
+            row_value(row, "Earnings Score", default=0.0) or 0.0
+        )
+        earnings_confidence = float(
+            row_value(row, "Earnings Confidence %", default=0.0) or 0.0
+        )
+        earnings_summary = str(
+            row_value(row, "Earnings Summary", default="") or ""
+        ).strip()
+        earnings_text = (
+            f"earnings {earnings_score:+.2f} @ {earnings_confidence:.0f}%"
+        )
+        if earnings_summary:
+            compact_summary = " ".join(earnings_summary.split())
+            if len(compact_summary) > 140:
+                compact_summary = compact_summary[:137].rstrip() + "..."
+            earnings_text += f" ({compact_summary})"
+        parts.append(earnings_text)
     return " | ".join(parts)
 
 
@@ -1050,11 +1408,38 @@ def build_market_report(
     for row in rows:
         reliability_counts[str(row_value(row, "Reliability", default="Unknown"))] = reliability_counts.get(str(row_value(row, "Reliability", default="Unknown")), 0) + 1
         tier_counts[str(row_value(row, "Signal Tier", default="Unknown"))] = tier_counts.get(str(row_value(row, "Signal Tier", default="Unknown")), 0) + 1
+    portfolio_state_verified = bool(rows) and all(
+        row_value(row, "Portfolio State Verified", default=False) is True
+        for row in rows
+    )
+    portfolio_covariance_verified = bool(rows) and all(
+        row_value(
+            row,
+            "Portfolio Covariance Verified",
+            default=False,
+        )
+        is True
+        for row in rows
+    )
+    portfolio_classification_verified = bool(rows) and all(
+        row_value(
+            row,
+            "Portfolio Classification Verified",
+            default=False,
+        )
+        is True
+        for row in rows
+    )
 
     lines = [
         "Market Intelligence Forecast Report",
         f"Generated: {generated_at}",
         f"Horizon: {args.horizon} trading days | Primary: {primary_model_from_args(args)}",
+        (
+            "Horizon meaning: point-to-point target return, not an immediate "
+            "or monotonic path forecast; realized adverse/favorable excursion "
+            "is tracked after maturity"
+        ),
         f"Run profile: {getattr(args, 'run_profile', 'custom')}",
         f"Pattern windows: {args.pattern_short_window}/{args.pattern_long_window} trading days",
         f"Sequence model: {sequence_model_from_args(args)}",
@@ -1064,9 +1449,27 @@ def build_market_report(
             else "RL policy: shadow diagnostics only (excluded from selection, scoring, reliability, and orders)"
         ),
         (
+            "Earnings context: off"
+            if bool(getattr(args, "no_earnings_context", False))
+            else "Earnings context: point-in-time interpretation included once in policy decisions"
+        ),
+        (
             "Smart policy: on | "
             f"per-name cap {float(getattr(args, 'portfolio_max_name_pct', 5.0)):.1f}% | "
             f"cash reserve {float(getattr(args, 'portfolio_cash_reserve_pct', 15.0)):.1f}%"
+        ),
+        (
+            "Portfolio allocation authorization: verified"
+            if (
+                portfolio_state_verified
+                and portfolio_covariance_verified
+                and portfolio_classification_verified
+            )
+            else (
+                "Portfolio allocation authorization: blocked; research targets "
+                "remain visible but executable targets are zero until current "
+                "weights, covariance, and classifications are verified"
+            )
         ),
         f"Universe: {len(rows)} symbols | Stocks + crypto + commodities",
         f"Primary signal rule: {threshold_detail}",
@@ -1242,6 +1645,669 @@ def build_telegram_text(
     return build_market_report(rows, errors, args, timings, short_horizon_reports)["report_text"]
 
 
+def append_prediction_records(
+    *,
+    output_dir: Path,
+    rows: list[dict],
+    snapshots: list[dict],
+    horizon_days: int,
+    policy_version: str = "smart-policy-v2",
+    created_at_utc: dt.datetime | None = None,
+) -> dict:
+    """Append the first point-in-time decision for each symbol/session/horizon."""
+    ledger = PredictionLedger(output_dir / "prediction_ledger.jsonl")
+    snapshots_by_symbol = {
+        report_symbol(snapshot.get("symbol", "")): snapshot
+        for snapshot in snapshots
+    }
+    appended = 0
+    duplicates = 0
+    skipped: list[str] = []
+    if (
+        created_at_utc is not None
+        and (
+            created_at_utc.tzinfo is None
+            or created_at_utc.utcoffset() is None
+        )
+    ):
+        raise ValueError("created_at_utc must be timezone-aware")
+    created_at = (
+        created_at_utc.astimezone(dt.timezone.utc)
+        if created_at_utc is not None
+        else dt.datetime.now(dt.timezone.utc)
+    )
+
+    for row in rows:
+        symbol = str(row_value(row, "Symbol", default="")).strip().upper()
+        snapshot = snapshots_by_symbol.get(symbol)
+        raw_symbol = str((snapshot or {}).get("symbol", "")).strip().upper()
+        if not symbol or snapshot is None or raw_symbol.endswith("-USD"):
+            if raw_symbol.endswith("-USD"):
+                skipped.append(f"{symbol}: exchange-specific maturity not configured")
+            continue
+        as_of_value = snapshot.get("as_of_session") or row_value(
+            row,
+            "As Of Session",
+            default=None,
+        )
+        target_value = row_value(row, "Target Session", default=None)
+        if not as_of_value or not target_value:
+            skipped.append(f"{symbol}: missing as-of or target session")
+            continue
+        try:
+            as_of_session = dt.date.fromisoformat(str(as_of_value))
+            target_session = dt.date.fromisoformat(str(target_value))
+        except ValueError:
+            skipped.append(f"{symbol}: invalid as-of or target session")
+            continue
+
+        selected_model = str(
+            row_value(row, "Selected Model", default="")
+        ).strip()
+        model_payload = (snapshot.get("models") or {}).get(selected_model) or {}
+        metrics = model_payload.get("metrics") or {}
+        data_cutoff_value = snapshot.get("data_cutoff_utc")
+        try:
+            data_cutoff = (
+                dt.datetime.fromisoformat(
+                    str(data_cutoff_value).replace("Z", "+00:00")
+                )
+                if data_cutoff_value
+                else created_at
+            )
+            if data_cutoff.tzinfo is None:
+                data_cutoff = data_cutoff.replace(tzinfo=dt.timezone.utc)
+            data_cutoff = min(data_cutoff, created_at)
+        except ValueError:
+            data_cutoff = created_at
+
+        identity = (
+            f"{symbol}|{as_of_session.isoformat()}|{int(horizon_days)}|"
+            f"{policy_version}"
+        )
+        prediction_id = "pred-" + hashlib.sha256(
+            identity.encode("utf-8")
+        ).hexdigest()[:24]
+        feature_payload = {
+            "as_of_session": as_of_session.isoformat(),
+            "selected_model": selected_model,
+            "horizon_days": int(horizon_days),
+            "metrics": metrics,
+        }
+        feature_hash = hashlib.sha256(
+            json.dumps(
+                feature_payload,
+                sort_keys=True,
+                default=_json_default,
+            ).encode("utf-8")
+        ).hexdigest()
+        forecast_return = (
+            float(row_value(row, "Forecast Return %", default=0.0) or 0.0)
+            / 100.0
+        )
+        expected_error = (
+            abs(float(row_value(row, "Expected Error %", default=0.0) or 0.0))
+            / 100.0
+        )
+        record = PredictionRecord(
+            prediction_id=prediction_id,
+            created_at_utc=created_at,
+            data_cutoff_utc=data_cutoff,
+            as_of_session=as_of_session,
+            target_session=target_session,
+            symbol=symbol,
+            horizon_sessions=int(horizon_days),
+            model_name=selected_model,
+            model_version=(
+                f"{selected_model.lower().replace(' ', '-')}-"
+                f"cache-v{MODEL_RESULT_CACHE_VERSION}"
+            ),
+            policy_version=policy_version,
+            forecast_return=forecast_return,
+            target_weight=max(
+                float(row_value(row, "Policy Target %", default=0.0) or 0.0)
+                / 100.0,
+                0.0,
+            ),
+            probability_positive=float(
+                row_value(row, "Probability Up %", default=50.0) or 50.0
+            )
+            / 100.0,
+            lower_bound_return=forecast_return - expected_error,
+            upper_bound_return=forecast_return + expected_error,
+            feature_set_version="ohlcv-market-context-earnings-v2",
+            feature_hash=feature_hash,
+            metadata={
+                "reliability": row_value(row, "Reliability", default=""),
+                "signal_tier": row_value(row, "Signal Tier", default=""),
+                "allocation_eligible": bool(
+                    row_value(
+                        row,
+                        "Policy Allocation Eligible",
+                        default=False,
+                    )
+                ),
+                "allocation_blockers": row_value(
+                    row,
+                    "Policy Allocation Blockers",
+                    default=[],
+                ),
+                "rl_mode": "shadow",
+            },
+        )
+        try:
+            ledger.append_prediction(record)
+            appended += 1
+        except DuplicateLedgerRecordError:
+            duplicates += 1
+        except (TypeError, ValueError, RuntimeError) as exc:
+            skipped.append(f"{symbol}: {exc}")
+
+        rl_payload = (snapshot.get("models") or {}).get("RL Policy") or {}
+        rl_metrics = rl_payload.get("metrics") or {}
+        if rl_payload and rl_metrics.get("shadow_mode"):
+            rl_policy_version = str(
+                rl_metrics.get("policy_version", "")
+            ).strip()
+            rl_model_version = str(
+                rl_metrics.get("model_version", "")
+            ).strip()
+            rl_feature_set_version = str(
+                rl_metrics.get("policy_feature_set_version", "")
+            ).strip()
+            try:
+                rl_execution_start = dt.date.fromisoformat(
+                    str(
+                        rl_metrics[
+                            "policy_execution_start_session"
+                        ]
+                    )
+                )
+                rl_execution_target = dt.date.fromisoformat(
+                    str(
+                        rl_metrics[
+                            "policy_execution_target_session"
+                        ]
+                    )
+                )
+                rl_execution_horizon = int(
+                    rl_metrics[
+                        "policy_execution_horizon_sessions"
+                    ]
+                )
+            except (KeyError, TypeError, ValueError):
+                skipped.append(
+                    f"{symbol} RL shadow: missing execution timing metadata"
+                )
+                continue
+            if (
+                not rl_policy_version
+                or not rl_model_version
+                or not rl_feature_set_version
+                or rl_metrics.get("rl_live_allocation_enabled") is not False
+            ):
+                skipped.append(
+                    f"{symbol} RL shadow: invalid policy identity or live-mode flag"
+                )
+                continue
+            rl_identity = (
+                f"{symbol}|{as_of_session.isoformat()}|"
+                f"{rl_execution_horizon}|"
+                f"{rl_policy_version}"
+            )
+            rl_feature_hash = hashlib.sha256(
+                json.dumps(
+                    {
+                        "as_of_session": as_of_session.isoformat(),
+                        "horizon_days": int(horizon_days),
+                        "metrics": rl_metrics,
+                    },
+                    sort_keys=True,
+                    default=_json_default,
+                ).encode("utf-8")
+            ).hexdigest()
+            context_horizon = int(
+                rl_metrics.get(
+                    "forecast_context_horizon_sessions",
+                    horizon_days,
+                )
+            )
+            context_return = float(
+                rl_metrics.get("forecast_context_return", 0.0)
+                or 0.0
+            )
+            context_probability = float(
+                rl_metrics.get(
+                    "forecast_context_probability_up",
+                    0.5,
+                )
+                or 0.5
+            )
+            context_lower_bound = float(
+                rl_metrics.get(
+                    "forecast_context_lower_bound",
+                    context_return,
+                )
+                or 0.0
+            )
+            context_uncertainty = max(
+                float(
+                    rl_metrics.get(
+                        "forecast_context_uncertainty",
+                        0.0,
+                    )
+                    or 0.0
+                ),
+                0.0,
+            )
+            context_record = PredictionRecord(
+                prediction_id="pred-"
+                + hashlib.sha256(
+                    (
+                        f"{symbol}|{as_of_session.isoformat()}|"
+                        f"{context_horizon}|{rl_policy_version}|"
+                        "forecast-context"
+                    ).encode("utf-8")
+                ).hexdigest()[:24],
+                created_at_utc=created_at,
+                data_cutoff_utc=data_cutoff,
+                as_of_session=as_of_session,
+                target_session=target_session,
+                symbol=symbol,
+                horizon_sessions=context_horizon,
+                model_name="RL Forecast Context",
+                model_version=str(
+                    rl_metrics.get(
+                        "forecast_context_version",
+                        "fixed-non-rl-oos-v1",
+                    )
+                ),
+                policy_version=rl_policy_version,
+                forecast_return=context_return,
+                target_weight=0.0,
+                probability_positive=context_probability,
+                lower_bound_return=context_lower_bound,
+                upper_bound_return=(
+                    context_return
+                    + 1.645 * context_uncertainty
+                ),
+                feature_set_version=rl_feature_set_version,
+                feature_hash=rl_feature_hash,
+                metadata={
+                    "shadow_mode": True,
+                    "live_eligible": False,
+                    "record_role": "calibrated_forecast_context",
+                    "forecast_context_horizon_sessions": (
+                        context_horizon
+                    ),
+                    "forecast_context_source": rl_metrics.get(
+                        "forecast_context_source",
+                        "",
+                    ),
+                    "forecast_context_model_agreement": (
+                        rl_metrics.get(
+                            "forecast_context_model_agreement"
+                        )
+                    ),
+                    "forecast_context_actual_outcomes_used": False,
+                },
+            )
+            try:
+                ledger.append_prediction(context_record)
+                appended += 1
+            except DuplicateLedgerRecordError:
+                duplicates += 1
+            except (TypeError, ValueError, RuntimeError) as exc:
+                skipped.append(
+                    f"{symbol} RL forecast context: {exc}"
+                )
+
+            rl_record = PredictionRecord(
+                prediction_id="pred-"
+                + hashlib.sha256(rl_identity.encode("utf-8")).hexdigest()[:24],
+                created_at_utc=created_at,
+                data_cutoff_utc=data_cutoff,
+                as_of_session=as_of_session,
+                return_start_session=rl_execution_start,
+                target_session=rl_execution_target,
+                symbol=symbol,
+                horizon_sessions=rl_execution_horizon,
+                model_name="RL Policy",
+                model_version=rl_model_version,
+                policy_version=rl_policy_version,
+                forecast_return=0.0,
+                target_weight=max(
+                    float(rl_metrics.get("rl_target_weight", 0.0) or 0.0),
+                    0.0,
+                ),
+                probability_positive=None,
+                feature_set_version=rl_feature_set_version,
+                feature_hash=rl_feature_hash,
+                metadata={
+                    "shadow_mode": True,
+                    "live_eligible": False,
+                    "action": rl_metrics.get("rl_action", "hold"),
+                    "action_fraction": rl_metrics.get(
+                        "rl_action_fraction",
+                        0.0,
+                    ),
+                    "state_visits": rl_metrics.get("rl_state_visits", 0),
+                    "abstained": rl_metrics.get("rl_abstained", True),
+                    "abstention_reason": rl_metrics.get(
+                        "rl_abstention_reason",
+                        "",
+                    ),
+                    "validation_scheme": rl_metrics.get(
+                        "validation_scheme",
+                        "",
+                    ),
+                    "policy_execution_start_session": (
+                        rl_execution_start.isoformat()
+                    ),
+                    "policy_execution_target_session": (
+                        rl_execution_target.isoformat()
+                    ),
+                    "policy_execution_horizon_sessions": (
+                        rl_execution_horizon
+                    ),
+                    "policy_decision_refresh_sessions": int(
+                        rl_metrics.get(
+                            "policy_decision_refresh_sessions",
+                            1,
+                        )
+                    ),
+                    "forecast_context_horizon_sessions": (
+                        context_horizon
+                    ),
+                    "forecast_context_source": rl_metrics.get(
+                        "forecast_context_source",
+                        "",
+                    ),
+                    "forecast_context_version": rl_metrics.get(
+                        "forecast_context_version",
+                        "",
+                    ),
+                    "forecast_context_return": rl_metrics.get(
+                        "forecast_context_return"
+                    ),
+                    "forecast_context_probability_up": (
+                        rl_metrics.get(
+                            "forecast_context_probability_up"
+                        )
+                    ),
+                    "forecast_context_lower_bound": rl_metrics.get(
+                        "forecast_context_lower_bound"
+                    ),
+                    "forecast_context_model_agreement": (
+                        rl_metrics.get(
+                            "forecast_context_model_agreement"
+                        )
+                    ),
+                    "forecast_context_uncertainty": rl_metrics.get(
+                        "forecast_context_uncertainty"
+                    ),
+                    "rl_position_state_source": rl_metrics.get(
+                        "rl_position_state_source",
+                        "",
+                    ),
+                    "rl_position_state_as_of": rl_metrics.get(
+                        "rl_position_state_as_of",
+                        "",
+                    ),
+                    "rl_position_state_auditable": bool(
+                        rl_metrics.get(
+                            "rl_position_state_auditable",
+                            False,
+                        )
+                    ),
+                    "rl_live_allocation_enabled": False,
+                },
+            )
+            try:
+                ledger.append_prediction(rl_record)
+                appended += 1
+            except DuplicateLedgerRecordError:
+                duplicates += 1
+            except (TypeError, ValueError, RuntimeError) as exc:
+                skipped.append(f"{symbol} RL shadow: {exc}")
+
+    return {
+        "path": str(ledger.path),
+        "horizon_days": int(horizon_days),
+        "appended": appended,
+        "duplicates": duplicates,
+        "skipped": skipped,
+    }
+
+
+def prediction_ledger_summary(ledger: PredictionLedger) -> dict:
+    """Summarize matured evidence without ever promoting a policy implicitly."""
+    predictions = ledger.predictions()
+    outcomes = {item.prediction_id: item for item in ledger.outcomes()}
+    groups: dict[
+        tuple[str, int, str],
+        list[ForecastObservation],
+    ] = {}
+    path_outcomes: dict[
+        tuple[str, int, str],
+        list[OutcomeRecord],
+    ] = {}
+    for prediction in predictions:
+        outcome = outcomes.get(prediction.prediction_id)
+        if outcome is None:
+            continue
+        policy_version = prediction.policy_version or prediction.model_version
+        groups.setdefault(
+            (
+                policy_version,
+                prediction.horizon_sessions,
+                prediction.model_name,
+            ),
+            [],
+        ).append(
+            ForecastObservation(
+                prediction_id=prediction.prediction_id,
+                as_of_session=prediction.as_of_session,
+                target_session=prediction.target_session,
+                symbol=prediction.symbol,
+                horizon_sessions=prediction.horizon_sessions,
+                predicted_return=prediction.forecast_return,
+                realized_return=outcome.realized_return,
+                benchmark_return=outcome.benchmark_return,
+                probability_positive=prediction.probability_positive,
+                lower_bound_return=prediction.lower_bound_return,
+                upper_bound_return=prediction.upper_bound_return,
+            )
+        )
+        path_outcomes.setdefault(
+            (
+                policy_version,
+                prediction.horizon_sessions,
+                prediction.model_name,
+            ),
+            [],
+        ).append(outcome)
+
+    metrics = []
+    shadow_sessions_by_policy: dict[
+        tuple[str, int, int],
+        set[dt.date],
+    ] = {
+        (
+            prediction.policy_version or "",
+            int(
+                prediction.metadata.get(
+                    "forecast_context_horizon_sessions",
+                    prediction.horizon_sessions,
+                )
+            ),
+            prediction.horizon_sessions,
+        ): set()
+        for prediction in predictions
+        if (
+            (prediction.policy_version or "").startswith(
+                "rl-shadow"
+            )
+            and prediction.model_name == "RL Policy"
+        )
+    }
+    for (
+        policy_version,
+        horizon,
+        model_name,
+    ), observations in sorted(groups.items()):
+        evaluated = evaluate_forecasts(
+            observations,
+            horizon_sessions=horizon,
+        )
+        if (
+            policy_version.startswith("rl-shadow")
+            and model_name == "RL Policy"
+        ):
+            context_horizon = int(
+                next(
+                    (
+                        prediction.metadata.get(
+                            "forecast_context_horizon_sessions",
+                            horizon,
+                        )
+                        for prediction in predictions
+                        if (
+                            prediction.policy_version == policy_version
+                            and prediction.horizon_sessions == horizon
+                            and prediction.model_name == model_name
+                        )
+                    ),
+                    horizon,
+                )
+            )
+            shadow_sessions_by_policy.setdefault(
+                (policy_version, context_horizon, horizon),
+                set(),
+            ).update(
+                item.as_of_session for item in observations
+            )
+        realized_paths = path_outcomes[
+            (policy_version, horizon, model_name)
+        ]
+        adverse_excursions = np.asarray(
+            [
+                float(item.max_adverse_excursion)
+                for item in realized_paths
+                if item.max_adverse_excursion is not None
+            ],
+            dtype=float,
+        )
+        favorable_excursions = np.asarray(
+            [
+                float(item.max_favorable_excursion)
+                for item in realized_paths
+                if item.max_favorable_excursion is not None
+            ],
+            dtype=float,
+        )
+        recovered_after_drawdown = [
+            item.realized_return > 0.0
+            for item in realized_paths
+            if item.max_adverse_excursion is not None
+            and item.max_adverse_excursion < 0.0
+        ]
+        metrics.append(
+            {
+                "policy_version": policy_version,
+                "model_name": model_name,
+                "horizon_days": horizon,
+                "forecast_context_horizon_days": (
+                    context_horizon
+                    if (
+                        policy_version.startswith("rl-shadow")
+                        and model_name == "RL Policy"
+                    )
+                    else horizon
+                ),
+                "metric_kind": (
+                    "daily_policy_execution_outcomes"
+                    if model_name == "RL Policy"
+                    else "forecast_calibration"
+                ),
+                "sample_count": evaluated.sample_count,
+                "mae_pct": (
+                    None
+                    if model_name == "RL Policy"
+                    else evaluated.mae * 100.0
+                ),
+                "direction_accuracy_pct": (
+                    None
+                    if model_name == "RL Policy"
+                    else evaluated.direction_accuracy * 100.0
+                ),
+                "brier_score": (
+                    None
+                    if model_name == "RL Policy"
+                    else evaluated.brier_score
+                ),
+                "expected_calibration_error": (
+                    None
+                    if model_name == "RL Policy"
+                    else evaluated.expected_calibration_error
+                ),
+                "average_max_adverse_excursion_pct": float(
+                    adverse_excursions.mean() * 100.0
+                )
+                if adverse_excursions.size
+                else None,
+                "worst_max_adverse_excursion_pct": float(
+                    adverse_excursions.min() * 100.0
+                )
+                if adverse_excursions.size
+                else None,
+                "average_max_favorable_excursion_pct": float(
+                    favorable_excursions.mean() * 100.0
+                )
+                if favorable_excursions.size
+                else None,
+                "positive_at_maturity_after_drawdown_pct": (
+                    float(np.mean(recovered_after_drawdown) * 100.0)
+                    if recovered_after_drawdown
+                    else None
+                ),
+            }
+        )
+    promotion_horizons = [
+        {
+            "policy_version": policy_version,
+            "forecast_context_horizon_days": int(
+                context_horizon
+            ),
+            "execution_horizon_days": int(execution_horizon),
+            "shadow_sessions": len(sessions),
+            "minimum_shadow_sessions": 60,
+            "eligible_for_gate_evaluation": len(sessions) >= 60,
+        }
+        for (
+            policy_version,
+            context_horizon,
+            execution_horizon,
+        ), sessions in sorted(shadow_sessions_by_policy.items())
+    ]
+    return {
+        "prediction_count": len(predictions),
+        "outcome_count": len(outcomes),
+        "metrics": metrics,
+        "promotion": {
+            "status": "shadow",
+            "horizons": promotion_horizons,
+            "automatic_promotion": False,
+            "reason": (
+                "Each horizon is promoted independently and requires matched "
+                "purged folds, the strongest "
+                "registered non-RL baseline, exact doubled-cost replay, "
+                "drawdown/CVaR checks, and calibrated probabilities."
+            ),
+        },
+    }
+
+
 def write_outputs(
     rows: list[dict],
     errors: list[str],
@@ -1271,6 +2337,32 @@ def write_outputs(
     )
 
     report = build_market_report(rows, errors, args, timings if args.show_timing else None, short_horizon_reports)
+    ledger_path = output_dir / "prediction_ledger.jsonl"
+    maturity_result = append_matured_outcomes(
+        PredictionLedger(ledger_path),
+        price_loader=lambda symbol: get_ohlcv(
+            symbol,
+            max(int(args.history_days), 365),
+        ),
+    )
+    ledger_runs = [
+        append_prediction_records(
+            output_dir=output_dir,
+            rows=rows,
+            snapshots=snapshots,
+            horizon_days=args.horizon,
+        )
+    ]
+    for short_report in short_horizon_reports or []:
+        ledger_runs.append(
+            append_prediction_records(
+                output_dir=output_dir,
+                rows=short_report.get("rows") or [],
+                snapshots=short_report.get("snapshots") or [],
+                horizon_days=int(short_report.get("horizon_days", 1) or 1),
+            )
+        )
+    ledger_summary = prediction_ledger_summary(PredictionLedger(ledger_path))
 
     payload = {
         "generated_at": timestamp,
@@ -1286,9 +2378,26 @@ def write_outputs(
         "smart_policy": {
             "enabled": True,
             "risk_fraction": float(args.policy_risk_fraction),
-            "description": "One selected non-RL forecast + trend + momentum with uncertainty gates and portfolio constraints",
+            "description": "One selected non-RL forecast + trend + momentum + one fresh earnings event with uncertainty gates and portfolio constraints",
+        },
+        "earnings_context": {
+            "enabled": not bool(
+                getattr(args, "no_earnings_context", False)
+            ),
+            "mode": "point_in_time_fail_closed",
         },
         "portfolio": timings.get("portfolio", {}),
+        "prediction_ledger": {
+            "mode": "append_only",
+            "outcomes": {
+                "appended": maturity_result.appended,
+                "duplicates": maturity_result.duplicates,
+                "pending_not_mature": maturity_result.pending_not_mature,
+                "skipped": list(maturity_result.skipped),
+            },
+            "runs": ledger_runs,
+            "summary": ledger_summary,
+        },
         "signal_threshold": {
             "min_forecast_return_pct": min_signal_return_pct_from_args(args),
             "max_rows_per_side": max_signal_rows_from_args(args),
@@ -1350,6 +2459,25 @@ def write_outputs(
     write_text_atomic(cache_path, json_payload)
     write_text_atomic(txt_path, telegram_text)
     write_text_atomic(latest_txt_path, telegram_text)
+    write_text_atomic(
+        output_dir / "policy_portfolio_state.json",
+        json_dumps_strict(
+            {
+                "generated_at": timestamp,
+                "state_kind": "recommended_targets_not_broker_execution",
+                "target_weights": (
+                    timings.get("portfolio", {}).get("target_weights", {})
+                ),
+                "current_weight_source": (
+                    timings.get("portfolio", {}).get(
+                        "current_weight_source",
+                        "unknown",
+                    )
+                ),
+            },
+            indent=2,
+        ),
+    )
 
     return {
         "json": str(json_path),
@@ -1436,7 +2564,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--ridge-alpha", type=float, default=10.0)
     parser.add_argument("--pattern-short-window", type=int, default=20)
     parser.add_argument("--pattern-long-window", type=int, default=50)
-    parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer", "RL Policy"], default="Best Validation")
+    parser.add_argument("--primary-model", choices=["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer"], default="Best Validation")
     parser.add_argument(
         "--sequence-model",
         choices=["off", "lstm", "transformer", "both", "adaptive"],
@@ -1467,7 +2595,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--include-rl-policy",
-        action="store_true",
+        action=argparse.BooleanOptionalAction,
+        default=True,
         help="Generate RL shadow diagnostics. RL is excluded from selections, scores, reliability, and orders.",
     )
     parser.add_argument("--no-rl-policy", action="store_true")
@@ -1490,13 +2619,21 @@ def build_parser() -> argparse.ArgumentParser:
         default=0,
         help="Deprecated alias for --max-signal-rows when --max-signal-rows is unset.",
     )
-    parser.add_argument("--policy-risk-fraction", type=float, default=0.10)
+    parser.add_argument("--policy-risk-fraction", type=float, default=0.05)
     parser.add_argument("--portfolio-cash-reserve-pct", type=float, default=15.0)
     parser.add_argument("--portfolio-max-name-pct", type=float, default=5.0)
     parser.add_argument("--portfolio-max-sector-pct", type=float, default=20.0)
     parser.add_argument("--portfolio-max-cluster-pct", type=float, default=15.0)
     parser.add_argument("--portfolio-max-volatility-pct", type=float, default=15.0)
     parser.add_argument("--portfolio-max-turnover-pct", type=float, default=20.0)
+    parser.add_argument(
+        "--portfolio-current-weights-json",
+        default="",
+        help=(
+            "JSON object of verified current executed equity weights. Without it, "
+            "the report shows research suggestions but authorizes zero allocation."
+        ),
+    )
     parser.add_argument(
         "--portfolio-drawdown-pct",
         type=float,
@@ -1506,6 +2643,20 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--portfolio-drawdown-breaker-pct", type=float, default=10.0)
     parser.add_argument("--output-dir", default=str(Path(__file__).resolve().parent / "reports"))
     parser.add_argument("--no-market-context", action="store_true")
+    parser.add_argument(
+        "--no-earnings-context",
+        action="store_true",
+        help="Disable point-in-time earnings-result interpretation.",
+    )
+    parser.add_argument(
+        "--earnings-payload-dir",
+        default="",
+        help=(
+            "Optional directory containing SYMBOL.json payloads from a verified "
+            "earnings provider. Exact/provider-reported timestamps, EPS, revenue, "
+            "and guidance can enter policy only after normal eligibility checks."
+        ),
+    )
     parser.add_argument("--no-optimize", action="store_true")
     parser.add_argument("--force-retrain", action="store_true")
     parser.add_argument("--model-cache-max-age-days", type=float, default=7.0)

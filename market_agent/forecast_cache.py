@@ -14,9 +14,16 @@ except ImportError:  # pragma: no cover - package import path
     from .agent.forecast import ForecastResult
 
 
-CACHE_VERSION = 5
-MODEL_RESULT_CACHE_VERSION = 3
+CACHE_VERSION = 7
+MODEL_RESULT_CACHE_VERSION = 6
 SHADOW_MODEL_NAMES = frozenset({"RL Policy"})
+FIXED_LIVE_CHAMPION_ORDER = (
+    "Ensemble",
+    "Ridge",
+    "Random Forest",
+    "Gradient Boosting",
+    "XGBoost",
+)
 
 
 def _json_safe(value):
@@ -170,7 +177,9 @@ def model_result_cache_path(
         "use_market_context": bool(use_market_context),
         "sequence_model": str(sequence_model or "off"),
         "data_fingerprint": data_fingerprint,
-        "context_fingerprint": context_fingerprint if use_market_context else None,
+        # Earnings/event identity remains relevant when broad market-context
+        # features are disabled.
+        "context_fingerprint": context_fingerprint,
         "include_rl_policy": bool(include_rl_policy),
     }
     raw = json.dumps(payload, sort_keys=True, default=_json_safe).encode("utf-8")
@@ -243,15 +252,20 @@ def select_model_name(model_results: dict[str, ForecastResult | dict], preferred
     if preferred in SHADOW_MODEL_NAMES:
         preferred = "Best Validation"
 
-    if preferred == "Best Validation":
-        candidates = [
-            (name, result)
+    def fixed_live_champion() -> str:
+        """Return the pre-registered champion without reusing holdout scores."""
+        eligible = {
+            name
             for name, result in model_results.items()
             if _has_forecast(result) and _is_live_eligible(name, result)
-        ]
-        if not candidates:
-            return ""
-        return min(candidates, key=lambda item: _metric(item[1], "holdout_mae_pct", np.inf))[0]
+        }
+        for name in FIXED_LIVE_CHAMPION_ORDER:
+            if name in eligible:
+                return name
+        return sorted(eligible)[0] if eligible else ""
+
+    if preferred == "Best Validation":
+        return fixed_live_champion()
 
     if (
         preferred
@@ -261,16 +275,7 @@ def select_model_name(model_results: dict[str, ForecastResult | dict], preferred
     ):
         return preferred
 
-    candidates = [
-        (name, result)
-        for name, result in model_results.items()
-        if _has_forecast(result) and _is_live_eligible(name, result)
-    ]
-    if not candidates:
-        return ""
-    if preferred and preferred in model_results:
-        return preferred
-    return min(candidates, key=lambda item: _metric(item[1], "holdout_mae_pct", np.inf))[0]
+    return fixed_live_champion()
 
 
 def snapshot_from_model_results(
@@ -278,10 +283,22 @@ def snapshot_from_model_results(
     last_price: float,
     model_results: dict[str, ForecastResult],
     smart_policy: dict | None = None,
+    as_of_session: object | None = None,
+    data_cutoff_utc: object | None = None,
 ) -> dict:
     return {
         "symbol": symbol,
         "last_price": float(last_price),
+        "as_of_session": (
+            pd.Timestamp(as_of_session).date().isoformat()
+            if as_of_session is not None
+            else None
+        ),
+        "data_cutoff_utc": (
+            pd.Timestamp(data_cutoff_utc).isoformat()
+            if data_cutoff_utc is not None
+            else None
+        ),
         "models": {name: forecast_result_to_dict(result) for name, result in model_results.items()},
         "smart_policy": _json_safe(smart_policy or {}),
     }
@@ -307,6 +324,7 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
     edge = max(confidence - 50.0, 0.0)
     score = float(metrics.get("forecast_score", 0.0))
     forecast_price = float(forecast_rows["forecast_close"].iloc[-1])
+    target_session = pd.Timestamp(forecast_rows.index[-1]).date().isoformat()
     smart_policy = snapshot.get("smart_policy") or {}
 
     def _return_for(model_name: str):
@@ -317,6 +335,8 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
 
     return {
         "Symbol": snapshot.get("symbol", ""),
+        "As Of Session": snapshot.get("as_of_session"),
+        "Target Session": target_session,
         "Model Call": model_call(forecast_return, expected_error, confidence),
         "Selected Model": selected_model,
         "Last Price": float(snapshot.get("last_price", np.nan)),
@@ -361,6 +381,40 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
         "Policy Forecast Score": _safe_float(smart_policy.get("forecast_component")),
         "Policy Trend Score": _safe_float(smart_policy.get("trend_component")),
         "Policy Momentum Score": _safe_float(smart_policy.get("momentum_component")),
+        "Policy Earnings Score": _safe_float(smart_policy.get("earnings_component")),
+        "Earnings Event": bool(smart_policy.get("earnings_event_flag", False)),
+        "Earnings Score": _safe_float(smart_policy.get("earnings_event_score"), 0.0),
+        "Earnings Confidence %": _safe_float(
+            smart_policy.get("earnings_confidence"),
+            0.0,
+        )
+        * 100.0,
+        "Earnings Summary": smart_policy.get("earnings_summary", ""),
+        "Earnings Reported At": smart_policy.get(
+            "earnings_reported_at",
+            "",
+        ),
+        "Earnings Effective Session": smart_policy.get(
+            "earnings_effective_session",
+            "",
+        ),
+        "Earnings Stale": bool(
+            smart_policy.get("earnings_is_stale", False)
+        ),
+        "Earnings Policy Eligible": bool(
+            smart_policy.get("earnings_policy_eligible", False)
+        ),
+        "Earnings Blockers": list(
+            smart_policy.get("earnings_blockers", [])
+        ),
+        "Earnings Data Quality": list(
+            smart_policy.get("earnings_data_quality_flags", [])
+        ),
+        "Earnings Calendar Source": smart_policy.get(
+            "earnings_calendar_source",
+            "",
+        ),
+        "Earnings Error": smart_policy.get("earnings_error_code", ""),
         "Policy Allocation Eligible": bool(smart_policy.get("allocation_eligible", False)),
         "Policy Allocation Blockers": list(smart_policy.get("allocation_blockers", [])),
         "Policy Lower Bound %": _safe_float(smart_policy.get("lower_confidence_bound_pct")),
@@ -383,21 +437,26 @@ def snapshots_to_ranking_frame(snapshots: list[dict], primary_model_choice: str)
 
 
 def _has_forecast(result: ForecastResult | dict) -> bool:
-    if isinstance(result, ForecastResult):
-        return result.forecast is not None and not result.forecast.empty
+    if hasattr(result, "forecast"):
+        forecast = getattr(result, "forecast")
+        return forecast is not None and not forecast.empty
     return bool(result and result.get("forecast"))
 
 
 def _metric(result: ForecastResult | dict, metric_name: str, default=np.inf):
-    if isinstance(result, ForecastResult):
-        return result.metrics.get(metric_name, default)
+    if hasattr(result, "metrics"):
+        return getattr(result, "metrics").get(metric_name, default)
     return (result.get("metrics") or {}).get(metric_name, default)
 
 
 def _is_live_eligible(name: str, result: ForecastResult | dict) -> bool:
     if name in SHADOW_MODEL_NAMES:
         return False
-    metrics = result.metrics if isinstance(result, ForecastResult) else (result.get("metrics") or {})
+    metrics = (
+        getattr(result, "metrics")
+        if hasattr(result, "metrics")
+        else (result.get("metrics") or {})
+    )
     return not bool(metrics.get("shadow_mode")) and metrics.get("live_eligible", True) is not False
 
 
