@@ -490,6 +490,8 @@ def inject_dashboard_css() -> None:
             --ercot-panel: #ffffff;
             --ercot-border: #e2e8f0;
             --ercot-bg: #f8fafc;
+            --ercot-alert-text: #172033;
+            --ercot-alert-link: #075985;
         }
         .stApp,
         [data-testid="stAppViewContainer"],
@@ -694,6 +696,20 @@ def inject_dashboard_css() -> None:
         .status-ok { background: #ecfdf5; color: #047857; }
         .status-warn { background: #fffbeb; color: #b45309; }
         .status-error { background: #fef2f2; color: #b91c1c; }
+        [data-testid="stAlert"],
+        [data-testid="stAlert"] *,
+        [data-testid="stAlertContainer"],
+        [data-testid="stAlertContainer"] * {
+            color: var(--ercot-alert-text) !important;
+            -webkit-text-fill-color: var(--ercot-alert-text) !important;
+            opacity: 1 !important;
+        }
+        [data-testid="stAlert"] a,
+        [data-testid="stAlertContainer"] a {
+            color: var(--ercot-alert-link) !important;
+            -webkit-text-fill-color: var(--ercot-alert-link) !important;
+            text-decoration-color: var(--ercot-alert-link) !important;
+        }
         .news-panel {
             border: 1px solid var(--ercot-border);
             border-radius: 20px;
