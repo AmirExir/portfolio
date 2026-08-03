@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 
 from ERCOTAPI.news_pipeline import (
     ERCOT_MODEL_NODE,
+    ERCOT_NEWS_DIGEST_NODE,
     ERCOT_PAYLOAD_NODE,
     ERCOT_PUBLISH_NODE,
     ERCOT_SUMMARY_URL,
@@ -19,6 +20,7 @@ def _workflow_fixture() -> dict:
     return {
         "nodes": [
             {"name": ERCOT_MODEL_NODE, "parameters": {}},
+            {"name": ERCOT_NEWS_DIGEST_NODE, "parameters": {}},
             {
                 "name": ERCOT_PAYLOAD_NODE,
                 "parameters": {
@@ -46,6 +48,17 @@ def _workflow_fixture() -> dict:
             },
         ],
         "connections": {
+            ERCOT_NEWS_DIGEST_NODE: {
+                "main": [
+                    [
+                        {
+                            "node": "Build ERCOT Channel Payload",
+                            "type": "main",
+                            "index": 0,
+                        }
+                    ]
+                ]
+            },
             ERCOT_MODEL_NODE: {
                 "main": [
                     [
@@ -111,14 +124,14 @@ class NewsPipelineTests(unittest.TestCase):
 
         self.assertTrue(changes)
         self.assertTrue(
-            workflow["nodes"][1]["parameters"]["jsCode"].endswith(
+            workflow["nodes"][2]["parameters"]["jsCode"].endswith(
                 "branch: 'generated-output'}};"
             )
         )
         self.assertIn(
-            "branch: 'main'", repaired["nodes"][1]["parameters"]["jsCode"]
+            "branch: 'main'", repaired["nodes"][2]["parameters"]["jsCode"]
         )
-        publisher = repaired["nodes"][2]["parameters"]
+        publisher = repaired["nodes"][3]["parameters"]
         self.assertEqual(publisher["url"], ERCOT_SUMMARY_URL)
         self.assertEqual(
             next(
@@ -131,6 +144,16 @@ class NewsPipelineTests(unittest.TestCase):
         model_targets = repaired["connections"][ERCOT_MODEL_NODE]["main"][0]
         self.assertTrue(
             any(item["node"] == ERCOT_PAYLOAD_NODE for item in model_targets)
+        )
+        digest_targets = repaired["connections"][ERCOT_NEWS_DIGEST_NODE]["main"][0]
+        self.assertTrue(
+            any(item["node"] == ERCOT_PAYLOAD_NODE for item in digest_targets)
+        )
+        self.assertTrue(
+            any(
+                item["node"] == "Build ERCOT Channel Payload"
+                for item in digest_targets
+            )
         )
         self.assertTrue(
             any(

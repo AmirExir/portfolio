@@ -17,6 +17,7 @@ _NEWS_TIMESTAMP = re.compile(
 _MIN_UTC = datetime.min.replace(tzinfo=timezone.utc)
 
 ERCOT_MODEL_NODE = "Message Model For ERCOT"
+ERCOT_NEWS_DIGEST_NODE = "Build ERCOT News Digest"
 ERCOT_PAYLOAD_NODE = "Build ERCOT GitHub Payload"
 ERCOT_PUBLISH_NODE = "Save ERCOT To GitHub"
 ERCOT_SUMMARY_URL = (
@@ -155,6 +156,7 @@ def repair_ercot_publication_workflow(
     payload_node = _named_node(nodes, ERCOT_PAYLOAD_NODE)
     publish_node = _named_node(nodes, ERCOT_PUBLISH_NODE)
     _named_node(nodes, ERCOT_MODEL_NODE)
+    _named_node(nodes, ERCOT_NEWS_DIGEST_NODE)
 
     payload_parameters = payload_node.setdefault("parameters", {})
     javascript = str(payload_parameters.get("jsCode", ""))
@@ -197,8 +199,13 @@ def repair_ercot_publication_workflow(
 
     if _ensure_connection(connections, ERCOT_MODEL_NODE, ERCOT_PAYLOAD_NODE):
         changes.append("connect ERCOT model to GitHub payload")
+    if _ensure_connection(
+        connections,
+        ERCOT_NEWS_DIGEST_NODE,
+        ERCOT_PAYLOAD_NODE,
+    ):
+        changes.append("connect ERCOT news digest to GitHub payload")
     if _ensure_connection(connections, ERCOT_PAYLOAD_NODE, ERCOT_PUBLISH_NODE):
         changes.append("connect ERCOT payload to GitHub publisher")
 
     return repaired, tuple(changes)
-

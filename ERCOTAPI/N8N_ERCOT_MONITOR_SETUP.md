@@ -123,7 +123,10 @@ The dashboard reads generated briefs from
 branch must retain this complete edge:
 
 ```text
-ERCOT News API -> Build ERCOT News Digest -> Message Model For ERCOT
+ERCOT News API -> Build ERCOT News Digest -> Build ERCOT GitHub Payload
+  -> Save ERCOT To GitHub
+
+Should Process ERCOT File Updates -> Message Model For ERCOT
   -> Build ERCOT GitHub Payload -> Save ERCOT To GitHub
 ```
 
@@ -144,10 +147,10 @@ python3 scripts/repair_n8n_ercot_publication.py \
   --backup /safe/path/database.sqlite.before-ercot-publisher-repair
 ```
 
-The repair preserves unrelated nodes and credentials, restores the missing
-model-to-publisher edge, and aligns the GitHub branch and directory with the
-dashboard consumer. It refuses to modify the database while port 5678 is
-accepting connections and always requires a new backup path.
+The repair preserves unrelated nodes and credentials, restores both ERCOT
+content-producer edges to the publisher, and aligns the GitHub branch and
+directory with the dashboard consumer. It refuses to modify the database while
+port 5678 is accepting connections and always requires a new backup path.
 
 ## ERCOT question-answering contract
 

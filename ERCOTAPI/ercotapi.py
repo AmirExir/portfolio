@@ -76,6 +76,12 @@ ERCOT_ASSISTANT_URL = (
     "https://amirexir-por-chatbot-ercot-all-in-oneercot-assistant-app-ahgre0."
     "streamlit.app/"
 )
+ERCOT_CONNECT_TIMEOUT_SECONDS = 5
+ERCOT_READ_TIMEOUT_SECONDS = 30
+ERCOT_REQUEST_TIMEOUT = (
+    ERCOT_CONNECT_TIMEOUT_SECONDS,
+    ERCOT_READ_TIMEOUT_SECONDS,
+)
 
 
 class ErcotAPI:
@@ -117,7 +123,11 @@ class ErcotAPI:
             print("🔐 Requesting bearer token from ERCOT...")
         
         try:
-            response = requests.post(token_url, data=data)
+            response = requests.post(
+                token_url,
+                data=data,
+                timeout=ERCOT_REQUEST_TIMEOUT,
+            )
             response.raise_for_status()
             token_info = response.json()
             self.bearer_token = token_info.get("access_token") 
@@ -126,14 +136,23 @@ class ErcotAPI:
                     print(" Bearer token acquired.")
             else:
                 raise ValueError("Failed to obtain bearer token.")
-        except requests.exceptions.HTTPError as e:
+        except requests.exceptions.Timeout as e:
+            raise ValueError(
+                "Authentication timed out while contacting ERCOT. Please try again."
+            ) from e
+        except requests.exceptions.RequestException as e:
             # Try to extract error details from response
             error_detail = ""
-            try:
-                error_json = e.response.json()
-                error_detail = f"\nError details: {error_json.get('error_description', error_json)}"
-            except:
-                error_detail = f"\nResponse: {e.response.text[:200]}"
+            response = e.response
+            if response is not None:
+                try:
+                    error_json = response.json()
+                    error_detail = (
+                        "\nError details: "
+                        f"{error_json.get('error_description', error_json)}"
+                    )
+                except (ValueError, AttributeError):
+                    error_detail = f"\nResponse: {response.text[:200]}"
             
             raise ValueError(f"Authentication failed: {str(e)}{error_detail}\n\nPlease check your username, password, and client ID.")
 
@@ -156,7 +175,12 @@ class ErcotAPI:
         # Retry logic for rate limiting
         for attempt in range(max_retries):
             try:
-                response = requests.get(url, headers=headers, params=params)
+                response = requests.get(
+                    url,
+                    headers=headers,
+                    params=params,
+                    timeout=ERCOT_REQUEST_TIMEOUT,
+                )
                 response.raise_for_status()
                 return response.json()
             except requests.exceptions.HTTPError as e:
@@ -171,6 +195,18 @@ class ErcotAPI:
                         raise  # Re-raise if max retries reached
                 else:
                     raise  # Re-raise for non-429 errors
+            except (requests.exceptions.Timeout, requests.exceptions.ConnectionError):
+                if attempt < max_retries - 1:
+                    wait_time = 2 ** attempt
+                    if verbose:
+                        print(
+                            "ERCOT request timed out or lost its connection. "
+                            f"Waiting {wait_time}s before retry "
+                            f"{attempt + 1}/{max_retries}..."
+                        )
+                    time.sleep(wait_time)
+                else:
+                    raise
 
     def get_public(self, endpoint: str, params: Optional[Dict[str, Any]] = None, verbose: bool = False, max_retries: int = 3) -> Dict:
         """Query ERCOT Public Reports API (base: https://api.ercot.com/api/public-reports)"""
