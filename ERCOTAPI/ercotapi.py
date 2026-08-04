@@ -456,7 +456,7 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-APP_BUILD = "2026-07-23 us-canada-grid-atlas-v5"
+APP_BUILD = "2026-08-03 document-contrast-v6"
 ERCOT_API_MARKET_URL = "https://apimarket.ercot.com/"
 LOVABLE_ERCOT_DASHBOARD_URL = "https://ercot-news-watch.lovable.app/"
 ERCOT_TIMEZONE = ZoneInfo("America/Chicago")
@@ -770,8 +770,9 @@ def inject_dashboard_css() -> None:
             border-bottom: 1px solid var(--ercot-border) !important;
         }
         .stTabs [data-baseweb="tab"],
-        .stTabs button[role="tab"],
-        [data-testid="stTabs"] button[role="tab"] {
+        .stTabs [role="tab"],
+        [data-testid="stTabs"] [role="tab"],
+        [data-testid="stTab"] {
             flex: 0 0 auto !important;
             min-height: 2.45rem !important;
             border: 1px solid #8aa5b8 !important;
@@ -788,16 +789,18 @@ def inject_dashboard_css() -> None:
                 box-shadow 140ms ease !important;
         }
         .stTabs [data-baseweb="tab"] *,
-        .stTabs button[role="tab"] *,
-        [data-testid="stTabs"] button[role="tab"] * {
+        .stTabs [role="tab"] *,
+        [data-testid="stTabs"] [role="tab"] *,
+        [data-testid="stTab"] * {
             color: inherit !important;
             -webkit-text-fill-color: inherit !important;
             opacity: 1 !important;
             font-weight: 700 !important;
         }
         .stTabs [data-baseweb="tab"]:hover,
-        .stTabs button[role="tab"]:hover,
-        [data-testid="stTabs"] button[role="tab"]:hover {
+        .stTabs [role="tab"]:hover,
+        [data-testid="stTabs"] [role="tab"]:hover,
+        [data-testid="stTab"]:hover {
             background: #d7edf4 !important;
             border-color: var(--ercot-accent) !important;
             color: #073b55 !important;
@@ -805,13 +808,15 @@ def inject_dashboard_css() -> None:
             box-shadow: 0 5px 13px rgba(11, 47, 79, 0.10) !important;
         }
         .stTabs [data-baseweb="tab"]:focus-visible,
-        .stTabs button[role="tab"]:focus-visible,
-        [data-testid="stTabs"] button[role="tab"]:focus-visible {
+        .stTabs [role="tab"]:focus-visible,
+        [data-testid="stTabs"] [role="tab"]:focus-visible,
+        [data-testid="stTab"]:focus-visible {
             outline: 3px solid rgba(8, 145, 178, 0.30) !important;
             outline-offset: 2px !important;
         }
         .stTabs [aria-selected="true"],
-        [data-testid="stTabs"] button[aria-selected="true"] {
+        [data-testid="stTabs"] [aria-selected="true"],
+        [data-testid="stTab"][aria-selected="true"] {
             background: var(--ercot-blue) !important;
             border-color: var(--ercot-blue) !important;
             color: #ffffff !important;
@@ -819,13 +824,16 @@ def inject_dashboard_css() -> None:
             box-shadow: 0 6px 15px rgba(11, 47, 79, 0.18) !important;
         }
         .stTabs [aria-selected="true"] *,
-        [data-testid="stTabs"] button[aria-selected="true"] * {
+        [data-testid="stTabs"] [aria-selected="true"] *,
+        [data-testid="stTab"][aria-selected="true"] * {
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
             font-weight: 800 !important;
         }
         .stTabs [data-baseweb="tab-highlight"],
-        .stTabs [data-baseweb="tab-border"] {
+        .stTabs [data-baseweb="tab-border"],
+        [data-testid="stTabs"] [data-baseweb="tab-highlight"],
+        [data-testid="stTabs"] [data-baseweb="tab-border"] {
             display: none !important;
         }
         .st-key-ercot_document_category_filter,
@@ -903,6 +911,14 @@ def inject_dashboard_css() -> None:
         [class*="st-key-ercot_revision_family_filter"] button[data-active="true"],
         [class*="st-key-ercot_dashboard_view"] button[data-active="true"],
         [class*="st-key-north_american_grid_atlas_region"] button[data-active="true"],
+        [class*="st-key-ercot_document_category_filter"] button[aria-checked="true"],
+        [class*="st-key-ercot_revision_family_filter"] button[aria-checked="true"],
+        [class*="st-key-ercot_dashboard_view"] button[aria-checked="true"],
+        [class*="st-key-north_american_grid_atlas_region"] button[aria-checked="true"],
+        [class*="st-key-ercot_document_category_filter"] button[data-selected="true"],
+        [class*="st-key-ercot_revision_family_filter"] button[data-selected="true"],
+        [class*="st-key-ercot_dashboard_view"] button[data-selected="true"],
+        [class*="st-key-north_american_grid_atlas_region"] button[data-selected="true"],
         [class*="st-key-ercot_document_category_filter"] button[data-testid$="-pillsActive"],
         [class*="st-key-ercot_revision_family_filter"] button[data-testid$="-pillsActive"],
         [class*="st-key-ercot_dashboard_view"] button[data-testid$="-pillsActive"],
@@ -927,6 +943,14 @@ def inject_dashboard_css() -> None:
         [class*="st-key-ercot_revision_family_filter"] button[aria-selected="true"] *,
         [class*="st-key-ercot_dashboard_view"] button[aria-selected="true"] *,
         [class*="st-key-north_american_grid_atlas_region"] button[aria-selected="true"] *,
+        [class*="st-key-ercot_document_category_filter"] button[aria-checked="true"] *,
+        [class*="st-key-ercot_revision_family_filter"] button[aria-checked="true"] *,
+        [class*="st-key-ercot_dashboard_view"] button[aria-checked="true"] *,
+        [class*="st-key-north_american_grid_atlas_region"] button[aria-checked="true"] *,
+        [class*="st-key-ercot_document_category_filter"] button[data-selected="true"] *,
+        [class*="st-key-ercot_revision_family_filter"] button[data-selected="true"] *,
+        [class*="st-key-ercot_dashboard_view"] button[data-selected="true"] *,
+        [class*="st-key-north_american_grid_atlas_region"] button[data-selected="true"] *,
         [class*="st-key-ercot_document_category_filter"] button[data-testid$="-pillsActive"] *,
         [class*="st-key-ercot_revision_family_filter"] button[data-testid$="-pillsActive"] *,
         [class*="st-key-ercot_dashboard_view"] button[data-testid$="-pillsActive"] *,
