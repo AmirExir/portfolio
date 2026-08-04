@@ -1,0 +1,15 @@
+Fresh, market-relevant headlines are thin in this article set, and they do not clearly explain today’s broader tape.
+
+**Facts**
+- **Wccftech — 2026-08-03 09:10 UTC:** Barclays said Google could generate as much as **$252 billion** in TPU sales if it shifts its AI-chip business model, with Broadcom tied to that pivot. This is an analyst view on **Google/AI semis**, not a company filing or earnings release.
+- **Crypto Briefing — 2026-08-03 09:02 UTC:** Axios-reported criticism of the U.S. Energy Department’s slow progress finalizing **Venezuelan oil deals**; the article says the delay matters for efforts to revive Venezuelan supply.
+- **Crypto Briefing — 2026-08-03 09:00 UTC:** **Ripple** said it invested in **ZILO** and **Licuido** to support XRP Ledger infrastructure, with a focus on regulated transfer, issuance, and collateral services.
+- **Business Insider — 2026-08-03 09:00 UTC:** Feature story arguing **Nvidia’s CUDA software moat** is facing growing competitive pressure from AI-driven software tools and alternative development approaches. This is thematic analysis, not a discrete corporate event.
+- **GlobeNewswire / BioNTech — 2026-08-03 09:00 UTC:** **BioNTech** announced **Guido Oelkers** will become CEO.
+
+**Interpretation**
+- The freshest usable items skew toward **AI/semi themes**, **energy supply**, and **crypto infrastructure**, but most are **analysis, commentary, or secondary reports**, not hard macro catalysts.
+- The **Google TPU / Broadcom** note could matter for AI-chip positioning if picked up broadly, but as presented here it is **sell-side speculation**, not confirmed new revenue guidance.
+- The **Venezuela oil** item is the clearest potential macro input because it touches **future oil supply**, though it does not provide an immediate supply change.
+- The **Ripple/XRP** item is more relevant to **crypto ecosystem sentiment** than to broad risk markets.
+- There are **no fresh articles here on Fed policy, Treasury yields, CPI/PCE, major earnings, or major index-level drivers**, so this set is too thin to confidently explain broader market moves today.
