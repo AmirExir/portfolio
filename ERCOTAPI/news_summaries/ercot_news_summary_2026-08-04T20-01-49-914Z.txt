@@ -1,0 +1,39 @@
+1. Hourly peak load in ERCOT set a new record, exceeding 91 GW on July 22
+Eia.gov • 2026-08-03
+Hourly peak load in the Electric Reliability Council of Texas (ERCOT), the regional transmission organization serving most of Texas, reached a record 91.1 gigawatts (GW) on July 22, 2026, according to data reported to us for our Hourly Electric Grid Monitor.
+https://www.eia.gov/todayinenergy/detail.php?id=67906
+
+2. Bitcoin miners saved Texas power grid from collapse, but their lucrative pivot to AI is stripping away the emergency brake
+CryptoSlate • 2026-08-01
+Texas broke its all-time electricity demand record twice in two days last week. ERCOT served a preliminary 91,308 megawatts around 5 p.m. on July 22, one day after demand hit 87,403 megawatts and erased the 85,508-megawatt mark that had stood since Aug. 10, 2…
+https://cryptoslate.com/bitcoin-miners-saved-the-texas-power-grid-from-collapse-but-their-lucrative-pivot-to-ai-is-stripping-away-the-emergency-brake/
+
+3. Free-Market Electricity Reform Advancing (Advocates for Consumer Regulated Electricity)
+Wattsupwiththat.com • 2026-07-31
+The central message is simple: large new electric loads should be allowed to bring private power online without shifting costs or reliability risks onto existing ratepayers. The post Free-Market Electricity Reform Advancing (Advocates for Consumer Regulated E…
+https://wattsupwiththat.com/2026/07/31/free-market-electricity-reform-advancing-advocates-for-consumer-regulated-electricity/
+
+4. Data Centers Need Power Fast. The Auto Industry Already Has It.
+Forbes • 2026-07-30
+Hyperscalers are racing to secure electricity for AI data centers. Electric vehicles could be the fastest fix in the quest for speed to power.
+https://www.forbes.com/sites/annademeo/2026/07/30/data-centers-need-power-fast-the-auto-industry-already-has-it/
+
+5. Exelon’s Data Center Pipeline Cut as AI Projects Face Pushback
+Financial Post • 2026-07-30
+Exelon Corp. slashed its forecast for new data center projects amid mounting opposition across the US to AI facilities.
+https://financialpost.com/pmn/business-pmn/exelons-data-center-pipeline-cut-as-ai-projects-face-pushback
+
+6. TeraWulf and Cipher Digital Are up 50% in 2026 While IREN Lags Behind. Is It Time to Buy IREN for a Catch-Up Trade?
+24/7 Wall St. • 2026-07-30
+TeraWulf and Cipher Mining have surged past 50% gains in 2026 while IREN sits in the red, yet IREN carries the biggest GPU partnership and power portfolio of...
+https://247wallst.com/investing/2026/07/30/terawulf-and-cipher-digital-are-up-50-in-2026-while-iren-lags-behind-is-it-time-to-buy-iren-for-a-catch-up-trade/
+
+7. Trench Group Opens First HSP Manufacturing Facility in U.S. to Support America’s Grid Expansion
+Financial Post • 2026-07-30
+State of the art $60-million manufacturing facility in Charlotte, NC, is expected to become the first domestic producer of high-voltage transformer bushings up to 765 kV, will create up to 140 jobs, and strengthen domestic supply for critical power infrastruc…
+https://financialpost.com/pmn/business-wire-news-releases-pmn/trench-group-opens-first-hsp-manufacturing-facility-in-u-s-to-support-americas-grid-expansion
+
+8. American Electric Power Q2 Earnings Call Highlights
+MarketBeat • 2026-07-30
+American Electric Power (NASDAQ:AEP) raised its 2026 operating earnings guidance after reporting second-quarter operating earnings of $1.36 per share, or $74...
+https://www.marketbeat.com/instant-alerts/american-electric-power-q2-earnings-call-highlights-2026-07-30/?utm_source=yahoofinance&amp;utm_medium=yahoofinance
