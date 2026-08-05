@@ -1,0 +1,19 @@
+Here are the only fresh, potentially market-moving items from the last 36 hours in your feed.
+
+**Facts**
+- **CNBC, 2026-08-03T22:04:23Z:** U.S. stock futures rose Tuesday, with CNBC citing **strong quarterly results from Caterpillar and Palantir** and **falling oil prices** tied to optimism around a possible **U.S.-Iran deal to reopen the Strait of Hormuz**.
+- **CNA/Reuters, 2026-08-03T21:58:10Z:** **Onsemi forecast Q3 revenue above Wall Street expectations**, citing **surging demand for power-management chips used in AI data centers**.
+- **CNBC, 2026-08-03T22:04:23Z:** CNBC also said **Amazon surpassed a $3 trillion market cap for the first time**, in the context of Monday’s session.
+- **The Daily Hodl, 2026-08-03T21:51:10Z:** **Strategy (MSTR) sold 1,638 BTC worth about $105 million** over the past week, according to the article.
+- **NBC News, 2026-08-03T22:06:11Z:** Federal prosecutors charged an **FBI supervisor** with allegedly transferring **nearly $1 million from crypto accounts** tied to an adversarial nation into his personal wallet. This is crypto-regulatory/crime related, but not clearly broad market-moving by itself.
+
+**Interpretation**
+- The freshest feed points to a **risk-on read driven by earnings and lower oil**, but the article set is **thin** and mostly relies on one CNBC live-update summary rather than multiple independent market reports.
+- The most concrete single-stock/theme item is **Onsemi’s upbeat AI-linked guidance**, which supports continued focus on **AI/semi infrastructure demand**.
+- The **oil angle** could matter for broader inflation/rates sentiment if confirmed elsewhere, because the cited catalyst is **optimism around Hormuz reopening**, but this feed alone does not provide enough detail to draw a stronger macro conclusion.
+- The **crypto headlines** here look more **idiosyncratic** than tape-driving. Strategy’s BTC sale may matter for **MSTR/Bitcoin watchers**, but the supplied articles do not establish a broader crypto market impact.
+- There are **no fresh Fed, Treasury yield, or inflation-specific headlines** in this set that clearly explain today’s tape.
+
+**Bottom line**
+- Fresh actionable drivers in this feed: **Caterpillar/Palantir earnings support, Onsemi AI-data-center demand guidance, and lower oil tied to Iran/Hormuz optimism**.
+- **Headline set is limited**, so if you’re trying to explain the full market tape, this feed **does not fully do it**.

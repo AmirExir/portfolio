@@ -1,0 +1,39 @@
+1. [TX Gov.] Abbott Orders Comprehensive Data Center Audit Amid Surge in Texas Grid Requests
+Freerepublic.com • 2026-08-04
+Gov. Greg Abbott has ordered state regulators to conduct a comprehensive verification and audit of all data centers advancing through the interconnection process before any additional projects are approved. Abbott said projects that fail to comply with state …
+https://freerepublic.com/focus/f-news/4390598/posts
+
+2. Greg Abbott Once Called Texas the 'Epicenter' of AI. Now He's Freezing Data Center Construction.
+Yahoo Entertainment • 2026-08-04
+The bipartisan backlash against data centers reaches the Lone Star State.
+https://www.yahoo.com/news/politics/articles/greg-abbott-once-called-texas-192112853.html
+
+3. Texas mandates audits for data centers before grid connections
+Crypto Briefing • 2026-08-04
+Texas' new audit mandate for data centers may slow crypto mining growth, impacting global hash rate and investor confidence in the sector. The post Texas mandates audits for data centers before grid connections appeared first on Crypto Briefing.
+https://cryptobriefing.com/texas-data-center-audit-grid-crypto-mining/
+
+4. Texas halts new data centers as governor calls for audits | TechCrunch
+TechCrunch • 2026-08-04
+Texas Governor Greg Abbott has paused new data center development until an audit has been completed.
+https://techcrunch.com/2026/08/04/texas-halts-new-data-centers-as-governor-calls-for-audits/
+
+5. Texas says data centers must pass an audit before connecting to the grid
+The Verge • 2026-08-04
+Texas announced new a audit on data centers that could slow approval for new facilities seeking to connect to the state energy grid. Governor Greg Abbott (R) on Monday directed the Public Utility Commission of Texas (PUCT) and the Electric Reliability Council…
+https://www.theverge.com/policy/975071/texas-data-center-audit
+
+6. Texas slams on the breaks for 1,800 data centers, power grid requirements are five times higher than peak record demand — 474 gigawatts of power requests
+Slashdot.org • 2026-08-04
+Gov. Greg Abbott (R) instructed PUCT and ERCOT to pause all data center applications until they complete an audit on all the information that data center developers must submit. The move reportedly came after PUCT asked 377 data center operators to submit wat…
+https://slashdot.org/firehose.pl?op=view&amp;id=184849980
+
+7. Texas slams on the breaks for 1,800 data centers, power grid requirements are five times higher than peak record demand — 474 gigawatts of power requests are now subject to new moratorium
+Tom's Hardware UK • 2026-08-04
+Gov. Greg Abbott (R) instructed PUCT and ERCOT to pause all data center applications until they complete an audit on all the information that data center developers must submit. The move reportedly came after PUCT asked 377 data center operators to submit wat…
+https://www.tomshardware.com/tech-industry/data-centers/texas-slams-on-the-breaks-for-1-800-data-centers-power-grid-requirements-are-five-times-higher-than-peak-record-demand-474-gigawatts-of-power-requests-are-now-subject-to-new-moratorium
+
+8. Bernstein: Texas electric grid moratorium won’t impact Bitcoin miners
+Crypto Briefing • 2026-08-04
+The moratorium enhances the competitive edge of established Bitcoin miners in Texas by limiting new entrants and increasing their asset value. The post Bernstein: Texas electric grid moratorium won’t impact Bitcoin miners appeared first on Crypto Briefing.
+https://cryptobriefing.com/texas-grid-moratorium-bitcoin-miners-bernstein/
