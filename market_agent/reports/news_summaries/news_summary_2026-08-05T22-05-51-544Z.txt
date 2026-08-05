@@ -1,0 +1,16 @@
+Fresh market-moving headlines are limited in this article set, and they do not fully explain today’s broader tape.
+
+**Facts**
+- **Al Jazeera English, 2026-08-04T22:02:09Z** — **SpaceX** reported a quarterly loss of more than half a billion dollars, but said the loss was smaller than analysts expected and revenue rose more than 90% from a year earlier.
+- **NPR, 2026-08-04T22:02:03Z** — **SpaceX** said on its first earnings report since its IPO that revenue rose sharply and losses narrowed, while spending remained heavy on rockets, Starlink satellites, and AI.
+- **ABC News (AU), 2026-08-04T21:59:16Z** — Australia’s finance live blog said **U.S. Treasury Secretary Scott Bessent** indicated a deal to reopen the **Strait of Hormuz** could happen “by tomorrow,” tying that to firmer risk sentiment in Asia.
+- **Crypto Briefing, 2026-08-04T21:41:41Z** — Citing a Bloomberg survey, **OPEC oil production** reportedly increased again last month, led by higher output from **Kuwait, Saudi Arabia, and Iraq**; the report also noted shipping-data opacity made tracking harder.
+- **Forbes, 2026-08-04T21:58:41Z** — A **Trump-linked bitcoin mining company, American Bitcoin**, disclosed it settled a Justice Department allegation over an improperly obtained pandemic-era loan for **$2.5 million**.
+- **TheWrap, 2026-08-04T21:54:41Z** — **Electronic Arts** completed its **$55 billion buyout** and ceased trading on Nasdaq.
+
+**Interpretation**
+- The cleanest potentially market-relevant themes here are:
+  - **Energy/geopolitics:** any progress on reopening the **Strait of Hormuz** could matter for oil and broader risk sentiment.
+  - **Oil supply:** reported **higher OPEC output** points to a possible supply-side influence on crude markets.
+  - **AI/growth equities:** **SpaceX** earnings add to investor focus on capital-intensive AI and infrastructure stories, though this is more company-specific than broad-market macro.
+- There is **little fresh coverage here on Fed, rates, inflation, major indexes, semis, or bitcoin price action** itself, so this set is **too thin to confidently explain the full market move today**.
