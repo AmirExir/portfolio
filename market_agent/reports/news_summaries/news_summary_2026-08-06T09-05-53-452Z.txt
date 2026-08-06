@@ -1,0 +1,12 @@
+Fresh article set is very thin and does not clearly explain today’s broader tape. Most items in the JSON are package listings, opinion pieces, or generic stock write-ups rather than market-moving news.
+
+**Facts**
+- **Biztoc/CNBC, 2026-08-05T09:03:14Z:** Report says **U.S. Treasury yields fell** as traders watched a possible **Iran-related deal that could unlock the Strait of Hormuz**, with implications for the U.S. growth/inflation outlook.
+- **News On Japan, 2026-08-05T09:02:17Z:** Report says **Japanese stocks rebounded**, with lower oil prices and a steadier yen cited as easing inflation concerns; AI and semiconductor-related shares were mentioned as part of the move.
+- **CoinDesk, 2026-08-05T09:00:20Z:** Arthur Hayes argued in an essay that heavy **AI infrastructure/data-center spending** could become a credit bubble and that any eventual bailout/liquidity response would be supportive for **bitcoin**. This is commentary/opinion, not a reported market event.
+- **Business Insider, 2026-08-05T09:00:02Z:** Article summarizes **Morgan Stanley’s scenarios for AI** and says Nvidia and large cloud companies could benefit across multiple AI outcomes. This is analyst framing, not a fresh catalyst.
+
+**Interpretation**
+- The only clearly fresh macro item here is the **rates/oil geopolitical angle**: if the Strait of Hormuz risk is perceived to ease, that can support **lower yields via a softer inflation/oil outlook**.
+- There is **not enough hard, fresh reporting** in this article set to confidently attribute moves in U.S. equities, Fed expectations, crypto, or semis beyond that.
+- The AI/bitcoin pieces are **views and scenario analysis**, not firm new developments, so they should be treated as background rather than direct tape drivers.
