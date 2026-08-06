@@ -1,0 +1,39 @@
+1. Texas Halts Data Center Connections To Power Grid Amid Overwhelming Demand
+Slashdot.org • 2026-08-05
+An anonymous reader quotes a report from Ars Technica: Nowhere is the US data center boom bigger than in Texas. But less than a year after declaring Texas the "epicenter of AI development," Governor Greg Abbott has declared a moratorium on all new power grid …
+https://hardware.slashdot.org/story/26/08/04/231207/texas-halts-data-center-connections-to-power-grid-amid-overwhelming-demand
+
+2. Texas Gov. Greg Abbott effectively pauses new data center projects pending statewide grid audit
+Fox News • 2026-08-04
+Greg Abbott paused new data center interconnection requests as ERCOT reviews over 474 gigawatts of pending applications threatening Texas grid reliability.
+https://www.foxnews.com/politics/texas-gov-greg-abbott-effectively-pauses-new-data-center-projects-pending-statewide-grid-audit
+
+3. Texas hits pause on 1,800 data center projects to scrutinize power and water demands
+TechSpot • 2026-08-04
+The state wants more information before granting access. Abbott said applicants must provide tax break details, power use and generation data, water use and cooling plans, steps to reduce community impact, and facility ownership information. Any project missi…
+https://www.techspot.com/news/113355-texas-hits-pause-1800-data-center-projects-scrutinize.html
+
+4. Gov. Greg Abbott halts new data centers as electricity demand surges: ‘Texans must come first’
+New York Post • 2026-08-04
+Texas Gov. Greg Abbott halted approvals for data centers requesting to connect to the state's electrical grid amid his push to ban new data facilities in rural Texas.
+https://nypost.com/2026/08/04/us-news/gov-greg-abbott-halts-new-data-centers-as-electricity-demand-skyrockets/
+
+5. Texas Pauses New Data Center Projects Looking to Connect to the State’s Grid
+Gizmodo.com • 2026-08-04
+Gov. Greg Abbott directed regulators to audit data center projects seeking to connect to the grid amid growing backlash.
+https://gizmodo.com/texas-pauses-new-data-center-projects-looking-to-connect-to-the-states-grid-2000794539
+
+6. Texas freezes new data centers as 474 GW queue faces audit
+4sysops.com • 2026-08-04
+Texas has temporarily halted new data-center grid connections while the Public Utility Commission of Texas and ERCOT audit projects seeking approval. The review comes as ERCOT’s interconnection queue reaches 474 gigawatts—more than five times the grid’s curre…
+https://4sysops.com/archives/texas-freezes-new-data-centers-as-474-gw-queue-faces-audit/
+
+7. [TX Gov.] Abbott Orders Comprehensive Data Center Audit Amid Surge in Texas Grid Requests
+Freerepublic.com • 2026-08-04
+Gov. Greg Abbott has ordered state regulators to conduct a comprehensive verification and audit of all data centers advancing through the interconnection process before any additional projects are approved. Abbott said projects that fail to comply with state …
+https://freerepublic.com/focus/f-news/4390598/posts
+
+8. Greg Abbott Once Called Texas the 'Epicenter' of AI. Now He's Freezing Data Center Construction.
+Yahoo Entertainment • 2026-08-04
+The bipartisan backlash against data centers reaches the Lone Star State.
+https://www.yahoo.com/news/politics/articles/greg-abbott-once-called-texas-192112853.html
