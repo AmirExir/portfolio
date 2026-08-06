@@ -3004,7 +3004,9 @@ def newest_github_file(
     prefix: str,
     suffix: str,
 ) -> dict | None:
-    for branch in ("generated-output", None):
+    # Current publishers write validated reports to the default branch. Keep
+    # the legacy branch as a fallback only so stale artifacts cannot win.
+    for branch in (None, "generated-output"):
         try:
             files = fetch_github_directory(directory, branch=branch)
         except Exception:

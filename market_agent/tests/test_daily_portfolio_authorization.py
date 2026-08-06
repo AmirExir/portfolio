@@ -58,6 +58,84 @@ def _history() -> dict[str, pd.Series]:
 
 
 class DailyPortfolioAuthorizationTests(unittest.TestCase):
+    def test_late_ledger_entry_is_skipped_without_aborting_report(self) -> None:
+        as_of_session = date(2026, 1, 2)
+        calendar = us_equity_trading_sessions(
+            as_of=datetime(2026, 1, 2, 17, tzinfo=UTC),
+            observed_sessions=(as_of_session,),
+            future_session_count=35,
+        )
+        future_sessions = [
+            session for session in calendar if session > as_of_session
+        ]
+        target_session = future_sessions[29]
+        row = {
+            "Symbol": "SNDK",
+            "As Of Session": as_of_session.isoformat(),
+            "Target Session": target_session.isoformat(),
+            "Selected Model": "Ensemble",
+            "Forecast Return %": 12.0,
+            "Expected Error %": 5.0,
+            "Probability Up %": 70.0,
+            "Policy Target %": 0.0,
+        }
+        snapshot = {
+            "symbol": "SNDK",
+            "as_of_session": as_of_session.isoformat(),
+            "data_cutoff_utc": "2026-01-02T21:00:00Z",
+            "models": {
+                "Ensemble": {"metrics": {}},
+                "RL Policy": {
+                    "metrics": {
+                        "shadow_mode": True,
+                        "policy_version": "rl-shadow-test-v1",
+                        "model_version": "rl-shadow-model-v1",
+                        "policy_feature_set_version": "rl-shadow-features-v1",
+                        "policy_execution_start_session": (
+                            future_sessions[0].isoformat()
+                        ),
+                        "policy_execution_target_session": (
+                            future_sessions[1].isoformat()
+                        ),
+                        "policy_execution_horizon_sessions": 1,
+                        "rl_live_allocation_enabled": False,
+                        "forecast_context_horizon_sessions": 30,
+                        "forecast_context_return": 0.12,
+                        "forecast_context_probability_up": 0.70,
+                        "forecast_context_lower_bound": 0.03,
+                        "forecast_context_uncertainty": 0.05,
+                    }
+                },
+            },
+        }
+
+        with tempfile.TemporaryDirectory() as directory:
+            ledger_path = Path(directory) / "prediction_ledger.jsonl"
+            result = append_prediction_records(
+                output_dir=Path(directory),
+                rows=[row],
+                snapshots=[snapshot],
+                horizon_days=30,
+                created_at_utc=datetime(2026, 1, 5, 17, tzinfo=UTC),
+            )
+            predictions = PredictionLedger(ledger_path).predictions()
+
+        self.assertEqual(result["appended"], 0)
+        self.assertEqual(predictions, ())
+        self.assertEqual(len(result["skipped"]), 3)
+        self.assertTrue(
+            all(
+                "after the next-session open" in message
+                for message in result["skipped"]
+            )
+        )
+        self.assertTrue(
+            any("RL forecast context" in message for message in result["skipped"])
+        )
+        self.assertTrue(
+            any("RL shadow" in message for message in result["skipped"])
+        )
+
     def test_rl_ledger_record_uses_delayed_daily_execution_window(self) -> None:
         as_of_session = date(2026, 1, 2)
         calendar = us_equity_trading_sessions(

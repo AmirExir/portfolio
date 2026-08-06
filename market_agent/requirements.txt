@@ -1,5 +1,6 @@
 streamlit
 yfinance
+lxml>=5,<7
 pandas
 numpy
 requests

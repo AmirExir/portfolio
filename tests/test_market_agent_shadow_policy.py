@@ -640,7 +640,7 @@ class ShadowReliabilityTests(unittest.TestCase):
         self.assertEqual(rows[0]["Reliability"], "Low")
         self.assertEqual(rows[0]["Policy Target %"], 0.0)
 
-    def test_published_buy_requires_allocation_eligibility_and_nonzero_target(self):
+    def test_research_buy_visibility_is_separate_from_execution_allocation(self):
         report = self._report_module()
         args = SimpleNamespace(min_signal_return_pct=2.0)
         base = {
@@ -650,16 +650,23 @@ class ShadowReliabilityTests(unittest.TestCase):
             "Policy Target %": 5.0,
             "Policy Allocation Eligible": True,
             "Reliability": "High",
+            "Expected Error %": 4.0,
+            "Model Edge %": 20.0,
+            "Direction Hit Rate %": 60.0,
+            "Validation MAE %": 4.0,
+            "Validation Samples": 30,
+            "Calibration Error %": 10.0,
+            "Brier Score": 0.20,
         }
 
         self.assertTrue(report.is_threshold_buy(base, args))
-        self.assertFalse(
+        self.assertTrue(
             report.is_threshold_buy(
                 {**base, "Policy Allocation Eligible": False},
                 args,
             )
         )
-        self.assertFalse(
+        self.assertTrue(
             report.is_threshold_buy(
                 {**base, "Policy Target %": 0.0},
                 args,

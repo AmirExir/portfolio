@@ -44,9 +44,31 @@ Recommended node layout:
 Schedule Trigger
 ├─ News API -> Message a model -> Code -> Stock Market
 ├─ Message a model -> Code -> Telegram
-└─ ML Forecast Rankings -> Code -> Telegram
-                      └-> Code -> Stock Market
+└─ ML Forecast Rankings -> Validate Optimization Output
+                         ├-> Message Model -> Telegram
+                         ├-> validated text GitHub payload -> GitHub
+                         └-> raw JSON GitHub payload -> GitHub
 ```
+
+The validation step is required. It must stop the branch when command stdout
+is blank or malformed, when no ranking rows were produced, or when generated
+time, horizon, universe, or report text is missing. A failed producer must not
+be rewritten as a valid “no signals” market report. The checked repair utility
+adds this guard, publishes deterministic validated report text instead of
+trusting free-form model output, reconnects both timestamped publishers, moves
+them to `main`, and reuses an existing n8n HTTP-header credential without
+copying secret values:
+
+```bash
+python3 scripts/repair_n8n_market_optimization.py \
+  --database /path/to/.n8n/database.sqlite \
+  --backup /path/to/database.sqlite.market-optimizer-backup \
+  --workflow-id YOUR_WORKFLOW_ID
+```
+
+Stop n8n before running the repair, then start it again. The utility updates
+the draft plus the active/published workflow versions and refuses to overwrite
+an existing backup.
 
 For the forecast **Telegram Code** node, use:
 
@@ -146,6 +168,7 @@ just by its final sign.
 --no-optimize
 --force-retrain
 --model-cache-max-age-days 7
+--max-data-lag-sessions 1
 --include-rl-policy
 --no-rl-policy
 --portfolio-current-weights-json '{"SPY": 0.04, "MU": 0.03}'
@@ -155,7 +178,21 @@ just by its final sign.
 --json-only
 ```
 
-By default, the text report includes every buy/sell signal with a directional model or smart-policy call and an absolute forecast return of at least 2%. Use `--min-signal-return-pct` to adjust that threshold, and use `--max-signal-rows` only if you need to cap the report length.
+By default, the primary text sections include every non-RL, non-low-reliability
+model buy/sell call with an absolute forecast return of at least 2%. Smart-policy
+watchlists remain separate. Research forecast visibility is also separate from
+execution authorization: missing broker state keeps executable allocation at
+zero without erasing a qualified research forecast. Published reliability
+requires at least 8 out-of-sample observations, at least a 50% realized
+direction hit rate, calibration error no greater than 20%, and a Brier score no
+greater than 0.30. Missing or malformed validation evidence fails closed. Use
+`--min-signal-return-pct` to adjust the threshold and `--max-signal-rows` only
+when a report-length cap is needed.
+
+Daily OHLCV inputs fail closed when they trail the latest completed market
+session by more than `--max-data-lag-sessions`. An incomplete current-session
+daily bar is removed before forecasting. This prevents a failed provider call
+from silently publishing an old cache as a current ranking.
 
 Do not rank RL against price forecasters by forecast MAE. RL is a target-weight
 policy and has a different objective. The normal overnight profile retains
@@ -238,10 +275,22 @@ include_rl_policy = false
 
 even though RL is otherwise enabled by default, and even if an upstream n8n model emits `primary_model = RL Policy` or `--include-rl-policy`.
 
-Use `--run-profile research` for the normal overnight run if you are comfortable with the runtime. It selects `Best Validation`, keeps RL Policy/XGBoost/Ridge/Ensemble in the candidate set, and trains both LSTM and Transformer on every symbol. Use `--run-profile quality` for the balanced adaptive run, and `--run-profile quick` for on-demand answers. If you want the report text and Telegram message to stay clean, omit `--show-timing`; timing details are still saved in the JSON file.
+Use `--run-profile research` for the normal overnight run if you are comfortable
+with the runtime. It selects `Best Validation`, compares the registered non-RL
+forecast models, trains both LSTM and Transformer on every symbol, and records
+RL only as shadow diagnostics. Use `--run-profile quality` for the balanced
+adaptive run, and `--run-profile quick` for on-demand answers. If you want the
+report text and Telegram message to stay clean, omit `--show-timing`; timing
+details are still saved in the JSON file.
 
-The report uses the same Yahoo Finance data path and the same Ridge, XGBoost, Neural Net, optional LSTM/Transformer, default-on RL Policy, and Ensemble forecast comparison used in the Streamlit app.
-Model weights are persisted under `market_agent/reports/model_weights/`: Ridge updates saved sufficient statistics, XGBoost continues from its saved booster, LSTM/Transformer reload saved PyTorch weights and fine-tune on new labeled samples, and RL Policy updates a saved Q-table. Use `--force-retrain` when you want to ignore saved weights and rebuild from scratch.
+The report uses the same Yahoo Finance data path and the same Ridge, XGBoost,
+Neural Net, optional LSTM/Transformer, and Ensemble forecast comparison used in
+the Streamlit app. RL is generated separately as shadow policy diagnostics.
+Model weights are persisted under `market_agent/reports/model_weights/`: Ridge
+updates saved sufficient statistics, XGBoost continues from its saved booster,
+LSTM/Transformer reload saved PyTorch weights and fine-tune on new labeled
+samples, and the shadow RL policy updates a saved Q-table. Use `--force-retrain`
+when you want to ignore saved weights and rebuild from scratch.
 If you omit `--symbols`, the script uses the full default stock, ETF, commodity, crypto, and meme-crypto universe from the app.
 The text report and JSON rows include the recognized primary pattern, validation MAE, direction hit rate, and per-model returns for each ranked ticker, so the n8n summary and website table can describe the same pick.
 The JSON payload includes all model snapshots per symbol, which makes it usable by the app and by an LLM-driven n8n branch without rerunning forecasts.

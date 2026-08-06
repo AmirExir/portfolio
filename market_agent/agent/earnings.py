@@ -753,9 +753,10 @@ def fetch_yfinance_earnings_payload(
         return EarningsFetchResult(True, payload=payload)
     except Exception as exc:  # Provider failures are contained and observable.
         LOGGER.warning(
-            "yfinance earnings fetch failed for %s (%s)",
+            "yfinance earnings fetch failed for %s (%s): %s",
             normalized_symbol,
             type(exc).__name__,
+            exc,
         )
         return EarningsFetchResult(
             False,
