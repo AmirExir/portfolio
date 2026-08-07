@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited in this article set, and several items are low-quality aggregations, press releases, or non-market coverage. The clearest usable drivers are around Fed/rates, selected earnings, and energy/geopolitical risk.
+
+**Facts**
+- **Crypto Briefing, 2026-08-05 22:00Z:** Bank of America now expects **three Fed rate hikes this year**, totaling **75 bps**.
+- **PYMNTS, 2026-08-05 21:58Z:** The **Dallas Fed and New York Fed** said they plan a **pilot survey of the U.S. private credit market**, with launch after Q3 and aggregate findings expected in Q1 2027.
+- **Crypto Briefing, 2026-08-05 21:56Z:** **Circle** reported a **profit beat** but **revenue of $701 million missed expectations**, with the article saying lower interest rates are squeezing reserve income.
+- **Crypto Briefing, 2026-08-05 21:49Z:** **SanDisk** delivered an earnings beat and raised its buyback authorization, but its **fiscal Q1 revenue guidance came in below expectations**; the article says the stock fell after the release.
+- **Biztoc/Yahoo syndicated summary, 2026-08-05 21:45Z:** A summary article said **SpaceX** beat on revenue but investors focused on **higher capital spending and wider losses**. This is an aggregation, so confidence is lower.
+- **Biztoc/Benzinga syndicated summary, 2026-08-05 21:44Z:** A summary article said **Palantir** posted **93% year-over-year revenue growth to $1.94 billion** and **adjusted EPS of $0.41**, above consensus. This is also an aggregation, so confidence is lower.
+- **Crypto Briefing, 2026-08-05 21:42Z:** The **Houthis claimed strikes on two Saudi oil tankers** and threatened a **Red Sea shipping blockade**, raising fresh geopolitical risk around oil transport.
+- **CoinDesk, 2026-08-05 21:40Z:** **Binance sued RedotPay** for **$470 million**; RedotPay said it will defend itself vigorously.
+
+**Interpretation**
+- The most market-relevant macro item here is the **more hawkish BofA Fed call**, which could matter for **rates, duration-sensitive equities, and crypto** if investors take it seriously.
+- On earnings, the usable signal is **mixed-to-negative guidance/revenue quality** from **Circle** and **SanDisk**, despite headline beats.
+- In AI/semis, this set is **thin**. Palantir appears notable, but the supplied item is only a **syndicated snippet**, so it should be treated cautiously.
+- The **Houthi/Saudi tanker** headline is the clearest **energy/risk-sentiment** catalyst in the batch because it directly raises the prospect of **shipping disruption**.
+- Overall, this article set does **not fully explain today’s tape** for broad equity indexes; it offers only a **partial read** centered on hawkish rate expectations, selective earnings reactions, and geopolitical oil risk.
