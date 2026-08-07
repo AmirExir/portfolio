@@ -1,0 +1,15 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Fed / rates:** *The Times of India* (2026-08-06T09:04:51Z) reported **San Francisco Fed President Mary Daly** said the Fed was right to keep rates unchanged and that policymakers need **more inflation data before making a September decision**.
+- **Rates / Treasury market:** *CNBC* (2026-08-06T08:55:36Z) reported **shorter-dated Treasury yields edged higher** as traders weighed the prospect of **further rate hikes**; the rest of the curve was steadier.
+- **FX / Fed expectations:** *WSJ via Biztoc* (2026-08-06T09:05:29Z) said the **dollar strengthened** as markets continued to bet on the possibility of **U.S. rate increases this year**.
+- **Energy / macro cross-asset:** *CNBC* (2026-08-06T08:55:36Z) said **oil prices were choppy** amid **Iran-Oman talks**, a live input for inflation and rates expectations.
+- **Semis / earnings:** *GlobeNewswire* (2026-08-06T09:05:00Z) said **Himax Technologies** reported **Q2 revenue, gross margin and EPS above prior guidance** and guided **Q3 revenue up 7% to 11% QoQ**.
+- **AI / semis:** *Business Insider* (2026-08-06T09:00:02Z) reported **Nvidia is building a new AI safety and security engineering team**, tied to its push into **open-weight AI models**.
+
+### Interpretation
+- The **clearest fresh macro driver** in this set is a **still-restrictive Fed/rates backdrop**: Daly’s comments, firmer short-end yields, and a stronger dollar all point to markets staying focused on whether inflation is soft enough to avoid another hike.
+- **Oil is not giving a clean directional signal** from these articles; it is described as **choppy**, so it adds uncertainty rather than a firm read on inflation.
+- On the **AI/semi front**, the only fresh fundamental item with direct earnings relevance is **Himax’s beat and positive Q3 guide**. The Nvidia item is strategically relevant for AI sentiment, but it is **not an earnings release**.
+- **Fresh headline coverage is somewhat thin** for fully explaining today’s tape. Beyond Fed/rates and one semi earnings report, there is **not much broad, high-conviction news here on indexes, major earnings, inflation data, or crypto price action**.
