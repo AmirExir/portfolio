@@ -5,15 +5,24 @@ import unittest
 
 from market_agent.n8n_workflow import (
     DEFAULT_CREDENTIAL_SOURCE_NODE,
+    DEFAULT_RL_SHADOW_JS,
+    DIRECT_OPTIMIZATION_TELEGRAM_NODE,
+    EXPLICIT_RL_COMMAND_FLAG_JS,
     MODEL_NODE,
     MODEL_USER_EXPRESSION,
+    OPTIMIZATION_TELEGRAM_NODE,
     PUBLISH_NODE,
     RAW_PAYLOAD_JS,
     RAW_PAYLOAD_NODE,
+    REQUEST_CONTEXT_NODE,
     RUN_NODE,
+    SCHEDULED_PROFILE_JS,
+    SCHEDULED_SHORT_SEQUENCE_JS,
+    SCHEDULED_SEQUENCE_JS,
     SYSTEM_SAFETY_SUFFIX,
     TEXT_PAYLOAD_JS,
     TEXT_PAYLOAD_NODE,
+    TELEGRAM_HTML_TEXT_EXPRESSION,
     VALIDATION_JS,
     VALIDATION_NODE,
     audit_market_optimization_workflow,
@@ -35,6 +44,23 @@ def _workflow_fixture() -> dict:
     system_prompt = "Summarize the supplied market-optimization report."
     return {
         "nodes": [
+            _node(
+                REQUEST_CONTEXT_NODE,
+                parameters={
+                    "jsCode": (
+                        "let runProfile = source === 'telegram' ? 'quick' : 'research';\n"
+                        "let sequenceModel = source === 'telegram' ? 'off' : 'both';\n"
+                        "let includeRlPolicy = false;\n"
+                        "let shortSequenceModel = sequenceModel === 'adaptive' ? "
+                        "'adaptive' : (sequenceModel === 'both' ? 'both' : 'off');\n"
+                        "if (noRlRequested) {\n"
+                        "  includeRlPolicy = false;\n"
+                        "}\n"
+                        "if (noRlRequested) args.push('--no-rl-policy');\n"
+                        "if (includeRlPolicy) args.push('--include-rl-policy');"
+                    )
+                },
+            ),
             _node(RUN_NODE),
             _node(
                 MODEL_NODE,
@@ -95,6 +121,24 @@ def _workflow_fixture() -> dict:
                     }
                 },
             },
+            _node(
+                OPTIMIZATION_TELEGRAM_NODE,
+                parameters={
+                    "text": "={{ $json.text }}",
+                    "additionalFields": {
+                        "appendAttribution": False,
+                    },
+                },
+            ),
+            _node(
+                DIRECT_OPTIMIZATION_TELEGRAM_NODE,
+                parameters={
+                    "text": "={{ $json.text }}",
+                    "additionalFields": {
+                        "appendAttribution": False,
+                    },
+                },
+            ),
         ],
         "connections": {
             RUN_NODE: {
@@ -127,6 +171,47 @@ def _targets(workflow: dict, source: str) -> list[str]:
 
 
 class MarketOptimizationWorkflowTests(unittest.TestCase):
+    def test_repair_bounds_schedule_and_hardens_telegram_delivery(self) -> None:
+        repaired, changes = repair_market_optimization_workflow(
+            _workflow_fixture()
+        )
+
+        self.assertTrue(changes)
+        request_context = next(
+            node
+            for node in repaired["nodes"]
+            if node["name"] == REQUEST_CONTEXT_NODE
+        )
+        request_code = request_context["parameters"]["jsCode"]
+        self.assertIn(SCHEDULED_PROFILE_JS, request_code)
+        self.assertIn(SCHEDULED_SEQUENCE_JS, request_code)
+        self.assertIn(SCHEDULED_SHORT_SEQUENCE_JS, request_code)
+        self.assertIn(DEFAULT_RL_SHADOW_JS, request_code)
+        self.assertIn(EXPLICIT_RL_COMMAND_FLAG_JS, request_code)
+        self.assertIn(
+            "if (noRlRequested) {\n  includeRlPolicy = false;\n}",
+            request_code,
+        )
+        self.assertNotIn("if (noRlRequested) args.push", request_code)
+        self.assertNotIn("? 'quick' : 'research'", request_code)
+
+        for name in (
+            OPTIMIZATION_TELEGRAM_NODE,
+            DIRECT_OPTIMIZATION_TELEGRAM_NODE,
+        ):
+            node = next(
+                item for item in repaired["nodes"] if item["name"] == name
+            )
+            self.assertEqual(
+                node["parameters"]["text"],
+                TELEGRAM_HTML_TEXT_EXPRESSION,
+            )
+            self.assertEqual(
+                node["parameters"]["additionalFields"]["parse_mode"],
+                "HTML",
+            )
+            self.assertEqual(node["onError"], "continueErrorOutput")
+
     def test_repair_adds_fail_closed_guard_and_restores_publishers(self) -> None:
         original = _workflow_fixture()
 

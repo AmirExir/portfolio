@@ -16,7 +16,7 @@ The ML forecast step can run from the same Schedule Trigger as a parallel branch
 2. Add an **Execute Command** node named **ML Forecast Rankings**:
 
 ```bash
-cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile research
+cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile quality --short-sequence-model off
 ```
 
 3. Connect the Execute Command node to your existing **Telegram Send Message** node.
@@ -85,13 +85,17 @@ return [
 Then set your Telegram message body to:
 
 ```text
-{{$json.text}}
+={{ String($json.text ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }}
 ```
+
+Set the Telegram node parse mode to `HTML`. Optimization notification nodes
+should use `Continue (using error output)` so a Telegram outage cannot prevent
+the validated text and JSON reports from being published.
 
 For the forecast **Stock Market Code** node, if you are using `--json-only`, use this command:
 
 ```bash
-cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile research --json-only
+cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile quality --short-sequence-model off --json-only
 ```
 
 Then parse it in a Code node:
@@ -135,8 +139,11 @@ Then run:
 cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --send-telegram
 ```
 
-The scheduled workflow should use the full research profile by default when it
-runs overnight. `Best Validation` is now a pre-registered live champion order:
+The scheduled workflow uses the bounded quality profile by default. It applies
+adaptive sequence models only to a small prior-validation subset in the 30-day
+pass, keeps the separate 1-day evaluation, and leaves 1-day sequence models off
+until the adaptive selector separates evidence by horizon. `Best Validation` is
+a pre-registered live champion order:
 the fixed non-RL ensemble first, then Ridge if the ensemble is unavailable.
 XGBoost and sequence models remain research comparisons. RL may be enabled only
 for shadow diagnostics; it is excluded from champion selection, ensemble
@@ -152,9 +159,9 @@ just by its final sign.
 
 ```bash
 --horizon 30
---run-profile research
+--run-profile quality
 --short-horizons 1
---short-sequence-model adaptive
+--short-sequence-model off
 --history-days 913
 --primary-model "Best Validation"
 --pattern-short-window 20
@@ -234,28 +241,22 @@ The interpreter rejects a mismatched symbol, future publication, stale event,
 missing comparable values, or a release that is not yet effective for the
 decision session.
 
-Recommended scheduled overnight full research profile:
-
-```bash
---run-profile research
-```
-
-Balanced scheduled quality profile:
+Recommended scheduled profile:
 
 ```bash
 --run-profile quality
+```
+
+Manual full-universe deep research profile:
+
+```bash
+--run-profile research
 ```
 
 Quick answer profile:
 
 ```bash
 --run-profile quick
-```
-
-Deep overnight profile:
-
-```bash
---run-profile research
 ```
 
 ## On-demand command safety
@@ -275,13 +276,13 @@ include_rl_policy = false
 
 even though RL is otherwise enabled by default, and even if an upstream n8n model emits `primary_model = RL Policy` or `--include-rl-policy`.
 
-Use `--run-profile research` for the normal overnight run if you are comfortable
-with the runtime. It selects `Best Validation`, compares the registered non-RL
-forecast models, trains both LSTM and Transformer on every symbol, and records
-RL only as shadow diagnostics. Use `--run-profile quality` for the balanced
-adaptive run, and `--run-profile quick` for on-demand answers. If you want the
-report text and Telegram message to stay clean, omit `--show-timing`; timing
-details are still saved in the JSON file.
+Use `--run-profile quality --short-sequence-model off` for scheduled runs and
+`--run-profile quick` for on-demand answers. Reserve `--run-profile research`
+for explicit manual deep research: it trains both LSTM and Transformer for
+every symbol and for each requested horizon, so a full 80-symbol 1-day plus
+30-day run can take several hours. If you want the report text and Telegram
+message to stay clean, omit `--show-timing`; timing details are still saved in
+the JSON file.
 
 The report uses the same Yahoo Finance data path and the same Ridge, XGBoost,
 Neural Net, optional LSTM/Transformer, and Ensemble forecast comparison used in

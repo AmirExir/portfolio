@@ -9,11 +9,14 @@ from typing import Any
 
 
 RUN_NODE = "Run Optimization Scripts"
+REQUEST_CONTEXT_NODE = "Market Request Context"
 VALIDATION_NODE = "Validate Optimization Output"
 MODEL_NODE = "Message Model For Optimization"
 RAW_PAYLOAD_NODE = "Build Optimization Raw JSON GitHub Payload"
 TEXT_PAYLOAD_NODE = "Build Optimization GitHub Payload"
 PUBLISH_NODE = "Save Optimization To GitHub"
+OPTIMIZATION_TELEGRAM_NODE = "Send Optimization Telegram"
+DIRECT_OPTIMIZATION_TELEGRAM_NODE = "Send Direct Market Telegram"
 DEFAULT_CREDENTIAL_SOURCE_NODE = "Save ERCOT To GitHub"
 
 _VALIDATION_NODE_ID = "b966fa49-4e35-51f0-a3eb-f2c9a8df4c32"
@@ -22,6 +25,50 @@ _PUBLISH_BRANCH_FALLBACK = re.compile(
     r"(?P<quote>['\"])(?P<value>[^'\"]*)(?P=quote)"
 )
 _ENV_GITHUB_TOKEN = "$env.GITHUB_TOKEN"
+_SCHEDULED_PROFILE = re.compile(
+    r"let runProfile = source === 'telegram' \? 'quick' : "
+    r"'(?:research|quality)';"
+)
+_SCHEDULED_SEQUENCE_MODEL = re.compile(
+    r"let sequenceModel = source === 'telegram' \? 'off' : "
+    r"'(?:both|adaptive)';"
+)
+_SCHEDULED_SHORT_SEQUENCE_MODEL = re.compile(
+    r"let shortSequenceModel = (?:"
+    r"sequenceModel === 'adaptive' \? 'adaptive' : "
+    r"\(sequenceModel === 'both' \? 'both' : 'off'\)"
+    r"|source === 'telegram' \? "
+    r"\(sequenceModel === 'adaptive' \? 'adaptive' : "
+    r"\(sequenceModel === 'both' \? 'both' : 'off'\)\) : 'off'"
+    r");"
+)
+_DEFAULT_RL_SHADOW = re.compile(r"let includeRlPolicy = (?:false|true);")
+_RL_COMMAND_FLAG = re.compile(
+    r"(?:if \(noRlRequested\) args\.push\('--no-rl-policy'\);\n"
+    r"if \(includeRlPolicy\) args\.push\('--include-rl-policy'\);"
+    r"|args\.push\(includeRlPolicy \? '--include-rl-policy' : "
+    r"'--no-rl-policy'\);)"
+)
+
+SCHEDULED_PROFILE_JS = "let runProfile = source === 'telegram' ? 'quick' : 'quality';"
+SCHEDULED_SEQUENCE_JS = (
+    "let sequenceModel = source === 'telegram' ? 'off' : 'adaptive';"
+)
+SCHEDULED_SHORT_SEQUENCE_JS = (
+    "let shortSequenceModel = source === 'telegram' ? "
+    "(sequenceModel === 'adaptive' ? 'adaptive' : "
+    "(sequenceModel === 'both' ? 'both' : 'off')) : 'off';"
+)
+DEFAULT_RL_SHADOW_JS = "let includeRlPolicy = true;"
+EXPLICIT_RL_COMMAND_FLAG_JS = (
+    "args.push(includeRlPolicy ? '--include-rl-policy' : '--no-rl-policy');"
+)
+TELEGRAM_HTML_TEXT_EXPRESSION = (
+    "={{ String($json.text ?? '')"
+    ".replace(/&/g, '&amp;')"
+    ".replace(/</g, '&lt;')"
+    ".replace(/>/g, '&gt;') }}"
+)
 
 
 VALIDATION_JS = r"""const input = $input.first()?.json ?? {};
@@ -226,6 +273,85 @@ def _contains_env_github_token(value: Any) -> bool:
     return False
 
 
+def _repair_scheduled_profile(node: dict[str, Any]) -> tuple[str, ...]:
+    parameters = node.setdefault("parameters", {})
+    javascript = parameters.get("jsCode")
+    if not isinstance(javascript, str):
+        raise ValueError(f"{REQUEST_CONTEXT_NODE} must define JavaScript")
+
+    changes: list[str] = []
+    updated, profile_count = _SCHEDULED_PROFILE.subn(
+        SCHEDULED_PROFILE_JS,
+        javascript,
+    )
+    if updated != javascript:
+        changes.append("use the bounded quality profile for scheduled optimization")
+    previous = updated
+    updated, sequence_count = _SCHEDULED_SEQUENCE_MODEL.subn(
+        SCHEDULED_SEQUENCE_JS,
+        updated,
+    )
+    if updated != previous:
+        changes.append("use adaptive sequence models for scheduled 30-day optimization")
+    previous = updated
+    updated, short_sequence_count = _SCHEDULED_SHORT_SEQUENCE_MODEL.subn(
+        SCHEDULED_SHORT_SEQUENCE_JS,
+        updated,
+    )
+    if updated != previous:
+        changes.append(
+            "disable cross-horizon sequence selection in scheduled 1-day optimization"
+        )
+    previous = updated
+    updated, rl_count = _DEFAULT_RL_SHADOW.subn(
+        DEFAULT_RL_SHADOW_JS,
+        updated,
+    )
+    if updated != previous:
+        changes.append("keep RL diagnostics shadow-enabled by default")
+    previous = updated
+    updated, rl_flag_count = _RL_COMMAND_FLAG.subn(
+        EXPLICIT_RL_COMMAND_FLAG_JS,
+        updated,
+    )
+    if updated != previous:
+        changes.append("make the optimizer RL command flag match workflow metadata")
+    if (
+        profile_count,
+        sequence_count,
+        short_sequence_count,
+        rl_count,
+        rl_flag_count,
+    ) != (1, 1, 1, 1, 1):
+        raise ValueError(
+            f"{REQUEST_CONTEXT_NODE} does not expose the expected profile controls"
+        )
+    if not changes:
+        return ()
+    parameters["jsCode"] = updated
+    return tuple(changes)
+
+
+def _configure_telegram_delivery(node: dict[str, Any]) -> tuple[str, ...]:
+    """Make generated plain text safe and non-blocking for Telegram."""
+
+    changes: list[str] = []
+    parameters = node.setdefault("parameters", {})
+    if parameters.get("text") != TELEGRAM_HTML_TEXT_EXPRESSION:
+        parameters["text"] = TELEGRAM_HTML_TEXT_EXPRESSION
+        changes.append(f"HTML-escape Telegram text in {node.get('name')}")
+    additional_fields = parameters.setdefault("additionalFields", {})
+    if not isinstance(additional_fields, dict):
+        raise ValueError(f"{node.get('name')} additionalFields must be an object")
+    if additional_fields.get("parse_mode") != "HTML":
+        additional_fields["parse_mode"] = "HTML"
+        changes.append(f"set HTML parse mode in {node.get('name')}")
+    if node.get("onError") != "continueErrorOutput":
+        node["onError"] = "continueErrorOutput"
+        changes.append(f"make {node.get('name')} non-blocking")
+    return tuple(changes)
+
+
 def _configure_publisher_credential(
     publisher: dict[str, Any], credential_source: dict[str, Any]
 ) -> tuple[str, ...]:
@@ -344,11 +470,21 @@ def repair_market_optimization_workflow(
 
     changes: list[str] = []
     run_node = _named_node(nodes, RUN_NODE)
+    request_context = _named_node(nodes, REQUEST_CONTEXT_NODE)
     model_node = _named_node(nodes, MODEL_NODE)
     raw_builder = _named_node(nodes, RAW_PAYLOAD_NODE)
     text_builder = _named_node(nodes, TEXT_PAYLOAD_NODE)
     publisher = _named_node(nodes, PUBLISH_NODE)
     credential_source = _named_node(nodes, credential_source_node)
+    optimization_telegram = _named_node(nodes, OPTIMIZATION_TELEGRAM_NODE)
+    direct_optimization_telegram = _named_node(
+        nodes,
+        DIRECT_OPTIMIZATION_TELEGRAM_NODE,
+    )
+
+    changes.extend(_repair_scheduled_profile(request_context))
+    changes.extend(_configure_telegram_delivery(optimization_telegram))
+    changes.extend(_configure_telegram_delivery(direct_optimization_telegram))
 
     validation_matches = [
         node for node in nodes if node.get("name") == VALIDATION_NODE
@@ -463,11 +599,14 @@ def audit_market_optimization_workflow(
     issues: list[str] = []
     required_names = (
         RUN_NODE,
+        REQUEST_CONTEXT_NODE,
         VALIDATION_NODE,
         MODEL_NODE,
         RAW_PAYLOAD_NODE,
         TEXT_PAYLOAD_NODE,
         PUBLISH_NODE,
+        OPTIMIZATION_TELEGRAM_NODE,
+        DIRECT_OPTIMIZATION_TELEGRAM_NODE,
         credential_source_node,
     )
     named: dict[str, dict[str, Any]] = {}
@@ -485,6 +624,37 @@ def audit_market_optimization_workflow(
         issues.append("optimizer validator is not a Code node")
     if validator.get("parameters", {}).get("jsCode") != VALIDATION_JS:
         issues.append("optimizer validator does not implement the output contract")
+
+    request_code = named[REQUEST_CONTEXT_NODE].get("parameters", {}).get("jsCode")
+    if not isinstance(request_code, str):
+        issues.append("market request context has no JavaScript")
+    else:
+        for expected in (
+            SCHEDULED_PROFILE_JS,
+            SCHEDULED_SEQUENCE_JS,
+            SCHEDULED_SHORT_SEQUENCE_JS,
+            DEFAULT_RL_SHADOW_JS,
+            EXPLICIT_RL_COMMAND_FLAG_JS,
+        ):
+            if expected not in request_code:
+                issues.append("scheduled optimization profile is not bounded")
+                break
+
+    for telegram_node_name in (
+        OPTIMIZATION_TELEGRAM_NODE,
+        DIRECT_OPTIMIZATION_TELEGRAM_NODE,
+    ):
+        telegram_node = named[telegram_node_name]
+        telegram_parameters = telegram_node.get("parameters", {})
+        additional_fields = telegram_parameters.get("additionalFields", {})
+        if telegram_parameters.get("text") != TELEGRAM_HTML_TEXT_EXPRESSION:
+            issues.append(f"{telegram_node_name} does not HTML-escape text")
+        if not isinstance(additional_fields, Mapping) or (
+            additional_fields.get("parse_mode") != "HTML"
+        ):
+            issues.append(f"{telegram_node_name} does not use HTML parse mode")
+        if telegram_node.get("onError") != "continueErrorOutput":
+            issues.append(f"{telegram_node_name} can block report publication")
 
     def target_names(source: str) -> list[str]:
         source_connections = connections.get(source)
