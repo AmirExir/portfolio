@@ -66,6 +66,12 @@ try:
         select_model_name,
     )
     from patterns import scan_patterns
+    from report_freshness import (
+        newest_json_payload_candidate,
+        newest_text_report_candidate,
+        newest_timestamped_path,
+        report_path_is_newer,
+    )
 except ImportError as e:
     st.error(f" Failed to import agent modules: {e}")
     st.info("Please ensure the 'agent' folder exists in the same directory as this app.")
@@ -2915,43 +2921,53 @@ def load_text_file_safely(path: str) -> str | None:
         return None
 
 
-def newest_valid_local_ml_payload() -> dict | None:
+def newest_valid_local_ml_payload_candidate() -> tuple[dt.datetime, dict] | None:
     reports_dir = os.path.join(os.path.dirname(__file__) if __file__ else ".", "reports")
     latest_path = os.path.join(reports_dir, "ml_forecast_rankings_latest.json")
-    payload = load_json_file_safely(latest_path)
-    if payload:
-        return payload
-
-    candidates = sorted(
-        glob.glob(os.path.join(reports_dir, "ml_forecast_rankings_20*.json")),
-        key=lambda path: os.path.getmtime(path),
-        reverse=True,
+    newest_path = newest_timestamped_path(
+        glob.glob(os.path.join(reports_dir, "ml_forecast_rankings_20*.json"))
     )
-    for candidate in candidates:
-        payload = load_json_file_safely(candidate)
+    candidate_paths = tuple(
+        dict.fromkeys(path for path in (newest_path, latest_path) if path)
+    )
+    for candidate_path in candidate_paths:
+        payload = load_json_file_safely(candidate_path)
         if payload and payload.get("rows"):
-            return payload
+            selected = newest_json_payload_candidate([(candidate_path, payload)])
+            if selected is not None:
+                return selected[0], dict(selected[1])
+    return None
+
+
+def newest_valid_local_ml_payload() -> dict | None:
+    candidate = newest_valid_local_ml_payload_candidate()
+    return candidate[1] if candidate is not None else None
+
+
+def newest_valid_local_ml_report_candidate() -> tuple[dt.datetime, str] | None:
+    reports_dir = os.path.join(os.path.dirname(__file__) if __file__ else ".", "reports")
+    latest_path = os.path.join(reports_dir, "ml_forecast_rankings_latest.txt")
+    summary_dir = os.path.join(reports_dir, "optimization_summaries")
+    newest_path = newest_timestamped_path(
+        glob.glob(os.path.join(summary_dir, "ml_forecast_rankings_20*.txt"))
+    )
+    candidate_paths = tuple(
+        dict.fromkeys(path for path in (newest_path, latest_path) if path)
+    )
+    for candidate_path in candidate_paths:
+        report_text = load_text_file_safely(candidate_path)
+        if report_text:
+            selected = newest_text_report_candidate(
+                [(candidate_path, report_text)]
+            )
+            if selected is not None:
+                return selected
     return None
 
 
 def newest_valid_local_ml_report() -> str | None:
-    reports_dir = os.path.join(os.path.dirname(__file__) if __file__ else ".", "reports")
-    latest_path = os.path.join(reports_dir, "ml_forecast_rankings_latest.txt")
-    latest_text = load_text_file_safely(latest_path)
-    if latest_text:
-        return latest_text
-
-    summary_dir = os.path.join(reports_dir, "optimization_summaries")
-    candidates = sorted(
-        glob.glob(os.path.join(summary_dir, "ml_forecast_rankings_20*.txt")),
-        key=lambda path: os.path.getmtime(path),
-        reverse=True,
-    )
-    for candidate in candidates:
-        text = load_text_file_safely(candidate)
-        if text:
-            return text
-    return None
+    candidate = newest_valid_local_ml_report_candidate()
+    return candidate[1] if candidate is not None else None
 
 
 def fetch_github_directory(path: str, branch: str | None = "generated-output") -> list[dict]:
@@ -3024,19 +3040,30 @@ def newest_github_file(
 
 @st.cache_data(ttl=300)
 def fetch_latest_ml_report():
-    local_report = newest_valid_local_ml_report()
-    if local_report:
-        return local_report
-
+    local_candidate = newest_valid_local_ml_report_candidate()
     newest_report = newest_github_file(
         "market_agent/reports/optimization_summaries",
         "ml_forecast_rankings_20",
         ".txt",
     )
-    if newest_report and newest_report.get("download_url"):
+    should_fetch_remote = newest_report and (
+        local_candidate is None
+        or report_path_is_newer(newest_report.get("name"), local_candidate[0])
+    )
+    if should_fetch_remote and newest_report.get("download_url"):
         text = fetch_text_from_download_url(newest_report["download_url"])
         if text:
-            return text
+            remote_candidate = newest_text_report_candidate(
+                [(newest_report.get("name", ""), text)]
+            )
+            if remote_candidate and (
+                local_candidate is None
+                or remote_candidate[0] > local_candidate[0]
+            ):
+                return remote_candidate[1]
+
+    if local_candidate is not None:
+        return local_candidate[1]
 
     contents_url = (
         "https://api.github.com/repos/AmirExir/portfolio/contents/"
@@ -3066,19 +3093,30 @@ def fetch_latest_ml_report():
 
 @st.cache_data(ttl=300)
 def fetch_latest_ml_payload() -> dict | None:
-    local_payload = newest_valid_local_ml_payload()
-    if local_payload:
-        return local_payload
-
+    local_candidate = newest_valid_local_ml_payload_candidate()
     newest_payload = newest_github_file(
         "market_agent/reports",
         "ml_forecast_rankings_20",
         ".json",
     )
-    if newest_payload and newest_payload.get("download_url"):
+    should_fetch_remote = newest_payload and (
+        local_candidate is None
+        or report_path_is_newer(newest_payload.get("name"), local_candidate[0])
+    )
+    if should_fetch_remote and newest_payload.get("download_url"):
         payload = fetch_json_from_download_url(newest_payload["download_url"])
-        if payload:
-            return payload
+        if payload and payload.get("rows"):
+            remote_candidate = newest_json_payload_candidate(
+                [(newest_payload.get("name", ""), payload)]
+            )
+            if remote_candidate and (
+                local_candidate is None
+                or remote_candidate[0] > local_candidate[0]
+            ):
+                return dict(remote_candidate[1])
+
+    if local_candidate is not None:
+        return local_candidate[1]
 
     contents_url = (
         "https://api.github.com/repos/AmirExir/portfolio/contents/"
@@ -3619,7 +3657,8 @@ with top_analysis_tab:
                 if fallback_rows:
                     st.markdown("**1-Day Scheduled Rankings**")
                     st.caption(
-                        "Live fallback: next-trading-day model run for top scheduled symbols while waiting for n8n to write the stored 1D report. "
+                        "Manual next-trading-day model run for top symbols from "
+                        "the latest scheduled report. "
                         f"Sequence model: {one_day_sequence_model_choice}."
                     )
                     fallback_df = pd.DataFrame(fallback_rows)
@@ -3631,8 +3670,9 @@ with top_analysis_tab:
                     st.dataframe(format_ranking_table(fallback_df), use_container_width=True)
                 else:
                     st.info(
-                        "The saved scheduled JSON does not include a 1-day ranking yet. "
-                        "Run it here now, or wait for n8n to regenerate the file with --short-horizons 1."
+                        "Routine scheduled runs publish only the bounded 30-day "
+                        "report. Run the 1-day ranking here, or explicitly run "
+                        "the quality/custom profile with --short-horizons 1."
                     )
                     if fallback_symbols:
                         st.caption(

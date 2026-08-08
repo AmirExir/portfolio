@@ -10,7 +10,6 @@ import numpy as np
 import pandas as pd
 
 from .ledger import (
-    DuplicateLedgerRecordError,
     OutcomeRecord,
     PredictionLedger,
 )
@@ -40,8 +39,7 @@ def append_matured_outcomes(
         raise ValueError("as_of_utc must be timezone-aware")
     predictions = ledger.pending_outcomes(now.date())
     cache: dict[str, pd.Series] = {}
-    appended = 0
-    duplicates = 0
+    outcome_candidates: list[OutcomeRecord] = []
     immature = 0
     skipped: list[str] = []
 
@@ -104,16 +102,18 @@ def append_matured_outcomes(
                     "transaction_costs_applied_later": True,
                 },
             )
-            ledger.append_outcome(outcome)
-            appended += 1
-        except DuplicateLedgerRecordError:
-            duplicates += 1
+            outcome_candidates.append(outcome)
         except (KeyError, TypeError, ValueError, RuntimeError) as exc:
             skipped.append(f"{prediction.prediction_id}: {exc}")
 
+    batch_result = ledger.append_outcomes(outcome_candidates)
+    skipped.extend(
+        f"{failure.prediction_id}: {failure.error}"
+        for failure in batch_result.failures
+    )
     return OutcomeMaturityResult(
-        appended=appended,
-        duplicates=duplicates,
+        appended=batch_result.appended_count,
+        duplicates=batch_result.duplicate_count,
         pending_not_mature=immature,
         skipped=tuple(skipped),
     )

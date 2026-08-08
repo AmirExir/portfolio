@@ -27,11 +27,11 @@ _PUBLISH_BRANCH_FALLBACK = re.compile(
 _ENV_GITHUB_TOKEN = "$env.GITHUB_TOKEN"
 _SCHEDULED_PROFILE = re.compile(
     r"let runProfile = source === 'telegram' \? 'quick' : "
-    r"'(?:research|quality)';"
+    r"'(?:research|quality|scheduled)';"
 )
 _SCHEDULED_SEQUENCE_MODEL = re.compile(
-    r"let sequenceModel = source === 'telegram' \? 'off' : "
-    r"'(?:both|adaptive)';"
+    r"(?:let sequenceModel = source === 'telegram' \? 'off' : "
+    r"'(?:both|adaptive|off)'|let sequenceModel = 'off');"
 )
 _SCHEDULED_SHORT_SEQUENCE_MODEL = re.compile(
     r"let shortSequenceModel = (?:"
@@ -49,11 +49,25 @@ _RL_COMMAND_FLAG = re.compile(
     r"|args\.push\(includeRlPolicy \? '--include-rl-policy' : "
     r"'--no-rl-policy'\);)"
 )
-
-SCHEDULED_PROFILE_JS = "let runProfile = source === 'telegram' ? 'quick' : 'quality';"
-SCHEDULED_SEQUENCE_JS = (
-    "let sequenceModel = source === 'telegram' ? 'off' : 'adaptive';"
+_SCHEDULED_SHORT_HORIZONS = re.compile(
+    r"const shortHorizons = runProfile === 'quick' \|\| "
+    r"(?:runProfile === 'scheduled' \|\| )?mainHorizon === 1 \|\| "
+    r"noShortHorizon \? '' : '1';"
 )
+_SCHEDULED_NO_OPTIMIZE = re.compile(
+    r"if \((?:runProfile === 'quick'|\(runProfile === 'quick' \|\| "
+    r"runProfile === 'scheduled'\)) && !allModels && !retrainRequested\) "
+    r"args\.push\('--no-optimize'\);"
+)
+_CAFFEINATED_RUNNER = re.compile(
+    r"&& (?:/usr/bin/caffeinate -i )?\./\.venv/bin/python "
+    r"market_agent/daily_ml_forecast_report\.py"
+)
+
+SCHEDULED_PROFILE_JS = (
+    "let runProfile = source === 'telegram' ? 'quick' : 'scheduled';"
+)
+SCHEDULED_SEQUENCE_JS = "let sequenceModel = 'off';"
 SCHEDULED_SHORT_SEQUENCE_JS = (
     "let shortSequenceModel = source === 'telegram' ? "
     "(sequenceModel === 'adaptive' ? 'adaptive' : "
@@ -62,6 +76,19 @@ SCHEDULED_SHORT_SEQUENCE_JS = (
 DEFAULT_RL_SHADOW_JS = "let includeRlPolicy = true;"
 EXPLICIT_RL_COMMAND_FLAG_JS = (
     "args.push(includeRlPolicy ? '--include-rl-policy' : '--no-rl-policy');"
+)
+SCHEDULED_SHORT_HORIZONS_JS = (
+    "const shortHorizons = runProfile === 'quick' || "
+    "runProfile === 'scheduled' || mainHorizon === 1 || "
+    "noShortHorizon ? '' : '1';"
+)
+SCHEDULED_NO_OPTIMIZE_JS = (
+    "if ((runProfile === 'quick' || runProfile === 'scheduled') && "
+    "!allModels && !retrainRequested) args.push('--no-optimize');"
+)
+CAFFEINATED_RUNNER_JS = (
+    "&& /usr/bin/caffeinate -i ./.venv/bin/python "
+    "market_agent/daily_ml_forecast_report.py"
 )
 TELEGRAM_HTML_TEXT_EXPRESSION = (
     "={{ String($json.text ?? '')"
@@ -163,64 +190,33 @@ return {
 };"""
 
 
-MODEL_USER_EXPRESSION = r"""={{ (() => {
-  const data = $json.optimizer_payload;
-  const threshold = Number(data.signal_threshold?.min_forecast_return_pct ?? 2);
-  const value = (row, ...keys) => {
-    for (const key of keys) if (row[key] !== undefined && row[key] !== null) return row[key];
-    return null;
-  };
-  const qualified = (rows) => (Array.isArray(rows) ? rows : [])
-    .filter((row) => String(value(row, 'Signal Tier') ?? '').startsWith('Model-Confirmed'))
-    .filter((row) => String(value(row, 'Reliability') ?? '') !== 'Low')
-    .filter((row) => Math.abs(Number(value(row, 'Forecast Return %', 'forecast_return_pct') ?? 0)) >= threshold)
-    .filter((row) => String(value(row, 'Selected Model', 'selected_model') ?? '') !== 'RL Policy')
-    .map((row) => ({
-      symbol: value(row, 'Symbol', 'symbol'),
-      model_call: value(row, 'Model Call', 'model_call'),
-      signal_tier: value(row, 'Signal Tier'),
-      forecast_return_pct: value(row, 'Forecast Return %', 'forecast_return_pct'),
-      probability_up_pct: value(row, 'Probability Up %'),
-      as_of_session: value(row, 'As Of Session'),
-      target_session: value(row, 'Target Session'),
-      reliability: value(row, 'Reliability'),
-      uncertainty_pct: value(row, 'Expected Error %', 'expected_error_pct'),
-      selected_model: value(row, 'Selected Model', 'selected_model'),
-      indicative_target_pct: value(row, 'Pre-Portfolio Target %'),
-      executable_target_pct: value(row, 'Policy Target %'),
-      allocation_blocked: Boolean(value(row, 'Portfolio Allocation Blocked')),
-    }));
-  const qualifiedRows = qualified(data.rows);
-  const shortHorizonReports = (Array.isArray(data.short_horizon_reports) ? data.short_horizon_reports : [])
-    .map((report) => ({
-      horizon_days: report.horizon_days,
-      sequence_model: report.sequence_model,
-      qualified_rows: qualified(report.rows),
-    }));
-  return JSON.stringify({
-    generated: $json.optimizer_metadata.generated,
-    horizon: $json.optimizer_metadata.horizon,
-    universe_count: $json.optimizer_metadata.universe_count,
-    universe: $json.optimizer_metadata.universe,
-    horizon_meaning: 'Point-to-point through target_session; not an immediate or monotonic price path.',
-    execution_meaning: 'Indicative targets are research outputs; executable targets require portfolio authorization.',
-    threshold_pct: threshold,
-    qualified_rows: qualifiedRows,
-    short_horizon_reports: shortHorizonReports,
-  });
-})() }}"""
-
-
-SYSTEM_SAFETY_SUFFIX = (
-    "\n\nOptimization safety contract: Treat every forecast as point-to-point "
-    "through target_session, not as an immediate or monotonic path. Summarize "
-    "only the supplied qualified_rows and short-horizon qualified_rows; RL "
-    "Policy is shadow-only. Clearly "
-    "separate indicative_target_pct from executable_target_pct, and never "
-    "describe a blocked allocation as authorized. Preserve as_of_session so "
-    "the generation timestamp is not mistaken for the market-data cutoff."
-)
-_SYSTEM_SAFETY_MARKER = "\n\nOptimization safety contract:"
+DETERMINISTIC_PUBLICATION_JS = r"""const data = $json.optimizer_payload;
+if (!data || typeof data !== 'object' || Array.isArray(data)) {
+  throw new Error('Validated optimizer_payload is unavailable.');
+}
+const telegramText = typeof data.telegram_text === 'string'
+  ? data.telegram_text.trim()
+  : '';
+if (!telegramText) {
+  throw new Error('Validated optimizer telegram_text is blank.');
+}
+const cleanList = (value) => Array.isArray(value)
+  ? [...new Set(value.map((item) => String(item).trim()).filter(Boolean))]
+  : [];
+const publication = {
+  website_recommendations: telegramText,
+  telegram_recommendations: telegramText,
+  telegram_text: telegramText,
+  top_buys: cleanList(data.top_buys),
+  top_sells: cleanList(data.top_sells),
+};
+return {
+  json: {
+    message: {
+      content: JSON.stringify(publication),
+    },
+  },
+};"""
 
 
 def _named_node(nodes: list[dict[str, Any]], name: str) -> dict[str, Any]:
@@ -285,14 +281,14 @@ def _repair_scheduled_profile(node: dict[str, Any]) -> tuple[str, ...]:
         javascript,
     )
     if updated != javascript:
-        changes.append("use the bounded quality profile for scheduled optimization")
+        changes.append("use the bounded single-pass profile for scheduled optimization")
     previous = updated
     updated, sequence_count = _SCHEDULED_SEQUENCE_MODEL.subn(
         SCHEDULED_SEQUENCE_JS,
         updated,
     )
     if updated != previous:
-        changes.append("use adaptive sequence models for scheduled 30-day optimization")
+        changes.append("disable sequence models for routine scheduled optimization")
     previous = updated
     updated, short_sequence_count = _SCHEDULED_SHORT_SEQUENCE_MODEL.subn(
         SCHEDULED_SHORT_SEQUENCE_JS,
@@ -316,13 +312,37 @@ def _repair_scheduled_profile(node: dict[str, Any]) -> tuple[str, ...]:
     )
     if updated != previous:
         changes.append("make the optimizer RL command flag match workflow metadata")
+    previous = updated
+    updated, short_horizons_count = _SCHEDULED_SHORT_HORIZONS.subn(
+        SCHEDULED_SHORT_HORIZONS_JS,
+        updated,
+    )
+    if updated != previous:
+        changes.append("disable the duplicate 1-day pass for routine scheduled runs")
+    previous = updated
+    updated, no_optimize_count = _SCHEDULED_NO_OPTIMIZE.subn(
+        SCHEDULED_NO_OPTIMIZE_JS,
+        updated,
+    )
+    if updated != previous:
+        changes.append("disable nested hyperparameter search for routine scheduled runs")
+    previous = updated
+    updated, caffeinate_count = _CAFFEINATED_RUNNER.subn(
+        CAFFEINATED_RUNNER_JS,
+        updated,
+    )
+    if updated != previous:
+        changes.append("keep the optimizer awake while its process is running")
     if (
         profile_count,
         sequence_count,
         short_sequence_count,
         rl_count,
         rl_flag_count,
-    ) != (1, 1, 1, 1, 1):
+        short_horizons_count,
+        no_optimize_count,
+        caffeinate_count,
+    ) != (1, 1, 1, 1, 1, 1, 1, 1):
         raise ValueError(
             f"{REQUEST_CONTEXT_NODE} does not expose the expected profile controls"
         )
@@ -416,37 +436,32 @@ def _configure_publisher_credential(
     return tuple(changes)
 
 
-def _repair_model_messages(model_node: dict[str, Any]) -> tuple[str, ...]:
-    parameters = model_node.setdefault("parameters", {})
-    messages = parameters.get("messages")
-    values = messages.get("values") if isinstance(messages, dict) else None
-    if not isinstance(values, list):
-        raise ValueError(f"{MODEL_NODE} must define messages.values")
-
-    system_message = next(
-        (message for message in values if message.get("role") == "system"),
-        None,
-    )
-    user_message = next(
-        (message for message in values if message.get("role") != "system"),
-        None,
-    )
-    if system_message is None or user_message is None:
-        raise ValueError(f"{MODEL_NODE} must contain system and user messages")
+def _configure_deterministic_publication_adapter(
+    model_node: dict[str, Any],
+) -> tuple[str, ...]:
+    """Replace optimization prose generation with validated producer output."""
 
     changes: list[str] = []
-    system_content = str(system_message.get("content", ""))
-    base_system_content = system_content.split(
-        _SYSTEM_SAFETY_MARKER,
-        1,
-    )[0].rstrip()
-    canonical_system_content = base_system_content + SYSTEM_SAFETY_SUFFIX
-    if system_content != canonical_system_content:
-        system_message["content"] = canonical_system_content
-        changes.append("set optimization model safety contract")
-    if user_message.get("content") != MODEL_USER_EXPRESSION:
-        user_message["content"] = MODEL_USER_EXPRESSION
-        changes.append("use validated qualified rows for optimization model")
+    expected_parameters = {
+        "mode": "runOnceForEachItem",
+        "jsCode": DETERMINISTIC_PUBLICATION_JS,
+    }
+    if model_node.get("parameters") != expected_parameters:
+        model_node["parameters"] = expected_parameters
+        changes.append("publish the deterministic validated optimizer text")
+    if model_node.get("type") != "n8n-nodes-base.code":
+        model_node["type"] = "n8n-nodes-base.code"
+        changes.append("replace the optimization language model with a Code adapter")
+    if model_node.get("typeVersion") != 2:
+        model_node["typeVersion"] = 2
+        changes.append("set the deterministic publication adapter version")
+    if model_node.pop("credentials", None) is not None:
+        changes.append("remove unused language-model credentials")
+    retry_fields = ("retryOnFail", "maxTries", "waitBetweenTries")
+    if any(field in model_node for field in retry_fields):
+        for field in retry_fields:
+            model_node.pop(field, None)
+        changes.append("remove obsolete language-model retry settings")
     return tuple(changes)
 
 
@@ -544,7 +559,7 @@ def repair_market_optimization_workflow(
         changes.append("route optimizer command through validation")
 
     if _append_connection(validator_output, _connection(MODEL_NODE)):
-        changes.append("connect validated output to optimization model")
+        changes.append("connect validated output to publication adapter")
     if _append_connection(validator_output, _connection(RAW_PAYLOAD_NODE)):
         changes.append("connect validated output to raw JSON publisher")
     if _append_connection(validator_output, _connection(TEXT_PAYLOAD_NODE)):
@@ -558,7 +573,7 @@ def repair_market_optimization_workflow(
     ]
     if filtered_model_output != model_output:
         model_output[:] = filtered_model_output
-        changes.append("disconnect LLM output from deterministic text publisher")
+        changes.append("disconnect publication adapter from duplicate text publisher")
     raw_payload_output = _first_main_output(connections, RAW_PAYLOAD_NODE)
     if _append_connection(raw_payload_output, _connection(PUBLISH_NODE)):
         changes.append("connect raw optimization payload to GitHub publisher")
@@ -573,7 +588,7 @@ def repair_market_optimization_workflow(
         text_builder["parameters"]["jsCode"] = TEXT_PAYLOAD_JS
         changes.append("publish deterministic validated optimization text")
 
-    changes.extend(_repair_model_messages(model_node))
+    changes.extend(_configure_deterministic_publication_adapter(model_node))
     changes.extend(_configure_publisher_credential(publisher, credential_source))
 
     issues = audit_market_optimization_workflow(
@@ -635,6 +650,9 @@ def audit_market_optimization_workflow(
             SCHEDULED_SHORT_SEQUENCE_JS,
             DEFAULT_RL_SHADOW_JS,
             EXPLICIT_RL_COMMAND_FLAG_JS,
+            SCHEDULED_SHORT_HORIZONS_JS,
+            SCHEDULED_NO_OPTIMIZE_JS,
+            CAFFEINATED_RUNNER_JS,
         ):
             if expected not in request_code:
                 issues.append("scheduled optimization profile is not bounded")
@@ -694,20 +712,24 @@ def audit_market_optimization_workflow(
     if text_code != TEXT_PAYLOAD_JS:
         issues.append("text publisher does not consume validated optimizer text")
 
-    model_parameters = named[MODEL_NODE].get("parameters", {})
-    messages = model_parameters.get("messages", {})
-    values = messages.get("values") if isinstance(messages, dict) else None
-    if not isinstance(values, list):
-        issues.append("optimization model messages are malformed")
-    else:
-        systems = [item for item in values if item.get("role") == "system"]
-        users = [item for item in values if item.get("role") != "system"]
-        if not systems or SYSTEM_SAFETY_SUFFIX.strip() not in str(
-            systems[0].get("content", "")
-        ):
-            issues.append("optimization model safety contract is missing")
-        if not users or users[0].get("content") != MODEL_USER_EXPRESSION:
-            issues.append("optimization model does not consume qualified optimizer rows")
+    publication_adapter = named[MODEL_NODE]
+    if publication_adapter.get("type") != "n8n-nodes-base.code":
+        issues.append("optimization publication adapter is not a Code node")
+    if publication_adapter.get("typeVersion") != 2:
+        issues.append("optimization publication adapter has the wrong version")
+    expected_publication_parameters = {
+        "mode": "runOnceForEachItem",
+        "jsCode": DETERMINISTIC_PUBLICATION_JS,
+    }
+    if publication_adapter.get("parameters") != expected_publication_parameters:
+        issues.append("optimization publication does not use validated producer text")
+    if publication_adapter.get("credentials"):
+        issues.append("optimization publication adapter retains unused credentials")
+    if any(
+        field in publication_adapter
+        for field in ("retryOnFail", "maxTries", "waitBetweenTries")
+    ):
+        issues.append("optimization publication adapter retains obsolete retries")
 
     publisher = named[PUBLISH_NODE]
     source = named[credential_source_node]

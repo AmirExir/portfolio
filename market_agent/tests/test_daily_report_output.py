@@ -55,6 +55,19 @@ class DailyReportOutputTests(unittest.TestCase):
             ["--run-profile", "quick", "--no-rl-policy"]
         )
 
+    def test_scheduled_profile_is_single_pass_and_bounded(self) -> None:
+        raw_args = ["--run-profile", "scheduled"]
+        args = report.apply_run_profile(
+            report.build_parser().parse_args(raw_args),
+            raw_args,
+        )
+
+        self.assertEqual(args.run_profile, "scheduled")
+        self.assertEqual(args.sequence_model, "off")
+        self.assertEqual(args.short_horizons, "")
+        self.assertEqual(args.short_sequence_model, "off")
+        self.assertTrue(args.no_optimize)
+
     def test_research_buy_remains_visible_when_execution_is_blocked(self) -> None:
         row = _research_buy_row()
 

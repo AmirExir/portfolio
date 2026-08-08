@@ -16,7 +16,7 @@ The ML forecast step can run from the same Schedule Trigger as a parallel branch
 2. Add an **Execute Command** node named **ML Forecast Rankings**:
 
 ```bash
-cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile quality --short-sequence-model off
+cd /Users/amirexir/Documents/GitHub/portfolio && /usr/bin/caffeinate -i .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile scheduled
 ```
 
 3. Connect the Execute Command node to your existing **Telegram Send Message** node.
@@ -45,7 +45,7 @@ Schedule Trigger
 ├─ News API -> Message a model -> Code -> Stock Market
 ├─ Message a model -> Code -> Telegram
 └─ ML Forecast Rankings -> Validate Optimization Output
-                         ├-> Message Model -> Telegram
+                         ├-> deterministic publication adapter -> Telegram
                          ├-> validated text GitHub payload -> GitHub
                          └-> raw JSON GitHub payload -> GitHub
 ```
@@ -55,9 +55,10 @@ is blank or malformed, when no ranking rows were produced, or when generated
 time, horizon, universe, or report text is missing. A failed producer must not
 be rewritten as a valid “no signals” market report. The checked repair utility
 adds this guard, publishes deterministic validated report text instead of
-trusting free-form model output, reconnects both timestamped publishers, moves
-them to `main`, and reuses an existing n8n HTTP-header credential without
-copying secret values:
+trusting free-form model output, replaces the optimization language-model node
+with a deterministic publication adapter, reconnects both timestamped
+publishers, moves them to `main`, and reuses an existing n8n HTTP-header
+credential without copying secret values:
 
 ```bash
 python3 scripts/repair_n8n_market_optimization.py \
@@ -95,7 +96,7 @@ the validated text and JSON reports from being published.
 For the forecast **Stock Market Code** node, if you are using `--json-only`, use this command:
 
 ```bash
-cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile quality --short-sequence-model off --json-only
+cd /Users/amirexir/Documents/GitHub/portfolio && /usr/bin/caffeinate -i .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile scheduled --json-only
 ```
 
 Then parse it in a Code node:
@@ -136,14 +137,14 @@ TELEGRAM_CHAT_ID=your_chat_id
 Then run:
 
 ```bash
-cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --send-telegram
+cd /Users/amirexir/Documents/GitHub/portfolio && /usr/bin/caffeinate -i .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile scheduled --send-telegram
 ```
 
-The scheduled workflow uses the bounded quality profile by default. It applies
-adaptive sequence models only to a small prior-validation subset in the 30-day
-pass, keeps the separate 1-day evaluation, and leaves 1-day sequence models off
-until the adaptive selector separates evidence by horizon. `Best Validation` is
-a pre-registered live champion order:
+The scheduled workflow uses the bounded `scheduled` profile by default. It runs
+one 30-day pass with fixed registered model settings, sequence models off, and
+no nested hyperparameter search. One-day and deep sequence comparisons remain
+available through explicit `quality` or `research` requests. `Best Validation`
+is a pre-registered live champion order:
 the fixed non-RL ensemble first, then Ridge if the ensemble is unavailable.
 XGBoost and sequence models remain research comparisons. RL may be enabled only
 for shadow diagnostics; it is excluded from champion selection, ensemble
@@ -159,14 +160,12 @@ just by its final sign.
 
 ```bash
 --horizon 30
---run-profile quality
---short-horizons 1
---short-sequence-model off
+--run-profile scheduled
 --history-days 913
 --primary-model "Best Validation"
 --pattern-short-window 20
 --pattern-long-window 50
---sequence-model adaptive
+--sequence-model off
 --adaptive-sequence-min-wins 5
 --adaptive-sequence-min-share 0.20
 --min-signal-return-pct 2
@@ -244,6 +243,12 @@ decision session.
 Recommended scheduled profile:
 
 ```bash
+--run-profile scheduled
+```
+
+Manual optimized adaptive profile:
+
+```bash
 --run-profile quality
 ```
 
@@ -264,7 +269,7 @@ Quick answer profile:
 For Telegram on-demand runs, pass the original user text into the runner:
 
 ```bash
-cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --request-text "{{$json.message.text}}" --json-only
+cd /Users/amirexir/Documents/GitHub/portfolio && .venv/bin/python market_agent/daily_ml_forecast_report.py --run-profile quick --request-text "{{$json.message.text}}" --json-only
 ```
 
 The Python runner now treats phrases like `without RL`, `no RL`, `skip RL`, and `exclude reinforcement` as a hard override. That override forces:
@@ -276,13 +281,13 @@ include_rl_policy = false
 
 even though RL is otherwise enabled by default, and even if an upstream n8n model emits `primary_model = RL Policy` or `--include-rl-policy`.
 
-Use `--run-profile quality --short-sequence-model off` for scheduled runs and
-`--run-profile quick` for on-demand answers. Reserve `--run-profile research`
-for explicit manual deep research: it trains both LSTM and Transformer for
-every symbol and for each requested horizon, so a full 80-symbol 1-day plus
-30-day run can take several hours. If you want the report text and Telegram
-message to stay clean, omit `--show-timing`; timing details are still saved in
-the JSON file.
+Use `--run-profile scheduled` for scheduled runs and `--run-profile quick` for
+on-demand answers. Use `--run-profile quality` only for an explicit optimized
+adaptive comparison. Reserve `--run-profile research` for explicit manual deep
+research: it trains both LSTM and Transformer for every symbol and for each
+requested horizon, so a full 80-symbol 1-day plus 30-day run can take several
+hours. If you want the report text and Telegram message to stay clean, omit
+`--show-timing`; timing details are still saved in the JSON file.
 
 The report uses the same Yahoo Finance data path and the same Ridge, XGBoost,
 Neural Net, optional LSTM/Transformer, and Ensemble forecast comparison used in

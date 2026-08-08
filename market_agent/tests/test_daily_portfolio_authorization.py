@@ -221,11 +221,28 @@ class DailyPortfolioAuthorizationTests(unittest.TestCase):
                     tzinfo=UTC,
                 ),
             )
+            duplicate_result = append_prediction_records(
+                output_dir=Path(directory),
+                rows=[row],
+                snapshots=[snapshot],
+                horizon_days=30,
+                created_at_utc=datetime(
+                    2026,
+                    1,
+                    2,
+                    22,
+                    tzinfo=UTC,
+                ),
+            )
             predictions = PredictionLedger(
                 Path(directory) / "prediction_ledger.jsonl"
             ).predictions()
 
         self.assertEqual(result["appended"], 3)
+        self.assertEqual(result["duplicates"], 0)
+        self.assertEqual(duplicate_result["appended"], 0)
+        self.assertEqual(duplicate_result["duplicates"], 3)
+        self.assertEqual(duplicate_result["skipped"], [])
         rl_record = next(
             record
             for record in predictions

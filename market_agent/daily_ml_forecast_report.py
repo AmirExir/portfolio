@@ -31,7 +31,6 @@ from agent.earnings import (
 from agent.forecast import compare_forecast_models
 from agent.evaluation import ForecastObservation, evaluate_forecasts
 from agent.ledger import (
-    DuplicateLedgerRecordError,
     OutcomeRecord,
     PredictionLedger,
     PredictionRecord,
@@ -1259,7 +1258,7 @@ def apply_run_profile(args: argparse.Namespace, raw_args: list[str] | None = Non
     if profile == "custom":
         return args
 
-    if profile not in {"quick", "quality", "research"}:
+    if profile not in {"quick", "scheduled", "quality", "research"}:
         profile = "quality"
         args.run_profile = profile
 
@@ -1267,6 +1266,16 @@ def apply_run_profile(args: argparse.Namespace, raw_args: list[str] | None = Non
         args.primary_model = "Best Validation"
 
     if profile == "quick":
+        if not cli_flag_present(raw_args, "--sequence-model"):
+            args.sequence_model = "off"
+        if not cli_flag_present(raw_args, "--short-horizons"):
+            args.short_horizons = ""
+        if not cli_flag_present(raw_args, "--short-sequence-model"):
+            args.short_sequence_model = "off"
+        args.no_optimize = True
+        return args
+
+    if profile == "scheduled":
         if not cli_flag_present(raw_args, "--sequence-model"):
             args.sequence_model = "off"
         if not cli_flag_present(raw_args, "--short-horizons"):
@@ -1949,22 +1958,17 @@ def append_prediction_records(
         report_symbol(snapshot.get("symbol", "")): snapshot
         for snapshot in snapshots
     }
-    appended = 0
-    duplicates = 0
+    candidate_records: list[PredictionRecord] = []
     skipped: list[str] = []
 
-    def append_ledger_candidate(
+    def collect_ledger_candidate(
         label: str,
         record_factory: Callable[[], PredictionRecord],
     ) -> None:
-        """Append one validated record without aborting report publication."""
+        """Collect one validated record without aborting report publication."""
 
-        nonlocal appended, duplicates
         try:
-            ledger.append_prediction(record_factory())
-            appended += 1
-        except DuplicateLedgerRecordError:
-            duplicates += 1
+            candidate_records.append(record_factory())
         except (TypeError, ValueError, RuntimeError) as exc:
             skipped.append(f"{label}: {exc}")
 
@@ -2121,10 +2125,7 @@ def append_prediction_records(
                     "rl_mode": "shadow",
                 },
             )
-            ledger.append_prediction(record)
-            appended += 1
-        except DuplicateLedgerRecordError:
-            duplicates += 1
+            candidate_records.append(record)
         except (TypeError, ValueError, RuntimeError) as exc:
             skipped.append(f"{symbol}: {exc}")
 
@@ -2225,7 +2226,7 @@ def append_prediction_records(
                 ),
                 0.0,
             )
-            append_ledger_candidate(
+            collect_ledger_candidate(
                 f"{symbol} RL forecast context",
                 lambda: PredictionRecord(
                     prediction_id="pred-"
@@ -2281,7 +2282,7 @@ def append_prediction_records(
                 ),
             )
 
-            append_ledger_candidate(
+            collect_ledger_candidate(
                 f"{symbol} RL shadow",
                 lambda: PredictionRecord(
                     prediction_id="pred-"
@@ -2400,6 +2401,14 @@ def append_prediction_records(
                 ),
             )
 
+    try:
+        batch_result = ledger.append_predictions(candidate_records)
+        appended = batch_result.appended_count
+        duplicates = batch_result.duplicate_count
+    except (TypeError, ValueError, RuntimeError) as exc:
+        appended = 0
+        duplicates = 0
+        skipped.append(f"prediction ledger batch: {exc}")
     return {
         "path": str(ledger.path),
         "horizon_days": int(horizon_days),
@@ -2872,11 +2881,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Generate daily ML forecast rankings for Telegram/n8n.")
     parser.add_argument(
         "--run-profile",
-        choices=["quick", "quality", "research", "custom"],
+        choices=["quick", "scheduled", "quality", "research", "custom"],
         default=os.getenv("MARKET_AGENT_RUN_PROFILE", "quality"),
         help=(
-            "quick = fast on-demand forecast; quality = scheduled prediction profile; "
-            "research = all deep models; custom = honor raw flags only."
+            "quick = fast on-demand forecast; scheduled = bounded daily publication; "
+            "quality = optimized adaptive comparison; research = all deep models; "
+            "custom = honor raw flags only."
         ),
     )
     parser.add_argument("--symbols", default=",".join(DEFAULT_SYMBOLS))

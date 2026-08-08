@@ -4,6 +4,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 import pandas as pd
 
@@ -55,11 +56,25 @@ class OutcomeMaturityTests(unittest.TestCase):
         self.assertEqual(before_close.appended, 0)
         self.assertEqual(before_close.pending_not_mature, 1)
 
-        after_close = append_matured_outcomes(
-            self.ledger,
-            price_loader=self.frames.__getitem__,
-            as_of_utc=datetime(2026, 1, 6, 22, 0, tzinfo=UTC),
-        )
+        with (
+            mock.patch.object(
+                self.ledger,
+                "append_outcomes",
+                wraps=self.ledger.append_outcomes,
+            ) as append_batch,
+            mock.patch.object(
+                self.ledger,
+                "append_outcome",
+                side_effect=AssertionError("single append must not be used"),
+            ),
+        ):
+            after_close = append_matured_outcomes(
+                self.ledger,
+                price_loader=self.frames.__getitem__,
+                as_of_utc=datetime(2026, 1, 6, 22, 0, tzinfo=UTC),
+            )
+        append_batch.assert_called_once()
+        self.assertEqual(len(append_batch.call_args.args[0]), 1)
         self.assertEqual(after_close.appended, 1)
         outcomes = self.ledger.outcomes()
         self.assertEqual(len(outcomes), 1)

@@ -4,12 +4,13 @@ import copy
 import unittest
 
 from market_agent.n8n_workflow import (
+    CAFFEINATED_RUNNER_JS,
     DEFAULT_CREDENTIAL_SOURCE_NODE,
     DEFAULT_RL_SHADOW_JS,
+    DETERMINISTIC_PUBLICATION_JS,
     DIRECT_OPTIMIZATION_TELEGRAM_NODE,
     EXPLICIT_RL_COMMAND_FLAG_JS,
     MODEL_NODE,
-    MODEL_USER_EXPRESSION,
     OPTIMIZATION_TELEGRAM_NODE,
     PUBLISH_NODE,
     RAW_PAYLOAD_JS,
@@ -17,9 +18,10 @@ from market_agent.n8n_workflow import (
     REQUEST_CONTEXT_NODE,
     RUN_NODE,
     SCHEDULED_PROFILE_JS,
+    SCHEDULED_NO_OPTIMIZE_JS,
+    SCHEDULED_SHORT_HORIZONS_JS,
     SCHEDULED_SHORT_SEQUENCE_JS,
     SCHEDULED_SEQUENCE_JS,
-    SYSTEM_SAFETY_SUFFIX,
     TEXT_PAYLOAD_JS,
     TEXT_PAYLOAD_NODE,
     TELEGRAM_HTML_TEXT_EXPRESSION,
@@ -57,22 +59,35 @@ def _workflow_fixture() -> dict:
                         "  includeRlPolicy = false;\n"
                         "}\n"
                         "if (noRlRequested) args.push('--no-rl-policy');\n"
-                        "if (includeRlPolicy) args.push('--include-rl-policy');"
+                        "if (includeRlPolicy) args.push('--include-rl-policy');\n"
+                        "const shortHorizons = runProfile === 'quick' || "
+                        "mainHorizon === 1 || noShortHorizon ? '' : '1';\n"
+                        "if (runProfile === 'quick' && !allModels && "
+                        "!retrainRequested) args.push('--no-optimize');\n"
+                        "const optimizationCommand = `cd "
+                        "/Users/amirexir/Documents/GitHub/portfolio && "
+                        "./.venv/bin/python "
+                        "market_agent/daily_ml_forecast_report.py ${args.join(' ')}`;"
                     )
                 },
             ),
             _node(RUN_NODE),
-            _node(
-                MODEL_NODE,
-                parameters={
-                    "messages": {
-                        "values": [
-                            {"role": "system", "content": system_prompt},
-                            {"content": "={{ JSON.parse($json.stdout) }}"},
-                        ]
-                    }
-                },
-            ),
+            {
+                **_node(
+                    MODEL_NODE,
+                    parameters={
+                        "messages": {
+                            "values": [
+                                {"role": "system", "content": system_prompt},
+                                {"content": "={{ JSON.parse($json.stdout) }}"},
+                            ]
+                        }
+                    },
+                ),
+                "credentials": {"openAiApi": {"id": "obsolete"}},
+                "retryOnFail": True,
+                "maxTries": 3,
+            },
             _node(
                 RAW_PAYLOAD_NODE,
                 parameters={
@@ -188,12 +203,16 @@ class MarketOptimizationWorkflowTests(unittest.TestCase):
         self.assertIn(SCHEDULED_SHORT_SEQUENCE_JS, request_code)
         self.assertIn(DEFAULT_RL_SHADOW_JS, request_code)
         self.assertIn(EXPLICIT_RL_COMMAND_FLAG_JS, request_code)
+        self.assertIn(SCHEDULED_SHORT_HORIZONS_JS, request_code)
+        self.assertIn(SCHEDULED_NO_OPTIMIZE_JS, request_code)
+        self.assertIn(CAFFEINATED_RUNNER_JS, request_code)
         self.assertIn(
             "if (noRlRequested) {\n  includeRlPolicy = false;\n}",
             request_code,
         )
         self.assertNotIn("if (noRlRequested) args.push", request_code)
         self.assertNotIn("? 'quick' : 'research'", request_code)
+        self.assertNotIn("? 'quick' : 'quality'", request_code)
 
         for name in (
             OPTIMIZATION_TELEGRAM_NODE,
@@ -269,46 +288,27 @@ class MarketOptimizationWorkflowTests(unittest.TestCase):
         self.assertNotIn("$json.message", TEXT_PAYLOAD_JS)
         self.assertIn("branch: 'main'", TEXT_PAYLOAD_JS)
 
-    def test_model_uses_only_qualified_non_rl_rows_and_preserves_system_prompt(self) -> None:
-        fixture = _workflow_fixture()
-        model = next(
-            node for node in fixture["nodes"] if node["name"] == MODEL_NODE
-        )
-        model["parameters"]["messages"]["values"][0]["content"] += (
-            "\n\nOptimization safety contract: obsolete wording"
+    def test_publication_adapter_uses_validated_producer_text(self) -> None:
+        repaired, _ = repair_market_optimization_workflow(_workflow_fixture())
+        adapter = next(
+            node for node in repaired["nodes"] if node["name"] == MODEL_NODE
         )
 
-        repaired, _ = repair_market_optimization_workflow(fixture)
-        model = next(node for node in repaired["nodes"] if node["name"] == MODEL_NODE)
-        messages = model["parameters"]["messages"]["values"]
-
-        self.assertTrue(messages[0]["content"].startswith("Summarize the supplied"))
-        self.assertIn(SYSTEM_SAFETY_SUFFIX.strip(), messages[0]["content"])
-        self.assertNotIn("obsolete wording", messages[0]["content"])
+        self.assertEqual(adapter["type"], "n8n-nodes-base.code")
+        self.assertEqual(adapter["typeVersion"], 2)
         self.assertEqual(
-            messages[0]["content"].count("Optimization safety contract:"),
-            1,
+            adapter["parameters"],
+            {
+                "mode": "runOnceForEachItem",
+                "jsCode": DETERMINISTIC_PUBLICATION_JS,
+            },
         )
-        self.assertEqual(messages[1]["content"], MODEL_USER_EXPRESSION)
-        for contract_text in (
-            "Signal Tier",
-            "Model-Confirmed",
-            "Reliability",
-            "!== 'Low'",
-            "Forecast Return %",
-            "Selected Model",
-            "!== 'RL Policy'",
-            "target_session",
-            "as_of_session",
-            "universe_count",
-            "uncertainty_pct",
-            "indicative_target_pct",
-            "executable_target_pct",
-            "allocation_blocked",
-            "short_horizon_reports",
-        ):
-            self.assertIn(contract_text, MODEL_USER_EXPRESSION)
-        self.assertNotIn("JSON.parse", MODEL_USER_EXPRESSION)
+        self.assertNotIn("credentials", adapter)
+        self.assertNotIn("retryOnFail", adapter)
+        self.assertNotIn("maxTries", adapter)
+        self.assertIn("data.telegram_text", DETERMINISTIC_PUBLICATION_JS)
+        self.assertIn("data.top_buys", DETERMINISTIC_PUBLICATION_JS)
+        self.assertIn("data.top_sells", DETERMINISTIC_PUBLICATION_JS)
 
     def test_publisher_uses_bound_credential_without_environment_token(self) -> None:
         fixture = _workflow_fixture()

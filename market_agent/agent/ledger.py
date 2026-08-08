@@ -22,7 +22,7 @@ import math
 from numbers import Integral
 import os
 from pathlib import Path
-from typing import Any, Iterator, Mapping, TextIO
+from typing import Any, Iterable, Iterator, Mapping, TextIO
 from uuid import uuid4
 from zoneinfo import ZoneInfo
 
@@ -635,6 +635,68 @@ class LedgerEntry:
 
 
 @dataclass(frozen=True)
+class PredictionBatchAppendResult:
+    """Records appended in one transaction and identifiers skipped as duplicates."""
+
+    entries: tuple[LedgerEntry, ...]
+    duplicate_prediction_ids: tuple[str, ...]
+
+    @property
+    def appended_count(self) -> int:
+        """Return the number of predictions durably appended."""
+
+        return len(self.entries)
+
+    @property
+    def duplicate_count(self) -> int:
+        """Return the number of duplicate candidates skipped."""
+
+        return len(self.duplicate_prediction_ids)
+
+
+@dataclass(frozen=True)
+class OutcomeAppendFailure:
+    """One outcome rejected by ledger linkage or maturity validation."""
+
+    outcome_id: str
+    prediction_id: str
+    error: Exception
+
+
+@dataclass(frozen=True)
+class OutcomeBatchAppendResult:
+    """Outcomes appended in one transaction and rejected candidate details."""
+
+    entries: tuple[LedgerEntry, ...]
+    duplicate_outcome_ids: tuple[str, ...]
+    failures: tuple[OutcomeAppendFailure, ...]
+
+    @property
+    def appended_count(self) -> int:
+        """Return the number of outcomes durably appended."""
+
+        return len(self.entries)
+
+    @property
+    def duplicate_count(self) -> int:
+        """Return the number of duplicate candidates skipped."""
+
+        return len(self.duplicate_outcome_ids)
+
+
+@dataclass(frozen=True)
+class _LedgerBatchRejection:
+    record: LedgerRecord
+    error: Exception
+
+
+@dataclass(frozen=True)
+class _LedgerBatchAppendResult:
+    entries: tuple[LedgerEntry, ...]
+    rejections: tuple[_LedgerBatchRejection, ...]
+
+
+@dataclass(frozen=True)
 class CompletedPrediction:
     """A point-in-time prediction joined to its matured outcome."""
 
@@ -694,12 +756,83 @@ class PredictionLedger:
             raise TypeError("record must be a PredictionRecord.")
         return self._append(record)
 
+    def append_predictions(
+        self,
+        records: Iterable[PredictionRecord],
+    ) -> PredictionBatchAppendResult:
+        """Append non-duplicate predictions with one verification and flush.
+
+        Duplicate identifiers already present in the ledger, or repeated earlier
+        in the same batch, are skipped and reported in candidate order.  The
+        complete existing hash chain is verified while holding one exclusive
+        lock before any new bytes are written.
+        """
+
+        materialized = tuple(records)
+        for record in materialized:
+            if not isinstance(record, PredictionRecord):
+                raise TypeError(
+                    "records must contain only PredictionRecord values."
+                )
+        batch_result = self._append_batch(materialized)
+        duplicate_prediction_ids: list[str] = []
+        for rejection in batch_result.rejections:
+            if not isinstance(rejection.error, DuplicateLedgerRecordError):
+                raise rejection.error
+            duplicate_prediction_ids.append(
+                rejection.record.prediction_id
+            )
+        return PredictionBatchAppendResult(
+            entries=batch_result.entries,
+            duplicate_prediction_ids=tuple(duplicate_prediction_ids),
+        )
+
     def append_outcome(self, record: OutcomeRecord) -> LedgerEntry:
         """Append a matured outcome after validating its linked prediction."""
 
         if not isinstance(record, OutcomeRecord):
             raise TypeError("record must be an OutcomeRecord.")
         return self._append(record)
+
+    def append_outcomes(
+        self,
+        records: Iterable[OutcomeRecord],
+    ) -> OutcomeBatchAppendResult:
+        """Append valid outcomes with one verification, flush, and fsync.
+
+        Duplicate outcome candidates are skipped separately from linkage and
+        maturity failures so callers can preserve their existing accounting.
+        """
+
+        materialized = tuple(records)
+        for record in materialized:
+            if not isinstance(record, OutcomeRecord):
+                raise TypeError(
+                    "records must contain only OutcomeRecord values."
+                )
+
+        batch_result = self._append_batch(materialized)
+        duplicate_outcome_ids: list[str] = []
+        failures: list[OutcomeAppendFailure] = []
+        for rejection in batch_result.rejections:
+            outcome = rejection.record
+            if not isinstance(outcome, OutcomeRecord):  # pragma: no cover
+                raise TypeError("Outcome batch returned a non-outcome record.")
+            if isinstance(rejection.error, DuplicateLedgerRecordError):
+                duplicate_outcome_ids.append(outcome.outcome_id)
+            else:
+                failures.append(
+                    OutcomeAppendFailure(
+                        outcome_id=outcome.outcome_id,
+                        prediction_id=outcome.prediction_id,
+                        error=rejection.error,
+                    )
+                )
+        return OutcomeBatchAppendResult(
+            entries=batch_result.entries,
+            duplicate_outcome_ids=tuple(duplicate_outcome_ids),
+            failures=tuple(failures),
+        )
 
     def read_entries(self) -> tuple[LedgerEntry, ...]:
         """Read all events and verify the complete hash chain."""
@@ -761,14 +894,23 @@ class PredictionLedger:
     ) -> tuple[PredictionRecord, ...]:
         """Return matured predictions that still lack an outcome event."""
 
-        outcome_ids = {outcome.prediction_id for outcome in self.outcomes()}
+        cutoff = _as_date(as_of_session, "as_of_session")
+        entries = self.read_entries()
+        outcome_ids = {
+            entry.record.prediction_id
+            for entry in entries
+            if isinstance(entry.record, OutcomeRecord)
+        }
         return tuple(
-            prediction
-            for prediction in self.matured_predictions(
-                as_of_session,
-                horizon_sessions=horizon_sessions,
+            entry.record
+            for entry in entries
+            if isinstance(entry.record, PredictionRecord)
+            and entry.record.target_session <= cutoff
+            and (
+                horizon_sessions is None
+                or entry.record.horizon_sessions == horizon_sessions
             )
-            if prediction.prediction_id not in outcome_ids
+            and entry.record.prediction_id not in outcome_ids
         )
 
     def completed_predictions(
@@ -795,6 +937,26 @@ class PredictionLedger:
         return tuple(completed)
 
     def _append(self, record: LedgerRecord) -> LedgerEntry:
+        result = self._append_batch((record,))
+        if result.rejections:
+            raise result.rejections[0].error
+        return result.entries[0]
+
+    def _append_batch(
+        self,
+        records: tuple[LedgerRecord, ...],
+    ) -> _LedgerBatchAppendResult:
+        """Validate and append a materialized batch under one exclusive lock."""
+
+        if not records:
+            return _LedgerBatchAppendResult(entries=(), rejections=())
+
+        record_values: list[Mapping[str, Any]] = []
+        for record in records:
+            record_value = record.to_dict()
+            _canonical_json(record_value)
+            record_values.append(record_value)
+
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.path.open("a+", encoding="utf-8") as handle:
             with _locked(handle, exclusive=True):
@@ -818,65 +980,101 @@ class PredictionLedger:
                     )
                     if record_id is not None
                 }
-
-                own_id = (
-                    record.prediction_id
-                    if isinstance(record, PredictionRecord)
-                    else record.outcome_id
-                )
-                if own_id in record_ids:
-                    raise DuplicateLedgerRecordError(
-                        f"Ledger record {own_id!r} already exists."
-                    )
-
-                if isinstance(record, PredictionRecord):
-                    if record.prediction_id in predictions:
-                        raise DuplicateLedgerRecordError(
-                            f"Prediction {record.prediction_id!r} already exists."
-                        )
-                else:
-                    prediction = predictions.get(record.prediction_id)
-                    if prediction is None:
-                        raise UnknownPredictionError(
-                            f"Prediction {record.prediction_id!r} is not in the ledger."
-                        )
-                    if record.prediction_id in outcomes_by_prediction:
-                        raise DuplicateLedgerRecordError(
-                            "An outcome already exists for prediction "
-                            f"{record.prediction_id!r}."
-                        )
-                    if record.target_session != prediction.target_session:
-                        raise ValueError(
-                            "Outcome target_session does not match its prediction."
-                        )
-                    if record.target_maturity_utc != prediction.target_maturity_utc:
-                        raise ValueError(
-                            "Outcome target_maturity_utc does not match its prediction."
-                        )
-                    if record.recorded_at_utc < prediction.target_maturity_utc:
-                        raise ImmatureOutcomeError(
-                            "Outcome cannot be appended before target maturity."
-                        )
-
                 sequence = len(entries) + 1
                 previous_hash = entries[-1].record_hash if entries else None
-                body = {
-                    "sequence": sequence,
-                    "previous_hash": previous_hash,
-                    "record": record.to_dict(),
-                }
-                record_hash = _entry_hash(body)
-                envelope = {**body, "record_hash": record_hash}
-                handle.seek(0, os.SEEK_END)
-                handle.write(_canonical_json(envelope) + "\n")
-                handle.flush()
-                os.fsync(handle.fileno())
-                return LedgerEntry(
-                    sequence=sequence,
-                    previous_hash=previous_hash,
-                    record_hash=record_hash,
-                    record=record,
-                )
+                appended_entries: list[LedgerEntry] = []
+                rejections: list[_LedgerBatchRejection] = []
+                encoded_entries: list[str] = []
+
+                for record, record_value in zip(records, record_values):
+                    own_id = (
+                        record.prediction_id
+                        if isinstance(record, PredictionRecord)
+                        else record.outcome_id
+                    )
+                    rejection: Exception | None = None
+                    if own_id in record_ids:
+                        rejection = DuplicateLedgerRecordError(
+                            f"Ledger record {own_id!r} already exists."
+                        )
+                    elif isinstance(record, OutcomeRecord):
+                        prediction = predictions.get(record.prediction_id)
+                        if prediction is None:
+                            rejection = UnknownPredictionError(
+                                "Prediction "
+                                f"{record.prediction_id!r} is not in the ledger."
+                            )
+                        elif record.prediction_id in outcomes_by_prediction:
+                            rejection = DuplicateLedgerRecordError(
+                                "An outcome already exists for prediction "
+                                f"{record.prediction_id!r}."
+                            )
+                        elif record.target_session != prediction.target_session:
+                            rejection = ValueError(
+                                "Outcome target_session does not match its "
+                                "prediction."
+                            )
+                        elif (
+                            record.target_maturity_utc
+                            != prediction.target_maturity_utc
+                        ):
+                            rejection = ValueError(
+                                "Outcome target_maturity_utc does not match its "
+                                "prediction."
+                            )
+                        elif (
+                            record.recorded_at_utc
+                            < prediction.target_maturity_utc
+                        ):
+                            rejection = ImmatureOutcomeError(
+                                "Outcome cannot be appended before target maturity."
+                            )
+
+                    if rejection is not None:
+                        rejections.append(
+                            _LedgerBatchRejection(
+                                record=record,
+                                error=rejection,
+                            )
+                        )
+                        continue
+
+                    body = {
+                        "sequence": sequence,
+                        "previous_hash": previous_hash,
+                        "record": record_value,
+                    }
+                    record_hash = _entry_hash(body)
+                    encoded_entries.append(
+                        _canonical_json({**body, "record_hash": record_hash})
+                        + "\n"
+                    )
+                    appended_entries.append(
+                        LedgerEntry(
+                            sequence=sequence,
+                            previous_hash=previous_hash,
+                            record_hash=record_hash,
+                            record=record,
+                        )
+                    )
+                    record_ids.add(own_id)
+                    if isinstance(record, PredictionRecord):
+                        predictions[record.prediction_id] = record
+                    else:
+                        outcomes_by_prediction[record.prediction_id] = record
+                    sequence += 1
+                    previous_hash = record_hash
+
+                if encoded_entries:
+                    handle.seek(0, os.SEEK_END)
+                    handle.write("".join(encoded_entries))
+                    handle.flush()
+                    os.fsync(handle.fileno())
+
+        return _LedgerBatchAppendResult(
+            entries=tuple(appended_entries),
+            rejections=tuple(rejections),
+        )
 
     @staticmethod
     def _read_entries_from_handle(handle: TextIO) -> tuple[LedgerEntry, ...]:
