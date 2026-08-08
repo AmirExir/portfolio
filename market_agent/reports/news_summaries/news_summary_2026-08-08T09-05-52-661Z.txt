@@ -1,0 +1,18 @@
+Fresh market-moving headlines only, from the last 36 hours.
+
+**Facts**
+- **U.S. labor market:** July nonfarm payrolls unexpectedly **fell by 23,000**, according to the Bureau of Labor Statistics; CNN says the unemployment rate also rose. This is the clearest fresh macro headline in the set. *(CNN, 2026-08-07T09:00:29Z)*
+- **Treasury/rates setup before the jobs data:** Treasury yields were described as steady ahead of the payrolls release and jobless data. *(CNBC, 2026-08-07T08:44:07Z)*
+- **AI/memory semis:** **SK Hynix** said it will invest **54 trillion won ($38.1 billion)** to build two new memory-chip plants, citing continued strong AI-driven demand and tight supply. *(CNBC, 2026-08-07T08:40:13Z)*
+- **Semiconductor equipment earnings:** **ACM Research** reported Q2 2026 results and separately announced an expansion of its Ultra C Tahoe wet-processing platform for logic and memory manufacturing. *(GlobeNewswire, 2026-08-07T09:00:00Z; GlobeNewswire, 2026-08-07T09:00:00Z)*
+- **AI chip ecosystem:** **Anthropic** confirmed it is building an internal custom-chip team for Claude models, signaling further large-model players are pursuing in-house silicon. *(Fstoppers, 2026-08-07T09:03:01Z)*
+- **Large-cap chip earnings read-through:** A fresh commentary article said **AMD** posted record revenue, up **50% YoY**, with data-center revenue more than doubling; it frames investor expectations heading into **Nvidia**. *(Realinvestmentadvice.com, 2026-08-07T09:05:00Z)*
+- **Crypto/market structure:** **Wintermute** gained U.S. broker-dealer status, allowing it to trade U.S. stocks/options and support ETF block activity. *(CoinDesk, 2026-08-07T08:46:17Z)*
+- **Crypto regulation:** Delay of the U.S. Senate vote on the **CLARITY Act** may extend uncertainty around U.S. crypto market structure, according to industry commentary. *(Cointelegraph, 2026-08-07T09:01:14Z)*
+
+**Interpretation**
+- The **jobs miss** is the most important fresh tape driver here because it directly affects **Fed/rates expectations** and broad **risk sentiment**.
+- In tech, the strongest fresh theme is still **AI infrastructure spending**: SK Hynix’s capex plan and Anthropic’s chip move both reinforce ongoing demand for memory, compute, and semiconductor supply-chain capacity.
+- The AMD/Nvidia read-through suggests the bar for major AI-chip earnings remains high, but that article is commentary rather than a primary earnings release.
+- Crypto fresh headlines are more about **market structure/institutional plumbing** than immediate price action.
+- This article set is **thin on broad index, energy, and inflation headlines**, so it does **not fully explain today’s tape** beyond the weak U.S. jobs report and ongoing AI/semi capex theme.
