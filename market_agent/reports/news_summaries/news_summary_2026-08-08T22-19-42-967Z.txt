@@ -1,0 +1,15 @@
+Fresh market-moving headlines are limited in this article set, and several items are low-quality aggregations or niche crypto/AI coverage that do not clearly explain the broader tape.
+
+**Facts**
+- **Fed / policy risk:** **Biztoc citing MarketWatch** reported that President Trump has resumed efforts to remove Federal Reserve Governor **Lisa Cook**, after being blocked earlier by the Supreme Court. This is relevant to Fed independence and rates policy expectations. *(Biztoc/MarketWatch, publishedAt: 2026-08-07T21:57:11Z)*
+- **Labor / inflation expectations:** **Crypto Briefing** reported on the **New York Fed survey**, saying Americans’ job-market outlook improved and inflation expectations dipped slightly. *(Crypto Briefing, publishedAt: 2026-08-07T21:53:30Z)*
+- **Crypto / geopolitics:** **Crypto Briefing** said the **U.S. imposed new sanctions on Iranian digital-asset exchanges** amid talks, and **Times of India** separately reported U.S. sanctions on a **Dubai-based crypto exchange** over alleged Iran sanctions evasion and IRGC funding. *(Crypto Briefing, 2026-08-07T22:13:20Z; Times of India, 2026-08-07T21:43:02Z)*
+- **Company-specific earnings mover:** **Biztoc citing Yahoo Finance** said **DraftKings** surged after Q2 results as investors focused on prediction-market and customer-activity growth, despite an earnings miss. *(Biztoc/Yahoo Finance, publishedAt: 2026-08-07T22:14:21Z)*
+- **AI / big-tech ecosystem:** **Free Republic citing The Wall Street Journal** said **OpenAI paused some work on its upcoming “Astra” model over cybersecurity concerns**. *(Free Republic/WSJ, publishedAt: 2026-08-07T21:47:29Z)*
+
+**Interpretation**
+- The most broadly relevant fresh items here are the **Fed-governance headline** and the **NY Fed survey**. Together, they touch rates, inflation expectations, and central-bank credibility.
+- The **Iran/crypto sanctions** headlines matter more for **geopolitical risk sentiment** and crypto compliance than for broad equity indexes unless followed by wider sanctions or energy-market implications.
+- **DraftKings** is a **single-stock earnings** story, not a macro read-through.
+- The **OpenAI/Astra** item is potentially relevant for **AI sentiment**, but this article set does not provide enough high-quality fresh reporting to infer a broader impact on semis or mega-cap tech.
+- Overall, the fresh headline set is **thin** and does **not clearly explain today’s broader market action** on its own.
