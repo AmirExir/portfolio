@@ -1,0 +1,50 @@
+Market Intelligence Forecast Report
+Generated: 2026-08-08 12:19 UTC
+Data as of completed session: 2026-08-07
+Horizon: 30 trading days | Primary: Best Validation
+Horizon meaning: point-to-point target return, not an immediate or monotonic path forecast; realized adverse/favorable excursion is tracked after maturity
+Run profile: quality
+Pattern windows: 20/50 trading days
+Sequence model: adaptive
+RL policy: shadow diagnostics only (excluded from selection, scoring, reliability, and orders)
+Earnings context: point-in-time interpretation included once in policy decisions
+Smart policy: on | per-name cap 5.0% | cash reserve 15.0%
+Portfolio allocation authorization: blocked; research targets remain visible but executable targets are zero until current weights, covariance, and classifications are verified
+Universe: 78 ranked / 80 configured | Stocks + crypto + commodities
+Primary signal rule: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; selected model must be non-RL; OOS validation requires >= 8 samples, >= 50% direction hit rate, <= 20% calibration error, and Brier <= 0.30
+Signal counts: 3 model-confirmed buys, 1 model-confirmed sells/avoids, 0 policy buy watchlist, 0 policy sell/avoid watchlist
+Reliability mix: High: 1, Moderate: 3, Low: 74
+Portfolio targets: gross 0.0% | cash 100.0% | binding unverified_portfolio_state
+Adaptive sequence symbols: DOGE, GEV, VOO
+Calculation time: 1h 19m 25s total | context 4.5s | 78/80 ranked | 0 cached
+Slowest symbols: DOGE: 1m 40s, BTC: 1m 25s, AVAX: 1m 24s, COMP: 1m 24s, UNI: 1m 24s
+
+Highest-Conviction Qualified Research Forecast
+AVAX: Strong Sell / Avoid | Policy score: -1.89 | Pattern: Downtrend | Forecast Return: -14.39% | Selected model: Ensemble
+
+Short-Term Forecast Signals
+1 trading day | sequence model: off | threshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; selected model must be non-RL; OOS validation requires >= 8 samples, >= 50% direction hit rate, <= 20% calibration error, and Brier <= 0.30
+Model-confirmed buys: no signals met threshold.
+Model-confirmed sells/avoids: no signals met threshold.
+
+Model-Confirmed Buy Forecasts
+Threshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; selected model must be non-RL; OOS validation requires >= 8 samples, >= 50% direction hit rate, <= 20% calibration error, and Brier <= 0.30
+Research visibility is separate from execution authorization; an unverified portfolio always keeps executable allocation at zero.
+DAL: +10.29% through 2026-09-21 | Buy | Model-Confirmed Buy | reliability Moderate | policy Hold / Watch (+2.35, target 0.0%) | model Ensemble | prob up 76.6% | edge 26.6% | err +/-14.42% | pattern Uptrend
+XLE: +8.08% through 2026-09-21 | Buy | Model-Confirmed Buy | reliability High | policy Hold / Watch (+2.06, target 0.0%) | model Ensemble | prob up 72.0% | edge 22.0% | err +/-10.21% | pattern Uptrend
+XOM: +6.62% through 2026-09-21 | Buy | Model-Confirmed Buy | reliability Moderate | policy Hold / Watch (+1.96, target 0.0%) | model Ensemble | prob up 68.6% | edge 18.6% | err +/-11.24% | pattern Uptrend
+
+Model-Confirmed Sell / Avoid Forecasts
+Threshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; selected model must be non-RL; OOS validation requires >= 8 samples, >= 50% direction hit rate, <= 20% calibration error, and Brier <= 0.30
+AVAX: -14.39% through 2026-09-06 | Sell | Model-Confirmed Sell/Avoid | reliability Moderate | policy Strong Sell / Avoid (-1.89, target 0.0%) | model Ensemble | prob up 26.9% | edge 23.1% | err +/-27.40% | pattern Downtrend
+
+Smart Policy Watchlist
+Rule: smart-policy overlay only; model call did not qualify for the primary signal section
+Buy watchlist: no policy-only buy setups met threshold.
+Sell / avoid watchlist: no policy-only sell/avoid setups met threshold.
+
+Skipped
+SPCX: Need at least 71 clean close prices for ML forecasting.
+PEPE-USD: stale OHLCV data: latest 2022-12-11, expected 2026-08-07, lag 1335 completed UTC days exceeds allowed 1
+
+Model output only. Not financial advice.

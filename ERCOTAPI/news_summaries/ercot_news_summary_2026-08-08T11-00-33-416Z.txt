@@ -1,0 +1,39 @@
+1. Abbott Orders Audit of Texas Data Centers, Pausing Future Grid Connections
+Daily Signal • 2026-08-06
+Earlier this week, Gov. Greg Abbott ordered state regulators to conduct a comprehensive audit of data centers seeking to connect to the Texas grid, effectively pausing future data center projects until the review is complete. Abbott’s order directs the Public…
+https://www.dailysignal.com/2026/08/06/abbott-orders-audit-of-data-centers/
+
+2. Texas Must Rethink Massive Transmission Lines, Lawmakers Say
+Insurance Journal • 2026-08-06
+A growing chorus of Texas lawmakers is calling on the state’s electric grid managers and utility regulators to halt an expansive and increasingly controversial project to build transmission lines that would cut through several thousand acres of private proper…
+https://www.insurancejournal.com/news/southcentral/2026/08/06/880619.htm
+
+3. LS Power Acquiring 606-MW Texas Gas-Fired Plant From Constellation
+POWER magazine • 2026-08-06
+A New York-headquartered group that pursues investments in North American power and energy infrastructure said it has a deal to acquire a natural gas-fired p...
+https://www.powermag.com/ls-power-acquiring-606-mw-texas-gas-fired-plant-from-constellation/
+
+4. Why The Texas Power Grid Needed Gov. Abbott To Pause The Data Center Boom
+Forbes • 2026-08-06
+Here’s why “behind the meter” projects should have nothing to fear from Texas Governor Abbott’s new data center audit.
+https://www.forbes.com/sites/christopherhelman/2026/08/06/why-the-texas-power-grid-needed-gov-abbott-to-pause-the-data-center-boom/
+
+5. KBW cuts Hut 8 target as Beacon Point audit clouds River Bend upside
+Blockspace.media • 2026-08-05
+KBW maintained its Outperform rating and sees 52.2% total return, but Texas interconnection reviews have added uncertainty to Hut 8’s contracted Beacon Point...
+https://blockspace.media/insight/hut-8-stock-kbw-target-texas-audit-2026/
+
+6. Bitcoin miners’ AI pipelines are on trial as Texas freezes 474 GW of data center requests
+CryptoSlate • 2026-08-05
+Texas Gov. Greg Abbott ordered the Public Utility Commission and ERCOT to audit every data center project seeking a grid connection before regulators approve any new projects. The order puts AI infrastructure tied to Bitcoin miners under scrutiny, while the a…
+https://cryptoslate.com/bitcoin-miners-ai-pipelines-are-on-trial-as-texas-freezes-474-gw-of-data-center-requests/
+
+7. Texas Halts Data Center Connections To Power Grid Amid Overwhelming Demand
+Slashdot.org • 2026-08-05
+An anonymous reader quotes a report from Ars Technica: Nowhere is the US data center boom bigger than in Texas. But less than a year after declaring Texas the "epicenter of AI development," Governor Greg Abbott has declared a moratorium on all new power grid …
+https://hardware.slashdot.org/story/26/08/04/231207/texas-halts-data-center-connections-to-power-grid-amid-overwhelming-demand
+
+8. Texas Gov. Greg Abbott effectively pauses new data center projects pending statewide grid audit
+Fox News • 2026-08-04
+Greg Abbott paused new data center interconnection requests as ERCOT reviews over 474 gigawatts of pending applications threatening Texas grid reliability.
+https://www.foxnews.com/politics/texas-gov-greg-abbott-effectively-pauses-new-data-center-projects-pending-statewide-grid-audit
