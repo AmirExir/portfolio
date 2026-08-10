@@ -1,0 +1,9 @@
+Only one article in the provided JSON looks both fresh enough and plausibly market-relevant, and even that headline is more India policy-specific than a clear driver for broad global markets. The fresh set is therefore very thin and does not meaningfully explain today’s broader tape.
+
+**Facts**
+- **The Times of India, 2026-08-09T09:02:34Z** — India’s government is **considering raising the threshold** for foreign direct investment proposals that require Cabinet Committee on Economic Affairs approval to **Rs 15,000 crore from Rs 5,000 crore**, according to sources. The report also says officials are weighing **easier downstream investment norms** to improve ease of doing business.
+
+**Interpretation**
+- If implemented, this could be read as **incrementally pro-investment / pro-business** for India and potentially relevant for companies exposed to inbound FDI or Indian capex.
+- Beyond that, the supplied article set does **not provide fresh, credible headlines** on the Fed, inflation, Treasury yields, major earnings, AI/semi leaders, oil, or major crypto that would justify a broader market narrative.
+- Many other items in the JSON are **generic investing content, software package listings, interviews, or clearly non-market/non-financial articles**, so they should not be used to explain market moves.
