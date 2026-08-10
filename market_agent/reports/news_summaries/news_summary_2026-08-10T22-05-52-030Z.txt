@@ -1,0 +1,14 @@
+Fresh market-moving headlines are limited, and the set is somewhat thin for fully explaining today’s tape.
+
+**Facts**
+- **CNBC (2026-08-09T22:04:01Z):** U.S. stock futures were indicated slightly lower Sunday night, with the cited driver being growing doubts that the U.S. and Iran will soon reach a deal to reopen the Strait of Hormuz.
+- **Channel NewsAsia (2026-08-09T21:57:00Z):** Iran’s Revolutionary Guards said they would not reopen the Strait of Hormuz unless the U.S. meets Tehran’s demands, including compensation-related terms tied to prior conflict.
+- **PYMNTS, citing Reuters (2026-08-09T21:57:26Z):** The U.S. Senate was reported to be moving toward a procedural vote on the CLARITY Act, a major crypto-market-structure bill covering stablecoins and DeFi.
+- **Crypto Briefing (2026-08-09T21:44:18Z and 2026-08-09T21:42:50Z):** The crypto-focused reports said the Senate did **not** secure a vote on the CLARITY Act before the August recess, pushing action to September.
+- **Yahoo Finance/Benzinga (2026-08-09T21:32:03Z):** President Trump said “crypto is a big deal” and that people are increasingly paying with Bitcoin.
+
+**Interpretation**
+- The clearest fresh macro risk headline is **Hormuz/Iran**. That matters most for **oil, energy stocks, inflation expectations, and broader risk sentiment** because disruption around the Strait of Hormuz can affect global crude flows.
+- The futures indication in CNBC is modest and tied to the Iran/Hormuz story, but the article set does **not** provide enough evidence to make broader claims about cash-market direction beyond that.
+- On **crypto**, the only fresh potentially market-relevant development is legislative uncertainty around the **CLARITY Act**. However, the reports conflict on immediate timing, so the safest conclusion is that **U.S. crypto regulation remains unsettled**, which may matter more for crypto-linked equities and tokens than for broad indexes.
+- There are **no strong fresh headlines here on Fed policy, Treasury yields, inflation data, major earnings, or AI/semiconductor leaders** that would independently explain the session.
