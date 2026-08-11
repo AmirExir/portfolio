@@ -1,0 +1,49 @@
+Market Intelligence Forecast Report
+Generated: 2026-08-11 09:15 UTC
+Data as of completed session: 2026-08-10
+Horizon: 30 trading days | Primary: Best Validation
+Horizon meaning: point-to-point target return, not an immediate or monotonic path forecast; realized adverse/favorable excursion is tracked after maturity
+Run profile: scheduled
+Pattern windows: 20/50 trading days
+Sequence model: off
+RL policy: shadow diagnostics only (excluded from selection, scoring, reliability, and orders)
+Earnings context: point-in-time interpretation included once in policy decisions
+Smart policy: on | per-name cap 5.0% | cash reserve 15.0%
+Portfolio allocation authorization: blocked; research targets remain visible but executable targets are zero until current weights, covariance, and classifications are verified
+Universe: 78 ranked / 80 configured | Stocks + crypto + commodities
+Primary signal rule: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; selected model must be non-RL; OOS validation requires >= 8 samples, >= 50% direction hit rate, <= 20% calibration error, and Brier <= 0.30
+Signal counts: 2 model-confirmed buys, 6 model-confirmed sells/avoids, 0 policy buy watchlist, 1 policy sell/avoid watchlist
+Reliability mix: High: 2, Moderate: 9, Speculative: 1, Low: 66
+Portfolio targets: gross 0.0% | cash 100.0% | binding unverified_portfolio_state
+Calculation time: 9m 3s total | context 4.7s | 78/80 ranked | 0 cached
+Slowest symbols: DOGE: 9.0s, BTC: 8.8s, DOT: 8.7s, ETH: 8.7s, SHIB: 8.7s
+
+Highest-Conviction Qualified Research Forecast
+HYPE: Sell / Avoid | Policy score: -0.23 | Pattern: Range / No Dominant Pattern | Forecast Return: +17.28% | Selected model: Ensemble
+
+Model-Confirmed Buy Forecasts
+Threshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; selected model must be non-RL; OOS validation requires >= 8 samples, >= 50% direction hit rate, <= 20% calibration error, and Brier <= 0.30
+Research visibility is separate from execution authorization; an unverified portfolio always keeps executable allocation at zero.
+DAL: +15.84% through 2026-09-22 | Strong Buy | Model-Confirmed Buy | reliability High | policy Hold / Watch (+2.33, target 0.0%) | model Ensemble | prob up 79.3% | edge 29.3% | err +/-14.19% | pattern Uptrend
+HYPE: +17.28% through 2026-09-09 | Buy | Model-Confirmed Buy | reliability Moderate | policy Sell / Avoid (-0.23, target 0.0%) | model Ensemble | prob up 68.1% | edge 18.1% | err +/-33.48% | pattern Range / No Dominant Pattern
+
+Model-Confirmed Sell / Avoid Forecasts
+Threshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; selected model must be non-RL; OOS validation requires >= 8 samples, >= 50% direction hit rate, <= 20% calibration error, and Brier <= 0.30
+DOT: -16.64% through 2026-09-09 | Sell | Model-Confirmed Sell/Avoid | reliability Moderate | policy Strong Sell / Avoid (-2.34, target 0.0%) | model Ensemble | prob up 24.2% | edge 25.8% | err +/-23.85% | pattern Downtrend
+AMZN: -9.68% through 2026-09-22 | Sell | Model-Confirmed Sell/Avoid | reliability High | policy Hold / Watch (-0.11, target 0.0%) | model Ensemble | prob up 22.3% | edge 27.7% | err +/-12.79% | pattern Uptrend
+BNB: -9.36% through 2026-09-09 | Sell | Model-Confirmed Sell/Avoid | reliability Moderate | policy Hold / Watch (-0.02, target 0.0%) | model Ensemble | prob up 30.8% | edge 19.2% | err +/-18.35% | pattern Overbought
+DIA: -2.71% through 2026-09-22 | Sell | Model-Confirmed Sell/Avoid | reliability Moderate | policy Hold / Watch (+0.36, target 0.0%) | model Ensemble | prob up 34.4% | edge 15.6% | err +/-5.37% | pattern Uptrend
+XLV: -3.15% through 2026-09-22 | Sell | Model-Confirmed Sell/Avoid | reliability Moderate | policy Hold / Watch (+0.42, target 0.0%) | model Ensemble | prob up 30.3% | edge 19.7% | err +/-5.59% | pattern Uptrend
+SPY: -3.05% through 2026-09-22 | Sell | Model-Confirmed Sell/Avoid | reliability Moderate | policy Hold / Watch (+0.45, target 0.0%) | model Ensemble | prob up 35.7% | edge 14.3% | err +/-5.96% | pattern Uptrend
+
+Smart Policy Watchlist
+Rule: smart-policy overlay only; model call did not qualify for the primary signal section
+Buy watchlist: no policy-only buy setups met threshold.
+Sell / avoid watchlist:
+AVAX: -11.99% through 2026-09-09 | Neutral / No Edge | Policy Watch Sell/Avoid | reliability Speculative | policy Strong Sell / Avoid (-1.74, target 0.0%) | model Ensemble | prob up 35.2% | edge 14.8% | err +/-29.99% | pattern Downtrend
+
+Skipped
+SPCX: Need at least 71 clean close prices for ML forecasting.
+PEPE-USD: stale OHLCV data: latest 2022-12-11, expected 2026-08-10, lag 1338 completed UTC days exceeds allowed 1
+
+Model output only. Not financial advice.
