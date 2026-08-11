@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **U.S. inflation/Fed watch remains the main scheduled macro catalyst this week** — both **Crypto Briefing (2026-08-10 09:03 UTC)** and **CoinDesk (2026-08-10 08:57 UTC)** highlighted this week’s **U.S. CPI report** as the key event for shaping **Federal Reserve rate expectations** and near-term direction across risk assets, including crypto.
+- **Crypto regulation:** **Reuters via Times of India (2026-08-10 08:50 UTC)** reported that **Senate Majority Leader John Thune moved to advance the Crypto Clarity Act**, a bill that would create a broader U.S. regulatory framework for digital assets. The article says the measure may face a 60-vote hurdle in the Senate.
+- **Crypto security/legal overhang:** **Decrypt (2026-08-10 09:04 UTC)** reported that **Bybit sued North Korea, its Reconnaissance General Bureau, and the Lazarus Group** over the **$1.5 billion February 2025 hack**, and said it won an order freezing some assets.
+- **Geopolitics/energy risk:** **Israel National News (2026-08-10 08:49 UTC)** reported **Iran said the Strait of Hormuz would not reopen until the U.S. “pays a price” and ends military pressure**. This is relevant to oil/shipping risk, though it is from a single source in the provided set.
+- **Russia/Ukraine escalation risk:** **Crypto Briefing (2026-08-10 08:57 UTC)** reported a **Ukrainian drone strike in Tatarstan** that Russian officials say **killed 13 and targeted infrastructure**.
+- **Fintech/infrastructure:** **Reuters via Yahoo Finance (2026-08-10 09:03 UTC)** reported **Kalshi partnered with Nasdaq** to use Nasdaq’s **market surveillance technology**, a sign of further institutionalization in prediction markets.
+- **European fintech expansion:** **Reuters via Times of India (2026-08-10 09:01 UTC)** reported **Revolut secured a French banking license**, a step in its Europe expansion and customer migration away from its Lithuanian entity.
+
+## Interpretation
+- The **clearest cross-asset macro driver in this article set is upcoming U.S. CPI**, because multiple fresh articles explicitly frame it as central to **Fed/rates expectations**.
+- There is also a **fresh crypto policy angle** via the Senate move on the **Crypto Clarity Act**, which could matter for **major crypto and crypto-linked equities**.
+- **Energy/risk sentiment headlines are present but thinly sourced** here: the Hormuz headline and the Tatarstan strike could matter for **oil and broader geopolitical risk**, but this set does **not** provide enough corroborated detail to firmly explain today’s broader tape.
+- There are **no strong fresh earnings or major AI/semi headlines** in the provided articles that clearly rise to market-moving status.
