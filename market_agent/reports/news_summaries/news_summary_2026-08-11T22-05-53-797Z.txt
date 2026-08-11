@@ -1,0 +1,18 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **Nvidia AI infrastructure financing push** — **PYMNTS, 2026-08-10T21:37:17Z**: Nvidia said it partnered with six financial institutions to mobilize **more than $500 billion** of third-party capital for AI infrastructure buildout.  
+- **Nvidia/lender consortium detail** — **Biztoc citing Semafor, 2026-08-10T21:53:49Z**: Report says Nvidia is partnering with Apollo, BlackRock/GIP, Blackstone, Brookfield and Goldman Sachs on financing vehicles totaling **more than $500 billion** for AI infrastructure.  
+- **Trump Media earnings** — **CNBC, 2026-08-10T21:48:14Z**: Trump Media & Technology Group reported a **$238 million second-quarter net loss** on **less than $2 million in revenue**.  
+- **Trump Media stock reaction tied to earnings** — **Forbes, 2026-08-10T21:49:51Z**: Trump Media shares fell **more than 8%** ahead of/around the company’s latest loss report.  
+- **Strait of Hormuz / Iran tensions** — **gCaptain citing Reuters, 2026-08-10T21:27:40Z**: President Trump demanded compensation from Iran, a step Reuters said could complicate efforts to reopen the Strait of Hormuz.  
+- **Hormuz transit risk** — **Crypto Briefing, 2026-08-10T21:53:05Z**: Iran’s parliament advanced a bill that could restrict transit for U.S. and Israeli assets through the Strait of Hormuz.  
+- **Competing Hormuz headline** — **Crypto Briefing, 2026-08-10T21:38:50Z**: Trump said the U.S. Navy had secured the Strait of Hormuz and declared it open for approved commercial traffic.  
+- **Oil/diesel supply warning** — **OilPrice.com, 2026-08-10T22:00:00Z**: Article says a global diesel crunch is worsening ahead of peak winter demand, citing Persian Gulf instability and Ukrainian attacks on Russian refineries.  
+- **Australia rates preview** — **ABC News (AU), 2026-08-10T21:33:10Z**: Ahead of the RBA meeting, no change in the cash rate was expected, with updated inflation, growth and unemployment forecasts due.
+
+## Interpretation
+- The **clearest fresh equity-sector catalyst** in this set is **Nvidia’s financing initiative**, which reinforces the market’s ongoing focus on **AI infrastructure and data-center capex**. That is relevant for semis, AI suppliers, infrastructure financiers, and power/buildout beneficiaries.
+- The **clearest fresh macro/risk headline** is **Strait of Hormuz uncertainty**. The articles conflict on whether transit risk is easing or escalating, but taken together they still point to **ongoing energy and shipping sensitivity**, especially for oil/products.
+- **Trump Media’s earnings** are a **single-name event**, not a broad market read-through.
+- There is **little here on U.S. inflation, Fed policy, Treasury yields, or major index drivers**. If you are trying to explain today’s broader tape, **this article set is thin and does not fully explain it**.
