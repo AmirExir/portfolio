@@ -1,0 +1,39 @@
+1. OpenAI backs Abbott’s audit of Texas AI data center projects
+4sysops.com • 2026-08-10
+OpenAI is urging Texas to scrutinize the power, water, and environmental impact of new AI data centers before they connect to the state grid. The company says it will follow standards resulting from the review and coordinate with state agencies, utilities, an…
+https://4sysops.com/archives/openai-backs-abbotts-audit-of-texas-ai-data-center-projects/
+
+2. Lancium Supports Governor Abbott's Call for Transparency and Accountability in Texas Data Center Development
+PRNewswire • 2026-08-10
+Lancium backs verified reporting on power and water use, ratepayer protection, and transparent community partnership that starts long before construction HOUSTON, Aug. 10, 2026 /PRNewswire/ -- Lancium, a Texas-based developer and operator of large-scale power…
+https://www.prnewswire.com/news-releases/lancium-supports-governor-abbotts-call-for-transparency-and-accountability-in-texas-data-center-development-302847121.html
+
+3. As solar and batteries dominate in Texas, Republican lawmakers consider natural gas minimums
+Dallas Observer • 2026-08-10
+Renewables make up 70% of the state’s future electricity generation, outcompeting fossil fuels in the marketplace.
+http://www.dallasobserver.com/news/as-solar-and-batteries-dominate-in-texas-republican-lawmakers-consider-natural-gas-minimums-40702598/
+
+4. Trump calls Texas’ data center opposition a “mistake”
+Salon • 2026-08-10
+The president’s comments come just days after Gov. Greg Abbott issued a statewide pause of data center approvals
+https://www.salon.com/2026/08/10/trump-calls-texas-data-center-opposition-a-mistake-partner/
+
+5. Samsung wants to bring a floating data center to Texas — huge waterborne facility could offer 50MW of capacity and even cool itself
+TechRadar • 2026-08-09
+Samsung and Mousterian advanced Texas floating data center plans while regulatory scrutiny over ERCOT grid connections continues to increase statewide.
+https://www.techradar.com/pro/samsung-wants-to-bring-a-floating-data-center-to-texas-a-huge-waterborne-facility-could-offer-50mw-of-capacity-and-even-cool-itself
+
+6. Texas governor freezes data center rollout amid ERCOT power strain
+Crypto Briefing • 2026-08-08
+The freeze on data center projects highlights the urgent need for sustainable energy solutions to balance technological growth with grid stability. The post Texas governor freezes data center rollout amid ERCOT power strain appeared first on Crypto Briefing.
+https://cryptobriefing.com/texas-governor-freezes-data-center-ercot-audit/
+
+7. “Our top priority is to…”: Why Texas just hit pause on new data centers as Greg Abbott orders audit amid Elon Musk’s Texas push
+The Times of India • 2026-08-08
+Texas has paused approvals for new data centers as Governor Greg Abbott orders a sweeping audit of projects seeking access to the state’s power grid. The move comes as Elon Musk expands his Texas footprint and concerns grow over soaring electricity demand, wa…
+https://economictimes.indiatimes.com/news/international/global-trends/our-top-priority-is-to-why-texas-just-hit-pause-on-new-data-centers-as-greg-abbott-orders-audit-amid-elon-musks-texas-push/articleshow/133056276.cms
+
+8. Amazon backs 7.65 GW natural gas power plant for AI data center in West Texas
+Crypto Briefing • 2026-08-08
+Amazon's off-grid power strategy highlights the tension between tech growth and sustainability, raising concerns about carbon emissions and energy policy. The post Amazon backs 7.65 GW natural gas power plant for AI data center in West Texas appeared first on…
+https://cryptobriefing.com/amazon-natural-gas-power-plant-ai-data-center-texas/
