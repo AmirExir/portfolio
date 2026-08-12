@@ -1,0 +1,33 @@
+Fresh market-moving headlines are **somewhat thin**, and the set is skewed toward secondary/aggregated sources. The clearest usable themes are **Fed/rates uncertainty, Iran/oil geopolitics, and a few notable company-specific AI/semi/earnings items**.
+
+## Facts
+- **Fed/rates:** CNN reported that markets are still trying to gauge the Fed’s next move, with **odds near 50/50 for a September rate hike versus hold**, against a backdrop of volatile jobs data, stubborn inflation, and changing Fed communications style.  
+  *Source: CNN, 2026-08-11T09:00:29Z*
+
+- **Oil/geopolitics:** A Reuters item carried via Biztoc said **oil prices rose** after **U.S.-Iran negotiations and talks over reopening the Strait of Hormuz hit an impasse**, while inflation uncertainty also weighed on broader sentiment.  
+  *Source: Biztoc / Reuters, 2026-08-11T09:04:08Z*
+
+- **Iran headline:** Crypto Briefing separately reported that **Iran accused the U.S. of lacking genuine interest in peace talks**, reinforcing the geopolitical backdrop around Middle East supply risk.  
+  *Source: Crypto Briefing, 2026-08-11T09:03:44Z*
+
+- **Gold/risk hedge:** ADVFN reported that **gold climbed to more than a two-month high**, with focus on Iran talks and upcoming U.S. inflation data.  
+  *Source: ADVFN, 2026-08-11T08:57:54Z*
+
+- **AI/semi financing:** The Next Web reported that **Nvidia partnered with Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs, and KKR** on a **$500 billion “compute financing” platform** aimed at funding AI infrastructure buildout.  
+  *Source: The Next Web, 2026-08-11T08:55:22Z*
+
+- **Semi/foundry funding:** The Next Web reported that **Intel launched a $15 billion common-stock offering that could rise to $20 billion** with overallotments, to fund its foundry push against TSMC.  
+  *Source: The Next Web, 2026-08-11T09:05:25Z*
+
+- **Earnings/media-crypto crossover:** Reuters reported that **Trump Media & Technology Group posted a Q2 net loss of $238 million versus $20 million a year earlier**, largely due to **unrealized losses tied to cryptocurrency assets**.  
+  *Source: Yahoo Finance / Reuters, 2026-08-11T08:56:24Z*
+
+- **China internet earnings:** PR Newswire reported that **Tencent Music announced Q2 2026 results**.  
+  *Source: PR Newswire, 2026-08-11T09:00:00Z*  
+  Note: the supplied feed does not provide a concise top-line beat/miss summary, so market impact is unclear from this dataset alone.
+
+## Interpretation
+- The most actionable macro drivers in this article set are **Fed uncertainty ahead of inflation data** and **Middle East tension supporting oil and safe-haven demand**.
+- For equities, the fresher single-name angles are **AI capital spending/financing** via Nvidia’s infrastructure push and **balance-sheet funding/dilution risk** around Intel’s large stock sale.
+- The dataset does **not** provide enough high-confidence, fresh reporting to fully explain “today’s tape” across major U.S. indexes.
+- Crypto coverage here is mostly low-quality or niche; the only cleaner fresh crossover item is **Trump Media’s crypto-linked loss impact**.
