@@ -1,0 +1,16 @@
+Fresh market-moving headlines are limited in this feed, and most of the clearly relevant items are preview/analysis pieces rather than actual new data or confirmed market outcomes.
+
+**Facts**
+- **U.S. inflation preview:** **Business Insider** and **NBC News** both published fresh previews ahead of the July CPI release, saying economists expect inflation to cool modestly, with Business Insider citing a consensus of **3.4%** and both noting **energy prices** as an area to watch. Published **2026-08-12 09:00-09:05Z**.
+- **Nvidia / AI funding moat:** **Business Insider** reported that Nvidia is using its large cash pile to backstop “neoclouds,” secure component supply, and support its AI ecosystem, framing balance-sheet strength as a competitive advantage versus chip rivals. Published **2026-08-12 09:00Z**.
+- **Bank of America infrastructure financing:** **CNA/Reuters** reported Bank of America plans to deploy **$250 billion by July 2027** to support U.S. digital and infrastructure projects. Published **2026-08-12 09:02Z**.
+- **Bitcoin market supply pressure:** **CoinDesk** reported that public bitcoin miners have added **$1.78 billion** of selling pressure to the bitcoin market, describing miners as an underappreciated marginal source of supply. Published **2026-08-12 08:53Z**.
+- **Crypto trading activity slowed:** **BitcoinFoundation.org**, citing **WuBlockchain**, said spot trading volume across 14 major crypto exchanges fell **21.7% month over month in July** to **$429.0 billion** from **$547.9 billion**. Published **2026-08-12 08:56Z**.
+- **Auto trade/tariff impact:** **Forbes** reported U.S. passenger vehicle imports were down **21.08%** and exports down **21.90%** in the first half of 2026 versus 2024, attributing the contraction to Trump-era tariffs on autos, aluminum, and steel. Published **2026-08-12 09:00Z**.
+
+**Interpretation**
+- The main macro catalyst in this fresh set is **CPI anticipation**, but it is still only a **preview**, not the release itself. So this feed does **not** yet provide confirmed inflation data to explain today’s tape.
+- For equities, the only clearly fresh AI/semi item is the **Nvidia moat/capital deployment** angle; it is relevant for AI leadership sentiment but is more strategic than a hard incremental earnings or product catalyst.
+- In crypto, the combination of **miner selling pressure** and **weaker exchange spot volumes** points to a potentially softer near-term backdrop for **bitcoin and broader crypto risk appetite**, though no fresh price action is supplied here.
+- The **Bank of America** infrastructure-financing headline is notable for long-duration U.S. capex/infrastructure themes, but it is unlikely by itself to explain broad same-day market moves.
+- Overall, this is a **thin fresh headline set** for explaining today’s market action; aside from the pending **CPI report**, there is little in the feed that clearly drives broad indexes, rates, or cross-asset risk sentiment.
