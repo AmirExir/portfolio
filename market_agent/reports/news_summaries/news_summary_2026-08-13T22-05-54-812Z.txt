@@ -1,0 +1,33 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **U.S. inflation:** July U.S. consumer inflation came in **slightly lower / in line**, which multiple fresh market wrap articles said reduced fears of a near-term Fed hike.  
+  - **CNA**, published **2026-08-12T21:34:23Z**: said “slightly better US consumer pricing data” was followed by an **uptick in Treasury yields**, suggesting lingering inflation unease.  
+  - **Biztoc/Investors.com**, published **2026-08-12T21:47:39Z**: said an **in-line inflation report eased fears of a Federal Reserve rate hike in September**.  
+  - **CNBC live updates**, published **2026-08-12T22:01:56Z**: said traders were digesting **more inflation data**.
+
+- **Rates/Fed expectations:** Fresh coverage tied the inflation print to **reduced September hike odds**, though not to a clean all-clear on inflation.  
+  - **Biztoc/Reuters via Investing.com**, published **2026-08-12T21:45:16Z**: said traders **pared rate-hike bets after the July CPI report**.  
+  - **CNA**, published **2026-08-12T21:34:23Z**: noted **Treasury yields rose** even after the softer inflation tone.
+
+- **AI/semis/tech leadership:** Fresh articles pointed to **tech and AI earnings/news** as an important driver of sentiment.  
+  - **Biztoc/Investors.com**, published **2026-08-12T21:47:39Z**: said **tech stocks led** and cited **Nvidia** and **Cisco**.  
+  - **Crypto Briefing**, published **2026-08-12T21:29:59Z**: reported **Cisco** posted **record results**, with **$15.8B quarterly revenue** and a nearly doubled AI orders target.  
+  - **Crypto Briefing**, published **2026-08-12T21:27:07Z**: reported **Cerebras** posted **$210M Q2 core revenue**, raised full-year guidance, and plans to unveil **CS-4** next week.  
+  - **Crypto Briefing**, published **2026-08-12T21:45:26Z**: reported **JPMorgan introduced a CDS basket for AI hyperscalers**, citing rising hedging demand around AI-related credit risk.
+
+- **Oil/energy:**  
+  - **CNBC live updates**, published **2026-08-12T22:01:56Z**: said oil prices were **declining** as traders weighed inflation data and earnings.
+
+- **Crypto-specific:**  
+  - **CryptoSlate**, published **2026-08-12T21:40:19Z**: reported bitcoin miner **HIVE** disclosed it **missed its 10-Q deadline** and faces an **$80M Swedish tax issue**, despite preliminary quarterly revenue of about **$79M**.  
+  - **Cointelegraph**, published **2026-08-12T21:21:17Z**: reported **Hawaii’s crypto ATM ban** will take effect **Oct. 1**.
+
+- **International inflation datapoint:**  
+  - **Times of India**, published **2026-08-12T21:46:05Z**: reported **India July retail inflation rose to 4.45%**, driven by food prices.
+
+### Interpretation
+- The freshest usable set suggests the main macro driver was **benign-enough U.S. inflation that reduced immediate Fed tightening fears**, but **higher Treasury yields** indicate the rates market was **not fully relaxed**.
+- **AI/tech earnings and announcements** were a major concurrent theme, especially around **Cisco**, **Nvidia-linked sentiment**, and **Cerebras**, plus signs that investors are increasingly **hedging AI credit exposure**.
+- **Oil weakness** may have helped the inflation/risk backdrop, but the supplied articles do not provide enough detail to make a stronger call on energy’s broader market impact.
+- Outside of the inflation/Fed and AI themes, the fresh set is **fairly thin** for explaining the full tape today.
