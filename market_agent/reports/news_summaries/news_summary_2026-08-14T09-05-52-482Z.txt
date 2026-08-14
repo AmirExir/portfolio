@@ -1,0 +1,15 @@
+Fresh market-moving headlines are limited in this article set, and several items are either generic, opinion, lawsuits/PRs, or not clearly tied to today’s tape.
+
+**Facts**
+- **Crypto pressure despite softer U.S. inflation:** *The Times of India* (**2026-08-13T09:03:34Z**) reported **Bitcoin near $63,000** and **Ethereum below $1,900**, saying softer U.S. inflation “failed to ease crypto market pressure,” with markets awaiting **U.S. PPI** as the next cue.
+- **AI/semi risk sentiment support in global equities:** *ABC News / AP* (**2026-08-13T09:03:09Z**) reported **global shares were mostly higher**, citing **buying in AI-related stocks including computer chips**, and also noted **oil prices fell**.
+- **Major AI memory capex signal:** *CNBC* (**2026-08-13T09:00:01Z**) reported that **SK Hynix** is investing **$720 billion** in memory factories to meet **AI demand**, underscoring continued scale in AI infrastructure spending.
+- **Older Nvidia AI hardware demand remains durable:** *Wccftech* (**2026-08-13T08:50:11Z**) reported **CoreWeave** has committed to renting **Nvidia A100 GPUs through 2029**, suggesting persistent demand for AI compute even on older-generation chips.
+- **Middle East war fallout still feeding inflation/monetary backdrop:** *Financial Post / Bloomberg* (**2026-08-13T09:04:17Z**) reported **Standard Bank** posted record first-half profit while navigating the **inflationary and monetary-policy effects** of the **US-Iran war fallout**.
+
+**Interpretation**
+- The clearest fresh cross-asset signals here are:
+  - **AI/semi remains a leadership theme**, supported by the AP headline on chip buying and CNBC’s SK Hynix capex story.
+  - **Crypto is not getting relief from softer inflation alone**, with traders looking ahead to **PPI** for the next macro signal.
+  - **Energy/inflation sensitivity remains relevant** via the Middle East backdrop, though this article set does not provide enough fresh detail to fully explain today’s moves in rates, oil, or major U.S. indexes.
+- There are **no strong fresh Fed, Treasury-yield, CPI/PPI release, or major U.S. earnings headlines** in this set that definitively explain today’s broader market tape.
