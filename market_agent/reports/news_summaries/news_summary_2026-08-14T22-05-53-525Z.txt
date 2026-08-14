@@ -1,0 +1,21 @@
+Fresh market-moving headlines are limited in this feed, and several items are low-quality aggregations, opinion, or not clearly relevant to today’s tape.
+
+**Facts**
+- **Reuters via Biztoc, 2026-08-13T22:05:18Z:** The **SEC canceled** a Friday meeting that had been scheduled to vote on whether to propose **new crypto-related rules**. This is a fresh regulatory headline for crypto.
+- **PR Newswire, 2026-08-13T22:01:00Z:** **Bitwise** said it will explore **tokenizing its Solana Staking ETF (BSOL)** with Superstate, and said other ETFs may follow. This is a crypto/asset-tokenization development.
+- **Wolf Street via Biztoc, 2026-08-13T21:47:53Z:** The **New York Fed** announced it will **halt Reserve Management Purchases (RMPs)** for Aug. 14 through Sept. 11. This is a fresh Fed balance-sheet/liquidity-related item.
+- **CNBC via Biztoc, 2026-08-13T21:47:32Z:** **Reddit** will join the **S&P 500** on Aug. 18, and its shares **rose 11% in extended trading** on the inclusion news.
+- **Investor’s Business Daily via Biztoc, 2026-08-13T21:47:39Z:** Separately confirmed that **Reddit stock jumped late Thursday** on the **S&P 500 inclusion** headline.
+- **Yahoo Finance via Biztoc, 2026-08-13T21:49:41Z:** **Cellebrite (CLBT)** shares **fell 29.18%** after **missing earnings** and **cutting 2026 revenue guidance**.
+- **CBS News via Biztoc, 2026-08-13T22:02:53Z:** A report said heavy **AI spending** is **raising consumer prices**, with chip and power demand feeding inflation pressure. This is more thematic than a discrete data release.
+- **Crypto Briefing, 2026-08-13T22:00:00Z:** Report said the U.S. is considering an **indefinite Iran naval blockade** amid an **oil supply shortfall**. If accurate, this is relevant for **oil/geopolitical risk**, though the sourcing in this feed is less robust than Reuters-level coverage.
+
+**Interpretation**
+- The clearest fresh, tape-relevant items here are:
+  1. **SEC canceling the crypto-rules meeting** — potentially important for crypto regulatory expectations.
+  2. **NY Fed halting RMPs** — relevant for rates/liquidity watchers.
+  3. **Reddit joining the S&P 500** — a concrete single-stock/index-composition mover.
+  4. **Cellebrite’s earnings miss and guidance cut** — a clear negative earnings-specific mover.
+- There is **not enough high-confidence fresh macro news in this set** to fully explain broad index action today.
+- The AI inflation article is **thematic**, not a fresh CPI/PPI-type catalyst.
+- The Iran/oil item could matter for **energy and risk sentiment**, but given the source quality in this feed, it should be treated cautiously unless confirmed elsewhere.
