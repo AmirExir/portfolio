@@ -1,0 +1,41 @@
+**Fresh market-moving headlines only (last 36 hours).**  
+The fresh set is **fairly thin and mostly centered on geopolitics/oil/rates and a few AI/crypto items**; there is **little direct fresh reporting here on Fed data, inflation releases, or major earnings that would fully explain today’s tape**.
+
+## Facts
+- **U.S./Iran tensions are escalating, with more sanctions flagged and a prolonged blockade signal.**  
+  - **CNBC, 2026-08-14T09:04:24Z:** U.S. Treasury yields rose after the U.S. said its naval blockade of Iranian ports could continue “indefinitely”; CNBC cited the 10-year Treasury yield at **4.661%**.  
+  - **Rigzone, 2026-08-14T08:34:47Z:** Treasury Secretary Scott Bessent said the U.S. will soon unveil **“unprecedented” sanctions on Iran**, described as part of a “one-two punch” alongside the continued blockade.
+
+- **Oil is reported higher alongside the Iran headlines.**  
+  - **CoinDesk, 2026-08-14T08:51:48Z:** Said **WTI crude topped $82/barrel**, linking higher oil and Treasury yields to pressure on risk assets.  
+  - **Economic Times / Times of India, 2026-08-14T09:02:22Z:** Reported European shares were subdued as investors weighed stalled U.S.-Iran conflict diplomacy and **elevated oil prices**.  
+  - **Biztoc citing WSJ, 2026-08-14T08:44:44Z:** Mentioned **Brent around $88**; treat cautiously as an aggregator, but directionally consistent with the other fresh reports.
+
+- **Treasury yields are moving up in fresh coverage.**  
+  - **CNBC, 2026-08-14T09:04:24Z:** Reported the **10-year Treasury yield at 4.661%**, up on the day in reaction to Iran-related developments.  
+  - **CoinDesk, 2026-08-14T08:51:48Z:** Also cited the U.S. 10-year yield advancing to about **4.660%**.
+
+- **Bitcoin slipped below a key round number in fresh reporting.**  
+  - **CoinDesk, 2026-08-14T08:51:48Z:** Reported **Bitcoin below $63,000**, near **$62,800**, as oil and yields climbed.  
+  - A duplicate/aggregated version appeared via **Biztoc, 2026-08-14T08:59:53Z**.
+
+- **AI/semi: Nvidia announced a partnership with former rival Groq.**  
+  - **Business Insider, 2026-08-14T09:00:03Z:** Reported Nvidia is partnering with **Groq**, with Groq integrating Nvidia systems into **GroqCloud**, effectively turning a former rival into a customer.
+
+- **AI funding/leverage risk is drawing attention.**  
+  - **CNBC, 2026-08-14T08:29:50Z:** Reported AI infrastructure expansion is becoming **more leveraged and harder to track**, noting Nvidia’s work with Wall Street firms to help mobilize **more than $500 billion** of third-party capital.
+
+- **OpenAI revenue scale continues to accelerate ahead of a possible IPO.**  
+  - **Economic Times / Times of India, 2026-08-14T08:20:08Z:** Citing Bloomberg, reported **OpenAI annualized revenue topped $40 billion** ahead of a potential IPO.
+
+- **Europe risk tone appears cautious rather than directional in the fresh set.**  
+  - **Economic Times / Times of India, 2026-08-14T09:02:22Z:** Reported **European shares were steady/subdued near record highs** as markets weighed Iran developments and upcoming Eurozone data.
+
+## Interpretation
+- The clearest fresh macro driver in this article set is **Middle East escalation risk feeding into higher oil and higher Treasury yields**.
+- That combination can matter for markets because **higher energy prices may reinforce inflation concerns**, while **higher yields can tighten financial conditions**.
+- The **crypto weakness** in the fresh coverage appears consistent with that same macro backdrop of **higher oil and rising yields**.
+- On AI, the fresh headlines are **more mixed than outright bullish or bearish**:  
+  - **Positive demand/read-through:** Nvidia deepening ecosystem reach via Groq; OpenAI revenue growth remains strong.  
+  - **Cautionary angle:** CNBC’s piece suggests the AI buildout is becoming **more debt-fueled and opaque**, which could matter for valuation and financing risk.
+- There is **no strong fresh article here on a major Fed/inflation print or broad earnings wave**, so if markets are making a larger move today, **this dataset only partially explains it**.
