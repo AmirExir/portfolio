@@ -1,0 +1,17 @@
+Fresh market-moving headlines are limited and skew heavily toward geopolitics/energy and crypto. There is little in this set on today’s U.S. equity tape, Fed, inflation, or major earnings.
+
+**Facts**
+- **Energy / geopolitics:** **The Irish Times** (published **2026-08-15T08:43:47Z**) reported Iran remained defiant over the **Strait of Hormuz**, while President Trump told Americans to expect **high fuel prices**; the story says progress toward renewed talks was limited.
+- **Energy / geopolitics:** **TheJournal.ie** (published **2026-08-15T08:39:31Z**) said Tehran insisted the **Strait of Hormuz will remain Iranian** after Trump suggested it could become U.S. territory; the article noted Hormuz handled about **a fifth of global oil and LNG exports** before the war.
+- **Energy / geopolitics:** **Crypto Briefing** (published **2026-08-15T08:15:59Z**) reported Iran **halted negotiations** and threatened strikes after attacks, framing the situation as a deepening Hormuz standoff.
+- **Crypto:** **The Times of India / Economic Times** (published **2026-08-15T09:02:23Z**) said **Bitcoin was near $63,000**, with sentiment pressured by **weaker ETF demand** and a **cancelled SEC meeting**; the piece also said Ethereum weakened and total crypto market cap slipped modestly.
+- **Crypto regulation:** **Cointelegraph** (published **2026-08-15T08:40:59Z**) reported **Galaxy Digital cut the odds of the CLARITY Act passing in 2026 to 10%**, citing unresolved issues and a narrow Senate window.
+- **AI / semis:** **Crypto Briefing** (published **2026-08-15T08:52:59Z**) said **TSMC revised 2026 revenue guidance** and pointed to **surging AI demand**, while also raising debate about whether valuation is stretched.
+- **Fed / macro calendar:** **ABC News** (published **2026-08-15T08:17:13Z**) flagged the coming week’s potential catalysts: **Home Depot and Walmart earnings** and the release of **Fed meeting minutes**.
+- **The supplied set does not include a fresh primary-source article on major U.S. index moves, Treasury yields, CPI/PPI, or a Fed official statement within the last 36 hours.**
+
+**Interpretation**
+- The clearest market-relevant driver in this article set is **Middle East/Hormuz risk**, which matters mainly through the **oil and LNG supply** channel and inflation sensitivity.
+- For crypto, the fresh headlines lean **cautious/negative on sentiment**, with ETF-demand softness and lower odds for U.S. market-structure legislation.
+- On AI/semis, the only fresh relevant item supports the view that **AI chip demand remains strong**, though it is more about **valuation debate** than a new broad sector catalyst.
+- If you’re trying to explain today’s broader U.S. tape from this dataset alone, **the article set is too thin**; it lacks enough fresh reporting on rates, macro data, and index-level developments.
