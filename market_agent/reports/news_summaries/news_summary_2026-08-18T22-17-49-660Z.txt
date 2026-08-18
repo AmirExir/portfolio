@@ -1,0 +1,16 @@
+Here are the **fresh market-moving headlines** from the last 36 hours only.
+
+## Facts
+- **Treasury yields surged**: **Crypto Briefing** (published **2026-08-17T22:11:12Z**) reported the **30-year U.S. Treasury yield hit 5.31%, its highest level since 2007**, citing inflation fears and heavy government borrowing.
+- **Oil/geopolitical risk remained a market factor**: **New York Post** (published **2026-08-17T22:02:32Z**) reported President Trump said the U.S. **would not extend the Iran MOU** as the 60-day peace-talk deadline expired.
+- **U.S. stocks coverage tied pressure to yields and oil**: **CNBC** (published **2026-08-17T22:12:25Z**) said major U.S. indexes were pressured by **higher Treasury yields, persistent inflation concerns, elevated oil prices, and semiconductor weakness**.
+- **Another market wrap echoed the same drivers**: **CNA** (published **2026-08-17T21:51:23Z**) reported Wall Street was hit by **spiking bond yields and higher oil prices**, adding that oil was supported by lack of progress on opening the **Strait of Hormuz**.
+- **AI/data-center capex headline**: **Biztoc** citing TIPP Insights (published **2026-08-17T21:42:08Z**) said **Nvidia plans to invest $1.5 billion in SB Energy** tied to securing **up to 8 gigawatts of AI computing capacity for OpenAI** at an Ohio campus.  
+  - Note: this is an aggregator item, so treat with caution versus primary-source reporting.
+- **AI regulatory/antitrust headline**: **The Next Web** (published **2026-08-17T22:12:02Z**) reported the **DOJ is investigating Andreessen Horowitz** over alleged competing board seats at AI companies, citing Bloomberg.
+
+## Interpretation
+- The freshest set of usable headlines points to **rates and oil/geopolitics** as the clearest macro drivers: long-end yields at cycle-era highs and Iran/Hormuz tension keeping energy risk elevated.
+- There is also an **AI/semi-specific thread**: CNBC explicitly mentioned **semiconductor weakness**, while the Nvidia/SB Energy item reinforces the ongoing importance of **AI infrastructure spending**.
+- The fresh article set is **somewhat thin and partly dependent on market-wrap stories**, so it does **not fully explain today’s tape beyond rates/oil pressure and semis softness**.
+- I do **not** see strong fresh, high-confidence headlines here on **Fed policy changes, new inflation data, major earnings, or major crypto price-specific moves**.
