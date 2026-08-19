@@ -1,0 +1,20 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Rates / macro:** **Reuters via Yahoo Finance** (published **2026-08-18T08:42:25Z**) reported that a selloff in U.S. government bonds accelerated, with the **30-year Treasury yield near a two-decade high**, as investors weighed **Middle East tensions, higher oil prices, and inflation risks**.
+- **Rates / macro:** **Reuters via The Times of India** (published **2026-08-18T08:24:21Z**) said **U.S. 30-year yields hit their highest level since 2007**, citing **war/oil worries**, inflation concerns, and anxiety over **U.S. debt and fiscal spending**.
+- **Europe / risk sentiment:** **Reuters via The Times of India** (published **2026-08-18T08:53:42Z**) reported **European shares edged lower** while **Brent crude rose to $91.41 a barrel** and **euro zone bond yields climbed**, with fading hopes for a lasting **U.S.-Iran peace deal** adding to inflation concerns.
+- **Inflation:** **RTÉ** (published **2026-08-18T08:35:25Z**) quoted **ECB Chief Economist Philip Lane** saying **food prices will be a main driver of inflation in 2027**, as oil prices also rise.
+- **Inflation / Fed expectations:** **TheStreet** (published **2026-08-18T09:03:00Z**) reported **Wells Fargo reset higher its inflation target for 2026 and 2027**, arguing price pressures may not cool as previously expected.
+- **AI / China tech earnings:** **PR Newswire** (published **2026-08-18T09:00:00Z**) said **Baidu announced second-quarter 2026 results**. The article is clearly earnings-related and relevant to China AI/internet, though the supplied extract does **not include the key figures**.
+- **AI / semis ecosystem:** **Biztoc** (published **2026-08-18T08:36:10Z**) summarized that **LG Electronics is deepening its robotics partnership with Nvidia** after hosting Nvidia executives at its data factory.  
+  - Note: this is a secondary aggregation, so treat with caution unless confirmed elsewhere.
+- **Crypto / policy:** **Cointelegraph** (published **2026-08-18T08:48:51Z**) reported **China added 8 banks to its digital yuan network**, taking the total number of operators to **30**.
+- **Crypto / regulation:** **Cointelegraph** (published **2026-08-18T08:39:57Z**) reported **South Korea ordered access to Polymarket to be blocked** after determining it amounted to illegal gambling.
+
+### Interpretation
+- The clearest fresh macro driver in this set is **higher long-dated yields alongside firmer oil**, which can matter for **equities, especially duration-sensitive growth/tech**, and for broader **inflation/Fed expectations**.
+- The **Middle East/oil/inflation** connection is better supported by the supplied articles than any company-specific equity narrative today.
+- There is **some AI relevance** through **Baidu earnings** and the **LG-Nvidia robotics tie-up**, but the article set is **thin on hard earnings details** and does **not provide enough evidence** to make a strong call on AI/semi leadership today.
+- Crypto headlines here are **more policy/regulatory than price-moving**, and the supplied articles do **not explicitly explain moves in major crypto prices**.
+- Overall, if you are trying to explain **today’s tape**, the fresh articles point mainly to **rates + oil + geopolitical inflation anxiety**; beyond that, the set is **limited**.
