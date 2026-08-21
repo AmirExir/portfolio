@@ -1,0 +1,20 @@
+Fresh market-moving headlines only, from the last 36 hours:
+
+**Facts**
+- **Rates / Treasury / dollar:** **CNBC** (**2026-08-20T08:57:47Z**) reported Treasury yields edged higher Thursday after Wednesday’s sharp pullback, as traders digested the Treasury Department’s plan to significantly increase government debt buybacks.
+- **Rates / Treasury mechanics:** **Crypto Briefing** (**2026-08-20T08:51:30Z**) said the U.S. Treasury doubled long-dated bond buybacks to at least **$4 billion**, framing it as an effort aimed at lowering long-term yields.
+- **Dollar / FX spillover:** **Business Standard** (**2026-08-20T08:46:15Z**) reported the euro moved back above **$1.17** for the first time in more than three months after a sharp dollar drop tied to the Treasury’s bond-market relief action.
+- **Bonds / macro risk:** **NPR** (**2026-08-20T09:00:00Z**) highlighted that a sharp bond-market selloff has become a central macro concern with implications for the broader U.S. economy and consumer borrowing costs.
+- **Crypto majors:** **Biztoc citing The Block** (**2026-08-20T08:56:56Z**) reported **Bitcoin hit $69,000** for the first time in two months and **ether jumped 10%**, linking the move to Treasury buybacks and an SEC crypto proposal.
+- **Crypto policy / alt token:** **CoinJournal** (**2026-08-20T08:50:37Z**) reported **Hyperliquid’s HYPE token surged 22% to $71.91** after President Trump said CFTC Chair Michael Selig is working on a compliant path to bring Hyperliquid into the U.S. market.
+- **Energy / geopolitics:** **Crypto Briefing** (**2026-08-20T08:45:17Z**) reported oil prices rose as Trump hardened rhetoric toward Iran amid stalled talks.
+- **Earnings / China tech:** **PRNewswire** (**2026-08-20T08:58:00Z**) said **NetEase** released second-quarter and interim 2026 unaudited financial results.
+- **Earnings / brokerage:** **Economic Times** (**2026-08-20T08:44:41Z**) reported **Webull** posted stronger-than-expected Q2 2026 results with record revenue and profitability, helped by higher trading activity.
+- **Consumer credit / financials:** **TheStreet** (**2026-08-20T09:03:00Z**) reported Bank of America maintained a **Buy** on **Capital One** after a July update showing slower card growth, with focus on credit performance and outlook.
+
+**Interpretation**
+- The clearest fresh macro driver in this set is the **Treasury buyback story**: it is showing up across **yields, the dollar, and crypto**.
+- For risk assets, the best-supported fresh cross-asset read is that **rates-market stabilization efforts** are influencing sentiment more than traditional economic data in this article set.
+- **Crypto** has the strongest explicit momentum headlines here, especially **Bitcoin/Ether** and **Hyperliquid** on policy-related newsflow.
+- **Energy** has a fresh geopolitical catalyst via **Iran rhetoric**, but the article set is thin on details such as benchmark levels or supply specifics.
+- On **equities**, the fresh set is relatively thin for broad index direction. There are some company-specific items on **NetEase, Webull, and Capital One**, but not enough here to fully explain the broader tape.
