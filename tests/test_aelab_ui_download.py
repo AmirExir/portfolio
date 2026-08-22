@@ -11,8 +11,8 @@ from urllib.parse import urlsplit
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 PDF_NAME = "AELab25_Modern_UI_Overview.pdf"
-EXPECTED_HREF = PDF_NAME + "?v=25.1-20260822"
-EXPECTED_SHA256 = "97024efa8b70f9d1c200f947b6b234e3974c12ed648ad60693038aab314dc6e9"
+EXPECTED_HREF = PDF_NAME + "?v=25.1-nav-20260822"
+EXPECTED_SHA256 = "f5a0e29c08080ff353f7503a65b35aad2acf8530a676f232a592bf9b9e8c27ae"
 
 
 class _AELabDownloadParser(HTMLParser):
