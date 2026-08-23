@@ -1,0 +1,17 @@
+Fresh market-moving headlines are limited, and the set is somewhat thin for fully explaining today’s tape.
+
+**Facts**
+- **Energy / geopolitics:** **CNN** reported that Gulf oil producers have adapted export logistics to reduce Iran’s leverage over the Strait of Hormuz, highlighting how regional oil flows have become more resilient despite tensions. Published **2026-08-22 09:00Z**.
+- **Energy / geopolitics:** **Crypto Briefing** cited Reuters saying **Iran allowed several Iraqi oil tankers through the Strait of Hormuz**, a development that could matter for near-term oil supply risk perceptions. Published **2026-08-22 08:52Z**.
+- **AI / semis:** **The Times of India** (Reuters) reported **Nvidia made a minority investment in Cloverleaf Infrastructure** to help develop U.S. power and site infrastructure for AI data centers. Published **2026-08-22 07:42Z**.
+- **AI / market concentration:** **Crypto Briefing** reported that in Vanguard’s flagship S&P 500 fund, **Nvidia’s weighting has overtaken Apple’s**, underscoring Nvidia’s growing influence on passive equity exposure. Published **2026-08-22 08:19Z**.
+- **China / consumer demand:** **The Straits Times** reported that **luxury sales in China fell more than 10% in July** as tax measures and market weakness hit wealthy consumers. Published **2026-08-22 07:59Z**.
+- **China / consumer demand:** **Business Standard** similarly reported, via Bloomberg, that **sales at the 25 biggest luxury labels in China dropped more than 10% in July**. Published **2026-08-22 07:43Z**.
+- **Major crypto:** **The Times of India** reported **Bitcoin trading near $78,000 after a roughly 23% one-week surge**, citing ETF inflows and liquidity hopes. Published **2026-08-22 08:22Z**.
+
+**Interpretation**
+- The clearest fresh macro theme is **oil-supply risk management around Hormuz**. The tanker-passage and export-resilience headlines suggest the market may be watching whether Middle East tensions translate into actual supply disruption.
+- In equities, the most relevant fresh single-name theme is still **AI infrastructure**, with Nvidia’s Cloverleaf investment reinforcing that the AI buildout is extending beyond chips into power and data-center capacity.
+- The China luxury headlines point to **continued softness in high-end consumer demand in China**, which could matter more for global luxury and China-exposed consumer names than for broad U.S. indexes.
+- The crypto article supports **ongoing speculative risk appetite in major crypto**, especially Bitcoin, but does not by itself explain broader cross-asset moves.
+- There are **no fresh articles here on Fed policy, Treasury yields, inflation data, or major earnings**, so this article set does not fully explain rates-driven or broad index action if that is dominating today’s tape.
