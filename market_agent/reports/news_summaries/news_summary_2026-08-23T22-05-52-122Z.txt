@@ -1,0 +1,15 @@
+Fresh market-moving headlines are somewhat thin here, and several items are niche, low-credibility, or commentary rather than broad tape-drivers. The clearest fresh themes are AI infrastructure constraints/pricing, U.S.-Canada trade friction, and a Boeing labor update.
+
+**Facts**
+- **AI infrastructure/power constraint:** **Crypto Briefing** (2026-08-22T22:00:32Z) reported gas-turbine shortages are becoming a bottleneck for AI data-center buildouts, with turbine backlogs stretching to **2031**.
+- **U.S.-Canada trade friction:** **Newser** (2026-08-22T22:00:00Z) reported the U.S.-Canada tariff fight escalated, with new U.S. duties taking effect Saturday and Canada signaling retaliation; the piece said analysts see risks to cross-border investment, supply chains, and prices.
+- **U.S.-Canada trade details:** **Crypto Briefing** (2026-08-22T21:22:18Z) said the U.S. Trade Representative described a preferential trade offer rejected by Canada, ahead of **50% tariffs** taking effect.
+- **China robotics/IPO sentiment:** **NPR** (2026-08-22T21:30:47Z) reported Chinese robotics firm **Unitree** had a strong Shanghai stock-market debut, underscoring investor appetite around robotics/humanoid AI themes.
+- **Nvidia server pricing:** **The Next Web** (2026-08-22T21:25:33Z) reported Nvidia’s large customers were told servers containing its AI chips will rise in price by **more than 15%** in many cases from early next year, citing higher memory costs.
+- **Boeing labor:** **Reuters via The Manila Times** (2026-08-22T20:44:50Z) reported Boeing engineers and technical workers rejected the company’s four-year contract offer.
+
+**Interpretation**
+- The most relevant cross-asset signal in this set is **AI capacity constraint**: both power shortages and higher Nvidia server pricing point to continued bottlenecks in AI deployment, with implications for semis, data-center buildout names, utilities/power equipment, and inflation in AI capex.
+- **Trade/tariff headlines with Canada** are the clearest macro risk item here; if markets are reacting to macro, this set suggests a **policy/friction** channel rather than a clean rates or Fed catalyst.
+- **Boeing’s contract rejection** is a company-specific industrials headline that could matter for aerospace supply and labor-risk sentiment.
+- There are **no fresh major Fed, Treasury, CPI/PCE, broad earnings, oil, or major-crypto price headlines** in this article set that convincingly explain the full day’s tape.
