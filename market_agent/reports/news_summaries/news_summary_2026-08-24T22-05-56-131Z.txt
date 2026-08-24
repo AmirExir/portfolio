@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited, and the set is somewhat thin for fully explaining today’s tape.
+
+**Facts**
+- **CNBC, 2026-08-23T22:01:56Z:** U.S. stock futures were slightly lower Sunday night after a losing week, with the move linked in the article to a **sharp jump in Treasury yields**.
+- **Crypto Briefing, 2026-08-23T21:23:50Z:** The outlet said the **S&P 500 dividend yield has fallen below the 10-year Treasury note yield**, with only **3.85% of S&P 500 constituents** yielding more than the 10-year.
+- **Crypto Briefing, 2026-08-23T20:45:18Z:** **UBS raised its S&P 500 year-end target to 8,100**, citing an **earnings reset driven by AI, tech, and broader sector strength**, and also raised EPS forecasts for 2026 and 2027.
+- **iTnews, 2026-08-23T20:43:00Z:** Citing Bloomberg, the report said some major **Nvidia customers were notified of price hikes of more than 15% for servers containing its AI chips**, with memory-chip costs cited as a driver.
+- **Wccftech, 2026-08-23T22:05:08Z:** **d-Matrix unveiled “Raptor” 3D DRAM**, claiming SRAM-class bandwidth at much lower power than HBM for AI workloads; this is relevant to the AI-memory supply chain, though it is more technology/product news than confirmed public-market impact.
+- **CryptoSlate, 2026-08-23T21:10:58Z:** U.S.-listed **crypto ETFs outside Bitcoin and Ethereum drew nearly $90 million of inflows last week**, led by **XRP products** according to the report.
+- **Crypto Briefing, 2026-08-23T21:15:23Z:** The **OCC conditionally approved a trust company charter for World Liberty Trust Co.** to handle issuance, custody, and redemption of the family’s **USD1 stablecoin**, according to the report.
+- **Crypto Briefing, 2026-08-23T21:04:06Z:** The White House is described as shifting its **Iran strategy toward Treasury-led sanctions**, with possible implications for geopolitics and oil, though no explicit fresh oil-price move was supplied in the article list.
+
+**Interpretation**
+- The clearest fresh macro signal in this set is **higher Treasury yields pressuring risk appetite**, supported directly by CNBC and reinforced by the dividend-yield-versus-bonds story.
+- For equities, the most actionable theme is still **AI/capex and semis**: Nvidia-related server price increases suggest ongoing pricing power and cost pressure across AI infrastructure.
+- UBS’s higher S&P 500 target supports a **constructive medium-term earnings narrative**, but it is a strategist call, not a hard data release.
+- On crypto, the freshest read is **continued institutional interest beyond BTC/ETH**, especially in altcoin-linked products, plus a potentially notable **stablecoin regulatory development**.
+- There is **not enough fresh, high-quality news here on Fed speakers, inflation data, major earnings, or explicit oil moves** to confidently explain all of today’s broader market action.
