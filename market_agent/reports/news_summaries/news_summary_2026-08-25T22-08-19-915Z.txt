@@ -1,0 +1,19 @@
+Fresh headline set is somewhat thin for explaining today’s tape. The clearest fresh drivers in the provided articles are lower Treasury yields, semiconductor focus ahead of Nvidia earnings, and new U.S. sanctions on Iran with related trade/geopolitical noise.
+
+**Facts**
+- **CNBC (2026-08-24 22:02Z):** U.S. Treasury yields fell for a second day, and chip stocks were in focus ahead of **Nvidia earnings**. CNBC’s live market update also said semiconductor strength helped the Nasdaq while the S&P 500 rose slightly.  
+- **ABC News Australia (2026-08-24 21:30Z):** Markets were awaiting **inflation data** that could inform the direction of interest rates.  
+- **ABC News Australia (2026-08-24 22:00Z):** The U.S. announced **“Operation Economic Outcast,”** a plan to pressure countries cooperating with Iran economically.  
+- **New York Post (2026-08-24 21:54Z):** Iran’s **rial fell to a record low** as the U.S. prepared further sanctions.  
+- **Al Jazeera / Reuters-Ipsos poll (2026-08-24 21:35Z):** U.S. public support for the **Iran war** has fallen; the article also cited **rising gas prices** as part of the backdrop.  
+- **Vox (2026-08-24 21:34Z):** U.S.-Canada **trade tensions** were escalating again, with tariffs back in focus.  
+- **Decrypt (2026-08-24 21:28Z):** **Strive** said it bought **1,110 Bitcoin** for about **$81.5 million**, funded alongside new share issuance.  
+- **NewsBTC (2026-08-24 22:00Z):** **Strategy** raised about **$2.01 billion** via an at-the-market equity offering and reported **no new Bitcoin purchases** in the latest week.  
+- **Crypto Briefing (2026-08-24 21:43Z):** Crypto markets saw about **$439 million in liquidations** over 24 hours, split roughly evenly between longs and shorts.
+
+**Interpretation**
+- The most credible market-moving inputs here are **falling Treasury yields** and **AI/semi positioning ahead of Nvidia earnings**.  
+- **Iran sanctions** add a fresh geopolitical and energy-risk layer, but the supplied article set does not provide enough hard market detail to conclude a direct cross-asset impact beyond that risk backdrop.  
+- **Inflation data ahead** appears to be another near-term rates catalyst, but this set does not include the actual data release yet.  
+- In crypto, the fresh headlines point more to **positioning/volatility** and **corporate Bitcoin treasury activity** than to a single decisive macro driver.  
+- Overall, the article set does **not fully explain today’s tape**; beyond yields, semis, and geopolitics, it lacks strong fresh reporting on broader macro or earnings catalysts.
