@@ -1,0 +1,16 @@
+Fresh article set is fairly thin for explaining today’s tape. The clearest market-relevant items are around AI/export controls, U.S.-Canada trade, Iran-related geopolitics/oil, and a crypto headline. There is little fresh, high-quality coverage here on Fed, inflation, or broad U.S. index drivers.
+
+**Facts**
+- **Al Jazeera English | 2026-08-25T08:51:48Z** — Taiwan indicted nine people, including employees of **Nvidia** and **Super Micro Computer**, over alleged illegal exports of AI servers to China. This is a fresh AI/semi supply-chain and regulatory headline.
+- **Yahoo Finance (via Yahoo Entertainment) | 2026-08-25T09:00:00Z** — The U.S. imposed **50% tariffs on a range of Canadian goods**, but **crude oil was excluded**, highlighting energy’s special status in the U.S.-Canada trade dispute.
+- **Economic Times / Times of India | 2026-08-25T08:42:38Z** — European markets were assessing the latest **U.S. sanctions warning against Iran**; the report says the absence of immediate penalties eased some concern, while defense stocks outperformed.
+- **Crypto Briefing | 2026-08-25T08:24:57Z** — Ukraine confirmed a strike on **Russia’s Afipsky oil refinery** in Krasnodar, a fresh energy-security headline with potential relevance for crude supply perceptions.
+- **Biztoc citing Investing.com | 2026-08-25T08:38:25Z** — Summary says **Bitcoin topped $80,000** alongside headlines on widened U.S. Iran sanctions. This is second-hand aggregation, so treat with caution.
+- **PR Newswire | 2026-08-25T09:00:00Z** — **Vipshop** reported Q2 2026 financial results. The JSON does not provide the key figures, so no earnings takeaway can be supported from the supplied text alone.
+
+**Interpretation**
+- The most actionable fresh equity-specific headline is the **Nvidia/Supermicro China export case**, which could matter for AI server names and broader semiconductor sentiment because it touches compliance and China exposure.
+- The **Canada tariff** story matters more for trade/risk sentiment than for oil specifically, since the article says **Canadian crude was left out**.
+- The **Iran/Russia refinery** headlines point to ongoing geopolitical risk in energy, but the supplied articles do not establish a clear sustained move in oil from these items alone.
+- The **Bitcoin** item may be relevant for crypto sentiment, but because it comes through an aggregator, it is weaker evidence than direct-source reporting.
+- There is **no strong fresh evidence in this set** on Fed policy, inflation data, or a broad macro catalyst clearly driving U.S. equity indexes today.
