@@ -1,0 +1,16 @@
+Fresh market-moving headlines are fairly thin in this article set beyond Nvidia/AI and rates; there is not much here that fully explains today’s broader tape.
+
+**Facts**
+- **BBC News | 2026-08-26T21:49:26Z** — Nvidia reported quarterly revenue of **$96 billion**, with sales **doubling on continued AI demand**.
+- **The Verge | 2026-08-26T21:46:06Z** — Nvidia said it expects about **$108 billion** in revenue in the current quarter, putting it on track for a **$100B+ quarterly revenue run rate**.
+- **Wccftech | 2026-08-26T21:45:24Z** — Nvidia announced **custom “NVHBM” memory** for future AI GPUs, claiming **30% more bandwidth** and **15% lower power** than HBM4E.
+- **TechSpot | 2026-08-26T21:55:00Z** — **Perplexity and Nvidia** launched **Portable Computer**, a local AI agent platform designed to run on Nvidia-powered PCs/workstations.
+- **CNA | 2026-08-26T22:00:00Z** — A fresh explainer highlighted that **US Treasury yields have surged**, with implications for **higher borrowing costs** and spillover into **Asian bond markets and financing conditions**.
+- **Slashdot citing Reuters | 2026-08-26T21:53:09Z** — Reuters reported **US inflation remains elevated** while the **GDP growth outlook brightens**; the item references the Fed’s preferred inflation gauge and ongoing price pressure.
+- **CryptoSlate | 2026-08-26T21:50:59Z** — Thailand proposed a domestic **crypto ETF framework** initially covering **Bitcoin and Ethereum**, with local trading/custody emphasized.
+
+**Interpretation**
+- The clearest fresh macro themes in this set are **higher Treasury yields** and **sticky inflation**, which matter for rate-sensitive assets and Fed expectations.
+- The clearest equity-specific driver is **Nvidia**: strong reported revenue, a very large forward revenue guide, and continued AI infrastructure/product announcements reinforce AI/semi leadership as a live market theme.
+- Fresh crypto news is limited; the Thailand ETF proposal is a **regulatory/market-structure** development for **Bitcoin and Ethereum**, but this set does **not** provide enough evidence to infer a broad crypto move today.
+- Outside of Nvidia/AI and yields/inflation, this feed lacks enough fresh, high-quality market headlines to confidently explain broader index action.
