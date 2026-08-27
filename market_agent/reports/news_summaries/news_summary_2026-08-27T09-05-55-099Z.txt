@@ -1,0 +1,40 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **U.S. macro focus remains on inflation and growth data due shortly, alongside Nvidia earnings** — multiple fresh market previews say investors are waiting for **U.S. GDP and July PCE inflation data** and **Nvidia’s quarterly results**.  
+  - **Biztoc / breakingthenews.net**, **2026-08-26T08:37:46Z**  
+  - **Biztoc / Yahoo Finance**, **2026-08-26T08:22:46Z**  
+  - **Biztoc / Investing.com**, **2026-08-26T08:22:26Z**  
+  - **Times of India citing Reuters-style market report**, **2026-08-26T08:55:48Z**
+
+- **European market preview linked lower oil prices with lower bond yields and attention on Nvidia/PCE** — a fresh report said falling oil prices were pushing bond yields lower in Europe while investors watched **Nvidia earnings** and **U.S. inflation data**.  
+  - **Times of India**, **2026-08-26T08:55:48Z**
+
+- **Microsoft announced a long-term AI partnership with HUMAIN in Saudi Arabia** — the companies said they plan to bring **ALLAM** into Microsoft Foundry and the **M365 Copilot** ecosystem, with forward-deployed engineering support.  
+  - **PR Newswire**, **2026-08-26T08:29:00Z**  
+  - **PR Newswire**, **2026-08-26T08:27:00Z**
+
+- **Moonshot AI is in talks with Microsoft, Amazon, and Google on hosting/revenue-sharing for its Kimi K3 model** — the report says the Chinese AI firm is negotiating agreements that could let the U.S. cloud majors host the model, with revenue-sharing terms still unresolved.  
+  - **Times of India / Reuters**, **2026-08-26T08:22:41Z**
+
+- **Perplexity launched a fully local version of “Perplexity Computer” on Nvidia DGX Spark hardware** — relevant as another AI-infrastructure demand datapoint touching Nvidia’s ecosystem.  
+  - **Livedoor / GIGAZINE**, **2026-08-26T08:45:00Z**
+
+- **Israel has received roughly 100 new data-center proposals tied to AI and cloud demand, straining the power grid** — the article frames this as infrastructure stress from AI-related expansion.  
+  - **Crypto Briefing**, **2026-08-26T08:44:07Z**
+
+- **Crypto/stablecoin headline: Revolut began rolling out euro-backed stablecoin EURR in Denmark, Poland, and Portugal**.  
+  - **Cointelegraph**, **2026-08-26T08:45:41Z**
+
+- **Crypto compliance headline: Kraken temporarily disabled trading for some accounts after nearly 12,000 unsolicited HTX-linked transfers triggered sanctions checks**.  
+  - **Bitcoinfoundation.org**, **2026-08-26T08:56:20Z**
+
+## Interpretation
+- The freshest usable set is **thin and mostly forward-looking**, so it **does not fully explain today’s tape on its own**.
+- The clearest cross-asset drivers in the feed are:
+  1. **Event risk around U.S. PCE/GDP**
+  2. **Nvidia earnings as the key AI/semi catalyst**
+  3. **Oil/yield sensitivity in Europe**
+  4. **Ongoing AI infrastructure and cloud-platform buildout**
+- AI-related headlines are supportive of the broader **AI capex / cloud demand** narrative, but most are **strategic or thematic**, not immediate earnings shocks.
+- Crypto news is **more micro/industry-specific** than broad market-moving, aside from showing continued stablecoin rollout and compliance scrutiny.
