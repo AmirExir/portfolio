@@ -1,0 +1,14 @@
+Fresh market-moving headlines are limited in this article set, and several items are either low-credibility, duplicative aggregator posts, or not clearly relevant to broad markets. The strongest usable themes are AI/semis, crypto/regulation, and geopolitical energy risk.
+
+**Facts**
+- **CNBC, 2026-08-14T21:45:19Z** — Nvidia disclosed in an SEC filing that its **stake in SpaceX was worth about $21 billion at the end of Q2**. The article says the stake came through an investment in xAI.
+- **Crypto Briefing, 2026-08-14T21:54:38Z** — Nvidia is reported to have **secured commitments totaling $500 billion for chip financing** from major Wall Street firms, framing GPUs and AI infrastructure as a financeable asset base.  
+- **CNBC via Biztoc, 2026-08-14T21:26:04Z** and **WSJ via Biztoc, 2026-08-14T21:41:30Z** — A federal regulator, the **Office of the Comptroller of the Currency, conditionally approved a bank/trust charter application tied to World Liberty Financial**, a Trump family-backed crypto venture.
+- **Common Dreams, 2026-08-14T22:03:33Z** — Trump said he planned to **declare the Strait of Hormuz a U.S. territory**. This is a geopolitical statement, not a formal policy action in the article.
+- **CNA, 2026-08-14T21:42:07Z** — In a market wrap citing fresh trading conditions, **oil prices turned higher** and investors were described as bracing for volatility due to the **Middle East war outlook** and **weak U.S. retail sales data** ahead of the weekend.
+
+**Interpretation**
+- The clearest potentially market-moving equity story here is **Nvidia-related AI capital formation**: the SpaceX stake disclosure and the reported chip-financing package both reinforce how large and interconnected AI infrastructure funding has become.
+- The **World Liberty/OCC conditional approval** is a relevant fresh crypto-regulation headline, especially for **stablecoins, crypto banking infrastructure, and major-token risk sentiment**.
+- On energy and macro risk, the set only offers a **thin but notable geopolitical signal** around the Strait of Hormuz plus a report that **oil moved higher** amid Middle East uncertainty.
+- There is **not enough fresh, high-quality reporting in this set to cleanly explain today’s broader tape** for equity indexes, rates/Fed, or inflation. No strong fresh Fed or CPI/PCE catalyst is present in the supplied articles.

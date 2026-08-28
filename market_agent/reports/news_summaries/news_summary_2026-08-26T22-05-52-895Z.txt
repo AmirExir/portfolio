@@ -1,0 +1,19 @@
+Fresh market-moving headlines are limited in this article set, and several items are low-quality aggregations, opinion, or niche coverage. The clearest usable fresh themes are trade/tariffs, some AI-related company news, oil/yields from a Reuters summary carried by Biztoc, and a few crypto-policy items.
+
+**Facts**
+- **Crypto Briefing, 2026-08-25T21:56:11Z:** Canada said it would match new U.S. tariffs, with Prime Minister Mark Carney announcing retaliatory duties on roughly 700 U.S. products after Washington imposed 50% tariffs on $20 billion in Canadian exports.
+- **Crypto Briefing, 2026-08-25T21:49:56Z:** Canada said it will double counter-tariffs on U.S. steel and aluminum to 50%, covering about C$27.6 billion in U.S. imports, effective Sept. 8.
+- **Biztoc/Reuters summary, 2026-08-25T21:47:52Z:** A Reuters market-wrap summary said oil prices fell sharply, Brent moved back below $90 a barrel, and bond markets rallied with yields sliding.
+- **Biztoc/Barchart, 2026-08-25T22:03:21Z:** Walmart reported a second-quarter earnings miss, according to the article summary.
+- **Crypto Briefing, 2026-08-25T21:52:42Z:** Salesforce’s Agentforce AI business reportedly grew more than 200% and crossed $1.2 billion in quarterly revenue, though the article also flagged adoption and pricing-model concerns.
+- **Wccftech, 2026-08-25T21:40:05Z:** Cerebras detailed its CS-4 AI rack-scale system and outlined next-gen CS-5 and CS-6 plans.
+- **CryptoSlate, 2026-08-25T22:00:05Z:** The U.S. Treasury launched a Quantum-Readiness Task Force and included digital assets in financial-sector quantum-threat preparations.
+- **Crypto Briefing, 2026-08-25T22:03:11Z:** Thirty-nine state banking associations are building a permissioned blockchain network, the “BankChain Alliance,” aimed at tokenized deposits and stablecoin capabilities by 2027.
+- **New York Post, 2026-08-25T22:00:00Z:** Coinbase CEO Brian Armstrong said he is considering leaving California over a proposed wealth tax.
+
+**Interpretation**
+- The strongest macro/risk headline in this set is the **U.S.-Canada tariff escalation**, which could matter for industrials, metals, autos, and broader risk sentiment.
+- The **oil-down / yields-down** Reuters summary points to a potentially supportive cross-asset backdrop, but this article set does not provide enough high-quality fresh reporting to fully explain today’s tape on its own.
+- In single names, **Walmart’s earnings miss** is the clearest fresh earnings item here.
+- In AI, the fresh items are more **theme-supportive** than clearly market-moving for major listed semis: Salesforce’s AI growth helps the enterprise-AI narrative, while Cerebras news is notable but not obviously a broad market driver from this dataset.
+- For crypto, the fresh headlines are more **policy/infrastructure** than clear price catalysts for BTC/ETH today.

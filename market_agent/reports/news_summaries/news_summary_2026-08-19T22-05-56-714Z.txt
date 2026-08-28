@@ -1,0 +1,32 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Treasury/bond market pressure remained a central macro theme** — multiple fresh articles point to **multi-decade or multi-year highs in sovereign yields** and concern about debt issuance/borrowing costs.  
+  - **CNBC, 2026-08-18T22:02:24Z:** said U.S. stock futures rose after **Treasury yields fell** following a **Treasury Department announcement of an increased buyback operation for longer-term debt**.  
+  - **ABC News (AU), 2026-08-18T21:41:29Z:** said U.S. and European shares weakened overnight amid **elevated oil prices, persistent inflation, and surging government borrowing costs**.  
+  - **Vox, 2026-08-18T21:54:04Z:** highlighted a **“flashing red light” from bond markets** tied to Treasury yields and national debt concerns.  
+  - **WSJ via Biztoc, 2026-08-18T21:32:54Z:** summarized as **“Wall Street Sees No End in Sight to the Global Bond Selloff.”**
+
+- **Treasury buyback news is a fresh rates catalyst**.  
+  - **CNBC, 2026-08-18T22:02:24Z:** reported the Treasury Department announced an **increased buyback operation for longer-term debt**, with yields falling afterward in futures trading context.
+
+- **Oil/inflation are still being cited as live cross-asset pressures.**  
+  - **ABC News (AU), 2026-08-18T21:41:29Z:** explicitly linked **elevated oil prices** and **persistently high inflation** to weaker equity sessions and higher borrowing costs.
+
+- **China earnings/newsflow:**  
+  - **ZTO, PRNewswire, 2026-08-18T22:00:00Z:** reported **Q2 adjusted net income up 50.3%** to RMB3.1 billion and parcel volume of 10.5 billion, with market share at 19.9%.  
+  - **Lufax, PRNewswire, 2026-08-18T22:00:00Z:** reported **Q2 financial results** and said it marks a step toward a **normal reporting cadence**.  
+  - **Reuters in Manila Times, 2026-08-18T21:42:36Z:** reported **Unitree** unveiled a new high-speed robot dubbed **“Superman”** ahead of becoming the **first general-purpose robotics company to list on mainland China’s stock market**.
+
+- **Crypto/regulatory/accounting headlines:**  
+  - **Cointelegraph, 2026-08-18T21:24:15Z:** reported the **SEC proposed new crypto rules**, including a potential **safe harbor** from some tokens being treated as investment contracts and certain issuance exemptions.  
+  - **Crypto Briefing, 2026-08-18T21:32:31Z:** reported **FASB proposed guidance** that could allow qualifying **stablecoins to be treated as cash equivalents** under U.S. accounting rules.  
+  - **Forkast, 2026-08-18T22:02:33Z:** reported **Visa is seeking a new stablecoin settlement/OTC partner**, framing it as a strategic shift.  
+  - **Crypto Briefing, 2026-08-18T21:48:07Z:** reported **CalPERS holds $35.5M in Strategy shares** for indirect Bitcoin exposure.
+
+### Interpretation
+- The **clearest fresh macro driver** in this set is the **global bond/yield story**, with follow-through into equities via discount-rate pressure and broader concern over government borrowing and inflation.
+- The **Treasury buyback announcement** looks like the most concrete fresh policy-related headline that could matter intraday for **rates-sensitive assets**, especially long-duration equities.
+- **Oil and inflation** remain part of the macro backdrop, but the article set does **not** provide enough fresh detail to pin today’s tape on a single new inflation print or energy shock.
+- On **crypto**, the most market-relevant fresh developments are **SEC rule proposals** and **FASB stablecoin accounting guidance**, both potentially supportive for institutional adoption themes.
+- Outside of that, the fresh set is **somewhat thin on major U.S. earnings and megacap AI/semi-specific headlines**, so if today’s tape is being driven by something narrower, it is **not well explained by this article batch**.

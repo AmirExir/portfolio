@@ -1,0 +1,18 @@
+Only a handful of fresh items look plausibly market-moving in this feed, and the set is thin for explaining today’s broader tape.
+
+**Facts**
+- **CNBC | 2026-08-21 21:51 UTC** — **Boeing engineers and technical workers rejected the company’s four-year contract offer.** The article says about 17,000 union members voted down the proposal, creating a renewed labor overhang for **Boeing**.
+- **CNBC | 2026-08-21 21:49 UTC** — **Anthropic’s upcoming IPO filing is expected to cite “AI backlash” as a risk factor.** CNBC says the filing is set to highlight public opposition tied to AI/job fears and data center concerns, a fresh read-through for **AI valuations, infrastructure buildout, and sentiment around generative-AI names**.
+- **Crypto Briefing | 2026-08-21 21:59 UTC** — **CoVolt Power filed for a U.S. IPO tied to the data-center energy boom.** The article frames the filing around rising power demand from data centers, relevant to **power infrastructure and AI-linked energy demand themes**.
+- **Crypto Briefing | 2026-08-21 21:50 UTC** — **President Trump denied directing Treasury Secretary Bessent on bond-market intervention.** The piece says the denial comes after discussion of a doubled bond buyback program and amid yield volatility. This is relevant to **rates/Treasury-market expectations**, though the source is not top-tier for macro market coverage.
+- **Crypto Briefing | 2026-08-21 21:45 UTC** — **Grayscale advanced its push for a Zcash ETF via SEC filing amendments.** Relevant to **crypto ETF/regulatory flow**, but this is a niche crypto item rather than a broad market driver.
+- **Crypto Briefing | 2026-08-21 21:44 UTC** — **Coinbase said its app now enables immediate access to newly launched Base and Solana tokens.** Relevant to **crypto trading activity and platform ecosystem news**.
+- **Crypto Briefing | 2026-08-21 21:28 UTC** — **Robinhood Chain crossed $1 billion in total value locked.** A fresh crypto ecosystem milestone, though more sector-specific than cross-asset market-moving.
+- **Decrypt | 2026-08-21 21:31 UTC** — **Coldcard added new security measures after a reported Bitcoin-wallet exploit tied to over $100 million in thefts.** Relevant to **crypto security sentiment**, but not clearly a broad market catalyst.
+
+**Interpretation**
+- The clearest equity-specific headline here is **Boeing’s contract rejection**, which could matter for **BA** and aerospace supply-chain sentiment.
+- The most relevant thematic headline for growth/tech is **Anthropic flagging AI backlash risk**, which may feed investor debate around **AI monetization, regulation, data-center permitting, and power constraints**.
+- The **CoVolt IPO** item reinforces the ongoing **AI/data-center electricity demand** narrative, which can matter for utilities, power equipment, and infrastructure names.
+- On **rates**, the bond-intervention denial is notable, but given the source mix in this dataset, it should be treated cautiously unless confirmed by stronger macro outlets.
+- There is **little here on Fed, inflation, major index drivers, oil, or large-cap earnings**, so this article set is **too thin to confidently explain the broader market tape** today.

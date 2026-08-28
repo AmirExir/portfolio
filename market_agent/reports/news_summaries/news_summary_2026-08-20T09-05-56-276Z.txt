@@ -1,0 +1,22 @@
+**Fresh market-moving headlines only**  
+*(Using only items published within the last 36 hours from the provided JSON. Fresh set is somewhat thin for fully explaining today’s tape.)*
+
+## Facts
+- **Rates / Fed:** **CNBC (2026-08-19 08:33Z)** reported **Treasury yields pulled back slightly from multi-decade highs** ahead of **FOMC minutes**, with the **10-year yield at 4.686%**, down 2 bps at the time of the article.
+- **AI / Semis:** **Reuters via The Times of India (2026-08-19 08:58Z)** reported **Samsung raised prices for some advanced foundry services by up to 15% for new orders** due to strong **AI-chip demand** and tight capacity, especially with strong Chinese customer demand.
+- **AI / Robotics sentiment:** **NBC News (2026-08-19 09:01Z)** reported Chinese humanoid-robotics maker **Unitree surged 460% on its Shanghai stock market debut**, highlighting strong investor appetite for **AI/robotics-linked equities** in China.
+- **AI / Major tech positioning:** **Business Insider (2026-08-19 09:00Z)** reported **Nvidia CEO Jensen Huang** has become more active on **X**, posting about the **AI ecosystem**, aging chips, and financing the AI buildout.  
+  - This is relevant to AI narrative, though it is **more thematic than a direct hard-news catalyst**.
+- **Crypto policy:** **Biztoc citing Semafor (2026-08-19 08:55Z)** said a **White House mix-up delayed an SEC crypto rule/framework** for certain digital assets.  
+  - Because this is an aggregator summary rather than the original report, treat it as **lower-confidence** unless confirmed elsewhere.
+- **China/ADR earnings:** **PRNewswire (2026-08-19 09:00Z)** said **Weibo announced Q2 2026 results** and described them as **solid** in management commentary.  
+- **China/ADR earnings:** **PRNewswire (2026-08-19 08:49Z)** said **Full Truck Alliance announced Q2 2026 results**.  
+- **China/ADR earnings:** **PRNewswire (2026-08-19 08:44Z)** said **Kingsoft Cloud announced Q2 2026 results**.  
+  - The supplied JSON does not provide enough clean detail from these releases to extract key beats/misses without inventing specifics.
+
+## Interpretation
+- The clearest **fresh macro driver** in this set is **rates**: yields easing a bit after hitting very high levels could matter for equity valuation sensitivity, especially growth/tech, but this article alone does **not** establish broad market direction.
+- The strongest **fresh sector-specific driver** is **AI/semi supply tightness**, with Samsung’s reported foundry price hikes reinforcing the idea that **advanced-chip capacity remains constrained**.
+- The **Unitree IPO** adds to evidence of **AI/robotics risk appetite in China**, but it is more useful as a sentiment read for the AI complex than as a direct U.S. index driver.
+- The **crypto-rule delay** could matter for major crypto and crypto-linked equities, but the sourcing here is **secondhand**, so it should be treated cautiously.
+- Overall, the fresh article set is **not deep enough to fully explain today’s broader tape**. The most actionable fresh themes are: **Treasury yields/FOMC minutes**, **AI-chip capacity and pricing**, and **select China AI/tech earnings/newsflow**.

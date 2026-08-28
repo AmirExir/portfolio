@@ -1,3 +1,4 @@
+.DS_Store
 newsapi_query_expanded.txt
 __pycache__/
 *.py[cod]

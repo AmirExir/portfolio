@@ -1,0 +1,18 @@
+**Fresh market-moving headlines are limited in this article set, and several items are low-credibility, promotional, or not broad-market relevant. The clearest usable drivers are geopolitical oil-risk headlines, a PayPal M&A report, CPI/Fed commentary, and a crypto/banking regulatory item.**
+
+## Facts
+- **Iran/energy risk:** *Crypto Briefing* reported Iran launched anti-ship missiles from Qeshm Island toward the Gulf of Oman, describing escalating tension around the Strait of Hormuz, a critical oil chokepoint. **(Crypto Briefing, 2026-08-15T21:29:04Z)**
+- **Iran/energy risk:** *Crypto Briefing* separately reported Iran’s IRGC fired again toward the Strait of Hormuz as tanker incidents mounted. **(Crypto Briefing, 2026-08-15T21:23:07Z)**
+- **PayPal M&A:** *24/7 Wall St.* reported PayPal is “in talks to sell itself” after rejecting an initial **$60.50/share** July bid from a Stripe/Advent group, citing earlier reporting. **(24/7 Wall St., 2026-08-15T21:28:45Z)**
+- **Fed/inflation debate:** *Yahoo Finance/Benzinga* said economists gave split interpretations of July CPI, with Claudia Sahm seeing “good news” while Peter Schiff criticized the read on inflation. **(Yahoo Entertainment, 2026-08-15T21:31:08Z)**
+- **Crypto/regulation:** *ABC News* reported a Trump-linked crypto venture, World Liberty Trust, received conditional approval from a national bank regulator to establish a bank charter. **(ABC News, 2026-08-15T21:51:11Z)**
+- **AI/software earnings angle:** *Crypto Briefing* reported Palantir posted **93% revenue growth** and highlighted CEO Alex Karp’s criticism of “frontier AI” rivals. **(Crypto Briefing, 2026-08-15T21:37:18Z)**
+- **Crypto ecosystem:** *Crypto Briefing* reported Solana saw a **$378 million** increase in tokenized U.S. T-bills over 30 days. **(Crypto Briefing, 2026-08-15T21:30:49Z)**
+- **Crypto/tokenized equities:** *Crypto Briefing* reported Solana-based spot DEXs handled **$5.8 billion** in tokenized stock trading volume. **(Crypto Briefing, 2026-08-15T21:08:35Z)**
+
+## Interpretation
+- **Energy and risk sentiment:** The only clearly broad macro headline here is the **Iran/Strait of Hormuz escalation**, which could matter for **oil, inflation expectations, and general risk sentiment** if confirmed by higher-tier wire services.
+- **Single-stock mover:** The **PayPal sale-talk report** is the most obvious potential **individual equity catalyst** in the set.
+- **Rates/Fed:** The CPI item suggests **ongoing uncertainty around inflation interpretation**, but it is commentary rather than a new official data release.
+- **Crypto:** The **bank charter approval** is potentially relevant for **crypto regulation/adoption**, while the Solana/tokenization stories look more **sector-specific** than broad market-moving.
+- **Caution on tape-reading:** This feed does **not** provide enough high-confidence, broad-market reporting to fully explain today’s moves in **equity indexes, Treasury yields, or major crypto** on its own.

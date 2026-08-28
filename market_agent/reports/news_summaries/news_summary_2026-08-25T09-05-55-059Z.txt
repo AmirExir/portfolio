@@ -1,0 +1,21 @@
+Fresh market-moving headlines are limited in this article set, and several items are commentary, low-credibility aggregation, or not directly market-moving. Here’s the clean summary from the usable fresh items within the last 36 hours.
+
+**Facts**
+- **Nvidia / AI chips:** *Verdict* (2026-08-24 08:57:53Z) reported Nvidia has entered early-stage talks with South Korea AI chip startup **Rebellions** about possible collaboration, citing Bloomberg.
+- **Bitcoin / crypto flows:** *Cointelegraph* (2026-08-24 08:56:52Z) reported **U.S. spot Bitcoin ETFs took in $1.92 billion last week**, described as the strongest weekly inflow since October 2025, as Bitcoin briefly moved above $78,000 on Friday.
+- **Bitcoin / profit-taking:** *CoinJournal* (2026-08-24 08:57:32Z) reported **Bitcoin was consolidating near $77,000** after a strong prior week and that traders realized **$1.72 billion in profits on Friday**.
+- **Oil / Iran sanctions risk:** *The Punch* (2026-08-24 08:36:03Z) reported investors were awaiting details of a U.S. plan to intensify economic pressure on **Iran**, with oil markets focused on sanctions implications.
+- **Brent crude volatility:** *Rigzone* (2026-08-24 09:05:18Z) reported BMI said **Brent crude had another volatile month**, with wide trading ranges cited for Brent futures and Dated Brent.
+- **Rates / Fed watch:** A *Biztoc* pickup of CNBC (2026-08-24 08:32:34Z) said **Treasury yields moved lower** as investors looked ahead to **Kevin Warsh’s Jackson Hole keynote**, against a backdrop of bond-market pressure, sticky inflation, and debt concerns.  
+  - Note: this is an aggregator excerpt, so treat with caution.
+- **AI earnings focus:** A *Biztoc* pickup of Investing.com (2026-08-24 08:32:37Z) said investors were bracing for **Nvidia earnings later this week** while also watching Iran tensions.  
+  - Note: this is also an aggregator excerpt, so treat with caution.
+
+**Interpretation**
+- The clearest fresh themes in this set are:
+  1. **AI/semis:** Nvidia remains the focal point, both for ecosystem expansion talk and for its upcoming earnings.
+  2. **Crypto risk appetite:** Strong Bitcoin ETF inflows suggest renewed institutional demand, though the separate profit-taking report implies two-way positioning rather than a one-way move.
+  3. **Energy/geopolitics:** Iran-related sanctions headlines are a live macro input for oil.
+  4. **Rates/Fed:** Jackson Hole is an important upcoming catalyst, but this set does not provide much fresh, high-quality detail beyond investors waiting for it.
+
+- **What’s missing:** There is **not enough strong fresh reporting here to fully explain today’s tape** in equities, bonds, or broad risk sentiment. There are few direct fresh headlines on U.S. inflation, major earnings results, or official Fed developments in this dataset.
