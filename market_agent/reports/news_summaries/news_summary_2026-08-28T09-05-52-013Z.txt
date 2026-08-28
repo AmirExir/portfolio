@@ -1,0 +1,14 @@
+**Fresh market-moving headlines only (last 36 hours).**
+
+## Facts
+- **Nvidia outlook supports AI spending narrative** — **Reuters via The Times of India, 2026-08-27 08:46:51Z**: Nvidia projected **70% revenue growth next fiscal year** and forecast current-quarter sales above Wall Street estimates, signaling management sees a longer AI infrastructure spending runway.
+- **Fed/Jackson Hole focus intensifies around Chair Warsh** — **Semafor via Biztoc, 2026-08-27 08:59:40Z**: A preview said Fed Chair **Kevin Warsh** faces high stakes ahead of **Friday’s Jackson Hole** appearance, with uncertainty around his inflation views.
+- **Japan rates signal softened after BOJ remarks** — **Reuters via The Times of India, 2026-08-27 08:44:11Z**: Japanese government bond yields **retreated from session highs** after BOJ Deputy Governor **Ryozo Himino** gave no clear timing for the next rate hike; the **2-year JGB yield briefly touched 1.70%**, the highest since 1995, before easing.
+- **Bitcoin ETF flow headline** — **CoinDesk via Biztoc, 2026-08-27 08:59:32Z**: The article headline said **Bitcoin ETF inflows reached eight straight days** and **August topped $3 billion**, though the article body was unavailable beyond a security-check placeholder.
+- **Nvidia M&A report** — **tech.eu via Biztoc, 2026-08-27 08:29:14Z**: A report said Nvidia has agreed to buy **Hugging Face for $12.9 billion**, citing The Information; this appears as a report and is **not confirmed by either company** in the supplied article.
+
+## Interpretation
+- The **clearest fresh market driver** in the supplied set is **Nvidia’s earnings/outlook**, which reinforces the AI/semi capex theme.
+- The other meaningful macro driver is **rates policy uncertainty**, with markets watching **Jackson Hole/Fed Chair Warsh** and parsing **BOJ communication** after a sharp move in short-dated Japanese yields.
+- The **crypto flow headline** could matter for sentiment around Bitcoin-related names, but the supplied article content is too thin to verify details beyond the headline.
+- Outside of Nvidia, the fresh set is **fairly thin on direct market-explaining headlines**. There is **not enough high-quality fresh coverage here to fully explain today’s broader tape** beyond AI optimism and central-bank focus.
