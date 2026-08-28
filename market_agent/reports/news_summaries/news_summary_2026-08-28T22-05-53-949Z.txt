@@ -1,0 +1,25 @@
+**Fresh market-moving headlines are limited in this article set, but AI/semis clearly dominate what’s usable. There is little here on Fed, inflation, broad macro, rates, energy, or major crypto that credibly explains the full tape.**
+
+## Facts
+- **Nvidia-related AI demand remains the clearest fresh market driver**  
+  - **Biztoc citing Reuters/Investing.com, 2026-08-27T21:38:36Z:** says Nvidia posted another strong earnings report/outlook, with Reuters describing tech stocks as boosted by Nvidia’s results.  
+  - **Biztoc, 2026-08-27T21:54:15Z:** says President Trump praised Nvidia and CEO Jensen Huang after the company reported **record revenue of $96.22 billion** and highlighted a forecast for **70% growth**.  
+  - **Biztoc citing WSJ, 2026-08-27T21:54:03Z:** says Nvidia is **pausing revenue-sharing deals with AI cloud companies**, less than two months after announcing the program.  
+  - **Crypto Briefing, 2026-08-27T21:51:15Z:** also reports Nvidia is stepping back from revenue-sharing arrangements that gave smaller AI cloud providers GPU access in exchange for a revenue cut.
+
+- **Private-market AI growth headlines add to AI enthusiasm, though they are not directly public-equity earnings**  
+  - **Crypto Briefing, 2026-08-27T21:59:41Z:** says **Anthropic and OpenAI combined ARR topped $115 billion**, with growth tied to enterprise adoption of coding and agent tools.
+
+- **A notable IPO pricing headline could matter for risk appetite, but it is more isolated than tape-defining**  
+  - **Crypto Briefing citing Reuters, 2026-08-27T21:58:51Z:** says **Shein** is set to price its Hong Kong IPO at about a **$26.5 billion valuation** and raise about **$1.7 billion**.
+
+- **Crypto/regulation headlines are present but thin and not enough on their own to explain broad market action**  
+  - **Crypto Briefing, 2026-08-27T21:46:58Z:** says the **OCC and FDIC finalized a rule** defining “unsafe or unsound practices” in bank supervision, framing it as narrowing enforcement to material financial risks.  
+  - **Crypto Briefing, 2026-08-27T21:48:15Z:** says **EURC** holds a **$526 million** market cap and **63% share** of the euro stablecoin market.
+
+## Interpretation
+- The most credible fresh takeaway is that **Nvidia remains the key market-moving catalyst**, especially for **AI, semis, and tech sentiment**.
+- The article set does **not** provide enough fresh, reliable reporting to make strong claims about **Fed/rates**, **inflation**, **energy**, or **broad index drivers** beyond the AI complex.
+- Nvidia’s reported **pause in revenue-sharing deals** may matter for **smaller AI infrastructure/cloud names**, even if it does not change the bigger near-term readthrough of strong AI demand.
+- The **Anthropic/OpenAI ARR** headline reinforces the idea that investors may continue rewarding businesses tied to enterprise AI adoption, but it is a **secondary sentiment input**, not a public-market earnings release.
+- Overall, if you are trying to explain today’s tape from this JSON alone, the explanation is **mostly “AI/semi earnings and demand signals,” led by Nvidia**; beyond that, the fresh headline set is thin.
