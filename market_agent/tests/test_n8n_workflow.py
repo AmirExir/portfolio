@@ -17,6 +17,7 @@ from market_agent.n8n_workflow import (
     RAW_PAYLOAD_NODE,
     REQUEST_CONTEXT_NODE,
     RUN_NODE,
+    SCHEDULED_HISTORY_DAYS_JS,
     SCHEDULED_PROFILE_JS,
     SCHEDULED_NO_OPTIMIZE_JS,
     SCHEDULED_SHORT_HORIZONS_JS,
@@ -25,6 +26,7 @@ from market_agent.n8n_workflow import (
     TEXT_PAYLOAD_JS,
     TEXT_PAYLOAD_NODE,
     TELEGRAM_HTML_TEXT_EXPRESSION,
+    TELEGRAM_OVERNIGHT_PROFILE_JS,
     VALIDATION_JS,
     VALIDATION_NODE,
     audit_market_optimization_workflow,
@@ -51,6 +53,10 @@ def _workflow_fixture() -> dict:
                 parameters={
                     "jsCode": (
                         "let runProfile = source === 'telegram' ? 'quick' : 'research';\n"
+                        "if (qualityRequested && !allModels && !researchRequested "
+                        "&& !rlRequested) {\n"
+                        "  runProfile = 'quality';\n"
+                        "}\n"
                         "let sequenceModel = source === 'telegram' ? 'off' : 'both';\n"
                         "let includeRlPolicy = false;\n"
                         "let shortSequenceModel = sequenceModel === 'adaptive' ? "
@@ -64,6 +70,7 @@ def _workflow_fixture() -> dict:
                         "mainHorizon === 1 || noShortHorizon ? '' : '1';\n"
                         "if (runProfile === 'quick' && !allModels && "
                         "!retrainRequested) args.push('--no-optimize');\n"
+                        "const historyArgs = ['--history-days', '913', '--x'];\n"
                         "const optimizationCommand = `cd "
                         "/Users/amirexir/Documents/GitHub/portfolio && "
                         "./.venv/bin/python "
@@ -199,13 +206,35 @@ class MarketOptimizationWorkflowTests(unittest.TestCase):
         )
         request_code = request_context["parameters"]["jsCode"]
         self.assertIn(SCHEDULED_PROFILE_JS, request_code)
+        self.assertIn(TELEGRAM_OVERNIGHT_PROFILE_JS, request_code)
         self.assertIn(SCHEDULED_SEQUENCE_JS, request_code)
         self.assertIn(SCHEDULED_SHORT_SEQUENCE_JS, request_code)
+        self.assertIn(SCHEDULED_HISTORY_DAYS_JS, request_code)
         self.assertIn(DEFAULT_RL_SHADOW_JS, request_code)
         self.assertIn(EXPLICIT_RL_COMMAND_FLAG_JS, request_code)
         self.assertIn(SCHEDULED_SHORT_HORIZONS_JS, request_code)
         self.assertIn(SCHEDULED_NO_OPTIMIZE_JS, request_code)
         self.assertIn(CAFFEINATED_RUNNER_JS, request_code)
+        self.assertIn(
+            "runProfile === 'overnight' ? '1825' : '913'",
+            request_code,
+        )
+        self.assertIn(
+            "runProfile === 'research' ? 'both'",
+            request_code,
+        )
+        self.assertIn(
+            "runProfile === 'overnight' || runProfile === 'quality'",
+            request_code,
+        )
+        self.assertNotIn(
+            "source === 'telegram' ? '913' : '1825'",
+            request_code,
+        )
+        self.assertNotIn(
+            "source === 'telegram' ? 'off' : 'adaptive'",
+            request_code,
+        )
         self.assertIn(
             "if (noRlRequested) {\n  includeRlPolicy = false;\n}",
             request_code,
@@ -213,6 +242,7 @@ class MarketOptimizationWorkflowTests(unittest.TestCase):
         self.assertNotIn("if (noRlRequested) args.push", request_code)
         self.assertNotIn("? 'quick' : 'research'", request_code)
         self.assertNotIn("? 'quick' : 'quality'", request_code)
+        self.assertNotIn("runProfile = 'quality';", request_code)
 
         for name in (
             OPTIMIZATION_TELEGRAM_NODE,
@@ -261,6 +291,7 @@ class MarketOptimizationWorkflowTests(unittest.TestCase):
         self.assertEqual(validator["type"], "n8n-nodes-base.code")
         self.assertEqual(validator["parameters"]["jsCode"], VALIDATION_JS)
         self.assertIn("rows.length === 0", VALIDATION_JS)
+        self.assertIn("report.run_complete !== true", VALIDATION_JS)
         self.assertIn("producer exited with code", VALIDATION_JS)
         self.assertIn("JSON.parse(serialized)", VALIDATION_JS)
         self.assertIn("telegram_text must be non-empty", VALIDATION_JS)

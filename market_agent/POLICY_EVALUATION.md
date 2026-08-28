@@ -16,8 +16,9 @@ gate passes.
 
 - Returns and weights are decimal fractions. `0.05` means 5% and `0.25` means a
   25% target allocation.
-- `as_of_session` and `target_session` are exchange-session dates, not elapsed
-  calendar days.
+- `as_of_session` and `target_session` follow the prediction's explicit
+  `session_calendar`: regular US-equity sessions for `us_equity`, and labeled
+  UTC calendar days for `utc_daily_24_7`.
 - Fold construction must receive a complete, ordered exchange-session series.
 - A 1-session dataset and a 30-session dataset must be evaluated and promoted
   separately. Passing the gates for one horizon does not authorize the other.
@@ -26,6 +27,24 @@ gate passes.
   P&L is measured on non-overlapping one-session execution returns.
 - Daily portfolio returns must be non-overlapping. Do not pass overlapping
   30-session target returns into the Sharpe, drawdown, or CVaR calculation.
+
+## Forecast qualification invariants
+
+- A published reliability grade and a new allocation require
+  `validation_is_oos` to be the literal boolean `true`. Missing, malformed, or
+  false values fail closed.
+- Validation must show strictly positive MAE skill over the zero-return
+  baseline, direction skill over the training-only majority-direction
+  baseline, and Brier skill over the training-only base-rate probability.
+  Zero realized or predicted returns belong to the binary `not_up` class, the
+  same definition used by the probability target.
+- Live direct-model fits are cold fits, matching the outer-holdout evaluation
+  regime. Weight artifacts remain research/cache infrastructure and cannot
+  warm-start a live forecast until equivalent warm-start OOS validation is
+  implemented.
+- LSTM and Transformer forecasts are component-shadow diagnostics. They remain
+  in prospective evaluation records but are excluded from the registered live
+  ensemble and champion selection until an explicit, ledger-backed promotion.
 
 ## Append-only ledger
 
@@ -42,16 +61,37 @@ rejects unknown predictions, duplicate outcomes, and pre-maturity outcomes. Its
 JSONL events form a SHA-256 hash chain, so a read fails if a prior event was
 edited or reordered.
 
+Each completed run also records every available non-RL component forecast,
+including the selected model, as a zero-allocation `component-shadow-v1`
+prediction. A component marked ineligible for the live ensemble is still
+recorded with its actual `live_eligible` flag. These records cannot place or
+size an order. Their purpose is to build matched prospective Ridge, XGBoost,
+MLP, LSTM, Transformer, and ensemble evidence so a later champion or component
+promotion can be based on matured outcomes rather than repeated report
+holdouts.
+
 Maturity is timestamp-specific, not merely date-specific. Every prediction
-stores `target_maturity_utc`; when no override is supplied, the ledger resolves
-it to 4:00 p.m. `America/New_York` on `target_session` and converts it to UTC.
-The target date must be exactly `horizon_sessions` valid US-equity sessions
-after `return_start_session` (which defaults to `as_of_session`); a
-weekday-only offset is rejected around exchange holidays. The prediction must
-also be created before the next session opens,
-and its `data_cutoff_utc` must satisfy the same bound. This prevents a caller
-from observing any part of the outcome window and then backfilling a
-prediction. Its outcome must:
+stores `target_maturity_utc` and `session_calendar`. Schema-v2 records that do
+not contain `session_calendar` retain the original `us_equity` behavior. A US
+equity target matures at 4:00 p.m. `America/New_York` on `target_session`; a
+`utc_daily_24_7` target labeled with date D matures at D+1 00:00 UTC. The target
+date must be exactly `horizon_sessions` sessions after `return_start_session`
+(which defaults to `as_of_session`) under that calendar. The US-equity path
+rejects weekday-only offsets around exchange holidays.
+
+A US-equity prediction must be created strictly before the next session opens.
+A qualifying equity record uses the `prospective_equity` timing class and
+retains the existing next-open evidence rule.
+A 24/7 daily prediction must be created strictly before the first future UTC
+daily bar completes, and its metadata records the publication lag from the
+completed input bar. The named strict close-t tolerance is 30 minutes
+(`UTC_DAILY_STRICT_CLOSE_T_MAX_LAG_SECONDS`). Crypto predictions published no
+later than that inclusive boundary set `strict_close_t_eligible=true`; later
+predictions remain visible as `delayed_research_only` but are excluded from
+ledger-backed promotion evidence by default. Crypto records retain the raw
+provider ticker and use `BTC-USD` as their benchmark so weekend outcomes have
+aligned closes. In both calendars, `data_cutoff_utc` must satisfy the same
+strict publication bound. Each outcome must:
 
 - reference the immutable `prediction_id`;
 - repeat the exact `target_session` and `target_maturity_utc`; and
@@ -133,6 +173,10 @@ Promotion evidence is rejected before scoring unless its provenance agrees:
   forecast cutoff, and baseline version must be explicit;
 - forecast observations must be exact matured ledger matches for that
   candidate model, policy version, horizon, and cutoff;
+- calendar, benchmark, model version, feature-set version, postprocessor
+  version, and strict-versus-delayed timing are separate cohorts; optional
+  exact filters are persisted in `PromotionEvidence`, and an omitted dimension
+  fails closed when the remaining records contain mixed values;
 - prediction IDs and forecast metrics must be derived by
   `build_ledger_backed_promotion_evidence`, not supplied independently;
 - the authenticated ledger-head snapshot must match when gates are evaluated;

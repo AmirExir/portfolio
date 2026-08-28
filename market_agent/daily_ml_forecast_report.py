@@ -2,12 +2,15 @@
 import argparse
 import contextlib
 import datetime as dt
+import errno
 import hashlib
 import io
 import json
 import logging
 import os
+import shutil
 import sys
+import tempfile
 import time
 from collections.abc import Callable
 from pathlib import Path
@@ -34,6 +37,10 @@ from agent.ledger import (
     OutcomeRecord,
     PredictionLedger,
     PredictionRecord,
+    US_EQUITY_SESSION_CALENDAR,
+    UTC_DAILY_24_7_SESSION_CALENDAR,
+    UTC_DAILY_STRICT_CLOSE_T_MAX_LAG_SECONDS,
+    prediction_strict_close_t_eligible,
     session_close_utc,
 )
 from agent.outcomes import append_matured_outcomes
@@ -97,6 +104,21 @@ MARKET_CONTEXT_TICKERS = [
     "TLT", "GLD", "SLV", "USO", "AVGO",
 ]
 SEQUENCE_MODEL_NAMES = {"LSTM", "Transformer"}
+DEFAULT_ADAPTIVE_EXPLORATION_QUOTA = 2
+DEFAULT_ADAPTIVE_MIN_NONOVERLAPPING_SAMPLES = 2
+EXTERNAL_RUNTIME_CEILING_MINUTES = 270.0
+EXTERNAL_RUNTIME_MARGIN_MINUTES = 30.0
+PUBLICATION_FINALIZATION_RESERVE_MINUTES = 30.0
+OVERNIGHT_PUBLICATION_DEADLINE_MINUTES = (
+    EXTERNAL_RUNTIME_CEILING_MINUTES - EXTERNAL_RUNTIME_MARGIN_MINUTES
+)
+OVERNIGHT_RANKING_CUTOFF_MINUTES = (
+    OVERNIGHT_PUBLICATION_DEADLINE_MINUTES
+    - PUBLICATION_FINALIZATION_RESERVE_MINUTES
+)
+PUBLICATION_LOCK_FILENAME = ".market_agent_publication.lock"
+DEFAULT_PUBLICATION_LOCK_TIMEOUT_SECONDS = 120.0
+PUBLICATION_LOCK_POLL_SECONDS = 0.05
 MARKET_UNIVERSE = "Stocks + crypto + commodities"
 MODEL_BUY_CALLS = {"Strong Buy", "Buy"}
 MODEL_SELL_CALLS = {"Strong Sell", "Sell"}
@@ -175,6 +197,14 @@ def report_symbol(symbol: str) -> str:
     return REPORT_SYMBOLS.get(str(symbol), str(symbol))
 
 
+def session_calendar_for_symbol(symbol: str) -> str:
+    """Return the daily-session convention for a configured market symbol."""
+
+    if str(symbol).strip().upper().endswith("-USD"):
+        return UTC_DAILY_24_7_SESSION_CALENDAR
+    return US_EQUITY_SESSION_CALENDAR
+
+
 @contextlib.contextmanager
 def _quiet_yfinance_output():
     sink = io.StringIO()
@@ -205,7 +235,15 @@ def load_market_context(
 ) -> pd.DataFrame:
     """Load completed, sufficiently fresh daily market-context bars."""
 
-    start = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=history_days * 2)).strftime("%Y-%m-%d")
+    reference_now = now or dt.datetime.now(dt.timezone.utc)
+    if reference_now.tzinfo is None or reference_now.utcoffset() is None:
+        reference_now = reference_now.replace(tzinfo=dt.timezone.utc)
+    else:
+        reference_now = reference_now.astimezone(dt.timezone.utc)
+    requested_start = pd.Timestamp(reference_now.date()) - pd.Timedelta(
+        days=max(int(history_days), 1)
+    )
+    start = requested_start.strftime("%Y-%m-%d")
     raw = _yf_download(MARKET_CONTEXT_TICKERS, start=start, interval="1d")
     if raw.empty:
         raise ValueError("No market-context data returned.")
@@ -213,12 +251,28 @@ def load_market_context(
     close = raw["Close"] if isinstance(raw.columns, pd.MultiIndex) else raw
     close = close.rename(columns={ticker: f"context_{ticker}" for ticker in close.columns})
     context = close.dropna(how="all").ffill()
-    return require_fresh_daily_market_data(
+    context.index = pd.to_datetime(context.index, errors="coerce")
+    if getattr(context.index, "tz", None) is not None:
+        context.index = context.index.tz_convert(None)
+    context = context.loc[~context.index.isna()].sort_index()
+    context = context.loc[context.index >= requested_start].copy()
+    completed = require_fresh_daily_market_data(
         context,
         "SPY",
         max_lag_sessions,
         now=now,
     )
+    completed.attrs["history_coverage"] = {
+        "requested_calendar_days": int(history_days),
+        "requested_start": requested_start.date().isoformat(),
+        "available_start": (
+            completed.index.min().date().isoformat()
+            if not completed.empty
+            else None
+        ),
+        "available_rows": int(len(completed)),
+    }
+    return completed
 
 
 def signal_quality(confidence_pct: float) -> str:
@@ -463,16 +517,31 @@ def signal_threshold_metadata(args: argparse.Namespace) -> dict:
         "max_rows_per_side": max_signal_rows_from_args(args),
         "directional_call_required": True,
         "rl_selected_model_allowed": False,
+        "require_oos_validation": True,
+        "oos_validation_required_value": True,
+        "oos_validation_must_be_literal_boolean": True,
         "minimum_validation_samples": (
             RELIABILITY_POLICY_CONFIG.min_validation_samples
         ),
+        "minimum_nonoverlapping_validation_samples": (
+            RELIABILITY_POLICY_CONFIG.min_nonoverlapping_validation_samples
+        ),
         "minimum_direction_hit_rate_pct": (
             RELIABILITY_POLICY_CONFIG.min_direction_accuracy_pct
+        ),
+        "minimum_direction_skill_pct_exclusive": (
+            RELIABILITY_POLICY_CONFIG.min_direction_skill_pct
         ),
         "maximum_calibration_error_pct": (
             RELIABILITY_POLICY_CONFIG.max_calibration_error_pct
         ),
         "maximum_brier_score": RELIABILITY_POLICY_CONFIG.max_brier_score,
+        "minimum_mae_skill_score": (
+            RELIABILITY_POLICY_CONFIG.min_mae_skill_score
+        ),
+        "minimum_brier_skill_score": (
+            RELIABILITY_POLICY_CONFIG.min_brier_skill_score
+        ),
     }
 
 
@@ -530,22 +599,70 @@ def is_threshold_buy(row: dict, args: argparse.Namespace) -> bool:
     not erase an otherwise valid, non-RL out-of-sample forecast from the
     research report.
     """
-    if reliability_grade(row) == "Low":
-        return False
-    if str(
-        row_value(row, "Selected Model", "selected_model", default="")
-    ).strip() == "RL Policy":
-        return False
-    return (
-        forecast_return_pct(row) >= min_signal_return_pct_from_args(args)
-        and has_model_buy_call(row)
-    )
+    return not model_signal_qualification_failures(row, args, side="buy")
 
 
 def is_threshold_sell(row: dict, args: argparse.Namespace) -> bool:
-    if reliability_grade(row) == "Low":
-        return False
-    return forecast_return_pct(row) <= -min_signal_return_pct_from_args(args) and has_model_sell_call(row)
+    return not model_signal_qualification_failures(row, args, side="sell")
+
+
+def model_signal_qualification_failures(
+    row: dict,
+    args: argparse.Namespace,
+    *,
+    side: str,
+) -> tuple[str, ...]:
+    """Return exact model-signal gate codes for one requested side."""
+
+    if side not in {"buy", "sell"}:
+        raise ValueError("side must be 'buy' or 'sell'")
+    failures: list[str] = []
+    if str(
+        row_value(row, "Selected Model", "selected_model", default="")
+    ).strip() == "RL Policy":
+        failures.append("selected_model_rl_policy")
+    threshold = min_signal_return_pct_from_args(args)
+    forecast_return = forecast_return_pct(row)
+    if side == "buy":
+        if forecast_return < threshold:
+            failures.append("forecast_return_below_buy_threshold")
+        if not has_model_buy_call(row):
+            failures.append("model_call_not_buy")
+    else:
+        if forecast_return > -threshold:
+            failures.append("forecast_return_above_sell_threshold")
+        if not has_model_sell_call(row):
+            failures.append("model_call_not_sell")
+    failures.extend(reliability_gate_failures(row))
+    return tuple(dict.fromkeys(failures))
+
+
+def is_unqualified_model_buy(row: dict, args: argparse.Namespace) -> bool:
+    """Return a visible raw buy call that failed qualification gates."""
+
+    return (
+        str(
+            row_value(row, "Selected Model", "selected_model", default="")
+        ).strip()
+        != "RL Policy"
+        and forecast_return_pct(row) >= min_signal_return_pct_from_args(args)
+        and has_model_buy_call(row)
+        and bool(model_signal_qualification_failures(row, args, side="buy"))
+    )
+
+
+def is_unqualified_model_sell(row: dict, args: argparse.Namespace) -> bool:
+    """Return a visible raw sell call that failed qualification gates."""
+
+    return (
+        str(
+            row_value(row, "Selected Model", "selected_model", default="")
+        ).strip()
+        != "RL Policy"
+        and forecast_return_pct(row) <= -min_signal_return_pct_from_args(args)
+        and has_model_sell_call(row)
+        and bool(model_signal_qualification_failures(row, args, side="sell"))
+    )
 
 
 def is_policy_watch_buy(row: dict, args: argparse.Namespace) -> bool:
@@ -573,16 +690,25 @@ def is_policy_watch_sell(row: dict, args: argparse.Namespace) -> bool:
     return ranking_score(row) < 0.0 and forecast_return_pct(row) <= -min_signal_return_pct_from_args(args)
 
 
-def reliability_grade(row: dict) -> str:
-    """Grade only forecasts with usable out-of-sample calibration evidence."""
+def reliability_gate_failures(row: dict) -> tuple[str, ...]:
+    """Return stable gate codes shared by grading and report explanations."""
 
-    if str(row_value(row, "selected_model", "Selected Model", default="")).strip() == "RL Policy":
-        return "Low"
-    if bool(row_value(row, "forecast_outlier", "Forecast Outlier", default=False)):
-        return "Low"
-    if row_value(row, "validation_is_oos", "Validation Is OOS", default=True) is False:
-        return "Low"
-
+    failures: list[str] = []
+    if str(
+        row_value(row, "selected_model", "Selected Model", default="")
+    ).strip() == "RL Policy":
+        failures.append("selected_model_rl_policy")
+    if bool(
+        row_value(row, "forecast_outlier", "Forecast Outlier", default=False)
+    ):
+        failures.append("forecast_outlier")
+    if row_value(
+        row,
+        "validation_is_oos",
+        "Validation Is OOS",
+        default=None,
+    ) is not True:
+        failures.append("validation_is_oos_not_literal_true")
     forecast_return = abs(forecast_return_pct(row))
     expected_error = abs(
         finite_row_float(
@@ -599,28 +725,95 @@ def reliability_grade(row: dict) -> str:
         )
     )
     hit_rate = finite_row_float(row, "Direction Hit Rate %")
+    direction_skill_pct = finite_row_float(row, "Direction Skill %")
     validation_mae = abs(finite_row_float(row, "Validation MAE %"))
     validation_samples = finite_row_float(row, "Validation Samples")
+    nonoverlapping_samples = finite_row_float(
+        row,
+        "Nonoverlapping Validation Samples",
+    )
     calibration_error = finite_row_float(row, "Calibration Error %")
     brier_score = finite_row_float(row, "Brier Score")
+    mae_skill_score = finite_row_float(row, "MAE Skill Score")
+    brier_skill_score = finite_row_float(row, "Brier Skill Score")
     error_ratio = forecast_return / expected_error if expected_error > 0 else np.inf
 
+    gates = (
+        (np.isfinite(expected_error), "expected_error_not_finite"),
+        (np.isfinite(edge), "model_edge_not_finite"),
+        (np.isfinite(validation_mae), "validation_mae_not_finite"),
+        (
+            np.isfinite(validation_samples)
+            and validation_samples
+            >= RELIABILITY_POLICY_CONFIG.min_validation_samples,
+            "validation_samples_below_minimum",
+        ),
+        (
+            np.isfinite(nonoverlapping_samples)
+            and nonoverlapping_samples
+            >= RELIABILITY_POLICY_CONFIG.min_nonoverlapping_validation_samples,
+            "nonoverlapping_validation_samples_below_minimum",
+        ),
+        (
+            np.isfinite(hit_rate)
+            and hit_rate
+            >= RELIABILITY_POLICY_CONFIG.min_direction_accuracy_pct,
+            "direction_hit_rate_below_minimum",
+        ),
+        (
+            np.isfinite(direction_skill_pct)
+            and direction_skill_pct
+            > RELIABILITY_POLICY_CONFIG.min_direction_skill_pct,
+            "direction_skill_not_above_minimum",
+        ),
+        (
+            np.isfinite(calibration_error)
+            and calibration_error
+            <= RELIABILITY_POLICY_CONFIG.max_calibration_error_pct,
+            "calibration_error_above_maximum",
+        ),
+        (
+            np.isfinite(brier_score)
+            and brier_score <= RELIABILITY_POLICY_CONFIG.max_brier_score,
+            "brier_score_above_maximum",
+        ),
+        (
+            np.isfinite(mae_skill_score)
+            and mae_skill_score
+            > RELIABILITY_POLICY_CONFIG.min_mae_skill_score,
+            "mae_skill_not_above_minimum",
+        ),
+        (
+            np.isfinite(brier_skill_score)
+            and brier_skill_score
+            > RELIABILITY_POLICY_CONFIG.min_brier_skill_score,
+            "brier_skill_not_above_minimum",
+        ),
+    )
+    failures.extend(code for passed, code in gates if not passed)
     if (
-        not np.isfinite(expected_error)
-        or not np.isfinite(edge)
-        or not np.isfinite(validation_mae)
-        or not np.isfinite(validation_samples)
-        or validation_samples < RELIABILITY_POLICY_CONFIG.min_validation_samples
-        or not np.isfinite(hit_rate)
-        or hit_rate < RELIABILITY_POLICY_CONFIG.min_direction_accuracy_pct
-        or not np.isfinite(calibration_error)
-        or calibration_error > RELIABILITY_POLICY_CONFIG.max_calibration_error_pct
-        or not np.isfinite(brier_score)
-        or brier_score > RELIABILITY_POLICY_CONFIG.max_brier_score
+        np.isfinite(validation_mae)
+        and validation_mae > 0
+        and forecast_return < validation_mae * 0.5
     ):
+        failures.append("forecast_magnitude_below_half_validation_mae")
+    if np.isfinite(edge) and edge < 3.0:
+        failures.append("model_edge_below_speculative_minimum")
+    return tuple(failures)
+
+
+def reliability_grade(row: dict) -> str:
+    """Grade only forecasts with usable out-of-sample calibration evidence."""
+
+    if reliability_gate_failures(row):
         return "Low"
-    if np.isfinite(validation_mae) and validation_mae > 0 and forecast_return < validation_mae * 0.5:
-        return "Low"
+    forecast_return = abs(forecast_return_pct(row))
+    expected_error = abs(
+        finite_row_float(row, "expected_error_pct", "Expected Error %")
+    )
+    edge = abs(finite_row_float(row, "model_edge_pct", "Model Edge %"))
+    hit_rate = finite_row_float(row, "Direction Hit Rate %")
+    error_ratio = forecast_return / expected_error if expected_error > 0 else np.inf
     if np.isfinite(hit_rate) and hit_rate >= 56.0 and edge >= 15.0 and error_ratio >= 0.75:
         return "High"
     if (not np.isfinite(hit_rate) or hit_rate >= 52.0) and edge >= 8.0 and error_ratio >= 0.45:
@@ -632,13 +825,17 @@ def reliability_grade(row: dict) -> str:
 
 def signal_tier(row: dict, args: argparse.Namespace) -> str:
     if is_threshold_buy(row, args):
-        return "Model-Confirmed Buy"
+        return "Model-Qualified Buy"
     if is_threshold_sell(row, args):
-        return "Model-Confirmed Sell/Avoid"
+        return "Model-Qualified Sell/Avoid"
     if is_policy_watch_buy(row, args):
         return "Policy Watch Buy"
     if is_policy_watch_sell(row, args):
         return "Policy Watch Sell/Avoid"
+    if is_unqualified_model_buy(row, args):
+        return "Unqualified Candidate Buy"
+    if is_unqualified_model_sell(row, args):
+        return "Unqualified Candidate Sell/Avoid"
     return "Neutral / Monitor"
 
 
@@ -659,8 +856,30 @@ def enrich_rows_with_signal_metadata(rows: list[dict], args: argparse.Namespace)
                     + (f"; {prior_reason}" if prior_reason else "")
                 )
         item["Signal Tier"] = signal_tier(item, args)
-        item["Qualified Model Signal"] = item["Signal Tier"].startswith("Model-Confirmed")
+        item["Qualified Model Signal"] = item["Signal Tier"].startswith(
+            "Model-Qualified"
+        )
         item["Policy Watchlist"] = item["Signal Tier"].startswith("Policy Watch")
+        item["Unqualified Candidate"] = item["Signal Tier"].startswith(
+            "Unqualified Candidate"
+        )
+        if has_model_buy_call(item):
+            qualification_failures = model_signal_qualification_failures(
+                item,
+                args,
+                side="buy",
+            )
+        elif has_model_sell_call(item):
+            qualification_failures = model_signal_qualification_failures(
+                item,
+                args,
+                side="sell",
+            )
+        else:
+            qualification_failures = ()
+        item["Qualification Gate Failures"] = list(
+            qualification_failures
+        )
         item["Risk Overlay"] = smart_policy_text(item) or "Unavailable"
         enriched.append(item)
     return enriched
@@ -809,10 +1028,13 @@ def apply_portfolio_constraints(
         item["Risk Overlay"] = smart_policy_text(item) or "Unavailable"
         item["Signal Tier"] = signal_tier(item, args)
         item["Qualified Model Signal"] = item["Signal Tier"].startswith(
-            "Model-Confirmed"
+            "Model-Qualified"
         )
         item["Policy Watchlist"] = item["Signal Tier"].startswith(
             "Policy Watch"
+        )
+        item["Unqualified Candidate"] = item["Signal Tier"].startswith(
+            "Unqualified Candidate"
         )
         normalized_rows.append(item)
 
@@ -1026,62 +1248,335 @@ def model_payload_metric(model_payload: dict, metric_name: str, default=np.inf):
         return default
 
 
-def adaptive_sequence_symbols_from_reports(args: argparse.Namespace, output_dir: Path) -> list[str]:
-    override_symbols = parse_symbols(str(getattr(args, "adaptive_sequence_symbols", "") or ""))
-    if override_symbols:
-        return override_symbols
+def parse_report_generated_at(value: object) -> dt.datetime | None:
+    normalized = str(value or "").strip()
+    if not normalized:
+        return None
+    iso_normalized = (
+        normalized[:-1] + "+00:00"
+        if normalized.endswith("Z")
+        else normalized
+    )
+    try:
+        parsed = dt.datetime.fromisoformat(iso_normalized)
+    except ValueError:
+        parsed = None
+        for timestamp_format in (
+            "%Y-%m-%dT%H-%M-%SZ",
+            "%Y-%m-%dT%H-%M-%S-%fZ",
+        ):
+            try:
+                parsed = dt.datetime.strptime(
+                    normalized,
+                    timestamp_format,
+                ).replace(tzinfo=dt.timezone.utc)
+                break
+            except ValueError:
+                continue
+        if parsed is None:
+            return None
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        parsed = parsed.replace(tzinfo=dt.timezone.utc)
+    return parsed.astimezone(dt.timezone.utc)
+
+
+def adaptive_model_evidence_is_valid(
+    model_payload: dict,
+    *,
+    min_nonoverlapping_samples: int,
+) -> bool:
+    """Require leakage-safe, baseline-positive evidence for adaptive compute."""
+
+    metrics = model_payload.get("metrics") or {}
+    if metrics.get("validation_is_oos") is not True:
+        return False
+    mae = model_payload_metric(model_payload, "holdout_mae_pct")
+    mae_skill = model_payload_metric(
+        model_payload,
+        "mae_skill_score",
+        default=float("nan"),
+    )
+    brier_skill = model_payload_metric(
+        model_payload,
+        "brier_skill_score",
+        default=float("nan"),
+    )
+    direction_skill = model_payload_metric(
+        model_payload,
+        "direction_skill_pct",
+        default=float("nan"),
+    )
+    try:
+        nonoverlapping_samples = int(
+            metrics.get("holdout_nonoverlapping_samples", 0) or 0
+        )
+    except (TypeError, ValueError):
+        return False
+    return bool(
+        np.isfinite(mae)
+        and mae >= 0.0
+        and np.isfinite(mae_skill)
+        and mae_skill > 0.0
+        and np.isfinite(brier_skill)
+        and brier_skill > 0.0
+        and np.isfinite(direction_skill)
+        and direction_skill > 0.0
+        and nonoverlapping_samples >= min_nonoverlapping_samples
+    )
+
+
+def session_distance_for_symbol(
+    first: dt.date,
+    second: dt.date,
+    symbol: str,
+) -> int:
+    """Return completed daily sessions between two as-of labels."""
+
+    start, end = sorted((first, second))
+    if str(symbol).upper().endswith("-USD"):
+        return max((end - start).days, 0)
+    sessions = us_equity_trading_sessions(
+        as_of=dt.datetime(
+            end.year,
+            end.month,
+            end.day,
+            18,
+            tzinfo=dt.timezone.utc,
+        ),
+        lookback_days=max((end - start).days + 7, 1),
+        future_session_count=1,
+    )
+    return sum(1 for session in sessions if start < session <= end)
+
+
+def deterministic_adaptive_exploration_models(
+    args: argparse.Namespace,
+    already_selected: dict[str, str],
+) -> dict[str, str]:
+    """Rotate a small research-only sequence sample across the universe."""
 
     try:
-        report_limit = max(1, int(getattr(args, "adaptive_sequence_report_limit", 40) or 40))
-        min_wins = max(1, int(getattr(args, "adaptive_sequence_min_wins", 5) or 5))
-        min_share = max(0.0, float(getattr(args, "adaptive_sequence_min_share", 0.20) or 0.0))
-    except Exception:
-        report_limit = 40
-        min_wins = 5
-        min_share = 0.20
+        quota = max(
+            0,
+            int(getattr(args, "adaptive_sequence_exploration_quota", 0) or 0),
+        )
+    except (TypeError, ValueError):
+        return {}
+    if quota <= 0 or primary_model_from_args(args) != "Best Validation":
+        return {}
 
-    report_paths = sorted(
-        output_dir.glob("ml_forecast_rankings_20*.json"),
-        key=lambda path: path.stat().st_mtime,
-        reverse=True,
+    candidates = [
+        symbol.upper()
+        for symbol in parse_symbols(str(getattr(args, "symbols", "") or ""))
+        if symbol.upper() not in already_selected
+    ]
+    if not candidates:
+        return {}
+    seed = str(
+        getattr(args, "adaptive_sequence_exploration_seed", "") or ""
+    ).strip()
+    if not seed:
+        seed = dt.datetime.now(dt.timezone.utc).date().isoformat()
+    horizon = max(int(getattr(args, "horizon", 1) or 1), 1)
+    digest = hashlib.sha256(f"{seed}:{horizon}".encode("utf-8")).digest()
+    start_index = int.from_bytes(digest[:8], "big") % len(candidates)
+    rotated = candidates[start_index:] + candidates[:start_index]
+    exploration: dict[str, str] = {}
+    for symbol in rotated[: min(quota, len(rotated))]:
+        family_digest = hashlib.sha256(
+            f"{seed}:{horizon}:{symbol}".encode("utf-8")
+        ).digest()
+        exploration[symbol] = (
+            "lstm" if family_digest[0] % 2 == 0 else "transformer"
+        )
+    return exploration
+
+
+def adaptive_sequence_models_from_reports(
+    args: argparse.Namespace,
+    output_dir: Path,
+) -> dict[str, str]:
+    """Select one sequence family per symbol from unique prior evaluations.
+
+    Report files can contain duplicate publications for the same completed
+    session.  Counting files therefore overstates the evidence and scheduled
+    reports without sequence results dilute the denominator.  This selector
+    counts each symbol/as-of/horizon evaluation once, compares the best
+    sequence candidate with conventional component models (not the ensemble
+    that already contains those components), and enables only the sequence
+    family that actually accumulated the most prior wins.
+
+    This remains a research-compute selector, not a model-promotion decision;
+    published signals still pass the independent OOS reliability gates.
+    """
+    override_symbols = parse_symbols(
+        str(getattr(args, "adaptive_sequence_symbols", "") or "")
     )
+    if override_symbols:
+        return {symbol.upper(): "both" for symbol in override_symbols}
+
+    try:
+        report_limit = max(
+            1,
+            int(getattr(args, "adaptive_sequence_report_limit", 40) or 40),
+        )
+        min_wins = max(
+            1,
+            int(getattr(args, "adaptive_sequence_min_wins", 2) or 2),
+        )
+        min_share = max(
+            0.0,
+            float(getattr(args, "adaptive_sequence_min_share", 0.50) or 0.0),
+        )
+        min_nonoverlapping_samples = max(
+            1,
+            int(
+                getattr(
+                    args,
+                    "adaptive_sequence_min_nonoverlap",
+                    DEFAULT_ADAPTIVE_MIN_NONOVERLAPPING_SAMPLES,
+                )
+                or DEFAULT_ADAPTIVE_MIN_NONOVERLAPPING_SAMPLES
+            ),
+        )
+    except (TypeError, ValueError):
+        report_limit = 40
+        min_wins = 2
+        min_share = 0.50
+        min_nonoverlapping_samples = (
+            DEFAULT_ADAPTIVE_MIN_NONOVERLAPPING_SAMPLES
+        )
+
+    indexed_reports: list[tuple[dt.datetime, str, Path]] = []
+    for report_path in output_dir.glob("ml_forecast_rankings_20*.json"):
+        payload = load_json_payload(report_path)
+        generated_at = parse_report_generated_at(payload.get("generated_at"))
+        if generated_at is None:
+            continue
+        indexed_reports.append((generated_at, report_path.name, report_path))
+    indexed_reports.sort(key=lambda item: (item[0], item[1]), reverse=True)
+
     sequence_wins: dict[str, int] = {}
+    family_wins: dict[str, dict[str, int]] = {}
     valid_runs: dict[str, int] = {}
+    seen_evaluations: set[tuple[str, str, int]] = set()
+    accepted_sessions: dict[str, list[dt.date]] = {}
     reports_read = 0
 
-    for report_path in report_paths:
+    for _, _, report_path in indexed_reports:
         payload = load_json_payload(report_path)
+        if payload.get("run_complete") is not True:
+            continue
         snapshots = payload.get("snapshots") or []
         if not snapshots:
             continue
-        reports_read += 1
+        report_horizon = int(payload.get("horizon_days", 0) or 0)
+        requested_horizon = int(getattr(args, "horizon", report_horizon) or 0)
+        if report_horizon and requested_horizon and report_horizon != requested_horizon:
+            continue
+        report_contributed = False
         for snapshot in snapshots:
             symbol = str(snapshot.get("symbol") or "").upper()
+            as_of_session = str(snapshot.get("as_of_session") or "").strip()
+            evaluation_key = (symbol, as_of_session, report_horizon)
+            if not symbol or not as_of_session or evaluation_key in seen_evaluations:
+                continue
+            try:
+                as_of_date = dt.date.fromisoformat(as_of_session)
+            except ValueError:
+                continue
+            if any(
+                session_distance_for_symbol(
+                    as_of_date,
+                    prior_as_of,
+                    symbol,
+                )
+                < max(report_horizon, 1)
+                for prior_as_of in accepted_sessions.get(symbol, [])
+            ):
+                continue
             model_payloads = snapshot.get("models") or {}
-            candidates = [
+            sequence_candidates = [
                 (model_payload_metric(model_payload, "holdout_mae_pct"), model_name)
                 for model_name, model_payload in model_payloads.items()
+                if model_name in SEQUENCE_MODEL_NAMES
+                and adaptive_model_evidence_is_valid(
+                    model_payload,
+                    min_nonoverlapping_samples=min_nonoverlapping_samples,
+                )
             ]
-            candidates = [
+            sequence_candidates = [
                 (mae, model_name)
-                for mae, model_name in candidates
+                for mae, model_name in sequence_candidates
                 if np.isfinite(mae)
             ]
-            if not symbol or not candidates:
+            conventional_candidates = [
+                (model_payload_metric(model_payload, "holdout_mae_pct"), model_name)
+                for model_name, model_payload in model_payloads.items()
+                if model_name
+                in {
+                    "Ridge",
+                    "XGBoost",
+                    "Neural Net",
+                    "Random Forest",
+                    "Gradient Boosting",
+                }
+                and adaptive_model_evidence_is_valid(
+                    model_payload,
+                    min_nonoverlapping_samples=min_nonoverlapping_samples,
+                )
+            ]
+            conventional_candidates = [
+                (mae, model_name)
+                for mae, model_name in conventional_candidates
+                if np.isfinite(mae)
+            ]
+            if not sequence_candidates or not conventional_candidates:
                 continue
+            seen_evaluations.add(evaluation_key)
+            accepted_sessions.setdefault(symbol, []).append(as_of_date)
+            report_contributed = True
             valid_runs[symbol] = valid_runs.get(symbol, 0) + 1
-            best_model = min(candidates, key=lambda item: item[0])[1]
-            if best_model in SEQUENCE_MODEL_NAMES:
+            sequence_mae, best_sequence = min(
+                sequence_candidates,
+                key=lambda item: item[0],
+            )
+            conventional_mae = min(
+                conventional_candidates,
+                key=lambda item: item[0],
+            )[0]
+            if sequence_mae < conventional_mae:
                 sequence_wins[symbol] = sequence_wins.get(symbol, 0) + 1
+                symbol_family_wins = family_wins.setdefault(symbol, {})
+                symbol_family_wins[best_sequence] = (
+                    symbol_family_wins.get(best_sequence, 0) + 1
+                )
+        if report_contributed:
+            reports_read += 1
         if reports_read >= report_limit:
             break
 
-    selected = []
+    selected: dict[str, str] = {}
     for symbol, wins in sequence_wins.items():
         runs = valid_runs.get(symbol, 0)
         if runs and wins >= min_wins and wins / float(runs) >= min_share:
-            selected.append(symbol)
-    return sorted(selected)
+            winning_family = max(
+                family_wins.get(symbol, {}).items(),
+                key=lambda item: (item[1], item[0]),
+            )[0]
+            selected[symbol] = winning_family.lower().replace(" ", "_")
+    exploration = deterministic_adaptive_exploration_models(args, selected)
+    selected.update(exploration)
+    return dict(sorted(selected.items()))
+
+
+def adaptive_sequence_symbols_from_reports(
+    args: argparse.Namespace,
+    output_dir: Path,
+) -> list[str]:
+    """Return symbols selected for adaptive sequence research compute."""
+
+    return list(adaptive_sequence_models_from_reports(args, output_dir))
 
 
 def model_results_from_snapshot(snapshot: dict) -> dict:
@@ -1132,6 +1627,15 @@ def primary_model_from_args(args: argparse.Namespace) -> str:
     primary = str(getattr(args, "primary_model", "") or "Best Validation").strip()
     if primary == "RL Policy":
         return "Best Validation"
+    return primary
+
+
+def primary_model_display_from_args(args: argparse.Namespace) -> str:
+    """Return an honest user-facing label for the registered champion rule."""
+
+    primary = primary_model_from_args(args)
+    if primary == "Best Validation":
+        return "Registered Ensemble Champion"
     return primary
 
 
@@ -1258,7 +1762,7 @@ def apply_run_profile(args: argparse.Namespace, raw_args: list[str] | None = Non
     if profile == "custom":
         return args
 
-    if profile not in {"quick", "scheduled", "quality", "research"}:
+    if profile not in {"quick", "scheduled", "overnight", "quality", "research"}:
         profile = "quality"
         args.run_profile = profile
 
@@ -1285,6 +1789,32 @@ def apply_run_profile(args: argparse.Namespace, raw_args: list[str] | None = Non
         args.no_optimize = True
         return args
 
+    if profile == "overnight":
+        if not cli_flag_present(raw_args, "--history-days"):
+            args.history_days = max(int(args.history_days), 1825)
+        if not cli_flag_present(raw_args, "--sequence-model"):
+            args.sequence_model = "adaptive"
+        if not cli_flag_present(raw_args, "--short-horizons"):
+            args.short_horizons = ""
+        if not cli_flag_present(raw_args, "--short-sequence-model"):
+            args.short_sequence_model = "off"
+        if not cli_flag_present(raw_args, "--runtime-budget-minutes"):
+            args.runtime_budget_minutes = OVERNIGHT_PUBLICATION_DEADLINE_MINUTES
+        if not cli_flag_present(
+            raw_args,
+            "--adaptive-sequence-exploration-quota",
+        ):
+            args.adaptive_sequence_exploration_quota = (
+                DEFAULT_ADAPTIVE_EXPLORATION_QUOTA
+            )
+        if not (
+            cli_flag_present(raw_args, "--include-rl-policy")
+            or cli_flag_present(raw_args, "--no-include-rl-policy")
+            or cli_flag_present(raw_args, "--no-rl-policy")
+        ):
+            args.include_rl_policy = False
+        return args
+
     if profile == "quality":
         if not cli_flag_present(raw_args, "--sequence-model"):
             args.sequence_model = "adaptive"
@@ -1306,17 +1836,91 @@ def apply_run_profile(args: argparse.Namespace, raw_args: list[str] | None = Non
     return args
 
 
-def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[dict], dict]:
+def runtime_deadline_from_args(
+    args: argparse.Namespace,
+    started_at: float,
+) -> float | None:
+    try:
+        minutes = float(getattr(args, "runtime_budget_minutes", 0.0) or 0.0)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("runtime_budget_minutes must be finite and nonnegative") from exc
+    if not np.isfinite(minutes) or minutes < 0.0:
+        raise ValueError("runtime_budget_minutes must be finite and nonnegative")
+    return started_at + minutes * 60.0 if minutes > 0.0 else None
+
+
+def runtime_deadline_reached(
+    deadline_monotonic: float | None,
+    *,
+    now_monotonic: float | None = None,
+) -> bool:
+    if deadline_monotonic is None:
+        return False
+    current = time.perf_counter() if now_monotonic is None else now_monotonic
+    return current >= deadline_monotonic
+
+
+def ranking_deadline_from_publication_deadline(
+    publication_deadline_monotonic: float | None,
+    workflow_started_at: float,
+) -> float | None:
+    """Reserve finalization time without consuming tiny smoke budgets."""
+
+    if publication_deadline_monotonic is None:
+        return None
+    total_budget_seconds = max(
+        publication_deadline_monotonic - workflow_started_at,
+        0.0,
+    )
+    reserve_seconds = min(
+        PUBLICATION_FINALIZATION_RESERVE_MINUTES * 60.0,
+        total_budget_seconds * 0.125,
+    )
+    return publication_deadline_monotonic - reserve_seconds
+
+
+def append_runtime_incomplete_error(
+    errors: list[str],
+    phase: str,
+) -> None:
+    message = (
+        f"runtime publication deadline reached {phase}; partial output is "
+        "diagnostic-only and must not be published"
+    )
+    if message not in errors:
+        errors.append(message)
+
+
+def run_rankings(
+    args: argparse.Namespace,
+    *,
+    deadline_monotonic: float | None = None,
+    ranking_deadline_monotonic: float | None = None,
+) -> tuple[list[dict], list[str], list[dict], dict]:
     symbols = parse_symbols(args.symbols)
     requested_sequence_model = sequence_model_from_args(args)
     include_rl_policy = include_rl_policy_from_args(args)
     output_dir = Path(args.output_dir)
-    adaptive_sequence_symbols = (
-        set(adaptive_sequence_symbols_from_reports(args, output_dir))
-        if requested_sequence_model == "adaptive"
-        else set()
-    )
     started_at = time.perf_counter()
+    if deadline_monotonic is None:
+        deadline_monotonic = runtime_deadline_from_args(args, started_at)
+    if ranking_deadline_monotonic is None:
+        ranking_deadline_monotonic = (
+            ranking_deadline_from_publication_deadline(
+                deadline_monotonic,
+                started_at,
+            )
+        )
+    elif deadline_monotonic is not None:
+        ranking_deadline_monotonic = min(
+            ranking_deadline_monotonic,
+            deadline_monotonic,
+        )
+    adaptive_sequence_models = (
+        adaptive_sequence_models_from_reports(args, output_dir)
+        if requested_sequence_model == "adaptive"
+        else {}
+    )
     context_started_at = time.perf_counter()
     context_df = (
         pd.DataFrame()
@@ -1334,16 +1938,30 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
     errors = []
     symbol_timings = []
 
-    for symbol in symbols:
+    runtime_budget_exceeded = False
+
+    for symbol_index, symbol in enumerate(symbols):
+        if runtime_deadline_reached(ranking_deadline_monotonic):
+            remaining = symbols[symbol_index:]
+            runtime_budget_exceeded = True
+            append_runtime_incomplete_error(
+                errors,
+                "at the finalization cutoff before starting "
+                f"{len(remaining)} remaining symbols",
+            )
+            break
         symbol_started_at = time.perf_counter()
         symbol_status = "ok"
         symbol_sequence_model = (
-            "both"
-            if requested_sequence_model == "adaptive" and symbol.upper() in adaptive_sequence_symbols
-            else ("off" if requested_sequence_model == "adaptive" else requested_sequence_model)
+            adaptive_sequence_models.get(symbol.upper(), "off")
+            if requested_sequence_model == "adaptive"
+            else requested_sequence_model
         )
         try:
             df = get_ohlcv(symbol, args.history_days)
+            history_coverage = dict(
+                df.attrs.get("history_coverage") or {}
+            )
             df = require_fresh_daily_market_data(
                 df,
                 symbol,
@@ -1400,12 +2018,35 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                         args,
                         earnings_context=earnings_context,
                     )
+                    cached_snapshot["history_coverage"] = history_coverage
+                    cached_as_of = cached_snapshot.get("as_of_session")
+                    if cached_as_of:
+                        cached_snapshot["data_cutoff_utc"] = (
+                            session_close_utc(
+                                str(cached_as_of),
+                                session_calendar_for_symbol(symbol),
+                            ).isoformat()
+                        )
                     snapshots.append(cached_snapshot)
                     patterns_by_symbol[symbol] = cached_payload.get("pattern_info") or {
                         "Primary Pattern": "Unavailable",
                         "All Patterns": "",
                     }
+                    cached_payload = dict(cached_payload)
+                    cached_payload["snapshot"] = cached_snapshot
+                    cached_payload["history_coverage"] = history_coverage
+                    save_json_payload(model_cache_path, cached_payload)
                     symbol_status = "cached"
+                    if runtime_deadline_reached(
+                        ranking_deadline_monotonic
+                    ):
+                        runtime_budget_exceeded = True
+                        append_runtime_incomplete_error(
+                            errors,
+                            "at the finalization cutoff after completing "
+                            f"cached symbol {symbol}",
+                        )
+                        break
                     continue
 
             try:
@@ -1452,9 +2093,11 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                 smart_policy=smart_policy,
                 as_of_session=close.index[-1],
                 data_cutoff_utc=session_close_utc(
-                    pd.Timestamp(close.index[-1]).date()
+                    pd.Timestamp(close.index[-1]).date(),
+                    session_calendar_for_symbol(symbol),
                 ),
             )
+            snapshot["history_coverage"] = history_coverage
             snapshots.append(snapshot)
 
             save_json_payload(
@@ -1475,6 +2118,7 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                     "data_fingerprint": data_fingerprint,
                     "context_fingerprint": symbol_context_fingerprint,
                     "earnings_context": earnings_context,
+                    "history_coverage": history_coverage,
                     "pattern_info": pattern_info,
                     "snapshot": snapshot,
                 },
@@ -1491,6 +2135,13 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
                     "sequence_model": symbol_sequence_model,
                 }
             )
+        if runtime_deadline_reached(ranking_deadline_monotonic):
+            runtime_budget_exceeded = True
+            append_runtime_incomplete_error(
+                errors,
+                f"at the finalization cutoff after completing {symbol}",
+            )
+            break
 
     rows_frame, row_errors = snapshots_to_ranking_frame(snapshots, primary_model_from_args(args))
     if not rows_frame.empty:
@@ -1504,6 +2155,15 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
     rows = enrich_rows_with_signal_metadata(rows_frame.to_dict(orient="records"), args)
     rows, portfolio_diagnostics = apply_portfolio_constraints(rows, portfolio_closes, args)
     errors.extend(row_errors)
+    if runtime_deadline_reached(ranking_deadline_monotonic):
+        runtime_budget_exceeded = True
+        append_runtime_incomplete_error(
+            errors,
+            "at the finalization cutoff during ranking finalization",
+        )
+    runtime_budget_minutes = float(
+        getattr(args, "runtime_budget_minutes", 0.0) or 0.0
+    )
     timings = {
         "total_seconds": round(time.perf_counter() - started_at, 3),
         "context_seconds": round(context_seconds, 3),
@@ -1513,20 +2173,66 @@ def run_rankings(args: argparse.Namespace) -> tuple[list[dict], list[str], list[
         "symbols_failed": sum(1 for item in symbol_timings if item["status"] not in {"ok", "cached"}),
         "symbol_timings": symbol_timings,
         "requested_sequence_model": requested_sequence_model,
-        "adaptive_sequence_symbols": sorted(adaptive_sequence_symbols),
+        "adaptive_sequence_symbols": sorted(adaptive_sequence_models),
+        "adaptive_sequence_models": dict(adaptive_sequence_models),
         "run_profile": str(getattr(args, "run_profile", "custom") or "custom"),
+        "runtime_budget_minutes": runtime_budget_minutes,
+        "ranking_cutoff_reserve_minutes": (
+            round(
+                max(
+                    (deadline_monotonic - ranking_deadline_monotonic) / 60.0,
+                    0.0,
+                ),
+                3,
+            )
+            if deadline_monotonic is not None
+            and ranking_deadline_monotonic is not None
+            else 0.0
+        ),
+        "runtime_budget_exceeded": runtime_budget_exceeded,
+        "run_complete": not runtime_budget_exceeded,
+        "market_context_history_coverage": dict(
+            context_df.attrs.get("history_coverage") or {}
+        ),
         "portfolio": portfolio_diagnostics,
     }
     return rows, errors, snapshots, timings
 
 
-def run_short_horizon_reports(args: argparse.Namespace) -> list[dict]:
+def run_short_horizon_reports(
+    args: argparse.Namespace,
+    *,
+    deadline_monotonic: float | None = None,
+    ranking_deadline_monotonic: float | None = None,
+) -> list[dict]:
     reports = []
     for horizon in parse_horizons(getattr(args, "short_horizons", ""), getattr(args, "horizon", None)):
+        if runtime_deadline_reached(ranking_deadline_monotonic):
+            reports.append(
+                {
+                    "horizon_days": horizon,
+                    "sequence_model": short_sequence_model_from_args(args),
+                    "rows": [],
+                    "errors": [
+                        "runtime finalization cutoff reached before short "
+                        f"horizon {horizon}; partial output must not be published"
+                    ],
+                    "snapshots": [],
+                    "timings": {
+                        "runtime_budget_exceeded": True,
+                        "run_complete": False,
+                    },
+                }
+            )
+            break
         horizon_args = argparse.Namespace(**vars(args))
         horizon_args.horizon = horizon
         horizon_args.sequence_model = short_sequence_model_from_args(args)
-        rows, errors, snapshots, timings = run_rankings(horizon_args)
+        rows, errors, snapshots, timings = run_rankings(
+            horizon_args,
+            deadline_monotonic=deadline_monotonic,
+            ranking_deadline_monotonic=ranking_deadline_monotonic,
+        )
         reports.append(
             {
                 "horizon_days": horizon,
@@ -1537,7 +2243,25 @@ def run_short_horizon_reports(args: argparse.Namespace) -> list[dict]:
                 "timings": timings,
             }
         )
+        if timings.get("run_complete") is not True:
+            break
     return reports
+
+
+def short_horizon_reports_are_complete(
+    args: argparse.Namespace,
+    reports: list[dict],
+) -> bool:
+    requested = parse_horizons(
+        getattr(args, "short_horizons", ""),
+        getattr(args, "horizon", None),
+    )
+    if len(reports) != len(requested):
+        return False
+    return all(
+        (report.get("timings") or {}).get("run_complete") is True
+        for report in reports
+    )
 
 
 def format_row(row: dict) -> str:
@@ -1626,6 +2350,45 @@ def format_row(row: dict) -> str:
     return " | ".join(parts)
 
 
+def format_candidate_row(
+    row: dict,
+    args: argparse.Namespace,
+    *,
+    side: str,
+) -> str:
+    """Format an unqualified raw call with its baseline-relative evidence."""
+
+    nonoverlapping = finite_row_float(
+        row,
+        "Nonoverlapping Validation Samples",
+    )
+    mae_skill = finite_row_float(row, "MAE Skill Score")
+    direction_skill = finite_row_float(row, "Direction Skill %")
+    brier_skill = finite_row_float(row, "Brier Skill Score")
+
+    def metric_text(value: float, *, percent: bool = False) -> str:
+        if not np.isfinite(value):
+            return "missing"
+        return f"{value * 100.0:+.1f}%" if percent else f"{value:.1f}"
+
+    return (
+        format_row(row)
+        + " | not qualified: failed gates ["
+        + ", ".join(
+            model_signal_qualification_failures(row, args, side=side)
+        )
+        + "] | non-overlap n "
+        + metric_text(nonoverlapping)
+        + ", MAE skill "
+        + metric_text(mae_skill, percent=True)
+        + ", direction skill "
+        + metric_text(direction_skill)
+        + " pp"
+        + ", Brier skill "
+        + metric_text(brier_skill, percent=True)
+    )
+
+
 def build_market_report(
     rows: list[dict],
     errors: list[str],
@@ -1656,6 +2419,14 @@ def build_market_report(
         ),
         args,
     )
+    candidate_limit = max_signal_rows_from_args(args) or 5
+    candidate_buys = [
+        row for row in sorted_rows if is_unqualified_model_buy(row, args)
+    ][:candidate_limit]
+    candidate_sells = sorted(
+        [row for row in rows if is_unqualified_model_sell(row, args)],
+        key=forecast_return_pct,
+    )[:candidate_limit]
     threshold_text = f"{min_signal_return_pct_from_args(args):.2f}%"
     max_rows = max_signal_rows_from_args(args)
     cap_text = f"; capped at {max_rows} per side" if max_rows > 0 else ""
@@ -1664,6 +2435,10 @@ def build_market_report(
         "Buy/Sell or Strong Buy/Strong Sell; selected model must be non-RL; "
         f"OOS validation requires >= "
         f"{RELIABILITY_POLICY_CONFIG.min_validation_samples} samples, >= "
+        f"{RELIABILITY_POLICY_CONFIG.min_nonoverlapping_validation_samples} "
+        "non-overlapping windows, positive MAE skill versus the zero-return "
+        "baseline, positive direction and Brier skill versus training-only "
+        "baselines, >= "
         f"{RELIABILITY_POLICY_CONFIG.min_direction_accuracy_pct:.0f}% direction "
         f"hit rate, <= "
         f"{RELIABILITY_POLICY_CONFIG.max_calibration_error_pct:.0f}% calibration "
@@ -1716,14 +2491,21 @@ def build_market_report(
         "Market Intelligence Forecast Report",
         f"Generated: {generated_at}",
         data_as_of_text,
-        f"Horizon: {args.horizon} trading days | Primary: {primary_model_from_args(args)}",
+        (
+            f"Horizon: {args.horizon} asset sessions | Primary: "
+            f"{primary_model_display_from_args(args)}"
+        ),
+        (
+            "Asset-session meaning: US-exchange sessions for securities and "
+            "UTC calendar-day sessions for crypto"
+        ),
         (
             "Horizon meaning: point-to-point target return, not an immediate "
             "or monotonic path forecast; realized adverse/favorable excursion "
             "is tracked after maturity"
         ),
         f"Run profile: {getattr(args, 'run_profile', 'custom')}",
-        f"Pattern windows: {args.pattern_short_window}/{args.pattern_long_window} trading days",
+        f"Pattern windows: {args.pattern_short_window}/{args.pattern_long_window} asset sessions",
         f"Sequence model: {sequence_model_from_args(args)}",
         (
             "RL policy: off"
@@ -1734,6 +2516,11 @@ def build_market_report(
             "Earnings context: off"
             if bool(getattr(args, "no_earnings_context", False))
             else "Earnings context: point-in-time interpretation included once in policy decisions"
+        ),
+        (
+            "General news context: separate point-in-time digest only; not "
+            "included in forecast training or scoring until historical "
+            "walk-forward validation demonstrates incremental skill"
         ),
         (
             "Smart policy: on | "
@@ -1760,10 +2547,12 @@ def build_market_report(
         f"Primary signal rule: {threshold_detail}",
         (
             "Signal counts: "
-            f"{len(model_buys)} model-confirmed buys, "
-            f"{len(model_sells)} model-confirmed sells/avoids, "
+            f"{len(model_buys)} model-qualified buys, "
+            f"{len(model_sells)} model-qualified sells/avoids, "
             f"{len(watch_buys)} policy buy watchlist, "
-            f"{len(watch_sells)} policy sell/avoid watchlist"
+            f"{len(watch_sells)} policy sell/avoid watchlist, "
+            f"{len(candidate_buys)} unqualified buy candidates, "
+            f"{len(candidate_sells)} unqualified sell/avoid candidates"
         ),
     ]
     if reliability_counts:
@@ -1804,6 +2593,11 @@ def build_market_report(
                 f"Slowest symbols: {slowest_text}" if slowest_text else "Slowest symbols: unavailable",
             ]
         )
+        if timings.get("runtime_budget_exceeded"):
+            lines.append(
+                "Run completeness: INCOMPLETE (runtime safety budget reached; "
+                "diagnostic output must not be published)"
+            )
     lines.append("")
 
     qualified_research_rows = [*model_buys, *model_sells]
@@ -1858,16 +2652,18 @@ def build_market_report(
                 ),
                 args,
             )
-            horizon_label = f"{horizon} trading day" + ("" if horizon == 1 else "s")
+            horizon_label = f"{horizon} asset session" + (
+                "" if horizon == 1 else "s"
+            )
             lines.append(f"{horizon_label} | sequence model: {short_sequence_model} | threshold: {threshold_detail}")
             if short_buys:
-                lines.append("Model-confirmed buys: " + " ; ".join(format_row(row) for row in short_buys))
+                lines.append("Model-qualified buys: " + " ; ".join(format_row(row) for row in short_buys))
             else:
-                lines.append("Model-confirmed buys: no signals met threshold.")
+                lines.append("Model-qualified buys: no signals met threshold.")
             if short_sells:
-                lines.append("Model-confirmed sells/avoids: " + " ; ".join(format_row(row) for row in short_sells))
+                lines.append("Model-qualified sells/avoids: " + " ; ".join(format_row(row) for row in short_sells))
             else:
-                lines.append("Model-confirmed sells/avoids: no signals met threshold.")
+                lines.append("Model-qualified sells/avoids: no signals met threshold.")
             if short_watch_buys:
                 lines.append("Policy buy watchlist: " + " ; ".join(format_row(row) for row in short_watch_buys))
             if short_watch_sells:
@@ -1875,7 +2671,7 @@ def build_market_report(
         lines.append("")
 
     lines.extend([
-        "Model-Confirmed Buy Forecasts",
+        "Model-Qualified Buy Forecasts",
         f"Threshold: {threshold_detail}",
         (
             "Research visibility is separate from execution authorization; "
@@ -1885,13 +2681,13 @@ def build_market_report(
     if model_buys:
         lines.extend(format_row(row) for row in model_buys)
     else:
-        lines.append("No model-confirmed buy signals met threshold.")
+        lines.append("No model-qualified buy signals met threshold.")
 
-    lines.extend(["", "Model-Confirmed Sell / Avoid Forecasts", f"Threshold: {threshold_detail}"])
+    lines.extend(["", "Model-Qualified Sell / Avoid Forecasts", f"Threshold: {threshold_detail}"])
     if model_sells:
         lines.extend(format_row(row) for row in model_sells)
     else:
-        lines.append("No model-confirmed sell/avoid signals met threshold.")
+        lines.append("No model-qualified sell/avoid signals met threshold.")
 
     lines.extend(["", "Smart Policy Watchlist", f"Rule: {watchlist_detail}"])
     if watch_buys:
@@ -1904,6 +2700,34 @@ def build_market_report(
         lines.extend(format_row(row) for row in watch_sells)
     else:
         lines.append("Sell / avoid watchlist: no policy-only sell/avoid setups met threshold.")
+
+    lines.extend(
+        [
+            "",
+            "Unqualified Model Candidates",
+            (
+                "Raw directional calls shown for research visibility only; "
+                "they failed one or more baseline-skill, calibration, or "
+                "independent-evidence gates and are not recommendations."
+            ),
+        ]
+    )
+    if candidate_buys:
+        lines.append("Buy candidates:")
+        lines.extend(
+            format_candidate_row(row, args, side="buy")
+            for row in candidate_buys
+        )
+    else:
+        lines.append("Buy candidates: none.")
+    if candidate_sells:
+        lines.append("Sell / avoid candidates:")
+        lines.extend(
+            format_candidate_row(row, args, side="sell")
+            for row in candidate_sells
+        )
+    else:
+        lines.append("Sell / avoid candidates: none.")
 
     # Keep the report compact for LLMs; full details are available in JSON rows.
 
@@ -1922,11 +2746,25 @@ def build_market_report(
         "top_sells": top_sell_symbols,
         "policy_watch_buys": [str(row_value(row, "Symbol", default="")) for row in watch_buys if row_value(row, "Symbol", default="")],
         "policy_watch_sells": [str(row_value(row, "Symbol", default="")) for row in watch_sells if row_value(row, "Symbol", default="")],
+        "unqualified_candidate_buys": [
+            str(row_value(row, "Symbol", default=""))
+            for row in candidate_buys
+            if row_value(row, "Symbol", default="")
+        ],
+        "unqualified_candidate_sells": [
+            str(row_value(row, "Symbol", default=""))
+            for row in candidate_sells
+            if row_value(row, "Symbol", default="")
+        ],
         "signal_summary": {
             "model_confirmed_buys": len(model_buys),
             "model_confirmed_sells": len(model_sells),
+            "model_qualified_buys": len(model_buys),
+            "model_qualified_sells": len(model_sells),
             "policy_watch_buys": len(watch_buys),
             "policy_watch_sells": len(watch_sells),
+            "unqualified_candidate_buys": len(candidate_buys),
+            "unqualified_candidate_sells": len(candidate_sells),
             "reliability_counts": reliability_counts,
             "tier_counts": tier_counts,
         },
@@ -1990,10 +2828,12 @@ def append_prediction_records(
         symbol = str(row_value(row, "Symbol", default="")).strip().upper()
         snapshot = snapshots_by_symbol.get(symbol)
         raw_symbol = str((snapshot or {}).get("symbol", "")).strip().upper()
-        if not symbol or snapshot is None or raw_symbol.endswith("-USD"):
-            if raw_symbol.endswith("-USD"):
-                skipped.append(f"{symbol}: exchange-specific maturity not configured")
+        if not symbol or snapshot is None or not raw_symbol:
             continue
+        session_calendar = session_calendar_for_symbol(raw_symbol)
+        is_crypto = session_calendar == UTC_DAILY_24_7_SESSION_CALENDAR
+        ledger_symbol = raw_symbol if is_crypto else symbol
+        benchmark_symbol = "BTC-USD" if is_crypto else "SPY"
         as_of_value = snapshot.get("as_of_session") or row_value(
             row,
             "As Of Session",
@@ -2009,6 +2849,10 @@ def append_prediction_records(
         except ValueError:
             skipped.append(f"{symbol}: invalid as-of or target session")
             continue
+        target_maturity = session_close_utc(
+            target_session,
+            session_calendar,
+        )
 
         selected_model = str(
             row_value(row, "Selected Model", default="")
@@ -2016,22 +2860,60 @@ def append_prediction_records(
         model_payload = (snapshot.get("models") or {}).get(selected_model) or {}
         metrics = model_payload.get("metrics") or {}
         data_cutoff_value = snapshot.get("data_cutoff_utc")
+        if not data_cutoff_value:
+            skipped.append(f"{symbol}: missing snapshot data_cutoff_utc")
+            continue
         try:
-            data_cutoff = (
-                dt.datetime.fromisoformat(
-                    str(data_cutoff_value).replace("Z", "+00:00")
-                )
-                if data_cutoff_value
-                else created_at
+            data_cutoff = dt.datetime.fromisoformat(
+                str(data_cutoff_value).replace("Z", "+00:00")
             )
-            if data_cutoff.tzinfo is None:
-                data_cutoff = data_cutoff.replace(tzinfo=dt.timezone.utc)
-            data_cutoff = min(data_cutoff, created_at)
-        except ValueError:
-            data_cutoff = created_at
+            if data_cutoff.tzinfo is None or data_cutoff.utcoffset() is None:
+                raise ValueError("timestamp must include a timezone")
+            data_cutoff = data_cutoff.astimezone(dt.timezone.utc)
+        except (TypeError, ValueError):
+            skipped.append(f"{symbol}: malformed snapshot data_cutoff_utc")
+            continue
+        if data_cutoff > created_at:
+            skipped.append(
+                f"{symbol}: snapshot data_cutoff_utc is after created_at_utc"
+            )
+            continue
+        if is_crypto:
+            data_cutoff = session_close_utc(
+                as_of_session,
+                session_calendar,
+            )
+        publication_lag_seconds = max(
+            (created_at - data_cutoff).total_seconds(),
+            0.0,
+        )
+        strict_close_t_eligible = (
+            not is_crypto
+            or publication_lag_seconds
+            <= UTC_DAILY_STRICT_CLOSE_T_MAX_LAG_SECONDS
+        )
+        publication_timing_class = (
+            "prospective_equity"
+            if not is_crypto
+            else (
+                "strict_close_t"
+                if strict_close_t_eligible
+                else "delayed_research_only"
+            )
+        )
+        timing_metadata = {
+            "publication_lag_seconds": publication_lag_seconds,
+            "strict_close_t_eligible": strict_close_t_eligible,
+            "publication_timing_class": publication_timing_class,
+            "strict_close_t_max_lag_seconds": (
+                UTC_DAILY_STRICT_CLOSE_T_MAX_LAG_SECONDS
+                if is_crypto
+                else None
+            ),
+        }
 
         identity = (
-            f"{symbol}|{as_of_session.isoformat()}|{int(horizon_days)}|"
+            f"{ledger_symbol}|{as_of_session.isoformat()}|{int(horizon_days)}|"
             f"{policy_version}"
         )
         prediction_id = "pred-" + hashlib.sha256(
@@ -2065,7 +2947,9 @@ def append_prediction_records(
                 data_cutoff_utc=data_cutoff,
                 as_of_session=as_of_session,
                 target_session=target_session,
-                symbol=symbol,
+                target_maturity_utc=target_maturity,
+                session_calendar=session_calendar,
+                symbol=ledger_symbol,
                 horizon_sessions=int(horizon_days),
                 model_name=selected_model,
                 model_version=(
@@ -2086,6 +2970,7 @@ def append_prediction_records(
                     / 100.0,
                     0.0,
                 ),
+                benchmark_symbol=benchmark_symbol,
                 probability_positive=float(
                     row_value(
                         row,
@@ -2097,9 +2982,17 @@ def append_prediction_records(
                 / 100.0,
                 lower_bound_return=forecast_return - expected_error,
                 upper_bound_return=forecast_return + expected_error,
-                feature_set_version="ohlcv-market-context-earnings-v2",
+                feature_set_version=(
+                    "ohlcv-market-context-training-postprocessor-v3"
+                ),
                 feature_hash=feature_hash,
                 metadata={
+                    "asset_class": "crypto" if is_crypto else "security",
+                    "display_symbol": symbol,
+                    **timing_metadata,
+                    "postprocessor_version": str(
+                        metrics.get("postprocessor_version", "")
+                    ).strip(),
                     "reliability": row_value(
                         row,
                         "Reliability",
@@ -2128,6 +3021,154 @@ def append_prediction_records(
             candidate_records.append(record)
         except (TypeError, ValueError, RuntimeError) as exc:
             skipped.append(f"{symbol}: {exc}")
+
+        # Persist every available non-RL component as a zero-allocation shadow
+        # forecast.  The selected ensemble alone cannot tell us prospectively
+        # whether Ridge, XGBoost, MLP, LSTM, or Transformer added real skill.
+        # These immutable component records let later promotion use matured
+        # point-in-time outcomes instead of repeatedly reusing report holdouts.
+        component_policy_version = "component-shadow-v1"
+        for component_name, component_payload in (
+            snapshot.get("models") or {}
+        ).items():
+            if component_name == "RL Policy":
+                continue
+            component_metrics = component_payload.get("metrics") or {}
+            component_forecast = component_payload.get("forecast") or []
+            if not component_forecast and component_name != selected_model:
+                continue
+            try:
+                component_target = (
+                    dt.date.fromisoformat(
+                        str(component_forecast[-1]["date"])[:10]
+                    )
+                    if component_forecast
+                    else target_session
+                )
+                if component_target != target_session:
+                    raise ValueError(
+                        "component target session does not match selected horizon"
+                    )
+                component_return = float(
+                    component_metrics.get(
+                        "forecast_change_pct",
+                        forecast_return * 100.0
+                        if component_name == selected_model
+                        else None,
+                    )
+                ) / 100.0
+                component_probability = float(
+                    component_metrics.get(
+                        "probability_up_pct",
+                        (
+                            float(
+                                row_value(
+                                    row,
+                                    "Probability Up %",
+                                    default=50.0,
+                                )
+                                or 50.0
+                            )
+                            if component_name == selected_model
+                            else 50.0
+                        ),
+                    )
+                ) / 100.0
+                component_error = abs(
+                    float(
+                        component_metrics.get(
+                            "expected_error_pct",
+                            expected_error * 100.0
+                            if component_name == selected_model
+                            else 0.0,
+                        )
+                    )
+                ) / 100.0
+                if not all(
+                    np.isfinite(value)
+                    for value in (
+                        component_return,
+                        component_probability,
+                        component_error,
+                    )
+                ):
+                    raise ValueError("component forecast metrics are not finite")
+            except (KeyError, TypeError, ValueError) as exc:
+                skipped.append(f"{symbol} {component_name} shadow: {exc}")
+                continue
+
+            component_identity = (
+                f"{ledger_symbol}|{as_of_session.isoformat()}|"
+                f"{int(horizon_days)}|{component_policy_version}|"
+                f"{component_name}"
+            )
+            component_feature_hash = hashlib.sha256(
+                json.dumps(
+                    {
+                        "as_of_session": as_of_session.isoformat(),
+                        "horizon_days": int(horizon_days),
+                        "model_name": component_name,
+                        "metrics": component_metrics,
+                    },
+                    sort_keys=True,
+                    default=_json_default,
+                ).encode("utf-8")
+            ).hexdigest()
+            collect_ledger_candidate(
+                f"{symbol} {component_name} shadow",
+                lambda component_name=component_name,
+                component_return=component_return,
+                component_probability=component_probability,
+                component_error=component_error,
+                component_feature_hash=component_feature_hash: PredictionRecord(
+                    prediction_id="pred-"
+                    + hashlib.sha256(
+                        component_identity.encode("utf-8")
+                    ).hexdigest()[:24],
+                    created_at_utc=created_at,
+                    data_cutoff_utc=data_cutoff,
+                    as_of_session=as_of_session,
+                    target_session=target_session,
+                    target_maturity_utc=target_maturity,
+                    session_calendar=session_calendar,
+                    symbol=ledger_symbol,
+                    horizon_sessions=int(horizon_days),
+                    model_name=component_name,
+                    model_version=(
+                        f"{component_name.lower().replace(' ', '-')}-"
+                        f"cache-v{MODEL_RESULT_CACHE_VERSION}"
+                    ),
+                    policy_version=component_policy_version,
+                    forecast_return=component_return,
+                    target_weight=0.0,
+                    benchmark_symbol=benchmark_symbol,
+                    probability_positive=component_probability,
+                    lower_bound_return=component_return - component_error,
+                    upper_bound_return=component_return + component_error,
+                    feature_set_version="ohlcv-market-context-v3",
+                    feature_hash=component_feature_hash,
+                    metadata={
+                        "asset_class": (
+                            "crypto" if is_crypto else "security"
+                        ),
+                        "display_symbol": symbol,
+                        **timing_metadata,
+                        "record_role": "component_shadow_forecast",
+                        "live_eligible": component_metrics.get(
+                            "live_eligible",
+                            True,
+                        ),
+                        "selected_model_at_decision": selected_model,
+                        "postprocessor_version": str(
+                            component_metrics.get(
+                                "postprocessor_version",
+                                "",
+                            )
+                            or ""
+                        ).strip(),
+                    },
+                ),
+            )
 
         rl_payload = (snapshot.get("models") or {}).get("RL Policy") or {}
         rl_metrics = rl_payload.get("metrics") or {}
@@ -2177,7 +3218,7 @@ def append_prediction_records(
                 )
                 continue
             rl_identity = (
-                f"{symbol}|{as_of_session.isoformat()}|"
+                f"{ledger_symbol}|{as_of_session.isoformat()}|"
                 f"{rl_execution_horizon}|"
                 f"{rl_policy_version}"
             )
@@ -2232,7 +3273,7 @@ def append_prediction_records(
                     prediction_id="pred-"
                     + hashlib.sha256(
                         (
-                            f"{symbol}|{as_of_session.isoformat()}|"
+                            f"{ledger_symbol}|{as_of_session.isoformat()}|"
                             f"{context_horizon}|{rl_policy_version}|"
                             "forecast-context"
                         ).encode("utf-8")
@@ -2241,7 +3282,9 @@ def append_prediction_records(
                     data_cutoff_utc=data_cutoff,
                     as_of_session=as_of_session,
                     target_session=target_session,
-                    symbol=symbol,
+                    target_maturity_utc=target_maturity,
+                    session_calendar=session_calendar,
+                    symbol=ledger_symbol,
                     horizon_sessions=context_horizon,
                     model_name="RL Forecast Context",
                     model_version=str(
@@ -2253,6 +3296,7 @@ def append_prediction_records(
                     policy_version=rl_policy_version,
                     forecast_return=context_return,
                     target_weight=0.0,
+                    benchmark_symbol=benchmark_symbol,
                     probability_positive=context_probability,
                     lower_bound_return=context_lower_bound,
                     upper_bound_return=(
@@ -2262,6 +3306,17 @@ def append_prediction_records(
                     feature_set_version=rl_feature_set_version,
                     feature_hash=rl_feature_hash,
                     metadata={
+                        "asset_class": (
+                            "crypto" if is_crypto else "security"
+                        ),
+                        "display_symbol": symbol,
+                        **timing_metadata,
+                        "postprocessor_version": str(
+                            rl_metrics.get(
+                                "forecast_context_postprocessor_version",
+                                rl_metrics.get("postprocessor_version", ""),
+                            )
+                        ).strip(),
                         "shadow_mode": True,
                         "live_eligible": False,
                         "record_role": "calibrated_forecast_context",
@@ -2294,7 +3349,12 @@ def append_prediction_records(
                     as_of_session=as_of_session,
                     return_start_session=rl_execution_start,
                     target_session=rl_execution_target,
-                    symbol=symbol,
+                    target_maturity_utc=session_close_utc(
+                        rl_execution_target,
+                        session_calendar,
+                    ),
+                    session_calendar=session_calendar,
+                    symbol=ledger_symbol,
                     horizon_sessions=rl_execution_horizon,
                     model_name="RL Policy",
                     model_version=rl_model_version,
@@ -2310,10 +3370,19 @@ def append_prediction_records(
                         ),
                         0.0,
                     ),
+                    benchmark_symbol=benchmark_symbol,
                     probability_positive=None,
                     feature_set_version=rl_feature_set_version,
                     feature_hash=rl_feature_hash,
                     metadata={
+                        "asset_class": (
+                            "crypto" if is_crypto else "security"
+                        ),
+                        "display_symbol": symbol,
+                        **timing_metadata,
+                        "postprocessor_version": str(
+                            rl_metrics.get("postprocessor_version", "")
+                        ).strip(),
                         "shadow_mode": True,
                         "live_eligible": False,
                         "action": rl_metrics.get("rl_action", "hold"),
@@ -2423,11 +3492,11 @@ def prediction_ledger_summary(ledger: PredictionLedger) -> dict:
     predictions = ledger.predictions()
     outcomes = {item.prediction_id: item for item in ledger.outcomes()}
     groups: dict[
-        tuple[str, int, str],
+        tuple[str, int, int, str, str, str, str, str, str, bool],
         list[ForecastObservation],
     ] = {}
     path_outcomes: dict[
-        tuple[str, int, str],
+        tuple[str, int, int, str, str, str, str, str, str, bool],
         list[OutcomeRecord],
     ] = {}
     for prediction in predictions:
@@ -2435,14 +3504,29 @@ def prediction_ledger_summary(ledger: PredictionLedger) -> dict:
         if outcome is None:
             continue
         policy_version = prediction.policy_version or prediction.model_version
-        groups.setdefault(
-            (
-                policy_version,
+        context_horizon = int(
+            prediction.metadata.get(
+                "forecast_context_horizon_sessions",
                 prediction.horizon_sessions,
-                prediction.model_name,
-            ),
-            [],
-        ).append(
+            )
+        )
+        postprocessor_version = str(
+            prediction.metadata.get("postprocessor_version", "")
+        ).strip()
+        strict_timing = prediction_strict_close_t_eligible(prediction)
+        cohort_key = (
+            policy_version,
+            prediction.horizon_sessions,
+            context_horizon,
+            prediction.model_name,
+            prediction.session_calendar,
+            prediction.benchmark_symbol,
+            prediction.model_version,
+            prediction.feature_set_version or "",
+            postprocessor_version,
+            strict_timing,
+        )
+        groups.setdefault(cohort_key, []).append(
             ForecastObservation(
                 prediction_id=prediction.prediction_id,
                 as_of_session=prediction.as_of_session,
@@ -2455,44 +3539,62 @@ def prediction_ledger_summary(ledger: PredictionLedger) -> dict:
                 probability_positive=prediction.probability_positive,
                 lower_bound_return=prediction.lower_bound_return,
                 upper_bound_return=prediction.upper_bound_return,
+                session_calendar=prediction.session_calendar,
+                benchmark_symbol=prediction.benchmark_symbol,
+                model_version=prediction.model_version,
+                feature_set_version=prediction.feature_set_version or "",
+                postprocessor_version=postprocessor_version,
+                strict_close_t_eligible=strict_timing,
             )
         )
-        path_outcomes.setdefault(
-            (
-                policy_version,
-                prediction.horizon_sessions,
-                prediction.model_name,
-            ),
-            [],
-        ).append(outcome)
+        path_outcomes.setdefault(cohort_key, []).append(outcome)
 
     metrics = []
     shadow_sessions_by_policy: dict[
-        tuple[str, int, int],
+        tuple[str, int, int, str, str, str, str, str, bool],
         set[dt.date],
-    ] = {
-        (
-            prediction.policy_version or "",
-            int(
-                prediction.metadata.get(
-                    "forecast_context_horizon_sessions",
-                    prediction.horizon_sessions,
-                )
-            ),
-            prediction.horizon_sessions,
-        ): set()
-        for prediction in predictions
-        if (
-            (prediction.policy_version or "").startswith(
-                "rl-shadow"
-            )
+    ] = {}
+    for prediction in predictions:
+        if not (
+            (prediction.policy_version or "").startswith("rl-shadow")
             and prediction.model_name == "RL Policy"
+        ):
+            continue
+        shadow_sessions_by_policy.setdefault(
+            (
+                prediction.policy_version or "",
+                int(
+                    prediction.metadata.get(
+                        "forecast_context_horizon_sessions",
+                        prediction.horizon_sessions,
+                    )
+                ),
+                prediction.horizon_sessions,
+                prediction.session_calendar,
+                prediction.benchmark_symbol,
+                prediction.model_version,
+                prediction.feature_set_version or "",
+                str(
+                    prediction.metadata.get(
+                        "postprocessor_version",
+                        "",
+                    )
+                ).strip(),
+                prediction_strict_close_t_eligible(prediction),
+            ),
+            set(),
         )
-    }
     for (
         policy_version,
         horizon,
+        context_horizon,
         model_name,
+        session_calendar,
+        benchmark_symbol,
+        model_version,
+        feature_set_version,
+        postprocessor_version,
+        strict_timing,
     ), observations in sorted(groups.items()):
         evaluated = evaluate_forecasts(
             observations,
@@ -2502,31 +3604,35 @@ def prediction_ledger_summary(ledger: PredictionLedger) -> dict:
             policy_version.startswith("rl-shadow")
             and model_name == "RL Policy"
         ):
-            context_horizon = int(
-                next(
-                    (
-                        prediction.metadata.get(
-                            "forecast_context_horizon_sessions",
-                            horizon,
-                        )
-                        for prediction in predictions
-                        if (
-                            prediction.policy_version == policy_version
-                            and prediction.horizon_sessions == horizon
-                            and prediction.model_name == model_name
-                        )
-                    ),
-                    horizon,
-                )
-            )
             shadow_sessions_by_policy.setdefault(
-                (policy_version, context_horizon, horizon),
+                (
+                    policy_version,
+                    context_horizon,
+                    horizon,
+                    session_calendar,
+                    benchmark_symbol,
+                    model_version,
+                    feature_set_version,
+                    postprocessor_version,
+                    strict_timing,
+                ),
                 set(),
             ).update(
                 item.as_of_session for item in observations
             )
         realized_paths = path_outcomes[
-            (policy_version, horizon, model_name)
+            (
+                policy_version,
+                horizon,
+                context_horizon,
+                model_name,
+                session_calendar,
+                benchmark_symbol,
+                model_version,
+                feature_set_version,
+                postprocessor_version,
+                strict_timing,
+            )
         ]
         adverse_excursions = np.asarray(
             [
@@ -2554,6 +3660,22 @@ def prediction_ledger_summary(ledger: PredictionLedger) -> dict:
             {
                 "policy_version": policy_version,
                 "model_name": model_name,
+                "model_version": model_version,
+                "feature_set_version": feature_set_version,
+                "postprocessor_version": postprocessor_version,
+                "session_calendar": session_calendar,
+                "benchmark_symbol": benchmark_symbol,
+                "strict_close_t_eligible": strict_timing,
+                "publication_timing_class": (
+                    "prospective_equity"
+                    if session_calendar == US_EQUITY_SESSION_CALENDAR
+                    else (
+                        "strict_close_t"
+                        if strict_timing
+                        else "delayed_research_only"
+                    )
+                ),
+                "promotion_evidence_eligible": strict_timing,
                 "horizon_days": horizon,
                 "forecast_context_horizon_days": (
                     context_horizon
@@ -2618,14 +3740,37 @@ def prediction_ledger_summary(ledger: PredictionLedger) -> dict:
                 context_horizon
             ),
             "execution_horizon_days": int(execution_horizon),
+            "session_calendar": session_calendar,
+            "benchmark_symbol": benchmark_symbol,
+            "model_version": model_version,
+            "feature_set_version": feature_set_version,
+            "postprocessor_version": postprocessor_version,
+            "strict_close_t_eligible": strict_timing,
+            "publication_timing_class": (
+                "prospective_equity"
+                if session_calendar == US_EQUITY_SESSION_CALENDAR
+                else (
+                    "strict_close_t"
+                    if strict_timing
+                    else "delayed_research_only"
+                )
+            ),
             "shadow_sessions": len(sessions),
             "minimum_shadow_sessions": 60,
-            "eligible_for_gate_evaluation": len(sessions) >= 60,
+            "eligible_for_gate_evaluation": (
+                strict_timing and len(sessions) >= 60
+            ),
         }
         for (
             policy_version,
             context_horizon,
             execution_horizon,
+            session_calendar,
+            benchmark_symbol,
+            model_version,
+            feature_set_version,
+            postprocessor_version,
+            strict_timing,
         ), sessions in sorted(shadow_sessions_by_policy.items())
     ]
     return {
@@ -2640,13 +3785,119 @@ def prediction_ledger_summary(ledger: PredictionLedger) -> dict:
                 "Each horizon is promoted independently and requires matched "
                 "purged folds, the strongest "
                 "registered non-RL baseline, exact doubled-cost replay, "
-                "drawdown/CVaR checks, and calibrated probabilities."
+                "drawdown/CVaR checks, calibrated probabilities, and a "
+                "strict publication-timing cohort."
             ),
         },
     }
 
 
-def write_outputs(
+def _require_publication_time(
+    deadline_monotonic: float | None,
+    phase: str,
+) -> None:
+    if runtime_deadline_reached(deadline_monotonic):
+        raise TimeoutError(
+            "runtime publication deadline reached "
+            f"{phase}; no report or ledger mutation was committed"
+        )
+
+
+@contextlib.contextmanager
+def publication_output_lock(
+    output_dir: Path,
+    *,
+    timeout_seconds: float = DEFAULT_PUBLICATION_LOCK_TIMEOUT_SECONDS,
+    deadline_monotonic: float | None = None,
+):
+    """Serialize report/ledger publication with a bounded advisory lock.
+
+    This uses the same ``fcntl.flock`` semantics as ``PredictionLedger``. The
+    acquisition is non-blocking with bounded polling so a crashed publisher
+    cannot turn lock contention into an unbounded workflow deadlock.
+    """
+
+    try:
+        timeout = float(timeout_seconds)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(
+            "publication lock timeout must be finite and nonnegative"
+        ) from exc
+    if not np.isfinite(timeout) or timeout < 0.0:
+        raise ValueError(
+            "publication lock timeout must be finite and nonnegative"
+        )
+
+    output_path = Path(output_dir)
+    output_path.mkdir(parents=True, exist_ok=True)
+    lock_path = output_path / PUBLICATION_LOCK_FILENAME
+    lock_handle = lock_path.open("a+", encoding="utf-8")
+    try:
+        try:
+            import fcntl
+        except ImportError:  # pragma: no cover - matches ledger fallback
+            logging.warning(
+                "fcntl unavailable; publication lock is advisory-only no-op"
+            )
+            yield
+            return
+
+        lock_started_at = time.perf_counter()
+        while True:
+            try:
+                fcntl.flock(
+                    lock_handle.fileno(),
+                    fcntl.LOCK_EX | fcntl.LOCK_NB,
+                )
+                break
+            except OSError as exc:
+                if exc.errno not in (errno.EACCES, errno.EAGAIN):
+                    raise
+                if runtime_deadline_reached(deadline_monotonic):
+                    raise TimeoutError(
+                        "runtime publication deadline reached while waiting "
+                        f"for {lock_path.name}"
+                    ) from exc
+                waited = time.perf_counter() - lock_started_at
+                if waited >= timeout:
+                    raise TimeoutError(
+                        "timed out waiting for publication lock "
+                        f"{lock_path} after {timeout:.3f} seconds"
+                    ) from exc
+                time.sleep(
+                    min(
+                        PUBLICATION_LOCK_POLL_SECONDS,
+                        max(timeout - waited, 0.0),
+                    )
+                )
+        try:
+            yield
+        finally:
+            fcntl.flock(lock_handle.fileno(), fcntl.LOCK_UN)
+    finally:
+        lock_handle.close()
+
+
+def _require_complete_publication_inputs(
+    args: argparse.Namespace,
+    timings: dict,
+    short_horizon_reports: list[dict] | None,
+) -> None:
+    if timings.get("run_complete") is not True:
+        raise RuntimeError(
+            "publication inputs are missing literal run_complete=true"
+        )
+    if not short_horizon_reports_are_complete(
+        args,
+        short_horizon_reports or [],
+    ):
+        raise RuntimeError(
+            "publication inputs do not contain every requested complete "
+            "short-horizon run"
+        )
+
+
+def _write_outputs_to_staging(
     rows: list[dict],
     errors: list[str],
     telegram_text: str,
@@ -2654,7 +3905,18 @@ def write_outputs(
     snapshots: list[dict],
     timings: dict,
     short_horizon_reports: list[dict] | None = None,
+    *,
+    deadline_monotonic: float | None = None,
 ) -> dict:
+    _require_complete_publication_inputs(
+        args,
+        timings,
+        short_horizon_reports,
+    )
+    _require_publication_time(
+        deadline_monotonic,
+        "before staging output or ledger changes",
+    )
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     timestamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ")
@@ -2676,12 +3938,29 @@ def write_outputs(
 
     report = build_market_report(rows, errors, args, timings if args.show_timing else None, short_horizon_reports)
     ledger_path = output_dir / "prediction_ledger.jsonl"
-    maturity_result = append_matured_outcomes(
-        PredictionLedger(ledger_path),
-        price_loader=lambda symbol: get_ohlcv(
+
+    def deadline_checked_price_loader(symbol: str) -> pd.DataFrame:
+        _require_publication_time(
+            deadline_monotonic,
+            f"before loading outcome prices for {symbol}",
+        )
+        frame = get_ohlcv(
             symbol,
             max(int(args.history_days), 365),
-        ),
+        )
+        _require_publication_time(
+            deadline_monotonic,
+            f"after loading outcome prices for {symbol}",
+        )
+        return frame
+
+    maturity_result = append_matured_outcomes(
+        PredictionLedger(ledger_path),
+        price_loader=deadline_checked_price_loader,
+    )
+    _require_publication_time(
+        deadline_monotonic,
+        "after outcome maturity evaluation",
     )
     ledger_runs = [
         append_prediction_records(
@@ -2692,6 +3971,10 @@ def write_outputs(
         )
     ]
     for short_report in short_horizon_reports or []:
+        _require_publication_time(
+            deadline_monotonic,
+            "before staging a short-horizon ledger batch",
+        )
         ledger_runs.append(
             append_prediction_records(
                 output_dir=output_dir,
@@ -2700,10 +3983,27 @@ def write_outputs(
                 horizon_days=int(short_report.get("horizon_days", 1) or 1),
             )
         )
+    _require_publication_time(
+        deadline_monotonic,
+        "before staging the ledger summary",
+    )
     ledger_summary = prediction_ledger_summary(PredictionLedger(ledger_path))
+    workflow_started_at = getattr(
+        args,
+        "workflow_started_at_monotonic",
+        None,
+    )
+    if isinstance(workflow_started_at, (int, float)) and np.isfinite(
+        workflow_started_at
+    ):
+        timings["workflow_elapsed_seconds"] = round(
+            max(time.perf_counter() - float(workflow_started_at), 0.0),
+            3,
+        )
 
     payload = {
         "generated_at": timestamp,
+        "run_complete": timings.get("run_complete") is True,
         "horizon_days": args.horizon,
         "universe": MARKET_UNIVERSE,
         "universe_count": len(symbols),
@@ -2744,10 +4044,32 @@ def write_outputs(
         "model_selection": {
             "run_profile": str(getattr(args, "run_profile", "custom") or "custom"),
             "profile": "adaptive_sequence" if sequence_model == "adaptive" else "standard",
+            "champion_rule": (
+                "pre_registered_fixed_ensemble_order"
+                if primary_model_from_args(args) == "Best Validation"
+                else "explicit_model_request"
+            ),
             "requested_sequence_model": sequence_model,
             "adaptive_sequence_symbols": timings.get("adaptive_sequence_symbols", []),
-            "adaptive_sequence_min_wins": int(getattr(args, "adaptive_sequence_min_wins", 5) or 5),
-            "adaptive_sequence_min_share": float(getattr(args, "adaptive_sequence_min_share", 0.20) or 0.20),
+            "adaptive_sequence_models": timings.get("adaptive_sequence_models", {}),
+            "adaptive_sequence_min_wins": int(getattr(args, "adaptive_sequence_min_wins", 2) or 2),
+            "adaptive_sequence_min_share": float(getattr(args, "adaptive_sequence_min_share", 0.50) or 0.50),
+            "adaptive_sequence_min_nonoverlap": int(
+                getattr(
+                    args,
+                    "adaptive_sequence_min_nonoverlap",
+                    DEFAULT_ADAPTIVE_MIN_NONOVERLAPPING_SAMPLES,
+                )
+                or DEFAULT_ADAPTIVE_MIN_NONOVERLAPPING_SAMPLES
+            ),
+            "adaptive_sequence_exploration_quota": int(
+                getattr(args, "adaptive_sequence_exploration_quota", 0)
+                or 0
+            ),
+            "market_context_history_coverage": timings.get(
+                "market_context_history_coverage",
+                {},
+            ),
         },
         "symbols": symbols,
         "cache_key": build_cache_key(
@@ -2780,6 +4102,12 @@ def write_outputs(
         "top_sells": report["top_sells"],
         "policy_watch_buys": report["policy_watch_buys"],
         "policy_watch_sells": report["policy_watch_sells"],
+        "unqualified_candidate_buys": report[
+            "unqualified_candidate_buys"
+        ],
+        "unqualified_candidate_sells": report[
+            "unqualified_candidate_sells"
+        ],
         "signal_summary": report["signal_summary"],
     }
 
@@ -2792,6 +4120,10 @@ def write_outputs(
     latest_txt_path = output_dir / "ml_forecast_rankings_latest.txt"
 
     json_payload = json_dumps_strict(payload, indent=2)
+    _require_publication_time(
+        deadline_monotonic,
+        "before staging serialized report artifacts",
+    )
     write_text_atomic(json_path, json_payload)
     write_text_atomic(latest_json_path, json_payload)
     write_text_atomic(cache_path, json_payload)
@@ -2817,6 +4149,11 @@ def write_outputs(
         ),
     )
 
+    _require_publication_time(
+        deadline_monotonic,
+        "after staging all report artifacts",
+    )
+
     return {
         "json": str(json_path),
         "txt": str(txt_path),
@@ -2824,6 +4161,170 @@ def write_outputs(
         "latest_txt": str(latest_txt_path),
         "cache": str(cache_path),
     }
+
+
+def _copy_file_atomic(source: Path, destination: Path) -> None:
+    """Copy one staged file into place without exposing a partial file."""
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path = destination.with_name(
+        f".{destination.name}.{os.getpid()}.{time.time_ns()}.tmp"
+    )
+    try:
+        shutil.copyfile(source, temporary_path)
+        temporary_path.replace(destination)
+    finally:
+        temporary_path.unlink(missing_ok=True)
+
+
+def _write_outputs_with_lock_held(
+    rows: list[dict],
+    errors: list[str],
+    telegram_text: str,
+    args: argparse.Namespace,
+    snapshots: list[dict],
+    timings: dict,
+    short_horizon_reports: list[dict] | None = None,
+    *,
+    deadline_monotonic: float | None = None,
+) -> dict:
+    """Stage a complete publication, then commit it as one rollback unit."""
+
+    _require_complete_publication_inputs(
+        args,
+        timings,
+        short_horizon_reports,
+    )
+    _require_publication_time(
+        deadline_monotonic,
+        "before starting the publication transaction",
+    )
+    destination_dir = Path(args.output_dir)
+    with tempfile.TemporaryDirectory(
+        prefix="market-agent-publication-",
+    ) as temporary_directory:
+        transaction_root = Path(temporary_directory)
+        staging_dir = transaction_root / "staged"
+        backup_dir = transaction_root / "backup"
+        staging_dir.mkdir(parents=True)
+
+        destination_ledger = destination_dir / "prediction_ledger.jsonl"
+        if destination_ledger.exists():
+            staged_ledger = staging_dir / "prediction_ledger.jsonl"
+            staged_ledger.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(destination_ledger, staged_ledger)
+
+        staging_args = argparse.Namespace(**vars(args))
+        staging_args.output_dir = str(staging_dir)
+        staged_paths = _write_outputs_to_staging(
+            rows,
+            errors,
+            telegram_text,
+            staging_args,
+            snapshots,
+            timings,
+            short_horizon_reports,
+            deadline_monotonic=deadline_monotonic,
+        )
+        _require_publication_time(
+            deadline_monotonic,
+            "before committing the publication transaction",
+        )
+
+        staged_files = [
+            path
+            for path in staging_dir.rglob("*")
+            if path.is_file()
+        ]
+        staged_files.sort(
+            key=lambda path: (
+                "latest" in path.name,
+                path.relative_to(staging_dir).as_posix(),
+            )
+        )
+        existing_destinations: set[Path] = set()
+        committed_destinations: list[Path] = []
+
+        try:
+            for staged_file in staged_files:
+                relative_path = staged_file.relative_to(staging_dir)
+                destination = destination_dir / relative_path
+                if destination.exists():
+                    existing_destinations.add(relative_path)
+                    backup_path = backup_dir / relative_path
+                    backup_path.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copyfile(destination, backup_path)
+                _copy_file_atomic(staged_file, destination)
+                committed_destinations.append(relative_path)
+
+            if runtime_deadline_reached(deadline_monotonic):
+                raise TimeoutError(
+                    "runtime publication deadline elapsed while committing "
+                    "the publication transaction"
+                )
+        except BaseException:
+            for relative_path in reversed(committed_destinations):
+                destination = destination_dir / relative_path
+                if relative_path in existing_destinations:
+                    _copy_file_atomic(
+                        backup_dir / relative_path,
+                        destination,
+                    )
+                else:
+                    destination.unlink(missing_ok=True)
+            raise
+
+        return {
+            key: str(
+                destination_dir
+                / Path(staged_path).relative_to(staging_dir)
+            )
+            for key, staged_path in staged_paths.items()
+        }
+
+
+def write_outputs(
+    rows: list[dict],
+    errors: list[str],
+    telegram_text: str,
+    args: argparse.Namespace,
+    snapshots: list[dict],
+    timings: dict,
+    short_horizon_reports: list[dict] | None = None,
+    *,
+    deadline_monotonic: float | None = None,
+) -> dict:
+    """Publish while holding one output-directory transaction lock."""
+
+    _require_complete_publication_inputs(
+        args,
+        timings,
+        short_horizon_reports,
+    )
+    _require_publication_time(
+        deadline_monotonic,
+        "before acquiring the publication lock",
+    )
+    lock_timeout = getattr(
+        args,
+        "publication_lock_timeout_seconds",
+        DEFAULT_PUBLICATION_LOCK_TIMEOUT_SECONDS,
+    )
+    with publication_output_lock(
+        Path(args.output_dir),
+        timeout_seconds=lock_timeout,
+        deadline_monotonic=deadline_monotonic,
+    ):
+        return _write_outputs_with_lock_held(
+            rows,
+            errors,
+            telegram_text,
+            args,
+            snapshots,
+            timings,
+            short_horizon_reports,
+            deadline_monotonic=deadline_monotonic,
+        )
 
 
 def _json_default(value):
@@ -2881,16 +4382,33 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Generate daily ML forecast rankings for Telegram/n8n.")
     parser.add_argument(
         "--run-profile",
-        choices=["quick", "scheduled", "quality", "research", "custom"],
+        choices=[
+            "quick",
+            "scheduled",
+            "overnight",
+            "quality",
+            "research",
+            "custom",
+        ],
         default=os.getenv("MARKET_AGENT_RUN_PROFILE", "quality"),
         help=(
             "quick = fast on-demand forecast; scheduled = bounded daily publication; "
+            "overnight = one optimized 30-session adaptive pass with a "
+            "210-minute ranking cutoff and 240-minute publication deadline; "
             "quality = optimized adaptive comparison; research = all deep models; "
             "custom = honor raw flags only."
         ),
     )
     parser.add_argument("--symbols", default=",".join(DEFAULT_SYMBOLS))
-    parser.add_argument("--history-days", type=int, default=913)
+    parser.add_argument(
+        "--history-days",
+        type=int,
+        default=913,
+        help=(
+            "Calendar-day OHLCV lookback. A shared cache may retain more "
+            "history, but the model receives this deterministic window."
+        ),
+    )
     parser.add_argument("--horizon", type=int, default=30)
     parser.add_argument("--short-horizons", default="", help="Optional comma-separated extra horizons, such as 1.")
     parser.add_argument(
@@ -2917,7 +4435,10 @@ def build_parser() -> argparse.ArgumentParser:
         ],
         default="Best Validation",
         help=(
-            "Forecast model preference. RL Policy is accepted for workflow "
+            "Forecast model preference. Best Validation is a compatibility "
+            "alias for the pre-registered fixed ensemble champion; it does not "
+            "reuse the current outer holdout to choose a winner. RL Policy is "
+            "accepted for workflow "
             "compatibility but is always mapped to Best Validation; RL remains "
             "shadow-only."
         ),
@@ -2941,14 +4462,40 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--adaptive-sequence-min-wins",
         type=int,
-        default=5,
+        default=2,
         help="Minimum prior validation wins required before adaptive mode trains sequence models for a symbol.",
     )
     parser.add_argument(
         "--adaptive-sequence-min-share",
         type=float,
-        default=0.20,
+        default=0.50,
         help="Minimum share of prior validation wins required before adaptive mode trains sequence models for a symbol.",
+    )
+    parser.add_argument(
+        "--adaptive-sequence-min-nonoverlap",
+        type=int,
+        default=DEFAULT_ADAPTIVE_MIN_NONOVERLAPPING_SAMPLES,
+        help=(
+            "Minimum nonoverlapping outer-holdout samples required for both "
+            "a sequence candidate and its conventional comparator."
+        ),
+    )
+    parser.add_argument(
+        "--adaptive-sequence-exploration-quota",
+        type=int,
+        default=0,
+        help=(
+            "Research-only sequence families to rotate across otherwise "
+            "unselected symbols. Overnight defaults to two; use zero to disable."
+        ),
+    )
+    parser.add_argument(
+        "--adaptive-sequence-exploration-seed",
+        default="",
+        help=(
+            "Optional deterministic exploration seed. The current UTC date is "
+            "used when omitted."
+        ),
     )
     parser.add_argument(
         "--include-rl-policy",
@@ -3015,6 +4562,29 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument("--no-optimize", action="store_true")
+    parser.add_argument(
+        "--runtime-budget-minutes",
+        type=float,
+        default=0.0,
+        help=(
+            "Absolute end-to-end publication deadline shared by the main horizon, "
+            "optional short horizons, and finalization. A partial run is marked "
+            "incomplete and rejected by the n8n publication guard. The overnight "
+            "default is 240 minutes: ranking stops at 210 minutes to reserve "
+            "30 minutes for finalization, leaving another 30 minutes before "
+            "the external 4.5-hour ceiling. Smaller explicit budgets reserve "
+            "12.5% (capped at 30 minutes). Use 0 to disable the guard."
+        ),
+    )
+    parser.add_argument(
+        "--publication-lock-timeout-seconds",
+        type=float,
+        default=DEFAULT_PUBLICATION_LOCK_TIMEOUT_SECONDS,
+        help=(
+            "Maximum wait for another publisher using the same output "
+            "directory. Lock timeout fails closed without staging or commit."
+        ),
+    )
     parser.add_argument("--force-retrain", action="store_true")
     parser.add_argument("--model-cache-max-age-days", type=float, default=7.0)
     parser.add_argument(
@@ -3033,29 +4603,134 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> int:
+    workflow_started_at = time.perf_counter()
     raw_args = sys.argv[1:]
     args = apply_run_profile(build_parser().parse_args(raw_args), raw_args)
-    rows, errors, snapshots, timings = run_rankings(args)
-    short_horizon_reports = run_short_horizon_reports(args)
+    args.workflow_started_at_monotonic = workflow_started_at
+    deadline_monotonic = runtime_deadline_from_args(args, workflow_started_at)
+    ranking_deadline_monotonic = (
+        ranking_deadline_from_publication_deadline(
+            deadline_monotonic,
+            workflow_started_at,
+        )
+    )
+    rows, errors, snapshots, timings = run_rankings(
+        args,
+        deadline_monotonic=deadline_monotonic,
+        ranking_deadline_monotonic=ranking_deadline_monotonic,
+    )
+    run_complete = timings.get("run_complete") is True
+    short_horizon_reports = (
+        run_short_horizon_reports(
+            args,
+            deadline_monotonic=deadline_monotonic,
+            ranking_deadline_monotonic=ranking_deadline_monotonic,
+        )
+        if run_complete
+        else []
+    )
+    short_runs_complete = short_horizon_reports_are_complete(
+        args,
+        short_horizon_reports,
+    )
+    if run_complete and not short_runs_complete:
+        run_complete = False
+        timings["runtime_budget_exceeded"] = any(
+            bool(
+                (short_report.get("timings") or {}).get(
+                    "runtime_budget_exceeded",
+                    False,
+                )
+            )
+            for short_report in short_horizon_reports
+        )
+        timings["run_complete"] = False
+        for short_report in short_horizon_reports:
+            if (
+                (short_report.get("timings") or {}).get("run_complete")
+                is not True
+            ):
+                horizon = short_report.get("horizon_days", "unknown")
+                errors.extend(
+                    f"short horizon {horizon}: {message}"
+                    for message in short_report.get("errors") or []
+                )
+    if run_complete and runtime_deadline_reached(deadline_monotonic):
+        run_complete = False
+        timings["runtime_budget_exceeded"] = True
+        timings["run_complete"] = False
+        append_runtime_incomplete_error(errors, "before publication finalization")
+    timings["workflow_elapsed_seconds"] = round(
+        time.perf_counter() - workflow_started_at,
+        3,
+    )
+    timings["short_horizon_runs_complete"] = short_runs_complete
+    report_timings = (
+        timings if args.show_timing or not run_complete else None
+    )
     telegram_text = build_telegram_text(
         rows,
         errors,
         args,
-        timings if args.show_timing else None,
+        report_timings,
         short_horizon_reports,
     )
-    paths = write_outputs(rows, errors, telegram_text, args, snapshots, timings, short_horizon_reports)
+    paths: dict[str, str] = {}
+    if run_complete:
+        try:
+            paths = write_outputs(
+                rows,
+                errors,
+                telegram_text,
+                args,
+                snapshots,
+                timings,
+                short_horizon_reports,
+                deadline_monotonic=deadline_monotonic,
+            )
+        except TimeoutError as exc:
+            run_complete = False
+            timings["runtime_budget_exceeded"] = True
+            timings["run_complete"] = False
+            errors.append(str(exc))
+            paths = {}
 
-    if args.send_telegram:
+    if not run_complete:
+        report_timings = timings
+        telegram_text = build_telegram_text(
+            rows,
+            errors,
+            args,
+            report_timings,
+            short_horizon_reports,
+        )
+
+    timings["workflow_elapsed_seconds"] = round(
+        time.perf_counter() - workflow_started_at,
+        3,
+    )
+
+    if (
+        args.send_telegram
+        and run_complete
+        and not runtime_deadline_reached(deadline_monotonic)
+    ):
         send_telegram(telegram_text)
 
     if args.json_only:
-        report_summary = build_market_report(rows, errors, args, timings if args.show_timing else None, short_horizon_reports)
+        report_summary = build_market_report(
+            rows,
+            errors,
+            args,
+            report_timings,
+            short_horizon_reports,
+        )
         configured_symbols = parse_symbols(args.symbols)
         output_payload = {
             "generated_at": dt.datetime.now(dt.timezone.utc).strftime(
                 "%Y-%m-%dT%H-%M-%SZ"
             ),
+            "run_complete": run_complete,
             "horizon_days": int(args.horizon),
             "universe": MARKET_UNIVERSE,
             "universe_count": len(configured_symbols),
@@ -3077,14 +4752,42 @@ def main() -> int:
             "top_sells": report_summary["top_sells"],
             "policy_watch_buys": report_summary["policy_watch_buys"],
             "policy_watch_sells": report_summary["policy_watch_sells"],
+            "unqualified_candidate_buys": report_summary[
+                "unqualified_candidate_buys"
+            ],
+            "unqualified_candidate_sells": report_summary[
+                "unqualified_candidate_sells"
+            ],
             "signal_summary": report_summary["signal_summary"],
             "signal_threshold": signal_threshold_metadata(args),
             "model_selection": {
                 "run_profile": str(getattr(args, "run_profile", "custom") or "custom"),
                 "requested_sequence_model": sequence_model_from_args(args),
+                "champion_rule": (
+                    "pre_registered_fixed_ensemble_order"
+                    if primary_model_from_args(args) == "Best Validation"
+                    else "explicit_model_request"
+                ),
                 "adaptive_sequence_symbols": timings.get("adaptive_sequence_symbols", []),
-                "adaptive_sequence_min_wins": int(getattr(args, "adaptive_sequence_min_wins", 5) or 5),
-                "adaptive_sequence_min_share": float(getattr(args, "adaptive_sequence_min_share", 0.20) or 0.20),
+                "adaptive_sequence_models": timings.get("adaptive_sequence_models", {}),
+                "adaptive_sequence_min_wins": int(getattr(args, "adaptive_sequence_min_wins", 2) or 2),
+                "adaptive_sequence_min_share": float(getattr(args, "adaptive_sequence_min_share", 0.50) or 0.50),
+                "adaptive_sequence_min_nonoverlap": int(
+                    getattr(
+                        args,
+                        "adaptive_sequence_min_nonoverlap",
+                        DEFAULT_ADAPTIVE_MIN_NONOVERLAPPING_SAMPLES,
+                    )
+                    or DEFAULT_ADAPTIVE_MIN_NONOVERLAPPING_SAMPLES
+                ),
+                "adaptive_sequence_exploration_quota": int(
+                    getattr(args, "adaptive_sequence_exploration_quota", 0)
+                    or 0
+                ),
+                "market_context_history_coverage": timings.get(
+                    "market_context_history_coverage",
+                    {},
+                ),
             },
             "smart_policy": {
                 "enabled": True,
@@ -3098,7 +4801,7 @@ def main() -> int:
     else:
         print(telegram_text)
 
-    return 0
+    return 0 if run_complete else 2
 
 
 if __name__ == "__main__":

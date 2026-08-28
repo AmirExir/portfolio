@@ -25,9 +25,13 @@ class SmartPolicyConfig:
     trade_cost_bps: float = 5.0
     confidence_bound_scale: float = 1.0
     min_validation_samples: int = 8
+    min_nonoverlapping_validation_samples: int = 8
     min_direction_accuracy_pct: float = 50.0
+    min_direction_skill_pct: float = 0.0
     max_calibration_error_pct: float = 20.0
     max_brier_score: float = 0.30
+    min_mae_skill_score: float = 0.0
+    min_brier_skill_score: float = 0.0
     min_model_agreement: int = 2
     require_oos_validation: bool = True
     minimum_earnings_confidence: float = 0.25
@@ -604,9 +608,21 @@ def _allocation_eligibility(
     model_edge = max(confidence - 50.0, 0.0)
     holdout_mae = _safe_float(metrics.get("holdout_mae_pct"), np.nan)
     validation_samples = int(max(_safe_float(metrics.get("holdout_samples"), 0.0), 0.0))
+    nonoverlapping_samples = int(
+        max(
+            _safe_float(
+                metrics.get("holdout_nonoverlapping_samples"),
+                0.0,
+            ),
+            0.0,
+        )
+    )
     direction_accuracy = _safe_float(metrics.get("holdout_direction_accuracy"), np.nan)
+    direction_skill_pct = _safe_float(metrics.get("direction_skill_pct"), np.nan)
     calibration_error = _safe_float(metrics.get("calibration_error_pct"), np.nan)
     brier_score = _safe_float(metrics.get("brier_score"), np.nan)
+    mae_skill_score = _safe_float(metrics.get("mae_skill_score"), np.nan)
+    brier_skill_score = _safe_float(metrics.get("brier_skill_score"), np.nan)
     earnings_flag = bool(
         metrics.get("earnings_event_flag", metrics.get("event_flag", False))
     )
@@ -640,12 +656,32 @@ def _allocation_eligibility(
         blockers.append("missing_oos_validation")
     if validation_samples < config.min_validation_samples:
         blockers.append("insufficient_validation_samples")
+    if (
+        nonoverlapping_samples
+        < config.min_nonoverlapping_validation_samples
+    ):
+        blockers.append("insufficient_nonoverlapping_validation_samples")
     if not np.isfinite(direction_accuracy) or direction_accuracy < config.min_direction_accuracy_pct:
         blockers.append("weak_direction_calibration")
+    if (
+        not np.isfinite(direction_skill_pct)
+        or direction_skill_pct <= config.min_direction_skill_pct
+    ):
+        blockers.append("no_direction_skill_over_training_baseline")
     if not np.isfinite(calibration_error) or calibration_error > config.max_calibration_error_pct:
         blockers.append("poor_probability_calibration")
     if not np.isfinite(brier_score) or brier_score > config.max_brier_score:
         blockers.append("poor_brier_score")
+    if (
+        not np.isfinite(mae_skill_score)
+        or mae_skill_score <= config.min_mae_skill_score
+    ):
+        blockers.append("no_mae_skill_over_zero_return")
+    if (
+        not np.isfinite(brier_skill_score)
+        or brier_skill_score <= config.min_brier_skill_score
+    ):
+        blockers.append("no_brier_skill_over_training_base_rate")
     if (
         earnings_flag
         and earnings_confidence >= config.minimum_earnings_confidence
@@ -667,6 +703,20 @@ def _allocation_eligibility(
         "agreeing_models": int(agreeing_models),
         "eligible_models": int(eligible_models),
         "validation_samples": int(validation_samples),
+        "nonoverlapping_validation_samples": int(nonoverlapping_samples),
+        "mae_skill_score": (
+            float(mae_skill_score) if np.isfinite(mae_skill_score) else np.nan
+        ),
+        "direction_skill_pct": (
+            float(direction_skill_pct)
+            if np.isfinite(direction_skill_pct)
+            else np.nan
+        ),
+        "brier_skill_score": (
+            float(brier_skill_score)
+            if np.isfinite(brier_skill_score)
+            else np.nan
+        ),
         "calibration_error_pct": float(calibration_error) if np.isfinite(calibration_error) else np.nan,
         "brier_score": float(brier_score) if np.isfinite(brier_score) else np.nan,
     }
@@ -696,16 +746,44 @@ def _model_agreement(
             continue
         if int(_safe_float(model_metrics.get("holdout_samples"), 0.0)) < config.min_validation_samples:
             continue
+        if (
+            int(
+                _safe_float(
+                    model_metrics.get("holdout_nonoverlapping_samples"),
+                    0.0,
+                )
+            )
+            < config.min_nonoverlapping_validation_samples
+        ):
+            continue
         model_calibration = _safe_float(
             model_metrics.get("calibration_error_pct"),
             np.nan,
         )
         model_brier = _safe_float(model_metrics.get("brier_score"), np.nan)
+        model_mae_skill = _safe_float(
+            model_metrics.get("mae_skill_score"),
+            np.nan,
+        )
+        model_direction_skill = _safe_float(
+            model_metrics.get("direction_skill_pct"),
+            np.nan,
+        )
+        model_brier_skill = _safe_float(
+            model_metrics.get("brier_skill_score"),
+            np.nan,
+        )
         if (
             not np.isfinite(model_calibration)
             or model_calibration > config.max_calibration_error_pct
             or not np.isfinite(model_brier)
             or model_brier > config.max_brier_score
+            or not np.isfinite(model_mae_skill)
+            or model_mae_skill <= config.min_mae_skill_score
+            or not np.isfinite(model_direction_skill)
+            or model_direction_skill <= config.min_direction_skill_pct
+            or not np.isfinite(model_brier_skill)
+            or model_brier_skill <= config.min_brier_skill_score
         ):
             continue
         if model_metrics.get("horizon_days") is None:

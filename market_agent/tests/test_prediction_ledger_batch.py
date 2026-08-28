@@ -11,6 +11,7 @@ from market_agent.agent.ledger import (
     OutcomeRecord,
     PredictionLedger,
     PredictionRecord,
+    UTC_DAILY_24_7_SESSION_CALENDAR,
     UnknownPredictionError,
 )
 
@@ -147,6 +148,86 @@ class PredictionLedgerBatchTests(unittest.TestCase):
 
         with self.assertRaises(DuplicateLedgerRecordError):
             self.ledger.append_prediction(record)
+
+    def test_utc_daily_prediction_uses_calendar_days_and_midnight_maturity(
+        self,
+    ) -> None:
+        prediction = PredictionRecord(
+            prediction_id="pred-btc-weekend",
+            created_at_utc=datetime(2026, 1, 3, 9, tzinfo=UTC),
+            data_cutoff_utc=datetime(2026, 1, 3, 0, tzinfo=UTC),
+            as_of_session=date(2026, 1, 2),
+            target_session=date(2026, 1, 4),
+            symbol="BTC-USD",
+            horizon_sessions=2,
+            model_name="Ensemble",
+            model_version="ensemble-v1",
+            forecast_return=0.05,
+            target_weight=0.0,
+            session_calendar=UTC_DAILY_24_7_SESSION_CALENDAR,
+            benchmark_symbol="BTC-USD",
+        )
+
+        self.ledger.append_prediction(prediction)
+        stored = self.ledger.predictions()[0]
+
+        self.assertEqual(
+            stored.session_calendar,
+            UTC_DAILY_24_7_SESSION_CALENDAR,
+        )
+        self.assertEqual(
+            stored.target_maturity_utc,
+            datetime(2026, 1, 5, 0, tzinfo=UTC),
+        )
+
+    def test_utc_daily_prediction_rejects_non_calendar_day_target(self) -> None:
+        with self.assertRaisesRegex(
+            ValueError,
+            "expected 2026-01-04",
+        ):
+            PredictionRecord(
+                prediction_id="pred-btc-wrong-target",
+                created_at_utc=datetime(2026, 1, 3, 9, tzinfo=UTC),
+                data_cutoff_utc=datetime(2026, 1, 3, 0, tzinfo=UTC),
+                as_of_session=date(2026, 1, 2),
+                target_session=date(2026, 1, 5),
+                symbol="BTC-USD",
+                horizon_sessions=2,
+                model_name="Ensemble",
+                model_version="ensemble-v1",
+                forecast_return=0.05,
+                target_weight=0.0,
+                session_calendar=UTC_DAILY_24_7_SESSION_CALENDAR,
+            )
+
+    def test_utc_daily_publication_deadline_is_strictly_before_close(
+        self,
+    ) -> None:
+        with self.assertRaisesRegex(ValueError, "at or after"):
+            PredictionRecord(
+                prediction_id="pred-btc-at-deadline",
+                created_at_utc=datetime(2026, 1, 4, 0, tzinfo=UTC),
+                data_cutoff_utc=datetime(2026, 1, 3, 0, tzinfo=UTC),
+                as_of_session=date(2026, 1, 2),
+                target_session=date(2026, 1, 4),
+                symbol="BTC-USD",
+                horizon_sessions=2,
+                model_name="Ensemble",
+                model_version="ensemble-v1",
+                forecast_return=0.05,
+                target_weight=0.0,
+                session_calendar=UTC_DAILY_24_7_SESSION_CALENDAR,
+            )
+
+    def test_schema_two_prediction_without_calendar_defaults_to_equity(
+        self,
+    ) -> None:
+        payload = _prediction("pred-legacy", "SNDK").to_dict()
+        payload.pop("session_calendar")
+
+        parsed = PredictionRecord.from_dict(payload)
+
+        self.assertEqual(parsed.session_calendar, "us_equity")
 
     def test_appends_unique_outcome_batch_with_one_verification_and_fsync(
         self,

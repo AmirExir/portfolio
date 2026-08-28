@@ -31,6 +31,9 @@ from .ledger import (
     OutcomeRecord,
     PredictionLedger,
     PredictionRecord,
+    SUPPORTED_SESSION_CALENDARS,
+    US_EQUITY_SESSION_CALENDAR,
+    prediction_strict_close_t_eligible,
 )
 
 
@@ -48,6 +51,10 @@ class DataLeakageError(EvaluationError):
 
 class MixedHorizonError(EvaluationError):
     """Raised when records from different forecast horizons are combined."""
+
+
+class MixedForecastCohortError(EvaluationError):
+    """Raised when incomparable forecast provenance cohorts are pooled."""
 
 
 def _as_date(value: date | datetime | str, field_name: str) -> date:
@@ -77,6 +84,39 @@ def _positive_integer(value: Any, field_name: str) -> int:
     if converted <= 0:
         raise ValueError(f"{field_name} must be positive.")
     return converted
+
+
+def _optional_exact_filter(
+    value: str | None,
+    field_name: str,
+    *,
+    case: str | None = None,
+) -> str | None:
+    """Normalize one optional exact-match provenance filter."""
+
+    if value is None:
+        return None
+    normalized = str(value).strip()
+    if not normalized:
+        raise ValueError(f"{field_name} must not be empty when provided.")
+    if case == "lower":
+        return normalized.lower()
+    if case == "upper":
+        return normalized.upper()
+    return normalized
+
+
+def _optional_session_calendar_filter(
+    value: str | None,
+    field_name: str,
+) -> str | None:
+    """Normalize and validate an optional supported session calendar."""
+
+    normalized = _optional_exact_filter(value, field_name, case="lower")
+    if normalized is not None and normalized not in SUPPORTED_SESSION_CALENDARS:
+        supported = ", ".join(sorted(SUPPORTED_SESSION_CALENDARS))
+        raise ValueError(f"{field_name} must be one of: {supported}.")
+    return normalized
 
 
 @dataclass(frozen=True)
@@ -535,6 +575,12 @@ class ForecastObservation:
     probability_positive: float | None = None
     lower_bound_return: float | None = None
     upper_bound_return: float | None = None
+    session_calendar: str = US_EQUITY_SESSION_CALENDAR
+    benchmark_symbol: str = "SPY"
+    model_version: str = ""
+    feature_set_version: str = ""
+    postprocessor_version: str = ""
+    strict_close_t_eligible: bool = True
 
     def __post_init__(self) -> None:
         object.__setattr__(
@@ -585,6 +631,36 @@ class ForecastObservation:
             raise ValueError(
                 "lower_bound_return cannot exceed upper_bound_return."
             )
+        session_calendar = str(self.session_calendar).strip().lower()
+        if not session_calendar:
+            raise ValueError("session_calendar must not be empty.")
+        if session_calendar not in SUPPORTED_SESSION_CALENDARS:
+            supported = ", ".join(sorted(SUPPORTED_SESSION_CALENDARS))
+            raise ValueError(
+                f"session_calendar must be one of: {supported}."
+            )
+        object.__setattr__(self, "session_calendar", session_calendar)
+        benchmark_symbol = str(self.benchmark_symbol).strip().upper()
+        if not benchmark_symbol:
+            raise ValueError("benchmark_symbol must not be empty.")
+        object.__setattr__(self, "benchmark_symbol", benchmark_symbol)
+        object.__setattr__(
+            self,
+            "model_version",
+            str(self.model_version).strip(),
+        )
+        object.__setattr__(
+            self,
+            "feature_set_version",
+            str(self.feature_set_version).strip(),
+        )
+        object.__setattr__(
+            self,
+            "postprocessor_version",
+            str(self.postprocessor_version).strip(),
+        )
+        if not isinstance(self.strict_close_t_eligible, bool):
+            raise ValueError("strict_close_t_eligible must be a boolean.")
 
 
 @dataclass(frozen=True)
@@ -612,12 +688,20 @@ def forecast_observations_from_ledger(
     horizon_sessions: int,
     candidate_model_name: str,
     candidate_policy_version: str,
+    session_calendar: str | None = None,
+    benchmark_symbol: str | None = None,
+    model_version: str | None = None,
+    feature_set_version: str | None = None,
+    postprocessor_version: str | None = None,
+    strict_close_t_eligible: bool | None = True,
 ) -> tuple[ForecastObservation, ...]:
     """Return one candidate's matured observations from a verified ledger.
 
-    Model name and policy version are exact filters.  In particular, a missing
-    ``policy_version`` never falls back to ``model_version`` for promotion
-    evidence.
+    Model name and policy version are exact filters. Optional provenance
+    filters are exact too. Any omitted provenance dimension must be homogeneous
+    in the resulting cohort or evaluation fails closed. Delayed close-t records
+    remain queryable by passing ``strict_close_t_eligible=False``, but are
+    excluded from promotion-oriented queries by default.
     """
 
     entries = ledger.read_entries()
@@ -627,6 +711,12 @@ def forecast_observations_from_ledger(
         horizon_sessions=horizon_sessions,
         candidate_model_name=candidate_model_name,
         candidate_policy_version=candidate_policy_version,
+        session_calendar=session_calendar,
+        benchmark_symbol=benchmark_symbol,
+        model_version=model_version,
+        feature_set_version=feature_set_version,
+        postprocessor_version=postprocessor_version,
+        strict_close_t_eligible=strict_close_t_eligible,
     )
 
 
@@ -637,6 +727,12 @@ def _forecast_observations_from_entries(
     horizon_sessions: int,
     candidate_model_name: str,
     candidate_policy_version: str,
+    session_calendar: str | None = None,
+    benchmark_symbol: str | None = None,
+    model_version: str | None = None,
+    feature_set_version: str | None = None,
+    postprocessor_version: str | None = None,
+    strict_close_t_eligible: bool | None = True,
 ) -> tuple[ForecastObservation, ...]:
     horizon = _positive_integer(horizon_sessions, "horizon_sessions")
     model_name = str(candidate_model_name).strip()
@@ -645,6 +741,34 @@ def _forecast_observations_from_entries(
         raise ValueError("candidate_model_name must not be empty.")
     if not policy_version:
         raise ValueError("candidate_policy_version must not be empty.")
+    calendar_filter = _optional_session_calendar_filter(
+        session_calendar,
+        "session_calendar",
+    )
+    benchmark_filter = _optional_exact_filter(
+        benchmark_symbol,
+        "benchmark_symbol",
+        case="upper",
+    )
+    model_version_filter = _optional_exact_filter(
+        model_version,
+        "model_version",
+    )
+    feature_set_filter = _optional_exact_filter(
+        feature_set_version,
+        "feature_set_version",
+    )
+    postprocessor_filter = _optional_exact_filter(
+        postprocessor_version,
+        "postprocessor_version",
+    )
+    if (
+        strict_close_t_eligible is not None
+        and not isinstance(strict_close_t_eligible, bool)
+    ):
+        raise ValueError(
+            "strict_close_t_eligible must be a boolean or None."
+        )
 
     predictions: dict[str, PredictionRecord] = {}
     outcomes: dict[str, OutcomeRecord] = {}
@@ -664,12 +788,95 @@ def _forecast_observations_from_entries(
             continue
         if prediction.target_session > as_of_session:
             continue
+        prediction_postprocessor = str(
+            prediction.metadata.get("postprocessor_version", "")
+        ).strip()
+        prediction_strict_timing = (
+            prediction_strict_close_t_eligible(prediction)
+        )
+        if (
+            calendar_filter is not None
+            and prediction.session_calendar != calendar_filter
+        ):
+            continue
+        if (
+            benchmark_filter is not None
+            and prediction.benchmark_symbol != benchmark_filter
+        ):
+            continue
+        if (
+            model_version_filter is not None
+            and prediction.model_version != model_version_filter
+        ):
+            continue
+        if (
+            feature_set_filter is not None
+            and (prediction.feature_set_version or "")
+            != feature_set_filter
+        ):
+            continue
+        if (
+            postprocessor_filter is not None
+            and prediction_postprocessor != postprocessor_filter
+        ):
+            continue
+        if (
+            strict_close_t_eligible is not None
+            and prediction_strict_timing != strict_close_t_eligible
+        ):
+            continue
         outcome = outcomes.get(prediction.prediction_id)
         if outcome is None:
             continue
         completed.append(
             CompletedPrediction(prediction=prediction, outcome=outcome)
         )
+
+    unfiltered_dimensions = {
+        "session_calendar": (
+            calendar_filter,
+            {item.prediction.session_calendar for item in completed},
+        ),
+        "benchmark_symbol": (
+            benchmark_filter,
+            {item.prediction.benchmark_symbol for item in completed},
+        ),
+        "model_version": (
+            model_version_filter,
+            {item.prediction.model_version for item in completed},
+        ),
+        "feature_set_version": (
+            feature_set_filter,
+            {
+                item.prediction.feature_set_version or ""
+                for item in completed
+            },
+        ),
+        "postprocessor_version": (
+            postprocessor_filter,
+            {
+                str(
+                    item.prediction.metadata.get(
+                        "postprocessor_version",
+                        "",
+                    )
+                ).strip()
+                for item in completed
+            },
+        ),
+        "strict_close_t_eligible": (
+            strict_close_t_eligible,
+            {
+                prediction_strict_close_t_eligible(item.prediction)
+                for item in completed
+            },
+        ),
+    }
+    for dimension, (exact_filter, values) in unfiltered_dimensions.items():
+        if exact_filter is None and len(values) > 1:
+            raise ValueError(
+                f"Mixed {dimension} cohort; provide an exact {dimension} filter."
+            )
 
     completed.sort(
         key=lambda item: (
@@ -698,6 +905,16 @@ def _observation_from_completed(
         probability_positive=prediction.probability_positive,
         lower_bound_return=prediction.lower_bound_return,
         upper_bound_return=prediction.upper_bound_return,
+        session_calendar=prediction.session_calendar,
+        benchmark_symbol=prediction.benchmark_symbol,
+        model_version=prediction.model_version,
+        feature_set_version=prediction.feature_set_version or "",
+        postprocessor_version=str(
+            prediction.metadata.get("postprocessor_version", "")
+        ).strip(),
+        strict_close_t_eligible=prediction_strict_close_t_eligible(
+            prediction
+        ),
     )
 
 
@@ -722,6 +939,26 @@ def evaluate_forecasts(
             "Forecast metrics require one horizon; found "
             f"{sorted(horizons)} instead of {horizon_sessions}."
         )
+    provenance_dimensions = {
+        "session_calendar": {item.session_calendar for item in observations},
+        "benchmark_symbol": {item.benchmark_symbol for item in observations},
+        "model_version": {item.model_version for item in observations},
+        "feature_set_version": {
+            item.feature_set_version for item in observations
+        },
+        "postprocessor_version": {
+            item.postprocessor_version for item in observations
+        },
+        "strict_close_t_eligible": {
+            item.strict_close_t_eligible for item in observations
+        },
+    }
+    for dimension, values in provenance_dimensions.items():
+        if len(values) > 1:
+            raise MixedForecastCohortError(
+                f"Forecast metrics require one {dimension} cohort; "
+                f"found {len(values)}."
+            )
 
     predicted = np.asarray(
         [item.predicted_return for item in observations],
@@ -733,7 +970,7 @@ def evaluate_forecasts(
     )
     errors = predicted - realized
     direction_accuracy = float(
-        np.mean(np.sign(predicted) == np.sign(realized))
+        np.mean((predicted > 0.0) == (realized > 0.0))
     )
 
     rank_ic: float | None
@@ -1395,6 +1632,12 @@ class PromotionEvidence:
     candidate_model_name: str
     forecast_as_of_session: date
     ledger_head_hash: str
+    candidate_session_calendar: str | None = None
+    candidate_benchmark_symbol: str | None = None
+    candidate_model_version: str | None = None
+    candidate_feature_set_version: str | None = None
+    candidate_postprocessor_version: str | None = None
+    candidate_strict_close_t_eligible: bool | None = True
 
     def __post_init__(self) -> None:
         if isinstance(self.shadow_sessions, bool) or not isinstance(
@@ -1423,6 +1666,57 @@ class PromotionEvidence:
             "candidate_model_name",
             str(self.candidate_model_name).strip(),
         )
+        object.__setattr__(
+            self,
+            "candidate_session_calendar",
+            _optional_session_calendar_filter(
+                self.candidate_session_calendar,
+                "candidate_session_calendar",
+            ),
+        )
+        object.__setattr__(
+            self,
+            "candidate_benchmark_symbol",
+            _optional_exact_filter(
+                self.candidate_benchmark_symbol,
+                "candidate_benchmark_symbol",
+                case="upper",
+            ),
+        )
+        object.__setattr__(
+            self,
+            "candidate_model_version",
+            _optional_exact_filter(
+                self.candidate_model_version,
+                "candidate_model_version",
+            ),
+        )
+        object.__setattr__(
+            self,
+            "candidate_feature_set_version",
+            _optional_exact_filter(
+                self.candidate_feature_set_version,
+                "candidate_feature_set_version",
+            ),
+        )
+        object.__setattr__(
+            self,
+            "candidate_postprocessor_version",
+            _optional_exact_filter(
+                self.candidate_postprocessor_version,
+                "candidate_postprocessor_version",
+            ),
+        )
+        if (
+            self.candidate_strict_close_t_eligible is not None
+            and not isinstance(
+                self.candidate_strict_close_t_eligible,
+                bool,
+            )
+        ):
+            raise ValueError(
+                "candidate_strict_close_t_eligible must be a boolean or None."
+            )
         object.__setattr__(
             self,
             "forecast_as_of_session",
@@ -1642,6 +1936,18 @@ class PromotionEvidence:
             candidate_model_name=self.candidate_model_name,
             forecast_as_of_session=self.forecast_as_of_session,
             ledger_head_hash=ledger_head_hash,
+            candidate_session_calendar=self.candidate_session_calendar,
+            candidate_benchmark_symbol=self.candidate_benchmark_symbol,
+            candidate_model_version=self.candidate_model_version,
+            candidate_feature_set_version=(
+                self.candidate_feature_set_version
+            ),
+            candidate_postprocessor_version=(
+                self.candidate_postprocessor_version
+            ),
+            candidate_strict_close_t_eligible=(
+                self.candidate_strict_close_t_eligible
+            ),
         )
         if self.evaluation_id != expected_evaluation_id:
             raise ValueError(
@@ -1665,6 +1971,12 @@ def build_ledger_backed_promotion_evidence(
     baseline_name: str,
     baseline_candidates: Mapping[str, PolicyPerformance],
     baseline_candidate_versions: Mapping[str, str],
+    candidate_session_calendar: str | None = None,
+    candidate_benchmark_symbol: str | None = None,
+    candidate_model_version: str | None = None,
+    candidate_feature_set_version: str | None = None,
+    candidate_postprocessor_version: str | None = None,
+    candidate_strict_close_t_eligible: bool | None = True,
 ) -> PromotionEvidence:
     """Build promotion evidence from one verified ledger snapshot.
 
@@ -1686,6 +1998,12 @@ def build_ledger_backed_promotion_evidence(
         horizon_sessions=horizon_sessions,
         candidate_model_name=candidate_model_name,
         candidate_policy_version=candidate_policy_version,
+        session_calendar=candidate_session_calendar,
+        benchmark_symbol=candidate_benchmark_symbol,
+        model_version=candidate_model_version,
+        feature_set_version=candidate_feature_set_version,
+        postprocessor_version=candidate_postprocessor_version,
+        strict_close_t_eligible=candidate_strict_close_t_eligible,
     )
     if not observations:
         raise ValueError(
@@ -1720,6 +2038,14 @@ def build_ledger_backed_promotion_evidence(
         candidate_model_name=candidate_model_name,
         forecast_as_of_session=cutoff,
         ledger_head_hash=ledger_head_hash,
+        candidate_session_calendar=candidate_session_calendar,
+        candidate_benchmark_symbol=candidate_benchmark_symbol,
+        candidate_model_version=candidate_model_version,
+        candidate_feature_set_version=candidate_feature_set_version,
+        candidate_postprocessor_version=candidate_postprocessor_version,
+        candidate_strict_close_t_eligible=(
+            candidate_strict_close_t_eligible
+        ),
     )
     return PromotionEvidence(
         shadow_sessions=candidate.session_count,
@@ -1740,6 +2066,14 @@ def build_ledger_backed_promotion_evidence(
         candidate_forecast_prediction_ids=prediction_ids,
         forecast_as_of_session=cutoff,
         ledger_head_hash=ledger_head_hash,
+        candidate_session_calendar=candidate_session_calendar,
+        candidate_benchmark_symbol=candidate_benchmark_symbol,
+        candidate_model_version=candidate_model_version,
+        candidate_feature_set_version=candidate_feature_set_version,
+        candidate_postprocessor_version=candidate_postprocessor_version,
+        candidate_strict_close_t_eligible=(
+            candidate_strict_close_t_eligible
+        ),
     )
 
 
@@ -1817,6 +2151,18 @@ def evaluate_promotion_gates(
         candidate_model_name=evidence.candidate_model_name,
         forecast_as_of_session=evidence.forecast_as_of_session,
         ledger_head_hash=evidence.ledger_head_hash,
+        candidate_session_calendar=evidence.candidate_session_calendar,
+        candidate_benchmark_symbol=evidence.candidate_benchmark_symbol,
+        candidate_model_version=evidence.candidate_model_version,
+        candidate_feature_set_version=(
+            evidence.candidate_feature_set_version
+        ),
+        candidate_postprocessor_version=(
+            evidence.candidate_postprocessor_version
+        ),
+        candidate_strict_close_t_eligible=(
+            evidence.candidate_strict_close_t_eligible
+        ),
     )
     ledger_provenance_matches = _ledger_provenance_matches(
         evidence,
@@ -2019,6 +2365,16 @@ def _ledger_provenance_matches(
             horizon_sessions=evidence.horizon_sessions,
             candidate_model_name=evidence.candidate_model_name,
             candidate_policy_version=evidence.candidate_policy_version,
+            session_calendar=evidence.candidate_session_calendar,
+            benchmark_symbol=evidence.candidate_benchmark_symbol,
+            model_version=evidence.candidate_model_version,
+            feature_set_version=evidence.candidate_feature_set_version,
+            postprocessor_version=(
+                evidence.candidate_postprocessor_version
+            ),
+            strict_close_t_eligible=(
+                evidence.candidate_strict_close_t_eligible
+            ),
         )
         _require_matching_forecast_sessions(
             observations,
@@ -2070,8 +2426,21 @@ def promotion_evaluation_id(
     candidate_model_name: str,
     forecast_as_of_session: date | datetime | str,
     ledger_head_hash: str,
+    candidate_session_calendar: str | None = None,
+    candidate_benchmark_symbol: str | None = None,
+    candidate_model_version: str | None = None,
+    candidate_feature_set_version: str | None = None,
+    candidate_postprocessor_version: str | None = None,
+    candidate_strict_close_t_eligible: bool | None = True,
 ) -> str:
     """Hash the complete immutable evidence path into an evaluation identity."""
+    if (
+        candidate_strict_close_t_eligible is not None
+        and not isinstance(candidate_strict_close_t_eligible, bool)
+    ):
+        raise ValueError(
+            "candidate_strict_close_t_eligible must be a boolean or None."
+        )
     payload = {
         "horizon_sessions": int(horizon_sessions),
         "candidate_policy_version": str(candidate_policy_version),
@@ -2124,6 +2493,40 @@ def promotion_evaluation_id(
         ).isoformat(),
         "ledger_head_hash": str(ledger_head_hash),
     }
+    optional_provenance = {
+        "candidate_session_calendar": _optional_session_calendar_filter(
+            candidate_session_calendar,
+            "candidate_session_calendar",
+        ),
+        "candidate_benchmark_symbol": _optional_exact_filter(
+            candidate_benchmark_symbol,
+            "candidate_benchmark_symbol",
+            case="upper",
+        ),
+        "candidate_model_version": _optional_exact_filter(
+            candidate_model_version,
+            "candidate_model_version",
+        ),
+        "candidate_feature_set_version": _optional_exact_filter(
+            candidate_feature_set_version,
+            "candidate_feature_set_version",
+        ),
+        "candidate_postprocessor_version": _optional_exact_filter(
+            candidate_postprocessor_version,
+            "candidate_postprocessor_version",
+        ),
+    }
+    payload.update(
+        {
+            field_name: value
+            for field_name, value in optional_provenance.items()
+            if value is not None
+        }
+    )
+    if candidate_strict_close_t_eligible is not True:
+        payload["candidate_strict_close_t_eligible"] = (
+            candidate_strict_close_t_eligible
+        )
     raw = json.dumps(
         payload,
         sort_keys=True,

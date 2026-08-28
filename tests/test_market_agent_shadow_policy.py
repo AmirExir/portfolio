@@ -16,9 +16,19 @@ from market_agent.agent.forecast import (
     _ensemble_result,
     reinforcement_policy_forecast,
 )
-from market_agent.agent.policy import _rl_component, smart_policy_decision
+from market_agent.agent.policy import (
+    SmartPolicyConfig,
+    _model_agreement,
+    _rl_component,
+    smart_policy_decision,
+)
 from market_agent.agent.shadow_policy import ShadowDecision
-from market_agent.forecast_cache import build_cache_key, select_model_name
+from market_agent.forecast_cache import (
+    build_cache_key,
+    select_model_name,
+    snapshot_from_model_results,
+    snapshot_to_ranking_row,
+)
 
 
 def _forecast_result(
@@ -78,6 +88,21 @@ def _policy_forecast_context(index: pd.Index) -> pd.DataFrame:
 
 
 class ShadowModelSelectionTests(unittest.TestCase):
+    def test_snapshot_requires_literal_boolean_oos_evidence(self):
+        malformed = _forecast_result(
+            "Ridge",
+            validation_is_oos="true",
+        )
+        snapshot = snapshot_from_model_results(
+            "AAA",
+            100.0,
+            {"Ridge": malformed},
+        )
+
+        row = snapshot_to_ranking_row(snapshot, "Ridge")
+
+        self.assertFalse(row["Validation Is OOS"])
+
     def test_best_validation_never_selects_rl_policy(self):
         results = {
             "RL Policy": _forecast_result("RL", holdout_mae_pct=0.01),
@@ -89,6 +114,25 @@ class ShadowModelSelectionTests(unittest.TestCase):
         self.assertEqual(
             select_model_name(results, preferred="Best Validation"),
             "Ensemble",
+        )
+
+    def test_sequence_model_cannot_be_selected_before_explicit_promotion(self):
+        results = {
+            "LSTM": _forecast_result(
+                "LSTM",
+                holdout_mae_pct=0.01,
+                live_eligible=True,
+            ),
+            "Ridge": _forecast_result(
+                "Ridge",
+                holdout_mae_pct=4.0,
+                live_eligible=True,
+            ),
+        }
+
+        self.assertEqual(
+            select_model_name(results, preferred="LSTM"),
+            "Ridge",
         )
 
     def test_best_validation_uses_ridge_when_fixed_ensemble_is_unavailable(self):
@@ -451,9 +495,13 @@ class ShadowRlContributionTests(unittest.TestCase):
             "confidence_pct": 70.0,
             "holdout_mae_pct": 2.0,
             "holdout_samples": 20,
+            "holdout_nonoverlapping_samples": 10,
             "holdout_direction_accuracy": 60.0,
             "calibration_error_pct": 10.0,
             "brier_score": 0.20,
+            "mae_skill_score": 0.20,
+            "direction_skill_pct": 10.0,
+            "brier_skill_score": 0.20,
             "validation_is_oos": True,
             "horizon_days": 30,
         }
@@ -463,9 +511,13 @@ class ShadowRlContributionTests(unittest.TestCase):
                 forecast_change_pct=return_pct,
                 holdout_mae_pct=2.0,
                 holdout_samples=20,
+                holdout_nonoverlapping_samples=10,
                 holdout_direction_accuracy=60.0,
                 calibration_error_pct=10.0,
                 brier_score=0.20,
+                mae_skill_score=0.20,
+                direction_skill_pct=10.0,
+                brier_skill_score=0.20,
                 validation_is_oos=True,
                 horizon_days=30,
             )
@@ -504,6 +556,26 @@ class ShadowRlContributionTests(unittest.TestCase):
             },
             model_results=model_results,
         )
+        unskilled = smart_policy_decision(
+            df=_price_frame(rising=True),
+            equity=100_000.0,
+            risk_fraction=0.05,
+            forecast_metrics={
+                **primary_metrics,
+                "mae_skill_score": -0.01,
+            },
+            model_results=model_results,
+        )
+        direction_unskilled = smart_policy_decision(
+            df=_price_frame(rising=True),
+            equity=100_000.0,
+            risk_fraction=0.05,
+            forecast_metrics={
+                **primary_metrics,
+                "direction_skill_pct": 0.0,
+            },
+            model_results=model_results,
+        )
 
         self.assertGreater(baseline.target_position_fraction, 0.0)
         self.assertGreater(positive.score, baseline.score)
@@ -516,6 +588,41 @@ class ShadowRlContributionTests(unittest.TestCase):
             "adverse_earnings_event",
             adverse.diagnostics["allocation_blockers"],
         )
+        self.assertEqual(unskilled.target_position_fraction, 0.0)
+        self.assertIn(
+            "no_mae_skill_over_zero_return",
+            unskilled.diagnostics["allocation_blockers"],
+        )
+        self.assertEqual(direction_unskilled.target_position_fraction, 0.0)
+        self.assertIn(
+            "no_direction_skill_over_training_baseline",
+            direction_unskilled.diagnostics["allocation_blockers"],
+        )
+
+        component_without_direction_skill = _forecast_result(
+            "XGBoost",
+            forecast_change_pct=8.0,
+            holdout_mae_pct=2.0,
+            holdout_samples=20,
+            holdout_nonoverlapping_samples=10,
+            holdout_direction_accuracy=60.0,
+            calibration_error_pct=10.0,
+            brier_score=0.20,
+            mae_skill_score=0.20,
+            direction_skill_pct=0.0,
+            brier_skill_score=0.20,
+            validation_is_oos=True,
+            horizon_days=30,
+        )
+        agreeing, eligible = _model_agreement(
+            primary_metrics,
+            {
+                **model_results,
+                "XGBoost": component_without_direction_skill,
+            },
+            SmartPolicyConfig(),
+        )
+        self.assertEqual((agreeing, eligible), (1, 1))
 
     def test_unqualified_earnings_context_cannot_increase_live_policy_score(self):
         primary_metrics = {
@@ -524,9 +631,13 @@ class ShadowRlContributionTests(unittest.TestCase):
             "confidence_pct": 70.0,
             "holdout_mae_pct": 2.0,
             "holdout_samples": 20,
+            "holdout_nonoverlapping_samples": 10,
             "holdout_direction_accuracy": 60.0,
             "calibration_error_pct": 10.0,
             "brier_score": 0.20,
+            "mae_skill_score": 0.20,
+            "direction_skill_pct": 10.0,
+            "brier_skill_score": 0.20,
             "validation_is_oos": True,
             "horizon_days": 30,
         }
@@ -536,9 +647,13 @@ class ShadowRlContributionTests(unittest.TestCase):
                 forecast_change_pct=return_pct,
                 holdout_mae_pct=2.0,
                 holdout_samples=20,
+                holdout_nonoverlapping_samples=10,
                 holdout_direction_accuracy=60.0,
                 calibration_error_pct=10.0,
                 brier_score=0.20,
+                mae_skill_score=0.20,
+                direction_skill_pct=10.0,
+                brier_skill_score=0.20,
                 validation_is_oos=True,
                 horizon_days=30,
             )
@@ -645,6 +760,7 @@ class ShadowReliabilityTests(unittest.TestCase):
         args = SimpleNamespace(min_signal_return_pct=2.0)
         base = {
             "Selected Model": "Ridge",
+            "Validation Is OOS": True,
             "Model Call": "Buy",
             "Forecast Return %": 8.0,
             "Policy Target %": 5.0,
@@ -653,10 +769,14 @@ class ShadowReliabilityTests(unittest.TestCase):
             "Expected Error %": 4.0,
             "Model Edge %": 20.0,
             "Direction Hit Rate %": 60.0,
+            "Direction Skill %": 10.0,
             "Validation MAE %": 4.0,
             "Validation Samples": 30,
+            "Nonoverlapping Validation Samples": 10,
             "Calibration Error %": 10.0,
             "Brier Score": 0.20,
+            "MAE Skill Score": 0.20,
+            "Brier Skill Score": 0.20,
         }
 
         self.assertTrue(report.is_threshold_buy(base, args))

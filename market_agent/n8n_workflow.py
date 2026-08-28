@@ -27,11 +27,14 @@ _PUBLISH_BRANCH_FALLBACK = re.compile(
 _ENV_GITHUB_TOKEN = "$env.GITHUB_TOKEN"
 _SCHEDULED_PROFILE = re.compile(
     r"let runProfile = source === 'telegram' \? 'quick' : "
-    r"'(?:research|quality|scheduled)';"
+    r"'(?:research|quality|scheduled|overnight)';"
+)
+_TELEGRAM_OVERNIGHT_PROFILE = re.compile(
+    r"runProfile = (?:'quality'|/\\bovernight\\b/i\.test\(normalizedText\) "
+    r"\? 'overnight' : 'quality');"
 )
 _SCHEDULED_SEQUENCE_MODEL = re.compile(
-    r"(?:let sequenceModel = source === 'telegram' \? 'off' : "
-    r"'(?:both|adaptive|off)'|let sequenceModel = 'off');"
+    r"let sequenceModel = [^;\n]+;"
 )
 _SCHEDULED_SHORT_SEQUENCE_MODEL = re.compile(
     r"let shortSequenceModel = (?:"
@@ -43,6 +46,9 @@ _SCHEDULED_SHORT_SEQUENCE_MODEL = re.compile(
     r");"
 )
 _DEFAULT_RL_SHADOW = re.compile(r"let includeRlPolicy = (?:false|true);")
+_SCHEDULED_HISTORY_DAYS = re.compile(
+    r"'--history-days', [^,\n]+,"
+)
 _RL_COMMAND_FLAG = re.compile(
     r"(?:if \(noRlRequested\) args\.push\('--no-rl-policy'\);\n"
     r"if \(includeRlPolicy\) args\.push\('--include-rl-policy'\);"
@@ -51,7 +57,8 @@ _RL_COMMAND_FLAG = re.compile(
 )
 _SCHEDULED_SHORT_HORIZONS = re.compile(
     r"const shortHorizons = runProfile === 'quick' \|\| "
-    r"(?:runProfile === 'scheduled' \|\| )?mainHorizon === 1 \|\| "
+    r"(?:runProfile === '(?:scheduled|overnight)' \|\| ){0,2}"
+    r"mainHorizon === 1 \|\| "
     r"noShortHorizon \? '' : '1';"
 )
 _SCHEDULED_NO_OPTIMIZE = re.compile(
@@ -65,21 +72,33 @@ _CAFFEINATED_RUNNER = re.compile(
 )
 
 SCHEDULED_PROFILE_JS = (
-    "let runProfile = source === 'telegram' ? 'quick' : 'scheduled';"
+    "let runProfile = source === 'telegram' ? 'quick' : 'overnight';"
 )
-SCHEDULED_SEQUENCE_JS = "let sequenceModel = 'off';"
+TELEGRAM_OVERNIGHT_PROFILE_JS = (
+    r"runProfile = /\bovernight\b/i.test(normalizedText) "
+    "? 'overnight' : 'quality';"
+)
+SCHEDULED_SEQUENCE_JS = (
+    "let sequenceModel = runProfile === 'research' ? 'both' : "
+    "((runProfile === 'overnight' || runProfile === 'quality') ? "
+    "'adaptive' : 'off');"
+)
 SCHEDULED_SHORT_SEQUENCE_JS = (
     "let shortSequenceModel = source === 'telegram' ? "
     "(sequenceModel === 'adaptive' ? 'adaptive' : "
     "(sequenceModel === 'both' ? 'both' : 'off')) : 'off';"
 )
-DEFAULT_RL_SHADOW_JS = "let includeRlPolicy = true;"
+DEFAULT_RL_SHADOW_JS = "let includeRlPolicy = false;"
+SCHEDULED_HISTORY_DAYS_JS = (
+    "'--history-days', runProfile === 'overnight' ? '1825' : '913',"
+)
 EXPLICIT_RL_COMMAND_FLAG_JS = (
     "args.push(includeRlPolicy ? '--include-rl-policy' : '--no-rl-policy');"
 )
 SCHEDULED_SHORT_HORIZONS_JS = (
     "const shortHorizons = runProfile === 'quick' || "
-    "runProfile === 'scheduled' || mainHorizon === 1 || "
+    "runProfile === 'scheduled' || runProfile === 'overnight' || "
+    "mainHorizon === 1 || "
     "noShortHorizon ? '' : '1';"
 )
 SCHEDULED_NO_OPTIMIZE_JS = (
@@ -120,6 +139,9 @@ if (!report || typeof report !== 'object' || Array.isArray(report)) {
 }
 if (!Array.isArray(report.rows) || report.rows.length === 0) {
   throw new Error('Market optimizer contract violation: rows must be a non-empty array.');
+}
+if (report.run_complete !== true) {
+  throw new Error('Market optimizer contract violation: optimizer run is incomplete.');
 }
 if (typeof report.telegram_text !== 'string' || !report.telegram_text.trim()) {
   throw new Error('Market optimizer contract violation: telegram_text must be non-empty.');
@@ -281,14 +303,21 @@ def _repair_scheduled_profile(node: dict[str, Any]) -> tuple[str, ...]:
         javascript,
     )
     if updated != javascript:
-        changes.append("use the bounded single-pass profile for scheduled optimization")
+        changes.append("use the bounded overnight profile for scheduled optimization")
+    previous = updated
+    updated, telegram_overnight_count = _TELEGRAM_OVERNIGHT_PROFILE.subn(
+        lambda _match: TELEGRAM_OVERNIGHT_PROFILE_JS,
+        updated,
+    )
+    if updated != previous:
+        changes.append("map Telegram overnight requests to the bounded profile")
     previous = updated
     updated, sequence_count = _SCHEDULED_SEQUENCE_MODEL.subn(
         SCHEDULED_SEQUENCE_JS,
         updated,
     )
     if updated != previous:
-        changes.append("disable sequence models for routine scheduled optimization")
+        changes.append("use adaptive sequence research in overnight optimization")
     previous = updated
     updated, short_sequence_count = _SCHEDULED_SHORT_SEQUENCE_MODEL.subn(
         SCHEDULED_SHORT_SEQUENCE_JS,
@@ -299,12 +328,19 @@ def _repair_scheduled_profile(node: dict[str, Any]) -> tuple[str, ...]:
             "disable cross-horizon sequence selection in scheduled 1-day optimization"
         )
     previous = updated
+    updated, history_days_count = _SCHEDULED_HISTORY_DAYS.subn(
+        SCHEDULED_HISTORY_DAYS_JS,
+        updated,
+    )
+    if updated != previous:
+        changes.append("request five years of history for overnight validation")
+    previous = updated
     updated, rl_count = _DEFAULT_RL_SHADOW.subn(
         DEFAULT_RL_SHADOW_JS,
         updated,
     )
     if updated != previous:
-        changes.append("keep RL diagnostics shadow-enabled by default")
+        changes.append("disable non-actionable RL diagnostics in overnight optimization")
     previous = updated
     updated, rl_flag_count = _RL_COMMAND_FLAG.subn(
         EXPLICIT_RL_COMMAND_FLAG_JS,
@@ -325,7 +361,7 @@ def _repair_scheduled_profile(node: dict[str, Any]) -> tuple[str, ...]:
         updated,
     )
     if updated != previous:
-        changes.append("disable nested hyperparameter search for routine scheduled runs")
+        changes.append("retain optimization for overnight runs and bound quick runs")
     previous = updated
     updated, caffeinate_count = _CAFFEINATED_RUNNER.subn(
         CAFFEINATED_RUNNER_JS,
@@ -335,14 +371,16 @@ def _repair_scheduled_profile(node: dict[str, Any]) -> tuple[str, ...]:
         changes.append("keep the optimizer awake while its process is running")
     if (
         profile_count,
+        telegram_overnight_count,
         sequence_count,
         short_sequence_count,
+        history_days_count,
         rl_count,
         rl_flag_count,
         short_horizons_count,
         no_optimize_count,
         caffeinate_count,
-    ) != (1, 1, 1, 1, 1, 1, 1, 1):
+    ) != (1, 1, 1, 1, 1, 1, 1, 1, 1, 1):
         raise ValueError(
             f"{REQUEST_CONTEXT_NODE} does not expose the expected profile controls"
         )
@@ -646,8 +684,10 @@ def audit_market_optimization_workflow(
     else:
         for expected in (
             SCHEDULED_PROFILE_JS,
+            TELEGRAM_OVERNIGHT_PROFILE_JS,
             SCHEDULED_SEQUENCE_JS,
             SCHEDULED_SHORT_SEQUENCE_JS,
+            SCHEDULED_HISTORY_DAYS_JS,
             DEFAULT_RL_SHADOW_JS,
             EXPLICIT_RL_COMMAND_FLAG_JS,
             SCHEDULED_SHORT_HORIZONS_JS,

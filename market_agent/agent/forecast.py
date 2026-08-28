@@ -39,6 +39,7 @@ except Exception:  # pragma: no cover - optional dependency fallback
 
 
 MODEL_WEIGHT_ARTIFACT_VERSION = 1
+FORECAST_POSTPROCESSOR_VERSION = "training_only_v1"
 
 
 @dataclass(frozen=True)
@@ -54,6 +55,20 @@ class HistoricalForecastResult:
     metrics: dict
 
 
+@dataclass(frozen=True)
+class ForecastPostprocessorState:
+    """Training-only state shared by validation and live forecast transforms."""
+
+    version: str
+    clip_lower_log_return: float
+    clip_upper_log_return: float
+    model_residual_scale_log: float
+    robust_target_scale_log: float
+    error_scale_log: float
+    positive_base_rate: float
+    training_samples: int
+
+
 def forecast_close_prices(
     df: pd.DataFrame,
     horizon_days: int = 30,
@@ -63,7 +78,7 @@ def forecast_close_prices(
     model_type: str = "ridge",
     context_df: pd.DataFrame | None = None,
     symbol: str | None = None,
-    warm_start: bool = True,
+    warm_start: bool = False,
     force_retrain: bool = False,
     model_artifact_dir: str | Path | None = None,
 ) -> ForecastResult:
@@ -72,6 +87,8 @@ def forecast_close_prices(
 
     The model is a ridge-regularized direct horizon learner on lagged log returns.
     It deliberately avoids fetching data so it uses the same source as the chart.
+    ``warm_start`` remains accepted for API compatibility, but live forecasts
+    are cold-fit until an equivalent warm-start outer-holdout evaluation exists.
     """
     model_type = _normalize_model_type(model_type)
     close = _clean_close(df)
@@ -112,6 +129,7 @@ def forecast_close_prices(
     if len(y) < 20:
         raise ValueError("Not enough training samples for ML forecasting.")
 
+    warm_start_requested = bool(warm_start)
     model = _fit_model(
         x,
         y,
@@ -121,23 +139,29 @@ def forecast_close_prices(
         horizon_days=horizon_days,
         lookback_window=lookback_window,
         optimize_model=optimize_model,
-        warm_start=warm_start,
+        warm_start=False,
         force_retrain=force_retrain,
         artifact_dir=model_artifact_dir,
     )
     latest_features = _latest_features_for_model(log_returns, extra_feature_arrays, len(log_returns), lookback_window, model_type)
     raw_horizon_return = float(_predict_row(latest_features, model))
-    raw_horizon_return = _clip_horizon_return(raw_horizon_return, y)
-    shrink_factor = _prediction_shrink_factor(raw_horizon_return, metrics)
-    horizon_return = raw_horizon_return * shrink_factor
+    live_postprocessor = _fit_training_postprocessor(
+        y,
+        float(model.get("residual_std", 0.0) or 0.0),
+    )
+    processed_live = _postprocess_horizon_return(
+        raw_horizon_return,
+        live_postprocessor,
+    )
+    clipped_horizon_return = processed_live["clipped_horizon_return"]
+    horizon_return = processed_live["transformed_horizon_return"]
+    shrink_factor = processed_live["shrink_factor"]
 
     steps = np.arange(1, horizon_days + 1, dtype=float)
     cumulative_returns = horizon_return * (steps / float(horizon_days))
     future_log_returns = np.diff(np.concatenate([[0.0], cumulative_returns]))
     last_log_price = float(np.log(close.iloc[-1]))
-    validation_rmse_pct = metrics.get("holdout_rmse_pct") or metrics.get("validation_rmse_pct")
-    validation_rmse_log = np.log1p(max(float(validation_rmse_pct or 0.0), 0.0) / 100.0)
-    residual_std = max(float(model["residual_std"]), validation_rmse_log, 1e-6)
+    residual_std = live_postprocessor.error_scale_log
     interval_scale = np.sqrt(steps / float(horizon_days))
 
     forecast_close = np.exp(last_log_price + cumulative_returns)
@@ -151,13 +175,13 @@ def forecast_close_prices(
             "upper_estimate": upper_estimate,
             "expected_daily_return_pct": np.expm1(future_log_returns) * 100.0,
         },
-        index=_future_index(close.index, horizon_days),
+        index=_future_index(close.index, horizon_days, symbol=symbol),
     )
     forecast.index.name = "date"
 
     forecast_change_pct = np.expm1(horizon_return) * 100.0
     projected_error_log = residual_std
-    probability_up_pct = _normal_cdf(float(horizon_return) / projected_error_log) * 100.0
+    probability_up_pct = processed_live["probability_up"] * 100.0
     confidence_pct = max(probability_up_pct, 100.0 - probability_up_pct)
     expected_error_pct = np.expm1(projected_error_log) * 100.0
 
@@ -168,13 +192,30 @@ def forecast_close_prices(
     metrics["expected_error_pct"] = expected_error_pct
     metrics["forecast_score"] = _forecast_score(forecast_change_pct, expected_error_pct, confidence_pct)
     metrics["raw_forecast_change_pct"] = np.expm1(raw_horizon_return) * 100.0
+    metrics["clipped_forecast_change_pct"] = np.expm1(clipped_horizon_return) * 100.0
     metrics["shrink_factor"] = float(shrink_factor)
+    metrics["postprocessor_version"] = live_postprocessor.version
+    metrics["live_postprocessor_state"] = _postprocessor_state_payload(
+        live_postprocessor
+    )
+    metrics["postprocessor_error_scale_pct"] = expected_error_pct
+    metrics["live_training_positive_base_rate"] = (
+        live_postprocessor.positive_base_rate
+    )
     metrics["selected_lookback_window"] = int(lookback_window)
     metrics["selected_ridge_alpha"] = float(ridge_alpha)
     metrics["training_samples"] = int(len(y))
     metrics["horizon_days"] = int(horizon_days)
-    metrics["live_eligible"] = True
-    metrics["shadow_mode"] = False
+    sequence_shadow_only = _is_sequence_model(model_type)
+    metrics["live_eligible"] = not sequence_shadow_only
+    metrics["shadow_mode"] = sequence_shadow_only
+    if sequence_shadow_only:
+        _mark_sequence_metrics_shadow(metrics)
+    metrics["warm_start_requested"] = warm_start_requested
+    metrics["warm_start_live_enabled"] = False
+    metrics["warm_start_validation_status"] = (
+        "disabled_until_equivalent_oos_evaluation"
+    )
     outlier_limit_pct = max(
         50.0,
         2.5 * max(expected_error_pct, 0.25),
@@ -272,7 +313,10 @@ def backtest_forecasts(
                 "expected_error_pct": result.metrics.get("expected_error_pct", np.nan),
                 "selected_lookback_window": result.metrics.get("selected_lookback_window", np.nan),
                 "selected_ridge_alpha": result.metrics.get("selected_ridge_alpha", np.nan),
-                "direction_correct": np.sign(predicted_change_pct) == np.sign(actual_change_pct),
+                "direction_correct": (
+                    (predicted_change_pct > 0.0)
+                    == (actual_change_pct > 0.0)
+                ),
             }
         )
 
@@ -300,7 +344,7 @@ def compare_forecast_models(
     context_df: pd.DataFrame | None = None,
     sequence_model: str = "off",
     symbol: str | None = None,
-    warm_start: bool = True,
+    warm_start: bool = False,
     force_retrain: bool = False,
     model_artifact_dir: str | Path | None = None,
     include_rl: bool = False,
@@ -309,7 +353,7 @@ def compare_forecast_models(
     policy_position: PolicyPosition | None = None,
     position_state_verified: bool = False,
 ) -> dict[str, ForecastResult]:
-    """Run baseline models plus an optional LSTM/Transformer sequence model."""
+    """Run registered baselines plus optional shadow-only sequence diagnostics."""
     results = {}
     results["Ridge"] = forecast_close_prices(
         df,
@@ -367,7 +411,7 @@ def compare_forecast_models(
 
     for model_key, display_name in _sequence_model_choices(sequence_model):
         try:
-            results[display_name] = forecast_close_prices(
+            sequence_result = forecast_close_prices(
                 df,
                 horizon_days=horizon_days,
                 lookback_window=lookback_window,
@@ -379,6 +423,13 @@ def compare_forecast_models(
                 warm_start=warm_start,
                 force_retrain=force_retrain,
                 model_artifact_dir=model_artifact_dir,
+            )
+            sequence_metrics = dict(sequence_result.metrics)
+            _mark_sequence_metrics_shadow(sequence_metrics)
+            results[display_name] = ForecastResult(
+                forecast=sequence_result.forecast,
+                metrics=sequence_metrics,
+                model_name=sequence_result.model_name,
             )
         except Exception as exc:
             results[display_name] = _unavailable_result(f"{display_name.lower()} unavailable", exc)
@@ -577,7 +628,11 @@ def reinforcement_policy_forecast(
         * np.sqrt(horizon_days),
         1e-6,
     )
-    policy_execution_values = _future_index(close.index, 2)
+    policy_execution_values = _future_index(
+        close.index,
+        2,
+        symbol=symbol,
+    )
     policy_start_value = policy_execution_values[0]
     policy_target_value = policy_execution_values[1]
     if isinstance(policy_start_value, (pd.Timestamp, np.datetime64)):
@@ -720,6 +775,7 @@ def reinforcement_policy_forecast(
         residual_std=residual_std,
         metrics=metrics,
         model_name="execution-aligned target-weight RL policy (shadow only)",
+        symbol=symbol,
     )
     return result
 
@@ -1008,20 +1064,50 @@ def _ensemble_result(components: dict[str, ForecastResult]) -> ForecastResult:
     confidence = max(probability_up, 100.0 - probability_up)
     expected_error = sum(weights[name] * result.metrics.get("expected_error_pct", 0.0) for name, result in usable.items())
     forecast_change = sum(weights[name] * result.metrics.get("forecast_change_pct", 0.0) for name, result in usable.items())
+    horizon_days = max(
+        int(
+            next(
+                (
+                    result.metrics.get("horizon_days")
+                    for result in usable.values()
+                    if result.metrics.get("horizon_days") is not None
+                ),
+                1,
+            )
+        ),
+        1,
+    )
     holdout_samples = min(
         len(result.metrics.get("holdout_predicted_return_pct") or [])
         for result in usable.values()
     )
     validation_is_oos = all(
-        result.metrics.get("validation_is_oos", False)
+        result.metrics.get("validation_is_oos") is True
         for result in usable.values()
     )
-    holdout_mae = np.nan
-    holdout_rmse = np.nan
-    holdout_bias = np.nan
-    direction_accuracy = np.nan
-    calibration_error = np.nan
-    brier_score = np.nan
+    evaluation_metrics: dict[str, float | int | str] = {
+        "holdout_mae_pct": float("nan"),
+        "holdout_rmse_pct": float("nan"),
+        "holdout_bias_pct": float("nan"),
+        "holdout_direction_accuracy": float("nan"),
+        "brier_score": float("nan"),
+        "calibration_error_pct": float("nan"),
+        "zero_return_mae_pct": float("nan"),
+        "zero_return_rmse_pct": float("nan"),
+        "training_positive_base_rate": float("nan"),
+        "training_direction_baseline": "unavailable",
+        "direction_baseline_accuracy_pct": float("nan"),
+        "probability_baseline_up": float("nan"),
+        "probability_baseline_brier_score": float("nan"),
+        "mae_skill_score": float("nan"),
+        "direction_skill_pct": float("nan"),
+        "direction_skill_score": float("nan"),
+        "brier_skill_score": float("nan"),
+        "holdout_nonoverlapping_samples": 0,
+        "holdout_effective_samples": 0.0,
+        "holdout_overlap_stride_sessions": horizon_days,
+    }
+    holdout_raw_predicted_pct: list[float] = []
     holdout_predicted_pct: list[float] = []
     holdout_actual_pct: list[float] = []
     holdout_probability_up: list[float] = []
@@ -1031,6 +1117,16 @@ def _ensemble_result(components: dict[str, ForecastResult]) -> ForecastResult:
         predicted_arrays = {
             name: np.asarray(
                 result.metrics["holdout_predicted_return_pct"][-holdout_samples:],
+                dtype=float,
+            )
+            for name, result in usable.items()
+        }
+        raw_predicted_arrays = {
+            name: np.asarray(
+                (
+                    result.metrics.get("holdout_raw_predicted_return_pct")
+                    or result.metrics["holdout_predicted_return_pct"]
+                )[-holdout_samples:],
                 dtype=float,
             )
             for name, result in usable.items()
@@ -1074,6 +1170,10 @@ def _ensemble_result(components: dict[str, ForecastResult]) -> ForecastResult:
             for actual in actual_arrays[1:]
         )
         if aligned_actuals:
+            ensemble_raw_predicted = sum(
+                weights[name] * predicted
+                for name, predicted in raw_predicted_arrays.items()
+            )
             ensemble_predicted = sum(
                 weights[name] * predicted
                 for name, predicted in predicted_arrays.items()
@@ -1098,21 +1198,29 @@ def _ensemble_result(components: dict[str, ForecastResult]) -> ForecastResult:
                 axis=0,
             )
             actual = actual_arrays[0]
-            errors = ensemble_predicted - actual
-            actual_up = (actual > 0.0).astype(float)
-            holdout_mae = float(np.abs(errors).mean())
-            holdout_rmse = float(np.sqrt(np.square(errors).mean()))
-            holdout_bias = float(errors.mean())
-            direction_accuracy = float(
-                (np.sign(ensemble_predicted) == np.sign(actual)).mean() * 100.0
+            ensemble_positive_base_rate = float(
+                sum(
+                    weights[name]
+                    * float(
+                        result.metrics.get(
+                            "training_positive_base_rate",
+                            result.metrics.get(
+                                "live_training_positive_base_rate",
+                                0.5,
+                            ),
+                        )
+                    )
+                    for name, result in usable.items()
+                )
             )
-            brier_score = float(
-                np.square(ensemble_probability - actual_up).mean()
-            )
-            calibration_error = _expected_calibration_error_pct(
+            evaluation_metrics = _forecast_evaluation_metrics(
+                ensemble_predicted,
+                actual,
                 ensemble_probability,
-                actual_up,
+                positive_base_rate=ensemble_positive_base_rate,
+                horizon_days=horizon_days,
             )
+            holdout_raw_predicted_pct = ensemble_raw_predicted.tolist()
             holdout_predicted_pct = ensemble_predicted.tolist()
             holdout_actual_pct = actual.tolist()
             holdout_probability_up = ensemble_probability.tolist()
@@ -1126,6 +1234,20 @@ def _ensemble_result(components: dict[str, ForecastResult]) -> ForecastResult:
     else:
         validation_is_oos = False
 
+    component_postprocessor_versions = sorted(
+        {
+            str(result.metrics.get("postprocessor_version") or "").strip()
+            for result in usable.values()
+        }
+        - {""}
+    )
+    if len(component_postprocessor_versions) == 1:
+        ensemble_postprocessor_version = component_postprocessor_versions[0]
+    elif component_postprocessor_versions:
+        ensemble_postprocessor_version = "fixed_equal_mixed_components_v1"
+    else:
+        ensemble_postprocessor_version = "fixed_equal_legacy_components_v1"
+
     metrics = {
         "forecast_change_pct": float(forecast_change),
         "probability_up_pct": float(probability_up),
@@ -1133,13 +1255,14 @@ def _ensemble_result(components: dict[str, ForecastResult]) -> ForecastResult:
         "confidence_pct": float(confidence),
         "expected_error_pct": float(expected_error),
         "forecast_score": _forecast_score(forecast_change, expected_error, confidence),
-        "holdout_mae_pct": float(holdout_mae),
-        "holdout_rmse_pct": float(holdout_rmse),
-        "holdout_bias_pct": float(holdout_bias),
-        "holdout_direction_accuracy": float(direction_accuracy),
+        **evaluation_metrics,
         "holdout_samples": int(holdout_samples),
-        "calibration_error_pct": float(calibration_error),
-        "brier_score": float(brier_score),
+        "postprocessor_version": ensemble_postprocessor_version,
+        "component_postprocessor_versions": (
+            component_postprocessor_versions
+        ),
+        "holdout_raw_predicted_return_pct": holdout_raw_predicted_pct,
+        "holdout_transformed_predicted_return_pct": holdout_predicted_pct,
         "holdout_predicted_return_pct": holdout_predicted_pct,
         "holdout_actual_return_pct": holdout_actual_pct,
         "holdout_probability_up": holdout_probability_up,
@@ -1156,16 +1279,7 @@ def _ensemble_result(components: dict[str, ForecastResult]) -> ForecastResult:
         "shadow_mode": False,
         "validation_is_oos": bool(validation_is_oos),
         "validation_scheme": "fixed_ensemble_on_nested_outer_holdout",
-        "horizon_days": int(
-            next(
-                (
-                    result.metrics.get("horizon_days")
-                    for result in usable.values()
-                    if result.metrics.get("horizon_days") is not None
-                ),
-                0,
-            )
-        ),
+        "horizon_days": horizon_days,
     }
 
     return ForecastResult(
@@ -1235,6 +1349,21 @@ def _sequence_model_choices(sequence_model: str | None) -> list[tuple[str, str]]
     if sequence_model == "both":
         return [("lstm", "LSTM"), ("transformer", "Transformer")]
     return []
+
+
+def _mark_sequence_metrics_shadow(metrics: dict) -> None:
+    """Fail closed until prospective component evidence is promoted explicitly."""
+
+    metrics.update(
+        {
+            "live_eligible": False,
+            "shadow_mode": True,
+            "research_only": True,
+            "promotion_required": True,
+            "promotion_status": "prospective_component_shadow_required",
+            "component_shadow_record_eligible": True,
+        }
+    )
 
 
 def _model_display_name(model_type: str, optimize_model: bool) -> str:
@@ -2314,30 +2443,57 @@ def _direct_holdout_metrics(
     if train_end < 20:
         return {}
 
-    model = _fit_model(x[:train_end], y[:train_end], alpha, model_type)
+    training_targets = y[:train_end]
+    model = _fit_model(
+        x[:train_end],
+        training_targets,
+        alpha,
+        model_type,
+        warm_start=False,
+    )
+    postprocessor = _fit_training_postprocessor(
+        training_targets,
+        float(model.get("residual_std", 0.0) or 0.0),
+    )
+    raw_predicted = np.asarray(
+        _predict_matrix(x[test_start:usable_end], model),
+        dtype=float,
+    )
+    processed = [
+        _postprocess_horizon_return(value, postprocessor)
+        for value in raw_predicted
+    ]
+    clipped_predicted = np.asarray(
+        [item["clipped_horizon_return"] for item in processed],
+        dtype=float,
+    )
     predicted = np.asarray(
-        [
-            _clip_horizon_return(value, y[:train_end])
-            for value in _predict_matrix(x[test_start:usable_end], model)
-        ],
+        [item["transformed_horizon_return"] for item in processed],
         dtype=float,
     )
     actual = y[test_start:usable_end]
 
+    raw_predicted_pct = np.expm1(raw_predicted) * 100.0
+    clipped_predicted_pct = np.expm1(clipped_predicted) * 100.0
     predicted_pct = np.expm1(predicted) * 100.0
     actual_pct = np.expm1(actual) * 100.0
-    errors = predicted_pct - actual_pct
-    directional_accuracy = float((np.sign(predicted) == np.sign(actual)).mean() * 100.0)
-    residual_std = max(float(model.get("residual_std", 0.0) or 0.0), 1e-6)
-    probability_up = np.asarray([_normal_cdf(float(value) / residual_std) for value in predicted])
-    actual_up = (actual > 0.0).astype(float)
-    expected_error_pct = float(np.expm1(residual_std) * 100.0)
+    probability_up = np.asarray(
+        [item["probability_up"] for item in processed],
+        dtype=float,
+    )
+    expected_error_pct = float(
+        np.expm1(postprocessor.error_scale_log) * 100.0
+    )
+    evaluation_metrics = _forecast_evaluation_metrics(
+        predicted_pct,
+        actual_pct,
+        probability_up,
+        positive_base_rate=postprocessor.positive_base_rate,
+        horizon_days=horizon_days,
+    )
 
     return {
-        "holdout_direction_accuracy": directional_accuracy,
-        "holdout_mae_pct": float(np.abs(errors).mean()),
-        "holdout_rmse_pct": float(np.sqrt(np.square(errors).mean())),
-        "holdout_bias_pct": float(errors.mean()),
+        **evaluation_metrics,
         "holdout_samples": int(len(actual)),
         "validation_is_oos": True,
         "validation_scheme": str(validation_scheme),
@@ -2347,11 +2503,15 @@ def _direct_holdout_metrics(
         "validation_test_start_sample": int(test_start),
         "validation_test_end_sample_exclusive": int(usable_end),
         "validation_reserved_tail_samples": int(reserve_tail),
-        "brier_score": float(np.square(probability_up - actual_up).mean()),
-        "calibration_error_pct": _expected_calibration_error_pct(
-            probability_up,
-            actual_up,
+        "postprocessor_version": postprocessor.version,
+        "holdout_postprocessor_state": _postprocessor_state_payload(
+            postprocessor
         ),
+        "holdout_raw_predicted_return_pct": raw_predicted_pct.tolist(),
+        "holdout_clipped_predicted_return_pct": (
+            clipped_predicted_pct.tolist()
+        ),
+        "holdout_transformed_predicted_return_pct": predicted_pct.tolist(),
         "holdout_predicted_return_pct": predicted_pct.tolist(),
         "holdout_actual_return_pct": actual_pct.tolist(),
         "holdout_probability_up": probability_up.tolist(),
@@ -2374,23 +2534,248 @@ def _candidate_values(values: list, lower: float, upper: float, cast) -> list:
     return sorted(candidates)
 
 
-def _clip_horizon_return(prediction: float, target_returns: np.ndarray) -> float:
+def _fit_training_postprocessor(
+    target_returns: np.ndarray,
+    model_residual_scale_log: float,
+) -> ForecastPostprocessorState:
+    """Fit deterministic clipping, shrinkage, and probability state on training data."""
+
     target_returns = np.asarray(target_returns, dtype=float)
+    target_returns = target_returns[np.isfinite(target_returns)]
+    if len(target_returns) == 0:
+        raise ValueError("Training targets are required for forecast postprocessing.")
+
     if len(target_returns) < 10:
-        return float(np.clip(prediction, -0.35, 0.35))
+        clip_lower = -0.35
+        clip_upper = 0.35
+    else:
+        clip_lower, clip_upper = np.quantile(target_returns, [0.02, 0.98])
 
-    lower, upper = np.quantile(target_returns, [0.02, 0.98])
-    return float(np.clip(prediction, lower, upper))
+    median = float(np.median(target_returns))
+    mad_scale = float(
+        1.4826 * np.median(np.abs(target_returns - median))
+    )
+    lower_quartile, upper_quartile = np.quantile(
+        target_returns,
+        [0.25, 0.75],
+    )
+    iqr_scale = float((upper_quartile - lower_quartile) / 1.349)
+    robust_target_scale = max(mad_scale, iqr_scale, 1e-6)
+    residual_scale = float(model_residual_scale_log)
+    if not np.isfinite(residual_scale):
+        residual_scale = 0.0
+    residual_scale = max(abs(residual_scale), 1e-6)
+
+    return ForecastPostprocessorState(
+        version=FORECAST_POSTPROCESSOR_VERSION,
+        clip_lower_log_return=float(clip_lower),
+        clip_upper_log_return=float(clip_upper),
+        model_residual_scale_log=residual_scale,
+        robust_target_scale_log=robust_target_scale,
+        error_scale_log=max(
+            residual_scale,
+            robust_target_scale,
+            1e-6,
+        ),
+        positive_base_rate=float(np.mean(target_returns > 0.0)),
+        training_samples=int(len(target_returns)),
+    )
 
 
-def _prediction_shrink_factor(prediction: float, metrics: dict) -> float:
-    mae_pct = max(float(metrics.get("holdout_mae_pct", 0.0)), 0.25)
-    direction_accuracy = float(metrics.get("holdout_direction_accuracy", 50.0))
-    predicted_pct = abs(np.expm1(prediction) * 100.0)
-    signal_to_error = predicted_pct / mae_pct
+def _postprocessor_state_payload(
+    state: ForecastPostprocessorState,
+) -> dict[str, float | int | str]:
+    """Return a JSON-safe representation of immutable postprocessor state."""
+
+    return {
+        "version": state.version,
+        "clip_lower_log_return": state.clip_lower_log_return,
+        "clip_upper_log_return": state.clip_upper_log_return,
+        "model_residual_scale_log": state.model_residual_scale_log,
+        "robust_target_scale_log": state.robust_target_scale_log,
+        "error_scale_log": state.error_scale_log,
+        "positive_base_rate": state.positive_base_rate,
+        "training_samples": state.training_samples,
+    }
+
+
+def _postprocess_horizon_return(
+    raw_prediction: float,
+    state: ForecastPostprocessorState,
+) -> dict[str, float]:
+    """Apply the shared pure clip, shrink, and probability transformation."""
+
+    raw_prediction = float(raw_prediction)
+    if not np.isfinite(raw_prediction):
+        raise ValueError("Forecast prediction must be finite.")
+    clipped_prediction = float(
+        np.clip(
+            raw_prediction,
+            state.clip_lower_log_return,
+            state.clip_upper_log_return,
+        )
+    )
+    shrink_factor = _prediction_shrink_factor(
+        clipped_prediction,
+        state.error_scale_log,
+    )
+    transformed_prediction = clipped_prediction * shrink_factor
+    probability_up = _normal_cdf(
+        transformed_prediction / state.error_scale_log
+    )
+    return {
+        "raw_horizon_return": raw_prediction,
+        "clipped_horizon_return": clipped_prediction,
+        "shrink_factor": shrink_factor,
+        "transformed_horizon_return": transformed_prediction,
+        "probability_up": probability_up,
+        "expected_error_log": state.error_scale_log,
+    }
+
+
+def _clip_horizon_return(prediction: float, target_returns: np.ndarray) -> float:
+    """Compatibility helper using training-derived clipping bounds only."""
+
+    state = _fit_training_postprocessor(target_returns, 1e-6)
+    return float(
+        np.clip(
+            prediction,
+            state.clip_lower_log_return,
+            state.clip_upper_log_return,
+        )
+    )
+
+
+def _prediction_shrink_factor(
+    prediction: float,
+    error_scale_log: float,
+) -> float:
+    """Return deterministic shrinkage based only on prediction and training scale."""
+
+    signal_to_error = abs(float(prediction)) / max(
+        abs(float(error_scale_log)),
+        1e-6,
+    )
     signal_strength = signal_to_error / (1.0 + signal_to_error)
-    directional_strength = np.clip((direction_accuracy - 45.0) / 25.0, 0.0, 1.0)
-    return float(np.clip(0.35 + 0.45 * signal_strength + 0.20 * directional_strength, 0.25, 1.0))
+    return float(np.clip(0.35 + 0.65 * signal_strength, 0.35, 1.0))
+
+
+def _loss_skill_score(model_loss: float, baseline_loss: float) -> float:
+    """Return one minus the model-to-baseline loss ratio."""
+
+    if not np.isfinite(model_loss) or not np.isfinite(baseline_loss):
+        return float("nan")
+    if baseline_loss <= 1e-12:
+        return 0.0 if model_loss <= 1e-12 else float("nan")
+    return float(1.0 - model_loss / baseline_loss)
+
+
+def _overlap_aware_sample_counts(
+    sample_count: int,
+    horizon_days: int,
+) -> tuple[int, float]:
+    """Return conservative stride-horizon and fractional effective sample counts."""
+
+    sample_count = max(int(sample_count), 0)
+    horizon_days = max(int(horizon_days), 1)
+    if sample_count == 0:
+        return 0, 0.0
+    nonoverlapping = int(np.ceil(sample_count / float(horizon_days)))
+    effective = max(1.0, sample_count / float(horizon_days))
+    return nonoverlapping, float(effective)
+
+
+def _forecast_evaluation_metrics(
+    predicted_return_pct: np.ndarray,
+    actual_return_pct: np.ndarray,
+    probability_up: np.ndarray,
+    *,
+    positive_base_rate: float,
+    horizon_days: int,
+) -> dict[str, float | int | str]:
+    """Measure forecast error and skill against training-only/zero baselines."""
+
+    predicted = np.asarray(predicted_return_pct, dtype=float)
+    actual = np.asarray(actual_return_pct, dtype=float)
+    probability = np.asarray(probability_up, dtype=float)
+    if not (len(predicted) == len(actual) == len(probability)):
+        raise ValueError("Forecast evaluation arrays must have equal lengths.")
+    if len(actual) == 0:
+        raise ValueError("Forecast evaluation requires at least one observation.")
+
+    base_rate = float(np.clip(positive_base_rate, 0.0, 1.0))
+    errors = predicted - actual
+    actual_up = (actual > 0.0).astype(float)
+    model_mae = float(np.abs(errors).mean())
+    model_rmse = float(np.sqrt(np.square(errors).mean()))
+    predicted_up = predicted > 0.0
+    model_direction_accuracy = float(
+        (predicted_up == (actual_up > 0.0)).mean() * 100.0
+    )
+    model_brier = float(np.square(probability - actual_up).mean())
+
+    zero_return_mae = float(np.abs(actual).mean())
+    zero_return_rmse = float(np.sqrt(np.square(actual).mean()))
+    baseline_predicts_up = base_rate >= 0.5
+    baseline_direction_accuracy = float(
+        ((actual_up > 0.0) == baseline_predicts_up).mean() * 100.0
+    )
+    baseline_probability = np.full(len(actual), base_rate, dtype=float)
+    baseline_brier = float(
+        np.square(baseline_probability - actual_up).mean()
+    )
+    nonoverlapping_samples, effective_samples = (
+        _overlap_aware_sample_counts(len(actual), horizon_days)
+    )
+
+    direction_remaining = 100.0 - baseline_direction_accuracy
+    if direction_remaining <= 1e-12:
+        direction_skill_score = (
+            0.0
+            if model_direction_accuracy >= baseline_direction_accuracy
+            else float("nan")
+        )
+    else:
+        direction_skill_score = float(
+            (model_direction_accuracy - baseline_direction_accuracy)
+            / direction_remaining
+        )
+
+    return {
+        "holdout_mae_pct": model_mae,
+        "holdout_rmse_pct": model_rmse,
+        "holdout_bias_pct": float(errors.mean()),
+        "holdout_direction_accuracy": model_direction_accuracy,
+        "brier_score": model_brier,
+        "calibration_error_pct": _expected_calibration_error_pct(
+            probability,
+            actual_up,
+        ),
+        "zero_return_mae_pct": zero_return_mae,
+        "zero_return_rmse_pct": zero_return_rmse,
+        "training_positive_base_rate": base_rate,
+        "training_direction_baseline": (
+            "up" if baseline_predicts_up else "not_up"
+        ),
+        "direction_baseline_accuracy_pct": baseline_direction_accuracy,
+        "probability_baseline_up": base_rate,
+        "probability_baseline_brier_score": baseline_brier,
+        "mae_skill_score": _loss_skill_score(
+            model_mae,
+            zero_return_mae,
+        ),
+        "direction_skill_pct": (
+            model_direction_accuracy - baseline_direction_accuracy
+        ),
+        "direction_skill_score": direction_skill_score,
+        "brier_skill_score": _loss_skill_score(
+            model_brier,
+            baseline_brier,
+        ),
+        "holdout_nonoverlapping_samples": nonoverlapping_samples,
+        "holdout_effective_samples": effective_samples,
+        "holdout_overlap_stride_sessions": max(int(horizon_days), 1),
+    }
 
 
 def _forecast_from_horizon_return(
@@ -2401,6 +2786,7 @@ def _forecast_from_horizon_return(
     residual_std: float,
     metrics: dict,
     model_name: str,
+    symbol: str | None = None,
 ) -> ForecastResult:
     horizon_days = max(1, int(horizon_days))
     residual_std = max(float(residual_std), 1e-6)
@@ -2417,7 +2803,7 @@ def _forecast_from_horizon_return(
             "upper_estimate": np.exp(last_log_price + cumulative_returns + 1.645 * residual_std * interval_scale),
             "expected_daily_return_pct": np.expm1(future_log_returns) * 100.0,
         },
-        index=_future_index(close.index, horizon_days),
+        index=_future_index(close.index, horizon_days, symbol=symbol),
     )
     forecast.index.name = "date"
 
@@ -2579,12 +2965,21 @@ def _forecast_score(forecast_change_pct: float, expected_error_pct: float, confi
     return float((forecast_change_pct / error_floor) * edge_weight)
 
 
-def _future_index(index: pd.Index, horizon_days: int) -> pd.Index:
+def _future_index(
+    index: pd.Index,
+    horizon_days: int,
+    *,
+    symbol: str | None = None,
+) -> pd.Index:
     last_value = index[-1]
     if isinstance(last_value, pd.Timestamp):
         datetime_index = pd.DatetimeIndex(index)
-        has_weekend_data = bool((datetime_index.dayofweek >= 5).any())
-        if has_weekend_data:
+        is_utc_daily_24_7 = (
+            str(symbol).strip().upper().endswith("-USD")
+            if symbol is not None
+            else bool((datetime_index.dayofweek >= 5).any())
+        )
+        if is_utc_daily_24_7:
             start = last_value + pd.Timedelta(days=1)
             return pd.date_range(start=start, periods=horizon_days, freq="D")
 

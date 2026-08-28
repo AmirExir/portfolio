@@ -24,6 +24,7 @@ from market_agent.agent.ledger import (
     OutcomeRecord,
     PredictionLedger,
     PredictionRecord,
+    UTC_DAILY_24_7_SESSION_CALENDAR,
 )
 
 
@@ -192,7 +193,11 @@ class LedgerBackedPromotionTests(unittest.TestCase):
             probability_positive=probability_positive,
             feature_set_version="ledger-promotion-test-v1",
             feature_hash=f"feature-{prediction_id}",
-            metadata={"shadow_mode": True, "live_eligible": False},
+            metadata={
+                "shadow_mode": True,
+                "live_eligible": False,
+                "postprocessor_version": "ledger-promotion-v1",
+            },
         )
         outcome = OutcomeRecord(
             outcome_id=f"outcome-{prediction_id}",
@@ -315,6 +320,54 @@ class LedgerBackedPromotionTests(unittest.TestCase):
             [check.name for check in decision.failed_checks],
         )
 
+    def test_builder_persists_and_replays_exact_candidate_filters(self) -> None:
+        evidence = build_ledger_backed_promotion_evidence(
+            self.ledger,
+            forecast_as_of_session=self.forecast_cutoff,
+            horizon_sessions=1,
+            candidate_model_name=self.candidate_model_name,
+            candidate_policy_version=self.candidate_policy_version,
+            candidate=self.candidate,
+            baseline=self.baseline,
+            candidate_doubled_cost=self.candidate_stress,
+            baseline_doubled_cost=self.baseline_stress,
+            folds=self.folds,
+            baseline_policy_version=self.baseline_policy_version,
+            baseline_name="ridge",
+            baseline_candidates=self.baseline_candidates,
+            baseline_candidate_versions=self.baseline_candidate_versions,
+            candidate_session_calendar="us_equity",
+            candidate_benchmark_symbol="SPY",
+            candidate_model_version="RL Policy-model-v1",
+            candidate_feature_set_version="ledger-promotion-test-v1",
+            candidate_postprocessor_version="ledger-promotion-v1",
+            candidate_strict_close_t_eligible=True,
+        )
+
+        self.assertEqual(evidence.candidate_session_calendar, "us_equity")
+        self.assertEqual(evidence.candidate_benchmark_symbol, "SPY")
+        self.assertEqual(
+            evidence.candidate_model_version,
+            "RL Policy-model-v1",
+        )
+        self.assertEqual(
+            evidence.candidate_feature_set_version,
+            "ledger-promotion-test-v1",
+        )
+        self.assertEqual(
+            evidence.candidate_postprocessor_version,
+            "ledger-promotion-v1",
+        )
+        decision = evaluate_promotion_gates(
+            evidence,
+            self.gate_config,
+            ledger=self.ledger,
+        )
+        self.assertTrue(
+            decision.promoted,
+            [check.name for check in decision.failed_checks],
+        )
+
     def test_missing_ledger_fails_closed(self) -> None:
         decision = evaluate_promotion_gates(
             self.evidence,
@@ -418,11 +471,305 @@ class LedgerBackedPromotionTests(unittest.TestCase):
             candidate_model_name=values["candidate_model_name"],
             forecast_as_of_session=values["forecast_as_of_session"],
             ledger_head_hash=values["ledger_head_hash"],
+            candidate_session_calendar=values[
+                "candidate_session_calendar"
+            ],
+            candidate_benchmark_symbol=values[
+                "candidate_benchmark_symbol"
+            ],
+            candidate_model_version=values["candidate_model_version"],
+            candidate_feature_set_version=values[
+                "candidate_feature_set_version"
+            ],
+            candidate_postprocessor_version=values[
+                "candidate_postprocessor_version"
+            ],
+            candidate_strict_close_t_eligible=values[
+                "candidate_strict_close_t_eligible"
+            ],
         )
         return PromotionEvidence(
             evaluation_id=evaluation_id,
             **values,
         )
+
+
+class LedgerPromotionCohortTests(unittest.TestCase):
+    def test_unfiltered_mixed_provenance_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = PredictionLedger(Path(directory) / "ledger.jsonl")
+            self._append_completed(
+                ledger,
+                prediction_id="base",
+                symbol="BASE",
+                session_calendar="us_equity",
+                benchmark_symbol="SPY",
+                model_version="model-v1",
+                feature_set_version="features-v1",
+                postprocessor_version="post-v1",
+                strict=True,
+            )
+            self._append_completed(
+                ledger,
+                prediction_id="benchmark",
+                symbol="BENCH",
+                session_calendar="us_equity",
+                benchmark_symbol="QQQ",
+                model_version="model-v1",
+                feature_set_version="features-v1",
+                postprocessor_version="post-v1",
+                strict=True,
+            )
+            self._append_completed(
+                ledger,
+                prediction_id="model",
+                symbol="MODEL",
+                session_calendar="us_equity",
+                benchmark_symbol="SPY",
+                model_version="model-v2",
+                feature_set_version="features-v1",
+                postprocessor_version="post-v1",
+                strict=True,
+            )
+            self._append_completed(
+                ledger,
+                prediction_id="postprocessor",
+                symbol="POST",
+                session_calendar="us_equity",
+                benchmark_symbol="SPY",
+                model_version="model-v1",
+                feature_set_version="features-v1",
+                postprocessor_version="post-v2",
+                strict=True,
+            )
+            self._append_completed(
+                ledger,
+                prediction_id="features",
+                symbol="FEATURES",
+                session_calendar="us_equity",
+                benchmark_symbol="SPY",
+                model_version="model-v1",
+                feature_set_version="features-v2",
+                postprocessor_version="post-v1",
+                strict=True,
+            )
+            self._append_completed(
+                ledger,
+                prediction_id="crypto",
+                symbol="BTC-USD",
+                session_calendar=UTC_DAILY_24_7_SESSION_CALENDAR,
+                benchmark_symbol="BTC-USD",
+                model_version="model-v1",
+                feature_set_version="features-v1",
+                postprocessor_version="post-v1",
+                strict=True,
+            )
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "Mixed session_calendar cohort",
+            ):
+                self._observations(ledger)
+            with self.assertRaisesRegex(
+                ValueError,
+                "Mixed benchmark_symbol cohort",
+            ):
+                self._observations(
+                    ledger,
+                    session_calendar="us_equity",
+                )
+            with self.assertRaisesRegex(
+                ValueError,
+                "Mixed model_version cohort",
+            ):
+                self._observations(
+                    ledger,
+                    session_calendar="us_equity",
+                    benchmark_symbol="SPY",
+                )
+            with self.assertRaisesRegex(
+                ValueError,
+                "Mixed feature_set_version cohort",
+            ):
+                self._observations(
+                    ledger,
+                    session_calendar="us_equity",
+                    benchmark_symbol="SPY",
+                    model_version="model-v1",
+                )
+            with self.assertRaisesRegex(
+                ValueError,
+                "Mixed postprocessor_version cohort",
+            ):
+                self._observations(
+                    ledger,
+                    session_calendar="us_equity",
+                    benchmark_symbol="SPY",
+                    model_version="model-v1",
+                    feature_set_version="features-v1",
+                )
+            exact = self._observations(
+                ledger,
+                session_calendar="us_equity",
+                benchmark_symbol="SPY",
+                model_version="model-v1",
+                feature_set_version="features-v1",
+                postprocessor_version="post-v1",
+            )
+
+        self.assertEqual(
+            tuple(item.prediction_id for item in exact),
+            ("base",),
+        )
+
+    def test_delayed_crypto_is_research_visible_but_excluded_by_default(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = PredictionLedger(Path(directory) / "ledger.jsonl")
+            self._append_completed(
+                ledger,
+                prediction_id="crypto-strict",
+                symbol="BTC-USD",
+                session_calendar=UTC_DAILY_24_7_SESSION_CALENDAR,
+                benchmark_symbol="BTC-USD",
+                model_version="crypto-model-v1",
+                feature_set_version="crypto-features-v1",
+                postprocessor_version="crypto-post-v1",
+                strict=True,
+                as_of_session=date(2026, 1, 2),
+                created_at_utc=datetime(2026, 1, 3, 0, 10, tzinfo=UTC),
+            )
+            self._append_completed(
+                ledger,
+                prediction_id="crypto-delayed",
+                symbol="ETH-USD",
+                session_calendar=UTC_DAILY_24_7_SESSION_CALENDAR,
+                benchmark_symbol="BTC-USD",
+                model_version="crypto-model-v1",
+                feature_set_version="crypto-features-v1",
+                postprocessor_version="crypto-post-v1",
+                strict=False,
+                as_of_session=date(2026, 1, 3),
+                created_at_utc=datetime(2026, 1, 4, 9, tzinfo=UTC),
+            )
+            filters = {
+                "session_calendar": UTC_DAILY_24_7_SESSION_CALENDAR,
+                "benchmark_symbol": "BTC-USD",
+                "model_version": "crypto-model-v1",
+                "feature_set_version": "crypto-features-v1",
+                "postprocessor_version": "crypto-post-v1",
+            }
+            strict = self._observations(ledger, **filters)
+            delayed = self._observations(
+                ledger,
+                strict_close_t_eligible=False,
+                **filters,
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                "Mixed strict_close_t_eligible cohort",
+            ):
+                self._observations(
+                    ledger,
+                    strict_close_t_eligible=None,
+                    **filters,
+                )
+
+        self.assertEqual(
+            tuple(item.prediction_id for item in strict),
+            ("crypto-strict",),
+        )
+        self.assertEqual(
+            tuple(item.prediction_id for item in delayed),
+            ("crypto-delayed",),
+        )
+        self.assertFalse(delayed[0].strict_close_t_eligible)
+
+    @staticmethod
+    def _observations(
+        ledger: PredictionLedger,
+        **filters,
+    ):
+        return forecast_observations_from_ledger(
+            ledger,
+            as_of_session=date(2026, 1, 10),
+            horizon_sessions=1,
+            candidate_model_name="Ensemble",
+            candidate_policy_version="component-shadow-v1",
+            **filters,
+        )
+
+    @staticmethod
+    def _append_completed(
+        ledger: PredictionLedger,
+        *,
+        prediction_id: str,
+        symbol: str,
+        session_calendar: str,
+        benchmark_symbol: str,
+        model_version: str,
+        feature_set_version: str,
+        postprocessor_version: str,
+        strict: bool,
+        as_of_session: date = date(2026, 1, 2),
+        created_at_utc: datetime | None = None,
+    ) -> None:
+        is_crypto = session_calendar == UTC_DAILY_24_7_SESSION_CALENDAR
+        target_session = (
+            as_of_session + timedelta(days=1)
+            if is_crypto
+            else date(2026, 1, 5)
+        )
+        data_cutoff = (
+            datetime.combine(
+                as_of_session + timedelta(days=1),
+                time.min,
+                tzinfo=UTC,
+            )
+            if is_crypto
+            else datetime(2026, 1, 2, 11, 59, tzinfo=UTC)
+        )
+        created_at = created_at_utc or (
+            data_cutoff + timedelta(minutes=10)
+            if is_crypto
+            else datetime(2026, 1, 2, 12, tzinfo=UTC)
+        )
+        prediction = PredictionRecord(
+            prediction_id=prediction_id,
+            created_at_utc=created_at,
+            data_cutoff_utc=data_cutoff,
+            as_of_session=as_of_session,
+            target_session=target_session,
+            session_calendar=session_calendar,
+            symbol=symbol,
+            horizon_sessions=1,
+            model_name="Ensemble",
+            model_version=model_version,
+            feature_set_version=feature_set_version,
+            policy_version="component-shadow-v1",
+            forecast_return=0.01,
+            target_weight=0.0,
+            benchmark_symbol=benchmark_symbol,
+            probability_positive=0.70,
+            metadata={
+                "postprocessor_version": postprocessor_version,
+                "strict_close_t_eligible": strict,
+            },
+        )
+        outcome = OutcomeRecord(
+            outcome_id=f"outcome-{prediction_id}",
+            prediction_id=prediction_id,
+            recorded_at_utc=prediction.target_maturity_utc
+            + timedelta(hours=1),
+            target_session=target_session,
+            target_maturity_utc=prediction.target_maturity_utc,
+            realized_return=0.005,
+            benchmark_return=0.0,
+            data_source="deterministic-test",
+        )
+        ledger.append_prediction(prediction)
+        ledger.append_outcome(outcome)
 
 
 if __name__ == "__main__":

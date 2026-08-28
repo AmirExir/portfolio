@@ -14,9 +14,9 @@ except ImportError:  # pragma: no cover - package import path
     from .agent.forecast import ForecastResult
 
 
-CACHE_VERSION = 7
-MODEL_RESULT_CACHE_VERSION = 6
-SHADOW_MODEL_NAMES = frozenset({"RL Policy"})
+CACHE_VERSION = 9
+MODEL_RESULT_CACHE_VERSION = 8
+SHADOW_MODEL_NAMES = frozenset({"RL Policy", "LSTM", "Transformer"})
 FIXED_LIVE_CHAMPION_ORDER = (
     "Ensemble",
     "Ridge",
@@ -367,11 +367,38 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
         "Signal Quality": signal_quality(confidence),
         "Expected Error %": expected_error,
         "Validation MAE %": float(metrics.get("holdout_mae_pct", np.nan)),
+        "Zero-Return MAE %": _safe_float(
+            metrics.get("zero_return_mae_pct")
+        ),
+        "MAE Skill Score": _safe_float(metrics.get("mae_skill_score")),
         "Direction Hit Rate %": float(metrics.get("holdout_direction_accuracy", np.nan)),
+        "Direction Baseline Accuracy %": _safe_float(
+            metrics.get("direction_baseline_accuracy_pct")
+        ),
+        "Direction Skill %": _safe_float(metrics.get("direction_skill_pct")),
         "Validation Samples": _safe_float(metrics.get("holdout_samples"), 0.0),
-        "Validation Is OOS": bool(metrics.get("validation_is_oos", False)),
+        "Nonoverlapping Validation Samples": _safe_float(
+            metrics.get("holdout_nonoverlapping_samples"),
+            0.0,
+        ),
+        "Effective Validation Samples": _safe_float(
+            metrics.get("holdout_effective_samples"),
+            0.0,
+        ),
+        "Validation Overlap Stride Sessions": _safe_float(
+            metrics.get("holdout_overlap_stride_sessions"),
+            0.0,
+        ),
+        "Validation Is OOS": metrics.get("validation_is_oos") is True,
         "Calibration Error %": _safe_float(metrics.get("calibration_error_pct")),
         "Brier Score": _safe_float(metrics.get("brier_score")),
+        "Brier Baseline Score": _safe_float(
+            metrics.get("probability_baseline_brier_score")
+        ),
+        "Brier Skill Score": _safe_float(metrics.get("brier_skill_score")),
+        "Postprocessor Version": str(
+            metrics.get("postprocessor_version", "") or ""
+        ),
         "Forecast Outlier": bool(metrics.get("forecast_outlier", False)),
         "Score": score,
         "Smart Policy": smart_policy.get("policy_call", ""),

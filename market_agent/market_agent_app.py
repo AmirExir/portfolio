@@ -3616,7 +3616,7 @@ with top_analysis_tab:
         if latest_ml_payload and latest_ml_payload.get("rows"):
             render_section_header(
                 "Scheduled ML Forecast Rankings",
-                "Latest n8n-generated model-confirmed signals, smart-policy watchlists, and reliability metadata.",
+                "Latest n8n-generated model-qualified signals, smart-policy watchlists, and reliability metadata.",
             )
             generated_at = latest_ml_payload.get("generated_at")
             if generated_at:
@@ -3625,9 +3625,9 @@ with top_analysis_tab:
             if signal_summary:
                 summary_cols = st.columns(4)
                 with summary_cols[0]:
-                    st.metric("Model Buy Signals", int(signal_summary.get("model_confirmed_buys", 0) or 0))
+                    st.metric("Qualified Model Buys", int(signal_summary.get("model_qualified_buys", signal_summary.get("model_confirmed_buys", 0)) or 0))
                 with summary_cols[1]:
-                    st.metric("Model Sell/Avoid Signals", int(signal_summary.get("model_confirmed_sells", 0) or 0))
+                    st.metric("Qualified Model Sells/Avoids", int(signal_summary.get("model_qualified_sells", signal_summary.get("model_confirmed_sells", 0)) or 0))
                 with summary_cols[2]:
                     st.metric("Policy Buy Watchlist", int(signal_summary.get("policy_watch_buys", 0) or 0))
                 with summary_cols[3]:

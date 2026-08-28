@@ -190,6 +190,31 @@ class PredictionLedgerTests(unittest.TestCase):
                 }
             )
 
+    def test_prediction_must_be_created_strictly_before_next_open(self) -> None:
+        with self.assertRaisesRegex(ValueError, "at or after"):
+            PredictionRecord(
+                **{
+                    **_prediction().__dict__,
+                    "prediction_id": "at-open",
+                    "created_at_utc": datetime(
+                        2026,
+                        1,
+                        5,
+                        14,
+                        30,
+                        tzinfo=UTC,
+                    ),
+                    "data_cutoff_utc": datetime(
+                        2026,
+                        1,
+                        5,
+                        14,
+                        29,
+                        tzinfo=UTC,
+                    ),
+                }
+            )
+
     def test_horizon_must_match_exact_exchange_session_target(self) -> None:
         with self.assertRaisesRegex(
             ValueError,

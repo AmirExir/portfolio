@@ -93,6 +93,8 @@ def append_matured_outcomes(
                 data_source="daily-close-price-loader",
                 metadata={
                     "outcome_kind": "raw_close_to_close",
+                    "session_calendar": prediction.session_calendar,
+                    "benchmark_symbol": prediction.benchmark_symbol,
                     "decision_session": (
                         prediction.as_of_session.isoformat()
                     ),

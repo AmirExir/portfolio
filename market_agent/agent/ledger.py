@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 from dataclasses import dataclass, field
-from datetime import date, datetime, time, timezone
+from datetime import date, datetime, time, timedelta, timezone
 import hashlib
 import json
 import math
@@ -34,6 +34,15 @@ SCHEMA_VERSION = 2
 DEFAULT_EXCHANGE_TIMEZONE = ZoneInfo("America/New_York")
 DEFAULT_SESSION_CLOSE_HOUR = 16
 DEFAULT_SESSION_OPEN = time(9, 30)
+US_EQUITY_SESSION_CALENDAR = "us_equity"
+UTC_DAILY_24_7_SESSION_CALENDAR = "utc_daily_24_7"
+UTC_DAILY_STRICT_CLOSE_T_MAX_LAG_SECONDS = 30 * 60
+SUPPORTED_SESSION_CALENDARS = frozenset(
+    {
+        US_EQUITY_SESSION_CALENDAR,
+        UTC_DAILY_24_7_SESSION_CALENDAR,
+    }
+)
 
 
 class LedgerError(RuntimeError):
@@ -56,8 +65,30 @@ class ImmatureOutcomeError(LedgerError):
     """Raised when an outcome is recorded before its target session."""
 
 
-def _default_target_maturity_utc(target_session: date) -> datetime:
-    """Return regular US equity close for a target session."""
+def _normalize_session_calendar(value: str) -> str:
+    calendar = str(value).strip().lower()
+    if calendar not in SUPPORTED_SESSION_CALENDARS:
+        supported = ", ".join(sorted(SUPPORTED_SESSION_CALENDARS))
+        raise ValueError(
+            f"session_calendar must be one of: {supported}."
+        )
+    return calendar
+
+
+def _default_target_maturity_utc(
+    target_session: date,
+    session_calendar: str = US_EQUITY_SESSION_CALENDAR,
+) -> datetime:
+    """Return the economic close timestamp for a labeled daily session."""
+
+    calendar = _normalize_session_calendar(session_calendar)
+    if calendar == UTC_DAILY_24_7_SESSION_CALENDAR:
+        return datetime.combine(
+            target_session + timedelta(days=1),
+            time.min,
+            tzinfo=UTC,
+        )
+
     local_close = datetime(
         target_session.year,
         target_session.month,
@@ -69,10 +100,15 @@ def _default_target_maturity_utc(target_session: date) -> datetime:
     return local_close.astimezone(UTC)
 
 
-def session_close_utc(session: date | str) -> datetime:
-    """Return the regular US-equity close timestamp for a session."""
+def session_close_utc(
+    session: date | str,
+    session_calendar: str = US_EQUITY_SESSION_CALENDAR,
+) -> datetime:
+    """Return the UTC close timestamp for an equity or UTC daily session."""
+
     return _default_target_maturity_utc(
-        _as_date(session, "session")
+        _as_date(session, "session"),
+        session_calendar,
     )
 
 
@@ -101,10 +137,33 @@ def _next_session_open_utc(as_of_session: date) -> datetime:
     ).astimezone(UTC)
 
 
+def _publication_deadline_utc(
+    as_of_session: date,
+    session_calendar: str,
+) -> datetime:
+    """Return the last admissible timestamp for a prospective prediction.
+
+    US-equity behavior remains the next regular-session open. A 24/7 market has
+    no overnight open, so daily research forecasts must be recorded before the
+    first future UTC daily bar completes.
+    """
+
+    calendar = _normalize_session_calendar(session_calendar)
+    if calendar == UTC_DAILY_24_7_SESSION_CALENDAR:
+        first_future_session = as_of_session + timedelta(days=1)
+        return session_close_utc(first_future_session, calendar)
+    return _next_session_open_utc(as_of_session)
+
+
 def _expected_target_session(
     as_of_session: date,
     horizon_sessions: int,
+    session_calendar: str = US_EQUITY_SESSION_CALENDAR,
 ) -> date:
+    calendar_name = _normalize_session_calendar(session_calendar)
+    if calendar_name == UTC_DAILY_24_7_SESSION_CALENDAR:
+        return as_of_session + timedelta(days=horizon_sessions)
+
     calendar = us_equity_trading_sessions(
         as_of=datetime(
             as_of_session.year,
@@ -212,6 +271,7 @@ class PredictionRecord:
     target_weight: float
     return_start_session: date | None = None
     target_maturity_utc: datetime | None = None
+    session_calendar: str = US_EQUITY_SESSION_CALENDAR
     benchmark_symbol: str = "SPY"
     policy_version: str | None = None
     probability_positive: float | None = None
@@ -257,10 +317,18 @@ class PredictionRecord:
             "return_start_session",
             return_start_session,
         )
+        object.__setattr__(
+            self,
+            "session_calendar",
+            _normalize_session_calendar(self.session_calendar),
+        )
         maturity = (
             _as_utc_datetime(self.target_maturity_utc, "target_maturity_utc")
             if self.target_maturity_utc is not None
-            else _default_target_maturity_utc(self.target_session)
+            else _default_target_maturity_utc(
+                self.target_session,
+                self.session_calendar,
+            )
         )
         object.__setattr__(self, "target_maturity_utc", maturity)
         object.__setattr__(self, "symbol", _nonempty(self.symbol, "symbol").upper())
@@ -344,26 +412,35 @@ class PredictionRecord:
         expected_target = _expected_target_session(
             self.return_start_session,
             self.horizon_sessions,
+            self.session_calendar,
         )
         if self.target_session != expected_target:
             raise ValueError(
-                "target_session must be exactly horizon_sessions US-equity "
-                "sessions after return_start_session; "
+                "target_session must be exactly horizon_sessions "
+                f"{self.session_calendar} sessions after "
+                "return_start_session; "
                 f"expected {expected_target}."
             )
         if self.data_cutoff_utc > self.created_at_utc:
             raise ValueError("data_cutoff_utc cannot be after created_at_utc.")
-        publication_deadline = _next_session_open_utc(
-            self.as_of_session
+        publication_deadline = _publication_deadline_utc(
+            self.as_of_session,
+            self.session_calendar,
         )
-        if self.created_at_utc > publication_deadline:
+        if self.created_at_utc >= publication_deadline:
+            if self.session_calendar == US_EQUITY_SESSION_CALENDAR:
+                raise ValueError(
+                    "created_at_utc is at or after the next-session open; historical "
+                    "predictions cannot be backfilled after returns begin."
+                )
             raise ValueError(
-                "created_at_utc is after the next-session open; historical "
-                "predictions cannot be backfilled after returns begin."
+                "created_at_utc is at or after the first future UTC daily-session "
+                "close; historical predictions cannot be backfilled after a "
+                "complete outcome session is observable."
             )
-        if self.data_cutoff_utc > publication_deadline:
+        if self.data_cutoff_utc >= publication_deadline:
             raise ValueError(
-                "data_cutoff_utc is after the point-in-time decision deadline."
+                "data_cutoff_utc is at or after the point-in-time decision deadline."
             )
         if self.created_at_utc >= self.target_maturity_utc:
             raise ValueError(
@@ -434,6 +511,7 @@ class PredictionRecord:
             ),
             "target_session": self.target_session.isoformat(),
             "target_maturity_utc": _iso_utc(self.target_maturity_utc),
+            "session_calendar": self.session_calendar,
             "symbol": self.symbol,
             "horizon_sessions": self.horizon_sessions,
             "model_name": self.model_name,
@@ -459,6 +537,22 @@ class PredictionRecord:
         fields = dict(value)
         fields.pop("record_type", None)
         return cls(**fields)
+
+
+def prediction_strict_close_t_eligible(
+    prediction: PredictionRecord,
+) -> bool:
+    """Return whether a record is admissible as strict timing evidence.
+
+    New records persist an explicit boolean in metadata. Legacy US-equity
+    records retain their original prospective eligibility, while legacy 24/7
+    records without an explicit close-lag classification fail closed.
+    """
+
+    explicit = prediction.metadata.get("strict_close_t_eligible")
+    if isinstance(explicit, bool):
+        return explicit
+    return prediction.session_calendar == US_EQUITY_SESSION_CALENDAR
 
 
 @dataclass(frozen=True)

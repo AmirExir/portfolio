@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from dataclasses import replace
 from datetime import date, timedelta
+import json
 import unittest
+from unittest import mock
 
 import numpy as np
 import pandas as pd
@@ -12,6 +14,7 @@ from market_agent.agent.evaluation import (
     FittedPolicy,
     FoldPerformance,
     ForecastObservation,
+    MixedForecastCohortError,
     MixedHorizonError,
     PromotionEvidence,
     PromotionGateConfig,
@@ -287,6 +290,90 @@ class EvaluationMetricTests(unittest.TestCase):
         with self.assertRaises(MixedHorizonError):
             evaluate_forecasts(observations, horizon_sessions=2)
 
+    def test_forecast_direction_treats_zero_as_not_up(self) -> None:
+        start = date(2026, 1, 2)
+        observations = [
+            ForecastObservation(
+                prediction_id="negative-forecast-flat-outcome",
+                as_of_session=start,
+                target_session=start + timedelta(days=1),
+                symbol="FIRST",
+                horizon_sessions=1,
+                predicted_return=-0.01,
+                realized_return=0.0,
+                benchmark_return=0.0,
+                probability_positive=0.10,
+            ),
+            ForecastObservation(
+                prediction_id="flat-forecast-negative-outcome",
+                as_of_session=start + timedelta(days=1),
+                target_session=start + timedelta(days=2),
+                symbol="SECOND",
+                horizon_sessions=1,
+                predicted_return=0.0,
+                realized_return=-0.01,
+                benchmark_return=0.0,
+                probability_positive=0.10,
+            ),
+        ]
+
+        metrics = evaluate_forecasts(observations, horizon_sessions=1)
+
+        self.assertEqual(metrics.direction_accuracy, 1.0)
+
+    def test_forecast_metrics_reject_mixed_provenance_cohorts(self) -> None:
+        base = ForecastObservation(
+            prediction_id="base",
+            as_of_session=date(2026, 1, 2),
+            target_session=date(2026, 1, 5),
+            symbol="TEST",
+            horizon_sessions=1,
+            predicted_return=0.01,
+            realized_return=0.005,
+            benchmark_return=0.0,
+            model_version="model-v1",
+            feature_set_version="features-v1",
+            postprocessor_version="post-v1",
+        )
+        mixed_values = {
+            "session_calendar": "utc_daily_24_7",
+            "benchmark_symbol": "QQQ",
+            "model_version": "model-v2",
+            "feature_set_version": "features-v2",
+            "postprocessor_version": "post-v2",
+            "strict_close_t_eligible": False,
+        }
+
+        for field_name, value in mixed_values.items():
+            with self.subTest(field_name=field_name):
+                changed = replace(
+                    base,
+                    prediction_id=f"mixed-{field_name}",
+                    **{field_name: value},
+                )
+                with self.assertRaisesRegex(
+                    MixedForecastCohortError,
+                    field_name,
+                ):
+                    evaluate_forecasts(
+                        (base, changed),
+                        horizon_sessions=1,
+                    )
+
+    def test_forecast_observation_rejects_unknown_calendar(self) -> None:
+        with self.assertRaisesRegex(ValueError, "must be one of"):
+            ForecastObservation(
+                prediction_id="bad-calendar",
+                as_of_session=date(2026, 1, 2),
+                target_session=date(2026, 1, 5),
+                symbol="TEST",
+                horizon_sessions=1,
+                predicted_return=0.01,
+                realized_return=0.005,
+                benchmark_return=0.0,
+                session_calendar="weekday_guess",
+            )
+
     def test_transaction_cost_applies_only_when_exposure_changes(self) -> None:
         sessions = _business_dates(3)
         frame = pd.DataFrame(
@@ -416,24 +503,38 @@ class EvaluationMetricTests(unittest.TestCase):
         }
         prediction_ids = tuple(f"p-{index}" for index in range(60))
         ledger_head_hash = "a" * 64
-        evaluation_id = promotion_evaluation_id(
-            horizon_sessions=2,
-            candidate_policy_version="rl-shadow-v2",
-            baseline_policy_version="ridge-v1",
-            baseline_name="ridge",
-            candidate=candidate,
-            baseline=baseline,
-            candidate_doubled_cost=candidate_stress,
-            baseline_doubled_cost=baseline_stress,
-            folds=tuple(folds),
-            baseline_candidates=baseline_candidates,
-            baseline_candidate_versions=baseline_candidate_versions,
-            candidate_forecast_metrics=forecast_metrics,
-            candidate_forecast_prediction_ids=prediction_ids,
-            candidate_model_name="RL Policy",
-            forecast_as_of_session=sessions[-1],
-            ledger_head_hash=ledger_head_hash,
-        )
+        with mock.patch(
+            "market_agent.agent.evaluation.json.dumps",
+            wraps=json.dumps,
+        ) as dumps:
+            evaluation_id = promotion_evaluation_id(
+                horizon_sessions=2,
+                candidate_policy_version="rl-shadow-v2",
+                baseline_policy_version="ridge-v1",
+                baseline_name="ridge",
+                candidate=candidate,
+                baseline=baseline,
+                candidate_doubled_cost=candidate_stress,
+                baseline_doubled_cost=baseline_stress,
+                folds=tuple(folds),
+                baseline_candidates=baseline_candidates,
+                baseline_candidate_versions=baseline_candidate_versions,
+                candidate_forecast_metrics=forecast_metrics,
+                candidate_forecast_prediction_ids=prediction_ids,
+                candidate_model_name="RL Policy",
+                forecast_as_of_session=sessions[-1],
+                ledger_head_hash=ledger_head_hash,
+            )
+        legacy_payload = dumps.call_args.args[0]
+        for new_field in (
+            "candidate_session_calendar",
+            "candidate_benchmark_symbol",
+            "candidate_model_version",
+            "candidate_feature_set_version",
+            "candidate_postprocessor_version",
+            "candidate_strict_close_t_eligible",
+        ):
+            self.assertNotIn(new_field, legacy_payload)
         evidence = PromotionEvidence(
             shadow_sessions=80,
             candidate=candidate,

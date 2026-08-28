@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from types import SimpleNamespace
 import json
@@ -16,7 +16,11 @@ from market_agent.daily_ml_forecast_report import (
     apply_portfolio_constraints,
 )
 from market_agent.agent.earnings import us_equity_trading_sessions
-from market_agent.agent.ledger import PredictionLedger
+from market_agent.agent.ledger import (
+    PredictionLedger,
+    UTC_DAILY_24_7_SESSION_CALENDAR,
+    UTC_DAILY_STRICT_CLOSE_T_MAX_LAG_SECONDS,
+)
 
 
 UTC = timezone.utc
@@ -58,6 +62,299 @@ def _history() -> dict[str, pd.Series]:
 
 
 class DailyPortfolioAuthorizationTests(unittest.TestCase):
+    def test_missing_or_malformed_snapshot_cutoff_skips_ledger_row(self) -> None:
+        row = {
+            "Symbol": "SNDK",
+            "As Of Session": "2026-01-02",
+            "Target Session": "2026-02-13",
+            "Selected Model": "Ensemble",
+            "Forecast Return %": 5.0,
+            "Expected Error %": 4.0,
+            "Probability Up %": 60.0,
+            "Policy Target %": 0.0,
+        }
+        base_snapshot = {
+            "symbol": "SNDK",
+            "as_of_session": "2026-01-02",
+            "models": {"Ensemble": {"metrics": {}}},
+        }
+        cases = (
+            (None, "missing snapshot data_cutoff_utc"),
+            ("not-a-timestamp", "malformed snapshot data_cutoff_utc"),
+            ("2026-01-02T21:00:00", "malformed snapshot data_cutoff_utc"),
+        )
+
+        for cutoff, expected_error in cases:
+            with self.subTest(cutoff=cutoff), tempfile.TemporaryDirectory() as directory:
+                snapshot = dict(base_snapshot)
+                if cutoff is not None:
+                    snapshot["data_cutoff_utc"] = cutoff
+                result = append_prediction_records(
+                    output_dir=Path(directory),
+                    rows=[row],
+                    snapshots=[snapshot],
+                    horizon_days=30,
+                    created_at_utc=datetime(2026, 1, 2, 22, tzinfo=UTC),
+                )
+
+                self.assertEqual(result["appended"], 0)
+                self.assertEqual(result["skipped"], [f"SNDK: {expected_error}"])
+                self.assertEqual(
+                    PredictionLedger(
+                        Path(directory) / "prediction_ledger.jsonl"
+                    ).predictions(),
+                    (),
+                )
+
+    def test_crypto_prediction_uses_raw_symbol_and_utc_daily_maturity(
+        self,
+    ) -> None:
+        row = {
+            "Symbol": "ONDO",
+            "As Of Session": "2026-08-26",
+            "Target Session": "2026-09-25",
+            "Selected Model": "Ensemble",
+            "Forecast Return %": -12.0,
+            "Expected Error %": 20.0,
+            "Probability Up %": 30.0,
+            "Policy Target %": 0.0,
+        }
+        snapshot = {
+            "symbol": "ONDO-USD",
+            "as_of_session": "2026-08-26",
+            # Exercise correction of a legacy cached snapshot that used the
+            # US-equity close for crypto data.
+            "data_cutoff_utc": "2026-08-26T20:00:00Z",
+            "models": {
+                "Ensemble": {
+                    "metrics": {
+                        "live_eligible": True,
+                        "postprocessor_version": "selected-v1",
+                    }
+                },
+                "Ridge": {
+                    "metrics": {
+                        "forecast_change_pct": -10.0,
+                        "probability_up_pct": 35.0,
+                        "expected_error_pct": 18.0,
+                        "live_eligible": True,
+                        "postprocessor_version": "training_only_v1",
+                    },
+                    "forecast": [
+                        {
+                            "date": "2026-09-25",
+                            "forecast_close": 0.90,
+                        }
+                    ],
+                },
+                "Transformer": {
+                    "metrics": {
+                        "forecast_change_pct": -8.0,
+                        "probability_up_pct": 40.0,
+                        "expected_error_pct": 19.0,
+                        "live_eligible": False,
+                        "postprocessor_version": "research-v1",
+                    },
+                    "forecast": [
+                        {
+                            "date": "2026-09-25",
+                            "forecast_close": 0.92,
+                        }
+                    ],
+                },
+                "RL Policy": {
+                    "metrics": {
+                        "shadow_mode": True,
+                        "policy_version": "rl-shadow-crypto-v1",
+                        "model_version": "rl-shadow-crypto-model-v1",
+                        "policy_feature_set_version": "rl-crypto-features-v1",
+                        "policy_execution_start_session": "2026-08-27",
+                        "policy_execution_target_session": "2026-08-28",
+                        "policy_execution_horizon_sessions": 1,
+                        "rl_live_allocation_enabled": False,
+                        "forecast_context_horizon_sessions": 30,
+                        "forecast_context_return": -0.12,
+                        "forecast_context_probability_up": 0.30,
+                        "forecast_context_lower_bound": -0.32,
+                        "forecast_context_uncertainty": 0.20,
+                    }
+                },
+            },
+        }
+
+        with tempfile.TemporaryDirectory() as directory:
+            output_dir = Path(directory)
+            first = append_prediction_records(
+                output_dir=output_dir,
+                rows=[row],
+                snapshots=[snapshot],
+                horizon_days=30,
+                created_at_utc=datetime(2026, 8, 27, 9, tzinfo=UTC),
+            )
+            second = append_prediction_records(
+                output_dir=output_dir,
+                rows=[row],
+                snapshots=[snapshot],
+                horizon_days=30,
+                created_at_utc=datetime(2026, 8, 27, 22, tzinfo=UTC),
+            )
+            predictions = PredictionLedger(
+                output_dir / "prediction_ledger.jsonl"
+            ).predictions()
+
+        self.assertEqual(first["appended"], 6)
+        self.assertEqual(first["skipped"], [])
+        self.assertEqual(second["appended"], 0)
+        self.assertEqual(second["duplicates"], 6)
+        self.assertEqual(len(predictions), 6)
+        self.assertTrue(
+            all(record.symbol == "ONDO-USD" for record in predictions)
+        )
+        self.assertTrue(
+            all(record.benchmark_symbol == "BTC-USD" for record in predictions)
+        )
+        self.assertTrue(
+            all(
+                record.session_calendar
+                == UTC_DAILY_24_7_SESSION_CALENDAR
+                for record in predictions
+            )
+        )
+        prediction = next(
+            record
+            for record in predictions
+            if (
+                record.model_name == "Ensemble"
+                and record.policy_version == "smart-policy-v2"
+            )
+        )
+        self.assertEqual(prediction.symbol, "ONDO-USD")
+        self.assertEqual(prediction.benchmark_symbol, "BTC-USD")
+        self.assertEqual(
+            prediction.session_calendar,
+            UTC_DAILY_24_7_SESSION_CALENDAR,
+        )
+        self.assertEqual(
+            prediction.data_cutoff_utc,
+            datetime(2026, 8, 27, 0, tzinfo=UTC),
+        )
+        self.assertEqual(
+            prediction.target_maturity_utc,
+            datetime(2026, 9, 26, 0, tzinfo=UTC),
+        )
+        self.assertEqual(prediction.metadata["display_symbol"], "ONDO")
+        self.assertFalse(prediction.metadata["strict_close_t_eligible"])
+        self.assertEqual(
+            prediction.metadata["publication_timing_class"],
+            "delayed_research_only",
+        )
+        selected_component = next(
+            record
+            for record in predictions
+            if (
+                record.model_name == "Ensemble"
+                and record.policy_version == "component-shadow-v1"
+            )
+        )
+        self.assertEqual(selected_component.target_weight, 0.0)
+        self.assertEqual(
+            selected_component.metadata["selected_model_at_decision"],
+            "Ensemble",
+        )
+        component = next(
+            record
+            for record in predictions
+            if record.model_name == "Ridge"
+        )
+        self.assertEqual(component.target_weight, 0.0)
+        self.assertEqual(
+            component.metadata["record_role"],
+            "component_shadow_forecast",
+        )
+        self.assertTrue(component.metadata["live_eligible"])
+        research_component = next(
+            record
+            for record in predictions
+            if record.model_name == "Transformer"
+        )
+        self.assertFalse(research_component.metadata["live_eligible"])
+        rl_prediction = next(
+            record
+            for record in predictions
+            if record.model_name == "RL Policy"
+        )
+        self.assertEqual(rl_prediction.return_start_session, date(2026, 8, 27))
+        self.assertEqual(rl_prediction.target_session, date(2026, 8, 28))
+        self.assertEqual(
+            rl_prediction.target_maturity_utc,
+            datetime(2026, 8, 29, 0, tzinfo=UTC),
+        )
+
+    def test_crypto_strict_close_t_lag_tolerance_is_inclusive(self) -> None:
+        row = {
+            "Symbol": "ONDO",
+            "As Of Session": "2026-08-26",
+            "Target Session": "2026-09-25",
+            "Selected Model": "Ensemble",
+            "Forecast Return %": -12.0,
+            "Expected Error %": 20.0,
+            "Probability Up %": 30.0,
+            "Policy Target %": 0.0,
+        }
+        snapshot = {
+            "symbol": "ONDO-USD",
+            "as_of_session": "2026-08-26",
+            "models": {"Ensemble": {"metrics": {}}},
+        }
+        close_t = datetime(2026, 8, 27, 0, tzinfo=UTC)
+
+        with tempfile.TemporaryDirectory() as directory:
+            strict_dir = Path(directory) / "strict"
+            delayed_dir = Path(directory) / "delayed"
+            strict_dir.mkdir()
+            delayed_dir.mkdir()
+            append_prediction_records(
+                output_dir=strict_dir,
+                rows=[row],
+                snapshots=[snapshot],
+                horizon_days=30,
+                created_at_utc=close_t
+                + timedelta(
+                    seconds=UTC_DAILY_STRICT_CLOSE_T_MAX_LAG_SECONDS
+                ),
+            )
+            append_prediction_records(
+                output_dir=delayed_dir,
+                rows=[row],
+                snapshots=[snapshot],
+                horizon_days=30,
+                created_at_utc=close_t
+                + timedelta(
+                    seconds=(
+                        UTC_DAILY_STRICT_CLOSE_T_MAX_LAG_SECONDS + 1
+                    )
+                ),
+            )
+            strict_records = PredictionLedger(
+                strict_dir / "prediction_ledger.jsonl"
+            ).predictions()
+            delayed_records = PredictionLedger(
+                delayed_dir / "prediction_ledger.jsonl"
+            ).predictions()
+
+        self.assertTrue(
+            all(
+                record.metadata["strict_close_t_eligible"]
+                for record in strict_records
+            )
+        )
+        self.assertTrue(
+            all(
+                not record.metadata["strict_close_t_eligible"]
+                for record in delayed_records
+            )
+        )
+
     def test_late_ledger_entry_is_skipped_without_aborting_report(self) -> None:
         as_of_session = date(2026, 1, 2)
         calendar = us_equity_trading_sessions(
@@ -122,7 +419,7 @@ class DailyPortfolioAuthorizationTests(unittest.TestCase):
 
         self.assertEqual(result["appended"], 0)
         self.assertEqual(predictions, ())
-        self.assertEqual(len(result["skipped"]), 3)
+        self.assertEqual(len(result["skipped"]), 4)
         self.assertTrue(
             all(
                 "after the next-session open" in message
@@ -238,10 +535,10 @@ class DailyPortfolioAuthorizationTests(unittest.TestCase):
                 Path(directory) / "prediction_ledger.jsonl"
             ).predictions()
 
-        self.assertEqual(result["appended"], 3)
+        self.assertEqual(result["appended"], 4)
         self.assertEqual(result["duplicates"], 0)
         self.assertEqual(duplicate_result["appended"], 0)
-        self.assertEqual(duplicate_result["duplicates"], 3)
+        self.assertEqual(duplicate_result["duplicates"], 4)
         self.assertEqual(duplicate_result["skipped"], [])
         rl_record = next(
             record
