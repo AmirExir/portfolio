@@ -1,0 +1,39 @@
+1. The Data Center Backlash Is a Rare Bright Spot in American Politics
+The New Republic • 2026-08-27
+A certain segment of American elites has recently realized that people don’t like AI, data centers, and the Silicon Valley oligarchy that is foisting these things upon this country.One of the many blinking red lights for the AI industry came in the form of a …
+https://newrepublic.com/article/214795/ai-data-center-backlash-inevitable
+
+2. Renewable Energy Is Winning, Trump Is Losing (Shocker!)
+CleanTechnica • 2026-08-27
+Renewable energy is still crushing US President Donald Trump's fossil fuel fantasy, with solar energy and energy storage making an especially strong showing. The post Renewable Energy Is Winning, Trump Is Losing (Shocker!) appeared first on CleanTechnica.
+https://cleantechnica.com/2026/08/26/renewable-energy-solar-wind-storage-us-energy-policy-trump-fail/
+
+3. The Backlash Against Data Centers Is Bipartisan, Nationwide, and Wrong
+Reason • 2026-08-26
+Accepting the flawed arguments of the industry's critics and introducing harmful legislation is tantamount to accepting mob rule.
+https://reason.com/2026/08/26/the-backlash-against-data-centers-is-bipartisan-nationwide-and-wrong/
+
+4. CME Group Enters Wind Market with Contracts Designed for Renewable Energy Hedging
+PRNewswire • 2026-08-26
+CHICAGO, Aug. 26, 2026 /PRNewswire/ -- CME Group, the world's leading derivatives marketplace, today announced plans to launch financially-settled Wind Power futures and options in the fourth quarter, pending regulatory review. These new tools will help marke…
+https://www.prnewswire.com/news-releases/cme-group-enters-wind-market-with-contracts-designed-for-renewable-energy-hedging-302860083.html
+
+5. Earlier in 2026, Amogy and 2G Energy tested hydrogen made from ammonia without storing the gas. 3 years later, their South Korea project is planned to scale from 1 MW to 40 MW
+The Times of India • 2026-08-25
+Earlier in 2026, Amogy and 2G Energy demonstrated a different way of thinking about hydrogen power: instead of storing hydrogen gas in large quantities, hydrogen could be produced from ammonia when it is needed. The companies showed how Amogy’s ammonia-cracki…
+https://economictimes.indiatimes.com/news/international/us/science-earlier-in-2026-amogy-and-2g-energy-tested-hydrogen-made-from-ammonia-without-storing-the-gas-3-years-later-their-south-korea-project-is-planned-to-scale-from-1-mw-to-40-mw/articleshow/133511917.cms
+
+6. Crypto Mining Stocks Rally as Bitcoin Hovers Around $80K: MARA Jumps 7%, TeraWulf and IREN Climb 5%
+24/7 Wall St. • 2026-08-25
+Bitcoin briefly cracked $80,000 for the first time in months, sending crypto mining stocks surging well past the broader digital infrastructure pack, but not...
+https://247wallst.com/investing/2026/08/25/crypto-mining-stocks-rally-as-bitcoin-hovers-around-80k-mara-jumps-7-terawulf-and-iren-climb-5/
+
+7. AI Data Centers Can Subsidize Electricity for Host Cities
+Next Big Future • 2026-08-24
+An AI data center needs enormous amounts of electricity. Building power plants is expensive, but it gets cheaper per unit as you build bigger. A developer could deliberately build more generation than the data center needs, then sell the surplus at lower cost…
+https://www.nextbigfuture.com/2026/08/ai-data-centers-can-subsidize-electricity-for-host-cities.html
+
+8. Luxor Energy and Bentaus Complete First AI GPU Response to ERCOT 4CP Signals
+PRNewswire • 2026-08-24
+Luxor Energy and Bentaus's Ziani™ platform cut a live GPU's power draw to 25% in under 500 milliseconds with no disruption to inference workloads. HOUSTON, Aug. 24, 2026 /PRNewswire/ -- Luxor Energy, the energy division of Luxor Technology Corporation, and Be…
+https://www.prnewswire.com/news-releases/luxor-energy-and-bentaus-complete-first-ai-gpu-response-to-ercot-4cp-signals-302857859.html
