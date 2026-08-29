@@ -1,0 +1,30 @@
+**Fresh market-moving headlines only, last 36 hours**
+
+### Facts
+- **Fed/Jackson Hole remains the main macro focus.**  
+  - **CNBC, 2026-08-28 08:24Z:** Treasury yields were little changed ahead of **Fed Chair Kevin Warsh’s** keynote at Jackson Hole, with investors waiting for policy-rate signals.  
+  - **BusinessLine/Reuters, 2026-08-28 08:46Z:** Gold was steady as markets awaited Warsh’s speech for clues on the Fed’s rate path.  
+  - **Semafor via Biztoc, 2026-08-28 09:01Z:** Warsh is expected to face scrutiny over **Fed independence** in his first Jackson Hole appearance as chair.
+
+- **Nvidia remains a key AI/semi driver.**  
+  - **The Next Web, 2026-08-28 08:19Z:** Nvidia said its first **H200 shipments to China** were less than 1% of quarterly data-center revenue, and its **$108 billion current-quarter forecast assumes no China data-center computing revenue**.  
+  - Several aggregation items cite **blockbuster Nvidia earnings**, but those are mostly secondary summaries rather than direct reporting in this set.
+
+- **Energy is in focus.**  
+  - **WSJ via Biztoc, 2026-08-28 08:45Z:** Brent crude was cited as **up 2%** in premarket coverage tied to the day’s market setup.
+
+- **AI policy/regulatory headline:**  
+  - **DW, 2026-08-28 08:48Z:** A U.S. federal judge ruled the Pentagon’s blacklisting of **Anthropic** unlawful, a notable AI-sector policy development.
+
+- **Corporate earnings:**  
+  - **PRNewswire, 2026-08-28 08:34Z:** **MINISO Group** reported quarterly/interim results, including **22.4% YoY revenue growth** in 1H 2026.  
+  - This is a company-specific earnings item, but not clearly broad market-moving for U.S. macro/index tape.
+
+- **Crypto/security:**  
+  - **Cointelegraph, 2026-08-28 08:21Z:** OneKey said it reproduced a transaction-replacement attack against an **outdated Ledger Ethereum app**, though Ledger had already fixed the issue in a prior upgrade.
+
+### Interpretation
+- The **clearest fresh market driver in this article set is Jackson Hole**, specifically anticipation around **Warsh’s speech** and what it may imply for rates and Fed credibility/independence.
+- **Nvidia/AI remains an important underlying theme**, with the fresh angle here being **limited China contribution** to revenue/guidance despite resumed H200 shipments.
+- **Energy may matter today** given the fresh mention of **higher Brent**, but this set does **not** provide enough detail on the cause.
+- Overall, the fresh headline set is **fairly thin** and mostly **pre-event positioning** around Warsh rather than a full explanation for today’s tape.
