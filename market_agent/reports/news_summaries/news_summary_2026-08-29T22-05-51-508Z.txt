@@ -1,0 +1,25 @@
+**Fresh market-moving headlines only (last 36 hours).**
+
+### Facts
+- **Fed / rates:** Fed Chair **Kevin Warsh** said there is still “work to do” on inflation, signaling a hawkish stance. Multiple reports said this pushed **short-term Treasury yields higher** and raised talk of a possible additional rate hike. *(Digital Journal/AFP, 2026-08-28T21:50:37Z; Biztoc citing WSJ, 2026-08-28T21:56:18Z; Biztoc citing WSJ, 2026-08-28T21:40:36Z; Biztoc citing MarketWatch, 2026-08-28T21:25:43Z)*
+
+- **Labor data:** The **Bureau of Labor Statistics revised U.S. employment growth lower by 79,000 jobs**. *(Crypto Briefing, 2026-08-28T22:04:56Z)*
+
+- **AI / semis:** Fresh follow-up coverage after Nvidia’s results said **Nvidia’s revenue outlook was strong enough to spark speculation that SpaceX could be a meaningful customer**, though that remains market speculation rather than confirmed company guidance. *(Crypto Briefing, 2026-08-28T21:38:43Z; Biztoc citing MarketWatch, 2026-08-28T21:25:21Z)*
+
+- **Mega-cap AI:** **Microsoft** was reported to be on its **longest winning streak of 2026**, with coverage pointing to **Azure topping $100B in annual revenue** and a record commercial backlog. *(Crypto Briefing, 2026-08-28T21:59:22Z)*
+
+- **Crypto / liquidity:** U.S. **M2 money supply rose by $103B in July to $23.2T**, a new record high. *(Crypto Briefing, 2026-08-28T21:33:01Z)*
+
+- **Energy / geopolitics:** A report said the U.S. is in **talks over long-term rights to about a third of Venezuela’s oil reserves**, potentially involving U.S. companies. *(Newser citing WSJ, 2026-08-28T21:45:23Z)*
+
+### Interpretation
+- The clearest fresh macro driver in this set is **Warsh’s hawkish inflation message**, which matters most for **front-end rates, Fed expectations, and valuation-sensitive equities**.
+
+- The **downward payroll revision** points the other way at the margin, suggesting some cooling in labor conditions. That creates a **mixed macro signal** rather than a clean single narrative.
+
+- In AI/semis, the freshest actionable theme is that **Nvidia demand expectations remain a market focal point**, with spillover attention on major buyers and infrastructure names. But the SpaceX angle in these articles is **speculative**, not a confirmed company disclosure.
+
+- Fresh energy news is **thin**; the Venezuela item is notable geopolitically but does **not by itself explain today’s tape**.
+
+- Overall, this article set offers a **reasonable explanation for rates-sensitive market action via Warsh**, but outside Fed/rates and AI follow-through, the fresh headline set is **not especially deep**.
