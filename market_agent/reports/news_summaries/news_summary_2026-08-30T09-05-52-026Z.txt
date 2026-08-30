@@ -1,0 +1,15 @@
+**Fresh market-moving headlines are fairly thin in this article set. The clearest tape-relevant items are Fed/rates, energy, and some crypto-regulation/infrastructure coverage. There is not enough here by itself to fully explain today’s broader market action.**
+
+## Facts
+- **Fed/rates:** *The Times of India* (**2026-08-29T08:30:23Z**) reported that **rate-hike odds for September rose to 57% from 30%** after Fed Chair Kevin Warsh’s Jackson Hole speech; the same report said **Goldman Sachs expects no change** but warns hotter inflation could alter the outlook.
+- **Rates/risk sentiment:** *The Manila Times* / AP (**2026-08-29T08:28:12Z**) said the **bond market swung as investors increased bets that the Fed may hike rates soon** to address high inflation.
+- **Energy/Europe gas:** *Crypto Briefing* (**2026-08-29T09:03:05Z**) reported that **Europe is struggling to fill natural-gas storage ahead of winter**, with gas prices potentially rising above **100 euros/MWh**, which the article says could increase volatility in energy markets.
+- **Crypto / Wall Street adoption:** *The Times of India* / Bloomberg (**2026-08-29T07:54:42Z**) reported that **BlackRock and other Wall Street firms are making it easier for large Bitcoin holders to move holdings into spot Bitcoin ETFs via in-kind transactions**, helped by lower minimums and expanding market infrastructure.
+- **Crypto / regulation:** *Cointelegraph* (**2026-08-29T08:01:04Z**) reported that **BIS chief Pablo Hernández de Cos said stablecoins are not credible for payments at scale**, while noting global regulators are still building frameworks around them.
+- **Food inflation signal:** *Daily Mail* (**2026-08-29T07:59:53Z**) reported that **Australia’s largest chicken producer warned bird flu and rising costs could push poultry and egg prices higher**.
+
+## Interpretation
+- The **main macro signal in this feed is more hawkish Fed pricing**, which is the most plausible direct driver for moves in **Treasury yields, rate-sensitive equities, and broader risk sentiment**.
+- The **Europe gas-storage story** is an **energy/inflation risk**, but it is not enough on its own to explain broad cross-asset trading unless reinforced by other energy-market reporting.
+- The **Bitcoin ETF plumbing story** is supportive for the theme of **institutional crypto integration**, while the **BIS stablecoin criticism** points the other way on policy sentiment; together, they suggest a **mixed crypto headline backdrop**, not a clean market direction signal.
+- There are **no strong fresh earnings or major AI/semi-specific market-moving headlines** in this set from top-tier financial wires, so any move in those groups would need confirmation from other sources.
