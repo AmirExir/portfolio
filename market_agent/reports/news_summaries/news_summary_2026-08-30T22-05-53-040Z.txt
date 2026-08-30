@@ -1,0 +1,19 @@
+Here are the **fresh market-moving headlines** from the last 36 hours that look most relevant to macro/markets. The usable set is **fairly thin and somewhat noisy**, so it may **not fully explain today’s tape** on its own.
+
+## Facts
+- **Fed / rates:** **Biztoc citing Investing.com**, **2026-08-29 21:27:33Z** — Headline says Fed Chair **Kevin Warsh kept a potential September rate hike on the table** after Jackson Hole, emphasizing persistent inflation over employment concerns.  
+- **Fed / rates:** **Biztoc citing New York Times**, **2026-08-29 20:55:28Z** — Headline says Warsh faces a decision on whether to **raise rates if inflation does not ease**.  
+- **Inflation / AI hardware:** **Biztoc citing Forbes/Yahoo-style summary**, **2026-08-29 21:27:26Z** — Headline says **Minneapolis Fed researchers found AI-driven demand for memory and computer hardware is adding to core inflation**, with an effect described as comparable to prior tariffs.  
+- **AI / semis capex:** **Crypto Briefing**, **2026-08-29 21:43:12Z** — **SanDisk and Kioxia plan a $31B investment** in Japanese memory plants over six years, citing AI-driven storage demand.  
+- **Energy / geopolitics:** **Fortune**, **2026-08-29 21:26:05Z** — Report says the **U.S. plans broader sanctions on Iran**, with Treasury Secretary Scott Bessent describing an “economic D-Day” effort to further isolate the regime.  
+- **Crypto / market structure:** **CryptoSlate**, **2026-08-29 21:02:22Z** — **Coinbase’s US500 futures trading spike to $104M** is described as an early test of crypto-native access to U.S. equity exposure, though the article says enthusiasm faced an “early reality check.”  
+- **Crypto / tokenized equities:** **Crypto Briefing**, **2026-08-29 21:07:00Z** — **Aerodrome on Base expanded into tokenized global equities**, and the article says launch trading included names such as Nvidia, Apple, Meta, and Alphabet.  
+
+## Interpretation
+- The clearest **macro driver** in this set is the **more hawkish rates narrative around Warsh**, which could matter for **Treasury yields, rate-sensitive equities, and overall risk sentiment** if markets take September hike odds more seriously.
+- The **AI-inflation** headline reinforces a market theme that **AI infrastructure demand is no longer just a growth story but also a potential inflation/rates story**, especially via memory and hardware bottlenecks.
+- The **SanDisk/Kioxia spending plan** is relevant for **semiconductor and storage supply-chain names**, supporting the idea that AI-related capex remains strong.
+- The **Iran sanctions** item is the main **energy/geopolitical risk** headline here; it could matter for **oil and broader risk sentiment**, but this article set does **not** provide direct market-price confirmation.
+- Crypto-wise, the usable fresh news is more about **market structure and product expansion** than a clear broad **BTC/ETH price driver**.
+
+If you want, I can turn this into a **2-minute premarket note** or a **risk-on/risk-off dashboard**.
