@@ -1,0 +1,19 @@
+**Fresh market-moving headlines are limited, and the set is heavy on geopolitics and live-market blog coverage rather than hard macro/earnings releases.**
+
+## Facts
+- **Middle East escalation / oil-risk sentiment:** *CNBC* (**2026-08-30T22:01:47Z**) reported U.S.-Iran tensions had flared again, saying “the U.S. and Iran traded fire for the first time in a month,” with stock futures lower in that context.  
+- **Strait of Hormuz shipping risk:** *Crypto Briefing* (**2026-08-30T21:59:51Z**) reported Iran’s Revolutionary Guards announced missile launches at vessels in the Strait of Hormuz and said shipping traffic was already below normal levels.  
+- **Broader Iran military escalation:** *Crypto Briefing* (**2026-08-30T22:06:57Z**) reported missile launches from western Iran; *Crypto Briefing* (**2026-08-30T21:59:21Z**) separately reported impacts at Jordan’s Muwaffaq Salti Air Base, a major U.S. military hub.  
+- **Fed / inflation backdrop:** *ABC News (AU)* (**2026-08-30T21:09:05Z**) said Wall Street closed lower after Fed Chair Kevin Warsh reiterated the central bank’s focus on fighting inflation, increasing prospects for a rate hike.  
+- **Consumer inflation signal:** *PYMNTS* (**2026-08-30T21:26:13Z**) reported Affirm CEO Max Levchin said higher gas prices are weighing on U.S. consumers and boosting buy-now-pay-later demand.  
+- **Food inflation pressure:** *ABC News (AU)* (**2026-08-30T21:00:34Z**) reported Australian grocery prices rose 8.5% for a typical basket over the past year and said Iran-war effects on food prices had not yet been fully felt.  
+- **AI/semis:** *Crypto Briefing* (**2026-08-30T21:55:26Z**) reported Nvidia CEO Jensen Huang said AI is a catalyst for U.S. manufacturing reshoring, pointing to major domestic investment and job creation.  
+- **Crypto flows:** *Decrypt* (**2026-08-30T21:31:04Z**) reported U.S. spot Bitcoin ETFs saw **$201.9 million** of net outflows on Aug. 28, ending a nine-day inflow streak, while Ethereum funds extended their inflow run.  
+- **FX / crypto cross-asset risk:** *BeInCrypto* (**2026-08-30T21:28:57Z**) reported the Japanese yen weakened again despite roughly **$97 billion** of support, flagging possible implications for Bitcoin if policy action follows.  
+- **M&A:** *New York Post / Reuters* (**2026-08-30T21:26:56Z**) reported Aon is close to acquiring USI Insurance from KKR in a deal valued around **$17 billion**, including debt.
+
+## Interpretation
+- The clearest fresh market-moving driver in this article set is **geopolitical escalation involving Iran**, mainly because of its potential implications for **oil, shipping, inflation expectations, and risk sentiment**.  
+- The second meaningful theme is **Fed/inflation sensitivity**, but the coverage here is thin and mostly from a live-market wrap rather than a new policy announcement or official data release.  
+- There is **not enough fresh hard-news coverage here on earnings, major economic data, or semis** to fully explain today’s tape beyond geopolitics and rate/inflation concerns.  
+- In crypto, the freshest actionable item is a **pause in Bitcoin ETF inflows** while **Ethereum fund inflows continue**, suggesting mixed institutional flow momentum rather than a broad, confirmed directional signal.
