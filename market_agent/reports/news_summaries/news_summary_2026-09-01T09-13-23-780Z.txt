@@ -1,0 +1,16 @@
+Fresh market-moving headlines only, from the last 36 hours.
+
+**Facts**
+- **Oil/geopolitics:** **Crypto Briefing** (2026-08-31T09:10:16Z) reported **Brent crude topped $90** after renewed **U.S.-Iran fighting in the Strait of Hormuz**, citing supply disruption risks through a key oil chokepoint.
+- **Oil/geopolitics:** **Oman Observer** (2026-08-31T09:08:58Z) reported **Oman crude traded at $94.31/barrel**, up **$2.65 from Friday’s close**, tied to fresh Iran-war attacks.
+- **Oil/geopolitics:** **Crypto Briefing** (2026-08-31T08:59:39Z) reported the **UAE said it reserves the right to respond** after an Iranian attack, adding to Gulf tension.
+- **Rates/Fed:** **The Times of India / Bloomberg-sourced market report** (2026-08-31T08:37:41Z) said **Barclays now expects two 25 bp Fed hikes in 2026, in September and December**, reversing its prior unchanged-rates call after hawkish remarks from Fed Chair Warsh.
+- **AI/semis:** **DigiTimes** (2026-08-31T08:55:00Z) reported **Nvidia fiscal Q2 revenue of $96.22 billion, up 106% y/y**, with **data center revenue up 117% to $89 billion**; it also said supply is meeting only about **70% of demand** and cited a **Q3 revenue projection of $108 billion**.
+- **India equities/microstructure:** **The Times of India / Bloomberg** (2026-08-31T09:10:54Z) reported India’s new **20-minute closing auction** is under scrutiny after the **Sensex briefly plunged nearly 3%** on Thursday, highlighting concerns about thin liquidity and price volatility.
+- **India equities:** **The Times of India** (2026-08-31T09:04:46Z) reported **small- and mid-cap Indian shares fell up to 5%**, with weakness in names including **Persistent Systems** and **National Aluminium**, while broader midcap and smallcap indexes underperformed.
+
+**Interpretation**
+- The **clearest fresh macro driver** in this article set is **Middle East escalation pushing oil higher**, which matters for **energy, inflation expectations, and risk sentiment**.
+- A second notable theme is a **more hawkish Fed path from Barclays**, relevant for **Treasury yields, rate-sensitive equities, and USD/risk appetite**.
+- **Nvidia demand/supply commentary** is the main fresh **AI/semi** item here and could matter for semiconductor sentiment, though this article set does **not** provide broader sector price action.
+- Beyond that, the fresh set is **thin** for explaining today’s overall tape: there is **little direct fresh coverage** here on U.S. equity indexes, inflation data, major earnings outside Nvidia-related reporting, or major crypto price moves.
