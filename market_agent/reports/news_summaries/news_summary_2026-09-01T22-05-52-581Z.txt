@@ -1,0 +1,16 @@
+Here are the only **fresh, potentially market-moving headlines** from the last 36 hours in your JSON. The set is **thin and mixed**, and it does **not fully explain today’s tape** on its own.
+
+## Facts
+- **CNBC — 2026-08-31T22:03:33Z**: In its live market update, CNBC said **stock futures were near flat Monday night** after a losing cash session, while the major U.S. benchmarks still posted **monthly gains**. This is a broad market-status update, not a new catalyst by itself.
+- **Daily Signal — 2026-08-31T21:50:00Z**: President **Trump said he would not try to talk Fed Chair Kevin Warsh out of a possible rate hike**, and said he trusts Warsh to do what is needed. This is relevant to **rates/Fed expectations**.
+- **ABC News (AU) — 2026-08-31T21:54:47Z**: Australian data showed **home prices fell for a fifth month in August**, with the report also pointing to **continued housing supply shortfalls** and ongoing policy-tightening risk. This matters mainly for **macro/rates sentiment**, especially in Australia.
+- **PRNewswire — 2026-08-31T21:43:00Z**: **Jack Henry (JKHY)** said it is responding to a **cybersecurity incident** detected in a limited portion of its environment. This is a **single-stock / financial-infrastructure** headline.
+- **Crypto Briefing — 2026-08-31T22:04:12Z**: **Robinhood Banking surpassed $4 billion in assets**, according to CEO commentary. This is more of a **company/fintech growth update** than a broad market driver.
+- **Crypto Briefing — 2026-08-31T21:29:50Z**: **Polymarket was reportedly valued at $21 billion** in a funding round led by 1789 Capital. This is a **crypto/private-markets** headline, but not clearly a major mover for listed risk assets from the information provided.
+
+## Interpretation
+- The **clearest macro-relevant fresh item** here is the Trump/Warsh headline, because it can reinforce the idea that **higher-for-longer or renewed hike risk** remains in play.
+- The **Australia housing** story modestly supports a view that **global policy-tightening and housing weakness** remain part of the macro backdrop, but it is not enough by itself to drive U.S. markets.
+- **JKHY’s cybersecurity disclosure** could matter for the stock and possibly for sentiment around financial-services IT vendors, but it is **not a broad tape driver** unless follow-on reporting expands the scope.
+- The crypto/fintech items are **interesting but secondary** for broad market direction based on the supplied articles.
+- There are **no fresh, high-confidence earnings, inflation, energy, AI/semi, or major crypto price-driver headlines** in this set that convincingly explain today’s broader market action.
