@@ -1,0 +1,14 @@
+Here are the **fresh market-moving headlines** from the last 36 hours that appear relevant.
+
+## Facts
+- **Global bond yields rose sharply amid inflation/debt concerns** — **The Globe and Mail via Biztoc**, **2026-09-01T22:04:39Z**: reported a deepening global bond selloff, citing investor angst over inflation and government debt levels; said **Japan’s 10-year yield hit 3%**, its highest since 1996.  
+- **U.S. Treasury yields moved higher** — **The Hill via Biztoc**, **2026-09-01T21:51:27Z**: said the **U.S. 10-year Treasury yield exceeded 4.7%** and the **30-year remained above 5.2%**, framing the move around inflation and debt fears.  
+- **Geopolitical tension linked to higher oil and weaker risk tone in Asia** — **ABC News (AU)**, **2026-09-01T21:50:04Z**: said fresh **U.S. strikes against Iran** helped push **oil to a two-month high** and contributed to a **global bond selloff**; also said the **ASX was likely to fall sharply**.  
+- **Higher crude and yields pressured consumer-sensitive stocks** — **Yahoo Finance via Biztoc**, **2026-09-01T21:52:23Z**: said **WTI crude rose to about $90 a barrel** and benchmark Treasury yields jumped, which renewed inflation concerns and weighed on stocks including **Floor & Decor, Williams-Sonoma, Ollie’s, and Petco**.  
+- **Nvidia made a major investment tied to AI/semi supply chain** — **Decrypt**, **2026-09-01T21:31:04Z**: reported **Nvidia invested $3.5 billion in MediaTek** through convertible bonds, described as Nvidia’s largest direct investment outside the U.S.
+
+## Interpretation
+- The clearest fresh macro drivers in this article set are **higher global yields**, **rising oil tied to Iran-related geopolitics**, and the resulting **inflation/rates anxiety**.
+- For equities, the supplied headlines most directly support pressure on **rate-sensitive and consumer/discretionary names**, rather than offering a broad explanation for all major index moves.
+- On the AI/semi side, the only meaningful fresh company-specific item is **Nvidia’s MediaTek investment**, which could matter for sentiment around AI hardware and semiconductor ecosystem positioning.
+- There is **not much fresh coverage here on Fed policy, major U.S. inflation data, large-cap earnings, or major crypto price action**, so if you’re trying to explain today’s full tape, this article set is **somewhat thin**.
