@@ -1,0 +1,17 @@
+Fresh market-moving headlines are limited in this article set, and several items are opinion/generic coverage rather than direct tape drivers.
+
+**Facts**
+- **The Verge | 2026-09-01T08:46:25Z** — Nvidia said **DLSS 5 launches Sept. 3**, initially for **NBA 2K27** and officially for **RTX 50-series GPUs** only. This is a fresh AI/semi-related product headline tied to Nvidia’s ecosystem.
+- **Business Standard (Bloomberg) | 2026-09-01T09:02:01Z** — A Bloomberg-sourced article says **Apple’s succession outlook is in focus**, framing **John Ternus** as facing a tough act to follow after Tim Cook’s long run. This is notable for mega-cap tech leadership discussion, though it does **not** report a fresh operating result or formal corporate action in the text provided.
+- **The Times of India / Bloomberg | 2026-09-01T09:03:37Z** — Bloomberg reported that **HDFC Bank CEO Sashidhar Jagdishan will depart after his term ends next month**, after reported disagreements with the new chairman over proposed changes. This is a fresh, company-specific leadership headline for a major bank.
+- **Hurriyet Daily News | 2026-09-01T08:58:32Z** — **Türkiye manufacturing PMI rose to 48.1 in August from 47.7 in July**, the highest in three months, though still below 50.
+- **Antara News | 2026-09-01T09:06:47Z** — Incoming **Bank Indonesia Governor Destry Damayanti** said the central bank will **prioritize economic stability** amid global market uncertainty.
+- **CryptoSlate | 2026-09-01T08:56:21Z** — **Cronos** restarted block production after validators rolled the chain back following a reported **$75 million lending-protocol exploit**. This is a fresh crypto infrastructure/risk headline.
+- **Crypto Briefing | 2026-09-01T08:53:04Z** — A report said **institutional investors are increasing exposure to XRP futures on CME**, indicating continued interest in regulated crypto derivatives.
+- **PRNewswire | 2026-09-01T09:05:00Z** — **Bybit** announced plans to launch **Perp Options** on Sept. 17, including **24/7 US equity options trading** via crypto-style perpetual structures. This is a product announcement, though from a press release rather than a mainstream market outlet.
+
+**Interpretation**
+- The freshest actionable headline for US mega-cap tech/AI is **Nvidia’s DLSS 5 rollout**, though it is more product-ecosystem news than a clear broad-market macro driver.
+- There is **no strong fresh Fed, inflation, Treasury, energy, or major index headline** in this dataset that clearly explains today’s broader tape.
+- The crypto headlines point to **ongoing infrastructure and derivatives activity**, but they do not by themselves establish a clear direction for major crypto prices.
+- Overall, the fresh set is **thin and mixed**, with more company/product and regional items than decisive macro market catalysts.
