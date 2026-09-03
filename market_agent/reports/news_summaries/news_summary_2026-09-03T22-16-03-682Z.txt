@@ -1,0 +1,19 @@
+Fresh market-moving headlines are somewhat thin in this set, and several items are low-quality aggregations. The clearest usable drivers are Treasury yields/rates, oil/geopolitics, a Google antitrust ruling, and a few company-specific items.
+
+**Facts**
+- **CNBC, 2026-09-02T22:08:36Z** — CNBC said U.S. equity futures were little changed Wednesday evening after major averages ended higher, and explicitly tied the prior pressure to **rising Treasury yields** and **more fighting between the U.S. and Iran**.
+- **ABC News (AU), 2026-09-02T21:40:40Z** — ABC’s markets live blog said **oil was above $95/barrel** and that **the bond market steadied**.
+- **Daily Mail, 2026-09-02T21:28:31Z** — A federal judge **ordered Google to change ad practices** after ruling it had operated an illegal monopoly in open-web display advertising, though the judge **did not require a breakup**.
+- **The Verge, 2026-09-02T21:31:46Z** — **Uber launched a commercial robotaxi service in London** using Wayve technology, beating Waymo to that market; service initially includes **human safety drivers**.
+- **Decrypt, 2026-09-02T21:31:05Z** — Japan’s **Remixpoint sold ETH, SOL, XRP and DOGE** and shifted to a **Bitcoin-only treasury**, retaining about **1,506 BTC**.
+- **Crypto Briefing, 2026-09-02T21:26:44Z** — **Alimentation Couche-Tard** reported **record fuel sales**, with the article linking that to **rising oil prices** amid Middle East tensions.
+- **Biztoc/Barchart, 2026-09-02T22:10:35Z** — An aggregation said a **cybersecurity stock under $20 rose 15% after hours** on a broad earnings beat, but the company name is missing in the supplied text, limiting usefulness.
+- **Notebookcheck, 2026-09-02T22:12:00Z** — Reported that **Nvidia’s Game Ready Driver 616.56** is causing user display problems such as flickering; this appears product-specific rather than clearly market-moving.
+
+**Interpretation**
+- The best-supported macro read from this article set is that **rates and oil/geopolitics** remain the main cross-asset drivers.
+- **Higher oil above $95** can reinforce inflation and growth concerns, but this set does **not** provide fresh hard inflation data or a new Fed headline.
+- The **Google antitrust remedy** is a fresh, potentially relevant large-cap tech headline, though the absence of a breakup suggests a more nuanced read than a maximal regulatory shock.
+- **Uber/Wayve’s London robotaxi launch** is a notable autonomous-driving headline for mobility/AI-adjacent sentiment, but it is more company-specific than market-wide.
+- On crypto, the freshest relevant item is **Remixpoint concentrating treasury exposure into Bitcoin**, which is a narrow signal for **BTC preference over altcoins**, not a broad crypto-market call.
+- Overall, this set does **not fully explain today’s tape** beyond the already-familiar themes of **Treasury yields stabilizing after a rise** and **Middle East tensions supporting oil**.
