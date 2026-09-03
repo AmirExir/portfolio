@@ -1,0 +1,20 @@
+Fresh market-moving headlines are limited, and the set is heavily concentrated on one theme: **renewed U.S.-Iran conflict driving oil and bond-yield concerns**. There is **not much fresh coverage here on Fed data, major U.S. earnings, AI/semi leaders, or crypto price action** beyond that.
+
+**Facts**
+- **U.S.-Iran escalation / oil / risk sentiment:** Reuters-picked-up reports say fresh U.S. strikes on Iranian targets near the Strait of Hormuz and reported Iranian retaliation pushed **oil to five-week highs** and weighed on global risk assets.  
+  - **CNA**, **2026-09-02T09:05:29Z**
+  - **Rigzone**, **2026-09-02T08:31:09Z**
+- **Global bond selloff / inflation fears:** Multiple fresh reports say the bond rout intensified as rising oil prices fed inflation worries and expectations for tighter rates.  
+  - **CNBC**, **2026-09-02T08:39:12Z**: said borrowing costs were extending multi-decade highs.  
+  - **Business Standard**, **2026-09-02T08:43:35Z**: linked the yield spike to oil-led inflation concerns and tighter policy expectations.  
+  - **Times of India / ET**, **2026-09-02T08:38:44Z**: said UK gilt yields hit fresh 18-year highs amid the global selloff.
+- **Cross-asset framing:** Fresh market-wrap pieces describe the same macro setup: **higher oil, higher yields, inflation jitters, and cautious equity tone**.  
+  - **CNA**, **2026-09-02T09:05:29Z**  
+  - **CNBC**, **2026-09-02T08:39:12Z**
+- **Crypto:** The only fresh crypto-related item in the set is a headline indicating **BlackRock’s IBIT was tied to a $236 million bitcoin ETF outflow**, but the linked content is incomplete, so details are limited.  
+  - **Biztoc citing CoinDesk**, **2026-09-02T08:42:38Z**
+
+**Interpretation**
+- The clearest fresh macro driver in this article set is **geopolitical escalation feeding an oil/inflation/rates shock**, not company-specific news.
+- If equities are reacting today, the supplied articles most directly support watching **energy-sensitive inflation expectations, Treasury/global bond yields, and broader risk sentiment**.
+- There is **no solid fresh evidence in this set** to explain today’s tape through **major earnings, Fed speakers/data, big AI/semi headlines, or broad crypto moves**.
