@@ -1,0 +1,19 @@
+Fresh market-moving headlines are limited in this set, and several items are either generic, low-signal, or from secondary aggregators. The clearest fresh drivers here are around Fed/rates expectations, crypto risk sentiment, and a few AI-related items.
+
+**Facts**
+- **Biztoc citing CNBC, 2026-09-03T21:52:45Z:** The August U.S. jobs report is due Friday, with consensus expecting roughly **53,000 nonfarm payrolls**, described as capping a relatively weak summer for hiring.
+- **Biztoc citing ms.now, 2026-09-03T21:53:11Z:** Vice President **JD Vance publicly urged the Fed to cut rates**, arguing high borrowing costs are hurting housing affordability, even as inflation concerns remain in focus.
+- **Biztoc citing 24/7 Wall St., 2026-09-03T21:52:31Z:** **Bitcoin moved back above $80,000** after dipping below $78,000; the article linked the rebound to a pause in U.S.-Iran hostilities.
+- **Biztoc citing breakingthenews.net, 2026-09-03T21:37:40Z:** Another fresh crypto item said **Bitcoin extended its rally to above $82,000**, with **Ethereum also higher**.
+- **Biztoc citing GuruFocus/Finance Yahoo, 2026-09-03T21:39:47Z:** **Crypto-related stocks gained alongside Bitcoin**, with the piece also saying traders had reduced expectations for a Fed rate increase later this month.
+- **newsBTC, 2026-09-03T21:45:00Z:** **Tether reported Q2 net operating profit of $1.3 billion** and said excess reserves rose to **$5.2 billion** above USDT backing.
+- **PYMNTS, 2026-09-03T22:04:20Z:** AI startup **Thinking Machines Lab**, led by former OpenAI CTO Mira Murati, is reportedly in talks to raise **at least $1 billion** at a **$40 billion+ valuation**, per The Information.
+- **Decrypt, 2026-09-03T21:31:05Z:** A bitcoin miner said it is **shutting a mining site to pursue an AI data-center deal** that could generate **more than $1.2 billion over 20 years** if options are exercised.
+- **Slashdot citing The Verge, 2026-09-03T21:32:55Z:** **Nvidia launched a free tool** designed to link idle computers into a personal AI data-center setup.
+
+**Interpretation**
+- The **main macro setup** in this feed is the **upcoming jobs report**, which could matter for both **Treasury/Fed expectations** and broader risk sentiment.
+- The **rate narrative** in these articles leans toward **pressure for easier policy** and **reduced odds of near-term tightening**, but that comes from secondary reports and political commentary rather than fresh Fed guidance.
+- The **strongest cross-asset risk signal** in this batch is **crypto strength**, especially Bitcoin reclaiming **$80,000+**, with spillover to crypto-linked equities.
+- On the **AI/semi side**, the headlines are more **theme-supportive than tape-explanatory**: private AI funding appetite remains strong, Nvidia continues adding ecosystem tools, and data-center demand is still pulling infrastructure away from legacy uses.
+- If you're trying to explain **today's broader equity tape**, this article set is **thin**. Beyond the jobs-report setup, crypto rebound, and a few AI ecosystem headlines, there is **not enough fresh high-quality news here to cleanly explain index-level moves**.
