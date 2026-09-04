@@ -1,0 +1,17 @@
+Fresh market-moving headlines only, from the last 36 hours:
+
+**Facts**
+- **Rates / macro:** U.S. Treasury yields were lower ahead of fresh services and jobs data, after a sharp global bond sell-off earlier in the week. *(CNBC, 2026-09-03T08:52:45Z)*
+- **Energy / geopolitics:** Oil prices edged lower as investors weighed uncertainty around renewed U.S.-Iran military strikes and potential Middle East supply disruption. *(RTÉ, 2026-09-03T08:52:09Z)*
+- **Crypto / banks:** Standard Chartered launched institutional spot crypto trading in **bitcoin and ether** in the UAE, saying it is the first global systemically important bank to offer that service there. *(CNA/Reuters, 2026-09-03T09:03:22Z)*
+- **Inflation:** Turkey’s August CPI was reported at **31.51% y/y** and **1.84% m/m**, with the monthly reading described as just below expectations. *(RTÉ, 2026-09-03T08:47:53Z)*
+- **Europe growth:** Germany’s ifo institute said the economy is expected to grow more than previously forecast, citing improving signs, especially in industry. *(POLITICO Europe, 2026-09-03T08:30:00Z)*
+- **Asia risk sentiment:** Japan’s Nikkei fell for a fourth day, with the article citing a stronger yen and interest-rate uncertainty. *(News On Japan, 2026-09-03T08:45:25Z)*
+- **Asia energy policy:** South Korea said it will merge state-run energy companies including KNOC and Kogas as part of a broader public-sector overhaul. *(Rigzone/Bloomberg-origin wire, 2026-09-03T08:36:09Z)*
+
+**Interpretation**
+- The freshest usable set is **fairly thin for explaining today’s broader tape**. It points mainly to three active macro drivers: **rates**, **Middle East oil risk**, and **crypto adoption/regulation**.
+- For U.S. markets, the most directly relevant fresh item is the **pullback in Treasury yields ahead of key data**, which keeps focus on incoming macro prints rather than offering a definitive market direction.
+- In commodities/risk, the oil headline suggests **geopolitical supply risk remains in play**, even though that specific article said prices edged lower.
+- In crypto, Standard Chartered’s UAE launch is a **credible institutional adoption headline** for **BTC/ETH**, but it does not by itself explain broader equity index moves.
+- There are **no fresh major U.S. earnings or AI/semi headlines** in the provided set strong enough to summarize confidently, so that part of today’s tape is **not explained by these articles**.
