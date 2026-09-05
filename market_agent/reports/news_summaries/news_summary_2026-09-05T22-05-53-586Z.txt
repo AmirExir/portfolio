@@ -1,0 +1,19 @@
+Fresh window used: last 36 hours from 2026-09-05 18:05 ET.  
+The fresh article set is thin and noisy; it does not fully explain today’s broader tape. Several items are low-quality aggregations or opinion-style coverage, so only a small number look plausibly market-moving.
+
+**Facts**
+- **Rates/Fed macro:** **Slashdot citing Reuters/AP/Bloomberg** (published **2026-09-04T21:32:27Z**) says Wall Street dipped after **strong U.S. jobs data** increased **hawkish Fed** expectations. This is the clearest fresh macro item in the set, though it is an aggregator rather than a primary wire.
+- **Earnings/consumer:** **Biztoc citing Yahoo Finance** (published **2026-09-04T21:53:16Z**) says **Lululemon** cut full-year revenue and earnings guidance again, with shares falling sharply in that session.
+- **AI infrastructure / tech capex:** **Decrypt** (published **2026-09-04T21:46:03Z**) reports **ByteDance** secured about **$29.6 billion** in loans from nearly 30 banks to fund AI chips, models, and overseas data centers.
+- **AI / IPO pipeline:** **Crypto Briefing** (published **2026-09-04T21:48:30Z** and **2026-09-04T21:50:14Z**) reports **Anthropic** is preparing to file an IPO prospectus, pointing to strong AI revenue growth and a potentially major test of public-market appetite for AI listings.
+- **Crypto / network risk:** **CryptoSlate** (published **2026-09-04T22:05:12Z**) reports a **Solana upgrade bug** could freeze some network readers and disable fee limits if ecosystem participants do not update before v1 transactions begin.
+- **Trade/policy:** **CNA citing WSJ** (published **2026-09-04T22:00:58Z**) reports the **U.S. Justice Department** paused antitrust cooperation with **Canada**, a sign of friction amid broader U.S.-Canada trade tensions.
+- **UK rates/risk sentiment:** **Daily Mail** (published **2026-09-04T21:25:31Z**) says the **Bank of England governor** warned Britain faces “very, very substantial challenges” after bond-market turmoil pushed UK borrowing costs to a multidecade high. Source quality is weaker than a primary wire, but the subject is market-relevant.
+
+**Interpretation**
+- The main usable macro signal here is that **strong U.S. labor data may be firming hawkish Fed expectations**, which matters for Treasury yields, growth-stock duration sensitivity, and broader risk appetite.
+- **Lululemon’s guidance cut** is a clean single-name read-through for discretionary/consumer execution risk, but by itself does not establish a sector-wide trend.
+- **ByteDance’s huge AI financing** and the **Anthropic IPO preparations** reinforce the theme that AI infrastructure spending and capital formation remain intense; that is relevant for semis, data centers, and private-to-public AI valuation benchmarks.
+- The **Solana bug** is a crypto-specific operational risk headline, more relevant to Solana-linked sentiment than to major macro markets unless follow-through emerges.
+- The **DOJ-Canada** item is a policy/tension headline, but from this article set alone it is **not enough** to draw a broad market conclusion.
+- Overall: beyond the **jobs/Fed** angle, the fresh set is **headline-thin** and does **not clearly explain the full day’s cross-asset moves**.
