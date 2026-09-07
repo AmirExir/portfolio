@@ -1,0 +1,29 @@
+1. Equinor just brought its biggest US battery online in Texas
+Electrek • 2026-09-03
+Equinor’s largest US battery energy storage project to date is now operating in South Texas, adding 100 megawatts (MW) of flexible capacity to the state’s fast-growing power grid. more…
+http://electrek.co/2026/09/03/equinor-just-brought-its-biggest-us-battery-online-in-texas/
+
+2. Weekly average load in ERCOT continues near record high
+Eia.gov • 2026-09-03
+Sustained high temperatures have contributed to persistently high electricity demand in the Electric Reliability Council of Texas (ERCOT), the regional transmission organization for most of the state:
+https://www.eia.gov/todayinenergy/detail.php?id=68084
+
+3. Hut 8’s Texas power site supports Anthropic’s $35B AI deal
+Crypto Briefing • 2026-09-01
+Hut 8's AI infrastructure deal highlights the growing demand for scalable power solutions, setting new benchmarks in the data center industry. The post Hut 8’s Texas power site supports Anthropic’s $35B AI deal appeared first on Crypto Briefing.
+https://cryptobriefing.com/hut-8-texas-anthropic-35b-ai-deal/
+
+4. Texas halts new data center connections amid electricity demand concerns
+Crypto Briefing • 2026-09-01
+Texas's halt on data center connections may hinder tech growth, impact energy planning, and cause significant financial losses in the sector. The post Texas halts new data center connections amid electricity demand concerns appeared first on Crypto Briefing.
+https://cryptobriefing.com/texas-halts-data-center-connections-electricity/
+
+5. Analysis-Texas' halt on powering data centers reflects US reckoning over 'ghost' demand
+Yahoo Entertainment • 2026-09-01
+Sept 1 () - Data centers have requested roughly as much electricity across the middle swath of the United States as it takes to power every home in the count...
+https://finance.yahoo.com/energy/articles/analysis-texas-halt-powering-data-100250823.html
+
+6. Analysis:Texas' halt on powering data centers reflects US reckoning over 'ghost' demand
+CNA • 2026-09-01
+Sept 1 : Data centers have requested roughly as much electricity across the middle swath of the United States as it takes to power every home in the country, but much of that demand may be an illusion.In an attempt to find out what is real, Texas recently bec…
+https://www.channelnewsasia.com/business/analysistexas-halt-powering-data-centers-reflects-us-reckoning-over-ghost-demand-6354651

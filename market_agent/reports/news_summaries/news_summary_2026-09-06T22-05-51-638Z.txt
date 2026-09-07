@@ -1,0 +1,21 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Geopolitics / Energy:** **Crypto Briefing** reported that the **IRGC Navy launched missiles at U.S. warships in the Strait of Hormuz and the U.S. retaliated by striking Iranian oil tankers**. This is directly relevant to oil and broader risk sentiment. *(Source: Crypto Briefing, publishedAt: 2026-09-05T20:56:08Z)*
+
+- **Rates / Inflation sentiment:** A **CNBC-sourced summary on Biztoc** said a **sharp sell-off in global government bonds** is reflecting investor concern that inflation could stay higher for longer amid fiscal and sovereign-debt worries. *(Source: Biztoc citing CNBC, publishedAt: 2026-09-05T21:40:18Z)*
+
+- **AI / Big Tech:** **Crypto Briefing** reported that **Google’s Gemini Business** added support for **custom MCP server connections**, aimed at helping enterprises connect internal tools and private data into its AI platform. *(Source: Crypto Briefing, publishedAt: 2026-09-05T22:05:04Z)*
+
+- **AI / Semis:** **Wccftech** reported that **AMD** showcased **Threadripper Halo Station** and **Ryzen AI MAX PCs** at IFA, emphasizing local AI computing capability. *(Source: Wccftech, publishedAt: 2026-09-05T21:10:15Z)*
+
+- **Crypto:** **Crypto Briefing** reported the **total crypto market cap added about $14 billion in under 24 hours**, nearing **$2.83 trillion**. *(Source: Crypto Briefing, publishedAt: 2026-09-05T21:40:48Z)*
+
+- **Crypto / retail trading ecosystem:** **TheStreet** reported that **ARK Invest bought Robinhood shares**, while noting ongoing controversy around tokenized stock offerings. *(Source: TheStreet, publishedAt: 2026-09-05T21:43:28Z)*
+
+### Interpretation
+- The **clearest cross-asset macro headline** in this set is the **Hormuz escalation**, which matters most for **oil, inflation expectations, and general risk appetite**.
+- The **bond-market/inflation item** supports a backdrop of **persistent rates pressure**, but it is from an aggregator summary rather than a primary article here, so treat it as **useful but less definitive**.
+- On **AI**, the fresh headlines are more **sector-thematic** than obviously tape-driving: Google’s enterprise AI integration update and AMD’s local-AI hardware push are relevant for **AI infrastructure and software competition**, but neither article explicitly documents a broad market reaction.
+- On **crypto**, the fresh set suggests a **firmer crypto backdrop**, but the available articles do **not fully explain broader equity index moves**.
+- Overall, the **fresh article set is somewhat thin for explaining today’s full tape**; the strongest market-moving news here is **Middle East/oil risk**, with secondary support from **inflation/rates anxiety** and **AI-sector competitive developments**.
