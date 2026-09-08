@@ -1,0 +1,39 @@
+1. Equinor Starts Up 100 MW Energy Storage Project in Texas
+Rigzone • 2026-09-06
+Equinor said the 200-mWh Citrus Flatts battery energy storage facility in Harlingen, Texas is now online.
+https://www.rigzone.com/news/equinor_starts_up_100_mw_energy_storage_project_in_texas-06-sep-2026-184546-article/
+
+2. Equinor just brought its biggest US battery online in Texas
+Electrek • 2026-09-03
+Equinor’s largest US battery energy storage project to date is now operating in South Texas, adding 100 megawatts (MW) of flexible capacity to the state’s fast-growing power grid. more…
+http://electrek.co/2026/09/03/equinor-just-brought-its-biggest-us-battery-online-in-texas/
+
+3. Morgan Stanley has a strong message for worried AI stock investors
+TheStreet • 2026-09-03
+A trillion-dollar AI buildout faces its biggest political test
+https://www.thestreet.com/investing/stocks/morgan-stanley-ai-stock-outlook-spending-boom-intact
+
+4. Weekly average load in ERCOT continues near record high
+Eia.gov • 2026-09-03
+Sustained high temperatures have contributed to persistently high electricity demand in the Electric Reliability Council of Texas (ERCOT), the regional transmission organization for most of the state:
+https://www.eia.gov/todayinenergy/detail.php?id=68084
+
+5. Nodal Exchange expands power futures as CME and ICE push into AI compute
+Crypto Briefing • 2026-09-03
+The expansion of power futures by Nodal Exchange highlights the growing importance of energy markets amid technological advancements. The post Nodal Exchange expands power futures as CME and ICE push into AI compute appeared first on Crypto Briefing.
+https://cryptobriefing.com/nodal-exchange-ai-compute-futures/
+
+6. Texas Republicans are running against data centres, and both Senate candidates want the same water rules
+The Next Web • 2026-09-03
+Texas spent a decade telling data centre developers they were welcome. Now its Republicans are competing over who can regulate them most aggressively, a shift that Reuters reports has put Big Tech on notice in the state that hosts more data centres than any o…
+https://thenextweb.com/news/texas-republicans-data-centres-election-issue
+
+7. SoftBank’s SB Energy IPO filing offers 8.8 GW of contracted AI capacity, with most still unbuilt
+Blockspace.media • 2026-09-02
+OpenAI leases and NVIDIA backing support a $439 billion backlog, but the proposed Ohio campus carries major construction, power and regulatory dependencies.
+https://blockspace.media/insight/sb-energy-ipo-ai-data-center-capacity/
+
+8. A battery storage cyberattack would look exactly like a badly tuned controller
+Help Net Security • 2026-09-02
+Batteries connected to the grid make money by reacting to frequency, pushing power out when it sags and soaking it up when it rises. A few hundred of them moving together, on command from someone who should not have the command, would look the same on a contr…
+https://www.helpnetsecurity.com/2026/09/02/grid-battery-storage-cyberattack/
