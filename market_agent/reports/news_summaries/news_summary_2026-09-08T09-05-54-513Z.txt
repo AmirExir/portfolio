@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited, and the set is somewhat noisy. The clearest usable themes are Fed/rates, oil/geopolitics, European inflation/rate expectations, and one crypto infrastructure incident. There is not much fresh, high-quality U.S. earnings or broad-index reporting here to fully explain today’s tape.
+
+**Facts**
+- **Business Standard, 2026-09-07 08:56:52Z:** “Nifty IT tumbles 3% as Fed rate hike bets rise; Infosys leads losses.” The article says Indian IT stocks fell as expectations for additional Fed tightening increased.
+- **Crypto Briefing, 2026-09-07 08:45:38Z:** “Jobs report fails to boost Fed rate hike odds, analysts say.” The piece says August payrolls were stronger than expected, but argues the **September 11 CPI report** is the more important near-term input for the Fed.
+- **The Times of India / Economic Times, 2026-09-07 08:55:23Z:** “European stocks subdued as oil surge fuels inflation, ECB rate hike bets.” The article says higher oil prices tied to fresh **U.S.-Iran tensions** lifted inflation concerns and increased expectations for possible ECB tightening.
+- **Crypto Briefing, 2026-09-07 08:54:35Z:** “Ghalibaf threatens US oil interests after Hegseth’s warning on Iranian tankers.” The article says Iran’s parliament speaker warned of retaliation against regional energy assets and possible Strait of Hormuz disruption if U.S. strikes continue.
+- **Crypto Briefing, 2026-09-07 08:49:00Z:** “US proposes referring Iran to UN Security Council over nuclear inspections.” The article says the U.S., UK, France, and Germany are pushing for a referral over blocked inspections, adding to geopolitical risk around Iran.
+- **Crypto Briefing, 2026-09-07 08:58:50Z:** “Iran to raise petrol prices amid US war-induced shortages.” The article says Iran plans fuel price increases because of shortages, reinforcing the energy-supply stress narrative.
+- **CryptoSlate, 2026-09-07 08:55:13Z:** “A whitehat hacker is holding $320 million in drained Bitcoin until developers prove they patched a fatal network flaw.” The article says nearly **$320 million in Bitcoin** was drained from the Liquid Network federation reserve in an abnormal peg-out, and the network was effectively halted.
+- **Biztoc citing CoinDesk, 2026-09-07 08:45:29Z:** Headline says “Bitcoin holds $79,000 as hike odds climb, zcash runs 45% in a week.” Usable only as a headline signal because the underlying content is inaccessible in the provided item.
+
+**Interpretation**
+- The strongest fresh macro driver in this set is **oil-linked inflation risk from U.S.-Iran tensions**. That can matter for energy, inflation expectations, and central-bank pricing.
+- The **rates/Fed message is mixed**: one article ties stronger jobs data to higher hike bets, while another says payroll strength alone did not materially change odds and that CPI is the key next catalyst.
+- For equities, the freshest direct sector read is that **rate-sensitive tech/IT shares** were pressured in India on tightening concerns. That is a useful sentiment signal, but it is not enough by itself to generalize across all global equity markets.
+- For crypto, the clearest fresh item is the **Liquid Network/Bitcoin-linked bridge incident**, which is relevant for digital-asset risk sentiment and infrastructure confidence.
+- There is **no strong fresh U.S. earnings or major AI/semi headline** in the valid set that clearly explains broader market action today.
