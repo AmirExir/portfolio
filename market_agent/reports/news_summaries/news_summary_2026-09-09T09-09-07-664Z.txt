@@ -1,0 +1,25 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Reuters/CNA, 2026-09-08 09:06:40Z** — The **yen hit a near seven-month high** on rising expectations of a **Bank of Japan rate hike next week**, with the move also described as putting pressure on the dollar ahead of upcoming **U.S. inflation data**. A related update said the yen later **paused after the rally** as **oil-driven inflation worries** supported the dollar and **Treasury yields**.  
+  Sources: **CNA** (“Yen climbs to seven-month high on hawkish BOJ bets”; “Yen pauses after rally as dollar firms”)
+
+- **ADVFN, 2026-09-08 08:59:06Z** — **Oil was nearing $100** as investors weighed **Fed rate expectations**, **rising bond yields**, and **Iran tensions**; the article also said **U.S. stock futures were mixed** heading into the session.  
+  Source: **Advfn.com** (“Oil Nears $100 as Markets Assess Fed Rate Expectations and Iran Tensions…”)
+
+- **WSJ via Biztoc, 2026-09-08 08:48:29Z** — **Brent crude climbed** following reports of **Houthi attacks on Saudi Arabia**.  
+  Source: **WSJ via Biztoc** (“Stock Market Today: Oil Nears $100, Stock Futures Sink”)
+
+- **ADVFN, 2026-09-08 09:08:52Z** — **Gold edged lower** as a **weaker U.S. dollar** offered support while investors assessed **Fed rate-hike expectations**.  
+  Source: **Advfn.com** (“Gold Edges Lower as Weaker Dollar Offsets Fed Rate-Hike Expectations”)
+
+- **ABC News Australia, 2026-09-08 08:58:04Z** — An **RBA deputy governor** said more may need to be done on **inflation**, signaling **rates could rise further** if inflation does not come under control soon.  
+  Source: **ABC News (AU)** (“'People are furious': RBA deputy governor says more needs to be done on inflation”)
+
+- **Semafor via Biztoc, 2026-09-08 09:03:28Z** — A **bipartisan U.S. crypto regulatory bill** is reportedly **likely to fail** in the Senate next week.  
+  Source: **Semafor via Biztoc** (“Senate Republicans say crypto bill likely to fail”)
+
+### Interpretation
+- The freshest actionable macro inputs here are **higher oil**, **firmer inflation concerns**, and **global central-bank tightening signals** from **Japan** and **Australia**.
+- For U.S. markets, this article set points more to **rates/inflation sensitivity** and **energy-driven risk sentiment** than to a clear earnings- or AI-led catalyst.
+- There is **little fresh, high-quality coverage here on major U.S. earnings, megacap AI/semis, or major crypto price action**, so if those areas are driving today’s tape, this article set does **not** explain it well.
