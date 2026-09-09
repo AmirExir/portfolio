@@ -1,0 +1,15 @@
+Fresh market-moving headlines are limited in this article set, and several items are either niche, speculative, duplicate, or not strong enough to explain broad market action by themselves.
+
+**Facts**
+- **AI/data-center trade:** Qualcomm and Corning announced infrastructure-related deals that **lifted AI-linked stocks** including Intel and AMD, according to **CNBC** (**2026-09-08T22:02:53Z**).
+- **Middle East / oil risk:** **ABC News (AU)** reported a Middle East flare-up tied to attacks on Saudi energy facilities, saying the development **drove oil prices higher** (**2026-09-08T21:50:37Z**).
+- **Middle East escalation:** **Crypto Briefing** reported Iran launched ballistic missiles toward U.S. targets across the Middle East, a development that could raise geopolitical risk and oil-market sensitivity (**2026-09-08T21:49:20Z**).
+- **Crypto / regulation:** **Gizmodo** reported a Republican senator said ethics concerns tied to Trump’s apparent crypto conflicts could jeopardize the **CLARITY Act**, a notable U.S. crypto-policy headline (**2026-09-08T21:39:03Z**).
+- **Crypto / idiosyncratic legal headline:** **CNA** reported Singaporean Malone Lam pleaded guilty in a U.S. court over his role in a **$260 million cryptocurrency theft ring** (**2026-09-08T22:04:23Z**).
+
+**Interpretation**
+- The clearest fresh cross-asset drivers here are **AI infrastructure spending optimism** and **renewed Middle East geopolitical/oil risk**.
+- The Qualcomm/Corning news looks most relevant for **semis, optical/networking, and broader AI infrastructure names**.
+- The Middle East headlines are the main fresh items that could matter for **energy, inflation expectations, and risk sentiment**.
+- There is **little in this set on Fed, Treasury yields, CPI/PPI, major U.S. earnings, or broad index leadership**, so this feed alone does **not fully explain today’s overall tape**.
+- The crypto items are mostly **policy/legal and niche**, not clear broad drivers for BTC/ETH or wider risk assets from this set alone.
