@@ -1,0 +1,54 @@
+Market Intelligence Forecast Report
+Generated: 2026-09-10 00:19 UTC
+Data as-of range across symbols: 2026-09-08 through 2026-09-09
+Horizon: 30 asset sessions | Primary: Registered Ensemble Champion
+Asset-session meaning: US-exchange sessions for securities and UTC calendar-day sessions for crypto
+Horizon meaning: point-to-point target return, not an immediate or monotonic path forecast; realized adverse/favorable excursion is tracked after maturity
+Run profile: overnight
+Pattern windows: 20/50 asset sessions
+Sequence model: adaptive
+RL policy: off
+Earnings context: point-in-time interpretation included once in policy decisions
+General news context: separate point-in-time digest only; not included in forecast training or scoring until historical walk-forward validation demonstrates incremental skill
+Smart policy: on | per-name cap 5.0% | cash reserve 15.0%
+Portfolio allocation authorization: blocked; research targets remain visible but executable targets are zero until current weights, covariance, and classifications are verified
+Universe: 78 ranked / 80 configured | Stocks + crypto + commodities
+Primary signal rule: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; selected model must be non-RL; OOS validation requires >= 8 samples, >= 8 non-overlapping windows, positive MAE skill versus the zero-return baseline, positive direction and Brier skill versus training-only baselines, >= 50% direction hit rate, <= 20% calibration error, and Brier <= 0.30
+Signal counts: 0 model-qualified buys, 0 model-qualified sells/avoids, 0 policy buy watchlist, 0 policy sell/avoid watchlist, 5 unqualified buy candidates, 2 unqualified sell/avoid candidates
+Reliability mix: Speculative: 1, Low: 77
+Portfolio targets: gross 0.0% | cash 100.0% | binding unverified_portfolio_state
+Adaptive sequence symbols: CVX, XOM
+Calculation time: 1h 24m 51s total | context 4.7s | 78/80 ranked | 0 cached
+Slowest symbols: RIOT: 1m 52s, MSFT: 1m 44s, AVGO: 1m 35s, AAPL: 1m 31s, META: 1m 31s
+
+Model-Qualified Buy Forecasts
+Threshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; selected model must be non-RL; OOS validation requires >= 8 samples, >= 8 non-overlapping windows, positive MAE skill versus the zero-return baseline, positive direction and Brier skill versus training-only baselines, >= 50% direction hit rate, <= 20% calibration error, and Brier <= 0.30
+Research visibility is separate from execution authorization; an unverified portfolio always keeps executable allocation at zero.
+No model-qualified buy signals met threshold.
+
+Model-Qualified Sell / Avoid Forecasts
+Threshold: absolute forecast return >= 2.00%; model call must be Buy/Sell or Strong Buy/Strong Sell; selected model must be non-RL; OOS validation requires >= 8 samples, >= 8 non-overlapping windows, positive MAE skill versus the zero-return baseline, positive direction and Brier skill versus training-only baselines, >= 50% direction hit rate, <= 20% calibration error, and Brier <= 0.30
+No model-qualified sell/avoid signals met threshold.
+
+Smart Policy Watchlist
+Rule: smart-policy overlay only; model call did not qualify for the primary signal section
+Buy watchlist: no policy-only buy setups met threshold.
+Sell / avoid watchlist: no policy-only sell/avoid setups met threshold.
+
+Unqualified Model Candidates
+Raw directional calls shown for research visibility only; they failed one or more baseline-skill, calibration, or independent-evidence gates and are not recommendations.
+Buy candidates:
+MU: +18.31% through 2026-10-21 | Strong Buy | Unqualified Candidate Buy | reliability Low | policy Hold / Watch (+2.90, target 0.0%) | model Ensemble | prob up 85.5% | edge 35.5% | err +/-17.11% | pattern Uptrend | not qualified: failed gates [direction_hit_rate_below_minimum, direction_skill_not_above_minimum, calibration_error_above_maximum, brier_score_above_maximum, mae_skill_not_above_minimum, brier_skill_not_above_minimum, forecast_magnitude_below_half_validation_mae] | non-overlap n 8.0, MAE skill -4.5%, direction skill -37.1 pp, Brier skill -42.5%
+STX: +27.21% through 2026-10-21 | Strong Buy | Unqualified Candidate Buy | reliability Low | policy Hold / Watch (+2.90, target 0.0%) | model Ensemble | prob up 92.4% | edge 42.4% | err +/-15.85% | pattern Uptrend | not qualified: failed gates [direction_skill_not_above_minimum] | non-overlap n 8.0, MAE skill +9.5%, direction skill -6.0 pp, Brier skill +8.4%
+DELL: +16.16% through 2026-10-21 | Buy | Unqualified Candidate Buy | reliability Low | policy Hold / Watch (+2.80, target 0.0%) | model Ensemble | prob up 79.8% | edge 29.8% | err +/-17.27% | pattern Uptrend | not qualified: failed gates [direction_skill_not_above_minimum, brier_skill_not_above_minimum] | non-overlap n 8.0, MAE skill +4.1%, direction skill -7.3 pp, Brier skill -3.6%
+QQQ: +7.09% through 2026-10-21 | Strong Buy | Unqualified Candidate Buy | reliability Low | policy Hold / Watch (+2.44, target 0.0%) | model Ensemble | prob up 81.7% | edge 31.7% | err +/-6.61% | pattern Uptrend | not qualified: failed gates [direction_skill_not_above_minimum, brier_skill_not_above_minimum] | non-overlap n 8.0, MAE skill +1.5%, direction skill -2.2 pp, Brier skill -6.2%
+AMD: +28.47% through 2026-10-20 | Strong Buy | Unqualified Candidate Buy | reliability Low | policy Hold / Watch (+2.25, target 0.0%) | model Ensemble | prob up 80.7% | edge 30.7% | err +/-23.03% | pattern Range / No Dominant Pattern | not qualified: failed gates [mae_skill_not_above_minimum, brier_skill_not_above_minimum] | non-overlap n 8.0, MAE skill -3.2%, direction skill 11.2 pp, Brier skill -4.9%
+Sell / avoid candidates:
+DOT: -14.24% through 2026-10-09 | Sell | Unqualified Candidate Sell/Avoid | reliability Low | policy Hold / Watch (-0.08, target 0.0%) | model Ensemble | prob up 21.4% | edge 28.6% | err +/-20.81% | pattern Overbought | not qualified: failed gates [direction_skill_not_above_minimum, calibration_error_above_maximum, mae_skill_not_above_minimum, brier_skill_not_above_minimum] | non-overlap n 12.0, MAE skill -3.6%, direction skill -22.0 pp, Brier skill -27.2%
+DOGE: -12.80% through 2026-10-09 | Sell | Unqualified Candidate Sell/Avoid | reliability Low | policy Hold / Watch (+0.41, target 0.0%) | model Ensemble | prob up 27.8% | edge 22.2% | err +/-24.23% | pattern High Volatility | not qualified: failed gates [direction_skill_not_above_minimum, calibration_error_above_maximum, mae_skill_not_above_minimum, brier_skill_not_above_minimum] | non-overlap n 12.0, MAE skill -39.4%, direction skill -18.2 pp, Brier skill -20.9%
+
+Skipped
+SPCX: Need at least 71 clean close prices for ML forecasting.
+PEPE-USD: stale OHLCV data: latest 2022-12-11, expected 2026-09-09, lag 1368 completed UTC days exceeds allowed 1
+
+Model output only. Not financial advice.
