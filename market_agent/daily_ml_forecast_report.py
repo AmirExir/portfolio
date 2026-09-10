@@ -8,6 +8,7 @@ import io
 import json
 import logging
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -2389,47 +2390,82 @@ def format_candidate_row(
     )
 
 
-def format_telegram_signal_row(row: dict) -> str:
-    """Format one compact Telegram action row."""
+def format_telegram_forecast(row: dict) -> str:
+    """Label a model prediction with its asset-specific target date."""
 
     symbol = str(row_value(row, "symbol", "Symbol", default="")).strip()
     forecast_return = forecast_return_pct(row)
     target_session = str(row_value(row, "Target Session", default="") or "").strip()
-    model_call = model_call_text(row)
-    reliability = str(row_value(row, "Reliability", default="") or "").strip()
-    policy = smart_policy_text(row)
-    selected_model = str(
-        row_value(row, "selected_model", "Selected Model", default="") or ""
-    ).strip()
-    probability_up = finite_row_float(row, "Probability Up %", default=np.nan)
-    expected_error = finite_row_float(
-        row,
-        "expected_error_pct",
-        "Expected Error %",
-        default=np.nan,
-    )
-    pattern = str(
-        row_value(row, "Primary Pattern", "primary_pattern", default="") or ""
-    ).strip()
+    target_text = f" by {target_session}" if target_session else " (target date unavailable)"
+    return f"{symbol}: forecast {forecast_return:+.2f}%{target_text}"
 
-    target_text = f" to {target_session}" if target_session else ""
-    details = [
-        f"{symbol} {forecast_return:+.2f}%{target_text}",
-        model_call,
-    ]
-    if reliability:
-        details.append(f"{reliability} reliability")
-    if policy:
-        details.append(policy)
-    if selected_model:
-        details.append(selected_model)
-    if np.isfinite(probability_up):
-        details.append(f"up {probability_up:.0f}%")
-    if np.isfinite(expected_error):
-        details.append(f"err +/-{expected_error:.1f}%")
-    if pattern and pattern != "Unavailable":
-        details.append(pattern)
-    return " | ".join(details)
+
+def format_telegram_signal_row(row: dict) -> str:
+    """Format a qualified forecast without conflating it with execution approval."""
+
+    details = [f"Reliability: {reliability_grade(row).lower()}"]
+    probability_up = finite_row_float(row, "Probability Up %", default=np.nan)
+    if np.isfinite(probability_up) and 0.0 <= probability_up <= 100.0:
+        details.append(f"model-estimated chance of a rise: {probability_up:.0f}%")
+    return format_telegram_forecast(row) + "\n  " + "; ".join(details) + "."
+
+
+def telegram_qualification_reasons(
+    row: dict,
+    args: argparse.Namespace,
+    *,
+    side: str,
+) -> list[str]:
+    """Group related failed checks, distinguishing missing evidence from failure."""
+
+    explanations = {
+        "selected_model_rl_policy": ("reinforcement-learning output is research-only", ()),
+        "forecast_outlier": ("forecast is unusually extreme", ()),
+        "validation_is_oos_not_literal_true": ("testing on unseen data is unverified", ()),
+        "expected_error_not_finite": ("forecast error estimate is unavailable", ()),
+        "model_edge_not_finite": ("directional confidence is unavailable", ()),
+        "validation_mae_not_finite": ("historical forecast error is unavailable", ()),
+        "validation_samples_below_minimum": (
+            "too few historical tests", ("Validation Samples",),
+        ),
+        "nonoverlapping_validation_samples_below_minimum": (
+            "too few non-overlapping historical tests", ("Nonoverlapping Validation Samples",),
+        ),
+        "direction_hit_rate_below_minimum": (
+            "up/down predictions failed accuracy checks", ("Direction Hit Rate %",),
+        ),
+        "direction_skill_not_above_minimum": (
+            "up/down predictions failed accuracy checks", ("Direction Skill %",),
+        ),
+        "calibration_error_above_maximum": (
+            "probability estimates failed reliability checks", ("Calibration Error %",),
+        ),
+        "brier_score_above_maximum": (
+            "probability estimates failed reliability checks", ("Brier Score",),
+        ),
+        "mae_skill_not_above_minimum": (
+            "return predictions did not beat a no-change forecast", ("MAE Skill Score",),
+        ),
+        "brier_skill_not_above_minimum": (
+            "probability estimates failed reliability checks", ("Brier Skill Score",),
+        ),
+        "forecast_magnitude_below_half_validation_mae": (
+            "predicted move is small relative to past forecast errors", (),
+        ),
+        "model_edge_below_speculative_minimum": ("directional confidence is too weak", ()),
+        "forecast_return_below_buy_threshold": ("predicted gain is below the signal threshold", ()),
+        "forecast_return_above_sell_threshold": ("predicted decline is below the signal threshold", ()),
+        "model_call_not_buy": ("model did not produce a buy signal", ()),
+        "model_call_not_sell": ("model did not produce a sell signal", ()),
+    }
+    reasons = []
+    for code in model_signal_qualification_failures(row, args, side=side):
+        reason, metric_keys = explanations.get(code, (code.replace("_", " "), ()))
+        if metric_keys and not np.isfinite(finite_row_float(row, *metric_keys)):
+            reason = "required historical validation data is missing or invalid"
+        if reason not in reasons:
+            reasons.append(reason)
+    return reasons
 
 
 def format_telegram_candidate_row(
@@ -2438,13 +2474,30 @@ def format_telegram_candidate_row(
     *,
     side: str,
 ) -> str:
-    """Format one compact unqualified Telegram research candidate."""
+    """Show a rejected prediction with a plain-language summary of failed checks."""
 
-    failures = model_signal_qualification_failures(row, args, side=side)
-    failure_text = ", ".join(failures[:3])
-    if len(failures) > 3:
-        failure_text += f", +{len(failures) - 3} more"
-    return f"{format_telegram_signal_row(row)} | unqualified: {failure_text}"
+    reasons = telegram_qualification_reasons(row, args, side=side)
+    return format_telegram_forecast(row) + "\n  Why rejected: " + "; ".join(reasons) + "."
+
+
+def format_telegram_data_issue(error: str) -> str:
+    """Simplify known data errors while retaining dates and unknown diagnostics."""
+
+    symbol, separator, detail = error.partition(": ")
+    if not separator:
+        return error
+    history = re.fullmatch(
+        r"Need at least (\d+) clean close prices for ML forecasting\.", detail,
+    )
+    if history:
+        return f"{symbol}: not enough price history (needs {history[1]} valid closing prices)."
+    stale = re.fullmatch(
+        r"stale OHLCV data: latest (\d{4}-\d{2}-\d{2}), expected "
+        r"(\d{4}-\d{2}-\d{2}), lag .+", detail,
+    )
+    if stale:
+        return f"{symbol}: outdated price data (latest {stale[1]}; needed {stale[2]})."
+    return error
 
 
 def build_market_report(
@@ -2836,6 +2889,8 @@ def build_telegram_text(
     timings: dict | None = None,
     short_horizon_reports: list[dict] | None = None,
 ) -> str:
+    """Build a decision-first summary using the existing qualification rules."""
+
     generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     sorted_rows = sorted(rows, key=ranking_score, reverse=True)
     model_buys = cap_signal_rows(
@@ -2877,68 +2932,83 @@ def build_telegram_text(
     else:
         data_as_of_text = "As of: unavailable"
 
-    verified_portfolio = bool(rows) and all(
-        row_value(row, "Portfolio State Verified", default=False) is True
-        and row_value(row, "Portfolio Covariance Verified", default=False) is True
-        and row_value(row, "Portfolio Classification Verified", default=False)
-        is True
-        for row in rows
-    )
-    allocation_text = (
-        "Allocation: verified"
-        if verified_portfolio
-        else "Allocation: blocked; targets are research-only until portfolio state is verified"
-    )
+    unverified_checks = [
+        label
+        for field, label in (
+            ("Portfolio State Verified", "holdings"),
+            ("Portfolio Covariance Verified", "portfolio risk estimates"),
+            ("Portfolio Classification Verified", "asset classifications"),
+        )
+        if not all(row_value(row, field, default=False) is True for row in rows)
+    ]
+    if not rows:
+        allocation_text = "Allocation blocked: portfolio verification is unavailable."
+    elif unverified_checks:
+        allocation_text = "Allocation blocked: unverified " + ", ".join(unverified_checks) + "."
+    else:
+        allocation_text = "Portfolio checks passed; position sizes remain subject to allocation limits."
 
+    if not rows:
+        result_text = "No forecasts could be evaluated."
+    elif model_buys or model_sells:
+        result_text = f"Passed model checks: {len(model_buys)} buy, {len(model_sells)} sell/avoid."
+    else:
+        result_text = "No buy or sell signals passed the checks."
+    session_label = "session" if args.horizon == 1 else "sessions"
     lines = [
         "Market Optimization",
         f"Generated: {generated_at}",
         data_as_of_text,
-        f"Horizon: {args.horizon} asset sessions",
-        allocation_text,
-        (
-            "Signals: "
-            f"{len(model_buys)} buy, {len(model_sells)} sell/avoid, "
-            f"{len(watch_buys)} buy watch, {len(watch_sells)} sell watch"
-        ),
+        f"Horizon: {args.horizon} {session_label} per asset",
+        "Stocks count trading days; crypto counts calendar days.",
         "",
-        "BUY",
+        "RESULT",
+        result_text,
+        allocation_text,
     ]
+    if unverified_checks or not rows:
+        lines.append("Position sizes are research-only.")
     if model_buys:
-        lines.extend(format_telegram_signal_row(row) for row in model_buys)
-    else:
-        lines.append("No qualified buys.")
-
-    lines.extend(["", "SELL / AVOID"])
+        lines.extend(["", "BUY SIGNALS - PASSED MODEL CHECKS"])
+        for row in model_buys:
+            lines.extend(["", format_telegram_signal_row(row)])
     if model_sells:
-        lines.extend(format_telegram_signal_row(row) for row in model_sells)
-    else:
-        lines.append("No qualified sells/avoids.")
+        lines.extend(["", "SELL / AVOID SIGNALS - PASSED MODEL CHECKS"])
+        for row in model_sells:
+            lines.extend(["", format_telegram_signal_row(row)])
 
     if watch_buys or watch_sells:
-        lines.extend(["", "WATCHLIST"])
+        lines.extend(["", "WATCHLIST - POLICY SIGNALS ONLY"])
         if watch_buys:
             lines.append("Buy watch:")
-            lines.extend(format_telegram_signal_row(row) for row in watch_buys)
+            for row in watch_buys:
+                lines.extend(["", format_telegram_signal_row(row)])
         if watch_sells:
             lines.append("Sell/avoid watch:")
-            lines.extend(format_telegram_signal_row(row) for row in watch_sells)
+            for row in watch_sells:
+                lines.extend(["", format_telegram_signal_row(row)])
 
+    if (not model_buys and candidate_buys) or (not model_sells and candidate_sells):
+        lines.extend([
+            "", "FORECASTS THAT FAILED CHECKS",
+            "Research only. These are not buy or sell signals.",
+        ])
     if not model_buys and candidate_buys:
-        lines.extend(["", "UNQUALIFIED BUY CANDIDATES"])
-        lines.extend(
-            format_telegram_candidate_row(row, args, side="buy")
-            for row in candidate_buys
-        )
+        lines.extend(["", "Predicted gains"])
+        for row in candidate_buys:
+            lines.extend(["", format_telegram_candidate_row(row, args, side="buy")])
     if not model_sells and candidate_sells:
-        lines.extend(["", "UNQUALIFIED SELL / AVOID CANDIDATES"])
-        lines.extend(
-            format_telegram_candidate_row(row, args, side="sell")
-            for row in candidate_sells
-        )
+        lines.extend(["", "Predicted declines"])
+        for row in candidate_sells:
+            lines.extend(["", format_telegram_candidate_row(row, args, side="sell")])
 
     if errors:
-        lines.extend(["", "Skipped: " + "; ".join(errors[:3])])
+        lines.extend(["", "SKIPPED - DATA ISSUES"])
+        lines.extend("- " + format_telegram_data_issue(error) for error in errors[:3])
+        if len(errors) > 3:
+            remaining = len(errors) - 3
+            issue_label = "issue" if remaining == 1 else "issues"
+            lines.append(f"- {remaining} additional data {issue_label} in the full report.")
 
     lines.extend(
         [

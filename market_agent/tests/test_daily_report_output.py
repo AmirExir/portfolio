@@ -417,10 +417,14 @@ class DailyReportOutputTests(unittest.TestCase):
         telegram_text = report.build_telegram_text([row], [], self.args)
 
         self.assertIn("Market Optimization", telegram_text)
-        self.assertIn("BUY", telegram_text)
-        self.assertIn("SNDK +12.50% to 2026-09-17", telegram_text)
-        self.assertIn("SELL / AVOID", telegram_text)
-        self.assertIn("No qualified sells/avoids.", telegram_text)
+        self.assertIn("Passed model checks: 1 buy, 0 sell/avoid.", telegram_text)
+        self.assertIn("BUY SIGNALS - PASSED MODEL CHECKS", telegram_text)
+        self.assertIn("SNDK: forecast +12.50% by 2026-09-17", telegram_text)
+        self.assertIn("Allocation blocked: unverified holdings.", telegram_text)
+        self.assertIn("Position sizes are research-only.", telegram_text)
+        self.assertIn("model-estimated chance of a rise: 82%", telegram_text)
+        self.assertLess(telegram_text.index("RESULT"), telegram_text.index("SNDK:"))
+        self.assertNotIn("Strong Buy", telegram_text)
         self.assertIn("Full details saved to the market dashboard", telegram_text)
         self.assertNotIn("Primary signal rule:", telegram_text)
         self.assertNotIn("Pattern windows:", telegram_text)
@@ -447,11 +451,126 @@ class DailyReportOutputTests(unittest.TestCase):
 
         telegram_text = report.build_telegram_text([row], [], self.args)
 
-        self.assertIn("No qualified buys.", telegram_text)
-        self.assertIn("UNQUALIFIED BUY CANDIDATES", telegram_text)
-        self.assertIn("SNDK +12.50% to 2026-09-17", telegram_text)
-        self.assertIn("unqualified:", telegram_text)
-        self.assertIn("direction_hit_rate_below_minimum", telegram_text)
+        self.assertIn("No buy or sell signals passed the checks.", telegram_text)
+        self.assertIn("FORECASTS THAT FAILED CHECKS", telegram_text)
+        self.assertIn("These are not buy or sell signals.", telegram_text)
+        self.assertIn("Predicted gains", telegram_text)
+        self.assertIn("SNDK: forecast +12.50% by 2026-09-17", telegram_text)
+        self.assertIn("Why rejected: up/down predictions failed accuracy checks", telegram_text)
+        self.assertIn("probability estimates failed reliability checks", telegram_text)
+        self.assertNotIn("direction_hit_rate_below_minimum", telegram_text)
+        self.assertNotIn("Strong Buy", telegram_text)
+        self.assertNotIn("Hold / Watch", telegram_text)
+        self.assertNotIn("82%", telegram_text)
+
+    def test_telegram_rejected_forecast_groups_related_reasons(self) -> None:
+        row = _research_buy_row(**{
+            "Direction Hit Rate %": 20.0,
+            "Direction Skill %": -5.0,
+            "Calibration Error %": 75.0,
+            "MAE Skill Score": -0.1,
+            "Brier Skill Score": -0.2,
+        })
+
+        rendered = report.format_telegram_candidate_row(row, self.args, side="buy")
+
+        for reason in (
+            "up/down predictions failed accuracy checks",
+            "probability estimates failed reliability checks",
+            "return predictions did not beat a no-change forecast",
+        ):
+            self.assertEqual(rendered.count(reason), 1)
+        self.assertNotIn("more", rendered)
+        self.assertNotIn(" | ", rendered)
+
+    def test_telegram_missing_validation_is_not_reported_as_measured_failure(self) -> None:
+        row = _research_buy_row(**{
+            "Direction Hit Rate %": None,
+            "Direction Skill %": "invalid",
+            "Calibration Error %": None,
+        })
+
+        rendered = report.format_telegram_candidate_row(row, self.args, side="buy")
+
+        self.assertIn("required historical validation data is missing or invalid", rendered)
+        self.assertNotIn("up/down predictions failed", rendered)
+        self.assertNotIn("probability estimates failed", rendered)
+
+    def test_telegram_rejected_sells_keep_their_dates_and_direction(self) -> None:
+        row = _research_buy_row(**{
+            "Symbol": "DOT",
+            "Model Call": "Sell",
+            "Forecast Return %": -15.32,
+            "Target Session": "2026-10-09",
+            "Direction Skill %": -5.0,
+        })
+
+        rendered = report.build_telegram_text([row], [], self.args)
+
+        self.assertIn("Predicted declines", rendered)
+        self.assertIn("DOT: forecast -15.32% by 2026-10-09", rendered)
+        self.assertNotIn("SELL / AVOID SIGNALS - PASSED MODEL CHECKS", rendered)
+
+    def test_telegram_portfolio_checks_do_not_imply_trade_approval(self) -> None:
+        verified = _research_buy_row(**{"Portfolio State Verified": True})
+        rendered = report.build_telegram_text([verified], [], self.args)
+
+        self.assertIn("Portfolio checks passed; position sizes remain subject to allocation limits.", rendered)
+        self.assertNotIn("Allocation blocked", rendered)
+
+        for field, label in (
+            ("Portfolio State Verified", "holdings"),
+            ("Portfolio Covariance Verified", "portfolio risk estimates"),
+            ("Portfolio Classification Verified", "asset classifications"),
+        ):
+            with self.subTest(field=field):
+                rendered = report.build_telegram_text(
+                    [{**verified, field: None}], [], self.args,
+                )
+                self.assertIn(f"Allocation blocked: unverified {label}.", rendered)
+                self.assertNotIn("Portfolio checks passed", rendered)
+
+    def test_telegram_empty_run_and_data_issues_are_explicit(self) -> None:
+        errors = [
+            "SPCX: Need at least 71 clean close prices for ML forecasting.",
+            "PEPE-USD: stale OHLCV data: latest 2022-12-11, expected 2026-09-09, "
+            "lag 1368 completed UTC days exceeds allowed 1",
+            "XYZ: provider returned an unexpected response",
+            "ABC: provider timeout",
+        ]
+
+        rendered = report.build_telegram_text([], errors, self.args)
+
+        self.assertIn("No forecasts could be evaluated.", rendered)
+        self.assertIn("Allocation blocked: portfolio verification is unavailable.", rendered)
+        self.assertIn("SPCX: not enough price history (needs 71 valid closing prices).", rendered)
+        self.assertIn("PEPE-USD: outdated price data (latest 2022-12-11; needed 2026-09-09).", rendered)
+        self.assertIn(errors[2], rendered)
+        self.assertIn("1 additional data issue in the full report.", rendered)
+        self.assertNotIn("No buy or sell signals passed", rendered)
+
+    def test_telegram_qualified_sell_and_policy_watch_stay_distinct(self) -> None:
+        sell = _research_buy_row(**{
+            "Symbol": "SELL",
+            "Model Call": "Sell",
+            "Forecast Return %": -12.5,
+            "Policy Score": -1.0,
+        })
+        watch = _research_buy_row(**{
+            "Symbol": "WATCH",
+            "Model Call": "Neutral / No Edge",
+            "Smart Policy": "Buy",
+            "Policy Target %": 3.0,
+            "Portfolio State Verified": True,
+        })
+
+        rendered = report.build_telegram_text([sell, watch], [], self.args)
+
+        self.assertIn("Passed model checks: 0 buy, 1 sell/avoid.", rendered)
+        self.assertIn("SELL / AVOID SIGNALS - PASSED MODEL CHECKS", rendered)
+        self.assertIn("WATCHLIST - POLICY SIGNALS ONLY", rendered)
+        self.assertLess(rendered.index("WATCHLIST"), rendered.index("WATCH: forecast"))
+        self.assertNotIn("BUY SIGNALS - PASSED MODEL CHECKS", rendered)
 
     def test_rl_policy_cannot_reenter_the_published_buy_list(self) -> None:
         row = _research_buy_row(**{"Selected Model": "RL Policy"})
@@ -736,7 +855,7 @@ class DailyReportOutputTests(unittest.TestCase):
             ],
             0.0,
         )
-        self.assertIn("Horizon: 30 asset sessions", payload["telegram_text"])
+        self.assertIn("Horizon: 30 sessions per asset", payload["telegram_text"])
         self.assertIn("As of: 2026-08-05", payload["telegram_text"])
         self.assertIn("BUY", payload["telegram_text"])
         self.assertNotIn("Primary signal rule:", payload["telegram_text"])
