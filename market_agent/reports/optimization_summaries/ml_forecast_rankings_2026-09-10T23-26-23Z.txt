@@ -1,0 +1,30 @@
+Market Optimization
+Generated: 2026-09-10 23:24 UTC
+As of: 2026-09-09 to 2026-09-10
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+Passed model checks: 1 buy, 0 sell/avoid.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+BUY SIGNALS - PASSED MODEL CHECKS
+
+AMZN: forecast +7.16% by 2026-10-22
+  Reliability: moderate; model-estimated chance of a rise: 72%.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted declines
+
+DOT: forecast -16.39% by 2026-10-09
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+SKIPPED - DATA ISSUES
+- SPCX: not enough price history (needs 71 valid closing prices).
+- PEPE-USD: outdated price data (latest 2022-12-11; needed 2026-09-09).
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
