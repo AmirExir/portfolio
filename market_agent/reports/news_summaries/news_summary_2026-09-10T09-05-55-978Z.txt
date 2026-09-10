@@ -1,0 +1,20 @@
+**Fresh market-moving headlines only (last 36 hours): the set is fairly thin and uneven, so it only partially explains today’s tape. The clearest themes in the supplied articles are energy/geopolitics, Japan rates/yen, and a few crypto/stock-specific items.**
+
+## Facts
+- **Energy / inflation risk:** **Crypto Briefing** (published **2026-09-09T09:03:44Z**) reported U.S. gasoline prices hit roughly **$4.14-$4.15/gallon**, citing AAA, and tied the move to the Iran conflict.  
+- **Japan / global rates:** **The Times of India / Economic Times** (published **2026-09-09T08:59:25Z**) said the **yen rose to a seven-month high**, raising concerns about a potential **yen carry trade unwind** as investors reassess expectations for **Bank of Japan rate increases**.  
+- **Japan / capital flows:** **CNA** (published **2026-09-09T08:30:48Z**) cited **Fitch Ratings** saying rising **Japanese bond yields** could keep more **domestic institutional money in Japan**, with BOJ policy rates potentially rising faster than markets expect.  
+- **Apple product catalyst:** **The Times of India / Economic Times** (published **2026-09-09T08:47:38Z**) said analysts see Apple’s first foldable iPhone as a potentially meaningful growth driver, with some estimates suggesting **over $45 billion in revenue by end-2027**.  
+- **Defense / M&A:** **IBTimes Australia** (published **2026-09-09T08:34:06Z**) reported **Austal** received a **non-binding offer** valuing its U.S. shipbuilding operations at about **US$1.35 billion**, and said Austal shares jumped on the news.  
+- **Crypto / infrastructure:** **Decrypt** (published **2026-09-09T08:26:08Z**) reported **Block** applied for an **OCC bank charter** for Builders Bank & Trust to custody Bitcoin and other digital assets.  
+- **Crypto / operational risk:** **CryptoSlate** (published **2026-09-09T08:30:48Z**) reported a **Bitcoin Core Lightning Docker bug** left some node operators exposed despite showing an updated version.  
+- **Crypto / regulation:** **Biztoc citing CoinDesk** (published **2026-09-09T08:41:40Z**) said **India’s financial intelligence unit flagged 15 crypto platforms for AML lapses**. Because this is an aggregator stub with limited detail, treat it cautiously.  
+- **Oil headline signal, but low-quality source:** **Slashdot** (published **2026-09-09T08:32:59Z**) aggregated headlines saying **Brent crude rose above/neared $100 a barrel** amid escalating Middle East tensions. This is not a primary source, so it is best treated as a weak confirmation only.
+
+## Interpretation
+- The most credible market-moving inputs here are **higher energy prices tied to Iran**, plus **Japan yield/yen developments** that could matter for **global liquidity, FX, and rates-sensitive risk assets**.
+- If accurate and sustained, **record U.S. gasoline prices** would reinforce **inflation sensitivity** and could matter for **consumer spending** and **Fed/rates expectations**, but this article alone does not establish a broader macro repricing.
+- The **yen strength / BOJ tightening** theme is a plausible cross-asset pressure point because it can affect **carry trades, overseas capital flows, and global bond demand**.
+- The **Apple foldable iPhone** piece is more **forward-looking analyst speculation** than a hard new fact; it may be relevant for **mega-cap tech sentiment**, but it is not by itself a decisive market driver.
+- The crypto items point to **institutionalization (Block charter filing)** and **ongoing regulatory/operational frictions**, but nothing in the supplied set clearly establishes a broad move in major crypto today.
+- Overall, the fresh article set does **not** provide enough high-confidence, primary-source detail to fully explain today’s broader equity tape.
