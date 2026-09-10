@@ -1,0 +1,34 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Bank of Japan rates outlook:** A **Reuters poll** reported the BOJ is expected to **raise rates to 1.25% on Sept. 18** and reach **1.75% by Q2 2027**, earlier than previously expected. The poll cited persistent concern about broader price pressures.  
+  **Source:** CNA / Reuters poll, **2026-09-09T22:04:04Z**
+
+- **Middle East / oil risk:** **Foreign Policy** reported **Iran launched a large attack on global shipping**, increasing pressure on the **Strait of Hormuz** and linking that to sharply higher crude-price risk.  
+  **Source:** Foreign Policy, **2026-09-09T21:19:26Z**
+
+- **Fuel-price pass-through from geopolitical tension:** **CBC News** reported **Canadian pump prices are rising** as Middle East fighting escalates, with an industry expert saying the usual seasonal post–Labor Day easing is unlikely this time.  
+  **Source:** CBC News, **2026-09-09T21:21:28Z**
+
+- **Asia risk tone tied to oil:** **ABC News Australia** said the **ASX was set to fall as oil rose above $101/barrel**, explicitly connecting higher oil and weaker risk sentiment in Australia.  
+  **Source:** ABC News (AU), **2026-09-09T21:40:59Z**
+
+- **Rates / credit markets:** **Simon Property Group** announced it **sold $800 million of senior notes**, a reminder that corporate funding activity remains active against a higher-rate backdrop.  
+  **Source:** PRNewswire, **2026-09-09T21:33:00Z**
+
+- **AI / semis:** A Yahoo-finance-syndicated item on **Biztoc** said **Intel and ASML provided fresh evidence that High-NA EUV is moving into commercial manufacturing**, relevant for semiconductor capital spending and advanced-node production.  
+  **Source:** Biztoc citing Yahoo Finance, **2026-09-09T21:16:34Z**
+
+- **Crypto / DeFi:** **Crypto Briefing** reported **1inch has routed over $814 billion in cumulative swap volume**, but its co-founder said **DeFi is still too small to generate sustainable profits**.  
+  **Source:** Crypto Briefing, **2026-09-09T22:04:49Z**
+
+### Interpretation
+- The **clearest fresh macro drivers** in this set are:
+  1. **BOJ tightening expectations moving higher/faster**, which matters for global rates and FX.
+  2. **Middle East shipping tension and oil-price risk**, which matters for inflation expectations, energy, and broader risk sentiment.
+
+- The article set is **somewhat thin for explaining the full tape**, especially for **U.S. equities, Fed, inflation, and major earnings**. There are **no fresh top-tier articles here on U.S. CPI/PPI, Fed speakers, major earnings beats/misses, or explicit index moves**.
+
+- For **AI/semis**, the **Intel/ASML High-NA EUV** item is potentially relevant, but it is **less authoritative than a direct Reuters/Bloomberg/company filing source** in this feed.
+
+- For **crypto**, the freshest usable item is more **sector-structure commentary** than a broad **BTC/ETH market-moving catalyst**. There is **no strong fresh major-crypto price driver** in this article set.
