@@ -411,6 +411,48 @@ class DailyReportOutputTests(unittest.TestCase):
             rendered["report_text"],
         )
 
+    def test_telegram_text_prioritizes_action_sections(self) -> None:
+        row = _research_buy_row()
+
+        telegram_text = report.build_telegram_text([row], [], self.args)
+
+        self.assertIn("Market Optimization", telegram_text)
+        self.assertIn("BUY", telegram_text)
+        self.assertIn("SNDK +12.50% to 2026-09-17", telegram_text)
+        self.assertIn("SELL / AVOID", telegram_text)
+        self.assertIn("No qualified sells/avoids.", telegram_text)
+        self.assertIn("Full details saved to the market dashboard", telegram_text)
+        self.assertNotIn("Primary signal rule:", telegram_text)
+        self.assertNotIn("Pattern windows:", telegram_text)
+        self.assertNotIn("Slowest symbols:", telegram_text)
+        self.assertNotIn("Threshold: absolute forecast return", telegram_text)
+
+    def test_telegram_text_shows_unqualified_candidates_when_no_qualified_signal(
+        self,
+    ) -> None:
+        row = report.enrich_rows_with_signal_metadata(
+            [
+                _research_buy_row(
+                    **{
+                        "Direction Hit Rate %": 20.0,
+                        "Validation MAE %": 4.0,
+                        "Validation Samples": 30,
+                        "Calibration Error %": 75.0,
+                        "Brier Score": 0.70,
+                    }
+                )
+            ],
+            self.args,
+        )[0]
+
+        telegram_text = report.build_telegram_text([row], [], self.args)
+
+        self.assertIn("No qualified buys.", telegram_text)
+        self.assertIn("UNQUALIFIED BUY CANDIDATES", telegram_text)
+        self.assertIn("SNDK +12.50% to 2026-09-17", telegram_text)
+        self.assertIn("unqualified:", telegram_text)
+        self.assertIn("direction_hit_rate_below_minimum", telegram_text)
+
     def test_rl_policy_cannot_reenter_the_published_buy_list(self) -> None:
         row = _research_buy_row(**{"Selected Model": "RL Policy"})
 
@@ -694,14 +736,10 @@ class DailyReportOutputTests(unittest.TestCase):
             ],
             0.0,
         )
-        self.assertIn(
-            f"Universe: 1 ranked / {len(report.DEFAULT_SYMBOLS)} configured",
-            payload["telegram_text"],
-        )
-        self.assertIn(
-            "Data as of completed session: 2026-08-05",
-            payload["telegram_text"],
-        )
+        self.assertIn("Horizon: 30 asset sessions", payload["telegram_text"])
+        self.assertIn("As of: 2026-08-05", payload["telegram_text"])
+        self.assertIn("BUY", payload["telegram_text"])
+        self.assertNotIn("Primary signal rule:", payload["telegram_text"])
 
     def test_incomplete_runtime_budget_run_is_not_published(self) -> None:
         row = _research_buy_row()

@@ -2389,6 +2389,64 @@ def format_candidate_row(
     )
 
 
+def format_telegram_signal_row(row: dict) -> str:
+    """Format one compact Telegram action row."""
+
+    symbol = str(row_value(row, "symbol", "Symbol", default="")).strip()
+    forecast_return = forecast_return_pct(row)
+    target_session = str(row_value(row, "Target Session", default="") or "").strip()
+    model_call = model_call_text(row)
+    reliability = str(row_value(row, "Reliability", default="") or "").strip()
+    policy = smart_policy_text(row)
+    selected_model = str(
+        row_value(row, "selected_model", "Selected Model", default="") or ""
+    ).strip()
+    probability_up = finite_row_float(row, "Probability Up %", default=np.nan)
+    expected_error = finite_row_float(
+        row,
+        "expected_error_pct",
+        "Expected Error %",
+        default=np.nan,
+    )
+    pattern = str(
+        row_value(row, "Primary Pattern", "primary_pattern", default="") or ""
+    ).strip()
+
+    target_text = f" to {target_session}" if target_session else ""
+    details = [
+        f"{symbol} {forecast_return:+.2f}%{target_text}",
+        model_call,
+    ]
+    if reliability:
+        details.append(f"{reliability} reliability")
+    if policy:
+        details.append(policy)
+    if selected_model:
+        details.append(selected_model)
+    if np.isfinite(probability_up):
+        details.append(f"up {probability_up:.0f}%")
+    if np.isfinite(expected_error):
+        details.append(f"err +/-{expected_error:.1f}%")
+    if pattern and pattern != "Unavailable":
+        details.append(pattern)
+    return " | ".join(details)
+
+
+def format_telegram_candidate_row(
+    row: dict,
+    args: argparse.Namespace,
+    *,
+    side: str,
+) -> str:
+    """Format one compact unqualified Telegram research candidate."""
+
+    failures = model_signal_qualification_failures(row, args, side=side)
+    failure_text = ", ".join(failures[:3])
+    if len(failures) > 3:
+        failure_text += f", +{len(failures) - 3} more"
+    return f"{format_telegram_signal_row(row)} | unqualified: {failure_text}"
+
+
 def build_market_report(
     rows: list[dict],
     errors: list[str],
@@ -2778,7 +2836,118 @@ def build_telegram_text(
     timings: dict | None = None,
     short_horizon_reports: list[dict] | None = None,
 ) -> str:
-    return build_market_report(rows, errors, args, timings, short_horizon_reports)["report_text"]
+    generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    sorted_rows = sorted(rows, key=ranking_score, reverse=True)
+    model_buys = cap_signal_rows(
+        [row for row in sorted_rows if is_threshold_buy(row, args)],
+        args,
+    )
+    model_sells = cap_signal_rows(
+        sorted(
+            [row for row in rows if is_threshold_sell(row, args)],
+            key=ranking_score,
+        ),
+        args,
+    )
+    watch_buys = cap_signal_rows(
+        [row for row in sorted_rows if is_policy_watch_buy(row, args)],
+        args,
+    )
+    watch_sells = cap_signal_rows(
+        sorted(
+            [row for row in rows if is_policy_watch_sell(row, args)],
+            key=ranking_score,
+        ),
+        args,
+    )
+    candidate_limit = max_signal_rows_from_args(args) or 5
+    candidate_buys = [
+        row for row in sorted_rows if is_unqualified_model_buy(row, args)
+    ][:candidate_limit]
+    candidate_sells = sorted(
+        [row for row in rows if is_unqualified_model_sell(row, args)],
+        key=forecast_return_pct,
+    )[:candidate_limit]
+
+    as_of_sessions = as_of_sessions_from_rows(rows)
+    if len(as_of_sessions) == 1:
+        data_as_of_text = f"As of: {as_of_sessions[0]}"
+    elif as_of_sessions:
+        data_as_of_text = f"As of: {as_of_sessions[0]} to {as_of_sessions[-1]}"
+    else:
+        data_as_of_text = "As of: unavailable"
+
+    verified_portfolio = bool(rows) and all(
+        row_value(row, "Portfolio State Verified", default=False) is True
+        and row_value(row, "Portfolio Covariance Verified", default=False) is True
+        and row_value(row, "Portfolio Classification Verified", default=False)
+        is True
+        for row in rows
+    )
+    allocation_text = (
+        "Allocation: verified"
+        if verified_portfolio
+        else "Allocation: blocked; targets are research-only until portfolio state is verified"
+    )
+
+    lines = [
+        "Market Optimization",
+        f"Generated: {generated_at}",
+        data_as_of_text,
+        f"Horizon: {args.horizon} asset sessions",
+        allocation_text,
+        (
+            "Signals: "
+            f"{len(model_buys)} buy, {len(model_sells)} sell/avoid, "
+            f"{len(watch_buys)} buy watch, {len(watch_sells)} sell watch"
+        ),
+        "",
+        "BUY",
+    ]
+    if model_buys:
+        lines.extend(format_telegram_signal_row(row) for row in model_buys)
+    else:
+        lines.append("No qualified buys.")
+
+    lines.extend(["", "SELL / AVOID"])
+    if model_sells:
+        lines.extend(format_telegram_signal_row(row) for row in model_sells)
+    else:
+        lines.append("No qualified sells/avoids.")
+
+    if watch_buys or watch_sells:
+        lines.extend(["", "WATCHLIST"])
+        if watch_buys:
+            lines.append("Buy watch:")
+            lines.extend(format_telegram_signal_row(row) for row in watch_buys)
+        if watch_sells:
+            lines.append("Sell/avoid watch:")
+            lines.extend(format_telegram_signal_row(row) for row in watch_sells)
+
+    if not model_buys and candidate_buys:
+        lines.extend(["", "UNQUALIFIED BUY CANDIDATES"])
+        lines.extend(
+            format_telegram_candidate_row(row, args, side="buy")
+            for row in candidate_buys
+        )
+    if not model_sells and candidate_sells:
+        lines.extend(["", "UNQUALIFIED SELL / AVOID CANDIDATES"])
+        lines.extend(
+            format_telegram_candidate_row(row, args, side="sell")
+            for row in candidate_sells
+        )
+
+    if errors:
+        lines.extend(["", "Skipped: " + "; ".join(errors[:3])])
+
+    lines.extend(
+        [
+            "",
+            "Full details saved to the market dashboard and GitHub report.",
+            "Model output only. Not financial advice.",
+        ]
+    )
+    return "\n".join(lines)
 
 
 def append_prediction_records(
