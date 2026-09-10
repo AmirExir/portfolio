@@ -1,0 +1,28 @@
+Market Optimization
+Generated: 2026-09-10 10:32 UTC
+As of: 2026-09-09
+Horizon: 30 asset sessions
+Allocation: blocked; targets are research-only until portfolio state is verified
+Signals: 0 buy, 0 sell/avoid, 0 buy watch, 0 sell watch
+
+BUY
+No qualified buys.
+
+SELL / AVOID
+No qualified sells/avoids.
+
+UNQUALIFIED BUY CANDIDATES
+MU +20.03% to 2026-10-21 | Strong Buy | Low reliability | Hold / Watch | Ensemble | up 87% | err +/-17.1% | Uptrend | unqualified: direction_hit_rate_below_minimum, direction_skill_not_above_minimum, calibration_error_above_maximum, +3 more
+STX +25.01% to 2026-10-21 | Strong Buy | Low reliability | Hold / Watch | Ensemble | up 89% | err +/-15.9% | Uptrend | unqualified: direction_skill_not_above_minimum, calibration_error_above_maximum
+DELL +12.96% to 2026-10-21 | Buy | Low reliability | Hold / Watch | Ensemble | up 76% | err +/-17.3% | Uptrend | unqualified: direction_skill_not_above_minimum, brier_skill_not_above_minimum, forecast_magnitude_below_half_validation_mae
+QQQ +6.44% to 2026-10-21 | Buy | Low reliability | Hold / Watch | Ensemble | up 78% | err +/-6.6% | Uptrend | unqualified: direction_skill_not_above_minimum, brier_skill_not_above_minimum
+AMD +34.37% to 2026-10-21 | Strong Buy | Low reliability | Hold / Watch | Ensemble | up 83% | err +/-23.0% | Range / No Dominant Pattern | unqualified: mae_skill_not_above_minimum, brier_skill_not_above_minimum
+
+UNQUALIFIED SELL / AVOID CANDIDATES
+DOT -15.32% to 2026-10-09 | Sell | Low reliability | Hold / Watch | Ensemble | up 19% | err +/-20.8% | Volume Spike | unqualified: direction_skill_not_above_minimum, calibration_error_above_maximum, mae_skill_not_above_minimum, +1 more
+DOGE -12.94% to 2026-10-09 | Sell | Low reliability | Hold / Watch | Ensemble | up 28% | err +/-24.2% | High Volatility | unqualified: direction_skill_not_above_minimum, calibration_error_above_maximum, mae_skill_not_above_minimum, +1 more
+
+Skipped: SPCX: Need at least 71 clean close prices for ML forecasting.; PEPE-USD: stale OHLCV data: latest 2022-12-11, expected 2026-09-09, lag 1368 completed UTC days exceeds allowed 1
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
