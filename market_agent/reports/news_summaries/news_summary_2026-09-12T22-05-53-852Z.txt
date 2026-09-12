@@ -1,0 +1,21 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Fed / inflation:** **Biztoc citing WSJ** reported that a **“warm CPI report”** reduced uncertainty around **next week’s Fed decision** and implied expectations for **higher rates**. *(Biztoc/WSJ, publishedAt: 2026-09-11T21:49:37Z; WSJ time referenced in article: 2026-09-11 21:36:00)*
+
+- **Energy / geopolitics:** **New York Post** reported that **Saudi Arabia shut down a critical oil pipeline** after it was set on fire in strikes, while **Iran-backed Houthis tightened control over Yemen’s Red Sea coastline**, a key shipping corridor. *(New York Post, publishedAt: 2026-09-11T21:36:06Z)*
+
+- **AI / semis:** **Crypto Briefing** reported that **Marvell** is targeting a **$30 billion optical networking opportunity** tied to AI data-center demand, with the piece saying revenue forecasts for that segment are rising sharply. *(Crypto Briefing, publishedAt: 2026-09-11T21:23:17Z)*
+
+- **AI / semis:** **Biztoc citing PYMNTS** reported that **Nvidia** has become the world’s most active **$100 million-plus venture investor**, participating in at least **53 such rounds in 2026 through August**. *(Biztoc/PYMNTS, publishedAt: 2026-09-11T21:40:19Z)*
+
+- **Crypto / market structure:** **Crypto Briefing** reported that **Nasdaq plans tokenized stocks with shareholder rights by 2027**, tied to infrastructure being built with its investment in Kraken parent **Payward**. *(Crypto Briefing, publishedAt: 2026-09-11T22:04:54Z)*
+
+- **Crypto equities:** **Crypto Briefing** reported that **Cantor Fitzgerald doubled its price target on BitMine to $63.60** and kept an **Overweight** rating, citing the company’s **Ethereum treasury** strategy. *(Crypto Briefing, publishedAt: 2026-09-11T21:41:12Z)*
+
+### Interpretation
+- The **clearest macro driver** in this article set is the **hotter CPI / higher-for-longer Fed read-through**, which is relevant for **Treasury yields, rate-sensitive equities, and broad risk sentiment**.
+- The **Saudi pipeline / Red Sea** headline is the main **energy supply and geopolitical risk** item here and could matter for **oil, shipping risk, and inflation expectations**.
+- On the **AI/semi** front, the fresh headlines are more **theme-supportive** than tape-explaining: they reinforce ongoing investor focus on **AI infrastructure, optics, and Nvidia’s ecosystem influence**, but they do **not by themselves explain today’s broader market move**.
+- The **crypto-related** items are mostly **sector-specific** and structural; they may matter for **crypto-linked equities and digital-asset sentiment**, but they are not enough alone to explain the overall market.
+- Overall, the **fresh set is somewhat thin** for explaining the full day’s tape beyond **Fed/rates/inflation** and **energy/geopolitical risk**.
