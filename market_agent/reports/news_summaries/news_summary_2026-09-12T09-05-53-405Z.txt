@@ -1,0 +1,28 @@
+Fresh market-moving headlines are limited, and the set is heavily skewed to macro/rates. There is little fresh, credible coverage here on major earnings, big AI/semi company-specific news, or broad crypto price action that would clearly explain today’s tape by itself.
+
+**Facts**
+- **U.S. inflation:** August CPI rose **3.4% y/y, unchanged from July**, which articles say supports the case for a Fed rate hike.  
+  - **CNN**, published **2026-09-11T09:00:29Z**
+- **Fed/rates focus:** The inflation report is being framed as a key input for the Fed’s next rate decision.  
+  - **NPR**, published **2026-09-11T08:46:51Z**  
+  - **NBC News**, published **2026-09-11T09:00:00Z**
+- **Treasury market:** U.S. Treasury yields were described as **steady Friday after surging to multiyear highs on Thursday**.  
+  - **CNBC**, published **2026-09-11T08:35:57Z**
+- **Europe rates/inflation:** Eurozone government bonds were reported under pressure as **surging energy prices** intensified inflation concerns and expectations for further rate hikes.  
+  - **The Times of India / Reuters-style market coverage**, published **2026-09-11T08:45:04Z**
+- **Japan equities/risk sentiment:** Japanese stocks fell, with coverage citing **higher oil prices**, **rising bond yields**, and caution ahead of the U.S. CPI report.  
+  - **Business Standard**, published **2026-09-11T09:01:28Z**
+- **U.K. macro:** The U.K. economy reportedly **grew 0.4% in July**, with the article linking part of the strength to an AI-driven boost.  
+  - **The Irish Times**, published **2026-09-11T08:55:19Z**
+- **U.S. equity flow/sentiment:** BofA strategists warned that **outflows from U.S. stocks** could set up **higher volatility**, while rising Treasury yields remain a concern.  
+  - **Yahoo Finance/Bloomberg**, published **2026-09-11T08:45:00Z**
+- **Crypto-specific:** Sam Bankman-Fried asked the **U.S. Supreme Court** to overturn his FTX fraud conviction.  
+  - **Decrypt**, published **2026-09-11T09:04:11Z**
+- **Crypto infrastructure/security:** Blockstream said it **would not pay ransom** tied to the Liquid Network hack, with hackers reportedly holding nearly **600 BTC**.  
+  - **Cointelegraph**, published **2026-09-11T08:43:19Z**
+
+**Interpretation**
+- The clearest fresh macro driver in this set is **sticky U.S. inflation alongside elevated yields**, which keeps **Fed tightening risk** in focus.
+- **Energy prices** appear to be an important cross-asset input, especially through the inflation and bond-yield channel.
+- The freshest equity-relevant readthrough is more about **rates pressure and volatility risk** than about company-specific catalysts.
+- Crypto headlines here are **idiosyncratic/legal/security-related**, not broad enough on their own to explain moves in major crypto assets.
