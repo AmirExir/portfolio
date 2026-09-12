@@ -49,10 +49,17 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
-from urllib.parse import parse_qs, urljoin, urlparse
+from urllib.parse import parse_qs, urldefrag, urljoin, urlparse
 from xml.etree import ElementTree as ET
 
 import requests
+
+if __package__:
+    from .html_content import extract_page_content
+    from .latest_updates import parse_revision_issue_html, revision_request_identity
+else:  # Direct execution by n8n/cron.
+    from html_content import extract_page_content
+    from latest_updates import parse_revision_issue_html, revision_request_identity
 
 try:
     from pypdf import PdfReader  # type: ignore
@@ -1267,6 +1274,7 @@ def extract_anchor_candidates(source_label: str, source_url: str, html_text: str
     seen: set[str] = set()
     results: List[DiscoveredItem] = []
     lowered_html = html_text.lower()
+    content_links = set(extract_page_content(html_text, base_url=source_url).links)
 
     for match in anchor_pattern.finditer(html_text):
         href = clean_text(match.group(2))
@@ -1276,6 +1284,7 @@ def extract_anchor_candidates(source_label: str, source_url: str, html_text: str
 
         if (
             not text
+            or urldefrag(absolute_url)[0] not in content_links
             or not is_interesting_link(source_url, absolute_url, text)
             or not _candidate_within_source_scope(source_url, absolute_url)
         ):
@@ -1545,16 +1554,28 @@ def summarize_text(text: str, max_chars: int = MAX_SUMMARY_CHARS) -> str:
     return " ".join(summary_parts) if summary_parts else cleaned[:max_chars]
 
 
-def extract_html_summary(content: bytes, fallback_title: str = "") -> str:
-    try:
-        text = content.decode("utf-8", errors="ignore")
-    except Exception:
-        return f"{fallback_title} is an HTML page, but text extraction failed."
+def extract_html_summary(content: bytes, fallback_title: str = "", *, url: str = "") -> str:
+    """Summarize official issue fields or main page text, excluding navigation."""
 
-    body = re.sub(r"(?is)<script.*?</script>", " ", text)
-    body = re.sub(r"(?is)<style.*?</style>", " ", body)
-    body = re.sub(r"<[^>]+>", " ", body)
-    return summarize_text(body)
+    revision = revision_request_identity(fallback_title, url=url)
+    if revision and re.search(r"/mktrules/issues/[^/]+/?$", urlparse(url).path):
+        details = parse_revision_issue_html(content, revision_id=revision[0], issue_url=url)
+        if details.get("official_description") or details.get("status"):
+            parts = [f"{revision[0]}: {details.get('issue_title') or fallback_title}"]
+            if details.get("status"):
+                parts.append(f"Official status: {details['status']}.")
+            if details.get("date_posted"):
+                parts.append(f"Date posted: {details['date_posted']}.")
+            parts.append(str(details["effectiveness_note"]))
+            if details.get("official_description"):
+                parts.append(f"Official description: {details['official_description']}")
+            if details.get("affected_sections"):
+                parts.append(f"Affected sections: {details['affected_sections']}.")
+            action = details.get("latest_action") or {}
+            if action.get("action"):
+                parts.append("Latest action: " + " ".join(str(value) for value in action.values()) + ".")
+            return " ".join(parts)[:MAX_SUMMARY_CHARS]
+    return summarize_text(extract_page_content(content, base_url=url).text)
 
 
 def extract_json_summary(content: bytes) -> str:
@@ -1681,7 +1702,7 @@ def summarize_binary_content(url: str, content: bytes, content_type: str) -> str
     content_type = (content_type or "").lower()
 
     if extension in {".html", ".htm"} or "text/html" in content_type:
-        return extract_html_summary(content)
+        return extract_html_summary(content, url=url)
     if extension in {".json"} or "application/json" in content_type:
         return extract_json_summary(content)
     if extension in {".csv"} or "text/csv" in content_type:
@@ -1943,6 +1964,66 @@ def _sidecar_alias_metadata(metadata_path: Path) -> Dict[str, Any]:
         return value if isinstance(value, dict) else {}
     except (OSError, UnicodeError, json.JSONDecodeError):
         return {}
+
+
+def _previous_page_observation(
+    source_root: Path,
+    content_hash: Optional[str],
+) -> Optional[Tuple[bytes, Dict[str, Any]]]:
+    """Read a verified prior HTML observation using existing raw-hash state.
+
+    Reading before archival also covers the latest-only public-notices object.
+    If a prior object is unavailable or damaged, comparison fails open: the
+    newly archived page is still reported instead of silently losing an update.
+    """
+
+    if not content_hash or not re.fullmatch(r"[a-f0-9]{64}", content_hash):
+        return None
+    candidates = [
+        *source_root.glob(f"*/{content_hash}.html"),
+        *source_root.glob(f"*/{content_hash}.htm"),
+        *source_root.glob("*/current.html"),
+    ]
+    for path in candidates:
+        try:
+            if path.stat().st_size > MAX_RESPONSE_BYTES:
+                continue
+            content = path.read_bytes()
+            if hashlib.sha256(content).hexdigest() != content_hash:
+                continue
+            return content, _sidecar_alias_metadata(path.with_name(f"{path.name}.metadata.json"))
+        except OSError:
+            continue
+    return None
+
+
+def _page_lifecycle_changed(item: DiscoveredItem, previous_metadata: Dict[str, Any]) -> bool:
+    """Preserve explicit report status/date changes even when page text matches."""
+
+    current = _provenance_observation(item, item.url, "text/html")
+    previous = previous_metadata
+    observations = previous_metadata.get("provenance", [])
+    if isinstance(observations, list):
+        previous = next(
+            (
+                observation for observation in observations
+                if isinstance(observation, dict)
+                and _observation_identity(observation) == _observation_identity(current)
+            ),
+            previous_metadata,
+        )
+    for field in ("document_status", "effective_date", "published_date"):
+        new_value = str(current.get(field) or "").strip()
+        old_value = str(previous.get(field) or "").strip()
+        if not new_value:
+            continue
+        if field.endswith("date"):
+            new_date, old_date = _parsed_date(new_value), _parsed_date(old_value)
+            if new_date and old_date and new_date == old_date:
+                continue
+        if new_value.casefold() != old_value.casefold():
+            return True
+    return False
 
 
 def _append_or_coalesce_change(
@@ -2264,6 +2345,11 @@ def scan_sources(
                 _last_seen_hash(recent_entries, item)
                 or archive_hashes.get(item.url)
             )
+            previous_page = (
+                _previous_page_observation(archive_source_root, previous_content_hash)
+                if item.item_type in {"page", "html", "htm"}
+                else None
+            )
             try:
                 cache_key = (safe_path_component(item.source_label), item.url)
                 cached = archive_cache.get(cache_key)
@@ -2368,6 +2454,24 @@ def scan_sources(
                 previous_content_hash
                 and previous_content_hash != archived.content_hash
             )
+            meaningful_content_changed: Optional[bool] = None
+            if previous_page is not None and (
+                "text/html" in content_type
+                or archived.path.suffix.lower() in {".html", ".htm"}
+            ):
+                old_content = extract_page_content(previous_page[0], base_url=archived.final_url)
+                new_content = extract_page_content(archived.content, base_url=archived.final_url)
+                if old_content.text or old_content.links:
+                    meaningful_content_changed = old_content != new_content
+                    if (
+                        was_known
+                        and not meaningful_content_changed
+                        and not _page_lifecycle_changed(item, previous_page[1])
+                    ):
+                        # Preserve raw bytes and advance the existing hash ledger,
+                        # but do not publish or embed monitoring scripts, tokens,
+                        # layout changes or shared navigation as document news.
+                        continue
 
             if (
                 was_known
@@ -2377,10 +2481,12 @@ def scan_sources(
                 continue
 
             try:
-                item_summary = summarize_binary_content(
-                    str(archived.path),
-                    archived.content,
-                    archived.content_type,
+                item_summary = (
+                    extract_html_summary(archived.content, item.title, url=archived.final_url)
+                    if "text/html" in content_type or archived.path.suffix.lower() in {".html", ".htm"}
+                    else summarize_binary_content(
+                        str(archived.path), archived.content, archived.content_type,
+                    )
                 )
             except Exception as exc:
                 item_summary = f"Official document archived, but summary extraction failed: {exc}"
@@ -2410,6 +2516,7 @@ def scan_sources(
                     "content_type": archived.content_type,
                     "final_url": archived.final_url,
                     "content_changed_since_last_seen": content_changed_since_last_seen,
+                    "meaningful_content_changed_since_last_seen": meaningful_content_changed,
                 },
                 archived,
                 item,

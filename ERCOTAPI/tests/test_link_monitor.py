@@ -102,6 +102,148 @@ class LinkMonitorTests(unittest.TestCase):
             published_hint="July 16, 2026",
         )
 
+    @staticmethod
+    def issue_html(*, token: str = "one", status: str = "Pending", attachment: str = "") -> bytes:
+        """Build an issue page with realistic volatile monitoring/chrome fields."""
+
+        return (
+            f'<html><head><script data-dtconfig="rpid={token}"></script></head><body>'
+            f'<header><a href="/mktrules/issues/NPRR999">Menu {token}</a></header>'
+            '<div class="content-margin"><div id="bcrumb">Home Market Rules</div>'
+            '<h2>NPRR1234</h2><div class="mainContent">'
+            '<div id="tab-summary"><table>'
+            '<tr><th>Title</th><td>Official reserve proposal</td></tr>'
+            f'<tr><th>Status</th><td>{status}</td></tr></table></div>'
+            '<div id="tab-background"><table>'
+            '<tr><th>Date Posted:</th><td>July 16, 2026</td></tr>'
+            '<tr><th>Description:</th><td>The proposal changes reserve requirements '
+            'for eligible resources.</td></tr></table></div>'
+            f'{attachment}</div><aside>Related content {token}</aside></div>'
+            f'<footer>Footer {token}</footer>'
+            f'<script src="/_Incapsula_Resource?cb={token}"></script></body></html>'
+        ).encode()
+
+    def test_page_comparison_ignores_chrome_but_keeps_attachment_targets(self) -> None:
+        base_url = "https://www.ercot.com/mktrules/issues/NPRR1234"
+        attachment = '<a href="/download?id=1">Report</a>'
+        first = monitor.extract_page_content(
+            self.issue_html(attachment=attachment), base_url=base_url,
+        )
+        second = monitor.extract_page_content(
+            self.issue_html(token="two", attachment=attachment), base_url=base_url,
+        )
+        replacement = monitor.extract_page_content(
+            self.issue_html(attachment=attachment.replace("id=1", "id=2")), base_url=base_url,
+        )
+        self.assertEqual(first, second)
+        self.assertNotEqual(first, replacement)
+        self.assertEqual(first.links, ("https://www.ercot.com/download?id=1",))
+        self.assertNotIn("Menu", first.text)
+        self.assertNotIn("Footer", first.text)
+        self.assertNotIn("Home", first.text)
+
+    def test_scanner_archives_volatile_html_without_republishing_or_legacy_replay(self) -> None:
+        source_url = "https://www.ercot.com/mktrules/issues/nprr"
+        detail_url = "https://www.ercot.com/mktrules/issues/NPRR1234"
+        response = FakeResponse(url=detail_url, content=self.issue_html(), headers={"Content-Type": "text/html"})
+        session = FakeSession({
+            source_url: FakeResponse(url=source_url, text=f'<a href="{detail_url}">NPRR1234</a>'),
+            detail_url: response,
+        })
+        links = [monitor.SourceLink(label="NPRR", url=source_url)]
+        with mock.patch.object(monitor.requests, "Session", return_value=session):
+            first_changes, state = monitor.scan_sources(links, {}, self.archive_root)
+            response.content = self.issue_html(token="two")
+            repeated, state = monitor.scan_sources(links, state, self.archive_root)
+            response.content = self.issue_html(token="three")
+            # Older installations have plain fingerprint state; recover the
+            # prior raw hash from archive provenance without replaying history.
+            legacy_state = {"NPRR": [f"NPRR|{detail_url}"]}
+            upgraded, state = monitor.scan_sources(links, legacy_state, self.archive_root)
+
+        self.assertEqual(len(first_changes), 1)
+        self.assertEqual(repeated, [])
+        self.assertEqual(upgraded, [])
+        self.assertEqual(len(list(self.archive_root.glob("nprr/*/*.html"))), 3)
+        self.assertEqual(
+            monitor._last_seen_hash(state["NPRR"], self.item(url=detail_url)),
+            hashlib.sha256(response.content).hexdigest(),
+        )
+        self.assertEqual(Path(first_changes[0]["downloaded_path"]).read_bytes(), self.issue_html())
+
+    def test_scanner_reports_real_page_status_and_attachment_changes(self) -> None:
+        source_url = "https://www.ercot.com/mktrules/issues/nprr"
+        detail_url = "https://www.ercot.com/mktrules/issues/NPRR1234"
+        attachment_url = "https://www.ercot.com/files/NPRR1234.txt?version="
+        response = FakeResponse(url=detail_url, content=self.issue_html(), headers={"Content-Type": "text/html"})
+        session = FakeSession({
+            source_url: FakeResponse(url=source_url, text=f'<a href="{detail_url}">NPRR1234</a>'),
+            detail_url: response,
+            **{attachment_url + version: FakeResponse(
+                url=attachment_url + version, content=b"Official attachment", headers={"Content-Type": "text/plain"},
+            ) for version in ("1", "2")},
+        })
+        links = [monitor.SourceLink(label="NPRR", url=source_url)]
+        with mock.patch.object(monitor.requests, "Session", return_value=session):
+            _, state = monitor.scan_sources(links, {}, self.archive_root)
+            response.content = self.issue_html(status="Withdrawn")
+            withdrawn, state = monitor.scan_sources(links, state, self.archive_root)
+            attachment = f'<a href="{attachment_url}1">Official attachment</a>'
+            response.content = self.issue_html(status="Withdrawn", attachment=attachment)
+            added, state = monitor.scan_sources(links, state, self.archive_root)
+            response.content = self.issue_html(status="Withdrawn", attachment=attachment.replace("version=1", "version=2"))
+            replaced, state = monitor.scan_sources(links, state, self.archive_root)
+            quiet, _ = monitor.scan_sources(links, state, self.archive_root)
+
+        for changes in (withdrawn, added, replaced):
+            update = next(item for item in changes if item["url"] == detail_url)
+            self.assertEqual(update["status"], "updated")
+            self.assertTrue(update["meaningful_content_changed_since_last_seen"])
+        self.assertIn(attachment_url + "1", session.calls)
+        self.assertIn(attachment_url + "2", session.calls)
+        self.assertEqual(quiet, [])
+        self.assertIn("Official status: Withdrawn", withdrawn[0]["summary"])
+        self.assertIn("not governing text", withdrawn[0]["summary"])
+        self.assertNotIn("Menu", withdrawn[0]["summary"])
+
+    def test_report_lifecycle_change_survives_semantically_unchanged_page(self) -> None:
+        source_url = "https://www.ercot.com/mktrules/issues/reports/nprr"
+        detail_url = "https://www.ercot.com/mktrules/issues/NPRR1234"
+
+        def report(status: str) -> str:
+            return f'<table><tr><td><a href="{detail_url}">NPRR1234</a></td><td>July 16, 2026</td><td>{status}</td></tr></table>'
+
+        response = FakeResponse(url=detail_url, content=self.issue_html(), headers={"Content-Type": "text/html"})
+        session = FakeSession({
+            source_url: FakeResponse(url=source_url, text=report("Pending")),
+            detail_url: response,
+        })
+        links = [monitor.SourceLink(label="NPRR", url=source_url)]
+        with mock.patch.object(monitor.requests, "Session", return_value=session):
+            _, state = monitor.scan_sources(links, {}, self.archive_root)
+            session.responses[source_url].text = report("Approved")
+            response.content = self.issue_html(token="two")
+            changes, _ = monitor.scan_sources(links, state, self.archive_root)
+
+        self.assertEqual(len(changes), 1)
+        self.assertFalse(changes[0]["meaningful_content_changed_since_last_seen"])
+        metadata = json.loads(Path(changes[0]["metadata_path"]).read_text())
+        self.assertEqual(metadata["document_status"], "Approved")
+
+    def test_revision_page_discovery_excludes_shared_navigation(self) -> None:
+        source_url = "https://www.ercot.com/mktrules/issues/NPRR1234"
+        attachment = '<a href="/files/1234NPRR.txt">Official attachment</a>'
+        items = monitor.extract_anchor_candidates(
+            "NPRR", source_url, self.issue_html(attachment=attachment).decode(),
+        )
+        self.assertEqual([item.url for item in items], ["https://www.ercot.com/files/1234NPRR.txt"])
+
+    def test_page_comparison_includes_text_beyond_summary_limit(self) -> None:
+        prefix = "This is an unchanged official requirement. " * 100
+        first = monitor.extract_page_content(f"<main>{prefix}<p>Limit: 1 MW</p></main>")
+        second = monitor.extract_page_content(f"<main>{prefix}<p>Limit: 2 MW</p></main>")
+        self.assertNotEqual(first, second)
+
     def test_all_configured_revision_request_detail_links_are_discovered(self) -> None:
         source_url = "https://www.ercot.com/mktrules/issues/nprr"
         for prefix in (

@@ -3733,9 +3733,10 @@ def main():
             )
         st.caption(caption)
         if brief_state and not brief_state.is_fresh:
-            st.warning(
-                "The n8n publisher has not delivered a fresh ERCOT brief. "
-                "Refresh data reloads published files, but it does not run the workflow."
+            st.info(
+                "There is no recent published brief. Scheduled posts are skipped when "
+                "no new items are found; this timestamp alone does not establish workflow health. "
+                "Refresh data reloads published files."
             )
         st.markdown(item["content"])
     else:

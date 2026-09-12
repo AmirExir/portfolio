@@ -190,6 +190,53 @@ If you prefer n8n, call the script from a command node or reuse the same file
 naming convention. Writing a summary to GitHub's remote `generated-output`
 branch does not update the official RAG corpus.
 
+The active combined n8n workflow uses `news_digest.js` for scheduled articles.
+It keeps canonical article URLs and normalized titles in n8n's persistent node
+static data, accepts only ERCOT/Texas grid articles with source timestamps from
+the last 36 hours, and publishes up to eight previously unseen articles. Its
+first successful scheduled run records a baseline without reposting the existing
+feed. All eligible feed items, including items beyond the eight-item limit, are
+recorded to avoid replaying a backlog on the next run. Identities are retained
+for 45 days; changing tracking parameters or headline punctuation does not make
+an article new. API errors fail the execution instead of producing news text.
+Explicit Telegram requests may repeat the current digest only in the direct reply.
+Scheduled runs with no new items produce no channel post or GitHub summary.
+
+The file monitor retains exact source bytes and SHA-256 provenance, but compares
+HTML main content and attachment links before reporting an update. Changes only
+to scripts, tracking values, or shared navigation do not create news events.
+It compares previous archived bytes during migration, preserving real status,
+text, and attachment changes. Summaries retain the available proposal status;
+a changed page alone does not establish filing, approval, or effectiveness.
+The dashboard reports the age of the latest brief; this is not a service health
+check, because healthy scheduled runs can intentionally publish nothing.
+
+To install these workflow changes, stop n8n while no executions are running or
+waiting, then run from the repository root:
+
+```bash
+python scripts/repair_n8n_ercot_publication.py \
+  --database /path/to/n8n/database.sqlite \
+  --backup /private/backup-directory/n8n-before-ercot-repair.sqlite
+```
+
+Restart n8n afterward. The repair validates and updates the draft and each
+current/active/published version independently, keeps unrelated nodes and static
+data, and backs up the database before writing. Store the backup privately because
+it contains n8n account data. n8n commits article history after successful production
+executions; manual editor tests do not establish persistent publication history.
+This suppresses repeated feed items, but does not guarantee exactly-once delivery
+across overlapping executions or partial downstream publication failures.
+Existing summary archives are retained as originally published.
+
+Offline regression checks (Node.js is needed for n8n Code-node tests):
+
+```bash
+python -m unittest ERCOTAPI.tests.test_news_pipeline \
+  ERCOTAPI.tests.test_news_digest ERCOTAPI.tests.test_news_workflow_database \
+  ERCOTAPI.tests.test_link_monitor
+```
+
 For Telegram QA calls into the retriever API, set `ERCOT_RETRIEVER_API_URL` in
 your n8n environment. The local launcher now also accepts `ERCOT_RAG_API_HOST`
 and `ERCOT_RAG_API_PORT` so the API can bind to `0.0.0.0` when n8n runs in a
