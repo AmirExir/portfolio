@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited, and the set is somewhat noisy. The clearest usable drivers in the last 36 hours are rates/Fed expectations, bond-market pressure, AI/semi sentiment, and Middle East oil-route risk.
+
+**Facts**
+- **Fed/rates:** Bloomberg (**2026-09-13T08:25:01Z**) said markets are focused on this week’s Fed decision, with “rate-hike fever” spreading across G7 central banks and the Fed, BOE, and BOJ all seen as pivotal for the 2026 policy outlook.
+- **Fed/inflation:** Hurriyet Daily News citing AFP (**2026-09-13T08:27:50Z**) reported markets expect the Fed to **raise rates this week** to address persistently high inflation.
+- **Rates/bonds:** NBC News (**2026-09-13T09:00:41Z**) reported Treasury Secretary Scott Bessent appears to be losing a tug-of-war with bond markets as longer-term yields remain a pressure point despite efforts to influence them.
+- **AI/semis:** Bloomberg (**2026-09-13T08:37:03Z**) reported Anthropic’s warning about slowing AI development may weigh on chipmakers and supply-chain stocks near term, though investors cited in the piece doubt it changes the longer-term AI spending trend.
+- **Energy/geopolitics:** Crypto Briefing (**2026-09-13T07:53:04Z**) reported a vessel in the Strait of Hormuz caught fire after being hit by an unidentified projectile, raising concern around a key oil shipping chokepoint.
+- **Energy/geopolitics:** Crypto Briefing (**2026-09-13T08:08:43Z**) reported Iran denied being at war with Saudi Arabia after a drone strike hit a critical oil pipeline.
+- **Energy/inflation linkage:** CBC News (**2026-09-13T08:00:00Z**) reported diesel prices are surging due to global conflicts, with potential knock-on effects for transported goods and food prices.
+- **Energy macro impact:** CBC News (**2026-09-13T08:00:00Z**) reported oil topping **$100/barrel** could materially affect Canada’s economy, underscoring the macro significance of the latest crude spike.
+
+**Interpretation**
+- The strongest cross-asset macro signal in the fresh headlines is **higher-for-longer rate risk**: multiple reports point to an expected Fed hike and sticky inflation concerns.
+- The NBC piece reinforces that **long-end yields** remain an important market pressure point, independently of official messaging.
+- For equities, the most relevant sector-specific item is **AI/semi sentiment risk** from Anthropic-related caution, though Bloomberg’s framing suggests investors may still view the broader AI capex trade as intact.
+- For macro/risk sentiment, **Middle East supply-route and pipeline headlines** are the clearest fresh catalyst that could feed into oil, inflation expectations, and rates.
+- There are **few fresh earnings or major crypto-specific market-moving headlines** in this set, so if today’s tape is being driven by single-stock earnings or crypto price action, these articles do not explain it well.
