@@ -1,0 +1,29 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **AI policy / semis:** President Trump publicly dismissed calls to slow AI development and phoned **Nvidia CEO Jensen Huang** during the All-In Summit; CNBC says Trump called data-center opposition a “hoax.”  
+  *Source: CNBC, publishedAt 2026-09-14T21:32:03Z*
+
+- **AI policy / semis:** **Jensen Huang** said, “we’re not going to let [an AI slowdown] happen,” underscoring Nvidia’s opposition to any deceleration in AI buildout.  
+  *Source: TechCrunch, publishedAt 2026-09-14T21:53:58Z*
+
+- **AI policy / regulation:** The **White House is considering “limited safeguards” on AI**, according to a source cited by the New York Post, after debate around existential AI risks from leading labs.  
+  *Source: New York Post, publishedAt 2026-09-14T21:57:22Z*
+
+- **AI / M&A:** **OpenAI acquired Glass Imaging**, an AI-camera startup founded by former Apple employees, as part of accelerating device ambitions, per a Wall Street Journal-cited report.  
+  *Source: PYMNTS, publishedAt 2026-09-14T21:56:18Z*
+
+- **Energy:** A **global fuel squeeze** is highlighted as boosting attention on **U.S. refiners**, with the article tying the move to elevated oil prices and tighter product markets.  
+  *Source: OilPrice.com, publishedAt 2026-09-14T22:00:00Z*
+
+- **Crypto / regulation:** **Eight banking trade groups** urged Senate leaders to tighten the **Clarity Act’s stablecoin provisions**, especially around reward-like features that banks say could pull deposits from the banking system.  
+  *Source: Decrypt, publishedAt 2026-09-14T21:46:04Z*
+
+- **Equity supply / shipping:** **TORM plc** announced a **secondary public offering of 9 million Class A shares** by a selling shareholder.  
+  *Source: PRNewswire, publishedAt 2026-09-14T21:40:00Z*
+
+## Interpretation
+- The freshest actionable set is **AI-policy-heavy**, especially for **Nvidia, AI infrastructure, and broader semiconductor sentiment**. The key development is the clash between calls for AI guardrails and high-level political/policy support for continued AI buildout.
+- **Energy/refiner names** may stay in focus if the fuel-squeeze/oil narrative persists, but the provided article is more thematic than hard-news incremental.
+- **Crypto** relevance is centered on **stablecoin regulation risk** and potential implications for crypto-linked financial plumbing, not a broad market catalyst by itself.
+- There is **little fresh coverage here on Fed, Treasury yields, inflation, major earnings, or broad index-level macro drivers**, so this article set is **thin for explaining today’s overall tape**.
