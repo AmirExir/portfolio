@@ -1,0 +1,21 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Rates / inflation pressure:** **NPR** (published **2026-09-15T08:44:56Z**) reported the **10-year Treasury yield briefly hit 5% on Monday**, framing it as significant for **inflation expectations and the Fed outlook**.
+- **Global rates / energy:** **The Times of India / Economic Times** (published **2026-09-15T09:03:59Z**) said **eurozone bond yields rose to 17-year highs**, citing **elevated oil prices** and the rise in **US Treasury yields** as drivers of inflation concerns.
+- **Risk sentiment:** **Yahoo Finance/Bloomberg** (published **2026-09-15T09:02:25Z**) reported **Bank of America’s survey** showed **excess bullishness is fading** as investors worry about a **disorderly rise in bond yields** and **US midterm election risks**.
+- **Energy / macro focus:** **CNBC** (published **2026-09-15T09:00:01Z**) previewed Treasury Secretary **Scott Bessent’s testimony**, saying lawmakers may question him on **rising energy prices**, **Fed policy**, and **government debt**.
+- **Oil / cross-asset setup:** A **Biztoc** repost of **WSJ** (published **2026-09-15T08:58:05Z**) said the **10-year yield moved above 5%** and **Brent crude climbed to $108/barrel**.  
+  - Note: this is an aggregator/repost, but it aligns with the separate NPR and eurozone-yields items.
+- **Crypto policy:** **NPR** (published **2026-09-15T09:00:00Z**) reported the US Senate is set for a **key procedural vote on the “Clarity Act,”** a potentially important bill to establish a federal framework for crypto.
+- **Crypto / sanctions enforcement:** **Cointelegraph** (published **2026-09-15T08:46:35Z**) reported the **US DOJ is seeking forfeiture of more than $61 million in USDT** allegedly tied to **sanctioned Iranian oil sales**.
+- **Bitcoin treasury adoption:** **Decrypt** (published **2026-09-15T09:01:05Z**) reported **Strive** bought **469 BTC for $36.6 million**, taking holdings to **25,000 BTC**.
+- **AI / semis:** **Yahoo Finance/Bloomberg video** (published **2026-09-15T08:45:09Z**) cited **JPMorgan Private Bank’s Sitara Sundar** saying the **AI trade is in a “digestion” phase**.
+- **AI / Nvidia ecosystem:** **Business Insider** (published **2026-09-15T09:00:01Z**) reported that after Nvidia’s deal for key Groq assets/personnel, **Groq is navigating a changed AI cloud market**, highlighting ongoing competitive shifts around **Nvidia’s dominance**.
+
+### Interpretation
+- The clearest fresh macro drivers in this set are **higher long-end yields** and **energy-driven inflation concerns**. Those are the most directly market-moving headlines here.
+- **Risk sentiment appears more cautious**, based on the BofA survey, but this is a positioning/sentiment signal rather than direct evidence of today’s tape.
+- For **AI/semis**, the fresh set is **thin on hard earnings or product catalysts**; the main message is more about **AI-trade consolidation/digestion** and Nvidia’s ecosystem influence than a new concrete market catalyst.
+- For **crypto**, the actionable fresh themes are **Washington policy risk/opportunity** via the Clarity Act and **sanctions enforcement** tied to Iranian oil flows.
+- If you’re trying to explain **today’s tape**, this article set is **somewhat thin beyond rates + oil/inflation pressure**. There is **not much fresh earnings news** and **limited direct equity-index reporting** in the supplied articles.
