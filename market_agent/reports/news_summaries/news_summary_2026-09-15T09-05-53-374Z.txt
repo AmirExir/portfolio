@@ -1,0 +1,16 @@
+Fresh headline set is thin and somewhat noisy; only a few items look directly market-relevant.
+
+**Facts**
+- **WSJ via Biztoc, 2026-09-14 09:04:57Z:** “Nasdaq Futures Drop, Oil Climbs,” with the article summary saying “talk of a safety-first AI slowdown weighs on tech stocks.”
+- **The Times of India / Economic Times, 2026-09-14 09:03:06Z:** ECB policymaker Martins Kazaks said the **ECB may need more rate hikes** as the Iran war raises inflation risks through higher fuel costs.
+- **Crypto Briefing, 2026-09-14 09:05:06Z:** Report says the **Federal Reserve is poised to hike rates** for the first time since 2023 as inflation remains stubborn. Treat this cautiously as a secondary-source report, not an official Fed statement.
+- **Rigzone, 2026-09-14 08:47:23Z:** Trump said Russian refineries should be spared as **diesel prices surge**, tying energy-market stress to attacks on refining capacity.
+- **NPR, 2026-09-14 08:44:07Z:** A forecast says **home-heating costs are likely to rise faster than overall inflation** this winter.
+- **The Times of India / Economic Times, 2026-09-14 08:51:32Z:** **Bitcoin held near $77,700**, with ETF outflows cited as a sign of fading support at higher levels and attention on the upcoming Fed decision.
+- **TechPowerUp, 2026-09-14 08:44:51Z** and **Wccftech, 2026-09-14 08:45:07Z):** Nvidia unveiled the **RTX PRO 5500 Blackwell workstation GPU** with 84GB of GDDR7 memory.
+
+**Interpretation**
+- The clearest fresh macro themes are **higher energy-driven inflation risk** and the possibility of **tighter central-bank policy** in both Europe and, per one report, the U.S.
+- The AI/semi angle is mixed: a fresh headline points to **AI-slowdown concerns weighing on tech sentiment**, while Nvidia’s new workstation GPU launch is product-positive but not, by itself, a clear broad market mover.
+- In crypto, the main fresh signal is **Bitcoin stability near current levels but with softer demand signals** from ETF outflows and Fed sensitivity.
+- There is **not enough high-quality fresh reporting here to fully explain today’s tape** beyond those themes.
