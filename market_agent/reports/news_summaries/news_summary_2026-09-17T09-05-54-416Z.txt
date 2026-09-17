@@ -1,0 +1,27 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Fed/rates:** The **Federal Reserve is widely expected to raise interest rates Wednesday**, with investors reportedly betting on a **0.25 percentage point hike**.  
+  *Source: NPR, publishedAt 2026-09-16T09:00:00Z*
+
+- **Rates/Treasuries:** The **10-year Treasury yield was hovering above 5%** ahead of the Fed decision, with yields described as little changed in early trading.  
+  *Source: CNBC, publishedAt 2026-09-16T08:58:16Z*
+
+- **Inflation/BoE spillover:** **UK inflation accelerated to 3.1% in August**, keeping alive the possibility of a **Bank of England rate increase later this year**.  
+  *Source: The Irish Times, publishedAt 2026-09-16T08:51:17Z*
+
+- **Crypto/Bitcoin ETFs:** **U.S. spot Bitcoin ETFs recorded a $450 million net outflow on Sept. 15**, reversing the prior session’s **$159 million inflow**, as CryptoSlate said spot selling had deepened ahead of the Fed.  
+  *Source: CryptoSlate, publishedAt 2026-09-16T09:05:19Z*
+
+- **AI/software/semis:** **Salesforce introduced Koa**, described as its first CRM reasoning model for Agentforce, **built in partnership with Nvidia using Nemotron** technology.  
+  *Source: Verdict, publishedAt 2026-09-16T08:54:10Z*
+
+- **France/European equities:** **L’Oréal overtook LVMH as France’s most valuable listed company**, the first time since 2017 that a non-luxury company has held the top spot on the French market.  
+  *Source: WWD, publishedAt 2026-09-16T09:02:41Z*
+
+### Interpretation
+- The freshest usable set is **thin and mostly macro-driven**. The clearest live market driver in this batch is **Fed rate risk**, reinforced by **10-year yields above 5%**.
+- **Sticky inflation abroad** via the UK CPI print supports the broader theme that **developed-market central banks may need to stay restrictive**.
+- In crypto, the most market-relevant fresh item is **Bitcoin ETF outflows ahead of the Fed**, which points to **cautious risk appetite in major crypto**.
+- The **Salesforce-Nvidia AI headline** is relevant for AI/semis sentiment, but this batch does **not** provide enough evidence to explain broader index action by itself.
+- There is **not enough fresh reporting here to confidently explain today’s full tape** beyond **Fed/yield sensitivity** and some **pressure on Bitcoin-related sentiment**.
