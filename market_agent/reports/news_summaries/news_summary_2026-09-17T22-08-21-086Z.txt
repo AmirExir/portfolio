@@ -1,0 +1,19 @@
+Fresh market-moving headlines are concentrated in **Fed/rates** and **oil/energy**. The set is otherwise thin, with little fresh, reliable coverage on earnings, AI/semi, or major crypto price action.
+
+**Facts**
+- **Federal Reserve hiked rates by 25 bps, its first increase in three years, to a 3.75%-4.00% target range; policymakers signaled another hike could come this year.**  
+  Sources: **Financial Post**, 2026-09-16T21:55:16Z; **Entrepreneur**, 2026-09-16T22:00:00Z; **ABC News (AU)**, 2026-09-16T21:41:37Z.
+- **Fed Chair Kevin Warsh’s post-decision messaging was characterized as hawkish, with reports emphasizing that the hike may not be the last.**  
+  Sources: **CNBC**, 2026-09-16T22:02:26Z; **Financial Post**, 2026-09-16T21:55:16Z.
+- **Oil moved back above $100 per barrel, with U.S. fuel prices reported at new record highs, tied to renewed Middle East tensions and tight inventories.**  
+  Source: **OilPrice.com**, 2026-09-16T22:00:00Z.
+- **Google avoided a forced breakup of its ad-tech business; a federal judge instead ordered behavioral remedies including a compliance officer.**  
+  Source: **Crypto Briefing**, 2026-09-16T21:47:49Z.
+- **A U.S. House committee approved a crypto tax bill covering transaction fees, stablecoins, mining, staking, and lending.**  
+  Source: **Decrypt**, 2026-09-16T21:46:03Z.
+
+**Interpretation**
+- The clearest fresh macro drivers are **tighter Fed policy** and **higher oil**, which both reinforce inflation and rates sensitivity.
+- For equities, the most relevant implications are pressure on **rate-sensitive sectors**, continued focus on **Treasury yields/Fed path**, and renewed attention to **energy/inflation pass-through**.
+- There is **not enough fresh, high-quality article flow here** to firmly explain today’s moves in AI/semis, earnings, or major crypto beyond the broader rates backdrop.
+- Google’s court outcome is a potentially relevant single-stock/regulatory item for large-cap tech, but it is **less important to the broader tape than the Fed and oil headlines** in this article set.
