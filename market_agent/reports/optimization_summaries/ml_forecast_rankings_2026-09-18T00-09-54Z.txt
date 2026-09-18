@@ -1,0 +1,45 @@
+Market Optimization
+Generated: 2026-09-18 00:07 UTC
+As of: 2026-09-16 to 2026-09-17
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+DELL: forecast +18.58% by 2026-10-29
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+MU: forecast +9.92% by 2026-10-29
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast; predicted move is small relative to past forecast errors.
+
+QQQ: forecast +3.98% by 2026-10-29
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+VOO: forecast +2.78% by 2026-10-29
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+TSLA: forecast +15.28% by 2026-10-29
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+Predicted declines
+
+ONDO: forecast -16.33% by 2026-10-16
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+DOT: forecast -13.58% by 2026-10-17
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+SKIPPED - DATA ISSUES
+- SPCX: not enough price history (needs 71 valid closing prices).
+- PEPE-USD: outdated price data (latest 2022-12-11; needed 2026-09-16).
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
