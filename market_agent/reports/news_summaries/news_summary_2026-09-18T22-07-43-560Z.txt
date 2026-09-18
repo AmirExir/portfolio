@@ -1,0 +1,27 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Bank of Japan raised interest rates to a 31-year high and signaled readiness to keep increasing borrowing costs** to address persistent inflation pressures, with Reuters text carried by **CNA**.  
+  **Source:** CNA  
+  **Published:** 2026-09-17T22:06:18Z
+
+- **A separate advance BOJ preview said policymakers were set to lift rates to a 31-year high and pledge more tightening if needed**, citing inflation risks and potential yen weakness tied to a U.S. rate-hike cycle. This appears to be the pre-decision version of the same event.  
+  **Source:** CNA  
+  **Published:** 2026-09-17T22:06:18Z
+
+- **CNA reported U.S. stocks rose as oil retreated and the Fed’s decision was seen as calming some inflation fears.** The same article says the **Fed raised interest rates to control inflation**. It also notes Saudi Arabia eased supply fears after disruption tied to regional tensions.  
+  **Source:** CNA  
+  **Published:** 2026-09-17T21:27:02Z
+
+- **An ABC News Australia live markets post said Wall Street had rebounded, with tech stocks rallying as oil prices and global bond yields retreated**, and that the **ASX was set for a higher open**.  
+  **Source:** ABC News (AU)  
+  **Published:** 2026-09-17T21:29:34Z
+
+### Interpretation
+- The **clearest fresh macro driver** in this article set is the **BOJ rate hike and hawkish signal**, which matters for **global rates, FX, and risk assets**, especially via yen and bond-market spillovers.
+
+- The set also points to a **rates/inflation narrative** centered on a **Fed hike** and **easing oil-related inflation pressure**, but the underlying article sample is thin and mostly recap-style rather than detailed policy coverage.
+
+- There is **very little fresh, high-quality earnings or major AI/semi-specific reporting** here. Aside from broad mentions of tech strength, the provided articles do **not** offer strong new fundamental catalysts for megacap tech or semis.
+
+- If you are trying to explain **today’s tape**, this feed is **somewhat thin**: it supports a story around **central banks and oil/rates**, but it does **not** provide enough fresh reporting to firmly explain all moves across equities, semis, crypto, or credit.
