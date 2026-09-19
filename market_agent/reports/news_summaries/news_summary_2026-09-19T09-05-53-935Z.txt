@@ -1,0 +1,21 @@
+Fresh market-moving headlines are limited in this article set, and they only partly explain today’s tape.
+
+**Facts**
+- **Fox News | 2026-09-18 09:00Z** — Report says the **Federal Reserve raised rates Wednesday for the first time since 2023**. This is the clearest fresh macro item in the set and directly affects rates, equities, and crypto.  
+- **CryptoSlate | 2026-09-18 08:50Z** — Follow-up on the Fed move says the new target range is **3.75%-4.00%** and notes the **1-year Treasury yield hit 4.45% on Sept. 16**, framing tighter competition for crypto yields from risk-free Treasuries.  
+- **NPR | 2026-09-18 08:45Z** — Says **stocks are at record highs, largely driven by AI optimism**, while **bond markets are signaling a different story**. This is broad risk-sentiment context rather than a discrete catalyst.  
+- **The Times of India / Reuters | 2026-09-18 08:58Z** — Reuters item says **European shares edged lower**, with **tech stronger** and **energy weaker amid softer oil prices**.  
+- **Business Standard | 2026-09-18 08:34Z** — Reports **easing crude oil prices** and **softer global bond yields** were supportive for Indian benchmarks; useful cross-asset context, though not a primary global catalyst.  
+- **Decrypt | 2026-09-18 09:01Z** — U.S. Treasury/OFAC **sanctioned an Iranian crypto exchange**, alleging **hundreds of millions of dollars in Bitcoin** moved through it to the IRGC. This is a fresh crypto-regulatory/geopolitical headline.  
+- **Cointelegraph | 2026-09-18 08:50Z** — **Binance** declined to comment on reported ECB/Lagarde involvement in its failed Greek MiCA bid and said it remains committed to EU authorization; relevant to crypto regulation in Europe.  
+- **AdExchanger | 2026-09-18 09:00Z** — Says **The Trade Desk cut 15% of staff** and is facing pressure including likely **S&P 500 removal**; potentially relevant for ad-tech sentiment, but this is more company-specific and retrospective.
+
+**Interpretation**
+- The **Fed rate hike** is the main fresh macro driver here. It points to a still-restrictive rates backdrop that matters for **equities, duration-sensitive growth, and crypto**.
+- The set offers **some support for an AI/tech-vs-bonds split**: NPR explicitly cites AI optimism in stocks while noting bond-market caution, and Reuters says European tech outperformed even as the broader market softened.
+- **Energy/oil** appears to have a mild fresh influence through reports of **softer crude prices**, but there is no strong new energy catalyst in the provided articles.
+- **Crypto** has two fresh angles:  
+  1. **Higher Treasury yields after the Fed hike** may pressure speculative/DeFi yield demand.  
+  2. **OFAC sanctions tied to Iran and Bitcoin flows** add a regulatory/geopolitical overhang.
+- There are **no fresh major earnings headlines** in this dataset, and **no direct fresh semiconductor-specific mover** beyond general AI optimism.
+- Bottom line: the fresh articles suggest **rates/Fed remain the dominant macro story**, with **AI enthusiasm still supporting risk appetite in parts of tech**, but the dataset is **thin** and does **not fully explain today’s tape** on its own.
