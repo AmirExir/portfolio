@@ -1,0 +1,45 @@
+Market Optimization
+Generated: 2026-09-20 10:21 UTC
+As of: 2026-09-18 to 2026-09-19
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+DELL: forecast +10.43% by 2026-10-30
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; predicted move is small relative to past forecast errors.
+
+STX: forecast +14.97% by 2026-10-30
+  Why rejected: up/down predictions failed accuracy checks.
+
+INTC: forecast +10.67% by 2026-10-30
+  Why rejected: probability estimates failed reliability checks; return predictions did not beat a no-change forecast; predicted move is small relative to past forecast errors.
+
+TSLA: forecast +12.11% by 2026-10-30
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+UNH: forecast +14.43% by 2026-10-30
+  Why rejected: probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+Predicted declines
+
+DOT: forecast -14.58% by 2026-10-19
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+BTC: forecast -8.93% by 2026-10-19
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+SKIPPED - DATA ISSUES
+- SPCX: not enough price history (needs 71 valid closing prices).
+- PEPE-USD: outdated price data (latest 2022-12-11; needed 2026-09-19).
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
