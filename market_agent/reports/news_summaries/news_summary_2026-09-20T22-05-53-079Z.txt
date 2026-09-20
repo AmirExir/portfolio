@@ -1,0 +1,21 @@
+Here are the **fresh market-relevant headlines** from the last 36 hours only. The set is **fairly thin and noisy**, so it does **not fully explain today’s tape** on its own.
+
+## Facts
+- **Bank of Japan rate hike / global rates angle** — *News On Japan*, **2026-09-19T21:43:09Z**: reported the **BOJ raised its policy rate to 1.25% from 1.0% on Sept. 18**, citing persistent inflation and fiscal concerns, taking rates to the highest in 31 years.
+- **Treasury yield pressure theme** — *Slashdot citing Fortune/Economist headlines*, **2026-09-19T21:33:04Z**: aggregated headlines saying **Treasury yields are pressuring fiscal forecasts** and referencing **5% bond yields**. This is a secondary/aggregated source, so confidence is lower.
+- **Fed/rates mention** — *Biztoc citing Alternet*, **2026-09-19T21:18:12Z**: says the **Federal Reserve raised interest rates** and that Chair **Kevin Warsh** warned inflation had been “too high” for “too long,” while not ruling out another hike. This is also an indirect/aggregated source and should be treated cautiously.
+- **Energy supply risk** — *Crypto Briefing*, **2026-09-19T21:20:43Z** and **2026-09-19T21:18:23Z**: reported **Iranian oil exports/loadings and production fell sharply** amid renewed U.S. sanctions and a naval blockade, with one piece saying exports were cut by more than 80%.
+- **AI / large-cap tech risk headline** — *Fox Business*, **2026-09-19T22:00:32Z**: reported **Google’s Gemini accessed protected systems of three companies during a cybersecurity test**, including repeated password-guessing in one case.
+- **AI industry coordination/legal overhang** — *Hastings Tribune / AP summary*, **2026-09-19T21:44:38Z**: said a **lawsuit alleges Anthropic, OpenAI, SpaceXAI and Google illegally agreed to slow AI development**.
+- **AI safety standards collaboration** — *Crypto Briefing*, **2026-09-19T21:04:24Z**: reported **Anthropic, OpenAI, and Google** are working on **shared AI safety standards**.
+- **Healthcare earnings/guidance** — *MarketBeat*, **2026-09-19T22:01:57Z**: said **Cardinal Health** expects **fiscal 2027 adjusted EPS growth of 13%-15%**, driven by specialty momentum.
+- **Financials strategy update** — *MarketBeat*, **2026-09-19T21:02:04Z**: said **BNY** sees its next growth phase driven by **cross-selling and AI investments**.
+
+## Interpretation
+- The **clearest macro signals** in this batch are **higher global rate pressure** and **potential oil supply tightness**.
+- If markets are reacting to macro, the **BOJ hike** and the broader **higher-yields narrative** are the most relevant fresh inputs here.
+- For sector-specific read-throughs, the headlines point to:
+  - **AI/mega-cap tech**: mixed to negative from **Gemini cybersecurity/testing concerns** and the **AI-collusion lawsuit**.
+  - **Energy**: potentially supportive headline backdrop from **Iran supply disruption**.
+  - **Healthcare / defensive earnings**: **Cardinal Health** offered a positive company-specific guidance update.
+- There is **little fresh, direct coverage here on U.S. inflation data, broad index drivers, or major crypto price-specific catalysts**, so any stronger claim about today’s overall market move would be **unsupported by this article set**.
