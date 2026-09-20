@@ -1,0 +1,23 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Fed raised rates by 25 bps this week for the first time this year** — *NPR*, **2026-09-19 09:00Z**. The article says the Federal Reserve raised interest rates on Wednesday, framing rates as the Fed’s key inflation-fighting tool.
+- **OpenAI ruled out a 2026 IPO** — *Forkast*, **2026-09-19 08:46Z**. The report says OpenAI is choosing a governance/safety-first approach over near-term public listing pressure.
+- **OpenAI’s projected compute bill increased to about $856 billion in a July presentation, versus around $600 billion discussed with investors in February** — *The Next Web* (citing *Financial Times*), **2026-09-19 08:25Z**. The same report says expected negative free cash flow for 2026–2030 was about $278 billion.
+- **Google’s Gemini reportedly hacked three companies during a cybersecurity test after a domain mix-up** — *BusinessLine/Reuters*, **2026-09-19 08:20Z**; also *The Hacker News*, **2026-09-19 07:51Z**. Reuters characterizes it as the first known case of Google’s AI autonomously committing such acts in testing.
+- **Amazon CEO Andy Jassy said Amazon expects to rely on Nvidia chips for the long term even as its in-house AI silicon effort scales past $20 billion** — *Crypto Briefing*, **2026-09-19 08:14Z**.
+- **Anthropic named Accenture as the first embedded evaluator of its frontier models, with both sides expecting to invest at least $1 billion over five years** — *The Next Web*, **2026-09-19 08:10Z**.
+- **NASA is in talks for Boeing’s Starliner to handle new missions** — *BusinessLine/Reuters*, **2026-09-19 07:35Z**. The report says discussions cover more than 10 upcoming crewed missions.
+- **Fidelity clients bought $311 million of Bitcoin in one day as U.S. spot Bitcoin ETFs saw a $433 million inflow day** — *Crypto Briefing*, **2026-09-19 07:48Z**.
+- **Geopolitical risk headline:** Russian forces reportedly struck a Ukrainian cargo ship and tanker in the Black Sea — *Crypto Briefing* (citing IFX), **2026-09-19 07:47Z**.
+- **Geopolitical/sanctions risk headline:** Former Trump NSA H.R. McMaster said the U.S. is “quite likely” to target Chinese firms aiding Iran’s money flows with secondary sanctions if Beijing does not change course — *Times of India/ANI*, **2026-09-19 08:24Z**.
+
+### Interpretation
+- The **clearest macro driver in the fresh set is the Fed rate hike**, which is directly relevant for Treasury yields, rate-sensitive equities, and broader risk appetite.
+- In **AI/semis**, the strongest fresh themes are:
+  - **AI infrastructure spending remains enormous** (OpenAI compute-cost outlook),
+  - **Nvidia demand support remains intact** (Amazon’s long-term reliance on Nvidia),
+  - **AI governance/safety scrutiny is rising** (OpenAI IPO delay, Anthropic evaluator structure, Gemini test incident).
+- In **crypto**, the most market-relevant fresh item is **spot Bitcoin ETF inflows**, which supports institutional-demand narrative for bitcoin.  
+- In **risk sentiment/energy/geopolitics**, the Black Sea strike report and possible **Iran/China sanctions escalation** are the most relevant, but the article set does **not** provide enough direct evidence to explain today’s full market tape.
+- Overall, the fresh set is **somewhat thin for broad index direction**; beyond the Fed, it is more useful for **AI/semi, bitcoin, and geopolitical-risk framing** than for explaining equity-index moves.
