@@ -1,0 +1,17 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **Oil/inflation/risk sentiment:** *The Times of India* (**2026-09-21 08:47Z**) said European shares were led by tech while **oil fell for a fourth straight session**, which the report said **eased inflation concerns** and supported broader risk appetite ahead of a **Trump-Xi meeting** later this week.
+- **Crypto/risk sentiment:** *CoinDesk* (**2026-09-21 08:39Z**) reported **Bitcoin rose above $83,500**, with broader crypto gains as **Brent fell for a fourth straight session** and traders positioned ahead of the Trump-Xi summit; it also noted **Monero up 13%**.
+- **Crypto positioning/short squeeze:** *Crypto Briefing* (**2026-09-21 09:03Z**) reported **$262M of crypto short positions were liquidated in a single hour**, calling it the largest such hourly event of 2026.
+- **AI/semis/policy risk:** *The Straits Times* (**2026-09-21 09:05Z**) reported that **AI safety/doomsday warnings** revived fears around rapid AI development and said **tech stocks in the U.S. and Singapore had come under pressure** last week.
+- **AI/semis/Washington risk:** *Biztoc* citing *Politico* (**2026-09-21 08:57Z**) said **Nvidia’s influence on Capitol Hill is being tested** as the AI debate shifts toward **AI safety** and potential restrictions, including around high-end chips/exports.
+- **Rates/Fed backdrop:** *The Times of India* (**2026-09-21 08:35Z**) reported **U.S. equity funds saw a fourth straight week of outflows** through Sept. 18, driven by **oil, inflation, and expectations of further Fed rate hikes**.
+- **Energy/geopolitical uncertainty:** *Rigzone* (**2026-09-21 08:28Z**) reported **J.P. Morgan analysts no longer have a baseline scenario for a U.S.-Iran conflict**, saying they “simply don’t know how to model the endgame.”
+
+## Interpretation
+- The freshest cross-asset read from this article set is **falling oil = lower near-term inflation pressure**, which is showing up in both the Europe/risk-sentiment piece and the crypto coverage.
+- **Bitcoin strength** appears tied both to the broader risk impulse from weaker oil and to **forced short covering**, based on the CoinDesk and Crypto Briefing reports.
+- For **AI/semi stocks**, the fresh headlines are **mixed**: supportive macro/risk conditions from lower oil, but a potentially negative **policy/regulatory overhang** from renewed AI safety concerns and pressure on Nvidia’s Washington agenda.
+- On **rates/Fed**, the only fresh item is more of a **backdrop** than a tape-driving same-day catalyst: persistent concern about **higher oil, inflation, and more Fed hikes** had already been pushing money out of U.S. equity funds in the latest weekly flow data.
+- **Fresh headline support is somewhat thin** for explaining today’s full tape. Beyond **oil weakness, crypto short-covering, and AI-policy concerns**, this set does **not** provide a comprehensive fresh explanation for moves across major U.S. indexes, Treasuries, or earnings.
