@@ -54,17 +54,17 @@
   <link rel="preload" href="assets/fonts/InstrumentSerif-Italic.ttf" as="font" type="font/ttf" crossorigin />
   <link rel="stylesheet" href="assets/css/portfolio.css?v=power-journey-4" />
   <link rel="stylesheet" href="assets/css/portfolio-motion.css?v=power-journey-4" />
-  <link rel="stylesheet" href="assets/css/portfolio-cinematic.css?v=energy-mix-1" />
+  <link rel="stylesheet" href="assets/css/portfolio-cinematic.css?v=grid-event-1" />
   <link rel="stylesheet" href="assets/css/project-stories.css?v=project-stories-1" />
   <script src="assets/js/portfolio.js?v=power-journey-4" defer></script>
   <script src="assets/js/engineering-scenes.js?v=power-journey-4" defer></script>
-  <script src="assets/js/power-journey.js?v=energy-mix-1" defer></script>
-  <script src="assets/js/cinematic-fields.js?v=power-journey-4" defer></script>
+  <script src="assets/js/power-journey.js?v=grid-event-1" defer></script>
+  <script src="assets/js/cinematic-fields.js?v=grid-event-1" defer></script>
   <script src="assets/js/project-scene-kit.js?v=project-stories-1" defer></script>
   <script src="assets/js/contingency-scene.js?v=project-stories-1" defer></script>
   <script src="assets/js/fault-scene.js?v=project-stories-1" defer></script>
   <script src="assets/js/forecast-scene.js?v=project-stories-1" defer></script>
-  <script src="assets/js/portfolio-motion.js?v=energy-mix-1" defer></script>
+  <script src="assets/js/portfolio-motion.js?v=grid-event-1" defer></script>
 </head>
 
 <body>
@@ -132,7 +132,16 @@
         </div>
         <p class="field-description" data-field-description aria-live="polite">A study in connection, energy, and flow.</p>
       </div>
-      <div class="hero-bottom"><span>AUSTIN, TEXAS <span aria-hidden="true">/</span> ENGINEERING WITH PURPOSE</span><button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false" hidden><span aria-hidden="true">Ⅱ</span> <span data-motion-label>Pause animations</span></button><a href="#field-notes">ENTER THE PORTFOLIO <span aria-hidden="true">↓</span></a></div>
+      <div class="hero-bottom">
+        <span>AUSTIN, TEXAS <span aria-hidden="true">/</span> ENGINEERING WITH PURPOSE</span>
+        <button class="power-event-button" type="button" data-power-replay aria-controls="heroField" aria-describedby="powerEventStatus" aria-label="Replay lightning sequence" hidden>
+          <span class="power-event-icon" aria-hidden="true">↯</span>
+          <span class="power-event-copy"><span id="powerEventStatus" data-power-phase aria-live="off">Normal flow</span><span data-power-replay-label>Replay strike</span></span>
+        </button>
+        <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false" hidden><span aria-hidden="true">Ⅱ</span> <span data-motion-label>Pause animations</span></button>
+        <a href="#field-notes">ENTER THE PORTFOLIO <span aria-hidden="true">↓</span></a>
+        <span class="sr-only" data-power-announcement role="status"></span>
+      </div>
     </section>
 
     <section class="proof-strip" aria-label="Areas of expertise">

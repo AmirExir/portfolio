@@ -84,6 +84,15 @@ html:not(.js) .site-header { position: relative; top: 0; height: auto; padding-t
 .field-description--loads { font: 400 .65rem/1.6 var(--sans); letter-spacing: .025em; }
 .hero-bottom { position: absolute; z-index: 3; bottom: 0; left: 0; right: 0; min-height: 65px; padding-block: 8px; border-top: 1px solid #d2d6c61a; color: #a6b3b3; font-size: .5rem; letter-spacing: .12em; }
 .hero-bottom a { color: #d4d7cb; font-size: .51rem; }
+.hero-bottom.has-power-event { gap: 14px; }
+.power-event-button { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; min-width: 128px; padding: 5px 12px; border: 1px solid #c9b58830; border-radius: 10px; background: #bca57906; color: #d8c29e; text-align: left; letter-spacing: 0; }
+.power-event-button:hover:not(:disabled) { background: #d5b88c12; border-color: #d8c29e66; }
+.power-event-button:disabled { cursor: default; }
+.power-event-icon { font-size: 1.25rem; line-height: 1; }
+.power-event-copy { display: grid; gap: 3px; }
+[data-power-phase] { color: #d1d8d1; font-size: .62rem; line-height: 1.25; }
+[data-power-replay-label] { color: #a5b5b5; font-size: .53rem; line-height: 1.25; }
+.power-event-button:disabled [data-power-replay-label] { color: #859798; }
 .motion-toggle { font-size: .62rem; color: #a9b6b5; letter-spacing: 0; border-radius: 999px; }
 .motion-toggle:hover { border-color: #a2b7b649; color: #ede0c8; }
 .proof-strip { background: #0b1113; border-color: #d3d9d31a; }
@@ -313,6 +322,10 @@ html[data-motion='paused'] .hero h1, html[data-motion='paused'] .hero .eyebrow, 
   .hero-bottom { flex-wrap: nowrap; padding-block: 13px; gap: 10px; min-height: 74px; }
   .hero-bottom > span { max-width: 155px; }
   .hero-bottom > a { display: none; }
+  .hero-bottom.has-power-event { display: grid; grid-template-columns: 1fr auto; gap: 4px 8px; padding-block: 8px; }
+  .hero-bottom.has-power-event > span:not(.sr-only) { grid-column: 1 / -1; max-width: none; font-size: .43rem; line-height: 1.4; letter-spacing: .08em; }
+  .hero-bottom.has-power-event .power-event-button { justify-self: start; min-width: 133px; }
+  .hero-bottom.has-power-event .motion-toggle { justify-self: end; }
   .motion-toggle { font-size: .58rem; padding: 5px 8px; }
   .proof-grid { gap: 21px 10px; }
   .proof-item strong { font-size: .73rem; }

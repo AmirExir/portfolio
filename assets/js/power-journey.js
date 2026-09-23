@@ -12,6 +12,39 @@
   const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
   const lerp = (a, b, t) => a + (b - a) * t;
   const point = (x, y, z) => [x, y, z];
+  const smooth = (value) => { const t = clamp(value, 0, 1); return t * t * (3 - 2 * t); };
+  const labels = Object.freeze({ normal: 'Normal flow', strike: 'Lightning strike', tripping: 'Breakers opening', isolated: 'Line isolated', reclosing: 'Reclosing', restoring: 'Restoring supply', restored: 'Supply restored' });
+  const eventCues = Object.freeze({ replay: 7.6, isolated: 10, restored: 19 });
+
+  /**
+   * Deterministic narrative for one radial, three-phase circuit: a transient
+   * line fault is cleared, both terminal circuit breakers isolate the circuit,
+   * then sending and receiving breakers reclose in order before load recovery.
+   * This deliberately slowed artwork is not relay timing or a protection study.
+   */
+  function getEventState({ time = 0, reducedMotion = false } = {}) {
+    const cycleTime = (Number.isFinite(time) ? Math.max(0, time) : 0) % 26;
+    let stage = 'normal', sendingOpen = 0, receivingOpen = 0, linePower = 1, downstreamPower = 1, strikeOpacity = 0;
+    if (cycleTime >= 8 && cycleTime < 8.3) {
+      stage = 'strike';
+      strikeOpacity = reducedMotion ? 0 : Math.sin((cycleTime - 8) / 0.3 * Math.PI) * 0.85;
+    } else if (cycleTime >= 8.3 && cycleTime < 9.1) {
+      stage = 'tripping';
+      sendingOpen = smooth((cycleTime - 8.3) / 0.65);
+      receivingOpen = smooth((cycleTime - 8.35) / 0.65);
+      linePower = 0; downstreamPower = 0;
+    } else if (cycleTime >= 9.1 && cycleTime < 13.8) {
+      stage = 'isolated'; sendingOpen = 1; receivingOpen = 1; linePower = 0; downstreamPower = 0;
+    } else if (cycleTime >= 13.8 && cycleTime < 15.2) {
+      stage = 'reclosing';
+      sendingOpen = 1 - smooth((cycleTime - 13.8) / 0.65);
+      receivingOpen = 1 - smooth((cycleTime - 14.6) / 0.6);
+      linePower = cycleTime >= 14.45 ? 1 : 0; downstreamPower = 0;
+    } else if (cycleTime >= 15.2 && cycleTime < 18.5) {
+      stage = 'restoring'; downstreamPower = smooth((cycleTime - 15.2) / 3.3);
+    } else if (cycleTime >= 18.5) stage = 'restored';
+    return { stage, label: labels[stage], cycleTime, cycleDuration: 26, sendingOpen, receivingOpen, linePower, downstreamPower, strikeOpacity, restorationProgress: downstreamPower, canReplay: cycleTime < eventCues.replay || cycleTime >= 18.5 };
+  }
   const palettes = {
     steel: ['rgba(162,182,178,.21)', 'rgba(57,75,83,.76)', 'rgba(87,103,108,.55)'],
     warm: ['rgba(215,185,135,.27)', 'rgba(93,84,69,.73)', 'rgba(121,110,90,.5)'],
@@ -28,19 +61,23 @@
       this.wind = [];
       this.water = [];
       this.storage = [];
+      this.breakers = [];
+      this.strike = null;
     }
 
     add(kind, points, color, alpha = 1, width = 0.65, order = 0) {
-      this.items.push({ kind, points, color, alpha, width,
+      const item = { kind, points, color, alpha, width,
         depth: points.reduce((sum, p) => sum + p[2] + p[1] * 0.28, 0) / points.length + order,
-        screen: new Float32Array(points.length * 2) });
+        screen: new Float32Array(points.length * 2) };
+      this.items.push(item);
+      return item;
     }
 
     line(points, color = COLORS.ivory, alpha = 0.5, width = 0.65, order = 0) {
-      this.add('line', points, color, alpha, width, order);
+      return this.add('line', points, color, alpha, width, order);
     }
 
-    face(points, fill, alpha = 1, order = 0) { this.add('face', points, fill, alpha, 0, order); }
+    face(points, fill, alpha = 1, order = 0) { return this.add('face', points, fill, alpha, 0, order); }
 
     box(x, y, z, width, height, depth, palette = 'steel', opacity = 1) {
       const [top, front, side] = palettes[palette];
@@ -56,8 +93,9 @@
     }
 
     route(points, phase, start, duration, color = COLORS.gold, width = 0.65, options = {}) {
-      this.line(points, color, 0.48, width, 0.02);
-      this.routes.push({ points, phase, start, duration, color, ...options });
+      const zone = options.zone || 'source';
+      if (options.static !== false) Object.assign(this.line(points, color, 0.48, width, 0.02), { circuitZone: zone });
+      this.routes.push({ points, phase, start, duration, color, zone, ...options });
     }
 
     finish() { this.items.sort((a, b) => a.depth - b.depth); return this; }
@@ -289,7 +327,7 @@
       low.push(g.insulator(-0.43 + phase * 0.43, 1.31, 0.4, 0.32, 0.07));
     }
     g.box(0.73, 0.4, 0.22, 0.22, 0.48, 0.43, 'dark');
-    g.g.flux.push({ point: g.p(0, 0.88, 0.59), radius: 0.4 * g.s, phase: stepDown ? 0.73 : 0.18 });
+    g.g.flux.push({ point: g.p(0, 0.88, 0.59), radius: 0.4 * g.s, phase: stepDown ? 0.73 : 0.18, zone: stepDown ? 'downstream' : 'source' });
     return { high, low };
   }
 
@@ -337,6 +375,34 @@
     return route;
   }
 
+  function breakerPole(g, x, z, role, phase) {
+    // Sealed interrupter with an illustrative cutaway contact window. The
+    // moving contact translates inside the chamber: this is not a load-breaking
+    // knife disconnect. Each pole retains its own insulated terminals.
+    g.box(x, 0.03, z, 0.89, 0.12, 0.4, 'dark');
+    g.box(x - 0.2, 0.16, z, 0.12, 0.24, 0.15, 'steel');
+    g.box(x + 0.2, 0.16, z, 0.12, 0.24, 0.15, 'steel');
+    g.box(x, 0.4, z, 0.87, 0.29, 0.31, 'steel');
+    const input = g.insulator(x - 0.32, 0.7, z, 0.4, 0.072);
+    const output = g.insulator(x + 0.32, 0.7, z, 0.4, 0.072);
+    const y = 0.54, front = z + 0.168;
+    g.face([point(x - 0.31, 0.435, front), point(x + 0.31, 0.435, front), point(x + 0.31, 0.65, front), point(x - 0.31, 0.65, front)], 'rgba(7,14,18,.94)', 1, 0.01);
+    g.line([point(x - 0.32, 1.1, z), point(x - 0.32, y, z), point(x - 0.3, y, front)], COLORS.ivory, 0.55, 0.85);
+    g.line([point(x + 0.32, 1.1, z), point(x + 0.32, y, z), point(x + 0.3, y, front)], COLORS.ivory, 0.55, 0.85);
+    g.g.breakers.push({ group: g, x, z: front, y, role, phase });
+    return { input, output, contact: g.p(x, y, front) };
+  }
+
+  function sendingBreaker(g) {
+    const inputs = [], outputs = [];
+    for (let phase = 0; phase < 3; phase += 1) {
+      const pole = breakerPole(g, 0, -0.73 + phase * 0.73, 'sending', phase);
+      inputs.push(pole.input); outputs.push(pole.output);
+      g.g.route([pole.input, pole.contact, pole.output], phase, 0.226, 0.018, COLORS.gold, 0.6, { zone: 'line', breakerRole: 'sending', static: false });
+    }
+    return { inputs, outputs };
+  }
+
   function receivingYard(g) {
     // Three parallel bays, each on insulating columns. The steel gantry is
     // structural; the phase conductors hang below it on separate insulators.
@@ -351,15 +417,10 @@
       g.insulator(-1.25, 2.09, z, 0.4, 0.075);
       const input = g.p(-1.25, 2.09, z);
       inputs.push(input);
-      g.box(-0.79, 0.02, z, 0.38, 0.09, 0.31, 'dark');
-      g.insulator(-0.79, 0.11, z, 0.78, 0.082);
-      g.box(-0.25, 0.03, z, 0.53, 0.13, 0.35, 'dark');
-      g.insulator(-0.42, 0.18, z, 0.69, 0.075);
-      g.insulator(0.03, 0.18, z, 0.69, 0.075);
-      g.line([point(-0.57, 0.91, z), point(0.16, 0.91, z)], COLORS.ivory, 0.72, 1.75);
-      g.line([point(-0.79, 0.89, z), point(-0.46, 0.89, z)], COLORS.gold, 0.65, 0.75);
-      outputs.push(g.p(0.16, 0.91, z));
-      g.g.route([...sag(input, g.p(-0.79, 0.91, z), 0.04, 12), g.p(0.16, 0.91, z)], phase, 0.575, 0.04, COLORS.gold, 0.6);
+      const pole = breakerPole(g, -0.26, z, 'receiving', phase);
+      outputs.push(pole.output);
+      g.g.route(sag(input, pole.input, 0.035, 12), phase, 0.575, 0.022, COLORS.gold, 0.6, { zone: 'line' });
+      g.g.route([pole.input, pole.contact, pole.output], phase, 0.597, 0.018, COLORS.gold, 0.6, { zone: 'downstream', breakerRole: 'receiving', static: false });
     }
     for (let i = 0; i < 9; i += 1) g.line([point(-1.6 + i * 0.24, 0.02, 1.4), point(-1.6 + i * 0.24, 0.35, 1.4)], COLORS.muted, 0.22, 0.45);
     g.line([point(-1.6, 0.35, 1.4), point(0.4, 0.35, 1.4)], COLORS.ice, 0.2, 0.45);
@@ -378,8 +439,9 @@
       for (const x of [-0.27, 0.2]) {
         const y = 0.21 + row * 0.27;
         const corners = [g.p(x, y, 0.443), g.p(x + 0.13, y, 0.443), g.p(x + 0.13, y + 0.16, 0.443), g.p(x, y + 0.16, 0.443)];
-        g.g.face(corners, 'rgba(239,179,94,.22)', 1, 0.008);
-        g.g.lights.push({ points: corners, color: COLORS.gold, phase: arrival, strength: 0.52 });
+        unlitPane(g.g, corners);
+        g.g.face(corners, 'rgba(239,179,94,.22)', 1, 0.008).emission = true;
+        g.g.lights.push({ points: corners, color: COLORS.gold, phase: arrival, strength: 0.52, zone: 'downstream' });
       }
     }
     g.box(-0.33, 0.93, -0.26, 0.13, 0.23, 0.16, 'steel');
@@ -396,7 +458,7 @@
         const y = 0.2 + row * 0.092;
         g.line([point(x - 0.07, y, 0.766), point(x + 0.13, y, 0.766)], COLORS.ice, 0.45, 0.6);
         const corners = [g.p(x + 0.16, y, 0.776), g.p(x + 0.19, y, 0.776), g.p(x + 0.19, y + 0.028, 0.776), g.p(x + 0.16, y + 0.028, 0.776)];
-        g.g.lights.push({ points: corners, color: COLORS.ice, phase: 0.94 + row * 0.002 + bay * 0.003, strength: 0.65 });
+        g.g.lights.push({ points: corners, color: COLORS.ice, phase: 0.94 + row * 0.002 + bay * 0.003, strength: 0.65, zone: 'downstream' });
       }
     }
     for (let x = -0.86; x < 1; x += 0.84) {
@@ -411,10 +473,17 @@
     return g.p(-1.54, 0.35, -0.12);
   }
 
+  function unlitPane(geometry, corners) {
+    // Glazing and frames persist during the outage; only emitted light fades.
+    geometry.face(corners, 'rgba(5,14,18,.83)', 1, 0.003);
+    geometry.line([...corners, corners[0]], COLORS.muted, 0.4, 0.45, 0.009);
+  }
+
   function loadWindow(g, x, y, z, width, height, color, phase = 0.95, strength = 0.5) {
     const corners = [g.p(x, y, z), g.p(x + width, y, z), g.p(x + width, y + height, z), g.p(x, y + height, z)];
-    g.g.face(corners, 'rgba(167,190,179,.13)', 1, 0.007);
-    g.g.lights.push({ points: corners, color, phase, strength });
+    unlitPane(g.g, corners);
+    g.g.face(corners, 'rgba(167,190,179,.13)', 1, 0.007).emission = true;
+    g.g.lights.push({ points: corners, color, phase, strength, zone: 'downstream' });
   }
 
   function distributionCabinet(g) {
@@ -430,7 +499,7 @@
       const output = g.p(x, 0.17, 0.43);
       inputs.push(input);outputs.push(output);
       // Each bay passes one phase independently; there is no common phase bar.
-      g.g.route([input, g.p(x, 0.62, -0.2), g.p(x, 0.57, 0.15), g.p(x, 0.17, 0.37), output], phase, 0.813, 0.022, COLORS.gold, 0.53);
+      g.g.route([input, g.p(x, 0.62, -0.2), g.p(x, 0.57, 0.15), g.p(x, 0.17, 0.37), output], phase, 0.813, 0.022, COLORS.gold, 0.53, { zone: 'downstream' });
       loadWindow(g, x - 0.04, 0.5, 0.371, 0.055, 0.03, COLORS.gold, 0.835 + phase * 0.018, 0.4);
     }
     return { inputs, outputs };
@@ -492,8 +561,8 @@
     return g.p(-0.67, 0.21, -0.16);
   }
 
-  function connectThree(geometry, from, to, start, duration, amount = 0.13, color = COLORS.gold) {
-    for (let phase = 0; phase < 3; phase += 1) geometry.route(sag(from[phase], to[phase], amount), phase, start, duration, color);
+  function connectThree(geometry, from, to, start, duration, amount = 0.13, color = COLORS.gold, options = {}) {
+    for (let phase = 0; phase < 3; phase += 1) geometry.route(sag(from[phase], to[phase], amount), phase, start, duration, color, 0.65, options);
   }
 
   function build(mobile, narrowPhone = false) {
@@ -502,6 +571,7 @@
       nuclear: [-1.38, -7.6, 0.82], wind: [2.85, -7.3, 0.83], hydro: [6.88, -7.4, 0.88],
       gas: [-2.82, -4.15, 0.73], solar: [1.2, -4.2, 0.81], battery: [5.18, -4.1, 0.81],
       collector: [-3.82, -1.67, 0.52], stepUp: [-3.44, -0.8, 0.66],
+      sending: [-2.37, -0.8, 0.49],
       towers: [[-1.48, -1.1, 0.63], [0.6, -1.02, 0.63], [2.66, -0.8, 0.63]],
       yard: [3.89, 1.06, 0.54], receiving: [1.98, 1.13, 0.62], distribution: [1.13, 0.56, 0.62],
       data: [-3.7, 0.33, 0.76], crypto: [-1.13, 0.2, 0.73], industrial: [-4.25, 2.32, 0.66], commercial: [-2.44, 2.28, 0.62],
@@ -510,6 +580,7 @@
       nuclear: [-11.28, -5.9, 0.9], wind: [-7.85, -4.5, 0.98], hydro: [-12.7, 0.2, 0.9],
       gas: [-8.68, -0.55, 0.91], solar: [-11.74, 1.73, 0.89], battery: [-7.85, 2.0, 0.92],
       collector: [-6.37, 0.16, 0.62], stepUp: [-5.45, 0.01, 0.95],
+      sending: [-4.14, 0.01, 0.72],
       towers: [[-3.15, -0.22, 1], [-0.32, -0.36, 1.08], [2.4, -0.2, 1]],
       yard: [4.95, 0.0, 0.93], receiving: [6.52, 0.1, 0.95], distribution: [7.98, 0.22, 0.92],
       data: [10.55, -1.69, 1.02], crypto: [9.13, -3.02, 0.92], industrial: [13.13, -2.58, 0.91], commercial: [12.88, -0.1, 0.83],
@@ -535,6 +606,7 @@
     ];
     const generation = plantInterface(make(layout.collector), 0, 0);
     const stepUp = transformer(make(layout.stepUp));
+    const sending = sendingBreaker(make(layout.sending));
     const towers = layout.towers.map((position, index) => tower(make(position), index === 1 ? 3.68 : 3.52));
     const yard = receivingYard(make(layout.yard));
     const receiving = transformer(make(layout.receiving), true);
@@ -560,27 +632,31 @@
     }
 
     connectThree(geometry, generation, stepUp.low, 0.015, 0.11, mobile ? 0.045 : 0.16, COLORS.ice);
-    connectThree(geometry, stepUp.high, towers[0], 0.2, 0.095, mobile ? 0.075 : 0.2);
-    connectThree(geometry, towers[0], towers[1], 0.295, 0.105, mobile ? 0.18 : 0.4);
-    connectThree(geometry, towers[1], towers[2], 0.40, 0.105, mobile ? 0.18 : 0.39);
-    connectThree(geometry, towers[2], yard.inputs, 0.505, 0.07, mobile ? 0.07 : 0.2);
-    connectThree(geometry, yard.outputs, receiving.high, 0.62, 0.085, 0.055);
+    connectThree(geometry, stepUp.high, sending.inputs, 0.2, 0.026, 0.025);
+    connectThree(geometry, sending.outputs, towers[0], 0.244, 0.051, mobile ? 0.045 : 0.12, COLORS.gold, { zone: 'line' });
+    connectThree(geometry, towers[0], towers[1], 0.295, 0.105, mobile ? 0.18 : 0.4, COLORS.gold, { zone: 'line' });
+    connectThree(geometry, towers[1], towers[2], 0.40, 0.105, mobile ? 0.18 : 0.39, COLORS.gold, { zone: 'line' });
+    connectThree(geometry, towers[2], yard.inputs, 0.505, 0.07, mobile ? 0.07 : 0.2, COLORS.gold, { zone: 'line' });
+    connectThree(geometry, yard.outputs, receiving.high, 0.62, 0.085, 0.055, COLORS.gold, { zone: 'downstream' });
+    // The strike lands on one phase conductor, not on a shared three-phase
+    // junction. The circuit's three poles nevertheless trip together.
+    geometry.strike = sag(towers[1][2], towers[2][2], mobile ? 0.18 : 0.39)[17];
 
     // The receiving transformer feeds distinct switchgear bays before the load
     // branches. Neither this cabinet nor its feeders tie the phases together.
     const direction = mobile ? -1 : 1;
     for (let phase = 0; phase < 3; phase += 1) {
       const terminal = receiving.low[phase];
-      geometry.route(sag(terminal, distribution.inputs[phase], 0.09, 15), phase, 0.77, 0.043, COLORS.gold, 0.7);
+      geometry.route(sag(terminal, distribution.inputs[phase], 0.09, 15), phase, 0.77, 0.043, COLORS.gold, 0.7, { zone: 'downstream' });
       const phaseFork = distribution.outputs[phase];
       campus.forEach((load) => {
         const end = point(load.terminal[0], load.terminal[1] + phase * 0.034, load.terminal[2] + phase * 0.075);
-        geometry.route([phaseFork, point(phaseFork[0] + direction * 0.18, 0.16 + phase * 0.035, end[2]), end], phase, 0.835, 0.105, load.color, 0.52);
+        geometry.route([phaseFork, point(phaseFork[0] + direction * 0.18, 0.16 + phase * 0.035, end[2]), end], phase, 0.835, 0.105, load.color, 0.52, { zone: 'downstream' });
       });
     }
     homes.forEach((home, index) => {
       const start = distribution.outputs[index % 3];
-      geometry.route([start, point(start[0] + direction * 0.16, 0.24, home[2]), point(home[0] - direction * 0.1, 0.24, home[2]), home], index, 0.835, 0.105 + index * 0.02, COLORS.gold, 0.65);
+      geometry.route([start, point(start[0] + direction * 0.16, 0.24, home[2]), point(home[0] - direction * 0.1, 0.24, home[2]), home], index, 0.835, 0.105 + index * 0.02, COLORS.gold, 0.65, { zone: 'downstream' });
     });
 
     // A faint site survey plane grounds the equipment without a boxed diorama.
@@ -627,10 +703,20 @@
     return Math.exp(-Math.pow(Math.min(cycle, spacing - cycle) / (spread * 0.72), 2));
   }
 
-  function drawRoutes(ctx, geometry, view, time) {
+  function routePower(route, event) {
+    if (route.breakerRole === 'sending' && event.sendingOpen > 0) return 0;
+    if (route.breakerRole === 'receiving' && event.receivingOpen > 0) return 0;
+    if (route.zone === 'line') return event.linePower;
+    if (route.zone === 'downstream') return event.downstreamPower;
+    return 1;
+  }
+
+  function drawRoutes(ctx, geometry, view, time, event = getEventState()) {
     ctx.globalCompositeOperation = 'lighter';
     const battery = storageState(time);
     for (const route of geometry.routes) {
+      const power = routePower(route, event);
+      if (power <= 0) continue;
       const direction = route.storage ? battery.direction : 1;
       if (direction === 0) continue;
       for (let train = 0; train < 3; train += 1) {
@@ -646,7 +732,7 @@
       const a = route.points[index], b = route.points[index + 1];
       const position = point(lerp(a[0], b[0], part), lerp(a[1], b[1], part), lerp(a[2], b[2], part));
       projection(position, view, temp);
-      const fade = Math.min(1, Math.sin(progress * Math.PI) * 3.0);
+      const fade = Math.min(1, Math.sin(progress * Math.PI) * 3.0) * power;
       glow(ctx, temp[0], temp[1], view.mobile ? 1.5 : 1.9, route.color, fade * 0.92);
       // A short luminous trailing section makes direction legible at a glance.
       const tailLength = Math.min(1.4, (route.points.length - 1) * 0.05);
@@ -662,7 +748,56 @@
     ctx.globalAlpha = 1;
   }
 
-  function drawDetails(ctx, geometry, view, time) {
+  function drawBreakers(ctx, geometry, view, event) {
+    for (const breaker of geometry.breakers) {
+      const { group: g, x, y, z, role } = breaker;
+      const open = role === 'sending' ? event.sendingOpen : event.receivingOpen;
+      const color = open > 0.01 ? '#d9a274' : COLORS.ice;
+      const segments = [
+        [g.p(x - 0.3, y, z), g.p(x + 0.055 - open * 0.29, y, z)],
+        [g.p(x + 0.055, y, z), g.p(x + 0.3, y, z)],
+      ];
+      ctx.strokeStyle = COLORS.ivory;ctx.globalAlpha = 0.9;ctx.lineWidth = view.mobile ? 1.25 : 1.65;
+      for (const [start, end] of segments) {
+        projection(start, view, temp);projection(end, view, temp2);
+        ctx.beginPath();ctx.moveTo(temp[0], temp[1]);ctx.lineTo(temp2[0], temp2[1]);ctx.stroke();
+      }
+      // Contact ends remain square and separated in the chamber while open.
+      for (const contactX of [x + 0.055 - open * 0.29, x + 0.055]) {
+        projection(g.p(contactX, y - 0.043, z), view, temp);
+        projection(g.p(contactX, y + 0.043, z), view, temp2);
+        ctx.beginPath();ctx.moveTo(temp[0], temp[1]);ctx.lineTo(temp2[0], temp2[1]);ctx.stroke();
+      }
+      projection(g.p(x + 0.32, 0.29, z), view, temp);
+      glow(ctx, temp[0], temp[1], view.mobile ? 1.15 : 1.7, color, 0.73);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawLightning(ctx, geometry, view, event) {
+    if (event.strikeOpacity <= 0 || !geometry.strike) return;
+    projection(geometry.strike, view, temp);
+    const x = temp[0], y = temp[1];
+    const size = clamp(view.scale * 1.35, 27, 64);
+    const bolt = [[0.39, -1], [0.14, -0.77], [0.29, -0.67], [0.02, -0.41], [0.13, -0.28], [0, 0]];
+    ctx.save();
+    try {
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.beginPath();
+      bolt.forEach(([dx, dy], index) => {
+        if (index === 0) ctx.moveTo(x + dx * size, y + dy * size);
+        else ctx.lineTo(x + dx * size, y + dy * size);
+      });
+      ctx.strokeStyle = COLORS.ice;ctx.lineWidth = 7;ctx.globalAlpha = event.strikeOpacity * 0.075;ctx.stroke();
+      ctx.lineWidth = 3;ctx.globalAlpha = event.strikeOpacity * 0.27;ctx.stroke();
+      ctx.strokeStyle = '#f1f1df';ctx.lineWidth = 1.2;ctx.globalAlpha = event.strikeOpacity;ctx.stroke();
+      ctx.beginPath();ctx.moveTo(x + 0.14 * size, y - 0.77 * size);ctx.lineTo(x - 0.02 * size, y - 0.83 * size);ctx.lineTo(x - 0.13 * size, y - 0.68 * size);
+      ctx.strokeStyle = COLORS.ice;ctx.lineWidth = 0.7;ctx.globalAlpha = event.strikeOpacity * 0.5;ctx.stroke();
+      glow(ctx, x, y, view.mobile ? 2.2 : 3.2, COLORS.ice, event.strikeOpacity * 0.6);
+    } finally { ctx.restore(); }
+  }
+
+  function drawDetails(ctx, geometry, view, time, event = getEventState()) {
     for (const rotor of geometry.wind) {
       const g = rotor.group;
       for (let blade = 0; blade < 3; blade += 1) {
@@ -731,11 +866,13 @@
       glow(ctx, temp[0], temp[1], view.mobile ? 1.5 : 2.3, COLORS.ice, 0.55 + eventPulse(time, 0.01) * 0.35);
     }
     for (const flux of geometry.flux) {
+      const power = routePower(flux, event);
+      if (power <= 0) continue;
       projection(flux.point, view, temp);
       const pulse = eventPulse(time, flux.phase, 0.06);
       ctx.strokeStyle = COLORS.gold;
       for (let coil = 0; coil < 2; coil += 1) {
-        ctx.globalAlpha = 0.23 + pulse * 0.49;
+        ctx.globalAlpha = (0.23 + pulse * 0.49) * power;
         ctx.lineWidth = 0.75;
         ctx.beginPath();
         for (let step = 0; step <= 42; step += 1) {
@@ -748,12 +885,14 @@
       }
       // The two winding symbols remain separated; light conveys transfer
       // through the transformer without drawing a conductive bridge.
-      if (pulse > 0.15) glow(ctx, temp[0], temp[1], view.mobile ? 1.4 : 2, COLORS.gold, pulse * 0.24);
+      if (pulse > 0.15) glow(ctx, temp[0], temp[1], view.mobile ? 1.4 : 2, COLORS.gold, pulse * 0.24 * power);
     }
     for (const light of geometry.lights) {
+      const power = routePower(light, event);
+      if (power <= 0) continue;
       const pulse = eventPulse(time, light.phase, 0.11);
       path(ctx, light.points, view, lightBuffer);
-      ctx.closePath();ctx.fillStyle = light.color;ctx.globalAlpha = 0.16 + pulse * light.strength;ctx.fill();
+      ctx.closePath();ctx.fillStyle = light.color;ctx.globalAlpha = (0.16 + pulse * light.strength) * power;ctx.fill();
     }
     ctx.globalAlpha = 1;
   }
@@ -800,17 +939,19 @@
     ctx.globalAlpha = 1;ctx.globalCompositeOperation = 'source-over';
   }
 
-  function conductorBloom(ctx, geometry, view) {
+  function conductorBloom(ctx, geometry, view, event = getEventState()) {
     ctx.globalCompositeOperation = 'lighter';
     for (const route of geometry.routes) {
+      const power = routePower(route, event);
+      if (power <= 0 || route.static === false) continue;
       if (route.points[0][1] < 1.2 && route.points[route.points.length - 1][1] < 1.2) continue;
       ctx.beginPath();
       route.points.forEach((p, index) => {
         projection(p, view, temp);
         if (index === 0) ctx.moveTo(temp[0], temp[1]); else ctx.lineTo(temp[0], temp[1]);
       });
-      ctx.strokeStyle = route.color;ctx.lineWidth = 4.8;ctx.globalAlpha = 0.028;ctx.stroke();
-      ctx.lineWidth = 2.2;ctx.globalAlpha = 0.045;ctx.stroke();
+      ctx.strokeStyle = route.color;ctx.lineWidth = 4.8;ctx.globalAlpha = 0.028 * power;ctx.stroke();
+      ctx.lineWidth = 2.2;ctx.globalAlpha = 0.045 * power;ctx.stroke();
     }
     ctx.globalAlpha = 1;ctx.globalCompositeOperation = 'source-over';
   }
@@ -842,10 +983,11 @@
   }
 
   /** Paint one transparent, resolution-independent frame of the power journey. */
-  function draw(ctx, { width, height, time = 0, pointerX = 0, pointerY = 0 }) {
+  function draw(ctx, { width, height, time = 0, eventTime = time, reducedMotion = false, suppressFlash = false, pointerX = 0, pointerY = 0 }) {
     if (!ctx || !Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) return;
     const mobile = width <= 640;
-    const t = Number.isFinite(time) ? time : 0;
+    const t = reducedMotion ? 0 : (Number.isFinite(time) ? time : 0);
+    const event = getEventState({ time: eventTime, reducedMotion: reducedMotion || suppressFlash });
     const px = Number.isFinite(pointerX) ? clamp(pointerX, -1, 1) : 0;
     const py = Number.isFinite(pointerY) ? clamp(pointerY, -1, 1) : 0;
     const view = {
@@ -864,20 +1006,24 @@
       ctx.lineJoin = 'round';ctx.lineCap = 'round';
       atmosphere(ctx, width, height, view);
       drawTerrain(ctx, view, t, width);
-      conductorBloom(ctx, geometry, view);
+      conductorBloom(ctx, geometry, view, event);
       for (const item of geometry.items) {
         path(ctx, item.points, view, item.screen);
         ctx.globalAlpha = item.alpha;
+        if (item.emission) ctx.globalAlpha *= event.downstreamPower;
+        if (item.circuitZone) ctx.globalAlpha *= 0.16 + 0.84 * routePower({ zone: item.circuitZone }, event);
         if (item.kind === 'face') { ctx.closePath();ctx.fillStyle = item.color;ctx.fill(); }
         else { ctx.strokeStyle = item.color;ctx.lineWidth = item.width;ctx.stroke(); }
       }
       ctx.globalAlpha = 1;
-      drawDetails(ctx, geometry, view, t);
-      drawRoutes(ctx, geometry, view, t);
+      drawDetails(ctx, geometry, view, t, event);
+      drawBreakers(ctx, geometry, view, event);
+      drawRoutes(ctx, geometry, view, t, event);
+      drawLightning(ctx, geometry, view, event);
     } finally {
       ctx.restore();
     }
   }
 
-  window.PowerJourney = Object.freeze({ draw });
+  window.PowerJourney = Object.freeze({ draw, getEventState, labels, eventCues, cycleDuration: 26 });
 })();

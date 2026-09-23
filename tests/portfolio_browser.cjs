@@ -130,6 +130,8 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   const fieldModes = page.locator('[data-field-mode]');
   const powerLegend = page.locator('[data-power-legend]');
   const powerSources = page.locator('[data-power-sources]');
+  const powerReplay = page.locator('[data-power-replay]');
+  const powerPhase = page.locator('[data-power-phase]');
   const fieldDescription = page.locator('[data-field-description]');
   assert.equal(await fieldModes.count(), 3, 'The hero should expose its grid, knowledge, and learning modes');
   assert.equal(await page.locator('[data-project-card] .work-image img:visible').count(), 6, 'Selected work should show actual project screenshots');
@@ -148,6 +150,10 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   assert.deepEqual(stageLabels, ['Generation + storage', 'Step-up', 'Transmission', 'Step-down substation', 'Distribution', 'Loads'], 'The power journey must distinguish storage, step-down and distribution before the load stage');
   assert.deepEqual((await powerSources.locator('span').allTextContents()).map(text => text.trim()), powerSourceLabels, 'Power mode should name all six illustrated generation and storage technologies');
   assert.equal(await powerSources.isVisible(), true);
+  assert.equal(await powerReplay.isVisible(), true);
+  assert.equal(await powerReplay.getAttribute('aria-controls'), 'heroField');
+  assert.equal(await powerReplay.getAttribute('aria-describedby'), await powerPhase.getAttribute('id'));
+  assert.equal(await powerPhase.getAttribute('aria-live'), 'off', 'Automatic event phases must not repeatedly announce themselves');
   const powerDescription = await fieldDescription.textContent();
   for (const label of powerLoadLabels) {
     assert.ok(powerDescription.includes(label), `Power mode should identify the ${label.toLowerCase()} load type`);
@@ -160,6 +166,23 @@ async function assertProjectFallback(page, label, projects = projectStories) {
     'The hero scene should animate when motion is allowed',
   );
   assert.equal(await page.locator('html').getAttribute('data-motion'), 'running');
+  await page.evaluate(() => {
+    const actual = window.PowerJourney;
+    window.portfolioTestEventTimes = [];
+    window.PowerJourney = Object.freeze({ ...actual, draw(ctx, options) {
+      actual.draw(ctx, options);
+      window.portfolioTestEventTime = options.eventTime;
+      window.portfolioTestEventTimes.push(options.eventTime);
+    } });
+  });
+  await powerReplay.click();
+  await page.waitForFunction(() => document.querySelector('[data-power-replay]').disabled);
+  assert.ok(await page.evaluate(() => window.portfolioTestEventTimes.includes(window.PowerJourney.eventCues.replay)), 'Replay must restart the dedicated event clock at its cue');
+  assert.match(await powerReplay.locator('[data-power-replay-label]').textContent(), /Replay strike/i);
+  const replayAnnouncement = await page.locator('[data-power-announcement]').textContent();
+  assert.ok(replayAnnouncement.trim(), 'A deliberate replay should receive an accessible confirmation');
+  await page.waitForTimeout(100);
+  assert.equal(await page.locator('[data-power-announcement]').textContent(), replayAnnouncement, 'Automatic event phases must not rewrite the manual-action announcement');
   await motionToggle.click();
   assert.equal(await motionToggle.getAttribute('aria-pressed'), 'true');
   assert.match(await motionToggle.textContent(), /Play animations/i);
@@ -169,6 +192,31 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   const manuallyPausedFrame = await frame(heroScene);
   await page.waitForTimeout(250);
   assert.equal(await frame(heroScene), manuallyPausedFrame, 'The global pause button should stop animation');
+  assert.equal(await powerReplay.isDisabled(), false, 'Paused users should be able to inspect static outage states');
+  // The pause may land partway through tripping. Normalize to powered before
+  // checking the two deliberate static states, independently of wall-clock load.
+  if (/Restore power/i.test(await powerReplay.locator('[data-power-replay-label]').textContent())) await powerReplay.click();
+  assert.match(await powerReplay.locator('[data-power-replay-label]').textContent(), /Show outage/i);
+  const pausedPoweredFrame = await frame(heroScene);
+  await powerReplay.click();
+  const outageLabel = await page.evaluate(() => window.PowerJourney.getEventState({ time: window.PowerJourney.eventCues.isolated }).label);
+  assert.equal(await page.evaluate(() => window.portfolioTestEventTime), 10);
+  assert.equal((await powerPhase.textContent()).trim(), outageLabel);
+  assert.match(await powerReplay.locator('[data-power-replay-label]').textContent(), /Restore power/i);
+  const pausedOutageFrame = await frame(heroScene);
+  assert.notEqual(pausedOutageFrame, pausedPoweredFrame, 'Show outage should visibly change the static power illustration');
+  await page.waitForTimeout(150);
+  assert.equal(await frame(heroScene), pausedOutageFrame, 'An outage inspection must not restart paused motion');
+  assert.equal(await page.locator('html').getAttribute('data-motion'), 'paused');
+  await powerReplay.click();
+  const restoredLabel = await page.evaluate(() => window.PowerJourney.getEventState({ time: window.PowerJourney.eventCues.restored }).label);
+  assert.equal(await page.evaluate(() => window.portfolioTestEventTime), 19);
+  assert.equal((await powerPhase.textContent()).trim(), restoredLabel);
+  assert.match(await powerReplay.locator('[data-power-replay-label]').textContent(), /Show outage/i);
+  const pausedRestoredFrame = await frame(heroScene);
+  assert.notEqual(pausedRestoredFrame, pausedOutageFrame, 'Restore power should relight the static scene');
+  await page.waitForTimeout(150);
+  assert.equal(await frame(heroScene), pausedRestoredFrame);
   const modeFrames = [manuallyPausedFrame];
   for (const [mode, key] of [['knowledge', 'Enter'], ['learning', 'Space']]) {
     const button = page.locator(`[data-field-mode="${mode}"]`);
@@ -180,6 +228,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
     assert.equal(await heroScene.getAttribute('data-field-state'), mode);
     assert.equal(await powerLegend.isVisible(), false, 'Power-stage labels must be hidden in AI modes');
     assert.equal(await powerSources.isVisible(), false, 'Generation/storage labels must be hidden in AI modes');
+    assert.equal(await powerReplay.isVisible(), false, 'Power-event controls must be hidden in AI modes');
     assert.equal(await page.locator('[data-field-label]').isVisible(), true, 'AI modes should retain their general illustration label');
     assert.notEqual(await fieldDescription.textContent(), powerDescription, 'AI modes must replace the power-load caption with their own description');
     await page.waitForTimeout(150);
@@ -194,6 +243,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   assert.equal(await heroScene.getAttribute('data-field-state'), 'grid');
   assert.equal(await powerLegend.isVisible(), true);
   assert.equal(await powerSources.isVisible(), true);
+  assert.equal(await powerReplay.isVisible(), true);
   assert.equal(await fieldDescription.textContent(), powerDescription, 'Returning to power mode should restore all load labels');
   for (const type of sceneTypes) {
     const scene = page.locator(`.motion-scene[data-scene="${type}"]`).first();
@@ -434,6 +484,17 @@ async function assertProjectFallback(page, label, projects = projectStories) {
         await frame(heroScene), staticFrame,
         'Reduced motion should retain a static painted scene',
       );
+      assert.equal(await powerReplay.isDisabled(), false, 'Reduced motion should still allow static outage inspection');
+      await powerReplay.click();
+      assert.equal((await powerPhase.textContent()).trim(), outageLabel);
+      const reducedOutageFrame = await frame(heroScene);
+      assert.notEqual(reducedOutageFrame, staticFrame);
+      await page.waitForTimeout(150);
+      assert.equal(await frame(heroScene), reducedOutageFrame, 'Reduced-motion outage selection must remain still');
+      assert.equal(await page.locator('html').getAttribute('data-motion'), 'reduced');
+      await powerReplay.click();
+      assert.equal((await powerPhase.textContent()).trim(), restoredLabel);
+      assert.notEqual(await frame(heroScene), reducedOutageFrame);
       for (const type of sceneTypes) {
         const scene = page.locator(`.motion-scene[data-scene="${type}"]`).first();
         await waitForPaint(scene);
@@ -471,6 +532,9 @@ async function assertProjectFallback(page, label, projects = projectStories) {
     }));
     assert.equal(sourceBounds.length, powerSourceLabels.length);
     assert.ok(sourceBounds.every(box => box.left >= 0 && box.right <= width + 1 && box.height > 0 && !box.clipped), `${viewportLabel}: all six generation/storage labels must fit without clipping`);
+    const replayBounds = await powerReplay.boundingBox();
+    assert.ok(replayBounds && replayBounds.height >= 44 && replayBounds.width >= 44, `${viewportLabel}: the event control needs a 44px hit area`);
+    assert.ok(replayBounds.x >= 0 && replayBounds.x + replayBounds.width <= width + 1, `${viewportLabel}: the event control must fit the viewport`);
     const descriptionBounds = await fieldDescription.evaluate(description => {
       const { left, right } = description.getBoundingClientRect();
       return { left, right, clipped: description.scrollWidth > description.clientWidth + 1 || description.scrollHeight > description.clientHeight + 1 };
@@ -667,6 +731,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   assert.notEqual(fallbackFieldFrame, reducedPowerJourneyFrame, 'The loaded power renderer should replace the original abstract grid field');
   assert.equal(await noJourneyPage.locator('[data-power-legend]').isVisible(), false, 'A fallback field must not advertise absent power-stage objects');
   assert.equal(await noJourneyPage.locator('[data-power-sources]').isVisible(), false, 'A fallback field must not advertise missing generation or storage artwork');
+  assert.equal(await noJourneyPage.locator('[data-power-replay]').isVisible(), false, 'A fallback field must not offer an unavailable event');
   assert.equal(await noJourneyPage.locator('[data-field-label]').isVisible(), true);
   assert.notEqual(await noJourneyPage.locator('[data-field-description]').textContent(), powerDescription, 'The fallback should not advertise absent load artwork');
   await noJourneyPage.waitForTimeout(150);
@@ -699,6 +764,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   await failedJourneyPage.waitForFunction(() => document.querySelector('#heroField').classList.contains('is-ready') && document.querySelector('[data-power-legend]').hidden);
   assert.equal(await failedJourneyPage.locator('[data-field-label]').isVisible(), true);
   assert.equal(await failedJourneyPage.locator('[data-power-sources]').isVisible(), false, 'A failed journey must hide its generation/storage annotations');
+  assert.equal(await failedJourneyPage.locator('[data-power-replay]').isVisible(), false, 'A failed journey must hide its event control');
   assert.notEqual(await failedJourneyPage.locator('[data-field-description]').textContent(), powerDescription, 'A failed power renderer must also replace its load caption');
   assert.equal(await failedJourneyPage.locator('.field-modes').isVisible(), true, 'An optional renderer failure must preserve working hero controls');
   const recoveredFrame = await frame(recoveringField);
@@ -717,6 +783,57 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   assert.equal(new Set(recoveredAiFrames).size, 2, 'Both AI illustrations should still render their distinct content after journey failure');
   assert.equal(journeyWarnings.length, 1, 'An optional renderer failure should be reported once, not silently swallowed or logged every frame');
   await failedJourneyContext.close();
+
+  // A preference change must clear an already painted flash, even when the
+  // visibility scheduler has stopped because the hero is offscreen.
+  const flashPreferenceContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'no-preference' });
+  await serveLocalFiles(flashPreferenceContext);
+  const flashPreferencePage = await flashPreferenceContext.newPage();
+  flashPreferencePage.on('pageerror', error => errors.push(error.message));
+  await flashPreferencePage.goto('http://portfolio.test/');
+  const flashField = flashPreferencePage.locator('#heroField');
+  await waitForPaint(flashField);
+  await flashPreferencePage.evaluate(() => {
+    const actual = window.PowerJourney;
+    window.portfolioTestForcedEventTime = 8.15;
+    window.PowerJourney = Object.freeze({ ...actual,
+    getEventState(options = {}) { return actual.getEventState({ ...options, time: window.portfolioTestForcedEventTime }); },
+    draw(ctx, options) {
+      const parameters = { ...options, eventTime: window.portfolioTestForcedEventTime };
+      actual.draw(ctx, parameters);
+      const event = actual.getEventState({ time: parameters.eventTime, reducedMotion: parameters.reducedMotion || parameters.suppressFlash });
+      window.portfolioTestStrike = {
+        reduced: parameters.reducedMotion,
+        suppressed: parameters.suppressFlash,
+        stage: event.stage,
+        opacity: event.strikeOpacity,
+      };
+    } });
+  });
+  await flashPreferencePage.waitForFunction(() => window.portfolioTestStrike?.opacity > 0);
+  for (let toggle = 0; toggle < 2; toggle += 1) {
+    await flashPreferencePage.locator('[data-motion-toggle]').click();
+    assert.equal(await flashPreferencePage.locator('html').getAttribute('data-motion'), 'paused');
+    assert.equal(await flashPreferencePage.evaluate(() => window.portfolioTestStrike.opacity), 0, 'Pause should clear the current lightning effect');
+    await flashPreferencePage.locator('[data-motion-toggle]').click();
+    assert.equal(await flashPreferencePage.locator('html').getAttribute('data-motion'), 'running');
+    assert.equal(await flashPreferencePage.evaluate(() => window.portfolioTestStrike.suppressed), true, 'Resuming within the same strike must retain the flash-suppression latch');
+    assert.equal(await flashPreferencePage.evaluate(() => window.portfolioTestStrike.opacity), 0, 'Rapid Pause/Play must not replay the same bright frame');
+  }
+  await flashPreferencePage.evaluate(() => { window.portfolioTestForcedEventTime = 9.1; });
+  await flashPreferencePage.waitForFunction(() => window.portfolioTestStrike?.stage === 'isolated' && window.portfolioTestStrike.suppressed === false);
+  await flashPreferencePage.evaluate(() => { window.portfolioTestForcedEventTime = 8.15; });
+  await flashPreferencePage.waitForFunction(() => window.portfolioTestStrike?.opacity > 0);
+  await flashPreferencePage.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await flashPreferencePage.waitForTimeout(150);
+  const visibleStrikeFrame = await frame(flashField);
+  await flashPreferencePage.emulateMedia({ reducedMotion: 'reduce' });
+  await flashPreferencePage.waitForFunction(() => window.portfolioTestStrike?.reduced === true && window.portfolioTestStrike.opacity === 0);
+  const clearedStrikeFrame = await frame(flashField);
+  assert.notEqual(clearedStrikeFrame, visibleStrikeFrame, 'Enabling reduced motion must repaint and remove an existing lightning effect');
+  await flashPreferencePage.waitForTimeout(200);
+  assert.equal(await frame(flashField), clearedStrikeFrame, 'The cleared reduced-motion frame must remain still');
+  await flashPreferenceContext.close();
 
   // Regression for the previous orb: missing/stale component CSS allowed
   // a Retina canvas's bitmap dimensions to grow its parent on every resize.
@@ -763,6 +880,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   assert.equal(await fallbackPage.locator('.field-modes').isVisible(), false, 'Unavailable canvas controls should not be offered when rendering cannot initialize');
   assert.equal(await fallbackPage.locator('[data-power-legend]').isVisible(), false);
   assert.equal(await fallbackPage.locator('[data-power-sources]').isVisible(), false);
+  assert.equal(await fallbackPage.locator('[data-power-replay]').isVisible(), false);
   await assertProjectFallback(fallbackPage, 'Canvas context failure');
   assert.equal(await fallbackPage.locator('.hero-photo').isVisible(), true, 'Canvas failure must preserve the original portrait');
   assert.equal(await fallbackPage.locator('[data-project-card] .work-image img:visible').count(), 6, 'Canvas failure must preserve project screenshots');
@@ -784,6 +902,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   assert.equal(await staticPage.locator('.field-modes').isVisible(), false, 'Mode controls should be hidden without their interaction script');
   assert.equal(await staticPage.locator('[data-power-legend]').isVisible(), false);
   assert.equal(await staticPage.locator('[data-power-sources]').isVisible(), false);
+  assert.equal(await staticPage.locator('[data-power-replay]').isVisible(), false);
   await assertProjectFallback(staticPage, 'JavaScript disabled');
   assert.equal(await staticPage.locator('#education article.experience-card:visible').count(), 3, 'Education must remain available without JavaScript');
   await staticPage.locator('a[href="#education"]').first().click();
@@ -800,5 +919,6 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   console.log('PASS: nine distinct scene types; keyboard hero and project-stage controls; global pause/resume and reduced motion across all renderers; offscreen/visibility pause; bounded 1x/2x canvas layout, including missing component CSS; context failure and screenshot fallbacks.');
   console.log('PASS: contingency, fault and forecast manual states redraw while paused; Auto and phase labels; 44px responsive project controls; missing project renderers/shared kit preserve content without legacy forecast substitution.');
   console.log('PASS: restored education content, degree status, native anchors and responsive/no-JavaScript access; power-stage legend, six source types and five load labels; missing/late-failing optional renderer fallback with AI modes preserved and one failure warning.');
+  console.log('PASS: power-event replay, static outage/restoration while paused or reduced, hidden unavailable event controls, same-strike Pause/Play flash suppression, and immediate reduced-motion flash removal while offscreen.');
   await browser.close();
 })().catch((error) => { console.error(error); process.exit(1); });

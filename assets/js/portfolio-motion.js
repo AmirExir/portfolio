@@ -16,6 +16,10 @@
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const root = document.documentElement;
   const toggle = document.querySelector('[data-motion-toggle]');
+  const powerReplay = document.querySelector('[data-power-replay]');
+  const powerPhase = document.querySelector('[data-power-phase]');
+  const powerReplayLabel = document.querySelector('[data-power-replay-label]');
+  const powerAnnouncement = document.querySelector('[data-power-announcement]');
   const storageKey = 'portfolio-motion-paused';
   let paused = false;
   try { paused = window.localStorage.getItem(storageKey) === 'true'; } catch { /* Preferences are optional. */ }
@@ -49,6 +53,34 @@
 
   const motionAllowed = () => !paused && !media.matches && !document.hidden;
 
+  function powerEventAvailable(scene) {
+    return scene.type === 'field' && scene.host.dataset.fieldState === 'grid'
+      && !scene.failed && scene.host.classList.contains('is-ready')
+      && window.CinematicFields?.powerJourneyAvailable
+      && typeof window.PowerJourney?.getEventState === 'function'
+      && Boolean(window.PowerJourney.eventCues);
+  }
+
+  function updatePowerEvent(scene) {
+    if (scene.type !== 'field' || !powerReplay) return;
+    const available = Boolean(powerEventAvailable(scene));
+    powerReplay.hidden = !available;
+    powerReplay.closest('.hero-bottom')?.classList.toggle('has-power-event', available);
+    if (!available) {
+      delete scene.host.dataset.powerEvent;
+      return;
+    }
+    const still = paused || media.matches;
+    const event = window.PowerJourney.getEventState({ time: scene.eventTime, reducedMotion: still });
+    const isolated = event.stage === 'isolated';
+    const action = still ? (isolated ? 'Restore power' : 'Show outage') : 'Replay strike';
+    scene.host.dataset.powerEvent = event.stage;
+    if (powerPhase && powerPhase.textContent !== event.label) powerPhase.textContent = event.label;
+    if (powerReplayLabel && powerReplayLabel.textContent !== action) powerReplayLabel.textContent = action;
+    powerReplay.disabled = !still && !event.canReplay;
+    powerReplay.setAttribute('aria-label', still ? `${action} in the illustration` : 'Replay lightning sequence');
+  }
+
   function updateStory(scene, time) {
     if (!scene.story) return;
     const ready = !scene.failed && scene.host.classList.contains('is-ready');
@@ -67,12 +99,18 @@
   function draw(scene, immediateMode = false) {
     if (!scene.width || !scene.height || scene.failed) return;
     try {
+      if (scene.strikeSuppressed && window.PowerJourney?.getEventState?.({ time: scene.eventTime })?.stage !== 'strike') {
+        scene.strikeSuppressed = false;
+      }
       const renderTime = immediateMode && scene.type === 'field' ? 0 : scene.time;
       scene.renderer.draw(scene.context, {
         type: scene.type, width: scene.width, height: scene.height,
         time: renderTime, pointerX: scene.pointerX, pointerY: scene.pointerY,
         mode: scene.host.dataset.fieldState || 'grid',
         state: scene.host.dataset.sceneState || 'auto',
+        eventTime: scene.eventTime,
+        reducedMotion: media.matches,
+        suppressFlash: paused || Boolean(scene.strikeSuppressed),
       });
       const firstPaint = !scene.host.classList.contains('is-ready');
       scene.host.classList.add('is-ready');
@@ -81,6 +119,7 @@
         scene.powerAvailable = window.CinematicFields?.powerJourneyAvailable;
         updateHeroAnnotation(scene);
       }
+      updatePowerEvent(scene);
     } catch (error) {
       // Restore the original project image if decorative rendering is unavailable.
       scene.failed = true;
@@ -89,6 +128,7 @@
       if (scene.type === 'field') {
         document.querySelector('.field-modes')?.setAttribute('hidden', '');
         updateHeroAnnotation(scene);
+        updatePowerEvent(scene);
       }
       console.warn(`Engineering illustration unavailable: ${scene.type}`, error);
     }
@@ -129,6 +169,9 @@
       scenes.forEach((scene) => {
         if (!scene.visible || scene.failed || !scene.host.getClientRects().length) return;
         scene.time += delta;
+        // Event time advances only with the visible power illustration. A hidden
+        // tab or AI mode must not accumulate an unseen strike/reclosing backlog.
+        if (powerEventAvailable(scene)) scene.eventTime += delta;
         scene.pointerX += (scene.targetX - scene.pointerX) * .11;
         scene.pointerY += (scene.targetY - scene.pointerY) * .11;
         draw(scene);
@@ -186,7 +229,7 @@
     canvas.style.cssText = 'position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none;';
     const scene = {
       host, canvas, context, renderer, cinematic, type: host.dataset.scene, visible: !intersection,
-      width: 0, height: 0, time: 2.3 + index * .23,
+      width: 0, height: 0, time: 2.3 + index * .23, eventTime: 0,
       pointerX: 0, pointerY: 0, targetX: 0, targetY: 0, failed: false,
       story: host.closest('.project-story'),
     };
@@ -238,6 +281,22 @@
     }));
   }
 
+  powerReplay?.addEventListener('click', () => {
+    if (!heroScene || !powerEventAvailable(heroScene) || powerReplay.disabled) return;
+    const cues = window.PowerJourney.eventCues;
+    if (paused || media.matches) {
+      const current = window.PowerJourney.getEventState({ time: heroScene.eventTime, reducedMotion: true });
+      heroScene.eventTime = current.stage === 'isolated' ? cues.restored : cues.isolated;
+      if (powerAnnouncement) powerAnnouncement.textContent = current.stage === 'isolated'
+        ? 'Restored supply shown. Animation remains stopped.' : 'Isolated line and load outage shown. Animation remains stopped.';
+    } else {
+      heroScene.eventTime = cues.replay;
+      if (powerAnnouncement) powerAnnouncement.textContent = 'Lightning and restoration sequence started.';
+    }
+    draw(heroScene);
+    start();
+  });
+
   function updatePreference() {
     stop();
     root.dataset.motion = media.matches ? 'reduced' : paused ? 'paused' : 'running';
@@ -248,6 +307,17 @@
       toggle.querySelector('[data-motion-label]').textContent = media.matches ? 'Reduced motion' : paused ? 'Play animations' : 'Pause animations';
       toggle.querySelector('[aria-hidden]').textContent = paused || media.matches ? '▷' : 'Ⅱ';
     }
+    // Clear an in-progress bolt immediately when motion is disabled, including
+    // while the hero is offscreen. Stopping RAF alone would freeze the flash.
+    scenes.forEach(scene => {
+      if (scene.type !== 'field') return;
+      // Once interrupted, consume this bolt's remaining flash. Rapid toggling
+      // of Pause/Play must not repeatedly reveal the same frozen bright frame.
+      if ((paused || media.matches) && window.PowerJourney?.getEventState?.({ time: scene.eventTime })?.stage === 'strike') {
+        scene.strikeSuppressed = true;
+      }
+      draw(scene);
+    });
     start();
   }
 

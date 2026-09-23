@@ -506,6 +506,8 @@
           window.PowerJourney.draw(ctx, {
             width: view.width, height: view.height, time,
             pointerX: view.pointerX, pointerY: view.pointerY,
+            eventTime: view.eventTime, reducedMotion: view.reducedMotion,
+            suppressFlash: view.suppressFlash,
           });
           return;
         } catch (error) {
@@ -555,6 +557,9 @@
   }
 
   function drawField(ctx, view, time, weights) {
+    // No lightning while entering or leaving the AI artwork, even when the
+    // independent event clock was frozen partway through a strike.
+    view.suppressFlash = view.suppressFlash || weights[0] < 0.998;
     const active = [];
     for (let i = 0; i < weights.length; i += 1) if (weights[i] > 0.002) active.push(i);
     const layer = active.length > 1 ? transitionLayer(ctx, view.width, view.height) : null;
@@ -591,12 +596,15 @@
   }
 
   /** Draw a transparent frame in CSS pixels; time is expressed in seconds. */
-  function draw(ctx, { type = 'field', width, height, time = 0, pointerX = 0, pointerY = 0, mode = 'grid' }) {
+  function draw(ctx, { type = 'field', width, height, time = 0, pointerX = 0, pointerY = 0, mode = 'grid', eventTime = time, reducedMotion = false, suppressFlash = false }) {
     if (!ctx || !Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) return;
     const t = Number.isFinite(time) ? time : 0;
     const px = Number.isFinite(pointerX) ? clamp(pointerX, -1, 1) : 0;
     const py = Number.isFinite(pointerY) ? clamp(pointerY, -1, 1) : 0;
     const view = viewFor(width, height, t, px, py, type);
+    view.eventTime = eventTime;
+    view.reducedMotion = reducedMotion;
+    view.suppressFlash = suppressFlash || mode !== 'grid';
     ctx.save();
     ctx.clearRect(0, 0, width, height);
     if (type === 'evidence') drawEvidence(ctx, view, t);
