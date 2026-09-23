@@ -8,8 +8,10 @@ The public portfolio is a static site served from the repository root. It presen
 | --- | --- |
 | `index.html` | Page content, project links, navigation, SEO metadata, and embedded media |
 | `assets/css/portfolio.css` | Colors, typography, layouts, responsive rules, and print styles |
+| `assets/css/portfolio-motion.css` | Bounded scene layouts, motion controls, and progressive visual enhancement |
 | `assets/js/portfolio.js` | Navigation, selected-work search, galleries, email copying, and document feed rendering |
-| `assets/js/hero-grid-orb.js` | Decorative interactive power-grid and AI hero visualization |
+| `assets/js/engineering-scenes.js` | Deterministic canvas renderers for the grid, Atlas, retrieval, neural, forecast, and workflow illustrations |
+| `assets/js/portfolio-motion.js` | Shared animation scheduling, viewport visibility, pointer interaction, pause control, and canvas sizing |
 | `assets/favicon.svg` | Local browser icon |
 | `grid-atlas.html`, `grid-atlas.js` | Existing standalone and embedded Grid Atlas |
 | `ERCOTAPI/latest_ercot_updates.json` | Existing document snapshot consumed by the portfolio |
@@ -42,7 +44,19 @@ Deployment continues to use the static root and the existing `CNAME`, `robots.tx
 - The résumé/download disclosure and course certificate disclosure use native HTML `details` elements. They also work without JavaScript. Preserve the AELab overview’s version query and download filename when editing its two existing links; its regression test verifies the published document.
 - External links that open another tab use `rel="noopener noreferrer"`. Keep alternative contact methods available if the browser denies clipboard access.
 
-The site uses system fonts, project screenshots, and existing photography. The hero keeps the original `AmirinSubstation.jpeg` as its fallback and serves responsive WebP copies where supported. A lightweight canvas visualization overlays that photo with a conceptual rotating transmission-network and AI node system; it is decorative presentation artwork, not a network model or engineering study result. The visualization pauses outside the viewport and becomes static when the visitor requests reduced motion. Content and navigation remain available without JavaScript; galleries then scroll horizontally. The mobile AI assistant link appears in the footer to avoid covering page content.
+The site uses system fonts, project screenshots, and existing photography. The hero keeps the original `AmirinSubstation.jpeg` as its fallback and serves responsive WebP copies where supported. Compact animated scenes appear in the hero, selected-work cards, and project sections. The portrait remains separate from the scenes, and detailed project galleries retain their screenshots. Content and navigation remain available without JavaScript; galleries then scroll horizontally. The mobile AI assistant link appears in the footer to avoid covering page content.
+
+## Engineering motion
+
+The illustrations use six scene types selected by `.motion-scene[data-scene]`: `grid`, `atlas`, `rag`, `neural`, `forecast`, and `workflow`. They connect the presentation to transmission engineering, geospatial networks, evidence retrieval, machine learning, forecasting, and engineering automation. Their geometry, motion, and traces are illustrative. They do not represent a study case, measured forecast performance, actual document retrieval, live grid telemetry, or an engineering conclusion.
+
+`engineering-scenes.js` draws projected 3D geometry with the browser's 2D canvas API. This keeps the site independent of WebGL, remote rendering libraries, model downloads, and a build pipeline. The tradeoff is that these are purpose-built illustrations rather than a general 3D viewer. Keep analysis tools and real datasets in their existing applications; never make the decorative renderers a source of engineering values.
+
+`portfolio-motion.js` runs visible scenes through one scheduler, capped at 30 frames per second. Rendering pauses when scenes leave the viewport or the document is hidden. The global “Pause animations” control stops automatic motion; “Play animations” resumes it. A system preference for reduced motion takes priority and displays static scenes. Scene content becomes visible after its first successful draw; existing project images provide a fallback if scripts cannot initialize.
+
+Scene hosts have bounded CSS heights and absolutely positioned canvases. CSS dimensions determine the backing bitmap, never the reverse. The runtime also applies defensive canvas positioning and host bounds if the motion stylesheet is missing or stale. Pixel density is capped at 2x and each bitmap dimension at 2048 pixels. This prevents the previous Retina resize feedback bug, where an enlarged canvas bitmap increased its parent size and triggered another enlargement. Preserve this separation whenever changing scene markup or styles.
+
+To add a placement, reuse an existing scene type and the page's `.motion-scene` markup with its canvas and accessible surrounding text. Keep scene meaning in visible labels and project descriptions; decorative canvases are hidden from assistive technology. Do not add a separate animation loop for each placement. Update the scene asset version query strings together when publishing changed markup, styles, or rendering code so cached assets remain compatible.
 
 ## Presentation refinements
 
@@ -59,7 +73,8 @@ Run the local address checks without extra Python dependencies:
 ```sh
 python3 -m unittest discover -s tests -p test_portfolio_site.py -v
 node --check assets/js/portfolio.js
-node --check assets/js/hero-grid-orb.js
+node --check assets/js/engineering-scenes.js
+node --check assets/js/portfolio-motion.js
 ```
 
 If pytest is available, include the existing download regression:
@@ -80,7 +95,9 @@ PORTFOLIO_PLAYWRIGHT_MODULE=/tmp/portfolio-browser-check/node_modules/playwright
 
 `PORTFOLIO_PLAYWRIGHT_MODULE` can point to another installed Playwright module. Set `PORTFOLIO_BROWSER_EXECUTABLE` to use an existing Chrome/Chromium executable instead of Playwright’s downloaded browser.
 
-The browser test serves local files through intercepted requests and blocks external network requests. It checks the restored hero photo, animated and reduced-motion orb states, filtering/search/reset, keyboard and manual galleries, mobile menu behavior, clipboard failure, dated document snapshots, malformed feed responses, and unsafe document URLs. Review layouts at 1440, 1024, 768, 390, and 320 pixels, including with JavaScript disabled. Browser screenshots and temporary profiles should remain outside Git.
+The browser test serves local files through intercepted requests and blocks external network requests. It checks all six painted scene types, animation and global pause/resume, offscreen and document-visibility suspension, static reduced-motion rendering, and original portrait/project-image fallbacks. The visibility test dispatches a visibility-change event with simulated hidden state because operating-system background-tab behavior is unreliable in a headless browser. Layout checks cover 320–1440 pixels and both 1x and 2x pixel density. A separate 2x context deliberately fails the motion stylesheet and checks repeated resizes for bounded canvas and document dimensions.
+
+Existing regression checks also cover filtering/search/reset, keyboard and manual galleries, mobile navigation, clipboard failure, dated document snapshots, malformed feed responses, and unsafe document URLs. Inspect representative desktop and mobile screenshots as well: functional checks cannot establish visual quality. Browser screenshots and temporary profiles should remain outside Git.
 
 ## Content boundaries
 
