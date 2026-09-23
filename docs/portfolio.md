@@ -41,7 +41,7 @@ Deployment continues to use the static root and the existing `CNAME`, `robots.tx
 - The résumé/download disclosure and course certificate disclosure use native HTML `details` elements. They also work without JavaScript. Preserve the AELab overview’s version query and download filename when editing its two existing links; its regression test verifies the published document.
 - External links that open another tab use `rel="noopener noreferrer"`. Keep alternative contact methods available if the browser denies clipboard access.
 
-The site uses system fonts and existing photos/screenshots. Content and navigation remain available without JavaScript; galleries then scroll horizontally. Motion is disabled when the visitor requests reduced motion. The mobile AI assistant link appears in the footer to avoid covering page content.
+The site uses system fonts, project screenshots, photography, and a generated conceptual 3D hero illustration stored at `assets/images/power-systems-ai-engineering-3d.jpg`, with a smaller responsive variant for mobile delivery. The illustration is presentation artwork, not a network model or engineering study result. Content and navigation remain available without JavaScript; galleries then scroll horizontally. Motion is disabled when the visitor requests reduced motion. The mobile AI assistant link appears in the footer to avoid covering page content.
 
 ## Presentation refinements
 
@@ -82,7 +82,7 @@ The browser test serves local files through intercepted requests and blocks exte
 
 ## Content boundaries
 
-The engineering descriptions and credentials originate from the existing portfolio. The AI master’s program is explicitly marked as in progress, consistent with the original graduate-student introduction. This design work does not validate professional credential status or introduce new engineering results.
+The engineering descriptions and credentials originate from the existing portfolio. Based on the owner-provided status, the AI master’s program is described as a graduating degree candidate rather than a conferred degree. Update that language after formal conferral. This design work does not independently validate professional credential status or introduce new engineering results.
 
 The ERCOT panel shows the snapshot’s generation date and supplied document status/effectiveness notes. A successful fetch does not prove that a document is current or governing. The panel reports missing metadata and load failures instead of presenting a saved feed as live regulatory information. The underlying feed, Atlas datasets, and engineering calculations are unchanged.
 

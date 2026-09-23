@@ -34,6 +34,11 @@ class _PageLinks(HTMLParser):
         for attribute in ("href", "src", "poster"):
             if values.get(attribute):
                 self.references.append((tag, attribute, values[attribute] or ""))
+        if values.get("srcset"):
+            for candidate in (values["srcset"] or "").split(","):
+                address = candidate.strip().split(maxsplit=1)[0]
+                if address:
+                    self.references.append((tag, "srcset", address))
         if values.get("style"):
             self.styles.append(values["style"] or "")
         self._in_style = self._in_style or tag == "style"
@@ -160,6 +165,18 @@ class AddressValidatorTests(unittest.TestCase):
         errors = _page_errors(self.page, self.root)
         self.assertEqual(len(errors), 4)
         self.assertTrue(all("missing local file" in error for error in errors))
+
+    def test_srcset_files_are_validated(self) -> None:
+        self._write("images/hero-small.jpg")
+        self._write(
+            "index.html",
+            '<img src="images/hero-small.jpg" '
+            'srcset="images/hero-small.jpg 640w, images/hero-large.jpg 1024w" alt="">',
+        )
+        self.assertEqual(
+            _page_errors(self.page, self.root),
+            ["img[srcset]: missing local file images/hero-large.jpg"],
+        )
 
     def test_duplicate_ids_and_missing_fragments_are_reported(self) -> None:
         self._write("index.html", '<div id="work"></div><div id="work"></div><a href="#Work">Work</a>')

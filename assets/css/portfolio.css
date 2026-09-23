@@ -89,10 +89,10 @@ h1 em { display: block; margin-top: 9px; color: var(--brand); font: italic 400 .
 .hero-credentials span + span { border-left: 1px solid #c7ccc1; padding-left: 14px; }
 .hero-visual { position: relative; margin: 0 15px 0 0; padding: 0 0 27px 21px; isolation: isolate; }
 .hero-visual::before { content: ''; position: absolute; inset: 36px -18px 8px 45px; border: 1px solid #bbc8b9; border-radius: 140px 14px 14px 14px; z-index: -1; background-image: radial-gradient(#9eb298 0.65px, transparent .65px); background-size: 10px 10px; }
-.hero-photo { width: 100%; height: 496px; object-fit: cover; object-position: center 40%; border-radius: 140px 12px 12px 12px; }
+.hero-photo { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center; border-radius: 140px 12px 12px 12px; background: #eee9df; box-shadow: 0 24px 60px rgba(27, 48, 47, .13); }
 .photo-label { display: flex; align-items: center; gap: 9px; position: absolute; top: 24px; right: 20px; padding: 7px 12px; background: rgba(250,249,245,.94); border-radius: 4px; font-size: .53rem; font-weight: 600; letter-spacing: .12em; }
 .hero-caption { position: absolute; bottom: 4px; left: 0; right: 34px; display: flex; align-items: center; gap: 16px; background: var(--brand-strong); color: var(--white); padding: 21px 24px; border-radius: 7px; }
-.caption-icon { font-size: 1.7rem; line-height: 1; color: #c5d7ac; }
+.hero-caption-portrait { width: 42px; height: 42px; flex: 0 0 42px; object-fit: cover; border: 1px solid rgba(229, 236, 225, .6); border-radius: 50%; }
 .hero-caption strong { display: block; font-size: .83rem; font-weight: 550; }
 .hero-caption div > span { display: block; margin-top: 3px; font-size: .65rem; color: #c4d2c8; }
 .photo-coordinate { position: absolute; right: -26px; top: 54%; writing-mode: vertical-rl; font-size: .52rem; letter-spacing: .15em; color: var(--muted); }
@@ -299,7 +299,7 @@ html:not(.js) .carousel-slide { scroll-snap-align: start; }
 @media (max-width: 1100px) {
   .nav-shell, .hero-inner, .hero-bottom, .proof-grid, .section-inner, .footer-inner { width: calc(100% - 64px); }
   .hero-inner { gap: 32px; }
-  .hero-photo { height: 470px; }
+  .hero-photo { height: auto; }
   .nav-links { gap: 20px; }
   .proof-item { padding-inline: 15px; gap: 9px; }
   .proof-item strong { font-size: .8rem; }
@@ -335,7 +335,7 @@ html:not(.js) .carousel-slide { scroll-snap-align: start; }
   .hero-inner { gap: 20px; padding-top: 44px; }
   h1 { font-size: 3.15rem; }
   .hero-lede { font-size: .87rem; }
-  .hero-photo { height: 440px; border-top-left-radius: 95px; }
+  .hero-photo { height: auto; border-top-left-radius: 95px; }
   .hero-visual { padding-left: 5px; margin-right: 12px; }
   .hero-caption { right: 10px; padding: 17px; gap: 10px; }
   .hero-caption strong { font-size: .7rem; }
@@ -378,8 +378,8 @@ html:not(.js) .carousel-slide { scroll-snap-align: start; }
   .hero-actions > .btn { flex: 1; padding-inline: 12px; gap: 12px; }
   .hero-downloads { font-size: .73rem; }
   .hero-credentials { margin-top: 9px; font-size: .73rem; gap: 4px 12px; }
-  .hero-visual { margin: 0 18px 0 0; padding: 0 0 24px 10px; }
-  .hero-photo { height: 385px; object-position: center 41%; border-top-left-radius: 95px; }
+  .hero-visual { width: min(100%, 480px); margin: 0 auto; padding: 0 0 24px 10px; }
+  .hero-photo { height: auto; object-position: center; border-top-left-radius: 95px; }
   .hero-caption { right: 24px; padding: 18px 22px; }
   .hero-caption strong { font-size: .83rem; }
   .hero-caption div > span { font-size: .66rem; }
