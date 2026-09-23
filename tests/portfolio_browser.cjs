@@ -30,8 +30,36 @@ const realFeed = JSON.parse(fs.readFileSync(path.join(root, 'ERCOTAPI/latest_erc
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('http://portfolio.test/');
   await page.waitForFunction(() => document.querySelector('#ercotUpdatesList').getAttribute('aria-busy') === 'false');
+  assert.equal(await page.locator('.hero-photo').getAttribute('src'), 'AmirinSubstation.jpeg');
+  await page.waitForFunction(() => {
+    const canvas = document.querySelector('[data-grid-orb] canvas');
+    if (!canvas || !canvas.width || !canvas.height) return false;
+    const pixels = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+    for (let index = 3; index < pixels.length; index += 4) {
+      if (pixels[index] > 0) return true;
+    }
+    return false;
+  });
+  const movingOrbFrame = await page.locator('[data-grid-orb] canvas').evaluate(canvas => canvas.toDataURL());
+  await page.waitForTimeout(150);
+  assert.notEqual(
+    await page.locator('[data-grid-orb] canvas').evaluate(canvas => canvas.toDataURL()),
+    movingOrbFrame,
+    'The grid-intelligence object should animate when motion is allowed',
+  );
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(200);
+  const pausedOrbFrame = await page.locator('[data-grid-orb] canvas').evaluate(canvas => canvas.toDataURL());
+  await page.waitForTimeout(150);
+  assert.equal(
+    await page.locator('[data-grid-orb] canvas').evaluate(canvas => canvas.toDataURL()),
+    pausedOrbFrame,
+    'The grid-intelligence object should pause when the hero is off screen',
+  );
+  await page.evaluate(() => window.scrollTo(0, 0));
 
   const visibleCards = () => page.locator('[data-project-card]:not([hidden])').count();
   assert.equal(await visibleCards(), 6);
@@ -134,6 +162,16 @@ const realFeed = JSON.parse(fs.readFileSync(path.join(root, 'ERCOTAPI/latest_erc
     await page.reload();
     await page.waitForFunction(() => document.documentElement.classList.contains('js'));
     assert.equal(await visibleCards(), 6);
+    if (width === 1440) {
+      await page.waitForTimeout(200);
+      const staticOrbFrame = await page.locator('[data-grid-orb] canvas').evaluate(canvas => canvas.toDataURL());
+      await page.waitForTimeout(150);
+      assert.equal(
+        await page.locator('[data-grid-orb] canvas').evaluate(canvas => canvas.toDataURL()),
+        staticOrbFrame,
+        'Reduced motion should keep the grid-intelligence object static',
+      );
+    }
     const bounds = await page.locator('[data-project-card]').evaluateAll(cards => cards.map(card => {
       const { width, top } = card.getBoundingClientRect();
       return { width, top };

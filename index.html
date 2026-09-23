@@ -12,8 +12,8 @@
   <meta property="og:title" content="Amir Exir, P.E. | Power Systems &amp; AI Engineer" />
   <meta property="og:description" content="Power systems and AI engineering: engineering automation, retrieval-augmented knowledge systems, machine learning models, and analytics platforms." />
   <meta property="og:url" content="https://amirexirpe.com/" />
-  <meta property="og:image" content="https://amirexirpe.com/assets/images/power-systems-ai-engineering-3d.jpg" />
-  <meta property="og:image:alt" content="Conceptual 3D illustration combining electric power infrastructure and an AI network" />
+  <meta property="og:image" content="https://amirexirpe.com/Control%20Room.jpeg" />
+  <meta property="og:image:alt" content="Power system control room" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Google tag (gtag.js) -->
@@ -52,6 +52,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="assets/css/portfolio.css" />
   <script src="assets/js/portfolio.js" defer></script>
+  <script src="assets/js/hero-grid-orb.js" defer></script>
 </head>
 
 <body>
@@ -99,13 +100,19 @@
           <div class="hero-credentials"><span>Licensed P.E.</span><span>NERC Certified</span><span>UT Austin MSAI · Graduating</span></div>
         </div>
         <figure class="hero-visual">
-          <img class="hero-photo" src="assets/images/power-systems-ai-engineering-3d.jpg" srcset="assets/images/power-systems-ai-engineering-3d-640.jpg 640w, assets/images/power-systems-ai-engineering-3d.jpg 1024w" sizes="(max-width: 640px) calc(100vw - 50px), (max-width: 1100px) 43vw, 520px" alt="Conceptual 3D illustration of a transmission grid and substation connected to an AI network" width="1024" height="1536" fetchpriority="high" decoding="async" />
-          <div class="photo-label"><span class="status-dot" aria-hidden="true"></span> POWER × INTELLIGENCE</div>
+          <picture class="hero-picture">
+            <source type="image/webp" srcset="assets/images/amir-substation-720.webp 720w, assets/images/amir-substation-1152.webp 1152w" sizes="(max-width: 640px) calc(100vw - 50px), (max-width: 700px) 470px, (max-width: 1100px) 43vw, 520px" />
+            <img class="hero-photo" src="AmirinSubstation.jpeg" alt="Amir Exir in protective equipment at an electrical substation" width="1152" height="1536" fetchpriority="high" />
+          </picture>
+          <div class="hero-grid-orb" data-grid-orb aria-hidden="true">
+            <canvas width="420" height="420"></canvas>
+          </div>
+          <div class="photo-label"><span class="status-dot" aria-hidden="true"></span> IN THE FIELD</div>
           <figcaption class="hero-caption">
-            <img class="hero-caption-portrait" src="Amir.jpeg" alt="" width="48" height="48" aria-hidden="true" />
+            <span class="caption-icon" aria-hidden="true">↗</span>
             <div><strong>Power systems + AI engineering.</strong><span>Engineering judgment. Practical AI systems.</span></div>
           </figcaption>
-          <span class="photo-coordinate" aria-hidden="true">01 / POWER + AI SYSTEMS</span>
+          <span class="photo-coordinate" aria-hidden="true">01 / ENGINEERING IN PRACTICE</span>
         </figure>
       </div>
       <div class="hero-bottom"><span>Austin, Texas <span aria-hidden="true">·</span> Energy &amp; utilities</span><a href="#projects">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a></div>

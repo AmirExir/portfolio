@@ -9,6 +9,7 @@ The public portfolio is a static site served from the repository root. It presen
 | `index.html` | Page content, project links, navigation, SEO metadata, and embedded media |
 | `assets/css/portfolio.css` | Colors, typography, layouts, responsive rules, and print styles |
 | `assets/js/portfolio.js` | Navigation, selected-work search, galleries, email copying, and document feed rendering |
+| `assets/js/hero-grid-orb.js` | Decorative interactive power-grid and AI hero visualization |
 | `assets/favicon.svg` | Local browser icon |
 | `grid-atlas.html`, `grid-atlas.js` | Existing standalone and embedded Grid Atlas |
 | `ERCOTAPI/latest_ercot_updates.json` | Existing document snapshot consumed by the portfolio |
@@ -41,14 +42,14 @@ Deployment continues to use the static root and the existing `CNAME`, `robots.tx
 - The résumé/download disclosure and course certificate disclosure use native HTML `details` elements. They also work without JavaScript. Preserve the AELab overview’s version query and download filename when editing its two existing links; its regression test verifies the published document.
 - External links that open another tab use `rel="noopener noreferrer"`. Keep alternative contact methods available if the browser denies clipboard access.
 
-The site uses system fonts, project screenshots, photography, and a generated conceptual 3D hero illustration stored at `assets/images/power-systems-ai-engineering-3d.jpg`, with a smaller responsive variant for mobile delivery. The illustration is presentation artwork, not a network model or engineering study result. Content and navigation remain available without JavaScript; galleries then scroll horizontally. Motion is disabled when the visitor requests reduced motion. The mobile AI assistant link appears in the footer to avoid covering page content.
+The site uses system fonts, project screenshots, and existing photography. The hero keeps the original `AmirinSubstation.jpeg` as its fallback and serves responsive WebP copies where supported. A lightweight canvas visualization overlays that photo with a conceptual rotating transmission-network and AI node system; it is decorative presentation artwork, not a network model or engineering study result. The visualization pauses outside the viewport and becomes static when the visitor requests reduced motion. Content and navigation remain available without JavaScript; galleries then scroll horizontally. The mobile AI assistant link appears in the footer to avoid covering page content.
 
 ## Presentation refinements
 
 - The cream-and-forest-green palette, existing photography, project text, URLs, and downloads are retained. Project descriptions, metadata, filters, and professional credentials have larger text; search inputs use 16px text to avoid mobile focus zoom.
 - The two `work-card--featured` cards (AELab and Grid Atlas) lead the unfiltered collection above 1100px. Supporting cards follow in a four-column row. Filtering restores the regular grid; browsers without CSS `:has()` also retain the regular layout. Keep source order and `hidden` attributes intact.
 - Experience uses a chronological rail, with the first listed role visually emphasized. Dates and roles are unchanged. The introductory column stays visible alongside the timeline on wide screens and returns to normal flow on smaller screens and in print.
-- Navigation switches to its menu at 820px so intermediate tablet widths do not crowd the desktop links. At 380px and below, hero actions stack into full-width buttons.
+- Navigation switches to its menu at 820px so intermediate tablet widths do not crowd the desktop links. At 380px and below, the compact header hides its secondary tagline and hero actions stack into full-width buttons.
 - Project cards respond to keyboard focus as well as pointer hover. Gallery arrows and pagination buttons have 44px hit areas. Arrows share the image's grid row, so long pagination lists cannot move them over the page buttons. Galleries remain manual, with reduced-motion and no-JavaScript behavior preserved.
 
 ## Validation
@@ -58,6 +59,7 @@ Run the local address checks without extra Python dependencies:
 ```sh
 python3 -m unittest discover -s tests -p test_portfolio_site.py -v
 node --check assets/js/portfolio.js
+node --check assets/js/hero-grid-orb.js
 ```
 
 If pytest is available, include the existing download regression:
@@ -78,7 +80,7 @@ PORTFOLIO_PLAYWRIGHT_MODULE=/tmp/portfolio-browser-check/node_modules/playwright
 
 `PORTFOLIO_PLAYWRIGHT_MODULE` can point to another installed Playwright module. Set `PORTFOLIO_BROWSER_EXECUTABLE` to use an existing Chrome/Chromium executable instead of Playwright’s downloaded browser.
 
-The browser test serves local files through intercepted requests and blocks external network requests. It checks filtering/search/reset, keyboard and manual galleries, mobile menu behavior, clipboard failure, dated document snapshots, malformed feed responses, and unsafe document URLs. Review layouts at 1440, 1024, 768, 390, and 320 pixels, including with JavaScript disabled. Browser screenshots and temporary profiles should remain outside Git.
+The browser test serves local files through intercepted requests and blocks external network requests. It checks the restored hero photo, animated and reduced-motion orb states, filtering/search/reset, keyboard and manual galleries, mobile menu behavior, clipboard failure, dated document snapshots, malformed feed responses, and unsafe document URLs. Review layouts at 1440, 1024, 768, 390, and 320 pixels, including with JavaScript disabled. Browser screenshots and temporary profiles should remain outside Git.
 
 ## Content boundaries
 
