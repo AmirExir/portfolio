@@ -8,7 +8,9 @@ const root = path.resolve(__dirname, '..');
 const realFeed = JSON.parse(fs.readFileSync(path.join(root, 'ERCOTAPI/latest_ercot_updates.json'), 'utf8'));
 const sceneTypes = ['field', 'contingency', 'atlas', 'evidence', 'rag', 'learning', 'forecast', 'fault', 'workflow'];
 const cinematicTypes = ['field', 'contingency', 'evidence', 'learning', 'forecast', 'fault'];
+const maximumSceneHeight = type => type === 'field' ? 1000 : cinematicTypes.includes(type) ? 900 : 360;
 const powerLoadLabels = ['Homes', 'Data centers', 'Crypto mining', 'Industrial', 'Commercial'];
+const powerSourceLabels = ['Nuclear', 'Gas', 'Hydro', 'Wind', 'Solar', 'Battery storage'];
 const projectStories = [
   { type: 'contingency', id: 'aelab-story', module: 'contingency-scene.js', renderer: 'ContingencyScene', states: ['base', 'open', 'redistributed'] },
   { type: 'fault', id: 'fault-story', module: 'fault-scene.js', renderer: 'FaultScene', states: ['signals', 'features', 'classified'] },
@@ -58,7 +60,7 @@ async function assertBoundedScenes(page, label) {
   for (let index = 0; index < after.length; index += 1) {
     const box = after[index];
     if (!box.width || !box.height) continue; // A category filter can hide a scene's card.
-    const maximumHeight = cinematicTypes.includes(box.scene) ? 900 : 360;
+    const maximumHeight = maximumSceneHeight(box.scene);
     assert.ok(box.height <= maximumHeight, `${label}: ${box.scene} must remain within its ${maximumHeight}px layout limit`);
     assert.ok(Math.abs(box.height - before[index].height) <= 1, `${label}: canvas painting must not change ${box.scene} layout height`);
     assert.ok(box.canvasWidth <= box.width + 2 && box.canvasHeight <= box.height + 2, `${label}: ${box.scene} canvas must fit its scene`);
@@ -127,6 +129,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   const motionToggle = page.locator('[data-motion-toggle]').first();
   const fieldModes = page.locator('[data-field-mode]');
   const powerLegend = page.locator('[data-power-legend]');
+  const powerSources = page.locator('[data-power-sources]');
   const fieldDescription = page.locator('[data-field-description]');
   assert.equal(await fieldModes.count(), 3, 'The hero should expose its grid, knowledge, and learning modes');
   assert.equal(await page.locator('[data-project-card] .work-image img:visible').count(), 6, 'Selected work should show actual project screenshots');
@@ -142,7 +145,9 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   assert.equal(await powerLegend.isVisible(), true, 'The power journey should identify its conceptual stages');
   const journeyStages = powerLegend.locator('ol > li');
   const stageLabels = (await journeyStages.allTextContents()).map(text => text.replace(/\s+/g, ' ').trim());
-  assert.deepEqual(stageLabels, ['Generator', 'Step-up', 'Transmission', 'Step-down substation', 'Distribution', 'Loads'], 'The power journey must distinguish step-down and distribution before the load stage');
+  assert.deepEqual(stageLabels, ['Generation + storage', 'Step-up', 'Transmission', 'Step-down substation', 'Distribution', 'Loads'], 'The power journey must distinguish storage, step-down and distribution before the load stage');
+  assert.deepEqual((await powerSources.locator('span').allTextContents()).map(text => text.trim()), powerSourceLabels, 'Power mode should name all six illustrated generation and storage technologies');
+  assert.equal(await powerSources.isVisible(), true);
   const powerDescription = await fieldDescription.textContent();
   for (const label of powerLoadLabels) {
     assert.ok(powerDescription.includes(label), `Power mode should identify the ${label.toLowerCase()} load type`);
@@ -174,6 +179,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
     assert.equal(await page.locator('[data-field-mode][aria-pressed="true"]').count(), 1, 'Exactly one hero mode should be selected');
     assert.equal(await heroScene.getAttribute('data-field-state'), mode);
     assert.equal(await powerLegend.isVisible(), false, 'Power-stage labels must be hidden in AI modes');
+    assert.equal(await powerSources.isVisible(), false, 'Generation/storage labels must be hidden in AI modes');
     assert.equal(await page.locator('[data-field-label]').isVisible(), true, 'AI modes should retain their general illustration label');
     assert.notEqual(await fieldDescription.textContent(), powerDescription, 'AI modes must replace the power-load caption with their own description');
     await page.waitForTimeout(150);
@@ -187,6 +193,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   await page.locator('[data-field-mode="grid"]').click();
   assert.equal(await heroScene.getAttribute('data-field-state'), 'grid');
   assert.equal(await powerLegend.isVisible(), true);
+  assert.equal(await powerSources.isVisible(), true);
   assert.equal(await fieldDescription.textContent(), powerDescription, 'Returning to power mode should restore all load labels');
   for (const type of sceneTypes) {
     const scene = page.locator(`.motion-scene[data-scene="${type}"]`).first();
@@ -408,7 +415,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   let reducedPowerJourneyFrame;
   const layoutViewports = [
     { width: 1440, height: 900 }, { width: 1440, height: 800 },
-    ...[1024, 820, 768, 700, 641, 390, 320].map(width => ({ width, height: 900 })),
+    ...[1024, 820, 768, 700, 641, 640, 481, 480, 390, 320].map(width => ({ width, height: 900 })),
   ];
   for (const { width, height } of layoutViewports) {
     const viewportLabel = `${width}×${height}px`;
@@ -458,6 +465,12 @@ async function assertProjectFallback(page, label, projects = projectStories) {
     assert.ok(educationBounds.every(box => box.left >= 0 && box.right <= width + 1 && box.height > 0), `${viewportLabel}: all education entries must remain readable within the viewport`);
     const legendBounds = await powerLegend.boundingBox();
     assert.ok(legendBounds && legendBounds.x >= 0 && legendBounds.x + legendBounds.width <= width + 1, `${viewportLabel}: power journey labels must remain inside the viewport`);
+    const sourceBounds = await powerSources.locator('span').evaluateAll(labels => labels.map(element => {
+      const { left, right, height } = element.getBoundingClientRect();
+      return { left, right, height, clipped: element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1 };
+    }));
+    assert.equal(sourceBounds.length, powerSourceLabels.length);
+    assert.ok(sourceBounds.every(box => box.left >= 0 && box.right <= width + 1 && box.height > 0 && !box.clipped), `${viewportLabel}: all six generation/storage labels must fit without clipping`);
     const descriptionBounds = await fieldDescription.evaluate(description => {
       const { left, right } = description.getBoundingClientRect();
       return { left, right, clipped: description.scrollWidth > description.clientWidth + 1 || description.scrollHeight > description.clientHeight + 1 };
@@ -548,7 +561,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   const retinaPage = await retinaContext.newPage();
   retinaPage.on('pageerror', error => errors.push(error.message));
   await retinaPage.goto('http://portfolio.test/');
-  for (const width of [1280, 390, 320]) {
+  for (const width of [1280, 640, 390, 320]) {
     await retinaPage.setViewportSize({ width, height: 900 });
     for (const type of sceneTypes) await waitForPaint(retinaPage.locator(`.motion-scene[data-scene="${type}"]`).first());
     await assertBoundedScenes(retinaPage, `${width}px 2x`);
@@ -653,6 +666,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   assert.ok(reducedPowerJourneyFrame, 'The normal power journey must be captured before testing its fallback');
   assert.notEqual(fallbackFieldFrame, reducedPowerJourneyFrame, 'The loaded power renderer should replace the original abstract grid field');
   assert.equal(await noJourneyPage.locator('[data-power-legend]').isVisible(), false, 'A fallback field must not advertise absent power-stage objects');
+  assert.equal(await noJourneyPage.locator('[data-power-sources]').isVisible(), false, 'A fallback field must not advertise missing generation or storage artwork');
   assert.equal(await noJourneyPage.locator('[data-field-label]').isVisible(), true);
   assert.notEqual(await noJourneyPage.locator('[data-field-description]').textContent(), powerDescription, 'The fallback should not advertise absent load artwork');
   await noJourneyPage.waitForTimeout(150);
@@ -684,6 +698,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   });
   await failedJourneyPage.waitForFunction(() => document.querySelector('#heroField').classList.contains('is-ready') && document.querySelector('[data-power-legend]').hidden);
   assert.equal(await failedJourneyPage.locator('[data-field-label]').isVisible(), true);
+  assert.equal(await failedJourneyPage.locator('[data-power-sources]').isVisible(), false, 'A failed journey must hide its generation/storage annotations');
   assert.notEqual(await failedJourneyPage.locator('[data-field-description]').textContent(), powerDescription, 'A failed power renderer must also replace its load caption');
   assert.equal(await failedJourneyPage.locator('.field-modes').isVisible(), true, 'An optional renderer failure must preserve working hero controls');
   const recoveredFrame = await frame(recoveringField);
@@ -722,7 +737,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
     }));
     assert.ok(dimensions.documentHeight < 50000, `${width}px: missing motion CSS must not inflate the document`);
     for (const scene of dimensions.scenes) {
-      const maximumHeight = cinematicTypes.includes(scene.type) ? 900 : 360;
+      const maximumHeight = maximumSceneHeight(scene.type);
       assert.ok(scene.height <= maximumHeight, `${width}px: missing motion CSS must leave each scene bounded`);
       assert.ok(scene.width <= 2048 && scene.bitmapHeight <= 2048, `${width}px: canvas allocations must remain bounded without component CSS`);
     }
@@ -747,6 +762,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   assert.equal(await fallbackPage.locator('.motion-scene.is-ready').count(), 0);
   assert.equal(await fallbackPage.locator('.field-modes').isVisible(), false, 'Unavailable canvas controls should not be offered when rendering cannot initialize');
   assert.equal(await fallbackPage.locator('[data-power-legend]').isVisible(), false);
+  assert.equal(await fallbackPage.locator('[data-power-sources]').isVisible(), false);
   await assertProjectFallback(fallbackPage, 'Canvas context failure');
   assert.equal(await fallbackPage.locator('.hero-photo').isVisible(), true, 'Canvas failure must preserve the original portrait');
   assert.equal(await fallbackPage.locator('[data-project-card] .work-image img:visible').count(), 6, 'Canvas failure must preserve project screenshots');
@@ -767,6 +783,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   assert.equal(await staticPage.locator('#navLinks').isVisible(), true);
   assert.equal(await staticPage.locator('.field-modes').isVisible(), false, 'Mode controls should be hidden without their interaction script');
   assert.equal(await staticPage.locator('[data-power-legend]').isVisible(), false);
+  assert.equal(await staticPage.locator('[data-power-sources]').isVisible(), false);
   await assertProjectFallback(staticPage, 'JavaScript disabled');
   assert.equal(await staticPage.locator('#education article.experience-card:visible').count(), 3, 'Education must remain available without JavaScript');
   await staticPage.locator('a[href="#education"]').first().click();
@@ -782,6 +799,6 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   console.log('PASS: responsive layouts 320–1440px; featured/filtered grids; 44px gallery targets; mobile navigation/search; keyboard focus; reduced motion; no-JavaScript fallback.');
   console.log('PASS: nine distinct scene types; keyboard hero and project-stage controls; global pause/resume and reduced motion across all renderers; offscreen/visibility pause; bounded 1x/2x canvas layout, including missing component CSS; context failure and screenshot fallbacks.');
   console.log('PASS: contingency, fault and forecast manual states redraw while paused; Auto and phase labels; 44px responsive project controls; missing project renderers/shared kit preserve content without legacy forecast substitution.');
-  console.log('PASS: restored education content, degree status, native anchors and responsive/no-JavaScript access; power-stage legend; missing/late-failing optional renderer fallback with AI modes preserved and one failure warning.');
+  console.log('PASS: restored education content, degree status, native anchors and responsive/no-JavaScript access; power-stage legend, six source types and five load labels; missing/late-failing optional renderer fallback with AI modes preserved and one failure warning.');
   await browser.close();
 })().catch((error) => { console.error(error); process.exit(1); });

@@ -64,10 +64,13 @@ html:not(.js) .site-header { position: relative; top: 0; height: auto; padding-t
 .hero-downloads { flex-basis: 100%; position: relative; margin-top: 1px; font-size: .65rem; }
 .hero-downloads summary { margin: auto; padding: 9px 12px; color: #aebbb7; }
 .hero-downloads .download-links { position: absolute; left: 50%; transform: translateX(-50%); width: min(400px, 90vw); text-align: left; background: #10191bf5; box-shadow: 0 15px 45px #0008; border-color: #62757666; z-index: 6; }
-.field-console { position: absolute; z-index: 3; left: 50%; transform: translateX(-50%); bottom: 83px; width: min(600px, calc(100% - 40px)); text-align: center; }
+.field-console { position: absolute; z-index: 3; left: 50%; transform: translateX(-50%); bottom: 71px; width: min(600px, calc(100% - 40px)); text-align: center; }
 .field-console-label { margin-bottom: 12px; color: #b9c5c3; font-size: .53rem; letter-spacing: .2em; }
 .field-console-label > span { padding-left: 8px; color: #dab881; }
 .power-legend { margin: 0 0 13px; }
+.power-sources { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px 12px; margin: 0 0 9px; color: #d5c7ac; font-size: .6rem; line-height: 1.6; letter-spacing: .045em; }
+.power-sources > span { white-space: nowrap; }
+.power-sources > span + span::before { content: '·'; color: #77898a; margin-right: 12px; }
 .power-legend ol { list-style: none; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 5px 11px; padding: 0; margin: 0; color: #bdc9c5; font-size: .56rem; font-weight: 400; letter-spacing: .04em; }
 .power-legend li { display: flex; align-items: center; gap: 11px; white-space: nowrap; }
 .power-legend li + li::before { content: '→'; color: #d6b47a; }
@@ -284,7 +287,8 @@ html[data-motion='paused'] .hero h1, html[data-motion='paused'] .hero .eyebrow, 
   .project-window.work-image, .selected-grid:not(:has([hidden])) .work-card--featured .project-window.work-image { height: 230px; }
 }
 @media (max-width: 640px) {
-  .hero { height: 880px; min-height: 880px; }
+  .hero { height: 980px; min-height: 980px; }
+  .hero-field { max-height: 980px; }
   .hero-inner { padding-top: 124px; }
   .hero .eyebrow { font-size: .48rem; gap: 7px; letter-spacing: .12em; }
   .eyebrow-divider { padding-inline: 0; }
@@ -296,6 +300,8 @@ html[data-motion='paused'] .hero h1, html[data-motion='paused'] .hero .eyebrow, 
   .hero-downloads { font-size: .61rem; }
   .field-console { bottom: 89px; width: calc(100% - 26px); }
   .power-legend { margin-bottom: 12px; }
+  .power-sources { gap: 3px 7px; font-size: .55rem; letter-spacing: .01em; }
+  .power-sources > span + span::before { margin-right: 7px; }
   .power-legend ol { font-size: .54rem; gap: 4px 7px; letter-spacing: 0; }
   .power-legend li { gap: 7px; }
   .field-modes { gap: 0; padding: 4px; }

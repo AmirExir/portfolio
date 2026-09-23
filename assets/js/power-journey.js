@@ -25,6 +25,9 @@
       this.rotors = [];
       this.lights = [];
       this.flux = [];
+      this.wind = [];
+      this.water = [];
+      this.storage = [];
     }
 
     add(kind, points, color, alpha = 1, width = 0.65, order = 0) {
@@ -52,9 +55,9 @@
       this.line([point(x1, y1, z0), point(x1, y, z0), b], COLORS.ice, 0.28 * opacity, 0.6, 0.002);
     }
 
-    route(points, phase, start, duration, color = COLORS.gold, width = 0.65) {
+    route(points, phase, start, duration, color = COLORS.gold, width = 0.65, options = {}) {
       this.line(points, color, 0.48, width, 0.02);
-      this.routes.push({ points, phase, start, duration, color });
+      this.routes.push({ points, phase, start, duration, color, ...options });
     }
 
     finish() { this.items.sort((a, b) => a.depth - b.depth); return this; }
@@ -114,6 +117,153 @@
     g.line([point(-1.1, 0.33, 1.03), point(-1.1, 0.57, 1.03), point(1.2, 0.57, 1.03), point(1.2, 0.33, 1.03)], COLORS.ice, 0.46, 0.65);
     for (let i = 0; i < 5; i += 1) g.line([point(-0.97 + i * 0.48, 0.33, 1.03), point(-0.97 + i * 0.48, 0.57, 1.03)], COLORS.ivory, 0.35, 0.5);
     return outputs;
+  }
+
+  // Source equipment is artwork, not a shared-voltage study model. Each plant
+  // terminates at its own AC interface before joining three isolated collector
+  // conductors. Solar and storage retain their separate DC/converter interfaces.
+  function verticalShell(g, x, z, profile, color = COLORS.ivory) {
+    const segments = 32;
+    for (let side = 0; side < segments; side += 1) {
+      const a = side / segments * TAU, b = (side + 1) / segments * TAU;
+      const strip = profile.map(([y, r]) => point(x + Math.cos(a) * r, y, z + Math.sin(a) * r));
+      const other = profile.slice().reverse().map(([y, r]) => point(x + Math.cos(b) * r, y, z + Math.sin(b) * r));
+      g.face([...strip, ...other], `rgba(149,172,170,${0.09 + Math.max(0, Math.sin(a)) * 0.2})`);
+      if (side % 2 === 0) g.line(strip, color, Math.sin(a) > 0 ? 0.53 : 0.24, 0.6);
+    }
+    for (const [y, r] of profile) g.circle(x, y, z, r, 'xz', color, 0.35, 0.6);
+  }
+
+  function plantInterface(g, x, z, color = COLORS.ice) {
+    g.box(x, 0.02, z, 0.58, 0.36, 0.55, 'dark');
+    const terminals = [];
+    for (let phase = 0; phase < 3; phase += 1) terminals.push(g.insulator(x - 0.18 + phase * 0.18, 0.39, z + 0.03, 0.22, 0.045));
+    g.line([point(x - 0.23, 0.27, z + 0.281), point(x + 0.23, 0.27, z + 0.281)], color, 0.6, 0.65);
+    return terminals;
+  }
+
+  function nuclearPlant(g) {
+    g.box(0, 0, 0.02, 3.16, 0.07, 1.88, 'dark');
+    // Hyperboloid cooling tower; the contained reactor is the separate domed
+    // structure. Neither cooling-tower water nor steam is drawn as a conductor.
+    verticalShell(g, -0.78, -0.25, [[0.1, 0.59], [0.38, 0.52], [0.95, 0.35], [1.51, 0.31], [2.16, 0.42]], COLORS.ivory);
+    g.circle(-0.78, 2.16, -0.25, 0.35, 'xz', COLORS.ice, 0.7, 1.0);
+    for (let i = 0; i < 12; i += 1) {
+      const a = i / 12 * TAU;
+      g.line([point(-0.78 + Math.cos(a) * 0.48, 0.1, -0.25 + Math.sin(a) * 0.48), point(-0.78 + Math.cos(a) * 0.55, 0, -0.25 + Math.sin(a) * 0.55)], COLORS.ivory, 0.5, 0.65);
+    }
+    const dome = [[0.06, 0.48], [0.92, 0.48]];
+    for (let i = 1; i <= 8; i += 1) { const a = i / 8 * Math.PI / 2; dome.push([0.92 + Math.sin(a) * 0.46, Math.cos(a) * 0.48]); }
+    verticalShell(g, 0.69, -0.39, dome, COLORS.ice);
+    g.box(0.2, 0.06, 0.55, 1.28, 0.57, 0.7, 'steel');
+    for (let i = 0; i < 7; i += 1) g.line([point(-0.35 + i * 0.18, 0.12, 0.907), point(-0.35 + i * 0.18, 0.58, 0.907)], COLORS.ice, 0.45, 0.7);
+    g.line([point(-0.52, 0.32, 0.2), point(0.57, 0.32, 0.2)], COLORS.ivory, 0.5, 1.2);
+    return plantInterface(g, 1.17, 0.51);
+  }
+
+  function gasPlant(g) {
+    const outputs = generator(g);
+    verticalShell(g, -0.82, -0.65, [[1.44, 0.18], [2.44, 0.16], [2.54, 0.2]], COLORS.ivory);
+    g.line([point(-0.68, 1.31, -0.26), point(-0.68, 1.77, -0.26), point(-0.82, 1.77, -0.65)], COLORS.ice, 0.57, 0.85);
+    g.box(0.61, 1.49, -0.52, 0.63, 0.32, 0.55, 'dark');
+    for (let i = 0; i < 5; i += 1) g.line([point(0.33, 1.55 + i * 0.046, -0.239), point(0.89, 1.55 + i * 0.046, -0.239)], COLORS.ivory, 0.48, 0.65);
+    return outputs;
+  }
+
+  function hydroDam(g) {
+    const front = [], crest = [], rear = [];
+    const curve = x => 0.04 + 0.38 * (1 - x * x / 1.69);
+    for (let i = 0; i <= 24; i += 1) {
+      const x = -1.3 + i / 24 * 2.6, z = curve(x);
+      front.push(point(x, 0.08, z + 0.4)); crest.push(point(x, 1.34, z)); rear.push(point(x, 1.34, z - 0.17));
+    }
+    g.face([...front, ...crest.slice().reverse()], 'rgba(125,147,148,.35)');
+    g.face([...crest, ...rear.slice().reverse()], 'rgba(202,212,199,.24)');
+    g.line(crest, COLORS.ivory, 0.88, 1.0);g.line(rear, COLORS.ice, 0.48, 0.6);g.line(front, COLORS.ice, 0.55, 0.7);
+    // Reservoir and tailwater lie on opposite sides of the curved spillway.
+    g.face([point(-1.25, 1.19, -0.8), point(1.25, 1.19, -0.8), ...rear.slice().reverse().map(p => point(p[0], 1.19, p[2]))], 'rgba(86,151,169,.13)');
+    for (let i = 0; i < 9; i += 1) {
+      const x = -1.2 + i * 0.3, z = curve(x);
+      g.line([point(x, 0.09, z + 0.39), point(x, 1.32, z)], COLORS.ivory, 0.42, 0.65);
+      g.line([point(x, 1.34, z), point(x, 1.51, z)], COLORS.ivory, 0.42, 0.5);
+    }
+    g.line(crest.map(p => point(p[0], p[1] + 0.17, p[2])), COLORS.ivory, 0.52, 0.6);
+    for (let spill = 0; spill < 3; spill += 1) {
+      const x = -0.64 + spill * 0.62;
+      g.g.water.push({ group: g, x, z: curve(x) });
+      g.line([point(x - 0.16, 1.25, curve(x)), point(x + 0.16, 1.25, curve(x))], COLORS.ice, 0.8, 1.8);
+    }
+    g.box(0.45, 0.02, 1.05, 1.52, 0.39, 0.52, 'steel');
+    for (let i = 0; i < 8; i += 1) g.line([point(-0.22 + i * 0.18, 0.08, 1.319), point(-0.22 + i * 0.18, 0.36, 1.319)], COLORS.ice, 0.55, 0.6);
+    return plantInterface(g, 1.18, 0.63);
+  }
+
+  function windFarm(g) {
+    for (const [x, z, scale] of [[-0.72, -0.27, 0.84], [0.7, -0.65, 0.68], [0.09, 0.52, 1]]) {
+      const height = 2.46 * scale;
+      g.box(x, 0.02, z, 0.3, 0.09, 0.3, 'dark');
+      g.face([point(x - 0.075 * scale, 0.1, z), point(x + 0.075 * scale, 0.1, z), point(x + 0.031 * scale, height, z), point(x - 0.031 * scale, height, z)], 'rgba(196,213,207,.48)');
+      g.line([point(x - 0.075 * scale, 0.1, z), point(x - 0.031 * scale, height, z)], COLORS.ivory, 0.85, 0.85);
+      g.box(x, height - 0.1 * scale, z - 0.03, 0.17 * scale, 0.18 * scale, 0.36 * scale, 'steel');
+      g.g.wind.push({ group: g, x, y: height, z: z + 0.2 * scale, radius: 0.91 * scale, offset: x * 1.7 });
+    }
+    return plantInterface(g, 1.02, 0.74, COLORS.ice);
+  }
+
+  function converter(g, x, z) {
+    g.box(x, 0.04, z, 0.49, 0.69, 0.46, 'steel');
+    for (let i = 0; i < 5; i += 1) g.line([point(x - 0.16, 0.13 + i * 0.062, z + 0.234), point(x + 0.16, 0.13 + i * 0.062, z + 0.234)], COLORS.ice, 0.64, 0.6);
+    const sine = [];
+    for (let i = 0; i <= 18; i += 1) sine.push(point(x - 0.14 + i / 18 * 0.28, 0.58 + Math.sin(i / 18 * TAU) * 0.05, z + 0.235));
+    g.line(sine, COLORS.gold, 0.82, 0.8);
+    const ac = [];
+    for (let phase = 0; phase < 3; phase += 1) ac.push(g.insulator(x - 0.15 + phase * 0.15, 0.75, z, 0.18, 0.034));
+    return { ac, dc: [g.p(x - 0.17, 0.24, z - 0.234), g.p(x + 0.17, 0.24, z - 0.234)] };
+  }
+
+  function solarFarm(g) {
+    for (let row = 0; row < 2; row += 1) {
+      for (let column = 0; column < 3; column += 1) {
+        const x = -1.16 + column * 0.79, z = -0.64 + row * 0.81;
+        const panel = [point(x, 0.23, z + 0.62), point(x + 0.72, 0.23, z + 0.62), point(x + 0.72, 0.69, z), point(x, 0.69, z)];
+        g.face(panel, 'rgba(71,129,148,.27)');g.line([...panel, panel[0]], COLORS.ice, 0.88, 0.8);
+        for (let cell = 1; cell < 4; cell += 1) g.line([point(x + cell * 0.18, 0.23, z + 0.62), point(x + cell * 0.18, 0.69, z)], COLORS.ivory, 0.39, 0.5);
+        for (let cell = 1; cell < 3; cell += 1) g.line([point(x, 0.23 + cell / 3 * 0.46, z + 0.62 - cell / 3 * 0.62), point(x + 0.72, 0.23 + cell / 3 * 0.46, z + 0.62 - cell / 3 * 0.62)], COLORS.ice, 0.55, 0.5);
+        g.line([point(x + 0.1, 0, z + 0.1), point(x + 0.1, 0.59, z + 0.1)], COLORS.ivory, 0.48, 0.7);
+      }
+    }
+    const interfaceUnit = converter(g, 1.57, 0.41);
+    for (let pole = 0; pole < 2; pole += 1) {
+      const start = g.p(0.37 + pole * 0.15, 0.15, 0.99);
+      g.g.route([start, g.p(1.19 + pole * 0.08, 0.12, 0.99), interfaceUnit.dc[pole]], pole, -0.2, 0.075, COLORS.ice, 0.5);
+    }
+    return interfaceUnit.ac;
+  }
+
+  function batteryStorage(g) {
+    g.box(-0.13, 0.02, 0.02, 2.09, 0.1, 1.11, 'dark');
+    for (let cabinet = 0; cabinet < 3; cabinet += 1) {
+      const x = -0.82 + cabinet * 0.62;
+      g.box(x, 0.14, 0, 0.55, 0.91, 0.79, 'steel');
+      for (let vent = 0; vent < 5; vent += 1) g.line([point(x - 0.19, 0.27 + vent * 0.047, 0.401), point(x + 0.19, 0.27 + vent * 0.047, 0.401)], COLORS.ivory, 0.56, 0.6);
+      g.line([point(x - 0.17, 0.64, 0.403), point(x + 0.17, 0.64, 0.403), point(x + 0.17, 0.86, 0.403), point(x - 0.17, 0.86, 0.403), point(x - 0.17, 0.64, 0.403)], COLORS.ice, 0.58, 0.65);
+      g.g.storage.push({ group: g, x, y: 0.675, z: 0.409 });
+    }
+    const interfaceUnit = converter(g, 1.2, 0.21);
+    for (let pole = 0; pole < 2; pole += 1) {
+      const start = g.p(0.65, 0.23 + pole * 0.09, -0.18);
+      g.g.route([start, g.p(0.84 + pole * 0.08, 0.16, -0.18), interfaceUnit.dc[pole]], pole, -0.21, 0.075, COLORS.ice, 0.55, { storage: true });
+    }
+    return interfaceUnit.ac;
+  }
+
+  function storageState(time) {
+    const safeTime = Number.isFinite(time) ? Math.max(0, time) : 0;
+    const cycle = safeTime % 18.4;
+    if (cycle < 8.2) return { mode: 'discharge', direction: 1, level: lerp(0.85, 0.25, cycle / 8.2) };
+    if (cycle < 9.2) return { mode: 'idle', direction: 0, level: 0.25 };
+    if (cycle < 17.4) return { mode: 'charge', direction: -1, level: lerp(0.25, 0.85, (cycle - 9.2) / 8.2) };
+    return { mode: 'idle', direction: 0, level: 0.85 };
   }
 
   function transformer(g, stepDown = false) {
@@ -346,23 +496,44 @@
     for (let phase = 0; phase < 3; phase += 1) geometry.route(sag(from[phase], to[phase], amount), phase, start, duration, color);
   }
 
-  function build(mobile) {
+  function build(mobile, narrowPhone = false) {
     const geometry = new Geometry();
     const layout = mobile ? {
-      generation: [-4.25, -2.12, 0.65], stepUp: [-2.04, -2.1, 0.66],
-      towers: [[-0.1, -2.0, 0.74], [1.75, -1.9, 0.74], [3.5, -1.8, 0.74]],
+      nuclear: [-1.38, -7.6, 0.82], wind: [2.85, -7.3, 0.83], hydro: [6.88, -7.4, 0.88],
+      gas: [-2.82, -4.15, 0.73], solar: [1.2, -4.2, 0.81], battery: [5.18, -4.1, 0.81],
+      collector: [-3.82, -1.67, 0.52], stepUp: [-3.44, -0.8, 0.66],
+      towers: [[-1.48, -1.1, 0.63], [0.6, -1.02, 0.63], [2.66, -0.8, 0.63]],
       yard: [3.89, 1.06, 0.54], receiving: [1.98, 1.13, 0.62], distribution: [1.13, 0.56, 0.62],
       data: [-3.7, 0.33, 0.76], crypto: [-1.13, 0.2, 0.73], industrial: [-4.25, 2.32, 0.66], commercial: [-2.44, 2.28, 0.62],
       houses: [[-0.61, 2.12, 0.7], [0.39, 2.18, 0.66]],
     } : {
-      generation: [-11.02, 0.28, 1.04], stepUp: [-7.55, 0.02, 1.02],
-      towers: [[-4.45, -0.22, 1], [-1.17, -0.36, 1.08], [2.03, -0.2, 1]],
+      nuclear: [-11.28, -5.9, 0.9], wind: [-7.85, -4.5, 0.98], hydro: [-12.7, 0.2, 0.9],
+      gas: [-8.68, -0.55, 0.91], solar: [-11.74, 1.73, 0.89], battery: [-7.85, 2.0, 0.92],
+      collector: [-6.37, 0.16, 0.62], stepUp: [-5.45, 0.01, 0.95],
+      towers: [[-3.15, -0.22, 1], [-0.32, -0.36, 1.08], [2.4, -0.2, 1]],
       yard: [4.95, 0.0, 0.93], receiving: [6.52, 0.1, 0.95], distribution: [7.98, 0.22, 0.92],
       data: [10.55, -1.69, 1.02], crypto: [9.13, -3.02, 0.92], industrial: [13.13, -2.58, 0.91], commercial: [12.88, -0.1, 0.83],
       houses: [[9.0, 1.49, 0.91], [10.46, 1.98, 0.88], [11.92, 1.42, 0.94]],
     };
+    // Narrow phones have additional space above the source district. Recede
+    // only that district into the landscape, keeping the PV faces clear of
+    // transmission conductors. Wider mobile layouts retain their copy clearance.
+    if (narrowPhone) {
+      for (const source of ['nuclear', 'gas', 'hydro', 'wind', 'solar', 'battery']) {
+        layout[source][0] += 2.8 * 0.43;
+        layout[source][1] -= 2.8;
+      }
+    }
     const make = values => new Group(geometry, ...values);
-    const generation = generator(make(layout.generation));
+    const sources = [
+      { outputs: nuclearPlant(make(layout.nuclear)), color: COLORS.ivory },
+      { outputs: gasPlant(make(layout.gas)), color: COLORS.ice },
+      { outputs: hydroDam(make(layout.hydro)), color: COLORS.ice },
+      { outputs: windFarm(make(layout.wind)), color: COLORS.ivory },
+      { outputs: solarFarm(make(layout.solar)), color: COLORS.ice },
+      { outputs: batteryStorage(make(layout.battery)), color: COLORS.ice, storage: true },
+    ];
+    const generation = plantInterface(make(layout.collector), 0, 0);
     const stepUp = transformer(make(layout.stepUp));
     const towers = layout.towers.map((position, index) => tower(make(position), index === 1 ? 3.68 : 3.52));
     const yard = receivingYard(make(layout.yard));
@@ -375,6 +546,18 @@
       { terminal: commercialBuilding(make(layout.commercial)), color: COLORS.ivory },
     ];
     const homes = layout.houses.map((position, index) => house(make(position), 0.94 + index * 0.038));
+
+    // Every source enters the collector upstream of the step-up transformer.
+    // The three low-profile cable paths have distinct coordinates throughout;
+    // DC panels and battery cells never directly touch these AC phase buses.
+    for (const source of sources) {
+      for (let phase = 0; phase < 3; phase += 1) {
+        const start = source.outputs[phase], end = generation[phase];
+        const lane = 0.12 + phase * 0.055;
+        geometry.route([start, point(start[0] + 0.14 + phase * 0.038, lane, start[2] + 0.18),
+          point(end[0] - 0.18 - phase * 0.038, lane, end[2] - 0.17), end], phase, -0.125, 0.14, source.color, 0.47, { storage: Boolean(source.storage) });
+      }
+    }
 
     connectThree(geometry, generation, stepUp.low, 0.015, 0.11, mobile ? 0.045 : 0.16, COLORS.ice);
     connectThree(geometry, stepUp.high, towers[0], 0.2, 0.095, mobile ? 0.075 : 0.2);
@@ -446,12 +629,18 @@
 
   function drawRoutes(ctx, geometry, view, time) {
     ctx.globalCompositeOperation = 'lighter';
+    const battery = storageState(time);
     for (const route of geometry.routes) {
+      const direction = route.storage ? battery.direction : 1;
+      if (direction === 0) continue;
       for (let train = 0; train < 3; train += 1) {
-      const clock = ((time / 9.2 - route.start - route.phase * 0.018 + train / 3) % 1 + 1) % 1;
+      // Mirror the entire storage interval, not only each path. Charging must
+      // enter at the AC collector before continuing through converter to DC.
+      const start = direction === -1 ? -0.195 - (route.start + route.duration) : route.start;
+      const clock = ((time / 9.2 - start - route.phase * 0.018 + train / 3) % 1 + 1) % 1;
       if (clock > route.duration) continue;
       const progress = clock / route.duration;
-      const scaled = progress * (route.points.length - 1);
+      const scaled = (direction === 1 ? progress : 1 - progress) * (route.points.length - 1);
       const index = Math.min(route.points.length - 2, Math.floor(scaled));
       const part = scaled - index;
       const a = route.points[index], b = route.points[index + 1];
@@ -461,7 +650,7 @@
       glow(ctx, temp[0], temp[1], view.mobile ? 1.5 : 1.9, route.color, fade * 0.92);
       // A short luminous trailing section makes direction legible at a glance.
       const tailLength = Math.min(1.4, (route.points.length - 1) * 0.05);
-      const previous = Math.max(0, scaled - tailLength);
+      const previous = clamp(scaled - direction * tailLength, 0, route.points.length - 1);
       const pi = Math.min(route.points.length - 2, Math.floor(previous));
       const pa = route.points[pi], pb = route.points[pi + 1], pf = previous - pi;
       projection(point(lerp(pa[0], pb[0], pf), lerp(pa[1], pb[1], pf), lerp(pa[2], pb[2], pf)), view, temp2);
@@ -474,6 +663,60 @@
   }
 
   function drawDetails(ctx, geometry, view, time) {
+    for (const rotor of geometry.wind) {
+      const g = rotor.group;
+      for (let blade = 0; blade < 3; blade += 1) {
+        const angle = blade / 3 * TAU + time * 0.48 + rotor.offset;
+        const shape = [[0.08, -0.037], [0.39, -0.095], [1, -0.021], [0.94, 0.025], [0.25, 0.045]];
+        ctx.beginPath();
+        shape.forEach(([length, width], index) => {
+          const x = rotor.x + (Math.cos(angle) * length - Math.sin(angle) * width) * rotor.radius;
+          const y = rotor.y + (Math.sin(angle) * length + Math.cos(angle) * width) * rotor.radius;
+          projection(g.p(x, y, rotor.z), view, temp);
+          if (index === 0) ctx.moveTo(temp[0], temp[1]); else ctx.lineTo(temp[0], temp[1]);
+        });
+        ctx.closePath();ctx.fillStyle = COLORS.ivory;ctx.globalAlpha = 0.58;ctx.fill();
+        ctx.strokeStyle = COLORS.ivory;ctx.lineWidth = 0.65;ctx.globalAlpha = 0.88;ctx.stroke();
+      }
+      projection(g.p(rotor.x, rotor.y, rotor.z), view, temp);
+      glow(ctx, temp[0], temp[1], view.mobile ? 1.15 : 1.6, COLORS.ice, 0.8);
+    }
+    for (const water of geometry.water) {
+      const g = water.group;
+      for (let stream = 0; stream < 5; stream += 1) {
+        ctx.beginPath();
+        for (let step = 0; step <= 16; step += 1) {
+          const progress = step / 16;
+          const x = water.x + (stream - 2) * 0.067 + Math.sin(progress * 9 + time * 1.4 + stream) * 0.013;
+          projection(g.p(x, lerp(1.22, 0.06, progress), water.z + progress * 0.41), view, temp);
+          if (step === 0) ctx.moveTo(temp[0], temp[1]); else ctx.lineTo(temp[0], temp[1]);
+        }
+        ctx.strokeStyle = COLORS.ice;ctx.lineWidth = 0.75;ctx.globalAlpha = 0.36 + Math.sin(time * 1.5 + stream) * 0.1;ctx.stroke();
+        const flow = ((time * 0.44 + stream * 0.19) % 1 + 1) % 1;
+        projection(g.p(water.x + (stream - 2) * 0.067, lerp(1.22, 0.06, flow), water.z + flow * 0.41), view, temp);
+        ctx.globalAlpha = Math.sin(flow * Math.PI) * 0.65;ctx.fillStyle = COLORS.ice;ctx.fillRect(temp[0], temp[1], 0.85, 1.7);
+      }
+      for (let ripple = 0; ripple < 3; ripple += 1) {
+        const progress = ((time * 0.23 + ripple / 3) % 1 + 1) % 1;
+        ctx.beginPath();
+        for (let step = 0; step <= 18; step += 1) {
+          const angle = step / 18 * Math.PI;
+          projection(g.p(water.x + Math.cos(angle) * progress * 0.38, 0.045, water.z + 0.43 + Math.sin(angle) * progress * 0.2), view, temp);
+          if (step === 0) ctx.moveTo(temp[0], temp[1]); else ctx.lineTo(temp[0], temp[1]);
+        }
+        ctx.strokeStyle = COLORS.ice;ctx.globalAlpha = (1 - progress) * 0.32;ctx.lineWidth = 0.6;ctx.stroke();
+      }
+    }
+    const battery = storageState(time);
+    for (const cabinet of geometry.storage) {
+      for (let bar = 0; bar < 4; bar += 1) {
+        const x = cabinet.x - 0.125 + bar * 0.066;
+        const corners = [cabinet.group.p(x, cabinet.y, cabinet.z), cabinet.group.p(x + 0.047, cabinet.y, cabinet.z), cabinet.group.p(x + 0.047, cabinet.y + 0.15, cabinet.z), cabinet.group.p(x, cabinet.y + 0.15, cabinet.z)];
+        path(ctx, corners, view, lightBuffer);ctx.closePath();
+        ctx.fillStyle = battery.direction === -1 ? COLORS.gold : COLORS.ice;
+        ctx.globalAlpha = 0.12 + clamp(battery.level * 4 - bar, 0, 1) * 0.76;ctx.fill();
+      }
+    }
     for (const rotor of geometry.rotors) {
       const g = rotor.group;
       for (let blade = 0; blade < 14; blade += 1) {
@@ -607,13 +850,14 @@
     const py = Number.isFinite(pointerY) ? clamp(pointerY, -1, 1) : 0;
     const view = {
       mobile, cx: width * 0.5,
-      ground: height * (mobile ? 0.735 : 0.742) - (mobile ? clamp((640 - width) / 16, 0, 20) : 0),
-      scale: mobile ? Math.min(width / 12.7, height * 0.038) : Math.min(width / 28.7, height * 0.05),
+      ground: height * (mobile ? 0.727 : 0.742) - (mobile ? clamp((640 - width) / 16, 0, 20) : 0),
+      scale: mobile ? Math.min(width / 12.7, height * 0.038) : Math.min(width / 31.6, height * 0.05),
       depthX: 0.43 + px * 0.055,
-      depthY: 0.29 + py * 0.025,
+      depthY: (mobile ? 0.36 : 0.29) + py * 0.025,
     };
-    if (!models.has(mobile)) models.set(mobile, build(mobile));
-    const geometry = models.get(mobile);
+    const modelKey = mobile ? (width <= 480 ? 'phone' : 'mobile') : 'desktop';
+    if (!models.has(modelKey)) models.set(modelKey, build(mobile, modelKey === 'phone'));
+    const geometry = models.get(modelKey);
     ctx.save();
     try {
       ctx.clearRect(0, 0, width, height);

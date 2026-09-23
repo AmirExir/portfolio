@@ -99,7 +99,9 @@
     // Canvas bitmap dimensions must never determine the element's layout height.
     // This also bounds the display if a stale or missing stylesheet is delivered.
     const hostHeight = scene.host.clientHeight;
-    const maximumHeight = scene.cinematic ? 900 : 360;
+    // The small-screen generation district uses a deeper, vertically folded
+    // composition. Other cinematic and project scenes retain their own bounds.
+    const maximumHeight = scene.type === 'field' ? 1000 : scene.cinematic ? 900 : 360;
     if (hostHeight < 80 || hostHeight > maximumHeight) scene.host.style.height = scene.cinematic ? '580px' : '210px';
     const width = Math.min(2048, scene.host.clientWidth);
     const height = Math.min(maximumHeight, scene.host.clientHeight);
