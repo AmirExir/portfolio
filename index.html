@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>html { background: #080c0e; color-scheme: dark; }</style>
   <link rel="canonical" href="https://amirexirpe.com/" />
   <title>Amir Exir, P.E. | Power Systems &amp; AI Engineer</title>
   <meta name="description" content="Amir Exir, P.E., power systems and AI engineer. Explore engineering automation, AI knowledge systems, machine learning, forecasting, and interactive analytics." />
   <meta name="author" content="Amir Exir" />
-  <meta name="theme-color" content="#174f46" />
+  <meta name="theme-color" content="#080b0c" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Amir Exir, P.E. | Power Systems &amp; AI Engineer" />
   <meta property="og:description" content="Power systems and AI engineering: engineering automation, retrieval-augmented knowledge systems, machine learning models, and analytics platforms." />
@@ -50,11 +51,14 @@
   </script>
 
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="assets/css/portfolio.css?v=engineering-scenes-1" />
-  <link rel="stylesheet" href="assets/css/portfolio-motion.css?v=engineering-scenes-1" />
-  <script src="assets/js/portfolio.js?v=engineering-scenes-1" defer></script>
-  <script src="assets/js/engineering-scenes.js?v=engineering-scenes-1" defer></script>
-  <script src="assets/js/portfolio-motion.js?v=engineering-scenes-1" defer></script>
+  <link rel="preload" href="assets/fonts/InstrumentSerif-Italic.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="stylesheet" href="assets/css/portfolio.css?v=signal-field-2" />
+  <link rel="stylesheet" href="assets/css/portfolio-motion.css?v=signal-field-2" />
+  <link rel="stylesheet" href="assets/css/portfolio-cinematic.css?v=signal-field-2" />
+  <script src="assets/js/portfolio.js?v=signal-field-2" defer></script>
+  <script src="assets/js/engineering-scenes.js?v=signal-field-2" defer></script>
+  <script src="assets/js/cinematic-fields.js?v=signal-field-2" defer></script>
+  <script src="assets/js/portfolio-motion.js?v=signal-field-2" defer></script>
 </head>
 
 <body>
@@ -81,14 +85,16 @@
 
   <main id="main">
     <section class="hero" id="top" aria-labelledby="heroTitle">
+      <div class="motion-scene cinematic-scene hero-field" id="heroField" data-scene="field" data-field-state="grid" aria-hidden="true"><canvas width="1440" height="850"></canvas><div class="field-static" aria-hidden="true"></div></div>
+      <div class="hero-coordinate" aria-hidden="true"><span>01 / THE INTERSECTION</span><span>POWER SYSTEMS × MACHINE INTELLIGENCE</span></div>
       <div class="hero-inner">
         <div class="hero-content">
-          <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> POWER SYSTEMS × AI ENGINEERING</p>
-          <h1 id="heroTitle">Power systems.<br><em>AI engineering.</em></h1>
-          <p class="hero-lede">I’m Amir Exir, P.E., a power systems and AI engineer. I combine transmission and grid-operations experience with graduate AI training to build reliable knowledge systems, machine learning applications, analytics platforms, and engineering automation.</p>
+          <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> AMIR EXIR, P.E. <span class="eyebrow-divider">/</span> POWER SYSTEMS &amp; AI</p>
+          <h1 id="heroTitle">Power meets<br><em>intelligence.</em></h1>
+          <p class="hero-lede">From the networks that power our world<br class="desktop-break"> to the intelligence that helps us understand them.</p>
           <div class="hero-actions">
-            <a class="btn" href="#projects">Explore my work <span aria-hidden="true">↗</span></a>
-            <a class="btn secondary" href="#contact">Get in touch <span aria-hidden="true">→</span></a>
+            <a class="btn" href="#projects">Explore the work <span aria-hidden="true">↗</span></a>
+            <a class="btn secondary" href="#field-notes">Meet the engineer <span aria-hidden="true">↓</span></a>
             <details class="hero-downloads">
               <summary>Résumés &amp; downloads <span aria-hidden="true">↓</span></summary>
               <div class="download-links">
@@ -99,26 +105,18 @@
               </div>
             </details>
           </div>
-          <div class="hero-credentials"><span>Licensed P.E.</span><span>NERC Certified</span><span>UT Austin MSAI · Graduating</span></div>
         </div>
-        <figure class="hero-visual">
-          <picture class="hero-picture">
-            <source type="image/webp" srcset="assets/images/amir-substation-720.webp 720w, assets/images/amir-substation-1152.webp 1152w" sizes="(max-width: 640px) calc(100vw - 50px), (max-width: 700px) 470px, (max-width: 1100px) 43vw, 520px" />
-            <img class="hero-photo" src="AmirinSubstation.jpeg" alt="Amir Exir in protective equipment at an electrical substation" width="1152" height="1536" fetchpriority="high" />
-          </picture>
-          <div class="photo-label"><span class="status-dot" aria-hidden="true"></span> IN THE FIELD</div>
-          <figcaption class="hero-caption">
-            <span class="caption-icon" aria-hidden="true">↗</span>
-            <div><strong>Power systems + AI engineering.</strong><span>Engineering judgment. Practical AI systems.</span></div>
-          </figcaption>
-        </figure>
       </div>
-      <div class="hero-system-strip">
-        <div class="system-strip-copy"><span class="scene-eyebrow">THE INTERSECTION</span><p>Physical systems.<br><em>Intelligent software.</em></p><span>From the grid to the models that help us understand it.</span></div>
-        <div class="motion-scene hero-scene" data-scene="grid" aria-hidden="true"><canvas width="600" height="210"></canvas><span class="scene-fallback-symbol">↗</span></div>
-        <div class="system-strip-index"><a href="#engineering-suite"><span>01</span> Study &amp; simulate <span>↗</span></a><a href="#ai-rag"><span>02</span> Retrieve &amp; reason <span>↗</span></a><a href="#ml-projects"><span>03</span> Learn &amp; predict <span>↗</span></a></div>
+      <div class="field-console">
+        <p class="field-console-label">EXPLORE THE INTERSECTION <span aria-hidden="true">↘</span></p>
+        <div class="field-modes" role="group" aria-label="Choose the signal field illustration" hidden>
+          <button type="button" data-field-mode="grid" aria-controls="heroField" aria-pressed="true"><span>01</span> Power systems</button>
+          <button type="button" data-field-mode="knowledge" aria-controls="heroField" aria-pressed="false"><span>02</span> Knowledge systems</button>
+          <button type="button" data-field-mode="learning" aria-controls="heroField" aria-pressed="false"><span>03</span> Machine learning</button>
+        </div>
+        <p class="field-description" data-field-description aria-live="polite">A study in connection, energy, and flow.</p>
       </div>
-      <div class="hero-bottom"><span>Austin, Texas <span aria-hidden="true">·</span> Energy &amp; utilities</span><button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false" hidden><span aria-hidden="true">Ⅱ</span> <span data-motion-label>Pause animations</span></button><a href="#projects">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a></div>
+      <div class="hero-bottom"><span>AUSTIN, TEXAS <span aria-hidden="true">/</span> ENGINEERING WITH PURPOSE</span><button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false" hidden><span aria-hidden="true">Ⅱ</span> <span data-motion-label>Pause animations</span></button><a href="#field-notes">ENTER THE PORTFOLIO <span aria-hidden="true">↓</span></a></div>
     </section>
 
     <section class="proof-strip" aria-label="Areas of expertise">
@@ -131,10 +129,26 @@
     </section>
 
 
-    <section class="section-band selected-work" id="projects" aria-labelledby="projectsTitle">
+    <section class="field-notes section-band" id="field-notes" aria-labelledby="fieldTitle">
+      <div class="section-inner">
+        <div class="section-heading field-heading"><div><p class="section-kicker">THE ENGINEER BEHIND THE WORK</p><h2 id="fieldTitle">Grounded in the field.<br><em>Driven by possibility.</em></h2></div><p>I’m Amir Exir, P.E. I connect transmission planning and grid-operations experience with software engineering and graduate AI training.</p></div>
+        <div class="field-story">
+          <img class="field-landscape" src="assets/images/grid-horizon-concept.jpg" width="1942" height="809" alt="" loading="lazy" decoding="async" />
+          <div class="field-story-copy"><span class="section-kicker">PHYSICAL SYSTEMS. INTELLIGENT SOFTWARE.</span><h3>Two disciplines.<br><em>One perspective.</em></h3><p>Engineering judgment shapes the question.<br>Software and AI expand what we can build.</p><a class="text-link" href="#summary">My background <span aria-hidden="true">↗</span></a></div>
+          <figure class="hero-visual field-portrait">
+            <picture class="hero-picture"><source type="image/webp" srcset="assets/images/amir-substation-720.webp 720w, assets/images/amir-substation-1152.webp 1152w" sizes="(max-width: 640px) 240px, 300px" /><img class="hero-photo" src="AmirinSubstation.jpeg" alt="Amir Exir in protective equipment at an electrical substation" width="1152" height="1536" loading="lazy" /></picture>
+            <figcaption><span>IN THE FIELD</span><strong>Amir Exir, P.E.</strong><span>Original photograph · Electrical substation</span></figcaption>
+          </figure>
+          <span class="landscape-caption">CONCEPTUAL GRID LANDSCAPE · AI-GENERATED ARTWORK</span>
+        </div>
+        <div class="field-credentials"><span><strong>P.E.</strong> Licensed Professional Engineer</span><span><strong>NERC</strong> Certified System Operator</span><span><strong>UT Austin</strong> MSAI · Graduating</span></div>
+      </div>
+    </section>
+
+    <section class="section-band selected-work light-evidence" id="projects" aria-labelledby="projectsTitle">
       <div class="section-inner">
         <div class="section-heading work-heading">
-          <div><p class="section-kicker">SELECTED WORK / 01</p><h2 id="projectsTitle">Complex systems.<br><em>Useful solutions.</em></h2></div>
+          <div><p class="section-kicker">SELECTED WORK / THE BUILD LOG</p><h2 id="projectsTitle">Ideas, made<br><em>into instruments.</em></h2></div>
           <p>Explore engineering tools, AI knowledge agents, predictive models, and interactive dashboards—from power system studies to document research and market analytics.</p>
         </div>
         <div class="project-toolbar" data-project-tools hidden>
@@ -153,27 +167,27 @@
         <div class="project-results" data-project-tools hidden><p id="searchStatus" role="status">Showing all selected projects.</p><span id="projectCount">6 projects</span></div>
         <div class="selected-grid" id="projectResults">
           <article class="work-card work-card--featured" data-project-card data-category="engineering">
-            <a class="work-image motion-scene" data-scene="grid" href="#engineering-suite" tabindex="-1" aria-hidden="true"><img class="scene-fallback" src="aelabpro_accc.jpg" alt="" loading="lazy" decoding="async" width="640" height="400" /><canvas width="600" height="270"></canvas><span class="scene-topline"><span>01 / POWER SYSTEMS</span><span class="scene-spark">✳</span></span><span class="scene-footnote">MODEL → STUDY → REVIEW</span><span class="work-image-arrow">↗</span></a>
+            <a class="work-image project-window" href="#engineering-suite" tabindex="-1" aria-hidden="true"><span class="window-bar"><span class="window-lights"><i></i><i></i><i></i></span><span>AELab · Contingency study workspace</span><span>↗</span></span><img src="aelabpro_accc.jpg" alt="" loading="lazy" decoding="async" width="640" height="400" /><span class="work-image-arrow">↗</span></a>
             <div class="work-body"><p class="work-kind">ENGINEERING TOOLKIT</p><h3><a href="#engineering-suite">AELab analysis suite</a></h3><p>Run contingency studies, review dynamic simulation results, and prepare reports with Python tools for PSS/E and TARA PowerGEM.</p><span class="work-stack">Python · PSS/E · TARA</span><a class="work-link" href="#engineering-suite">Explore the toolkit <span aria-hidden="true">↗</span></a></div>
           </article>
           <article class="work-card work-card--featured" data-project-card data-category="engineering data">
-            <a class="work-image motion-scene" data-scene="atlas" href="#grid-atlas" tabindex="-1" aria-hidden="true"><img class="scene-fallback" src="GridAtlas.png" alt="" loading="lazy" decoding="async" width="640" height="400" /><canvas width="600" height="270"></canvas><span class="scene-topline"><span>02 / GRID GEOGRAPHY</span><span class="scene-spark">⌖</span></span><span class="scene-footnote">INFRASTRUCTURE, IN CONTEXT</span><span class="work-image-arrow">↗</span></a>
+            <a class="work-image project-window" href="#grid-atlas" tabindex="-1" aria-hidden="true"><span class="window-bar"><span class="window-lights"><i></i><i></i><i></i></span><span>Grid Atlas · Infrastructure explorer</span><span>↗</span></span><img src="GridAtlas.png" alt="" loading="lazy" decoding="async" width="640" height="400" /><span class="work-image-arrow">↗</span></a>
             <div class="work-body"><p class="work-kind">INTERACTIVE EXPLORATION</p><h3><a href="#grid-atlas">Grid Atlas</a></h3><p>Locate transmission lines, substations, and generating facilities using public infrastructure data for U.S. grid regions and Canada.</p><span class="work-stack">Geospatial · Public grid data</span><a class="work-link" href="#grid-atlas">Explore the map <span aria-hidden="true">↗</span></a></div>
           </article>
           <article class="work-card" data-project-card data-category="ai">
-            <a class="work-image motion-scene" data-scene="rag" href="#ai-rag" tabindex="-1" aria-hidden="true"><img class="scene-fallback" src="background.png" alt="" loading="lazy" decoding="async" width="640" height="400" /><canvas width="360" height="215"></canvas><span class="scene-topline"><span>03 / KNOWLEDGE</span><span class="scene-spark">≡</span></span><span class="scene-footnote">SOURCES → CONTEXT → ANSWERS</span><span class="work-image-arrow">↗</span></a>
+            <a class="work-image project-window" href="#ai-rag" tabindex="-1" aria-hidden="true"><span class="window-bar"><span class="window-lights"><i></i><i></i><i></i></span><span>ERCOT knowledge · Document research</span><span>↗</span></span><img src="ERCOT%20DOC1.png" alt="" loading="lazy" decoding="async" width="1240" height="758" /><span class="work-image-arrow">↗</span></a>
             <div class="work-body"><p class="work-kind">KNOWLEDGE &amp; RETRIEVAL</p><h3><a href="#ai-rag">ERCOT knowledge agents</a></h3><p>Research ERCOT planning, interconnection, and operating requirements with AI-assisted document search and source citations.</p><span class="work-stack">RAG · Retrieval · Python</span><a class="work-link" href="#ai-rag">Explore technical assistants <span aria-hidden="true">↗</span></a></div>
           </article>
           <article class="work-card" data-project-card data-category="data">
-            <a class="work-image motion-scene" data-scene="forecast" href="#ercot-dashboard" tabindex="-1" aria-hidden="true"><img class="scene-fallback" src="ERCOT_Dashboard.png" alt="" loading="lazy" decoding="async" width="640" height="400" /><canvas width="360" height="215"></canvas><span class="scene-topline"><span>04 / FORECASTING</span><span class="scene-spark">∿</span></span><span class="scene-footnote">PATTERNS OVER TIME</span><span class="work-image-arrow">↗</span></a>
+            <a class="work-image project-window" href="#ercot-dashboard" tabindex="-1" aria-hidden="true"><span class="window-bar"><span class="window-lights"><i></i><i></i><i></i></span><span>ERCOT intelligence · Forecasting &amp; analytics</span><span>↗</span></span><img src="ERCOT_Dashboard.png" alt="" loading="lazy" decoding="async" width="640" height="400" /><span class="work-image-arrow">↗</span></a>
             <div class="work-body"><p class="work-kind">GRID ANALYTICS</p><h3><a href="#ercot-dashboard">ERCOT intelligence dashboard</a></h3><p>Load forecasting, renewable generation, market pricing, and outage views in one interactive dashboard.</p><span class="work-stack">ERCOT API · Forecasting · Streamlit</span><a class="work-link" href="#ercot-dashboard">View the dashboard <span aria-hidden="true">↗</span></a></div>
           </article>
           <article class="work-card" data-project-card data-category="ai data">
-            <a class="work-image motion-scene" data-scene="neural" href="#gnn-predictor" tabindex="-1" aria-hidden="true"><img class="scene-fallback" src="GNN_Graph_Visualizer.png" alt="" loading="lazy" decoding="async" width="640" height="400" /><canvas width="360" height="215"></canvas><span class="scene-topline"><span>05 / GRAPH LEARNING</span><span class="scene-spark">⋈</span></span><span class="scene-footnote">CONNECTIONS BECOME FEATURES</span><span class="work-image-arrow">↗</span></a>
+            <a class="work-image project-window" href="#gnn-predictor" tabindex="-1" aria-hidden="true"><span class="window-bar"><span class="window-lights"><i></i><i></i><i></i></span><span>Graph learning · Power grid predictor</span><span>↗</span></span><img src="GNN_Graph_Visualizer.png" alt="" loading="lazy" decoding="async" width="640" height="400" /><span class="work-image-arrow">↗</span></a>
             <div class="work-body"><p class="work-kind">APPLIED MACHINE LEARNING</p><h3><a href="#gnn-predictor">Power grid GNN predictor</a></h3><p>Explore graph neural networks for voltage and thermal alarm prediction in simulated grid scenarios.</p><span class="work-stack">PyTorch Geometric · GNN · Pandapower</span><a class="work-link" href="#gnn-predictor">Explore the model <span aria-hidden="true">↗</span></a></div>
           </article>
           <article class="work-card" data-project-card data-category="ai data">
-            <a class="work-image motion-scene" data-scene="workflow" href="#market-agent" tabindex="-1" aria-hidden="true"><img class="scene-fallback" src="Market_Intelligence_Agent.jpg" alt="" loading="lazy" decoding="async" width="640" height="400" /><canvas width="360" height="215"></canvas><span class="scene-topline"><span>06 / AUTOMATION</span><span class="scene-spark">⤴</span></span><span class="scene-footnote">DATA → MODELS → DELIVERY</span><span class="work-image-arrow">↗</span></a>
+            <a class="work-image project-window" href="#market-agent" tabindex="-1" aria-hidden="true"><span class="window-bar"><span class="window-lights"><i></i><i></i><i></i></span><span>Market intelligence · Workflow orchestration</span><span>↗</span></span><img src="Market_Intelligence_Agent.jpg" alt="" loading="lazy" decoding="async" width="640" height="400" /><span class="work-image-arrow">↗</span></a>
             <div class="work-body"><p class="work-kind">AUTOMATION CASE STUDY</p><h3><a href="#market-agent">Market intelligence agent</a></h3><p>An experimental workflow connecting market data, model evaluation, Telegram delivery, and paper trading.</p><span class="work-stack">n8n · Machine learning · Automation</span><a class="work-link" href="#market-agent">See the workflow <span aria-hidden="true">↗</span></a></div>
           </article>
         </div>
@@ -399,7 +413,7 @@
       </div>
     </section>
 
-    <section class="section-band alt" id="engineering-suite">
+    <section class="section-band light-evidence" id="engineering-suite">
       <div class="section-inner">
         <div class="section-heading">
           <div>
@@ -535,6 +549,12 @@
           <p>Retrieval-augmented AI assistants for technical document research. Search ERCOT procedures and PSS/E API references, retrieve relevant passages, and review answers alongside source citations.</p>
         </div>
 
+        <div class="cinematic-chapter knowledge-chapter">
+          <div class="motion-scene cinematic-scene" data-scene="evidence" aria-hidden="true"><canvas width="1240" height="460"></canvas><div class="field-static"></div></div>
+          <div class="cinematic-copy"><span class="section-kicker">KNOWLEDGE, WITH A SOURCE</span><h3>From information<br><em>to understanding.</em></h3><p>Retrieve the passage. Preserve the context.<br>Make the evidence visible.</p><a class="text-link" href="https://amirexir-por-chatbot-ercot-all-in-oneercot-assistant-app-ahgre0.streamlit.app/" target="_blank" rel="noopener noreferrer">Explore the ERCOT assistant <span aria-hidden="true">↗</span></a></div>
+          <div class="cinematic-legend" aria-hidden="true"><span>01 / SOURCE</span><span>02 / CONTEXT</span><span>03 / CITATION</span></div>
+          <span class="art-caption">CONCEPTUAL RETRIEVAL FIELD</span>
+        </div>
         <div class="project-grid">
           <article class="project-card featured">
             <div class="motion-scene retrieval-scene" data-scene="rag" aria-hidden="true"><img class="scene-fallback" src="background.png" alt="" loading="lazy" decoding="async" /><canvas width="640" height="280"></canvas><span class="scene-topline"><span>FROM DOCUMENTS TO GROUNDED ANSWERS</span><span class="scene-spark">≡</span></span><span class="scene-footnote">RETRIEVE → GROUND → CITE</span></div>
@@ -636,9 +656,11 @@
           <p>Explore forecasting, classification, graph neural networks, and language-model fine-tuning. Applications include power grid analysis, energy demand forecasting, medical question answering, and interview preparation.</p>
         </div>
 
-        <div class="motion-chapter">
-          <div class="chapter-copy"><span class="scene-eyebrow">05 / LEARNING FROM CONNECTIONS</span><h3>The structure matters<br>as much as the signal.</h3><p>Graph learning connects local features with the wider network.</p><div class="chapter-flow"><span>Features</span><span>Messages</span><span>Predictions</span></div></div>
-          <div class="motion-scene chapter-scene" data-scene="neural" aria-hidden="true"><canvas width="640" height="250"></canvas><span class="scene-fallback-symbol">⋈</span><span class="scene-footnote">CONCEPTUAL MESSAGE PASSING</span></div>
+        <div class="cinematic-chapter learning-chapter">
+          <div class="motion-scene cinematic-scene" data-scene="learning" aria-hidden="true"><canvas width="1240" height="460"></canvas><div class="field-static"></div></div>
+          <div class="cinematic-copy"><span class="section-kicker">LEARNING FROM CONNECTIONS</span><h3>Every connection<br><em>holds a signal.</em></h3><p>Local features. Network structure.<br>Models that learn from both.</p><a class="text-link" href="#gnn-predictor">Explore graph learning <span aria-hidden="true">↗</span></a></div>
+          <div class="cinematic-legend" aria-hidden="true"><span>FEATURES</span><span>MESSAGES</span><span>PREDICTIONS</span></div>
+          <span class="art-caption">CONCEPTUAL NEURAL FIELD · NOT STUDY DATA</span>
         </div>
         <div class="project-grid">
           <article class="project-card featured">

@@ -2,8 +2,9 @@
 (() => {
   'use strict';
 
-  const renderer = window.EngineeringScenes;
-  if (!renderer || typeof renderer.draw !== 'function') return;
+  const renderers = [window.CinematicFields, window.EngineeringScenes]
+    .filter((renderer) => renderer && typeof renderer.draw === 'function');
+  if (!renderers.length) return;
   const media = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const root = document.documentElement;
@@ -19,18 +20,20 @@
 
   const motionAllowed = () => !paused && !media.matches && !document.hidden;
 
-  function draw(scene) {
+  function draw(scene, immediateMode = false) {
     if (!scene.width || !scene.height || scene.failed) return;
     try {
-      renderer.draw(scene.context, {
+      scene.renderer.draw(scene.context, {
         type: scene.type, width: scene.width, height: scene.height,
-        time: scene.time, pointerX: scene.pointerX, pointerY: scene.pointerY,
+        time: immediateMode ? 0 : scene.time, pointerX: scene.pointerX, pointerY: scene.pointerY,
+        mode: scene.host.dataset.fieldState || 'grid',
       });
       scene.host.classList.add('is-ready');
     } catch (error) {
       // Restore the original project image if decorative rendering is unavailable.
       scene.failed = true;
       scene.host.classList.remove('is-ready');
+      if (scene.type === 'field') document.querySelector('.field-modes')?.setAttribute('hidden', '');
       console.warn(`Engineering illustration unavailable: ${scene.type}`, error);
     }
   }
@@ -40,11 +43,12 @@
     // Canvas bitmap dimensions must never determine the element's layout height.
     // This also bounds the display if a stale or missing stylesheet is delivered.
     const hostHeight = scene.host.clientHeight;
-    if (hostHeight < 80 || hostHeight > 360) scene.host.style.height = '210px';
-    const width = Math.min(1600, scene.host.clientWidth);
-    const height = Math.min(360, scene.host.clientHeight);
+    const maximumHeight = scene.cinematic ? 900 : 360;
+    if (hostHeight < 80 || hostHeight > maximumHeight) scene.host.style.height = scene.cinematic ? '580px' : '210px';
+    const width = Math.min(2048, scene.host.clientWidth);
+    const height = Math.min(maximumHeight, scene.host.clientHeight);
     if (!width || !height) return;
-    const density = Math.min(window.devicePixelRatio || 1, 2, maximumBuffer / width, maximumBuffer / height);
+    const density = Math.min(window.devicePixelRatio || 1, scene.cinematic && width > 820 ? 1.5 : 2, maximumBuffer / width, maximumBuffer / height);
     const bufferWidth = Math.max(1, Math.round(width * density));
     const bufferHeight = Math.max(1, Math.round(height * density));
     if (scene.canvas.width === bufferWidth && scene.canvas.height === bufferHeight && scene.width === width && scene.height === height) return;
@@ -109,17 +113,19 @@
 
   document.querySelectorAll('.motion-scene[data-scene]').forEach((host, index) => {
     const canvas = host.querySelector('canvas');
-    if (!canvas || !renderer.types.includes(host.dataset.scene)) return;
+    const renderer = renderers.find((candidate) => candidate.types.includes(host.dataset.scene));
+    if (!canvas || !renderer) return;
     const context = canvas.getContext('2d');
     if (!context) return;
     // Defensive inline geometry breaks the old DPR/ResizeObserver feedback loop
     // even when the component stylesheet is unavailable or cached out of date.
-    host.style.position = 'relative';
+    const cinematic = host.classList.contains('cinematic-scene');
+    host.style.position = cinematic ? 'absolute' : 'relative';
     host.style.display = 'block';
     host.style.overflow = 'hidden';
     canvas.style.cssText = 'position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none;';
     const scene = {
-      host, canvas, context, type: host.dataset.scene, visible: !intersection,
+      host, canvas, context, renderer, cinematic, type: host.dataset.scene, visible: !intersection,
       width: 0, height: 0, time: 2.3 + index * .23,
       pointerX: 0, pointerY: 0, targetX: 0, targetY: 0, failed: false,
     };
@@ -127,14 +133,39 @@
     resize(scene);
     if (intersection) intersection.observe(host);
     if (resizeObserver) resizeObserver.observe(host);
-    host.addEventListener('pointermove', (event) => {
+    const pointerArea = cinematic ? host.parentElement : host;
+    pointerArea.addEventListener('pointermove', (event) => {
       if (!motionAllowed() || !finePointer.matches || event.pointerType === 'touch') return;
       const bounds = host.getBoundingClientRect();
       scene.targetX = Math.max(-1, Math.min(1, (event.clientX - bounds.left) / bounds.width * 2 - 1));
       scene.targetY = Math.max(-1, Math.min(1, (event.clientY - bounds.top) / bounds.height * 2 - 1));
     }, { passive: true });
-    host.addEventListener('pointerleave', () => { scene.targetX = 0; scene.targetY = 0; });
+    pointerArea.addEventListener('pointerleave', () => { scene.targetX = 0; scene.targetY = 0; });
   });
+
+  // Mode controls alter decorative art only, not study data or project results.
+  const heroScene = scenes.find((scene) => scene.type === 'field' && !scene.failed);
+  const modes = document.querySelector('.field-modes');
+  if (heroScene && modes) {
+    const descriptions = {
+      grid: 'A study in connection, energy, and flow.',
+      knowledge: 'Many sources. Connected context. Traceable answers.',
+      learning: 'Patterns emerge where connections meet.',
+    };
+    const buttons = Array.from(modes.querySelectorAll('[data-field-mode]'));
+    modes.hidden = false;
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      const mode = button.dataset.fieldMode;
+      if (!Object.hasOwn(descriptions, mode)) return;
+      heroScene.host.dataset.fieldState = mode;
+      buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      const description = document.querySelector('[data-field-description]');
+      if (description) description.textContent = descriptions[mode];
+      // A deliberate user selection renders a still even if automatic motion is off.
+      draw(heroScene, !motionAllowed());
+      start();
+    }));
+  }
 
   function updatePreference() {
     stop();

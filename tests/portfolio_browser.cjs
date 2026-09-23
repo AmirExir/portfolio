@@ -6,7 +6,8 @@ const { chromium } = require(process.env.PORTFOLIO_PLAYWRIGHT_MODULE || 'playwri
 
 const root = path.resolve(__dirname, '..');
 const realFeed = JSON.parse(fs.readFileSync(path.join(root, 'ERCOTAPI/latest_ercot_updates.json'), 'utf8'));
-const sceneTypes = ['grid', 'atlas', 'rag', 'neural', 'forecast', 'workflow'];
+const sceneTypes = ['field', 'grid', 'atlas', 'evidence', 'rag', 'learning', 'workflow'];
+const cinematicTypes = ['field', 'evidence', 'learning'];
 
 async function waitForPaint(scene) {
   await scene.scrollIntoViewIfNeeded();
@@ -51,7 +52,8 @@ async function assertBoundedScenes(page, label) {
   for (let index = 0; index < after.length; index += 1) {
     const box = after[index];
     if (!box.width || !box.height) continue; // A category filter can hide a scene's card.
-    assert.ok(box.height <= 640, `${label}: ${box.scene} must not consume an unbounded vertical column`);
+    const maximumHeight = cinematicTypes.includes(box.scene) ? 900 : 360;
+    assert.ok(box.height <= maximumHeight, `${label}: ${box.scene} must remain within its ${maximumHeight}px layout limit`);
     assert.ok(Math.abs(box.height - before[index].height) <= 1, `${label}: canvas painting must not change ${box.scene} layout height`);
     assert.ok(box.canvasWidth <= box.width + 2 && box.canvasHeight <= box.height + 2, `${label}: ${box.scene} canvas must fit its scene`);
     if (!box.ready) continue; // Offscreen scenes may defer their initial allocation.
@@ -65,7 +67,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   await context.route('**/*', (route) => {
     const url = new URL(route.request().url());
     if (url.hostname !== 'portfolio.test') return route.abort();
-    if (omitMotionStyles && url.pathname.endsWith('/portfolio-motion.css')) return route.abort();
+    if (omitMotionStyles && ['/portfolio-motion.css', '/portfolio-cinematic.css'].some(file => url.pathname.endsWith(file))) return route.abort();
     const file = path.join(root, decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname));
     return fs.existsSync(file) ? route.fulfill({ path: file }) : route.fulfill({ status: 404, body: '' });
   });
@@ -98,9 +100,12 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   await page.goto('http://portfolio.test/');
   await page.waitForFunction(() => document.querySelector('#ercotUpdatesList').getAttribute('aria-busy') === 'false');
   assert.equal(await page.locator('.hero-photo').getAttribute('src'), 'AmirinSubstation.jpeg');
-  const heroScene = page.locator('.hero-scene');
+  const heroScene = page.locator('.hero .motion-scene[data-scene="field"]');
   const motionToggle = page.locator('[data-motion-toggle]').first();
-  assert.ok(await page.locator('.motion-scene').count() >= 10, 'Motion should be distributed across the portfolio');
+  const fieldModes = page.locator('[data-field-mode]');
+  assert.equal(await fieldModes.count(), 3, 'The hero should expose its grid, knowledge, and learning modes');
+  assert.equal(await page.locator('[data-project-card] .work-image img:visible').count(), 6, 'Selected work should show actual project screenshots');
+  assert.ok(await page.locator('[data-project-card] .work-image img').evaluateAll(images => images.every(image => Number(getComputedStyle(image).opacity) > 0)), 'Project screenshots must remain visibly painted when scripts run');
   const sceneFrames = [];
   for (const type of sceneTypes) {
     const scene = page.locator(`.motion-scene[data-scene="${type}"]`).first();
@@ -125,6 +130,32 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   const manuallyPausedFrame = await frame(heroScene);
   await page.waitForTimeout(250);
   assert.equal(await frame(heroScene), manuallyPausedFrame, 'The global pause button should stop animation');
+  const modeFrames = [manuallyPausedFrame];
+  for (const [mode, key] of [['knowledge', 'Enter'], ['learning', 'Space']]) {
+    const button = page.locator(`[data-field-mode="${mode}"]`);
+    assert.equal(await button.getAttribute('aria-controls'), 'heroField');
+    await button.focus();
+    await page.keyboard.press(key);
+    assert.equal(await button.getAttribute('aria-pressed'), 'true');
+    assert.equal(await page.locator('[data-field-mode][aria-pressed="true"]').count(), 1, 'Exactly one hero mode should be selected');
+    assert.equal(await heroScene.getAttribute('data-field-state'), mode);
+    await page.waitForTimeout(150);
+    const selectedFrame = await frame(heroScene);
+    assert.notEqual(selectedFrame, modeFrames.at(-1), 'Selecting a mode should redraw even while automatic motion is paused');
+    await page.waitForTimeout(150);
+    assert.equal(await frame(heroScene), selectedFrame, 'Mode selection must not resume paused animation');
+    modeFrames.push(selectedFrame);
+  }
+  assert.equal(new Set(modeFrames).size, 3, 'Grid, knowledge, and learning must produce distinct hero views');
+  await page.locator('[data-field-mode="grid"]').click();
+  assert.equal(await heroScene.getAttribute('data-field-state'), 'grid');
+  for (const type of sceneTypes) {
+    const scene = page.locator(`.motion-scene[data-scene="${type}"]`).first();
+    await waitForPaint(scene);
+    const pausedFrame = await frame(scene);
+    await page.waitForTimeout(150);
+    assert.equal(await frame(scene), pausedFrame, `Global pause must apply to the ${type} renderer`);
+  }
   await motionToggle.click();
   assert.equal(await motionToggle.getAttribute('aria-pressed'), 'false');
   assert.match(await motionToggle.textContent(), /Pause animations/i);
@@ -164,7 +195,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
 
   const visibleCards = () => page.locator('[data-project-card]:not([hidden])').count();
   assert.equal(await visibleCards(), 6);
-  const originalCardSceneHeights = await page.locator('[data-project-card] .motion-scene').evaluateAll(scenes => scenes.map(scene => scene.clientHeight));
+  const originalCardMediaHeights = await page.locator('[data-project-card] .work-image').evaluateAll(images => images.map(image => image.clientHeight));
   assert.equal(await page.locator('[data-project-tools][hidden]').count(), 0);
   await page.locator('[data-project-filter="engineering"]').click();
   assert.equal(await visibleCards(), 2);
@@ -182,9 +213,9 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   await page.locator('#searchInput').fill('');
   await page.waitForTimeout(150);
   assert.deepEqual(
-    await page.locator('[data-project-card] .motion-scene').evaluateAll(scenes => scenes.map(scene => scene.clientHeight)),
-    originalCardSceneHeights,
-    'Filtering and restoring hidden cards must preserve their original scene heights',
+    await page.locator('[data-project-card] .work-image').evaluateAll(images => images.map(image => image.clientHeight)),
+    originalCardMediaHeights,
+    'Filtering and restoring hidden cards must preserve their project-image layout',
   );
   const scrollPositions = await page.evaluate(() => {
     window.scrollTo(0, 1000);
@@ -280,6 +311,13 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
         await frame(heroScene), staticFrame,
         'Reduced motion should retain a static painted scene',
       );
+      for (const type of sceneTypes) {
+        const scene = page.locator(`.motion-scene[data-scene="${type}"]`).first();
+        await waitForPaint(scene);
+        const reducedFrame = await frame(scene);
+        await page.waitForTimeout(150);
+        assert.equal(await frame(scene), reducedFrame, `Reduced motion must apply to the ${type} renderer`);
+      }
     }
     await assertBoundedScenes(page, `${width}px 1x`);
     const bounds = await page.locator('[data-project-card]').evaluateAll(cards => cards.map(card => {
@@ -304,6 +342,11 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
       }
     }
     assert.equal(await page.locator('#menuToggle').isVisible(), width <= 820);
+    for (const mode of ['grid', 'knowledge', 'learning']) {
+      const target = await page.locator(`[data-field-mode="${mode}"]`).boundingBox();
+      assert.ok(target.height >= 44 && target.width >= 44, `${width}px: the ${mode} mode needs a 44px hit area`);
+      assert.ok(target.x >= 0 && target.x + target.width <= width + 1, `${width}px: hero mode controls must remain inside the viewport`);
+    }
     if (width <= 820) {
       await page.locator('#menuToggle').click();
       assert.equal(await page.locator('#navLinks').isVisible(), true);
@@ -332,7 +375,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
       }
     }
     if (width <= 820) {
-      assert.ok(await page.locator('#searchInput').evaluate(input => parseFloat(getComputedStyle(input).fontSize) >= 16), 'Mobile search should not trigger iOS text zoom');
+      assert.ok(await page.locator('#searchInput').evaluate(input => parseFloat(getComputedStyle(input).fontSize) >= 16), `${width}px: mobile search should not trigger iOS text zoom`);
     }
   }
   const keyboardLink = page.locator('.work-card h3 a').first();
@@ -370,16 +413,45 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
       documentHeight: document.documentElement.scrollHeight,
       scenes: scenes.map(scene => {
         const canvas = scene.querySelector('canvas');
-        return { height: scene.getBoundingClientRect().height, width: canvas.width, bitmapHeight: canvas.height };
+        return { type: scene.dataset.scene, height: scene.getBoundingClientRect().height, width: canvas.width, bitmapHeight: canvas.height };
       }),
     }));
     assert.ok(dimensions.documentHeight < 50000, `${width}px: missing motion CSS must not inflate the document`);
     for (const scene of dimensions.scenes) {
-      assert.ok(scene.height <= 360, `${width}px: missing motion CSS must leave each scene bounded`);
+      const maximumHeight = cinematicTypes.includes(scene.type) ? 900 : 360;
+      assert.ok(scene.height <= maximumHeight, `${width}px: missing motion CSS must leave each scene bounded`);
       assert.ok(scene.width <= 2048 && scene.bitmapHeight <= 2048, `${width}px: canvas allocations must remain bounded without component CSS`);
     }
   }
   await missingCssContext.close();
+
+  // Decorative rendering can be unavailable (for example, resource pressure
+  // prevents a 2D context). The portfolio must still be readable and navigable.
+  const noCanvasContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  await serveLocalFiles(noCanvasContext);
+  await noCanvasContext.addInitScript(() => {
+    const getContext = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function (type, ...args) {
+      if (type === '2d' && this.closest('.motion-scene')) return null;
+      return getContext.call(this, type, ...args);
+    };
+  });
+  const fallbackPage = await noCanvasContext.newPage();
+  fallbackPage.on('pageerror', error => errors.push(error.message));
+  await fallbackPage.goto('http://portfolio.test/');
+  await fallbackPage.waitForFunction(() => document.querySelector('#ercotUpdatesList').getAttribute('aria-busy') === 'false');
+  assert.equal(await fallbackPage.locator('.motion-scene.is-ready').count(), 0);
+  assert.equal(await fallbackPage.locator('.field-modes').isVisible(), false, 'Unavailable canvas controls should not be offered when rendering cannot initialize');
+  assert.equal(await fallbackPage.locator('.hero-photo').isVisible(), true, 'Canvas failure must preserve the original portrait');
+  assert.equal(await fallbackPage.locator('[data-project-card] .work-image img:visible').count(), 6, 'Canvas failure must preserve project screenshots');
+  assert.ok(await fallbackPage.locator('[data-project-card] .work-image img').evaluateAll(images => images.every(image => Number(getComputedStyle(image).opacity) > 0)), 'Project screenshots must remain visibly painted without canvas contexts');
+  await fallbackPage.locator('#menuToggle').click();
+  assert.equal(await fallbackPage.locator('#navLinks').isVisible(), true, 'Navigation must work if rendering cannot initialize');
+  await fallbackPage.keyboard.press('Escape');
+  await fallbackPage.locator('[data-project-filter="engineering"]').click();
+  assert.equal(await fallbackPage.locator('[data-project-card]:not([hidden])').count(), 2, 'Project filtering must work independently of decorative rendering');
+  assert.equal(await fallbackPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+  await noCanvasContext.close();
 
   // Use a separate context because JavaScript is a context-level setting.
   const noJsContext = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
@@ -387,6 +459,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   const staticPage = await noJsContext.newPage();
   await staticPage.goto('http://portfolio.test/');
   assert.equal(await staticPage.locator('#navLinks').isVisible(), true);
+  assert.equal(await staticPage.locator('.field-modes').isVisible(), false, 'Mode controls should be hidden without their interaction script');
   assert.equal(await staticPage.locator('[data-project-card]:visible').count(), 6);
   assert.equal(await staticPage.locator('.hero-photo').isVisible(), true, 'The original portrait must remain visible without scripts');
   assert.equal(await staticPage.locator('[data-project-card] .work-image img:visible').count(), 6, 'Project screenshots must remain available when animation cannot initialize');
@@ -396,6 +469,6 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   assert.equal(errors.length, 0, errors.join('\n'));
   console.log('PASS: project search/category/reset/no-scroll; carousel controls, keyboard, inert slides and no autoplay; navigation; clipboard fallback; feed date/status/shape/error/URL safety.');
   console.log('PASS: responsive layouts 320–1440px; featured/filtered grids; 44px gallery targets; mobile navigation/search; keyboard focus; reduced motion; no-JavaScript fallback.');
-  console.log('PASS: six distinct animated scenes; global pause/resume; offscreen/visibility pause; bounded 1x/2x canvas layout, including missing component CSS; reduced motion and screenshot fallbacks.');
+  console.log('PASS: seven distinct scene types; keyboard hero modes; global pause/resume and reduced motion across both renderers; offscreen/visibility pause; bounded 1x/2x canvas layout, including missing component CSS; context failure and screenshot fallbacks.');
   await browser.close();
 })().catch((error) => { console.error(error); process.exit(1); });

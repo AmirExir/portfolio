@@ -1,59 +1,24 @@
-/* Bounded engineering illustrations. Geometry is decorative; project evidence stays in the galleries. */
-:root { --scene-ink: #deeadb; --scene-muted: #9eb6ac; --scene-accent: #d4eaa6; --scene-bg: #0b2325; }
-
-.hero-inner { padding-top: 54px; padding-bottom: 42px; }
-.hero-visual { padding-left: 0; margin-right: 0; padding-bottom: 0; }
-.hero-visual::before { inset: 26px -15px -16px 30px; border-radius: 120px 12px 12px 12px; }
-.hero-photo { height: 475px; border-top-left-radius: 120px; }
-.hero-caption { bottom: 18px; left: -22px; right: 28px; padding: 17px 21px; box-shadow: 0 12px 30px #081e2420; }
-.hero-system-strip { display: grid; grid-template-columns: 1fr 1.45fr .85fr; align-items: center; width: min(calc(100% - 96px), var(--max)); min-height: 200px; margin-inline: auto; border: 1px solid #254443; border-radius: 12px; overflow: hidden; color: var(--scene-ink); background: linear-gradient(115deg, #102e2d, #081f25 80%); }
-.system-strip-copy { padding: 25px 0 25px 30px; position: relative; z-index: 1; }
-.scene-eyebrow { display: block; color: var(--scene-accent); font-size: .61rem; font-weight: 500; letter-spacing: .14em; line-height: 1.5; }
-.system-strip-copy p { margin: 13px 0 9px; font-size: clamp(1.13rem, 1.55vw, 1.5rem); line-height: 1.24; letter-spacing: -.025em; }
-.system-strip-copy p em { color: #d4e5c1; font-family: var(--serif); font-weight: 400; }
-.system-strip-copy > span:last-child { display: block; max-width: 240px; color: var(--scene-muted); font-size: .7rem; line-height: 1.65; }
-.system-strip-index { padding: 20px 26px 20px 0; }
-.system-strip-index a { display: flex; align-items: center; gap: 12px; min-height: 42px; border-bottom: 1px solid #d3e5ca26; color: var(--scene-ink); font-size: .69rem; }
-.system-strip-index a:last-child { border-bottom: 0; }
-.system-strip-index a > span:first-child { font-size: .59rem; color: #91a994; font-variant-numeric: tabular-nums; }
-.system-strip-index a > span:last-child { margin-left: auto; color: var(--scene-accent); }
-.hero-bottom { gap: 15px; padding-block: 13px 22px; }
+/* Bounded miniature scenes. Large cinematic compositions live in portfolio-cinematic.css. */
+:root { --scene-ink: #e8eddc; --scene-muted: #a5bcaa; --scene-accent: #d9dc9b; }
 .motion-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 6px 12px; background: transparent; border: 1px solid transparent; border-radius: 5px; font-size: .69rem; color: var(--muted); }
 .motion-toggle:hover { color: var(--brand); border-color: var(--line); }
 .motion-toggle:disabled { cursor: default; opacity: .75; }
 
-/* CSS height and containment never depend on canvas bitmap dimensions, even on Retina displays. */
+/* Bitmap dimensions must never determine layout, including at high device pixel ratios. */
 .motion-scene { position: relative; display: block; width: 100%; height: 215px; min-width: 0; max-width: 100%; overflow: hidden; isolation: isolate; contain: size layout paint; background: radial-gradient(ellipse at 45% 28%, #25494477, transparent 68%), linear-gradient(145deg, #132e2c, #091e26); }
-.motion-scene::before { content: ''; position: absolute; inset: 0; z-index: -1; opacity: .24; background-image: radial-gradient(#b7d7c0 0.6px, transparent .6px); background-size: 18px 18px; mask-image: linear-gradient(transparent, #0008); }
+.motion-scene::before { content: ''; position: absolute; inset: 0; z-index: -1; opacity: .24; background-image: radial-gradient(#b7d7c0 .6px, transparent .6px); background-size: 18px 18px; mask-image: linear-gradient(transparent, #0008); }
 .motion-scene canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity .5s ease; }
 .motion-scene.is-ready canvas { opacity: 1; }
 .motion-scene .scene-fallback { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; object-fit: cover; object-position: center; margin: 0; border: 0; border-radius: 0; opacity: .85; transition: opacity .35s; }
 .motion-scene.is-ready .scene-fallback { opacity: 0; }
 .scene-fallback-symbol { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #b8d8b9; font-size: 3rem; font-family: var(--serif); }
 .is-ready .scene-fallback-symbol { display: none; }
-.hero-scene { height: 200px; background: transparent; }
-.hero-scene::before { opacity: .12; }
+.scene-eyebrow { display: block; color: var(--scene-accent); font-size: .61rem; font-weight: 500; letter-spacing: .14em; line-height: 1.5; }
 .scene-topline { display: flex; justify-content: space-between; align-items: center; position: absolute; top: 18px; left: 21px; right: 21px; z-index: 2; color: #cee2d3; font-size: .58rem; font-weight: 500; letter-spacing: .13em; line-height: 1.5; }
 .scene-spark { font: 1.2rem/1 var(--serif); color: var(--scene-accent); }
 .scene-footnote { position: absolute; left: 21px; bottom: 18px; z-index: 2; color: #a9beb3; font-size: .52rem; letter-spacing: .12em; line-height: 1.5; }
-.work-image.motion-scene { padding: 0; border-radius: 0; }
-.work-image.motion-scene .work-image-arrow { width: 29px; height: 29px; bottom: 13px; right: 17px; color: #e8efd8; border: 1px solid #a1baa94d; background: #ffffff0b; transition: background .2s, transform .3s; }
-.work-card:hover .work-image-arrow { background: #ffffff16; transform: rotate(45deg); }
-.work-card:hover .scene-fallback { transform: none; }
-.work-card { transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .work-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px #14382d16; }
-}
-.selected-grid:not(:has([hidden])) .work-card--featured .work-image.motion-scene { padding: 0; background: radial-gradient(ellipse at 45% 28%, #25494477, transparent 68%), linear-gradient(145deg, #132e2c, #091e26); }
-.selected-grid:not(:has([hidden])) .work-card--featured .motion-scene .scene-fallback { height: 100%; }
-.motion-scene[data-scene="atlas"] { background: radial-gradient(ellipse at 50% 35%, #31504999, transparent 68%), #102a2b; }
-.motion-scene[data-scene="rag"] { background: radial-gradient(ellipse at 55% 40%, #35445288, transparent 70%), #10232e; }
-.motion-scene[data-scene="forecast"] { background: radial-gradient(ellipse at 50% 25%, #35434188, transparent 68%), #172829; }
-.motion-scene[data-scene="neural"] { background: radial-gradient(ellipse at 55% 45%, #35434c88, transparent 67%), #13242d; }
-.motion-scene[data-scene="workflow"] { background: radial-gradient(ellipse at 55% 30%, #4d473288, transparent 72%), #1b2b2b; }
-.hero-scene[data-scene="grid"] { background: transparent; }
 
-/* Each project chapter has its own miniature, adjacent to its actual screenshots or app. */
+/* These small explanatory scenes sit next to the actual tool and source evidence. */
 .motion-chapter { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.35fr); align-items: stretch; min-height: 250px; margin: 0 0 30px; color: #e5eee0; border: 1px solid #2b4a45; border-radius: 11px; overflow: hidden; background: #102c2b; }
 .chapter-copy { position: relative; padding: 28px 34px; background: linear-gradient(110deg, #153b33, #102c2b); }
 .chapter-copy h3 { margin: 13px 0 11px; color: #e6eddd; font-size: clamp(1.15rem, 1.9vw, 1.55rem); font-weight: 500; line-height: 1.25; letter-spacing: -.04em; }
@@ -67,64 +32,17 @@
 .inset-scene .scene-topline { left: 15px; right: 15px; font-size: .5rem; }
 .inset-scene .scene-footnote { left: 15px; font-size: .48rem; }
 .retrieval-scene { height: 280px; }
-#ml-projects .motion-chapter { background: #13242d; border-color: #354c50; }
-#ml-projects .chapter-copy { background: linear-gradient(110deg, #213e3d, #13242d); }
-
-/* Small, finite entrances; text is never waiting for a script or asset to become readable. */
-@keyframes engineering-enter { from { transform: translateY(12px); opacity: .65; } to { transform: translateY(0); opacity: 1; } }
-@media (prefers-reduced-motion: no-preference) {
-  .hero-content { animation: engineering-enter .7s cubic-bezier(.22,1,.36,1) both; }
-  .hero-visual { animation: engineering-enter .9s cubic-bezier(.22,1,.36,1) both; }
-}
 html[data-motion="paused"] *, html[data-motion="reduced"] * { animation-play-state: paused !important; }
-
-@media (min-width: 1101px) {
-  .selected-grid:not(:has([hidden])) .work-card--featured .motion-scene { height: 280px; }
-  #ai-rag .project-card.featured { grid-row: span 3; }
-}
 @media (min-width: 821px) {
   #ml-projects .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #ml-projects .project-card.featured { grid-column: auto; }
 }
-@media (max-width: 1100px) {
-  .hero-system-strip { width: calc(100% - 64px); grid-template-columns: 1fr 1.35fr; }
-  .system-strip-index { display: none; }
-  .hero-photo { height: 440px; }
-  .scene-topline { font-size: .54rem; left: 17px; right: 17px; }
-  .scene-footnote { left: 17px; font-size: .48rem; }
-}
 @media (max-width: 820px) {
-  .hero-inner { padding-top: 40px; gap: 26px; }
-  .hero-caption { left: -12px; right: 12px; padding: 15px; }
-  .hero-photo { height: 415px; border-top-left-radius: 85px; }
   .chapter-copy { padding: 24px; }
   .motion-chapter { grid-template-columns: 1fr 1.12fr; }
   .chapter-scene { height: 245px; }
 }
-@media (max-width: 700px) {
-  .hero-inner { gap: 34px; padding-bottom: 34px; }
-  .hero-visual { margin: 0 auto; padding: 0; width: min(100%, 480px); }
-  .hero-photo { height: 395px; }
-  .hero-caption { left: 12px; right: 12px; bottom: 12px; }
-  .hero-system-strip { grid-template-columns: .9fr 1.2fr; min-height: 180px; }
-  .system-strip-copy { padding: 20px 0 20px 22px; }
-  .system-strip-copy > span:last-child { display: none; }
-  .hero-scene { height: 180px; }
-  .motion-chapter { grid-template-columns: 1fr 1fr; }
-  .chapter-copy h3 { font-size: 1.2rem; }
-}
 @media (max-width: 640px) {
-  .hero-system-strip { width: calc(100% - 40px); grid-template-columns: 1fr; }
-  .system-strip-copy { padding: 21px 22px 0; display: grid; grid-template-columns: 1fr 1.5fr; align-items: center; gap: 15px; }
-  .system-strip-copy p { margin: 0; font-size: 1.15rem; }
-  .system-strip-copy .scene-eyebrow { font-size: .56rem; max-width: 90px; }
-  .hero-scene { height: 180px; }
-  .hero-bottom { flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; padding-bottom: 18px; }
-  .hero-bottom > a { display: none; }
-  .motion-toggle { font-size: .61rem; padding-inline: 4px; }
-  .work-image.motion-scene { height: 230px; }
-  .scene-topline { font-size: .59rem; left: 21px; right: 21px; }
-  .scene-footnote { left: 21px; font-size: .53rem; }
   .motion-chapter { grid-template-columns: 1fr; margin-bottom: 24px; }
   .chapter-copy { padding: 24px 25px 20px; }
   .chapter-copy h3 { font-size: 1.4rem; }
@@ -132,9 +50,8 @@ html[data-motion="paused"] *, html[data-motion="reduced"] * { animation-play-sta
   .chapter-scene { height: 220px; border-left: 0; border-top: 1px solid #718d6c26; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .motion-scene canvas, .scene-fallback, .work-card, .work-image-arrow { transition: none; }
+  .motion-scene canvas, .scene-fallback { transition: none; }
 }
 @media print {
-  .hero-system-strip, .motion-chapter, .motion-toggle { display: none !important; }
-  .work-image.motion-scene, .inset-scene, .retrieval-scene { display: none !important; }
+  .motion-chapter, .motion-toggle, .inset-scene, .retrieval-scene { display: none !important; }
 }
