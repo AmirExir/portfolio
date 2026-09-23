@@ -55,11 +55,16 @@
   <link rel="stylesheet" href="assets/css/portfolio.css?v=power-journey-4" />
   <link rel="stylesheet" href="assets/css/portfolio-motion.css?v=power-journey-4" />
   <link rel="stylesheet" href="assets/css/portfolio-cinematic.css?v=power-journey-4" />
+  <link rel="stylesheet" href="assets/css/project-stories.css?v=project-stories-1" />
   <script src="assets/js/portfolio.js?v=power-journey-4" defer></script>
   <script src="assets/js/engineering-scenes.js?v=power-journey-4" defer></script>
   <script src="assets/js/power-journey.js?v=power-journey-4" defer></script>
   <script src="assets/js/cinematic-fields.js?v=power-journey-4" defer></script>
-  <script src="assets/js/portfolio-motion.js?v=power-journey-4" defer></script>
+  <script src="assets/js/project-scene-kit.js?v=project-stories-1" defer></script>
+  <script src="assets/js/contingency-scene.js?v=project-stories-1" defer></script>
+  <script src="assets/js/fault-scene.js?v=project-stories-1" defer></script>
+  <script src="assets/js/forecast-scene.js?v=project-stories-1" defer></script>
+  <script src="assets/js/portfolio-motion.js?v=project-stories-1" defer></script>
 </head>
 
 <body>
@@ -472,10 +477,24 @@
           <p>AELab brings PSS/E and TARA PowerGEM study tasks into a Python desktop application. It supports contingency analysis, dynamic simulation, model validation, results visualization, IDV generation, and transmission project reporting.</p>
         </div>
 
-        <div class="motion-chapter">
-          <div class="chapter-copy"><span class="scene-eyebrow">01 / ENGINEERING IN MOTION</span><h3>From a network model<br>to an engineering decision.</h3><p>Connected study tools for the systems that connect us.</p><div class="chapter-flow"><span>Model</span><span>Simulate</span><span>Review</span></div></div>
-          <div class="motion-scene chapter-scene" data-scene="grid" aria-hidden="true"><canvas width="640" height="250"></canvas><span class="scene-fallback-symbol">↗</span><span class="scene-footnote">CONCEPTUAL STUDY NETWORK</span></div>
-        </div>
+        <section class="project-story project-story--contingency" id="aelab-story" aria-labelledby="contingencyStoryTitle">
+          <div class="project-story-heading">
+            <div><p class="story-kicker">01 / AELAB · CONTINGENCY ANALYSIS</p><h3 id="contingencyStoryTitle">One circuit opens.<br><em>The whole network responds.</em></h3></div>
+            <p>Trace the connection between topology, power redistribution, and engineering review.</p>
+          </div>
+          <div class="project-story-stage">
+            <div class="motion-scene cinematic-scene project-scene" id="contingencyScene" data-scene="contingency" data-scene-state="auto" aria-hidden="true"><img class="scene-fallback" src="AELabDynamicPlots.png" alt="" loading="lazy" decoding="async" /><canvas width="1240" height="400"></canvas></div>
+          </div>
+          <div class="project-story-footer">
+            <p class="scene-phase" data-scene-phase aria-live="off">Network → Contingency → Review</p>
+            <div class="scene-controls" role="group" aria-label="Explore the contingency sequence" hidden>
+              <button type="button" data-scene-state="auto" aria-controls="contingencyScene" aria-pressed="true">Sequence <span aria-hidden="true">↻</span></button>
+              <button type="button" data-scene-state="base" aria-controls="contingencyScene" aria-pressed="false">Base case</button>
+              <button type="button" data-scene-state="open" aria-controls="contingencyScene" aria-pressed="false">Circuit open</button>
+              <button type="button" data-scene-state="redistributed" aria-controls="contingencyScene" aria-pressed="false">Redistribution</button>
+            </div>
+          </div>
+        </section>
         <div class="feature-layout">
           <div class="media-carousel" data-carousel aria-label="AELab screenshots">
             <button class="carousel-control prev" type="button" data-prev aria-label="Previous AELab screenshot">&lsaquo;</button>
@@ -767,6 +786,25 @@
             </div>
           </article>
 
+          <section class="project-story project-story--forecast" id="forecast-story" aria-labelledby="forecastStoryTitle">
+            <div class="project-story-heading">
+              <div><p class="story-kicker">02 / LOAD FORECASTING · TEMPORAL PATTERNS</p><h3 id="forecastStoryTitle">Patterns behind us.<br><em>Possibilities ahead.</em></h3></div>
+              <p>Follow the shape of demand from historical patterns, through the forecast origin, into a changing horizon.</p>
+            </div>
+            <div class="project-story-stage">
+              <div class="motion-scene cinematic-scene project-scene" id="forecastScene" data-scene="forecast" data-scene-state="auto" aria-hidden="true"><img class="scene-fallback" src="ERCOT_LOAD_Dashboard_Forcast.png" alt="" loading="lazy" decoding="async" /><canvas width="1240" height="360"></canvas></div>
+            </div>
+            <div class="project-story-footer">
+              <p class="scene-phase" data-scene-phase aria-live="off">History → Forecast origin → Horizon</p>
+              <div class="scene-controls" role="group" aria-label="Explore the forecasting sequence" hidden>
+                <button type="button" data-scene-state="auto" aria-controls="forecastScene" aria-pressed="true">Sequence <span aria-hidden="true">↻</span></button>
+                <button type="button" data-scene-state="history" aria-controls="forecastScene" aria-pressed="false">History</button>
+                <button type="button" data-scene-state="horizon" aria-controls="forecastScene" aria-pressed="false">Forecast origin</button>
+                <button type="button" data-scene-state="forecast" aria-controls="forecastScene" aria-pressed="false">Forecast</button>
+              </div>
+            </div>
+          </section>
+
           <article class="project-card">
             <div class="media-carousel" data-carousel aria-label="GNN graph visualizer screenshots">
               <button class="carousel-control prev" type="button" data-prev aria-label="Previous GNN screenshot">&lsaquo;</button>
@@ -796,7 +834,7 @@
           <article class="project-card">
             <img src="fault_classifier/confusion%20matrix.png" alt="Fault classifier confusion matrix" loading="lazy" decoding="async" />
             <div class="project-body">
-              <h3>Power Fault Classifier</h3>
+              <h3 id="fault-classifier">Power Fault Classifier</h3>
               <p>Explore fault type classification from current and voltage measurements in a Scikit-learn and Streamlit application for protection training and diagnostic research.</p>
               <div class="card-actions">
                 <a class="btn light" href="https://portfolio-xmc8hpyiryrkj8acggxe6k.streamlit.app/" target="_blank" rel="noopener noreferrer">Launch App</a>
@@ -804,6 +842,25 @@
               </div>
             </div>
           </article>
+
+          <section class="project-story project-story--fault" id="fault-story" aria-labelledby="faultStoryTitle">
+            <div class="project-story-heading">
+              <div><p class="story-kicker">03 / POWER FAULT CLASSIFIER · SIGNAL INTELLIGENCE</p><h3 id="faultStoryTitle">Every disturbance<br><em>leaves a signature.</em></h3></div>
+              <p>Six current and voltage channels. A focused signal window. Features that connect electrical behavior to classification.</p>
+            </div>
+            <div class="project-story-stage">
+              <div class="motion-scene cinematic-scene project-scene" id="faultScene" data-scene="fault" data-scene-state="auto" aria-hidden="true"><img class="scene-fallback" src="fault_classifier/confusion%20matrix.png" alt="" loading="lazy" decoding="async" /><canvas width="1240" height="360"></canvas></div>
+            </div>
+            <div class="project-story-footer">
+              <p class="scene-phase" data-scene-phase aria-live="off">Signals → Features → Classification</p>
+              <div class="scene-controls" role="group" aria-label="Explore the fault classification sequence" hidden>
+                <button type="button" data-scene-state="auto" aria-controls="faultScene" aria-pressed="true">Sequence <span aria-hidden="true">↻</span></button>
+                <button type="button" data-scene-state="signals" aria-controls="faultScene" aria-pressed="false">Signals</button>
+                <button type="button" data-scene-state="features" aria-controls="faultScene" aria-pressed="false">Features</button>
+                <button type="button" data-scene-state="classified" aria-controls="faultScene" aria-pressed="false">Classification</button>
+              </div>
+            </div>
+          </section>
 
           <article class="project-card">
             <div class="project-body">

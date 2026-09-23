@@ -6,9 +6,14 @@ const { chromium } = require(process.env.PORTFOLIO_PLAYWRIGHT_MODULE || 'playwri
 
 const root = path.resolve(__dirname, '..');
 const realFeed = JSON.parse(fs.readFileSync(path.join(root, 'ERCOTAPI/latest_ercot_updates.json'), 'utf8'));
-const sceneTypes = ['field', 'grid', 'atlas', 'evidence', 'rag', 'learning', 'workflow'];
-const cinematicTypes = ['field', 'evidence', 'learning'];
+const sceneTypes = ['field', 'contingency', 'atlas', 'evidence', 'rag', 'learning', 'forecast', 'fault', 'workflow'];
+const cinematicTypes = ['field', 'contingency', 'evidence', 'learning', 'forecast', 'fault'];
 const powerLoadLabels = ['Homes', 'Data centers', 'Crypto mining', 'Industrial', 'Commercial'];
+const projectStories = [
+  { type: 'contingency', id: 'aelab-story', module: 'contingency-scene.js', renderer: 'ContingencyScene', states: ['base', 'open', 'redistributed'] },
+  { type: 'fault', id: 'fault-story', module: 'fault-scene.js', renderer: 'FaultScene', states: ['signals', 'features', 'classified'] },
+  { type: 'forecast', id: 'forecast-story', module: 'forecast-scene.js', renderer: 'ForecastScene', states: ['history', 'horizon', 'forecast'] },
+];
 
 async function waitForPaint(scene) {
   await scene.scrollIntoViewIfNeeded();
@@ -64,15 +69,31 @@ async function assertBoundedScenes(page, label) {
   }
 }
 
-async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJourney = false } = {}) {
+async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJourney = false, omitModules = [] } = {}) {
   await context.route('**/*', (route) => {
     const url = new URL(route.request().url());
     if (url.hostname !== 'portfolio.test') return route.abort();
-    if (omitMotionStyles && ['/portfolio-motion.css', '/portfolio-cinematic.css'].some(file => url.pathname.endsWith(file))) return route.abort();
+    if (omitMotionStyles && ['/portfolio-motion.css', '/portfolio-cinematic.css', '/project-stories.css'].some(file => url.pathname.endsWith(file))) return route.abort();
     if (omitPowerJourney && url.pathname.endsWith('/power-journey.js')) return route.abort();
+    if (omitModules.some(file => url.pathname.endsWith(`/${file}`))) return route.abort();
     const file = path.join(root, decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname));
     return fs.existsSync(file) ? route.fulfill({ path: file }) : route.fulfill({ status: 404, body: '' });
   });
+}
+
+async function assertProjectFallback(page, label, projects = projectStories) {
+  for (const project of projects) {
+    const story = page.locator(`#${project.id}`);
+    assert.equal(await story.locator('.scene-controls').isVisible(), false, `${label}: unavailable ${project.type} controls should remain hidden`);
+    assert.equal(await story.locator('.motion-scene').evaluate(scene => scene.classList.contains('is-ready')), false, `${label}: ${project.type} must not advertise a successfully rendered scene`);
+    assert.ok(await story.locator('h2, h3').first().isVisible(), `${label}: ${project.type} story heading must remain readable`);
+    assert.equal(await story.locator('img.scene-fallback').isVisible(), true, `${label}: ${project.type} must preserve its actual screenshot fallback`);
+    assert.ok(await story.locator('img.scene-fallback').evaluate(image => Number(getComputedStyle(image).opacity) > 0), `${label}: ${project.type} fallback must not be transparent`);
+    assert.ok(await story.evaluate(element => {
+      const section = element.parentElement.closest('section');
+      return Array.from(section.querySelectorAll('.card-actions a[href]')).some(link => link.getClientRects().length && getComputedStyle(link).visibility !== 'hidden');
+    }), `${label}: the ${project.type} project section must retain working destinations`);
+  }
 }
 
 (async () => {
@@ -174,6 +195,43 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
     await page.waitForTimeout(150);
     assert.equal(await frame(scene), pausedFrame, `Global pause must apply to the ${type} renderer`);
   }
+  for (const project of projectStories) {
+    const story = page.locator(`#${project.id}`);
+    const scene = story.locator(`.motion-scene[data-scene="${project.type}"]`);
+    await waitForPaint(scene);
+    const controls = story.locator('.scene-controls');
+    const phase = story.locator('[data-scene-phase]');
+    assert.equal(await controls.isVisible(), true, `${project.type}: painted stories should enable their controls`);
+    assert.equal(await controls.locator('button[data-scene-state]').count(), 4, `${project.type}: each story needs Auto and three manual stages`);
+    assert.equal(await phase.getAttribute('aria-live'), 'off', 'Automatic visual phases must not repeatedly interrupt assistive technology');
+    const selectedFrames = [];
+    for (const [index, state] of project.states.entries()) {
+      const button = controls.locator(`button[data-scene-state="${state}"]`);
+      assert.equal(await button.getAttribute('aria-controls'), await scene.getAttribute('id'));
+      await button.focus();
+      await page.keyboard.press(index % 2 ? 'Space' : 'Enter');
+      assert.equal(await button.getAttribute('aria-pressed'), 'true', `${project.type}: keyboard selection should set ${state}`);
+      assert.equal(await controls.locator('[aria-pressed="true"]').count(), 1, `${project.type}: exactly one state should be selected`);
+      assert.equal(await scene.getAttribute('data-scene-state'), state);
+      const expectedLabel = await page.evaluate(({ renderer, state }) => window[renderer].labels[state], { renderer: project.renderer, state });
+      assert.equal((await phase.textContent()).trim(), expectedLabel, `${project.type}: the phase label must describe the selected stage`);
+      await page.waitForTimeout(100);
+      const selectedFrame = await frame(scene);
+      await page.waitForTimeout(150);
+      assert.equal(await frame(scene), selectedFrame, `${project.type}: choosing ${state} must not resume paused animation`);
+      assert.equal(await page.locator('html').getAttribute('data-motion'), 'paused');
+      selectedFrames.push(selectedFrame);
+    }
+    assert.equal(new Set(selectedFrames).size, project.states.length, `${project.type}: manual stages need visibly distinct artwork`);
+    const autoButton = controls.locator('button[data-scene-state="auto"]');
+    await autoButton.focus();
+    await page.keyboard.press('Enter');
+    assert.equal(await scene.getAttribute('data-scene-state'), 'auto');
+    assert.equal(await autoButton.getAttribute('aria-pressed'), 'true');
+    const autoPausedFrame = await frame(scene);
+    await page.waitForTimeout(150);
+    assert.equal(await frame(scene), autoPausedFrame, `${project.type}: selecting Auto must preserve the global pause`);
+  }
   await motionToggle.click();
   assert.equal(await motionToggle.getAttribute('aria-pressed'), 'false');
   assert.match(await motionToggle.textContent(), /Pause animations/i);
@@ -181,6 +239,19 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
   const resumedFrame = await frame(heroScene);
   await page.waitForTimeout(250);
   assert.notEqual(await frame(heroScene), resumedFrame, 'Play should resume animation');
+  for (const project of projectStories) {
+    const scene = page.locator(`#${project.id} .motion-scene`);
+    await waitForPaint(scene);
+    const playingFrame = await frame(scene);
+    await page.waitForTimeout(250);
+    assert.notEqual(await frame(scene), playingFrame, `${project.type}: Auto should animate after the global control resumes motion`);
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(150);
+    const outsideFrame = await frame(scene);
+    await page.waitForTimeout(150);
+    assert.equal(await frame(scene), outsideFrame, `${project.type}: project artwork should stop advancing offscreen`);
+  }
+  await waitForPaint(heroScene);
   // Exercise the visibility-change handler without relying on the window
   // manager to background a headless browser tab.
   await page.evaluate(() => {
@@ -363,6 +434,20 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
         await page.waitForTimeout(150);
         assert.equal(await frame(scene), reducedFrame, `Reduced motion must apply to the ${type} renderer`);
       }
+      for (const project of projectStories) {
+        const story = page.locator(`#${project.id}`);
+        const scene = story.locator('.motion-scene');
+        await waitForPaint(scene);
+        const initialFrame = await frame(scene);
+        const lastState = project.states.at(-1);
+        await story.locator(`.scene-controls button[data-scene-state="${lastState}"]`).click();
+        assert.equal(await scene.getAttribute('data-scene-state'), lastState, 'Reduced motion must still permit deliberate state changes');
+        const selectedFrame = await frame(scene);
+        assert.notEqual(selectedFrame, initialFrame, `${project.type}: reduced-motion state selection should redraw`);
+        await page.waitForTimeout(150);
+        assert.equal(await frame(scene), selectedFrame, `${project.type}: state selection must retain reduced-motion stillness`);
+        await story.locator('.scene-controls button[data-scene-state="auto"]').click();
+      }
     }
     await assertBoundedScenes(page, `${viewportLabel} 1x`);
     const educationBounds = await educationCards.evaluateAll(cards => cards.map(card => {
@@ -404,6 +489,20 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
       const target = await page.locator(`[data-field-mode="${mode}"]`).boundingBox();
       assert.ok(target.height >= 44 && target.width >= 44, `${viewportLabel}: the ${mode} mode needs a 44px hit area`);
       assert.ok(target.x >= 0 && target.x + target.width <= width + 1, `${viewportLabel}: hero mode controls must remain inside the viewport`);
+    }
+    for (const project of projectStories) {
+      const story = page.locator(`#${project.id}`);
+      await waitForPaint(story.locator('.motion-scene'));
+      for (const state of ['auto', ...project.states]) {
+        const target = await story.locator(`.scene-controls button[data-scene-state="${state}"]`).boundingBox();
+        assert.ok(target && target.height >= 44 && target.width >= 44, `${viewportLabel}: ${project.type}/${state} needs a 44px hit area`);
+        assert.ok(target.x >= 0 && target.x + target.width <= width + 1, `${viewportLabel}: ${project.type} controls must fit the viewport`);
+      }
+      const phase = await story.locator('[data-scene-phase]').evaluate(element => {
+        const { left, right } = element.getBoundingClientRect();
+        return { left, right, clipped: element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1 };
+      });
+      assert.ok(phase.left >= 0 && phase.right <= width + 1 && !phase.clipped, `${viewportLabel}: the ${project.type} phase should remain legible`);
     }
     if (width <= 820) {
       await page.locator('#menuToggle').click();
@@ -456,6 +555,89 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
     assert.equal(await retinaPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${width}px Retina layout must not overflow`);
   }
   await retinaContext.close();
+
+  // Each project illustration is optional. In particular, a missing new
+  // ForecastScene must not silently resolve to the older compact forecast art.
+  for (const omitModules of [projectStories.map(project => project.module), ['project-scene-kit.js']]) {
+    const missingStoriesContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+    await serveLocalFiles(missingStoriesContext, { omitModules });
+    const missingStoriesPage = await missingStoriesContext.newPage();
+    missingStoriesPage.on('pageerror', error => errors.push(error.message));
+    await missingStoriesPage.goto('http://portfolio.test/');
+    await waitForPaint(missingStoriesPage.locator('#heroField'));
+    // Scrolling is necessary if missing dependencies are discovered at first draw.
+    for (const project of projectStories) {
+      await missingStoriesPage.locator(`#${project.id}`).scrollIntoViewIfNeeded();
+      await missingStoriesPage.waitForTimeout(100);
+    }
+    await assertProjectFallback(missingStoriesPage, `Missing ${omitModules.join(', ')}`);
+    assert.equal(await missingStoriesPage.locator('[data-project-card] .work-image img:visible').count(), 6, 'Missing project artwork must retain actual screenshots');
+    assert.equal(await missingStoriesPage.locator('.hero-photo').isVisible(), true);
+    assert.equal(await missingStoriesPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    await missingStoriesContext.close();
+  }
+
+  // Project renderers must also work independently of the original families.
+  const standaloneStoriesContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  await serveLocalFiles(standaloneStoriesContext, { omitModules: ['cinematic-fields.js', 'engineering-scenes.js'] });
+  const standaloneStoriesPage = await standaloneStoriesContext.newPage();
+  standaloneStoriesPage.on('pageerror', error => errors.push(error.message));
+  await standaloneStoriesPage.goto('http://portfolio.test/');
+  for (const project of projectStories) {
+    const story = standaloneStoriesPage.locator(`#${project.id}`);
+    const scene = story.locator('.motion-scene');
+    await waitForPaint(scene);
+    const initial = await frame(scene);
+    const lastState = project.states.at(-1);
+    const button = story.locator(`.scene-controls button[data-scene-state="${lastState}"]`);
+    await button.click();
+    assert.equal(await button.getAttribute('aria-pressed'), 'true');
+    assert.equal(await scene.getAttribute('data-scene-state'), lastState);
+    assert.notEqual(await frame(scene), initial, `${project.type}: controls must work without the older rendering families`);
+  }
+  assert.equal(await standaloneStoriesPage.locator('.motion-scene.is-ready').count(), 3);
+  assert.equal(await standaloneStoriesPage.locator('#heroField .field-static').isVisible(), true, 'The hero should retain its static fallback when its renderer is unavailable');
+  assert.equal(await standaloneStoriesPage.locator('.hero h1').isVisible(), true);
+  assert.equal(await standaloneStoriesPage.locator('.field-modes').isVisible(), false);
+  assert.equal(await standaloneStoriesPage.locator('[data-power-legend]').isVisible(), false);
+  assert.equal(await standaloneStoriesPage.locator('.hero-photo').isVisible(), true);
+  await standaloneStoriesContext.close();
+
+  const failedStoryContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'no-preference' });
+  await serveLocalFiles(failedStoryContext);
+  await failedStoryContext.addInitScript(() => {
+    let renderer;
+    Object.defineProperty(window, 'FaultScene', {
+      configurable: true,
+      get: () => renderer,
+      set: value => {
+        renderer = { ...value, draw(...args) {
+          if (window.portfolioTestFaultFailure) throw new Error('PORTFOLIO_TEST_FAULT_FAILURE');
+          return value.draw(...args);
+        } };
+      },
+    });
+  });
+  const failedStoryPage = await failedStoryContext.newPage();
+  const storyWarnings = [];
+  failedStoryPage.on('pageerror', error => errors.push(error.message));
+  failedStoryPage.on('console', message => {
+    if (message.type() === 'warning' && message.text().includes('PORTFOLIO_TEST_FAULT_FAILURE')) storyWarnings.push(message.text());
+  });
+  await failedStoryPage.goto('http://portfolio.test/');
+  await waitForPaint(failedStoryPage.locator('#fault-story .motion-scene'));
+  assert.equal(await failedStoryPage.locator('#fault-story .scene-controls').isVisible(), true);
+  await failedStoryPage.evaluate(() => { window.portfolioTestFaultFailure = true; });
+  await failedStoryPage.waitForFunction(() => !document.querySelector('#fault-story .motion-scene').classList.contains('is-ready'));
+  await assertProjectFallback(failedStoryPage, 'Late project renderer failure', projectStories.filter(project => project.type === 'fault'));
+  await failedStoryPage.waitForTimeout(200);
+  assert.equal(storyWarnings.length, 1, 'A project draw failure should be reported once and disable its controls');
+  for (const project of projectStories.filter(project => project.type !== 'fault')) {
+    await waitForPaint(failedStoryPage.locator(`#${project.id} .motion-scene`));
+    assert.equal(await failedStoryPage.locator(`#${project.id} .scene-controls`).isVisible(), true, 'A failed project renderer must not disable its healthy neighbors');
+  }
+  await waitForPaint(failedStoryPage.locator('#heroField'));
+  await failedStoryContext.close();
 
   // Loading the optional power artwork must change the grid-mode illustration;
   // losing that asset should restore the original field without breaking AI modes.
@@ -565,6 +747,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
   assert.equal(await fallbackPage.locator('.motion-scene.is-ready').count(), 0);
   assert.equal(await fallbackPage.locator('.field-modes').isVisible(), false, 'Unavailable canvas controls should not be offered when rendering cannot initialize');
   assert.equal(await fallbackPage.locator('[data-power-legend]').isVisible(), false);
+  await assertProjectFallback(fallbackPage, 'Canvas context failure');
   assert.equal(await fallbackPage.locator('.hero-photo').isVisible(), true, 'Canvas failure must preserve the original portrait');
   assert.equal(await fallbackPage.locator('[data-project-card] .work-image img:visible').count(), 6, 'Canvas failure must preserve project screenshots');
   assert.ok(await fallbackPage.locator('[data-project-card] .work-image img').evaluateAll(images => images.every(image => Number(getComputedStyle(image).opacity) > 0)), 'Project screenshots must remain visibly painted without canvas contexts');
@@ -584,6 +767,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
   assert.equal(await staticPage.locator('#navLinks').isVisible(), true);
   assert.equal(await staticPage.locator('.field-modes').isVisible(), false, 'Mode controls should be hidden without their interaction script');
   assert.equal(await staticPage.locator('[data-power-legend]').isVisible(), false);
+  await assertProjectFallback(staticPage, 'JavaScript disabled');
   assert.equal(await staticPage.locator('#education article.experience-card:visible').count(), 3, 'Education must remain available without JavaScript');
   await staticPage.locator('a[href="#education"]').first().click();
   assert.equal(new URL(staticPage.url()).hash, '#education', 'Education navigation must use a native fragment link');
@@ -596,7 +780,8 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
   assert.equal(errors.length, 0, errors.join('\n'));
   console.log('PASS: project search/category/reset/no-scroll; carousel controls, keyboard, inert slides and no autoplay; navigation; clipboard fallback; feed date/status/shape/error/URL safety.');
   console.log('PASS: responsive layouts 320–1440px; featured/filtered grids; 44px gallery targets; mobile navigation/search; keyboard focus; reduced motion; no-JavaScript fallback.');
-  console.log('PASS: seven distinct scene types; keyboard hero modes; global pause/resume and reduced motion across both renderers; offscreen/visibility pause; bounded 1x/2x canvas layout, including missing component CSS; context failure and screenshot fallbacks.');
+  console.log('PASS: nine distinct scene types; keyboard hero and project-stage controls; global pause/resume and reduced motion across all renderers; offscreen/visibility pause; bounded 1x/2x canvas layout, including missing component CSS; context failure and screenshot fallbacks.');
+  console.log('PASS: contingency, fault and forecast manual states redraw while paused; Auto and phase labels; 44px responsive project controls; missing project renderers/shared kit preserve content without legacy forecast substitution.');
   console.log('PASS: restored education content, degree status, native anchors and responsive/no-JavaScript access; power-stage legend; missing/late-failing optional renderer fallback with AI modes preserved and one failure warning.');
   await browser.close();
 })().catch((error) => { console.error(error); process.exit(1); });

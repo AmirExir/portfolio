@@ -4,7 +4,14 @@
 
   const renderers = [window.CinematicFields, window.EngineeringScenes]
     .filter((renderer) => renderer && typeof renderer.draw === 'function');
-  if (!renderers.length) return;
+  // Reserve the project types: a missing module must not select an unrelated
+  // legacy miniature that happens to advertise the same type (e.g. forecast).
+  const projectRenderers = {
+    contingency: window.ContingencyScene,
+    fault: window.FaultScene,
+    forecast: window.ForecastScene,
+  };
+  if (!renderers.length && !Object.values(projectRenderers).some(renderer => typeof renderer?.draw === 'function')) return;
   const media = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const root = document.documentElement;
@@ -42,16 +49,34 @@
 
   const motionAllowed = () => !paused && !media.matches && !document.hidden;
 
+  function updateStory(scene, time) {
+    if (!scene.story) return;
+    const ready = !scene.failed && scene.host.classList.contains('is-ready');
+    const controls = scene.story.querySelector('.scene-controls');
+    if (controls) controls.hidden = !ready;
+    const label = scene.story.querySelector('[data-scene-phase]');
+    if (!label) return;
+    if (!ready) { label.textContent = scene.fallbackLabel; return; }
+    const stage = scene.renderer.getStage({ time, state: scene.host.dataset.sceneState || 'auto' });
+    if (stage !== scene.stage) {
+      scene.stage = stage;
+      label.textContent = scene.renderer.labels[stage] || scene.fallbackLabel;
+    }
+  }
+
   function draw(scene, immediateMode = false) {
     if (!scene.width || !scene.height || scene.failed) return;
     try {
+      const renderTime = immediateMode && scene.type === 'field' ? 0 : scene.time;
       scene.renderer.draw(scene.context, {
         type: scene.type, width: scene.width, height: scene.height,
-        time: immediateMode ? 0 : scene.time, pointerX: scene.pointerX, pointerY: scene.pointerY,
+        time: renderTime, pointerX: scene.pointerX, pointerY: scene.pointerY,
         mode: scene.host.dataset.fieldState || 'grid',
+        state: scene.host.dataset.sceneState || 'auto',
       });
       const firstPaint = !scene.host.classList.contains('is-ready');
       scene.host.classList.add('is-ready');
+      updateStory(scene, renderTime);
       if (scene.type === 'field' && (firstPaint || scene.powerAvailable !== window.CinematicFields?.powerJourneyAvailable)) {
         scene.powerAvailable = window.CinematicFields?.powerJourneyAvailable;
         updateHeroAnnotation(scene);
@@ -60,6 +85,7 @@
       // Restore the original project image if decorative rendering is unavailable.
       scene.failed = true;
       scene.host.classList.remove('is-ready');
+      updateStory(scene, scene.time);
       if (scene.type === 'field') {
         document.querySelector('.field-modes')?.setAttribute('hidden', '');
         updateHeroAnnotation(scene);
@@ -143,7 +169,9 @@
 
   document.querySelectorAll('.motion-scene[data-scene]').forEach((host, index) => {
     const canvas = host.querySelector('canvas');
-    const renderer = renderers.find((candidate) => candidate.types.includes(host.dataset.scene));
+    const renderer = Object.hasOwn(projectRenderers, host.dataset.scene)
+      ? projectRenderers[host.dataset.scene]
+      : renderers.find((candidate) => candidate.types.includes(host.dataset.scene));
     if (!canvas || !renderer) return;
     const context = canvas.getContext('2d');
     if (!context) return;
@@ -158,7 +186,10 @@
       host, canvas, context, renderer, cinematic, type: host.dataset.scene, visible: !intersection,
       width: 0, height: 0, time: 2.3 + index * .23,
       pointerX: 0, pointerY: 0, targetX: 0, targetY: 0, failed: false,
+      story: host.closest('.project-story'),
     };
+    scene.fallbackLabel = scene.story?.querySelector('[data-scene-phase]')?.textContent || '';
+    if (scene.story) scene.time = 0;
     scenes.push(scene);
     resize(scene);
     if (intersection) intersection.observe(host);
@@ -171,6 +202,20 @@
       scene.targetY = Math.max(-1, Math.min(1, (event.clientY - bounds.top) / bounds.height * 2 - 1));
     }, { passive: true });
     pointerArea.addEventListener('pointerleave', () => { scene.targetX = 0; scene.targetY = 0; });
+  });
+
+  scenes.filter(scene => scene.story).forEach(scene => {
+    const buttons = Array.from(scene.story.querySelectorAll('.scene-controls [data-scene-state]'));
+    buttons.forEach(button => button.addEventListener('click', () => {
+      if (scene.failed) return;
+      const state = button.dataset.sceneState;
+      if (state !== 'auto' && !Object.hasOwn(scene.renderer.labels, state)) return;
+      scene.host.dataset.sceneState = state;
+      if (state === 'auto') scene.time = 0;
+      buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      draw(scene);
+      start();
+    }));
   });
 
   // Mode controls alter decorative art only, not study data or project results.

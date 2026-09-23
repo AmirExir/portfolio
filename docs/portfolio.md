@@ -10,10 +10,15 @@ The public portfolio is a static site served from the repository root. It presen
 | `assets/css/portfolio.css` | Colors, typography, layouts, responsive rules, and print styles |
 | `assets/css/portfolio-motion.css` | Bounded scene layouts, motion controls, and progressive visual enhancement |
 | `assets/css/portfolio-cinematic.css` | Immersive hero, field-story composition, project windows, and large illustration chapters |
+| `assets/css/project-stories.css` | Bounded project-story artwork, screenshot fallbacks, phase labels, and responsive stage controls |
 | `assets/js/portfolio.js` | Navigation, selected-work search, galleries, email copying, and document feed rendering |
 | `assets/js/engineering-scenes.js` | Deterministic canvas renderers for the grid, Atlas, retrieval, neural, forecast, and workflow illustrations |
 | `assets/js/cinematic-fields.js` | Larger signal-field, evidence-flow, and learning illustrations |
 | `assets/js/power-journey.js` | Conceptual generator-to-load artwork used by the hero's power-systems mode |
+| `assets/js/project-scene-kit.js` | Shared projection, geometry, line, glow, and label drawing helpers for project stories |
+| `assets/js/contingency-scene.js` | Staged illustrative branch opening and alternate-path flow for AELab |
+| `assets/js/fault-scene.js` | Synthetic signal, feature-extraction, and classification artwork |
+| `assets/js/forecast-scene.js` | Illustrative demand landscape, forecast-origin plane, and future contours |
 | `assets/js/portfolio-motion.js` | Shared animation scheduling, viewport visibility, pointer interaction, pause control, and canvas sizing |
 | `assets/fonts/` | Self-hosted Instrument Serif font files and their license |
 | `assets/images/grid-horizon-concept.jpg` | Labeled, AI-generated conceptual grid landscape in Field Notes |
@@ -25,6 +30,7 @@ The public portfolio is a static site served from the repository root. It presen
 | `tests/test_portfolio_site.py` | Static local address and fragment validation |
 | `tests/test_aelab_ui_download.py` | Existing AELab PDF download/checksum regression |
 | `tests/portfolio_browser.cjs` | Optional offline browser interaction checks |
+| `tests/project_scene_states.cjs` | Dependency-free deterministic stage and boundary checks for the three project stories |
 
 The Python applications, engineering datasets, Atlas data, and document ingestion pipelines retain their existing locations. Published image and PDF filenames also stay in place so external bookmarks and application references continue to work. New website-only media can go in `assets/images/` and new downloads in `assets/documents/`; update the corresponding links when adding them. Do not relocate engineering source data to website asset folders.
 
@@ -55,7 +61,7 @@ The site combines self-hosted Instrument Serif with system fonts, existing proje
 
 ## Engineering motion
 
-The page uses seven scene types selected by `.motion-scene[data-scene]`: `field`, `grid`, `atlas`, `evidence`, `rag`, `learning`, and `workflow`. The large `field`, `evidence`, and `learning` scenes belong to `cinematic-fields.js`, which delegates the hero's power-systems mode to `power-journey.js`. The smaller technical insets use `engineering-scenes.js`. The latter also retains its reusable `neural` and `forecast` renderers, although the current page does not place those types. All geometry, motion, and traces are illustrative. They do not represent a study case, measured forecast performance, actual document retrieval, live grid telemetry, or an engineering conclusion.
+The page uses nine scene types selected by `.motion-scene[data-scene]`: `field`, `contingency`, `atlas`, `evidence`, `rag`, `learning`, `forecast`, `fault`, and `workflow`. The large `field`, `evidence`, and `learning` scenes belong to `cinematic-fields.js`, which delegates the hero's power-systems mode to `power-journey.js`. The three project stories have their own renderers, sharing the small drawing helpers in `project-scene-kit.js`; the remaining compact technical insets use `engineering-scenes.js`. The controller reserves the `contingency`, `fault`, and `forecast` types for their project renderers. It must not silently use the older compact forecast illustration if the new forecast module is unavailable. All geometry, motion, and traces are illustrative. They do not represent a study case, measured forecast performance, actual document retrieval, live grid telemetry, or an engineering conclusion.
 
 The renderers draw projected 3D geometry with the browser's 2D canvas API. This keeps the site independent of WebGL, remote rendering libraries, model downloads, and a build pipeline. The tradeoff is that these are purpose-built illustrations rather than a general 3D viewer. Keep analysis tools and real datasets in their existing applications; never make the decorative renderers a source of engineering values.
 
@@ -67,7 +73,13 @@ If `power-journey.js` fails to load or throws while drawing, the hero falls back
 
 The hero's native buttons switch between power systems, knowledge systems, and machine learning. `[data-field-mode]` controls `#heroField`, with a single `aria-pressed` selection and a descriptive live region. Keyboard activation works through the buttons' native Enter/Space behavior. Selecting a mode redraws its illustration even when automatic motion is paused; it does not resume the animation. These controls stay hidden when their canvas cannot initialize or JavaScript is disabled.
 
-`portfolio-motion.js` runs both rendering families through one scheduler, capped at 30 frames per second. Rendering pauses when scenes leave the viewport or the document is hidden. The global “Pause animations” control stops automatic motion; “Play animations” resumes it. A system preference for reduced motion takes priority and displays static scenes. Scene content becomes visible after its first successful draw. Static scene styling, the original portrait, and project screenshots remain available if canvas initialization fails.
+The AELab, fault-detection, and forecasting project stories use native `.scene-controls` buttons for “Sequence” (the `auto` state) and three manually selected stages. Both the scene host and its buttons use `data-scene-state`; scope button queries to `.scene-controls`. Each button targets its canvas host through `aria-controls`, and a single `aria-pressed` selection identifies the active choice. Selecting a manual stage repaints immediately, including while globally paused or under reduced motion, without restarting automatic motion. `[data-scene-phase]` describes the active visual stage with `aria-live="off"` so looping artwork does not repeatedly interrupt assistive technology. Controls appear only after a successful draw and disappear if that renderer fails. Story descriptions, project links, and screenshots remain available without JavaScript, canvas, or optional renderer assets.
+
+These story stages explain methods rather than report results. The AELab illustration shows a base network, an opened branch, alternate-path flow, and restoration during Auto playback; it does not solve a contingency or establish ratings or violations. The fault story uses synthetic traces to illustrate a signal window, feature extraction, and classification, without claiming a measured fault, classifier accuracy, or protection response time. The forecasting story separates a fixed historical demand landscape, forecast-origin plane, and alternative future contours. Its historical geometry does not change with animation time, and its future contours are neither a trained model's prediction nor a calibrated uncertainty interval. Animation duration is presentation timing, not engineering event time. Preserve these distinctions when updating the artwork or captions.
+
+Each project renderer exposes `draw(ctx, options)`, `getStage({time, state})`, and a `labels` map. Their 12-second Auto cycles are deterministic; manual states hold their named stage while time may continue driving decorative pulses. Invalid state names use Auto, and negative or nonfinite times normalize to zero. Renderers do not create timers, modify the DOM, or resize canvases. Keep the phase resolver shared between its labels and drawing behavior so a selected label cannot drift from the displayed illustration.
+
+`portfolio-motion.js` runs all renderers through one scheduler, capped at 30 frames per second. Rendering pauses when scenes leave the viewport or the document is hidden. The global “Pause animations” control stops automatic motion; “Play animations” resumes it. A system preference for reduced motion takes priority and displays static scenes. Scene content becomes visible after its first successful draw. Static scene styling, the original portrait, and project screenshots remain available if canvas initialization fails.
 
 Scene hosts have bounded CSS heights and absolutely positioned canvases. Large cinematic scenes have a 900px upper height limit; compact insets have a 360px limit. CSS dimensions determine the backing bitmap, never the reverse. The runtime also applies defensive canvas positioning and host bounds if component stylesheets are missing or stale. Pixel density is capped at 1.5x for cinematic scenes wider than 820px and 2x elsewhere, with each bitmap dimension limited to 2048 pixels. This limits rendering work and prevents the previous Retina resize feedback bug, where an enlarged canvas bitmap increased its parent size and triggered another enlargement. Preserve this separation whenever changing scene markup or styles.
 
@@ -91,7 +103,12 @@ node --check assets/js/portfolio.js
 node --check assets/js/engineering-scenes.js
 node --check assets/js/cinematic-fields.js
 node --check assets/js/power-journey.js
+node --check assets/js/project-scene-kit.js
+node --check assets/js/contingency-scene.js
+node --check assets/js/fault-scene.js
+node --check assets/js/forecast-scene.js
 node --check assets/js/portfolio-motion.js
+node tests/project_scene_states.cjs
 ```
 
 If pytest is available, include the existing download regression:
@@ -112,9 +129,13 @@ PORTFOLIO_PLAYWRIGHT_MODULE=/tmp/portfolio-browser-check/node_modules/playwright
 
 `PORTFOLIO_PLAYWRIGHT_MODULE` can point to another installed Playwright module. Set `PORTFOLIO_BROWSER_EXECUTABLE` to use an existing Chrome/Chromium executable instead of Playwright’s downloaded browser.
 
-The browser test serves local files through intercepted requests and blocks external network requests. It checks all seven placed scene types, keyboard hero-mode selection, animation and global pause/resume across both rendering families, offscreen and document-visibility suspension, static reduced-motion rendering, and original portrait/project-image fallbacks. The power journey's six-stage order and five load labels are checked in grid mode, including unclipped descriptions on smaller viewports. AI modes must replace those annotations, and the hero must omit simulation and electron-motion warnings.
+The browser test serves local files through intercepted requests and blocks external network requests. It checks all nine placed scene types, keyboard hero-mode and project-stage selection, distinct manual-stage frames, automatic animation and global pause/resume across all renderers, offscreen and document-visibility suspension, static reduced-motion rendering, and original portrait/project-image fallbacks. Manual project selection and Auto must not resume a globally paused scene. Project phase labels must match the selected stage, and controls must retain 44px targets on smaller screens. The separate Node state test locks each project's cycle boundaries, manual states, readable phase labels, default state, and invalid-input behavior without starting a browser or loading datasets. These are UI state tests, not engineering validation.
+
+The power journey's six-stage order and five load labels are checked in grid mode, including unclipped descriptions on smaller viewports. AI modes must replace those annotations, and the hero must omit simulation and electron-motion warnings.
 
 A context with `power-journey.js` blocked verifies the original field fallback and working AI controls. Another injects a draw failure after a successful power frame, verifying that the legend updates, fallback animation continues, AI modes remain distinct, and one warning reports the failure. A separate 2x context deliberately fails the motion component stylesheets and checks repeated resizes for bounded canvas and document dimensions. Another makes scene canvases return no 2D context, verifying that content, navigation, and filtering continue to work.
+
+Additional contexts block the three project renderers or their shared drawing kit, verifying hidden unavailable controls, preserved story headings, screenshots and project links, and no substitution of the old compact forecast renderer. Conversely, blocking both older renderer families must leave all three project stories and their controls functional, while the hero retains its static styling and copy. A late injected fault-renderer failure must restore its screenshot, hide only its controls, warn once, and leave neighboring project scenes and the hero working. The same content-preservation checks run without JavaScript and without canvas contexts.
 
 Layout checks cover 320–1440 pixels, including a shorter 1440×800 desktop viewport, and both 1x and 2x pixel density. The visibility test dispatches a visibility-change event with simulated hidden state because operating-system background-tab behavior is unreliable in a headless browser.
 
