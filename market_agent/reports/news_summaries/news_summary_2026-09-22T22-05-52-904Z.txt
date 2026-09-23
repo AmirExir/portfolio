@@ -1,0 +1,19 @@
+**Fresh market-moving headlines only (last 36 hours).**
+
+## Facts
+- **Global stocks / risk sentiment:** **CNA**, **2026-09-21T21:43:17Z** — Reported that global stocks climbed Monday, citing **lower oil prices** and **positive signals from US-China trade talks** over the weekend as the main drivers.  
+- **US-China / geopolitics:** **ABC News**, **2026-09-21T22:05:38Z** — Reported some US lawmakers urged President Trump to confront Xi Jinping over alleged **Chinese support for Iran**, including claims Chinese companies shared wartime satellite imagery with Iran.  
+- **Energy / refined products:** **OilPrice.com**, **2026-09-21T22:00:00Z** — Reported a **global refinery crunch** pushed **diesel prices to new records**, with US diesel above **$6.50/gallon** and Europe facing soaring fuel prices and shortage risks.  
+- **Energy / crude:** **Crypto Briefing**, **2026-09-21T21:53:08Z** — Reported **Saudi Arabia increased oil exports**, helping keep **oil prices near $100/barrel** after disruption to pipeline operations.  
+- **AI / semis:** **TechRadar**, **2026-09-21T22:05:00Z** — Reported Huawei unveiled an **Ascend 960 SuperPoD roadmap** aimed at challenging Nvidia AI hardware in China, with a large-scale NPU system for advanced AI workloads.  
+- **AI / semis:** **Nvidia.com**, **2026-09-21T21:51:14Z** — Nvidia published details on **multi-device TensorRT inference** for serving models across multiple GPUs, underscoring continued infrastructure buildout for generative AI workloads.  
+- **Crypto / platforms:** **Decrypt**, **2026-09-21T21:46:03Z** — Reported Robinhood CEO Vlad Tenev said **crypto event contracts** are already outpacing sports bets in parts of its prediction-markets business and could become the dominant category.  
+- **Crypto / trading access:** **Crypto Briefing**, **2026-09-21T21:43:51Z** — Reported **X partnered with Gemini, Kraken, Coinbase and others** to integrate crypto trading access tied to cashtags in users’ timelines.  
+- **Inflation / central bank:** **CBC News**, **2026-09-21T21:47:30Z** — Reported Bank of Canada Governor **Tiff Macklem** said inflation is **“stinging more”** in Atlantic Canada even though the region is less exposed to US tariffs than other provinces.
+
+## Interpretation
+- The clearest fresh cross-asset inputs in this set are **oil/energy**, **US-China headlines**, and **AI infrastructure/semiconductor competition**.  
+- For risk sentiment, the only explicit tape explanation provided here is CNA’s report that **lower oil prices and better US-China trade signals** supported stocks Monday.  
+- Energy signals are **mixed**: one article says lower oil helped sentiment, while other fresh pieces highlight **diesel shortages/record diesel prices** and **oil near $100**, suggesting ongoing energy inflation risk beneath the surface.  
+- AI/semi headlines are more **strategic/sectoral** than immediate macro catalysts: Huawei’s China AI push matters for competitive positioning, while Nvidia’s product note reinforces sustained AI-capex themes.  
+- The fresh set is **somewhat thin on hard macro data, Fed, Treasury yields, and major earnings**, so if today’s tape was driven by those, this article set does **not** fully explain it.

@@ -1,0 +1,42 @@
+Market Optimization
+Generated: 2026-09-22 10:22 UTC
+As of: 2026-09-21
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+TSLA: forecast +11.45% by 2026-11-02
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+STX: forecast +7.95% by 2026-11-02
+  Why rejected: up/down predictions failed accuracy checks; predicted move is small relative to past forecast errors.
+
+UNH: forecast +12.13% by 2026-11-02
+  Why rejected: probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+AVGO: forecast +10.87% by 2026-11-02
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+DIA: forecast +2.37% by 2026-11-02
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+Predicted declines
+
+DOT: forecast -10.48% by 2026-10-21
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+SKIPPED - DATA ISSUES
+- SPCX: not enough price history (needs 71 valid closing prices).
+- PEPE-USD: outdated price data (latest 2022-12-11; needed 2026-09-21).
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
