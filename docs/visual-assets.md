@@ -10,11 +10,60 @@ case, operating conditions, power-flow results, or model performance.
 - `AmirinSubstation.jpeg` and the existing `amir-substation-*.webp` files:
   unchanged original documentary photograph of Amir. Shown separately in the
   Field Notes composition; never composited into the generated landscape.
-- Project-window images: existing repository screenshots, not generated mockups.
+- Project-window images: genuine application screenshots, not generated mockups.
 - `assets/fonts/InstrumentSerif-Regular.ttf` and
   `assets/fonts/InstrumentSerif-Italic.ttf`: self-hosted Instrument Serif from
   the Google Fonts repository, distributed under the adjacent
   `InstrumentSerif-OFL.txt`. No runtime font CDN requests.
+
+### AELab gallery refresh
+
+The 20 PNGs in `assets/images/aelab/` were freshly captured from AELab25 on
+September 23, 2026 using the application's existing
+`Docs/capture_aelab25_screenshots.py` harness. They show the current v25.1
+PSS/E / TARA / Utilities shell, including the updated TARA contingency-profile
+selection. These are not the older August PNGs in the source catalog.
+The website uses byte-for-byte copies of the fresh capture outputs.
+
+The harness captures only the real application window and normalizes it to
+1600 × 900. Its IDV library and example directory were isolated in temporary
+storage, and its sanitizer cleared local paths and user example presets.
+Visible inputs are blank, relative `DEMO/...` paths, or built-in documentation
+defaults. Populated planning examples
+retain the embedded synthetic-demo labels; empty result tables are intentional.
+No licensed analysis was executed to create these captures. Their numeric
+defaults and demonstration jobs are interface examples, not study outcomes.
+The portfolio import does not further alter pixels, fill tables, or invent
+results. The source app, its original screenshot catalog, and user study files
+were not modified. Some scrollable panels show only their initial viewport;
+the gallery does not claim that every control is visible in one screenshot.
+
+The eight owner-selected original result/visualization slides stay at their
+original positions: 2, 4, 10, 23, 25, 26, 27, and 28. Their existing assets are
+unchanged. Other positions now cover varied current setup, comparison,
+validation, contingency, and TARA workflows instead of repeated legacy screens;
+alt text describes the actual replacement image. No engineering result is
+inferred from those retained images.
+
+`docs/aelab-gallery.json` records the source repository revision, capture
+script and selection, catalog identities, exported filenames, slide order,
+file sizes, SHA-256 hashes, and new-image dimensions.
+The website and its tests use only the copied local assets; they do not need
+the sibling application repository. The existing overview PDF and all legacy
+image URLs remain intact.
+
+To reproduce the selected UI-only captures from the source repository, run
+the existing harness with a new temporary output directory and isolated
+`AELAB_IDV_CATALOG_PATH` / `AELAB_IDV_EXAMPLES_DIR` locations:
+
+```sh
+./.venv/bin/python Docs/capture_aelab25_screenshots.py \
+  --output-dir <temporary-output-directory> \
+  --only 01,02,03,04,06,08,16,20,24,25,26,27,29,30,34,38,40,41,44,46
+```
+
+This requires the app's existing Tk/Pillow environment and macOS window-capture
+permission. Do not substitute real studies or remove the synthetic-demo labels.
 
 ### Final image-generation prompt
 

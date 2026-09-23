@@ -29,6 +29,7 @@ The public portfolio is a static site served from the repository root. It presen
 | Root images and PDFs | Existing public media and download addresses |
 | `tests/test_portfolio_site.py` | Static local address and fragment validation |
 | `tests/test_aelab_ui_download.py` | Existing AELab PDF download/checksum regression |
+| `tests/test_aelab_gallery.py` | AELab slide preservation, screenshot integrity, and provenance regression |
 | `tests/portfolio_browser.cjs` | Optional offline browser interaction checks |
 | `tests/project_scene_states.cjs` | Dependency-free deterministic stage and boundary checks for the three project stories |
 | `tests/power_journey_geometry.cjs` | Dependency-free equipment geometry, storage flow, fault-event gating, and canvas-state checks |
@@ -54,6 +55,7 @@ Deployment continues to use the static root and the existing `CNAME`, `robots.tx
 - Maintain the selected card’s image link, title link, and text link together when changing its destination. Internal anchors must match an existing unique `id`.
 - Keep paths relative to the repository root in HTML, and encode spaces as `%20`. CSS `url(...)` paths are relative to `assets/css/`; JavaScript feed paths resolve relative to the HTML document. The feed address is configured with `data-feed-url` on `#ercotUpdatesList`.
 - Add gallery images inside `.carousel-track` using `.carousel-slide`. Include descriptive alt text. The script generates navigation dots, slide counts, and accessibility state. Galleries advance manually, so users can inspect technical screenshots without a timer.
+- The AELab gallery has 28 slides. Original visualization/result slides 2, 4, 10, 23, and 25–28 retain their exact images and positions; the other 20 use app captures in `assets/images/aelab/`. The selected-work thumbnail uses the same current steady-state workspace as slide 1. `docs/aelab-gallery.json` records the ordered sources and checksums; `tests/test_aelab_gallery.py` verifies the retained images, copies, and markup together. See `docs/visual-assets.md` for capture provenance and limitations. Original root images and the downloadable overview PDF are not deleted or overwritten.
 - The résumé/download disclosure and course certificate disclosure use native HTML `details` elements. They also work without JavaScript. Preserve the AELab overview’s version query and download filename when editing its two existing links; its regression test verifies the published document.
 - External links that open another tab use `rel="noopener noreferrer"`. Keep alternative contact methods available if the browser denies clipboard access.
 - Maintain the three academic entries in `#education` separately from professional credentials. The section uses native fragment links and readable HTML, so the timeline does not depend on animation or JavaScript. Preserve the recorded institution names, degree types, study dates, and the AI degree's candidate status unless the owner provides updated information.
@@ -110,6 +112,7 @@ Run the local address checks without extra Python dependencies:
 
 ```sh
 python3 -m unittest discover -s tests -p test_portfolio_site.py -v
+python3 -m unittest discover -s tests -p test_aelab_gallery.py -v
 node --check assets/js/portfolio.js
 node --check assets/js/engineering-scenes.js
 node --check assets/js/cinematic-fields.js
@@ -126,7 +129,7 @@ node tests/power_journey_geometry.cjs
 If pytest is available, include the existing download regression:
 
 ```sh
-python3 -m pytest tests/test_portfolio_site.py tests/test_aelab_ui_download.py -q
+python3 -m pytest tests/test_portfolio_site.py tests/test_aelab_ui_download.py tests/test_aelab_gallery.py -q
 ```
 
 The address checks cover the home page’s local links, images, scripts, stylesheet assets, embedded pages, and fragments, including case-sensitive filenames. They do not crawl remote applications or validate the entire repository.
