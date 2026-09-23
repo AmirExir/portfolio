@@ -32,9 +32,12 @@
     const description = document.querySelector('[data-field-description]');
     if (legend) legend.hidden = !powerActive;
     if (label) label.hidden = powerActive;
-    if (description) description.textContent = powerActive
-      ? 'Conceptual energy flow · Not a simulation.'
-      : modeDescriptions[mode] || modeDescriptions.grid;
+    if (description) {
+      description.textContent = powerActive
+        ? 'Homes · Data centers · Crypto mining · Industrial · Commercial'
+        : modeDescriptions[mode] || modeDescriptions.grid;
+      description.classList.toggle('field-description--loads', Boolean(powerActive));
+    }
   }
 
   const motionAllowed = () => !paused && !media.matches && !document.hidden;

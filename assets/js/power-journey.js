@@ -261,6 +261,87 @@
     return g.p(-1.54, 0.35, -0.12);
   }
 
+  function loadWindow(g, x, y, z, width, height, color, phase = 0.95, strength = 0.5) {
+    const corners = [g.p(x, y, z), g.p(x + width, y, z), g.p(x + width, y + height, z), g.p(x, y + height, z)];
+    g.g.face(corners, 'rgba(167,190,179,.13)', 1, 0.007);
+    g.g.lights.push({ points: corners, color, phase, strength });
+  }
+
+  function distributionCabinet(g) {
+    g.box(0, 0.01, 0, 1.09, 0.08, 0.89, 'dark');
+    g.box(0, 0.1, 0, 0.95, 0.55, 0.71, 'steel');
+    g.box(0, 0.65, 0, 1.01, 0.045, 0.75, 'warm');
+    const inputs = [], outputs = [];
+    for (let phase = 0; phase < 3; phase += 1) {
+      const x = -0.3 + phase * 0.3;
+      g.line([point(x - 0.125, 0.16, 0.359), point(x - 0.125, 0.59, 0.359), point(x + 0.125, 0.59, 0.359), point(x + 0.125, 0.16, 0.359)], COLORS.ivory, 0.57, 0.65);
+      g.line([point(x + 0.077, 0.32, 0.367), point(x + 0.077, 0.4, 0.367)], COLORS.gold, 0.8, 0.9);
+      const input = g.insulator(x, 0.704, -0.2, 0.23, 0.052);
+      const output = g.p(x, 0.17, 0.43);
+      inputs.push(input);outputs.push(output);
+      // Each bay passes one phase independently; there is no common phase bar.
+      g.g.route([input, g.p(x, 0.62, -0.2), g.p(x, 0.57, 0.15), g.p(x, 0.17, 0.37), output], phase, 0.813, 0.022, COLORS.gold, 0.53);
+      loadWindow(g, x - 0.04, 0.5, 0.371, 0.055, 0.03, COLORS.gold, 0.835 + phase * 0.018, 0.4);
+    }
+    return { inputs, outputs };
+  }
+
+  function cryptoContainer(g) {
+    g.box(0, 0.06, 0, 1.88, 0.65, 0.91, 'dark');
+    g.box(0, 0.71, 0, 1.96, 0.055, 0.97, 'steel');
+    for (let seam = 0; seam < 14; seam += 1) {
+      const x = -0.88 + seam * 0.135;
+      g.line([point(x, 0.12, -0.46), point(x, 0.68, -0.46)], COLORS.ice, 0.29, 0.55);
+    }
+    // The ventilated mining enclosure differs from the data center's rack bays.
+    for (let fan = 0; fan < 5; fan += 1) {
+      const x = -0.72 + fan * 0.36;
+      g.circle(x, 0.43, 0.465, 0.135, 'xy', COLORS.ice, 0.79, 0.72, 22);
+      g.circle(x, 0.43, 0.467, 0.103, 'xy', COLORS.ivory, 0.42, 0.45, 20);
+      for (let blade = 0; blade < 4; blade += 1) {
+        const angle = blade / 4 * TAU + 0.35;
+        g.line([point(x, 0.43, 0.47), point(x + Math.cos(angle) * 0.104, 0.43 + Math.sin(angle) * 0.104, 0.47)], COLORS.ivory, 0.53, 0.6);
+      }
+      loadWindow(g, x - 0.08, 0.15, 0.473, 0.12, 0.03, COLORS.ice, 0.945 + fan * 0.004, 0.65);
+    }
+    for (let grille = 0; grille < 6; grille += 1) g.line([point(0.945, 0.15 + grille * 0.08, -0.35), point(0.945, 0.15 + grille * 0.08, 0.3)], COLORS.ivory, 0.47, 0.5);
+    g.box(-0.69, 0.765, -0.18, 0.25, 0.055, 0.27, 'steel');
+    return g.p(-0.96, 0.2, -0.18);
+  }
+
+  function industrialWorkshop(g) {
+    g.box(0, 0.025, 0, 1.95, 0.59, 1.05, 'steel');
+    for (let bay = 0; bay < 3; bay += 1) {
+      const left = -0.99 + bay * 0.66;
+      const ridge = left + 0.46;
+      const right = left + 0.66;
+      g.face([point(left, 0.62, -0.58), point(ridge, 0.99, -0.58), point(ridge, 0.99, 0.58), point(left, 0.62, 0.58)], 'rgba(152,169,162,.22)');
+      g.face([point(ridge, 0.99, -0.58), point(right, 0.62, -0.58), point(right, 0.62, 0.58), point(ridge, 0.99, 0.58)], 'rgba(147,190,193,.15)');
+      g.face([point(left, 0.62, 0.531), point(ridge, 0.99, 0.531), point(right, 0.62, 0.531)], 'rgba(86,107,107,.4)');
+      g.line([point(left, 0.62, 0.58), point(ridge, 0.99, 0.58), point(right, 0.62, 0.58)], COLORS.ivory, 0.71, 0.72);
+      g.line([point(ridge, 0.99, 0.58), point(ridge, 0.99, -0.58)], COLORS.ice, 0.6, 0.58);
+      loadWindow(g, left + 0.12, 0.4, 0.539, 0.35, 0.1, COLORS.gold, 0.955 + bay * 0.006, 0.4);
+    }
+    for (let slat = 0; slat < 6; slat += 1) g.line([point(-0.24, 0.09 + slat * 0.05, 0.54), point(0.24, 0.09 + slat * 0.05, 0.54)], COLORS.ivory, 0.36, 0.45);
+    return g.p(-1.0, 0.22, -0.08);
+  }
+
+  function commercialBuilding(g) {
+    g.box(0, 0.02, 0, 1.31, 1.47, 0.91, 'dark');
+    g.box(0, 1.49, 0, 1.42, 0.065, 1.01, 'steel');
+    for (let row = 0; row < 4; row += 1) {
+      for (let column = 0; column < 3; column += 1) {
+        const x = -0.54 + column * 0.37;
+        const y = 0.27 + row * 0.29;
+        loadWindow(g, x, y, 0.463, 0.25, 0.2, row % 2 ? COLORS.ivory : COLORS.gold, 0.945 + row * 0.006 + column * 0.004, 0.38);
+      }
+      g.line([point(-0.61, 0.24 + row * 0.29, 0.47), point(0.61, 0.24 + row * 0.29, 0.47)], COLORS.ivory, 0.47, 0.5);
+    }
+    g.box(0, 0.24, 0.57, 0.64, 0.04, 0.3, 'steel');
+    g.box(0.22, 1.555, -0.17, 0.39, 0.16, 0.34, 'steel');
+    return g.p(-0.67, 0.21, -0.16);
+  }
+
   function connectThree(geometry, from, to, start, duration, amount = 0.13, color = COLORS.gold) {
     for (let phase = 0; phase < 3; phase += 1) geometry.route(sag(from[phase], to[phase], amount), phase, start, duration, color);
   }
@@ -270,13 +351,15 @@
     const layout = mobile ? {
       generation: [-4.25, -2.12, 0.65], stepUp: [-2.04, -2.1, 0.66],
       towers: [[-0.1, -2.0, 0.74], [1.75, -1.9, 0.74], [3.5, -1.8, 0.74]],
-      yard: [3.89, 1.06, 0.54], receiving: [1.98, 1.13, 0.59],
-      data: [-3.17, 1.42, 0.76], houses: [[-0.72, 2.04, 0.73], [0.41, 2.13, 0.67]],
+      yard: [3.89, 1.06, 0.54], receiving: [1.98, 1.13, 0.62], distribution: [1.13, 0.56, 0.62],
+      data: [-3.7, 0.33, 0.76], crypto: [-1.13, 0.2, 0.73], industrial: [-4.25, 2.32, 0.66], commercial: [-2.44, 2.28, 0.62],
+      houses: [[-0.61, 2.12, 0.7], [0.39, 2.18, 0.66]],
     } : {
       generation: [-11.02, 0.28, 1.04], stepUp: [-7.55, 0.02, 1.02],
       towers: [[-4.45, -0.22, 1], [-1.17, -0.36, 1.08], [2.03, -0.2, 1]],
-      yard: [4.95, 0.0, 0.93], receiving: [6.52, 0.1, 0.87],
-      data: [10.55, -1.69, 1.02], houses: [[9.0, 1.49, 0.91], [10.46, 1.98, 0.88], [11.92, 1.42, 0.94]],
+      yard: [4.95, 0.0, 0.93], receiving: [6.52, 0.1, 0.95], distribution: [7.98, 0.22, 0.92],
+      data: [10.55, -1.69, 1.02], crypto: [9.13, -3.02, 0.92], industrial: [13.13, -2.58, 0.91], commercial: [12.88, -0.1, 0.83],
+      houses: [[9.0, 1.49, 0.91], [10.46, 1.98, 0.88], [11.92, 1.42, 0.94]],
     };
     const make = values => new Group(geometry, ...values);
     const generation = generator(make(layout.generation));
@@ -284,8 +367,14 @@
     const towers = layout.towers.map((position, index) => tower(make(position), index === 1 ? 3.68 : 3.52));
     const yard = receivingYard(make(layout.yard));
     const receiving = transformer(make(layout.receiving), true);
-    const data = dataCenter(make(layout.data));
-    const homes = layout.houses.map((position, index) => house(make(position), 0.94 + index * 0.02));
+    const distribution = distributionCabinet(make(layout.distribution));
+    const campus = [
+      { terminal: dataCenter(make(layout.data)), color: COLORS.ice },
+      { terminal: cryptoContainer(make(layout.crypto)), color: COLORS.ice },
+      { terminal: industrialWorkshop(make(layout.industrial)), color: COLORS.gold },
+      { terminal: commercialBuilding(make(layout.commercial)), color: COLORS.ivory },
+    ];
+    const homes = layout.houses.map((position, index) => house(make(position), 0.94 + index * 0.038));
 
     connectThree(geometry, generation, stepUp.low, 0.015, 0.11, mobile ? 0.045 : 0.16, COLORS.ice);
     connectThree(geometry, stepUp.high, towers[0], 0.2, 0.095, mobile ? 0.075 : 0.2);
@@ -294,21 +383,20 @@
     connectThree(geometry, towers[2], yard.inputs, 0.505, 0.07, mobile ? 0.07 : 0.2);
     connectThree(geometry, yard.outputs, receiving.high, 0.62, 0.085, 0.055);
 
-    // Separate outgoing feeder runs terminate at load interfaces. They never
-    // bridge the transformer's primary and secondary winding terminals.
+    // The receiving transformer feeds distinct switchgear bays before the load
+    // branches. Neither this cabinet nor its feeders tie the phases together.
     const direction = mobile ? -1 : 1;
-    const forkX = mobile ? 0.82 : 7.92;
-    const forkZ = mobile ? 1.42 : 0.15;
-    const fork = point(forkX, 0.36, forkZ);
     for (let phase = 0; phase < 3; phase += 1) {
       const terminal = receiving.low[phase];
-      const phaseFork = point(forkX, 0.26 + phase * 0.06, forkZ + phase * 0.11);
-      geometry.route([terminal, point(terminal[0] + direction * 0.15, 0.54, terminal[2]), phaseFork], phase, 0.77, 0.065, COLORS.gold, 0.7);
-      const dataEnd = point(data[0], data[1] + phase * 0.04, data[2] + phase * 0.09);
-      geometry.route([phaseFork, point(forkX + direction * 0.35, 0.24 + phase * 0.06, dataEnd[2]), dataEnd], phase, 0.835, 0.105, COLORS.ice, 0.65);
+      geometry.route(sag(terminal, distribution.inputs[phase], 0.09, 15), phase, 0.77, 0.043, COLORS.gold, 0.7);
+      const phaseFork = distribution.outputs[phase];
+      campus.forEach((load) => {
+        const end = point(load.terminal[0], load.terminal[1] + phase * 0.034, load.terminal[2] + phase * 0.075);
+        geometry.route([phaseFork, point(phaseFork[0] + direction * 0.18, 0.16 + phase * 0.035, end[2]), end], phase, 0.835, 0.105, load.color, 0.52);
+      });
     }
     homes.forEach((home, index) => {
-      const start = point(fork[0], fork[1] - 0.1 + index * 0.06, fork[2] + index * 0.11);
+      const start = distribution.outputs[index % 3];
       geometry.route([start, point(start[0] + direction * 0.16, 0.24, home[2]), point(home[0] - direction * 0.1, 0.24, home[2]), home], index, 0.835, 0.105 + index * 0.02, COLORS.gold, 0.65);
     });
 
@@ -372,7 +460,8 @@
       const fade = Math.min(1, Math.sin(progress * Math.PI) * 3.0);
       glow(ctx, temp[0], temp[1], view.mobile ? 1.5 : 1.9, route.color, fade * 0.92);
       // A short luminous trailing section makes direction legible at a glance.
-      const previous = Math.max(0, scaled - 1.4);
+      const tailLength = Math.min(1.4, (route.points.length - 1) * 0.05);
+      const previous = Math.max(0, scaled - tailLength);
       const pi = Math.min(route.points.length - 2, Math.floor(previous));
       const pa = route.points[pi], pb = route.points[pi + 1], pf = previous - pi;
       projection(point(lerp(pa[0], pb[0], pf), lerp(pa[1], pb[1], pf), lerp(pa[2], pb[2], pf)), view, temp2);

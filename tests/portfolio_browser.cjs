@@ -8,6 +8,7 @@ const root = path.resolve(__dirname, '..');
 const realFeed = JSON.parse(fs.readFileSync(path.join(root, 'ERCOTAPI/latest_ercot_updates.json'), 'utf8'));
 const sceneTypes = ['field', 'grid', 'atlas', 'evidence', 'rag', 'learning', 'workflow'];
 const cinematicTypes = ['field', 'evidence', 'learning'];
+const powerLoadLabels = ['Homes', 'Data centers', 'Crypto mining', 'Industrial', 'Commercial'];
 
 async function waitForPaint(scene) {
   await scene.scrollIntoViewIfNeeded();
@@ -105,6 +106,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
   const motionToggle = page.locator('[data-motion-toggle]').first();
   const fieldModes = page.locator('[data-field-mode]');
   const powerLegend = page.locator('[data-power-legend]');
+  const fieldDescription = page.locator('[data-field-description]');
   assert.equal(await fieldModes.count(), 3, 'The hero should expose its grid, knowledge, and learning modes');
   assert.equal(await page.locator('[data-project-card] .work-image img:visible').count(), 6, 'Selected work should show actual project screenshots');
   assert.ok(await page.locator('[data-project-card] .work-image img').evaluateAll(images => images.every(image => Number(getComputedStyle(image).opacity) > 0)), 'Project screenshots must remain visibly painted when scripts run');
@@ -118,11 +120,13 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
   await waitForPaint(heroScene);
   assert.equal(await powerLegend.isVisible(), true, 'The power journey should identify its conceptual stages');
   const journeyStages = powerLegend.locator('ol > li');
-  assert.equal(await journeyStages.count(), 5);
-  for (const [index, label] of [/Generator/i, /Step.up/i, /Transmission/i, /Substation/i, /Homes.*data centers/i].entries()) {
-    const stageText = (await journeyStages.nth(index).textContent()).replace(/\s+/g, ' ');
-    assert.match(stageText, label, 'The legend should follow the conceptual generation-to-load sequence');
+  const stageLabels = (await journeyStages.allTextContents()).map(text => text.replace(/\s+/g, ' ').trim());
+  assert.deepEqual(stageLabels, ['Generator', 'Step-up', 'Transmission', 'Step-down substation', 'Distribution', 'Loads'], 'The power journey must distinguish step-down and distribution before the load stage');
+  const powerDescription = await fieldDescription.textContent();
+  for (const label of powerLoadLabels) {
+    assert.ok(powerDescription.includes(label), `Power mode should identify the ${label.toLowerCase()} load type`);
   }
+  assert.doesNotMatch(await page.locator('.hero').textContent(), /\b(?:simulation|electrons?|trajector(?:y|ies))\b/i, 'Engineering caveats belong in the documentation, not the hero caption');
   const movingFrame = await frame(heroScene);
   await page.waitForTimeout(250);
   assert.notEqual(
@@ -150,6 +154,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
     assert.equal(await heroScene.getAttribute('data-field-state'), mode);
     assert.equal(await powerLegend.isVisible(), false, 'Power-stage labels must be hidden in AI modes');
     assert.equal(await page.locator('[data-field-label]').isVisible(), true, 'AI modes should retain their general illustration label');
+    assert.notEqual(await fieldDescription.textContent(), powerDescription, 'AI modes must replace the power-load caption with their own description');
     await page.waitForTimeout(150);
     const selectedFrame = await frame(heroScene);
     assert.notEqual(selectedFrame, modeFrames.at(-1), 'Selecting a mode should redraw even while automatic motion is paused');
@@ -161,6 +166,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
   await page.locator('[data-field-mode="grid"]').click();
   assert.equal(await heroScene.getAttribute('data-field-state'), 'grid');
   assert.equal(await powerLegend.isVisible(), true);
+  assert.equal(await fieldDescription.textContent(), powerDescription, 'Returning to power mode should restore all load labels');
   for (const type of sceneTypes) {
     const scene = page.locator(`.motion-scene[data-scene="${type}"]`).first();
     await waitForPaint(scene);
@@ -367,6 +373,11 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
     assert.ok(educationBounds.every(box => box.left >= 0 && box.right <= width + 1 && box.height > 0), `${viewportLabel}: all education entries must remain readable within the viewport`);
     const legendBounds = await powerLegend.boundingBox();
     assert.ok(legendBounds && legendBounds.x >= 0 && legendBounds.x + legendBounds.width <= width + 1, `${viewportLabel}: power journey labels must remain inside the viewport`);
+    const descriptionBounds = await fieldDescription.evaluate(description => {
+      const { left, right } = description.getBoundingClientRect();
+      return { left, right, clipped: description.scrollWidth > description.clientWidth + 1 || description.scrollHeight > description.clientHeight + 1 };
+    });
+    assert.ok(descriptionBounds.left >= 0 && descriptionBounds.right <= width + 1 && !descriptionBounds.clipped, `${viewportLabel}: all load labels must fit without clipping`);
     const bounds = await page.locator('[data-project-card]').evaluateAll(cards => cards.map(card => {
       const { width, top } = card.getBoundingClientRect();
       return { width, top };
@@ -461,6 +472,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
   assert.notEqual(fallbackFieldFrame, reducedPowerJourneyFrame, 'The loaded power renderer should replace the original abstract grid field');
   assert.equal(await noJourneyPage.locator('[data-power-legend]').isVisible(), false, 'A fallback field must not advertise absent power-stage objects');
   assert.equal(await noJourneyPage.locator('[data-field-label]').isVisible(), true);
+  assert.notEqual(await noJourneyPage.locator('[data-field-description]').textContent(), powerDescription, 'The fallback should not advertise absent load artwork');
   await noJourneyPage.waitForTimeout(150);
   assert.equal(await frame(fallbackField), fallbackFieldFrame, 'Fallback artwork must still respect reduced motion');
   for (const mode of ['knowledge', 'learning']) {
@@ -490,6 +502,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJou
   });
   await failedJourneyPage.waitForFunction(() => document.querySelector('#heroField').classList.contains('is-ready') && document.querySelector('[data-power-legend]').hidden);
   assert.equal(await failedJourneyPage.locator('[data-field-label]').isVisible(), true);
+  assert.notEqual(await failedJourneyPage.locator('[data-field-description]').textContent(), powerDescription, 'A failed power renderer must also replace its load caption');
   assert.equal(await failedJourneyPage.locator('.field-modes').isVisible(), true, 'An optional renderer failure must preserve working hero controls');
   const recoveredFrame = await frame(recoveringField);
   await failedJourneyPage.waitForTimeout(200);
