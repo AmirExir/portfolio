@@ -133,22 +133,22 @@ if prompt := st.chat_input("Ask about ERCOT DWG and SSWG manuals..."):
         client = get_openai_client()
         try:
             response = client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-6-astra",
                 messages=[build_system_prompt(context)] + conversation_messages,
-                max_tokens=4_096,
-                temperature=0.2,
+                max_completion_tokens=4_096,
+                reasoning_effort="low",
             )
             response_assessment = assess_chat_completion(response)
             if response_assessment.retryable:
                 retry_context = format_context(matches[:6], max_words=6_000)
                 retry_response = client.chat.completions.create(
-                    model="gpt-4o-mini",
+                    model="gpt-6-astra",
                     messages=[
                         build_system_prompt(retry_context),
                         *conversation_messages,
                     ],
-                    max_tokens=4_096,
-                    temperature=0.2,
+                    max_completion_tokens=4_096,
+                    reasoning_effort="low",
                 )
                 response_assessment = assess_chat_completion(retry_response)
         except Exception as exc:

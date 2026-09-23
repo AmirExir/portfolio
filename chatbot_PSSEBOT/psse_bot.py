@@ -168,8 +168,8 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
                 max_characters_per_message=4_000,
             )
             primary_request = {
-                "model": "gpt-5.2",
-                "reasoning": {"effort": "none"},
+                "model": "gpt-6-astra",
+                "reasoning": {"effort": "low"},
                 "text": {"verbosity": "medium"},
                 "input": [build_system_prompt(context), *conversation],
                 "max_output_tokens": 6_000,
@@ -227,8 +227,8 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
             correction = request_visible_answer(
                 client.responses.create,
                 {
-                    "model": "gpt-5.2",
-                    "reasoning": {"effort": "none"},
+                    "model": "gpt-6-astra",
+                    "reasoning": {"effort": "low"},
                     "text": {"verbosity": "medium"},
                     "input": correction_messages,
                     "max_output_tokens": 6_000,

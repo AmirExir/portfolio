@@ -77,8 +77,8 @@ if user_query:
     with st.spinner("Thinking..."):
         try:
             response = client.responses.create(
-                model="gpt-5.2",
-                reasoning={"effort": "none"},
+                model="gpt-6-astra",
+                reasoning={"effort": "low"},
                 input=request_messages,
                 max_output_tokens=2048,
             )
@@ -87,8 +87,8 @@ if user_query:
             # Retry only an empty or incomplete generation, with no old chat turns.
             if assessment.retryable:
                 response = client.responses.create(
-                    model="gpt-5.2",
-                    reasoning={"effort": "none"},
+                    model="gpt-6-astra",
+                    reasoning={"effort": "low"},
                     input=[system_prompt, {"role": "user", "content": user_query}],
                     max_output_tokens=3072,
                 )

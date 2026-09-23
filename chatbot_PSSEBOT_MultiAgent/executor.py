@@ -18,7 +18,7 @@ def run_executor(
     prompt: str,
     context: str,
     valid_funcs: set,
-    model: str = "gpt-5.2",
+    model: str = "gpt-6-astra",
     token_limit: int = 32_000,
     max_response_tokens: int = 6_000,
 ):
@@ -64,7 +64,7 @@ Documentation context:
     # ---------------------------
     primary_request = {
         "model": model,
-        "reasoning": {"effort": "none"},
+        "reasoning": {"effort": "low"},
         "text": {"verbosity": "medium"},
         "input": messages,
         "max_output_tokens": max_out,
@@ -108,7 +108,7 @@ Do NOT introduce new API names.
         client.responses.create,
         {
             "model": model,
-            "reasoning": {"effort": "none"},
+            "reasoning": {"effort": "low"},
             "text": {"verbosity": "medium"},
             "input": correction_messages,
             "max_output_tokens": max_out,

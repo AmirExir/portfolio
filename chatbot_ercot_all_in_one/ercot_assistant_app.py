@@ -370,17 +370,11 @@ if prompt:
             max_messages=6,
             max_characters_per_message=6_000,
         )
-        analysis = evidence_bundle.get("analysis") or {}
-        reasoning_effort = (
-            "low"
-            if analysis.get("intent") == "change_comparison"
-            else "none"
-        )
         client = get_openai_client()
         response = safe_openai_call(
             client.responses.create,
-            model="gpt-5.2",
-            reasoning={"effort": reasoning_effort},
+            model="gpt-6-astra",
+            reasoning={"effort": "low"},
             text={"verbosity": "medium"},
             input=[system_prompt] + conversation_messages,
             max_output_tokens=8_000,
@@ -394,8 +388,8 @@ if prompt:
             )
             retry_response = safe_openai_call(
                 client.responses.create,
-                model="gpt-5.2",
-                reasoning={"effort": "none"},
+                model="gpt-6-astra",
+                reasoning={"effort": "low"},
                 text={"verbosity": "medium"},
                 input=[
                     build_system_prompt(evidence_bundle, retry_context),

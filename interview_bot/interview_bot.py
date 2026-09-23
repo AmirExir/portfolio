@@ -464,10 +464,10 @@ if selected_story and query_to_answer:
     with st.spinner("Answering..."):
         try:
             response = client.chat.completions.create(
-                model="gpt-4o",
+                model="gpt-6-astra",
                 messages=messages,
-                max_tokens=2048,
-                temperature=0.2,
+                max_completion_tokens=2048,
+                reasoning_effort="low",
             )
             assessment = assess_chat_completion(response)
 
@@ -475,10 +475,10 @@ if selected_story and query_to_answer:
             # truncated. The same single retrieved context remains authoritative.
             if assessment.retryable:
                 response = client.chat.completions.create(
-                    model="gpt-4o",
+                    model="gpt-6-astra",
                     messages=messages,
-                    max_tokens=3072,
-                    temperature=0.2,
+                    max_completion_tokens=3072,
+                    reasoning_effort="low",
                 )
                 assessment = assess_chat_completion(response)
         except Exception:

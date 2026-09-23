@@ -233,8 +233,8 @@ if prompt := st.chat_input("Ask about ERCOT planning guides..."):
         client = get_openai_client()
         try:
             response = client.responses.create(
-                model="gpt-5.2",
-                reasoning={"effort": "none"},
+                model="gpt-6-astra",
+                reasoning={"effort": "low"},
                 text={"verbosity": "medium"},
                 input=[build_system_prompt(context)] + conversation_messages,
                 max_output_tokens=6_000,
@@ -243,8 +243,8 @@ if prompt := st.chat_input("Ask about ERCOT planning guides..."):
             if response_assessment.retryable:
                 retry_context = format_context(matches[:3], max_words=4_000)
                 retry_response = client.responses.create(
-                    model="gpt-5.2",
-                    reasoning={"effort": "none"},
+                    model="gpt-6-astra",
+                    reasoning={"effort": "low"},
                     text={"verbosity": "medium"},
                     input=[
                         build_system_prompt(retry_context),

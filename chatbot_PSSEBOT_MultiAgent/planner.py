@@ -7,7 +7,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def plan_tasks(
     user_query,
     reference_chunks,
-    model="gpt-5.2",
+    model="gpt-6-astra",
     token_limit=32_000,
     max_response_tokens=3_000,
 ):
@@ -72,7 +72,7 @@ Strict Rules:
     ]
     primary_request = {
         "model": model,
-        "reasoning": {"effort": "none"},
+        "reasoning": {"effort": "low"},
         "text": {"verbosity": "low"},
         "input": messages,
         "max_output_tokens": max_response_tokens,
