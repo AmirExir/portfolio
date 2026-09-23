@@ -13,6 +13,8 @@
   const ICE = '#84c9c4';
   const modeStates = new WeakMap();
   const transitionLayers = new WeakMap();
+  let powerJourneyFailed = false;
+  const powerJourneyAvailable = () => !powerJourneyFailed && typeof window.PowerJourney?.draw === 'function';
   const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
   const smooth = value => value * value * (3 - 2 * value);
 
@@ -42,7 +44,7 @@
     const yaw = (hero ? -0.12 : -0.19) + pointerX * 0.17 + Math.sin(time * 0.08) * 0.04;
     const pitch = (hero ? 0.12 : 0.14) + pointerY * 0.1;
     return {
-      width, height,
+      width, height, pointerX, pointerY,
       cx: width * (hero || mobile ? 0.5 : type === 'evidence' ? 0.76 : 0.28) + pointerX * width * 0.006,
       cy: height * (hero ? 0.725 : mobile ? 0.735 : 0.51) + pointerY * height * 0.006,
       scale: hero
@@ -498,6 +500,23 @@
 
   function drawHeroMode(ctx, view, time, mode) {
     if (mode === 0) {
+      if (powerJourneyAvailable()) {
+        ctx.save();
+        try {
+          window.PowerJourney.draw(ctx, {
+            width: view.width, height: view.height, time,
+            pointerX: view.pointerX, pointerY: view.pointerY,
+          });
+          return;
+        } catch (error) {
+          // This optional artwork must not disable the working AI illustrations.
+          powerJourneyFailed = true;
+          console.warn('Power journey unavailable; using the abstract grid illustration.', error);
+        } finally {
+          ctx.restore();
+        }
+        ctx.clearRect(0, 0, view.width, view.height);
+      }
       drawGridField(ctx, view, time);
       return;
     }
@@ -559,11 +578,12 @@
     ctx.save();
     ctx.globalCompositeOperation = 'destination-in';
     const mask = ctx.createLinearGradient(0, 0, 0, view.height);
+    const powerWeight = powerJourneyAvailable() ? weights[0] : 0;
     mask.addColorStop(0, 'rgba(0,0,0,0)');
-    mask.addColorStop(0.52, 'rgba(0,0,0,0)');
-    mask.addColorStop(0.605, 'rgba(0,0,0,1)');
-    mask.addColorStop(0.755, 'rgba(0,0,0,1)');
-    mask.addColorStop(0.838, 'rgba(0,0,0,0)');
+    mask.addColorStop(0.52 - powerWeight * 0.10, 'rgba(0,0,0,0)');
+    mask.addColorStop(0.605 - powerWeight * 0.095, 'rgba(0,0,0,1)');
+    mask.addColorStop(0.755 + powerWeight * 0.035, 'rgba(0,0,0,1)');
+    mask.addColorStop(0.838 + powerWeight * 0.012, 'rgba(0,0,0,0)');
     mask.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = mask;
     ctx.fillRect(0, 0, view.width, view.height);
@@ -585,5 +605,8 @@
     ctx.restore();
   }
 
-  window.CinematicFields = Object.freeze({ types: Object.freeze(['field', 'evidence', 'learning']), draw });
+  window.CinematicFields = Object.freeze({
+    types: Object.freeze(['field', 'evidence', 'learning']), draw,
+    get powerJourneyAvailable() { return powerJourneyAvailable(); },
+  });
 })();

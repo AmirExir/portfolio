@@ -52,13 +52,14 @@
 
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="preload" href="assets/fonts/InstrumentSerif-Italic.ttf" as="font" type="font/ttf" crossorigin />
-  <link rel="stylesheet" href="assets/css/portfolio.css?v=signal-field-2" />
-  <link rel="stylesheet" href="assets/css/portfolio-motion.css?v=signal-field-2" />
-  <link rel="stylesheet" href="assets/css/portfolio-cinematic.css?v=signal-field-2" />
-  <script src="assets/js/portfolio.js?v=signal-field-2" defer></script>
-  <script src="assets/js/engineering-scenes.js?v=signal-field-2" defer></script>
-  <script src="assets/js/cinematic-fields.js?v=signal-field-2" defer></script>
-  <script src="assets/js/portfolio-motion.js?v=signal-field-2" defer></script>
+  <link rel="stylesheet" href="assets/css/portfolio.css?v=power-journey-3" />
+  <link rel="stylesheet" href="assets/css/portfolio-motion.css?v=power-journey-3" />
+  <link rel="stylesheet" href="assets/css/portfolio-cinematic.css?v=power-journey-3" />
+  <script src="assets/js/portfolio.js?v=power-journey-3" defer></script>
+  <script src="assets/js/engineering-scenes.js?v=power-journey-3" defer></script>
+  <script src="assets/js/power-journey.js?v=power-journey-3" defer></script>
+  <script src="assets/js/cinematic-fields.js?v=power-journey-3" defer></script>
+  <script src="assets/js/portfolio-motion.js?v=power-journey-3" defer></script>
 </head>
 
 <body>
@@ -76,6 +77,7 @@
           <li><a href="#projects">Work</a></li>
           <li><a href="#summary">About</a></li>
           <li><a href="#experience">Experience</a></li>
+          <li><a href="#education">Education</a></li>
           <li><a href="#credentials">Credentials</a></li>
           <li><a class="nav-contact" href="#contact">Let’s connect <span aria-hidden="true">↗</span></a></li>
         </ul>
@@ -108,7 +110,8 @@
         </div>
       </div>
       <div class="field-console">
-        <p class="field-console-label">EXPLORE THE INTERSECTION <span aria-hidden="true">↘</span></p>
+        <div class="power-legend" data-power-legend hidden><ol aria-label="Conceptual power system path"><li>Generator</li><li>Step-up</li><li>Transmission</li><li>Substation</li><li>Homes + data centers</li></ol><span class="sr-only">Moving light pulses illustrate energy transfer, not literal electron trajectories or measured operating conditions.</span></div>
+        <p class="field-console-label" data-field-label>EXPLORE THE INTERSECTION <span aria-hidden="true">↘</span></p>
         <div class="field-modes" role="group" aria-label="Choose the signal field illustration" hidden>
           <button type="button" data-field-mode="grid" aria-controls="heroField" aria-pressed="true"><span>01</span> Power systems</button>
           <button type="button" data-field-mode="knowledge" aria-controls="heroField" aria-pressed="false"><span>02</span> Knowledge systems</button>
@@ -407,6 +410,47 @@
               <h3>Associate / Substitute Teacher</h3>
               <p class="meta">CFISD / HISD | 2018 - 2022 | Houston, TX</p>
               <p>Classroom teaching and instructional support, with an emphasis on explaining technical concepts to students with varied backgrounds.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-band" id="education" aria-labelledby="educationTitle">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Education</p>
+            <h2 id="educationTitle">Electrical engineering.<br><em>Artificial intelligence.</em></h2>
+          </div>
+          <p>A foundation in electrical and computer engineering, followed by graduate study in power systems and artificial intelligence.</p>
+        </div>
+
+        <div class="experience-grid">
+          <article class="experience-card">
+            <img class="experience-logo" src="UT.png" alt="University of Texas at Austin logo" loading="lazy" decoding="async" />
+            <div>
+              <h3>M.S. in Artificial Intelligence <span class="study-status">Degree candidate · Graduating</span></h3>
+              <p class="meta">The University of Texas at Austin | Aug 2024 – Present</p>
+              <p>Graduate study in deep learning, machine learning, optimization, and AI ethics, with projects in computer vision and autonomous racing.</p>
+            </div>
+          </article>
+
+          <article class="experience-card">
+            <img class="experience-logo" src="Lamar.png" alt="Lamar University logo" loading="lazy" decoding="async" />
+            <div>
+              <h3>M.Eng. in Electrical &amp; Computer Engineering</h3>
+              <p class="meta">Lamar University | Jan 2019 – May 2020</p>
+              <p>Coursework in power system stability and control, protection, robotics, programmable logic controllers, computer networks, and cyber-physical systems.</p>
+            </div>
+          </article>
+
+          <article class="experience-card">
+            <img class="experience-logo" src="Beheshti.png" alt="Shahid Beheshti University logo" loading="lazy" decoding="async" />
+            <div>
+              <h3>B.S. in Electrical &amp; Computer Engineering</h3>
+              <p class="meta">Shahid Beheshti University | Oct 2012 – Jul 2017</p>
+              <p>Foundations in power systems, electrical machines, protection and relays, electronics, programming, and computer architecture.</p>
             </div>
           </article>
         </div>

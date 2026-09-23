@@ -13,6 +13,7 @@ The public portfolio is a static site served from the repository root. It presen
 | `assets/js/portfolio.js` | Navigation, selected-work search, galleries, email copying, and document feed rendering |
 | `assets/js/engineering-scenes.js` | Deterministic canvas renderers for the grid, Atlas, retrieval, neural, forecast, and workflow illustrations |
 | `assets/js/cinematic-fields.js` | Larger signal-field, evidence-flow, and learning illustrations |
+| `assets/js/power-journey.js` | Conceptual generator-to-load artwork used by the hero's power-systems mode |
 | `assets/js/portfolio-motion.js` | Shared animation scheduling, viewport visibility, pointer interaction, pause control, and canvas sizing |
 | `assets/fonts/` | Self-hosted Instrument Serif font files and their license |
 | `assets/images/grid-horizon-concept.jpg` | Labeled, AI-generated conceptual grid landscape in Field Notes |
@@ -48,14 +49,17 @@ Deployment continues to use the static root and the existing `CNAME`, `robots.tx
 - Add gallery images inside `.carousel-track` using `.carousel-slide`. Include descriptive alt text. The script generates navigation dots, slide counts, and accessibility state. Galleries advance manually, so users can inspect technical screenshots without a timer.
 - The résumé/download disclosure and course certificate disclosure use native HTML `details` elements. They also work without JavaScript. Preserve the AELab overview’s version query and download filename when editing its two existing links; its regression test verifies the published document.
 - External links that open another tab use `rel="noopener noreferrer"`. Keep alternative contact methods available if the browser denies clipboard access.
+- Maintain the three academic entries in `#education` separately from professional credentials. The section uses native fragment links and readable HTML, so the timeline does not depend on animation or JavaScript. Preserve the recorded institution names, degree types, study dates, and the AI degree's candidate status unless the owner provides updated information.
 
 The site combines self-hosted Instrument Serif with system fonts, existing project screenshots, and photography. The immersive hero introduces the engineering themes through an interactive signal field. The original `AmirinSubstation.jpeg` appears in the Field Notes section immediately below the opening material, with responsive WebP copies where supported. That original portrait remains visually separate from the labeled AI-generated grid landscape. Selected-work cards show actual project screenshots in application-window frames; detailed galleries retain their screenshots. Content and navigation remain available without JavaScript; galleries then scroll horizontally. The mobile AI assistant link appears in the footer to avoid covering page content.
 
 ## Engineering motion
 
-The page uses seven scene types selected by `.motion-scene[data-scene]`: `field`, `grid`, `atlas`, `evidence`, `rag`, `learning`, and `workflow`. The large `field`, `evidence`, and `learning` scenes belong to `cinematic-fields.js`; the smaller technical insets use `engineering-scenes.js`. The latter also retains its reusable `neural` and `forecast` renderers, although the current page does not place those types. All geometry, motion, and traces are illustrative. They do not represent a study case, measured forecast performance, actual document retrieval, live grid telemetry, or an engineering conclusion.
+The page uses seven scene types selected by `.motion-scene[data-scene]`: `field`, `grid`, `atlas`, `evidence`, `rag`, `learning`, and `workflow`. The large `field`, `evidence`, and `learning` scenes belong to `cinematic-fields.js`, which delegates the hero's power-systems mode to `power-journey.js`. The smaller technical insets use `engineering-scenes.js`. The latter also retains its reusable `neural` and `forecast` renderers, although the current page does not place those types. All geometry, motion, and traces are illustrative. They do not represent a study case, measured forecast performance, actual document retrieval, live grid telemetry, or an engineering conclusion.
 
-Both renderers draw projected 3D geometry with the browser's 2D canvas API. This keeps the site independent of WebGL, remote rendering libraries, model downloads, and a build pipeline. The tradeoff is that these are purpose-built illustrations rather than a general 3D viewer. Keep analysis tools and real datasets in their existing applications; never make the decorative renderers a source of engineering values.
+The renderers draw projected 3D geometry with the browser's 2D canvas API. This keeps the site independent of WebGL, remote rendering libraries, model downloads, and a build pipeline. The tradeoff is that these are purpose-built illustrations rather than a general 3D viewer. Keep analysis tools and real datasets in their existing applications; never make the decorative renderers a source of engineering values.
+
+The power journey illustrates a generator, step-up transformer, transmission corridor, substation, and loads represented by homes and a data center. Luminous pulses indicate conceptual energy flow. They do not depict electrons traveling from a generator to a load through an AC system, and no power flow, voltage, current, protection operation, or equipment rating is calculated. `[data-power-legend]` identifies the stages only while the corresponding artwork is available and selected. If `power-journey.js` fails to load or throws while drawing, the hero falls back to its original abstract grid field, hides the stage legend, and keeps the knowledge and learning modes available. A draw failure is logged once and disables further calls to that optional renderer for the page session.
 
 The hero's native buttons switch between power systems, knowledge systems, and machine learning. `[data-field-mode]` controls `#heroField`, with a single `aria-pressed` selection and a descriptive live region. Keyboard activation works through the buttons' native Enter/Space behavior. Selecting a mode redraws its illustration even when automatic motion is paused; it does not resume the animation. These controls stay hidden when their canvas cannot initialize or JavaScript is disabled.
 
@@ -82,6 +86,7 @@ python3 -m unittest discover -s tests -p test_portfolio_site.py -v
 node --check assets/js/portfolio.js
 node --check assets/js/engineering-scenes.js
 node --check assets/js/cinematic-fields.js
+node --check assets/js/power-journey.js
 node --check assets/js/portfolio-motion.js
 ```
 
@@ -103,13 +108,19 @@ PORTFOLIO_PLAYWRIGHT_MODULE=/tmp/portfolio-browser-check/node_modules/playwright
 
 `PORTFOLIO_PLAYWRIGHT_MODULE` can point to another installed Playwright module. Set `PORTFOLIO_BROWSER_EXECUTABLE` to use an existing Chrome/Chromium executable instead of Playwright’s downloaded browser.
 
-The browser test serves local files through intercepted requests and blocks external network requests. It checks all seven placed scene types, keyboard hero-mode selection, animation and global pause/resume across both rendering families, offscreen and document-visibility suspension, static reduced-motion rendering, and original portrait/project-image fallbacks. The visibility test dispatches a visibility-change event with simulated hidden state because operating-system background-tab behavior is unreliable in a headless browser. Layout checks cover 320–1440 pixels and both 1x and 2x pixel density. A separate 2x context deliberately fails the motion component stylesheets and checks repeated resizes for bounded canvas and document dimensions. Another context makes scene canvases return no 2D context, verifying that the portfolio's content, navigation, and filtering continue to work.
+The browser test serves local files through intercepted requests and blocks external network requests. It checks all seven placed scene types, keyboard hero-mode selection, animation and global pause/resume across both rendering families, offscreen and document-visibility suspension, static reduced-motion rendering, and original portrait/project-image fallbacks. The power journey's ordered legend is checked in grid mode and hidden in AI modes.
 
-Existing regression checks also cover filtering/search/reset, keyboard and manual galleries, mobile navigation, clipboard failure, dated document snapshots, malformed feed responses, and unsafe document URLs. Inspect representative desktop and mobile screenshots as well: functional checks cannot establish visual quality. Browser screenshots and temporary profiles should remain outside Git.
+A context with `power-journey.js` blocked verifies the original field fallback and working AI controls. Another injects a draw failure after a successful power frame, verifying that the legend updates, fallback animation continues, AI modes remain distinct, and one warning reports the failure. A separate 2x context deliberately fails the motion component stylesheets and checks repeated resizes for bounded canvas and document dimensions. Another makes scene canvases return no 2D context, verifying that content, navigation, and filtering continue to work.
+
+Layout checks cover 320–1440 pixels, including a shorter 1440×800 desktop viewport, and both 1x and 2x pixel density. The visibility test dispatches a visibility-change event with simulated hidden state because operating-system background-tab behavior is unreliable in a headless browser.
+
+Existing regression checks also cover the restored education timeline and native anchors, filtering/search/reset, keyboard and manual galleries, mobile navigation, clipboard failure, dated document snapshots, malformed feed responses, and unsafe document URLs. Education entries are checked for their source-backed dates, current candidate status, responsive bounds, and availability without JavaScript. Inspect representative desktop and mobile screenshots as well: functional checks cannot establish visual quality. Browser screenshots and temporary profiles should remain outside Git.
 
 ## Content boundaries
 
 The engineering descriptions and credentials originate from the existing portfolio. Based on the owner-provided status, the AI master’s program is described as a graduating degree candidate rather than a conferred degree. Update that language after formal conferral. This design work does not independently validate professional credential status or introduce new engineering results.
+
+The education timeline restores UT Austin (M.S. in Artificial Intelligence, August 2024–present), Lamar University (M.Eng. in Electrical and Computer Engineering, January 2019–May 2020), and Shahid Beheshti University (B.S. in Electrical and Computer Engineering, October 2012–July 2017). Institution names and study periods come from the repository résumé and earlier portfolio content. Conflicting GPA values in those sources are not displayed.
 
 The ERCOT panel shows the snapshot’s generation date and supplied document status/effectiveness notes. A successful fetch does not prove that a document is current or governing. The panel reports missing metadata and load failures instead of presenting a saved feed as live regulatory information. The underlying feed, Atlas datasets, and engineering calculations are unchanged.
 

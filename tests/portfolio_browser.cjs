@@ -63,11 +63,12 @@ async function assertBoundedScenes(page, label) {
   }
 }
 
-async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
+async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJourney = false } = {}) {
   await context.route('**/*', (route) => {
     const url = new URL(route.request().url());
     if (url.hostname !== 'portfolio.test') return route.abort();
     if (omitMotionStyles && ['/portfolio-motion.css', '/portfolio-cinematic.css'].some(file => url.pathname.endsWith(file))) return route.abort();
+    if (omitPowerJourney && url.pathname.endsWith('/power-journey.js')) return route.abort();
     const file = path.join(root, decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname));
     return fs.existsSync(file) ? route.fulfill({ path: file }) : route.fulfill({ status: 404, body: '' });
   });
@@ -103,6 +104,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   const heroScene = page.locator('.hero .motion-scene[data-scene="field"]');
   const motionToggle = page.locator('[data-motion-toggle]').first();
   const fieldModes = page.locator('[data-field-mode]');
+  const powerLegend = page.locator('[data-power-legend]');
   assert.equal(await fieldModes.count(), 3, 'The hero should expose its grid, knowledge, and learning modes');
   assert.equal(await page.locator('[data-project-card] .work-image img:visible').count(), 6, 'Selected work should show actual project screenshots');
   assert.ok(await page.locator('[data-project-card] .work-image img').evaluateAll(images => images.every(image => Number(getComputedStyle(image).opacity) > 0)), 'Project screenshots must remain visibly painted when scripts run');
@@ -114,6 +116,13 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   }
   assert.equal(new Set(sceneFrames).size, sceneTypes.length, 'Project areas should use distinct rendered scenes');
   await waitForPaint(heroScene);
+  assert.equal(await powerLegend.isVisible(), true, 'The power journey should identify its conceptual stages');
+  const journeyStages = powerLegend.locator('ol > li');
+  assert.equal(await journeyStages.count(), 5);
+  for (const [index, label] of [/Generator/i, /Step.up/i, /Transmission/i, /Substation/i, /Homes.*data centers/i].entries()) {
+    const stageText = (await journeyStages.nth(index).textContent()).replace(/\s+/g, ' ');
+    assert.match(stageText, label, 'The legend should follow the conceptual generation-to-load sequence');
+  }
   const movingFrame = await frame(heroScene);
   await page.waitForTimeout(250);
   assert.notEqual(
@@ -139,6 +148,8 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
     assert.equal(await button.getAttribute('aria-pressed'), 'true');
     assert.equal(await page.locator('[data-field-mode][aria-pressed="true"]').count(), 1, 'Exactly one hero mode should be selected');
     assert.equal(await heroScene.getAttribute('data-field-state'), mode);
+    assert.equal(await powerLegend.isVisible(), false, 'Power-stage labels must be hidden in AI modes');
+    assert.equal(await page.locator('[data-field-label]').isVisible(), true, 'AI modes should retain their general illustration label');
     await page.waitForTimeout(150);
     const selectedFrame = await frame(heroScene);
     assert.notEqual(selectedFrame, modeFrames.at(-1), 'Selecting a mode should redraw even while automatic motion is paused');
@@ -149,6 +160,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   assert.equal(new Set(modeFrames).size, 3, 'Grid, knowledge, and learning must produce distinct hero views');
   await page.locator('[data-field-mode="grid"]').click();
   assert.equal(await heroScene.getAttribute('data-field-state'), 'grid');
+  assert.equal(await powerLegend.isVisible(), true);
   for (const type of sceneTypes) {
     const scene = page.locator(`.motion-scene[data-scene="${type}"]`).first();
     await waitForPaint(scene);
@@ -192,6 +204,26 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   );
   await assertBoundedScenes(page, 'Desktop 1x');
   await page.evaluate(() => window.scrollTo(0, 0));
+
+  const education = page.locator('#education');
+  const educationCards = education.locator('article.experience-card');
+  assert.equal(await education.getAttribute('aria-labelledby'), 'educationTitle');
+  assert.equal(await educationCards.count(), 3, 'The restored education timeline should include all three institutions');
+  const expectedEducation = [
+    [/M\.S\. in Artificial Intelligence/, /University of Texas at Austin.*Aug 2024.*Present/],
+    [/M\.Eng\. in Electrical.*Computer Engineering/, /Lamar University.*Jan 2019.*May 2020/],
+    [/B\.S\. in Electrical.*Computer Engineering/, /Shahid Beheshti University.*Oct 2012.*Jul 2017/],
+  ];
+  for (const [index, [degree, institutionAndDates]] of expectedEducation.entries()) {
+    assert.match(await educationCards.nth(index).locator('h3').textContent(), degree);
+    assert.match(await educationCards.nth(index).locator('.meta').textContent(), institutionAndDates);
+  }
+  assert.match(await educationCards.first().locator('.study-status').textContent(), /Degree candidate.*Graduating/, 'Current AI study must not be presented as a conferred degree');
+  const educationLink = page.locator('a[href="#education"]').first();
+  await educationLink.focus();
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => location.hash === '#education' && document.getElementById('educationTitle').getBoundingClientRect().top < innerHeight);
+  assert.equal(await education.locator('h2').isVisible(), true, 'The education section must be reachable through its native anchor');
 
   const visibleCards = () => page.locator('[data-project-card]:not([hidden])').count();
   assert.equal(await visibleCards(), 6);
@@ -296,16 +328,23 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   // Layout regressions: presentation changes must preserve filtering,
   // readable mobile inputs, usable targets, and the no-JavaScript fallback.
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  for (const width of [1440, 1024, 820, 768, 700, 641, 390, 320]) {
-    await page.setViewportSize({ width, height: 900 });
+  let reducedPowerJourneyFrame;
+  const layoutViewports = [
+    { width: 1440, height: 900 }, { width: 1440, height: 800 },
+    ...[1024, 820, 768, 700, 641, 390, 320].map(width => ({ width, height: 900 })),
+  ];
+  for (const { width, height } of layoutViewports) {
+    const viewportLabel = `${width}×${height}px`;
+    await page.setViewportSize({ width, height });
     await page.reload();
     await page.waitForFunction(() => document.documentElement.classList.contains('js'));
     assert.equal(await visibleCards(), 6);
-    if (width === 1440) {
+    if (width === 1440 && height === 900) {
       await waitForPaint(heroScene);
       assert.equal(await page.locator('html').getAttribute('data-motion'), 'reduced');
       assert.equal(await motionToggle.isDisabled(), true, 'The system reduced-motion preference must take priority');
       const staticFrame = await frame(heroScene);
+      reducedPowerJourneyFrame = staticFrame;
       await page.waitForTimeout(250);
       assert.equal(
         await frame(heroScene), staticFrame,
@@ -319,7 +358,15 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
         assert.equal(await frame(scene), reducedFrame, `Reduced motion must apply to the ${type} renderer`);
       }
     }
-    await assertBoundedScenes(page, `${width}px 1x`);
+    await assertBoundedScenes(page, `${viewportLabel} 1x`);
+    const educationBounds = await educationCards.evaluateAll(cards => cards.map(card => {
+      const { left, right, height } = card.getBoundingClientRect();
+      return { left, right, height };
+    }));
+    assert.equal(educationBounds.length, 3);
+    assert.ok(educationBounds.every(box => box.left >= 0 && box.right <= width + 1 && box.height > 0), `${viewportLabel}: all education entries must remain readable within the viewport`);
+    const legendBounds = await powerLegend.boundingBox();
+    assert.ok(legendBounds && legendBounds.x >= 0 && legendBounds.x + legendBounds.width <= width + 1, `${viewportLabel}: power journey labels must remain inside the viewport`);
     const bounds = await page.locator('[data-project-card]').evaluateAll(cards => cards.map(card => {
       const { width, top } = card.getBoundingClientRect();
       return { width, top };
@@ -331,7 +378,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
     }
     for (const category of ['engineering', 'ai', 'data', 'all']) {
       await page.locator(`[data-project-filter="${category}"]`).click();
-      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${width}px overflow for ${category}`);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${viewportLabel} overflow for ${category}`);
       const visibleBounds = await page.locator('[data-project-card]:not([hidden])').evaluateAll(cards => cards.map(card => {
         const { left, right } = card.getBoundingClientRect();
         return { left, right };
@@ -344,8 +391,8 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
     assert.equal(await page.locator('#menuToggle').isVisible(), width <= 820);
     for (const mode of ['grid', 'knowledge', 'learning']) {
       const target = await page.locator(`[data-field-mode="${mode}"]`).boundingBox();
-      assert.ok(target.height >= 44 && target.width >= 44, `${width}px: the ${mode} mode needs a 44px hit area`);
-      assert.ok(target.x >= 0 && target.x + target.width <= width + 1, `${width}px: hero mode controls must remain inside the viewport`);
+      assert.ok(target.height >= 44 && target.width >= 44, `${viewportLabel}: the ${mode} mode needs a 44px hit area`);
+      assert.ok(target.x >= 0 && target.x + target.width <= width + 1, `${viewportLabel}: hero mode controls must remain inside the viewport`);
     }
     if (width <= 820) {
       await page.locator('#menuToggle').click();
@@ -370,12 +417,12 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
     }));
     for (const gallery of galleryBounds) {
       for (const control of gallery.controls) {
-        assert.ok(control.top >= gallery.trackTop - 1 && control.bottom <= gallery.trackBottom + 1, `${gallery.id} arrows must stay inside the image at ${width}px`);
-        assert.ok(control.bottom <= gallery.dotsTop + 1, `${gallery.id} arrows must not overlap pagination at ${width}px`);
+        assert.ok(control.top >= gallery.trackTop - 1 && control.bottom <= gallery.trackBottom + 1, `${gallery.id} arrows must stay inside the image at ${viewportLabel}`);
+        assert.ok(control.bottom <= gallery.dotsTop + 1, `${gallery.id} arrows must not overlap pagination at ${viewportLabel}`);
       }
     }
     if (width <= 820) {
-      assert.ok(await page.locator('#searchInput').evaluate(input => parseFloat(getComputedStyle(input).fontSize) >= 16), `${width}px: mobile search should not trigger iOS text zoom`);
+      assert.ok(await page.locator('#searchInput').evaluate(input => parseFloat(getComputedStyle(input).fontSize) >= 16), `${viewportLabel}: mobile search should not trigger iOS text zoom`);
     }
   }
   const keyboardLink = page.locator('.work-card h3 a').first();
@@ -398,6 +445,68 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
     assert.equal(await retinaPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${width}px Retina layout must not overflow`);
   }
   await retinaContext.close();
+
+  // Loading the optional power artwork must change the grid-mode illustration;
+  // losing that asset should restore the original field without breaking AI modes.
+  const noJourneyContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+  await serveLocalFiles(noJourneyContext, { omitPowerJourney: true });
+  const noJourneyPage = await noJourneyContext.newPage();
+  noJourneyPage.on('pageerror', error => errors.push(error.message));
+  await noJourneyPage.goto('http://portfolio.test/');
+  const fallbackField = noJourneyPage.locator('#heroField');
+  await waitForPaint(fallbackField);
+  assert.equal(await noJourneyPage.evaluate(() => typeof window.PowerJourney), 'undefined');
+  const fallbackFieldFrame = await frame(fallbackField);
+  assert.ok(reducedPowerJourneyFrame, 'The normal power journey must be captured before testing its fallback');
+  assert.notEqual(fallbackFieldFrame, reducedPowerJourneyFrame, 'The loaded power renderer should replace the original abstract grid field');
+  assert.equal(await noJourneyPage.locator('[data-power-legend]').isVisible(), false, 'A fallback field must not advertise absent power-stage objects');
+  assert.equal(await noJourneyPage.locator('[data-field-label]').isVisible(), true);
+  await noJourneyPage.waitForTimeout(150);
+  assert.equal(await frame(fallbackField), fallbackFieldFrame, 'Fallback artwork must still respect reduced motion');
+  for (const mode of ['knowledge', 'learning']) {
+    await noJourneyPage.locator(`[data-field-mode="${mode}"]`).click();
+    assert.equal(await fallbackField.getAttribute('data-field-state'), mode);
+    assert.notEqual(await frame(fallbackField), fallbackFieldFrame, 'Missing power artwork must not disable AI illustrations');
+    assert.equal(await noJourneyPage.locator('[data-power-legend]').isVisible(), false);
+  }
+  await noJourneyContext.close();
+
+  // A renderer can also fail after it has already painted successfully. This
+  // optional artwork must not take the healthy AI illustrations down with it.
+  const failedJourneyContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'no-preference' });
+  await serveLocalFiles(failedJourneyContext);
+  const failedJourneyPage = await failedJourneyContext.newPage();
+  const journeyWarnings = [];
+  failedJourneyPage.on('pageerror', error => errors.push(error.message));
+  failedJourneyPage.on('console', message => {
+    if (message.type() === 'warning' && message.text().includes('PORTFOLIO_TEST_POWER_FAILURE')) journeyWarnings.push(message.text());
+  });
+  await failedJourneyPage.goto('http://portfolio.test/');
+  const recoveringField = failedJourneyPage.locator('#heroField');
+  await waitForPaint(recoveringField);
+  assert.equal(await failedJourneyPage.locator('[data-power-legend]').isVisible(), true, 'The real journey must paint before the injected late failure');
+  await failedJourneyPage.evaluate(() => {
+    window.PowerJourney = Object.freeze({ draw() { throw new Error('PORTFOLIO_TEST_POWER_FAILURE'); } });
+  });
+  await failedJourneyPage.waitForFunction(() => document.querySelector('#heroField').classList.contains('is-ready') && document.querySelector('[data-power-legend]').hidden);
+  assert.equal(await failedJourneyPage.locator('[data-field-label]').isVisible(), true);
+  assert.equal(await failedJourneyPage.locator('.field-modes').isVisible(), true, 'An optional renderer failure must preserve working hero controls');
+  const recoveredFrame = await frame(recoveringField);
+  await failedJourneyPage.waitForTimeout(200);
+  assert.notEqual(await frame(recoveringField), recoveredFrame, 'The original field should continue animating after journey failure');
+  await failedJourneyPage.emulateMedia({ reducedMotion: 'reduce' });
+  const recoveredAiFrames = [];
+  for (const mode of ['knowledge', 'learning']) {
+    await failedJourneyPage.locator(`[data-field-mode="${mode}"]`).click();
+    assert.equal(await recoveringField.getAttribute('data-field-state'), mode);
+    assert.equal(await failedJourneyPage.locator(`[data-field-mode="${mode}"]`).getAttribute('aria-pressed'), 'true');
+    assert.equal(await recoveringField.evaluate(scene => scene.classList.contains('is-ready')), true);
+    assert.equal(await failedJourneyPage.locator('[data-power-legend]').isVisible(), false);
+    recoveredAiFrames.push(await frame(recoveringField));
+  }
+  assert.equal(new Set(recoveredAiFrames).size, 2, 'Both AI illustrations should still render their distinct content after journey failure');
+  assert.equal(journeyWarnings.length, 1, 'An optional renderer failure should be reported once, not silently swallowed or logged every frame');
+  await failedJourneyContext.close();
 
   // Regression for the previous orb: missing/stale component CSS allowed
   // a Retina canvas's bitmap dimensions to grow its parent on every resize.
@@ -442,6 +551,7 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   await fallbackPage.waitForFunction(() => document.querySelector('#ercotUpdatesList').getAttribute('aria-busy') === 'false');
   assert.equal(await fallbackPage.locator('.motion-scene.is-ready').count(), 0);
   assert.equal(await fallbackPage.locator('.field-modes').isVisible(), false, 'Unavailable canvas controls should not be offered when rendering cannot initialize');
+  assert.equal(await fallbackPage.locator('[data-power-legend]').isVisible(), false);
   assert.equal(await fallbackPage.locator('.hero-photo').isVisible(), true, 'Canvas failure must preserve the original portrait');
   assert.equal(await fallbackPage.locator('[data-project-card] .work-image img:visible').count(), 6, 'Canvas failure must preserve project screenshots');
   assert.ok(await fallbackPage.locator('[data-project-card] .work-image img').evaluateAll(images => images.every(image => Number(getComputedStyle(image).opacity) > 0)), 'Project screenshots must remain visibly painted without canvas contexts');
@@ -460,6 +570,10 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   await staticPage.goto('http://portfolio.test/');
   assert.equal(await staticPage.locator('#navLinks').isVisible(), true);
   assert.equal(await staticPage.locator('.field-modes').isVisible(), false, 'Mode controls should be hidden without their interaction script');
+  assert.equal(await staticPage.locator('[data-power-legend]').isVisible(), false);
+  assert.equal(await staticPage.locator('#education article.experience-card:visible').count(), 3, 'Education must remain available without JavaScript');
+  await staticPage.locator('a[href="#education"]').first().click();
+  assert.equal(new URL(staticPage.url()).hash, '#education', 'Education navigation must use a native fragment link');
   assert.equal(await staticPage.locator('[data-project-card]:visible').count(), 6);
   assert.equal(await staticPage.locator('.hero-photo').isVisible(), true, 'The original portrait must remain visible without scripts');
   assert.equal(await staticPage.locator('[data-project-card] .work-image img:visible').count(), 6, 'Project screenshots must remain available when animation cannot initialize');
@@ -470,5 +584,6 @@ async function serveLocalFiles(context, { omitMotionStyles = false } = {}) {
   console.log('PASS: project search/category/reset/no-scroll; carousel controls, keyboard, inert slides and no autoplay; navigation; clipboard fallback; feed date/status/shape/error/URL safety.');
   console.log('PASS: responsive layouts 320–1440px; featured/filtered grids; 44px gallery targets; mobile navigation/search; keyboard focus; reduced motion; no-JavaScript fallback.');
   console.log('PASS: seven distinct scene types; keyboard hero modes; global pause/resume and reduced motion across both renderers; offscreen/visibility pause; bounded 1x/2x canvas layout, including missing component CSS; context failure and screenshot fallbacks.');
+  console.log('PASS: restored education content, degree status, native anchors and responsive/no-JavaScript access; power-stage legend; missing/late-failing optional renderer fallback with AI modes preserved and one failure warning.');
   await browser.close();
 })().catch((error) => { console.error(error); process.exit(1); });

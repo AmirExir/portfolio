@@ -17,6 +17,25 @@
   let lastTick = 0;
   const scenes = [];
   const maximumBuffer = 2048;
+  const modeDescriptions = {
+    grid: 'A study in connection, energy, and flow.',
+    knowledge: 'Many sources. Connected context. Traceable answers.',
+    learning: 'Patterns emerge where connections meet.',
+  };
+
+  function updateHeroAnnotation(scene) {
+    const mode = scene.host.dataset.fieldState || 'grid';
+    const powerActive = mode === 'grid' && !scene.failed
+      && scene.host.classList.contains('is-ready') && window.CinematicFields?.powerJourneyAvailable;
+    const legend = document.querySelector('[data-power-legend]');
+    const label = document.querySelector('[data-field-label]');
+    const description = document.querySelector('[data-field-description]');
+    if (legend) legend.hidden = !powerActive;
+    if (label) label.hidden = powerActive;
+    if (description) description.textContent = powerActive
+      ? 'Conceptual energy flow · Not a simulation.'
+      : modeDescriptions[mode] || modeDescriptions.grid;
+  }
 
   const motionAllowed = () => !paused && !media.matches && !document.hidden;
 
@@ -28,12 +47,20 @@
         time: immediateMode ? 0 : scene.time, pointerX: scene.pointerX, pointerY: scene.pointerY,
         mode: scene.host.dataset.fieldState || 'grid',
       });
+      const firstPaint = !scene.host.classList.contains('is-ready');
       scene.host.classList.add('is-ready');
+      if (scene.type === 'field' && (firstPaint || scene.powerAvailable !== window.CinematicFields?.powerJourneyAvailable)) {
+        scene.powerAvailable = window.CinematicFields?.powerJourneyAvailable;
+        updateHeroAnnotation(scene);
+      }
     } catch (error) {
       // Restore the original project image if decorative rendering is unavailable.
       scene.failed = true;
       scene.host.classList.remove('is-ready');
-      if (scene.type === 'field') document.querySelector('.field-modes')?.setAttribute('hidden', '');
+      if (scene.type === 'field') {
+        document.querySelector('.field-modes')?.setAttribute('hidden', '');
+        updateHeroAnnotation(scene);
+      }
       console.warn(`Engineering illustration unavailable: ${scene.type}`, error);
     }
   }
@@ -147,22 +174,16 @@
   const heroScene = scenes.find((scene) => scene.type === 'field' && !scene.failed);
   const modes = document.querySelector('.field-modes');
   if (heroScene && modes) {
-    const descriptions = {
-      grid: 'A study in connection, energy, and flow.',
-      knowledge: 'Many sources. Connected context. Traceable answers.',
-      learning: 'Patterns emerge where connections meet.',
-    };
     const buttons = Array.from(modes.querySelectorAll('[data-field-mode]'));
     modes.hidden = false;
     buttons.forEach((button) => button.addEventListener('click', () => {
       const mode = button.dataset.fieldMode;
-      if (!Object.hasOwn(descriptions, mode)) return;
+      if (!Object.hasOwn(modeDescriptions, mode)) return;
       heroScene.host.dataset.fieldState = mode;
       buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
-      const description = document.querySelector('[data-field-description]');
-      if (description) description.textContent = descriptions[mode];
       // A deliberate user selection renders a still even if automatic motion is off.
       draw(heroScene, !motionAllowed());
+      updateHeroAnnotation(heroScene);
       start();
     }));
   }
