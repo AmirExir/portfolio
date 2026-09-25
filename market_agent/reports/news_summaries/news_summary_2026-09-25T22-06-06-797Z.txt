@@ -1,0 +1,16 @@
+Fresh market-moving headlines are limited in this article set, and there is little here that clearly explains today’s broader equity or rates tape.
+
+**Facts**
+- **CoinDesk, 2026-09-24 21:59 UTC:** Crypto exchange **Bitget said about $351.6 million was affected in a hack**, with CEO Gracy Chen saying user funds are safe.  
+- **Cointelegraph, 2026-09-24 21:47 UTC:** **Bitget confirmed unauthorized transfers of roughly $351.6 million and said it suspended withdrawals temporarily** while investigating.  
+- **Decrypt, 2026-09-24 21:56 UTC:** The **Federal Reserve opened stablecoin rule proposals for comment** that would require Fed-supervised issuers to fully back tokens with permissible safe assets such as short-term Treasurys and would create a process for banks seeking to issue stablecoins.  
+- **Cointelegraph, 2026-09-24 21:42 UTC:** The **CFTC updated guidance on tokenized assets and blockchain recordkeeping** for authorized crypto entities.  
+- **Crypto Briefing, 2026-09-24 22:00 UTC:** **Anthropic’s founders are reportedly set to retain 50.1% voting control ahead of a planned IPO.**  
+- **Crypto Briefing, 2026-09-24 21:48 UTC:** **OpenAI is reportedly setting a ChatGPT Pro Max subscription at $500 per month.**
+
+**Interpretation**
+- The clearest fresh market-moving item is in **crypto**: the **Bitget hack and withdrawal pause** is a direct risk-sentiment negative for digital assets and crypto exchange confidence.
+- The **Fed stablecoin proposal** and **CFTC guidance update** matter for **crypto regulation**, especially for stablecoin issuers, banks exploring issuance, and tokenization-related firms.
+- The **Anthropic governance** headline is relevant to the **AI/IPO pipeline**, but it is more about prospective investor appetite and governance risk than an immediate broad market driver.
+- The **OpenAI pricing** item may be relevant for AI monetization narratives, but on its own it does not clearly explain moves in major indexes or semis.
+- There are **no fresh, high-quality headlines here on Fed speakers, inflation data, Treasury yields, major earnings, oil supply shocks, or broad index-moving macro news**.
