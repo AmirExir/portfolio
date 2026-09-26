@@ -1,0 +1,14 @@
+Fresh market-moving headlines are limited and somewhat fragmented; the set does not fully explain today’s broader tape.
+
+**Facts**
+- **Rates / inflation:** **RTE**, **2026-09-25T08:59:21Z** — Reported the global bond selloff was continuing, with **long-dated U.S. Treasury yields at their highest in more than 20 years**, citing worries about **high energy costs, resilient growth, and increased government spending keeping inflation elevated**.
+- **Central banks / rates:** **The Times of India**, **2026-09-25T09:02:02Z** — Said **two senior Bank of England policymakers** signaled greater openness to a **rate hike** as elevated energy prices threaten to keep inflation above target; markets were increasingly pricing a possible **November increase**.
+- **Japan equities / AI-semis:** **News On Japan**, **2026-09-25T09:03:49Z** — Reported the **Nikkei 225 gained 850 points**, helped by buying in **semiconductor and AI-related shares** plus dividend demand for financial stocks.
+- **AI infrastructure / single-stock mover:** **Crypto Briefing**, **2026-09-25T08:47:07Z** — Reported **Akamai** secured an **$11.6 billion cloud-services deal with Anthropic**, and said the stock **surged** on the news.
+- **Crypto / risk event:** **CoinDesk**, **2026-09-25T08:58:03Z** — Reported **KelpDAO sued LayerZero** over a **$292 million exploit**, described as the largest exploit of 2026 so far.
+
+**Interpretation**
+- The clearest macro signal in the fresh set is **higher-for-longer rate pressure**: rising long-end yields and a more hawkish BOE tone both point to inflation concerns tied partly to **energy costs**.
+- For equities, the most concrete fresh leadership theme is still **AI/semis**, supported by the Tokyo market article and the **Akamai-Anthropic** deal headline.
+- In crypto, the freshest relevant item is more about **idiosyncratic protocol risk** than a broad directional call on major tokens.
+- There is **not enough fresh, high-quality reporting here** to make a strong call on U.S. index direction, Fed expectations specifically, or major moves in oil/Bitcoin/Ethereum today.
