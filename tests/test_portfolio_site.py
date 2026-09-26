@@ -7,6 +7,7 @@ import re
 import tempfile
 import unittest
 from collections import Counter
+from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -121,6 +122,10 @@ class PortfolioAddressTests(unittest.TestCase):
     def test_portfolio_local_addresses_resolve(self) -> None:
         errors = _page_errors(REPOSITORY_ROOT / "index.html", REPOSITORY_ROOT)
         self.assertEqual(errors, [], "\n".join(errors))
+
+    def test_northeast_arrows_request_text_presentation(self) -> None:
+        content = unescape((REPOSITORY_ROOT / "index.html").read_text(encoding="utf-8"))
+        self.assertNotRegex(content, "↗(?!\ufe0e)")
 
 
 class AddressValidatorTests(unittest.TestCase):

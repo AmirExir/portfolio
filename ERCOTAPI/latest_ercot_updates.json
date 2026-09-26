@@ -1,70 +1,70 @@
 {
-  "generated_at": "2026-09-22T11:02:10.611738+00:00",
+  "generated_at": "2026-09-26T11:01:27.211768+00:00",
   "minimum_year": 2026,
   "count": 2,
   "items": [
     {
-      "content_sha256": "74a6e1c39958866f98c418a17af124cf3dcf0ec1cc9466029aaf093334f2632e",
-      "title": "1345NPRR-04 PRS Report 091626",
-      "document_number": "NPRR1345",
-      "source": "NPRR",
-      "published_date": "Sep 21, 2026",
-      "downloaded_at": "2026-09-22T11:00:51Z",
+      "content_sha256": "4894804b213b6f45dc404c7a2a621bf214c811e7386ccee9b8a08e51d0b60690",
+      "title": "289NOGRR-06 ERCOT Comments 092526",
+      "document_number": "NOGRR289",
+      "source": "NOGRR",
+      "published_date": "Sep 25, 2026",
+      "downloaded_at": "2026-09-26T11:00:47Z",
       "status": "Pending",
-      "url": "https://www.ercot.com/files/docs/2026/09/21/1345NPRR-04-PRS-Report-091626.docx",
+      "url": "https://www.ercot.com/files/docs/2026/09/25/289NOGRR-06-ERCOT-Comments-092526.docx",
       "sources": [
-        "NPRR"
+        "NOGRR"
       ],
-      "revision_id": "NPRR1345",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
-      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
-      "affected_sections": "2.1 and 4.4.9.4.1",
+      "revision_id": "NOGRR289",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) permits a Large Computational Load (LCL) to achieve compliance with the applicable ride-through requirements within 365 days after its in-service date where the LCL’s cooling load is unable to satisfy such requirements as of the in-service date due to ongoing design and manufacturing limitations, including constraints associated with vendors’ continued adaptation of chiller and Variable Frequency Drive (VFD) equipment to the applicable standards.",
+      "issue_title": "Extension for LCL Cooling Load Ride-Through Compliance",
+      "affected_sections": "2.6.4 and 2.15",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
-      "content_sha256": "83693524cc0b6d4c96425edc9797f80e736b6c786b5243bae85545a77ddbc684",
-      "title": "NPRR1345",
-      "document_number": "NPRR1345",
-      "source": "NPRR",
-      "published_date": "Aug 10, 2026",
-      "downloaded_at": "2026-09-22T11:00:46Z",
+      "content_sha256": "999f38eb8042ef25902d83856c19a9c95cc4793e50ea8a4536e5e4481beadf96",
+      "title": "NOGRR289",
+      "document_number": "NOGRR289",
+      "source": "NOGRR",
+      "published_date": "Jul 21, 2026",
+      "downloaded_at": "2026-09-26T11:00:46Z",
       "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1345",
+      "url": "https://www.ercot.com/mktrules/issues/NOGRR289",
       "sources": [
-        "NPRR"
+        "NOGRR"
       ],
-      "revision_id": "NPRR1345",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
-      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
-      "affected_sections": "2.1 and 4.4.9.4.1",
+      "revision_id": "NOGRR289",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) permits a Large Computational Load (LCL) to achieve compliance with the applicable ride-through requirements within 365 days after its in-service date where the LCL’s cooling load is unable to satisfy such requirements as of the in-service date due to ongoing design and manufacturing limitations, including constraints associated with vendors’ continued adaptation of chiller and Variable Frequency Drive (VFD) equipment to the applicable standards.",
+      "issue_title": "Extension for LCL Cooling Load Ride-Through Compliance",
+      "affected_sections": "2.6.4 and 2.15",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
   "revision_issues": {
-    "NPRR1345": {
-      "revision_id": "NPRR1345",
-      "revision_family": "NPRR",
-      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
-      "official_description": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
+    "NOGRR289": {
+      "revision_id": "NOGRR289",
+      "revision_family": "NOGRR",
+      "issue_title": "Extension for LCL Cooling Load Ride-Through Compliance",
+      "official_description": "This Nodal Operating Guide Revision Request (NOGRR) permits a Large Computational Load (LCL) to achieve compliance with the applicable ride-through requirements within 365 days after its in-service date where the LCL’s cooling load is unable to satisfy such requirements as of the in-service date due to ongoing design and manufacturing limitations, including constraints associated with vendors’ continued adaptation of chiller and Variable Frequency Drive (VFD) equipment to the applicable standards.",
       "status": "Pending",
-      "date_posted": "Aug 10, 2026",
-      "sponsor": "Vistra",
-      "urgent": "No",
-      "affected_sections": "2.1 and 4.4.9.4.1",
+      "date_posted": "Jul 21, 2026",
+      "sponsor": "SB Energy",
+      "urgent": "Yes",
+      "affected_sections": "2.6.4 and 2.15",
       "reason": "General system and/or process improvement(s)",
-      "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1345",
+      "issue_url": "https://www.ercot.com/mktrules/issues/NOGRR289",
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PRS",
-      "next_step": "Impact Analysis Consideration",
+      "next_group": "ROS",
+      "next_step": "ROS for consideration",
       "latest_action": {
-        "date": "09/16/2026",
-        "governing_body": "PRS",
-        "action": "Recommended for Approval",
-        "next_step": "Impact Analysis Consideration"
+        "date": "08/06/2026",
+        "governing_body": "ROS",
+        "action": "Deferred/Tabled",
+        "next_step": "ROS for consideration"
       }
     }
   }
