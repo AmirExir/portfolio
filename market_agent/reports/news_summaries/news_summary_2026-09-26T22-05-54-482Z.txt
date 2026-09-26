@@ -1,0 +1,23 @@
+Fresh market-moving headlines are somewhat thin here, and several items come from lower-reliability or niche sources. The clearest tape-relevant themes in the last 36 hours are AI/semis, oil/geopolitics, and a few crypto-specific developments.
+
+**Facts**
+- **AI capex / hyperscalers:** Crypto Briefing, **2026-09-25 22:05Z** — Citing a Goldman Sachs research note, the article says hyperscalers may spend **$1.7 trillion** on AI capex and would need very large incremental revenue to justify it.
+- **Semis / Micron-Nvidia linkage:** Crypto Briefing, **2026-09-25 22:03Z** — Micron investors are reportedly focused on possible revenue timing shifts tied to Nvidia’s product ramp.
+- **AI infrastructure / Oracle:** Daily Caller, **2026-09-25 21:50Z** — Oracle’s New Mexico AI data-center project may face delays because state approval for its promised power supply is still pending.
+- **Microsoft / AI:** Crypto Briefing, **2026-09-25 21:35Z** — Microsoft reportedly closed at its highest level of the year after expanding Copilot AI features.
+- **Nvidia / quantum-adjacent AI infrastructure:** Crypto Briefing, **2026-09-25 21:42Z** — Nvidia introduced **NVQLink**, positioning itself as an interconnect partner for quantum/classical computing systems.
+- **Oil / geopolitics / risk sentiment:** CNA, **2026-09-25 21:32Z** — Wall Street stocks rose as optimism grew around a possible **U.S.-Iran deal** that could reopen the **Strait of Hormuz**; the article also says hopes for such a deal contributed to a drop in oil prices. CNA also notes inflation fears tied to prior Hormuz disruption and Gulf supply risks had pushed government bond yields higher.
+- **Crypto / ETF flows:** Biztoc citing CoinDesk, **2026-09-25 21:37Z** — U.S.-listed spot bitcoin ETFs reportedly swung from a **$5.8 billion** year-to-date outflow hole in July to about **$800 million** of net inflows for 2026.
+- **Crypto / stablecoins:** Futurism, **2026-09-25 21:34Z** — The DOJ reportedly seized bank accounts tied to **Tether/Bitfinex** through a third-party payment processor fraud case.
+- **Crypto / Circle management:** Crypto Briefing, **2026-09-25 21:33Z** — Circle said CFO **Jeremy Fox-Geen** will step down by year-end; the article also says co-founder **Sean Neville** is leaving the board.
+- **Crypto-linked equity / Strategy:** Crypto Briefing, **2026-09-25 21:45Z** — Strategy reportedly became the **20th most-traded U.S. stock** by volume, surpassing Palantir.
+- **Media M&A:** Variety, **2026-09-25 21:46Z** — Paramount said the timing of the Warner Bros. Discovery deal closing, “if any,” is not yet certain, though it is targeting **Oct. 5** to issue shareholder warrants tied to the merger.
+
+**Interpretation**
+- The strongest fresh macro read-through in this set is **oil/geopolitics**: if the U.S.-Iran/Hormuz headline is credible, it can matter for **energy prices, inflation expectations, and yields**.
+- The dominant equity theme remains **AI monetization versus AI capex**, with fresh items reinforcing scrutiny on whether hyperscaler spending, semiconductor demand timing, and data-center buildouts can translate into revenue.
+- For **AI/semi names**, the market-relevant split is:
+  - supportive: Microsoft AI expansion, Nvidia ecosystem extension;
+  - cautionary: Micron revenue timing sensitivity and Oracle power/infrastructure bottlenecks.
+- In **crypto**, the ETF flow item is the most market-relevant broad signal for **bitcoin demand**, while Tether/Circle headlines are more **idiosyncratic sector-risk** developments.
+- Overall, this article set does **not** provide a full, high-confidence explanation of today’s broader tape by itself; beyond the Hormuz/oil angle and AI-related stock-specific developments, the fresh macro news is limited.
