@@ -1,0 +1,33 @@
+Market Optimization
+Generated: 2026-09-25 10:39 UTC
+As of: 2026-09-24
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+Passed model checks: 1 buy, 0 sell/avoid.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+BUY SIGNALS - PASSED MODEL CHECKS
+
+INTC: forecast +19.74% by 2026-11-05
+  Reliability: high; model-estimated chance of a rise: 77%.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted declines
+
+DOT: forecast -14.74% by 2026-10-24
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+BTC: forecast -8.08% by 2026-10-24
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+SKIPPED - DATA ISSUES
+- PEPE-USD: outdated price data (latest 2022-12-11; needed 2026-09-24).
+- SPCX: float() argument must be a string or a real number, not 'NoneType'
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.

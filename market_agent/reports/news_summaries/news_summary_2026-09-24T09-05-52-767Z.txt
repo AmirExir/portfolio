@@ -1,0 +1,14 @@
+Fresh market-moving headlines are limited in this set, and several items are either generic, secondary aggregations, or outside major global market focus. The freshest useful tape drivers here are Fed/inflation, energy, and a niche crypto derivatives signal.
+
+**Facts**
+- **Fed / inflation:** Boston Fed President **Susan Collins** said there is an “increased likelihood” inflation stays “notably” above the Fed’s 2% target, while explaining her support for the Fed’s recent quarter-point rate hike. **Source: Biztoc/CNBC, 2026-09-23T08:49:22Z**
+- **Energy / geopolitics:** Oil prices moved lower after President Trump said U.S. and Iranian representatives had “very good” talks at the United Nations. **Source: The Punch, 2026-09-23T08:50:37Z**
+- **Energy / supply concerns:** A WSJ-cited market update said the **dollar climbed** and **European diesel futures jumped** on a possible **U.S. export ban**, with **Brent crude just below $100/barrel**. **Source: Biztoc/WSJ, 2026-09-23T09:04:11Z**
+- **Crypto:** Hyperliquid’s open interest hit a record **$18 billion**, according to the report. **Source: Crypto Briefing, 2026-09-23T08:59:14Z**
+- **EM rates:** Bank Indonesia held its benchmark rate at **5.75%**. **Source: Antara News, 2026-09-23T09:03:16Z**
+
+**Interpretation**
+- The clearest cross-asset macro signal in this batch is **sticky-inflation / higher-for-longer Fed risk** from Collins, which matters for **Treasury yields, rate-sensitive equities, and the dollar**.
+- In energy, the headlines are **mixed**: Iran diplomacy points to lower crude risk premium, while the possible U.S. export-ban headline points to **tighter refined-products supply**, especially in diesel.
+- The crypto item suggests **risk appetite and leverage remain firm in derivatives**, but it is **not enough on its own** to explain broader equity index moves.
+- There is **not enough fresh, high-quality index/earnings/mega-cap AI-semi news in this article set** to fully explain today’s broader equity tape.

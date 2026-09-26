@@ -1,0 +1,17 @@
+Fresh headline set is thin and somewhat noisy. After filtering for the last 36 hours and for market relevance, the clearest tape drivers in this JSON are rising Treasury yields, higher oil, a weak housing datapoint, and one deal headline.
+
+**Facts**
+- **CNA, 2026-09-23T21:45:02Z:** Reported that stocks fell as **US bond yields jumped on inflation fears** and **oil prices rose sharply**, with little apparent diplomatic progress at the UN on Middle East tensions.
+- **Breitbart, 2026-09-23T21:50:18Z:** Said the **10-year Treasury yield rose to 5.108%**, described as its highest level in years, framing the move as a notable Treasury sell-off.
+- **Biztoc/24/7 Wall St., 2026-09-23T22:07:02Z:** Highlighted that **US existing home sales fell below 4 million**, with the piece linking housing weakness to the cost of bringing inflation down.
+- **PRNewswire, 2026-09-23T22:05:00Z:** **People Incorporated withdrew its proposal to buy all public shares of MGM Resorts International**, removing a live M&A angle from MGM.
+- **CryptoSlate, 2026-09-23T22:00:28Z:** **Circle launched a 24/7 stablecoin FX settlement service** targeting cross-border currency flows.
+- **Cointelegraph, 2026-09-23T21:47:52Z:** Former acting SEC chair **Mark Uyeda said the agency dropped several crypto cases** partly to avoid credibility issues.
+- **Crypto Briefing, 2026-09-23T22:01:32Z:** Reported **100–1,000 BTC wallets accumulated 113,950 BTC since July 15**, a sign of continued buying by mid-sized holders.
+
+**Interpretation**
+- The most credible macro read from this set is **rates and oil pressure**: higher long-end Treasury yields plus firmer crude are the main fresh cross-asset headwinds mentioned here.
+- The home-sales item reinforces a **still-tight, rate-sensitive economy** narrative, but by itself does not explain the full session.
+- The MGM headline is **company-specific** and matters mainly for merger-arb/event-driven trading rather than the broader tape.
+- Crypto news flow is **constructive on market structure and adoption**, but this batch does not provide enough evidence to claim a broad crypto move today.
+- There are **no meaningful fresh earnings or major AI/semi headlines** in this article set that clearly explain index leadership or weakness.
