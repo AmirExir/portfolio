@@ -1,0 +1,15 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **The Irish Times, 2026-09-26 09:00 UTC** — Martin Wolf reports the **Fed raised the federal funds rate by 25 bps to 3.75%-4.00%**, the first hike in three years. The article frames this against political tension between the White House and the Fed.  
+- **Channel News Asia, 2026-09-26 08:24 UTC** — Citing a Wall Street Journal report, the article says **Trump rejected an Iran peace proposal**, with officials seeing a **renewed bombing campaign as likely**, while **Iran proposed reopening the Strait of Hormuz under conditions**.  
+- **Protothema, 2026-09-26 07:56 UTC** — Also reports **Trump rejected Iran’s proposed seven-day ceasefire** and that the **status of the Strait of Hormuz remains in play**.  
+- **Economic Times / Times of India, 2026-09-26 08:56 UTC** — Reports **Bitcoin traded near $84,000 after briefly moving above $86,000**, with the piece citing **positive ETF flows** and **reduced uncertainty after the Fed’s September decision**.  
+- **Cointelegraph, 2026-09-26 09:02 UTC** — Reports **SEC Commissioner Hester Peirce will leave the SEC on Oct. 2**. Peirce has been seen as a relatively crypto-friendly regulator.  
+- **Economic Times / Times of India, 2026-09-26 07:31 UTC** — Reports **GIFT Nifty hit record single-day volume and open interest** on Sept. 24, signaling elevated derivatives activity.  
+
+### Interpretation
+- The clearest cross-asset macro driver in the fresh set is the **Fed rate hike**, which matters for **Treasury yields, rate-cut expectations, equities, and crypto**.
+- The **Iran/Strait of Hormuz** headlines are the main fresh **energy/geopolitical risk** items and could matter for **oil and broader risk sentiment**.
+- In crypto, the freshest actionable items are **Bitcoin strength around the mid-$80,000s** and **Hester Peirce’s departure**, which could affect **crypto-regulatory expectations**.
+- There is **little fresh, high-quality coverage here on U.S. equity earnings, semis/AI leaders, or inflation prints**, so this article set is **too thin to fully explain today’s tape**.
