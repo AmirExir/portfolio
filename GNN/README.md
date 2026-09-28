@@ -1,4 +1,4 @@
-# Power-grid scenario classification with GNNs
+# Power Grid GNN
 
 This project explores bus voltage classes and line thermal classes with GCN, GAT,
 GIN, and graph Transformer models. It provides inspectable CSV graph construction,
@@ -17,9 +17,26 @@ python3 -m venv .venv
 .venv/bin/python -m streamlit run GNN/app_streamlit_gnn_powergrid.py
 ```
 
-`app_gnn_streamlit.py` is an equivalent launch entry point. Both use one shared
-application and resolve source files relative to the project directory, so the
-working directory does not determine which data are loaded.
+All three existing entry points now run the same **Power Grid GNN** application:
+`app_gnn_streamlit.py`, `app_streamlit_gnn_powergrid.py`, and
+`app_streamlit_gnn_powergrid_GCN_N_2.py`. Source files resolve relative to the
+project directory, so the working directory does not determine the data loaded.
+
+The last entry point previously served a separate node-alarm experiment with
+different CSVs. Selecting voltage or thermal could substitute `alarm_flag` when
+the requested class column was missing, and its noisy graph copies were not
+independent scenarios. It now delegates to the shared scenario application;
+missing class columns stop loading with an explicit error. Combined alarms and
+noise augmentation are no longer exposed by any app launcher. Original source
+data are retained, and the historical implementation remains in Git history.
+Existing deployments can keep their entry-point path, but must receive these
+changes and restart to serve the shared app. Multiple hosted URLs are deployment
+aliases, not separate GNN products.
+
+Use **Train & compare** for model training and validation history, **Explore
+topology** for source graph inspection, and **Evaluation** for held-out metrics.
+The research/provenance note stays visible; detailed limitations and class counts
+are in **Data and research assumptions**.
 
 For a short execution check (one epoch does not establish model quality):
 
@@ -109,7 +126,9 @@ test labels. Metrics shown as test results are no longer taken from the last
 validation epoch. Changing UI mode, training settings, or source-file revision
 clears the previous experiment's results. Repeated architecture/parameter
 selection against the test report uses up its independence: use separate external
-data for a final generalization claim.
+data for a final generalization claim. Starting another training attempt also
+clears the prior results; if that attempt fails, no previous metrics or report
+are shown as its output.
 
 ## Important limitations of the bundled data
 
@@ -145,8 +164,7 @@ files and refuse to overwrite existing paths:
 .venv/bin/python GNN/create_graph_dataset_thermal.py --output /tmp/thermal_graphs_v2.pt
 ```
 
-The old notebooks, `app_streamlit_gnn_powergrid_GCN_N_2.py`, and
-`generate_dataset.py` remain historical experiments outside this validated entry
+The old notebooks and `generate_dataset.py` remain historical experiments outside this validated entry
 path. In particular, `generate_dataset.py` emits a different schema and is not a
 compatible way to regenerate these labeled CSVs. Do not overwrite the bundled
 sources with its output. Its simulation dependencies are not part of the app's
@@ -165,5 +183,7 @@ Deterministic tests cover preserved source labels, exclusion of target features,
 active/undirected topology, parallel lines, isolated buses, malformed data,
 disjoint scenario groups, training-only scaling, source immutability, restoration
 of the selected checkpoint, batch-independent evaluation loss, all four model
-architectures, both Streamlit launchers, actual training, and clearing stale
-results on a mode switch.
+architectures, all three Streamlit launchers in both modes, rejection of missing
+class columns even when `alarm_flag` exists, actual training, retained metrics
+after topology selection, and clearing stale results on a mode switch.
+They also cover a successful run followed by a failed retry with unchanged settings.

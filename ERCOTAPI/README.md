@@ -1,12 +1,17 @@
-# ERCOT Grid Analytics Dashboard
+# ERCOT Grid Intelligence Dashboard
 
 A comprehensive Streamlit dashboard for monitoring ERCOT grid operations, featuring:
 - Real-time load analysis
-- ML-powered load forecasting (Random Forest)
+- ML-powered load forecasting (XGBoost or Random Forest)
 - Renewable generation tracking (Wind & Solar)
 - Real-time LMP pricing
 - Resource outage monitoring
 - An interactive Grid Atlas for generation, substations, transmission corridors, data-center clusters, and price hubs
+
+This is the single dashboard linked from the portfolio. Load forecasting is one
+feature within it; "ERCOT Load Forecast Dashboard" was an older portfolio label
+for this same application. The browser title, application header, and portfolio
+now use **ERCOT Grid Intelligence Dashboard**.
 
 The Grid Atlas ships with a clearly labeled prototype dataset. Price values are illustrative and approximate locations are not intended for operational use. Its data model is ready for later replacement with scheduled EIA-860, FERC/HIFLD, ERCOT GIS, and settlement-point feeds.
 

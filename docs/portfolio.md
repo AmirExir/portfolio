@@ -50,6 +50,20 @@ Deployment continues to use the static root and the existing `CNAME`, `robots.tx
 
 ## Update content and addresses
 
+The public project names are **Power Grid GNN**, **Power Fault Classifier**, and
+**ERCOT Grid Intelligence Dashboard**. Use those names in the selected-work
+cards, detailed project sections, and application titles. Load forecasting is
+one capability of the ERCOT dashboard, not a second dashboard. The separate
+**Hourly Load Forecast App** uses the historical AEP/PJM dataset and remains a
+different project.
+
+The GNN card has one launch action pointing to the scenario app. Its former
+"Open Analyzer" destination exposed a different, older alarm-classification
+prototype. All three local GNN Streamlit entry scripts now launch the shared
+application; the old deployment URL is retained only as an existing bookmark,
+not advertised as a separate product. See [application deployment mapping](app-deployments.md)
+for the script paths and how to distinguish local changes from hosted versions.
+
 - Edit the six selected-work cards in `index.html` under `#projects`. Each card has `data-project-card` and a space-separated `data-category` using `engineering`, `ai`, or `data`. Search matches the text in these cards. Additional searchable terms can be supplied in `data-search`.
 - Search and category filters apply to selected work. The complete project descriptions remain below and are linked through the “Go deeper” navigation. To feature another existing project, add a selected-work card linking to its section or heading ID.
 - Maintain the selected card’s image link, title link, and text link together when changing its destination. Internal anchors must match an existing unique `id`.

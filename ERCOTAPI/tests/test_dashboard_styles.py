@@ -9,6 +9,12 @@ from ERCOTAPI import ercotapi
 
 
 class DashboardStyleTests(unittest.TestCase):
+    def test_dashboard_hero_uses_the_canonical_name(self) -> None:
+        with patch.object(ercotapi.st, "markdown") as markdown:
+            ercotapi.render_hero()
+        self.assertEqual(ercotapi.DASHBOARD_TITLE, "ERCOT Grid Intelligence Dashboard")
+        self.assertIn(f"<h1>{ercotapi.DASHBOARD_TITLE}</h1>", markdown.call_args.args[0])
+
     @staticmethod
     def _dashboard_css() -> str:
         with patch.object(ercotapi.st, "markdown") as markdown:

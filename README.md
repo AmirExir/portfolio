@@ -9,9 +9,9 @@ site and independently launched Python applications.
 | Project | What to inspect | Run and validation guide |
 | --- | --- | --- |
 | Hourly load forecasting | Causal load features, chronological evaluation, seasonal baselines, recursive forecasts | [Forecasting guide](energy_forcast/README.md) |
-| Power fault classifier | Validated current/voltage inputs, stratified model selection, held-out per-class metrics | [Classifier guide](fault_classifier/README.md) |
-| Power grid GNN | Scenario graphs, supplied violation labels, train-only preprocessing, held-out scenario evaluation | [GNN guide](GNN/README.md) |
-| ERCOT dashboard | Grid views and hourly load forecasting with explicit evaluation scope | [Dashboard guide](ERCOTAPI/README.md) |
+| Power Fault Classifier | Validated current/voltage inputs, stratified model selection, held-out per-class metrics | [Classifier guide](fault_classifier/README.md) |
+| Power Grid GNN | Scenario graphs, supplied violation labels, train-only preprocessing, held-out scenario evaluation | [GNN guide](GNN/README.md) |
+| ERCOT Grid Intelligence Dashboard | Grid views and hourly load forecasting with explicit evaluation scope | [Dashboard guide](ERCOTAPI/README.md) |
 | ERCOT knowledge assistants | Persistent document ingestion, retrieval, source evidence, and revision tracking | [RAG architecture](ERCOTAPI/RAG_INGESTION.md) |
 | Grid Atlas | Regional infrastructure map, source metadata, and dataset boundaries | [Atlas guide](ERCOTAPI/GRID_ATLAS.md) |
 | Market intelligence agent | Experimental forecasting, prospective evaluation, and paper-trading workflows | [Evaluation contract](market_agent/POLICY_EVALUATION.md) |

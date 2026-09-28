@@ -1,7 +1,4 @@
-"""
-Streamlit App for Power Grid GNN Training and Visualization
-Supports voltage and thermal violation detection with graph visualization
-"""
+"""Power Grid GNN: exploratory source-class training and topology inspection."""
 import streamlit as st
 import torch
 import numpy as np
@@ -19,39 +16,15 @@ from data_pipeline import load_csv_graphs, SOURCE_NOTE
 
 # Page configuration
 st.set_page_config(
-    page_title="Power Grid GNN Analyzer",
+    page_title="Power Grid GNN",
     page_icon="🔌",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
-st.markdown("""
-<style>
-    .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #1f77b4;
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-    .metric-card {
-        background-color: #f0f2f6;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        margin: 0.5rem 0;
-    }
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 2rem;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# Title
-st.markdown('<p class="main-header">Power Grid Scenario Classification with GNNs</p>', unsafe_allow_html=True)
-
-st.info(SOURCE_NOTE)
-st.caption("Supplied class IDs are preserved. They are not verified voltage or thermal compliance criteria.")
+st.title("Power Grid GNN")
+st.write("Train graph models, explore grid scenarios, and compare results on held-out scenarios.")
+st.caption("By Amir Exir · Research demo using supplied class labels; physical units and label thresholds are unverified.")
 
 # Sidebar configuration
 with st.sidebar:
@@ -228,9 +201,6 @@ def visualize_graph(graph_data, scenario_id, mode, show_edge_labels=False, node_
                                text=f"{start}–{end}", showarrow=False, font=dict(size=9))
     return fig
 
-# Main content
-tab1, tab2, tab3 = st.tabs(["Training", "Graph Visualization", "Performance Analysis"])
-
 # Load dataset
 source_dir = Path(__file__).resolve().parent
 source_paths = [source_dir / "edge_scenarios.csv"]
@@ -253,10 +223,14 @@ if st.session_state.get("training_configuration") != configuration:
         st.session_state.pop(state_key, None)
 
 if mode == "thermal":
-    st.warning("Thermal predictors contain line properties and topology only; scenario dispatch and load are absent. Identical predictors can have different thermal classes, so this is an exploratory baseline.")
+    st.warning("Thermal demo: scenario dispatch and load are absent from the predictors, limiting what the model can learn.")
 
 # Dataset info
-with st.expander("Dataset Information", expanded=False):
+with st.expander("Data and research assumptions", expanded=False):
+    st.write(SOURCE_NOTE)
+    st.caption("Supplied class IDs are preserved. They are not verified voltage or thermal compliance criteria.")
+    if mode == "thermal":
+        st.write("Thermal predictors contain line properties and topology only. Identical predictors can have different thermal classes, so this is an exploratory baseline.")
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.metric("Total Graphs", len(data))
@@ -279,14 +253,17 @@ with st.expander("Dataset Information", expanded=False):
     })
     st.dataframe(class_dist, use_container_width=True)
 
+tab1, tab2, tab3 = st.tabs(["Train & compare", "Explore topology", "Evaluation"])
+
 # Tab 1: Training
 with tab1:
-    st.header("Model Training")
+    st.header("Train a graph model")
+    st.write("Choose a model and settings in the sidebar, then start training. Validation selects the checkpoint; separate test scenarios measure its performance.")
     
     col1, col2 = st.columns([1, 2])
     
     with col1:
-        st.subheader("Configuration Summary")
+        st.subheader(f"{model_type.upper()} · {mode.title()} classes")
         config_data = {
             "Mode": mode.upper(),
             "Model": model_type.upper(),
@@ -297,11 +274,16 @@ with tab1:
             "Activation": "ReLU" if use_relu else "None",
             "Random Seed": seed
         }
-        for key, value in config_data.items():
-            st.text(f"{key}: {value}")
+        st.caption(f"{len(data)} source scenarios · {epochs} epochs · Batch size {batch_size} · Seed {seed}")
+        with st.expander("Full configuration"):
+            st.dataframe(pd.DataFrame(config_data.items(), columns=["Setting", "Value"]).astype(str),
+                         hide_index=True, use_container_width=True)
     
     with col2:
         if st.button("Start Training", type="primary", use_container_width=True):
+            # A new attempt supersedes the previous run, including when it fails.
+            for state_key in ("model", "hist_df", "trained", "training_configuration"):
+                st.session_state.pop(state_key, None)
             with st.spinner("Training model... This may take a few minutes."):
                 try:
                     model, hist_df = train_model(
@@ -316,22 +298,20 @@ with tab1:
                     
                     st.success("Training completed successfully!")
                     
-                    # Display final metrics
-                    final = hist_df.attrs['evaluation']['test']
-                    st.caption('Held-out test results from the checkpoint selected by validation loss')
-                    
-                    col1, col2, col3, col4 = st.columns(4)
-                    with col1:
-                        st.metric("Accuracy", f"{final['accuracy']:.2%}")
-                    with col2:
-                        st.metric("Precision", f"{final['precision_weighted']:.2%}")
-                    with col3:
-                        st.metric("F1 Score", f"{final['f1_weighted']:.2%}")
-                    with col4:
-                        st.metric("Macro F1", f"{final['f1_macro']:.2%}")
-                    
                 except Exception as e:
                     st.error(f"Training failed: {str(e)}")
+
+        if 'hist_df' in st.session_state:
+            final = st.session_state.hist_df.attrs['evaluation']['test']
+            st.caption('Held-out test results from the checkpoint selected by validation loss')
+            metric_columns = st.columns(4)
+            for column, (label, metric) in zip(metric_columns, (
+                ("Accuracy", "accuracy"), ("Precision", "precision_weighted"),
+                ("Weighted F1", "f1_weighted"), ("Macro F1", "f1_macro"),
+            )):
+                column.metric(label, f"{final[metric]:.2%}")
+        else:
+            st.caption("Results will include a majority-class baseline, per-class scores, and a downloadable evaluation report.")
     
     # Display training history if available
     if 'hist_df' in st.session_state:
@@ -373,7 +353,8 @@ with tab1:
 
 # Tab 2: Graph Visualization
 with tab2:
-    st.header("Scenario Graph Visualization")
+    st.header("Explore a scenario")
+    st.caption("Select a scenario in the sidebar. Hover over a bus or line to inspect its source features and class.")
     
     if scenario_to_view >= len(data):
         st.error(f"Scenario {scenario_to_view} does not exist. Valid range: 0-{len(data)-1}")
@@ -429,7 +410,7 @@ with tab2:
 with tab3:
     st.header("Held-out Scenario Evaluation")
     if 'hist_df' not in st.session_state:
-        st.info("Please train a model first in the Training tab")
+        st.info("Start a run in Train & compare to view held-out results and the majority-class baseline.")
     else:
         hist_df = st.session_state.hist_df
         report = hist_df.attrs["evaluation"]
@@ -465,9 +446,4 @@ with tab3:
 
 # Footer
 st.divider()
-st.markdown("""
-<div style='text-align: center; color: #666; padding: 1rem;'>
-    <p>Power Grid GNN Analyzer | Built with Streamlit & PyTorch Geometric</p>
-    <p>Supports GCN, GAT, GIN, and Transformer architectures for exploratory voltage and thermal source-class prediction</p>
-</div>
-""", unsafe_allow_html=True)
+st.caption("Power Grid GNN · Amir Exir · GCN, GAT, GIN, and Transformer models")

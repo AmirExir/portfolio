@@ -1,6 +1,6 @@
 # 🚀 Streamlit Cloud Deployment Guide
 
-## Deploying Your ERCOT Dashboard to Streamlit Cloud
+## Deploying ERCOT Grid Intelligence Dashboard to Streamlit Cloud
 
 ### Step 1: Prepare Your Repository
 

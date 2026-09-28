@@ -464,6 +464,7 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
 
 APP_BUILD = "2026-08-03 document-contrast-v6"
+DASHBOARD_TITLE = "ERCOT Grid Intelligence Dashboard"
 ERCOT_API_MARKET_URL = "https://apimarket.ercot.com/"
 LOVABLE_ERCOT_DASHBOARD_URL = "https://ercot-news-watch.lovable.app/"
 ERCOT_TIMEZONE = ZoneInfo("America/Chicago")
@@ -1059,7 +1060,7 @@ def render_hero() -> None:
     st.markdown(
         f"""
         <div class="dashboard-hero">
-            <h1>ERCOT Grid Intelligence Dashboard</h1>
+            <h1>{DASHBOARD_TITLE}</h1>
             <p>
                 Real-time Texas grid analytics for load, renewable output, nodal pricing,
                 outage capacity, AI-generated news, and machine-learning load forecasting.
@@ -3469,7 +3470,7 @@ def render_north_american_grid_atlas() -> None:
 # --- Streamlit Dashboard ---
 def main():
     st.set_page_config(
-        page_title="ERCOT Grid Intelligence Dashboard",
+        page_title=DASHBOARD_TITLE,
         page_icon="⚡",
         layout="wide",
         initial_sidebar_state="expanded",

@@ -127,6 +127,26 @@ class PortfolioAddressTests(unittest.TestCase):
         content = unescape((REPOSITORY_ROOT / "index.html").read_text(encoding="utf-8"))
         self.assertNotRegex(content, "↗(?!\ufe0e)")
 
+    def test_project_names_and_gnn_launch_are_unambiguous(self) -> None:
+        """Keep the featured cards and detail sections aligned with the apps."""
+        content = (REPOSITORY_ROOT / "index.html").read_text(encoding="utf-8")
+        for anchor, title in (
+            ("gnn-predictor", "Power Grid GNN"),
+            ("ercot-dashboard", "ERCOT Grid Intelligence Dashboard"),
+        ):
+            self.assertIn(f'<h3 id="{anchor}">{title}</h3>', content)
+            self.assertIn(f'<h3><a href="#{anchor}">{title}</a></h3>', content)
+        gnn_launches = re.findall(
+            r'<a\b[^>]*href="(https://[^"]+\.streamlit\.app/)"[^>]*>([^<]*(?:GNN|Analyzer)[^<]*)</a>',
+            content,
+        )
+        self.assertEqual(gnn_launches, [(
+            "https://ai-in-power-system-electrical-engineering-hw6ktvbujtbw5zygqxxj.streamlit.app/",
+            "Open Power Grid GNN",
+        )])
+        self.assertNotIn("portfolio-kucwkosbrixdtcgkae7yvm.streamlit.app", content)
+        self.assertNotIn("ERCOT Load Forecast Dashboard</h3>", content)
+
 
 class AddressValidatorTests(unittest.TestCase):
     """Prove that the address checks catch regressions independently of the site."""

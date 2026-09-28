@@ -58,6 +58,14 @@ class DatasetTests(unittest.TestCase):
         source["loading_percent"] = 10000
         torch.testing.assert_close(graph.x, thermal_graph(source, "7").x)
 
+    def test_missing_class_columns_never_fall_back_to_combined_alarm_flags(self):
+        bus_source = buses().rename(columns={"voltage_class": "alarm_flag"})
+        with self.assertRaisesRegex(ValueError, "missing required columns: voltage_class"):
+            voltage_graph(bus_source, edges(), "7")
+        line_source = edges().rename(columns={"thermal_class": "alarm_flag"})
+        with self.assertRaisesRegex(ValueError, "missing required columns: thermal_class"):
+            thermal_graph(line_source, "7")
+
     def test_parallel_lines_have_one_message_link_each_direction(self):
         source = edges().iloc[:2].copy()
         source["from_bus"], source["to_bus"] = 10, 20
