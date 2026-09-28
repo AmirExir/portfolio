@@ -1,0 +1,14 @@
+Fresh market-moving headlines are limited in this article set, and several items are opinion, reposts, or low-credibility/non-market coverage. The clearest fresh themes are geopolitics/oil, one AI-semi earnings item, and a couple of crypto-specific developments.
+
+**Facts**
+- **AI/Semis:** **Crypto Briefing** (2026-09-27T06:48:51Z) says **Broadcom raised its AI sales forecast** after quarterly results; the article says AI revenue **tripled year over year**, while noting a **slightly soft Q4 guide**.
+- **Energy/Geopolitics:** **The Irish Times** (2026-09-27T08:01:21Z) reports **Iran is awaiting an official U.S. response** after **Trump rejected an Iranian proposal tied to reopening the Strait of Hormuz**, with Tehran saying diplomacy is the only solution.
+- **Energy/Geopolitics:** **Business Standard** (2026-09-27T07:21:25Z) and **BusinessLine** (2026-09-27T07:18:23Z) both say **geopolitical developments, crude oil, bond yields, and macro data** are expected to steer markets in the coming week, specifically citing **U.S.-Iran diplomacy** and oil.
+- **Crypto:** **Bitcoinist** (2026-09-27T07:30:00Z) reports **about $15.6 billion of Bitcoin options expired on Deribit on Sept. 25**, with BTC described as holding **near $84K** after settlement.
+- **Crypto/ETF:** **Crypto Briefing** (2026-09-27T07:21:25Z) reports **Bitwise’s NEAR ETF cleared NYSE Arca and SEC hurdles** and that launch is **imminent**.
+
+**Interpretation**
+- The most credible fresh macro input here is **Middle East / Hormuz-related headline risk**, which matters mainly through the **oil and broader risk-sentiment channel**.
+- In single stocks, **Broadcom** is the only meaningful fresh AI/semi mover in the set: the read-through is **continued AI demand strength**, tempered by the article’s mention of a **softer near-term guide**.
+- The crypto items point to **event-driven flow** in digital assets, but they do **not** by themselves explain broader equity index or rates moves.
+- There is **no strong fresh Fed, inflation, or major index-specific headline** in this set to cleanly explain today’s broader tape.
