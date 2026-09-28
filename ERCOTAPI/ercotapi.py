@@ -1,4 +1,5 @@
 import os
+import hashlib
 import requests
 import json
 import re
@@ -15,12 +16,9 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import time
 try:
-    from xgboost import XGBRegressor
-    HAS_XGBOOST = True
+    from ERCOTAPI.load_forecast import HAS_XGBOOST, forecast_load, train_load_forecast_model
 except ImportError:
-    from sklearn.ensemble import RandomForestRegressor
-    HAS_XGBOOST = False
-from sklearn.preprocessing import StandardScaler
+    from load_forecast import HAS_XGBOOST, forecast_load, train_load_forecast_model
 
 try:
     from ERCOTAPI.latest_updates import load_latest_updates, revision_request_identity
@@ -82,6 +80,15 @@ ERCOT_REQUEST_TIMEOUT = (
     ERCOT_CONNECT_TIMEOUT_SECONDS,
     ERCOT_READ_TIMEOUT_SECONDS,
 )
+
+
+@st.cache_resource(show_spinner="Training hourly load model...", max_entries=3, ttl=3600)
+def cached_load_forecast_model(
+    history: pd.DataFrame, tuning_mode: str, manual_params: Optional[Dict[str, Any]],
+    core_fingerprint: str,
+) -> tuple:
+    """Reuse fits for unchanged data, settings, and forecasting implementation."""
+    return train_load_forecast_model(history, tuning_mode, manual_params)
 
 
 class ErcotAPI:
@@ -2082,167 +2089,6 @@ def render_dataframe(df: pd.DataFrame, height: int = 320) -> None:
     st.dataframe(make_arrow_safe_dataframe(df), width="stretch", height=height)
 
 
-from sklearn.model_selection import train_test_split, RandomizedSearchCV, TimeSeriesSplit
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-
-def train_load_forecast_model(historical_data, tuning_mode: str = "auto", manual_params: Optional[Dict[str, Any]] = None):
-    """Train an ML model (XGBoost or Random Forest) to forecast load based on historical patterns.
-       Returns: model, scaler, df, train/test split, predictions, and metrics for plotting/metrics display."""
-    if len(historical_data) < 48:  # Need at least 2 days
-        return None, None, None, None, None, None
-
-    # Feature engineering: hour of day, day of week, rolling averages
-    df = historical_data.copy()
-    df['hour'] = pd.to_datetime(df.index).hour
-    df['day_of_week'] = pd.to_datetime(df.index).dayofweek
-    df['is_weekend'] = (df['day_of_week'] >= 5).astype(int)
-
-    # Cyclical encoding for hour (23:00 and 00:00 are close)
-    df['hour_sin'] = np.sin(2 * np.pi * df['hour'] / 24)
-    df['hour_cos'] = np.cos(2 * np.pi * df['hour'] / 24)
-
-    # Lag features
-    df['load_lag_1h'] = df['load'].shift(1)
-    df['load_lag_24h'] = df['load'].shift(24)
-
-    # Rolling statistics
-    df['rolling_mean_3h'] = df['load'].rolling(3, min_periods=1).mean()
-    df['rolling_mean_24h'] = df['load'].rolling(24, min_periods=1).mean()
-    df['rolling_std_24h'] = df['load'].rolling(24, min_periods=1).std()
-
-    # Prepare features and target
-    features = ['hour', 'day_of_week', 'is_weekend', 'hour_sin', 'hour_cos',
-                'load_lag_1h', 'load_lag_24h', 'rolling_mean_3h', 'rolling_mean_24h', 'rolling_std_24h']
-
-    df = df.dropna()
-
-    if len(df) < 24:
-        return None, None, None, None, None, None
-
-    X = df[features]
-    y = df['load']
-
-    # Train/test split (80/20, no shuffle to preserve time order)
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, shuffle=False
-    )
-
-    # Train model
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-
-    # Use time-series-aware validation for tuning.
-    n_splits = min(5, max(2, len(X_train_scaled) // 10))
-    cv = TimeSeriesSplit(n_splits=n_splits)
-
-    best_params = {}
-    best_cv_score = None
-
-    if HAS_XGBOOST:
-        if tuning_mode == "manual":
-            manual_params = manual_params or {}
-            best_params = {
-                'n_estimators': int(manual_params.get('n_estimators', 100)),
-                'max_depth': int(manual_params.get('max_depth', 6)),
-                'learning_rate': float(manual_params.get('learning_rate', 0.1)),
-                'subsample': float(manual_params.get('subsample', 0.8)),
-                'colsample_bytree': float(manual_params.get('colsample_bytree', 0.8)),
-                'min_child_weight': int(manual_params.get('min_child_weight', 1))
-            }
-            model = XGBRegressor(
-                objective='reg:squarederror',
-                random_state=42,
-                verbosity=0,
-                **best_params
-            )
-            model.fit(X_train_scaled, y_train)
-        else:
-            base_model = XGBRegressor(
-                objective='reg:squarederror',
-                random_state=42,
-                verbosity=0
-            )
-            param_distributions = {
-                'n_estimators': [100, 150, 200, 250, 300, 400],
-                'max_depth': [3, 4, 5, 6, 7, 8, 10],
-                'learning_rate': [0.01, 0.03, 0.05, 0.07, 0.1, 0.15, 0.2, 0.3],
-                'subsample': [0.7, 0.8, 0.9, 1.0],
-                'colsample_bytree': [0.7, 0.8, 0.9, 1.0],
-                'min_child_weight': [1, 3, 5]
-            }
-            search = RandomizedSearchCV(
-                estimator=base_model,
-                param_distributions=param_distributions,
-                n_iter=20,
-                scoring='neg_mean_absolute_error',
-                cv=cv,
-                random_state=42,
-                n_jobs=-1,
-                verbose=0
-            )
-            search.fit(X_train_scaled, y_train)
-            model = search.best_estimator_
-            best_params = search.best_params_
-            best_cv_score = -search.best_score_
-    else:
-        if tuning_mode == "manual":
-            manual_params = manual_params or {}
-            best_params = {
-                'n_estimators': int(manual_params.get('n_estimators', 100)),
-                'max_depth': manual_params.get('max_depth', 15),
-                'min_samples_split': int(manual_params.get('min_samples_split', 5)),
-                'min_samples_leaf': int(manual_params.get('min_samples_leaf', 1))
-            }
-            model = RandomForestRegressor(
-                random_state=42,
-                **best_params
-            )
-            model.fit(X_train_scaled, y_train)
-        else:
-            base_model = RandomForestRegressor(random_state=42)
-            param_distributions = {
-                'n_estimators': [100, 150, 200, 300, 400],
-                'max_depth': [8, 12, 15, 20, None],
-                'min_samples_split': [2, 5, 10],
-                'min_samples_leaf': [1, 2, 4]
-            }
-            search = RandomizedSearchCV(
-                estimator=base_model,
-                param_distributions=param_distributions,
-                n_iter=12,
-                scoring='neg_mean_absolute_error',
-                cv=cv,
-                random_state=42,
-                n_jobs=-1,
-                verbose=0
-            )
-            search.fit(X_train_scaled, y_train)
-            model = search.best_estimator_
-            best_params = search.best_params_
-            best_cv_score = -search.best_score_
-
-    # Predict on train and test sets
-    y_train_pred = model.predict(X_train_scaled)
-    y_test_pred = model.predict(X_test_scaled)
-
-    # Compute metrics
-    metrics = {
-        "train_mae": mean_absolute_error(y_train, y_train_pred),
-        "train_rmse": np.sqrt(mean_squared_error(y_train, y_train_pred)),
-        "train_r2": r2_score(y_train, y_train_pred),
-        "test_mae": mean_absolute_error(y_test, y_test_pred),
-        "test_rmse": np.sqrt(mean_squared_error(y_test, y_test_pred)),
-        "test_r2": r2_score(y_test, y_test_pred),
-        "best_params": best_params,
-        "cv_mae": best_cv_score,
-        "tuning_mode": tuning_mode
-    }
-
-    # For plotting: return the indices for X_train and X_test (to allow time series plotting)
-    return model, scaler, df, (X_train, X_test, y_train, y_test), (y_train_pred, y_test_pred), metrics
-
-
 def ercot_atlas_assets() -> pd.DataFrame:
     """Small contextual overlays kept separate from public infrastructure data."""
 
@@ -4145,22 +3991,25 @@ def main():
                     )
                     
                     if load_col and not actual_df.empty:
-                        # Prepare data for ML
-                        if 'timestamp' in actual_df.columns:
-                            ml_df = pd.DataFrame({
-                                'load': actual_df[load_col].values
-                            }, index=actual_df['timestamp'].values)
-                        else:
-                            ml_df = pd.DataFrame({
-                                'load': actual_df[load_col].values
-                            }, index=pd.date_range(end=pd.Timestamp.now(), periods=len(actual_df), freq='h'))
-                        
-                        model, scaler, training_df, split_data, preds, metrics = train_load_forecast_model(
-                            ml_df,
-                            tuning_mode=tuning_mode,
-                            manual_params=manual_load_params
-                        )
-                        
+                        model = None
+                        try:
+                            if 'timestamp' not in actual_df.columns:
+                                raise ValueError("Source timestamps are missing; a forecast cannot be dated reliably.")
+                            ml_df = pd.DataFrame(
+                                {'load': actual_df[load_col].to_numpy()},
+                                index=pd.DatetimeIndex(actual_df['timestamp']),
+                            )
+                            model, scaler, training_df, split_data, preds, metrics = cached_load_forecast_model(
+                                ml_df, tuning_mode=tuning_mode, manual_params=manual_load_params,
+                                core_fingerprint=hashlib.sha256(
+                                    Path(__file__).with_name("load_forecast.py").read_bytes()
+                                ).hexdigest(),
+                            )
+                            if model is None:
+                                st.warning("Select at least 48 consecutive hours of actual load to train the model.")
+                        except ValueError as exc:
+                            st.warning(f"ML forecast unavailable: {exc}")
+
                         if model is not None:
                             # --- ML Model Performance Metrics and Diagnostics ---
                             if split_data is not None and preds is not None and metrics is not None:
@@ -4169,13 +4018,28 @@ def main():
 
                                 score_col_1, score_col_2, score_col_3, score_col_4 = st.columns(4)
                                 with score_col_1:
-                                    render_metric_card("Validation MAE", format_mw(metrics["test_mae"]), "Lower is better", ERCOT_CYAN)
+                                    render_metric_card("1-hour Holdout MAE", format_mw(metrics["test_mae"]), "Chronological holdout", ERCOT_CYAN)
                                 with score_col_2:
-                                    render_metric_card("Validation RMSE", format_mw(metrics["test_rmse"]), "Error volatility", ERCOT_ORANGE)
+                                    render_metric_card("1-hour Holdout RMSE", format_mw(metrics["test_rmse"]), "Root mean squared error", ERCOT_ORANGE)
                                 with score_col_3:
-                                    render_metric_card("Validation R2", f"{metrics['test_r2']:.3f}", "Explained variance", ERCOT_GREEN)
+                                    render_metric_card("1-hour Holdout R2", f"{metrics['test_r2']:.3f}", "Explained variance", ERCOT_GREEN)
                                 with score_col_4:
                                     render_metric_card("Training MAE", format_mw(metrics["train_mae"]), "In-sample fit", ERCOT_BLUE)
+
+                                st.caption(
+                                    "Holdout scores use observed preceding loads at each hour. "
+                                    "They do not establish the accuracy of the recursive 24-hour forecast. "
+                                    "The future model is refitted on all eligible observations."
+                                )
+                                st.write(
+                                    f"Same-hour holdout baselines — previous hour MAE: {format_mw(metrics['persistence_mae'])}; "
+                                    f"24-hour lag MAE: {format_mw(metrics['seasonal_mae'])}."
+                                )
+                                st.download_button(
+                                    "Download evaluation details",
+                                    json.dumps(metrics, indent=2, allow_nan=False),
+                                    "ercot_load_evaluation.json", "application/json",
+                                )
 
                                 if metrics.get("best_params"):
                                     with st.expander("Selected model settings", expanded=False):
@@ -4205,65 +4069,28 @@ def main():
                                     x=test_idx,
                                     y=y_test,
                                     mode='lines',
-                                    name='Validation Actual',
+                                    name='Holdout Actual',
                                     line=dict(color=ERCOT_RED, width=2, dash='solid')
                                 ))
                                 fig_diag.add_trace(go.Scatter(
                                     x=test_idx,
                                     y=y_test_pred,
                                     mode='lines',
-                                    name='Validation Predicted',
+                                    name='One-hour Holdout Predicted',
                                     line=dict(color=ERCOT_ORANGE, width=2, dash='dot')
                                 ))
                                 fig_diag = apply_professional_layout(
                                     fig_diag,
-                                    "Training Fit vs Validation",
+                                    "Training Fit vs One-hour Holdout",
                                     "Load (MW)",
                                     height=430,
                                 )
                                 render_chart(fig_diag)
 
-                            # Generate forecast for next 24 hours
-                            last_timestamp = training_df.index[-1] if hasattr(training_df.index[-1], 'hour') else pd.Timestamp.now()
-                            future_hours = []
-                            future_loads = []
-                            
-                            # Get last known values for lag features
-                            last_load = training_df['load'].iloc[-1]
-                            last_load_24h_ago = training_df['load'].iloc[-24] if len(training_df) >= 24 else last_load
-                            
-                            for h in range(24):
-                                future_time = last_timestamp + timedelta(hours=h+1)
-                                future_hours.append(future_time)
-                                
-                                # Create features
-                                hour = future_time.hour
-                                dow = future_time.dayofweek
-                                is_weekend = 1 if dow >= 5 else 0
-                                hour_sin = np.sin(2 * np.pi * hour / 24)
-                                hour_cos = np.cos(2 * np.pi * hour / 24)
-                                
-                                # Use predicted values as lag features for future predictions
-                                load_lag_1h = future_loads[-1] if future_loads else last_load
-                                load_lag_24h = last_load_24h_ago
-                                
-                                # Rolling statistics from recent data
-                                recent_3h = training_df['load'].iloc[-3:].tolist() + future_loads[-2:]
-                                rolling_mean_3h = np.mean(recent_3h[-3:]) if len(recent_3h) >= 3 else training_df['rolling_mean_3h'].iloc[-1]
-                                rolling_mean_24h = training_df['rolling_mean_24h'].iloc[-1]
-                                rolling_std_24h = training_df['rolling_std_24h'].iloc[-1]
-                                
-                                features = [[hour, dow, is_weekend, hour_sin, hour_cos,
-                                           load_lag_1h, load_lag_24h, rolling_mean_3h,
-                                           rolling_mean_24h, rolling_std_24h]]
-                                
-                                # Predict
-                                features_scaled = scaler.transform(features)
-                                predicted_load = model.predict(features_scaled)[0]
-                                future_loads.append(predicted_load)
-                            
-                            future_load = np.array(future_loads)
-                            
+                            forecast = forecast_load(model, scaler, ml_df, hours=24)
+                            future_hours = forecast.index
+                            future_load = forecast['predicted_load_mw'].to_numpy()
+
                             fig_ml = go.Figure()
                             fig_ml.add_trace(
                                 go.Scatter(
@@ -4290,8 +4117,6 @@ def main():
                                 'Predicted Load': [format_mw(load) for load in future_load]
                             })
                             render_dataframe(forecast_table, height=250)
-                        else:
-                            st.warning("⚠️ Not enough historical data to train ML model. Need at least 48 hours.")
                     
                 else:
                     st.warning("📭 No load data available for the selected period.")

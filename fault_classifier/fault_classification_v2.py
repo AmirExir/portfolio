@@ -1,137 +1,90 @@
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split, KFold
-from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.metrics import accuracy_score
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.neural_network import MLPClassifier
-import matplotlib.pyplot as plt
-import joblib
+"""Train fault classifiers without leaking test data or overwriting prior artifacts."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+from io import BytesIO
 import json
-import os
+from pathlib import Path
+import subprocess
+from typing import Sequence
 
-try:
-    from xgboost import XGBClassifier
-    has_xgb = True
-except ImportError:
-    has_xgb = False
-    print("XGBoost not installed.")
+import joblib
+import pandas as pd
 
-# === LOAD & PREPROCESS TRAINING DATA ===
-df = pd.read_csv("classData.csv")
-df["fault_type"] = df[["G", "C", "B", "A"]].astype(str).agg("".join, axis=1)
-X = df[["Ia", "Ib", "Ic", "Va", "Vb", "Vc"]]
-y = df["fault_type"]
+if __package__:
+    from .modeling import candidate_models, train_and_evaluate
+else:
+    from modeling import candidate_models, train_and_evaluate
 
-label_encoder = LabelEncoder()
-y_encoded = label_encoder.fit_transform(y)
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
+PROJECT_DIR = Path(__file__).resolve().parent
 
-# === MODELS ===
-models = {
-    "Logistic Regression": LogisticRegression(max_iter=500),
-    "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
-    "SVM (RBF Kernel)": SVC(),
-    "MLP (Neural Net)": MLPClassifier(hidden_layer_sizes=(64, 32), max_iter=300, random_state=42)
-}
-if has_xgb:
-    models["XGBoost"] = XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
 
-# === PREFOLD: Train/Test Split Accuracy ===
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y_encoded, test_size=0.2, random_state=42)
-prefold_results = {}
+def main(argv: Sequence[str] | None = None) -> int:
+    """Run reproducible training and save a new, operator-trusted model directory."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--data", type=Path, default=PROJECT_DIR / "classData.csv")
+    parser.add_argument("--output-dir", type=Path, required=True, help="New directory; existing paths are never overwritten")
+    parser.add_argument("--predict", type=Path, help="Optional feature CSV to predict after training")
+    parser.add_argument("--folds", type=int, default=5)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--test-fraction", type=float, default=0.2)
+    parser.add_argument("--include-xgboost", action="store_true")
+    parser.add_argument("--models", nargs="+", help="Subset of model names, quoted when containing spaces")
+    args = parser.parse_args(argv)
+    if args.output_dir.exists():
+        parser.error("--output-dir already exists; choose a new run directory.")
+    try:
+        models = candidate_models(args.seed, include_xgboost=args.include_xgboost)
+        if args.models:
+            unknown = set(args.models) - set(models)
+            if unknown:
+                parser.error(f"Unknown model names: {sorted(unknown)}. Available: {list(models)}")
+            models = {name: models[name] for name in args.models}
+        source_bytes = args.data.read_bytes()
+        result = train_and_evaluate(
+            pd.read_csv(BytesIO(source_bytes)), models=models, seed=args.seed,
+            test_fraction=args.test_fraction, folds=args.folds,
+        )
+        prediction_data = None
+        if args.predict:
+            prediction_data = pd.read_csv(args.predict)
+            prediction_data["Predicted"] = result.predict(prediction_data)
+        try:
+            commit = subprocess.run(
+                ["git", "rev-parse", "HEAD"], cwd=PROJECT_DIR, capture_output=True,
+                text=True, check=True, timeout=5,
+            ).stdout.strip()
+            dirty = bool(subprocess.run(
+                ["git", "status", "--porcelain", "--", str(PROJECT_DIR)],
+                cwd=PROJECT_DIR, capture_output=True, text=True, check=True, timeout=5,
+            ).stdout.strip())
+        except (OSError, subprocess.SubprocessError):
+            commit, dirty = None, None
+        result.report.update({
+            "dataset": {"path": str(args.data.resolve()), "sha256": hashlib.sha256(source_bytes).hexdigest()},
+            "source_revision": {"git_commit": commit, "project_worktree_modified": dirty},
+            "output_directory": str(args.output_dir.resolve()),
+        })
+        args.output_dir.mkdir(parents=True, exist_ok=False)
+        joblib.dump({
+            "schema_version": 1, "pipeline": result.pipeline,
+            "label_encoder": result.label_encoder, "report": result.report,
+        }, args.output_dir / "model_bundle.joblib")
+        (args.output_dir / "evaluation.json").write_text(
+            json.dumps(result.report, indent=2, default=str, allow_nan=False) + "\n", encoding="utf-8"
+        )
+        if prediction_data is not None:
+            prediction_data.to_csv(args.output_dir / "predictions.csv", index=False)
+    except (OSError, ValueError, ImportError, pd.errors.ParserError) as exc:
+        parser.exit(1, f"Training failed: {exc}\n")
+    print(f"Selected by training CV macro F1: {result.report['selected_model']}")
+    print(f"Held-out test macro F1: {result.report['held_out_test']['macro_f1']:.4f}")
+    print(f"Majority baseline macro F1: {result.report['majority_baseline']['macro_f1']:.4f}")
+    print(f"Saved model and reproducibility report to {args.output_dir.resolve()}")
+    return 0
 
-for name, model in models.items():
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-    acc = accuracy_score(y_test, y_pred)
-    prefold_results[name] = acc
-    print(f"📊 {name} Pre-Fold Accuracy: {acc:.4f}")
 
-with open("fault_classifier/model_accuracies_prefold.json", "w") as f:
-    json.dump(prefold_results, f, indent=4)
-
-# === 5-FOLD CROSS VALIDATION ===
-kf = KFold(n_splits=5, shuffle=True, random_state=42)
-fold_accuracies = {}
-results = {}
-best_model = None
-best_acc = 0
-
-for name, model in models.items():
-    print(f"\n🔍 Cross-validating: {name}")
-    acc_scores = []
-
-    for fold, (train_index, val_index) in enumerate(kf.split(X_scaled), 1):
-        X_train_fold, X_val_fold = X_scaled[train_index], X_scaled[val_index]
-        y_train_fold, y_val_fold = y_encoded[train_index], y_encoded[val_index]
-
-        model.fit(X_train_fold, y_train_fold)
-        y_pred_fold = model.predict(X_val_fold)
-        acc = accuracy_score(y_val_fold, y_pred_fold)
-        acc_scores.append(acc)
-        print(f"  Fold {fold}: Accuracy = {acc:.4f}")
-
-    avg_acc = np.mean(acc_scores)
-    results[name] = avg_acc
-    fold_accuracies[name] = acc_scores
-    print(f"Average CV Accuracy: {avg_acc:.4f}")
-
-    if avg_acc > best_acc:
-        best_acc = avg_acc
-        best_model = model
-
-# === Save post-fold results ===
-with open("fault_classifier/model_accuracies.json", "w") as f:
-    json.dump(results, f, indent=4)
-
-# === Retrain Best Model on Full Data ===
-best_model.fit(X_scaled, y_encoded)
-
-# === SAVE FINAL ARTIFACTS ===
-joblib.dump(best_model, "fault_classifier/fault_model.pkl")
-joblib.dump(scaler, "fault_classifier/scaler.pkl")
-joblib.dump(label_encoder, "fault_classifier/label_encoder.pkl")
-
-print(" Saved model, scaler, encoder, and accuracy")
-
-# === CREATE OUTPUT FOLDER ===
-os.makedirs("images", exist_ok=True)
-
-# === BOX PLOT: Per-Fold Accuracies ===
-plt.figure(figsize=(10, 6))
-plt.boxplot(fold_accuracies.values(), labels=fold_accuracies.keys())
-plt.ylabel("Accuracy")
-plt.title("Per-Fold Accuracy (5-Fold CV)")
-plt.xticks(rotation=15)
-plt.grid(True, axis='y', linestyle='--')
-plt.tight_layout()
-plt.savefig("images/foldwise_accuracy_boxplot.png")
-plt.show()
-
-# === BAR CHART: Average Accuracy ===
-plt.figure(figsize=(10, 5))
-plt.bar(results.keys(), results.values(), color='skyblue')
-plt.ylabel("Avg CV Accuracy")
-plt.title("Model Accuracy (5-Fold Cross-Validation)")
-plt.xticks(rotation=15)
-plt.grid(True, axis='y', linestyle='--')
-plt.tight_layout()
-plt.savefig("images/fault_accuracy_comparison.png")
-plt.show()
-
-# === PREDICT ON DETECT DATASET ===
-if os.path.exists("detect_dataset.csv"):
-    df_detect = pd.read_csv("detect_dataset.csv")
-    X_detect = df_detect[["Ia", "Ib", "Ic", "Va", "Vb", "Vc"]]
-    X_detect_scaled = scaler.transform(X_detect)
-
-    y_detect_pred = best_model.predict(X_detect_scaled)
-    y_detect_labels = label_encoder.inverse_transform(y_detect_pred)
-
-    df_detect["Predicted"] = y_detect_labels
-    df_detect.to_csv("predictions_on_detect_dataset.csv", index=False)
-    print(" Predictions on detect_dataset saved.")
+if __name__ == "__main__":
+    raise SystemExit(main())

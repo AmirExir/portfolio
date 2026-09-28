@@ -1,136 +1,118 @@
-import streamlit as st
-import pandas as pd
-import joblib
+"""Streamlit interface for validated fault inference and traceable evaluation."""
+
+from __future__ import annotations
+
+import logging
+import os
+from pathlib import Path
+import pickle
+import sys
+import warnings
+
 import matplotlib.pyplot as plt
 import numpy as np
-import json
-from sklearn.metrics import confusion_matrix
-import seaborn as sns
+import pandas as pd
+from sklearn.metrics import ConfusionMatrixDisplay
+import streamlit as st
 
-#  Streamlit config — must go FIRST
-st.set_page_config(page_title="Power Fault Classifier", layout="centered")
+if __package__:
+    from .artifacts import FaultPredictor, artifact_paths, load_predictor
+    from .modeling import classification_metrics, fault_labels
+else:
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from fault_classifier.artifacts import FaultPredictor, artifact_paths, load_predictor
+    from fault_classifier.modeling import classification_metrics, fault_labels
 
-# App Header
-st.title("Power System Fault Classifier by Amir Exir")
-st.write("Upload a CSV with columns: `Ia`, `Ib`, `Ic`, `Va`, `Vb`, `Vc` — optionally `G`, `C`, `B`, `A` for true labels")
+LOGGER = logging.getLogger(__name__)
 
-# Load model artifacts
-try:
-    model = joblib.load("fault_classifier/fault_model.pkl")
-    scaler = joblib.load("fault_classifier/scaler.pkl")
-    label_encoder = joblib.load("fault_classifier/label_encoder.pkl")
 
-    #st.subheader(" Debug: Model & Label Info")
-    if hasattr(model, "classes_"):
-        st.write("Model classes:", model.classes_)
-    st.write("Label encoder classes:", label_encoder.classes_)
+@st.cache_resource
+def cached_predictor(directory: str | None, file_versions: tuple[tuple[int, int], ...]) -> tuple[FaultPredictor, list[str]]:
+    """Cache immutable local artifacts, invalidating when file size or mtime changes."""
+    with warnings.catch_warnings(record=True) as notices:
+        warnings.simplefilter("always")
+        predictor = load_predictor(directory)
+    return predictor, [str(notice.message) for notice in notices]
 
-except FileNotFoundError as e:
-    st.error(f" Model files not found: {e}")
-    st.stop()
 
-# Upload CSV
-uploaded_file = st.file_uploader(" Upload test CSV", type="csv")
+def show_metrics(metrics: dict) -> None:
+    """Show class-sensitive scores and a matrix with the explicit label order."""
+    left, right = st.columns(2)
+    left.metric("Accuracy", f"{metrics['accuracy']:.3f}")
+    right.metric("Macro F1", f"{metrics['macro_f1']:.3f}")
+    st.caption("Macro F1 averages all listed classes; absent classes contribute zero. See support counts below.")
+    st.dataframe(pd.DataFrame({label: metrics["per_class"][label] for label in metrics["classes"]}).T)
+    fig, ax = plt.subplots(figsize=(7, 5))
+    ConfusionMatrixDisplay(
+        np.asarray(metrics["confusion_matrix"]), display_labels=metrics["classes"]
+    ).plot(ax=ax, cmap="viridis", values_format="d", colorbar=False)
+    ax.set_xlabel("Predicted G-C-B-A label")
+    ax.set_ylabel("True G-C-B-A label")
+    st.pyplot(fig)
+    plt.close(fig)
 
-if uploaded_file is not None:
+
+def main() -> None:
+    """Render the app using an optional operator-configured, trusted model run."""
+    st.set_page_config(page_title="Power Fault Classifier", layout="centered")
+    st.title("Power System Fault Classifier by Amir Exir")
+    st.write("Upload a CSV with `Ia`, `Ib`, `Ic`, `Va`, `Vb`, `Vc`. Optional true labels use all four flags: `G`, `C`, `B`, `A`.")
+    st.caption("Fault strings preserve G-C-B-A bit order. Use the same measurement units and acquisition conventions as the training dataset; those units are not documented in the source CSV.")
+    directory = os.environ.get("FAULT_CLASSIFIER_ARTIFACT_DIR") or None
+    # Model locations are controlled by the deployment operator, never CSV uploads.
     try:
-        df = pd.read_csv(uploaded_file)
+        versions = tuple((path.stat().st_mtime_ns, path.stat().st_size) for path in artifact_paths(directory))
+        predictor, notices = cached_predictor(directory, versions)
+    except (OSError, ValueError, TypeError, AttributeError, ImportError, EOFError, pickle.UnpicklingError):
+        LOGGER.exception("Unable to load fault-classifier artifacts")
+        st.error("Unable to load model artifacts. Train a new run and set FAULT_CLASSIFIER_ARTIFACT_DIR to its trusted local directory; check the application log for details.")
+        st.stop()
+    for notice in notices:
+        st.warning(f"Model compatibility warning: {notice}")
+    if predictor.report is None:
+        st.warning("Using the repository's legacy model. Its original evaluation fitted scaling before splitting and refitted on all rows. The historical accuracy files do not establish independent test performance. Train a new run for a held-out evaluation.")
+    else:
+        report = predictor.report
+        st.subheader("Held-out training-run evaluation")
+        st.write(f"Selected model: {report['selected_model']} (selected by training-only CV macro F1)")
+        st.caption(f"Test rows: {report['held_out_test']['samples']}; seed: {report['random_seed']}. The saved model was fitted only on training rows.")
+        st.dataframe(pd.DataFrame({
+            "Selected model": {key: report["held_out_test"][key] for key in ("accuracy", "macro_f1")},
+            "Majority baseline": {key: report["majority_baseline"][key] for key in ("accuracy", "macro_f1")},
+        }).T)
+        with st.expander("Cross-validation scores and held-out class metrics"):
+            st.dataframe(pd.DataFrame({
+                name: {"CV macro F1": values["macro_f1"]["mean"], "CV accuracy": values["accuracy"]["mean"]}
+                for name, values in report["cross_validation"].items()
+            }).T)
+            show_metrics(report["held_out_test"])
+            st.json({key: report[key] for key in ("dataset", "source_revision", "versions") if key in report})
+        for limitation in report["limitations"]:
+            st.caption(limitation)
 
-        st.subheader("Uploaded Data Preview")
-        st.write(df.head())
+    uploaded_file = st.file_uploader("Upload test CSV", type="csv")
+    if uploaded_file is None:
+        return
+    try:
+        data = pd.read_csv(uploaded_file)
+        truth = fault_labels(data, required=False)
+        predictions = predictor.predict(data)
+        if truth is not None:
+            predictions["True Fault"] = truth
+        st.subheader("Predicted fault types")
+        st.dataframe(predictions)
+        st.download_button("Download Results", predictions.to_csv(index=False), "predictions.csv", "text/csv")
+        if truth is not None:
+            st.subheader("Uploaded-data evaluation")
+            st.info("Uploaded rows may overlap training data. These scores are diagnostic and are not an independent test unless you verify the data provenance.")
+            unknown = sorted(set(truth) - set(predictor.classes))
+            if unknown:
+                st.warning(f"True labels absent from model training: {', '.join(unknown)}. They remain included in evaluation.")
+            classes = predictor.classes + unknown
+            show_metrics(classification_metrics(truth, predictions["Fault String"], classes))
+    except (ValueError, TypeError, pd.errors.ParserError, UnicodeError) as exc:
+        st.error(f"Unable to process CSV: {exc}")
 
-        feature_cols = ['Ia', 'Ib', 'Ic', 'Va', 'Vb', 'Vc']
-        if not all(col in df.columns for col in feature_cols):
-            st.error(" Required columns missing.")
-            st.stop()
 
-        X = df[feature_cols]
-        st.subheader(" Features Before Scaling")
-        st.write(X.head())
-
-        X_scaled = scaler.transform(X)
-        st.subheader(" Features After Scaling")
-        st.write(pd.DataFrame(X_scaled, columns=feature_cols).head())
-
-        # Prediction
-        predicted_faults = model.predict(X_scaled)
-        df_predictions = pd.DataFrame(predicted_faults, columns=["Fault Code"])
-
-        fault_type_names = dict(enumerate(label_encoder.classes_))
-        df_predictions["Fault String"] = df_predictions["Fault Code"].map(fault_type_names)
-
-        #st.subheader("Prediction Debug Info")
-        #st.write("Label decoder map:", fault_type_names)
-        #st.write("Predicted Class Indices:", predicted_faults[:10])
-        #st.write("Fault String Counts:")
-        #st.write(df_predictions["Fault String"].value_counts())
-
-        #  Optional ground truth comparison
-        if all(col in df.columns for col in ["G", "C", "B", "A"]):
-            df["True Fault"] = df[["G", "C", "B", "A"]].astype(str).agg("".join, axis=1)
-
-            if set(df["True Fault"]).issubset(set(label_encoder.classes_)):
-                df_predictions["True Fault"] = df["True Fault"]
-
-                st.subheader(" Ground Truth vs Prediction")
-                st.dataframe(df_predictions[["True Fault", "Fault String"]])
-
-                y_true = label_encoder.transform(df_predictions["True Fault"])
-                y_pred = df_predictions["Fault Code"]
-
-                cm = confusion_matrix(y_true, y_pred)
-                fig, ax = plt.subplots(figsize=(8, 6))
-                sns.heatmap(cm, annot=True, fmt='d', cmap='viridis',
-                            xticklabels=label_encoder.classes_,
-                            yticklabels=label_encoder.classes_)
-                ax.set_xlabel("Predicted Label")
-                ax.set_ylabel("True Label")
-                ax.set_title("Confusion Matrix")
-                st.pyplot(fig)
-
-        # Final results
-        st.subheader(" Predicted Fault Types")
-        st.dataframe(df_predictions)
-
-        # Download
-        st.download_button("Download Results", df_predictions.to_csv(index=False), "predictions.csv", "text/csv")
-
-        # === COMPARISON PLOT: Prefold vs K-Fold ===
-        try:
-            with open("fault_classifier/model_accuracies_prefold.json", "r") as f1, open("fault_classifier/model_accuracies.json", "r") as f2:
-                pre_fold = json.load(f1)
-                post_fold = json.load(f2)
-
-            st.subheader("Accuracy Comparison: Train/Test Split vs 5-Fold Cross-Validation")
-
-            fig, ax = plt.subplots(figsize=(10, 6))
-            models = list(pre_fold.keys())
-            x = range(len(models))
-
-            pre_values = [pre_fold[m] for m in models]
-            post_values = [post_fold.get(m, 0) for m in models]
-
-            ax.bar([i - 0.2 for i in x], pre_values, width=0.4, label="Train/Test Split", color="skyblue")
-            ax.bar([i + 0.2 for i in x], post_values, width=0.4, label="5-Fold CV", color="orange")
-
-            ax.set_xticks(x)
-            ax.set_xticklabels(models, rotation=30, ha='right')
-            ax.set_ylabel("Accuracy")
-            ax.set_title("Model Accuracy: Train/Test Split vs 5-Fold CV")
-            ax.legend()
-
-            for i, (p, q) in enumerate(zip(pre_values, post_values)):
-                ax.text(i - 0.2, p + 0.002, f"{p:.3f}", ha="center", fontsize=9)
-                ax.text(i + 0.2, q + 0.002, f"{q:.3f}", ha="center", fontsize=9)
-
-            st.pyplot(fig)
-
-            st.subheader("🧾 Accuracy Scores")
-            for model in models:
-                st.write(f"{model} → Pre-Fold: `{pre_fold[model]:.4f}`, 5-Fold CV: `{post_fold[model]:.4f}`")
-
-        except Exception as e:
-            st.warning(f"Accuracy comparison failed to load: {e}")
-
-    except Exception as e:
-        st.error(f"Error processing file: {e}")
+if __name__ == "__main__":
+    main()

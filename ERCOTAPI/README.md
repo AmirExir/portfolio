@@ -104,11 +104,45 @@ Then open your browser to `http://localhost:8501`
 
 ## Machine Learning Model
 
-The dashboard includes a **Random Forest Regressor** that:
-- Trains on historical load data (minimum 48 hours required)
-- Uses features: hour of day, day of week, 24-hour rolling mean/std
-- Generates 24-hour ahead load forecasts
-- Updates predictions as new data arrives
+The dashboard uses XGBoost when installed, otherwise Random Forest. The pure
+[`load_forecast.py`](load_forecast.py) module owns feature construction,
+evaluation, and recursive forecasting. The existing dashboard entry point and
+six-value `train_load_forecast_model` return interface are preserved.
+
+- Requires at least 48 consecutive hourly actual-load observations in MW.
+  Source timestamps are sorted; duplicates, gaps, missing/nonfinite values,
+  negative system load, and interval mismatches produce actionable errors.
+  No timestamps or missing loads are invented. Offset-aware timestamps retain
+  elapsed-hour semantics through daylight-saving transitions; ambiguous naive
+  repeated hours must be resolved upstream.
+- Calendar features, 1-hour/24-hour lags, and 3-hour/24-hour rolling statistics
+  use only observations before the target hour. Automatic model selection uses
+  expanding-window cross-validation within the first 80% of eligible rows;
+  scaling is fitted separately inside each fold.
+- The final 20% is a chronological **one-hour-ahead holdout**, evaluated with
+  observed lag updates. MAE/RMSE are in MW; 1-hour and 24-hour lag MAE
+  provide same-row baselines. The latter uses 24 elapsed hours, which may differ
+  from the same local clock hour on the previous day at DST transitions.
+  These scores do **not** establish recursive
+  24-hour forecast performance. Repeated manual tuning against this holdout
+  also makes it unsuitable as a final independent test.
+- After evaluation, a fresh model is fitted to all eligible observations for
+  the next 24 hours. Every recursive step advances the previous-day lag and
+  recomputes all rolling statistics using available history and predictions.
+- Unchanged data/settings reuse cached fits for up to one hour. Downloadable
+  evaluation JSON records source-data hash, time ranges, row counts, features,
+  seed, model settings, library versions, baseline scores, and forecast origin.
+
+The selected 1–7 day window is a small exploratory sample, especially at the
+48-hour minimum (only five holdout rows). No weather features, calibrated
+uncertainty intervals, or seasonal/operational validation are provided.
+
+Offline regression checks (no credentials or API requests):
+
+```sh
+# From the repository root, with this project's requirements installed:
+python -m unittest ERCOTAPI.tests.test_load_forecast -v
+```
 
 ## Dashboard Controls
 

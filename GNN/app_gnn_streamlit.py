@@ -10,10 +10,12 @@ import plotly.graph_objects as go
 import networkx as nx
 from pathlib import Path
 import sys
+import json
 
 # Add parent directory to path to import from gnn_clean
 sys.path.append(str(Path(__file__).parent))
-from gnn_clean import GCN, GAT, GIN, GraphTransformer, train_gnn_multi_graph, set_seed
+from gnn_clean import train_gnn_multi_graph
+from data_pipeline import load_csv_graphs, SOURCE_NOTE
 
 # Page configuration
 st.set_page_config(
@@ -46,7 +48,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Title
-st.markdown('<p class="main-header">Power Grid Violation Detection with GNNs</p>', unsafe_allow_html=True)
+st.markdown('<p class="main-header">Power Grid Scenario Classification with GNNs</p>', unsafe_allow_html=True)
+
+st.info(SOURCE_NOTE)
+st.caption("Supplied class IDs are preserved. They are not verified voltage or thermal compliance criteria.")
 
 # Sidebar configuration
 with st.sidebar:
@@ -82,29 +87,17 @@ with st.sidebar:
     
     # Visualization parameters
     st.subheader("Visualization Settings")
-    scenario_to_view = st.number_input("Scenario ID", min_value=0, max_value=199, value=0)
     show_edge_labels = st.checkbox("Show Edge Labels", value=False)
     node_size = st.slider("Node Size", 5, 30, 15)
 
 # Load data
 @st.cache_data
-def load_dataset(mode):
-    """Load the preprocessed graph dataset"""
-    if mode == "thermal":
-        pt_path = "graph_scenarios_thermal.pt"
-    else:
-        pt_path = "graph_scenarios.pt"
-    
-    if not Path(pt_path).exists():
-        return None, f"Dataset file '{pt_path}' not found!"
-    
+def load_dataset(mode, source_revision):
+    """Cache inspectable CSV graphs by source file modification/size signature."""
     try:
-        data = torch.load(pt_path, weights_only=False)
-        if not isinstance(data, list):
-            return None, f"Expected list of graphs, got {type(data)}"
-        return data, None
-    except Exception as e:
-        return None, f"Error loading dataset: {str(e)}"
+        return load_csv_graphs(mode), None
+    except (OSError, ValueError, KeyError) as exc:
+        return None, f"Cannot load scenario CSVs: {exc}"
 
 # Train model
 def train_model(data, model_type, epochs, lr, weight_decay, seed, use_relu, batch_size):
@@ -112,7 +105,6 @@ def train_model(data, model_type, epochs, lr, weight_decay, seed, use_relu, batc
     progress_bar = st.progress(0)
     status_text = st.empty()
     
-    # Custom callback to update progress (we'll simulate since we can't modify train function easily)
     status_text.text("Training in progress...")
     
     model, hist_df = train_gnn_multi_graph(
@@ -123,7 +115,8 @@ def train_model(data, model_type, epochs, lr, weight_decay, seed, use_relu, batc
         seed=seed,
         use_relu=use_relu,
         batch_size=batch_size,
-        model_type=model_type
+        model_type=model_type,
+        progress_callback=lambda epoch, total: (progress_bar.progress(epoch / total), status_text.text(f"Epoch {epoch}/{total}"))
     )
     
     progress_bar.progress(100)
@@ -172,19 +165,16 @@ def visualize_graph(graph_data, scenario_id, mode, show_edge_labels=False, node_
     node_colors = node_labels
     
     if mode == "voltage":
-        class_names = ["Low (<0.95)", "Slightly Low [0.95-0.98)", "Nominal [0.98-1.00)", 
-                      "Slightly High [1.00-1.02)", "High (≥1.02)"]
+        class_names = [f"Source class {i}" for i in range(5)]
         colorscale = 'RdYlGn_r'  # Red for high, green for low
     else:
-        class_names = ["Normal", "Warning", "Overload", "Critical"]
+        class_names = [f"Source class {i}" for i in range(4)]
         colorscale = 'Reds'
     
     node_text = []
     for i, node in enumerate(G.nodes()):
-        if mode == "voltage":
-            text = f"Bus {node}<br>Voltage: {node_features[i, 0]:.3f} pu<br>Class: {class_names[node_labels[i]]}"
-        else:
-            text = f"Line {node}<br>Loading: {node_features[i, 2]:.1f}%<br>Class: {class_names[node_labels[i]]}"
+        features = "<br>".join(f"{name}: {value:.3f} (source value)" for name, value in zip(graph_data.feature_names, node_features[i]))
+        text = f"{'Bus' if mode == 'voltage' else 'Line'} {graph_data.entity_ids[i]}<br>{features}<br>Class: {int(node_labels[i])}"
         node_text.append(text)
     
     node_trace = go.Scatter(
@@ -197,6 +187,7 @@ def visualize_graph(graph_data, scenario_id, mode, show_edge_labels=False, node_
             colorscale=colorscale,
             size=node_size,
             color=node_colors,
+            cmin=0, cmax=len(class_names) - 1,
             colorbar=dict(
                 thickness=15,
                 title=dict(text="Class", side='right'),
@@ -230,18 +221,39 @@ def visualize_graph(graph_data, scenario_id, mode, show_edge_labels=False, node_
                        height=600
                    ))
     
+    if show_edge_labels:
+        for start, end in G.edges():
+            fig.add_annotation(x=(pos[start][0] + pos[end][0]) / 2,
+                               y=(pos[start][1] + pos[end][1]) / 2,
+                               text=f"{start}–{end}", showarrow=False, font=dict(size=9))
     return fig
 
 # Main content
 tab1, tab2, tab3 = st.tabs(["Training", "Graph Visualization", "Performance Analysis"])
 
 # Load dataset
-data, error = load_dataset(mode)
+source_dir = Path(__file__).resolve().parent
+source_paths = [source_dir / "edge_scenarios.csv"]
+if mode == "voltage":
+    source_paths.append(source_dir / "bus_scenarios.csv")
+source_revision = tuple((str(path), path.stat().st_mtime_ns, path.stat().st_size) for path in source_paths if path.exists())
+data, error = load_dataset(mode, source_revision)
 
 if error:
     st.error(f"{error}")
-    st.info("Please generate the dataset first using `create_graph_dataset.py` or `create_graph_dataset_thermal.py`")
+    st.info("Check the source CSV schema and required class/status columns. See GNN/README.md.")
     st.stop()
+
+scenario_ids = [graph.scenario_id for graph in data]
+scenario_id = st.sidebar.selectbox("Scenario ID", scenario_ids)
+scenario_to_view = scenario_ids.index(scenario_id)
+configuration = (mode, model_type, epochs, lr, weight_decay, seed, use_relu, batch_size, source_revision)
+if st.session_state.get("training_configuration") != configuration:
+    for state_key in ("model", "hist_df", "trained"):
+        st.session_state.pop(state_key, None)
+
+if mode == "thermal":
+    st.warning("Thermal predictors contain line properties and topology only; scenario dispatch and load are absent. Identical predictors can have different thermal classes, so this is an exploratory baseline.")
 
 # Dataset info
 with st.expander("Dataset Information", expanded=False):
@@ -257,6 +269,7 @@ with st.expander("Dataset Information", expanded=False):
         unique_classes = len(torch.unique(all_labels))
         st.metric("Classes", unique_classes)
     
+    st.caption(f"Open branch rows excluded from active topology: {sum(g.excluded_open_branches for g in data)}. Bidirectional message edges are used.")
     # Class distribution
     all_labels = torch.cat([g.y for g in data])
     unique, counts = torch.unique(all_labels, return_counts=True)
@@ -299,21 +312,23 @@ with tab1:
                     st.session_state.model = model
                     st.session_state.hist_df = hist_df
                     st.session_state.trained = True
+                    st.session_state.training_configuration = configuration
                     
                     st.success("Training completed successfully!")
                     
                     # Display final metrics
-                    final = hist_df.iloc[-1]
+                    final = hist_df.attrs['evaluation']['test']
+                    st.caption('Held-out test results from the checkpoint selected by validation loss')
                     
                     col1, col2, col3, col4 = st.columns(4)
                     with col1:
-                        st.metric("Accuracy", f"{final['val_acc']:.2%}")
+                        st.metric("Accuracy", f"{final['accuracy']:.2%}")
                     with col2:
-                        st.metric("Precision", f"{final['val_prec']:.2%}")
+                        st.metric("Precision", f"{final['precision_weighted']:.2%}")
                     with col3:
-                        st.metric("F1 Score", f"{final['val_f1']:.2%}")
+                        st.metric("F1 Score", f"{final['f1_weighted']:.2%}")
                     with col4:
-                        st.metric("Macro F1", f"{final['val_f1_macro']:.2%}")
+                        st.metric("Macro F1", f"{final['f1_macro']:.2%}")
                     
                 except Exception as e:
                     st.error(f"Training failed: {str(e)}")
@@ -378,7 +393,7 @@ with tab2:
             st.metric("Unique Classes", unique_labels)
         
         # Visualize graph
-        fig = visualize_graph(graph_data, scenario_to_view, mode, show_edge_labels, node_size)
+        fig = visualize_graph(graph_data, scenario_id, mode, show_edge_labels, node_size)
         st.plotly_chart(fig, use_container_width=True)
         
         # Show node statistics
@@ -386,11 +401,9 @@ with tab2:
             node_features = graph_data.x.cpu().numpy()
             node_labels = graph_data.y.cpu().numpy()
             
-            if mode == "voltage":
-                feature_names = ["Voltage (pu)", "Load (MW)", "P Injection (MW)", "Neighbor Count"]
-            else:
-                feature_names = ["Reactance (pu)", "Length (km)", "Loading (%)"]
-            
+            feature_names = graph_data.feature_names
+            st.caption("Source feature values: original physical units cannot be recovered from the bundled preprocessing.")
+
             stats_data = []
             for i, name in enumerate(feature_names[:node_features.shape[1]]):
                 stats_data.append({
@@ -414,82 +427,47 @@ with tab2:
 
 # Tab 3: Performance Analysis
 with tab3:
-    st.header("Model Performance Analysis")
-    
+    st.header("Held-out Scenario Evaluation")
     if 'hist_df' not in st.session_state:
         st.info("Please train a model first in the Training tab")
     else:
         hist_df = st.session_state.hist_df
-        final = hist_df.iloc[-1]
-        best_epoch = hist_df.loc[hist_df['val_loss'].idxmin()]
-        
-        st.subheader("Best Model Performance")
-        
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            st.markdown("### Final Metrics")
-            st.metric("Accuracy", f"{final['val_acc']:.2%}")
-            st.metric("Precision", f"{final['val_prec']:.2%}")
-            st.metric("Recall", f"{final['val_rec']:.2%}")
-            st.metric("F1 Score", f"{final['val_f1']:.2%}")
-            st.metric("Macro F1", f"{final['val_f1_macro']:.2%}")
-        
-        with col2:
-            st.markdown("### Best Checkpoint")
-            st.metric("Best Epoch", int(best_epoch['epoch']))
-            st.metric("Best Val Loss", f"{best_epoch['val_loss']:.4f}")
-            st.metric("Accuracy @ Best", f"{best_epoch['val_acc']:.2%}")
-        
-        with col3:
-            st.markdown("### Training Stats")
-            st.metric("Total Epochs", len(hist_df))
-            st.metric("Final Train Loss", f"{final['train_loss']:.4f}")
-            st.metric("Final Val Loss", f"{final['val_loss']:.4f}")
-            improvement = hist_df.iloc[0]['val_acc'] - final['val_acc']
-            st.metric("Accuracy Improvement", f"{improvement:.2%}")
-        
-        # Detailed metrics over time
-        st.divider()
-        st.subheader("Metrics Evolution")
-        
-        metrics_to_plot = st.multiselect(
-            "Select metrics to plot",
-            ['val_acc', 'val_prec', 'val_rec', 'val_f1', 'val_f1_macro'],
-            default=['val_acc', 'val_f1']
-        )
-        
+        report = hist_df.attrs["evaluation"]
+        test = report["test"]
+        baseline = report["majority_baseline"]
+        st.caption(f"Selected epoch {report['best_epoch']} by validation loss. Test scenarios were excluded from training, scaling, and checkpoint selection.")
+        st.dataframe(pd.DataFrame([
+            {"Model": "Selected GNN", "Test accuracy": test["accuracy"], "Test macro F1": test["f1_macro"]},
+            {"Model": f"Training majority class ({baseline['class']})", "Test accuracy": baseline["accuracy"], "Test macro F1": baseline["f1_macro"]},
+        ]), hide_index=True, use_container_width=True)
+        st.write({name: len(ids) for name, ids in report["splits"].items()})
+        if report["missing_training_classes"]:
+            st.warning(f"Classes absent from training: {report['missing_training_classes']}")
+        st.subheader("Per-class Test Metrics")
+        rows = {label: values for label, values in test["per_class"].items() if label.isdigit()}
+        st.dataframe(pd.DataFrame(rows).T, use_container_width=True)
+        st.subheader("Test Confusion Matrix")
+        matrix = test["confusion_matrix"]
+        st.dataframe(pd.DataFrame(matrix, index=[f"Actual {i}" for i in range(len(matrix))],
+                                   columns=[f"Predicted {i}" for i in range(len(matrix))]), use_container_width=True)
+        st.subheader("Validation Metrics Over Epochs")
+        metrics_to_plot = st.multiselect("Select metrics to plot",
+            ['val_acc', 'val_prec', 'val_rec', 'val_f1', 'val_f1_macro'], default=['val_acc', 'val_f1_macro'])
         if metrics_to_plot:
             fig = go.Figure()
             for metric in metrics_to_plot:
-                fig.add_trace(go.Scatter(x=hist_df['epoch'], y=hist_df[metric], 
-                                        mode='lines', name=metric.replace('val_', '').upper()))
-            fig.update_layout(title='Validation Metrics Over Time', 
-                            xaxis_title='Epoch', yaxis_title='Score', height=400)
+                fig.add_trace(go.Scatter(x=hist_df['epoch'], y=hist_df[metric], mode='lines', name=metric))
+            fig.update_layout(xaxis_title='Epoch', yaxis_title='Score', height=400)
             st.plotly_chart(fig, use_container_width=True)
-        
-        # Model comparison
-        st.divider()
-        st.subheader("Model Comparison Guide")
-        
-        comparison_data = {
-            "Model": ["GCN", "GAT", "GIN", "Transformer"],
-            "Typical Accuracy": ["85-86%", "84-85%", "87-88%", "94-95%"],
-            "Speed": ["Fast", "Medium", "Fast", "Slow"],
-            "Best For": [
-                "Baseline, fast training",
-                "When node importance varies",
-                "Structure-aware learning",
-                "Maximum accuracy"
-            ]
-        }
-        st.table(pd.DataFrame(comparison_data))
+        st.download_button("Download evaluation report", json.dumps(report, indent=2),
+                           file_name=f"gnn_{mode}_evaluation.json", mime="application/json")
+        st.caption("Reusing this test set for architecture or parameter selection turns it into validation data; an independent external dataset is needed for a final generalization claim.")
 
 # Footer
 st.divider()
 st.markdown("""
 <div style='text-align: center; color: #666; padding: 1rem;'>
     <p>Power Grid GNN Analyzer | Built with Streamlit & PyTorch Geometric</p>
-    <p>Supports GCN, GAT, GIN, and Transformer architectures for voltage and thermal violation detection</p>
+    <p>Supports GCN, GAT, GIN, and Transformer architectures for exploratory voltage and thermal source-class prediction</p>
 </div>
 """, unsafe_allow_html=True)

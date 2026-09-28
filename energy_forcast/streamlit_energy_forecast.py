@@ -1,108 +1,141 @@
-import streamlit as st
+"""Streamlit interface for reproducible, causal hourly-load forecasting."""
+
+from hashlib import sha256
+import json
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
-from xgboost import XGBRegressor, plot_importance
-from sklearn.metrics import mean_squared_error
+import streamlit as st
+from xgboost.core import XGBoostError
 
-import os
-
-@st.cache_data
-def load_data():
-    csv_path = os.path.join(os.path.dirname(__file__), "AEP_hourly.csv")
-    try:
-        df = pd.read_csv(csv_path, parse_dates=["Datetime"])
-    except FileNotFoundError:
-        st.error(" AEP_hourly.csv not found! Make sure it's in the same folder as the Streamlit app.")
-        st.stop()
-
-    df.columns = ["Datetime", "MW"]
-    df = df.sort_values("Datetime")
-    df.set_index("Datetime", inplace=True)
-    df["MW"] = df["MW"].interpolate(method="time")
-    
-    # Your features...
-    df["hour"] = df.index.hour
-    df["dayofweek"] = df.index.dayofweek
-    df["month"] = df.index.month
-    df["is_weekend"] = (df["dayofweek"] >= 5).astype(int)
-    df["lag_1"] = df["MW"].shift(1)
-    df["lag_24"] = df["MW"].shift(24)
-    df["lag_168"] = df["MW"].shift(168)
-    df["rolling_24h_mean"] = df["MW"].rolling(24).mean()
-    df["rolling_168h_mean"] = df["MW"].rolling(168).mean()
-
-    return df
-def forecast_n_hours(model, df, n_steps):
-    last_row = df.iloc[-1].copy()
-    future_preds, future_index = [], []
-
-    for _ in range(n_steps):
-        next_time = last_row.name + pd.Timedelta(hours=1)
-
-        features_row = {
-            "hour": next_time.hour,
-            "dayofweek": next_time.dayofweek,
-            "month": next_time.month,
-            "is_weekend": int(next_time.dayofweek >= 5),
-            "lag_1": last_row["MW"],
-            "lag_24": df.loc[next_time - pd.Timedelta(hours=24), "MW"] if (next_time - pd.Timedelta(hours=24)) in df.index else last_row["MW"],
-            "lag_168": df.loc[next_time - pd.Timedelta(hours=168), "MW"] if (next_time - pd.Timedelta(hours=168)) in df.index else last_row["MW"],
-            "rolling_24h_mean": df["MW"].iloc[-24:].mean(),
-            "rolling_168h_mean": df["MW"].iloc[-168:].mean(),
-        }
-
-        next_pred = model.predict(pd.DataFrame([features_row]))[0]
-        future_preds.append(next_pred)
-        future_index.append(next_time)
-
-        last_row["MW"] = next_pred
-        last_row.name = next_time
-        df.loc[next_time] = last_row
-
-    return pd.DataFrame({"Datetime": future_index, "Predicted_MW": future_preds})
+try:
+    from energy_forcast.forecasting import Experiment, FEATURES, read_load_csv, recursive_forecast, run_experiment
+except ModuleNotFoundError as exc:
+    if exc.name != "energy_forcast":
+        raise
+    # Support launching from this project directory as well as the repository root.
+    from forecasting import Experiment, FEATURES, read_load_csv, recursive_forecast, run_experiment
 
 
-st.title(" Hourly Load Forecasting App (AEP / PJM) by Amir Exir")
+@st.cache_data(max_entries=3)
+def load_data(content: bytes, duplicate_policy: str, core_fingerprint: str) -> tuple[pd.Series, dict]:
+    """Cache validated input using its content and preprocessing implementation."""
+    return read_load_csv(content, duplicate_policy)
 
-df = load_data()
-st.subheader(" Historical Load (last 7 days)")
-st.line_chart(df["MW"].iloc[-7*24:])
 
-# Model training
-features = ["hour", "dayofweek", "month", "is_weekend", "lag_1", "lag_24", "lag_168", "rolling_24h_mean", "rolling_168h_mean"]
-train = df.loc[:"2017-12-31"]
-test = df.loc["2018-01-01":]
+@st.cache_resource(max_entries=2)
+def fit_models(content: bytes, duplicate_policy: str, core_fingerprint: str) -> Experiment:
+    """Reuse immutable fitted models when users change the forecast display horizon."""
+    load, report = load_data(content, duplicate_policy, core_fingerprint)
+    return run_experiment(load, report)
 
-X_train, y_train = train[features], train["MW"]
-X_test, y_test = test[features], test["MW"]
 
-model = XGBRegressor(n_estimators=100, learning_rate=0.1, max_depth=6, random_state=42)
-model.fit(X_train, y_train)
+st.set_page_config(page_title="Hourly Load Forecasting", layout="wide")
+st.title("Hourly Load Forecasting")
+st.caption("AEP / PJM example by Amir Exir · Load and forecast values in MW")
+st.write("Compare XGBoost with persistence, previous-day, and previous-week forecasts using chronological holdouts.")
 
-# Evaluation
-y_pred = model.predict(X_test)
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-st.success(f" Model RMSE: {rmse:.2f} MW")
+uploaded = st.sidebar.file_uploader("Optional hourly data", type="csv", help="Datetime and MW (or AEP_MW) columns")
+duplicate_policy = "mean" if uploaded is None else "error"
+if uploaded is not None and st.sidebar.checkbox("Average measurements with duplicate timestamps", value=False):
+    duplicate_policy = "mean"
+source_name = uploaded.name if uploaded is not None else "AEP_hourly.csv"
+core_fingerprint = sha256(Path(__file__).with_name("forecasting.py").read_bytes()).hexdigest()
+try:
+    content = uploaded.getvalue() if uploaded is not None else Path(__file__).with_name("AEP_hourly.csv").read_bytes()
+    load, report = load_data(content, duplicate_policy, core_fingerprint)
+except (OSError, ValueError) as exc:
+    st.error(f"Could not prepare load data: {exc}")
+    st.stop()
 
-# Feature importance
-st.subheader("Feature Importance")
-fig_imp, ax_imp = plt.subplots()
-plot_importance(model, ax=ax_imp, height=0.6, importance_type='gain')
-st.pyplot(fig_imp)
+st.caption(f"Source: {source_name} · {load.index[0]} to {load.index[-1]} · timezone-naive clock labels")
+if report["duplicate_extra_rows"] or report["missing_load_hours"]:
+    st.warning(
+        f"Data quality: {report['duplicate_extra_rows']} duplicate rows averaged; "
+        f"{report['inserted_missing_hours']} absent hourly slots inserted; "
+        f"{report['missing_load_hours']} hourly loads missing. No interpolation is used. "
+        "Training/evaluation exclude targets and history windows requiring missing measurements. "
+        "Timezone and daylight-saving transitions cannot be recovered from these clock labels."
+    )
+st.subheader("Historical load · last 7 days")
+st.line_chart(load.iloc[-168:].rename("Load (MW)"))
 
-# Forecast
-n_steps = st.slider(" Select number of hours to forecast", min_value=1, max_value=48, value=12)
-forecast_df = forecast_n_hours(model, df.copy(), n_steps)
+try:
+    with st.spinner("Training, validating, and evaluating chronological holdouts…"):
+        experiment = fit_models(content, duplicate_policy, core_fingerprint)
+except (ValueError, XGBoostError) as exc:
+    st.error(f"Could not run forecasting experiment: {exc}")
+    st.stop()
 
-st.subheader(f" Forecast of Next {n_steps} Hours")
+periods = experiment.metadata["periods"]
+with st.expander("Experiment setup and data quality", expanded=False):
+    st.write("Eligible rows are split 70% training, 15% validation, and 15% test in timestamp order. "
+             "Depth is selected on validation one-step MAE. The evaluation model is refitted on training + validation; "
+             "the final forecasting model is separately fitted on all eligible historical data.")
+    st.dataframe(pd.DataFrame(periods).T, use_container_width=True)
+    st.write(f"Excluded hourly slots (warmup, missing target, or incomplete history): {experiment.metadata['excluded_hours']:,}")
+    st.dataframe(pd.DataFrame(experiment.metadata["candidate_validation_metrics"]), hide_index=True)
+    st.json(report)
 
-fig_forecast, ax_forecast = plt.subplots(figsize=(12, 5))
-ax_forecast.plot(df["MW"].iloc[-48:], label="Historical", linewidth=2)
-ax_forecast.plot(forecast_df["Datetime"], forecast_df["Predicted_MW"], label="Forecast", linewidth=2, linestyle="--", marker="o")
-ax_forecast.set_xlabel("Datetime")
-ax_forecast.set_ylabel("MW")
-ax_forecast.set_title("Forecast")
-ax_forecast.legend()
-ax_forecast.grid(True)
-st.pyplot(fig_forecast)
+one_step, multi_step = st.tabs(["One-hour-ahead evaluation", "24-hour recursive evaluation"])
+with one_step:
+    st.write("Every prediction uses measured load through the previous hour, including earlier holdout observations. "
+             "This measures one-hour-ahead operation when actual measurements arrive each hour.")
+    left, right = st.columns(2)
+    with left:
+        st.markdown("**Validation · model selection**")
+        st.dataframe(experiment.validation_metrics.style.format("{:.2f}"), use_container_width=True)
+    with right:
+        st.markdown("**Held-out test · after selection**")
+        st.dataframe(experiment.test_metrics.style.format("{:.2f}"), use_container_width=True)
+    st.caption("Lower MAE and RMSE are better. Validation scores were used for selection and are not unbiased test estimates.")
+    st.line_chart(experiment.test_predictions.iloc[-168:][["Actual (MW)", "XGBoost", "Previous day"]])
+
+with multi_step:
+    origin_count = len(experiment.metadata["recursive_origins"])
+    st.write(f"{origin_count} nonoverlapping 24-hour windows sampled evenly across the test period. "
+             "Each forecast uses observations only through its origin and then feeds predictions back. "
+             "All methods use identical windows. The fitted evaluation model never sees test targets during training.")
+    st.dataframe(experiment.recursive_metrics.style.format("{:.2f}"), use_container_width=True)
+    errors = experiment.recursive_predictions.assign(
+        absolute_error_MW=lambda rows: (rows["Actual (MW)"] - rows["XGBoost"]).abs()
+    ).groupby("Lead time (hours)")["absolute_error_MW"].mean()
+    st.line_chart(errors.rename("XGBoost MAE (MW)"))
+    st.caption("This 24-hour backtest does not validate every possible forecast horizon or operating condition.")
+
+st.subheader("Feature importance")
+importance = pd.Series(experiment.model.feature_importances_, index=FEATURES, name="Relative importance")
+st.bar_chart(importance.sort_values())
+st.caption("Relative split-gain importance from the final model; it does not establish causation.")
+
+st.subheader("Forecast after the end of the dataset")
+hours = st.slider("Hours to forecast", min_value=1, max_value=48, value=12)
+st.caption(f"Forecast starts {experiment.metadata['forecast_start']}. The bundled dataset ends in 2018; "
+           "its forecast is a historical demonstration, not a current grid forecast. No weather inputs or uncertainty intervals are included.")
+forecast = None
+try:
+    forecast = recursive_forecast(experiment.model, load, hours)
+except ValueError as exc:
+    st.error(f"Cannot forecast from the end of this dataset: {exc}")
+else:
+    figure, axis = plt.subplots(figsize=(12, 4))
+    axis.plot(load.iloc[-48:], label="Measured load")
+    axis.plot(forecast, label="Recursive forecast", linestyle="--")
+    axis.set(xlabel="Datetime (source clock)", ylabel="Load (MW)")
+    axis.legend()
+    axis.grid(alpha=0.3)
+    st.pyplot(figure)
+    plt.close(figure)
+
+st.subheader("Download results")
+metadata = {**experiment.metadata, "source_name": source_name, "requested_forecast_hours": hours,
+            "forecast_available": forecast is not None}
+st.download_button("Experiment metadata (JSON)", json.dumps(metadata, indent=2),
+                   file_name="experiment_metadata.json", mime="application/json")
+st.download_button("One-step test predictions (CSV)", experiment.test_predictions.to_csv(),
+                   file_name="test_predictions.csv", mime="text/csv")
+st.download_button("Recursive backtest (CSV)", experiment.recursive_predictions.to_csv(),
+                   file_name="recursive_backtest.csv", mime="text/csv")
+if forecast is not None:
+    st.download_button("Forecast (CSV)", forecast.to_csv(), file_name="forecast.csv", mime="text/csv")
