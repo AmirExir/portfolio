@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Oil / geopolitics:** **Cointelegraph** (2026-09-28) said Bitcoin fell alongside U.S. stock futures after **President Trump did not commit to permanently halting strikes on Iran**, pointing to geopolitics as a fresh risk factor. *(Cointelegraph, 2026-09-28T09:03:20Z)*
+- **Rates / inflation backdrop:** **CNBC** reported **U.S. Treasury yields edged higher** Monday as pressure on global government bonds resumed, citing **higher oil prices and inflation fears** ahead of fresh economic data this week. *(CNBC, 2026-09-28T08:49:06Z)*
+- **Europe / cross-asset tone:** **The Times of India / Bloomberg** reported **European shares edged higher**, but gains were **limited by rising oil prices and elevated bond yields** as investors assessed inflation and rate risks; energy stocks outperformed. *(The Times of India/Bloomberg, 2026-09-28T09:00:38Z)*
+- **Crypto:** **Cointelegraph** reported **Bitcoin dropped below $83,000**, describing a reversal lower amid a broader risk-off tone tied to the Iran headline. *(Cointelegraph, 2026-09-28T09:03:20Z)*
+- **AI / semis:** **CNBC** reported **Nvidia launched “Open Agent Safety Platform,”** software aimed at preventing AI agents from escaping containment or misbehaving. *(CNBC, 2026-09-28T09:00:02Z)*
+- **AI / semis confirmation:** **Nvidia** announced the same **Open Agent Safety Platform** as an open software and reference-system design for AI security from testing to deployment. *(Nvidia, 2026-09-28T09:00:00Z)*
+- **AI ecosystem tie-in:** **PRNewswire** said **Trend Micro’s TrendAI** is extending Nvidia’s agent safety platform with threat intelligence and security tooling, indicating partner ecosystem support around the launch. *(PRNewswire, 2026-09-28T09:00:00Z)*
+
+### Interpretation
+- The **clearest fresh macro driver** in this article set is a **geopolitical/oil/inflation chain**: uncertainty around **Iran** is being linked to **higher oil**, which in turn is being linked to **higher bond yields and inflation concerns**.
+- That setup is relevant for **equity indexes and risk sentiment**, but the supplied articles do **not** give enough evidence to make a firm call on today’s full market tape beyond that.
+- On **AI/semi names**, the fresh actionable item is **Nvidia’s new AI safety platform**. It is a real company-specific development, though these articles do **not** provide evidence of direct stock-price impact yet.
+- The fresh set is **somewhat thin** on hard U.S. macro data, Fed commentary, and earnings; if you’re trying to explain today’s tape comprehensively, **these headlines alone are probably insufficient**.
