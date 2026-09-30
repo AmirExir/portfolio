@@ -1,0 +1,33 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Bond yields/rates remain the clearest macro driver.**  
+  - **CNA, 2026-09-29T21:47:28Z:** Reported U.S. and European stocks traded mainly lower as **bond yields pushed higher** while investors awaited key inflation data; said the **U.S. 30-year Treasury yield touched 5.62%**, described as a level not seen in years.  
+  - **ABC News (AU), 2026-09-29T22:00:33Z:** Said the **Australian dollar weakened after an RBA rate hike**, while Wall Street had a weak session as **government bond yields continued climbing toward multi-decade highs**.
+
+- **AI policy: White House unveiled a voluntary AI self-regulation accord with tech executives.**  
+  - **CNA, 2026-09-29T22:02:48Z:** Reported President Trump released an AI accord presented as an agreement with tech executives.  
+  - **CBC News, 2026-09-29T21:55:00Z:** Reported Trump said top AI firms signed a **voluntary pact to “self-police” AI development**.  
+  - **Crypto Briefing, 2026-09-29T21:42:59Z:** Reported the U.S. government told AI companies to **police themselves rather than wait for regulation**.  
+  - **Crypto Briefing, 2026-09-29T21:49:51Z:** Reported Trump also **reaffirmed support for data centers** after meeting AI executives.
+
+- **Semis/AI M&A: AMD reportedly agreed to buy World Labs.**  
+  - **Slashdot, 2026-09-29T21:52:59Z:** Citing another report, said **AMD is acquiring AI startup World Labs for $8.2 billion**, with closing expected by year-end.  
+  - Note: this item is potentially market-moving for AI/semis, but the provided source is secondary/aggregated rather than primary.
+
+- **Microsoft/AI leadership theme remained in focus.**  
+  - **Crypto Briefing, 2026-09-29T21:35:16Z:** Reported **Microsoft stock was set for its biggest quarterly gain in 28 years**, attributing it to Azure and AI-related strength.  
+  - This is fresh, but it is more a performance recap than a new catalyst.
+
+- **Crypto: exchange security remained a headline risk.**  
+  - **Crypto Briefing, 2026-09-29T22:05:02Z:** Reported **Bitget CEO Gracy Chen was skeptical about recovering $387.5 million in stolen funds** after a recent breach.  
+  - **Activist Post, 2026-09-29T22:00:00Z:** Said **Bitcoin was little changed despite Trump’s Iran threats**, framing BTC as relatively unfazed by geopolitics.  
+  - The Bitget item is specific to crypto-exchange risk; it is not clear from the supplied articles that it materially moved major crypto prices.
+
+### Interpretation
+- The **best-supported fresh explanation for the tape** in this article set is **higher long-dated bond yields and anticipation of inflation data**, not earnings or broad macro growth news.
+- The **AI accord** matters more as a **regulatory/policy signal**: it suggests a **lighter-touch approach to AI oversight** and continued support for **data-center buildout**, which is relevant for mega-cap AI, semis, utilities/power demand, and infrastructure names.
+- The **AMD-World Labs report** could matter for **AI competitive positioning versus Nvidia**, but the sourcing here is weak enough that it should be treated cautiously until confirmed by a primary outlet or company filing.
+- **Fresh earnings-driven catalysts are thin** in the supplied set.
+- **Energy headlines are also thin**: one article notes oil retreated, but the stronger recurring cross-asset signal in the fresh set is still **rates pressure**, not oil.
+- Overall, if you are trying to explain **today’s tape**, this dataset is **somewhat thin**, but it does point most clearly to **rates/inflation anxiety**, with **AI policy and selective AI/semiconductor news** as secondary themes.
