@@ -1,0 +1,26 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **Reuters / New York Post — 2026-09-29 09:02Z:** **Anthropic’s IPO prospectus** describes an expansive AI growth outlook but also **surging costs**; Reuters says the listing could value the startup at **more than $2 trillion**. This is relevant for **AI equity sentiment and valuation expectations**.  
+  Source: *Reuters via New York Post*
+
+- **ABC News — 2026-09-29 09:02Z:** **Top AI leaders are set to meet President Trump at the White House**, amid warnings about AI risks. This is relevant to **AI regulation/policy risk** for major AI and semiconductor names.  
+  Source: *ABC News*
+
+- **Economic Times / Times of India — 2026-09-29 08:59Z:** **Eurozone bond selloff paused**, but **government yields remained near multi-year highs** as investors continued to weigh **elevated energy prices, inflation risks, and expectations for further ECB rate hikes**.  
+  Source: *Economic Times / Times of India*
+
+- **Crypto Briefing — 2026-09-29 08:52Z:** **Nvidia and AMD have intensified White House lobbying on China export policy**, highlighting ongoing tension between **US chip export controls and AI industry interests**.  
+  Source: *Crypto Briefing*
+
+- **Economic Times / Times of India — 2026-09-29 08:39Z:** ECB President **Christine Lagarde** said eurozone inflation has **not yet triggered significant second-round wage effects**, even as inflation is rising with energy prices. She said the ECB would maintain its inflation focus.  
+  Source: *Economic Times / Times of India*
+
+- **Tribune India / ANI — 2026-09-29 08:37Z:** Indian equities opened cautiously, with the report explicitly citing **elevated crude prices, rising US bond yields, and weak global cues** as weighing on risk appetite.  
+  Source: *The Tribune India / ANI*
+
+## Interpretation
+- The freshest usable set points mainly to **macro pressure from higher yields and energy-driven inflation concerns**, especially in Europe and via spillover into global risk sentiment.
+- In **AI/semis**, the notable fresh drivers are **policy and export-control risk** rather than earnings: Anthropic’s prospectus reinforces extreme **AI valuation/capex themes**, while the White House meeting and Nvidia/AMD lobbying underscore **regulatory/geopolitical sensitivity**.
+- There is **not enough fresh U.S.-specific reporting here on Fed, CPI, payrolls, or major earnings** to fully explain today’s U.S. tape.
+- There are **no strong fresh crypto market-moving headlines** in this set beyond policy/compliance-adjacent items; nothing here cleanly explains major crypto price action by itself.
