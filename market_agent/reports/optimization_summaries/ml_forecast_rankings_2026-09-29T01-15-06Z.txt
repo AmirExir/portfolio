@@ -1,0 +1,45 @@
+Market Optimization
+Generated: 2026-09-29 01:11 UTC
+As of: 2026-09-25 to 2026-09-28
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+DELL: forecast +21.51% by 2026-11-06
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+SNDK: forecast +43.72% by 2026-11-06
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+INTC: forecast +9.54% by 2026-11-06
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast; predicted move is small relative to past forecast errors.
+
+AMD: forecast +15.55% by 2026-11-09
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+HYPE: forecast +21.19% by 2026-10-28
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+Predicted declines
+
+DOT: forecast -20.21% by 2026-10-28
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+SHIB: forecast -11.47% by 2026-10-28
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast; predicted move is small relative to past forecast errors.
+
+SKIPPED - DATA ISSUES
+- PEPE-USD: outdated price data (latest 2022-12-11; needed 2026-09-28).
+- SPCX: float() argument must be a string or a real number, not 'NoneType'
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.

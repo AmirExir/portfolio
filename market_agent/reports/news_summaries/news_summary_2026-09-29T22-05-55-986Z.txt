@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited, and the set does not fully explain today’s tape.
+
+**Facts**
+- **CNBC (2026-09-28T22:02:04Z):** In its live market update, CNBC said **stock futures rose early Tuesday** as **U.S. Treasury yields and oil prices moved lower**, after **higher Treasury yields had dragged stocks lower** to start the week.
+- **CNA / Channel NewsAsia (2026-09-28T21:51:44Z):** Reported that **U.S. stocks fell Monday** while **Treasury yields continued to climb** after President Trump **rejected Iran’s offer of a seven-day truce**. The article also said **oil prices rose** amid the ongoing Middle East war.
+- **Fortune (2026-09-28T21:56:04Z):** Reported **AMD is acquiring World Labs for $8.2 billion in stock**. World Labs was co-founded by **Fei-Fei Li** and focuses on **physical/spatial AI**.
+- **The Register (2026-09-28T22:01:33Z):** Also reported **AMD’s roughly $8.2 billion all-stock acquisition of World Labs**, framing it as a deeper push into **AI model development**.
+- **Slashdot summarizing Yahoo Finance Canada/Yahoo Finance (2026-09-28T21:53:29Z):** Cited reports that **Nvidia stock jumped after announcing a $150 billion buyback**, described as a record authorization.  
+  *Note: this is an aggregator, so treat with less weight than a primary source.*
+- **Crypto Briefing (2026-09-28T22:00:31Z):** Reported a **Senate investigation** found **USDT was heavily used in sanctioned Iranian crypto wallets**, a headline that could matter for **stablecoin and crypto-regulation sentiment**.
+- **PYMNTS (2026-09-28T22:04:13Z):** Reported the **SEC’s crypto push** following the failure of the **Digital Asset Market Clarity Act** could reshape **capital-raising and trading control** in digital assets.
+
+**Interpretation**
+- The clearest macro drivers in the fresh set are **higher Treasury yields, firmer oil, and Middle East tension**, which were cited as pressure points for risk assets on Monday.
+- For the next session setup, the only fresh cross-asset signal in the supplied articles is CNBC’s note that **lower yields and lower oil** were helping futures stabilize.
+- In AI/semis, the notable fresh movers are **AMD** via the **World Labs acquisition** and **Nvidia** via the reported **mega-buyback authorization**.
+- On crypto, the freshest useful angle is **regulatory and sanctions-related pressure**, especially around **USDT/stablecoins**, rather than broad price action in major coins.
+- There are **no fresh Fed, inflation, or major earnings headlines** in the provided set that clearly explain today’s broader market action.
