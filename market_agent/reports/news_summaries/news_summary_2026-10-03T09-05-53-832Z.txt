@@ -1,0 +1,26 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Eurozone inflation accelerated in September** — Eurostat’s preliminary estimate showed annual euro-area inflation at **3.8% in September vs. 3.2% in August**.  
+  *Source: Biztoc citing Eurostat, published 2026-10-02 09:05Z.*
+
+- **Bond-market volatility eased ahead of key U.S. jobs data** — Reuters/CNA reported that volatility in bonds and currencies cooled before the U.S. payrolls release, with the data seen as important for **Fed policy expectations**.  
+  *Source: CNA/Reuters, published 2026-10-02 08:57Z.*
+
+- **Oil dropped on possible additional stock releases** — Reuters/CNA said oil prices fell about **3%** after reports of talks over **additional diesel and crude stock releases**, which would ease near-term supply concerns.  
+  *Source: CNA/Reuters, published 2026-10-02 08:55Z.*
+
+- **Quanta Services reported record revenue and raised guidance, tied to AI/data-center infrastructure demand** — The report says revenue rose **41.1%** and guidance was increased as major tech companies continue heavy data-center spending.  
+  *Source: Crypto Briefing, published 2026-10-02 08:58Z.*
+
+- **SEC crypto rulemaking remains active** — A report said the SEC proposed a **crypto custody framework** on Oct. 1, part of a broader run of recent U.S. regulatory actions affecting digital assets.  
+  *Source: CryptoSlate, published 2026-10-02 08:50Z.*
+
+- **Fiserv’s digital-asset platform went live with a bank stablecoin use case on Solana** — Reports said Bank of North Dakota’s **Roughrider Coin** is the first production deployment.  
+  *Sources: Bitcoinist, 2026-10-02 08:42Z; newsBTC, 2026-10-02 08:41Z.*
+
+### Interpretation
+- The clearest fresh macro drivers in this set are **higher Eurozone inflation**, **Fed-sensitive focus on U.S. jobs amid rate volatility**, and **lower oil on potential reserve/stock releases**.
+- On the thematic side, **AI infrastructure spending** remains a live equity driver via Quanta, but the dataset is **thin on major megacap earnings or direct fresh semiconductor headlines**.
+- Crypto headlines point more to **regulatory and infrastructure adoption** than to a clear broad-market crypto price catalyst.
+- Overall, this article set offers **some explanation for rates, energy, and AI-infrastructure sentiment**, but it is **too thin to fully explain today’s tape on its own**.
