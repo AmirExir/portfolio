@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only, within the last 36 hours:** the set is **thin and mixed**, with only a handful of items that look relevant to broader markets. There is **not enough here by itself to fully explain today’s tape**.
+
+## Facts
+- **Oil / refined products:** **OilPrice.com** reported that **diesel margins fell after the G7 announced a 100 million barrel release of crude oil and diesel stocks**, with releases expected over the next four months. *Published:* **2026-10-05 09:00:00Z**.
+- **Eurozone growth / inflation:** **Reuters via The Times of India** reported that **September eurozone business activity expanded at its fastest pace in nearly 3.5 years**, citing PMI data, despite inflation concerns tied to Middle East tensions. *Published:* **2026-10-05 08:43:46Z**.
+- **ECB/inflation tone:** **RTÉ** reported comments from **Bundesbank President Joachim Nagel** that **euro area inflation remains high with upside risks dominant**, but **higher energy costs have not yet triggered second-round effects in wages and broader prices**. *Published:* **2026-10-05 08:34:14Z**.
+- **Asia risk sentiment / Fed sensitivity:** **News On Japan** reported that **Tokyo stocks rose sharply**, with the **Nikkei briefly reclaiming 70,000**, and said the move was linked to **weaker U.S. jobs data reducing expectations of an October Fed rate hike**, with **AI-related shares participating**. *Published:* **2026-10-05 08:38:36Z**.
+- **AI/semis sentiment:** **Biztoc, citing Yahoo Finance/DBS**, said **DBS argued Nvidia’s valuation does not indicate an AI bubble**, pointing to projected earnings growth. *Published:* **2026-10-05 08:43:24Z**.  
+  - Note: this is a secondary aggregator item, so confidence is lower than direct-source reporting.
+- **Paper/Europe antitrust:** **PRNewswire** said **the European Commission restated serious concerns about the planned UPM-Sappi graphic paper joint venture** in a Letter of Facts. *Published:* **2026-10-05 08:54:00Z**.
+
+## Interpretation
+- The **clearest cross-asset fresh driver** in this set is **energy-related**: the reported **G7 stocks release** could matter for **oil products, inflation expectations, and energy equities** if confirmed more broadly.
+- The **Europe macro read** is a **push-pull**: **stronger PMI growth** supports risk appetite, while **Nagel’s comments** keep **inflation concerns and rates sensitivity** in play.
+- The **Japan article** suggests markets remain **highly Fed-sensitive**, especially for **AI/tech leadership**, but this is **regional evidence**, not direct proof of U.S. market direction.
+- There is **little fresh U.S. rates/Fed, major earnings, or major crypto news** here from primary outlets, so **these headlines alone do not fully explain broader U.S. market moves today**.
