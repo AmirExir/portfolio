@@ -1,0 +1,32 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Nvidia nears a $6 trillion market cap** after a record close, with the article citing a **$150 billion buyback boost** and bullish options positioning.  
+  *Source: Crypto Briefing, published 2026-10-06T09:04:13Z*
+
+- **Ethereum’s “Glamsterdam” upgrade** is set to activate on the **Sepolia testnet**, with the **gas limit scheduled to rise from 60 million to 200 million**.  
+  *Source: Crypto Briefing, published 2026-10-06T09:02:54Z*
+
+- **Google is reportedly close to a $1 billion-plus nuclear power deal with Constellation Energy**, according to a report citing Bloomberg.  
+  *Source: The Next Web, published 2026-10-06T08:59:47Z*
+
+- **Gulf oil flows excluding Iran rebounded to 81% of pre-war levels in September**, helped by a sharp recovery in **Saudi exports**; **crude and condensate shipments reached 91% of pre-war levels**, while refined fuel exports lagged.  
+  *Source: Times of India / Economic Times, published 2026-10-06T08:52:14Z*
+
+- **Tokenized stocks reached a record $3.8 billion market cap**, with the article saying **BNB Chain, Ethereum, and Solana** are leading the segment.  
+  *Source: Crypto Briefing, published 2026-10-06T08:51:15Z*
+
+- **Dabur India said it expects second-quarter revenue and profit to grow by double digits**, driven by its India consumer business.  
+  *Source: Business Standard / Reuters, published 2026-10-06T08:50:41Z*
+
+- A **WSJ-sourced market brief** said **S&P futures were higher**, while **U.S. government bond trading was calm** and **oil was wavering**.  
+  *Source: Biztoc citing WSJ, published 2026-10-06T08:50:58Z*
+
+### Interpretation
+- The **clearest fresh market themes** in this set are **AI/semi leadership** via Nvidia, **AI power demand / energy infrastructure** via the Google-Constellation report, and **oil supply normalization** via the rebound in Gulf flows.
+
+- On crypto, the relevant fresh items are more **infrastructure and market-structure related** than broad price drivers: Ethereum’s testnet upgrade and record tokenized-stock market cap growth.
+
+- There is **little fresh, high-quality macro news here on the Fed, Treasury yields, inflation, or major U.S. economic data**. So if today’s tape is being driven by rates or macro, **this article set does not explain it well**.
+
+- Aside from Dabur India, there is **not much fresh earnings news** in the supplied set that would broadly move U.S. equities.
