@@ -1,0 +1,42 @@
+Market Optimization
+Generated: 2026-10-07 10:42 UTC
+As of: 2026-10-06
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+DELL: forecast +10.10% by 2026-11-17
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; predicted move is small relative to past forecast errors.
+
+INTC: forecast +10.24% by 2026-11-17
+  Why rejected: return predictions did not beat a no-change forecast; predicted move is small relative to past forecast errors.
+
+MU: forecast +9.06% by 2026-11-17
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast; predicted move is small relative to past forecast errors.
+
+SNDK: forecast +31.27% by 2026-11-17
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast.
+
+JNJ: forecast +4.88% by 2026-11-17
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+Predicted declines
+
+DOT: forecast -18.22% by 2026-11-05
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+SKIPPED - DATA ISSUES
+- PEPE-USD: outdated price data (latest 2022-12-11; needed 2026-10-06).
+- SPCX: float() argument must be a string or a real number, not 'NoneType'
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
