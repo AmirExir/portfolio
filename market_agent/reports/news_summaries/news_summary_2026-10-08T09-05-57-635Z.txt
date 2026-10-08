@@ -1,0 +1,40 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **RBI hiked its repo rate by 25 bps to 5.5% and shifted its stance to “calibrated tightening.”** The central bank also flagged elevated valuations in AI-related assets as a global risk.  
+  *Source: BusinessLine, published 2026-10-07T09:02:39Z*
+
+- **Indian equities were reported under pressure after the RBI’s hawkish turn.** A BusinessLine market update said the **Nifty slipped 179 points mid-session** following the rate hike and stance change.  
+  *Source: BusinessLine, published 2026-10-07T08:33:40Z*
+
+- **Treasury Secretary Scott Bessent said inflation and bond yields should fall after the Iran war ends, while attributing current headline inflation pressure to an energy shock tied to the conflict.**  
+  *Source: Yahoo Finance, published 2026-10-07T08:34:07Z*
+
+- **A Wall Street Journal summary said S&P 500 and Nasdaq futures were hovering near record highs, with Treasury yields inching higher and oil rising.**  
+  *Source: WSJ via Biztoc, published 2026-10-07T08:57:00Z*  
+  *(Secondary aggregator source; use cautiously.)*
+
+- **U.S. spot Bitcoin ETFs saw a net inflow of $119 million, while Ether ETFs extended their outflow streak to six sessions, totaling $408 million.**  
+  *Source: Cointelegraph, published 2026-10-07T09:03:38Z*
+
+- **Robinhood reportedly added about $25 million of bitcoin to its balance sheet.**  
+  *Source: CoinDesk, published 2026-10-07T08:53:27Z*
+
+- **BitMine said it will cap Ether holdings at 5% of ETH supply.** Chairman Tom Lee described that level as a “hard cap.”  
+  *Source: Cointelegraph, published 2026-10-07T08:50:02Z*
+
+- **AM Intelligence announced additional binding orders for roughly 20,000 NVIDIA GPUs, bringing committed NVIDIA Vera Rubin capacity to about 29,000 GPUs.**  
+  *Source: Antara News, published 2026-10-07T08:46:20Z*
+
+- **Fortuna Mining reported Q3 2026 production of 69,665 gold equivalent ounces and said it is advancing growth initiatives.**  
+  *Source: Financial Post / GlobeNewswire, published 2026-10-07T09:03:46Z*  
+  *(Company release; likely stock-specific rather than broad market-moving.)*
+
+## Interpretation
+- The **clearest fresh macro driver** in this set is the **RBI’s surprise/hawkish policy signal**, which matters directly for Indian assets and reinforces a global “higher-for-longer” rates backdrop.
+
+- For broader cross-asset sentiment, the usable fresh signals are **higher oil / energy-shock inflation concern**, **firmer yields**, and **continued crypto divergence**: bitcoin fund flows improved while ether fund flows remained weak.
+
+- On AI/semis, the **new NVIDIA GPU capacity orders** support the ongoing AI infrastructure buildout theme, but this is **more thematic than a definitive broad-market tape driver** on its own.
+
+- **The fresh U.S. headline set is relatively thin for fully explaining today’s tape.** Outside of the RBI move, oil/yields commentary, and a few crypto/AI items, there is **not enough high-confidence fresh reporting here to cleanly explain broad U.S. market action.**
