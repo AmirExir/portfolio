@@ -1,0 +1,18 @@
+Fresh market-moving headlines are thin in this article set, and several items are opinion, aggregator blurbs, or non-market coverage. Based on the usable fresh items within the last 36 hours, the main drivers discussed are higher Treasury yields/rates, oil/inflation pressure, AI policy, and a few crypto/regional macro developments.
+
+**Facts**
+- **Fortune (2026-10-04T09:00:00Z):** Reported that the **10-year Treasury yield hit 5.04%, the highest since 2007**, and said the **Fed raised rates for the first time since 2023**. The piece also tied **oil prices and inflation** to pressure in bonds.
+- **Economic Times / Times of India (2026-10-04T07:14:52Z):** Said **foreign investors sold more than Rs 25,000 crore of Indian equities in September**, citing **surging US bond yields, elevated crude prices, and a weaker rupee**.
+- **Economic Times / Times of India (2026-10-04T07:07:02Z):** Reported markets widely expect the **RBI to signal tightening** at its October policy meeting as **stronger growth, rising oil, and elevated US Treasury yields** raise inflation concerns.
+- **Jamaica Gleaner (2026-10-04T06:37:02Z):** Reported the **US economy grew at a 2.2% annualized pace in Q2**, an upward revision from the prior estimate.
+- **Crypto Briefing (2026-10-04T06:29:33Z):** Reported **President Trump named Jay Clayton as AI czar** to lead a new **“Super Intelligence Force,”** with a **120-day mandate** to map AI risks and opportunities.
+- **Aawsat (2026-10-04T07:30:23Z):** Reported Iraq said it **transported 2 million barrels of crude through the Strait of Hormuz** aboard a VLCC, described as its first such operation in decades.
+- **Cointelegraph (2026-10-04T07:16:53Z):** Reported **Russia’s Finance Ministry paid some wages in digital rubles for the first time**.
+- **Crypto Briefing (2026-10-04T07:36:08Z):** Reported a **Philippine court froze 25 crypto wallets and 86 bank accounts** in a corruption probe.
+
+**Interpretation**
+- The clearest cross-asset macro signal in this set is **rates and inflation pressure**: higher long-end Treasury yields, elevated oil, and central-bank tightening concerns.
+- For equities, this backdrop is typically most relevant to **duration-sensitive growth/tech valuations** and overall **risk appetite**, but this article set does **not** provide enough direct fresh reporting to explain the full day’s equity tape.
+- On AI, the **Clayton appointment** looks more like a **policy/strategic headline** than an immediate earnings or semiconductor demand catalyst.
+- On energy, the Iraq/Hormuz item adds to the **oil and supply-route** conversation, but by itself does not establish a broader shift in crude prices.
+- On crypto, the usable fresh news is more about **regulation/state adoption** than price action: **digital ruble rollout** and **enforcement/freezes** in the Philippines.

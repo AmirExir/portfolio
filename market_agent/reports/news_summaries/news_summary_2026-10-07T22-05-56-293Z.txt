@@ -1,0 +1,18 @@
+**Fresh market-moving headlines are thin in this article set, and most of the usable items are recap/commentary or secondary aggregations rather than primary reporting. The clearest fresh drivers here are AI/semis leadership, a Marvell outlook raise, and the Skydance-Warner/Paramount deal close. There is little fresh on Fed, rates, inflation, energy, or major crypto explaining today’s tape.**
+
+## Facts
+- **WSJ via Biztoc, 2026-10-06T21:42:28Z** — The **S&P 500 hit a new record high**, with the move **“powered by tech—and not much else,”** indicating narrow leadership tied to AI-related names rather than broad market participation.
+- **Finance Yahoo via Biztoc, 2026-10-06T21:57:38Z** — **Marvell Technology** raised its **FY2028 revenue outlook to $20 billion** at its investor event; the article says the stock **closed up 5.81%** as investors reacted to the stronger long-term outlook.
+- **CNBC recap via Biztoc, 2026-10-06T22:01:38Z** — A market-close summary said the **S&P 500 hit a record high as Big Tech led**.
+- **CNBC recap via Biztoc, 2026-10-06T22:01:53Z** — Another market-close summary said **stocks finished higher** and that the **S&P 500 and Nasdaq closed at records**.
+- **Al Jazeera, 2026-10-06T21:33:59Z** — The **$110 billion merger** combining **Paramount/Skydance and Warner Bros. Discovery** **closed**, creating **Skydance**, which **began trading on Wall Street Tuesday**.
+- **Finance Yahoo via Biztoc, 2026-10-06T21:27:32Z** — **Lucid** reported **Q3 deliveries of 3,806**, below a Wall Street estimate of **4,687**, according to Visible Alpha data cited in the article.
+- **Finance Yahoo via Biztoc, 2026-10-06T21:57:47Z** — **Corteva** **closed up 12.27%** after a **JPMorgan upgrade** following its spin-off.
+- **PR Newswire, 2026-10-06T21:47:00Z** — **ArriVent BioPharma** was cited as trading near a **52-week low** after its **Phase 3 trial missed the primary endpoint**.
+
+## Interpretation
+- The most credible takeaway from this set is that **AI/Big Tech concentration remains the main equity driver**, with **Marvell’s raised long-term revenue target** reinforcing the AI infrastructure theme.
+- The **record-high index headlines** appear to be **driven by a narrow group of large tech names**, not by broad cyclical or macro news.
+- The **Skydance merger close** is a notable single-name/media-sector event, but it does **not** look like a broad market driver.
+- **Lucid’s delivery miss** and **ArriVent’s trial failure** matter for those stocks, but they do not explain the broader market.
+- There is **no meaningful fresh evidence here on Fed policy, Treasury yields, inflation, oil, or major crypto** that would account for today’s broader tape.

@@ -1,0 +1,14 @@
+Fresh article set is thin and does not clearly explain today’s tape. Most items are feature stories, opinion, press releases, or niche/non-market coverage.
+
+**Facts**
+- **U.S. inflation watch:** *Biztoc/Investing.com* reported investors were awaiting **PCE inflation data**, describing it as closely watched by the Fed and saying sticky price pressure was expected. **Published:** 2026-09-30T08:59:23Z.
+- **Macro/rates backdrop:** *CNA* reported the **U.S. dollar was near its highest level of the year versus the euro** and on track for its biggest monthly gain against the euro in 14 months, citing **stronger U.S. growth and rising interest-rate expectations**. **Published:** 2026-09-30T08:38:50Z.
+- **FX intervention / Asia risk signal:** *Times of India* reported the **Bank of Korea sold a net $9.612 billion in Q2** to support the won, marking a seventh straight quarter of intervention. **Published:** 2026-09-30T08:51:44Z.
+- **AI/private-market readthrough:** *Times of India* reported leaked **Anthropic IPO** papers pointed to **surging revenue, ballooning net losses, large infrastructure commitments, and dependence on Amazon and Google**. **Published:** 2026-09-30T08:45:05Z.
+- **AI/semis legal overhang:** *DigiTimes* reported **Netlist** began legal proceedings against **Micron** and downstream customers **Nvidia, Broadcom, and Google** over alleged unauthorized use of patented **HBM** technology. **Published:** 2026-09-30T08:42:54Z.
+- **Crypto:** *CryptoSlate* reported **tokenized pre-IPO Anthropic contracts** had reached **$643 million** in volume, with a liquidity test looming around a potential IPO transition. **Published:** 2026-09-30T09:00:30Z.
+
+**Interpretation**
+- The most market-relevant fresh themes here are **Fed-sensitive inflation expectations**, a **firmer-dollar / higher-rate-expectations backdrop**, and **AI-related headlines**.
+- The **Anthropic** and **Netlist/HBM** items are more relevant for **AI infrastructure, semis, and private-market sentiment** than for broad indexes by themselves.
+- There is **not enough fresh, high-quality headline flow in this set** to confidently explain broad U.S. equity index moves today.

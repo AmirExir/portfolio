@@ -1,0 +1,20 @@
+Fresh market-moving headlines are limited in this article set, and several items are secondary aggregators or too generic. The clearest fresh themes are higher global yields, energy/inflation pressure in Europe and Asia, and a few crypto/AI-specific items.
+
+**Facts**
+- **WSJ via Biztoc, 2026-10-01 08:31:52Z:** “Global bond selloff deepens,” with **Treasury yields jumping again** and **French/U.K. bonds hit harder**.  
+- **Reuters via Times of India, 2026-10-01 08:55:17Z:** The **euro fell to a 17-month low** as investors reacted to **higher oil prices, inflation pressure, and political instability** in Europe.
+- **OilPrice/Reuters, 2026-10-01 09:00:00Z:** **Taiwan allocated $13 billion** to help shield consumers from **high energy costs**, directing support to state power generator Taipower and refiner CPC.
+- **BusinessLine/ANI, 2026-10-01 08:57:48Z:** India’s Finance Ministry said **Q2 growth is seen at 7.3%**, while warning that **higher oil prices, tighter global financial conditions, and U.S. trade uncertainty** are risks.
+- **ABC News/AP, 2026-10-01 08:33:00Z:** Asian shares were described as mostly higher, with **tech/AI interest** offsetting some concern about the **Iran war**; this is broad regional color rather than a specific new catalyst.
+- **Crypto Briefing, 2026-10-01 08:44:17Z:** A BearingPoint study said **AI adoption is struggling to scale**, with only a minority of firms moving beyond pilot programs.
+- **Decrypt, 2026-10-01 08:56:02Z:** EU regulators are reportedly **pressing Binance** over its use of a **“reverse solicitation”** exemption to continue serving some EU users.
+- **CryptoSlate, 2026-10-01 08:40:28Z:** Japan’s **PayPay added Binance Pay** for eligible overseas visitors, enabling crypto-funded payments with automatic yen conversion.
+- **Bitcoinfoundation.org, 2026-10-01 08:46:43Z:** **MetaMask** began removing Ethereum validators from its staking service following a **security breach** affecting part of its infrastructure.
+
+**Interpretation**
+- The strongest macro message from the fresh set is **rates and inflation pressure**, not a clean equity-specific catalyst: rising sovereign yields and oil-driven inflation concerns appear to be the main cross-asset risk inputs.
+- Europe-specific risk looks tied to a **stronger dollar / weaker euro** backdrop and concern that **energy costs are feeding inflation**, which can keep pressure on rate expectations.
+- Asia adds to the same inflation/energy narrative: Taiwan’s subsidy move and India’s risk warnings both suggest **high oil is becoming a policy and growth concern**.
+- On AI/semis, this set does **not** include a major fresh earnings report or a clear semiconductor headline; the AI-related pieces are more thematic than tape-driving.
+- In crypto, the fresh items point to **regulatory and security overhangs** around Binance and MetaMask, partly offset by incremental adoption news from Japan.
+- Overall, if you are trying to explain today’s tape from this JSON alone, the evidence is **thin beyond the global-yields + energy/inflation story**.

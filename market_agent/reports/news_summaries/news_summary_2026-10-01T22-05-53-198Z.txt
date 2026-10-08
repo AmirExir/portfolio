@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only, from the last 36 hours**
+
+### Facts
+- **U.S. inflation came in cooler than expected** — **Biztoc/Yahoo Finance**, **2026-09-30T22:04:17Z**: headline says investors were reacting to **“cooler-than-expected inflation data.”**
+- **Nvidia authorized a $150 billion buyback, bringing total authorization to $235 billion** — **Biztoc/Yahoo Finance**, **2026-09-30T22:04:10Z**.
+- **Micron reported a major revenue surge and guided above expectations** — **Biztoc**, **2026-09-30T22:04:05Z**: article says fiscal Q4 revenue rose **379% y/y to $54.23 billion** and the company forecast **$61.5 billion** for the current quarter, **well above Wall Street estimates**.
+- **Federal Reserve watchdog found no criminal violations in the Fed’s $2.4 billion building renovation, but cited mismanagement** — **ABC News/AP**, **2026-09-30T21:52:12Z**.
+- **Oil market supply backdrop:** **Venezuela’s oil revival is accelerating as foreign companies return** — **OilPrice.com**, **2026-09-30T22:00:00Z**.
+- **Bitcoin was near $84,000 and heading for a positive September close** — **Crypto Briefing**, **2026-09-30T21:49:35Z**: the article says BTC was up **more than 6.5% in September** and that analysts were looking for stronger spot demand and ETF inflows to support an October breakout.
+
+### Interpretation
+- The clearest fresh macro input is the **cooler-than-expected U.S. inflation print**, which is relevant for **rates and Fed expectations**.
+- In equities, the most important fresh single-stock drivers in the supplied set are **AI/semi-related**: **Nvidia’s very large buyback** and **Micron’s strong results/guidance**.
+- For **energy**, the article set is thin. The only fresh relevant item is the **Venezuela supply story**, which matters more for the medium-term oil supply backdrop than for explaining intraday tape by itself.
+- For **crypto**, the fresh takeaway is that **Bitcoin remains firm into month-end**, but the article itself says a bigger move would likely require **stronger spot demand and ETF inflows**.
+- Overall, the fresh set is **somewhat thin for explaining the full day’s market action** beyond inflation/rates and AI-semi headlines.

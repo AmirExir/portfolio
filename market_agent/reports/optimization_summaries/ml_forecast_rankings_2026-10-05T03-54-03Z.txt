@@ -1,0 +1,48 @@
+Market Optimization
+Generated: 2026-10-05 03:49 UTC
+As of: 2026-10-02 to 2026-10-04
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+MU: forecast +15.66% by 2026-11-13
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast; predicted move is small relative to past forecast errors.
+
+DELL: forecast +11.34% by 2026-11-13
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; predicted move is small relative to past forecast errors.
+
+XLK: forecast +5.59% by 2026-11-13
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+INTC: forecast +11.52% by 2026-11-13
+  Why rejected: probability estimates failed reliability checks; predicted move is small relative to past forecast errors.
+
+VOO: forecast +3.70% by 2026-11-13
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+Predicted declines
+
+DOT: forecast -21.21% by 2026-11-03
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+SHIB: forecast -15.24% by 2026-11-03
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+DOGE: forecast -12.15% by 2026-11-03
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+SKIPPED - DATA ISSUES
+- PEPE-USD: outdated price data (latest 2022-12-11; needed 2026-10-04).
+- SPCX: float() argument must be a string or a real number, not 'NoneType'
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
