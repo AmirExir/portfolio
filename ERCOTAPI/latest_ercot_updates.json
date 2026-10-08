@@ -1,129 +1,51 @@
 {
-  "generated_at": "2026-09-29T20:01:55.314048+00:00",
+  "generated_at": "2026-10-08T20:03:00.803330+00:00",
   "minimum_year": 2026,
-  "count": 4,
+  "count": 1,
   "items": [
     {
-      "content_sha256": "0a7585a418b06b9a7168b71e62c867dd190ca00c4dd627f2b922bbccf7ac722e",
-      "title": "1348NPRR-01 Telemetry Offset for Provisional Controllable Load Resources 092926",
-      "document_number": "NPRR1348",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-09-29T20:00:46Z",
+      "content_sha256": "637edc6e4af849e79cf43706a7ab87c03427df7b299e45ecffa27ceea3923433",
+      "title": "146PGRR-13 ROS Report 100126",
+      "document_number": "PGRR146",
+      "source": "PGRR",
+      "published_date": "Oct 5, 2026",
+      "downloaded_at": "2026-10-08T20:00:59Z",
       "status": "Pending",
-      "url": "https://www.ercot.com/files/docs/2026/09/29/1348NPRR-01-Telemetry-Offset-for-Provisional-Controllable-Load-Resources-092926.docx",
+      "url": "https://www.ercot.com/files/docs/2026/10/05/146PGRR-13-ROS-Report-100126.docx",
       "sources": [
-        "NPRR"
+        "PGRR"
       ],
-      "revision_id": "NPRR1348",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
-      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
-      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "c8a03ec2099a1d072980ee5531721de191b767cc1e2040453bc7d1b1592a66b0",
-      "title": "1345NPRR-05 Impact Analysis 092926",
-      "document_number": "NPRR1345",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-09-29T20:00:46Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/files/docs/2026/09/29/1345NPRR-05-Impact-Analysis-092926.docx",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1345",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
-      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
-      "affected_sections": "2.1 and 4.4.9.4.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "6d1bd0db9e9ce7d5275b727c9509397a4eda53c7775a8e825d395e365b8699e3",
-      "title": "NPRR1348",
-      "document_number": "NPRR1348",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-09-29T20:00:45Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1348",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1348",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
-      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
-      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "4871908cd3e25bc3e61b73f6050670c3ca33c2f6193a1123712fc2c8cc4002e9",
-      "title": "NPRR1345",
-      "document_number": "NPRR1345",
-      "source": "NPRR",
-      "published_date": "Aug 10, 2026",
-      "downloaded_at": "2026-09-29T20:00:45Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1345",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1345",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
-      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
-      "affected_sections": "2.1 and 4.4.9.4.1",
+      "revision_id": "PGRR146",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) modifies the stability assessment schedule for planned large generators and Large Loads from every three months to every four months and rename the stability assessment from quarterly stability assessment to qualifying stability assessment.",
+      "issue_title": "Rename Quarterly Stability Assessment and Modify the Assessment Schedule",
+      "affected_sections": "5.3.2.5, 5.3.4, 5.3.5, and 5.5",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
   "revision_issues": {
-    "NPRR1345": {
-      "revision_id": "NPRR1345",
-      "revision_family": "NPRR",
-      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
-      "official_description": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
+    "PGRR146": {
+      "revision_id": "PGRR146",
+      "revision_family": "PGRR",
+      "issue_title": "Rename Quarterly Stability Assessment and Modify the Assessment Schedule",
+      "official_description": "This Planning Guide Revision Request (PGRR) modifies the stability assessment schedule for planned large generators and Large Loads from every three months to every four months and rename the stability assessment from quarterly stability assessment to qualifying stability assessment.",
       "status": "Pending",
-      "date_posted": "Aug 10, 2026",
-      "sponsor": "Vistra",
+      "date_posted": "May 20, 2026",
+      "sponsor": "ERCOT",
       "urgent": "No",
-      "affected_sections": "2.1 and 4.4.9.4.1",
+      "affected_sections": "5.3.2.5, 5.3.4, 5.3.5, and 5.5",
       "reason": "General system and/or process improvement(s)",
-      "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1345",
+      "issue_url": "https://www.ercot.com/mktrules/issues/PGRR146",
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PRS",
-      "next_step": "Impact Analysis Consideration",
+      "next_group": "TAC",
+      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "09/16/2026",
-        "governing_body": "PRS",
+        "date": "10/01/2026",
+        "governing_body": "ROS",
         "action": "Recommended for Approval",
-        "next_step": "Impact Analysis Consideration"
-      }
-    },
-    "NPRR1348": {
-      "revision_id": "NPRR1348",
-      "revision_family": "NPRR",
-      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
-      "official_description": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
-      "status": "Pending",
-      "date_posted": "Sep 29, 2026",
-      "sponsor": "Global Capacity Alliance",
-      "urgent": "Pending",
-      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
-      "reason": "Strategic Plan Objective 1",
-      "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1348",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
-      "explanation_source": "official_ercot_issue_page",
-      "next_group": "PRS",
-      "next_step": "PRS for consideration",
-      "latest_action": {
-        "action": "No action posted"
+        "next_step": "Revision Request Consideration"
       }
     }
   }
