@@ -1,51 +1,67 @@
 {
-  "generated_at": "2026-10-08T20:03:00.803330+00:00",
+  "generated_at": "2026-10-09T11:01:32.315879+00:00",
   "minimum_year": 2026,
-  "count": 1,
+  "count": 2,
   "items": [
     {
-      "content_sha256": "637edc6e4af849e79cf43706a7ab87c03427df7b299e45ecffa27ceea3923433",
-      "title": "146PGRR-13 ROS Report 100126",
-      "document_number": "PGRR146",
-      "source": "PGRR",
-      "published_date": "Oct 5, 2026",
-      "downloaded_at": "2026-10-08T20:00:59Z",
+      "content_sha256": "d247c78510793e820f6c4af0ef29183247a8f0d92973b2f24f42fc9443ea4c51",
+      "title": "1348NPRR-05 Cipher Digital Comments 100826",
+      "document_number": "NPRR1348",
+      "source": "NPRR",
+      "published_date": "Oct 8, 2026",
+      "downloaded_at": "2026-10-09T11:00:44Z",
       "status": "Pending",
-      "url": "https://www.ercot.com/files/docs/2026/10/05/146PGRR-13-ROS-Report-100126.docx",
+      "url": "https://www.ercot.com/files/docs/2026/10/08/1348NPRR-05-Cipher-Digital-Comments-100826.docx",
       "sources": [
-        "PGRR"
+        "NPRR"
       ],
-      "revision_id": "PGRR146",
-      "revision_family": "PGRR",
-      "explanation": "This Planning Guide Revision Request (PGRR) modifies the stability assessment schedule for planned large generators and Large Loads from every three months to every four months and rename the stability assessment from quarterly stability assessment to qualifying stability assessment.",
-      "issue_title": "Rename Quarterly Stability Assessment and Modify the Assessment Schedule",
-      "affected_sections": "5.3.2.5, 5.3.4, 5.3.5, and 5.5",
+      "revision_id": "NPRR1348",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
+      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
+      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "be82ebbc1d29d315d2eb61482a2a13a765d1285c1ad35e0e80ed1338bd2bbb38",
+      "title": "NPRR1348",
+      "document_number": "NPRR1348",
+      "source": "NPRR",
+      "published_date": "Sep 29, 2026",
+      "downloaded_at": "2026-10-09T11:00:43Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1348",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1348",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
+      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
+      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
   "revision_issues": {
-    "PGRR146": {
-      "revision_id": "PGRR146",
-      "revision_family": "PGRR",
-      "issue_title": "Rename Quarterly Stability Assessment and Modify the Assessment Schedule",
-      "official_description": "This Planning Guide Revision Request (PGRR) modifies the stability assessment schedule for planned large generators and Large Loads from every three months to every four months and rename the stability assessment from quarterly stability assessment to qualifying stability assessment.",
+    "NPRR1348": {
+      "revision_id": "NPRR1348",
+      "revision_family": "NPRR",
+      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
+      "official_description": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
       "status": "Pending",
-      "date_posted": "May 20, 2026",
-      "sponsor": "ERCOT",
-      "urgent": "No",
-      "affected_sections": "5.3.2.5, 5.3.4, 5.3.5, and 5.5",
-      "reason": "General system and/or process improvement(s)",
-      "issue_url": "https://www.ercot.com/mktrules/issues/PGRR146",
+      "date_posted": "Sep 29, 2026",
+      "sponsor": "Global Capacity Alliance",
+      "urgent": "Pending",
+      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
+      "reason": "Strategic Plan Objective 1",
+      "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1348",
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "TAC",
-      "next_step": "Revision Request Consideration",
+      "next_group": "PRS",
+      "next_step": "PRS for consideration",
       "latest_action": {
-        "date": "10/01/2026",
-        "governing_body": "ROS",
-        "action": "Recommended for Approval",
-        "next_step": "Revision Request Consideration"
+        "action": "No action posted"
       }
     }
   }
