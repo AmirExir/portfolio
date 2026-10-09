@@ -1,0 +1,13 @@
+{
+  "provider": "yahoo_finance",
+  "aliases": {
+    "PEPE-USD": "PEPE24478-USD"
+  },
+  "evidence": {
+    "PEPE-USD": {
+      "verified_on": "2026-10-09",
+      "source": "https://finance.yahoo.com/markets/crypto/all/heatmap/",
+      "note": "Yahoo lists the current Pepe token as PEPE24478-USD. PEPE-USD returns an older price series ending in 2022; the two series must not be merged."
+    }
+  }
+}

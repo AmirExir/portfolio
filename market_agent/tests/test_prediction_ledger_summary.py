@@ -21,6 +21,44 @@ UTC = timezone.utc
 
 
 class PredictionLedgerSummaryTests(unittest.TestCase):
+    def test_forecast_summary_includes_matured_baselines_and_coverage(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = PredictionLedger(Path(directory) / "ledger.jsonl")
+            prediction = PredictionRecord(
+                prediction_id="forecast-test",
+                created_at_utc=datetime(2026, 1, 2, 22, tzinfo=UTC),
+                data_cutoff_utc=datetime(2026, 1, 2, 21, tzinfo=UTC),
+                as_of_session=date(2026, 1, 2),
+                target_session=date(2026, 1, 5),
+                symbol="TEST",
+                horizon_sessions=1,
+                model_name="Ridge",
+                model_version="ridge-test-v1",
+                forecast_return=0.10,
+                probability_positive=0.75,
+                target_weight=0.0,
+            )
+            ledger.append_prediction(prediction)
+            ledger.append_outcome(OutcomeRecord(
+                outcome_id="outcome-test",
+                prediction_id=prediction.prediction_id,
+                recorded_at_utc=datetime(2026, 1, 5, 22, tzinfo=UTC),
+                target_session=prediction.target_session,
+                target_maturity_utc=prediction.target_maturity_utc,
+                realized_return=0.04,
+                benchmark_return=0.01,
+            ))
+            summary = prediction_ledger_summary(ledger)
+
+        diagnostics = summary["metrics"][0]["performance_diagnostics"]
+        self.assertAlmostEqual(diagnostics["mae_pct"], 6.0)
+        self.assertAlmostEqual(diagnostics["no_change_mae_pct"], 4.0)
+        self.assertAlmostEqual(diagnostics["mae_skill_score"], -0.5)
+        self.assertEqual(diagnostics["origin_session_count"], 1)
+        self.assertEqual(diagnostics["non_overlapping"]["sample_count"], 1)
+        self.assertEqual(summary["outcome_count"], 1)
+        self.assertFalse(summary["promotion"]["automatic_promotion"])
+
     def test_metrics_and_shadow_counts_use_exact_provenance_cohorts(
         self,
     ) -> None:

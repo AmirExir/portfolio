@@ -104,6 +104,52 @@ or non-US trading sessions rather than assuming the default regular close.
 Actual ledger files are generated evaluation data and should be stored outside
 Git or in an ignored runtime-data directory.
 
+## Descriptive history diagnostics
+
+`agent/forecast_diagnostics.py` compares matured, homogeneous forecast cohorts
+with fixed no-change, always-up, always-not-up, and 50% probability forecasts.
+The report's `prediction_ledger.summary.metrics[].performance_diagnostics`
+contains these comparisons for price models; it is `null` for RL execution
+policies. The automation's `--json-only` output retains the same ledger evidence
+as the saved report, including outcome-loading failures.
+
+Duplicate symbol/origin/target windows retain the first publication in ledger
+order. The nested `non_overlapping` result selects disjoint return windows per
+asset using earliest-finish scheduling; adjacent windows may share one closing
+price. It also reports unique assets, origin dates, and target date coverage.
+Different assets remain correlated: these counts are not independent sample
+sizes. The existing raw metrics are retained for compatibility; the diagnostic
+metrics explicitly report their deduplicated sample count.
+
+MAE fields with a `_pct` suffix are percentage points of return error.
+`mae_skill_score = 1 - model_MAE / no_change_MAE`; negative values indicate
+worse errors than predicting zero return, and a zero denominator yields `null`.
+Direction comparators are reported separately: choosing the better one after
+seeing outcomes is retrospective. The Brier comparator is the fixed probability
+0.5, with score 0.25, not an estimated training base rate. These are descriptive
+forecast checks, not trading returns, significance tests, or promotion evidence.
+Never combine horizons, model versions, calendars, or publication-timing cohorts
+to claim that a current model has a longer performance record.
+
+Reproduce the current local audit from the repository root without downloading
+prices, placing orders, modifying the ledger, or sending a notification:
+
+```bash
+.venv/bin/python - <<'PY'
+import json
+from pathlib import Path
+from market_agent.daily_ml_forecast_report import PredictionLedger, prediction_ledger_summary
+
+ledger = PredictionLedger(Path('market_agent/reports/prediction_ledger.jsonl'))
+print(json.dumps(prediction_ledger_summary(ledger), indent=2, allow_nan=False))
+PY
+```
+
+Only already-recorded matured outcomes are included. Missing/pending outcomes
+are not losses or successes; an audit of this file does not backfill old reports
+into prospective evidence. The hash-chain reader verifies the ledger before
+computing metrics.
+
 ## Purged walk-forward evaluation
 
 `WalkForwardConfig` defaults both the purge and embargo to the forecast horizon

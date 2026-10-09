@@ -1457,7 +1457,7 @@ SYMBOL_LABELS = {
     "WDC": "Western Digital (WDC)",
     "STX": "Seagate (STX)",
     "SNDK": "SanDisk (SNDK)",
-    "SPCX": "SPCX ETF (SPCX)",
+    "SPCX": "Space Exploration Technologies (SPCX)",
     "AVGO": "Broadcom (AVGO)",
     "RIOT": "Riot Platforms (RIOT)",
     "ORCL": "Oracle (ORCL)",

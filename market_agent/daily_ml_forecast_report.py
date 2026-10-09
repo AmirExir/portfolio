@@ -34,6 +34,7 @@ from agent.earnings import (
 )
 from agent.forecast import compare_forecast_models
 from agent.evaluation import ForecastObservation, evaluate_forecasts
+from agent.forecast_diagnostics import forecast_performance_diagnostics
 from agent.ledger import (
     OutcomeRecord,
     PredictionLedger,
@@ -3950,6 +3951,14 @@ def prediction_ledger_summary(ledger: PredictionLedger) -> dict:
                     if model_name == "RL Policy"
                     else evaluated.expected_calibration_error
                 ),
+                "performance_diagnostics": (
+                    None
+                    if model_name == "RL Policy"
+                    else forecast_performance_diagnostics(
+                        observations,
+                        horizon_sessions=horizon,
+                    )
+                ),
                 "average_max_adverse_excursion_pct": float(
                     adverse_excursions.mean() * 100.0
                 )
@@ -4957,6 +4966,13 @@ def main() -> int:
         send_telegram(telegram_text)
 
     if args.json_only:
+        # The automation publishes stdout, so retain the same matured evidence
+        # as the committed report instead of dropping it from the public JSON.
+        published_report = (
+            load_json_payload(Path(paths["json"]))
+            if run_complete and paths.get("json")
+            else {}
+        )
         report_summary = build_market_report(
             rows,
             errors,
@@ -4999,6 +5015,10 @@ def main() -> int:
             ],
             "signal_summary": report_summary["signal_summary"],
             "signal_threshold": signal_threshold_metadata(args),
+            "prediction_ledger": published_report.get(
+                "prediction_ledger",
+                {"status": "unavailable", "reason": "No readable completed report."},
+            ),
             "model_selection": {
                 "run_profile": str(getattr(args, "run_profile", "custom") or "custom"),
                 "requested_sequence_model": sequence_model_from_args(args),

@@ -327,11 +327,13 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
     target_session = pd.Timestamp(forecast_rows.index[-1]).date().isoformat()
     smart_policy = snapshot.get("smart_policy") or {}
 
-    def _return_for(model_name: str):
+    def _return_for(model_name: str) -> float:
         model_payload = model_payloads.get(model_name)
         if not model_payload:
             return np.nan
-        return float((model_payload.get("metrics") or {}).get("forecast_change_pct", np.nan))
+        return _safe_float(
+            (model_payload.get("metrics") or {}).get("forecast_change_pct")
+        )
 
     return {
         "Symbol": snapshot.get("symbol", ""),
@@ -366,12 +368,14 @@ def snapshot_to_ranking_row(snapshot: dict, primary_model_choice: str) -> dict:
         "Model Edge %": edge,
         "Signal Quality": signal_quality(confidence),
         "Expected Error %": expected_error,
-        "Validation MAE %": float(metrics.get("holdout_mae_pct", np.nan)),
+        # Short histories have no purged holdout. JSON represents those NaN
+        # diagnostics as null; preserve missing evidence for qualification.
+        "Validation MAE %": _safe_float(metrics.get("holdout_mae_pct")),
         "Zero-Return MAE %": _safe_float(
             metrics.get("zero_return_mae_pct")
         ),
         "MAE Skill Score": _safe_float(metrics.get("mae_skill_score")),
-        "Direction Hit Rate %": float(metrics.get("holdout_direction_accuracy", np.nan)),
+        "Direction Hit Rate %": _safe_float(metrics.get("holdout_direction_accuracy")),
         "Direction Baseline Accuracy %": _safe_float(
             metrics.get("direction_baseline_accuracy_pct")
         ),

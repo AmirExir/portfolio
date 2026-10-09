@@ -2,12 +2,63 @@ import pandas as pd
 import yfinance as yf
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from functools import lru_cache
 import contextlib
 import io
 import json
 import logging
 import os
 import re
+
+
+logger = logging.getLogger(__name__)
+
+
+@lru_cache(maxsize=1)
+def _provider_aliases() -> dict[str, str]:
+    path = Path(__file__).with_name("market_data_symbols.json")
+    payload = json.loads(path.read_text())
+    aliases = payload.get("aliases")
+    if payload.get("provider") != "yahoo_finance" or not isinstance(aliases, dict):
+        raise ValueError(f"Invalid market data symbol configuration: {path.name}")
+    if any(
+        not isinstance(key, str)
+        or not isinstance(value, str)
+        or not key.strip()
+        or not value.strip()
+        for key, value in aliases.items()
+    ):
+        raise ValueError(f"Invalid market data symbol aliases: {path.name}")
+    return {key.strip().upper(): value.strip().upper() for key, value in aliases.items()}
+
+
+def _cache_matches_provider(metadata: dict, symbol: str, provider_symbol: str) -> bool:
+    if metadata.get("provider", "yahoo_finance") != "yahoo_finance":
+        return False
+    recorded_symbol = metadata.get("provider_symbol")
+    if recorded_symbol is not None:
+        return recorded_symbol == provider_symbol
+    # Preserve legacy caches for unchanged symbols. Aliased instruments require
+    # explicit provenance; an unverified cache must never cross asset identities.
+    return symbol == provider_symbol and metadata.get("symbol", symbol) == symbol
+
+
+def _with_source_metadata(
+    frame: pd.DataFrame,
+    symbol: str,
+    provider_symbol: str,
+    *,
+    cache_fallback: bool,
+) -> pd.DataFrame:
+    source = {
+        "provider": "yahoo_finance",
+        "requested_symbol": symbol,
+        "provider_symbol": provider_symbol,
+        "cache_fallback": cache_fallback,
+    }
+    frame.attrs["market_data_source"] = source
+    frame.attrs["history_coverage"]["data_source"] = dict(source)
+    return frame
 
 
 def _cache_root() -> Path:
@@ -214,15 +265,30 @@ def get_ohlcv(
     recent for the requested window, one explicit backfill is requested. A
     sidecar records the earliest start already requested so newly listed assets
     do not repeatedly download unavailable pre-listing history. Short requests
-    never truncate older rows retained for later overnight runs.
+    never truncate older rows retained for later overnight runs. Configured
+    provider aliases use separate caches and retain their source identity in
+    returned history metadata; legacy caches from another symbol are not reused.
     """
 
+    symbol = str(symbol).strip().upper()
+    if not symbol:
+        raise ValueError("symbol must not be empty")
+    provider_symbol = _provider_aliases().get(symbol, symbol)
     requested_start = _requested_start(lookback_days, now)
-    path = _cache_path(symbol, interval)
-    metadata_path = _cache_metadata_path(symbol, interval)
+    path = _cache_path(provider_symbol, interval)
+    metadata_path = _cache_metadata_path(provider_symbol, interval)
     use_cache = os.getenv("MARKET_AGENT_DISABLE_OHLCV_CACHE", "").strip().lower() not in {"1", "true", "yes"}
     cached = _read_cached_ohlcv(path) if use_cache else pd.DataFrame()
     cache_metadata = _read_cache_metadata(metadata_path) if use_cache else {}
+    if use_cache and not _cache_matches_provider(cache_metadata, symbol, provider_symbol):
+        if not cached.empty:
+            logger.warning(
+                "Ignoring OHLCV cache with unverified provider identity: %s (%s)",
+                symbol,
+                provider_symbol,
+            )
+        cached = pd.DataFrame()
+        cache_metadata = {}
 
     recorded_backfill_start = _metadata_timestamp(
         cache_metadata.get("earliest_backfill_requested_start")
@@ -249,7 +315,7 @@ def get_ohlcv(
     else:
         fetch_start = requested_start.strftime("%Y-%m-%d")
 
-    downloaded = _normalize_ohlcv(_download_ohlcv(symbol, fetch_start, interval))
+    downloaded = _normalize_ohlcv(_download_ohlcv(provider_symbol, fetch_start, interval))
 
     if use_cache:
         if not downloaded.empty:
@@ -263,8 +329,10 @@ def get_ohlcv(
             if recorded_backfill_start is not None and earliest_requested is not None:
                 earliest_requested = min(recorded_backfill_start, earliest_requested)
             metadata_payload = {
-                "schema_version": 1,
+                "schema_version": 2,
                 "symbol": str(symbol).upper(),
+                "provider": "yahoo_finance",
+                "provider_symbol": provider_symbol,
                 "interval": str(interval),
                 "earliest_backfill_requested_start": (
                     earliest_requested.date().isoformat()
@@ -285,8 +353,15 @@ def get_ohlcv(
                 backfill_requested=bool(cache_needs_backfill or cached.empty),
                 backfill_succeeded=True,
             )
-            return requested
+            return _with_source_metadata(
+                requested, symbol, provider_symbol, cache_fallback=False
+            )
         if not cached.empty:
+            logger.warning(
+                "OHLCV refresh returned no data; using cache subject to freshness checks: %s (%s)",
+                symbol,
+                provider_symbol,
+            )
             requested = _requested_window(cached, lookback_days, now)
             requested.attrs["history_coverage"] = _history_coverage_metadata(
                 requested,
@@ -296,10 +371,13 @@ def get_ohlcv(
                 backfill_requested=cache_needs_backfill,
                 backfill_succeeded=False,
             )
-            return requested
+            return _with_source_metadata(
+                requested, symbol, provider_symbol, cache_fallback=True
+            )
 
     if downloaded.empty:
-        raise ValueError(f"No OHLCV data returned for {symbol}.")
+        provider_detail = f" (Yahoo symbol {provider_symbol})" if symbol != provider_symbol else ""
+        raise ValueError(f"No OHLCV data returned for {symbol}{provider_detail}.")
     requested = _requested_window(downloaded, lookback_days, now)
     requested.attrs["history_coverage"] = _history_coverage_metadata(
         requested,
@@ -309,4 +387,6 @@ def get_ohlcv(
         backfill_requested=True,
         backfill_succeeded=True,
     )
-    return requested
+    return _with_source_metadata(
+        requested, symbol, provider_symbol, cache_fallback=False
+    )

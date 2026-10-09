@@ -796,6 +796,10 @@ class DailyReportOutputTests(unittest.TestCase):
 
     def test_json_only_entrypoint_always_emits_parseable_output(self) -> None:
         row = _research_buy_row()
+        ledger_evidence = {
+            "summary": {"prediction_count": 4, "outcome_count": 2, "metrics": []},
+            "outcomes": {"appended": 2, "skipped": []},
+        }
         timings = {
             "total_seconds": 0.1,
             "context_seconds": 0.0,
@@ -812,6 +816,7 @@ class DailyReportOutputTests(unittest.TestCase):
             patch.object(report, "run_rankings", return_value=([row], [], [], timings)),
             patch.object(report, "run_short_horizon_reports", return_value=[]),
             patch.object(report, "write_outputs", return_value={"txt": "/tmp/report.txt", "json": "/tmp/report.json"}),
+            patch.object(report, "load_json_payload", return_value={"prediction_ledger": ledger_evidence}) as load_published,
             redirect_stdout(stdout),
         ):
             exit_code = report.main()
@@ -820,6 +825,8 @@ class DailyReportOutputTests(unittest.TestCase):
         output_text = stdout.getvalue().strip()
         self.assertTrue(output_text)
         payload = json.loads(output_text)
+        load_published.assert_called_once_with(Path("/tmp/report.json"))
+        self.assertEqual(payload["prediction_ledger"], ledger_evidence)
         self.assertEqual(payload["top_buys"], ["SNDK"])
         self.assertIn("Generated:", payload["telegram_text"])
         self.assertTrue(payload["generated_at"])

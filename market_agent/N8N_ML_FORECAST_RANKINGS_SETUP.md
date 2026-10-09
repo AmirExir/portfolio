@@ -218,6 +218,23 @@ session by more than `--max-data-lag-sessions`. An incomplete current-session
 daily bar is removed before forecasting. This prevents a failed provider call
 from silently publishing an old cache as a current ranking.
 
+Provider symbol mappings live in `agent/market_data_symbols.json`. The display
+symbol `PEPE-USD` uses Yahoo's `PEPE24478-USD` feed and a separate cache. The old
+`PEPE-USD` cache is retained but never merged into or used as a fallback for the
+corrected feed. History metadata records the requested symbol, provider symbol,
+and whether a refresh used cached prices. Source mapping evidence is recorded
+in the configuration. SPCX keeps its existing ticker; its short history can
+produce a research forecast without enough observations for validation. Missing
+validation scores remain unavailable and prevent signal qualification instead
+of crashing report generation.
+
+Both the local report and `--json-only` output include `prediction_ledger`
+evidence. Each non-RL matured cohort includes `performance_diagnostics` with
+fixed baseline comparisons, date coverage, duplicate counts, and a separate
+subset of non-overlapping windows per asset. See `POLICY_EVALUATION.md` for
+interpretation and a read-only audit command. These diagnostics do not change
+the signal thresholds or authorize allocations.
+
 `--history-days` is an actual calendar lookback: the overnight value `1825`
 means approximately five years, not a doubled provider request. If a shared
 on-disk cache begins after the requested start, the loader requests the missing
