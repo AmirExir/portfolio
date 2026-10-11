@@ -1,0 +1,14 @@
+Fresh market-moving headlines are thin in this article set, and there is not enough high-quality, tape-explaining news here to confidently explain today’s market action.
+
+**Facts**
+- **ABC News / AP, 2026-10-10 08:48:58Z**: A preview for the coming week says **two U.S. inflation reports, retail sales, and big bank earnings** are due next week. This flags upcoming macro and earnings catalysts but does **not** report a new data surprise yet.
+- **ABC News / AP, 2026-10-10 08:49:00Z**: A feature on Silicon Valley says **AI founders and venture investors are encouraged by the White House’s lighter-touch approach to AI regulation**. This is relevant for AI/software sentiment, though it is more policy-background than a direct market-moving development.
+- **Politico Europe, 2026-10-10 08:22:16Z**: An Irish EU Council proposal would **cut the EU budget by €159 billion**, with reductions hitting competitiveness and development aid while sparing agriculture and regional funds. Potentially relevant for European fiscal/policy sentiment.
+- **Crypto Briefing, 2026-10-10 07:27:34Z**: **Prediction markets now assign Bitcoin only a 2% chance of reaching $200,000 in 2026**, described as a record low in that market-based measure. This reflects softer speculative expectations around BTC upside.
+- **Wccftech, 2026-10-10 07:50:46Z**: A **report claims NVIDIA may end RTX 5090 production and redirect GB202 chips to professional cards**, with an RTX 5080 24GB positioned for gamers instead. This could matter for AI/semi supply mix, but it is based on a report rather than company confirmation.
+
+**Interpretation**
+- The most tangible near-term macro takeaway is that **investors are waiting on next week’s inflation, retail sales, and bank earnings**; this article set does not contain fresh macro data itself.
+- On AI/semis, the headlines point to a **friendlier U.S. regulatory backdrop for AI** and a **possible Nvidia product/supply reallocation**, but neither item alone is enough to explain broad index moves without confirmation or additional reporting.
+- In crypto, the fresh signal is **more restrained upside expectations for Bitcoin**, not a new spot-market catalyst.
+- Overall, the fresh headlines here are **more setup than trigger**. If markets moved materially today, this JSON does not provide a strong, direct explanation.
