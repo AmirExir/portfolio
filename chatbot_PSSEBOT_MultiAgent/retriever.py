@@ -9,6 +9,7 @@ from utils import (
     limit_chunks_by_token_budget,
     validate_saved_index,
 )
+from psse_rag_context import hybrid_chunks
 
 # ---------------------------
 # Load chunks + embeddings
@@ -80,4 +81,5 @@ def find_relevant_chunks(
         k=k,
         query_cache=query_cache,
     )
-    return limit_chunks_by_token_budget(top_chunks, max_tokens=max_tokens)
+    combined = hybrid_chunks(query, top_chunks, k=k)
+    return limit_chunks_by_token_budget(combined, max_tokens=max_tokens)

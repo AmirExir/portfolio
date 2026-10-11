@@ -4,6 +4,7 @@ from planner import plan_tasks
 from retriever import load_chunks_and_embeddings, find_relevant_chunks
 from executor import extract_valid_funcs, run_executor
 from utils import parse_planner_tasks
+from psse_rag_context import code_index_caption, example_only_functions, reference_labels
 
 st.set_page_config(page_title="Amir Exir's PSS/E Agent Loop")
 st.title("Amir Exir's PSS/E Automation Agent")
@@ -19,8 +20,9 @@ if "messages" not in st.session_state:
 try:
     with st.spinner("Loading saved PSS/E documentation index..."):
         chunks, embeddings = load_chunks_and_embeddings()
+    st.caption(code_index_caption())
 except Exception as exc:
-    st.error(f"PSS/E documentation index could not be loaded: {exc}")
+    st.error(f"PSS/E reference indexes could not be loaded: {exc}")
     st.stop()
 
 valid_funcs = extract_valid_funcs(chunks)
@@ -104,22 +106,34 @@ if prompt:
                 f"this task: {task}"
             )
         else:
+            with st.expander("References retrieved for this task", expanded=False):
+                st.text("\n".join(reference_labels(relevant_chunks)))
             combined_context = "\n\n---\n\n".join(
                 f"[{chunk.get('id', 'reference')}]\n{chunk['text']}"
                 for chunk in relevant_chunks
             )
 
             with st.spinner("Generating documented Python code..."):
-                result = run_executor(task, combined_context, valid_funcs)
+                task_funcs = valid_funcs | extract_valid_funcs(relevant_chunks)
+                result = run_executor(task, combined_context, task_funcs)
 
         used_funcs = re.findall(r'psspy\.(\w+)', result)
-        invalid_funcs = sorted(set(f for f in used_funcs if f not in valid_funcs))
+        task_funcs = valid_funcs | extract_valid_funcs(relevant_chunks)
+        invalid_funcs = sorted(set(f for f in used_funcs if f not in task_funcs))
 
         if invalid_funcs:
             st.warning(
                 "The answer still contains undocumented psspy functions: "
                 f"{', '.join(invalid_funcs)}. It was not regenerated again to "
                 "avoid a duplicate paid request."
+            )
+
+        example_funcs = example_only_functions(result, valid_funcs, relevant_chunks)
+        if example_funcs:
+            st.warning(
+                "These APIs appear in repository examples, but were not found in "
+                "the saved documentation. Check their signatures and installed "
+                f"PSS/E version before use: {', '.join(example_funcs)}."
             )
 
         all_results.append(f"### {task}\n\n{result}")

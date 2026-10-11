@@ -18,6 +18,13 @@ from psse_assistant_common import (
     request_visible_answer,
     validate_saved_index,
 )
+from psse_rag_context import (
+    CODE_REFERENCE_RULES,
+    code_index_caption,
+    example_only_functions,
+    hybrid_chunks,
+    reference_labels,
+)
 
 # ---------------------------
 # OpenAI client
@@ -72,7 +79,7 @@ def find_top_k_matches(query: str, chunks, embeddings, k=10):
         return []
     scores = cosine_similarity(np.array(q).reshape(1, -1), embeddings).flatten()
     idx = scores.argsort()[-k:][::-1]
-    return [chunks[i] for i in idx]
+    return hybrid_chunks(query, [chunks[i] for i in idx], k=k)
 
 def limit_chunks_by_token_budget(chunks, max_words=50000):
     total = 0
@@ -104,7 +111,9 @@ question asks for automation or code. Use only psspy functions that appear in
 the provided reference chunks. If the reference chunks are insufficient, say
 what is missing and provide a clearly labeled best-practice skeleton.
 
-Reference documentation chunks:
+{CODE_REFERENCE_RULES}
+
+Reference documentation and repository code:
 ---
 {context}
 ---
@@ -130,8 +139,9 @@ st.title("Ask Amir Exir's PSSE Automation Assistant")
 try:
     with st.spinner("Loading saved PSS/E documentation index..."):
         chunks, embeddings = load_psse_chunks_and_embeddings()
+    st.caption(code_index_caption())
 except Exception as exc:
-    st.error(f"PSS/E documentation index could not be loaded: {exc}")
+    st.error(f"PSS/E reference indexes could not be loaded: {exc}")
     st.stop()
 
 valid_funcs = extract_function_names(chunks)
@@ -158,6 +168,8 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
             retrieval_error = f"{type(exc).__name__}: {exc}"
         trimmed = limit_chunks_by_token_budget(top_chunks, max_words=12_000)
         context = format_reference_context(trimmed)
+        with st.expander("References retrieved for this answer", expanded=False):
+            st.text("\n".join(reference_labels(trimmed)))
 
         if retrieval_error or not context:
             generation = None
@@ -208,7 +220,8 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
     else:
         bot_msg = generation.text
         # Optional invalid-function correction
-        invalid = find_invalid_functions(bot_msg, valid_funcs)
+        referenced_funcs = valid_funcs | extract_function_names(trimmed)
+        invalid = find_invalid_functions(bot_msg, referenced_funcs)
         if invalid:
             st.warning(f"Possible invalid psspy functions: {', '.join(invalid)}")
             correction_prompt = {
@@ -242,5 +255,12 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
                     "showing the original answer for review."
                 )
 
+        example_funcs = example_only_functions(bot_msg, valid_funcs, trimmed)
+        if example_funcs:
+            st.warning(
+                "These APIs appear in repository examples, but were not found in "
+                "the saved documentation. Check their signatures and installed "
+                f"PSS/E version before use: {', '.join(example_funcs)}."
+            )
         st.chat_message("assistant").markdown(bot_msg)
         st.session_state.messages.append({"role": "assistant", "content": bot_msg})

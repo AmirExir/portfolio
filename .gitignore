@@ -9,3 +9,5 @@ market_agent/reports/
 n8n_market_telegram_calendar_combined.workflow.json
 chatbot_ercot_all_in_one/logs/
 chatbot_ercot_all_in_one/test_faiss_query 2.py
+# Local repository-code RAG index; contains source excerpts, never commit it.
+.rag/

@@ -3,6 +3,7 @@ import re
 import os
 from openai import OpenAI
 from utils import count_tokens, request_visible_answer
+from psse_rag_context import CODE_REFERENCE_RULES
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -38,7 +39,9 @@ Strict rules:
 - Prefer real examples if present in the documentation.
 - If something is unclear, choose the safest documented approach.
 
-Documentation context:
+{CODE_REFERENCE_RULES}
+
+Documentation and repository-code context:
 ---
 {context}
 ---

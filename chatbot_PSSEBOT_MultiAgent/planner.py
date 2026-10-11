@@ -1,6 +1,7 @@
 from openai import OpenAI
 import os
 from utils import count_tokens, request_visible_answer
+from psse_rag_context import CODE_REFERENCE_RULES
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -14,7 +15,7 @@ def plan_tasks(
     # ---------------------------
     # SYSTEM PROMPT
     # ---------------------------
-    preamble = """
+    preamble = f"""
 You are a task planner agent specialized in Python automation for PSS/E (power system simulator).
 Your job is to break down the user’s task into specific, executable Python steps using only real API functions from the provided documentation context.
 
@@ -24,6 +25,8 @@ Strict Rules:
 - Use only functions that appear in the documentation context. No made-up methods.
 - Keep task steps clean and short. Use plain English action verbs.
 - Return only a numbered list with at most 12 executable tasks.
+
+{CODE_REFERENCE_RULES}
 """.strip()
 
     # ---------------------------
