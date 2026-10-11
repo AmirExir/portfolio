@@ -1,0 +1,38 @@
+Market Optimization
+Generated: 2026-10-11 10:22 UTC
+As of: 2026-10-09 to 2026-10-10
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+SPCX: forecast +16.59% by 2026-11-20
+  Why rejected: testing on unseen data is unverified; historical forecast error is unavailable; too few historical tests; too few non-overlapping historical tests; required historical validation data is missing or invalid.
+
+SNDK: forecast +36.62% by 2026-11-20
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast.
+
+JPM: forecast +6.99% by 2026-11-20
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+SLV: forecast +6.15% by 2026-11-20
+  Why rejected: predicted move is small relative to past forecast errors.
+
+MS: forecast +5.46% by 2026-11-20
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+Predicted declines
+
+DOT: forecast -14.09% by 2026-11-09
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
