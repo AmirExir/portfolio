@@ -1,0 +1,15 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **AI / mega-cap tech:** **CNBC** (**2026-10-08T22:03:27Z**) reported that **OpenAI posted an underwhelming revenue report**, which it said “took some steam out of the high-flying artificial intelligence trade.”  
+- **Rates / inflation:** **Mediaite** (**2026-10-08T21:42:36Z**) cited a **New York Fed report** saying **U.S. tariffs raised prices**, noting CNBC’s summary that without the levies, prices for the studied products “would have pulled back by almost 1%.”  
+- **AI policy / public-sector spend:** **PYMNTS** (**2026-10-08T21:52:28Z**) reported that the **White House said 11 companies committed $2.4 billion of AI resources** to support federal work in energy, health, space, and other areas.  
+- **AI / semis:** **The Register** (**2026-10-08T21:44:03Z**) reported **Nvidia committed $1 billion over five years** to support U.S. scientific computing and AI-optimized supercomputing infrastructure.  
+- **Crypto / Bitcoin:** **Crypto Briefing** (**2026-10-08T21:54:56Z**) reported, citing Glassnode data, that **4.33 million BTC are tied to reused addresses with exposed public keys**, highlighting a network-security issue relevant to Bitcoin custody practices.  
+
+### Interpretation
+- The **clearest fresh equity catalyst in this set is AI-related**: a weak **OpenAI revenue** datapoint may matter for sentiment around AI-linked stocks if investors read it as a demand/monetization reality check.
+- The **New York Fed tariff/inflation report** is the main fresh macro item here, because it feeds directly into **inflation debate and rate expectations**, even if it is not a formal Fed policy release.
+- **Nvidia’s $1 billion scientific-computing commitment** and the **White House’s $2.4 billion AI-resource announcement** reinforce the broader **AI capex / policy support** theme, though these look more thematic than immediate earnings shocks.
+- On crypto, the **Bitcoin address-reuse/security** item is notable, but it is **more infrastructure/custody-related than a clear near-term macro market driver**.
+- **Overall, the fresh set is fairly thin for explaining today’s full tape.** Outside the OpenAI item and the tariff/inflation report, there is **not much hard new information here on Fed policy, major earnings, energy, or broad risk sentiment.**
