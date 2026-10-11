@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-10-09T11:01:32.315879+00:00",
+  "generated_at": "2026-10-10T11:03:58.419771+00:00",
   "minimum_year": 2026,
-  "count": 2,
+  "count": 4,
   "items": [
     {
-      "content_sha256": "d247c78510793e820f6c4af0ef29183247a8f0d92973b2f24f42fc9443ea4c51",
-      "title": "1348NPRR-05 Cipher Digital Comments 100826",
+      "content_sha256": "3fe193992ef4aa260a47cb3a94d246c13001a4a1f2116cb46ce6897cf7327301",
+      "title": "1348NPRR-07 Cypress Creek Energy Comments 100926",
       "document_number": "NPRR1348",
       "source": "NPRR",
-      "published_date": "Oct 8, 2026",
-      "downloaded_at": "2026-10-09T11:00:44Z",
+      "published_date": "Oct 9, 2026",
+      "downloaded_at": "2026-10-10T11:00:46Z",
       "status": "Pending",
-      "url": "https://www.ercot.com/files/docs/2026/10/08/1348NPRR-05-Cipher-Digital-Comments-100826.docx",
+      "url": "https://www.ercot.com/files/docs/2026/10/09/1348NPRR-07-Cypress-Creek-Energy-Comments-100926.docx",
       "sources": [
         "NPRR"
       ],
@@ -23,12 +23,50 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
-      "content_sha256": "be82ebbc1d29d315d2eb61482a2a13a765d1285c1ad35e0e80ed1338bd2bbb38",
+      "content_sha256": "e039affc323b8c2404fe50c5debbab1c0d719b5de4b55996960e8ee986cdc167",
+      "title": "1348NPRR-06 Schaper Energy Consulting Comments 100926",
+      "document_number": "NPRR1348",
+      "source": "NPRR",
+      "published_date": "Oct 9, 2026",
+      "downloaded_at": "2026-10-10T11:00:46Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/09/1348NPRR-06-Schaper-Energy-Consulting-Comments-100926.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1348",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
+      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
+      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "b04dfb72a46b412c81760c495f22220a6c0bbc171a4776479ddb183c387a2eef",
+      "title": "1348NPRR-08 Habitat Energy Comments 100926",
+      "document_number": "NPRR1348",
+      "source": "NPRR",
+      "published_date": "Oct 9, 2026",
+      "downloaded_at": "2026-10-10T11:00:45Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/09/1348NPRR-08-Habitat-Energy-Comments-100926.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1348",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
+      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
+      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "f7a68b714a5a06e8f796a13c44abb21a8ccdd569c733e71a70b88e36729033eb",
       "title": "NPRR1348",
       "document_number": "NPRR1348",
       "source": "NPRR",
       "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-10-09T11:00:43Z",
+      "downloaded_at": "2026-10-10T11:00:44Z",
       "status": "Pending",
       "url": "https://www.ercot.com/mktrules/issues/NPRR1348",
       "sources": [
