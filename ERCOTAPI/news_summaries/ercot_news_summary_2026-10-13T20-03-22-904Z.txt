@@ -1,0 +1,3 @@
+- **Updated existing NPRR page:** **NPRR1348** page content changed on ERCOT’s site; the page shows **Official status: Pending** and **Date posted: Sep 29, 2026** for **“Telemetry Offsetting for Provisional Controllable Load Resources.”** This is evidence of an updated existing page, not by itself evidence of approval or effectiveness. Title/URL: **NPRR1348** — https://www.ercot.com/mktrules/issues/NPRR1348
+
+- **New document posted:** ERCOT posted **“1348NPRR-09 Gridmatic Comments 101326”** for **NPRR1348**, dated **Oct 13, 2026**; observed as a new **docx** comment filing. Title/URL: **1348NPRR-09 Gridmatic Comments 101326** — https://www.ercot.com/files/docs/2026/10/13/NPRR1348-09-Gridmatic-Comments-101326.docx

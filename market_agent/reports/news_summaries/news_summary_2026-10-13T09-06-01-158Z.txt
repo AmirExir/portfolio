@@ -1,0 +1,20 @@
+Here are the **fresh market-moving headlines only** from the provided JSON, using items published within the last **36 hours** of the run time.
+
+## Facts
+- **U.S. inflation/Fed setup remains a key near-term macro focus** — **CoinDesk, 2026-10-12 08:58 UTC**: Previewed this week’s **U.S. inflation data** as important for the **interest-rate outlook** ahead of the Fed’s October meeting, noting expectations the Fed may keep rates unchanged.  
+- **Dollar near multi-month highs; geopolitics and inflation data in focus** — **CNA/Reuters, 2026-10-12 08:57 UTC**: Reported the **dollar near 18-month highs** as investors watched **escalating Middle East tensions** and awaited **key U.S. inflation data**. The article also said **oil prices were volatile**.  
+- **Saudi-backed forces launched a campaign against the Houthis in Yemen** — **Crypto Briefing, 2026-10-12 08:37 UTC**: Reported a new military campaign in Yemen, a development relevant to **Middle East risk** and potentially to **energy/supply sentiment**.  
+- **Nvidia is reportedly in early talks to increase its stake in or acquire Reflection AI** — **Verdict, 2026-10-12 08:50 UTC**: Citing the Financial Times, said **Nvidia** is discussing either a larger investment in or a potential acquisition of the AI startup **Reflection AI**.  
+- **Samsung has reportedly committed 75%–80% of 2027 memory supply in long-term deals** — **DigiTimes, 2026-10-12 08:45 UTC**: Said the company locked in much of its future memory/HBM supply, with **Nvidia, Google, and Microsoft** among reported customers. This is relevant to the **AI/semi supply chain**.  
+- **Bank earnings are the next major scheduled catalyst** — **Biztoc citing Yahoo/BreakingTheNews, 2026-10-12 08:43 UTC**: Said investors are awaiting quarterly reports from major U.S. banks including **JPMorgan, Goldman Sachs, Citigroup, and Wells Fargo**.  
+- **Crypto-specific regulatory/infrastructure developments continue**  
+  - **Crypto Briefing, 2026-10-12 08:40 UTC**: **Kraken parent Payward** received final **VARA approval** for a UAE launch.  
+  - **Cointelegraph, 2026-10-12 08:45 UTC**: Reported **South Korea’s Jeonbuk Bank** launched **Bitcoin-backed business loans** for corporate customers.  
+- **Crypto exchange risk/trust remains in focus after recent market stress** — **Crypto Briefing, 2026-10-12 09:05 UTC**: Reported **OKX CEO Star Xu** criticized **Binance’s** framing of an **$800 million compensation** issue tied to an October 10 crash.
+
+## Interpretation
+- The freshest actionable macro inputs in this set are **upcoming U.S. inflation data**, the **Fed-rate implications**, and **Middle East geopolitical risk** that could keep **oil, FX, and rates sentiment** sensitive.  
+- In single-stock/theme terms, the most relevant fresh items are in **AI/semi**: the reported **Nvidia–Reflection AI** talks and **Samsung memory/HBM supply lockups**, both of which reinforce ongoing attention on **AI infrastructure demand and supply constraints**.  
+- **Earnings season**, especially **big U.S. banks**, looks like the next clear scheduled market catalyst from this batch.  
+- For **crypto**, the fresh headlines are more **sector-specific** than broad tape-driving, unless exchange-risk concerns broaden materially.  
+- **This article set is somewhat thin for fully explaining today’s tape**: it offers plausible drivers in **inflation/Fed**, **geopolitics/oil**, **AI/semi**, and **upcoming bank earnings**, but not a broad, explicit explanation of cross-asset price action.

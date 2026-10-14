@@ -1,0 +1,13 @@
+**Fresh market-moving headlines are limited in this article set, and they mostly point to upcoming catalysts rather than explaining today’s tape.**
+
+## Facts
+- **CNBC, 2026-10-11 22:05Z:** U.S. stock-index futures were described as little changed Sunday evening, with investors focused on a **busy week ahead for big-bank earnings and inflation data**.
+- **Channel NewsAsia citing WSJ/Reuters, 2026-10-11 21:16Z:** **Amazon is in talks to acquire AI startup Decart for around $7 billion.** If confirmed, that is a notable fresh AI/M&A headline relevant to mega-cap tech and semiconductor infrastructure.
+- **Crypto Briefing, 2026-10-11 21:43Z:** Separately reported the same core headline that **Amazon is negotiating to buy Decart**, an AI startup whose software helps AI models run across different chip platforms.
+- **Crypto Briefing, 2026-10-11 21:32Z:** Reported that hackers **reportedly drained up to $93 million via a compromised Ledger reseller**, a potentially negative crypto-sentiment headline for wallet/security trust, though it is not a broad macro crypto driver by itself.
+
+## Interpretation
+- The **most relevant immediate market catalysts** in the fresh set are **the upcoming inflation prints and big-bank earnings**, per CNBC. That is useful for framing risk but does **not** by itself explain any strong market move.
+- The **Amazon-Decart talks** are the clearest fresh single-stock/sector headline here. If taken seriously by investors, it could matter for **AI software, cloud, and chip-ecosystem names**, but the current reporting still frames it as **talks**, not a completed deal.
+- The **Ledger reseller hack** is more of a **crypto-specific risk/confidence** item than a major cross-asset market driver.
+- There is **not enough fresh, high-quality reporting in this set to confidently explain today’s broader tape** across equities, rates, energy, or crypto.

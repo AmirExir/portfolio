@@ -1,0 +1,18 @@
+**Fresh market-moving headlines only (last 36 hours): the set is fairly thin and only partially explains today’s tape. Most supplied items are generic, stale, or not clearly market-moving.**
+
+## Facts
+- **Crypto Briefing | 2026-10-11T09:05:20Z** — OKX founder Star Xu said the gap between crypto and traditional finance is shrinking, arguing that deeper convergence could support future institutional crypto demand.  
+- **Cointelegraph | 2026-10-11T09:01:51Z** — Ledger confirmed an unauthorized hardware implant incident tied to a reseller in Southeast Asia; reported user losses may exceed **$86 million**.  
+- **Crypto Briefing | 2026-10-11T07:47:19Z** — A new **U.S. Senate energy permitting bill** reportedly has support from both fossil-fuel and renewable-energy interests, with debate centered on faster project approvals versus environmental safeguards.  
+- **Business Standard | 2026-10-11T07:43:02Z** — **PNB Housing Finance** said India’s recent **RBI rate hike** could improve its net interest margin by **5–8 basis points**.  
+- **The Times of India | 2026-10-11T07:18:58Z** — A separate report echoed that **PNB Housing Finance** expects a **5–8 bp** NIM benefit from the RBI’s rate increase.  
+- **BusinessLine | 2026-10-11T07:25:50Z** — A weekly roundup said the **RBI raised the repo rate by 25 bps** after a long pause, citing rising inflation pressures from food and fuel.  
+- **The Times of India | 2026-10-11T07:14:14Z** — Foreign investors sold **Indian equities worth Rs 45,125 crore** in the first six sessions of October; the report cited elevated **U.S. bond yields**, higher **crude oil prices**, inflation data, and geopolitics as key pressures.  
+- **Biztoc/Yahoo Finance pickup | 2026-10-11T08:38:10Z** — Preview coverage said **TSMC’s Oct. 15 report** is viewed as an early read on demand for **Nvidia** and broader AI-chip spending.  
+
+## Interpretation
+- The clearest macro signal in this feed is **tightening/rates pressure in India**, with the RBI hike feeding through to financial-sector margin expectations and coinciding with reported foreign equity outflows.
+- The most relevant **AI/semi** item is not an actual result but the market focus on **TSMC’s upcoming report** as a proxy for AI demand and Nvidia’s next quarter.
+- On **energy**, the Senate permitting-bill story matters mainly for medium-term implications for U.S. infrastructure and project timelines, not necessarily for immediate price action.
+- On **crypto**, the feed offers a mixed picture: a constructive longer-term adoption narrative from OKX, but a near-term trust/security negative from Ledger.
+- There is **not enough fresh, high-quality coverage here to confidently explain broader U.S. equity indexes, Treasury moves, Fed expectations, or today’s overall risk sentiment**.
