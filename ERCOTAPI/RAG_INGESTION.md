@@ -20,12 +20,14 @@ ERCOT source page
 ```
 
 The twice-daily n8n job already invokes `ercot_link_monitor.py`. After each
-successful scan, the monitor runs incremental ingestion over the complete
-durable official archive. Content hashes still prevent unchanged documents from
-being re-embedded, while the complete reconciliation lets repaired parse
-errors, changed sidecars, deletions, and renamed files converge even during a
-continuous download backlog. Set `ERCOT_RAG_AUTO_INGEST=false` to disable this
-hook.
+successful scan, the monitor runs incremental ingestion over newly downloaded
+eligible 2026+ technical files, subject to its batch limit. Content hashes prevent
+unchanged documents from being re-embedded. This bounded automatic update does
+not reconcile the complete archive or retry previously failed batches on empty
+scans; use an explicit ingestion update when that reconciliation is needed.
+Set `ERCOT_RAG_AUTO_INGEST=false` to disable this hook. The dashboard's cumulative
+document feed is separate from index coverage; see [feed recovery](README.md#saved-dashboard-document-feed)
+for restoring the saved display without requesting embeddings.
 
 The tracked `scripts/run_ercot_link_monitor.sh` launcher resolves the repository
 from its own location and uses `ERCOTAPI/.venv/bin/python` by default. Relocated

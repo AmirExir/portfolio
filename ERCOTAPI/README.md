@@ -349,10 +349,57 @@ without placing it in the workflow JSON.
 The monitor keeps local URL state in `ERCOTAPI/.ercot_link_state.json`. It also
 archives official documents under `ERCOTAPI/NEWS/official/` using their SHA-256,
 writes provenance sidecars, follows issue-detail attachments, and invokes the
-central incremental RAG pipeline over the durable archive after each scan.
-Unchanged hashes reuse vectors; the complete archive scope also repairs prior
-errors and reconciles removals. Known URLs are rechecked so content replaced at
-the same URL is detected without duplicate chunks.
+central incremental RAG pipeline for newly downloaded eligible 2026+ technical
+files after each scan. Unchanged hashes reuse vectors. Known URLs are rechecked
+so content replaced at the same URL is detected without duplicate chunks.
+
+### Saved dashboard document feed
+
+The Documents & Changes tab reads `latest_ercot_updates.json`. Successful
+ingestion batches merge into this cumulative feed; a small batch must not
+replace earlier revision requests. The feed keeps the latest observed copy of
+each URL, deduplicates identical content, and retains official issue descriptions
+for unaffected revisions. First-download timestamps remain available separately
+from the latest observation, including when ERCOT restores older content at a URL.
+Attachment filenames take precedence over incidental references to other xRRs
+in their titles. Raw archive bytes and sidecars remain unchanged by feed recovery.
+
+The dashboard shows the feed generation time. This is a publication timestamp,
+not a monitor health check or a claim that every source was checked at that time.
+**Refresh data** reloads the deployed feed; it does not run document ingestion or
+transfer a local feed to Streamlit Cloud. Publish the repaired JSON together with
+the application changes through the existing deployment process.
+
+To recover a truncated feed from the durable local archive, run from the repository
+root with the project environment:
+
+```bash
+python -m ERCOTAPI.latest_updates --rebuild-archive \
+  --archive-root ERCOTAPI/NEWS/official \
+  --output ERCOTAPI/latest_ercot_updates.json
+```
+
+Recovery reads official archived metadata and issue pages without downloading,
+sending notifications, or requesting embeddings. It selects the latest observation
+per source URL, excludes notices and discovery/library navigation, and applies
+the existing 2026+ metadata/year scope. An older issue can appear through its
+2026 materials; its issue-page posting date remains the original date. A missing
+or invalid archive aborts recovery. Archive records predating observation-time
+tracking fall back to their original download timestamps.
+
+The feed and chatbot index have separate coverage: recovering a material in the
+feed does not add it to the hosted assistant's index or establish that a proposal
+is effective. Source descriptions and recorded actions remain evidence from the
+saved pages. Publication errors retain the previous feed and appear in the
+monitor JSON; use archive recovery if a failed batch is no longer queued.
+
+Offline regression checks:
+
+```bash
+python -m unittest ERCOTAPI.tests.test_latest_updates \
+  ERCOTAPI.tests.test_revision_identity ERCOTAPI.tests.test_link_monitor \
+  ERCOTAPI.tests.test_document_feed_app ERCOTAPI.tests.test_dashboard_styles
+```
 
 To bound work on large report pages, the monitor considers the newest 100
 numeric revision candidates and rechecks at most 10 already-known candidates

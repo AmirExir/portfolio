@@ -10,12 +10,17 @@ from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
+from urllib.parse import unquote
 
 
 EXCLUDED_SOURCES = {"MARKET NOTICES", "PUBLIC NOTICES"}
 EXCLUDED_URL_FRAGMENTS = (
     "/services/comm/mkt_notices/",
     "/marketnotice/",
+)
+_DISCOVERY_PAGE_RE = re.compile(
+    r"/mktrules/(?:issues/reports(?:/|$)|[^?#]*/library(?:/|$))",
+    re.IGNORECASE,
 )
 REVISION_REQUEST_NAMES = {
     "NPRR": "Nodal Protocol Revision Request",
@@ -387,12 +392,25 @@ def revision_request_identity(
     title: str = "",
     url: str = "",
 ) -> tuple[str, str] | None:
-    """Return ``(revision_id, family)`` without confusing attachment numbers."""
+    """Prefer issue URLs and leading attachment IDs to incidental references."""
 
     issue_match = _ISSUE_URL_RE.search(url)
     if issue_match:
         family = issue_match.group("family").upper()
         return f"{family}{issue_match.group('number')}", family
+
+    # Metadata document numbers can be extracted from references in an attachment
+    # title, such as "1345NPRR-01 Extend NPRR1279 Sunset Date". The leading ID
+    # identifies the actual attachment even when its text discusses another xRR.
+    attachment_name = unquote(url.partition("?")[0].partition("#")[0].rsplit("/", 1)[-1])
+    for candidate in (attachment_name, title.strip()):
+        leading_match = (
+            _REVERSE_REVISION_RE.match(candidate)
+            or _FORWARD_REVISION_RE.match(candidate)
+        )
+        if leading_match:
+            family = leading_match.group("family").upper()
+            return f"{family}{leading_match.group('number')}", family
 
     for candidate in (document_number, title, url):
         reverse_match = _REVERSE_REVISION_RE.search(candidate)
@@ -467,7 +485,7 @@ def _issue_details_from_html_paths(
     paths: Iterable[Path],
     revision_ids: set[str],
 ) -> dict[str, dict[str, Any]]:
-    candidates: dict[str, list[tuple[str, str, dict[str, Any]]]] = {}
+    candidates: dict[str, list[tuple[datetime, str, dict[str, Any]]]] = {}
     for path in paths:
         if path.suffix.casefold() not in {".html", ".htm"} or not path.is_file():
             continue
@@ -489,9 +507,11 @@ def _issue_details_from_html_paths(
             continue
         if not details.get("official_description"):
             continue
+        details["source_downloaded_at"] = str(metadata.get("downloaded_at") or "")
+        details["source_observed_at"] = str(metadata.get("last_observed_at") or metadata.get("downloaded_at") or "")
         candidates.setdefault(revision_id, []).append(
             (
-                str(metadata.get("downloaded_at") or ""),
+                _download_rank(details["source_observed_at"]),
                 path.as_posix(),
                 details,
             )
@@ -572,6 +592,7 @@ def _issue_details_from_chunks(
         )
         if not details.get("official_description"):
             continue
+        details["source_downloaded_at"] = str(ordered[0].get("downloaded_at") or "")
         candidates.setdefault(revision_id, []).append(
             (
                 str(ordered[0].get("downloaded_at") or ""),
@@ -677,17 +698,19 @@ def _explanation(source: str, title: str, document_number: str, url: str = "") -
         return "New working-group material relevant to dynamic or steady-state modeling and study procedures."
     if source_upper in {"PLANNING GUIDE", "OPERATING GUIDE", "PROTOCOLS"}:
         return f"New {source.lower()} material that may update an ERCOT requirement or implementation detail."
-    return "New ERCOT technical material now available for cited search and explanation in the assistant."
+    return "Archived ERCOT technical material. Open the official source to review its contents."
 
 
 def build_latest_updates(
     paths: Iterable[Path],
     *,
-    output_path: Path,
+    output_path: Path | None = None,
     minimum_year: int = 2026,
     archive_roots: Iterable[Path] = (),
     packaged_chunks_path: Path | None = None,
 ) -> dict[str, Any]:
+    """Build one batch from archived sources; merge it before incremental publication."""
+
     source_paths = list(dict.fromkeys(Path(path) for path in paths))
     unique: dict[str, dict[str, Any]] = {}
     for path in source_paths:
@@ -705,6 +728,8 @@ def build_latest_updates(
             continue
         original_url = str(metadata.get("original_url") or metadata.get("final_url") or "")
         if any(fragment in original_url.lower() for fragment in EXCLUDED_URL_FRAGMENTS):
+            continue
+        if _DISCOVERY_PAGE_RE.search(original_url):
             continue
         published = str(metadata.get("published_date") or metadata.get("published_hint") or "")
         published_years = [int(value) for value in re.findall(r"\b(20\d{2})\b", published)]
@@ -725,10 +750,11 @@ def build_latest_updates(
             {
                 "content_sha256": content_hash,
                 "title": title,
-                "document_number": number,
+                "document_number": revision[0] if revision else number,
                 "source": source,
                 "published_date": published,
                 "downloaded_at": str(metadata.get("downloaded_at") or ""),
+                "observed_at": str(metadata.get("last_observed_at") or metadata.get("downloaded_at") or ""),
                 "status": str(metadata.get("document_status") or ""),
                 "url": original_url,
                 "sources": [],
@@ -776,16 +802,127 @@ def build_latest_updates(
             ),
             reverse=True,
         )
-    output_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    if output_path is not None:
+        output_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return payload
 
 
+def _download_rank(value: Any) -> datetime:
+    try:
+        timestamp = datetime.fromisoformat(str(value or "").replace("Z", "+00:00"))
+    except ValueError:
+        return datetime.min.replace(tzinfo=timezone.utc)
+    if timestamp.tzinfo is None:
+        timestamp = timestamp.replace(tzinfo=timezone.utc)
+    return timestamp.astimezone(timezone.utc)
+
+
+def latest_archive_paths(archive_root: Path) -> list[Path]:
+    """Select the newest archived observation per URL for an offline feed rebuild.
+
+    Do this before year filtering so an older snapshot cannot override a newer
+    source observation. Missing bytes or invalid provenance abort recovery.
+    This reads no document contents and performs no downloads or embeddings.
+    """
+
+    if not archive_root.is_dir():
+        raise ValueError(f"Official archive directory does not exist: {archive_root}")
+    by_url: dict[str, tuple[datetime, str, Path]] = {}
+    for metadata_path in sorted(archive_root.rglob("*.metadata.json")):
+        metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+        if not isinstance(metadata, dict):
+            raise ValueError(f"Invalid archive metadata: {metadata_path}")
+        path = metadata_path.with_name(metadata_path.name.removesuffix(".metadata.json"))
+        if not path.is_file():
+            raise ValueError(f"Missing archived document: {path}")
+        url = str(metadata.get("original_url") or metadata.get("final_url") or "")
+        # URL-less documents are still distinguishable by their archived path.
+        key = url or path.as_posix()
+        candidate = (
+            _download_rank(metadata.get("last_observed_at") or metadata.get("downloaded_at")),
+            path.as_posix(), path,
+        )
+        if key not in by_url or candidate[:2] > by_url[key][:2]:
+            by_url[key] = candidate
+    return [candidate[2] for candidate in by_url.values()]
+
+
+def merge_latest_updates(
+    previous: Mapping[str, Any],
+    batch: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Keep accumulated materials, updating each URL to its newest archived copy.
+
+    Older bytes remain in the archive. The display feed keeps one current copy
+    per URL and then deduplicates identical content across sources. A small or
+    repeated batch therefore cannot erase unrelated issues or multiply pages.
+    """
+
+    by_url: dict[str, dict[str, Any]] = {}
+    for item in [*previous.get("items", []), *batch.get("items", [])]:
+        record = dict(item)
+        content_hash = str(record.get("content_sha256") or "")
+        if not content_hash:
+            raise ValueError("Cannot merge a document without its content SHA-256.")
+        key = str(record.get("url") or "") or content_hash
+        existing = by_url.get(key)
+        sources = set(record.get("sources") or []) | {str(record.get("source") or "")}
+        if existing:
+            sources.update(existing.get("sources") or [])
+            if _download_rank(existing.get("observed_at") or existing.get("downloaded_at")) > _download_rank(record.get("observed_at") or record.get("downloaded_at")):
+                record = dict(existing)
+        record["sources"] = sorted(sources - {""})
+        by_url[key] = record
+
+    by_hash: dict[str, dict[str, Any]] = {}
+    for record in sorted(by_url.values(), key=lambda item: _download_rank(item.get("observed_at") or item.get("downloaded_at"))):
+        key = record["content_sha256"]
+        existing = by_hash.get(key)
+        if existing:
+            record["sources"] = sorted(set(record["sources"]) | set(existing["sources"]))
+        by_hash[key] = record
+    items = sorted(
+        by_hash.values(),
+        key=lambda item: (_download_rank(item.get("downloaded_at")), str(item.get("title") or "")),
+        reverse=True,
+    )
+    revision_ids = {str(item.get("revision_id") or "") for item in items}
+    issues: dict[str, dict[str, Any]] = {}
+    for payload in (previous, batch):
+        for revision_id, details in payload.get("revision_issues", {}).items():
+            if revision_id not in revision_ids:
+                continue
+            existing = issues.get(revision_id)
+            if existing and _download_rank(existing.get("source_observed_at") or existing.get("source_downloaded_at")) > _download_rank(details.get("source_observed_at") or details.get("source_downloaded_at")):
+                continue
+            issues[revision_id] = dict(details)
+    return enrich_latest_updates(
+        {
+            "minimum_year": batch.get("minimum_year", previous.get("minimum_year", 2026)),
+            "items": items,
+        },
+        issues,
+    )
+
+
 def load_latest_updates(path: Path) -> dict[str, Any]:
+    """Load a saved feed, distinguishing unavailable data from an empty feed."""
+
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeError, json.JSONDecodeError):
-        return {"count": 0, "items": []}
-    return value if isinstance(value, dict) else {"count": 0, "items": []}
+    except OSError:
+        return {"count": 0, "items": [], "error": "The saved document feed could not be read."}
+    except (UnicodeError, json.JSONDecodeError):
+        return {"count": 0, "items": [], "error": "The saved document feed contains invalid JSON."}
+    if (
+        not isinstance(value, dict)
+        or not isinstance(value.get("items"), list)
+        or any(not isinstance(item, dict) for item in value["items"])
+        or not isinstance(value.get("revision_issues", {}), dict)
+        or any(not isinstance(details, dict) for details in value.get("revision_issues", {}).values())
+    ):
+        return {"count": 0, "items": [], "error": "The saved document feed has an invalid structure."}
+    return {**value, "count": len(value["items"])}
 
 
 def main() -> None:
@@ -793,6 +930,11 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--path-file", type=Path)
+    parser.add_argument(
+        "--rebuild-archive",
+        action="store_true",
+        help="Rebuild the saved feed from the latest archived copy of each source URL; no ingestion or downloads.",
+    )
     parser.add_argument(
         "--enrich-existing",
         type=Path,
@@ -809,14 +951,16 @@ def main() -> None:
         type=Path,
     )
     args = parser.parse_args()
-    if bool(args.path_file) == bool(args.enrich_existing):
-        parser.error("provide exactly one of --path-file or --enrich-existing")
+    if sum(bool(value) for value in (args.path_file, args.enrich_existing, args.rebuild_archive)) != 1:
+        parser.error("provide exactly one of --path-file, --enrich-existing, or --rebuild-archive")
 
     output = args.output or args.enrich_existing or Path(__file__).with_name(
         "latest_ercot_updates.json"
     )
     if args.enrich_existing:
         payload = load_latest_updates(args.enrich_existing)
+        if payload.get("error"):
+            parser.error(payload["error"])
         revision_ids = {
             str(item.get("revision_id") or "")
             for item in payload.get("items", [])
@@ -844,17 +988,18 @@ def main() -> None:
         )
         return
 
-    paths = [
+    paths = latest_archive_paths(args.archive_root) if args.rebuild_archive else [
         Path(line.strip())
         for line in args.path_file.read_text(encoding="utf-8").splitlines()
         if line.strip()
     ]
     payload = build_latest_updates(
         paths,
-        output_path=output,
         archive_roots=[args.archive_root],
         packaged_chunks_path=args.packaged_chunks,
     )
+    payload = merge_latest_updates({"items": []}, payload)
+    output.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps({"output": str(output), "count": payload["count"]}))
 
 

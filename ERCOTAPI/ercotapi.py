@@ -1350,7 +1350,7 @@ def _render_revision_requests(
         for materials in grouped[family].values()
     )
     if not families:
-        st.info("No new revision-request issues are available.")
+        st.info("No revision-request issues are present in the saved document feed.")
         return
 
     st.caption(
@@ -1523,6 +1523,7 @@ def _render_revision_requests(
 def render_latest_ercot_documents() -> None:
     """Show the saved technical-update feed and keep live notices outside the RAG."""
     payload = load_latest_updates(LATEST_UPDATES_PATH)
+    feed_error = payload.get("error")
     items = payload.get("items", []) if isinstance(payload, dict) else []
     revision_issues = (
         {
@@ -1547,9 +1548,34 @@ def render_latest_ercot_documents() -> None:
     unique_revision_count = sum(len(issues) for issues in revisions.values())
     render_section_header(
         "Latest ERCOT Documents and Explanations",
-        "New 2026+ technical documents are organized by document family and revision-request issue. "
+        "The saved document feed groups tracked technical documents by family and revision-request issue. "
         "Operational and public notices remain separate from the engineering RAG.",
     )
+    generated_label = "unavailable"
+    try:
+        generated_at = datetime.fromisoformat(
+            str(payload.get("generated_at") or "").replace("Z", "+00:00")
+        )
+        if generated_at.tzinfo is not None:
+            generated_label = generated_at.astimezone(ERCOT_TIMEZONE).strftime(
+                "%b %d, %Y %H:%M %Z"
+            )
+    except ValueError:
+        pass
+    material_count = "material count unavailable" if feed_error else f"{len(items)} saved materials"
+    st.caption(
+        f"Saved feed generated: {generated_label} · {material_count}. "
+        "This publication timestamp does not confirm document-monitor health."
+    )
+    st.caption(
+        "Refresh data reloads the saved feed; it does not run document ingestion."
+    )
+    if feed_error:
+        st.warning(
+            f"The saved document feed is unavailable: {feed_error} "
+            "This does not establish that ERCOT has no revision requests. "
+            "Restore or republish the document feed to display tracked documents."
+        )
     (
         revision_tab,
         governing_tab,
@@ -1559,37 +1585,41 @@ def render_latest_ercot_documents() -> None:
         notices_tab,
     ) = st.tabs(
         [
-            f"Revision Requests ({unique_revision_count})",
-            f"Protocols, Guides & OBDs ({len(grouped['Protocols, Guides & OBDs'])})",
-            f"Groups & Governance ({len(grouped['Groups & Governance'])})",
-            f"Other Technical ({len(grouped['Other Technical Documents'])})",
+            f"Revision Requests ({'unavailable' if feed_error else unique_revision_count})",
+            f"Protocols, Guides & OBDs ({'unavailable' if feed_error else len(grouped['Protocols, Guides & OBDs'])})",
+            f"Groups & Governance ({'unavailable' if feed_error else len(grouped['Groups & Governance'])})",
+            f"Other Technical ({'unavailable' if feed_error else len(grouped['Other Technical Documents'])})",
             "Operational messages",
             "Public & market notices",
         ]
     )
     with revision_tab:
-        _render_revision_requests(
-            grouped["Revision Requests (xRRs)"],
-            revision_issues,
-        )
+        if not feed_error:
+            _render_revision_requests(
+                grouped["Revision Requests (xRRs)"],
+                revision_issues,
+            )
     with governing_tab:
-        _render_update_collection(
-            grouped["Protocols, Guides & OBDs"],
-            empty_message="No new Protocol, Guide, or Other Binding Document updates.",
-            key="ercot_governing_updates",
-        )
+        if not feed_error:
+            _render_update_collection(
+                grouped["Protocols, Guides & OBDs"],
+                empty_message="No Protocol, Guide, or Other Binding Document updates are present in the saved document feed.",
+                key="ercot_governing_updates",
+            )
     with groups_tab:
-        _render_update_collection(
-            grouped["Groups & Governance"],
-            empty_message="No new working-group or governance documents.",
-            key="ercot_group_updates",
-        )
+        if not feed_error:
+            _render_update_collection(
+                grouped["Groups & Governance"],
+                empty_message="No working-group or governance documents are present in the saved document feed.",
+                key="ercot_group_updates",
+            )
     with other_tab:
-        _render_update_collection(
-            grouped["Other Technical Documents"],
-            empty_message="No other new technical documents.",
-            key="ercot_other_updates",
-        )
+        if not feed_error:
+            _render_update_collection(
+                grouped["Other Technical Documents"],
+                empty_message="No other technical documents are present in the saved document feed.",
+                key="ercot_other_updates",
+            )
     with operations_tab:
         st.info(
             "Operational messages are time-sensitive grid communications. They are intentionally separate from the engineering RAG and are not embedded."
@@ -3483,7 +3513,8 @@ def main():
         if st.button(
             "Refresh data",
             help=(
-                "Clear cached API/news data and rerun the dashboard. Grid Atlas region "
+                "Clear cached API/news data and reload the saved document feed without "
+                "running document ingestion. Grid Atlas region "
                 "files remain packaged locally and do not trigger a bulk source download."
             ),
             type="primary",
