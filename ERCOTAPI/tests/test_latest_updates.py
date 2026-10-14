@@ -9,12 +9,82 @@ from pathlib import Path
 
 from ERCOTAPI.latest_updates import (
     build_latest_updates,
+    latest_archive_paths,
+    load_latest_updates,
+    merge_latest_updates,
     parse_revision_issue_text,
     revision_request_identity,
 )
 
 
 class LatestUpdatesTests(unittest.TestCase):
+    def test_loader_distinguishes_unavailable_invalid_and_empty_feeds(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "feed.json"
+            self.assertIn("error", load_latest_updates(path))
+            for contents in ("not json", "[]", "{}", '{"items":[null]}', '{"items":[],"revision_issues":[]}'):
+                with self.subTest(contents=contents):
+                    path.write_text(contents, encoding="utf-8")
+                    self.assertIn("error", load_latest_updates(path))
+            path.write_text('{"items":[],"count":42}', encoding="utf-8")
+            self.assertEqual(load_latest_updates(path), {"items": [], "count": 0})
+
+    def test_archive_rebuild_uses_newest_url_snapshot_and_excludes_navigation(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "archive"
+            root.mkdir()
+            for name, date, url in (
+                ("new", "2026-10-14T01:00:00+00:00", "https://www.ercot.com/files/report.pdf"),
+                ("old", "2026-10-13T23:00:00Z", "https://www.ercot.com/files/report.pdf"),
+                ("index", "2026-10-14T01:00:00Z", "https://www.ercot.com/mktrules/issues/reports/nprr/pending"),
+                ("library", "2026-10-14T01:00:00Z", "https://www.ercot.com/mktrules/guides/noperating/library/2025"),
+            ):
+                path = root / f"{name}.txt"
+                path.write_text(name, encoding="utf-8")
+                path.with_name(f"{path.name}.metadata.json").write_text(json.dumps({
+                    "original_url": url,
+                    "downloaded_at": date,
+                    "published_date": "2026-10-01",
+                    "source_label": "DWG",
+                    "title": name,
+                }), encoding="utf-8")
+            paths = latest_archive_paths(root)
+            self.assertNotIn(root / "old.txt", paths)
+            payload = build_latest_updates(paths)
+            self.assertEqual([item["title"] for item in payload["items"]], ["new"])
+            (root / "new.txt").unlink()
+            with self.assertRaisesRegex(ValueError, "Missing archived document"):
+                latest_archive_paths(root)
+
+    def test_out_of_order_batch_preserves_newer_material_and_issue_details(self) -> None:
+        item = {
+            "url": "https://www.ercot.com/mktrules/issues/PGRR147",
+            "revision_id": "PGRR147", "source": "PGRR", "sources": ["PGRR"],
+            "content_sha256": "new", "downloaded_at": "2026-10-14T01:00:00Z",
+        }
+        details = {
+            "official_description": "New description", "source_downloaded_at": item["downloaded_at"],
+        }
+        previous = {"items": [item], "revision_issues": {"PGRR147": details}}
+        batch = {
+            "items": [{**item, "downloaded_at": "2026-10-13T00:00:00+00:00", "content_sha256": "old"}],
+            "revision_issues": {"PGRR147": {"official_description": "Old description"}},
+        }
+        merged = merge_latest_updates(previous, batch)
+        self.assertEqual(merged["count"], 1)
+        self.assertEqual(merged["items"][0]["content_sha256"], "new")
+        self.assertEqual(merged["items"][0]["explanation"], "New description")
+        self.assertEqual(merged["revision_issues"]["PGRR147"], details)
+        self.assertEqual(previous["items"][0], item)
+
+    def test_merge_deduplicates_shared_content_and_preserves_source_labels(self) -> None:
+        item = {"content_sha256": "same", "source": "TAC", "url": "https://www.ercot.com/one"}
+        merged = merge_latest_updates({"items": [item]}, {"items": [{
+            **item, "source": "NPRR", "url": "https://www.ercot.com/two",
+        }]})
+        self.assertEqual(merged["count"], 1)
+        self.assertEqual(merged["items"][0]["sources"], ["NPRR", "TAC"])
+
     def test_revision_identity_handles_forward_reverse_and_issue_urls(self) -> None:
         self.assertEqual(
             revision_request_identity(title="145PGRR-72 PRS Report"),
@@ -31,6 +101,24 @@ class LatestUpdatesTests(unittest.TestCase):
             ("NPRR1343", "NPRR"),
         )
         self.assertIsNone(revision_request_identity(title="NPRR Submission Process"))
+
+    def test_feed_corrects_incidental_metadata_revision_without_editing_archive(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            path = root / "proposal.txt"
+            path.write_text("Archived proposal", encoding="utf-8")
+            metadata_path = path.with_name(f"{path.name}.metadata.json")
+            metadata_path.write_text(json.dumps({
+                "title": "1345NPRR-01 Extend NPRR1279 Sunset Date",
+                "document_number": "NPRR1279", "source_label": "NPRR",
+                "original_url": "https://www.ercot.com/files/1345NPRR-01.docx",
+                "published_date": "2026-10-01",
+            }), encoding="utf-8")
+            original = metadata_path.read_bytes()
+            payload = build_latest_updates([path])
+            self.assertEqual(payload["items"][0]["document_number"], "NPRR1345")
+            self.assertEqual(payload["items"][0]["revision_id"], "NPRR1345")
+            self.assertEqual(metadata_path.read_bytes(), original)
 
     def test_feed_deduplicates_content_and_explains_revision_requests(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -228,6 +316,16 @@ class LatestUpdatesTests(unittest.TestCase):
 
         self.assertEqual(set(issues), revision_ids)
         self.assertTrue(revision_ids)
+        # A single successful monitor batch must never replace the shipped
+        # history of the core tracked revision families again.
+        self.assertTrue(
+            {"NPRR", "PGRR", "NOGRR", "OBDRR"}.issubset(
+                {item.get("revision_family") for item in payload["items"]}
+            )
+        )
+        for item in payload["items"]:
+            if item.get("revision_id"):
+                self.assertEqual(item["document_number"], item["revision_id"])
         for revision_id in revision_ids:
             issue = issues[revision_id]
             self.assertTrue(issue["issue_title"], revision_id)

@@ -796,9 +796,8 @@ def _archive_metadata(
     status_history = _merge_status_history(existing_metadata, observation)
     provenance = _merge_provenance(existing_metadata, observation)
     canonical = min(provenance, key=_observation_sort_key)
-    downloaded_at = str(existing_metadata.get("downloaded_at") or "") or datetime.now(
-        timezone.utc
-    ).isoformat(timespec="seconds").replace("+00:00", "Z")
+    observed_at = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    downloaded_at = str(existing_metadata.get("downloaded_at") or "") or observed_at
     url_aliases = sorted(
         {
             str(observation.get(field) or "")
@@ -843,12 +842,25 @@ def _archive_metadata(
         "published_date": published_date,
         "effective_date": effective_date,
         "downloaded_at": downloaded_at,
+        "last_observed_at": observed_at,
         "content_sha256": content_hash,
         "content_type": canonical.get("content_type") or content_type,
         "size": size,
         "filename": destination.name,
         "source_path": _repository_path(destination),
     }
+
+
+def _archive_metadata_materially_changed(
+    previous: Dict[str, Any],
+    current: Dict[str, Any],
+) -> bool:
+    """Distinguish changed source metadata from an unchanged-byte observation."""
+
+    return (
+        {key: value for key, value in previous.items() if key != "last_observed_at"}
+        != {key: value for key, value in current.items() if key != "last_observed_at"}
+    )
 
 
 def archive_item(
@@ -931,9 +943,9 @@ def archive_content(
         and hashlib.sha256(destination.read_bytes()).hexdigest() == content_hash
     )
 
-    # Hash-addressed archives are immutable. Avoid rewriting an unchanged
-    # document (and its sidecar), because a fresh mtime/download timestamp
-    # would otherwise look like a material ingestion change on every poll.
+    # Hash-addressed document bytes and first-download times are immutable.
+    # The sidecar separately records fresh observations, including a URL
+    # reverting to bytes that were already archived on an earlier date.
     if not destination_matches:
         atomic_write_bytes(destination, content)
         persisted = destination.read_bytes()
@@ -966,7 +978,12 @@ def archive_content(
         size=len(persisted),
         existing_metadata=existing_metadata,
     )
-    if destination_matches and existing_metadata == metadata:
+    if destination_matches and not _archive_metadata_materially_changed(existing_metadata, metadata):
+        if existing_metadata != metadata:
+            atomic_write_bytes(
+                metadata_path,
+                (json.dumps(metadata, indent=2, sort_keys=True, ensure_ascii=False) + "\n").encode("utf-8"),
+            )
         return ArchivedItem(
             path=destination,
             metadata_path=metadata_path,
@@ -1024,7 +1041,8 @@ def archive_cached_observation(
                 + "\n"
             ).encode("utf-8"),
         )
-        archive_status = "metadata_updated"
+        if _archive_metadata_materially_changed(existing_metadata, metadata):
+            archive_status = "metadata_updated"
     return ArchivedItem(
         path=cached.path,
         metadata_path=cached.metadata_path,
@@ -1128,8 +1146,13 @@ def archive_public_notices_snapshot(
     if (
         previous_hash == content_hash
         and previous_content == content
-        and existing_metadata == metadata
+        and not _archive_metadata_materially_changed(existing_metadata, metadata)
     ):
+        if existing_metadata != metadata:
+            atomic_write_bytes(
+                metadata_path,
+                (json.dumps(metadata, indent=2, sort_keys=True, ensure_ascii=False) + "\n").encode("utf-8"),
+            )
         return ArchivedItem(
             path=destination,
             metadata_path=metadata_path,
@@ -2728,24 +2751,33 @@ def auto_ingest_paths(downloaded_paths: Sequence[Path], archive_root: Path) -> L
     return list(dict.fromkeys(selected))
 
 
-def publish_latest_updates(paths: Sequence[Path]) -> Optional[Dict[str, Any]]:
-    """Refresh the website/Streamlit feed after a successful indexed batch."""
+def publish_latest_updates(
+    paths: Sequence[Path],
+    *,
+    output_path: Path | None = None,
+    archive_root: Path | None = None,
+) -> Optional[Dict[str, Any]]:
+    """Atomically merge an indexed batch into the accumulated dashboard feed."""
 
     if not paths:
         return None
     try:
         try:
-            from ERCOTAPI.latest_updates import build_latest_updates
-        except ModuleNotFoundError:
-            from latest_updates import build_latest_updates  # type: ignore
+            from ERCOTAPI.latest_updates import build_latest_updates, load_latest_updates, merge_latest_updates
+        except ModuleNotFoundError as exc:
+            if exc.name != "ERCOTAPI":
+                raise
+            from latest_updates import build_latest_updates, load_latest_updates, merge_latest_updates  # type: ignore
 
-        output = Path(__file__).with_name("latest_ercot_updates.json")
-        candidate = output.with_name(f".{output.name}.tmp")
-        payload = build_latest_updates(paths, output_path=candidate)
-        if payload.get("count"):
-            candidate.replace(output)
-        else:
-            candidate.unlink(missing_ok=True)
+        output = output_path or Path(__file__).with_name("latest_ercot_updates.json")
+        previous = load_latest_updates(output) if output.exists() else {"items": []}
+        if previous.get("error"):
+            raise ValueError(f"Refusing to overwrite the existing feed: {previous['error']}")
+        batch = build_latest_updates(paths, archive_roots=[archive_root] if archive_root else [])
+        if not batch.get("count"):
+            return batch
+        payload = merge_latest_updates(previous, batch)
+        atomic_write_bytes(output, (json.dumps(payload, indent=2, ensure_ascii=False) + "\n").encode("utf-8"))
         return payload
     except Exception as exc:
         return {"error": f"{type(exc).__name__}: {exc}"}
@@ -2790,9 +2822,9 @@ def main() -> None:
             enabled=rag_auto_ingest,
         )
     latest_updates = (
-        publish_latest_updates(ingestion_paths)
+        publish_latest_updates(ingestion_paths, archive_root=archive_root)
         if ingestion.get("status") == "completed"
-        and bool((ingestion.get("summary") or {}).get("changed"))
+        and ingestion_paths
         else None
     )
     reported_changes, omitted_change_count = _reported_changes(changes)

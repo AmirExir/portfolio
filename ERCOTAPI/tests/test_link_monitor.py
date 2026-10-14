@@ -10,6 +10,7 @@ import tempfile
 import unittest
 import zipfile
 from contextlib import redirect_stdout
+from datetime import datetime
 from pathlib import Path
 from unittest import mock
 
@@ -83,6 +84,226 @@ class FakeSession:
     def get(self, url: str, **_kwargs) -> FakeResponse:
         self.calls.append(url)
         return self.responses[url]
+
+
+class LatestUpdatesPublicationTests(unittest.TestCase):
+    """Exercise publication across independent incremental monitor runs."""
+
+    def setUp(self) -> None:
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.archive_root = self.root / "official"
+        self.output = self.root / "feed.json"
+
+    def archived_issue(
+        self,
+        family: str,
+        number: str,
+        *,
+        description: str = "Fixture proposal description.",
+        downloaded_at: str = "2026-10-09T12:00:00Z",
+    ) -> Path:
+        """Create a local issue page and the metadata written by the monitor."""
+
+        revision_id = f"{family}{number}"
+        content = (
+            '<div id="tab-summary"><table>'
+            f'<tr><th>Title</th><td>{revision_id} fixture proposal</td></tr>'
+            '<tr><th>Status</th><td>Pending</td></tr></table></div>'
+            '<div id="tab-background"><table>'
+            '<tr><th>Date Posted:</th><td>October 9, 2026</td></tr>'
+            '<tr><th>Sections:</th><td>1.2.3</td></tr>'
+            f'<tr><th>Description:</th><td>{description}</td></tr>'
+            '</table></div>'
+        ).encode("utf-8")
+        content_hash = hashlib.sha256(content).hexdigest()
+        path = self.archive_root / family.lower() / "2026" / f"{content_hash}.html"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(content)
+        path.with_name(f"{path.name}.metadata.json").write_text(
+            json.dumps(
+                {
+                    "content_sha256": content_hash,
+                    "source_label": family,
+                    "title": revision_id,
+                    "document_number": revision_id,
+                    "document_status": "Pending",
+                    "published_date": "2026-10-09",
+                    "downloaded_at": downloaded_at,
+                    "original_url": f"https://www.ercot.com/mktrules/issues/{revision_id}",
+                }
+            ),
+            encoding="utf-8",
+        )
+        return path
+
+    def publish(self, paths: list[Path]) -> dict | None:
+        return monitor.publish_latest_updates(
+            paths,
+            output_path=self.output,
+            archive_root=self.archive_root,
+        )
+
+    def test_sequential_batches_preserve_other_families_and_issue_details(self) -> None:
+        first_path = self.archived_issue("PGRR", "145", description="Planning fixture description.")
+        first = self.publish([first_path])
+        self.assertEqual(first["count"], 1)
+        original_details = first["revision_issues"]["PGRR145"]
+
+        second_path = self.archived_issue("NPRR", "1234")
+        second = self.publish([second_path])
+
+        self.assertEqual(second["count"], 2)
+        self.assertEqual(
+            {item["revision_id"] for item in second["items"]},
+            {"PGRR145", "NPRR1234"},
+        )
+        self.assertEqual(second["revision_issues"]["PGRR145"], original_details)
+        self.assertEqual(
+            second["revision_issues"]["PGRR145"]["official_description"],
+            "Planning fixture description.",
+        )
+        self.assertEqual(json.loads(self.output.read_text(encoding="utf-8")), second)
+
+    def test_no_downloads_leave_existing_feed_unchanged(self) -> None:
+        self.publish([self.archived_issue("NPRR", "1234")])
+        previous = self.output.read_bytes()
+
+        with mock.patch("ERCOTAPI.latest_updates.build_latest_updates") as build:
+            self.assertIsNone(self.publish([]))
+
+        build.assert_not_called()
+        self.assertEqual(self.output.read_bytes(), previous)
+
+    def test_repeated_batch_does_not_duplicate_materials(self) -> None:
+        path = self.archived_issue("NPRR", "1234")
+        first = self.publish([path])
+
+        repeated = self.publish([path, path])
+
+        self.assertEqual(repeated["count"], 1)
+        self.assertEqual(repeated["items"], first["items"])
+        self.assertEqual(repeated["revision_issues"], first["revision_issues"])
+
+    def test_updated_content_at_same_url_replaces_previous_material(self) -> None:
+        original = self.archived_issue("NPRR", "1234", description="Original fixture description.")
+        self.publish([original])
+        updated = self.archived_issue(
+            "NPRR",
+            "1234",
+            description="Updated fixture description.",
+            downloaded_at="2026-10-10T12:00:00Z",
+        )
+
+        payload = self.publish([updated])
+
+        self.assertEqual(payload["count"], 1)
+        self.assertEqual(payload["items"][0]["content_sha256"], updated.stem)
+        self.assertEqual(payload["items"][0]["explanation"], "Updated fixture description.")
+        self.assertEqual(
+            payload["revision_issues"]["NPRR1234"]["official_description"],
+            "Updated fixture description.",
+        )
+
+    def test_reobserved_original_bytes_replace_newer_first_download(self) -> None:
+        url = "https://www.ercot.com/mktrules/issues/NPRR1234"
+        item = monitor.DiscoveredItem(
+            source_label="NPRR",
+            source_url="https://www.ercot.com/mktrules/issues/nprr",
+            title="NPRR1234",
+            url=url,
+            item_type="page",
+            published_hint="July 16, 2026",
+        )
+        content_a = LinkMonitorTests.issue_html().replace(b"The proposal changes", b"Version A changes")
+        content_b = content_a.replace(b"Version A changes", b"Version B changes")
+        session = FakeSession({})
+        first_path = None
+
+        with mock.patch.object(monitor, "datetime", wraps=datetime) as clock:
+            for day, content in ((9, content_a), (10, content_b), (11, content_a)):
+                observed_at = f"2026-10-{day:02d}T12:00:00Z"
+                clock.now.return_value = datetime.fromisoformat(observed_at)
+                session.responses[url] = FakeResponse(
+                    url=url,
+                    content=content,
+                    headers={"Content-Type": "text/html"},
+                )
+                archived = monitor.archive_item(session, item, self.archive_root)
+                if day == 9:
+                    first_path = archived.path
+                payload = self.publish([archived.path])
+
+                self.assertEqual(payload["count"], 1)
+                self.assertEqual(payload["items"][0]["content_sha256"], hashlib.sha256(content).hexdigest())
+                self.assertEqual(payload["items"][0]["observed_at"], observed_at)
+
+            self.assertEqual(archived.path, first_path)
+            self.assertEqual(archived.archive_status, "already_archived")
+            metadata = json.loads(archived.metadata_path.read_text(encoding="utf-8"))
+            self.assertEqual(metadata["downloaded_at"], "2026-10-09T12:00:00Z")
+            self.assertEqual(metadata["last_observed_at"], "2026-10-11T12:00:00Z")
+            details = payload["revision_issues"]["NPRR1234"]
+            self.assertIn("Version A changes", details["official_description"])
+            self.assertEqual(details["source_observed_at"], "2026-10-11T12:00:00Z")
+
+            # A later unchanged poll refreshes observation time without a
+            # material metadata event or a changed first-download timestamp.
+            clock.now.return_value = datetime.fromisoformat("2026-10-12T12:00:00Z")
+            repeated = monitor.archive_item(session, item, self.archive_root)
+            repeated_metadata = json.loads(repeated.metadata_path.read_text(encoding="utf-8"))
+            self.assertEqual(repeated.archive_status, "already_archived")
+            self.assertEqual(repeated_metadata["downloaded_at"], metadata["downloaded_at"])
+            self.assertEqual(repeated_metadata["last_observed_at"], "2026-10-12T12:00:00Z")
+
+    def test_malformed_existing_feed_is_reported_and_preserved(self) -> None:
+        path = self.archived_issue("NPRR", "1234")
+        malformed_values = (
+            b'{"items": [',
+            b'[]',
+            b'{"count": 1, "items": "invalid"}',
+            b'{"count": 1, "items": [null]}',
+        )
+
+        for previous in malformed_values:
+            with self.subTest(previous=previous):
+                self.output.write_bytes(previous)
+
+                result = self.publish([path])
+
+                self.assertIn("error", result)
+                self.assertEqual(self.output.read_bytes(), previous)
+
+    def test_batch_build_failure_leaves_previous_feed_unchanged(self) -> None:
+        path = self.archived_issue("NPRR", "1234")
+        self.publish([path])
+        previous = self.output.read_bytes()
+
+        with mock.patch(
+            "ERCOTAPI.latest_updates.build_latest_updates",
+            side_effect=OSError("fixture build failure"),
+        ):
+            result = self.publish([path])
+
+        self.assertIn("fixture build failure", result["error"])
+        self.assertEqual(self.output.read_bytes(), previous)
+
+    def test_atomic_replace_failure_leaves_previous_feed_unchanged(self) -> None:
+        first = self.archived_issue("PGRR", "145")
+        self.publish([first])
+        previous = self.output.read_bytes()
+        second = self.archived_issue("NPRR", "1234")
+
+        with mock.patch.object(
+            monitor,
+            "atomic_write_bytes",
+            side_effect=OSError("fixture write failure"),
+        ):
+            result = self.publish([second])
+
+        self.assertIn("fixture write failure", result["error"])
+        self.assertEqual(self.output.read_bytes(), previous)
 
 
 class LinkMonitorTests(unittest.TestCase):
@@ -737,7 +958,9 @@ class LinkMonitorTests(unittest.TestCase):
         self.assertEqual(repeated.path, archived.path)
         self.assertEqual(repeated.archive_status, "already_archived")
         self.assertEqual(repeated.path.stat().st_mtime_ns, marker_ns)
-        self.assertEqual(repeated.metadata_path.stat().st_mtime_ns, marker_ns)
+        repeated_metadata = json.loads(repeated.metadata_path.read_text(encoding="utf-8"))
+        self.assertEqual(repeated_metadata["downloaded_at"], metadata["downloaded_at"])
+        self.assertGreaterEqual(repeated_metadata["last_observed_at"], metadata["last_observed_at"])
 
     def test_same_hash_alias_across_publication_years_reuses_one_archive_object(self) -> None:
         content = b"identical cross-year official bytes"
@@ -1665,6 +1888,7 @@ class LinkMonitorTests(unittest.TestCase):
             mock.patch.object(monitor, "MAX_OUTPUT_ITEMS", 40),
             mock.patch.object(monitor, "MAX_TELEGRAM_CHARS", 3900),
             mock.patch.object(monitor, "MAX_AUTO_INGEST_FILES", 100),
+            mock.patch.object(monitor, "publish_latest_updates", return_value=None),
             redirect_stdout(output),
         ):
             monitor.main()
@@ -1717,6 +1941,7 @@ class LinkMonitorTests(unittest.TestCase):
             mock.patch.object(monitor, "official_document_dir", return_value=self.archive_root),
             mock.patch.object(monitor, "env_flag", return_value=True),
             mock.patch.object(monitor, "invoke_incremental_ingestion", return_value=ingestion_result) as invoke,
+            mock.patch.object(monitor, "publish_latest_updates", return_value=None),
             mock.patch.object(monitor, "SEND_TELEGRAM", False),
             redirect_stdout(output),
         ):
@@ -1752,6 +1977,7 @@ class LinkMonitorTests(unittest.TestCase):
                 "invoke_incremental_ingestion",
                 return_value=ingestion_result,
             ) as invoke,
+            mock.patch.object(monitor, "publish_latest_updates", return_value=None),
             mock.patch.object(monitor, "SEND_TELEGRAM", False),
             redirect_stdout(output),
         ):
@@ -1762,6 +1988,40 @@ class LinkMonitorTests(unittest.TestCase):
         self.assertEqual(payload["downloaded_items"], 0)
         self.assertEqual(payload["downloaded_paths"], [])
         self.assertEqual(payload["ingestion"]["status"], "completed")
+
+    def test_main_publishes_reobserved_material_when_index_content_is_unchanged(self) -> None:
+        downloaded = self.archive_root / "nprr" / "2026" / "existing.txt"
+        change = {
+            "status": "updated",
+            "downloaded_path": str(downloaded),
+            "source": "NPRR",
+            "title": "NPRR1234",
+            "url": "https://www.ercot.com/mktrules/issues/NPRR1234",
+        }
+
+        for ingestion_status in ("completed", "failed", "disabled"):
+            with (
+                self.subTest(ingestion_status=ingestion_status),
+                mock.patch.object(monitor, "load_links", return_value=[]),
+                mock.patch.object(monitor, "load_state", return_value={}),
+                mock.patch.object(monitor, "scan_sources", return_value=([change], {})),
+                mock.patch.object(monitor, "save_state"),
+                mock.patch.object(monitor, "official_document_dir", return_value=self.archive_root),
+                mock.patch.object(monitor, "env_flag", return_value=True),
+                mock.patch.object(monitor, "invoke_incremental_ingestion", return_value={
+                    "status": ingestion_status,
+                    "summary": {"changed": False},
+                }),
+                mock.patch.object(monitor, "publish_latest_updates", return_value={"count": 1}) as publish,
+                mock.patch.object(monitor, "SEND_TELEGRAM", False),
+                redirect_stdout(io.StringIO()),
+            ):
+                monitor.main()
+
+                if ingestion_status == "completed":
+                    publish.assert_called_once_with([downloaded], archive_root=self.archive_root)
+                else:
+                    publish.assert_not_called()
 
 
 if __name__ == "__main__":
