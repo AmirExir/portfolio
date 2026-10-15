@@ -1,0 +1,44 @@
+Market Optimization
+Generated: 2026-10-15 10:23 UTC
+As of: 2026-10-14
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+SPCX: forecast +18.65% by 2026-11-25
+  Why rejected: testing on unseen data is unverified; historical forecast error is unavailable; too few historical tests; too few non-overlapping historical tests; required historical validation data is missing or invalid.
+
+CVX: forecast +4.41% by 2026-11-25
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+ENA: forecast +25.74% by 2026-11-13
+  Why rejected: too few non-overlapping historical tests; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+SNDK: forecast +33.02% by 2026-11-25
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+STX: forecast +10.10% by 2026-11-25
+  Why rejected: up/down predictions failed accuracy checks; predicted move is small relative to past forecast errors.
+
+Predicted declines
+
+PEPE: forecast -24.70% by 2026-11-13
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+WMT: forecast -8.12% by 2026-11-25
+  Why rejected: probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+PG: forecast -3.00% by 2026-11-25
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
