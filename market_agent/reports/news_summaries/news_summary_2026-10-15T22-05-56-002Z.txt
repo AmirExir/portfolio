@@ -1,0 +1,25 @@
+Only a few items in this feed look both fresh and plausibly market-moving; the set is thin and partly low-quality/aggregated, so it does not fully explain today’s tape on its own.
+
+**Facts**
+- **Inflation/rates:** A Yahoo Finance item mirrored by **Biztoc** said a “hotter-than-expected inflation read” raised worries about additional Fed tightening and higher long-dated yields; the same mirror also said the **Nasdaq and S&P 500** were down for a third straight session after CPI.  
+  - Source: **Biztoc / Yahoo Finance**, **2026-10-14T21:41:11Z**  
+  - Source: **Biztoc / Yahoo Finance**, **2026-10-14T21:40:59Z**
+- **AI/semis:** The same Yahoo Finance mirror said the chip sell-off deepened, explicitly citing **Nvidia** and linking the move to the hotter inflation print and higher cost-of-capital concerns for the AI trade.  
+  - Source: **Biztoc / Yahoo Finance**, **2026-10-14T21:40:59Z**
+- **Mega-cap tech:** **Apple** closed above a **$5 trillion** market valuation for the first time, according to **9to5Mac**.  
+  - Source: **9to5Mac**, **2026-10-14T21:47:28Z**
+- **AI/legal:** A judge is “highly likely” to grant **Apple** an injunction against **OpenAI** in a trade-secret case tied to OpenAI’s hardware efforts, according to **Crypto Briefing**.  
+  - Source: **Crypto Briefing**, **2026-10-14T21:43:46Z**
+- **Earnings/financials:** Fresh earnings-call summaries appeared for **BlackRock** and **Morgan Stanley**, but the provided snippets are too thin to extract a clear market-moving takeaway beyond ongoing earnings flow.  
+  - Source: **Biztoc / Yahoo Finance**, **2026-10-14T21:41:13Z**  
+  - Source: **Biztoc / Yahoo Finance**, **2026-10-14T21:40:51Z**
+- **Industrials/distribution:** A fresh summary for **Fastenal** said the company posted its largest year-over-year increase in quarterly operating income.  
+  - Source: **Biztoc / Yahoo Finance**, **2026-10-14T21:41:14Z**
+- **Space/aerospace:** **Rocket Lab** issued an update on **Neutron** development and adjusted its target launch timing.  
+  - Source: **Biztoc / Yahoo Finance / Globe Newswire**, **2026-10-14T21:55:52Z**
+
+**Interpretation**
+- The clearest fresh macro driver in this feed is **hotter-than-expected CPI**, with the linked implication of **higher yields / tighter Fed expectations**.
+- The clearest sector read-through is **pressure on AI/semi names**, especially where valuations are sensitive to discount rates.
+- **Apple’s $5 trillion close** is notable for sentiment around mega-cap concentration, but by itself it does not explain broader index action.
+- The rest of the feed is mostly single-stock, promotional, duplicated, or non-market coverage, so this article set is **too thin to fully explain today’s broader market moves**.
