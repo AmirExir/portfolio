@@ -1,0 +1,14 @@
+Fresh market-moving headlines are limited in this article set, and they only partially explain today’s tape.
+
+**Facts**
+- **U.S. fiscal/rates:** IMF Managing Director Kristalina Georgieva said the U.S. cannot rely on growth alone to reduce its deficit and debt burden, and called for fiscal consolidation. This was reported by **CNBC** at **2026-10-14T08:53:35Z** and similarly by **RTÉ** at **2026-10-14T09:00:33Z**.
+- **U.K. rates:** The yield on the U.K. 4-year gilt rose to **4.945%** from **4.786%**, with the move framed around expectations for higher rates and sustained borrowing costs. Source: **Crypto Briefing**, **2026-10-14T09:05:15Z**.
+- **U.S. inflation watch / energy:** Ahead of the Labor Department inflation report, **NPR** said higher energy prices tied to the U.S. war with Iran are pushing up overall cost-of-living. Published **2026-10-14T08:45:28Z**.
+- **Crypto policy:** France is considering a **31.4% tax on regulated stablecoins**, which Chainalysis’ France CEO warned could push activity offshore. Source: **CoinDesk**, **2026-10-14T08:48:11Z**.
+- **Thin AI/semi signal:** The only semi-related fresh item is a **Biztoc/Yahoo-syndicated** article arguing Micron customer contracts may reduce memory-cycle risk, but it is secondary aggregation rather than a primary fresh corporate filing or earnings headline. Published **2026-10-14T09:00:41Z**.
+
+**Interpretation**
+- The clearest fresh macro theme here is **rates and sovereign debt pressure**: IMF comments on U.S. deficits plus a rise in U.K. gilt yields reinforce a higher-for-longer funding-cost backdrop.
+- The **most immediate scheduled catalyst** in this set is the **U.S. CPI report**, with NPR explicitly tying inflation pressure to **energy**.
+- For crypto, the France stablecoin-tax proposal is a **policy/regulatory headline**, but it is more relevant to **regulated stablecoin flows and European crypto venues** than to broad cross-asset risk on its own.
+- There is **not enough fresh, high-quality market coverage here** to confidently explain broad moves in U.S. equities, major indexes, or AI/semi leadership today.
