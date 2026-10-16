@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited in this article set, and several items are low-quality aggregations, opinion, or generic coverage. The clearest usable drivers here are inflation/rates, AI/semi earnings, and some risk-off tone in tech/rates coverage.
+
+**Facts**
+- **NPR, 2026-10-15 08:46:33Z** — Report says a **“bad inflation report”** is the latest challenge for President Trump and GOP candidates, indicating fresh inflation data came in hotter/unhelpfully for the macro backdrop.
+- **NPR, 2026-10-15 08:45:59Z** — **Social Security recipients will get a 3.6% increase next year**, reflecting the recent inflation backdrop.
+- **The Times of India, 2026-10-15 08:54:52Z** — **Eurozone bond yields fell** as a **tech sell-off fueled safe-haven demand** and U.S. Treasury yields declined overnight.
+- **Livemint, 2026-10-15 09:03:54Z** — **TSMC reported record Q3 profit of $23.6 billion** and is described as open to a partnership with Elon Musk’s Terafab while insisting it would run the plant.
+- **Crypto Briefing, 2026-10-15 08:48:52Z** — TSMC posted its **sixth straight record quarter** and **raised its 2026 growth outlook on AI demand**.
+- **The Next Web, 2026-10-15 08:51:59Z** — **Anthropic told investors Q3 revenue reached $16.8 billion** and that it reported an **adjusted profit**, ahead of a planned IPO.
+- **Crypto Briefing, 2026-10-15 08:49:42Z** — Anthropic is said to be targeting a **valuation above $2 trillion** ahead of its IPO.
+- **The Times of India, 2026-10-15 08:53:59Z** — **Nestlé India said rising inflation, particularly food inflation, is a reality**, flagging ongoing commodity-cost volatility.
+
+**Interpretation**
+- The freshest macro signal in this set is **inflation remaining a problem**, which can matter for **Fed/rates expectations**. But this dataset does **not** include the underlying CPI/PPI numbers or a direct Fed reaction, so any stronger market conclusion would be speculative.
+- On the AI/semi side, **TSMC’s record profit and stronger AI outlook** support the view that **AI chip demand remains robust**, which is relevant for semis and AI-linked equities.
+- **Anthropic’s reported revenue surge, profitability, and ambitious IPO valuation target** reinforce strong investor appetite around private AI leaders, though it is more of a **sentiment read-through** than a direct public-market earnings event.
+- The **Eurozone yields / safe-haven** article suggests some **risk-off tone tied to tech weakness**, but this is indirect and not enough on its own to fully explain today’s U.S. tape.
+- Bottom line: **fresh, high-confidence market-moving headlines are somewhat thin here**. The best-supported themes are **sticky inflation/rates pressure** and **continued AI/semi strength led by TSMC**.
