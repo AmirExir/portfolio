@@ -20,6 +20,26 @@ def chunks_digest(chunks):
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def plan_embedding_reuse(
+    existing_chunks: list[dict], target_chunks: list[dict]
+) -> tuple[list[int], list[str]]:
+    """Map target rows to existing vectors followed by unique new text vectors.
+
+    Callers must first validate the existing vectors against existing_chunks.
+    Matching uses the exact normalized text supplied to the embedding API.
+    """
+    existing_texts = chunk_texts(existing_chunks)
+    indices_by_text = {text: index for index, text in enumerate(existing_texts)}
+    missing_texts: list[str] = []
+    target_indices: list[int] = []
+    for text in chunk_texts(target_chunks):
+        if text not in indices_by_text:
+            indices_by_text[text] = len(existing_texts) + len(missing_texts)
+            missing_texts.append(text)
+        target_indices.append(indices_by_text[text])
+    return target_indices, missing_texts
+
+
 def build_metadata(chunks, embeddings, model=EMBEDDING_MODEL):
     return {
         "model": model,

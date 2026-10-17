@@ -278,5 +278,12 @@
     "task": "Increase visibility and throughput of the queue.",
     "action": "Implemented a Kanban‑style tracker and WIP limits, and added lightweight SLAs for hand‑offs.",
     "result": "Higher sustained throughput and predictable delivery across the team."
+  },
+  {
+    "principle": "Ownership / Dive Deep / Invent and Simplify / Frugality / Deliver Results",
+    "situation": "PEC's annual transmission planning assessment relied on a consultant, cost more than $300,000, and took approximately three months. I worked with the consultant and independently verified the previous year's study before developing internal capability for the next cycle.",
+    "task": "Take ownership of the annual assessment internally and turn the study findings into technically supported transmission upgrade recommendations.",
+    "action": "Defined the study framework using NERC TPL-001-5 and applicable ERCOT requirements; automated case, contingency, and sensitivity preparation; performed steady-state analysis in PSS/E and TARA, dynamic analysis using updated ERCOT DWG cases, and short-circuit analysis in ASPEN OneLiner. Investigated dynamic-model failures, including technically appropriate model isolation or exclusion, to distinguish simulation issues from system-performance concerns. Compared upgrade alternatives by performance and expected cost and presented recommendations to leadership and the Board.",
+    "result": "Established repeatable internal annual-assessment capability and supported future transmission investment decisions, with potential avoidance of more than $300,000 in consultant costs per study."
   }
 ]

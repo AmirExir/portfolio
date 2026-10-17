@@ -6,6 +6,7 @@ from sync_manager_content import (
     CONTENT_FILE,
     build_chunks,
     load_json,
+    serialize_content,
 )
 
 
@@ -18,7 +19,7 @@ class InterviewDataTests(unittest.TestCase):
     def test_manager_content_has_direct_answers_and_stories(self):
         response_types = [item["response_type"] for item in self.manager_content]
         self.assertEqual(response_types.count("direct"), 18)
-        self.assertEqual(response_types.count("story"), 10)
+        self.assertEqual(response_types.count("story"), 11)
 
     def test_sync_is_idempotent(self):
         updated, base_count, manager_count = build_chunks(
@@ -26,8 +27,8 @@ class InterviewDataTests(unittest.TestCase):
             self.manager_content,
         )
         self.assertEqual(base_count, 117)
-        self.assertEqual(manager_count, 28)
-        self.assertEqual(len(updated), 145)
+        self.assertEqual(manager_count, 29)
+        self.assertEqual(len(updated), 146)
 
         updated_again, _, _ = build_chunks(updated, self.manager_content)
         self.assertEqual(updated_again, updated)
@@ -36,9 +37,14 @@ class InterviewDataTests(unittest.TestCase):
         manager_chunks = [
             chunk for chunk in self.chunks if chunk.get("source") == "manager_content"
         ]
-        self.assertEqual(len(manager_chunks), 28)
+        # New source stories can remain pending until their embeddings are ready.
+        source_by_id = {item["id"]: item for item in self.manager_content}
+        self.assertEqual(
+            len({chunk["source_id"] for chunk in manager_chunks}), len(manager_chunks)
+        )
 
         for chunk in manager_chunks:
+            self.assertEqual(chunk, serialize_content(source_by_id[chunk["source_id"]]))
             text = chunk["text"]
             self.assertIn("Question:", text)
             if chunk["response_type"] == "direct":
@@ -50,8 +56,34 @@ class InterviewDataTests(unittest.TestCase):
                     self.assertIn(tag, text)
 
     def test_embedding_input_digest_covers_every_chunk(self):
-        self.assertEqual(len(chunk_texts(self.chunks)), 145)
+        metadata = load_json(CHUNKS_FILE.with_name("embeddings.meta.json"))
+        self.assertEqual(len(chunk_texts(self.chunks)), metadata["chunk_count"])
+        self.assertEqual(chunks_digest(self.chunks), metadata["chunks_sha256"])
         self.assertEqual(len(chunks_digest(self.chunks)), 64)
+
+    def test_annual_assessment_is_in_story_lists_and_next_bot_corpus(self) -> None:
+        story_id = "story-pec-annual-transmission-assessment"
+        source_stories = [item for item in self.manager_content if item["id"] == story_id]
+        self.assertEqual(len(source_stories), 1)
+        source_story = source_stories[0]
+
+        stories = load_json(CHUNKS_FILE.with_name("stories.json"))
+        matching = [item for item in stories if item.get("question") == source_story["question"]]
+        self.assertEqual(len(matching), 1)
+        for field in ("principle", "question", "situation", "task", "action", "result"):
+            self.assertEqual(matching[0][field], source_story[field])
+
+        summaries = load_json(CHUNKS_FILE.with_name("stories1.json"))
+        matching_summaries = [
+            item for item in summaries
+            if item["situation"].startswith("PEC's annual transmission planning assessment")
+        ]
+        self.assertEqual(len(matching_summaries), 1)
+        self.assertIn("potential", matching_summaries[0]["result"].lower())
+
+        updated, _, _ = build_chunks(self.chunks, self.manager_content)
+        bot_stories = [chunk for chunk in updated if chunk.get("source_id") == story_id]
+        self.assertEqual(bot_stories, [serialize_content(source_story)])
 
 
 if __name__ == "__main__":
