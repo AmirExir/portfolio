@@ -2,6 +2,243 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "310ea9ad21345d1119d0ba7d7f414e120149e4382828ed4abe539e270649a44f",
+      "title": "1348NPRR-11 PRS Report 101426",
+      "document_number": "NPRR1348",
+      "source": "NPRR",
+      "published_date": "Oct 16, 2026",
+      "downloaded_at": "2026-10-17T20:00:47Z",
+      "observed_at": "2026-10-17T20:00:47Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/16/1348NPRR-11-PRS-Report-101426.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1348",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
+      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
+      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "1df610adc6d8ab045ad4b82a0ab5bd2e1d5c5ae3a35f40cb5bede58adb8acb26",
+      "title": "ERCOT Monthly Operational Overview September 2026",
+      "document_number": "",
+      "source": "BOARD OF DIRECTORS",
+      "published_date": "Oct 16, 2026",
+      "downloaded_at": "2026-10-17T11:01:25Z",
+      "observed_at": "2026-10-17T11:01:25Z",
+      "status": "",
+      "url": "https://www.ercot.com/files/docs/2026/10/16/ERCOT-Monthly-Operational-Overview-September.pdf",
+      "sources": [
+        "BOARD OF DIRECTORS"
+      ],
+      "revision_id": "",
+      "revision_family": "",
+      "explanation": "Archived ERCOT technical material. Open the official source to review its contents."
+    },
+    {
+      "content_sha256": "f760b71f1bbce72fbaec73f795ac2b8b98692c7cf6eb1a8c0f063f3b96a558dd",
+      "title": "NPRR1348",
+      "document_number": "NPRR1348",
+      "source": "NPRR",
+      "published_date": "Sep 29, 2026",
+      "downloaded_at": "2026-10-17T11:00:44Z",
+      "observed_at": "2026-10-17T11:00:44Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1348",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1348",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
+      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
+      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "af875efb1bf096d0254b51704856c87ad3967c80b1fac3040e62c88d866e2297",
+      "title": "1337NPRR-20 PRS Report 081226",
+      "document_number": "NPRR1337",
+      "source": "NPRR",
+      "published_date": "Aug 16, 2026",
+      "downloaded_at": "2026-10-16T20:02:12Z",
+      "observed_at": "2026-10-16T20:02:12Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/08/16/1337NPRR-20-PRS-Report-081226.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1337",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) implements an Alternate Baseline Test to determine if an Emergency Response Service (ERS) Resource can qualify to have its performance based on the alternate baseline and changes the availability performance metric from a Qualified Scheduling Entity (QSE) Portfolio Factor combining all ERS Time Periods to having an individual QSE Portfolio Factor for each ERS Time Period.",
+      "issue_title": "ERS Enhancements",
+      "affected_sections": "2.1, 6.6.11.1, 8.1.3.1.1, 8.1.3.1.3, 8.1.3.1.3.1, 8.1.3.1.3.3, 8.1.3.1.4, 8.1.3.2, 8.1.3.3.1, and 8.1.3.3.3",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "334a8b903643b2a33efb0cb2b559f20ee031cf665916b3c9199d5054b12f727f",
+      "title": "1340NPRR-18 ERCOT Comments 093026",
+      "document_number": "NPRR1340",
+      "source": "NPRR",
+      "published_date": "Sep 30, 2026",
+      "downloaded_at": "2026-10-16T20:02:11Z",
+      "observed_at": "2026-10-16T20:02:11Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/09/30/1340NPRR-18-ERCOT-Comments-093026.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
+      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "5429c635d22ec74a147796384b6958d99775b960f9576a7b8e0c12b1c93f779b",
+      "title": "1343NPRR-08 TCPA Comments 100226",
+      "document_number": "NPRR1343",
+      "source": "NPRR",
+      "published_date": "Oct 2, 2026",
+      "downloaded_at": "2026-10-16T20:02:10Z",
+      "observed_at": "2026-10-16T20:02:10Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/02/1343NPRR-08-TCPA-Comments-100226.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1343",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
+      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
+      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "1d3c5b5d616cc60a7fe0f6faa2dab24e0c5d2fdb47ce9f9cdff15265c93241be",
+      "title": "1340NPRR-16 TAEBA Comments 090826",
+      "document_number": "NPRR1340",
+      "source": "NPRR",
+      "published_date": "Sep 8, 2026",
+      "downloaded_at": "2026-10-16T20:02:08Z",
+      "observed_at": "2026-10-16T20:02:08Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/09/08/1340NPRR-16-TAEBA-Comments-090826.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
+      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "5f200924826905fa0384f0094185f43e7cb8db0db68f8f18bc6c9cbb7f9a43c6",
+      "title": "1337NPRR-22 TAC Report 082626",
+      "document_number": "NPRR1337",
+      "source": "NPRR",
+      "published_date": "Aug 30, 2026",
+      "downloaded_at": "2026-10-16T20:02:08Z",
+      "observed_at": "2026-10-16T20:02:08Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/08/30/1337NPRR-22-TAC-Report-082626.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1337",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) implements an Alternate Baseline Test to determine if an Emergency Response Service (ERS) Resource can qualify to have its performance based on the alternate baseline and changes the availability performance metric from a Qualified Scheduling Entity (QSE) Portfolio Factor combining all ERS Time Periods to having an individual QSE Portfolio Factor for each ERS Time Period.",
+      "issue_title": "ERS Enhancements",
+      "affected_sections": "2.1, 6.6.11.1, 8.1.3.1.1, 8.1.3.1.3, 8.1.3.1.3.1, 8.1.3.1.3.3, 8.1.3.1.4, 8.1.3.2, 8.1.3.3.1, and 8.1.3.3.3",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "f5250a99e44036cf4eec5d9b6de1120a472395b4f0199beb172b04517cb20296",
+      "title": "1343NPRR-09 IMM Comments 100226",
+      "document_number": "NPRR1343",
+      "source": "NPRR",
+      "published_date": "Oct 2, 2026",
+      "downloaded_at": "2026-10-16T20:02:07Z",
+      "observed_at": "2026-10-16T20:02:07Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/02/1343NPRR-09-IMM-Comments-100226.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1343",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
+      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
+      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "5b9258eb7c1dc2d88d2119b757ad065f16af1fcb6b67e6cb9c51709407ca78c8",
+      "title": "NPRR1340",
+      "document_number": "NPRR1340",
+      "source": "NPRR",
+      "published_date": "May 29, 2026",
+      "downloaded_at": "2026-10-16T20:02:05Z",
+      "observed_at": "2026-10-16T20:02:05Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1340",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
+      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "e7f70d3bbea617b98ff2dd22087ae99cd80d27741ef92cc41ef212ac04356184",
+      "title": "NPRR1343",
+      "document_number": "NPRR1343",
+      "source": "NPRR",
+      "published_date": "Jun 30, 2026",
+      "downloaded_at": "2026-10-16T20:02:04Z",
+      "observed_at": "2026-10-16T20:02:04Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1343",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1343",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
+      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
+      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "813f5ed98ac26ed69e7f50e4af4c2a8fb41ac638e1ed975ba8aee8962ea46ee5",
+      "title": "NPRR1346",
+      "document_number": "NPRR1346",
+      "source": "NPRR",
+      "published_date": "Aug 17, 2026",
+      "downloaded_at": "2026-10-16T20:02:03Z",
+      "observed_at": "2026-10-16T20:02:03Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1346",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1346",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the transportation-cost allowance incorporated into the Fuel Oil Price (FOP) by increasing the adder from $0.05 per gallon to $0.10 per gallon. The NPRR updates the FOP definition in Section 2.1, Definitions. The revision maintains the existing fuel oil index methodology and conversion factor while updating a transportation-cost assumption that has remained substantially unchanged since implementation of the Nodal market more than 15 years ago. The proposed change improves the accuracy of fuel oil pricing assumptions used for reliability services and cost recovery calculations by better reflecting current transportation costs associated with the delivery and replenishment of fuel oil inventories.",
+      "issue_title": "Updates to the Fuel Oil Price (FOP)",
+      "affected_sections": "2.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "8e50fcdcdaab9194879a52c0ce78ca306619ce98526012fccf0bb47a1d506112",
       "title": "SMOGRR035",
       "document_number": "SMOGRR035",
@@ -662,26 +899,6 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
-      "content_sha256": "1628b80fe1ea3e33911662cbee13085642a3f221098bde8dbf2ccba772184ddd",
-      "title": "NPRR1348",
-      "document_number": "NPRR1348",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-10-14T11:00:42Z",
-      "observed_at": "2026-10-14T11:00:42Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1348",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1348",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
-      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
-      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "be013f1cfc535a2bbf1e5fc6d46173c92c513a2999134ff7e428d85fa797e3d5",
       "title": "PGRR147",
       "document_number": "PGRR147",
@@ -982,26 +1199,6 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
-      "content_sha256": "453acecd68eee2e2905a94f9129d875884e55669b8ee4584696dd35d1ce6d1b5",
-      "title": "NPRR1340",
-      "document_number": "NPRR1340",
-      "source": "NPRR",
-      "published_date": "May 29, 2026",
-      "downloaded_at": "2026-10-09T20:00:49Z",
-      "observed_at": "2026-10-09T20:00:49Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1340",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1340",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
-      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "25455cba59236d308c7c6a951bc4b8863efa3ab2ab61efe6f3764148d5a4c74a",
       "title": "NPRR1339",
       "document_number": "NPRR1339",
@@ -1062,26 +1259,6 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
-      "content_sha256": "b0791bf6b11badcf1b9650b643b0feed57390d1fba4780a8de422f717b8ebc87",
-      "title": "NPRR1343",
-      "document_number": "NPRR1343",
-      "source": "NPRR",
-      "published_date": "Jun 30, 2026",
-      "downloaded_at": "2026-10-09T20:00:47Z",
-      "observed_at": "2026-10-09T20:00:47Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1343",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1343",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
-      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
-      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "6f43c2083ed9a9ad32018a7c019a0770b5664bcdac7edee5597388db37cada6e",
       "title": "NPRR1344",
       "document_number": "NPRR1344",
@@ -1099,26 +1276,6 @@
       "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
       "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
       "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "c0a3a6e9e789098a4ec303f9d7032c49e9a55423974863220107b951f099beb9",
-      "title": "NPRR1346",
-      "document_number": "NPRR1346",
-      "source": "NPRR",
-      "published_date": "Aug 17, 2026",
-      "downloaded_at": "2026-10-09T20:00:45Z",
-      "observed_at": "2026-10-09T20:00:45Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1346",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1346",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the transportation-cost allowance incorporated into the Fuel Oil Price (FOP) by increasing the adder from $0.05 per gallon to $0.10 per gallon. The NPRR updates the FOP definition in Section 2.1, Definitions. The revision maintains the existing fuel oil index methodology and conversion factor while updating a transportation-cost assumption that has remained substantially unchanged since implementation of the Nodal market more than 15 years ago. The proposed change improves the accuracy of fuel oil pricing assumptions used for reliability services and cost recovery calculations by better reflecting current transportation costs associated with the delivery and replenishment of fuel oil inventories.",
-      "issue_title": "Updates to the Fuel Oil Price (FOP)",
-      "affected_sections": "2.1",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -15521,8 +15678,8 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
-  "count": 792,
-  "generated_at": "2026-10-14T16:34:43.150639+00:00",
+  "count": 800,
+  "generated_at": "2026-10-17T20:01:50.817242+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -17386,8 +17543,8 @@
         "action": "Recommended for Approval",
         "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-10-09T20:00:50Z",
-      "source_observed_at": "2026-10-09T20:00:50Z"
+      "source_downloaded_at": "2026-10-16T20:02:05Z",
+      "source_observed_at": "2026-10-16T20:02:05Z"
     },
     "NPRR1338": {
       "revision_id": "NPRR1338",
@@ -17464,8 +17621,8 @@
         "action": "Deferred/Tabled",
         "next_step": "PRS for consideration"
       },
-      "source_downloaded_at": "2026-10-09T20:00:49Z",
-      "source_observed_at": "2026-10-09T20:00:49Z"
+      "source_downloaded_at": "2026-10-16T20:02:05Z",
+      "source_observed_at": "2026-10-16T20:02:05Z"
     },
     "NPRR1341": {
       "revision_id": "NPRR1341",
@@ -17542,8 +17699,8 @@
         "action": "Deferred/Tabled",
         "next_step": "Language Consideration"
       },
-      "source_downloaded_at": "2026-10-09T20:00:47Z",
-      "source_observed_at": "2026-10-09T20:00:47Z"
+      "source_downloaded_at": "2026-10-16T20:02:04Z",
+      "source_observed_at": "2026-10-16T20:02:04Z"
     },
     "NPRR1344": {
       "revision_id": "NPRR1344",
@@ -17612,16 +17769,16 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PRS",
-      "next_step": "Impact Analysis",
+      "next_group": "TAC",
+      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "09/16/2026",
+        "date": "10/14/2026",
         "governing_body": "PRS",
         "action": "Recommended for Approval",
-        "next_step": "Impact Analysis"
+        "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-10-09T20:00:45Z",
-      "source_observed_at": "2026-10-09T20:00:45Z"
+      "source_downloaded_at": "2026-10-16T20:02:03Z",
+      "source_observed_at": "2026-10-16T20:02:03Z"
     },
     "NPRR1347": {
       "revision_id": "NPRR1347",
@@ -17652,7 +17809,7 @@
       "status": "Pending",
       "date_posted": "Sep 29, 2026",
       "sponsor": "Global Capacity Alliance",
-      "urgent": "Pending",
+      "urgent": "No",
       "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
       "reason": "Strategic Plan Objective 1",
       "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1348",
@@ -17662,10 +17819,13 @@
       "next_group": "PRS",
       "next_step": "PRS for consideration",
       "latest_action": {
-        "action": "No action posted"
+        "date": "10/14/2026",
+        "governing_body": "PRS",
+        "action": "Deferred/Tabled",
+        "next_step": "PRS for consideration"
       },
-      "source_downloaded_at": "2026-10-14T11:00:42Z",
-      "source_observed_at": "2026-10-14T11:00:42Z"
+      "source_downloaded_at": "2026-10-17T20:00:45Z",
+      "source_observed_at": "2026-10-17T20:00:45Z"
     },
     "NPRR1349": {
       "revision_id": "NPRR1349",
