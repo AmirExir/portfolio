@@ -1,0 +1,32 @@
+Fresh market-moving headlines are limited in this article set, and several items are generic, opinion-based, low-quality aggregations, or not clearly tied to broad markets. Here’s the clean summary from the fresh and relevant articles only.
+
+**Facts**
+- **Canada housing/canadian rates sensitivity:** Canadian home sales fell **2.3% month over month in September**, with higher mortgage rates cited as a headwind. CREA also **cut its 2026 home sales forecast again**.  
+  - Sources: **CBC News** — *2026-10-16T09:00:00Z*; **Financial Post** — *2026-10-16T09:00:42Z* and *2026-10-16T09:04:50Z*
+
+- **India rates/bonds:** Indian government bonds were described as **stable ahead of a large 10-year bond auction**, with traders also watching the central bank policy outlook and recent moves in U.S. Treasurys.  
+  - Source: **Reuters via Times of India** — *2026-10-16T09:01:09Z*
+
+- **Fed/rates signaling:** A fresh article says **Fed Chair Kevin Warsh spoke Thursday night but did not clearly guide expectations** heading into the next Fed meeting, leaving markets without a decisive policy signal.  
+  - Source: **MarketWatch via Biztoc** — *2026-10-16T08:55:09Z*  
+  - Note: this is an aggregator summary, so treat with caution.
+
+- **AI/semis:**  
+  - An article says **Nvidia is shipping its own open-source model optimized for Nvidia hardware**, a sign of deeper vertical integration across chips, interconnect, software, and models.  
+    - Source: **Forkast** — *2026-10-16T08:59:18Z*  
+  - A separate fresh item says **Nvidia and Mercedes-Benz are extending their partnership** to develop next-generation automated driving and driver-assistance systems.  
+    - Source: **Biztoc aggregation** — *2026-10-16T08:40:39Z*  
+    - Note: aggregation-only item, so confidence is lower than for primary reporting.
+
+- **Japan equities/risk sentiment:** Japan’s **Nikkei 225 rebounded sharply**, with the move attributed to renewed buying in **technology, semiconductor, and financial shares** after a prior losing streak.  
+  - Source: **News On Japan** — *2026-10-16T08:48:47Z*
+
+- **Rates/dollar/gold cross-asset signal:** Gold and silver were said to be supported by a **softer U.S. dollar and falling Treasury yields**, with the 10-year Treasury yield described as near a **three-week low**.  
+  - Source: **BusinessLine** — *2026-10-16T08:48:25Z*
+
+**Interpretation**
+- The freshest usable headlines point more to **rates sensitivity and selective AI/semi news** than to a single clear macro driver for today’s tape.
+- The **Canadian housing slowdown** reinforces the idea that higher borrowing costs are still biting rate-sensitive sectors.
+- The **Fed headline is notable mostly for what it lacks**: if accurate, it suggests no strong new policy steer from Chair Warsh.
+- **Nvidia-related items** are the most obvious single-stock/sector catalysts in the set, especially around AI stack control and auto partnerships, but one of the two is from a weak aggregation source.
+- Outside that, the article set is **thin on top-tier fresh U.S. macro, earnings, energy, and crypto headlines**, so it does **not fully explain today’s broader market action** on its own.
