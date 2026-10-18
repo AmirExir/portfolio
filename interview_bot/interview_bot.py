@@ -1,6 +1,5 @@
 import streamlit as st
 import numpy as np, json, os, io
-import re
 from datetime import datetime
 from uuid import uuid4
 from openai import OpenAI
@@ -13,6 +12,17 @@ from embedding_utils import (
     load_valid_embeddings,
 )
 from interview_response_utils import assess_chat_completion
+from interview_retrieval import (
+    JOB_FOCUSES,
+    JOB_CONTEXT_INSTRUCTIONS,
+    MAX_JOB_DESCRIPTION_CHARS,
+    build_job_context,
+    build_search_query,
+    clear_candidate_pool,
+    coerce_candidate,
+    display_category,
+    rank_candidates,
+)
 
 api_key = os.getenv("OPENAI_API_KEY", "").strip()
 client = OpenAI(api_key=api_key) if api_key else None
@@ -79,199 +89,29 @@ if client is None:
     st.error("OPENAI_API_KEY is not set. It is required for questions, answers, voice, and audio.")
     st.stop()
 
-STORY_TAGS = ("Situation", "Task", "Action", "Result")
-CONTENT_TAGS = (
-    "Response Type",
-    "Principle",
-    "Category",
-    "Question",
-    "Aliases",
-    "Situation",
-    "Task",
-    "Action",
-    "Result",
-    "Reflection",
-    "Answer",
-)
-TAG_LOOKAHEAD = "|".join(re.escape(tag) for tag in CONTENT_TAGS)
-
-
-def extract_tag_value(text, tag):
-    match = re.search(
-        rf"{re.escape(tag)}:\s*(.*?)(?=\s*\|\s*(?:{TAG_LOOKAHEAD}):|$)",
-        text,
-        flags=re.IGNORECASE | re.DOTALL,
-    )
-    return match.group(1).strip() if match else ""
-
-
-def is_star_story(text):
-    return all(re.search(rf"{tag}:\s*", text, flags=re.IGNORECASE) for tag in STORY_TAGS)
-
-
-def detect_response_type(text, chunk=None):
-    if isinstance(chunk, dict) and chunk.get("response_type") in {"direct", "story"}:
-        return chunk["response_type"]
-    explicit_type = extract_tag_value(text, "Response Type").lower()
-    if explicit_type in {"direct", "story"}:
-        return explicit_type
-    if is_star_story(text):
-        return "story"
-    if extract_tag_value(text, "Answer"):
-        return "direct"
-    return "context"
-
-
-def content_identity(text, response_type):
-    # STAR aliases share a situation, while direct answers are unique by question.
-    if response_type == "story":
-        identity_source = extract_tag_value(text, "Situation") or text[:500]
-    elif response_type == "direct":
-        identity_source = extract_tag_value(text, "Question") or text[:500]
-    else:
-        identity_source = text[:500]
-    return re.sub(r"\W+", " ", identity_source.lower()).strip()
-
-
-def build_candidate(score, idx, chunk):
-    text = chunk.get("text", "") if isinstance(chunk, dict) else str(chunk)
-    response_type = detect_response_type(text, chunk)
-    return {
-        "score": float(score),
-        "index": int(idx),
-        "text": text.strip(),
-        "principle": extract_tag_value(text, "Principle") or "Unknown",
-        "category": extract_tag_value(text, "Category") or "General",
-        "question": extract_tag_value(text, "Question") or "Untitled context",
-        "response_type": response_type,
-        "is_structured": response_type in {"direct", "story"},
-        "content_key": content_identity(text, response_type),
-    }
-
-
-def coerce_candidate(candidate):
-    if isinstance(candidate, dict):
-        return candidate
-    return build_candidate(0, -1, str(candidate))
-
-
-def search(query, index, chunks, embeddings, k=5):
-    # Semantic retrieval with keyword-aware reranking. Return one candidate per
-    # direct answer or underlying STAR story instead of a bag of raw chunks.
-    print(f"Semantic search for query: {query}")
-
-    normalized_query = query.lower().strip()
-    query_terms = [term for term in re.findall(r"[a-z0-9]+", normalized_query) if len(term) > 2]
-    behavioral_query = any(
-        phrase in normalized_query
-        for phrase in (
-            "tell me about a time",
-            "give me an example",
-            "describe a time",
-            "walk me through a time",
-        )
-    )
-
-    # Create embedding for the query
+def search(
+    query: str, index, chunks: list[dict], embeddings, k: int = 5,
+    focus: str = "All roles", background: str = "", stories_only: bool = False,
+    job_description: str = "",
+) -> list[dict]:
+    """Retrieve answers using the question and selected job background."""
     q_emb = client.embeddings.create(
-        input=query,
+        input=build_search_query(query, focus, background, job_description),
         model=EMBEDDING_MODEL,
     ).data[0].embedding
-
     q_emb = np.array(q_emb, dtype="float32").reshape(1, -1)
     faiss.normalize_L2(q_emb)
-
-    # Pull more than the final count because several chunks can describe the
-    # same underlying story with different LP wording.
     search_window = min(max(k * 10, 40), len(chunks))
-    D, I = index.search(q_emb, search_window)
-
-    # Re-rank retrieved chunks so exact keyword matches surface before purely semantic neighbors.
-    reranked = []
-    seen_indices = set()
-    for score, idx in zip(D[0], I[0]):
-        chunk = chunks[idx]
-        text = chunk["text"]
-        normalized_text = text.lower()
-        keyword_hits = sum(1 for term in query_terms if term in normalized_text)
-        exact_query_hit = 1 if normalized_query and normalized_query in normalized_text else 0
-        candidate = build_candidate(float(score), idx, chunk)
-        type_bonus = 0.0
-        if behavioral_query and candidate["response_type"] == "story":
-            type_bonus = 0.35
-        elif not behavioral_query and candidate["response_type"] == "direct":
-            type_bonus = 0.35
-        rerank_score = (
-            float(score)
-            + (0.15 * keyword_hits)
-            + (0.5 * exact_query_hit)
-            + type_bonus
-        )
-        candidate["score"] = rerank_score
-        reranked.append(candidate)
-        seen_indices.add(idx)
-
-    for idx, chunk in enumerate(chunks):
-        if idx in seen_indices:
-            continue
-        normalized_text = chunk["text"].lower()
-        keyword_hits = sum(1 for term in query_terms if term in normalized_text)
-        exact_query_hit = 1 if normalized_query and normalized_query in normalized_text else 0
-        if keyword_hits or exact_query_hit:
-            candidate = build_candidate(0, idx, chunk)
-            type_bonus = 0.0
-            if behavioral_query and candidate["response_type"] == "story":
-                type_bonus = 0.35
-            elif not behavioral_query and candidate["response_type"] == "direct":
-                type_bonus = 0.35
-            candidate["score"] = (
-                (0.15 * keyword_hits) + (0.5 * exact_query_hit) + type_bonus
-            )
-            reranked.append(candidate)
-
-    reranked.sort(key=lambda item: item["score"], reverse=True)
-
-    if not reranked:
-        return []
-
-    unique_candidates = []
-    seen_content_keys = set()
-    for candidate in reranked:
-        if not candidate["is_structured"]:
-            continue
-        content_key = candidate["content_key"]
-        if content_key in seen_content_keys:
-            continue
-        seen_content_keys.add(content_key)
-        unique_candidates.append(candidate)
-        if len(unique_candidates) == k:
-            break
-
-    # If the query is about resume/study context and no structured answer is found,
-    # still answer from a single best chunk rather than combining many chunks.
-    if not unique_candidates:
-        for candidate in reranked:
-            content_key = candidate["content_key"]
-            if content_key in seen_content_keys:
-                continue
-            seen_content_keys.add(content_key)
-            unique_candidates.append(candidate)
-            if len(unique_candidates) == k:
-                break
-
-    print(f"Retrieved {len(unique_candidates)} unique ranked answers from FAISS")
-    for i, candidate in enumerate(unique_candidates):
-        print(f"{i+1}. score={candidate['score']:.4f} | {candidate['text'][:120]}...")
-
-    return unique_candidates
-
-
-def display_category(candidate):
-    if not candidate:
-        return "Unknown"
-    if candidate.get("response_type") == "story":
-        return candidate.get("principle") or "Unknown"
-    return candidate.get("category") or "General"
+    distances, indices = index.search(q_emb, search_window)
+    scores = {
+        int(idx): float(score)
+        for score, idx in zip(distances[0], indices[0])
+        if 0 <= idx < len(chunks)
+    }
+    return rank_candidates(
+        query, chunks, scores, k=k, focus=focus, stories_only=stories_only,
+        job_description=job_description,
+    )
 
 
 def build_unique_audio_path(prefix="answer", ext="mp3"):
@@ -315,6 +155,55 @@ if "candidate_story_pos" not in st.session_state:
 if "active_query" not in st.session_state:
     st.session_state.active_query = ""
 
+if "job_focus" not in st.session_state:
+    st.session_state.job_focus = "All roles"
+if "job_background" not in st.session_state:
+    st.session_state.job_background = ""
+if "job_description" not in st.session_state:
+    st.session_state.job_description = ""
+
+with st.sidebar.form("job_focus_form"):
+    st.markdown("### Interview background")
+    selected_focus = st.selectbox(
+        "Job focus", list(JOB_FOCUSES),
+        index=list(JOB_FOCUSES).index(st.session_state.job_focus),
+        help="Choose a role to limit stories to that area, or leave All roles to use the job description across your experience.",
+    )
+    selected_background = st.text_area(
+        "Job details (optional)", value=st.session_state.job_background,
+        placeholder="Example: ERCOT transmission planning director; large loads, team leadership, and investment decisions.",
+        max_chars=1500,
+    )
+    selected_description = st.text_area(
+        "Job description", value=st.session_state.job_description,
+        key="job_description_draft", height=260,
+        placeholder="Paste the job posting here, including responsibilities and qualifications.",
+        max_chars=MAX_JOB_DESCRIPTION_CHARS,
+        help="Paste up to 20,000 characters. The description will guide every question in this session after you apply it.",
+    )
+    apply_focus = st.form_submit_button("Apply job focus")
+
+if apply_focus:
+    if (selected_focus, selected_background.strip(), selected_description.strip()) != (
+        st.session_state.job_focus, st.session_state.job_background, st.session_state.job_description
+    ):
+        st.session_state.job_focus = selected_focus
+        st.session_state.job_background = selected_background.strip()
+        st.session_state.job_description = selected_description.strip()
+        clear_candidate_pool(st.session_state)
+    st.sidebar.success("Interview background applied. Ask a question or browse your stories.")
+
+job_focus = st.session_state.job_focus
+job_background = st.session_state.job_background
+job_description = st.session_state.job_description
+job_context = build_job_context(job_focus, job_background, job_description)
+st.caption(f"Current job focus: {job_focus}")
+if job_description:
+    st.caption("Job description applied. Story selection and answers will be tailored to this posting.")
+if job_background:
+    st.caption("Your additional job details will guide story selection and answer emphasis.")
+browse_stories = st.button("Show stories for this role")
+
 # Show chat history
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(msg["content"])
@@ -336,7 +225,17 @@ audio = mic_recorder(
 )
 
 user_query = None
+stories_only = False
+if browse_stories:
+    role_label = "the pasted job description" if job_description else "my experience"
+    if job_focus != "All roles":
+        role_label = job_focus
+    user_query = f"Show me a relevant story for {role_label}."
+    stories_only = True
+    st.chat_message("user").markdown(user_query)
+    st.session_state.messages.append({"role": "user", "content": user_query})
 if audio:
+    stories_only = False
     st.audio(audio["bytes"])
     with st.spinner("Transcribing..."):
         audio_file = io.BytesIO(audio["bytes"])
@@ -352,6 +251,7 @@ if audio:
 # Fallback text input
 prompt = st.chat_input("Or type your question here...")
 if prompt:
+    stories_only = False
     user_query = prompt
     st.chat_message("user").markdown(user_query)
     st.session_state.messages.append({"role": "user", "content": user_query})
@@ -362,13 +262,23 @@ query_to_answer = None
 selected_story = None
 
 if user_query:
-    st.session_state.candidate_stories = search(user_query, index, chunks, embeddings, k=6)
+    with st.spinner("Finding relevant experience..."):
+        st.session_state.candidate_stories = search(
+            user_query, index, chunks, embeddings, k=6,
+            focus=job_focus, background=job_background, stories_only=stories_only,
+            job_description=job_description,
+        )
     st.session_state.candidate_story_pos = 0
     st.session_state.active_query = user_query
 
     if st.session_state.candidate_stories:
         query_to_answer = user_query
         selected_story = coerce_candidate(st.session_state.candidate_stories[0])
+    else:
+        st.info(
+            "No saved stories matched this question and job focus. "
+            "Try a different question or choose All roles."
+        )
 elif another_story:
     if not st.session_state.candidate_stories:
         st.warning("Ask a question first so I can find matching answers.")
@@ -404,9 +314,12 @@ if selected_story and query_to_answer:
     )
 
     #  Debugging: show retrieved chunks before calling GPT
-    show_debug = st.checkbox("Show retrieved context (cosine search)")
+    show_debug = st.checkbox("Show retrieved context")
     if show_debug:
         st.markdown(f"**Query:** `{query_to_answer}`")
+        st.markdown(f"**Job focus:** {job_focus}")
+        if job_context:
+            st.text(job_context)
         st.markdown("**Selected context sent to GPT**")
         st.code(selected_context, language="markdown")
         st.markdown(f"**Candidate answer pool ({len(st.session_state.candidate_stories)} total, not sent together)**")
@@ -449,10 +362,13 @@ if selected_story and query_to_answer:
             "Even if the context is not structured, infer meaning from relevant sentences. "
             "Only say 'I don't have specific experience with that' if the topic is clearly unrelated. "
             f"{answer_instructions} "
-            "Prioritize transmission planning examples over operational examples slightly when both are equally relevant."
+            f"{JOB_CONTEXT_INSTRUCTIONS}"
         )},
         {"role": "user", "content": (
             f"Question: {query_to_answer}\n\n"
+            "<job_background>\n"
+            f"{job_context or 'No specific job focus selected.'}\n"
+            "</job_background>\n\n"
             f"Selected response type: {response_type}\n"
             "Selected context:\n"
             "<selected_context>\n"
