@@ -1,0 +1,35 @@
+Market Optimization
+Generated: 2026-10-18 10:22 UTC
+As of: 2026-10-16 to 2026-10-17
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+Passed model checks: 2 buy, 0 sell/avoid.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+BUY SIGNALS - PASSED MODEL CHECKS
+
+EOG: forecast +6.28% by 2026-11-30
+  Reliability: moderate; model-estimated chance of a rise: 74%.
+
+GLD: forecast +4.54% by 2026-11-30
+  Reliability: moderate; model-estimated chance of a rise: 72%.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted declines
+
+PEPE: forecast -23.52% by 2026-11-16
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+WMT: forecast -6.88% by 2026-11-30
+  Why rejected: probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+TLT: forecast -3.69% by 2026-11-30
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
