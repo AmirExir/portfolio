@@ -41,6 +41,7 @@ from ERCOTAPI.rag_ingestion.startup import (
     startup_index_state,
 )
 from ERCOTAPI.rag_ingestion.requirements import validate_answer_citations
+from ERCOTAPI.rag_ingestion.answer_support import support_notice
 
 PACKAGED_INDEX_DIR = REPOSITORY_ROOT / "ERCOTAPI" / "deployment_rag_store"
 
@@ -417,6 +418,13 @@ if prompt:
                 "\n\n_Citation audit warning: the answer omitted required evidence IDs or "
                 "used an ID that was not retrieved. Verify the source list before relying on it._"
             )
+        answer_text += "\n\n_" + support_notice(citation_audit) + "_"
+        if citation_audit["support_review_required"]:
+            with st.expander("Source-support checks requiring review"):
+                for check in citation_audit["claim_checks"]:
+                    if check["review_reasons"]:
+                        st.write(check["claim_line"])
+                        st.caption(", ".join(reason.replace("_", " ") for reason in check["review_reasons"]))
         cited_ids = set(citation_audit["cited_evidence_ids"])
         cited_chunks = [
             chunk for chunk in top_chunks

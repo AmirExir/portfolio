@@ -16,6 +16,7 @@ import numpy as np
 
 from ERCOTAPI.rag_ingestion.config import IngestionConfig, SourceRoot
 from ERCOTAPI.rag_ingestion.pipeline import IngestionPipeline
+from ERCOTAPI.rag_ingestion.loaders import LoadedDocument
 from ERCOTAPI.rag_ingestion import store
 from ERCOTAPI.rag_ingestion.store import current_generation_id, load_generation
 from ERCOTAPI.tests.fakes import FakeEmbedder
@@ -92,6 +93,37 @@ class PipelineTestCase(unittest.TestCase):
         generation = load_generation(self.index_dir)
         self.assertIsNotNone(generation)
         return generation
+
+    def test_extraction_review_persists_to_chunks_and_status_without_repeat_embedding(self) -> None:
+        path = self.write("partial.pdf", b"synthetic PDF")
+        report = {
+            "report_version": 1, "review_required": True,
+            "review_reasons": ["Page 2 has no extracted text."],
+            "total_pages": 2, "pages_with_text": 1, "pages_without_text": [2],
+        }
+        loaded = LoadedDocument("[Page 1]\nA fixture requirement is described here.", report)
+        with mock.patch("ERCOTAPI.rag_ingestion.pipeline.load_document_with_report", return_value=loaded):
+            self.pipeline.update()
+        generation = self.active()
+        self.assertEqual(generation.chunks[0]["extraction_report"], report)
+        self.assertEqual(generation.manifest["documents"][self.relative(path)]["extraction_report"], report)
+        self.assertEqual(len(self.pipeline.status()["extraction_reviews"]), 1)
+        count = self.embedder.embedded_text_count
+        with mock.patch("ERCOTAPI.rag_ingestion.pipeline.load_document_with_report", side_effect=AssertionError("unchanged files must not reparse")):
+            self.pipeline.update()
+        self.assertEqual(self.embedder.embedded_text_count, count)
+        self.assertEqual(self.active().chunks[0]["extraction_report"], report)
+
+    def test_exact_duplicate_retains_extraction_review_metadata(self) -> None:
+        first = self.write_docx("one.docx", ["Fixture text."])
+        self.pipeline.update()
+        self.write("two.docx", first.read_bytes())
+        before = self.embedder.embedded_text_count
+        self.pipeline.update()
+        generation = self.active()
+        records = generation.manifest["documents"]
+        self.assertEqual(records[self.relative(first)]["extraction_report"], records[self.relative(self.official_root / "two.docx")]["extraction_report"])
+        self.assertEqual(self.embedder.embedded_text_count, before)
 
     def legacy_pipeline(
         self,

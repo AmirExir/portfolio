@@ -148,7 +148,7 @@ def split_scenarios(graph_list: list[Data], seed: int = 42) -> dict[str, list[in
     for index, graph in enumerate(graph_list):
         if not hasattr(graph, "scenario_id"):
             raise ValueError("Each graph needs a scenario_id; rebuild from CSV with data_pipeline")
-        groups.setdefault(str(graph.scenario_id), []).append(index)
+        groups.setdefault(str(getattr(graph, "split_group_id", graph.scenario_id)), []).append(index)
     if len(groups) < 5:
         raise ValueError("At least five distinct scenarios are required for train/validation/test evaluation")
     identifiers = sorted(groups)
@@ -184,7 +184,13 @@ def _validate_graphs(graph_list: list[Data]) -> tuple[int, int]:
     classes = getattr(graph_list[0], "class_count", None)
     if not isinstance(classes, int) or classes < 2:
         raise ValueError("Graphs must declare class_count; rebuild from CSV with data_pipeline")
+    source_manifest = getattr(graph_list[0], "study_manifest", None)
+    feature_names = getattr(graph_list[0], "feature_names", None)
     for graph in graph_list:
+        if getattr(graph, "study_manifest", None) != source_manifest:
+            raise ValueError("Graphs must share one declared study manifest; do not mix traceable and unverified datasets.")
+        if getattr(graph, "feature_names", None) != feature_names:
+            raise ValueError("Graphs must preserve the same feature names and order.")
         if graph.x.ndim != 2 or graph.x.shape[0] == 0 or graph.num_features != in_dim:
             raise ValueError("Graphs need nonempty, consistent feature matrices")
         if not torch.isfinite(graph.x).all():
@@ -291,18 +297,20 @@ def train_gnn_multi_graph(
     evaluation = {
         "created_at": datetime.now(timezone.utc).isoformat(),
         "source_hashes": getattr(graph_list[0], "source_hashes", {}),
+        "study_manifest": getattr(graph_list[0], "study_manifest", None),
         "versions": {"torch": torch.__version__, "torch_geometric": torch_geometric.__version__, "numpy": np.__version__},
         "best_epoch": best_epoch,
         "validation": history[best_epoch - 1],
         "test": {"loss": test_loss, **classification_metrics(truth, predictions, classes)},
         "majority_baseline": {"class": baseline_class, **classification_metrics(truth, np.full_like(truth, baseline_class), classes)},
         "splits": {name: sorted({str(graph_list[i].scenario_id) for i in indices}) for name, indices in splits.items()},
+        "split_groups": {name: sorted({str(getattr(graph_list[i], "split_group_id", graph_list[i].scenario_id)) for i in indices}) for name, indices in splits.items()},
         "feature_names": getattr(graph_list[0], "feature_names", []),
         "normalization": {"mean": model.feature_mean.cpu().tolist(), "scale": model.feature_scale.cpu().tolist(), "fit_split": "train"},
         "missing_training_classes": torch.where(counts == 0)[0].tolist(),
         "settings": {"model": model_type.lower(), "epochs": epochs, "lr": lr, "weight_decay": weight_decay,
                      "seed": seed, "batch_size": batch_size, "use_relu": use_relu},
-        "source_limitations": SOURCE_NOTE,
+        "source_limitations": getattr(graph_list[0], "source_note", SOURCE_NOTE),
     }
     history_frame = pd.DataFrame(history)
     history_frame.attrs["evaluation"] = evaluation
@@ -322,12 +330,13 @@ def main() -> None:
     parser.add_argument("--batch_size", type=int, default=32)
     parser.add_argument("--data-dir", type=Path, default=Path(__file__).resolve().parent)
     parser.add_argument("--report", type=Path, help="Write an evaluation JSON file at a new path")
+    parser.add_argument("--require-traceable", action="store_true", help="Require raw study provenance, declared criteria and source hashes")
     args = parser.parse_args()
-    graphs = load_csv_graphs(args.mode, args.data_dir)
+    graphs = load_csv_graphs(args.mode, args.data_dir, require_traceable=args.require_traceable)
     _, history = train_gnn_multi_graph(graphs, args.epochs, args.lr, args.weight_decay,
                                        args.seed, args.use_relu, args.batch_size, args.model)
     report = history.attrs["evaluation"]
-    print(SOURCE_NOTE)
+    print(getattr(graphs[0], "source_note", SOURCE_NOTE))
     print(f"Best validation checkpoint: epoch {report['best_epoch']}")
     print(f"Held-out test accuracy: {report['test']['accuracy']:.2%}; macro F1: {report['test']['f1_macro']:.4f}")
     print(f"Training-majority baseline test accuracy: {report['majority_baseline']['accuracy']:.2%}; macro F1: {report['majority_baseline']['f1_macro']:.4f}")

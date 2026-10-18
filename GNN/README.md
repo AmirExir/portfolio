@@ -187,3 +187,65 @@ architectures, all three Streamlit launchers in both modes, rejection of missing
 class columns even when `alarm_flag` exists, actual training, retained metrics
 after topology selection, and clearing stale results on a mode switch.
 They also cover a successful run followed by a failed retry with unchanged settings.
+
+## Traceable raw study data
+
+The optional raw path reads a separate directory with both scenario CSVs and
+`study_manifest.json`. It never changes or retrofits the bundled demo data.
+
+```sh
+.venv/bin/python GNN/gnn_clean.py --mode thermal --data-dir /path/to/raw-study \
+  --require-traceable --epochs 100 --report /path/to/new-evaluation.json
+GNN_DATA_DIR=/path/to/raw-study .venv/bin/python -m streamlit run GNN/app_gnn_streamlit.py
+```
+
+`GNN_DATA_DIR` requires the manifest. Without it, the app keeps its existing demo.
+A manifest found beside any CSV input is always checked, even without the flag.
+Malformed, incomplete, stale-hash or unconverged data fail explicitly.
+
+The manifest contract is:
+
+| Field | Required value or content |
+| --- | --- |
+| `schema_version`, `data_kind` | `1`, `raw_physical` |
+| `dataset_id`, `source` | Nonempty source identity |
+| `feature_availability` | Object with `role: pre_study_inputs` and a nonempty `description` of predictor availability |
+| `preprocessing` | `none`; input must contain unscaled physical quantities |
+| `source_hashes` | SHA-256 for exactly `bus_scenarios.csv` and `edge_scenarios.csv` |
+| `units` | `load_MW`/`p_inj_mw`: `MW`; `load_Mvar`/`q_inj_mvar`: `Mvar`; `voltage_pu`/`x_pu`: `pu`; `length_km`: `km`; `flow_mva`/`normal_rating_mva`/`emergency_rating_mva`: `MVA` |
+| `class_thresholds` | Four increasing positive `voltage` limits in pu and/or three `thermal` limits in percent for the selected mode |
+| `criteria_source` | Origin of the supplied classification criteria; no regulatory criteria are assumed |
+| `scenarios` | Object keyed by every CSV scenario ID (as a string) |
+
+Each scenario declares `source_case`, `source_case_sha256`, `split_group_id`,
+`topology_assumptions`, `load_dispatch_assumptions`, `solver_version`, timezone-aware
+`executed_at`, `solver_converged: true`, `condition` (`pre_contingency` or
+`post_contingency`), `contingency_definition` (explicitly `none` for a base case),
+and `rating_basis` (`normal` or `emergency`). Related studies must share a
+`split_group_id`; at least five distinct groups are required. These groups, not
+individual scenarios, determine the train/validation/test separation.
+Predictors must be scheduled/scenario inputs available before running the study.
+Post-solve injections or other outcome-derived measurements are rejected when
+declared as such; metadata cannot authenticate how those values were produced.
+
+Raw bus rows add `load_Mvar`, `q_inj_mvar`, and (for voltage mode) `voltage_pu` to
+the existing schema. Raw edge rows add unique per-scenario `branch_id`,
+`normal_rating_mva`, `emergency_rating_mva`, and (for thermal mode) `flow_mva`, the
+nonnegative maximum terminal apparent power. Both ratings must be positive;
+unrated elements require an explicit source-data policy before using this path.
+Labels are checked against the supplied thresholds: class 0 is below the first
+limit, equality belongs to the higher class, and the last class is at/above the
+last limit. Thermal percentages use `100 * flow_mva / selected_rating_mva`.
+Disagreeing labels stop loading; they are never silently replaced.
+
+Raw thermal predictors include reactance, length, each endpoint's load MW/Mvar
+and net injection MW/Mvar, and the selected MVA rating. Actual line flow, loading
+percent and labels remain excluded. This adds scenario information but does not
+claim that local endpoint inputs fully determine network flows. Voltage predictors
+remain unchanged. Open-line exclusion follows the existing documented policy.
+
+Reports carry the manifest/hash, source hashes, split groups, feature list and
+normalization. The UI exposes the manifest. These checks establish consistency
+of declared data; they cannot authenticate the case files, solver run, independence
+of study families, or feature availability. No real study cases were manufactured
+or validated in this change. New tests use explicitly synthetic two-bus fixtures.

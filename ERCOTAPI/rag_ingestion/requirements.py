@@ -8,6 +8,7 @@ from datetime import date, datetime
 from typing import Any, Mapping, Sequence
 
 from .change_tracking import logical_document_key, parse_numbered_sections
+from .answer_support import ABSTENTION_TEXT, claim_lines, screen_answer_support
 
 
 REVISION_PREFIXES = (
@@ -713,6 +714,9 @@ Use these headings when evidence exists:
 
 Every material factual statement must have an evidence citation. If the evidence does not establish
 the answer, say exactly: "The supplied ERCOT documents do not establish that information."
+Respect extraction-review warnings; missing text, table context, or footnotes cannot establish a rule.
+Quote only text present in the cited evidence, preserve quantities and units, and distinguish any
+calculation or engineering interpretation from a directly supported requirement.
 """.strip()
 
 
@@ -720,7 +724,11 @@ def validate_answer_citations(
     answer: str,
     chunks: Sequence[Mapping[str, Any]],
 ) -> dict[str, Any]:
-    """Reject invented evidence IDs and report deterministic citation coverage."""
+    """Audit citation format and separately screen literal source-support gaps.
+
+    ``passed`` retains its citation-format meaning for existing clients. Neither
+    it nor literal overlap establishes semantic support; inspect support_status.
+    """
 
     valid = {
         str(chunk.get("evidence_id"))
@@ -729,19 +737,17 @@ def validate_answer_citations(
     }
     cited = set(re.findall(r"\[(E\d+)\]", str(answer or "")))
     invalid = sorted(cited - valid)
-    claim_lines = [
-        line.strip()
-        for line in str(answer or "").splitlines()
-        if line.strip()
-        and not line.lstrip().startswith(("#", "Retrieved sources", "Sources:"))
-        and len(re.sub(r"\[(?:E\d+)\]", "", line).split()) >= 4
-    ]
-    cited_lines = sum(bool(re.search(r"\[E\d+\]", line)) for line in claim_lines)
-    coverage = cited_lines / len(claim_lines) if claim_lines else 1.0
+    lines = claim_lines(answer)
+    cited_lines = sum(bool(re.search(r"\[E\d+\]", line)) for line in lines)
+    coverage = cited_lines / len(lines) if lines else 1.0
+    abstention_only = str(answer or "").strip().casefold() == ABSTENTION_TEXT.casefold()
+    format_passed = not invalid and (abstention_only or (bool(cited) and coverage >= 0.8))
     return {
         "valid_evidence_ids": sorted(valid),
         "cited_evidence_ids": sorted(cited),
         "invalid_evidence_ids": invalid,
         "claim_line_coverage": round(coverage, 3),
-        "passed": bool(cited) and not invalid and coverage >= 0.8,
+        "passed": format_passed,
+        "citation_format_passed": format_passed,
+        **screen_answer_support(answer, chunks),
     }

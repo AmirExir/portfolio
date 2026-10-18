@@ -233,6 +233,17 @@ audit are local deterministic operations. They do not create document or query
 embeddings. Normal questions still use one query embedding and one answer-model
 request; saved document vectors remain unchanged.
 
+Citation-format success is **not** source-support verification. The answer audit
+also records per-line review signals for unavailable cited text, low literal
+overlap, quantities/units missing from the cited passage, unmatched quotations,
+and extraction warnings. These are screening signals: a calculation or a valid
+paraphrase can trigger review, and a misleading statement can share every word
+with its source. `semantic_support_verified` therefore remains false. The
+Streamlit assistant displays that status and expands flagged lines for review.
+The existing `passed` field retains its citation-format meaning; consumers must
+also inspect `support_status` and `support_review_required`. A standalone
+canonical abstention needs no fabricated evidence citation.
+
 To add a source kind, update the rules in `rag_ingestion/classify.py`. To add a
 chatbot, add a stable collection in `rag_ingestion/config.py`, route the source
 kinds to it, and call `load_startup_index("collection_name")` from the active
@@ -252,6 +263,47 @@ DOC/XLS, PowerPoint, ZIP bundles, encrypted files, and other binaries are
 archived when discovered but skipped by ingestion until a safe loader is added.
 The checked-in legacy Word guide files include portable DOCX counterparts, so
 deployments do not need macOS `textutil`, LibreOffice, or licensed software.
+
+### Extraction coverage and structure
+
+Newly parsed files include an `extraction_report` in manifest records and chunks.
+PDF reports count total pages and pages yielding text, list pages yielding none,
+and require review for partial extraction. A page without text may be an
+intentional blank or a scan; no OCR is performed and text presence does not
+prove that a page's tables, figures, or equations were understood. Completely
+empty extraction still fails ingestion.
+
+DOCX extraction preserves body order, table row/column coordinates, horizontal
+cell spans, vertical-merge markers, and referenced footnotes. Nested/merged
+tables, missing footnotes, equations/drawings, and flattened nonstandard body
+containers carry review flags. Text-only output cannot reproduce every layout
+or graphical relationship. Citation/context output surfaces review flags, and
+`status` lists `extraction_reviews` and `extraction_unassessed_documents`.
+
+Existing saved generations are not silently reparsed or re-embedded. Their
+extraction coverage remains unassessed until explicitly updated. Inspect source
+files without modifying an index or contacting an API:
+
+```sh
+python -m ERCOTAPI.rag_ingestion.extraction_audit \
+  ERCOTAPI/sources/official/planning_guides/05-071126.docx
+```
+
+This command reports observations about the current source, not a certification
+of an older indexed text. After source review, a scoped `rebuild --force --path`
+can publish the revised extraction through the existing atomic generation
+workflow; it requests fresh embeddings and should be planned explicitly. The
+implementation change itself does not refresh stores or incur embedding costs.
+
+### Offline evidence evaluation
+
+The [evaluation harness](evaluation/README.md) supports recorded retrieval/answer
+replays, a bounded lexical smoke run on checked-in Planning Guide sections, and
+source-anchor validation. It reports expected-evidence recall, as-of/effective
+state checks, abstention outcomes, citation formatting, and support-review flag
+detection when labeled expectations exist. Synthetic fixtures and draft local
+document cases are labeled separately; neither is engineer-reviewed ground
+truth. Semantic support accuracy is unscored. No evaluation mode calls an API.
 
 ## Commands
 

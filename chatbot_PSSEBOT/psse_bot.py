@@ -25,6 +25,7 @@ from psse_rag_context import (
     hybrid_chunks,
     reference_labels,
 )
+from psse_preflight_ui import render_preflight
 
 # ---------------------------
 # OpenAI client
@@ -264,3 +265,6 @@ if prompt := st.chat_input("Ask about PSS/E automation, code generation, or API 
             )
         st.chat_message("assistant").markdown(bot_msg)
         st.session_state.messages.append({"role": "assistant", "content": bot_msg})
+
+render_preflight(next((message["content"] for message in reversed(st.session_state.messages)
+                       if message["role"] == "assistant"), ""))

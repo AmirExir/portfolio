@@ -1502,6 +1502,8 @@ def format_citation(chunk: Mapping[str, Any]) -> str:
     parts = [authority, kind]
     if chunk.get("stale"):
         parts.append("STALE INDEXED COPY")
+    if chunk.get("extraction_report", {}).get("review_required"):
+        parts.append("EXTRACTION REVIEW REQUIRED")
     if number:
         parts.append(number)
     for label, field in (
@@ -1558,12 +1560,20 @@ def format_context(
         lifecycle = str(chunk.get("effectiveness_label") or "Effectiveness not established")
         role = str(chunk.get("evidence_role") or "supporting_evidence")
         basis = str(chunk.get("effectiveness_basis") or "")
+        extraction = chunk.get("extraction_report") or {}
+        if extraction.get("review_required"):
+            extraction_note = "Review required: " + "; ".join(extraction.get("review_reasons", []))
+        elif extraction:
+            extraction_note = "Text extracted; semantic completeness has not been verified."
+        else:
+            extraction_note = "Extraction coverage was not assessed for this indexed text."
         blocks.append(
             f"Evidence [{evidence_id}]\n"
             f"Citation: {format_citation(chunk)}\n"
             f"Evidence role: {role}\n"
             f"Effectiveness: {lifecycle}\n"
-            f"Effectiveness basis: {basis}\n\n{text}"
+            f"Effectiveness basis: {basis}\n"
+            f"Extraction: {extraction_note}\n\n{text}"
         )
         used_words += len(words)
     return "\n\n---\n\n".join(blocks)

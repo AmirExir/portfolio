@@ -6,8 +6,10 @@ import csv
 import io
 import re
 import zipfile
+from dataclasses import dataclass
 from html.parser import HTMLParser
 from pathlib import Path, PurePosixPath
+from typing import Any
 from xml.etree import ElementTree as ET
 
 from .chunking import normalize_text
@@ -22,6 +24,21 @@ SPREADSHEET_NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 OFFICE_REL_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 PACKAGE_REL_NS = "http://schemas.openxmlformats.org/package/2006/relationships"
 WORD_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+EXTRACTION_REPORT_VERSION = 1
+
+
+@dataclass(frozen=True)
+class LoadedDocument:
+    """Extracted text and observable coverage; neither proves document fidelity."""
+
+    text: str
+    extraction_report: dict[str, Any]
+
+
+def _review(report: dict[str, Any], reason: str) -> None:
+    report["review_required"] = True
+    if reason not in report["review_reasons"]:
+        report["review_reasons"].append(reason)
 
 
 class DocumentLoadError(ValueError):
@@ -78,7 +95,7 @@ def _validate_archive(archive: zipfile.ZipFile) -> None:
             raise DocumentLoadError(f"Unsafe archive member: {item.filename}")
 
 
-def _load_pdf(path: Path) -> str:
+def _load_pdf(path: Path, *, report: dict[str, Any] | None = None) -> str:
     try:
         from pypdf import PdfReader  # type: ignore
     except ImportError as exc:
@@ -87,10 +104,24 @@ def _load_pdf(path: Path) -> str:
     try:
         reader = PdfReader(str(path))
         pages = []
+        empty_pages = []
         for number, page in enumerate(reader.pages, start=1):
             text = normalize_text(page.extract_text() or "")
             if text:
                 pages.append(f"[Page {number}]\n{text}")
+            else:
+                empty_pages.append(number)
+        if report is not None:
+            report.update({
+                "total_pages": len(reader.pages),
+                "pages_with_text": len(pages),
+                "pages_without_text": empty_pages,
+                "text_page_coverage": len(pages) / len(reader.pages) if reader.pages else 0.0,
+                "fidelity": "pdf_text_only",
+            })
+            if empty_pages:
+                _review(report, "Some PDF pages yielded no text; they may be blank or require OCR. "
+                        "Review the original pages before assuming coverage.")
     except Exception as exc:
         raise DocumentLoadError(f"Unable to parse PDF {path.name}: {exc}") from exc
     return "\n\n".join(pages)
@@ -106,11 +137,15 @@ def _load_html(content: bytes) -> str:
     return " ".join(parser.parts)
 
 
-def _load_docx(content: bytes) -> str:
+def _load_docx(content: bytes, *, report: dict[str, Any] | None = None) -> str:
     try:
         with zipfile.ZipFile(io.BytesIO(content)) as archive:
             _validate_archive(archive)
             document_xml = archive.read("word/document.xml")
+            footnotes_xml = (
+                archive.read("word/footnotes.xml")
+                if "word/footnotes.xml" in archive.namelist() else None
+            )
     except (OSError, KeyError, zipfile.BadZipFile) as exc:
         raise DocumentLoadError(f"Unable to open DOCX: {exc}") from exc
 
@@ -118,14 +153,123 @@ def _load_docx(content: bytes) -> str:
         root = ET.fromstring(document_xml)
     except ET.ParseError as exc:
         raise DocumentLoadError(f"Invalid DOCX XML: {exc}") from exc
-    namespace = {"w": WORD_NS}
-    paragraphs: list[str] = []
-    for paragraph in root.findall(".//w:p", namespace):
-        fragments = [node.text or "" for node in paragraph.findall(".//w:t", namespace)]
-        line = "".join(fragments).strip()
-        if line:
-            paragraphs.append(line)
-    return "\n\n".join(paragraphs)
+    return _docx_structured_text(root, footnotes_xml, report)
+
+
+def _docx_structured_text(
+    root: ET.Element, footnotes_xml: bytes | None, report: dict[str, Any] | None,
+) -> str:
+    """Keep body order, table coordinates, merge markers, and footnote identities."""
+
+    tag = lambda name: f"{{{WORD_NS}}}{name}"
+    footnotes: dict[str, str] = {}
+    references: list[str] = []
+
+    def paragraph_text(paragraph: ET.Element) -> str:
+        pieces: list[str] = []
+        for node in paragraph.iter():
+            if node.tag == tag("t"):
+                pieces.append(node.text or "")
+            elif node.tag in {tag("tab"), tag("br"), tag("cr")}:
+                pieces.append(" ")
+            elif node.tag == tag("footnoteReference"):
+                identifier = node.get(tag("id"), "unknown")
+                pieces.append(f" [Footnote {identifier}] ")
+                if footnotes.get(identifier):
+                    pieces.append(f"{footnotes[identifier]} [End footnote {identifier}] ")
+                if identifier not in references:
+                    references.append(identifier)
+        return "".join(pieces).strip()
+
+    if footnotes_xml is not None:
+        try:
+            notes_root = ET.fromstring(footnotes_xml)
+        except ET.ParseError as exc:
+            raise DocumentLoadError(f"Invalid DOCX footnotes XML: {exc}") from exc
+        for note in notes_root.findall(tag("footnote")):
+            identifier = note.get(tag("id"), "")
+            if note.get(tag("type"), "normal") != "normal":
+                continue
+            footnotes[identifier] = " / ".join(
+                paragraph_text(item) for item in note.findall(f".//{tag('p')}")
+            ).strip()
+
+    table_count = 0
+    nested_tables = False
+    merged_cells = False
+
+    def table_integer(node: ET.Element | None, default: int, minimum: int) -> int:
+        value = node.get(tag("val"), str(default)) if node is not None else str(default)
+        try:
+            parsed = int(value)
+        except ValueError as exc:
+            raise DocumentLoadError("Invalid DOCX table column/span value") from exc
+        if parsed < minimum:
+            raise DocumentLoadError("DOCX table column/span value is outside its valid range")
+        return parsed
+
+    def table_text(table: ET.Element) -> str:
+        nonlocal table_count, nested_tables, merged_cells
+        table_count += 1
+        lines = [f"[Table {table_count}]"]
+        for row_number, row in enumerate(table.findall(tag("tr")), start=1):
+            before = row.find(f"{tag('trPr')}/{tag('gridBefore')}")
+            column = 1 + table_integer(before, 0, 0)
+            cells: list[str] = []
+            for cell in row.findall(tag("tc")):
+                span_node = cell.find(f"{tag('tcPr')}/{tag('gridSpan')}")
+                span = table_integer(span_node, 1, 1)
+                merge = cell.find(f"{tag('tcPr')}/{tag('vMerge')}")
+                values: list[str] = []
+                for child in cell:
+                    if child.tag == tag("p"):
+                        values.append(paragraph_text(child))
+                    elif child.tag == tag("tbl"):
+                        nested_tables = True
+                        values.append(table_text(child).replace("\n", " / "))
+                if merge is not None:
+                    merged_cells = True
+                    marker = "vertical merge starts" if merge.get(tag("val")) == "restart" else "continues cell above"
+                    values.append(f"[{marker}]")
+                merged_cells = merged_cells or span > 1
+                coordinate = f"C{column}" if span == 1 else f"C{column}-C{column + span - 1}"
+                cells.append(f"{coordinate}=" + " / ".join(value for value in values if value))
+                column += span
+            lines.append(f"Row {row_number}: " + " | ".join(cells))
+        return "\n".join(lines)
+
+    body = root.find(tag("body"))
+    blocks: list[str] = []
+    if body is not None:
+        for child in body:
+            if child.tag == tag("p"):
+                blocks.append(paragraph_text(child))
+            elif child.tag == tag("tbl"):
+                blocks.append(table_text(child))
+            elif child.tag not in {tag(name) for name in ("sectPr", "bookmarkStart", "bookmarkEnd", "proofErr", "permStart", "permEnd")}:
+                # Preserve wrapped paragraph text, but do not claim its layout was retained.
+                blocks.extend(paragraph_text(item) for item in child.findall(f".//{tag('p')}"))
+                if report is not None:
+                    _review(report, "Nonstandard DOCX body containers were flattened; review their layout.")
+    missing_notes = []
+    for identifier in references:
+        if not footnotes.get(identifier):
+            missing_notes.append(identifier)
+    if report is not None:
+        report.update({
+            "fidelity": "docx_structured_text",
+            "table_count": table_count,
+            "footnote_references": references,
+            "footnotes_extracted": [item for item in references if footnotes.get(item)],
+            "missing_footnotes": missing_notes,
+        })
+        if merged_cells or nested_tables:
+            _review(report, "Merged or nested DOCX tables retain explicit markers; review cell relationships.")
+        if missing_notes:
+            _review(report, "Referenced DOCX footnotes are missing or contain no extracted text.")
+        if any(node.tag.rsplit("}", 1)[-1] in {"oMath", "oMathPara", "drawing", "pict"} for node in root.iter()):
+            _review(report, "DOCX contains equations or drawings that text extraction does not interpret.")
+    return "\n\n".join(block for block in blocks if block)
 
 
 def _load_csv(content: bytes) -> str:
@@ -249,7 +393,27 @@ def _load_xlsx(content: bytes) -> str:
 def load_document(path: Path, *, max_file_bytes: int = 100 * 1024 * 1024) -> str:
     """Extract useful text from one supported file without network access."""
 
+    return load_document_with_report(path, max_file_bytes=max_file_bytes).text
+
+
+def load_document_with_report(
+    path: Path, *, max_file_bytes: int = 100 * 1024 * 1024,
+) -> LoadedDocument:
+    """Extract text with observed coverage and explicit manual-review flags.
+
+    Text presence is not proof of fidelity. No OCR or image interpretation runs.
+    Existing callers can retain the text-only ``load_document`` interface.
+    """
+
     extension = path.suffix.lower()
+    report: dict[str, Any] = {
+        "report_version": EXTRACTION_REPORT_VERSION,
+        "format": extension.lstrip("."),
+        "fidelity": "text_only",
+        "review_required": False,
+        "review_reasons": [],
+        "semantic_completeness_verified": False,
+    }
     if extension not in SUPPORTED_EXTENSIONS:
         raise UnsupportedDocumentError(f"Unsupported document extension: {extension or '(none)'}")
     try:
@@ -264,13 +428,13 @@ def load_document(path: Path, *, max_file_bytes: int = 100 * 1024 * 1024) -> str
         raise DocumentLoadError(f"Unable to read {path}: {exc}") from exc
 
     if extension == ".pdf":
-        text = _load_pdf(path)
+        text = _load_pdf(path, report=report)
     elif extension == ".txt":
         text = _decode_text(content)
     elif extension in {".html", ".htm"}:
         text = _load_html(content)
     elif extension == ".docx":
-        text = _load_docx(content)
+        text = _load_docx(content, report=report)
     elif extension == ".csv":
         text = _load_csv(content)
     elif extension == ".xlsx":
@@ -281,4 +445,4 @@ def load_document(path: Path, *, max_file_bytes: int = 100 * 1024 * 1024) -> str
     cleaned = normalize_text(text)
     if not cleaned:
         raise DocumentLoadError(f"No useful text could be extracted from {path.name}")
-    return cleaned
+    return LoadedDocument(text=cleaned, extraction_report=report)

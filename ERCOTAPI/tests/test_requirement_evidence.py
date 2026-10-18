@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import unittest
+from datetime import date
+from unittest import mock
 
 import numpy as np
 
@@ -197,6 +199,12 @@ class LifecycleTests(unittest.TestCase):
         self.assertGreater(_version_rank(current), _version_rank(archived))
 
 
+class _FixtureToday(date):
+    @classmethod
+    def today(cls):
+        return cls(2026, 7, 23)
+
+
 class RequirementEvidenceTests(unittest.TestCase):
     def test_many_governing_documents_do_not_starve_procedure_evidence(self) -> None:
         governing = [
@@ -232,7 +240,11 @@ class RequirementEvidenceTests(unittest.TestCase):
             {item["chunk_id"] for item in selected},
         )
 
+    @mock.patch("ERCOTAPI.rag_ingestion.retrieval.date", _FixtureToday)
     def test_generic_interconnection_process_gets_generator_load_and_handbook_anchors(self) -> None:
+        # The undated Handbook is only eligible as a forced anchor on "today".
+        # Freeze the fixture's clock so this current-date test does not turn
+        # into a historical query as the real calendar advances.
         common_guide = {
             "source_kind": "Planning Guide",
             "source_category": "planning_guide_uploads",
@@ -353,6 +365,22 @@ class RequirementEvidenceTests(unittest.TestCase):
         self.assertEqual(selected["load-introduction"]["section_number"], "9.1")
         self.assertEqual(selected["load-batch-zero"]["section_number"], "9.3.1")
         self.assertEqual(selected["load-refinement"]["section_number"], "9.5")
+
+    @mock.patch("ERCOTAPI.rag_ingestion.retrieval.date", _FixtureToday)
+    def test_undated_handbook_is_not_forced_into_an_earlier_as_of_answer(self) -> None:
+        handbook = chunk(
+            "resource-handbook",
+            source_kind="Resource Integration",
+            source_path="chatbot_ercot_all_in_one/ercot_sources/ercotRIhandbook.txt",
+            text="The resource interconnection process is divided into the following three stages.",
+        )
+        historical = chunk("historical", text="Historical interconnection evidence.")
+        bundle = retrieve_requirement_evidence(
+            "What is the interconnection process in ERCOT?",
+            index([handbook, historical]), candidate_chunks=[historical],
+            as_of="2026-07-22", top_k=7,
+        )
+        self.assertEqual([item["chunk_id"] for item in bundle["chunks"]], ["historical"])
 
     def test_specific_interconnection_requirement_does_not_force_process_anchors(self) -> None:
         common = {

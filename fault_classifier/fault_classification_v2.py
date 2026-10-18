@@ -14,9 +14,9 @@ import joblib
 import pandas as pd
 
 if __package__:
-    from .modeling import candidate_models, train_and_evaluate
+    from .modeling import candidate_models, evaluate_independent_events, train_and_evaluate
 else:
-    from modeling import candidate_models, train_and_evaluate
+    from modeling import candidate_models, evaluate_independent_events, train_and_evaluate
 
 PROJECT_DIR = Path(__file__).resolve().parent
 
@@ -32,9 +32,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--test-fraction", type=float, default=0.2)
     parser.add_argument("--include-xgboost", action="store_true")
     parser.add_argument("--models", nargs="+", help="Subset of model names, quoted when containing spaces")
+    parser.add_argument("--group-column", help="Independent event group column (auto-detects event_id)")
+    parser.add_argument("--metadata", type=Path, help="Measurement provenance JSON")
+    parser.add_argument("--external-test", type=Path, help="Separate labeled events, never used for fitting or selection")
+    parser.add_argument("--external-metadata", type=Path, help="Required measurement contract for external evaluation")
     args = parser.parse_args(argv)
     if args.output_dir.exists():
         parser.error("--output-dir already exists; choose a new run directory.")
+    if bool(args.external_test) != bool(args.external_metadata):
+        parser.error("--external-test and --external-metadata must be supplied together.")
     try:
         models = candidate_models(args.seed, include_xgboost=args.include_xgboost)
         if args.models:
@@ -46,7 +52,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         result = train_and_evaluate(
             pd.read_csv(BytesIO(source_bytes)), models=models, seed=args.seed,
             test_fraction=args.test_fraction, folds=args.folds,
+            group_column=args.group_column,
+            data_metadata=json.loads(args.metadata.read_text()) if args.metadata else None,
         )
+        if args.external_test:
+            external_bytes = args.external_test.read_bytes()
+            result.report["external_evaluation"] = evaluate_independent_events(
+                result, pd.read_csv(BytesIO(external_bytes)), json.loads(args.external_metadata.read_text())
+            )
+            result.report["external_evaluation"]["sha256"] = hashlib.sha256(external_bytes).hexdigest()
         prediction_data = None
         if args.predict:
             prediction_data = pd.read_csv(args.predict)

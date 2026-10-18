@@ -1,0 +1,66 @@
+{
+  "name": "Planning Guide source smoke checks",
+  "ground_truth_status": "draft_requires_engineer_review",
+  "notes": "Authored source-location checks against checked-in documents. Not an independently reviewed regulatory answer benchmark; expected evidence lists are non-exhaustive.",
+  "corpus_sources": [
+    {
+      "source_path": "ERCOTAPI/sources/official/planning_guides/05-071126.docx",
+      "source_kind": "Planning Guide",
+      "source_category": "planning_guide_uploads",
+      "source_authority": "ERCOT"
+    },
+    {
+      "source_path": "ERCOTAPI/sources/official/planning_guides/09-071126.docx",
+      "source_kind": "Planning Guide",
+      "source_category": "planning_guide_uploads",
+      "source_authority": "ERCOT"
+    }
+  ],
+  "cases": [
+    {
+      "id": "generator-initiation-section",
+      "question": "Which section describes initiation of Generator Interconnection or Modification?",
+      "as_of": "2026-07-22",
+      "expected_abstention": false,
+      "expected_sources": [
+        {
+          "source_path": "ERCOTAPI/sources/official/planning_guides/05-071126.docx",
+          "section_number": "5.2.2",
+          "anchor_text": "Initiation of Generator Interconnection or Modification"
+        }
+      ],
+      "expected_effective_states": {
+        "ERCOTAPI/sources/official/planning_guides/05-071126.docx": "effective"
+      }
+    },
+    {
+      "id": "batch-zero-refinement-section",
+      "question": "Which section describes Batch Zero Study Refinement and Delivery of Transmission Plan?",
+      "as_of": "2026-07-22",
+      "expected_abstention": false,
+      "expected_sources": [
+        {
+          "source_path": "ERCOTAPI/sources/official/planning_guides/09-071126.docx",
+          "section_number": "9.5",
+          "anchor_text": "Batch Zero Study Refinement and Delivery of Transmission Plan"
+        }
+      ]
+    },
+    {
+      "id": "guide-before-filename-date",
+      "question": "Locate Batch Zero Process Overview and Timelines in this later Planning Guide edition.",
+      "as_of": "2026-07-10",
+      "expected_abstention": false,
+      "expected_sources": [
+        {
+          "source_path": "ERCOTAPI/sources/official/planning_guides/09-071126.docx",
+          "section_number": "9.3.1",
+          "anchor_text": "Batch Zero Process Overview and Timelines"
+        }
+      ],
+      "expected_effective_states": {
+        "ERCOTAPI/sources/official/planning_guides/09-071126.docx": "approved_not_effective"
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 streamlit
-streamlit-mic-recorder
+streamlit-mic-recorder>=0.0.8
 faiss-cpu
 openai>=1.40.0
 numpy

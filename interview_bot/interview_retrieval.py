@@ -7,6 +7,36 @@ from typing import Any
 
 MAX_JOB_DESCRIPTION_CHARS = 20000
 MAX_JOB_SEARCH_CHARS = 4000
+RETRIEVAL_POLICY_VERSION = 2
+
+# Shared analysis methods occur in both planning and real-time operations. A
+# planning purpose must be established before those methods can boost ranking.
+PLANNING_PURPOSE_TERMS = (
+    "transmission planning", "power system planning", "planning assessment",
+    "annual assessment", "transmission expansion", "transmission upgrade",
+    "transmission upgrades", "transmission infrastructure", "transmission alternatives",
+    "transmission contingency study", "transmission modeling", "planning model",
+    "planning models", "planning study", "planning studies", "planning team",
+    "planning group", "planning execution", "interconnection study",
+    "interconnection studies", "interconnection modeling", "dynamic model validation",
+    "generator model validation", "generation model validation", "contingency categories",
+    "p1 to p7", "p3 and p6", "p3/p6", "tpl 001",
+)
+PLANNING_NEED_TERMS = (
+    "load growth", "load forecast", "load forecasts", "future load",
+    "interconnection", "interconnections", "hosting capacity", "transmission capacity",
+    "345kv", "345 kv", "reconductoring", "capacitor", "capacitors", "capacitor banks",
+)
+PLANNING_WORK_TERMS = (
+    "study", "studies", "model", "models", "modeling", "modelling", "simulation",
+    "simulations", "voltage", "thermal", "overloaded", "alternatives", "upgrades",
+    "constraints", "ratings",
+)
+OPERATIONS_PURPOSE_TERMS = (
+    "ems", "energy management system", "scada", "control room", "operator training",
+    "operations training", "system operators", "black start", "real time operations",
+    "real time assessment", "grid restoration",
+)
 
 
 JOB_FOCUSES = {
@@ -217,14 +247,47 @@ def _evidence_text(text: str) -> str:
     return _normalize(" ".join(extract_tag_value(text, tag) for tag in (*STORY_TAGS, "Answer")))
 
 
+def planning_evidence(text: str) -> list[str]:
+    """Identify planning purpose in saved facts, never in question/alias wording.
+
+    Positive rules allow mixed planning/operations model work. An operational
+    Situation/Task needs its own planning purpose; an incidental planning phrase
+    in a software-testing action does not turn that project into a planning study.
+    This deterministic gate is a relevance screen, not verification of the claims.
+    """
+    purpose = _normalize(" ".join(extract_tag_value(text, tag) for tag in ("Situation", "Task")))
+    evidence = _evidence_text(text)
+
+    def matches(value: str, terms: tuple[str, ...]) -> list[str]:
+        return [term for term in terms if _contains_term(value, term)]
+
+    def supported_purpose(value: str) -> list[str]:
+        explicit = matches(value, PLANNING_PURPOSE_TERMS)
+        needs = matches(value, PLANNING_NEED_TERMS)
+        work = matches(value, PLANNING_WORK_TERMS)
+        ratings = matches(value, ("equipment ratings", "transformer ratings", "line ratings", "rating inconsistencies"))
+        model_context = matches(value, ("planning", "steady state", "dynamic"))
+        return sorted(set(explicit + (needs + work if needs and work else [])
+                          + (ratings + model_context if ratings and model_context else [])))
+
+    primary = supported_purpose(purpose)
+    if not primary and matches(purpose, OPERATIONS_PURPOSE_TERMS):
+        return []
+    return primary or supported_purpose(evidence)
+
+
 def topic_score(text: str, focus: str) -> float:
-    """Score evidence fields, excluding topical wording in questions and aliases."""
+    """Score eligible evidence; shared tools alone cannot establish planning fit."""
+    if focus == "Transmission planning" and not planning_evidence(text):
+        return 0.0
     normalized = _evidence_text(text)
     hits = sum(
         _contains_term(normalized, _normalize(term))
         for term in JOB_FOCUSES[focus]["keywords"]
     )
-    return min(hits, 5) * 0.2
+    # Planning/team/model evidence may be clear without any of the older tool
+    # keywords. Keep such stories available for behavioral questions and practice.
+    return min(max(hits, int(focus == "Transmission planning")), 5) * 0.2
 
 
 def rank_candidates(
@@ -278,6 +341,8 @@ def rank_candidates(
             for question in direct_questions if question.strip()
         )
         candidate["topic_score"] = match_score
+        if focus == "Transmission planning":
+            candidate["focus_evidence"] = planning_evidence(chunk["text"])
         candidate["job_description_score"] = job_score
         candidate["score"] += (
             0.15 * keyword_hits + 0.5 * exact_hit + type_bonus + match_score + job_score
@@ -303,3 +368,14 @@ def clear_candidate_pool(state: MutableMapping[str, Any]) -> None:
     state["candidate_stories"] = []
     state["candidate_story_pos"] = 0
     state["active_query"] = ""
+
+
+def apply_retrieval_policy(state: MutableMapping[str, Any]) -> None:
+    """Discard suggestions made under old rules once, preserving job settings/history."""
+    if state.get("retrieval_policy_version") == RETRIEVAL_POLICY_VERSION:
+        return
+    clear_candidate_pool(state)
+    for key in ("pending_answer", "pending_search", "answer_error", "search_error",
+                "active_answer", "answer_audio", "audio_error"):
+        state.pop(key, None)
+    state["retrieval_policy_version"] = RETRIEVAL_POLICY_VERSION

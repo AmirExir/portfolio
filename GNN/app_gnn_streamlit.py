@@ -8,6 +8,7 @@ import networkx as nx
 from pathlib import Path
 import sys
 import json
+import os
 
 # Add parent directory to path to import from gnn_clean
 sys.path.append(str(Path(__file__).parent))
@@ -24,7 +25,7 @@ st.set_page_config(
 
 st.title("Power Grid GNN")
 st.write("Train graph models, explore grid scenarios, and compare results on held-out scenarios.")
-st.caption("By Amir Exir · Research demo using supplied class labels; physical units and label thresholds are unverified.")
+st.caption("By Amir Exir · Research models using supplied class labels. Inspect data provenance before interpreting results.")
 
 # Sidebar configuration
 with st.sidebar:
@@ -65,10 +66,10 @@ with st.sidebar:
 
 # Load data
 @st.cache_data
-def load_dataset(mode, source_revision):
+def load_dataset(mode, source_revision, directory=None):
     """Cache inspectable CSV graphs by source file modification/size signature."""
     try:
-        return load_csv_graphs(mode), None
+        return load_csv_graphs(mode, directory, require_traceable=bool(directory)), None
     except (OSError, ValueError, KeyError) as exc:
         return None, f"Cannot load scenario CSVs: {exc}"
 
@@ -202,12 +203,14 @@ def visualize_graph(graph_data, scenario_id, mode, show_edge_labels=False, node_
     return fig
 
 # Load dataset
-source_dir = Path(__file__).resolve().parent
+configured_data = os.environ.get("GNN_DATA_DIR")
+source_dir = Path(configured_data) if configured_data else Path(__file__).resolve().parent
 source_paths = [source_dir / "edge_scenarios.csv"]
-if mode == "voltage":
+if mode == "voltage" or (source_dir / "study_manifest.json").exists():
     source_paths.append(source_dir / "bus_scenarios.csv")
+source_paths.append(source_dir / "study_manifest.json")
 source_revision = tuple((str(path), path.stat().st_mtime_ns, path.stat().st_size) for path in source_paths if path.exists())
-data, error = load_dataset(mode, source_revision)
+data, error = load_dataset(mode, source_revision, configured_data)
 
 if error:
     st.error(f"{error}")
@@ -222,14 +225,16 @@ if st.session_state.get("training_configuration") != configuration:
     for state_key in ("model", "hist_df", "trained"):
         st.session_state.pop(state_key, None)
 
-if mode == "thermal":
+if mode == "thermal" and not hasattr(data[0], "study_manifest"):
     st.warning("Thermal demo: scenario dispatch and load are absent from the predictors, limiting what the model can learn.")
 
 # Dataset info
 with st.expander("Data and research assumptions", expanded=False):
-    st.write(SOURCE_NOTE)
-    st.caption("Supplied class IDs are preserved. They are not verified voltage or thermal compliance criteria.")
-    if mode == "thermal":
+    st.write(getattr(data[0], "source_note", SOURCE_NOTE))
+    if hasattr(data[0], "study_manifest"):
+        st.json(data[0].study_manifest)
+    st.caption("Supplied class IDs are preserved. Declared study criteria do not establish governing compliance requirements.")
+    if mode == "thermal" and not hasattr(data[0], "study_manifest"):
         st.write("Thermal predictors contain line properties and topology only. Identical predictors can have different thermal classes, so this is an exploratory baseline.")
     col1, col2, col3, col4 = st.columns(4)
     with col1:
@@ -383,7 +388,8 @@ with tab2:
             node_labels = graph_data.y.cpu().numpy()
             
             feature_names = graph_data.feature_names
-            st.caption("Source feature values: original physical units cannot be recovered from the bundled preprocessing.")
+            st.caption("Declared raw units appear in Data and research assumptions." if hasattr(data[0], "study_manifest")
+                       else "Source feature values: original physical units cannot be recovered from the bundled preprocessing.")
 
             stats_data = []
             for i, name in enumerate(feature_names[:node_features.shape[1]]):

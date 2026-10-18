@@ -5,6 +5,7 @@ from __future__ import annotations
 import tempfile
 import unittest
 import zipfile
+from types import SimpleNamespace
 from pathlib import Path
 from unittest import mock
 
@@ -12,6 +13,7 @@ from ERCOTAPI.rag_ingestion.loaders import (
     DocumentLoadError,
     UnsupportedDocumentError,
     load_document,
+    load_document_with_report,
 )
 
 
@@ -116,8 +118,79 @@ class DocumentLoaderTests(unittest.TestCase):
         ) as loader:
             loaded = load_document(path)
 
-        loader.assert_called_once_with(path)
+        loader.assert_called_once_with(path, report=mock.ANY)
         self.assertEqual(loaded, "[Page 1]\nOfficial protocol text")
+
+    def test_partial_pdf_reports_unextracted_pages_without_inventing_text(self) -> None:
+        path = self.write("partial.pdf", b"synthetic PDF fixture")
+        pages = [
+            SimpleNamespace(extract_text=lambda: "First page text"),
+            SimpleNamespace(extract_text=lambda: ""),
+            SimpleNamespace(extract_text=lambda: "Third page text"),
+        ]
+        with mock.patch.dict("sys.modules", {"pypdf": SimpleNamespace(PdfReader=lambda _: SimpleNamespace(pages=pages))}):
+            loaded = load_document_with_report(path)
+        self.assertEqual(loaded.extraction_report["pages_without_text"], [2])
+        self.assertEqual(loaded.extraction_report["pages_with_text"], 2)
+        self.assertEqual(loaded.extraction_report["total_pages"], 3)
+        self.assertAlmostEqual(loaded.extraction_report["text_page_coverage"], 2 / 3)
+        self.assertTrue(loaded.extraction_report["review_required"])
+        self.assertNotIn("[Page 2]", loaded.text)
+        self.assertIn("[Page 3]", loaded.text)
+
+    def test_wholly_unreadable_pdf_still_fails(self) -> None:
+        path = self.write("scan.pdf", b"synthetic PDF fixture")
+        reader = SimpleNamespace(pages=[SimpleNamespace(extract_text=lambda: "")])
+        with mock.patch.dict("sys.modules", {"pypdf": SimpleNamespace(PdfReader=lambda _: reader)}):
+            with self.assertRaisesRegex(DocumentLoadError, "No useful text"):
+                load_document_with_report(path)
+
+    def test_docx_keeps_table_cells_merges_and_referenced_footnotes(self) -> None:
+        path = self.root / "table.docx"
+        namespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        document = f'''<w:document xmlns:w="{namespace}"><w:body>
+        <w:p><w:r><w:t>Before table</w:t><w:footnoteReference w:id="2"/></w:r></w:p>
+        <w:tbl><w:tr><w:tc><w:tcPr><w:gridSpan w:val="2"/></w:tcPr>
+        <w:p><w:r><w:t>Voltage (kV)</w:t></w:r></w:p></w:tc></w:tr>
+        <w:tr><w:tc><w:p><w:r><w:t>138</w:t></w:r></w:p></w:tc>
+        <w:tc><w:p><w:r><w:t>345</w:t></w:r></w:p></w:tc></w:tr></w:tbl>
+        <w:p><w:r><w:t>After table</w:t></w:r></w:p>
+        </w:body></w:document>'''
+        notes = f'''<w:footnotes xmlns:w="{namespace}"><w:footnote w:id="2">
+        <w:p><w:r><w:t>Fixture values only.</w:t></w:r></w:p></w:footnote></w:footnotes>'''
+        with zipfile.ZipFile(path, "w") as archive:
+            archive.writestr("word/document.xml", document)
+            archive.writestr("word/footnotes.xml", notes)
+        loaded = load_document_with_report(path)
+        self.assertIn("Row 1: C1-C2=Voltage (kV)", loaded.text)
+        self.assertIn("Row 2: C1=138 | C2=345", loaded.text)
+        self.assertIn("[Footnote 2] Fixture values only.", loaded.text)
+        self.assertLess(loaded.text.index("Fixture values only."), loaded.text.index("[Table 1]"))
+        self.assertLess(loaded.text.index("Before table"), loaded.text.index("[Table 1]"))
+        self.assertLess(loaded.text.index("[Table 1]"), loaded.text.index("After table"))
+        self.assertEqual(loaded.extraction_report["table_count"], 1)
+        self.assertEqual(loaded.extraction_report["footnotes_extracted"], ["2"])
+        self.assertTrue(loaded.extraction_report["review_required"])
+
+    def test_missing_docx_footnote_requires_review(self) -> None:
+        path = self.root / "missing-note.docx"
+        document = '''<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+        <w:body><w:p><w:r><w:t>Text</w:t><w:footnoteReference w:id="3"/></w:r></w:p></w:body></w:document>'''
+        with zipfile.ZipFile(path, "w") as archive:
+            archive.writestr("word/document.xml", document)
+        loaded = load_document_with_report(path)
+        self.assertEqual(loaded.extraction_report["missing_footnotes"], ["3"])
+        self.assertTrue(loaded.extraction_report["review_required"])
+
+    def test_invalid_docx_cell_span_fails_without_silently_changing_geometry(self) -> None:
+        path = self.root / "invalid-table.docx"
+        document = '''<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+        <w:body><w:tbl><w:tr><w:tc><w:tcPr><w:gridSpan w:val="-2"/></w:tcPr>
+        <w:p><w:r><w:t>Value</w:t></w:r></w:p></w:tc></w:tr></w:tbl></w:body></w:document>'''
+        with zipfile.ZipFile(path, "w") as archive:
+            archive.writestr("word/document.xml", document)
+        with self.assertRaisesRegex(DocumentLoadError, "outside its valid range"):
+            load_document_with_report(path)
 
     def test_malformed_supported_file_raises_clear_error(self) -> None:
         path = self.write("broken.docx", b"not a valid archive")
@@ -137,4 +210,3 @@ class DocumentLoaderTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

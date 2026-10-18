@@ -1,0 +1,23 @@
+{
+  "name": "Synthetic support and abstention harness fixtures",
+  "ground_truth_status": "synthetic_fixture",
+  "notes": "Invented test text and canned predictions. No regulatory or engineering performance claim.",
+  "cases": [
+    {
+      "id": "changed-quantity",
+      "question": "What is the fixture capacity?",
+      "as_of": "2026-01-01",
+      "expected_sources": [{"source_path": "synthetic/guide.txt", "section_number": "1"}],
+      "expected_support_review": true,
+      "expected_abstention": false
+    },
+    {
+      "id": "missing-evidence",
+      "question": "What is the fixture's unpublished capacity?",
+      "as_of": "2026-01-01",
+      "expected_sources": [],
+      "expected_support_review": false,
+      "expected_abstention": true
+    }
+  ]
+}

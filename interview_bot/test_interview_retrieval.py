@@ -6,6 +6,8 @@ import unittest
 
 from interview_retrieval import (
     JOB_FOCUSES,
+    RETRIEVAL_POLICY_VERSION,
+    apply_retrieval_policy,
     build_candidate,
     build_job_context,
     build_search_query,
@@ -67,6 +69,24 @@ DIRECT_INTRODUCTION = {
 
 
 class JobContextTests(unittest.TestCase):
+    def test_updated_rules_clear_stale_candidates_once_without_losing_history(self) -> None:
+        history = [{"role": "user", "content": QUESTION}]
+        state = {"retrieval_policy_version": RETRIEVAL_POLICY_VERSION - 1,
+                 "candidate_stories": [{"text": "Old EMS story"}], "candidate_story_pos": 1,
+                 "active_query": QUESTION, "pending_answer": {"text": "Old EMS story"},
+                 "active_answer": {"text": "Old generated answer"}, "messages": history,
+                 "job_focus": "Transmission planning", "job_description": "Planning director"}
+        apply_retrieval_policy(state)
+        self.assertEqual(state["candidate_stories"], [])
+        self.assertNotIn("pending_answer", state)
+        self.assertNotIn("active_answer", state)
+        self.assertIs(state["messages"], history)
+        self.assertEqual(state["job_focus"], "Transmission planning")
+        self.assertEqual(state["job_description"], "Planning director")
+        state["candidate_stories"] = [ROLE_STORIES[1]]
+        apply_retrieval_policy(state)
+        self.assertEqual(state["candidate_stories"], [ROLE_STORIES[1]])
+
     def test_default_query_is_preserved_exactly(self) -> None:
         query = "  Tell me about yourself?  "
         self.assertEqual(build_search_query(query), query)

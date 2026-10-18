@@ -85,3 +85,55 @@ The second command validates the existing documentation artifacts without
 rebuilding or making paid embedding requests. Repository search can be checked
 offline with `search_code` from `psse_code_index`, for example using the queries
 `CrashRerunSettings`, `dynamic_batch_executor`, or `consequential load loss`.
+
+## Static code review
+
+Both assistants now include **Review generated PSS/E code**. Enter the exact
+installed version and source-case paths, then review the latest Python answer or
+paste a script. Reports persist across UI reruns and can be downloaded. No code
+executes and no API/embedding request is made by this panel.
+
+```sh
+python psse_preflight.py /path/to/script.py --psse-version 35.6.0 \
+  --source-case 'C:/studies/original.sav' --catalog /path/to/reviewed-signatures.json
+```
+
+The version above is an example selection, not a claim that the script supports
+that installation. Checks include Python syntax, statically identified `psspy`
+calls (including import aliases), call shape, initialization order hints, return
+handling review items, and literal output paths matching input cases. Dynamic
+paths/arguments remain unverified. Assignment of `ierr` does not prove it is
+checked, so every call retains a return-contract review item. Static checks do
+not establish safe execution, API value ranges, electrical validity, or complete
+control flow; path aliases and file existence need runtime checking.
+
+An optional JSON signature catalog must contain `schema_version: 1`, the exact
+`psse_version`, a nonempty `source` identifying the installed API/manual revision,
+and `functions`. Each function maps to a list of `{name, kind, required}` parameter
+objects; `kind` is one of Python inspect's `POSITIONAL_ONLY`,
+`POSITIONAL_OR_KEYWORD`, `KEYWORD_ONLY`, `VAR_POSITIONAL`, or `VAR_KEYWORD`.
+`required` is boolean. Catalogs must be checked against the installed vendor
+documentation. None was invented from repository examples. Missing catalog entries
+remain unverified; the checker does not infer an API from familiar spelling.
+Reports identify the reviewed source with its SHA-256.
+
+## Licensed copied-case smoke test
+
+`psse_validate_case.py --help` describes an explicit Windows-only harness for a
+configured PSS/E Python environment. Supply `--case`, a **new** `--output-dir`,
+the exact `--psse-version` (`major.minor.modification`), positive `--buses`, all
+eight `--fnsl-options`, and `--assumptions`. `--bootstrap-module` optionally imports
+the installed environment module. No solve settings are inferred.
+
+The harness copies the input, initializes PSS/E, checks installed version, loads
+the copy, runs FNSL, checks both its return code and `solved()`, saves a different
+derived case, and reloads the input copy. `validation.json` records hashes, time,
+script version by hash, options, assumptions, success/failure, restoration and
+source-integrity checks. No assistant-generated script is executed. This is a
+base-case solver smoke test, not contingency/criteria validation or proof that
+generated code works. Nonzero API/solver statuses fail; the original is never
+passed to PSS/E. Use a dedicated process because initialization replaces the
+in-memory simulation session.
+
+Only mocked simulator and UI tests have run on this macOS workspace. The live
+PSS/E version contract and licensed Windows behavior still require local validation.

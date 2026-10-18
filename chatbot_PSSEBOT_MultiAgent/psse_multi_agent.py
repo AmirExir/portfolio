@@ -5,6 +5,7 @@ from retriever import load_chunks_and_embeddings, find_relevant_chunks
 from executor import extract_valid_funcs, run_executor
 from utils import parse_planner_tasks
 from psse_rag_context import code_index_caption, example_only_functions, reference_labels
+from psse_preflight_ui import render_preflight
 
 st.set_page_config(page_title="Amir Exir's PSS/E Agent Loop")
 st.title("Amir Exir's PSS/E Automation Agent")
@@ -159,3 +160,6 @@ if prompt:
         st.session_state.stop_execution = False
         st.session_state.messages = []
         st.rerun()
+
+render_preflight(next((message["content"] for message in reversed(st.session_state.messages)
+                       if message["role"] == "assistant"), ""))

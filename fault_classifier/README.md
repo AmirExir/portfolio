@@ -110,4 +110,39 @@ UI regressions additionally exercise the upload-first layout, bundled sample
 provenance, input/output row alignment, unlabeled uploads, invalid measurements,
 partial labels, and cache reuse while switching to the sample.
 
-Next validation work should add event/time metadata and independently sourced labeled events before comparing field performance.
+## Event-based and external evaluation
+
+Training automatically uses event-disjoint holdout and stratified grouped CV when
+`event_id` is present. `--group-column` selects another explicit event/family key.
+Whole groups stay together; row positions and group IDs for all folds are saved.
+This is a random group split, not a chronological split. If a partition lacks a
+class, training stops with an actionable error rather than selecting a different
+split based on test performance. Repeated related events need the same group key.
+The bundled CSV has no event IDs and retains its explicitly limited row split.
+
+Use real, independently labeled measurements for external evaluation:
+
+```sh
+python fault_classifier/fault_classification_v2.py \
+  --data /path/to/training_events.csv --metadata /path/to/training_metadata.json \
+  --external-test /path/to/new_events.csv --external-metadata /path/to/new_metadata.json \
+  --output-dir /path/to/new-run --models 'Random Forest' --folds 3
+```
+
+Both metadata files use `schema_version: 1` and require nonempty `dataset_id`,
+`source`, `acquisition_context`, `label_definition`, `measurement_convention`, and
+`units` with all six feature keys. For example, only if the acquisition system
+establishes amperes/volts, use `{"Ia":"A","Ib":"A","Ic":"A","Va":"V","Vb":"V","Vc":"V"}`.
+Record whether quantities are instantaneous, RMS, phase/line, scaled or per-unit
+in `measurement_convention`. Do not assign these units to the bundled dataset.
+
+External evaluation requires matching declared units/conventions/label definitions
+and event IDs disjoint from **all** development events, including held-out ones.
+Canonical numeric measurement hashes also reject exact reuse even if event IDs
+are renamed. Modified copies and correlated observations still require review.
+It never fits or selects a model. Its report includes source hash, event IDs,
+per-class metrics, previously unseen labels and the training-majority baseline.
+Configured bundles display this evaluation in the app. Renaming overlapping event
+IDs does not make data independent: the checks verify exact reuse and declared IDs/contracts, not
+the truth of acquisition metadata. Synthetic regressions establish these controls;
+no independent field dataset or field-performance result has been created here.

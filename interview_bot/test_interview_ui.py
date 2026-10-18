@@ -1,6 +1,7 @@
 """Exercise job-focus controls with local Streamlit and mocked external services."""
 
 from pathlib import Path
+import json
 import sys
 from types import SimpleNamespace
 import unittest
@@ -13,7 +14,7 @@ except ImportError:
     np = None
     AppTest = None
 
-from interview_retrieval import JOB_CONTEXT_INSTRUCTIONS
+from interview_retrieval import JOB_CONTEXT_INSTRUCTIONS, planning_evidence
 from test_job_description import LATE_REQUIREMENT, LONG_JOB_DESCRIPTION
 
 
@@ -119,6 +120,34 @@ class JobFocusUITests(unittest.TestCase):
         ))
         self.assertIn("Resource integration", self.client.embeddings.create.call_args.kwargs["input"])
         self.assertEqual(self.app.session_state["candidate_story_pos"], 0)
+
+    def test_planning_focus_rejects_top_semantic_ems_match_for_ownership_question(self) -> None:
+        chunks = json.loads(Path(__file__).with_name("chunks_cleaned.json").read_text())
+        ems_index = next(i for i, item in enumerate(chunks) if
+                         "something significant outside your area of responsibility" in item["text"]
+                         and "GE Energy Management System" in item["text"])
+        annual_index = next(i for i, item in enumerate(chunks) if
+                            item.get("source_id") == "story-pec-annual-transmission-assessment")
+        self.apply_focus("Transmission planning", "Project Director, ERCOT Transmission Planning",
+                         "Lead annual transmission planning assessments, studies and upgrades. Manage vendors and costs.")
+        self.app.session_state["index"].search = Mock(return_value=(
+            np.array([[0.99, 0.1]]), np.array([[ems_index, annual_index]])
+        ))
+        question = ("Tell me about a time when you took on something significant outside your area of "
+                    "responsibility. Why was it important? What was the outcome?")
+        self.app.chat_input[0].set_value(question).run()
+        self.assertFalse(self.app.exception)
+        candidates = self.app.session_state["candidate_stories"]
+        self.assertTrue(candidates)
+        self.assertNotIn(ems_index, [item["index"] for item in candidates])
+        self.assertTrue(all(planning_evidence(item["text"]) for item in candidates))
+        active = self.app.session_state["active_answer"]
+        self.assertTrue(planning_evidence(active["candidate"]["text"]))
+        sent = self.client.chat.completions.create.call_args.kwargs["messages"][1]["content"]
+        self.assertIn(active["candidate"]["text"], sent)
+        self.assertNotIn("GE Energy Management System", sent)
+        self.click_button("Give me another answer or story")
+        self.assertTrue(planning_evidence(self.app.session_state["active_answer"]["candidate"]["text"]))
 
     def test_full_job_description_guides_followup_questions_without_manual_focus(self) -> None:
         self.apply_focus("All roles", job_description=LONG_JOB_DESCRIPTION)

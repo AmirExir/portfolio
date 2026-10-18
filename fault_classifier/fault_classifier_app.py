@@ -83,6 +83,11 @@ def show_model_evaluation(predictor: FaultPredictor, configured: bool) -> None:
     else:
         st.caption(f"{report['selected_model']} · fixed configuration · trained from the bundled dataset")
     st.caption(f"{report['held_out_test']['samples']:,} test rows · seed {report['random_seed']} · model fitted only on training rows")
+    st.caption(f"Split: {report['split']['method']}")
+    if report.get("external_evaluation"):
+        with st.expander("Independent event evaluation"):
+            show_metrics(report["external_evaluation"]["metrics"])
+            st.caption(report["external_evaluation"]["limitation"])
     st.dataframe(pd.DataFrame({
         "Model": {key: report["held_out_test"][key] for key in ("accuracy", "macro_f1")},
         "Majority baseline": {key: report["majority_baseline"][key] for key in ("accuracy", "macro_f1")},
@@ -96,7 +101,7 @@ def show_model_evaluation(predictor: FaultPredictor, configured: bool) -> None:
         }).T, use_container_width=True)
         if not configured:
             st.caption(f"Built in scikit-learn {sklearn.__version__} and cached for reuse. No saved estimator is loaded on the default path.")
-        st.json({key: report[key] for key in ("dataset", "source_revision", "versions") if key in report})
+        st.json({key: report[key] for key in ("dataset", "source_revision", "versions", "data_metadata") if key in report})
         st.download_button("Download evaluation report", json.dumps(report, indent=2), "fault_model_evaluation.json", "application/json")
     with st.expander("Evaluation assumptions and limitations"):
         for limitation in report["limitations"]:

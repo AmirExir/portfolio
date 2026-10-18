@@ -30,7 +30,7 @@ from .config import (
     default_config,
 )
 from .embeddings import EmbeddingProvider, OpenAIEmbedder, provider_model
-from .loaders import load_document
+from .loaders import load_document, load_document_with_report
 from .store import (
     SCHEMA_VERSION,
     load_generation,
@@ -893,6 +893,8 @@ class IngestionPipeline:
                             "ingestion_timestamp": record.get("ingestion_timestamp") or _utc_now(),
                         }
                     )
+                    if existing.chunks and existing.chunks[0].get("extraction_report"):
+                        record["extraction_report"] = copy.deepcopy(existing.chunks[0]["extraction_report"])
                 reused += len(existing.chunks)
                 continue
 
@@ -932,9 +934,11 @@ class IngestionPipeline:
                     )
                 continue
             try:
-                text = load_document(path, max_file_bytes=self.config.max_file_bytes)
+                loaded = load_document_with_report(path, max_file_bytes=self.config.max_file_bytes)
+                text = loaded.text
                 for record in records:
                     record.update(enrich_metadata_from_text(record, text))
+                    record["extraction_report"] = copy.deepcopy(loaded.extraction_report)
                 representative = min(records, key=_canonical_record_key)
                 chunks = build_chunks(
                     text,
@@ -1422,6 +1426,17 @@ class IngestionPipeline:
             "chunks": len(generation.chunks),
             "statuses": dict(sorted(statuses.items())),
             "errors": errors,
+            "extraction_reviews": [
+                {"path": path, "report": record["extraction_report"]}
+                for path, record in documents.items()
+                if record.get("status") in {"ingested", "duplicate"}
+                and record.get("extraction_report", {}).get("review_required")
+            ],
+            "extraction_unassessed_documents": sum(
+                record.get("status") in {"ingested", "duplicate"}
+                and not record.get("extraction_report")
+                for record in documents.values()
+            ),
         }
 
 

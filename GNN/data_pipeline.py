@@ -5,12 +5,17 @@ supplied class labels are preserved; voltage/loading are never predictor inputs.
 """
 from pathlib import Path
 import hashlib
+from io import BytesIO
 from typing import Literal
 
 import numpy as np
 import pandas as pd
 import torch
 from torch_geometric.data import Data
+if __package__:
+    from .provenance import RAW_BUS_FEATURES, RAW_NOTE, validate_study_manifest
+else:
+    from provenance import RAW_BUS_FEATURES, RAW_NOTE, validate_study_manifest
 
 Mode = Literal["voltage", "thermal"]
 FEATURES = {
@@ -134,16 +139,41 @@ def build_graphs(buses: pd.DataFrame, edges: pd.DataFrame, mode: Mode) -> list[D
     return graphs
 
 
-def load_csv_graphs(mode: Mode, directory: Path | str | None = None) -> list[Data]:
+def load_csv_graphs(mode: Mode, directory: Path | str | None = None, *, require_traceable: bool = False) -> list[Data]:
     """Load inspectable CSV sources, never deserialize a pickled graph artifact."""
     source = Path(directory) if directory is not None else Path(__file__).resolve().parent
+    manifest_path = source / "study_manifest.json"
+    traceable = manifest_path.is_file()
+    if require_traceable and not traceable:
+        raise ValueError("Traceable study data requires study_manifest.json; bundled demo provenance cannot be inferred.")
     paths = [source / "edge_scenarios.csv"]
-    if mode == "voltage":
+    if mode == "voltage" or traceable:
         paths.append(source / "bus_scenarios.csv")
-    hashes = {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in paths}
-    edges = pd.read_csv(source / "edge_scenarios.csv")
-    buses = pd.read_csv(source / "bus_scenarios.csv") if mode == "voltage" else pd.DataFrame()
+    contents = {path.name: path.read_bytes() for path in paths}
+    hashes = {name: hashlib.sha256(content).hexdigest() for name, content in contents.items()}
+    edges = pd.read_csv(BytesIO(contents["edge_scenarios.csv"]))
+    buses = pd.read_csv(BytesIO(contents["bus_scenarios.csv"])) if mode == "voltage" or traceable else pd.DataFrame()
+    manifest = validate_study_manifest(manifest_path, buses, edges, hashes, mode) if traceable else None
     graphs = build_graphs(buses, edges, mode)
     for graph in graphs:
         graph.source_hashes = hashes
+        if manifest:
+            graph.study_manifest = manifest
+            graph.source_note = RAW_NOTE
+            definition = manifest["scenarios"][graph.scenario_id]
+            graph.split_group_id = definition["split_group_id"]
+            if mode == "thermal":
+                scenario_edges = _active_edges(edges.loc[edges.scenario.astype(str) == graph.scenario_id])
+                scenario_buses = buses.loc[buses.scenario.astype(str) == graph.scenario_id].set_index("bus")
+                if not set(scenario_edges.from_bus).union(scenario_edges.to_bus) <= set(scenario_buses.index):
+                    raise ValueError("Raw thermal branch endpoint is missing from its bus scenario.")
+                extra = []
+                for row in scenario_edges.itertuples():
+                    extra.append([*scenario_buses.loc[row.from_bus, list(RAW_BUS_FEATURES)].tolist(),
+                                  *scenario_buses.loc[row.to_bus, list(RAW_BUS_FEATURES)].tolist(),
+                                  getattr(row, f"{definition['rating_basis']}_rating_mva")])
+                graph.x = torch.cat([graph.x, torch.tensor(extra, dtype=torch.float32)], dim=1)
+                graph.feature_names = [*FEATURES["thermal"],
+                    *[f"{end}_{name}" for end in ("from", "to") for name in RAW_BUS_FEATURES], "selected_rating_mva"]
+                graph.entity_ids = scenario_edges.branch_id.astype(str).tolist()
     return graphs

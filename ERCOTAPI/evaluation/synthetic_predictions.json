@@ -1,0 +1,14 @@
+[
+  {
+    "id": "changed-quantity",
+    "as_of": "2026-01-01",
+    "retrieved": [{"evidence_id": "E1", "source_path": "synthetic/guide.txt", "section_number": "1", "text": "The fixture capacity is 100 MW."}],
+    "answer": "The fixture capacity is 200 MW [E1]."
+  },
+  {
+    "id": "missing-evidence",
+    "as_of": "2026-01-01",
+    "retrieved": [],
+    "answer": "The supplied ERCOT documents do not establish that information."
+  }
+]
