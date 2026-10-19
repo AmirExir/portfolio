@@ -12,7 +12,7 @@ from embedding_utils import (
 from interview_evidence import answer_markdown, build_story_library, story_id
 from interview_services import InterviewServiceError, answer_messages, request_text, service_error, transcribe
 from interview_sessions import restore_session
-from interview_workspace_ui import render_evidence, render_practice, render_session_controls
+from interview_workspace_ui import render_evidence, render_practice, render_saved_context, render_session_controls
 from interview_retrieval import (
     JOB_FOCUSES,
     MAX_JOB_DESCRIPTION_CHARS,
@@ -338,13 +338,17 @@ active = st.session_state.get("active_answer")
 if active:
     candidate = active["candidate"]
     st.caption(f"Selected answer for: {active['question']}")
-    st.markdown(f"**{'Detected Principle' if candidate['response_type'] == 'story' else 'Answer Category'}:** {display_category(candidate)}")
+    st.markdown(f"**{'Saved leadership principle / theme' if candidate['response_type'] == 'story' else 'Answer Category'}:** {display_category(candidate)}")
+    if candidate["response_type"] == "story":
+        st.caption("Saved story label; not a confirmed employer interview framework.")
     st.caption(f"Saved evidence: {active['story_id']}. Claims are not independently verified.")
     if st.session_state.story_reviews.get(active["story_id"], {}).get("review_status") == "Needs correction":
         st.warning("You marked this source as needing correction. Review the source before using this earlier answer.")
     if st.checkbox("Show retrieved context"):
         st.markdown("**Selected context sent to GPT**")
-        st.code(candidate["text"], language="text")
+        render_saved_context(candidate["text"], show_principle=False)
+        with st.expander("Exact saved text"):
+            st.code(candidate["text"], language="text", wrap_lines=True)
         st.text(active["job_context"] or "No job background was applied to this answer.")
     st.download_button("Download this answer", answer_markdown(active), "interview-answer.md", "text/markdown")
     if st.button("Make answer audio", disabled=client is None):
