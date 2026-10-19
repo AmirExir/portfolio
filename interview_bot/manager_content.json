@@ -705,16 +705,5 @@
     "source_sha256": "4a453873e0c6b555248c4bd715738a5b789513e2e603b9efbd871305b2896068",
     "source_status": "Suggested interview answer",
     "references": []
-  },
-  {
-    "id": "story-lcra-hosting-capacity",
-    "response_type": "story",
-    "principle": "Customer Obsession",
-    "question": "Customer Obsession Q2 - Tell me about a time when you went above and beyond for a customer. Why did you do it? How did the customer respond? What was the outcome?",
-    "situation": "At LCRA, we received a large load interconnection request at a substation where hosting capacity was limited. The goal was to increase capacity while minimizing the need for additional land or right-of-way, which would increase cost and timeline for the customer.",
-    "task": "My responsibility was to identify a technically feasible, cost-effective way to serve the new load while limiting infrastructure expansion and project delays.",
-    "action": "I reviewed system drawings and found a de-energized transmission line that was missing from the planning model. I added the line to the model and ran multiple power-flow studies to assess its potential. The studies showed that upgrading the existing structures and reconductoring the line could serve the new load without major substation modifications. This solution used the existing land and infrastructure, avoiding the need for new right-of-way.",
-    "result": "The solution increased hosting capacity at the substation and significantly reduced the customer's project cost and timeline. By making better use of existing assets, we delivered a more efficient, scalable solution that supported faster interconnection and lower development costs.",
-    "replaces_text_sha256": "0f95d50493b533f9114d8ab04375e1828d41c4c336877b5ec6ff464971f33a22"
   }
 ]

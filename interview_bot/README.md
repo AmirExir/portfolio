@@ -177,7 +177,7 @@ Editing the source alone does **not** activate new answers: the app reads
 `chunks_cleaned.json` and its matching saved embedding cache. Run the refresh above
 before deploying the content update, then restart/redeploy the app or use
 **Reload saved embeddings**. With the current source set, synchronization produces
-166 chunks (116 existing base chunks and 50 managed entries). Without an API key
+166 chunks (117 existing base chunks and 49 managed entries). Without an API key
 or if generation fails, the existing searchable corpus remains intact and the
 new source content remains pending. To validate the intended corpus without API
 calls, use:
@@ -185,15 +185,6 @@ calls, use:
 ```sh
 python interview_bot/generate_embeddings.py --sync-manager-content --dry-run
 ```
-
-A wording revision to the LCRA hosting-capacity story is saved as
-`story-lcra-hosting-capacity`. Its `replaces_text_sha256` identifies the exact legacy
-base text to replace during synchronization. The sync rejects missing or ambiguous
-originals, while repeat syncs recognize an already published replacement. This
-stages the revised wording without invalidating the active cache. The Situation
-is unchanged, preserving the canonical story ID; changed text invalidates prior
-review classifications. After publishing, start a fresh browser session or run a
-new search to avoid continuing an answer selected before the revision.
 
 The refresh reuses vectors for unchanged text and keeps active files intact if
 embedding generation fails. Run local checks from the repository root:
