@@ -155,6 +155,37 @@ After editing `manager_content.json`, refresh the corpus and index together with
 python interview_bot/generate_embeddings.py --sync-manager-content
 ```
 
+The October 19, 2026 content update adds 20 transmission-planning interview
+questions to `manager_content.json` (`planning-interview-01` through
+`planning-interview-20`): 13 proposed technical/management approaches and seven
+experience-based answers. The original attachment is preserved byte-for-byte in
+`sources/transmission_planning_interview_2026-10-19.txt`; each imported entry records
+its question number and the source SHA-256. The complete supplied answer remains
+available alongside the STAR organization of experience-based entries. Existing
+stories are retained.
+
+Imported references, their dates, and preparation notes remain in the retrieved
+context. They are user-provided preparation material, not independently verified
+ERCOT/NERC requirements or verified personal outcomes. Generation and coaching
+instructions retain hypothetical wording, potential versus realized savings,
+effective-date caveats, and details that require confirmation. These prompt rules
+do not guarantee model compliance. In particular, the EMS-upgrade example remains
+an operations example and is excluded from Transmission planning story searches;
+use All roles or Project management to retrieve it.
+
+Editing the source alone does **not** activate new answers: the app reads
+`chunks_cleaned.json` and its matching saved embedding cache. Run the refresh above
+before deploying the content update, then restart/redeploy the app or use
+**Reload saved embeddings**. With the current source set, synchronization produces
+166 chunks (117 existing base chunks and 49 managed entries). Without an API key
+or if generation fails, the existing searchable corpus remains intact and the
+new source content remains pending. To validate the intended corpus without API
+calls, use:
+
+```sh
+python interview_bot/generate_embeddings.py --sync-manager-content --dry-run
+```
+
 The refresh reuses vectors for unchanged text and keeps active files intact if
 embedding generation fails. Run local checks from the repository root:
 

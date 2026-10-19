@@ -7,7 +7,7 @@ from typing import Any
 
 MAX_JOB_DESCRIPTION_CHARS = 20000
 MAX_JOB_SEARCH_CHARS = 4000
-RETRIEVAL_POLICY_VERSION = 2
+RETRIEVAL_POLICY_VERSION = 3
 
 # Shared analysis methods occur in both planning and real-time operations. A
 # planning purpose must be established before those methods can boost ranking.
@@ -19,6 +19,7 @@ PLANNING_PURPOSE_TERMS = (
     "planning models", "planning study", "planning studies", "planning team",
     "planning group", "planning execution", "interconnection study",
     "interconnection studies", "interconnection modeling", "dynamic model validation",
+    "generator dynamic model verification",
     "generator model validation", "generation model validation", "contingency categories",
     "p1 to p7", "p3 and p6", "p3/p6", "tpl 001",
 )
@@ -93,6 +94,8 @@ STORY_TAGS = ("Situation", "Task", "Action", "Result")
 CONTENT_TAGS = (
     "Response Type", "Principle", "Category", "Question", "Aliases",
     "Situation", "Task", "Action", "Result", "Reflection", "Answer",
+    "Source Document", "Source Question", "Source SHA256", "Source Status",
+    "Verification", "References", "Preparation Note",
 )
 TAG_LOOK_AHEAD = "|".join(re.escape(tag) for tag in CONTENT_TAGS)
 
@@ -309,6 +312,8 @@ def rank_candidates(
     terms = [term for term in re.findall(r"[a-z0-9]+", normalized_query) if len(term) > 2]
     behavioral = any(phrase in normalized_query for phrase in (
         "tell me about a time", "give me an example", "describe a time", "walk me through a time",
+        "tell us about a time", "give us an example", "walk us through a time",
+        "describe a situation",
     ))
     focused = focus != "All roles"
     has_job_context = focused or bool(description)
@@ -335,10 +340,10 @@ def rank_candidates(
             ((behavioral or stories_only) and response_type == "story")
             or (not behavioral and not stories_only and response_type == "direct")
         ) else 0
-        direct_questions = [candidate["question"], *extract_tag_value(chunk["text"], "Aliases").split(";")]
-        direct_match = has_job_context and response_type == "direct" and any(
+        saved_questions = [candidate["question"], *extract_tag_value(chunk["text"], "Aliases").split(";")]
+        question_match = has_job_context and response_type in {"direct", "story"} and any(
             question.lower().strip().rstrip(".?!") == normalized_query.rstrip(".?!")
-            for question in direct_questions if question.strip()
+            for question in saved_questions if question.strip()
         )
         candidate["topic_score"] = match_score
         if focus == "Transmission planning":
@@ -346,7 +351,7 @@ def rank_candidates(
         candidate["job_description_score"] = job_score
         candidate["score"] += (
             0.15 * keyword_hits + 0.5 * exact_hit + type_bonus + match_score + job_score
-            + float(direct_match)
+            + float(question_match)
         )
         reranked.append(candidate)
     reranked.sort(key=lambda item: item["score"], reverse=True)

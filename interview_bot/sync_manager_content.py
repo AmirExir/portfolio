@@ -1,5 +1,6 @@
 import argparse
 import json
+import re
 from pathlib import Path
 
 
@@ -50,8 +51,38 @@ def serialize_content(item):
             f"Action: {require_text(item, 'action')}",
             f"Result: {require_text(item, 'result')}",
         ]
+        if aliases:
+            fields.append(f"Aliases: {'; '.join(alias.strip() for alias in aliases if alias.strip())}")
+        if "answer" in item:
+            fields.append(f"Answer: {require_text(item, 'answer')}")
     else:
         raise ValueError(f"{content_id}: unsupported response_type '{response_type}'")
+
+    if "source_document" in item:
+        question_number = item.get("source_question")
+        if type(question_number) is not int or question_number < 1:
+            raise ValueError(f"{content_id}: 'source_question' must be a positive integer")
+        source_hash = require_text(item, "source_sha256")
+        if not re.fullmatch(r"[a-f0-9]{64}", source_hash):
+            raise ValueError(f"{content_id}: 'source_sha256' must be a SHA-256 hex digest")
+        fields.extend([
+            f"Source Document: {require_text(item, 'source_document')}",
+            f"Source Question: {question_number}",
+            f"Source SHA256: {source_hash}",
+            f"Source Status: {require_text(item, 'source_status')}",
+            "Verification: User-provided interview preparation; personal claims and cited "
+            "references have not been independently verified. Reference dates and statements "
+            "that a document was checked are supplied by the author, not verified by this bot.",
+        ])
+    references = item.get("references", [])
+    if not isinstance(references, list) or not all(
+        isinstance(reference, str) and reference.strip() for reference in references
+    ):
+        raise ValueError(f"{content_id}: 'references' must be a list of non-empty strings")
+    if references:
+        fields.append("References: " + "\n".join(references))
+    if "preparation_note" in item:
+        fields.append(f"Preparation Note: {require_text(item, 'preparation_note')}")
 
     return {
         "text": " | ".join(fields),
