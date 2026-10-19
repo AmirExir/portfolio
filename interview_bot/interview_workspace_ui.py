@@ -2,54 +2,17 @@
 
 from datetime import datetime, timezone
 import json
-import textwrap
 
 import streamlit as st
 from streamlit_mic_recorder import mic_recorder
 
 from interview_evidence import RESULT_STATUSES, REVIEW_STATUSES, coverage_map, review_for_story
-from interview_retrieval import STORY_TAGS, clear_candidate_pool, extract_tag_value, topic_score
+from interview_retrieval import clear_candidate_pool, topic_score
 from interview_services import (
     InterviewServiceError, parse_feedback, practice_messages, practice_timing,
     request_text, transcribe,
 )
 from interview_sessions import load_session, session_bytes
-
-
-def render_story_principle(text: str) -> None:
-    """Show the source's leadership label without attributing it to an employer."""
-    principle = extract_tag_value(text, "Principle")
-    if principle:
-        st.markdown("**Saved leadership principle / theme**")
-        st.text(principle)
-        st.caption(
-            "This label comes from your saved interview preparation. "
-            "It is not a confirmed interview framework for the employer in your job description."
-        )
-
-
-def render_saved_context(text: str, *, show_question: bool = True, show_principle: bool = True) -> None:
-    """Display complete saved fields as readable paragraphs, preserving the source text."""
-    if show_principle:
-        render_story_principle(text)
-    tags = (["Question"] if show_question else []) + list(STORY_TAGS)
-    if not any(extract_tag_value(text, tag) for tag in STORY_TAGS):
-        tags.append("Answer")
-    for tag in tags:
-        value = extract_tag_value(text, tag)
-        if value:
-            st.markdown(f"**{tag}**")
-            st.text(value)
-    if all(extract_tag_value(text, tag) for tag in STORY_TAGS) and extract_tag_value(text, "Answer"):
-        with st.expander("Original supplied answer"):
-            st.text(extract_tag_value(text, "Answer"))
-    for tag in ("Preparation Note", "Verification", "References"):
-        value = extract_tag_value(text, tag)
-        if value:
-            st.markdown(f"**{tag}**")
-            st.text(value)
-    if not any(extract_tag_value(text, tag) for tag in tags):
-        st.text(text)
 
 
 def render_session_controls() -> None:
@@ -78,53 +41,6 @@ def render_session_controls() -> None:
                 st.rerun()
 
 
-def render_coverage(rows: list[dict], library_by_id: dict[str, dict]) -> None:
-    """Keep posting text and exact supporting excerpts readable without table clipping."""
-    requirements = [row for row in rows if row.get("row_kind", "requirement") == "requirement"]
-    background = [row for row in rows if row.get("row_kind", "requirement") != "requirement"]
-    st.markdown("**Job requirement review**")
-    st.caption(
-        "These are suggested connections to saved experience, not a qualification score. "
-        "A missing match can mean different wording or missing evidence. A partial match does "
-        "not establish every skill in the requirement. Example or alternative tools are not "
-        "automatically separate mandatory requirements. Travel and location need separate confirmation."
-    )
-    for number, row in enumerate(requirements, 1):
-        st.markdown(f"**{number}. {row['status']}**")
-        st.text(row["posting_text"])
-        unmatched = row.get("unmatched_terms", [])
-        if unmatched:
-            st.caption("Recognized posting terms without saved evidence: " + ", ".join(unmatched))
-        if row.get("review_note"):
-            st.caption(row["review_note"])
-        if row["matches"]:
-            with st.expander(f"Review related stories for requirement {number}"):
-                st.caption(f"Showing up to three of {len(row['matches'])} related stories. The download includes all matches.")
-                for match in row["matches"][:3]:
-                    story = library_by_id[match["story_id"]]
-                    st.markdown("**Related saved story**")
-                    st.text(story["title"])
-                    principle = extract_tag_value(story["candidate"]["text"], "Principle")
-                    if principle:
-                        st.caption(f"Saved leadership theme: {principle}")
-                    st.caption(f"Saved evidence ID: {match['story_id']}")
-                    links = match.get("evidence_links", [])
-                    for link in links:
-                        st.caption(
-                            f"Posting wording: {link['posting_term']} · Saved wording: {link['evidence_term']} "
-                            f"· Field: {link['evidence_field']}"
-                        )
-                        st.text(link["evidence_snippet"])
-                    if not links:
-                        st.caption("Matched phrases: " + ", ".join(match["matched_phrases"]))
-    if background:
-        with st.expander("Posting background, headings, and logistics"):
-            for row in background:
-                st.caption(row["status"])
-                st.text(row["posting_text"])
-    st.download_button("Download evidence map", json.dumps(rows, indent=2), "job-evidence-map.json", "application/json")
-
-
 def render_evidence(library: list[dict], job_description: str) -> None:
     """Expose exact saved sources, user-authored review metadata, and coverage gaps."""
     with st.expander("Story evidence and job coverage"):
@@ -133,26 +49,22 @@ def render_evidence(library: list[dict], job_description: str) -> None:
             "not independent verification. Phrase matches suggest relevant evidence; they do not "
             "establish that you meet a job requirement."
         )
-        st.caption(
-            "Coverage uses saved STAR experience stories. Technical preparation answers remain "
-            "available in the answer assistant, but do not establish work you have performed."
-        )
         if not library:
             st.info("No structured STAR stories are available.")
             return
         by_id = {item["id"]: item for item in library}
         selected_id = st.selectbox(
             "Review a saved story", list(by_id), key="evidence_story",
-            format_func=lambda identifier: textwrap.shorten(by_id[identifier]["title"], width=100, placeholder="…"),
+            format_func=lambda identifier: by_id[identifier]["title"][:130],
         )
         item = by_id[selected_id]
         st.caption(f"Canonical story ID: {selected_id}")
-        render_saved_context(item["candidate"]["text"])
+        st.code(item["candidate"]["text"], language="text")
         with st.expander("Source locations and saved variants"):
             for source, variant in zip(item["sources"], item["variants"]):
                 st.write(f"{source['file']} array item {source['index']} (zero-based); source ID: {source['source_id'] or 'not recorded'}")
                 st.caption(f"Text SHA-256: {source['text_sha256']}")
-                st.code(variant, language="text", wrap_lines=True)
+                st.code(variant, language="text")
         review = review_for_story(item, st.session_state.story_reviews.get(selected_id))
         if review["stale"]:
             st.warning("This review is not bound to the current source text. Review the saved variants again; prior outcome classifications do not apply.")
@@ -177,7 +89,13 @@ def render_evidence(library: list[dict], job_description: str) -> None:
         st.caption("Review notes do not rewrite source stories or certify their claims. Correct the source before using a disputed claim.")
         if job_description:
             rows = coverage_map(job_description, library)
-            render_coverage(rows, by_id)
+            table = [{
+                "Posting text": row["posting_text"], "Coverage": row["status"],
+                "Related story IDs": ", ".join(match["story_id"] for match in row["matches"][:3]),
+                "Matched phrases": ", ".join(sorted({term for match in row["matches"][:3] for term in match["matched_phrases"]})),
+            } for row in rows]
+            st.dataframe(table, hide_index=True, use_container_width=True)
+            st.download_button("Download evidence map", json.dumps(rows, indent=2), "job-evidence-map.json", "application/json")
         else:
             st.info("Apply a job description to see its lines mapped to saved evidence and unmatched areas.")
 
@@ -201,12 +119,9 @@ def render_practice(client: object, library: list[dict], job_focus: str, job_con
         st.session_state.pop("practice_source", None)
     identifier = st.selectbox(
         "Story to practice", list(by_id), key="practice_source",
-        format_func=lambda value: textwrap.shorten(by_id[value]["title"], width=100, placeholder="…"),
+        format_func=lambda value: by_id[value]["title"][:130],
     )
     item = by_id[identifier]
-    st.markdown("**Selected story — full situation**")
-    st.text(item["title"])
-    render_story_principle(item["candidate"]["text"])
     source_revision = (identifier, tuple(sorted({source["text_sha256"] for source in item["sources"]})))
     if st.session_state.get("practice_loaded_source") != source_revision:
         st.session_state.practice_loaded_source = source_revision
@@ -214,9 +129,9 @@ def render_practice(client: object, library: list[dict], job_focus: str, job_con
         st.session_state.practice_answer = ""
         for key in ("practice_feedback", "practice_feedback_signature", "practice_audio", "practice_recording", "practice_transcript", "practice_error"):
             st.session_state.pop(key, None)
-    st.text_area("Practice question", key="practice_question", height=140, max_chars=2000)
+    st.text_input("Practice question", key="practice_question", max_chars=2000)
     with st.expander("Reference story (optional)"):
-        render_saved_context(item["candidate"]["text"], show_question=False, show_principle=False)
+        st.code(item["candidate"]["text"], language="text")
         st.caption(f"Evidence ID: {identifier}; source claims have not been independently verified.")
     recording = mic_recorder(
         start_prompt="Record my practice answer", stop_prompt="Stop practice recording",
@@ -277,4 +192,4 @@ def render_practice(client: object, library: list[dict], job_focus: str, job_con
                 st.markdown(f"**Attempt {len(st.session_state.practice_history) - number + 1}:** {prior['question']}")
                 st.caption(f"Saved evidence ID: {prior['story_id']}")
                 st.text(prior["answer"])
-                st.code(prior["feedback"], language="json", wrap_lines=True)
+                st.code(prior["feedback"], language="json")

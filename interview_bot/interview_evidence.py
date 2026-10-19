@@ -1,10 +1,11 @@
 """Trace saved interview stories without treating their claims as verified facts."""
 
 import hashlib
+import re
 from typing import Any
 
-from interview_coverage import coverage_map
 from interview_retrieval import (
+    JOB_FOCUSES,
     build_candidate,
     content_identity,
     extract_tag_value,
@@ -69,6 +70,47 @@ def review_for_story(record: dict, saved_review: dict | None = None) -> dict[str
             review["review_status"] = "Not reviewed"
         review["result_status"] = "Not confirmed"
     return review
+
+
+def coverage_map(description: str, library: list[dict]) -> list[dict[str, Any]]:
+    """Map actual posting lines to story evidence with visible matched phrases.
+
+    This is a conservative phrase match, not a judgment that a qualification is met.
+    Every posting line is retained; unmatched requirements remain visible.
+    """
+    vocabulary = {term.lower() for profile in JOB_FOCUSES.values() for term in profile["keywords"]}
+    vocabulary -= {"project", "projects"}
+
+    def normalize(value: str) -> str:
+        return re.sub(r"\s+", " ", re.sub(r"[-\u2010-\u2015]", " ", value.lower())).strip()
+
+    def includes(value: str, term: str) -> bool:
+        return bool(re.search(rf"(?<!\w){re.escape(normalize(term))}(?!\w)", normalize(value)))
+
+    evidence = {
+        item["id"]: " ".join(
+            extract_tag_value(item["candidate"]["text"], field)
+            for field in ("Situation", "Task", "Action", "Result")
+        ) for item in library
+    }
+    rows = []
+    lines = dict.fromkeys(line.strip(" \t•-") for line in re.split(r"\n+|(?<=[.!?])\s+", description))
+    for line in lines:
+        if not line:
+            continue
+        terms = {term for term in vocabulary if includes(line, term)}
+        matches = []
+        for item in library:
+            shared = sorted(term for term in terms if includes(evidence[item["id"]], term))
+            if shared:
+                matches.append({"story_id": item["id"], "matched_phrases": shared})
+        matches.sort(key=lambda match: len(match["matched_phrases"]), reverse=True)
+        rows.append({
+            "posting_text": line,
+            "status": "Related saved evidence; review required" if matches else "No phrase match; review manually",
+            "matches": matches,
+        })
+    return rows
 
 
 def answer_markdown(answer: dict) -> str:

@@ -79,13 +79,6 @@ included in an explicitly downloaded session file.
 If the selected source text changes, the current attempt and feedback reset;
 feedback is tied to exact source hashes as well as the question and job context.
 
-Long practice questions use a multiline editor. The complete selected Situation
-appears below the story selector, and saved evidence is displayed as separate
-Question, Situation, Task, Action, and Result paragraphs. Exact serialized source
-variants remain available with line wrapping. The **Saved leadership principle /
-theme** is visible in practice and evidence review; it is a label from the saved
-preparation material, not a verified framework used by the prospective employer.
-
 The target is 60–90 seconds. Valid WAV recordings display measured duration; typed
 or edited transcripts display an estimate at 130 words/minute. The estimate is
 not a measurement of the user's speaking rate. Recordings are limited to 15 MB,
@@ -118,22 +111,11 @@ until their review status is changed. An older generated answer remains visibly
 flagged. Notes do not rewrite source claims; correct the original source and sync
 the corpus before relying on disputed claims.
 
-The coverage review displays complete posting text with related story IDs and
-exact excerpts from saved STAR fields. It uses bounded wording families (for
-example, mentoring and coaching) and shows both the posting phrase and the saved
-phrase for each suggested connection. Questions, aliases, preparation references,
-and hypothetical direct answers do not establish personal experience.
-
-Matches are explicitly partial: one shared skill does not establish the entire
-requirement. Recognized terms without supporting evidence remain visible,
-including individual software tools and consultant-agreement responsibilities.
-Example or alternative tools in the posting are not automatically mandatory skills.
-Unrecognized requirements remain available for manual review. Obvious headings,
-company background, and logistics are shown separately; travel and location still
-need confirmation. These classification rules and phrase matches are heuristics,
-not a verification of qualifications or a coverage percentage. Source locations
-identify saved claims, not independently supporting documents. The JSON download
-retains every row and all matched source excerpts.
+The coverage map retains posting lines and shows related story IDs with the exact
+shared phrases. Unmatched lines remain visible for manual review. This conservative
+heuristic neither verifies requirements nor measures qualification coverage as a
+percentage. Source locations identify saved claims, not independently supporting
+documents. Export the map as JSON for review.
 
 ## Save and restore a job session
 
