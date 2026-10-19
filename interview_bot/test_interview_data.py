@@ -19,15 +19,15 @@ class InterviewDataTests(unittest.TestCase):
     def test_manager_content_has_direct_answers_and_stories(self):
         response_types = [item["response_type"] for item in self.manager_content]
         self.assertEqual(response_types.count("direct"), 31)
-        self.assertEqual(response_types.count("story"), 18)
+        self.assertEqual(response_types.count("story"), 19)
 
     def test_sync_is_idempotent(self):
         updated, base_count, manager_count = build_chunks(
             self.chunks,
             self.manager_content,
         )
-        self.assertEqual(base_count, 117)
-        self.assertEqual(manager_count, 49)
+        self.assertEqual(base_count, 116)
+        self.assertEqual(manager_count, 50)
         self.assertEqual(len(updated), 166)
 
         updated_again, _, _ = build_chunks(updated, self.manager_content)

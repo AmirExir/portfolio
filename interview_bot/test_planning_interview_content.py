@@ -151,7 +151,7 @@ class PlanningInterviewContentTests(unittest.TestCase):
         # Simulate the previous published corpus even after this batch is indexed.
         introduced = {item["id"] for item in self.imported.values()}
         introduced.add("story-pec-annual-transmission-assessment")
-        previous = [chunk for chunk in self.active_chunks if chunk.get("source_id") not in introduced]
+        previous = [chunk for chunk in self.target_chunks if chunk.get("source_id") not in introduced]
         indices, missing = plan_embedding_reuse(previous, self.target_chunks)
         expected_new = {chunk["text"].strip() for chunk in self.target_chunks if chunk.get("source_id") in introduced}
         self.assertEqual(len(expected_new), 21)

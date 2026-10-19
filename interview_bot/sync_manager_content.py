@@ -1,4 +1,5 @@
 import argparse
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -103,7 +104,27 @@ def build_chunks(existing_chunks, manager_content):
     if duplicates:
         raise ValueError(f"Duplicate manager content ids: {', '.join(duplicates)}")
 
+    replacements = {}
+    for item in manager_content:
+        if "replaces_text_sha256" not in item:
+            continue
+        original_hash = require_text(item, "replaces_text_sha256")
+        if not re.fullmatch(r"[a-f0-9]{64}", original_hash):
+            raise ValueError(f"{item['id']}: 'replaces_text_sha256' must be a SHA-256 hex digest")
+        if original_hash in replacements:
+            raise ValueError("Multiple managed stories cannot replace the same base text")
+        replacements[original_hash] = require_text(item, "id")
+
     base_chunks = [chunk for chunk in existing_chunks if chunk.get("source") != SOURCE_NAME]
+    base_hashes = [hashlib.sha256(chunk["text"].encode("utf-8")).hexdigest() for chunk in base_chunks]
+    published_ids = {chunk.get("source_id") for chunk in existing_chunks if chunk.get("source") == SOURCE_NAME}
+    for original_hash, content_id in replacements.items():
+        if base_hashes.count(original_hash) > 1:
+            raise ValueError(f"{content_id}: original story hash matches multiple base records")
+        if original_hash not in base_hashes and content_id not in published_ids:
+            raise ValueError(f"{content_id}: original story to replace was not found; check its exact text hash")
+    base_chunks = [chunk for chunk in base_chunks
+                   if hashlib.sha256(chunk["text"].encode("utf-8")).hexdigest() not in replacements]
     manager_chunks = [serialize_content(item) for item in manager_content]
     return base_chunks + manager_chunks, len(base_chunks), len(manager_chunks)
 
