@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited in this article set, and several items are opinion, generic business coverage, duplicates, or low-credibility aggregations. Below are only the fresher, potentially market-relevant items from the last 36 hours.
+
+**Facts**
+- **Crypto Briefing | 2026-10-18T08:53:28Z** — Microsoft reportedly terminated its agreement to anchor Nscale’s planned UK data-center project, with the article citing grid delays pushing power availability for the site into the 2030s. The piece says this could pressure Nscale’s IPO plans.
+- **Crypto Briefing | 2026-10-18T08:36:49Z** — Justin Sun said he reduced **80–90%** of his aggressive Ethereum positions between **$3,600 and $4,000** and shifted proceeds into **U.S. tech equities**, according to the article.
+- **Biztoc / finance.yahoo.com | 2026-10-18T07:58:01Z** — A summary article said **Bitcoin traded above $81,500** and that whale transfers and exchange flows were giving a mixed near-term signal for crypto.
+- **Business Standard | 2026-10-18T08:31:57Z** — Indian FMCG companies are facing **input-cost inflation** and are bracing for **second-half margin pressure**, with firms weighing possible price hikes after the Diwali period.
+- **BusinessLine | 2026-10-18T08:11:15Z** — Similar report on Indian FMCG companies said rising input costs are squeezing profitability and could keep pressure on margins into H2.
+- **Economic Times / Times of India | 2026-10-18T08:11:02Z** — Foreign portfolio investors reportedly withdrew more than **Rs 52,000 crore** from Indian equities in October, with the article citing **higher U.S. Treasury yields** and **elevated crude oil prices** as drivers.
+- **Hurriyet Daily News | 2026-10-18T08:16:48Z** — Economists covered by the paper expect a **100 bps rate cut** at Turkey’s central bank meeting on **Oct. 22**, following recent turmoil in local fund markets.
+- **RTÉ | 2026-10-18T08:26:20Z** — France saw widespread clashes, looting, and fires during protests tied to the **cost of living**, according to RTÉ.
+
+**Interpretation**
+- The clearest fresh cross-asset signal in this set is **AI infrastructure friction**: the Microsoft/Nscale report points to power-grid bottlenecks as a possible constraint on data-center buildouts, which could matter for AI/cloud supply-chain sentiment if corroborated elsewhere.
+- On crypto, the fresh headlines are **mixed rather than directional**: one article highlights a high-profile investor rotating out of ETH into U.S. stocks, while another says Bitcoin remains above $81,500 but faces noisy whale-flow signals.
+- Inflation/cost pressure is showing up in the **consumer staples** channel via Indian FMCG coverage, but this is more sector-specific and regional than a broad global macro read.
+- The India outflow article suggests **rates and energy remain relevant risk inputs**, since it explicitly links equity flows to higher U.S. yields and crude.
+- Overall, this article set is **thin for explaining today’s broader U.S. tape**: there is little fresh, high-confidence reporting here on the **Fed, U.S. inflation, major earnings, or major index-level catalysts**.
