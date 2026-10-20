@@ -120,6 +120,17 @@ function trace(options) {
   return recorder;
 }
 
+function paintedPaths(recorder, paint = 'stroke') {
+  const paths = [];
+  let commands = [];
+  for (const operation of recorder.operations) {
+    if (operation[0] === 'beginPath') commands = [];
+    else if (['moveTo', 'lineTo'].includes(operation[0])) commands.push(operation);
+    else if (operation[0] === paint) paths.push(commands.slice());
+  }
+  return paths;
+}
+
 for (const [width, height] of [[1440, 900], [640, 980], [390, 980], [320, 980]]) {
   const options = { width, height, time: 2, pointerX: 0, pointerY: 0 };
   const first = trace(options);
@@ -319,6 +330,24 @@ assert.equal(sendingClosedEvent.sendingOpen, 0);
 assert.equal(sendingClosedEvent.receivingOpen, 1);
 assert.equal(sendingClosedEvent.linePower, 1);
 assert.equal(sendingClosedEvent.downstreamPower, 1, 'Reclosing the primary circuit must not interrupt the alternate supply');
+const switchingTransitions = [
+  [8.3, 1, 1, 'Both contacts still closed at the start of the trip'],
+  [8.325, 1, 0, 'Sending contacts separating while the receiving side backfeeds the line'],
+  [8.35, 1, 0, 'Receiving contacts still closed at the start of their motion'],
+  [8.351, 0, 0, 'Both contacts separated'],
+  [8.6, 0, 0, 'Both contacts opening'],
+  [9.1, 0, 0, 'Both contacts fully open'],
+  [14.4, 0, 0, 'Sending contacts approaching closure'],
+  [14.45, 1, 0, 'Sending contacts closed with receiving contacts open'],
+  [14.5, 1, 0, 'Line energized from the sending end only'],
+  [15.1, 1, 0, 'Receiving contacts approaching closure'],
+  [15.2, 1, 1, 'Both terminal contacts closed again'],
+].map(([time, linePower, lineFlow, description]) => {
+  const event = renderer.getEventState({ time });
+  assert.equal(event.linePower, linePower, `${time}s: ${description} must determine line energization`);
+  assert.equal(event.lineFlow, lineFlow, `${time}s: ${description} must determine through-transfer`);
+  return { time, event };
+});
 for (const state of ['base', 'open', 'redistributed', 'substation']) {
   const initial = renderer.getEventState({ time: 0, state });
   for (const time of [2, 8.15, 10, 14.5, 19, 26]) {
@@ -357,7 +386,7 @@ for (let sample = 0; sample <= 2600; sample += 1) {
   const event = renderer.getEventState({ time: sample / 100 });
   for (const field of ['sendingOpen', 'receivingOpen', 'linePower', 'lineFlow', 'alternatePower', 'downstreamPower', 'redistributionGain', 'restorationProgress', 'primaryStationPower', 'alternateStationPower', 'primaryStationFlow', 'alternateStationFlow', 'primaryFeederOpen', 'alternateFeederOpen']) assert.ok(Number.isFinite(event[field]) && event[field] >= 0 && event[field] <= 1, `${field} must remain bounded`);
   assert.ok(event.strikeOpacity >= 0 && event.strikeOpacity <= 0.85 + 1e-12, 'Lightning intensity must remain bounded');
-  if (event.linePower > 0) assert.ok(event.sendingOpen <= 1e-12, 'The line must not energize before the sending contacts close');
+  if (event.lineFlow > 0) assert.ok(event.sendingOpen === 0 && event.receivingOpen === 0, 'Through-transfer must stop as soon as either terminal contact separates');
   assert.equal(event.alternatePower, 1, 'The healthy parallel circuit remains energized throughout the illustrative sequence');
   assert.equal(event.downstreamPower, 1, 'The single-circuit contingency must not become a total load outage');
   const flashing = event.strikeOpacity > 1e-12;
@@ -502,6 +531,20 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
     for (const terminal of feederA.terminals.outputs) assert.ok(energized.has(terminalKey(terminal)), `${layout}/${name}: A's MV breaker bus side must remain physically connected to the healthy supply`);
     for (const terminal of feederA.terminals.inputs) assert.equal(energized.has(terminalKey(terminal)), name === 'line', `${layout}/${name}: A's MV breaker station side must follow the actual contact isolation`);
   }
+  for (const { time, event } of switchingTransitions) {
+    const energized = reachableTerminals(model, transformers, generationTerminals, event);
+    const connectedHV = reachableTerminals(model, transformers, stepUp.terminals.high, event, false);
+    const throughConnected = stationA.terminals.high.every(terminal => connectedHV.has(terminalKey(terminal)));
+    for (const route of model.routes.filter(route => route.zone === 'line' && !route.breakerRole)) {
+      for (const terminal of [route.points[0], route.points.at(-1)]) {
+        assert.equal(Boolean(internals.zonePower('line', event)), energized.has(terminalKey(terminal)), `${layout}/${time}s: line energization must match actual source connectivity through its moving contacts`);
+      }
+      assert.equal(Boolean(internals.routePower(route, event)), throughConnected, `${layout}/${time}s: transmission pulses must match the physical connection between the two HV stations`);
+    }
+    for (const route of model.routes.filter(route => route.circuit === 'primary' && route.breakerRole)) {
+      assert.equal(Boolean(internals.routePower(route, event)), throughConnected, `${layout}/${time}s/${route.breakerRole}: internal breaker pulses must stop with the circuit's through-transfer`);
+    }
+  }
   const zones = ['source', 'sending-primary', 'sending-alternate', 'line', 'alternate', 'station-primary', 'station-alternate', 'distribution-primary', 'distribution-alternate', 'downstream'];
   for (const zone of zones) assert.ok(model.routes.some(route => route.zone === zone), `${layout}: ${zone} routes must be represented`);
   for (const route of model.routes) {
@@ -571,6 +614,16 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
     assert.equal(gap(substationEvent) > 1, breaker.circuit === 'primary' && ['receiving', 'feeder'].includes(breaker.role), 'Station A requires visible HV and MV gaps while the primary sending and all B contacts stay closed');
   }
   const cueView = { ...testView, mobile: layout !== 'desktop' };
+  const projectedPath = points => Array.from(points, (point, index) => {
+    const projected = new Float32Array(2);
+    internals.projection(point, cueView, projected);
+    return [index ? 'lineTo' : 'moveTo', ...projected];
+  });
+  const contactFrame = (breaker, event) => {
+    const recorder = recordingContext();
+    internals.drawBreakers(recorder.context, { breakers: [breaker] }, cueView, event, false);
+    return recorder;
+  };
   const cueFrame = (breakers, event) => {
     const recorder = recordingContext();
     internals.drawBreakerCues(recorder.context, { breakers }, cueView, event);
@@ -585,32 +638,40 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
   ];
   for (const [event, roles] of cueCases) {
     const frame = cueFrame(model.breakers, event);
-    const boxes = frame.operations.filter(operation => operation[0] === 'fillRect');
-    assert.equal(boxes.length, roles.length, `${layout}: magnified in-scene contacts must mark exactly the operating devices`);
-    assert.equal(frame.operations.filter(operation => operation[0] === 'strokeRect').length, roles.length);
+    assert.equal(paintedPaths(frame, 'fill').length, roles.length * 3, `${layout}: all three physical poles of each operating device must remain visible`);
+    assert.equal(frame.operations.some(operation => ['fillRect', 'strokeRect'].includes(operation[0])), false, `${layout}: no independently positioned switch box may cover the actual conductor geometry`);
     for (const breaker of model.breakers) {
       const single = cueFrame([breaker], event);
-      const expected = breaker.circuit === 'primary' && breaker.phase === 1 && roles.includes(breaker.role);
-      assert.equal(single.paints.length > 0, expected, `${layout}/${breaker.circuit}/${breaker.role}/${breaker.phase}: only one representative pole of an open breaker needs a cue`);
+      const expected = breaker.circuit === 'primary' && roles.includes(breaker.role);
+      assert.equal(single.paints.length > 0, expected, `${layout}/${breaker.circuit}/${breaker.role}/${breaker.phase}: only physically opening poles should be highlighted`);
       if (!expected) continue;
-      const box = single.operations.find(operation => operation[0] === 'fillRect');
-      const anchor = new Float32Array(2);
-      internals.projection(breaker.group.p(breaker.x, breaker.y, breaker.z), cueView, anchor);
-      assert.equal(box[1] + box[3] / 2, anchor[0], `${layout}: the contact cue must be centered on the physical breaker`);
-      assert.equal(box[2] + box[4] / 2, anchor[1], `${layout}: the contact cue must remain inside the grid at the real device height`);
+      const contactPaths = paintedPaths(contactFrame(breaker, event));
+      const highlightedPaths = paintedPaths(single);
+      assert.deepEqual(highlightedPaths.slice(0, 4), contactPaths, `${layout}/${breaker.role}/${breaker.phase}: highlighted contacts and tips must exactly coincide with the actual moving apparatus`);
+      assert.deepEqual(highlightedPaths.slice(4), [projectedPath(breaker.inputLead), projectedPath(breaker.outputLead)], `${layout}/${breaker.role}/${breaker.phase}: highlights must follow the real conductors to both terminal bushings`);
+      assert.deepEqual(paintedPaths(single, 'fill'), [projectedPath(breaker.window)], `${layout}/${breaker.role}/${breaker.phase}: the contact background must remain within the actual projected cutaway`);
     }
   }
-  for (const [role, field] of [['sending', 'sendingOpen'], ['receiving', 'receivingOpen'], ['feeder', 'primaryFeederOpen']]) {
-    const breaker = model.breakers.find(item => item.circuit === 'primary' && item.phase === 1 && item.role === role);
-    const cueGap = opening => {
-      const frame = cueFrame([breaker], { ...normalEvent, [field]: opening });
-      const moves = frame.operations.filter(operation => operation[0] === 'moveTo');
-      const lines = frame.operations.filter(operation => operation[0] === 'lineTo');
-      return Math.hypot(lines[0][1] - moves[1][1], lines[0][2] - moves[1][2]);
-    };
-    const fullGap = cueGap(1);
-    assert.ok(fullGap >= 8, `${layout}/${role}: the actual operating contact gap must remain legible on small screens`);
-    assert.ok(Math.abs(cueGap(0.5) - fullGap / 2) < 1e-9, `${layout}/${role}: enlarged contact travel must follow the same fractional opening as the physical breaker`);
+  for (const breaker of model.breakers) {
+    const route = model.routes.find(route => route.breakerRole === breaker.role && route.circuit === breaker.circuit && route.phase === breaker.phase);
+    assert.ok(route, `${layout}/${breaker.role}/${breaker.phase}: each physical breaker needs its own transfer path`);
+    for (const lead of [breaker.inputLead, breaker.outputLead]) {
+      assert.ok(model.items.some(item => item.kind === 'line' && item.points === lead), `${layout}/${breaker.role}/${breaker.phase}: highlighted terminal leads must exist in the rendered apparatus`);
+    }
+    assert.ok(model.items.some(item => item.kind === 'face' && item.points === breaker.window), `${layout}/${breaker.role}/${breaker.phase}: highlights must use the actual cutaway face`);
+    const pathSegments = path => path.slice(1).map((point, index) => [path[index].slice(1), point.slice(1)]);
+    const physicalSegments = [
+      ...pathSegments(projectedPath(breaker.inputLead)),
+      ...paintedPaths(contactFrame(breaker, normalEvent)).slice(0, 2).flatMap(pathSegments),
+      ...pathSegments(projectedPath(breaker.outputLead)),
+    ];
+    assert.deepEqual(pathSegments(projectedPath(route.points)), physicalSegments, `${layout}/${breaker.circuit}/${breaker.role}/${breaker.phase}: transfer packets must follow the drawn leads and closed contact, without diagonal shortcuts`);
+    if (breaker.circuit !== 'primary') continue;
+    const field = breaker.role === 'sending' ? 'sendingOpen' : breaker.role === 'receiving' ? 'receivingOpen' : 'primaryFeederOpen';
+    for (const opening of [0.05, 0.25, 0.5, 0.75, 1]) {
+      const event = { ...normalEvent, [field]: opening };
+      assert.deepEqual(paintedPaths(cueFrame([breaker], event)).slice(0, 4), paintedPaths(contactFrame(breaker, event)), `${layout}/${breaker.role}/${breaker.phase}/${opening}: contact highlights must stay aligned throughout their full travel`);
+    }
   }
   const annotationFrame = event => {
     const recorder = recordingContext();
@@ -629,7 +690,7 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
       const breaker = model.breakers.find(item => item.circuit === 'primary' && item.phase === 1 && item.role === role);
       const anchor = new Float32Array(2);
       internals.projection(breaker.group.p(breaker.x, breaker.y, breaker.z), cueView, anchor);
-      assert.ok(leaders.some(operation => operation[1] === anchor[0] && operation[2] === anchor[1] - 8), `${layout}/${role}: the operating label must point to its actual opening device`);
+      assert.ok(leaders.some(operation => operation[1] === anchor[0] && operation[2] === anchor[1] - 2), `${layout}/${role}: the operating label must point to its actual opening device`);
     }
   }
   const annotationLabels = event => textOperations(annotationFrame(event)).map(operation => operation[1]);
@@ -641,7 +702,10 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
   assert.ok(annotationLabels(substationEvent).includes('A HV/MV · open'));
   assert.ok(annotationLabels(renderer.getEventState({ time: 8.15, reducedMotion: true })).includes('A · fault'), 'Suppressing the bolt must preserve the readable fault state');
   assert.ok(annotationLabels(renderer.getEventState({ time: 8.6 })).includes(`${sendingLabel} · opening`));
+  assert.ok(annotationLabels(renderer.getEventState({ time: 8.6 })).includes('A · opening'));
   assert.ok(annotationLabels(renderer.getEventState({ time: 14 })).includes(`${sendingLabel} · closing`));
+  assert.ok(annotationLabels(renderer.getEventState({ time: 14 })).includes('A · isolated'));
+  assert.ok(annotationLabels(sendingClosedEvent).includes('A · energized'));
 }
 
 // Exercise the actual base-face paint loop with only emissive items retained.

@@ -28,7 +28,7 @@
   function getEventState({ time = 0, reducedMotion = false, state = 'auto' } = {}) {
     const manual = ['base', 'open', 'redistributed', 'substation'].includes(state);
     const cycleTime = (Number.isFinite(time) ? Math.max(0, time) : 0) % 26;
-    let stage = 'normal', sendingOpen = 0, receivingOpen = 0, linePower = 1, downstreamPower = 1, strikeOpacity = 0;
+    let stage = 'normal', sendingOpen = 0, receivingOpen = 0, downstreamPower = 1, strikeOpacity = 0;
     let primaryFeederOpen = 0, primaryStationPower = 1;
     if (cycleTime >= 8 && cycleTime < 8.3) {
       stage = 'strike';
@@ -37,14 +37,12 @@
       stage = 'tripping';
       sendingOpen = smooth((cycleTime - 8.3) / 0.65);
       receivingOpen = smooth((cycleTime - 8.35) / 0.65);
-      linePower = 0;
     } else if (cycleTime >= 9.1 && cycleTime < 13.8) {
-      stage = 'isolated'; sendingOpen = 1; receivingOpen = 1; linePower = 0;
+      stage = 'isolated'; sendingOpen = 1; receivingOpen = 1;
     } else if (cycleTime >= 13.8 && cycleTime < 15.2) {
       stage = 'reclosing';
       sendingOpen = 1 - smooth((cycleTime - 13.8) / 0.65);
       receivingOpen = 1 - smooth((cycleTime - 14.6) / 0.6);
-      linePower = cycleTime >= 14.45 ? 1 : 0;
     } else if (cycleTime >= 15.2 && cycleTime < 18.5) {
       stage = 'restoring';
     } else if (cycleTime >= 18.5) stage = 'restored';
@@ -53,15 +51,18 @@
       const isolated = state !== 'base';
       stage = isolated ? 'isolated' : 'normal';
       sendingOpen = receivingOpen = isolated ? 1 : 0;
-      linePower = isolated ? 0 : 1;
       strikeOpacity = 0;
       redistributionGain = state === 'redistributed' ? 1 : 0;
     }
     if (state === 'substation') {
       stage = 'substation'; sendingOpen = 0; receivingOpen = 1;
       primaryFeederOpen = 1; primaryStationPower = 0;
-      linePower = 1; strikeOpacity = 0; redistributionGain = 1;
+      strikeOpacity = 0; redistributionGain = 1;
     }
+    // Contact continuity determines energization, including the healthy B path
+    // backfeeding through A's connected MV side. No separate timer can darken
+    // a conductor while its contact is still closed.
+    const linePower = sendingOpen === 0 || (receivingOpen === 0 && primaryStationPower > 0) ? 1 : 0;
     // An energized line or backfed transformer need not carry through-transfer.
     const lineFlow = linePower && sendingOpen === 0 && receivingOpen === 0 ? 1 : 0;
     const primaryStationFlow = primaryFeederOpen === 0 ? lineFlow : 0;
@@ -426,11 +427,16 @@
     const input = g.insulator(x - 0.32, 0.7, z, 0.4, 0.072);
     const output = g.insulator(x + 0.32, 0.7, z, 0.4, 0.072);
     const y = 0.54, front = z + 0.168;
-    g.face([point(x - 0.31, 0.435, front), point(x + 0.31, 0.435, front), point(x + 0.31, 0.65, front), point(x - 0.31, 0.65, front)], 'rgba(7,14,18,.94)', 1, 0.01);
-    g.line([point(x - 0.32, 1.1, z), point(x - 0.32, y, z), point(x - 0.3, y, front)], COLORS.ivory, 0.55, 0.85);
-    g.line([point(x + 0.32, 1.1, z), point(x + 0.32, y, z), point(x + 0.3, y, front)], COLORS.ivory, 0.55, 0.85);
-    g.g.breakers.push({ group: g, x, z: front, y, role, phase, circuit });
-    return { input, output, contact: g.p(x, y, front) };
+    const window = [g.p(x - 0.31, 0.435, front), g.p(x + 0.31, 0.435, front), g.p(x + 0.31, 0.65, front), g.p(x - 0.31, 0.65, front)];
+    g.g.face(window, 'rgba(7,14,18,.94)', 1, 0.01);
+    const inputLead = [input, g.p(x - 0.32, y, z), g.p(x - 0.3, y, front)];
+    const outputLead = [g.p(x + 0.3, y, front), g.p(x + 0.32, y, z), output];
+    for (const lead of [inputLead, outputLead]) g.g.line(lead, COLORS.ivory, 0.55, 0.85);
+    const breaker = { group: g, x, z: front, y, role, phase, circuit, inputLead, outputLead, window };
+    g.g.breakers.push(breaker);
+    // Pulses use the same terminal leads and closed contact as the drawing.
+    const path = [...inputLead, g.p(x + 0.055, y, front), ...outputLead];
+    return { input, output, path };
   }
 
   function sendingBreaker(g, circuit = 'primary') {
@@ -438,7 +444,7 @@
     for (let phase = 0; phase < 3; phase += 1) {
       const pole = breakerPole(g, 0, -0.73 + phase * 0.73, 'sending', phase, circuit);
       inputs.push(pole.input); outputs.push(pole.output);
-      g.g.route([pole.input, pole.contact, pole.output], phase, 0.226, 0.018, COLORS.gold, 0.6, { zone: circuit === 'alternate' ? 'alternate' : 'line', breakerRole: 'sending', circuit, static: false });
+      g.g.route(pole.path, phase, 0.226, 0.018, COLORS.gold, 0.6, { zone: circuit === 'alternate' ? 'alternate' : 'line', breakerRole: 'sending', circuit, static: false });
     }
     return { inputs, outputs };
   }
@@ -460,7 +466,7 @@
       const pole = breakerPole(g, -0.26, z, 'receiving', phase, circuit);
       outputs.push(pole.output);
       g.g.route(sag(input, pole.input, 0.035, 12), phase, 0.575, 0.022, COLORS.gold, 0.6, { zone: circuit === 'alternate' ? 'alternate' : 'line' });
-      g.g.route([pole.input, pole.contact, pole.output], phase, 0.597, 0.018, COLORS.gold, 0.6, { zone: circuit === 'alternate' ? 'alternate' : 'downstream', breakerRole: 'receiving', circuit, static: false });
+      g.g.route(pole.path, phase, 0.597, 0.018, COLORS.gold, 0.6, { zone: circuit === 'alternate' ? 'alternate' : 'downstream', breakerRole: 'receiving', circuit, static: false });
     }
     for (let i = 0; i < 9; i += 1) g.line([point(-1.6 + i * 0.24, 0.02, 1.4), point(-1.6 + i * 0.24, 0.35, 1.4)], COLORS.muted, 0.22, 0.45);
     g.line([point(-1.6, 0.35, 1.4), point(0.4, 0.35, 1.4)], COLORS.ice, 0.2, 0.45);
@@ -472,7 +478,7 @@
     for (let phase = 0; phase < 3; phase += 1) {
       const pole = breakerPole(g, 0, -0.6 + phase * 0.6, 'feeder', phase, circuit);
       inputs.push(pole.input); outputs.push(pole.output);
-      g.g.route([pole.input, pole.contact, pole.output], phase, 0.825, 0.015, COLORS.ice, 0.6,
+      g.g.route(pole.path, phase, 0.825, 0.015, COLORS.ice, 0.6,
         { zone: `station-${circuit}`, breakerRole: 'feeder', circuit, static: false });
     }
     return { inputs, outputs };
@@ -846,8 +852,7 @@
     if (route.zone === 'station-alternate' || route.zone === 'distribution-alternate') return event.alternateStationFlow;
     if (route.zone === 'sending-primary') return event.lineFlow;
     if (route.circuit === 'alternate' || route.zone === 'alternate') return event.alternatePower;
-    if (route.breakerRole === 'sending') return event.lineFlow;
-    if (route.breakerRole === 'receiving' && event.receivingOpen > 0) return 0;
+    if (route.breakerRole === 'sending' || route.breakerRole === 'receiving') return event.lineFlow;
     if (route.breakerRole === 'feeder' && event.primaryFeederOpen > 0) return 0;
     if (route.zone === 'line') return event.lineFlow;
     if (route.zone === 'downstream') return event.downstreamPower;
@@ -905,26 +910,31 @@
       : breaker.role === 'feeder' ? event.primaryFeederOpen : event.receivingOpen;
   }
 
+  function drawBreakerContacts(ctx, breaker, view, open) {
+    const { group: g, x, y, z } = breaker;
+    const segments = [
+      [g.p(x - 0.3, y, z), g.p(x + 0.055 - open * 0.29, y, z)],
+      [g.p(x + 0.055, y, z), g.p(x + 0.3, y, z)],
+    ];
+    for (const [start, end] of segments) {
+      projection(start, view, temp); projection(end, view, temp2);
+      ctx.beginPath(); ctx.moveTo(temp[0], temp[1]); ctx.lineTo(temp2[0], temp2[1]); ctx.stroke();
+    }
+    // Square tips belong to the same projected contact ends in both passes.
+    for (const contactX of [x + 0.055 - open * 0.29, x + 0.055]) {
+      projection(g.p(contactX, y - 0.043, z), view, temp);
+      projection(g.p(contactX, y + 0.043, z), view, temp2);
+      ctx.beginPath(); ctx.moveTo(temp[0], temp[1]); ctx.lineTo(temp2[0], temp2[1]); ctx.stroke();
+    }
+  }
+
   function drawBreakers(ctx, geometry, view, event, showIndicators = true) {
     for (const breaker of geometry.breakers) {
-      const { group: g, x, y, z } = breaker;
+      const { group: g, x, z } = breaker;
       const open = breakerOpening(breaker, event);
       const color = open > 0.01 ? '#d9a274' : COLORS.ice;
-      const segments = [
-        [g.p(x - 0.3, y, z), g.p(x + 0.055 - open * 0.29, y, z)],
-        [g.p(x + 0.055, y, z), g.p(x + 0.3, y, z)],
-      ];
       ctx.strokeStyle = COLORS.ivory;ctx.globalAlpha = 0.9;ctx.lineWidth = view.mobile ? 1.25 : 1.65;
-      for (const [start, end] of segments) {
-        projection(start, view, temp);projection(end, view, temp2);
-        ctx.beginPath();ctx.moveTo(temp[0], temp[1]);ctx.lineTo(temp2[0], temp2[1]);ctx.stroke();
-      }
-      // Contact ends remain square and separated in the chamber while open.
-      for (const contactX of [x + 0.055 - open * 0.29, x + 0.055]) {
-        projection(g.p(contactX, y - 0.043, z), view, temp);
-        projection(g.p(contactX, y + 0.043, z), view, temp2);
-        ctx.beginPath();ctx.moveTo(temp[0], temp[1]);ctx.lineTo(temp2[0], temp2[1]);ctx.stroke();
-      }
+      drawBreakerContacts(ctx, breaker, view, open);
       if (showIndicators) {
         projection(g.p(x + 0.32, 0.29, z), view, temp);
         glow(ctx, temp[0], temp[1], view.mobile ? 1.15 : 1.7, color, 0.73);
@@ -934,31 +944,24 @@
   }
 
   function drawBreakerCues(ctx, geometry, view, event) {
-    // Magnify one operating pole in place, at its real contact location. The
-    // gap uses the same travel factor as the three physical poles underneath.
-    // There is no detached schematic or additional layout below the scene.
+    // Highlight the actual three-pole cutaway and its connected terminal leads.
+    // All coordinates are shared with the apparatus: no enlarged symbol can
+    // mask another circuit or imply a gap away from the conductor being opened.
     ctx.save();
     try {
       for (const breaker of geometry.breakers) {
         const open = breakerOpening(breaker, event);
-        if (breaker.phase !== 1 || open <= 0.01) continue;
-        const { group: g, x, y, z } = breaker;
-        projection(g.p(x, y, z), view, temp);
-        const width = view.mobile ? 20 : 26;
-        const left = temp[0] - width / 2, right = temp[0] + width / 2;
-        const fixed = temp[0] + width * 0.1, moving = fixed - open * width * 0.45;
-        ctx.globalAlpha = 0.96; ctx.fillStyle = '#071014';
-        ctx.fillRect(left - 2, temp[1] - 7, width + 4, 14);
-        ctx.globalAlpha = 0.65; ctx.strokeStyle = '#d9a274'; ctx.lineWidth = 0.7;
-        ctx.strokeRect(left - 2, temp[1] - 7, width + 4, 14);
-        ctx.globalAlpha = 1; ctx.strokeStyle = '#ffe0ad'; ctx.lineWidth = 1.8;
-        ctx.beginPath();
-        ctx.moveTo(left, temp[1]); ctx.lineTo(moving, temp[1]);
-        ctx.moveTo(fixed, temp[1]); ctx.lineTo(right, temp[1]);
-        for (const end of [moving, fixed]) {
-          ctx.moveTo(end, temp[1] - 3); ctx.lineTo(end, temp[1] + 3);
+        if (open <= 0.01) continue;
+        ctx.globalAlpha = 1; ctx.fillStyle = '#071014';
+        path(ctx, breaker.window, view, lightBuffer); ctx.closePath(); ctx.fill();
+        ctx.strokeStyle = '#ffe0ad'; ctx.lineWidth = view.mobile ? 1.25 : 1.65;
+        drawBreakerContacts(ctx, breaker, view, open);
+        // Follow each bushing down to the chamber so the isolated line can be
+        // traced to its opening contacts instead of to a floating status icon.
+        ctx.globalAlpha = 0.85; ctx.lineWidth = view.mobile ? 0.9 : 1.1;
+        for (const lead of [breaker.inputLead, breaker.outputLead]) {
+          path(ctx, lead, view, lightBuffer); ctx.stroke();
         }
-        ctx.stroke();
       }
     } finally { ctx.restore(); }
   }
@@ -982,7 +985,9 @@
           label = `${equipment} · ${status}`;
         } else if (annotation.zone === 'line') {
           if (event.stage === 'strike') label = 'A · fault';
+          else if (event.stage === 'tripping' && event.lineFlow === 0) label = 'A · opening';
           else if (event.sendingOpen > 0.99 && event.receivingOpen > 0.99) label = 'A · line isolated';
+          else if (event.stage === 'reclosing') label = event.linePower ? 'A · energized' : 'A · isolated';
         } else if (annotation.zone === 'alternate' && event.redistributionGain > 0.01) {
           label = view.mobile || view.scale < 28 ? 'B · supply' : 'B · supplying loads';
         }
@@ -995,7 +1000,7 @@
           projection(breaker.group.p(breaker.x, breaker.y, breaker.z), view, temp2);
           ctx.strokeStyle = '#d9a274'; ctx.globalAlpha = 0.65; ctx.lineWidth = 0.75;
           ctx.beginPath(); ctx.moveTo(labelX, labelY + offset + 5);
-          ctx.lineTo(temp2[0], temp2[1] - 8); ctx.stroke();
+          ctx.lineTo(temp2[0], temp2[1] - 2); ctx.stroke();
         }
         if (annotation.below) {
           ctx.strokeStyle = COLORS.ice; ctx.lineWidth = 0.6; ctx.globalAlpha = 0.7;
