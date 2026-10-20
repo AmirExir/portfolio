@@ -340,7 +340,7 @@
     if (powerAnnouncement) {
       const event = scenePowerEvent(heroScene, !motionAllowed());
       powerAnnouncement.textContent = `${event.label}. ${state === 'substation'
-        ? 'Substation A is isolated on both voltage sides. Substation B supplies distribution and loads.'
+        ? 'Receiving substation A is isolated on both voltage sides. Receiving substation B supplies distribution and loads.'
         : 'Loads remain supplied through the available paths.'}${paused || media.matches ? ' Animation remains stopped.' : ''}`;
     }
     start();

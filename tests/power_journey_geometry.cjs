@@ -208,9 +208,10 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
   assert.ok(towers.length >= 4, `${layout}: the two circuits must have distinct transmission structures`);
   assert.equal(new Set(towers.map(record => JSON.stringify(record.terminals))).size, towers.length, `${layout}: transmission structures must not overlap at identical coordinates`);
   const poles = network.filter(record => record.name === 'distributionPole');
-  assert.ok(poles.length >= 2, `${layout}: distribution should include a visible overhead feeder span`);
-  const downstream = model.routes.filter(route => route.zone === 'downstream');
-  const pointKey = point => JSON.stringify(Array.from(point));
+  assert.equal(poles.length, 6, `${layout}: the two distribution feeders require separate three-pole routes`);
+  assert.equal(new Set(poles.flatMap(record => record.terminals.map(terminalKey))).size, 18, `${layout}: the two distribution feeders must not share pole terminals`);
+  const downstream = model.routes.filter(route => route.zone === 'downstream' || route.zone.startsWith('distribution-'));
+  const pointKey = terminalKey;
   const downstreamEndpoints = new Set(downstream.flatMap(route => [pointKey(route.points[0]), pointKey(route.points.at(-1))]));
   for (const pole of poles) {
     assert.equal(pole.terminals.length, 3, `${layout}: each distribution pole needs three phase terminals`);
@@ -371,12 +372,49 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
   const network = Array.from(internals.networkBuildRecords).filter(record => record.layout === layout);
   const transformers = network.filter(record => ['transformer', 'serviceTransformer'].includes(record.name));
   const mainTransformers = transformers.filter(record => record.name === 'transformer');
-  assert.equal(mainTransformers.length, 3, `${layout}: one step-up transformer and two separate step-down transformers must be built`);
-  const stepUp = mainTransformers.find(record => !record.args[0]);
+  assert.equal(mainTransformers.length, 4, `${layout}: both paths need their own sending step-up and receiving step-down transformers`);
+  const stepUp = mainTransformers.find(record => !record.args[0] && (record.args[1] || 'primary') === 'primary');
+  const alternateStepUp = mainTransformers.find(record => !record.args[0] && record.args[1] === 'alternate');
   const stationA = mainTransformers.find(record => record.args[0] && (record.args[1] || 'primary') === 'primary');
   const stationB = mainTransformers.find(record => record.args[0] && record.args[1] === 'alternate');
-  assert.ok(stepUp && stationA && stationB, `${layout}: transformer roles must identify the separate receiving stations`);
-  assert.equal(new Set(mainTransformers.flatMap(record => [...record.terminals.high, ...record.terminals.low].map(terminalKey))).size, 18, `${layout}: all main transformer winding terminals must be physically distinct`);
+  assert.ok(stepUp && alternateStepUp && stationA && stationB, `${layout}: transformer roles must identify both sending and both receiving stations`);
+  assert.equal(new Set(mainTransformers.flatMap(record => [...record.terminals.high, ...record.terminals.low].map(terminalKey))).size, 24, `${layout}: all main transformer winding terminals must be physically distinct`);
+  const primaryHV = reachableTerminals(model, transformers, stepUp.terminals.high, normalEvent, false);
+  const alternateHV = reachableTerminals(model, transformers, alternateStepUp.terminals.high, normalEvent, false);
+  for (const terminal of stationA.terminals.high) assert.ok(primaryHV.has(terminalKey(terminal)), `${layout}: sending A must have its own conductor path to receiving A`);
+  for (const terminal of stationB.terminals.high) assert.ok(alternateHV.has(terminalKey(terminal)), `${layout}: sending B must have its own conductor path to receiving B`);
+  assert.ok([...primaryHV].every(terminal => !alternateHV.has(terminal)), `${layout}: the sending and receiving HV paths must remain separate instead of sharing a bus`);
+  for (const [circuit, sendingTransformer] of [['primary', stepUp], ['alternate', alternateStepUp]]) {
+    const lowTerminals = new Set(sendingTransformer.terminals.low.map(terminalKey));
+    const highTerminals = new Set(sendingTransformer.terminals.high.map(terminalKey));
+    const leads = model.routes.filter(route => lowTerminals.has(terminalKey(route.points.at(-1))) || highTerminals.has(terminalKey(route.points[0])));
+    assert.equal(leads.length, 6, `${layout}/${circuit}: both sending transformer winding sides need distinct phase leads`);
+    for (const lead of leads) {
+      const conductor = model.items.find(item => item.kind === 'line' && item.points === lead.points);
+      assert.ok(conductor, `${layout}/${circuit}: the sending transformer lead must be drawn`);
+      for (const event of [isolatedEvent, substationEvent]) {
+        assert.equal(internals.zonePower(conductor.circuitZone, event), 1, `${layout}/${circuit}: both sending transformers stay energized by their common generation collector`);
+        assert.equal(internals.routePower(lead, event), circuit === 'primary' ? 0 : 1, `${layout}/${circuit}: an unloaded sending transformer must suppress transfer packets on both winding sides`);
+      }
+    }
+  }
+  const service = transformers.find(record => record.name === 'serviceTransformer');
+  const feederRoutes = circuit => model.routes.filter(route => route.zone === `distribution-${circuit}`);
+  const primaryFeederPoints = new Set(feederRoutes('primary').flatMap(route => route.points.map(terminalKey)));
+  const alternateFeederPoints = new Set(feederRoutes('alternate').flatMap(route => route.points.map(terminalKey)));
+  assert.deepEqual(
+    [...primaryFeederPoints].filter(terminal => alternateFeederPoints.has(terminal)).sort(),
+    Array.from(service.terminals.primary, terminalKey).sort(),
+    `${layout}: the separate feeders must join only at the load-side service-transformer primary terminals`,
+  );
+  for (const circuit of ['primary', 'alternate']) {
+    assert.ok(feederRoutes(circuit).length >= 12, `${layout}/${circuit}: all three phases must traverse a distinct multi-span feeder`);
+    for (const route of feederRoutes(circuit)) {
+      const conductor = model.items.find(item => item.kind === 'line' && item.points === route.points);
+      assert.ok(conductor, `${layout}/${circuit}: each feeder span must draw an actual conductor`);
+      assert.equal(internals.zonePower(conductor.circuitZone, substationEvent), 1, `${layout}/${circuit}: the common load-side bus must retain feeder energization after station A is isolated`);
+    }
+  }
   assert.equal(network.filter(record => record.name === 'distributionCabinet').length, 2, `${layout}: each substation requires its own distribution switchgear`);
   const feederA = network.find(record => record.name === 'feederBreaker' && record.args[0] === 'primary');
   assert.ok(feederA, `${layout}: station A must expose its actual MV contact terminals`);
@@ -398,6 +436,13 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
   }
   const loadBranches = model.routes.filter(route => route.zone === 'downstream' && route.start >= 0.94);
   assert.ok(loadBranches.length >= 14, `${layout}: continuity checks must cover campus and residential load branches`);
+  for (const [remaining, removedStepUp] of [['primary', alternateStepUp], ['alternate', stepUp]]) {
+    const unavailable = remaining === 'primary' ? 'alternate' : 'primary';
+    const remainingModel = { routes: model.routes.filter(route => route.zone !== `distribution-${unavailable}`) };
+    const remainingTransformers = transformers.filter(transformer => transformer !== removedStepUp);
+    const reachable = reachableTerminals(remainingModel, remainingTransformers, stepUp.terminals.low, normalEvent);
+    for (const route of loadBranches) assert.ok(reachable.has(terminalKey(route.points.at(-1))), `${layout}/${remaining}: either sending/receiving/feeder path must independently reach every load after removing the other sending winding and feeder`);
+  }
   for (const [name, event] of [['line', isolatedEvent], ['substation', substationEvent]]) {
     const energized = reachableTerminals(model, transformers, stepUp.terminals.low, event);
     for (const route of loadBranches) assert.ok(energized.has(terminalKey(route.points.at(-1))), `${layout}/${name}: each drawn load branch must retain an actual path through a transformer and the healthy station`);
@@ -406,25 +451,30 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
     for (const terminal of feederA.terminals.outputs) assert.ok(energized.has(terminalKey(terminal)), `${layout}/${name}: A's MV breaker bus side must remain physically connected to the healthy supply`);
     for (const terminal of feederA.terminals.inputs) assert.equal(energized.has(terminalKey(terminal)), name === 'line', `${layout}/${name}: A's MV breaker station side must follow the actual contact isolation`);
   }
-  const zones = ['source', 'line', 'alternate', 'station-primary', 'station-alternate', 'downstream'];
+  const zones = ['source', 'sending-primary', 'sending-alternate', 'line', 'alternate', 'station-primary', 'station-alternate', 'distribution-primary', 'distribution-alternate', 'downstream'];
   for (const zone of zones) assert.ok(model.routes.some(route => route.zone === zone), `${layout}: ${zone} routes must be represented`);
   for (const route of model.routes) {
     assert.ok(zones.includes(route.zone));
     const primaryLineContact = ['sending', 'receiving'].includes(route.breakerRole) && route.circuit === 'primary';
     const primaryContact = route.breakerRole && route.circuit === 'primary';
-    assert.equal(internals.routePower(route, isolatedEvent), route.zone === 'line' || route.zone === 'station-primary' || primaryLineContact ? 0 : 1, `${layout}: line isolation stops circuit A and station A transfer packets`);
-    assert.equal(internals.routePower(route, substationEvent), route.zone === 'line' || route.zone === 'station-primary' || primaryContact ? 0 : 1, `${layout}: station isolation stops A through-transfer packets while its sending line stays energized`);
+    assert.equal(internals.routePower(route, isolatedEvent), ['sending-primary', 'line', 'station-primary', 'distribution-primary'].includes(route.zone) || primaryLineContact ? 0 : 1, `${layout}: line isolation stops sending A, circuit A, receiving A, and feeder A through-transfer packets`);
+    assert.equal(internals.routePower(route, substationEvent), ['sending-primary', 'line', 'station-primary', 'distribution-primary'].includes(route.zone) || primaryContact ? 0 : 1, `${layout}: station isolation stops A through-transfer packets while its sending line and backfed feeder stay energized`);
   }
   const isolatedRoutes = recordingContext();
-  internals.drawRoutes(isolatedRoutes.context, { routes: model.routes.filter(route => route.zone === 'line' || route.zone === 'station-primary') }, testView, 2, isolatedEvent);
-  assert.equal(isolatedRoutes.paints.length, 0, 'The isolated primary circuit and its unloaded transformer must show no transfer packets');
+  internals.drawRoutes(isolatedRoutes.context, { routes: model.routes.filter(route => ['sending-primary', 'line', 'station-primary', 'distribution-primary'].includes(route.zone)) }, testView, 2, isolatedEvent);
+  assert.equal(isolatedRoutes.paints.length, 0, 'The isolated primary circuit and its unloaded transformers and feeder must show no through-transfer packets');
   const isolatedStation = recordingContext();
-  internals.drawRoutes(isolatedStation.context, { routes: model.routes.filter(route => route.zone === 'station-primary') }, testView, 2, substationEvent);
-  assert.equal(isolatedStation.paints.length, 0, 'An isolated station must show no transfer packets');
+  internals.drawRoutes(isolatedStation.context, { routes: model.routes.filter(route => ['station-primary', 'distribution-primary'].includes(route.zone)) }, testView, 2, substationEvent);
+  assert.equal(isolatedStation.paints.length, 0, 'An isolated station and its backfed feeder must show no through-transfer packets');
   for (const event of [isolatedEvent, substationEvent]) {
-    for (const zone of ['source', 'alternate', 'station-alternate', 'downstream']) {
+    for (const zone of ['source', 'sending-alternate', 'alternate', 'station-alternate', 'distribution-alternate', 'downstream']) {
       const liveRoutes = recordingContext();
-      internals.drawRoutes(liveRoutes.context, { routes: model.routes.filter(route => route.zone === zone) }, testView, 2, event);
+      // Individual live segments may be between packets at any one instant.
+      // Observe a full pulse cycle so removing feeder routes from the load zone
+      // cannot turn a harmless phase offset into a false outage assertion.
+      for (let sample = 0; sample < 24 && !liveRoutes.paints.length; sample += 1) {
+        internals.drawRoutes(liveRoutes.context, { routes: model.routes.filter(route => route.zone === zone) }, testView, sample * 0.4, event);
+      }
       assert.ok(liveRoutes.paints.length > 0, `${layout}: ${zone} transfer artwork must remain active through either outage`);
     }
   }
@@ -518,4 +568,4 @@ failed.assertRestored();
 console.log('PASS: six genuinely distinct source/storage geometries in desktop/mobile/phone layouts; distinct AC terminals and DC pairs; storage cycle, bidirectional packets/trails, ordered AC/DC transfer, and idle behavior.');
 console.log('PASS: power journey paints deterministic finite geometry at desktop/mobile widths, animates with time, handles pointer extremes, and restores canvas state even on failure.');
 console.log('PASS: manual/automatic event states; line and substation isolation use distinct HV/MV contact gaps, preserve alternate supply, and gate station energization separately from transfer packets.');
-console.log('PASS: physically separate A/B transformers and switchgear; no winding bypass; actual conductor paths retain all loads through either outage; distinct manual frames through 320px with reduced-motion stillness.');
+console.log('PASS: four main transformers, separate HV paths and six distribution poles; feeders join only at the load bus; either complete path independently reaches every load; no winding bypass; distinct manual frames through 320px.');

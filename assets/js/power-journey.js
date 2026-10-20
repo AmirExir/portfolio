@@ -13,13 +13,14 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const point = (x, y, z) => [x, y, z];
   const smooth = (value) => { const t = clamp(value, 0, 1); return t * t * (3 - 2 * t); };
-  const labels = Object.freeze({ normal: 'Both supply paths in service', strike: 'Fault on circuit A', tripping: 'Circuit A breakers opening', isolated: 'Circuit A isolated · B supplies loads', substation: 'Substation A isolated · B supplies loads', reclosing: 'Resetting circuit A', restoring: 'Returning to base case', restored: 'Both supply paths in service' });
+  const labels = Object.freeze({ normal: 'Both supply paths in service', strike: 'Fault on circuit A', tripping: 'Circuit A breakers opening', isolated: 'Circuit A isolated · B supplies loads', substation: 'Receiving A isolated · B supplies loads', reclosing: 'Resetting circuit A', restoring: 'Returning to base case', restored: 'Both supply paths in service' });
   const eventCues = Object.freeze({ replay: 7.6, isolated: 10, restored: 19 });
 
   /**
-   * Two circuits feed separate step-down substations. Compatible transformers
-   * are assumed paralleled at a common MV bus. Line A faults open both line
-   * terminals; a station A outage opens its HV and MV breakers instead.
+   * Each circuit has its own sending and receiving transformer and MV feeder.
+   * Compatible paths join at the shared source collector and load-side MV bus.
+   * Line A faults open both line terminals; a receiving-A outage opens its
+   * HV and MV breakers instead.
    * Supply continuity is an assumed illustration, not an N−1 adequacy result.
    * The reset is presentation playback, not an automatic-reclosing scheme.
    */
@@ -623,27 +624,29 @@
     const layout = mobile ? {
       nuclear: [-1.38, -7.6, 0.82], wind: [2.85, -7.3, 0.83], hydro: [6.88, -7.4, 0.88],
       gas: [-2.82, -4.15, 0.73], solar: [1.2, -4.2, 0.81], battery: [5.18, -4.1, 0.81],
-      collector: [-3.82, -1.67, 0.52], stepUp: [-3.44, -0.8, 0.66],
+      collector: [-3.82, -1.67, 0.52], stepUp: [-3.44, -0.8, 0.66], alternateStepUp: [-3.8, 1.7, 0.66],
       sending: [-2.37, -0.8, 0.49],
       towers: [[-1.48, -1.1, 0.63], [0.6, -1.02, 0.63], [2.66, -0.8, 0.63]],
       alternateSending: [-2.37, 1.7, 0.59], alternateTowers: [[-0.98, 1.3, 0.63], [1.48, 1.6, 0.63]],
       alternateYard: [4.4, 4.6, 0.5],
       yard: [4.4, 0.9, 0.5], receiving: [2.85, 0.8, 0.62], distribution: [2.1, 1.8, 0.55], feeder: [1.25, 2.1, 0.45],
       alternateReceiving: [2.85, 4.5, 0.62], alternateDistribution: [2.1, 5.5, 0.55], alternateFeeder: [1.25, 5.8, 0.45],
-      poles: [[0.2, 4.2, 0.72], [-2.3, 4.1, 0.72], [-4.25, 4.7, 0.72]], service: [-2.65, 5.7, 0.75],
+      poles: [[0.2, 3.1, 0.72], [-2.3, 3.1, 0.72], [-4.25, 3.1, 0.72]],
+      alternatePoles: [[0.2, 6.1, 0.72], [-2.3, 6.1, 0.72], [-4.25, 6.1, 0.72]], service: [-2.65, 5.7, 0.75],
       data: [-4.9, 6.9, 0.76], crypto: [-2.5, 7.8, 0.73], industrial: [-0.6, 6.8, 0.66], commercial: [1.3, 6.3, 0.62],
       houses: [[-1.3, 8.9, 0.7], [0.0, 8.8, 0.66]],
     } : {
       nuclear: [-11.28, -5.9, 0.9], wind: [-7.85, -4.5, 0.98], hydro: [-12.7, 0.2, 0.9],
       gas: [-8.68, -0.55, 0.91], solar: [-11.74, 1.73, 0.89], battery: [-7.85, 2.0, 0.92],
-      collector: [-6.37, 0.16, 0.62], stepUp: [-5.45, 0.01, 0.95],
+      collector: [-6.37, 0.16, 0.62], stepUp: [-5.45, 0.01, 0.95], alternateStepUp: [-5.45, 2.7, 0.95],
       sending: [-4.14, 0.01, 0.72],
       towers: [[-3.15, -0.22, 1], [-0.32, -0.36, 1.08], [2.4, -0.2, 1]],
       alternateSending: [-4.14, 2.7, 0.85], alternateTowers: [[-2.5, 2.9, 0.92], [1.7, 2.9, 0.92]],
       alternateYard: [4.95, 3.0, 0.93],
       yard: [4.95, 0.0, 0.83], receiving: [6.52, 0.1, 0.83], distribution: [7.98, 0.22, 0.72], feeder: [8.8, 0.3, 0.6],
       alternateReceiving: [6.52, 3.1, 0.83], alternateDistribution: [7.98, 3.22, 0.72], alternateFeeder: [8.8, 3.3, 0.6],
-      poles: [[9.5, 1.25, 0.91], [11, 1.25, 0.91], [12.4, 1.25, 0.91]], service: [11.3, 2.5, 0.98],
+      poles: [[9.5, 0.1, 0.91], [11, 0.1, 0.91], [12.4, 0.1, 0.91]],
+      alternatePoles: [[9.5, 3.5, 0.91], [11, 3.5, 0.91], [12.4, 3.5, 0.91]], service: [11.3, 2.5, 0.98],
       data: [13.65, -1.69, 1.02], crypto: [11.7, -3.02, 0.92], industrial: [16.13, -2.58, 0.91], commercial: [15.88, -0.1, 0.83],
       houses: [[12.3, 2.49, 0.91], [13.86, 2.98, 0.88], [15.42, 2.42, 0.94]],
     };
@@ -666,7 +669,8 @@
       { outputs: batteryStorage(make(layout.battery)), color: COLORS.ice, storage: true },
     ];
     const generation = plantInterface(make(layout.collector), 0, 0);
-    const stepUp = transformer(make(layout.stepUp));
+    const stepUp = transformer(make(layout.stepUp), false, 'primary');
+    const alternateStepUp = transformer(make(layout.alternateStepUp), false, 'alternate');
     const sending = sendingBreaker(make(layout.sending));
     const towers = layout.towers.map((position, index) => tower(make(position), index === 1 ? 3.68 : 3.52));
     const yard = receivingYard(make(layout.yard));
@@ -680,6 +684,7 @@
     const alternateDistribution = distributionCabinet(make(layout.alternateDistribution), 'alternate');
     const alternateFeeder = feederBreaker(make(layout.alternateFeeder), 'alternate');
     const poles = layout.poles.map(position => distributionPole(make(position)));
+    const alternatePoles = layout.alternatePoles.map(position => distributionPole(make(position)));
     const services = serviceTransformer(make(layout.service));
     const campus = [
       { terminal: dataCenter(make(layout.data)), color: COLORS.ice },
@@ -689,7 +694,7 @@
     ];
     const homes = layout.houses.map((position, index) => house(make(position), 0.94 + index * 0.038));
 
-    // Every source enters the collector upstream of the step-up transformer.
+    // Every source enters the collector upstream of both sending substations.
     // The three low-profile cable paths have distinct coordinates throughout;
     // DC panels and battery cells never directly touch these AC phase buses.
     for (const source of sources) {
@@ -701,51 +706,60 @@
       }
     }
 
-    connectThree(geometry, generation, stepUp.low, 0.015, 0.11, mobile ? 0.045 : 0.16, COLORS.ice);
+    connectThree(geometry, generation, stepUp.low, 0.015, 0.11, mobile ? 0.045 : 0.16, COLORS.ice,
+      { zone: 'sending-primary', circuit: 'primary', energizedZone: 'source' });
+    connectThree(geometry, generation, alternateStepUp.low, 0.015, 0.11, mobile ? 0.045 : 0.16, COLORS.ice,
+      { zone: 'sending-alternate', circuit: 'alternate', energizedZone: 'source' });
     connectThree(geometry, stepUp.high, sending.inputs, 0.2, 0.026, 0.025, COLORS.gold,
-      { circuit: 'primary', breakerRole: 'sending' });
+      { zone: 'sending-primary', circuit: 'primary' });
     connectThree(geometry, sending.outputs, towers[0], 0.244, 0.051, mobile ? 0.045 : 0.12, COLORS.gold, { zone: 'line' });
     connectThree(geometry, towers[0], towers[1], 0.295, 0.105, mobile ? 0.18 : 0.4, COLORS.gold, { zone: 'line' });
     connectThree(geometry, towers[1], towers[2], 0.40, 0.105, mobile ? 0.18 : 0.39, COLORS.gold, { zone: 'line' });
     connectThree(geometry, towers[2], yard.inputs, 0.505, 0.07, mobile ? 0.07 : 0.2, COLORS.gold, { zone: 'line' });
     connectThree(geometry, yard.outputs, receiving.high, 0.62, 0.085, 0.055, COLORS.gold,
-      { zone: 'station-primary', circuit: 'primary', breakerRole: 'receiving' });
-    // Each circuit supplies its own transformer and switchgear. The compatible
-    // MV outputs join only matching phases, after each station's outlet breaker.
-    connectThree(geometry, stepUp.high, alternateSending.inputs, 0.2, 0.026, 0.05);
+      { zone: 'station-primary', circuit: 'primary' });
+    // Separate sending transformers have no shared high-voltage connection.
+    connectThree(geometry, alternateStepUp.high, alternateSending.inputs, 0.2, 0.026, 0.05, COLORS.ice,
+      { zone: 'sending-alternate', circuit: 'alternate' });
     const alternateChain = [alternateSending.outputs, ...alternateTowers, alternateYard.inputs];
     alternateChain.slice(1).forEach((to, index) => connectThree(geometry, alternateChain[index], to,
       0.244 + index * 0.11, 0.11, mobile ? 0.12 : 0.3, COLORS.ice, { zone: 'alternate' }));
     connectThree(geometry, alternateYard.outputs, alternateReceiving.high, 0.62, 0.085, 0.055, COLORS.ice, { zone: 'station-alternate' });
     geometry.annotations = [
+      { point: make(layout.stepUp).p(0, 2.0, 0), text: 'Sending A', zone: 'sending-primary' },
+      { point: make(layout.alternateStepUp).p(0, 2.0, 0), text: 'Sending B', zone: 'sending-alternate', offsetX: mobile ? -20 : 0 },
       { point: towers[1][1], text: 'A · transmission', zone: 'line' },
       { point: alternateTowers[0][1], text: mobile ? 'B · alternate' : 'B · alternate path', zone: 'alternate' },
-      { point: make(layout.receiving).p(0, 2.0, 0), text: 'Substation A', zone: 'station-primary' },
-      { point: make(layout.alternateReceiving).p(0, 2.0, 0), text: 'Substation B', zone: 'station-alternate' },
-      { point: mobile ? poles[2][1] : poles[1][1], text: 'Distribution', zone: 'downstream', below: mobile },
+      { point: make(layout.receiving).p(0, 2.0, 0), text: 'Receiving A', zone: 'station-primary', offsetX: mobile ? 12 : 0 },
+      { point: make(layout.alternateReceiving).p(0, 2.0, 0), text: 'Receiving B', zone: 'station-alternate' },
+      { point: poles[1][1], text: mobile ? 'Feeder A' : 'Distribution A', zone: 'distribution-primary' },
+      { point: alternatePoles[1][1], text: mobile ? 'Feeder B' : 'Distribution B', zone: 'distribution-alternate' },
     ];
     // The strike lands on one phase conductor, not on a shared three-phase
     // junction. The circuit's three poles nevertheless trip together.
     geometry.strike = sag(towers[1][2], towers[2][2], mobile ? 0.18 : 0.39)[17];
 
-    // Two physically separate step-down substations feed the common MV network.
+    // Each receiving station feeds its own three-pole overhead distribution run.
+    // The feeders join only at the load-side service-transformer primary bus.
     // Compatible transformer ratios/phase shifts and adequate spare capacity
     // are assumptions; this artwork does not solve parallel transformer loading.
     const direction = mobile ? -1 : 1;
-    for (const [tx, cabinet, outlet, circuit] of [
-      [receiving, distribution, feeder, 'primary'],
-      [alternateReceiving, alternateDistribution, alternateFeeder, 'alternate'],
+    for (const [tx, cabinet, outlet, feederPoles, circuit] of [
+      [receiving, distribution, feeder, poles, 'primary'],
+      [alternateReceiving, alternateDistribution, alternateFeeder, alternatePoles, 'alternate'],
     ]) {
       const zone = `station-${circuit}`;
       connectThree(geometry, tx.low, cabinet.inputs, 0.77, 0.043, 0.09, COLORS.gold, { zone });
       connectThree(geometry, cabinet.outputs, outlet.inputs, 0.813, 0.012, 0.05, COLORS.ice, { zone });
-      // The bus-side stub stays energized from B after A's MV contact opens,
-      // although no through-transfer crosses A's isolated outlet.
-      connectThree(geometry, outlet.outputs, poles[0], 0.84, 0.03, 0.05, COLORS.ice, { zone, energizedZone: 'downstream' });
+      // With the load-side tie closed, B can back-energize A's idle feeder up
+      // to its open MV contact. Energization and transfer remain separate.
+      const feederOptions = { zone: `distribution-${circuit}`, circuit, energizedZone: 'downstream' };
+      const color = circuit === 'primary' ? COLORS.gold : COLORS.ice;
+      connectThree(geometry, outlet.outputs, feederPoles[0], 0.84, 0.02, 0.05, color, feederOptions);
+      connectThree(geometry, feederPoles[0], feederPoles[1], 0.86, 0.025, 0.12, color, feederOptions);
+      connectThree(geometry, feederPoles[1], feederPoles[2], 0.885, 0.025, 0.12, color, feederOptions);
+      connectThree(geometry, feederPoles[2], services.primary, 0.91, 0.025, 0.08, color, feederOptions);
     }
-    connectThree(geometry, poles[0], poles[1], 0.87, 0.03, 0.12, COLORS.ice, { zone: 'downstream' });
-    connectThree(geometry, poles[1], poles[2], 0.90, 0.03, 0.12, COLORS.ice, { zone: 'downstream' });
-    connectThree(geometry, poles[1], services.primary, 0.91, 0.025, 0.08, COLORS.ice, { zone: 'downstream' });
     for (let phase = 0; phase < 3; phase += 1) {
       const phaseFork = services.secondary[phase];
       campus.forEach((load) => {
@@ -803,8 +817,9 @@
   }
 
   function routePower(route, event) {
-    if (route.zone === 'station-primary') return event.primaryStationFlow;
-    if (route.zone === 'station-alternate') return event.alternateStationFlow;
+    if (route.zone === 'station-primary' || route.zone === 'distribution-primary') return event.primaryStationFlow;
+    if (route.zone === 'station-alternate' || route.zone === 'distribution-alternate') return event.alternateStationFlow;
+    if (route.zone === 'sending-primary') return event.lineFlow;
     if (route.circuit === 'alternate' || route.zone === 'alternate') return event.alternatePower;
     if (route.breakerRole === 'sending') return event.lineFlow;
     if (route.breakerRole === 'receiving' && event.receivingOpen > 0) return 0;
@@ -818,7 +833,7 @@
     if (zone === 'station-primary') return event.primaryStationPower;
     if (zone === 'station-alternate') return event.alternateStationPower;
     if (zone === 'line') return event.linePower;
-    return zone === 'downstream' ? event.downstreamPower : 1;
+    return zone === 'downstream' || zone === 'distribution-primary' || zone === 'distribution-alternate' ? event.downstreamPower : 1;
   }
 
   function drawRoutes(ctx, geometry, view, time, event = getEventState()) {
@@ -829,7 +844,7 @@
       if (power <= 0) continue;
       const direction = route.storage ? battery.direction : 1;
       if (direction === 0) continue;
-      const extraFlow = route.zone === 'alternate' || route.zone === 'station-alternate' ? event.redistributionGain : 0;
+      const extraFlow = ['alternate', 'sending-alternate', 'station-alternate', 'distribution-alternate'].includes(route.zone) ? event.redistributionGain : 0;
       for (let train = 0; train < (extraFlow > 0 ? 6 : 3); train += 1) {
       // Mirror the entire storage interval, not only each path. Charging must
       // enter at the AC collector before continuing through converter to DC.
@@ -898,18 +913,19 @@
         projection(annotation.point, view, temp);
         const label = annotation.zone === 'line' && event.sendingOpen > 0.99 && event.receivingOpen > 0.99
           ? 'A · isolated' : annotation.zone === 'station-primary' && !event.primaryStationPower
-            ? (view.mobile ? 'Substation A · out' : 'Substation A · isolated') : annotation.text;
+            ? (view.mobile ? 'Receiving A · out' : 'Receiving A · isolated') : annotation.text;
         const w = ctx.measureText(label).width + 14;
+        const labelX = temp[0] + (annotation.offsetX || 0);
         const offset = annotation.below ? 29 : -12;
         if (annotation.below) {
           ctx.strokeStyle = COLORS.ice; ctx.lineWidth = 0.6; ctx.globalAlpha = 0.7;
           ctx.beginPath(); ctx.moveTo(temp[0], temp[1] + 3); ctx.lineTo(temp[0], temp[1] + offset - 13); ctx.stroke();
         }
         ctx.fillStyle = '#091115'; ctx.globalAlpha = 0.9;
-        ctx.fillRect(temp[0] - w / 2, temp[1] + offset - 13, w, 18);
-        ctx.fillStyle = annotation.zone === 'line' ? COLORS.gold : COLORS.ice;
+        ctx.fillRect(labelX - w / 2, temp[1] + offset - 13, w, 18);
+        ctx.fillStyle = annotation.zone === 'line' || annotation.zone.endsWith('-primary') ? COLORS.gold : COLORS.ice;
         ctx.globalAlpha = 1;
-        ctx.fillText(label, temp[0], temp[1] + offset);
+        ctx.fillText(label, labelX, temp[1] + offset);
       }
     } finally { ctx.restore(); }
   }
