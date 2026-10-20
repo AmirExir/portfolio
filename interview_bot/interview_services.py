@@ -9,7 +9,7 @@ import wave
 from typing import Any
 
 from interview_response_utils import assess_chat_completion
-from interview_retrieval import JOB_CONTEXT_INSTRUCTIONS
+from interview_retrieval import JOB_CONTEXT_INSTRUCTIONS, extract_tag_value
 
 LOGGER = logging.getLogger(__name__)
 FEEDBACK_FIELDS = ("situation", "task", "action", "result", "ownership", "relevance", "evidence_check", "follow_up")
@@ -121,6 +121,21 @@ def answer_messages(question: str, candidate: dict, job_context: str) -> list[di
             f"<selected_context>\n{candidate['text']}\n</selected_context>"
         )},
     ]
+
+
+def render_answer(client: Any, question: str, candidate: dict, job_context: str) -> str:
+    """Serve an explicitly assigned script intact; generate other answers as usual.
+
+    The saved script is already tailored to its one question. Returning it
+    directly preserves its technical detail and qualifications and prevents a
+    generation step from replacing it with a generic or different story.
+    """
+    if candidate.get("assigned_match"):
+        answer = extract_tag_value(candidate["text"], "Answer")
+        if not answer:
+            raise InterviewServiceError("The assigned answer is missing its saved script. Correct the source before retrying.")
+        return answer
+    return request_text(client, answer_messages(question, candidate, job_context))
 
 
 def practice_messages(question: str, answer: str, source: str, job_context: str) -> list[dict]:

@@ -7,7 +7,7 @@ from typing import Any
 
 MAX_JOB_DESCRIPTION_CHARS = 20000
 MAX_JOB_SEARCH_CHARS = 4000
-RETRIEVAL_POLICY_VERSION = 4
+RETRIEVAL_POLICY_VERSION = 5
 
 # Shared analysis methods occur in both planning and real-time operations. A
 # planning purpose must be established before those methods can boost ranking.
@@ -96,6 +96,7 @@ CONTENT_TAGS = (
     "Situation", "Task", "Action", "Result", "Reflection", "Answer",
     "Source Document", "Source Question", "Source SHA256", "Source Status",
     "Verification", "Answer Revision", "References", "Preparation Note",
+    "Answer Set", "Question Key", "Scenario ID",
 )
 TAG_LOOK_AHEAD = "|".join(re.escape(tag) for tag in CONTENT_TAGS)
 
@@ -154,6 +155,9 @@ def build_candidate(score: float, idx: int, chunk: Any) -> dict[str, Any]:
         "response_type": response_type,
         "is_structured": response_type in {"direct", "story"},
         "content_key": content_identity(text, response_type),
+        "answer_set": extract_tag_value(text, "Answer Set"),
+        "question_key": extract_tag_value(text, "Question Key"),
+        "scenario_id": extract_tag_value(text, "Scenario ID"),
     }
 
 
@@ -302,15 +306,68 @@ def topic_score(text: str, focus: str) -> float:
     return min(max(hits, int(focus == "Transmission planning")), 5) * 0.2
 
 
+def assigned_candidates(query: str, chunks: list[dict]) -> list[dict[str, Any]] | None:
+    """Resolve explicit authored questions and shortcuts without semantic guesses.
+
+    ``None`` leaves an unrecognized request to ordinary retrieval. A recognized
+    assignment yields only its saved record; ambiguous authored aliases fail
+    closed. Focus preferences cannot redirect an explicit assignment. The caller
+    must still apply the existing evidence-review exclusion before serving it.
+    """
+    def identity(value: str) -> str:
+        return re.sub(r"\W+", " ", _question_identity(value)).strip()
+
+    normalized_query = identity(query)
+    if not normalized_query:
+        return None
+    # A numbered topic is a pair: "12. MENTORING" must not silently become
+    # question 19 merely because ordinary pasted-question cleanup drops "12.".
+    numbered_topic = re.fullmatch(
+        r"([1-9][0-9]?) (.+)", re.sub(r"\W+", " ", query.casefold()).strip(),
+    )
+    topic_numbers = {
+        identity(extract_tag_value(chunk["text"], "Question Key").partition(" ")[2]):
+        extract_tag_value(chunk["text"], "Question Key").partition(" ")[0]
+        for chunk in chunks if extract_tag_value(chunk["text"], "Answer Set") == "ercot-planning-20"
+    }
+    if numbered_topic and numbered_topic[2] in topic_numbers:
+        if numbered_topic[1] != topic_numbers[numbered_topic[2]]:
+            return []
+    matches = []
+    for idx, chunk in enumerate(chunks):
+        text = chunk["text"]
+        if not extract_tag_value(text, "Answer Set"):
+            continue
+        question_key = extract_tag_value(text, "Question Key")
+        number, _, topic = question_key.partition(" ")
+        authored = [
+            extract_tag_value(text, "Question"),
+            *extract_tag_value(text, "Aliases").split(";"),
+            question_key, topic,
+        ]
+        if extract_tag_value(text, "Answer Set") == "ercot-planning-20":
+            authored.extend((f"Q{number}", f"Q {number}", f"Question {number}"))
+        if normalized_query in {identity(value) for value in authored if value.strip()}:
+            candidate = build_candidate(0, idx, chunk)
+            candidate.update({
+                "assigned_match": True, "question_match": True,
+                "topic_score": 0.0, "job_description_score": 0.0,
+            })
+            matches.append(candidate)
+    if not matches:
+        return None
+    return matches if len(matches) == 1 else []
+
+
 def rank_candidates(
     query: str, chunks: list[dict], semantic_scores: dict[int, float], k: int = 5,
     focus: str = "All roles", stories_only: bool = False, job_description: str = "",
 ) -> list[dict[str, Any]]:
     """Rank single-source answers, restricting focused stories to matching evidence.
 
-    General direct answers remain available for nonbehavioral questions. Exact
-    question/alias matches lead eligible candidates in every focus; remaining
-    candidates use semantic and keyword relevance, with unstructured fallback.
+    Assigned questions return their sole saved record. Other exact question/alias
+    matches lead eligible candidates in every focus; remaining candidates use
+    semantic and keyword relevance, with unstructured fallback.
     """
     if focus not in JOB_FOCUSES:
         raise ValueError(f"Unknown job focus: {focus}")
@@ -318,6 +375,9 @@ def rank_candidates(
     description_terms = _description_terms(description)
     if k < 1:
         return []
+    assigned = assigned_candidates(query, chunks)
+    if assigned is not None:
+        return assigned
     normalized_query = _question_identity(query)
     terms = [term for term in re.findall(r"[a-z0-9]+", normalized_query) if len(term) > 2]
     behavioral = any(phrase in normalized_query for phrase in (

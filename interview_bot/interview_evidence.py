@@ -116,9 +116,10 @@ def coverage_map(description: str, library: list[dict]) -> list[dict[str, Any]]:
 
 
 def answer_markdown(answer: dict) -> str:
-    """Export the generated answer with its question and traceable story ID."""
+    """Export saved or generated wording with its question and evidence ID."""
+    wording = "Saved answer wording" if answer.get("candidate", {}).get("assigned_match") else "Generated wording"
     return (
         f"# Interview practice answer\n\nQuestion: {answer['question']}\n\n"
         f"{answer['text']}\n\nSaved evidence ID: {answer.get('story_id', 'Direct answer')}\n"
-        "\nGenerated wording; verify claims against the saved evidence before use.\n"
+        f"\n{wording}; verify claims against the saved evidence before use.\n"
     )

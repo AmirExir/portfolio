@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent
 CONTENT_FILE = BASE_DIR / "manager_content.json"
 CHUNKS_FILE = BASE_DIR / "chunks_cleaned.json"
 SOURCE_NAME = "manager_content"
+ASSIGNMENT_FIELDS = ("answer_set", "question_key", "scenario_id")
 
 
 def load_json(path):
@@ -57,6 +58,20 @@ def serialize_content(item):
             fields.append(f"Answer: {require_text(item, 'answer')}")
     else:
         raise ValueError(f"{content_id}: unsupported response_type '{response_type}'")
+
+    assignment = {}
+    if any(field in item for field in ASSIGNMENT_FIELDS):
+        assignment = {field: require_text(item, field) for field in ASSIGNMENT_FIELDS}
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", assignment["answer_set"]):
+            raise ValueError(f"{content_id}: 'answer_set' must be a lowercase slug")
+        if not re.fullmatch(r"[1-9][0-9]? [A-Z][A-Z ]*", assignment["question_key"]):
+            raise ValueError(f"{content_id}: 'question_key' must contain a number and uppercase topic")
+        require_text(item, "answer")
+        fields.extend([
+            f"Answer Set: {assignment['answer_set']}",
+            f"Question Key: {assignment['question_key']}",
+            f"Scenario ID: {assignment['scenario_id']}",
+        ])
 
     if "source_document" in item:
         question_number = item.get("source_question")
@@ -109,6 +124,7 @@ def serialize_content(item):
         "source": SOURCE_NAME,
         "source_id": content_id,
         "response_type": response_type,
+        **assignment,
     }
 
 
@@ -125,6 +141,21 @@ def build_chunks(existing_chunks, manager_content):
 
     base_chunks = [chunk for chunk in existing_chunks if chunk.get("source") != SOURCE_NAME]
     manager_chunks = [serialize_content(item) for item in manager_content]
+    assignments = {}
+    for chunk in manager_chunks:
+        if "answer_set" not in chunk:
+            continue
+        members = assignments.setdefault(chunk["answer_set"], [])
+        members.append(chunk)
+    for answer_set, members in assignments.items():
+        for field in ("question_key", "scenario_id"):
+            values = [member[field] for member in members]
+            if len(values) != len(set(values)):
+                raise ValueError(f"{answer_set}: each {field} must have a unique one-to-one assignment")
+        if answer_set == "ercot-planning-20":
+            numbers = [int(member["question_key"].split()[0]) for member in members]
+            if sorted(numbers) != list(range(1, 21)):
+                raise ValueError("ercot-planning-20: exactly one assignment is required for questions 1 through 20")
     return base_chunks + manager_chunks, len(base_chunks), len(manager_chunks)
 
 

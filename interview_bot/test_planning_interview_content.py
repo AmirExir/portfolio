@@ -14,37 +14,17 @@ from sync_manager_content import build_chunks, serialize_content
 BASE_DIR = Path(__file__).resolve().parent
 SOURCE_ID = "private:transmission-planning-interview-2026-10-19"
 SOURCE_SHA256 = "4a453873e0c6b555248c4bd715738a5b789513e2e603b9efbd871305b2896068"
-REVISION_ID = "private:transmission-planning-interview-2026-10-20-draft"
-REVISION_SHA256 = "39e6a326290ce43c17d148525af85719ba85322d62031425a8ec7d5019bc61dd"
-EXPANDED_REVISION_ID = "private:transmission-planning-interview-2026-10-20-expanded-draft"
-EXPANDED_REVISION_SHA256 = "ac81de485b80bbd488a8a5bcc7bc6b795236990f3a83df0bbe735edde6391e99"
-COACHING_REVISION_ID = "private:transmission-planning-interview-2026-10-20-coaching-draft"
-COACHING_REVISION_SHA256 = "f0c4325b6c752a553c777ff48f9c4c998de70ea939472d4699a15bd46a48ab1b"
-Q14_REVISION_ID = "private:q14-transmission-planning-example-2026-10-20"
-Q14_REVISION_SHA256 = "2334af04d1047f7bb88c70faa0346ddebfaa282b67948e062077d0f16bba0787"
-FIRST_REVISION_NUMBERS = set(range(1, 11))
-EXPANDED_REVISION_NUMBERS = set(range(12, 21))
-COACHING_REVISION_NUMBERS = {8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}
-REVISED_NUMBERS = FIRST_REVISION_NUMBERS | EXPANDED_REVISION_NUMBERS | COACHING_REVISION_NUMBERS
-STORY_NUMBERS = {12, 13, 14, 15, 17, 18, 19}
+REVISION_ID = "private:transmission-planning-one-to-one-2026-10-20"
+REVISION_SHA256 = "f0c4325b6c752a553c777ff48f9c4c998de70ea939472d4699a15bd46a48ab1b"
+REVISED_NUMBERS = set(range(1, 21))
+Q14_REVISION_ID = "private:q14-weak-grid-investment-2026-10-20"
+Q14_REVISION_SHA256 = "c637a1441eb077a52cd26068be93790cb5ded930fe30134c735a47a86edcef94"
+STORY_NUMBERS = {12, 13, 15, 16, 17, 18, 19}
 
 
 def answer_digest(text: str) -> str:
     """Fingerprint original wording without publishing another source copy."""
     return hashlib.sha256(" ".join(text.split()).encode("utf-8")).hexdigest()
-
-
-def metadata_digest(item: dict) -> str:
-    """Compare original questions and caveats using a hash-only fixture."""
-    metadata = {
-        "question": item["question"],
-        "source_status": item["source_status"],
-        "references": item.get("references", []),
-        "preparation_note": item.get("preparation_note", ""),
-    }
-    return hashlib.sha256(
-        json.dumps(metadata, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-    ).hexdigest()
 
 
 class PlanningInterviewContentTests(unittest.TestCase):
@@ -76,13 +56,7 @@ class PlanningInterviewContentTests(unittest.TestCase):
                 item = self.imported[number]
                 self.assertEqual(item["id"], f"planning-interview-{number:02d}")
                 self.assertEqual(answer_digest(item["question"]), original["question_sha256"])
-                if number not in COACHING_REVISION_NUMBERS:
-                    self.assertEqual(metadata_digest(item), original["metadata_sha256"])
-                else:
-                    self.assertTrue(item["preparation_note"].strip())
-                if number not in REVISED_NUMBERS:
-                    self.assertEqual(answer_digest(item["answer"]), original["answer_sha256"])
-                    self.assertNotIn("answer_revision", item)
+                self.assertTrue(item["preparation_note"].strip())
                 self.assertEqual(item["source_sha256"], SOURCE_SHA256)
                 self.assertEqual(item["source_document"], SOURCE_ID)
                 expected_type = "story" if number in STORY_NUMBERS else "direct"
@@ -101,17 +75,9 @@ class PlanningInterviewContentTests(unittest.TestCase):
             with self.subTest(question=number):
                 item = self.imported[number]
                 revision = item["answer_revision"]
-                if number == 14:
-                    identifier, digest = Q14_REVISION_ID, Q14_REVISION_SHA256
-                elif number in COACHING_REVISION_NUMBERS:
-                    identifier, digest = COACHING_REVISION_ID, COACHING_REVISION_SHA256
-                elif number in FIRST_REVISION_NUMBERS:
-                    identifier, digest = REVISION_ID, REVISION_SHA256
-                else:
-                    identifier, digest = EXPANDED_REVISION_ID, EXPANDED_REVISION_SHA256
-                self.assertEqual(revision["source_document"], identifier)
+                self.assertEqual(revision["source_document"], Q14_REVISION_ID if number == 14 else REVISION_ID)
                 self.assertEqual(revision["source_question"], number)
-                self.assertEqual(revision["source_sha256"], digest)
+                self.assertEqual(revision["source_sha256"], Q14_REVISION_SHA256 if number == 14 else REVISION_SHA256)
                 self.assertTrue(revision["editorial_note"].strip())
                 self.assertNotEqual(answer_digest(item["answer"]), self.original[number]["answer_sha256"])
 
@@ -119,7 +85,9 @@ class PlanningInterviewContentTests(unittest.TestCase):
         for number in sorted(STORY_NUMBERS):
             with self.subTest(question=number):
                 item = self.imported[number]
-                narrative = "\n\n".join(item[field] for field in ("situation", "task", "action", "result"))
+                narrative = "\n\n".join(
+                    f"**{field.title()}**\n{item[field]}" for field in ("situation", "task", "action", "result")
+                )
                 self.assertEqual(item["answer"], narrative)
 
     def test_metadata_fields_do_not_leak_into_answers_or_star_sections(self) -> None:
@@ -155,14 +123,31 @@ class PlanningInterviewContentTests(unittest.TestCase):
                     self.assertEqual(extract_tag_value(text, "Aliases"), "; ".join(item["aliases"]))
 
     def test_material_experience_qualifiers_remain_in_evidence(self) -> None:
-        for number in (12, 13):
+        self.assertIn("potential", self.imported[13]["result"].lower())
+        self.assertIn("$300,000", self.imported[13]["answer"])
+        self.assertIn("not verified net savings", self.imported[13]["preparation_note"])
+        self.assertIn("Do not imply ERCOT endorsement", self.imported[13]["preparation_note"])
+        self.assertIn("rather than a project that had to be canceled", self.imported[17]["answer"])
+        self.assertIn("interconnection itself remained feasible", self.imported[17]["preparation_note"])
+        self.assertIn("Those were his achievements", self.imported[19]["result"])
+
+    def test_assigned_episodes_are_not_reused_across_questions(self) -> None:
+        """Check narrative content as well as unique assignment labels."""
+        scenario_ids = [item["scenario_id"] for item in self.imported.values()]
+        self.assertEqual(len(set(scenario_ids)), 20)
+        anchors = {
+            12: "AELAB", 13: "$300,000", 14: "minimax regret", 15: "tap bus", 16: "backlog",
+            17: "seven capacitor", 18: "Lost Pines", 19: "P.E. license", 20: "ICCP",
+        }
+        for number, phrase in anchors.items():
+            with self.subTest(episode=number):
+                matches = [n for n, item in self.imported.items() if phrase.casefold() in item["answer"].casefold()]
+                self.assertEqual(matches, [number])
+        for number, item in self.imported.items():
             with self.subTest(question=number):
-                self.assertIn("potential", self.imported[number]["result"].lower())
-                self.assertIn("$300,000", self.imported[number]["answer"])
-        self.assertIn("realized net savings", self.imported[12]["preparation_note"])
-        self.assertIn("do not imply an ERCOT project endorsement", self.imported[13]["preparation_note"])
-        self.assertIn("project remained feasible", self.imported[17]["answer"].lower())
-        self.assertIn("colleague’s own achievement", self.imported[19]["preparation_note"])
+                self.assertEqual(item["answer_set"], "ercot-planning-20")
+                self.assertEqual(int(item["question_key"].split()[0]), number)
+                self.assertGreater(len(item["answer"].split()), 250)
 
     def test_mentoring_answer_explains_diagnosis_and_accountable_delegation(self) -> None:
         """Keep the user's requested teaching method in the actual answer context."""
@@ -176,8 +161,8 @@ class PlanningInterviewContentTests(unittest.TestCase):
             "acceptance criteria", "review points", "final decision",
         ):
             with self.subTest(concept=concept):
-                self.assertIn(concept, action)
-                self.assertIn(concept, context)
+                self.assertIn(concept.casefold(), action.casefold())
+                self.assertIn(concept.casefold(), context.casefold())
         self.assertIn("earned his P.E. license", item["result"])
         self.assertIn("promoted to Engineer", item["result"])
         self.assertNotIn("within a year", item["answer"])
@@ -185,17 +170,18 @@ class PlanningInterviewContentTests(unittest.TestCase):
             self.assertNotIn("I still need to confirm", item["answer"])
             self.assertNotIn("My preparation record", item["answer"])
 
-    def test_every_exact_question_retrieves_its_imported_answer(self) -> None:
+    def test_every_authored_question_and_alias_retrieves_only_its_assigned_answer(self) -> None:
         for number, item in self.imported.items():
-            with self.subTest(question=number):
-                focus = "Transmission planning"
-                ranked = rank_candidates(item["question"], self.target_chunks, {}, focus=focus)
-                self.assertTrue(ranked)
-                self.assertEqual(self.target_chunks[ranked[0]["index"]].get("source_id"), item["id"])
-                self.assertEqual(extract_tag_value(ranked[0]["text"], "Answer"), item["answer"])
-                if number in STORY_NUMBERS:
-                    for field in ("situation", "task", "action", "result"):
-                        self.assertEqual(extract_tag_value(ranked[0]["text"], field.title()), item[field])
+            for query in (item["question"], *item.get("aliases", [])):
+                with self.subTest(question=number, query=query):
+                    ranked = rank_candidates(query, self.target_chunks, {}, focus="Transmission planning")
+                    self.assertEqual(len(ranked), 1)
+                    self.assertTrue(ranked[0]["assigned_match"])
+                    self.assertEqual(self.target_chunks[ranked[0]["index"]].get("source_id"), item["id"])
+                    self.assertEqual(extract_tag_value(ranked[0]["text"], "Answer"), item["answer"])
+                    if number in STORY_NUMBERS:
+                        for field in ("situation", "task", "action", "result"):
+                            self.assertEqual(extract_tag_value(ranked[0]["text"], field.title()), item[field])
 
     def test_representative_queries_find_the_new_material(self) -> None:
         queries = {
@@ -219,26 +205,34 @@ class PlanningInterviewContentTests(unittest.TestCase):
                 ranked = rank_candidates(question, self.target_chunks, scores, focus="Transmission planning")
                 self.assertEqual(self.target_chunks[ranked[0]["index"]].get("source_id"), self.imported[15]["id"])
 
-    def test_investment_answer_uses_planning_scenario_and_phased_decision(self) -> None:
+    def test_investment_answer_preserves_user_wording_and_separate_review_notes(self) -> None:
         item = self.imported[14]
         chunk = self.target_by_id[item["id"]]
         for focus in ("All roles", "Transmission planning", "Project management"):
             with self.subTest(focus=focus):
                 ranked = rank_candidates(item["question"], [chunk], {0: 0.99}, focus=focus)
                 self.assertEqual([candidate["index"] for candidate in ranked], [0])
-        for heading in (
-            "Root-Cause Model Reconciliation", "Multi-Scenario Sensitivity Analysis",
-            "Least-Regrets Phased Investment", "Stakeholder Alignment",
-        ):
-            self.assertIn(f"**{heading}**", item["action"])
+        self.assertEqual(item["response_type"], "direct")
+        self.assertEqual(item["story_basis"], "illustrative_scenario")
+        for field in ("situation", "task", "action", "result"):
+            self.assertNotIn(field, item)
+        # Fingerprint the authored Markdown without publishing a second copy.
+        self.assertEqual(hashlib.sha256((item["answer"] + "\n").encode("utf-8")).hexdigest(), Q14_REVISION_SHA256)
         for detail in (
-            "SSWG", "PSS®E", "PV/QV", "charging", "345-kV", "reactive",
-            "growth milestones", "in-service dates", "permitting lead times",
+            "Minimax Regret", "TARA", "PSS®E", "PSCAD", "PLEXOS", "750 MW", "STATCOM", "HTLS",
         ):
             self.assertIn(detail, item["answer"])
-        self.assertIn("recommendation", item["result"])
-        for unsupported in ("GE", "SCADA", "Site Acceptance", "zero formal objections", "millions"):
+        self.assertIn("preserved verbatim", item["source_status"])
+        self.assertIn("overstatements", item["source_status"])
+        for qualification in (
+            "not universally conservative", "not missing dynamic behavior",
+            "conditional estimates", "separate from planning compliance",
+            "cannot shift all grid-reliability obligations",
+        ):
+            self.assertIn(qualification, item["preparation_note"])
+        for unsupported in ("Waterloo", "$120 Million", "mandatory 10%"):
             self.assertNotIn(unsupported, item["answer"])
+        self.assertNotIn("Waterloo", " ".join(item["aliases"]))
         self.assertNotIn("How did you evaluate upgrading versus replacing the GE EMS?", item["aliases"])
 
     def test_incremental_plan_reuses_all_unchanged_evidence(self) -> None:

@@ -24,7 +24,7 @@ class RuntimeContentUITests(unittest.TestCase):
         item["answer"] = "\n\n".join(item[field] for field in ("situation", "task", "action", "result"))
         return content, item
 
-    def test_numbered_mentoring_question_sends_latest_source_without_reembedding(self) -> None:
+    def test_numbered_mentoring_question_serves_latest_source_without_reembedding(self) -> None:
         content, item = self.revised_content()
         with patch("interview_runtime_content.load_json", return_value=content):
             self.app.run()
@@ -36,11 +36,11 @@ class RuntimeContentUITests(unittest.TestCase):
             selected = self.app.session_state["active_answer"]["candidate"]
             self.assertEqual(selected["question"], item["question"])
             self.assertEqual(extract_tag_value(selected["text"], "Answer"), item["answer"])
-            messages = self.client.chat.completions.create.call_args.kwargs["messages"]
-            self.assertIn(serialize_content(item)["text"], messages[1]["content"])
+            self.assertEqual(selected["text"], serialize_content(item)["text"])
+            self.assertEqual(self.app.session_state["active_answer"]["text"], item["answer"])
             self.assertTrue(any("search index is refreshed" in element.value for element in self.app.info))
-            self.assertEqual(self.client.embeddings.create.call_count, 1)
-            self.assertIsInstance(self.client.embeddings.create.call_args.kwargs["input"], str)
+            self.client.embeddings.create.assert_not_called()
+            self.client.chat.completions.create.assert_not_called()
 
     def test_actual_pasted_question_sends_current_engineering_mentoring_details(self) -> None:
         content = json.loads(Path(__file__).with_name("manager_content.json").read_text())
@@ -51,14 +51,16 @@ class RuntimeContentUITests(unittest.TestCase):
         selected = self.app.session_state["active_answer"]["candidate"]
         self.assertEqual(extract_tag_value(selected["text"], "Action"), item["action"])
         self.assertEqual(extract_tag_value(selected["text"], "Answer"), item["answer"])
-        prompt = self.client.chat.completions.create.call_args.kwargs["messages"][1]["content"]
+        answer = self.app.session_state["active_answer"]["text"]
+        self.assertEqual(answer, item["answer"])
         for detail in (
             "why a violation occurred", "redistributed power", "limiting facility rating",
             "reactive reserves", "PV/QV", "review points",
         ):
             self.assertIn(detail, selected["text"])
-            self.assertIn(detail, prompt)
-        self.assertEqual(self.client.embeddings.create.call_count, 1)
+            self.assertIn(detail, answer)
+        self.client.embeddings.create.assert_not_called()
+        self.client.chat.completions.create.assert_not_called()
 
     def test_source_rerun_clears_active_answer_and_audio_without_repeating_requests(self) -> None:
         content, item = self.revised_content()

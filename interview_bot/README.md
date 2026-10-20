@@ -195,63 +195,75 @@ with only your own account allowed. See the
 for setup and a signed-out verification check. Local edits have not changed or
 verified that hosted setting.
 
-The October 20, 2026 revision strengthens questions 1–10 with diagnostic steps,
-mitigation tradeoffs, study deliverables, and validation checks adapted from the
-first October 20 draft. Each revised entry retains its original source
-fingerprint and adds `answer_revision` with the private source identifier,
-question, SHA-256, and an
-editorial note explaining the adaptation. The serialized **Answer Revision** field
-keeps that provenance separate from the interview answer. The raw draft is not
-ingested as an additional answer.
+The October 20 one-to-one revision gives all 20 questions an exclusive answer
+in the `ercot-planning-20` set. Each record has a numbered `question_key`, a
+unique `scenario_id`, source evidence, preparation limits, and an
+`answer_revision` fingerprint linking it to the user's supplied draft. The
+original question and source fingerprint remain intact. The draft supplies
+structure and technical depth; saved personal experience supplies historical
+claims. Unsupported project costs, outcomes, numerical acceptance limits,
+universal SCR thresholds, and assumed expedited approvals are excluded.
 
-The revision deliberately excludes unsupported numerical limits, project cost
-and schedule claims, universal SCR thresholds, and assumed expedited approvals.
-The expanded October 20 draft adds answers to Q14–20. The final content blends
-the supplied technical and management
-structure with the PEC assessment, LCRA EMS upgrade, rating disagreement,
-capacitor-bank alternative, dynamic-model verification, and mentoring examples.
-All seven behavioral answers (Q12, Q13, Q14, Q15, Q17, Q18, Q19) and their four STAR
-fields are rewritten as complete spoken stories: stakes, personal responsibility,
-specific actions and engineering reasoning, then supported outcomes. Each full
-answer is exactly the four STAR fields joined together, so retrieval cannot
-pair a new narrative with old STAR wording. Generic future-process appendices
-are removed. Revisions are traced through `answer_revision`, with material
-outcome qualifications preserved.
+| Question / shortcut | Exclusive example or proposed approach |
+| --- | --- |
+| 1 PROCESS | LCRA project modeling and development; ERCOT planning workflow |
+| 2 VIOLATION | LCRA conductor alternatives; thermal and voltage diagnosis |
+| 3 NERC | Requirement-to-study evidence matrix for TPL, FAC, and MOD |
+| 4 GENERATOR | Proposed 1,000 MW solar-plus-storage interconnection |
+| 5 DATA CENTER | Proposed 750 MW load and phased service assessment |
+| 6 IBR | Weak-network converter interactions and model-based diagnosis |
+| 7 ECONOMICS | Incremental lifecycle comparison of expansion alternatives |
+| 8 DISCREPANCY | Controlled reconciliation of consultant and ERCOT results |
+| 9 STUDY TYPES | Selecting steady-state, transient, voltage, and fault studies |
+| 10 SCENARIOS | Future-system cases, sensitivities, and investment triggers |
+| 11 PRIORITIZE INVESTMENTS | LCRA five-year growth forecast and project ranking |
+| 12 TOOLS | AELAB and contingency-generation automation |
+| 13 LEADERSHIP | Bringing the PEC annual assessment in house |
+| 14 UNCERTAINTY | Conflicting AC/EMT evidence, missing load models, and minimax-regret investment |
+| 15 DISAGREEMENT | LCRA tap-bus model and rating disagreement |
+| 16 DEADLINES | Clearing the LCRA equipment-ratings backlog |
+| 17 BAD NEWS | Reducing a capacitor proposal from seven banks to two |
+| 18 ERROR | Lost Pines dynamic-model parameter-sign error |
+| 19 MENTORING | Developing an LCRA associate engineer |
+| 20 STAKEHOLDERS | PEC operational transition; applying coordination to capital decisions |
 
-A further October 20 coaching revision substantively strengthens Q8 and
-Q10–20. Q19 now centers on teaching engineers to explain why a violation occurs:
-trace post-contingency flow redistribution, identify the limiting facility,
-investigate reactive reserves and controls, and compare remedies against the
-demonstrated cause. Delegation includes agreed study assumptions, review points,
-and accountability for the final decision. The P.E./promotion outcome remains,
-but the uncertain one-year timeline is omitted.
+No personal episode is reused within this set. Q12, Q13, Q15, Q16, Q17, Q18,
+and Q19 use complete STAR answers with numbered Action steps. Their full answer
+is assembled from the same four STAR fields with bold headings. Other answers
+use detailed proposed steps, with personal anchors where supported. Q14 uses the
+user's latest four-part hypothetical verbatim, including Markdown links and
+formatting. It replaces Waterloo. A source-fingerprint regression verifies the
+exact authored text without duplicating it in fixtures. The 750 MW load and SCR
+1.2 are illustrative inputs. Source status and preparation notes identify known
+technical and regulatory overstatements; preserved wording is not verified study
+guidance. The separate coaching notes address model validation, proxy limitations,
+IEEE 519 scope, conditional economics, STATCOM performance, CCN applicability,
+and RAS responsibilities. Supporting references and revision provenance accompany
+the answer. The preceding greenfield leadership draft was not inserted into Q13
+or another question. Q17 acknowledges that the actual example concerns
+an oversized equipment proposal, not a canceled or infeasible interconnection.
+Q13 retains **potential** avoided annual external fees before internal costs.
+Q19 distinguishes the colleague's achievements from the user's contribution,
+and proposed diagnostic/delegation methods from claimed past assignments.
 
-The other behavioral answers now explain the actual diagnostic or decision
-sequence: initialization versus disturbance failures, common study baselines,
-repeatable acceptance tests, equipment identity and effective topology,
-controlled seven-versus-two-bank comparisons, and model-owner correction
-followed by reruns. Q8, Q10, Q11, Q16, and Q20 add reproducible reconciliation,
-investment triggers, bottleneck-based prioritization, reviewer scheduling, and
-explicit stakeholder choices. Q1–7 and Q9 retain their existing detailed
-technical approaches. The new raw draft remains in ignored local storage;
-revision metadata records its identifier and SHA-256 without publishing it.
+Entering a full authored question, an authored alias, or a shortcut such as
+`12 TOOLS`, `TOOLS`, or `Q12` selects only its assigned answer. `12. TOOLS` and
+`#12 TOOLS` also work. A number/topic conflict such as `12 MENTORING` returns
+no answer. Explicit assignments override job-focus preferences and return the
+saved answer verbatim, without query embedding or answer-generation API calls.
+“Different Story” cannot substitute another episode. Existing **Needs correction**
+exclusions still apply: a flagged assigned story yields no substitute. An
+unrecognized paraphrase follows the existing general retrieval/generation path;
+it is not guaranteed to resolve to a dedicated assignment. Bare numbers are not
+shortcuts. Audio, transcription, and practice feedback retain their own service
+requirements.
 
-Q14 subsequently replaces the EMS upgrade example with the user's preferred
-transmission-planning investment scenario. It compares a major 345-kV expansion
-with staged transformer/reactive support under uncertain load and generation,
-using four numbered Action steps: model reconciliation, sensitivity analysis,
-phased investment, and stakeholder alignment. The explicit question beginning
-"Describe a situation in transmission planning" is an alias, and the original
-question remains compatible. The old GE EMS alias is removed. Q14 now qualifies
-for Transmission planning as well as All roles and Project management.
-
-The result describes the phased recommendation and decision package. It does
-not claim commissioned upgrades, quantified savings, or an ERCOT approval.
-Required planning events remain distinct from exploratory stress cases, and
-investment triggers account for routing, permitting, procurement, and
-construction lead times. The revision fingerprint identifies a private
-structured excerpt of the preferred user-message example; the accompanying
-attachment contains the earlier bot outputs and is archived privately too.
+Assignment validation requires complete coverage of questions 1–20 and unique
+question keys and scenario IDs. Tests also check the actual narrative anchors
+for episode reuse, all authored question/alias routes, exact saved wording,
+correction gating, and all 20 shortcuts through the UI. Source edits are loaded
+by the runtime overlay; an embedding refresh is not required for these explicit
+matches. The general generation prompt below applies to other questions.
 
 The generation prompt allows four to six focused paragraphs or short ordered
 steps for multi-part technical questions, retaining methods, decision criteria,
@@ -297,9 +309,9 @@ the intended corpus without API calls, use:
 python interview_bot/generate_embeddings.py --sync-manager-content --dry-run
 ```
 
-The Q14 replacement differs from the saved semantic index by one managed entry;
-the other 165 vectors can be reused. The latest Q14 text is available through the
-runtime source overlay and lexical/exact-question retrieval after deployment.
+The 20 assigned answers differ from the saved semantic index; the other 146
+vectors can be reused. Their latest text is available through the runtime source
+overlay and explicit assignment/lexical retrieval after deployment.
 Run the sync command in the configured environment, then
 restart/redeploy or reload the saved embeddings to enable their refreshed
 semantic scores. Do not run the standalone corpus writer first: it would

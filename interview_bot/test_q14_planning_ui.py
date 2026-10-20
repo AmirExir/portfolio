@@ -28,17 +28,18 @@ def explicit_planning_question(source: dict) -> str:
 
 
 class Q14PlanningPromptTests(unittest.TestCase):
-    def test_planning_source_and_spoken_star_format_are_explicit(self) -> None:
+    def test_planning_source_preserves_user_scenario_and_prospective_wording(self) -> None:
         source = planning_recommendation_source()
         question = explicit_planning_question(source)
         self.assertIn(question, source["aliases"])
         chunk = serialize_content(source)
         self.assertTrue(planning_evidence(chunk["text"]))
+        self.assertEqual(source["response_type"], "direct")
+        self.assertIn("minimax regret", source["answer"].casefold())
         messages = answer_messages(question, build_candidate(1, 0, chunk), "")
         instructions = messages[0]["content"]
-        for heading in ("**Situation**", "**Task**", "**Action**", "**Result**"):
-            self.assertIn(heading, instructions)
-        self.assertRegex(instructions.lower(), r"(?s)action.{0,250}numbered|numbered.{0,250}action")
+        self.assertIn("without forcing STAR", instructions)
+        self.assertIn("proposed approaches ('I would')", instructions)
         self.assertIn(chunk["text"], messages[1]["content"])
 
 
@@ -78,22 +79,17 @@ class Q14PlanningUITests(unittest.TestCase):
                 self.assertEqual(selected["text"], expected)
                 self.assertTrue(selected["question_match"])
                 self.assertTrue(planning_evidence(selected["text"]))
-                action = extract_tag_value(selected["text"], "Action")
-                for detail in ("SSWG", "PV/QV", "phased"):
-                    self.assertIn(detail.casefold(), action.casefold())
-                facts = " ".join(
-                    extract_tag_value(selected["text"], field)
-                    for field in ("Situation", "Task", "Action", "Result")
-                )
-                self.assertNotRegex(facts, r"(?i)\b(?:GE|EMS|SCADA)\b|energy management system")
-                request = self.client.chat.completions.create.call_args.kwargs["messages"]
-                self.assertIn(expected, request[1]["content"])
-                self.assertIn(action, request[1]["content"])
-        self.assertEqual(self.client.embeddings.create.call_count, len(questions))
-        self.assertTrue(all(
-            isinstance(call.kwargs["input"], str)
-            for call in self.client.embeddings.create.call_args_list
-        ))
+                answer = extract_tag_value(selected["text"], "Answer")
+                for detail in (
+                    "minimax regret", "PSCAD", "PLEXOS", "750 MW", "STATCOM", "HTLS",
+                    "**1. Isolating", "**2. Engineering", "**3. Quantifying", "**4. The Final",
+                ):
+                    self.assertIn(detail.casefold(), answer.casefold())
+                self.assertNotRegex(answer, r"(?i)\b(?:GE|EMS|SCADA)\b|energy management system")
+                self.assertEqual(self.app.session_state["active_answer"]["text"], source["answer"])
+                self.assertEqual(len(self.app.session_state["candidate_stories"]), 1)
+        self.client.embeddings.create.assert_not_called()
+        self.client.chat.completions.create.assert_not_called()
 
     def test_all_roles_prefers_current_planning_answer_for_exact_and_numbered_questions(self) -> None:
         self._check_question_variants("All roles")

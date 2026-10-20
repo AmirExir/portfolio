@@ -10,7 +10,7 @@ from embedding_utils import (
     load_valid_embeddings,
 )
 from interview_evidence import answer_markdown, build_story_library, story_id
-from interview_services import InterviewServiceError, answer_messages, request_text, service_error, transcribe
+from interview_services import InterviewServiceError, render_answer, service_error, transcribe
 from interview_sessions import restore_session
 from interview_runtime_content import activate_runtime_content, load_runtime_corpus
 from interview_workspace_ui import render_evidence, render_practice, render_session_controls
@@ -24,6 +24,7 @@ from interview_retrieval import (
     coerce_candidate,
     display_category,
     rank_candidates,
+    assigned_candidates,
 )
 
 api_key = os.getenv("OPENAI_API_KEY", "").strip()
@@ -111,6 +112,14 @@ def search(
     job_description: str = "",
 ) -> list[dict]:
     """Retrieve answers using the question and selected job background."""
+    def reviewed_candidates(candidates: list[dict]) -> list[dict]:
+        return [candidate for candidate in candidates if
+                candidate["response_type"] != "story" or
+                st.session_state.get("story_reviews", {}).get(story_id(candidate["text"]), {}).get("review_status") != "Needs correction"][:k]
+
+    assigned = assigned_candidates(query, chunks)
+    if assigned is not None:
+        return reviewed_candidates(assigned)
     if client is None:
         raise InterviewServiceError("Story search requires OPENAI_API_KEY to be configured on the server.")
     try:
@@ -139,9 +148,7 @@ def search(
         query, chunks, scores, k=len(chunks), focus=focus, stories_only=stories_only,
         job_description=job_description,
     )
-    return [candidate for candidate in candidates if
-            candidate["response_type"] != "story" or
-            st.session_state.get("story_reviews", {}).get(story_id(candidate["text"]), {}).get("review_status") != "Needs correction"][:k]
+    return reviewed_candidates(candidates)
 
 
 def enforce_single_star_story(text):
@@ -289,6 +296,8 @@ selected_story = None
 query_to_answer = None
 if search_request:
     clear_candidate_pool(st.session_state)
+    for key in ("active_answer", "answer_audio", "audio_error"):
+        st.session_state.pop(key, None)
     st.session_state.pending_search = search_request
     st.session_state.pop("pending_answer", None)
     st.session_state.pop("answer_error", None)
@@ -336,8 +345,8 @@ if request_answer and st.session_state.get("pending_answer"):
     pending = st.session_state.pending_answer
     try:
         with st.spinner("Answering..."):
-            text = request_text(client, answer_messages(pending["question"], pending["candidate"], pending["job_context"]))
-        if pending["candidate"]["response_type"] == "story":
+            text = render_answer(client, pending["question"], pending["candidate"], pending["job_context"])
+        if pending["candidate"]["response_type"] == "story" and not pending["candidate"].get("assigned_match"):
             text = enforce_single_star_story(text)
         st.session_state.active_answer = {
             **pending, "text": text,
@@ -360,10 +369,12 @@ if active:
     st.caption(f"Selected answer for: {active['question']}")
     st.markdown(f"**{'Detected Principle' if candidate['response_type'] == 'story' else 'Answer Category'}:** {display_category(candidate)}")
     st.caption(f"Saved evidence: {active['story_id']}. Claims are not independently verified.")
+    if candidate.get("assigned_match"):
+        st.caption(f"{candidate['question_key']} · Saved answer for this question")
     if st.session_state.story_reviews.get(active["story_id"], {}).get("review_status") == "Needs correction":
         st.warning("You marked this source as needing correction. Review the source before using this earlier answer.")
     if st.checkbox("Show retrieved context"):
-        st.markdown("**Selected context sent to GPT**")
+        st.markdown("**Saved answer source**" if candidate.get("assigned_match") else "**Selected context sent to GPT**")
         st.code(candidate["text"], language="text")
         st.text(active["job_context"] or "No job background was applied to this answer.")
     st.download_button("Download this answer", answer_markdown(active), "interview-answer.md", "text/markdown")
