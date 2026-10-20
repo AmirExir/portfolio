@@ -13,16 +13,16 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const point = (x, y, z) => [x, y, z];
   const smooth = (value) => { const t = clamp(value, 0, 1); return t * t * (3 - 2 * t); };
-  const labels = Object.freeze({ normal: 'Normal flow', strike: 'Lightning strike', tripping: 'Breakers opening', isolated: 'Line isolated', reclosing: 'Reclosing', restoring: 'Restoring supply', restored: 'Supply restored' });
+  const labels = Object.freeze({ normal: 'Both circuits in service', strike: 'Fault on circuit A', tripping: 'Circuit A breakers opening', isolated: 'A isolated · B supplies loads', reclosing: 'Resetting circuit A', restoring: 'Returning to base case', restored: 'Both circuits in service' });
   const eventCues = Object.freeze({ replay: 7.6, isolated: 10, restored: 19 });
 
   /**
-   * Deterministic narrative for one radial, three-phase circuit: a transient
-   * line fault is cleared, both terminal circuit breakers isolate the circuit,
-   * then sending and receiving breakers reclose in order before load recovery.
-   * This deliberately slowed artwork is not relay timing or a protection study.
+   * Two parallel three-phase circuits share terminal buses. A fault on A opens
+   * its two terminal breakers; B retains a path to every downstream load.
+   * Supply continuity is an assumed illustration, not an N−1 adequacy result.
+   * The reset is presentation playback, not an automatic-reclosing scheme.
    */
-  function getEventState({ time = 0, reducedMotion = false } = {}) {
+  function getEventState({ time = 0, reducedMotion = false, state = 'auto' } = {}) {
     const cycleTime = (Number.isFinite(time) ? Math.max(0, time) : 0) % 26;
     let stage = 'normal', sendingOpen = 0, receivingOpen = 0, linePower = 1, downstreamPower = 1, strikeOpacity = 0;
     if (cycleTime >= 8 && cycleTime < 8.3) {
@@ -32,18 +32,27 @@
       stage = 'tripping';
       sendingOpen = smooth((cycleTime - 8.3) / 0.65);
       receivingOpen = smooth((cycleTime - 8.35) / 0.65);
-      linePower = 0; downstreamPower = 0;
+      linePower = 0;
     } else if (cycleTime >= 9.1 && cycleTime < 13.8) {
-      stage = 'isolated'; sendingOpen = 1; receivingOpen = 1; linePower = 0; downstreamPower = 0;
+      stage = 'isolated'; sendingOpen = 1; receivingOpen = 1; linePower = 0;
     } else if (cycleTime >= 13.8 && cycleTime < 15.2) {
       stage = 'reclosing';
       sendingOpen = 1 - smooth((cycleTime - 13.8) / 0.65);
       receivingOpen = 1 - smooth((cycleTime - 14.6) / 0.6);
-      linePower = cycleTime >= 14.45 ? 1 : 0; downstreamPower = 0;
+      linePower = cycleTime >= 14.45 ? 1 : 0;
     } else if (cycleTime >= 15.2 && cycleTime < 18.5) {
-      stage = 'restoring'; downstreamPower = smooth((cycleTime - 15.2) / 3.3);
+      stage = 'restoring';
     } else if (cycleTime >= 18.5) stage = 'restored';
-    return { stage, label: labels[stage], cycleTime, cycleDuration: 26, sendingOpen, receivingOpen, linePower, downstreamPower, strikeOpacity, restorationProgress: downstreamPower, canReplay: cycleTime < eventCues.replay || cycleTime >= 18.5 };
+    let redistributionGain = cycleTime < 8.3 ? 0 : cycleTime < 15.2 ? smooth((cycleTime - 8.3) / 0.8) : 1 - smooth((cycleTime - 15.2) / 3.3);
+    if (state === 'base' || state === 'open' || state === 'redistributed') {
+      const isolated = state !== 'base';
+      stage = isolated ? 'isolated' : 'normal';
+      sendingOpen = receivingOpen = isolated ? 1 : 0;
+      linePower = isolated ? 0 : 1;
+      strikeOpacity = 0;
+      redistributionGain = state === 'redistributed' ? 1 : 0;
+    }
+    return { stage, label: labels[stage], cycleTime, cycleDuration: 26, sendingOpen, receivingOpen, linePower, downstreamPower, alternatePower: 1, redistributionGain, strikeOpacity, restorationProgress: 1 - redistributionGain, canReplay: cycleTime < eventCues.replay || cycleTime >= 18.5 };
   }
   const palettes = {
     steel: ['rgba(162,182,178,.21)', 'rgba(57,75,83,.76)', 'rgba(87,103,108,.55)'],
@@ -375,7 +384,7 @@
     return route;
   }
 
-  function breakerPole(g, x, z, role, phase) {
+  function breakerPole(g, x, z, role, phase, circuit = 'primary') {
     // Sealed interrupter with an illustrative cutaway contact window. The
     // moving contact translates inside the chamber: this is not a load-breaking
     // knife disconnect. Each pole retains its own insulated terminals.
@@ -389,21 +398,21 @@
     g.face([point(x - 0.31, 0.435, front), point(x + 0.31, 0.435, front), point(x + 0.31, 0.65, front), point(x - 0.31, 0.65, front)], 'rgba(7,14,18,.94)', 1, 0.01);
     g.line([point(x - 0.32, 1.1, z), point(x - 0.32, y, z), point(x - 0.3, y, front)], COLORS.ivory, 0.55, 0.85);
     g.line([point(x + 0.32, 1.1, z), point(x + 0.32, y, z), point(x + 0.3, y, front)], COLORS.ivory, 0.55, 0.85);
-    g.g.breakers.push({ group: g, x, z: front, y, role, phase });
+    g.g.breakers.push({ group: g, x, z: front, y, role, phase, circuit });
     return { input, output, contact: g.p(x, y, front) };
   }
 
-  function sendingBreaker(g) {
+  function sendingBreaker(g, circuit = 'primary') {
     const inputs = [], outputs = [];
     for (let phase = 0; phase < 3; phase += 1) {
-      const pole = breakerPole(g, 0, -0.73 + phase * 0.73, 'sending', phase);
+      const pole = breakerPole(g, 0, -0.73 + phase * 0.73, 'sending', phase, circuit);
       inputs.push(pole.input); outputs.push(pole.output);
-      g.g.route([pole.input, pole.contact, pole.output], phase, 0.226, 0.018, COLORS.gold, 0.6, { zone: 'line', breakerRole: 'sending', static: false });
+      g.g.route([pole.input, pole.contact, pole.output], phase, 0.226, 0.018, COLORS.gold, 0.6, { zone: circuit === 'alternate' ? 'alternate' : 'line', breakerRole: 'sending', circuit, static: false });
     }
     return { inputs, outputs };
   }
 
-  function receivingYard(g) {
+  function receivingYard(g, circuit = 'primary') {
     // Three parallel bays, each on insulating columns. The steel gantry is
     // structural; the phase conductors hang below it on separate insulators.
     for (const z of [-1.2, 1.2]) {
@@ -417,10 +426,10 @@
       g.insulator(-1.25, 2.09, z, 0.4, 0.075);
       const input = g.p(-1.25, 2.09, z);
       inputs.push(input);
-      const pole = breakerPole(g, -0.26, z, 'receiving', phase);
+      const pole = breakerPole(g, -0.26, z, 'receiving', phase, circuit);
       outputs.push(pole.output);
-      g.g.route(sag(input, pole.input, 0.035, 12), phase, 0.575, 0.022, COLORS.gold, 0.6, { zone: 'line' });
-      g.g.route([pole.input, pole.contact, pole.output], phase, 0.597, 0.018, COLORS.gold, 0.6, { zone: 'downstream', breakerRole: 'receiving', static: false });
+      g.g.route(sag(input, pole.input, 0.035, 12), phase, 0.575, 0.022, COLORS.gold, 0.6, { zone: circuit === 'alternate' ? 'alternate' : 'line' });
+      g.g.route([pole.input, pole.contact, pole.output], phase, 0.597, 0.018, COLORS.gold, 0.6, { zone: circuit === 'alternate' ? 'alternate' : 'downstream', breakerRole: 'receiving', circuit, static: false });
     }
     for (let i = 0; i < 9; i += 1) g.line([point(-1.6 + i * 0.24, 0.02, 1.4), point(-1.6 + i * 0.24, 0.35, 1.4)], COLORS.muted, 0.22, 0.45);
     g.line([point(-1.6, 0.35, 1.4), point(0.4, 0.35, 1.4)], COLORS.ice, 0.2, 0.45);
@@ -565,6 +574,28 @@
     for (let phase = 0; phase < 3; phase += 1) geometry.route(sag(from[phase], to[phase], amount), phase, start, duration, color, 0.65, options);
   }
 
+  function distributionPole(g) {
+    // Lower, simple crossarms distinguish distribution from lattice transmission.
+    g.box(0, 0, 0, 0.12, 2.3, 0.12, 'warm');
+    g.line([point(0, 1.97, -0.65), point(0, 1.97, 0.65)], COLORS.ivory, 0.95, 1.65);
+    g.line([point(0, 1.6, -0.04), point(0, 1.97, -0.48), point(0, 1.97, 0.48), point(0, 1.6, 0.04)], COLORS.ice, 0.7, 0.7);
+    return [-0.53, 0, 0.53].map(z => g.insulator(0, 1.98, z, 0.2, 0.055));
+  }
+
+  function serviceTransformer(g) {
+    // A visible pad-mounted transformer separates primary feeder and services.
+    g.box(0, 0, 0, 1.0, 0.12, 0.86, 'dark');
+    g.box(0, 0.12, 0, 0.85, 0.72, 0.66, 'warm');
+    g.box(0, 0.84, 0, 0.94, 0.08, 0.75, 'steel');
+    for (let i = 0; i < 6; i += 1) g.line([point(-0.32 + i * 0.12, 0.24, 0.34), point(-0.32 + i * 0.12, 0.73, 0.34)], COLORS.ivory, 0.7, 0.8);
+    const primary = [], secondary = [];
+    for (let phase = 0; phase < 3; phase += 1) {
+      primary.push(g.insulator(-0.27 + phase * 0.27, 0.93, -0.16, 0.2, 0.045));
+      secondary.push(g.p(-0.27 + phase * 0.27, 0.27, 0.4));
+    }
+    return { primary, secondary };
+  }
+
   function build(mobile, narrowPhone = false) {
     const geometry = new Geometry();
     const layout = mobile ? {
@@ -573,18 +604,24 @@
       collector: [-3.82, -1.67, 0.52], stepUp: [-3.44, -0.8, 0.66],
       sending: [-2.37, -0.8, 0.49],
       towers: [[-1.48, -1.1, 0.63], [0.6, -1.02, 0.63], [2.66, -0.8, 0.63]],
+      alternateSending: [-2.37, 1.7, 0.59], alternateTowers: [[-0.98, 1.3, 0.63], [1.48, 1.6, 0.63]],
+      alternateYard: [3.89, 3.4, 0.54],
       yard: [3.89, 1.06, 0.54], receiving: [1.98, 1.13, 0.62], distribution: [1.13, 0.56, 0.62],
-      data: [-3.7, 0.33, 0.76], crypto: [-1.13, 0.2, 0.73], industrial: [-4.25, 2.32, 0.66], commercial: [-2.44, 2.28, 0.62],
-      houses: [[-0.61, 2.12, 0.7], [0.39, 2.18, 0.66]],
+      poles: [[0.3, 3.7, 0.72], [-2.3, 4.1, 0.72], [-4.25, 4.7, 0.72]], service: [-2.65, 5.7, 0.75],
+      data: [-4.9, 6.9, 0.76], crypto: [-2.5, 7.8, 0.73], industrial: [-0.6, 6.8, 0.66], commercial: [1.3, 6.3, 0.62],
+      houses: [[-1.3, 8.9, 0.7], [0.0, 8.8, 0.66]],
     } : {
       nuclear: [-11.28, -5.9, 0.9], wind: [-7.85, -4.5, 0.98], hydro: [-12.7, 0.2, 0.9],
       gas: [-8.68, -0.55, 0.91], solar: [-11.74, 1.73, 0.89], battery: [-7.85, 2.0, 0.92],
       collector: [-6.37, 0.16, 0.62], stepUp: [-5.45, 0.01, 0.95],
       sending: [-4.14, 0.01, 0.72],
       towers: [[-3.15, -0.22, 1], [-0.32, -0.36, 1.08], [2.4, -0.2, 1]],
+      alternateSending: [-4.14, 2.7, 0.85], alternateTowers: [[-2.5, 2.9, 0.92], [1.7, 2.9, 0.92]],
+      alternateYard: [4.95, 3.0, 0.93],
       yard: [4.95, 0.0, 0.93], receiving: [6.52, 0.1, 0.95], distribution: [7.98, 0.22, 0.92],
-      data: [10.55, -1.69, 1.02], crypto: [9.13, -3.02, 0.92], industrial: [13.13, -2.58, 0.91], commercial: [12.88, -0.1, 0.83],
-      houses: [[9.0, 1.49, 0.91], [10.46, 1.98, 0.88], [11.92, 1.42, 0.94]],
+      poles: [[8.9, 0.95, 0.91], [10.7, 0.95, 0.91], [12.4, 0.95, 0.91]], service: [11.3, 2.0, 0.98],
+      data: [13.65, -1.69, 1.02], crypto: [11.7, -3.02, 0.92], industrial: [16.13, -2.58, 0.91], commercial: [15.88, -0.1, 0.83],
+      houses: [[12.3, 2.49, 0.91], [13.86, 2.98, 0.88], [15.42, 2.42, 0.94]],
     };
     // Narrow phones have additional space above the source district. Recede
     // only that district into the landscape, keeping the PV faces clear of
@@ -609,8 +646,13 @@
     const sending = sendingBreaker(make(layout.sending));
     const towers = layout.towers.map((position, index) => tower(make(position), index === 1 ? 3.68 : 3.52));
     const yard = receivingYard(make(layout.yard));
+    const alternateSending = sendingBreaker(make(layout.alternateSending), 'alternate');
+    const alternateTowers = layout.alternateTowers.map(position => tower(make(position), 3.1));
+    const alternateYard = receivingYard(make(layout.alternateYard), 'alternate');
     const receiving = transformer(make(layout.receiving), true);
     const distribution = distributionCabinet(make(layout.distribution));
+    const poles = layout.poles.map(position => distributionPole(make(position)));
+    const services = serviceTransformer(make(layout.service));
     const campus = [
       { terminal: dataCenter(make(layout.data)), color: COLORS.ice },
       { terminal: cryptoContainer(make(layout.crypto)), color: COLORS.ice },
@@ -632,12 +674,26 @@
     }
 
     connectThree(geometry, generation, stepUp.low, 0.015, 0.11, mobile ? 0.045 : 0.16, COLORS.ice);
-    connectThree(geometry, stepUp.high, sending.inputs, 0.2, 0.026, 0.025);
+    connectThree(geometry, stepUp.high, sending.inputs, 0.2, 0.026, 0.025, COLORS.gold,
+      { circuit: 'primary', breakerRole: 'sending' });
     connectThree(geometry, sending.outputs, towers[0], 0.244, 0.051, mobile ? 0.045 : 0.12, COLORS.gold, { zone: 'line' });
     connectThree(geometry, towers[0], towers[1], 0.295, 0.105, mobile ? 0.18 : 0.4, COLORS.gold, { zone: 'line' });
     connectThree(geometry, towers[1], towers[2], 0.40, 0.105, mobile ? 0.18 : 0.39, COLORS.gold, { zone: 'line' });
     connectThree(geometry, towers[2], yard.inputs, 0.505, 0.07, mobile ? 0.07 : 0.2, COLORS.gold, { zone: 'line' });
-    connectThree(geometry, yard.outputs, receiving.high, 0.62, 0.085, 0.055, COLORS.gold, { zone: 'downstream' });
+    connectThree(geometry, yard.outputs, receiving.high, 0.62, 0.085, 0.055, COLORS.gold,
+      { zone: 'downstream', circuit: 'primary', breakerRole: 'receiving' });
+    // Separate conductors share only matching-phase terminal buses. Circuit B
+    // has its own two terminal breakers and a spatially distinct tower route.
+    connectThree(geometry, stepUp.high, alternateSending.inputs, 0.2, 0.026, 0.05);
+    const alternateChain = [alternateSending.outputs, ...alternateTowers, alternateYard.inputs];
+    alternateChain.slice(1).forEach((to, index) => connectThree(geometry, alternateChain[index], to,
+      0.244 + index * 0.11, 0.11, mobile ? 0.12 : 0.3, COLORS.ice, { zone: 'alternate' }));
+    connectThree(geometry, alternateYard.outputs, receiving.high, 0.62, 0.085, 0.055, COLORS.ice, { zone: 'downstream' });
+    geometry.annotations = [
+      { point: towers[1][1], text: 'A · transmission', zone: 'line' },
+      { point: alternateTowers[0][1], text: 'B · alternate path', zone: 'alternate' },
+      { point: mobile ? poles[2][1] : poles[1][1], text: 'Distribution', zone: 'downstream', below: mobile },
+    ];
     // The strike lands on one phase conductor, not on a shared three-phase
     // junction. The circuit's three poles nevertheless trip together.
     geometry.strike = sag(towers[1][2], towers[2][2], mobile ? 0.18 : 0.39)[17];
@@ -645,18 +701,22 @@
     // The receiving transformer feeds distinct switchgear bays before the load
     // branches. Neither this cabinet nor its feeders tie the phases together.
     const direction = mobile ? -1 : 1;
+    connectThree(geometry, distribution.outputs, poles[0], 0.835, 0.035, 0.05, COLORS.ice, { zone: 'downstream' });
+    connectThree(geometry, poles[0], poles[1], 0.87, 0.03, 0.12, COLORS.ice, { zone: 'downstream' });
+    connectThree(geometry, poles[1], poles[2], 0.90, 0.03, 0.12, COLORS.ice, { zone: 'downstream' });
+    connectThree(geometry, poles[1], services.primary, 0.91, 0.025, 0.08, COLORS.ice, { zone: 'downstream' });
     for (let phase = 0; phase < 3; phase += 1) {
       const terminal = receiving.low[phase];
       geometry.route(sag(terminal, distribution.inputs[phase], 0.09, 15), phase, 0.77, 0.043, COLORS.gold, 0.7, { zone: 'downstream' });
-      const phaseFork = distribution.outputs[phase];
+      const phaseFork = services.secondary[phase];
       campus.forEach((load) => {
         const end = point(load.terminal[0], load.terminal[1] + phase * 0.034, load.terminal[2] + phase * 0.075);
-        geometry.route([phaseFork, point(phaseFork[0] + direction * 0.18, 0.16 + phase * 0.035, end[2]), end], phase, 0.835, 0.105, load.color, 0.52, { zone: 'downstream' });
+        geometry.route([phaseFork, point(phaseFork[0] + direction * 0.18, 0.16 + phase * 0.035, end[2]), end], phase, 0.94, 0.05, load.color, 0.7, { zone: 'downstream' });
       });
     }
     homes.forEach((home, index) => {
-      const start = distribution.outputs[index % 3];
-      geometry.route([start, point(start[0] + direction * 0.16, 0.24, home[2]), point(home[0] - direction * 0.1, 0.24, home[2]), home], index, 0.835, 0.105 + index * 0.02, COLORS.gold, 0.65, { zone: 'downstream' });
+      const start = services.secondary[index % 3];
+      geometry.route([start, point(start[0] + direction * 0.16, 0.24, home[2]), point(home[0] - direction * 0.1, 0.24, home[2]), home], index, 0.94, 0.05, COLORS.gold, 0.85, { zone: 'downstream' });
     });
 
     // A faint site survey plane grounds the equipment without a boxed diorama.
@@ -704,6 +764,7 @@
   }
 
   function routePower(route, event) {
+    if (route.circuit === 'alternate' || route.zone === 'alternate') return event.alternatePower;
     if (route.breakerRole === 'sending' && event.sendingOpen > 0) return 0;
     if (route.breakerRole === 'receiving' && event.receivingOpen > 0) return 0;
     if (route.zone === 'line') return event.linePower;
@@ -719,11 +780,13 @@
       if (power <= 0) continue;
       const direction = route.storage ? battery.direction : 1;
       if (direction === 0) continue;
-      for (let train = 0; train < 3; train += 1) {
+      const extraFlow = route.zone === 'alternate' ? event.redistributionGain : 0;
+      for (let train = 0; train < (extraFlow > 0 ? 6 : 3); train += 1) {
       // Mirror the entire storage interval, not only each path. Charging must
       // enter at the AC collector before continuing through converter to DC.
       const start = direction === -1 ? -0.195 - (route.start + route.duration) : route.start;
-      const clock = ((time / 9.2 - start - route.phase * 0.018 + train / 3) % 1 + 1) % 1;
+      const offset = train < 3 ? train / 3 : (train - 3) / 3 + 1 / 6;
+      const clock = ((time / 9.2 - start - route.phase * 0.018 + offset) % 1 + 1) % 1;
       if (clock > route.duration) continue;
       const progress = clock / route.duration;
       const scaled = (direction === 1 ? progress : 1 - progress) * (route.points.length - 1);
@@ -732,7 +795,7 @@
       const a = route.points[index], b = route.points[index + 1];
       const position = point(lerp(a[0], b[0], part), lerp(a[1], b[1], part), lerp(a[2], b[2], part));
       projection(position, view, temp);
-      const fade = Math.min(1, Math.sin(progress * Math.PI) * 3.0) * power;
+      const fade = Math.min(1, Math.sin(progress * Math.PI) * 3.0) * power * (train < 3 ? 1 : extraFlow);
       glow(ctx, temp[0], temp[1], view.mobile ? 1.5 : 1.9, route.color, fade * 0.92);
       // A short luminous trailing section makes direction legible at a glance.
       const tailLength = Math.min(1.4, (route.points.length - 1) * 0.05);
@@ -748,10 +811,10 @@
     ctx.globalAlpha = 1;
   }
 
-  function drawBreakers(ctx, geometry, view, event) {
+  function drawBreakers(ctx, geometry, view, event, showIndicators = true) {
     for (const breaker of geometry.breakers) {
       const { group: g, x, y, z, role } = breaker;
-      const open = role === 'sending' ? event.sendingOpen : event.receivingOpen;
+      const open = breaker.circuit === 'alternate' ? 0 : role === 'sending' ? event.sendingOpen : event.receivingOpen;
       const color = open > 0.01 ? '#d9a274' : COLORS.ice;
       const segments = [
         [g.p(x - 0.3, y, z), g.p(x + 0.055 - open * 0.29, y, z)],
@@ -768,10 +831,76 @@
         projection(g.p(contactX, y + 0.043, z), view, temp2);
         ctx.beginPath();ctx.moveTo(temp[0], temp[1]);ctx.lineTo(temp2[0], temp2[1]);ctx.stroke();
       }
-      projection(g.p(x + 0.32, 0.29, z), view, temp);
-      glow(ctx, temp[0], temp[1], view.mobile ? 1.15 : 1.7, color, 0.73);
+      if (showIndicators) {
+        projection(g.p(x + 0.32, 0.29, z), view, temp);
+        glow(ctx, temp[0], temp[1], view.mobile ? 1.15 : 1.7, color, 0.73);
+      }
     }
     ctx.globalAlpha = 1;
+  }
+
+  function drawAnnotations(ctx, geometry, view, event) {
+    ctx.save();
+    try {
+      ctx.font = `${view.mobile ? 10 : 11}px system-ui, sans-serif`;
+      ctx.textAlign = 'center';
+      for (const annotation of geometry.annotations) {
+        projection(annotation.point, view, temp);
+        const label = annotation.zone === 'line' && event.sendingOpen > 0.99 && event.receivingOpen > 0.99
+          ? 'A · isolated' : annotation.text;
+        const w = ctx.measureText(label).width + 14;
+        const offset = annotation.below ? 29 : -12;
+        if (annotation.below) {
+          ctx.strokeStyle = COLORS.ice; ctx.lineWidth = 0.6; ctx.globalAlpha = 0.7;
+          ctx.beginPath(); ctx.moveTo(temp[0], temp[1] + 3); ctx.lineTo(temp[0], temp[1] + offset - 13); ctx.stroke();
+        }
+        ctx.fillStyle = '#091115'; ctx.globalAlpha = 0.9;
+        ctx.fillRect(temp[0] - w / 2, temp[1] + offset - 13, w, 18);
+        ctx.fillStyle = annotation.zone === 'line' ? COLORS.gold : COLORS.ice;
+        ctx.globalAlpha = 1;
+        ctx.fillText(label, temp[0], temp[1] + offset);
+      }
+    } finally { ctx.restore(); }
+  }
+
+  function drawContactDetails(ctx, geometry, width, height, event) {
+    // Reproject the actual modeled contacts, rather than draw an unrelated
+    // switch symbol. A single phase is enlarged; all three poles move together.
+    const margin = width <= 640 ? 12 : 28, gap = 12;
+    const panelWidth = (width - margin * 2 - gap) / 2;
+    const top = height - 132;
+    ctx.save();
+    try {
+      ['sending', 'receiving'].forEach((role, index) => {
+        const left = margin + index * (panelWidth + gap);
+        ctx.globalAlpha = 1; ctx.fillStyle = '#101e24';
+        ctx.fillRect(left, top, panelWidth, 113);
+        ctx.strokeStyle = '#65828a66'; ctx.lineWidth = 0.8;
+        ctx.strokeRect(left, top, panelWidth, 113);
+        ctx.fillStyle = COLORS.ivory; ctx.textAlign = 'left';
+        ctx.font = '11px system-ui, sans-serif';
+        ctx.fillText(role === 'sending' ? 'Sending end' : 'Receiving end', left + 10, top + 18);
+        ['primary', 'alternate'].forEach((circuit, row) => {
+          const breaker = geometry.breakers.find(b => b.role === role && b.circuit === circuit && b.phase === 1);
+          const open = circuit === 'primary' ? (role === 'sending' ? event.sendingOpen : event.receivingOpen) : 0;
+          const y = top + 46 + row * 38;
+          ctx.fillStyle = circuit === 'primary' ? COLORS.gold : COLORS.ice;
+          ctx.font = '10px system-ui, sans-serif';
+          ctx.fillText(`${row === 0 ? 'A' : 'B'} ${open > 0.99 ? 'OPEN' : open > 0.01 ? 'MOVING' : 'CLOSED'}`, left + 10, y + 3);
+          const scale = Math.min(135, panelWidth * 0.72) / breaker.group.s;
+          const view = { cx: 0, ground: 0, scale, depthX: 0, depthY: 0, mobile: false };
+          projection(breaker.group.p(breaker.x, breaker.y, breaker.z), view, temp);
+          const center = left + panelWidth * 0.71;
+          view.cx = center - temp[0]; view.ground = y - temp[1];
+          ctx.fillStyle = '#071014';
+          ctx.fillRect(center - scale * breaker.group.s * 0.36, y - 10, scale * breaker.group.s * 0.72, 20);
+          drawBreakers(ctx, { breakers: [breaker] }, view, event, false);
+        });
+      });
+      ctx.globalAlpha = 1; ctx.fillStyle = COLORS.muted;
+      ctx.font = '10px system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('Contact cutaways · one pole shown per breaker', width / 2, height - 4);
+    } finally { ctx.restore(); }
   }
 
   function drawLightning(ctx, geometry, view, event) {
@@ -983,17 +1112,23 @@
   }
 
   /** Paint one transparent, resolution-independent frame of the power journey. */
-  function draw(ctx, { width, height, time = 0, eventTime = time, reducedMotion = false, suppressFlash = false, pointerX = 0, pointerY = 0 }) {
+  function draw(ctx, { width, height, time = 0, eventTime = time, state = 'auto', presentation = 'hero', reducedMotion = false, suppressFlash = false, pointerX = 0, pointerY = 0 }) {
     if (!ctx || !Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) return;
     const mobile = width <= 640;
     const t = reducedMotion ? 0 : (Number.isFinite(time) ? time : 0);
-    const event = getEventState({ time: eventTime, reducedMotion: reducedMotion || suppressFlash });
+    const event = getEventState({ time: eventTime, state, reducedMotion: reducedMotion || suppressFlash });
     const px = Number.isFinite(pointerX) ? clamp(pointerX, -1, 1) : 0;
     const py = Number.isFinite(pointerY) ? clamp(pointerY, -1, 1) : 0;
+    const story = presentation === 'story';
     const view = {
-      mobile, cx: width * 0.5,
-      ground: height * (mobile ? 0.727 : 0.742) - (mobile ? clamp((640 - width) / 16, 0, 20) : 0),
-      scale: mobile ? Math.min(width / 12.7, height * 0.038) : Math.min(width / 31.6, height * 0.05),
+      mobile, cx: width * (mobile ? 0.5 : 0.465),
+      ground: story ? (height - 145) * (mobile ? 0.60 : 0.78)
+        : height * (mobile ? 0.655 : 0.72) - (mobile ? clamp((640 - width) / 16, 0, 20) : 0),
+      // Wider phones have larger title typography but the same fixed hero
+      // height. Reserve its copy/legend bands rather than scale art by width.
+      scale: mobile ? Math.min(width / (story ? 13.6 : 15),
+        story ? (height - 145) / 11 : lerp(27, 24, clamp((width - 390) / 250, 0, 1)))
+        : Math.min(width / 35.5, (story ? height - 145 : height * 0.41) / 8),
       depthX: 0.43 + px * 0.055,
       depthY: (mobile ? 0.36 : 0.29) + py * 0.025,
     };
@@ -1020,6 +1155,8 @@
       drawBreakers(ctx, geometry, view, event);
       drawRoutes(ctx, geometry, view, t, event);
       drawLightning(ctx, geometry, view, event);
+      drawAnnotations(ctx, geometry, view, event);
+      if (story) drawContactDetails(ctx, geometry, width, height, event);
     } finally {
       ctx.restore();
     }

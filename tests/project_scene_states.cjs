@@ -10,12 +10,13 @@ function load(filename) {
   vm.runInContext(fs.readFileSync(path.join(sourceRoot, filename), 'utf8'), sandbox, { filename });
 }
 load('project-scene-kit.js');
+load('power-journey.js');
 
 const scenarios = [
   {
     file: 'contingency-scene.js', global: 'ContingencyScene', type: 'contingency',
     manual: ['base', 'open', 'redistributed'],
-    boundaries: [[0, 'base'], [2.999, 'base'], [3, 'open'], [4.499, 'open'], [4.5, 'redistributed'], [8.999, 'redistributed'], [9, 'restoring'], [11.999, 'restoring'], [12, 'base'], [15, 'open']],
+    boundaries: [[0, 'base'], [7.999, 'base'], [8, 'open'], [8.3, 'open'], [9.099, 'open'], [9.1, 'redistributed'], [13.799, 'redistributed'], [13.8, 'restoring'], [15.2, 'restoring'], [18.499, 'restoring'], [18.5, 'base'], [25.999, 'base'], [26, 'base'], [34, 'open']],
   },
   {
     file: 'fault-scene.js', global: 'FaultScene', type: 'fault',
@@ -53,3 +54,28 @@ for (const scenario of scenarios) {
   }
   console.log(`PASS: ${scenario.type} deterministic stages, cycle boundaries, labels, manual selection, and invalid inputs.`);
 }
+
+// The project view must use the same network and contact state as the hero,
+// including motion preferences. Observe delegation rather than a copied model.
+const shared = sandbox.window.PowerJourney;
+const delegated = [];
+sandbox.window.PowerJourney = Object.freeze({
+  ...shared,
+  draw(ctx, options) { delegated.push({ ctx, options }); },
+});
+const ctx = {};
+for (const state of ['auto', 'base', 'open', 'redistributed']) {
+  const options = { width: 1080, height: 540, time: 10, state, reducedMotion: true, suppressFlash: true };
+  sandbox.window.ContingencyScene.draw(ctx, options);
+  const call = delegated.at(-1);
+  assert.ok(call, 'The contingency view must delegate rendering to the shared power journey');
+  assert.equal(call.ctx, ctx);
+  for (const field of ['width', 'height', 'state', 'reducedMotion', 'suppressFlash']) {
+    assert.equal(call.options[field], options[field], `Shared renderer must receive ${field}`);
+  }
+  assert.equal(call.options.eventTime, 10, 'The project event clock must select the same primary-circuit state as the hero');
+  assert.equal(call.options.presentation, 'story', 'The project view must request its equipment and contact-detail composition');
+}
+assert.equal(delegated.length, 4, 'Each project frame must invoke the shared renderer once');
+sandbox.window.PowerJourney = shared;
+console.log('PASS: the contingency story delegates geometry, switching state, and motion/flash preferences to the shared power-journey renderer.');

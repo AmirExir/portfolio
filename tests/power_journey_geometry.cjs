@@ -15,6 +15,7 @@ const exportMarker = 'window.PowerJourney = Object.freeze(';
 assert.equal(source.split(exportMarker).length, 2, 'Update test instrumentation if the renderer export changes');
 const instrumentation = `
   const sourceBuildRecords = [];
+  const networkBuildRecords = [];
   let activeTestLayout = null;
   const originalTestBuild = build;
   build = (...args) => {
@@ -33,7 +34,13 @@ const instrumentation = `
     return result;
   };
   ${sourceBuilders.map(name => `${name} = recordSourceBuild('${name}', ${name});`).join('\n  ')}
-  window.powerJourneyTestInternals = { sourceBuildRecords, storageState, drawRoutes, routePower, drawDetails, drawBreakers, drawLightning, models };
+  const recordNetworkBuild = (name, builder) => (group, ...args) => {
+    const result = builder(group, ...args);
+    networkBuildRecords.push({ name, layout: activeTestLayout, terminals: result });
+    return result;
+  };
+  ${['distributionPole', 'serviceTransformer', 'tower'].map(name => `${name} = recordNetworkBuild('${name}', ${name});`).join('\n  ')}
+  window.powerJourneyTestInternals = { sourceBuildRecords, networkBuildRecords, storageState, drawRoutes, routePower, drawDetails, drawBreakers, drawContactDetails, drawLightning, models };
 `;
 vm.runInContext(source.replace(exportMarker, `${instrumentation}\n${exportMarker}`), sandbox, { filename: 'power-journey.js' });
 const renderer = sandbox.window.PowerJourney;
@@ -157,6 +164,41 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
   }
   const model = internals.models.get(layout);
   assert.equal(model.routes.filter(route => route.storage).length, 5, `${layout}: battery direction must control both DC routes and all three AC phases`);
+
+  const network = Array.from(internals.networkBuildRecords).filter(record => record.layout === layout);
+  const towers = network.filter(record => record.name === 'tower');
+  assert.ok(towers.length >= 4, `${layout}: the two circuits must have distinct transmission structures`);
+  assert.equal(new Set(towers.map(record => JSON.stringify(record.terminals))).size, towers.length, `${layout}: transmission structures must not overlap at identical coordinates`);
+  const poles = network.filter(record => record.name === 'distributionPole');
+  assert.ok(poles.length >= 2, `${layout}: distribution should include a visible overhead feeder span`);
+  const downstream = model.routes.filter(route => route.zone === 'downstream');
+  const pointKey = point => JSON.stringify(Array.from(point));
+  const downstreamEndpoints = new Set(downstream.flatMap(route => [pointKey(route.points[0]), pointKey(route.points.at(-1))]));
+  for (const pole of poles) {
+    assert.equal(pole.terminals.length, 3, `${layout}: each distribution pole needs three phase terminals`);
+    assert.equal(new Set(Array.from(pole.terminals, pointKey)).size, 3, `${layout}: distribution phases must not collapse into a shared terminal`);
+    for (const terminal of pole.terminals) {
+      assert.ok(downstreamEndpoints.has(pointKey(terminal)), `${layout}: each overhead phase must connect to a downstream conductor`);
+    }
+  }
+  const services = network.filter(record => record.name === 'serviceTransformer');
+  assert.ok(services.length > 0, `${layout}: distribution feeders need service transformation before the load branches`);
+  for (const { terminals: service } of services) {
+    for (const winding of ['primary', 'secondary']) {
+      assert.equal(service[winding].length, 3, `${layout}: service transformer ${winding} needs distinct phase terminals`);
+      assert.equal(new Set(Array.from(service[winding], pointKey)).size, 3);
+      assert.ok(service[winding].some(terminal => downstreamEndpoints.has(pointKey(terminal))), `${layout}: the service transformer ${winding} must actually connect to the downstream network`);
+    }
+    const primary = new Set(Array.from(service.primary, pointKey));
+    const secondary = new Set(Array.from(service.secondary, pointKey));
+    assert.ok([...primary].every(terminal => !secondary.has(terminal)), `${layout}: primary and secondary terminals must not coincide`);
+    // A transformer exchanges energy through its windings, never through a
+    // wire drawn directly across the primary and secondary voltage stages.
+    assert.ok(downstream.every(route => {
+      const endpoints = [pointKey(route.points[0]), pointKey(route.points.at(-1))];
+      return !(endpoints.some(terminal => primary.has(terminal)) && endpoints.some(terminal => secondary.has(terminal)));
+    }), `${layout}: service transformer windings must not be bypassed by a conductor`);
+  }
 }
 
 function routeFrame(time, storage = true, actualRoute) {
@@ -215,55 +257,88 @@ const isolatedEvent = renderer.getEventState({ time: 10 });
 const sendingClosedEvent = renderer.getEventState({ time: 14.5 });
 assert.equal(isolatedEvent.sendingOpen, 1);
 assert.equal(isolatedEvent.receivingOpen, 1);
+assert.equal(isolatedEvent.linePower, 0, 'Both primary terminals must isolate the faulted circuit');
+assert.equal(isolatedEvent.alternatePower, 1, 'The second circuit must remain energized');
+assert.equal(isolatedEvent.downstreamPower, 1, 'The healthy circuit must continue supplying the distribution network');
 assert.equal(sendingClosedEvent.sendingOpen, 0);
 assert.equal(sendingClosedEvent.receivingOpen, 1);
 assert.equal(sendingClosedEvent.linePower, 1);
-assert.equal(sendingClosedEvent.downstreamPower, 0);
+assert.equal(sendingClosedEvent.downstreamPower, 1, 'Reclosing the primary circuit must not interrupt the alternate supply');
+for (const state of ['base', 'open', 'redistributed']) {
+  const initial = renderer.getEventState({ time: 0, state });
+  for (const time of [2, 8.15, 10, 14.5, 19, 26]) {
+    const event = renderer.getEventState({ time, state });
+    assert.equal(event.stage, state === 'base' ? 'normal' : 'isolated', `${state}: manual switching state must not advance with time`);
+    for (const field of ['sendingOpen', 'receivingOpen', 'linePower', 'alternatePower', 'downstreamPower', 'redistributionGain']) {
+      assert.equal(event[field], initial[field], `${state}: manual ${field} must remain fixed`);
+    }
+    assert.equal(event.strikeOpacity, 0, 'Manual state inspection must not flash lightning');
+  }
+  assert.equal(initial.sendingOpen, state === 'base' ? 0 : 1);
+  assert.equal(initial.receivingOpen, state === 'base' ? 0 : 1);
+  assert.equal(initial.linePower, state === 'base' ? 1 : 0);
+  assert.equal(initial.alternatePower, 1);
+  assert.equal(initial.downstreamPower, 1);
+  assert.equal(initial.redistributionGain, state === 'redistributed' ? 1 : 0, 'Manual redistribution changes illustrative emphasis, not supply continuity');
+}
+assert.deepEqual(
+  { ...renderer.getEventState({ time: 10, state: 'invalid' }) },
+  { ...isolatedEvent },
+  'An invalid manual state should use the automatic event sequence',
+);
 let flashRuns = 0;
 let previousFlash = false;
 for (let sample = 0; sample <= 2600; sample += 1) {
   const event = renderer.getEventState({ time: sample / 100 });
-  for (const field of ['sendingOpen', 'receivingOpen', 'linePower', 'downstreamPower', 'restorationProgress']) assert.ok(Number.isFinite(event[field]) && event[field] >= 0 && event[field] <= 1, `${field} must remain bounded`);
+  for (const field of ['sendingOpen', 'receivingOpen', 'linePower', 'alternatePower', 'downstreamPower', 'redistributionGain', 'restorationProgress']) assert.ok(Number.isFinite(event[field]) && event[field] >= 0 && event[field] <= 1, `${field} must remain bounded`);
   assert.ok(event.strikeOpacity >= 0 && event.strikeOpacity <= 0.85 + 1e-12, 'Lightning intensity must remain bounded');
   if (event.linePower > 0) assert.ok(event.sendingOpen <= 1e-12, 'The line must not energize before the sending contacts close');
-  if (event.downstreamPower > 0) assert.ok(event.sendingOpen <= 1e-12 && event.receivingOpen <= 1e-12, 'Loads must not relight before both breaker terminals close');
+  assert.equal(event.alternatePower, 1, 'The healthy parallel circuit remains energized throughout the illustrative sequence');
+  assert.equal(event.downstreamPower, 1, 'The single-circuit contingency must not become a total load outage');
   const flashing = event.strikeOpacity > 1e-12;
   if (flashing && !previousFlash) flashRuns += 1;
   previousFlash = flashing;
 }
 assert.equal(flashRuns, 1, 'One event cycle should contain one restrained pulse, not repeated strobing');
-assert.ok(renderer.getEventState({ time: 17 }).downstreamPower > renderer.getEventState({ time: 16 }).downstreamPower);
+assert.ok(renderer.getEventState({ time: 17 }).redistributionGain < renderer.getEventState({ time: 16 }).redistributionGain, 'Redistribution emphasis should recede as both circuits return to service');
 
 const testView = { cx: 500, ground: 450, scale: 35, depthX: 0.43, depthY: 0.29, mobile: false };
 const emptyDetails = { wind: [], water: [], storage: [], rotors: [], flux: [], lights: [] };
 for (const layout of ['desktop', 'mobile', 'phone']) {
   const model = internals.models.get(layout);
-  assert.equal(model.breakers.length, 6, `${layout}: sending and receiving ends each need three separate breaker poles`);
-  for (const role of ['sending', 'receiving']) assert.deepEqual(Array.from(model.breakers.filter(breaker => breaker.role === role), breaker => breaker.phase).sort(), [0, 1, 2]);
-  for (const zone of ['source', 'line', 'downstream']) assert.ok(model.routes.some(route => route.zone === zone), `${layout}: ${zone} routes must be represented`);
+  assert.equal(model.breakers.length, 12, `${layout}: both circuits need three breaker poles at both ends`);
+  for (const circuit of ['primary', 'alternate']) {
+    for (const role of ['sending', 'receiving']) {
+      assert.deepEqual(Array.from(model.breakers.filter(breaker => breaker.circuit === circuit && breaker.role === role), breaker => breaker.phase).sort(), [0, 1, 2], `${layout}/${circuit}/${role}: phases must remain separate`);
+    }
+  }
+  for (const zone of ['source', 'line', 'alternate', 'downstream']) assert.ok(model.routes.some(route => route.zone === zone), `${layout}: ${zone} routes must be represented`);
   for (const route of model.routes) {
-    assert.ok(['source', 'line', 'downstream'].includes(route.zone));
-    assert.equal(internals.routePower(route, isolatedEvent), route.zone === 'source' ? 1 : 0, `${layout}: outage power gating must match the route's side of the breakers`);
+    assert.ok(['source', 'line', 'alternate', 'downstream'].includes(route.zone));
+    const primaryContact = route.breakerRole && route.circuit === 'primary';
+    assert.equal(internals.routePower(route, isolatedEvent), route.zone === 'line' || primaryContact ? 0 : 1, `${layout}: only the isolated circuit and its open contacts should lose transfer packets`);
   }
   const isolatedRoutes = recordingContext();
-  internals.drawRoutes(isolatedRoutes.context, { routes: model.routes.filter(route => route.zone !== 'source') }, testView, 2, isolatedEvent);
-  assert.equal(isolatedRoutes.paints.length, 0, 'An isolated circuit must not show energized downstream transfer packets');
-  const sourceRoutes = recordingContext();
-  internals.drawRoutes(sourceRoutes.context, { routes: model.routes.filter(route => route.zone === 'source') }, testView, 2, isolatedEvent);
-  assert.ok(sourceRoutes.paints.length > 0, 'Upstream source transfer artwork must remain active during the load outage');
+  internals.drawRoutes(isolatedRoutes.context, { routes: model.routes.filter(route => route.zone === 'line' || (route.breakerRole && route.circuit === 'primary')) }, testView, 2, isolatedEvent);
+  assert.equal(isolatedRoutes.paints.length, 0, 'The isolated primary circuit and its open contacts must show no transfer packets');
+  for (const zone of ['source', 'alternate', 'downstream']) {
+    const liveRoutes = recordingContext();
+    internals.drawRoutes(liveRoutes.context, { routes: model.routes.filter(route => route.zone === zone) }, testView, 2, isolatedEvent);
+    assert.ok(liveRoutes.paints.length > 0, `${layout}: ${zone} transfer artwork must remain active with the primary circuit isolated`);
+  }
   const loadDetails = { ...emptyDetails, lights: model.lights, flux: model.flux.filter(flux => flux.zone === 'downstream') };
   const energizedLoads = recordingContext();
   internals.drawDetails(energizedLoads.context, loadDetails, testView, 2, normalEvent);
   assert.ok(energizedLoads.paints.length > 0, 'Normal operation should paint load windows and receiving-transformer effects');
-  const darkLoads = recordingContext();
-  internals.drawDetails(darkLoads.context, loadDetails, testView, 2, isolatedEvent);
-  assert.equal(darkLoads.paints.length, 0, 'Outage must remove load-window glow and receiving-transformer flux, not only packets');
+  const suppliedLoads = recordingContext();
+  internals.drawDetails(suppliedLoads.context, loadDetails, testView, 2, isolatedEvent);
+  assert.equal(suppliedLoads.digest(), energizedLoads.digest(), 'Load windows and receiving-transformer effects must retain supply through the healthy circuit');
   const sourceDetails = { ...model, lights: [], flux: model.flux.filter(flux => flux.zone === 'source') };
   const liveSources = recordingContext(), isolatedSources = recordingContext(), laterSources = recordingContext();
   internals.drawDetails(liveSources.context, sourceDetails, testView, 2, normalEvent);
   internals.drawDetails(isolatedSources.context, sourceDetails, testView, 2, isolatedEvent);
   internals.drawDetails(laterSources.context, sourceDetails, testView, 2.25, isolatedEvent);
-  assert.equal(liveSources.digest(), isolatedSources.digest(), 'A downstream outage must not disable upstream generation/storage visuals');
+  assert.equal(liveSources.digest(), isolatedSources.digest(), 'A single-circuit outage must not disable upstream generation/storage visuals');
   assert.notEqual(isolatedSources.digest(), laterSources.digest(), 'Source-side rotors, water and storage artwork must continue animating');
   for (const breaker of model.breakers) {
     const gap = event => {
@@ -274,19 +349,56 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
       return Math.hypot(lines[0][1] - moves[1][1], lines[0][2] - moves[1][2]);
     };
     assert.equal(gap(normalEvent), 0, 'Closed contacts must meet in the rendered chamber');
-    assert.ok(gap(isolatedEvent) > 1, 'Open contacts must produce an actual visible gap');
-    assert.equal(gap(sendingClosedEvent) > 1, breaker.role === 'receiving', 'Rendered reclose order must match the sending/receiving sequence');
+    if (breaker.circuit === 'primary') {
+      assert.ok(gap(isolatedEvent) > 1, 'Both ends of the primary circuit must show a visible contact gap');
+    } else {
+      assert.equal(gap(isolatedEvent), 0, 'Both ends of the healthy circuit must remain visibly closed');
+    }
+    assert.equal(gap(sendingClosedEvent) > 1, breaker.circuit === 'primary' && breaker.role === 'receiving', 'Only the primary receiving contacts should remain open during ordered restoration');
   }
 }
 
 // Exercise the actual base-face paint loop with only emissive items retained.
 const desktopModel = internals.models.get('desktop');
 assert.ok(desktopModel.items.some(item => item.emission), 'Load windows need explicitly gated base emission');
+for (const [width, height, layout] of [[1240, 490, 'desktop'], [640, 560, 'mobile'], [390, 560, 'phone'], [320, 560, 'phone']]) {
+  const model = internals.models.get(layout);
+  const closed = recordingContext(), opened = recordingContext(), resetting = recordingContext();
+  internals.drawContactDetails(closed.context, model, width, height, normalEvent);
+  internals.drawContactDetails(opened.context, model, width, height, isolatedEvent);
+  internals.drawContactDetails(resetting.context, model, width, height, sendingClosedEvent);
+  closed.assertRestored(); opened.assertRestored(); resetting.assertRestored();
+  const labels = recorder => recorder.operations.filter(operation => operation[0] === 'fillText').map(operation => operation[1]);
+  assert.equal(labels(closed).filter(label => label === 'A CLOSED').length, 2, `${width}px: both primary terminals must be shown closed in the contact detail`);
+  assert.equal(labels(opened).filter(label => label === 'A OPEN').length, 2, `${width}px: both primary terminals must be shown open in the contact detail`);
+  assert.equal(labels(opened).filter(label => label === 'B CLOSED').length, 2, `${width}px: both healthy terminals must remain closed in the contact detail`);
+  assert.equal(labels(resetting).filter(label => label === 'A OPEN').length, 1, `${width}px: reset detail must preserve the primary receiving-end gap`);
+  const gaps = recorder => {
+    const moves = recorder.operations.filter(operation => operation[0] === 'moveTo');
+    const lines = recorder.operations.filter(operation => operation[0] === 'lineTo');
+    // Each enlarged contact contributes two contact segments and two end caps.
+    assert.equal(moves.length, 16, 'The two terminal panels should each enlarge one pole of both circuits');
+    return [0, 4, 8, 12].map(index => Math.hypot(lines[index][1] - moves[index + 1][1], lines[index][2] - moves[index + 1][2]));
+  };
+  assert.deepEqual(gaps(closed), [0, 0, 0, 0], `${width}px: the actual enlarged closed contacts must touch`);
+  const openGaps = gaps(opened);
+  assert.ok(openGaps[0] >= 20 && openGaps[2] >= 20, `${width}px: enlarged primary gaps must be plainly visible`);
+  assert.equal(openGaps[1], 0); assert.equal(openGaps[3], 0);
+  for (const operation of opened.operations.filter(operation => ['moveTo', 'lineTo'].includes(operation[0]))) {
+    assert.ok(operation[1] >= 0 && operation[1] <= width && operation[2] >= 0 && operation[2] <= height, `${width}px: enlarged contacts must remain inside the story canvas`);
+  }
+  const options = { width, height, presentation: 'story', state: 'open', time: 2, reducedMotion: true };
+  const first = trace(options);
+  assert.equal(trace({ ...options, time: 19 }).digest(), first.digest(), `${width}px: reduced-motion manual story inspection must remain still`);
+  assert.notEqual(trace({ ...options, state: 'base' }).digest(), first.digest(), `${width}px: the shared story must visibly distinguish closed and isolated circuits`);
+  assert.notEqual(trace({ ...options, state: 'redistributed' }).digest(), first.digest(), `${width}px: the shared story must visibly distinguish open contacts from redistribution emphasis`);
+}
 try {
   internals.models.set('desktop', { ...desktopModel, ...emptyDetails, items: desktopModel.items.filter(item => item.emission), routes: [], breakers: [], strike: null });
-  const darkFaces = trace({ width: 1440, height: 900, time: 2, eventTime: 10 });
-  assert.ok(darkFaces.paints.some(paint => paint.method === 'fill'));
-  assert.ok(darkFaces.paints.filter(paint => paint.method === 'fill').every(paint => paint.alpha === 0), 'Base window faces must not retain a glow during outage');
+  const normalFaces = trace({ width: 1440, height: 900, time: 2, eventTime: 0 });
+  const suppliedFaces = trace({ width: 1440, height: 900, time: 2, eventTime: 10 });
+  assert.ok(suppliedFaces.paints.some(paint => paint.method === 'fill' && paint.alpha > 0), 'Window faces must remain illuminated through the alternate supply');
+  assert.deepEqual(suppliedFaces.paints, normalFaces.paints, 'Base load-window emission must remain unchanged when one circuit opens');
 } finally { internals.models.set('desktop', desktopModel); }
 const boltEvent = renderer.getEventState({ time: 8.15 });
 const bolt = recordingContext(), repeatedBolt = recordingContext(), quietBolt = recordingContext();
@@ -316,4 +428,5 @@ assert.throws(() => renderer.draw(failed.context, { width: 1440, height: 900, ti
 failed.assertRestored();
 console.log('PASS: six genuinely distinct source/storage geometries in desktop/mobile/phone layouts; distinct AC terminals and DC pairs; storage cycle, bidirectional packets/trails, ordered AC/DC transfer, and idle behavior.');
 console.log('PASS: power journey paints deterministic finite geometry at desktop/mobile widths, animates with time, handles pointer extremes, and restores canvas state even on failure.');
-console.log('PASS: event stages, ordered breaker contacts and restoration; downstream packets/windows/flux disabled with live upstream sources; localized deterministic bolt, flash suppression and static reduced motion.');
+console.log('PASS: shared manual/automatic event states; both ends isolate only the primary circuit while alternate and downstream packets/windows/flux remain live; localized deterministic bolt, flash suppression and static reduced motion.');
+console.log('PASS: connected three-phase distribution poles and separate service-transformer windings; visible enlarged contact gaps and distinct manual story frames through 320px, with reduced-motion stillness.');

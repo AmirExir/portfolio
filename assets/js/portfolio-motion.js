@@ -53,6 +53,14 @@
 
   const motionAllowed = () => !paused && !media.matches && !document.hidden;
 
+  function scenePowerEvent(scene, reducedMotion = false) {
+    return window.PowerJourney?.getEventState?.({
+      time: scene.type === 'contingency' ? scene.time : scene.eventTime,
+      state: scene.host.dataset.sceneState || 'auto',
+      reducedMotion,
+    });
+  }
+
   function powerEventAvailable(scene) {
     return scene.type === 'field' && scene.host.dataset.fieldState === 'grid'
       && !scene.failed && scene.host.classList.contains('is-ready')
@@ -71,14 +79,14 @@
       return;
     }
     const still = paused || media.matches;
-    const event = window.PowerJourney.getEventState({ time: scene.eventTime, reducedMotion: still });
+    const event = scenePowerEvent(scene, still);
     const isolated = event.stage === 'isolated';
-    const action = still ? (isolated ? 'Restore power' : 'Show outage') : 'Replay strike';
+    const action = still ? (isolated ? 'Reset circuit' : 'Open circuit') : 'Replay contingency';
     scene.host.dataset.powerEvent = event.stage;
     if (powerPhase && powerPhase.textContent !== event.label) powerPhase.textContent = event.label;
     if (powerReplayLabel && powerReplayLabel.textContent !== action) powerReplayLabel.textContent = action;
     powerReplay.disabled = !still && !event.canReplay;
-    powerReplay.setAttribute('aria-label', still ? `${action} in the illustration` : 'Replay lightning sequence');
+    powerReplay.setAttribute('aria-label', still ? `${action} in the illustration` : 'Replay contingency sequence');
   }
 
   function updateStory(scene, time) {
@@ -99,7 +107,7 @@
   function draw(scene, immediateMode = false) {
     if (!scene.width || !scene.height || scene.failed) return;
     try {
-      if (scene.strikeSuppressed && window.PowerJourney?.getEventState?.({ time: scene.eventTime })?.stage !== 'strike') {
+      if (scene.strikeSuppressed && scenePowerEvent(scene)?.stage !== 'strike') {
         scene.strikeSuppressed = false;
       }
       const renderTime = immediateMode && scene.type === 'field' ? 0 : scene.time;
@@ -288,10 +296,11 @@
       const current = window.PowerJourney.getEventState({ time: heroScene.eventTime, reducedMotion: true });
       heroScene.eventTime = current.stage === 'isolated' ? cues.restored : cues.isolated;
       if (powerAnnouncement) powerAnnouncement.textContent = current.stage === 'isolated'
-        ? 'Restored supply shown. Animation remains stopped.' : 'Isolated line and load outage shown. Animation remains stopped.';
+        ? 'Both transmission circuits closed. Loads remain supplied. Animation remains stopped.'
+        : 'Circuit A isolated. The alternate circuit supplies distribution and loads. Animation remains stopped.';
     } else {
       heroScene.eventTime = cues.replay;
-      if (powerAnnouncement) powerAnnouncement.textContent = 'Lightning and restoration sequence started.';
+      if (powerAnnouncement) powerAnnouncement.textContent = 'Contingency sequence started. The alternate transmission circuit keeps loads supplied.';
     }
     draw(heroScene);
     start();
@@ -308,12 +317,12 @@
       toggle.querySelector('[aria-hidden]').textContent = paused || media.matches ? '▷' : 'Ⅱ';
     }
     // Clear an in-progress bolt immediately when motion is disabled, including
-    // while the hero is offscreen. Stopping RAF alone would freeze the flash.
+    // while a grid scene is offscreen. Stopping RAF alone would freeze the flash.
     scenes.forEach(scene => {
-      if (scene.type !== 'field') return;
+      if (scene.type !== 'field' && scene.type !== 'contingency') return;
       // Once interrupted, consume this bolt's remaining flash. Rapid toggling
       // of Pause/Play must not repeatedly reveal the same frozen bright frame.
-      if ((paused || media.matches) && window.PowerJourney?.getEventState?.({ time: scene.eventTime })?.stage === 'strike') {
+      if ((paused || media.matches) && scenePowerEvent(scene)?.stage === 'strike') {
         scene.strikeSuppressed = true;
       }
       draw(scene);
