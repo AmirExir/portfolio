@@ -145,11 +145,22 @@ candidate-reset logic separately from the Streamlit UI.
 `interview_evidence.py` owns canonical IDs and evidence mapping;
 `interview_sessions.py` validates explicit session files; `interview_services.py`
 owns bounded requests and coaching output validation; `interview_workspace_ui.py`
-renders evidence, practice, and session controls. This preserves the existing
-retrieval and embedding-cache workflow without duplicating engineering logic.
+renders evidence, practice, and session controls. `interview_runtime_content.py`
+resolves current answer text, maps unchanged saved-vector rows, and invalidates
+actions tied to older content. The saved cache retains its existing integrity
+checks.
 
-After editing `manager_content.json`, refresh the corpus and index together with
-`OPENAI_API_KEY` configured in the environment:
+The app loads current managed answers from `manager_content.json` at runtime.
+It validates the saved embedding cache against its original
+`chunks_cleaned.json` before using any vectors. Only unchanged records receive
+saved semantic scores; revised or new answers participate through their current
+questions, aliases, keywords, and job-focus evidence until their vectors are
+refreshed. A freshness notice reports this limitation. Updating answer wording
+therefore no longer requires an embedding rebuild before it can be served.
+
+After editing `manager_content.json`, refresh the saved corpus and index to
+restore semantic matching for revised answers, with `OPENAI_API_KEY` configured
+in the environment:
 
 ```sh
 python interview_bot/generate_embeddings.py --sync-manager-content
@@ -202,19 +213,39 @@ capacitor-bank alternative, dynamic-model verification, and mentoring examples.
 All seven behavioral answers (Q12, Q13, Q14, Q15, Q17, Q18, Q19) and their four STAR
 fields are rewritten as complete spoken stories: stakes, personal responsibility,
 specific actions and engineering reasoning, then supported outcomes. Each full
-answer is exactly the four STAR paragraphs joined together, so retrieval cannot
+answer is exactly the four STAR fields joined together, so retrieval cannot
 pair a new narrative with old STAR wording. Generic future-process appendices
-are removed. Q16 and Q20 retain their expanded proposed management approaches;
-Q11 retains its portfolio-prioritization answer. Revisions are traced through
-`answer_revision`, with the original preparation notes and material outcome
-qualifications preserved.
+are removed. Revisions are traced through `answer_revision`, with material
+outcome qualifications preserved.
+
+A further October 20 coaching revision substantively strengthens Q8 and
+Q10–20. Q19 now centers on teaching engineers to explain why a violation occurs:
+trace post-contingency flow redistribution, identify the limiting facility,
+investigate reactive reserves and controls, and compare remedies against the
+demonstrated cause. Delegation includes agreed study assumptions, review points,
+and accountability for the final decision. The P.E./promotion outcome remains,
+but the uncertain one-year timeline is omitted.
+
+The other behavioral answers now explain the actual diagnostic or decision
+sequence: initialization versus disturbance failures, common study baselines,
+repeatable acceptance tests, equipment identity and effective topology,
+controlled seven-versus-two-bank comparisons, and model-owner correction
+followed by reruns. Q8, Q10, Q11, Q16, and Q20 add reproducible reconciliation,
+investment triggers, bottleneck-based prioritization, reviewer scheduling, and
+explicit stakeholder choices. Q1–7 and Q9 retain their existing detailed
+technical approaches. The new raw draft remains in ignored local storage;
+revision metadata records its identifier and SHA-256 without publishing it.
 
 The generation prompt allows four to six focused paragraphs or short ordered
 steps for multi-part technical questions, retaining methods, decision criteria,
 and validation. Behavioral answers devote most detail to diagnosis, choices,
 actions, and validation. Preparation instructions and editorial notes remain
 evidence/coaching context rather than spoken script; material qualifications
-such as potential fee avoidance remain in the answer.
+such as potential fee avoidance remain in the answer. Optional uncertain dates
+or amounts should be omitted instead of generating phrases such as "my
+preparation record says" or "I still need to confirm." The prompt also requires
+the relevant physical explanation, concrete checks, alternatives, and review
+boundaries to survive paraphrasing.
 
 Rewriting a story's Situation changes its content-based evidence ID. Previously
 saved review notes remain associated with the previous story ID rather than
@@ -229,27 +260,31 @@ do not guarantee model compliance. In particular, the EMS-upgrade example remain
 an operations example and is excluded from Transmission planning story searches;
 use All roles or Project management to retrieve it.
 
-Editing the source alone does **not** activate new answers: the app reads
-`chunks_cleaned.json` and its matching saved embedding cache. Run the refresh above
-before deploying the content update, then restart/redeploy the app or use
-**Reload saved embeddings**. With the current source set, synchronization produces
-166 chunks (117 existing base chunks and 49 managed entries). Without an API key
-or if generation fails, the existing searchable corpus remains intact and the
-new source content remains pending. To validate the intended corpus without API
-calls, use:
+Deploy the source and runtime changes together, then restart/redeploy the app.
+Current managed answers appear in retrieval and the evidence library; a content
+change clears old selected answers and pending requests so a previous session
+cannot continue answering from an obsolete candidate. History remains history.
+The library identifies managed evidence by its current source file rather than
+attributing revised text to the saved embedding corpus.
+
+With the current source set, synchronization produces 166 chunks (117 existing
+base chunks and 49 managed entries). An embedding refresh failure leaves the
+saved cache intact; it does not roll the runtime answers back to old wording.
+The app does not generate a full embedding cache during startup. To validate
+the intended corpus without API calls, use:
 
 ```sh
 python interview_bot/generate_embeddings.py --sync-manager-content --dry-run
 ```
 
-The October 20 revision is pending in this checkout because `OPENAI_API_KEY` was
-not configured when refresh was attempted. The active corpus and matching saved
-cache remain intact. Refreshing the revisions and private provenance identifiers
-requires 20 changed vectors and reuses the other 146; Q11 changes only its source
-identifier. Run the sync command in the configured deployment
-environment, then restart/redeploy or reload the saved embeddings. Do not run the
-standalone corpus writer first: it would invalidate the active cache before the
-replacement vectors are ready.
+The latest coaching revision changes 12 managed entries. Their semantic index
+refresh is pending because `OPENAI_API_KEY` is not configured in this local
+environment; the other 154 vectors can be reused. Their latest text is available
+through the runtime source overlay and lexical/exact-question retrieval after
+deployment. Run the sync command in the configured environment, then
+restart/redeploy or reload the saved embeddings to enable their refreshed
+semantic scores. Do not run the standalone corpus writer first: it would
+invalidate the saved cache before replacement vectors are ready.
 
 The refresh reuses vectors for unchanged text and keeps active files intact if
 embedding generation fails. Run local checks from the repository root:

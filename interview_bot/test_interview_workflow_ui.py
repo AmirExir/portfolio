@@ -160,13 +160,13 @@ class InterviewWorkflowUITests(unittest.TestCase):
         previous_source = self.app.session_state["practice_loaded_source"]
         self.assertIn("practice_feedback", self.app.session_state)
 
-        def updated_library(chunks: list[dict]) -> list[dict]:
+        def updated_library(chunks: list[dict], *, source_locations: dict | None = None) -> list[dict]:
             """Simulate a changed Result while preserving the canonical Situation."""
             updated = [dict(chunk) for chunk in chunks]
             for chunk in updated:
                 if story_id(chunk["text"]) == identifier:
                     chunk["text"] = chunk["text"].replace("Result:", "Result: Updated saved outcome. ", 1)
-            return build_story_library(updated)
+            return build_story_library(updated, source_locations=source_locations)
 
         with patch("interview_evidence.build_story_library", side_effect=updated_library):
             self.app.run()

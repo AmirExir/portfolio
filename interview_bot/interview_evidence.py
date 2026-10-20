@@ -21,7 +21,9 @@ def story_id(text: str) -> str:
     return "story-" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:16]
 
 
-def build_story_library(chunks: list[dict]) -> list[dict[str, Any]]:
+def build_story_library(
+    chunks: list[dict], *, source_locations: dict[int, dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
     """Group identical situations while retaining exact corpus locations and variants.
 
     Source locations establish where a claim is saved, not independent proof of it.
@@ -44,8 +46,8 @@ def build_story_library(chunks: list[dict]) -> list[dict[str, Any]]:
             "reviewed_at": None,
         })
         record["sources"].append({
-            "file": "chunks_cleaned.json",
-            "index": index,
+            "file": (source_locations or {}).get(index, {}).get("file", "chunks_cleaned.json"),
+            "index": (source_locations or {}).get(index, {}).get("index", index),
             "source_id": chunk.get("source_id", ""),
             "text_sha256": hashlib.sha256(chunk["text"].encode("utf-8")).hexdigest(),
         })

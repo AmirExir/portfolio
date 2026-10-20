@@ -18,9 +18,12 @@ REVISION_ID = "private:transmission-planning-interview-2026-10-20-draft"
 REVISION_SHA256 = "39e6a326290ce43c17d148525af85719ba85322d62031425a8ec7d5019bc61dd"
 EXPANDED_REVISION_ID = "private:transmission-planning-interview-2026-10-20-expanded-draft"
 EXPANDED_REVISION_SHA256 = "ac81de485b80bbd488a8a5bcc7bc6b795236990f3a83df0bbe735edde6391e99"
+COACHING_REVISION_ID = "private:transmission-planning-interview-2026-10-20-coaching-draft"
+COACHING_REVISION_SHA256 = "f0c4325b6c752a553c777ff48f9c4c998de70ea939472d4699a15bd46a48ab1b"
 FIRST_REVISION_NUMBERS = set(range(1, 11))
 EXPANDED_REVISION_NUMBERS = set(range(12, 21))
-REVISED_NUMBERS = FIRST_REVISION_NUMBERS | EXPANDED_REVISION_NUMBERS
+COACHING_REVISION_NUMBERS = {8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}
+REVISED_NUMBERS = FIRST_REVISION_NUMBERS | EXPANDED_REVISION_NUMBERS | COACHING_REVISION_NUMBERS
 STORY_NUMBERS = {12, 13, 14, 15, 17, 18, 19}
 
 
@@ -64,13 +67,17 @@ class PlanningInterviewContentTests(unittest.TestCase):
         for path in BASE_DIR.rglob("transmission_planning_interview*.txt"):
             self.assertEqual(path.relative_to(BASE_DIR).parts[0], ".private")
 
-    def test_original_questions_metadata_and_unrevised_answers_are_preserved(self) -> None:
+    def test_original_questions_and_source_fingerprints_are_preserved(self) -> None:
         self.assertEqual(set(self.imported), set(self.original))
         for number, original in self.original.items():
             with self.subTest(question=number):
                 item = self.imported[number]
                 self.assertEqual(item["id"], f"planning-interview-{number:02d}")
-                self.assertEqual(metadata_digest(item), original["metadata_sha256"])
+                self.assertEqual(answer_digest(item["question"]), original["question_sha256"])
+                if number not in COACHING_REVISION_NUMBERS:
+                    self.assertEqual(metadata_digest(item), original["metadata_sha256"])
+                else:
+                    self.assertTrue(item["preparation_note"].strip())
                 if number not in REVISED_NUMBERS:
                     self.assertEqual(answer_digest(item["answer"]), original["answer_sha256"])
                     self.assertNotIn("answer_revision", item)
@@ -92,10 +99,12 @@ class PlanningInterviewContentTests(unittest.TestCase):
             with self.subTest(question=number):
                 item = self.imported[number]
                 revision = item["answer_revision"]
-                identifier, digest = (
-                    (REVISION_ID, REVISION_SHA256) if number in FIRST_REVISION_NUMBERS
-                    else (EXPANDED_REVISION_ID, EXPANDED_REVISION_SHA256)
-                )
+                if number in COACHING_REVISION_NUMBERS:
+                    identifier, digest = COACHING_REVISION_ID, COACHING_REVISION_SHA256
+                elif number in FIRST_REVISION_NUMBERS:
+                    identifier, digest = REVISION_ID, REVISION_SHA256
+                else:
+                    identifier, digest = EXPANDED_REVISION_ID, EXPANDED_REVISION_SHA256
                 self.assertEqual(revision["source_document"], identifier)
                 self.assertEqual(revision["source_question"], number)
                 self.assertEqual(revision["source_sha256"], digest)
@@ -146,10 +155,31 @@ class PlanningInterviewContentTests(unittest.TestCase):
             with self.subTest(question=number):
                 self.assertIn("potential", self.imported[number]["result"].lower())
                 self.assertIn("$300,000", self.imported[number]["answer"])
-        self.assertIn("potential external-fee avoidance, not realized net savings", self.imported[12]["preparation_note"])
-        self.assertIn("two projects distinct", self.imported[13]["preparation_note"])
-        self.assertIn("The project itself was feasible", self.imported[17]["answer"])
+        self.assertIn("realized net savings", self.imported[12]["preparation_note"])
+        self.assertIn("do not imply an ERCOT project endorsement", self.imported[13]["preparation_note"])
+        self.assertIn("project remained feasible", self.imported[17]["answer"].lower())
         self.assertIn("colleague’s own achievement", self.imported[19]["preparation_note"])
+
+    def test_mentoring_answer_explains_diagnosis_and_accountable_delegation(self) -> None:
+        """Keep the user's requested teaching method in the actual answer context."""
+        item = self.imported[19]
+        candidate = build_candidate(1, 0, self.target_by_id[item["id"]])
+        context = answer_messages(item["question"], candidate, "")[1]["content"]
+        action = extract_tag_value(candidate["text"], "Action")
+        for concept in (
+            "why a violation occurred", "redistributed power", "limiting facility rating",
+            "reactive reserves", "PV/QV", "credible alternatives", "delegated",
+            "acceptance criteria", "review points", "final decision",
+        ):
+            with self.subTest(concept=concept):
+                self.assertIn(concept, action)
+                self.assertIn(concept, context)
+        self.assertIn("earned his P.E. license", item["result"])
+        self.assertIn("promoted to Engineer", item["result"])
+        self.assertNotIn("within a year", item["answer"])
+        for item in self.imported.values():
+            self.assertNotIn("I still need to confirm", item["answer"])
+            self.assertNotIn("My preparation record", item["answer"])
 
     def test_every_exact_question_retrieves_its_imported_answer(self) -> None:
         for number, item in self.imported.items():
@@ -216,7 +246,7 @@ class PlanningInterviewContentTests(unittest.TestCase):
         previous = self.active_chunks
         previous_by_id = {chunk.get("source_id"): chunk for chunk in previous}
         indices, missing = plan_embedding_reuse(previous, self.target_chunks)
-        # Source privacy identifiers change Q11 metadata as well as the 19 answers.
+        # Text edits remain separate from the validated saved embedding corpus.
         planning_ids = {f"planning-interview-{number:02d}" for number in range(1, 21)}
         expected_changed = {
             chunk["text"].strip() for chunk in self.target_chunks
@@ -284,6 +314,8 @@ class PlanningInterviewContentTests(unittest.TestCase):
             "supported outcomes", "explicitly hypothetical",
             "never turn those proposals into completed STAR actions or results",
             "Do not append a generic future-process framework",
+            "cause-and-effect explanations", "delegation boundaries",
+            "review checkpoints", "Do not replace these details with generic claims",
         ):
             self.assertIn(instruction, story_prompt)
 
@@ -296,6 +328,8 @@ class PlanningInterviewContentTests(unittest.TestCase):
         self.assertIn("Do not recite preparation instructions", instructions)
         self.assertIn("Keep material uncertainty", instructions)
         self.assertIn("potential versus realized outcomes", instructions)
+        self.assertIn("omit that detail while retaining the supported outcome", instructions)
+        self.assertIn("Do not resurrect omitted details", instructions)
         self.assertIn(item["preparation_note"], answer_prompt[1]["content"])
         coaching_prompt = practice_messages(item["question"], "My practice answer", chunk["text"], "")
         self.assertIn("preparation notes", coaching_prompt[0]["content"])

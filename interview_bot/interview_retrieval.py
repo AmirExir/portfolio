@@ -7,7 +7,7 @@ from typing import Any
 
 MAX_JOB_DESCRIPTION_CHARS = 20000
 MAX_JOB_SEARCH_CHARS = 4000
-RETRIEVAL_POLICY_VERSION = 3
+RETRIEVAL_POLICY_VERSION = 4
 
 # Shared analysis methods occur in both planning and real-time operations. A
 # planning purpose must be established before those methods can boost ranking.
@@ -107,6 +107,15 @@ def extract_tag_value(text: str, tag: str) -> str:
         text, flags=re.IGNORECASE | re.DOTALL,
     )
     return match.group(1).strip() if match else ""
+
+
+def _question_identity(question: str) -> str:
+    """Ignore pasted list labels without removing numbers inside a question."""
+    cleaned = question.replace("\u2060", "").replace("\ufeff", "").strip()
+    cleaned = re.sub(r"^\d{1,3}[.)]\s+", "", cleaned)
+    cleaned = re.sub(r"\n\s*\d{1,3}[.)]?\s*$", "", cleaned)
+    cleaned = re.sub(r"([?!.])\s+\d{1,3}[.)]?\s*$", r"\1", cleaned)
+    return re.sub(r"\s+", " ", cleaned).casefold().strip().rstrip(".?!")
 
 
 def is_star_story(text: str) -> bool:
@@ -299,8 +308,9 @@ def rank_candidates(
 ) -> list[dict[str, Any]]:
     """Rank single-source answers, restricting focused stories to matching evidence.
 
-    General direct answers remain available for nonbehavioral questions. All roles
-    retains the existing semantic/keyword ranking and unstructured fallback.
+    General direct answers remain available for nonbehavioral questions. Exact
+    question/alias matches lead eligible candidates in every focus; remaining
+    candidates use semantic and keyword relevance, with unstructured fallback.
     """
     if focus not in JOB_FOCUSES:
         raise ValueError(f"Unknown job focus: {focus}")
@@ -308,7 +318,7 @@ def rank_candidates(
     description_terms = _description_terms(description)
     if k < 1:
         return []
-    normalized_query = query.lower().strip()
+    normalized_query = _question_identity(query)
     terms = [term for term in re.findall(r"[a-z0-9]+", normalized_query) if len(term) > 2]
     behavioral = any(phrase in normalized_query for phrase in (
         "tell me about a time", "give me an example", "describe a time", "walk me through a time",
@@ -341,10 +351,11 @@ def rank_candidates(
             or (not behavioral and not stories_only and response_type == "direct")
         ) else 0
         saved_questions = [candidate["question"], *extract_tag_value(chunk["text"], "Aliases").split(";")]
-        question_match = has_job_context and response_type in {"direct", "story"} and any(
-            question.lower().strip().rstrip(".?!") == normalized_query.rstrip(".?!")
+        question_match = bool(normalized_query) and response_type in {"direct", "story"} and any(
+            _question_identity(question) == normalized_query
             for question in saved_questions if question.strip()
         )
+        candidate["question_match"] = question_match
         candidate["topic_score"] = match_score
         if focus == "Transmission planning":
             candidate["focus_evidence"] = planning_evidence(chunk["text"])
@@ -354,7 +365,7 @@ def rank_candidates(
             + float(question_match)
         )
         reranked.append(candidate)
-    reranked.sort(key=lambda item: item["score"], reverse=True)
+    reranked.sort(key=lambda item: (item["question_match"], item["score"]), reverse=True)
     structured = [candidate for candidate in reranked if candidate["is_structured"]]
     pool = structured or ([] if focused or stories_only else reranked)
     result = []

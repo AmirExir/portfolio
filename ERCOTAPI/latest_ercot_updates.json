@@ -2,6 +2,126 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "4a492d1427b3715f54a0d8f1795ef1a6785652a2eccbf394eafbd1fc28880865",
+      "title": "1351NPRR-04 PRS Report 101426",
+      "document_number": "NPRR1351",
+      "source": "NPRR",
+      "published_date": "Oct 19, 2026",
+      "downloaded_at": "2026-10-20T11:00:44Z",
+      "observed_at": "2026-10-20T11:00:44Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/19/1351NPRR-04-PRS-Report-101426.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1351",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed.",
+      "issue_title": "Revisions to Section 23 Forms for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "23A, 23B, 23C, 23D, 23F, 23G, 23H, 23I, 23J, 23K, 23L, 23M, 23N, 23O, 23P, 23Q, 23R, and 23U",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "cd057cabe089d62e4524c381269ba966fdfcc856a55377870103ec42b5958e6d",
+      "title": "1350NPRR-04 PRS Report 101426",
+      "document_number": "NPRR1350",
+      "source": "NPRR",
+      "published_date": "Oct 19, 2026",
+      "downloaded_at": "2026-10-20T11:00:44Z",
+      "observed_at": "2026-10-20T11:00:44Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/19/1350NPRR-04-PRS-Report-101426.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1350",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed. This NPRR also adds a yes/no checkbox and response line to Form 22E, Notification of Suspension of Operations, and Form 22H, Notification of Change of Resource Designation, to indicate a change in Pre-Assigned Congestion Revenue Rights (PCRR) eligibility.",
+      "issue_title": "Revisions to Section 22 Attachments A through N for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "22A, 22B, 22C, 22D, 22E, 22G, 22H, 22I, 22J, 22K, 22L, 22M, and 22N",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "627515e52af88617db93819e3179adde542154d06312f779276b50fb8654ce09",
+      "title": "1349NPRR-04 PRS Report 101426",
+      "document_number": "NPRR1349",
+      "source": "NPRR",
+      "published_date": "Oct 19, 2026",
+      "downloaded_at": "2026-10-20T11:00:44Z",
+      "observed_at": "2026-10-20T11:00:44Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/19/1349NPRR-04-PRS-Report-101426.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1349",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) establishes timelines for the modeling of new 765kV and its supporting transmission in the ERCOT Network Operations Model and allows ERCOT to give priority to transmission Outages in support of 765kV transmission construction, commissioning, and energization.",
+      "issue_title": "765kV Transmission Outage Priority and Modeling Timelines",
+      "affected_sections": "3.1.5.8 and 3.10.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "d4b44ff0249ae1ded912da6b47e4cc59672effbcb37bc178a44c71b364340143",
+      "title": "NPRR1351",
+      "document_number": "NPRR1351",
+      "source": "NPRR",
+      "published_date": "Sep 29, 2026",
+      "downloaded_at": "2026-10-20T11:00:42Z",
+      "observed_at": "2026-10-20T11:00:42Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1351",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1351",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed.",
+      "issue_title": "Revisions to Section 23 Forms for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "23A, 23B, 23C, 23D, 23F, 23G, 23H, 23I, 23J, 23K, 23L, 23M, 23N, 23O, 23P, 23Q, 23R, and 23U",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "978c57c940e6ba9184429ded2b483118c11607ae8b93a7ebf2bfcb0409a10fc8",
+      "title": "NPRR1350",
+      "document_number": "NPRR1350",
+      "source": "NPRR",
+      "published_date": "Sep 29, 2026",
+      "downloaded_at": "2026-10-20T11:00:42Z",
+      "observed_at": "2026-10-20T11:00:42Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1350",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1350",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed. This NPRR also adds a yes/no checkbox and response line to Form 22E, Notification of Suspension of Operations, and Form 22H, Notification of Change of Resource Designation, to indicate a change in Pre-Assigned Congestion Revenue Rights (PCRR) eligibility.",
+      "issue_title": "Revisions to Section 22 Attachments A through N for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "22A, 22B, 22C, 22D, 22E, 22G, 22H, 22I, 22J, 22K, 22L, 22M, and 22N",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "788b0b3fc5a97dfbe379ddb2972dcc75043b7dccf7cc9ac146aa3324964fdfc3",
+      "title": "NPRR1349",
+      "document_number": "NPRR1349",
+      "source": "NPRR",
+      "published_date": "Sep 29, 2026",
+      "downloaded_at": "2026-10-20T11:00:42Z",
+      "observed_at": "2026-10-20T11:00:42Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1349",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1349",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) establishes timelines for the modeling of new 765kV and its supporting transmission in the ERCOT Network Operations Model and allows ERCOT to give priority to transmission Outages in support of 765kV transmission construction, commissioning, and energization.",
+      "issue_title": "765kV Transmission Outage Priority and Modeling Timelines",
+      "affected_sections": "3.1.5.8 and 3.10.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "310ea9ad21345d1119d0ba7d7f414e120149e4382828ed4abe539e270649a44f",
       "title": "1348NPRR-11 PRS Report 101426",
       "document_number": "NPRR1348",
@@ -837,66 +957,6 @@
       "issue_title": "Contract for Capacity Dispatch Process and Energy Offer Curves",
       "affected_sections": "4.4.8",
       "effectiveness_note": "Withdrawn or rejected revision request; it is not governing text."
-    },
-    {
-      "content_sha256": "419d941c48f2818497abf18583b0149504c73a067aa3db273f1298bcc0e728ba",
-      "title": "NPRR1351",
-      "document_number": "NPRR1351",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-10-14T11:00:42Z",
-      "observed_at": "2026-10-14T11:00:42Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1351",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1351",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed.",
-      "issue_title": "Revisions to Section 23 Forms for the Market Participant Service Portal (MPSP)",
-      "affected_sections": "23A, 23B, 23C, 23D, 23F, 23G, 23H, 23I, 23J, 23K, 23L, 23M, 23N, 23O, 23P, 23Q, 23R, and 23U",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "779230a5530fa5e55fe2a672d55fabd871cbbe97b9f8cbb746dbecf20aef01f7",
-      "title": "NPRR1350",
-      "document_number": "NPRR1350",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-10-14T11:00:42Z",
-      "observed_at": "2026-10-14T11:00:42Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1350",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1350",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed. This NPRR also adds a yes/no checkbox and response line to Form 22E, Notification of Suspension of Operations, and Form 22H, Notification of Change of Resource Designation, to indicate a change in Pre-Assigned Congestion Revenue Rights (PCRR) eligibility.",
-      "issue_title": "Revisions to Section 22 Attachments A through N for the Market Participant Service Portal (MPSP)",
-      "affected_sections": "22A, 22B, 22C, 22D, 22E, 22G, 22H, 22I, 22J, 22K, 22L, 22M, and 22N",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "bc91b3d7e3327b74c883cb514ae3ae49a8c75216b0ec2cb92667876603ffe542",
-      "title": "NPRR1349",
-      "document_number": "NPRR1349",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-10-14T11:00:42Z",
-      "observed_at": "2026-10-14T11:00:42Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1349",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1349",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) establishes timelines for the modeling of new 765kV and its supporting transmission in the ERCOT Network Operations Model and allows ERCOT to give priority to transmission Outages in support of 765kV transmission construction, commissioning, and energization.",
-      "issue_title": "765kV Transmission Outage Priority and Modeling Timelines",
-      "affected_sections": "3.1.5.8 and 3.10.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
       "content_sha256": "be013f1cfc535a2bbf1e5fc6d46173c92c513a2999134ff7e428d85fa797e3d5",
@@ -15678,8 +15738,8 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
-  "count": 800,
-  "generated_at": "2026-10-17T20:01:50.817242+00:00",
+  "count": 803,
+  "generated_at": "2026-10-20T11:01:41.987847+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -17845,10 +17905,13 @@
       "next_group": "PRS",
       "next_step": "Language Consideration",
       "latest_action": {
-        "action": "No action posted"
+        "date": "10/14/2026",
+        "governing_body": "PRS",
+        "action": "Deferred/Tabled",
+        "next_step": "Language Consideration"
       },
-      "source_downloaded_at": "2026-10-14T11:00:42Z",
-      "source_observed_at": "2026-10-14T11:00:42Z"
+      "source_downloaded_at": "2026-10-20T11:00:42Z",
+      "source_observed_at": "2026-10-20T11:00:42Z"
     },
     "NPRR1350": {
       "revision_id": "NPRR1350",
@@ -17866,12 +17929,15 @@
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
       "next_group": "PRS",
-      "next_step": "Language Consideration",
+      "next_step": "Impact Analysis Consideration",
       "latest_action": {
-        "action": "No action posted"
+        "date": "10/14/2026",
+        "governing_body": "PRS",
+        "action": "Recommended for Approval",
+        "next_step": "Impact Analysis Consideration"
       },
-      "source_downloaded_at": "2026-10-14T11:00:42Z",
-      "source_observed_at": "2026-10-14T11:00:42Z"
+      "source_downloaded_at": "2026-10-20T11:00:42Z",
+      "source_observed_at": "2026-10-20T11:00:42Z"
     },
     "NPRR1351": {
       "revision_id": "NPRR1351",
@@ -17889,12 +17955,15 @@
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
       "next_group": "PRS",
-      "next_step": "Language Consideration",
+      "next_step": "Impact Analysis Consideration",
       "latest_action": {
-        "action": "No action posted"
+        "date": "10/14/2026",
+        "governing_body": "PRS",
+        "action": "Recommended for Approval",
+        "next_step": "Impact Analysis Consideration"
       },
-      "source_downloaded_at": "2026-10-14T11:00:42Z",
-      "source_observed_at": "2026-10-14T11:00:42Z"
+      "source_downloaded_at": "2026-10-20T11:00:42Z",
+      "source_observed_at": "2026-10-20T11:00:42Z"
     },
     "NPRR917": {
       "revision_id": "NPRR917",

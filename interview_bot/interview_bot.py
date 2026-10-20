@@ -12,6 +12,7 @@ from embedding_utils import (
 from interview_evidence import answer_markdown, build_story_library, story_id
 from interview_services import InterviewServiceError, answer_messages, request_text, service_error, transcribe
 from interview_sessions import restore_session
+from interview_runtime_content import activate_runtime_content, load_runtime_corpus
 from interview_workspace_ui import render_evidence, render_practice, render_session_controls
 from interview_retrieval import (
     JOB_FOCUSES,
@@ -38,14 +39,14 @@ EMB_META_FILE = os.path.join(base_path, "embeddings.meta.json")
 # Load chunks_cleaned.json
 # -------------------------
 with open(os.path.join(base_path, "chunks_cleaned.json"), "r", encoding="utf-8") as f:
-    chunks = json.load(f)
+    saved_chunks = json.load(f)
 
 # Recheck files without deleting or rebuilding the corpus in the live app.
 if st.button("Reload saved embeddings"):
     st.rerun()
 
 embeddings, cache_status = load_valid_embeddings(
-    chunks,
+    saved_chunks,
     EMB_FILE,
     EMB_META_FILE,
     model=EMBEDDING_MODEL,
@@ -60,10 +61,28 @@ if embeddings is None:
     )
     st.stop()
 
+try:
+    runtime_corpus = load_runtime_corpus(saved_chunks)
+except (OSError, ValueError):
+    st.error(
+        "Current interview answers could not be loaded. Correct manager_content.json "
+        "and reload the app; previous answer text will not be substituted."
+    )
+    st.stop()
+chunks = runtime_corpus.chunks
+content_changed = activate_runtime_content(st.session_state, chunks)
+if runtime_corpus.pending_embedding_count:
+    st.info(
+        f"Latest answers are active. {runtime_corpus.pending_embedding_count} updated answers "
+        "use question and text matching until their search index is refreshed."
+    )
+if content_changed:
+    st.caption("Saved answers changed. Previous answer actions were cleared; conversation history is retained.")
+
 # -------------------------
 # Build FAISS index (robust version)
 # -------------------------
-current_chunks_digest = chunks_digest(chunks)
+current_chunks_digest = chunks_digest(saved_chunks)
 if (
     "index" not in st.session_state
     or st.session_state.get("index_chunks_digest") != current_chunks_digest
@@ -108,13 +127,14 @@ def search(
     if q_emb.shape[1] != embeddings.shape[1] or not np.isfinite(q_emb).all() or not np.any(q_emb):
         raise InterviewServiceError("Story search returned an invalid vector. Retry the search.")
     faiss.normalize_L2(q_emb)
-    search_window = min(max(k * 10, 40), len(chunks))
+    search_window = min(max(k * 10, 40), embeddings.shape[0])
     distances, indices = index.search(q_emb, search_window)
-    scores = {
+    saved_scores = {
         int(idx): float(score)
         for score, idx in zip(distances[0], indices[0])
-        if 0 <= idx < len(chunks)
+        if 0 <= idx < embeddings.shape[0]
     }
+    scores = runtime_corpus.remap_scores(saved_scores)
     candidates = rank_candidates(
         query, chunks, scores, k=len(chunks), focus=focus, stories_only=stories_only,
         job_description=job_description,
@@ -160,7 +180,7 @@ if st.session_state.get("pending_session_import"):
     st.success("Session restored. Imported history and review notes are user data, not new source evidence.")
 
 apply_retrieval_policy(st.session_state)
-library = build_story_library(chunks)
+library = build_story_library(chunks, source_locations=runtime_corpus.source_locations)
 with st.sidebar.form("job_focus_form"):
     st.markdown("### Interview background")
     selected_focus = st.selectbox(
