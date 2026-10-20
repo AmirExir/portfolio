@@ -1,0 +1,4 @@
+1. gridops added to PyPI
+Pypi.org • 2026-10-19
+An open-source production cost model (PCM) for the U.S. interconnections and grid regions.
+https://pypi.org/project/gridops/
