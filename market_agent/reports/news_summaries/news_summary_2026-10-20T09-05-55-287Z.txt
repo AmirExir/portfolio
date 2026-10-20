@@ -1,0 +1,19 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **CNBC | 2026-10-19T08:45:49Z** — U.S. **Treasury yields moved lower** as investors assessed the inflation and interest-rate backdrop alongside geopolitical developments.
+- **The Times of India | 2026-10-19T08:51:17Z** — The **euro weakened** as **French political unrest** and **high energy prices** weighed on sentiment; the piece also says investors were reassessing the outlook for **U.S. growth, rates, and the dollar**.
+- **The Times of India | 2026-10-19T08:34:38Z** — **Indian equities fell sharply**, with the article citing **oil prices, banking-stock weakness, profit-taking, and foreign investor outflows** as key reasons.
+- **Cointelegraph | 2026-10-19T08:58:45Z** — **JPMorgan** is reportedly expanding **JPM Coin** to **Ethereum** for institutional clients, enabling payments and tokenized-asset settlement on the network.
+- **CryptoSlate | 2026-10-19T08:40:29Z** — **Mt. Gox** extended its creditor repayment deadline to **2027**, citing unresolved creditor procedures and payment-processing issues.
+- **Gizmodo | 2026-10-19T09:00:39Z** — **Microsoft** reportedly pulled out of a major U.K. **AI cloud** deal with **Nscale** ahead of Nscale’s expected IPO.
+- **Business Insider | 2026-10-19T09:00:01Z** — **Amazon’s AI/data-center buildout** is described as a **$220 billion spending push**, with reported pressure from **power shortages, costly Nvidia servers, and construction challenges**.
+- **SamMobile | 2026-10-19T08:25:37Z** — **Samsung** reportedly agreed to use **TSMC’s 3nm process** for base dies in a custom **HBM4E** memory product for **Nvidia** AI infrastructure.
+
+### Interpretation
+- The freshest actionable macro signal in this set is **lower Treasury yields** and a **risk backdrop influenced by Europe**, especially **France politics** and **energy costs**.
+- On the **AI/semi** front, the news flow is **mixed rather than clearly directional**:  
+  - Potentially supportive for **TSMC/Nvidia-related supply-chain narratives** via the Samsung/TSMC/HBM item.  
+  - More cautious for the broader **AI capex trade** via the Amazon spending-strain article and Microsoft’s reported withdrawal from the U.K. AI cloud deal.
+- In **crypto**, the JPMorgan-on-Ethereum item is a constructive institutional-adoption headline, while the **Mt. Gox delay** is a lingering overhang for Bitcoin-related sentiment.
+- There is **not enough high-quality fresh U.S. equity-index news here to fully explain today’s tape**. The article set is somewhat thin and includes several generic or low-value items, so any stronger market narrative would risk overreach.
